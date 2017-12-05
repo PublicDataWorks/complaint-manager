@@ -14,7 +14,7 @@ jobs:
     steps:
       - checkout
       - run:
-          command: echo testing...
+          command: ./build-and-test.sh
       - run: echo "Successful build!"
 
 #  deploy:
