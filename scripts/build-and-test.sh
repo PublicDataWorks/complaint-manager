@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 bundle install
-yarn
+npm install
 
-yarn build
-yarn test
+npm run build
+npm test
