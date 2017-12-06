@@ -1,7 +1,8 @@
 require 'sinatra'
 configure { set :server, :puma }
 
-set :root, 'lib/app'
+set :views, Proc.new { File.join(root, "../build") }
+set :public_folder, Proc.new { File.join(root, "../build") }
 
 get '/' do
   render :html, :index

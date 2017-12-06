@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 bundle install
-npm install
+yarn install --frozen-lockfile
 
-npm run build
-npm test
+CI=true yarn build
+CI=true yarn test
