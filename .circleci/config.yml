@@ -14,7 +14,7 @@ jobs:
     steps:
       - checkout
       - run:
-          command: scripts/build-and-test.sh
+          command: scripts/pipeline/build-and-test.sh
 
 #  deploy:
 #    machine:
