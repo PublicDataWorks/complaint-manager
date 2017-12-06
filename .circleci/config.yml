@@ -4,7 +4,7 @@ jobs:
     docker:
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/ruby:2.4.1-node
-#      - image: circleci/postgres:latest
+      #- image: circleci/postgres:latest
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -19,9 +19,9 @@ jobs:
 #  deploy:
 #    machine:
 #        enabled: true
-#    working_directory: ~/chummy
+#    working_directory: ~/complaint-manager
 #    environment:
-#      - HEROKU_APP: yummy-chummy
+#      - HEROKU_APP: complaint-manager
 #    steps:
 #      - checkout
 #      - run:
