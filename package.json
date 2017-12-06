@@ -4,6 +4,8 @@
   "description": "example sinatra-react app",
   "main": "index.js",
   "scripts": {
+    "preinstall": "bundle install",
+    "postinstall": "npm run build",
     "dev": "webpack-dev-server --content-base lib/app/views --hot --inline",
     "build": "webpack --config webpack.prod.config.js",
     "lint": "eslint src/**",
