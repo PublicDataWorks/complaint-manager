@@ -79,7 +79,7 @@ workflows:
       - deploy-to-staging:
           type: approval
           requires:
-            - build-artifact-and-publish
+            - build-and-publish-app
       - e2e-testing:
           requires:
             - deploy-to-staging
