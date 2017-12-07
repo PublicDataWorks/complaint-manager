@@ -7,7 +7,7 @@ jobs:
       steps:
         - run:
            name: TEST
-           command: bash ./scripts/test.sh
+           command: scripts/test.sh
 
    build-and-publish-app:
       docker:
@@ -15,7 +15,7 @@ jobs:
       steps:
          - run:
             name: TEST
-            command: bash ./scripts/test.sh
+            command: scripts/test.sh
 
    deploy-to-staging:
       docker:
@@ -24,7 +24,7 @@ jobs:
       steps:
          - run:
             name: TEST
-            command: bash ./scripts/test.sh
+            command: scripts/test.sh
 
    e2e-testing:
       docker:
@@ -33,7 +33,7 @@ jobs:
       steps:
          - run:
             name: TEST
-            command: bash ./scripts/test.sh
+            command: scripts/test.sh
 
    deploy-to-prod:
       docker:
@@ -42,7 +42,7 @@ jobs:
       steps:
          - run:
             name: TEST
-            command: bash ./scripts/test.sh
+            command: scripts/test.sh
 # Old jobs
 ###############
 #  build:
