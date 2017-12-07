@@ -5,44 +5,50 @@ jobs:
         - image: circleci/node:latest
 
       steps:
+        - checkout
         - run:
            name: TEST
-           command:
+           command: scripts/test.sh
 
    build-and-publish-app:
       docker:
         - image: circleci/node:latest
+
       steps:
+         - checkout
          - run:
             name: TEST
-            command:
+            command: scripts/test.sh
 
    deploy-to-staging:
       docker:
         - image: circleci/node:latest
 
       steps:
+         - checkout
          - run:
             name: TEST
-            command:
+            command: scripts/test.sh
 
    e2e-testing:
       docker:
          - image: circleci/node:latest
 
       steps:
+         - checkout
          - run:
             name: TEST
-            command:
+            command: scripts/test.sh
 
    deploy-to-prod:
       docker:
         - image: circleci/node:latest
 
       steps:
+         - checkout
          - run:
             name: TEST
-            command:
+            command: scripts/test.sh
 # Old jobs
 ###############
 #  build:
