@@ -59,7 +59,7 @@ workflows:
   build_and_deploy:
     jobs:
       - test
-      - build-artifact-and-publish
+      - build-and-publish-app
           requires:
             - test
       - deploy-to-staging
