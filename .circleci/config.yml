@@ -58,18 +58,18 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - test
-      - build-and-publish-app
+      - test:
+      - build-and-publish-app:
           requires:
             - test
-      - deploy-to-staging
+      - deploy-to-staging:
           type: approval
           requires:
             - build-artifact-and-publish
-      - e2e-testing
+      - e2e-testing:
           requires:
             - deploy-to-staging
-      - deploy-to-prod
+      - deploy-to-prod:
           type: approval
           requires:
             - e2e-testing
