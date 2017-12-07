@@ -9,7 +9,7 @@ jobs:
       - run:
           command: scripts/pipeline/build-and-test.sh
 
-  deploy:
+  deploy-to-staging:
     machine:
         enabled: true
     working_directory: ~/complaint-manager
@@ -28,13 +28,9 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - hold:
-          type: approval
+      - deploy-to-staging:
           requires:
             - build
-      - deploy:
-          requires:
-            - hold
           filters:
             branches:
               only: master
