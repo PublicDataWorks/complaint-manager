@@ -5,7 +5,6 @@
   "scripts": {
     "start:client": "react-scripts start",
     "start:server": "node src/startServer.js --color",
-    "postinstall": "npm run build",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
