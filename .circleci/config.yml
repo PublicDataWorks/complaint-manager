@@ -1,36 +1,76 @@
 version: 2
 jobs:
-  build:
-    docker:
-      - image: circleci/ruby:2.4.1-node
+   test:
+      docker:
+        - image: circleci/node:latest
 
-    steps:
-      - checkout
-      - run:
-          command: scripts/pipeline/build-and-test.sh
+      steps:
 
-  deploy-to-staging:
-    machine:
-        enabled: true
-    working_directory: ~/complaint-manager
-    steps:
-      - checkout
-      - run:
-          name: Set up Heroku
-          command: bash ./scripts/setup-heroku.sh
-      - run:
-          name: Deploy Master to Heroku
-          command:
-            git push heroku master
+   build-and-publish-app:
+      docker:
+        - image: circleci/node:latest
+      steps:
+
+   deploy-to-staging:
+      docker:
+        - image: circleci/node:latest
+
+      steps:
+
+   e2e-testing:
+      docker:
+         - image: circleci/node:latest
+
+      steps:
+
+   deploy-to-prod:
+      docker:
+        - image: circleci/node:latest
+
+      steps:
+
+# Old jobs
+###############
+#  build:
+#    docker:
+#      - image: circleci/ruby:2.4.1-node
+#
+#    steps:
+#      - checkout
+#      - run:
+#          command: scripts/pipeline/build-and-test.sh
+#
+#  deploy-to-staging:
+#    machine:
+#        enabled: true
+#    working_directory: ~/complaint-manager
+#    steps:
+#      - checkout
+#      - run:
+#          name: Set up Heroku
+#          command: bash ./scripts/setup-heroku.sh
+#      - run:
+#          name: Deploy Master to Heroku
+#          command:
+#            git push heroku master
 
 workflows:
   version: 2
-  build_and_test:
+  build_and_deploy:
     jobs:
-      - build
-      - deploy-to-staging:
+      - test
+      - build-artifact-and-publish
           requires:
-            - build
-          filters:
-            branches:
-              only: master
+            - test
+      - deploy-to-staging
+          type: approval
+          requires:
+            - build-artifact-and-publish
+      - e2e-testing
+          requires:
+            - deploy-to-staging
+      - deploy-to-prod
+          type: approval
+          requires:
+            - e2e-testing
+
