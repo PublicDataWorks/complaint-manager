@@ -1,7 +1,14 @@
-FROM node:carbon-alpine
+FROM node:8.9.2-alpine
 
-COPY . /tmp/
-WORKDIR /tmp/
+WORKDIR /app
+COPY package.json yarn.lock /app/
+
+RUN yarn install --pure-lockfile
+
+COPY . /app/
+RUN yarn build
+
 EXPOSE 1234
+
 ENTRYPOINT ["yarn"]
-CMD ["start:server"]
+CMD ["start"]

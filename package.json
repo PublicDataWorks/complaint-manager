@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "concurrently 'yarn start:client' 'yarn start:server'",
     "start:client": "react-scripts start",
     "start:server": "node src/startServer.js --color",
     "build": "react-scripts build",
@@ -14,5 +15,8 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.0.17"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1"
   }
 }
