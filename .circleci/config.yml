@@ -9,16 +9,15 @@ jobs:
         - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         - run: docker build -t noipm/complaint-manager-workshop:$CIRCLE_BUILD_NUM .
         - run: docker push noipm/complaint-manager-workshop:$CIRCLE_BUILD_NUM
-#  test:
-#      docker:
-#        - image: circleci/node:latest
-#
-#      steps:
-#        - checkout
-#        - run:
-#           name: TEST
-#           command: scripts/test.sh
-#
+  test:
+      docker:
+        - image: noipm/complaint-manager-workshop:$CIRCLE_BUILD_NUM
+
+      steps:
+        - run:
+           name: run tests
+           command: yarn test
+
 #   build-and-publish-app:
 #      docker:
 #        - image: circleci/node:latest
