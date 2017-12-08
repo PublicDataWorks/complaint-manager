@@ -10,7 +10,7 @@ jobs:
         - run: docker push noipm/complaint-manager-workshop:$CIRCLE_BUILD_NUM
     test:
         docker:
-          - image: noipm/complaint-manager-workshop:$CIRCLE_BUILD_NUM
+          - image: noipm/complaint-manager-workshop:latest
             auth:
               username: $DOCKER_USER
               password: $DOCKER_PASSWORD
