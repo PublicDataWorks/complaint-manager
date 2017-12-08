@@ -14,8 +14,8 @@ jobs:
 
         steps:
           - run:
-            name: run tests
-            command: yarn test
+              name: run tests
+              command: yarn test
 
 #   build-and-publish-app:
 #      docker:
