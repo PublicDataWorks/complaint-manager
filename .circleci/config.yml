@@ -1,54 +1,63 @@
 version: 2
 jobs:
-   test:
-      docker:
-        - image: circleci/node:latest
+
+   build-and-publish-workshop:
+      machine: true
 
       steps:
         - checkout
-        - run:
-           name: TEST
-           command: scripts/test.sh
-
-   build-and-publish-app:
-      docker:
-        - image: circleci/node:latest
-
-      steps:
-         - checkout
-         - run:
-            name: TEST
-            command: scripts/test.sh
-
-   deploy-to-staging:
-      docker:
-        - image: circleci/node:latest
-
-      steps:
-         - checkout
-         - run:
-            name: TEST
-            command: scripts/test.sh
-
-   e2e-testing:
-      docker:
-         - image: circleci/node:latest
-
-      steps:
-         - checkout
-         - run:
-            name: TEST
-            command: scripts/test.sh
-
-   deploy-to-prod:
-      docker:
-        - image: circleci/node:latest
-
-      steps:
-         - checkout
-         - run:
-            name: TEST
-            command: scripts/test.sh
+        - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        - run: docker build -t noipm/complaint-manager-workshop:$CIRCLE_BUILD_NUM .
+        - run: docker push noipm/complaint-manager-workshop:$CIRCLE_BUILD_NUM
+#  test:
+#      docker:
+#        - image: circleci/node:latest
+#
+#      steps:
+#        - checkout
+#        - run:
+#           name: TEST
+#           command: scripts/test.sh
+#
+#   build-and-publish-app:
+#      docker:
+#        - image: circleci/node:latest
+#
+#      steps:
+#         - checkout
+#         - run:
+#            name: TEST
+#            command: scripts/test.sh
+#
+#   deploy-to-staging:
+#      docker:
+#        - image: circleci/node:latest
+#
+#      steps:
+#         - checkout
+#         - run:
+#            name: TEST
+#            command: scripts/test.sh
+#
+#   e2e-testing:
+#      docker:
+#         - image: circleci/node:latest
+#
+#      steps:
+#         - checkout
+#         - run:
+#            name: TEST
+#            command: scripts/test.sh
+#
+#   deploy-to-prod:
+#      docker:
+#        - image: circleci/node:latest
+#
+#      steps:
+#         - checkout
+#         - run:
+#            name: TEST
+#            command: scripts/test.sh
 # Old jobs
 ###############
 #  build:
@@ -78,19 +87,22 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - test
-      - build-and-publish-app:
-          requires:
-            - test
-      - deploy-to-staging:
-          type: approval
-          requires:
-            - build-and-publish-app
-      - e2e-testing:
-          requires:
-            - deploy-to-staging
-      - deploy-to-prod:
-          type: approval
-          requires:
-            - e2e-testing
-
+      - build-and-publish-workshop
+#      - test:
+#        requires:
+#          - build-and-publish-workshop
+#      - build-and-publish-app:
+#          requires:
+#            - test
+#      - deploy-to-staging:
+#          type: approval
+#          requires:
+#            - build-and-publish-app
+#      - e2e-testing:
+#          requires:
+#            - deploy-to-staging
+#      - deploy-to-prod:
+#          type: approval
+#          requires:
+#            - e2e-testing
+#
