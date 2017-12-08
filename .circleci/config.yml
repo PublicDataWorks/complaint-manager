@@ -9,6 +9,7 @@ jobs:
         - run: docker build -t noipm/complaint-manager-workshop .
         - run: docker push noipm/complaint-manager-workshop
     test:
+        working_directory: /app
         docker:
           - image: noipm/complaint-manager-workshop
             auth:
