@@ -87,9 +87,9 @@ workflows:
   build_and_deploy:
     jobs:
       - build-and-publish-workshop
-#      - test:
-#        requires:
-#          - build-and-publish-workshop
+      - test:
+          requires:
+            - build-and-publish-workshop
 #      - build-and-publish-app:
 #          requires:
 #            - test
