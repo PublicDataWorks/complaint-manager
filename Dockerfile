@@ -9,6 +9,7 @@ COPY . /app/
 RUN yarn build
 
 EXPOSE 1234
+EXPOSE 3000
 
 ENTRYPOINT ["yarn"]
 CMD ["start"]
