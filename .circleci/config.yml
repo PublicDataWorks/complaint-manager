@@ -11,6 +11,9 @@ jobs:
     test:
         docker:
           - image: noipm/complaint-manager-workshop:$CIRCLE_BUILD_NUM
+            auth:
+              username: $DOCKER_USER
+              password: $DOCKER_PASSWORD
 
         steps:
           - run:
