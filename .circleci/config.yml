@@ -6,11 +6,11 @@ jobs:
       steps:
         - checkout
         - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-        - run: docker build -t noipm/complaint-manager-workshop:$CIRCLE_BUILD_NUM .
-        - run: docker push noipm/complaint-manager-workshop:$CIRCLE_BUILD_NUM
+        - run: docker build -t noipm/complaint-manager-workshop .
+        - run: docker push noipm/complaint-manager-workshop
     test:
         docker:
-          - image: noipm/complaint-manager-workshop:latest
+          - image: noipm/complaint-manager-workshop
             auth:
               username: $DOCKER_USER
               password: $DOCKER_PASSWORD
