@@ -96,9 +96,9 @@ workflows:
       - build-and-publish:
           requires:
             - test
-      - deploy-to-staging:
+      - deploy-staging:
           requires:
-            - build-and-publish-app
+            - build-and-publish
 #      - e2e-testing:
 #          requires:
 #            - deploy-to-staging
