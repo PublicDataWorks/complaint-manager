@@ -33,27 +33,19 @@ jobs:
           - run: docker tag noipm/complaint-manager registry.heroku.com/noipm-staging/web
           - run: docker push registry.heroku.com/noipm-staging/web
 
-#
-#   deploy-to-staging:
-#      docker:
-#        - image: circleci/node:latest
-#
-#      steps:
-#         - checkout
-#         - run:
-#            name: TEST
-#            command: scripts/test.sh
-#
-#   e2e-testing:
-#      docker:
-#         - image: circleci/node:latest
-#
-#      steps:
-#         - checkout
-#         - run:
-#            name: TEST
-#            command: scripts/test.sh
-#
+    e2e-testing:
+        docker:
+          - image: kenfehling/node-selenium-chrome
+
+        steps:
+          - checkout
+          - run:
+              name: Install Nightwatch
+              command: npm install -g nightwatch
+          - run:
+              name: Run E2E tests
+              command: nightwatch
+
 #   deploy-to-prod:
 #      docker:
 #        - image: circleci/node:latest
@@ -63,30 +55,7 @@ jobs:
 #         - run:
 #            name: TEST
 #            command: scripts/test.sh
-# Old jobs
-###############
-#  build:
-#    docker:
-#      - image: circleci/ruby:2.4.1-node
-#
-#    steps:
-#      - checkout
-#      - run:
-#          command: scripts/pipeline/build-and-test.sh
-#
-#  deploy-to-staging:
-#    machine:
-#        enabled: true
-#    working_directory: ~/complaint-manager
-#    steps:
-#      - checkout
-#      - run:
-#          name: Set up Heroku
-#          command: bash ./scripts/setup-heroku.sh
-#      - run:
-#          name: Deploy Master to Heroku
-#          command:
-#            git push heroku master
+
 
 workflows:
   version: 2
@@ -99,9 +68,7 @@ workflows:
       - deploy-staging:
           requires:
             - build-and-publish
-#      - e2e-testing:
-#          requires:
-#            - deploy-to-staging
+      - e2e-testing
 #      - deploy-to-prod:
 #          type: approval
 #          requires:
