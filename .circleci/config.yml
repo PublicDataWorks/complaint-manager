@@ -3,7 +3,6 @@ jobs:
     test:
         docker:
           - image: kkarczmarczyk/node-yarn
-
         steps:
           - checkout
           - run:
@@ -13,15 +12,15 @@ jobs:
               name: Run Tests
               command: yarn test
 
-#   build-and-publish-app:
-#      docker:
-#        - image: circleci/node:latest
-#
-#      steps:
-#         - checkout
-#         - run:
-#            name: TEST
-#            command: scripts/test.sh
+    build-and-publish:
+        docker:
+          - image: docker:stable
+        steps:
+          - checkout
+          - setup_remote_docker
+          - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+          - run: docker build -t noipm/complaint-manager .
+          - run: docker push noipm/complaint-manager
 #
 #   deploy-to-staging:
 #      docker:
@@ -82,9 +81,9 @@ workflows:
   build_and_deploy:
     jobs:
       - test
-#      - build-and-publish-app:
-#          requires:
-#            - test
+      - build-and-publish:
+          requires:
+            - test
 #      - deploy-to-staging:
 #          type: approval
 #          requires:
