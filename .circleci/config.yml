@@ -1,22 +1,11 @@
 version: 2
 jobs:
-    build-and-publish-workshop:
-      machine: true
-
-      steps:
-        - checkout
-        - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-        - run: docker build -t noipm/complaint-manager-workshop .
-        - run: docker push noipm/complaint-manager-workshop
     test:
-        working_directory: /app
         docker:
-          - image: noipm/complaint-manager-workshop
-            auth:
-              username: $DOCKER_USER
-              password: $DOCKER_PASSWORD
+          - image: kkarczmarczyk/node-yarn
 
         steps:
+          - checkout
           - run:
               name: run tests
               command: yarn test
@@ -89,10 +78,7 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build-and-publish-workshop
-      - test:
-          requires:
-            - build-and-publish-workshop
+      - test
 #      - build-and-publish-app:
 #          requires:
 #            - test
