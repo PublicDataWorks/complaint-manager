@@ -2,7 +2,9 @@ version: "3"
 
 services:
   complaint-manager:
-    build: .
+    build:
+      context: .
+    command: start
     ports:
       - "1234:1234"
       - "3000:3000"
