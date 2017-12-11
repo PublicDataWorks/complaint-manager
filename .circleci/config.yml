@@ -68,7 +68,9 @@ workflows:
       - deploy-staging:
           requires:
             - build-and-publish
-      - e2e-testing
+      - e2e-testing:
+          requires:
+            - deploy-staging
 #      - deploy-to-prod:
 #          type: approval
 #          requires:
