@@ -7,8 +7,11 @@ jobs:
         steps:
           - checkout
           - run:
-              name: install dependencies and run tests
-              command: yarn install && yarn test
+              name: Install Dependencies
+              command: yarn install
+          - run:
+              name: Run Tests
+              command: yarn test
 
 #   build-and-publish-app:
 #      docker:
