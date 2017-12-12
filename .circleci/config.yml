@@ -72,8 +72,11 @@ workflows:
       - e2e-testing:
           requires:
             - deploy-staging
-      - deploy-to-prod:
+      - hold:
           type: approval
           requires:
             - e2e-testing
+      - deploy-to-prod:
+          requires:
+            - hold
 
