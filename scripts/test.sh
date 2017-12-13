@@ -1,2 +1,7 @@
 #!/usr/bin/env bash
-echo this is a test
+
+circleci build --job test
+docker-compose up &
+
+circleci build --job e2e-testing -e ENVIRONMENT=local
+docker-compose down

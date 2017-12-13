@@ -44,7 +44,7 @@ jobs:
               command: npm install -g nightwatch
           - run:
               name: Run E2E tests
-              command: nightwatch
+              command: nightwatch --env $ENVIRONMENT
 
     deploy-to-prod:
         docker:
