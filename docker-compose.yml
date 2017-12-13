@@ -10,3 +10,10 @@ services:
       - "3000:3000"
     volumes:
       - "./src:/app/src"
+  e2e:
+    depends_on:
+      - complaint-manager
+    build:
+      context: e2e
+    volumes:
+      - "./e2e/tests:/app/tests"

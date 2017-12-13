@@ -1,8 +1,8 @@
 {
   "src_folders": [
-    "src/client/tests"
+    "tests"
   ],
-  "output_folder": "src/client/reports",
+  "output_folder": "reports",
   "custom_commands_path": "",
   "custom_assertions_path": "",
   "page_objects_path": "",
@@ -37,7 +37,7 @@
       }
     },
     "local": {
-      "launch_url": "http://192.168.65.1:3000/"
+      "launch_url": "http://complaint-manager:3000/"
     },
     "staging": {
       "launch_url": "https://noipm-staging.herokuapp.com/"
