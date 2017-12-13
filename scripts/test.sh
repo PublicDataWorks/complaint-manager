@@ -2,7 +2,5 @@
 
 circleci build --job test
 
-docker-compose build
-docker-compose up &
-circleci build --job e2e-testing -e ENVIRONMENT=local
-docker-compose down
+docker-compose build e2e
+docker-compose run e2e

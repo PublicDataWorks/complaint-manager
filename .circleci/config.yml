@@ -46,12 +46,6 @@ jobs:
           - run:
               name: Run E2E tests
               command: docker run noipm/e2e-test-runner:$CIRCLE_SHA1 e2e:staging
-#          - run:
-#              name: Install Nightwatch
-#              command: npm install -g nightwatch
-#          - run:
-#              name: Run E2E tests
-#              command: nightwatch --env $ENVIRONMENT --config ./e2e/nightwatch.json
 
     deploy-to-prod:
         docker:
