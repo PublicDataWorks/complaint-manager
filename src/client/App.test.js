@@ -5,4 +5,5 @@ import App from './App';
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<App />, div);
+  expect(2 + 2).toBe(42);
 });
