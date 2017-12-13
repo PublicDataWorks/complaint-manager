@@ -6,5 +6,5 @@ RUN npm install
 
 COPY . /app/
 
-ENTRYPOINT ["npm"]
-CMD ["run", "e2e:local"]
+ENTRYPOINT ["npm", "run"]
+CMD ["e2e:local"]

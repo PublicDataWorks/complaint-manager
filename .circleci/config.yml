@@ -35,16 +35,23 @@ jobs:
 
     e2e-testing:
         docker:
-          - image: kenfehling/node-selenium-chrome
+          - image: docker:stable
 
         steps:
           - checkout
+          - setup_remote_docker
           - run:
-              name: Install Nightwatch
-              command: npm install -g nightwatch
+              name: Build E2E test runner container
+              command: docker build -t noipm/e2e-test-runner:$CIRCLE_SHA1 ./e2e
           - run:
               name: Run E2E tests
-              command: nightwatch --env $ENVIRONMENT --config ./e2e/nightwatch.json
+              command: docker run noipm/e2e-test-runner:$CIRCLE_SHA1 e2e:staging
+#          - run:
+#              name: Install Nightwatch
+#              command: npm install -g nightwatch
+#          - run:
+#              name: Run E2E tests
+#              command: nightwatch --env $ENVIRONMENT --config ./e2e/nightwatch.json
 
     deploy-to-prod:
         docker:

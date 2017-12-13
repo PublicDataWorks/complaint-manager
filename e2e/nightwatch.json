@@ -1,6 +1,6 @@
 {
   "src_folders": [
-    "e2e/tests"
+    "tests"
   ],
   "output_folder": "reports",
   "custom_commands_path": "",
