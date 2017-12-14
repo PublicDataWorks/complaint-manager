@@ -2,4 +2,4 @@
 
 ## Install git pre-push hook to your local .git directory
 cd `dirname $0`
-ln -fs ./git-hooks/pre-push ../.git/hooks/pre-push
+ln -f ./git-hooks/pre-push ../.git/hooks/pre-push
