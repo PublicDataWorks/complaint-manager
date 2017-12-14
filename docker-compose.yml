@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  complaint-manager:
+  app:
     build:
       context: .
     command: start
@@ -13,7 +13,7 @@ services:
   e2e:
     image: noipm/e2e
     depends_on:
-      - complaint-manager
+      - app
     volumes:
       - "./e2e/tests:/tests"
       - "./e2e/nightwatch.json:/nightwatch.json"

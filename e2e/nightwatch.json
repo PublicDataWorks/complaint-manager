@@ -37,7 +37,7 @@
       }
     },
     "local": {
-      "launch_url": "http://complaint-manager:3000/"
+      "launch_url": "http://app:3000/"
     },
     "staging": {
       "launch_url": "https://noipm-staging.herokuapp.com/"
