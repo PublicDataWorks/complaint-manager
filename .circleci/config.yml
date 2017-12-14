@@ -36,6 +36,9 @@ jobs:
     e2e-testing:
         docker:
           - image: noipm/e2e:latest
+            auth:
+              username: $DOCKER_USER
+              password: $DOCKER_PASSWORD
         steps:
           - checkout
           - run:
