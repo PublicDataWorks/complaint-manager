@@ -11,7 +11,7 @@ services:
     volumes:
       - "./src:/app/src"
   e2e:
-    image: noipm/e2e
+    image: noipm/nightwatch-chrome
     depends_on:
       - app
     volumes:
