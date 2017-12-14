@@ -35,17 +35,12 @@ jobs:
 
     e2e-testing:
         docker:
-          - image: docker:stable
-
+          - image: noipm/e2e
         steps:
           - checkout
-          - setup_remote_docker
-          - run:
-              name: Build E2E test runner container
-              command: docker build -t noipm/e2e-test-runner:$CIRCLE_SHA1 ./e2e
           - run:
               name: Run E2E tests
-              command: docker run noipm/e2e-test-runner:$CIRCLE_SHA1 e2e:staging
+              command: cd e2e && nightwatch --env $ENVIRONMENT
 
     deploy-to-prod:
         docker:
