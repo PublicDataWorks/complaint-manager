@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -o nounset -o errexit
+
 git pull --rebase
 
 docker-compose down
