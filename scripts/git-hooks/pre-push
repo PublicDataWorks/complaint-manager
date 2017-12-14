@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+git pull --rebase
+
+docker-compose down
+docker-compose build
+
+# Run Unit/E2E tests
+docker-compose run complaint-manager test:once
+docker-compose run e2e

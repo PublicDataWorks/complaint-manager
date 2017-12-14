@@ -9,6 +9,7 @@
     "start:server": "node src/startServer.js --color",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "test:once": "CI=true yarn test",
     "eject": "react-scripts eject"
   },
   "dependencies": {
