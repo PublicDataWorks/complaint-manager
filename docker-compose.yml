@@ -4,12 +4,18 @@ services:
   app:
     build:
       context: .
+    depends_on:
+      - db
     command: start
     ports:
       - "1234:1234"
       - "3000:3000"
     volumes:
       - "./src:/app/src"
+  db:
+    image: postgres:10-alpine
+    environment:
+      POSTGRES_PASSWORD: password
   e2e:
     image: noipm/nightwatch-chrome
     depends_on:
