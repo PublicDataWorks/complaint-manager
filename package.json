@@ -15,10 +15,14 @@
   "dependencies": {
     "express": "^4.16.2",
     "material-ui": "^0.20.0",
+    "pg": "^7.4.0",
+    "pg-hstore": "^2.3.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "sequelize": "^4.28.2",
+    "sequelize-cli": "^3.2.0"
   },
   "devDependencies": {
     "concurrently": "^3.5.1"
