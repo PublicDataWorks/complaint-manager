@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "password",
+    "database": "complaint-manager",
+    "host": "db",
+    "dialect": "postgres"
+  }
+}
