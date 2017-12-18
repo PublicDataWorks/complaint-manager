@@ -6,6 +6,7 @@ import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Subheader from 'material-ui/Subheader';
 import {List, ListItem} from 'material-ui/List';
+import {GridList, GridTile} from 'material-ui/GridList'
 
 const headline = {color: "#673ab7", fontSize: "24pt"};
 const title = {color: "#673ab7", fontSize: "20pt", fontWeight: "bold"};
@@ -20,8 +21,8 @@ const link = {color: "#1565c0", fontSize: "16pt", fontWeight: "bold"};
 const getBoxStyle = (color) => (
     {
         width: 120,
-        height: 40,
         background: color,
+        height: 100,
         margin: 20,
         padding: 10,
         display: 'inline-block'
@@ -32,7 +33,7 @@ const StyleGuide = () => (
     <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
         <div>
             <AppBar title="Style Guide"/>
-            <Card>
+            <Card zDepth={0} style={{fontSize: "24pt", fontWeight: "bold"}}>
                 <CardTitle title="TYPOGRAPHY"/>
                 <List>
                     <ListItem style={headline} primaryText={"Headline (Regular 24pt)"} disabled={true}/>
@@ -47,62 +48,123 @@ const StyleGuide = () => (
             </Card>
 
 
-            <Card style={{marginTop: 60}}>
-                <CardTitle title="COLORS"/>
+            <Card zDepth={0} style={{marginTop: 30}}>
+                <CardTitle title="COLORS" style={{fontSize: "24pt", fontWeight: "bold"}}/>
                 <Subheader style={subheader}>Primary</Subheader>
-                <Card style={{width: 200, display: 'inline-block'}}>
-                    <CardMedia style={getBoxStyle("#673ab7")}/>
-                    <CardTitle>Primary #673ab7</CardTitle>
-                </Card>
-                <Card style={{width: 200, display: 'inline-block'}}>
-                    <CardMedia style={getBoxStyle("#9a67ea")}/>
-                    <CardTitle>P - Light #9a67ea</CardTitle>
-                </Card>
-                <Card style={{width: 200, display: 'inline-block'}}>
-                    <CardMedia style={getBoxStyle("#320b86")}/>
-                    <CardTitle>P - Dark #320b86</CardTitle>
+                <Card zDepth={0} style={{display: 'inline-block'}}>
+                    <GridList style={{display: 'flex', flexWrap: 'nowrap', width: 300}} cols={2} padding={10} cellHeight={'auto'}>
+                        <GridTile
+                            style={getBoxStyle("#673ab7")}
+                            title="Primary"
+                            subtitle="#673ab7"
+                            titleBackground="#FFFFFF"
+                            titleStyle={{color: '#000a12'}}
+                            subtitleStyle={{color: '#000a12'}}
+                        />
+                        <GridTile
+                            style={getBoxStyle("#9a67ea")}
+                            title="P - Light"
+                            subtitle="#9a67ea"
+                            titleBackground="#FFFFFF"
+                            titleStyle={{color: '#000a12'}}
+                            subtitleStyle={{color: '#000a12'}}
+                        />
+                        <GridTile
+                            style={getBoxStyle("#320b86")}
+                            title="P - Dark"
+                            subtitle="#320b86"
+                            titleBackground="#FFFFFF"
+                            titleStyle={{color: '#000a12'}}
+                            subtitleStyle={{color: '#000a12'}}
+                        />
+                    </GridList>
                 </Card>
 
 
                 <Subheader style={subheader}>Secondary</Subheader>
-                <Card style={{width: 200, display: 'inline-block'}}>
-                    <CardMedia style={getBoxStyle("#90a4ae")}/>
-                    <CardTitle>Secondary #90a4ae</CardTitle>
-                </Card>
-                <Card style={{width: 200, display: 'inline-block'}}>
-                    <CardMedia style={getBoxStyle("#eceff1")}/>
-                    <CardTitle>S - Lighter #eceff1</CardTitle>
-                </Card>
-                <Card style={{width: 200, display: 'inline-block'}}>
-                    <CardMedia style={getBoxStyle("#c1d5e0")}/>
-                    <CardTitle>S - Light #c1d5e0</CardTitle>
-                </Card>
-                <Card style={{width: 200, display: 'inline-block'}}>
-                    <CardMedia style={getBoxStyle("#62757f")}/>
-                    <CardTitle>S - Dark #62757f</CardTitle>
-                </Card>
-                <Card style={{width: 200, display: 'inline-block'}}>
-                    <CardMedia style={getBoxStyle("#000a12")}/>
-                    <CardTitle>S - Darker #000a12</CardTitle>
+
+                <Card zDepth={0} style={{display: 'inline-block'}}>
+                    <GridList style={{display: 'flex', flexWrap: 'nowrap', width: 300}} cols={2} padding={10} cellHeight={'auto'}>
+                        <GridTile
+                            style={getBoxStyle("#90a4ae")}
+                            title="Secondary"
+                            subtitle="#90a4ae"
+                            titleBackground="#FFFFFF"
+                            titleStyle={{color: '#000a12'}}
+                            subtitleStyle={{color: '#000a12'}}
+                        />
+                        <GridTile
+                            style={getBoxStyle("#eceff1")}
+                            title="S - Lighter"
+                            subtitle="#eceff1"
+                            titleBackground="#FFFFFF"
+                            titleStyle={{color: '#000a12'}}
+                            subtitleStyle={{color: '#000a12'}}
+                        />
+                        <GridTile
+                            style={getBoxStyle("#c1d5e0")}
+                            title="S - Light"
+                            subtitle="#c1d5e0"
+                            titleBackground="#FFFFFF"
+                            titleStyle={{color: '#000a12'}}
+                            subtitleStyle={{color: '#000a12'}}
+                        />
+                        <GridTile
+                            style={getBoxStyle("#62757f")}
+                            title="S - Dark"
+                            subtitle="#62757f"
+                            titleBackground="#FFFFFF"
+                            titleStyle={{color: '#000a12'}}
+                            subtitleStyle={{color: '#000a12'}}
+                        />
+                        <GridTile
+                            style={getBoxStyle("#000a12")}
+                            title="S - Darker"
+                            subtitle="#000a12"
+                            titleBackground="#FFFFFF"
+                            titleStyle={{color: '#000a12'}}
+                            subtitleStyle={{color: '#000a12'}}
+                        />
+                    </GridList>
                 </Card>
 
 
                 <Subheader style={subheader}>Info, Error, and warning colors</Subheader>
-                <Card style={{width: 200, display: 'inline-block'}}>
-                    <CardMedia style={getBoxStyle("#1565c0")}/>
-                    <CardTitle>Blue #fbc02d</CardTitle>
-                </Card>
-                <Card style={{width: 200, display: 'inline-block'}}>
-                    <CardMedia style={getBoxStyle("#fbc02d")}/>
-                    <CardTitle>Yellow #fbc02d</CardTitle>
-                </Card>
-                <Card style={{width: 200, display: 'inline-block'}}>
-                    <CardMedia style={getBoxStyle("#d32f2f")}/>
-                    <CardTitle>Red #fbc02d</CardTitle>
-                </Card>
-                <Card style={{width: 200, display: 'inline-block'}}>
-                    <CardMedia style={getBoxStyle("#388e3c")}/>
-                    <CardTitle>Green #388e3c</CardTitle>
+                <Card zDepth={0} style={{display: 'inline-block'}}>
+                    <GridList style={{display: 'flex', flexWrap: 'nowrap', width: 300}} cols={2} padding={10} cellHeight={'auto'}>
+                        <GridTile
+                            style={getBoxStyle("#1565c0")}
+                            title="Blue"
+                            subtitle="#1565c0"
+                            titleBackground="#FFFFFF"
+                            titleStyle={{color: '#000a12'}}
+                            subtitleStyle={{color: '#000a12'}}
+                        />
+                        <GridTile
+                            style={getBoxStyle("#fbc02d")}
+                            title="Yellow"
+                            subtitle="#fbc02d"
+                            titleBackground="#FFFFFF"
+                            titleStyle={{color: '#000a12'}}
+                            subtitleStyle={{color: '#000a12'}}
+                        />
+                        <GridTile
+                            style={getBoxStyle("#d32f2f")}
+                            title="Red"
+                            subtitle="#d32f2f"
+                            titleBackground="#FFFFFF"
+                            titleStyle={{color: '#000a12'}}
+                            subtitleStyle={{color: '#000a12'}}
+                        />
+                        <GridTile
+                            style={getBoxStyle("#388e3c")}
+                            title="Green"
+                            subtitle="#388e3c"
+                            titleBackground="#FFFFFF"
+                            titleStyle={{color: '#000a12'}}
+                            subtitleStyle={{color: '#000a12'}}
+                        />
+                    </GridList>
                 </Card>
             </Card>
         </div>
