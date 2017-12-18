@@ -1,4 +1,3 @@
-import React from 'react'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import colors from "./colors"
 
