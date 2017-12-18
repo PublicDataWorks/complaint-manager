@@ -4,6 +4,9 @@
     "password": "password",
     "database": "complaint-manager",
     "host": "db",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "migrationStorageTableName": "sequelize_meta",
+    "seederStorage": "sequelize",
+    "seederStorageTableName": "sequelize_data"
   }
 }

@@ -9,6 +9,9 @@
 # production
 /build
 
+# local data
+postgres-data/
+
 # misc
 .DS_Store
 .env.local
