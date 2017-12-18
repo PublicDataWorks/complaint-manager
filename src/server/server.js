@@ -6,7 +6,7 @@ const buildDirectory = path.join(__dirname, '../../build');
 
 app.use(express.static(buildDirectory));
 
-app.get('/', function (req, res) {
+app.get('*', function (req, res) {
     res.sendFile(path.join(buildDirectory, 'index.html'));
 });
 
