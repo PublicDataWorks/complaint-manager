@@ -6,6 +6,8 @@ import {
     Route
 } from 'react-router-dom';
 import StyleGuide from './StyleGuide';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import customTheme from "./muiTheme";
 
 
 const Home = () => (
@@ -22,10 +24,12 @@ const Home = () => (
 
 const App = () => (
     <Router>
-        <div>
-            <Route exact path="/" component={Home}/>
-            <Route path="/styleguide" component={StyleGuide}/>
-        </div>
+        <MuiThemeProvider muiTheme={customTheme}>
+            <div>
+                <Route exact path="/" component={Home}/>
+                <Route path="/styleguide" component={StyleGuide}/>
+            </div>
+        </MuiThemeProvider>
     </Router>
 )
 export default App;
