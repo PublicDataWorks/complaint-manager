@@ -29,6 +29,17 @@ jobs:
           - setup_remote_docker
           - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
           - run: docker pull noipm/complaint-manager:$CIRCLE_SHA1
+          - run:
+              name: Migrate and Seed DB
+              command: |
+                docker run \
+                -e NODE_ENV=staging \
+                -e DATABASE_USERNAME=$STAGING_DATABASE_USERNAME \
+                -e DATABASE_PASS=$STAGING_DATABASE_PASS \
+                -e DATABASE_NAME=$STAGING_DATABASE_NAME \
+                -e DATABASE_HOST=$STAGING_DATABASE_HOST \
+                noipm/complaint-manager:$CIRCLE_SHA1 setup:db
+
           - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
           - run: docker tag noipm/complaint-manager:$CIRCLE_SHA1 registry.heroku.com/noipm-staging/web
           - run: docker push registry.heroku.com/noipm-staging/web

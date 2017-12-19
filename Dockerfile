@@ -10,4 +10,4 @@ RUN yarn build
 EXPOSE 1234 3000
 
 ENTRYPOINT ["yarn"]
-CMD ["start:db-and-server"]
+CMD ["start:server"]
