@@ -9,7 +9,7 @@ module.exports = {
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data"
   },
-  production: {
+  staging: {
     username: process.env.DATABASE_USERNAME,
     password:  process.env.DATABASE_PASS,
     database: process.env.DATABASE_NAME,
