@@ -1,13 +1,12 @@
 import React from 'react';
-import './App.css';
 import {
     BrowserRouter as Router,
     Route
 } from 'react-router-dom';
-import StyleGuide from './StyleGuide';
+import StyleGuide from './globalStyling/StyleGuide';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import customTheme from "./muiTheme";
-import ViewAllCases from "./ViewAllCases";
+import customTheme from "./globalStyling/muiTheme";
+import ViewAllCases from "./cases/ViewAllCases";
 import { Provider } from 'react-redux'
 import store from './reduxStore'
 
