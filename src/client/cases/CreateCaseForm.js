@@ -2,6 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { createCase } from './actionCreators'
+import TextField from '../formFields/TextField'
 
 const CreateCaseForm = ({ handleSubmit }) => {
     return (
@@ -12,13 +13,13 @@ const CreateCaseForm = ({ handleSubmit }) => {
             </div>
             <Field
                 name="firstName"
-                component="input"
-                type="text"
+                label="First Name"
+                component={TextField}
             />
             <Field
                 name="lastName"
-                component="input"
-                type="text"
+                label="Second Name"
+                component={TextField}
             />
         </form>
     )
