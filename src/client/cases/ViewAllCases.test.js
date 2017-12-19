@@ -1,23 +1,31 @@
 import React from 'react';
-import {shallow, mount} from 'enzyme';
+import {mount} from 'enzyme';
+import { Provider } from 'react-redux'
+
 import ViewAllCases from "./ViewAllCases";
+import store from "../reduxStore"
 
 describe('ViewAllCases component', () => {
-    test('should display title', () => {
-        const viewAllCases = shallow(
-            <ViewAllCases/>
+    let viewAllCases;
+
+    beforeEach(() => {
+        viewAllCases = mount(
+            <Provider store={store}>
+                <ViewAllCases/>
+            </Provider>
         );
+    })
 
-        const heading = viewAllCases.find('AppBar');
-
-        expect(heading.props().title).toContain('View All Cases')
+    test('should display title', () => {
+        const pageTitle = viewAllCases.find('h2[data-test="pageTitle"]');
+        expect(pageTitle.text()).toEqual('View All Cases')
     });
 
     test('should display modal to create case when button is clicked', () => {
-        const viewAllCases = shallow(<ViewAllCases/>)
+        const createCaseButton = viewAllCases.find('button[data-test="createCaseButton"]')
+        createCaseButton.simulate('click')
 
-        viewAllCases.find('[data-test="createCaseButton"]').simulate('click')
-
-        expect(viewAllCases.find('Dialog').props().open).toBeTruthy()
+        const createCaseModalTitle = viewAllCases.find('[data-test="createCaseModalTitle"]')
+        expect(createCaseModalTitle.text()).toEqual('Create New Case')
     });
 });

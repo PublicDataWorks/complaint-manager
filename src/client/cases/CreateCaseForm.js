@@ -7,18 +7,16 @@ import TextField from '../formFields/TextField'
 const CreateCaseForm = ({ handleSubmit }) => {
     return (
         <form onSubmit={handleSubmit}>
-            <div data-test="caseModalInstructions">
-                Enter as much information as available to start a case. You will be able to edit this
-                information later.
-            </div>
             <Field
+                data-test="firstNameInput"
                 name="firstName"
                 label="First Name"
                 component={TextField}
             />
             <Field
+                data-test="lastNameInput"
                 name="lastName"
-                label="Second Name"
+                label="Last Name"
                 component={TextField}
             />
         </form>

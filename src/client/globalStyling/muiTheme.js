@@ -1,13 +1,5 @@
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import colors from "./colors"
+import createMuiTheme from 'material-ui/styles/createMuiTheme';
 
-const muiTheme = getMuiTheme({
-    appBar:{
-        color: colors.primary
-    },
-    raisedButton:{
-        color: colors.primary
-    }
-});
+const muiTheme = createMuiTheme({});
 
 export default muiTheme;

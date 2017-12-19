@@ -7,8 +7,7 @@ const renderTextField = ({
     ...custom
 }) => (
     <MaterialUITextField
-        hintText={label}
-        floatingLabelText={label}
+        label={label}
         {...input}
         {...custom}
     />

@@ -1,13 +1,12 @@
 import React from 'react'
 import {Card, CardTitle} from 'material-ui/Card';
-import Subheader from 'material-ui/Subheader';
-import {List, ListItem} from 'material-ui/List';
+import {List, ListItem, ListSubheader} from 'material-ui/List';
 import {GridList, GridTile} from 'material-ui/GridList'
 import colors from './colors';
 
 import IconButton from 'material-ui/IconButton';
-import ActionHome from 'material-ui/svg-icons/action/home';
-import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
+import HomeIcon from 'material-ui-icons/Home';
+import AccountCircleIcon from 'material-ui-icons/AccountCircle';
 import AppBar from 'material-ui/AppBar';
 
 const headline = {color: colors.primary, fontSize: "24pt"};
@@ -35,8 +34,8 @@ const StyleGuide = () => (
     <div>
         <AppBar
             title="Style Guide"
-            iconElementLeft={<IconButton> <ActionHome /></IconButton>}
-            iconElementRight={<IconButton> <ActionAccountCircle /></IconButton>}
+            iconElementLeft={<IconButton> <HomeIcon /></IconButton>}
+            iconElementRight={<IconButton> <AccountCircleIcon /></IconButton>}
         />
         <Card zDepth={0} style={{fontSize: "24pt", fontWeight: "bold"}}>
             <CardTitle title="TYPOGRAPHY"/>
@@ -55,7 +54,7 @@ const StyleGuide = () => (
 
         <Card zDepth={0} style={{marginTop: 30}}>
             <CardTitle title="COLORS" style={{fontSize: "24pt", fontWeight: "bold"}}/>
-            <Subheader style={subheader}>Primary</Subheader>
+            <ListSubheader style={subheader}>Primary</ListSubheader>
             <Card zDepth={0} style={{display: 'inline-block'}}>
                 <GridList style={{display: 'flex', flexWrap: 'nowrap', width: 300}} cols={2} padding={10} cellHeight={'auto'}>
                     <GridTile
@@ -86,7 +85,7 @@ const StyleGuide = () => (
             </Card>
 
 
-            <Subheader style={subheader}>Secondary</Subheader>
+            <ListSubheader style={subheader}>Secondary</ListSubheader>
 
             <Card zDepth={0} style={{display: 'inline-block'}}>
                 <GridList style={{display: 'flex', flexWrap: 'nowrap', width: 300}} cols={2} padding={10} cellHeight={'auto'}>
@@ -134,7 +133,7 @@ const StyleGuide = () => (
             </Card>
 
 
-            <Subheader style={subheader}>Info, Error, and warning colors</Subheader>
+            <ListSubheader style={subheader}>Info, Error, and warning colors</ListSubheader>
             <Card zDepth={0} style={{display: 'inline-block'}}>
                 <GridList style={{display: 'flex', flexWrap: 'nowrap', width: 300}} cols={2} padding={10} cellHeight={'auto'}>
                     <GridTile

@@ -13,7 +13,7 @@ import store from './reduxStore'
 const App = () => (
     <Provider store={store}>
         <Router>
-            <MuiThemeProvider muiTheme={customTheme}>
+            <MuiThemeProvider theme={customTheme}>
                 <div>
                     <Route exact path="/" component={ViewAllCases}/>
                     <Route path="/styleguide" component={StyleGuide}/>

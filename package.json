@@ -15,7 +15,9 @@
   },
   "dependencies": {
     "express": "^4.16.2",
-    "material-ui": "^0.20.0",
+    "lodash": "^4.17.4",
+    "material-ui": "^1.0.0-beta.24",
+    "material-ui-icons": "^1.0.0-beta.17",
     "pg": "^7.4.0",
     "pg-hstore": "^2.3.2",
     "react": "^16.2.0",
