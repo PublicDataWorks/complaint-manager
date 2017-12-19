@@ -2,8 +2,11 @@ import React from 'react';
 import ActionHome from 'material-ui/svg-icons/action/home';
 import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
 import {AppBar, IconButton, RaisedButton, Dialog} from "material-ui";
+import CreateCaseForm from './CreateCaseForm'
+import { connect } from 'react-redux'
+import { submit } from 'redux-form'
 
-export default class ViewAllCases extends React.Component {
+class ViewAllCases extends React.Component {
     state = {
         open: false,
     };
@@ -46,17 +49,19 @@ export default class ViewAllCases extends React.Component {
                             data-test="cancelCaseCreationButton"
                             label="Cancel"
                             onClick={this.handleClose}
+                        />,
+                        <RaisedButton
+                            data-test="createCaseButton"
+                            label="Create"
+                            onClick={() => this.props.dispatch(submit('CreateCase'))}
                         />
                     ]}
                 >
-                    <div data-test="caseModalInstructions">
-                        Enter as much information as available to start a case. You will be able to edit this
-                        information later.
-                    </div>
+                    <CreateCaseForm/>
                 </Dialog>
             </div>
         );
     }
 }
 
-
+export default connect()(ViewAllCases)

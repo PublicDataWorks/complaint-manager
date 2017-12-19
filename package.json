@@ -20,8 +20,11 @@
     "pg-hstore": "^2.3.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
+    "redux": "^3.7.2",
+    "redux-form": "^7.2.0",
     "sequelize": "^4.28.2",
     "sequelize-cli": "^3.2.0"
   },

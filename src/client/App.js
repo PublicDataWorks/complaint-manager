@@ -8,16 +8,20 @@ import StyleGuide from './StyleGuide';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import customTheme from "./muiTheme";
 import ViewAllCases from "./ViewAllCases";
+import { Provider } from 'react-redux'
+import store from './reduxStore'
 
 const App = () => (
-    <Router>
-        <MuiThemeProvider muiTheme={customTheme}>
-            <div>
-                <Route exact path="/" component={ViewAllCases}/>
-                <Route path="/styleguide" component={StyleGuide}/>
-            </div>
-        </MuiThemeProvider>
-    </Router>
+    <Provider store={store}>
+        <Router>
+            <MuiThemeProvider muiTheme={customTheme}>
+                <div>
+                    <Route exact path="/" component={ViewAllCases}/>
+                    <Route path="/styleguide" component={StyleGuide}/>
+                </div>
+            </MuiThemeProvider>
+        </Router>
+    </Provider>
 );
 
 export default App;
