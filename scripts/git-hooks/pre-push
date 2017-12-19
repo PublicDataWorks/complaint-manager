@@ -8,4 +8,6 @@ docker-compose build
 
 # Run Unit/E2E tests
 docker-compose run app test:once
+echo Preparing to run E2E tests...
+sleep 5
 docker-compose run e2e
