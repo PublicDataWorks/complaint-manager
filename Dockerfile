@@ -7,7 +7,6 @@ RUN yarn install --pure-lockfile
 COPY . /app/
 RUN yarn build
 
-ENV NODE_ENV=production
 EXPOSE 1234 3000
 
 ENTRYPOINT ["yarn"]
