@@ -6,8 +6,8 @@ git pull --rebase
 docker-compose down
 docker-compose build
 
-# Run Unit/E2E tests
+# Run Unit
 docker-compose run app test:once
-echo Preparing to run E2E tests...
-sleep 5
-docker-compose run e2e
+
+## Run E2E tests
+#docker-compose run e2e

@@ -4,6 +4,8 @@ services:
   app:
     build:
       context: .
+    environment:
+      - NODE_ENV=development
     depends_on:
       - db
     command: start
