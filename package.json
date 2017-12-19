@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start:db-and-server": "yarn setup:db && yarn start:server",
     "start": "yarn setup:db && concurrently 'yarn start:client' 'yarn start:server'",
     "setup:db": "sequelize db:create; sequelize db:migrate && sequelize db:seed:all",
     "start:client": "react-scripts start",
