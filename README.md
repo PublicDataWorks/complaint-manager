@@ -50,3 +50,8 @@ docker login [enter your docker hub credentials]
 docker build -t noipm/e2e e2e
 docker push -t noipm/e2e
 ```
+
+### Enter the running local db container with psql
+```
+docker-compose exec db psql -U postgres -d complaint-manager
+```
