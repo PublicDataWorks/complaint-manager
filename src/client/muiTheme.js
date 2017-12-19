@@ -4,6 +4,9 @@ import colors from "./colors"
 const muiTheme = getMuiTheme({
     appBar:{
         color: colors.primary
+    },
+    raisedButton:{
+        color: colors.primary
     }
 });
 
