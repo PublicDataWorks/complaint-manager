@@ -43,7 +43,15 @@ jobs:
           - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
           - run: docker tag noipm/complaint-manager:$CIRCLE_SHA1 registry.heroku.com/noipm-staging/web
           - run: docker push registry.heroku.com/noipm-staging/web
-          - run: curl --fail https://noipm-staging.herokuapp.com/health-check
+          - run:
+              name: Preparing for staging health check
+              command: |
+                apk update \
+                && apk add ca-certificates wget \
+                && update-ca-certificates \
+          - run:
+              name: Running staging health check
+              command: wget https://noipm-staging.herokuapp.com/health-check
 
     e2e-testing:
         docker:
@@ -54,7 +62,7 @@ jobs:
               name: Run E2E tests
               command: cd e2e && nightwatch --env $ENVIRONMENT
 
-    deploy-to-prod:
+    deploy-production:
         docker:
           - image: docker:stable
         steps:
@@ -74,7 +82,15 @@ jobs:
           - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
           - run: docker tag noipm/complaint-manager:$CIRCLE_SHA1 registry.heroku.com/noipm-production/web
           - run: docker push registry.heroku.com/noipm-production/web
-          - run: curl --fail https://noipm-production.herokuapp.com/health-check
+          - run:
+              name: Preparing for production health check
+              command: |
+                apk update \
+                && apk add ca-certificates wget \
+                && update-ca-certificates \
+          - run:
+              name: Running production health check
+              command: wget https://noipm-production.herokuapp.com/health-check
 
 workflows:
   version: 2
@@ -94,7 +110,7 @@ workflows:
           type: approval
           requires:
             - e2e-testing
-      - deploy-to-prod:
+      - deploy-production:
           requires:
             - hold
 
