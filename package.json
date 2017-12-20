@@ -2,6 +2,7 @@
   "name": "complaint-manager",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:1234",
   "scripts": {
     "start": "yarn setup:db && concurrently 'yarn start:client' 'yarn start:server'",
     "setup:db": "sequelize db:create; sequelize db:migrate && sequelize db:seed:all",
@@ -27,12 +28,15 @@
     "react-scripts": "1.0.17",
     "redux": "^3.7.2",
     "redux-form": "^7.2.0",
+    "redux-thunk": "^2.2.0",
     "sequelize": "^4.28.2",
     "sequelize-cli": "^3.2.0"
   },
   "devDependencies": {
     "concurrently": "^3.5.1",
     "enzyme": "^3.2.0",
-    "enzyme-adapter-react-16": "^1.1.0"
+    "enzyme-adapter-react-16": "^1.1.0",
+    "nock": "^9.1.5",
+    "redux-devtools-extension": "^2.13.2"
   }
 }

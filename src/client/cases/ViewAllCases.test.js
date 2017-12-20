@@ -6,6 +6,13 @@ import ViewAllCases from "./ViewAllCases";
 import store from "../reduxStore"
 import { createCase } from './actionCreators'
 
+jest.mock('./actionCreators', () => ({
+    createCase: (caseDetails) => ({
+        type: 'MOCK_CREATE_CASE_THUNK',
+        caseDetails
+    })
+}))
+
 describe('ViewAllCases component', () => {
     let viewAllCases;
 
