@@ -6,15 +6,19 @@ import TextField from '../formFields/TextField'
 
 const CreateCaseForm = ({ handleSubmit }) => {
     return (
-        <form onSubmit={handleSubmit}>
+        <form data-test="createCaseForm" onSubmit={handleSubmit}>
             <Field
-                data-test="firstNameInput"
+                InputProps={{
+                    "data-test": "firstNameInput"
+                }}
                 name="firstName"
                 label="First Name"
                 component={TextField}
             />
             <Field
-                data-test="lastNameInput"
+                InputProps={{
+                    "data-test": "lastNameInput"
+                }}
                 name="lastName"
                 label="Last Name"
                 component={TextField}

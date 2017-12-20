@@ -55,7 +55,7 @@ class ViewAllCases extends React.Component {
                     open={this.state.open}
                 >
                     <DialogTitle>
-                        <div data-test="createCaseModalTitle">
+                        <div data-test="createCaseDialogTitle">
                             Create New Case
                         </div>
                     </DialogTitle>
@@ -69,14 +69,14 @@ class ViewAllCases extends React.Component {
                     <DialogActions>
                         <Button
                             raised
-                            data-test="cancelCaseCreationButton"
+                            data-test="cancelCase"
                             onClick={this.handleClose}
                         >
                             Cancel
                         </Button>
                         <Button
                             raised
-                            data-test="createCaseButton"
+                            data-test="submitCase"
                             onClick={() => this.props.dispatch(submit('CreateCase'))}
                         >
                             Create
