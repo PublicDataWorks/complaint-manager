@@ -2,11 +2,10 @@ import app from './server'
 import request from 'supertest'
 
 describe('server', function () {
-  describe('/cases', function () {
-    test.skip('should create a case', async () => {
+  describe('/health-check', function () {
+    test('should show healthy if db connection works', async () => {
       await request(app)
-        .post('/cases')
-        .send({firstName: 'Manny', lastName: 'Cat'})
+        .get('/health-check')
         .expect(200)
     })
   });

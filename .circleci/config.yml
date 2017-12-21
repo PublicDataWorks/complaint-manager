@@ -3,11 +3,20 @@ jobs:
     test:
         docker:
           - image: kkarczmarczyk/node-yarn
+            environment:
+              NODE_ENV: test
+          - image: postgres:10.1-alpine
+            environment:
+              POSTGRES_PASSWORD: password
+              POSTGRES_DB: complaint-manager
         steps:
           - checkout
           - run:
               name: Install Dependencies
               command: yarn install
+          - run:
+              name: Setup DB
+              command: yarn setup:db
           - run:
               name: Run Tests
               command: yarn test

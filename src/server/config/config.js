@@ -12,18 +12,19 @@ module.exports = {
             underscored: true
         }
     },
-    test:{
-      username: 'postgres',
-      password: 'password',
-      database: 'complaint-manager',
-      host: 'db',
-      dialect: 'postgres',
-      migrationStorageTableName: 'sequelize_meta',
-      seederStorage: 'sequelize',
-      seederStorageTableName: 'sequelize_data',
-      define: {
-        underscored: true
-      }
+    test: {
+        username: 'postgres',
+        password: 'password',
+        database: 'complaint-manager',
+        host: process.env.CIRCLECI ? "localhost" : "db",
+        port: 5432,
+        dialect: 'postgres',
+        migrationStorageTableName: 'sequelize_meta',
+        seederStorage: 'sequelize',
+        seederStorageTableName: 'sequelize_data',
+        define: {
+            underscored: true
+        }
     },
     staging: {
         username: process.env.DATABASE_USERNAME,
