@@ -1,10 +1,14 @@
+const createCase = require("./handlers/createCase");
+
 const express = require('express');
 const path = require('path');
 const models = require('./models');
+const bodyParser = require('body-parser');
 
 const app = express();
 const buildDirectory = path.join(__dirname, '../../build');
 
+app.use(bodyParser.json());
 app.use(express.static(buildDirectory));
 
 app.get('/health-check', (req, res) => {
@@ -18,9 +22,7 @@ app.get('/health-check', (req, res) => {
         });
 });
 
-app.post('/cases', (req, res) => {
-    res.send({firstName: "foo", lastName:'bar'})
-})
+app.post('/cases', createCase);
 
 app.get('*', function (req, res) {
     res.sendFile(path.join(buildDirectory, 'index.html'));
