@@ -12,6 +12,19 @@ module.exports = {
             underscored: true
         }
     },
+    test:{
+      username: 'postgres',
+      password: 'password',
+      database: 'complaint-manager',
+      host: 'db',
+      dialect: 'postgres',
+      migrationStorageTableName: 'sequelize_meta',
+      seederStorage: 'sequelize',
+      seederStorageTableName: 'sequelize_data',
+      define: {
+        underscored: true
+      }
+    },
     staging: {
         username: process.env.DATABASE_USERNAME,
         password: process.env.DATABASE_PASS,

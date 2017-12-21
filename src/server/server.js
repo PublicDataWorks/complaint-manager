@@ -18,6 +18,10 @@ app.get('/health-check', (req, res) => {
         });
 });
 
+app.post('/cases', (req, res) => {
+    res.send({firstName: "foo", lastName:'bar'})
+})
+
 app.get('*', function (req, res) {
     res.sendFile(path.join(buildDirectory, 'index.html'));
 });
