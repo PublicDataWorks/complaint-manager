@@ -104,7 +104,7 @@ workflows:
             - deploy-staging
       - e2e-testing:
           requires:
-            - ensure-deploy-succeeded
+            - ensure-staging-deploy-succeeded
       - hold:
           type: approval
           requires:
