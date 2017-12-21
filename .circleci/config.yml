@@ -43,15 +43,13 @@ jobs:
           - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
           - run: docker tag noipm/complaint-manager:$CIRCLE_SHA1 registry.heroku.com/noipm-staging/web
           - run: docker push registry.heroku.com/noipm-staging/web
-          - run:
-              name: Preparing for staging health check
-              command: |
-                apk update \
-                && apk add ca-certificates wget \
-                && update-ca-certificates \
-          - run:
-              name: Running staging health check
-              command: wget https://noipm-staging.herokuapp.com/health-check
+
+    ensure-staging-deploy-succeeded:
+      docker:
+        - image: alpine:latest
+      steps:
+        - checkout
+        - run: scripts/ensure-deploy-succeeded.sh https://noipm-staging.herokuapp.com/health-check
 
     e2e-testing:
         docker:
@@ -82,15 +80,13 @@ jobs:
           - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
           - run: docker tag noipm/complaint-manager:$CIRCLE_SHA1 registry.heroku.com/noipm-production/web
           - run: docker push registry.heroku.com/noipm-production/web
-          - run:
-              name: Preparing for production health check
-              command: |
-                apk update \
-                && apk add ca-certificates wget \
-                && update-ca-certificates \
-          - run:
-              name: Running production health check
-              command: wget https://noipm-production.herokuapp.com/health-check
+
+    ensure-production-deploy-succeeded:
+      docker:
+        - image: alpine:latest
+      steps:
+        - checkout
+        - run: scripts/ensure-deploy-succeeded.sh https://noipm-production.herokuapp.com/health-check
 
 workflows:
   version: 2
@@ -103,9 +99,12 @@ workflows:
       - deploy-staging:
           requires:
             - build-and-publish
-      - e2e-testing:
+      - ensure-staging-deploy-succeeded:
           requires:
             - deploy-staging
+      - e2e-testing:
+          requires:
+            - ensure-deploy-succeeded
       - hold:
           type: approval
           requires:
@@ -113,4 +112,6 @@ workflows:
       - deploy-production:
           requires:
             - hold
-
+      - ensure-production-deploy-succeeded:
+          requires:
+            - deploy-production
