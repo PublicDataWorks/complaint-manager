@@ -8,7 +8,7 @@ const buildDirectory = path.join(__dirname, '../../build');
 app.use(express.static(buildDirectory));
 
 app.get('/health-check', (req, res) => {
-    models.case.sequelize
+    models.cases.sequelize
         .authenticate()
         .then(() => {
             res.status(200).send({message: "Success"});
