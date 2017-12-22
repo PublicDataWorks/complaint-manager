@@ -14,6 +14,7 @@ describe('server', () => {
         test('should create a case', async () => {
             await request(app)
             .post('/cases')
+            .set('Content-Header', 'application/json')
             .send({ firstName: 'Manny', lastName: 'Rodriguez' })
             .expect(200)
             .then(response => {

@@ -14,7 +14,11 @@ describe('createCase', () => {
             status: 'Initial'
         }
 
-        nock('http://localhost')
+        nock('http://localhost', {
+            reqheaders: {
+                'Content-Type': 'application/json'
+            }
+        })
             .post('/cases', caseDetails)
             .reply(200, responseBody)
 

@@ -4,6 +4,9 @@ const hostname = testing ? 'http://localhost' : ''
 export const createCase = (caseDetails) => async (dispatch) => {
     const response = await fetch(`${hostname}/cases`, {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(caseDetails)
     })
 
