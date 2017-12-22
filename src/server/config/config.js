@@ -7,10 +7,7 @@ module.exports = {
         dialect: 'postgres',
         migrationStorageTableName: 'sequelize_meta',
         seederStorage: 'sequelize',
-        seederStorageTableName: 'sequelize_data',
-        define: {
-            underscored: true
-        }
+        seederStorageTableName: 'sequelize_data'
     },
     test: {
         username: 'postgres',
@@ -21,10 +18,7 @@ module.exports = {
         dialect: 'postgres',
         migrationStorageTableName: 'sequelize_meta',
         seederStorage: 'sequelize',
-        seederStorageTableName: 'sequelize_data',
-        define: {
-            underscored: true
-        }
+        seederStorageTableName: 'sequelize_data'
     },
     staging: {
         username: process.env.DATABASE_USERNAME,
