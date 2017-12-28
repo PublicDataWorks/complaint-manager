@@ -1,5 +1,5 @@
 import nock from 'nock'
-import { createCase, createCaseSuccess } from './actionCreators'
+import { createCase, createCaseSuccess, createCaseFailure } from './actionCreators'
 
 describe('createCase', () => {
     test('should call API to create case', async () => {
@@ -27,5 +27,27 @@ describe('createCase', () => {
         expect(dispatch).toHaveBeenCalledWith(
             createCaseSuccess(responseBody)
         )
+    })
+    test('should handle case creation failure', async () => {
+        const dispatch = jest.fn()
+        const caseDetails = {
+            firstName: 'Fats',
+            lastName: 'Domino'
+        }
+
+        nock('http://localhost', {
+            reqheaders: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .post('/cases', caseDetails)
+            .reply(500)
+
+        await createCase(caseDetails)(dispatch)
+
+        expect(dispatch).toHaveBeenCalledWith(
+            createCaseFailure(500)
+        )
+
     })
 })

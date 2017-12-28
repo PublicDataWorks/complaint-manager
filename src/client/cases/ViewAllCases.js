@@ -8,22 +8,22 @@ import {
 import CreateCaseForm from './CreateCaseForm'
 import { connect } from 'react-redux'
 import { submit } from 'redux-form'
+import { requestCaseCreation } from "./actionCreators"
 
 class ViewAllCases extends React.Component {
     state = {
         open: false,
     };
 
-    // https://reactjs.org/docs/react-component.html#componentwillreceiveprops
-    // componentWillReceiveProps = (nextProps) => {
-    //     if (this.props.caseCreationInProgress && !nextProps.caseCreationInProgress) {
-    //         this.handleClose()
-    //     }
-    // }
+    componentWillReceiveProps = (nextProps) => {
+        if (this.props.caseCreationInProgress && !nextProps.caseCreationInProgress) {
+            this.handleClose()
+        }
+    }
 
-    handleOpen = () => (
+    handleOpen = () => {
         this.setState({open: true})
-    );
+    }
 
     handleClose = () => {
         this.setState({open: false})
@@ -94,7 +94,10 @@ class ViewAllCases extends React.Component {
     }
 }
 
-// https://redux.js.org/docs/basics/UsageWithReact.html
-// mapStateToProps:
-//      caseCreationInProgress : state.cases.creation.inProgress
-export default connect()(ViewAllCases)
+const mapStateToProps = state => {
+    return {
+        caseCreationInProgress: state.cases.inProgress
+    }
+}
+
+export default connect(mapStateToProps)(ViewAllCases)
