@@ -49,4 +49,9 @@ describe('ViewAllCases component', () => {
 
         expect(dispatchSpy).toHaveBeenCalledWith(createCase(caseDetails))
     })
+
+    // setup state in tests by dispatching actions
+    // example:
+    // store.dispatch(caseCreationFailure())
+    // then mount the component and assert that failure banner is visible
 });

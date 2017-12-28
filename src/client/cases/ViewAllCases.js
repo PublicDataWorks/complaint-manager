@@ -14,12 +14,18 @@ class ViewAllCases extends React.Component {
         open: false,
     };
 
+    // https://reactjs.org/docs/react-component.html#componentwillreceiveprops
+    // componentWillReceiveProps = (nextProps) => {
+    //     if (this.props.caseCreationInProgress && !nextProps.caseCreationInProgress) {
+    //         this.handleClose()
+    //     }
+    // }
+
     handleOpen = () => (
         this.setState({open: true})
     );
 
     handleClose = () => {
-        console.log('inside handleClose')
         this.setState({open: false})
     }
 
@@ -88,4 +94,7 @@ class ViewAllCases extends React.Component {
     }
 }
 
+// https://redux.js.org/docs/basics/UsageWithReact.html
+// mapStateToProps:
+//      caseCreationInProgress : state.cases.creation.inProgress
 export default connect()(ViewAllCases)

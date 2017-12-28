@@ -1,9 +1,9 @@
-import casesReducer from './casesReducer'
+import allCasesReducer from './allCasesReducer'
 import {createCaseSuccess} from "./actionCreators";
 
-describe('casesReducer', () => {
+describe('allCasesReducer', () => {
     test('should default to empty array', () => {
-        const newState = casesReducer(undefined, {type: 'SOME_ACTION'})
+        const newState = allCasesReducer(undefined, {type: 'SOME_ACTION'})
         expect(newState).toEqual([])
     })
 
@@ -11,7 +11,7 @@ describe('casesReducer', () => {
         test('should add new case to state', () => {
             const action = createCaseSuccess('case details');
 
-            const newState = casesReducer([], action)
+            const newState = allCasesReducer([], action)
 
             expect(newState).toEqual(['case details'])
         })
@@ -20,7 +20,7 @@ describe('casesReducer', () => {
             const action = createCaseSuccess('case details');
             const originalState = []
 
-            casesReducer(originalState, action)
+            allCasesReducer(originalState, action)
 
             expect(originalState).toEqual([])
         })

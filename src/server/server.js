@@ -28,4 +28,5 @@ app.get('*', function (req, res) {
     res.sendFile(path.join(buildDirectory, 'index.html'));
 });
 
+// app.use(errorHandler) ???
 module.exports = app;

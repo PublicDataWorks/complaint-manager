@@ -1,4 +1,4 @@
-const casesReducer = (state = [], action) => {
+const allCasesReducer = (state = [], action) => {
     switch (action.type) {
         case 'CASE_CREATED_SUCCESS':
             return state.concat(action.caseDetails)
@@ -7,4 +7,4 @@ const casesReducer = (state = [], action) => {
     }
 }
 
-export default casesReducer
+export default allCasesReducer
