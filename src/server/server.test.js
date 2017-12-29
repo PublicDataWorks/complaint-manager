@@ -16,7 +16,7 @@ describe('server', () => {
             .post('/cases')
             .set('Content-Header', 'application/json')
             .send({ firstName: 'Manny', lastName: 'Rodriguez' })
-            .expect(200)
+            .expect(201)
             .then(response => {
                 expect(response.body.id).not.toBeUndefined()
                 expect(response.body.firstName).toEqual('Manny')
