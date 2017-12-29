@@ -1,14 +1,17 @@
 import React from 'react';
 import {mount} from 'enzyme';
 import { Provider } from 'react-redux'
-
 import ViewAllCases from "./ViewAllCases";
 import store from "../reduxStore"
-import { createCase } from './actionCreators'
+import {createCase, createCaseSuccess} from './actionCreators'
 
 jest.mock('./actionCreators', () => ({
     createCase: (caseDetails) => ({
         type: 'MOCK_CREATE_CASE_THUNK',
+        caseDetails
+    }),
+    createCaseSuccess: (caseDetails) => ({
+        type: 'MOCK_CREATE_CASE_SUCCESS',
         caseDetails
     })
 }))
@@ -48,6 +51,23 @@ describe('ViewAllCases component', () => {
         form.simulate('submit')
 
         expect(dispatchSpy).toHaveBeenCalledWith(createCase(caseDetails))
+    })
+
+    test.skip('banner is visible with success message when case creation is successful', () => {
+      const responseBody = {
+        id: 1234,
+        firstName: 'Fats',
+        lastName: 'Domino',
+        status: 'Initial',
+      }
+
+      const action = createCaseSuccess(responseBody)
+      store.dispatch(action)
+
+      expect(viewAllCases.props().caseCreationResult).toEqual({type:'SUCCESS', message: 'Case 1234 was successfully created'})
+      // const banner = viewAllCases.find('[data-test="createCaseBannerText"]')
+      // expect(banner.text()).toEqual('Case 1234 was successfully created')
+
     })
 
     // setup state in tests by dispatching actions

@@ -4,11 +4,16 @@ import { reducer as formReducer } from 'redux-form'
 import thunk from 'redux-thunk'
 import allCasesReducer from './cases/allCasesReducer'
 import caseCreationReducer from './cases/caseCreationReducer'
+import resultReducer from './cases/resultReducer'
+
 const rootReducer = combineReducers({
     form: formReducer,
     cases: combineReducers({
          all: allCasesReducer,
-         inProgress: caseCreationReducer
+         creation: combineReducers({
+           inProgress: caseCreationReducer,
+           result: resultReducer
+         })
     })
 });
 
