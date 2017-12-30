@@ -1,5 +1,18 @@
-import createMuiTheme from 'material-ui/styles/createMuiTheme';
+import createMuiTheme from 'material-ui/styles/createMuiTheme'
+import colors from './colors'
 
-const muiTheme = createMuiTheme({});
+const muiTheme = createMuiTheme({
+    palette: colors,
+    typography: {
+        headline: {color: colors.primary[500], fontSize: "24pt"},
+        title: {color: colors.primary[500], fontSize: "20pt", fontWeight: "bold"},
+        subheading: {color: colors.secondary[900], fontSize: "16pt"},
+        body2: {color: colors.secondary[900], fontSize: "14pt", fontWeight: "bold"},
+        body: {color: colors.secondary[900], fontSize: "14pt"},
+        caption: {color: colors.secondary[900], fontSize: "12pt"},
+        button: {color: colors.primary[500], fontSize: "14pt", fontWeight: "medium", textTransform: "uppercase"},
+        display1: {color: colors.blue, fontSize: "16pt", fontWeight: "bold"},
+    }
+})
 
-export default muiTheme;
+export default muiTheme

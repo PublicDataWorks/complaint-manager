@@ -10,7 +10,7 @@ import CreateCaseForm from './CreateCaseForm'
 import {connect} from 'react-redux'
 import {submit} from 'redux-form'
 import CloseIcon from 'material-ui-icons/Close';
-import {requestCaseCreation} from "./actionCreators"
+import CasesTable from "./CasesTable";
 
 class ViewAllCases extends React.Component {
   state = {
@@ -82,9 +82,11 @@ class ViewAllCases extends React.Component {
           raised
           data-test="createCaseButton"
           onClick={this.handleOpen}
+          color="primary"
         >
-          Create New Case
+            + Create New Case
         </Button>
+        <CasesTable cases={this.props.cases}/>
         <Dialog
           data-test="createCaseDialog"
           open={this.state.open}
@@ -126,7 +128,8 @@ class ViewAllCases extends React.Component {
 const mapStateToProps = state => {
   return {
     caseCreationInProgress: state.cases.creation.inProgress,
-    caseCreationResult: state.cases.creation.result
+    caseCreationResult: state.cases.creation.result,
+    cases: state.cases.all
   }
 }
 

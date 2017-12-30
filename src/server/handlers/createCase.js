@@ -1,7 +1,7 @@
 const models = require('../models');
 
 const invalidName = (input) => {
-    return (input.length == 0 || input.length > 25)
+    return (!input || input.length == 0 || input.length > 25)
 }
 
 const createCase = async (req, res) => {
