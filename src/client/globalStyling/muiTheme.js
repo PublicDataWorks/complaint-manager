@@ -8,7 +8,7 @@ const muiTheme = createMuiTheme({
         title: {color: colors.primary[500], fontSize: "20pt", fontWeight: "bold"},
         subheading: {color: colors.secondary[900], fontSize: "16pt"},
         body2: {color: colors.secondary[900], fontSize: "14pt", fontWeight: "bold"},
-        body: {color: colors.secondary[900], fontSize: "14pt"},
+        body1: {color: colors.secondary[900], fontSize: "14pt"},
         caption: {color: colors.secondary[900], fontSize: "12pt"},
         button: {color: colors.primary[500], fontSize: "14pt", fontWeight: "medium", textTransform: "uppercase"},
     }

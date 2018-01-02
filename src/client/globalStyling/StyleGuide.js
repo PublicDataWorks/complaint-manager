@@ -46,10 +46,10 @@ const StyleGuide = () => (
                 <Typography type="title">Title (Bold 20pt)</Typography>
                 <Typography type="subheading">Subheading (Regular 16pt)</Typography>
                 <Typography type="body2">Body 2 (Bold 14pt)</Typography>
-                <Typography type="body">Body 1 (Regular 14pt)</Typography>
+                <Typography type="body1">Body 1 (Regular 14pt)</Typography>
                 <Typography type="caption">Caption (Regular 12pt)</Typography>
                 <Typography type="button">Button (Bold 14pt)</Typography>
-                <StyledLink href="http://google.com"> Link (Bold 16pt)</StyledLink>
+                <StyledLink>{'Link (Bold 16pt)'}</StyledLink>
                 {/*ask Monica about link typography usage*/}
             </CardContent>
         </Card>
