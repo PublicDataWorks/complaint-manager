@@ -14,30 +14,33 @@ import CasesTable from "./CasesTable";
 
 class ViewAllCases extends React.Component {
   state = {
-    open: false,
-    snackbarVisible: false,
+    dialogOpen: false,
+    snackbarOpen: false,
 
   };
 
   componentWillReceiveProps = (nextProps) => {
+    if (!this.props.caseCreationSuccess && nextProps.caseCreationSuccess) {
+      this.closeDialog()
+    }
     if (this.props.caseCreationInProgress && !nextProps.caseCreationInProgress) {
-      this.handleClose()
-    }
-    if (this.props.caseCreationResult == null && nextProps.caseCreationResult != null) {
-      this.setState({snackbarVisible: true})
+      this.openSnackbar()
     }
   }
 
-  handleOpen = () => {
-    this.setState({open: true})
+  openDialog = () => {
+    this.setState({dialogOpen: true})
   }
 
-  handleClose = () => {
-    this.setState({open: false})
+  closeDialog = () => {
+    this.setState({dialogOpen: false})
   }
 
-  handleSnackBarClose = () => {
-    this.setState({snackbarVisible: false})
+  openSnackbar = () => {
+      this.setState({snackbarOpen: true})
+  }
+  closeSnackbar = () => {
+    this.setState({snackbarOpen: false})
   }
 
   render() {
@@ -62,17 +65,17 @@ class ViewAllCases extends React.Component {
         </AppBar>
         <Snackbar
           anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
-          open={this.state.snackbarVisible}
+          open={this.state.snackbarOpen}
           SnackbarContentProps={{
             'aria-describedby': 'message-id',
           }}
           message={<span data-test="createCaseBannerText">
-                  {this.props.caseCreationResult ? this.props.caseCreationResult.message : ''}
+                  {this.props.caseCreationMessage}
                   </span>}
           action={[
             <IconButton
               key={'closeSnackBar'}
-              onClick={this.handleSnackBarClose}
+              onClick={this.closeSnackbar}
             >
               <CloseIcon/>
             </IconButton>,
@@ -81,7 +84,7 @@ class ViewAllCases extends React.Component {
         <Button
           raised
           data-test="createCaseButton"
-          onClick={this.handleOpen}
+          onClick={this.openDialog}
           color="primary"
         >
             + Create New Case
@@ -89,7 +92,7 @@ class ViewAllCases extends React.Component {
         <CasesTable cases={this.props.cases}/>
         <Dialog
           data-test="createCaseDialog"
-          open={this.state.open}
+          open={this.state.dialogOpen}
         >
           <DialogTitle>
             <div data-test="createCaseDialogTitle">
@@ -107,7 +110,7 @@ class ViewAllCases extends React.Component {
             <Button
               raised
               data-test="cancelCase"
-              onClick={this.handleClose}
+              onClick={this.closeDialog}
             >
               Cancel
             </Button>
@@ -128,7 +131,8 @@ class ViewAllCases extends React.Component {
 const mapStateToProps = state => {
   return {
     caseCreationInProgress: state.cases.creation.inProgress,
-    caseCreationResult: state.cases.creation.result,
+    caseCreationSuccess: state.cases.creation.success,
+    caseCreationMessage: state.cases.creation.message,
     cases: state.cases.all
   }
 }
