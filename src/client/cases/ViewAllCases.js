@@ -2,38 +2,21 @@ import React from 'react';
 import HomeIcon from 'material-ui-icons/Home';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
 import Snackbar from 'material-ui/Snackbar'
-import {
-  AppBar, IconButton, Button, Dialog, Toolbar, Typography, DialogTitle, DialogContent,
-  DialogContentText, DialogActions
-} from 'material-ui'
-import CreateCaseForm from './CreateCaseForm'
+import {AppBar, IconButton, Toolbar, Typography} from 'material-ui'
 import {connect} from 'react-redux'
-import {submit} from 'redux-form'
 import CloseIcon from 'material-ui-icons/Close';
 import CasesTable from "./CasesTable";
+import CreateCase from "./CreateCase";
 
 class ViewAllCases extends React.Component {
   state = {
-    dialogOpen: false,
-    snackbarOpen: false,
-
-  };
+    snackbarOpen: false
+  }
 
   componentWillReceiveProps = (nextProps) => {
-    if (!this.props.caseCreationSuccess && nextProps.caseCreationSuccess) {
-      this.closeDialog()
-    }
     if (this.props.caseCreationInProgress && !nextProps.caseCreationInProgress) {
       this.openSnackbar()
     }
-  }
-
-  openDialog = () => {
-    this.setState({dialogOpen: true})
-  }
-
-  closeDialog = () => {
-    this.setState({dialogOpen: false})
   }
 
   openSnackbar = () => {
@@ -81,48 +64,9 @@ class ViewAllCases extends React.Component {
             </IconButton>,
           ]}
         />
-        <Button
-          raised
-          data-test="createCaseButton"
-          onClick={this.openDialog}
-          color="primary"
-        >
-            + Create New Case
-        </Button>
+        <CreateCase />
         <CasesTable cases={this.props.cases}/>
-        <Dialog
-          data-test="createCaseDialog"
-          open={this.state.dialogOpen}
-        >
-          <DialogTitle>
-            <div data-test="createCaseDialogTitle">
-              Create New Case
-            </div>
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Enter as much information as available to start a case. You will be able to edit this
-              information later.
-            </DialogContentText>
-            <CreateCaseForm/>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              raised
-              data-test="cancelCase"
-              onClick={this.closeDialog}
-            >
-              Cancel
-            </Button>
-            <Button
-              raised
-              data-test="submitCase"
-              onClick={() => this.props.dispatch(submit('CreateCase'))}
-            >
-              Create
-            </Button>
-          </DialogActions>
-        </Dialog>
+
       </div>
     );
   }
