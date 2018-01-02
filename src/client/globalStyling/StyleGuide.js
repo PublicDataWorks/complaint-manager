@@ -3,10 +3,7 @@ import Card, {CardHeader, CardContent} from 'material-ui/Card';
 import GridList, {GridListTileBar, GridListTile} from 'material-ui/GridList'
 import colors from './colors';
 import Typography from 'material-ui/Typography'
-import IconButton from 'material-ui/IconButton';
-import HomeIcon from 'material-ui-icons/Home';
-import AccountCircleIcon from 'material-ui-icons/AccountCircle';
-import { AppBar, Toolbar } from 'material-ui';
+import NavBar from '../NavBar'
 import StyledLink from './StyledLink'
 
 const getBoxStyle = (color) => (
@@ -22,23 +19,7 @@ const getBoxStyle = (color) => (
 
 const StyleGuide = () => (
     <div>
-        <AppBar position="static">
-            <Toolbar>
-                <IconButton>
-                    <HomeIcon/>
-                </IconButton>
-                <Typography
-                    data-test="pageTitle"
-                    type="title"
-                    color="inherit"
-                >
-                    Style Guide
-                </Typography>
-                <IconButton>
-                    <AccountCircleIcon/>
-                </IconButton>
-            </Toolbar>
-        </AppBar>
+        <NavBar>Style Guide</NavBar>
         <Card elevation={0}>
             <CardHeader title="TYPOGRAPHY"/>
             <CardContent>

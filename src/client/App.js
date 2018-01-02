@@ -9,14 +9,16 @@ import customTheme from "./globalStyling/muiTheme";
 import ViewAllCases from "./cases/ViewAllCases";
 import { Provider } from 'react-redux'
 import store from './reduxStore'
+import AdminDashboard from './admin/dashboard'
 
 const App = () => (
     <Provider store={store}>
         <Router>
             <MuiThemeProvider theme={customTheme}>
                 <div>
-                    <Route exact path="/" component={ViewAllCases}/>
-                    <Route path="/styleguide" component={StyleGuide}/>
+                    <Route exact path="/" component={ViewAllCases} />
+                    <Route exact path="/styleguide" component={StyleGuide}/>
+                    <Route exact path="/admin" component={AdminDashboard}/>
                 </div>
             </MuiThemeProvider>
         </Router>
