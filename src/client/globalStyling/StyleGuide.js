@@ -1,6 +1,5 @@
 import React from 'react'
 import Card, {CardHeader, CardContent} from 'material-ui/Card';
-import {ListSubheader} from 'material-ui/List';
 import GridList, {GridListTileBar, GridListTile} from 'material-ui/GridList'
 import colors from './colors';
 import Typography from 'material-ui/Typography'
@@ -8,7 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import HomeIcon from 'material-ui-icons/Home';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
 import { AppBar, Toolbar } from 'material-ui';
-
+import StyledLink from './StyledLink'
 
 const getBoxStyle = (color) => (
     {
@@ -50,7 +49,7 @@ const StyleGuide = () => (
                 <Typography type="body">Body 1 (Regular 14pt)</Typography>
                 <Typography type="caption">Caption (Regular 12pt)</Typography>
                 <Typography type="button">Button (Bold 14pt)</Typography>
-                <Typography type="link">Link (Bold 16pt)</Typography>
+                <StyledLink href="http://google.com"> Link (Bold 16pt)</StyledLink>
                 {/*ask Monica about link typography usage*/}
             </CardContent>
         </Card>

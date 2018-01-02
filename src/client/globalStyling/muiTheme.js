@@ -11,7 +11,6 @@ const muiTheme = createMuiTheme({
         body: {color: colors.secondary[900], fontSize: "14pt"},
         caption: {color: colors.secondary[900], fontSize: "12pt"},
         button: {color: colors.primary[500], fontSize: "14pt", fontWeight: "medium", textTransform: "uppercase"},
-        display1: {color: colors.blue, fontSize: "16pt", fontWeight: "bold"},
     }
 })
 
