@@ -1,10 +1,15 @@
 import nock from 'nock'
-import { createCaseSuccess, createCaseFailure } from './actionCreators'
-import {createCase} from "./thunks";
+import {createCaseSuccess, createCaseFailure} from '../actionCreators'
+import createCase from "./createCase";
 
 describe('createCase', () => {
+    let dispatch
+
+    beforeEach(() => {
+        dispatch = jest.fn()
+    })
+
     test('should call API to create case', async () => {
-        const dispatch = jest.fn()
         const caseDetails = {
             firstName: 'Fats',
             lastName: 'Domino'
@@ -29,8 +34,8 @@ describe('createCase', () => {
             createCaseSuccess(responseBody)
         )
     })
+
     test('should handle case creation failure', async () => {
-        const dispatch = jest.fn()
         const caseDetails = {
             firstName: 'Fats',
             lastName: 'Domino'

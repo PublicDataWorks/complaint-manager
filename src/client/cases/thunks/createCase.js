@@ -1,10 +1,9 @@
-import {createCaseFailure, createCaseSuccess, requestCaseCreation} from "./actionCreators";
+import {createCaseFailure, createCaseSuccess, requestCaseCreation} from "../actionCreators";
 
 const testing = process.env.NODE_ENV === 'test'
 const hostname = testing ? 'http://localhost' : ''
 
-
-export const createCase = (caseDetails) => async (dispatch) => {
+const createCase = (caseDetails) => async (dispatch) => {
     dispatch(requestCaseCreation())
 
     try {
@@ -25,3 +24,5 @@ export const createCase = (caseDetails) => async (dispatch) => {
         dispatch(createCaseFailure(e))
     }
 }
+
+export default createCase

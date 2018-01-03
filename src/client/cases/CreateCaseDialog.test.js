@@ -5,13 +5,11 @@ import {mount} from "enzyme/build/index";
 import {createCaseSuccess} from "./actionCreators";
 import CreateCaseDialog from "./CreateCaseDialog";
 import {expectEventuallyNotToExist} from "../../testHelpers";
-import {createCase} from "./thunks";
+import createCase from "./thunks/createCase";
 
-jest.mock('./thunks', () => ({
-    createCase: (caseDetails) => ({
-        type: 'MOCK_CREATE_CASE_THUNK',
-        caseDetails
-    })
+jest.mock('./thunks/createCase', () => (caseDetails) => ({
+    type: 'MOCK_CREATE_CASE_THUNK',
+    caseDetails
 }))
 
 describe('CreateCaseDialog component', () => {

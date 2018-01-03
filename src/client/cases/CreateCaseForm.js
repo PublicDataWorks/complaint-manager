@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import TextField from '../formFields/TextField'
-import {createCase} from "./thunks";
+import createCase from "./thunks/createCase";
 
 const CreateCaseForm = ({ handleSubmit }) => {
     return (
