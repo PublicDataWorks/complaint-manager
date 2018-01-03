@@ -19,6 +19,11 @@ and run all tests before pushing.
 
 ## Local development tasks
 
+### Run a Circleci job locally
+```bash
+circleci build --job <job name from .circleci/config.yml>
+```
+
 ### Build the app:
 ```bash
 docker-compose build
@@ -48,7 +53,7 @@ docker-compose down
 ```bash
 docker login [enter your docker hub credentials]
 docker build -t noipm/e2e e2e
-docker push -t noipm/e2e
+docker push noipm/e2e
 ```
 
 ### Enter the running local db container with psql
