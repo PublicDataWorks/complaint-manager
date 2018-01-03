@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux'
 import CasesTable from "./CasesTable";
 import CreateCase from "./CreateCase";
-import CaseCreationMessage from "./CaseCreationMessage";
+import CaseCreationSnackbar from "./CaseCreationSnackbar";
 import NavBar from '../NavBar'
 
 const CaseDashboard = ({cases}) => {
@@ -11,7 +11,7 @@ const CaseDashboard = ({cases}) => {
             <NavBar>View All Cases</NavBar>
             <CreateCase/>
             <CasesTable cases={cases}/>
-            <CaseCreationMessage/>
+            <CaseCreationSnackbar/>
         </div>
     );
 }

@@ -3,7 +3,7 @@ import { IconButton, Snackbar } from 'material-ui'
 import CloseIcon from 'material-ui-icons/Close'
 import { connect } from 'react-redux'
 
-class CaseCreationMessage extends React.Component {
+class CaseCreationSnackbar extends React.Component {
     state = {
         snackbarOpen: false
     }
@@ -55,4 +55,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(CaseCreationMessage)
+export default connect(mapStateToProps)(CaseCreationSnackbar)
