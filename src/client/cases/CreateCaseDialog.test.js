@@ -4,7 +4,7 @@ import store from "../reduxStore";
 import {mount} from "enzyme/build/index";
 import {createCaseSuccess} from "./actionCreators";
 import CreateCaseDialog from "./CreateCaseDialog";
-import {expectNotToEventuallyExist} from "../../testHelpers";
+import {expectEventuallyNotToExist} from "../../testHelpers";
 import {createCase} from "./thunks";
 
 jest.mock('./thunks', () => ({
@@ -52,12 +52,12 @@ describe('CreateCaseDialog component', () => {
         const cancel = dialog.find('button[data-test="cancelCase"]')
         cancel.simulate('click')
 
-        await expectNotToEventuallyExist(dialog, '[data-test="createCaseDialogTitle"]')
+        await expectEventuallyNotToExist(dialog, '[data-test="createCaseDialogTitle"]')
     })
 
     test('should dismiss dialog after successful case creation', async () => {
         store.dispatch(createCaseSuccess({id: 1234}))
 
-        await expectNotToEventuallyExist(dialog, '[data-test="createCaseDialogTitle"]')
+        await expectEventuallyNotToExist(dialog, '[data-test="createCaseDialogTitle"]')
     })
 })
