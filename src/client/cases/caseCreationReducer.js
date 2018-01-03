@@ -24,8 +24,9 @@ const caseCreationReducer = (state = initialState, action) => {
                 success: false,
                 message: 'Something went wrong on our end and your case was not created. Please try again.'
             }
+        default:
+            return state
     }
-    return state
 }
 
 export default caseCreationReducer

@@ -5,7 +5,7 @@ import CreateCase from "./CreateCase";
 import CaseCreationMessage from "./CaseCreationMessage";
 import NavBar from '../NavBar'
 
-const ViewAllCases = ({cases}) => {
+const CaseDashboard = ({cases}) => {
     return (
         <div>
             <NavBar>View All Cases</NavBar>
@@ -22,4 +22,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(ViewAllCases)
+export default connect(mapStateToProps)(CaseDashboard)

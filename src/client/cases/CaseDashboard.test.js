@@ -1,22 +1,22 @@
 import React from 'react';
 import {mount} from 'enzyme';
 import {Provider} from 'react-redux'
-import ViewAllCases from "./ViewAllCases";
+import CaseDashboard from "./CaseDashboard";
 import store from "../reduxStore"
 
-describe('ViewAllCases component', () => {
-    let viewAllCases;
+describe('CaseDashboard component', () => {
+    let caseDashboard;
 
     beforeEach(() => {
-        viewAllCases = mount(
+        caseDashboard = mount(
             <Provider store={store}>
-                <ViewAllCases/>
+                <CaseDashboard/>
             </Provider>
         );
     })
 
     test('should display title', () => {
-        const pageTitle = viewAllCases.find('h2[data-test="pageTitle"]');
+        const pageTitle = caseDashboard.find('h2[data-test="pageTitle"]');
         expect(pageTitle.text()).toEqual('View All Cases')
     })
 })

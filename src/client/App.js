@@ -6,7 +6,7 @@ import {
 import StyleGuide from './globalStyling/StyleGuide';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import customTheme from "./globalStyling/muiTheme";
-import ViewAllCases from "./cases/ViewAllCases";
+import CaseDashboard from "./cases/CaseDashboard";
 import { Provider } from 'react-redux'
 import store from './reduxStore'
 import AdminDashboard from './admin/dashboard'
@@ -16,7 +16,7 @@ const App = () => (
         <Router>
             <MuiThemeProvider theme={customTheme}>
                 <div>
-                    <Route exact path="/" component={ViewAllCases} />
+                    <Route exact path="/" component={CaseDashboard} />
                     <Route exact path="/styleguide" component={StyleGuide}/>
                     <Route exact path="/admin" component={AdminDashboard}/>
                 </div>
