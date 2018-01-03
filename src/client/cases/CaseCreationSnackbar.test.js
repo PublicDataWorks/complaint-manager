@@ -17,6 +17,11 @@ describe('CaseCreationSnackbar', () => {
         )
     })
 
+    test('should not be visible initially', () => {
+        const resultMessage = caseCreationSnackbar.find('[data-test="createCaseBannerText"]')
+        expect(resultMessage.exists()).toEqual(false)
+    })
+
     test('should be visible with success message after successful creation', () => {
         store.dispatch(requestCaseCreation())
         store.dispatch(createCaseSuccess({ id: 1234 }))
@@ -25,11 +30,6 @@ describe('CaseCreationSnackbar', () => {
         const resultMessage = caseCreationSnackbar.find('[data-test="createCaseBannerText"]')
 
         expect(resultMessage.text()).toEqual('Case 1234 was successfully created.')
-    })
-
-    test('should not be visible initially', () => {
-        const resultMessage = caseCreationSnackbar.find('[data-test="createCaseBannerText"]')
-        expect(resultMessage.exists()).toEqual(false)
     })
 
     test('should dismiss snackbar', async () => {

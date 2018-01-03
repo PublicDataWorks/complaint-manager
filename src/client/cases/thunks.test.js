@@ -1,5 +1,6 @@
 import nock from 'nock'
-import { createCase, createCaseSuccess, createCaseFailure } from './actionCreators'
+import { createCaseSuccess, createCaseFailure } from './actionCreators'
+import {createCase} from "./thunks";
 
 describe('createCase', () => {
     test('should call API to create case', async () => {

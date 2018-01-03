@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "material-ui";
 import CreateCaseForm from "./CreateCaseForm";
 
-class CreateCase extends React.Component {
+class CreateCaseDialog extends React.Component {
     state = {
         dialogOpen: false
     }
@@ -78,4 +78,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(CreateCase)
+export default connect(mapStateToProps)(CreateCaseDialog)
