@@ -14,9 +14,12 @@ module.exports = (sequelize, DataTypes) => {
             field: 'last_name',
             type: DataTypes.STRING(25)
         },
-        status: DataTypes.ENUM([
-            'Initial', 'Active', 'Forwarded', 'Suspended', 'Complete'
-        ]),
+        status: {
+            type: DataTypes.ENUM([
+                'Initial', 'Active', 'Forwarded', 'Suspended', 'Complete'
+            ]),
+            defaultValue: 'Initial'
+        },
         createdAt: {
             field: 'created_at',
             type: DataTypes.DATE

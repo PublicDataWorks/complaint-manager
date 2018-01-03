@@ -2,13 +2,11 @@ const httpMocks = require('node-mocks-http')
 const createCase = require('./createCase')
 const models = require('../models')
 
-jest.mock('../models', () => {
-    return {
-        cases: {
-            create: jest.fn()
-        }
+jest.mock('../models', () => ({
+    cases: {
+        create: jest.fn()
     }
-})
+}))
 
 describe('createCase handler', () => {
     let request, response
@@ -31,7 +29,8 @@ describe('createCase handler', () => {
 
     test('should send response and 201 status with created entity', async () => {
         const createdCase = 'new created case'
-        models.cases.create.mockImplementation(() => Promise.resolve(createdCase))
+        models.cases.create.mockImplementation(() =>
+            Promise.resolve(createdCase))
 
         await createCase(request, response)
 

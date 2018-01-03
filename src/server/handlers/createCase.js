@@ -6,7 +6,6 @@ const invalidName = (input) => {
 
 const createCase = async (req, res) => {
     try {
-
       if (invalidName(req.body.firstName) || invalidName(req.body.lastName)){
         res.sendStatus(400)
       }

@@ -6,9 +6,9 @@ import getCases from "./thunks/getCases"
 
 class CasesTable extends React.Component {
 
-    // componentWillMount = () => {
-    //     this.props.getCases()
-    // }
+    componentWillMount = () => {
+        this.props.getCases()
+    }
 
     render() {
         return (
@@ -35,8 +35,10 @@ class CasesTable extends React.Component {
                                             month: 'short',
                                             day: 'numeric',
                                             year: 'numeric'
-                                        })}</TableCell>
-                                    </TableRow>)}
+                                        })}
+                                        </TableCell>
+                                    </TableRow>
+                                )}
                             </TableBody>
                             : null
                     }

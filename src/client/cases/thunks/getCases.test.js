@@ -6,8 +6,7 @@ describe('getCases', () => {
 
     test('should call API to get all cases', async () => {
         const dispatch = jest.fn()
-
-        const responseBody = {cases: []}
+        const responseBody = { cases: ['a case'] }
 
         nock('http://localhost', {
             reqheaders: {
@@ -19,6 +18,6 @@ describe('getCases', () => {
 
         await getCases()(dispatch)
 
-        expect(dispatch).toHaveBeenCalledWith(getCasesSuccess(responseBody))
+        expect(dispatch).toHaveBeenCalledWith(getCasesSuccess(responseBody.cases))
     })
 })

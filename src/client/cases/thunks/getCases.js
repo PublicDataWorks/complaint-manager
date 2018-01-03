@@ -11,10 +11,9 @@ const getCases = () => async (dispatch) => {
         }
     })
 
-
     const responseBody = await response.json()
 
-    return dispatch(getCasesSuccess(responseBody))
+    return dispatch(getCasesSuccess(responseBody.cases))
 }
 
 export default getCases
