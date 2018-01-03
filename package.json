@@ -4,11 +4,8 @@
   "private": true,
   "proxy": "http://localhost:1234",
   "scripts": {
-    "start": "yarn cms && concurrently 'yarn start:client' 'yarn start:server'",
-    "cms": "/bin/sh /app/scripts/create-migrate-seed-db.sh",
-    "db:create": "sequelize db:create",
-    "db:migrate": "sequelize db:migrate",
-    "db:seed": "sequelize db:seed:all",
+    "start": "yarn setup:db && concurrently 'yarn start:client' 'yarn start:server'",
+    "setup:db": "sequelize db:create; sequelize db:migrate && sequelize db:seed:all",
     "drop:db": "sequelize db:drop",
     "setup:db:prod": "sequelize db:create; sequelize db:migrate",
     "start:client": "react-scripts start",
