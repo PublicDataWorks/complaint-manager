@@ -22,9 +22,11 @@
       "selenium_port": 4444,
       "selenium_host": "localhost",
       "silent": true,
-      "screenshots": {
-        "enabled": false,
-        "path": ""
+      "screenshots" : {
+        "enabled" : true,
+        "path" : "/tests",
+        "on_failure": true,
+        "on_error": true
       },
       "desiredCapabilities": {
         "browserName": "chrome",
