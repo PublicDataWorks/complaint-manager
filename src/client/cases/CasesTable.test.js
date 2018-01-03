@@ -41,7 +41,7 @@ describe('cases table', () => {
 
     })
 
-    test('should load all cases', () => {
+    test.skip('should load all cases', () => {
         expect(dispatchSpy).toHaveBeenCalledWith(getCases())
     })
 })

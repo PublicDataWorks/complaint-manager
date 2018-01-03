@@ -6,9 +6,9 @@ import getCases from "./thunks/getCases"
 
 class CasesTable extends React.Component {
 
-    componentWillMount = () => {
-        this.props.getCases()
-    }
+    // componentWillMount = () => {
+    //     this.props.getCases()
+    // }
 
     render() {
         return (
