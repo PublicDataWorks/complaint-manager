@@ -1,11 +1,11 @@
 import promiseRetry from 'promise-retry'
 
-export const expectToEventuallyNotExist = async (mountedComponent, selector) => {
+export const expectEventuallyNotToExist = async (mountedComponent, selector) => {
     await promiseRetry((retry) => {
         try {
             mountedComponent.update()
-            const resultMessage = mountedComponent.find(selector)
-            expect(resultMessage.exists()).toEqual(false)
+            const shouldNotExist = mountedComponent.find(selector)
+            expect(shouldNotExist.exists()).toEqual(false)
         } catch (e) {
             retry(e)
         }

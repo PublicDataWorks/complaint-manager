@@ -4,7 +4,7 @@ import store from '../reduxStore'
 import { mount } from 'enzyme/build/index'
 import CaseCreationSnackbar from './CaseCreationSnackbar'
 import { createCaseSuccess, requestCaseCreation } from './actionCreators'
-import { expectToEventuallyNotExist } from '../../testHelpers'
+import { expectEventuallyNotToExist } from '../../testHelpers'
 
 describe('CaseCreationSnackbar', () => {
     let caseCreationSnackbar
@@ -40,7 +40,7 @@ describe('CaseCreationSnackbar', () => {
         const dismissButton = caseCreationSnackbar.find('button[data-test="closeSnackbar"]')
         dismissButton.simulate('click')
 
-        await expectToEventuallyNotExist(
+        await expectEventuallyNotToExist(
             caseCreationSnackbar,
             '[data-test="createCaseBannerText"]'
         )
