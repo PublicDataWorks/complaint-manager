@@ -5,21 +5,15 @@ import CreateCaseDialog from "./CreateCaseDialog";
 import CaseCreationSnackbar from "./CaseCreationSnackbar";
 import NavBar from '../NavBar'
 
-const CaseDashboard = ({cases}) => {
+const CaseDashboard = () => {
     return (
         <div>
             <NavBar>View All Cases</NavBar>
             <CreateCaseDialog/>
-            <CasesTable cases={cases}/>
+            <CasesTable/>
             <CaseCreationSnackbar/>
         </div>
     );
 }
 
-const mapStateToProps = state => {
-    return {
-        cases: state.cases.all
-    }
-}
-
-export default connect(mapStateToProps)(CaseDashboard)
+export default CaseDashboard
