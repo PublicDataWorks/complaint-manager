@@ -3,6 +3,8 @@ import Table, {TableBody, TableCell, TableHead, TableRow} from 'material-ui/Tabl
 import Typography from 'material-ui/Typography'
 import {connect} from "react-redux"
 import getCases from "./thunks/getCases"
+import CaseRow from './CaseRow'
+
 
 class CasesTable extends React.Component {
 
@@ -24,32 +26,14 @@ class CasesTable extends React.Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {this.props.cases.map(entry => (
-                            <TableRow key={entry.id} data-test={`caseRow${entry.id}`}>
-                                <TableCell data-test="caseNumber">
-                                    {entry.id}
-                                </TableCell>
-                                <TableCell data-test="caseStatus">
-                                    {entry.status}
-                                    </TableCell>
-                                <TableCell data-test="caseName">
-                                    {`${entry.lastName}, ${entry.firstName[0]}.`}
-                                </TableCell>
-                                <TableCell data-test="caseCreatedAt">
-                                    {new Date(entry.createdAt).toLocaleDateString('en-US', {
-                                        month: 'short',
-                                        day: 'numeric',
-                                        year: 'numeric'
-                                    })}
-                                </TableCell>
-                            </TableRow>
+                        {this.props.cases.map(caseDetails => (
+                           <CaseRow key={caseDetails.id} caseDetails={caseDetails}/>
                         ))}
                     </TableBody>
                 </Table>
             </div>)
     }
 }
-
 const mapStateToProps = state => ({
     cases: state.cases.all
 })
