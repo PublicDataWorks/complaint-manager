@@ -8,7 +8,7 @@ const styles = theme => ({
   root: {
     color: colors.blue,
     fontSize: "16pt",
-    fontWeight: "bold",
+    fontWeight: "medium",
     textDecoration: 'none'
   },
   primary: {

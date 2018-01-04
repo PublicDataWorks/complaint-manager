@@ -8,10 +8,9 @@ const colors = {
     },
     secondary: {
         ...blueGrey,
-        A200: "#90a4ae",
+        A200: "#62757f",
         300: "#c1d5e0",
-        500: "#90a4ae",
-        700: "#62757f",
+        500: "#62757f",
         900: "#000a12",
     },
     blue: "#1565c0",
@@ -20,7 +19,7 @@ const colors = {
         ...red,
         500: "#d32f2f"
     },
-    green: "#388e3c"
+    green: "#388e3c",
 };
 
 export default colors;

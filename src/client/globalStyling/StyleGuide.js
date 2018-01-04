@@ -30,14 +30,18 @@ const StyleGuide = () => (
         <Typography type="body2">Body 2 (Bold 14pt)</Typography>
         <Typography type="body1">Body 1 (Regular 14pt)</Typography>
         <Typography type="caption">Caption (Regular 12pt)</Typography>
-        <Typography type="button" style={{color: 'black'}}>Button (Bold 14pt)</Typography>
-        <StyledLink style={{marginRight: 20}}>{'Link (Bold 16pt)'}</StyledLink>
-        <CancelButton style={{marginRight: 20}}>Cancel Button</CancelButton>
-        <SubmitButton>Submit Button</SubmitButton>
-        {/*ask Monica about link typography usage*/}
+        <Typography type="button" style={{color: 'black'}}>Button (medium 12pt)</Typography>
+        <StyledLink style={{marginRight: 20}}>{'Link (Medium 16pt)'}</StyledLink>
       </CardContent>
     </Card>
 
+    <Card elevation={0} style={{marginTop: 30}}>
+      <Typography type='title' style={{marginLeft: 20}}>BUTTONS</Typography>
+      <CardContent>
+        <CancelButton style={{marginRight: 20}}>Cancel Button</CancelButton>
+        <SubmitButton>Submit Button</SubmitButton>
+      </CardContent>
+    </Card>
 
     <Card elevation={0} style={{marginTop: 30}}>
       <Typography type='title' style={{marginLeft: 20}}>COLORS</Typography>
@@ -83,12 +87,12 @@ const StyleGuide = () => (
       <Card elevation={0} style={{display: 'inline-block'}}>
         <GridList style={{flexWrap: 'nowrap'}} cols={2} padding={10} cellHeight={'auto'}>
           <GridListTile
-            style={getBoxStyle(colors.secondary[500])}
+            style={getBoxStyle(colors.secondary[700])}
           >
             <GridListTileBar
               title="Secondary"
-              subtitle="#90a4ae"
-              style={{background: colors.secondary[500]}}
+              subtitle="#62757f"
+              style={{background: colors.secondary[700]}}
             />
           </GridListTile>
           <GridListTile
@@ -109,15 +113,7 @@ const StyleGuide = () => (
               style={{background: colors.secondary[300]}}
             />
           </GridListTile>
-          <GridListTile
-            style={getBoxStyle(colors.secondary[700])}
-          >
-            <GridListTileBar
-              title="S - Dark"
-              subtitle="#62757f"
-              style={{background: colors.secondary[700]}}
-            />
-          </GridListTile>
+
           <GridListTile
             style={getBoxStyle(colors.secondary[900])}
           >

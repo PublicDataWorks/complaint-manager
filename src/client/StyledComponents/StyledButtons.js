@@ -1,10 +1,5 @@
 import {Button} from 'material-ui'
 import React from 'react'
-import colors from '../globalStyling/colors'
-
-const cancelVariant = {
-  color: colors.secondary[300]
-}
 
 export const CancelButton = ({children, onClick, ...other}) => {
   return (
@@ -12,7 +7,6 @@ export const CancelButton = ({children, onClick, ...other}) => {
       raised
       onClick={onClick}
       color="accent"
-      style={cancelVariant}
       {...other}>{children}</Button>
   )
 }
@@ -26,6 +20,7 @@ export const SubmitButton = ({children, onClick, ...other}) => {
       {...other}>{children}</Button>
   )
 }
+
 
 
 
