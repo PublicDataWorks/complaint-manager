@@ -2,7 +2,7 @@ import React from 'react'
 import { TableCell, TableRow } from 'material-ui'
 
 const CaseRow = ({caseDetails}) => (
-    <TableRow data-test={`caseRow${caseDetails.id}`}>
+    <TableRow data-test={`caseRow${caseDetails.id}`} style={{backgroundColor: 'white'}}>
         <TableCell data-test="caseNumber">
             {caseDetails.id}
         </TableCell>

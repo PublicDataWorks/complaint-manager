@@ -21,7 +21,7 @@ const App = () => (
                     <Route exact path="/" component={CaseDashboard} />
                     <Route exact path="/styleguide" component={StyleGuide}/>
                     <Route exact path="/admin" component={UserDashboard}/>
-                </div>
+                </Paper>
             </MuiThemeProvider>
         </Router>
     </Provider>

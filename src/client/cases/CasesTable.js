@@ -19,10 +19,18 @@ class CasesTable extends React.Component {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell data-test='casesNumberHeader'>Case #</TableCell>
-                            <TableCell data-test='casesStatusHeader'>Status</TableCell>
-                            <TableCell data-test='casesComplainantHeader'>Complainant</TableCell>
-                            <TableCell data-test='casesCreatedOnHeader'>Created On</TableCell>
+                            <TableCell data-test='casesNumberHeader'>
+                              <Typography type='body2'>Case #</Typography>
+                            </TableCell>
+                            <TableCell data-test='casesStatusHeader'>
+                              <Typography type='body2'>Status</Typography>
+                            </TableCell>
+                            <TableCell data-test='casesComplainantHeader'>
+                              <Typography type='body2'>Complainant</Typography>
+                            </TableCell>
+                            <TableCell data-test='casesCreatedOnHeader'>
+                              <Typography type='body2'>Created On</Typography>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
