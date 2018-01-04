@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import TextFieldWrapper from '../formFields/TextFieldWrapper'
-import createCase from "./thunks/createCase";
+import createUser from './thunks/createUser'
 
-const CreateCaseForm = () => {
+const CreateUserForm = () => {
     return (
-        <form data-test="createCaseForm">
+        <form data-test="createUserForm">
             <Field
                 name="firstName"
                 label="First Name"
@@ -22,15 +22,23 @@ const CreateCaseForm = () => {
                 label="Last Name"
                 component={TextFieldWrapper}
             />
+            <Field
+                InputProps={{
+                    "data-test": "emailInput"
+                }}
+                name="email"
+                label="Email"
+                component={TextFieldWrapper}
+            />
         </form>
     )
-};
+}
 
-const dispatchCreateCase = (values, dispatch) => {
-    dispatch(createCase(values))
+const dispatchCreateUser = (values, dispatch) => {
+    dispatch(createUser(values))
 }
 
 export default reduxForm({
-    form: 'CreateCase',
-    onSubmit: dispatchCreateCase
-})(CreateCaseForm);
+    form: 'CreateUser',
+    onSubmit: dispatchCreateUser
+})(CreateUserForm);

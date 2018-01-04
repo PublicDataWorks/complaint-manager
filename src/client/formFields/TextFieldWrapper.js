@@ -1,7 +1,7 @@
 import React from 'react'
 import { TextField as MaterialUITextField } from 'material-ui'
 
-const renderTextField = ({
+const TextFieldWrapper = ({
     input,
     label,
     ...custom
@@ -13,4 +13,4 @@ const renderTextField = ({
     />
 )
 
-export default renderTextField
+export default TextFieldWrapper

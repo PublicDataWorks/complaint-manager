@@ -1,8 +1,11 @@
 import React from 'react'
-import {Button, Dialog, DialogActions, DialogTitle} from "material-ui";
+import {submit} from 'redux-form';
+import {connect} from "react-redux";
+import {Button, Dialog, DialogActions, DialogTitle, DialogContent} from "material-ui";
 import {CancelButton, SubmitButton} from "../StyledComponents/StyledButtons";
+import CreateUserForm from './CreateUserForm'
 
-class CreateUser extends React.Component {
+class CreateUserDialog extends React.Component {
     state = {
         dialogOpen: false
     }
@@ -27,6 +30,11 @@ class CreateUser extends React.Component {
                             Create New User
                         </div>
                     </DialogTitle>
+
+                    <DialogContent>
+                        <CreateUserForm />
+                    </DialogContent>
+
                     <DialogActions>
                         <CancelButton
                             data-test="cancelUser"
@@ -36,7 +44,7 @@ class CreateUser extends React.Component {
                         </CancelButton>
                         <SubmitButton
                             data-test="submitUser"
-                            onClick={() => alert("hi fellas!")}
+                            onClick={() => this.props.dispatch(submit('CreateUser'))}
                         >
                             Create
                         </SubmitButton>
@@ -56,4 +64,4 @@ class CreateUser extends React.Component {
     }
 }
 
-export default CreateUser
+export default connect()(CreateUserDialog)

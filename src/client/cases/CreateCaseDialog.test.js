@@ -38,10 +38,11 @@ describe('CreateCaseDialog component', () => {
         const form = dialog.find('[data-test="createCaseForm"]')
         const firstName = form.find('[data-test="firstNameInput"] > input')
         const lastName = form.find('[data-test="lastNameInput"] > input')
+        const submitButton = dialog.find('button[data-test="submitCase"]')
 
         firstName.simulate('change', {target: {value: caseDetails.firstName}})
         lastName.simulate('change', {target: {value: caseDetails.lastName}})
-        form.simulate('submit')
+        submitButton.simulate('click')
 
         expect(dispatchSpy).toHaveBeenCalledWith(createCase(caseDetails))
     })

@@ -9,7 +9,7 @@ import customTheme from "./globalStyling/muiTheme";
 import CaseDashboard from "./cases/CaseDashboard";
 import { Provider } from 'react-redux'
 import store from './reduxStore'
-import AdminDashboard from './admin/dashboard'
+import UserDashboard from './users/UserDashboard'
 
 const App = () => (
     <Provider store={store}>
@@ -18,7 +18,7 @@ const App = () => (
                 <div>
                     <Route exact path="/" component={CaseDashboard} />
                     <Route exact path="/styleguide" component={StyleGuide}/>
-                    <Route exact path="/admin" component={AdminDashboard}/>
+                    <Route exact path="/admin" component={UserDashboard}/>
                 </div>
             </MuiThemeProvider>
         </Router>

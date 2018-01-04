@@ -1,14 +1,14 @@
 import React from 'react'
 import NavBar from '../NavBar'
-import CreateUser from './CreateUser'
+import CreateUserDialog from './CreateUserDialog'
 
-const Dashboard = () => {
+const UserDashboard = () => {
     return (
         <div>
             <NavBar>Admin</NavBar>
-            <CreateUser />
+            <CreateUserDialog />
         </div>
     )
 }
 
-export default Dashboard
+export default UserDashboard
