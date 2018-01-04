@@ -8,8 +8,9 @@ const colors = {
     },
     secondary: {
         ...blueGrey,
+        A200: "#90a4ae",
         300: "#c1d5e0",
-        500:"#90a4ae",
+        500: "#90a4ae",
         700: "#62757f",
         900: "#000a12",
     },

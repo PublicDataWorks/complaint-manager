@@ -3,7 +3,7 @@ import React from 'react'
 import colors from '../globalStyling/colors'
 
 const cancelVariant = {
-  color: colors.secondary[900]
+  color: colors.secondary[300]
 }
 
 export const CancelButton = ({children, onClick, ...other}) => {
