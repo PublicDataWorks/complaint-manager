@@ -23,34 +23,39 @@ class CasesTable extends React.Component {
                             <TableCell data-test='casesCreatedOnHeader'>Created On</TableCell>
                         </TableRow>
                     </TableHead>
-                    {
-                        (this.props.cases && this.props.cases.length > 0)
-                            ? <TableBody>{
-                                this.props.cases.map(entry =>
-                                    <TableRow key={entry.id} data-test="casesTableEntry">
-                                        <TableCell>{entry.id}</TableCell>
-                                        <TableCell>{entry.status} </TableCell>
-                                        <TableCell>{`${entry.lastName}, ${entry.firstName[0]}.`}</TableCell>
-                                        <TableCell>{(new Date(entry.createdAt)).toLocaleDateString('en-US', {
-                                            month: 'short',
-                                            day: 'numeric',
-                                            year: 'numeric'
-                                        })}
-                                        </TableCell>
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                            : null
-                    }
+                    <TableBody>
+                        {this.props.cases.map(entry => (
+                            <TableRow key={entry.id} data-test={`caseRow${entry.id}`}>
+                                <TableCell data-test="caseNumber">
+                                    {entry.id}
+                                </TableCell>
+                                <TableCell data-test="caseStatus">
+                                    {entry.status}
+                                    </TableCell>
+                                <TableCell data-test="caseName">
+                                    {`${entry.lastName}, ${entry.firstName[0]}.`}
+                                </TableCell>
+                                <TableCell data-test="caseCreatedAt">
+                                    {new Date(entry.createdAt).toLocaleDateString('en-US', {
+                                        month: 'short',
+                                        day: 'numeric',
+                                        year: 'numeric'
+                                    })}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
                 </Table>
             </div>)
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        getCases
-    }
+const mapStateToProps = state => ({
+    cases: state.cases.all
+})
+
+const mapDispatchToProps = {
+    getCases
 }
 
-export default connect(state => ({}), mapDispatchToProps())(CasesTable)
+export default connect(mapStateToProps, mapDispatchToProps)(CasesTable)

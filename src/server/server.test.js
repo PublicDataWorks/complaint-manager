@@ -78,11 +78,13 @@ describe('server', () => {
                             expect.objectContaining({
                                 firstName: seededCases[0].firstName,
                                 lastName: seededCases[0].lastName,
+                                createdAt: seededCases[0].createdAt.toISOString(),
                                 status: 'Initial'
                             }),
                             expect.objectContaining({
                                 firstName: seededCases[1].firstName,
                                 lastName: seededCases[1].lastName,
+                                createdAt: seededCases[1].createdAt.toISOString(),
                                 status: 'Initial'
                             })
                         ])
