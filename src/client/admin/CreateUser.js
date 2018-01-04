@@ -1,5 +1,6 @@
 import React from 'react'
 import {Button, Dialog, DialogActions, DialogTitle} from "material-ui";
+import {CancelButton, SubmitButton} from "../StyledComponents/StyledButtons";
 
 class CreateUser extends React.Component {
     state = {
@@ -27,21 +28,18 @@ class CreateUser extends React.Component {
                         </div>
                     </DialogTitle>
                     <DialogActions>
-                        <Button
-
-                            raised
+                        <CancelButton
                             data-test="cancelUser"
                             onClick={this.closeDialog}
                         >
                             Cancel
-                        </Button>
-                        <Button
-                            raised
+                        </CancelButton>
+                        <SubmitButton
                             data-test="submitUser"
                             onClick={() => alert("hi fellas!")}
                         >
                             Create
-                        </Button>
+                        </SubmitButton>
                     </DialogActions>
                 </Dialog>
 

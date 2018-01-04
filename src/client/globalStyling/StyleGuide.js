@@ -4,7 +4,8 @@ import GridList, {GridListTileBar, GridListTile} from 'material-ui/GridList'
 import colors from './colors';
 import Typography from 'material-ui/Typography'
 import NavBar from '../NavBar'
-import StyledLink from './StyledLink'
+import StyledLink from '../StyledComponents/StyledLink'
+import {CancelButton, SubmitButton} from '../StyledComponents/StyledButtons'
 
 const getBoxStyle = (color) => (
   {
@@ -29,8 +30,10 @@ const StyleGuide = () => (
         <Typography type="body2">Body 2 (Bold 14pt)</Typography>
         <Typography type="body1">Body 1 (Regular 14pt)</Typography>
         <Typography type="caption">Caption (Regular 12pt)</Typography>
-        <Typography type="button">Button (Bold 14pt)</Typography>
-        <StyledLink>{'Link (Bold 16pt)'}</StyledLink>
+        <Typography type="button" style={{color: 'black'}}>Button (Bold 14pt)</Typography>
+        <StyledLink style={{marginRight: 20}}>{'Link (Bold 16pt)'}</StyledLink>
+        <CancelButton style={{marginRight: 20}}>Cancel Button</CancelButton>
+        <SubmitButton>Submit Button</SubmitButton>
         {/*ask Monica about link typography usage*/}
       </CardContent>
     </Card>

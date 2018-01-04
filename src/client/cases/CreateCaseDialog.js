@@ -3,6 +3,7 @@ import {submit} from "redux-form";
 import {connect} from "react-redux";
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "material-ui";
 import CreateCaseForm from "./CreateCaseForm";
+import {CancelButton, SubmitButton} from "../StyledComponents/StyledButtons";
 
 class CreateCaseDialog extends React.Component {
     state = {
@@ -51,20 +52,18 @@ class CreateCaseDialog extends React.Component {
                         <CreateCaseForm/>
                     </DialogContent>
                     <DialogActions>
-                        <Button
-                            raised
+                        <CancelButton
                             data-test="cancelCase"
                             onClick={this.closeDialog}
                         >
                             Cancel
-                        </Button>
-                        <Button
-                            raised
+                        </CancelButton>
+                        <SubmitButton
                             data-test="submitCase"
                             onClick={() => this.props.dispatch(submit('CreateCase'))}
                         >
                             Create
-                        </Button>
+                        </SubmitButton>
                     </DialogActions>
                 </Dialog>
             </div>
