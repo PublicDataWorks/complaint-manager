@@ -1,5 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux'
 import CasesTable from "./CasesTable";
 import CreateCaseDialog from "./CreateCaseDialog";
 import CaseCreationSnackbar from "./CaseCreationSnackbar";

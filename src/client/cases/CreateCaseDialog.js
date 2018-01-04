@@ -1,7 +1,7 @@
 import React from "react";
 import {submit} from "redux-form";
 import {connect} from "react-redux";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "material-ui";
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "material-ui";
 import CreateCaseForm from "./CreateCaseForm";
 import {CancelButton, SubmitButton} from "../StyledComponents/StyledButtons";
 
@@ -27,14 +27,12 @@ class CreateCaseDialog extends React.Component {
     render() {
         return (
             <div>
-                <Button
-                    raised
+                <SubmitButton
                     data-test="createCaseButton"
                     onClick={this.openDialog}
-                    color="primary"
                 >
                     + Create New Case
-                </Button>
+                </SubmitButton>
                 <Dialog
                     data-test="createCaseDialog"
                     open={this.state.dialogOpen}
