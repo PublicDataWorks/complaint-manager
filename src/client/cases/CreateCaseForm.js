@@ -4,6 +4,10 @@ import TextFieldWrapper from '../formFields/TextFieldWrapper'
 import createCase from "./thunks/createCase";
 
 const CreateCaseForm = () => {
+    const offSet = {
+        marginRight: '5%'
+    }
+
     return (
         <form data-test="createCaseForm">
             <Field
@@ -13,6 +17,7 @@ const CreateCaseForm = () => {
                     "data-test": "firstNameInput"
                 }}
                 component={TextFieldWrapper}
+                style={offSet}
             />
             <Field
                 InputProps={{
@@ -21,6 +26,7 @@ const CreateCaseForm = () => {
                 name="lastName"
                 label="Last Name"
                 component={TextFieldWrapper}
+                style={offSet}
             />
         </form>
     )

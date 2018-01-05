@@ -17,7 +17,7 @@ const App = () => (
     <Provider store={store}>
         <Router>
             <MuiThemeProvider theme={customTheme}>
-                <Paper elevation={0} style={{height: '100vh', backgroundColor: colors.secondary[50]}}>
+                <Paper elevation={0} style={{height: '100%', backgroundColor: colors.secondary[50]}}>
                     <Route exact path="/" component={CaseDashboard} />
                     <Route exact path="/styleguide" component={StyleGuide}/>
                     <Route exact path="/admin" component={UserDashboard}/>

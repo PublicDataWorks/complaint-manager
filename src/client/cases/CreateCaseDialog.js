@@ -1,9 +1,10 @@
 import React from "react";
 import {submit} from "redux-form";
 import {connect} from "react-redux";
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "material-ui";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography} from "material-ui";
 import CreateCaseForm from "./CreateCaseForm";
 import {CancelButton, SubmitButton} from "../StyledComponents/StyledButtons";
+import {withTheme} from "material-ui/styles";
 
 const margin = {
     marginLeft: '5%',
@@ -44,15 +45,15 @@ class CreateCaseDialog extends React.Component {
                     data-test="createCaseDialog"
                     open={this.state.dialogOpen}
                 >
-                    <DialogTitle>
-                        <div data-test="createCaseDialogTitle">
-                            Create New Case
-                        </div>
+                    <DialogTitle data-test="createCaseDialogTitle" style={{paddingBottom: '1%'}}>
+                        Create New Case
                     </DialogTitle>
                     <DialogContent>
-                        <DialogContentText>
-                            Enter as much information as available to start a case. You will be able to edit this
-                            information later.
+                        <DialogContentText style={{paddingBottom: '3%'}}>
+                            <Typography type='caption'>
+                                Enter as much information as available to start a case. You will be able to edit this
+                                information later.
+                            </Typography>
                         </DialogContentText>
                         <CreateCaseForm/>
                     </DialogContent>
@@ -60,15 +61,17 @@ class CreateCaseDialog extends React.Component {
                         <CancelButton
                             data-test="cancelCase"
                             onClick={this.closeDialog}
+                            style={{display: 'box'}}
                         >
                             Cancel
                         </CancelButton>
-                        <SubmitButton
+                        <Button
                             data-test="submitCase"
                             onClick={() => this.props.dispatch(submit('CreateCase'))}
+                            style={{color: this.props.theme.palette.blue}}
                         >
-                            Create
-                        </SubmitButton>
+                            Create Only
+                        </Button>
                     </DialogActions>
                 </Dialog>
             </div>
@@ -82,4 +85,5 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(CreateCaseDialog)
+const connectedDialog = connect(mapStateToProps)(CreateCaseDialog)
+export default withTheme()(connectedDialog)

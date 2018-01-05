@@ -1,10 +1,11 @@
 import React from 'react'
-import { TableCell, TableRow } from 'material-ui'
+import {TableCell, TableRow} from 'material-ui'
 
 const styles = {
-  row: {
-    backgroundColor: 'white',
-  }
+    row: {
+        height: 80,
+        backgroundColor: 'white'
+    }
 }
 
 const CaseRow = ({caseDetails}) => (
