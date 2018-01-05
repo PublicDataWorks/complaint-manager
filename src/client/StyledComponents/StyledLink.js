@@ -2,11 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
-import colors from "../globalStyling/colors";
 
 const styles = theme => ({
   root: {
-    color: colors.blue,
+    color: theme.palette.blue,
     fontSize: "16pt",
     fontWeight: "medium",
     textDecoration: 'none'
@@ -42,4 +41,4 @@ StyledLink.propTypes = {
   variant: PropTypes.oneOf(['primary']),
 };
 
-export default withStyles(styles)(StyledLink)
+export default withStyles(styles, {withTheme: true})(StyledLink)

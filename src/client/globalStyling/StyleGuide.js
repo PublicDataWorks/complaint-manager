@@ -1,11 +1,11 @@
 import React from 'react'
 import Card, {CardContent} from 'material-ui/Card';
 import GridList, {GridListTileBar, GridListTile} from 'material-ui/GridList'
-import colors from './colors';
 import Typography from 'material-ui/Typography'
 import NavBar from '../NavBar'
 import StyledLink from '../StyledComponents/StyledLink'
 import {CancelButton, SubmitButton} from '../StyledComponents/StyledButtons'
+import {withTheme} from "material-ui";
 
 const getBoxStyle = (color) => (
   {
@@ -18,7 +18,7 @@ const getBoxStyle = (color) => (
   });
 
 
-const StyleGuide = () => (
+const StyleGuide = (props) => (
   <div>
     <NavBar>Style Guide</NavBar>
     <Card elevation={0}>
@@ -49,33 +49,33 @@ const StyleGuide = () => (
       <Card elevation={0} style={{display: 'inline-block'}}>
         <GridList style={{flexWrap: 'nowrap'}} cols={2} cellHeight={'auto'}>
           <GridListTile
-            style={getBoxStyle(colors.primary[500])}
+            style={getBoxStyle(props.theme.palette.primary[500])}
           >
             <GridListTileBar
               title="Primary"
               subtitle="#673ab7"
               position="bottom"
-              style={{background: colors.primary[500]}}
+              style={{background: props.theme.palette.primary[500]}}
             />
           </GridListTile>
           <GridListTile
-            style={getBoxStyle(colors.primary[300])}
+            style={getBoxStyle(props.theme.palette.primary[300])}
           >
             <GridListTileBar
               title="P - Light"
               subtitle="#9a67ea"
               position="bottom"
-              style={{background: colors.primary[300]}}
+              style={{background: props.theme.palette.primary[300]}}
             />
           </GridListTile>
           <GridListTile
-            style={getBoxStyle(colors.primary[900])}
+            style={getBoxStyle(props.theme.palette.primary[900])}
           >
             <GridListTileBar
               title="P - Dark"
               subtitle="#320b86"
               position="bottom"
-              style={{background: colors.primary[900]}}
+              style={{background: props.theme.palette.primary[900]}}
             />
           </GridListTile>
         </GridList>
@@ -87,40 +87,40 @@ const StyleGuide = () => (
       <Card elevation={0} style={{display: 'inline-block'}}>
         <GridList style={{flexWrap: 'nowrap'}} cols={2} padding={10} cellHeight={'auto'}>
           <GridListTile
-            style={getBoxStyle(colors.secondary[700])}
+            style={getBoxStyle(props.theme.palette.secondary[700])}
           >
             <GridListTileBar
               title="Secondary"
               subtitle="#62757f"
-              style={{background: colors.secondary[700]}}
+              style={{background: props.theme.palette.secondary[700]}}
             />
           </GridListTile>
           <GridListTile
-            style={getBoxStyle(colors.secondary[50])}
+            style={getBoxStyle(props.theme.palette.secondary[50])}
           >
             <GridListTileBar
               title="S - Lighter"
               subtitle="#eceff1"
-              style={{background: colors.secondary[50]}}
+              style={{background: props.theme.palette.secondary[50]}}
             />
           </GridListTile>
           <GridListTile
-            style={getBoxStyle(colors.secondary[300])}
+            style={getBoxStyle(props.theme.palette.secondary[300])}
           >
             <GridListTileBar
               title="S - Light"
               subtitle="#c1d5e0"
-              style={{background: colors.secondary[300]}}
+              style={{background: props.theme.palette.secondary[300]}}
             />
           </GridListTile>
 
           <GridListTile
-            style={getBoxStyle(colors.secondary[900])}
+            style={getBoxStyle(props.theme.palette.secondary[900])}
           >
             <GridListTileBar
               title="S - Darker"
               subtitle="#000a12"
-              style={{background: colors.secondary[900]}}
+              style={{background: props.theme.palette.secondary[900]}}
             />
           </GridListTile>
         </GridList>
@@ -131,39 +131,39 @@ const StyleGuide = () => (
       <Card elevation={0} style={{display: 'inline-block'}}>
         <GridList style={{flexWrap: 'nowrap'}} cols={2} padding={10} cellHeight={'auto'}>
           <GridListTile
-            style={getBoxStyle(colors.blue)}
+            style={getBoxStyle(props.theme.palette.blue)}
           >
             <GridListTileBar
               title="Blue"
               subtitle="#1565c0"
-              style={{background: colors.blue}}
+              style={{background: props.theme.palette.blue}}
             />
           </GridListTile>
           <GridListTile
-            style={getBoxStyle(colors.yellow)}
+            style={getBoxStyle(props.theme.palette.yellow)}
           >
             <GridListTileBar
               title="Yellow"
               subtitle="#fbc02d"
-              style={{background: colors.yellow}}
+              style={{background: props.theme.palette.yellow}}
             />
           </GridListTile>
           <GridListTile
-            style={getBoxStyle(colors.error[500])}
+            style={getBoxStyle(props.theme.palette.error[500])}
           >
             <GridListTileBar
               title="Red"
               subtitle="#d32f2f"
-              style={{background: colors.error[500]}}
+              style={{background: props.theme.palette.error[500]}}
             />
           </GridListTile>
           <GridListTile
-            style={getBoxStyle(colors.green)}
+            style={getBoxStyle(props.theme.palette.green)}
           >
             <GridListTileBar
               title="Green"
               subtitle="#388e3c"
-              style={{background: colors.green}}
+              style={{background: props.theme.palette.green}}
             />
           </GridListTile>
         </GridList>
@@ -172,4 +172,4 @@ const StyleGuide = () => (
   </div>
 )
 
-export default StyleGuide
+export default withTheme()(StyleGuide)
