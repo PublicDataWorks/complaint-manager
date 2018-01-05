@@ -21,7 +21,7 @@ const createCase = (caseDetails) => async (dispatch) => {
 
         return dispatch(createCaseSuccess(responseBody))
     } catch (e) {
-        dispatch(createCaseFailure(e))
+        dispatch(createCaseFailure())
     }
 }
 

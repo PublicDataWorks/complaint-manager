@@ -19,6 +19,8 @@ app.get('/health-check', (req, res) => {
             res.status(200).send({message: "Success"});
         })
         .catch(err => {
+            //TODO Log the error with severity and pipe to SumoLogic
+            console.log(err)
             res.status(500).send({message: "Failed to connect"});
         });
 });
