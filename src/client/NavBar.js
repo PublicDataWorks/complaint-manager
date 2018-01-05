@@ -2,6 +2,13 @@ import React from 'react'
 import HomeIcon from 'material-ui-icons/Home';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
 import {AppBar, IconButton, Toolbar, Typography} from 'material-ui'
+import StyledLink from "./StyledComponents/StyledLink";
+
+const styles = ({
+    flex:{
+        flex:1
+    }
+})
 
 const NavBar = (props) => {
     return (
@@ -15,12 +22,24 @@ const NavBar = (props) => {
                 type="title"
                 color="inherit"
             >
-                {props.children}
+                {props.children
+                  ? props.children
+                  : ""}
             </Typography>
+            <StyledLink
+              data-test="adminLink"
+              href="/admin"
+              style={styles.flex}
+            >Admin</StyledLink>
+              <Typography
+                data-test="userName"
+                type="title"
+                color="inherit"
+              > Name </Typography>
             <IconButton>
                 <AccountCircleIcon/>
             </IconButton>
-            <a data-test="adminLink" href="/admin">Admin</a>
+
         </Toolbar>
     </AppBar>)
 }

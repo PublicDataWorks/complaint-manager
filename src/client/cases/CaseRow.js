@@ -1,8 +1,14 @@
 import React from 'react'
 import { TableCell, TableRow } from 'material-ui'
 
+const styles = {
+  row: {
+    backgroundColor: 'white',
+  }
+}
+
 const CaseRow = ({caseDetails}) => (
-    <TableRow data-test={`caseRow${caseDetails.id}`} style={{backgroundColor: 'white'}}>
+    <TableRow data-test={`caseRow${caseDetails.id}`} style={styles.row}>
         <TableCell data-test="caseNumber">
             {caseDetails.id}
         </TableCell>

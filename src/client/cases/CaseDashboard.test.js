@@ -17,6 +17,7 @@ describe('CaseDashboard component', () => {
 
     test('should display title', () => {
         const pageTitle = caseDashboard.find('h2[data-test="pageTitle"]');
+
         expect(pageTitle.text()).toEqual('View All Cases')
     })
 })

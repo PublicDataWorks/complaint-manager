@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { withStyles } from 'material-ui/styles';
+import colors from "../globalStyling/colors";
+import {withStyles} from "material-ui/styles";
 
 const styles = theme => ({
   root: {
-    color: theme.palette.blue,
+    color: colors.blue,
     fontSize: "16pt",
     fontWeight: "medium",
     textDecoration: 'none'

@@ -3,13 +3,11 @@ import CasesTable from "./CasesTable";
 import CreateCaseDialog from "./CreateCaseDialog";
 import CaseCreationSnackbar from "./CaseCreationSnackbar";
 import NavBar from '../NavBar'
-import {withTheme} from "material-ui";
 
-const CaseDashboard = (props) => {
+const CaseDashboard = () => {
     return (
         <div>
             <NavBar>View All Cases</NavBar>
-            {console.log(props.theme)}
             <CreateCaseDialog/>
             <CasesTable/>
             <CaseCreationSnackbar/>
@@ -17,4 +15,4 @@ const CaseDashboard = (props) => {
     );
 }
 
-export default withTheme()(CaseDashboard)
+export default CaseDashboard

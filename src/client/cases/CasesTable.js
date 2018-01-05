@@ -5,6 +5,15 @@ import {connect} from "react-redux"
 import getCases from "./thunks/getCases"
 import CaseRow from './CaseRow'
 
+const styles = {
+  tableMargin: {
+    marginLeft: '5%',
+    marginRight: '5%'
+  },
+  labelMargin: {
+    marginLeft: '5%',
+  }
+}
 
 class CasesTable extends React.Component {
 
@@ -15,7 +24,11 @@ class CasesTable extends React.Component {
     render() {
         return (
             <div>
-                <Typography type="title">Results</Typography>
+                <Typography
+                  type="title"
+                  style={styles.labelMargin}>
+                  Results
+                </Typography>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -35,7 +48,7 @@ class CasesTable extends React.Component {
                     </TableHead>
                     <TableBody>
                         {this.props.cases.map(caseDetails => (
-                           <CaseRow key={caseDetails.id} caseDetails={caseDetails}/>
+                           <CaseRow key={caseDetails.id} caseDetails={caseDetails} style={styles.tableMargin}/>
                         ))}
                     </TableBody>
                 </Table>

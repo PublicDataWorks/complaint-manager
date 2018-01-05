@@ -5,6 +5,12 @@ import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} fr
 import CreateCaseForm from "./CreateCaseForm";
 import {CancelButton, SubmitButton} from "../StyledComponents/StyledButtons";
 
+const margin = {
+    marginLeft: '5%',
+    marginTop: '2%',
+    marginBottom: '2%'
+}
+
 class CreateCaseDialog extends React.Component {
     state = {
         dialogOpen: false
@@ -30,6 +36,7 @@ class CreateCaseDialog extends React.Component {
                 <SubmitButton
                     data-test="createCaseButton"
                     onClick={this.openDialog}
+                    style={margin}
                 >
                     + Create New Case
                 </SubmitButton>
