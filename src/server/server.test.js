@@ -91,6 +91,31 @@ describe('server', () => {
                     )
                 })
         })
-
     })
+
+  describe('POST /users', () => {
+    afterEach(async () => {
+      await models.cases.destroy({
+        where: {
+          firstName: 'Ron',
+          lastName: 'Swanson'
+        }
+      })
+    })
+
+    test('should create a user', async () => {
+      await request(app)
+        .post('/users')
+        .set('Content-Header', 'application/json')
+        .send({firstName: 'Ron', lastName: 'Swanson', email: 'rswanson@pawnee.gov'})
+        .expect(201)
+        .then(response => {
+          expect(response.body.id).not.toBeUndefined()
+          expect(response.body.firstName).toEqual('Ron')
+          expect(response.body.lastName).toEqual('Swanson')
+          expect(response.body.email).toEqual('rswanson@pawnee.gov')
+          expect(response.body.createdAt).not.toBeUndefined()
+        })
+    })
+  })
 })

@@ -21,6 +21,7 @@
     "lodash": "^4.17.4",
     "material-ui": "^1.0.0-beta.24",
     "material-ui-icons": "^1.0.0-beta.17",
+    "password-generator": "^2.2.0",
     "pg": "6.4.2",
     "pg-hstore": "^2.3.2",
     "react": "^16.2.0",
