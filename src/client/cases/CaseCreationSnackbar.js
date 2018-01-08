@@ -55,6 +55,7 @@ class CaseCreationSnackbar extends React.Component {
                 data-test="closeSnackbar"
                 key={'closeSnackbar'}
                 onClick={this.closeSnackbar}
+                color="inherit"
                 >
                     <CloseIcon/>
                 </IconButton>
