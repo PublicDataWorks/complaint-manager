@@ -2,8 +2,13 @@ import React from "react";
 import {connect} from "react-redux";
 import {Table, TableBody, TableCell, TableHead, TableRow, Typography} from "material-ui";
 import UserRow from "./UserRow";
+import getUsers from "./thunks/getUsers";
 
 class UsersTable extends React.Component {
+    componentWillMount() {
+        this.props.getUsers()
+    }
+
     render() {
         return (
             <Table>
@@ -36,5 +41,8 @@ const mapStateToProps = state => ({
     users: state.users.all
 })
 
+const mapDispatchToProps = {
+    getUsers
+}
 
-export default connect(mapStateToProps)(UsersTable)
+export default connect(mapStateToProps, mapDispatchToProps)(UsersTable)
