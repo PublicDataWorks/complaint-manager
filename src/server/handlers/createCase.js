@@ -10,6 +10,7 @@ const createCase = async (req, res) => {
         res.sendStatus(400)
       }
       else {
+        //TODO Check response.  If error, handle. If successful, return with 201
         const createdCase = await models.cases.create(req.body)
         res.send(201, createdCase)
       }

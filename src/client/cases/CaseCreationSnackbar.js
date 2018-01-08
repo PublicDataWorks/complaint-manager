@@ -1,7 +1,17 @@
 import React from 'react'
-import { IconButton, Snackbar } from 'material-ui'
+import {IconButton, Snackbar, withStyles, withTheme} from 'material-ui'
 import CloseIcon from 'material-ui-icons/Close'
 import { connect } from 'react-redux'
+import colors from "../globalStyling/colors";
+
+const styleSheet = {
+  error: {
+    background: colors.error[500]
+  },
+  success: {
+    background: colors.green
+  }
+};
 
 class CaseCreationSnackbar extends React.Component {
     state = {
@@ -28,6 +38,13 @@ class CaseCreationSnackbar extends React.Component {
             <Snackbar
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             open={this.state.snackbarOpen}
+            SnackbarContentProps={{
+              classes: {
+                root: this.props.caseCreationSuccess
+                        ? this.props.classes.success
+                        : this.props.classes.error
+              }
+            }}
             message={
                 <span data-test="createCaseBannerText">
                         {this.props.message}
@@ -51,8 +68,10 @@ class CaseCreationSnackbar extends React.Component {
 const mapStateToProps = state => {
     return {
         inProgress: state.cases.creation.inProgress,
-        message: state.cases.creation.message
+        message: state.cases.creation.message,
+        caseCreationSuccess: state.cases.creation.success
     }
 }
 
-export default connect(mapStateToProps)(CaseCreationSnackbar)
+const connectedComponent = connect(mapStateToProps)(CaseCreationSnackbar)
+export default withStyles(styleSheet, {withTheme: true})(connectedComponent)
