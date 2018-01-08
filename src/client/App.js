@@ -11,13 +11,12 @@ import { Provider } from 'react-redux'
 import store from './reduxStore'
 import UserDashboard from './users/UserDashboard'
 import {Paper} from "material-ui";
-import colors from "./globalStyling/colors";
 
 const App = () => (
     <Provider store={store}>
         <Router>
             <MuiThemeProvider theme={customTheme}>
-                <Paper elevation={0} style={{height: '100%', backgroundColor: colors.secondary[50]}}>
+                <Paper elevation={0} style={{height: '100%'}}>
                     <Route exact path="/" component={CaseDashboard} />
                     <Route exact path="/styleguide" component={StyleGuide}/>
                     <Route exact path="/admin" component={UserDashboard}/>
