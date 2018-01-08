@@ -4,12 +4,16 @@ import {reducer as formReducer} from 'redux-form'
 import thunk from 'redux-thunk'
 import allCasesReducer from './cases/allCasesReducer'
 import caseCreationReducer from "./cases/caseCreationReducer"
+import allUsersReducer from "./users/allUsersReducer";
 
 const rootReducer = combineReducers({
     form: formReducer,
     cases: combineReducers({
          all: allCasesReducer,
          creation: caseCreationReducer
+    }),
+    users: combineReducers({
+        all: allUsersReducer
     })
 })
 
