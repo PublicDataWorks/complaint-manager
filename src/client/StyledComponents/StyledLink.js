@@ -7,8 +7,8 @@ import {withStyles} from "material-ui/styles";
 const styles = theme => ({
   root: {
     color: colors.blue,
-    fontSize: "16pt",
-    fontWeight: "medium",
+    fontSize: "0.875rem",
+    fontWeight: 500,
     textDecoration: 'none'
   },
   primary: {
