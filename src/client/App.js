@@ -16,7 +16,7 @@ const App = () => (
     <Provider store={store}>
         <Router>
             <MuiThemeProvider theme={customTheme}>
-                <Paper elevation={0} style={{height: '100%'}}>
+                <Paper elevation={0} style={{height: '100%', overflowY: 'scroll'}}>
                     <Route exact path="/" component={CaseDashboard} />
                     <Route exact path="/styleguide" component={StyleGuide}/>
                     <Route exact path="/admin" component={UserDashboard}/>
