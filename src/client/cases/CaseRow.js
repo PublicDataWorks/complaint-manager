@@ -1,6 +1,7 @@
 import React from 'react'
 import {TableCell, TableRow} from 'material-ui'
 import colors from "../globalStyling/colors";
+import formatDate from "../formatDate";
 
 const styles = {
   row: {
@@ -35,15 +36,5 @@ const CaseRow = ({caseDetails}) => (
 )
 
 const formatName = (firstName, lastName) => `${lastName}, ${firstName[0]}.`
-
-const formatDate = dateString => {
-  const date = new Date(dateString)
-
-  return date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric'
-  })
-}
 
 export default CaseRow

@@ -1,0 +1,66 @@
+import React from 'react'
+import {Provider} from 'react-redux'
+import store from '../reduxStore'
+import {mount} from 'enzyme'
+import UsersTable from './UsersTable'
+import {createUserSuccess} from "./actionCreators";
+
+describe('users table', () => {
+    describe('displaying users', () => {
+        let table, userRow
+
+        const newUser = {
+            id: 100,
+            firstName: 'Fachtna',
+            lastName: 'Bogdan',
+            email: 'fbogdan@gmail.com',
+            createdAt: new Date(2015, 7, 25).toISOString()
+        }
+
+        const anotherUser = {
+            id: 101,
+            firstName: "Mauritius",
+            lastName: "Stanko",
+            email: "mstanko@gmail.com",
+            createdAt: new Date(2015, 7, 25).toISOString()
+        }
+
+        store.dispatch(createUserSuccess(newUser))
+        store.dispatch(createUserSuccess(anotherUser))
+
+        beforeEach(() => {
+
+            table = mount(
+                <Provider store={store}>
+                    <UsersTable/>
+                </Provider>
+            )
+
+            userRow = table.find('tr[data-test="userRow100"]')
+        })
+
+        test('should display name', () => {
+            const name = userRow.find('[data-test="userName"]')
+
+            expect(name.text()).toEqual('Fachtna Bogdan')
+        })
+
+        test('should display email', () => {
+            const email = userRow.find('[data-test="userEmail"]')
+
+            expect(email.text()).toEqual('fbogdan@gmail.com')
+        })
+
+        test('should display date added', () => {
+            const dateAdded = userRow.find('td[data-test="userDateAdded"]')
+
+            expect(dateAdded.text()).toEqual('Aug 25, 2015')
+        })
+
+        test('should display multiple users', () => {
+            const anotherUserRow = table.find('tr[data-test="userRow101"]')
+
+            expect(anotherUserRow.exists()).toEqual(true)
+        })
+    })
+})
