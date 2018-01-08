@@ -7,22 +7,28 @@ const styles = {
     height: 80,
     backgroundColor: 'white',
     borderTop: `8px solid ${colors.secondary[50]}`,
-    borderBottom: `8px solid ${colors.secondary[50]}`
-}
+    borderBottom: `8px solid ${colors.secondary[50]}`,
+    width: '100%',
+    overflowX: 'scroll'
+  },
+  cell:{
+    padding:'0%',
+    textAlign: 'center'
+  },
 }
 
 const CaseRow = ({caseDetails}) => (
   <TableRow data-test={`caseRow${caseDetails.id}`} style={styles.row}>
-    <TableCell data-test="caseNumber">
+    <TableCell data-test="caseNumber" style={styles.cell}>
       {caseDetails.id}
     </TableCell>
-    <TableCell data-test="caseStatus">
+    <TableCell data-test="caseStatus" style={styles.cell}>
       {caseDetails.status}
     </TableCell>
-    <TableCell data-test="caseName">
+    <TableCell data-test="caseName" style={styles.cell}>
       {formatName(caseDetails.firstName, caseDetails.lastName)}
     </TableCell>
-    <TableCell data-test="caseCreatedAt">
+    <TableCell data-test="caseCreatedAt" style={styles.cell}>
       {formatDate(caseDetails.createdAt)}
     </TableCell>
   </TableRow>

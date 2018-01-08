@@ -4,15 +4,19 @@ import AccountCircleIcon from 'material-ui-icons/AccountCircle';
 import {AppBar, IconButton, Toolbar, Typography} from 'material-ui'
 import StyledLink from "./StyledComponents/StyledLink";
 
-const styles = ({
+const styles = {
     flex:{
         flex:1
+    },
+    appBar:{
+        width: '100%',
+        overflowX: 'scroll'
     }
-})
+}
 
 const NavBar = (props) => {
     return (
-    <AppBar position="static">
+    <AppBar position="static" style={styles.appBar}>
         <Toolbar>
             <IconButton>
                 <HomeIcon/>
