@@ -1,5 +1,5 @@
 import allUsersReducer from "./allUsersReducer";
-import {createUserSuccess} from "./actionCreators";
+import {createUserSuccess, getUsersSuccess} from "./actionCreators";
 
 describe('allUsersReducer', () => {
     test('should default to empty array', () => {
@@ -14,6 +14,16 @@ describe('allUsersReducer', () => {
             const newState = allUsersReducer([], action)
 
             expect(newState).toEqual(['user details'])
+        })
+    })
+
+    describe('GET_USERS_SUCCESS', () => {
+        test('should replace all users in state', () =>{
+            let currentState = ['Sal', 'Lily']
+            let expectedState = ['Ed', 'Brian']
+            let newState = allUsersReducer(currentState, getUsersSuccess(expectedState))
+
+            expect(newState).toEqual(expectedState)
         })
     })
 })

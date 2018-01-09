@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 
 const createCase = require("./handlers/createCase");
 const getCases = require("./handlers/getCases");
-const createUser= require("./handlers/createUser");
+const createUser = require("./handlers/createUser");
+const getUsers = require("./handlers/getUsers");
 const errorHandler = require("./handlers/errorHandler");
 
 const app = express();
@@ -29,6 +30,7 @@ app.get('/health-check', (req, res) => {
 app.post('/cases', createCase);
 app.get('/cases', getCases);
 app.post('/users', createUser);
+app.get('/users', getUsers);
 
 app.get('*', function (req, res) {
     res.sendFile(path.join(buildDirectory, 'index.html'));

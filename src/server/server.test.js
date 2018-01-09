@@ -96,7 +96,7 @@ describe('server', () => {
 
     describe('POST /users', () => {
         afterEach(async () => {
-            await models.cases.destroy({
+            await models.users.destroy({
                 where: {
                     firstName: 'Ron',
                     lastName: 'Swanson'
@@ -117,6 +117,63 @@ describe('server', () => {
                     expect(response.body.email).toEqual('rswanson@pawnee.gov')
                     expect(response.body.createdAt).not.toBeUndefined()
                     expect(response.body.password).toBeUndefined()
+                })
+        })
+    })
+
+    describe('GET /users', () => {
+        let seededUsers
+
+        beforeEach(async () => {
+            seededUsers = await models.users.bulkCreate([{
+                firstName: 'Carlman',
+                lastName: 'Domen',
+                email: 'cdomen@gmail.com',
+                password: 'password123'
+            }, {
+                firstName: 'Ellery',
+                lastName: 'Salome',
+                email: 'esalome@gmail.com',
+                password: 'password123'
+            }], {
+                returning: true
+            })
+        })
+
+        afterEach(async () => {
+            const seededIds = seededUsers.map(user => user.id)
+
+            await models.users.destroy({
+                where: {
+                    id: {
+                        [Op.in]: seededIds
+                    }
+                }
+            })
+        })
+
+        test('should get all users', async () => {
+            await request(app)
+                .get('/users')
+                .set('Content-Header', 'application/json')
+                .expect(200)
+                .then(response => {
+                    expect(response.body.users).toEqual(
+                        expect.arrayContaining([
+                            expect.objectContaining({
+                                firstName: seededUsers[0].firstName,
+                                lastName: seededUsers[0].lastName,
+                                email: seededUsers[0].email,
+                                createdAt: seededUsers[0].createdAt.toISOString()
+                            }),
+                            expect.objectContaining({
+                                firstName: seededUsers[1].firstName,
+                                lastName: seededUsers[1].lastName,
+                                email: seededUsers[1].email,
+                                createdAt: seededUsers[1].createdAt.toISOString()
+                            })
+                        ])
+                    )
                 })
         })
     })
