@@ -16,6 +16,7 @@ const CreateCaseForm = () => {
                 label="First Name"
                 inputProps={{
                     maxLength: 25,
+                    autoComplete: "off",
                     "data-test": "firstNameInput"
                 }}
                 style={offSet}
@@ -26,6 +27,7 @@ const CreateCaseForm = () => {
                 label="Last Name"
                 inputProps={{
                     maxLength: 25,
+                    autoComplete: "off",
                     "data-test": "lastNameInput"
                 }}
                 style={offSet}
@@ -35,6 +37,9 @@ const CreateCaseForm = () => {
 };
 
 const dispatchCreateCase = (values, dispatch) => {
+    values.firstName = values.firstName.trim()
+    values.lastName = values.lastName.trim()
+
     dispatch(createCase(values))
 }
 

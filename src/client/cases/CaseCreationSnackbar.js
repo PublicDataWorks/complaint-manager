@@ -1,5 +1,5 @@
 import React from 'react'
-import {IconButton, Snackbar, withStyles, withTheme} from 'material-ui'
+import {IconButton, Snackbar, withStyles} from 'material-ui'
 import CloseIcon from 'material-ui-icons/Close'
 import { connect } from 'react-redux'
 import colors from "../globalStyling/colors";

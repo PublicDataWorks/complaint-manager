@@ -1,5 +1,5 @@
 import React from 'react'
-import { Provider } from 'react-redux'
+import {Provider} from 'react-redux'
 import store from "../reduxStore";
 import {mount} from "enzyme/build/index";
 import {createCaseSuccess} from "./actionCreators";
@@ -24,6 +24,7 @@ describe('CreateCaseDialog component', () => {
         )
 
         dispatchSpy = jest.spyOn(store, 'dispatch')
+        dispatchSpy.mockClear()
 
         const createCaseButton = dialog.find('button[data-test="createCaseButton"]')
         createCaseButton.simulate('click')
@@ -64,8 +65,34 @@ describe('CreateCaseDialog component', () => {
         expect(firstName.props().maxLength).toEqual(25)
     })
 
+    test('first name should not use autoComplete', () => {
+        const firstName = dialog.find('input[data-test="firstNameInput"]')
+        expect(firstName.props().autoComplete).toEqual('off')
+    })
+
     test('last name should have max length of 25 characters', () => {
         const lastName = dialog.find('input[data-test="lastNameInput"]')
         expect(lastName.props().maxLength).toEqual(25)
+    })
+
+    test('last name should not use autoComplete', () => {
+        const lastName = dialog.find('input[data-test="lastNameInput"]')
+        expect(lastName.props().autoComplete).toEqual('off')
+    })
+
+    test('whitespace should be trimmed from fields prior to sending', () => {
+        const firstName = dialog.find('input[data-test="firstNameInput"]')
+        const lastName = dialog.find('input[data-test="lastNameInput"]')
+        const submitButton = dialog.find('button[data-test="submitCase"]')
+
+        firstName.simulate('change', {target: {value: '   Fats   '}})
+        lastName.simulate('change', {target: {value: '   Domino   '}})
+        submitButton.simulate('click')
+
+        expect(dispatchSpy).toHaveBeenCalledWith(
+            createCase({
+                firstName: 'Fats',
+                lastName: 'Domino'
+            }))
     })
 })
