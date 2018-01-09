@@ -1,23 +1,19 @@
-import React from 'react';
-import {mount} from 'enzyme';
-import {Provider} from 'react-redux'
-import CaseDashboard from "./CaseDashboard";
-import store from "../reduxStore"
+import React from 'react'
+import { shallow } from 'enzyme'
+import CaseDashboard from './CaseDashboard'
+import NavBar from '../NavBar'
 
 describe('CaseDashboard component', () => {
-    let caseDashboard;
+    let caseDashboard
 
     beforeEach(() => {
-        caseDashboard = mount(
-            <Provider store={store}>
-                <CaseDashboard/>
-            </Provider>
-        );
+        caseDashboard = shallow(
+            <CaseDashboard/>
+        )
     })
 
-    test('should display title', () => {
-        const pageTitle = caseDashboard.find('h2[data-test="pageTitle"]');
-
-        expect(pageTitle.text()).toEqual('View All Cases')
+    test('should display navbar with title', () => {
+        const navBar = caseDashboard.find(NavBar)
+        expect(navBar.contains('View All Cases')).toEqual(true)
     })
 })
