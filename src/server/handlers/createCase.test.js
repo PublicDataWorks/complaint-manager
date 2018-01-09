@@ -24,7 +24,7 @@ describe('createCase handler', () => {
     })
 
     test('should create case in database', () => {
-        createCase(request, response)
+        createCase(request, response, next)
         expect(models.cases.create).toHaveBeenCalledWith(request.body)
     })
 
@@ -33,7 +33,7 @@ describe('createCase handler', () => {
         models.cases.create.mockImplementation(() =>
             Promise.resolve(createdCase))
 
-        await createCase(request, response)
+        await createCase(request, response, next)
 
         expect(response.statusCode).toEqual(201)
         expect(response._getData()).toEqual(createdCase)
@@ -49,7 +49,7 @@ describe('createCase handler', () => {
             }
         })
 
-        await createCase(request, response)
+        await createCase(request, response, next)
 
         expect(response.statusCode).toEqual(400)
     })
@@ -63,14 +63,15 @@ describe('createCase handler', () => {
             }
         })
 
-        await createCase(request, response)
+        await createCase(request, response, next)
 
         expect(response.statusCode).toEqual(400)
     })
 
     test('should call next when case creation fails', async () => {
         const error = new Error('DB Down!')
-        models.cases.create.mockImplementation(() => Promise.reject(error))
+        models.cases.create.mockImplementation(() =>
+            Promise.reject(error))
 
         request = httpMocks.createRequest({
             method: 'POST',
