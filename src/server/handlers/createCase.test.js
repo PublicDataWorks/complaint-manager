@@ -9,7 +9,7 @@ jest.mock('../models', () => ({
 }))
 
 describe('createCase handler', () => {
-    let request, response
+    let request, response, next
 
     beforeEach(() => {
         request = httpMocks.createRequest({
@@ -20,6 +20,7 @@ describe('createCase handler', () => {
             }
         })
         response = httpMocks.createResponse()
+        next = jest.fn()
     })
 
     test('should create case in database', () => {
@@ -65,5 +66,22 @@ describe('createCase handler', () => {
         await createCase(request, response)
 
         expect(response.statusCode).toEqual(400)
+    })
+
+    test('should call next when case creation fails', async () => {
+        const error = new Error('DB Down!')
+        models.cases.create.mockImplementation(() => Promise.reject(error))
+
+        request = httpMocks.createRequest({
+            method: 'POST',
+            body: {
+                firstName: "Valid",
+                lastName: "Name"
+            }
+        })
+
+        await createCase(request, response, next)
+
+        expect(next).toHaveBeenCalledWith(error)
     })
 })

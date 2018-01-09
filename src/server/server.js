@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const createCase = require("./handlers/createCase");
 const getCases = require("./handlers/getCases");
 const createUser= require("./handlers/createUser");
+const errorHandler = require("./handlers/errorHandler");
 
 const app = express();
 const buildDirectory = path.join(__dirname, '../../build');
@@ -33,5 +34,6 @@ app.get('*', function (req, res) {
     res.sendFile(path.join(buildDirectory, 'index.html'));
 });
 
-// app.use(errorHandler) ???
+app.use(errorHandler)
+
 module.exports = app;
