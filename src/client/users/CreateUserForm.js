@@ -8,27 +8,27 @@ const CreateUserForm = () => {
         <form data-test="createUserForm">
             <Field
                 name="firstName"
+                component={TextFieldWrapper}
                 label="First Name"
-                InputProps={{
+                inputProps={{
                     "data-test": "firstNameInput"
                 }}
-                component={TextFieldWrapper}
             />
             <Field
-                InputProps={{
+                name="lastName"
+                component={TextFieldWrapper}
+                label="Last Name"
+                inputProps={{
                     "data-test": "lastNameInput"
                 }}
-                name="lastName"
-                label="Last Name"
-                component={TextFieldWrapper}
             />
             <Field
-                InputProps={{
+                name="email"
+                component={TextFieldWrapper}
+                label="Email"
+                inputProps={{
                     "data-test": "emailInput"
                 }}
-                name="email"
-                label="Email"
-                component={TextFieldWrapper}
             />
         </form>
     )

@@ -12,20 +12,22 @@ const CreateCaseForm = () => {
         <form data-test="createCaseForm">
             <Field
                 name="firstName"
+                component={TextFieldWrapper}
                 label="First Name"
-                InputProps={{
+                inputProps={{
+                    maxLength: 25,
                     "data-test": "firstNameInput"
                 }}
-                component={TextFieldWrapper}
                 style={offSet}
             />
             <Field
-                InputProps={{
+                name="lastName"
+                component={TextFieldWrapper}
+                label="Last Name"
+                inputProps={{
+                    maxLength: 25,
                     "data-test": "lastNameInput"
                 }}
-                name="lastName"
-                label="Last Name"
-                component={TextFieldWrapper}
                 style={offSet}
             />
         </form>

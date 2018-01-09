@@ -50,9 +50,9 @@ describe('CreateUserDialog', () => {
             email: 'ljenkins@thoughtworks.com'
         }
 
-        const firstName = dialog.find('[data-test="firstNameInput"] > input')
-        const lastName = dialog.find('[data-test="lastNameInput"] > input')
-        const email = dialog.find('[data-test="emailInput"] > input')
+        const firstName = dialog.find('input[data-test="firstNameInput"]')
+        const lastName = dialog.find('input[data-test="lastNameInput"]')
+        const email = dialog.find('input[data-test="emailInput"]')
         const submitButton = dialog.find('button[data-test="submitUser"]')
 
         firstName.simulate('change', {target: {value: userDetails.firstName}})

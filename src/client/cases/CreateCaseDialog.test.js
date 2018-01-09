@@ -35,9 +35,8 @@ describe('CreateCaseDialog component', () => {
             lastName: 'Domino'
         }
 
-        const form = dialog.find('[data-test="createCaseForm"]')
-        const firstName = form.find('[data-test="firstNameInput"] > input')
-        const lastName = form.find('[data-test="lastNameInput"] > input')
+        const firstName = dialog.find('input[data-test="firstNameInput"]')
+        const lastName = dialog.find('input[data-test="lastNameInput"]')
         const submitButton = dialog.find('button[data-test="submitCase"]')
 
         firstName.simulate('change', {target: {value: caseDetails.firstName}})
