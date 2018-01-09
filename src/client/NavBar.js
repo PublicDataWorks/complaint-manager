@@ -18,7 +18,7 @@ const NavBar = (props) => {
     return (
     <AppBar position="static" style={styles.appBar}>
         <Toolbar>
-            <IconButton>
+            <IconButton color="contrast">
                 <HomeIcon/>
             </IconButton>
             <Typography
@@ -40,7 +40,7 @@ const NavBar = (props) => {
                 type="title"
                 color="inherit"
               > Name </Typography>
-            <IconButton>
+            <IconButton color="contrast">
                 <AccountCircleIcon/>
             </IconButton>
 
