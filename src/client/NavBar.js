@@ -18,7 +18,7 @@ const NavBar = (props) => {
     return (
     <AppBar position="static" style={styles.appBar}>
         <Toolbar>
-            <IconButton color="contrast">
+            <IconButton color="contrast" href="/">
                 <HomeIcon/>
             </IconButton>
             <Typography
