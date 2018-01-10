@@ -79,20 +79,4 @@ describe('CreateCaseDialog component', () => {
         const lastName = dialog.find('input[data-test="lastNameInput"]')
         expect(lastName.props().autoComplete).toEqual('off')
     })
-
-    test('whitespace should be trimmed from fields prior to sending', () => {
-        const firstName = dialog.find('input[data-test="firstNameInput"]')
-        const lastName = dialog.find('input[data-test="lastNameInput"]')
-        const submitButton = dialog.find('button[data-test="submitCase"]')
-
-        firstName.simulate('change', {target: {value: '   Fats   '}})
-        lastName.simulate('change', {target: {value: '   Domino   '}})
-        submitButton.simulate('click')
-
-        expect(dispatchSpy).toHaveBeenCalledWith(
-            createCase({
-                firstName: 'Fats',
-                lastName: 'Domino'
-            }))
-    })
 })

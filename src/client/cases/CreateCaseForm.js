@@ -37,9 +37,6 @@ const CreateCaseForm = () => {
 };
 
 const dispatchCreateCase = (values, dispatch) => {
-    values.firstName = values.firstName.trim()
-    values.lastName = values.lastName.trim()
-
     dispatch(createCase(values))
 }
 
