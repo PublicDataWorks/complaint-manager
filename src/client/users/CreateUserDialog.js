@@ -10,6 +10,12 @@ class CreateUserDialog extends React.Component {
         dialogOpen: false
     }
 
+    componentWillReceiveProps = (nextProps) =>{
+        if (!this.props.userCreationSuccess && nextProps.userCreationSuccess){
+            this.closeDialog()
+        }
+    }
+
     openDialog = () => {
         this.setState({dialogOpen: true})
     }
@@ -64,4 +70,10 @@ class CreateUserDialog extends React.Component {
     }
 }
 
-export default connect()(CreateUserDialog)
+const mapStateToProps = state =>{
+    return{
+        userCreationSuccess: state.users.creation.success
+    }
+}
+
+export default connect(mapStateToProps)(CreateUserDialog)

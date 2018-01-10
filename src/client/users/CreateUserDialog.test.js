@@ -1,10 +1,11 @@
 import React from 'react'
 import CreateUserDialog from './CreateUserDialog'
-import {mount, shallow} from 'enzyme'
+import {mount} from 'enzyme'
 import {expectEventuallyNotToExist} from '../../testHelpers'
 import {Provider} from 'react-redux'
 import store from "../reduxStore";
 import createUser from "./thunks/createUser";
+import {createUserSuccess} from "./actionCreators";
 
 jest.mock('./thunks/createUser', () => (userDetails) => ({
     type: 'MOCK_CREATE_USER_THUNK',
@@ -63,4 +64,12 @@ describe('CreateUserDialog', () => {
         expect(dispatchSpy).toHaveBeenCalledWith(createUser(userDetails))
     })
 
+    test('should dismiss dialog after successful user creation', async () => {
+        const createUserButton = dialog.find('button[data-test="createUserButton"]')
+        createUserButton.simulate('click')
+
+        store.dispatch(createUserSuccess({someUserProp: 'some user'}))
+
+        await expectEventuallyNotToExist(dialog, '[data-test="createUserDialogTitle"]')
+    })
 })

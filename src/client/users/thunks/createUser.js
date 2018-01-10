@@ -1,8 +1,10 @@
-import {createUserFailure, createUserSuccess} from "../actionCreators";
+import {createUserFailure, createUserSuccess, requestUserCreation} from "../actionCreators";
 const testing = process.env.NODE_ENV === 'test'
 const hostname = testing ? 'http://localhost' : ''
 
 const createUser = (user) => async (dispatch) => {
+
+    dispatch(requestUserCreation())
 
     try {
         const response = await fetch(`${hostname}/users`, {

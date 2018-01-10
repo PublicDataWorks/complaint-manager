@@ -1,10 +1,14 @@
 export const createUserSuccess = (user) => ({
-    type: 'CREATE_USER_SUCCESS',
+    type: 'USER_CREATED_SUCCESS',
     user
 })
 
+export const requestUserCreation = () => ({
+    type: 'USER_CREATION_REQUESTED'
+})
+
 export const createUserFailure = () => ({
-    type: 'CREATE_USER_FAILURE'
+    type: 'USER_CREATION_FAILED'
 })
 
 export const getUsersSuccess = (users) => ({

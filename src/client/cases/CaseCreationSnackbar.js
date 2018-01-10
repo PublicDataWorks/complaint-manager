@@ -1,5 +1,5 @@
 import React from 'react'
-import {IconButton, Snackbar, withStyles} from 'material-ui'
+import {IconButton, Snackbar, withStyles } from 'material-ui'
 import CloseIcon from 'material-ui-icons/Close'
 import { connect } from 'react-redux'
 import colors from "../globalStyling/colors";
@@ -75,4 +75,4 @@ const mapStateToProps = state => {
 }
 
 const connectedComponent = connect(mapStateToProps)(CaseCreationSnackbar)
-export default withStyles(styleSheet, {withTheme: true})(connectedComponent)
+export default withStyles(styleSheet)(connectedComponent)
