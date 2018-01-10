@@ -11,6 +11,7 @@ import { Provider } from 'react-redux'
 import store from './reduxStore'
 import UserDashboard from './users/UserDashboard'
 import {Paper} from "material-ui";
+import CaseDetails from "./caseDetails/CaseDetails";
 
 const App = () => (
     <Provider store={store}>
@@ -18,6 +19,8 @@ const App = () => (
             <MuiThemeProvider theme={customTheme}>
                 <Paper elevation={0} style={{height: '100%', overflowY: 'scroll'}}>
                     <Route exact path="/" component={CaseDashboard} />
+                    <Route exact path="/case/:id" component={CaseDetails}/>
+                    {/*TODO Is there a good way to test this?*/}
                     <Route exact path="/styleguide" component={StyleGuide}/>
                     <Route exact path="/admin" component={UserDashboard}/>
                 </Paper>

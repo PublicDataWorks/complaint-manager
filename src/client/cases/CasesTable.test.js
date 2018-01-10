@@ -1,10 +1,11 @@
 import CasesTable from './CasesTable'
 import React from 'react'
 import {mount} from "enzyme/build/index"
-import { Provider } from 'react-redux'
+import {Provider} from 'react-redux'
 import store from "../reduxStore"
 import getCases from "./thunks/getCases";
-import { getCasesSuccess } from './actionCreators'
+import {getCasesSuccess} from './actionCreators'
+import {BrowserRouter as Router} from 'react-router-dom'
 
 jest.mock('./thunks/getCases', () => () => ({
     type: 'MOCK_GET_CASES_THUNK'
@@ -33,7 +34,9 @@ describe('cases table', () => {
         store.dispatch(getCasesSuccess(cases))
         table = mount(
             <Provider store={store}>
-                <CasesTable/>
+                <Router>
+                    <CasesTable/>
+                </Router>
             </Provider>
         )
     })
@@ -79,6 +82,21 @@ describe('cases table', () => {
         test('should display created at date', () => {
             const createdAt = caseRow.find('td[data-test="caseCreatedAt"]')
             expect(createdAt.text()).toEqual('Sep 13, 2015')
+        })
+
+        test('should display an open case button', () => {
+            const openCaseButton = caseRow.find('[data-test="openCaseButton"]')
+            expect(openCaseButton.exists()).toEqual(true)
+        })
+
+        test.skip('should display open case button to the far right of the row', () => {
+            const openCaseCell = caseRow.find('td[data-test="openCase"]')
+            expect(openCaseCell).toHaveProperty('style.textAlign','right')
+        })
+
+        test('open case button should refer to the case detail page', () => {
+            const openCaseButton = caseRow.find('a[data-test="openCaseButton"]')
+            expect(openCaseButton.prop('href')).toEqual('/case/17')
         })
 
         test('should display multiple cases', () => {

@@ -2,6 +2,8 @@ import React from 'react'
 import {TableCell, TableRow} from 'material-ui'
 import colors from "../globalStyling/colors";
 import formatDate from "../formatDate";
+import {Link} from "react-router-dom";
+import LinkButton from "../StyledComponents/LinkButton";
 
 const styles = {
   row: {
@@ -32,6 +34,9 @@ const CaseRow = ({caseDetails}) => (
     <TableCell data-test="caseCreatedAt" style={styles.cell}>
       {formatDate(caseDetails.createdAt)}
     </TableCell>
+      <TableCell data-test="openCase" style={{...styles.cell, textAlign: 'right'}}>
+          <LinkButton component={Link} to={`/case/${caseDetails.id}`} data-test="openCaseButton">Open Case</LinkButton>
+      </TableCell>
   </TableRow>
 )
 

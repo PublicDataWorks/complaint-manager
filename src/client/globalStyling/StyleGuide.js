@@ -6,6 +6,7 @@ import NavBar from '../NavBar'
 import StyledLink from '../StyledComponents/StyledLink'
 import {CancelButton, SubmitButton} from '../StyledComponents/StyledButtons'
 import {withTheme} from "material-ui";
+import LinkButton from "../StyledComponents/LinkButton";
 
 const getBoxStyle = (color) => (
   {
@@ -165,7 +166,8 @@ const StyleGuide = (props) => (
       <Typography type='title' style={{marginLeft: 20}}>BUTTONS</Typography>
       <CardContent>
         <CancelButton style={{marginRight: 20}}>Cancel Button</CancelButton>
-        <SubmitButton>Submit Button</SubmitButton>
+        <SubmitButton style={{marginRight: 20}}>Submit Button</SubmitButton>
+        <LinkButton>Link Button</LinkButton>
       </CardContent>
     </Card>
   </div>
