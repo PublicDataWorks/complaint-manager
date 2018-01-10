@@ -17,9 +17,9 @@ const createCase = (caseDetails) => async (dispatch) => {
 
         if (response.status < 200 || response.status > 299) throw response.status
 
-        const responseBody = await response.json()
+        const createdCase = await response.json()
 
-        return dispatch(createCaseSuccess(responseBody))
+        return dispatch(createCaseSuccess(createdCase))
     } catch (e) {
         dispatch(createCaseFailure())
     }

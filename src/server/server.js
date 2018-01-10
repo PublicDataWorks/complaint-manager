@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
-const models = require('./models');
 const bodyParser = require('body-parser');
 
+const healthCheck = require("./handlers/healthCheck");
 const createCase = require("./handlers/createCase");
 const getCases = require("./handlers/getCases");
 const createUser = require("./handlers/createUser");
@@ -15,18 +15,7 @@ const buildDirectory = path.join(__dirname, '../../build');
 app.use(bodyParser.json());
 app.use(express.static(buildDirectory));
 
-app.get('/health-check', (req, res) => {
-    models.cases.sequelize
-        .authenticate()
-        .then(() => {
-            res.status(200).send({message: "Success"});
-        })
-        .catch(err => {
-            //TODO Log the error with severity and pipe to SumoLogic
-            res.status(500).send({message: "Failed to connect"});
-        });
-});
-
+app.get('/health-check', healthCheck);
 app.post('/cases', createCase);
 app.get('/cases', getCases);
 app.post('/users', createUser);
