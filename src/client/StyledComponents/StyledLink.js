@@ -1,13 +1,9 @@
 import React from 'react';
 import {withStyles} from "material-ui/styles";
+import themeStyles from '../globalStyling/styles'
 
-const styles = theme => ({
-  root: {
-    color: theme.palette.blue,
-    fontSize: "0.875rem",
-    fontWeight: 500,
-    textDecoration: 'none'
-  }
+const styles = () => ({
+  root: themeStyles.link
 });
 
 function StyledLink(props) {
@@ -22,4 +18,4 @@ function StyledLink(props) {
     </a>
   );
 }
-export default withStyles(styles, {withTheme: true})(StyledLink)
+export default withStyles(styles)(StyledLink)

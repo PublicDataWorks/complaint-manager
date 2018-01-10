@@ -5,7 +5,7 @@ import {connect} from "react-redux"
 import getCases from "./thunks/getCases"
 import CaseRow from './CaseRow'
 import {Paper} from "material-ui";
-import colors from "../globalStyling/colors";
+import themeStyles from '../globalStyling/styles'
 
 const styles = {
     cell:{
@@ -13,7 +13,7 @@ const styles = {
         textAlign: 'center'
     },
     tableHead: {
-        backgroundColor: colors.secondary[50]
+        backgroundColor: themeStyles.colors.secondary[50]
     },
     tableMargin: {
         marginLeft: '5%',

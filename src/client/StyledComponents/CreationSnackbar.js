@@ -1,14 +1,14 @@
 import React from 'react'
 import {IconButton, Snackbar, withStyles } from 'material-ui'
 import CloseIcon from 'material-ui-icons/Close'
-import colors from "../globalStyling/colors";
+import themeStyles from "../globalStyling/styles";
 
 const styleSheet = {
     error: {
-        background: colors.error[500]
+        background: themeStyles.colors.error[500]
     },
     success: {
-        background: colors.green
+        background: themeStyles.colors.green
     }
 };
 

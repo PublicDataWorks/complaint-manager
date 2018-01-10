@@ -1,16 +1,16 @@
 import React from 'react'
 import {TableCell, TableRow} from 'material-ui'
-import colors from "../globalStyling/colors";
 import formatDate from "../formatDate";
 import {Link} from "react-router-dom";
 import LinkButton from "../StyledComponents/LinkButton";
+import themeStyles from "../globalStyling/styles";
 
 const styles = {
   row: {
     height: 80,
     backgroundColor: 'white',
-    borderTop: `8px solid ${colors.secondary[50]}`,
-    borderBottom: `8px solid ${colors.secondary[50]}`,
+    borderTop: `8px solid ${themeStyles.colors.secondary[50]}`,
+    borderBottom: `8px solid ${themeStyles.colors.secondary[50]}`,
     width: '100%',
     overflowX: 'scroll'
   },

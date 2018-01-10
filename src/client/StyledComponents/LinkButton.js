@@ -1,13 +1,9 @@
-import {Button, withStyles, withTheme} from "material-ui";
+import {Button, withStyles} from "material-ui";
 import React from "react";
+import themeStyles from '../globalStyling/styles'
 
-const styles = theme => ({
-    button: {
-        color: theme.palette.blue,
-        fontSize: "0.875rem",
-        fontWeight: 500,
-        textDecoration: 'none'
-    }
+const styles = () => ({
+    button: themeStyles.link
 })
 
 const LinkButton = ({classes, children, ...other}) => (
@@ -16,4 +12,4 @@ const LinkButton = ({classes, children, ...other}) => (
         {...other}>{children}</Button>
 )
 
-export default withStyles(styles, {withTheme: true})(LinkButton)
+export default withStyles(styles)(LinkButton)
