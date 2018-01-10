@@ -1,8 +1,8 @@
 import React from 'react'
-import NavBar from '../NavBar'
-import CreateUserDialog from './CreateUserDialog'
-import UsersTable from "./UsersTable";
-import UserCreationSnackbar from "./UserCreationSnackbar";
+import NavBar from '../sharedComponents/NavBar'
+import CreateUserDialog from './CreateUserDialog/CreateUserDialog'
+import UsersTable from "./UsersTable/UsersTable";
+import UserCreationSnackbar from "./UserCreationSnackbar/UserCreationSnackbar";
 
 const UserDashboard = () => {
     return (

@@ -2,11 +2,11 @@ import React from 'react'
 import Card, {CardContent} from 'material-ui/Card';
 import GridList, {GridListTileBar, GridListTile} from 'material-ui/GridList'
 import Typography from 'material-ui/Typography'
-import NavBar from '../NavBar'
-import StyledLink from '../StyledComponents/StyledLink'
-import {CancelButton, SubmitButton} from '../StyledComponents/StyledButtons'
+import NavBar from '../sharedComponents/NavBar'
+import StyledLink from '../sharedComponents/StyledLink'
+import {CancelButton, SubmitButton} from '../sharedComponents/StyledButtons'
 import {withTheme} from "material-ui";
-import LinkButton from "../StyledComponents/LinkButton";
+import LinkButton from "../sharedComponents/LinkButton";
 
 const getBoxStyle = (color) => (
   {

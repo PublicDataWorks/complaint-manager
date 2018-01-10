@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import CaseDashboard from './CaseDashboard'
-import NavBar from '../NavBar'
+import NavBar from '../sharedComponents/NavBar'
 
 describe('CaseDashboard component', () => {
     let caseDashboard

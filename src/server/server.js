@@ -3,10 +3,10 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const healthCheck = require("./handlers/healthCheck");
-const createCase = require("./handlers/createCase");
-const getCases = require("./handlers/getCases");
-const createUser = require("./handlers/createUser");
-const getUsers = require("./handlers/getUsers");
+const createCase = require("./handlers/cases/createCase");
+const getCases = require("./handlers/cases/getCases");
+const createUser = require("./handlers/users/createUser");
+const getUsers = require("./handlers/users/getUsers");
 const errorHandler = require("./handlers/errorHandler");
 
 const app = express();
