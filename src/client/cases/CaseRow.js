@@ -18,6 +18,10 @@ const styles = {
     padding:'0%',
     textAlign: 'center'
   },
+  buttonCell:{
+    padding: '2%',
+    textAlign: 'right'
+  },
 }
 
 const CaseRow = ({caseDetails}) => (
@@ -34,7 +38,7 @@ const CaseRow = ({caseDetails}) => (
     <TableCell data-test="caseCreatedAt" style={styles.cell}>
       {formatDate(caseDetails.createdAt)}
     </TableCell>
-      <TableCell data-test="openCase" style={{...styles.cell, textAlign: 'right'}}>
+      <TableCell data-test="openCase" style={styles.buttonCell}>
           <LinkButton component={Link} to={`/case/${caseDetails.id}`} data-test="openCaseButton">Open Case</LinkButton>
       </TableCell>
   </TableRow>
