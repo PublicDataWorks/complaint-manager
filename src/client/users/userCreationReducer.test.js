@@ -1,5 +1,5 @@
 import userCreationReducer from './userCreationReducer'
-import {requestUserCreation, createUserSuccess} from './actionCreators'
+import {requestUserCreation, createUserSuccess, createUserFailure} from './actionCreators'
 
 describe('userCreationReducer', function () {
     test('should set default state', () => {
@@ -7,6 +7,7 @@ describe('userCreationReducer', function () {
         const defaultState = {
             inProgress: false,
             success: false,
+            message: ''
         }
 
         const someAction = {type: 'SOME_TYPE'}
@@ -21,13 +22,16 @@ describe('userCreationReducer', function () {
             newState = userCreationReducer(undefined, requestUserCreation())
         })
 
-
         test('should be in progress', () =>{
             expect(newState.inProgress).toBeTruthy()
         })
 
         test('should not be successful', () =>{
             expect(newState.success).toBeFalsy()
+        })
+
+        test('message should be empty', () => {
+            expect(newState.message).toEqual('')
         })
     })
 
@@ -38,6 +42,7 @@ describe('userCreationReducer', function () {
             defaultState = {
                 inProgress: true,
                 success: false,
+                message: ''
             }
 
             newState = userCreationReducer(defaultState, createUserSuccess({user:'someUser'}))
@@ -49,7 +54,36 @@ describe('userCreationReducer', function () {
 
         test('should be successful', () =>{
             expect(newState.success).toBeTruthy()
+        })
 
+        test('should have success message', () => {
+            expect(newState.message).toEqual('User was successfully created.')
+        })
+    })
+
+    describe('USER_CREATION_FAILED',() => {
+        let defaultState, newState
+
+        beforeEach( () => {
+            defaultState = {
+                inProgress: true,
+                success: true,
+                message: ''
+            }
+
+            newState = userCreationReducer(defaultState, createUserFailure())
+        })
+
+        test('should not be in progress', () =>{
+            expect(newState.inProgress).toBeFalsy()
+        })
+
+        test('should not be successful', () =>{
+            expect(newState.success).toBeFalsy()
+        })
+
+        test('should have failure message', () => {
+            expect(newState.message).toEqual('Something went wrong on our end and your user was not created. Please try again.')
         })
     })
 });

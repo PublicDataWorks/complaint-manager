@@ -18,7 +18,7 @@ describe('CaseCreationSnackbar', () => {
     })
 
     test('should not be visible initially', () => {
-        const resultMessage = caseCreationSnackbar.find('[data-test="createCaseBannerText"]')
+        const resultMessage = caseCreationSnackbar.find('[data-test="creationSnackbarBannerText"]')
         expect(resultMessage.exists()).toEqual(false)
     })
 
@@ -27,7 +27,7 @@ describe('CaseCreationSnackbar', () => {
         store.dispatch(createCaseSuccess({ id: 1234 }))
         caseCreationSnackbar.update()
 
-        const resultMessage = caseCreationSnackbar.find('[data-test="createCaseBannerText"]')
+        const resultMessage = caseCreationSnackbar.find('[data-test="creationSnackbarBannerText"]')
 
         expect(resultMessage.text()).toEqual('Case 1234 was successfully created.')
     })
@@ -42,7 +42,7 @@ describe('CaseCreationSnackbar', () => {
 
         await expectEventuallyNotToExist(
             caseCreationSnackbar,
-            '[data-test="createCaseBannerText"]'
+            '[data-test="creationSnackbarBannerText"]'
         )
     })
 })

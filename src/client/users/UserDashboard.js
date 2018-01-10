@@ -2,6 +2,7 @@ import React from 'react'
 import NavBar from '../NavBar'
 import CreateUserDialog from './CreateUserDialog'
 import UsersTable from "./UsersTable";
+import UserCreationSnackbar from "./UserCreationSnackbar";
 
 const UserDashboard = () => {
     return (
@@ -9,6 +10,7 @@ const UserDashboard = () => {
             <NavBar>Admin</NavBar>
             <CreateUserDialog />
             <UsersTable />
+            <UserCreationSnackbar />
         </div>
     )
 }

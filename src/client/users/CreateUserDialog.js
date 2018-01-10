@@ -33,7 +33,7 @@ class CreateUserDialog extends React.Component {
                 >
                     <DialogTitle>
                         <div data-test="createUserDialogTitle">
-                            Create New User
+                            Add New User
                         </div>
                     </DialogTitle>
 
@@ -63,7 +63,7 @@ class CreateUserDialog extends React.Component {
                     onClick={this.openDialog}
                     color="primary"
                 >
-                    Create User
+                    + Add New User
                 </Button>
             </div>
         )
