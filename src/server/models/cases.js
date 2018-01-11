@@ -19,6 +19,14 @@ module.exports = (sequelize, DataTypes) => {
             ]),
             defaultValue: 'Initial'
         },
+        phoneNumber: {
+            field: 'phone_number',
+            type: DataTypes.DECIMAL(10, 0)
+        },
+        email: {
+            field: 'email',
+            type: DataTypes.STRING
+        },
         createdAt: {
             field: 'created_at',
             type: DataTypes.DATE

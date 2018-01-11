@@ -16,11 +16,18 @@ describe('server', () => {
     })
 
     describe('POST /cases', () => {
+        const caseDetails = {
+            firstName: 'Manny',
+            lastName: 'Rodriguez',
+            phoneNumber: "8201387432",
+            email: 'mrod@gmail.com'
+        };
+
         afterEach(async () => {
             await models.cases.destroy({
                 where: {
-                    firstName: 'Manny',
-                    lastName: 'Rodriguez'
+                    firstName: caseDetails.firstName,
+                    lastName: caseDetails.lastName
                 }
             })
         })
@@ -29,12 +36,14 @@ describe('server', () => {
             await request(app)
                 .post('/cases')
                 .set('Content-Header', 'application/json')
-                .send({firstName: 'Manny', lastName: 'Rodriguez'})
+                .send(caseDetails)
                 .expect(201)
                 .then(response => {
                     expect(response.body.id).not.toBeUndefined()
-                    expect(response.body.firstName).toEqual('Manny')
-                    expect(response.body.lastName).toEqual('Rodriguez')
+                    expect(response.body.firstName).toEqual(caseDetails.firstName)
+                    expect(response.body.lastName).toEqual(caseDetails.lastName)
+                    expect(response.body.phoneNumber).toEqual(caseDetails.phoneNumber)
+                    expect(response.body.email).toEqual(caseDetails.email)
                     expect(response.body.status).toEqual('Initial')
                     expect(response.body.createdAt).not.toBeUndefined()
                 })
