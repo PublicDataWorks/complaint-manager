@@ -4,7 +4,7 @@ const styles = {
     title: {
         color: colors.primary[500],
         fontSize: "1.3rem",
-        fontWeight: 500
+        fontWeight: 400
     },
     subheading: {
         color: colors.secondary[900],
@@ -23,7 +23,7 @@ const styles = {
     },
     button: {
         fontSize: "0.875rem",
-        fontWeight: "500",
+        fontWeight: 700,
         textTransform: "uppercase",
         letterSpacing: "1px"
     },
@@ -36,7 +36,7 @@ const styles = {
     link:{
         color: colors.blue,
         fontSize: "0.875rem",
-        fontWeight: 500,
+        fontWeight: 700,
         textDecoration: 'none'
     },
     colors: colors
