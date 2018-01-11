@@ -34,9 +34,19 @@ const CreateCaseForm = () => {
             />
         </form>
     )
-};
+}
+
+const trimIfString = (value) => {
+    if(typeof value === 'string') {
+        return value.trim()
+    }
+    return value
+}
 
 const dispatchCreateCase = (values, dispatch) => {
+    values.firstName = trimIfString(values.firstName)
+    values.lastName  = trimIfString(values.lastName)
+
     dispatch(createCase(values))
 }
 

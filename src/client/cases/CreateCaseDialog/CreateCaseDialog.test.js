@@ -79,4 +79,39 @@ describe('CreateCaseDialog component', () => {
         const lastName = dialog.find('input[data-test="lastNameInput"]')
         expect(lastName.props().autoComplete).toEqual('off')
     })
+
+    test('whitespace should be trimmed from fields prior to sending', () => {
+        const firstName = dialog.find('input[data-test="firstNameInput"]')
+        const lastName = dialog.find('input[data-test="lastNameInput"]')
+        const submitButton = dialog.find('button[data-test="submitCase"]')
+
+        firstName.simulate('change', {target: {value: '   Hello   '}})
+        lastName.simulate('change', {target: {value: '   Kitty   '}})
+        let dispatchSpy = jest.spyOn(store, 'dispatch')
+
+        submitButton.simulate('click')
+
+        expect(dispatchSpy).toHaveBeenCalledWith(
+            createCase({
+                firstName: 'Hello',
+                lastName: 'Kitty'
+            }))
+    })
+
+    test('whitespace should not be trimmed from empty fields', () => {
+        const firstName = dialog.find('input[data-test="firstNameInput"]')
+        const lastName = dialog.find('input[data-test="lastNameInput"]')
+        const submitButton = dialog.find('button[data-test="submitCase"]')
+
+        firstName.simulate('change', {target: {value: ''}})
+        lastName.simulate('change', {target: {value: ''}})
+
+        submitButton.simulate('click')
+
+        expect(dispatchSpy).toHaveBeenCalledWith(
+            createCase({
+                firstName: undefined,
+                lastName: undefined
+            }))
+    })
 })
