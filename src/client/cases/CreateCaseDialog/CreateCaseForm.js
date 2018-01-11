@@ -1,7 +1,7 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form'
-import TextFieldWrapper from '../../sharedComponents/formFields/TextFieldWrapper'
+import {Field, reduxForm} from 'redux-form'
 import createCase from "../thunks/createCase";
+import {TextField} from 'redux-form-material-ui'
 
 const CreateCaseForm = () => {
     const offSet = {
@@ -12,7 +12,7 @@ const CreateCaseForm = () => {
         <form data-test="createCaseForm">
             <Field
                 name="firstName"
-                component={TextFieldWrapper}
+                component={TextField}
                 label="First Name"
                 inputProps={{
                     maxLength: 25,
@@ -23,7 +23,7 @@ const CreateCaseForm = () => {
             />
             <Field
                 name="lastName"
-                component={TextFieldWrapper}
+                component={TextField}
                 label="Last Name"
                 inputProps={{
                     maxLength: 25,
@@ -32,12 +32,30 @@ const CreateCaseForm = () => {
                 }}
                 style={offSet}
             />
+            <Field
+                name="phoneNumber"
+                component={TextField}
+                label="Phone Number"
+                inputProps={{
+                    "data-test": "phoneNumberInput"
+                }}
+                style={offSet}
+            />
+            <Field
+                name="email"
+                component={TextField}
+                label="Email"
+                inputProps={{
+                    "data-test": "emailInput",
+                }}
+                style={offSet}
+            />
         </form>
     )
 }
 
 const trimIfString = (value) => {
-    if(typeof value === 'string') {
+    if (typeof value === 'string') {
         return value.trim()
     }
     return value
@@ -45,7 +63,7 @@ const trimIfString = (value) => {
 
 const dispatchCreateCase = (values, dispatch) => {
     values.firstName = trimIfString(values.firstName)
-    values.lastName  = trimIfString(values.lastName)
+    values.lastName = trimIfString(values.lastName)
 
     dispatch(createCase(values))
 }

@@ -33,85 +33,98 @@ describe('CreateCaseDialog component', () => {
     test('should create case when form is submitted', () => {
         const caseDetails = {
             firstName: 'Fats',
-            lastName: 'Domino'
+            lastName: 'Domino',
+            phoneNumber: '0123456789',
+            email: 'fdomino@gmail.com'
         }
 
         const firstName = dialog.find('input[data-test="firstNameInput"]')
         const lastName = dialog.find('input[data-test="lastNameInput"]')
+        const phoneNumber = dialog.find('input[data-test="phoneNumberInput"]')
+        const email = dialog.find('input[data-test="emailInput"]')
         const submitButton = dialog.find('button[data-test="submitCase"]')
 
         firstName.simulate('change', {target: {value: caseDetails.firstName}})
         lastName.simulate('change', {target: {value: caseDetails.lastName}})
+        phoneNumber.simulate('change', {target: {value: caseDetails.phoneNumber}})
+        email.simulate('change', {target: {value: caseDetails.email}})
+
         submitButton.simulate('click')
 
         expect(dispatchSpy).toHaveBeenCalledWith(createCase(caseDetails))
     })
 
-    test('should dismiss dialog when cancel button is clicked', async () => {
-        const cancel = dialog.find('button[data-test="cancelCase"]')
-        cancel.simulate('click')
+    describe('dismissing dialog', () => {
+        test('should dismiss when cancel button is clicked', async () => {
+            const cancel = dialog.find('button[data-test="cancelCase"]')
+            cancel.simulate('click')
 
-        await expectEventuallyNotToExist(dialog, '[data-test="createCaseDialogTitle"]')
+            await expectEventuallyNotToExist(dialog, '[data-test="createCaseDialogTitle"]')
+        })
+
+        test('should dismiss after successful case creation', async () => {
+            store.dispatch(createCaseSuccess({id: 1234}))
+
+            await expectEventuallyNotToExist(dialog, '[data-test="createCaseDialogTitle"]')
+        })
     })
 
-    test('should dismiss dialog after successful case creation', async () => {
-        store.dispatch(createCaseSuccess({id: 1234}))
+    describe('fields', () => {
+        test('first name should have max length of 25 characters', () => {
+            const firstName = dialog.find('input[data-test="firstNameInput"]')
+            expect(firstName.props().maxLength).toEqual(25)
+        })
 
-        await expectEventuallyNotToExist(dialog, '[data-test="createCaseDialogTitle"]')
+        test('first name should not use autoComplete', () => {
+            const firstName = dialog.find('input[data-test="firstNameInput"]')
+            expect(firstName.props().autoComplete).toEqual('off')
+        })
+
+        test('last name should have max length of 25 characters', () => {
+            const lastName = dialog.find('input[data-test="lastNameInput"]')
+            expect(lastName.props().maxLength).toEqual(25)
+        })
+
+        test('last name should not use autoComplete', () => {
+            const lastName = dialog.find('input[data-test="lastNameInput"]')
+            expect(lastName.props().autoComplete).toEqual('off')
+        })
     })
 
-    test('first name should have max length of 25 characters', () => {
-        const firstName = dialog.find('input[data-test="firstNameInput"]')
-        expect(firstName.props().maxLength).toEqual(25)
-    })
+    describe('trimming whitespace', () => {
+        test('whitespace should be trimmed from fields prior to sending', () => {
+            const firstName = dialog.find('input[data-test="firstNameInput"]')
+            const lastName = dialog.find('input[data-test="lastNameInput"]')
+            const submitButton = dialog.find('button[data-test="submitCase"]')
 
-    test('first name should not use autoComplete', () => {
-        const firstName = dialog.find('input[data-test="firstNameInput"]')
-        expect(firstName.props().autoComplete).toEqual('off')
-    })
+            firstName.simulate('change', {target: {value: '   Hello   '}})
+            lastName.simulate('change', {target: {value: '   Kitty   '}})
+            let dispatchSpy = jest.spyOn(store, 'dispatch')
 
-    test('last name should have max length of 25 characters', () => {
-        const lastName = dialog.find('input[data-test="lastNameInput"]')
-        expect(lastName.props().maxLength).toEqual(25)
-    })
+            submitButton.simulate('click')
 
-    test('last name should not use autoComplete', () => {
-        const lastName = dialog.find('input[data-test="lastNameInput"]')
-        expect(lastName.props().autoComplete).toEqual('off')
-    })
+            expect(dispatchSpy).toHaveBeenCalledWith(
+                createCase({
+                    firstName: 'Hello',
+                    lastName: 'Kitty'
+                }))
+        })
 
-    test('whitespace should be trimmed from fields prior to sending', () => {
-        const firstName = dialog.find('input[data-test="firstNameInput"]')
-        const lastName = dialog.find('input[data-test="lastNameInput"]')
-        const submitButton = dialog.find('button[data-test="submitCase"]')
+        test('whitespace should not be trimmed from empty fields', () => {
+            const firstName = dialog.find('input[data-test="firstNameInput"]')
+            const lastName = dialog.find('input[data-test="lastNameInput"]')
+            const submitButton = dialog.find('button[data-test="submitCase"]')
 
-        firstName.simulate('change', {target: {value: '   Hello   '}})
-        lastName.simulate('change', {target: {value: '   Kitty   '}})
-        let dispatchSpy = jest.spyOn(store, 'dispatch')
+            firstName.simulate('change', {target: {value: ''}})
+            lastName.simulate('change', {target: {value: ''}})
 
-        submitButton.simulate('click')
+            submitButton.simulate('click')
 
-        expect(dispatchSpy).toHaveBeenCalledWith(
-            createCase({
-                firstName: 'Hello',
-                lastName: 'Kitty'
-            }))
-    })
-
-    test('whitespace should not be trimmed from empty fields', () => {
-        const firstName = dialog.find('input[data-test="firstNameInput"]')
-        const lastName = dialog.find('input[data-test="lastNameInput"]')
-        const submitButton = dialog.find('button[data-test="submitCase"]')
-
-        firstName.simulate('change', {target: {value: ''}})
-        lastName.simulate('change', {target: {value: ''}})
-
-        submitButton.simulate('click')
-
-        expect(dispatchSpy).toHaveBeenCalledWith(
-            createCase({
-                firstName: undefined,
-                lastName: undefined
-            }))
+            expect(dispatchSpy).toHaveBeenCalledWith(
+                createCase({
+                    firstName: undefined,
+                    lastName: undefined
+                }))
+        })
     })
 })

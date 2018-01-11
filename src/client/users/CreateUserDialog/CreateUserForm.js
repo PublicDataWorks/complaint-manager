@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import TextFieldWrapper from '../../sharedComponents/formFields/TextFieldWrapper'
+import { TextField } from 'redux-form-material-ui'
 import createUser from '../thunks/createUser'
 
 const CreateUserForm = () => {
@@ -8,7 +8,7 @@ const CreateUserForm = () => {
         <form data-test="createUserForm">
             <Field
                 name="firstName"
-                component={TextFieldWrapper}
+                component={TextField}
                 label="First Name"
                 inputProps={{
                     "data-test": "firstNameInput"
@@ -16,7 +16,7 @@ const CreateUserForm = () => {
             />
             <Field
                 name="lastName"
-                component={TextFieldWrapper}
+                component={TextField}
                 label="Last Name"
                 inputProps={{
                     "data-test": "lastNameInput"
@@ -24,7 +24,7 @@ const CreateUserForm = () => {
             />
             <Field
                 name="email"
-                component={TextFieldWrapper}
+                component={TextField}
                 label="Email"
                 inputProps={{
                     "data-test": "emailInput"
