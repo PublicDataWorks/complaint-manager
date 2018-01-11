@@ -1,13 +1,12 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from "../../reduxStore"
-import {mount} from "enzyme/build/index"
-import {expectEventuallyNotToExist} from "../../../testHelpers"
+import {mount} from "enzyme"
 import UserCreationSnackbar from "./UserCreationSnackbar"
-import {createUserSuccess, requestUserCreation} from "../actionCreators";
+import CreationSnackbar from "../../sharedComponents/CreationSnackbar";
 
 describe('UserCreationSnackbar', () => {
-    let userCreationSnackbar
+    let userCreationSnackbar, snackbar
 
     beforeEach(() => {
         userCreationSnackbar = mount(
@@ -15,34 +14,20 @@ describe('UserCreationSnackbar', () => {
                 <UserCreationSnackbar />
             </Provider>
         )
+
+        snackbar = userCreationSnackbar.find(CreationSnackbar)
     })
 
-    test('should not be visible initially', () => {
-        const resultMessage = userCreationSnackbar.find('[data-test="creationSnackbarBannerText"]')
-        expect(resultMessage.exists()).toEqual(false)
+    test('map inProgress from state', () => {
+        expect(snackbar.prop('inProgress')).toBeDefined()
     })
 
-    test('should be visible with success message after successful creation', () => {
-        store.dispatch(requestUserCreation())
-        store.dispatch(createUserSuccess({user: 'user'}))
-        userCreationSnackbar.update()
-
-        const resultMessage = userCreationSnackbar.find('[data-test="creationSnackbarBannerText"]')
-
-        expect(resultMessage.text()).toEqual('User was successfully created.')
+    test('map creationSuccess from state', () => {
+        expect(snackbar.prop('creationSuccess')).toBeDefined()
     })
 
-    test('should dismiss snackbar', async () => {
-        store.dispatch(requestUserCreation())
-        store.dispatch(createUserSuccess({user: 'user'}))
-        userCreationSnackbar.update()
-
-        const dismissButton = userCreationSnackbar.find('button[data-test="closeSnackbar"]')
-        dismissButton.simulate('click')
-
-        await expectEventuallyNotToExist(
-            userCreationSnackbar,
-            '[data-test="creationSnackbarBannerText"]'
-        )
+    test('map message from state', () => {
+        expect(snackbar.prop('message')).toBeDefined()
     })
+
 })

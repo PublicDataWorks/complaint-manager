@@ -39,7 +39,7 @@ class CreationSnackbar extends React.Component {
                     open={this.state.snackbarOpen}
                     SnackbarContentProps={{
                         classes: {
-                            root: this.props.caseCreationSuccess
+                            root: this.props.creationSuccess
                                 ? this.props.classes.success
                                 : this.props.classes.error
                         }

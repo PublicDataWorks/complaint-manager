@@ -5,7 +5,7 @@ const mapStateToProps = state => {
     return {
         inProgress: state.cases.creation.inProgress,
         message: state.cases.creation.message,
-        caseCreationSuccess: state.cases.creation.success
+        creationSuccess: state.cases.creation.success
     }
 }
 
