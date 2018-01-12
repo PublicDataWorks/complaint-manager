@@ -1,16 +1,15 @@
 import React from 'react'
 import {IconButton, Snackbar, withStyles } from 'material-ui'
 import CloseIcon from 'material-ui-icons/Close'
-import themeStyles from "../globalStyling/styles";
 
-const styleSheet = {
+const styleSheet = theme => ({
     error: {
-        background: themeStyles.colors.error[500]
+        background: theme.palette.error[500]
     },
     success: {
-        background: themeStyles.colors.green
+        background: theme.palette.green
     }
-};
+})
 
 class CreationSnackbar extends React.Component {
     state = {
@@ -65,4 +64,4 @@ class CreationSnackbar extends React.Component {
     }
 }
 
-export default withStyles(styleSheet)(CreationSnackbar)
+export default withStyles(styleSheet, {withTheme: true})(CreationSnackbar)
