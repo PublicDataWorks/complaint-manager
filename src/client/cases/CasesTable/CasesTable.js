@@ -31,11 +31,6 @@ const styles = {
 }
 
 class CasesTable extends React.Component {
-
-    componentWillMount = () => {
-        this.props.getCases()
-    }
-
     render() {
         return (
             <div>
@@ -76,8 +71,4 @@ const mapStateToProps = state => ({
     cases: state.cases.all
 })
 
-const mapDispatchToProps = {
-    getCases
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CasesTable)
+export default connect(mapStateToProps)(CasesTable)
