@@ -17,6 +17,7 @@ const colors = {
   yellow: "#fbc02d",
   error: {
     ...red,
+    A400: "#d32f2f",
     500: "#d32f2f"
   },
   green: "#388e3c",
