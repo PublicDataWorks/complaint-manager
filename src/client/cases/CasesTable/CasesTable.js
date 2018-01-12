@@ -10,10 +10,15 @@ import themeStyles from '../../globalStyling/styles'
 const styles = {
     cell:{
         padding:'0%',
-        textAlign: 'center'
+        textAlign: 'center',
+        width: '20%'
     },
-    tableHead: {
+    tableHeadColor: {
         backgroundColor: themeStyles.colors.secondary[50]
+    },
+    tableHeadRow: {
+        width: '100%',
+        overflowX: 'scroll'
     },
     tableMargin: {
         marginLeft: '5%',
@@ -41,8 +46,8 @@ class CasesTable extends React.Component {
                 </Typography>
                 <Paper elevation={0} style={styles.tableMargin}>
                     <Table>
-                        <TableHead style={styles.tableHead}>
-                            <TableRow>
+                        <TableHead style={styles.tableHeadColor}>
+                            <TableRow style={styles.tableHeadRow}>
                                 <TableCell data-test='casesNumberHeader' style={styles.cell}>
                                     <Typography type='body2'>Case #</Typography>
                                 </TableCell>

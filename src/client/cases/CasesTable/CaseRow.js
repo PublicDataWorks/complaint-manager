@@ -6,42 +6,44 @@ import LinkButton from "../../sharedComponents/LinkButton";
 import themeStyles from "../../globalStyling/styles";
 
 const styles = {
-  row: {
-    height: 80,
-    backgroundColor: 'white',
-    borderTop: `8px solid ${themeStyles.colors.secondary[50]}`,
-    borderBottom: `8px solid ${themeStyles.colors.secondary[50]}`,
-    width: '100%',
-    overflowX: 'scroll'
-  },
-  cell:{
-    padding:'0%',
-    textAlign: 'center'
-  },
-  buttonCell:{
-    padding: '2%',
-    textAlign: 'right'
-  },
+    row: {
+        height: 80,
+        backgroundColor: 'white',
+        borderTop: `8px solid ${themeStyles.colors.secondary[50]}`,
+        borderBottom: `8px solid ${themeStyles.colors.secondary[50]}`,
+        width: '100%',
+        overflowX: 'scroll'
+    },
+    cell: {
+        padding: '0%',
+        width: '20%',
+        textAlign: 'center',
+    },
+    buttonCell: {
+        padding: '2%',
+        textAlign: 'right'
+    },
 }
 
 const CaseRow = ({caseDetails}) => (
-  <TableRow data-test={`caseRow${caseDetails.id}`} style={styles.row}>
-    <TableCell data-test="caseNumber" style={styles.cell}>
-      {caseDetails.id}
-    </TableCell>
-    <TableCell data-test="caseStatus" style={styles.cell}>
-      {caseDetails.status}
-    </TableCell>
-    <TableCell data-test="caseName" style={styles.cell}>
-      {formatName(caseDetails.firstName, caseDetails.lastName)}
-    </TableCell>
-    <TableCell data-test="caseCreatedAt" style={styles.cell}>
-      {formatDate(caseDetails.createdAt)}
-    </TableCell>
-      <TableCell data-test="openCase" style={styles.buttonCell}>
-          <LinkButton component={Link} to={`/case/${caseDetails.id}`} data-test="openCaseButton">Open Case</LinkButton>
-      </TableCell>
-  </TableRow>
+    <TableRow data-test={`caseRow${caseDetails.id}`} style={styles.row}>
+        <TableCell data-test="caseNumber" style={styles.cell}>
+            {caseDetails.id}
+        </TableCell>
+        <TableCell data-test="caseStatus" style={styles.cell}>
+            {caseDetails.status}
+        </TableCell>
+        <TableCell data-test="caseName" style={styles.cell}>
+            {formatName(caseDetails.firstName, caseDetails.lastName)}
+        </TableCell>
+        <TableCell data-test="caseCreatedAt" style={styles.cell}>
+            {formatDate(caseDetails.createdAt)}
+        </TableCell>
+        <TableCell data-test="openCase" style={styles.buttonCell}>
+            <LinkButton component={Link} to={`/case/${caseDetails.id}`} data-test="openCaseButton">Open
+                Case</LinkButton>
+        </TableCell>
+    </TableRow>
 )
 
 const formatName = (firstName, lastName) => `${lastName}, ${firstName[0]}.`
