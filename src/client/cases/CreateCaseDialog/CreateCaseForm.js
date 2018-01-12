@@ -2,6 +2,7 @@ import React from 'react';
 import {Field, reduxForm} from 'redux-form'
 import createCase from "../thunks/createCase";
 import {TextField} from 'redux-form-material-ui'
+import validator from 'validator'
 
 const isRequired = text => value =>
     value === undefined ? `Please enter ${text}` : undefined
@@ -12,6 +13,11 @@ const notBlank = text => value =>
 const isPhoneNumber = value => {
     const missingOrValid = value === undefined || /^[0-9]{10}$/.test(value);
     return missingOrValid ? undefined : 'Please enter a numeric 10 digit value'
+}
+
+const isEmail = value => {
+    const missingOrValid = value === undefined || validator.isEmail(value);
+    return missingOrValid ? undefined : 'Please enter a valid email address'
 }
 
 const firstNameRequired = isRequired('First Name');
@@ -71,6 +77,8 @@ const CreateCaseForm = () => {
                 inputProps={{
                     "data-test": "emailInput",
                 }}
+                data-test="emailField"
+                validate={[isEmail]}
                 style={offSet}
             />
         </form>

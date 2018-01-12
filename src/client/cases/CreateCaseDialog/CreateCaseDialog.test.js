@@ -164,7 +164,19 @@ describe('CreateCaseDialog component', () => {
                 expect(phoneNumberField.text()).not.toContain('Please enter a numeric 10 digit value')
             })
         });
-        
+
+        describe('email', function () {
+            test('should display error when not an email address', () => {
+                const emailInput = dialog.find('input[data-test="emailInput"]')
+
+                emailInput.simulate('focus')
+                emailInput.simulate('change', {target: {value: 'ethome@thoughtworks'}})
+                emailInput.simulate('blur')
+
+                const emailField = dialog.find('div[data-test="emailField"]')
+                expect(emailField.text()).toContain('Please enter a valid email address')
+            })
+        });
     })
 
     describe('trimming whitespace', () => {
