@@ -9,7 +9,7 @@ import customTheme from "./globalStyling/muiTheme";
 import CaseDashboard from "./cases/CaseDashboard";
 import UserDashboard from './users/UserDashboard'
 import {Paper} from "material-ui";
-import CaseDetails from "./caseDetails/CaseDetails";
+import CaseDetails from "./cases/caseDetails/CaseDetails";
 import getCases from "./cases/thunks/getCases";
 import {connect} from "react-redux";
 
