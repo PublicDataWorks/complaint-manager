@@ -2,7 +2,7 @@ import CasesTable from './CasesTable'
 import React from 'react'
 import {mount} from "enzyme/build/index"
 import {Provider} from 'react-redux'
-import store from "../../reduxStore"
+import createConfiguredStore from "../../createConfiguredStore"
 import {getCasesSuccess} from '../actionCreators'
 import {BrowserRouter as Router} from 'react-router-dom'
 
@@ -28,7 +28,9 @@ describe('cases table', () => {
             createdAt: new Date().toISOString()
         }];
 
+        const store = createConfiguredStore()
         store.dispatch(getCasesSuccess(cases));
+
         table = mount(
             <Provider store={store}>
                 <Router>

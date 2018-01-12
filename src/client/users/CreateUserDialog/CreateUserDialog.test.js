@@ -3,7 +3,7 @@ import CreateUserDialog from './CreateUserDialog'
 import {mount} from 'enzyme'
 import {expectEventuallyNotToExist} from '../../../testHelpers'
 import {Provider} from 'react-redux'
-import store from "../../reduxStore";
+import createConfiguredStore from "../../createConfiguredStore";
 import createUser from "../thunks/createUser";
 import {createUserSuccess} from "../actionCreators";
 
@@ -13,9 +13,11 @@ jest.mock('../thunks/createUser', () => (userDetails) => ({
 }))
 
 describe('CreateUserDialog', () => {
-    let dialog
+    let dialog, store
 
     beforeEach(() => {
+        store = createConfiguredStore()
+
         dialog = mount(
             <Provider store={store}>
                 <CreateUserDialog/>

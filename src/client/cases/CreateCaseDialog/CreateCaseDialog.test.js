@@ -1,6 +1,6 @@
 import React from 'react'
 import {Provider} from 'react-redux'
-import store from "../../reduxStore";
+import createConfiguredStore from "../../createConfiguredStore";
 import {mount} from "enzyme/build/index";
 import {createCaseSuccess} from "../actionCreators";
 import CreateCaseDialog from "./CreateCaseDialog";
@@ -13,10 +13,11 @@ jest.mock('../thunks/createCase', () => (caseDetails) => ({
 }))
 
 describe('CreateCaseDialog component', () => {
-    let dialog
-    let dispatchSpy
+    let store, dialog, dispatchSpy
 
     beforeEach(() => {
+        store = createConfiguredStore();
+
         dialog = mount(
             <Provider store={store}>
                 <CreateCaseDialog/>
@@ -91,39 +92,98 @@ describe('CreateCaseDialog component', () => {
         })
     })
 
+    describe('field validation', () => {
+        beforeEach(() => {
+            const submitButton = dialog.find('button[data-test="submitCase"]')
+            submitButton.simulate('click')
+        })
+        
+        describe('first name', () => {
+            test('should display error message when no value', () => {
+                const firstNameField = dialog.find('div[data-test="firstNameField"]')
+                expect(firstNameField.text()).toContain('Please enter First Name')
+            })
+
+            test('should display error when whitespace', () => {
+                const firstNameInput = dialog.find('input[data-test="firstNameInput"]')
+
+                firstNameInput.simulate('focus')
+                firstNameInput.simulate('change', {target: {value: '   '}})
+                firstNameInput.simulate('blur')
+
+                const firstNameField = dialog.find('div[data-test="firstNameField"]')
+                expect(firstNameField.text()).toContain('Please enter First Name')
+            })
+        })
+
+        describe('last name', function () {
+            test('should display error message when no value', () => {
+                const lastNameField = dialog.find('div[data-test="lastNameField"]')
+                expect(lastNameField.text()).toContain('Please enter Last Name')
+            })
+
+            
+            test('should display error when whitespace', () => {
+                const lastNameInput = dialog.find('input[data-test="lastNameInput"]')
+
+                lastNameInput.simulate('focus')
+                lastNameInput.simulate('change', {target: {value: '\t\t   '}})
+                lastNameInput.simulate('blur')
+
+                const lastNameField = dialog.find('div[data-test="lastNameField"]')
+                expect(lastNameField.text()).toContain('Please enter Last Name')
+            })
+        });
+
+        describe('phone number', function () {
+            test('should display error when non-numeric', () => {
+                const phoneNumberInput = dialog.find('input[data-test="phoneNumberInput"]')
+
+                phoneNumberInput.simulate('focus')
+                phoneNumberInput.simulate('change', {target: {value: '123456789A'}})
+                phoneNumberInput.simulate('blur')
+
+                const phoneNumberField = dialog.find('div[data-test="phoneNumberField"]')
+                expect(phoneNumberField.text()).toContain('Please enter a numeric 10 digit value')
+            })
+
+            test('should display error when not 10 digits', () => {
+                const phoneNumberInput = dialog.find('input[data-test="phoneNumberInput"]')
+
+                phoneNumberInput.simulate('focus')
+                phoneNumberInput.simulate('change', {target: {value: '123456789'}})
+                phoneNumberInput.simulate('blur')
+
+                const phoneNumberField = dialog.find('div[data-test="phoneNumberField"]')
+                expect(phoneNumberField.text()).toContain('Please enter a numeric 10 digit value')
+
+            })
+
+            test('should not display error when undefined', () => {
+                const phoneNumberField = dialog.find('div[data-test="phoneNumberField"]')
+                expect(phoneNumberField.text()).not.toContain('Please enter a numeric 10 digit value')
+            })
+        });
+        
+    })
+
     describe('trimming whitespace', () => {
         test('whitespace should be trimmed from fields prior to sending', () => {
             const firstName = dialog.find('input[data-test="firstNameInput"]')
             const lastName = dialog.find('input[data-test="lastNameInput"]')
+            const phoneNumber = dialog.find('input[data-test="phoneNumberInput"]')
             const submitButton = dialog.find('button[data-test="submitCase"]')
 
             firstName.simulate('change', {target: {value: '   Hello   '}})
             lastName.simulate('change', {target: {value: '   Kitty   '}})
-            let dispatchSpy = jest.spyOn(store, 'dispatch')
-
+            phoneNumber.simulate('change', {target: {value: '1234567890'}})
             submitButton.simulate('click')
 
             expect(dispatchSpy).toHaveBeenCalledWith(
                 createCase({
                     firstName: 'Hello',
-                    lastName: 'Kitty'
-                }))
-        })
-
-        test('whitespace should not be trimmed from empty fields', () => {
-            const firstName = dialog.find('input[data-test="firstNameInput"]')
-            const lastName = dialog.find('input[data-test="lastNameInput"]')
-            const submitButton = dialog.find('button[data-test="submitCase"]')
-
-            firstName.simulate('change', {target: {value: ''}})
-            lastName.simulate('change', {target: {value: ''}})
-
-            submitButton.simulate('click')
-
-            expect(dispatchSpy).toHaveBeenCalledWith(
-                createCase({
-                    firstName: undefined,
-                    lastName: undefined
+                    lastName: 'Kitty',
+                    phoneNumber: '1234567890'
                 }))
         })
     })

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Provider} from 'react-redux'
-import store from '../../reduxStore'
+import createConfiguredStore from '../../createConfiguredStore'
 import {mount} from 'enzyme'
 import UsersTable from './UsersTable'
 import {createUserSuccess} from "../actionCreators";
@@ -13,27 +13,27 @@ jest.mock('../thunks/getUsers', () => () => ({
 describe('users table', () => {
     let table, userRow, dispatchSpy
 
-    const newUser = {
-        id: 100,
-        firstName: 'Fachtna',
-        lastName: 'Bogdan',
-        email: 'fbogdan@gmail.com',
-        createdAt: new Date(2015, 7, 25).toISOString()
-    }
-
-    const anotherUser = {
-        id: 101,
-        firstName: "Mauritius",
-        lastName: "Stanko",
-        email: "mstanko@gmail.com",
-        createdAt: new Date(2015, 7, 25).toISOString()
-    }
-
-    store.dispatch(createUserSuccess(newUser))
-    store.dispatch(createUserSuccess(anotherUser))
-
     beforeEach(() => {
+        const newUser = {
+            id: 100,
+            firstName: 'Fachtna',
+            lastName: 'Bogdan',
+            email: 'fbogdan@gmail.com',
+            createdAt: new Date(2015, 7, 25).toISOString()
+        }
+
+        const anotherUser = {
+            id: 101,
+            firstName: "Mauritius",
+            lastName: "Stanko",
+            email: "mstanko@gmail.com",
+            createdAt: new Date(2015, 7, 25).toISOString()
+        }
+
+        const store = createConfiguredStore()
         dispatchSpy = jest.spyOn(store, 'dispatch')
+        store.dispatch(createUserSuccess(newUser))
+        store.dispatch(createUserSuccess(anotherUser))
 
         table = mount(
             <Provider store={store}>

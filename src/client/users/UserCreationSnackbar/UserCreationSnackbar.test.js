@@ -1,6 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import store from "../../reduxStore"
+import createConfiguredStore from "../../createConfiguredStore"
 import {mount} from "enzyme"
 import UserCreationSnackbar from "./UserCreationSnackbar"
 import CreationSnackbar from "../../sharedComponents/CreationSnackbar";
@@ -10,7 +10,7 @@ describe('UserCreationSnackbar', () => {
 
     beforeEach(() => {
         userCreationSnackbar = mount(
-            <Provider store={store}>
+            <Provider store={createConfiguredStore()}>
                 <UserCreationSnackbar />
             </Provider>
         )

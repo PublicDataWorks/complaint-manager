@@ -2,7 +2,7 @@ import React from 'react'
 import {Provider} from 'react-redux'
 import CaseCreationSnackbar from "./CaseCreationSnackbar";
 import {mount} from "enzyme";
-import store from "../../reduxStore";
+import createConfiguredStore from "../../createConfiguredStore";
 import CreationSnackbar from "../../sharedComponents/CreationSnackbar";
 
 describe('connected CaseCreationSnackbar', () => {
@@ -11,7 +11,7 @@ describe('connected CaseCreationSnackbar', () => {
 
     beforeEach(() => {
         snackbarWrapper = mount(
-            <Provider store={store}>
+            <Provider store={createConfiguredStore()}>
                 <CaseCreationSnackbar/>
             </Provider>
         )

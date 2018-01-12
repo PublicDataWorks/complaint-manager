@@ -2,7 +2,6 @@ import React from 'react'
 import Table, {TableBody, TableCell, TableHead, TableRow} from 'material-ui/Table'
 import Typography from 'material-ui/Typography'
 import {connect} from "react-redux"
-import getCases from "../thunks/getCases"
 import CaseRow from './CaseRow'
 import {Paper} from "material-ui";
 import themeStyles from '../../globalStyling/styles'

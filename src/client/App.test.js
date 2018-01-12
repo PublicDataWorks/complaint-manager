@@ -3,7 +3,7 @@ import {mount} from "enzyme/build/index";
 import {Provider} from 'react-redux';
 import getCases from "./cases/thunks/getCases";
 import {getCasesSuccess} from './cases/actionCreators';
-import store from "./reduxStore";
+import createConfiguredStore from "./createConfiguredStore";
 import App from "./App";
 
 jest.mock("./cases/thunks/getCases", () => () => ({
@@ -14,8 +14,6 @@ describe('cases table', () => {
   let table, cases, dispatchSpy;
 
   beforeEach(() => {
-    dispatchSpy = jest.spyOn(store, 'dispatch');
-
     cases = [{
       id: 17,
       firstName: 'Chuck',
@@ -30,7 +28,10 @@ describe('cases table', () => {
       createdAt: new Date().toISOString()
     }];
 
+    const store = createConfiguredStore()
+    dispatchSpy = jest.spyOn(store, 'dispatch');
     store.dispatch(getCasesSuccess(cases));
+
     table = mount(
       <Provider store={store}>
         <App />

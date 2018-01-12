@@ -3,7 +3,24 @@ import {Field, reduxForm} from 'redux-form'
 import createCase from "../thunks/createCase";
 import {TextField} from 'redux-form-material-ui'
 
+const isRequired = text => value =>
+    value === undefined ? `Please enter ${text}` : undefined
+
+const notBlank = text => value =>
+    value.trim() === '' ? `Please enter ${text}` : undefined
+
+const isPhoneNumber = value => {
+    const missingOrValid = value === undefined || /^[0-9]{10}$/.test(value);
+    return missingOrValid ? undefined : 'Please enter a numeric 10 digit value'
+}
+
+const firstNameRequired = isRequired('First Name');
+const lastNameRequired = isRequired('Last Name');
+const firstNameNotBlank = notBlank('First Name')
+const lastNameNotBlank = notBlank('Last Name')
+
 const CreateCaseForm = () => {
+
     const offSet = {
         marginRight: '5%'
     }
@@ -19,6 +36,8 @@ const CreateCaseForm = () => {
                     autoComplete: "off",
                     "data-test": "firstNameInput"
                 }}
+                data-test="firstNameField"
+                validate={[firstNameRequired, firstNameNotBlank]}
                 style={offSet}
             />
             <Field
@@ -30,6 +49,8 @@ const CreateCaseForm = () => {
                     autoComplete: "off",
                     "data-test": "lastNameInput"
                 }}
+                data-test="lastNameField"
+                validate={[lastNameRequired, lastNameNotBlank]}
                 style={offSet}
             />
             <Field
@@ -39,6 +60,8 @@ const CreateCaseForm = () => {
                 inputProps={{
                     "data-test": "phoneNumberInput"
                 }}
+                data-test="phoneNumberField"
+                validate={[isPhoneNumber]}
                 style={offSet}
             />
             <Field
@@ -54,18 +77,14 @@ const CreateCaseForm = () => {
     )
 }
 
-const trimIfString = (value) => {
-    if (typeof value === 'string') {
-        return value.trim()
-    }
-    return value
-}
-
 const dispatchCreateCase = (values, dispatch) => {
-    values.firstName = trimIfString(values.firstName)
-    values.lastName = trimIfString(values.lastName)
+    const sanitizedValues = {
+        ...values,
+        firstName: values.firstName.trim(),
+        lastName: values.lastName.trim()
+    }
 
-    dispatch(createCase(values))
+    dispatch(createCase(sanitizedValues))
 }
 
 export default reduxForm({

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import store from "./reduxStore";
+import createConfiguredStore from "./createConfiguredStore";
 import App from './App';
 
-const RootContainer = () => {return(
-  <Provider store={store}>
-    <App />
-  </Provider>
-)};
+const RootContainer = () => (
+    <Provider store={createConfiguredStore()}>
+        <App/>
+    </Provider>
+);
 
 export default RootContainer;
