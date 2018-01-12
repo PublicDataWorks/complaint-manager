@@ -39,6 +39,12 @@ const styles = {
         fontWeight: 700,
         textDecoration: 'none'
     },
+    body2:{
+        color: colors.secondary[900],
+        fontSize: "1rem",
+        fontWeight: 700,
+        textTransform: 'uppercase'
+    },
     colors: colors
 }
 
