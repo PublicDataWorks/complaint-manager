@@ -25,8 +25,7 @@ const firstNameRequired = isRequired('First Name');
 const lastNameRequired = isRequired('Last Name');
 const firstNameNotBlank = notBlank('First Name')
 const lastNameNotBlank = notBlank('Last Name')
-const incidentTypeRequired = value =>
-    value === '' ? `Please enter incident type` : undefined
+const incidentTypeRequired = isRequired('incident type')
 
 const CreateCaseForm = () => {
     const offSet = {
@@ -84,10 +83,13 @@ const CreateCaseForm = () => {
                 validate={[isEmail]}
                 style={offSet}
             />
+            <br />
             <Field
                 name="incidentType"
                 component={IncidentTypeSelect}
+                data-test="incidentTypeField"
                 validate={[incidentTypeRequired]}
+                style={offSet}
             />
         </form>
     )
@@ -105,8 +107,5 @@ const dispatchCreateCase = (values, dispatch) => {
 
 export default reduxForm({
     form: 'CreateCase',
-    onSubmit: dispatchCreateCase,
-    initialValues: {
-        incidentType: 'Citizen Complaint'
-    }
+    onSubmit: dispatchCreateCase
 })(CreateCaseForm);

@@ -1,54 +1,45 @@
 import React from 'react'
-import { FormControl, FormHelperText, Input, InputLabel, MenuItem } from 'material-ui'
+import { FormControl, FormHelperText, InputLabel, MenuItem } from 'material-ui'
 import {Select} from 'redux-form-material-ui'
 
 const IncidentTypeSelect = (props) => {
-    console.log('props', props)
-
-    const newProps = {
-        ...props,
-        input: {
-            ...props.input,
-            value: props.input.value === undefined ? '' : props.input.value,
-            onChange: event => {
-                console.log('inside onChange')
-                console.log('event', event)
-                props.input.onChange(event);
-            },
-            onBlur: () => {
-                console.log('inside onBlur')
-                props.input.onBlur()
-            }
-        }
-    }
 
     return (
-        <FormControl error={props.meta.error !== undefined}>
+        <FormControl error={props.meta.touched && props.meta.error !== undefined}>
             <InputLabel htmlFor="incidentType">
                 Incident Type
             </InputLabel>
             <Select
-                value=''
-                input={<Input id="incidentType" />}
-                {...newProps}
+                {...props}
             >
-                <MenuItem value="">
-                    <em>None</em>
-                </MenuItem>
-                <MenuItem value="Citizen Complaint">
+                <MenuItem
+                    value="Citizen Complaint"
+                    data-test="citizenComplaintItem"
+                >
                     Citizen Complaint
                 </MenuItem>
-                <MenuItem value="Officer Complaint">
+                <MenuItem
+                    value="Officer Complaint"
+                    data-test="officerComplaintItem"
+                >
                     Officer Complaint
                 </MenuItem>
-                <MenuItem value="Criminal Liaison Case">
+                <MenuItem
+                    value="Criminal Liaison Case"
+                    data-test="criminalLiaisonItem"
+                >
                     Criminal Liaison Case
                 </MenuItem>
-                <MenuItem value="Commendation">
+                <MenuItem
+                    value="Commendation"
+                    data-test="commendationItem"
+                >
                     Commendation
                 </MenuItem>
             </Select>
-            <FormHelperText>{props.meta.error}</FormHelperText>
+            <FormHelperText>
+                {props.meta.touched && props.meta.error}
+            </FormHelperText>
         </FormControl>
     )}
 

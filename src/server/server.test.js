@@ -57,10 +57,10 @@ describe('server', () => {
 
         beforeEach(async () => {
             seededCases = await models.cases.bulkCreate([{
-                firstName: 'Manny',
-                lastName: 'Rodriguez',
+                firstName: 'Robert',
+                lastName: 'Pollard',
                 phoneNumber: "8201387432",
-                email: 'mrod@gmail.com',
+                email: 'rpollard@gmail.com',
                 incidentType: 'Citizen Complaint'
             }, {
                 firstName: 'Joseph',

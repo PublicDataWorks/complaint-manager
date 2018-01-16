@@ -4,7 +4,7 @@ import createConfiguredStore from "../../createConfiguredStore";
 import {mount} from "enzyme/build/index";
 import {createCaseSuccess} from "../actionCreators";
 import CreateCaseDialog from "./CreateCaseDialog";
-import {expectEventuallyNotToExist} from "../../../testHelpers";
+import {changeInput, expectEventuallyNotToExist, selectDropdownOption} from "../../../testHelpers";
 import createCase from "../thunks/createCase";
 
 jest.mock('../thunks/createCase', () => (caseDetails) => ({
@@ -31,7 +31,7 @@ describe('CreateCaseDialog component', () => {
         createCaseButton.simulate('click')
     })
 
-    test.skip('should create case when form is submitted', () => {
+    test('should create case when form is submitted', () => {
         const caseDetails = {
             firstName: 'Fats',
             lastName: 'Domino',
@@ -40,19 +40,13 @@ describe('CreateCaseDialog component', () => {
             incidentType: 'Officer Complaint'
         }
 
-        const firstName = dialog.find('input[data-test="firstNameInput"]')
-        const incidentType = dialog.find('input[data-test="incidentTypeInput"]')
-        const lastName = dialog.find('input[data-test="lastNameInput"]')
-        const phoneNumber = dialog.find('input[data-test="phoneNumberInput"]')
-        const email = dialog.find('input[data-test="emailInput"]')
+        changeInput(dialog, 'input[data-test="firstNameInput"]', caseDetails.firstName);
+        changeInput(dialog, 'input[data-test="lastNameInput"]', caseDetails.lastName);
+        changeInput(dialog, 'input[data-test="phoneNumberInput"]', caseDetails.phoneNumber);
+        changeInput(dialog, 'input[data-test="emailInput"]', caseDetails.email);
+        selectDropdownOption(dialog, '[data-test="incidentTypeField"]', 'li[data-test="officerComplaintItem"]');
+
         const submitButton = dialog.find('button[data-test="submitCase"]')
-
-        firstName.simulate('change', {target: {value: caseDetails.firstName}})
-        lastName.simulate('change', {target: {value: caseDetails.lastName}})
-        phoneNumber.simulate('change', {target: {value: caseDetails.phoneNumber}})
-        incidentType.simulate('change', {target: {value: 'Officer Complaint'}})
-        email.simulate('change', {target: {value: caseDetails.email}})
-
         submitButton.simulate('click')
 
         expect(dispatchSpy).toHaveBeenCalledWith(createCase(caseDetails))
@@ -183,17 +177,13 @@ describe('CreateCaseDialog component', () => {
     })
 
     describe('trimming whitespace', () => {
-        test.skip('whitespace should be trimmed from fields prior to sending', () => {
-            const firstName = dialog.find('input[data-test="firstNameInput"]')
-            const lastName = dialog.find('input[data-test="lastNameInput"]')
-            const phoneNumber = dialog.find('input[data-test="phoneNumberInput"]')
-            const incidentType = dialog.find('input[data-test="incidentTypeInput"]')
-            const submitButton = dialog.find('button[data-test="submitCase"]')
+        test('whitespace should be trimmed from fields prior to sending', () => {
+            changeInput(dialog, 'input[data-test="firstNameInput"]', '   Hello   ')
+            changeInput(dialog, 'input[data-test="lastNameInput"]', '   Kitty   ')
+            changeInput(dialog, 'input[data-test="phoneNumberInput"]', '1234567890')
+            selectDropdownOption(dialog, '[data-test="incidentTypeField"]', 'li[data-test="officerComplaintItem"]')
 
-            firstName.simulate('change', {target: {value: '   Hello   '}})
-            lastName.simulate('change', {target: {value: '   Kitty   '}})
-            phoneNumber.simulate('change', {target: {value: '1234567890'}})
-            incidentType.simulate('change', {target: {value: 'Officer Complaint'}})
+            const submitButton = dialog.find('button[data-test="submitCase"]')
             submitButton.simulate('click')
 
             expect(dispatchSpy).toHaveBeenCalledWith(

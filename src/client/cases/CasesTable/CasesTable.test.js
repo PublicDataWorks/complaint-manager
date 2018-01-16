@@ -110,11 +110,6 @@ describe('cases table', () => {
             expect(openCaseButton.exists()).toEqual(true);
         });
 
-        test.skip('should display open case button to the far right of the row', () => {
-            const openCaseCell = caseRow.find('td[data-test="openCase"]');
-            expect(openCaseCell).toHaveProperty('style.textAlign','right');
-        });
-
         test('open case button should refer to the case detail page', () => {
             const openCaseButton = caseRow.find('a[data-test="openCaseButton"]');
             expect(openCaseButton.prop('href')).toEqual('/case/17');
