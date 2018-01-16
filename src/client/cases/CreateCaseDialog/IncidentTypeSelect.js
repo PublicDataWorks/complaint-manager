@@ -46,6 +46,7 @@ const IncidentTypeSelect = (props) => {
                 {errorMessage}
             </FormHelperText>
         </FormControl>
-    )}
+    )
+}
 
 export default IncidentTypeSelect

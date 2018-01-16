@@ -235,6 +235,18 @@ describe('CreateCaseDialog component', () => {
                 expect(incidentTypeField.text()).toContain('Please enter incident type')
             })
         });
+
+        describe('when email and phone number are undefined', () => {
+            test('should display phone number error', () => {
+                const phoneNumberField = dialog.find('div[data-test="phoneNumberField"]')
+                expect(phoneNumberField.text()).toContain('Please enter phone number or email address')
+            })
+
+            test('should display email error', () => {
+                const emailField = dialog.find('div[data-test="emailField"]')
+                expect(emailField.text()).toContain('Please enter phone number or email address')
+            })
+        })
     })
 
     describe('trimming whitespace', () => {

@@ -104,7 +104,19 @@ const dispatchCreateCase = (values, dispatch) => {
     dispatch(createCase(sanitizedValues))
 }
 
+const validate = values => {
+    const errors = {}
+
+    if (values.phoneNumber === undefined && values.email === undefined) {
+        errors.phoneNumber = 'Please enter phone number or email address'
+        errors.email = 'Please enter phone number or email address'
+    }
+
+    return errors
+}
+
 export default reduxForm({
     form: 'CreateCase',
-    onSubmit: dispatchCreateCase
+    onSubmit: dispatchCreateCase,
+    validate
 })(CreateCaseForm);

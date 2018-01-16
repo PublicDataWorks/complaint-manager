@@ -2,7 +2,7 @@ import promiseRetry from 'promise-retry'
 
 export const changeInput = (mountedComponent, inputSelector, value) => {
     const input = mountedComponent.find(inputSelector)
-    input.simulate('change', {target: {value: value}})
+    input.simulate('change', {target: {value}})
 }
 
 export const findDropdownOption = (mountedComponent, dropdownSelector, optionSelector) => {
