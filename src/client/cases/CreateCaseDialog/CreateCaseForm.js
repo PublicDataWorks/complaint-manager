@@ -3,6 +3,7 @@ import {Field, reduxForm} from 'redux-form'
 import createCase from "../thunks/createCase";
 import {TextField} from 'redux-form-material-ui'
 import validator from 'validator'
+import IncidentTypeSelect from './IncidentTypeSelect'
 
 const isRequired = text => value =>
     value === undefined ? `Please enter ${text}` : undefined
@@ -24,9 +25,10 @@ const firstNameRequired = isRequired('First Name');
 const lastNameRequired = isRequired('Last Name');
 const firstNameNotBlank = notBlank('First Name')
 const lastNameNotBlank = notBlank('Last Name')
+const incidentTypeRequired = value =>
+    value === '' ? `Please enter incident type` : undefined
 
 const CreateCaseForm = () => {
-
     const offSet = {
         marginRight: '5%'
     }
@@ -59,6 +61,7 @@ const CreateCaseForm = () => {
                 validate={[lastNameRequired, lastNameNotBlank]}
                 style={offSet}
             />
+            <br />
             <Field
                 name="phoneNumber"
                 component={TextField}
@@ -81,6 +84,11 @@ const CreateCaseForm = () => {
                 validate={[isEmail]}
                 style={offSet}
             />
+            <Field
+                name="incidentType"
+                component={IncidentTypeSelect}
+                validate={[incidentTypeRequired]}
+            />
         </form>
     )
 }
@@ -97,5 +105,8 @@ const dispatchCreateCase = (values, dispatch) => {
 
 export default reduxForm({
     form: 'CreateCase',
-    onSubmit: dispatchCreateCase
+    onSubmit: dispatchCreateCase,
+    initialValues: {
+        incidentType: 'Citizen Complaint'
+    }
 })(CreateCaseForm);

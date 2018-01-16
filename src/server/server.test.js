@@ -20,7 +20,8 @@ describe('server', () => {
             firstName: 'Manny',
             lastName: 'Rodriguez',
             phoneNumber: "8201387432",
-            email: 'mrod@gmail.com'
+            email: 'mrod@gmail.com',
+            incidentType: 'Citizen Complaint'
         };
 
         afterEach(async () => {
@@ -40,6 +41,7 @@ describe('server', () => {
                 .expect(201)
                 .then(response => {
                     expect(response.body.id).not.toBeUndefined()
+                    expect(response.body.incidentType).toEqual(caseDetails.incidentType)
                     expect(response.body.firstName).toEqual(caseDetails.firstName)
                     expect(response.body.lastName).toEqual(caseDetails.lastName)
                     expect(response.body.phoneNumber).toEqual(caseDetails.phoneNumber)
@@ -55,11 +57,17 @@ describe('server', () => {
 
         beforeEach(async () => {
             seededCases = await models.cases.bulkCreate([{
-                firstName: 'Robert',
-                lastName: 'Pollard'
+                firstName: 'Manny',
+                lastName: 'Rodriguez',
+                phoneNumber: "8201387432",
+                email: 'mrod@gmail.com',
+                incidentType: 'Citizen Complaint'
             }, {
-                firstName: 'Merrill',
-                lastName: 'Garbus'
+                firstName: 'Joseph',
+                lastName: 'Joestar',
+                phoneNumber: "9021012345",
+                email: 'hermit_purple@gmail.com',
+                incidentType: 'Citizen Complaint'
             }], {
                 returning: true
             })

@@ -10,7 +10,7 @@ const styles = {
     cell:{
         padding:'0%',
         textAlign: 'center',
-        width: '20%'
+        width: '16.5%'
     },
     tableHeadColor: {
         backgroundColor: themeStyles.colors.secondary[50]
@@ -44,6 +44,9 @@ class CasesTable extends React.Component {
                             <TableRow style={styles.tableHeadRow}>
                                 <TableCell data-test='casesNumberHeader' style={styles.cell}>
                                     <Typography type='body2'>Case #</Typography>
+                                </TableCell>
+                                <TableCell data-test='casesIncidentTypeHeader' style={styles.cell}>
+                                    <Typography type='body2'>Incident Type</Typography>
                                 </TableCell>
                                 <TableCell data-test='casesStatusHeader' style={styles.cell}>
                                     <Typography type='body2'>Status</Typography>

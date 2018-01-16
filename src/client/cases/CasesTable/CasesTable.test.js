@@ -16,12 +16,14 @@ describe('cases table', () => {
     beforeEach(() => {
         cases = [{
             id: 17,
+            incidentType: 'Citizen Complaint',
             firstName: 'Chuck',
             lastName: 'Berry',
             status: 'Initial',
             createdAt: new Date(2015, 8, 13).toISOString()
         }, {
             id: 24,
+            incidentType: 'Officer Complaint',
             firstName: 'Ariel',
             lastName: 'Pink',
             status: 'Initial',
@@ -40,16 +42,35 @@ describe('cases table', () => {
         )
     });
 
-    test('should display column headers', () => {
-        let caseNumberHeader = table.find('th[data-test="casesNumberHeader"]');
-        let caseStatusHeader = table.find('th[data-test="casesStatusHeader"]');
-        let caseComplainantHeader = table.find('th[data-test="casesComplainantHeader"]');
-        let caseCreatedOnHeader = table.find('th[data-test="casesCreatedOnHeader"]');
+    describe('column headers', () => {
+        let caseNumber, incidentType, status, complainant, caseCreatedOn
 
-        expect(caseNumberHeader.text()).toEqual('Case #');
-        expect(caseStatusHeader.text()).toEqual('Status');
-        expect(caseComplainantHeader.text()).toEqual('Complainant');
-        expect(caseCreatedOnHeader.text()).toEqual('Created On');
+        beforeEach(() => {
+            caseNumber = table.find('th[data-test="casesNumberHeader"]');
+            incidentType = table.find('th[data-test="casesIncidentTypeHeader"]');
+            status = table.find('th[data-test="casesStatusHeader"]');
+            complainant = table.find('th[data-test="casesComplainantHeader"]');
+            caseCreatedOn = table.find('th[data-test="casesCreatedOnHeader"]');
+        })
+
+        test('should display case number', () =>{
+            expect(caseNumber.text()).toEqual('Case #');
+        })
+
+        test('should display incident type', () => {
+            expect(incidentType.text()).toEqual('Incident Type')
+        })
+
+        test('should display status', () =>{
+            expect(status.text()).toEqual('Status');
+        })
+        test('should display complainant', () =>{
+            expect(complainant.text()).toEqual('Complainant');
+        })
+        test('should display created on', () =>{
+            expect(caseCreatedOn.text()).toEqual('Created On');
+        })
+
     });
 
     describe('displaying a case', () => {
@@ -63,6 +84,11 @@ describe('cases table', () => {
             const number = caseRow.find('td[data-test="caseNumber"]');
             expect(number.text()).toEqual('17')
         });
+
+        test('should display incident type', () => {
+            const incidentType = caseRow.find('td[data-test="incidentType"]')
+            expect(incidentType.text()).toEqual('Citizen Complaint')
+        })
 
         test('should display status', () => {
             const status = caseRow.find('td[data-test="caseStatus"]');

@@ -16,7 +16,7 @@ const styles = {
     },
     cell: {
         padding: '0%',
-        width: '20%',
+        width: '16.5%',
         textAlign: 'center',
     },
     buttonCell: {
@@ -29,6 +29,9 @@ const CaseRow = ({caseDetails}) => (
     <TableRow data-test={`caseRow${caseDetails.id}`} style={styles.row}>
         <TableCell data-test="caseNumber" style={styles.cell}>
             {caseDetails.id}
+        </TableCell>
+        <TableCell data-test="incidentType" style={styles.cell}>
+            {caseDetails.incidentType}
         </TableCell>
         <TableCell data-test="caseStatus" style={styles.cell}>
             {caseDetails.status}
