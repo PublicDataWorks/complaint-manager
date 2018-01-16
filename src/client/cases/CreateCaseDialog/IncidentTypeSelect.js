@@ -3,9 +3,14 @@ import { FormControl, FormHelperText, InputLabel, MenuItem } from 'material-ui'
 import {Select} from 'redux-form-material-ui'
 
 const IncidentTypeSelect = (props) => {
+    const shouldDisplayError = props.meta.touched && props.meta.error !== undefined;
+    const errorMessage = props.meta.touched && props.meta.error;
 
     return (
-        <FormControl error={props.meta.touched && props.meta.error !== undefined}>
+        <FormControl
+            error={shouldDisplayError}
+            data-test="incidentTypeField"
+        >
             <InputLabel htmlFor="incidentType">
                 Incident Type
             </InputLabel>
@@ -38,7 +43,7 @@ const IncidentTypeSelect = (props) => {
                 </MenuItem>
             </Select>
             <FormHelperText>
-                {props.meta.touched && props.meta.error}
+                {errorMessage}
             </FormHelperText>
         </FormControl>
     )}

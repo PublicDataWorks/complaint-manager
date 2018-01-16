@@ -87,7 +87,6 @@ const CreateCaseForm = () => {
             <Field
                 name="incidentType"
                 component={IncidentTypeSelect}
-                data-test="incidentTypeField"
                 validate={[incidentTypeRequired]}
                 style={offSet}
             />

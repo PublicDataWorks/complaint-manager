@@ -4,7 +4,7 @@ import createConfiguredStore from "../../createConfiguredStore";
 import {mount} from "enzyme/build/index";
 import {createCaseSuccess} from "../actionCreators";
 import CreateCaseDialog from "./CreateCaseDialog";
-import {changeInput, expectEventuallyNotToExist, selectDropdownOption} from "../../../testHelpers";
+import {changeInput, expectEventuallyNotToExist, findDropdownOption, selectDropdownOption} from "../../../testHelpers";
 import createCase from "../thunks/createCase";
 
 jest.mock('../thunks/createCase', () => (caseDetails) => ({
@@ -44,7 +44,11 @@ describe('CreateCaseDialog component', () => {
         changeInput(dialog, 'input[data-test="lastNameInput"]', caseDetails.lastName);
         changeInput(dialog, 'input[data-test="phoneNumberInput"]', caseDetails.phoneNumber);
         changeInput(dialog, 'input[data-test="emailInput"]', caseDetails.email);
-        selectDropdownOption(dialog, '[data-test="incidentTypeField"]', 'li[data-test="officerComplaintItem"]');
+        selectDropdownOption(
+            dialog,
+            '[data-test="incidentTypeField"]',
+            'li[data-test="officerComplaintItem"]'
+        );
 
         const submitButton = dialog.find('button[data-test="submitCase"]')
         submitButton.simulate('click')
@@ -68,25 +72,75 @@ describe('CreateCaseDialog component', () => {
     })
 
     describe('fields', () => {
-        test('first name should have max length of 25 characters', () => {
-            const firstName = dialog.find('input[data-test="firstNameInput"]')
-            expect(firstName.props().maxLength).toEqual(25)
-        })
+        describe('first name', () => {
+            test('first name should have max length of 25 characters', () => {
+                const firstName = dialog.find('input[data-test="firstNameInput"]')
+                expect(firstName.props().maxLength).toEqual(25)
+            })
 
-        test('first name should not use autoComplete', () => {
-            const firstName = dialog.find('input[data-test="firstNameInput"]')
-            expect(firstName.props().autoComplete).toEqual('off')
-        })
+            test('first name should not use autoComplete', () => {
+                const firstName = dialog.find('input[data-test="firstNameInput"]')
+                expect(firstName.props().autoComplete).toEqual('off')
+            })
+        });
 
-        test('last name should have max length of 25 characters', () => {
-            const lastName = dialog.find('input[data-test="lastNameInput"]')
-            expect(lastName.props().maxLength).toEqual(25)
-        })
+        describe('last name', () => {
+            test('last name should have max length of 25 characters', () => {
+                const lastName = dialog.find('input[data-test="lastNameInput"]')
+                expect(lastName.props().maxLength).toEqual(25)
+            })
 
-        test('last name should not use autoComplete', () => {
-            const lastName = dialog.find('input[data-test="lastNameInput"]')
-            expect(lastName.props().autoComplete).toEqual('off')
-        })
+            test('last name should not use autoComplete', () => {
+                const lastName = dialog.find('input[data-test="lastNameInput"]')
+                expect(lastName.props().autoComplete).toEqual('off')
+            })
+        });
+
+        describe('incident type', () => {
+            test('should contain Citizen Complaint option', () => {
+                const citizenComplaint = findDropdownOption(
+                    dialog,
+                    '[data-test="incidentTypeField"]',
+                    'li[data-test="citizenComplaintItem"]'
+                );
+
+                expect(citizenComplaint.text()).toEqual('Citizen Complaint')
+                expect(citizenComplaint.props().value).toEqual('Citizen Complaint')
+            })
+
+            test('should contain Officer Complaint option', () => {
+                const officerComplaint = findDropdownOption(
+                    dialog,
+                    '[data-test="incidentTypeField"]',
+                    'li[data-test="officerComplaintItem"]'
+                );
+
+                expect(officerComplaint.text()).toEqual('Officer Complaint')
+                expect(officerComplaint.props().value).toEqual('Officer Complaint')
+            })
+
+            test('should contain Criminal Liaison Case option', () => {
+                const criminalLiaison = findDropdownOption(
+                    dialog,
+                    '[data-test="incidentTypeField"]',
+                    'li[data-test="criminalLiaisonItem"]'
+                );
+
+                expect(criminalLiaison.text()).toEqual('Criminal Liaison Case')
+                expect(criminalLiaison.props().value).toEqual('Criminal Liaison Case')
+            })
+
+            test('should contain Commendation option', () => {
+                const commendation = findDropdownOption(
+                    dialog,
+                    '[data-test="incidentTypeField"]',
+                    'li[data-test="commendationItem"]'
+                );
+
+                expect(commendation.text()).toEqual('Commendation')
+                expect(commendation.props().value).toEqual('Commendation')
+            })
+        });
     })
 
     describe('field validation', () => {
@@ -94,7 +148,7 @@ describe('CreateCaseDialog component', () => {
             const submitButton = dialog.find('button[data-test="submitCase"]')
             submitButton.simulate('click')
         })
-        
+
         describe('first name', () => {
             test('should display error message when no value', () => {
                 const firstNameField = dialog.find('div[data-test="firstNameField"]')
@@ -113,13 +167,13 @@ describe('CreateCaseDialog component', () => {
             })
         })
 
-        describe('last name', function () {
+        describe('last name', () => {
             test('should display error message when no value', () => {
                 const lastNameField = dialog.find('div[data-test="lastNameField"]')
                 expect(lastNameField.text()).toContain('Please enter Last Name')
             })
 
-            
+
             test('should display error when whitespace', () => {
                 const lastNameInput = dialog.find('input[data-test="lastNameInput"]')
 
@@ -132,7 +186,7 @@ describe('CreateCaseDialog component', () => {
             })
         });
 
-        describe('phone number', function () {
+        describe('phone number', () => {
             test('should display error when non-numeric', () => {
                 const phoneNumberInput = dialog.find('input[data-test="phoneNumberInput"]')
 
@@ -162,7 +216,7 @@ describe('CreateCaseDialog component', () => {
             })
         });
 
-        describe('email', function () {
+        describe('email', () => {
             test('should display error when not an email address', () => {
                 const emailInput = dialog.find('input[data-test="emailInput"]')
 
@@ -172,6 +226,13 @@ describe('CreateCaseDialog component', () => {
 
                 const emailField = dialog.find('div[data-test="emailField"]')
                 expect(emailField.text()).toContain('Please enter a valid email address')
+            })
+        });
+
+        describe('incident type', () => {
+            test('should display error when not selected', () => {
+                const incidentTypeField = dialog.find('div[data-test="incidentTypeField"]')
+                expect(incidentTypeField.text()).toContain('Please enter incident type')
             })
         });
     })
