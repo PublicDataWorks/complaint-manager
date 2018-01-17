@@ -2,27 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
-import Hidden from 'material-ui/Hidden';
 import Divider from 'material-ui/Divider';
-import MenuIcon from 'material-ui-icons/Menu';
 import NavBar from "../../sharedComponents/NavBar";
 import {Link} from "react-router-dom";
 import LinkButton from "../../sharedComponents/LinkButton";
 import {connect} from "react-redux";
 import {Table, TableBody, TableCell, TableHead, TableRow} from "material-ui";
 import formatName from "../../formatName";
+import formatDate from "../../formatDate";
 
 const drawerWidth = 240;
+
+const appBar = {
+    position: 'absolute',
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    overflowX: 'scroll'
+}
+
 
 const styles = theme => ({
     root: {
         width: '100%',
         height: 430,
-        marginTop: theme.spacing.unit * 3,
         zIndex: 1,
         overflow: 'hidden',
     },
@@ -35,23 +38,15 @@ const styles = theme => ({
     appBar: {
         position: 'absolute',
         marginLeft: drawerWidth,
-        [theme.breakpoints.up('md')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
-        },
+        width: `calc(100% - ${drawerWidth}px)`,
+        overflowX: 'scroll'
     },
-    navIconHide: {
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
-        },
-    },
+
     drawerHeader: theme.mixins.toolbar,
     drawerPaper: {
         width: 250,
-        [theme.breakpoints.up('md')]: {
-            width: drawerWidth,
-            position: 'relative',
-            height: '100%',
-        },
+        height: '100%',
+        backgroundColor: 'white'
     },
     content: {
         backgroundColor: theme.palette.background.default,
@@ -64,6 +59,12 @@ const styles = theme => ({
             marginTop: 64,
         },
     },
+    statusBox:{
+        backgroundColor: theme.palette.green,
+        padding: '3px 15px',
+        borderRadius: '4px',
+        margin: '2%'
+    }
 });
 
 class CaseDetails extends React.Component {
@@ -71,16 +72,12 @@ class CaseDetails extends React.Component {
         mobileOpen: false,
     };
 
-    handleDrawerToggle = () => {
-        this.setState({mobileOpen: !this.state.mobileOpen});
-    };
-
     render() {
         if (!this.props.caseDetail) {
             return null
         }
 
-        const {classes, theme} = this.props;
+        const {classes } = this.props;
 
         const drawer = (
             <div>
@@ -104,7 +101,7 @@ class CaseDetails extends React.Component {
                     <TableBody>
                         <TableRow>
                             <TableCell data-test="created-on">
-                                <Typography type='body'>Jan 16, 2018</Typography>
+                                <Typography type='body'>{formatDate(this.props.caseDetail.createdAt)}</Typography>
                             </TableCell>
                             <TableCell data-test="created-by">
                                 <Typography type='body'>Chris Kozak</Typography>
@@ -123,48 +120,34 @@ class CaseDetails extends React.Component {
         return (
             <div className={classes.root}>
                 <div className={classes.appFrame}>
-                    <AppBar className={classes.appBar}>
-                        <Toolbar>
-                            <IconButton
-                                color="contrast"
-                                aria-label="open drawer"
-                                onClick={this.handleDrawerToggle}
-                                className={classes.navIconHide}
-                            >
-                                <MenuIcon/>
-                            </IconButton>
-                            <NavBar>
-                                {formatName(this.props.caseDetail.firstName, this.props.caseDetail.lastName)}
-                            </NavBar>
-                        </Toolbar>
-                    </AppBar>
-                    <Hidden mdUp>
-                        <Drawer
-                            type="temporary"
-                            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                            open={this.state.mobileOpen}
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            onClose={this.handleDrawerToggle}
-                            ModalProps={{
-                                keepMounted: true, // Better open performance on mobile.
-                            }}
+                    <NavBar isHome={false} customStyle={appBar}>
+                        <Typography
+                            data-test="pageTitle"
+                            type="title"
+                            color="inherit"
+                            style={{marginRight:'20px'}}
+
                         >
-                            {drawer}
-                        </Drawer>
-                    </Hidden>
-                    <Hidden smDown implementation="css">
-                        <Drawer
-                            type="permanent"
-                            open
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
+                            {formatName(this.props.caseDetail.firstName, this.props.caseDetail.lastName)}
+                        </Typography>
+                        <Typography
+                            data-test="pageTitle"
+                            type="title"
+                            color="inherit"
+                            className={classes.statusBox}
                         >
-                            {drawer}
-                        </Drawer>
-                    </Hidden>
+                            {this.props.caseDetail.status}
+                        </Typography>
+                    </NavBar>
+                    <Drawer
+                        type="permanent"
+                        anchor="left"
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                    >
+                        {drawer}
+                    </Drawer>
                     <main className={classes.content}>
                         <Typography noWrap>{'Blah Blah Blah'}</Typography>
                     </main>

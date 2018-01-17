@@ -5,16 +5,15 @@ import {AppBar, IconButton, Menu, MenuItem, Toolbar, Typography} from 'material-
 import {Link} from "react-router-dom";
 
 const styles = {
-    flex:{
-        flex:1
-    },
-    appBar:{
-        width: '100%',
-        overflowX: 'scroll'
+    appBarStyle: {
+        position: 'static',
+        overflowX: 'scroll',
+        width: "100%"
     }
 }
 
-class NavBar extends React.Component{
+
+class NavBar extends React.Component {
 
     state = {
         menuOpen: false,
@@ -36,31 +35,37 @@ class NavBar extends React.Component{
     }
 
     render() {
+        const {isHome, children} = this.props
+        const appBarStyle = isHome ? styles.appBarStyle : this.props.customStyle
         return (
-            <AppBar position="static" style={styles.appBar}>
+
+            <AppBar position="static" style={appBarStyle}>
                 <Toolbar>
-                    <IconButton
-                        color="contrast"
-                        component={Link}
-                        to="/"
-                    >
-                        <HomeIcon/>
-                    </IconButton>
-                    <Typography
-                        data-test="pageTitle"
-                        type="title"
-                        color="inherit"
-                        style={styles.flex}
-                    >
-                        {this.props.children
-                          ? this.props.children
-                          : ""}
-                    </Typography>
+                    {
+                        isHome
+                            ?
+                            <IconButton
+                                color="contrast"
+                                component={Link}
+                                to="/"
+                            >
+                                <HomeIcon/>
+                            </IconButton>
+                            :
+                            ""
+                    }
+
+                    {children}
+
+                    <div style={{flex: 1, flexDirection: 'row-reverse'}}>
+                    </div>
+
                     <Typography
                         data-test="userName"
                         type="title"
                         color="inherit"
-                      > Name </Typography>
+
+                    > Name </Typography>
                     <IconButton
                         color="contrast"
                         data-test="gearButton"
@@ -84,7 +89,13 @@ class NavBar extends React.Component{
                     </Menu>
                 </Toolbar>
             </AppBar>
-        )}
+        )
+    }
+
+}
+
+NavBar.defaultProps = {
+    isHome: true
 }
 
 export default NavBar
