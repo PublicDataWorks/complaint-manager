@@ -1,15 +1,10 @@
 import app from './server'
 import request from 'supertest'
-import transporter from './email/transporter'
-
+let ms = require('smtp-tester');
 const Sequelize = require('sequelize')
 const models = require('./models')
 
 const Op = Sequelize.Op
-
-jest.mock('./email/transporter', () => ({
-    sendMail: jest.fn()
-}))
 
 describe('server', () => {
     describe('GET /health-check', () => {
@@ -123,6 +118,10 @@ describe('server', () => {
     })
 
     describe('POST /users', () => {
+        let mailServer
+        beforeEach( () => {
+            mailServer = ms.init(2525)
+        })
         afterEach(async () => {
             await models.users.destroy({
                 where: {
@@ -130,10 +129,14 @@ describe('server', () => {
                     lastName: 'Swanson'
                 }
             })
+            mailServer.stop()
         })
 
         test('should create a user', async () => {
-            transporter.sendMail.mockImplementation(() => Promise.resolve({accepted: '', response: '', rejected: ''}))
+
+            mailServer.bind('rswanson@pawnee.gov', (destinationAddress,id,email) => {
+                expect(destinationAddress).toEqual("rswanson@pawnee.gov")
+            });
 
             await request(app)
                 .post('/users')

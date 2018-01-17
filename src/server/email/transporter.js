@@ -1,27 +1,7 @@
 const nodemailer = require('nodemailer')
+let config = require(__dirname + '/../config/config.js')[process.env.NODE_ENV]
 
-let transporter
-
-if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging' ) {
-    transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com",
-        port: 587,
-        secureConnection: false,
-        tls: {
-            ciphers: 'SSLv3'
-        },
-        auth: {
-            user: process.env.EMAIL_ADDRESS,
-            pass: process.env.EMAIL_PASSWORD
-        }
-    })
-} else {
-    transporter = nodemailer.createTransport({
-        secureConnection: false,
-        host: 'email',
-        port: 587
-    });
-}
+let transporter = nodemailer.createTransport(config.email)
 
 module.exports = transporter;
 

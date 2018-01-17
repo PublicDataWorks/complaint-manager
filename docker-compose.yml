@@ -6,8 +6,6 @@ services:
       context: .
     environment:
       - NODE_ENV=development
-    env_file:
-      - .env
     depends_on:
       - db
       - email
