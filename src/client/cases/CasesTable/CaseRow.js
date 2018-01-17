@@ -4,6 +4,7 @@ import formatDate from "../../formatDate";
 import {Link} from "react-router-dom";
 import LinkButton from "../../sharedComponents/LinkButton";
 import themeStyles from "../../globalStyling/styles";
+import formatName from "../../formatName";
 
 const styles = {
     row: {
@@ -49,6 +50,5 @@ const CaseRow = ({caseDetails}) => (
     </TableRow>
 )
 
-const formatName = (firstName, lastName) => `${lastName}, ${firstName[0]}.`
 
 export default CaseRow
