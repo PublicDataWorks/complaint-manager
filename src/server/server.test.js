@@ -1,10 +1,15 @@
 import app from './server'
 import request from 'supertest'
+import transporter from './email/transporter'
 
 const Sequelize = require('sequelize')
 const models = require('./models')
 
 const Op = Sequelize.Op
+
+jest.mock('./email/transporter', () => ({
+    sendMail: jest.fn()
+}))
 
 describe('server', () => {
     describe('GET /health-check', () => {
@@ -122,6 +127,8 @@ describe('server', () => {
         })
 
         test('should create a user', async () => {
+            transporter.sendMail.mockImplementation(() => Promise.resolve({accepted: '', response: '', rejected: ''}))
+
             await request(app)
                 .post('/users')
                 .set('Content-Header', 'application/json')
