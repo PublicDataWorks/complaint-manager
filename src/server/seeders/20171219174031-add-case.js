@@ -9,7 +9,7 @@ module.exports = {
             'updated_at': new Date(),
             'email': 'sal@me.com',
             'phone_number': 1234567890,
-            'incident_type': 'Citizen Complaint'
+            'complainant_type': 'Civilian'
 
         }, {
             'first_name': 'Lily',
@@ -18,7 +18,7 @@ module.exports = {
             'updated_at': new Date(),
             'email': 'levans@me.com',
             'phone_number': 9876543210,
-            'incident_type': 'Officer Complaint'
+            'complainant_type': 'Civilian'
         }])
     },
 
