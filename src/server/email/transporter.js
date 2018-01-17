@@ -2,11 +2,11 @@ const nodemailer = require('nodemailer')
 
 let transporter
 
-if (process.env.NODE_ENV == 'production') {
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging' ) {
     transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
-        secureConnection: false,
         port: 587,
+        secureConnection: false,
         tls: {
             ciphers: 'SSLv3'
         },
@@ -17,12 +17,9 @@ if (process.env.NODE_ENV == 'production') {
     })
 } else {
     transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
-        auth: {
-            user: process.env.EMAIL_ADDRESS,
-            pass: process.env.EMAIL_PASSWORD
-        }
+        secureConnection: false,
+        host: 'email',
+        port: 587
     });
 }
 

@@ -28,6 +28,7 @@ const createUser = async (request, response, next) => {
 const message = (createdUser) => (
     {
         to: createdUser.email,
+        from: 'noipm@thoughtworks.com',
         subject: 'Your NOIPM Password',
         text: createdUser.password
     }
