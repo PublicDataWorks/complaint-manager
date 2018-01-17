@@ -31,8 +31,8 @@ const CaseRow = ({caseDetails}) => (
         <TableCell data-test="caseNumber" style={styles.cell}>
             {caseDetails.id}
         </TableCell>
-        <TableCell data-test="incidentType" style={styles.cell}>
-            {caseDetails.incidentType}
+        <TableCell data-test="complainantType" style={styles.cell}>
+            {caseDetails.complainantType}
         </TableCell>
         <TableCell data-test="caseStatus" style={styles.cell}>
             {caseDetails.status}

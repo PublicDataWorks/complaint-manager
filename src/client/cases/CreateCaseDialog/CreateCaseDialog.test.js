@@ -4,7 +4,7 @@ import createConfiguredStore from "../../createConfiguredStore";
 import {mount} from "enzyme/build/index";
 import {createCaseSuccess} from "../actionCreators";
 import CreateCaseDialog from "./CreateCaseDialog";
-import {changeInput, expectEventuallyNotToExist, findDropdownOption, selectDropdownOption} from "../../../testHelpers";
+import {changeInput, expectEventuallyNotToExist} from "../../../testHelpers";
 import createCase from "../thunks/createCase";
 
 jest.mock('../thunks/createCase', () => (caseDetails) => ({
@@ -37,18 +37,13 @@ describe('CreateCaseDialog component', () => {
             lastName: 'Domino',
             phoneNumber: '0123456789',
             email: 'fdomino@gmail.com',
-            incidentType: 'Officer Complaint'
+            complainantType: 'Civilian'
         }
 
         changeInput(dialog, 'input[data-test="firstNameInput"]', caseDetails.firstName);
         changeInput(dialog, 'input[data-test="lastNameInput"]', caseDetails.lastName);
         changeInput(dialog, 'input[data-test="phoneNumberInput"]', caseDetails.phoneNumber);
         changeInput(dialog, 'input[data-test="emailInput"]', caseDetails.email);
-        selectDropdownOption(
-            dialog,
-            '[data-test="incidentTypeField"]',
-            'li[data-test="officerComplaintItem"]'
-        );
 
         const submitButton = dialog.find('button[data-test="submitCase"]')
         submitButton.simulate('click')
@@ -93,52 +88,6 @@ describe('CreateCaseDialog component', () => {
             test('last name should not use autoComplete', () => {
                 const lastName = dialog.find('input[data-test="lastNameInput"]')
                 expect(lastName.props().autoComplete).toEqual('off')
-            })
-        });
-
-        describe('incident type', () => {
-            test('should contain Citizen Complaint option', () => {
-                const citizenComplaint = findDropdownOption(
-                    dialog,
-                    '[data-test="incidentTypeField"]',
-                    'li[data-test="citizenComplaintItem"]'
-                );
-
-                expect(citizenComplaint.text()).toEqual('Citizen Complaint')
-                expect(citizenComplaint.props().value).toEqual('Citizen Complaint')
-            })
-
-            test('should contain Officer Complaint option', () => {
-                const officerComplaint = findDropdownOption(
-                    dialog,
-                    '[data-test="incidentTypeField"]',
-                    'li[data-test="officerComplaintItem"]'
-                );
-
-                expect(officerComplaint.text()).toEqual('Officer Complaint')
-                expect(officerComplaint.props().value).toEqual('Officer Complaint')
-            })
-
-            test('should contain Criminal Liaison Case option', () => {
-                const criminalLiaison = findDropdownOption(
-                    dialog,
-                    '[data-test="incidentTypeField"]',
-                    'li[data-test="criminalLiaisonItem"]'
-                );
-
-                expect(criminalLiaison.text()).toEqual('Criminal Liaison Case')
-                expect(criminalLiaison.props().value).toEqual('Criminal Liaison Case')
-            })
-
-            test('should contain Commendation option', () => {
-                const commendation = findDropdownOption(
-                    dialog,
-                    '[data-test="incidentTypeField"]',
-                    'li[data-test="commendationItem"]'
-                );
-
-                expect(commendation.text()).toEqual('Commendation')
-                expect(commendation.props().value).toEqual('Commendation')
             })
         });
     })
@@ -229,13 +178,6 @@ describe('CreateCaseDialog component', () => {
             })
         });
 
-        describe('incident type', () => {
-            test('should display error when not selected', () => {
-                const incidentTypeField = dialog.find('div[data-test="incidentTypeField"]')
-                expect(incidentTypeField.text()).toContain('Please enter incident type')
-            })
-        });
-
         describe('when email and phone number are undefined', () => {
             test('should display phone number error', () => {
                 const phoneNumberField = dialog.find('div[data-test="phoneNumberField"]')
@@ -254,7 +196,6 @@ describe('CreateCaseDialog component', () => {
             changeInput(dialog, 'input[data-test="firstNameInput"]', '   Hello   ')
             changeInput(dialog, 'input[data-test="lastNameInput"]', '   Kitty   ')
             changeInput(dialog, 'input[data-test="phoneNumberInput"]', '1234567890')
-            selectDropdownOption(dialog, '[data-test="incidentTypeField"]', 'li[data-test="officerComplaintItem"]')
 
             const submitButton = dialog.find('button[data-test="submitCase"]')
             submitButton.simulate('click')
@@ -264,7 +205,7 @@ describe('CreateCaseDialog component', () => {
                     firstName: 'Hello',
                     lastName: 'Kitty',
                     phoneNumber: '1234567890',
-                    incidentType: 'Officer Complaint'
+                    complainantType: 'Civilian'
                 }))
         })
     })

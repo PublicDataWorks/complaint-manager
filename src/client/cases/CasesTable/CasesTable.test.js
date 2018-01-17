@@ -16,14 +16,14 @@ describe('cases table', () => {
     beforeEach(() => {
         cases = [{
             id: 17,
-            incidentType: 'Citizen Complaint',
+            complainantType: 'Civilian',
             firstName: 'Chuck',
             lastName: 'Berry',
             status: 'Initial',
             createdAt: new Date(2015, 8, 13).toISOString()
         }, {
             id: 24,
-            incidentType: 'Officer Complaint',
+            complainantType: 'Civilian',
             firstName: 'Ariel',
             lastName: 'Pink',
             status: 'Initial',
@@ -43,11 +43,11 @@ describe('cases table', () => {
     });
 
     describe('column headers', () => {
-        let caseNumber, incidentType, status, complainant, caseCreatedOn
+        let caseNumber, complainantType, status, complainant, caseCreatedOn
 
         beforeEach(() => {
             caseNumber = table.find('th[data-test="casesNumberHeader"]');
-            incidentType = table.find('th[data-test="casesIncidentTypeHeader"]');
+            complainantType = table.find('th[data-test="casesComplainantTypeHeader"]');
             status = table.find('th[data-test="casesStatusHeader"]');
             complainant = table.find('th[data-test="casesComplainantHeader"]');
             caseCreatedOn = table.find('th[data-test="casesCreatedOnHeader"]');
@@ -57,8 +57,8 @@ describe('cases table', () => {
             expect(caseNumber.text()).toEqual('Case #');
         })
 
-        test('should display incident type', () => {
-            expect(incidentType.text()).toEqual('Incident Type')
+        test('should display complainant type', () => {
+            expect(complainantType.text()).toEqual('Complainant Type')
         })
 
         test('should display status', () =>{
@@ -85,9 +85,9 @@ describe('cases table', () => {
             expect(number.text()).toEqual('17')
         });
 
-        test('should display incident type', () => {
-            const incidentType = caseRow.find('td[data-test="incidentType"]')
-            expect(incidentType.text()).toEqual('Citizen Complaint')
+        test('should display complainant type', () => {
+            const complainantType = caseRow.find('td[data-test="complainantType"]')
+            expect(complainantType.text()).toEqual('Civilian')
         })
 
         test('should display status', () => {

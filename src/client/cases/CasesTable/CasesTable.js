@@ -45,8 +45,8 @@ class CasesTable extends React.Component {
                                 <TableCell data-test='casesNumberHeader' style={styles.cell}>
                                     <Typography type='body2'>Case #</Typography>
                                 </TableCell>
-                                <TableCell data-test='casesIncidentTypeHeader' style={styles.cell}>
-                                    <Typography type='body2'>Incident Type</Typography>
+                                <TableCell data-test='casesComplainantTypeHeader' style={styles.cell}>
+                                    <Typography type='body2'>Complainant Type</Typography>
                                 </TableCell>
                                 <TableCell data-test='casesStatusHeader' style={styles.cell}>
                                     <Typography type='body2'>Status</Typography>

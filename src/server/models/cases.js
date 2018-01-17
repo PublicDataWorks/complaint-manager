@@ -13,12 +13,12 @@ module.exports = (sequelize, DataTypes) => {
             field: 'last_name',
             type: DataTypes.STRING(25)
         },
-        incidentType: {
+        complainantType: {
             type: DataTypes.ENUM([
-                'Citizen Complaint','Officer Complaint','Criminal Liaison Case','Commendation'
+                'Civilian', 'Police Officer'
             ]),
-            defaultValue: 'Citizen Complaint',
-            field: 'incident_type',
+            defaultValue: 'Civilian',
+            field: 'complainant_type',
         },
         status: {
             type: DataTypes.ENUM([

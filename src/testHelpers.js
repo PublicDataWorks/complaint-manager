@@ -9,7 +9,8 @@ export const findDropdownOption = (mountedComponent, dropdownSelector, optionSel
     const dropdown = mountedComponent.find(dropdownSelector).find('[role="button"]');
     dropdown.simulate('click')
 
-    return mountedComponent.find(optionSelector)
+    const option = mountedComponent.find(optionSelector)
+    return option
 }
 
 export const selectDropdownOption = (mountedComponent, dropdownSelector, optionSelector) => {

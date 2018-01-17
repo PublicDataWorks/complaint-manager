@@ -21,19 +21,19 @@ describe('server', () => {
     })
 
     describe('POST /cases', () => {
-        const caseDetails = {
+        const requestBody = {
             firstName: 'Manny',
             lastName: 'Rodriguez',
             phoneNumber: "8201387432",
             email: 'mrod@gmail.com',
-            incidentType: 'Citizen Complaint'
+            complainantType: 'Civilian'
         };
 
         afterEach(async () => {
             await models.cases.destroy({
                 where: {
-                    firstName: caseDetails.firstName,
-                    lastName: caseDetails.lastName
+                    firstName: requestBody.firstName,
+                    lastName: requestBody.lastName
                 }
             })
         })
@@ -42,15 +42,15 @@ describe('server', () => {
             await request(app)
                 .post('/cases')
                 .set('Content-Header', 'application/json')
-                .send(caseDetails)
+                .send(requestBody)
                 .expect(201)
                 .then(response => {
                     expect(response.body.id).not.toBeUndefined()
-                    expect(response.body.incidentType).toEqual(caseDetails.incidentType)
-                    expect(response.body.firstName).toEqual(caseDetails.firstName)
-                    expect(response.body.lastName).toEqual(caseDetails.lastName)
-                    expect(response.body.phoneNumber).toEqual(caseDetails.phoneNumber)
-                    expect(response.body.email).toEqual(caseDetails.email)
+                    expect(response.body.complainantType).toEqual(requestBody.complainantType)
+                    expect(response.body.firstName).toEqual(requestBody.firstName)
+                    expect(response.body.lastName).toEqual(requestBody.lastName)
+                    expect(response.body.phoneNumber).toEqual(requestBody.phoneNumber)
+                    expect(response.body.email).toEqual(requestBody.email)
                     expect(response.body.status).toEqual('Initial')
                     expect(response.body.createdAt).not.toBeUndefined()
                 })
@@ -66,13 +66,13 @@ describe('server', () => {
                 lastName: 'Pollard',
                 phoneNumber: "8201387432",
                 email: 'rpollard@gmail.com',
-                incidentType: 'Citizen Complaint'
+                complainantType: 'Civilian'
             }, {
                 firstName: 'Joseph',
                 lastName: 'Joestar',
                 phoneNumber: "9021012345",
                 email: 'hermit_purple@gmail.com',
-                incidentType: 'Citizen Complaint'
+                complainantType: 'Police Officer'
             }], {
                 returning: true
             })
@@ -101,12 +101,18 @@ describe('server', () => {
                             expect.objectContaining({
                                 firstName: seededCases[0].firstName,
                                 lastName: seededCases[0].lastName,
+                                phoneNumber: seededCases[0].phoneNumber,
+                                email: seededCases[0].email,
+                                complainantType: seededCases[0].complainantType,
                                 createdAt: seededCases[0].createdAt.toISOString(),
                                 status: 'Initial'
                             }),
                             expect.objectContaining({
                                 firstName: seededCases[1].firstName,
                                 lastName: seededCases[1].lastName,
+                                phoneNumber: seededCases[1].phoneNumber,
+                                email: seededCases[1].email,
+                                complainantType: seededCases[1].complainantType,
                                 createdAt: seededCases[1].createdAt.toISOString(),
                                 status: 'Initial'
                             })
