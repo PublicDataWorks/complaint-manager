@@ -25,6 +25,3 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea/
-
-# local environment variables
-.env
