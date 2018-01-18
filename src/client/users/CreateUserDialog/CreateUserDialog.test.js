@@ -1,7 +1,7 @@
 import React from 'react'
 import CreateUserDialog from './CreateUserDialog'
 import {mount} from 'enzyme'
-import {expectEventuallyNotToExist} from '../../../testHelpers'
+import {changeInput, expectEventuallyNotToExist} from '../../../testHelpers'
 import {Provider} from 'react-redux'
 import createConfiguredStore from "../../createConfiguredStore";
 import createUser from "../thunks/createUser";
@@ -53,17 +53,37 @@ describe('CreateUserDialog', () => {
             email: 'ljenkins@thoughtworks.com'
         }
 
-        const firstName = dialog.find('input[data-test="firstNameInput"]')
-        const lastName = dialog.find('input[data-test="lastNameInput"]')
-        const email = dialog.find('input[data-test="emailInput"]')
-        const submitButton = dialog.find('button[data-test="submitUser"]')
+        changeInput(dialog, 'input[data-test="firstNameInput"]', userDetails.firstName);
+        changeInput(dialog, 'input[data-test="lastNameInput"]', userDetails.lastName);
+        changeInput(dialog, 'input[data-test="emailInput"]', userDetails.email);
 
-        firstName.simulate('change', {target: {value: userDetails.firstName}})
-        lastName.simulate('change', {target: {value: userDetails.lastName}})
-        email.simulate('change', {target: {value: userDetails.email}})
+        const submitButton = dialog.find('button[data-test="submitUser"]')
         submitButton.simulate('click')
 
         expect(dispatchSpy).toHaveBeenCalledWith(createUser(userDetails))
+    })
+
+    test("should not create user when form is submitted with invalid input", () => {
+        const dispatchSpy = jest.spyOn(store, 'dispatch')
+
+        const createUserButton = dialog.find('button[data-test="createUserButton"]')
+        createUserButton.simulate('click')
+
+        const userDetails = {
+            firstName: '',
+            lastName: '',
+            email: ''
+        }
+
+        changeInput(dialog, 'input[data-test="firstNameInput"]', userDetails.firstName);
+        changeInput(dialog, 'input[data-test="lastNameInput"]', userDetails.lastName);
+        changeInput(dialog, 'input[data-test="emailInput"]', userDetails.email);
+
+        const submitButton = dialog.find('button[data-test="submitUser"]')
+
+        submitButton.simulate('click')
+
+        expect(dispatchSpy).not.toHaveBeenCalledWith(createUser(userDetails))
     })
 
     test('should dismiss dialog after successful user creation', async () => {

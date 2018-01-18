@@ -93,14 +93,23 @@ describe('CreateCaseDialog component', () => {
     })
 
     describe('field validation', () => {
+        let submitButton
         beforeEach(() => {
-            const submitButton = dialog.find('button[data-test="submitCase"]')
-            submitButton.simulate('click')
+            submitButton = dialog.find('button[data-test="submitCase"]')
         })
 
         describe('first name', () => {
-            test('should display error message when no value', () => {
+            test('should display error message on submit when no value', () => {
                 const firstNameField = dialog.find('div[data-test="firstNameField"]')
+                submitButton.simulate('click')
+                expect(firstNameField.text()).toContain('Please enter First Name')
+            })
+
+            test('should display error message when no value and clicked on and off', () => {
+                const firstNameField = dialog.find('div[data-test="firstNameField"]')
+                const firstNameInput = dialog.find('input[data-test="firstNameInput"]')
+                firstNameInput.simulate('focus')
+                firstNameInput.simulate('blur')
                 expect(firstNameField.text()).toContain('Please enter First Name')
             })
 
@@ -119,9 +128,17 @@ describe('CreateCaseDialog component', () => {
         describe('last name', () => {
             test('should display error message when no value', () => {
                 const lastNameField = dialog.find('div[data-test="lastNameField"]')
+                submitButton.simulate('click')
                 expect(lastNameField.text()).toContain('Please enter Last Name')
             })
 
+            test('should display error message when no value and clicked on and off', () => {
+                const lastNameField = dialog.find('div[data-test="lastNameField"]')
+                const lastNameInput = dialog.find('input[data-test="lastNameInput"]')
+                lastNameInput.simulate('focus')
+                lastNameInput.simulate('blur')
+                expect(lastNameField.text()).toContain('Please enter Last Name')
+            })
 
             test('should display error when whitespace', () => {
                 const lastNameInput = dialog.find('input[data-test="lastNameInput"]')
@@ -136,30 +153,20 @@ describe('CreateCaseDialog component', () => {
         });
 
         describe('phone number', () => {
-            test('should display error when non-numeric', () => {
+            test('should display error when phone number validation fails', () => {
                 const phoneNumberInput = dialog.find('input[data-test="phoneNumberInput"]')
 
                 phoneNumberInput.simulate('focus')
-                phoneNumberInput.simulate('change', {target: {value: '123456789A'}})
+                phoneNumberInput.simulate('change', {target: {value: 'bad-number'}})
                 phoneNumberInput.simulate('blur')
 
                 const phoneNumberField = dialog.find('div[data-test="phoneNumberField"]')
                 expect(phoneNumberField.text()).toContain('Please enter a numeric 10 digit value')
             })
 
-            test('should display error when not 10 digits', () => {
-                const phoneNumberInput = dialog.find('input[data-test="phoneNumberInput"]')
+            test('should not display error when nothing was entered (Will prompt for email or phone number instead)', () => {
+                submitButton.simulate('click')
 
-                phoneNumberInput.simulate('focus')
-                phoneNumberInput.simulate('change', {target: {value: '123456789'}})
-                phoneNumberInput.simulate('blur')
-
-                const phoneNumberField = dialog.find('div[data-test="phoneNumberField"]')
-                expect(phoneNumberField.text()).toContain('Please enter a numeric 10 digit value')
-
-            })
-
-            test('should not display error when undefined', () => {
                 const phoneNumberField = dialog.find('div[data-test="phoneNumberField"]')
                 expect(phoneNumberField.text()).not.toContain('Please enter a numeric 10 digit value')
             })
@@ -180,13 +187,47 @@ describe('CreateCaseDialog component', () => {
 
         describe('when email and phone number are undefined', () => {
             test('should display phone number error', () => {
+                submitButton.simulate('click')
                 const phoneNumberField = dialog.find('div[data-test="phoneNumberField"]')
                 expect(phoneNumberField.text()).toContain('Please enter phone number or email address')
             })
 
             test('should display email error', () => {
+                submitButton.simulate('click')
                 const emailField = dialog.find('div[data-test="emailField"]')
                 expect(emailField.text()).toContain('Please enter phone number or email address')
+            })
+
+            test("should not ask for phone number or email when email has been properly submitted", () => {
+                const emailInput = dialog.find('input[data-test="emailInput"]')
+
+                emailInput.simulate('focus')
+                emailInput.simulate('change', {target: {value: 'ethome@thoughtworks'}})
+                emailInput.simulate('blur')
+
+                const phoneNumberField = dialog.find('div[data-test="phoneNumberField"]')
+                const emailField = dialog.find('div[data-test="emailField"]')
+
+                submitButton.simulate('click')
+
+                expect(phoneNumberField.text()).not.toContain('Please enter phone number or email address')
+                expect(emailField.text()).not.toContain('Please enter phone number or email address')
+            })
+
+            test("should not ask for phone number or email when phone number has been properly submitted", () => {
+                const phoneNumberInput = dialog.find('input[data-test="phoneNumberInput"]')
+
+                phoneNumberInput.simulate('focus')
+                phoneNumberInput.simulate('change', {target: {value: '0123456789'}})
+                phoneNumberInput.simulate('blur')
+
+                const phoneNumberField = dialog.find('div[data-test="phoneNumberField"]')
+                const emailField = dialog.find('div[data-test="emailField"]')
+
+                submitButton.simulate('click')
+
+                expect(phoneNumberField.text()).not.toContain('Please enter phone number or email address')
+                expect(emailField.text()).not.toContain('Please enter phone number or email address')
             })
         })
     })

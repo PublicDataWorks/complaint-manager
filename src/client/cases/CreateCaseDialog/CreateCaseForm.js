@@ -2,29 +2,11 @@ import React from 'react';
 import {Field, reduxForm} from 'redux-form'
 import createCase from "../thunks/createCase";
 import {TextField} from 'redux-form-material-ui'
-import validator from 'validator'
 import ComplainantTypeRadioGroup from './ComplainantTypeRadioGroup'
-
-const isRequired = text => value =>
-    value === undefined ? `Please enter ${text}` : undefined
-
-const notBlank = text => value =>
-    value.trim() === '' ? `Please enter ${text}` : undefined
-
-const isPhoneNumber = value => {
-    const missingOrValid = value === undefined || /^[0-9]{10}$/.test(value);
-    return missingOrValid ? undefined : 'Please enter a numeric 10 digit value'
-}
-
-const isEmail = value => {
-    const missingOrValid = value === undefined || validator.isEmail(value);
-    return missingOrValid ? undefined : 'Please enter a valid email address'
-}
-
-const firstNameRequired = isRequired('First Name');
-const lastNameRequired = isRequired('Last Name');
-const firstNameNotBlank = notBlank('First Name')
-const lastNameNotBlank = notBlank('Last Name')
+import {
+    firstNameNotBlank, firstNameRequired, isEmail, isPhoneNumber, lastNameNotBlank,
+    lastNameRequired
+} from "../../formValidations";
 
 const CreateCaseForm = () => {
     const offSet = {
