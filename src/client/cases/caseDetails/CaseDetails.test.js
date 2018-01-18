@@ -8,6 +8,7 @@ import NavBar from "../../sharedComponents/NavBar";
 import {BrowserRouter as Router} from "react-router-dom";
 import LinkButton from "../../sharedComponents/LinkButton";
 import formatDate from "../../formatDate";
+import {containsText} from "../../../testHelpers";
 
 jest.mock('../thunks/getCases', () => () => ({
     type: 'MOCK_GET_CASES_THUNK'
@@ -50,7 +51,7 @@ describe('Case Details Component', () => {
     })
 
     test("should display the case number in the left drawer", () => {
-        expect(caseDetails.find('h3[data-test="case-number"]').text()).toEqual(`Case #${expectedCase.id}`)
+        containsText(caseDetails, '[data-test="case-number"]', `Case #${expectedCase.id}`)
     })
 
     test("should display created on date in left drawer", () => {
@@ -66,6 +67,7 @@ describe('Case Details Component', () => {
     })
 
     test("should display case status next to name in NavBar", () => {
-        expect(caseDetails.find(NavBar).find('h2[data-test="caseStatusBox"]').text()).toEqual(expectedCase.status)
+        const navBar = caseDetails.find(NavBar)
+        containsText(navBar, '[data-test="caseStatusBox"]', expectedCase.status)
     })
 });

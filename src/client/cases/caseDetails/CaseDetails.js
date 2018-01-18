@@ -60,9 +60,9 @@ const styles = theme => ({
     },
     statusBox:{
         backgroundColor: theme.palette.green,
-        padding: '3px 15px',
+        padding: '6px 15px 4px 15px',
         borderRadius: '4px',
-        margin: '2%'
+        margin: '0%'
     }
 });
 
@@ -81,7 +81,7 @@ class CaseDetails extends React.Component {
         const drawer = (
             <div>
                 <LinkButton component={Link} to={'/'} style={{ margin: '4% 0% 5% 2%'}}>Back to all Cases</LinkButton>
-                <Typography data-test="case-number" type="subheading" style={{color: theme.palette.primary[500], marginLeft: "24px", marginTop: '4px'}} gutterBottom>
+                <Typography data-test="case-number" type="title" style={{ marginLeft: "24px", marginTop: '4px'}} gutterBottom>
                     {`Case #${this.props.caseDetail.id}`}
                 </Typography>
                 <Table>
@@ -132,7 +132,7 @@ class CaseDetails extends React.Component {
                         </Typography>
                         <Typography
                             data-test="caseStatusBox"
-                            type="title"
+                            type="caption"
                             color="inherit"
                             className={classes.statusBox}
                         >

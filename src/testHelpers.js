@@ -26,6 +26,11 @@ export const expectEventuallyNotToExist = async (mountedComponent, selector) => 
     })
 }
 
+export const containsText = (mountedComponent, selector, expectedText) => {
+    const containsText = mountedComponent.find(selector).filterWhere(node => node.text() === expectedText)
+    return expect(containsText.length).not.toEqual(0)
+}
+
 export const retry = async (retriableFunction) => {
     await promiseRetry((doRetry) => {
         try {
