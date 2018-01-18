@@ -19,13 +19,20 @@ export const selectDropdownOption = (mountedComponent, dropdownSelector, optionS
 }
 
 export const expectEventuallyNotToExist = async (mountedComponent, selector) => {
-    await promiseRetry((retry) => {
+    await retry(() => {
+        mountedComponent.update()
+        const shouldNotExist = mountedComponent.find(selector)
+        expect(shouldNotExist.exists()).toEqual(false)
+    })
+}
+
+export const retry = async (retriableFunction) => {
+    await promiseRetry((doRetry) => {
         try {
-            mountedComponent.update()
-            const shouldNotExist = mountedComponent.find(selector)
-            expect(shouldNotExist.exists()).toEqual(false)
+            retriableFunction();
         } catch (e) {
-            retry(e)
+            doRetry(e)
         }
     })
 }
+

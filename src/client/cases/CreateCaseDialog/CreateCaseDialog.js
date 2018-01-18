@@ -55,13 +55,15 @@ class CreateCaseDialog extends React.Component {
                                 information later.
                             </Typography>
                         </DialogContentText>
+                        <DialogContentText>
+                            <Typography type='body2'>Complainant Information</Typography>
+                        </DialogContentText>
                         <CreateCaseForm/>
                     </DialogContent>
                     <DialogActions>
                         <CancelButton
                             data-test="cancelCase"
                             onClick={this.closeDialog}
-                            style={{display: 'box'}}
                         >
                             Cancel
                         </CancelButton>

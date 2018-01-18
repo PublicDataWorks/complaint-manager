@@ -45,8 +45,8 @@ class CreationSnackbar extends React.Component {
                     }}
                     message={
                         <span data-test="creationSnackbarBannerText">
-                        {this.props.message}
-                    </span>
+                            {this.props.message}
+                        </span>
                     }
                     action={[
                         <IconButton
