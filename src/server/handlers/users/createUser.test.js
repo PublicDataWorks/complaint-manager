@@ -87,7 +87,7 @@ describe('create user', () => {
 
 
         const message = {
-            from: 'noipm@thoughtworks.com',
+            from: 'test_env_email@example.com',
             to: 'blah@mail.org',
             subject: 'Your NOIPM Password',
             text: "SUPER_SECRET_PASSWORD"

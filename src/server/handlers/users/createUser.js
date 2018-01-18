@@ -3,6 +3,7 @@ const nodemailer = require("nodemailer");
 const models = require('../../models/index');
 const generatePassword = require('password-generator');
 const transporter = require('../../email/transporter')
+const config = require('../../config/config')[process.env.NODE_ENV]
 
 const createUser = async (request, response, next) => {
     try {
@@ -26,7 +27,7 @@ const createUser = async (request, response, next) => {
 const message = (createdUser) => (
     {
         to: createdUser.email,
-        from: 'noipm@thoughtworks.com',
+        from: config.email.fromEmailAddress,
         subject: 'Your NOIPM Password',
         text: createdUser.password
     }

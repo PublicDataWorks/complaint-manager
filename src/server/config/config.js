@@ -11,7 +11,8 @@ module.exports = {
         email: {
             secureConnection: false,
             host: 'email',
-            port: 587
+            port: 587,
+            fromEmailAddress: "dev_env_email@example.com"
         }
     },
     test: {
@@ -29,7 +30,8 @@ module.exports = {
             secure: false,
             ignoreTLS: true,
             host: 'localhost',
-            port: 2525
+            port: 2525,
+            fromEmailAddress: "test_env_email@example.com"
         }
     },
     staging: {
@@ -57,7 +59,8 @@ module.exports = {
             auth: {
                 user: process.env.EMAIL_ADDRESS,
                 pass: process.env.EMAIL_PASSWORD
-            }
+            },
+            fromEmailAddress: process.env.EMAIL_ADDRESS
         }
     },
     production: {
@@ -85,7 +88,8 @@ module.exports = {
             auth: {
                 user: process.env.EMAIL_ADDRESS,
                 pass: process.env.EMAIL_PASSWORD
-            }
+            },
+            fromEmailAddress: process.env.EMAIL_ADDRESS
         }
     }
 }
