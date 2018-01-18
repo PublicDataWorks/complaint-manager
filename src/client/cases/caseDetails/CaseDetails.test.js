@@ -23,7 +23,9 @@ describe('Case Details Component', () => {
             firstName: 'Chuck',
             lastName: 'Berry',
             status: 'Initial',
-            createdAt: formatDate(new Date(2015, 8, 13).toISOString())
+            createdAt: formatDate(new Date(2015, 8, 13).toISOString()),
+            createdBy: 'Placeholder',
+            assignedTo: 'Placeholder'
         }];
         store.dispatch(getCasesSuccess(cases));
         expectedCase = cases[0]
@@ -38,16 +40,16 @@ describe('Case Details Component', () => {
 
     test("should render a NavBar with Last Name, First Initial", () => {
         const navBar = caseDetails.find(NavBar);
-        expect(navBar.exists()).toEqual(true);
-        const name = navBar
-            .find('h2[data-test="pageTitle"]')
-            .filterWhere(node => node.text() === 'Berry, C.')
+        containsText(navBar, '[data-test="pageTitle"]', 'Berry, C.')
+    })
 
-        expect(name.exists()).toEqual(true)
+    test("should display case status next to name in NavBar", () => {
+        const navBar = caseDetails.find(NavBar)
+        containsText(navBar, '[data-test="caseStatusBox"]', expectedCase.status)
     })
 
     test("should provide an option to go back to all cases", () => {
-        expect(caseDetails.find('LinkButton').text()).toEqual("Back to all Cases")
+        containsText(caseDetails, 'LinkButton', "Back to all Cases")
     })
 
     test("should display the case number in the left drawer", () => {
@@ -55,19 +57,14 @@ describe('Case Details Component', () => {
     })
 
     test("should display created on date in left drawer", () => {
-        expect(caseDetails.find('td[data-test="created-on"]').text()).toEqual(expectedCase.createdAt)
+        containsText(caseDetails, '[data-test="created-on"]', expectedCase.createdAt)
     })
 
     test("should display created by user in left drawer", () => {
-        expect(caseDetails.find('td[data-test="created-by"]').text()).toEqual("Created by placeholder")
+        containsText(caseDetails, '[data-test="created-by"]', expectedCase.createdBy)
     })
 
     test("should display assigned to user in left drawer", () => {
-        expect(caseDetails.find('td[data-test="assigned-to"]').text()).toEqual("Assigned to placeholder")
-    })
-
-    test("should display case status next to name in NavBar", () => {
-        const navBar = caseDetails.find(NavBar)
-        containsText(navBar, '[data-test="caseStatusBox"]', expectedCase.status)
+        containsText(caseDetails, '[data-test="assigned-to"]',expectedCase.assignedTo)
     })
 });

@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
 import Typography from 'material-ui/Typography';
-import Divider from 'material-ui/Divider';
 import NavBar from "../../sharedComponents/NavBar";
 import {Link} from "react-router-dom";
 import LinkButton from "../../sharedComponents/LinkButton";
 import {connect} from "react-redux";
-import {Table, TableBody, TableCell, TableHead, TableRow} from "material-ui";
 import formatName from "../../formatName";
 import formatDate from "../../formatDate";
 
@@ -76,7 +74,7 @@ class CaseDetails extends React.Component {
             return null
         }
 
-        const {classes, theme} = this.props;
+        const { classes } = this.props;
 
         const drawer = (
             <div>
@@ -84,36 +82,20 @@ class CaseDetails extends React.Component {
                 <Typography data-test="case-number" type="title" style={{ marginLeft: "24px", marginTop: '4px'}} gutterBottom>
                     {`Case #${this.props.caseDetail.id}`}
                 </Typography>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>
-                                <Typography type='body1'>Created On</Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography type='body1'>Created By</Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography type='body1'>Assigned To</Typography>
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell data-test="created-on">
-                                <Typography type='body1'>{formatDate(this.props.caseDetail.createdAt)}</Typography>
-                            </TableCell>
-                            <TableCell data-test="created-by">
-                                <Typography type='body1'>Created by placeholder</Typography>
-                            </TableCell>
-                            <TableCell data-test="assigned-to">
-                                <Typography type='body1'>Assigned to placeholder</Typography>
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-                <Divider/>
-
+                <div style={{marginLeft: '48px', display:"flex"}}>
+                    <div style={{flex:1, textAlign:'left'}}>
+                        <Typography type='body1'>Created On</Typography>
+                        <Typography data-test="created-on" type='caption'>{formatDate(this.props.caseDetail.createdAt)}</Typography>
+                    </div>
+                    <div style={{flex:1, textAlign:'left'}}>
+                        <Typography type='body1'>Created By</Typography>
+                        <Typography data-test="created-by" type='caption'>Placeholder</Typography>
+                    </div>
+                    <div style={{flex:1, textAlign:'left'}}>
+                        <Typography type='body1'>Assigned To</Typography>
+                        <Typography data-test="assigned-to" type='caption'>Placeholder</Typography>
+                    </div>
+                </div>
             </div>
         );
 
