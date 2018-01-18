@@ -13,7 +13,7 @@ jest.mock('../thunks/getCases', () => () => ({
     type: 'MOCK_GET_CASES_THUNK'
 }))
 describe('Case Details Component', () => {
-    let details, expectedCase, dispatchSpy;
+    let caseDetails, expectedCase, dispatchSpy;
     beforeEach(() => {
         let store = createConfiguredStore()
         dispatchSpy = jest.spyOn(store, 'dispatch');
@@ -22,13 +22,11 @@ describe('Case Details Component', () => {
             firstName: 'Chuck',
             lastName: 'Berry',
             status: 'Initial',
-            createdOn: formatDate(new Date(2015, 8, 13).toISOString()),
-            createdBy: 'Some User',
-            assignedTo: 'Another User'
+            createdAt: formatDate(new Date(2015, 8, 13).toISOString())
         }];
         store.dispatch(getCasesSuccess(cases));
         expectedCase = cases[0]
-        details = mount(
+        caseDetails = mount(
             <Provider store={store}>
                 <Router>
                     <CaseDetails match={{params: {id: expectedCase.id.toString()}}}/>
@@ -38,32 +36,36 @@ describe('Case Details Component', () => {
     });
 
     test("should render a NavBar with Last Name, First Initial", () => {
-        const navBar = details.find(NavBar);
+        const navBar = caseDetails.find(NavBar);
         expect(navBar.exists()).toEqual(true);
-        expect(!navBar.text().search("Berry, C.")).toEqual(true)
+        const name = navBar
+            .find('h2[data-test="pageTitle"]')
+            .filterWhere(node => node.text() === 'Berry, C.')
+
+        expect(name.exists()).toEqual(true)
     })
 
     test("should provide an option to go back to all cases", () => {
-        expect(details.find('LinkButton').text()).toEqual("Back to all Cases")
+        expect(caseDetails.find('LinkButton').text()).toEqual("Back to all Cases")
     })
 
     test("should display the case number in the left drawer", () => {
-        expect(details.find('h3[data-test="case-number"]').text()).toEqual(`Case #${expectedCase.id}`)
+        expect(caseDetails.find('h3[data-test="case-number"]').text()).toEqual(`Case #${expectedCase.id}`)
     })
 
-    test.skip("should display created on date in left drawer", () => {
-        expect(details.find('td[data-test="created-on"]').text()).toEqual(`${expectedCase.createdOn}`)
+    test("should display created on date in left drawer", () => {
+        expect(caseDetails.find('td[data-test="created-on"]').text()).toEqual(expectedCase.createdAt)
     })
 
-    test.skip("should display created by user in left drawer", () => {
-        expect(details.find('td[data-test="created-by"]').text()).toEqual(`${expectedCase.createdBy}`)
+    test("should display created by user in left drawer", () => {
+        expect(caseDetails.find('td[data-test="created-by"]').text()).toEqual("Created by placeholder")
     })
 
-    test.skip("should display assigned to user in left drawer", () => {
-        expect(details.find('td[data-test="assigned-to"]').text()).toEqual(`${expectedCase.assignedTo}`)
+    test("should display assigned to user in left drawer", () => {
+        expect(caseDetails.find('td[data-test="assigned-to"]').text()).toEqual("Assigned to placeholder")
     })
 
-    test.skip("should display case status next to name in NavBar", () => {
-        expect().to("")
+    test("should display case status next to name in NavBar", () => {
+        expect(caseDetails.find(NavBar).find('h2[data-test="caseStatusBox"]').text()).toEqual(expectedCase.status)
     })
 });

@@ -12,13 +12,12 @@ import {Table, TableBody, TableCell, TableHead, TableRow} from "material-ui";
 import formatName from "../../formatName";
 import formatDate from "../../formatDate";
 
-const drawerWidth = 240;
+const drawerWidthPercentage = '30%';
 
 const appBar = {
     position: 'absolute',
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    overflowX: 'scroll'
+    marginLeft: drawerWidthPercentage,
+    width: `calc(100% - ${drawerWidthPercentage})`,
 }
 
 
@@ -37,14 +36,13 @@ const styles = theme => ({
     },
     appBar: {
         position: 'absolute',
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        overflowX: 'scroll'
+        marginLeft: drawerWidthPercentage,
+        width: `calc(100% - ${drawerWidthPercentage})`,
     },
 
     drawerHeader: theme.mixins.toolbar,
     drawerPaper: {
-        width: 250,
+        width: drawerWidthPercentage,
         height: '100%',
         backgroundColor: 'white'
     },
@@ -54,6 +52,7 @@ const styles = theme => ({
         padding: theme.spacing.unit * 3,
         height: 'calc(100% - 56px)',
         marginTop: 56,
+        marginLeft: drawerWidthPercentage,
         [theme.breakpoints.up('sm')]: {
             height: 'calc(100% - 64px)',
             marginTop: 64,
@@ -77,37 +76,38 @@ class CaseDetails extends React.Component {
             return null
         }
 
-        const {classes } = this.props;
+        const {classes, theme} = this.props;
 
         const drawer = (
             <div>
-                <LinkButton component={Link} to={'/'}>Back to all Cases</LinkButton>
-                <Divider/>
-                <h3 data-test="case-number">{`Case #${this.props.caseDetail.id}`}</h3>
+                <LinkButton component={Link} to={'/'} style={{ margin: '4% 0% 5% 2%'}}>Back to all Cases</LinkButton>
+                <Typography data-test="case-number" type="subheading" style={{color: theme.palette.primary[500], marginLeft: "24px", marginTop: '4px'}} gutterBottom>
+                    {`Case #${this.props.caseDetail.id}`}
+                </Typography>
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell>
-                                <Typography type='body'>Created On</Typography>
+                                <Typography type='body1'>Created On</Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography type='body'>Created By</Typography>
+                                <Typography type='body1'>Created By</Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography type='body'>Assigned To</Typography>
+                                <Typography type='body1'>Assigned To</Typography>
                             </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         <TableRow>
                             <TableCell data-test="created-on">
-                                <Typography type='body'>{formatDate(this.props.caseDetail.createdAt)}</Typography>
+                                <Typography type='body1'>{formatDate(this.props.caseDetail.createdAt)}</Typography>
                             </TableCell>
                             <TableCell data-test="created-by">
-                                <Typography type='body'>Chris Kozak</Typography>
+                                <Typography type='body1'>Created by placeholder</Typography>
                             </TableCell>
                             <TableCell data-test="assigned-to">
-                                <Typography type='body'>Monica Shum</Typography>
+                                <Typography type='body1'>Assigned to placeholder</Typography>
                             </TableCell>
                         </TableRow>
                     </TableBody>
@@ -131,12 +131,12 @@ class CaseDetails extends React.Component {
                             {formatName(this.props.caseDetail.firstName, this.props.caseDetail.lastName)}
                         </Typography>
                         <Typography
-                            data-test="pageTitle"
+                            data-test="caseStatusBox"
                             type="title"
                             color="inherit"
                             className={classes.statusBox}
                         >
-                            {this.props.caseDetail.status}
+                            { this.props.caseDetail.status }
                         </Typography>
                     </NavBar>
                     <Drawer
@@ -149,7 +149,7 @@ class CaseDetails extends React.Component {
                         {drawer}
                     </Drawer>
                     <main className={classes.content}>
-                        <Typography noWrap>{'Blah Blah Blah'}</Typography>
+                        Content placeholder
                     </main>
                 </div>
             </div>
@@ -167,7 +167,3 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 export default withStyles(styles, {withTheme: true})(connect(mapStateToProps)(CaseDetails));
-
-//TODO: Nav bar shows status in green box
-//TODO: Switch to Permanent Drawer
-//TODO: Wire up created-on, created-by, and assigned-to
