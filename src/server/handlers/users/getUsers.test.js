@@ -32,6 +32,8 @@ describe('getUsers handler', () => {
         })
     })
 
-    test('should respond with 500 when cannot get all users')
+    test.skip('should respond with 500 when cannot get all users', () => {
+
+    })
 
 })

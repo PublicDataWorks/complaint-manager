@@ -55,9 +55,6 @@ class CreateCaseDialog extends React.Component {
                                 information later.
                             </Typography>
                         </DialogContentText>
-                        <DialogContentText>
-                            <Typography type='body2'>Complainant Information</Typography>
-                        </DialogContentText>
                         <CreateCaseForm/>
                     </DialogContent>
                     <DialogActions>
