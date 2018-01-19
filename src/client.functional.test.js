@@ -2,13 +2,19 @@ import React from 'react'
 import RootContainer from "./client/RootContainer";
 import {mount} from "enzyme";
 import {changeInput, retry} from "./testHelpers";
-import {mockCreateCase, mockGetCases} from "./mockEndpoints";
+import {mockCreateCase, mockGetCases, mockGetUsers} from "./mockEndpoints";
 
+
+function expectUserToBeVisible(app, id, name) {
+    app.update()
+    const userRow = app.find(`tr[data-test="userRow${id}"]`)
+    expect(userRow.text()).toContain(name)
+}
 
 describe('client-side user journey', () => {
-    let existingCases, newCaseRequest, newCaseResponse, app
+    let existingCases, newCaseRequest, newCaseResponse, existingUsers, app
 
-    beforeEach(() => {
+    beforeAll(() => {
         existingCases = [{
             id: 1,
             firstName: 'Robert',
@@ -32,11 +38,23 @@ describe('client-side user journey', () => {
             status: 'Initial',
             createdAt: '2018-01-17T22:00:20.796Z'
         }
+        existingUsers = [{
+            id: 100,
+            firstName: 'Eleanor',
+            lastName: 'Schellstrop',
+            email: 'eschell@gmail.com',
+            createdAt: new Date(2015, 7, 25).toISOString()
+        }]
 
         mockGetCases(existingCases);
         mockCreateCase(newCaseRequest, newCaseResponse)
+        mockGetUsers(existingUsers)
 
         app = mount(<RootContainer/>)
+    })
+
+    afterAll(() => {
+        nock.clearAll()
     })
 
     test('should view existing cases', async () => {
@@ -52,6 +70,14 @@ describe('client-side user journey', () => {
             expectCaseToBeVisible(app, 2, 'Hayder, S.')
             expectSnackbar(app, 'Case 2 was successfully created.');
         });
+    })
+
+    test('should navigate to admin page and view existing users', async () => {
+        navigateToUserDashboard(app);
+
+        await retry(() => {
+            expectUserToBeVisible(app, 100, 'Eleanor Schellstrop');
+        })
     })
 })
 
@@ -78,4 +104,12 @@ const createCase = (app, newCase) => {
 
     const submitButton = app.find('button[data-test="submitCase"]')
     submitButton.simulate('click')
+}
+
+const navigateToUserDashboard = (app) => {
+    const gearButton = app.find('button[data-test="gearButton"]')
+    gearButton.simulate('click')
+
+    const adminLink = app.find('a[data-test="adminButton"]')
+    adminLink.simulate('click', {button: 0})
 }

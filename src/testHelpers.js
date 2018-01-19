@@ -38,6 +38,6 @@ export const retry = async (retriableFunction) => {
         } catch (e) {
             doRetry(e)
         }
-    })
+    }, {retries: 2})
 }
 
