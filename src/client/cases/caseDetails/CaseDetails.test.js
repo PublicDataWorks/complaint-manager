@@ -38,33 +38,39 @@ describe('Case Details Component', () => {
         )
     });
 
-    test("should render a NavBar with Last Name, First Initial", () => {
-        const navBar = caseDetails.find(NavBar);
-        containsText(navBar, '[data-test="pageTitle"]', 'Berry, C.')
-    })
+    describe('nav bar', () => {
+        test("should display with Last Name, First Initial", () => {
+            const navBar = caseDetails.find(NavBar);
+            containsText(navBar, '[data-test="pageTitle"]', 'Berry, C.')
+        })
 
-    test("should display case status next to name in NavBar", () => {
-        const navBar = caseDetails.find(NavBar)
-        containsText(navBar, '[data-test="caseStatusBox"]', expectedCase.status)
-    })
+        test("should display with case status", () => {
+            const navBar = caseDetails.find(NavBar)
+            containsText(navBar, '[data-test="caseStatusBox"]', expectedCase.status)
+        })
+    });
 
-    test("should provide an option to go back to all cases", () => {
-        containsText(caseDetails, 'LinkButton', "Back to all Cases")
-    })
+    describe('drawer', () => {
+        test("should provide an option to go back to all cases", () => {
+            containsText(caseDetails, 'LinkButton', "Back to all Cases")
+        })
 
-    test("should display the case number in the left drawer", () => {
-        containsText(caseDetails, '[data-test="case-number"]', `Case #${expectedCase.id}`)
-    })
+        test("should display the case number", () => {
+            containsText(caseDetails, '[data-test="case-number"]', `Case #${expectedCase.id}`)
+        })
 
-    test("should display created on date in left drawer", () => {
-        containsText(caseDetails, '[data-test="created-on"]', expectedCase.createdAt)
-    })
+        test("should display created on date", () => {
+            containsText(caseDetails, '[data-test="created-on"]', expectedCase.createdAt)
+        })
 
-    test("should display created by user in left drawer", () => {
-        containsText(caseDetails, '[data-test="created-by"]', expectedCase.createdBy)
-    })
+        test("should display created by user", () => {
+            containsText(caseDetails, '[data-test="created-by"]', expectedCase.createdBy)
+        })
 
-    test("should display assigned to user in left drawer", () => {
-        containsText(caseDetails, '[data-test="assigned-to"]',expectedCase.assignedTo)
-    })
+        test("should display assigned to user", () => {
+            containsText(caseDetails, '[data-test="assigned-to"]', expectedCase.assignedTo)
+        })
+
+    });
+
 });
