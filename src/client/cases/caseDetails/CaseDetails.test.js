@@ -24,8 +24,8 @@ describe('Case Details Component', () => {
             lastName: 'Berry',
             status: 'Initial',
             createdAt: formatDate(new Date(2015, 8, 13).toISOString()),
-            createdBy: 'Placeholder',
-            assignedTo: 'Placeholder'
+            createdBy: 'not added',
+            assignedTo: 'not added'
         }];
         store.dispatch(getCasesSuccess(cases));
         expectedCase = cases[0]

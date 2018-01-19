@@ -89,11 +89,11 @@ class CaseDetails extends React.Component {
                     </div>
                     <div style={{flex:1, textAlign:'left'}}>
                         <Typography type='body1'>Created By</Typography>
-                        <Typography data-test="created-by" type='caption'>Placeholder</Typography>
+                        <Typography data-test="created-by" type='caption'>not added</Typography>
                     </div>
                     <div style={{flex:1, textAlign:'left'}}>
                         <Typography type='body1'>Assigned To</Typography>
-                        <Typography data-test="assigned-to" type='caption'>Placeholder</Typography>
+                        <Typography data-test="assigned-to" type='caption'>not added</Typography>
                     </div>
                 </div>
             </div>

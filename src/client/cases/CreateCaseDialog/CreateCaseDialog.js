@@ -1,10 +1,11 @@
 import React from "react";
 import {submit} from "redux-form";
 import {connect} from "react-redux";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography} from "material-ui";
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography} from "material-ui";
 import CreateCaseForm from "./CreateCaseForm";
 import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
 import {withTheme} from "material-ui/styles";
+import LinkButton from "../../sharedComponents/LinkButton";
 
 const margin = {
     marginLeft: '5%',
@@ -67,13 +68,18 @@ class CreateCaseDialog extends React.Component {
                         >
                             Cancel
                         </CancelButton>
-                        <Button
-                            data-test="submitCase"
+                        <LinkButton
+                            data-test="createCaseOnly"
                             onClick={() => this.props.dispatch(submit('CreateCase'))}
-                            style={{color: this.props.theme.palette.blue}}
                         >
                             Create Only
-                        </Button>
+                        </LinkButton>
+                        <SubmitButton
+                            data-test="createAndView"
+                            onClick={() => this.props.dispatch(submit('CreateCaseAndView'))}
+                        >
+                            Create And View
+                        </SubmitButton>
                     </DialogActions>
                 </Dialog>
             </div>

@@ -6,10 +6,11 @@ const styles = () => ({
     button: themeStyles.link
 })
 
-const LinkButton = ({classes, children, ...other}) => (
+const LinkButton = ({classes:{button}, children, className, ...other}) => (
     <Button
-        className={classes.button}
-        {...other}>{children}</Button>
+        className={button}
+        {...other}
+    >{children}</Button>
 )
 
 export default withStyles(styles)(LinkButton)

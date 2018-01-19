@@ -31,24 +31,30 @@ describe('CreateCaseDialog component', () => {
         createCaseButton.simulate('click')
     })
 
-    test('should create case when form is submitted', () => {
-        const caseDetails = {
-            firstName: 'Fats',
-            lastName: 'Domino',
-            phoneNumber: '0123456789',
-            email: 'fdomino@gmail.com',
-            complainantType: 'Civilian'
-        }
+    describe('submitting a case', () => {
+        let caseDetails
 
-        changeInput(dialog, 'input[data-test="firstNameInput"]', caseDetails.firstName);
-        changeInput(dialog, 'input[data-test="lastNameInput"]', caseDetails.lastName);
-        changeInput(dialog, 'input[data-test="phoneNumberInput"]', caseDetails.phoneNumber);
-        changeInput(dialog, 'input[data-test="emailInput"]', caseDetails.email);
+        beforeEach(() => {
+            caseDetails = {
+                firstName: 'Fats',
+                lastName: 'Domino',
+                phoneNumber: '0123456789',
+                email: 'fdomino@gmail.com',
+                complainantType: 'Civilian'
+            }
 
-        const submitButton = dialog.find('button[data-test="submitCase"]')
-        submitButton.simulate('click')
+            changeInput(dialog, 'input[data-test="firstNameInput"]', caseDetails.firstName);
+            changeInput(dialog, 'input[data-test="lastNameInput"]', caseDetails.lastName);
+            changeInput(dialog, 'input[data-test="phoneNumberInput"]', caseDetails.phoneNumber);
+            changeInput(dialog, 'input[data-test="emailInput"]', caseDetails.email);
+        });
 
-        expect(dispatchSpy).toHaveBeenCalledWith(createCase(caseDetails))
+        test('should create case when clicking Create Only', () => {
+            const submitButton = dialog.find('LinkButton[data-test="createCaseOnly"]')
+            submitButton.simulate('click')
+            expect(dispatchSpy).toHaveBeenCalledWith(createCase(caseDetails))
+        })
+
     })
 
     describe('dismissing dialog', () => {
@@ -95,7 +101,7 @@ describe('CreateCaseDialog component', () => {
     describe('field validation', () => {
         let submitButton
         beforeEach(() => {
-            submitButton = dialog.find('button[data-test="submitCase"]')
+            submitButton = dialog.find('LinkButton[data-test="createCaseOnly"]')
         })
 
         describe('first name', () => {
@@ -238,7 +244,7 @@ describe('CreateCaseDialog component', () => {
             changeInput(dialog, 'input[data-test="lastNameInput"]', '   Kitty   ')
             changeInput(dialog, 'input[data-test="phoneNumberInput"]', '1234567890')
 
-            const submitButton = dialog.find('button[data-test="submitCase"]')
+            const submitButton = dialog.find('LinkButton[data-test="createCaseOnly"]')
             submitButton.simulate('click')
 
             expect(dispatchSpy).toHaveBeenCalledWith(

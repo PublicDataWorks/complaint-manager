@@ -102,7 +102,7 @@ const createCase = (app, newCase) => {
     changeInput(app, 'input[data-test="phoneNumberInput"]', newCase.phoneNumber);
     changeInput(app, 'input[data-test="emailInput"]', newCase.email);
 
-    const submitButton = app.find('button[data-test="submitCase"]')
+    const submitButton = app.find('LinkButton[data-test="createCaseOnly"]')
     submitButton.simulate('click')
 }
 
