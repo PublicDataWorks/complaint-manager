@@ -84,7 +84,7 @@ class NavBar extends React.Component {
                             component={Link}
                             to="/admin"
                         >
-                            Admin
+                            Manage Users
                         </MenuItem>
                     </Menu>
                 </Toolbar>

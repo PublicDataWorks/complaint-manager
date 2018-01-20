@@ -45,13 +45,13 @@ describe('users table', () => {
     })
 
     test('should display name', () => {
-        const name = userRow.find('[data-test="userName"]')
+        const name = userRow.find('td[data-test="userName"]')
 
         expect(name.text()).toEqual('Fachtna Bogdan')
     })
 
     test('should display email', () => {
-        const email = userRow.find('[data-test="userEmail"]')
+        const email = userRow.find('td[data-test="userEmail"]')
 
         expect(email.text()).toEqual('fbogdan@gmail.com')
     })

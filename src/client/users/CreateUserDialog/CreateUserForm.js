@@ -18,6 +18,7 @@ const CreateUserForm = () => {
     return (
         <form data-test="createUserForm">
             <Field
+                required
                 name="firstName"
                 component={TextField}
                 label="First Name"
@@ -31,6 +32,7 @@ const CreateUserForm = () => {
                 style={offSet}
             />
             <Field
+                required
                 name="lastName"
                 component={TextField}
                 label="Last Name"
@@ -44,6 +46,7 @@ const CreateUserForm = () => {
                 style={offSet}
             />
             <Field
+                required
                 name="email"
                 component={TextField}
                 label="Email"

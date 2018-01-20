@@ -5,6 +5,12 @@ import {Button, Dialog, DialogActions, DialogTitle, DialogContent} from "materia
 import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
 import CreateUserForm from './CreateUserForm'
 
+const margin = {
+    marginLeft: '5%',
+    marginTop: '2%',
+    marginBottom: '2%'
+}
+
 class CreateUserDialog extends React.Component {
     state = {
         dialogOpen: false
@@ -62,8 +68,9 @@ class CreateUserDialog extends React.Component {
                     data-test="createUserButton"
                     onClick={this.openDialog}
                     color="primary"
+                    style={margin}
                 >
-                    + Add New User
+                    Add New User
                 </Button>
             </div>
         )

@@ -14,7 +14,7 @@ const UserDashboard = () => {
                     type="title"
                     color="inherit"
                 >
-                    Admin
+                    Manage Users
                 </Typography>
             </NavBar>
 

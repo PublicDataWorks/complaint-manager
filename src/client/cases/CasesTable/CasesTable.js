@@ -7,7 +7,7 @@ import {Paper} from "material-ui";
 import themeStyles from '../../globalStyling/styles'
 
 const styles = {
-    cell:{
+    cell: {
         padding:'0%',
         textAlign: 'center',
         width: '16.5%'
