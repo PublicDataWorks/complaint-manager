@@ -59,6 +59,7 @@ const CreateCaseForm = () => {
                 validate={[isPhoneNumber]}
                 style={offSet}
             />
+            <br />
             <Field
                 name="email"
                 component={TextField}

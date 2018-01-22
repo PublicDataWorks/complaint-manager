@@ -40,7 +40,7 @@ class CreateCaseDialog extends React.Component {
                     onClick={this.openDialog}
                     style={margin}
                 >
-                    + Create New Case
+                    Create New Case
                 </SubmitButton>
                 <Dialog
                     data-test="createCaseDialog"
@@ -58,7 +58,7 @@ class CreateCaseDialog extends React.Component {
                         </DialogContentText>
                         <CreateCaseForm/>
                     </DialogContent>
-                    <DialogActions>
+                    <DialogActions style={{justifyContent: 'space-between', marginLeft: '3%'}}>
                         <CancelButton
                             data-test="cancelCase"
                             onClick={this.closeDialog}
