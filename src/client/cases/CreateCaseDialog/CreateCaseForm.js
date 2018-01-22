@@ -22,6 +22,7 @@ const CreateCaseForm = () => {
             />
             <br />
             <Field
+                required
                 name="firstName"
                 component={TextField}
                 label="First Name"
@@ -35,6 +36,7 @@ const CreateCaseForm = () => {
                 style={offSet}
             />
             <Field
+                required
                 name="lastName"
                 component={TextField}
                 label="Last Name"
