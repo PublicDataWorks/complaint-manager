@@ -45,7 +45,7 @@ class NavBar extends React.Component {
                         isHome
                             ?
                             <IconButton
-                                color="secondary"
+                                color='inherit'
                                 component={Link}
                                 to="/"
                             >
@@ -67,7 +67,7 @@ class NavBar extends React.Component {
 
                     > Name </Typography>
                     <IconButton
-                        color="secondary"
+                        color='inherit'
                         data-test="gearButton"
                         onClick={this.handleMenu}
                     >
