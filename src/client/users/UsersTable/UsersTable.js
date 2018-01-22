@@ -5,6 +5,7 @@ import UserRow from "./UserRow";
 import getUsers from "../thunks/getUsers";
 import Paper from "material-ui/Paper";
 import tableStyleGenerator from "../../tableStyles";
+import sortAlphabeticallyByProperty from "../../sortAlphabeticallyByProperty";
 
 const numberOfColumns = 3;
 
@@ -49,7 +50,7 @@ class UsersTable extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.props.users.map(user => (
+                            {sortAlphabeticallyByProperty(this.props.users, 'lastName').map(user => (
                                 <UserRow key={user.id} user={user}/>
                             ))}
                         </TableBody>
