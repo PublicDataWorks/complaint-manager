@@ -2,22 +2,22 @@ import colors from "./colors";
 
 const styles = {
     title: {
-        color: colors.primary[500],
+        color: colors.primary.main,
         fontSize: "1.3rem",
         fontWeight: 400
     },
     subheading: {
-        color: colors.secondary[900],
+        color: colors.secondary.dark,
         fontSize: "1rem",
         fontWeight: 400
     },
     body1: {
-        color: colors.secondary[900],
+        color: colors.secondary.dark,
         fontSize: "0.875rem",
         fontWeight: 400
     },
     caption: {
-        color: colors.secondary[500],
+        color: colors.secondary.main,
         fontSize: "0.75rem",
         fontWeight: 400
     },
@@ -28,7 +28,7 @@ const styles = {
         letterSpacing: "1px"
     },
     display1: {
-        color: colors.secondary[500],
+        color: colors.secondary.main,
         fontSize: "0.75rem",
         fontWeight: 400,
         fontStyle: 'italic'
@@ -39,8 +39,8 @@ const styles = {
         fontWeight: 700,
         textDecoration: 'none'
     },
-    body2:{
-        color: colors.secondary[900],
+    section:{
+        color: colors.secondary.dark,
         fontSize: "1rem",
         fontWeight: 700,
         textTransform: 'uppercase'

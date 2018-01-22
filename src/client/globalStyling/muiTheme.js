@@ -10,7 +10,7 @@ const muiTheme = createMuiTheme({
         caption: styles.caption,
         button: styles.button,
         display1: styles.display1,
-        body2: styles.body2
+        body2: styles.section
     }
 })
 

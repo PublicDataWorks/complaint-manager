@@ -42,33 +42,33 @@ const StyleGuide = (props) => (
             <Card elevation={0} style={{marginTop: 30, backgroundColor: 'white'}}>
                 <GridList style={{flexWrap: 'nowrap'}} cols={2} cellHeight={'auto'}>
                     <GridListTile
-                        style={getBoxStyle(props.theme.palette.primary[500])}
+                        style={getBoxStyle(props.theme.palette.primary.main)}
                     >
                         <GridListTileBar
                             title="Primary"
                             subtitle="#673ab7"
                             position="bottom"
-                            style={{background: props.theme.palette.primary[500]}}
+                            style={{background: props.theme.palette.primary.main}}
                         />
                     </GridListTile>
                     <GridListTile
-                        style={getBoxStyle(props.theme.palette.primary[300])}
+                        style={getBoxStyle(props.theme.palette.primary.light)}
                     >
                         <GridListTileBar
                             title="P - Light"
                             subtitle="#9a67ea"
                             position="bottom"
-                            style={{background: props.theme.palette.primary[300]}}
+                            style={{background: props.theme.palette.primary.light}}
                         />
                     </GridListTile>
                     <GridListTile
-                        style={getBoxStyle(props.theme.palette.primary[900])}
+                        style={getBoxStyle(props.theme.palette.primary.dark)}
                     >
                         <GridListTileBar
                             title="P - Dark"
                             subtitle="#320b86"
                             position="bottom"
-                            style={{background: props.theme.palette.primary[900]}}
+                            style={{background: props.theme.palette.primary.dark}}
                         />
                     </GridListTile>
                 </GridList>
@@ -80,40 +80,30 @@ const StyleGuide = (props) => (
             <Card elevation={0} style={{marginTop: 30, backgroundColor: 'white'}}>
                 <GridList style={{flexWrap: 'nowrap'}} cols={2} padding={10} cellHeight={'auto'}>
                     <GridListTile
-                        style={getBoxStyle(props.theme.palette.secondary[700])}
+                        style={getBoxStyle(props.theme.palette.secondary.main)}
                     >
                         <GridListTileBar
                             title="Secondary"
                             subtitle="#62757f"
-                            style={{background: props.theme.palette.secondary[700]}}
+                            style={{background: props.theme.palette.secondary.main}}
                         />
                     </GridListTile>
                     <GridListTile
-                        style={getBoxStyle(props.theme.palette.secondary[50])}
-                    >
-                        <GridListTileBar
-                            title="S - Lighter"
-                            subtitle="#eceff1"
-                            style={{background: props.theme.palette.secondary[50]}}
-                        />
-                    </GridListTile>
-                    <GridListTile
-                        style={getBoxStyle(props.theme.palette.secondary[300])}
+                        style={getBoxStyle(props.theme.palette.secondary.light)}
                     >
                         <GridListTileBar
                             title="S - Light"
-                            subtitle="#c1d5e0"
-                            style={{background: props.theme.palette.secondary[300]}}
+                            subtitle="#eceff1"
+                            style={{background: props.theme.palette.secondary.light}}
                         />
                     </GridListTile>
-
                     <GridListTile
-                        style={getBoxStyle(props.theme.palette.secondary[900])}
+                        style={getBoxStyle(props.theme.palette.secondary.dark)}
                     >
                         <GridListTileBar
-                            title="S - Darker"
+                            title="S - Dark"
                             subtitle="#000a12"
-                            style={{background: props.theme.palette.secondary[900]}}
+                            style={{background: props.theme.palette.secondary.dark}}
                         />
                     </GridListTile>
                 </GridList>
@@ -142,12 +132,12 @@ const StyleGuide = (props) => (
                         />
                     </GridListTile>
                     <GridListTile
-                        style={getBoxStyle(props.theme.palette.error[500])}
+                        style={getBoxStyle(props.theme.palette.error.main)}
                     >
                         <GridListTileBar
                             title="Red"
                             subtitle="#d32f2f"
-                            style={{background: props.theme.palette.error[500]}}
+                            style={{background: props.theme.palette.error.main}}
                         />
                     </GridListTile>
                     <GridListTile

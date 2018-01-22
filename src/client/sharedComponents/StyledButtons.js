@@ -6,7 +6,7 @@ export const CancelButton = ({children, onClick, ...other}) => {
     <Button
       raised
       onClick={onClick}
-      color="accent"
+      color="secondary"
       {...other}>{children}</Button>
   )
 }

@@ -4,7 +4,7 @@ import CloseIcon from 'material-ui-icons/Close'
 
 const styleSheet = theme => ({
     error: {
-        background: theme.palette.error[500]
+        background: theme.palette.error.main
     },
     success: {
         background: theme.palette.green
