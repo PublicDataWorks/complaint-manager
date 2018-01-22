@@ -1,7 +1,7 @@
 import React from 'react'
 import {submit} from 'redux-form';
 import {connect} from "react-redux";
-import {Button, Dialog, DialogActions, DialogTitle, DialogContent} from "material-ui";
+import {Button, Dialog, DialogActions, DialogTitle, DialogContent, withTheme} from "material-ui";
 import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
 import CreateUserForm from './CreateUserForm'
 
@@ -10,7 +10,6 @@ const margin = {
     marginTop: '2%',
     marginBottom: '2%'
 }
-
 class CreateUserDialog extends React.Component {
     state = {
         dialogOpen: false
@@ -31,6 +30,8 @@ class CreateUserDialog extends React.Component {
     }
 
     render() {
+        const {theme} = this.props
+
         return (
             <div>
                 <Dialog
@@ -47,7 +48,7 @@ class CreateUserDialog extends React.Component {
                         <CreateUserForm />
                     </DialogContent>
 
-                    <DialogActions>
+                    <DialogActions style={{justifyContent: 'space-between', margin: `${theme.spacing.unit * 2}px`}}>
                         <CancelButton
                             data-test="cancelUser"
                             onClick={this.closeDialog}
@@ -58,7 +59,7 @@ class CreateUserDialog extends React.Component {
                             data-test="submitUser"
                             onClick={() => this.props.dispatch(submit('CreateUser'))}
                         >
-                            Create
+                            Add User
                         </SubmitButton>
                     </DialogActions>
                 </Dialog>
@@ -83,4 +84,4 @@ const mapStateToProps = state =>{
     }
 }
 
-export default connect(mapStateToProps)(CreateUserDialog)
+export default withTheme()(connect(mapStateToProps)(CreateUserDialog))

@@ -33,6 +33,8 @@ class CreateCaseDialog extends React.Component {
     }
 
     render() {
+        const {theme} = this.props
+
         return (
             <div>
                 <SubmitButton
@@ -58,7 +60,7 @@ class CreateCaseDialog extends React.Component {
                         </DialogContentText>
                         <CreateCaseForm/>
                     </DialogContent>
-                    <DialogActions style={{justifyContent: 'space-between', marginLeft: '3%'}}>
+                    <DialogActions style={{justifyContent: 'space-between', margin: `${theme.spacing.unit * 2}px`}}>
                         <CancelButton
                             data-test="cancelCase"
                             onClick={this.closeDialog}
