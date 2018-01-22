@@ -3,58 +3,43 @@ import Table, {TableBody, TableCell, TableHead, TableRow} from 'material-ui/Tabl
 import Typography from 'material-ui/Typography'
 import {connect} from "react-redux"
 import CaseRow from './CaseRow'
-import {Paper} from "material-ui";
-import themeStyles from '../../globalStyling/styles'
+import {Paper, withStyles} from "material-ui";
+import tableStyleGenerator from '../../tableStyles'
 
-const styles = {
-    cell: {
-        padding:'0%',
-        textAlign: 'center',
-        width: '16.5%'
-    },
-    tableHeadColor: {
-        backgroundColor: themeStyles.colors.secondary[50]
-    },
-    tableHeadRow: {
-        width: '100%',
-        overflowX: 'scroll'
-    },
-    tableMargin: {
-        marginLeft: '5%',
-        marginRight: '5%',
-        marginBottom: '3%',
-    },
-    labelMargin: {
-        marginLeft: '5%',
-    }
-}
+const numberOfColumns = 6;
+
+const styles = theme => ({
+    ...(tableStyleGenerator(numberOfColumns, theme).header),
+    ...(tableStyleGenerator(numberOfColumns, theme).table)
+})
 
 class CasesTable extends React.Component {
     render() {
+        const { classes } = this.props
         return (
             <div>
                 <Typography
                     type="title"
-                    style={styles.labelMargin}>
+                    className={classes.labelMargin}>
                     Results
                 </Typography>
-                <Paper elevation={0} style={styles.tableMargin}>
+                <Paper elevation={0} className={classes.tableMargin}>
                     <Table>
-                        <TableHead style={styles.tableHeadColor}>
-                            <TableRow style={styles.tableHeadRow}>
-                                <TableCell data-test='casesNumberHeader' style={styles.cell}>
+                        <TableHead>
+                            <TableRow className={classes.row}>
+                                <TableCell data-test='casesNumberHeader' className={classes.cell}>
                                     <Typography type='body2'>Case #</Typography>
                                 </TableCell>
-                                <TableCell data-test='casesComplainantTypeHeader' style={styles.cell}>
+                                <TableCell data-test='casesComplainantTypeHeader' className={classes.cell}>
                                     <Typography type='body2'>Complainant Type</Typography>
                                 </TableCell>
-                                <TableCell data-test='casesStatusHeader' style={styles.cell}>
+                                <TableCell data-test='casesStatusHeader' className={classes.cell}>
                                     <Typography type='body2'>Status</Typography>
                                 </TableCell>
-                                <TableCell data-test='casesComplainantHeader' style={styles.cell}>
+                                <TableCell data-test='casesComplainantHeader' className={classes.cell}>
                                     <Typography type='body2'>Complainant</Typography>
                                 </TableCell>
-                                <TableCell data-test='casesCreatedOnHeader' style={styles.cell}>
+                                <TableCell data-test='casesCreatedOnHeader' className={classes.cell}>
                                     <Typography type='body2'>Created On</Typography>
                                 </TableCell>
                             </TableRow>
@@ -73,4 +58,4 @@ const mapStateToProps = state => ({
     cases: state.cases.all
 })
 
-export default connect(mapStateToProps)(CasesTable)
+export default withStyles(styles, {withTheme: true})(connect(mapStateToProps)(CasesTable))

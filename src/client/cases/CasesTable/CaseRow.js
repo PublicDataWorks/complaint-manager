@@ -1,49 +1,39 @@
 import React from 'react'
-import {TableCell, TableRow} from 'material-ui'
+import {TableCell, TableRow, withStyles} from 'material-ui'
 import formatDate from "../../formatDate";
 import {Link} from "react-router-dom";
 import LinkButton from "../../sharedComponents/LinkButton";
-import themeStyles from "../../globalStyling/styles";
 import formatName from "../../formatName";
+import tableStyleGenerator from "../../tableStyles";
 
-const styles = {
-    row: {
-        height: 80,
-        backgroundColor: 'white',
-        borderTop: `8px solid ${themeStyles.colors.secondary[50]}`,
-        borderBottom: `8px solid ${themeStyles.colors.secondary[50]}`,
-        width: '100%',
-        overflowX: 'scroll'
-    },
-    cell: {
-        padding: '0%',
-        width: '16.5%',
-        textAlign: 'center',
-    },
+const numberOfColumns = 6
+
+const styles = theme => ({
+    ...tableStyleGenerator(numberOfColumns, theme).body,
     buttonCell: {
         padding: '2%',
         textAlign: 'right'
     },
-}
+})
 
-const CaseRow = ({caseDetails}) => (
-    <TableRow data-test={`caseRow${caseDetails.id}`} style={styles.row}>
-        <TableCell data-test="caseNumber" style={styles.cell}>
+const CaseRow = ({classes, caseDetails}) => (
+    <TableRow data-test={`caseRow${caseDetails.id}`} className={classes.row}>
+        <TableCell data-test="caseNumber" className={classes.cell}>
             {caseDetails.id}
         </TableCell>
-        <TableCell data-test="complainantType" style={styles.cell}>
+        <TableCell data-test="complainantType" className={classes.cell}>
             {caseDetails.complainantType}
         </TableCell>
-        <TableCell data-test="caseStatus" style={styles.cell}>
+        <TableCell data-test="caseStatus" className={classes.cell}>
             {caseDetails.status}
         </TableCell>
-        <TableCell data-test="caseName" style={styles.cell}>
+        <TableCell data-test="caseName" className={classes.cell}>
             {formatName(caseDetails.firstName, caseDetails.lastName)}
         </TableCell>
-        <TableCell data-test="caseCreatedAt" style={styles.cell}>
+        <TableCell data-test="caseCreatedAt" className={classes.cell}>
             {formatDate(caseDetails.createdAt)}
         </TableCell>
-        <TableCell data-test="openCase" style={styles.buttonCell}>
+        <TableCell data-test="openCase" className={classes.buttonCell}>
             <LinkButton component={Link} to={`/case/${caseDetails.id}`} data-test="openCaseButton">Open
                 Case</LinkButton>
         </TableCell>
@@ -51,4 +41,4 @@ const CaseRow = ({caseDetails}) => (
 )
 
 
-export default CaseRow
+export default withStyles(styles, {withTheme: true})(CaseRow)

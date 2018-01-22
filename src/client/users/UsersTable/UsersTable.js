@@ -1,32 +1,17 @@
 import React from "react";
 import {connect} from "react-redux";
-import {Table, TableBody, TableCell, TableHead, TableRow, Typography} from "material-ui";
+import {Table, TableBody, TableCell, TableHead, TableRow, Typography, withStyles} from "material-ui";
 import UserRow from "./UserRow";
 import getUsers from "../thunks/getUsers";
 import Paper from "material-ui/Paper";
-import themeStyles from "../../globalStyling/styles";
+import tableStyleGenerator from "../../tableStyles";
 
-const styles = {
-    cell: {
-        padding: '0%',
-        textAlign: 'center',
-    },
-    tableHeadColor: {
-        backgroundColor: themeStyles.colors.secondary[50]
-    },
-    tableHeadRow: {
-        width: '100%',
-        overflowX: 'scroll'
-    },
-    tableMargin: {
-        marginLeft: '5%',
-        marginRight: '5%',
-        marginBottom: '3%'
-    },
-    labelMargin: {
-        marginLeft: '5%',
-    }
-}
+const numberOfColumns = 3;
+
+const styles = theme => ({
+    ...(tableStyleGenerator(numberOfColumns, theme).header),
+    ...(tableStyleGenerator(numberOfColumns, theme).table)
+})
 
 class UsersTable extends React.Component {
     componentWillMount() {
@@ -34,28 +19,29 @@ class UsersTable extends React.Component {
     }
 
     render() {
+        const { classes } = this.props
         return (
             <div>
                 <Typography
                     type="title"
-                    style={styles.labelMargin}>
+                    className={classes.labelMargin}>
                     All Users
                 </Typography>
-                <Paper elevation={0} style={styles.tableMargin}>
+                <Paper elevation={0} className={classes.tableMargin}>
                     <Table>
-                        <TableHead style={styles.tableHeadColor}>
-                            <TableRow style={styles.tableHeadRow}>
-                                <TableCell style={styles.cell}>
+                        <TableHead className={classes.tableHeadColor}>
+                            <TableRow className={classes.tableHeadRow}>
+                                <TableCell className={classes.cell}>
                                     <Typography type='body2'>
                                         Name
                                     </Typography>
                                 </TableCell>
-                                <TableCell style={styles.cell}>
+                                <TableCell className={classes.cell}>
                                     <Typography type='body2'>
                                         Email
                                     </Typography>
                                 </TableCell>
-                                <TableCell style={styles.cell}>
+                                <TableCell className={classes.cell}>
                                     <Typography type='body2'>
                                         Date Added
                                     </Typography>
@@ -82,4 +68,4 @@ const mapDispatchToProps = {
     getUsers
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersTable)
+export default withStyles(styles, {withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(UsersTable))

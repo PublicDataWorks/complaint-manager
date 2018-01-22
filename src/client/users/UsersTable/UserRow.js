@@ -1,36 +1,26 @@
 import React from "react";
-import {TableCell, TableRow} from "material-ui";
+import {TableCell, TableRow, withStyles} from "material-ui";
 import formatDate from "../../formatDate";
-import themeStyles from "../../globalStyling/styles";
+import tableStyleGenerator from "../../tableStyles";
 
-const styles = {
-    row: {
-        height: 80,
-        backgroundColor: 'white',
-        borderTop: `8px solid ${themeStyles.colors.secondary[50]}`,
-        borderBottom: `8px solid ${themeStyles.colors.secondary[50]}`,
-        width: '100%',
-        overflowX: 'scroll'
-    },
-    cell: {
-        padding: '0%',
-        width: '33%',
-        textAlign: 'center',
-    },
-}
+const numberOfCells = 3
 
-const UserRow = ({user: {id, firstName, lastName, email, createdAt}}) => (
-    <TableRow data-test={`userRow${id}`} style={styles.row}>
-        <TableCell data-test='userName' style={styles.cell}>
+const styles = theme => ({
+    ...tableStyleGenerator(numberOfCells, theme).body,
+})
+
+const UserRow = ({user: {id, firstName, lastName, email, createdAt}, classes}) => (
+    <TableRow data-test={`userRow${id}`} className={classes.row}>
+        <TableCell data-test='userName' className={classes.cell}>
                 {`${firstName} ${lastName}`}
         </TableCell>
-        <TableCell data-test='userEmail' style={styles.cell}>
+        <TableCell data-test='userEmail' className={classes.cell}>
             {email}
         </TableCell>
-        <TableCell data-test='userDateAdded' style={styles.cell}>
+        <TableCell data-test='userDateAdded' className={classes.cell}>
             {formatDate(createdAt)}
         </TableCell>
     </TableRow>
 )
 
-export default UserRow
+export default withStyles(styles, { withTheme: true })(UserRow)
