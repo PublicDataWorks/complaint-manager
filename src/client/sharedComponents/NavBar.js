@@ -45,7 +45,7 @@ class NavBar extends React.Component {
                         isHome
                             ?
                             <IconButton
-                                color="contrast"
+                                color="secondary"
                                 component={Link}
                                 to="/"
                             >
@@ -67,7 +67,7 @@ class NavBar extends React.Component {
 
                     > Name </Typography>
                     <IconButton
-                        color="contrast"
+                        color="secondary"
                         data-test="gearButton"
                         onClick={this.handleMenu}
                     >
