@@ -29,8 +29,8 @@ class UsersTable extends React.Component {
                 </Typography>
                 <Paper elevation={0} className={classes.tableMargin}>
                     <Table>
-                        <TableHead className={classes.tableHeadColor}>
-                            <TableRow className={classes.tableHeadRow}>
+                        <TableHead>
+                            <TableRow className={classes.row}>
                                 <TableCell className={classes.cell}>
                                     <Typography type='body2'>
                                         Name

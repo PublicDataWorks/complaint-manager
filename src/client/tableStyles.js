@@ -12,7 +12,7 @@ const tableStyles = (numberOfCells, theme) => (
         },
         header: {
             row: {
-                backgroundColor: theme.palette.secondary[50],
+                backgroundColor: theme.palette.secondary.light,
                 width: '100%',
                 overflowX: 'scroll',
             }
@@ -27,8 +27,8 @@ const tableStyles = (numberOfCells, theme) => (
             row: {
                 height: 80,
                 backgroundColor: 'white',
-                borderTop: `8px solid ${theme.palette.secondary[50]}`,
-                borderBottom: `8px solid ${theme.palette.secondary[50]}`,
+                borderTop: `8px solid ${theme.palette.secondary.light}`,
+                borderBottom: `8px solid ${theme.palette.secondary.light}`,
                 width: '100%',
                 overflowX: 'scroll',
             },
