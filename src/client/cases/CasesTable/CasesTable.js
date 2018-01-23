@@ -5,6 +5,7 @@ import {connect} from "react-redux"
 import CaseRow from './CaseRow'
 import {Paper, withStyles} from "material-ui";
 import tableStyleGenerator from '../../tableStyles'
+import {Redirect} from "react-router-dom";
 
 const numberOfColumns = 6;
 
@@ -15,6 +16,10 @@ const styles = theme => ({
 
 class CasesTable extends React.Component {
     render() {
+        if(this.props.redirectToCaseDetail.redirect && this.props.caseCreationSuccess) {
+            return <Redirect to={`/case/${this.props.redirectToCaseDetail.caseId}`}/>;
+        }
+
         const { classes } = this.props
         return (
             <div>
@@ -24,7 +29,7 @@ class CasesTable extends React.Component {
                     Results
                 </Typography>
                 <Paper elevation={0} className={classes.tableMargin}>
-                    <Table>
+                    <Table data-test='allCasesTable'>
                         <TableHead>
                             <TableRow className={classes.row}>
                                 <TableCell data-test='casesNumberHeader' className={classes.cell}>
@@ -55,7 +60,9 @@ class CasesTable extends React.Component {
     }
 }
 const mapStateToProps = state => ({
-    cases: state.cases.all
+    cases: state.cases.all,
+    redirectToCaseDetail: state.cases.redirectToCaseDetail,
+    caseCreationSuccess: state.cases.creation.success
 })
 
 export default withStyles(styles, {withTheme: true})(connect(mapStateToProps)(CasesTable))

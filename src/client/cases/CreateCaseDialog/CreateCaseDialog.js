@@ -6,6 +6,8 @@ import CreateCaseForm from "./CreateCaseForm";
 import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
 import {withTheme} from "material-ui/styles";
 import LinkButton from "../../sharedComponents/LinkButton";
+import {redirectToCaseDetail} from "../actionCreators";
+
 
 const margin = {
     marginLeft: '5%',
@@ -30,6 +32,11 @@ class CreateCaseDialog extends React.Component {
 
     closeDialog = () => {
         this.setState({dialogOpen: false})
+    }
+
+    createAndView = () => {
+        this.props.dispatch(redirectToCaseDetail())
+        this.props.dispatch(submit('CreateCase'))
     }
 
     render() {
@@ -67,18 +74,20 @@ class CreateCaseDialog extends React.Component {
                         >
                             Cancel
                         </CancelButton>
-                        <LinkButton
-                            data-test="createCaseOnly"
-                            onClick={() => this.props.dispatch(submit('CreateCase'))}
-                        >
-                            Create Only
-                        </LinkButton>
-                        <SubmitButton
-                            data-test="createAndView"
-                            onClick={() => this.props.dispatch(submit('CreateCaseAndView'))}
-                        >
-                            Create And View
-                        </SubmitButton>
+                        <div>
+                            <LinkButton
+                                data-test="createCaseOnly"
+                                onClick={() => this.props.dispatch(submit('CreateCase'))}
+                            >
+                                Create Only
+                            </LinkButton>
+                            <SubmitButton
+                                data-test="createAndView"
+                                onClick={this.createAndView}
+                            >
+                                Create And View
+                            </SubmitButton>
+                        </div>
                     </DialogActions>
                 </Dialog>
             </div>

@@ -49,6 +49,14 @@ describe('CreateCaseDialog component', () => {
             changeInput(dialog, 'input[data-test="emailInput"]', caseDetails.email);
         });
 
+        test('should plan to redirect when clicking Create-And-View', () => {
+            const submitButton = dialog.find('SubmitButton[data-test="createAndView"]')
+            submitButton.simulate('click')
+
+            expect(dispatchSpy).toHaveBeenCalledWith(createCase(caseDetails))
+            expect(store.getState()).toHaveProperty("cases.redirectToCaseDetail.redirect", true)
+        })
+
         test('should create case when clicking Create Only', () => {
             const submitButton = dialog.find('LinkButton[data-test="createCaseOnly"]')
             submitButton.simulate('click')

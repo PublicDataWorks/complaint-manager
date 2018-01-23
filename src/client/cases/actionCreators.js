@@ -15,3 +15,11 @@ export const getCasesSuccess = (cases) => ({
     type: 'GET_CASES_SUCCESS',
     cases
 })
+
+export const redirectToCaseDetail = () => ({
+    type: 'REDIRECT_TO_CASE_DETAIL'
+})
+
+export const clearRedirectToCaseDetail = () => ({
+    type: 'CLEAR_REDIRECT_TO_CASE_DETAIL'
+})

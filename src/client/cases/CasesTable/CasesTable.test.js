@@ -3,15 +3,15 @@ import React from 'react'
 import {mount} from "enzyme/build/index"
 import {Provider} from 'react-redux'
 import createConfiguredStore from "../../createConfiguredStore"
-import {getCasesSuccess} from '../actionCreators'
-import {BrowserRouter as Router} from 'react-router-dom'
+import {createCaseSuccess, getCasesSuccess, redirectToCaseDetail} from '../actionCreators'
+import {BrowserRouter as Router, Redirect} from 'react-router-dom'
 
 jest.mock('../thunks/getCases', () => () => ({
     type: 'MOCK_GET_CASES_THUNK'
 }))
 
 describe('cases table', () => {
-    let table, cases;
+    let tableWrapper, cases, store;
 
     beforeEach(() => {
         cases = [{
@@ -30,10 +30,10 @@ describe('cases table', () => {
             createdAt: new Date().toISOString()
         }];
 
-        const store = createConfiguredStore()
-        store.dispatch(getCasesSuccess(cases));
+        store = createConfiguredStore()
+        store.dispatch(getCasesSuccess(cases))
 
-        table = mount(
+        tableWrapper = mount(
             <Provider store={store}>
                 <Router>
                     <CasesTable/>
@@ -42,18 +42,62 @@ describe('cases table', () => {
         )
     });
 
+    describe('Case Detail Redirect', () => {
+        test('should render all cases when a case is created but not waiting to redirect', () => {
+            const newCase = {
+                id: 25,
+                complainantType: 'Civilian',
+                firstName: 'Artie',
+                lastName: 'Blue',
+                status: 'Initial',
+                createdAt: new Date().toISOString()
+            }
+
+            store.dispatch(createCaseSuccess(newCase))
+            tableWrapper.update()
+
+            expect(tableWrapper.find('table[data-test="allCasesTable"]').exists()).toBeTruthy()
+        })
+
+        test('should render all cases when waiting to redirect but case has not yet been created', () => {
+            store.dispatch(redirectToCaseDetail())
+            tableWrapper.update()
+
+            expect(tableWrapper.find('table[data-test="allCasesTable"]').exists()).toBeTruthy()
+        })
+
+        test('should redirect to case detail when waiting to redirect and case was successfully created', () => {
+            const newCase = {
+                id: 25,
+                complainantType: 'Civilian',
+                firstName: 'Artie',
+                lastName: 'Blue',
+                status: 'Initial',
+                createdAt: new Date().toISOString()
+            }
+
+            store.dispatch(createCaseSuccess(newCase))
+            store.dispatch(redirectToCaseDetail())
+            tableWrapper.update()
+
+            expect(tableWrapper.find('table[data-test="allCasesTable"]').exists()).toBeFalsy()
+            const redirect = tableWrapper.find(Redirect).instance();
+            expect (redirect.props).toHaveProperty('to', '/case/25')
+        })
+    });
+    
     describe('column headers', () => {
         let caseNumber, complainantType, status, complainant, caseCreatedOn
 
         beforeEach(() => {
-            caseNumber = table.find('th[data-test="casesNumberHeader"]');
-            complainantType = table.find('th[data-test="casesComplainantTypeHeader"]');
-            status = table.find('th[data-test="casesStatusHeader"]');
-            complainant = table.find('th[data-test="casesComplainantHeader"]');
-            caseCreatedOn = table.find('th[data-test="casesCreatedOnHeader"]');
+            caseNumber = tableWrapper.find('th[data-test="casesNumberHeader"]');
+            complainantType = tableWrapper.find('th[data-test="casesComplainantTypeHeader"]');
+            status = tableWrapper.find('th[data-test="casesStatusHeader"]');
+            complainant = tableWrapper.find('th[data-test="casesComplainantHeader"]');
+            caseCreatedOn = tableWrapper.find('th[data-test="casesCreatedOnHeader"]');
         })
 
-        test('should display case number', () =>{
+        test('should display case number', () => {
             expect(caseNumber.text()).toEqual('Case #');
         })
 
@@ -61,13 +105,13 @@ describe('cases table', () => {
             expect(complainantType.text()).toEqual('Complainant Type')
         })
 
-        test('should display status', () =>{
+        test('should display status', () => {
             expect(status.text()).toEqual('Status');
         })
-        test('should display complainant', () =>{
+        test('should display complainant', () => {
             expect(complainant.text()).toEqual('Complainant');
         })
-        test('should display created on', () =>{
+        test('should display created on', () => {
             expect(caseCreatedOn.text()).toEqual('Created On');
         })
 
@@ -77,7 +121,7 @@ describe('cases table', () => {
         let caseRow;
 
         beforeEach(() => {
-            caseRow = table.find('tr[data-test="caseRow17"]')
+            caseRow = tableWrapper.find('tr[data-test="caseRow17"]')
         });
 
         test('should display id', () => {
@@ -116,7 +160,7 @@ describe('cases table', () => {
         });
 
         test('should display multiple cases', () => {
-            const otherCaseRow = table.find('tr[data-test="caseRow24"]');
+            const otherCaseRow = tableWrapper.find('tr[data-test="caseRow24"]');
             expect(otherCaseRow.exists()).toEqual(true);
         });
     })
