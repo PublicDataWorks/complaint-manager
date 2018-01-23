@@ -60,10 +60,27 @@ describe('', () => {
         expect(result).toEqual(sortedUsers)
     })
 
-    test('should return unsorted lsit when trying to sort by non-existing property', () => {
+    test('should return unsorted list when trying to sort by non-existing property', () => {
         const result = sortAlphabeticallyByProperty(unsortedUsers, 'happiness')
 
         expect(result).toEqual(unsortedUsers)
     });
+
+
+    test('should return unsorted list when trying to sort by nulls values are passed', () => {
+        const userWithNulls = {
+            id: 500,
+            firstName: 'Talin',
+            lastName: undefined,
+            email: 'tguus@gmail.com',
+            createdAt: new Date(2016, 7, 25).toISOString()
+        }
+
+        const unsortedUsersWithNullUser = unsortedUsers.concat(userWithNulls)
+
+        const result = sortAlphabeticallyByProperty(unsortedUsersWithNullUser, 'lastName')
+
+        expect(result).toEqual(unsortedUsersWithNullUser)
+    })
 
 });

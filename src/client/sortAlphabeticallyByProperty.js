@@ -1,6 +1,6 @@
 const sortAlphabeticallyByProperty = (objects, key) => {
 
-    if (!objects.every(object => object.hasOwnProperty(key))) {
+    if (!objects.every(object => object.hasOwnProperty(key) && Boolean(object[key]))) {
         return objects
     }
 
