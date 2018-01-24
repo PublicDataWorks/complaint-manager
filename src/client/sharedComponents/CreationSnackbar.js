@@ -1,5 +1,5 @@
 import React from 'react'
-import {IconButton, Snackbar, withStyles } from 'material-ui'
+import {IconButton, Snackbar, withStyles} from 'material-ui'
 import CloseIcon from 'material-ui-icons/Close'
 
 const styleSheet = theme => ({
@@ -11,57 +11,41 @@ const styleSheet = theme => ({
     }
 })
 
-class CreationSnackbar extends React.Component {
-    state = {
-        snackbarOpen: false
-    }
+const CreationSnackbar = (props) => (
+    <div>
+        <Snackbar
+            anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+            open={props.open}
+            SnackbarContentProps={{
+                classes: {
+                    root: props.creationSuccess
+                        ? props.classes.success
+                        : props.classes.error
+                }
+            }}
+            message={
+                <span data-test="creationSnackbarBannerText">
+                    {props.message}
+                    </span>
+            }
+            action={[
+                <IconButton
+                    data-test="closeSnackbar"
+                    key={'closeSnackbar'}
+                    onClick={() => props.closeSnackbar()}
+                    color="inherit"
+                >
+                    <CloseIcon/>
+                </IconButton>
+            ]}
+        />
+    </div>
+)
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.inProgress && !nextProps.inProgress) {
-            this.openSnackbar()
-        }
-    }
-
-    openSnackbar = () => {
-        this.setState({ snackbarOpen: true })
-    }
-
-    closeSnackbar = () => {
-        this.setState({ snackbarOpen: false })
-    }
-
-    render() {
-        return (
-            <div>
-                <Snackbar
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                    open={this.state.snackbarOpen}
-                    SnackbarContentProps={{
-                        classes: {
-                            root: this.props.creationSuccess
-                                ? this.props.classes.success
-                                : this.props.classes.error
-                        }
-                    }}
-                    message={
-                        <span data-test="creationSnackbarBannerText">
-                            {this.props.message}
-                        </span>
-                    }
-                    action={[
-                        <IconButton
-                            data-test="closeSnackbar"
-                            key={'closeSnackbar'}
-                            onClick={this.closeSnackbar}
-                            color="inherit"
-                        >
-                            <CloseIcon/>
-                        </IconButton>
-                    ]}
-                />
-            </div>
-        )
-    }
+CreationSnackbar.defaultProps = {
+    message: '',
+    creationSuccess: false,
+    open: false
 }
 
 export default withStyles(styleSheet, {withTheme: true})(CreationSnackbar)

@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {Button, Dialog, DialogActions, DialogTitle, DialogContent, withTheme} from "material-ui";
 import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
 import CreateUserForm from './CreateUserForm'
+import {closeUserSnackbar} from "../actionCreators";
 
 const margin = {
     marginLeft: '5%',
@@ -23,6 +24,7 @@ class CreateUserDialog extends React.Component {
 
     openDialog = () => {
         this.setState({dialogOpen: true})
+        this.props.dispatch(closeUserSnackbar())
     }
 
     closeDialog = () => {

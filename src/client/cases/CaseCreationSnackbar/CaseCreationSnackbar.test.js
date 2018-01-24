@@ -19,15 +19,19 @@ describe('connected CaseCreationSnackbar', () => {
         snackbar = snackbarWrapper.find(CreationSnackbar)
     })
 
-    test('should map inProgress from state', () => {
-        expect(snackbar.prop('inProgress')).toBeDefined()
-    })
-
     test('should map creationSuccess from state', () => {
         expect(snackbar.prop('creationSuccess')).toBeDefined()
     })
 
     test('should map message from state', () => {
         expect(snackbar.prop('message')).toBeDefined()
+    })
+
+    test('should map dispatch to props', () => {
+        expect(snackbar.prop('closeSnackbar')).toBeDefined()
+    })
+
+    test('map open from state', () => {
+        expect(snackbar.prop('open')).toBeDefined()
     })
 })

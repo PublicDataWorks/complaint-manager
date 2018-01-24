@@ -5,7 +5,7 @@ import {changeInput, expectEventuallyNotToExist} from '../../../testHelpers'
 import {Provider} from 'react-redux'
 import createConfiguredStore from "../../createConfiguredStore";
 import createUser from "../thunks/createUser";
-import {createUserSuccess} from "../actionCreators";
+import {createUserSuccess, openUserSnackbar} from "../actionCreators";
 
 jest.mock('../thunks/createUser', () => (userDetails) => ({
     type: 'MOCK_CREATE_USER_THUNK',
@@ -93,5 +93,14 @@ describe('CreateUserDialog', () => {
         store.dispatch(createUserSuccess({someUserProp: 'some user'}))
 
         await expectEventuallyNotToExist(dialog, '[data-test="createUserDialogTitle"]')
+    })
+
+    test('should dismiss visible snackbars when dialog is opened', () => {
+        store.dispatch(openUserSnackbar())
+
+        const createUserButton = dialog.find('button[data-test="createUserButton"]')
+        createUserButton.simulate('click')
+
+        expect(store.getState()).toHaveProperty("users.snackbar.open", false)
     })
 })

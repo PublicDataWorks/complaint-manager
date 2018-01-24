@@ -18,10 +18,6 @@ describe('UserCreationSnackbar', () => {
         snackbar = userCreationSnackbar.find(CreationSnackbar)
     })
 
-    test('map inProgress from state', () => {
-        expect(snackbar.prop('inProgress')).toBeDefined()
-    })
-
     test('map creationSuccess from state', () => {
         expect(snackbar.prop('creationSuccess')).toBeDefined()
     })
@@ -30,4 +26,11 @@ describe('UserCreationSnackbar', () => {
         expect(snackbar.prop('message')).toBeDefined()
     })
 
+    test('map closeSnackbar() with dispatch to props', () => {
+        expect(snackbar.prop('closeSnackbar')).toBeDefined()
+    })
+
+    test('map open from state', () => {
+        expect(snackbar.prop('open')).toBeDefined()
+    })
 })

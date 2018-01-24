@@ -3,11 +3,11 @@ import {mount} from 'enzyme/build/index'
 import CreationSnackbar from "./CreationSnackbar";
 import {expectEventuallyNotToExist} from "../../testHelpers";
 
-describe('CaseCreationSnackbar', () => {
+describe('CreationSnackbar', () => {
     test('should not be visible initially', () => {
         const creationSnackbar = mount(
             <CreationSnackbar
-                inProgress={false}
+                open={false}
                 creationSuccess={false}
                 message={''}
             />
@@ -20,32 +20,28 @@ describe('CaseCreationSnackbar', () => {
     test('should be visible with success message after successful creation', () => {
         const creationSnackbar = mount(
             <CreationSnackbar
-                inProgress={true}
+                open={false}
                 creationSuccess={false}
                 message={''}
             />
         )
+        creationSnackbar.setProps({open: true, creationSuccess: true, message: 'successfully created.'})
 
-        creationSnackbar.setProps({inProgress: false, creationSuccess: true, message: 'successfully created.' })
-
-        const resultMessage = creationSnackbar.find('[data-test="creationSnackbarBannerText"]')
+        const resultMessage = creationSnackbar.find('span[data-test="creationSnackbarBannerText"]')
 
         expect(resultMessage.text()).toEqual('successfully created.')
     })
 
-    test('should dismiss snackbar', async () => {
+    test('should be not visible after dismissed', async () => {
         const creationSnackbar = mount(
             <CreationSnackbar
-                inProgress={true}
-                creationSuccess={false}
-                message={''}
+                open={true}
+                creationSuccess={true}
+                message={'successfully created.'}
             />
         )
 
-        creationSnackbar.setProps({inProgress: false, creationSuccess: true, message: 'successfully created.' })
-
-        const dismissButton = creationSnackbar.find('button[data-test="closeSnackbar"]')
-        dismissButton.simulate('click')
+        creationSnackbar.setProps({ open: false })
 
         await expectEventuallyNotToExist(
             creationSnackbar,

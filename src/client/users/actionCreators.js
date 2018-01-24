@@ -15,3 +15,15 @@ export const getUsersSuccess = (users) => ({
     type: 'GET_USERS_SUCCESS',
     users
 })
+
+export const openUserSnackbar = () =>{
+    return {
+        type: "OPEN_USER_SNACKBAR"
+    }
+}
+
+export const closeUserSnackbar = () =>{
+    return {
+        type: "CLOSE_USER_SNACKBAR"
+    }
+}

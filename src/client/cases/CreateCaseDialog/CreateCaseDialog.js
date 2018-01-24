@@ -6,7 +6,7 @@ import CreateCaseForm from "./CreateCaseForm";
 import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
 import {withTheme} from "material-ui/styles";
 import LinkButton from "../../sharedComponents/LinkButton";
-import {redirectToCaseDetail} from "../actionCreators";
+import {closeCaseSnackbar, redirectToCaseDetail} from "../actionCreators";
 
 
 const margin = {
@@ -28,6 +28,7 @@ class CreateCaseDialog extends React.Component {
 
     openDialog = () => {
         this.setState({dialogOpen: true})
+        this.props.dispatch(closeCaseSnackbar())
     }
 
     closeDialog = () => {

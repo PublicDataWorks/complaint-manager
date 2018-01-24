@@ -23,3 +23,15 @@ export const redirectToCaseDetail = () => ({
 export const clearRedirectToCaseDetail = () => ({
     type: 'CLEAR_REDIRECT_TO_CASE_DETAIL'
 })
+
+export const openCaseSnackbar = () =>{
+    return {
+        type: "OPEN_CASE_SNACKBAR"
+    }
+}
+
+export const closeCaseSnackbar = () =>{
+    return {
+        type: "CLOSE_CASE_SNACKBAR"
+    }
+}
