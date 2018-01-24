@@ -9,7 +9,6 @@ import LinkButton from "../../sharedComponents/LinkButton";
 import {connect} from "react-redux";
 import formatName from "../../formatName";
 import formatDate from "../../formatDate";
-import {clearRedirectToCaseDetail} from "../actionCreators";
 
 const drawerWidthPercentage = '30%';
 
@@ -69,10 +68,6 @@ class CaseDetails extends React.Component {
     state = {
         mobileOpen: false,
     };
-
-    componentWillMount() {
-        this.props.clearRedirectToCaseDetail()
-    }
 
     render() {
         if (!this.props.caseDetail) {
@@ -153,8 +148,4 @@ const mapStateToProps = (state, ownProps) => ({
     caseDetail: state.cases.all.find((caseDetail) => caseDetail.id.toString() === ownProps.match.params.id)
 })
 
-const mapDispatchToProps = {
-    clearRedirectToCaseDetail
-}
-
-export default withStyles(styles, {withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(CaseDetails));
+export default withStyles(styles, {withTheme: true})(connect(mapStateToProps)(CaseDetails));

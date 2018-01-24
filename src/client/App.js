@@ -1,8 +1,9 @@
 import React from 'react';
 import {
-    BrowserRouter as Router,
     Route
 } from 'react-router-dom';
+import { ConnectedRouter } from 'react-router-redux';
+import history from './history'
 import StyleGuide from './globalStyling/StyleGuide';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import customTheme from "./globalStyling/muiTheme";
@@ -20,7 +21,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <Router>
+            <ConnectedRouter history={history}>
                 <MuiThemeProvider theme={customTheme}>
                     <Paper elevation={0} style={{height: '100%', overflowY: 'scroll'}}>
                         <Route exact path="/" component={CaseDashboard}/>
@@ -29,7 +30,7 @@ class App extends React.Component {
                         <Route exact path="/admin" component={UserDashboard}/>
                     </Paper>
                 </MuiThemeProvider>
-            </Router>
+            </ConnectedRouter>
         )
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import createConfiguredStore from "../../createConfiguredStore";
-import {clearRedirectToCaseDetail, getCasesSuccess} from "../actionCreators";
+import {getCasesSuccess} from "../actionCreators";
 import {mount} from "enzyme/build/index";
 import CaseDetails from "./CaseDetails";
 import {Provider} from 'react-redux';
@@ -37,10 +37,6 @@ describe('Case Details Component', () => {
             </Provider>
         )
     });
-
-    test('should clear redirect flag on mount', () => {
-        expect(dispatchSpy).toHaveBeenCalledWith(clearRedirectToCaseDetail())
-    })
 
     describe('nav bar', () => {
         test("should display with Last Name, First Initial", () => {

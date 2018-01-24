@@ -3,8 +3,8 @@ import React from 'react'
 import {mount} from "enzyme/build/index"
 import {Provider} from 'react-redux'
 import createConfiguredStore from "../../createConfiguredStore"
-import {createCaseSuccess, getCasesSuccess, redirectToCaseDetail} from '../actionCreators'
-import {BrowserRouter as Router, Redirect} from 'react-router-dom'
+import {getCasesSuccess} from '../actionCreators'
+import {BrowserRouter as Router} from 'react-router-dom'
 
 jest.mock('../thunks/getCases', () => () => ({
     type: 'MOCK_GET_CASES_THUNK'
@@ -42,50 +42,6 @@ describe('cases table', () => {
         )
     });
 
-    describe('Case Detail Redirect', () => {
-        test('should render all cases when a case is created but not waiting to redirect', () => {
-            const newCase = {
-                id: 25,
-                complainantType: 'Civilian',
-                firstName: 'Artie',
-                lastName: 'Blue',
-                status: 'Initial',
-                createdAt: new Date().toISOString()
-            }
-
-            store.dispatch(createCaseSuccess(newCase))
-            tableWrapper.update()
-
-            expect(tableWrapper.find('table[data-test="allCasesTable"]').exists()).toBeTruthy()
-        })
-
-        test('should render all cases when waiting to redirect but case has not yet been created', () => {
-            store.dispatch(redirectToCaseDetail())
-            tableWrapper.update()
-
-            expect(tableWrapper.find('table[data-test="allCasesTable"]').exists()).toBeTruthy()
-        })
-
-        test('should redirect to case detail when waiting to redirect and case was successfully created', () => {
-            const newCase = {
-                id: 25,
-                complainantType: 'Civilian',
-                firstName: 'Artie',
-                lastName: 'Blue',
-                status: 'Initial',
-                createdAt: new Date().toISOString()
-            }
-
-            store.dispatch(createCaseSuccess(newCase))
-            store.dispatch(redirectToCaseDetail())
-            tableWrapper.update()
-
-            expect(tableWrapper.find('table[data-test="allCasesTable"]').exists()).toBeFalsy()
-            const redirect = tableWrapper.find(Redirect).instance();
-            expect (redirect.props).toHaveProperty('to', '/case/25')
-        })
-    });
-    
     describe('column headers', () => {
         let caseNumber, complainantType, status, complainant, caseCreatedOn
 

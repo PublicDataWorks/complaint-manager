@@ -18,10 +18,14 @@ describe('createCase', () => {
     })
 
     test('should call API to create case', async () => {
-        const caseDetails = {
-            firstName: 'Fats',
-            lastName: 'Domino'
+        const creationDetails = {
+            caseDetails: {
+                firstName: 'Fats',
+                lastName: 'Domino'
+            },
+            redirect: false
         }
+
         const responseBody = {
             firstName: 'Fats',
             lastName: 'Domino',
@@ -33,10 +37,10 @@ describe('createCase', () => {
                 'Content-Type': 'application/json'
             }
         })
-            .post('/cases', caseDetails)
+            .post('/cases', creationDetails.caseDetails)
             .reply(201, responseBody)
 
-        await createCase(caseDetails)(dispatch)
+        await createCase(creationDetails)(dispatch)
 
         expect(dispatch).toHaveBeenCalledWith(
             createCaseSuccess(responseBody)

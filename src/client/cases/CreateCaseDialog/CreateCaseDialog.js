@@ -1,12 +1,22 @@
 import React from "react";
-import {submit} from "redux-form";
+import {Field, reset, reduxForm} from "redux-form";
 import {connect} from "react-redux";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography} from "material-ui";
-import CreateCaseForm from "./CreateCaseForm";
 import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
 import {withTheme} from "material-ui/styles";
 import LinkButton from "../../sharedComponents/LinkButton";
-import {closeCaseSnackbar, redirectToCaseDetail} from "../actionCreators";
+import {
+    firstNameNotBlank,
+    firstNameRequired,
+    isEmail,
+    isPhoneNumber,
+    lastNameNotBlank,
+    lastNameRequired
+} from "../../formValidations";
+import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
+import {TextField} from "redux-form-material-ui";
+import createCase from "../thunks/createCase";
+import {closeCaseSnackbar} from "../actionCreators";
 
 
 const margin = {
@@ -29,19 +39,46 @@ class CreateCaseDialog extends React.Component {
     openDialog = () => {
         this.setState({dialogOpen: true})
         this.props.dispatch(closeCaseSnackbar())
+        this.props.dispatch(reset('CreateCase'))
     }
 
     closeDialog = () => {
         this.setState({dialogOpen: false})
     }
 
-    createAndView = () => {
-        this.props.dispatch(redirectToCaseDetail())
-        this.props.dispatch(submit('CreateCase'))
+    createAndView = (values, dispatch, props) => {
+        const sanitizedValues = {
+            ...values,
+            firstName: values.firstName.trim(),
+            lastName: values.lastName.trim()
+        }
+
+        const creationDetails = {
+            caseDetails: sanitizedValues,
+            redirect: true
+        }
+
+        dispatch(createCase(creationDetails))
+
+    }
+
+    createOnly = (values, dispatch, props) => {
+        const sanitizedValues = {
+            ...values,
+            firstName: values.firstName.trim(),
+            lastName: values.lastName.trim()
+        }
+
+        const creationDetails = {
+            caseDetails: sanitizedValues,
+            redirect: false
+        }
+
+        dispatch(createCase(creationDetails))
     }
 
     render() {
-        const {theme} = this.props
+        const {theme, handleSubmit} = this.props
 
         return (
             <div>
@@ -66,7 +103,66 @@ class CreateCaseDialog extends React.Component {
                                 information later.
                             </Typography>
                         </DialogContentText>
-                        <CreateCaseForm/>
+                        <form data-test="createCaseForm">
+                            <Field
+                                name="complainantType"
+                                component={ComplainantTypeRadioGroup}
+                                style={{marginRight: '5%'}}
+                            />
+                            <br />
+                            <Field
+                                required
+                                name="firstName"
+                                component={TextField}
+                                label="First Name"
+                                inputProps={{
+                                    maxLength: 25,
+                                    autoComplete: "off",
+                                    "data-test": "firstNameInput"
+                                }}
+                                data-test="firstNameField"
+                                validate={[firstNameRequired, firstNameNotBlank]}
+                                style={{marginRight: '5%'}}
+                            />
+                            <Field
+                                required
+                                name="lastName"
+                                component={TextField}
+                                label="Last Name"
+                                inputProps={{
+                                    maxLength: 25,
+                                    autoComplete: "off",
+                                    "data-test": "lastNameInput"
+                                }}
+                                data-test="lastNameField"
+                                validate={[lastNameRequired, lastNameNotBlank]}
+                                style={{marginRight: '5%'}}
+                            />
+                            <br />
+                            <Field
+                                name="phoneNumber"
+                                component={TextField}
+                                label="Phone Number"
+                                inputProps={{
+                                    "data-test": "phoneNumberInput"
+                                }}
+                                data-test="phoneNumberField"
+                                validate={[isPhoneNumber]}
+                                style={{marginRight: '5%'}}
+                            />
+                            <br />
+                            <Field
+                                name="email"
+                                component={TextField}
+                                label="Email"
+                                inputProps={{
+                                    "data-test": "emailInput",
+                                }}
+                                data-test="emailField"
+                                validate={[isEmail]}
+                                style={{marginRight: '5%'}}
+                            />
+                        </form>
                     </DialogContent>
                     <DialogActions style={{justifyContent: 'space-between', margin: `${theme.spacing.unit * 2}px`}}>
                         <CancelButton
@@ -78,13 +174,13 @@ class CreateCaseDialog extends React.Component {
                         <div>
                             <LinkButton
                                 data-test="createCaseOnly"
-                                onClick={() => this.props.dispatch(submit('CreateCase'))}
+                                onClick={handleSubmit(this.createOnly)}
                             >
                                 Create Only
                             </LinkButton>
                             <SubmitButton
                                 data-test="createAndView"
-                                onClick={this.createAndView}
+                                onClick={handleSubmit(this.createAndView)}
                             >
                                 Create And View
                             </SubmitButton>
@@ -102,5 +198,24 @@ const mapStateToProps = state => {
     }
 }
 
-const connectedDialog = connect(mapStateToProps)(CreateCaseDialog)
-export default withTheme()(connectedDialog)
+const validate = values => {
+    const errors = {}
+
+    if (values.phoneNumber === undefined && values.email === undefined) {
+        errors.phoneNumber = 'Please enter phone number or email address'
+        errors.email = 'Please enter phone number or email address'
+    }
+
+    return errors
+}
+
+export const DialogWithTheme = withTheme()(CreateCaseDialog)
+const ConnectedDialog = connect(mapStateToProps)(DialogWithTheme)
+
+export default reduxForm({
+    form: 'CreateCase',
+    initialValues: {
+        complainantType: 'Civilian'
+    },
+    validate
+})(ConnectedDialog)
