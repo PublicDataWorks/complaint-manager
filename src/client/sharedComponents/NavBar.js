@@ -7,7 +7,6 @@ import {Link} from "react-router-dom";
 const styles = {
     appBarStyle: {
         position: 'static',
-        overflowX: 'scroll',
         width: "100%"
     }
 }

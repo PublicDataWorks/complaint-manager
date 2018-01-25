@@ -25,7 +25,7 @@ const styles = {
         fontSize: "0.875rem",
         fontWeight: 700,
         textTransform: "uppercase",
-        letterSpacing: "1px"
+        letterSpacing: "1.4px"
     },
     display1: {
         color: colors.secondary.main,

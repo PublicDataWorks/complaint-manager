@@ -3,7 +3,7 @@ import React from 'react'
 import {mount} from "enzyme/build/index"
 import {Provider} from 'react-redux'
 import createConfiguredStore from "../../createConfiguredStore"
-import {getCasesSuccess} from '../actionCreators'
+import {createCaseSuccess, getCasesSuccess} from '../actionCreators'
 import {BrowserRouter as Router} from 'react-router-dom'
 
 jest.mock('../thunks/getCases', () => () => ({
@@ -119,5 +119,24 @@ describe('cases table', () => {
             const otherCaseRow = tableWrapper.find('tr[data-test="caseRow24"]');
             expect(otherCaseRow.exists()).toEqual(true);
         });
+
+        test('should remain in numeric descending order by case # after creation', () => {
+            const yetAnotherCase = {
+                id: 50,
+                complainantType: 'Civilian',
+                firstName: 'Buck',
+                lastName: 'Cherry',
+                status: 'Initial',
+                createdAt: new Date(2015, 8, 15).toISOString()
+            }
+
+            store.dispatch(createCaseSuccess(yetAnotherCase))
+            tableWrapper.update()
+
+            const rows = tableWrapper.find('TableBody').find('TableRow')
+            const firstRow = rows.at(0)
+
+            expect(firstRow.find('TableCell').at(0).text()).toEqual(`${yetAnotherCase.id}`)
+        })
     })
 })

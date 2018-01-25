@@ -5,7 +5,7 @@ import UserRow from "./UserRow";
 import getUsers from "../thunks/getUsers";
 import Paper from "material-ui/Paper";
 import tableStyleGenerator from "../../tableStyles";
-import sortAlphabeticallyByProperty from "../../sortAlphabeticallyByProperty";
+import _ from 'lodash'
 
 const numberOfColumns = 3;
 
@@ -20,7 +20,7 @@ class UsersTable extends React.Component {
     }
 
     render() {
-        const { classes } = this.props
+        const {classes} = this.props
         return (
             <div>
                 <Typography
@@ -50,9 +50,10 @@ class UsersTable extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {sortAlphabeticallyByProperty(this.props.users, 'lastName').map(user => (
-                                <UserRow key={user.id} user={user}/>
-                            ))}
+                            {
+                                _.sortBy(this.props.users, 'lastName')
+                                    .map(user => <UserRow key={user.id} user={user}/>)
+                            }
                         </TableBody>
                     </Table>
                 </Paper>

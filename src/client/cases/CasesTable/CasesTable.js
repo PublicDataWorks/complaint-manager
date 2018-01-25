@@ -5,6 +5,7 @@ import {connect} from "react-redux"
 import CaseRow from './CaseRow'
 import {Paper, withStyles} from "material-ui";
 import tableStyleGenerator from '../../tableStyles'
+import _ from 'lodash'
 
 const numberOfColumns = 6;
 
@@ -15,7 +16,7 @@ const styles = theme => ({
 
 class CasesTable extends React.Component {
     render() {
-        const { classes } = this.props
+        const {classes} = this.props
         return (
             <div>
                 <Typography
@@ -45,15 +46,18 @@ class CasesTable extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.props.cases.map(caseDetails => (
-                                <CaseRow key={caseDetails.id} caseDetails={caseDetails}/>
-                            ))}
+                            {
+                                _.sortBy(this.props.cases, 'id')
+                                    .reverse()
+                                    .map(caseDetails => <CaseRow key={caseDetails.id} caseDetails={caseDetails}/>)
+                            }
                         </TableBody>
                     </Table>
                 </Paper>
             </div>)
     }
 }
+
 const mapStateToProps = state => ({
     cases: state.cases.all,
     caseCreationSuccess: state.cases.creation.success
