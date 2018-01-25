@@ -8,29 +8,30 @@ import {openCaseSnackbar} from "./actionCreators";
 import createConfiguredStore from "../createConfiguredStore";
 
 describe('CaseDashboard', () => {
-    let caseDashboard, store
-
-    beforeEach(() => {
-
-        store = createConfiguredStore();
-        caseDashboard = mount(
+    test('should display navbar with title', () => {
+        const store = createConfiguredStore();
+        const caseDashboard = mount(
             <Provider store={store}>
                 <Router>
                     <CaseDashboard/>
                 </Router>
             </Provider>
         )
-    })
-
-    test('should display navbar with title', () => {
         const navBar = caseDashboard.find(NavBar)
         expect(navBar.contains('View All Cases')).toEqual(true)
     })
 
-    test('should close snackbar when unmounted', () => {
+    test('should close snackbar when mounted', () => {
+        const store = createConfiguredStore();
         store.dispatch(openCaseSnackbar())
 
-        caseDashboard.unmount()
+        mount(
+            <Provider store={store}>
+                <Router>
+                    <CaseDashboard/>
+                </Router>
+            </Provider>
+        )
 
         expect(store.getState()).toHaveProperty('cases.snackbar.open', false)
     })

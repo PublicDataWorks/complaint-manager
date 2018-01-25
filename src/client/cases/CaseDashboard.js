@@ -9,7 +9,7 @@ import {closeCaseSnackbar} from "./actionCreators";
 
 class CaseDashboard extends Component {
 
-    componentWillUnmount(){
+    componentWillMount(){
         this.props.dispatch(closeCaseSnackbar())
     }
 

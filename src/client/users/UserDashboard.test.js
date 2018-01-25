@@ -14,29 +14,31 @@ jest.mock('./thunks/getUsers', () => (userDetails) => ({
 }))
 
 describe('UserDashboard', () => {
-    let userDashboard, store
-
-    beforeEach(() => {
-
-        store = createConfiguredStore();
-        userDashboard = mount(
+    test('should display navbar with title', () => {
+        const store = createConfiguredStore();
+        const userDashboard = mount(
             <Provider store={store}>
                 <Router>
                     <UserDashboard/>
                 </Router>
             </Provider>
         )
-    })
 
-    test('should display navbar with title', () => {
         const navBar = userDashboard.find(NavBar)
         expect(navBar.contains('Manage Users')).toEqual(true)
     })
 
-    test('should close snackbar when unmounted', () => {
+    test('should close snackbar when mounted', () => {
+        const store = createConfiguredStore();
         store.dispatch(openUserSnackbar())
 
-        userDashboard.unmount()
+        mount(
+            <Provider store={store}>
+                <Router>
+                    <UserDashboard/>
+                </Router>
+            </Provider>
+        )
 
         expect(store.getState()).toHaveProperty('users.snackbar.open', false)
     })

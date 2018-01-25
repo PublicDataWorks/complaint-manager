@@ -9,7 +9,7 @@ import {closeUserSnackbar} from "./actionCreators";
 
 class UserDashboard extends Component {
 
-    componentWillUnmount(){
+    componentWillMount(){
         this.props.dispatch(closeUserSnackbar())
     }
 
