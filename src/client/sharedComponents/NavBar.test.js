@@ -5,6 +5,18 @@ import {Backdrop} from "material-ui";
 import {BrowserRouter as Router} from "react-router-dom";
 
 describe('NavBar', () => {
+    test('should contain a home icon button', () => {
+        const wrapper = mount(
+            <Router>
+                <NavBar/>
+            </Router>
+        )
+        const homeButton = wrapper.find('[data-test="homeButton"]').last()
+
+        homeButton.simulate('click')
+        expect(homeButton.prop('href')).toEqual('/')
+    })
+
     test('should contain a link named admin', () => {
         const wrapper = mount(
             <Router>

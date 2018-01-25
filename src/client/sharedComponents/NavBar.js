@@ -48,6 +48,7 @@ class NavBar extends React.Component {
                                 color='inherit'
                                 component={Link}
                                 to="/"
+                                data-test='homeButton'
                             >
                                 <HomeIcon/>
                             </IconButton>
