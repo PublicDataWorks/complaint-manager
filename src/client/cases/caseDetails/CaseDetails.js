@@ -82,7 +82,7 @@ class CaseDetails extends React.Component {
                 <Typography data-test="case-number" type="title" style={{ marginLeft: "24px", marginTop: '4px'}} gutterBottom>
                     {`Case #${this.props.caseDetail.id}`}
                 </Typography>
-                <div style={{marginLeft: '48px', display:"flex"}}>
+                <div style={{marginLeft: '6%', display:"flex"}}>
                     <div style={{flex:1, textAlign:'left'}}>
                         <Typography type='body1'>Created On</Typography>
                         <Typography data-test="created-on" type='caption'>{formatDate(this.props.caseDetail.createdAt)}</Typography>

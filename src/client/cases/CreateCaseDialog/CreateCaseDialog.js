@@ -39,22 +39,16 @@ class CreateCaseDialog extends React.Component {
     openDialog = () => {
         this.setState({dialogOpen: true})
         this.props.dispatch(closeCaseSnackbar())
-        this.props.dispatch(reset('CreateCase'))
     }
 
     closeDialog = () => {
         this.setState({dialogOpen: false})
+        this.props.dispatch(reset('CreateCase'))
     }
 
     createAndView = (values, dispatch, props) => {
-        const sanitizedValues = {
-            ...values,
-            firstName: values.firstName.trim(),
-            lastName: values.lastName.trim()
-        }
-
         const creationDetails = {
-            caseDetails: sanitizedValues,
+            caseDetails: this.trimWhitespace(values),
             redirect: true
         }
 
@@ -63,19 +57,19 @@ class CreateCaseDialog extends React.Component {
     }
 
     createOnly = (values, dispatch, props) => {
-        const sanitizedValues = {
-            ...values,
-            firstName: values.firstName.trim(),
-            lastName: values.lastName.trim()
-        }
-
         const creationDetails = {
-            caseDetails: sanitizedValues,
+            caseDetails: this.trimWhitespace(values),
             redirect: false
         }
 
         dispatch(createCase(creationDetails))
     }
+
+    trimWhitespace = (values) => ({
+        ...values,
+        firstName: values.firstName.trim(),
+        lastName: values.lastName.trim()
+    })
 
     render() {
         const {theme, handleSubmit} = this.props
