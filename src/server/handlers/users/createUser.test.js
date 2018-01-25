@@ -89,13 +89,13 @@ describe('create user', () => {
         const message = {
             from: 'test_env_email@example.com',
             to: 'blah@mail.org',
-            subject: 'You have been added to NOIPM Complaint Manager.',
+            subject: 'You have been added to NOIPM Complaint Manager',
             text: `A new password has been generated for you. Login with the password below:
 
 SUPER_SECRET_PASSWORD
 
 Thanks,
-NOIPM team`
+NOIPM Team`
         };
 
         await createUser(request, response)

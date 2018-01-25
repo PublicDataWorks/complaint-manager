@@ -28,13 +28,13 @@ const message = (createdUser) => (
     {
         to: createdUser.email,
         from: config.email.fromEmailAddress,
-        subject: 'You have been added to NOIPM Complaint Manager.',
+        subject: 'You have been added to NOIPM Complaint Manager',
         text: `A new password has been generated for you. Login with the password below:
 
 ${createdUser.password}
 
 Thanks,
-NOIPM team`
+NOIPM Team`
     }
 )
 
