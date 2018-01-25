@@ -46,7 +46,7 @@ class CreateUserDialog extends React.Component {
                         </div>
                     </DialogTitle>
 
-                    <DialogContent>
+                    <DialogContent style={{padding: '0px 24px'}}>
                         <CreateUserForm />
                     </DialogContent>
 

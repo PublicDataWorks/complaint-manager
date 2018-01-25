@@ -25,6 +25,8 @@ const margin = {
     marginBottom: '2%'
 }
 
+const offSet = {marginRight: '5%', marginBottom: '3%'};
+
 class CreateCaseDialog extends React.Component {
     state = {
         dialogOpen: false
@@ -90,7 +92,7 @@ class CreateCaseDialog extends React.Component {
                     <DialogTitle data-test="createCaseDialogTitle" style={{paddingBottom: '1%'}}>
                         Create New Case
                     </DialogTitle>
-                    <DialogContent>
+                    <DialogContent style={{padding: '0px 24px'}}>
                         <DialogContentText style={{paddingBottom: '3%'}}>
                             <Typography type='caption'>
                                 Enter as much information as available to start a case. You will be able to edit this
@@ -101,7 +103,7 @@ class CreateCaseDialog extends React.Component {
                             <Field
                                 name="complainantType"
                                 component={ComplainantTypeRadioGroup}
-                                style={{marginRight: '5%'}}
+                                style={offSet}
                             />
                             <br />
                             <Field
@@ -116,7 +118,7 @@ class CreateCaseDialog extends React.Component {
                                 }}
                                 data-test="firstNameField"
                                 validate={[firstNameRequired, firstNameNotBlank]}
-                                style={{marginRight: '5%'}}
+                                style={offSet}
                             />
                             <Field
                                 required
@@ -130,7 +132,7 @@ class CreateCaseDialog extends React.Component {
                                 }}
                                 data-test="lastNameField"
                                 validate={[lastNameRequired, lastNameNotBlank]}
-                                style={{marginRight: '5%'}}
+                                style={offSet}
                             />
                             <br />
                             <Field
@@ -142,7 +144,7 @@ class CreateCaseDialog extends React.Component {
                                 }}
                                 data-test="phoneNumberField"
                                 validate={[isPhoneNumber]}
-                                style={{marginRight: '5%'}}
+                                style={offSet}
                             />
                             <br />
                             <Field
@@ -154,7 +156,7 @@ class CreateCaseDialog extends React.Component {
                                 }}
                                 data-test="emailField"
                                 validate={[isEmail]}
-                                style={{marginRight: '5%'}}
+                                style={offSet}
                             />
                         </form>
                     </DialogContent>

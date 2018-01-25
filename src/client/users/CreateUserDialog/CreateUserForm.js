@@ -13,7 +13,8 @@ import {
 
 const CreateUserForm = () => {
     const offSet = {
-        marginRight: '5%'
+        marginRight: '5%',
+        marginBottom: '3%'
     }
     return (
         <form data-test="createUserForm">

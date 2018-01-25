@@ -11,7 +11,6 @@ const numberOfColumns = 6
 const styles = theme => ({
     ...tableStyleGenerator(numberOfColumns, theme).body,
     buttonCell: {
-        padding: '2%',
         textAlign: 'right'
     },
 })
