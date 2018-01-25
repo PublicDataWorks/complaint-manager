@@ -169,6 +169,7 @@ class CreateCaseDialog extends React.Component {
                             <LinkButton
                                 data-test="createCaseOnly"
                                 onClick={handleSubmit(this.createOnly)}
+                                style={{marginRight: '10px'}}
                             >
                                 Create Only
                             </LinkButton>
