@@ -2,10 +2,11 @@ import React from 'react'
 import {Provider} from 'react-redux'
 import createConfiguredStore from "../../createConfiguredStore";
 import {mount} from "enzyme/build/index";
-import {createCaseSuccess, openCaseSnackbar} from "../actionCreators";
+import {createCaseSuccess } from "../actionCreators";
 import CreateCaseDialog from "./CreateCaseDialog";
 import {changeInput, expectEventuallyNotToExist} from "../../../testHelpers";
 import createCase from "../thunks/createCase";
+import {openSnackbar} from "../../snackbar/actionCreators";
 
 jest.mock('../thunks/createCase', () => (creationDetails) => ({
     type: 'MOCK_CREATE_CASE_THUNK',
@@ -32,12 +33,12 @@ describe('CreateCaseDialog component', () => {
     })
 
     test('should dismiss visible snackbars when dialog opened', () => {
-        store.dispatch(openCaseSnackbar())
+        store.dispatch(openSnackbar())
         const createCaseButton = dialog.find('button[data-test="createCaseButton"]')
 
         createCaseButton.simulate('click')
 
-        expect(store.getState()).toHaveProperty('cases.snackbar.open', false)
+        expect(store.getState()).toHaveProperty('snackbar.open', false)
     })
 
     describe('submitting a case', () => {

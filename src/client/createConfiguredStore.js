@@ -8,8 +8,7 @@ import allCasesReducer from './cases/reducers/allCasesReducer'
 import caseCreationReducer from "./cases/reducers/caseCreationReducer"
 import allUsersReducer from "./users/reducers/allUsersReducer";
 import userCreationReducer from "./users/reducers/userCreationReducer";
-import caseSnackbarReducer from "./cases/reducers/caseSnackbarReducer";
-import userSnackbarReducer from "./users/reducers/userSnackbarReducer";
+import snackbarReducer from "./snackbar/snackbarReducer";
 
 const rootReducer = combineReducers({
     form: formReducer,
@@ -17,16 +16,14 @@ const rootReducer = combineReducers({
     cases: combineReducers({
         all: allCasesReducer,
         creation: caseCreationReducer,
-        snackbar: combineReducers({
-            open: caseSnackbarReducer
-        })
     }),
     users: combineReducers({
         all: allUsersReducer,
         creation: userCreationReducer,
-        snackbar: combineReducers({
-            open: userSnackbarReducer
-        })
+
+    }),
+    snackbar: combineReducers({
+        open: snackbarReducer
     })
 })
 

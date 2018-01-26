@@ -1,17 +1,17 @@
 import CreationSnackbar from '../../sharedComponents/CreationSnackbar'
 import {connect} from "react-redux";
-import {closeCaseSnackbar} from "../actionCreators";
+import {closeSnackbar} from "../../snackbar/actionCreators";
 
 const mapStateToProps = state => {
     return {
         message: state.cases.creation.message,
         creationSuccess: state.cases.creation.success,
-        open: state.cases.snackbar.open
+        open: state.snackbar.open
     }
 }
 
 const mapDispatchToProps = {
-    closeSnackbar: closeCaseSnackbar
+    closeSnackbar: closeSnackbar
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreationSnackbar)

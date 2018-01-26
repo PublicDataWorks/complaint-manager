@@ -5,12 +5,12 @@ import UserCreationSnackbar from "./UserCreationSnackbar/UserCreationSnackbar";
 import NavBar from '../sharedComponents/NavBar'
 import {Typography} from "material-ui";
 import {connect} from "react-redux";
-import {closeUserSnackbar} from "./actionCreators";
+import {closeSnackbar} from "../snackbar/actionCreators";
 
 class UserDashboard extends Component {
 
     componentWillMount(){
-        this.props.dispatch(closeUserSnackbar())
+        this.props.dispatch(closeSnackbar())
     }
 
     render(){

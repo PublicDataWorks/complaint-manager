@@ -5,12 +5,12 @@ import CaseCreationSnackbar from "./CaseCreationSnackbar/CaseCreationSnackbar";
 import NavBar from '../sharedComponents/NavBar'
 import {Typography} from "material-ui";
 import {connect} from "react-redux";
-import {closeCaseSnackbar} from "./actionCreators";
+import {closeSnackbar} from "../snackbar/actionCreators";
 
 class CaseDashboard extends Component {
 
     componentWillMount(){
-        this.props.dispatch(closeCaseSnackbar())
+        this.props.dispatch(closeSnackbar())
     }
 
     render(){

@@ -16,7 +16,7 @@ import {
 import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import {TextField} from "redux-form-material-ui";
 import createCase from "../thunks/createCase";
-import {closeCaseSnackbar} from "../actionCreators";
+import {closeSnackbar} from "../../snackbar/actionCreators";
 
 
 const margin = {
@@ -40,7 +40,7 @@ class CreateCaseDialog extends React.Component {
 
     openDialog = () => {
         this.setState({dialogOpen: true})
-        this.props.dispatch(closeCaseSnackbar())
+        this.props.dispatch(closeSnackbar())
     }
 
     closeDialog = () => {

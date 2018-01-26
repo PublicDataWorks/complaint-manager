@@ -56,7 +56,7 @@ const styles = theme => ({
             marginTop: 64,
         },
     },
-    statusBox:{
+    statusBox: {
         backgroundColor: theme.palette.green,
         padding: '6px 15px 4px 15px',
         borderRadius: '4px',
@@ -74,24 +74,26 @@ class CaseDetails extends React.Component {
             return null
         }
 
-        const { classes } = this.props;
+        const {classes} = this.props;
 
         const drawer = (
             <div>
-                <LinkButton component={Link} to={'/'} style={{ margin: '4% 0% 5% 2%'}}>Back to all Cases</LinkButton>
-                <Typography data-test="case-number" type="title" style={{ marginLeft: "24px", marginTop: '4px'}} gutterBottom>
+                <LinkButton component={Link} to={'/'} style={{margin: '4% 0% 5% 2%'}}>Back to all Cases</LinkButton>
+                <Typography data-test="case-number" type="title" style={{marginLeft: "24px", marginTop: '4px'}}
+                            gutterBottom>
                     {`Case #${this.props.caseDetail.id}`}
                 </Typography>
-                <div style={{marginLeft: '6%', display:"flex"}}>
-                    <div style={{flex:1, textAlign:'left'}}>
+                <div style={{marginLeft: '6%', display: "flex"}}>
+                    <div style={{flex: 1, textAlign: 'left'}}>
                         <Typography type='body1'>Created On</Typography>
-                        <Typography data-test="created-on" type='caption'>{formatDate(this.props.caseDetail.createdAt)}</Typography>
+                        <Typography data-test="created-on"
+                                    type='caption'>{formatDate(this.props.caseDetail.createdAt)}</Typography>
                     </div>
-                    <div style={{flex:1, textAlign:'left'}}>
+                    <div style={{flex: 1, textAlign: 'left'}}>
                         <Typography type='body1'>Created By</Typography>
                         <Typography data-test="created-by" type='caption'>not added</Typography>
                     </div>
-                    <div style={{flex:1, textAlign:'left'}}>
+                    <div style={{flex: 1, textAlign: 'left'}}>
                         <Typography type='body1'>Assigned To</Typography>
                         <Typography data-test="assigned-to" type='caption'>not added</Typography>
                     </div>
@@ -107,7 +109,7 @@ class CaseDetails extends React.Component {
                             data-test="pageTitle"
                             type="title"
                             color="inherit"
-                            style={{marginRight:'20px'}}
+                            style={{marginRight: '20px'}}
 
                         >
                             {formatName(this.props.caseDetail.firstName, this.props.caseDetail.lastName)}
@@ -118,7 +120,7 @@ class CaseDetails extends React.Component {
                             color="inherit"
                             className={classes.statusBox}
                         >
-                            { this.props.caseDetail.status }
+                            {this.props.caseDetail.status}
                         </Typography>
                     </NavBar>
                     <Drawer

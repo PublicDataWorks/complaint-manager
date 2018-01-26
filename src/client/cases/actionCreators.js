@@ -15,15 +15,3 @@ export const getCasesSuccess = (cases) => ({
     type: 'GET_CASES_SUCCESS',
     cases
 })
-
-export const openCaseSnackbar = () =>{
-    return {
-        type: "OPEN_CASE_SNACKBAR"
-    }
-}
-
-export const closeCaseSnackbar = () =>{
-    return {
-        type: "CLOSE_CASE_SNACKBAR"
-    }
-}

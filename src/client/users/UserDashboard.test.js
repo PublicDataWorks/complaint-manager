@@ -4,8 +4,8 @@ import UserDashboard from "./UserDashboard";
 import NavBar from "../sharedComponents/NavBar";
 import {Provider} from "react-redux";
 import {BrowserRouter as Router} from "react-router-dom";
-import {openUserSnackbar} from "./actionCreators";
 import createConfiguredStore from "../createConfiguredStore";
+import {openSnackbar} from "../snackbar/actionCreators";
 
 // NOTE: loading users on table mount crashes test runner
 jest.mock('./thunks/getUsers', () => (userDetails) => ({
@@ -30,7 +30,7 @@ describe('UserDashboard', () => {
 
     test('should close snackbar when mounted', () => {
         const store = createConfiguredStore();
-        store.dispatch(openUserSnackbar())
+        store.dispatch(openSnackbar())
 
         mount(
             <Provider store={store}>
@@ -40,6 +40,6 @@ describe('UserDashboard', () => {
             </Provider>
         )
 
-        expect(store.getState()).toHaveProperty('users.snackbar.open', false)
+        expect(store.getState()).toHaveProperty('snackbar.open', false)
     })
 })
