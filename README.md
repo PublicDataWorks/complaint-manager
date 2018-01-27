@@ -1,5 +1,8 @@
 # Complaint Manager
 
+#### Build Status
+[![CircleCI](https://circleci.com/gh/NOIPM/complaint-manager.svg?style=svg&circle-token=8fe915d6040eb1655d952ae1d9311648393350ab)](https://circleci.com/gh/NOIPM/complaint-manager)
+
 ## Local development setup
 
 ### Install docker
