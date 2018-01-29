@@ -22,9 +22,8 @@ const rootReducer = combineReducers({
         creation: userCreationReducer,
 
     }),
-    snackbar: combineReducers({
-        open: snackbarReducer
-    })
+    snackbar: snackbarReducer
+
 })
 
 const routingMiddleware = routerMiddleware(history)
