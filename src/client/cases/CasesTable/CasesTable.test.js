@@ -57,10 +57,6 @@ describe('cases table', () => {
             expect(caseNumber.text()).toEqual('Case #');
         })
 
-        test('should display complainant type', () => {
-            expect(complainantType.text()).toEqual('Complainant Type')
-        })
-
         test('should display status', () => {
             expect(status.text()).toEqual('Status');
         })
@@ -84,11 +80,6 @@ describe('cases table', () => {
             const number = caseRow.find('td[data-test="caseNumber"]');
             expect(number.text()).toEqual('17')
         });
-
-        test('should display complainant type', () => {
-            const complainantType = caseRow.find('td[data-test="complainantType"]')
-            expect(complainantType.text()).toEqual('Civilian')
-        })
 
         test('should display status', () => {
             const status = caseRow.find('td[data-test="caseStatus"]');

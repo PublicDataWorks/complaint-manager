@@ -7,7 +7,7 @@ import {Paper, withStyles} from "material-ui";
 import tableStyleGenerator from '../../tableStyles'
 import _ from 'lodash'
 
-const numberOfColumns = 6;
+const numberOfColumns = 5;
 
 const styles = theme => ({
     ...(tableStyleGenerator(numberOfColumns, theme).header),
@@ -30,9 +30,6 @@ class CasesTable extends React.Component {
                             <TableRow className={classes.row}>
                                 <TableCell data-test='casesNumberHeader' className={classes.cell}>
                                     <Typography type='body2'>Case #</Typography>
-                                </TableCell>
-                                <TableCell data-test='casesComplainantTypeHeader' className={classes.cell}>
-                                    <Typography type='body2'>Complainant Type</Typography>
                                 </TableCell>
                                 <TableCell data-test='casesStatusHeader' className={classes.cell}>
                                     <Typography type='body2'>Status</Typography>

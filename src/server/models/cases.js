@@ -34,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
             field: 'email',
             type: DataTypes.STRING
         },
+        firstContactDate: {
+            field: 'first_contact_date',
+            type: DataTypes.DATE
+        },
         createdAt: {
             field: 'created_at',
             type: DataTypes.DATE
