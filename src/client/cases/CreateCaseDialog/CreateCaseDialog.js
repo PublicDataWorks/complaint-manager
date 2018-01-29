@@ -103,13 +103,13 @@ class CreateCaseDialog extends React.Component {
                         </DialogContentText>
                         <form data-test="createCaseForm">
                             <Typography type='body2'>Timeline</Typography>
-                            <Field
-                                name='incidentDate'
-                                component={FormDatePicker}
-                                label='Incident Date *'
-                                data-test="incidentDateField"
-                                style={offSet}
-                            />
+                            {/*<Field*/}
+                                {/*name='incidentDate'*/}
+                                {/*component={FormDatePicker}*/}
+                                {/*label='Incident Date *'*/}
+                                {/*data-test="incidentDateField"*/}
+                                {/*style={offSet}*/}
+                            {/*/>*/}
                             <Field
                                 name='firstContactDate'
                                 component={FormDatePicker}
@@ -117,6 +117,7 @@ class CreateCaseDialog extends React.Component {
                                 data-test="firstContactDateField"
                                 style={offSet}
                             />
+                            <br/>
                             <Field
                                 name="complainantType"
                                 component={ComplainantTypeRadioGroup}
@@ -228,7 +229,7 @@ export default reduxForm({
     form: 'CreateCase',
     initialValues: {
         complainantType: 'Civilian',
-        incidentDate: moment(),
+        // incidentDate: moment(),
         firstContactDate: moment()
     },
     validate
