@@ -1,7 +1,7 @@
 import promiseRetry from 'promise-retry'
 
 export const changeInput = (mountedComponent, inputSelector, value) => {
-    const input = mountedComponent.find(inputSelector)
+    const input = mountedComponent.find(inputSelector).last()
     input.simulate('change', {target: {value}})
 }
 
@@ -24,6 +24,25 @@ export const expectEventuallyNotToExist = async (mountedComponent, selector) => 
         const shouldNotExist = mountedComponent.find(selector)
         expect(shouldNotExist.exists()).toEqual(false)
     })
+}
+
+// intended to test material-ui-pickers Date Pickers
+export const getDateFromDatePicker =(component, selector) => {
+    const defaultPickerText = component
+        .find(selector)
+        .find('input')
+        .last()
+        .instance()
+        .value
+
+    const withOutDateSuffix = defaultPickerText.split(' ').reduce((acumm, current, idx) => {
+        if (idx == 1){
+            return `${acumm} ${current.slice(0,2)}`
+        }
+        return `${acumm} ${current}`
+    },"")
+
+    return new Date(withOutDateSuffix + ' 2018').toDateString()
 }
 
 export const containsText = (mountedComponent, selector, expectedText) => {

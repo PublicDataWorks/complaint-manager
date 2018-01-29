@@ -17,6 +17,8 @@ import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import {TextField} from "redux-form-material-ui";
 import createCase from "../thunks/createCase";
 import {closeSnackbar} from "../../snackbar/actionCreators";
+import FormDatePicker from "./FormDatePicker";
+import moment from "moment";
 
 
 const margin = {
@@ -100,10 +102,24 @@ class CreateCaseDialog extends React.Component {
                             </Typography>
                         </DialogContentText>
                         <form data-test="createCaseForm">
+                            <Typography type='body2'>Timeline</Typography>
+                            <Field
+                                name='incidentDate'
+                                component={FormDatePicker}
+                                label='Incident Date *'
+                                data-test="incidentDateField"
+                                style={offSet}
+                            />
+                            <Field
+                                name='firstContactDate'
+                                component={FormDatePicker}
+                                label='First Contact Date *'
+                                data-test="firstContactDateField"
+                                style={offSet}
+                            />
                             <Field
                                 name="complainantType"
                                 component={ComplainantTypeRadioGroup}
-                                style={offSet}
                             />
                             <br />
                             <Field
@@ -146,7 +162,6 @@ class CreateCaseDialog extends React.Component {
                                 validate={[isPhoneNumber]}
                                 style={offSet}
                             />
-                            <br />
                             <Field
                                 name="email"
                                 component={TextField}
@@ -212,7 +227,9 @@ const ConnectedDialog = connect(mapStateToProps)(DialogWithTheme)
 export default reduxForm({
     form: 'CreateCase',
     initialValues: {
-        complainantType: 'Civilian'
+        complainantType: 'Civilian',
+        incidentDate: moment(),
+        firstContactDate: moment()
     },
     validate
 })(ConnectedDialog)

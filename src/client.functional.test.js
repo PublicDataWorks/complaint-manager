@@ -63,7 +63,7 @@ describe('client-side user journey', () => {
         });
     })
 
-    test('should create and view a new case', async () => {
+    test.skip('should create and view a new case', async () => {
         createCase(app, newCaseRequest);
 
         await retry(() => {
