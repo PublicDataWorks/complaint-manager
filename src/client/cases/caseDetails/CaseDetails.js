@@ -9,6 +9,7 @@ import LinkButton from "../../sharedComponents/LinkButton";
 import {connect} from "react-redux";
 import formatName from "../../formatName";
 import formatDate from "../../formatDate";
+import Narrative from "./Narrative";
 
 const drawerWidthPercentage = '30%';
 
@@ -133,7 +134,10 @@ class CaseDetails extends React.Component {
                         {drawer}
                     </Drawer>
                     <main className={classes.content}>
-                        Content placeholder
+                        <Narrative
+                            initialValues={{narrative: this.props.caseDetail.narrative}}
+                            caseId={this.props.caseDetail.id}
+                        />
                     </main>
                 </div>
             </div>

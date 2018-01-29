@@ -8,10 +8,15 @@ import NavBar from "../../sharedComponents/NavBar";
 import {BrowserRouter as Router} from "react-router-dom";
 import LinkButton from "../../sharedComponents/LinkButton";
 import formatDate from "../../formatDate";
-import {containsText} from "../../../testHelpers";
+import {changeInput, containsText} from "../../../testHelpers";
+import updateNarrative from "../thunks/updateNarrative";
 
 jest.mock('../thunks/getCases', () => () => ({
     type: 'MOCK_GET_CASES_THUNK'
+}))
+
+jest.mock('../thunks/updateNarrative', () => () => ({
+    type: 'MOCK_UPDATE_NARRATIVE_THUNK'
 }))
 describe('Case Details Component', () => {
     let caseDetails, expectedCase, dispatchSpy;
@@ -25,7 +30,8 @@ describe('Case Details Component', () => {
             status: 'Initial',
             createdAt: formatDate(new Date(2015, 8, 13).toISOString()),
             createdBy: 'not added',
-            assignedTo: 'not added'
+            assignedTo: 'not added',
+            narrative: 'sample narrative'
         }];
         store.dispatch(getCasesSuccess(cases));
         expectedCase = cases[0]
@@ -72,5 +78,37 @@ describe('Case Details Component', () => {
         })
 
     });
+
+    describe('narrative', () => {
+        test('should have an initial value', () => {
+            containsText(caseDetails, '[data-test="narrativeInput"]', expectedCase.narrative)
+        })
+
+        test('should update case narrative when save button is clicked', () => {
+            const updateDetails = {
+                narrative: 'sample narrative with additional details.',
+                id: expectedCase.id
+            }
+
+            changeInput(caseDetails, 'textarea[data-test="narrativeInput"]', updateDetails.narrative)
+
+            const saveButton = caseDetails.find('button[data-test="saveNarrative"]')
+            saveButton.simulate('click')
+
+            expect(dispatchSpy).toHaveBeenCalledWith(updateNarrative(updateDetails))
+        })
+
+        test('should disable the submit button when pristine', () => {
+            const saveButton = caseDetails.find('button[data-test="saveNarrative"]')
+            saveButton.simulate('click')
+
+            const defaultValues = {
+                narrative: caseDetails.narrative,
+                id: caseDetails.id
+            }
+
+            expect(dispatchSpy).not.toHaveBeenCalledWith(updateNarrative(defaultValues))
+        })
+    })
 
 });
