@@ -164,7 +164,7 @@ describe('CreateCaseDialog component', () => {
 
                 const tomorrowsDate = (parseInt(moment().date()) + 1).toString()
                 const tomorrowsDateInPicker = dialog.find('IconButton')
-                    .filterWhere(node => node.text().trim("") === tomorrowsDate)
+                    .filterWhere(node => node.text().trim("") === tomorrowsDate).last()
                 tomorrowsDateInPicker.simulate('click')
 
                 const submitButton = dialog.find('Button').filterWhere(node => node.text() == 'OK')
