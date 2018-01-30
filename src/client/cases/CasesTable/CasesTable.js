@@ -40,6 +40,8 @@ class CasesTable extends React.Component {
                                 <TableCell data-test='casesFirstContactDateHeader' className={classes.cell}>
                                     <Typography type='body2'>First Contact Date</Typography>
                                 </TableCell>
+                                <TableCell className={classes.cell}>
+                                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
