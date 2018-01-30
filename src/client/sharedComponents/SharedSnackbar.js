@@ -11,20 +11,20 @@ const styleSheet = theme => ({
     }
 })
 
-const CreationSnackbar = (props) => (
+const SharedSnackbar = (props) => (
     <div>
         <Snackbar
             anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
             open={props.open}
             SnackbarContentProps={{
                 classes: {
-                    root: props.creationSuccess
+                    root: props.success
                         ? props.classes.success
                         : props.classes.error
                 }
             }}
             message={
-                <span data-test="creationSnackbarBannerText">
+                <span data-test="sharedSnackbarBannerText">
                     {props.message}
                     </span>
             }
@@ -42,10 +42,10 @@ const CreationSnackbar = (props) => (
     </div>
 )
 
-CreationSnackbar.defaultProps = {
+SharedSnackbar.defaultProps = {
     message: '',
-    creationSuccess: false,
+    success: false,
     open: false
 }
 
-export default withStyles(styleSheet, {withTheme: true})(CreationSnackbar)
+export default withStyles(styleSheet, {withTheme: true})(SharedSnackbar)

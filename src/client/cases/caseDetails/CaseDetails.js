@@ -10,6 +10,7 @@ import {connect} from "react-redux";
 import formatName from "../../formatName";
 import formatDate from "../../formatDate";
 import Narrative from "./Narrative";
+import CaseDetailSnackbar from "./CaseDetailSnackbar";
 
 const drawerWidthPercentage = '30%';
 
@@ -154,6 +155,7 @@ class CaseDetails extends React.Component {
                             caseId={this.props.caseDetail.id}
                         />
                     </main>
+                    <CaseDetailSnackbar/>
                 </div>
             </div>
         );

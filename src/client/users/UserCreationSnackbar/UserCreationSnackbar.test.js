@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import createConfiguredStore from "../../createConfiguredStore"
 import {mount} from "enzyme"
 import UserCreationSnackbar from "./UserCreationSnackbar"
-import CreationSnackbar from "../../sharedComponents/CreationSnackbar";
+import SharedSnackbar from "../../sharedComponents/SharedSnackbar";
 
 describe('UserCreationSnackbar', () => {
     let userCreationSnackbar, snackbar
@@ -15,11 +15,11 @@ describe('UserCreationSnackbar', () => {
             </Provider>
         )
 
-        snackbar = userCreationSnackbar.find(CreationSnackbar)
+        snackbar = userCreationSnackbar.find(SharedSnackbar)
     })
 
-    test('map creationSuccess from state', () => {
-        expect(snackbar.prop('creationSuccess')).toBeDefined()
+    test('map success from state', () => {
+        expect(snackbar.prop('success')).toBeDefined()
     })
 
     test('map message from state', () => {

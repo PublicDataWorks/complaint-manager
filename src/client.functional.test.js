@@ -89,7 +89,7 @@ const expectCaseToBeVisible = (app, id, formattedName) => {
 
 const expectSnackbar = (app, message) => {
     app.update()
-    const snackbarMessage = app.find('[data-test="creationSnackbarBannerText"]');
+    const snackbarMessage = app.find('[data-test="sharedSnackbarBannerText"]');
     expect(snackbarMessage.text()).toEqual(message)
 }
 

@@ -1,51 +1,51 @@
 import React from 'react'
 import {mount} from 'enzyme/build/index'
-import CreationSnackbar from "./CreationSnackbar";
+import SharedSnackbar from "./SharedSnackbar";
 import {expectEventuallyNotToExist} from "../../testHelpers";
 
-describe('CreationSnackbar', () => {
+describe('SharedSnackbar', () => {
     test('should not be visible initially', () => {
-        const creationSnackbar = mount(
-            <CreationSnackbar
+        const sharedSnackbar = mount(
+            <SharedSnackbar
                 open={false}
                 creationSuccess={false}
                 message={''}
             />
         )
 
-        const resultMessage = creationSnackbar.find('[data-test="creationSnackbarBannerText"]')
+        const resultMessage = sharedSnackbar.find('[data-test="sharedSnackbarBannerText"]')
         expect(resultMessage.exists()).toEqual(false)
     })
 
     test('should be visible with success message after successful creation', () => {
-        const creationSnackbar = mount(
-            <CreationSnackbar
+        const sharedSnackbar = mount(
+            <SharedSnackbar
                 open={false}
                 creationSuccess={false}
                 message={''}
             />
         )
-        creationSnackbar.setProps({open: true, creationSuccess: true, message: 'successfully created.'})
+        sharedSnackbar.setProps({open: true, creationSuccess: true, message: 'successfully created.'})
 
-        const resultMessage = creationSnackbar.find('span[data-test="creationSnackbarBannerText"]')
+        const resultMessage = sharedSnackbar.find('span[data-test="sharedSnackbarBannerText"]')
 
         expect(resultMessage.text()).toEqual('successfully created.')
     })
 
     test('should be not visible after dismissed', async () => {
-        const creationSnackbar = mount(
-            <CreationSnackbar
+        const sharedSnackbar = mount(
+            <SharedSnackbar
                 open={true}
                 creationSuccess={true}
                 message={'successfully created.'}
             />
         )
 
-        creationSnackbar.setProps({ open: false })
+        sharedSnackbar.setProps({ open: false })
 
         await expectEventuallyNotToExist(
-            creationSnackbar,
-            '[data-test="creationSnackbarBannerText"]'
+            sharedSnackbar,
+            '[data-test="sharedSnackbarBannerText"]'
         )
     })
 })

@@ -1,25 +1,27 @@
 import React from 'react'
+import {mount} from "enzyme/build/index";
 import {Provider} from 'react-redux'
-import CaseCreationSnackbar from "./CaseCreationSnackbar";
-import {mount} from "enzyme";
-import createConfiguredStore from "../../createConfiguredStore";
 import SharedSnackbar from "../../sharedComponents/SharedSnackbar";
+import createConfiguredStore from "../../createConfiguredStore";
+import CaseDetailSnackbar from "./CaseDetailSnackbar";
 
 describe('connected CaseCreationSnackbar', () => {
     let snackbarWrapper
     let snackbar
+    let store
 
     beforeEach(() => {
+        store = createConfiguredStore()
         snackbarWrapper = mount(
-            <Provider store={createConfiguredStore()}>
-                <CaseCreationSnackbar/>
+            <Provider store={store}>
+                <CaseDetailSnackbar/>
             </Provider>
         )
 
         snackbar = snackbarWrapper.find(SharedSnackbar)
     })
 
-    test('should map creationSuccess from state', () => {
+    test('should map success from state', () => {
         expect(snackbar.prop('success')).toBeDefined()
     })
 
