@@ -21,12 +21,12 @@ const createCase = (creationDetails) => async (dispatch) => {
 
         const createdCase = await response.json()
 
+        dispatch(createCaseSuccess(createdCase))
+
         if (creationDetails.redirect) {
             dispatch(push(`/case/${createdCase.id}`))
         }
-        dispatch(reset('CreateCase'))
-
-        return dispatch(createCaseSuccess(createdCase))
+        return dispatch(reset('CreateCase'))
     } catch (e) {
         dispatch(createCaseFailure())
     }
