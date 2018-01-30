@@ -20,7 +20,8 @@ test('should call API to update narrative', async () => {
             'Content-Type': 'application/json'
         }
     })
-        .put(`/case/${updateDetails.id}/narrative`, updateDetails.narrative)
+        .put(`/case/${updateDetails.id}/narrative`,
+            {narrative: updateDetails.narrative})
         .reply(201, responseBody)
 
     await updateNarrative(updateDetails)(dispatch)
@@ -43,7 +44,8 @@ test('should handle case update failure', async () => {
             'Content-Type': 'application/json'
         }
     })
-        .put(`/case/${updateDetails.id}/narrative`, updateDetails.narrative)
+        .put(`/case/${updateDetails.id}/narrative`,
+            {narrative: updateDetails.narrative})
         .reply(500)
 
     await updateNarrative(updateDetails)(dispatch)

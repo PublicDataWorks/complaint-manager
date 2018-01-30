@@ -1,5 +1,5 @@
 import allCasesReducer from './allCasesReducer'
-import { createCaseSuccess, getCasesSuccess } from '../actionCreators'
+import {createCaseSuccess, getCasesSuccess, updateNarrativeSuccess} from '../actionCreators'
 
 describe('allCasesReducer', () => {
     test('should default to empty array', () => {
@@ -27,4 +27,16 @@ describe('allCasesReducer', () => {
             expect(newState).toEqual(['case details'])
         })
     })
+
+    describe('UPDATE_NARRATIVE_SUCCESS', () => {
+        test('should update case with new narrative', () => {
+            const oldState = [{id: 1, narrative: null}, {id: 2, narrative: null}]
+            const action = updateNarrativeSuccess({id: 1, narrative: 'a new narrative'})
+
+            const newState = allCasesReducer(oldState, action)
+
+            expect(oldState[0]).toEqual({id: 1, narrative: null})
+            expect(newState[0]).toEqual({id: 1, narrative: 'a new narrative'})
+        })
+    });
 })

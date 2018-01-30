@@ -217,4 +217,54 @@ describe('server', () => {
                 })
         })
     })
+
+    describe('PUT /case/id/narrative', () => {
+        let seededCases
+
+        beforeEach(async () => {
+            seededCases = await models.cases.bulkCreate([{
+                firstName: 'Eleanor',
+                lastName: 'Schellstrop',
+                phoneNumber: "8201387432",
+                email: 'eschell@gmail.com',
+                complainantType: 'Civilian',
+                narrative: 'Beginning narrative'
+            }], {
+                returning: true
+            })
+        })
+
+        afterEach(async () => {
+            const seededIds = seededCases.map(oneCase => oneCase.id)
+
+            await models.cases.destroy({
+                where: {
+                    id: {
+                        [Op.in]: seededIds
+                    }
+                }
+            })
+        })
+
+        test('should update case narrative', async () => {
+            const caseToUpdate = seededCases[0]
+            const id = caseToUpdate.id
+            // const updatedNarrative = { narrative: 'A very updated case narrative.' }
+            const updatedNarrative = { narrative: 'A very updated case narrative.' }
+
+            await request(app)
+                .put(`/case/${id}/narrative`)
+                .set('Content-Header', 'application/json')
+                .send(updatedNarrative)
+                .expect(200)
+                .then(response => {
+                    expect(response.body.id).toEqual(caseToUpdate.id)
+                    expect(response.body.firstName).toEqual(caseToUpdate.firstName)
+                    expect(response.body.lastName).toEqual(caseToUpdate.lastName)
+                    expect(response.body.email).toEqual(caseToUpdate.email)
+                    expect(response.body.complainantType).toEqual(caseToUpdate.complainantType)
+                    expect(response.body.narrative).toEqual(updatedNarrative.narrative)
+                })
+        })
+    });
 })

@@ -10,7 +10,7 @@ const updateNarrative = (updateDetails) => async (dispatch) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: updateDetails.narrative
+            body: JSON.stringify({narrative: updateDetails.narrative})
         })
 
         const updatedCase = await response.json()
