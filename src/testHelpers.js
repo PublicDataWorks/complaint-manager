@@ -35,14 +35,7 @@ export const getDateFromDatePicker =(component, selector) => {
         .instance()
         .value
 
-    const withOutDateSuffix = defaultPickerText.split(' ').reduce((acumm, current, idx) => {
-        if (idx == 1){
-            return `${acumm} ${current.slice(0,2)}`
-        }
-        return `${acumm} ${current}`
-    },"")
-
-    return new Date(withOutDateSuffix + ' 2018').toDateString()
+    return new Date(defaultPickerText).toDateString()
 }
 
 export const containsText = (mountedComponent, selector, expectedText) => {
