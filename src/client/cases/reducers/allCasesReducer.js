@@ -4,7 +4,7 @@ const allCasesReducer = (state = [], action) => {
             return action.cases
         case 'CASE_CREATED_SUCCESS':
             return state.concat(action.caseDetails)
-        case 'UPDATE_NARRATIVE_SUCCESS':
+        case 'NARRATIVE_UPDATE_SUCCEEDED':
             return findAndReplaceUpdatedCase(state, action.caseDetails)
         default:
             return state

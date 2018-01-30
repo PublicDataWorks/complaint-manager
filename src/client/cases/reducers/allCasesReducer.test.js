@@ -28,7 +28,7 @@ describe('allCasesReducer', () => {
         })
     })
 
-    describe('UPDATE_NARRATIVE_SUCCESS', () => {
+    describe('NARRATIVE_UPDATE_SUCCEEDED', () => {
         test('should update case with new narrative', () => {
             const oldState = [{id: 1, narrative: null}, {id: 2, narrative: null}]
             const action = updateNarrativeSuccess({id: 1, narrative: 'a new narrative'})

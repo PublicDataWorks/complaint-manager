@@ -1,5 +1,5 @@
 import caseUpdateReducer from "./caseUpdateReducer";
-import {updateNarrativeSuccess} from "../actionCreators";
+import {updateNarrativeFailure, updateNarrativeSuccess} from "../actionCreators";
 
 describe('caseUpdateReducer', () => {
     test('should set default state', () => {
@@ -13,7 +13,7 @@ describe('caseUpdateReducer', () => {
         expect(newState).toEqual(expectedState)
     })
 
-    describe('UPDATE_NARRATIVE_SUCCESS', () => {
+    describe('NARRATIVE_UPDATE_SUCCEEDED', () => {
         let newState
         beforeEach(() => {
             newState = caseUpdateReducer(undefined, updateNarrativeSuccess('some case'))
@@ -25,6 +25,21 @@ describe('caseUpdateReducer', () => {
 
         test('should set success message', () => {
             expect(newState.message).toEqual('Your narrative was successfully updated')
+        })
+    });
+
+    describe('NARRATIVE_UPDATE_FAILED', () => {
+        let newState
+        beforeEach(() => {
+            newState = caseUpdateReducer({success: true, message: 'some message'}, updateNarrativeFailure())
+        })
+
+        test('should set success to false', () => {
+            expect(newState.success).toEqual(false)
+        })
+
+        test('should set failure message', () => {
+            expect(newState.message).toEqual('Something went wrong on our end and your case was not updated. Please try again.')
         })
     });
 });

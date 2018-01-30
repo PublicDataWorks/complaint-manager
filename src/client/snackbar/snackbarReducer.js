@@ -33,7 +33,11 @@ const snackbarReducer = (state = initialState, action) => {
             return {
                 open: true
             }
-        case 'UPDATE_NARRATIVE_SUCCESS':
+        case 'NARRATIVE_UPDATE_SUCCEEDED':
+            return {
+                open: true
+            }
+        case 'NARRATIVE_UPDATE_FAILED':
             return {
                 open: true
             }

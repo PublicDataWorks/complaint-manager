@@ -17,7 +17,7 @@ export const getCasesSuccess = (cases) => ({
 })
 
 export const updateNarrativeSuccess = (caseDetails) => ({
-    type: 'UPDATE_NARRATIVE_SUCCESS',
+    type: 'NARRATIVE_UPDATE_SUCCEEDED',
     caseDetails
 })
 
