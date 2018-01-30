@@ -50,5 +50,13 @@ module.exports = (sequelize, DataTypes) => {
             field: 'narrative',
             type: DataTypes.TEXT
         }
+    }, {
+        hooks: {
+            beforeUpdate: (instance, options) => {
+                if (instance.status === 'Initial') {
+                    instance.status = 'Active'
+                }
+            }
+        }
     })
 }

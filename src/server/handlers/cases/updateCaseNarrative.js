@@ -1,15 +1,12 @@
 const models = require('../../models/index')
 
 const updateCaseNarrative = async (request, response, next) => {
-    const update = await models.cases.update({
+    const caseToUpdate = await models.cases.findById(request.params.id)
+    const update = await caseToUpdate.update({
         narrative: request.body.narrative,
-        }, {
-        where: { id: request.params.id },
-        returning: true,
-        plain: true
     })
 
-    response.send(update[1].dataValues)
+    response.send(update)
 }
 
 
