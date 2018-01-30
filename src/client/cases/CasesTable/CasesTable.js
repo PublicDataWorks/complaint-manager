@@ -37,8 +37,8 @@ class CasesTable extends React.Component {
                                 <TableCell data-test='casesComplainantHeader' className={classes.cell}>
                                     <Typography type='body2'>Complainant</Typography>
                                 </TableCell>
-                                <TableCell data-test='casesCreatedOnHeader' className={classes.cell}>
-                                    <Typography type='body2'>Created On</Typography>
+                                <TableCell data-test='casesFirstContactDateHeader' className={classes.cell}>
+                                    <Typography type='body2'>First Contact Date</Typography>
                                 </TableCell>
                             </TableRow>
                         </TableHead>

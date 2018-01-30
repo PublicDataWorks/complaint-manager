@@ -1,5 +1,6 @@
 import app from './server'
 import request from 'supertest'
+import moment from "moment";
 let ms = require('smtp-tester');
 const Sequelize = require('sequelize')
 const models = require('./models')
@@ -21,7 +22,8 @@ describe('server', () => {
             lastName: 'Rodriguez',
             phoneNumber: "8201387432",
             email: 'mrod@gmail.com',
-            complainantType: 'Civilian'
+            complainantType: 'Civilian',
+            firstContactDate: moment(new Date())
         };
 
         afterEach(async () => {
@@ -48,6 +50,7 @@ describe('server', () => {
                     expect(response.body.email).toEqual(requestBody.email)
                     expect(response.body.status).toEqual('Initial')
                     expect(response.body.createdAt).not.toBeUndefined()
+                    expect(response.body.firstContactDate).toEqual(requestBody.firstContactDate.toISOString())
                 })
         })
     })
@@ -61,13 +64,15 @@ describe('server', () => {
                 lastName: 'Pollard',
                 phoneNumber: "8201387432",
                 email: 'rpollard@gmail.com',
-                complainantType: 'Civilian'
+                complainantType: 'Civilian',
+                firstContactDate: moment(Date.now())
             }, {
                 firstName: 'Joseph',
                 lastName: 'Joestar',
                 phoneNumber: "9021012345",
                 email: 'hermit_purple@gmail.com',
-                complainantType: 'Police Officer'
+                complainantType: 'Police Officer',
+                firstContactDate: moment(Date.now())
             }], {
                 returning: true
             })
@@ -100,6 +105,7 @@ describe('server', () => {
                                 email: seededCases[0].email,
                                 complainantType: seededCases[0].complainantType,
                                 createdAt: seededCases[0].createdAt.toISOString(),
+                                firstContactDate: seededCases[0].firstContactDate.toISOString(),
                                 status: 'Initial'
                             }),
                             expect.objectContaining({
@@ -109,6 +115,7 @@ describe('server', () => {
                                 email: seededCases[1].email,
                                 complainantType: seededCases[1].complainantType,
                                 createdAt: seededCases[1].createdAt.toISOString(),
+                                firstContactDate: seededCases[1].firstContactDate.toISOString(),
                                 status: 'Initial'
                             })
                         ])

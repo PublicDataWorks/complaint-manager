@@ -8,7 +8,6 @@ const FormDatePicker = (props) => {
     return (
         <DatePicker
             keyboard
-            clearable
             disableFuture
             animateYearScrolling={false}
             keyboardIcon={<DateRange/>}

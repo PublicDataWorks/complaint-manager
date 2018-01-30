@@ -10,6 +10,7 @@ import LinkButton from "../../sharedComponents/LinkButton";
 import formatDate from "../../formatDate";
 import {changeInput, containsText} from "../../../testHelpers";
 import updateNarrative from "../thunks/updateNarrative";
+import moment from "moment";
 
 jest.mock('../thunks/getCases', () => () => ({
     type: 'MOCK_GET_CASES_THUNK'
@@ -28,6 +29,8 @@ describe('Case Details Component', () => {
             firstName: 'Chuck',
             lastName: 'Berry',
             status: 'Initial',
+            complainantType: 'Civilian',
+            firstContactDate: formatDate(moment(new Date())),
             createdAt: formatDate(new Date(2015, 8, 13).toISOString()),
             createdBy: 'not added',
             assignedTo: 'not added',
@@ -65,8 +68,16 @@ describe('Case Details Component', () => {
             containsText(caseDetails, '[data-test="case-number"]', `Case #${expectedCase.id}`)
         })
 
+        test('should display first contact date', () => {
+           containsText(caseDetails, '[data-test="first-contact-date"]', expectedCase.firstContactDate)
+        })
+
         test("should display created on date", () => {
             containsText(caseDetails, '[data-test="created-on"]', expectedCase.createdAt)
+        })
+
+        test('should display complaint type', () => {
+            containsText(caseDetails, '[data-test="complaint-type"]', expectedCase.complainantType)
         })
 
         test("should display created by user", () => {

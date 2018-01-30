@@ -20,7 +20,8 @@ describe('cases table', () => {
             firstName: 'Chuck',
             lastName: 'Berry',
             status: 'Initial',
-            createdAt: new Date(2015, 8, 13).toISOString()
+            createdAt: new Date(2015, 8, 13).toISOString(),
+            firstContactDate: new Date(2016, 7, 14).toISOString()
         }, {
             id: 24,
             complainantType: 'Civilian',
@@ -50,7 +51,7 @@ describe('cases table', () => {
             complainantType = tableWrapper.find('th[data-test="casesComplainantTypeHeader"]');
             status = tableWrapper.find('th[data-test="casesStatusHeader"]');
             complainant = tableWrapper.find('th[data-test="casesComplainantHeader"]');
-            caseCreatedOn = tableWrapper.find('th[data-test="casesCreatedOnHeader"]');
+            caseCreatedOn = tableWrapper.find('th[data-test="casesFirstContactDateHeader"]');
         })
 
         test('should display case number', () => {
@@ -63,8 +64,8 @@ describe('cases table', () => {
         test('should display complainant', () => {
             expect(complainant.text()).toEqual('Complainant');
         })
-        test('should display created on', () => {
-            expect(caseCreatedOn.text()).toEqual('Created On');
+        test('should display first contact date', () => {
+            expect(caseCreatedOn.text()).toEqual('First Contact Date');
         })
 
     });
@@ -91,9 +92,9 @@ describe('cases table', () => {
             expect(name.text()).toEqual('Berry, C.');
         });
 
-        test('should display created at date', () => {
-            const createdAt = caseRow.find('td[data-test="caseCreatedAt"]');
-            expect(createdAt.text()).toEqual('Sep 13, 2015');
+        test('should display first contact date', () => {
+            const firstContactDate = caseRow.find('td[data-test="caseFirstContactDate"]');
+            expect(firstContactDate.text()).toEqual('Aug 14, 2016');
         });
 
         test('should display an open case button', () => {

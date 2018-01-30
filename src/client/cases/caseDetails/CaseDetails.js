@@ -84,12 +84,24 @@ class CaseDetails extends React.Component {
                             gutterBottom>
                     {`Case #${this.props.caseDetail.id}`}
                 </Typography>
-                <div style={{marginLeft: '6%', display: "flex"}}>
+                <div style={{marginLeft: '6%', display: "flex", marginBottom: '16px'}}>
+                    <div style={{flex: 1, textAlign: 'left'}}>
+                        <Typography type='body1'>First Contact Date</Typography>
+                        <Typography data-test="first-contact-date"
+                                    type='caption'>{formatDate(this.props.caseDetail.firstContactDate)}</Typography>
+                    </div>
                     <div style={{flex: 1, textAlign: 'left'}}>
                         <Typography type='body1'>Created On</Typography>
                         <Typography data-test="created-on"
                                     type='caption'>{formatDate(this.props.caseDetail.createdAt)}</Typography>
                     </div>
+                    <div style={{flex: 1, textAlign: 'left'}}>
+                        <Typography type='body1'>Complaint Type</Typography>
+                        <Typography data-test="complaint-type"
+                                    type='caption'>{this.props.caseDetail.complainantType}</Typography>
+                    </div>
+                </div>
+                <div style={{marginLeft: '6%', display: "flex"}}>
                     <div style={{flex: 1, textAlign: 'left'}}>
                         <Typography type='body1'>Created By</Typography>
                         <Typography data-test="created-by" type='caption'>not added</Typography>
@@ -97,6 +109,9 @@ class CaseDetails extends React.Component {
                     <div style={{flex: 1, textAlign: 'left'}}>
                         <Typography type='body1'>Assigned To</Typography>
                         <Typography data-test="assigned-to" type='caption'>not added</Typography>
+                    </div>
+                    <div style={{flex: 1, textAlign: 'left'}}>
+
                     </div>
                 </div>
             </div>

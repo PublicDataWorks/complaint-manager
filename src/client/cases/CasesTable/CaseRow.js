@@ -26,8 +26,8 @@ const CaseRow = ({classes, caseDetails}) => (
         <TableCell data-test="caseName" className={classes.cell}>
             {formatName(caseDetails.firstName, caseDetails.lastName)}
         </TableCell>
-        <TableCell data-test="caseCreatedAt" className={classes.cell}>
-            {formatDate(caseDetails.createdAt)}
+        <TableCell data-test="caseFirstContactDate" className={classes.cell}>
+            {formatDate(caseDetails.firstContactDate)}
         </TableCell>
         <TableCell data-test="openCase" className={classes.buttonCell}>
             <LinkButton component={Link} to={`/case/${caseDetails.id}`} data-test="openCaseButton">Open
