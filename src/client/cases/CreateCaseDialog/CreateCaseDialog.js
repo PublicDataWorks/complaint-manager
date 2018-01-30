@@ -102,7 +102,7 @@ class CreateCaseDialog extends React.Component {
                             </Typography>
                         </DialogContentText>
                         <form data-test="createCaseForm">
-                            <Typography type='body2'>Timeline</Typography>
+                            <Typography type='body2' style={{marginBottom: '8px'}}>Timeline</Typography>
                             {/*<Field*/}
                                 {/*name='incidentDate'*/}
                                 {/*component={FormDatePicker}*/}
