@@ -10,12 +10,12 @@ const Narrative = (props) => {
         <Card style={{
             backgroundColor: 'white',
             marginLeft: '5%',
-            marginRight: '5%'
+            marginRight: '5%',
+            maxWidth: '850px'
         }}>
             <CardContent>
                 <Typography
                     type='title'
-                    style={{marginBottom: '1%'}}
                 >
                     Narrative
                 </Typography>
@@ -24,7 +24,6 @@ const Narrative = (props) => {
             <CardContent>
                 <Typography
                     style={{
-                        marginTop: '1%',
                         marginBottom: '2%'
                     }}
                 >
@@ -45,11 +44,12 @@ const Narrative = (props) => {
                     />
                 </form>
             </CardContent>
-            <CardActions style={{justifyContent: 'flex-end'}}>
+            <CardActions style={{justifyContent: 'flex-end', paddingRight: '0px', padding: '0px 16px 16px 0px'}}>
                 <SubmitButton
                     data-test="saveNarrative"
                     disabled={props.pristine}
                     onClick={() => props.dispatch(submit('Narrative'))}
+                    style={{margin: '0px'}}
                 >
                     Save
                 </SubmitButton>
