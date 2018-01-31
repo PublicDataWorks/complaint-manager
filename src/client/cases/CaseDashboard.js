@@ -21,6 +21,7 @@ class CaseDashboard extends Component {
                         data-test="pageTitle"
                         type="title"
                         color="inherit"
+                        style={{color: 'MediumAquaMarine'}}
                     >
                         View All Cases
                     </Typography>
