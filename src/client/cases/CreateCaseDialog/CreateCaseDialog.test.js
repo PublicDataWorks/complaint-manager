@@ -120,59 +120,26 @@ describe('CreateCaseDialog component', () => {
             })
         });
 
-        describe('incidentDatePicker', () => {
-            test.skip('should default date to current date', () => {
-                const defaultDate = getDateFromDatePicker(dialog, '[data-test="incidentDateField"]')
-                const todaysDate = moment().toDate().toDateString()
-
-                expect(defaultDate).toEqual(todaysDate)
-            })
-
-            test.skip('should should not allow picking future dates', () => {
-                const defaultDate = getDateFromDatePicker(dialog, '[data-test="incidentDateField"]')
-
-                const dateRangeButton = dialog.find('[data-test="incidentDateField"]').last().find('IconButton')
-                dateRangeButton.simulate('click')
-
-                const tomorrowsDate = (parseInt(moment().date()) + 1).toString()
-                const tomorrowsDateInPicker = dialog.find('IconButton')
-                     .filterWhere(node => node.text().trim("") === tomorrowsDate)
-                tomorrowsDateInPicker.simulate('click')
-
-                const submitButton = dialog.find('Button').filterWhere(node => node.text() == 'OK')
-                submitButton.simulate('click')
-
-
-                const newDate = getDateFromDatePicker(dialog, '[data-test="incidentDateField"]')
-                expect(newDate).toEqual(defaultDate)
-            })
-        });
-
         describe('firstContactDatePicker', () => {
             test('should default date to current date', () => {
-                const defaultDate = getDateFromDatePicker(dialog, '[data-test="firstContactDateField"]')
-                const todaysDate = moment().toDate().toDateString()
-
-                expect(defaultDate).toEqual(todaysDate)
+                const datePicker = dialog.find('[data-test="firstContactDateInput"]').last()
+                expect(datePicker.instance().value).toEqual(moment(Date.now()).format("YYYY-MM-DD"))
             })
 
-            test('should should not allow picking future dates', () => {
-                const defaultDate = getDateFromDatePicker(dialog, '[data-test="firstContactDateField"]')
+            test('should not change when changing to a future date', () => {
+                const datePicker = dialog.find('[data-test="firstContactDateInput"]').last()
+                const tomorrow = moment(Date.now()).add(2,'days').format("YYYY-MM-DD")
+                datePicker.simulate('change', {target: {value:tomorrow.toString()}})
 
-                const dateRangeButton = dialog.find('[data-test="firstContactDateField"]').last().find('IconButton')
-                dateRangeButton.simulate('click')
+                expect(datePicker.instance().value).toEqual(moment(Date.now()).format("YYYY-MM-DD"))
+            })
 
-                const tomorrowsDate = (parseInt(moment().date()) + 1).toString()
-                const tomorrowsDateInPicker = dialog.find('IconButton')
-                    .filterWhere(node => node.text().trim("") === tomorrowsDate).last()
-                tomorrowsDateInPicker.simulate('click')
+            test('should change when changing to a past date', () => {
+                const datePicker = dialog.find('[data-test="firstContactDateInput"]').last()
+                const yesterday = moment(Date.now()).subtract(1,'days').format("YYYY-MM-DD")
+                datePicker.simulate('change', {target: {value:yesterday}})
 
-                const submitButton = dialog.find('Button').filterWhere(node => node.text() == 'OK')
-                submitButton.simulate('click')
-
-
-                const newDate = getDateFromDatePicker(dialog, '[data-test="firstContactDateField"]')
-                expect(newDate).toEqual(defaultDate)
+                expect(datePicker.instance().value).toEqual(yesterday)
             })
         });
     })

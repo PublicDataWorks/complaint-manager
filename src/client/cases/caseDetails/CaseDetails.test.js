@@ -30,7 +30,7 @@ describe('Case Details Component', () => {
             lastName: 'Berry',
             status: 'Initial',
             complainantType: 'Civilian',
-            firstContactDate: formatDate(moment(new Date())),
+            firstContactDate: formatDate(Date.now()),
             createdAt: formatDate(new Date(2015, 8, 13).toISOString()),
             createdBy: 'not added',
             assignedTo: 'not added',

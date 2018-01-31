@@ -1,5 +1,5 @@
 import React from "react";
-import {Field, reset, reduxForm} from "redux-form";
+import {Field, reset, reduxForm, change} from "redux-form";
 import {connect} from "react-redux";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography} from "material-ui";
 import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
@@ -11,13 +11,12 @@ import {
     isEmail,
     isPhoneNumber,
     lastNameNotBlank,
-    lastNameRequired
+    lastNameRequired, notFutureDate, validDate
 } from "../../formValidations";
 import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import {TextField} from "redux-form-material-ui";
 import createCase from "../thunks/createCase";
 import {closeSnackbar} from "../../snackbar/actionCreators";
-import FormDatePicker from "./FormDatePicker";
 import moment from "moment";
 
 
@@ -103,19 +102,19 @@ class CreateCaseDialog extends React.Component {
                         </DialogContentText>
                         <form data-test="createCaseForm">
                             <Typography type='body2' style={{marginBottom: '8px'}}>Timeline</Typography>
-                            {/*<Field*/}
-                                {/*name='incidentDate'*/}
-                                {/*component={FormDatePicker}*/}
-                                {/*label='Incident Date *'*/}
-                                {/*data-test="incidentDateField"*/}
-                                {/*style={offSet}*/}
-                            {/*/>*/}
                             <Field
+                                required
                                 name='firstContactDate'
-                                component={FormDatePicker}
-                                label='First Contact Date *'
+                                component={TextField}
+                                label='First Contact Date'
+                                inputProps={{
+                                    "data-test":"firstContactDateInput",
+                                    type:"date",
+                                    max: moment(Date.now()).format('YYYY-MM-DD'),
+                                }}
                                 data-test="firstContactDateField"
                                 style={offSet}
+                                validate={[notFutureDate, validDate]}
                             />
                             <br/>
                             <Field
@@ -225,12 +224,22 @@ const validate = values => {
 export const DialogWithTheme = withTheme()(CreateCaseDialog)
 const ConnectedDialog = connect(mapStateToProps)(DialogWithTheme)
 
+const handleOnChange = (values, dispatch, props, previousValues) => {
+    const today = new Date(Date.now())
+    const chosenDate = new Date(values.firstContactDate)
+
+    if (!Boolean(values.firstContactDate) || chosenDate.getTime() > today.getTime()){
+        dispatch(change('CreateCase', 'firstContactDate', previousValues.firstContactDate))
+    }
+
+}
+
 export default reduxForm({
     form: 'CreateCase',
     initialValues: {
         complainantType: 'Civilian',
-        // incidentDate: moment(),
-        firstContactDate: moment()
+        firstContactDate: moment(Date.now()).format('YYYY-MM-DD')
     },
+    onChange: handleOnChange,
     validate
 })(ConnectedDialog)

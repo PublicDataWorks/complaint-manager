@@ -21,7 +21,7 @@ describe('cases table', () => {
             lastName: 'Berry',
             status: 'Initial',
             createdAt: new Date(2015, 8, 13).toISOString(),
-            firstContactDate: new Date(2016, 7, 14).toISOString()
+            firstContactDate: "2017-12-25T00:00:00.000Z"
         }, {
             id: 24,
             complainantType: 'Civilian',
@@ -94,7 +94,7 @@ describe('cases table', () => {
 
         test('should display first contact date', () => {
             const firstContactDate = caseRow.find('td[data-test="caseFirstContactDate"]');
-            expect(firstContactDate.text()).toEqual('Aug 14, 2016');
+            expect(firstContactDate.text()).toEqual('Dec 25, 2017');
         });
 
         test('should display an open case button', () => {

@@ -1,6 +1,7 @@
 import app from './server'
 import request from 'supertest'
 import moment from "moment";
+import formatDate from "../client/formatDate";
 let ms = require('smtp-tester');
 const Sequelize = require('sequelize')
 const models = require('./models')
@@ -65,14 +66,14 @@ describe('server', () => {
                 phoneNumber: "8201387432",
                 email: 'rpollard@gmail.com',
                 complainantType: 'Civilian',
-                firstContactDate: moment(Date.now())
+                firstContactDate: formatDate(Date.now())
             }, {
                 firstName: 'Joseph',
                 lastName: 'Joestar',
                 phoneNumber: "9021012345",
                 email: 'hermit_purple@gmail.com',
                 complainantType: 'Police Officer',
-                firstContactDate: moment(Date.now())
+                firstContactDate: formatDate(Date.now())
             }], {
                 returning: true
             })

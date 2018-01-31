@@ -1,8 +1,9 @@
 import {
     emailIsRequired,
     firstNameNotBlank, firstNameRequired, isEmail, isPhoneNumber, lastNameNotBlank,
-    lastNameRequired
+    lastNameRequired, notFutureDate, validDate
 } from "./formValidations";
+import moment from "moment";
 
 describe('Form Validations', () => {
     test("firstNameRequired should return an error message when undefined", () => {
@@ -52,5 +53,15 @@ describe('Form Validations', () => {
 
     test("emailRequired should return an error when email is not provided", () => {
         expect(emailIsRequired()).toEqual("Please enter Email Address")
+    })
+
+    test('notFutureDate should return an error when date is a future date', () => {
+        const today = moment(Date.now()).add(1, 'days').format('YYYY-MM-DD')
+        expect(notFutureDate(today)).toEqual('Please enter a valid date')
+    })
+
+    test('validDate should return an error when an invalid date given', () => {
+        expect(validDate('2018/02/31')).toEqual(`Please enter a valid date`)
+
     })
 })
