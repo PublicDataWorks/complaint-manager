@@ -24,7 +24,7 @@ describe('server', () => {
             phoneNumber: "8201387432",
             email: 'mrod@gmail.com',
             complainantType: 'Civilian',
-            firstContactDate: moment(new Date())
+            firstContactDate: "2018-01-31"
         };
 
         afterEach(async () => {
@@ -51,7 +51,7 @@ describe('server', () => {
                     expect(response.body.email).toEqual(requestBody.email)
                     expect(response.body.status).toEqual('Initial')
                     expect(response.body.createdAt).not.toBeUndefined()
-                    expect(response.body.firstContactDate).toEqual(requestBody.firstContactDate.toISOString())
+                    expect(response.body.firstContactDate).toEqual(requestBody.firstContactDate)
                 })
         })
     })
@@ -66,14 +66,14 @@ describe('server', () => {
                 phoneNumber: "8201387432",
                 email: 'rpollard@gmail.com',
                 complainantType: 'Civilian',
-                firstContactDate: formatDate(Date.now())
+                firstContactDate: "2018-01-31"
             }, {
                 firstName: 'Joseph',
                 lastName: 'Joestar',
                 phoneNumber: "9021012345",
                 email: 'hermit_purple@gmail.com',
                 complainantType: 'Police Officer',
-                firstContactDate: formatDate(Date.now())
+                firstContactDate: "2018-02-25"
             }], {
                 returning: true
             })
@@ -106,7 +106,7 @@ describe('server', () => {
                                 email: seededCases[0].email,
                                 complainantType: seededCases[0].complainantType,
                                 createdAt: seededCases[0].createdAt.toISOString(),
-                                firstContactDate: seededCases[0].firstContactDate.toISOString(),
+                                firstContactDate: moment(seededCases[0].firstContactDate).format("YYYY-MM-DD"),
                                 status: 'Initial'
                             }),
                             expect.objectContaining({
@@ -116,7 +116,7 @@ describe('server', () => {
                                 email: seededCases[1].email,
                                 complainantType: seededCases[1].complainantType,
                                 createdAt: seededCases[1].createdAt.toISOString(),
-                                firstContactDate: seededCases[1].firstContactDate.toISOString(),
+                                firstContactDate: moment(seededCases[1].firstContactDate).format("YYYY-MM-DD"),
                                 status: 'Initial'
                             })
                         ])
