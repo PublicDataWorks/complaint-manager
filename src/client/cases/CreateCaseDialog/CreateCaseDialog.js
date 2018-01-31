@@ -113,7 +113,7 @@ class CreateCaseDialog extends React.Component {
                                     max: moment(Date.now()).format('YYYY-MM-DD'),
                                 }}
                                 data-test="firstContactDateField"
-                                style={offSet}
+                                style={{...offSet, width: '30%', clipPath: 'inset(0 17px 0 0)'}}
                                 validate={[notFutureDate, validDate]}
                             />
                             <br/>
