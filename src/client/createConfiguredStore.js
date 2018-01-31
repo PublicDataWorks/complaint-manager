@@ -9,7 +9,7 @@ import caseCreationReducer from "./cases/reducers/caseCreationReducer"
 import allUsersReducer from "./users/reducers/allUsersReducer";
 import userCreationReducer from "./users/reducers/userCreationReducer";
 import snackbarReducer from "./snackbar/snackbarReducer";
-import caseUpdateReducer from "./cases/reducers/caseUpdateReducer";
+import caseDetailsReducer from "./cases/reducers/caseDetailsReducer";
 
 const rootReducer = combineReducers({
     form: formReducer,
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
     cases: combineReducers({
         all: allCasesReducer,
         creation: caseCreationReducer,
-        update: caseUpdateReducer,
+        details: caseDetailsReducer,
     }),
     users: combineReducers({
         all: allUsersReducer,

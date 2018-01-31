@@ -16,12 +16,15 @@ const SharedSnackbar = (props) => (
         <Snackbar
             anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
             open={props.open}
+            autoHideDuration={15000}
+            onClose={() => { props.closeSnackbar() }}
             SnackbarContentProps={{
                 classes: {
                     root: props.success
                         ? props.classes.success
                         : props.classes.error
-                }
+                },
+                style: {maxWidth: '600px'}
             }}
             message={
                 <span data-test="sharedSnackbarBannerText">

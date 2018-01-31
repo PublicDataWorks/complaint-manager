@@ -11,7 +11,6 @@ import formatName from "../../formatName";
 import formatDate from "../../formatDate";
 import Narrative from "./Narrative";
 import CaseDetailSnackbar from "./CaseDetailSnackbar";
-import {closeSnackbar} from "../../snackbar/actionCreators";
 
 const drawerWidthPercentage = '30%';
 
@@ -71,10 +70,6 @@ class CaseDetails extends React.Component {
     state = {
         mobileOpen: false,
     };
-
-    componentWillMount(){
-        this.props.dispatch(closeSnackbar())
-    }
 
     render() {
         if (!this.props.caseDetail) {

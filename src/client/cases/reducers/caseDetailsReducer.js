@@ -2,8 +2,13 @@ const initialState = {
     success: false,
     message: ''
 }
-const caseUpdateReducer = (state = initialState, action) => {
+const caseDetailsReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'CASE_CREATED_SUCCESS':
+            return {
+                success: true,
+                message: `Case ${action.caseDetails.id} was successfully created.`
+            }
         case 'NARRATIVE_UPDATE_SUCCEEDED':
             return {
                 success: true,
@@ -19,4 +24,4 @@ const caseUpdateReducer = (state = initialState, action) => {
     }
 }
 
-export default caseUpdateReducer
+export default caseDetailsReducer
