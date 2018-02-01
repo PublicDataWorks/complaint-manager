@@ -5,8 +5,8 @@ import {connect} from "react-redux"
 import CaseRow from './CaseRow'
 import {Paper, TableSortLabel, withStyles} from "material-ui";
 import tableStyleGenerator from '../../tableStyles'
-import _ from 'lodash'
 import {updateSort} from "../actionCreators";
+import sortBy from "../../sortBy";
 
 const numberOfColumns = 5;
 
@@ -46,14 +46,28 @@ class CasesTable extends React.Component {
                                         direction={this.props.sortDirection}
                                         active={this.props.sortBy === 'status'}
                                     >
-                                    <Typography type='body2'>Status</Typography>
+                                        <Typography type='body2'>Status</Typography>
                                     </TableSortLabel>
                                 </TableCell>
                                 <TableCell data-test='casesComplainantHeader' className={classes.cell}>
-                                    <Typography type='body2'>Complainant</Typography>
+                                    <TableSortLabel
+                                        data-test='complainantSortLabel'
+                                        onClick={() => this.props.dispatch(updateSort('lastName'))}
+                                        direction={this.props.sortDirection}
+                                        active={this.props.sortBy === 'lastName'}
+                                    >
+                                        <Typography type='body2'>Complainant</Typography>
+                                    </TableSortLabel>
                                 </TableCell>
                                 <TableCell data-test='casesFirstContactDateHeader' className={classes.cell}>
-                                    <Typography type='body2'>First Contact Date</Typography>
+                                    <TableSortLabel
+                                        data-test='firstContactDateSortLabel'
+                                        onClick={() => this.props.dispatch(updateSort('firstContactDate'))}
+                                        direction={this.props.sortDirection}
+                                        active={this.props.sortBy === 'firstContactDate'}
+                                    >
+                                        <Typography type='body2'>First Contact Date</Typography>
+                                    </TableSortLabel>
                                 </TableCell>
                                 <TableCell className={classes.cell}>
                                 </TableCell>
@@ -61,7 +75,7 @@ class CasesTable extends React.Component {
                         </TableHead>
                         <TableBody>
                             {
-                                _.orderBy(this.props.cases, [this.props.sortBy], [this.props.sortDirection])
+                                sortBy(this.props.cases, this.props.sortBy, this.props.sortDirection)
                                     .map(caseDetails => <CaseRow key={caseDetails.id} caseDetails={caseDetails}/>)
                             }
                         </TableBody>
@@ -77,9 +91,5 @@ const mapStateToProps = state => ({
     sortBy: state.ui.casesTable.sortBy,
     sortDirection: state.ui.casesTable.sortDirection,
 })
-
-const mapDispatchToProps = {
-    updateSortBy: updateSort
-}
 
 export default withStyles(styles, {withTheme: true})(connect(mapStateToProps)(CasesTable))

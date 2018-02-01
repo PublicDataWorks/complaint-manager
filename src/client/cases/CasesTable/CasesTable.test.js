@@ -59,6 +59,20 @@ describe('cases table', () => {
 
             expect(dispatchSpy).toHaveBeenCalledWith(updateSort('status'))
         })
+
+        test('should update sort by when complainant clicked', () => {
+            const caseNumberLabel = tableWrapper.find('[data-test="complainantSortLabel"]').last()
+            caseNumberLabel.simulate('click')
+
+            expect(dispatchSpy).toHaveBeenCalledWith(updateSort('lastName'))
+        })
+
+        test('should update sort by when date clicked', () => {
+            const caseNumberLabel = tableWrapper.find('[data-test="firstContactDateSortLabel"]').last()
+            caseNumberLabel.simulate('click')
+
+            expect(dispatchSpy).toHaveBeenCalledWith(updateSort('firstContactDate'))
+        })
     });
 
     describe('column headers', () => {
