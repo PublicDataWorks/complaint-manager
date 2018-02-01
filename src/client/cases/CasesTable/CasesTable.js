@@ -29,7 +29,7 @@ class CasesTable extends React.Component {
                     <Table data-test='allCasesTable'>
                         <TableHead>
                             <TableRow className={classes.row}>
-                                <TableCell data-test='casesNumberHeader' className={classes.cell}>
+                                <TableCell data-test='casesNumberHeader' style={{paddingLeft:'24px'}} className={classes.cell}>
                                     <TableSortLabel
                                         data-test='caseNumberSortLabel'
                                         onClick={() => this.props.dispatch(updateSort('id'))}
@@ -39,7 +39,7 @@ class CasesTable extends React.Component {
                                         <Typography type='body2'>Case #</Typography>
                                     </TableSortLabel>
                                 </TableCell>
-                                <TableCell data-test='casesStatusHeader' className={classes.cell}>
+                                <TableCell data-test='casesStatusHeader' style={{paddingLeft:'24px'}} className={classes.cell}>
                                     <TableSortLabel
                                         data-test='statusSortLabel'
                                         onClick={() => this.props.dispatch(updateSort('status'))}
@@ -49,7 +49,7 @@ class CasesTable extends React.Component {
                                         <Typography type='body2'>Status</Typography>
                                     </TableSortLabel>
                                 </TableCell>
-                                <TableCell data-test='casesComplainantHeader' className={classes.cell}>
+                                <TableCell data-test='casesComplainantHeader' style={{paddingLeft:'24px'}} className={classes.cell}>
                                     <TableSortLabel
                                         data-test='complainantSortLabel'
                                         onClick={() => this.props.dispatch(updateSort('lastName'))}
@@ -59,7 +59,7 @@ class CasesTable extends React.Component {
                                         <Typography type='body2'>Complainant</Typography>
                                     </TableSortLabel>
                                 </TableCell>
-                                <TableCell data-test='casesFirstContactDateHeader' className={classes.cell}>
+                                <TableCell data-test='casesFirstContactDateHeader' style={{paddingLeft:'24px'}} className={classes.cell}>
                                     <TableSortLabel
                                         data-test='firstContactDateSortLabel'
                                         onClick={() => this.props.dispatch(updateSort('firstContactDate'))}
@@ -69,7 +69,7 @@ class CasesTable extends React.Component {
                                         <Typography type='body2'>First Contact Date</Typography>
                                     </TableSortLabel>
                                 </TableCell>
-                                <TableCell className={classes.cell}>
+                                <TableCell style={{paddingLeft:'24px'}} className={classes.cell}>
                                 </TableCell>
                             </TableRow>
                         </TableHead>
