@@ -40,6 +40,6 @@ describe('UserDashboard', () => {
             </Provider>
         )
 
-        expect(store.getState()).toHaveProperty('snackbar.open', false)
+        expect(store.getState()).toHaveProperty('ui.snackbar.open', false)
     })
 })

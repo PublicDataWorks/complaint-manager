@@ -39,7 +39,7 @@ describe('CreateCaseDialog component', () => {
 
         createCaseButton.simulate('click')
 
-        expect(store.getState()).toHaveProperty('snackbar.open', false)
+        expect(store.getState()).toHaveProperty('ui.snackbar.open', false)
     })
 
     describe('submitting a case', () => {

@@ -3,9 +3,10 @@ import Table, {TableBody, TableCell, TableHead, TableRow} from 'material-ui/Tabl
 import Typography from 'material-ui/Typography'
 import {connect} from "react-redux"
 import CaseRow from './CaseRow'
-import {Paper, withStyles} from "material-ui";
+import {Paper, TableSortLabel, withStyles} from "material-ui";
 import tableStyleGenerator from '../../tableStyles'
 import _ from 'lodash'
+import {updateSort} from "../actionCreators";
 
 const numberOfColumns = 5;
 
@@ -29,10 +30,24 @@ class CasesTable extends React.Component {
                         <TableHead>
                             <TableRow className={classes.row}>
                                 <TableCell data-test='casesNumberHeader' className={classes.cell}>
-                                    <Typography type='body2'>Case #</Typography>
+                                    <TableSortLabel
+                                        data-test='caseNumberSortLabel'
+                                        onClick={() => this.props.dispatch(updateSort('id'))}
+                                        direction={this.props.sortDirection}
+                                        active={this.props.sortBy === 'id'}
+                                    >
+                                        <Typography type='body2'>Case #</Typography>
+                                    </TableSortLabel>
                                 </TableCell>
                                 <TableCell data-test='casesStatusHeader' className={classes.cell}>
+                                    <TableSortLabel
+                                        data-test='statusSortLabel'
+                                        onClick={() => this.props.dispatch(updateSort('status'))}
+                                        direction={this.props.sortDirection}
+                                        active={this.props.sortBy === 'status'}
+                                    >
                                     <Typography type='body2'>Status</Typography>
+                                    </TableSortLabel>
                                 </TableCell>
                                 <TableCell data-test='casesComplainantHeader' className={classes.cell}>
                                     <Typography type='body2'>Complainant</Typography>
@@ -46,8 +61,7 @@ class CasesTable extends React.Component {
                         </TableHead>
                         <TableBody>
                             {
-                                _.sortBy(this.props.cases, 'id')
-                                    .reverse()
+                                _.orderBy(this.props.cases, [this.props.sortBy], [this.props.sortDirection])
                                     .map(caseDetails => <CaseRow key={caseDetails.id} caseDetails={caseDetails}/>)
                             }
                         </TableBody>
@@ -59,7 +73,13 @@ class CasesTable extends React.Component {
 
 const mapStateToProps = state => ({
     cases: state.cases.all,
-    caseCreationSuccess: state.cases.creation.success
+    caseCreationSuccess: state.cases.creation.success,
+    sortBy: state.ui.casesTable.sortBy,
+    sortDirection: state.ui.casesTable.sortDirection,
 })
+
+const mapDispatchToProps = {
+    updateSortBy: updateSort
+}
 
 export default withStyles(styles, {withTheme: true})(connect(mapStateToProps)(CasesTable))

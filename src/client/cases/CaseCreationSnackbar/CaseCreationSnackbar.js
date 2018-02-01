@@ -6,7 +6,7 @@ const mapStateToProps = state => {
     return {
         message: state.cases.creation.message,
         success: state.cases.creation.success,
-        open: state.snackbar.open
+        open: state.ui.snackbar.open
     }
 }
 

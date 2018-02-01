@@ -24,3 +24,8 @@ export const updateNarrativeSuccess = (caseDetails) => ({
 export const updateNarrativeFailure = () => ({
     type: 'NARRATIVE_UPDATE_FAILED'
 })
+
+export const updateSort = (sortBy) => ({
+    type: 'SORT_UPDATED',
+    sortBy
+})

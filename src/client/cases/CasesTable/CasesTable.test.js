@@ -3,15 +3,16 @@ import React from 'react'
 import {mount} from "enzyme/build/index"
 import {Provider} from 'react-redux'
 import createConfiguredStore from "../../createConfiguredStore"
-import {createCaseSuccess, getCasesSuccess} from '../actionCreators'
+import {createCaseSuccess, getCasesSuccess, updateSort} from '../actionCreators'
 import {BrowserRouter as Router} from 'react-router-dom'
+import {TableSortLabel} from "material-ui";
 
 jest.mock('../thunks/getCases', () => () => ({
     type: 'MOCK_GET_CASES_THUNK'
 }))
 
 describe('cases table', () => {
-    let tableWrapper, cases, store;
+    let tableWrapper, cases, store, dispatchSpy;
 
     beforeEach(() => {
         cases = [{
@@ -32,6 +33,7 @@ describe('cases table', () => {
         }];
 
         store = createConfiguredStore()
+        dispatchSpy = jest.spyOn(store, 'dispatch')
         store.dispatch(getCasesSuccess(cases))
 
         tableWrapper = mount(
@@ -41,6 +43,22 @@ describe('cases table', () => {
                 </Router>
             </Provider>
         )
+    });
+
+    describe('table sorting', () => {
+        test('should update sort by when case # number clicked', () => {
+            const caseNumberLabel = tableWrapper.find('[data-test="caseNumberSortLabel"]').last()
+            caseNumberLabel.simulate('click')
+
+            expect(dispatchSpy).toHaveBeenCalledWith(updateSort('id'))
+        })
+
+        test('should update sort by when status clicked', () => {
+            const caseNumberLabel = tableWrapper.find('[data-test="statusSortLabel"]').last()
+            caseNumberLabel.simulate('click')
+
+            expect(dispatchSpy).toHaveBeenCalledWith(updateSort('status'))
+        })
     });
 
     describe('column headers', () => {
