@@ -1,5 +1,4 @@
 import validator from "validator";
-import moment from "moment";
 
 const isRequired = text => value =>
     value === undefined ? `Please enter ${text}` : undefined
@@ -26,20 +25,16 @@ export const notFutureDate = value => {
 }
 
 export const validDate = value => {
-    const parsedDate = moment(value).toDate()
-    if (!Boolean(parsedDate)) {
-        return `Please enter a valid date`
-    }
+    const parsedDate = new Date(value)
 
     const chosen = value.split('-')
     const chosenYear = parseInt(chosen[0], 10)
     const chosenMonth = parseInt(chosen[1], 10)
     const chosenDate = parseInt(chosen[2],10)
-
     return (
-        chosenYear=== parsedDate.getFullYear()
-        && chosenMonth === (parsedDate.getMonth()+1)
-        && chosenDate=== parsedDate.getDate()
+        chosenYear=== parsedDate.getUTCFullYear()
+        && chosenMonth === (parsedDate.getUTCMonth()+1)
+        && chosenDate=== parsedDate.getUTCDate()
             ? undefined
             : `Please enter a valid date`
     )

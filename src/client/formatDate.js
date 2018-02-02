@@ -1,7 +1,7 @@
-import moment from "moment";
+import moment from 'moment'
 
 const formatDate = dateString => {
-    const date = moment(moment.utc(dateString).format('YYYY-MM-DD')).toDate()
+    const date = moment(moment.utc(new Date(dateString)).format('YYYY-MM-DD')).toDate()
 
     return date.toLocaleDateString('en-US', {
         month: 'short',

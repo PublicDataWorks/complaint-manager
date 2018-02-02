@@ -23,14 +23,17 @@ describe('client-side user journey', () => {
             email: 'rpollard@gmail.com',
             complainantType: 'Civilian',
             status: 'Initial',
-            createdAt: '2018-01-17T22:00:20.796Z'
+            createdAt: '2018-01-17T22:00:20.796Z',
+            firstContactDate: "2017-12-25T00:00:00.000Z"
         }]
         newCaseRequest = {
             firstName: 'Serafin',
             lastName: 'Hayder',
             phoneNumber: "8201334872",
             email: 'shayder@gmail.com',
-            complainantType: 'Civilian'
+            complainantType: 'Civilian',
+            firstContactDate: "2017-12-25T00:00:00.000Z"
+
         }
         newCaseResponse = {
             ...newCaseRequest,

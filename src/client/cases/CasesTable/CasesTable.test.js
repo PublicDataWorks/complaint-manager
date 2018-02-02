@@ -29,7 +29,8 @@ describe('cases table', () => {
             firstName: 'Ariel',
             lastName: 'Pink',
             status: 'Initial',
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            firstContactDate: "2017-12-25T00:00:00.000Z"
         }];
 
         store = createConfiguredStore()
@@ -151,7 +152,8 @@ describe('cases table', () => {
                 firstName: 'Buck',
                 lastName: 'Cherry',
                 status: 'Initial',
-                createdAt: new Date(2015, 8, 15).toISOString()
+                createdAt: new Date(2015, 8, 15).toISOString(),
+                firstContactDate: "2017-12-25T00:00:00.000Z"
             }
 
             store.dispatch(createCaseSuccess(yetAnotherCase))

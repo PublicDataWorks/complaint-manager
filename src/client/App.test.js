@@ -19,13 +19,16 @@ describe('App component', () => {
             firstName: 'Chuck',
             lastName: 'Berry',
             status: 'Initial',
-            createdAt: new Date(2015, 8, 13).toISOString()
+            createdAt: new Date(2015, 8, 13).toISOString(),
+            firstContactDate: "2017-12-25T00:00:00.000Z"
+
         }, {
             id: 24,
             firstName: 'Ariel',
             lastName: 'Pink',
             status: 'Initial',
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            firstContactDate: "2017-12-25T00:00:00.000Z"
         }];
 
         const store = createConfiguredStore()

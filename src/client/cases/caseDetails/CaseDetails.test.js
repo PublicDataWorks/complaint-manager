@@ -30,8 +30,8 @@ describe('Case Details Component', () => {
             lastName: 'Berry',
             status: 'Initial',
             complainantType: 'Civilian',
-            firstContactDate: formatDate(Date.now()),
-            createdAt: formatDate(new Date(2015, 8, 13).toISOString()),
+            firstContactDate: '2018-01-31',
+            createdAt: new Date(2015, 8, 13).toISOString(),
             createdBy: 'not added',
             assignedTo: 'not added',
             narrative: 'sample narrative'
@@ -69,11 +69,11 @@ describe('Case Details Component', () => {
         })
 
         test('should display first contact date', () => {
-           containsText(caseDetails, '[data-test="first-contact-date"]', expectedCase.firstContactDate)
+           containsText(caseDetails, '[data-test="first-contact-date"]', formatDate(expectedCase.firstContactDate))
         })
 
         test("should display created on date", () => {
-            containsText(caseDetails, '[data-test="created-on"]', expectedCase.createdAt)
+            containsText(caseDetails, '[data-test="created-on"]', formatDate(moment(expectedCase.createdAt).format('YYYY-MM-DD')))
         })
 
         test('should display complaint type', () => {
