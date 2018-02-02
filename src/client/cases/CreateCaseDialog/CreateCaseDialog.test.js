@@ -131,7 +131,11 @@ describe('CreateCaseDialog component', () => {
                 const tomorrow = moment(Date.now()).add(2,'days').format("YYYY-MM-DD")
                 datePicker.simulate('change', {target: {value:tomorrow.toString()}})
 
-                expect(datePicker.instance().value).toEqual(moment(Date.now()).format("YYYY-MM-DD"))
+                const datePickerField = dialog.find('[data-test="firstContactDateField"]').first()
+                datePickerField.simulate('blur')
+
+                console.log(datePickerField.text())
+                expect(datePickerField.text()).toContain('Date cannot be in the future')
             })
 
             test('should change when changing to a past date', () => {

@@ -57,11 +57,6 @@ describe('Form Validations', () => {
 
     test('notFutureDate should return an error when date is a future date', () => {
         const today = moment(Date.now()).add(1, 'days').format('YYYY-MM-DD')
-        expect(notFutureDate(today)).toEqual('Please enter a valid date')
-    })
-
-    test('validDate should return an error when an invalid date given', () => {
-        expect(validDate('2018/02/31')).toEqual(`Please enter a valid date`)
-
+        expect(notFutureDate(today)).toEqual('Date cannot be in the future')
     })
 })

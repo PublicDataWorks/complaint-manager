@@ -20,24 +20,8 @@ export const notFutureDate = value => {
     const today = new Date(Date.now())
     const chosenDate = new Date(value)
 
-    return (chosenDate.getTime() > today.getTime() ? `Please enter a valid date` : undefined)
+    return (chosenDate.getTime() > today.getTime() ? `Date cannot be in the future` : undefined)
 
-}
-
-export const validDate = value => {
-    const parsedDate = new Date(value)
-
-    const chosen = value.split('-')
-    const chosenYear = parseInt(chosen[0], 10)
-    const chosenMonth = parseInt(chosen[1], 10)
-    const chosenDate = parseInt(chosen[2],10)
-    return (
-        chosenYear=== parsedDate.getUTCFullYear()
-        && chosenMonth === (parsedDate.getUTCMonth()+1)
-        && chosenDate=== parsedDate.getUTCDate()
-            ? undefined
-            : `Please enter a valid date`
-    )
 }
 
 export const firstNameRequired = isRequired('First Name');

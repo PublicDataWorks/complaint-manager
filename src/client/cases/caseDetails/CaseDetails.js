@@ -97,7 +97,7 @@ class CaseDetails extends React.Component {
                                     type='body1'>{formatDate(this.props.caseDetail.createdAt)}</Typography>
                     </div>
                     <div style={{flex: 1, textAlign: 'left'}}>
-                        <Typography type='caption'>Complaint Type</Typography>
+                        <Typography type='caption'>Complainant Type</Typography>
                         <Typography data-test="complaint-type"
                                     type='body1'>{this.props.caseDetail.complainantType}</Typography>
                     </div>

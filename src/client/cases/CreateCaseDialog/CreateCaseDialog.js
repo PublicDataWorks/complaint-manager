@@ -1,5 +1,5 @@
 import React from "react";
-import {Field, reset, reduxForm, change} from "redux-form";
+import {change, Field, reduxForm, reset} from "redux-form";
 import {connect} from "react-redux";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography} from "material-ui";
 import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
@@ -11,7 +11,8 @@ import {
     isEmail,
     isPhoneNumber,
     lastNameNotBlank,
-    lastNameRequired, notFutureDate, validDate
+    lastNameRequired,
+    notFutureDate,
 } from "../../formValidations";
 import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import {TextField} from "redux-form-material-ui";
@@ -113,8 +114,8 @@ class CreateCaseDialog extends React.Component {
                                     max: moment(Date.now()).format('YYYY-MM-DD'),
                                 }}
                                 data-test="firstContactDateField"
-                                style={{...offSet, width: '30%', clipPath: 'inset(0 17px 0 0)'}}
-                                validate={[notFutureDate, validDate]}
+                                style={{...offSet, width: '35%', clipPath: 'inset(0 17px 0 0)'}}
+                                validate={[notFutureDate]}
                             />
                             <br/>
                             <Field
@@ -225,10 +226,8 @@ export const DialogWithTheme = withTheme()(CreateCaseDialog)
 const ConnectedDialog = connect(mapStateToProps)(DialogWithTheme)
 
 const handleOnChange = (values, dispatch, props, previousValues) => {
-    const today = new Date(Date.now())
-    const chosenDate = new Date(values.firstContactDate)
 
-    if (!Boolean(values.firstContactDate) || chosenDate.getTime() > today.getTime()){
+    if (!Boolean(values.firstContactDate)){
         dispatch(change('CreateCase', 'firstContactDate', previousValues.firstContactDate))
     }
 
