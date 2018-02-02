@@ -11,6 +11,7 @@ import formatName from "../../formatName";
 import formatDate from "../../formatDate";
 import Narrative from "./Narrative";
 import CaseDetailSnackbar from "./CaseDetailSnackbar";
+import {Card, CardContent, Divider, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary} from "material-ui";
 
 const drawerWidthPercentage = '30%';
 
@@ -24,7 +25,6 @@ const appBar = {
 const styles = theme => ({
     root: {
         width: '100%',
-        height: 430,
         zIndex: 1,
         overflow: 'hidden',
     },
@@ -150,6 +150,85 @@ class CaseDetails extends React.Component {
                         {drawer}
                     </Drawer>
                     <main className={classes.content}>
+                        <Card
+                            data-test="complainantWitnessesSection"
+                            style={{
+                                backgroundColor: 'white',
+                                marginLeft: '5%',
+                                marginRight: '5%',
+                                maxWidth: '850px',
+                                marginBottom: '24px'
+                            }}
+                        >
+                            <CardContent
+                                >
+                                <Typography
+                                    type="title"
+                                    data-test="complainantWitnessesPanelTitle">
+                                    Complainant & Witnesses
+                                </Typography>
+                            </CardContent>
+                            <Divider/>
+                            <CardContent
+                                style={{padding:'0'}}
+                            >
+                                <ExpansionPanel
+                                    data-test="complainantWitnessesPanel"
+                                    elevation={0}
+                                    style={{backgroundColor:'white'}}
+                                >
+                                    <ExpansionPanelSummary style={{padding: "0px 16px"}}>
+                                        <div style={{display: "flex"}}>
+                                            <div style={{flex: 1, textAlign: 'left'}}>
+                                                <Typography
+                                                    type='caption'
+                                                    data-test="primaryComplainantLabel"
+                                                >
+                                                    Primary Complainant
+                                                </Typography>
+                                                <Typography
+                                                    type='body1'
+                                                    data-test="primaryComplainantName"
+                                                >
+                                                    {`${this.props.caseDetail.firstName} ${this.props.caseDetail.lastName}`}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                    </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails style={{padding: "8px 16px 24px 16px"}}>
+                                        <div style={{display: "flex", width: '100%', background:'white'}}>
+                                            <div style={{flex: 1, textAlign: 'left'}}>
+                                                <Typography
+                                                    type='caption'
+                                                >
+                                                    Phone Number
+                                                </Typography>
+                                                <Typography
+                                                    type='body1'
+                                                    data-test="primaryComplainantPhoneNumber"
+                                                >
+                                                    {this.props.caseDetail.phoneNumber ? this.props.caseDetail.phoneNumber : 'N/A'}
+                                                </Typography>
+                                            </div>
+                                            <div style={{flex: 1, textAlign: 'left'}}>
+                                                <Typography
+                                                    type='caption'
+                                                >
+                                                    Email
+                                                </Typography>
+                                                <Typography
+                                                    type='body1'
+                                                    data-test="primaryComplainantEmail"
+                                                >
+                                                    {this.props.caseDetail.email ? this.props.caseDetail.email : 'N/A'}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
+                            </CardContent>
+
+                        </Card>
                         <Narrative
                             initialValues={{narrative: this.props.caseDetail.narrative}}
                             caseId={this.props.caseDetail.id}

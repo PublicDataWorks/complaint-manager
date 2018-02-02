@@ -20,15 +20,17 @@ jest.mock('../thunks/updateNarrative', () => () => ({
     type: 'MOCK_UPDATE_NARRATIVE_THUNK'
 }))
 describe('Case Details Component', () => {
-    let caseDetails, expectedCase, dispatchSpy;
+    let caseDetails, expectedCase, dispatchSpy, store;
     beforeEach(() => {
-        let store = createConfiguredStore()
+        store = createConfiguredStore()
         dispatchSpy = jest.spyOn(store, 'dispatch');
         let cases = [{
             id: 17,
             firstName: 'Chuck',
             lastName: 'Berry',
             status: 'Initial',
+            phoneNumber: 1234567890,
+            email: 'cberry@gmail.com',
             complainantType: 'Civilian',
             firstContactDate: '2018-01-31',
             createdAt: new Date(2015, 8, 13).toISOString(),
@@ -90,36 +92,116 @@ describe('Case Details Component', () => {
 
     });
 
-    describe('narrative', () => {
-        test('should have an initial value', () => {
-            containsText(caseDetails, '[data-test="narrativeInput"]', expectedCase.narrative)
+    describe('main content', () => {
+        describe('narrative', () => {
+            test('should have an initial value', () => {
+                containsText(caseDetails, '[data-test="narrativeInput"]', expectedCase.narrative)
+            })
+
+            test('should update case narrative when save button is clicked', () => {
+                const updateDetails = {
+                    narrative: 'sample narrative with additional details.',
+                    id: expectedCase.id
+                }
+
+                changeInput(caseDetails, 'textarea[data-test="narrativeInput"]', updateDetails.narrative)
+
+                const saveButton = caseDetails.find('button[data-test="saveNarrative"]')
+                saveButton.simulate('click')
+
+                expect(dispatchSpy).toHaveBeenCalledWith(updateNarrative(updateDetails))
+            })
+
+            test('should disable the submit button when pristine', () => {
+                const saveButton = caseDetails.find('button[data-test="saveNarrative"]')
+                saveButton.simulate('click')
+
+                const defaultValues = {
+                    narrative: caseDetails.narrative,
+                    id: caseDetails.id
+                }
+
+                expect(dispatchSpy).not.toHaveBeenCalledWith(updateNarrative(defaultValues))
+            })
+        })
+    });
+
+    describe('complainant and witnesses', () => {
+        let complainantWitnessesSection
+        beforeEach(() => {
+            complainantWitnessesSection = caseDetails.find('[data-test="complainantWitnessesSection"]').first()
         })
 
-        test('should update case narrative when save button is clicked', () => {
-            const updateDetails = {
-                narrative: 'sample narrative with additional details.',
-                id: expectedCase.id
-            }
-
-            changeInput(caseDetails, 'textarea[data-test="narrativeInput"]', updateDetails.narrative)
-
-            const saveButton = caseDetails.find('button[data-test="saveNarrative"]')
-            saveButton.simulate('click')
-
-            expect(dispatchSpy).toHaveBeenCalledWith(updateNarrative(updateDetails))
+        test('should have a title Complainant & Witnesses', () => {
+            containsText(complainantWitnessesSection, '[data-test="complainantWitnessesPanelTitle"]', 'Complainant & Witnesses')
         })
 
-        test('should disable the submit button when pristine', () => {
-            const saveButton = caseDetails.find('button[data-test="saveNarrative"]')
-            saveButton.simulate('click')
+        test('should display primary complainants first and last name', () => {
+            const primaryComplainantName = `${expectedCase.firstName} ${expectedCase.lastName}`
 
-            const defaultValues = {
-                narrative: caseDetails.narrative,
-                id: caseDetails.id
-            }
-
-            expect(dispatchSpy).not.toHaveBeenCalledWith(updateNarrative(defaultValues))
+            containsText(complainantWitnessesSection, '[data-test="primaryComplainantName"]', primaryComplainantName)
         })
-    })
+        
+        test('should display a label Primary Complainant', () => {
+            containsText(complainantWitnessesSection, '[data-test="primaryComplainantLabel"]', 'Primary Complainant')
+        })
+
+        test('should display phone number expanded', () => {
+            const complainantPanel = complainantWitnessesSection.find('[data-test="complainantWitnessesPanel"]').first()
+
+            containsText(complainantPanel, '[data-test="primaryComplainantPhoneNumber"]', expectedCase.phoneNumber.toString())
+        })
+
+        test('should display email expanded', () => {
+            const complainantPanel = complainantWitnessesSection.find('[data-test="complainantWitnessesPanel"]').first()
+
+            containsText(complainantPanel, '[data-test="primaryComplainantEmail"]', expectedCase.email)
+        })
+
+        test('should display N/A when no phone number ', () => {
+            const cases = [{
+                id: 17,
+                firstName: 'John',
+                lastName: 'Doe',
+                status: 'Initial',
+                phoneNumber: null,
+                email: 'cberry@gmail.com',
+                complainantType: 'Civilian',
+                firstContactDate: '2018-01-31',
+                createdAt: new Date(2015, 8, 13).toISOString(),
+                createdBy: 'not added',
+                assignedTo: 'not added',
+                narrative: 'sample narrative'
+            }]
+
+            store.dispatch(getCasesSuccess(cases));
+
+            const complainantPanel = complainantWitnessesSection.find('[data-test="complainantWitnessesPanel"]').first()
+            containsText(complainantPanel, '[data-test="primaryComplainantPhoneNumber"]', 'N/A')
+        })
+
+        test('should display N/A when no email', () => {
+            const cases = [{
+                id: 17,
+                firstName: 'John',
+                lastName: 'Doe',
+                status: 'Initial',
+                phoneNumber: 1234567890,
+                email: null,
+                complainantType: 'Civilian',
+                firstContactDate: '2018-01-31',
+                createdAt: new Date(2015, 8, 13).toISOString(),
+                createdBy: 'not added',
+                assignedTo: 'not added',
+                narrative: 'sample narrative'
+            }]
+
+            store.dispatch(getCasesSuccess(cases));
+
+            const complainantPanel = complainantWitnessesSection.find('[data-test="complainantWitnessesPanel"]').first()
+            containsText(complainantPanel, '[data-test="primaryComplainantEmail"]', 'N/A')
+        })
+    });
+    
 
 });
