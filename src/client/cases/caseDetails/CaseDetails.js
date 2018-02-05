@@ -150,7 +150,7 @@ class CaseDetails extends React.Component {
                         {drawer}
                     </Drawer>
                     <main className={classes.content}>
-                        <ComplainantWitnesses caseDetail={this.props.caseDetail}/>
+                        <ComplainantWitnesses caseDetail={this.props.caseDetail} dispatch={this.props.dispatch}/>
                         <Narrative
                             initialValues={{narrative: this.props.caseDetail.narrative}}
                             caseId={this.props.caseDetail.id}

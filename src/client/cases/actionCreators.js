@@ -29,3 +29,7 @@ export const updateSort = (sortBy) => ({
     type: 'SORT_UPDATED',
     sortBy
 })
+
+export const openEditDialog = () => ({
+    type: 'EDIT_DIALOG_OPENED'
+})

@@ -8,19 +8,21 @@ import {
     ExpansionPanelSummary,
     Typography
 } from "material-ui";
+import {openEditDialog} from "../actionCreators";
+import LinkButton from "../../sharedComponents/LinkButton";
 
 const formatPhoneNumber = (phoneNumber) => {
     const phoneString = phoneNumber.toString()
 
-    const areaCode = phoneString.substring(0,3)
+    const areaCode = phoneString.substring(0, 3)
     const first = phoneString.substring(3, 6)
-    const second = phoneString.substring(6,10)
+    const second = phoneString.substring(6, 10)
 
     return `(${areaCode}) ${first}-${second}`
 }
 
-const ComplainantWitnesses = ({caseDetail}) =>{
-    return(
+const ComplainantWitnesses = (props) => {
+    return (
         <Card
             data-test="complainantWitnessesSection"
             style={{
@@ -61,7 +63,7 @@ const ComplainantWitnesses = ({caseDetail}) =>{
                                     type='body1'
                                     data-test="primaryComplainantName"
                                 >
-                                    {`${caseDetail.firstName} ${caseDetail.lastName}`}
+                                    {`${props.caseDetail.firstName} ${props.caseDetail.lastName}`}
                                 </Typography>
                             </div>
                             <div style={{flex: 1, textAlign: 'left'}}>
@@ -92,6 +94,14 @@ const ComplainantWitnesses = ({caseDetail}) =>{
                                     N/A
                                 </Typography>
                             </div>
+                            <div style={{flex: 1, textAlign: 'left'}}>
+                                <LinkButton
+                                    data-test="editComplainantLink"
+                                    onClick={() => props.dispatch(openEditDialog())}
+                                >
+                                    Edit
+                                </LinkButton>
+                            </div>
                         </div>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{padding: "8px 16px 24px 16px"}}>
@@ -106,7 +116,7 @@ const ComplainantWitnesses = ({caseDetail}) =>{
                                     type='body1'
                                     data-test="primaryComplainantPhoneNumber"
                                 >
-                                    {caseDetail.phoneNumber ? formatPhoneNumber(caseDetail.phoneNumber) : 'N/A'}
+                                    {props.caseDetail.phoneNumber ? formatPhoneNumber(props.caseDetail.phoneNumber) : 'N/A'}
                                 </Typography>
                             </div>
                             <div style={{flex: 1, textAlign: 'left'}}>
@@ -119,7 +129,7 @@ const ComplainantWitnesses = ({caseDetail}) =>{
                                     type='body1'
                                     data-test="primaryComplainantEmail"
                                 >
-                                    {caseDetail.email ? caseDetail.email : 'N/A'}
+                                    {props.caseDetail.email ? props.caseDetail.email : 'N/A'}
                                 </Typography>
                             </div>
                         </div>
