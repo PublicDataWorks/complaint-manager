@@ -12,6 +12,7 @@ import formatDate from "../../formatDate";
 import Narrative from "./Narrative";
 import CaseDetailSnackbar from "./CaseDetailSnackbar";
 import ComplainantWitnesses from "./ComplainantWitnesses";
+import EditCivilianDialog from "./EditCivilianDialog/EditCivilianDialog"
 
 const drawerWidthPercentage = '30%';
 
@@ -156,6 +157,7 @@ class CaseDetails extends React.Component {
                             caseId={this.props.caseDetail.id}
                         />
                     </main>
+                    <EditCivilianDialog/>
                     <CaseDetailSnackbar/>
                 </div>
             </div>
