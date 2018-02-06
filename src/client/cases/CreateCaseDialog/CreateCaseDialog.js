@@ -5,14 +5,11 @@ import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Ty
 import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
 import {withTheme} from "material-ui/styles";
 import FirstNameField from "../sharedFormComponents/FirstNameField";
+import LastNameField from "../sharedFormComponents/LastNameField";
 import LinkButton from "../../sharedComponents/LinkButton";
 import {
-    firstNameNotBlank,
-    firstNameRequired,
     isEmail,
     isPhoneNumber,
-    lastNameNotBlank,
-    lastNameRequired,
     notFutureDate,
 } from "../../formValidations";
 import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
@@ -125,20 +122,7 @@ class CreateCaseDialog extends React.Component {
                             />
                             <br />
                             <FirstNameField/>
-                            <Field
-                                required
-                                name="lastName"
-                                component={TextField}
-                                label="Last Name"
-                                inputProps={{
-                                    maxLength: 25,
-                                    autoComplete: "off",
-                                    "data-test": "lastNameInput"
-                                }}
-                                data-test="lastNameField"
-                                validate={[lastNameRequired, lastNameNotBlank]}
-                                style={offSet}
-                            />
+                            <LastNameField/>
                             <br />
                             <Field
                                 name="phoneNumber"

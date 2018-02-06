@@ -96,18 +96,6 @@ describe('CreateCaseDialog component', () => {
     })
 
     describe('fields', () => {
-        describe('last name', () => {
-            test('last name should have max length of 25 characters', () => {
-                const lastName = dialog.find('input[data-test="lastNameInput"]')
-                expect(lastName.props().maxLength).toEqual(25)
-            })
-
-            test('last name should not use autoComplete', () => {
-                const lastName = dialog.find('input[data-test="lastNameInput"]')
-                expect(lastName.props().autoComplete).toEqual('off')
-            })
-        });
-
         describe('firstContactDatePicker', () => {
             test('should default date to current date', () => {
                 const datePicker = dialog.find('[data-test="firstContactDateInput"]').last()
