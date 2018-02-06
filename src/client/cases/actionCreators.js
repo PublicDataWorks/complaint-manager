@@ -33,3 +33,7 @@ export const updateSort = (sortBy) => ({
 export const openEditDialog = () => ({
     type: 'EDIT_DIALOG_OPENED'
 })
+
+export const closeEditDialog = () => ({
+    type: 'EDIT_DIALOG_CLOSED'
+})
