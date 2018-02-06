@@ -96,18 +96,6 @@ describe('CreateCaseDialog component', () => {
     })
 
     describe('fields', () => {
-        describe('first name', () => {
-            test('first name should have max length of 25 characters', () => {
-                const firstName = dialog.find('input[data-test="firstNameInput"]')
-                expect(firstName.props().maxLength).toEqual(25)
-            })
-
-            test('first name should not use autoComplete', () => {
-                const firstName = dialog.find('input[data-test="firstNameInput"]')
-                expect(firstName.props().autoComplete).toEqual('off')
-            })
-        });
-
         describe('last name', () => {
             test('last name should have max length of 25 characters', () => {
                 const lastName = dialog.find('input[data-test="lastNameInput"]')

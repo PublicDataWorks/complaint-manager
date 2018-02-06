@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography} from "material-ui";
 import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
 import {withTheme} from "material-ui/styles";
+import FirstNameField from "../sharedFormComponents/FirstNameField";
 import LinkButton from "../../sharedComponents/LinkButton";
 import {
     firstNameNotBlank,
@@ -123,20 +124,7 @@ class CreateCaseDialog extends React.Component {
                                 component={ComplainantTypeRadioGroup}
                             />
                             <br />
-                            <Field
-                                required
-                                name="firstName"
-                                component={TextField}
-                                label="First Name"
-                                inputProps={{
-                                    maxLength: 25,
-                                    autoComplete: "off",
-                                    "data-test": "firstNameInput"
-                                }}
-                                data-test="firstNameField"
-                                validate={[firstNameRequired, firstNameNotBlank]}
-                                style={offSet}
-                            />
+                            <FirstNameField/>
                             <Field
                                 required
                                 name="lastName"
