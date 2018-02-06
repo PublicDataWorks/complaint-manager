@@ -4,6 +4,7 @@ import {mount} from "enzyme";
 import {changeInput, retry} from "./testHelpers";
 import {mockCreateCase, mockGetCases, mockGetUsers} from "./mockEndpoints";
 
+jest.mock("./client/auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))
 
 function expectUserToBeVisible(app, id, name) {
     app.update()

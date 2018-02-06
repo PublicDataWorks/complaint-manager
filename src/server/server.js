@@ -9,6 +9,7 @@ const updateCaseNarrative = require("./handlers/cases/updateCaseNarrative");
 const createUser = require("./handlers/users/createUser");
 const getUsers = require("./handlers/users/getUsers");
 const errorHandler = require("./handlers/errorHandler");
+const jwtCheck = require("./handlers/jtwCheck")
 
 const app = express();
 const buildDirectory = path.join(__dirname, '../../build');
@@ -16,7 +17,19 @@ const buildDirectory = path.join(__dirname, '../../build');
 app.use(bodyParser.json());
 app.use(express.static(buildDirectory));
 
+// Unprotected Routes must be defined before jwtCheck middleware is applied
 app.get('/health-check', healthCheck);
+
+app.use(jwtCheck);
+
+app.use(function (err, req, res, next) {
+    console.log(err)
+    if (err.name === 'UnauthorizedError') {
+        res.send(401, 'invalid token...');
+    }
+});
+
+//Any routes defined below this point will require authentication
 app.post('/cases', createCase);
 app.get('/cases', getCases);
 app.put('/case/:id/narrative', updateCaseNarrative);

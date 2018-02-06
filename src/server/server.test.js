@@ -1,14 +1,39 @@
 import app from './server'
 import request from 'supertest'
-import moment from "moment";
-import formatDate from "../client/formatDate";
-let ms = require('smtp-tester');
-const Sequelize = require('sequelize')
-const models = require('./models')
+import moment from "moment"
+import fs from 'fs'
+import path from 'path'
+import jwt from 'jsonwebtoken'
+import ms from 'smtp-tester'
+import Sequelize from 'sequelize'
+import models from './models'
+
+const config = require('./config/config')[process.env.NODE_ENV]
+
 
 const Op = Sequelize.Op
 
 describe('server', () => {
+    let token
+
+    beforeEach(async () => {
+
+        var privateKeyPath = path.join(__dirname, 'config', 'test', 'private.pem')
+        var cert = fs.readFileSync(privateKeyPath)
+
+        var payload = {
+            foo: 'bar'
+        }
+
+        var options = {
+            audience: config.authentication.audience,
+            issuer: config.authentication.issuer,
+            algorithm: config.authentication.algorithm
+        }
+
+        token = jwt.sign(payload, cert, options)
+    })
+
     describe('GET /health-check', () => {
         test('should show healthy if db connection works', async () => {
             await request(app)
@@ -40,6 +65,7 @@ describe('server', () => {
             await request(app)
                 .post('/cases')
                 .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
                 .send(requestBody)
                 .expect(201)
                 .then(response => {
@@ -95,6 +121,7 @@ describe('server', () => {
             await request(app)
                 .get('/cases')
                 .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
                 .then(response => {
                     expect(response.body.cases).toEqual(
@@ -123,11 +150,32 @@ describe('server', () => {
                     )
                 })
         })
+
+        test('should return 401 with invalid token', async () => {
+            await request(app)
+                .get('/cases')
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer INVALID_KEY`)
+                .expect(401)
+                .then(response => {
+                    expect(response.text).toEqual('invalid token...')
+                })
+        })
+
+        test('should return 401 without authorization header', async () => {
+            await request(app)
+                .get('/cases')
+                .set('Content-Header', 'application/json')
+                .expect(401)
+                .then(response => {
+                    expect(response.text).toEqual('invalid token...')
+                })
+        })
     })
 
     describe('POST /users', () => {
         let mailServer
-        beforeEach( () => {
+        beforeEach(() => {
             mailServer = ms.init(2525)
         })
         afterEach(async () => {
@@ -142,13 +190,14 @@ describe('server', () => {
 
         test('should create a user', async () => {
 
-            mailServer.bind('rswanson@pawnee.gov', (destinationAddress,id,email) => {
+            mailServer.bind('rswanson@pawnee.gov', (destinationAddress, id, email) => {
                 expect(destinationAddress).toEqual("rswanson@pawnee.gov")
             });
 
             await request(app)
                 .post('/users')
                 .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
                 .send({firstName: 'Ron', lastName: 'Swanson', email: 'rswanson@pawnee.gov'})
                 .expect(201)
                 .then(response => {
@@ -197,6 +246,7 @@ describe('server', () => {
             await request(app)
                 .get('/users')
                 .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
                 .then(response => {
                     expect(response.body.users).toEqual(
@@ -251,11 +301,12 @@ describe('server', () => {
             const caseToUpdate = seededCases[0]
             const id = caseToUpdate.id
             // const updatedNarrative = { narrative: 'A very updated case narrative.' }
-            const updatedNarrative = { narrative: 'A very updated case narrative.' }
+            const updatedNarrative = {narrative: 'A very updated case narrative.'}
 
             await request(app)
                 .put(`/case/${id}/narrative`)
                 .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
                 .send(updatedNarrative)
                 .expect(200)
                 .then(response => {

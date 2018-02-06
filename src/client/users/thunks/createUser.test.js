@@ -1,12 +1,16 @@
 import nock from 'nock'
 import createUser from "./createUser"
 import {createUserFailure, createUserSuccess} from "../actionCreators"
+import {push} from "react-router-redux";
+import getAccessToken from "../../auth/getAccessToken";
+
+jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))
 
 describe('createUser', () => {
-    let dispatch
+    const dispatch = jest.fn()
 
     beforeEach(() => {
-        dispatch = jest.fn()
+        dispatch.mockClear()
     })
 
     test('should dispatch success when user created successfully', async () => {
@@ -19,7 +23,8 @@ describe('createUser', () => {
 
         nock('http://localhost', {
             reqheaders: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer TEST_TOKEN`
             }
         })
             .post('/users', user)
@@ -39,7 +44,9 @@ describe('createUser', () => {
 
         nock('http://localhost', {
             reqheaders: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer TEST_TOKEN`
+
             }
         })
             .post('/users', user)
@@ -50,5 +57,43 @@ describe('createUser', () => {
         expect(dispatch).toHaveBeenCalledWith(
             createUserFailure()
         )
+    })
+
+    test('should not dispatch success if unauthorized and should redirect', async () => {
+        const user = { someUser: 'some value' }
+
+        nock('http://localhost', {
+            reqheaders: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer TEST_TOKEN`
+            }
+        })
+            .post('/users', user)
+            .reply(401, user)
+
+        await createUser(user)(dispatch)
+
+        expect(dispatch).not.toHaveBeenCalledWith(createUserSuccess(user))
+        expect(dispatch).toHaveBeenCalledWith(push(`/login`))
+    })
+
+    test('should redirect immediately if token missing', async () => {
+        getAccessToken.mockImplementation(() => false)
+
+        const user = { someUser: 'some value' }
+
+        nock('http://localhost', {
+            reqheaders: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer TEST_TOKEN`
+            }
+        })
+            .post('/users', user)
+            .reply(201, user)
+
+        await createUser(user)(dispatch)
+
+        expect(dispatch).not.toHaveBeenCalledWith(createUserSuccess(user))
+        expect(dispatch).toHaveBeenCalledWith(push(`/login`))
     })
 })

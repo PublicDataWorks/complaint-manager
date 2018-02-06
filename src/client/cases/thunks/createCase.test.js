@@ -1,15 +1,19 @@
 import nock from 'nock'
-import {createCaseSuccess, createCaseFailure, requestCaseCreation} from '../actionCreators'
+import {createCaseFailure, createCaseSuccess, getCasesSuccess, requestCaseCreation} from '../actionCreators'
 import createCase from "./createCase";
+import {push} from "react-router-redux";
+import getAccessToken from "../../auth/getAccessToken";
+
+jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))
 
 describe('createCase', () => {
-    let dispatch
+    const dispatch = jest.fn()
 
     beforeEach(() => {
-        dispatch = jest.fn()
+        dispatch.mockClear()
     })
 
-    test('should dispatch case creation requested action', () =>{
+    test('should dispatch case creation requested action', () => {
         createCase()(dispatch)
 
         expect(dispatch).toHaveBeenCalledWith(
@@ -17,7 +21,7 @@ describe('createCase', () => {
         )
     })
 
-    test('should call API to create case', async () => {
+    test('should dispatch success when case created successfully', async () => {
         const creationDetails = {
             caseDetails: {
                 firstName: 'Fats',
@@ -34,7 +38,8 @@ describe('createCase', () => {
 
         nock('http://localhost', {
             reqheaders: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer TEST_TOKEN`
             }
         })
             .post('/cases', creationDetails.caseDetails)
@@ -47,7 +52,7 @@ describe('createCase', () => {
         )
     })
 
-    test('should handle case creation failure', async () => {
+    test('should dispatch failure when case creation fails', async () => {
         const caseDetails = {
             firstName: 'Fats',
             lastName: 'Domino'
@@ -55,7 +60,8 @@ describe('createCase', () => {
 
         nock('http://localhost', {
             reqheaders: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer TEST_TOKEN`
             }
         })
             .post('/cases', caseDetails)
@@ -66,6 +72,59 @@ describe('createCase', () => {
         expect(dispatch).toHaveBeenCalledWith(
             createCaseFailure()
         )
+    })
 
+    test('should not dispatch success if unauthorized and redirect', async () => {
+        const creationDetails = {
+            caseDetails: {
+                firstName: 'Fats',
+                lastName: 'Domino',
+                email: 'email@email.com',
+                complainantType: 'Civilian',
+                firstContactDate: '2018-02-06',
+            },
+            redirect: false,
+        }
+
+        const responseBody = {cases: ['a case']}
+
+        nock('http://localhost', {
+            reqheaders: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer TEST_TOKEN`
+            }
+        })
+            .post('/cases', creationDetails.caseDetails)
+            .reply(401, responseBody)
+
+        await createCase(creationDetails)(dispatch)
+
+        expect(dispatch).not.toHaveBeenCalledWith(getCasesSuccess(responseBody.cases))
+        expect(dispatch).toHaveBeenCalledWith(push(`/login`))
+    })
+
+    test('should redirect immediately if token missing', async () => {
+        const creationDetails = {
+            caseDetails: { caseProp: "case value" },
+            redirect: false
+        }
+
+        const responseBody = { cases: ['a case'] }
+        getAccessToken.mockImplementation(() => false)
+
+        nock('http://localhost', {
+            reqheaders: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer false`
+            }
+        })
+            .post('/cases', creationDetails.caseDetails)
+            .reply(201, responseBody)
+
+        await createCase(creationDetails)(dispatch)
+
+        expect(dispatch).not.toHaveBeenCalledWith(createCaseSuccess(responseBody.cases))
+        expect(dispatch).toHaveBeenCalledWith(createCaseFailure())
+        expect(dispatch).toHaveBeenCalledWith(push(`/login`))
     })
 })

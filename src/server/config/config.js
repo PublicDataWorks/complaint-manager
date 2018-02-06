@@ -1,3 +1,5 @@
+var path = require('path');
+
 module.exports = {
     development: {
         username: 'postgres',
@@ -13,6 +15,12 @@ module.exports = {
             host: 'email',
             port: 587,
             fromEmailAddress: "dev_env_email@example.com"
+        },
+        authentication: {
+            publicKeyURL: 'https://noipm.auth0.com/.well-known/jwks.json',
+            audience: "https://noipm-staging.herokuapp.com/",
+            issuer: "https://noipm.auth0.com/",
+            algorithm: 'RS256'
         }
     },
     test: {
@@ -32,7 +40,14 @@ module.exports = {
             host: 'localhost',
             port: 2525,
             fromEmailAddress: "test_env_email@example.com"
+        },
+        authentication: {
+            publicKeyPath: path.join(__dirname, '..', 'config', 'test', 'public.pem'),
+            audience: "test audience",
+            issuer: "test issuer",
+            algorithm: 'RS256'
         }
+
     },
     staging: {
         username: process.env.DATABASE_USERNAME,
@@ -61,6 +76,12 @@ module.exports = {
                 pass: process.env.EMAIL_PASSWORD
             },
             fromEmailAddress: process.env.EMAIL_ADDRESS
+        },
+        authentication: {
+            publicKeyURL: 'https://noipm.auth0.com/.well-known/jwks.json',
+            audience: "https://noipm-staging.herokuapp.com/",
+            issuer: "https://noipm.auth0.com/",
+            algorithm: 'RS256'
         }
     },
     production: {
@@ -90,6 +111,12 @@ module.exports = {
                 pass: process.env.EMAIL_PASSWORD
             },
             fromEmailAddress: process.env.EMAIL_ADDRESS
+        },
+        authentication: {
+            publicKeyURL: 'https://noipm-production.auth0.com/.well-known/jwks.json',
+            audience: "https://noipm-production.herokuapp.com/",
+            issuer: "https://noipm-production.auth0.com/",
+            algorithm: 'RS256'
         }
     }
 }

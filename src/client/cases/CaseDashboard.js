@@ -6,11 +6,12 @@ import NavBar from '../sharedComponents/NavBar'
 import {Typography} from "material-ui";
 import {connect} from "react-redux";
 import {closeSnackbar} from "../snackbar/actionCreators";
+import getCases from "./thunks/getCases";
 
 class CaseDashboard extends Component {
-
     componentWillMount(){
-        this.props.dispatch(closeSnackbar())
+        this.props.getCases()
+        this.props.closeSnackbar()
     }
 
     render(){
@@ -33,4 +34,9 @@ class CaseDashboard extends Component {
     }
 }
 
-export default connect()(CaseDashboard)
+const mapDispatchToProps = {
+    getCases,
+    closeSnackbar
+};
+
+export default connect(undefined, mapDispatchToProps)(CaseDashboard)
