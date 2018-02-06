@@ -6,18 +6,15 @@ import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
 import {withTheme} from "material-ui/styles";
 import FirstNameField from "../sharedFormComponents/FirstNameField";
 import LastNameField from "../sharedFormComponents/LastNameField";
+import PhoneNumberField from "../sharedFormComponents/PhoneNumberField";
+import EmailField from "../sharedFormComponents/EmailField";
 import LinkButton from "../../sharedComponents/LinkButton";
-import {
-    isEmail,
-    isPhoneNumber,
-    notFutureDate,
-} from "../../formValidations";
+import {notFutureDate} from "../../formValidations";
 import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import {TextField} from "redux-form-material-ui";
 import createCase from "../thunks/createCase";
 import {closeSnackbar} from "../../snackbar/actionCreators";
 import moment from "moment";
-
 
 const margin = {
     marginLeft: '5%',
@@ -124,28 +121,8 @@ class CreateCaseDialog extends React.Component {
                             <FirstNameField/>
                             <LastNameField/>
                             <br />
-                            <Field
-                                name="phoneNumber"
-                                component={TextField}
-                                label="Phone Number"
-                                inputProps={{
-                                    "data-test": "phoneNumberInput"
-                                }}
-                                data-test="phoneNumberField"
-                                validate={[isPhoneNumber]}
-                                style={offSet}
-                            />
-                            <Field
-                                name="email"
-                                component={TextField}
-                                label="Email"
-                                inputProps={{
-                                    "data-test": "emailInput",
-                                }}
-                                data-test="emailField"
-                                validate={[isEmail]}
-                                style={offSet}
-                            />
+                            <PhoneNumberField/>
+                            <EmailField/>
                         </form>
                     </DialogContent>
                     <DialogActions style={{justifyContent: 'space-between', margin: `${theme.spacing.unit * 2}px`}}>

@@ -185,35 +185,11 @@ describe('CreateCaseDialog component', () => {
         });
 
         describe('phone number', () => {
-            test('should display error when phone number validation fails', () => {
-                const phoneNumberInput = dialog.find('input[data-test="phoneNumberInput"]')
-
-                phoneNumberInput.simulate('focus')
-                phoneNumberInput.simulate('change', {target: {value: 'bad-number'}})
-                phoneNumberInput.simulate('blur')
-
-                const phoneNumberField = dialog.find('div[data-test="phoneNumberField"]')
-                expect(phoneNumberField.text()).toContain('Please enter a numeric 10 digit value')
-            })
-
             test('should not display error when nothing was entered (Will prompt for email or phone number instead)', () => {
                 submitButton.simulate('click')
 
                 const phoneNumberField = dialog.find('div[data-test="phoneNumberField"]')
                 expect(phoneNumberField.text()).not.toContain('Please enter a numeric 10 digit value')
-            })
-        });
-
-        describe('email', () => {
-            test('should display error when not an email address', () => {
-                const emailInput = dialog.find('input[data-test="emailInput"]')
-
-                emailInput.simulate('focus')
-                emailInput.simulate('change', {target: {value: 'ethome@thoughtworks'}})
-                emailInput.simulate('blur')
-
-                const emailField = dialog.find('div[data-test="emailField"]')
-                expect(emailField.text()).toContain('Please enter a valid email address')
             })
         });
 
