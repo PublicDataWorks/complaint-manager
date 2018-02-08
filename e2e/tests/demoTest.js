@@ -1,9 +1,9 @@
 module.exports = {
-  'Demo test' : function (browser) {
+  'should see sign-in title' : function (browser) {
     browser
-      .url(browser.launchUrl)
-      .waitForElementVisible('h2[data-test="pageTitle"]', 1000)
-      .assert.title('Complaint Manager')
+        .url("https://noipm-staging.herokuapp.com")
+        .waitForElementVisible("body", 3000)
+        .verify.title('Sign In with Auth0')
       .end();
   }
 };

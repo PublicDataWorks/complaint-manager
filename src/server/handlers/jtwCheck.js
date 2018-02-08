@@ -21,6 +21,6 @@ const jwtCheck = jwt({
     audience: config.authentication.audience,
     issuer: config.authentication.issuer,
     algorithms: ['RS256']
-}).unless({path:['/login', '/callback']})
+}).unless({path:['/callback']})
 
 module.exports = jwtCheck
