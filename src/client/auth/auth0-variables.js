@@ -16,8 +16,10 @@ export const authConfig = {
         scope: 'openid profile read:cases'
     },
     staging: {
-        domain: 'noipm.auth0.com',
-        clientID: '2o6uTkEwbxxU6tzKwG24ghmAtPBEKeKI',
+        // domain: 'noipm.auth0.com',
+        domain: 'noipm-production.auth0.com',
+        // clientID: '2o6uTkEwbxxU6tzKwG24ghmAtPBEKeKI',
+        clientID: 'i4ldwXNjx8O2JMhuHWwV4qERfClYN2bD',
         redirectUri: 'https://noipm-staging.herokuapp.com/callback',
         audience: 'https://noipm-staging.herokuapp.com/',
         responseType: 'token id_token',
