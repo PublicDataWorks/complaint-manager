@@ -28,8 +28,8 @@ jobs:
           - checkout
           - setup_remote_docker
           - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-          - run: docker build --build-arg REACT-ENV=staging -t noipm/complaint-manager-staging:$CIRCLE_SHA1 .
-          - run: docker build --build-arg REACT-ENV=production -t noipm/complaint-manager-production:$CIRCLE_SHA1 .
+          - run: docker build --build-arg REACT_ENV=staging -t noipm/complaint-manager-staging:$CIRCLE_SHA1 .
+          - run: docker build --build-arg REACT_ENV=production -t noipm/complaint-manager-production:$CIRCLE_SHA1 .
           - run: docker push noipm/complaint-manager-staging:$CIRCLE_SHA1
           - run: docker push noipm/complaint-manager-production:$CIRCLE_SHA1
 
