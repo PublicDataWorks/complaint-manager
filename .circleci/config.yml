@@ -49,7 +49,7 @@ jobs:
                 -e DATABASE_PASS=$STAGING_DATABASE_PASS \
                 -e DATABASE_NAME=$STAGING_DATABASE_NAME \
                 -e DATABASE_HOST=$STAGING_DATABASE_HOST \
-                noipm/complaint-manager:$CIRCLE_SHA1 setup:db
+                noipm/complaint-manager-staging:$CIRCLE_SHA1 setup:db
 
           - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
           - run: docker tag noipm/complaint-manager-staging:$CIRCLE_SHA1 registry.heroku.com/noipm-staging/web
@@ -87,7 +87,7 @@ jobs:
                 -e DATABASE_PASS=$PRODUCTION_DATABASE_PASS \
                 -e DATABASE_NAME=$PRODUCTION_DATABASE_NAME \
                 -e DATABASE_HOST=$PRODUCTION_DATABASE_HOST \
-                noipm/complaint-manager:$CIRCLE_SHA1 setup:db:prod
+                noipm/complaint-manager-production:$CIRCLE_SHA1 setup:db:prod
           - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
           - run: docker tag noipm/complaint-manager-production:$CIRCLE_SHA1 registry.heroku.com/noipm-production/web
           - run: docker push registry.heroku.com/noipm-production/web
