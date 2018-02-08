@@ -1,6 +1,6 @@
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
-const config = require(__dirname + '/../config/config.js')[process.env.REACT_APP_ENV || process.env.NODE_ENV];
+const config = require(__dirname + '/../config/config.js')[process.env.NODE_ENV];
 const fs = require('fs')
 
 const getSecret = () => {
