@@ -21,7 +21,7 @@ export const authConfig = {
         redirectUri: 'https://noipm-staging.herokuapp.com/callback',
         audience: 'https://noipm-staging.herokuapp.com/',
         responseType: 'token id_token',
-        scope: 'openid profile read:cases'
+        scope: 'openid profile'
     },
     production: {
         domain: 'noipm-production.auth0.com',
