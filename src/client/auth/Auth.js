@@ -9,7 +9,9 @@ export default class Auth {
         this.logout = this.logout.bind(this)
     }
 
-    auth0 = new auth0.WebAuth(authConfig[process.env.REACT_APP_ENV || process.env.NODE_ENV]);
+    auth0 = new auth0.WebAuth(authConfig.staging);
+    //TODO: Fix this
+    // auth0 = new auth0.WebAuth(authConfig[process.env.REACT_APP_ENV || process.env.NODE_ENV]);
 
     login() {
         this.auth0.authorize();
