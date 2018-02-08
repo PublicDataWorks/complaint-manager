@@ -28,8 +28,10 @@ jobs:
           - checkout
           - setup_remote_docker
           - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-          - run: docker build -t noipm/complaint-manager:$CIRCLE_SHA1 .
-          - run: docker push noipm/complaint-manager:$CIRCLE_SHA1
+          - run: docker build --build-arg REACT-ENV=staging -t noipm/complaint-manager-staging:$CIRCLE_SHA1 .
+          - run: docker build --build-arg REACT-ENV=production -t noipm/complaint-manager-production:$CIRCLE_SHA1 .
+          - run: docker push noipm/complaint-manager-staging:$CIRCLE_SHA1
+          - run: docker push noipm/complaint-manager-production:$CIRCLE_SHA1
 
     deploy-staging:
         docker:
@@ -37,7 +39,7 @@ jobs:
         steps:
           - setup_remote_docker
           - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-          - run: docker pull noipm/complaint-manager:$CIRCLE_SHA1
+          - run: docker pull noipm/complaint-manager-staging:$CIRCLE_SHA1
           - run:
               name: Migrate and Seed DB
               command: |
@@ -50,7 +52,7 @@ jobs:
                 noipm/complaint-manager:$CIRCLE_SHA1 setup:db
 
           - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
-          - run: docker tag noipm/complaint-manager:$CIRCLE_SHA1 registry.heroku.com/noipm-staging/web
+          - run: docker tag noipm/complaint-manager-staging:$CIRCLE_SHA1 registry.heroku.com/noipm-staging/web
           - run: docker push registry.heroku.com/noipm-staging/web
 
     ensure-staging-deploy-succeeded:
@@ -75,7 +77,7 @@ jobs:
         steps:
           - setup_remote_docker
           - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-          - run: docker pull noipm/complaint-manager:$CIRCLE_SHA1
+          - run: docker pull noipm/complaint-manager-production:$CIRCLE_SHA1
           - run:
               name: Migrate production database
               command: |
@@ -87,7 +89,7 @@ jobs:
                 -e DATABASE_HOST=$PRODUCTION_DATABASE_HOST \
                 noipm/complaint-manager:$CIRCLE_SHA1 setup:db:prod
           - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
-          - run: docker tag noipm/complaint-manager:$CIRCLE_SHA1 registry.heroku.com/noipm-production/web
+          - run: docker tag noipm/complaint-manager-production:$CIRCLE_SHA1 registry.heroku.com/noipm-production/web
           - run: docker push registry.heroku.com/noipm-production/web
 
     ensure-production-deploy-succeeded:
