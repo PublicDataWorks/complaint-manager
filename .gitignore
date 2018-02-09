@@ -26,3 +26,7 @@ yarn-error.log*
 
 .idea/
 *.iml
+/selenium-debug.log
+bin/reports/
+bin/reports/*
+selenium-debug.log
