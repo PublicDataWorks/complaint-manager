@@ -1,5 +1,6 @@
 const TEST_USER = process.env.TEST_USER
 const TEST_PASS = process.env.TEST_PASS
+const HOST = process.env.HOST
 
 if(!TEST_PASS){
     console.log("Set the password in the ENV VAR 'TEST_PASS' for login")
@@ -11,7 +12,7 @@ if(!TEST_USER){
 module.exports = {
     "should see sign-in title": (browser) => {
         browser
-            .url("https://noipm-staging.herokuapp.com")
+            .url(HOST)
             .waitForElementVisible("body", 3000)
             .verify.title("Sign In with Auth0")
     },
@@ -24,7 +25,7 @@ module.exports = {
             .click('button[type=submit]')
             .waitForElementVisible("[data-test=createCaseButton]", 20000)
             .verify.title("Complaint Manager")
-            .assert.urlEquals('https://noipm-staging.herokuapp.com/')
+            .assert.urlEquals(HOST)
             .end()
     }
 };

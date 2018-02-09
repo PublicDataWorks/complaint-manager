@@ -10,6 +10,7 @@
     "setup:db:prod": "sequelize db:create; sequelize db:migrate",
     "start:client": "react-scripts start",
     "start:server": "nodemon --watch src/server src/startServer.js",
+    "e2e": "nightwatch",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "test:once": "CI=true yarn test",

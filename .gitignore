@@ -28,5 +28,7 @@ yarn-error.log*
 *.iml
 /selenium-debug.log
 bin/reports/
+reports/
+reports/*
 bin/reports/*
 selenium-debug.log
