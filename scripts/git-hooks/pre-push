@@ -10,4 +10,4 @@ docker-compose build
 docker-compose run app test:once
 
 ## Run E2E tests
-#docker-compose run e2e
+#yarn e2e

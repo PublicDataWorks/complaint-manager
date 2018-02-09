@@ -8,24 +8,30 @@ if(!TEST_PASS){
 if(!TEST_USER){
     console.log("Set the username in the ENV VAR 'TEST_USER' for login")
 }
+if(!HOST){
+    console.log("Set the host in the ENV VAR 'TEST_USER' for login")
+}
 
-module.exports = {
-    "should see sign-in title": (browser) => {
-        browser
-            .url(HOST)
-            .waitForElementVisible("body", 3000)
-            .verify.title("Sign In with Auth0")
-    },
+if(TEST_PASS && TEST_USER && HOST){
+    module.exports = {
+        "should see sign-in title": (browser) => {
+            browser
+                .url(HOST)
+                .waitForElementVisible("body", 3000)
+                .verify.title("Sign In with Auth0")
+        },
 
-    "should log-in and authenticate test user": (browser) => {
-        browser
-            .waitForElementVisible("[name=email]", 1000)
-            .setValue("[name=email]", TEST_USER)
-            .setValue("[name=password]", TEST_PASS)
-            .click('button[type=submit]')
-            .waitForElementVisible("[data-test=createCaseButton]", 20000)
-            .verify.title("Complaint Manager")
-            .assert.urlEquals(HOST)
-            .end()
-    }
-};
+        "should log-in and authenticate test user": (browser) => {
+            browser
+                .waitForElementVisible("[name=email]", 1000)
+                .setValue("[name=email]", TEST_USER)
+                .setValue("[name=password]", TEST_PASS)
+                .click('button[type=submit]')
+                .waitForElementVisible("[data-test=createCaseButton]", 20000)
+                .verify.title("Complaint Manager")
+                .assert.urlEquals(HOST)
+                .end()
+        }
+    };
+}
+
