@@ -13,8 +13,7 @@ const createUser = async (request, response, next) => {
         };
 
         const createdUser = await models.users.create(userToCreate);
-        const info = await transporter.sendMail(message(createdUser))
-        getMailLogs(info);
+        await transporter.sendMail(message(createdUser))
 
         response
             .status(201)

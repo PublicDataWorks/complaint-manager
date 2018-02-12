@@ -5,7 +5,7 @@
   "proxy": "http://localhost:1234",
   "scripts": {
     "start": "yarn setup:db && concurrently 'yarn start:client' 'yarn start:server'",
-    "setup:db": "sequelize db:create; sequelize db:migrate && sequelize db:seed:all",
+    "setup:db": "sequelize db:create; sequelize db:migrate",
     "drop:db": "sequelize db:drop",
     "setup:db:prod": "sequelize db:create; sequelize db:migrate",
     "start:client": "react-scripts start",

@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import LinkButton from "../../sharedComponents/LinkButton";
 import formatName from "../../formatName";
 import tableStyleGenerator from "../../tableStyles";
+import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
 
 const numberOfColumns = 5
 
@@ -24,7 +25,7 @@ const CaseRow = ({classes, caseDetails}) => (
             {caseDetails.status}
         </TableCell>
         <TableCell data-test="caseName" className={classes.cell}>
-            {formatName(caseDetails.firstName, caseDetails.lastName)}
+            {formatName(getPrimaryComplainant(caseDetails.civilians))}
         </TableCell>
         <TableCell data-test="caseFirstContactDate" className={classes.cell}>
             {formatDate(caseDetails.firstContactDate)}

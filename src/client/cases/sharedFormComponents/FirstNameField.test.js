@@ -9,7 +9,7 @@ describe('First name field', () => {
     let firstNameField;
 
     beforeEach(() => {
-        const ReduxFormField = reduxForm({form: "testForm"})(FirstNameField)
+        const ReduxFormField = reduxForm({form: "testForm"})(() => <FirstNameField name={'firstName'}/>)
         const store = createConfiguredStore()
         firstNameField = mount(<Provider store={store}><ReduxFormField/></Provider>)
     })

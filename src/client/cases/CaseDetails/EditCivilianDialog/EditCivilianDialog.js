@@ -29,8 +29,8 @@ class EditCivilianDialog extends React.Component {
                             component={RoleOnCaseRadioGroup}/>
                         <br />
                         <Typography type='body2' style={{marginBottom: '8px'}}>Personal Information</Typography>
-                        <FirstNameField/>
-                        <LastNameField/>
+                        <FirstNameField name={'firstName'}/>
+                        <LastNameField name={'lastName'}/>
                         <br />
                         <Field
                             name='birthDate'

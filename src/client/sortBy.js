@@ -23,7 +23,11 @@ const sortBy = (collection, sortBy, sortDirection) => {
     }
 
     if (sortBy === 'lastName') {
-        const sortedCases = _.sortBy(collection, [(o) => {return o.lastName.toUpperCase()}])
+        const sortedCases = _.sortBy(collection, [(o) => {
+            const primaryComplainant = o.civilians.find(civilian => civilian.roleOnCase === 'Primary Complainant')
+            return primaryComplainant.lastName.toUpperCase()
+        }])
+
          if (sortDirection === 'desc') {
             return sortedCases.reverse()
          }

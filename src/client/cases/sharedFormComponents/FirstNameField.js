@@ -3,10 +3,11 @@ import {Field} from 'redux-form';
 import {TextField} from "redux-form-material-ui";
 import {firstNameRequired, firstNameNotBlank} from "../../formValidations";
 
-const FirstNameField = () => (
+const FirstNameField = (props) => (
+
     <Field
         required
-        name="firstName"
+        name={props.name}
         component={TextField}
         label="First Name"
         inputProps={{

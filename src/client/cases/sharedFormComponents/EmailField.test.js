@@ -9,7 +9,7 @@ describe(('Email field'), () => {
     let emailFieldComponent
     
     beforeEach(() => {
-        const ReduxFormField = reduxForm({form: "testForm"})(EmailField)
+        const ReduxFormField = reduxForm({form: "testForm"})(() => <EmailField name={'email'}/>)
         const store = createConfiguredStore()
         emailFieldComponent = mount(<Provider store={store}><ReduxFormField/></Provider>)
     })

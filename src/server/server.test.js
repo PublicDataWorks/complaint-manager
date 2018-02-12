@@ -42,115 +42,7 @@ describe('server', () => {
         })
     })
 
-    describe('POST /cases', () => {
-        const requestBody = {
-            firstName: 'Manny',
-            lastName: 'Rodriguez',
-            phoneNumber: "8201387432",
-            email: 'mrod@gmail.com',
-            complainantType: 'Civilian',
-            firstContactDate: "2018-01-31"
-        };
-
-        afterEach(async () => {
-            await models.cases.destroy({
-                where: {
-                    firstName: requestBody.firstName,
-                    lastName: requestBody.lastName
-                }
-            })
-        })
-
-        test('should create a case', async () => {
-            await request(app)
-                .post('/cases')
-                .set('Content-Header', 'application/json')
-                .set('Authorization', `Bearer ${token}`)
-                .send(requestBody)
-                .expect(201)
-                .then(response => {
-                    expect(response.body.id).not.toBeUndefined()
-                    expect(response.body.complainantType).toEqual(requestBody.complainantType)
-                    expect(response.body.firstName).toEqual(requestBody.firstName)
-                    expect(response.body.lastName).toEqual(requestBody.lastName)
-                    expect(response.body.phoneNumber).toEqual(requestBody.phoneNumber)
-                    expect(response.body.email).toEqual(requestBody.email)
-                    expect(response.body.status).toEqual('Initial')
-                    expect(response.body.createdAt).not.toBeUndefined()
-                    expect(response.body.firstContactDate).toEqual(requestBody.firstContactDate)
-                })
-        })
-    })
-
-    describe('GET /cases', () => {
-        let seededCases
-
-        beforeEach(async () => {
-            seededCases = await models.cases.bulkCreate([{
-                firstName: 'Robert',
-                lastName: 'Pollard',
-                phoneNumber: "8201387432",
-                email: 'rpollard@gmail.com',
-                complainantType: 'Civilian',
-                firstContactDate: "2018-01-31"
-            }, {
-                firstName: 'Joseph',
-                lastName: 'Joestar',
-                phoneNumber: "9021012345",
-                email: 'hermit_purple@gmail.com',
-                complainantType: 'Police Officer',
-                firstContactDate: "2018-02-25"
-            }], {
-                returning: true
-            })
-        })
-
-        afterEach(async () => {
-            const seededIds = seededCases.map(oneCase => oneCase.id)
-
-            await models.cases.destroy({
-                where: {
-                    id: {
-                        [Op.in]: seededIds
-                    }
-                }
-            })
-        })
-
-        test('should get all cases', async () => {
-            await request(app)
-                .get('/cases')
-                .set('Content-Header', 'application/json')
-                .set('Authorization', `Bearer ${token}`)
-                .expect(200)
-                .then(response => {
-                    expect(response.body.cases).toEqual(
-                        expect.arrayContaining([
-                            expect.objectContaining({
-                                firstName: seededCases[0].firstName,
-                                lastName: seededCases[0].lastName,
-                                phoneNumber: seededCases[0].phoneNumber,
-                                email: seededCases[0].email,
-                                complainantType: seededCases[0].complainantType,
-                                createdAt: seededCases[0].createdAt.toISOString(),
-                                firstContactDate: moment(seededCases[0].firstContactDate).format("YYYY-MM-DD"),
-                                status: 'Initial'
-                            }),
-                            expect.objectContaining({
-                                firstName: seededCases[1].firstName,
-                                lastName: seededCases[1].lastName,
-                                phoneNumber: seededCases[1].phoneNumber,
-                                email: seededCases[1].email,
-                                complainantType: seededCases[1].complainantType,
-                                createdAt: seededCases[1].createdAt.toISOString(),
-                                firstContactDate: moment(seededCases[1].firstContactDate).format("YYYY-MM-DD"),
-                                status: 'Initial'
-                            })
-                        ])
-                    )
-                })
-        })
-
+    describe('token check', () => {
         test('should return 401 with invalid token', async () => {
             await request(app)
                 .get('/cases')
@@ -171,6 +63,121 @@ describe('server', () => {
                     expect(response.text).toEqual('invalid token...')
                 })
         })
+    })
+
+    describe('POST /cases', () => {
+        const requestBody = {
+            civilian: {
+                firstName: 'Manny',
+                lastName: 'Rodriguez',
+                phoneNumber: "8201387432",
+                email: 'mrod@gmail.com',
+            },
+            case: {
+                firstContactDate: "2018-01-31",
+                complainantType: 'Civilian',
+            }
+        };
+
+        test('should create a case', async () => {
+            let responseBody
+
+            await request(app)
+                .post('/cases')
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .send(requestBody)
+                .expect(201)
+                .then(response => {
+                    responseBody = response.body
+                    expect(response.body.id).not.toBeUndefined()
+                    expect(response.body.complainantType).toEqual(requestBody.case.complainantType)
+                    expect(response.body.firstContactDate).toEqual(requestBody.case.firstContactDate)
+                    expect(response.body.createdAt).not.toBeUndefined()
+                    expect(response.body.status).toEqual('Initial')
+
+                    expect(response.body.civilians[0].firstName).toEqual(requestBody.civilian.firstName)
+                    expect(response.body.civilians[0].lastName).toEqual(requestBody.civilian.lastName)
+                    expect(response.body.civilians[0].phoneNumber).toEqual(requestBody.civilian.phoneNumber)
+                    expect(response.body.civilians[0].email).toEqual(requestBody.civilian.email)
+                })
+
+            models.civilian.destroy({
+                where: {
+                    id: responseBody.civilians[0].id
+                }
+            })
+
+            models.cases.destroy({
+                where: {
+                    id: responseBody.id
+                }
+            })
+        })
+    })
+
+    describe('GET /cases', () => {
+        let seededCase
+
+        beforeEach(async () => {
+
+            seededCase = await models.cases.create({
+                    complainantType: 'Civilian',
+                    firstContactDate: "2018-01-31",
+                    civilians: [{
+                        firstName: 'Robert',
+                        lastName: 'Pollard',
+                        phoneNumber: "8201387432",
+                        email: 'rpollard@gmail.com'
+                    }]
+                }, {
+                    include: [{model: models.civilian}]
+                }
+            )
+        })
+
+        test('should get all cases', async () => {
+            await request(app)
+                .get('/cases')
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+                .then(response => {
+                    expect(response.body.cases).toEqual(
+                        expect.arrayContaining([
+                            expect.objectContaining({
+                                civilians: expect.arrayContaining([
+                                    expect.objectContaining({
+                                        firstName: seededCase.civilians[0].firstName,
+                                        lastName: seededCase.civilians[0].lastName,
+                                        phoneNumber: seededCase.civilians[0].phoneNumber,
+                                        email: seededCase.civilians[0].email,
+                                    })
+                                ]),
+                                complainantType: seededCase.complainantType,
+                                createdAt: seededCase.createdAt.toISOString(),
+                                firstContactDate: moment(seededCase.firstContactDate).format("YYYY-MM-DD"),
+                                status: 'Initial'
+                            })
+                        ])
+                    )
+                })
+        })
+
+        afterEach(async () => {
+            await models.civilian.destroy({
+                where: {
+                    id: seededCase.civilians[0].id
+                }
+            })
+
+            await models.cases.destroy({
+                where: {
+                    id: seededCase.id
+                }
+            })
+        })
+
     })
 
     describe('POST /users', () => {
@@ -270,52 +277,55 @@ describe('server', () => {
     })
 
     describe('PUT /case/id/narrative', () => {
-        let seededCases
+        let caseToUpdate
 
         beforeEach(async () => {
-            seededCases = await models.cases.bulkCreate([{
-                firstName: 'Eleanor',
-                lastName: 'Schellstrop',
-                phoneNumber: "8201387432",
-                email: 'eschell@gmail.com',
+            caseToUpdate = await models.cases.create({
+                civilians: [{
+                    firstName: 'Eleanor',
+                    lastName: 'Schellstrop',
+                    phoneNumber: "8201387432",
+                    email: 'eschell@gmail.com'
+                }],
                 complainantType: 'Civilian',
-                narrative: 'Beginning narrative'
-            }], {
-                returning: true
+                narrative: 'Beginning narrative',
+                status: 'Initial'
+            }, {
+                returning: true,
+                include: [{model: models.civilian}]
             })
         })
 
         afterEach(async () => {
-            const seededIds = seededCases.map(oneCase => oneCase.id)
-
+            await models.civilian.destroy({
+                where: {
+                    id: caseToUpdate.civilians[0].id
+                }
+            })
             await models.cases.destroy({
                 where: {
-                    id: {
-                        [Op.in]: seededIds
-                    }
+                    id: caseToUpdate.id
                 }
             })
         })
 
         test('should update case narrative', async () => {
-            const caseToUpdate = seededCases[0]
-            const id = caseToUpdate.id
-            // const updatedNarrative = { narrative: 'A very updated case narrative.' }
             const updatedNarrative = {narrative: 'A very updated case narrative.'}
 
             await request(app)
-                .put(`/case/${id}/narrative`)
+                .put(`/case/${caseToUpdate.id}/narrative`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .send(updatedNarrative)
                 .expect(200)
                 .then(response => {
                     expect(response.body.id).toEqual(caseToUpdate.id)
-                    expect(response.body.firstName).toEqual(caseToUpdate.firstName)
-                    expect(response.body.lastName).toEqual(caseToUpdate.lastName)
-                    expect(response.body.email).toEqual(caseToUpdate.email)
+                    expect(response.body.civilians[0].firstName).toEqual(caseToUpdate.civilians[0].firstName)
+                    expect(response.body.civilians[0].lastName).toEqual(caseToUpdate.civilians[0].lastName)
+                    expect(response.body.civilians[0].email).toEqual(caseToUpdate.civilians[0].email)
                     expect(response.body.complainantType).toEqual(caseToUpdate.complainantType)
                     expect(response.body.narrative).toEqual(updatedNarrative.narrative)
+                    expect(response.body.status).toEqual('Active')
                 })
         })
     });

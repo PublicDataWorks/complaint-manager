@@ -3,6 +3,7 @@ import RootContainer from "./client/RootContainer";
 import {mount} from "enzyme";
 import {changeInput, retry} from "./testHelpers";
 import {mockCreateCase, mockGetCases, mockGetUsers} from "./mockEndpoints";
+import moment from "moment";
 
 jest.mock("./client/auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))
 
@@ -18,30 +19,50 @@ describe('client-side user journey', () => {
     beforeAll(() => {
         existingCases = [{
             id: 1,
-            firstName: 'Robert',
-            lastName: 'Pollard',
-            phoneNumber: "8201387432",
-            email: 'rpollard@gmail.com',
+            civilians: [{
+                id: 1,
+                firstName: 'Robert',
+                lastName: 'Pollard',
+                roleOnCase: 'Primary Complainant',
+                phoneNumber: "8201387432",
+                email: 'rpollard@gmail.com',
+                createdAt: '2018-01-17T22:00:20.796Z'
+            }],
             complainantType: 'Civilian',
             status: 'Initial',
             createdAt: '2018-01-17T22:00:20.796Z',
             firstContactDate: "2017-12-25T00:00:00.000Z"
         }]
-        newCaseRequest = {
-            firstName: 'Serafin',
-            lastName: 'Hayder',
-            phoneNumber: "8201334872",
-            email: 'shayder@gmail.com',
-            complainantType: 'Civilian',
-            firstContactDate: "2017-12-25T00:00:00.000Z"
 
+        newCaseRequest = {
+            civilian: {
+                firstName: 'Serafin',
+                lastName: 'Hayder',
+                phoneNumber: "8201334872",
+                email: 'shayder@gmail.com'
+            },
+            case: {
+                complainantType: 'Civilian',
+                firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
+            }
         }
         newCaseResponse = {
-            ...newCaseRequest,
             id: 2,
+            civilians: [{
+                id: 2,
+                firstName: 'Sarah',
+                lastName: 'Hayder',
+                roleOnCase: 'Primary Complainant',
+                phoneNumber: "8201387432",
+                email: 'rpollack@gmail.com',
+                createdAt: '2018-01-17T22:00:20.796Z'
+            }],
+            complainantType: 'Civilian',
             status: 'Initial',
-            createdAt: '2018-01-17T22:00:20.796Z'
+            createdAt: '2018-01-17T22:00:20.796Z',
+            firstContactDate: "2017-12-25T00:00:00.000Z"
         }
+
         existingUsers = [{
             id: 100,
             firstName: 'Eleanor',
@@ -67,7 +88,7 @@ describe('client-side user journey', () => {
         });
     })
 
-    test.skip('should create and view a new case', async () => {
+    test('should create and view a new case', async () => {
         createCase(app, newCaseRequest);
 
         await retry(() => {
@@ -101,10 +122,10 @@ const createCase = (app, newCase) => {
     const createCaseButton = app.find('button[data-test="createCaseButton"]')
     createCaseButton.simulate('click')
 
-    changeInput(app, 'input[data-test="firstNameInput"]', newCase.firstName);
-    changeInput(app, 'input[data-test="lastNameInput"]', newCase.lastName);
-    changeInput(app, 'input[data-test="phoneNumberInput"]', newCase.phoneNumber);
-    changeInput(app, 'input[data-test="emailInput"]', newCase.email);
+    changeInput(app, 'input[data-test="firstNameInput"]', newCase.civilian.firstName);
+    changeInput(app, 'input[data-test="lastNameInput"]', newCase.civilian.lastName);
+    changeInput(app, 'input[data-test="phoneNumberInput"]', newCase.civilian.phoneNumber);
+    changeInput(app, 'input[data-test="emailInput"]', newCase.civilian.email);
 
     const submitButton = app.find('LinkButton[data-test="createCaseOnly"]')
     submitButton.simulate('click')

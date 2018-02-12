@@ -9,12 +9,12 @@ describe('Phone number field', () => {
     let phoneNumberFieldComponent;
 
     beforeEach(() => {
-        const ReduxFormField = reduxForm({form: "testForm"})(PhoneNumberField)
+        const ReduxFormField = reduxForm({form: "testForm"})(() => <PhoneNumberField name={'phoneNumber'}/>)
         const store = createConfiguredStore()
         phoneNumberFieldComponent = mount(<Provider store={store}><ReduxFormField/></Provider>)
     })
 
-    test('should display error when phone number validation fails', () => {
+    test('should display error when phone number is invalid', () => {
         const phoneNumberInput = phoneNumberFieldComponent.find('input[data-test="phoneNumberInput"]')
 
         phoneNumberInput.simulate('focus')

@@ -45,7 +45,7 @@ class CreateCaseDialog extends React.Component {
         this.props.dispatch(reset('CreateCase'))
     }
 
-    createAndView = (values, dispatch, props) => {
+    createAndView = (values, dispatch) => {
         const creationDetails = {
             caseDetails: this.trimWhitespace(values),
             redirect: true
@@ -55,19 +55,23 @@ class CreateCaseDialog extends React.Component {
 
     }
 
-    createOnly = (values, dispatch, props) => {
+    createOnly = (values, dispatch) => {
         const creationDetails = {
             caseDetails: this.trimWhitespace(values),
             redirect: false
         }
+
 
         dispatch(createCase(creationDetails))
     }
 
     trimWhitespace = (values) => ({
         ...values,
-        firstName: values.firstName.trim(),
-        lastName: values.lastName.trim()
+        civilian: {
+            ...values.civilian,
+            firstName: values.civilian.firstName.trim(),
+            lastName: values.civilian.lastName.trim()
+        }
     })
 
     render() {
@@ -100,12 +104,12 @@ class CreateCaseDialog extends React.Component {
                             <Typography type='body2' style={{marginBottom: '8px'}}>Timeline</Typography>
                             <Field
                                 required
-                                name='firstContactDate'
+                                name={'case.firstContactDate'}
                                 component={TextField}
                                 label='First Contact Date'
                                 inputProps={{
-                                    "data-test":"firstContactDateInput",
-                                    type:"date",
+                                    "data-test": "firstContactDateInput",
+                                    type: "date",
                                     max: moment(Date.now()).format('YYYY-MM-DD'),
                                 }}
                                 data-test="firstContactDateField"
@@ -114,15 +118,15 @@ class CreateCaseDialog extends React.Component {
                             />
                             <br/>
                             <Field
-                                name="complainantType"
+                                name={'case.complainantType'}
                                 component={ComplainantTypeRadioGroup}
                             />
-                            <br />
-                            <FirstNameField/>
-                            <LastNameField/>
-                            <br />
-                            <PhoneNumberField/>
-                            <EmailField/>
+                            <br/>
+                            <FirstNameField name={'civilian.firstName'}/>
+                            <LastNameField name={'civilian.lastName'}/>
+                            <br/>
+                            <PhoneNumberField name={'civilian.phoneNumber'}/>
+                            <EmailField name={'civilian.email'}/>
                         </form>
                     </DialogContent>
                     <DialogActions style={{justifyContent: 'space-between', margin: `${theme.spacing.unit * 2}px`}}>
@@ -161,23 +165,30 @@ const mapStateToProps = state => {
 }
 
 const validate = values => {
-    const errors = {}
+    const errors = {
+        case: {},
+        civilian: {}
+    }
 
-    if (values.phoneNumber === undefined && values.email === undefined) {
-        errors.phoneNumber = 'Please enter phone number or email address'
-        errors.email = 'Please enter phone number or email address'
+    if (!values.civilian || civilianDefinedWithoutPhoneNumberOrEmail(values)) {
+        errors.civilian.phoneNumber = 'Please enter phone number or email address'
+        errors.civilian.email = 'Please enter phone number or email address'
     }
 
     return errors
 }
+
+const civilianDefinedWithoutPhoneNumberOrEmail = (values) => (
+    values.civilian && !values.civilian.phoneNumber && !values.civilian.email
+)
 
 export const DialogWithTheme = withTheme()(CreateCaseDialog)
 const ConnectedDialog = connect(mapStateToProps)(DialogWithTheme)
 
 const handleOnChange = (values, dispatch, props, previousValues) => {
 
-    if (!Boolean(values.firstContactDate)){
-        dispatch(change('CreateCase', 'firstContactDate', previousValues.firstContactDate))
+    if (!Boolean(values.case.firstContactDate)) {
+        dispatch(change('CreateCase', 'case.firstContactDate', previousValues.case.firstContactDate))
     }
 
 }
@@ -185,8 +196,10 @@ const handleOnChange = (values, dispatch, props, previousValues) => {
 export default reduxForm({
     form: 'CreateCase',
     initialValues: {
-        complainantType: 'Civilian',
-        firstContactDate: moment(Date.now()).format('YYYY-MM-DD')
+        case: {
+            complainantType: 'Civilian',
+            firstContactDate: moment(Date.now()).format('YYYY-MM-DD')
+        }
     },
     onChange: handleOnChange,
     validate

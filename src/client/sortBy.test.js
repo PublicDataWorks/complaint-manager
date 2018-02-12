@@ -7,28 +7,39 @@ describe('sorting', () => {
             {
                 id: 2,
                 status: 'Initial',
-                lastName: 'austin'
+                civilians: [{
+                    lastName: 'austin',
+                    roleOnCase: 'Primary Complainant'
+                }]
             },
             {
                 id: 1,
                 status: 'Active',
-                lastName: 'Zeke'
+                civilians: [{
+                    lastName: 'Zeke',
+                    roleOnCase: 'Primary Complainant'
+                }]
             }
         ]
     });
 
     test('should sort by status asc', () => {
-
         const expectedSortedCases = [
             {
                 id: 2,
                 status: 'Initial',
-                lastName: 'austin'
+                civilians: [{
+                    lastName: 'austin',
+                    roleOnCase: 'Primary Complainant'
+                }]
             },
             {
                 id: 1,
                 status: 'Active',
-                lastName: 'Zeke'
+                civilians: [{
+                    lastName: 'Zeke',
+                    roleOnCase: 'Primary Complainant'
+                }]
             }
         ]
 
@@ -38,17 +49,22 @@ describe('sorting', () => {
     })
 
     test('should sort by status desc', () => {
-
         const expectedSortedCases = [
-            {
+                       {
                 id: 1,
                 status: 'Active',
-                lastName: 'Zeke'
+                civilians: [{
+                    lastName: 'Zeke',
+                    roleOnCase: 'Primary Complainant'
+                }]
             },
             {
                 id: 2,
                 status: 'Initial',
-                lastName: 'austin'
+                civilians: [{
+                    lastName: 'austin',
+                    roleOnCase: 'Primary Complainant'
+                }]
             }
         ]
 
@@ -58,16 +74,22 @@ describe('sorting', () => {
     })
 
     test('should sort by last name ignoring case', () => {
-        const expectedSortedCases = [
+       const expectedSortedCases = [
             {
                 id: 2,
                 status: 'Initial',
-                lastName: 'austin'
+                civilians: [{
+                    lastName: 'austin',
+                    roleOnCase: 'Primary Complainant'
+                }]
             },
             {
                 id: 1,
                 status: 'Active',
-                lastName: 'Zeke'
+                civilians: [{
+                    lastName: 'Zeke',
+                    roleOnCase: 'Primary Complainant'
+                }]
             }
         ]
 

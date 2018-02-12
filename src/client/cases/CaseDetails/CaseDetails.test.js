@@ -26,11 +26,14 @@ describe('Case Details Component', () => {
         dispatchSpy = jest.spyOn(store, 'dispatch');
         let cases = [{
             id: 17,
-            firstName: 'Chuck',
-            lastName: 'Berry',
+            civilians: [{
+                firstName: 'Chuck',
+                lastName: 'Berry',
+                phoneNumber: 1234567890,
+                email: 'cberry@gmail.com',
+                roleOnCase: 'Primary Complainant'
+            }],
             status: 'Initial',
-            phoneNumber: 1234567890,
-            email: 'cberry@gmail.com',
             complainantType: 'Civilian',
             firstContactDate: '2018-01-31',
             createdAt: new Date(2015, 8, 13).toISOString(),

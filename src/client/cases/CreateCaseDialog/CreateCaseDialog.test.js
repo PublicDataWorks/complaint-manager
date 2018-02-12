@@ -19,6 +19,7 @@ describe('CreateCaseDialog component', () => {
 
     beforeEach(() => {
         store = createConfiguredStore();
+        dispatchSpy = jest.spyOn(store, 'dispatch')
 
         dialog = mount(
             <Provider store={store}>
@@ -26,7 +27,6 @@ describe('CreateCaseDialog component', () => {
             </Provider>
         )
 
-        dispatchSpy = jest.spyOn(store, 'dispatch')
         dispatchSpy.mockClear()
 
         const createCaseButton = dialog.find('button[data-test="createCaseButton"]')
@@ -47,35 +47,36 @@ describe('CreateCaseDialog component', () => {
 
         beforeEach(() => {
             caseDetails = {
-                firstName: 'Fats',
-                lastName: 'Domino',
-                phoneNumber: '0123456789',
-                email: 'fdomino@gmail.com',
-                complainantType: 'Civilian',
-                incidentDate: moment(),
-                firstContactDate: moment()
+                case: {
+                    complainantType: 'Civilian',
+                    firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
+                },
+                civilian: {
+                    firstName: 'Fats',
+                    lastName: 'Domino',
+                    phoneNumber: '0123456789',
+                    email: 'fdomino@gmail.com',
+                }
             }
 
 
-            changeInput(dialog, '[data-test="firstNameInput"]', caseDetails.firstName);
-            changeInput(dialog, '[data-test="lastNameInput"]', caseDetails.lastName);
-            changeInput(dialog, '[data-test="phoneNumberInput"]', caseDetails.phoneNumber);
-            changeInput(dialog, '[data-test="emailInput"]', caseDetails.email);
+            changeInput(dialog, '[data-test="firstNameInput"]', caseDetails.civilian.firstName);
+            changeInput(dialog, '[data-test="lastNameInput"]', caseDetails.civilian.lastName);
+            changeInput(dialog, '[data-test="phoneNumberInput"]', caseDetails.civilian.phoneNumber);
+            changeInput(dialog, '[data-test="emailInput"]', caseDetails.civilian.email);
         });
 
-        //TODO: See if Ed/Molly/Sebastian can help us debug these tests
-        test.skip('should plan to redirect when clicking Create-And-View', () => {
+        test('should plan to redirect when clicking Create-And-View', () => {
             const submitButton = dialog.find('SubmitButton[data-test="createAndView"]')
             submitButton.simulate('click')
 
             expect(dispatchSpy).toHaveBeenCalledWith(createCase({caseDetails: caseDetails, redirect: true}))
         })
 
-        //TODO: See if Ed/Molly/Sebastian can help us debug these tests
-        test.skip('should create case when clicking Create Only', () => {
+        test('should create case when clicking Create Only', () => {
             const submitButton = dialog.find('LinkButton[data-test="createCaseOnly"]')
             submitButton.simulate('click')
-            expect(dispatchSpy).toHaveBeenCalledWith({caseDetails: caseDetails, redirect: false})
+            expect(dispatchSpy).toHaveBeenCalledWith(createCase({caseDetails: caseDetails, redirect: false}))
         })
         
     })
@@ -110,7 +111,6 @@ describe('CreateCaseDialog component', () => {
                 const datePickerField = dialog.find('[data-test="firstContactDateField"]').first()
                 datePickerField.simulate('blur')
 
-                console.log(datePickerField.text())
                 expect(datePickerField.text()).toContain('Date cannot be in the future')
             })
 
@@ -240,9 +240,20 @@ describe('CreateCaseDialog component', () => {
         })
     })
 
-    //TODO: See if Ed/Molly/Sebastian can help us debug these tests
     describe('trimming whitespace', () => {
-        test.skip('whitespace should be trimmed from fields prior to sending', () => {
+        test('whitespace should be trimmed from fields prior to sending', () => {
+            const caseDetails = {
+                case: {
+                    complainantType: 'Civilian',
+                    firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
+                },
+                civilian: {
+                    firstName: 'Hello',
+                    lastName: 'Kitty',
+                    phoneNumber: '1234567890'
+                }
+            }
+
             changeInput(dialog, 'input[data-test="firstNameInput"]', '   Hello   ')
             changeInput(dialog, 'input[data-test="lastNameInput"]', '   Kitty   ')
             changeInput(dialog, 'input[data-test="phoneNumberInput"]', '1234567890')
@@ -250,13 +261,7 @@ describe('CreateCaseDialog component', () => {
             const submitButton = dialog.find('LinkButton[data-test="createCaseOnly"]')
             submitButton.simulate('click')
 
-            expect(dispatchSpy).toHaveBeenCalledWith(
-                createCase({
-                    firstName: 'Hello',
-                    lastName: 'Kitty',
-                    phoneNumber: '1234567890',
-                    complainantType: 'Civilian'
-                }))
+            expect(dispatchSpy).toHaveBeenCalledWith(createCase({caseDetails: caseDetails, redirect: false}))
         })
     })
 })

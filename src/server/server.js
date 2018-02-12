@@ -23,7 +23,6 @@ app.get('/health-check', healthCheck);
 app.use(jwtCheck);
 
 app.use(function (err, req, res, next) {
-    console.log(err)
     if (err.name === 'UnauthorizedError') {
         res.send(401, 'invalid token...');
     }

@@ -10,6 +10,7 @@ import {
 } from "material-ui";
 import {openEditDialog} from "../actionCreators";
 import LinkButton from "../../sharedComponents/LinkButton";
+import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
 
 const formatPhoneNumber = (phoneNumber) => {
     const phoneString = phoneNumber.toString()
@@ -22,6 +23,8 @@ const formatPhoneNumber = (phoneNumber) => {
 }
 
 const ComplainantWitnesses = (props) => {
+    const primaryComplainant = getPrimaryComplainant(props.caseDetail.civilians)
+
     return (
         <Card
             data-test="complainantWitnessesSection"
@@ -63,7 +66,7 @@ const ComplainantWitnesses = (props) => {
                                     type='body1'
                                     data-test="primaryComplainantName"
                                 >
-                                    {`${props.caseDetail.firstName} ${props.caseDetail.lastName}`}
+                                    {`${primaryComplainant.firstName} ${primaryComplainant.lastName}`}
                                 </Typography>
                             </div>
                             <div style={{flex: 1, textAlign: 'left'}}>
@@ -116,7 +119,7 @@ const ComplainantWitnesses = (props) => {
                                     type='body1'
                                     data-test="primaryComplainantPhoneNumber"
                                 >
-                                    {props.caseDetail.phoneNumber ? formatPhoneNumber(props.caseDetail.phoneNumber) : 'N/A'}
+                                    {primaryComplainant.phoneNumber ? formatPhoneNumber(primaryComplainant.phoneNumber) : 'N/A'}
                                 </Typography>
                             </div>
                             <div style={{flex: 1, textAlign: 'left'}}>
@@ -129,7 +132,7 @@ const ComplainantWitnesses = (props) => {
                                     type='body1'
                                     data-test="primaryComplainantEmail"
                                 >
-                                    {props.caseDetail.email ? props.caseDetail.email : 'N/A'}
+                                    {primaryComplainant.email ? primaryComplainant.email : 'N/A'}
                                 </Typography>
                             </div>
                         </div>

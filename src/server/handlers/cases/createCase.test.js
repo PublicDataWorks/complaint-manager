@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const httpMocks = require('node-mocks-http')
 const createCase = require('./createCase')
 const models = require('../../models/index')
@@ -5,18 +6,29 @@ const models = require('../../models/index')
 jest.mock('../../models', () => ({
     cases: {
         create: jest.fn()
+    },
+    civilian: {
+        create: jest.fn()
     }
 }))
 
 describe('createCase handler', () => {
     let request, response, next
 
+
     beforeEach(() => {
         request = httpMocks.createRequest({
             method: 'POST',
             body: {
-                firstName: "First",
-                lastName: "Last"
+                case: {
+                    complainantType: "Civilian",
+                    firstContactDate: "2018-02-08"
+                },
+                civilian: {
+                    firstName: "First",
+                    lastName: "Last",
+                    phoneNumber: "1234567890"
+                }
             }
         })
         response = httpMocks.createResponse()
@@ -25,7 +37,14 @@ describe('createCase handler', () => {
 
     test('should create case in database', () => {
         createCase(request, response, next)
-        expect(models.cases.create).toHaveBeenCalledWith(request.body)
+        expect(models.cases.create).toHaveBeenCalledWith({
+            ...request.body.case,
+            civilians: [request.body.civilian]
+        }, {
+            include: [{
+                model: models.civilian
+            }]
+        })
     })
 
     test('should send response and 201 status with created entity', async () => {
@@ -40,12 +59,14 @@ describe('createCase handler', () => {
         expect(response._isEndCalled()).toBeTruthy()
     })
 
-    test('should respond with 400 when body has empty inputs', async () => {
+    test('should respond with 400 when civilian names are empty', async () => {
         request = httpMocks.createRequest({
             method: 'POST',
             body: {
-                firstName: "",
-                lastName: ""
+                civilian: {
+                    firstName: "",
+                    lastName: ""
+                }
             }
         })
 
@@ -58,8 +79,10 @@ describe('createCase handler', () => {
         request = httpMocks.createRequest({
             method: 'POST',
             body: {
-                firstName: "someveryveryveryveryveryveryveryveryveryveryverylongname",
-                lastName: "name"
+                civilian: {
+                    firstName: "someveryveryveryveryveryveryveryveryveryveryverylongname",
+                    lastName: "name"
+                }
             }
         })
 
@@ -76,8 +99,10 @@ describe('createCase handler', () => {
         request = httpMocks.createRequest({
             method: 'POST',
             body: {
-                firstName: "Valid",
-                lastName: "Name"
+                civilian: {
+                    firstName: "Valid",
+                    lastName: "Name"
+                }
             }
         })
 

@@ -16,16 +16,26 @@ describe('App component', () => {
     beforeEach(() => {
         cases = [{
             id: 17,
-            firstName: 'Chuck',
-            lastName: 'Berry',
+            civilians: [{
+                id: 17,
+                roleOnCase: 'Primary Complainant',
+                firstName: 'Chuck',
+                lastName: 'Berry',
+                phoneNumber: 1234567890
+            }],
             status: 'Initial',
             createdAt: new Date(2015, 8, 13).toISOString(),
             firstContactDate: "2017-12-25T00:00:00.000Z"
 
         }, {
             id: 24,
-            firstName: 'Ariel',
-            lastName: 'Pink',
+            civilians: [{
+                id: 24,
+                roleOnCase: 'Primary Complainant',
+                firstName: 'Ariel',
+                lastName: 'Pink',
+                phoneNumber: 1234567890
+            }],
             status: 'Initial',
             createdAt: new Date().toISOString(),
             firstContactDate: "2017-12-25T00:00:00.000Z"

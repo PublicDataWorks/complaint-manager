@@ -3,9 +3,9 @@ import {Field} from 'redux-form';
 import {TextField} from "redux-form-material-ui";
 import {isPhoneNumber} from "../../formValidations";
 
-const PhoneNumberField = () => (
+const PhoneNumberField = (props) => (
     <Field
-        name="phoneNumber"
+        name={props.name}
         component={TextField}
         label="Phone Number"
         inputProps={{

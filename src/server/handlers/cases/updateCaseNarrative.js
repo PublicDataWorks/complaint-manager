@@ -1,13 +1,26 @@
 const models = require('../../models/index')
 
 const updateCaseNarrative = async (request, response, next) => {
-    const caseToUpdate = await models.cases.findById(request.params.id)
-    const update = await caseToUpdate.update({
-        narrative: request.body.narrative,
-    })
+    try {
+        await models.cases.update({
+                narrative: request.body.narrative,
+            },
+            {
+                where: {id: request.params.id},
+                individualHooks: true
+            })
 
-    response.send(update)
+        const updatedCase = await models.cases.findById(
+            request.params.id,
+            {
+                include: [{model: models.civilian}]
+            }
+        )
+
+        response.send(updatedCase)
+    } catch (e) {
+        next(e)
+    }
 }
-
 
 module.exports = updateCaseNarrative

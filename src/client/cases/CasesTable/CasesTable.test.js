@@ -17,17 +17,23 @@ describe('cases table', () => {
     beforeEach(() => {
         cases = [{
             id: 17,
+            civilians: [{
+                firstName: 'Chuck',
+                lastName: 'Berry',
+                roleOnCase: 'Primary Complainant'
+            }],
             complainantType: 'Civilian',
-            firstName: 'Chuck',
-            lastName: 'Berry',
             status: 'Initial',
             createdAt: new Date(2015, 8, 13).toISOString(),
             firstContactDate: "2017-12-25T00:00:00.000Z"
         }, {
             id: 24,
+            civilians: [{
+                firstName: 'Ariel',
+                lastName: 'Pink',
+                roleOnCase: 'Primary Complainant'
+            }],
             complainantType: 'Civilian',
-            firstName: 'Ariel',
-            lastName: 'Pink',
             status: 'Initial',
             createdAt: new Date().toISOString(),
             firstContactDate: "2017-12-25T00:00:00.000Z"
@@ -149,8 +155,11 @@ describe('cases table', () => {
             const yetAnotherCase = {
                 id: 50,
                 complainantType: 'Civilian',
-                firstName: 'Buck',
-                lastName: 'Cherry',
+                civilians: [{
+                    firstName: 'Buck',
+                    lastName: 'Cherry',
+                    roleOnCase: 'Primary Complainant'
+                }],
                 status: 'Initial',
                 createdAt: new Date(2015, 8, 15).toISOString(),
                 firstContactDate: "2017-12-25T00:00:00.000Z"

@@ -49,7 +49,6 @@ describe('Edit civilian dialog', () => {
                 const datePickerField = editCivilianDialog.find('[data-test="birthDateField"]').first()
                 datePickerField.simulate('blur')
 
-                console.log(datePickerField.text())
                 expect(datePickerField.text()).toContain('Date cannot be in the future')
             })
 

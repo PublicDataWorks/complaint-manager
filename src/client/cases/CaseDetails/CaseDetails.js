@@ -13,6 +13,7 @@ import Narrative from "./Narrative";
 import CaseDetailSnackbar from "./CaseDetailSnackbar";
 import ComplainantWitnesses from "./ComplainantWitnesses";
 import EditCivilianDialog from "./EditCivilianDialog/EditCivilianDialog"
+import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
 
 const drawerWidthPercentage = '30%';
 
@@ -130,7 +131,7 @@ class CaseDetails extends React.Component {
                             style={{marginRight: '20px'}}
 
                         >
-                            {formatName(this.props.caseDetail.firstName, this.props.caseDetail.lastName)}
+                            {formatName(getPrimaryComplainant(this.props.caseDetail.civilians))}
                         </Typography>
                         <Typography
                             data-test="caseStatusBox"

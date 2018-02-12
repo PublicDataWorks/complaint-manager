@@ -6,15 +6,21 @@ import {openEditDialog} from "../actionCreators";
 import createConfiguredStore from "../../createConfiguredStore";
 
 describe('complainant and witnesses', () => {
-    let complainantWitnessesSection, complainantWitnesses, caseDetail, dispatchSpy
+    let complainantWitnessesSection, complainantWitnesses, caseDetail, dispatchSpy, primaryComplainant
     beforeEach(() => {
-        caseDetail = {
+        primaryComplainant = {
             id: 17,
             firstName: 'Chuck',
             lastName: 'Berry',
-            status: 'Initial',
             phoneNumber: 1234567890,
             email: 'cberry@gmail.com',
+            roleOnCase: 'Primary Complainant'
+        }
+
+        caseDetail = {
+            id: 17,
+            civilians: [primaryComplainant],
+            status: 'Initial',
             complainantType: 'Civilian',
             firstContactDate: '2018-01-31',
             createdAt: new Date(2015, 8, 13).toISOString(),
@@ -36,7 +42,7 @@ describe('complainant and witnesses', () => {
         })
 
         test('should display primary complainants first and last name', () => {
-            const primaryComplainantName = `${caseDetail.firstName} ${caseDetail.lastName}`
+            const primaryComplainantName = `${primaryComplainant.firstName} ${primaryComplainant.lastName}`
 
             containsText(complainantWitnessesSection, '[data-test="primaryComplainantName"]', primaryComplainantName)
         })
@@ -62,17 +68,20 @@ describe('complainant and witnesses', () => {
         test('should display email expanded', () => {
             const complainantPanel = complainantWitnessesSection.find('[data-test="complainantWitnessesPanel"]').first()
 
-            containsText(complainantPanel, '[data-test="primaryComplainantEmail"]', caseDetail.email)
+            containsText(complainantPanel, '[data-test="primaryComplainantEmail"]', primaryComplainant.email)
         })
 
         test('should display N/A when no phone number ', () => {
             const caseWithNoPhoneNumber = {
                 id: 17,
-                firstName: 'John',
-                lastName: 'Doe',
-                status: 'Initial',
-                phoneNumber: null,
-                email: 'cberry@gmail.com',
+                civilians: [{
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    status: 'Initial',
+                    phoneNumber: null,
+                    email: 'cberry@gmail.com',
+                    roleOnCase: 'Primary Complainant'
+                }],
                 complainantType: 'Civilian',
                 firstContactDate: '2018-01-31',
                 createdAt: new Date(2015, 8, 13).toISOString(),
@@ -89,11 +98,14 @@ describe('complainant and witnesses', () => {
         test('should display N/A when no email', () => {
             const caseWithNoEmail = {
                 id: 17,
-                firstName: 'John',
-                lastName: 'Doe',
-                status: 'Initial',
-                phoneNumber: 1234567890,
-                email: null,
+                civilians: [{
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    status: 'Initial',
+                    phoneNumber: 1234567890,
+                    email: null,
+                    roleOnCase: 'Primary Complainant'
+                }],
                 complainantType: 'Civilian',
                 firstContactDate: '2018-01-31',
                 createdAt: new Date(2015, 8, 13).toISOString(),

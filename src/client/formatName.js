@@ -1,4 +1,4 @@
-const formatName = (firstName, lastName) => {
+const formatName = ({firstName, lastName}) => {
     return `${lastName}, ${firstName[0]}.`
 }
 

@@ -1,3 +1,4 @@
+const _ = require('lodash')
 const models = require('../../models/index')
 
 const invalidName = (input) => {
@@ -7,11 +8,20 @@ const invalidName = (input) => {
 const createCase = async (req, res, next) => {
     try {
         //  TODO extract validation logic
-        if (invalidName(req.body.firstName) || invalidName(req.body.lastName)) {
+        if (invalidName(req.body.civilian.firstName) || invalidName(req.body.civilian.lastName)) {
             res.sendStatus(400)
         }
         else {
-            const createdCase = await models.cases.create(req.body)
+            const createdCase = await models.cases.create({
+                ...req.body.case,
+                civilians: [req.body.civilian]
+            },{
+                include: [{
+                    model: models.civilian
+                }]
+            })
+
+
             res.status(201).send(createdCase)
         }
     } catch (e) {
