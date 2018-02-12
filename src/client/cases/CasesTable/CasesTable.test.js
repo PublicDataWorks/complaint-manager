@@ -6,38 +6,43 @@ import createConfiguredStore from "../../createConfiguredStore"
 import {createCaseSuccess, getCasesSuccess, updateSort} from '../actionCreators'
 import {BrowserRouter as Router} from 'react-router-dom'
 import {TableSortLabel} from "material-ui";
+import Civilian from "../../testUtilities/civilian";
+import Case from "../../testUtilities/case";
 
 jest.mock('../thunks/getCases', () => () => ({
     type: 'MOCK_GET_CASES_THUNK'
 }))
 
 describe('cases table', () => {
-    let tableWrapper, cases, store, dispatchSpy;
+    let tableWrapper, cases, store, dispatchSpy, civilianChuck, civilianAriel;
 
     beforeEach(() => {
-        cases = [{
-            id: 17,
-            civilians: [{
-                firstName: 'Chuck',
-                lastName: 'Berry',
-                roleOnCase: 'Primary Complainant'
-            }],
-            complainantType: 'Civilian',
-            status: 'Initial',
-            createdAt: new Date(2015, 8, 13).toISOString(),
-            firstContactDate: "2017-12-25T00:00:00.000Z"
-        }, {
-            id: 24,
-            civilians: [{
-                firstName: 'Ariel',
-                lastName: 'Pink',
-                roleOnCase: 'Primary Complainant'
-            }],
-            complainantType: 'Civilian',
-            status: 'Initial',
-            createdAt: new Date().toISOString(),
-            firstContactDate: "2017-12-25T00:00:00.000Z"
-        }];
+        civilianChuck = new Civilian.Builder()
+            .withFirstName('Chuck')
+            .withLastName('Berry')
+            .withRoleOnCase('Primary Complainant').build();
+
+        civilianAriel = new Civilian.Builder()
+            .withFirstName('Ariel')
+            .withLastName('Pink')
+            .withRoleOnCase('Primary Complainant').build();
+
+        const caseOne = new Case.Builder()
+            .withId(17)
+            .withCivilians([civilianChuck])
+            .withComplainantType('Civilian')
+            .withStatus('Initial')
+            .withCreatedAt(new Date(2015, 8, 13).toISOString())
+            .withFirstContactDate("2017-12-25T00:00:00.000Z").build()
+        const caseTwo = new Case.Builder()
+            .withId(24)
+            .withCivilians([civilianAriel])
+            .withComplainantType('Civilian')
+            .withStatus('Initial')
+            .withCreatedAt(new Date().toISOString())
+            .withFirstContactDate("2017-12-25T00:00:00.000Z").build()
+
+        cases = [caseOne, caseTwo];
 
         store = createConfiguredStore()
         dispatchSpy = jest.spyOn(store, 'dispatch')
@@ -152,18 +157,13 @@ describe('cases table', () => {
         });
 
         test('should remain in numeric descending order by case # after creation', () => {
-            const yetAnotherCase = {
-                id: 50,
-                complainantType: 'Civilian',
-                civilians: [{
-                    firstName: 'Buck',
-                    lastName: 'Cherry',
-                    roleOnCase: 'Primary Complainant'
-                }],
-                status: 'Initial',
-                createdAt: new Date(2015, 8, 15).toISOString(),
-                firstContactDate: "2017-12-25T00:00:00.000Z"
-            }
+            const yetAnotherCase = new Case.Builder()
+                .withId(50)
+                .withCivilians([civilianChuck])
+                .withStatus('Initial')
+                .withComplainantType('Civilian')
+                .withCreatedAt(new Date(2015, 8, 15).toISOString())
+                .withFirstContactDate("2017-12-25T00:00:00.000Z").build()
 
             store.dispatch(createCaseSuccess(yetAnotherCase))
             tableWrapper.update()
