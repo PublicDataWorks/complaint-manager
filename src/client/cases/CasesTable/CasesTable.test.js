@@ -147,7 +147,7 @@ describe('cases table', () => {
 
         test('open case button should refer to the case detail page', () => {
             const openCaseButton = caseRow.find('a[data-test="openCaseButton"]');
-            expect(openCaseButton.prop('href')).toEqual('/case/17');
+            expect(openCaseButton.prop('href')).toEqual('/cases/17');
         });
 
         test('should display multiple cases', () => {

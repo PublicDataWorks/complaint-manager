@@ -31,7 +31,7 @@ app.use(function (err, req, res, next) {
 //Any routes defined below this point will require authentication
 app.post('/cases', createCase);
 app.get('/cases', getCases);
-app.put('/case/:id/narrative', updateCaseNarrative);
+app.put('/cases/:id/narrative', updateCaseNarrative);
 app.post('/users', createUser);
 app.get('/users', getUsers);
 

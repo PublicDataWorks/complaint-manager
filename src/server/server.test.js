@@ -276,7 +276,7 @@ describe('server', () => {
         })
     })
 
-    describe('PUT /case/id/narrative', () => {
+    describe('PUT /cases/id/narrative', () => {
         let caseToUpdate
 
         beforeEach(async () => {
@@ -313,7 +313,7 @@ describe('server', () => {
             const updatedNarrative = {narrative: 'A very updated case narrative.'}
 
             await request(app)
-                .put(`/case/${caseToUpdate.id}/narrative`)
+                .put(`/cases/${caseToUpdate.id}/narrative`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .send(updatedNarrative)

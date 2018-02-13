@@ -32,7 +32,7 @@ const createCase = (creationDetails) => async (dispatch) => {
                 dispatch(createCaseSuccess(createdCase))
 
                 if (creationDetails.redirect) {
-                    dispatch(push(`/case/${createdCase.id}`))
+                    dispatch(push(`/cases/${createdCase.id}`))
                 }
                 return dispatch(reset('CreateCase'))
             case 401:

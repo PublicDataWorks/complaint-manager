@@ -40,7 +40,7 @@ class App extends Component {
                         <Route path="/login" component={Login}/>
                         <Route path="/callback" component={Callback}/>
                         <Route exact path="/" component={CaseDashboard}/>
-                        <Route exact path="/case/:id" component={CaseDetails}/>
+                        <Route exact path="/cases/:id" component={CaseDetails}/>
                         <Route exact path="/styleguide" component={StyleGuide}/>
                         <Route exact path="/admin" component={UserDashboard}/>
                     </Paper>

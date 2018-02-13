@@ -31,7 +31,7 @@ const CaseRow = ({classes, caseDetails}) => (
             {formatDate(caseDetails.firstContactDate)}
         </TableCell>
         <TableCell data-test="openCase" className={classes.buttonCell}>
-            <LinkButton component={Link} to={`/case/${caseDetails.id}`} data-test="openCaseButton">Open
+            <LinkButton component={Link} to={`/cases/${caseDetails.id}`} data-test="openCaseButton">Open
                 Case</LinkButton>
         </TableCell>
     </TableRow>
