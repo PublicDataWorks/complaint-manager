@@ -5,7 +5,6 @@ describe('caseCreationReducer', () => {
     test('should set default values', () => {
         const newState = caseCreationReducer(undefined, { type: 'ABC' })
         const expectedState = {
-            inProgress: false,
             success: false,
             message: ''
         }
@@ -14,12 +13,6 @@ describe('caseCreationReducer', () => {
     })
 
     describe('CASE_CREATION_REQUESTED', () => {
-        test('should be in progress', () => {
-            const newState = caseCreationReducer(undefined, requestCaseCreation())
-
-            expect(newState.inProgress).toBeTruthy()
-        })
-
         test('should not be successful', () => {
             const newState = caseCreationReducer(undefined, requestCaseCreation())
 
@@ -40,10 +33,6 @@ describe('caseCreationReducer', () => {
             newState = caseCreationReducer(undefined, createCaseSuccess({ id: 1234 }))
         })
 
-        test('should not be in progress', () => {
-            expect(newState.inProgress).toEqual(false)
-        })
-
         test('should be successful', () => {
             expect(newState.success).toEqual(true)
         })
@@ -58,10 +47,6 @@ describe('caseCreationReducer', () => {
 
         beforeEach(() => {
             newState = caseCreationReducer(undefined, createCaseFailure({ error: 500 }))
-        })
-
-        test('should not be in progress', () => {
-            expect(newState.inProgress).toEqual(false)
         })
 
         test('should not be successful', () => {

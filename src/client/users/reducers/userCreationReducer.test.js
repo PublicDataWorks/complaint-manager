@@ -5,7 +5,6 @@ describe('userCreationReducer', function () {
     test('should set default state', () => {
 
         const defaultState = {
-            inProgress: false,
             success: false,
             message: ''
         }
@@ -22,10 +21,6 @@ describe('userCreationReducer', function () {
             newState = userCreationReducer(undefined, requestUserCreation())
         })
 
-        test('should be in progress', () =>{
-            expect(newState.inProgress).toBeTruthy()
-        })
-
         test('should not be successful', () =>{
             expect(newState.success).toBeFalsy()
         })
@@ -40,16 +35,11 @@ describe('userCreationReducer', function () {
 
         beforeEach( () => {
             defaultState = {
-                inProgress: true,
                 success: false,
                 message: ''
             }
 
             newState = userCreationReducer(defaultState, createUserSuccess({user:'someUser'}))
-        })
-
-        test('should not be in progress', () =>{
-            expect(newState.inProgress).toBeFalsy()
         })
 
         test('should be successful', () =>{
@@ -66,16 +56,11 @@ describe('userCreationReducer', function () {
 
         beforeEach( () => {
             defaultState = {
-                inProgress: true,
                 success: true,
                 message: ''
             }
 
             newState = userCreationReducer(defaultState, createUserFailure())
-        })
-
-        test('should not be in progress', () =>{
-            expect(newState.inProgress).toBeFalsy()
         })
 
         test('should not be successful', () =>{
