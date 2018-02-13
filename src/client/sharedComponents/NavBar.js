@@ -3,6 +3,11 @@ import HomeIcon from 'material-ui-icons/Home';
 import Settings from 'material-ui-icons/Settings';
 import {AppBar, IconButton, Menu, MenuItem, Toolbar, Typography} from 'material-ui'
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
+import Auth from "../auth/Auth";
+import {userAuthSuccess} from "../auth/actionCreators";
+import {push} from "react-router-redux";
+import getAccessToken from "../auth/getAccessToken";
 
 const styles = {
     appBarStyle: {
@@ -13,6 +18,25 @@ const styles = {
 
 
 class NavBar extends React.Component {
+
+    componentWillMount = () => {
+        if (this.props.nickname === 'Name'){
+            const auth = new Auth()
+            const accessToken = getAccessToken()
+
+            if (accessToken) {
+                auth.getUserInfo(accessToken, (err, idToken) => {
+                    if (!err) {
+                        this.props.dispatch(userAuthSuccess(idToken))
+                    } else {
+                        this.props.dispatch(push('/login'))
+                    }
+                })
+            } else{
+                this.props.dispatch(push('/login'))
+            }
+        }
+    }
 
     state = {
         menuOpen: false,
@@ -34,7 +58,7 @@ class NavBar extends React.Component {
     }
 
     render() {
-        const {isHome, children} = this.props
+        const {isHome, nickname, children} = this.props
         const appBarStyle = isHome ? styles.appBarStyle : this.props.customStyle
         return (
 
@@ -61,11 +85,11 @@ class NavBar extends React.Component {
                     </div>
 
                     <Typography
-                        data-test="userName"
+                        data-test="userNickName"
                         type="title"
                         color="inherit"
 
-                    > Name </Typography>
+                    >{`${nickname}`}</Typography>
                     <IconButton
                         color='inherit'
                         data-test="gearButton"
@@ -98,4 +122,8 @@ NavBar.defaultProps = {
     isHome: true
 }
 
-export default NavBar
+const mapStateToProps = state => ({
+    nickname: state.users.current.userInfo.nickname
+})
+
+export default connect(mapStateToProps)(NavBar)

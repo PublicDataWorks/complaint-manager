@@ -3,14 +3,27 @@ import {mount} from 'enzyme'
 import NavBar from './NavBar'
 import {Backdrop} from "material-ui";
 import {BrowserRouter as Router} from "react-router-dom";
+import createConfiguredStore from "../createConfiguredStore";
+import {Provider} from "react-redux";
+import {mockLocalStorage} from "../../mockLocalStorage";
+
 
 describe('NavBar', () => {
-    test('should contain a home icon button', () => {
-        const wrapper = mount(
-            <Router>
-                <NavBar/>
-            </Router>
+    let wrapper, store
+    beforeEach(() => {
+        mockLocalStorage()
+
+        store = createConfiguredStore()
+        wrapper = mount(
+            <Provider store={store}>
+                <Router>
+                    <NavBar/>
+                </Router>
+            </Provider>
         )
+    });
+
+    test('should contain a home icon button', () => {
         const homeButton = wrapper.find('[data-test="homeButton"]').last()
 
         homeButton.simulate('click')
@@ -18,11 +31,6 @@ describe('NavBar', () => {
     })
 
     test('should contain a link named admin', () => {
-        const wrapper = mount(
-            <Router>
-                <NavBar/>
-            </Router>
-        )
         const gearButton = wrapper.find('button[data-test="gearButton"]')
         gearButton.simulate('click')
 
@@ -32,12 +40,13 @@ describe('NavBar', () => {
         expect(link.prop('href')).toEqual('/admin')
     })
 
+    test('should display nickname', () => {
+        const nickname = wrapper.find('[data-test="userNickName"]').last()
+        expect(nickname.text()).toEqual('Name')
+
+    })
+
     test('menu should be visible after gear icon click', () => {
-        const wrapper = mount(
-            <Router>
-                <NavBar/>
-            </Router>
-        )
 
         const gearButton = wrapper.find('button[data-test="gearButton"]')
         gearButton.simulate('click')
@@ -48,20 +57,14 @@ describe('NavBar', () => {
     })
 
     test('should dismiss menu when clicking away', () => {
-        const wrapper = mount(
-            <Router>
-                <NavBar/>
-            </Router>
-        )
-
-        const gearButton = wrapper.find('button[data-test="gearButton"]')
+        const gearButton = wrapper.find('[data-test="gearButton"]').last()
         gearButton.simulate('click')
 
         const backdrop = wrapper.find(Backdrop)
         backdrop.simulate('click')
 
-        const navBar = wrapper.find(NavBar).instance()
+        const menu = wrapper.find(NavBar).find('[data-test="menu"]').first()
 
-        expect(navBar.state).toHaveProperty('menuOpen', false)
+        expect(menu.props()).toHaveProperty('open', false)
     })
 })

@@ -1,23 +1,28 @@
 import auth0 from 'auth0-js';
-import { authConfig } from "./auth0-variables"
+import {authConfig as config} from "./auth0-variables"
 import history from '../history';
 
 export default class Auth {
 
-    constructor() {
-        this.login = this.login.bind(this)
-        this.logout = this.logout.bind(this)
+    authConfig = config[process.env.REACT_APP_ENV || process.env.NODE_ENV]
+    authWeb = new auth0.WebAuth(this.authConfig);
+    auth = new auth0.Authentication({},{
+        domain: this.authConfig.domain,
+        clientID: this.authConfig.clientID
+    });
+
+    login = () => {
+        this.authWeb.authorize();
     }
 
-    auth0 = new auth0.WebAuth(authConfig[process.env.REACT_APP_ENV || process.env.NODE_ENV]);
-
-    login() {
-        this.auth0.authorize();
-    }
-
-    handleAuthentication() {
-        this.auth0.parseHash((err, authResult) => {
+    handleAuthentication  = (callback)  => {
+        this.authWeb.parseHash((err, authResult) => {
             if (authResult && authResult.accessToken && authResult.idToken) {
+                this.auth.userInfo(authResult.accessToken, (err, result) => {
+                    if (!err){
+                        callback(result)
+                    }
+                })
                 this.setSession(authResult)
                 history.replace('/')
             } else if (err) {
@@ -27,7 +32,7 @@ export default class Auth {
         })
     }
 
-    setSession(authResult) {
+    setSession = (authResult) => {
         let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime())
         localStorage.setItem('access_token', authResult.accessToken)
         localStorage.setItem('id_token', authResult.idToken)
@@ -36,7 +41,7 @@ export default class Auth {
         history.replace('/')
     }
 
-    logout() {
+    logout = () => {
         localStorage.removeItem('access_token')
         localStorage.removeItem('id_token')
         localStorage.removeItem('expires_at')
@@ -44,7 +49,11 @@ export default class Auth {
         history.replace('/');
     }
 
-    isAuthenticated() {
+    getUserInfo =  (accessToken, callback) => {
+         this.auth.userInfo(accessToken, callback)
+    }
+
+    isAuthenticated = () => {
         let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
         return new Date().getTime() < expiresAt;
     }

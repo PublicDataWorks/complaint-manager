@@ -11,6 +11,7 @@ import formatDate from "../../formatDate";
 import {changeInput, containsText} from "../../../testHelpers";
 import updateNarrative from "../thunks/updateNarrative";
 import moment from "moment";
+import {mockLocalStorage} from "../../../mockLocalStorage";
 
 jest.mock('../thunks/getCases', () => () => ({
     type: 'MOCK_GET_CASES_THUNK'
@@ -22,8 +23,11 @@ jest.mock('../thunks/updateNarrative', () => () => ({
 describe('Case Details Component', () => {
     let caseDetails, expectedCase, dispatchSpy, store;
     beforeEach(() => {
+        mockLocalStorage()
+
         store = createConfiguredStore()
         dispatchSpy = jest.spyOn(store, 'dispatch');
+
         let cases = [{
             id: 17,
             civilians: [{

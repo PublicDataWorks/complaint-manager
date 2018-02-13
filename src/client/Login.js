@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
+import Auth from "./auth/Auth";
 
 class Login extends Component {
 
     componentWillMount() {
-        this.props.auth.login()
+        const auth = new Auth()
+        auth.login()
     }
 
     render() {

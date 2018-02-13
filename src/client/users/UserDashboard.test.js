@@ -6,6 +6,7 @@ import {Provider} from "react-redux";
 import {BrowserRouter as Router} from "react-router-dom";
 import createConfiguredStore from "../createConfiguredStore";
 import {openSnackbar} from "../snackbar/actionCreators";
+import {mockLocalStorage} from "../../mockLocalStorage";
 
 // NOTE: loading users on table mount crashes test runner
 jest.mock('./thunks/getUsers', () => (userDetails) => ({
@@ -14,32 +15,28 @@ jest.mock('./thunks/getUsers', () => (userDetails) => ({
 }))
 
 describe('UserDashboard', () => {
-    test('should display navbar with title', () => {
-        const store = createConfiguredStore();
-        const userDashboard = mount(
+    let store, userDashboard
+
+    beforeEach(() => {
+        mockLocalStorage()
+
+        store = createConfiguredStore();
+        store.dispatch(openSnackbar())
+
+        userDashboard = mount(
             <Provider store={store}>
                 <Router>
                     <UserDashboard/>
                 </Router>
             </Provider>
         )
-
+    })
+    test('should display navbar with title', () => {
         const navBar = userDashboard.find(NavBar)
         expect(navBar.contains('Manage Users')).toEqual(true)
     })
 
     test('should close snackbar when mounted', () => {
-        const store = createConfiguredStore();
-        store.dispatch(openSnackbar())
-
-        mount(
-            <Provider store={store}>
-                <Router>
-                    <UserDashboard/>
-                </Router>
-            </Provider>
-        )
-
         expect(store.getState()).toHaveProperty('ui.snackbar.open', false)
     })
 })

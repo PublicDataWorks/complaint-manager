@@ -5,6 +5,7 @@ import {changeInput, retry} from "./testHelpers";
 import {mockCreateCase, mockGetCases, mockGetUsers} from "./mockEndpoints";
 import moment from "moment";
 
+jest.mock("auth0-js")
 jest.mock("./client/auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))
 
 function expectUserToBeVisible(app, id, name) {

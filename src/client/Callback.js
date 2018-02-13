@@ -1,20 +1,34 @@
 import React, { Component } from 'react';
+import {connect} from "react-redux";
+import Auth from "./auth/Auth";
+
+const style = {
+    position: 'absolute',
+    display: 'flex',
+    justifyContent: 'center',
+    height: '100vh',
+    width: '100vw',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'white',
+}
+
+const populateUserInfo = userInfo => dispatch => {
+    dispatch({type:'AUTH_SUCCESS', userInfo})
+}
 
 class Callback extends Component {
-    render() {
-        const style = {
-            position: 'absolute',
-            display: 'flex',
-            justifyContent: 'center',
-            height: '100vh',
-            width: '100vw',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            backgroundColor: 'white',
+    handleAuthentication = (location) => {
+        if (/access_token|id_token|error/.test(location.hash)) {
+            const auth = new Auth()
+            auth.handleAuthentication(this.props.populateUserInfo);
         }
+    }
 
+    render() {
+        this.handleAuthentication(this.props.location)
         return (
             <div style={style}>
                 <p> LOADING </p>
@@ -23,4 +37,8 @@ class Callback extends Component {
     }
 }
 
-export default Callback;
+const mapDispatchToProps = {
+    populateUserInfo
+}
+
+export default connect(undefined, mapDispatchToProps)(Callback);

@@ -15,7 +15,6 @@ class CaseDashboard extends Component {
     }
 
     render(){
-        console.log('In Case Dashboard: ', process.env.REACT_APP_ENV || process.env.NODE_ENV)
         return (
             <div>
                 <NavBar>
