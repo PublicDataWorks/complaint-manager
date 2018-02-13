@@ -2,7 +2,8 @@ const initialState = {open: false, success: false, message: ''}
 const snackbarReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'CLOSE_SNACKBAR':
-            return initialState
+            const newState = {open: false, success: state.success, message: state.message}
+            return newState
         case 'USER_CREATION_REQUESTED':
             return {
                 open: false,

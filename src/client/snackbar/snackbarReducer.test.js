@@ -7,7 +7,7 @@ import {
     createCaseFailure, createCaseSuccess, requestCaseCreation, updateNarrativeFailure,
     updateNarrativeSuccess
 } from "../cases/actionCreators";
-import {closeSnackbar, openSnackbar} from "./actionCreators";
+import {closeSnackbar} from "./actionCreators";
 
 describe('snackbarReducer', () => {
     test('should default open to false', () => {
@@ -19,13 +19,13 @@ describe('snackbarReducer', () => {
 
     describe('CLOSE_SNACKBAR', () => {
         test('should set open to false', () => {
-            const initialState = {open: true}
+            const initialState = {open: true, success: false, message: 'You failed'}
 
             const state = snackbarReducer(initialState, closeSnackbar())
 
             expect(state.open).toBe(false)
             expect(state.success).toBe(false)
-            expect(state.message).toBe('')
+            expect(state.message).toBe('You failed')
         })
     })
 
