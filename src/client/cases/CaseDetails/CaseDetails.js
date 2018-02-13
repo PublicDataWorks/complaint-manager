@@ -100,18 +100,18 @@ class CaseDetails extends React.Component {
                     </div>
                     <div style={{flex: 1, textAlign: 'left'}}>
                         <Typography type='caption'>Complainant Type</Typography>
-                        <Typography data-test="complaint-type"
+                        <Typography data-test="complainant-type"
                                     type='body1'>{this.props.caseDetail.complainantType}</Typography>
                     </div>
                 </div>
                 <div style={{marginLeft: '6%', display: "flex"}}>
                     <div style={{flex: 1, textAlign: 'left'}}>
                         <Typography type='caption'>Created By</Typography>
-                        <Typography data-test="created-by" type='body1'>not added</Typography>
+                        <Typography data-test="created-by" type='body1'>{this.props.caseDetail.createdBy}</Typography>
                     </div>
                     <div style={{flex: 1, textAlign: 'left'}}>
                         <Typography type='caption'>Assigned To</Typography>
-                        <Typography data-test="assigned-to" type='body1'>not added</Typography>
+                        <Typography data-test="assigned-to" type='body1'>{this.props.caseDetail.assignedTo}</Typography>
                     </div>
                     <div style={{flex: 1, textAlign: 'left'}}>
 

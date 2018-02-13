@@ -76,6 +76,8 @@ describe('server', () => {
             case: {
                 firstContactDate: "2018-01-31",
                 complainantType: 'Civilian',
+                createdBy: 'tuser',
+                assignedTo: 'tuser'
             }
         };
 
@@ -95,6 +97,8 @@ describe('server', () => {
                     expect(response.body.firstContactDate).toEqual(requestBody.case.firstContactDate)
                     expect(response.body.createdAt).not.toBeUndefined()
                     expect(response.body.status).toEqual('Initial')
+                    expect(response.body.createdBy).toEqual('tuser')
+                    expect(response.body.assignedTo).toEqual('tuser')
 
                     expect(response.body.civilians[0].firstName).toEqual(requestBody.civilian.firstName)
                     expect(response.body.civilians[0].lastName).toEqual(requestBody.civilian.lastName)
@@ -124,6 +128,8 @@ describe('server', () => {
             seededCase = await models.cases.create({
                     complainantType: 'Civilian',
                     firstContactDate: "2018-01-31",
+                    createdBy: 'tuser',
+                    assignedTo: 'tuser',
                     civilians: [{
                         firstName: 'Robert',
                         lastName: 'Pollard',
@@ -157,7 +163,9 @@ describe('server', () => {
                                 complainantType: seededCase.complainantType,
                                 createdAt: seededCase.createdAt.toISOString(),
                                 firstContactDate: moment(seededCase.firstContactDate).format("YYYY-MM-DD"),
-                                status: 'Initial'
+                                status: 'Initial',
+                                createdBy: 'tuser',
+                                assignedTo: 'tuser'
                             })
                         ])
                     )
@@ -289,7 +297,9 @@ describe('server', () => {
                 }],
                 complainantType: 'Civilian',
                 narrative: 'Beginning narrative',
-                status: 'Initial'
+                status: 'Initial',
+                createdBy: 'tuser',
+                assignedTo: 'tuser'
             }, {
                 returning: true,
                 include: [{model: models.civilian}]

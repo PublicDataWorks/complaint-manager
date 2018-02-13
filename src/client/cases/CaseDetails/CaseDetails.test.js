@@ -12,6 +12,9 @@ import {changeInput, containsText} from "../../../testHelpers";
 import updateNarrative from "../thunks/updateNarrative";
 import moment from "moment";
 import {mockLocalStorage} from "../../../mockLocalStorage";
+import Case from "../../testUtilities/case";
+import formatName from "../../formatName";
+import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
 
 jest.mock('../thunks/getCases', () => () => ({
     type: 'MOCK_GET_CASES_THUNK'
@@ -28,25 +31,11 @@ describe('Case Details Component', () => {
         store = createConfiguredStore()
         dispatchSpy = jest.spyOn(store, 'dispatch');
 
-        let cases = [{
-            id: 17,
-            civilians: [{
-                firstName: 'Chuck',
-                lastName: 'Berry',
-                phoneNumber: 1234567890,
-                email: 'cberry@gmail.com',
-                roleOnCase: 'Primary Complainant'
-            }],
-            status: 'Initial',
-            complainantType: 'Civilian',
-            firstContactDate: '2018-01-31',
-            createdAt: new Date(2015, 8, 13).toISOString(),
-            createdBy: 'not added',
-            assignedTo: 'not added',
-            narrative: 'sample narrative'
-        }];
+        expectedCase = new Case.Builder().defaultCase().withNarrative('Some initial narrative').build()
+        let cases = [expectedCase];
+
         store.dispatch(getCasesSuccess(cases));
-        expectedCase = cases[0]
+
         caseDetails = mount(
             <Provider store={store}>
                 <Router>
@@ -59,7 +48,9 @@ describe('Case Details Component', () => {
     describe('nav bar', () => {
         test("should display with Last Name, First Initial", () => {
             const navBar = caseDetails.find(NavBar);
-            containsText(navBar, '[data-test="pageTitle"]', 'Berry, C.')
+            const expectedFormattedName = formatName(getPrimaryComplainant(expectedCase.civilians))
+
+            containsText(navBar, '[data-test="pageTitle"]', expectedFormattedName)
         })
 
         test("should display with case status", () => {
@@ -86,7 +77,7 @@ describe('Case Details Component', () => {
         })
 
         test('should display complaint type', () => {
-            containsText(caseDetails, '[data-test="complaint-type"]', expectedCase.complainantType)
+            containsText(caseDetails, '[data-test="complainant-type"]', expectedCase.complainantType)
         })
 
         test("should display created by user", () => {

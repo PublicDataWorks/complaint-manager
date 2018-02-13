@@ -33,6 +33,14 @@ module.exports = (sequelize, DataTypes) => {
             narrative: {
                 field: 'narrative',
                 type: DataTypes.TEXT
+            },
+            createdBy: {
+                field: 'created_by',
+                type: DataTypes.STRING
+            },
+            assignedTo: {
+                field: 'assigned_to',
+                type: DataTypes.STRING
             }
         },
         {

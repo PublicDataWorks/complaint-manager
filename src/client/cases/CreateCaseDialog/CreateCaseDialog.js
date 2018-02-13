@@ -47,7 +47,7 @@ class CreateCaseDialog extends React.Component {
 
     createAndView = (values, dispatch) => {
         const creationDetails = {
-            caseDetails: this.trimWhitespace(values),
+            caseDetails: this.prepareCaseDetails(values),
             redirect: true
         }
 
@@ -57,16 +57,19 @@ class CreateCaseDialog extends React.Component {
 
     createOnly = (values, dispatch) => {
         const creationDetails = {
-            caseDetails: this.trimWhitespace(values),
+            caseDetails: this.prepareCaseDetails(values),
             redirect: false
         }
-
 
         dispatch(createCase(creationDetails))
     }
 
-    trimWhitespace = (values) => ({
-        ...values,
+    prepareCaseDetails = (values) => ({
+        case: {
+            ...values.case,
+            createdBy: this.props.currentUser,
+            assignedTo: this.props.currentUser
+        },
         civilian: {
             ...values.civilian,
             firstName: values.civilian.firstName.trim(),
@@ -160,7 +163,8 @@ class CreateCaseDialog extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        caseCreationSuccess: state.ui.snackbar.success
+        caseCreationSuccess: state.ui.snackbar.success,
+        currentUser: state.users.current.userInfo.nickname
     }
 }
 

@@ -8,6 +8,10 @@ class Case {
         this.status = build.status
         this.createdAt = build.createdAt
         this.firstContactDate = build.firstContactDate
+        this.complainantType = build.complainantType
+        this.createdBy = build.createdBy
+        this.assignedTo = build.assignedTo
+        this.narrative = build.narrative
     }
 
     static get Builder() {
@@ -18,6 +22,10 @@ class Case {
                 this.status = 'Initial'
                 this.createdAt = new Date(2015, 8, 13).toISOString()
                 this.firstContactDate = "2017-12-25T00:00:00.000Z"
+                this.complainantType = 'Civilian'
+                this.createdBy = 'tuser'
+                this.assignedTo = 'tuser'
+                this.narrative = null
                 return this;
             }
 
@@ -46,9 +54,24 @@ class Case {
                 return this;
             }
 
+            withCreatedBy(createdBy){
+                this.createdBy = createdBy
+                return this
+            }
+
+            withAssignedTo(assignedTo){
+                this.assignedTo = assignedTo
+                return this
+            }
+
             withFirstContactDate(firstContactDate) {
                 this.firstContactDate = firstContactDate
                 return this;
+            }
+
+            withNarrative(narrative) {
+                this.narrative = narrative
+                return this
             }
 
             build() {

@@ -32,7 +32,9 @@ describe('client-side user journey', () => {
             complainantType: 'Civilian',
             status: 'Initial',
             createdAt: '2018-01-17T22:00:20.796Z',
-            firstContactDate: "2017-12-25T00:00:00.000Z"
+            firstContactDate: "2017-12-25T00:00:00.000Z",
+            createdBy: 'tuser',
+            assignedTo: 'tuser'
         }]
 
         newCaseRequest = {
@@ -44,9 +46,12 @@ describe('client-side user journey', () => {
             },
             case: {
                 complainantType: 'Civilian',
-                firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
+                firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
+                createdBy: '',
+                assignedTo: '',
             }
         }
+
         newCaseResponse = {
             id: 2,
             civilians: [{
@@ -61,7 +66,10 @@ describe('client-side user journey', () => {
             complainantType: 'Civilian',
             status: 'Initial',
             createdAt: '2018-01-17T22:00:20.796Z',
-            firstContactDate: "2017-12-25T00:00:00.000Z"
+            firstContactDate: "2017-12-25T00:00:00.000Z",
+            createdBy: 'tuser',
+            assignedTo: 'tuser',
+            narrative: null
         }
 
         existingUsers = [{

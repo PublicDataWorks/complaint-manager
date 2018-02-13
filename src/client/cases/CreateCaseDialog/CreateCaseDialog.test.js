@@ -8,6 +8,7 @@ import {changeInput, expectEventuallyNotToExist} from "../../../testHelpers";
 import createCase from "../thunks/createCase";
 import {openSnackbar} from "../../snackbar/actionCreators";
 import moment from "moment";
+import {userAuthSuccess} from "../../auth/actionCreators";
 
 jest.mock('../thunks/createCase', () => (creationDetails) => ({
     type: 'MOCK_CREATE_CASE_THUNK',
@@ -15,10 +16,14 @@ jest.mock('../thunks/createCase', () => (creationDetails) => ({
 }))
 
 describe('CreateCaseDialog component', () => {
-    let store, dialog, dispatchSpy
+    let store, dialog, dispatchSpy, testUsername
 
     beforeEach(() => {
         store = createConfiguredStore();
+
+        testUsername = 'tuser'
+        store.dispatch(userAuthSuccess({nickname: testUsername}))
+
         dispatchSpy = jest.spyOn(store, 'dispatch')
 
         dialog = mount(
@@ -49,7 +54,9 @@ describe('CreateCaseDialog component', () => {
             caseDetails = {
                 case: {
                     complainantType: 'Civilian',
-                    firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
+                    firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
+                    createdBy: testUsername,
+                    assignedTo: testUsername
                 },
                 civilian: {
                     firstName: 'Fats',
@@ -245,7 +252,9 @@ describe('CreateCaseDialog component', () => {
             const caseDetails = {
                 case: {
                     complainantType: 'Civilian',
-                    firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
+                    firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
+                    createdBy: testUsername,
+                    assignedTo: testUsername
                 },
                 civilian: {
                     firstName: 'Hello',
