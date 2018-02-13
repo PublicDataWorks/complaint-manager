@@ -1,7 +1,7 @@
 import React from 'react'
 import {submit} from 'redux-form';
 import {connect} from "react-redux";
-import {Button, Dialog, DialogActions, DialogTitle, DialogContent, withTheme} from "material-ui";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, withTheme} from "material-ui";
 import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
 import CreateUserForm from './CreateUserForm'
 import {closeSnackbar} from "../../snackbar/actionCreators";

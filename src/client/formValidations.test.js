@@ -1,7 +1,13 @@
 import {
     emailIsRequired,
-    firstNameNotBlank, firstNameRequired, isEmail, isPhoneNumber, lastNameNotBlank,
-    lastNameRequired, notFutureDate, validDate
+    firstNameNotBlank,
+    firstNameRequired,
+    isEmail,
+    isPhoneNumber,
+    lastNameNotBlank,
+    lastNameRequired,
+    notFutureDate,
+    validDate
 } from "./formValidations";
 import moment from "moment";
 

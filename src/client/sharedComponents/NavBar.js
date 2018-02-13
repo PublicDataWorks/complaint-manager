@@ -4,10 +4,6 @@ import Settings from 'material-ui-icons/Settings';
 import {AppBar, IconButton, Menu, MenuItem, Toolbar, Typography} from 'material-ui'
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
-import Auth from "../auth/Auth";
-import {userAuthSuccess} from "../auth/actionCreators";
-import {push} from "react-router-redux";
-import getAccessToken from "../auth/getAccessToken";
 
 const styles = {
     appBarStyle: {
@@ -18,25 +14,6 @@ const styles = {
 
 
 class NavBar extends React.Component {
-
-    componentWillMount = () => {
-        if (this.props.nickname === 'Name'){
-            const auth = new Auth()
-            const accessToken = getAccessToken()
-
-            if (accessToken) {
-                auth.getUserInfo(accessToken, (err, idToken) => {
-                    if (!err) {
-                        this.props.dispatch(userAuthSuccess(idToken))
-                    } else {
-                        this.props.dispatch(push('/login'))
-                    }
-                })
-            } else{
-                this.props.dispatch(push('/login'))
-            }
-        }
-    }
 
     state = {
         menuOpen: false,

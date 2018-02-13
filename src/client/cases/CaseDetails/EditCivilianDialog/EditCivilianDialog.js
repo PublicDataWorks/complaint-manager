@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { Field, reduxForm } from "redux-form";
-import {Dialog, DialogTitle, DialogContent, DialogActions, Typography} from 'material-ui';
+import {Field, reduxForm} from "redux-form";
+import {Dialog, DialogActions, DialogContent, DialogTitle, Typography} from 'material-ui';
 import {TextField} from "redux-form-material-ui";
 import RoleOnCaseRadioGroup from "./RoleOnCaseRadioGroup";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Field} from 'redux-form';
 import {TextField} from "redux-form-material-ui";
-import {firstNameRequired, firstNameNotBlank} from "../../formValidations";
+import {firstNameNotBlank, firstNameRequired} from "../../formValidations";
 
 const FirstNameField = (props) => (
 

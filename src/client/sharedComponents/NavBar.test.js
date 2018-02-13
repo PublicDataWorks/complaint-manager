@@ -40,9 +40,9 @@ describe('NavBar', () => {
         expect(link.prop('href')).toEqual('/admin')
     })
 
-    test('should display nickname', () => {
+    test('should display default nickname', () => {
         const nickname = wrapper.find('[data-test="userNickName"]').last()
-        expect(nickname.text()).toEqual('Name')
+        expect(nickname.text()).toEqual('')
 
     })
 

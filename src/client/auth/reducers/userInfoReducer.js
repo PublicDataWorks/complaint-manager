@@ -1,6 +1,6 @@
 const initialState = {
     userInfo: {
-        nickname: "Name"
+        nickname: ""
     }
 }
 

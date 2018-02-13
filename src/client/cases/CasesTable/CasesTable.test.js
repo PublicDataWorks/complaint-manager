@@ -5,7 +5,6 @@ import {Provider} from 'react-redux'
 import createConfiguredStore from "../../createConfiguredStore"
 import {createCaseSuccess, getCasesSuccess, updateSort} from '../actionCreators'
 import {BrowserRouter as Router} from 'react-router-dom'
-import {TableSortLabel} from "material-ui";
 import Civilian from "../../testUtilities/civilian";
 import Case from "../../testUtilities/case";
 

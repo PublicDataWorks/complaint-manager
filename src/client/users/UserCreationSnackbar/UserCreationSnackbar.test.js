@@ -1,5 +1,5 @@
 import React from 'react'
-import { Provider } from 'react-redux'
+import {Provider} from 'react-redux'
 import createConfiguredStore from "../../createConfiguredStore"
 import {mount} from "enzyme"
 import UserCreationSnackbar from "./UserCreationSnackbar"

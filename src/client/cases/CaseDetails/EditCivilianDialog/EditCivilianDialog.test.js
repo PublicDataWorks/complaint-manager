@@ -3,10 +3,8 @@ import {mount} from "enzyme";
 import {Provider} from 'react-redux';
 import createConfiguredStore from "../../../createConfiguredStore";
 import EditCivilianDialog from "./EditCivilianDialog";
-import {openEditDialog} from "../../actionCreators";
-import {containsText} from "../../../../testHelpers";
-import {expectEventuallyNotToExist} from "../../../../testHelpers";
-import {closeEditDialog} from "../../actionCreators";
+import {closeEditDialog, openEditDialog} from "../../actionCreators";
+import {containsText, expectEventuallyNotToExist} from "../../../../testHelpers";
 import moment from "moment";
 
 describe('Edit civilian dialog', () => {

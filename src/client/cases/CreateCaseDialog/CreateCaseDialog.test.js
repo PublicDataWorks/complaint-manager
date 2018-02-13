@@ -2,9 +2,9 @@ import React from 'react'
 import {Provider} from 'react-redux'
 import createConfiguredStore from "../../createConfiguredStore";
 import {mount} from "enzyme/build/index";
-import {createCaseSuccess } from "../actionCreators";
+import {createCaseSuccess} from "../actionCreators";
 import CreateCaseDialog from "./CreateCaseDialog";
-import {changeInput, expectEventuallyNotToExist, getDateFromDatePicker} from "../../../testHelpers";
+import {changeInput, expectEventuallyNotToExist} from "../../../testHelpers";
 import createCase from "../thunks/createCase";
 import {openSnackbar} from "../../snackbar/actionCreators";
 import moment from "moment";

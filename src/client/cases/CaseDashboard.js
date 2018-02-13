@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import CasesTable from "./CasesTable/CasesTable";
 import CreateCaseDialog from "./CreateCaseDialog/CreateCaseDialog";
 import CaseCreationSnackbar from "./CaseCreationSnackbar/CaseCreationSnackbar";

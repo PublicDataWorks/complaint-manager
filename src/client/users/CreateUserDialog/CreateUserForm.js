@@ -1,6 +1,6 @@
 import React from 'react'
-import { Field, reduxForm } from 'redux-form'
-import { TextField } from 'redux-form-material-ui'
+import {Field, reduxForm} from 'redux-form'
+import {TextField} from 'redux-form-material-ui'
 import createUser from '../thunks/createUser'
 import {
     emailIsRequired,

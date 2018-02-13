@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import UsersTable from "./UsersTable/UsersTable";
 import CreateUserDialog from './CreateUserDialog/CreateUserDialog'
 import UserCreationSnackbar from "./UserCreationSnackbar/UserCreationSnackbar";

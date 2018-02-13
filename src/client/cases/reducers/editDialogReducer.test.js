@@ -1,6 +1,5 @@
 import editDialogReducer from "./editDialogReducer";
-import {openEditDialog} from "../actionCreators";
-import {closeEditDialog} from "../actionCreators";
+import {closeEditDialog, openEditDialog} from "../actionCreators";
 
 describe('editDialogReducer', () => {
     test('should set default state', () => {
