@@ -5,9 +5,7 @@ import thunk from 'redux-thunk'
 import history from './history'
 import {routerMiddleware, routerReducer} from 'react-router-redux'
 import allCasesReducer from './cases/reducers/allCasesReducer'
-import caseCreationReducer from "./cases/reducers/caseCreationReducer"
 import allUsersReducer from "./users/reducers/allUsersReducer";
-import userCreationReducer from "./users/reducers/userCreationReducer";
 import snackbarReducer from "./snackbar/snackbarReducer";
 import caseDetailsReducer from "./cases/reducers/caseDetailsReducer";
 import casesTableReducer from "./cases/reducers/casesTableReducer";
@@ -19,12 +17,10 @@ const rootReducer = combineReducers({
     routing: routerReducer,
     cases: combineReducers({
         all: allCasesReducer,
-        creation: caseCreationReducer,
         details: caseDetailsReducer,
     }),
     users: combineReducers({
         all: allUsersReducer,
-        creation: userCreationReducer,
         current: userInfoReducer
 
     }),

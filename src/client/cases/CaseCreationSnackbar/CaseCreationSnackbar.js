@@ -4,8 +4,8 @@ import {closeSnackbar} from "../../snackbar/actionCreators";
 
 const mapStateToProps = state => {
     return {
-        message: state.cases.creation.message,
-        success: state.cases.creation.success,
+        message: state.ui.snackbar.message,
+        success: state.ui.snackbar.success,
         open: state.ui.snackbar.open
     }
 }

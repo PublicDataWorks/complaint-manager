@@ -160,7 +160,7 @@ class CreateCaseDialog extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        caseCreationSuccess: state.cases.creation.success
+        caseCreationSuccess: state.ui.snackbar.success
     }
 }
 

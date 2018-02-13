@@ -1,29 +1,31 @@
 const initialState = {open: false, success: false, message: ''}
 const snackbarReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'OPEN_SNACKBAR':
-            return {
-                open: true
-            }
         case 'CLOSE_SNACKBAR':
-            return {
-                open: false
-            }
+            return initialState
         case 'USER_CREATION_REQUESTED':
             return {
-                open: false
+                open: false,
+                success: false,
+                message: ''
             }
         case 'USER_CREATED_SUCCESS':
             return {
-                open: true
+                open: true,
+                success: true,
+                message: 'User was successfully created.'
             }
         case 'USER_CREATION_FAILED':
             return {
-                open: true
+                open: true,
+                success: false,
+                message: 'Something went wrong on our end and your user was not created. Please try again.'
             }
         case 'CASE_CREATION_REQUESTED':
             return {
-                open: false
+                open: false,
+                success: false,
+                message: ''
             }
         case 'CASE_CREATED_SUCCESS':
             return {
@@ -33,7 +35,9 @@ const snackbarReducer = (state = initialState, action) => {
             }
         case 'CASE_CREATION_FAILED':
             return {
-                open: true
+                open: true,
+                success: false,
+                message: 'Something went wrong on our end and your case was not created. Please try again.'
             }
         case 'NARRATIVE_UPDATE_SUCCEEDED':
             return {

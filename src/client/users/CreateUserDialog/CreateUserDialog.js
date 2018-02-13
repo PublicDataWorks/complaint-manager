@@ -82,7 +82,7 @@ class CreateUserDialog extends React.Component {
 
 const mapStateToProps = state =>{
     return{
-        userCreationSuccess: state.users.creation.success
+        userCreationSuccess: state.ui.snackbar.success
     }
 }
 

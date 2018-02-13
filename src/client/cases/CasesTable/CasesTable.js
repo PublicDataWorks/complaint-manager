@@ -87,7 +87,7 @@ class CasesTable extends React.Component {
 
 const mapStateToProps = state => ({
     cases: state.cases.all,
-    caseCreationSuccess: state.cases.creation.success,
+    caseCreationSuccess: state.ui.snackbar.success,
     sortBy: state.ui.casesTable.sortBy,
     sortDirection: state.ui.casesTable.sortDirection,
 })

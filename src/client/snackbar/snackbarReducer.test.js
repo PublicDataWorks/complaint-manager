@@ -17,20 +17,6 @@ describe('snackbarReducer', () => {
         expect(state.message).toEqual('')
     })
 
-    describe('OPEN_SNACKBAR', () => {
-        test('should set open to true', () => {
-            const state = snackbarReducer(undefined, openSnackbar())
-            expect(state.open).toEqual(true)
-        })
-
-        test('should not mutate state', () => {
-            const initialState = {open: false}
-            const newState = snackbarReducer(initialState, openSnackbar())
-
-            expect(newState.open).not.toEqual(initialState)
-        })
-    });
-
     describe('CLOSE_SNACKBAR', () => {
         test('should set open to false', () => {
             const initialState = {open: true}
@@ -38,50 +24,53 @@ describe('snackbarReducer', () => {
             const state = snackbarReducer(initialState, closeSnackbar())
 
             expect(state.open).toBe(false)
-        })
-
-        test('should not mutate state', () => {
-            const initialState = {open: true}
-            const newState = snackbarReducer(initialState, closeSnackbar())
-
-            expect(newState.open).not.toEqual(initialState)
+            expect(state.success).toBe(false)
+            expect(state.message).toBe('')
         })
     })
 
     describe('USER_CREATION', () => {
         test('USER_CREATION_REQUESTED', () => {
-            const initialState = {open: true}
+            const initialState = {open: true, success: true, message: 'blah'}
             const newState = snackbarReducer(initialState, requestUserCreation())
 
             expect(newState.open).toBe(false)
+            expect(newState.success).toBe(false)
+            expect(newState.message).toBe('')
         })
 
         test('USER_CREATED_SUCCESS', () => {
-            const initialState = {open: false}
+            const initialState = {open: false, success: false, message: 'blah'}
             const newState = snackbarReducer(initialState, createUserSuccess())
 
             expect(newState.open).toBe(true)
+            expect(newState.success).toBe(true)
+            expect(newState.message).toBe('User was successfully created.')
         })
 
         test('USER_CREATION_FAILED', () => {
-            const initialState = {open: false}
+            const initialState = {open: false, success: true, message: 'blah'}
             const newState = snackbarReducer(initialState, createUserFailure())
 
             expect(newState.open).toBe(true)
+            expect(newState.success).toBeFalsy()
+            expect(newState.message).toBe('Something went wrong on our end and your user was not created. Please try again.')
         })
     })
 
     describe('CASE_CREATION', () => {
         test('CASE_CREATION_REQUESTED', () => {
-            const initialState = {open: true}
+            const initialState = {open: true, success: true, message: 'balh'}
             const newState = snackbarReducer(initialState, requestCaseCreation())
 
             expect(newState.open).toBe(false)
+            expect(newState.success).toEqual(false)
+            expect(newState.message).toEqual('')
         })
 
         test('CASE_CREATED_SUCCESS', () => {
             const id = 1
-            const initialState = {open: false}
+            const initialState = {open: false, success: false, message: 'blah'}
             const newState = snackbarReducer(initialState, createCaseSuccess({id: id}))
 
             expect(newState.open).toBe(true)
@@ -90,10 +79,13 @@ describe('snackbarReducer', () => {
         })
 
         test('CASE_CREATION_FAILED', () => {
-            const initialState = {open: false}
-            const newState = snackbarReducer(initialState, createCaseFailure())
+            const initialState = {open: false, success: true, message: ''}
+            const newState = snackbarReducer(initialState, createCaseFailure({ error: 500}))
 
             expect(newState.open).toBe(true)
+            expect(newState.success).toBe(false)
+            expect(newState.message).toEqual(
+                'Something went wrong on our end and your case was not created. Please try again.')
         })
     })
 
