@@ -34,6 +34,17 @@ const sortBy = (collection, sortBy, sortDirection) => {
          else return sortedCases
     }
 
+    if (sortBy === 'assignedTo') {
+        const sortedCases = _.sortBy(collection, [(o) => {
+            return o.assignedTo.toUpperCase()
+        }])
+
+        if (sortDirection === 'desc') {
+            return sortedCases.reverse()
+        }
+        else return sortedCases
+    }
+
     return _.orderBy(collection, sortBy, sortDirection)
 }
 

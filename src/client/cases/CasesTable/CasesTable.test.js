@@ -32,6 +32,7 @@ describe('cases table', () => {
             .withComplainantType('Civilian')
             .withStatus('Initial')
             .withCreatedAt(new Date(2015, 8, 13).toISOString())
+            .withAssignedTo('tuser')
             .withFirstContactDate("2017-12-25T00:00:00.000Z").build()
         const caseTwo = new Case.Builder()
             .withId(24)
@@ -39,6 +40,7 @@ describe('cases table', () => {
             .withComplainantType('Civilian')
             .withStatus('Initial')
             .withCreatedAt(new Date().toISOString())
+            .withAssignedTo('tuser')
             .withFirstContactDate("2017-12-25T00:00:00.000Z").build()
 
         cases = [caseOne, caseTwo];
@@ -87,14 +89,15 @@ describe('cases table', () => {
     });
 
     describe('column headers', () => {
-        let caseNumber, complainantType, status, complainant, caseCreatedOn
+        let caseNumber, complainantType, status, complainant, firstContactDate, assignedTo
 
         beforeEach(() => {
             caseNumber = tableWrapper.find('th[data-test="casesNumberHeader"]');
             complainantType = tableWrapper.find('th[data-test="casesComplainantTypeHeader"]');
             status = tableWrapper.find('th[data-test="casesStatusHeader"]');
             complainant = tableWrapper.find('th[data-test="casesComplainantHeader"]');
-            caseCreatedOn = tableWrapper.find('th[data-test="casesFirstContactDateHeader"]');
+            firstContactDate = tableWrapper.find('th[data-test="casesFirstContactDateHeader"]');
+            assignedTo = tableWrapper.find('th[data-test="casesAssignedToHeader"]');
         })
 
         test('should display case number', () => {
@@ -104,13 +107,18 @@ describe('cases table', () => {
         test('should display status', () => {
             expect(status.text()).toEqual('Status');
         })
+
         test('should display complainant', () => {
             expect(complainant.text()).toEqual('Complainant');
         })
+
         test('should display first contact date', () => {
-            expect(caseCreatedOn.text()).toEqual('First Contact Date');
+            expect(firstContactDate.text()).toEqual('First Contact Date');
         })
 
+        test('should display assigned to', () => {
+            expect(assignedTo.text()).toEqual('Assigned To')
+        })
     });
 
     describe('displaying a case', () => {
@@ -140,6 +148,11 @@ describe('cases table', () => {
             expect(firstContactDate.text()).toEqual('Dec 25, 2017');
         });
 
+        test('should display assigned to', () => {
+            const assignedTo = caseRow.find('td[data-test="caseAssignedTo"]');
+            expect(assignedTo.text()).toEqual('tuser');
+        });
+
         test('should display an open case button', () => {
             const openCaseButton = caseRow.find('[data-test="openCaseButton"]');
             expect(openCaseButton.exists()).toEqual(true);
@@ -162,6 +175,7 @@ describe('cases table', () => {
                 .withStatus('Initial')
                 .withComplainantType('Civilian')
                 .withCreatedAt(new Date(2015, 8, 15).toISOString())
+                .withAssignedTo('tuser')
                 .withFirstContactDate("2017-12-25T00:00:00.000Z").build()
 
             store.dispatch(createCaseSuccess(yetAnotherCase))

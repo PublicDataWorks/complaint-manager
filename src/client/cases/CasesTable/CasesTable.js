@@ -8,7 +8,7 @@ import tableStyleGenerator from '../../tableStyles'
 import {updateSort} from "../actionCreators";
 import sortBy from "../../sortBy";
 
-const numberOfColumns = 5;
+const numberOfColumns = 6;
 
 const styles = theme => ({
     ...(tableStyleGenerator(numberOfColumns, theme).header),
@@ -69,8 +69,17 @@ class CasesTable extends React.Component {
                                         <Typography type='body2'>First Contact Date</Typography>
                                     </TableSortLabel>
                                 </TableCell>
-                                <TableCell style={{paddingLeft:'24px'}} className={classes.cell}>
+                                <TableCell data-test='casesAssignedToHeader' style={{paddingLeft:'24px'}} className={classes.cell}>
+                                    <TableSortLabel
+                                        data-test='casesAssignedToSortLabel'
+                                        onClick={() => this.props.dispatch(updateSort('assignedTo'))}
+                                        direction={this.props.sortDirection}
+                                        active={this.props.sortBy === 'assignedTo'}
+                                    >
+                                        <Typography type='body2'>Assigned To</Typography>
+                                    </TableSortLabel>
                                 </TableCell>
+                                <TableCell style={{paddingLeft:'24px'}} className={classes.cell}/>
                             </TableRow>
                         </TableHead>
                         <TableBody>

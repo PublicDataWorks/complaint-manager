@@ -7,7 +7,7 @@ import formatName from "../../formatName";
 import tableStyleGenerator from "../../tableStyles";
 import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
 
-const numberOfColumns = 5
+const numberOfColumns = 6
 
 const styles = theme => ({
     ...tableStyleGenerator(numberOfColumns, theme).body,
@@ -29,6 +29,9 @@ const CaseRow = ({classes, caseDetails}) => (
         </TableCell>
         <TableCell data-test="caseFirstContactDate" className={classes.cell}>
             {formatDate(caseDetails.firstContactDate)}
+        </TableCell>
+        <TableCell data-test="caseAssignedTo" className={classes.cell}>
+            {caseDetails.assignedTo}
         </TableCell>
         <TableCell data-test="openCase" className={classes.buttonCell}>
             <LinkButton component={Link} to={`/cases/${caseDetails.id}`} data-test="openCaseButton">Open

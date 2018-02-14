@@ -10,7 +10,8 @@ describe('sorting', () => {
                 civilians: [{
                     lastName: 'austin',
                     roleOnCase: 'Primary Complainant'
-                }]
+                }],
+                assignedTo: 'abcUser'
             },
             {
                 id: 1,
@@ -18,7 +19,8 @@ describe('sorting', () => {
                 civilians: [{
                     lastName: 'Zeke',
                     roleOnCase: 'Primary Complainant'
-                }]
+                }],
+                assignedTo: 'DceUser'
             }
         ]
     });
@@ -31,7 +33,8 @@ describe('sorting', () => {
                 civilians: [{
                     lastName: 'austin',
                     roleOnCase: 'Primary Complainant'
-                }]
+                }],
+                assignedTo: 'abcUser'
             },
             {
                 id: 1,
@@ -39,7 +42,8 @@ describe('sorting', () => {
                 civilians: [{
                     lastName: 'Zeke',
                     roleOnCase: 'Primary Complainant'
-                }]
+                }],
+                assignedTo: 'DceUser'
             }
         ]
 
@@ -50,13 +54,14 @@ describe('sorting', () => {
 
     test('should sort by status desc', () => {
         const expectedSortedCases = [
-                       {
+            {
                 id: 1,
                 status: 'Active',
                 civilians: [{
                     lastName: 'Zeke',
                     roleOnCase: 'Primary Complainant'
-                }]
+                }],
+                assignedTo: 'DceUser'
             },
             {
                 id: 2,
@@ -64,7 +69,8 @@ describe('sorting', () => {
                 civilians: [{
                     lastName: 'austin',
                     roleOnCase: 'Primary Complainant'
-                }]
+                }],
+                assignedTo: 'abcUser'
             }
         ]
 
@@ -74,14 +80,15 @@ describe('sorting', () => {
     })
 
     test('should sort by last name ignoring case', () => {
-       const expectedSortedCases = [
+        const expectedSortedCases = [
             {
                 id: 2,
                 status: 'Initial',
                 civilians: [{
                     lastName: 'austin',
                     roleOnCase: 'Primary Complainant'
-                }]
+                }],
+                assignedTo: 'abcUser'
             },
             {
                 id: 1,
@@ -89,11 +96,39 @@ describe('sorting', () => {
                 civilians: [{
                     lastName: 'Zeke',
                     roleOnCase: 'Primary Complainant'
-                }]
+                }],
+                assignedTo: 'DceUser'
             }
         ]
 
         const sortedCases = sortBy(unsortedCases, 'lastName', 'asc')
+
+        expect(sortedCases).toEqual(expectedSortedCases)
+    })
+
+    test('should sort by assigned to ignoring case', () => {
+        const expectedSortedCases = [
+            {
+                id: 2,
+                status: 'Initial',
+                civilians: [{
+                    lastName: 'austin',
+                    roleOnCase: 'Primary Complainant'
+                }],
+                assignedTo: 'abcUser'
+            },
+            {
+                id: 1,
+                status: 'Active',
+                civilians: [{
+                    lastName: 'Zeke',
+                    roleOnCase: 'Primary Complainant'
+                }],
+                assignedTo: 'DceUser'
+            }
+        ]
+
+        const sortedCases = sortBy(unsortedCases, 'assignedTo', 'asc')
 
         expect(sortedCases).toEqual(expectedSortedCases)
     })
