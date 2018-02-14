@@ -25,8 +25,6 @@ class App extends Component {
             auth.getUserInfo(accessToken, (err, idToken) => {
                 if (!err) {
                     this.props.dispatch(userAuthSuccess(idToken))
-                } else {
-                    this.props.dispatch(push('/login'))
                 }
             })
         }
