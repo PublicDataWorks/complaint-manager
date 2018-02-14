@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Route} from 'react-router-dom';
-import {ConnectedRouter, push} from 'react-router-redux';
+import {ConnectedRouter} from 'react-router-redux';
 import history from './history'
 import StyleGuide from './globalStyling/StyleGuide';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';

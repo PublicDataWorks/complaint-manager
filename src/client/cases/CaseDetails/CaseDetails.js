@@ -48,6 +48,19 @@ const styles = theme => ({
         height: '100%',
         backgroundColor: 'white'
     },
+    drawerRow: {
+        marginLeft: '6%',
+        display: "flex",
+        marginBottom: '8px',
+        flexWrap: 'wrap'
+    },
+    drawerRowItem: {
+        flex: 1,
+        textAlign: 'left',
+        minWidth: "100px",
+        marginRight: '8px',
+        marginBottom: '8px'
+    },
     content: {
         backgroundColor: theme.palette.background.default,
         width: '100%',
@@ -87,33 +100,33 @@ class CaseDetails extends React.Component {
                             gutterBottom>
                     {`Case #${this.props.caseDetail.id}`}
                 </Typography>
-                <div style={{marginLeft: '6%', display: "flex", marginBottom: '16px'}}>
-                    <div style={{flex: 1, textAlign: 'left'}}>
+                <div className={classes.drawerRow}>
+                    <div className={classes.drawerRowItem}>
                         <Typography type='caption'>First Contact Date</Typography>
                         <Typography data-test="first-contact-date"
                                     type='body1'>{formatDate(this.props.caseDetail.firstContactDate)}</Typography>
                     </div>
-                    <div style={{flex: 1, textAlign: 'left'}}>
+                    <div className={classes.drawerRowItem}>
                         <Typography type='caption'>Created On</Typography>
                         <Typography data-test="created-on"
                                     type='body1'>{formatDate(this.props.caseDetail.createdAt)}</Typography>
                     </div>
-                    <div style={{flex: 1, textAlign: 'left'}}>
+                    <div className={classes.drawerRowItem}>
                         <Typography type='caption'>Complainant Type</Typography>
                         <Typography data-test="complainant-type"
                                     type='body1'>{this.props.caseDetail.complainantType}</Typography>
                     </div>
                 </div>
-                <div style={{marginLeft: '6%', display: "flex"}}>
-                    <div style={{flex: 1, textAlign: 'left'}}>
+                <div className={classes.drawerRow}>
+                    <div className={classes.drawerRowItem}>
                         <Typography type='caption'>Created By</Typography>
                         <Typography data-test="created-by" type='body1'>{this.props.caseDetail.createdBy}</Typography>
                     </div>
-                    <div style={{flex: 1, textAlign: 'left'}}>
+                    <div className={classes.drawerRowItem}>
                         <Typography type='caption'>Assigned To</Typography>
                         <Typography data-test="assigned-to" type='body1'>{this.props.caseDetail.assignedTo}</Typography>
                     </div>
-                    <div style={{flex: 1, textAlign: 'left'}}>
+                    <div className={classes.drawerRowItem}>
 
                     </div>
                 </div>
