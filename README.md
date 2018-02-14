@@ -42,9 +42,23 @@ docker-compose up app
 docker-compose run app test
 ```
 
-### Run the end-to-end tests:
+### Run the end-to-end tests locally:
+#### First, ensure you have nightwatch installed:
 ```bash
-docker-compose run e2e
+npm install -g nightwatch
+```
+#### Then, bring up the app:
+```bash
+docker-compose up app
+```
+#### Then, set up environment variables for:
+    TEST_USER
+    TEST_PASS
+    HOST
+
+#### Finally, run nightwatch tests:
+```bash
+yarn e2e
 ```
 
 ### Stop all running containers:
