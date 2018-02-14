@@ -130,12 +130,20 @@ describe('server', () => {
                     firstContactDate: "2018-01-31",
                     createdBy: 'tuser',
                     assignedTo: 'tuser',
-                    civilians: [{
-                        firstName: 'Robert',
-                        lastName: 'Pollard',
-                        phoneNumber: "8201387432",
-                        email: 'rpollard@gmail.com'
-                    }]
+                    civilians: [
+                        {
+                            firstName: 'Robert',
+                            lastName: 'Pollard',
+                            phoneNumber: "8201387432",
+                            email: 'rpollard@gmail.com'
+                        },
+                        {
+                            firstName: 'Chuck',
+                            lastName: 'Goodluck',
+                            roleOnCase: 'Witness',
+                            phoneNumber: "8201387432",
+                            email: 'rpollard@gmail.com'
+                        }]
                 }, {
                     include: [{model: models.civilian}]
                 }
@@ -175,7 +183,7 @@ describe('server', () => {
         afterEach(async () => {
             await models.civilian.destroy({
                 where: {
-                    id: seededCase.civilians[0].id
+                    id: {'$in': seededCase.civilians.map(civilian => civilian.id)}
                 }
             })
 
