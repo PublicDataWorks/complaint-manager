@@ -1,6 +1,6 @@
 import React from 'react';
 import createConfiguredStore from "../../createConfiguredStore";
-import {getCasesSuccess} from "../actionCreators";
+import { getCaseDetailsSuccess } from "../actionCreators";
 import {mount} from "enzyme/build/index";
 import CaseDetails from "./CaseDetails";
 import {Provider} from 'react-redux';
@@ -15,14 +15,16 @@ import {mockLocalStorage} from "../../../mockLocalStorage";
 import Case from "../../testUtilities/case";
 import formatName from "../../formatName";
 import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
+import getCaseDetails from "../thunks/getCaseDetails";
 
-jest.mock('../thunks/getCases', () => () => ({
-    type: 'MOCK_GET_CASES_THUNK'
+jest.mock('../thunks/getCaseDetails', () => () => ({
+    type: 'MOCK_GET_CASE_DETAILS'
 }))
 
 jest.mock('../thunks/updateNarrative', () => () => ({
     type: 'MOCK_UPDATE_NARRATIVE_THUNK'
 }))
+
 describe('Case Details Component', () => {
     let caseDetails, expectedCase, dispatchSpy, store;
     beforeEach(() => {
@@ -32,9 +34,8 @@ describe('Case Details Component', () => {
         dispatchSpy = jest.spyOn(store, 'dispatch');
 
         expectedCase = new Case.Builder().defaultCase().withNarrative('Some initial narrative').build()
-        let cases = [expectedCase];
 
-        store.dispatch(getCasesSuccess(cases));
+        store.dispatch(getCaseDetailsSuccess(expectedCase));
 
         caseDetails = mount(
             <Provider store={store}>
@@ -44,6 +45,10 @@ describe('Case Details Component', () => {
             </Provider>
         )
     });
+
+    test('should dispatch get case details action on mount', () => {
+        expect(dispatchSpy).toHaveBeenCalledWith(getCaseDetails(expectedCase.id.toString()))
+    })
 
     describe('nav bar', () => {
         test("should display with Last Name, First Initial", () => {

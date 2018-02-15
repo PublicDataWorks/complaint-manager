@@ -16,9 +16,9 @@ const rootReducer = combineReducers({
     form: formReducer,
     routing: routerReducer,
     cases: combineReducers({
-        all: allCasesReducer,
-        details: caseDetailsReducer,
+        all: allCasesReducer
     }),
+    currentCase: caseDetailsReducer,
     users: combineReducers({
         all: allUsersReducer,
         current: userInfoReducer

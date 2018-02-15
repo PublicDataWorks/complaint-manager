@@ -14,6 +14,8 @@ import CaseDetailSnackbar from "./CaseDetailSnackbar";
 import ComplainantWitnesses from "./ComplainantWitnesses";
 import EditCivilianDialog from "./EditCivilianDialog/EditCivilianDialog"
 import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
+import getCaseDetails from "../thunks/getCaseDetails";
+import * as _ from 'lodash';
 
 const drawerWidthPercentage = '30%';
 
@@ -86,8 +88,12 @@ class CaseDetails extends React.Component {
         mobileOpen: false,
     };
 
+    componentWillMount() {
+        this.props.dispatch(getCaseDetails(this.props.match.params.id))
+    }
+
     render() {
-        if (!this.props.caseDetail) {
+        if (_.isEmpty(this.props.caseDetail)) {
             return null
         }
 
@@ -184,8 +190,8 @@ CaseDetails.propTypes = {
     theme: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => ({
-    caseDetail: state.cases.all.find((caseDetail) => caseDetail.id.toString() === ownProps.match.params.id)
+const mapStateToProps = (state) => ({
+    caseDetail: state.currentCase
 })
 
 export default withStyles(styles, {withTheme: true})(connect(mapStateToProps)(CaseDetails));

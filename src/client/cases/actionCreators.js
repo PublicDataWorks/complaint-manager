@@ -16,6 +16,11 @@ export const getCasesSuccess = (cases) => ({
     cases
 })
 
+export const getCaseDetailsSuccess = (caseDetails) => ({
+    type: 'GET_CASE_DETAILS_SUCCESS',
+    caseDetails
+})
+
 export const updateNarrativeSuccess = (caseDetails) => ({
     type: 'NARRATIVE_UPDATE_SUCCEEDED',
     caseDetails

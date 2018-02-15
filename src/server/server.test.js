@@ -292,6 +292,58 @@ describe('server', () => {
         })
     })
 
+    describe('GET /cases/id/', () => {
+        let caseToRetrieve
+
+        beforeEach(async () => {
+            caseToRetrieve = await models.cases.create({
+                civilians: [{
+                    firstName: 'Eleanor',
+                    lastName: 'Schellstrop',
+                    phoneNumber: "8201387432",
+                    email: 'eschell@gmail.com'
+                }],
+                complainantType: 'Civilian',
+                narrative: 'Beginning narrative',
+                status: 'Initial',
+                createdBy: 'tuser',
+                assignedTo: 'tuser'
+            }, {
+                returning: true,
+                include: [{model: models.civilian}]
+            })
+        })
+
+        afterEach(async () => {
+            await models.civilian.destroy({
+                where: {
+                    id: caseToRetrieve.civilians[0].id
+                }
+            })
+            await models.cases.destroy({
+                where: {
+                    id: caseToRetrieve.id
+                }
+            })
+        })
+
+        test('should get case', async () => {
+            await request(app)
+                .get(`/cases/${caseToRetrieve.id}`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+                .then(response => {
+                    expect(response.body.id).toEqual(caseToRetrieve.id)
+                    expect(response.body.civilians[0].firstName).toEqual(caseToRetrieve.civilians[0].firstName)
+                    expect(response.body.civilians[0].lastName).toEqual(caseToRetrieve.civilians[0].lastName)
+                    expect(response.body.civilians[0].email).toEqual(caseToRetrieve.civilians[0].email)
+                    expect(response.body.complainantType).toEqual(caseToRetrieve.complainantType)
+                    expect(response.body.status).toEqual('Initial')
+                })
+        })
+    });
+
     describe('PUT /cases/id/narrative', () => {
         let caseToUpdate
 
