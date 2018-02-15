@@ -177,7 +177,7 @@ class CaseDetails extends React.Component {
                             caseId={this.props.caseDetail.id}
                         />
                     </main>
-                    <EditCivilianDialog/>
+                    <EditCivilianDialog civilian={getPrimaryComplainant(this.props.caseDetail.civilians)}/>
                     <CaseDetailSnackbar/>
                 </div>
             </div>
