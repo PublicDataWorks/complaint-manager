@@ -1,7 +1,8 @@
 import validator from "validator";
 
-const isRequired = text => value =>
-    value === undefined ? `Please enter ${text}` : undefined
+const isRequired = text => value => {
+    return value ? undefined : `Please enter ${text}`
+}
 
 const notBlank = text => value =>
     value.trim() === '' ? `Please enter ${text}` : undefined
@@ -29,4 +30,6 @@ export const lastNameRequired = isRequired('Last Name');
 export const firstNameNotBlank = notBlank('First Name')
 export const lastNameNotBlank = notBlank('Last Name')
 export const emailIsRequired = isRequired('Email Address')
+export const genderIdentityIsRequired = isRequired('Gender Identity')
+export const raceEthnicityIsRequired = isRequired('Race/Ethnicity')
 

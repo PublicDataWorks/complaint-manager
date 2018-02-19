@@ -8,7 +8,7 @@ import FirstNameField from "../../sharedFormComponents/FirstNameField";
 import LastNameField from "../../sharedFormComponents/LastNameField";
 import {CancelButton, SubmitButton} from "../../../sharedComponents/StyledButtons";
 import {closeEditDialog} from "../../actionCreators";
-import {notFutureDate} from "../../../formValidations";
+import {genderIdentityIsRequired, notFutureDate, raceEthnicityIsRequired} from "../../../formValidations";
 import moment from "moment";
 import editCivilian from "../../thunks/editCivilian";
 import NoBlurTextField from "./FormSelect";
@@ -67,6 +67,7 @@ class EditCivilianDialog extends React.Component {
                             hinttext='Gender Identity'
                             data-test="genderDropdown"
                             style={{width: '50%'}}
+                            validate={[genderIdentityIsRequired]}
                         >
                             {
                                 generateMenu([
@@ -86,7 +87,8 @@ class EditCivilianDialog extends React.Component {
                             label='Race/Ethnicity'
                             hinttext='Race/Ethnicity'
                             data-test="raceDropdown"
-                            style={{width: '50%'}}
+                            style={{width: '90%'}}
+                            validate={[raceEthnicityIsRequired]}
                         >
                             {
                                 generateMenu([

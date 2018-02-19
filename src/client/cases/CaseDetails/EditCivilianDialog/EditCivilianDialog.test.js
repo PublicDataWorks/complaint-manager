@@ -16,7 +16,7 @@ jest.mock('../../thunks/editCivilian', () => () => ({
 
 
 describe('Edit civilian dialog', () => {
-    let editCivilianDialog, store, dispatchSpy, currentCaseCivilian;
+    let editCivilianDialog, store, dispatchSpy, currentCaseCivilian, save;
     beforeEach(() => {
         store = createConfiguredStore()
         dispatchSpy = jest.spyOn(store, 'dispatch')
@@ -33,6 +33,7 @@ describe('Edit civilian dialog', () => {
 
         store.dispatch(openEditDialog())
         editCivilianDialog.update()
+        save = editCivilianDialog.find('button[data-test="submitEditCivilian"]')
     })
 
     const optionExists = (optionName) =>{
@@ -140,6 +141,10 @@ describe('Edit civilian dialog', () => {
                 expect(genderDropdown.text()).toEqual('Female')
             })
 
+            test('should show error if not set on save', () => {
+                save.simulate('click')
+                expect(genderDropdown.text()).toContain('Please enter Gender Identity')
+            })
         })
 
         describe('race and ethnicity', () => {
@@ -196,6 +201,11 @@ describe('Edit civilian dialog', () => {
                 expect(raceDropdown.text()).toEqual('Korean')
             })
 
+            test('should show error if not set on save', () => {
+                save.simulate('click')
+                expect(raceDropdown.text()).toContain('Please enter Race/Ethnicity')
+            })
+
         });
 
     })
@@ -213,7 +223,7 @@ describe('Edit civilian dialog', () => {
     })
 
     describe('form save', () => {
-        let save, submittedValues
+        let submittedValues
 
         beforeEach(()=>{
             const yesterday = moment(Date.now()).subtract(1, 'days').format("YYYY-MM-DD")
@@ -234,8 +244,6 @@ describe('Edit civilian dialog', () => {
             selectDropdownOption(editCivilianDialog, '[name="raceEthnicity"]', submittedValues.race)
 
             datePicker.simulate('change', {target: {value: submittedValues.birthDate}})
-
-            save = editCivilianDialog.find('button[data-test="submitEditCivilian"]')
         })
 
         test('should fire off thunk when saving', () => {
