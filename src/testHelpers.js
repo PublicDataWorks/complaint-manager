@@ -6,10 +6,16 @@ export const changeInput = (mountedComponent, inputSelector, value) => {
 }
 
 export const findDropdownOption = (mountedComponent, dropdownSelector, optionSelector) => {
-    const dropdown = mountedComponent.find(dropdownSelector).find('[role="button"]');
+    const dropdown = mountedComponent
+        .find(dropdownSelector)
+        .find('[role="button"]')
+        .first();
+
     dropdown.simulate('click')
 
-    const option = mountedComponent.find(optionSelector)
+    const option = mountedComponent
+        .find(optionSelector)
+        .first()
     return option
 }
 
@@ -24,18 +30,6 @@ export const expectEventuallyNotToExist = async (mountedComponent, selector) => 
         const shouldNotExist = mountedComponent.find(selector)
         expect(shouldNotExist.exists()).toEqual(false)
     })
-}
-
-// intended to test material-ui-pickers Date Pickers
-export const getDateFromDatePicker =(component, selector) => {
-    const defaultPickerText = component
-        .find(selector)
-        .find('input')
-        .last()
-        .instance()
-        .value
-
-    return new Date(defaultPickerText).toDateString()
 }
 
 export const containsText = (mountedComponent, selector, expectedText) => {

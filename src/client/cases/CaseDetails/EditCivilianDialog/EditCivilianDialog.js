@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {Field, reduxForm} from "redux-form";
-import {Dialog, DialogActions, DialogContent, DialogTitle, Typography} from 'material-ui';
+import {change, Field, reduxForm, submit} from "redux-form";
+import {Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Typography} from 'material-ui';
 import {TextField} from "redux-form-material-ui";
 import RoleOnCaseRadioGroup from "./RoleOnCaseRadioGroup";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";
@@ -10,6 +10,8 @@ import {CancelButton, SubmitButton} from "../../../sharedComponents/StyledButton
 import {closeEditDialog} from "../../actionCreators";
 import {notFutureDate} from "../../../formValidations";
 import moment from "moment";
+import editCivilian from "../../thunks/editCivilian";
+import NoBlurTextField from "./FormSelect";
 
 class EditCivilianDialog extends React.Component {
 
@@ -47,6 +49,34 @@ class EditCivilianDialog extends React.Component {
                             validate={[notFutureDate]}
                         />
                         <br/>
+                        <Field
+                            name="gender"
+                            component={NoBlurTextField}
+                            label='Gender Identity'
+                            hinttext='Gender Identity'
+                            data-test="genderDropdown"
+                            style={{width: '50%'}}
+                        >
+                            <MenuItem
+                                value="female"
+                            >Female</MenuItem>
+                            <MenuItem
+                                value="male"
+                            >Male</MenuItem>
+                            <MenuItem
+                                value="trans-female"
+                            >Trans Female</MenuItem>
+                            <MenuItem
+                                value="trans-male"
+                            >Trans Male</MenuItem>
+                            <MenuItem
+                                value="other"
+                            >Other</MenuItem>
+                            <MenuItem
+                                value="no-answer"
+                            >No Answer</MenuItem>
+                        </Field>
+                        <br/>
                         <Typography type='body2' style={{marginBottom: '8px'}}>Contact Information</Typography>
                     </form>
                 </DialogContent>
@@ -58,7 +88,9 @@ class EditCivilianDialog extends React.Component {
                         Cancel
                     </CancelButton>
                     <SubmitButton
-                        data-test="submitEditCivilian">
+                        data-test="submitEditCivilian"
+                        onClick={() => this.props.dispatch(submit('EditCivilian'))}
+                    >
                         Save
                     </SubmitButton>
                 </DialogActions>
@@ -67,8 +99,22 @@ class EditCivilianDialog extends React.Component {
     }
 }
 
+const handleEditCivilian = (values, dispatch) => {
+    dispatch(editCivilian(values))
+}
+
+const handleOnChange = (values, dispatch, props, previousValues) => {
+
+    if (!Boolean(values.birthDate)) {
+        dispatch(change('EditCivilian', 'birthDate', 'YYYY-MM-DD'))
+    }
+
+}
+
 const connectedForm = reduxForm({
-    form: 'EditCivilian'
+    form: 'EditCivilian',
+    onSubmit: handleEditCivilian,
+    onChange: handleOnChange
 })(EditCivilianDialog)
 
 const mapStateToProps = (state, ownProps) => ({
@@ -76,7 +122,7 @@ const mapStateToProps = (state, ownProps) => ({
 
     initialValues: {
         ...ownProps.civilian,
-        roleOnCase: 'primaryComplainant',
+        roleOnCase: 'Primary Complainant',
         birthDate: 'YYYY-MM-DD',
     }
 })

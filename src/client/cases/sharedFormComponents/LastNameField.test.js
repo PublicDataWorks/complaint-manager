@@ -4,14 +4,16 @@ import createConfiguredStore from "../../createConfiguredStore";
 import {Provider} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import {mount} from "enzyme/build/index";
+import {changeInput} from "../../../testHelpers";
 
 describe('Last Name field', () => {
-    let lastNameField;
+    let lastNameField, lastNameInput;
     
     beforeEach(() => {
         const ReduxFormField = reduxForm({form: "testForm"})(() => <LastNameField name={'lastName'}/>)
         const store = createConfiguredStore()
         lastNameField = mount(<Provider store={store}><ReduxFormField/></Provider>)    
+        lastNameInput = lastNameField.find('input[data-test="lastNameInput"]').last()
     })
 
     test('last name should have max length of 25 characters', () => {
@@ -23,4 +25,23 @@ describe('Last Name field', () => {
         const lastName = lastNameField.find('input[data-test="lastNameInput"]')
         expect(lastName.props().autoComplete).toEqual('off')
     })
+
+    test('should not be an empty string', () => {
+
+        lastNameInput.simulate('focus')
+        changeInput(lastNameInput, '[data-test="lastNameInput"]', "")
+        lastNameInput.simulate('blur')
+
+        expect(lastNameField.text()).toContain('Please enter Last Name')
+    })
+
+    test('should display error when whitespace', () => {
+        lastNameInput.simulate('focus')
+        lastNameInput.simulate('change', {target: {value: '   '}})
+        lastNameInput.simulate('blur')
+
+        expect(lastNameField.text()).toContain('Please enter Last Name')
+    })
+
+
 })
