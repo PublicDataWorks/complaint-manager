@@ -12,6 +12,17 @@ import {notFutureDate} from "../../../formValidations";
 import moment from "moment";
 import editCivilian from "../../thunks/editCivilian";
 import NoBlurTextField from "./FormSelect";
+import _ from "lodash"
+
+const generateMenu = contents => {
+    return contents.map((content) => {
+        return (
+            <MenuItem
+                key={_.snakeCase(content)}
+                value={_.snakeCase(content)}
+            >{content}</MenuItem>)
+    })
+}
 
 class EditCivilianDialog extends React.Component {
 
@@ -57,26 +68,50 @@ class EditCivilianDialog extends React.Component {
                             data-test="genderDropdown"
                             style={{width: '50%'}}
                         >
-                            <MenuItem
-                                value="female"
-                            >Female</MenuItem>
-                            <MenuItem
-                                value="male"
-                            >Male</MenuItem>
-                            <MenuItem
-                                value="trans-female"
-                            >Trans Female</MenuItem>
-                            <MenuItem
-                                value="trans-male"
-                            >Trans Male</MenuItem>
-                            <MenuItem
-                                value="other"
-                            >Other</MenuItem>
-                            <MenuItem
-                                value="no-answer"
-                            >No Answer</MenuItem>
+                            {
+                                generateMenu([
+                                    'Female',
+                                    'Male',
+                                    'Trans Female',
+                                    'Trans Male',
+                                    'Other',
+                                    'No Answer'
+                                ])
+                            }
                         </Field>
                         <br/>
+                        <Field
+                            name="raceEthnicity"
+                            component={NoBlurTextField}
+                            label='Race/Ethnicity'
+                            hinttext='Race/Ethnicity'
+                            data-test="raceDropdown"
+                            style={{width: '50%'}}
+                        >
+                            {
+                                generateMenu([
+                                    'American Indian or Alaska Native',
+                                    'Asian Indian',
+                                    'Black, African American',
+                                    'Chinese',
+                                    'Cuban',
+                                    'Filipino',
+                                    'Guamanian or Chamorro',
+                                    'Hispanic, Latino, or Spanish origin',
+                                    'Japanese',
+                                    'Korean',
+                                    'Mexican, Mexican American, Chicano',
+                                    'Native Hawaiian',
+                                    'Puerto Rican',
+                                    'Vietnamese',
+                                    'Samoan',
+                                    'White',
+                                    'Other Pacific Islander',
+                                    'Other Asian',
+                                    'Other',
+                                ])
+                            }
+                        </Field>
                         <Typography type='body2' style={{marginBottom: '8px'}}>Contact Information</Typography>
                     </form>
                 </DialogContent>

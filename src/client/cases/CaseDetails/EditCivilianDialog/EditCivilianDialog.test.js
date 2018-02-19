@@ -4,13 +4,16 @@ import {Provider} from 'react-redux';
 import createConfiguredStore from "../../../createConfiguredStore";
 import EditCivilianDialog from "./EditCivilianDialog";
 import {closeEditDialog, openEditDialog} from "../../actionCreators";
-import {changeInput, containsText, expectEventuallyNotToExist, selectDropdownOption} from "../../../../testHelpers";
+import {
+    changeInput, containsText, expectEventuallyNotToExist, selectDropdownOption
+} from "../../../../testHelpers";
 import moment from "moment";
 import editCivilian from "../../thunks/editCivilian";
 
 jest.mock('../../thunks/editCivilian', () => () => ({
     type: 'MOCK_EDIT_CIVILIAN_REQUESTED'
 }))
+
 
 describe('Edit civilian dialog', () => {
     let editCivilianDialog, store, dispatchSpy, currentCaseCivilian;
@@ -31,6 +34,15 @@ describe('Edit civilian dialog', () => {
         store.dispatch(openEditDialog())
         editCivilianDialog.update()
     })
+
+    const optionExists = (optionName) =>{
+        const hasOption = editCivilianDialog
+            .find('[role="option"]')
+            .someWhere( node => node.text() === optionName)
+
+        expect(hasOption).toEqual(true)
+
+    }
 
     test('should display title if state is open', () => {
         containsText(editCivilianDialog, '[data-test="editDialogTitle"]', 'Edit Civilian')
@@ -92,7 +104,6 @@ describe('Edit civilian dialog', () => {
             let genderDropdown
             beforeEach(() => {
                 genderDropdown = editCivilianDialog.find('[data-test="genderDropdown"]').last()
-
             });
 
             test('should have a label gender identity', () => {
@@ -100,14 +111,6 @@ describe('Edit civilian dialog', () => {
             })
 
             test('should have all gender options', () => {
-                const genderExists = (itemName) =>{
-                    const femaleOption = editCivilianDialog
-                        .find('[role="option"]')
-                        .filterWhere(node => node.text() === itemName)
-                        .last()
-
-                    expect(femaleOption.length).not.toEqual(0)
-                }
                 genderDropdown = editCivilianDialog
                     .find('[name="gender"]')
                     .find('[role="button"]')
@@ -115,9 +118,15 @@ describe('Edit civilian dialog', () => {
 
                 genderDropdown.simulate('click')
 
-                const genders = ['Female', 'Male', 'Trans Female', 'Trans Male', 'Other', 'No Answer']
-                genders.map( gender => genderExists(gender))
-
+                const genders = [
+                    'Female',
+                    'Male',
+                    'Trans Female',
+                    'Trans Male',
+                    'Other',
+                    'No Answer'
+                ]
+                genders.map( gender => optionExists(gender))
             })
 
             test('should change if already set', async() => {
@@ -126,12 +135,68 @@ describe('Edit civilian dialog', () => {
                     .find('[role="button"]')
                     .first()
 
-                selectDropdownOption(editCivilianDialog, '[name="gender"]', '[value="female"]')
+                selectDropdownOption(editCivilianDialog, '[name="gender"]', 'Female')
 
                 expect(genderDropdown.text()).toEqual('Female')
             })
 
         })
+
+        describe('race and ethnicity', () => {
+            let raceDropdown
+            beforeEach(() => {
+                raceDropdown = editCivilianDialog.find('[data-test="raceDropdown"]').last()
+            });
+
+            test('should have a label race/ethnicity', () => {
+                expect(raceDropdown.find('label').text()).toEqual('Race/Ethnicity')
+            })
+
+            test('should have all race/ethnicity options', () => {
+
+                raceDropdown = editCivilianDialog
+                    .find('[name="raceEthnicity"]')
+                    .find('[role="button"]')
+                    .first()
+
+                raceDropdown.simulate('click')
+
+                const races = [
+                    'American Indian or Alaska Native',
+                    'Asian Indian',
+                    'Black, African American',
+                    'Chinese',
+                    'Cuban',
+                    'Filipino',
+                    'Guamanian or Chamorro',
+                    'Hispanic, Latino, or Spanish origin',
+                    'Japanese',
+                    'Korean',
+                    'Mexican, Mexican American, Chicano',
+                    'Native Hawaiian',
+                    'Puerto Rican',
+                    'Vietnamese',
+                    'Samoan',
+                    'White',
+                    'Other Pacific Islander',
+                    'Other Asian',
+                    'Other',
+                ]
+                races.map( race => optionExists(race))
+            })
+
+            test('should change if already set', () => {
+                raceDropdown = editCivilianDialog
+                    .find('[name="raceEthnicity"]')
+                    .find('[role="button"]')
+                    .first()
+
+                selectDropdownOption(editCivilianDialog, '[name="raceEthnicity"]', 'Korean')
+
+                expect(raceDropdown.text()).toEqual('Korean')
+            })
+
+        });
 
     })
 
@@ -159,12 +224,15 @@ describe('Edit civilian dialog', () => {
                 lastName: 'Bar',
                 birthDate: yesterday,
                 roleOnCase: 'Primary Complainant',
-                gender: 'Female'
+                gender: 'Female',
+                race: 'Korean'
             }
 
             changeInput(editCivilianDialog, '[data-test="firstNameInput"]', submittedValues.firstName);
             changeInput(editCivilianDialog, '[data-test="lastNameInput"]', submittedValues.lastName);
-            selectDropdownOption(editCivilianDialog, '[name="gender"]', '[value="female"]')
+            selectDropdownOption(editCivilianDialog, '[name="gender"]', submittedValues.gender)
+            selectDropdownOption(editCivilianDialog, '[name="raceEthnicity"]', submittedValues.race)
+
             datePicker.simulate('change', {target: {value: submittedValues.birthDate}})
 
             save = editCivilianDialog.find('button[data-test="submitEditCivilian"]')

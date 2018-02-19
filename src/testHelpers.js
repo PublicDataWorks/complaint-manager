@@ -5,7 +5,7 @@ export const changeInput = (mountedComponent, inputSelector, value) => {
     input.simulate('change', {target: {value}})
 }
 
-export const findDropdownOption = (mountedComponent, dropdownSelector, optionSelector) => {
+export const findDropdownOption = (mountedComponent, dropdownSelector, optionName) => {
     const dropdown = mountedComponent
         .find(dropdownSelector)
         .find('[role="button"]')
@@ -14,13 +14,15 @@ export const findDropdownOption = (mountedComponent, dropdownSelector, optionSel
     dropdown.simulate('click')
 
     const option = mountedComponent
-        .find(optionSelector)
+        .find('[role="option"]')
+        .filterWhere(option => option.text() === optionName)
         .first()
+
     return option
 }
 
-export const selectDropdownOption = (mountedComponent, dropdownSelector, optionSelector) => {
-    const option = findDropdownOption(mountedComponent, dropdownSelector, optionSelector)
+export const selectDropdownOption = (mountedComponent, dropdownSelector, optionName) => {
+    const option = findDropdownOption(mountedComponent, dropdownSelector, optionName)
     option.simulate('click')
 }
 
