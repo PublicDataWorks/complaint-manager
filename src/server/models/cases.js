@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
     )
 
     Case.associate = (models) => {
-        Case.hasMany(models.civilian, {foreignKey: 'case_id'})
+        Case.hasMany(models.civilian, {foreignKey: {name: 'caseId', field: 'case_id'}})
     }
 
     return Case

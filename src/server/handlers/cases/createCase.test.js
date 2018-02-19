@@ -1,7 +1,9 @@
 const _ = require('lodash');
 const httpMocks = require('node-mocks-http')
 const createCase = require('./createCase')
-const models = require('../../models/index')
+const models = require('../../models')
+const auth0 = require('auth0')
+
 
 jest.mock('../../models', () => ({
     cases: {
@@ -9,7 +11,21 @@ jest.mock('../../models', () => ({
     },
     civilian: {
         create: jest.fn()
+    },
+    audit_log: {
+        create: jest.fn()
     }
+
+}))
+
+jest.mock('auth0', () => ({
+    AuthenticationClient: jest.fn().mockImplementation(() => {
+        return {
+            users: {
+                getInfo: () => Promise.resolve({nickname: 'test user'})
+            }
+        }
+    })
 }))
 
 describe('createCase handler', () => {
@@ -19,6 +35,9 @@ describe('createCase handler', () => {
     beforeEach(() => {
         request = httpMocks.createRequest({
             method: 'POST',
+            headers: {
+                authorization: 'Bearer SOME_MOCK_TOKEN'
+            },
             body: {
                 case: {
                     complainantType: "Civilian",
@@ -45,6 +64,23 @@ describe('createCase handler', () => {
                 model: models.civilian
             }]
         })
+    })
+
+    test('should create record of case creation in system audit log', async () => {
+        const createdId = 123
+        const createdCase = {id: createdId}
+        models.cases.create.mockImplementation(() =>
+            Promise.resolve(createdCase))
+
+        await createCase(request, response, next)
+
+        const expectedLog = {
+            action: `Case ${createdCase.id} created`,
+            caseId: createdCase.id,
+            user: 'test user'
+        }
+
+        expect(models.audit_log.create).toHaveBeenCalledWith(expectedLog)
     })
 
     test('should send response and 201 status with created entity', async () => {
