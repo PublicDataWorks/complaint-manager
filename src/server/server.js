@@ -24,7 +24,7 @@ app.use(express.static(buildDirectory));
 app.get('/health-check', healthCheck);
 
 app.use(jwtCheck)
-app.use(getUserProfile)
+app.use(getUserProfile.unless({path: ['/callback']}))
 app.use(authErrorHandler)
 
 

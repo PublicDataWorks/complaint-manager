@@ -1,7 +1,16 @@
 const AuthClient = require('auth0').AuthenticationClient
 const config = require('../config/config')[process.env.NODE_ENV]
+const unless = require('express-unless')
 
-const getUserProfile = async (request, response, next) => {
+const extractAccessToken = (authHeader) => {
+    const headerParts = authHeader.split(' ')
+    if (headerParts.length !== 2) {
+        throw new Error('Malformed authorization header')
+    }
+    return headerParts[1]
+}
+
+let getUserProfile = async (request, response, next) => {
     try {
         const auth = new AuthClient({
             domain: config.authentication.domain
@@ -25,12 +34,6 @@ const getUserProfile = async (request, response, next) => {
     }
 }
 
-const extractAccessToken = (authHeader) => {
-    const headerParts = authHeader.split(' ')
-    if (headerParts.length !== 2) {
-        throw new Error('Malformed authorization header')
-    }
-    return headerParts[1]
-}
+getUserProfile.unless = unless
 
 module.exports = getUserProfile
