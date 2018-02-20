@@ -11,6 +11,7 @@ import {
 import {openEditDialog} from "../actionCreators";
 import LinkButton from "../../sharedComponents/LinkButton";
 import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
+import formatDate from "../../formatDate";
 
 const formatPhoneNumber = (phoneNumber) => {
     const phoneString = phoneNumber.toString()
@@ -60,7 +61,7 @@ const ComplainantWitnesses = (props) => {
                                     type='caption'
                                     data-test="primaryComplainantLabel"
                                 >
-                                    Primary Complainant
+                                    {primaryComplainant.roleOnCase}
                                 </Typography>
                                 <Typography
                                     type='body1'
@@ -80,7 +81,7 @@ const ComplainantWitnesses = (props) => {
                                     type='body1'
                                     data-test="genderIdentity"
                                 >
-                                    N/A
+                                    {primaryComplainant.genderIdentity ? primaryComplainant.genderIdentity : 'N/A'}
                                 </Typography>
                             </div>
                             <div style={{flex: 1, textAlign: 'left'}}>
@@ -94,7 +95,7 @@ const ComplainantWitnesses = (props) => {
                                     type='body1'
                                     data-test="raceEthnicity"
                                 >
-                                    N/A
+                                    {primaryComplainant.raceEthnicity ? primaryComplainant.raceEthnicity : 'N/A'}
                                 </Typography>
                             </div>
                             <div style={{flex: 1, textAlign: 'left'}}>
@@ -109,6 +110,19 @@ const ComplainantWitnesses = (props) => {
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{padding: "8px 16px 24px 16px"}}>
                         <div style={{display: "flex", width: '100%', background: 'white'}}>
+                            <div style={{flex: 1, textAlign: 'left'}}>
+                                <Typography
+                                    type='caption'
+                                >
+                                    Birthday
+                                </Typography>
+                                <Typography
+                                    type='body1'
+                                    data-test="primaryComplainantBirthday"
+                                >
+                                    {primaryComplainant.birthDate ? formatDate(primaryComplainant.birthDate) : 'N/A'}
+                                </Typography>
+                            </div>
                             <div style={{flex: 1, textAlign: 'left'}}>
                                 <Typography
                                     type='caption'
@@ -135,6 +149,7 @@ const ComplainantWitnesses = (props) => {
                                     {primaryComplainant.email ? primaryComplainant.email : 'N/A'}
                                 </Typography>
                             </div>
+                            <div style={{flex: 1, textAlign: 'left'}}/>
                         </div>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>

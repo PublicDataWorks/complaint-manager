@@ -5,7 +5,7 @@ import {mount} from "enzyme";
 import {openEditDialog} from "../actionCreators";
 import createConfiguredStore from "../../createConfiguredStore";
 
-describe('complainant and witnesses', () => {
+describe('Complainant and Witnesses', () => {
     let complainantWitnessesSection, complainantWitnesses, caseDetail, dispatchSpy, primaryComplainant
     beforeEach(() => {
         primaryComplainant = {
@@ -14,7 +14,8 @@ describe('complainant and witnesses', () => {
             lastName: 'Berry',
             phoneNumber: 1234567890,
             email: 'cberry@gmail.com',
-            roleOnCase: 'Primary Complainant'
+            roleOnCase: 'Primary Complainant',
+            birthDate: null
         }
 
         caseDetail = {
@@ -36,39 +37,56 @@ describe('complainant and witnesses', () => {
         complainantWitnessesSection = complainantWitnesses.find('[data-test="complainantWitnessesSection"]').first()
     })
 
-    describe('presentation tests', () => {
-        test('should have a title Complainant & Witnesses', () => {
-            containsText(complainantWitnessesSection, '[data-test="complainantWitnessesPanelTitle"]', 'Complainant & Witnesses')
+    test('should have a title Complainant & Witnesses', () => {
+        containsText(complainantWitnessesSection, '[data-test="complainantWitnessesPanelTitle"]', 'Complainant & Witnesses')
+    })
+
+    describe('full name', () => {
+        test('should display civilian role on case', () => {
+            containsText(complainantWitnessesSection, '[data-test="primaryComplainantLabel"]', primaryComplainant.roleOnCase)
         })
 
-        test('should display primary complainants first and last name', () => {
+        test('should display civilian first and last name', () => {
             const primaryComplainantName = `${primaryComplainant.firstName} ${primaryComplainant.lastName}`
-
             containsText(complainantWitnessesSection, '[data-test="primaryComplainantName"]', primaryComplainantName)
         })
+    });
 
-        test('should display Gender Identity as N/A', () => {
+    describe('gender identity', () => {
+        test('should display N/A when no gender identity', () => {
             const genderIdentity = `N/A`
 
             containsText(complainantWitnessesSection, '[data-test="genderIdentity"]', genderIdentity)
         })
+    });
 
+    describe('race/ethnicity', () => {
         test('should display Race/Ethnicity as N/A', () => {
             const raceEthnicity = `N/A`
 
             containsText(complainantWitnessesSection, '[data-test="raceEthnicity"]', raceEthnicity)
         })
+    });
 
+    describe('Edit', () => {
+        test('should open edit complainant dialog when edit is clicked', () => {
+            const editLink = complainantWitnesses.find('[data-test="editComplainantLink"]').first()
+            editLink.simulate('click');
+            expect(dispatchSpy).toHaveBeenCalledWith(openEditDialog())
+        })
+    })
+
+    describe('birthday', () => {
+        test('should display N/A when not set', () => {
+            containsText(complainantWitnessesSection, '[data-test="primaryComplainantBirthday"]', 'N/A')
+        })
+    });
+
+    describe('phone number', () => {
         test('should display phone number expanded', () => {
             const complainantPanel = complainantWitnessesSection.find('[data-test="complainantWitnessesPanel"]').first()
             const expectedPhoneNumber = '(123) 456-7890'
             containsText(complainantPanel, '[data-test="primaryComplainantPhoneNumber"]', expectedPhoneNumber)
-        })
-
-        test('should display email expanded', () => {
-            const complainantPanel = complainantWitnessesSection.find('[data-test="complainantWitnessesPanel"]').first()
-
-            containsText(complainantPanel, '[data-test="primaryComplainantEmail"]', primaryComplainant.email)
         })
 
         test('should display N/A when no phone number ', () => {
@@ -94,6 +112,13 @@ describe('complainant and witnesses', () => {
             const complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
             containsText(complainantPanel, '[data-test="primaryComplainantPhoneNumber"]', 'N/A')
         })
+    });
+
+    describe('email', () => {
+        test('should display email when expanded', () => {
+            const complainantPanel = complainantWitnessesSection.find('[data-test="complainantWitnessesPanel"]').first()
+            containsText(complainantPanel, '[data-test="primaryComplainantEmail"]', primaryComplainant.email)
+        })
 
         test('should display N/A when no email', () => {
             const caseWithNoEmail = {
@@ -118,13 +143,6 @@ describe('complainant and witnesses', () => {
             const complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
             containsText(complainantPanel, '[data-test="primaryComplainantEmail"]', 'N/A')
         })
-    })
+    });
 
-    describe('behavioral tests', () => {
-        test('should open edit complainant dialog when edit is clicked', () => {
-            const editLink = complainantWitnesses.find('[data-test="editComplainantLink"]').first()
-            editLink.simulate('click');
-            expect(dispatchSpy).toHaveBeenCalledWith(openEditDialog())
-        })
-    })
-});
+})
