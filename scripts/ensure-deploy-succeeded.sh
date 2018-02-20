@@ -3,7 +3,7 @@
 #Parameters
 URL=$1
 
-apk --no-cache add curl
+sudo apt-get update && sudo apt-get install curl
 
 for i in `seq 1 10`; do
     curl -f $URL
