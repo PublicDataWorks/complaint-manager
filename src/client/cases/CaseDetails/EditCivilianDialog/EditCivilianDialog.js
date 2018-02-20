@@ -30,6 +30,7 @@ class EditCivilianDialog extends React.Component {
         return (
             <Dialog
                 open={this.props.open}
+                fullWidth
             >
                 <DialogTitle
                     data-test="editDialogTitle"
@@ -56,17 +57,17 @@ class EditCivilianDialog extends React.Component {
                                 max: moment(Date.now()).format('YYYY-MM-DD')
                             }}
                             data-test="birthDateField"
-                            style={{marginRight: '5%', marginBottom: '3%', width: '50%', clipPath: 'inset(0 17px 0 0)'}}
+                            style={{ marginBottom: '3%', width: '30%', clipPath: 'inset(0 17px 0 0)'}}
                             validate={[notFutureDate]}
                         />
-                        <br/>
                         <Field
+                            required
                             name="gender"
                             component={NoBlurTextField}
                             label='Gender Identity'
                             hinttext='Gender Identity'
                             data-test="genderDropdown"
-                            style={{width: '50%'}}
+                            style={{width: '30%'}}
                             validate={[genderIdentityIsRequired]}
                         >
                             {
@@ -82,12 +83,13 @@ class EditCivilianDialog extends React.Component {
                         </Field>
                         <br/>
                         <Field
+                            required
                             name="raceEthnicity"
                             component={NoBlurTextField}
                             label='Race/Ethnicity'
                             hinttext='Race/Ethnicity'
                             data-test="raceDropdown"
-                            style={{width: '90%'}}
+                            style={{width: '75%',  marginBottom: '24px'}}
                             validate={[raceEthnicityIsRequired]}
                         >
                             {
@@ -114,7 +116,7 @@ class EditCivilianDialog extends React.Component {
                                 ])
                             }
                         </Field>
-                        <Typography type='body2' style={{marginBottom: '8px'}}>Contact Information</Typography>
+                        <Typography type='body2' style={{marginBottom: '16px'}}>Contact Information</Typography>
                     </form>
                 </DialogContent>
                 <DialogActions>
@@ -143,7 +145,7 @@ const handleEditCivilian = (values, dispatch) => {
 const handleOnChange = (values, dispatch, props, previousValues) => {
 
     if (!Boolean(values.birthDate)) {
-        dispatch(change('EditCivilian', 'birthDate', 'YYYY-MM-DD'))
+        dispatch(change('EditCivilian', 'birthDate', ' '))
     }
 
 }
@@ -160,7 +162,7 @@ const mapStateToProps = (state, ownProps) => ({
     initialValues: {
         ...ownProps.civilian,
         roleOnCase: 'Primary Complainant',
-        birthDate: 'YYYY-MM-DD',
+        birthDate: ' ',
     }
 })
 

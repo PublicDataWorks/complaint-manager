@@ -80,7 +80,7 @@ describe('Edit civilian dialog', () => {
             });
 
             test('should default date to mm/dd/yyyy', () => {
-                expect(datePicker.instance().value).toEqual("YYYY-MM-DD")
+                expect(datePicker.instance().value).toEqual(" ")
             })
 
             test('should not change when changing to a future date', () => {
@@ -108,7 +108,7 @@ describe('Edit civilian dialog', () => {
             });
 
             test('should have a label gender identity', () => {
-               expect(genderDropdown.find('label').text()).toEqual('Gender Identity')
+               expect(genderDropdown.find('label').text()).toEqual('Gender Identity *')
             })
 
             test('should have all gender options', () => {
@@ -154,7 +154,7 @@ describe('Edit civilian dialog', () => {
             });
 
             test('should have a label race/ethnicity', () => {
-                expect(raceDropdown.find('label').text()).toEqual('Race/Ethnicity')
+                expect(raceDropdown.find('label').text()).toEqual('Race/Ethnicity *')
             })
 
             test('should have all race/ethnicity options', () => {
