@@ -57,7 +57,7 @@ jobs:
 
     ensure-staging-deploy-succeeded:
       docker:
-        - image: ubuntu:trusty
+        - image: alpine:latest
       steps:
         - checkout
         - run: scripts/ensure-deploy-succeeded.sh https://noipm-staging.herokuapp.com/health-check
