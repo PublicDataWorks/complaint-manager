@@ -23,7 +23,6 @@ const generateMenu = contents => {
             >{content}</MenuItem>)
     })
 }
-
 class EditCivilianDialog extends React.Component {
 
     render() {
@@ -62,7 +61,7 @@ class EditCivilianDialog extends React.Component {
                         />
                         <Field
                             required
-                            name="gender"
+                            name="genderIdentity"
                             component={NoBlurTextField}
                             label='Gender Identity'
                             hinttext='Gender Identity'

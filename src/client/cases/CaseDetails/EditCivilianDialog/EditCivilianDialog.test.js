@@ -113,7 +113,7 @@ describe('Edit civilian dialog', () => {
 
             test('should have all gender options', () => {
                 genderDropdown = editCivilianDialog
-                    .find('[name="gender"]')
+                    .find('[name="genderIdentity"]')
                     .find('[role="button"]')
                     .first()
 
@@ -132,11 +132,11 @@ describe('Edit civilian dialog', () => {
 
             test('should change if already set', async() => {
                 genderDropdown = editCivilianDialog
-                    .find('[name="gender"]')
+                    .find('[name="genderIdentity"]')
                     .find('[role="button"]')
                     .first()
 
-                selectDropdownOption(editCivilianDialog, '[name="gender"]', 'Female')
+                selectDropdownOption(editCivilianDialog, '[name="genderIdentity"]', 'Female')
 
                 expect(genderDropdown.text()).toEqual('Female')
             })
@@ -233,14 +233,13 @@ describe('Edit civilian dialog', () => {
                 firstName: 'Foo',
                 lastName: 'Bar',
                 birthDate: yesterday,
-                roleOnCase: 'Primary Complainant',
                 gender: 'Female',
                 race: 'Korean'
             }
 
             changeInput(editCivilianDialog, '[data-test="firstNameInput"]', submittedValues.firstName);
             changeInput(editCivilianDialog, '[data-test="lastNameInput"]', submittedValues.lastName);
-            selectDropdownOption(editCivilianDialog, '[name="gender"]', submittedValues.gender)
+            selectDropdownOption(editCivilianDialog, '[name="genderIdentity"]', submittedValues.gender)
             selectDropdownOption(editCivilianDialog, '[name="raceEthnicity"]', submittedValues.race)
 
             datePicker.simulate('change', {target: {value: submittedValues.birthDate}})
@@ -248,6 +247,7 @@ describe('Edit civilian dialog', () => {
 
         test('should fire off thunk when saving', () => {
             save.simulate('click')
+            //TODO: This test passes regardless of what edit Civilian is called with.  Fix this.
             expect(dispatchSpy).toHaveBeenCalledWith(editCivilian(submittedValues))
         })
 
