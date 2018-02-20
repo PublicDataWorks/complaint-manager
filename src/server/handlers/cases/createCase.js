@@ -1,6 +1,4 @@
-const _ = require('lodash')
 const models = require('../../models/index')
-const AuthClient = require('auth0').AuthenticationClient
 
 const invalidName = (input) => {
     return (!input || input.length == 0 || input.length > 25)
@@ -22,18 +20,10 @@ const createCase = async (req, res, next) => {
                 }]
             })
 
-            const auth = new AuthClient({
-                domain: "noipm.auth0.com"
-            })
-
-            const accessToken = req.headers.authorization.split(' ')[1]
-
-            const userInfo = await auth.users.getInfo(accessToken)
-
             await models.audit_log.create({
                 action: `Case ${createdCase.id} created`,
                 caseId: createdCase.id,
-                user: userInfo.nickname,
+                user: req.nickname,
             })
 
             res.status(201).send(createdCase)

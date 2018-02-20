@@ -1,9 +1,6 @@
-const _ = require('lodash');
 const httpMocks = require('node-mocks-http')
 const createCase = require('./createCase')
 const models = require('../../models')
-const auth0 = require('auth0')
-
 
 jest.mock('../../models', () => ({
     cases: {
@@ -18,19 +15,8 @@ jest.mock('../../models', () => ({
 
 }))
 
-jest.mock('auth0', () => ({
-    AuthenticationClient: jest.fn().mockImplementation(() => {
-        return {
-            users: {
-                getInfo: () => Promise.resolve({nickname: 'test user'})
-            }
-        }
-    })
-}))
-
 describe('createCase handler', () => {
     let request, response, next
-
 
     beforeEach(() => {
         request = httpMocks.createRequest({
@@ -48,7 +34,8 @@ describe('createCase handler', () => {
                     lastName: "Last",
                     phoneNumber: "1234567890"
                 }
-            }
+            },
+            nickname: 'TEST_USER_NICKNAME'
         })
         response = httpMocks.createResponse()
         next = jest.fn()
@@ -77,7 +64,7 @@ describe('createCase handler', () => {
         const expectedLog = {
             action: `Case ${createdCase.id} created`,
             caseId: createdCase.id,
-            user: 'test user'
+            user: 'TEST_USER_NICKNAME'
         }
 
         expect(models.audit_log.create).toHaveBeenCalledWith(expectedLog)

@@ -7,9 +7,13 @@ import jwt from 'jsonwebtoken'
 import ms from 'smtp-tester'
 import Sequelize from 'sequelize'
 import models from './models'
+import { AuthenticationClient } from 'auth0'
 
 const config = require('./config/config')[process.env.NODE_ENV]
 
+jest.mock('auth0', () => ({
+    AuthenticationClient: jest.fn()
+}))
 
 const Op = Sequelize.Op
 
@@ -32,6 +36,14 @@ describe('server', () => {
         }
 
         token = jwt.sign(payload, cert, options)
+
+        AuthenticationClient.mockImplementation(() => {
+            return {
+                users: {
+                    getInfo: () => Promise.resolve({nickname: 'test user'})
+                }
+            }
+        })
     })
 
     describe('GET /health-check', () => {
@@ -50,7 +62,7 @@ describe('server', () => {
                 .set('Authorization', `Bearer INVALID_KEY`)
                 .expect(401)
                 .then(response => {
-                    expect(response.text).toEqual('invalid token...')
+                    expect(response.body).toEqual({ error: 'invalid token...' })
                 })
         })
 
@@ -60,30 +72,32 @@ describe('server', () => {
                 .set('Content-Header', 'application/json')
                 .expect(401)
                 .then(response => {
-                    expect(response.text).toEqual('invalid token...')
+                    expect(response.body).toEqual({ error: 'invalid token...' })
                 })
         })
     })
 
     describe('POST /cases', () => {
-        const requestBody = {
-            civilian: {
-                firstName: 'Manny',
-                lastName: 'Rodriguez',
-                phoneNumber: "8201387432",
-                email: 'mrod@gmail.com',
-            },
-            case: {
-                firstContactDate: "2018-01-31",
-                complainantType: 'Civilian',
-                createdBy: 'tuser',
-                assignedTo: 'tuser'
+        let requestBody, responseBody
+
+        beforeEach(() => {
+            requestBody = {
+                civilian: {
+                    firstName: 'Manny',
+                    lastName: 'Rodriguez',
+                    phoneNumber: "8201387432",
+                    email: 'mrod@gmail.com',
+                },
+                case: {
+                    firstContactDate: "2018-01-31",
+                    complainantType: 'Civilian',
+                    createdBy: 'tuser',
+                    assignedTo: 'tuser'
+                }
             }
-        };
+        })
 
         test('should create a case', async () => {
-            let responseBody
-
             await request(app)
                 .post('/cases')
                 .set('Content-Header', 'application/json')
@@ -112,11 +126,37 @@ describe('server', () => {
                 }
             })
 
+            models.audit_log.destroy({
+                where: {
+                    caseId: responseBody.id
+                }
+            })
+
             models.cases.destroy({
                 where: {
                     id: responseBody.id
                 }
             })
+        })
+
+        test('should return 500 when cannot fetch user profile', async () => {
+            AuthenticationClient.mockImplementation(() => {
+                return {
+                    users: {
+                        getInfo: () => Promise.resolve('Unauthorized')
+                    }
+                }
+            })
+
+            await request(app)
+                .post('/cases')
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .send(requestBody)
+                .expect(500)
+                .then(response => {
+                    expect(response.body).toEqual({ error: 'Could not retrieve user profile' })
+                })
         })
     })
 
@@ -370,6 +410,11 @@ describe('server', () => {
             await models.civilian.destroy({
                 where: {
                     id: caseToUpdate.civilians[0].id
+                }
+            })
+            await models.audit_log.destroy({
+                where: {
+                    caseId: caseToUpdate.id
                 }
             })
             await models.cases.destroy({

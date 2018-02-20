@@ -17,6 +17,7 @@ module.exports = {
             fromEmailAddress: "dev_env_email@example.com"
         },
         authentication: {
+            domain: 'noipm.auth0.com',
             publicKeyURL: 'https://noipm.auth0.com/.well-known/jwks.json',
             audience: "https://noipm-staging.herokuapp.com/",
             issuer: "https://noipm.auth0.com/",
@@ -42,6 +43,7 @@ module.exports = {
             fromEmailAddress: "test_env_email@example.com"
         },
         authentication: {
+            domain: 'noipm.auth0.com',
             publicKeyPath: path.join(__dirname, '..', 'config', 'test', 'public.pem'),
             audience: "test audience",
             issuer: "test issuer",
@@ -78,6 +80,7 @@ module.exports = {
             fromEmailAddress: process.env.EMAIL_ADDRESS
         },
         authentication: {
+            domain: 'noipm.auth0.com',
             publicKeyURL: 'https://noipm.auth0.com/.well-known/jwks.json',
             audience: "https://noipm-staging.herokuapp.com/",
             issuer: "https://noipm.auth0.com/",
@@ -113,6 +116,7 @@ module.exports = {
             fromEmailAddress: process.env.EMAIL_ADDRESS
         },
         authentication: {
+            domain: 'noipm-production.auth0.com',
             publicKeyURL: 'https://noipm-production.auth0.com/.well-known/jwks.json',
             audience: "https://noipm-production.herokuapp.com/",
             issuer: "https://noipm-production.auth0.com/",
