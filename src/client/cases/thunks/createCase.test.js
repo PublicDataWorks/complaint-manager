@@ -13,6 +13,7 @@ describe('createCase', () => {
         dispatch.mockClear()
     })
 
+    //TODO Can we remove it?
     test('should dispatch case creation requested action', () => {
         createCase()(dispatch)
 
@@ -75,18 +76,8 @@ describe('createCase', () => {
     })
 
     test('should not dispatch success if unauthorized and redirect', async () => {
-        const creationDetails = {
-            caseDetails: {
-                firstName: 'Fats',
-                lastName: 'Domino',
-                email: 'email@email.com',
-                complainantType: 'Civilian',
-                firstContactDate: '2018-02-06',
-            },
-            redirect: false,
-        }
-
-        const responseBody = {cases: ['a case']}
+        const creationDetails = {}
+        const responseBody = {cases: []}
 
         nock('http://localhost', {
             reqheaders: {
@@ -99,29 +90,17 @@ describe('createCase', () => {
 
         await createCase(creationDetails)(dispatch)
 
+        //TODO If we fail API authentication, we will never get responseBody.case back.
+        //So the following expect doesn't test anything meaningful.
+        //Can we assert that getCasesSuccess is never called with anything?
         expect(dispatch).not.toHaveBeenCalledWith(getCasesSuccess(responseBody.cases))
         expect(dispatch).toHaveBeenCalledWith(push(`/login`))
     })
 
     test('should redirect immediately if token missing', async () => {
-        const creationDetails = {
-            caseDetails: { caseProp: "case value" },
-            redirect: false
-        }
-
-        const responseBody = { cases: ['a case'] }
+        const responseBody = {cases: []}
         getAccessToken.mockImplementation(() => false)
-
-        nock('http://localhost', {
-            reqheaders: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer false`
-            }
-        })
-            .post('/cases', creationDetails.caseDetails)
-            .reply(201, responseBody)
-
-        await createCase(creationDetails)(dispatch)
+        await createCase()(dispatch)
 
         expect(dispatch).not.toHaveBeenCalledWith(createCaseSuccess(responseBody.cases))
         expect(dispatch).toHaveBeenCalledWith(createCaseFailure())

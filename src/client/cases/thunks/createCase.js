@@ -3,6 +3,7 @@ import {reset} from "redux-form";
 import {push} from 'react-router-redux'
 import getAccessToken from "../../auth/getAccessToken";
 
+//TODO We should never have environment-specific logic in our code.  Pull the hostname from our configuration.
 const testing = process.env.NODE_ENV === 'test'
 const hostname = testing ? 'http://localhost' : ''
 

@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
                 primaryKey: true,
                 autoIncrement: true
             },
+            //TODO Why is this at the case-level?  This is a descriptor for the Complainant, right?  IF so, move to civilian model.
             complainantType: {
                 type: DataTypes.ENUM([
                     'Civilian', 'Police Officer'

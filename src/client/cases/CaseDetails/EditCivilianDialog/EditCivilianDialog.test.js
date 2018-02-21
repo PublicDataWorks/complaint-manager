@@ -79,8 +79,19 @@ describe('Edit civilian dialog', () => {
                 datePickerField = editCivilianDialog.find('[data-test="birthDateField"]').first()
             });
 
-            test('should default date to mm/dd/yyyy', () => {
-                expect(datePicker.instance().value).toEqual(" ")
+            test.skip('should pre-populate birthdate for existing case', () => {
+                editCivilianDialog.unmount()
+                editCivilianDialog.setProps(currentCaseCivilian = {
+                    birthDate: '2018-02-14'
+                })
+                editCivilianDialog.mount()
+
+                const birthDate = editCivilianDialog.find('[data-test="birthDateField"]').first().instance().value
+                expect(birthDate).toEqual('2018-02-14')
+            })
+
+            test.skip('should default date to mm/dd/yyyy', () => {
+                expect(datePicker.instance().value).toEqual("")
             })
 
             test('should not change when changing to a future date', () => {
@@ -250,6 +261,10 @@ describe('Edit civilian dialog', () => {
             //TODO: This test passes regardless of what edit Civilian is called with.  Fix this.
             expect(dispatchSpy).toHaveBeenCalledWith(editCivilian(submittedValues))
         })
+
+        test.skip('should close dialog after civilian was successfully saved', async () => {})
+
+        test.skip('should show green snackbar after civilian was successfully saved', async () => {})
 
     })
 })

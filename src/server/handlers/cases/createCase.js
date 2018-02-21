@@ -11,6 +11,8 @@ const createCase = async (req, res, next) => {
             res.sendStatus(400)
         }
         else {
+            //TODO When we refactor the request to nest civilian under case, we may be able to get rid of this mapping logic
+            //we should be able to simply say: const createdCase = await models.cases.create({req.body.case})
             const createdCase = await models.cases.create({
                 ...req.body.case,
                 civilians: [req.body.civilian]

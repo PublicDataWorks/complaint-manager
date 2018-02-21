@@ -24,6 +24,7 @@ services:
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
   email:
+#  TODO depends on.  Maybe kill this instead?
     image: namshi/smtp
     environment:
       PORT: 587

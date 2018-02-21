@@ -7,6 +7,7 @@ const createCase = require("./handlers/cases/createCase");
 const getCases = require("./handlers/cases/getCases");
 const getCase = require("./handlers/cases/getCase");
 const updateCaseNarrative = require("./handlers/cases/updateCaseNarrative");
+const editCivilian = require("./handlers/cases/editCivilian");
 const createUser = require("./handlers/users/createUser");
 const getUsers = require("./handlers/users/getUsers");
 const errorHandler = require("./handlers/errorHandler");
@@ -33,6 +34,7 @@ app.post('/cases', createCase);
 app.get('/cases', getCases);
 app.get('/cases/:id', getCase)
 app.put('/cases/:id/narrative', updateCaseNarrative);
+app.put('/civilian/:id', editCivilian);
 app.post('/users', createUser);
 app.get('/users', getUsers);
 

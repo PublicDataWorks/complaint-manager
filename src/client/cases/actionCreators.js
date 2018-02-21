@@ -42,3 +42,12 @@ export const openEditDialog = () => ({
 export const closeEditDialog = () => ({
     type: 'EDIT_DIALOG_CLOSED'
 })
+
+export const editCivilianSuccess = (civilian) => ({
+    type: 'EDIT_CIVILIAN_SUCCESS',
+    civilian
+})
+
+export const editCivilianFailed = () => ({
+    type: 'EDIT_CIVILIAN_FAILED',
+})

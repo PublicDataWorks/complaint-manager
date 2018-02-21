@@ -8,6 +8,7 @@ import ms from 'smtp-tester'
 import Sequelize from 'sequelize'
 import models from './models'
 import { AuthenticationClient } from 'auth0'
+import Civilian from "../client/testUtilities/civilian";
 
 const config = require('./config/config')[process.env.NODE_ENV]
 
@@ -81,6 +82,7 @@ describe('server', () => {
         let requestBody, responseBody
 
         beforeEach(() => {
+        //TODO Restructure this to have the same structure as represented in Redux/Builder.
             requestBody = {
                 civilian: {
                     firstName: 'Manny',
@@ -236,6 +238,36 @@ describe('server', () => {
 
     })
 
+    describe('PUT /civilian/:id', () => {
+        let seededCivilian
+        beforeEach(async () => {
+            const civilian = new Civilian.Builder().defaultCivilian().build();
+            await models.civilian.destroy({where: {id: civilian.id}})
+            seededCivilian = await models.civilian.create(civilian,{returning: true})
+        });
+
+        test('should update an existing civilian', async() => {
+            const updatedCivilian= {
+                firstName: 'BOBBY',
+                lastName: 'FISHHERRR',
+            }
+            await request(app)
+                .put(`/civilian/${seededCivilian.id}`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .send(updatedCivilian)
+                .expect(200)
+                .then(response => {
+                    expect(response.body.firstName).toEqual(updatedCivilian.firstName)
+                    expect(response.body.lastName).toEqual(updatedCivilian.lastName)
+                })
+        })
+
+        afterEach(async () => {
+            await models.civilian.destroy({where: {id: seededCivilian.id}})
+        });
+    });
+
     describe('POST /users', () => {
         let mailServer
         beforeEach(() => {
@@ -332,7 +364,7 @@ describe('server', () => {
         })
     })
 
-    describe('GET /cases/id/', () => {
+    describe('GET /cases/:id', () => {
         let caseToRetrieve
 
         beforeEach(async () => {

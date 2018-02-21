@@ -1,10 +1,10 @@
 import snackbarReducer from "./snackbarReducer";
+import {createUserFailure, createUserSuccess, requestUserCreation} from "../users/actionCreators";
 import {
-    createUserFailure, createUserSuccess,
-    requestUserCreation
-} from "../users/actionCreators";
-import {
-    createCaseFailure, createCaseSuccess, requestCaseCreation, updateNarrativeFailure,
+    createCaseFailure,
+    createCaseSuccess,
+    requestCaseCreation,
+    updateNarrativeFailure,
     updateNarrativeSuccess
 } from "../cases/actionCreators";
 import {closeSnackbar} from "./actionCreators";

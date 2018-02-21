@@ -12,14 +12,13 @@ import {genderIdentityIsRequired, notFutureDate, raceEthnicityIsRequired} from "
 import moment from "moment";
 import editCivilian from "../../thunks/editCivilian";
 import NoBlurTextField from "./FormSelect";
-import _ from "lodash"
 
 const generateMenu = contents => {
     return contents.map((content) => {
         return (
             <MenuItem
-                key={_.snakeCase(content)}
-                value={_.snakeCase(content)}
+                key={content}
+                value={content}
             >{content}</MenuItem>)
     })
 }
