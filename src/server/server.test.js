@@ -9,6 +9,7 @@ import Sequelize from 'sequelize'
 import models from './models'
 import { AuthenticationClient } from 'auth0'
 import Civilian from "../client/testUtilities/civilian";
+import Case from "../client/testUtilities/case";
 
 const config = require('./config/config')[process.env.NODE_ENV]
 
@@ -239,11 +240,21 @@ describe('server', () => {
     })
 
     describe('PUT /civilian/:id', () => {
-        let seededCivilian
+        let seededCivilian, seededCase
         beforeEach(async () => {
-            const civilian = new Civilian.Builder().defaultCivilian().build();
-            await models.civilian.destroy({where: {id: civilian.id}})
-            seededCivilian = await models.civilian.create(civilian,{returning: true})
+            const caseDefault = new Case.Builder().defaultCase().build();
+            await models.audit_log.destroy({where: {caseId: caseDefault.id}})
+            await models.cases.destroy({where: {id: caseDefault.id}})
+            await models.civilian.destroy({where: {id: caseDefault.civilians[0].id}})
+
+            seededCase = await models.cases.create(caseDefault, {include: [{model: models.civilian}]})
+            seededCivilian = seededCase.civilians[0]
+        });
+
+        afterEach(async () => {
+            await models.civilian.destroy({where: {id: seededCivilian.id}})
+            await models.audit_log.destroy({where: {caseId: seededCase.id}})
+            await models.cases.destroy({where: {id: seededCase.id}})
         });
 
         test('should update an existing civilian', async() => {
@@ -262,10 +273,6 @@ describe('server', () => {
                     expect(response.body.lastName).toEqual(updatedCivilian.lastName)
                 })
         })
-
-        afterEach(async () => {
-            await models.civilian.destroy({where: {id: seededCivilian.id}})
-        });
     });
 
     describe('POST /users', () => {

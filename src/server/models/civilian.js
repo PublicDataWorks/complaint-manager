@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
     );
 
     Civilian.associate = (models) => {
-        Civilian.belongsTo(models.cases, {foreignKey: {name: 'caseId', field: 'case_id'}});
+        Civilian.belongsTo(models.cases, {foreignKey: {name: 'caseId', field: 'case_id', allowNull: false}});
     }
 
     return Civilian;
