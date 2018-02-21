@@ -3,6 +3,9 @@ const createCase = require('./createCase')
 const models = require('../../models')
 
 jest.mock('../../models', () => ({
+    sequelize: {
+        transaction: (func) => func('MOCK_TRANSACTION')
+    },
     cases: {
         create: jest.fn()
     },
@@ -49,7 +52,8 @@ describe('createCase handler', () => {
         }, {
             include: [{
                 model: models.civilian
-            }]
+            }],
+            transaction: 'MOCK_TRANSACTION'
         })
     })
 
@@ -67,7 +71,7 @@ describe('createCase handler', () => {
             user: 'TEST_USER_NICKNAME'
         }
 
-        expect(models.audit_log.create).toHaveBeenCalledWith(expectedLog)
+        expect(models.audit_log.create).toHaveBeenCalledWith(expectedLog, {transaction: 'MOCK_TRANSACTION'})
     })
 
     test('should send response and 201 status with created entity', async () => {

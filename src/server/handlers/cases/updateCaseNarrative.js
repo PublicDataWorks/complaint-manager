@@ -4,25 +4,33 @@ const updateCaseNarrative = async (request, response, next) => {
     try {
         const caseId = request.params.id
 
-        await models.cases.update({
-                narrative: request.body.narrative,
-            },
-            {
-                where: {id: caseId},
-                individualHooks: true
-            })
+        const updatedCase = await models.sequelize.transaction(async (t) => {
+            await models.cases.update({
+                    narrative: request.body.narrative,
+                },
+                {
+                    where: {id: caseId},
+                    individualHooks: true,
+                    transaction: t
+                })
 
-        const updatedCase = await models.cases.findById(
-            caseId,
-            {
-                include: [{model: models.civilian}]
-            }
-        )
 
-        await models.audit_log.create({
-            caseId: caseId,
-            user: request.nickname,
-            action: `Case ${caseId} narrative updated`
+            await models.audit_log.create({
+                    caseId: caseId,
+                    user: request.nickname,
+                    action: `Case ${caseId} narrative updated`
+                },
+                {
+                    transaction: t
+                })
+
+            return await models.cases.findById(
+                caseId,
+                {
+                    include: [{model: models.civilian}],
+                    transaction: t
+                }
+            )
         })
 
         response.send(updatedCase)

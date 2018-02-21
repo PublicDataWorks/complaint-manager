@@ -3,6 +3,9 @@ const models = require('../../models/index')
 const updateCaseNarrative = require('./updateCaseNarrative')
 
 jest.mock('../../models', () => ({
+    sequelize: {
+        transaction: (func) => func('MOCK_TRANSACTION')
+    },
     cases: {
         update: jest.fn(),
         findById: jest.fn()
@@ -42,7 +45,8 @@ describe('updateCaseNarrative handler', () => {
             narrative: request.body.narrative
         }, {
             where: {id: request.params.id},
-            individualHooks: true
+            individualHooks: true,
+            transaction: 'MOCK_TRANSACTION'
         })
     })
 
@@ -71,6 +75,6 @@ describe('updateCaseNarrative handler', () => {
 
         updateCaseNarrative(request, response, jest.fn())
 
-        expect(models.audit_log.create).toHaveBeenCalledWith(expectedLog)
+        expect(models.audit_log.create).toHaveBeenCalledWith(expectedLog, {transaction: 'MOCK_TRANSACTION'})
     })
 })

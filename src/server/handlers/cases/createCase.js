@@ -1,5 +1,4 @@
 const models = require('../../models/index')
-
 const invalidName = (input) => {
     return (!input || input.length == 0 || input.length > 25)
 }
@@ -13,19 +12,24 @@ const createCase = async (req, res, next) => {
         else {
             //TODO When we refactor the request to nest civilian under case, we may be able to get rid of this mapping logic
             //we should be able to simply say: const createdCase = await models.cases.create({req.body.case})
-            const createdCase = await models.cases.create({
-                ...req.body.case,
-                civilians: [req.body.civilian]
-            },{
-                include: [{
-                    model: models.civilian
-                }]
-            })
+            const createdCase = await models.sequelize.transaction(async (t) => {
+                const createdCase = await models.cases.create({
+                    ...req.body.case,
+                    civilians: [req.body.civilian]
+                }, {
+                    include: [{
+                        model: models.civilian
+                    }],
+                    transaction: t
+                })
 
-            await models.audit_log.create({
-                action: `Case ${createdCase.id} created`,
-                caseId: createdCase.id,
-                user: req.nickname,
+                await models.audit_log.create({
+                    action: `Case ${createdCase.id} created`,
+                    caseId: createdCase.id,
+                    user: req.nickname,
+                }, {transaction: t})
+
+                return createdCase
             })
 
             res.status(201).send(createdCase)
