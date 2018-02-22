@@ -46,40 +46,45 @@ class EditCivilianDialog extends React.Component {
                         <FirstNameField name={'firstName'}/>
                         <LastNameField name={'lastName'}/>
                         <br/>
-                        <Field
-                            name='birthDate'
-                            component={TextField}
-                            label='Birthday'
-                            inputProps={{
-                                "data-test": "birthDateInput",
-                                type: "date",
-                                max: moment(Date.now()).format('YYYY-MM-DD')
-                            }}
-                            data-test="birthDateField"
-                            style={{marginBottom: '3%', width: '30%', clipPath: 'inset(0 17px 0 0)'}}
-                            validate={[notFutureDate]}
-                        />
-                        <Field
-                            required
-                            name="genderIdentity"
-                            component={NoBlurTextField}
-                            label='Gender Identity'
-                            hinttext='Gender Identity'
-                            data-test="genderDropdown"
-                            style={{width: '30%'}}
-                            validate={[genderIdentityIsRequired]}
-                        >
-                            {
-                                generateMenu([
-                                    'Female',
-                                    'Male',
-                                    'Trans Female',
-                                    'Trans Male',
-                                    'Other',
-                                    'No Answer'
-                                ])
-                            }
-                        </Field>
+                        <div style={{display: 'flex'}}>
+                            <Field
+                                name='birthDate'
+                                component={TextField}
+                                label='Birthday'
+                                inputProps={{
+                                    "data-test": "birthDateInput",
+                                    type: "date",
+                                    max: moment(Date.now()).format('YYYY-MM-DD')
+                                }}
+                                data-test="birthDateField"
+                                style={{
+                                    width: '30%',
+                                    clipPath: 'inset(0 17px 0 0)'
+                                }}
+                                validate={[notFutureDate]}
+                            />
+                            <Field
+                                required
+                                name="genderIdentity"
+                                component={NoBlurTextField}
+                                label='Gender Identity'
+                                hinttext='Gender Identity'
+                                data-test="genderDropdown"
+                                style={{width: '30%'}}
+                                validate={[genderIdentityIsRequired]}
+                            >
+                                {
+                                    generateMenu([
+                                        'Female',
+                                        'Male',
+                                        'Trans Female',
+                                        'Trans Male',
+                                        'Other',
+                                        'No Answer'
+                                    ])
+                                }
+                            </Field>
+                        </div>
                         <br/>
                         <Field
                             required

@@ -13,6 +13,14 @@ const editCivilian = async (req, res, next) => {
 
             const civilian = updatedCivilianWithSequelizeMarkup[1][0]['dataValues']
 
+            //update case status with caseId to from 'Initial' to 'Active'
+            await models.cases.update(
+                {status: 'Active'},
+                {
+                    where: {id: civilian.caseId},
+                    transaction: t
+                })
+
             await models.audit_log.create({
                     action: `Civilian updated`,
                     caseId: civilian.caseId,

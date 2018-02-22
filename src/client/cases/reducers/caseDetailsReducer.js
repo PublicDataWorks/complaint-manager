@@ -8,6 +8,7 @@ const caseDetailsReducer = (state = initialState, action) => {
         case 'EDIT_CIVILIAN_SUCCESS':
             return {
                 ...state,
+                status: 'Active',
                 civilians: [action.civilian]
             }
         default:

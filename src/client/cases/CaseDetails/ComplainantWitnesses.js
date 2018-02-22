@@ -103,10 +103,7 @@ const ComplainantWitnesses = (props) => {
                                     <LinkButton
                                         data-test="editComplainantLink"
                                         onClick={() => {
-                                            props.dispatch(initialize('EditCivilian', {
-                                                ...primaryComplainant,
-                                                birthDate: primaryComplainant.birthDate ? primaryComplainant.birthDate : ' '
-                                            }))
+                                            props.dispatch(initialize('EditCivilian', primaryComplainant))
                                             props.dispatch(openEditDialog())
                                         }}
                                     >

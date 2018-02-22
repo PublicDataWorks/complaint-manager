@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 import ms from 'smtp-tester'
 import Sequelize from 'sequelize'
 import models from './models'
-import { AuthenticationClient } from 'auth0'
+import {AuthenticationClient} from 'auth0'
 import Civilian from "../client/testUtilities/civilian";
 import Case from "../client/testUtilities/case";
 
@@ -64,7 +64,7 @@ describe('server', () => {
                 .set('Authorization', `Bearer INVALID_KEY`)
                 .expect(401)
                 .then(response => {
-                    expect(response.body).toEqual({ error: 'invalid token...' })
+                    expect(response.body).toEqual({error: 'invalid token...'})
                 })
         })
 
@@ -74,7 +74,7 @@ describe('server', () => {
                 .set('Content-Header', 'application/json')
                 .expect(401)
                 .then(response => {
-                    expect(response.body).toEqual({ error: 'invalid token...' })
+                    expect(response.body).toEqual({error: 'invalid token...'})
                 })
         })
     })
@@ -83,7 +83,7 @@ describe('server', () => {
         let requestBody, responseBody
 
         beforeEach(() => {
-        //TODO Restructure this to have the same structure as represented in Redux/Builder.
+            //TODO Restructure this to have the same structure as represented in Redux/Builder.
             requestBody = {
                 civilian: {
                     firstName: 'Manny',
@@ -158,7 +158,7 @@ describe('server', () => {
                 .send(requestBody)
                 .expect(500)
                 .then(response => {
-                    expect(response.body).toEqual({ error: 'Could not retrieve user profile' })
+                    expect(response.body).toEqual({error: 'Could not retrieve user profile'})
                 })
         })
     })
@@ -244,8 +244,8 @@ describe('server', () => {
         beforeEach(async () => {
             const caseDefault = new Case.Builder().defaultCase().build();
             await models.audit_log.destroy({where: {caseId: caseDefault.id}})
+            await models.civilian.destroy({where: {caseId: caseDefault.id}})
             await models.cases.destroy({where: {id: caseDefault.id}})
-            await models.civilian.destroy({where: {id: caseDefault.civilians[0].id}})
 
             seededCase = await models.cases.create(caseDefault, {include: [{model: models.civilian}]})
             seededCivilian = seededCase.civilians[0]
@@ -257,8 +257,8 @@ describe('server', () => {
             await models.cases.destroy({where: {id: seededCase.id}})
         });
 
-        test('should update an existing civilian', async() => {
-            const updatedCivilian= {
+        test('should update an existing civilian', async () => {
+            const updatedCivilian = {
                 firstName: 'BOBBY',
                 lastName: 'FISHHERRR',
             }
@@ -273,7 +273,28 @@ describe('server', () => {
                     expect(response.body.lastName).toEqual(updatedCivilian.lastName)
                 })
         })
-    });
+
+        test('should update the case status to active when an associated civilian has been updated ', async () => {
+            const updatedCivilian = {
+                firstName: 'BOBBY'
+            }
+            await request(app)
+                .put(`/civilian/${seededCivilian.id}`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .send(updatedCivilian)
+                .expect(200)
+
+            await request(app)
+                .get(`/cases/${seededCase.id}`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+                .then(response => {
+                    expect(response.body.status).toEqual('Active')  //TODO Status should be an ENUM or at least a global constant
+                })
+        });
+    })
 
     describe('POST /users', () => {
         let mailServer

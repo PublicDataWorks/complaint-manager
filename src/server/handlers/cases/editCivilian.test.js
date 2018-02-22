@@ -11,6 +11,9 @@ jest.mock('../../models', () => ({
     },
     civilian: {
         update: jest.fn()
+    },
+    cases: {
+        update: jest.fn()
     }
 }))
 
@@ -47,6 +50,10 @@ describe('editCivilian handler', () => {
     test('should create audit log after successful civilian update', async () => {
         models.civilian.update.mockImplementation(() => {
             return Promise.resolve([1, [{dataValues: {id: 1, caseId: 2}}]])
+        })
+
+        models.cases.update.mockImplementation(() => {
+            return Promise.resolve()
         })
 
         const request = httpMocks.createRequest({

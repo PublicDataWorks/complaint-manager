@@ -35,14 +35,14 @@ describe('caseDetailsReducers', () => {
 
     describe('EDIT_CIVILIAN_SUCCESS', () => {
         test('should update civilian information', () => {
-            const oldState = {caseDetail: 'should be left alone', civilians: [{some: 'someString'}]}
+            const oldState = {status: 'Initial', left:'untouched', civilians: [{some: 'someString'}]}
             const newCivilianDetail = {gender: 'other'}
 
             const action = editCivilianSuccess(newCivilianDetail)
 
             const newState = caseDetailsReducer(oldState, action)
 
-            const expectedState = {caseDetail: 'should be left alone', civilians: [{'gender': 'other'}]}
+            const expectedState = {status: 'Active', left:'untouched', civilians: [{'gender': 'other'}]}
             expect(newState).toEqual(expectedState)
         })
     });
