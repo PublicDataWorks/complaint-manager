@@ -12,7 +12,7 @@
                 success: true,
                 message: <parameterized>
             }
-        case 'FAILED':
+        case 'SERVER_ERROR':
             return {
                 open: true,
                 success: false,
@@ -76,6 +76,18 @@ const snackbarReducer = (state = initialState, action) => {
                 open: true,
                 success: false,
                 message: 'Something went wrong on our end and your case was not updated. Please try again.'
+            }
+        case 'EDIT_CIVILIAN_SUCCESS':
+            return {
+                open: true,
+                success: true,
+                message: 'Complainant & Witnesses successfully updated'
+            }
+        case 'EDIT_CIVILIAN_FAILED':
+            return {
+                open: true,
+                success: false,
+                message: 'Something went wrong on our end and Complainant & Witnesses was not updated. Please try again.'
             }
         default:
             return state

@@ -34,8 +34,23 @@ export const expectEventuallyNotToExist = async (mountedComponent, selector) => 
     })
 }
 
+//handles if input contains value
+export const containsValue = (mountedComponent, inputSelector, expectedText) => {
+
+    const containsValue = mountedComponent
+        .find(inputSelector)
+        .filterWhere(node => node.instance().value === expectedText)
+
+    return expect(containsValue.length).not.toEqual(0)
+}
+
+//handles if node contains text
 export const containsText = (mountedComponent, selector, expectedText) => {
-    const containsText = mountedComponent.find(selector).filterWhere(node => node.text() === expectedText)
+
+    const containsText = mountedComponent
+        .find(selector)
+        .filterWhere(node => node.text().includes(expectedText))
+
     return expect(containsText.length).not.toEqual(0)
 }
 

@@ -5,7 +5,7 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import EditCivilianDialog from "./EditCivilianDialog";
 import {closeEditDialog, openEditDialog} from "../../actionCreators";
 import {
-    changeInput, containsText, expectEventuallyNotToExist, selectDropdownOption
+    changeInput, containsText, containsValue, expectEventuallyNotToExist, selectDropdownOption
 } from "../../../../testHelpers";
 import moment from "moment";
 import editCivilian from "../../thunks/editCivilian";
@@ -231,44 +231,46 @@ describe('Edit civilian dialog', () => {
         })
     })
 
-    describe('form save', () => {
-        let submittedValues
+    describe('form', () => {
 
-        beforeEach(() => {
-            const yesterday = moment(Date.now()).subtract(1, 'days').format("YYYY-MM-DD")
-            const datePicker = editCivilianDialog.find('[data-test="birthDateInput"]').last()
-
-            submittedValues = {
-                firstName: 'Foo',
-                lastName: 'Bar',
-                birthDate: yesterday,
-                gender: 'Female',
-                race: 'Korean'
-            }
-
-            changeInput(editCivilianDialog, '[data-test="firstNameInput"]', submittedValues.firstName);
-            changeInput(editCivilianDialog, '[data-test="lastNameInput"]', submittedValues.lastName);
-            selectDropdownOption(editCivilianDialog, '[name="genderIdentity"]', submittedValues.gender)
-            selectDropdownOption(editCivilianDialog, '[name="raceEthnicity"]', submittedValues.race)
-
-            datePicker.simulate('change', {target: {value: submittedValues.birthDate}})
+        test('should populate form with up to date values on render', () => {
+            containsValue(editCivilianDialog, '[data-test="firstNameInput"]', currentCaseCivilian.firstName);
+            containsValue(editCivilianDialog, '[data-test="lastNameInput"]', currentCaseCivilian.lastName);
         })
 
-        test('should fire off thunk when saving', () => {
-            save.simulate('click')
-            //TODO: This test passes regardless of what edit Civilian is called with.  Fix this.
-            expect(dispatchSpy).toHaveBeenCalledWith(editCivilian(submittedValues))
-        })
+        describe('on submit', () => {
+            let submittedValues
 
-        test.skip('should close dialog after civilian was successfully saved', async () => {
-        })
+            beforeEach(() => {
+                submittedValues = {
+                    firstName: 'Foo',
+                    lastName: 'Bar',
+                    birthDate: '2012-02-13',
+                    gender: 'Female',
+                    race: 'Korean'
+                }
 
-        test.skip('should show green snackbar after civilian was successfully saved', async () => {
-        })
-        test.skip('should populate form with up to date values when displayed', () => {
-            //check to see if initialize was dispatched?
-        })
+                changeInput(editCivilianDialog, '[data-test="firstNameInput"]', submittedValues.firstName);
+                changeInput(editCivilianDialog, '[data-test="lastNameInput"]', submittedValues.lastName);
+                changeInput(editCivilianDialog, '[data-test="birthDateInput"]', submittedValues.birthDate)
+                selectDropdownOption(editCivilianDialog, '[name="genderIdentity"]', submittedValues.gender)
+                selectDropdownOption(editCivilianDialog, '[name="raceEthnicity"]', submittedValues.race)
+            });
 
+            test('should fill in form', () => {
+                containsValue(editCivilianDialog, '[data-test="firstNameInput"]', submittedValues.firstName);
+                containsValue(editCivilianDialog, '[data-test="lastNameInput"]', submittedValues.lastName);
+                containsValue(editCivilianDialog, '[data-test="birthDateInput"]', submittedValues.birthDate)
+                containsText(editCivilianDialog, '[data-test="genderDropdown"]', submittedValues.gender)
+                containsText(editCivilianDialog, '[data-test="raceDropdown"]', submittedValues.race)
+            })
+
+            test('should fire off thunk when saving', () => {
+                save.simulate('click')
+                //TODO: This test passes regardless of what edit Civilian is called with.  Fix this.
+                expect(dispatchSpy).toHaveBeenCalledWith(editCivilian(submittedValues))
+            })
+        });
     })
 })
 

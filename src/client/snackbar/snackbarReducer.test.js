@@ -2,7 +2,7 @@ import snackbarReducer from "./snackbarReducer";
 import {createUserFailure, createUserSuccess, requestUserCreation} from "../users/actionCreators";
 import {
     createCaseFailure,
-    createCaseSuccess,
+    createCaseSuccess, editCivilianFailed, editCivilianSuccess,
     requestCaseCreation,
     updateNarrativeFailure,
     updateNarrativeSuccess
@@ -80,7 +80,7 @@ describe('snackbarReducer', () => {
 
         test('CASE_CREATION_FAILED', () => {
             const initialState = {open: false, success: true, message: ''}
-            const newState = snackbarReducer(initialState, createCaseFailure({ error: 500}))
+            const newState = snackbarReducer(initialState, createCaseFailure({error: 500}))
 
             expect(newState.open).toBe(true)
             expect(newState.success).toBe(false)
@@ -112,11 +112,22 @@ describe('snackbarReducer', () => {
         })
     })
     describe('EDIT_CIVILIAN', () => {
-        test.skip('EDIT_CIVILIAN_SUCCESS', () => {
+        test('EDIT_CIVILIAN_SUCCESS', () => {
+            const initialState = {open: false}
+            const newState = snackbarReducer(initialState, editCivilianSuccess())
+
+            expect(newState.open).toBeTruthy()
+            expect(newState.success).toBeTruthy()
+            expect(newState.message).toEqual('Complainant & Witnesses successfully updated')
 
         })
-        test.skip('EDIT_CIVILIAN_FAILURE', () => {
+        test('EDIT_CIVILIAN_FAILED', () => {
+            const initialState = {open: true}
+            const newState = snackbarReducer(initialState, editCivilianFailed())
 
+            expect(newState.open).toBeTruthy()
+            expect(newState.success).toBeFalsy()
+            expect(newState.message).toEqual('Something went wrong on our end and Complainant & Witnesses was not updated. Please try again.')
         })
-    });
+    })
 })

@@ -24,7 +24,7 @@ const SharedSnackbar = (props) => (
                         ? props.classes.success
                         : props.classes.error
                 },
-                style: {maxWidth: '600px'}
+                style: {maxWidth: '800px'}
             }}
             message={
                 <span data-test="sharedSnackbarBannerText">

@@ -3,7 +3,7 @@ import nock from "nock";
 import {push} from "react-router-redux";
 import editCivilian from "./editCivilian";
 import Civilian from "../../testUtilities/civilian";
-import {editCivilianFailed, editCivilianSuccess} from "../actionCreators";
+import {closeEditDialog, editCivilianFailed, editCivilianSuccess} from "../actionCreators";
 import getAccessToken from "../../auth/getAccessToken";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))
@@ -58,6 +58,19 @@ describe('edit civilian thunk', () => {
 
         await editCivilian(civilian)(dispatch)
         expect(dispatch).toHaveBeenCalledWith(editCivilianSuccess(civilian))
+    })
+
+    test('should dispatch close dialog when civilian edit was successful', async () => {
+        nock('http://localhost', {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer TEST_TOKEN`
+        })
+            .put(`/civilian/${civilian.id}`, civilian)
+            .reply(200, civilian)
+
+        await editCivilian(civilian)(dispatch)
+        expect(dispatch).toHaveBeenCalledWith(closeEditDialog(civilian))
+
     })
 
 })

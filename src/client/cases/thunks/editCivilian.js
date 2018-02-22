@@ -1,6 +1,5 @@
 import {push} from "react-router-redux";
 import {closeEditDialog, editCivilianFailed, editCivilianSuccess} from "../actionCreators";
-import {reset} from "redux-form";
 import getAccessToken from "../../auth/getAccessToken";
 
 const testing = process.env.NODE_ENV === 'test'
@@ -25,8 +24,6 @@ const editCivilian = (civilian) => async (dispatch) => {
         })
 
         switch (response.status) {
-            //TODO add test for happy path
-
             case 200:
                 const parsedCivilian = await response.json()
                 dispatch(editCivilianSuccess(parsedCivilian))
@@ -37,6 +34,7 @@ const editCivilian = (civilian) => async (dispatch) => {
                 throw response.status
         }
     } catch (e) {
+        //TODO Log error and notify support
         dispatch(editCivilianFailed())
     }
 }

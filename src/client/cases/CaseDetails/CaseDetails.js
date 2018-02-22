@@ -101,7 +101,7 @@ class CaseDetails extends React.Component {
 
         const drawer = (
             <div>
-                <LinkButton component={Link} to={'/'} style={{margin: '4% 0% 5% 2%'}}>Back to all Cases</LinkButton>
+                <LinkButton data-test="all-cases-link" component={Link} to={'/'} style={{margin: '4% 0% 5% 2%'}}>Back to all Cases</LinkButton>
                 <Typography data-test="case-number" type="title" style={{marginLeft: "24px", marginTop: '4px'}}
                             gutterBottom>
                     {`Case #${this.props.caseDetail.id}`}

@@ -66,7 +66,7 @@ describe('Case Details Component', () => {
 
     describe('drawer', () => {
         test("should provide an option to go back to all cases", () => {
-            containsText(caseDetails, 'LinkButton', "Back to all Cases")
+            containsText(caseDetails, '[data-test="all-cases-link"]', "Back to all Cases")
         })
 
         test("should display the case number", () => {
