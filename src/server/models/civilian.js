@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             birthDate: {
                 field: 'birth_date',
-                type: DataTypes.DATE
+                type: DataTypes.DATEONLY
             },
             roleOnCase: {
                 field: 'role_on_case',

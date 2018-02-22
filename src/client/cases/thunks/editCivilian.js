@@ -1,5 +1,5 @@
 import {push} from "react-router-redux";
-import {editCivilianFailed, editCivilianSuccess} from "../actionCreators";
+import {closeEditDialog, editCivilianFailed, editCivilianSuccess} from "../actionCreators";
 import {reset} from "redux-form";
 import getAccessToken from "../../auth/getAccessToken";
 
@@ -30,7 +30,7 @@ const editCivilian = (civilian) => async (dispatch) => {
             case 200:
                 const parsedCivilian = await response.json()
                 dispatch(editCivilianSuccess(parsedCivilian))
-                return dispatch(reset('EditCivilian'))
+                return dispatch(closeEditDialog())
             case 401:
                 return dispatch(push(`/login`))
             default:

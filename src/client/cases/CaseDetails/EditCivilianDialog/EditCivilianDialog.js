@@ -22,6 +22,7 @@ const generateMenu = contents => {
             >{content}</MenuItem>)
     })
 }
+
 class EditCivilianDialog extends React.Component {
 
     render() {
@@ -55,7 +56,7 @@ class EditCivilianDialog extends React.Component {
                                 max: moment(Date.now()).format('YYYY-MM-DD')
                             }}
                             data-test="birthDateField"
-                            style={{ marginBottom: '3%', width: '30%', clipPath: 'inset(0 17px 0 0)'}}
+                            style={{marginBottom: '3%', width: '30%', clipPath: 'inset(0 17px 0 0)'}}
                             validate={[notFutureDate]}
                         />
                         <Field
@@ -87,7 +88,7 @@ class EditCivilianDialog extends React.Component {
                             label='Race/Ethnicity'
                             hinttext='Race/Ethnicity'
                             data-test="raceDropdown"
-                            style={{width: '75%',  marginBottom: '24px'}}
+                            style={{width: '75%', marginBottom: '24px'}}
                             validate={[raceEthnicityIsRequired]}
                         >
                             {
@@ -137,31 +138,29 @@ class EditCivilianDialog extends React.Component {
 }
 
 const handleEditCivilian = (values, dispatch) => {
-    dispatch(editCivilian(values))
+    //The database can't handle the empty string we use for display purposes.  So, strip it out before sending off to the API
+    const nullifyDateUnlessValid = date => (date.trim() === '' ? null : date)
+
+    dispatch(editCivilian({
+        ...values,
+        birthDate: nullifyDateUnlessValid(values.birthDate)
+    }))
 }
 
-const handleOnChange = (values, dispatch, props, previousValues) => {
-
+const changeToBlankValueWhenBirthdaySetToInvalidDateSoThatLabelRendersProperly = (values, dispatch) => {
     if (!Boolean(values.birthDate)) {
         dispatch(change('EditCivilian', 'birthDate', ' '))
     }
-
 }
 
 const connectedForm = reduxForm({
     form: 'EditCivilian',
     onSubmit: handleEditCivilian,
-    onChange: handleOnChange
+    onChange: changeToBlankValueWhenBirthdaySetToInvalidDateSoThatLabelRendersProperly
 })(EditCivilianDialog)
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state) => ({
     open: state.ui.editCivilianDialog.open,
-
-    initialValues: {
-        ...ownProps.civilian,
-        roleOnCase: 'Primary Complainant',
-        birthDate: ' ',
-    }
 })
 
 export default connect(mapStateToProps)(connectedForm)

@@ -1,5 +1,5 @@
 import caseDetailsReducer from "./caseDetailsReducer";
-import {getCaseDetailsSuccess, updateNarrativeSuccess} from "../actionCreators";
+import {editCivilianSuccess, getCaseDetailsSuccess, updateNarrativeSuccess} from "../actionCreators";
 
 describe('caseDetailsReducers', () => {
     test('should default to empty object', () => {
@@ -32,4 +32,18 @@ describe('caseDetailsReducers', () => {
             expect(newState).toEqual(caseDetails)
         })
     })
+
+    describe('EDIT_CIVILIAN_SUCCESS', () => {
+        test('should update civilian information', () => {
+            const oldState = {caseDetail: 'should be left alone', civilians: [{some: 'someString'}]}
+            const newCivilianDetail = {gender: 'other'}
+
+            const action = editCivilianSuccess(newCivilianDetail)
+
+            const newState = caseDetailsReducer(oldState, action)
+
+            const expectedState = {caseDetail: 'should be left alone', civilians: [{'gender': 'other'}]}
+            expect(newState).toEqual(expectedState)
+        })
+    });
 })

@@ -9,6 +9,7 @@ import {
 } from "../../../../testHelpers";
 import moment from "moment";
 import editCivilian from "../../thunks/editCivilian";
+import {initialize} from "redux-form";
 
 jest.mock('../../thunks/editCivilian', () => () => ({
     type: 'MOCK_EDIT_CIVILIAN_REQUESTED'
@@ -26,9 +27,11 @@ describe('Edit civilian dialog', () => {
             lastName: 'test last name'
         }
 
+        store.dispatch(initialize('EditCivilian', currentCaseCivilian))
+
         editCivilianDialog = mount(
             <Provider store={store}>
-                <EditCivilianDialog civilian={currentCaseCivilian}></EditCivilianDialog>
+                <EditCivilianDialog/>
             </Provider>)
 
         store.dispatch(openEditDialog())
@@ -36,10 +39,10 @@ describe('Edit civilian dialog', () => {
         save = editCivilianDialog.find('button[data-test="submitEditCivilian"]')
     })
 
-    const optionExists = (optionName) =>{
+    const optionExists = (optionName) => {
         const hasOption = editCivilianDialog
             .find('[role="option"]')
-            .someWhere( node => node.text() === optionName)
+            .someWhere(node => node.text() === optionName)
 
         expect(hasOption).toEqual(true)
 
@@ -79,18 +82,13 @@ describe('Edit civilian dialog', () => {
                 datePickerField = editCivilianDialog.find('[data-test="birthDateField"]').first()
             });
 
-            test.skip('should pre-populate birthdate for existing case', () => {
-                editCivilianDialog.unmount()
-                editCivilianDialog.setProps(currentCaseCivilian = {
-                    birthDate: '2018-02-14'
-                })
-                editCivilianDialog.mount()
-
+            test('should pre-populate birthdate for existing birthdate', () => {
+                store.dispatch(initialize('EditCivilian', {...currentCaseCivilian, birthDate:'2018-02-14'}))
                 const birthDate = editCivilianDialog.find('[data-test="birthDateField"]').first().instance().value
                 expect(birthDate).toEqual('2018-02-14')
             })
 
-            test.skip('should default date to mm/dd/yyyy', () => {
+            test('should default date to mm/dd/yyyy', () => {
                 expect(datePicker.instance().value).toEqual("")
             })
 
@@ -119,7 +117,7 @@ describe('Edit civilian dialog', () => {
             });
 
             test('should have a label gender identity', () => {
-               expect(genderDropdown.find('label').text()).toEqual('Gender Identity *')
+                expect(genderDropdown.find('label').text()).toEqual('Gender Identity *')
             })
 
             test('should have all gender options', () => {
@@ -138,10 +136,10 @@ describe('Edit civilian dialog', () => {
                     'Other',
                     'No Answer'
                 ]
-                genders.map( gender => optionExists(gender))
+                genders.map(gender => optionExists(gender))
             })
 
-            test('should change if already set', async() => {
+            test('should change if already set', async () => {
                 genderDropdown = editCivilianDialog
                     .find('[name="genderIdentity"]')
                     .find('[role="button"]')
@@ -198,7 +196,7 @@ describe('Edit civilian dialog', () => {
                     'Other Asian',
                     'Other',
                 ]
-                races.map( race => optionExists(race))
+                races.map(race => optionExists(race))
             })
 
             test('should change if already set', () => {
@@ -236,7 +234,7 @@ describe('Edit civilian dialog', () => {
     describe('form save', () => {
         let submittedValues
 
-        beforeEach(()=>{
+        beforeEach(() => {
             const yesterday = moment(Date.now()).subtract(1, 'days').format("YYYY-MM-DD")
             const datePicker = editCivilianDialog.find('[data-test="birthDateInput"]').last()
 
@@ -262,9 +260,14 @@ describe('Edit civilian dialog', () => {
             expect(dispatchSpy).toHaveBeenCalledWith(editCivilian(submittedValues))
         })
 
-        test.skip('should close dialog after civilian was successfully saved', async () => {})
+        test.skip('should close dialog after civilian was successfully saved', async () => {
+        })
 
-        test.skip('should show green snackbar after civilian was successfully saved', async () => {})
+        test.skip('should show green snackbar after civilian was successfully saved', async () => {
+        })
+        test.skip('should populate form with up to date values when displayed', () => {
+            //check to see if initialize was dispatched?
+        })
 
     })
 })

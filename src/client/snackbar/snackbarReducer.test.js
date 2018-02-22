@@ -111,5 +111,12 @@ describe('snackbarReducer', () => {
 
         })
     })
+    describe('EDIT_CIVILIAN', () => {
+        test.skip('EDIT_CIVILIAN_SUCCESS', () => {
 
+        })
+        test.skip('EDIT_CIVILIAN_FAILURE', () => {
+
+        })
+    });
 })
