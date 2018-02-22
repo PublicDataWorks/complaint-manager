@@ -14,7 +14,7 @@ const editCivilian = async (req, res, next) => {
             const civilian = updatedCivilianWithSequelizeMarkup[1][0]['dataValues']
 
             await models.audit_log.create({
-                    action: `Civilian ${civilian.id} updated`,
+                    action: `Civilian updated`,
                     caseId: civilian.caseId,
                     user: req.nickname
                 },

@@ -66,7 +66,7 @@ describe('editCivilian handler', () => {
 
         await editCivilian(request, response, jest.fn())
         const expectedLog = {
-            action: `Civilian 1 updated`,
+            action: `Civilian updated`,
             caseId: 2,
             user: 'TEST_USER_NICKNAME'
         }
