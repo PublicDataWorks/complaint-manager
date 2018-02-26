@@ -11,9 +11,9 @@ import moment from "moment";
 import editCivilian from "../../thunks/editCivilian";
 import {initialize} from "redux-form";
 
-jest.mock('../../thunks/editCivilian', () => () => ({
-    type: 'MOCK_EDIT_CIVILIAN_REQUESTED'
-}))
+jest.mock('../../thunks/editCivilian', () => (
+   jest.fn(() => ({type: 'MOCK_EDIT_CIVILIAN_REQUESTED'}))
+))
 
 
 describe('Edit civilian dialog', () => {
@@ -83,7 +83,7 @@ describe('Edit civilian dialog', () => {
             });
 
             test('should pre-populate birthdate for existing birthdate', () => {
-                store.dispatch(initialize('EditCivilian', {...currentCaseCivilian, birthDate:'2018-02-14'}))
+                store.dispatch(initialize('EditCivilian', {...currentCaseCivilian, birthDate: '2018-02-14'}))
                 const birthDate = editCivilianDialog.find('[data-test="birthDateField"]').first().instance().value
                 expect(birthDate).toEqual('2018-02-14')
             })
@@ -234,8 +234,8 @@ describe('Edit civilian dialog', () => {
     describe('form', () => {
 
         test('should populate form with up to date values on render', () => {
-            containsValue(editCivilianDialog, '[data-test="firstNameInput"]', currentCaseCivilian.firstName);
-            containsValue(editCivilianDialog, '[data-test="lastNameInput"]', currentCaseCivilian.lastName);
+            containsValue(editCivilianDialog, '[data-test="firstNameInput"]', currentCaseCivilian.firstName)
+            containsValue(editCivilianDialog, '[data-test="lastNameInput"]', currentCaseCivilian.lastName)
         })
 
         describe('on submit', () => {
@@ -246,31 +246,31 @@ describe('Edit civilian dialog', () => {
                     firstName: 'Foo',
                     lastName: 'Bar',
                     birthDate: '2012-02-13',
-                    gender: 'Female',
-                    race: 'Korean'
+                    genderIdentity: 'Other',
+                    raceEthnicity: 'Korean'
                 }
 
-                changeInput(editCivilianDialog, '[data-test="firstNameInput"]', submittedValues.firstName);
-                changeInput(editCivilianDialog, '[data-test="lastNameInput"]', submittedValues.lastName);
+                changeInput(editCivilianDialog, '[data-test="firstNameInput"]', submittedValues.firstName)
+                changeInput(editCivilianDialog, '[data-test="lastNameInput"]', submittedValues.lastName)
                 changeInput(editCivilianDialog, '[data-test="birthDateInput"]', submittedValues.birthDate)
-                selectDropdownOption(editCivilianDialog, '[name="genderIdentity"]', submittedValues.gender)
-                selectDropdownOption(editCivilianDialog, '[name="raceEthnicity"]', submittedValues.race)
+                selectDropdownOption(editCivilianDialog, '[data-test="genderDropdown"]', submittedValues.genderIdentity)
+                selectDropdownOption(editCivilianDialog, '[data-test="raceDropdown"]', submittedValues.raceEthnicity)
             });
 
             test('should fill in form', () => {
-                containsValue(editCivilianDialog, '[data-test="firstNameInput"]', submittedValues.firstName);
-                containsValue(editCivilianDialog, '[data-test="lastNameInput"]', submittedValues.lastName);
+                containsValue(editCivilianDialog, '[data-test="firstNameInput"]', submittedValues.firstName)
+                containsValue(editCivilianDialog, '[data-test="lastNameInput"]', submittedValues.lastName)
                 containsValue(editCivilianDialog, '[data-test="birthDateInput"]', submittedValues.birthDate)
-                containsText(editCivilianDialog, '[data-test="genderDropdown"]', submittedValues.gender)
-                containsText(editCivilianDialog, '[data-test="raceDropdown"]', submittedValues.race)
+                containsText(editCivilianDialog, '[data-test="genderDropdown"]', submittedValues.genderIdentity)
+                containsText(editCivilianDialog, '[data-test="raceDropdown"]', submittedValues.raceEthnicity)
             })
 
-            test('should fire off thunk when saving', () => {
+            test('should call thunk with correct form values on submit', () => {
                 save.simulate('click')
-                //TODO: This test passes regardless of what edit Civilian is called with.  Fix this.
-                expect(dispatchSpy).toHaveBeenCalledWith(editCivilian(submittedValues))
+
+                expect(editCivilian).toHaveBeenCalledWith(submittedValues)
             })
-        });
+        })
     })
 })
 
