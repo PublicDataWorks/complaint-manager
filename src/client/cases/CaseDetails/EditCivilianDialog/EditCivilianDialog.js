@@ -12,6 +12,7 @@ import {genderIdentityIsRequired, notFutureDate, raceEthnicityIsRequired} from "
 import moment from "moment";
 import editCivilian from "../../thunks/editCivilian";
 import NoBlurTextField from "./FormSelect";
+import {withTheme} from "material-ui/styles/index";
 
 const generateMenu = contents => {
     return contents.map((content) => {
@@ -40,12 +41,12 @@ class EditCivilianDialog extends React.Component {
                     <form>
                         <Field
                             name="roleOnCase"
-                            component={RoleOnCaseRadioGroup}/>
-                        <br/>
+                            component={RoleOnCaseRadioGroup}
+                            style={{marginBottom: '8px'}}
+                        />
                         <Typography type='body2' style={{marginBottom: '8px'}}>Personal Information</Typography>
                         <FirstNameField name={'firstName'}/>
                         <LastNameField name={'lastName'}/>
-                        <br/>
                         <div style={{display: 'flex'}}>
                             <Field
                                 name='birthDate'
@@ -59,7 +60,9 @@ class EditCivilianDialog extends React.Component {
                                 data-test="birthDateField"
                                 style={{
                                     width: '30%',
-                                    clipPath: 'inset(0 17px 0 0)'
+                                    clipPath: 'inset(0 17px 0 0)',
+                                    marginRight: '5%',
+                                    marginBottom: '3%',
                                 }}
                                 validate={[notFutureDate]}
                             />
@@ -85,7 +88,6 @@ class EditCivilianDialog extends React.Component {
                                 }
                             </Field>
                         </div>
-                        <br/>
                         <Field
                             required
                             name="raceEthnicity"
@@ -123,7 +125,7 @@ class EditCivilianDialog extends React.Component {
                         <Typography type='body2' style={{marginBottom: '16px'}}>Contact Information</Typography>
                     </form>
                 </DialogContent>
-                <DialogActions>
+                <DialogActions style={{justifyContent: 'space-between', margin: `${this.props.theme.spacing.unit * 2}px`}}>
                     <CancelButton
                         data-test="cancelEditCivilian"
                         onClick={() => this.props.dispatch(closeEditDialog())}
@@ -158,11 +160,13 @@ const changeToBlankValueWhenBirthdaySetToInvalidDateSoThatLabelRendersProperly =
     }
 }
 
+const DialogWithTheme = withTheme()(EditCivilianDialog)
+
 const connectedForm = reduxForm({
     form: 'EditCivilian',
     onSubmit: handleEditCivilian,
     onChange: changeToBlankValueWhenBirthdaySetToInvalidDateSoThatLabelRendersProperly
-})(EditCivilianDialog)
+})(DialogWithTheme)
 
 const mapStateToProps = (state) => ({
     open: state.ui.editCivilianDialog.open,

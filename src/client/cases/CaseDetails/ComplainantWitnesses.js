@@ -56,8 +56,8 @@ const ComplainantWitnesses = (props) => {
                         style={{backgroundColor: 'white'}}
                     >
                         <ExpansionPanelSummary style={{padding: "0px 16px"}}>
-                            <div style={{display: "flex", width: '100%'}}>
-                                <div style={{flex: 1, textAlign: 'left'}}>
+                            <div style={{display: 'flex', width: '100%', paddingRight: 0}}>
+                                <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
                                     <Typography
                                         type='caption'
                                         data-test="primaryComplainantLabel"
@@ -71,7 +71,7 @@ const ComplainantWitnesses = (props) => {
                                         {`${primaryComplainant.firstName} ${primaryComplainant.lastName}`}
                                     </Typography>
                                 </div>
-                                <div style={{flex: 1, textAlign: 'left'}}>
+                                <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
                                     <Typography
                                         type='caption'
                                         data-test="genderIdentityLabel"
@@ -85,7 +85,7 @@ const ComplainantWitnesses = (props) => {
                                         {primaryComplainant.genderIdentity ? primaryComplainant.genderIdentity : 'N/A'}
                                     </Typography>
                                 </div>
-                                <div style={{flex: 1, textAlign: 'left'}}>
+                                <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
                                     <Typography
                                         type='caption'
                                         data-test="raceEthnicityLabel"
@@ -99,7 +99,7 @@ const ComplainantWitnesses = (props) => {
                                         {primaryComplainant.raceEthnicity ? primaryComplainant.raceEthnicity : 'N/A'}
                                     </Typography>
                                 </div>
-                                <div style={{flex: 1, textAlign: 'left'}}>
+                                <div style={{flex: 1, textAlign: 'right'}}>
                                     <LinkButton
                                         data-test="editComplainantLink"
                                         onClick={() => {
@@ -113,8 +113,8 @@ const ComplainantWitnesses = (props) => {
                             </div>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails style={{padding: "8px 16px 24px 16px"}}>
-                            <div style={{display: "flex", width: '100%', background: 'white'}}>
-                                <div style={{flex: 1, textAlign: 'left'}}>
+                            <div style={{display: 'flex', width: '100%', background: 'white', paddingRight: 0}}>
+                                <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
                                     <Typography
                                         type='caption'
                                     >
@@ -127,7 +127,7 @@ const ComplainantWitnesses = (props) => {
                                         {primaryComplainant.birthDate ? formatDate(primaryComplainant.birthDate) : 'N/A'}
                                     </Typography>
                                 </div>
-                                <div style={{flex: 1, textAlign: 'left'}}>
+                                <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
                                     <Typography
                                         type='caption'
                                     >
@@ -140,7 +140,7 @@ const ComplainantWitnesses = (props) => {
                                         {primaryComplainant.phoneNumber ? formatPhoneNumber(primaryComplainant.phoneNumber) : 'N/A'}
                                     </Typography>
                                 </div>
-                                <div style={{flex: 1, textAlign: 'left'}}>
+                                <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
                                     <Typography
                                         type='caption'
                                     >
@@ -153,7 +153,7 @@ const ComplainantWitnesses = (props) => {
                                         {primaryComplainant.email ? primaryComplainant.email : 'N/A'}
                                     </Typography>
                                 </div>
-                                <div style={{flex: 1, textAlign: 'left'}}/>
+                                <div style={{flex: 1}}/>
                             </div>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
