@@ -127,7 +127,7 @@ describe('snackbarReducer', () => {
 
             expect(newState.open).toBeTruthy()
             expect(newState.success).toBeFalsy()
-            expect(newState.message).toEqual('Something went wrong on our end and Complainant & Witnesses was not updated. Please try again.')
+            expect(newState.message).toEqual('Something went wrong on our end and the civilian was not updated. Please try again.')
         })
     })
 })

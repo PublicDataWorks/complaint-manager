@@ -87,7 +87,7 @@ const snackbarReducer = (state = initialState, action) => {
             return {
                 open: true,
                 success: false,
-                message: 'Something went wrong on our end and Complainant & Witnesses was not updated. Please try again.'
+                message: 'Something went wrong on our end and the civilian was not updated. Please try again.'
             }
         default:
             return state
