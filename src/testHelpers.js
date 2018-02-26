@@ -39,9 +39,10 @@ export const containsValue = (mountedComponent, inputSelector, expectedText) => 
 
     const containsValue = mountedComponent
         .find(inputSelector)
-        .filterWhere(node => node.instance().value === expectedText)
+        .last()
 
-    return expect(containsValue.length).not.toEqual(0)
+    expect(containsValue).not.toBeUndefined()
+    return expect(containsValue.instance().value).toEqual(expectedText)
 }
 
 //handles if node contains text

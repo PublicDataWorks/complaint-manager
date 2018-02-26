@@ -126,6 +126,20 @@ class CreateCaseDialog extends React.Component {
                             />
                             <br/>
                             <FirstNameField name={'civilian.firstName'}/>
+                            <Field
+                                name='civilian.middleInitial'
+                                data-test='middleInitialField'
+                                label='M.I.'
+                                inputProps={{
+                                    "data-test": "middleInitialInput",
+                                    maxLength: 1
+                                }}
+                                normalize={(value, previousValue) => (
+                                    value === "" || /^[a-zA-Z]?$/.test(value) ? value : previousValue
+                                )}
+                                component={TextField}
+                            />
+
                             <LastNameField name={'civilian.lastName'}/>
                             <br/>
                             <PhoneNumberField name={'civilian.phoneNumber'}/>
