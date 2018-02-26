@@ -247,7 +247,7 @@ describe('Edit civilian dialog', () => {
                     lastName: 'Bar',
                     birthDate: '2012-02-13',
                     genderIdentity: 'Other',
-                    raceEthnicity: 'Korean'
+                    raceEthnicity: 'Other'
                 }
 
                 changeInput(editCivilianDialog, '[data-test="firstNameInput"]', submittedValues.firstName)

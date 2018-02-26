@@ -16,7 +16,7 @@ export const findDropdownOption = (mountedComponent, dropdownSelector, optionNam
     const option = mountedComponent
         .find('[role="option"]')
         .filterWhere(option => option.text() === optionName)
-        .first()
+        .last()
 
     return option
 }
