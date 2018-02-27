@@ -9,12 +9,12 @@ import LastNameField from "../sharedFormComponents/LastNameField";
 import PhoneNumberField from "../sharedFormComponents/PhoneNumberField";
 import EmailField from "../sharedFormComponents/EmailField";
 import LinkButton from "../../sharedComponents/LinkButton";
-import {notFutureDate} from "../../formValidations";
 import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import {TextField} from "redux-form-material-ui";
 import createCase from "../thunks/createCase";
 import {closeSnackbar} from "../../snackbar/actionCreators";
 import moment from "moment";
+import DateField from "../sharedFormComponents/DateField";
 
 const margin = {
     marginLeft: '5%',
@@ -105,19 +105,17 @@ class CreateCaseDialog extends React.Component {
                         </DialogContentText>
                         <form data-test="createCaseForm">
                             <Typography type='body2' style={{marginBottom: '8px'}}>Timeline</Typography>
-                            <Field
-                                required
-                                name={'case.firstContactDate'}
-                                component={TextField}
-                                label='First Contact Date'
+                            <DateField
+                                fieldProps={{
+                                    required: true,
+                                    name: 'case.firstContactDate',
+                                    label: 'First Contact Date',
+                                    'data-test': 'firstContactDateField',
+                                }}
                                 inputProps={{
                                     "data-test": "firstContactDateInput",
-                                    type: "date",
-                                    max: moment(Date.now()).format('YYYY-MM-DD'),
                                 }}
-                                data-test="firstContactDateField"
                                 style={{...offSet, width: '35%', clipPath: 'inset(0 17px 0 0)'}}
-                                validate={[notFutureDate]}
                             />
                             <br/>
                             <Field
@@ -204,11 +202,9 @@ export const DialogWithTheme = withTheme()(CreateCaseDialog)
 const ConnectedDialog = connect(mapStateToProps)(DialogWithTheme)
 
 const handleOnChange = (values, dispatch, props, previousValues) => {
-
     if (!Boolean(values.case.firstContactDate)) {
         dispatch(change('CreateCase', 'case.firstContactDate', previousValues.case.firstContactDate))
     }
-
 }
 
 export default reduxForm({

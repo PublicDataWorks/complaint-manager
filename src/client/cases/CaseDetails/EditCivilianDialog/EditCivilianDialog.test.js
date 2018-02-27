@@ -5,9 +5,12 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import EditCivilianDialog from "./EditCivilianDialog";
 import {closeEditDialog, openEditDialog} from "../../actionCreators";
 import {
-    changeInput, containsText, containsValue, expectEventuallyNotToExist, selectDropdownOption
+    changeInput,
+    containsText,
+    containsValue,
+    expectEventuallyNotToExist,
+    selectDropdownOption
 } from "../../../../testHelpers";
-import moment from "moment";
 import editCivilian from "../../thunks/editCivilian";
 import {initialize} from "redux-form";
 
@@ -91,23 +94,6 @@ describe('Edit civilian dialog', () => {
             test('should default date to mm/dd/yyyy', () => {
                 expect(datePicker.instance().value).toEqual("")
             })
-
-            test('should not change when changing to a future date', () => {
-                const tomorrow = moment(Date.now()).add(2, 'days').format("YYYY-MM-DD")
-                datePicker.simulate('change', {target: {value: tomorrow.toString()}})
-                datePickerField.simulate('blur')
-
-                expect(datePickerField.text()).toContain('Date cannot be in the future')
-            })
-
-            test('should change when changing to a past date', () => {
-                const yesterday = moment(Date.now()).subtract(1, 'days').format("YYYY-MM-DD")
-                datePicker.simulate('change', {target: {value: yesterday}})
-                datePickerField.simulate('blur')
-
-                expect(datePicker.instance().value).toEqual(yesterday)
-            })
-
         });
 
         describe('gender', () => {

@@ -2,17 +2,16 @@ import React from 'react';
 import {connect} from "react-redux";
 import {change, Field, reduxForm, submit} from "redux-form";
 import {Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Typography} from 'material-ui';
-import {TextField} from "redux-form-material-ui";
 import RoleOnCaseRadioGroup from "./RoleOnCaseRadioGroup";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";
 import LastNameField from "../../sharedFormComponents/LastNameField";
 import {CancelButton, SubmitButton} from "../../../sharedComponents/StyledButtons";
 import {closeEditDialog} from "../../actionCreators";
-import {genderIdentityIsRequired, notFutureDate, raceEthnicityIsRequired} from "../../../formValidations";
-import moment from "moment";
+import {genderIdentityIsRequired, raceEthnicityIsRequired} from "../../../formValidations";
 import editCivilian from "../../thunks/editCivilian";
 import NoBlurTextField from "./FormSelect";
 import {withTheme} from "material-ui/styles/index";
+import DateField from "../../sharedFormComponents/DateField";
 
 const generateMenu = contents => {
     return contents.map((content) => {
@@ -48,23 +47,21 @@ class EditCivilianDialog extends React.Component {
                         <FirstNameField name={'firstName'}/>
                         <LastNameField name={'lastName'}/>
                         <div style={{display: 'flex'}}>
-                            <Field
-                                name='birthDate'
-                                component={TextField}
-                                label='Birthday'
-                                inputProps={{
-                                    "data-test": "birthDateInput",
-                                    type: "date",
-                                    max: moment(Date.now()).format('YYYY-MM-DD')
+                            <DateField
+                                fieldProps={{
+                                    name:'birthDate',
+                                    label:'Birthday',
+                                    'data-test':'birthDateField'
                                 }}
-                                data-test="birthDateField"
+                                inputProps={{
+                                    'data-test': 'birthDateInput'
+                                }}
                                 style={{
                                     width: '30%',
                                     clipPath: 'inset(0 17px 0 0)',
                                     marginRight: '5%',
                                     marginBottom: '3%',
                                 }}
-                                validate={[notFutureDate]}
                             />
                             <Field
                                 required
