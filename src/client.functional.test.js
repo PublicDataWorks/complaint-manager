@@ -93,7 +93,7 @@ describe('client-side user journey', () => {
 
     test('should view existing cases', async () => {
         await retry(() => {
-            expectCaseToBeVisible(app, 1, 'Pollard, R.')
+            expectCaseToBeVisible(app, 1, 'Robert Pollard')
         });
     })
 
@@ -101,7 +101,7 @@ describe('client-side user journey', () => {
         createCase(app, newCaseRequest);
 
         await retry(() => {
-            expectCaseToBeVisible(app, 2, 'Hayder, S.')
+            expectCaseToBeVisible(app, 2, 'Sarah Hayder')
             expectSnackbar(app, 'Case 2 was successfully created.');
         });
     })

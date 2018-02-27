@@ -5,8 +5,16 @@ module.exports = (sequelize, DataTypes) => {
                 field: 'first_name',
                 type: DataTypes.STRING(25)
             },
+            middleInitial: {
+                field: 'middle_initial',
+                type: DataTypes.STRING(1)
+            },
             lastName: {
                 field: 'last_name',
+                type: DataTypes.STRING(25)
+            },
+            suffix: {
+                field: 'suffix',
                 type: DataTypes.STRING(25)
             },
             birthDate: {

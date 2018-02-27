@@ -13,6 +13,7 @@ import LinkButton from "../../sharedComponents/LinkButton";
 import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
 import formatDate from "../../formatDate";
 import {initialize} from "redux-form";
+import formatName from "../../formatName";
 
 const formatPhoneNumber = (phoneNumber) => {
     const phoneString = phoneNumber.toString()
@@ -68,7 +69,7 @@ const ComplainantWitnesses = (props) => {
                                         type='body1'
                                         data-test="primaryComplainantName"
                                     >
-                                        {`${primaryComplainant.firstName} ${primaryComplainant.lastName}`}
+                                        {formatName(primaryComplainant)}
                                     </Typography>
                                 </div>
                                 <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>

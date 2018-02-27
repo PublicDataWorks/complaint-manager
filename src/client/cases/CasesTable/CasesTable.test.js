@@ -140,7 +140,7 @@ describe('cases table', () => {
 
         test('should display name', () => {
             const name = caseRow.find('td[data-test="caseName"]');
-            expect(name.text()).toEqual('Berry, C.');
+            expect(name.text()).toEqual('Chuck Berry');
         });
 
         test('should display first contact date', () => {
