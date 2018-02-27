@@ -10,11 +10,12 @@ import PhoneNumberField from "../sharedFormComponents/PhoneNumberField";
 import EmailField from "../sharedFormComponents/EmailField";
 import LinkButton from "../../sharedComponents/LinkButton";
 import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
-import {TextField} from "redux-form-material-ui";
 import createCase from "../thunks/createCase";
 import {closeSnackbar} from "../../snackbar/actionCreators";
 import moment from "moment";
 import DateField from "../sharedFormComponents/DateField";
+import MiddleInitialField from "../sharedFormComponents/MiddleInitialField";
+import SuffixField from "../sharedFormComponents/SuffixField";
 
 const margin = {
     marginLeft: '5%',
@@ -124,39 +125,19 @@ class CreateCaseDialog extends React.Component {
                             />
                             <br/>
                             <FirstNameField name={'civilian.firstName'}/>
-                            <Field
-                                name='civilian.middleInitial'
-                                data-test='middleInitialField'
-                                label='M.I.'
+                            <MiddleInitialField
+                                name={'civilian.middleInitial'}
                                 style={{
                                     width:'40px',
                                     marginRight:'5%'
                                 }}
-                                inputProps={{
-                                    "data-test": "middleInitialInput",
-                                    maxLength: 1
-                                }}
-                                normalize={(value, previousValue) => (
-                                    value === "" || /^[a-zA-Z]?$/.test(value) ? value : previousValue
-                                )}
-                                component={TextField}
                             />
                             <LastNameField name={'civilian.lastName'}/>
-                            <Field
+                            <SuffixField
                                 name={'civilian.suffix'}
-                                inputProps={{
-                                    "data-test": "suffixInput",
-                                    maxLength: 25
-                                }}
                                 style={{
                                     width:'120px'
                                 }}
-                                data-test="suffixField"
-                                label='Suffix'
-                                component={TextField}
-                                normalize={(value, previousValue) => (
-                                    value === "" || /^([^#/])*$/.test(value) ? value : previousValue
-                                )}
                             />
                             <br/>
                             <PhoneNumberField name={'civilian.phoneNumber'}/>

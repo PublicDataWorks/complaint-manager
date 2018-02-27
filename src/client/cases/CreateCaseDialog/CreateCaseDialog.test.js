@@ -4,7 +4,7 @@ import createConfiguredStore from "../../createConfiguredStore";
 import {mount} from "enzyme/build/index";
 import {createCaseSuccess} from "../actionCreators";
 import CreateCaseDialog from "./CreateCaseDialog";
-import {changeInput, containsText, containsValue, expectEventuallyNotToExist} from "../../../testHelpers";
+import {changeInput, expectEventuallyNotToExist} from "../../../testHelpers";
 import createCase from "../thunks/createCase";
 import {openSnackbar} from "../../snackbar/actionCreators";
 import moment from "moment";
@@ -144,50 +144,6 @@ describe('CreateCaseDialog component', () => {
                 expect(firstNameField.text()).toContain('Please enter First Name')
             })
         })
-
-        describe('middle initial', () => {
-            test('should allow single alphabetical character', () => {
-                changeInput(dialog, '[data-test="middleInitialInput"]', 'A')
-
-                containsValue(dialog, '[data-test="middleInitialInput"]', 'A')
-            })
-
-            test('should replace non alphabetical character with previous input', () => {
-                changeInput(dialog, '[data-test="middleInitialInput"]', 'A')
-                changeInput(dialog, '[data-test="middleInitialInput"]', '1')
-
-                containsValue(dialog, '[data-test="middleInitialInput"]', 'A')
-            })
-
-            test('should not allow multiple characters', () => {
-                changeInput(dialog, '[data-test="middleInitialInput"]', 'A')
-                changeInput(dialog, '[data-test="middleInitialInput"]', 'AA')
-
-                containsValue(dialog, '[data-test="middleInitialInput"]', 'A')
-            })
-
-        })
-
-        describe('suffix', () => {
-            test('should have a suffix field', () => {
-                const suffixField = dialog.find('[data-test="suffixField"]')
-                expect(suffixField.exists()).toBeTruthy()
-            })
-
-            test('should have a label Suffix', () => {
-                containsText(dialog, '[data-test="suffixField"]', 'Suffix')
-            })
-            
-            test('should be alphanumerical and not contain # /', () => {
-                const validInput = 'the 4th'
-                const invalidInput = 'asa sd / f #asdf,.|~'
-
-                changeInput(dialog, '[data-test="suffixInput"]',validInput)
-                changeInput(dialog, '[data-test="suffixInput"]',invalidInput)
-
-                containsValue(dialog, '[data-test="suffixInput"]',validInput)
-            })
-        });
 
         describe('last name', () => {
             test('should display error message when no value', () => {
