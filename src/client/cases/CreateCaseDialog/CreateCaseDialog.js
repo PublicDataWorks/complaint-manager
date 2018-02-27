@@ -128,6 +128,10 @@ class CreateCaseDialog extends React.Component {
                                 name='civilian.middleInitial'
                                 data-test='middleInitialField'
                                 label='M.I.'
+                                style={{
+                                    width:'40px',
+                                    marginRight:'5%'
+                                }}
                                 inputProps={{
                                     "data-test": "middleInitialInput",
                                     maxLength: 1
@@ -137,8 +141,23 @@ class CreateCaseDialog extends React.Component {
                                 )}
                                 component={TextField}
                             />
-
                             <LastNameField name={'civilian.lastName'}/>
+                            <Field
+                                name={'civilian.suffix'}
+                                inputProps={{
+                                    "data-test": "suffixInput",
+                                    maxLength: 25
+                                }}
+                                style={{
+                                    width:'120px'
+                                }}
+                                data-test="suffixField"
+                                label='Suffix'
+                                component={TextField}
+                                normalize={(value, previousValue) => (
+                                    value === "" || /^([^#/])*$/.test(value) ? value : previousValue
+                                )}
+                            />
                             <br/>
                             <PhoneNumberField name={'civilian.phoneNumber'}/>
                             <EmailField name={'civilian.email'}/>

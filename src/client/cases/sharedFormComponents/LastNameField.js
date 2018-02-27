@@ -15,7 +15,7 @@ const LastNameField = (props) => (
             "data-test": "lastNameInput"}}
         data-test="lastNameField"
         validate={[lastNameRequired, lastNameNotBlank]}
-        style={{marginRight: '5%', marginBottom: '3%'}}
+        style={{width: '140px', marginRight: '5%', marginBottom: '3%'}}
     />
 )
 

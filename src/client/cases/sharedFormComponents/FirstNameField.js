@@ -17,7 +17,7 @@ const FirstNameField = (props) => (
         }}
         data-test="firstNameField"
         validate={[firstNameRequired, firstNameNotBlank]}
-        style={{marginRight: '5%', marginBottom: '3%'}}
+        style={{width: '140px', marginRight: '5%', marginBottom: '3%'}}
     />
 )
 
