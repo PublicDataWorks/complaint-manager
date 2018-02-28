@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
                 primaryKey: true,
                 autoIncrement: true
             },
-            //TODO Why is this at the case-level?  This is a descriptor for the Complainant, right?  IF so, move to civilian model.
             complainantType: {
                 type: DataTypes.ENUM([
                     'Civilian', 'Police Officer'
@@ -23,14 +22,6 @@ module.exports = (sequelize, DataTypes) => {
                 field: 'first_contact_date',
                 type: DataTypes.DATE
             },
-            createdAt: {
-                field: 'created_at',
-                type: DataTypes.DATE
-            },
-            updatedAt: {
-                field: 'updated_at',
-                type: DataTypes.DATE
-            },
             narrative: {
                 field: 'narrative',
                 type: DataTypes.TEXT
@@ -42,6 +33,14 @@ module.exports = (sequelize, DataTypes) => {
             assignedTo: {
                 field: 'assigned_to',
                 type: DataTypes.STRING
+            },
+            createdAt: {
+                field: 'created_at',
+                type: DataTypes.DATE
+            },
+            updatedAt: {
+                field: 'updated_at',
+                type: DataTypes.DATE
             }
         },
         {

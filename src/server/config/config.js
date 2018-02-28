@@ -34,6 +34,7 @@ module.exports = {
         migrationStorageTableName: 'sequelize_meta',
         seederStorage: 'sequelize',
         seederStorageTableName: 'sequelize_data',
+        logging: false,
         email: {
             secureConnection: false,
             secure: false,

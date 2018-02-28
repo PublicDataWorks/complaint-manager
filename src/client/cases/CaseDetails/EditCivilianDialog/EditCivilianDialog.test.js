@@ -44,12 +44,11 @@ describe('Edit civilian dialog', () => {
         save = editCivilianDialog.find('button[data-test="submitEditCivilian"]')
     })
 
-    const optionExists = (optionName) => {
-        const hasOption = editCivilianDialog
-            .find('[role="option"]')
-            .someWhere(node => node.text() === optionName)
-
-        expect(hasOption).toEqual(true)
+    const getMenuOptions = (mountedComponent, menuSelector) => {
+         return mountedComponent
+            .find(menuSelector)
+            .find('li[role="option"]')
+            .map(node => node.text())
 
     }
 
@@ -123,9 +122,11 @@ describe('Edit civilian dialog', () => {
                 'Trans Female',
                 'Trans Male',
                 'Other',
-                'No Answer'
+                'Unknown'
             ]
-            genders.map(gender => optionExists(gender))
+
+            const menuOptions = getMenuOptions(editCivilianDialog, '[id="menu-genderIdentity"]')
+            expect(genders).toEqual(menuOptions)
         })
 
         test('should change if already set', async () => {
@@ -184,8 +185,12 @@ describe('Edit civilian dialog', () => {
                 'Other Pacific Islander',
                 'Other Asian',
                 'Other',
+                'Unknown'
             ]
-            races.map(race => optionExists(race))
+
+            const menuOptions = getMenuOptions(editCivilianDialog, '[id="menu-raceEthnicity"]')
+            expect(races).toEqual(menuOptions)
+
         })
 
         test('should change if already set', () => {

@@ -8,18 +8,21 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
+            action: {
+                allowNull: false,
+                type: Sequelize.STRING
+            },
             user: {
+                allowNull: false,
                 type: Sequelize.STRING
             },
             case_id: {
+                allowNull: false,
                 type: Sequelize.INTEGER,
                 references: {
                     model: 'cases',
                     key: 'id'
                 },
-            },
-            action: {
-                type: Sequelize.STRING
             },
             created_at: {
                 allowNull: false,

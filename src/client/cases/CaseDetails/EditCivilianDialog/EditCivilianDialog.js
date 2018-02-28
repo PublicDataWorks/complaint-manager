@@ -95,7 +95,7 @@ class EditCivilianDialog extends React.Component {
                                         'Trans Female',
                                         'Trans Male',
                                         'Other',
-                                        'No Answer'
+                                        'Unknown'
                                     ])
                                 }
                             </Field>
@@ -131,6 +131,7 @@ class EditCivilianDialog extends React.Component {
                                     'Other Pacific Islander',
                                     'Other Asian',
                                     'Other',
+                                    'Unknown'
                                 ])
                             }
                         </Field>

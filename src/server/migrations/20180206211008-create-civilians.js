@@ -18,7 +18,13 @@ module.exports = {
             first_name: {
                 type: Sequelize.STRING(25)
             },
+            middle_initial: {
+                type: Sequelize.STRING(1)
+            },
             last_name: {
+                type: Sequelize.STRING(25)
+            },
+            suffix: {
                 type: Sequelize.STRING(25)
             },
             birth_date: {
@@ -29,7 +35,7 @@ module.exports = {
                 type: Sequelize.ENUM(['Primary Complainant', 'Witness'])
             },
             gender_identity: {
-                type: Sequelize.ENUM(['Male', 'Female', 'Trans Male', 'Trans Female', 'Other', 'No Answer'])
+                type: Sequelize.ENUM(['Male', 'Female', 'Trans Male', 'Trans Female', 'Other', 'Unknown'])
             },
             race_ethnicity: {
                 type: Sequelize.STRING //TODO change to enum

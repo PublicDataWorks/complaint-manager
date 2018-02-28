@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             genderIdentity: {
                 field: 'gender_identity',
-                type: DataTypes.ENUM(['Male', 'Female', 'Trans Male', 'Trans Female', 'Other', 'No Answer'])
+                type: DataTypes.ENUM(['Male', 'Female', 'Trans Male', 'Trans Female', 'Other', 'Unknown'])
             },
             raceEthnicity: {
                 field: 'race_ethnicity',
