@@ -100,7 +100,7 @@ const ComplainantWitnesses = (props) => {
                                         {primaryComplainant.raceEthnicity ? primaryComplainant.raceEthnicity : 'N/A'}
                                     </Typography>
                                 </div>
-                                <div style={{flex: 1, textAlign: 'right'}}>
+                                <div>
                                     <LinkButton
                                         data-test="editComplainantLink"
                                         onClick={() => {
@@ -114,7 +114,7 @@ const ComplainantWitnesses = (props) => {
                             </div>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails style={{padding: "8px 16px 24px 16px"}}>
-                            <div style={{display: 'flex', width: '100%', background: 'white', paddingRight: 0}}>
+                            <div style={{display: 'flex', width: '100%', background: 'white', padding: '0', marginRight: '88px'}}>
                                 <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
                                     <Typography
                                         type='caption'
@@ -154,7 +154,6 @@ const ComplainantWitnesses = (props) => {
                                         {primaryComplainant.email ? primaryComplainant.email : 'N/A'}
                                     </Typography>
                                 </div>
-                                <div style={{flex: 1}}/>
                             </div>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
