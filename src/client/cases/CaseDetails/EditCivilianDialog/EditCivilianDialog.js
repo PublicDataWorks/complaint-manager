@@ -12,6 +12,8 @@ import editCivilian from "../../thunks/editCivilian";
 import NoBlurTextField from "./FormSelect";
 import {withTheme} from "material-ui/styles/index";
 import DateField from "../../sharedFormComponents/DateField";
+import MiddleInitialField from "../../sharedFormComponents/MiddleInitialField";
+import SuffixField from "../../sharedFormComponents/SuffixField";
 
 const generateMenu = contents => {
     return contents.map((content) => {
@@ -44,14 +46,27 @@ class EditCivilianDialog extends React.Component {
                             style={{marginBottom: '8px'}}
                         />
                         <Typography type='body2' style={{marginBottom: '8px'}}>Personal Information</Typography>
-                        <FirstNameField name={'firstName'}/>
-                        <LastNameField name={'lastName'}/>
+                        <FirstNameField name='firstName'/>
+                        <MiddleInitialField
+                            name='middleInitial'
+                            style={{
+                                width: '40px',
+                                marginRight: '5%'
+                            }}
+                        />
+                        <LastNameField name='lastName'/>
+                        <SuffixField
+                            name='suffix'
+                            style={{
+                                width: '120px'
+                            }}
+                        />
                         <div style={{display: 'flex'}}>
                             <DateField
                                 fieldProps={{
-                                    name:'birthDate',
-                                    label:'Birthday',
-                                    'data-test':'birthDateField'
+                                    name: 'birthDate',
+                                    label: 'Birthday',
+                                    'data-test': 'birthDateField'
                                 }}
                                 inputProps={{
                                     'data-test': 'birthDateInput'
@@ -122,7 +137,8 @@ class EditCivilianDialog extends React.Component {
                         <Typography type='body2' style={{marginBottom: '16px'}}>Contact Information</Typography>
                     </form>
                 </DialogContent>
-                <DialogActions style={{justifyContent: 'space-between', margin: `${this.props.theme.spacing.unit * 2}px`}}>
+                <DialogActions
+                    style={{justifyContent: 'space-between', margin: `${this.props.theme.spacing.unit * 2}px`}}>
                     <CancelButton
                         data-test="cancelEditCivilian"
                         onClick={() => this.props.dispatch(closeEditDialog())}

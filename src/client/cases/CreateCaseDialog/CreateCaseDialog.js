@@ -120,21 +120,21 @@ class CreateCaseDialog extends React.Component {
                             />
                             <br/>
                             <Field
-                                name={'case.complainantType'}
+                                name='case.complainantType'
                                 component={ComplainantTypeRadioGroup}
                             />
                             <br/>
-                            <FirstNameField name={'civilian.firstName'}/>
+                            <FirstNameField name='civilian.firstName'/>
                             <MiddleInitialField
-                                name={'civilian.middleInitial'}
+                                name='civilian.middleInitial'
                                 style={{
                                     width:'40px',
                                     marginRight:'5%'
                                 }}
                             />
-                            <LastNameField name={'civilian.lastName'}/>
+                            <LastNameField name='civilian.lastName'/>
                             <SuffixField
-                                name={'civilian.suffix'}
+                                name='civilian.suffix'
                                 style={{
                                     width:'120px'
                                 }}
