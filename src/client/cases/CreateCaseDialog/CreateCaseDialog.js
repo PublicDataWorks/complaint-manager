@@ -93,6 +93,7 @@ class CreateCaseDialog extends React.Component {
                 <Dialog
                     data-test="createCaseDialog"
                     open={this.state.dialogOpen}
+                    fullWidth
                 >
                     <DialogTitle data-test="createCaseDialogTitle" style={{paddingBottom: '1%'}}>
                         Create New Case
