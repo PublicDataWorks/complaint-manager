@@ -2,25 +2,13 @@ import React from 'react'
 import {Field, reduxForm, submit} from "redux-form";
 import {TextField} from "redux-form-material-ui";
 import updateNarrative from "../thunks/updateNarrative";
-import {Card, CardActions, CardContent, Divider, Typography} from "material-ui";
+import {CardActions, CardContent, Typography} from "material-ui";
 import {SubmitButton} from "../../sharedComponents/StyledButtons";
+import BaseCaseDetailsCard from "./BaseCaseDetailsCard";
 
 const Narrative = (props) => {
     return (
-        <Card style={{
-            backgroundColor: 'white',
-            marginLeft: '5%',
-            marginRight: '5%',
-            maxWidth: '850px'
-        }}>
-            <CardContent>
-                <Typography
-                    type='title'
-                >
-                    Narrative
-                </Typography>
-            </CardContent>
-            <Divider/>
+        <BaseCaseDetailsCard title='Narrative'>
             <CardContent>
                 <Typography
                     style={{
@@ -54,7 +42,7 @@ const Narrative = (props) => {
                     Save
                 </SubmitButton>
             </CardActions>
-        </Card>
+        </BaseCaseDetailsCard>
     )
 }
 

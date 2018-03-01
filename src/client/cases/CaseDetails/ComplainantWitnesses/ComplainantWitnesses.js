@@ -1,21 +1,15 @@
 import React from "react";
-import {
-    Card,
-    CardContent,
-    Divider,
-    ExpansionPanel,
-    ExpansionPanelDetails,
-    ExpansionPanelSummary,
-    Typography
-} from "material-ui";
-import {openEditDialog} from "../actionCreators";
-import LinkButton from "../../sharedComponents/LinkButton";
-import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
-import formatDate from "../../utilities/formatDate";
+import {CardContent, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Typography} from "material-ui";
+import LinkButton from "../../../sharedComponents/LinkButton";
+import {openEditDialog} from "../../actionCreators";
+import getPrimaryComplainant from "../../../utilities/getPrimaryComplainant";
+import formatDate from "../../../utilities/formatDate"
+import formatName from "../../../utilities/formatName";
 import {initialize} from "redux-form";
-import formatName from "../../utilities/formatName";
 import _ from 'lodash'
-import formatPhoneNumber from "../../utilities/formatPhoneNumber";
+import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
+import formatPhoneNumber from "../../../utilities/formatPhoneNumber"
+
 
 function removeFalsyProperties(object) {
     return _.pickBy(object, _.identity)
@@ -25,25 +19,10 @@ const ComplainantWitnesses = (props) => {
     const primaryComplainant = getPrimaryComplainant(props.caseDetail.civilians)
 
     return (
-            <Card
+            <BaseCaseDetailsCard
                 data-test="complainantWitnessesSection"
-                style={{
-                    backgroundColor: 'white',
-                    marginLeft: '5%',
-                    marginRight: '5%',
-                    maxWidth: '850px',
-                    marginBottom: '24px'
-                }}
+                title='Complainant & Witnesses'
             >
-                <CardContent
-                >
-                    <Typography
-                        type="title"
-                        data-test="complainantWitnessesPanelTitle">
-                        Complainant & Witnesses
-                    </Typography>
-                </CardContent>
-                <Divider/>
                 <CardContent
                     style={{padding: '0'}}
                 >
@@ -154,8 +133,7 @@ const ComplainantWitnesses = (props) => {
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                 </CardContent>
-
-            </Card>
+            </BaseCaseDetailsCard>
     )
 }
 

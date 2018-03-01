@@ -10,12 +10,13 @@ import {connect} from "react-redux";
 import formatName from "../../utilities/formatName";
 import formatDate from "../../utilities/formatDate";
 import Narrative from "./Narrative";
-import CaseDetailSnackbar from "./CaseDetailSnackbar";
-import ComplainantWitnesses from "./ComplainantWitnesses";
+import CaseDetailSnackbar from "./CaseDetailSnackbar/CaseDetailSnackbar";
+import ComplainantWitnesses from "./ComplainantWitnesses/ComplainantWitnesses";
 import EditCivilianDialog from "./EditCivilianDialog/EditCivilianDialog"
 import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
 import getCaseDetails from "../thunks/getCaseDetails";
 import * as _ from 'lodash';
+import Attachments from "./Attachments/Attachments";
 
 const drawerWidthPercentage = '30%';
 
@@ -176,6 +177,7 @@ class CaseDetails extends React.Component {
                             initialValues={{narrative: this.props.caseDetail.narrative}}
                             caseId={this.props.caseDetail.id}
                         />
+                        <Attachments/>
                     </main>
                     <EditCivilianDialog/>
                     <CaseDetailSnackbar/>

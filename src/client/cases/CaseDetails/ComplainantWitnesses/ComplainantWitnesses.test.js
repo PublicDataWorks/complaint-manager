@@ -1,9 +1,9 @@
 import React from 'react'
-import {containsText} from "../../../testHelpers";
+import {containsText} from "../../../../testHelpers";
 import ComplainantWitnesses from "./ComplainantWitnesses";
 import {mount} from "enzyme";
-import {openEditDialog} from "../actionCreators";
-import createConfiguredStore from "../../createConfiguredStore";
+import {openEditDialog} from "../../actionCreators";
+import createConfiguredStore from "../../../createConfiguredStore";
 import {initialize} from "redux-form";
 
 jest.mock('redux-form', () => ({
@@ -43,10 +43,6 @@ describe('Complainant and Witnesses', () => {
 
         complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseDetail} dispatch={dispatchSpy}/>)
         complainantWitnessesSection = complainantWitnesses.find('[data-test="complainantWitnessesSection"]').first()
-    })
-
-    test('should have a title Complainant & Witnesses', () => {
-        containsText(complainantWitnessesSection, '[data-test="complainantWitnessesPanelTitle"]', 'Complainant & Witnesses')
     })
 
     describe('full name', () => {
