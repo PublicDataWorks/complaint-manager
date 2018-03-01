@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             phoneNumber: {
                 field: 'phone_number',
-                type: DataTypes.DECIMAL(10, 0)
+                type: DataTypes.STRING(10)
             },
             email: {
                 field: 'email',

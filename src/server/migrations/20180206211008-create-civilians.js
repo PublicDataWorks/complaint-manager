@@ -38,10 +38,10 @@ module.exports = {
                 type: Sequelize.ENUM(['Male', 'Female', 'Trans Male', 'Trans Female', 'Other', 'Unknown'])
             },
             race_ethnicity: {
-                type: Sequelize.STRING //TODO change to enum
+                type: Sequelize.STRING
             },
             phone_number: {
-                type: Sequelize.DECIMAL(10, 0)
+                type: Sequelize.STRING(10)
             },
             email: {
                 type: Sequelize.STRING(100)
