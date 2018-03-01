@@ -41,7 +41,9 @@ class EditCivilianDialog extends React.Component {
                 >
                     Edit Civilian
                 </DialogTitle>
-                <DialogContent>
+                <DialogContent
+                    style={{padding: '0px 24px'}}
+                >
                     <form>
                         <Field
                             name="roleOnCase"
@@ -138,9 +140,9 @@ class EditCivilianDialog extends React.Component {
                                 ])
                             }
                         </Field>
-                        <Typography type='body2' style={{marginBottom: '16px'}}>Contact Information</Typography>
+                        <Typography type='body2' style={{marginBottom: '8px'}}>Contact Information</Typography>
                         <PhoneNumberField name='phoneNumber'/>
-                        <EmailField name='email' />
+                        <EmailField name='email'/>
                     </form>
                 </DialogContent>
                 <DialogActions
