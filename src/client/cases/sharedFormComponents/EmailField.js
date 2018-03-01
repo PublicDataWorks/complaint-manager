@@ -1,7 +1,7 @@
 import React from 'react';
 import {Field} from 'redux-form';
 import {TextField} from "redux-form-material-ui";
-import {isEmail} from "../../formValidations";
+import {isEmail} from "../../formFieldLevelValidations";
 
 const EmailField = (props) => (
     <Field

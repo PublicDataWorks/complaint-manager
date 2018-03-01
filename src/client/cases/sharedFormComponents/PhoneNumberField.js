@@ -1,7 +1,7 @@
 import React from 'react';
 import {Field} from 'redux-form';
 import {TextField} from "redux-form-material-ui";
-import {isPhoneNumber} from "../../formValidations";
+import {isPhoneNumber} from "../../formFieldLevelValidations";
 
 const PhoneNumberField = (props) => (
     <Field

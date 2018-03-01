@@ -8,7 +8,7 @@ import {
     lastNameRequired,
     notFutureDate,
     validDate
-} from "./formValidations";
+} from "./formFieldLevelValidations";
 import moment from "moment";
 
 describe('Form Validations', () => {
@@ -49,12 +49,24 @@ describe('Form Validations', () => {
         expect(isEmail("email@domain.edu")).toBeUndefined()
     })
 
+    test("isEmail should not run on empty falsy values", () => {
+        expect(isEmail(null)).toBeUndefined()
+        expect(isEmail('')).toBeUndefined()
+        expect(isEmail(undefined)).toBeUndefined()
+    })
+
     test("isPhoneNumber should return an error message when not 10 digit format", () => {
         expect(isPhoneNumber("123456789")).toEqual("Please enter a numeric 10 digit value")
         expect(isPhoneNumber("12345678901")).toEqual("Please enter a numeric 10 digit value")
     })
     test("isPhoneNumber should not return an error message when has 10 digits", () => {
         expect(isPhoneNumber("3134655245")).toBeUndefined()
+    })
+
+    test("isPhoneNumber should not run on empty falsy values", () => {
+        expect(isPhoneNumber(null)).toBeUndefined()
+        expect(isPhoneNumber('')).toBeUndefined()
+        expect(isPhoneNumber(undefined)).toBeUndefined()
     })
 
     test("emailRequired should return an error when email is not provided", () => {

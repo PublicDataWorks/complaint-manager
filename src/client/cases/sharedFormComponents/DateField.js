@@ -1,6 +1,6 @@
 import React from "react"
 import {Field} from "redux-form"
-import {notFutureDate} from "../../formValidations"
+import {notFutureDate} from "../../formFieldLevelValidations"
 import {TextField} from "redux-form-material-ui"
 import moment from "moment"
 

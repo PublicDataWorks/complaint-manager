@@ -7,13 +7,16 @@ import FirstNameField from "../../sharedFormComponents/FirstNameField";
 import LastNameField from "../../sharedFormComponents/LastNameField";
 import {CancelButton, SubmitButton} from "../../../sharedComponents/StyledButtons";
 import {closeEditDialog} from "../../actionCreators";
-import {genderIdentityIsRequired, raceEthnicityIsRequired} from "../../../formValidations";
+import {genderIdentityIsRequired, raceEthnicityIsRequired} from "../../../formFieldLevelValidations";
 import editCivilian from "../../thunks/editCivilian";
 import NoBlurTextField from "./FormSelect";
 import {withTheme} from "material-ui/styles/index";
 import DateField from "../../sharedFormComponents/DateField";
 import MiddleInitialField from "../../sharedFormComponents/MiddleInitialField";
 import SuffixField from "../../sharedFormComponents/SuffixField";
+import PhoneNumberField from "../../sharedFormComponents/PhoneNumberField";
+import EmailField from "../../sharedFormComponents/EmailField";
+import {atLeastOneRequired} from "../../../formSyncValidations";
 
 const generateMenu = contents => {
     return contents.map((content) => {
@@ -136,6 +139,8 @@ class EditCivilianDialog extends React.Component {
                             }
                         </Field>
                         <Typography type='body2' style={{marginBottom: '16px'}}>Contact Information</Typography>
+                        <PhoneNumberField name='phoneNumber'/>
+                        <EmailField name='email' />
                     </form>
                 </DialogContent>
                 <DialogActions
@@ -174,12 +179,20 @@ const changeToBlankValueWhenBirthdaySetToInvalidDateSoThatLabelRendersProperly =
     }
 }
 
+const validate = values => {
+    const errorMessage = 'Please enter phone number or email address'
+    const fieldsToValidate = ['phoneNumber', 'email'];
+    return atLeastOneRequired(values, errorMessage, fieldsToValidate)
+}
+
+
 const DialogWithTheme = withTheme()(EditCivilianDialog)
 
 const connectedForm = reduxForm({
     form: 'EditCivilian',
     onSubmit: handleEditCivilian,
-    onChange: changeToBlankValueWhenBirthdaySetToInvalidDateSoThatLabelRendersProperly
+    onChange: changeToBlankValueWhenBirthdaySetToInvalidDateSoThatLabelRendersProperly,
+    validate
 })(DialogWithTheme)
 
 const mapStateToProps = (state) => ({

@@ -6,7 +6,7 @@ import CaseRow from './CaseRow'
 import {Paper, TableSortLabel, withStyles} from "material-ui";
 import tableStyleGenerator from '../../tableStyles'
 import {updateSort} from "../actionCreators";
-import sortBy from "../../sortBy";
+import sortBy from "../../utilities/sortBy";
 
 const numberOfColumns = 6;
 

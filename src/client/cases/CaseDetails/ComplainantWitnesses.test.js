@@ -4,6 +4,14 @@ import ComplainantWitnesses from "./ComplainantWitnesses";
 import {mount} from "enzyme";
 import {openEditDialog} from "../actionCreators";
 import createConfiguredStore from "../../createConfiguredStore";
+import {initialize} from "redux-form";
+
+jest.mock('redux-form', () => ({
+    reducer: { mockReducer: 'mockReducerState' },
+    initialize: jest.fn(() => ({
+        type: "MOCK_INITIALIZE_ACTION",
+    }))
+}))
 
 describe('Complainant and Witnesses', () => {
     let complainantWitnessesSection, complainantWitnesses, caseDetail, dispatchSpy, primaryComplainant
@@ -72,7 +80,24 @@ describe('Complainant and Witnesses', () => {
         test('should open edit complainant dialog when edit is clicked', () => {
             const editLink = complainantWitnesses.find('[data-test="editComplainantLink"]').first()
             editLink.simulate('click');
+
             expect(dispatchSpy).toHaveBeenCalledWith(openEditDialog())
+        })
+
+        test('should not initialize form with falsy values', () =>{
+            const editLink = complainantWitnesses.find('[data-test="editComplainantLink"]').first()
+            editLink.simulate('click');
+
+            const expectedValuesWithoutNullBirthday = {
+                id: 17,
+                    firstName: 'Chuck',
+                lastName: 'Berry',
+                phoneNumber: 1234567890,
+                email: 'cberry@gmail.com',
+                roleOnCase: 'Primary Complainant'
+            }
+
+            expect(initialize).toHaveBeenCalledWith('EditCivilian', expectedValuesWithoutNullBirthday)
         })
     })
 

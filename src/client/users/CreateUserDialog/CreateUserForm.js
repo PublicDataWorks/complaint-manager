@@ -9,7 +9,7 @@ import {
     isEmail,
     lastNameNotBlank,
     lastNameRequired
-} from "../../formValidations";
+} from "../../formFieldLevelValidations";
 
 const CreateUserForm = () => {
     const offSet = {

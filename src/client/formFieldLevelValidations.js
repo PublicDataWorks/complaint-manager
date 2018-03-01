@@ -8,12 +8,12 @@ const notBlank = text => value =>
     value.trim() === '' ? `Please enter ${text}` : undefined
 
 export const isPhoneNumber = value => {
-    const missingOrValid = value === undefined || /^[0-9]{10}$/.test(value);
+    const missingOrValid = !Boolean(value) || /^[0-9]{10}$/.test(value)
     return missingOrValid ? undefined : 'Please enter a numeric 10 digit value'
 }
 
 export const isEmail = value => {
-    const missingOrValid = value === undefined || validator.isEmail(value);
+    const missingOrValid = !Boolean(value) || validator.isEmail(value)
     return missingOrValid ? undefined : 'Please enter a valid email address'
 }
 

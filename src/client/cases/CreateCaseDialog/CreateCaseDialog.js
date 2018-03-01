@@ -16,6 +16,7 @@ import moment from "moment";
 import DateField from "../sharedFormComponents/DateField";
 import MiddleInitialField from "../sharedFormComponents/MiddleInitialField";
 import SuffixField from "../sharedFormComponents/SuffixField";
+import {atLeastOneRequired} from "../../formSyncValidations";
 
 const margin = {
     marginLeft: '5%',
@@ -182,22 +183,10 @@ const mapStateToProps = state => {
 }
 
 const validate = values => {
-    const errors = {
-        case: {},
-        civilian: {}
-    }
-
-    if (!values.civilian || civilianDefinedWithoutPhoneNumberOrEmail(values)) {
-        errors.civilian.phoneNumber = 'Please enter phone number or email address'
-        errors.civilian.email = 'Please enter phone number or email address'
-    }
-
-    return errors
+    const errorMessage = 'Please enter phone number or email address'
+    const fieldsToValidate = ['civilian.phoneNumber', 'civilian.email'];
+    return atLeastOneRequired(values, errorMessage, fieldsToValidate)
 }
-
-const civilianDefinedWithoutPhoneNumberOrEmail = (values) => (
-    values.civilian && !values.civilian.phoneNumber && !values.civilian.email
-)
 
 export const DialogWithTheme = withTheme()(CreateCaseDialog)
 const ConnectedDialog = connect(mapStateToProps)(DialogWithTheme)

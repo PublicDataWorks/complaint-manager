@@ -1,9 +1,9 @@
 import React from 'react'
 import {TableCell, TableRow, withStyles} from 'material-ui'
-import formatDate from "../../formatDate";
+import formatDate from "../../utilities/formatDate";
 import {Link} from "react-router-dom";
 import LinkButton from "../../sharedComponents/LinkButton";
-import formatName from "../../formatName";
+import formatName from "../../utilities/formatName";
 import tableStyleGenerator from "../../tableStyles";
 import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
 

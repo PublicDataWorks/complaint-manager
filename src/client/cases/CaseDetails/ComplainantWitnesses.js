@@ -11,18 +11,14 @@ import {
 import {openEditDialog} from "../actionCreators";
 import LinkButton from "../../sharedComponents/LinkButton";
 import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
-import formatDate from "../../formatDate";
+import formatDate from "../../utilities/formatDate";
 import {initialize} from "redux-form";
-import formatName from "../../formatName";
+import formatName from "../../utilities/formatName";
+import _ from 'lodash'
+import formatPhoneNumber from "../../utilities/formatPhoneNumber";
 
-const formatPhoneNumber = (phoneNumber) => {
-    const phoneString = phoneNumber.toString()
-
-    const areaCode = phoneString.substring(0, 3)
-    const first = phoneString.substring(3, 6)
-    const second = phoneString.substring(6, 10)
-
-    return `(${areaCode}) ${first}-${second}`
+function removeFalsyProperties(object) {
+    return _.pickBy(object, _.identity)
 }
 
 const ComplainantWitnesses = (props) => {
@@ -104,7 +100,7 @@ const ComplainantWitnesses = (props) => {
                                     <LinkButton
                                         data-test="editComplainantLink"
                                         onClick={() => {
-                                            props.dispatch(initialize('EditCivilian', primaryComplainant))
+                                            props.dispatch(initialize('EditCivilian', removeFalsyProperties(primaryComplainant)))
                                             props.dispatch(openEditDialog())
                                         }}
                                     >

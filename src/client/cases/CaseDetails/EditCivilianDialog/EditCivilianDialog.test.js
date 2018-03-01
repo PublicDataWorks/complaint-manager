@@ -211,6 +211,19 @@ describe('Edit civilian dialog', () => {
 
     });
 
+    describe('email and phone number', () => {
+        test('should display phone and email errors when phone and email marked as touched on form submit', () => {
+            save.simulate('click')
+
+            const phoneNumberField = editCivilianDialog.find('div[data-test="phoneNumberField"]')
+            const emailField = editCivilianDialog.find('div[data-test="emailField"]')
+
+            expect(phoneNumberField.text()).toContain('Please enter phone number or email address')
+            expect(emailField.text()).toContain('Please enter phone number or email address')
+        })
+    })
+
+
     describe('dialog dismissal', () => {
         test('should dismiss when cancel button is clicked', async () => {
             const cancel = editCivilianDialog.find('button[data-test="cancelEditCivilian"]')
@@ -235,7 +248,9 @@ describe('Edit civilian dialog', () => {
                 suffix: 'updated test suffix',
                 birthDate: '2012-02-13',
                 genderIdentity: 'Other',
-                raceEthnicity: 'Other'
+                raceEthnicity: 'Other',
+                phoneNumber: '0123456789',
+                email: 'example@test.com'
             }
 
             changeInput(editCivilianDialog, '[data-test="firstNameInput"]', submittedValues.firstName)
@@ -243,6 +258,8 @@ describe('Edit civilian dialog', () => {
             changeInput(editCivilianDialog, '[data-test="lastNameInput"]', submittedValues.lastName)
             changeInput(editCivilianDialog, '[data-test="suffixInput"]', submittedValues.suffix)
             changeInput(editCivilianDialog, '[data-test="birthDateInput"]', submittedValues.birthDate)
+            changeInput(editCivilianDialog, '[data-test="phoneNumberInput"]', submittedValues.phoneNumber)
+            changeInput(editCivilianDialog, '[data-test="emailInput"]', submittedValues.email)
 
             selectDropdownOption(editCivilianDialog, '[data-test="genderDropdown"]', submittedValues.genderIdentity)
             selectDropdownOption(editCivilianDialog, '[data-test="raceDropdown"]', submittedValues.raceEthnicity)
@@ -256,6 +273,8 @@ describe('Edit civilian dialog', () => {
             containsValue(editCivilianDialog, '[data-test="birthDateInput"]', submittedValues.birthDate)
             containsText(editCivilianDialog, '[data-test="genderDropdown"]', submittedValues.genderIdentity)
             containsText(editCivilianDialog, '[data-test="raceDropdown"]', submittedValues.raceEthnicity)
+            containsValue(editCivilianDialog, '[data-test="phoneNumberInput"]', submittedValues.phoneNumber)
+            containsValue(editCivilianDialog, '[data-test="emailInput"]', submittedValues.email)
 
             save.simulate('click')
             expect(editCivilian).toHaveBeenCalledWith(submittedValues)

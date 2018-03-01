@@ -1,6 +1,6 @@
 import React from "react";
 import {TableCell, TableRow, withStyles} from "material-ui";
-import formatDate from "../../formatDate";
+import formatDate from "../../utilities/formatDate";
 import tableStyleGenerator from "../../tableStyles";
 
 const numberOfCells = 3
