@@ -3,9 +3,8 @@ import {reset} from "redux-form";
 import {push} from 'react-router-redux'
 import getAccessToken from "../../auth/getAccessToken";
 
-//TODO We should never have environment-specific logic in our code.  Pull the hostname from our configuration.
-const testing = process.env.NODE_ENV === 'test'
-const hostname = testing ? 'http://localhost' : ''
+import config from '../../config/config'
+const hostname = config[process.env.NODE_ENV].hostname
 
 const createCase = (creationDetails) => async (dispatch) => {
     dispatch(requestCaseCreation())

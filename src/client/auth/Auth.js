@@ -1,10 +1,10 @@
 import auth0 from 'auth0-js';
-import {authConfig as config} from "./auth0-variables"
+import config from '../config/config'
 import history from '../history';
 
 export default class Auth {
 
-    authConfig = config[process.env.REACT_APP_ENV || process.env.NODE_ENV]
+    authConfig = config[process.env.REACT_APP_ENV || process.env.NODE_ENV].auth
     authWeb = new auth0.WebAuth(this.authConfig);
     auth = new auth0.Authentication({},{
         domain: this.authConfig.domain,

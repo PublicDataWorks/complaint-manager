@@ -1,9 +1,9 @@
 import {getCasesSuccess} from "../actionCreators";
 import {push} from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
+import config from '../../config/config'
 
-const testing = process.env.NODE_ENV === 'test'
-const hostname = testing ? 'http://localhost' : ''
+const hostname = config[process.env.NODE_ENV].hostname
 
 const getCases = () => async (dispatch) => {
     try {

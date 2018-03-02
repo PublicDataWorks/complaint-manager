@@ -1,9 +1,9 @@
 import {push} from "react-router-redux";
 import {closeEditDialog, editCivilianFailed, editCivilianSuccess} from "../actionCreators";
 import getAccessToken from "../../auth/getAccessToken";
+import config from '../../config/config'
 
-const testing = process.env.NODE_ENV === 'test'
-const hostname = testing ? 'http://localhost' : ''
+const hostname = config[process.env.NODE_ENV].hostname
 
 const editCivilian = (civilian) => async (dispatch) => {
     try {
