@@ -3,6 +3,9 @@
 # dependencies
 /node_modules
 
+# local development
+awsConfig.json
+
 # testing
 /coverage
 

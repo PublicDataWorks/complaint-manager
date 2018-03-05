@@ -10,12 +10,18 @@ import models from './models'
 import {AuthenticationClient} from 'auth0'
 import Civilian from "../client/testUtilities/civilian";
 import Case from "../client/testUtilities/case";
+import AWS from "aws-sdk/index";
 
 const config = require('./config/config')[process.env.NODE_ENV]
 
 jest.mock('auth0', () => ({
     AuthenticationClient: jest.fn()
 }))
+
+jest.mock('aws-sdk', () => ({
+        S3: jest.fn()
+    })
+)
 
 const Op = Sequelize.Op
 
@@ -162,6 +168,62 @@ describe('server', () => {
                 })
         })
     })
+
+    describe('POST /cases/:id/attachments', () => {
+        test('should return updated case after adding attachment', async () => {
+            let civilian = new Civilian.Builder().defaultCivilian().withId(undefined).build()
+            let defaultCase = new Case.Builder().defaultCase().withId(undefined).withCivilians([civilian]).build()
+            defaultCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}]})
+            let mockFileName = 'mock_filename'
+
+            AWS.S3.mockImplementation(() => {
+                return {
+                    upload: (params, options) => ({
+                        promise: () => Promise.resolve({Key: mockFileName})
+                    }),
+                    config: {
+                        loadFromPath: jest.fn()
+                    }
+                }
+            })
+
+            await request(app)
+                .post(`/cases/${defaultCase.id}/attachments`)
+                .set('Authorization', `Bearer ${token}`)
+                .set('Content-Type', 'multipart/form-data')
+                .attach('avatar', __dirname + '/../../README.md')
+                .expect(200)
+                .then(response => {
+                    expect(response.body.id).toEqual(defaultCase.id)
+                    expect(response.body.civilians[0].id).toEqual(defaultCase.civilians[0].id)
+                    expect(response.body.attachments[0].key).toEqual(mockFileName)
+                })
+
+            await models.attachment.destroy({
+                where: {
+                    caseId: defaultCase.id
+                }
+            })
+
+            await models.civilian.destroy({
+                where: {
+                    caseId: defaultCase.id
+                }
+            })
+
+            await models.audit_log.destroy({
+                where: {
+                    caseId: defaultCase.id
+                }
+            })
+
+            await models.cases.destroy({
+                where: {
+                    id: defaultCase.id
+                }
+            })
+        })
+    });
 
     describe('GET /cases', () => {
         let seededCase

@@ -2,24 +2,9 @@ import React from 'react'
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import {CardContent, TextField, Typography} from "material-ui";
 import styles from '../../../globalStyling/styles'
+import Dropzone from "./Dropzone";
 
-const Attachments = () => {
-    // const config = {
-    //     postUrl: 'http://localhost:3000/cases/1/attachments'
-    // }
-    //
-    // const eventHandlers = {
-    //     canceled: () => console.log('file upload canceled'),
-    //     success: (file, response) => console.log(response),
-    //     complete: () => console.log('completed'),
-    //     error: (file, errorMessage) => console.log('error message: ', errorMessage)
-    // }
-    //
-    // const djsconfig = {
-    //     addRemoveLinks: true,
-    //     dictRemoveFileConfirmation: null
-    // }
-
+const Attachments = (props) => {
     return (
         <BaseCaseDetailsCard title='Attachments'>
             <CardContent>
@@ -43,6 +28,7 @@ const Attachments = () => {
                 </div>
                 <div style={{display: 'flex', width: '100%'}}>
                     <div style={{flex: 1}}>
+                        <Dropzone caseId={props.caseDetail.id}/>
                     </div>
                     <div style={{flex: 1}}>
                         <TextField>

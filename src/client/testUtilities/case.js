@@ -12,6 +12,7 @@ class Case {
         this.createdBy = build.createdBy
         this.assignedTo = build.assignedTo
         this.narrative = build.narrative
+        this.attachments = build.attachments
     }
 
     static get Builder() {
@@ -26,6 +27,7 @@ class Case {
                 this.createdBy = 'tuser'
                 this.assignedTo = 'tuser'
                 this.narrative = null
+                this.attachments = null
                 return this;
             }
 
@@ -71,6 +73,11 @@ class Case {
 
             withNarrative(narrative) {
                 this.narrative = narrative
+                return this
+            }
+
+            withAttachments(attachments) {
+                this.attachments = attachments
                 return this
             }
 

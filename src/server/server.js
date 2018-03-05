@@ -14,6 +14,7 @@ const errorHandler = require("./handlers/errorHandler");
 const jwtCheck = require("./handlers/jtwCheck")
 const getUserProfile = require("./handlers/getUserProfile")
 const authErrorHandler = require("./handlers/authErrorHandler")
+const uploadAttachment = require("./handlers/uploadAttachment")
 
 const app = express();
 const buildDirectory = path.join(__dirname, '../../build');
@@ -28,12 +29,12 @@ app.use(jwtCheck)
 app.use(getUserProfile.unless({path: ['/callback']}))
 app.use(authErrorHandler)
 
-
 //Any routes defined below this point will require authentication
 app.post('/cases', createCase);
 app.get('/cases', getCases);
 app.get('/cases/:id', getCase)
 app.put('/cases/:id/narrative', updateCaseNarrative);
+app.post('/cases/:id/attachments', uploadAttachment)
 app.put('/civilian/:id', editCivilian);
 app.post('/users', createUser);
 app.get('/users', getUsers);
