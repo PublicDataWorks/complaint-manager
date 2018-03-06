@@ -21,6 +21,29 @@ const Attachments = (props) => {
                     </div>
                     <div style={{flex: 1}}/>
                 </div>
+                <div data-test="attachmentsField">
+                    {
+                        props.caseDetail.attachments && props.caseDetail.attachments.length > 0 ? props.caseDetail.attachments.map(attachment => (
+                            <div key={attachment.id} style={{display: 'flex', width: '100%'}}>
+                                <div style={{flex: 1, textAlign: 'left'}}>
+                                    <Typography type='subheading'>
+                                        {attachment.key}
+                                    </Typography>
+                                </div>
+                                <div style={{flex: 1, textAlign: 'left'}}>
+                                    <Typography type='subheading'>
+                                    </Typography>
+                                </div>
+                                <div style={{flex: 1}}/>
+                            </div>
+                        )) : <div>
+                            <Typography type='body1'>
+                                No Attachments
+                            </Typography>
+                        </div>
+
+                    }
+                </div>
                 <div>
                     <Typography style={styles.section}>
                         UPLOAD A FILE
@@ -28,7 +51,7 @@ const Attachments = (props) => {
                 </div>
                 <div style={{display: 'flex', width: '100%'}}>
                     <div style={{flex: 1}}>
-                        <Dropzone caseId={props.caseDetail.id}/>
+                        <Dropzone caseId={props.caseDetail.id} dispatch={props.dispatch}/>
                     </div>
                     <div style={{flex: 1}}>
                         <TextField>

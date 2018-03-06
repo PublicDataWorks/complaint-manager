@@ -11,6 +11,7 @@ import {AuthenticationClient} from 'auth0'
 import Civilian from "../client/testUtilities/civilian";
 import Case from "../client/testUtilities/case";
 import AWS from "aws-sdk/index";
+import Attachment from "../client/testUtilities/attachment";
 
 const config = require('./config/config')[process.env.NODE_ENV]
 
@@ -229,30 +230,19 @@ describe('server', () => {
         let seededCase
 
         beforeEach(async () => {
+            let civilian = new Civilian.Builder().defaultCivilian()
+                .withId(undefined)
+                .withFirstName('Robert')
+                .build()
 
-            seededCase = await models.cases.create({
-                    complainantType: 'Civilian',
-                    firstContactDate: "2018-01-31",
-                    createdBy: 'tuser',
-                    assignedTo: 'tuser',
-                    civilians: [
-                        {
-                            firstName: 'Robert',
-                            lastName: 'Pollard',
-                            phoneNumber: "8201387432",
-                            email: 'rpollard@gmail.com'
-                        },
-                        {
-                            firstName: 'Chuck',
-                            lastName: 'Goodluck',
-                            roleOnCase: 'Witness',
-                            phoneNumber: "8201387432",
-                            email: 'rpollard@gmail.com'
-                        }]
-                }, {
-                    include: [{model: models.civilian}]
-                }
-            )
+
+            let defaultCase = new Case.Builder().defaultCase()
+                .withId(undefined)
+                .withCivilians([civilian])
+                .withAttachments(undefined)
+                .build()
+
+            seededCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}]})
         })
 
         test('should get all cases', async () => {
@@ -288,7 +278,7 @@ describe('server', () => {
         afterEach(async () => {
             await models.civilian.destroy({
                 where: {
-                    id: {'$in': seededCase.civilians.map(civilian => civilian.id)}
+                    caseId: seededCase.id
                 }
             })
 
@@ -458,25 +448,40 @@ describe('server', () => {
         let caseToRetrieve
 
         beforeEach(async () => {
-            caseToRetrieve = await models.cases.create({
-                civilians: [{
-                    firstName: 'Eleanor',
-                    lastName: 'Schellstrop',
-                    phoneNumber: "8201387432",
-                    email: 'eschell@gmail.com'
-                }],
-                complainantType: 'Civilian',
-                narrative: 'Beginning narrative',
-                status: 'Initial',
-                createdBy: 'tuser',
-                assignedTo: 'tuser'
-            }, {
+            let attachment = new Attachment.Builder()
+                .defaultAttachment()
+                .withId(undefined)
+                .withCaseId(undefined)
+                .build()
+
+            let civilian = new Civilian.Builder()
+                .defaultCivilian()
+                .withId(undefined)
+                .withFirstName('Eleanor')
+                .build()
+
+            let caseToCreate = new Case.Builder()
+                .defaultCase()
+                .withId(undefined)
+                .withCivilians([civilian])
+                .withAttachments([attachment])
+                .build()
+
+            caseToRetrieve = await models.cases.create(caseToCreate, {
                 returning: true,
-                include: [{model: models.civilian}]
+                include: [
+                    { model: models.civilian },
+                    { model: models.attachment }]
             })
         })
 
         afterEach(async () => {
+            await models.attachment.destroy({
+                where: {
+                    caseId: caseToRetrieve.id
+                }
+            })
+
             await models.civilian.destroy({
                 where: {
                     id: caseToRetrieve.civilians[0].id
@@ -496,12 +501,27 @@ describe('server', () => {
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
                 .then(response => {
-                    expect(response.body.id).toEqual(caseToRetrieve.id)
-                    expect(response.body.civilians[0].firstName).toEqual(caseToRetrieve.civilians[0].firstName)
-                    expect(response.body.civilians[0].lastName).toEqual(caseToRetrieve.civilians[0].lastName)
-                    expect(response.body.civilians[0].email).toEqual(caseToRetrieve.civilians[0].email)
-                    expect(response.body.complainantType).toEqual(caseToRetrieve.complainantType)
-                    expect(response.body.status).toEqual('Initial')
+                    expect(response.body).toEqual(
+                        expect.objectContaining({
+                            id: caseToRetrieve.id,
+                            complainantType: caseToRetrieve.complainantType,
+                            status: caseToRetrieve.status,
+                            civilians: expect.arrayContaining([
+                                expect.objectContaining({
+                                    firstName: caseToRetrieve.civilians[0].firstName,
+                                    lastName: caseToRetrieve.civilians[0].lastName,
+                                    email: caseToRetrieve.civilians[0].email
+                                })
+                            ]),
+                            attachments: expect.arrayContaining([
+                                expect.objectContaining({
+                                    id: caseToRetrieve.attachments[0].id,
+                                    caseId: caseToRetrieve.attachments[0].caseId,
+                                    key: caseToRetrieve.attachments[0].key
+                                })
+                            ])
+                        })
+                    )
                 })
         })
     });

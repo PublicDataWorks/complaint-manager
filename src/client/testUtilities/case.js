@@ -1,4 +1,5 @@
 import Civilian from "./civilian";
+import Attachment from "./attachment";
 
 class Case {
     constructor(build) {
@@ -18,7 +19,9 @@ class Case {
     static get Builder() {
         class Builder {
             defaultCase() {
-                this.id = 17
+                const id = 17
+
+                this.id = id
                 this.civilians = [new Civilian.Builder().defaultCivilian().build()]
                 this.status = 'Initial'
                 this.createdAt = new Date(2015, 8, 13).toISOString()
@@ -27,7 +30,7 @@ class Case {
                 this.createdBy = 'tuser'
                 this.assignedTo = 'tuser'
                 this.narrative = null
-                this.attachments = null
+                this.attachments = [new Attachment.Builder().defaultAttachment().withCaseId(id).build()]
                 return this;
             }
 

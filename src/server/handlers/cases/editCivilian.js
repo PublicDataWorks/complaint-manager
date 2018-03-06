@@ -32,7 +32,7 @@ const editCivilian = async (req, res, next) => {
 
             return civilian
         })
-
+        // TODO: return back the entire Case object instead of civilian
         res.status(200).send(updatedCivilian)
 
     } catch (e) {

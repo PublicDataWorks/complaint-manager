@@ -4,15 +4,16 @@ import '../../../../../node_modules/react-dropzone-component/styles/filepicker.c
 import '../../../../../node_modules/dropzone/dist/min/dropzone.min.css'
 import config from '../../../config/config'
 import getAccessToken from "../../../auth/getAccessToken";
+import {uploadAttachmentSuccess} from "../../actionCreators";
 
 const Dropzone = (props) => {
-    let dropzone
 
     const dropZoneComponentConfig = {
         postUrl: `${config[process.env.NODE_ENV].hostname}/cases/${props.caseId}/attachments`,
     }
 
     const eventHandlers = {
+        success: (file, response) => props.dispatch(uploadAttachmentSuccess(response))
     }
 
     const djsconfig = {

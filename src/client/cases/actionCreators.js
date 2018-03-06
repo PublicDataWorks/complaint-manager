@@ -1,10 +1,10 @@
 export const createCaseSuccess = (caseDetails) => ({
-  type: 'CASE_CREATED_SUCCESS',
-  caseDetails
+    type: 'CASE_CREATED_SUCCESS',
+    caseDetails
 })
 
 export const requestCaseCreation = () => ({
-  type: 'CASE_CREATION_REQUESTED'
+    type: 'CASE_CREATION_REQUESTED'
 })
 
 export const createCaseFailure = () => ({
@@ -50,4 +50,9 @@ export const editCivilianSuccess = (civilian) => ({
 
 export const editCivilianFailed = () => ({
     type: 'EDIT_CIVILIAN_FAILED',
+})
+
+export const uploadAttachmentSuccess = (caseDetails) => ({
+    type: 'ATTACHMENT_UPLOAD_SUCCEEDED',
+    caseDetails
 })

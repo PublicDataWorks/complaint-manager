@@ -24,7 +24,10 @@ describe('get case', () => {
 
         expect(models.cases.findById).toHaveBeenCalledWith(1,
             {
-                include: {model: models.civilian}
+                include: [
+                    { model: models.civilian },
+                    { model: models.attachment }
+                ]
             })
     })
 })

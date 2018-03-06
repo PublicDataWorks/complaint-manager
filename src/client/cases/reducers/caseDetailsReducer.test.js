@@ -1,5 +1,8 @@
 import caseDetailsReducer from "./caseDetailsReducer";
-import {editCivilianSuccess, getCaseDetailsSuccess, updateNarrativeSuccess} from "../actionCreators";
+import {
+    editCivilianSuccess, getCaseDetailsSuccess, updateNarrativeSuccess,
+    uploadAttachmentSuccess
+} from "../actionCreators";
 
 describe('caseDetailsReducers', () => {
     test('should default to empty object', () => {
@@ -26,6 +29,19 @@ describe('caseDetailsReducers', () => {
 
             const caseDetails = {caseDetailProp: 'new  detail value'}
             const action = updateNarrativeSuccess(caseDetails)
+
+            const newState = caseDetailsReducer(oldState, action)
+
+            expect(newState).toEqual(caseDetails)
+        })
+    })
+
+    describe('ATTACHMENT_UPLOAD_SUCCEEDED', () => {
+        test('should update current case details', () => {
+            const oldState = {caseDetailProp: 'old detail value'}
+
+            const caseDetails = {caseDetailProp: 'new  detail value'}
+            const action = uploadAttachmentSuccess(caseDetails)
 
             const newState = caseDetailsReducer(oldState, action)
 
