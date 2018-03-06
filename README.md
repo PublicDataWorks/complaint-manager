@@ -20,6 +20,21 @@ The pre-push hook will execute when you run `git push`.
 It will pull any remote changes, rebuild the app,
 and run all tests before pushing.
 
+### Set up local configuration for AWS S3
+
+- Log into AWS with root user (credentials are in the team 1Password) 
+- Create a new user for yourself in the development group
+- Save your login, access key ID and secret access key in your personal password manager
+- Create a file named `awsConfig.json` in the the `src/server/` directory with your credentials:
+
+```json
+{
+  "accessKeyId": "YOUR_ACCESS_KEY_ID",
+  "secretAccessKey": "YOUR_SECRET_ACCESS_KEY",
+  "region": "us-east-2"
+}
+```
+
 ## Local development tasks
 
 ### Run a Circleci job locally
