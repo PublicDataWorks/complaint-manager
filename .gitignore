@@ -9,9 +9,10 @@ awsConfig.json
 # testing
 /coverage
 
+e2e/tests/userJourney/*.png
+
 # production
 /build
-e2e/tests/**/*.png
 
 # local data
 postgres-data/

@@ -24,14 +24,18 @@ const Attachments = (props) => {
                 <div data-test="attachmentsField">
                     {
                         props.caseDetail.attachments && props.caseDetail.attachments.length > 0 ? props.caseDetail.attachments.map(attachment => (
-                            <div key={attachment.id} style={{display: 'flex', width: '100%'}}>
+                            <div
+                                key={attachment.id}
+                                style={{display: 'flex', width: '100%'}}
+                                data-test="attachmentRow"
+                            >
                                 <div style={{flex: 1, textAlign: 'left'}}>
-                                    <Typography type='subheading'>
+                                    <Typography type='body1'>
                                         {attachment.key}
                                     </Typography>
                                 </div>
                                 <div style={{flex: 1, textAlign: 'left'}}>
-                                    <Typography type='subheading'>
+                                    <Typography type='body1'>
                                     </Typography>
                                 </div>
                                 <div style={{flex: 1}}/>

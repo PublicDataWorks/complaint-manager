@@ -7,7 +7,6 @@ import getAccessToken from "../../../auth/getAccessToken";
 import {uploadAttachmentSuccess} from "../../actionCreators";
 
 const Dropzone = (props) => {
-
     const dropZoneComponentConfig = {
         postUrl: `${config[process.env.NODE_ENV].hostname}/cases/${props.caseId}/attachments`,
     }
@@ -22,7 +21,8 @@ const Dropzone = (props) => {
         headers: {
             Authorization: `Bearer ${getAccessToken()}`
         },
-        acceptedFiles: 'application/pdf,audio/mp3,video/mp4,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg'
+        acceptedFiles: 'application/pdf,audio/mp3,video/mp4,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg',
+        dictInvalidFileType: 'File type invalid'
     }
 
     return (
