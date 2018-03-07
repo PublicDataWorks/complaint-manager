@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {change, Field, reduxForm, submit} from "redux-form";
 import {Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Typography} from 'material-ui';
@@ -17,6 +17,9 @@ import SuffixField from "../../sharedFormComponents/SuffixField";
 import PhoneNumberField from "../../sharedFormComponents/PhoneNumberField";
 import EmailField from "../../sharedFormComponents/EmailField";
 import {atLeastOneRequired} from "../../../formSyncValidations";
+import AddressAutoSuggest from "./AddressAutoSuggest";
+import {GoogleApiWrapper} from "google-maps-react";
+import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine";
 
 const generateMenu = contents => {
     return contents.map((content) => {
@@ -28,7 +31,18 @@ const generateMenu = contents => {
     })
 }
 
-class EditCivilianDialog extends React.Component {
+class EditCivilianDialog extends Component {
+
+    constructor(props){
+        super(props)
+        this.suggestionEngine = null
+    }
+
+    componentWillReceiveProps(nextProps){
+        if (nextProps.google && !this.suggestionEngine) {
+            this.suggestionEngine = new AddressSuggestionEngine(nextProps.google)
+        }
+    }
 
     render() {
         return (
@@ -143,6 +157,10 @@ class EditCivilianDialog extends React.Component {
                         <Typography type='body2' style={{marginBottom: '8px'}}>Contact Information</Typography>
                         <PhoneNumberField name='phoneNumber'/>
                         <EmailField name='email'/>
+                        <AddressAutoSuggest
+                            label='Address'
+                            suggestionEngine={this.suggestionEngine}
+                        />
                     </form>
                 </DialogContent>
                 <DialogActions
@@ -201,4 +219,8 @@ const mapStateToProps = (state) => ({
     open: state.ui.editCivilianDialog.open,
 })
 
-export default connect(mapStateToProps)(connectedForm)
+export default GoogleApiWrapper({
+    apiKey: 'AIzaSyC-47pqMa_NoQP20eu4V2j2CgXhGfN6ZfA',  //TODO How do people securely handle these keys?
+    types: ['address', 'regions'],
+    version: '3.32'
+})(connect(mapStateToProps)(connectedForm))
