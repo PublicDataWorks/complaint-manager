@@ -52,7 +52,7 @@ if(TEST_PASS && TEST_USER && HOST){
                 .setValue('input[type="file"]', path.resolve(__dirname, imagesDir, invalidImageFileName))
                 .moveToElement("div.dz-preview", 60, 60)
                 .waitForElementVisible("span[data-dz-errormessage]", rerenderWait)
-                .assert.containsText("[data-dz-errormessage]", "File asdf invalid")
+                .assert.containsText("[data-dz-errormessage]", "File type invalid")
 
                 .setValue('input[type="file"]', path.resolve(__dirname, imagesDir, validImageFileName))
                 .waitForElementVisible("[data-test=attachmentRow]", roundTripWait)
