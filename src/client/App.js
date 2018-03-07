@@ -22,9 +22,9 @@ class App extends Component {
         const accessToken = getAccessToken()
         if (accessToken) {
             const auth = new Auth()
-            auth.getUserInfo(accessToken, (err, idToken) => {
+            auth.getUserInfo(accessToken, (err, userInfo) => {
                 if (!err) {
-                    this.props.dispatch(userAuthSuccess(idToken))
+                    this.props.dispatch(userAuthSuccess(userInfo))
                 }
             })
         }
