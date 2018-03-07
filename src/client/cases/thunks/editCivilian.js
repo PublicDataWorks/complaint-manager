@@ -1,5 +1,5 @@
 import {push} from "react-router-redux";
-import {closeEditDialog, editCivilianFailed, editCivilianSuccess} from "../actionCreators";
+import {closeEditDialog, editCivilianFailed, editCivilianSuccess} from "../../actionCreators/casesActionCreators";
 import getAccessToken from "../../auth/getAccessToken";
 import config from '../../config/config'
 

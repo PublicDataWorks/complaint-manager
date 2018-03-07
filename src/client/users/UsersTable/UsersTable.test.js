@@ -3,7 +3,7 @@ import {Provider} from 'react-redux'
 import createConfiguredStore from '../../createConfiguredStore'
 import {mount} from 'enzyme'
 import UsersTable from './UsersTable'
-import {createUserSuccess} from "../actionCreators";
+import {createUserSuccess} from "../../actionCreators/usersActionCreators";
 import getUsers from '../thunks/getUsers'
 
 jest.mock('../thunks/getUsers', () => () => ({

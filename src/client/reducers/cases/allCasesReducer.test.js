@@ -1,5 +1,5 @@
 import allCasesReducer from './allCasesReducer'
-import {createCaseSuccess, getCasesSuccess, updateNarrativeSuccess} from '../actionCreators'
+import {createCaseSuccess, getCasesSuccess, updateNarrativeSuccess} from '../../actionCreators/casesActionCreators'
 
 describe('allCasesReducer', () => {
     test('should default to empty array', () => {

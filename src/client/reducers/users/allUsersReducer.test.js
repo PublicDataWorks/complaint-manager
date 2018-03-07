@@ -1,5 +1,5 @@
 import allUsersReducer from "./allUsersReducer";
-import {createUserSuccess, getUsersSuccess} from "../actionCreators";
+import {createUserSuccess, getUsersSuccess} from "../../actionCreators/usersActionCreators";
 
 describe('allUsersReducer', () => {
     test('should default to empty array', () => {

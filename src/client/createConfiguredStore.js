@@ -4,12 +4,12 @@ import {reducer as formReducer} from 'redux-form'
 import thunk from 'redux-thunk'
 import history from './history'
 import {routerMiddleware, routerReducer} from 'react-router-redux'
-import allCasesReducer from './cases/reducers/allCasesReducer'
-import allUsersReducer from "./users/reducers/allUsersReducer";
-import snackbarReducer from "./snackbar/snackbarReducer";
-import caseDetailsReducer from "./cases/reducers/caseDetailsReducer";
-import casesTableReducer from "./cases/reducers/casesTableReducer";
-import editDialogReducer from "./cases/reducers/editDialogReducer";
+import allCasesReducer from './reducers/cases/allCasesReducer'
+import allUsersReducer from "./reducers/users/allUsersReducer";
+import snackbarReducer from "./reducers/ui/snackbarReducer";
+import caseDetailsReducer from "./reducers/cases/caseDetailsReducer";
+import casesTableReducer from "./reducers/ui/casesTableReducer";
+import editDialogReducer from "./reducers/ui/editDialogReducer";
 import userInfoReducer from "./auth/reducers/userInfoReducer";
 
 const rootReducer = combineReducers({

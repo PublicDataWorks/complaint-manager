@@ -5,7 +5,7 @@ import CaseCreationSnackbar from "./CaseCreationSnackbar/CaseCreationSnackbar";
 import NavBar from '../sharedComponents/NavBar'
 import {Typography} from "material-ui";
 import {connect} from "react-redux";
-import {closeSnackbar} from "../snackbar/actionCreators";
+import {closeSnackbar} from "../actionCreators/snackBarActionCreators";
 import getCases from "./thunks/getCases";
 
 class CaseDashboard extends Component {

@@ -3,7 +3,7 @@ import React from 'react'
 import {mount} from "enzyme/build/index"
 import {Provider} from 'react-redux'
 import createConfiguredStore from "../../createConfiguredStore"
-import {createCaseSuccess, getCasesSuccess, updateSort} from '../actionCreators'
+import {createCaseSuccess, getCasesSuccess, updateSort} from '../../actionCreators/casesActionCreators'
 import {BrowserRouter as Router} from 'react-router-dom'
 import Civilian from "../../testUtilities/civilian";
 import Case from "../../testUtilities/case";

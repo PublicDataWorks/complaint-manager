@@ -1,7 +1,7 @@
 import nock from "nock";
 import getAccessToken from "../../auth/getAccessToken";
 import getCaseDetail from "./getCaseDetails";
-import { getCaseDetailsSuccess } from "../actionCreators";
+import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import {push} from 'react-router-redux'
 
 

@@ -1,5 +1,5 @@
 import casesTableReducer from "./casesTableReducer";
-import {updateSort} from "../actionCreators";
+import {updateSort} from "../../actionCreators/casesActionCreators";
 
 describe('casesTableReducer', () => {
     test('should set default state', () => {

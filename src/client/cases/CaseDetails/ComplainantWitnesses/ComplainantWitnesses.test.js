@@ -2,7 +2,7 @@ import React from 'react'
 import {containsText} from "../../../../testHelpers";
 import ComplainantWitnesses from "./ComplainantWitnesses";
 import {mount} from "enzyme";
-import {openEditDialog} from "../../actionCreators";
+import {openEditDialog} from "../../../actionCreators/casesActionCreators";
 import createConfiguredStore from "../../../createConfiguredStore";
 import {initialize} from "redux-form";
 

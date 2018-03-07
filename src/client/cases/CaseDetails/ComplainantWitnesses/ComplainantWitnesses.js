@@ -1,7 +1,7 @@
 import React from "react";
 import {CardContent, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Typography} from "material-ui";
 import LinkButton from "../../../sharedComponents/LinkButton";
-import {openEditDialog} from "../../actionCreators";
+import {openEditDialog} from "../../../actionCreators/casesActionCreators";
 import getPrimaryComplainant from "../../../utilities/getPrimaryComplainant";
 import formatDate from "../../../utilities/formatDate"
 import formatName from "../../../utilities/formatName";

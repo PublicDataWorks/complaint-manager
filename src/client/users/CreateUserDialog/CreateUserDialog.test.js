@@ -5,8 +5,8 @@ import {changeInput, expectEventuallyNotToExist} from '../../../testHelpers'
 import {Provider} from 'react-redux'
 import createConfiguredStore from "../../createConfiguredStore";
 import createUser from "../thunks/createUser";
-import {createUserSuccess} from "../actionCreators";
-import {openSnackbar} from "../../snackbar/actionCreators";
+import {createUserSuccess} from "../../actionCreators/usersActionCreators";
+import {openSnackbar} from "../../actionCreators/snackBarActionCreators";
 
 jest.mock('../thunks/createUser', () => (userDetails) => ({
     type: 'MOCK_CREATE_USER_THUNK',

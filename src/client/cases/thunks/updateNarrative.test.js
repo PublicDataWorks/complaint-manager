@@ -1,6 +1,6 @@
 import nock from "nock";
 import updateNarrative from "./updateNarrative";
-import {updateNarrativeFailure, updateNarrativeSuccess} from "../actionCreators";
+import {updateNarrativeFailure, updateNarrativeSuccess} from "../../actionCreators/casesActionCreators";
 import getAccessToken from "../../auth/getAccessToken"
 import {push} from "react-router-redux";
 

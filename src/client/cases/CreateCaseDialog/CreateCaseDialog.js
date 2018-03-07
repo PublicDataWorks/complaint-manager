@@ -11,7 +11,7 @@ import EmailField from "../sharedFormComponents/EmailField";
 import LinkButton from "../../sharedComponents/LinkButton";
 import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import createCase from "../thunks/createCase";
-import {closeSnackbar} from "../../snackbar/actionCreators";
+import {closeSnackbar} from "../../actionCreators/snackBarActionCreators";
 import moment from "moment";
 import DateField from "../sharedFormComponents/DateField";
 import MiddleInitialField from "../sharedFormComponents/MiddleInitialField";

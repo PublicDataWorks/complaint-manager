@@ -1,4 +1,4 @@
-import {createUserFailure, createUserSuccess, requestUserCreation} from "../actionCreators";
+import {createUserFailure, createUserSuccess, requestUserCreation} from "../../actionCreators/usersActionCreators";
 import getAccessToken from "../../auth/getAccessToken";
 import {push} from "react-router-redux";
 

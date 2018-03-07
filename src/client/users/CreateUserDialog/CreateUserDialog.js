@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, withTheme} from "material-ui";
 import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
 import CreateUserForm from './CreateUserForm'
-import {closeSnackbar} from "../../snackbar/actionCreators";
+import {closeSnackbar} from "../../actionCreators/snackBarActionCreators";
 
 const margin = {
     marginLeft: '5%',

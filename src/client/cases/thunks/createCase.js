@@ -1,4 +1,4 @@
-import {createCaseFailure, createCaseSuccess, requestCaseCreation} from "../actionCreators";
+import {createCaseFailure, createCaseSuccess, requestCaseCreation} from "../../actionCreators/casesActionCreators";
 import {reset} from "redux-form";
 import {push} from 'react-router-redux'
 import getAccessToken from "../../auth/getAccessToken";

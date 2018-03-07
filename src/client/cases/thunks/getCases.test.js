@@ -1,5 +1,5 @@
 import nock from "nock";
-import {getCasesSuccess} from "../actionCreators";
+import {getCasesSuccess} from "../../actionCreators/casesActionCreators";
 import getCases from "./getCases";
 import getAccessToken from "../../auth/getAccessToken";
 import {push} from "react-router-redux";

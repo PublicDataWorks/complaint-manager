@@ -6,7 +6,7 @@ import RoleOnCaseRadioGroup from "./RoleOnCaseRadioGroup";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";
 import LastNameField from "../../sharedFormComponents/LastNameField";
 import {CancelButton, SubmitButton} from "../../../sharedComponents/StyledButtons";
-import {closeEditDialog} from "../../actionCreators";
+import {closeEditDialog} from "../../../actionCreators/casesActionCreators";
 import {genderIdentityIsRequired, raceEthnicityIsRequired} from "../../../formFieldLevelValidations";
 import editCivilian from "../../thunks/editCivilian";
 import NoBlurTextField from "./FormSelect";

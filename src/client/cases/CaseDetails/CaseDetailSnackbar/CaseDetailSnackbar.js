@@ -1,6 +1,6 @@
 import SharedSnackbar from '../../../sharedComponents/SharedSnackbar'
 import {connect} from "react-redux";
-import {closeSnackbar} from "../../../snackbar/actionCreators";
+import {closeSnackbar} from "../../../actionCreators/snackBarActionCreators";
 
 const mapStateToProps = state => {
     return {

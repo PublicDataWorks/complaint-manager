@@ -5,7 +5,7 @@ import NavBar from "../sharedComponents/NavBar";
 import {Provider} from "react-redux";
 import {BrowserRouter as Router} from "react-router-dom";
 import createConfiguredStore from "../createConfiguredStore";
-import {openSnackbar} from "../snackbar/actionCreators";
+import {openSnackbar} from "../actionCreators/snackBarActionCreators";
 import {mockLocalStorage} from "../../mockLocalStorage";
 
 // NOTE: loading users on table mount crashes test runner

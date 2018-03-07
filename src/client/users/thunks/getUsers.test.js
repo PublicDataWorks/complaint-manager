@@ -1,6 +1,6 @@
 import getUsers from "./getUsers";
 import nock from "nock";
-import {getUsersSuccess} from "../actionCreators";
+import {getUsersSuccess} from "../../actionCreators/usersActionCreators";
 import getAccessToken from "../../auth/getAccessToken";
 import {push} from "react-router-redux";
 

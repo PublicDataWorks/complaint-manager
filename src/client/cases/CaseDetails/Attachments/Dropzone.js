@@ -4,7 +4,7 @@ import '../../../../../node_modules/react-dropzone-component/styles/filepicker.c
 import '../../../../../node_modules/dropzone/dist/min/dropzone.min.css'
 import config from '../../../config/config'
 import getAccessToken from "../../../auth/getAccessToken";
-import {uploadAttachmentSuccess} from "../../actionCreators";
+import { uploadAttachmentSuccess } from "../../../actionCreators/casesActionCreators";
 
 const Dropzone = (props) => {
     const dropZoneComponentConfig = {

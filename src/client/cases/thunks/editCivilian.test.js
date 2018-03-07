@@ -3,7 +3,7 @@ import nock from "nock";
 import {push} from "react-router-redux";
 import editCivilian from "./editCivilian";
 import Civilian from "../../testUtilities/civilian";
-import {closeEditDialog, editCivilianFailed, editCivilianSuccess} from "../actionCreators";
+import {closeEditDialog, editCivilianFailed, editCivilianSuccess} from "../../actionCreators/casesActionCreators";
 import getAccessToken from "../../auth/getAccessToken";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))

@@ -1,5 +1,5 @@
 import getAccessToken from "../../auth/getAccessToken";
-import {getCaseDetailsSuccess} from "../actionCreators";
+import {getCaseDetailsSuccess} from "../../actionCreators/casesActionCreators";
 import {push} from "react-router-redux";
 import config from '../../config/config'
 

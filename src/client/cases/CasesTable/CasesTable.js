@@ -5,7 +5,7 @@ import {connect} from "react-redux"
 import CaseRow from './CaseRow'
 import {Paper, TableSortLabel, withStyles} from "material-ui";
 import tableStyleGenerator from '../../tableStyles'
-import {updateSort} from "../actionCreators";
+import {updateSort} from "../../actionCreators/casesActionCreators";
 import sortBy from "../../utilities/sortBy";
 
 const numberOfColumns = 6;

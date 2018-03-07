@@ -1,6 +1,5 @@
 import React from 'react';
 import createConfiguredStore from "../../createConfiguredStore";
-import {getCaseDetailsSuccess} from "../actionCreators";
 import {mount} from "enzyme/build/index";
 import CaseDetails from "./CaseDetails";
 import {Provider} from 'react-redux';
@@ -15,6 +14,7 @@ import Case from "../../testUtilities/case";
 import formatName from "../../utilities/formatName";
 import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
 import getCaseDetails from "../thunks/getCaseDetails";
+import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 
 jest.mock('../thunks/getCaseDetails', () => () => ({
     type: 'MOCK_GET_CASE_DETAILS'

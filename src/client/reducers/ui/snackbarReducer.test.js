@@ -1,13 +1,13 @@
 import snackbarReducer from "./snackbarReducer";
-import {createUserFailure, createUserSuccess, requestUserCreation} from "../users/actionCreators";
+import {createUserFailure, createUserSuccess, requestUserCreation} from "../../actionCreators/usersActionCreators";
 import {
     createCaseFailure,
     createCaseSuccess, editCivilianFailed, editCivilianSuccess,
     requestCaseCreation,
     updateNarrativeFailure,
     updateNarrativeSuccess
-} from "../cases/actionCreators";
-import {closeSnackbar} from "./actionCreators";
+} from "../../actionCreators/casesActionCreators";
+import {closeSnackbar} from "../../actionCreators/snackBarActionCreators";
 
 describe('snackbarReducer', () => {
     test('should default open to false', () => {

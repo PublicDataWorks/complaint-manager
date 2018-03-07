@@ -1,4 +1,4 @@
-import {getCasesSuccess} from "../actionCreators";
+import {getCasesSuccess} from "../../actionCreators/casesActionCreators";
 import {push} from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
 import config from '../../config/config'

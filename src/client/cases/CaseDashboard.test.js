@@ -5,9 +5,9 @@ import NavBar from '../sharedComponents/NavBar'
 import {Provider} from "react-redux";
 import {BrowserRouter as Router} from "react-router-dom";
 import createConfiguredStore from "../createConfiguredStore";
-import {openSnackbar} from "../snackbar/actionCreators";
+import {openSnackbar} from "../actionCreators/snackBarActionCreators";
 import {mockLocalStorage} from "../../mockLocalStorage";
-import {getCasesSuccess} from "./actionCreators";
+import {getCasesSuccess} from "../actionCreators/casesActionCreators";
 import Case from "../testUtilities/case";
 import getCases from "./thunks/getCases";
 

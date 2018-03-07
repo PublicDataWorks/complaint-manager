@@ -2,7 +2,7 @@ import caseDetailsReducer from "./caseDetailsReducer";
 import {
     editCivilianSuccess, getCaseDetailsSuccess, updateNarrativeSuccess,
     uploadAttachmentSuccess
-} from "../actionCreators";
+} from "../../actionCreators/casesActionCreators";
 
 describe('caseDetailsReducers', () => {
     test('should default to empty object', () => {
