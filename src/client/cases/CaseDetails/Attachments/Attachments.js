@@ -31,7 +31,9 @@ const Attachments = (props) => {
                             >
                                 <div style={{flex: 1, textAlign: 'left'}}>
                                     <Typography type='body1'>
-                                        {attachment.key}
+                                        {
+                                            attachment.key.replace(`${attachment.caseId}/`, "")
+                                        }
                                     </Typography>
                                 </div>
                                 <div style={{flex: 1, textAlign: 'left'}}>
