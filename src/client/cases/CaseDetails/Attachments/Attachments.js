@@ -57,7 +57,7 @@ const Attachments = (props) => {
                 </div>
                 <div style={{display: 'flex', width: '100%'}}>
                     <div style={{flex: 1, marginRight: '10px'}}>
-                        <Dropzone caseId={props.caseDetail.id} dispatch={props.dispatch}/>
+                        <Dropzone caseId={props.caseDetail.id}/>
                     </div>
                     <div style={{flex: 1}}>
                         <TextField>
