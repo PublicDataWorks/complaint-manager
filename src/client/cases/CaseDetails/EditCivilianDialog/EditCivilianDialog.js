@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {change, Field, reduxForm, submit} from "redux-form";
 import {Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Typography} from 'material-ui';
+import {TextField} from 'redux-form-material-ui'
 import RoleOnCaseRadioGroup from "./RoleOnCaseRadioGroup";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";
 import LastNameField from "../../sharedFormComponents/LastNameField";
@@ -161,6 +162,47 @@ class EditCivilianDialog extends Component {
                             label='Address'
                             suggestionEngine={this.suggestionEngine}
                         />
+                        <Field
+                            label={'Street'}
+                            name={'streetAddress'}
+                            component={TextField}
+                            style={{
+                                marginRight:'5%',
+                                marginTop: '100px'
+                            }}
+                        />
+                        <Field
+                            label={'City'}
+                            name={'city'}
+                            component={TextField}
+                            style={{
+                                marginRight:'5%'
+                            }}
+                        />
+                        <Field
+                            label={'State'}
+                            name={'state'}
+                            component={TextField}
+                            style={{
+                                marginRight:'5%'
+                            }}
+                        />
+                        <Field
+                            label={'Zipcode'}
+                            name={'zipCode'}
+                            component={TextField}
+                            style={{
+                                marginRight:'5%'
+                            }}
+                        />
+                        <Field
+                            label={'Country'}
+                            name={'country'}
+                            component={TextField}
+                            style={{
+                                marginRight:'5%'
+                            }}
+                        />
                     </form>
                 </DialogContent>
                 <DialogActions
@@ -221,6 +263,6 @@ const mapStateToProps = (state) => ({
 
 export default GoogleApiWrapper({
     apiKey: 'AIzaSyC-47pqMa_NoQP20eu4V2j2CgXhGfN6ZfA',  //TODO How do people securely handle these keys?
-    types: ['address', 'regions'],
+    types: ['address'],
     version: '3.32'
 })(connect(mapStateToProps)(connectedForm))

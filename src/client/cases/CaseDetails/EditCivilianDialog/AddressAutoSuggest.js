@@ -11,7 +11,7 @@ const styles = theme => ({
     container: {
         flexGrow: 1,
         position: 'relative',
-        height: 200,
+        height: '200px',
         width: '100%',
     },
     suggestionsContainerOpen: {
@@ -103,8 +103,12 @@ class AddressAutoSuggest extends Component {
 
     onSuggestionSelected = (event, {suggestion}) => {
         this.props.suggestionEngine.onSuggestionSelected(suggestion, (address)=>{
-            console.log('on suggestion selected', address)
-            // TODO change('EditCivilian', 'streetNumber', selectionDetail.streetNumber)
+            console.log('parsed address', address)
+            this.props.change('EditCivilian', 'streetAddress', address.streetAddress)
+            this.props.change('EditCivilian', 'city', address.city)
+            this.props.change('EditCivilian', 'state', address.state)
+            this.props.change('EditCivilian', 'zipCode', address.zipCode)
+            this.props.change('EditCivilian', 'country', address.country)
 
         })
 
