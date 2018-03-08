@@ -15,7 +15,14 @@ const Dropzone = (props) => {
     }
 
     const eventHandlers = {
-        success: (file, response) => props.dispatch(uploadAttachmentSuccess(response)),
+        success: function (file, response) {
+            props.dispatch(uploadAttachmentSuccess(response))
+            try {
+                this.removeFile(file)
+            } catch(error) {
+                console.log(error)
+            }
+        },
         error: (file, errorMessage) => errorMessage === 'File type invalid' && props.dispatch(fileTypeInvalid()),
         removedfile: (file) => props.dispatch(invalidFileTypeRemoved())
     }
