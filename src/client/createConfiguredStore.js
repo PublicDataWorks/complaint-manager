@@ -11,6 +11,7 @@ import caseDetailsReducer from "./reducers/cases/caseDetailsReducer";
 import casesTableReducer from "./reducers/ui/casesTableReducer";
 import editDialogReducer from "./reducers/ui/editDialogReducer";
 import userInfoReducer from "./auth/reducers/userInfoReducer";
+import attachmentsReducer from "./reducers/ui/attachmentsReducer";
 
 const rootReducer = combineReducers({
     form: formReducer,
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
     ui: combineReducers({
         snackbar: snackbarReducer,
         casesTable: casesTableReducer,
-        editCivilianDialog: editDialogReducer
+        editCivilianDialog: editDialogReducer,
+        attachments: attachmentsReducer
     })
 
 })

@@ -5,6 +5,9 @@ import '../../../../../node_modules/dropzone/dist/min/dropzone.min.css'
 import config from '../../../config/config'
 import getAccessToken from "../../../auth/getAccessToken";
 import { uploadAttachmentSuccess } from "../../../actionCreators/casesActionCreators";
+import { FormHelperText } from "material-ui/Form";
+import { connect } from "react-redux";
+import { fileTypeInvalid, invalidFileTypeRemoved } from "../../../actionCreators/attachmentsActionCreators";
 
 const Dropzone = (props) => {
     const dropZoneComponentConfig = {
@@ -12,7 +15,9 @@ const Dropzone = (props) => {
     }
 
     const eventHandlers = {
-        success: (file, response) => props.dispatch(uploadAttachmentSuccess(response))
+        success: (file, response) => props.dispatch(uploadAttachmentSuccess(response)),
+        error: (file, errorMessage) => errorMessage === 'File type invalid' && props.dispatch(fileTypeInvalid()),
+        removedfile: (file) => props.dispatch(invalidFileTypeRemoved())
     }
 
     const djsconfig = {
@@ -26,12 +31,29 @@ const Dropzone = (props) => {
     }
 
     return (
-        <DropzoneComponent
-            config={dropZoneComponentConfig}
-            djsConfig={djsconfig}
-            eventHandlers={eventHandlers}
-        />
+        <div>
+            <DropzoneComponent
+                config={dropZoneComponentConfig}
+                djsConfig={djsconfig}
+                eventHandlers={eventHandlers}
+            />
+            { props.invalidFileMessageVisible && invalidFileMarkup }
+        </div>
     )
 }
 
-export default Dropzone
+const invalidFileMarkup = (
+    <FormHelperText
+        data-test='invalidFileTypeErrorMessage'
+        error={true}
+    >
+        File type not supported.
+    </FormHelperText>
+)
+
+
+const mapStateToProps = (state) => ({
+    invalidFileMessageVisible: state.ui.attachments.invalidFileMessageVisible
+})
+
+export default connect(mapStateToProps)(Dropzone)
