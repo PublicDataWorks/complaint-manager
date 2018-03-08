@@ -9,7 +9,7 @@ const Attachments = (props) => {
         <BaseCaseDetailsCard title='Attachments'>
             <CardContent>
                 <div style={{display: 'flex', width: '100%'}}>
-                    <div style={{flex: 1, textAlign: 'left'}}>
+                    <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
                         <Typography type='subheading'>
                             File
                         </Typography>
@@ -21,7 +21,7 @@ const Attachments = (props) => {
                     </div>
                     <div style={{flex: 1}}/>
                 </div>
-                <div data-test="attachmentsField">
+                <div data-test="attachmentsField" style={{marginBottom: '8px'}}>
                     {
                         props.caseDetail.attachments && props.caseDetail.attachments.length > 0 ? props.caseDetail.attachments.map(attachment => (
                             <div
@@ -29,7 +29,7 @@ const Attachments = (props) => {
                                 style={{display: 'flex', width: '100%'}}
                                 data-test="attachmentRow"
                             >
-                                <div style={{flex: 1, textAlign: 'left'}}>
+                                <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
                                     <Typography type='body1'>
                                         {
                                             attachment.key.replace(`${attachment.caseId}/`, "")
@@ -56,7 +56,7 @@ const Attachments = (props) => {
                     </Typography>
                 </div>
                 <div style={{display: 'flex', width: '100%'}}>
-                    <div style={{flex: 1}}>
+                    <div style={{flex: 1, marginRight: '10px'}}>
                         <Dropzone caseId={props.caseDetail.id} dispatch={props.dispatch}/>
                     </div>
                     <div style={{flex: 1}}>
