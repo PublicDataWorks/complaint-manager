@@ -163,44 +163,56 @@ class EditCivilianDialog extends Component {
                             suggestionEngine={this.suggestionEngine}
                         />
                         <Field
-                            label={'Street'}
-                            name={'streetAddress'}
+                            label={'Additional Address Information'}
+                            name={'streetAddress2'}
                             component={TextField}
                             style={{
                                 marginRight:'5%',
-                                marginTop: '100px'
+                                marginBottom: '8px',
+                                width:'50%'
+                            }}
+                            inputProps={{
+                                'data-test': 'streetAddress2Input'
                             }}
                         />
                         <Field
-                            label={'City'}
+                            type={'hidden'}
+                            name={'streetAddress'}
+                            component={TextField}
+                            inputProps={{
+                                'data-test': 'streetAddressInput'
+                            }}
+                        />
+                        <Field
+                            type={'hidden'}
                             name={'city'}
                             component={TextField}
-                            style={{
-                                marginRight:'5%'
+                            inputProps={{
+                                'data-test': 'cityInput'
                             }}
                         />
                         <Field
-                            label={'State'}
+                            type={'hidden'}
                             name={'state'}
                             component={TextField}
-                            style={{
-                                marginRight:'5%'
+                            inputProps={{
+                                'data-test': 'stateInput'
                             }}
                         />
                         <Field
-                            label={'Zipcode'}
+                            type={'hidden'}
                             name={'zipCode'}
                             component={TextField}
-                            style={{
-                                marginRight:'5%'
+                            inputProps={{
+                                'data-test': 'zipCodeInput'
                             }}
                         />
                         <Field
-                            label={'Country'}
+                            type={'hidden'}
                             name={'country'}
                             component={TextField}
-                            style={{
-                                marginRight:'5%'
+                            inputProps={{
+                                'data-test': 'countryInput'
                             }}
                         />
                     </form>

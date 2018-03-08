@@ -12,18 +12,29 @@ const getComponentOnType = (address, desired_types) => {
 
 const parseAddressFromGooglePlaceResult = (address) => {
     const streetNumberComponent = getComponentOnType(address, ['street_number'])
+    const streetNumber = streetNumberComponent ? streetNumberComponent.long_name : ''
     const streetNameComponent = getComponentOnType(address, ['route'])
+    const streetName = streetNameComponent ? streetNameComponent.short_name : ''
+    const streetAddress = `${streetNumber} ${streetName}`.trim()
+
     const cityComponent = getComponentOnType(address, ['locality', 'political'])
+    const city = cityComponent ? cityComponent.long_name : ''
+
     const stateComponent = getComponentOnType(address, ['administrative_area_level_1', 'political'])
+    const state = stateComponent ? stateComponent.short_name : ''
+
     const zipCodeComponent = getComponentOnType(address, ['postal_code'])
+    const zipCode = zipCodeComponent ? zipCodeComponent.short_name : ''
+
     const countryComponent = getComponentOnType(address, ['country', 'political'])
+    const country = countryComponent ? countryComponent.short_name : ''
 
     return {
-        streetAddress: `${streetNumberComponent.long_name} ${streetNameComponent.short_name}`,
-        city: cityComponent.long_name,
-        state: stateComponent.short_name,
-        zipCode: zipCodeComponent.short_name,
-        country: countryComponent.long_name
+        streetAddress,
+        city,
+        state,
+        zipCode,
+        country
     }
 }
 export default parseAddressFromGooglePlaceResult

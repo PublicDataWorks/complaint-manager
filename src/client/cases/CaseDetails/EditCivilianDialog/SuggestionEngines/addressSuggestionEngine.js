@@ -21,8 +21,7 @@ class AddressSuggestionEngine {
             if (!addresses) {
                 callback([])
             } else {
-                const filteredAddresses = addresses.filter(address => address.types.includes('street_address'))
-                callback(filteredAddresses)
+                callback(addresses)
             }
         })
     }

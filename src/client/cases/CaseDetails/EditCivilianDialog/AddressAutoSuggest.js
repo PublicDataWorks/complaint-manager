@@ -11,13 +11,13 @@ const styles = theme => ({
     container: {
         flexGrow: 1,
         position: 'relative',
-        height: '200px',
-        width: '100%',
+        width: '80%',
+        marginBottom: '16px'
     },
     suggestionsContainerOpen: {
         position: 'relative',
         marginTop: theme.spacing.unit,
-        marginBottom: theme.spacing.unit * 3,
+        marginBottom: theme.spacing.unit,
         left: 0,
         right: 0,
     },
@@ -63,7 +63,6 @@ class AddressAutoSuggest extends Component {
 
     renderSuggestionsContainer = (options) => {
         const {containerProps, children} = options;
-
         return (
             <Paper {...containerProps} data-test='suggestion-container' square>
                 {children}
@@ -102,7 +101,7 @@ class AddressAutoSuggest extends Component {
     }
 
     onSuggestionSelected = (event, {suggestion}) => {
-        this.props.suggestionEngine.onSuggestionSelected(suggestion, (address)=>{
+        this.props.suggestionEngine.onSuggestionSelected(suggestion, (address) => {
             console.log('parsed address', address)
             this.props.change('EditCivilian', 'streetAddress', address.streetAddress)
             this.props.change('EditCivilian', 'city', address.city)
@@ -117,7 +116,7 @@ class AddressAutoSuggest extends Component {
 
     handleSuggestionsFetchRequested = ({value, reason}) => {
         if (value && reason === 'input-changed') {
-            this.props.suggestionEngine.onFetchSuggestions(value, (values)=>{
+            this.props.suggestionEngine.onFetchSuggestions(value, (values) => {
                 this.setState({
                     suggestions: values || []
                 })

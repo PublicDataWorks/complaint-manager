@@ -250,7 +250,13 @@ describe('Edit civilian dialog', () => {
                 genderIdentity: 'Other',
                 raceEthnicity: 'Other',
                 phoneNumber: '0123456789',
-                email: 'example@test.com'
+                email: 'example@test.com',
+                streetAddress: '200 E Randolph St',
+                streetAddress2: 'FL 25',
+                city: 'Chicago',
+                state: 'IL',
+                zipCode: '60601',
+                country: 'US'
             }
 
             changeInput(editCivilianDialog, '[data-test="firstNameInput"]', submittedValues.firstName)
@@ -260,10 +266,20 @@ describe('Edit civilian dialog', () => {
             changeInput(editCivilianDialog, '[data-test="birthDateInput"]', submittedValues.birthDate)
             changeInput(editCivilianDialog, '[data-test="phoneNumberInput"]', submittedValues.phoneNumber)
             changeInput(editCivilianDialog, '[data-test="emailInput"]', submittedValues.email)
+            changeInput(editCivilianDialog, '[data-test="streetAddressInput"]', submittedValues.streetAddress)
+            changeInput(editCivilianDialog, '[data-test="streetAddress2Input"]', submittedValues.streetAddress2)
+            changeInput(editCivilianDialog, '[data-test="cityInput"]', submittedValues.city)
+            changeInput(editCivilianDialog, '[data-test="stateInput"]', submittedValues.state)
+            changeInput(editCivilianDialog, '[data-test="zipCodeInput"]', submittedValues.zipCode)
+            changeInput(editCivilianDialog, '[data-test="countryInput"]', submittedValues.country)
 
             selectDropdownOption(editCivilianDialog, '[data-test="genderDropdown"]', submittedValues.genderIdentity)
             selectDropdownOption(editCivilianDialog, '[data-test="raceDropdown"]', submittedValues.raceEthnicity)
         });
+
+        test.skip('should save empty address if address field was empty at time of submit', () => {
+           //TODO save street address as '', city as '', state as ''  ....
+        })
 
         test('should fill in form and call thunk', () => {
             containsValue(editCivilianDialog, '[data-test="firstNameInput"]', submittedValues.firstName)
@@ -275,6 +291,12 @@ describe('Edit civilian dialog', () => {
             containsText(editCivilianDialog, '[data-test="raceDropdown"]', submittedValues.raceEthnicity)
             containsValue(editCivilianDialog, '[data-test="phoneNumberInput"]', submittedValues.phoneNumber)
             containsValue(editCivilianDialog, '[data-test="emailInput"]', submittedValues.email)
+            containsValue(editCivilianDialog, '[data-test="streetAddressInput"]', submittedValues.streetAddress)
+            containsValue(editCivilianDialog, '[data-test="streetAddress2Input"]', submittedValues.streetAddress2)
+            containsValue(editCivilianDialog, '[data-test="cityInput"]', submittedValues.city)
+            containsValue(editCivilianDialog, '[data-test="stateInput"]', submittedValues.state)
+            containsValue(editCivilianDialog, '[data-test="zipCodeInput"]', submittedValues.zipCode)
+            containsValue(editCivilianDialog, '[data-test="countryInput"]', submittedValues.country)
 
             save.simulate('click')
             expect(editCivilian).toHaveBeenCalledWith(submittedValues)
