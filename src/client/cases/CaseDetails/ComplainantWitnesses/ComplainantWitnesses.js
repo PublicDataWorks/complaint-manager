@@ -79,7 +79,7 @@ const ComplainantWitnesses = (props) => {
                                     <LinkButton
                                         data-test="editComplainantLink"
                                         onClick={() => {
-                                            props.dispatch(initialize('EditCivilian', removeFalsyProperties(primaryComplainant)))
+                                            props.dispatch(initialize('EditCivilian', primaryComplainant))
                                             props.dispatch(openEditDialog())
                                         }}
                                     >

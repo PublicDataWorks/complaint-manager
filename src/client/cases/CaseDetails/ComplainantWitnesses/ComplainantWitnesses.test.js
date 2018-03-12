@@ -79,22 +79,6 @@ describe('Complainant and Witnesses', () => {
 
             expect(dispatchSpy).toHaveBeenCalledWith(openEditDialog())
         })
-
-        test('should not initialize form with falsy values', () =>{
-            const editLink = complainantWitnesses.find('[data-test="editComplainantLink"]').first()
-            editLink.simulate('click');
-
-            const expectedValuesWithoutNullBirthday = {
-                id: 17,
-                    firstName: 'Chuck',
-                lastName: 'Berry',
-                phoneNumber: 1234567890,
-                email: 'cberry@gmail.com',
-                roleOnCase: 'Primary Complainant'
-            }
-
-            expect(initialize).toHaveBeenCalledWith('EditCivilian', expectedValuesWithoutNullBirthday)
-        })
     })
 
     describe('birthday', () => {

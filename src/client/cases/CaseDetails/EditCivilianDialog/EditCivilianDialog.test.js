@@ -32,7 +32,7 @@ const suggestionEngine = {
     },
 
     onFetchSuggestions: (input, callback) => {
-        callback([{description: '200 East Randolph Street, Chicago, IL, USA'}])
+        callback([{description: '200 East Randolph Street, Chicago, IL, US'}])
     },
 
     onSuggestionSelected: (suggestion, callback) => {

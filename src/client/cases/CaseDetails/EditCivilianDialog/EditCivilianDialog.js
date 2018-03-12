@@ -21,6 +21,7 @@ import {atLeastOneRequired} from "../../../formSyncValidations";
 import AddressAutoSuggest from "./AddressAutoSuggest";
 import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine";
 import {formValueSelector} from 'redux-form';
+import formatAddress from "../../../utilities/formatAddress";
 
 const generateMenu = contents => {
     return contents.map((content) => {
@@ -276,19 +277,9 @@ const mapStateToProps = (state) => {
         'address.streetAddress', 'address.city',
         'address.state', 'address.zipCode', 'address.country')
 
-    let formattedAddress = ''
-    if (values.address) {
-        const streetAddress = values.address.streetAddress ? `${values.address.streetAddress}, ` : ''
-        const city = values.address.city ? `${values.address.city}, ` : ''
-        const addressState = values.address.state ? `${values.address.state}, ` : ''
-        const zipCode = values.address.zipCode ? `${values.address.zipCode}, ` : ''
-        const country = values.address.country ? `${values.address.country}` : ''
-        formattedAddress = `${streetAddress}${city}${addressState}${zipCode}${country}`.trim()
-    }
-
     return {
         open: state.ui.editCivilianDialog.open,
-        formattedAddress
+        formattedAddress: formatAddress(values.address)
     }
 }
 
