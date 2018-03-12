@@ -12,6 +12,7 @@ import Civilian from "../client/testUtilities/civilian";
 import Case from "../client/testUtilities/case";
 import AWS from "aws-sdk/index";
 import Attachment from "../client/testUtilities/attachment";
+import {civilianWithAddress, civilianWithoutAddress} from "../client/testUtilities/ObjectMothers";
 
 const config = require('./config/config')[process.env.NODE_ENV]
 
@@ -334,6 +335,7 @@ describe('server', () => {
         let seededCivilian, seededCase
         beforeEach(async () => {
             const caseDefault = new Case.Builder().defaultCase().build();
+            await models.address.destroy({where: {civilianId: caseDefault.civilians[0].id}})
             await models.audit_log.destroy({where: {caseId: caseDefault.id}})
             await models.civilian.destroy({where: {caseId: caseDefault.id}})
             await models.cases.destroy({where: {id: caseDefault.id}})
@@ -343,6 +345,7 @@ describe('server', () => {
         });
 
         afterEach(async () => {
+            await models.address.destroy({where: {civilianId: seededCivilian.id}})
             await models.civilian.destroy({where: {id: seededCivilian.id}})
             await models.audit_log.destroy({where: {caseId: seededCase.id}})
             await models.cases.destroy({where: {id: seededCase.id}})
@@ -363,6 +366,66 @@ describe('server', () => {
                     expect(response.body.firstName).toEqual(updatedCivilian.firstName)
                     expect(response.body.lastName).toEqual(updatedCivilian.lastName)
                 })
+        })
+
+        test('should save new address if it doesnt exist yet', async () => {
+            const updatedCivilian = {
+                address:{
+                    state: 'IL'
+                }
+            }
+            await request(app)
+                .put(`/civilian/${seededCivilian.id}`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .send(updatedCivilian)
+                .expect(200)
+                .then(response => {
+                    expect(response.body.address.state).toEqual(updatedCivilian.address.state)
+                })
+        })
+        test('should update address if it exists', async () => {
+
+            await request(app)
+                .put(`/civilian/${civilianWithAddress.id}`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .send(civilianWithAddress)
+
+            civilianWithAddress.address.city = 'New Orleans'
+
+            await request(app)
+                .put(`/civilian/${civilianWithAddress.id}`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .send(civilianWithAddress)
+                .expect(200)
+                .then(response => {
+                    expect(response.body.address.city).toEqual('New Orleans')
+                })
+
+        })
+        test('should not require address', async() => {
+            await request(app)
+                .put(`/civilian/${civilianWithAddress.id}`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .send(civilianWithAddress)
+
+            await request(app)
+                .put(`/civilian/${civilianWithoutAddress.id}`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .send(civilianWithoutAddress)
+                .then(response => {
+                    expect(response.body.address.streetAddress).toEqual("")
+                    expect(response.body.address.streetAddress2).toEqual("")
+                    expect(response.body.address.city).toEqual("")
+                    expect(response.body.address.state).toEqual("")
+                    expect(response.body.address.country).toEqual("")
+                    expect(response.body.address.zipCode).toEqual("")
+                })
+
         })
 
         test('should update the case status to active when an associated civilian has been updated ', async () => {

@@ -6,14 +6,9 @@ import getPrimaryComplainant from "../../../utilities/getPrimaryComplainant";
 import formatDate from "../../../utilities/formatDate"
 import formatName from "../../../utilities/formatName";
 import {initialize} from "redux-form";
-import _ from 'lodash'
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import formatPhoneNumber from "../../../utilities/formatPhoneNumber"
 
-
-function removeFalsyProperties(object) {
-    return _.pickBy(object, _.identity)
-}
 
 const ComplainantWitnesses = (props) => {
     const primaryComplainant = getPrimaryComplainant(props.caseDetail.civilians)

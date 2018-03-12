@@ -1,17 +1,45 @@
 const models = require('../../models/index')
 
 const editCivilian = async (req, res, next) => {
+
+    async function upsertAddress(civilianId, address, transaction) {
+        const addressToUpdate = await models.address.find({
+            where: {civilianId: civilianId},
+            transaction
+        })
+
+        if (!addressToUpdate) {
+            await models.address.create(
+                {
+                    ...address,
+                    civilianId
+                },{
+                    transaction
+                })
+        } else {
+            await models.address.update(
+                address,
+                {
+                    where: {civilianId},
+                    transaction
+                })
+        }
+    }
+
     try {
         const updatedCivilian = await models.sequelize.transaction(async (t) => {
-            const updatedCivilianWithSequelizeMarkup = await models.civilian.update(
+            await models.civilian.update(
                 req.body,
                 {
                     where: {id: req.params.id},
-                    returning: true,
                     transaction: t
                 })
+            await upsertAddress(req.params.id, req.body.address, t);
 
-            const civilian = updatedCivilianWithSequelizeMarkup[1][0]['dataValues']
+            const civilian = await models.civilian.findById(req.params.id, {
+                transaction: t,
+                include:[{model:models.address}]
+            })
 
             //update case status with caseId to from 'Initial' to 'Active'
             await models.cases.update(

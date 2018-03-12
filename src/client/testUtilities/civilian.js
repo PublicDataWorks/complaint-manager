@@ -1,4 +1,6 @@
 //TODO Should we use a Civilian class in our app code?
+import Address from "./Address";
+
 class Civilian {
     constructor(build) {
         this.id = build.id
@@ -10,6 +12,7 @@ class Civilian {
         this.email = build.email
         this.raceEthnicity = build.raceEthnicity
         this.genderIdentity = build.genderIdentity
+        this.address = build.address
     }
 
     //TODO: Builders are not usually part of the class that they're building.  The class is usually a domain object used in the app, not just tests.  Should this be refactored?
@@ -25,11 +28,32 @@ class Civilian {
                 this.birthDate = '1994-04-24'
                 this.genderIdentity = 'Female'
                 this.raceEthnicity = 'Korean'
+                this.address = new Address.Builder().defaultAddress().withCivilianId(this.id).build()
+                return this;
+            }
+
+            withNoAddress() {
+                this.address = {
+                    id: 1235432,
+                    civilianId: this.address.civilianId,
+                    streetAddress: '',
+                    streetAddress2: '',
+                    city: '',
+                    state: '',
+                    zipCode: '',
+                    country: ''
+                }
+                return this
+            }
+
+            withAddress(address) {
+                this.address = address
                 return this;
             }
 
             withId(id) {
                 this.id = id
+                this.address.civilianId = id
                 return this;
             }
 

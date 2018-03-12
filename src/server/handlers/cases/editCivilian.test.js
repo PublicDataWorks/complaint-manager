@@ -10,10 +10,16 @@ jest.mock('../../models', () => ({
         create: jest.fn()
     },
     civilian: {
-        update: jest.fn()
+        update: jest.fn(),
+        findById: jest.fn(() => ({caseId:2}))
     },
     cases: {
         update: jest.fn()
+    },
+    address: {
+        update: jest.fn(),
+        create: jest.fn(),
+        find: jest.fn()
     }
 }))
 
@@ -40,7 +46,6 @@ describe('editCivilian handler', () => {
         const options =
             {
                 where: {id: request.params.id},
-                returning: true,
                 transaction: 'MOCK_TRANSACTION'
             }
 
