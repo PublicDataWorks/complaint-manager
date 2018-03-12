@@ -50,9 +50,9 @@ export const containsText = (mountedComponent, selector, expectedText) => {
 
     const containsText = mountedComponent
         .find(selector)
-        .filterWhere(node => node.text().includes(expectedText))
+        .filterWhere(node => node.text().includes(expectedText)).first()
 
-    return expect(containsText.length).not.toEqual(0)
+    return expect(containsText.text()).toContain(expectedText)
 }
 
 export const retry = async (retriableFunction) => {

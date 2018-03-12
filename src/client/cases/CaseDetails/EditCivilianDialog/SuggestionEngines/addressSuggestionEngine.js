@@ -1,10 +1,10 @@
 import parseAddressFromGooglePlaceResult from "../../../../utilities/parseAddressFromGooglePlaceResult";
 
 class AddressSuggestionEngine {
-    constructor(google) {
-        this.google = google
-        this.autoCompleteService = new google.maps.places.AutocompleteService()
-        this.placeDetailsService = new google.maps.places.PlacesService(window.document.createElement('div'))
+    constructor() {
+        this.google = window.google
+        this.autoCompleteService = new window.google.maps.places.AutocompleteService()
+        this.placeDetailsService = new window.google.maps.places.PlacesService(window.document.createElement('div'))
     }
 
     getSuggestionValue = (suggestion) => {

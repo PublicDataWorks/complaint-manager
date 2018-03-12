@@ -24,6 +24,8 @@ jest.mock('../thunks/updateNarrative', () => () => ({
     type: 'MOCK_UPDATE_NARRATIVE_THUNK'
 }))
 
+jest.mock("./EditCivilianDialog/SuggestionEngines/addressSuggestionEngine")
+
 describe('Case Details Component', () => {
     let caseDetails, expectedCase, dispatchSpy, store;
     beforeEach(() => {

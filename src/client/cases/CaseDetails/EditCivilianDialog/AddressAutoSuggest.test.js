@@ -7,9 +7,27 @@ import createConfiguredStore from "../../../createConfiguredStore";
 
 
 describe('AddressAutoSuggest', () => {
-    let store
+    let store, cannedSuggestions, suggestionEngine
     beforeEach(() => {
         store = createConfiguredStore()
+        cannedSuggestions = ['123 main street', 'Chicago, IL', 'Burma']
+        suggestionEngine = {
+
+            //returns suggestion value for updating input value
+            getSuggestionValue: jest.fn(() => (suggestion) => {
+                return suggestion
+            }),
+
+            //fetches suggestions if need be, call calback with results
+            onFetchSuggestions: jest.fn(() => (input, callback) => {
+                callback(cannedSuggestions)
+            }),
+
+            //after selecting a suggestion, what else should be done?
+            onSuggestionSelected: jest.fn(() => (suggestion) => {
+                return suggestion
+            })
+        }
     })
 
     test('should display a label', () => {
@@ -19,9 +37,7 @@ describe('AddressAutoSuggest', () => {
             <Provider store={store}>
                 <AddressAutoSuggest
                     label={label}
-                    inputProps={{
-                        'data-test': 'my-custom-autosuggest'
-                    }}
+                    data-test='my-custom-autosuggest'
                 />
             </Provider>
         )
@@ -32,32 +48,12 @@ describe('AddressAutoSuggest', () => {
     describe('Cant test at unit level, move to nightwatch test', () => {
 
         test.skip('should display suggestions when text is entered', () => {
-            let cannedSuggestions = ['123 main street', 'Chicago, IL', 'Burma']
-            const suggestionEngine = {
-
-                //returns suggestion value for updating input value
-                getSuggestionValue: jest.fn( () => (suggestion) => {
-                    return suggestion
-                }),
-
-                //fetches suggestions if need be, call calback with results
-                onFetchSuggestions: jest.fn(()=> (input, callback) => {
-                    callback(cannedSuggestions)
-                }),
-
-                //after selecting a suggestion, what else should be done?
-                onSuggestionSelected: jest.fn(()=>(suggestion) => {
-                    return suggestion
-                })
-            }
 
             const autoSuggestWrapper = mount(
                 <Provider store={store}>
                     <AddressAutoSuggest
                         suggestionEngine={suggestionEngine}
-                        inputProps={{
-                            'data-test': 'my-custom-autosuggest'
-                        }}
+                        data-test='my-custom-autosuggest'
                     />
                 </Provider>
             )

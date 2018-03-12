@@ -18,39 +18,66 @@ jest.mock('../../thunks/editCivilian', () => (
     jest.fn(() => ({type: 'MOCK_EDIT_CIVILIAN_REQUESTED'}))
 ))
 
+const getMenuOptions = (mountedComponent, menuSelector) => {
+    return mountedComponent
+        .find(menuSelector)
+        .find('li[role="option"]')
+        .map(node => node.text())
+
+}
+
+const suggestionEngine = {
+    getSuggestionValue: (suggestion) => {
+        return suggestion.description
+    },
+
+    onFetchSuggestions: (input, callback) => {
+        callback([{description: '200 East Randolph Street, Chicago, IL, USA'}])
+    },
+
+    onSuggestionSelected: (suggestion, callback) => {
+        callback({
+            streetAddress: '200 E Randolph St',
+            city: 'Chicago',
+            state: 'IL',
+            zipCode: '60601',
+            country: 'US'
+        })
+    }
+}
 
 describe('Edit civilian dialog', () => {
-    let editCivilianDialog, store, dispatchSpy, currentCaseCivilian, save;
+    let editCivilianDialog, store, dispatchSpy, caseCivilian, save;
     beforeEach(() => {
         store = createConfiguredStore()
         dispatchSpy = jest.spyOn(store, 'dispatch')
 
-        currentCaseCivilian = {
+        caseCivilian = {
             firstName: 'test first name',
             middleInitial: 'T',
             lastName: 'test last name',
-            suffix: 'test suffix'
+            suffix: 'test suffix',
+            address: {
+                streetAddress: '200 E Randolph Street',
+                streetAddress2: 'FL 25',
+                city: 'Chicago',
+                state: 'IL',
+                zipCode: '60601',
+                country: 'US'
+            }
         }
 
-        store.dispatch(initialize('EditCivilian', currentCaseCivilian))
+        store.dispatch(initialize('EditCivilian', caseCivilian))
 
         editCivilianDialog = mount(
             <Provider store={store}>
-                <EditCivilianDialog/>
+                <EditCivilianDialog suggestionEngine={suggestionEngine}/>
             </Provider>)
 
         store.dispatch(openEditDialog())
         editCivilianDialog.update()
         save = editCivilianDialog.find('button[data-test="submitEditCivilian"]')
     })
-
-    const getMenuOptions = (mountedComponent, menuSelector) => {
-         return mountedComponent
-            .find(menuSelector)
-            .find('li[role="option"]')
-            .map(node => node.text())
-
-    }
 
     test('should display title if state is open', () => {
         containsText(editCivilianDialog, '[data-test="editDialogTitle"]', 'Edit Civilian')
@@ -62,20 +89,25 @@ describe('Edit civilian dialog', () => {
         })
         test('should pre-populate first name for existing case', () => {
             const firstName = editCivilianDialog.find('[data-test="firstNameField"]').first().instance().value
-            expect(firstName).toEqual(currentCaseCivilian.firstName)
+            expect(firstName).toEqual(caseCivilian.firstName)
         })
 
         test('should pre-populate middle initial', () => {
-            containsValue(editCivilianDialog, '[data-test="middleInitialInput"]', currentCaseCivilian.middleInitial)
+            containsValue(editCivilianDialog, '[data-test="middleInitialInput"]', caseCivilian.middleInitial)
         })
 
         test('should pre-populate suffix', () => {
-            containsValue(editCivilianDialog, '[data-test="suffixInput"]', currentCaseCivilian.suffix)
+            containsValue(editCivilianDialog, '[data-test="suffixInput"]', caseCivilian.suffix)
         })
 
         test('should pre-populate last name for existing case', () => {
             const lastName = editCivilianDialog.find('[data-test="lastNameField"]').first().instance().value
-            expect(lastName).toEqual(currentCaseCivilian.lastName)
+            expect(lastName).toEqual(caseCivilian.lastName)
+        })
+
+        test('should pre-populate address', () => {
+            const expectedAddressDisplayText = '200 E Randolph Street, Chicago, IL, 60601, US'
+            containsValue(editCivilianDialog, '[data-test="addressSuggestionField"] > input', expectedAddressDisplayText)
         })
     })
 
@@ -88,7 +120,7 @@ describe('Edit civilian dialog', () => {
         });
 
         test('should pre-populate birthdate for existing birthdate', () => {
-            store.dispatch(initialize('EditCivilian', {...currentCaseCivilian, birthDate: '2018-02-14'}))
+            store.dispatch(initialize('EditCivilian', {...caseCivilian, birthDate: '2018-02-14'}))
             const birthDate = editCivilianDialog.find('[data-test="birthDateField"]').first().instance().value
             expect(birthDate).toEqual('2018-02-14')
         })
@@ -236,12 +268,11 @@ describe('Edit civilian dialog', () => {
         })
     })
 
-
     describe('on submit', () => {
-        let submittedValues
 
-        beforeEach(() => {
-            submittedValues = {
+ //TODO Why can't we create multiple test cases?  The submits appear to collide.
+        test('should submit form with address', () => {
+            const submittedValues = {
                 firstName: 'Foo',
                 lastName: 'Bar',
                 middleInitial: 'Y',
@@ -251,12 +282,14 @@ describe('Edit civilian dialog', () => {
                 raceEthnicity: 'Other',
                 phoneNumber: '0123456789',
                 email: 'example@test.com',
-                streetAddress: '200 E Randolph St',
-                streetAddress2: 'FL 25',
-                city: 'Chicago',
-                state: 'IL',
-                zipCode: '60601',
-                country: 'US'
+                address: {
+                    streetAddress: '200 E Randolph Street',
+                    streetAddress2: 'FL 25',
+                    city: 'Chicago',
+                    state: 'IL',
+                    zipCode: '60601',
+                    country: 'US'
+                }
             }
 
             changeInput(editCivilianDialog, '[data-test="firstNameInput"]', submittedValues.firstName)
@@ -266,22 +299,9 @@ describe('Edit civilian dialog', () => {
             changeInput(editCivilianDialog, '[data-test="birthDateInput"]', submittedValues.birthDate)
             changeInput(editCivilianDialog, '[data-test="phoneNumberInput"]', submittedValues.phoneNumber)
             changeInput(editCivilianDialog, '[data-test="emailInput"]', submittedValues.email)
-            changeInput(editCivilianDialog, '[data-test="streetAddressInput"]', submittedValues.streetAddress)
-            changeInput(editCivilianDialog, '[data-test="streetAddress2Input"]', submittedValues.streetAddress2)
-            changeInput(editCivilianDialog, '[data-test="cityInput"]', submittedValues.city)
-            changeInput(editCivilianDialog, '[data-test="stateInput"]', submittedValues.state)
-            changeInput(editCivilianDialog, '[data-test="zipCodeInput"]', submittedValues.zipCode)
-            changeInput(editCivilianDialog, '[data-test="countryInput"]', submittedValues.country)
-
             selectDropdownOption(editCivilianDialog, '[data-test="genderDropdown"]', submittedValues.genderIdentity)
             selectDropdownOption(editCivilianDialog, '[data-test="raceDropdown"]', submittedValues.raceEthnicity)
-        });
 
-        test.skip('should save empty address if address field was empty at time of submit', () => {
-           //TODO save street address as '', city as '', state as ''  ....
-        })
-
-        test('should fill in form and call thunk', () => {
             containsValue(editCivilianDialog, '[data-test="firstNameInput"]', submittedValues.firstName)
             containsValue(editCivilianDialog, '[data-test="lastNameInput"]', submittedValues.lastName)
             containsValue(editCivilianDialog, '[data-test="birthDateInput"]', submittedValues.birthDate)
@@ -291,16 +311,15 @@ describe('Edit civilian dialog', () => {
             containsText(editCivilianDialog, '[data-test="raceDropdown"]', submittedValues.raceEthnicity)
             containsValue(editCivilianDialog, '[data-test="phoneNumberInput"]', submittedValues.phoneNumber)
             containsValue(editCivilianDialog, '[data-test="emailInput"]', submittedValues.email)
-            containsValue(editCivilianDialog, '[data-test="streetAddressInput"]', submittedValues.streetAddress)
-            containsValue(editCivilianDialog, '[data-test="streetAddress2Input"]', submittedValues.streetAddress2)
-            containsValue(editCivilianDialog, '[data-test="cityInput"]', submittedValues.city)
-            containsValue(editCivilianDialog, '[data-test="stateInput"]', submittedValues.state)
-            containsValue(editCivilianDialog, '[data-test="zipCodeInput"]', submittedValues.zipCode)
-            containsValue(editCivilianDialog, '[data-test="countryInput"]', submittedValues.country)
+            containsValue(editCivilianDialog, '[data-test="streetAddressInput"]', submittedValues.address.streetAddress)
+            containsValue(editCivilianDialog, '[data-test="streetAddress2Input"]', submittedValues.address.streetAddress2)
+            containsValue(editCivilianDialog, '[data-test="cityInput"]', submittedValues.address.city)
+            containsValue(editCivilianDialog, '[data-test="stateInput"]', submittedValues.address.state)
+            containsValue(editCivilianDialog, '[data-test="zipCodeInput"]', submittedValues.address.zipCode)
+            containsValue(editCivilianDialog, '[data-test="countryInput"]', submittedValues.address.country)
 
             save.simulate('click')
             expect(editCivilian).toHaveBeenCalledWith(submittedValues)
         })
     })
 })
-

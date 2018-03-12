@@ -19,8 +19,8 @@ import PhoneNumberField from "../../sharedFormComponents/PhoneNumberField";
 import EmailField from "../../sharedFormComponents/EmailField";
 import {atLeastOneRequired} from "../../../formSyncValidations";
 import AddressAutoSuggest from "./AddressAutoSuggest";
-import {GoogleApiWrapper} from "google-maps-react";
 import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine";
+import {formValueSelector} from 'redux-form';
 
 const generateMenu = contents => {
     return contents.map((content) => {
@@ -34,16 +34,15 @@ const generateMenu = contents => {
 
 class EditCivilianDialog extends Component {
 
-    constructor(props){
+    //TODO  IS there a good way to do dependency injection in react/redux?
+    // It's generally poor form to have a default service instance.
+    // Would it be a bad idea to have a set of services defined in some corner of Redux
+    // that would be set differently based on the environment?
+    constructor(props) {
         super(props)
-        this.suggestionEngine = null
+        this.suggestionEngine = props.suggestionEngine || new AddressSuggestionEngine()
     }
 
-    componentWillReceiveProps(nextProps){
-        if (nextProps.google && !this.suggestionEngine) {
-            this.suggestionEngine = new AddressSuggestionEngine(nextProps.google)
-        }
-    }
 
     render() {
         return (
@@ -161,15 +160,17 @@ class EditCivilianDialog extends Component {
                         <AddressAutoSuggest
                             label='Address'
                             suggestionEngine={this.suggestionEngine}
+                            defaultText={this.props.formattedAddress}
+                            data-test='addressSuggestionField'
                         />
                         <Field
                             label={'Additional Address Information'}
-                            name={'streetAddress2'}
+                            name={'address.streetAddress2'}
                             component={TextField}
                             style={{
-                                marginRight:'5%',
+                                marginRight: '5%',
                                 marginBottom: '8px',
-                                width:'50%'
+                                width: '50%'
                             }}
                             inputProps={{
                                 'data-test': 'streetAddress2Input'
@@ -177,7 +178,7 @@ class EditCivilianDialog extends Component {
                         />
                         <Field
                             type={'hidden'}
-                            name={'streetAddress'}
+                            name={'address.streetAddress'}
                             component={TextField}
                             inputProps={{
                                 'data-test': 'streetAddressInput'
@@ -185,7 +186,7 @@ class EditCivilianDialog extends Component {
                         />
                         <Field
                             type={'hidden'}
-                            name={'city'}
+                            name={'address.city'}
                             component={TextField}
                             inputProps={{
                                 'data-test': 'cityInput'
@@ -193,7 +194,7 @@ class EditCivilianDialog extends Component {
                         />
                         <Field
                             type={'hidden'}
-                            name={'state'}
+                            name={'address.state'}
                             component={TextField}
                             inputProps={{
                                 'data-test': 'stateInput'
@@ -201,7 +202,7 @@ class EditCivilianDialog extends Component {
                         />
                         <Field
                             type={'hidden'}
-                            name={'zipCode'}
+                            name={'address.zipCode'}
                             component={TextField}
                             inputProps={{
                                 'data-test': 'zipCodeInput'
@@ -209,7 +210,7 @@ class EditCivilianDialog extends Component {
                         />
                         <Field
                             type={'hidden'}
-                            name={'country'}
+                            name={'address.country'}
                             component={TextField}
                             inputProps={{
                                 'data-test': 'countryInput'
@@ -269,12 +270,26 @@ const connectedForm = reduxForm({
     validate
 })(DialogWithTheme)
 
-const mapStateToProps = (state) => ({
-    open: state.ui.editCivilianDialog.open,
-})
+const mapStateToProps = (state) => {
+    const selector = formValueSelector('EditCivilian')
+    const values = selector(state,
+        'address.streetAddress', 'address.city',
+        'address.state', 'address.zipCode', 'address.country')
 
-export default GoogleApiWrapper({
-    apiKey: 'AIzaSyC-47pqMa_NoQP20eu4V2j2CgXhGfN6ZfA',  //TODO How do people securely handle these keys?
-    types: ['address'],
-    version: '3.32'
-})(connect(mapStateToProps)(connectedForm))
+    let formattedAddress = ''
+    if (values.address) {
+        const streetAddress = values.address.streetAddress ? `${values.address.streetAddress}, ` : ''
+        const city = values.address.city ? `${values.address.city}, ` : ''
+        const addressState = values.address.state ? `${values.address.state}, ` : ''
+        const zipCode = values.address.zipCode ? `${values.address.zipCode}, ` : ''
+        const country = values.address.country ? `${values.address.country}` : ''
+        formattedAddress = `${streetAddress}${city}${addressState}${zipCode}${country}`.trim()
+    }
+
+    return {
+        open: state.ui.editCivilianDialog.open,
+        formattedAddress
+    }
+}
+
+export default connect(mapStateToProps)(connectedForm)

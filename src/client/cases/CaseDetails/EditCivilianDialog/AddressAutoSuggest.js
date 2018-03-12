@@ -37,24 +37,24 @@ class AddressAutoSuggest extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: '',
+            value: props.defaultText || '',
             suggestions: []
         }
     }
 
     renderInput = (inputProps) => {
-        const {label, classes, ref, ...other} = inputProps;
+        const {label, classes, ref, dataTest, ...other} = inputProps;
 
         return (
             <TextField
                 label={label}
                 fullWidth
                 inputRef={ref}
-                data-test={inputProps["data-test"]}
                 InputProps={{
                     classes: {
                         input: classes.input,
                     },
+                    'data-test':dataTest,
                     ...other,
                 }}
             />
@@ -103,14 +103,12 @@ class AddressAutoSuggest extends Component {
     onSuggestionSelected = (event, {suggestion}) => {
         this.props.suggestionEngine.onSuggestionSelected(suggestion, (address) => {
             console.log('parsed address', address)
-            this.props.change('EditCivilian', 'streetAddress', address.streetAddress)
-            this.props.change('EditCivilian', 'city', address.city)
-            this.props.change('EditCivilian', 'state', address.state)
-            this.props.change('EditCivilian', 'zipCode', address.zipCode)
-            this.props.change('EditCivilian', 'country', address.country)
-
+            this.props.change('EditCivilian', 'address.streetAddress', address.streetAddress)
+            this.props.change('EditCivilian', 'address.city', address.city)
+            this.props.change('EditCivilian', 'address.state', address.state)
+            this.props.change('EditCivilian', 'address.zipCode', address.zipCode)
+            this.props.change('EditCivilian', 'address.country', address.country)
         })
-
     }
 
 
@@ -137,7 +135,7 @@ class AddressAutoSuggest extends Component {
     };
 
     render() {
-        const {label, classes = {}, inputProps} = this.props;
+        const {label, classes = {}, inputProps, 'data-test':dataTest} = this.props;
 
         const theme =
             {
@@ -161,6 +159,7 @@ class AddressAutoSuggest extends Component {
                 data-test={'base-auto-suggest'}
                 inputProps={{
                     label,
+                    dataTest,
                     ...inputProps,
                     classes,
                     value: this.state.value,
