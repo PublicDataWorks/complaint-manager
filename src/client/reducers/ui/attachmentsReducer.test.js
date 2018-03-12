@@ -1,5 +1,5 @@
 import attachmentsReducer from "./attachmentsReducer";
-import { fileTypeInvalid, invalidFileTypeRemoved } from "../../actionCreators/attachmentsActionCreators";
+import { dropInvalidFileType, removeDropzoneFile } from "../../actionCreators/attachmentsActionCreators";
 
 describe('attachmentReducer', () => {
     test('should set the default state', () => {
@@ -10,7 +10,7 @@ describe('attachmentReducer', () => {
 
     test('should set invalid file type message to be visible on invalid file type', () => {
         const startingState = { invalidFileMessageVisible: false}
-        const newState = attachmentsReducer(startingState, fileTypeInvalid())
+        const newState = attachmentsReducer(startingState, dropInvalidFileType())
 
         expect(newState).toEqual({ invalidFileMessageVisible: true })
     })
@@ -18,7 +18,7 @@ describe('attachmentReducer', () => {
     test('should set invalid file type to not visible', () => {
         const startingState = { invalidFileMessageVisible: true }
 
-        const newState = attachmentsReducer(startingState, invalidFileTypeRemoved())
+        const newState = attachmentsReducer(startingState, removeDropzoneFile())
 
         expect(newState).toEqual({ invalidFileMessageVisible: false })
     })

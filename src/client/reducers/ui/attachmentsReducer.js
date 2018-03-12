@@ -4,11 +4,11 @@ const initialState = {
 
 const attachmentsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'FILE_TYPE_INVALID':
+        case 'INVALID_FILE_TYPE_DROPPED':
             return {
                 invalidFileMessageVisible: true
             }
-        case 'INVALID_FILE_TYPE_REMOVED':
+        case 'DROPZONE_FILE_REMOVED':
             return {
                 invalidFileMessageVisible: false
             }

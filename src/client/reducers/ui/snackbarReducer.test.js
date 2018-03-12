@@ -5,7 +5,7 @@ import {
     createCaseSuccess, editCivilianFailed, editCivilianSuccess,
     requestCaseCreation,
     updateNarrativeFailure,
-    updateNarrativeSuccess
+    updateNarrativeSuccess, uploadAttachmentSuccess
 } from "../../actionCreators/casesActionCreators";
 import {closeSnackbar} from "../../actionCreators/snackBarActionCreators";
 
@@ -111,6 +111,7 @@ describe('snackbarReducer', () => {
 
         })
     })
+
     describe('EDIT_CIVILIAN', () => {
         test('EDIT_CIVILIAN_SUCCESS', () => {
             const initialState = {open: false}
@@ -130,4 +131,15 @@ describe('snackbarReducer', () => {
             expect(newState.message).toEqual('Something went wrong on our end and the civilian was not updated. Please try again.')
         })
     })
+
+    describe('ATTACHMENT_UPLOAD', () => {
+        test('ATTACHMENT_UPLOAD_SUCCEEDED', () => {
+            const initialState = {success: false, open: false, message: ''}
+            const newState = snackbarReducer(initialState, uploadAttachmentSuccess('some case details'))
+
+            expect(newState.open).toEqual(true)
+            expect(newState.success).toEqual(true)
+            expect(newState.message).toEqual('Your file was successfully attached')
+        })
+    });
 })

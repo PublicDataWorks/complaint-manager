@@ -1,7 +1,7 @@
-export const fileTypeInvalid = () => ({
-    type: 'FILE_TYPE_INVALID'
+export const dropInvalidFileType = () => ({
+    type: 'INVALID_FILE_TYPE_DROPPED'
 })
 
-export const invalidFileTypeRemoved = () => ({
-    type: 'INVALID_FILE_TYPE_REMOVED'
+export const removeDropzoneFile = () => ({
+    type: 'DROPZONE_FILE_REMOVED'
 })

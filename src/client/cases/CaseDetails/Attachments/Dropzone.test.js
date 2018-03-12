@@ -4,7 +4,7 @@ import Dropzone from "./Dropzone";
 import DropzoneComponent from 'react-dropzone-component'
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../../createConfiguredStore";
-import { fileTypeInvalid } from "../../../actionCreators/attachmentsActionCreators";
+import { dropInvalidFileType } from "../../../actionCreators/attachmentsActionCreators";
 
 jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))
 
@@ -42,7 +42,7 @@ describe('Dropzone', () => {
     })
 
     test('should display invalid file type error by when invalid', () => {
-        store.dispatch(fileTypeInvalid())
+        store.dispatch(dropInvalidFileType())
         wrapper.update()
 
         expect(wrapper.find('[data-test="invalidFileTypeErrorMessage"]').exists()).toBeTruthy()

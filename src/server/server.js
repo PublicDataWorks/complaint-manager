@@ -14,7 +14,7 @@ const errorHandler = require("./handlers/errorHandler");
 const jwtCheck = require("./handlers/jtwCheck")
 const getUserProfile = require("./handlers/getUserProfile")
 const authErrorHandler = require("./handlers/authErrorHandler")
-const uploadAttachment = require("./handlers/uploadAttachment")
+const uploadAttachment = require("./handlers/cases/attachments/uploadAttachment")
 
 const app = express();
 const buildDirectory = path.join(__dirname, '../../build');

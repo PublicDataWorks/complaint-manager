@@ -89,6 +89,12 @@ const snackbarReducer = (state = initialState, action) => {
                 success: false,
                 message: 'Something went wrong on our end and the civilian was not updated. Please try again.'
             }
+        case 'ATTACHMENT_UPLOAD_SUCCEEDED':
+            return {
+                open: true,
+                success: true,
+                message: 'Your file was successfully attached'
+            }
         default:
             return state
     }

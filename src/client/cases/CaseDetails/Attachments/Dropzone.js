@@ -7,7 +7,7 @@ import getAccessToken from "../../../auth/getAccessToken";
 import { uploadAttachmentSuccess } from "../../../actionCreators/casesActionCreators";
 import { FormHelperText } from "material-ui/Form";
 import { connect } from "react-redux";
-import { fileTypeInvalid, invalidFileTypeRemoved } from "../../../actionCreators/attachmentsActionCreators";
+import { dropInvalidFileType, removeDropzoneFile } from "../../../actionCreators/attachmentsActionCreators";
 
 const Dropzone = (props) => {
     const dropZoneComponentConfig = {
@@ -16,15 +16,9 @@ const Dropzone = (props) => {
 
     const eventHandlers = {
         success: function (file, response) {
-            props.dispatch(uploadAttachmentSuccess(response))
-            try {
-                this.removeFile(file)
-            } catch(error) {
-                console.log(error)
-            }
-        },
-        error: (file, errorMessage) => errorMessage === 'File type invalid' && props.dispatch(fileTypeInvalid()),
-        removedfile: (file) => props.dispatch(invalidFileTypeRemoved())
+            props.dispatch(uploadAttachmentSuccess(response))},
+        error: (file, errorMessage) => errorMessage === 'File type invalid' && props.dispatch(dropInvalidFileType()),
+        removedfile: (file) => props.dispatch(removeDropzoneFile())
     }
 
     const djsconfig = {

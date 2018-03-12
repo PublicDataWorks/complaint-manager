@@ -3,6 +3,7 @@ import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import {CardContent, TextField, Typography} from "material-ui";
 import styles from '../../../globalStyling/styles'
 import Dropzone from "./Dropzone";
+import AttachmentsList from "./AttachmentsList";
 
 const Attachments = (props) => {
     return (
@@ -21,35 +22,7 @@ const Attachments = (props) => {
                     </div>
                     <div style={{flex: 1}}/>
                 </div>
-                <div data-test="attachmentsField" style={{marginBottom: '8px'}}>
-                    {
-                        props.caseDetail.attachments && props.caseDetail.attachments.length > 0 ? props.caseDetail.attachments.map(attachment => (
-                            <div
-                                key={attachment.id}
-                                style={{display: 'flex', width: '100%'}}
-                                data-test="attachmentRow"
-                            >
-                                <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
-                                    <Typography type='body1'>
-                                        {
-                                            attachment.key.replace(`${attachment.caseId}/`, "")
-                                        }
-                                    </Typography>
-                                </div>
-                                <div style={{flex: 1, textAlign: 'left'}}>
-                                    <Typography type='body1'>
-                                    </Typography>
-                                </div>
-                                <div style={{flex: 1}}/>
-                            </div>
-                        )) : <div>
-                            <Typography type='body1'>
-                                No Attachments
-                            </Typography>
-                        </div>
-
-                    }
-                </div>
+                <AttachmentsList attachments={props.caseDetail.attachments}/>
                 <div>
                     <Typography style={styles.section}>
                         UPLOAD A FILE
