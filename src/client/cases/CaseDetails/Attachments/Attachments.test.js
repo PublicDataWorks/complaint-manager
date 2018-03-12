@@ -18,7 +18,7 @@ describe('Attachments card', () => {
 
     test('should display attachments if they exist', () => {
         const caseDetail = new Case.Builder().defaultCase().build()
-        const attachmentFileName = caseDetail.attachments[0].key
+        const attachmentFileName = caseDetail.attachments[0].fileName
 
         const wrapper = mount(
             <Provider store={store}>

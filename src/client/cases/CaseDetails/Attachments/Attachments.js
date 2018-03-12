@@ -27,6 +27,9 @@ const Attachments = (props) => {
                     <Typography style={styles.section}>
                         UPLOAD A FILE
                     </Typography>
+                    <Typography type="caption">
+                        Accepted file types: .pdf, .mp3, .mp4, .doc, .docx, .jpeg
+                    </Typography>
                 </div>
                 <div style={{display: 'flex', width: '100%'}}>
                     <div style={{flex: 1, marginRight: '10px'}}>

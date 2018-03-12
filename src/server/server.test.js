@@ -107,6 +107,26 @@ describe('server', () => {
             }
         })
 
+        afterEach(() => {
+            models.civilian.destroy({
+                where: {
+                    id: responseBody.civilians[0].id
+                }
+            })
+
+            models.audit_log.destroy({
+                where: {
+                    caseId: responseBody.id
+                }
+            })
+
+            models.cases.destroy({
+                where: {
+                    id: responseBody.id
+                }
+            })
+        })
+
         test('should create a case', async () => {
             await request(app)
                 .post('/cases')
@@ -129,24 +149,6 @@ describe('server', () => {
                     expect(response.body.civilians[0].phoneNumber).toEqual(requestBody.civilian.phoneNumber)
                     expect(response.body.civilians[0].email).toEqual(requestBody.civilian.email)
                 })
-
-            models.civilian.destroy({
-                where: {
-                    id: responseBody.civilians[0].id
-                }
-            })
-
-            models.audit_log.destroy({
-                where: {
-                    caseId: responseBody.id
-                }
-            })
-
-            models.cases.destroy({
-                where: {
-                    id: responseBody.id
-                }
-            })
         })
 
         test('should return 500 when cannot fetch user profile', async () => {
@@ -171,35 +173,9 @@ describe('server', () => {
     })
 
     describe('POST /cases/:id/attachments', () => {
-        test('should return updated case after adding attachment', async () => {
-            let civilian = new Civilian.Builder().defaultCivilian().withId(undefined).build()
-            let defaultCase = new Case.Builder().defaultCase().withId(undefined).withCivilians([civilian]).build()
-            defaultCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}]})
-            let mockFileName = 'mock_filename'
+        let defaultCase
 
-            AWS.S3.mockImplementation(() => {
-                return {
-                    upload: (params, options) => ({
-                        promise: () => Promise.resolve({Key: mockFileName})
-                    }),
-                    config: {
-                        loadFromPath: jest.fn()
-                    }
-                }
-            })
-
-            await request(app)
-                .post(`/cases/${defaultCase.id}/attachments`)
-                .set('Authorization', `Bearer ${token}`)
-                .set('Content-Type', 'multipart/form-data')
-                .attach('avatar', __dirname + '/../../README.md')
-                .expect(200)
-                .then(response => {
-                    expect(response.body.id).toEqual(defaultCase.id)
-                    expect(response.body.civilians[0].id).toEqual(defaultCase.civilians[0].id)
-                    expect(response.body.attachments[0].key).toEqual(mockFileName)
-                })
-
+        afterEach(async () => {
             await models.attachment.destroy({
                 where: {
                     caseId: defaultCase.id
@@ -223,6 +199,69 @@ describe('server', () => {
                     id: defaultCase.id
                 }
             })
+        })
+
+        test('should return updated case after adding attachment', async () => {
+            let civilian = new Civilian.Builder().defaultCivilian().withId(undefined).build()
+            defaultCase = new Case.Builder().defaultCase().withId(undefined).withCivilians([civilian]).build()
+            defaultCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}]})
+            let mockKey = `${defaultCase.id}/mock_filename`
+
+            AWS.S3.mockImplementation(() => {
+                return {
+                    upload: (params, options) => ({
+                        promise: () => Promise.resolve({Key: mockKey})
+                    }),
+                    config: {
+                        loadFromPath: jest.fn()
+                    }
+                }
+            })
+
+            await request(app)
+                .post(`/cases/${defaultCase.id}/attachments`)
+                .set('Authorization', `Bearer ${token}`)
+                .set('Content-Type', 'multipart/form-data')
+                .attach('avatar', __dirname + '/../../README.md')
+                .expect(200)
+                .then(response => {
+                    expect(response.body.id).toEqual(defaultCase.id)
+                    expect(response.body.civilians[0].id).toEqual(defaultCase.civilians[0].id)
+                    expect(response.body.attachments[0].fileName).toEqual('README.md')
+                })
+        })
+
+        test('should return 409 when file is a duplicate', async () => {
+            let civilian = new Civilian.Builder().defaultCivilian().withId(undefined).build()
+            let attachment = new Attachment.Builder().defaultAttachment()
+                .withId(undefined)
+                .withCaseId(undefined)
+            defaultCase = new Case.Builder().defaultCase()
+                .withId(undefined)
+                .withCivilians([civilian])
+                .withAttachments([attachment])
+                .build()
+            defaultCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}, {model: models.attachment}]})
+
+            let mockFileName = 'test_file.pdf'
+
+            AWS.S3.mockImplementation(() => {
+                return {
+                    upload: (params, options) => ({
+                        promise: () => Promise.resolve({Key: mockFileName})
+                    }),
+                    config: {
+                        loadFromPath: jest.fn()
+                    }
+                }
+            })
+
+            await request(app)
+                .post(`/cases/${defaultCase.id}/attachments`)
+                .set('Authorization', `Bearer ${token}`)
+                .set('Content-Type', 'multipart/form-data')
+                .attach(mockFileName, __dirname + '/testFixtures/test_file.pdf')
+                .expect(409)
         })
     });
 
@@ -517,7 +556,7 @@ describe('server', () => {
                                 expect.objectContaining({
                                     id: caseToRetrieve.attachments[0].id,
                                     caseId: caseToRetrieve.attachments[0].caseId,
-                                    key: caseToRetrieve.attachments[0].key
+                                    fileName: caseToRetrieve.attachments[0].fileName
                                 })
                             ])
                         })

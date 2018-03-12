@@ -1,25 +1,34 @@
 import attachmentsReducer from "./attachmentsReducer";
-import { dropInvalidFileType, removeDropzoneFile } from "../../actionCreators/attachmentsActionCreators";
+import {
+    dropDuplicateFile, dropInvalidFileType,
+    removeDropzoneFile
+} from "../../actionCreators/attachmentsActionCreators";
 
 describe('attachmentReducer', () => {
     test('should set the default state', () => {
         const defaultState = attachmentsReducer(undefined, {type: 'blah'})
 
-        expect(defaultState).toEqual({ invalidFileMessageVisible: false })
+        expect(defaultState).toEqual({errorMessage: ''})
     })
 
-    test('should set invalid file type message to be visible on invalid file type', () => {
-        const startingState = { invalidFileMessageVisible: false}
+    test('should set error message on invalid file type', () => {
+        const startingState = {errorMessage: ''}
         const newState = attachmentsReducer(startingState, dropInvalidFileType())
 
-        expect(newState).toEqual({ invalidFileMessageVisible: true })
+        expect(newState).toEqual({errorMessage: 'File type not supported.'})
     })
 
-    test('should set invalid file type to not visible', () => {
-        const startingState = { invalidFileMessageVisible: true }
-
+    test('should clear error message when file removed', () => {
+        const startingState = {errorMessage: 'File type not supported.'}
         const newState = attachmentsReducer(startingState, removeDropzoneFile())
 
-        expect(newState).toEqual({ invalidFileMessageVisible: false })
+        expect(newState).toEqual({errorMessage: ''})
+    })
+
+    test('should set error message for duplicate file type', () => {
+        const startingState = {errorMessage: ''}
+        const newState = attachmentsReducer(startingState, dropDuplicateFile())
+
+        expect(newState).toEqual({errorMessage: 'File name already exists'})
     })
 })

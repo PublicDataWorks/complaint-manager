@@ -4,10 +4,14 @@ import '../../../../../node_modules/react-dropzone-component/styles/filepicker.c
 import '../../../../../node_modules/dropzone/dist/min/dropzone.min.css'
 import config from '../../../config/config'
 import getAccessToken from "../../../auth/getAccessToken";
-import { uploadAttachmentSuccess } from "../../../actionCreators/casesActionCreators";
-import { FormHelperText } from "material-ui/Form";
-import { connect } from "react-redux";
-import { dropInvalidFileType, removeDropzoneFile } from "../../../actionCreators/attachmentsActionCreators";
+import {uploadAttachmentSuccess} from "../../../actionCreators/casesActionCreators";
+import {connect} from "react-redux";
+import {
+    dropDuplicateFile, dropInvalidFileType,
+    removeDropzoneFile
+} from "../../../actionCreators/attachmentsActionCreators";
+import {FILE_TYPE_INVALID, DUPLICATE_FILE_NAME} from "../../../../sharedUtilities/constants";
+import {FormHelperText} from "material-ui";
 
 const Dropzone = (props) => {
     const dropZoneComponentConfig = {
@@ -16,8 +20,21 @@ const Dropzone = (props) => {
 
     const eventHandlers = {
         success: function (file, response) {
-            props.dispatch(uploadAttachmentSuccess(response))},
-        error: (file, errorMessage) => errorMessage === 'File type invalid' && props.dispatch(dropInvalidFileType()),
+            props.dispatch(uploadAttachmentSuccess(response))
+            this.removeFile(file)
+        },
+        error: (file, errorMessage, xhr) => {
+            switch (errorMessage) {
+                case FILE_TYPE_INVALID:
+                    props.dispatch(dropInvalidFileType())
+                    break
+                case DUPLICATE_FILE_NAME:
+                    props.dispatch(dropDuplicateFile())
+                    break
+                default:
+                    break
+            }
+        },
         removedfile: (file) => props.dispatch(removeDropzoneFile())
     }
 
@@ -28,7 +45,7 @@ const Dropzone = (props) => {
             Authorization: `Bearer ${getAccessToken()}`
         },
         acceptedFiles: 'application/pdf,audio/mp3,video/mp4,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg',
-        dictInvalidFileType: 'File type invalid'
+        dictInvalidFileType: FILE_TYPE_INVALID
     }
 
     return (
@@ -38,23 +55,23 @@ const Dropzone = (props) => {
                 djsConfig={djsconfig}
                 eventHandlers={eventHandlers}
             />
-            { props.invalidFileMessageVisible && invalidFileMarkup }
+            {(props.errorMessage !== '') && invalidFileMarkup(props.errorMessage)}
         </div>
     )
 }
 
-const invalidFileMarkup = (
+const invalidFileMarkup = (errorMessage) => (
     <FormHelperText
         data-test='invalidFileTypeErrorMessage'
         error={true}
     >
-        File type not supported.
+        {errorMessage}
     </FormHelperText>
 )
 
 
 const mapStateToProps = (state) => ({
-    invalidFileMessageVisible: state.ui.attachments.invalidFileMessageVisible
+    errorMessage: state.ui.attachments.errorMessage
 })
 
 export default connect(mapStateToProps)(Dropzone)

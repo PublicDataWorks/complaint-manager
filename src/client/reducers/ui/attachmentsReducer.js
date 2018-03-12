@@ -1,16 +1,20 @@
 const initialState = {
-    invalidFileMessageVisible: false
+    errorMessage: ''
 }
 
 const attachmentsReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'INVALID_FILE_TYPE_DROPPED':
             return {
-                invalidFileMessageVisible: true
+                errorMessage: 'File type not supported.'
+            }
+        case 'DUPLICATE_FILE_DROPPED':
+            return {
+                errorMessage: 'File name already exists'
             }
         case 'DROPZONE_FILE_REMOVED':
             return {
-                invalidFileMessageVisible: false
+                errorMessage: ''
             }
         default:
             return state

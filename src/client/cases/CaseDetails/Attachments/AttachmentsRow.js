@@ -3,17 +3,6 @@ import {Typography} from "material-ui";
 import styles from "../../../globalStyling/styles";
 
 const AttachmentsRow = ({attachment}) => {
-    const downloadAttachment = () => {
-        //fetch to download endpoint
-        //response to blob
-        //blob to file
-        //use FileSaver.save() to initiate download
-        //test this in... nightwatch?
-        console.log(`${attachment.key} was clicked... now let's download it`)
-    }
-
-    const formattedName = attachment.key.replace(`${attachment.caseId}/`, "")
-
     return (
         <div
             key={attachment.id}
@@ -21,9 +10,9 @@ const AttachmentsRow = ({attachment}) => {
             data-test="attachmentRow"
         >
             <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
-                <Typography style={styles.link} onClick={ downloadAttachment }>
+                <Typography style={styles.link}>
                     {
-                        formattedName
+                        attachment.fileName
                     }
                 </Typography>
             </div>

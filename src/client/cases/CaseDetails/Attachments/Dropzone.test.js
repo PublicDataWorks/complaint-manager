@@ -4,7 +4,10 @@ import Dropzone from "./Dropzone";
 import DropzoneComponent from 'react-dropzone-component'
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../../createConfiguredStore";
-import { dropInvalidFileType } from "../../../actionCreators/attachmentsActionCreators";
+import {
+    dropDuplicateFile, dropInvalidFileType
+} from "../../../actionCreators/attachmentsActionCreators";
+import {containsText} from "../../../../testHelpers";
 
 jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))
 
@@ -45,6 +48,13 @@ describe('Dropzone', () => {
         store.dispatch(dropInvalidFileType())
         wrapper.update()
 
-        expect(wrapper.find('[data-test="invalidFileTypeErrorMessage"]').exists()).toBeTruthy()
+        containsText(wrapper, '[data-test="invalidFileTypeErrorMessage"]', 'File type not supported.')
+    })
+
+    test('should display duplicate file type error', () => {
+        store.dispatch(dropDuplicateFile())
+        wrapper.update()
+
+        containsText(wrapper, '[data-test="invalidFileTypeErrorMessage"]', 'File name already exists')
     })
 });

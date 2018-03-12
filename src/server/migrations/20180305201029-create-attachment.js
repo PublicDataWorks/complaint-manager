@@ -15,14 +15,14 @@ module.exports = {
                     key: 'id'
                 },
             },
-            key: {
+            file_name: {
                 type: Sequelize.STRING
             },
-            createdAt: {
+            created_at: {
                 allowNull: false,
                 type: Sequelize.DATE
             },
-            updatedAt: {
+            updated_at: {
                 allowNull: false,
                 type: Sequelize.DATE
             }

@@ -2,7 +2,7 @@ class Attachment {
     constructor(build) {
         this.id = build.id
         this.caseId = build.caseId
-        this.key = build.key
+        this.fileName = build.fileName
     }
 
     static get Builder() {
@@ -10,7 +10,7 @@ class Attachment {
             defaultAttachment() {
                 this.id = 17
                 this.caseId = 17
-                this.key = 'default_file.pdf'
+                this.fileName = 'test_file.pdf'
 
                 return this
             }
@@ -25,8 +25,8 @@ class Attachment {
                 return this;
             }
 
-            withKey(key) {
-                this.key = key
+            withFileName(fileName) {
+                this.fileName = fileName
                 return this;
             }
 
