@@ -5,9 +5,10 @@ import {mount} from "enzyme";
 import {openEditDialog} from "../../../actionCreators/casesActionCreators";
 import createConfiguredStore from "../../../createConfiguredStore";
 import {initialize} from "redux-form";
+import formatAddress from "../../../utilities/formatAddress";
 
 jest.mock('redux-form', () => ({
-    reducer: { mockReducer: 'mockReducerState' },
+    reducer: {mockReducer: 'mockReducerState'},
     initialize: jest.fn(() => ({
         type: "MOCK_INITIALIZE_ACTION",
     }))
@@ -23,7 +24,17 @@ describe('Complainant and Witnesses', () => {
             phoneNumber: 1234567890,
             email: 'cberry@gmail.com',
             roleOnCase: 'Primary Complainant',
-            birthDate: null
+            birthDate: '',
+            address: {
+                id: 8,
+                streetAddress: '123 Main St',
+                streetAddress2: 'Apt 2N',
+                city: 'Sandwich',
+                state: 'IL',
+                zipCode: '60606',
+                country: 'Merica',
+                civilianId: 17
+            }
         }
 
         caseDetail = {
@@ -147,6 +158,92 @@ describe('Complainant and Witnesses', () => {
 
             const complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
             containsText(complainantPanel, '[data-test="primaryComplainantEmail"]', 'N/A')
+        })
+    });
+
+    describe('address', () => {
+        test('should display N/A when no address', () => {
+            const noAddress = {
+                id: 8,
+                streetAddress: '',
+                streetAddress2: '',
+                city: '',
+                state: '',
+                zipCode: '',
+                country: '',
+                civilianId: 17
+            }
+
+            const caseWithNoAddress = {
+                id: 17,
+                civilians: [{
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    status: 'Initial',
+                    phoneNumber: 1234567890,
+                    email: null,
+                    roleOnCase: 'Primary Complainant',
+                    address: noAddress
+                }],
+                complainantType: 'Civilian',
+                firstContactDate: '2018-01-31',
+                createdAt: new Date(2015, 8, 13).toISOString(),
+                createdBy: 'not added',
+                assignedTo: 'not added',
+                narrative: 'sample narrative'
+            }
+            complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseWithNoAddress}/>)
+
+            const complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
+            containsText(complainantPanel, '[data-test="primaryComplainantAddress"]', 'N/A')
+        })
+        test('should display address when present', () => {
+            const expectedAddress = '123 Main St, Sandwich, IL, 60606, Merica'
+            const complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
+
+            containsText(complainantPanel, '[data-test="primaryComplainantAddress"]', expectedAddress)
+        })
+    });
+
+    describe('additional address info', () => {
+        test('should be empty when no address', () => {
+            const noAddress = {
+                id: 8,
+                streetAddress: '',
+                streetAddress2: '',
+                city: '',
+                state: '',
+                zipCode: '',
+                country: '',
+                civilianId: 17
+            }
+
+            const caseWithNoAddress = {
+                id: 17,
+                civilians: [{
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    status: 'Initial',
+                    phoneNumber: 1234567890,
+                    email: null,
+                    roleOnCase: 'Primary Complainant',
+                    address: noAddress
+                }],
+                complainantType: 'Civilian',
+                firstContactDate: '2018-01-31',
+                createdAt: new Date(2015, 8, 13).toISOString(),
+                createdBy: 'not added',
+                assignedTo: 'not added',
+                narrative: 'sample narrative'
+            }
+            complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseWithNoAddress}/>)
+
+            const complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
+            containsText(complainantPanel, '[data-test="primaryComplainantAdditionalAddressInfo"]', '')
+        })
+        test('should display address when present', () => {
+            const complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
+            containsText(complainantPanel, '[data-test="primaryComplainantAdditionalAddressInfo"]', 'Apt 2N')
         })
     });
 

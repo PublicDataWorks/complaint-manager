@@ -16,7 +16,12 @@ const formatAddress = (address) => {
                 country,
             ].filter(part => part !== '')
 
-        formattedAddress = addressParts.join(', ').trim()
+        if (addressParts.length === 0){
+            formattedAddress = ''
+        }
+        else {
+            formattedAddress = addressParts.join(', ').trim()
+        }
     }
 
     return formattedAddress

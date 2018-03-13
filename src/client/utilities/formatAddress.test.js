@@ -1,8 +1,19 @@
 import formatAddress from "./formatAddress";
 
 describe('format address', () => {
-    test('should return empty string if null passed', () => {
+    test('should return N/A if no null passed', () => {
         expect(formatAddress(null)).toEqual('')
+    })
+
+    test('should return N/A if no address passed', () => {
+        const noAddress = {
+            streetAddress: '',
+            city: '',
+            state: '',
+            zipCode: '',
+            country: ''
+        }
+        expect(formatAddress(noAddress)).toEqual('')
     })
 
     test('should separate by commas each component passed', () => {

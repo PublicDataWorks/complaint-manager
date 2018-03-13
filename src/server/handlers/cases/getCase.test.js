@@ -6,7 +6,8 @@ jest.mock('../../models', () => ({
     cases: {
         findById: jest.fn(),
     },
-    civilian: jest.fn()
+    civilian: jest.fn(),
+    address: jest.fn()
 }))
 
 describe('get case', () => {
@@ -25,8 +26,11 @@ describe('get case', () => {
         expect(models.cases.findById).toHaveBeenCalledWith(1,
             {
                 include: [
-                    { model: models.civilian },
-                    { model: models.attachment }
+                    {
+                        model: models.civilian,
+                        include: [models.address]
+                    },
+                    {model: models.attachment}
                 ]
             })
     })

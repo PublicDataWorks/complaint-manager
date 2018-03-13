@@ -129,9 +129,22 @@ class AddressAutoSuggest extends Component {
     };
 
     handleChange = (event, {newValue}) => {
+
+        const clearAddressFieldsWhenAutoSuggestFieldIsCleared = (newValue) => {
+            if (!newValue) {
+                this.props.change('EditCivilian', 'address.streetAddress', '')
+                this.props.change('EditCivilian', 'address.city', '')
+                this.props.change('EditCivilian', 'address.state', '')
+                this.props.change('EditCivilian', 'address.zipCode', '')
+                this.props.change('EditCivilian', 'address.country', '')
+            }
+        }
+
         this.setState({
             value: newValue,
         })
+
+        clearAddressFieldsWhenAutoSuggestFieldIsCleared(newValue);
     };
 
     render() {

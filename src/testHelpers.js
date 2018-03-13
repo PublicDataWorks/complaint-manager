@@ -50,7 +50,8 @@ export const containsText = (mountedComponent, selector, expectedText) => {
 
     const containsText = mountedComponent
         .find(selector)
-        .filterWhere(node => node.text().includes(expectedText)).first()
+        .filterWhere(node => node.text().includes(expectedText))
+        .first()
 
     return expect(containsText.text()).toContain(expectedText)
 }

@@ -8,6 +8,7 @@ import formatName from "../../../utilities/formatName";
 import {initialize} from "redux-form";
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import formatPhoneNumber from "../../../utilities/formatPhoneNumber"
+import formatAddress from "../../../utilities/formatAddress";
 
 
 const ComplainantWitnesses = (props) => {
@@ -84,44 +85,79 @@ const ComplainantWitnesses = (props) => {
                             </div>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails style={{padding: "8px 16px 24px 16px"}}>
-                            <div style={{display: 'flex', width: '100%', background: 'white', padding: '0', marginRight: '88px'}}>
-                                <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
-                                    <Typography
-                                        type='caption'
-                                    >
-                                        Birthday
-                                    </Typography>
-                                    <Typography
-                                        type='body1'
-                                        data-test="primaryComplainantBirthday"
-                                    >
-                                        {primaryComplainant.birthDate ? formatDate(primaryComplainant.birthDate) : 'N/A'}
-                                    </Typography>
+                                <div style={{
+                                    display: 'flex',
+                                    width: '100%',
+                                    background: 'white',
+                                    padding: '0',
+                                    marginRight: '88px'
+                                }}>
+                                    <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
+                                        <Typography
+                                            type='caption'
+                                        >
+                                            Birthday
+                                        </Typography>
+                                        <Typography
+                                            type='body1'
+                                            data-test="primaryComplainantBirthday"
+                                        >
+                                            {primaryComplainant.birthDate ? formatDate(primaryComplainant.birthDate) : 'N/A'}
+                                        </Typography>
+                                    </div>
+                                    <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
+                                        <Typography
+                                            type='caption'
+                                        >
+                                            Phone Number
+                                        </Typography>
+                                        <Typography
+                                            type='body1'
+                                            data-test="primaryComplainantPhoneNumber"
+                                        >
+                                            {primaryComplainant.phoneNumber ? formatPhoneNumber(primaryComplainant.phoneNumber) : 'N/A'}
+                                        </Typography>
+                                    </div>
+                                    <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
+                                        <Typography
+                                            type='caption'
+                                        >
+                                            Email
+                                        </Typography>
+                                        <Typography
+                                            type='body1'
+                                            data-test="primaryComplainantEmail"
+                                        >
+                                            {primaryComplainant.email ? primaryComplainant.email : 'N/A'}
+                                        </Typography>
+                                    </div>
                                 </div>
-                                <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
+                        </ExpansionPanelDetails>
+                        <ExpansionPanelDetails style={{padding: "8px 16px 24px 16px"}}>
+                            <div style={{
+                                display: 'flex',
+                                width: '100%',
+                                background: 'white',
+                                padding: '0',
+                                marginRight: '88px'
+                            }}>
+                                <div style={{flex: 2, textAlign: 'left', marginRight: '10px'}}>
                                     <Typography
                                         type='caption'
                                     >
-                                        Phone Number
+                                        Address
                                     </Typography>
                                     <Typography
                                         type='body1'
-                                        data-test="primaryComplainantPhoneNumber"
+                                        data-test="primaryComplainantAddress"
                                     >
-                                        {primaryComplainant.phoneNumber ? formatPhoneNumber(primaryComplainant.phoneNumber) : 'N/A'}
-                                    </Typography>
-                                </div>
-                                <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
-                                    <Typography
-                                        type='caption'
-                                    >
-                                        Email
+                                        { Boolean(formatAddress(primaryComplainant.address)) ? formatAddress(primaryComplainant.address) : 'N/A'}
                                     </Typography>
                                     <Typography
                                         type='body1'
-                                        data-test="primaryComplainantEmail"
+                                        data-test="primaryComplainantAdditionalAddressInfo"
                                     >
-                                        {primaryComplainant.email ? primaryComplainant.email : 'N/A'}
+                                        {primaryComplainant.address && primaryComplainant.address.streetAddress2 ? primaryComplainant.address.streetAddress2 : ''}
                                     </Typography>
                                 </div>
                             </div>

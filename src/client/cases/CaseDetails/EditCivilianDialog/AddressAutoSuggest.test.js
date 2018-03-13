@@ -73,6 +73,7 @@ describe('AddressAutoSuggest', () => {
         test.skip('should select suggestion on enter/click', () => {
 
         })
+        test.skip('should submit blank address when cleared and submitted')
     });
 
 });
