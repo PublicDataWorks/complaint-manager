@@ -1,8 +1,10 @@
+import {CASE_CREATED_SUCCESS} from "../../../sharedUtilities/constants";
+
 const allCasesReducer = (state = [], action) => {
     switch (action.type) {
         case 'GET_CASES_SUCCESS':
             return action.cases
-        case 'CASE_CREATED_SUCCESS':
+        case CASE_CREATED_SUCCESS:
             return state.concat(action.caseDetails)
         case 'NARRATIVE_UPDATE_SUCCEEDED':
             return findAndReplaceUpdatedCase(state, action.caseDetails)

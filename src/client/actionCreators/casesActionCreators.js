@@ -1,5 +1,7 @@
+import {CASE_CREATED_SUCCESS} from "../../sharedUtilities/constants";
+
 export const createCaseSuccess = (caseDetails) => ({
-    type: 'CASE_CREATED_SUCCESS',
+    type: CASE_CREATED_SUCCESS,
     caseDetails
 })
 

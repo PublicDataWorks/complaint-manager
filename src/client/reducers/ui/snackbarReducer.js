@@ -1,3 +1,5 @@
+import {CASE_CREATED_SUCCESS} from "../../../sharedUtilities/constants";
+
 //TODO Discuss separation of concerns.
 // Refactoring 1:  Use 1 global snackbar, don't worry about collisions.  Have thunk dispatch generic success/failure/pending with parameterized messages.  Puts presentation logic in thunk.  wah wah
 /*    case 'REQUESTED':
@@ -22,6 +24,7 @@
             return state
 */
 // Refactoring 2:  Instantiate different snackbars for each type of business event so that one success event can't dismiss another failure's red snackbar.
+
 
 const initialState = {open: false, success: false, message: ''}
 const snackbarReducer = (state = initialState, action) => {
@@ -53,7 +56,7 @@ const snackbarReducer = (state = initialState, action) => {
                 success: false,
                 message: ''
             }
-        case 'CASE_CREATED_SUCCESS':
+        case CASE_CREATED_SUCCESS:
             return {
                 open: true,
                 success: true,
@@ -93,7 +96,7 @@ const snackbarReducer = (state = initialState, action) => {
             return {
                 open: true,
                 success: true,
-                message: 'Your file was successfully attached'
+                message: ''
             }
         default:
             return state
