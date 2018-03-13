@@ -6,6 +6,7 @@ import {MenuItem, Paper, TextField} from 'material-ui';
 import {change} from "redux-form";
 import {connect} from "react-redux";
 import {withStyles} from "material-ui/styles/index";
+import poweredByGoogle from '../../../../assets/powered_by_google_on_white_hdpi.png'
 
 const styles = theme => ({
     container: {
@@ -54,7 +55,7 @@ class AddressAutoSuggest extends Component {
                     classes: {
                         input: classes.input,
                     },
-                    'data-test':dataTest,
+                    'data-test': dataTest,
                     ...other,
                 }}
             />
@@ -66,6 +67,12 @@ class AddressAutoSuggest extends Component {
         return (
             <Paper {...containerProps} data-test='suggestion-container' square>
                 {children}
+                {
+                    children
+                        ? <div align="right"><img alt="Powered by Google" src={poweredByGoogle} height='20px' /></div>
+                        : null
+                }
+
             </Paper>
         );
     }
@@ -148,7 +155,7 @@ class AddressAutoSuggest extends Component {
     };
 
     render() {
-        const {label, classes = {}, inputProps, 'data-test':dataTest} = this.props;
+        const {label, classes = {}, inputProps, 'data-test': dataTest} = this.props;
 
         const theme =
             {
