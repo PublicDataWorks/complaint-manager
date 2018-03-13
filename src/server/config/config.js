@@ -10,6 +10,7 @@ module.exports = {
         migrationStorageTableName: 'sequelize_meta',
         seederStorage: 'sequelize',
         seederStorageTableName: 'sequelize_data',
+        s3Bucket: 'noipm-staging',
         email: {
             secureConnection: false,
             host: 'email',
@@ -35,6 +36,7 @@ module.exports = {
         seederStorage: 'sequelize',
         seederStorageTableName: 'sequelize_data',
         logging: false,
+        s3Bucket: 'noipm-staging',
         email: {
             secureConnection: false,
             secure: false,
@@ -65,6 +67,7 @@ module.exports = {
         migrationStorageTableName: 'sequelize_meta',
         seederStorage: 'sequelize',
         seederStorageTableName: 'sequelize_data',
+        s3Bucket: 'noipm-staging',
         email: {
             host: "smtp-mail.outlook.com",
             port: 587,
@@ -101,6 +104,7 @@ module.exports = {
         migrationStorageTableName: 'sequelize_meta',
         seederStorage: 'sequelize',
         seederStorageTableName: 'sequelize_data',
+        s3Bucket: 'noipm-production',
         email: {
             host: "smtp-mail.outlook.com",
             port: 587,

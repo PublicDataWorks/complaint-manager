@@ -96,7 +96,7 @@ const snackbarReducer = (state = initialState, action) => {
             return {
                 open: true,
                 success: true,
-                message: ''
+                message: 'Your file was successfully attached'
             }
         default:
             return state

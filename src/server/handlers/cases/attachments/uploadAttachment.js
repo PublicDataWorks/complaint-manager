@@ -2,6 +2,7 @@ const Busboy = require('busboy')
 const models = require('../../../models/index')
 const isDuplicateFileName = require("./isDuplicateFileName")
 const createConfiguredS3Instance = require("./createConfiguredS3Instance")
+const config = require("../../../config/config")
 const DUPLICATE_FILE_NAME = require("../../../../sharedUtilities/constants").DUPLICATE_FILE_NAME
 
 const uploadAttachment = (request, response, next) => {
@@ -21,7 +22,7 @@ const uploadAttachment = (request, response, next) => {
             } else {
 
                 const data = await s3.upload({
-                    Bucket: 'noipm-staging',
+                    Bucket: config[process.env.NODE_ENV].s3Bucket,
                     Key: `${caseId}/${fileName}`,
                     Body: file
                 }, {}).promise()
