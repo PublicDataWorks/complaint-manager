@@ -35,6 +35,7 @@ const AttachmentsRow = ({attachment}) => {
         >
             <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
                 <Typography
+                    data-test="attachmentFileName"
                     style={{
                         ...styles.link,
                         cursor: "pointer"

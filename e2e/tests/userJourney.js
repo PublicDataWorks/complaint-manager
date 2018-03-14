@@ -1,20 +1,21 @@
 const path = require('path')
+const fs = require('fs')
 
 const TEST_USER = process.env.TEST_USER
 const TEST_PASS = process.env.TEST_PASS
 const HOST = process.env.HOST
 
-if(!TEST_PASS){
+if (!TEST_PASS) {
     console.log("Set the password in the ENV VAR 'TEST_PASS' for login")
 }
-if(!TEST_USER){
+if (!TEST_USER) {
     console.log("Set the username in the ENV VAR 'TEST_USER' for login")
 }
-if(!HOST){
+if (!HOST) {
     console.log("Set the host in the ENV VAR 'HOST' for login")
 }
 
-if(TEST_PASS && TEST_USER && HOST){
+if (TEST_PASS && TEST_USER && HOST) {
     module.exports = {
         "should see sign-in title": (browser) => {
             browser
@@ -27,6 +28,10 @@ if(TEST_PASS && TEST_USER && HOST){
             const roundTripWait = 20000;
             const rerenderWait = 1000;
 
+            console.log("---------------")
+            console.log("Directory: ", __dirname)
+            console.log("---------------")
+            const downloadsDir = __dirname + "/testDownload/"
             const imagesDir = 'images/'
 
             const invalidImageFileName = 'invalid_file_type.png'
@@ -57,6 +62,20 @@ if(TEST_PASS && TEST_USER && HOST){
                 .setValue('input[type="file"]', path.resolve(__dirname, imagesDir, validImageFileName))
                 .waitForElementVisible("[data-test=attachmentRow]", roundTripWait)
                 .assert.containsText("[data-test=attachmentRow]", validImageFileName)
+
+                .click("[data-test=attachmentFileName]")
+                .pause(roundTripWait)
+
+                .perform(() => {
+                    fs.access(downloadsDir + validImageFileName, fs.constants.F_OK, (err) => {
+                        if (err) {
+                            throw(err)
+                        }
+                        else {
+                            console.log("File successfully downloaded")
+                        }
+                    })
+                })
                 .end()
         },
 
