@@ -34,10 +34,7 @@
           "args": [
             "headless",
             "--no-sandbox"
-          ],
-          "prefs": {
-            "download.default_directory" : "/root/project/e2e/tests/testDownload/"
-          }
+          ]
         }
       }
     },

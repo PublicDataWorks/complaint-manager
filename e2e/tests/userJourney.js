@@ -1,5 +1,4 @@
 const path = require('path')
-const fs = require('fs')
 
 const TEST_USER = process.env.TEST_USER
 const TEST_PASS = process.env.TEST_PASS
@@ -28,10 +27,6 @@ if (TEST_PASS && TEST_USER && HOST) {
             const roundTripWait = 20000;
             const rerenderWait = 1000;
 
-            console.log("---------------")
-            console.log("Directory: ", __dirname)
-            console.log("---------------")
-            const downloadsDir = __dirname + "/testDownload/"
             const imagesDir = 'images/'
 
             const invalidImageFileName = 'invalid_file_type.png'
@@ -62,20 +57,6 @@ if (TEST_PASS && TEST_USER && HOST) {
                 .setValue('input[type="file"]', path.resolve(__dirname, imagesDir, validImageFileName))
                 .waitForElementVisible("[data-test=attachmentRow]", roundTripWait)
                 .assert.containsText("[data-test=attachmentRow]", validImageFileName)
-
-                .click("[data-test=attachmentFileName]")
-                .pause(roundTripWait)
-
-                .perform(() => {
-                    fs.access(downloadsDir + validImageFileName, fs.constants.F_OK, (err) => {
-                        if (err) {
-                            throw(err)
-                        }
-                        else {
-                            console.log("File successfully downloaded")
-                        }
-                    })
-                })
                 .end()
         },
 
