@@ -2,10 +2,14 @@ import snackbarReducer from "./snackbarReducer";
 import {createUserFailure, createUserSuccess, requestUserCreation} from "../../actionCreators/usersActionCreators";
 import {
     createCaseFailure,
-    createCaseSuccess, editCivilianFailed, editCivilianSuccess,
+    createCaseSuccess,
+    editCivilianFailed,
+    editCivilianSuccess,
     requestCaseCreation,
     updateNarrativeFailure,
-    updateNarrativeSuccess, uploadAttachmentSuccess
+    updateNarrativeSuccess,
+    uploadAttachmentFailed,
+    uploadAttachmentSuccess
 } from "../../actionCreators/casesActionCreators";
 import {closeSnackbar} from "../../actionCreators/snackBarActionCreators";
 
@@ -140,6 +144,19 @@ describe('snackbarReducer', () => {
             expect(newState.open).toEqual(true)
             expect(newState.success).toEqual(true)
             expect(newState.message).toEqual('Your file was successfully attached')
+        })
+
+        test('ATTACHMENT_UPLOAD_FAILED', () => {
+            const initialState = { success: true, open: false, message: '' }
+            const newState = snackbarReducer(initialState, uploadAttachmentFailed())
+
+            const expectedState = {
+                open: true,
+                success: false,
+                message: 'We could not attach your file. Please try again.'
+            }
+
+            expect(newState).toEqual(expectedState)
         })
     });
 })

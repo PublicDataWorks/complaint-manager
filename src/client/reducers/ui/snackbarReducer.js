@@ -1,4 +1,7 @@
-import {CASE_CREATED_SUCCESS} from "../../../sharedUtilities/constants";
+import {
+    ATTACHMENT_UPLOAD_FAILED,
+    CASE_CREATED_SUCCESS,
+} from "../../../sharedUtilities/constants";
 
 //TODO Discuss separation of concerns.
 // Refactoring 1:  Use 1 global snackbar, don't worry about collisions.  Have thunk dispatch generic success/failure/pending with parameterized messages.  Puts presentation logic in thunk.  wah wah
@@ -30,8 +33,11 @@ const initialState = {open: false, success: false, message: ''}
 const snackbarReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'CLOSE_SNACKBAR':
-            const newState = {open: false, success: state.success, message: state.message}
-            return newState
+            return {
+                open: false,
+                success: state.success,
+                message: state.message
+            }
         case 'USER_CREATION_REQUESTED':
             return {
                 open: false,
@@ -97,6 +103,12 @@ const snackbarReducer = (state = initialState, action) => {
                 open: true,
                 success: true,
                 message: 'Your file was successfully attached'
+            }
+        case ATTACHMENT_UPLOAD_FAILED:
+            return {
+                open: true,
+                success: false,
+                message: 'We could not attach your file. Please try again.'
             }
         default:
             return state

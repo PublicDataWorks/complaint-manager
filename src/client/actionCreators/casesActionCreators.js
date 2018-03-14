@@ -1,4 +1,7 @@
-import {CASE_CREATED_SUCCESS} from "../../sharedUtilities/constants";
+import {
+    CASE_CREATED_SUCCESS,
+    ATTACHMENT_UPLOAD_FAILED,
+} from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = (caseDetails) => ({
     type: CASE_CREATED_SUCCESS,
@@ -57,4 +60,8 @@ export const editCivilianFailed = () => ({
 export const uploadAttachmentSuccess = (caseDetails) => ({
     type: 'ATTACHMENT_UPLOAD_SUCCEEDED',
     caseDetails
+})
+
+export const uploadAttachmentFailed = () => ({
+    type: ATTACHMENT_UPLOAD_FAILED,
 })

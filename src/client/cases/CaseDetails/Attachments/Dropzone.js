@@ -4,7 +4,7 @@ import '../../../../../node_modules/react-dropzone-component/styles/filepicker.c
 import '../../../../../node_modules/dropzone/dist/min/dropzone.min.css'
 import config from '../../../config/config'
 import getAccessToken from "../../../auth/getAccessToken";
-import {uploadAttachmentSuccess} from "../../../actionCreators/casesActionCreators";
+import { uploadAttachmentFailed, uploadAttachmentSuccess } from "../../../actionCreators/casesActionCreators";
 import {connect} from "react-redux";
 import {
     dropDuplicateFile, dropInvalidFileType,
@@ -32,7 +32,7 @@ const Dropzone = (props) => {
                     props.dispatch(dropDuplicateFile())
                     break
                 default:
-                    break
+                    props.dispatch(uploadAttachmentFailed())
             }
         },
         removedfile: (file) => props.dispatch(removeDropzoneFile())
