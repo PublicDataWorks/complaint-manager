@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import DropzoneComponent from 'react-dropzone-component'
 import '../../../../../node_modules/react-dropzone-component/styles/filepicker.css'
 import '../../../../../node_modules/dropzone/dist/min/dropzone.min.css'
@@ -13,32 +13,37 @@ import {
 import {FILE_TYPE_INVALID, DUPLICATE_FILE_NAME} from "../../../../sharedUtilities/constants";
 import {FormHelperText} from "material-ui";
 
-const Dropzone = (props) => {
-    const dropZoneComponentConfig = {
-        postUrl: `${config[process.env.NODE_ENV].hostname}/cases/${props.caseId}/attachments`,
+class Dropzone extends Component {
+
+    componentWillMount() {
+        this.props.dispatch(removeDropzoneFile())
     }
 
-    const eventHandlers = {
+    dropZoneComponentConfig = {
+        postUrl: `${config[process.env.NODE_ENV].hostname}/cases/${this.props.caseId}/attachments`,
+    }
+
+    eventHandlers = {
         success: function (file, response) {
-            props.dispatch(uploadAttachmentSuccess(response))
+            this.props.dispatch(uploadAttachmentSuccess(response))
             this.removeFile(file)
         },
         error: (file, errorMessage, xhr) => {
             switch (errorMessage) {
                 case FILE_TYPE_INVALID:
-                    props.dispatch(dropInvalidFileType())
+                    this.props.dispatch(dropInvalidFileType())
                     break
                 case DUPLICATE_FILE_NAME:
-                    props.dispatch(dropDuplicateFile())
+                    this.props.dispatch(dropDuplicateFile())
                     break
                 default:
-                    props.dispatch(uploadAttachmentFailed())
+                    this.props.dispatch(uploadAttachmentFailed())
             }
         },
-        removedfile: (file) => props.dispatch(removeDropzoneFile())
+        removedfile: (file) => this.props.dispatch(removeDropzoneFile())
     }
 
-    const djsconfig = {
+    djsconfig = {
         addRemoveLinks: true,
         maxFiles: 1,
         headers: {
@@ -48,27 +53,30 @@ const Dropzone = (props) => {
         dictInvalidFileType: FILE_TYPE_INVALID
     }
 
-    return (
-        <div>
-            <DropzoneComponent
-                config={dropZoneComponentConfig}
-                djsConfig={djsconfig}
-                eventHandlers={eventHandlers}
-            />
-            {(props.errorMessage !== '') && invalidFileMarkup(props.errorMessage)}
-        </div>
-    )
+    render() {
+        return (
+            <div>
+                <DropzoneComponent
+                    config={this.dropZoneComponentConfig}
+                    djsConfig={this.djsconfig}
+                    eventHandlers={this.eventHandlers}
+                />
+                {(this.props.errorMessage !== '') && this.invalidFileMarkup(this.props.errorMessage)}
+            </div>
+        )
+    }
+
+    invalidFileMarkup(errorMessage) {
+        return (
+            <FormHelperText
+                data-test='invalidFileTypeErrorMessage'
+                error={true}
+            >
+                {errorMessage}
+            </FormHelperText>
+        )
+    }
 }
-
-const invalidFileMarkup = (errorMessage) => (
-    <FormHelperText
-        data-test='invalidFileTypeErrorMessage'
-        error={true}
-    >
-        {errorMessage}
-    </FormHelperText>
-)
-
 
 const mapStateToProps = (state) => ({
     errorMessage: state.ui.attachments.errorMessage
