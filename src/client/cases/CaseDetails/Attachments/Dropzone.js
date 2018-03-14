@@ -14,7 +14,6 @@ import {FILE_TYPE_INVALID, DUPLICATE_FILE_NAME} from "../../../../sharedUtilitie
 import {FormHelperText} from "material-ui";
 
 class Dropzone extends Component {
-
     componentWillMount() {
         this.props.dispatch(removeDropzoneFile())
     }
@@ -24,9 +23,10 @@ class Dropzone extends Component {
     }
 
     eventHandlers = {
-        success: function (file, response) {
+        init: (dropzone) => { this.dropzone = dropzone },
+        success: (file, response) => {
             this.props.dispatch(uploadAttachmentSuccess(response))
-            this.removeFile(file)
+            this.dropzone.removeFile(file)
         },
         error: (file, errorMessage, xhr) => {
             switch (errorMessage) {
