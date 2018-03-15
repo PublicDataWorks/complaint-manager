@@ -6,11 +6,11 @@ const config = require("../../../config/config")
 const DUPLICATE_FILE_NAME = require("../../../../sharedUtilities/constants").DUPLICATE_FILE_NAME
 
 const uploadAttachment = (request, response, next) => {
+    let managedUpload
     const caseId = request.params.id
     const busboy = new Busboy({
         headers: request.headers
     })
-    // Define the upload manager here
 
     busboy.on('file', async function (fieldname, file, fileName, encoding, mimetype) {
         const s3 = createConfiguredS3Instance()
@@ -21,14 +21,13 @@ const uploadAttachment = (request, response, next) => {
                 response.status(409).send(DUPLICATE_FILE_NAME)
 
             } else {
-
-                // Set instance of upload manager here
-
-                const data = await s3.upload({
+                managedUpload = s3.upload({
                     Bucket: config[process.env.NODE_ENV].s3Bucket,
                     Key: `${caseId}/${fileName}`,
                     Body: file
-                }, {}).promise()
+                })
+
+                const data = await managedUpload.promise()
 
                 const updatedCase = await models.sequelize.transaction(async (t) => {
                     await models.attachment.create({
@@ -53,8 +52,8 @@ const uploadAttachment = (request, response, next) => {
                             ],
                             transaction: t
                         })
-
                 })
+
                 response.send(updatedCase)
             }
 
@@ -63,8 +62,9 @@ const uploadAttachment = (request, response, next) => {
         }
     })
 
-    // Request listener for close event.
-    // abort the upload manager upload on cancel here
+    request.on('close', () => {
+        managedUpload.abort()
+    })
 
     request.pipe(busboy);
 }

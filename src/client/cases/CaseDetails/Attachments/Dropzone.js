@@ -10,7 +10,7 @@ import {
     dropDuplicateFile, dropInvalidFileType,
     removeDropzoneFile
 } from "../../../actionCreators/attachmentsActionCreators";
-import {FILE_TYPE_INVALID, DUPLICATE_FILE_NAME} from "../../../../sharedUtilities/constants";
+import {FILE_TYPE_INVALID, DUPLICATE_FILE_NAME, UPLOAD_CANCELED} from "../../../../sharedUtilities/constants";
 import {FormHelperText} from "material-ui";
 
 class Dropzone extends Component {
@@ -36,6 +36,8 @@ class Dropzone extends Component {
                 case DUPLICATE_FILE_NAME:
                     this.props.dispatch(dropDuplicateFile())
                     break
+                case UPLOAD_CANCELED:
+                    break
                 default:
                     this.props.dispatch(uploadAttachmentFailed())
             }
@@ -50,7 +52,8 @@ class Dropzone extends Component {
             Authorization: `Bearer ${getAccessToken()}`
         },
         acceptedFiles: 'application/pdf,audio/mp3,video/mp4,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg',
-        dictInvalidFileType: FILE_TYPE_INVALID
+        dictInvalidFileType: FILE_TYPE_INVALID,
+        dictUploadCanceled: UPLOAD_CANCELED
     }
 
     render() {
