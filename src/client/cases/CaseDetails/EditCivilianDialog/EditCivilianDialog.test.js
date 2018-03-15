@@ -27,6 +27,10 @@ const getMenuOptions = (mountedComponent, menuSelector) => {
 }
 
 const suggestionEngine = {
+    healthCheck: (callback) => {
+        callback({googleAddressServiceIsAvailable : true})
+    },
+
     getSuggestionValue: (suggestion) => {
         return suggestion.description
     },
@@ -110,6 +114,30 @@ describe('Edit civilian dialog', () => {
             containsValue(editCivilianDialog, '[data-test="addressSuggestionField"] > input', expectedAddressDisplayText)
         })
     })
+
+    describe('address', () => {
+        test('should disable address entry when google address suggestion service is not available', () => {
+            const suggestionEngine = {
+                healthCheck: async (callback) => {
+                    callback({googleAddressServiceIsAvailable : false})
+                },
+                getSuggestionValue: (suggestion) => {},
+                onFetchSuggestions: (input, callback) => {},
+                onSuggestionSelected: (suggestion, callback) => {}
+            }
+
+            const otherStore = createConfiguredStore()
+            const otherEditCivilianDialog = mount(
+                <Provider store={otherStore}>
+                    <EditCivilianDialog suggestionEngine={suggestionEngine}/>
+                </Provider>)
+
+            otherStore.dispatch(openEditDialog())
+            otherEditCivilianDialog.update()
+
+            containsValue(otherEditCivilianDialog, '[data-test="addressSuggestionField"] > input', 'Address lookup is down, please try again later')
+        })
+    });
 
     describe('birthdate', () => {
 

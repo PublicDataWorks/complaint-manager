@@ -39,27 +39,54 @@ class AddressAutoSuggest extends Component {
         super(props)
         this.state = {
             value: props.defaultText || '',
+            suggestionServiceAvailable: true,
             suggestions: []
         }
+    }
+
+    async componentWillMount() {
+        await this.props.suggestionEngine.healthCheck(({googleAddressServiceIsAvailable}) => {
+            this.setState({suggestionServiceAvailable: googleAddressServiceIsAvailable})
+        })
+
     }
 
     renderInput = (inputProps) => {
         const {label, classes, ref, dataTest, ...other} = inputProps;
 
-        return (
-            <TextField
-                label={label}
-                fullWidth
-                inputRef={ref}
-                InputProps={{
-                    classes: {
-                        input: classes.input,
-                    },
-                    'data-test': dataTest,
-                    ...other,
-                }}
-            />
-        );
+        if (!this.state.suggestionServiceAvailable) {
+                return (
+                    <TextField
+                        disabled={true}
+                        label={label}
+                        fullWidth
+                        InputProps={{
+                            classes: {
+                                input: classes.input,
+                            },
+                            'data-test': dataTest,
+                            inputProps: {value: 'Address lookup is down, please try again later'}
+                        }}
+                    />
+                );
+            }
+            return (
+                <TextField
+                    label={label}
+                    fullWidth
+                    inputRef={ref}
+                    InputProps={{
+                        classes: {
+                            input: classes.input,
+                        },
+                        'data-test': dataTest,
+                        ...other,
+                    }}
+                />
+            );
+
+
+
     }
 
     renderSuggestionsContainer = (options) => {
@@ -69,7 +96,7 @@ class AddressAutoSuggest extends Component {
                 {children}
                 {
                     children
-                        ? <div align="right"><img alt="Powered by Google" src={poweredByGoogle} height='20px' /></div>
+                        ? <div align="right"><img alt="Powered by Google" src={poweredByGoogle} height='20px'/></div>
                         : null
                 }
 

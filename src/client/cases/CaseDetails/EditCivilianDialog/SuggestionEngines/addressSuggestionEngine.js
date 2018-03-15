@@ -7,6 +7,21 @@ class AddressSuggestionEngine {
         this.placeDetailsService = new window.google.maps.places.PlacesService(window.document.createElement('div'))
     }
 
+    healthCheck(callback) {
+        this.autoCompleteService.getPlacePredictions({
+            input: 'test',
+        }, (addresses, status) => {
+            console.log('from suggestion engine: ', status)
+            if (status === this.google.maps.places.PlacesServiceStatus.UNKNOWN_ERROR) {
+                callback({googleAddressServiceIsAvailable: false})
+            } else {
+                callback({googleAddressServiceIsAvailable: true})
+            }
+        })
+
+
+    }
+
     getSuggestionValue = (suggestion) => {
         return Boolean(suggestion)
             ? suggestion.description
