@@ -46,7 +46,7 @@ export default class Auth {
         localStorage.removeItem('id_token')
         localStorage.removeItem('expires_at')
 
-        history.replace('/');
+        history.push('/login');
     }
 
     getUserInfo =  (accessToken, callback) => {

@@ -6,6 +6,7 @@ import {BrowserRouter as Router} from "react-router-dom";
 import createConfiguredStore from "../createConfiguredStore";
 import {Provider} from "react-redux";
 import {mockLocalStorage} from "../../mockLocalStorage";
+import {containsText} from "../../testHelpers";
 
 
 describe('NavBar', () => {
@@ -34,8 +35,7 @@ describe('NavBar', () => {
         const gearButton = wrapper.find('button[data-test="gearButton"]')
         gearButton.simulate('click')
 
-        const link = wrapper.find('a[data-test="ad' +
-            'minButton"]')
+        const link = wrapper.find('a[data-test="adminButton"]')
 
         expect(link.prop('href')).toEqual('/admin')
     })
@@ -46,25 +46,38 @@ describe('NavBar', () => {
 
     })
 
-    test('menu should be visible after gear icon click', () => {
+    describe('gear menu', () => {
+        test('should see admin button', () => {
 
-        const gearButton = wrapper.find('button[data-test="gearButton"]')
-        gearButton.simulate('click')
+            const gearButton = wrapper.find('button[data-test="gearButton"]')
+            gearButton.simulate('click')
 
-        const adminButton = wrapper.find('[data-test="adminButton"]')
+            const adminButton = wrapper.find('[data-test="adminButton"]')
 
-        expect(adminButton.exists()).toBeTruthy()
-    })
+            expect(adminButton.exists()).toBeTruthy()
+        })
 
-    test('should dismiss menu when clicking away', () => {
-        const gearButton = wrapper.find('[data-test="gearButton"]').last()
-        gearButton.simulate('click')
+        test('should see log out button', () => {
 
-        const backdrop = wrapper.find(Backdrop)
-        backdrop.simulate('click')
+            const gearButton = wrapper.find('button[data-test="gearButton"]')
+            gearButton.simulate('click')
 
-        const menu = wrapper.find(NavBar).find('[data-test="menu"]').first()
+            const logOutButton = wrapper.find('[data-test="logOutButton"]')
 
-        expect(menu.props()).toHaveProperty('open', false)
-    })
+            expect(logOutButton.exists()).toBeTruthy()
+            containsText(logOutButton, '[data-test="logOutButton"]', "Log Out")
+        })
+
+        test('should dismiss menu when clicking away', () => {
+            const gearButton = wrapper.find('[data-test="gearButton"]').last()
+            gearButton.simulate('click')
+
+            const backdrop = wrapper.find(Backdrop)
+            backdrop.simulate('click')
+
+            const menu = wrapper.find(NavBar).find('[data-test="menu"]').first()
+
+            expect(menu.props()).toHaveProperty('open', false)
+        })
+    });
 })

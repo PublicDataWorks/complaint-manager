@@ -162,7 +162,7 @@ if (TEST_PASS && TEST_USER && HOST) {
                 .pause(500)
         },
 
-        "Should not show address in Complainant & Witnesses section of Case Detail": (browser) => {
+        "should not show address in Complainant & Witnesses section of Case Detail": (browser) => {
             browser
                 .waitForElementPresent('p[data-test="primaryComplainantAddress"]', roundTripWait)
                 .pause(500)
@@ -180,6 +180,15 @@ if (TEST_PASS && TEST_USER && HOST) {
                 .getText('p[data-test="primaryComplainantAddress"]', (result) => {
                     browser.assert.containsText('p[data-test="primaryComplainantAddress"]', result.value)
                 })
+        },
+
+        "should log out of the system": (browser) => {
+            browser
+                .click('[data-test="gearButton"]')
+                .waitForElementVisible('[data-test="logOutButton"]',rerenderWait)
+                .click('[data-test="logOutButton"]')
+                .waitForElementVisible("body", rerenderWait)
+                .verify.title("Sign In with Auth0")
         },
 
         "end user journey ;)": (browser) => {

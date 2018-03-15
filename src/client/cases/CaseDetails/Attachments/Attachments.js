@@ -1,6 +1,6 @@
 import React from 'react'
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
-import {CardContent, TextField, Typography} from "material-ui";
+import {CardContent, Typography} from "material-ui";
 import styles from '../../../globalStyling/styles'
 import Dropzone from "./Dropzone";
 import AttachmentsList from "./AttachmentsList";

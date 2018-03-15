@@ -4,6 +4,7 @@ import Settings from 'material-ui-icons/Settings';
 import {AppBar, IconButton, Menu, MenuItem, Toolbar, Typography} from 'material-ui'
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
+import Auth from "../auth/Auth";
 
 const styles = {
     appBarStyle: {
@@ -86,6 +87,12 @@ class NavBar extends React.Component {
                             to="/admin"
                         >
                             Manage Users
+                        </MenuItem>
+                        <MenuItem
+                            data-test="logOutButton"
+                            onClick={()=>{new Auth().logout()}}
+                        >
+                           Log Out
                         </MenuItem>
                     </Menu>
                 </Toolbar>
