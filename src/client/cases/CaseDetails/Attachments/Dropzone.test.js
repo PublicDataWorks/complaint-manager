@@ -34,10 +34,11 @@ describe('Dropzone', () => {
     })
 
     test('should have maxFiles, addRemoveLinks, and acceptedFile types when mounted', () => {
+        // TODO: Is testing the config like this valuable?
         expect(dropzoneInstance.props.djsConfig.maxFiles).toEqual(1)
         expect(dropzoneInstance.props.djsConfig.addRemoveLinks).toEqual(true)
         expect(dropzoneInstance.props.djsConfig.acceptedFiles)
-            .toEqual("application/pdf,audio/mp3,video/mp4,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg")
+            .toEqual("application/pdf,audio/mpeg,audio/mp3,video/mp4,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg")
     })
 
     test('should not display invalid file type error by default', () => {
