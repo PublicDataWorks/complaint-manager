@@ -44,36 +44,4 @@ describe('AddressAutoSuggest', () => {
 
         containsText(autoSuggestWrapper, '[data-test="my-custom-autosuggest"]', label)
     })
-
-    describe('Cant test at unit level, move to nightwatch test', () => {
-
-        test.skip('should display suggestions when text is entered', () => {
-
-            const autoSuggestWrapper = mount(
-                <Provider store={store}>
-                    <AddressAutoSuggest
-                        suggestionEngine={suggestionEngine}
-                        data-test='my-custom-autosuggest'
-                    />
-                </Provider>
-            )
-
-            expect(autoSuggestWrapper.find('[data-test="my-custom-autosuggest"]').exists()).toBeTruthy()
-            changeInput(autoSuggestWrapper, '[data-test="my-custom-autosuggest"]', "asasfd")
-            console.log(autoSuggestWrapper
-                .find('[data-test="suggestion-container"]')
-                .last()
-                .debug()
-            )
-
-        })
-        test.skip('should not select suggestion when navigating through them', () => {
-
-        })
-        test.skip('should select suggestion on enter/click', () => {
-
-        })
-        test.skip('should submit blank address when cleared and submitted')
-    });
-
 });

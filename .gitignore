@@ -9,7 +9,7 @@ awsConfig.json
 # testing
 /coverage
 
-e2e/tests/userJourney/*.png
+e2e/tests/userJourney/**/*.png
 
 # production
 /build

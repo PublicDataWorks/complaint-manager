@@ -195,7 +195,7 @@ describe('Complainant and Witnesses', () => {
             complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseWithNoAddress}/>)
 
             const complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
-            containsText(complainantPanel, '[data-test="primaryComplainantAddress"]', 'N/A')
+            containsText(complainantPanel, '[data-test="primaryComplainantAddress"]', 'No address specified')
         })
         test('should display address when present', () => {
             const expectedAddress = '123 Main St, Sandwich, IL, 60606, Merica'

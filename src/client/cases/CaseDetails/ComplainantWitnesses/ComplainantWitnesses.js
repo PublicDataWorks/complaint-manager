@@ -151,7 +151,7 @@ const ComplainantWitnesses = (props) => {
                                         type='body1'
                                         data-test="primaryComplainantAddress"
                                     >
-                                        { Boolean(formatAddress(primaryComplainant.address)) ? formatAddress(primaryComplainant.address) : 'N/A'}
+                                        { Boolean(formatAddress(primaryComplainant.address)) ? formatAddress(primaryComplainant.address) : 'No address specified'}
                                     </Typography>
                                     <Typography
                                         type='body1'
