@@ -33,7 +33,7 @@ const AttachmentsRow = ({attachment}) => {
             style={{display: 'flex', width: '100%'}}
             data-test="attachmentRow"
         >
-            <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
+            <div style={{flex: 1, textAlign: 'left', marginRight: '10px', marginBottom: '8px'}}>
                 <Typography
                     style={{
                         ...styles.link,

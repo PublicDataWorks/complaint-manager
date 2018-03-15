@@ -53,7 +53,8 @@ class Dropzone extends Component {
         },
         acceptedFiles: 'application/pdf,audio/mp3,video/mp4,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg',
         dictInvalidFileType: FILE_TYPE_INVALID,
-        dictUploadCanceled: UPLOAD_CANCELED
+        dictUploadCanceled: UPLOAD_CANCELED,
+        dictDefaultMessage: "Drag and drop or click"
     }
 
     render() {

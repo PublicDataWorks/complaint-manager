@@ -10,24 +10,21 @@ const Attachments = (props) => {
         <BaseCaseDetailsCard title='Attachments'>
             <CardContent>
                 <div style={{display: 'flex', width: '100%'}}>
-                    <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
-                        <Typography type='subheading'>
-                            File
+                    <div style={{flex: 1, textAlign: 'left', marginRight: '10px', marginBottom: '8px'}}>
+                        <Typography style={styles.section}>
+                            File Name
                         </Typography>
                     </div>
                     <div style={{flex: 1, textAlign: 'left'}}>
-                        <Typography type='subheading'>
-                            Description
-                        </Typography>
                     </div>
                     <div style={{flex: 1}}/>
                 </div>
                 <AttachmentsList attachments={props.caseDetail.attachments}/>
-                <div>
+                <div style={{marginTop: "24px"}}>
                     <Typography style={styles.section}>
                         UPLOAD A FILE
                     </Typography>
-                    <Typography type="caption">
+                    <Typography type="caption" style={{marginBottom: "16px"}}>
                         Accepted file types: .pdf, .mp3, .mp4, .doc, .docx, .jpeg
                     </Typography>
                 </div>
@@ -36,9 +33,6 @@ const Attachments = (props) => {
                         <Dropzone caseId={props.caseDetail.id}/>
                     </div>
                     <div style={{flex: 1}}>
-                        <TextField>
-
-                        </TextField>
                     </div>
                     <div style={{flex: 1}}>
                     </div>
