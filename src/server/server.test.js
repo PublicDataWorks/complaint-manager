@@ -229,6 +229,7 @@ describe('server', () => {
                     expect(response.body.id).toEqual(defaultCase.id)
                     expect(response.body.civilians[0].id).toEqual(defaultCase.civilians[0].id)
                     expect(response.body.attachments[0].fileName).toEqual('README.md')
+                    expect(response.body.status).toEqual('Active')
                 })
         })
 

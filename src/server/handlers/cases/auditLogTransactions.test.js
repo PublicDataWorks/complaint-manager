@@ -105,4 +105,6 @@ describe('transactions', () => {
         await models.civilian.destroy({where: {id: updatedCivilian.id}})
         await models.cases.destroy({where: {id: caseToUpdate.id}})
     })
+
+    //TODO add audit log transaction test for upload attachment
 });

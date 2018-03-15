@@ -44,6 +44,14 @@ const uploadAttachment = (request, response, next) => {
                         action: `Attachment added to Case ${caseId}`
                     })
 
+                    await models.cases.update(
+                        {status: 'Active'},
+                        {
+                            where: {id: caseId},
+                            transaction: t
+                        }
+                    )
+
                     return await models.cases.findById(caseId,
                         {
                             include: [
