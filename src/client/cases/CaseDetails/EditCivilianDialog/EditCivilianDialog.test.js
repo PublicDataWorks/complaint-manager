@@ -149,7 +149,7 @@ describe('Edit civilian dialog', () => {
 
         test('should pre-populate birthdate for existing birthdate', () => {
             store.dispatch(initialize('EditCivilian', {...caseCivilian, birthDate: '2018-02-14'}))
-            const birthDate = editCivilianDialog.find('[data-test="birthDateField"]').first().instance().value
+            const birthDate = editCivilianDialog.find('[data-test="birthDateInput"]').first().instance().value
             expect(birthDate).toEqual('2018-02-14')
         })
 

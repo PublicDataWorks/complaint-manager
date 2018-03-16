@@ -109,12 +109,10 @@ class CreateCaseDialog extends React.Component {
                         <form data-test="createCaseForm">
                             <Typography type='body2' style={{marginBottom: '8px'}}>Timeline</Typography>
                             <DateField
-                                fieldProps={{
-                                    required: true,
-                                    name: 'case.firstContactDate',
-                                    label: 'First Contact Date',
-                                    'data-test': 'firstContactDateField',
-                                }}
+                                required={true}
+                                name='case.firstContactDate'
+                                label='First Contact Date'
+                                data-test='firstContactDateField'
                                 inputProps={{
                                     "data-test": "firstContactDateInput",
                                 }}
@@ -191,11 +189,6 @@ const validate = values => {
 export const DialogWithTheme = withTheme()(CreateCaseDialog)
 const ConnectedDialog = connect(mapStateToProps)(DialogWithTheme)
 
-const handleOnChange = (values, dispatch, props, previousValues) => {
-    if (!Boolean(values.case.firstContactDate)) {
-        dispatch(change('CreateCase', 'case.firstContactDate', previousValues.case.firstContactDate))
-    }
-}
 
 export default reduxForm({
     form: 'CreateCase',
@@ -205,6 +198,5 @@ export default reduxForm({
             firstContactDate: moment(Date.now()).format('YYYY-MM-DD')
         }
     },
-    onChange: handleOnChange,
     validate
 })(ConnectedDialog)

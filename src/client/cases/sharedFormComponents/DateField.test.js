@@ -11,11 +11,9 @@ describe('DateField', () => {
     beforeEach(() => {
         ReduxDateField = reduxForm({form: "testDateForm"})(() => {
             return <DateField
-                fieldProps={{
-                    name:'dateTest',
-                    label:'TEST DATE FIELD LABEL',
-                    'data-test':'dateField'
-                }}
+                name='dateTest'
+                label='TEST DATE FIELD LABEL'
+                data-test='dateField'
                 inputProps={{
                     'data-test':'dateInput'
                 }}

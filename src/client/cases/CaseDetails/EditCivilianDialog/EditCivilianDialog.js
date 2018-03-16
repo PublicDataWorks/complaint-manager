@@ -83,14 +83,13 @@ class EditCivilianDialog extends Component {
                         />
                         <div style={{display: 'flex'}}>
                             <DateField
-                                fieldProps={{
-                                    name: 'birthDate',
-                                    label: 'Birthday',
-                                    'data-test': 'birthDateField'
-                                }}
+                                name='birthDate'
+                                label='Birthday'
+                                data-test='birthDateField'
                                 inputProps={{
                                     'data-test': 'birthDateInput'
                                 }}
+                                clearable={true}
                                 style={{
                                     width: '30%',
                                     clipPath: 'inset(0 17px 0 0)',
@@ -249,11 +248,6 @@ const handleEditCivilian = (values, dispatch) => {
     }))
 }
 
-const changeToBlankValueWhenBirthdaySetToInvalidDateSoThatLabelRendersProperly = (values, dispatch) => {
-    if (!Boolean(values.birthDate)) {
-        dispatch(change('EditCivilian', 'birthDate', ' '))
-    }
-}
 
 const validate = values => {
     const errorMessage = 'Please enter phone number or email address'
@@ -267,7 +261,6 @@ const DialogWithTheme = withTheme()(EditCivilianDialog)
 const connectedForm = reduxForm({
     form: 'EditCivilian',
     onSubmit: handleEditCivilian,
-    onChange: changeToBlankValueWhenBirthdaySetToInvalidDateSoThatLabelRendersProperly,
     validate
 })(DialogWithTheme)
 
