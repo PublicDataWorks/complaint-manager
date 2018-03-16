@@ -28,7 +28,13 @@ const Attachments = (props) => {
                         Accepted file types: .pdf, .mp3, .mp4, .doc, .docx, .jpeg
                     </Typography>
                 </div>
-                <Dropzone caseId={props.caseDetail.id}/>
+                <div style={{display: 'flex', width: '100%'}}>
+                    <Dropzone caseId={props.caseDetail.id}/>
+                    <div style={{flex: 1}}>
+                    </div>
+                    <div style={{flex: 1}}>
+                    </div>
+                </div>
             </CardContent>
         </BaseCaseDetailsCard>
     )

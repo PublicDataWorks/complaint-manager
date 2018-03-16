@@ -62,7 +62,6 @@ if (TEST_PASS && TEST_USER && HOST) {
                 .assert.containsText("[data-test=invalidFileTypeErrorMessage]", "File type not supported")
 
                 .setValue('input[type="file"]', path.resolve(__dirname, imagesDir, validImageFileName))
-                .click('[data-test=attachmentUploadButton]')
                 .waitForElementVisible("[data-test=attachmentRow]", roundTripWait)
                 .assert.containsText("[data-test=attachmentRow]", validImageFileName)
         },
