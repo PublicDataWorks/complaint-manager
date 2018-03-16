@@ -29,6 +29,11 @@ module.exports = {
                 type: Sequelize.DATEONLY,
                 defaultValue: moment(Date.now()).format('YYYY-MM-DD')
             },
+            incident_date:{
+                allowNull: false,
+                type: Sequelize.DATE,
+                defaultValue: moment(Date.now()).format('YYYY-MM-DDTHH:mm')
+            },
             narrative:{
                 type: Sequelize.TEXT
             },

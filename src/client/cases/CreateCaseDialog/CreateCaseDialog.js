@@ -1,5 +1,5 @@
 import React from "react";
-import {change, Field, reduxForm, reset} from "redux-form";
+import { Field, reduxForm, reset} from "redux-form";
 import {connect} from "react-redux";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography} from "material-ui";
 import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
@@ -110,13 +110,27 @@ class CreateCaseDialog extends React.Component {
                             <Typography type='body2' style={{marginBottom: '8px'}}>Timeline</Typography>
                             <DateField
                                 required={true}
+                                name='case.incidentDate'
+                                label='Incident Date and Time'
+                                data-test='incidentDateField'
+                                inputProps={{
+                                    "data-test": "incidentDateInput",
+                                    type: "datetime-local",
+                                    max: moment(Date.now()).format('YYYY-MM-DDTHH:mm')
+                                }}
+                                style={{...offSet, minWidth:'225px', width: '42%', clipPath: 'inset(0 17px 0 0)'}}
+                            />
+                            <DateField
+                                required={true}
                                 name='case.firstContactDate'
                                 label='First Contact Date'
                                 data-test='firstContactDateField'
                                 inputProps={{
                                     "data-test": "firstContactDateInput",
+                                    type: "date",
+                                    max: moment(Date.now()).format('YYYY-MM-DD')
                                 }}
-                                style={{...offSet, width: '35%', clipPath: 'inset(0 17px 0 0)'}}
+                                style={{...offSet, minWidth:'145px', width: '35%', clipPath: 'inset(0 17px 0 0)'}}
                             />
                             <br/>
                             <Field
@@ -195,7 +209,8 @@ export default reduxForm({
     initialValues: {
         case: {
             complainantType: 'Civilian',
-            firstContactDate: moment(Date.now()).format('YYYY-MM-DD')
+            firstContactDate: moment(Date.now()).format('YYYY-MM-DD'),
+            incidentDate: moment(Date.now()).format('YYYY-MM-DDTHH:mm')
         }
     },
     validate

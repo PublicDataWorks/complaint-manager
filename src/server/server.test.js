@@ -101,6 +101,7 @@ describe('server', () => {
                 },
                 case: {
                     firstContactDate: "2018-01-31",
+                    incidentDate: "2018-03-16T16:59",
                     complainantType: 'Civilian',
                     createdBy: 'tuser',
                     assignedTo: 'tuser'
@@ -140,6 +141,7 @@ describe('server', () => {
                     expect(response.body.id).not.toBeUndefined()
                     expect(response.body.complainantType).toEqual(requestBody.case.complainantType)
                     expect(response.body.firstContactDate).toEqual(requestBody.case.firstContactDate)
+                    expect(response.body.incidentDate).toEqual(requestBody.case.incidentDate)
                     expect(response.body.createdAt).not.toBeUndefined()
                     expect(response.body.status).toEqual('Initial')
                     expect(response.body.createdBy).toEqual('tuser')

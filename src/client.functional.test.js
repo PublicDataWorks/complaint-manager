@@ -33,6 +33,7 @@ describe('client-side user journey', () => {
             status: 'Initial',
             createdAt: '2018-01-17T22:00:20.796Z',
             firstContactDate: "2017-12-25T00:00:00.000Z",
+            incidentDate: moment(Date.now()).format('YYYY-MM-DDTHH:mm'),
             createdBy: 'tuser',
             assignedTo: 'tuser'
         }]
@@ -42,11 +43,12 @@ describe('client-side user journey', () => {
                 firstName: 'Serafin',
                 lastName: 'Hayder',
                 phoneNumber: "8201334872",
-                email: 'shayder@gmail.com'
+                email: 'shayder@gmail.com',
             },
             case: {
                 complainantType: 'Civilian',
                 firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
+                incidentDate: moment(Date.now()).format('YYYY-MM-DDTHH:mm'),
                 createdBy: '',
                 assignedTo: '',
             }
@@ -67,6 +69,7 @@ describe('client-side user journey', () => {
             status: 'Initial',
             createdAt: '2018-01-17T22:00:20.796Z',
             firstContactDate: "2017-12-25T00:00:00.000Z",
+            incidentDate: moment(Date.now()).format('YYYY-MM-DDTHH:mm'),
             createdBy: 'tuser',
             assignedTo: 'tuser',
             narrative: null

@@ -53,5 +53,48 @@ describe('DateField', () => {
         expect(datePicker.instance().value).toEqual(yesterday)
     })
 
-    //TODO: find a way to test invalid date
+    test.skip('should reset date when invalid date is given and datefield clearable', () => {
+       const ReduxFormWithClearableDateField = reduxForm({form: "testDateFormTwo"})(() => {
+           return <DateField
+               name='dateTest'
+               label='TEST DATE FIELD LABEL'
+               data-test='dateField'
+               clearable={true}
+               inputProps={{
+                   'data-test':'dateInput'
+               }}
+           />
+       })
+        const store = createConfiguredStore()
+        const anotherForm = mount(<Provider store={store}><ReduxFormWithClearableDateField/></Provider>)
+
+
+        const input = form.find('[data-test="dateInput"]').last()
+        const InputField = form.find('[data-test="dateField"]').first()
+
+        // input.simulate('change', {target: {value: "2001-02-31"}})
+        input.simulate('keydown', { preventDefault(){}, key: '2', keyCode: 90, which: 90 })
+
+        input.simulate('blur')
+        InputField.simulate('blur')
+        anotherForm.update()
+
+        console.log(input.instance().value)
+    })
+
+    test.skip('should not set date to an invalid date if not clearable', () => {
+        const validDate = '2001-01-15'
+        datePicker.simulate('change', {target: {value: validDate}})
+        datePickerField.simulate('blur')
+
+        expect(datePicker.instance().value).toEqual(validDate)
+
+        const invalidDate = '2001-02-30'
+        datePicker.simulate('change', {target: {value: invalidDate}})
+        datePickerField.simulate('blur')
+        form.update()
+
+        console.log(datePicker.instance().value)
+
+    })
 });

@@ -30,7 +30,8 @@ describe('createCase handler', () => {
             body: {
                 case: {
                     complainantType: "Civilian",
-                    firstContactDate: "2018-02-08"
+                    firstContactDate: "2018-02-08",
+                    incidentDate: "2018-03-16T17:42"
                 },
                 civilian: {
                     firstName: "First",
@@ -81,9 +82,11 @@ describe('createCase handler', () => {
 
         await createCase(request, response, next)
 
-        expect(response.statusCode).toEqual(201)
-        expect(response._getData()).toEqual(createdCase)
-        expect(response._isEndCalled()).toBeTruthy()
+        response.on('send', () => {
+            expect(response.statusCode).toEqual(201)
+            expect(response._getData()).toEqual(createdCase)
+            expect(response._isEndCalled()).toBeTruthy()
+        });
     })
 
     test('should respond with 400 when civilian names are empty', async () => {

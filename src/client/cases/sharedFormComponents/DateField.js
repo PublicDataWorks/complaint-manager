@@ -10,9 +10,7 @@ const DateField = ({inputProps, style, clearable= false, ...fieldProps}) => {
             {...fieldProps}
             component={TextField}
             inputProps={{
-                ...inputProps,
-                type: "date",
-                max: moment(Date.now()).format('YYYY-MM-DD')
+                ...inputProps
             }}
             style={style}
             InputLabelProps={{
@@ -20,7 +18,7 @@ const DateField = ({inputProps, style, clearable= false, ...fieldProps}) => {
             }}
             validate={[notFutureDate]}
             normalize={(date, prevDate) => {
-                const isValid = moment(date).isValid()
+                const isValid = moment(new Date(date)).isValid()
                 if (!clearable) {
                     return isValid
                         ? date

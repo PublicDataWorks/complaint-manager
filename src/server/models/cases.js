@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
             },
             firstContactDate: {
                 field: 'first_contact_date',
+                type: DataTypes.DATEONLY
+            },
+            incidentDate: {
+                field: 'incident_date',
                 type: DataTypes.DATE
             },
             narrative: {

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {change, Field, reduxForm, submit} from "redux-form";
+import { Field, formValueSelector, reduxForm, submit} from "redux-form";
 import {Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Typography} from 'material-ui';
 import {TextField} from 'redux-form-material-ui'
 import RoleOnCaseRadioGroup from "./RoleOnCaseRadioGroup";
@@ -20,8 +20,8 @@ import EmailField from "../../sharedFormComponents/EmailField";
 import {atLeastOneRequired} from "../../../formSyncValidations";
 import AddressAutoSuggest from "./AddressAutoSuggest";
 import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine";
-import {formValueSelector} from 'redux-form';
 import formatAddress from "../../../utilities/formatAddress";
+import moment from "moment"
 
 const generateMenu = contents => {
     return contents.map((content) => {
@@ -87,7 +87,9 @@ class EditCivilianDialog extends Component {
                                 label='Birthday'
                                 data-test='birthDateField'
                                 inputProps={{
-                                    'data-test': 'birthDateInput'
+                                    'data-test': 'birthDateInput',
+                                    type: "date",
+                                    max: moment(Date.now()).format('YYYY-MM-DD')
                                 }}
                                 clearable={true}
                                 style={{

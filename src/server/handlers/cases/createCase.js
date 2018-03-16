@@ -1,4 +1,6 @@
 const models = require('../../models/index')
+const moment = require('moment')
+
 const invalidName = (input) => {
     return (!input || input.length == 0 || input.length > 25)
 }
@@ -31,6 +33,10 @@ const createCase = async (req, res, next) => {
 
                 return createdCase
             })
+
+            const incidentDate = createdCase.getDataValue('incidentDate')
+            const normalizedIncidentDate = moment(incidentDate).format('YYYY-MM-DDTHH:mm')
+            createdCase.setDataValue('incidentDate', normalizedIncidentDate)
 
             res.status(201).send(createdCase)
         }
