@@ -37,7 +37,7 @@ if (TEST_PASS && TEST_USER && HOST) {
                 .assert.urlEquals(HOST)
         },
 
-        "should create case": (browser) => {
+        "should create case and save screenshot": (browser) => {
             browser
                 .click("button[data-test=createCaseButton]")
                 .waitForElementVisible("[data-test=firstNameInput]", rerenderWait)
@@ -47,6 +47,7 @@ if (TEST_PASS && TEST_USER && HOST) {
                 .click("button[data-test=createAndView]")
                 .waitForElementVisible("[data-test=case-number]", roundTripWait)
                 .assert.urlContains('cases')
+                .saveScreenshot(path.resolve(__dirname, 'userJourney', 'createCase.png'))
         },
 
         "should add an attachment": (browser) => {
