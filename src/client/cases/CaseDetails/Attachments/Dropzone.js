@@ -12,6 +12,7 @@ import {
 } from "../../../actionCreators/attachmentsActionCreators";
 import {FILE_TYPE_INVALID, DUPLICATE_FILE_NAME, UPLOAD_CANCELED} from "../../../../sharedUtilities/constants";
 import {FormHelperText} from "material-ui";
+import {SubmitButton} from "../../../sharedComponents/StyledButtons";
 
 class Dropzone extends Component {
     componentWillMount() {
@@ -49,6 +50,7 @@ class Dropzone extends Component {
 
     djsconfig = {
         addRemoveLinks: true,
+        autoProcessQueue: false,
         maxFiles: 1,
         headers: {
             Authorization: `Bearer ${getAccessToken()}`
@@ -61,15 +63,31 @@ class Dropzone extends Component {
         timeout: Infinity,
     }
 
+    uploadAttachment = () => {
+        this.dropzone.processQueue()
+    }
+
     render() {
         return (
-            <div>
-                <DropzoneComponent
-                    config={this.dropZoneComponentConfig}
-                    djsConfig={this.djsconfig}
-                    eventHandlers={this.eventHandlers}
-                />
-                {(this.props.errorMessage !== '') && this.invalidFileMarkup(this.props.errorMessage)}
+            <div style={{display: 'flex', width: '100%'}}>
+                <div style={{flex: 1, marginRight: '10px'}}>
+                    <DropzoneComponent
+                        config={this.dropZoneComponentConfig}
+                        djsConfig={this.djsconfig}
+                        eventHandlers={this.eventHandlers}
+                    />
+                    {(this.props.errorMessage !== '') && this.invalidFileMarkup(this.props.errorMessage)}
+                </div>
+                <div style={{flex: 1}}>
+                </div>
+                <div style={{alignSelf: 'flex-end'}}>
+                    <SubmitButton style={{flex: 1}}
+                        onClick={this.uploadAttachment}
+                        data-test="attachmentUploadButton"
+                    >
+                        Upload
+                    </SubmitButton>
+                </div>
             </div>
 
         )
