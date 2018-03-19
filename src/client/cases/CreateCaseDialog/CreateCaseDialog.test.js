@@ -9,6 +9,7 @@ import createCase from "../thunks/createCase";
 import {openSnackbar} from "../../actionCreators/snackBarActionCreators";
 import moment from "moment";
 import {userAuthSuccess} from "../../auth/actionCreators";
+import {applyCentralTimeZoneOffset} from "../../utilities/formatDate";
 
 jest.mock('../thunks/createCase', () => (creationDetails) => ({
     type: 'MOCK_CREATE_CASE_THUNK',
@@ -16,10 +17,12 @@ jest.mock('../thunks/createCase', () => (creationDetails) => ({
 }))
 
 describe('CreateCaseDialog component', () => {
-    let store, dialog, dispatchSpy, testUsername
+    let store, dialog, dispatchSpy, testUsername, dateAndTimeToday, dateAndTimeTodayWithTimezone
 
     beforeEach(() => {
         store = createConfiguredStore();
+        dateAndTimeToday = moment(Date.now()).format("YYYY-MM-DDTHH:mm")
+        dateAndTimeTodayWithTimezone = applyCentralTimeZoneOffset(dateAndTimeToday)
 
         testUsername = 'tuser'
         store.dispatch(userAuthSuccess({nickname: testUsername}))
@@ -55,7 +58,7 @@ describe('CreateCaseDialog component', () => {
                 case: {
                     complainantType: 'Civilian',
                     firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
-                    incidentDate: moment(Date.now()).format("YYYY-MM-DDTHH:mm"),
+                    incidentDate: dateAndTimeTodayWithTimezone,
                     createdBy: testUsername,
                     assignedTo: testUsername
                 },
@@ -208,7 +211,7 @@ describe('CreateCaseDialog component', () => {
                 case: {
                     complainantType: 'Civilian',
                     firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
-                    incidentDate: moment(Date.now()).format("YYYY-MM-DDTHH:mm"),
+                    incidentDate: dateAndTimeTodayWithTimezone,
                     createdBy: testUsername,
                     assignedTo: testUsername
                 },

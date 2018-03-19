@@ -5,10 +5,8 @@ import CaseDetails from "./CaseDetails";
 import {Provider} from 'react-redux';
 import NavBar from "../../sharedComponents/NavBar";
 import {BrowserRouter as Router} from "react-router-dom";
-import formatDate from "../../utilities/formatDate";
 import {changeInput, containsText} from "../../../testHelpers";
 import updateNarrative from "../thunks/updateNarrative";
-import moment from "moment";
 import {mockLocalStorage} from "../../../mockLocalStorage";
 import Case from "../../testUtilities/case";
 import formatName from "../../utilities/formatName";
@@ -29,12 +27,13 @@ jest.mock("./EditCivilianDialog/SuggestionEngines/addressSuggestionEngine")
 describe('Case Details Component', () => {
     let caseDetails, expectedCase, dispatchSpy, store;
     beforeEach(() => {
+        const incidentDateInUTC = "2017-12-25T06:00Z"
         mockLocalStorage()
 
         store = createConfiguredStore()
         dispatchSpy = jest.spyOn(store, 'dispatch');
 
-        expectedCase = new Case.Builder().defaultCase().withNarrative('Some initial narrative').build()
+        expectedCase = new Case.Builder().defaultCase().withNarrative('Some initial narrative').withIncidentDate(incidentDateInUTC).build()
 
         store.dispatch(getCaseDetailsSuccess(expectedCase));
 
@@ -74,12 +73,19 @@ describe('Case Details Component', () => {
             containsText(caseDetails, '[data-test="case-number"]', `Case #${expectedCase.id}`)
         })
 
+        test('should display incident date', () => {
+            containsText(caseDetails, '[data-test="incident-date"]', `Dec 25, 2017`)
+        })
+        test('should display incident time', () => {
+            containsText(caseDetails, '[data-test="incident-time"]', `12:00 AM CST`)
+        })
+
         test('should display first contact date', () => {
-           containsText(caseDetails, '[data-test="first-contact-date"]', formatDate(expectedCase.firstContactDate))
+           containsText(caseDetails, '[data-test="first-contact-date"]', "Dec 25, 2017")
         })
 
         test("should display created on date", () => {
-            containsText(caseDetails, '[data-test="created-on"]', formatDate(moment(expectedCase.createdAt).format('YYYY-MM-DD')))
+            containsText(caseDetails, '[data-test="created-on"]', "Sep 13, 2015")
         })
 
         test('should display complaint type', () => {

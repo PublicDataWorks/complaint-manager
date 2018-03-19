@@ -18,6 +18,7 @@ describe('transactions', () => {
                 case: {
                     complainantType: "Civilian",
                     firstContactDate: "2018-02-08",
+                    incidentDate: "2018-03-16T16:59",
                     createdBy: 'test_user',
                     assignedTo: 'test_user'
                 },

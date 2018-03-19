@@ -17,6 +17,7 @@ import DateField from "../sharedFormComponents/DateField";
 import MiddleInitialField from "../sharedFormComponents/MiddleInitialField";
 import SuffixField from "../sharedFormComponents/SuffixField";
 import {atLeastOneRequired} from "../../formSyncValidations";
+import {applyCentralTimeZoneOffset} from "../../utilities/formatDate";
 
 const margin = {
     marginLeft: '5%',
@@ -70,7 +71,8 @@ class CreateCaseDialog extends React.Component {
         case: {
             ...values.case,
             createdBy: this.props.currentUser,
-            assignedTo: this.props.currentUser
+            assignedTo: this.props.currentUser,
+            incidentDate: applyCentralTimeZoneOffset(values.case.incidentDate)
         },
         civilian: {
             ...values.civilian,

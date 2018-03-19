@@ -14,6 +14,7 @@ class Case {
         this.assignedTo = build.assignedTo
         this.narrative = build.narrative
         this.attachments = build.attachments
+        this.incidentDate = build.incidentDate
     }
 
     static get Builder() {
@@ -26,6 +27,7 @@ class Case {
                 this.status = 'Initial'
                 this.createdAt = new Date(2015, 8, 13).toISOString()
                 this.firstContactDate = "2017-12-25T00:00:00.000Z"
+                this.incidentDate = '2017-01-01T00:01'
                 this.complainantType = 'Civilian'
                 this.createdBy = 'tuser'
                 this.assignedTo = 'tuser'
@@ -57,6 +59,11 @@ class Case {
             withCreatedAt(createdAt) {
                 this.createdAt = createdAt
                 return this;
+            }
+
+            withIncidentDate(incidentDate) {
+                this.incidentDate = incidentDate
+                return this
             }
 
             withCreatedBy(createdBy){

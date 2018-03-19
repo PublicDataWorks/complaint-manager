@@ -4,7 +4,7 @@ import {mount} from "enzyme";
 import {changeInput, retry} from "./testHelpers";
 import {mockCreateCase, mockGetCases, mockGetUsers} from "./mockEndpoints";
 import moment from "moment";
-
+import {applyCentralTimeZoneOffset} from "./client/utilities/formatDate";
 jest.mock("auth0-js")
 jest.mock("./client/auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))
 
@@ -15,9 +15,11 @@ function expectUserToBeVisible(app, id, name) {
 }
 
 describe('client-side user journey', () => {
-    let existingCases, newCaseRequest, newCaseResponse, existingUsers, app
+    let existingCases, newCaseRequest, newCaseResponse, existingUsers, app, dateAndTime, dateAndTimeFormatted
 
     beforeAll(() => {
+        dateAndTime = moment(Date.now()).format('YYYY-MM-DDTHH:mm')
+        dateAndTimeFormatted = applyCentralTimeZoneOffset(dateAndTime)
         existingCases = [{
             id: 1,
             civilians: [{
@@ -33,7 +35,7 @@ describe('client-side user journey', () => {
             status: 'Initial',
             createdAt: '2018-01-17T22:00:20.796Z',
             firstContactDate: "2017-12-25T00:00:00.000Z",
-            incidentDate: moment(Date.now()).format('YYYY-MM-DDTHH:mm'),
+            incidentDate: dateAndTimeFormatted,
             createdBy: 'tuser',
             assignedTo: 'tuser'
         }]
@@ -48,7 +50,7 @@ describe('client-side user journey', () => {
             case: {
                 complainantType: 'Civilian',
                 firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
-                incidentDate: moment(Date.now()).format('YYYY-MM-DDTHH:mm'),
+                incidentDate: dateAndTimeFormatted,
                 createdBy: '',
                 assignedTo: '',
             }
@@ -69,7 +71,7 @@ describe('client-side user journey', () => {
             status: 'Initial',
             createdAt: '2018-01-17T22:00:20.796Z',
             firstContactDate: "2017-12-25T00:00:00.000Z",
-            incidentDate: moment(Date.now()).format('YYYY-MM-DDTHH:mm'),
+            incidentDate: dateAndTimeFormatted,
             createdBy: 'tuser',
             assignedTo: 'tuser',
             narrative: null

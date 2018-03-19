@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 import LinkButton from "../../sharedComponents/LinkButton";
 import {connect} from "react-redux";
 import formatName from "../../utilities/formatName";
-import formatDate from "../../utilities/formatDate";
+import formatDate, {timeFromDateString} from "../../utilities/formatDate";
 import Narrative from "./Narrative";
 import CaseDetailSnackbar from "./CaseDetailSnackbar/CaseDetailSnackbar";
 import ComplainantWitnesses from "./ComplainantWitnesses/ComplainantWitnesses";
@@ -102,39 +102,62 @@ class CaseDetails extends React.Component {
 
         const drawer = (
             <div>
-                <LinkButton data-test="all-cases-link" component={Link} to={'/'} style={{margin: '4% 0% 5% 2%'}}>Back to all Cases</LinkButton>
+                <LinkButton data-test="all-cases-link" component={Link} to={'/'} style={{margin: '4% 0% 5% 2%'}}>
+                    Back to all Cases
+                </LinkButton>
                 <Typography data-test="case-number" type="title" style={{marginLeft: "24px", marginTop: '4px'}}
                             gutterBottom>
                     {`Case #${this.props.caseDetail.id}`}
                 </Typography>
                 <div className={classes.drawerRow}>
                     <div className={classes.drawerRowItem}>
-                        <Typography type='caption'>First Contact Date</Typography>
-                        <Typography data-test="first-contact-date"
-                                    type='body1'>{formatDate(this.props.caseDetail.firstContactDate)}</Typography>
+                        <Typography type='caption'>Incident Date</Typography>
+                        <Typography data-test="incident-date" type='body1'>
+                            {formatDate(this.props.caseDetail.incidentDate)}
+                        </Typography>
                     </div>
                     <div className={classes.drawerRowItem}>
-                        <Typography type='caption'>Created On</Typography>
-                        <Typography data-test="created-on"
-                                    type='body1'>{formatDate(this.props.caseDetail.createdAt)}</Typography>
+                        <Typography type='caption'>Incident Time</Typography>
+                        <Typography data-test="incident-time" type='body1'>
+                            {timeFromDateString(this.props.caseDetail.incidentDate)}
+                        </Typography>
                     </div>
+                    <div className={classes.drawerRowItem}>
+                        <Typography type='caption'>First Contact Date</Typography>
+                        <Typography data-test="first-contact-date" type='body1'>
+                            {formatDate(this.props.caseDetail.firstContactDate)}
+                        </Typography>
+                    </div>
+                </div>
+                <div className={classes.drawerRow}>
                     <div className={classes.drawerRowItem}>
                         <Typography type='caption'>Complainant Type</Typography>
                         <Typography data-test="complainant-type"
                                     type='body1'>{this.props.caseDetail.complainantType}</Typography>
                     </div>
+                    <div className={classes.drawerRowItem}>
+                    </div>
+                    <div className={classes.drawerRowItem}>
+                    </div>
                 </div>
                 <div className={classes.drawerRow}>
                     <div className={classes.drawerRowItem}>
+                        <Typography type='caption'>Created On</Typography>
+                        <Typography
+                            data-test="created-on"
+                            type='body1'>
+                            {formatDate(this.props.caseDetail.createdAt)}
+                        </Typography>
+                    </div>
+                    <div className={classes.drawerRowItem}>
                         <Typography type='caption'>Created By</Typography>
-                        <Typography data-test="created-by" type='body1'>{this.props.caseDetail.createdBy}</Typography>
+                        <Typography data-test="created-by"
+                                    type='body1'>{this.props.caseDetail.createdBy}</Typography>
                     </div>
                     <div className={classes.drawerRowItem}>
                         <Typography type='caption'>Assigned To</Typography>
-                        <Typography data-test="assigned-to" type='body1'>{this.props.caseDetail.assignedTo}</Typography>
-                    </div>
-                    <div className={classes.drawerRowItem}>
-
+                        <Typography data-test="assigned-to"
+                                    type='body1'>{this.props.caseDetail.assignedTo}</Typography>
                     </div>
                 </div>
             </div>

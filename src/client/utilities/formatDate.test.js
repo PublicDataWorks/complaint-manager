@@ -1,4 +1,4 @@
-import formatDate from "./formatDate";
+import formatDate, {applyCentralTimeZoneOffset, timeFromDateString} from "./formatDate";
 
 const expectedFormattedDate = 'Jan 31, 2018'
 
@@ -34,4 +34,18 @@ test('should format date appropriately when in a different format', () => {
     const formattedDate = formatDate(dateString)
 
     expect(formattedDate).toEqual(expectedFormattedDate)
+})
+
+test('should extract time from date', () => {
+    const otherDateString = new Date("2018-01-31T06:00Z").toUTCString()
+    const time = timeFromDateString(otherDateString)
+    const expectedTime = '12:00 AM CST'
+    expect(time).toEqual(expectedTime)
+})
+
+test('should apply central timezone offset', () => {
+    const otherDateString = new Date("2018-01-31T06:00Z").toUTCString()
+    const offsettedDatestring = applyCentralTimeZoneOffset(otherDateString)
+    const expectedDateString = '2018-01-31T00:00:00-06:00'
+    expect(offsettedDatestring).toEqual(expectedDateString)
 })
