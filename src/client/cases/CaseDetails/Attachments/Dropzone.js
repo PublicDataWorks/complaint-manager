@@ -19,6 +19,10 @@ class Dropzone extends Component {
         this.props.dispatch(removeDropzoneFile())
     }
 
+    state = {
+        buttonDisabled: true
+    }
+
     dropZoneComponentConfig = {
         postUrl: `${config[process.env.NODE_ENV].hostname}/cases/${this.props.caseId}/attachments`,
     }
@@ -27,11 +31,16 @@ class Dropzone extends Component {
         init: (dropzone) => {
             this.dropzone = dropzone
         },
+        addedfile: () => {
+            this.setState({ buttonDisabled: false })
+        },
         success: (file, response) => {
             this.props.dispatch(uploadAttachmentSuccess(response))
             this.dropzone.removeFile(file)
         },
         error: (file, errorMessage, xhr) => {
+            this.setState({ buttonDisabled: true })
+
             switch (errorMessage) {
                 case FILE_TYPE_INVALID:
                     this.props.dispatch(dropInvalidFileType())
@@ -45,7 +54,10 @@ class Dropzone extends Component {
                     this.props.dispatch(uploadAttachmentFailed())
             }
         },
-        removedfile: (file) => this.props.dispatch(removeDropzoneFile())
+        removedfile: (file) => {
+            this.props.dispatch(removeDropzoneFile())
+            this.setState({ buttonDisabled: true })
+        }
     }
 
     djsconfig = {
@@ -64,6 +76,7 @@ class Dropzone extends Component {
     }
 
     uploadAttachment = () => {
+        this.setState({ buttonDisabled: true })
         this.dropzone.processQueue()
     }
 
@@ -81,9 +94,11 @@ class Dropzone extends Component {
                 <div style={{flex: 1}}>
                 </div>
                 <div style={{alignSelf: 'flex-end'}}>
-                    <SubmitButton style={{flex: 1}}
+                    <SubmitButton
+                        style={{flex: 1}}
                         onClick={this.uploadAttachment}
                         data-test="attachmentUploadButton"
+                        disabled={this.state.buttonDisabled}
                     >
                         Upload
                     </SubmitButton>
