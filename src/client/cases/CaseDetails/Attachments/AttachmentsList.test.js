@@ -1,6 +1,6 @@
 import React from 'react'
 import Attachment from "../../../testUtilities/attachment";
-import {mount} from "enzyme";
+import { mount } from "enzyme";
 import AttachmentsList from "./AttachmentsList";
 
 describe('AttachmentsList', () => {
@@ -19,10 +19,13 @@ describe('AttachmentsList', () => {
         const attachmentsToDisplay = [attachment1, attachment2]
 
         const wrapper = mount(<AttachmentsList attachments={attachmentsToDisplay}/>)
-        const attachmentList = wrapper.find('[data-test="attachmentRow"]')
+        const attachmentList = wrapper.find('[data-test="attachmentName"]')
 
-        const actualFileNames = attachmentList.map((node) => node.text())
-        const expectedFileNames = attachmentsToDisplay.map(attachment => attachment.fileName).reverse()
+        const actualFileNames = attachmentList.reduce((acc, node) => {
+            return acc.add(node.text())
+        }, new Set())
+
+        const expectedFileNames = new Set(attachmentsToDisplay.map(attachment => attachment.fileName).reverse())
 
         expect(actualFileNames).toEqual(expectedFileNames)
     })

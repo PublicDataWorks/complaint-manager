@@ -3,6 +3,7 @@ class Attachment {
         this.id = build.id
         this.caseId = build.caseId
         this.fileName = build.fileName
+        this.description = build.description
     }
 
     static get Builder() {
@@ -11,6 +12,7 @@ class Attachment {
                 this.id = 17
                 this.caseId = 17
                 this.fileName = 'test_file.pdf'
+                this.description = 'test description'
 
                 return this
             }
@@ -27,6 +29,11 @@ class Attachment {
 
             withFileName(fileName) {
                 this.fileName = fileName
+                return this;
+            }
+
+            withDescription(description) {
+                this.description = description
                 return this;
             }
 

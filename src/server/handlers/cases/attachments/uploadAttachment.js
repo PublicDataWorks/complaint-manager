@@ -12,6 +12,14 @@ const uploadAttachment = (request, response, next) => {
         headers: request.headers
     })
 
+    let attachmentDescription
+
+    busboy.on('field', function(fieldname, value) {
+        if (fieldname === "description") {
+            attachmentDescription = value
+        }
+    })
+
     busboy.on('file', async function (fieldname, file, fileName, encoding, mimetype) {
         const s3 = createConfiguredS3Instance()
 
@@ -32,6 +40,7 @@ const uploadAttachment = (request, response, next) => {
                 const updatedCase = await models.sequelize.transaction(async (t) => {
                     await models.attachment.create({
                             fileName: fileName,
+                            description: attachmentDescription,
                             caseId: caseId
                         },
                         {

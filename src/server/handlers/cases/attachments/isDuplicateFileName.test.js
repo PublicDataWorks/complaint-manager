@@ -27,6 +27,7 @@ describe('generateFileName', () => {
         const requestedFileName = 'dog_nose.jpeg'
         await models.attachment.create({
             caseId: newCase.id,
+            description: "test description",
             fileName: requestedFileName
         })
 
@@ -40,6 +41,7 @@ describe('generateFileName', () => {
 
         await models.attachment.create({
             caseId: newCase.id,
+            description: "test description",
             fileName: `1-${requestedFileName}`
         })
 

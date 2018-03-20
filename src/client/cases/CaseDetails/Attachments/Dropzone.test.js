@@ -1,28 +1,27 @@
 import React from "react";
-import {mount} from "enzyme";
+import { mount } from "enzyme";
 import Dropzone from "./Dropzone";
 import DropzoneComponent from 'react-dropzone-component'
-import { Provider } from "react-redux";
-import createConfiguredStore from "../../../createConfiguredStore";
-import {
-    dropDuplicateFile, dropInvalidFileType
-} from "../../../actionCreators/attachmentsActionCreators";
-import {containsText} from "../../../../testHelpers";
+import { containsText } from "../../../../testHelpers";
 
 jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))
 
 describe('Dropzone', () => {
-    let dropzoneInstance, testCaseId, store, wrapper
+    let dropzoneInstance, testCaseId, wrapper
 
     beforeEach(() => {
         testCaseId = 100
 
-        store = createConfiguredStore()
-
         wrapper = mount(
-            <Provider store={store}>
-                <Dropzone caseId={testCaseId}/>
-            </Provider>
+            <Dropzone
+                caseId={testCaseId}
+                errorMessage=""
+                uploadAttachmentSuccess={jest.fn()}
+                dropInvalidFileType={jest.fn()}
+                dropDuplicateFile={jest.fn()}
+                uploadAttachmentFailed={jest.fn()}
+                removeDropzoneFile={jest.fn()}
+            />
         )
 
         dropzoneInstance = wrapper.find(DropzoneComponent).instance()
@@ -45,17 +44,44 @@ describe('Dropzone', () => {
         expect(wrapper.find('[data-test="invalidFileTypeErrorMessage"]').exists()).toBeFalsy()
     })
 
-    test('should display invalid file type error by when invalid', () => {
-        store.dispatch(dropInvalidFileType())
-        wrapper.update()
+    test('should display invalid file type error when invalid', () => {
+        wrapper.setProps({ errorMessage: "File type not supported." })
 
         containsText(wrapper, '[data-test="invalidFileTypeErrorMessage"]', 'File type not supported.')
     })
 
-    test('should display duplicate file type error', () => {
-        store.dispatch(dropDuplicateFile())
-        wrapper.update()
+    test('should disable upload button by default', () => {
+        const submitButton = wrapper.find('[data-test="attachmentUploadButton"]').last()
 
-        containsText(wrapper, '[data-test="invalidFileTypeErrorMessage"]', 'File name already exists')
+        expect(submitButton.props()).toHaveProperty("disabled", true)
+    })
+
+    test('should disable upload button when attachment absent and description present', () => {
+        const inputField = wrapper.find('[data-test="attachmentDescriptionInput"]').last()
+
+        inputField.simulate('change', { target: { value: 'some description' } })
+
+        const submitButton = wrapper.find('[data-test="attachmentUploadButton"]').last()
+        expect(submitButton.props()).toHaveProperty("disabled", true)
+    })
+
+    test('should disable upload button when description absent and attachment present', () => {
+        wrapper.setState({
+            attachmentValid: true,
+            attachmentDescription: ''
+        })
+
+        const submitButton = wrapper.find('[data-test="attachmentUploadButton"]').last()
+        expect(submitButton.props()).toHaveProperty("disabled", true)
+    })
+
+    test('should enable upload button when description and attachment present', () => {
+        wrapper.setState({
+            attachmentValid: true,
+            attachmentDescription: 'this is a description'
+        })
+
+        const submitButton = wrapper.find('[data-test="attachmentUploadButton"]').last()
+        expect(submitButton.props()).toHaveProperty("disabled", false)
     })
 });

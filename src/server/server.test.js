@@ -225,6 +225,7 @@ describe('server', () => {
                 .post(`/cases/${defaultCase.id}/attachments`)
                 .set('Authorization', `Bearer ${token}`)
                 .set('Content-Type', 'multipart/form-data')
+                .field('description', 'this is a description')
                 .attach('avatar', __dirname + '/../../README.md')
                 .expect(200)
                 .then(response => {

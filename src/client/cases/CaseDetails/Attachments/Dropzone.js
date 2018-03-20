@@ -1,26 +1,22 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import DropzoneComponent from 'react-dropzone-component'
 import '../../../../../node_modules/react-dropzone-component/styles/filepicker.css'
 import '../../../../../node_modules/dropzone/dist/min/dropzone.min.css'
 import config from '../../../config/config'
 import getAccessToken from "../../../auth/getAccessToken";
-import {uploadAttachmentFailed, uploadAttachmentSuccess} from "../../../actionCreators/casesActionCreators";
-import {connect} from "react-redux";
-import {
-    dropDuplicateFile, dropInvalidFileType,
-    removeDropzoneFile
-} from "../../../actionCreators/attachmentsActionCreators";
-import {FILE_TYPE_INVALID, DUPLICATE_FILE_NAME, UPLOAD_CANCELED} from "../../../../sharedUtilities/constants";
-import {FormHelperText} from "material-ui";
-import {SubmitButton} from "../../../sharedComponents/StyledButtons";
+import { DUPLICATE_FILE_NAME, FILE_TYPE_INVALID, UPLOAD_CANCELED } from "../../../../sharedUtilities/constants";
+import { FormHelperText } from "material-ui";
+import { SubmitButton } from "../../../sharedComponents/StyledButtons";
+import TextField from 'material-ui/TextField'
 
 class Dropzone extends Component {
     componentWillMount() {
-        this.props.dispatch(removeDropzoneFile())
+        this.props.removeDropzoneFile()
     }
 
     state = {
-        buttonDisabled: true
+        attachmentValid: false,
+        attachmentDescription: ''
     }
 
     dropZoneComponentConfig = {
@@ -32,31 +28,35 @@ class Dropzone extends Component {
             this.dropzone = dropzone
         },
         addedfile: () => {
-            this.setState({ buttonDisabled: false })
+            this.setState({ attachmentValid: true })
         },
         success: (file, response) => {
-            this.props.dispatch(uploadAttachmentSuccess(response))
+            this.props.uploadAttachmentSuccess(response)
             this.dropzone.removeFile(file)
+            this.setState({ attachmentDescription: '' })
         },
         error: (file, errorMessage, xhr) => {
-            this.setState({ buttonDisabled: true })
+            this.setState({ attachmentValid: false })
 
             switch (errorMessage) {
                 case FILE_TYPE_INVALID:
-                    this.props.dispatch(dropInvalidFileType())
+                    this.props.dropInvalidFileType()
                     break
                 case DUPLICATE_FILE_NAME:
-                    this.props.dispatch(dropDuplicateFile())
+                    this.props.dropDuplicateFile()
                     break
                 case UPLOAD_CANCELED:
                     break
                 default:
-                    this.props.dispatch(uploadAttachmentFailed())
+                    this.props.uploadAttachmentFailed()
             }
         },
         removedfile: (file) => {
-            this.props.dispatch(removeDropzoneFile())
-            this.setState({ buttonDisabled: true })
+            this.props.removeDropzoneFile()
+            this.setState({ attachmentValid: false })
+        },
+        sending: (file, xhr, formData) => {
+            formData.append('description', this.state.attachmentDescription);
         }
     }
 
@@ -76,8 +76,12 @@ class Dropzone extends Component {
     }
 
     uploadAttachment = () => {
-        this.setState({ buttonDisabled: true })
+        this.setState({ attachmentValid: true })
         this.dropzone.processQueue()
+    }
+
+    updateDescription = (event) => {
+        this.setState({ attachmentDescription: event.target.value })
     }
 
     render() {
@@ -92,13 +96,23 @@ class Dropzone extends Component {
                     {(this.props.errorMessage !== '') && this.invalidFileMarkup(this.props.errorMessage)}
                 </div>
                 <div style={{flex: 1}}>
+                    <TextField
+                        value={this.state.attachmentDescription}
+                        data-test='attachmentDescriptionField'
+                        inputProps={{
+                            'data-test':"attachmentDescriptionInput"
+                        }}
+                        onChange={this.updateDescription}
+                    />
                 </div>
                 <div style={{alignSelf: 'flex-end'}}>
                     <SubmitButton
                         style={{flex: 1}}
                         onClick={this.uploadAttachment}
                         data-test="attachmentUploadButton"
-                        disabled={this.state.buttonDisabled}
+                        disabled={
+                            !this.state.attachmentValid || !Boolean(this.state.attachmentDescription)
+                        }
                     >
                         Upload
                     </SubmitButton>
@@ -120,8 +134,4 @@ class Dropzone extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    errorMessage: state.ui.attachments.errorMessage
-})
-
-export default connect(mapStateToProps)(Dropzone)
+export default Dropzone

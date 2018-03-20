@@ -9,6 +9,7 @@ module.exports = {
                 type: Sequelize.INTEGER
             },
             case_id: {
+                allowNull: false,
                 type: Sequelize.INTEGER,
                 references: {
                     model: 'cases',
@@ -16,7 +17,12 @@ module.exports = {
                 },
             },
             file_name: {
-                type: Sequelize.STRING
+                allowNull: false,
+                type: Sequelize.STRING,
+            },
+            description: {
+                allowNull: false,
+                type: Sequelize.STRING(200),
             },
             created_at: {
                 allowNull: false,

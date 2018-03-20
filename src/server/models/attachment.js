@@ -5,6 +5,10 @@ module.exports = (sequelize, DataTypes) => {
             field: 'file_name',
             type: DataTypes.STRING
         },
+        description: {
+            field: 'description',
+            type: DataTypes.STRING
+        },
         createdAt: {
             field: 'created_at',
             type: DataTypes.DATE
