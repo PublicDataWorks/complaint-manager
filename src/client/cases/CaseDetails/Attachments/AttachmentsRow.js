@@ -5,7 +5,7 @@ import FileSaver from "file-saver";
 import getAccessToken from "../../../auth/getAccessToken";
 import LinkButton from "../../../sharedComponents/LinkButton";
 
-const AttachmentsRow = ({attachment}) => {
+const AttachmentsRow = ({attachment, onRemoveAttachment}) => {
     const downloadAttachment = async () => {
         try {
             const response = await fetch(`/cases/${attachment.caseId}/attachments/${attachment.fileName}`, {
@@ -60,7 +60,10 @@ const AttachmentsRow = ({attachment}) => {
                     </Typography>
                 </div>
                 <div>
-                    <LinkButton>
+                    <LinkButton
+                        data-test={"removeAttachmentButton"}
+                        onClick={()=>{onRemoveAttachment(attachment.id, attachment.fileName)}}
+                    >
                         Remove
                     </LinkButton>
                 </div>

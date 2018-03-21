@@ -29,4 +29,23 @@ describe('AttachmentsList', () => {
 
         expect(actualFileNames).toEqual(expectedFileNames)
     })
+
+    test('should show remove attachment dialog with filename when remove button is clicked', () => {
+        const attachment1 = new Attachment.Builder()
+            .defaultAttachment()
+            .withFileName("Z_file.pdf")
+            .withId(18)
+            .build()
+
+        const attachmentsToDisplay = [attachment1]
+        const wrapper = mount(<AttachmentsList attachments={attachmentsToDisplay}/>)
+
+        const removeAttachmentButton = wrapper.find('[data-test="removeAttachmentButton"]').first()
+
+        removeAttachmentButton.simulate('click')
+        wrapper.update()
+
+        expect(wrapper.find('[data-test="removeAttachmentText"]').first().text()).toEqual('Are you sure you wish to remove Z_file.pdf from this case?')
+    })
+
 });
