@@ -6,6 +6,9 @@ import {openEditDialog} from "../../../actionCreators/casesActionCreators";
 import createConfiguredStore from "../../../createConfiguredStore";
 import {initialize} from "redux-form";
 import formatAddress from "../../../utilities/formatAddress";
+import Civilian from "../../../testUtilities/civilian";
+import Case from "../../../testUtilities/case";
+import formatName from "../../../utilities/formatName";
 
 jest.mock('redux-form', () => ({
     reducer: {mockReducer: 'mockReducerState'},
@@ -15,45 +18,24 @@ jest.mock('redux-form', () => ({
 }))
 
 describe('Complainant and Witnesses', () => {
-    let complainantWitnessesSection, complainantWitnesses, caseDetail, dispatchSpy, primaryComplainant
+    let complainantWitnessesSection, complainantWitnesses, complainantPanel, caseDetail, dispatchSpy, primaryComplainant
     beforeEach(() => {
-        primaryComplainant = {
-            id: 17,
-            firstName: 'Chuck',
-            lastName: 'Berry',
-            phoneNumber: 1234567890,
-            email: 'cberry@gmail.com',
-            roleOnCase: 'Primary Complainant',
-            birthDate: '',
-            address: {
-                id: 8,
-                streetAddress: '123 Main St',
-                streetAddress2: 'Apt 2N',
-                city: 'Sandwich',
-                state: 'IL',
-                zipCode: '60606',
-                country: 'Merica',
-                civilianId: 17
-            }
-        }
+        primaryComplainant = new Civilian.Builder().defaultCivilian()
+            .withBirthDate('')
+            .withRaceEthnicity(undefined)
+            .withGenderIdentity(undefined)
+            .build()
 
-        caseDetail = {
-            id: 17,
-            civilians: [primaryComplainant],
-            status: 'Initial',
-            complainantType: 'Civilian',
-            firstContactDate: '2018-01-31',
-            createdAt: new Date(2015, 8, 13).toISOString(),
-            createdBy: 'not added',
-            assignedTo: 'not added',
-            narrative: 'sample narrative'
-        }
+        caseDetail = new Case.Builder().defaultCase()
+            .withCivilians([primaryComplainant])
+            .build()
 
         const store = createConfiguredStore()
         dispatchSpy = jest.spyOn(store, 'dispatch')
 
         complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseDetail} dispatch={dispatchSpy}/>)
         complainantWitnessesSection = complainantWitnesses.find('[data-test="complainantWitnessesSection"]').first()
+        complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
     })
 
     describe('full name', () => {
@@ -62,7 +44,7 @@ describe('Complainant and Witnesses', () => {
         })
 
         test('should display civilian first and last name', () => {
-            const primaryComplainantName = `${primaryComplainant.firstName} ${primaryComplainant.lastName}`
+            const primaryComplainantName = formatName(primaryComplainant)
             containsText(complainantWitnessesSection, '[data-test="primaryComplainantName"]', primaryComplainantName)
         })
     });
@@ -84,11 +66,12 @@ describe('Complainant and Witnesses', () => {
     });
 
     describe('Edit', () => {
-        test('should open edit complainant dialog when edit is clicked', () => {
+        test('should open and initialize edit complainant dialog when edit is clicked', () => {
             const editLink = complainantWitnesses.find('[data-test="editComplainantLink"]').first()
             editLink.simulate('click');
 
             expect(dispatchSpy).toHaveBeenCalledWith(openEditDialog())
+            expect(initialize).toHaveBeenCalledWith('EditCivilian', primaryComplainant)
         })
     })
 
@@ -100,32 +83,22 @@ describe('Complainant and Witnesses', () => {
 
     describe('phone number', () => {
         test('should display phone number expanded', () => {
-            const complainantPanel = complainantWitnessesSection.find('[data-test="complainantWitnessesPanel"]').first()
             const expectedPhoneNumber = '(123) 456-7890'
             containsText(complainantPanel, '[data-test="primaryComplainantPhoneNumber"]', expectedPhoneNumber)
         })
 
         test('should display N/A when no phone number ', () => {
-            const caseWithNoPhoneNumber = {
-                id: 17,
-                civilians: [{
-                    firstName: 'John',
-                    lastName: 'Doe',
-                    status: 'Initial',
-                    phoneNumber: null,
-                    email: 'cberry@gmail.com',
-                    roleOnCase: 'Primary Complainant'
-                }],
-                complainantType: 'Civilian',
-                firstContactDate: '2018-01-31',
-                createdAt: new Date(2015, 8, 13).toISOString(),
-                createdBy: 'not added',
-                assignedTo: 'not added',
-                narrative: 'sample narrative'
-            }
+            const civilianWithNoPhoneNumber = new Civilian.Builder().defaultCivilian()
+                .withPhoneNumber(undefined)
+                .build()
+
+            const caseWithNoPhoneNumber = new Case.Builder().defaultCase()
+                .withCivilians([civilianWithNoPhoneNumber])
+                .build()
+
             complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseWithNoPhoneNumber}/>)
 
-            const complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
+            complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
             containsText(complainantPanel, '[data-test="primaryComplainantPhoneNumber"]', 'N/A')
         })
     });
@@ -137,69 +110,38 @@ describe('Complainant and Witnesses', () => {
         })
 
         test('should display N/A when no email', () => {
-            const caseWithNoEmail = {
-                id: 17,
-                civilians: [{
-                    firstName: 'John',
-                    lastName: 'Doe',
-                    status: 'Initial',
-                    phoneNumber: 1234567890,
-                    email: null,
-                    roleOnCase: 'Primary Complainant'
-                }],
-                complainantType: 'Civilian',
-                firstContactDate: '2018-01-31',
-                createdAt: new Date(2015, 8, 13).toISOString(),
-                createdBy: 'not added',
-                assignedTo: 'not added',
-                narrative: 'sample narrative'
-            }
+            const civilianWithNoEmail = new Civilian.Builder().defaultCivilian()
+                .withEmail(undefined)
+                .build()
+
+            const caseWithNoEmail = new Case.Builder().defaultCase()
+                .withCivilians([civilianWithNoEmail])
+                .build()
+
             complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseWithNoEmail}/>)
 
-            const complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
+            complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
             containsText(complainantPanel, '[data-test="primaryComplainantEmail"]', 'N/A')
         })
     });
 
     describe('address', () => {
         test('should display N/A when no address', () => {
-            const noAddress = {
-                id: 8,
-                streetAddress: '',
-                streetAddress2: '',
-                city: '',
-                state: '',
-                zipCode: '',
-                country: '',
-                civilianId: 17
-            }
+            const civilianWithNoAddress = new Civilian.Builder().defaultCivilian()
+                .withNoAddress()
+                .build()
 
-            const caseWithNoAddress = {
-                id: 17,
-                civilians: [{
-                    firstName: 'John',
-                    lastName: 'Doe',
-                    status: 'Initial',
-                    phoneNumber: 1234567890,
-                    email: null,
-                    roleOnCase: 'Primary Complainant',
-                    address: noAddress
-                }],
-                complainantType: 'Civilian',
-                firstContactDate: '2018-01-31',
-                createdAt: new Date(2015, 8, 13).toISOString(),
-                createdBy: 'not added',
-                assignedTo: 'not added',
-                narrative: 'sample narrative'
-            }
+            const caseWithNoAddress = new Case.Builder().defaultCase()
+                .withCivilians([civilianWithNoAddress])
+                .build()
+
             complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseWithNoAddress}/>)
 
-            const complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
+            complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
             containsText(complainantPanel, '[data-test="primaryComplainantAddress"]', 'No address specified')
         })
         test('should display address when present', () => {
-            const expectedAddress = '123 Main St, Sandwich, IL, 60606, Merica'
-            const complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
+            const expectedAddress = formatAddress(caseDetail.civilians[0].address)
 
             containsText(complainantPanel, '[data-test="primaryComplainantAddress"]', expectedAddress)
         })
@@ -207,44 +149,42 @@ describe('Complainant and Witnesses', () => {
 
     describe('additional address info', () => {
         test('should be empty when no address', () => {
-            const noAddress = {
-                id: 8,
-                streetAddress: '',
-                streetAddress2: '',
-                city: '',
-                state: '',
-                zipCode: '',
-                country: '',
-                civilianId: 17
-            }
+            const civilianWithNoAddress = new Civilian.Builder().defaultCivilian()
+                .withNoAddress()
+                .build()
 
-            const caseWithNoAddress = {
-                id: 17,
-                civilians: [{
-                    firstName: 'John',
-                    lastName: 'Doe',
-                    status: 'Initial',
-                    phoneNumber: 1234567890,
-                    email: null,
-                    roleOnCase: 'Primary Complainant',
-                    address: noAddress
-                }],
-                complainantType: 'Civilian',
-                firstContactDate: '2018-01-31',
-                createdAt: new Date(2015, 8, 13).toISOString(),
-                createdBy: 'not added',
-                assignedTo: 'not added',
-                narrative: 'sample narrative'
-            }
+            const caseWithNoAddress = new Case.Builder().defaultCase()
+                .withCivilians([civilianWithNoAddress])
+                .build()
+
             complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseWithNoAddress}/>)
 
-            const complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
+            complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
             containsText(complainantPanel, '[data-test="primaryComplainantAdditionalAddressInfo"]', '')
         })
-        test('should display address when present', () => {
-            const complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
-            containsText(complainantPanel, '[data-test="primaryComplainantAdditionalAddressInfo"]', 'Apt 2N')
+        test('should display additional address info when present', () => {
+            containsText(complainantPanel, '[data-test="primaryComplainantAdditionalAddressInfo"]', caseDetail.civilians[0].address.streetAddress2)
         })
     });
 
+    describe('additional info', () => {
+        test('should display N/A when no additional info', () => {
+            const civilianWithNoAdditionalInfo = new Civilian.Builder().defaultCivilian()
+                .withAdditionalInfo(undefined)
+                .build()
+
+            const caseWithNoAdditionalInfo = new Case.Builder().defaultCase()
+                .withCivilians([civilianWithNoAdditionalInfo])
+                .build()
+
+            complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseWithNoAdditionalInfo}/>)
+
+            complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
+            containsText(complainantPanel, '[data-test="primaryComplainantAdditionalInfo"]', '')
+        })
+
+        test('should display additional info when present', () => {
+            containsText(complainantPanel, '[data-test="primaryComplainantAdditionalInfo"]', primaryComplainant.additionalInfo)
+        })
+    })
 })

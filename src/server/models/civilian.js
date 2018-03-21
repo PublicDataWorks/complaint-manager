@@ -42,6 +42,10 @@ module.exports = (sequelize, DataTypes) => {
                 field: 'email',
                 type: DataTypes.STRING
             },
+            additionalInfo: {
+                field: 'additional_info',
+                type: DataTypes.TEXT
+            },
             createdAt: {
                 field: 'created_at',
                 type: DataTypes.DATE

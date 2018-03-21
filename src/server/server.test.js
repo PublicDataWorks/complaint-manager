@@ -374,7 +374,7 @@ describe('server', () => {
 
         test('should save new address if it doesnt exist yet', async () => {
             const updatedCivilian = {
-                address:{
+                address: {
                     state: 'IL'
                 }
             }
@@ -409,7 +409,7 @@ describe('server', () => {
                 })
 
         })
-        test('should not require address', async() => {
+        test('should not require address', async () => {
             await request(app)
                 .put(`/civilian/${civilianWithAddress.id}`)
                 .set('Content-Header', 'application/json')

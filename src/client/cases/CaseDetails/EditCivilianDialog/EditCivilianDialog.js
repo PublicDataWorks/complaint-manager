@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import { Field, formValueSelector, reduxForm, submit} from "redux-form";
-import {Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Typography} from 'material-ui';
-import {TextField} from 'redux-form-material-ui'
+import {Field, formValueSelector, reduxForm, submit} from "redux-form";
+import {Dialog, DialogActions, DialogContent, DialogTitle, Typography} from 'material-ui';
 import RoleOnCaseRadioGroup from "./RoleOnCaseRadioGroup";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";
 import LastNameField from "../../sharedFormComponents/LastNameField";
 import {CancelButton, SubmitButton} from "../../../sharedComponents/StyledButtons";
 import {closeEditDialog} from "../../../actionCreators/casesActionCreators";
 import {genderIdentityIsRequired, raceEthnicityIsRequired} from "../../../formFieldLevelValidations";
-import editCivilian from "../../thunks/editCivilian";
 import NoBlurTextField from "./FormSelect";
 import {withTheme} from "material-ui/styles/index";
 import DateField from "../../sharedFormComponents/DateField";
@@ -17,21 +15,15 @@ import MiddleInitialField from "../../sharedFormComponents/MiddleInitialField";
 import SuffixField from "../../sharedFormComponents/SuffixField";
 import PhoneNumberField from "../../sharedFormComponents/PhoneNumberField";
 import EmailField from "../../sharedFormComponents/EmailField";
-import {atLeastOneRequired} from "../../../formSyncValidations";
-import AddressAutoSuggest from "./AddressAutoSuggest";
 import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine";
 import formatAddress from "../../../utilities/formatAddress";
 import moment from "moment"
+import {genderIdentityMenu, raceEthnicityMenu} from "./helpers/generateMenus";
+import handleEditCivilian from "./helpers/handleEditCivilian";
+import validate from "./helpers/validateCivilianFields";
+import AddressInput from "./AddressInput";
+import {TextField} from "redux-form-material-ui";
 
-const generateMenu = contents => {
-    return contents.map((content) => {
-        return (
-            <MenuItem
-                key={content}
-                value={content}
-            >{content}</MenuItem>)
-    })
-}
 
 class EditCivilianDialog extends Component {
 
@@ -65,7 +57,10 @@ class EditCivilianDialog extends Component {
                             component={RoleOnCaseRadioGroup}
                             style={{marginBottom: '8px'}}
                         />
-                        <Typography type='body2' style={{marginBottom: '8px'}}>Personal Information</Typography>
+
+                        <Typography type='body2' style={{marginBottom: '8px'}}>
+                            Personal Information
+                        </Typography>
                         <FirstNameField name='firstName'/>
                         <MiddleInitialField
                             name='middleInitial'
@@ -109,16 +104,7 @@ class EditCivilianDialog extends Component {
                                 style={{width: '30%'}}
                                 validate={[genderIdentityIsRequired]}
                             >
-                                {
-                                    generateMenu([
-                                        'Female',
-                                        'Male',
-                                        'Trans Female',
-                                        'Trans Male',
-                                        'Other',
-                                        'Unknown'
-                                    ])
-                                }
+                                { genderIdentityMenu }
                             </Field>
                         </div>
                         <Field
@@ -131,92 +117,33 @@ class EditCivilianDialog extends Component {
                             style={{width: '75%', marginBottom: '24px'}}
                             validate={[raceEthnicityIsRequired]}
                         >
-                            {
-                                generateMenu([
-                                    'American Indian or Alaska Native',
-                                    'Asian Indian',
-                                    'Black, African American',
-                                    'Chinese',
-                                    'Cuban',
-                                    'Filipino',
-                                    'Guamanian or Chamorro',
-                                    'Hispanic, Latino, or Spanish origin',
-                                    'Japanese',
-                                    'Korean',
-                                    'Mexican, Mexican American, Chicano',
-                                    'Native Hawaiian',
-                                    'Puerto Rican',
-                                    'Vietnamese',
-                                    'Samoan',
-                                    'White',
-                                    'Other Pacific Islander',
-                                    'Other Asian',
-                                    'Other',
-                                    'Unknown'
-                                ])
-                            }
+                            { raceEthnicityMenu }
                         </Field>
-                        <Typography type='body2' style={{marginBottom: '8px'}}>Contact Information</Typography>
+
+                        <Typography type='body2' style={{marginBottom: '8px'}}>
+                            Contact Information
+                        </Typography>
                         <PhoneNumberField name='phoneNumber'/>
                         <EmailField name='email'/>
-                        <AddressAutoSuggest
-                            label='Address'
+                        <AddressInput
                             suggestionEngine={this.suggestionEngine}
-                            defaultText={this.props.formattedAddress}
-                            data-test='addressSuggestionField'
+                            formattedAddress={this.props.formattedAddress}
                         />
+
+                        <Typography type='body2' style={{marginBottom: '8px'}}>
+                            Additional Information
+                        </Typography>
                         <Field
-                            label={'Additional Address Information'}
-                            name={'address.streetAddress2'}
+                            name="additionalInfo"
                             component={TextField}
-                            style={{
-                                marginRight: '5%',
-                                marginBottom: '8px',
-                                width: '50%'
-                            }}
+                            fullWidth
+                            multiline
+                            rowsMax={5}
+                            placeholder="Enter any additional details about the complainant here"
                             inputProps={{
-                                'data-test': 'streetAddress2Input'
+                                "data-test": "additionalInfoInput"
                             }}
-                        />
-                        <Field
-                            type={'hidden'}
-                            name={'address.streetAddress'}
-                            component={TextField}
-                            inputProps={{
-                                'data-test': 'streetAddressInput'
-                            }}
-                        />
-                        <Field
-                            type={'hidden'}
-                            name={'address.city'}
-                            component={TextField}
-                            inputProps={{
-                                'data-test': 'cityInput'
-                            }}
-                        />
-                        <Field
-                            type={'hidden'}
-                            name={'address.state'}
-                            component={TextField}
-                            inputProps={{
-                                'data-test': 'stateInput'
-                            }}
-                        />
-                        <Field
-                            type={'hidden'}
-                            name={'address.zipCode'}
-                            component={TextField}
-                            inputProps={{
-                                'data-test': 'zipCodeInput'
-                            }}
-                        />
-                        <Field
-                            type={'hidden'}
-                            name={'address.country'}
-                            component={TextField}
-                            inputProps={{
-                                'data-test': 'countryInput'
-                            }}
+                            data-test="additionalInfoField"
                         />
                     </form>
                 </DialogContent>
@@ -239,24 +166,6 @@ class EditCivilianDialog extends Component {
         )
     }
 }
-
-const handleEditCivilian = (values, dispatch) => {
-    //The database can't handle the empty string we use for display purposes.  So, strip it out before sending off to the API
-    const nullifyDateUnlessValid = date => (date && date.trim() === '' ? null : date)
-
-    dispatch(editCivilian({
-        ...values,
-        birthDate: nullifyDateUnlessValid(values.birthDate)
-    }))
-}
-
-
-const validate = values => {
-    const errorMessage = 'Please enter phone number or email address'
-    const fieldsToValidate = ['phoneNumber', 'email'];
-    return atLeastOneRequired(values, errorMessage, fieldsToValidate)
-}
-
 
 const DialogWithTheme = withTheme()(EditCivilianDialog)
 

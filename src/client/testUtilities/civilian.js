@@ -5,7 +5,9 @@ class Civilian {
     constructor(build) {
         this.id = build.id
         this.firstName = build.firstName
+        this.middleInitial = build.middleInitial
         this.lastName = build.lastName
+        this.suffix = build.suffix
         this.roleOnCase = build.roleOnCase
         this.phoneNumber = build.phoneNumber
         this.birthDate = build.birthDate
@@ -13,6 +15,7 @@ class Civilian {
         this.raceEthnicity = build.raceEthnicity
         this.genderIdentity = build.genderIdentity
         this.address = build.address
+        this.additionalInfo = build.additionalInfo
     }
 
     //TODO: Builders are not usually part of the class that they're building.  The class is usually a domain object used in the app, not just tests.  Should this be refactored?
@@ -21,7 +24,9 @@ class Civilian {
             defaultCivilian() {
                 this.id = 17
                 this.firstName = 'Chuck'
+                this.middleInitial = 'E'
                 this.lastName = 'Berry'
+                this.suffix = 'XVI'
                 this.roleOnCase = 'Primary Complainant'
                 this.phoneNumber = '1234567890'
                 this.email = 'cberry@cberry.com'
@@ -29,6 +34,7 @@ class Civilian {
                 this.genderIdentity = 'Female'
                 this.raceEthnicity = 'Korean'
                 this.address = new Address.Builder().defaultAddress().withCivilianId(this.id).build()
+                this.additionalInfo = 'Some additional information about this civilian.'
                 return this;
             }
 
@@ -62,9 +68,19 @@ class Civilian {
                 return this;
             }
 
+            withMiddleInitial(middleInitial) {
+                this.middleInitial = middleInitial
+                return this
+            }
+
             withLastName(lastName) {
                 this.lastName = lastName
                 return this;
+            }
+
+            withSuffix(suffix) {
+                this.suffix = suffix
+                return this
             }
 
             withRoleOnCase(roleOnCase) {
@@ -95,6 +111,11 @@ class Civilian {
             withGenderIdentity(genderIdentity) {
                 this.genderIdentity = genderIdentity
                 return this;
+            }
+
+            withAdditionalInfo(additionalInfo) {
+                this.additionalInfo = additionalInfo
+                return this
             }
 
             build() {

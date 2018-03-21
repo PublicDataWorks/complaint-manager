@@ -162,6 +162,29 @@ const ComplainantWitnesses = (props) => {
                                 </div>
                             </div>
                         </ExpansionPanelDetails>
+                        <ExpansionPanelDetails style={{padding: "8px 16px 24px 16px"}}>
+                            <div style={{
+                                display: 'flex',
+                                width: '100%',
+                                background: 'white',
+                                padding: '0',
+                                marginRight: '88px'
+                            }}>
+                                <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
+                                    <Typography
+                                        type='caption'
+                                    >
+                                        Additional Information
+                                    </Typography>
+                                    <Typography
+                                        type='body1'
+                                        data-test="primaryComplainantAdditionalInfo"
+                                    >
+                                        {primaryComplainant.additionalInfo ? primaryComplainant.additionalInfo : 'N/A'}
+                                    </Typography>
+                                </div>
+                            </div>
+                        </ExpansionPanelDetails>
                     </ExpansionPanel>
                 </CardContent>
             </BaseCaseDetailsCard>
