@@ -113,13 +113,19 @@ class CaseDetails extends React.Component {
                     <div className={classes.drawerRowItem}>
                         <Typography type='caption'>Incident Date</Typography>
                         <Typography data-test="incident-date" type='body1'>
-                            {formatDate(this.props.caseDetail.incidentDate)}
+                            {this.props.caseDetail.incidentDate ?
+                                formatDate(this.props.caseDetail.incidentDate)
+                                : 'N/A'
+                            }
                         </Typography>
                     </div>
                     <div className={classes.drawerRowItem}>
                         <Typography type='caption'>Incident Time</Typography>
                         <Typography data-test="incident-time" type='body1'>
-                            {timeFromDateString(this.props.caseDetail.incidentDate)}
+                            {this.props.caseDetail.incidentDate ?
+                                timeFromDateString(this.props.caseDetail.incidentDate)
+                                : 'N/A'
+                            }
                         </Typography>
                     </div>
                     <div className={classes.drawerRowItem}>

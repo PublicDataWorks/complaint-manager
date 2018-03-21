@@ -16,7 +16,11 @@ export const timeFromDateString = dateString => {
 }
 
 export const applyCentralTimeZoneOffset = dateString => {
-    return timezone.tz(dateString, 'US/Central').format()
+    if (dateString) {
+        dateString = timezone.tz(dateString, 'US/Central').format()
+    }
+
+    return dateString
 }
 
 export default formatDate

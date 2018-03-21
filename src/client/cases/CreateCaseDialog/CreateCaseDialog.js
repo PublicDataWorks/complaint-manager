@@ -111,9 +111,9 @@ class CreateCaseDialog extends React.Component {
                         <form data-test="createCaseForm">
                             <Typography type='body2' style={{marginBottom: '8px'}}>Timeline</Typography>
                             <DateField
-                                required={true}
                                 name='case.incidentDate'
                                 label='Incident Date and Time'
+                                clearable={true}
                                 data-test='incidentDateField'
                                 inputProps={{
                                     "data-test": "incidentDateInput",
@@ -211,8 +211,7 @@ export default reduxForm({
     initialValues: {
         case: {
             complainantType: 'Civilian',
-            firstContactDate: moment(Date.now()).format('YYYY-MM-DD'),
-            incidentDate: moment(Date.now()).format('YYYY-MM-DDTHH:mm')
+            firstContactDate: moment(Date.now()).format('YYYY-MM-DD')
         }
     },
     validate

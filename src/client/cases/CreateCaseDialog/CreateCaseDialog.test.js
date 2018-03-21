@@ -58,7 +58,6 @@ describe('CreateCaseDialog component', () => {
                 case: {
                     complainantType: 'Civilian',
                     firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
-                    incidentDate: dateAndTimeTodayWithTimezone,
                     createdBy: testUsername,
                     assignedTo: testUsername
                 },
@@ -112,13 +111,6 @@ describe('CreateCaseDialog component', () => {
             test('should default date to current date', () => {
                 const datePicker = dialog.find('[data-test="firstContactDateInput"]').last()
                 expect(datePicker.instance().value).toEqual(moment(Date.now()).format("YYYY-MM-DD"))
-            })
-        });
-
-        describe('incidentDatePicker', () => {
-            test('should default date to current date', () => {
-                const datePicker = dialog.find('[data-test="incidentDateInput"]').last()
-                expect(datePicker.instance().value).toEqual(moment(Date.now()).format("YYYY-MM-DDTHH:mm"))
             })
         });
     })
@@ -211,7 +203,6 @@ describe('CreateCaseDialog component', () => {
                 case: {
                     complainantType: 'Civilian',
                     firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
-                    incidentDate: dateAndTimeTodayWithTimezone,
                     createdBy: testUsername,
                     assignedTo: testUsername
                 },
