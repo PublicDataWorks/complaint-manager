@@ -3,6 +3,7 @@ import {Divider, Typography} from "material-ui";
 import styles from "../../../globalStyling/styles";
 import FileSaver from "file-saver";
 import getAccessToken from "../../../auth/getAccessToken";
+import LinkButton from "../../../sharedComponents/LinkButton";
 
 const AttachmentsRow = ({attachment}) => {
     const downloadAttachment = async () => {
@@ -34,7 +35,7 @@ const AttachmentsRow = ({attachment}) => {
                 style={{display: 'flex', width: '100%', marginBottom: '8px', wordBreak: 'break-word'}}
                 data-test="attachmentRow"
             >
-                <div style={{flex: 1, textAlign: 'left', marginRight: '16px'}}>
+                <div style={{flex: 1, textAlign: 'left', marginRight: '32px'}}>
                     <Typography
                         data-test="attachmentName"
                         style={{
@@ -48,7 +49,7 @@ const AttachmentsRow = ({attachment}) => {
                         }
                     </Typography>
                 </div>
-                <div style={{flex: 1, textAlign: 'left'}}>
+                <div style={{flex: 1, textAlign: 'left', marginRight: '16px'}}>
                     <Typography
                         type='body1'
                         data-test="attachmentDescription"
@@ -58,7 +59,11 @@ const AttachmentsRow = ({attachment}) => {
                         }
                     </Typography>
                 </div>
-                <div style={{flex: 1}}/>
+                <div>
+                    <LinkButton>
+                        Remove
+                    </LinkButton>
+                </div>
             </div>
             <Divider style={{marginBottom: '8px'}}/>
         </div>

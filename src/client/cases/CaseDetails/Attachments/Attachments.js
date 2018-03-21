@@ -10,17 +10,16 @@ const Attachments = (props) => {
         <BaseCaseDetailsCard title='Attachments'>
             <CardContent style={{paddingBottom: '16px'}}>
                 <div style={{display: 'flex', width: '100%'}}>
-                    <div style={{flex: 1, textAlign: 'left', marginRight: '16px', marginBottom: '8px'}}>
+                    <div style={{flex: 1, textAlign: 'left', marginRight: '32px', marginBottom: '8px'}}>
                         <Typography style={styles.section}>
                             File Name
                         </Typography>
                     </div>
-                    <div style={{flex: 1, textAlign: 'left'}}>
+                    <div style={{flex: 1, textAlign: 'left', marginRight: '112px'}}>
                         <Typography style={styles.section}>
                             Description
                         </Typography>
                     </div>
-                    <div style={{flex: 1}}/>
                 </div>
                 <AttachmentsList
                     attachments={props.caseDetail.attachments}
