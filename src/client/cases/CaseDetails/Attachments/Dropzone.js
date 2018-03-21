@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import DropzoneComponent from 'react-dropzone-component'
 import '../../../../../node_modules/react-dropzone-component/styles/filepicker.css'
 import '../../../../../node_modules/dropzone/dist/min/dropzone.min.css'
 import config from '../../../config/config'
 import getAccessToken from "../../../auth/getAccessToken";
-import { DUPLICATE_FILE_NAME, FILE_TYPE_INVALID, UPLOAD_CANCELED } from "../../../../sharedUtilities/constants";
-import { FormHelperText } from "material-ui";
-import { SubmitButton } from "../../../sharedComponents/StyledButtons";
-import TextField from 'material-ui/TextField'
+import {DUPLICATE_FILE_NAME, FILE_TYPE_INVALID, UPLOAD_CANCELED} from "../../../../sharedUtilities/constants";
+import {FormControl, FormHelperText} from 'material-ui/Form';
+import {SubmitButton} from "../../../sharedComponents/StyledButtons";
+import {Input, InputLabel} from "material-ui";
 
 class Dropzone extends Component {
     componentWillMount() {
@@ -16,7 +16,8 @@ class Dropzone extends Component {
 
     state = {
         attachmentValid: false,
-        attachmentDescription: ''
+        attachmentDescription: '',
+        touched: false
     }
 
     dropZoneComponentConfig = {
@@ -28,15 +29,15 @@ class Dropzone extends Component {
             this.dropzone = dropzone
         },
         addedfile: () => {
-            this.setState({ attachmentValid: true })
+            this.setState({attachmentValid: true})
         },
         success: (file, response) => {
             this.props.uploadAttachmentSuccess(response)
             this.dropzone.removeFile(file)
-            this.setState({ attachmentDescription: '' })
+            this.setState({attachmentDescription: '', touched: false})
         },
         error: (file, errorMessage, xhr) => {
-            this.setState({ attachmentValid: false })
+            this.setState({attachmentValid: false})
 
             switch (errorMessage) {
                 case FILE_TYPE_INVALID:
@@ -53,7 +54,7 @@ class Dropzone extends Component {
         },
         removedfile: (file) => {
             this.props.removeDropzoneFile()
-            this.setState({ attachmentValid: false })
+            this.setState({attachmentValid: false})
         },
         sending: (file, xhr, formData) => {
             formData.append('description', this.state.attachmentDescription);
@@ -76,42 +77,68 @@ class Dropzone extends Component {
     }
 
     uploadAttachment = () => {
-        this.setState({ attachmentValid: true })
+        this.setState({attachmentValid: true})
         this.dropzone.processQueue()
     }
 
     updateDescription = (event) => {
-        this.setState({ attachmentDescription: event.target.value })
+        this.setState({attachmentDescription: event.target.value, touched: true})
+    }
+
+    invalidDescription = () => {
+        return !Boolean(this.state.attachmentDescription)
     }
 
     render() {
         return (
             <div style={{display: 'flex', width: '100%'}}>
-                <div style={{flex: 1, marginRight: '10px'}}>
+                <div style={{flex: 1, marginRight: '10px', marginBottom: '0px'}}>
                     <DropzoneComponent
                         config={this.dropZoneComponentConfig}
                         djsConfig={this.djsconfig}
                         eventHandlers={this.eventHandlers}
                     />
-                    {(this.props.errorMessage !== '') && this.invalidFileMarkup(this.props.errorMessage)}
+                    {this.invalidFileMarkup(this.props.errorMessage)}
                 </div>
-                <div style={{flex: 1}}>
-                    <TextField
-                        value={this.state.attachmentDescription}
-                        data-test='attachmentDescriptionField'
-                        inputProps={{
-                            'data-test':"attachmentDescriptionInput"
-                        }}
-                        onChange={this.updateDescription}
-                    />
+                <div style={{flex: 1, alignSelf: 'flex-end', marginRight: '10px'}}>
+                    <FormControl
+                        required
+                        fullWidth={true}
+                        error={this.state.touched && this.invalidDescription()}
+                    >
+                        <InputLabel
+                            htmlFor="attachmentDescription"
+                            shrink={true}
+                        >Description of File</InputLabel>
+                        <Input id="attachmentDescription"
+                               value={this.state.attachmentDescription}
+                               multiline
+                               rowsMax={3}
+                               inputProps={{
+                                   maxLength: 200,
+                                   'data-test': 'attachmentDescriptionInput'
+                               }}
+                               placeholder={'Please enter a description for your attachment'}
+                               onChange={this.updateDescription}
+                               onBlur={()=> {this.setState({touched:true})}}
+                        />
+
+                        <FormHelperText id="attachmentDescription">
+                            {
+                                this.state.touched && this.invalidDescription()
+                                    ? 'Please enter a valid description'
+                                    : ''
+                            }
+                        </FormHelperText>
+
+                    </FormControl>
                 </div>
-                <div style={{alignSelf: 'flex-end'}}>
+                <div style={{alignSelf: 'flex-end', marginBottom: '20px'}}>
                     <SubmitButton
-                        style={{flex: 1}}
                         onClick={this.uploadAttachment}
                         data-test="attachmentUploadButton"
                         disabled={
-                            !this.state.attachmentValid || !Boolean(this.state.attachmentDescription)
+                            !this.state.attachmentValid || this.invalidDescription()
                         }
                     >
                         Upload

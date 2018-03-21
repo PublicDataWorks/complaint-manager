@@ -41,7 +41,7 @@ describe('Dropzone', () => {
     })
 
     test('should not display invalid file type error by default', () => {
-        expect(wrapper.find('[data-test="invalidFileTypeErrorMessage"]').exists()).toBeFalsy()
+        expect(wrapper.find('[data-test="invalidFileTypeErrorMessage"]').first().text()).toEqual("")
     })
 
     test('should display invalid file type error when invalid', () => {

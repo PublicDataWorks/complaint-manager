@@ -38,7 +38,7 @@ describe('Attachments card', () => {
             </Provider>
         )
 
-        containsText(wrapper, 'div[data-test="attachmentsField"]', 'No Attachments')
+        containsText(wrapper, 'div[data-test="attachmentsField"]', 'No files are attached')
     })
 
     test('should display no attachments if attachments is empty list', () => {
@@ -50,6 +50,6 @@ describe('Attachments card', () => {
             </Provider>
         )
 
-        containsText(wrapper, 'div[data-test="attachmentsField"]', 'No Attachments')
+        containsText(wrapper, 'div[data-test="attachmentsField"]', 'No files are attached')
     })
 });
