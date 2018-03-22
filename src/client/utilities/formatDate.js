@@ -2,13 +2,17 @@ import moment from 'moment'
 import timezone from 'moment-timezone'
 
 const formatDate = dateString => {
-    const date = moment(moment.utc(new Date(dateString)).format('YYYY-MM-DDTHH:mm')).toDate()
+    if (dateString) {
+        const date = moment(moment.utc(new Date(dateString)).format('YYYY-MM-DDTHH:mm')).toDate()
 
-    return date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-    })
+        dateString = date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+        })
+    }
+
+    return dateString
 }
 
 export const timeFromDateString = dateString => {

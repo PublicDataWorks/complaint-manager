@@ -45,25 +45,10 @@ describe('Complainant and Witnesses', () => {
 
         test('should display civilian first and last name', () => {
             const primaryComplainantName = formatName(primaryComplainant)
-            containsText(complainantWitnessesSection, '[data-test="primaryComplainantName"]', primaryComplainantName)
+            containsText(complainantWitnessesSection, '[data-test="primaryComplainant"]', primaryComplainantName)
         })
     });
 
-    describe('gender identity', () => {
-        test('should display N/A when no gender identity', () => {
-            const genderIdentity = `N/A`
-
-            containsText(complainantWitnessesSection, '[data-test="genderIdentity"]', genderIdentity)
-        })
-    });
-
-    describe('race/ethnicity', () => {
-        test('should display Race/Ethnicity as N/A', () => {
-            const raceEthnicity = `N/A`
-
-            containsText(complainantWitnessesSection, '[data-test="raceEthnicity"]', raceEthnicity)
-        })
-    });
 
     describe('Edit', () => {
         test('should open and initialize edit complainant dialog when edit is clicked', () => {
@@ -75,31 +60,10 @@ describe('Complainant and Witnesses', () => {
         })
     })
 
-    describe('birthday', () => {
-        test('should display N/A when not set', () => {
-            containsText(complainantWitnessesSection, '[data-test="primaryComplainantBirthday"]', 'N/A')
-        })
-    });
-
     describe('phone number', () => {
         test('should display phone number expanded', () => {
             const expectedPhoneNumber = '(123) 456-7890'
             containsText(complainantPanel, '[data-test="primaryComplainantPhoneNumber"]', expectedPhoneNumber)
-        })
-
-        test('should display N/A when no phone number ', () => {
-            const civilianWithNoPhoneNumber = new Civilian.Builder().defaultCivilian()
-                .withPhoneNumber(undefined)
-                .build()
-
-            const caseWithNoPhoneNumber = new Case.Builder().defaultCase()
-                .withCivilians([civilianWithNoPhoneNumber])
-                .build()
-
-            complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseWithNoPhoneNumber}/>)
-
-            complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
-            containsText(complainantPanel, '[data-test="primaryComplainantPhoneNumber"]', 'N/A')
         })
     });
 
@@ -107,21 +71,6 @@ describe('Complainant and Witnesses', () => {
         test('should display email when expanded', () => {
             const complainantPanel = complainantWitnessesSection.find('[data-test="complainantWitnessesPanel"]').first()
             containsText(complainantPanel, '[data-test="primaryComplainantEmail"]', primaryComplainant.email)
-        })
-
-        test('should display N/A when no email', () => {
-            const civilianWithNoEmail = new Civilian.Builder().defaultCivilian()
-                .withEmail(undefined)
-                .build()
-
-            const caseWithNoEmail = new Case.Builder().defaultCase()
-                .withCivilians([civilianWithNoEmail])
-                .build()
-
-            complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseWithNoEmail}/>)
-
-            complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
-            containsText(complainantPanel, '[data-test="primaryComplainantEmail"]', 'N/A')
         })
     });
 
@@ -168,21 +117,6 @@ describe('Complainant and Witnesses', () => {
     });
 
     describe('additional info', () => {
-        test('should display N/A when no additional info', () => {
-            const civilianWithNoAdditionalInfo = new Civilian.Builder().defaultCivilian()
-                .withAdditionalInfo(undefined)
-                .build()
-
-            const caseWithNoAdditionalInfo = new Case.Builder().defaultCase()
-                .withCivilians([civilianWithNoAdditionalInfo])
-                .build()
-
-            complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseWithNoAdditionalInfo}/>)
-
-            complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
-            containsText(complainantPanel, '[data-test="primaryComplainantAdditionalInfo"]', '')
-        })
-
         test('should display additional info when present', () => {
             containsText(complainantPanel, '[data-test="primaryComplainantAdditionalInfo"]', primaryComplainant.additionalInfo)
         })
