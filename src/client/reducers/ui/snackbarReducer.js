@@ -1,6 +1,6 @@
 import {
-    ATTACHMENT_UPLOAD_FAILED,
-    CASE_CREATED_SUCCESS,
+    ATTACHMENT_UPLOAD_FAILED, ATTACHMENT_UPLOAD_SUCCEEDED,
+    CASE_CREATED_SUCCESS, REMOVE_ATTACHMENT_FAILED, REMOVE_ATTACHMENT_SUCCESS,
 } from "../../../sharedUtilities/constants";
 
 //TODO Discuss separation of concerns.
@@ -98,7 +98,7 @@ const snackbarReducer = (state = initialState, action) => {
                 success: false,
                 message: 'Something went wrong on our end and the civilian was not updated. Please try again.'
             }
-        case 'ATTACHMENT_UPLOAD_SUCCEEDED':
+        case ATTACHMENT_UPLOAD_SUCCEEDED:
             return {
                 open: true,
                 success: true,
@@ -109,6 +109,18 @@ const snackbarReducer = (state = initialState, action) => {
                 open: true,
                 success: false,
                 message: 'We could not attach your file. Please try again.'
+            }
+        case REMOVE_ATTACHMENT_SUCCESS:
+            return{
+                open: true,
+                success: true,
+                message: 'Your attachment was successfully removed'
+            }
+        case REMOVE_ATTACHMENT_FAILED:
+            return{
+                open: true,
+                success: false,
+                message: 'We could not remove your attachment. Please try again.'
             }
         default:
             return state

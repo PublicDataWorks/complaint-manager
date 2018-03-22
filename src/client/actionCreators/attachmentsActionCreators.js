@@ -1,6 +1,7 @@
 import {
     DROPZONE_FILE_REMOVED, DUPLICATE_FILE_DROPPED,
-    INVALID_FILE_TYPE_DROPPED
+    INVALID_FILE_TYPE_DROPPED, REMOVE_ATTACHMENT_FAILED,
+    REMOVE_ATTACHMENT_SUCCESS
 } from "../../sharedUtilities/constants";
 
 export const dropInvalidFileType = () => ({
@@ -13,4 +14,13 @@ export const dropDuplicateFile = () => ({
 
 export const removeDropzoneFile = () => ({
     type: DROPZONE_FILE_REMOVED
+})
+
+export const removeAttachmentSuccess = (caseDetails) => ({
+    type: REMOVE_ATTACHMENT_SUCCESS,
+    caseDetails
+})
+
+export const removeAttachmentFailed = () => ({
+    type: REMOVE_ATTACHMENT_FAILED
 })

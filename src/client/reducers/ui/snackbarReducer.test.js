@@ -12,6 +12,7 @@ import {
     uploadAttachmentSuccess
 } from "../../actionCreators/casesActionCreators";
 import {closeSnackbar} from "../../actionCreators/snackBarActionCreators";
+import {removeAttachmentFailed, removeAttachmentSuccess} from "../../actionCreators/attachmentsActionCreators";
 
 describe('snackbarReducer', () => {
     test('should default open to false', () => {
@@ -136,7 +137,7 @@ describe('snackbarReducer', () => {
         })
     })
 
-    describe('ATTACHMENT_UPLOAD', () => {
+    describe('ATTACHMENT', () => {
         test('ATTACHMENT_UPLOAD_SUCCEEDED', () => {
             const initialState = {success: false, open: false, message: ''}
             const newState = snackbarReducer(initialState, uploadAttachmentSuccess('some case details'))
@@ -154,6 +155,32 @@ describe('snackbarReducer', () => {
                 open: true,
                 success: false,
                 message: 'We could not attach your file. Please try again.'
+            }
+
+            expect(newState).toEqual(expectedState)
+        })
+
+        test('REMOVE_ATTACHMENT_SUCCESS', () => {
+            const initialState = { success: false, open: false, message: '' }
+            const newState = snackbarReducer(initialState, removeAttachmentSuccess('attachments and the such'))
+
+            const expectedState = {
+                open: true,
+                success: true,
+                message: 'Your attachment was successfully removed'
+            }
+
+            expect(newState).toEqual(expectedState)
+        })
+
+        test('REMOVE_ATTACHMENT_FAILED', () => {
+            const initialState = { success: true, open: false, message: '' }
+            const newState = snackbarReducer(initialState, removeAttachmentFailed())
+
+            const expectedState = {
+                open: true,
+                success: false,
+                message: 'We could not remove your attachment. Please try again.'
             }
 
             expect(newState).toEqual(expectedState)

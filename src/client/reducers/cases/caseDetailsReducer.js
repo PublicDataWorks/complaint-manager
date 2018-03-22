@@ -1,3 +1,5 @@
+import {REMOVE_ATTACHMENT_SUCCESS} from "../../../sharedUtilities/constants";
+
 const initialState = {}
 const caseDetailsReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -11,6 +13,8 @@ const caseDetailsReducer = (state = initialState, action) => {
                 status: 'Active',
                 civilians: [action.civilian]
             }
+        case REMOVE_ATTACHMENT_SUCCESS:
+            return action.caseDetails
         default:
             return state
     }

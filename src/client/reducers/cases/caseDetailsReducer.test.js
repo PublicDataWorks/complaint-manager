@@ -3,6 +3,8 @@ import {
     editCivilianSuccess, getCaseDetailsSuccess, updateNarrativeSuccess,
     uploadAttachmentSuccess
 } from "../../actionCreators/casesActionCreators";
+import {removeAttachmentSuccess} from "../../actionCreators/attachmentsActionCreators";
+import {REMOVE_ATTACHMENTS_SUCCESS} from '../../../../src/sharedUtilities/constants.js'
 
 describe('caseDetailsReducers', () => {
     test('should default to empty object', () => {
@@ -51,15 +53,36 @@ describe('caseDetailsReducers', () => {
 
     describe('EDIT_CIVILIAN_SUCCESS', () => {
         test('should update civilian information', () => {
-            const oldState = {status: 'Initial', left:'untouched', civilians: [{some: 'someString'}]}
+            const oldState = {status: 'Initial', left: 'untouched', civilians: [{some: 'someString'}]}
             const newCivilianDetail = {gender: 'other'}
 
             const action = editCivilianSuccess(newCivilianDetail)
 
             const newState = caseDetailsReducer(oldState, action)
 
-            const expectedState = {status: 'Active', left:'untouched', civilians: [{'gender': 'other'}]}
+            const expectedState = {status: 'Active', left: 'untouched', civilians: [{'gender': 'other'}]}
             expect(newState).toEqual(expectedState)
+        })
+    });
+
+    describe(REMOVE_ATTACHMENTS_SUCCESS, () => {
+        test('should update attachments when attachment removed', () => {
+            const oldState = {
+                attachment: [
+                    {fileName:'sample.text'},
+                    {fileName:'cool.jpg'}
+                ]
+            }
+            const updatedCaseDetails = {
+                attachment: [
+                    {fileName:'cool.jpg'}
+                ]
+            }
+
+            const action = removeAttachmentSuccess(updatedCaseDetails)
+            const newState = caseDetailsReducer(oldState, action)
+
+            expect(newState).toEqual(updatedCaseDetails)
         })
     });
 })
