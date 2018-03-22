@@ -2,14 +2,14 @@ const createConfiguredS3Instance = require("./createConfiguredS3Instance")
 const config = require("../../../config/config")
 
 const downloadAttachment = (request, response, next) => {
-    try{
+    try {
         const s3 = createConfiguredS3Instance()
 
         response.attachment(request.params.fileName)
 
-        const downloadManager = s3.getObject({
+        s3.getObject({
                 Bucket: config[process.env.NODE_ENV].s3Bucket,
-                Key: `${request.params.caseId}/${request.params.fileName}`
+                Key: `${request.params.id}/${request.params.fileName}`
             })
             .createReadStream()
             .pipe(response)

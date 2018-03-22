@@ -14,8 +14,7 @@ const errorHandler = require("./handlers/errorHandler");
 const jwtCheck = require("./handlers/jtwCheck")
 const getUserProfile = require("./handlers/getUserProfile")
 const authErrorHandler = require("./handlers/authErrorHandler")
-const uploadAttachment = require("./handlers/cases/attachments/uploadAttachment")
-const downloadAttachment = require("./handlers/cases/attachments/downloadAttachment")
+const attachmentRouter = require("./attachmentRouter")
 
 const app = express();
 const buildDirectory = path.join(__dirname, '../../build');
@@ -35,8 +34,9 @@ app.post('/cases', createCase);
 app.get('/cases', getCases);
 app.get('/cases/:id', getCase)
 app.put('/cases/:id/narrative', updateCaseNarrative)
-app.get('/cases/:caseId/attachments/:fileName', downloadAttachment);
-app.post('/cases/:id/attachments', uploadAttachment)
+
+app.use('/cases/:id/attachments', attachmentRouter)
+
 app.put('/civilian/:id', editCivilian);
 app.post('/users', createUser);
 app.get('/users', getUsers);

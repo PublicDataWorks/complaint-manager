@@ -10,7 +10,6 @@ import models from './models'
 import {AuthenticationClient} from 'auth0'
 import Civilian from "../client/testUtilities/civilian";
 import Case from "../client/testUtilities/case";
-import AWS from "aws-sdk/index";
 import Attachment from "../client/testUtilities/attachment";
 import {civilianWithAddress, civilianWithoutAddress} from "../client/testUtilities/ObjectMothers";
 
@@ -175,100 +174,6 @@ describe('server', () => {
         })
     })
 
-    describe('POST /cases/:id/attachments', () => {
-        let defaultCase
-
-        afterEach(async () => {
-            await models.attachment.destroy({
-                where: {
-                    caseId: defaultCase.id
-                }
-            })
-
-            await models.civilian.destroy({
-                where: {
-                    caseId: defaultCase.id
-                }
-            })
-
-            await models.audit_log.destroy({
-                where: {
-                    caseId: defaultCase.id
-                }
-            })
-
-            await models.cases.destroy({
-                where: {
-                    id: defaultCase.id
-                }
-            })
-        })
-
-        test('should return updated case after adding attachment', async () => {
-            let civilian = new Civilian.Builder().defaultCivilian().withId(undefined).build()
-            defaultCase = new Case.Builder().defaultCase().withId(undefined).withCivilians([civilian]).build()
-            defaultCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}]})
-            let mockKey = `${defaultCase.id}/mock_filename`
-
-            AWS.S3.mockImplementation(() => {
-                return {
-                    upload: (params, options) => ({
-                        promise: () => Promise.resolve({Key: mockKey})
-                    }),
-                    config: {
-                        loadFromPath: jest.fn()
-                    }
-                }
-            })
-
-            await request(app)
-                .post(`/cases/${defaultCase.id}/attachments`)
-                .set('Authorization', `Bearer ${token}`)
-                .set('Content-Type', 'multipart/form-data')
-                .field('description', 'this is a description')
-                .attach('avatar', __dirname + '/../../README.md')
-                .expect(200)
-                .then(response => {
-                    expect(response.body.id).toEqual(defaultCase.id)
-                    expect(response.body.civilians[0].id).toEqual(defaultCase.civilians[0].id)
-                    expect(response.body.attachments[0].fileName).toEqual('README.md')
-                    expect(response.body.status).toEqual('Active')
-                })
-        })
-
-        test('should return 409 when file is a duplicate', async () => {
-            let civilian = new Civilian.Builder().defaultCivilian().withId(undefined).build()
-            let attachment = new Attachment.Builder().defaultAttachment()
-                .withId(undefined)
-                .withCaseId(undefined)
-            defaultCase = new Case.Builder().defaultCase()
-                .withId(undefined)
-                .withCivilians([civilian])
-                .withAttachments([attachment])
-                .build()
-            defaultCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}, {model: models.attachment}]})
-
-            let mockFileName = 'test_file.pdf'
-
-            AWS.S3.mockImplementation(() => {
-                return {
-                    upload: (params, options) => ({
-                        promise: () => Promise.resolve({Key: mockFileName})
-                    }),
-                    config: {
-                        loadFromPath: jest.fn()
-                    }
-                }
-            })
-
-            await request(app)
-                .post(`/cases/${defaultCase.id}/attachments`)
-                .set('Authorization', `Bearer ${token}`)
-                .set('Content-Type', 'multipart/form-data')
-                .attach(mockFileName, __dirname + '/testFixtures/test_file.pdf')
-                .expect(409)
-        })
-    });
 
     describe('GET /cases', () => {
         let seededCase
