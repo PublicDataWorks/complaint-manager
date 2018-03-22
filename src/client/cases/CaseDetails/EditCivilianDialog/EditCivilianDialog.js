@@ -136,6 +136,7 @@ class EditCivilianDialog extends Component {
                         <Field
                             name="additionalInfo"
                             component={TextField}
+                            style={{marginBottom: '16px'}}
                             fullWidth
                             multiline
                             rowsMax={5}
