@@ -206,7 +206,7 @@ class CaseDetails extends React.Component {
                             initialValues={{narrative: this.props.caseDetail.narrative}}
                             caseId={this.props.caseDetail.id}
                         />
-                        <Attachments caseDetail={this.props.caseDetail} dispatch={this.props.dispatch}/>
+                        <Attachments />
                     </main>
                     <EditCivilianDialog/>
                     <CaseDetailSnackbar/>

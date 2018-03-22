@@ -3,7 +3,7 @@ import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import {CardContent, Typography} from "material-ui";
 import styles from '../../../globalStyling/styles'
 import DropzoneContainer from "./DropzoneContainer";
-import AttachmentsList from "./AttachmentsList";
+import AttachmentsListContainer from "./AttachmentsListContainer";
 
 const Attachments = (props) => {
     return (
@@ -21,9 +21,7 @@ const Attachments = (props) => {
                         </Typography>
                     </div>
                 </div>
-                <AttachmentsList
-                    attachments={props.caseDetail.attachments}
-                />
+                <AttachmentsListContainer/>
                 <div>
                     <Typography style={styles.section}>
                         UPLOAD A FILE
