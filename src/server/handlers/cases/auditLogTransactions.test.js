@@ -1,11 +1,19 @@
 import Case from "../../../client/testUtilities/case";
 import Civilian from "../../../client/testUtilities/civilian";
 import editCivilian from "../../../client/cases/thunks/editCivilian";
+import Attachment from "../../../client/testUtilities/attachment";
+import AWS from "aws-sdk/index";
 
 const httpMocks = require('node-mocks-http')
 const createCase = require('./createCase')
 const updateCaseNarrative = require('./updateCaseNarrative')
+const deleteAttachment = require('../../handlers/cases/attachments/deleteAttachment')
 const models = require('../../models')
+
+jest.mock('aws-sdk', () => ({
+        S3: jest.fn()
+    })
+)
 
 describe('transactions', () => {
     test('should not create case when audit logging fails', async () => {
@@ -108,4 +116,77 @@ describe('transactions', () => {
     })
 
     //TODO add audit log transaction test for upload attachment
+
+    describe('delete attachment from case', () => {
+        let caseToUpdate
+
+        beforeEach(async () => {
+            const caseToCreate = new Case.Builder().defaultCase()
+                .withId(undefined)
+                .withCivilians([new Civilian.Builder().defaultCivilian().withId(undefined).withFirstName('Original').build()])
+                .withAttachments([new Attachment.Builder().defaultAttachment().withId(undefined).withFileName('correct.jpg').build()])
+                .build()
+
+            caseToUpdate = await models.cases.create(caseToCreate, {include: [{model: models.civilian}, {model: models.attachment}]})
+
+            AWS.S3.mockImplementation(() => {
+                return {
+                    deleteObject: (params, options) => ({
+                        promise: () => Promise.resolve({})
+                    }),
+                    config: {
+                        loadFromPath: jest.fn()
+                    }
+                }
+            })
+        })
+
+        afterEach(async () => {
+            await models.civilian.destroy({where: {caseId: caseToUpdate.id}})
+            await models.audit_log.destroy({where: {caseId: caseToUpdate.id}})
+            await models.attachment.destroy({where: {caseId: caseToUpdate.id}})
+            await models.cases.destroy({where: {id: caseToUpdate.id}})
+        })
+
+        test('should not delete attachment if audit log fails', async () => {
+            const requestWithBadDataForAudit = httpMocks.createRequest({
+                method: 'DELETE',
+                headers: {
+                    authorization: 'Bearer SOME_MOCK_TOKEN'
+                },
+                params: {
+                    id: caseToUpdate.id,
+                    fileName: 'incorrect.jpg'
+                },
+                nickname: 'test username'
+            })
+
+            const response = httpMocks.createResponse()
+            await deleteAttachment(requestWithBadDataForAudit, response, jest.fn())
+
+            expect(response._getData().attachments.length).toEqual(1)
+        })
+
+        test('should log attachment removal in audit table', async () => {
+            const requestWithValidDataForAudit = httpMocks.createRequest({
+                method: 'DELETE',
+                headers: {
+                    authorization: 'Bearer SOME_MOCK_TOKEN'
+                },
+                params: {
+                    id: caseToUpdate.id,
+                    fileName: 'correct.jpg'
+                },
+                nickname: 'test username'
+            })
+
+            const response = httpMocks.createResponse()
+            await deleteAttachment(requestWithValidDataForAudit, response, jest.fn())
+
+            const log = await models.audit_log.findAll( { where: { caseId: caseToUpdate.id }})
+
+            expect(response._getData().attachments.length).toEqual(0)
+            expect(log[0].getDataValue('action')).toEqual('Attachment removed')
+        })
+    })
 });

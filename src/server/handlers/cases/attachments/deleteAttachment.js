@@ -22,6 +22,15 @@ const deleteAttachment = async (request, response, next) => {
                 transaction: t
             })
 
+            await models.audit_log.create({
+                    caseId: request.params.id,
+                    user: request.nickname,
+                    action: `Attachment removed`
+                },
+                {
+                    transaction: t
+                })
+
             return await models.cases.findById(request.params.id,
                 {
                     include: [
