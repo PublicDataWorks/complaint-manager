@@ -151,23 +151,41 @@ describe('attachment routes', () => {
     describe('DELETE /cases/:id/attachments/:fileName', () =>{
         test('should delete attachment from case', async () => {
             let civilian = new Civilian.Builder().defaultCivilian().withId(undefined).build()
-            let attachment = new Attachment.Builder().defaultAttachment()
+            let attachmentToKeep = new Attachment.Builder().defaultAttachment()
                 .withId(undefined)
                 .withCaseId(undefined)
+
+            let attachmentToDelete = new Attachment.Builder().defaultAttachment()
+                .withId(undefined)
+                .withCaseId(undefined)
+                .withFileName('test_file_two.pdf')
+
             defaultCase = new Case.Builder().defaultCase()
                 .withId(undefined)
                 .withCivilians([civilian])
-                .withAttachments([attachment])
+                .withAttachments([attachmentToKeep, attachmentToDelete])
                 .build()
             defaultCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}, {model: models.attachment}]})
 
+            AWS.S3.mockImplementation(() => {
+                return {
+                    deleteObject: (params, options) => ({
+                      promise: () => Promise.resolve({})
+                    }),
+                    config: {
+                        loadFromPath: jest.fn()
+                    }
+                }
+            })
+
             await request(app)
-                .delete(`/cases/${defaultCase.id}/attachments/${attachment.fileName}`)
+                .delete(`/cases/${defaultCase.id}/attachments/${attachmentToDelete.fileName}`)
                 .set('Authorization', `Bearer ${token}`)
                 .set('Content-Type', 'multipart/form-data')
                 .expect(200)
                 .then(response => {
-                    expect(response.body.attachments.length).toEqual(0)
+                    expect(response.body.attachments.length).toEqual(1)
+                    expect(response.body.attachments[0].fileName).toEqual(attachmentToKeep.fileName)
                 })
         })
     })
