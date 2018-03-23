@@ -1,8 +1,14 @@
 import {connect} from "react-redux";
 import AttachmentsList from './AttachmentsList'
+import removeAttachment from "../../thunks/removeAttachment";
 
 const mapStateToProps = state => ({
+    caseId: state.currentCase.id,
     attachments: state.currentCase.attachments
 })
 
-export default connect(mapStateToProps)(AttachmentsList)
+const mapDispatchToProps = {
+    removeAttachment
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AttachmentsList)

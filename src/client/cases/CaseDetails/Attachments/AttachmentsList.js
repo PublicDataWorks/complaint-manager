@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography} from "material-ui";
+import {Dialog, DialogActions, DialogContent, DialogTitle, Typography} from "material-ui";
 import AttachmentsRow from "./AttachmentsRow";
 import _ from "lodash"
 import {CancelButton, SubmitButton} from "../../../sharedComponents/StyledButtons";
@@ -10,13 +10,12 @@ class AttachmentsList extends Component {
         super(props)
         this.state = {
             dialogOpen: false,
-            attachmentId: null,
             attachmentFileName: ''
         }
     }
 
     onRemoveAttachment = (attachmentId, attachmentFileName) => {
-        this.setState({dialogOpen: true, attachmentId, attachmentFileName})
+        this.setState({dialogOpen: true, attachmentFileName})
     }
 
     handleClose = () => {
@@ -24,7 +23,7 @@ class AttachmentsList extends Component {
     }
 
     handleDialogExit = () => {
-        this.setState({attachmentId: null, attachmentFileName: ''})
+        this.setState({ attachmentFileName: ''})
     }
 
     render() {
@@ -67,7 +66,9 @@ class AttachmentsList extends Component {
                             onClick={this.handleClose}>
                             Cancel
                         </CancelButton>
-                        <SubmitButton>
+                        <SubmitButton
+                            onClick={()=>{this.props.removeAttachment(this.props.caseId, this.state.attachmentFileName, this.handleClose)}}
+                        >
                             Remove
                         </SubmitButton>
                     </DialogActions>
