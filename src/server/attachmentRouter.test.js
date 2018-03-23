@@ -148,7 +148,7 @@ describe('attachment routes', () => {
         })
     })
 
-    describe('DELETE /cases/:id/attachments/:fileName', () =>{
+    describe('DELETE /cases/:id/attachments/:fileName', () => {
         test('should delete attachment from case', async () => {
             let civilian = new Civilian.Builder().defaultCivilian().withId(undefined).build()
             let attachmentToKeep = new Attachment.Builder().defaultAttachment()
@@ -165,12 +165,20 @@ describe('attachment routes', () => {
                 .withCivilians([civilian])
                 .withAttachments([attachmentToKeep, attachmentToDelete])
                 .build()
+
+            let caseWithSameFilename = new Case.Builder().defaultCase()
+                .withId(undefined)
+                .withCivilians([civilian])
+                .withAttachments([attachmentToKeep, attachmentToDelete])
+                .build()
+
             defaultCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}, {model: models.attachment}]})
+            caseWithSameFilename = await models.cases.create(caseWithSameFilename, {include: [{model: models.civilian}, {model: models.attachment}]})
 
             AWS.S3.mockImplementation(() => {
                 return {
                     deleteObject: (params, options) => ({
-                      promise: () => Promise.resolve({})
+                        promise: () => Promise.resolve({})
                     }),
                     config: {
                         loadFromPath: jest.fn()
@@ -187,6 +195,15 @@ describe('attachment routes', () => {
                     expect(response.body.attachments.length).toEqual(1)
                     expect(response.body.attachments[0].fileName).toEqual(attachmentToKeep.fileName)
                 })
+
+            const attachmentsFromUnmodifiedCase = await models.attachment.findAll({
+                where: {
+                    caseId: caseWithSameFilename.id
+                }
+            })
+
+            expect(attachmentsFromUnmodifiedCase.length).toEqual(2)
+
         })
     })
 });

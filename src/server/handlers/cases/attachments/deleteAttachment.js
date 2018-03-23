@@ -17,7 +17,8 @@ const deleteAttachment = async (request, response, next) => {
 
             await models.attachment.destroy({
                 where: {
-                    fileName: request.params.fileName
+                    fileName: request.params.fileName,
+                    caseId: request.params.id
                 },
                 transaction: t
             })
