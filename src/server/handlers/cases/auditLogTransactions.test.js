@@ -3,7 +3,6 @@ import Civilian from "../../../client/testUtilities/civilian";
 import editCivilian from "../../../client/cases/thunks/editCivilian";
 import Attachment from "../../../client/testUtilities/attachment";
 import AWS from "aws-sdk/index";
-
 const httpMocks = require('node-mocks-http')
 const createCase = require('./createCase')
 const updateCaseNarrative = require('./updateCaseNarrative')

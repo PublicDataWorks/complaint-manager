@@ -112,6 +112,14 @@ describe('attachment routes', () => {
                     expect(response.body.attachments[0].fileName).toEqual('README.md')
                     expect(response.body.status).toEqual('Active')
                 })
+
+            const log = await models.audit_log.findOne({
+                where:{
+                    caseId: defaultCase.id
+                }
+            })
+
+            expect(log.dataValues.user).toEqual('test user')
         })
 
         test('should return 409 when file is a duplicate', async () => {

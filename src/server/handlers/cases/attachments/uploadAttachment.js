@@ -49,7 +49,7 @@ const uploadAttachment = (request, response, next) => {
 
                     await models.audit_log.create({
                         caseId: caseId,
-                        user: 'tuser',
+                        user: request.nickname,
                         action: `Attachment added to Case ${caseId}`
                     })
 
