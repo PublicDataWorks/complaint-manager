@@ -49,7 +49,7 @@ if (TEST_PASS && TEST_USER && HOST) {
                 .assert.urlContains('cases')
         },
 
-        "should add an attachment": (browser) => {
+        "should add and remove an attachment": (browser) => {
             const imagesDir = 'images/'
 
             const invalidImageFileName = 'invalid_file_type.png'
@@ -63,10 +63,22 @@ if (TEST_PASS && TEST_USER && HOST) {
 
                 // This doesn't run correctly in headless Chrome:
 
-                // .setValue('input[type="file"]', path.resolve(__dirname, imagesDir, validImageFileName))
-                // .click('[data-test=attachmentUploadButton]')
-                // .waitForElementVisible("[data-test=attachmentRow]", roundTripWait)
-                // .assert.containsText("[data-test=attachmentRow]", validImageFileName)
+                .setValue('input[type="file"]', path.resolve(__dirname, imagesDir, validImageFileName))
+                .waitForElementVisible("[data-test='attachmentDescriptionInput']", roundTripWait)
+                .setValue('[data-test="attachmentDescriptionInput"]', "a description")
+                .waitForElementVisible('[data-test=attachmentUploadButton]', rerenderWait)
+                .click('[data-test=attachmentUploadButton]')
+                .pause(2000)
+                .waitForElementVisible("[data-test=attachmentRow]", roundTripWait)
+                .assert.containsText("[data-test=attachmentRow]", validImageFileName)
+                .waitForElementVisible("[data-test=removeAttachmentButton]", roundTripWait)
+                .click('[data-test=removeAttachmentButton]')
+                .pause(2000)
+                .click('[data-test=confirmRemoveAttachmentButton]')
+                .pause(2000)
+                .waitForElementVisible("[data-test=noAttachmentsText]", roundTripWait)
+                .assert.containsText("[data-test=noAttachmentsText]", 'No files are attached')
+                .pause(2000)
         },
 
         "should open edit civilian form": (browser) => {

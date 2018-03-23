@@ -39,7 +39,7 @@ class AttachmentsList extends Component {
                         ))
                         : (
                             <div>
-                                <Typography type='body1'>
+                                <Typography type='body1' data-test='noAttachmentsText'>
                                     No files are attached
                                 </Typography>
                             </div>
@@ -67,6 +67,7 @@ class AttachmentsList extends Component {
                             Cancel
                         </CancelButton>
                         <SubmitButton
+                            data-test='confirmRemoveAttachmentButton'
                             onClick={()=>{this.props.removeAttachment(this.props.caseId, this.state.attachmentFileName, this.handleClose)}}
                         >
                             Remove
