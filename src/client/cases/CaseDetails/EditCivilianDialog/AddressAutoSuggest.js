@@ -44,7 +44,7 @@ class AddressAutoSuggest extends Component {
         }
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         await this.props.suggestionEngine.healthCheck(({googleAddressServiceIsAvailable}) => {
             this.setState({suggestionServiceAvailable: googleAddressServiceIsAvailable})
         })

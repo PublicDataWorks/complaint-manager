@@ -26,7 +26,9 @@ describe('AddressAutoSuggest', () => {
             //after selecting a suggestion, what else should be done?
             onSuggestionSelected: jest.fn(() => (suggestion) => {
                 return suggestion
-            })
+            }),
+
+            healthCheck: jest.fn()
         }
     })
 
@@ -35,9 +37,10 @@ describe('AddressAutoSuggest', () => {
         label = 'Test Label'
         autoSuggestWrapper = mount(
             <Provider store={store}>
-                <AddressAutoSuggest
+                < AddressAutoSuggest
                     label={label}
                     data-test='my-custom-autosuggest'
+                    suggestionEngine={suggestionEngine}
                 />
             </Provider>
         )
