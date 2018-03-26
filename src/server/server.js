@@ -12,7 +12,6 @@ const buildDirectory = path.join(__dirname, '../../build');
 app.use(bodyParser.json());
 app.use(express.static(buildDirectory));
 
-// Unprotected Routes must be defined before jwtCheck middleware is applied
 app.get('/health-check', healthCheck);
 
 app.use('/api', apiRouter)

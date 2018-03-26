@@ -11,7 +11,7 @@ const authErrorHandler = require("./handlers/authErrorHandler")
 const attachmentRouter = require("./attachmentRouter")
 
 const express = require('express')
-const router = express.Router({mergeParams: true})
+const router = express.Router()
 
 router.use(jwtCheck)
 router.use(getUserProfile.unless({path: ['/callback']}))
