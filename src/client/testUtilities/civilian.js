@@ -27,7 +27,7 @@ class Civilian {
                 this.middleInitial = 'E'
                 this.lastName = 'Berry'
                 this.suffix = 'XVI'
-                this.roleOnCase = 'Primary Complainant'
+                this.roleOnCase = 'Complainant'
                 this.phoneNumber = '1234567890'
                 this.email = 'cberry@cberry.com'
                 this.birthDate = '1994-04-24'

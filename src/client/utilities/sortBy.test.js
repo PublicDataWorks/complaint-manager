@@ -9,7 +9,7 @@ describe('sorting', () => {
                 status: 'Initial',
                 civilians: [{
                     lastName: 'austin',
-                    roleOnCase: 'Primary Complainant'
+                    roleOnCase: 'Complainant'
                 }],
                 assignedTo: 'abcUser'
             },
@@ -18,7 +18,7 @@ describe('sorting', () => {
                 status: 'Active',
                 civilians: [{
                     lastName: 'Zeke',
-                    roleOnCase: 'Primary Complainant'
+                    roleOnCase: 'Complainant'
                 }],
                 assignedTo: 'DceUser'
             }
@@ -32,7 +32,7 @@ describe('sorting', () => {
                 status: 'Initial',
                 civilians: [{
                     lastName: 'austin',
-                    roleOnCase: 'Primary Complainant'
+                    roleOnCase: 'Complainant'
                 }],
                 assignedTo: 'abcUser'
             },
@@ -41,7 +41,7 @@ describe('sorting', () => {
                 status: 'Active',
                 civilians: [{
                     lastName: 'Zeke',
-                    roleOnCase: 'Primary Complainant'
+                    roleOnCase: 'Complainant'
                 }],
                 assignedTo: 'DceUser'
             }
@@ -59,7 +59,7 @@ describe('sorting', () => {
                 status: 'Active',
                 civilians: [{
                     lastName: 'Zeke',
-                    roleOnCase: 'Primary Complainant'
+                    roleOnCase: 'Complainant'
                 }],
                 assignedTo: 'DceUser'
             },
@@ -68,7 +68,7 @@ describe('sorting', () => {
                 status: 'Initial',
                 civilians: [{
                     lastName: 'austin',
-                    roleOnCase: 'Primary Complainant'
+                    roleOnCase: 'Complainant'
                 }],
                 assignedTo: 'abcUser'
             }
@@ -86,7 +86,7 @@ describe('sorting', () => {
                 status: 'Initial',
                 civilians: [{
                     lastName: 'austin',
-                    roleOnCase: 'Primary Complainant'
+                    roleOnCase: 'Complainant'
                 }],
                 assignedTo: 'abcUser'
             },
@@ -95,7 +95,7 @@ describe('sorting', () => {
                 status: 'Active',
                 civilians: [{
                     lastName: 'Zeke',
-                    roleOnCase: 'Primary Complainant'
+                    roleOnCase: 'Complainant'
                 }],
                 assignedTo: 'DceUser'
             }
@@ -113,7 +113,7 @@ describe('sorting', () => {
                 status: 'Initial',
                 civilians: [{
                     lastName: 'austin',
-                    roleOnCase: 'Primary Complainant'
+                    roleOnCase: 'Complainant'
                 }],
                 assignedTo: 'abcUser'
             },
@@ -122,7 +122,7 @@ describe('sorting', () => {
                 status: 'Active',
                 civilians: [{
                     lastName: 'Zeke',
-                    roleOnCase: 'Primary Complainant'
+                    roleOnCase: 'Complainant'
                 }],
                 assignedTo: 'DceUser'
             }

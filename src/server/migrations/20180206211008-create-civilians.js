@@ -32,7 +32,7 @@ module.exports = {
                 type: Sequelize.DATEONLY
             },
             role_on_case: {
-                type: Sequelize.ENUM(['Primary Complainant', 'Witness'])
+                type: Sequelize.ENUM(['Complainant', 'Witness'])
             },
             gender_identity: {
                 type: Sequelize.ENUM(['Male', 'Female', 'Trans Male', 'Trans Female', 'Other', 'Unknown'])

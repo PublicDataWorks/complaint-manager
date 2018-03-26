@@ -5,7 +5,7 @@ const getCases = async (req, res) => {
         {
             include: [{
                 model: models.civilian,
-                where: {roleOnCase: 'Primary Complainant'}} ]
+                where: {roleOnCase: 'Complainant'}} ]
         })
 
     res.send({cases})

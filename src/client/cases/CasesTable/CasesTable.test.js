@@ -19,12 +19,12 @@ describe('cases table', () => {
         civilianChuck = new Civilian.Builder()
             .withFirstName('Chuck')
             .withLastName('Berry')
-            .withRoleOnCase('Primary Complainant').build();
+            .withRoleOnCase('Complainant').build();
 
         civilianAriel = new Civilian.Builder()
             .withFirstName('Ariel')
             .withLastName('Pink')
-            .withRoleOnCase('Primary Complainant').build();
+            .withRoleOnCase('Complainant').build();
 
         const caseOne = new Case.Builder()
             .withId(17)

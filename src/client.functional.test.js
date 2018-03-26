@@ -26,7 +26,7 @@ describe('client-side user journey', () => {
                 id: 1,
                 firstName: 'Robert',
                 lastName: 'Pollard',
-                roleOnCase: 'Primary Complainant',
+                roleOnCase: 'Complainant',
                 phoneNumber: "8201387432",
                 email: 'rpollard@gmail.com',
                 createdAt: '2018-01-17T22:00:20.796Z'
@@ -61,7 +61,7 @@ describe('client-side user journey', () => {
                 id: 2,
                 firstName: 'Sarah',
                 lastName: 'Hayder',
-                roleOnCase: 'Primary Complainant',
+                roleOnCase: 'Complainant',
                 phoneNumber: "8201387432",
                 email: 'rpollack@gmail.com',
                 createdAt: '2018-01-17T22:00:20.796Z'

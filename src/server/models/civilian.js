@@ -23,8 +23,8 @@ module.exports = (sequelize, DataTypes) => {
             },
             roleOnCase: {
                 field: 'role_on_case',
-                type: DataTypes.ENUM(['Primary Complainant', 'Witness']),
-                defaultValue: 'Primary Complainant'
+                type: DataTypes.ENUM(['Complainant', 'Witness']),
+                defaultValue: 'Complainant'
             },
             genderIdentity: {
                 field: 'gender_identity',
