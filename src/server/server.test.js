@@ -66,7 +66,7 @@ describe('server', () => {
     describe('token check', () => {
         test('should return 401 with invalid token', async () => {
             await request(app)
-                .get('/cases')
+                .get('/api/cases')
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer INVALID_KEY`)
                 .expect(401)
@@ -77,7 +77,7 @@ describe('server', () => {
 
         test('should return 401 without authorization header', async () => {
             await request(app)
-                .get('/cases')
+                .get('/api/cases')
                 .set('Content-Header', 'application/json')
                 .expect(401)
                 .then(response => {
