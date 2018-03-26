@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       street_address2: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(25)
       },
       city: {
         type: Sequelize.STRING
