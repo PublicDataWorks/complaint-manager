@@ -14,7 +14,7 @@ const getUsers = () => async (dispatch) => {
             throw new Error('No access token found');
         }
 
-        const response = await fetch(`${hostname}/users`, {
+        const response = await fetch(`${hostname}/api/users`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

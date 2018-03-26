@@ -17,7 +17,7 @@ describe('remove attachment', () => {
 
     test('should dispatch error action if we get a 500 response', async () => {
         nock('http://localhost', {})
-            .delete(`/cases/${mockCaseNumber}/attachments/${mockFileName}`)
+            .delete(`/api/cases/${mockCaseNumber}/attachments/${mockFileName}`)
             .reply(500, caseDetails)
 
         await removeAttachment(mockCaseNumber, mockFileName, jest.fn())(dispatch)
@@ -26,7 +26,7 @@ describe('remove attachment', () => {
 
     test('should dispatch error action if we get an unrecognized response', async () => {
         nock('http://localhost', {})
-            .delete(`/cases/${mockCaseNumber}/attachments/${mockFileName}`)
+            .delete(`/api/cases/${mockCaseNumber}/attachments/${mockFileName}`)
             .reply(503, caseDetails)
 
         await removeAttachment(mockCaseNumber, mockFileName, jest.fn())(dispatch)
@@ -38,7 +38,7 @@ describe('remove attachment', () => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer TEST_TOKEN`
         })
-            .delete(`/cases/${mockCaseNumber}/attachments/${mockFileName}`)
+            .delete(`/api/cases/${mockCaseNumber}/attachments/${mockFileName}`)
             .reply(200, caseDetails)
 
         await removeAttachment(mockCaseNumber, mockFileName, jest.fn())(dispatch)
@@ -50,7 +50,7 @@ describe('remove attachment', () => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer TEST_TOKEN`
         })
-            .delete(`/cases/${mockCaseNumber}/attachments/${mockFileName}`)
+            .delete(`/api/cases/${mockCaseNumber}/attachments/${mockFileName}`)
             .reply(200, caseDetails)
 
         const callback = jest.fn()

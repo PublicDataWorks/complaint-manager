@@ -30,7 +30,7 @@ describe('edit civilian thunk', () => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer TEST_TOKEN`
         })
-            .put(`/civilian/${civilian.id}`, civilian)
+            .put(`/api/civilian/${civilian.id}`, civilian)
             .reply(401, responseBody)
 
         await editCivilian(civilian)(dispatch)
@@ -40,7 +40,7 @@ describe('edit civilian thunk', () => {
 
     test('should dispatch error action if we get an unrecognized response', async () => {
         nock('http://localhost', {})
-            .put(`/civilian/${civilian.id}`, civilian)
+            .put(`/api/civilian/${civilian.id}`, civilian)
             .reply(500, responseBody)
 
         await editCivilian(civilian)(dispatch)
@@ -53,7 +53,7 @@ describe('edit civilian thunk', () => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer TEST_TOKEN`
         })
-            .put(`/civilian/${civilian.id}`, civilian)
+            .put(`/api/civilian/${civilian.id}`, civilian)
             .reply(200, civilian)
 
         await editCivilian(civilian)(dispatch)
@@ -65,7 +65,7 @@ describe('edit civilian thunk', () => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer TEST_TOKEN`
         })
-            .put(`/civilian/${civilian.id}`, civilian)
+            .put(`/api/civilian/${civilian.id}`, civilian)
             .reply(200, civilian)
 
         await editCivilian(civilian)(dispatch)

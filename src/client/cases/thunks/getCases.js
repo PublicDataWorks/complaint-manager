@@ -14,7 +14,7 @@ const getCases = () => async (dispatch) => {
             throw new Error('No access token found');
         }
 
-        const response = await fetch(`${hostname}/cases`, {
+        const response = await fetch(`${hostname}/api/cases`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

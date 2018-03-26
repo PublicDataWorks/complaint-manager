@@ -32,7 +32,7 @@ describe('updateNarrative', () => {
                 'Authorization': 'Bearer TEST_TOKEN'
             }
         })
-            .put(`/cases/${updateDetails.id}/narrative`,
+            .put(`/api/cases/${updateDetails.id}/narrative`,
                 {narrative: updateDetails.narrative})
             .reply(200, responseBody)
 
@@ -55,7 +55,7 @@ describe('updateNarrative', () => {
                 'Authorization': 'Bearer TEST_TOKEN'
             }
         })
-            .put(`/cases/${updateDetails.id}/narrative`,
+            .put(`/api/cases/${updateDetails.id}/narrative`,
                 {narrative: updateDetails.narrative})
             .reply(500)
 
@@ -76,7 +76,7 @@ describe('updateNarrative', () => {
                 'Authorization': 'Bearer TEST_TOKEN'
             }
         })
-            .put(`/cases/${updateDetails.id}/narrative`,
+            .put(`/api/cases/${updateDetails.id}/narrative`,
                 {narrative: updateDetails.narrative})
             .reply(401)
 
@@ -101,7 +101,7 @@ describe('updateNarrative', () => {
                 'Authorization': 'Bearer false'
             }
         })
-            .put(`/cases/${updateDetails.id}/narrative`,
+            .put(`/api/cases/${updateDetails.id}/narrative`,
                 {narrative: updateDetails.narrative})
             .reply(200)
 

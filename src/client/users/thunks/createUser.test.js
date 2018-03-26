@@ -27,7 +27,7 @@ describe('createUser', () => {
                 'Authorization': `Bearer TEST_TOKEN`
             }
         })
-            .post('/users', user)
+            .post('/api/users', user)
             .reply(201, responseBody)
 
         await createUser(user)(dispatch)
@@ -49,7 +49,7 @@ describe('createUser', () => {
 
             }
         })
-            .post('/users', user)
+            .post('/api/users', user)
             .reply(500)
 
         await createUser(user)(dispatch)
@@ -68,7 +68,7 @@ describe('createUser', () => {
                 'Authorization': `Bearer TEST_TOKEN`
             }
         })
-            .post('/users', user)
+            .post('/api/users', user)
             .reply(401, user)
 
         await createUser(user)(dispatch)
@@ -88,7 +88,7 @@ describe('createUser', () => {
                 'Authorization': `Bearer TEST_TOKEN`
             }
         })
-            .post('/users', user)
+            .post('/api/users', user)
             .reply(201, user)
 
         await createUser(user)(dispatch)

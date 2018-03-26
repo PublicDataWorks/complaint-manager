@@ -15,7 +15,7 @@ const updateNarrative = (updateDetails) => async (dispatch) => {
             throw Error('No Token')
         }
 
-        const response = await fetch(`${hostname}/cases/${updateDetails.id}/narrative`, {
+        const response = await fetch(`${hostname}/api/cases/${updateDetails.id}/narrative`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

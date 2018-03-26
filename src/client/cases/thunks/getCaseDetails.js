@@ -14,7 +14,7 @@ const getCaseDetails = (caseId) => async (dispatch) => {
             throw Error('No Token')
         }
 
-        const response = await fetch(`${hostname}/cases/${caseId}`, {
+        const response = await fetch(`${hostname}/api/cases/${caseId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

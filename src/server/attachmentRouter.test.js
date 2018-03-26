@@ -100,7 +100,7 @@ describe('attachment routes', () => {
             })
 
             await request(app)
-                .post(`/cases/${defaultCase.id}/attachments`)
+                .post(`/api/cases/${defaultCase.id}/attachments`)
                 .set('Authorization', `Bearer ${token}`)
                 .set('Content-Type', 'multipart/form-data')
                 .field('description', 'this is a description')
@@ -148,7 +148,7 @@ describe('attachment routes', () => {
             })
 
             await request(app)
-                .post(`/cases/${defaultCase.id}/attachments`)
+                .post(`/api/cases/${defaultCase.id}/attachments`)
                 .set('Authorization', `Bearer ${token}`)
                 .set('Content-Type', 'multipart/form-data')
                 .attach(mockFileName, __dirname + '/testFixtures/test_file.pdf')
@@ -195,7 +195,7 @@ describe('attachment routes', () => {
             })
 
             await request(app)
-                .delete(`/cases/${defaultCase.id}/attachments/${attachmentToDelete.fileName}`)
+                .delete(`/api/cases/${defaultCase.id}/attachments/${attachmentToDelete.fileName}`)
                 .set('Authorization', `Bearer ${token}`)
                 .set('Content-Type', 'multipart/form-data')
                 .expect(200)

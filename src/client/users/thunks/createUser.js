@@ -16,7 +16,7 @@ const createUser = (user) => async (dispatch) => {
             throw Error('No Token')
         }
 
-        const response = await fetch(`${hostname}/users`, {
+        const response = await fetch(`${hostname}/api/users`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

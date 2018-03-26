@@ -24,7 +24,7 @@ describe('getCase', () => {
                 'Authorization': `Bearer TEST_TOKEN`
             }
         })
-            .get(`/cases/${caseId}`)
+            .get(`/api/cases/${caseId}`)
             .reply(200, responseBody)
 
         await getCaseDetail(caseId)(dispatch)
@@ -39,7 +39,7 @@ describe('getCase', () => {
                 'Authorization': `Bearer TEST_TOKEN`
             }
         })
-            .get(`/cases/${caseId}`)
+            .get(`/api/cases/${caseId}`)
             .reply(401, responseBody)
 
         await getCaseDetail(caseId)(dispatch)
@@ -57,7 +57,7 @@ describe('getCase', () => {
                 'Authorization': `Bearer false`
             }
         })
-            .get(`/cases/${caseId}`)
+            .get(`/api/cases/${caseId}`)
             .reply(200, responseBody)
 
         await getCaseDetail(caseId)(dispatch)

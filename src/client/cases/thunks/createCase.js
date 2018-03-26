@@ -17,7 +17,7 @@ const createCase = (creationDetails) => async (dispatch) => {
             throw Error('No Token')
         }
 
-        const response = await fetch(`${hostname}/cases`, {
+        const response = await fetch(`${hostname}/api/cases`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

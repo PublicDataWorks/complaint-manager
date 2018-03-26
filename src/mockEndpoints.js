@@ -7,7 +7,7 @@ export const mockGetCases = (existingCases) => {
         }
     })
         .persist()
-        .get('/cases')
+        .get('/api/cases')
         .reply(200, {
             cases: existingCases
         })
@@ -20,7 +20,7 @@ export const mockCreateCase = (caseRequest, caseResponse) => {
         }
     })
         .persist()
-        .post('/cases', caseRequest)
+        .post('/api/cases', caseRequest)
         .reply(201, caseResponse)
 }
 
@@ -31,7 +31,7 @@ export const mockGetUsers = (existingUsers) => {
         }
     })
         .persist()
-        .get('/users')
+        .get('/api/users')
         .reply(200, {
             users: existingUsers
         })

@@ -30,16 +30,16 @@ app.use(getUserProfile.unless({path: ['/callback']}))
 app.use(authErrorHandler)
 
 //Any routes defined below this point will require authentication
-app.post('/cases', createCase);
-app.get('/cases', getCases);
-app.get('/cases/:id', getCase)
-app.put('/cases/:id/narrative', updateCaseNarrative)
+app.post('/api/cases', createCase);
+app.get('/api/cases', getCases);
+app.get('/api/cases/:id', getCase)
+app.put('/api/cases/:id/narrative', updateCaseNarrative)
 
-app.use('/cases/:id/attachments', attachmentRouter)
+app.use('/api/cases/:id/attachments', attachmentRouter)
 
-app.put('/civilian/:id', editCivilian);
-app.post('/users', createUser);
-app.get('/users', getUsers);
+app.put('/api/civilian/:id', editCivilian);
+app.post('/api/users', createUser);
+app.get('/api/users', getUsers);
 
 app.get('*', function (req, res) {
     res.sendFile(path.join(buildDirectory, 'index.html'));

@@ -14,7 +14,7 @@ const editCivilian = (civilian) => async (dispatch) => {
             throw Error('No Token')
         }
 
-        const response = await fetch(`${hostname}/civilian/${civilian.id}`, {
+        const response = await fetch(`${hostname}/api/civilian/${civilian.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

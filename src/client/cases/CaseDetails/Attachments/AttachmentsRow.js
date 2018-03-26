@@ -8,7 +8,7 @@ import LinkButton from "../../../sharedComponents/LinkButton";
 const AttachmentsRow = ({attachment, onRemoveAttachment}) => {
     const downloadAttachment = async () => {
         try {
-            const response = await fetch(`/cases/${attachment.caseId}/attachments/${attachment.fileName}`, {
+            const response = await fetch(`/api/cases/${attachment.caseId}/attachments/${attachment.fileName}`, {
                 headers: {
                     'Authorization': `Bearer ${getAccessToken()}`
                 }

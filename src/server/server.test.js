@@ -130,7 +130,7 @@ describe('server', () => {
 
         test('should create a case', async () => {
             await request(app)
-                .post('/cases')
+                .post('/api/cases')
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .send(requestBody)
@@ -163,7 +163,7 @@ describe('server', () => {
             })
 
             await request(app)
-                .post('/cases')
+                .post('/api/cases')
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .send(requestBody)
@@ -196,7 +196,7 @@ describe('server', () => {
 
         test('should get all cases', async () => {
             await request(app)
-                .get('/cases')
+                .get('/api/cases')
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
@@ -266,7 +266,7 @@ describe('server', () => {
                 lastName: 'FISHHERRR',
             }
             await request(app)
-                .put(`/civilian/${seededCivilian.id}`)
+                .put(`/api/civilian/${seededCivilian.id}`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .send(updatedCivilian)
@@ -284,7 +284,7 @@ describe('server', () => {
                 }
             }
             await request(app)
-                .put(`/civilian/${seededCivilian.id}`)
+                .put(`/api/civilian/${seededCivilian.id}`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .send(updatedCivilian)
@@ -296,7 +296,7 @@ describe('server', () => {
         test('should update address if it exists', async () => {
 
             await request(app)
-                .put(`/civilian/${civilianWithAddress.id}`)
+                .put(`/api/civilian/${civilianWithAddress.id}`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .send(civilianWithAddress)
@@ -304,7 +304,7 @@ describe('server', () => {
             civilianWithAddress.address.city = 'New Orleans'
 
             await request(app)
-                .put(`/civilian/${civilianWithAddress.id}`)
+                .put(`/api/civilian/${civilianWithAddress.id}`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .send(civilianWithAddress)
@@ -316,13 +316,13 @@ describe('server', () => {
         })
         test('should not require address', async () => {
             await request(app)
-                .put(`/civilian/${civilianWithAddress.id}`)
+                .put(`/api/civilian/${civilianWithAddress.id}`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .send(civilianWithAddress)
 
             await request(app)
-                .put(`/civilian/${civilianWithoutAddress.id}`)
+                .put(`/api/civilian/${civilianWithoutAddress.id}`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .send(civilianWithoutAddress)
@@ -342,14 +342,14 @@ describe('server', () => {
                 firstName: 'BOBBY'
             }
             await request(app)
-                .put(`/civilian/${seededCivilian.id}`)
+                .put(`/api/civilian/${seededCivilian.id}`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .send(updatedCivilian)
                 .expect(200)
 
             await request(app)
-                .get(`/cases/${seededCase.id}`)
+                .get(`/api/cases/${seededCase.id}`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
@@ -381,7 +381,7 @@ describe('server', () => {
             });
 
             await request(app)
-                .post('/users')
+                .post('/api/users')
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .send({firstName: 'Ron', lastName: 'Swanson', email: 'rswanson@pawnee.gov'})
@@ -430,7 +430,7 @@ describe('server', () => {
 
         test('should get all users', async () => {
             await request(app)
-                .get('/users')
+                .get('/api/users')
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
@@ -507,7 +507,7 @@ describe('server', () => {
 
         test('should get case', async () => {
             await request(app)
-                .get(`/cases/${caseToRetrieve.id}`)
+                .get(`/api/cases/${caseToRetrieve.id}`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
@@ -581,7 +581,7 @@ describe('server', () => {
             const updatedNarrative = {narrative: 'A very updated case narrative.'}
 
             await request(app)
-                .put(`/cases/${caseToUpdate.id}/narrative`)
+                .put(`/api/cases/${caseToUpdate.id}/narrative`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .send(updatedNarrative)

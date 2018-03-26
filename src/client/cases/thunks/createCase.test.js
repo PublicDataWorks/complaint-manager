@@ -43,7 +43,7 @@ describe('createCase', () => {
                 'Authorization': `Bearer TEST_TOKEN`
             }
         })
-            .post('/cases', creationDetails.caseDetails)
+            .post('/api/cases', creationDetails.caseDetails)
             .reply(201, responseBody)
 
         await createCase(creationDetails)(dispatch)
@@ -65,7 +65,7 @@ describe('createCase', () => {
                 'Authorization': `Bearer TEST_TOKEN`
             }
         })
-            .post('/cases', caseDetails)
+            .post('/api/cases', caseDetails)
             .reply(500)
 
         await createCase(caseDetails)(dispatch)
@@ -85,7 +85,7 @@ describe('createCase', () => {
                 'Authorization': `Bearer TEST_TOKEN`
             }
         })
-            .post('/cases', creationDetails.caseDetails)
+            .post('/api/cases', creationDetails.caseDetails)
             .reply(401, responseBody)
 
         await createCase(creationDetails)(dispatch)

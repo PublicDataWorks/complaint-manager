@@ -29,7 +29,7 @@ describe('Dropzone', () => {
 
     test('should have correct post-url config when mounted', () => {
         // TODO: pull the hostname from config? or delete this test?
-        expect(dropzoneInstance.props.config.postUrl).toEqual(`http://localhost/cases/${testCaseId}/attachments`)
+        expect(dropzoneInstance.props.config.postUrl).toEqual(`http://localhost/api/cases/${testCaseId}/attachments`)
     })
 
     test('should have maxFiles, addRemoveLinks, and acceptedFile types when mounted', () => {

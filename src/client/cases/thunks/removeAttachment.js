@@ -12,7 +12,7 @@ const removeAttachment = (caseId, fileName, shouldCloseDialog) => async(dispatch
             dispatch(push(`/login`))
             throw Error('No Token')
         }
-        const response = await fetch(`${hostname}/cases/${caseId}/attachments/${fileName}`, {
+        const response = await fetch(`${hostname}/api/cases/${caseId}/attachments/${fileName}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

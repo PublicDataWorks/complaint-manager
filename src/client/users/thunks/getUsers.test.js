@@ -22,7 +22,7 @@ describe('getUsers thunk', () => {
                 'Authorization': `Bearer TEST_TOKEN`
             }
         })
-            .get('/users')
+            .get('/api/users')
             .reply(200, responseBody)
 
         await getUsers()(dispatch)
@@ -37,7 +37,7 @@ describe('getUsers thunk', () => {
                 'Authorization': `Bearer TEST_TOKEN`
             }
         })
-            .get('/users')
+            .get('/api/users')
             .reply(401, responseBody)
 
         await getUsers()(dispatch)
@@ -55,7 +55,7 @@ describe('getUsers thunk', () => {
                 'Authorization': `Bearer false`
             }
         })
-            .get('/users')
+            .get('/api/users')
             .reply(200, responseBody)
 
         await getUsers()(dispatch)

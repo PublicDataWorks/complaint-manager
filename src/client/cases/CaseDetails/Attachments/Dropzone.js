@@ -21,7 +21,7 @@ class Dropzone extends Component {
     }
 
     dropZoneComponentConfig = {
-        postUrl: `${config[process.env.NODE_ENV].hostname}/cases/${this.props.caseId}/attachments`,
+        postUrl: `${config[process.env.NODE_ENV].hostname}/api/cases/${this.props.caseId}/attachments`,
     }
 
     eventHandlers = {
