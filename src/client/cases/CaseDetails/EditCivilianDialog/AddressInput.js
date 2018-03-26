@@ -21,7 +21,8 @@ const AddressInput = (props) => (
                 width: '50%'
             }}
             inputProps={{
-                'data-test': 'streetAddress2Input'
+                'data-test': 'streetAddress2Input',
+                maxLength: 255
             }}
         />
         <Field
