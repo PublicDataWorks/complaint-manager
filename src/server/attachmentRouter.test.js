@@ -51,7 +51,26 @@ describe('attachment routes', () => {
         })
     })
 
-    let defaultCase
+    let defaultCase, defaultCivilian, defaultAttachment, attachmentToDelete
+    beforeEach( async() => {
+        defaultCivilian = new Civilian.Builder().defaultCivilian()
+            .withId(undefined)
+            .build()
+        defaultAttachment = new Attachment.Builder().defaultAttachment()
+            .withId(undefined)
+            .withCaseId(undefined)
+        attachmentToDelete = new Attachment.Builder().defaultAttachment()
+            .withId(undefined)
+            .withCaseId(undefined)
+            .withFileName('test_file_two.pdf')
+
+        defaultCase = new Case.Builder().defaultCase()
+            .withId(undefined)
+            .withCivilians([defaultCivilian])
+            .withAttachments([defaultAttachment, attachmentToDelete])
+            .build()
+        defaultCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}, {model: models.attachment}]})
+    });
 
     afterEach(async () => {
         await models.attachment.destroy({
@@ -81,11 +100,8 @@ describe('attachment routes', () => {
 
     describe('POST /cases/:id/attachments', () => {
 
-
         test('should return updated case after adding attachment', async () => {
-            let civilian = new Civilian.Builder().defaultCivilian().withId(undefined).build()
-            defaultCase = new Case.Builder().defaultCase().withId(undefined).withCivilians([civilian]).build()
-            defaultCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}]})
+
             let mockKey = `${defaultCase.id}/mock_filename`
 
             AWS.S3.mockImplementation(() => {
@@ -109,12 +125,12 @@ describe('attachment routes', () => {
                 .then(response => {
                     expect(response.body.id).toEqual(defaultCase.id)
                     expect(response.body.civilians[0].id).toEqual(defaultCase.civilians[0].id)
-                    expect(response.body.attachments[0].fileName).toEqual('README.md')
+                    expect(response.body.attachments[2].fileName).toEqual('README.md')
                     expect(response.body.status).toEqual('Active')
                 })
 
             const log = await models.audit_log.findOne({
-                where:{
+                where: {
                     caseId: defaultCase.id
                 }
             })
@@ -123,17 +139,6 @@ describe('attachment routes', () => {
         })
 
         test('should return 409 when file is a duplicate', async () => {
-            let civilian = new Civilian.Builder().defaultCivilian().withId(undefined).build()
-            let attachment = new Attachment.Builder().defaultAttachment()
-                .withId(undefined)
-                .withCaseId(undefined)
-            defaultCase = new Case.Builder().defaultCase()
-                .withId(undefined)
-                .withCivilians([civilian])
-                .withAttachments([attachment])
-                .build()
-            defaultCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}, {model: models.attachment}]})
-
             let mockFileName = 'test_file.pdf'
 
             AWS.S3.mockImplementation(() => {
@@ -157,30 +162,15 @@ describe('attachment routes', () => {
     })
 
     describe('DELETE /cases/:id/attachments/:fileName', () => {
+        let caseWithSameFilename
+
         test('should delete attachment from case', async () => {
-            let civilian = new Civilian.Builder().defaultCivilian().withId(undefined).build()
-            let attachmentToKeep = new Attachment.Builder().defaultAttachment()
+            caseWithSameFilename = new Case.Builder().defaultCase()
                 .withId(undefined)
-                .withCaseId(undefined)
-
-            let attachmentToDelete = new Attachment.Builder().defaultAttachment()
-                .withId(undefined)
-                .withCaseId(undefined)
-                .withFileName('test_file_two.pdf')
-
-            defaultCase = new Case.Builder().defaultCase()
-                .withId(undefined)
-                .withCivilians([civilian])
-                .withAttachments([attachmentToKeep, attachmentToDelete])
+                .withCivilians([defaultCivilian])
+                .withAttachments([defaultAttachment, attachmentToDelete])
                 .build()
 
-            let caseWithSameFilename = new Case.Builder().defaultCase()
-                .withId(undefined)
-                .withCivilians([civilian])
-                .withAttachments([attachmentToKeep, attachmentToDelete])
-                .build()
-
-            defaultCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}, {model: models.attachment}]})
             caseWithSameFilename = await models.cases.create(caseWithSameFilename, {include: [{model: models.civilian}, {model: models.attachment}]})
 
             AWS.S3.mockImplementation(() => {
@@ -201,7 +191,7 @@ describe('attachment routes', () => {
                 .expect(200)
                 .then(response => {
                     expect(response.body.attachments.length).toEqual(1)
-                    expect(response.body.attachments[0].fileName).toEqual(attachmentToKeep.fileName)
+                    expect(response.body.attachments[0].fileName).toEqual(defaultAttachment.fileName)
                 })
 
             const attachmentsFromUnmodifiedCase = await models.attachment.findAll({
@@ -212,6 +202,32 @@ describe('attachment routes', () => {
 
             expect(attachmentsFromUnmodifiedCase.length).toEqual(2)
 
+        })
+
+        afterEach(async () => {
+            await models.attachment.destroy({
+                where: {
+                    caseId: caseWithSameFilename.id
+                }
+            })
+
+            await models.civilian.destroy({
+                where: {
+                    caseId: caseWithSameFilename.id
+                }
+            })
+
+            await models.audit_log.destroy({
+                where: {
+                    caseId: caseWithSameFilename.id
+                }
+            })
+
+            await models.cases.destroy({
+                where: {
+                    id: caseWithSameFilename.id
+                }
+            })
         })
     })
 });
