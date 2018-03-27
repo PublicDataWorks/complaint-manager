@@ -1,21 +1,11 @@
 import attachmentsReducer from "./attachmentsReducer";
-import {
-    dropDuplicateFile, dropInvalidFileType,
-    removeDropzoneFile
-} from "../../actionCreators/attachmentsActionCreators";
+import {dropDuplicateFile, removeDropzoneFile} from "../../actionCreators/attachmentsActionCreators";
 
 describe('attachmentReducer', () => {
     test('should set the default state', () => {
         const defaultState = attachmentsReducer(undefined, {type: 'blah'})
 
         expect(defaultState).toEqual({errorMessage: ''})
-    })
-
-    test('should set error message on invalid file type', () => {
-        const startingState = {errorMessage: ''}
-        const newState = attachmentsReducer(startingState, dropInvalidFileType())
-
-        expect(newState).toEqual({errorMessage: 'File type not supported.'})
     })
 
     test('should clear error message when file removed', () => {

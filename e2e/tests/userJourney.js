@@ -51,31 +51,24 @@ if (TEST_PASS && TEST_USER && HOST) {
 
         "should add and remove an attachment": (browser) => {
             const imagesDir = 'images/'
-
-            const invalidImageFileName = 'invalid_file_type.png'
-            const validImageFileName = 'dog_nose.jpg'
+            const fileName = 'dog_nose.jpg'
 
             browser
-                .setValue('input[type="file"]', path.resolve(__dirname, imagesDir, invalidImageFileName))
-                .moveToElement("div.dz-preview", 60, 60)
-                .waitForElementVisible("[data-test=invalidFileTypeErrorMessage]", rerenderWait)
-                .assert.containsText("[data-test=invalidFileTypeErrorMessage]", "File type not supported")
-
-                // This doesn't run correctly in headless Chrome:
-
-                .setValue('input[type="file"]', path.resolve(__dirname, imagesDir, validImageFileName))
+                .setValue('input[type="file"]', path.resolve(__dirname, imagesDir, fileName))
                 .waitForElementVisible("[data-test='attachmentDescriptionInput']", roundTripWait)
                 .setValue('[data-test="attachmentDescriptionInput"]', "a description")
                 .waitForElementVisible('[data-test=attachmentUploadButton]', rerenderWait)
                 .click('[data-test=attachmentUploadButton]')
                 .pause(2000)
+
                 .waitForElementVisible("[data-test=attachmentRow]", roundTripWait)
-                .assert.containsText("[data-test=attachmentRow]", validImageFileName)
+                .assert.containsText("[data-test=attachmentRow]", fileName)
                 .waitForElementVisible("[data-test=removeAttachmentButton]", roundTripWait)
                 .click('[data-test=removeAttachmentButton]')
                 .pause(2000)
                 .click('[data-test=confirmRemoveAttachmentButton]')
                 .pause(2000)
+
                 .waitForElementVisible("[data-test=noAttachmentsText]", roundTripWait)
                 .assert.containsText("[data-test=noAttachmentsText]", 'No files are attached')
                 .pause(2000)

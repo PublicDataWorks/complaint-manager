@@ -1,18 +1,16 @@
 import React from "react";
-import { mount } from "enzyme/build/index";
+import {mount} from "enzyme/build/index";
 import createConfiguredStore from "../../../createConfiguredStore";
-import { Provider } from "react-redux";
+import {Provider} from "react-redux";
 import DropzoneContainer from "./DropzoneContainer";
 import Dropzone from "./Dropzone";
-import { mockLocalStorage } from "../../../../mockLocalStorage";
+import {mockLocalStorage} from "../../../../mockLocalStorage";
 import {
-    getCaseDetailsSuccess, uploadAttachmentFailed,
+    getCaseDetailsSuccess,
+    uploadAttachmentFailed,
     uploadAttachmentSuccess
 } from "../../../actionCreators/casesActionCreators";
-import {
-    dropDuplicateFile, dropInvalidFileType,
-    removeDropzoneFile
-} from "../../../actionCreators/attachmentsActionCreators";
+import {dropDuplicateFile, removeDropzoneFile} from "../../../actionCreators/attachmentsActionCreators";
 import Case from "../../../testUtilities/case";
 
 describe('connected Dropzone', () => {
@@ -46,7 +44,6 @@ describe('connected Dropzone', () => {
 
     test('should map the actions to props', () => {
         expect(dropzone.prop("uploadAttachmentSuccess")).toBeDefined()
-        expect(dropzone.prop("dropInvalidFileType")).toBeDefined()
         expect(dropzone.prop("dropDuplicateFile")).toBeDefined()
         expect(dropzone.prop("uploadAttachmentFailed")).toBeDefined()
         expect(dropzone.prop("removeDropzoneFile")).toBeDefined()

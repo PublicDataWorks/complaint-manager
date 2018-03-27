@@ -1,10 +1,7 @@
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import Dropzone from "./Dropzone";
-import { uploadAttachmentFailed, uploadAttachmentSuccess } from "../../../actionCreators/casesActionCreators";
-import {
-    dropDuplicateFile, dropInvalidFileType,
-    removeDropzoneFile
-} from "../../../actionCreators/attachmentsActionCreators";
+import {uploadAttachmentFailed, uploadAttachmentSuccess} from "../../../actionCreators/casesActionCreators";
+import {dropDuplicateFile, removeDropzoneFile} from "../../../actionCreators/attachmentsActionCreators";
 
 const mapStateToProps = (state) => ({
     errorMessage: state.ui.attachments.errorMessage,
@@ -13,7 +10,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     uploadAttachmentSuccess,
-    dropInvalidFileType,
     dropDuplicateFile,
     uploadAttachmentFailed,
     removeDropzoneFile

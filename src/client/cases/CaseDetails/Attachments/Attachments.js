@@ -26,9 +26,6 @@ const Attachments = (props) => {
                     <Typography style={styles.section}>
                         UPLOAD A FILE
                     </Typography>
-                    <Typography type="caption" style={{marginBottom: "16px"}}>
-                        Accepted file types: .pdf, .mp3, .mp4, .doc, .docx, .jpeg, .jpg
-                    </Typography>
                 </div>
                 <DropzoneContainer/>
             </CardContent>

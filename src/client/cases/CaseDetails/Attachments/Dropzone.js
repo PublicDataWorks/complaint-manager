@@ -4,7 +4,7 @@ import '../../../../../node_modules/react-dropzone-component/styles/filepicker.c
 import '../../../../../node_modules/dropzone/dist/min/dropzone.min.css'
 import config from '../../../config/config'
 import getAccessToken from "../../../auth/getAccessToken";
-import {DUPLICATE_FILE_NAME, FILE_TYPE_INVALID, UPLOAD_CANCELED} from "../../../../sharedUtilities/constants";
+import {DUPLICATE_FILE_NAME, UPLOAD_CANCELED} from "../../../../sharedUtilities/constants";
 import {FormControl, FormHelperText} from 'material-ui/Form';
 import {SubmitButton} from "../../../sharedComponents/StyledButtons";
 import {Input, InputLabel} from "material-ui";
@@ -40,9 +40,6 @@ class Dropzone extends Component {
             this.setState({attachmentValid: false})
 
             switch (errorMessage) {
-                case FILE_TYPE_INVALID:
-                    this.props.dropInvalidFileType()
-                    break
                 case DUPLICATE_FILE_NAME:
                     this.props.dropDuplicateFile()
                     break
@@ -68,8 +65,6 @@ class Dropzone extends Component {
         headers: {
             Authorization: `Bearer ${getAccessToken()}`
         },
-        acceptedFiles: 'application/pdf,audio/mpeg,audio/mp3,video/mp4,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg',
-        dictInvalidFileType: FILE_TYPE_INVALID,
         dictUploadCanceled: UPLOAD_CANCELED,
         dictDefaultMessage: "Drag and drop or click",
         maxFilesize: 5000,
