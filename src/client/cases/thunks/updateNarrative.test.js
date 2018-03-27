@@ -9,6 +9,12 @@ jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))
 
 describe('updateNarrative', () => {
     const dispatch = jest.fn()
+    const updateDetails = {
+        id: 1,
+        narrativeDetails: 'Some case narrative details',
+        narrativeSummary: 'Some case narrative summary'
+    }
+
     beforeEach(() => {
         dispatch.mockClear()
     })
@@ -16,14 +22,10 @@ describe('updateNarrative', () => {
     test('should dispatch success when narrative updated successfully', async () => {
         const dispatch = jest.fn()
 
-        const updateDetails = {
-            id: 1,
-            narrative: 'Some case narrative'
-        }
-
         const responseBody = {
             id: 1,
-            narrative: 'Some case narrative'
+            narrativeDetails: 'Some case narrative details',
+            narrativeSummary: 'Some case narrative summary'
         }
 
         nock('http://localhost', {
@@ -32,8 +34,10 @@ describe('updateNarrative', () => {
                 'Authorization': 'Bearer TEST_TOKEN'
             }
         })
-            .put(`/api/cases/${updateDetails.id}/narrative`,
-                {narrative: updateDetails.narrative})
+            .put(`/api/cases/${updateDetails.id}/narrative`, {
+                narrativeDetails: updateDetails.narrativeDetails,
+                narrativeSummary: updateDetails.narrativeSummary
+            })
             .reply(200, responseBody)
 
         await updateNarrative(updateDetails)(dispatch)
@@ -44,19 +48,16 @@ describe('updateNarrative', () => {
     })
 
     test('should dispatch failure when narrative update fails', async () => {
-        const updateDetails = {
-            id: 1,
-            narrative: 'Some case narrative'
-        }
-
         nock('http://localhost', {
             reqheaders: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer TEST_TOKEN'
             }
         })
-            .put(`/api/cases/${updateDetails.id}/narrative`,
-                {narrative: updateDetails.narrative})
+            .put(`/api/cases/${updateDetails.id}/narrative`, {
+                narrativeDetails: updateDetails.narrativeDetails,
+                narrativeSummary: updateDetails.narrativeSummary
+            })
             .reply(500)
 
         await updateNarrative(updateDetails)(dispatch)
@@ -65,19 +66,16 @@ describe('updateNarrative', () => {
     })
 
     test('should not dispatch success if unauthorized and redirect', async () => {
-        const updateDetails = {
-            id: 1,
-            narrative: 'Some case narrative'
-        }
-
         nock('http://localhost', {
             reqheaders: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer TEST_TOKEN'
             }
         })
-            .put(`/api/cases/${updateDetails.id}/narrative`,
-                {narrative: updateDetails.narrative})
+            .put(`/api/cases/${updateDetails.id}/narrative`, {
+                narrativeDetails: updateDetails.narrativeDetails,
+                narrativeSummary: updateDetails.narrativeSummary
+            })
             .reply(401)
 
         await updateNarrative(updateDetails)(dispatch)
@@ -90,19 +88,16 @@ describe('updateNarrative', () => {
     test('should redirect immediately if token missing', async () => {
         getAccessToken.mockImplementation(() => false)
 
-        const updateDetails = {
-            id: 1,
-            narrative: 'Some case narrative'
-        }
-
         nock('http://localhost', {
             reqheaders: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer false'
             }
         })
-            .put(`/api/cases/${updateDetails.id}/narrative`,
-                {narrative: updateDetails.narrative})
+            .put(`/api/cases/${updateDetails.id}/narrative`, {
+                narrativeDetails: updateDetails.narrativeDetails,
+                narrativeSummary: updateDetails.narrativeSummary
+            })
             .reply(200)
 
         await updateNarrative(updateDetails)(dispatch)

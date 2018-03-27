@@ -12,7 +12,8 @@ class Case {
         this.complainantType = build.complainantType
         this.createdBy = build.createdBy
         this.assignedTo = build.assignedTo
-        this.narrative = build.narrative
+        this.narrativeDetails = build.narrativeDetails
+        this.narrativeSummary = build.narrativeSummary
         this.attachments = build.attachments
         this.incidentDate = build.incidentDate
     }
@@ -31,7 +32,8 @@ class Case {
                 this.complainantType = 'Civilian'
                 this.createdBy = 'tuser'
                 this.assignedTo = 'tuser'
-                this.narrative = null
+                this.narrativeDetails = null
+                this.narrativeSummary = null
                 this.attachments = [new Attachment.Builder().defaultAttachment().withCaseId(id).build()]
                 return this;
             }
@@ -81,8 +83,13 @@ class Case {
                 return this;
             }
 
-            withNarrative(narrative) {
-                this.narrative = narrative
+            withNarrativeDetails(narrativeDetails) {
+                this.narrativeDetails = narrativeDetails
+                return this
+            }
+
+            withNarrativeSummary(narrativeSummary) {
+                this.narrativeSummary = narrativeSummary
                 return this
             }
 

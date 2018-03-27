@@ -12,23 +12,46 @@ const Narrative = (props) => {
             <CardContent>
                 <Typography
                     style={{
-                        marginBottom: '2%'
+                        marginBottom: '24px'
                     }}
                 >
                     Record information gained during the intake process. This information will be used to populate a detailed account section of the referral letter.
                 </Typography>
                 <form data-test="createUserForm">
                     <Field
-                        name="narrative"
+                        name="narrativeSummary"
+                        label="Narrative Summary"
                         component={TextField}
                         fullWidth
                         multiline
                         rowsMax={5}
-                        placeholder="Any information that the complainant provided about the incident"
+                        placeholder='Enter a brief, 2-3 sentence summary of the incident'
                         inputProps={{
-                            "data-test": "narrativeInput"
+                            "data-test": "narrativeSummaryInput",
+                            maxLength: 500
                         }}
-                        data-test="narrativeField"
+                        InputLabelProps={{
+                            shrink: true
+                        }}
+                        data-test="narrativeSummaryInput"
+                        style={{marginBottom: '24px'}}
+                    />
+                    <Field
+                        name="narrativeDetails"
+                        label="Narrative Details"
+
+                        component={TextField}
+                        fullWidth
+                        multiline
+                        rowsMax={5}
+                        placeholder="Enter a transcript or details of the incident"
+                        inputProps={{
+                            "data-test": "narrativeDetailsInput"
+                        }}
+                        InputLabelProps={{
+                            shrink: true
+                        }}
+                        data-test="narrativeDetailsField"
                     />
                 </form>
             </CardContent>

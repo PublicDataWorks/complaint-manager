@@ -33,7 +33,7 @@ describe('Case Details Component', () => {
         store = createConfiguredStore()
         dispatchSpy = jest.spyOn(store, 'dispatch');
 
-        expectedCase = new Case.Builder().defaultCase().withNarrative('Some initial narrative').withIncidentDate(incidentDateInUTC).build()
+        expectedCase = new Case.Builder().defaultCase().withNarrativeDetails('Some initial narrative').withIncidentDate(incidentDateInUTC).build()
 
         store.dispatch(getCaseDetailsSuccess(expectedCase));
 
@@ -98,41 +98,6 @@ describe('Case Details Component', () => {
 
         test("should display assigned to user", () => {
             containsText(caseDetails, '[data-test="assigned-to"]', expectedCase.assignedTo)
-        })
-
-    });
-
-    describe('main content', () => {
-        describe('narrative', () => {
-            test('should have an initial value', () => {
-                containsText(caseDetails, '[data-test="narrativeInput"]', expectedCase.narrative)
-            })
-
-            test('should update case narrative when save button is clicked', () => {
-                const updateDetails = {
-                    narrative: 'sample narrative with additional details.',
-                    id: expectedCase.id
-                }
-
-                changeInput(caseDetails, 'textarea[data-test="narrativeInput"]', updateDetails.narrative)
-
-                const saveButton = caseDetails.find('button[data-test="saveNarrative"]')
-                saveButton.simulate('click')
-
-                expect(dispatchSpy).toHaveBeenCalledWith(updateNarrative(updateDetails))
-            })
-
-            test('should disable the submit button when pristine', () => {
-                const saveButton = caseDetails.find('button[data-test="saveNarrative"]')
-                saveButton.simulate('click')
-
-                const defaultValues = {
-                    narrative: caseDetails.narrative,
-                    id: caseDetails.id
-                }
-
-                expect(dispatchSpy).not.toHaveBeenCalledWith(updateNarrative(defaultValues))
-            })
         })
     });
 });

@@ -26,8 +26,12 @@ module.exports = (sequelize, DataTypes) => {
                 field: 'incident_date',
                 type: DataTypes.DATE
             },
-            narrative: {
-                field: 'narrative',
+            narrativeSummary: {
+                field: 'narrative_summary',
+                type: DataTypes.STRING(500)
+            },
+            narrativeDetails: {
+                field: 'narrative_details',
                 type: DataTypes.TEXT
             },
             createdBy: {

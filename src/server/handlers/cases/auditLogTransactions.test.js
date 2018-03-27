@@ -51,7 +51,7 @@ describe('transactions', () => {
     test('should not update narrative if audit log fails', async () => {
         const caseToCreate = new Case.Builder().defaultCase()
             .withId(undefined)
-            .withNarrative('initial narrative')
+            .withNarrativeDetails('initial narrative')
             .build()
         const caseToUpdate = await models.cases.create(caseToCreate)
 
@@ -61,7 +61,7 @@ describe('transactions', () => {
                 authorization: 'Bearer SOME_MOCK_TOKEN'
             },
             body: {
-                narrative: 'updated narrative'
+                narrativeDetails: 'updated narrative'
             },
             params: {
                 id: caseToUpdate.id
@@ -74,7 +74,7 @@ describe('transactions', () => {
 
         const updatedCase = await models.cases.findById(caseToUpdate.id)
 
-        expect(updatedCase.narrative).toEqual('initial narrative')
+        expect(updatedCase.narrativeDetails).toEqual('initial narrative')
 
         await models.cases.destroy({where: {id: updatedCase.id}})
     })
@@ -82,7 +82,6 @@ describe('transactions', () => {
     test('should not update civilian if audit log fails', async () => {
         const caseToCreate = new Case.Builder().defaultCase()
             .withId(undefined)
-            .withNarrative('initial narrative')
             .withCivilians([new Civilian.Builder().defaultCivilian().withId(undefined).withFirstName('Original').build()])
             .build()
 

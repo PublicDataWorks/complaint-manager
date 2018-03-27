@@ -30,7 +30,8 @@ describe('updateCaseNarrative handler', () => {
                 id: 1
             },
             body: {
-                narrative: "So much narrative"
+                narrativeSummary: "So much summary",
+                narrativeDetails: "So much narrative"
             },
             nickname: userNickname
         })
@@ -42,7 +43,8 @@ describe('updateCaseNarrative handler', () => {
         updateCaseNarrative(request, response, jest.fn())
 
         expect(models.cases.update).toHaveBeenCalledWith({
-            narrative: request.body.narrative
+            narrativeSummary: request.body.narrativeSummary,
+            narrativeDetails: request.body.narrativeDetails
         }, {
             where: {id: request.params.id},
             individualHooks: true,

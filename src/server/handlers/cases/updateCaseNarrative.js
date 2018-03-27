@@ -6,10 +6,11 @@ const updateCaseNarrative = async (request, response, next) => {
 
         const updatedCase = await models.sequelize.transaction(async (t) => {
             await models.cases.update({
-                    narrative: request.body.narrative,
+                    narrativeDetails: request.body.narrativeDetails,
+                    narrativeSummary: request.body.narrativeSummary
                 },
                 {
-                    where: {id: caseId},
+                    where: { id: caseId },
                     individualHooks: true,
                     transaction: t
                 })
@@ -27,7 +28,15 @@ const updateCaseNarrative = async (request, response, next) => {
             return await models.cases.findById(
                 caseId,
                 {
-                    include: [{model: models.civilian}],
+                    include: [
+                        {
+                            model: models.civilian,
+                            include: [models.address]
+                        },
+                        {
+                            model: models.attachment
+                        }
+                    ],
                     transaction: t
                 }
             )

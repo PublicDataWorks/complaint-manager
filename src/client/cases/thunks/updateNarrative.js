@@ -21,7 +21,10 @@ const updateNarrative = (updateDetails) => async (dispatch) => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({narrative: updateDetails.narrative})
+            body: JSON.stringify({
+                narrativeSummary: updateDetails.narrativeSummary,
+                narrativeDetails: updateDetails.narrativeDetails,
+            })
         })
 
         switch (response.status) {

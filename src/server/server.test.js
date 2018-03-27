@@ -541,19 +541,21 @@ describe('server', () => {
         let caseToUpdate
 
         beforeEach(async () => {
-            caseToUpdate = await models.cases.create({
-                civilians: [{
-                    firstName: 'Eleanor',
-                    lastName: 'Schellstrop',
-                    phoneNumber: "8201387432",
-                    email: 'eschell@gmail.com'
-                }],
-                complainantType: 'Civilian',
-                narrative: 'Beginning narrative',
-                status: 'Initial',
-                createdBy: 'tuser',
-                assignedTo: 'tuser'
-            }, {
+            let civilian = new Civilian.Builder()
+                .defaultCivilian()
+                .withId(undefined)
+                .withFirstName('Eleanor')
+                .build()
+
+            let caseToCreate = new Case.Builder()
+                .defaultCase()
+                .withId(undefined)
+                .withCivilians([civilian])
+                .withNarrativeDetails('Beginning narrative')
+                .build()
+
+            caseToUpdate = await models.cases.create(caseToCreate
+            , {
                 returning: true,
                 include: [{model: models.civilian}]
             })
@@ -578,7 +580,7 @@ describe('server', () => {
         })
 
         test('should update case narrative', async () => {
-            const updatedNarrative = {narrative: 'A very updated case narrative.'}
+            const updatedNarrative = {narrativeDetails: 'A very updated case narrative.'}
 
             await request(app)
                 .put(`/api/cases/${caseToUpdate.id}/narrative`)
@@ -592,7 +594,7 @@ describe('server', () => {
                     expect(response.body.civilians[0].lastName).toEqual(caseToUpdate.civilians[0].lastName)
                     expect(response.body.civilians[0].email).toEqual(caseToUpdate.civilians[0].email)
                     expect(response.body.complainantType).toEqual(caseToUpdate.complainantType)
-                    expect(response.body.narrative).toEqual(updatedNarrative.narrative)
+                    expect(response.body.narrativeDetails).toEqual(updatedNarrative.narrativeDetails)
                     expect(response.body.status).toEqual('Active')
                 })
         })
