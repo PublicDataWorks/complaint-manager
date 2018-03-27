@@ -4,6 +4,7 @@ import Address from "./Address";
 class Civilian {
     constructor(build) {
         this.id = build.id
+        this.caseId = build.caseId
         this.firstName = build.firstName
         this.middleInitial = build.middleInitial
         this.lastName = build.lastName
@@ -23,6 +24,7 @@ class Civilian {
         class Builder {
             defaultCivilian() {
                 this.id = 17
+                this.caseId = 17
                 this.firstName = 'Chuck'
                 this.middleInitial = 'E'
                 this.lastName = 'Berry'
@@ -61,6 +63,11 @@ class Civilian {
                 this.id = id
                 this.address.civilianId = id
                 return this;
+            }
+
+            withCaseId(caseId) {
+                this.caseId = caseId
+                return this
             }
 
             withFirstName(firstName) {
