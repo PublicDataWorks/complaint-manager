@@ -19,7 +19,7 @@ const CaseDrawer = ({classes, caseDetail}) => (
             </LinkButton>
             <Typography data-test="case-number" type="title" style={{marginLeft: "24px", marginTop: '4px'}}
                         gutterBottom>
-                {`Case #${caseDetail.id}`}
+                {`Case Details`}
             </Typography>
             <div className={classes.drawerRow}>
                 <div className={classes.drawerRowItem}>

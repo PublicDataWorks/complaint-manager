@@ -51,9 +51,9 @@ describe('Case Details Component', () => {
     })
 
     describe('nav bar', () => {
-        test("should display with Last Name, First Initial", () => {
+        test("should display with Case number", () => {
             const navBar = caseDetails.find(NavBar);
-            const expectedFormattedName = formatName(getPrimaryComplainant(expectedCase.civilians))
+            const expectedFormattedName = `Case #${expectedCase.id}`
 
             containsText(navBar, '[data-test="pageTitle"]', expectedFormattedName)
         })
@@ -69,8 +69,8 @@ describe('Case Details Component', () => {
             containsText(caseDetails, '[data-test="all-cases-link"]', "Back to all Cases")
         })
 
-        test("should display the case number", () => {
-            containsText(caseDetails, '[data-test="case-number"]', `Case #${expectedCase.id}`)
+        test("should display Case Details as a default section title", () => {
+            containsText(caseDetails, '[data-test="case-number"]', `Case Details`)
         })
 
         test('should display incident date', () => {

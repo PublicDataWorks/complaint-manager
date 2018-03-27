@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import {withStyles} from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import NavBar from "../../sharedComponents/NavBar";
-import { connect } from "react-redux";
-import formatName from "../../utilities/formatName";
+import {connect} from "react-redux";
 import Narrative from "./Narrative";
 import CaseDetailSnackbar from "./CaseDetailSnackbar/CaseDetailSnackbar";
 import ComplainantWitnesses from "./ComplainantWitnesses/ComplainantWitnesses";
 import EditCivilianDialog from "./EditCivilianDialog/EditCivilianDialog"
-import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
 import getCaseDetails from "../thunks/getCaseDetails";
 import * as _ from 'lodash';
 import Attachments from "./Attachments/Attachments";
@@ -64,7 +62,7 @@ class CaseDetails extends React.Component {
                             style={{marginRight: '20px'}}
 
                         >
-                            {formatName(getPrimaryComplainant(this.props.caseDetail.civilians))}
+                            {`Case #${this.props.caseDetail.id}`}
                         </Typography>
                         <Typography
                             data-test="caseStatusBox"
