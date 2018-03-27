@@ -31,7 +31,7 @@
     "jwks-rsa": "^1.2.1",
     "lodash": "^4.17.4",
     "material-ui": "^1.0.0-beta.30",
-    "material-ui-icons": "^1.0.0-beta.17",
+    "material-ui-icons": "1.0.0-beta.36",
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
     "nodemailer": "^4.4.1",

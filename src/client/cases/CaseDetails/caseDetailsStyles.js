@@ -25,7 +25,7 @@ const styles = theme => ({
         backgroundColor: 'white'
     },
     drawerRow: {
-        marginLeft: '6%',
+        marginLeft: '24px',
         display: "flex",
         marginBottom: '8px',
         flexWrap: 'wrap'
