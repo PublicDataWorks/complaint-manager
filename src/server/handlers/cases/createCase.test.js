@@ -67,7 +67,7 @@ describe('createCase handler', () => {
         await createCase(request, response, next)
 
         const expectedLog = {
-            action: `Case ${createdCase.id} created`,
+            action: `Case created`,
             caseId: createdCase.id,
             user: 'TEST_USER_NICKNAME'
         }

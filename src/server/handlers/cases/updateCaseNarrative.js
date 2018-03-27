@@ -19,7 +19,7 @@ const updateCaseNarrative = async (request, response, next) => {
             await models.audit_log.create({
                     caseId: caseId,
                     user: request.nickname,
-                    action: `Case ${caseId} narrative updated`
+                    action: `Narrative updated`
                 },
                 {
                     transaction: t

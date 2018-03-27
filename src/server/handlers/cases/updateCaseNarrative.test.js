@@ -67,7 +67,7 @@ describe('updateCaseNarrative handler', () => {
 
     test('should log on update', () => {
         const expectedLog = {
-            action: `Case ${request.params.id} narrative updated`,
+            action: `Narrative updated`,
             caseId: request.params.id,
             user: userNickname
         }

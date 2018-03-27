@@ -26,7 +26,7 @@ const createCase = async (req, res, next) => {
                 })
 
                 await models.audit_log.create({
-                    action: `Case ${createdCase.id} created`,
+                    action: `Case created`,
                     caseId: createdCase.id,
                     user: req.nickname,
                 }, {transaction: t})
