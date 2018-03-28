@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {Field, formValueSelector, reduxForm, submit} from "redux-form";
-import {Dialog, DialogActions, DialogContent, DialogTitle, Typography} from 'material-ui';
+import {Field, formValueSelector, reduxForm} from "redux-form";
+import {Dialog, DialogActions, DialogContent, DialogTitle, Typography } from 'material-ui';
 import RoleOnCaseRadioGroup from "./RoleOnCaseRadioGroup";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";
 import LastNameField from "../../sharedFormComponents/LastNameField";
 import {CancelButton, SubmitButton} from "../../../sharedComponents/StyledButtons";
 import {closeEditDialog} from "../../../actionCreators/casesActionCreators";
-import {genderIdentityIsRequired, raceEthnicityIsRequired} from "../../../formFieldLevelValidations";
+import {genderIdentityIsRequired, raceEthnicityIsRequired } from "../../../formFieldLevelValidations";
 import NoBlurTextField from "./FormSelect";
 import {withTheme} from "material-ui/styles/index";
 import DateField from "../../sharedFormComponents/DateField";
@@ -19,13 +19,13 @@ import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine
 import formatAddress from "../../../utilities/formatAddress";
 import moment from "moment"
 import {genderIdentityMenu, raceEthnicityMenu} from "./helpers/generateMenus";
-import handleEditCivilian from "./helpers/handleEditCivilian";
 import validate from "./helpers/validateCivilianFields";
 import AddressInput from "./AddressInput";
 import {TextField} from "redux-form-material-ui";
+import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 
 
-class EditCivilianDialog extends Component {
+class CivilianDialog extends Component {
 
     //TODO  IS there a good way to do dependency injection in react/redux?
     // It's generally poor form to have a default service instance.
@@ -36,6 +36,15 @@ class EditCivilianDialog extends Component {
         this.suggestionEngine = props.suggestionEngine || new AddressSuggestionEngine()
     }
 
+    handleCivilian = (values, dispatch) => {
+        //The database can't handle the empty string we use for display purposes.  So, strip it out before sending off to the API
+        const nullifyDateUnlessValid = date => (date && date.trim() === '' ? null : date)
+
+        dispatch(this.props.submitAction({
+            ...values,
+            birthDate: nullifyDateUnlessValid(values.birthDate)
+        }))
+    }
 
     render() {
         return (
@@ -46,7 +55,7 @@ class EditCivilianDialog extends Component {
                 <DialogTitle
                     data-test="editDialogTitle"
                 >
-                    Edit Civilian
+                    {this.props.title}
                 </DialogTitle>
                 <DialogContent
                     style={{padding: '0px 24px'}}
@@ -104,7 +113,7 @@ class EditCivilianDialog extends Component {
                                 style={{width: '30%'}}
                                 validate={[genderIdentityIsRequired]}
                             >
-                                { genderIdentityMenu }
+                                {genderIdentityMenu}
                             </Field>
                         </div>
                         <Field
@@ -158,9 +167,9 @@ class EditCivilianDialog extends Component {
                     </CancelButton>
                     <SubmitButton
                         data-test="submitEditCivilian"
-                        onClick={() => this.props.dispatch(submit('EditCivilian'))}
+                        onClick={this.props.handleSubmit(this.handleCivilian)}
                     >
-                        Save
+                        {this.props.submitButtonText}
                     </SubmitButton>
                 </DialogActions>
             </Dialog>
@@ -168,23 +177,25 @@ class EditCivilianDialog extends Component {
     }
 }
 
-const DialogWithTheme = withTheme()(EditCivilianDialog)
+const DialogWithTheme = withTheme()(CivilianDialog)
 
 const connectedForm = reduxForm({
-    form: 'EditCivilian',
-    onSubmit: handleEditCivilian,
+    form: CIVILIAN_FORM_NAME,
     validate
 })(DialogWithTheme)
 
 const mapStateToProps = (state) => {
-    const selector = formValueSelector('EditCivilian')
+    const selector = formValueSelector(CIVILIAN_FORM_NAME)
     const values = selector(state,
         'address.streetAddress', 'address.city',
         'address.state', 'address.zipCode', 'address.country')
 
     return {
-        open: state.ui.editCivilianDialog.open,
-        formattedAddress: formatAddress(values.address)
+        open: state.ui.civilianDialog.open,
+        formattedAddress: formatAddress(values.address),
+        submitAction: state.ui.civilianDialog.submitAction,
+        title: state.ui.civilianDialog.title,
+        submitButtonText: state.ui.civilianDialog.submitButtonText
     }
 }
 

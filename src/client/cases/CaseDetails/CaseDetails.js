@@ -7,12 +7,15 @@ import {connect} from "react-redux";
 import Narrative from "./Narrative";
 import CaseDetailSnackbar from "./CaseDetailSnackbar/CaseDetailSnackbar";
 import ComplainantWitnesses from "./ComplainantWitnesses/ComplainantWitnesses";
-import EditCivilianDialog from "./EditCivilianDialog/EditCivilianDialog"
+import CivilianDialog from "./CivilianDialog/CivilianDialog"
 import getCaseDetails from "../thunks/getCaseDetails";
 import * as _ from 'lodash';
 import Attachments from "./Attachments/Attachments";
 import styles from "./caseDetailsStyles"
 import CaseDrawer from "./CaseDrawer";
+import Button from 'material-ui/Button';
+import AddIcon from 'material-ui-icons/Add';
+import { Menu, MenuItem } from "material-ui";
 
 const drawerWidthPercentage = '30%';
 
@@ -25,8 +28,18 @@ const appBar = {
 class CaseDetails extends React.Component {
     state = {
         mobileOpen: false,
-        caseHasBeenLoaded: false
+        caseHasBeenLoaded: false,
+        menuOpen: false,
+        anchorEl: null
     };
+
+    handleMenuOpen = (event) => {
+        this.setState({ menuOpen: true, anchorEl: event.currentTarget })
+    }
+
+    handleMenuClose = (event) => {
+        this.setState({ menuOpen: false })
+    }
 
     caseHasBeenLoaded(caseIdAttemptingToRender) {
         return `${caseIdAttemptingToRender}` === this.props.match.params.id
@@ -59,7 +72,7 @@ class CaseDetails extends React.Component {
                             data-test="pageTitle"
                             type="title"
                             color="inherit"
-                            style={{marginRight: '20px'}}
+                            style={{ marginRight: '20px' }}
 
                         >
                             {`Case #${this.props.caseDetail.id}`}
@@ -85,8 +98,34 @@ class CaseDetails extends React.Component {
                         />
                         <Attachments />
                     </main>
-                    <EditCivilianDialog/>
+                    <CivilianDialog/>
                     <CaseDetailSnackbar/>
+                    <Button
+                        fab
+                        color="primary"
+                        style={{ position: 'fixed', bottom: '32px', right: '32px' }}
+                        onClick={this.handleMenuOpen}
+                    >
+                        <AddIcon/>
+                    </Button>
+                    <Menu
+                        open={this.state.menuOpen}
+                        onClose={this.handleMenuClose}
+                        anchorEl={this.state.anchorEl}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
+                    >
+                        <MenuItem
+                        >
+                            Add Civilian
+                        </MenuItem>
+                    </Menu>
                 </div>
             </div>
         );

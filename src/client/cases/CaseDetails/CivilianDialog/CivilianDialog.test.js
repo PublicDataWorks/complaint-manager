@@ -2,21 +2,21 @@ import React from 'react'
 import {mount} from "enzyme";
 import {Provider} from 'react-redux';
 import createConfiguredStore from "../../../createConfiguredStore";
-import EditCivilianDialog from "./EditCivilianDialog";
-import {closeEditDialog, openEditDialog} from "../../../actionCreators/casesActionCreators";
+import CivilianDialog from "./CivilianDialog";
+import {closeEditDialog, openCivilianDialog} from "../../../actionCreators/casesActionCreators";
 import {
     changeInput,
     containsValue,
     expectEventuallyNotToExist,
     selectDropdownOption
 } from "../../../../testHelpers";
-import editCivilian from "../../thunks/editCivilian";
 import {initialize} from "redux-form";
 import Address from "../../../testUtilities/Address";
 import Civilian from "../../../testUtilities/civilian";
+import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 
 jest.mock('../../thunks/editCivilian', () => (
-    jest.fn(() => ({type: 'MOCK_EDIT_CIVILIAN_REQUESTED'}))
+    jest.fn(() => ({type: 'MOCK_CIVILIAN_REQUESTED'}))
 ))
 
 
@@ -44,11 +44,10 @@ const suggestionEngine = {
     }
 }
 
-describe('Edit civilian dialog', () => {
-    let editCivilianDialog, store, dispatchSpy, caseCivilian, save;
+describe('civilian dialog', () => {
+    let civilianDialog, store, dispatchSpy, caseCivilian, save, submitAction
     beforeEach(() => {
         store = createConfiguredStore()
-        dispatchSpy = jest.spyOn(store, 'dispatch')
 
         const addressToSubmit = new Address.Builder().defaultAddress()
             .withId(undefined)
@@ -77,16 +76,20 @@ describe('Edit civilian dialog', () => {
             .build()
 
 
-        store.dispatch(initialize('EditCivilian', caseCivilian))
+        store.dispatch(initialize(CIVILIAN_FORM_NAME, caseCivilian))
 
-        editCivilianDialog = mount(
+        dispatchSpy = jest.spyOn(store, 'dispatch')
+        submitAction = jest.fn(() => ({type: 'MOCK_CIVILIAN_THUNK'}))
+
+        store.dispatch(openCivilianDialog('Test Title', 'Test Submit Text', submitAction))
+
+        civilianDialog = mount(
             <Provider store={store}>
-                <EditCivilianDialog suggestionEngine={suggestionEngine}/>
+                <CivilianDialog suggestionEngine={suggestionEngine}/>
             </Provider>)
 
-        store.dispatch(openEditDialog())
-        editCivilianDialog.update()
-        save = editCivilianDialog.find('button[data-test="submitEditCivilian"]')
+        civilianDialog.update()
+        save = civilianDialog.find('button[data-test="submitEditCivilian"]')
     })
 
     describe('address', () => {
@@ -101,22 +104,24 @@ describe('Edit civilian dialog', () => {
             }
 
             const otherStore = createConfiguredStore()
-            const otherEditCivilianDialog = mount(
+
+            otherStore.dispatch(openCivilianDialog('Test Title', 'Test Submit Text', submitAction))
+
+            const otherCivilianDialog = mount(
                 <Provider store={otherStore}>
-                    <EditCivilianDialog suggestionEngine={suggestionEngine}/>
+                    <CivilianDialog suggestionEngine={suggestionEngine}/>
                 </Provider>)
 
-            otherStore.dispatch(openEditDialog())
-            otherEditCivilianDialog.update()
+            otherCivilianDialog.update()
 
-            containsValue(otherEditCivilianDialog, '[data-test="addressSuggestionField"] > input', 'Address lookup is down, please try again later')
+            containsValue(otherCivilianDialog, '[data-test="addressSuggestionField"] > input', 'Address lookup is down, please try again later')
         })
     });
 
     describe('gender', () => {
         let genderDropdown
         beforeEach(() => {
-            genderDropdown = editCivilianDialog.find('[data-test="genderDropdown"]').last()
+            genderDropdown = civilianDialog.find('[data-test="genderDropdown"]').last()
         });
 
         test('should show error if not set on save', () => {
@@ -128,7 +133,7 @@ describe('Edit civilian dialog', () => {
     describe('race and ethnicity', () => {
         let raceDropdown
         beforeEach(() => {
-            raceDropdown = editCivilianDialog.find('[data-test="raceDropdown"]').last()
+            raceDropdown = civilianDialog.find('[data-test="raceDropdown"]').last()
         });
 
         test('should have a label race/ethnicity', () => {
@@ -146,8 +151,8 @@ describe('Edit civilian dialog', () => {
         test('should display phone and email errors when phone and email marked as touched on form submit', () => {
             save.simulate('click')
 
-            const phoneNumberField = editCivilianDialog.find('div[data-test="phoneNumberField"]')
-            const emailField = editCivilianDialog.find('div[data-test="emailField"]')
+            const phoneNumberField = civilianDialog.find('div[data-test="phoneNumberField"]')
+            const emailField = civilianDialog.find('div[data-test="emailField"]')
 
             expect(phoneNumberField.text()).toContain('Please enter phone number or email address')
             expect(emailField.text()).toContain('Please enter phone number or email address')
@@ -157,13 +162,13 @@ describe('Edit civilian dialog', () => {
 
     describe('dialog dismissal', () => {
         test('should dismiss when cancel button is clicked', async () => {
-            const cancel = editCivilianDialog.find('button[data-test="cancelEditCivilian"]')
+            const cancel = civilianDialog.find('button[data-test="cancelEditCivilian"]')
             cancel.simulate('click')
 
-            editCivilianDialog.update()
+            civilianDialog.update()
 
             expect(dispatchSpy).toHaveBeenCalledWith(closeEditDialog())
-            await expectEventuallyNotToExist(editCivilianDialog, '[data-test="editDialogTitle"]')
+            await expectEventuallyNotToExist(civilianDialog, '[data-test="editDialogTitle"]')
         })
     })
 
@@ -184,18 +189,18 @@ describe('Edit civilian dialog', () => {
                 .build()
 
 
-            changeInput(editCivilianDialog, '[data-test="firstNameInput"]', civilianToSubmit.firstName)
-            changeInput(editCivilianDialog, '[data-test="middleInitialInput"]', civilianToSubmit.middleInitial)
-            changeInput(editCivilianDialog, '[data-test="lastNameInput"]', civilianToSubmit.lastName)
-            changeInput(editCivilianDialog, '[data-test="suffixInput"]', civilianToSubmit.suffix)
-            changeInput(editCivilianDialog, '[data-test="birthDateInput"]', civilianToSubmit.birthDate)
-            changeInput(editCivilianDialog, '[data-test="phoneNumberInput"]', civilianToSubmit.phoneNumber)
-            changeInput(editCivilianDialog, '[data-test="emailInput"]', civilianToSubmit.email)
-            selectDropdownOption(editCivilianDialog, '[data-test="genderDropdown"]', civilianToSubmit.genderIdentity)
-            selectDropdownOption(editCivilianDialog, '[data-test="raceDropdown"]', civilianToSubmit.raceEthnicity)
+            changeInput(civilianDialog, '[data-test="firstNameInput"]', civilianToSubmit.firstName)
+            changeInput(civilianDialog, '[data-test="middleInitialInput"]', civilianToSubmit.middleInitial)
+            changeInput(civilianDialog, '[data-test="lastNameInput"]', civilianToSubmit.lastName)
+            changeInput(civilianDialog, '[data-test="suffixInput"]', civilianToSubmit.suffix)
+            changeInput(civilianDialog, '[data-test="birthDateInput"]', civilianToSubmit.birthDate)
+            changeInput(civilianDialog, '[data-test="phoneNumberInput"]', civilianToSubmit.phoneNumber)
+            changeInput(civilianDialog, '[data-test="emailInput"]', civilianToSubmit.email)
+            selectDropdownOption(civilianDialog, '[data-test="genderDropdown"]', civilianToSubmit.genderIdentity)
+            selectDropdownOption(civilianDialog, '[data-test="raceDropdown"]', civilianToSubmit.raceEthnicity)
 
             save.simulate('click')
-            expect(editCivilian).toHaveBeenCalledWith(civilianToSubmit)
+            expect(submitAction).toHaveBeenCalledWith(civilianToSubmit)
         })
     })
 })

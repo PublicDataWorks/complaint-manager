@@ -9,7 +9,7 @@ import allUsersReducer from "./reducers/users/allUsersReducer";
 import snackbarReducer from "./reducers/ui/snackbarReducer";
 import caseDetailsReducer from "./reducers/cases/caseDetailsReducer";
 import casesTableReducer from "./reducers/ui/casesTableReducer";
-import editDialogReducer from "./reducers/ui/editDialogReducer";
+import civilianDialogReducer from "./reducers/ui/civilianDialogReducer";
 import userInfoReducer from "./auth/reducers/userInfoReducer";
 import attachmentsReducer from "./reducers/ui/attachmentsReducer";
 
@@ -28,7 +28,7 @@ const rootReducer = combineReducers({
     ui: combineReducers({
         snackbar: snackbarReducer,
         casesTable: casesTableReducer,
-        editCivilianDialog: editDialogReducer,
+        civilianDialog: civilianDialogReducer,
         attachments: attachmentsReducer
     })
 

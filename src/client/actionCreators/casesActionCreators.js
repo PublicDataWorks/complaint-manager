@@ -1,6 +1,6 @@
 import {
     CASE_CREATED_SUCCESS,
-    ATTACHMENT_UPLOAD_FAILED,
+    ATTACHMENT_UPLOAD_FAILED, CIVILIAN_DIALOG_OPENED,
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = (caseDetails) => ({
@@ -40,8 +40,11 @@ export const updateSort = (sortBy) => ({
     sortBy
 })
 
-export const openEditDialog = () => ({
-    type: 'EDIT_DIALOG_OPENED'
+export const openCivilianDialog = (title, submitButtonText, submitAction) => ({
+    type: CIVILIAN_DIALOG_OPENED,
+    title,
+    submitButtonText,
+    submitAction
 })
 
 export const closeEditDialog = () => ({

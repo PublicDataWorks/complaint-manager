@@ -1,7 +1,7 @@
 import React from "react";
 import {CardContent, ExpansionPanel, ExpansionPanelSummary, Typography} from "material-ui";
 import LinkButton from "../../../sharedComponents/LinkButton";
-import {openEditDialog} from "../../../actionCreators/casesActionCreators";
+import {openCivilianDialog} from "../../../actionCreators/casesActionCreators";
 import getPrimaryComplainant from "../../../utilities/getPrimaryComplainant";
 import formatDate from "../../../utilities/formatDate"
 import formatName from "../../../utilities/formatName";
@@ -11,6 +11,8 @@ import formatPhoneNumber from "../../../utilities/formatPhoneNumber"
 import formatAddress from "../../../utilities/formatAddress";
 import StyledExpansionPanelDetails from "./StyledExpansionPanelDetails";
 import CivilianInfoDisplay from "./CivilianInfoDisplay";
+import editCivilian from "../../thunks/editCivilian";
+import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 
 
 const ComplainantWitnesses = (props) => {
@@ -52,8 +54,8 @@ const ComplainantWitnesses = (props) => {
                                 <LinkButton
                                     data-test="editComplainantLink"
                                     onClick={() => {
-                                        props.dispatch(initialize('EditCivilian', primaryComplainant))
-                                        props.dispatch(openEditDialog())
+                                        props.dispatch(initialize(CIVILIAN_FORM_NAME, primaryComplainant))
+                                        props.dispatch(openCivilianDialog('Edit Civilian', 'Save', editCivilian))
                                     }}
                                 >
                                     Edit

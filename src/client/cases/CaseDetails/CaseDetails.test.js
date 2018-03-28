@@ -5,12 +5,9 @@ import CaseDetails from "./CaseDetails";
 import {Provider} from 'react-redux';
 import NavBar from "../../sharedComponents/NavBar";
 import {BrowserRouter as Router} from "react-router-dom";
-import {changeInput, containsText} from "../../../testHelpers";
-import updateNarrative from "../thunks/updateNarrative";
+import {containsText} from "../../../testHelpers";
 import {mockLocalStorage} from "../../../mockLocalStorage";
 import Case from "../../testUtilities/case";
-import formatName from "../../utilities/formatName";
-import getPrimaryComplainant from "../../utilities/getPrimaryComplainant";
 import getCaseDetails from "../thunks/getCaseDetails";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 
@@ -22,7 +19,7 @@ jest.mock('../thunks/updateNarrative', () => () => ({
     type: 'MOCK_UPDATE_NARRATIVE_THUNK'
 }))
 
-jest.mock("./EditCivilianDialog/SuggestionEngines/addressSuggestionEngine")
+jest.mock("./CivilianDialog/SuggestionEngines/addressSuggestionEngine")
 
 describe('Case Details Component', () => {
     let caseDetails, expectedCase, dispatchSpy, store;

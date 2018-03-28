@@ -7,6 +7,7 @@ import {change} from "redux-form";
 import {connect} from "react-redux";
 import {withStyles} from "material-ui/styles/index";
 import poweredByGoogle from '../../../../assets/powered_by_google_on_white_hdpi.png'
+import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 
 const styles = theme => ({
     container: {
@@ -137,11 +138,11 @@ class AddressAutoSuggest extends Component {
     onSuggestionSelected = (event, {suggestion}) => {
         this.props.suggestionEngine.onSuggestionSelected(suggestion, (address) => {
             console.log('parsed address', address)
-            this.props.change('EditCivilian', 'address.streetAddress', address.streetAddress)
-            this.props.change('EditCivilian', 'address.city', address.city)
-            this.props.change('EditCivilian', 'address.state', address.state)
-            this.props.change('EditCivilian', 'address.zipCode', address.zipCode)
-            this.props.change('EditCivilian', 'address.country', address.country)
+            this.props.change(CIVILIAN_FORM_NAME, 'address.streetAddress', address.streetAddress)
+            this.props.change(CIVILIAN_FORM_NAME, 'address.city', address.city)
+            this.props.change(CIVILIAN_FORM_NAME, 'address.state', address.state)
+            this.props.change(CIVILIAN_FORM_NAME, 'address.zipCode', address.zipCode)
+            this.props.change(CIVILIAN_FORM_NAME, 'address.country', address.country)
         })
     }
 
@@ -166,11 +167,11 @@ class AddressAutoSuggest extends Component {
 
         const clearAddressFieldsWhenAutoSuggestFieldIsCleared = (newValue) => {
             if (!newValue) {
-                this.props.change('EditCivilian', 'address.streetAddress', '')
-                this.props.change('EditCivilian', 'address.city', '')
-                this.props.change('EditCivilian', 'address.state', '')
-                this.props.change('EditCivilian', 'address.zipCode', '')
-                this.props.change('EditCivilian', 'address.country', '')
+                this.props.change(CIVILIAN_FORM_NAME, 'address.streetAddress', '')
+                this.props.change(CIVILIAN_FORM_NAME, 'address.city', '')
+                this.props.change(CIVILIAN_FORM_NAME, 'address.state', '')
+                this.props.change(CIVILIAN_FORM_NAME, 'address.zipCode', '')
+                this.props.change(CIVILIAN_FORM_NAME, 'address.country', '')
             }
         }
 

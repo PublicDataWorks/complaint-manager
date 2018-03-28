@@ -2,13 +2,15 @@ import React from 'react'
 import {containsText} from "../../../../testHelpers";
 import ComplainantWitnesses from "./ComplainantWitnesses";
 import {mount} from "enzyme";
-import {openEditDialog} from "../../../actionCreators/casesActionCreators";
+import {openCivilianDialog} from "../../../actionCreators/casesActionCreators";
 import createConfiguredStore from "../../../createConfiguredStore";
 import {initialize} from "redux-form";
 import formatAddress from "../../../utilities/formatAddress";
 import Civilian from "../../../testUtilities/civilian";
 import Case from "../../../testUtilities/case";
 import formatName from "../../../utilities/formatName";
+import editCivilian from "../../thunks/editCivilian";
+import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 
 jest.mock('redux-form', () => ({
     reducer: {mockReducer: 'mockReducerState'},
@@ -55,8 +57,8 @@ describe('Complainant and Witnesses', () => {
             const editLink = complainantWitnesses.find('[data-test="editComplainantLink"]').first()
             editLink.simulate('click');
 
-            expect(dispatchSpy).toHaveBeenCalledWith(openEditDialog())
-            expect(initialize).toHaveBeenCalledWith('EditCivilian', primaryComplainant)
+            expect(dispatchSpy).toHaveBeenCalledWith(openCivilianDialog("Edit Civilian", "Save", editCivilian))
+            expect(initialize).toHaveBeenCalledWith(CIVILIAN_FORM_NAME, primaryComplainant)
         })
     })
 
