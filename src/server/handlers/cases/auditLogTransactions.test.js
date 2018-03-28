@@ -26,12 +26,12 @@ describe('transactions', () => {
                     complainantType: "Civilian",
                     firstContactDate: "2018-02-08",
                     incidentDate: "2018-03-16T16:59",
-                    createdBy: 'test_user',
-                    assignedTo: 'test_user'
+                    createdBy: 'test_transaction_user',
+                    assignedTo: 'test_transaction_user'
                 },
                 civilian: {
-                    firstName: "First",
-                    lastName: "Last",
+                    firstName: "test_transaction_civilian",
+                    lastName: "test_transaction_civilian",
                     phoneNumber: "1234567890"
                 }
             },
@@ -39,13 +39,14 @@ describe('transactions', () => {
         })
         const response = httpMocks.createResponse()
 
-        const expectedNumCases = await models.cases.count()
-
         await createCase(requestWithBadDataForAudit, response, jest.fn())
 
-        const actualNumCases = await models.cases.count()
+        const expectedCase = await models.cases.findOne({ where: { createdBy: 'test_transaction_user' }})
 
-        expect(expectedNumCases).toEqual(actualNumCases)
+        expect(expectedCase).toBeNull()
+
+        await models.civilian.destroy({ where: { firstName: 'test_transaction_civilian' }})
+        await models.cases.destroy({ where: { createdBy: 'test_transaction_user' }})
     })
 
     test('should not update narrative if audit log fails', async () => {
