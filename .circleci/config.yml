@@ -21,6 +21,16 @@ jobs:
               name: Run Tests
               command: yarn test
 
+    security-check:
+        docker:
+          - image: docker:stable
+        steps:
+          - checkout
+          - setup_remote_docker
+          - run:
+              name: Run Security Checks
+              command: ./scripts/security-checks.sh
+
     build-and-publish:
         docker:
           - image: docker:stable
@@ -106,9 +116,12 @@ workflows:
   build_and_deploy:
     jobs:
       - test
-      - build-and-publish:
+      - security-check:
           requires:
             - test
+      - build-and-publish:
+          requires:
+            - security-check
       - deploy-staging:
           requires:
             - build-and-publish
