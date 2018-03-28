@@ -12,6 +12,7 @@ import Civilian from "../client/testUtilities/civilian";
 import Case from "../client/testUtilities/case";
 import Attachment from "../client/testUtilities/attachment";
 import {civilianWithAddress, civilianWithoutAddress} from "../client/testUtilities/ObjectMothers";
+import Address from "../client/testUtilities/Address";
 
 const config = require('./config/config')[process.env.NODE_ENV]
 
@@ -238,6 +239,92 @@ describe('server', () => {
             })
         })
 
+    })
+
+    describe('POST /civilian', () => {
+        let existingCase, existingCivilian
+
+        beforeEach(async () => {
+            const existingCivilianAddress = new Address.Builder()
+                .defaultAddress()
+                .withId(undefined)
+                .withCity("post city")
+                .withCivilianId(undefined)
+
+            const existingCivilianToCreate = new Civilian.Builder()
+                .defaultCivilian()
+                .withAddress(existingCivilianAddress)
+                .withId(undefined)
+                .withCaseId(undefined)
+                .withFirstName('Existing Civilian')
+                .build()
+
+            const caseToCreate = new Case.Builder()
+                .defaultCase()
+                .withId(undefined)
+                .withCivilians([existingCivilianToCreate])
+
+            existingCase = await models.cases.create(caseToCreate, {
+                include: [{
+                    model: models.civilian,
+                    include: [{
+                        model: models.address
+                    }]
+                }]
+            })
+            existingCivilian = existingCase.civilians[0]
+        })
+
+        afterEach(async () => {
+            await models.address.destroy({ where: { city: 'post city' }})
+            await models.audit_log.destroy({ where: { caseId: existingCase.id }})
+            await models.civilian.destroy({ where: { caseId: existingCase.id }})
+            await models.cases.destroy({ where: { id: existingCase.id }})
+        })
+
+        test('should create a civilian and add it to a case', async () => {
+            const newCivilianAddress = new Address.Builder()
+                .defaultAddress()
+                .withId(undefined)
+                .withCity("post city")
+                .withCivilianId(undefined)
+
+            const newCivilian = new Civilian.Builder()
+                .defaultCivilian()
+                .withAddress(newCivilianAddress)
+                .withId(undefined)
+                .withCaseId(existingCase.id)
+                .withFirstName('New Civilian')
+                .build()
+
+            await request(app)
+                .post(`/api/civilian`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .send(newCivilian)
+                .expect(201)
+                .then(response => {
+                    const civilians = response.body
+
+                    expect(civilians).toEqual(expect.arrayContaining(
+                        [expect.objectContaining({
+                            firstName: existingCivilian.firstName,
+                            caseId: existingCase.id,
+                            address: expect.objectContaining({
+                                city: 'post city'
+                            })
+                        }),
+                            expect.objectContaining({
+                                firstName: newCivilian.firstName,
+                                caseId: existingCase.id,
+                                address: expect.objectContaining({
+                                    city: 'post city'
+                                })
+                            })
+                        ])
+                    )
+                })
+        })
     })
 
     describe('PUT /civilian/:id', () => {

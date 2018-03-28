@@ -1,5 +1,5 @@
 const editCivilian = require('./editCivilian')
-const models = require('../../models')
+const models = require('../../models/index')
 const httpMocks = require('node-mocks-http')
 
 jest.mock('../../models', () => ({

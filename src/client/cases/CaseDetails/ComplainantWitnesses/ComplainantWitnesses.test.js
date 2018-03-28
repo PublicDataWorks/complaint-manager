@@ -79,7 +79,7 @@ describe('Complainant and Witnesses', () => {
     describe('address', () => {
         test('should display N/A when no address', () => {
             const civilianWithNoAddress = new Civilian.Builder().defaultCivilian()
-                .withNoAddress()
+                .withClearedOutAddress()
                 .build()
 
             const caseWithNoAddress = new Case.Builder().defaultCase()
@@ -101,7 +101,7 @@ describe('Complainant and Witnesses', () => {
     describe('additional address info', () => {
         test('should be empty when no address', () => {
             const civilianWithNoAddress = new Civilian.Builder().defaultCivilian()
-                .withNoAddress()
+                .withClearedOutAddress()
                 .build()
 
             const caseWithNoAddress = new Case.Builder().defaultCase()

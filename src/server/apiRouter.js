@@ -2,7 +2,8 @@ const createCase = require("./handlers/cases/createCase");
 const getCases = require("./handlers/cases/getCases");
 const getCase = require("./handlers/cases/getCase");
 const updateCaseNarrative = require("./handlers/cases/updateCaseNarrative");
-const editCivilian = require("./handlers/cases/editCivilian");
+const editCivilian = require("./handlers/civilians/editCivilian");
+const createCivilian = require("./handlers/civilians/createCivilian");
 const createUser = require("./handlers/users/createUser");
 const getUsers = require("./handlers/users/getUsers");
 const jwtCheck = require("./handlers/jtwCheck")
@@ -25,7 +26,9 @@ router.put('/cases/:id/narrative', updateCaseNarrative)
 
 router.use('/cases/:id/attachments', attachmentRouter)
 
+router.post('/civilian', createCivilian);
 router.put('/civilian/:id', editCivilian);
+
 router.post('/users', createUser);
 router.get('/users', getUsers);
 

@@ -41,8 +41,13 @@ class Civilian {
             }
 
             withNoAddress() {
+                this.address = null
+                return this
+            }
+
+            withClearedOutAddress() {
                 this.address = {
-                    id: 1235432,
+                    id: undefined,
                     civilianId: this.address.civilianId,
                     streetAddress: '',
                     streetAddress2: '',
@@ -61,7 +66,9 @@ class Civilian {
 
             withId(id) {
                 this.id = id
-                this.address.civilianId = id
+                if (this.address) {
+                    this.address.civilianId = id
+                }
                 return this;
             }
 
