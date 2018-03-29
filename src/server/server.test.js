@@ -109,6 +109,25 @@ describe('server', () => {
             }
         })
 
+        afterEach(() => {
+            models.civilian.destroy({
+                where: {
+                    id: responseBody.civilians[0].id
+                }
+            })
+
+            models.audit_log.destroy({
+                where: {
+                    caseId: responseBody.id
+                }
+            })
+
+            models.cases.destroy({
+                where: {
+                    id: responseBody.id
+                }
+            })
+        })
 
         test('should create a case', async () => {
             await request(app)
@@ -206,6 +225,20 @@ describe('server', () => {
                 })
         })
 
+        afterEach(async () => {
+            await models.civilian.destroy({
+                where: {
+                    caseId: seededCase.id
+                }
+            })
+
+            await models.cases.destroy({
+                where: {
+                    id: seededCase.id
+                }
+            })
+        })
+
     })
 
     describe('POST /civilian', () => {
@@ -242,6 +275,12 @@ describe('server', () => {
             existingCivilian = existingCase.civilians[0]
         })
 
+        afterEach(async () => {
+            await models.address.destroy({ where: { city: 'post city' }})
+            await models.audit_log.destroy({ where: { caseId: existingCase.id }})
+            await models.civilian.destroy({ where: { caseId: existingCase.id }})
+            await models.cases.destroy({ where: { id: existingCase.id }})
+        })
 
         test('should create a civilian and add it to a case', async () => {
             const newCivilianAddress = new Address.Builder()
@@ -299,6 +338,13 @@ describe('server', () => {
 
             seededCase = await models.cases.create(caseDefault, {include: [{model: models.civilian}]})
             seededCivilian = seededCase.civilians[0]
+        });
+
+        afterEach(async () => {
+            await models.address.destroy({where: {civilianId: seededCivilian.id}})
+            await models.civilian.destroy({where: {id: seededCivilian.id}})
+            await models.audit_log.destroy({where: {caseId: seededCase.id}})
+            await models.cases.destroy({where: {id: seededCase.id}})
         });
 
         test('should update an existing civilian', async () => {
@@ -444,6 +490,12 @@ describe('server', () => {
             mailServer = ms.init(2525)
         })
         afterEach(async () => {
+            await models.users.destroy({
+                where: {
+                    firstName: 'Ron',
+                    lastName: 'Swanson'
+                }
+            })
             mailServer.stop()
         })
 
@@ -486,6 +538,18 @@ describe('server', () => {
                 password: 'password123'
             }], {
                 returning: true
+            })
+        })
+
+        afterEach(async () => {
+            const seededIds = seededUsers.map(user => user.id)
+
+            await models.users.destroy({
+                where: {
+                    id: {
+                        [Op.in]: seededIds
+                    }
+                }
             })
         })
 
@@ -547,6 +611,24 @@ describe('server', () => {
             })
         })
 
+        afterEach(async () => {
+            await models.attachment.destroy({
+                where: {
+                    caseId: caseToRetrieve.id
+                }
+            })
+
+            await models.civilian.destroy({
+                where: {
+                    id: caseToRetrieve.civilians[0].id
+                }
+            })
+            await models.cases.destroy({
+                where: {
+                    id: caseToRetrieve.id
+                }
+            })
+        })
 
         test('should get case', async () => {
             await request(app)
@@ -604,6 +686,23 @@ describe('server', () => {
             })
         })
 
+        afterEach(async () => {
+            await models.civilian.destroy({
+                where: {
+                    id: caseToUpdate.civilians[0].id
+                }
+            })
+            await models.audit_log.destroy({
+                where: {
+                    caseId: caseToUpdate.id
+                }
+            })
+            await models.cases.destroy({
+                where: {
+                    id: caseToUpdate.id
+                }
+            })
+        })
 
         test('should update case narrative', async () => {
             const updatedNarrative = {narrativeDetails: 'A very updated case narrative.'}

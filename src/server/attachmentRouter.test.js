@@ -23,7 +23,7 @@ jest.mock('aws-sdk', () => ({
 
 describe('attachment routes', () => {
 
-    let token, defaultCase, defaultCivilian, defaultAttachment, attachmentToDelete
+    let token
 
     beforeEach(async () => {
 
@@ -49,7 +49,10 @@ describe('attachment routes', () => {
                 }
             }
         })
+    })
 
+    let defaultCase, defaultCivilian, defaultAttachment, attachmentToDelete
+    beforeEach( async() => {
         defaultCivilian = new Civilian.Builder().defaultCivilian()
             .withId(undefined)
             .build()
@@ -68,6 +71,32 @@ describe('attachment routes', () => {
             .build()
         defaultCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}, {model: models.attachment}]})
     });
+
+    afterEach(async () => {
+        await models.attachment.destroy({
+            where: {
+                caseId: defaultCase.id
+            }
+        })
+
+        await models.civilian.destroy({
+            where: {
+                caseId: defaultCase.id
+            }
+        })
+
+        await models.audit_log.destroy({
+            where: {
+                caseId: defaultCase.id
+            }
+        })
+
+        await models.cases.destroy({
+            where: {
+                id: defaultCase.id
+            }
+        })
+    })
 
     describe('POST /cases/:id/attachments', () => {
 
@@ -175,5 +204,30 @@ describe('attachment routes', () => {
 
         })
 
+        afterEach(async () => {
+            await models.attachment.destroy({
+                where: {
+                    caseId: caseWithSameFilename.id
+                }
+            })
+
+            await models.civilian.destroy({
+                where: {
+                    caseId: caseWithSameFilename.id
+                }
+            })
+
+            await models.audit_log.destroy({
+                where: {
+                    caseId: caseWithSameFilename.id
+                }
+            })
+
+            await models.cases.destroy({
+                where: {
+                    id: caseWithSameFilename.id
+                }
+            })
+        })
     })
 });

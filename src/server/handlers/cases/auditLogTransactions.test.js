@@ -140,6 +140,13 @@ describe('transactions', () => {
             })
         })
 
+        afterEach(async () => {
+            await models.civilian.destroy({where: {caseId: caseToUpdate.id}})
+            await models.audit_log.destroy({where: {caseId: caseToUpdate.id}})
+            await models.attachment.destroy({where: {caseId: caseToUpdate.id}})
+            await models.cases.destroy({where: {id: caseToUpdate.id}})
+        })
+
         test('should not delete attachment if audit log fails', async () => {
             const requestWithBadDataForAudit = httpMocks.createRequest({
                 method: 'DELETE',
