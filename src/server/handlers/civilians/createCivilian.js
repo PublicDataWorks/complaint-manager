@@ -12,6 +12,15 @@ const createCivilian = async (req, res, next) => {
                 }
             )
 
+            await models.cases.update(
+                {
+                    status: 'Active'
+                },
+                {
+                    where: {id: civilianCreated.caseId},
+                    transaction: t
+                })
+
             await models.audit_log.create({
                     action: `Civilian created`,
                     caseId: civilianCreated.caseId,
