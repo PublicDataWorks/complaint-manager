@@ -28,7 +28,7 @@ module.exports = {
     test: {
         username: 'postgres',
         password: 'password',
-        database: 'complaint-manager',
+        database: 'complaint-manager-test',
         host: process.env.CIRCLECI ? "localhost" : "db",
         port: 5432,
         dialect: 'postgres',

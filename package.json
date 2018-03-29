@@ -12,8 +12,8 @@
     "start:server": "nodemon --watch src/server src/startServer.js",
     "e2e": "nightwatch -c e2e/nightwatch.local.json",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "test:once": "CI=true yarn test",
+    "test": "NODE_ENV=test yarn setup:db && react-scripts test --env=jsdom",
+    "test:once": "sleep 4 && CI=true yarn test",
     "eject": "react-scripts eject"
   },
   "dependencies": {
