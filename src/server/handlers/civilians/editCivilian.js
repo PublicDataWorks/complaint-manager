@@ -28,39 +28,41 @@ const editCivilian = async (req, res, next) => {
 
     try {
         const updatedCivilian = await models.sequelize.transaction(async (t) => {
-            await models.civilian.update(
+            const updatedCivilian = await models.civilian.update(
                 req.body,
                 {
                     where: {id: req.params.id},
-                    transaction: t
+                    transaction: t,
+                    returning: true,
                 })
+            const caseId = updatedCivilian[1][0].dataValues.caseId
+
             await upsertAddress(req.params.id, req.body.address, t);
 
-            const civilian = await models.civilian.findById(req.params.id, {
+            const civilians = await models.civilian.findAll({
+                where: {caseId: caseId},
                 transaction: t,
                 include:[{model:models.address}]
             })
 
-            //update case status with caseId to from 'Initial' to 'Active'
             await models.cases.update(
                 {status: 'Active'},
                 {
-                    where: {id: civilian.caseId},
+                    where: {id: caseId},
                     transaction: t
                 })
 
             await models.audit_log.create({
                     action: `Civilian updated`,
-                    caseId: civilian.caseId,
+                    caseId: caseId,
                     user: req.nickname
                 },
                 {
                     transaction: t
                 })
 
-            return civilian
+            return civilians
         })
-        // TODO: return back the entire Case object instead of civilian
         res.status(200).send(updatedCivilian)
 
     } catch (e) {

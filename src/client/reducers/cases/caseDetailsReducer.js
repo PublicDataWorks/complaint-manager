@@ -11,7 +11,7 @@ const caseDetailsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 status: 'Active',
-                civilians: [action.civilian]
+                civilians: action.civilians
             }
         case REMOVE_ATTACHMENT_SUCCESS:
             return action.caseDetails

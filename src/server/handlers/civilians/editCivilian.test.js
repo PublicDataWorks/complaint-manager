@@ -11,7 +11,7 @@ jest.mock('../../models', () => ({
     },
     civilian: {
         update: jest.fn(),
-        findById: jest.fn(() => ({caseId:2}))
+        findAll: jest.fn()
     },
     cases: {
         update: jest.fn()
@@ -46,7 +46,8 @@ describe('editCivilian handler', () => {
         const options =
             {
                 where: {id: request.params.id},
-                transaction: 'MOCK_TRANSACTION'
+                transaction: 'MOCK_TRANSACTION',
+                "returning": true
             }
 
         expect(models.civilian.update).toHaveBeenCalledWith(request.body, options)

@@ -7,10 +7,16 @@ import {closeEditDialog, editCivilianFailed, editCivilianSuccess} from "../../ac
 import getAccessToken from "../../auth/getAccessToken";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))
+jest.mock("../../actionCreators/casesActionCreators", () => ({
+    editCivilianSuccess: jest.fn(() => {type: 'MOCK_EDIT_SUCCESS'}),
+    closeEditDialog: jest.fn(() => {type: 'MOCK_CLOSE'}),
+    editCivilianFailed: jest.fn(() => {type: 'MOCK_EDIT_FAILED'})
+}))
 
 describe('edit civilian thunk', () => {
     const dispatch = jest.fn()
     const civilian = new Civilian.Builder().defaultCivilian().build()
+    const responseCivilians = [civilian]
     const responseBody = {}
 
     beforeEach(() => {
@@ -54,24 +60,12 @@ describe('edit civilian thunk', () => {
             'Authorization': `Bearer TEST_TOKEN`
         })
             .put(`/api/civilian/${civilian.id}`, civilian)
-            .reply(200, civilian)
+            .reply(200, responseCivilians)
 
         await editCivilian(civilian)(dispatch)
-        expect(dispatch).toHaveBeenCalledWith(editCivilianSuccess(civilian))
+        expect(editCivilianSuccess).toHaveBeenCalledWith(responseCivilians)
+        expect(dispatch).toHaveBeenCalledWith(editCivilianSuccess())
+        expect(dispatch).toHaveBeenCalledWith(closeEditDialog())
     })
-
-    test('should dispatch close dialog when civilian edit was successful', async () => {
-        nock('http://localhost', {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer TEST_TOKEN`
-        })
-            .put(`/api/civilian/${civilian.id}`, civilian)
-            .reply(200, civilian)
-
-        await editCivilian(civilian)(dispatch)
-        expect(dispatch).toHaveBeenCalledWith(closeEditDialog(civilian))
-
-    })
-
 })
 

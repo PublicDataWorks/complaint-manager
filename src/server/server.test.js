@@ -359,8 +359,16 @@ describe('server', () => {
                 .send(updatedCivilian)
                 .expect(200)
                 .then(response => {
-                    expect(response.body.firstName).toEqual(updatedCivilian.firstName)
-                    expect(response.body.lastName).toEqual(updatedCivilian.lastName)
+                    const civilians = response.body
+
+                    expect(civilians).toEqual(expect.arrayContaining(
+                        [
+                            expect.objectContaining({
+                                firstName: updatedCivilian.firstName,
+                                lastName: updatedCivilian.lastName
+                            })
+                        ])
+                    )
                 })
         })
 
@@ -377,7 +385,17 @@ describe('server', () => {
                 .send(updatedCivilian)
                 .expect(200)
                 .then(response => {
-                    expect(response.body.address.state).toEqual(updatedCivilian.address.state)
+                    const civilians = response.body
+
+                    expect(civilians).toEqual(expect.arrayContaining(
+                        [
+                            expect.objectContaining({
+                                address: expect.objectContaining({
+                                    state: updatedCivilian.address.state
+                                })
+                            })
+                        ])
+                    )
                 })
         })
         test('should update address if it exists', async () => {
@@ -397,11 +415,21 @@ describe('server', () => {
                 .send(civilianWithAddress)
                 .expect(200)
                 .then(response => {
-                    expect(response.body.address.city).toEqual('New Orleans')
+                    const civilians = response.body
+
+                    expect(civilians).toEqual(expect.arrayContaining(
+                        [
+                            expect.objectContaining({
+                                address: expect.objectContaining({
+                                    city: 'New Orleans'
+                                })
+                            })
+                        ])
+                    )
                 })
 
         })
-        test('should not require address', async () => {
+        test('should allow blank address', async () => {
             await request(app)
                 .put(`/api/civilian/${civilianWithAddress.id}`)
                 .set('Content-Header', 'application/json')
@@ -414,12 +442,22 @@ describe('server', () => {
                 .set('Authorization', `Bearer ${token}`)
                 .send(civilianWithoutAddress)
                 .then(response => {
-                    expect(response.body.address.streetAddress).toEqual("")
-                    expect(response.body.address.streetAddress2).toEqual("")
-                    expect(response.body.address.city).toEqual("")
-                    expect(response.body.address.state).toEqual("")
-                    expect(response.body.address.country).toEqual("")
-                    expect(response.body.address.zipCode).toEqual("")
+                    const civilians = response.body
+
+                    expect(civilians).toEqual(expect.arrayContaining(
+                        [
+                            expect.objectContaining({
+                                address: expect.objectContaining({
+                                    streetAddress: "",
+                                    streetAddress2: "",
+                                    city: "",
+                                    state: "",
+                                    country: "",
+                                    zipCode: ""
+                                })
+                            })
+                        ])
+                    )
                 })
 
         })

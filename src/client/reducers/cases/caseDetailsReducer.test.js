@@ -54,7 +54,7 @@ describe('caseDetailsReducers', () => {
     describe('EDIT_CIVILIAN_SUCCESS', () => {
         test('should update civilian information', () => {
             const oldState = {status: 'Initial', left: 'untouched', civilians: [{some: 'someString'}]}
-            const newCivilianDetail = {gender: 'other'}
+            const newCivilianDetail = [{gender: 'other'}]
 
             const action = editCivilianSuccess(newCivilianDetail)
 
