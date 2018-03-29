@@ -12,7 +12,7 @@ const updateNarrative = (updateDetails) => async (dispatch) => {
 
         if (!token) {
             dispatch(push(`/login`))
-            throw Error('No Token')
+            return dispatch(updateNarrativeFailure())
         }
 
         const response = await fetch(`${hostname}/api/cases/${updateDetails.id}/narrative`, {
@@ -32,16 +32,13 @@ const updateNarrative = (updateDetails) => async (dispatch) => {
                 const updatedCase = await response.json()
                 return dispatch(updateNarrativeSuccess(updatedCase))
             case 401:
-                dispatch(updateNarrativeFailure())
-                return dispatch(push(`/login`))
-            case 500:
-                return dispatch(updateNarrativeFailure())
+                dispatch(push(`/login`))
             default:
-                throw response.status
+                return dispatch(updateNarrativeFailure())
         }
     }
     catch (e) {
-        dispatch(updateNarrativeFailure())
+        return dispatch(updateNarrativeFailure())
     }
 }
 

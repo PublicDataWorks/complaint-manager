@@ -8,9 +8,9 @@ import getAccessToken from "../../auth/getAccessToken";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))
 jest.mock("../../actionCreators/casesActionCreators", () => ({
-    editCivilianSuccess: jest.fn(() => {type: 'MOCK_EDIT_SUCCESS'}),
-    closeEditDialog: jest.fn(() => {type: 'MOCK_CLOSE'}),
-    editCivilianFailed: jest.fn(() => {type: 'MOCK_EDIT_FAILED'})
+    editCivilianSuccess: jest.fn(() => ({ type: 'MOCK_EDIT_SUCCESS' })),
+    closeEditDialog: jest.fn(() => ({ type: 'MOCK_CLOSE' })),
+    editCivilianFailed: jest.fn(() => ({ type: 'MOCK_EDIT_FAILED' }))
 }))
 
 describe('edit civilian thunk', () => {

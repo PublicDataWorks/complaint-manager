@@ -1,6 +1,9 @@
 import {
     CASE_CREATED_SUCCESS,
-    ATTACHMENT_UPLOAD_FAILED, CIVILIAN_DIALOG_OPENED,
+    ATTACHMENT_UPLOAD_FAILED,
+    CIVILIAN_DIALOG_OPENED,
+    CIVILIAN_CREATION_SUCCEEDED,
+    CIVILIAN_CREATION_FAILED,
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = (caseDetails) => ({
@@ -49,6 +52,15 @@ export const openCivilianDialog = (title, submitButtonText, submitAction) => ({
 
 export const closeEditDialog = () => ({
     type: 'EDIT_DIALOG_CLOSED'
+})
+
+export const createCivilianSuccess = (civilians) => ({
+    type: CIVILIAN_CREATION_SUCCEEDED,
+    civilians
+})
+
+export const createCivilianFailure = () => ({
+    type: CIVILIAN_CREATION_FAILED
 })
 
 export const editCivilianSuccess = (civilians) => ({

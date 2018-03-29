@@ -11,7 +11,7 @@ const editCivilian = (civilian) => async (dispatch) => {
 
         if (!token) {
             dispatch(push(`/login`))
-            throw Error('No Token')
+            return dispatch(editCivilianFailed())
         }
 
         const response = await fetch(`${hostname}/api/civilian/${civilian.id}`, {
@@ -29,13 +29,12 @@ const editCivilian = (civilian) => async (dispatch) => {
                 dispatch(editCivilianSuccess(parsedCivilian))
                 return dispatch(closeEditDialog())
             case 401:
-                return dispatch(push(`/login`))
+                dispatch(push(`/login`))
             default:
-                throw response.status
+                return dispatch(editCivilianFailed())
         }
     } catch (e) {
-        //TODO Log error and notify support
-        dispatch(editCivilianFailed())
+        return dispatch(editCivilianFailed())
     }
 }
 

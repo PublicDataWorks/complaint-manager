@@ -14,7 +14,7 @@ const createCase = (creationDetails) => async (dispatch) => {
 
         if (!token){
             dispatch(push(`/login`))
-            throw Error('No Token')
+            return dispatch(createCaseFailure())
         }
 
         const response = await fetch(`${hostname}/api/cases`, {
@@ -36,13 +36,12 @@ const createCase = (creationDetails) => async (dispatch) => {
                 }
                 return dispatch(reset('CreateCase'))
             case 401:
-                dispatch(createCaseFailure())
-                return dispatch(push(`/login`))
+                dispatch(push(`/login`))
             default:
-                throw response.status
+                return dispatch(createCaseFailure())
         }
     } catch (e) {
-        dispatch(createCaseFailure())
+        return dispatch(createCaseFailure())
     }
 }
 

@@ -10,8 +10,7 @@ const getCaseDetails = (caseId) => async (dispatch) => {
         const token = getAccessToken()
 
         if (!token){
-            dispatch(push(`/login`))
-            throw Error('No Token')
+            return dispatch(push(`/login`))
         }
 
         const response = await fetch(`${hostname}/api/cases/${caseId}`, {
@@ -29,7 +28,7 @@ const getCaseDetails = (caseId) => async (dispatch) => {
             case 401:
                 return dispatch(push(`/login`))
             default:
-                throw response.status
+                return
         }
     } catch (e) {
     }

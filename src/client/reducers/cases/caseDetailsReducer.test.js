@@ -1,10 +1,16 @@
 import caseDetailsReducer from "./caseDetailsReducer";
 import {
-    editCivilianSuccess, getCaseDetailsSuccess, updateNarrativeSuccess,
+    createCivilianSuccess,
+    editCivilianSuccess,
+    getCaseDetailsSuccess,
+    updateNarrativeSuccess,
     uploadAttachmentSuccess
 } from "../../actionCreators/casesActionCreators";
 import {removeAttachmentSuccess} from "../../actionCreators/attachmentsActionCreators";
-import {REMOVE_ATTACHMENTS_SUCCESS} from '../../../../src/sharedUtilities/constants.js'
+import {
+    CIVILIAN_CREATION_SUCCEEDED,
+    REMOVE_ATTACHMENT_SUCCESS
+} from "../../../sharedUtilities/constants";
 
 describe('caseDetailsReducers', () => {
     test('should default to empty object', () => {
@@ -52,7 +58,7 @@ describe('caseDetailsReducers', () => {
     })
 
     describe('EDIT_CIVILIAN_SUCCESS', () => {
-        test('should update civilian information', () => {
+        test('should replace civilians array and leave rest of object untouched except status when editing civilian', () => {
             const oldState = {status: 'Initial', left: 'untouched', civilians: [{some: 'someString'}]}
             const newCivilianDetail = [{gender: 'other'}]
 
@@ -63,9 +69,23 @@ describe('caseDetailsReducers', () => {
             const expectedState = {status: 'Active', left: 'untouched', civilians: [{'gender': 'other'}]}
             expect(newState).toEqual(expectedState)
         })
-    });
+    })
 
-    describe(REMOVE_ATTACHMENTS_SUCCESS, () => {
+    describe(CIVILIAN_CREATION_SUCCEEDED, () => {
+        test('should replace civilians array and leave rest of object untouched except status when adding civilian', () => {
+            const oldState = {status: 'Initial', left: 'untouched', civilians: [{some: 'someString'}]}
+            const newCivilians = [{someNew: 'thingToReplaceCivilians'}, {some: 'someString'}]
+
+            const action = createCivilianSuccess(newCivilians)
+
+            const newState = caseDetailsReducer(oldState, action)
+
+            const expectedState = {status: 'Active', left: 'untouched', civilians: [{someNew: 'thingToReplaceCivilians'}, {some: 'someString'}]}
+            expect(newState).toEqual(expectedState)
+        })
+    })
+
+    describe(REMOVE_ATTACHMENT_SUCCESS, () => {
         test('should update attachments when attachment removed', () => {
             const oldState = {
                 attachment: [

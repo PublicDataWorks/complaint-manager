@@ -77,7 +77,6 @@ describe('createCase', () => {
 
     test('should not dispatch success if unauthorized and redirect', async () => {
         const creationDetails = {}
-        const responseBody = {cases: []}
 
         nock('http://localhost', {
             reqheaders: {
@@ -86,14 +85,10 @@ describe('createCase', () => {
             }
         })
             .post('/api/cases', creationDetails.caseDetails)
-            .reply(401, responseBody)
+            .reply(401)
 
         await createCase(creationDetails)(dispatch)
 
-        //TODO If we fail API authentication, we will never get responseBody.case back.
-        //So the following expect doesn't test anything meaningful.
-        //Can we assert that getCasesSuccess is never called with anything?
-        expect(dispatch).not.toHaveBeenCalledWith(getCasesSuccess(responseBody.cases))
         expect(dispatch).toHaveBeenCalledWith(push(`/login`))
     })
 

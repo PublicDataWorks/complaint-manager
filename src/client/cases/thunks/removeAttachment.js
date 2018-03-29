@@ -10,7 +10,7 @@ const removeAttachment = (caseId, fileName, shouldCloseDialog) => async(dispatch
 
         if (!token) {
             dispatch(push(`/login`))
-            throw Error('No Token')
+            return dispatch(removeAttachmentFailed())
         }
         const response = await fetch(`${hostname}/api/cases/${caseId}/attachments/${fileName}`, {
             method: 'DELETE',
@@ -25,14 +25,14 @@ const removeAttachment = (caseId, fileName, shouldCloseDialog) => async(dispatch
                 const caseDetails = await response.json()
                 shouldCloseDialog()
                 return dispatch(removeAttachmentSuccess(caseDetails))
-            case 500:
-                return dispatch(removeAttachmentFailed())
+            case 401:
+                dispatch(push(`/login`))
             default:
-                throw response.status
+                return dispatch(removeAttachmentFailed())
         }
     }
     catch (error){
-        dispatch(removeAttachmentFailed())
+        return dispatch(removeAttachmentFailed())
     }
 }
 
