@@ -16,6 +16,7 @@ import CaseDrawer from "./CaseDrawer";
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
 import { Menu, MenuItem } from "material-ui";
+import IncidentDetailsContainer from "./IncidentDetails/IncidentDetailsContainer";
 
 const drawerWidthPercentage = '30%';
 
@@ -88,6 +89,7 @@ class CaseDetails extends React.Component {
                     </NavBar>
                     <CaseDrawer classes={classes} caseDetail={this.props.caseDetail}/>
                     <main className={classes.content}>
+                        <IncidentDetailsContainer/>
                         <ComplainantWitnesses caseDetail={this.props.caseDetail} dispatch={this.props.dispatch}/>
                         <Narrative
                             initialValues={{

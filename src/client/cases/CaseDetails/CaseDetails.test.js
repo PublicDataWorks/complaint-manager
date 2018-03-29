@@ -30,7 +30,7 @@ describe('Case Details Component', () => {
         store = createConfiguredStore()
         dispatchSpy = jest.spyOn(store, 'dispatch');
 
-        expectedCase = new Case.Builder().defaultCase().withNarrativeDetails('Some initial narrative').withIncidentDate(incidentDateInUTC).build()
+        expectedCase = new Case.Builder().defaultCase().withId(612).withNarrativeDetails('Some initial narrative').withIncidentDate(incidentDateInUTC).build()
 
         store.dispatch(getCaseDetailsSuccess(expectedCase));
 
@@ -50,7 +50,7 @@ describe('Case Details Component', () => {
     describe('nav bar', () => {
         test("should display with Case number", () => {
             const navBar = caseDetails.find(NavBar);
-            const expectedFormattedName = `Case #${expectedCase.id}`
+            const expectedFormattedName = `Case #612`
 
             containsText(navBar, '[data-test="pageTitle"]', expectedFormattedName)
         })
@@ -66,8 +66,8 @@ describe('Case Details Component', () => {
             containsText(caseDetails, '[data-test="all-cases-link"]', "Back to all Cases")
         })
 
-        test("should display Case Details as a default section title", () => {
-            containsText(caseDetails, '[data-test="case-number"]', `Case Details`)
+        test("should display Case # as a default section title", () => {
+            containsText(caseDetails, '[data-test="case-number"]', `Case #612`)
         })
 
         test('should display incident date', () => {
