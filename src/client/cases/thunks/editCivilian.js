@@ -29,7 +29,7 @@ const editCivilian = (civilian) => async (dispatch) => {
                 dispatch(editCivilianSuccess(parsedCivilian))
                 return dispatch(closeEditDialog())
             case 401:
-                dispatch(push(`/login`))
+                return dispatch(push(`/login`))
             default:
                 return dispatch(editCivilianFailed())
         }

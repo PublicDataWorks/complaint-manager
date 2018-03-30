@@ -1,7 +1,6 @@
 import React from 'react'
-import {timeFromDateString} from "../../utilities/formatDate";
-import {Link} from "react-router-dom";
 import formatDate from "../../utilities/formatDate";
+import {Link} from "react-router-dom";
 import LinkButton from "../../sharedComponents/LinkButton";
 import {Drawer, Typography} from "material-ui";
 
@@ -23,42 +22,10 @@ const CaseDrawer = ({classes, caseDetail}) => (
             </Typography>
             <div className={classes.drawerRow}>
                 <div className={classes.drawerRowItem}>
-                    <Typography type='caption'>Incident Date</Typography>
-                    <Typography data-test="incident-date" type='body1'>
-                        {caseDetail.incidentDate ?
-                            formatDate(caseDetail.incidentDate)
-                            : 'N/A'
-                        }
-                    </Typography>
+                    <Typography type='caption'>Created By</Typography>
+                    <Typography data-test="created-by"
+                                type='body1'>{caseDetail.createdBy}</Typography>
                 </div>
-                <div className={classes.drawerRowItem}>
-                    <Typography type='caption'>Incident Time</Typography>
-                    <Typography data-test="incident-time" type='body1'>
-                        {caseDetail.incidentDate ?
-                            timeFromDateString(caseDetail.incidentDate)
-                            : 'N/A'
-                        }
-                    </Typography>
-                </div>
-                <div className={classes.drawerRowItem}>
-                    <Typography type='caption'>First Contact Date</Typography>
-                    <Typography data-test="first-contact-date" type='body1'>
-                        {formatDate(caseDetail.firstContactDate)}
-                    </Typography>
-                </div>
-            </div>
-            <div className={classes.drawerRow}>
-                <div className={classes.drawerRowItem}>
-                    <Typography type='caption'>Complainant Type</Typography>
-                    <Typography data-test="complainant-type"
-                                type='body1'>{caseDetail.complainantType}</Typography>
-                </div>
-                <div className={classes.drawerRowItem}>
-                </div>
-                <div className={classes.drawerRowItem}>
-                </div>
-            </div>
-            <div className={classes.drawerRow}>
                 <div className={classes.drawerRowItem}>
                     <Typography type='caption'>Created On</Typography>
                     <Typography
@@ -68,15 +35,19 @@ const CaseDrawer = ({classes, caseDetail}) => (
                     </Typography>
                 </div>
                 <div className={classes.drawerRowItem}>
-                    <Typography type='caption'>Created By</Typography>
-                    <Typography data-test="created-by"
-                                type='body1'>{caseDetail.createdBy}</Typography>
+                    <Typography type='caption'>Complainant Type</Typography>
+                    <Typography data-test="complainant-type"
+                                type='body1'>{caseDetail.complainantType}</Typography>
                 </div>
+            </div>
+            <div className={classes.drawerRow}>
                 <div className={classes.drawerRowItem}>
                     <Typography type='caption'>Assigned To</Typography>
                     <Typography data-test="assigned-to"
                                 type='body1'>{caseDetail.assignedTo}</Typography>
                 </div>
+                <div className={classes.drawerRowItem}/>
+                <div className={classes.drawerRowItem}/>
             </div>
         </div>
     </Drawer>

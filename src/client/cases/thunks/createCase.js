@@ -36,7 +36,7 @@ const createCase = (creationDetails) => async (dispatch) => {
                 }
                 return dispatch(reset('CreateCase'))
             case 401:
-                dispatch(push(`/login`))
+                return dispatch(push(`/login`))
             default:
                 return dispatch(createCaseFailure())
         }

@@ -32,7 +32,7 @@ const updateNarrative = (updateDetails) => async (dispatch) => {
                 const updatedCase = await response.json()
                 return dispatch(updateNarrativeSuccess(updatedCase))
             case 401:
-                dispatch(push(`/login`))
+                return dispatch(push(`/login`))
             default:
                 return dispatch(updateNarrativeFailure())
         }

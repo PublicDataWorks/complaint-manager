@@ -70,17 +70,6 @@ describe('Case Details Component', () => {
             containsText(caseDetails, '[data-test="case-number"]', `Case #612`)
         })
 
-        test('should display incident date', () => {
-            containsText(caseDetails, '[data-test="incident-date"]', `Dec 25, 2017`)
-        })
-        test('should display incident time', () => {
-            containsText(caseDetails, '[data-test="incident-time"]', `12:00 AM CST`)
-        })
-
-        test('should display first contact date', () => {
-           containsText(caseDetails, '[data-test="first-contact-date"]', "Dec 25, 2017")
-        })
-
         test("should display created on date", () => {
             containsText(caseDetails, '[data-test="created-on"]', "Sep 13, 2015")
         })
