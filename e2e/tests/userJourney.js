@@ -142,7 +142,7 @@ if (TEST_PASS && TEST_USER && HOST) {
 
         "should display the address in the Complainant & Witnesses section of the Case Detail": (browser) => {
             browser
-                .expect.element('p[data-test="primaryComplainantAddress"]').text.to.not.equal('No address specified')
+                .expect.element('p[data-test="complainantAddress"]').text.to.not.equal('No address specified')
         },
 
         "should submit blank address when cleared and submitted": (browser) => {
@@ -172,7 +172,7 @@ if (TEST_PASS && TEST_USER && HOST) {
 
         "should not show address in Complainant & Witnesses section of Case Detail": (browser) => {
             browser
-                .waitForElementPresent('p[data-test="primaryComplainantAddress"]', roundTripWait)
+                .waitForElementPresent('p[data-test="complainantAddress"]', roundTripWait)
                 .pause(500)
 
             const expansionPanel = '[data-test="complainantWitnessesPanel"] > div';
@@ -185,8 +185,8 @@ if (TEST_PASS && TEST_USER && HOST) {
             })
 
             browser
-                .getText('p[data-test="primaryComplainantAddress"]', (result) => {
-                    browser.assert.containsText('p[data-test="primaryComplainantAddress"]', result.value)
+                .getText('p[data-test="complainantAddress"]', (result) => {
+                    browser.assert.containsText('p[data-test="complainantAddress"]', result.value)
                 })
         },
 
