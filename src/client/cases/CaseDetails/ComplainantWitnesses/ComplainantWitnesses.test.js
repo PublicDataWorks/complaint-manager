@@ -20,16 +20,16 @@ jest.mock('redux-form', () => ({
 }))
 
 describe('Complainant and Witnesses', () => {
-    let complainantWitnessesSection, complainantWitnesses, complainantPanel, caseDetail, dispatchSpy, primaryComplainant
+    let complainantWitnessesSection, complainantWitnesses, complainantPanel, caseDetail, dispatchSpy, complainant
     beforeEach(() => {
-        primaryComplainant = new Civilian.Builder().defaultCivilian()
+        complainant = new Civilian.Builder().defaultCivilian()
             .withBirthDate('')
             .withRaceEthnicity(undefined)
             .withGenderIdentity(undefined)
             .build()
 
         caseDetail = new Case.Builder().defaultCase()
-            .withCivilians([primaryComplainant])
+            .withCivilians([complainant])
             .build()
 
         const store = createConfiguredStore()
@@ -42,12 +42,12 @@ describe('Complainant and Witnesses', () => {
 
     describe('full name', () => {
         test('should display civilian role on case', () => {
-            containsText(complainantWitnessesSection, '[data-test="primaryComplainantLabel"]', primaryComplainant.roleOnCase)
+            containsText(complainantWitnessesSection, '[data-test="complainantLabel"]', complainant.roleOnCase)
         })
 
         test('should display civilian first and last name', () => {
-            const primaryComplainantName = formatName(primaryComplainant)
-            containsText(complainantWitnessesSection, '[data-test="primaryComplainant"]', primaryComplainantName)
+            const complainantName = formatName(complainant)
+            containsText(complainantWitnessesSection, '[data-test="complainant"]', complainantName)
         })
     });
 
@@ -58,21 +58,21 @@ describe('Complainant and Witnesses', () => {
             editLink.simulate('click');
 
             expect(dispatchSpy).toHaveBeenCalledWith(openCivilianDialog("Edit Civilian", "Save", editCivilian))
-            expect(initialize).toHaveBeenCalledWith(CIVILIAN_FORM_NAME, primaryComplainant)
+            expect(initialize).toHaveBeenCalledWith(CIVILIAN_FORM_NAME, complainant)
         })
     })
 
     describe('phone number', () => {
         test('should display phone number expanded', () => {
             const expectedPhoneNumber = '(123) 456-7890'
-            containsText(complainantPanel, '[data-test="primaryComplainantPhoneNumber"]', expectedPhoneNumber)
+            containsText(complainantPanel, '[data-test="complainantPhoneNumber"]', expectedPhoneNumber)
         })
     });
 
     describe('email', () => {
         test('should display email when expanded', () => {
             const complainantPanel = complainantWitnessesSection.find('[data-test="complainantWitnessesPanel"]').first()
-            containsText(complainantPanel, '[data-test="primaryComplainantEmail"]', primaryComplainant.email)
+            containsText(complainantPanel, '[data-test="complainantEmail"]', complainant.email)
         })
     });
 
@@ -89,12 +89,12 @@ describe('Complainant and Witnesses', () => {
             complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseWithNoAddress}/>)
 
             complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
-            containsText(complainantPanel, '[data-test="primaryComplainantAddress"]', 'No address specified')
+            containsText(complainantPanel, '[data-test="complainantAddress"]', 'No address specified')
         })
         test('should display address when present', () => {
             const expectedAddress = formatAddress(caseDetail.civilians[0].address)
 
-            containsText(complainantPanel, '[data-test="primaryComplainantAddress"]', expectedAddress)
+            containsText(complainantPanel, '[data-test="complainantAddress"]', expectedAddress)
         })
     });
 
@@ -111,16 +111,16 @@ describe('Complainant and Witnesses', () => {
             complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseWithNoAddress}/>)
 
             complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
-            containsText(complainantPanel, '[data-test="primaryComplainantAdditionalAddressInfo"]', '')
+            containsText(complainantPanel, '[data-test="complainantAdditionalAddressInfo"]', '')
         })
         test('should display additional address info when present', () => {
-            containsText(complainantPanel, '[data-test="primaryComplainantAdditionalAddressInfo"]', caseDetail.civilians[0].address.streetAddress2)
+            containsText(complainantPanel, '[data-test="complainantAdditionalAddressInfo"]', caseDetail.civilians[0].address.streetAddress2)
         })
     });
 
     describe('additional info', () => {
         test('should display additional info when present', () => {
-            containsText(complainantPanel, '[data-test="primaryComplainantAdditionalInfo"]', primaryComplainant.additionalInfo)
+            containsText(complainantPanel, '[data-test="complainantAdditionalInfo"]', complainant.additionalInfo)
         })
     })
 })

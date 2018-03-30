@@ -1,6 +1,11 @@
 import {
-    ATTACHMENT_UPLOAD_FAILED, ATTACHMENT_UPLOAD_SUCCEEDED,
-    CASE_CREATED_SUCCESS, REMOVE_ATTACHMENT_FAILED, REMOVE_ATTACHMENT_SUCCESS,
+    ATTACHMENT_UPLOAD_FAILED,
+    ATTACHMENT_UPLOAD_SUCCEEDED,
+    CASE_CREATED_SUCCESS,
+    CIVILIAN_CREATION_FAILED,
+    CIVILIAN_CREATION_SUCCEEDED,
+    REMOVE_ATTACHMENT_FAILED,
+    REMOVE_ATTACHMENT_SUCCESS,
 } from "../../../sharedUtilities/constants";
 
 //TODO Discuss separation of concerns.
@@ -85,6 +90,18 @@ const snackbarReducer = (state = initialState, action) => {
                 open: true,
                 success: false,
                 message: 'Something went wrong on our end and your case was not updated. Please try again.'
+            }
+        case CIVILIAN_CREATION_SUCCEEDED:
+            return {
+                open: true,
+                success: true,
+                message: 'New Civilian was successfully added'
+            }
+        case CIVILIAN_CREATION_FAILED:
+            return {
+                open: true,
+                success: false,
+                message: 'Something went wrong on our end and your civilian was not created. Please try again.'
             }
         case 'EDIT_CIVILIAN_SUCCESS':
             return {

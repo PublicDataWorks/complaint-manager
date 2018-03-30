@@ -62,6 +62,11 @@ class CivilianDialog extends Component {
                 >
                     <form>
                         <Field
+                            type={'hidden'}
+                            name={'caseId'}
+                            component={TextField}
+                        />
+                        <Field
                             name="roleOnCase"
                             component={RoleOnCaseRadioGroup}
                             style={{marginBottom: '8px'}}

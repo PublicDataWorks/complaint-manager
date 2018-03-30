@@ -17,6 +17,10 @@ import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
 import { Menu, MenuItem } from "material-ui";
 import IncidentDetailsContainer from "./IncidentDetails/IncidentDetailsContainer";
+import {openCivilianDialog} from "../../actionCreators/casesActionCreators";
+import createCivilian from "../thunks/createCivilian";
+import {CIVILIAN_FORM_NAME} from "../../../sharedUtilities/constants";
+import {initialize} from "redux-form";
 
 const drawerWidthPercentage = '30%';
 
@@ -38,7 +42,7 @@ class CaseDetails extends React.Component {
         this.setState({ menuOpen: true, anchorEl: event.currentTarget })
     }
 
-    handleMenuClose = (event) => {
+    handleMenuClose = () => {
         this.setState({ menuOpen: false })
     }
 
@@ -103,6 +107,7 @@ class CaseDetails extends React.Component {
                     <CivilianDialog/>
                     <CaseDetailSnackbar/>
                     <Button
+                        data-test="caseActionMenu"
                         fab
                         color="primary"
                         style={{ position: 'fixed', bottom: '32px', right: '32px' }}
@@ -114,9 +119,10 @@ class CaseDetails extends React.Component {
                         open={this.state.menuOpen}
                         onClose={this.handleMenuClose}
                         anchorEl={this.state.anchorEl}
+                        getContentAnchorEl={null}
                         anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
+                            vertical: 'center',
+                            horizontal: 'center',
                         }}
                         transformOrigin={{
                             vertical: 'bottom',
@@ -124,6 +130,12 @@ class CaseDetails extends React.Component {
                         }}
                     >
                         <MenuItem
+                            data-test="addCivilianButton"
+                            onClick={() => {
+                                this.handleMenuClose()
+                                this.props.dispatch(initialize(CIVILIAN_FORM_NAME, {roleOnCase: 'Complainant', caseId: this.props.caseDetail.id}))
+                                this.props.dispatch(openCivilianDialog('Add Civilian', 'Create', createCivilian))
+                            }}
                         >
                             Add Civilian
                         </MenuItem>

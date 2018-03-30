@@ -9,7 +9,9 @@ import {containsText} from "../../../testHelpers";
 import {mockLocalStorage} from "../../../mockLocalStorage";
 import Case from "../../testUtilities/case";
 import getCaseDetails from "../thunks/getCaseDetails";
-import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
+import createCivilian from "../thunks/createCivilian";
+import {openCivilianDialog} from "../../actionCreators/casesActionCreators";
+import {getCaseDetailsSuccess} from "../../actionCreators/casesActionCreators";
 
 jest.mock('../thunks/getCaseDetails', () => () => ({
     type: 'MOCK_GET_CASE_DETAILS'
@@ -84,6 +86,18 @@ describe('Case Details Component', () => {
 
         test("should display assigned to user", () => {
             containsText(caseDetails, '[data-test="assigned-to"]', expectedCase.assignedTo)
+        })
+    });
+
+    describe('main', () => {
+        test('should open Add Civilian Dialog when Add Civilian button is clicked', () => {
+            const plusButton = caseDetails.find('button[data-test="caseActionMenu"]')
+            plusButton.simulate('click')
+
+            const addCivilian = caseDetails.find('li[data-test="addCivilianButton"]')
+            addCivilian.simulate('click')
+
+            expect(dispatchSpy).toHaveBeenCalledWith(openCivilianDialog("Add Civilian", "Create", createCivilian))
         })
     });
 });
