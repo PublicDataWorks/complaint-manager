@@ -26,7 +26,8 @@ const removeAttachment = (caseId, fileName, shouldCloseDialog) => async(dispatch
                 shouldCloseDialog()
                 return dispatch(removeAttachmentSuccess(caseDetails))
             case 401:
-                return dispatch(push(`/login`))
+                dispatch(push(`/login`))
+                return dispatch(removeAttachmentFailed())
             default:
                 return dispatch(removeAttachmentFailed())
         }

@@ -35,6 +35,7 @@ const createCivilian = (civilian) => async (dispatch) => {
                 return dispatch(closeEditDialog())
             case 401:
                 dispatch(push(`/login`))
+                return dispatch(createCivilianFailure())
             default:
                 return dispatch(createCivilianFailure())
         }
