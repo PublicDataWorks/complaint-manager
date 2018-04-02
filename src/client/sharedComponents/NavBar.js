@@ -5,6 +5,7 @@ import {AppBar, IconButton, Menu, MenuItem, Toolbar, Typography} from 'material-
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import Auth from "../auth/Auth";
+import downloader from "../utilities/downloader";
 
 const styles = {
     appBarStyle: {
@@ -92,7 +93,13 @@ class NavBar extends React.Component {
                             data-test="logOutButton"
                             onClick={()=>{new Auth().logout()}}
                         >
-                           Log Out
+                            Log Out
+                        </MenuItem>
+                        <MenuItem
+                            data-test="Export System Log"
+                            onClick={() => downloader('/api/export-audit-log', 'Complaint_Manager_System_Log.csv')}
+                        >
+                            Export System Log
                         </MenuItem>
                     </Menu>
                 </Toolbar>

@@ -1,4 +1,4 @@
-import formatDate, {applyCentralTimeZoneOffset, timeFromDateString} from "./formatDate";
+import formatDate, {applyCentralTimeZoneOffset, formatDateForCSV, timeFromDateString} from "./formatDate";
 
 const expectedFormattedDate = 'Jan 31, 2018'
 
@@ -62,4 +62,3 @@ describe('apply CST to dateString', () => {
         expect(offsettedDatestring).toEqual(expectedDateString)
     })
 });
-

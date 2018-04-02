@@ -9,6 +9,7 @@ const getUsers = require("./handlers/users/getUsers");
 const jwtCheck = require("./handlers/jtwCheck")
 const getUserProfile = require("./handlers/getUserProfile")
 const authErrorHandler = require("./handlers/authErrorHandler")
+const exportAuditLog = require("./handlers/audit_logs/export")
 const attachmentRouter = require("./attachmentRouter")
 
 const express = require('express')
@@ -31,5 +32,6 @@ router.put('/civilian/:id', editCivilian);
 
 router.post('/users', createUser);
 router.get('/users', getUsers);
+router.get('/export-audit-log', exportAuditLog);
 
 module.exports = router

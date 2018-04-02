@@ -1,33 +1,10 @@
 import React from 'react'
 import {Divider, Typography} from "material-ui";
 import styles from "../../../globalStyling/styles";
-import FileSaver from "file-saver";
-import getAccessToken from "../../../auth/getAccessToken";
 import LinkButton from "../../../sharedComponents/LinkButton";
+import downloader from "../../../utilities/downloader"
 
 const AttachmentsRow = ({attachment, onRemoveAttachment}) => {
-    const downloadAttachment = async () => {
-        try {
-            const response = await fetch(`/api/cases/${attachment.caseId}/attachments/${attachment.fileName}`, {
-                headers: {
-                    'Authorization': `Bearer ${getAccessToken()}`
-                }
-            })
-
-            if (response.status === 200) {
-                const blob = await response.blob()
-                const fileToDownload = new File([blob], attachment.fileName)
-                FileSaver.saveAs(fileToDownload, attachment.fileName)
-            }
-            else {
-                console.log(response.status)
-            }
-        }
-        catch (e) {
-            console.log(e)
-        }
-    }
-
     return (
         <div>
             <div
@@ -42,7 +19,7 @@ const AttachmentsRow = ({attachment, onRemoveAttachment}) => {
                             ...styles.link,
                             cursor: "pointer"
                         }}
-                        onClick={downloadAttachment}
+                        onClick={() => downloader(`/api/cases/${attachment.caseId}/attachments/${attachment.fileName}`, attachment.fileName)}
                     >
                         {
                             attachment.fileName

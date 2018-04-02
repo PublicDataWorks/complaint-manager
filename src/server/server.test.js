@@ -724,4 +724,35 @@ describe('server', () => {
                 })
         })
     });
+
+    describe('GET /api/export-audit-log', () => {
+        let testCase;
+        const testCreationDate = new Date("2018-01-31T19:00Z");
+        beforeEach( async () => {
+            testCase = await models.cases.create(new Case.Builder().defaultCase().withId(undefined).build())
+            await models.audit_log.create({
+                user: 'tuser',
+                action: 'Test action entered',
+                caseId: testCase.id,
+                createdAt: testCreationDate
+            })
+        })
+
+        afterEach( async () => {
+            await models.cases.destroy({
+                truncate: true,
+                cascade: true
+            })
+        })
+
+        test('should return audit log csv', async () => {
+            await request(app)
+                .get('/api/export-audit-log')
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+                .then( response => {
+                    expect(response.text).toEqual(`Date,Case #,Event,User\n01/31/2018 13:00 CT,${testCase.id},Test action entered,tuser\n`)
+                })
+        })
+    });
 })

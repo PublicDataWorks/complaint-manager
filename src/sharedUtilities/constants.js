@@ -32,6 +32,12 @@ const REMOVE_ATTACHMENT_FAILED = 'REMOVE_ATTACHMENT_FAILED'
 
 const CIVILIAN_FORM_NAME = 'Civilian form'
 
+// ----------------------------------------
+//          Other
+// ----------------------------------------
+
+const TIMEZONE = 'America/Chicago'
+
 module.exports = {
     INVALID_FILE_TYPE_DROPPED,
     DUPLICATE_FILE_DROPPED,
@@ -47,5 +53,6 @@ module.exports = {
     UPLOAD_CANCELED,
     REMOVE_ATTACHMENT_FAILED,
     REMOVE_ATTACHMENT_SUCCESS,
-    CIVILIAN_FORM_NAME
+    CIVILIAN_FORM_NAME,
+    TIMEZONE
 }
