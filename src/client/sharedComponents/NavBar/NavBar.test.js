@@ -3,10 +3,10 @@ import {mount} from 'enzyme'
 import NavBar from './NavBar'
 import {Backdrop} from "material-ui";
 import {BrowserRouter as Router} from "react-router-dom";
-import createConfiguredStore from "../createConfiguredStore";
+import createConfiguredStore from "../../createConfiguredStore";
 import {Provider} from "react-redux";
-import {mockLocalStorage} from "../../mockLocalStorage";
-import {containsText} from "../../testHelpers";
+import {mockLocalStorage} from "../../../mockLocalStorage";
+import {containsText} from "../../../testHelpers";
 
 
 describe('NavBar', () => {
@@ -78,6 +78,17 @@ describe('NavBar', () => {
             const menu = wrapper.find(NavBar).find('[data-test="menu"]').first()
 
             expect(menu.props()).toHaveProperty('open', false)
+        })
+
+        test('should see dialog box when click on Export System Log', () => {
+            const gearButton = wrapper.find('[data-test="gearButton"]').last()
+            gearButton.simulate('click')
+
+            const exportAuditLog = wrapper.find('[data-test="exportAuditLog"]').last()
+            exportAuditLog.simulate('click')
+
+            const exportConfirmationDialogText = wrapper.find('[data-test="exportAuditLogConfirmationText"]').last()
+            expect(exportConfirmationDialogText.exists()).toBeTruthy()
         })
     });
 })

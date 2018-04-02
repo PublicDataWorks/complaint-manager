@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Typography} from "material-ui";
 import AttachmentsRow from "./AttachmentsRow";
 import _ from "lodash"
-import RemoveAttachmentConfirmationDialog from "../../../sharedComponents/RemoveAttachmentConfirmationDialog";
+import RemoveAttachmentConfirmationDialog from "./RemoveAttachmentConfirmationDialog";
 
 class AttachmentsList extends Component {
 

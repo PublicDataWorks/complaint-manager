@@ -2,7 +2,7 @@ import React from 'react'
 import Card, {CardContent} from 'material-ui/Card';
 import GridList, {GridListTile, GridListTileBar} from 'material-ui/GridList'
 import Typography from 'material-ui/Typography'
-import NavBar from '../sharedComponents/NavBar'
+import NavBar from '../sharedComponents/NavBar/NavBar'
 import StyledLink from '../sharedComponents/StyledLink'
 import {CancelButton, SubmitButton} from '../sharedComponents/StyledButtons'
 import {withTheme} from "material-ui";

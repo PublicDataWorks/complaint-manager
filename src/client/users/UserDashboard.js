@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import UsersTable from "./UsersTable/UsersTable";
 import CreateUserDialog from './CreateUserDialog/CreateUserDialog'
 import UserCreationSnackbar from "./UserCreationSnackbar/UserCreationSnackbar";
-import NavBar from '../sharedComponents/NavBar'
+import NavBar from '../sharedComponents/NavBar/NavBar'
 import {Typography} from "material-ui";
 import {connect} from "react-redux";
 import {closeSnackbar} from "../actionCreators/snackBarActionCreators";

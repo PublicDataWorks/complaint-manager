@@ -1,6 +1,6 @@
 import React from 'react';
 import {Dialog, DialogActions, DialogContent, DialogTitle, Typography} from "material-ui";
-import {CancelButton, SubmitButton} from "./StyledButtons";
+import {CancelButton, SubmitButton} from "../../../sharedComponents/StyledButtons";
 
 class RemoveAttachmentConfirmationDialog extends React.Component {
 
