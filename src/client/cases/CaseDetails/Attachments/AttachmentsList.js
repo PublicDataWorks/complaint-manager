@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import {Dialog, DialogActions, DialogContent, DialogTitle, Typography} from "material-ui";
+import {Typography} from "material-ui";
 import AttachmentsRow from "./AttachmentsRow";
 import _ from "lodash"
-import {CancelButton, SubmitButton} from "../../../sharedComponents/StyledButtons";
+import RemoveAttachmentConfirmationDialog from "../../../sharedComponents/RemoveAttachmentConfirmationDialog";
 
 class AttachmentsList extends Component {
 
@@ -45,35 +45,13 @@ class AttachmentsList extends Component {
                             </div>
                         )
                 }
-                <Dialog
-                    maxWidth='sm'
-                    fullWidth={true}
-                    open={this.state.dialogOpen}
-                    onExited={this.handleDialogExit}
-                >
-                    <DialogTitle>Remove Attachment</DialogTitle>
-                    <DialogContent>
-                        <Typography
-                            data-test={'removeAttachmentText'}
-                            type={'body1'}
-                            style={{wordBreak: 'break-word'}}
-                        >
-                            Are you sure you wish to remove <strong>{this.state.attachmentFileName}</strong> from this case?
-                        </Typography>
-                    </DialogContent>
-                    <DialogActions>
-                        <CancelButton
-                            onClick={this.handleClose}>
-                            Cancel
-                        </CancelButton>
-                        <SubmitButton
-                            data-test='confirmRemoveAttachmentButton'
-                            onClick={()=>{this.props.removeAttachment(this.props.caseId, this.state.attachmentFileName, this.handleClose)}}
-                        >
-                            Remove
-                        </SubmitButton>
-                    </DialogActions>
-                </Dialog>
+                <RemoveAttachmentConfirmationDialog
+                    dialogOpen={this.state.dialogOpen}
+                    handleDialogExit={this.handleDialogExit}
+                    handleClose={this.handleClose}
+                    removeAttachment={() => {this.props.removeAttachment(this.props.caseId, this.state.attachmentFileName, this.handleClose)}}
+                    attachmentFileName={this.state.attachmentFileName}
+                />
             </div>
         )
     }
