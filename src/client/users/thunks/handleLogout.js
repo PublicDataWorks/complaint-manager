@@ -5,6 +5,8 @@ import Auth from "../../auth/Auth";
 const handleLogout = async () => {
     const hostname = config[process.env.NODE_ENV].hostname;
     const token = getAccessToken();
+
+    new Auth().logout();
     await fetch(`${hostname}/api/audit`, {
         method: 'POST',
         headers: {
@@ -16,7 +18,6 @@ const handleLogout = async () => {
         console.log(error);
     });
 
-    new Auth().logout();
 };
 
 export default handleLogout;
