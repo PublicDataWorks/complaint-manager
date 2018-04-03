@@ -11,6 +11,7 @@ import Case from "../../../testUtilities/case";
 import formatName from "../../../utilities/formatName";
 import editCivilian from "../../thunks/editCivilian";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
+import _ from "lodash"
 
 jest.mock('redux-form', () => ({
     reducer: {mockReducer: 'mockReducerState'},
@@ -48,6 +49,42 @@ describe('Complainant and Witnesses', () => {
         test('should display civilian first and last name', () => {
             const complainantName = formatName(complainant)
             containsText(complainantWitnessesSection, '[data-test="complainant"]', complainantName)
+        })
+    });
+
+    describe('Sort order', () => {
+        test('Civilians should be sorted by last name, first name', () => {
+            const civilianBA = new Civilian.Builder().defaultCivilian()
+                .withFirstName("Blake")
+                .withLastName("Anderson")
+                .withMiddleInitial("")
+                .withSuffix("")
+                .withId(1)
+                .build()
+            const civilianAS = new Civilian.Builder().defaultCivilian()
+                .withFirstName("Amy")
+                .withLastName("Smith")
+                .withMiddleInitial("")
+                .withSuffix("")
+                .withId(2)
+                .build()
+            const civilianAA = new Civilian.Builder().defaultCivilian()
+                .withFirstName("Amy")
+                .withLastName("Anderson")
+                .withMiddleInitial("")
+                .withSuffix("")
+                .withId(3)
+                .build()
+
+            caseDetail = new Case.Builder().defaultCase()
+                .withCivilians([civilianBA, civilianAS, civilianAA])
+                .build()
+
+            complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseDetail}/>)
+
+            const complainantNames = complainantWitnesses.find('[data-test="complainant"]');
+            const uniqueComplainantNamesRendered = _.uniq(complainantNames.map(complainant => complainant.text()));
+            expect(uniqueComplainantNamesRendered).toEqual(["Amy Anderson", "Blake Anderson", "Amy Smith"])
         })
     });
 

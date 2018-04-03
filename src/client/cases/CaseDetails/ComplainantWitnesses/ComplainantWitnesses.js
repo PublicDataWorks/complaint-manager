@@ -2,6 +2,7 @@ import React from "react";
 import {CardContent} from "material-ui";
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import ComplainantPanel from "./ComplainantPanel";
+import _ from "lodash"
 
 const ComplainantWitnesses = (props) => {
     return (
@@ -11,7 +12,7 @@ const ComplainantWitnesses = (props) => {
         >
             <CardContent style={{padding: '0'}}>
                 {
-                    props.caseDetail.civilians.map(civilian => (
+                    _.sortBy(props.caseDetail.civilians, civilian =>  [civilian.lastName, civilian.firstName]).map(civilian => (
                         <ComplainantPanel key={civilian.id} civilian={civilian} dispatch={props.dispatch}/>
                     ))
                 }
