@@ -6,7 +6,7 @@ const editCivilian = require("./handlers/civilians/editCivilian");
 const createCivilian = require("./handlers/civilians/createCivilian");
 const createUser = require("./handlers/users/createUser");
 const getUsers = require("./handlers/users/getUsers");
-const logout = require("./handlers/users/logout");
+const audit = require("./handlers/audit_logs/audit");
 const jwtCheck = require("./handlers/jtwCheck")
 const getUserProfile = require("./handlers/getUserProfile")
 const authErrorHandler = require("./handlers/authErrorHandler")
@@ -31,7 +31,7 @@ router.use('/cases/:id/attachments', attachmentRouter)
 router.post('/civilian', createCivilian);
 router.put('/civilian/:id', editCivilian);
 
-router.post('/logout', logout);
+router.post('/audit', audit);
 router.post('/users', createUser);
 router.get('/users', getUsers);
 router.get('/export-audit-log', exportAuditLog);

@@ -12,7 +12,7 @@ jest.mock("../../auth/Auth", () => {
 
 describe('handleLogout', () => {
 
-    test('should call Auth logout when audit log is successful', async () => {
+    test('should call Auth logout with request body', async () => {
 
         nock('http://localhost', {
             reqheaders: {
@@ -20,7 +20,7 @@ describe('handleLogout', () => {
                 'Authorization': `Bearer TEST_TOKEN`
             }
         })
-        .post('/api/logout')
+        .post('/api/audit', {log: 'Logged Out'})
         .reply(201);
 
         await handleLogout();

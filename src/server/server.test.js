@@ -87,17 +87,19 @@ describe('server', () => {
         })
     })
 
-    describe('POST /logout', () => {
+    describe('POST /audit', () => {
+        const mockLog = 'Test Output';
         test('should audit log out', async () => {
             await request(app)
-                .post('/api/logout')
+                .post('/api/audit')
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
+                .send({log: mockLog})
                 .expect(201);
 
             const log = await models.audit_log.findAll({
                 where: {
-                    action: 'Logged Out'
+                    action: mockLog
                 }
             });
 
@@ -107,7 +109,7 @@ describe('server', () => {
         afterEach( async()=>{
             await models.audit_log.destroy({
                 where:{
-                    action: 'Logged Out'
+                    action: mockLog
                 }
             })
         })

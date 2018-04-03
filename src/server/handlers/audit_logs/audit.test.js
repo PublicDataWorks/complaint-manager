@@ -1,5 +1,5 @@
 const httpMocks = require('node-mocks-http');
-const logout = require('./logout');
+const audit = require('./audit');
 const models = require('../../models/index');
 
 jest.mock('../../models', () => ({
@@ -11,7 +11,7 @@ jest.mock('../../models', () => ({
     }
 }));
 
-describe('Logout', () => {
+describe('Audit', () => {
     test('should create an audit record', async() => {
         const currentUser = 'test username';
         const requestWithValidDataForAudit = httpMocks.createRequest({
@@ -19,11 +19,12 @@ describe('Logout', () => {
             headers: {
                 authorization: 'Bearer SOME_MOCK_TOKEN'
             },
+            body: {log: 'Logged Out'},
             nickname: currentUser
         });
 
         const response = httpMocks.createResponse();
-        await logout(requestWithValidDataForAudit, response, () => {});
+        await audit(requestWithValidDataForAudit, response, () => {});
 
         const expectedLog = {
             action: `Logged Out`,

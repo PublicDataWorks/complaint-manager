@@ -1,11 +1,10 @@
 const models = require('../../models/index');
 
-const logout = async (request, response, next) => {
+const audit = async (request, response, next) => {
     try {
         await models.sequelize.transaction(async (t) => {
-
             await models.audit_log.create({
-                action: `Logged Out`,
+                action: request.body.log,
                 caseId: null,
                 user: request.nickname,
             }, {transaction: t});
@@ -18,4 +17,4 @@ const logout = async (request, response, next) => {
     }
 };
 
-module.exports = logout;
+module.exports = audit;
