@@ -87,6 +87,32 @@ describe('server', () => {
         })
     })
 
+    describe('POST /logout', () => {
+        test('should audit log out', async () => {
+            await request(app)
+                .post('/api/logout')
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .expect(201);
+
+            const log = await models.audit_log.findAll({
+                where: {
+                    action: 'Logged Out'
+                }
+            });
+
+            expect(log.length).toEqual(1)
+        });
+
+        afterEach( async()=>{
+            await models.audit_log.destroy({
+                where:{
+                    action: 'Logged Out'
+                }
+            })
+        })
+    });
+
     describe('POST /cases', () => {
         let requestBody, responseBody
 
@@ -276,10 +302,10 @@ describe('server', () => {
         })
 
         afterEach(async () => {
-            await models.address.destroy({ where: { city: 'post city' }})
-            await models.audit_log.destroy({ where: { caseId: existingCase.id }})
-            await models.civilian.destroy({ where: { caseId: existingCase.id }})
-            await models.cases.destroy({ where: { id: existingCase.id }})
+            await models.address.destroy({where: {city: 'post city'}})
+            await models.audit_log.destroy({where: {caseId: existingCase.id}})
+            await models.civilian.destroy({where: {caseId: existingCase.id}})
+            await models.cases.destroy({where: {id: existingCase.id}})
         })
 
         test('should create a civilian and add it to a case', async () => {
@@ -606,8 +632,8 @@ describe('server', () => {
             caseToRetrieve = await models.cases.create(caseToCreate, {
                 returning: true,
                 include: [
-                    { model: models.civilian },
-                    { model: models.attachment }]
+                    {model: models.civilian},
+                    {model: models.attachment}]
             })
         })
 
@@ -680,10 +706,10 @@ describe('server', () => {
                 .build()
 
             caseToUpdate = await models.cases.create(caseToCreate
-            , {
-                returning: true,
-                include: [{model: models.civilian}]
-            })
+                , {
+                    returning: true,
+                    include: [{model: models.civilian}]
+                })
         })
 
         afterEach(async () => {
