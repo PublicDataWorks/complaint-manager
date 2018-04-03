@@ -1,6 +1,7 @@
 import auth0 from 'auth0-js';
 import config from '../config/config'
 import history from '../history';
+import auditLogin from "../users/thunks/auditLogin";
 
 export default class Auth {
 
@@ -24,6 +25,7 @@ export default class Auth {
                     }
                 })
                 this.setSession(authResult)
+                auditLogin();
                 history.replace('/')
             } else if (err) {
                 history.replace('/')
