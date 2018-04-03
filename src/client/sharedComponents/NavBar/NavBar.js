@@ -4,8 +4,8 @@ import Settings from 'material-ui-icons/Settings';
 import {AppBar, IconButton, Menu, MenuItem, Toolbar, Typography} from 'material-ui'
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
-import Auth from "../../auth/Auth";
 import ExportAuditLogConfirmationDialog from "./ExportAuditLogConfirmationDialog";
+import handleLogout from "../../users/thunks/handleLogout";
 
 const styles = {
     appBarStyle: {
@@ -100,7 +100,7 @@ class NavBar extends React.Component {
                         </MenuItem>
                         <MenuItem
                             data-test="logOutButton"
-                            onClick={()=>{new Auth().logout()}}
+                            onClick={()=>{handleLogout()}}
                         >
                             Log Out
                         </MenuItem>
