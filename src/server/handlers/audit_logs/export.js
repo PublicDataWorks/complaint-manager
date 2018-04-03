@@ -8,7 +8,7 @@ const formatDateForCSV = date => {
     if (!date) {
         return ''
     }
-    return moment(date).tz(TIMEZONE).format('MM/DD/YYYY HH:mm CT');
+    return moment(date).tz(TIMEZONE).format('MM/DD/YYYY HH:mm z');
 }
 
 const exportAuditLog = async (request, response, next) => {
@@ -19,11 +19,28 @@ const exportAuditLog = async (request, response, next) => {
     const csvOptions = {header: true, formatters: dateFormatter};
 
     try {
-        const audit_logs = await models.audit_log.findAll({attributes: attributesWithAliases, raw: true})
+        const audit_logs = await models.sequelize.transaction(async (t) => {
+            await models.audit_log.create({
+                    action: `System Log Exported`,
+                    caseId: null,
+                    user: request.nickname
+                },
+                {
+                    transaction: t
+                }
+            )
+
+            return await models.audit_log.findAll({
+                attributes: attributesWithAliases,
+                raw: true,
+                transaction: t
+            })
+        })
+
         csv.stringify({audit_logs}['audit_logs'], csvOptions, (err, csvOutput) => {
             response.send(csvOutput);
         });
-    } catch(error) {
+    } catch (error) {
         next(error)
     }
 

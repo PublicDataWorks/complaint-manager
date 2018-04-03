@@ -125,7 +125,12 @@ describe('attachment routes', () => {
                 .then(response => {
                     expect(response.body.id).toEqual(defaultCase.id)
                     expect(response.body.civilians[0].id).toEqual(defaultCase.civilians[0].id)
-                    expect(response.body.attachments[2].fileName).toEqual('README.md')
+                    expect(response.body.attachments).toEqual(
+                        expect.arrayContaining([
+                            expect.objectContaining(
+                                { fileName: "README.md" })
+                        ])
+                    )
                     expect(response.body.status).toEqual('Active')
                 })
 

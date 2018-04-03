@@ -2,6 +2,8 @@ import React from 'react'
 import Attachment from "../../../testUtilities/attachment";
 import { mount } from "enzyme";
 import AttachmentsList from "./AttachmentsList";
+import createConfiguredStore from "../../../createConfiguredStore";
+import {Provider} from "react-redux";
 
 describe('AttachmentsList', () => {
     test('should display attachments in alphabetical order by fileName', () => {
@@ -18,7 +20,11 @@ describe('AttachmentsList', () => {
 
         const attachmentsToDisplay = [attachment1, attachment2]
 
-        const wrapper = mount(<AttachmentsList attachments={attachmentsToDisplay}/>)
+        const wrapper = mount(
+            <Provider store={createConfiguredStore()}>
+                <AttachmentsList attachments={attachmentsToDisplay}/>
+            </Provider>
+        )
         const attachmentList = wrapper.find('[data-test="attachmentName"]')
 
         const actualFileNames = attachmentList.reduce((acc, node) => {
@@ -38,8 +44,11 @@ describe('AttachmentsList', () => {
             .build()
 
         const attachmentsToDisplay = [attachment1]
-        const wrapper = mount(<AttachmentsList attachments={attachmentsToDisplay}/>)
-
+        const wrapper = mount(
+            <Provider store={createConfiguredStore()}>
+                <AttachmentsList attachments={attachmentsToDisplay}/>
+            </Provider>
+        )
         const removeAttachmentButton = wrapper.find('[data-test="removeAttachmentButton"]').first()
 
         removeAttachmentButton.simulate('click')

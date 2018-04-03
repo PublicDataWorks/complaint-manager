@@ -779,7 +779,7 @@ describe('server', () => {
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
                 .then( response => {
-                    expect(response.text).toEqual(`Date,Case #,Event,User\n01/31/2018 13:00 CT,${testCase.id},Test action entered,tuser\n`)
+                    expect(response.text).toContain(`Date,Case #,Event,User\n01/31/2018 13:00 CST,${testCase.id},Test action entered,tuser\n`)
                 })
         })
     });

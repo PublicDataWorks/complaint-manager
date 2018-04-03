@@ -38,7 +38,7 @@ class NavBar extends React.Component {
     }
 
     handleExportDialogOpen = () => {
-        this.setState({ exportDialogOpen: true })
+        this.setState({ exportDialogOpen: true, menuOpen: false })
     }
 
     handleExportDialogClose = () => {

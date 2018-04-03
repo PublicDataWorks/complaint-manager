@@ -80,14 +80,17 @@ describe('NavBar', () => {
             expect(menu.props()).toHaveProperty('open', false)
         })
 
-        test('should see dialog box when click on Export System Log', () => {
+        test('should close menu and see dialog box when click on Export System Log', () => {
             const gearButton = wrapper.find('[data-test="gearButton"]').last()
             gearButton.simulate('click')
 
-            const exportAuditLog = wrapper.find('[data-test="exportAuditLog"]').last()
-            exportAuditLog.simulate('click')
+            const exportAuditLogMenuItem = wrapper.find('[data-test="exportAuditLog"]').last()
+            exportAuditLogMenuItem.simulate('click')
 
+            const menu = wrapper.find(NavBar).find('[data-test="menu"]').first()
             const exportConfirmationDialogText = wrapper.find('[data-test="exportAuditLogConfirmationText"]').last()
+
+            expect(menu.props()).toHaveProperty('open', false)
             expect(exportConfirmationDialogText.exists()).toBeTruthy()
         })
     });

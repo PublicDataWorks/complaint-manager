@@ -2,9 +2,10 @@ import React from 'react'
 import {Divider, Typography} from "material-ui";
 import styles from "../../../globalStyling/styles";
 import LinkButton from "../../../sharedComponents/LinkButton";
-import downloader from "../../../utilities/downloader"
+import downloader from "../../thunks/downloader"
+import {connect} from "react-redux";
 
-const AttachmentsRow = ({attachment, onRemoveAttachment}) => {
+const AttachmentsRow = ({attachment, onRemoveAttachment, dispatch }) => {
     return (
         <div>
             <div
@@ -19,7 +20,7 @@ const AttachmentsRow = ({attachment, onRemoveAttachment}) => {
                             ...styles.link,
                             cursor: "pointer"
                         }}
-                        onClick={() => downloader(`/api/cases/${attachment.caseId}/attachments/${attachment.fileName}`, attachment.fileName)}
+                        onClick={() => dispatch(downloader(`/api/cases/${attachment.caseId}/attachments/${attachment.fileName}`, attachment.fileName, undefined))}
                     >
                         {
                             attachment.fileName
@@ -50,4 +51,4 @@ const AttachmentsRow = ({attachment, onRemoveAttachment}) => {
     )
 }
 
-export default AttachmentsRow
+export default connect()(AttachmentsRow)

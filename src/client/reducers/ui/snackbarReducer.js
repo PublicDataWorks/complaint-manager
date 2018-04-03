@@ -1,9 +1,9 @@
-import {
-    ATTACHMENT_UPLOAD_FAILED,
+import { ATTACHMENT_UPLOAD_FAILED,
     ATTACHMENT_UPLOAD_SUCCEEDED,
     CASE_CREATED_SUCCESS,
     CIVILIAN_CREATION_FAILED,
     CIVILIAN_CREATION_SUCCEEDED,
+    DOWNLOAD_FAILED,
     REMOVE_ATTACHMENT_FAILED,
     REMOVE_ATTACHMENT_SUCCESS,
 } from "../../../sharedUtilities/constants";
@@ -134,10 +134,17 @@ const snackbarReducer = (state = initialState, action) => {
                 message: 'Your attachment was successfully removed'
             }
         case REMOVE_ATTACHMENT_FAILED:
-            return{
+            return {
                 open: true,
                 success: false,
                 message: 'We could not remove your attachment. Please try again.'
+            }
+        case DOWNLOAD_FAILED:
+            return {
+                open: true,
+                success: false,
+                message: 'We could not download your file. Please try again.'
+
             }
         default:
             return state
