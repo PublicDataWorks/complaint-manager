@@ -27,25 +27,30 @@ jest.mock('aws-sdk', () => ({
 
 const Op = Sequelize.Op
 
+function buildTokenWithPermissions(permissions) {
+    var privateKeyPath = path.join(__dirname, 'config', 'test', 'private.pem')
+    var cert = fs.readFileSync(privateKeyPath)
+
+    var payload = {
+        foo: 'bar',
+        scope: `${config.authentication.scope} ${permissions}`
+
+    }
+
+    var options = {
+        audience: config.authentication.audience,
+        issuer: config.authentication.issuer,
+        algorithm: config.authentication.algorithm,
+    }
+
+    return jwt.sign(payload, cert, options);
+}
+
 describe('server', () => {
     let token
 
     beforeEach(async () => {
-
-        var privateKeyPath = path.join(__dirname, 'config', 'test', 'private.pem')
-        var cert = fs.readFileSync(privateKeyPath)
-
-        var payload = {
-            foo: 'bar'
-        }
-
-        var options = {
-            audience: config.authentication.audience,
-            issuer: config.authentication.issuer,
-            algorithm: config.authentication.algorithm
-        }
-
-        token = jwt.sign(payload, cert, options)
+        token = buildTokenWithPermissions();
 
         AuthenticationClient.mockImplementation(() => {
             return {
@@ -773,14 +778,22 @@ describe('server', () => {
             })
         })
 
-        test('should return audit log csv', async () => {
+        test('should return audit log csv when user has token with export permissions', async () => {
+            const tokenWithExportPermission = buildTokenWithPermissions('export:audit_log')
             await request(app)
                 .get('/api/export-audit-log')
-                .set('Authorization', `Bearer ${token}`)
+                .set('Authorization', `Bearer ${tokenWithExportPermission}`)
                 .expect(200)
                 .then( response => {
                     expect(response.text).toContain(`Date,Case #,Event,User\n01/31/2018 13:00 CST,${testCase.id},Test action entered,tuser\n`)
                 })
+        })
+
+        test('should return 401 when user has token without export permissions', async () => {
+            await request(app)
+                .get('/api/export-audit-log')
+                .set('Authorization', `Bearer ${token}`)
+                .expect(401)
         })
     });
 })

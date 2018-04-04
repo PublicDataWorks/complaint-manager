@@ -50,7 +50,8 @@ module.exports = {
             publicKeyPath: path.join(__dirname, '..', 'config', 'test', 'public.pem'),
             audience: "test audience",
             issuer: "test issuer",
-            algorithm: 'RS256'
+            algorithm: 'RS256',
+            scope: 'openid profile'
         }
 
     },

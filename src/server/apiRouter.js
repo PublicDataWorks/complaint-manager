@@ -8,6 +8,7 @@ const createUser = require("./handlers/users/createUser");
 const getUsers = require("./handlers/users/getUsers");
 const audit = require("./handlers/audit_logs/audit");
 const jwtCheck = require("./handlers/jtwCheck")
+const jwtAuthz = require('express-jwt-authz')
 const getUserProfile = require("./handlers/getUserProfile")
 const authErrorHandler = require("./handlers/authErrorHandler")
 const exportAuditLog = require("./handlers/audit_logs/export")
@@ -34,6 +35,6 @@ router.put('/civilian/:id', editCivilian);
 router.post('/audit', audit);
 router.post('/users', createUser);
 router.get('/users', getUsers);
-router.get('/export-audit-log', exportAuditLog);
+router.get('/export-audit-log', jwtAuthz(['export:audit_log']), exportAuditLog);
 
 module.exports = router
