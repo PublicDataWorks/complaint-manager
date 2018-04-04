@@ -9,13 +9,13 @@ TO_EXCLUDE="^src/(server/config/(.)*|server/(server.test.js|(models|handlers/use
 function create_container_with_code() {
     if [  "$(docker ps -a | grep "target-code")" ]
     then
-         docker rm -f target-code
-         echo "Removing container with target-code.... done"
+         echo "Copying local filesystem to target-code container...."
+         docker cp . target-code:/target
+    else
+        echo "Bundling target-code in a container...."
+        docker create -v /target --name target-code alpine:${ALPINE_VERSION} /bin/true;
+        docker cp . target-code:/target;
     fi
-
-    echo "Bundling target-code in a container...."
-    docker create -v /target --name target-code alpine:${ALPINE_VERSION} /bin/true;
-    docker cp . target-code:/target;
 }
 
 function run_hawkeye_on_container_code() {
