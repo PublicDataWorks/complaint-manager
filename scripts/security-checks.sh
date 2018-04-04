@@ -20,7 +20,7 @@ function create_container_with_code() {
 
 function run_hawkeye_on_container_code() {
   docker rm -f /hawkeye
-  docker run --volumes-from target-code --name hawkeye stono/hawkeye:latest scan --all /target --exclude $TO_EXCLUDE --json ${ISSUES_REPORT_FILE}
+  docker run --volumes-from target-code --name hawkeye stono/hawkeye:latest scan -t /target --exclude $TO_EXCLUDE --json ${ISSUES_REPORT_FILE}
   hawkeye_return=$?
 }
 

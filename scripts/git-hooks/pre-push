@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -o nounset -o errexit
 
+sh ./scripts/security-checks.sh
 git pull --rebase
 
 docker-compose down
