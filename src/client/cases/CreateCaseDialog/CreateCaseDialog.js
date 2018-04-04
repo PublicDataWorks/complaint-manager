@@ -111,18 +111,6 @@ class CreateCaseDialog extends React.Component {
                         <form data-test="createCaseForm">
                             <Typography type='body2' style={{marginBottom: '8px'}}>Timeline</Typography>
                             <DateField
-                                name='case.incidentDate'
-                                label='Incident Date and Time'
-                                clearable={true}
-                                data-test='incidentDateField'
-                                inputProps={{
-                                    "data-test": "incidentDateInput",
-                                    type: "datetime-local",
-                                    max: moment(Date.now()).format('YYYY-MM-DDTHH:mm')
-                                }}
-                                style={{...offSet, minWidth:'225px', width: '42%', clipPath: 'inset(0 17px 0 0)'}}
-                            />
-                            <DateField
                                 required={true}
                                 name='case.firstContactDate'
                                 label='First Contact Date'
