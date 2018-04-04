@@ -36,6 +36,16 @@ const REMOVE_ATTACHMENT_FAILED = 'REMOVE_ATTACHMENT_FAILED'
 const CIVILIAN_FORM_NAME = 'Civilian form'
 
 // ----------------------------------------
+//          Auth0 Scopes / Permissions
+// ----------------------------------------
+
+
+const EXPORT_AUDIT_LOG = "export:audit_log"
+const OPENID = "openid"
+const PROFILE = "profile"
+
+
+// ----------------------------------------
 //          Other
 // ----------------------------------------
 
@@ -58,5 +68,8 @@ module.exports = {
     REMOVE_ATTACHMENT_FAILED,
     REMOVE_ATTACHMENT_SUCCESS,
     CIVILIAN_FORM_NAME,
+    EXPORT_AUDIT_LOG,
+    OPENID,
+    PROFILE,
     TIMEZONE
 }

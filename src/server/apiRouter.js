@@ -1,3 +1,4 @@
+const {EXPORT_AUDIT_LOG} = require("../sharedUtilities/constants");
 const createCase = require("./handlers/cases/createCase");
 const getCases = require("./handlers/cases/getCases");
 const getCase = require("./handlers/cases/getCase");
@@ -35,6 +36,6 @@ router.put('/civilian/:id', editCivilian);
 router.post('/audit', audit);
 router.post('/users', createUser);
 router.get('/users', getUsers);
-router.get('/export-audit-log', jwtAuthz(['export:audit_log']), exportAuditLog);
+router.get('/export-audit-log', jwtAuthz([EXPORT_AUDIT_LOG]), exportAuditLog);
 
 module.exports = router

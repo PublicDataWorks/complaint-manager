@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import Auth from "./auth/Auth";
+import {userAuthSuccess} from "./auth/actionCreators";
 
 const style = {
     position: 'absolute',
@@ -16,7 +17,7 @@ const style = {
 }
 
 const populateUserInfo = userInfo => dispatch => {
-    dispatch({type:'AUTH_SUCCESS', userInfo})
+    dispatch(userAuthSuccess(userInfo))
 }
 
 class Callback extends Component {

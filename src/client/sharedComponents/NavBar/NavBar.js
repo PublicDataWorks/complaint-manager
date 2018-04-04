@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import ExportAuditLogConfirmationDialog from "./ExportAuditLogConfirmationDialog";
 import handleLogout from "../../users/thunks/handleLogout";
+import {EXPORT_AUDIT_LOG} from "../../../sharedUtilities/constants";
 
 const styles = {
     appBarStyle: {
@@ -43,6 +44,18 @@ class NavBar extends React.Component {
 
     handleExportDialogClose = () => {
         this.setState({ exportDialogOpen: false })
+    }
+
+    renderExportAuditLogOption = () => {
+        if (!this.props.permissions || !this.props.permissions.includes(EXPORT_AUDIT_LOG)) {return null}
+        return (
+            <MenuItem
+                data-test="exportAuditLog"
+                onClick={this.handleExportDialogOpen}
+            >
+                Export System Log
+            </MenuItem>
+        )
     }
 
     render() {
@@ -91,12 +104,7 @@ class NavBar extends React.Component {
                         anchorEl={this.state.anchorEl}
                         onClose={this.handleMenuClose}
                     >
-                        <MenuItem
-                            data-test="exportAuditLog"
-                            onClick={this.handleExportDialogOpen}
-                        >
-                            Export System Log
-                        </MenuItem>
+                        {this.renderExportAuditLogOption()}
                         <MenuItem
                             data-test="adminButton"
                             component={Link}
@@ -127,7 +135,8 @@ NavBar.defaultProps = {
 }
 
 const mapStateToProps = state => ({
-    nickname: state.users.current.userInfo.nickname
+    nickname: state.users.current.userInfo.nickname,
+    permissions: state.users.current.userInfo.permissions
 })
 
 export default connect(mapStateToProps)(NavBar)

@@ -7,6 +7,8 @@ import createConfiguredStore from "../../createConfiguredStore";
 import {Provider} from "react-redux";
 import {mockLocalStorage} from "../../../mockLocalStorage";
 import {containsText} from "../../../testHelpers";
+import {userAuthSuccess} from "../../auth/actionCreators";
+import {EXPORT_AUDIT_LOG} from "../../../sharedUtilities/constants";
 
 
 describe('NavBar', () => {
@@ -80,7 +82,15 @@ describe('NavBar', () => {
             expect(menu.props()).toHaveProperty('open', false)
         })
 
-        test('should close menu and see dialog box when click on Export System Log', () => {
+        test('should open and close menu and see dialog box when click on Export System Log when have export permissions', () => {
+            const userInfo = {
+                nickname:'whatever',
+                permissions:[EXPORT_AUDIT_LOG]
+            }
+
+            store.dispatch(userAuthSuccess(userInfo))
+            wrapper.update()
+
             const gearButton = wrapper.find('[data-test="gearButton"]').last()
             gearButton.simulate('click')
 
@@ -92,6 +102,22 @@ describe('NavBar', () => {
 
             expect(menu.props()).toHaveProperty('open', false)
             expect(exportConfirmationDialogText.exists()).toBeTruthy()
+        })
+
+        test('should not render export system log menu option without permissions', () => {
+            const userInfo = {
+                nickname:'whatever',
+                permissions:[]
+            }
+
+            store.dispatch(userAuthSuccess(userInfo))
+            wrapper.update()
+
+            const gearButton = wrapper.find('[data-test="gearButton"]').last()
+            gearButton.simulate('click')
+
+            const exportAuditLogMenuItem = wrapper.find('[data-test="exportAuditLog"]').last()
+            expect(exportAuditLogMenuItem.exists()).toBeFalsy()
         })
     });
 })

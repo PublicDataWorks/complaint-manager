@@ -13,6 +13,7 @@ import Case from "../client/testUtilities/case";
 import Attachment from "../client/testUtilities/attachment";
 import {civilianWithAddress, civilianWithoutAddress} from "../client/testUtilities/ObjectMothers";
 import Address from "../client/testUtilities/Address";
+import {EXPORT_AUDIT_LOG} from "../sharedUtilities/constants";
 
 const config = require('./config/config')[process.env.NODE_ENV]
 
@@ -779,7 +780,7 @@ describe('server', () => {
         })
 
         test('should return audit log csv when user has token with export permissions', async () => {
-            const tokenWithExportPermission = buildTokenWithPermissions('export:audit_log')
+            const tokenWithExportPermission = buildTokenWithPermissions(EXPORT_AUDIT_LOG)
             await request(app)
                 .get('/api/export-audit-log')
                 .set('Authorization', `Bearer ${tokenWithExportPermission}`)

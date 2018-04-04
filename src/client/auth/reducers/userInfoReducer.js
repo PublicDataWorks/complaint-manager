@@ -1,6 +1,7 @@
 const initialState = {
     userInfo: {
-        nickname: ""
+        nickname: "",
+        permissions: []
     }
 }
 

@@ -2,6 +2,8 @@ import auth0 from 'auth0-js';
 import config from '../config/config'
 import history from '../history';
 import auditLogin from "../users/thunks/auditLogin";
+import jwt from "jsonwebtoken";
+import parsePermissions from "../utilities/parsePermissions";
 
 export default class Auth {
 
@@ -16,20 +18,26 @@ export default class Auth {
         this.authWeb.authorize();
     }
 
-    handleAuthentication  = (callback)  => {
+    handleAuthentication = (callback)  => {
         this.authWeb.parseHash((err, authResult) => {
             if (authResult && authResult.accessToken && authResult.idToken) {
-                this.auth.userInfo(authResult.accessToken, (err, result) => {
-                    if (!err){
-                        callback(result)
-                    }
-                })
+                this.setUserInfo(authResult, callback);
                 this.setSession(authResult)
                 auditLogin();
                 history.replace('/')
             } else if (err) {
                 history.replace('/')
                 console.log(err)
+            }
+        })
+    }
+
+    setUserInfo = (authResult, callback) => {
+        this.auth.userInfo(authResult.accessToken, (err, userInfoResult) => {
+            const decodedToken = jwt.decode(authResult.accessToken);
+            const permissions = parsePermissions(decodedToken.scope);
+            if (!err) {
+                callback({...userInfoResult, permissions});
             }
         })
     }
