@@ -92,6 +92,12 @@ class NavBar extends React.Component {
                         onClose={this.handleMenuClose}
                     >
                         <MenuItem
+                            data-test="exportAuditLog"
+                            onClick={this.handleExportDialogOpen}
+                        >
+                            Export System Log
+                        </MenuItem>
+                        <MenuItem
                             data-test="adminButton"
                             component={Link}
                             to="/admin"
@@ -103,12 +109,6 @@ class NavBar extends React.Component {
                             onClick={()=>{handleLogout()}}
                         >
                             Log Out
-                        </MenuItem>
-                        <MenuItem
-                            data-test="exportAuditLog"
-                            onClick={this.handleExportDialogOpen}
-                        >
-                            Export System Log
                         </MenuItem>
                     </Menu>
                 </Toolbar>

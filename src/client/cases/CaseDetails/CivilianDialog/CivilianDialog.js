@@ -145,7 +145,7 @@ class CivilianDialog extends Component {
                         />
 
                         <Typography type='body2' style={{marginBottom: '8px'}}>
-                            Additional Information
+                            Notes
                         </Typography>
                         <Field
                             name="additionalInfo"
