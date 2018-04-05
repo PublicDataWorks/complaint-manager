@@ -7,7 +7,8 @@ jest.mock('../../models', () => ({
         transaction: (func) => func('MOCK_TRANSACTION')
     },
     cases: {
-        update: jest.fn()
+        update: jest.fn(),
+        findById: jest.fn()
     },
     audit_log: {
         create: jest.fn()
@@ -26,8 +27,8 @@ describe('Edit Case', () => {
             params: {id: 5},
             body: {
                 firstContactDate: "2018-02-08",
-                time: "17:42",
-                date: "2018-03-16"
+                incidentTime: "17:42",
+                incidentDateNew: "2018-03-16"
             },
             nickname: 'TEST_USER_NICKNAME'
         })
@@ -40,8 +41,8 @@ describe('Edit Case', () => {
     test('should call edit case on database', () => {
         editCase(request, response, next)
         expect(models.cases.update).toHaveBeenCalledWith({
-            date: request.body.date,
-            time: request.body.time,
+            incidentDateNew: request.body.incidentDateNew,
+            incidentTime: request.body.incidentTime,
             firstContactDate: request.body.firstContactDate
         },
         {
@@ -52,9 +53,7 @@ describe('Edit Case', () => {
 
 
     test('should create audit log for edit case', async () => {
-        models.cases.update.mockImplementation(() => {
-            Promise.resolve({})
-        })
+        models.cases.update.mockImplementation(() => Promise.resolve({}))
 
         await editCase(request, response, next)
 
@@ -68,6 +67,17 @@ describe('Edit Case', () => {
         )
     });
 
+    test('should send back case record on editing a case', async () => {
+        const updatedCase = 'updated case'
+        models.cases.update.mockImplementation(() => Promise.resolve())
+        models.cases.findById.mockImplementation(() => Promise.resolve(updatedCase))
+        models.audit_log.create.mockImplementation(() => Promise.resolve())
+
+        await editCase(request, response, next)
+
+        expect(response._getData()).toEqual(updatedCase)
+    });
+
     test("should respond with 400 when required field (firstContactDate) is not provided", async () => {
         models.cases.update.mockClear();
 
@@ -79,8 +89,8 @@ describe('Edit Case', () => {
             },
             params: {id: 5},
             body: {
-                time: "17:42",
-                date: "2018-03-16"
+                incidentTime: "17:42",
+                incidentDateNew: "2018-03-16"
             },
             nickname: 'TEST_USER_NICKNAME'
         });
@@ -102,8 +112,8 @@ describe('Edit Case', () => {
             params: {id: 5},
             body: {
                 firstContactDate: "",
-                time: "17:42",
-                date: "2018-03-16"
+                incidentTime: "17:42",
+                incidentDateNew: "2018-03-16"
             },
             nickname: 'TEST_USER_NICKNAME'
         });
@@ -116,9 +126,7 @@ describe('Edit Case', () => {
 
     test('should call next if error occurs on edit', async () => {
         const error = new Error('DB Down!')
-
-        models.cases.update.mockImplementation(() =>
-            Promise.reject(error))
+        models.cases.update.mockImplementation(() => Promise.reject(error))
 
         await editCase(request, response, next)
 

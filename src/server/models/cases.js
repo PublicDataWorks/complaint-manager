@@ -26,6 +26,14 @@ module.exports = (sequelize, DataTypes) => {
                 field: 'incident_date',
                 type: DataTypes.DATE
             },
+            incidentDateNew: {
+                field: 'incident_date_new',
+                type: DataTypes.DATEONLY
+            },
+            incidentTime: {
+                field: 'incident_time',
+                type: DataTypes.TIME
+            },
             narrativeSummary: {
                 field: 'narrative_summary',
                 type: DataTypes.STRING(500)

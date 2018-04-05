@@ -121,7 +121,7 @@ describe('server', () => {
         })
     });
 
-    describe('POST /cases', () => {
+    describe('POST and PUT /cases', () => {
         let requestBody, responseBody
 
         beforeEach(() => {
@@ -163,8 +163,11 @@ describe('server', () => {
             })
         })
 
-        test('should create a case', async () => {
-            await request(app)
+        test('should create and edit a case', async () => {
+            let createdCaseId;
+            const caseRequest = request(app)
+
+            await caseRequest
                 .post('/api/cases')
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
@@ -172,19 +175,48 @@ describe('server', () => {
                 .expect(201)
                 .then(response => {
                     responseBody = response.body
-                    expect(response.body.id).not.toBeUndefined()
-                    expect(response.body.complainantType).toEqual(requestBody.case.complainantType)
-                    expect(response.body.firstContactDate).toEqual(requestBody.case.firstContactDate)
-                    expect(response.body.incidentDate).toEqual(requestBody.case.incidentDate)
-                    expect(response.body.createdAt).not.toBeUndefined()
-                    expect(response.body.status).toEqual('Initial')
-                    expect(response.body.createdBy).toEqual('tuser')
-                    expect(response.body.assignedTo).toEqual('tuser')
+                    createdCaseId = response.body.id
 
-                    expect(response.body.civilians[0].firstName).toEqual(requestBody.civilian.firstName)
-                    expect(response.body.civilians[0].lastName).toEqual(requestBody.civilian.lastName)
-                    expect(response.body.civilians[0].phoneNumber).toEqual(requestBody.civilian.phoneNumber)
-                    expect(response.body.civilians[0].email).toEqual(requestBody.civilian.email)
+                    expect(response.body).toEqual(
+                        expect.objectContaining(
+                            {
+                                ...requestBody.case,
+                                civilians: expect.arrayContaining([
+                                    expect.objectContaining(requestBody.civilian)
+                                ])
+                            }
+                        )
+                    )
+                })
+
+            const editBody = {
+                firstContactDate: "2018-04-27",
+                incidentTime: "16:00:00",
+                incidentDateNew: "2018-03-18",
+            }
+
+            await caseRequest
+                .put(`/api/cases/${createdCaseId}`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .send(editBody)
+                .expect(200)
+                .then(response => {
+                    expect(response.body.firstContactDate).toEqual("2018-04-27");
+                    expect(response.body.incidentTime).toEqual("16:00:00");
+                    expect(response.body.incidentDateNew).toEqual("2018-03-18");
+
+                    expect(response.body).toEqual(
+                        expect.objectContaining(
+                            {
+                                id: createdCaseId,
+                                ...editBody,
+                                civilians: expect.arrayContaining([
+                                    expect.objectContaining(requestBody.civilian)
+                                ])
+                            }
+                        )
+                    )
                 })
         })
 
