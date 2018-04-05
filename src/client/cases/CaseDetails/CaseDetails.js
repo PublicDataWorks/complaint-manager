@@ -21,6 +21,8 @@ import {openCivilianDialog} from "../../actionCreators/casesActionCreators";
 import createCivilian from "../thunks/createCivilian";
 import {CIVILIAN_FORM_NAME} from "../../../sharedUtilities/constants";
 import {initialize} from "redux-form";
+import {push} from 'react-router-redux'
+
 
 const drawerWidthPercentage = '30%';
 
@@ -138,6 +140,13 @@ class CaseDetails extends React.Component {
                             }}
                         >
                             Add Civilian
+                        </MenuItem>
+                        <MenuItem
+                            onClick={() => {
+                                this.props.dispatch(push(`/cases/${this.props.caseDetail.id}/officers/search`))
+                            }}
+                        >
+                           Add Officer
                         </MenuItem>
                     </Menu>
                 </div>

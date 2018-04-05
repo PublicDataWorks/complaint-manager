@@ -42,3 +42,15 @@ export const raceEthnicityMenu = generateMenu([
     'Other',
     'Unknown'
 ])
+
+export const districtMenu = generateMenu([
+    'Any District',
+    '1st District',
+    '2nd District',
+    '3rd District',
+    '4th District',
+    '5th District',
+    '6th District',
+    '7th District',
+    '8th District'
+])
