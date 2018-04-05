@@ -18,15 +18,11 @@ import Auth from "./auth/Auth";
 
 class App extends Component {
 
-    componentWillMount() {
+    componentDidMount() {
         const accessToken = getAccessToken()
         if (accessToken) {
-            const auth = new Auth()
-            auth.getUserInfo(accessToken, (err, userInfo) => {
-                if (!err) {
-                    this.props.dispatch(userAuthSuccess(userInfo))
-                }
-            })
+           const auth = new Auth();
+           auth.setUserInfo(accessToken, this.props.userAuthSuccess)
         }
     }
 
@@ -49,4 +45,8 @@ class App extends Component {
 
 }
 
-export default connect()(App)
+const mapDispatchToProps = {
+    userAuthSuccess
+}
+
+export default connect(undefined, mapDispatchToProps)(App)
