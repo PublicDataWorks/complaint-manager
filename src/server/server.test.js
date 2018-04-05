@@ -135,7 +135,7 @@ describe('server', () => {
                 },
                 case: {
                     firstContactDate: "2018-01-31",
-                    incidentDate: "2018-03-16T16:59",
+                    incidentDate: "2018-03-16",
                     complainantType: 'Civilian',
                     createdBy: 'tuser',
                     assignedTo: 'tuser'
@@ -192,7 +192,7 @@ describe('server', () => {
             const editBody = {
                 firstContactDate: "2018-04-27",
                 incidentTime: "16:00:00",
-                incidentDateNew: "2018-03-18",
+                incidentDate: "2018-03-18",
             }
 
             await caseRequest
@@ -202,10 +202,6 @@ describe('server', () => {
                 .send(editBody)
                 .expect(200)
                 .then(response => {
-                    expect(response.body.firstContactDate).toEqual("2018-04-27");
-                    expect(response.body.incidentTime).toEqual("16:00:00");
-                    expect(response.body.incidentDateNew).toEqual("2018-03-18");
-
                     expect(response.body).toEqual(
                         expect.objectContaining(
                             {

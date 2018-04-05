@@ -24,10 +24,6 @@ module.exports = (sequelize, DataTypes) => {
             },
             incidentDate: {
                 field: 'incident_date',
-                type: DataTypes.DATE
-            },
-            incidentDateNew: {
-                field: 'incident_date_new',
                 type: DataTypes.DATEONLY
             },
             incidentTime: {

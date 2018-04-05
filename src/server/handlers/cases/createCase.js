@@ -34,10 +34,6 @@ const createCase = async (req, res, next) => {
                 return createdCase
             })
 
-            const incidentDate = createdCase.getDataValue('incidentDate')
-            const normalizedIncidentDate = moment(incidentDate).format('YYYY-MM-DDTHH:mm')
-            createdCase.setDataValue('incidentDate', normalizedIncidentDate)
-
             res.status(201).send(createdCase)
         }
     } catch (e) {
