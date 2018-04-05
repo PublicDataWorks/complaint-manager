@@ -1,5 +1,6 @@
 const {EXPORT_AUDIT_LOG} = require("../sharedUtilities/constants");
 const createCase = require("./handlers/cases/createCase");
+const editCase = require("./handlers/cases/editCase");
 const getCases = require("./handlers/cases/getCases");
 const getCase = require("./handlers/cases/getCase");
 const updateCaseNarrative = require("./handlers/cases/updateCaseNarrative");
@@ -26,6 +27,7 @@ router.use(authErrorHandler)
 router.post('/cases', createCase);
 router.get('/cases', getCases);
 router.get('/cases/:id', getCase)
+router.put('/cases/:id', editCase)
 router.put('/cases/:id/narrative', updateCaseNarrative)
 
 router.use('/cases/:id/attachments', attachmentRouter)
