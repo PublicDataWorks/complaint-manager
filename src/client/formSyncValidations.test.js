@@ -18,7 +18,6 @@ describe('synchronous validations', () => {
 
     })
 
-
     test('test phone number or email validation when nested object', () => {
         const testValues = {
             civilian: {
