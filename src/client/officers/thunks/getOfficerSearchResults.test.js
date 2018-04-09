@@ -12,6 +12,9 @@ describe("getOfficerSearchResults", () => {
     const dispatch = jest.fn();
     const token = "token";
 
+    beforeEach(()=>{
+        dispatch.mockClear()
+    })
     test("redirects to login if no token", async () => {
         getAccessToken.mockImplementation(() => null);
         await getOfficerSearchResults(searchCriteria, caseId)(dispatch);
@@ -25,7 +28,8 @@ describe("getOfficerSearchResults", () => {
                 'Authorization': `Bearer ${token}`
             }
         })
-            .post(`/api/cases/${caseId}/officers/search`, searchCriteria)
+            .get(`/api/cases/${caseId}/officers/search`)
+            .query(searchCriteria)
             .reply(500);
         getAccessToken.mockImplementation(() => token);
         await getOfficerSearchResults(searchCriteria, caseId)(dispatch);
@@ -39,7 +43,8 @@ describe("getOfficerSearchResults", () => {
                 'Authorization': `Bearer ${token}`
             }
         })
-            .post(`/api/cases/${caseId}/officers/search`, searchCriteria)
+            .get(`/api/cases/${caseId}/officers/search`)
+            .query(searchCriteria)
             .reply(401);
 
         getAccessToken.mockImplementation(() => token);

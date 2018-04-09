@@ -2,6 +2,7 @@ import getAccessToken from "../../auth/getAccessToken";
 import {push} from "react-router-redux";
 import config from "../../config/config";
 import {snackbarError} from "../../actionCreators/snackBarActionCreators";
+import encodeUriWithParams from "../../utilities/encodeUriWithParams";
 const hostname = config[process.env.NODE_ENV].hostname;
 
 const getOfficerSearchResults = (searchCriteria, caseId) => async (dispatch) => {
@@ -16,19 +17,21 @@ const getOfficerSearchResults = (searchCriteria, caseId) => async (dispatch) => 
 };
 
 const fetchSearchResults = async (token, searchCriteria, caseId) => {
-    return await fetch(`${hostname}/api/cases/${caseId}/officers/search`, {
-        method: 'POST',
+    const url = `${hostname}/api/cases/${caseId}/officers/search`;
+    const encodedUri = encodeUriWithParams(url, searchCriteria)
+
+    return await fetch(encodedUri, {
+        method: 'GET',
         headers: {
-            'Content-Type': 'Application/JSON',
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(searchCriteria)
     });
 };
 
 const handleResponse = async (response, dispatch) => {
     switch (response.status) {
-        case 201:
+        case 200:
             const searchResults = await response.json();
             return console.log("search results", searchResults);
         case 401:

@@ -14,6 +14,7 @@ import Attachment from "../client/testUtilities/attachment";
 import {civilianWithAddress, civilianWithoutAddress} from "../client/testUtilities/ObjectMothers";
 import Address from "../client/testUtilities/Address";
 import {EXPORT_AUDIT_LOG} from "../sharedUtilities/constants";
+import Officer from "../client/testUtilities/Officer";
 
 const config = require('./config/config')[process.env.NODE_ENV]
 
@@ -786,6 +787,122 @@ describe('server', () => {
                 })
         })
     });
+
+    describe('GET /cases/:id/officers/search', () => {
+        afterEach(async () => {
+            await models.officer.destroy({truncate: true});
+        });
+
+        test('returns officer that partially matches first name', async() => {
+            const bobOfficer = await models.officer.create(new Officer.Builder().defaultOfficer().withFirstName('Bob').withLastName('Ferguson').build())
+            await request(app)
+                .get('/api/cases/5/officers/search')
+                .set('Authorization', `Bearer ${token}`)
+                .query({firstName: 'bo'})
+                .expect(200)
+                .then((response) => {
+                    expect(response.body.length).toEqual(1)
+                    expect(response.body[0].firstName).toEqual(bobOfficer.firstName);
+                    expect(response.body[0].middleName).toEqual(bobOfficer.middleName);
+                    expect(response.body[0].lastName).toEqual(bobOfficer.lastName);
+                })
+        })
+
+        test('returns officer that partially matches last name', async() => {
+            await models.officer.create(new Officer.Builder().defaultOfficer().withFirstName('Garret').withLastName('Fisher').build())
+            await models.officer.create(new Officer.Builder().defaultOfficer().withFirstName('Grant').withLastName('Livingston').build())
+            await request(app)
+                .get('/api/cases/5/officers/search')
+                .set('Authorization', `Bearer ${token}`)
+                .query({lastName: 'fi'})
+                .expect(200)
+                .then((response) => {
+                    expect(response.body.length).toEqual(1)
+                    expect(response.body[0].firstName).toEqual('Garret');
+                    expect(response.body[0].lastName).toEqual('Fisher');
+                })
+        })
+
+        test('returns officer that matches district', async() => {
+            await models.officer.create(new Officer.Builder().defaultOfficer()
+                .withFirstName('Garret')
+                .withLastName('Fisher')
+                .withDistrict('1st District')
+                .build())
+
+            await models.officer.create(new Officer.Builder().defaultOfficer()
+                .withFirstName('Grant')
+                .withLastName('Livingston')
+                .withDistrict('8th District')
+                .build())
+
+            await request(app)
+                .get('/api/cases/5/officers/search')
+                .set('Authorization', `Bearer ${token}`)
+                .query({district: '8th District'})
+                .expect(200)
+                .then((response) => {
+                    expect(response.body.length).toEqual(1)
+                    expect(response.body[0].firstName).toEqual('Grant');
+                    expect(response.body[0].lastName).toEqual('Livingston');
+                })
+        })
+
+
+        test('returns officer that matches first name, last name, and district', async() => {
+            await models.officer.create(new Officer.Builder().defaultOfficer()
+                .withFirstName('Garret')
+                .withLastName('Fisher')
+                .withDistrict('1st District')
+                .build());
+
+            await models.officer.create(new Officer.Builder().defaultOfficer()
+                .withFirstName('Gary')
+                .withLastName('Fibbleton')
+                .withDistrict('8th District')
+                .build());
+
+            await request(app)
+                .get('/api/cases/5/officers/search')
+                .set('Authorization', `Bearer ${token}`)
+                .query({firstName: 'Gar', lastName: 'fi', district: '1st District'})
+                .expect(200)
+                .then((response) => {
+                    expect(response.body.length).toEqual(1);
+                    expect(response.body[0].firstName).toEqual('Garret');
+                    expect(response.body[0].lastName).toEqual('Fisher');
+                })
+        })
+
+        test('returns multiple officers that matches first name, last name', async() => {
+            await models.officer.create(new Officer.Builder().defaultOfficer()
+                .withFirstName('Garret')
+                .withLastName('Fisher')
+                .withDistrict('1st District')
+                .build());
+
+            await models.officer.create(new Officer.Builder().defaultOfficer()
+                .withFirstName('Gary')
+                .withLastName('Fibbleton')
+                .withDistrict('8th District')
+                .build());
+
+            await request(app)
+                .get('/api/cases/5/officers/search')
+                .set('Authorization', `Bearer ${token}`)
+                .query({firstName: 'Gar', lastName: 'fi'})
+                .expect(200)
+                .then((response) => {
+                    expect(response.body.length).toEqual(2);
+                    expect(response.body[0].firstName).toEqual('Garret');
+                    expect(response.body[0].lastName).toEqual('Fisher');
+                    expect(response.body[1].firstName).toEqual('Gary');
+                    expect(response.body[1].lastName).toEqual('Fibbleton');
+                })
+        })
+
+
+    })
 
     describe('GET /api/export-audit-log', () => {
         let testCase;
