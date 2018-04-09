@@ -5,6 +5,8 @@ import {
     CIVILIAN_CREATION_FAILED,
     CIVILIAN_CREATION_SUCCEEDED,
     DOWNLOAD_FAILED,
+    INCIDENT_DETAILS_UPDATE_FAILED,
+    INCIDENT_DETAILS_UPDATE_SUCCEEDED,
     REMOVE_ATTACHMENT_FAILED,
     REMOVE_ATTACHMENT_SUCCESS, SNACKBAR_ERROR,
 } from "../../../sharedUtilities/constants";
@@ -94,6 +96,18 @@ const snackbarReducer = (state = initialState, action) => {
             }
         case 'NARRATIVE_UPDATE_FAILED':
             return {
+                open: true,
+                success: false,
+                message: 'Something went wrong on our end and your case was not updated. Please try again.'
+            }
+        case INCIDENT_DETAILS_UPDATE_SUCCEEDED:
+            return {
+                open: true,
+                success: true,
+                message: 'Your Incident Details were successfully updated'
+            }
+        case INCIDENT_DETAILS_UPDATE_FAILED:
+            return  {
                 open: true,
                 success: false,
                 message: 'Something went wrong on our end and your case was not updated. Please try again.'

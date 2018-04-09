@@ -6,19 +6,38 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import {Provider} from "react-redux";
 import {getCaseDetailsSuccess} from "../../../actionCreators/casesActionCreators";
 import Case from "../../../testUtilities/case";
+import formatDate, {applyTimeZone} from "../../../utilities/formatDate";
+import editIncidentDetails from "../../thunks/editIncidentDetails";
+import {changeInput, expectEventuallyNotToExist} from "../../../../testHelpers";
+import { DialogContent } from "material-ui";
+
+jest.mock("../../thunks/editIncidentDetails", () =>
+    jest.fn((values) => ({
+        type: 'MOCK_THUNK',
+        values
+    })
+    ))
 
 describe('incident details container', () => {
-    let incidentDetails, currentCase
+    let incidentDetails, currentCase, firstContactDate, incidentDate, incidentTime, wrapper, dispatchSpy
     beforeEach(() => {
         const store = createConfiguredStore()
 
+
+        firstContactDate = "1994-05-01";
+        incidentDate = "1994-04-24";
+        incidentTime = "14:00:00";
+
         currentCase = new Case.Builder()
             .defaultCase()
-            .withIncidentDate("1994-04-24T17:30:00.000Z")
+            .withFirstContactDate(firstContactDate)
+            .withIncidentDate(incidentDate)
+            .withIncidentTime(incidentTime)
             .build()
 
+        dispatchSpy = jest.spyOn(store, 'dispatch')
         store.dispatch(getCaseDetailsSuccess(currentCase))
-        const wrapper = mount(
+        wrapper = mount(
             <Provider store={store}>
                 <IncidentDetailsContainer/>
             </Provider>
@@ -26,16 +45,57 @@ describe('incident details container', () => {
         incidentDetails = wrapper.find(IncidentDetails)
     });
 
-    test('should pass first contact date', () => {
-        expect(incidentDetails.prop('firstContactDate')).toEqual(currentCase.firstContactDate)
-    })
-    test('should pass incident date', () => {
-        const expectedIncidentDate = 'Apr 24, 1994'
-        expect(incidentDetails.prop('incidentDate')).toEqual(expectedIncidentDate)
+    test('should display first contact date', () => {
+        expect(wrapper.find('[data-test="firstContactDate"]').first().text()).toEqual(formatDate(firstContactDate))
     })
 
-    test('should pass incident time', () => {
-        const expectedIncidentTime = "12:30 PM CDT"
-        expect(incidentDetails.prop('incidentTime')).toEqual(expectedIncidentTime)
+    test('should display incident Date', () => {
+        expect(wrapper.find('[data-test="incidentDate"]').first().text()).toEqual(formatDate(incidentDate))
+    })
+
+    test('should display incident time', () => {
+        expect(wrapper.find('[data-test="incidentTime"]').first().text()).toEqual(applyTimeZone(incidentDate, incidentTime))
+    })
+
+    test('should open dialog and prepopulate fields', () => {
+        const editButton = wrapper.find('button[data-test="editIncidentDetailsButton"]')
+        editButton.simulate('click')
+
+        const editFirstContactDateInput = wrapper.find('input[data-test="editFirstContactDateInput"]')
+        const editIncidentDateInput = wrapper.find('input[data-test="editIncidentDateInput"]')
+        const editIncidentTimeInput = wrapper.find('input[data-test="editIncidentTimeInput"]')
+
+        expect(editFirstContactDateInput.prop('value')).toEqual(firstContactDate)
+        expect(editIncidentDateInput.prop('value')).toEqual(incidentDate)
+        expect(editIncidentTimeInput.prop('value')).toEqual(incidentTime)
+    })
+
+    test('should submit form when Save is clicked', () => {
+        const editButton = wrapper.find('button[data-test="editIncidentDetailsButton"]')
+        editButton.simulate('click')
+
+        changeInput(wrapper, 'input[data-test="editFirstContactDateInput"]', "1994-05-03")
+        changeInput(wrapper, 'input[data-test="editIncidentDateInput"]', "1994-05-02")
+        changeInput(wrapper, 'input[data-test="editIncidentTimeInput"]', "13:00")
+
+        const saveButton = wrapper.find('button[data-test="saveIncidentDetailsButton"]')
+        saveButton.simulate('click')
+
+        expect(dispatchSpy).toHaveBeenCalledWith(editIncidentDetails({
+            id: currentCase.id,
+            firstContactDate: "1994-05-03",
+            incidentDate: "1994-05-02",
+            incidentTime: "13:00"
+        }))
+    })
+
+    test('should close dialog when cancel is clicked', async () => {
+        const editButton = wrapper.find('button[data-test="editIncidentDetailsButton"]')
+        editButton.simulate('click')
+
+        const cancelButton = wrapper.find('button[data-test="cancelEditIncidentDetailsButton"]')
+        cancelButton.simulate('click')
+
+        await expectEventuallyNotToExist(wrapper, DialogContent)
     })
 });

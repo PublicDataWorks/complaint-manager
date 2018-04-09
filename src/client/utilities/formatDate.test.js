@@ -1,4 +1,8 @@
-import formatDate, {applyCentralTimeZoneOffset, formatDateForCSV, timeFromDateString} from "./formatDate";
+import formatDate, {
+    applyCentralTimeZoneOffset,
+    applyTimeZone, formatDateForCSV,
+    timeFromDateString
+} from "./formatDate";
 
 const expectedFormattedDate = 'Jan 31, 2018'
 
@@ -60,5 +64,25 @@ describe('apply CST to dateString', () => {
         const offsettedDatestring = applyCentralTimeZoneOffset(otherDateString)
         const expectedDateString = '2018-01-31T00:00:00-06:00'
         expect(offsettedDatestring).toEqual(expectedDateString)
+    })
+});
+
+describe('apply timezone to time based on date', () => {
+    test('should display timezone as CT when no date given', () => {
+        const time = "17:00:00"
+        const newTime = applyTimeZone(null, time)
+        expect(newTime).toEqual("17:00 CT")
+    })
+
+    test('should display timezone as CST when needed', () => {
+        const time = "17:00:00"
+        const newTime = applyTimeZone("2018-01-01", time)
+        expect(newTime).toEqual("17:00 CST")
+    })
+
+    test('should display timezone as CDT when needed', () => {
+        const time = "17:00:00"
+        const newTime = applyTimeZone("2018-05-01", time)
+        expect(newTime).toEqual("17:00 CDT")
     })
 });

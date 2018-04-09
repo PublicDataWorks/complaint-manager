@@ -16,6 +16,7 @@ class Case {
         this.narrativeSummary = build.narrativeSummary
         this.attachments = build.attachments
         this.incidentDate = build.incidentDate
+        this.incidentTime = build.incidentTime
     }
 
     static get Builder() {
@@ -28,7 +29,8 @@ class Case {
                 this.status = 'Initial'
                 this.createdAt = new Date(2015, 8, 13).toISOString()
                 this.firstContactDate = "2017-12-25T00:00:00.000Z"
-                this.incidentDate = '2017-01-01T00:01'
+                this.incidentDate = '2017-01-01'
+                this.incidentTime = '16:00:00'
                 this.complainantType = 'Civilian'
                 this.createdBy = 'tuser'
                 this.assignedTo = 'tuser'
@@ -65,6 +67,10 @@ class Case {
 
             withIncidentDate(incidentDate) {
                 this.incidentDate = incidentDate
+                return this
+            }
+            withIncidentTime(incidentTime) {
+                this.incidentTime = incidentTime
                 return this
             }
 

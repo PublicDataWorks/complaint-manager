@@ -6,6 +6,8 @@ import {
     editCivilianFailed,
     editCivilianSuccess,
     requestCaseCreation,
+    updateIncidentDetailsFailure,
+    updateIncidentDetailsSuccess,
     updateNarrativeFailure,
     updateNarrativeSuccess,
     uploadAttachmentFailed,
@@ -192,6 +194,33 @@ describe('snackbarReducer', () => {
                 open: true,
                 success: false,
                 message: 'We could not remove your attachment. Please try again.'
+            }
+            expect(newState).toEqual(expectedState)
+        })
+    });
+
+    describe('INCIDENT_DETAILS', () => {
+        test('INCIDENT_DETAILS_UPDATE_SUCCEEDED', () => {
+            const initialState = { success: false, open: true, message: ''}
+            const newState = snackbarReducer(initialState, updateIncidentDetailsSuccess())
+
+            const expectedState = {
+                open: true,
+                success: true,
+                message: 'Your Incident Details were successfully updated'
+            }
+
+            expect(newState).toEqual(expectedState)
+        })
+
+        test('INCIDENT_DETAILS_UPDATE_FAILED', () => {
+            const initialState = { success: true, open: false, message: ''}
+            const newState = snackbarReducer(initialState, updateIncidentDetailsFailure())
+
+            const expectedState = {
+                open: true,
+                success: false,
+                message: 'Something went wrong on our end and your case was not updated. Please try again.'
             }
 
             expect(newState).toEqual(expectedState)

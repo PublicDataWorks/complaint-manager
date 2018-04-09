@@ -3,6 +3,7 @@ import {
     createCivilianSuccess,
     editCivilianSuccess,
     getCaseDetailsSuccess,
+    updateIncidentDetailsSuccess,
     updateNarrativeSuccess,
     uploadAttachmentSuccess
 } from "../../actionCreators/casesActionCreators";
@@ -42,6 +43,17 @@ describe('caseDetailsReducers', () => {
 
             expect(newState).toEqual(caseDetails)
         })
+    })
+
+    test('INCIDENT_DETAILS_UPDATE_SUCCEEDED', () => {
+        const oldState = {caseDetailProp: 'old detail value'}
+
+        const caseDetails = {caseDetailProp: 'new  detail value'}
+        const action = updateIncidentDetailsSuccess(caseDetails)
+
+        const newState = caseDetailsReducer(oldState, action)
+
+        expect(newState).toEqual(caseDetails)
     })
 
     describe('ATTACHMENT_UPLOAD_SUCCEEDED', () => {

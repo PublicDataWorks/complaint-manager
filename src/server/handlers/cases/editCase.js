@@ -14,6 +14,7 @@ const editCase = async (request, response, next) => {
                 await models.cases.update(request.body,
                     {
                         where: {id: request.params.id},
+                        individualHooks: true,
                         transaction,
                     })
 

@@ -4,6 +4,8 @@ import {
     CIVILIAN_DIALOG_OPENED,
     CIVILIAN_CREATION_SUCCEEDED,
     CIVILIAN_CREATION_FAILED,
+    INCIDENT_DETAILS_UPDATE_SUCCEEDED,
+    INCIDENT_DETAILS_UPDATE_FAILED,
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = (caseDetails) => ({
@@ -79,4 +81,13 @@ export const uploadAttachmentSuccess = (caseDetails) => ({
 
 export const uploadAttachmentFailed = () => ({
     type: ATTACHMENT_UPLOAD_FAILED,
+})
+
+export const updateIncidentDetailsSuccess = (caseDetails) => ({
+    type: INCIDENT_DETAILS_UPDATE_SUCCEEDED,
+    caseDetails
+})
+
+export const updateIncidentDetailsFailure = () => ({
+    type: INCIDENT_DETAILS_UPDATE_FAILED
 })

@@ -27,4 +27,16 @@ export const applyCentralTimeZoneOffset = dateString => {
     return timezone.tz(dateString, TIMEZONE).format()
 }
 
+export const applyTimeZone = (date, time) => {
+    if (!time) return time
+    else {
+        let timeZone = 'CT'
+
+        if (date) {
+            timeZone = moment(date).tz(TIMEZONE).format("z")
+        }
+        return `${time.slice(0,5)} ${timeZone}`
+    }
+}
+
 export default formatDate
