@@ -1,7 +1,7 @@
 const TIMEZONE = require("../../../sharedUtilities/constants").TIMEZONE;
 
 const models = require('../../models/index');
-const csv = require('csv');
+const stringify = require('csv-stringify');
 const moment = require('moment');
 
 const formatDateForCSV = date => {
@@ -37,7 +37,7 @@ const exportAuditLog = async (request, response, next) => {
             })
         })
 
-        csv.stringify({audit_logs}['audit_logs'], csvOptions, (err, csvOutput) => {
+        stringify({audit_logs}['audit_logs'], csvOptions, (err, csvOutput) => {
             response.send(csvOutput);
         });
     } catch (error) {
