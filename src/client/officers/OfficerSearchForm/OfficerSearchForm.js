@@ -6,12 +6,14 @@ import {districtMenu} from "../../cases/CaseDetails/CivilianDialog/helpers/gener
 import {SubmitButton} from "../../sharedComponents/StyledButtons";
 import validate from "./validateOfficerSearchForm";
 import {trimWhiteSpace} from "../../utilities/fieldNormalizers";
-
-const onSubmit = (values, dispatch) => {
-    console.log('Here are your values: ', values)
-};
+import getOfficerSearchResults from "../thunks/getOfficerSearchResults";
 
 export const OfficerSearchForm = (props) => {
+    const {invalid, handleSubmit, caseId} = props;
+    const onSubmit = (values, dispatch) => {
+        dispatch(getOfficerSearchResults(values, caseId));
+    };
+
     return (
         <div>
             <form>
@@ -20,33 +22,34 @@ export const OfficerSearchForm = (props) => {
                         label='First Name'
                         name='firstName'
                         component={TextField}
-                        data-test='firstNameField'
+                        inputProps={{"data-test":'firstNameField'}}
                         normalize={trimWhiteSpace}
-                        style={{flex: '1', marginRight: '3%'}}
+                        style={{flex: '1', marginRight: '24px'}}
                     />
 
                     <Field
                         label='Last Name'
                         name='lastName'
                         component={TextField}
-                        data-test='lastNameField'
+                        inputProps={{"data-test":'lastNameField'}}
                         normalize={trimWhiteSpace}
-                        style={{flex: '1', marginRight: '3%'}}
+                        style={{flex: '1', marginRight: '24px'}}
                     />
 
                     <Field
                         label='District'
                         name='district'
                         component={NoBlurTextField}
-                        data-test='districtField'
-                        style={{flex: '1', marginRight: '3%'}}
+                        inputProps={{"data-test":'districtField'}}
+                        style={{flex: '1', marginRight: '24px'}}
                     >
                         {districtMenu}
                     </Field>
-                    <div style={{flex: '1', alignSelf: 'center', textAlign: 'right'}}>
+                    <div style={{flex: '2', alignSelf: 'center', textAlign: 'right'}}>
                         <SubmitButton
-                            disabled={props.invalid}
-                            onClick={props.handleSubmit(onSubmit)}
+                            disabled={invalid}
+                            onClick={handleSubmit(onSubmit)}
+                            data-test="officerSearchSubmitButton"
                         >
                             search
                         </SubmitButton>

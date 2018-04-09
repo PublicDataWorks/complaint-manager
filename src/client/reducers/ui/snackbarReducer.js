@@ -1,11 +1,12 @@
-import { ATTACHMENT_UPLOAD_FAILED,
+import {
+    ATTACHMENT_UPLOAD_FAILED,
     ATTACHMENT_UPLOAD_SUCCEEDED,
     CASE_CREATED_SUCCESS,
     CIVILIAN_CREATION_FAILED,
     CIVILIAN_CREATION_SUCCEEDED,
     DOWNLOAD_FAILED,
     REMOVE_ATTACHMENT_FAILED,
-    REMOVE_ATTACHMENT_SUCCESS,
+    REMOVE_ATTACHMENT_SUCCESS, SNACKBAR_ERROR,
 } from "../../../sharedUtilities/constants";
 
 //TODO Discuss separation of concerns.
@@ -37,6 +38,12 @@ import { ATTACHMENT_UPLOAD_FAILED,
 const initialState = {open: false, success: false, message: ''}
 const snackbarReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SNACKBAR_ERROR:
+            return {
+                open: true,
+                success: false,
+                message: action.message
+        };
         case 'CLOSE_SNACKBAR':
             return {
                 open: false,

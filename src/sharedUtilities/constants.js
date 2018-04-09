@@ -29,6 +29,13 @@ const UPLOAD_CANCELED = "Upload canceled."
 const REMOVE_ATTACHMENT_SUCCESS = 'REMOVE_ATTACHMENT_SUCCESS'
 const REMOVE_ATTACHMENT_FAILED = 'REMOVE_ATTACHMENT_FAILED'
 
+
+// ----------------------------------------
+//          Attachment Removal
+// ----------------------------------------
+
+const SNACKBAR_ERROR = 'SNACKBAR_ERROR';
+
 // ----------------------------------------
 //          Redux Forms
 // ----------------------------------------
@@ -67,6 +74,7 @@ module.exports = {
     UPLOAD_CANCELED,
     REMOVE_ATTACHMENT_FAILED,
     REMOVE_ATTACHMENT_SUCCESS,
+    SNACKBAR_ERROR,
     CIVILIAN_FORM_NAME,
     EXPORT_AUDIT_LOG,
     OPENID,

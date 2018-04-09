@@ -3,11 +3,11 @@ import {shallow} from 'enzyme'
 import {OfficerDashboard} from "./OfficerDashboard";
 import getCaseDetails from "../cases/thunks/getCaseDetails";
 
-jest.mock("../cases/thunks/getCaseDetails", () => () => "some data")
+jest.mock("../cases/thunks/getCaseDetails");
 
 describe('Officer Dashboard', () => {
-
     let mockDispatch = jest.fn()
+    getCaseDetails.mockImplementation(() => "");
 
     test('should not fetch case details when already loaded', () => {
         const caseId = 1;

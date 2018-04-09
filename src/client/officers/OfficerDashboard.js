@@ -5,6 +5,7 @@ import NavBar from "../sharedComponents/NavBar/NavBar";
 import {Card, CardContent, Typography} from "material-ui";
 import {Link} from "react-router-dom";
 import LinkButton from "../sharedComponents/LinkButton";
+import OfficersSnackbar from "./OfficersSnackBar/OfficersSnackbar";
 import OfficerSearchForm from "./OfficerSearchForm/OfficerSearchForm";
 
 export class OfficerDashboard extends Component {
@@ -48,16 +49,12 @@ export class OfficerDashboard extends Component {
                                 width: '100%'
                             }}
                     >
-                        <CardContent
-                            style={{
-                                padding: '16px'
-                            }}
-                        >
-                            <OfficerSearchForm/>
+                        <CardContent style={{padding: '16px'}}>
+                            <OfficerSearchForm caseId={this.props.caseId}/>
                         </CardContent>
                     </Card>
-
                 </div>
+                <OfficersSnackbar/>
             </div>
         )
     }
@@ -65,6 +62,6 @@ export class OfficerDashboard extends Component {
 
 const mapStateToProps = state => ({
     caseId: state.currentCase.id
-})
+});
 
-export default connect(mapStateToProps)(OfficerDashboard)
+export default connect(mapStateToProps)(OfficerDashboard);
