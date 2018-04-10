@@ -36,7 +36,7 @@ describe("OfficerSearchForm", () => {
             selectDropdownOption(officerSearchForm, "[data-test='districtField']", '1st District');
 
             officerSearchForm.find(SubmitButton).simulate('click');
-            expect(dispatchSpy).toHaveBeenCalledWith(getOfficerSearchResults({firstName: 'emma', lastName: 'watson', district: '1st District'}));
+            expect(dispatchSpy).toHaveBeenCalledWith(getOfficerSearchResults({firstName: 'emma', lastName: 'watson', district: 'First District'}));
         });
     });
 });

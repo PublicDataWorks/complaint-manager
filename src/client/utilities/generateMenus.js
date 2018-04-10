@@ -1,13 +1,20 @@
 import React from 'react'
 import {MenuItem} from "material-ui";
 
-const generateMenu = contents => {
+export const generateMenu = contents => {
     return contents.map((content) => {
+        let value, text;
+        if (typeof(content) === 'string') {
+            value = text = content
+        } else {
+            text = content[0]
+            value = content[1]
+        }
         return (
             <MenuItem
-                key={content}
-                value={content}
-            >{content}</MenuItem>)
+                key={value}
+                value={value}
+            >{text}</MenuItem>)
     })
 }
 
@@ -44,13 +51,13 @@ export const raceEthnicityMenu = generateMenu([
 ])
 
 export const districtMenu = generateMenu([
-    'Any District',
-    '1st District',
-    '2nd District',
-    '3rd District',
-    '4th District',
-    '5th District',
-    '6th District',
-    '7th District',
-    '8th District'
+    ['Any District', ''],
+    ['1st District', 'First District'],
+    ['2nd District', 'Second District'],
+    ['3rd District', 'Third District'],
+    ['4th District', 'Fourth District'],
+    ['5th District', 'Fifth District'],
+    ['6th District', 'Sixth District'],
+    ['7th District', 'Seventh District'],
+    ['8th District', 'Eighth District']
 ])

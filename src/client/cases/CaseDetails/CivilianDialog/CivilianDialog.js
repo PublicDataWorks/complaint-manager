@@ -18,7 +18,7 @@ import EmailField from "../../sharedFormComponents/EmailField";
 import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine";
 import formatAddress from "../../../utilities/formatAddress";
 import moment from "moment"
-import {genderIdentityMenu, raceEthnicityMenu} from "./helpers/generateMenus";
+import {genderIdentityMenu, raceEthnicityMenu} from "../../../utilities/generateMenus";
 import validate from "./helpers/validateCivilianFields";
 import AddressInput from "./AddressInput";
 import {TextField} from "redux-form-material-ui";

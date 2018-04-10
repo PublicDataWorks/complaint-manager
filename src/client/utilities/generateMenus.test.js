@@ -1,5 +1,5 @@
 import React from 'react'
-import {genderIdentityMenu, raceEthnicityMenu} from "./generateMenus";
+import {genderIdentityMenu, generateMenu, raceEthnicityMenu} from "./generateMenus";
 import {mount} from "enzyme";
 import {Select} from "material-ui";
 
@@ -22,9 +22,7 @@ describe('civilian info dropdown menus', () => {
         ]
 
         const genderIdentityMenuComponent = mount(
-            <Select
-                value=""
-            >
+            <Select value="">
                 {
                     genderIdentityMenu
                 }
@@ -62,9 +60,7 @@ describe('civilian info dropdown menus', () => {
         ]
 
         const raceEthnicityMenuComponent = mount(
-            <Select
-                value=""
-            >
+            <Select value="">
                 {
                     raceEthnicityMenu
                 }
@@ -75,5 +71,32 @@ describe('civilian info dropdown menus', () => {
 
         const menuOptions = getMenuOptions(raceEthnicityMenuComponent)
         expect(races).toEqual(menuOptions)
+    })
+
+    test('should allow optional values for menu items',()=>{
+        const districts = [
+            ['Any district', ''],
+            '1st district'
+        ]
+        const districtsMenuComponent = mount(
+            <Select value="">
+                {
+                    generateMenu(districts)
+                }
+            </Select>
+        )
+
+        districtsMenuComponent.find('[role="button"]').simulate('click')
+
+        const options = districtsMenuComponent
+            .find('li[role="option"]');
+
+        const anyDistrictOption = options.first();
+        expect(anyDistrictOption.text()).toEqual("Any district");
+        expect(anyDistrictOption.props().value).toEqual("");
+
+        const firstDistrictOption = options.last();
+        expect(firstDistrictOption.text()).toEqual("1st district");
+        expect(firstDistrictOption.props().value).toEqual("1st district");
     })
 });
