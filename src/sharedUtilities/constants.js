@@ -53,6 +53,11 @@ const EXPORT_AUDIT_LOG = "export:audit_log"
 const OPENID = "openid"
 const PROFILE = "profile"
 
+// ----------------------------------------
+//          Officers
+// ----------------------------------------
+
+const SEARCH_OFFICERS_SUCCESS = 'SEARCH_OFFICERS_SUCCESS';
 
 // ----------------------------------------
 //          Other
@@ -81,6 +86,7 @@ module.exports = {
     SNACKBAR_ERROR,
     CIVILIAN_FORM_NAME,
     EXPORT_AUDIT_LOG,
+    SEARCH_OFFICERS_SUCCESS,
     OPENID,
     PROFILE,
     TIMEZONE

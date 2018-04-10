@@ -3,6 +3,7 @@ import {push} from "react-router-redux";
 import config from "../../config/config";
 import {snackbarError} from "../../actionCreators/snackBarActionCreators";
 import encodeUriWithParams from "../../utilities/encodeUriWithParams";
+import {searchOfficersSuccess} from "../../actionCreators/officersActionCreators";
 const hostname = config[process.env.NODE_ENV].hostname;
 
 const getOfficerSearchResults = (searchCriteria, caseId) => async (dispatch) => {
@@ -33,7 +34,7 @@ const handleResponse = async (response, dispatch) => {
     switch (response.status) {
         case 200:
             const searchResults = await response.json();
-            return console.log("search results", searchResults);
+            return dispatch(searchOfficersSuccess(searchResults));
         case 401:
             return dispatch(push("/login"));
         default:

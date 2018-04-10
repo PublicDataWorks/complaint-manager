@@ -12,6 +12,7 @@ import casesTableReducer from "./reducers/ui/casesTableReducer";
 import civilianDialogReducer from "./reducers/ui/civilianDialogReducer";
 import userInfoReducer from "./auth/reducers/userInfoReducer";
 import attachmentsReducer from "./reducers/ui/attachmentsReducer";
+import searchOfficersReducer from "./reducers/officers/searchOfficersReducer";
 
 const rootReducer = combineReducers({
     form: formReducer,
@@ -30,8 +31,8 @@ const rootReducer = combineReducers({
         casesTable: casesTableReducer,
         civilianDialog: civilianDialogReducer,
         attachments: attachmentsReducer
-    })
-
+    }),
+    officers: searchOfficersReducer
 })
 
 const routingMiddleware = routerMiddleware(history)
