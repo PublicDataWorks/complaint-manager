@@ -1,4 +1,4 @@
-import {trimWhiteSpace} from "./fieldNormalizers";
+import {nullifyFieldUnlessValid, trimWhiteSpace} from "./fieldNormalizers";
 
 describe("fieldNormalizers", () => {
     describe("trimWhiteSpace", () => {
@@ -10,6 +10,25 @@ describe("fieldNormalizers", () => {
             const normalizedValue = trimWhiteSpace(" one two ");
             expect(normalizedValue).toEqual("one two");
         });
-
     });
+
+    describe("nullifyFieldUnlessValid", () => {
+        test("should nullify an empty string", () => {
+            const normalizedValue = nullifyFieldUnlessValid("")
+
+            expect(normalizedValue).toBeNull()
+        })
+
+        test("should nullify a whitespace", () => {
+            const normalizedValue = nullifyFieldUnlessValid(" ")
+
+            expect(normalizedValue).toBeNull()
+        })
+
+        test("should not nullify non blank or non whitespace input", () => {
+            const normalizedValue = nullifyFieldUnlessValid("2018-01-01")
+
+            expect(normalizedValue).toEqual("2018-01-01")
+        })
+    })
 });

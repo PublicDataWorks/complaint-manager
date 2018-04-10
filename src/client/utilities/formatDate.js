@@ -27,7 +27,7 @@ export const applyCentralTimeZoneOffset = dateString => {
     return timezone.tz(dateString, TIMEZONE).format()
 }
 
-export const applyTimeZone = (date, time) => {
+export const computeTimeZone = (date, time) => {
     if (!time) return time
     else {
         let timeZone = 'CT'
@@ -35,8 +35,18 @@ export const applyTimeZone = (date, time) => {
         if (date) {
             timeZone = moment(date).tz(TIMEZONE).format("z")
         }
-        return `${time.slice(0,5)} ${timeZone}`
+        return timeZone
     }
+}
+
+export function format12HourTime(time) {
+    const timeParts = time.split(":")
+    const hour = parseInt(timeParts[0], 10)
+    const suffix = hour >= 12 ? "PM" : "AM"
+    const realHour = (hour + 11) % 12 + 1
+    const prefix = realHour < 10 ? "0" : ""
+
+    return prefix + realHour + ":" + timeParts[1] + " " + suffix
 }
 
 export default formatDate

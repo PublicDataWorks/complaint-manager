@@ -1,6 +1,6 @@
 import formatDate, {
     applyCentralTimeZoneOffset,
-    applyTimeZone, formatDateForCSV,
+    computeTimeZone, format12HourTime,
     timeFromDateString
 } from "./formatDate";
 
@@ -70,19 +70,33 @@ describe('apply CST to dateString', () => {
 describe('apply timezone to time based on date', () => {
     test('should display timezone as CT when no date given', () => {
         const time = "17:00:00"
-        const newTime = applyTimeZone(null, time)
-        expect(newTime).toEqual("17:00 CT")
+        const newTime = computeTimeZone(null, time)
+        expect(newTime).toEqual("CT")
     })
 
     test('should display timezone as CST when needed', () => {
         const time = "17:00:00"
-        const newTime = applyTimeZone("2018-01-01", time)
-        expect(newTime).toEqual("17:00 CST")
+        const newTime = computeTimeZone("2018-01-01", time)
+        expect(newTime).toEqual("CST")
     })
 
     test('should display timezone as CDT when needed', () => {
         const time = "17:00:00"
-        const newTime = applyTimeZone("2018-05-01", time)
-        expect(newTime).toEqual("17:00 CDT")
+        const newTime = computeTimeZone("2018-05-01", time)
+        expect(newTime).toEqual("CDT")
     })
 });
+
+describe('format12HourTime', () => {
+    test('should return formatted time with single digit hour', () => {
+        const time = "3:00:00"
+
+        expect(format12HourTime(time)).toEqual("03:00 AM")
+    })
+
+    test('should format 24 hour time correctly', () => {
+        const time = "23:59"
+
+        expect(format12HourTime(time)).toEqual("11:59 PM")
+    })
+})

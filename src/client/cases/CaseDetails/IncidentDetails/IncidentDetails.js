@@ -2,7 +2,7 @@ import React from 'react'
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import { CardContent } from "material-ui";
 import CivilianInfoDisplay from "../ComplainantWitnesses/CivilianInfoDisplay";
-import formatDate, {applyTimeZone} from "../../../utilities/formatDate";
+import formatDate, {computeTimeZone, format12HourTime} from "../../../utilities/formatDate";
 import LinkButton from "../../../sharedComponents/LinkButton";
 import IncidentDetailsDialog from "./IncidentDetailsDialog";
 
@@ -10,6 +10,11 @@ class IncidentDetails extends React.Component {
 
     state = {
         dialogOpen: false
+    }
+
+    formatTimeForDisplay = (date, time) => {
+        if (!time) return time
+        return format12HourTime(time) + " " + computeTimeZone(date, time)
     }
 
     handleDialogOpen = () => {
@@ -45,7 +50,7 @@ class IncidentDetails extends React.Component {
                         />
                         <CivilianInfoDisplay
                             displayLabel='Incident Time'
-                            value={applyTimeZone(incidentDate, incidentTime)}
+                            value={this.formatTimeForDisplay(incidentDate, incidentTime)}
                             testLabel="incidentTime"
                         />
                         <LinkButton

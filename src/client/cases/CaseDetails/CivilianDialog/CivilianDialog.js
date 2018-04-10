@@ -23,7 +23,7 @@ import validate from "./helpers/validateCivilianFields";
 import AddressInput from "./AddressInput";
 import {TextField} from "redux-form-material-ui";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
-
+import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
 
 class CivilianDialog extends Component {
 
@@ -37,12 +37,9 @@ class CivilianDialog extends Component {
     }
 
     handleCivilian = (values, dispatch) => {
-        //The database can't handle the empty string we use for display purposes.  So, strip it out before sending off to the API
-        const nullifyDateUnlessValid = date => (date && date.trim() === '' ? null : date)
-
         dispatch(this.props.submitAction({
             ...values,
-            birthDate: nullifyDateUnlessValid(values.birthDate)
+            birthDate: nullifyFieldUnlessValid(values.birthDate)
         }))
     }
 
@@ -102,8 +99,7 @@ class CivilianDialog extends Component {
                                 }}
                                 clearable={true}
                                 style={{
-                                    width: '30%',
-                                    clipPath: 'inset(0 17px 0 0)',
+                                    minWidth: '140px',
                                     marginRight: '5%',
                                     marginBottom: '3%',
                                 }}

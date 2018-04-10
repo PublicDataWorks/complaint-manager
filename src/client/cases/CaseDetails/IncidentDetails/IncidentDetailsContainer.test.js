@@ -6,7 +6,7 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import {Provider} from "react-redux";
 import {getCaseDetailsSuccess} from "../../../actionCreators/casesActionCreators";
 import Case from "../../../testUtilities/case";
-import formatDate, {applyTimeZone} from "../../../utilities/formatDate";
+import formatDate, {computeTimeZone} from "../../../utilities/formatDate";
 import editIncidentDetails from "../../thunks/editIncidentDetails";
 import {changeInput, expectEventuallyNotToExist} from "../../../../testHelpers";
 import { DialogContent } from "material-ui";
@@ -19,7 +19,7 @@ jest.mock("../../thunks/editIncidentDetails", () =>
     ))
 
 describe('incident details container', () => {
-    let incidentDetails, currentCase, firstContactDate, incidentDate, incidentTime, wrapper, dispatchSpy
+    let incidentDetails, currentCase, firstContactDate, incidentDate, incidentTime, wrapper, dispatchSpy, formattedIncidentTime
     beforeEach(() => {
         const store = createConfiguredStore()
 
@@ -27,6 +27,7 @@ describe('incident details container', () => {
         firstContactDate = "1994-05-01";
         incidentDate = "1994-04-24";
         incidentTime = "14:00:00";
+        formattedIncidentTime = "02:00 PM CDT"
 
         currentCase = new Case.Builder()
             .defaultCase()
@@ -54,7 +55,7 @@ describe('incident details container', () => {
     })
 
     test('should display incident time', () => {
-        expect(wrapper.find('[data-test="incidentTime"]').first().text()).toEqual(applyTimeZone(incidentDate, incidentTime))
+        expect(wrapper.find('[data-test="incidentTime"]').first().text()).toEqual(formattedIncidentTime)
     })
 
     test('should open dialog and prepopulate fields', () => {

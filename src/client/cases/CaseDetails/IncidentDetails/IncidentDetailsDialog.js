@@ -6,10 +6,23 @@ import DateField from "../../sharedFormComponents/DateField";
 import {Field, reduxForm} from "redux-form";
 import {CancelButton, SubmitButton} from "../../../sharedComponents/StyledButtons";
 import editIncidentDetails from "../../thunks/editIncidentDetails";
+import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
+
+const submitIncidentDetails = (values, dispatch, props) => {
+    const normalizedValuesWithId = {
+        ...values,
+        incidentDate: nullifyFieldUnlessValid(values.incidentDate),
+        incidentTime: nullifyFieldUnlessValid(values.incidentTime),
+        id: props.caseId
+    }
+
+    return dispatch(editIncidentDetails(normalizedValuesWithId, props.handleDialogClose))
+}
 
 const IncidentDetailsDialog = (props) => (
     <Dialog
         open={props.dialogOpen}
+        fullWidth={false}
     >
         <DialogTitle
             data-test="editIncidentDetailsTitle"
@@ -28,7 +41,9 @@ const IncidentDetailsDialog = (props) => (
                     type: "date",
                     max: moment(Date.now()).format('YYYY-MM-DD')
                 }}
+                style={{marginBottom: '16px'}}
                 />
+                <br/>
                 <DateField
                     name='incidentDate'
                     label='Incident Date'
@@ -36,8 +51,12 @@ const IncidentDetailsDialog = (props) => (
                     inputProps={{
                         "data-test": "editIncidentDateInput",
                         type: "date",
-                        max: moment(Date.now()).format('YYYY-MM-DD')
+                        max: moment(Date.now()).format('YYYY-MM-DD'),
                     }}
+                    style={{
+                        marginRight: '16px',
+                    }}
+                    clearable={true}
                 />
                 <Field
                     component={TextField}
@@ -48,10 +67,15 @@ const IncidentDetailsDialog = (props) => (
                         "data-test": "editIncidentTimeInput",
                         type: "time"
                     }}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
                 />
             </form>
         </DialogContent>
-        <DialogActions>
+        <DialogActions
+            style={{justifyContent: 'space-between', margin: '16px'}}
+        >
             <CancelButton
                 data-test="cancelEditIncidentDetailsButton"
                 onClick={props.handleDialogClose}
@@ -60,13 +84,7 @@ const IncidentDetailsDialog = (props) => (
             </CancelButton>
             <SubmitButton
                 data-test="saveIncidentDetailsButton"
-                onClick={props.handleSubmit((values, dispatch, props) =>
-                    dispatch(editIncidentDetails({
-                            ...values,
-                            id: props.caseId
-                        },
-                        props.handleDialogClose
-                    )))}
+                onClick={props.handleSubmit(submitIncidentDetails)}
             >
                 Save
             </SubmitButton>
