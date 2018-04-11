@@ -827,19 +827,19 @@ describe('server', () => {
             await models.officer.create(new Officer.Builder().defaultOfficer()
                 .withFirstName('Garret')
                 .withLastName('Fisher')
-                .withDistrict('1st District')
+                .withDistrict('First District')
                 .build())
 
             await models.officer.create(new Officer.Builder().defaultOfficer()
                 .withFirstName('Grant')
                 .withLastName('Livingston')
-                .withDistrict('8th District')
+                .withDistrict('Eighth District')
                 .build())
 
             await request(app)
                 .get('/api/cases/5/officers/search')
                 .set('Authorization', `Bearer ${token}`)
-                .query({district: '8th District'})
+                .query({district: 'Eighth District'})
                 .expect(200)
                 .then((response) => {
                     expect(response.body.length).toEqual(1)
