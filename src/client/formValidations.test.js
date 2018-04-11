@@ -1,4 +1,4 @@
-import {atLeastOneRequired} from "./formSyncValidations";
+import {addressMustBeAutoSuggested, atLeastOneRequired} from "./formValidations";
 
 describe('synchronous validations', () => {
     test('test phone number or email validation when flat object', () => {
@@ -46,6 +46,40 @@ describe('synchronous validations', () => {
         const expectedErrors = {}
 
         const errors = atLeastOneRequired(testValues, 'Please enter phone number or email address', ['phoneNumber', 'email'])
+
+        expect(errors).toEqual(expectedErrors)
+    })
+
+    test('should produce errors when address is not autosuggested', () => {
+        const address = {
+            city: 'Chicago',
+            state: 'IL',
+            country: 'US'
+        }
+
+        const someAddressInAutoCompleteTextField = 'asdfsdf'
+
+        const errors = addressMustBeAutoSuggested(address, someAddressInAutoCompleteTextField)
+
+        const expectedErrors = {
+            autoSuggestValue: 'Please select an address from the suggestion list'
+        }
+
+        expect(errors).toEqual(expectedErrors)
+    })
+
+    test('should not produce error when address is from autosuggest', () => {
+        const address = {
+            city: 'Chicago',
+            state: 'IL',
+            country: 'US'
+        }
+
+        const someAddressInAutoCompleteTextField = 'Chicago, IL, US'
+
+        const errors = addressMustBeAutoSuggested(address, someAddressInAutoCompleteTextField)
+
+        const expectedErrors = {}
 
         expect(errors).toEqual(expectedErrors)
     })

@@ -41,6 +41,8 @@ describe('AddressAutoSuggest', () => {
                     label={label}
                     data-test='my-custom-autosuggest'
                     suggestionEngine={suggestionEngine}
+                    input={{}}
+                    meta={{error: 'Error'}}
                 />
             </Provider>
         )

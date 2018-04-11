@@ -3,11 +3,13 @@ import Autosuggest from 'react-autosuggest';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 import {MenuItem, Paper, TextField} from 'material-ui';
-import {change} from "redux-form";
+import {change, clearSubmitErrors} from "redux-form";
 import {connect} from "react-redux";
 import {withStyles} from "material-ui/styles/index";
 import poweredByGoogle from '../../../../assets/powered_by_google_on_white_hdpi.png'
-import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
+import {CIVILIAN_FORM_NAME} from "../../../../sharedUtilities/constants";
+import {updateAddressAutoSuggest} from "../../../actionCreators/casesActionCreators";
+import formatAddress from "../../../utilities/formatAddress";
 
 const styles = theme => ({
     container: {
@@ -53,39 +55,45 @@ class AddressAutoSuggest extends Component {
     }
 
     renderInput = (inputProps) => {
-        const {label, classes, ref, dataTest, ...other} = inputProps;
+        const {label, classes, ref, dataTest, reduxFormMeta, ...other} = inputProps;
+        const shouldRenderError = Boolean(reduxFormMeta.error)
 
         if (!this.state.suggestionServiceAvailable) {
-                return (
-                    <TextField
-                        disabled={true}
-                        label={label}
-                        fullWidth
-                        InputProps={{
-                            classes: {
-                                input: classes.input,
-                            },
-                            'data-test': dataTest,
-                            inputProps: {value: 'Address lookup is down, please try again later'}
-                        }}
-                    />
-                );
-            }
             return (
                 <TextField
+                    disabled={true}
                     label={label}
                     fullWidth
-                    inputRef={ref}
                     InputProps={{
                         classes: {
                             input: classes.input,
                         },
                         'data-test': dataTest,
-                        ...other,
+                        inputProps: {value: 'Address lookup is down, please try again later'}
                     }}
                 />
             );
+        }
+        return (
+            <TextField
+                label={label}
+                fullWidth
+                inputRef={ref}
+                InputProps={{
+                    classes: {
+                        input: classes.input,
+                    },
+                    'data-test': dataTest,
+                    ...other,
+                }}
+                error={shouldRenderError}
+                helperText={reduxFormMeta.error}
+                FormHelperTextProps={{
+                    error: shouldRenderError
+                }}
 
+            />
+        );
 
 
     }
@@ -137,12 +145,14 @@ class AddressAutoSuggest extends Component {
 
     onSuggestionSelected = (event, {suggestion}) => {
         this.props.suggestionEngine.onSuggestionSelected(suggestion, (address) => {
-            console.log('parsed address', address)
+            this.props.updateAddressAutoSuggest(formatAddress(address))
+
             this.props.change(CIVILIAN_FORM_NAME, 'address.streetAddress', address.streetAddress)
             this.props.change(CIVILIAN_FORM_NAME, 'address.city', address.city)
             this.props.change(CIVILIAN_FORM_NAME, 'address.state', address.state)
             this.props.change(CIVILIAN_FORM_NAME, 'address.zipCode', address.zipCode)
             this.props.change(CIVILIAN_FORM_NAME, 'address.country', address.country)
+
         })
     }
 
@@ -164,26 +174,20 @@ class AddressAutoSuggest extends Component {
     };
 
     handleChange = (event, {newValue}) => {
+        this.props.updateAddressAutoSuggest(newValue)
+        this.setState({value: newValue})
 
-        const clearAddressFieldsWhenAutoSuggestFieldIsCleared = (newValue) => {
-            if (!newValue) {
-                this.props.change(CIVILIAN_FORM_NAME, 'address.streetAddress', '')
-                this.props.change(CIVILIAN_FORM_NAME, 'address.city', '')
-                this.props.change(CIVILIAN_FORM_NAME, 'address.state', '')
-                this.props.change(CIVILIAN_FORM_NAME, 'address.zipCode', '')
-                this.props.change(CIVILIAN_FORM_NAME, 'address.country', '')
-            }
-        }
+        this.props.change(CIVILIAN_FORM_NAME, 'address.streetAddress', '')
+        this.props.change(CIVILIAN_FORM_NAME, 'address.city', '')
+        this.props.change(CIVILIAN_FORM_NAME, 'address.state', '')
+        this.props.change(CIVILIAN_FORM_NAME, 'address.zipCode', '')
+        this.props.change(CIVILIAN_FORM_NAME, 'address.country', '')
 
-        this.setState({
-            value: newValue,
-        })
-
-        clearAddressFieldsWhenAutoSuggestFieldIsCleared(newValue);
+        this.props.clearSubmitErrors(CIVILIAN_FORM_NAME)
     };
 
     render() {
-        const {label, classes = {}, inputProps, 'data-test': dataTest} = this.props;
+        const {label, classes = {}, meta, inputProps, 'data-test': dataTest} = this.props;
 
         const theme =
             {
@@ -210,6 +214,7 @@ class AddressAutoSuggest extends Component {
                     dataTest,
                     ...inputProps,
                     classes,
+                    reduxFormMeta: meta,
                     value: this.state.value,
                     onChange: this.handleChange,
                 }}
@@ -219,7 +224,9 @@ class AddressAutoSuggest extends Component {
 }
 
 const mapDispatchToProps = {
-    change
+    change,
+    updateAddressAutoSuggest,
+    clearSubmitErrors
 }
 
 const ConnectedComponent = connect(undefined, mapDispatchToProps)(AddressAutoSuggest)

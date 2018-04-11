@@ -5,7 +5,7 @@ import {
     CIVILIAN_CREATION_SUCCEEDED,
     CIVILIAN_CREATION_FAILED,
     INCIDENT_DETAILS_UPDATE_SUCCEEDED,
-    INCIDENT_DETAILS_UPDATE_FAILED,
+    INCIDENT_DETAILS_UPDATE_FAILED, CIVILIAN_ADDRESS_AUTOSUGGEST_UPDATED,
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = (caseDetails) => ({
@@ -90,4 +90,9 @@ export const updateIncidentDetailsSuccess = (caseDetails) => ({
 
 export const updateIncidentDetailsFailure = () => ({
     type: INCIDENT_DETAILS_UPDATE_FAILED
+})
+
+export const updateAddressAutoSuggest = (addressValue) => ({
+    type: CIVILIAN_ADDRESS_AUTOSUGGEST_UPDATED,
+    addressValue
 })

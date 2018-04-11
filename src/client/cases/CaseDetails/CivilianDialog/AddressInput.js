@@ -5,11 +5,15 @@ import {Field} from "redux-form";
 
 const AddressInput = (props) => (
     <div>
-        <AddressAutoSuggest
-            label='Address'
-            suggestionEngine={props.suggestionEngine}
-            defaultText={props.formattedAddress}
-            data-test='addressSuggestionField'
+        <Field
+            name='autoSuggestValue'
+            component={AddressAutoSuggest}
+            props={{
+                label:'Address',
+                suggestionEngine:props.suggestionEngine,
+                defaultText:props.formattedAddress,
+                'data-test':'addressSuggestionField',
+            }}
         />
         <Field
             label={'Additional Address Information'}

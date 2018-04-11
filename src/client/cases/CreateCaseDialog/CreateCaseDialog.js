@@ -16,7 +16,7 @@ import moment from "moment";
 import DateField from "../sharedFormComponents/DateField";
 import MiddleInitialField from "../sharedFormComponents/MiddleInitialField";
 import SuffixField from "../sharedFormComponents/SuffixField";
-import {atLeastOneRequired} from "../../formSyncValidations";
+import {atLeastOneRequired} from "../../formValidations";
 import {applyCentralTimeZoneOffset} from "../../utilities/formatDate";
 
 const margin = {

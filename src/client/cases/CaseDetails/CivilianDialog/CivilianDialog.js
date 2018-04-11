@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {Field, formValueSelector, reduxForm} from "redux-form";
+import {Field, formValueSelector, reduxForm, SubmissionError} from "redux-form";
 import {Dialog, DialogActions, DialogContent, DialogTitle, Typography } from 'material-ui';
 import RoleOnCaseRadioGroup from "./RoleOnCaseRadioGroup";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";
@@ -24,6 +24,7 @@ import AddressInput from "./AddressInput";
 import {TextField} from "redux-form-material-ui";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
+import {addressMustBeAutoSuggested} from "../../../formValidations";
 
 class CivilianDialog extends Component {
 
@@ -37,6 +38,12 @@ class CivilianDialog extends Component {
     }
 
     handleCivilian = (values, dispatch) => {
+        const errors = addressMustBeAutoSuggested(values.address, this.props.addressAutoSuggestValue)
+
+        if (errors.autoSuggestValue){
+            throw new SubmissionError(errors)
+        }
+
         dispatch(this.props.submitAction({
             ...values,
             birthDate: nullifyFieldUnlessValid(values.birthDate)
@@ -193,6 +200,7 @@ const mapStateToProps = (state) => {
 
     return {
         open: state.ui.civilianDialog.open,
+        addressAutoSuggestValue: state.ui.civilianDialog.addressAutoSuggestValue,
         formattedAddress: formatAddress(values.address),
         submitAction: state.ui.civilianDialog.submitAction,
         title: state.ui.civilianDialog.title,

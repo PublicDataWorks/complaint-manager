@@ -1,4 +1,4 @@
-import {atLeastOneRequired} from "../../formSyncValidations";
+import {atLeastOneRequired} from "../../formValidations";
 
 const validate = (values) => {
     const errors = atLeastOneRequired(values, "Please complete at least one field", ['firstName', 'lastName', 'district']);
