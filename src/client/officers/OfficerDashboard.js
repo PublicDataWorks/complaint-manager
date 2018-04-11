@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import LinkButton from "../sharedComponents/LinkButton";
 import OfficersSnackbar from "./OfficersSnackBar/OfficersSnackbar";
 import OfficerSearchForm from "./OfficerSearchForm/OfficerSearchForm";
+import OfficerSearchResults from "./OfficerSearchResults/OfficerSearchResults";
 
 export class OfficerDashboard extends Component {
 
@@ -46,14 +47,17 @@ export class OfficerDashboard extends Component {
                         style=
                             {{
                                 backgroundColor: 'white',
-                                width: '100%'
+                                width: '100%',
+                                margin: '0 0 32px 0'
                             }}
                     >
                         <CardContent style={{padding: '16px'}}>
                             <OfficerSearchForm caseId={this.props.caseId}/>
                         </CardContent>
                     </Card>
+                    <OfficerSearchResults/>
                 </div>
+
                 <OfficersSnackbar/>
             </div>
         )
