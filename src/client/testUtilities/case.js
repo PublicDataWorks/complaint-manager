@@ -1,5 +1,6 @@
 import Civilian from "./civilian";
 import Attachment from "./attachment";
+import Address from "./Address";
 
 class Case {
     constructor(build) {
@@ -17,6 +18,7 @@ class Case {
         this.attachments = build.attachments
         this.incidentDate = build.incidentDate
         this.incidentTime = build.incidentTime
+        this.incidentLocation = build.incidentLocation
     }
 
     static get Builder() {
@@ -31,6 +33,7 @@ class Case {
                 this.firstContactDate = "2017-12-25T00:00:00.000Z"
                 this.incidentDate = '2017-01-01'
                 this.incidentTime = '16:00:00'
+                this.incidentLocation = new Address.Builder().defaultAddress().build()
                 this.complainantType = 'Civilian'
                 this.createdBy = 'tuser'
                 this.assignedTo = 'tuser'
@@ -71,6 +74,11 @@ class Case {
             }
             withIncidentTime(incidentTime) {
                 this.incidentTime = incidentTime
+                return this
+            }
+
+            withIncidentLocation(incidentLocation) {
+                this.incidentLocation = incidentLocation
                 return this
             }
 

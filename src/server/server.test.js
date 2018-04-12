@@ -312,7 +312,6 @@ describe('server', () => {
                 .defaultAddress()
                 .withId(undefined)
                 .withCity("post city")
-                .withCivilianId(undefined)
 
             const existingCivilianToCreate = new Civilian.Builder()
                 .defaultCivilian()
@@ -350,7 +349,6 @@ describe('server', () => {
                 .defaultAddress()
                 .withId(undefined)
                 .withCity("post city")
-                .withCivilianId(undefined)
 
             const newCivilian = new Civilian.Builder()
                 .defaultCivilian()
@@ -394,17 +392,17 @@ describe('server', () => {
         let seededCivilian, seededCase
         beforeEach(async () => {
             const caseDefault = new Case.Builder().defaultCase().build();
-            await models.address.destroy({where: {civilianId: caseDefault.civilians[0].id}})
+            await models.address.destroy({where: {id: caseDefault.civilians[0].addressId}})
             await models.audit_log.destroy({where: {caseId: caseDefault.id}})
             await models.civilian.destroy({where: {caseId: caseDefault.id}})
             await models.cases.destroy({where: {id: caseDefault.id}})
 
-            seededCase = await models.cases.create(caseDefault, {include: [{model: models.civilian}]})
+            seededCase = await models.cases.create(caseDefault, {include: [{model: models.civilian, include: [{model: models.address}]},]})
             seededCivilian = seededCase.civilians[0]
         });
 
         afterEach(async () => {
-            await models.address.destroy({where: {civilianId: seededCivilian.id}})
+            await models.address.destroy({where: {id: seededCivilian.addressId}})
             await models.civilian.destroy({where: {id: seededCivilian.id}})
             await models.audit_log.destroy({where: {caseId: seededCase.id}})
             await models.cases.destroy({where: {id: seededCase.id}})

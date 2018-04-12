@@ -51,7 +51,6 @@ describe('civilian dialog', () => {
 
         const addressToSubmit = new Address.Builder().defaultAddress()
             .withId(undefined)
-            .withCivilianId(undefined)
             .withStreetAddress('200 E Randolph Street')
             .withStreetAddress2('FL 25')
             .withCity('Chicago')

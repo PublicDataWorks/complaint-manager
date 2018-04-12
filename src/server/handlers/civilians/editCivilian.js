@@ -3,24 +3,25 @@ const models = require('../../models/index')
 const editCivilian = async (req, res, next) => {
 
     async function upsertAddress(civilianId, address, transaction) {
-        const addressToUpdate = await models.address.find({
-            where: {civilianId: civilianId},
+        const civilian = await models.civilian.find({
+            where: {id: civilianId},
             transaction
         })
 
-        if (!addressToUpdate) {
-            await models.address.create(
+        if (!civilian.addressId) {
+            const createdAddress = await models.address.create(
                 {
                     ...address,
-                    civilianId
-                },{
+                }, {
                     transaction
                 })
+
+            await civilian.setAddress(createdAddress, {transaction})
         } else {
             await models.address.update(
                 address,
                 {
-                    where: {civilianId},
+                    where: {id: civilian.addressId},
                     transaction
                 })
         }
@@ -28,8 +29,14 @@ const editCivilian = async (req, res, next) => {
 
     try {
         const updatedCivilian = await models.sequelize.transaction(async (t) => {
+            const {addressId, ...other} = req.body
+
+            if (req.body.address) {
+                await upsertAddress(req.params.id, req.body.address, t);
+            }
+
             const updatedCivilian = await models.civilian.update(
-                req.body,
+                other,
                 {
                     where: {id: req.params.id},
                     transaction: t,
@@ -37,12 +44,11 @@ const editCivilian = async (req, res, next) => {
                 })
             const caseId = updatedCivilian[1][0].dataValues.caseId
 
-            await upsertAddress(req.params.id, req.body.address, t);
 
             const civilians = await models.civilian.findAll({
                 where: {caseId: caseId},
                 transaction: t,
-                include:[{model:models.address}]
+                include: [{model: models.address}]
             })
 
             await models.cases.update(

@@ -1,7 +1,6 @@
 class Address {
     constructor(build) {
         this.id = build.id
-        this.civilianId = build.civilianId
         this.streetAddress = build.streetAddress
         this.streetAddress2 = build.streetAddress2
         this.city = build.city
@@ -14,7 +13,6 @@ class Address {
         class Builder {
             defaultAddress() {
                 this.id = 11111
-                this.civilianId = 76
                 this.streetAddress = '123 Main St'
                 this.streetAddress2 = 'Fl 2'
                 this.city = 'Sandwich'
@@ -28,11 +26,6 @@ class Address {
             withId(id) {
                 this.id = id
                 return this
-            }
-
-            withCivilianId(civilianId) {
-                this.civilianId = civilianId
-                return this;
             }
 
             withStreetAddress(streetAddress) {

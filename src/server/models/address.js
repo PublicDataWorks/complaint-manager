@@ -37,18 +37,6 @@ module.exports = (sequelize, DataTypes) => {
             field: 'updated_at',
             type: DataTypes.DATE
         }
-    }, {
-        classMethods: {
-            associate: function (models) {
-                Address.belongsTo(models.civilians, {
-                    foreignKey: {
-                        name: 'civilianId',
-                        field: 'civilian_id',
-                        allowNull: false
-                    }
-                });
-            }
-        }
     });
 
     return Address;
