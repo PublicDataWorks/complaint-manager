@@ -875,7 +875,7 @@ describe('server', () => {
                 })
         })
 
-        test('returns multiple officers that matches first name, last name', async() => {
+        test('returns multiple officers that matches first name, last name, sorting by last name first name', async() => {
             await models.officer.create(new Officer.Builder().defaultOfficer()
                 .withFirstName('Garret')
                 .withLastName('Fisher')
@@ -888,17 +888,25 @@ describe('server', () => {
                 .withDistrict('8th District')
                 .build());
 
+            await models.officer.create(new Officer.Builder().defaultOfficer()
+                .withFirstName('Gaaaa')
+                .withLastName('Fibbleton')
+                .withDistrict('8th District')
+                .build());
+
             await request(app)
                 .get('/api/cases/5/officers/search')
                 .set('Authorization', `Bearer ${token}`)
-                .query({firstName: 'Gar', lastName: 'fi'})
+                .query({firstName: 'Ga', lastName: 'fi'})
                 .expect(200)
                 .then((response) => {
-                    expect(response.body.length).toEqual(2);
-                    expect(response.body[0].firstName).toEqual('Garret');
-                    expect(response.body[0].lastName).toEqual('Fisher');
+                    expect(response.body.length).toEqual(3);
+                    expect(response.body[0].firstName).toEqual('Gaaaa');
+                    expect(response.body[0].lastName).toEqual('Fibbleton');
                     expect(response.body[1].firstName).toEqual('Gary');
                     expect(response.body[1].lastName).toEqual('Fibbleton');
+                    expect(response.body[2].firstName).toEqual('Garret');
+                    expect(response.body[2].lastName).toEqual('Fisher');
                 })
         })
 

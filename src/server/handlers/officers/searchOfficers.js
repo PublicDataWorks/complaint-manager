@@ -8,7 +8,8 @@ const searchOfficers = async (request, response) => {
 
     try {
         const officers = await models.officer.findAll({
-            where: whereClause
+            where: whereClause,
+            order: [['last_name', 'ASC'], ['first_name', 'ASC']]
         });
         response.send(officers);
     } catch(error) {
