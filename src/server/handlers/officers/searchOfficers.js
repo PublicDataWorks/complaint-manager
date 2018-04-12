@@ -6,10 +6,14 @@ const searchOfficers = async (request, response) => {
     if (request.query.lastName) {whereClause.last_name = {$iLike: `${request.query.lastName}%`}}
     if (request.query.district) {whereClause.district = {$eq: `${request.query.district}`}}
 
-    const officers = await models.officer.findAll({
-        where: whereClause
-    });
-    response.send(officers);
+    try {
+        const officers = await models.officer.findAll({
+            where: whereClause
+        });
+        response.send(officers);
+    } catch(error) {
+        next(error);
+    }
 };
 
 module.exports = searchOfficers;

@@ -3,13 +3,17 @@ import {push} from "react-router-redux";
 import config from "../../config/config";
 import {snackbarError} from "../../actionCreators/snackBarActionCreators";
 import encodeUriWithParams from "../../utilities/encodeUriWithParams";
-import {searchOfficersSuccess} from "../../actionCreators/officersActionCreators";
+import {
+    searchOfficersFailed, searchOfficersInitiated,
+    searchOfficersSuccess
+} from "../../actionCreators/officersActionCreators";
 const hostname = config[process.env.NODE_ENV].hostname;
 
 const getOfficerSearchResults = (searchCriteria, caseId) => async (dispatch) => {
     try {
         const token = getAccessToken();
         if (!token) { return dispatch(push("/login")) }
+        dispatch(searchOfficersInitiated())
         const response = await fetchSearchResults(token, searchCriteria, caseId);
         return await handleResponse(response, dispatch);
     } catch (error) {
@@ -38,6 +42,7 @@ const handleResponse = async (response, dispatch) => {
         case 401:
             return dispatch(push("/login"));
         default:
+            dispatch(searchOfficersFailed());
             return dispatch(snackbarError("Something went wrong on our end and we could not complete your search."));
     }
 };

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import tableStyleGenerator from "../../tableStyles";
-import {Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, withStyles} from "material-ui";
+import { Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, withStyles } from "material-ui";
+import { LinearProgress } from 'material-ui/Progress'
 import {connect} from "react-redux";
 import OfficerSearchResultsRow from "./OfficerSearchResultsRow";
 
@@ -11,7 +12,7 @@ const styles = theme => ({
     ...(tableStyleGenerator(numberOfColumns, theme).table)
 })
 
-class OfficerSearchResults extends Component {
+export class OfficerSearchResults extends Component {
     render() {
         return (
             <div>
@@ -20,17 +21,30 @@ class OfficerSearchResults extends Component {
                     Search Results
                 </Typography>
                 <Paper elevation={0}>
-                    { this.props.searchResults.length === 0 ? this.renderNoSearchResults() : this.renderSearchResults() }
-
+                    { this.renderNoSearchResults() }
+                    { this.renderSearchResults() }
+                    { this.renderSpinner() }
                 </Paper>
             </div>)
     }
 
-    renderNoSearchResults = () => (
-        <Typography type="body1">No results to show</Typography>
-    );
+    renderSpinner = () => {
+        if (!this.props.spinnerVisible) { return null }
+        return (
+            <div style={{textAlign: 'center'}}>
+                <LinearProgress data-test="spinner" style={{marginTop: '24px'}} size={300}/>
+            </div>
+        );
+    };
+
+    renderNoSearchResults = () => {
+        if (!this.props.spinnerVisible && this.props.searchResults.length === 0) {
+            return <Typography type="body1" data-test={"noSearchResultsMessage"}>No results to show</Typography>;
+        }
+    };
 
     renderSearchResults = () => {
+        if (this.props.searchResults.length === 0 ) { return null }
         const {classes} = this.props;
         return (
             <Table data-test='allCasesTable'>
@@ -74,7 +88,8 @@ class OfficerSearchResults extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    searchResults: state.officers.searchResults
+    searchResults: state.officers.searchResults,
+    spinnerVisible: state.officers.spinnerVisible
 });
 
 

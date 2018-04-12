@@ -59,6 +59,8 @@ const PROFILE = "profile"
 // ----------------------------------------
 
 const SEARCH_OFFICERS_SUCCESS = 'SEARCH_OFFICERS_SUCCESS';
+const SEARCH_OFFICERS_INITIATED = 'SEARCH_OFFICERS_INITIATED';
+const SEARCH_OFFICERS_FAILED = 'SEARCH_OFFICERS_FAILED';
 
 // ----------------------------------------
 //          Other
@@ -89,6 +91,8 @@ module.exports = {
     CIVILIAN_FORM_NAME,
     EXPORT_AUDIT_LOG,
     SEARCH_OFFICERS_SUCCESS,
+    SEARCH_OFFICERS_INITIATED,
+    SEARCH_OFFICERS_FAILED,
     OPENID,
     PROFILE,
     TIMEZONE

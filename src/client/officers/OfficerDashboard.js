@@ -10,13 +10,11 @@ import OfficerSearchForm from "./OfficerSearchForm/OfficerSearchForm";
 import OfficerSearchResults from "./OfficerSearchResults/OfficerSearchResults";
 
 export class OfficerDashboard extends Component {
-
     componentDidMount() {
         if (`${this.props.caseId}` !== this.props.match.params.id) {
             this.props.dispatch(getCaseDetails(this.props.match.params.id))
         }
     }
-
     render() {
         if (`${this.props.caseId}` !== this.props.match.params.id) {
             return null
