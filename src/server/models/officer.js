@@ -1,4 +1,6 @@
 'use strict';
+const moment = require("moment/moment");
+
 module.exports = (sequelize, DataTypes) => {
     var officer = sequelize.define('officer', {
         id: {
@@ -39,7 +41,29 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         district: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            get() {
+                switch(this.getDataValue('district')) {
+                    case 'First District':
+                        return '1st District';
+                    case 'Second District':
+                        return '2nd District';
+                    case 'Third District':
+                        return '3rd District';
+                    case 'Fourth District':
+                        return '4th District';
+                    case 'Fifth District':
+                        return '5th District';
+                    case 'Sixth District':
+                        return '6th District';
+                    case 'Seventh District':
+                        return '7th District';
+                    case 'Eighth District':
+                        return '8th District';
+                    default:
+                        return this.getDataValue('district');
+                }
+            }
         },
         workStatus: {
             type: DataTypes.STRING,
@@ -54,6 +78,14 @@ module.exports = (sequelize, DataTypes) => {
             field: 'updated_at'
         }
     }, {
+            getterMethods: {
+                fullName() {
+                    return `${this.firstName} ${this.middleName} ${this.lastName}`.replace("  ", " ")
+                },
+                age() {
+                    return moment().diff(this.dob, 'years', false)
+                }
+            },
         classMethods: {
             associate: function (models) {
                 // associations can be defined here

@@ -805,6 +805,7 @@ describe('server', () => {
                     expect(response.body[0].firstName).toEqual(bobOfficer.firstName);
                     expect(response.body[0].middleName).toEqual(bobOfficer.middleName);
                     expect(response.body[0].lastName).toEqual(bobOfficer.lastName);
+                    expect(response.body[0].fullName).toEqual(`${bobOfficer.firstName} ${bobOfficer.middleName} ${bobOfficer.lastName}`);
                 })
         })
 

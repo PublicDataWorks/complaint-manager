@@ -1,7 +1,6 @@
 import React from 'react';
 import tableStyleGenerator from "../../tableStyles";
 import {TableCell, TableRow, withStyles} from "material-ui";
-import moment from "moment";
 
 const numberOfColumns = 9;
 
@@ -10,12 +9,12 @@ const styles = theme => ({
     buttonCell: {
         textAlign: 'right'
     },
-})
+});
 
 const OfficerSearchResultsRow = ({classes, officer}) => (
     <TableRow className={classes.row}>
         <TableCell className={classes.cell}>
-            {officer.firstName} {officer.middleName} {officer.lastName}
+            {officer.fullName}
         </TableCell>
         <TableCell className={classes.cell}>
             {officer.workStatus}
@@ -36,7 +35,7 @@ const OfficerSearchResultsRow = ({classes, officer}) => (
             {officer.race}
         </TableCell>
         <TableCell className={classes.cell}>
-            {moment().diff(officer.dob, 'years', false)}
+            {officer.age}
         </TableCell>
         <TableCell className={classes.cell}>
 

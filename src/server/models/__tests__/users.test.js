@@ -1,4 +1,4 @@
-const models = require('..')
+const models = require('../index')
 
 describe('users', () => {
     test('should remove password from JSON representation', () => {

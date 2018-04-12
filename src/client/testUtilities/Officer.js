@@ -35,6 +35,11 @@ class Officer {
                 return this;
             }
 
+            withMiddleName(middleName) {
+                this.middleName = middleName;
+                return this;
+            }
+
             withLastName(lastName) {
                 this.lastName = lastName;
                 return this;
