@@ -51,10 +51,7 @@ export class OfficerSearchResults extends Component {
                 <TableHead>
                     <TableRow className={classes.row}>
                         <TableCell data-test='casesNumberHeader' className={classes.cell}>
-                            <Typography type='body2'>Name</Typography>
-                        </TableCell>
-                        <TableCell data-test='casesStatusHeader' className={classes.cell}>
-                            <Typography type='body2'>Status</Typography>
+                            <Typography type='body2'>Name (status)</Typography>
                         </TableCell>
                         <TableCell data-test='casesComplainantHeader' className={classes.cell}>
                             <Typography type='body2'>Rank</Typography>

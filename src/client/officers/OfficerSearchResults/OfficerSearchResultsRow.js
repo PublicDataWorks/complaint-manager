@@ -13,11 +13,9 @@ const styles = theme => ({
 
 const OfficerSearchResultsRow = ({classes, officer}) => (
     <TableRow className={classes.row}>
-        <TableCell className={classes.cell}>
-            {officer.fullName}
-        </TableCell>
-        <TableCell className={classes.cell}>
-            {officer.workStatus}
+        <TableCell className={classes.cell}  style={{paddingLeft: '16px'}}>
+            <div>{officer.fullName}</div>
+            { officer.workStatus ? (<div>({officer.workStatus})</div>) : null }
         </TableCell>
         <TableCell className={classes.cell}>
             {officer.rank}
