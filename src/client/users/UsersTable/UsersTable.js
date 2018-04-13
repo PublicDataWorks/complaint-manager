@@ -7,11 +7,9 @@ import Paper from "material-ui/Paper";
 import tableStyleGenerator from "../../tableStyles";
 import _ from 'lodash'
 
-const numberOfColumns = 3;
-
 const styles = theme => ({
-    ...(tableStyleGenerator(numberOfColumns, theme).header),
-    ...(tableStyleGenerator(numberOfColumns, theme).table)
+    ...(tableStyleGenerator(theme).header),
+    ...(tableStyleGenerator(theme).table)
 })
 
 class UsersTable extends React.Component {

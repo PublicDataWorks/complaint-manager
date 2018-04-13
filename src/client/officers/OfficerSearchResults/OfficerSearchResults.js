@@ -6,11 +6,9 @@ import {connect} from "react-redux";
 import OfficerSearchResultsRow from "./OfficerSearchResultsRow";
 import {searchOfficersCleared} from "../../actionCreators/officersActionCreators";
 
-const numberOfColumns = 9;
-
 const styles = theme => ({
-    ...(tableStyleGenerator(numberOfColumns, theme).header),
-    ...(tableStyleGenerator(numberOfColumns, theme).table)
+    ...(tableStyleGenerator(theme).header),
+    ...(tableStyleGenerator(theme).table)
 })
 
 export class OfficerSearchResults extends Component {
@@ -70,28 +68,28 @@ export class OfficerSearchResults extends Component {
             <Table data-test='allCasesTable'>
                 <TableHead>
                     <TableRow className={classes.row}>
-                        <TableCell data-test='casesNumberHeader' className={classes.cell} style={{paddingLeft: '24px'}}>
+                        <TableCell data-test='casesNumberHeader' className={classes.cell} style={{paddingLeft: '24px', width: "17%"}}>
                             <Typography type='body2'>Name (status)</Typography>
                         </TableCell>
-                        <TableCell data-test='casesComplainantHeader' className={classes.cell}>
+                        <TableCell data-test='casesComplainantHeader' className={classes.cell} style={{width: "17%"}}>
                             <Typography type='body2'>Rank</Typography>
                         </TableCell>
-                        <TableCell data-test='casesFirstContactDateHeader' className={classes.cell}>
+                        <TableCell data-test='casesFirstContactDateHeader' className={classes.cell} style={{width: "17%"}}>
                             <Typography type='body2'>Bureau</Typography>
                         </TableCell>
-                        <TableCell data-test='casesAssignedToHeader' className={classes.cell}>
+                        <TableCell data-test='casesAssignedToHeader' className={classes.cell} style={{width: "8%"}}>
                             <Typography type='body2'>District</Typography>
                         </TableCell>
-                        <TableCell data-test='casesAssignedToHeader' className={classes.cell}>
+                        <TableCell data-test='casesAssignedToHeader' className={classes.cell} style={{width: "8%"}}>
                             <Typography type='body2'>Gender</Typography>
                         </TableCell>
-                        <TableCell data-test='casesAssignedToHeader' className={classes.cell}>
+                        <TableCell data-test='casesAssignedToHeader' className={classes.cell} style={{width: "8%"}}>
                             <Typography type='body2'>Race</Typography>
                         </TableCell>
-                        <TableCell data-test='casesAssignedToHeader' className={classes.cell}>
+                        <TableCell data-test='casesAssignedToHeader' className={classes.cell} style={{width: "8%"}}>
                             <Typography type='body2'>Age</Typography>
                         </TableCell>
-                        <TableCell className={classes.cell}/>
+                        <TableCell className={classes.cell} style={{width: "17%"}}/>
                     </TableRow>
                 </TableHead>
                 <TableBody>

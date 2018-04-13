@@ -3,10 +3,8 @@ import {TableCell, TableRow, withStyles} from "material-ui";
 import formatDate from "../../utilities/formatDate";
 import tableStyleGenerator from "../../tableStyles";
 
-const numberOfCells = 3
-
 const styles = theme => ({
-    ...tableStyleGenerator(numberOfCells, theme).body,
+    ...tableStyleGenerator(theme).body,
 })
 
 const UserRow = ({user: {id, firstName, lastName, email, createdAt}, classes}) => (

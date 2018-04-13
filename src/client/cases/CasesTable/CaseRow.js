@@ -10,10 +10,8 @@ const getFirstComplainant = (civilians) => (
     civilians.find(civilian => civilian.roleOnCase === 'Complainant')
 )
 
-const numberOfColumns = 6
-
 const styles = theme => ({
-    ...tableStyleGenerator(numberOfColumns, theme).body,
+    ...tableStyleGenerator(theme).body,
     buttonCell: {
         textAlign: 'right'
     },

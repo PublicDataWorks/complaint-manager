@@ -1,4 +1,4 @@
-const tableStyles = (numberOfCells, theme) => (
+const tableStyles = (theme) => (
     {
         table: {
             tableMargin: {
@@ -20,7 +20,6 @@ const tableStyles = (numberOfCells, theme) => (
             cell: {
                 padding: '0%',
                 textAlign: 'center',
-                width: `${100 / numberOfCells}%`,
             },
         },
         body: {
@@ -35,7 +34,6 @@ const tableStyles = (numberOfCells, theme) => (
             cell: {
                 padding: '0%',
                 textAlign: 'center',
-                width: `${100 / numberOfCells}%`,
             }
         }
     }

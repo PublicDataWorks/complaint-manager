@@ -1,11 +1,10 @@
 import React from 'react';
 import tableStyleGenerator from "../../tableStyles";
 import {TableCell, TableRow, withStyles} from "material-ui";
-
-const numberOfColumns = 9;
+import LinkButton from "../../sharedComponents/LinkButton";
 
 const styles = theme => ({
-    ...tableStyleGenerator(numberOfColumns, theme).body,
+    ...tableStyleGenerator(theme).body,
     buttonCell: {
         textAlign: 'right'
     },
@@ -36,7 +35,9 @@ const OfficerSearchResultsRow = ({classes, officer}) => (
             {officer.age}
         </TableCell>
         <TableCell className={classes.cell}>
-
+            <LinkButton>
+                select
+            </LinkButton>
         </TableCell>
     </TableRow>
 )
