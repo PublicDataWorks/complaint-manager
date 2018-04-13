@@ -49,6 +49,7 @@ export const OfficerSearchForm = (props) => {
                         <SubmitButton
                             disabled={invalid}
                             onClick={handleSubmit(onSubmit)}
+                            style={{margin: '18px 0'}}
                             data-test="officerSearchSubmitButton"
                         >
                             search

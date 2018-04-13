@@ -49,7 +49,7 @@ export class OfficerDashboard extends Component {
                                 margin: '0 0 32px 0'
                             }}
                     >
-                        <CardContent style={{padding: '16px'}}>
+                        <CardContent style={{paddingBottom: '8px'}}>
                             <OfficerSearchForm caseId={this.props.caseId}/>
                         </CardContent>
                     </Card>
