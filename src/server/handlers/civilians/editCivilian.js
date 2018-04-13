@@ -1,42 +1,44 @@
 const models = require('../../models/index')
 
-const editCivilian = async (req, res, next) => {
+async function upsertAddress(civilianId, addressId, address, transaction) {
 
-    async function upsertAddress(civilianId, address, transaction) {
-        const civilian = await models.civilian.find({
+    if (!addressId) {
+        const createdAddress = await models.address.create(
+            {
+                ...address,
+            }, {
+                transaction
+            })
+
+        await models.civilian.update({
+            addressId: createdAddress.id
+        }, {
             where: {id: civilianId},
             transaction
         })
-
-        if (!civilian.addressId) {
-            const createdAddress = await models.address.create(
-                {
-                    ...address,
-                }, {
-                    transaction
-                })
-
-            await civilian.setAddress(createdAddress, {transaction})
-        } else {
-            await models.address.update(
-                address,
-                {
-                    where: {id: civilian.addressId},
-                    transaction
-                })
-        }
+    } else {
+        await models.address.update(
+            address,
+            {
+                where: {id: addressId},
+                transaction
+            })
     }
+}
+
+const editCivilian = async (req, res, next) => {
 
     try {
         const updatedCivilian = await models.sequelize.transaction(async (t) => {
-            const {addressId, ...other} = req.body
+            const {addressId, address, ...civilianValues} = req.body
 
-            if (req.body.address) {
-                await upsertAddress(req.params.id, req.body.address, t);
+            //if there are address values to update
+            if (address) {
+                await upsertAddress(civilianValues.id, addressId, address, t);
             }
 
             const updatedCivilian = await models.civilian.update(
-                other,
+                civilianValues,
                 {
                     where: {id: req.params.id},
                     transaction: t,
