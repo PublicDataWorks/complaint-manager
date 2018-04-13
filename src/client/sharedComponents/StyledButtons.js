@@ -16,6 +16,7 @@ export const SubmitButton = ({children, onClick, ...other}) => {
     <Button
       raised
       onClick={onClick}
+      type="submit"
       color="primary"
       {...other}>{children}</Button>
   )
