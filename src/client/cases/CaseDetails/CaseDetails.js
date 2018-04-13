@@ -35,7 +35,6 @@ const appBar = {
 class CaseDetails extends React.Component {
     state = {
         mobileOpen: false,
-        caseHasBeenLoaded: false,
         menuOpen: false,
         anchorEl: null
     };
@@ -48,26 +47,16 @@ class CaseDetails extends React.Component {
         this.setState({ menuOpen: false })
     }
 
-    caseHasBeenLoaded(caseIdAttemptingToRender) {
-        return `${caseIdAttemptingToRender}` === this.props.match.params.id
-    }
-
-    componentWillMount() {
-        this.setState({caseHasBeenLoaded: this.caseHasBeenLoaded(this.props.caseDetail.id)})
-    }
-
     componentDidMount() {
         this.props.dispatch(getCaseDetails(this.props.match.params.id))
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({caseHasBeenLoaded: this.caseHasBeenLoaded(nextProps.caseDetail.id)})
+    caseDetailsNotYetLoaded() {
+        return _.isEmpty(this.props.caseDetail) || `${this.props.caseDetail.id}` !== this.props.match.params.id;
     }
 
     render() {
-        if (_.isEmpty(this.props.caseDetail) || !this.state.caseHasBeenLoaded) {
-            return null
-        }
+        if (this.caseDetailsNotYetLoaded()) { return null }
 
         const {classes} = this.props;
 
