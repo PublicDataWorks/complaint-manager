@@ -55,6 +55,7 @@ describe('attachment routes', () => {
     beforeEach( async() => {
         defaultCivilian = new Civilian.Builder().defaultCivilian()
             .withId(undefined)
+            .withNoAddress()
             .build()
         defaultAttachment = new Attachment.Builder().defaultAttachment()
             .withId(undefined)

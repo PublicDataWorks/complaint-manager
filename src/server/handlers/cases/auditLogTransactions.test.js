@@ -47,6 +47,10 @@ describe('transactions', () => {
 
         await models.civilian.destroy({ where: { firstName: 'test_transaction_civilian' }})
         await models.cases.destroy({ where: { createdBy: 'test_transaction_user' }})
+        await models.address.destroy({
+            truncate: true,
+            cascade: true
+        })
     })
 
     test('should not update narrative if audit log fails', async () => {
@@ -82,9 +86,15 @@ describe('transactions', () => {
     })
 
     test('should not update civilian if audit log fails', async () => {
+        const civilianToCreate = new Civilian.Builder().defaultCivilian()
+            .withId(undefined)
+            .withFirstName('Original')
+            .withNoAddress()
+            .build()
+
         const caseToCreate = new Case.Builder().defaultCase()
             .withId(undefined)
-            .withCivilians([new Civilian.Builder().defaultCivilian().withId(undefined).withFirstName('Original').build()])
+            .withCivilians([civilianToCreate])
             .withIncidentLocation(undefined)
             .build()
 
@@ -114,6 +124,10 @@ describe('transactions', () => {
 
         await models.civilian.destroy({where: {id: updatedCivilian.id}})
         await models.cases.destroy({where: {id: caseToUpdate.id}})
+        await models.address.destroy({
+            truncate: true,
+            cascade: true
+        })
     })
 
     //TODO add audit log transaction test for upload attachment
@@ -122,9 +136,14 @@ describe('transactions', () => {
         let caseToUpdate
 
         beforeEach(async () => {
+            const civilianToCreate = new Civilian.Builder().defaultCivilian()
+                .withId(undefined)
+                .withFirstName('Original')
+                .withNoAddress()
+                .build()
             const caseToCreate = new Case.Builder().defaultCase()
                 .withId(undefined)
-                .withCivilians([new Civilian.Builder().defaultCivilian().withId(undefined).withFirstName('Original').build()])
+                .withCivilians([civilianToCreate])
                 .withAttachments([new Attachment.Builder().defaultAttachment().withId(undefined).withFileName('correct.jpg').build()])
                 .withIncidentLocation(undefined)
                 .build()

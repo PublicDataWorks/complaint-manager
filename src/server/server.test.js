@@ -163,6 +163,7 @@ describe('server', () => {
                     id: responseBody.id
                 }
             })
+
             models.address.destroy({
                 where: {
                     id: responseBody.incidentLocationId
@@ -256,6 +257,7 @@ describe('server', () => {
         beforeEach(async () => {
             let civilian = new Civilian.Builder().defaultCivilian()
                 .withId(undefined)
+                .withNoAddress()
                 .withFirstName('Robert')
                 .build()
 
@@ -351,10 +353,10 @@ describe('server', () => {
         })
 
         afterEach(async () => {
-            await models.address.destroy({where: {city: 'post city'}})
             await models.audit_log.destroy({where: {caseId: existingCase.id}})
             await models.civilian.destroy({where: {caseId: existingCase.id}})
             await models.cases.destroy({where: {id: existingCase.id}})
+            await models.address.destroy({where: {city: 'post city'}})
         })
 
         test('should create a civilian and add it to a case', async () => {
@@ -420,10 +422,10 @@ describe('server', () => {
         });
 
         afterEach(async () => {
-            await models.address.destroy({where: {id: seededCivilian.addressId}})
             await models.civilian.destroy({where: {id: seededCivilian.id}})
             await models.audit_log.destroy({where: {caseId: seededCase.id}})
             await models.cases.destroy({where: {id: seededCase.id}})
+            await models.address.destroy({where: {id: seededCivilian.addressId}})
         });
 
         test('should update an existing civilian', async () => {
@@ -671,6 +673,7 @@ describe('server', () => {
 
             let civilian = new Civilian.Builder()
                 .defaultCivilian()
+                .withNoAddress()
                 .withId(undefined)
                 .withFirstName('Eleanor')
                 .build()
@@ -767,6 +770,7 @@ describe('server', () => {
             let civilian = new Civilian.Builder()
                 .defaultCivilian()
                 .withId(undefined)
+                .withNoAddress()
                 .withFirstName('Eleanor')
                 .build()
 
@@ -800,6 +804,10 @@ describe('server', () => {
                 where: {
                     id: caseToUpdate.id
                 }
+            })
+            await models.address.destroy({
+                truncate: true,
+                cascade: true
             })
         })
 
@@ -963,7 +971,7 @@ describe('server', () => {
         })
 
         afterEach(async () => {
-            await models.cases.destroy({
+            await models.address.destroy({
                 truncate: true,
                 cascade: true
             })
