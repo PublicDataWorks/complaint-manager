@@ -16,6 +16,7 @@ import {userAuthSuccess} from "./auth/actionCreators";
 import getAccessToken from "./auth/getAccessToken";
 import Auth from "./auth/Auth";
 import OfficerDashboard from "./officers/OfficerDashboard";
+import ScrollToTop from "./ScrollToTop";
 
 class App extends Component {
 
@@ -32,13 +33,15 @@ class App extends Component {
             <ConnectedRouter history={history}>
                 <MuiThemeProvider theme={customTheme}>
                     <Paper elevation={0} style={{height: '100%', overflowY: 'scroll'}}>
-                        <Route path="/login" component={Login}/>
-                        <Route path="/callback" component={Callback}/>
-                        <Route exact path="/" component={CaseDashboard}/>
-                        <Route exact path="/cases/:id/officers/search" component={OfficerDashboard}/>
-                        <Route exact path="/cases/:id" component={CaseDetails}/>
-                        <Route exact path="/styleguide" component={StyleGuide}/>
-                        <Route exact path="/admin" component={UserDashboard}/>
+                        <ScrollToTop>
+                            <Route path="/login" component={Login}/>
+                            <Route path="/callback" component={Callback}/>
+                            <Route exact path="/" component={CaseDashboard}/>
+                            <Route exact path="/cases/:id/officers/search" component={OfficerDashboard}/>
+                            <Route exact path="/cases/:id" component={CaseDetails}/>
+                            <Route exact path="/styleguide" component={StyleGuide}/>
+                            <Route exact path="/admin" component={UserDashboard}/>
+                        </ScrollToTop>
                     </Paper>
                 </MuiThemeProvider>
             </ConnectedRouter>
