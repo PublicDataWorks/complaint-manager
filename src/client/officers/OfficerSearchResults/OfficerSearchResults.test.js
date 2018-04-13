@@ -15,21 +15,26 @@ describe('OfficerSearchResults', () => {
             expect(spinner.exists()).toEqual(false)
         })
     })
-    describe("no search results message", () => {
-        test('should display no search results message when searchResults are empty and spinner is not visible', () => {
+    describe("search results message", () => {
+        test('should not display search results message when searchResults are empty and spinner is not visible', () => {
             const wrapper = shallow(<OfficerSearchResults spinnerVisible={false} searchResults={[]}/>);
-            const noSearchResultsMessage = wrapper.find("[data-test='noSearchResultsMessage']");
-            expect(noSearchResultsMessage.exists()).toEqual(true)
+            const searchResultsMessage = wrapper.find("[data-test='searchResultsMessage']");
+            expect(searchResultsMessage.exists()).toEqual(true)
         });
-        test('should not display no search results message when searchResults are empty and spinner is visible', () => {
+        test('should not display search results message when searchResults are empty and spinner is visible', () => {
             const wrapper = shallow(<OfficerSearchResults spinnerVisible={true} searchResults={[]}/>);
-            const noSearchResultsMessage = wrapper.find("[data-test='noSearchResultsMessage']");
-            expect(noSearchResultsMessage.exists()).toEqual(false)
+            const searchResultsMessage = wrapper.find("[data-test='searchResultsMessage']");
+            expect(searchResultsMessage.exists()).toEqual(false)
         });
-        test('should not display no search results message when searchResults are present and spinner is not visible', () => {
-            const wrapper = shallow(<OfficerSearchResults spinnerVisible={false} classes={{}} searchResults={[{firstName: 'bob', id: 1}]}/>);
-            const noSearchResultsMessage = wrapper.find("[data-test='noSearchResultsMessage']");
-            expect(noSearchResultsMessage.exists()).toEqual(false)
-        });
+        test('should display number of search results when single result is present and spinner is not visible', () => {
+            const wrapper = shallow(<OfficerSearchResults spinnerVisible={false} classes={{}}
+                                                          searchResults={[{firstName: 'bob', id: 1}]}/>);
+            expect(wrapper.find("[data-test='searchResultsMessage']").children().text()).toEqual("1 result found");
+        })
+        test('should display number of search results when searchResults are present and spinner is not visible', () => {
+            const wrapper = shallow(<OfficerSearchResults spinnerVisible={false} classes={{}}
+                                                          searchResults={[{firstName: 'bob', id: 1}, {firstName: 'joan', id: 2}]}/>);
+            expect(wrapper.find("[data-test='searchResultsMessage']").children().text()).toEqual("2 results found");
+        })
     });
 });

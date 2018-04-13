@@ -26,7 +26,7 @@ export class OfficerSearchResults extends Component {
                     Search Results
                 </Typography>
                 <Paper elevation={0}>
-                    { this.renderNoSearchResults() }
+                    { this.renderSearchResultsMessage() }
                     { this.renderSearchResults() }
                     { this.renderSpinner() }
                 </Paper>
@@ -42,10 +42,25 @@ export class OfficerSearchResults extends Component {
         );
     };
 
-    renderNoSearchResults = () => {
-        if (!this.props.spinnerVisible && this.props.searchResults.length === 0) {
-            return <Typography type="body1" data-test={"noSearchResultsMessage"}>No results to show</Typography>;
+    renderSearchResultsMessage = () => {
+        if (this.props.spinnerVisible) { return null }
+        let message = ""
+        if (this.props.searchResults.length === 0) {
+            message = "No results found"
+        } else if (this.props.searchResults.length === 1) {
+            message = `1 result found`
+        } else {
+            message = `${this.props.searchResults.length} results found`
         }
+
+        return (
+            <Typography
+                type="body1"
+                data-test={"searchResultsMessage"}
+            >
+                {message}
+            </Typography>
+        );
     };
 
     renderSearchResults = () => {
