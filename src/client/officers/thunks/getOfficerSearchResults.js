@@ -17,6 +17,7 @@ const getOfficerSearchResults = (searchCriteria, caseId) => async (dispatch) => 
         const response = await fetchSearchResults(token, searchCriteria, caseId);
         return await handleResponse(response, dispatch);
     } catch (error) {
+        dispatch(searchOfficersFailed());
         return dispatch(snackbarError("Something went wrong on our end and we could not complete your search."));
     }
 };
