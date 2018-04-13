@@ -68,6 +68,7 @@ describe('attachment routes', () => {
             .withId(undefined)
             .withCivilians([defaultCivilian])
             .withAttachments([defaultAttachment, attachmentToDelete])
+            .withIncidentLocation(undefined)
             .build()
         defaultCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}, {model: models.attachment}]})
     });
@@ -174,6 +175,7 @@ describe('attachment routes', () => {
                 .withId(undefined)
                 .withCivilians([defaultCivilian])
                 .withAttachments([defaultAttachment, attachmentToDelete])
+                .withIncidentLocation(undefined)
                 .build()
 
             caseWithSameFilename = await models.cases.create(caseWithSameFilename, {include: [{model: models.civilian}, {model: models.attachment}]})

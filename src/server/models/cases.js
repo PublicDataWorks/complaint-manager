@@ -69,6 +69,7 @@ module.exports = (sequelize, DataTypes) => {
     Case.associate = (models) => {
         Case.hasMany(models.civilian, {foreignKey: {name: 'caseId', field: 'case_id'}})
         Case.hasMany(models.attachment, {foreignKey: {name: 'caseId', field: 'case_id'}})
+        Case.belongsTo(models.address, { as: "incidentLocation", foreignKey: {name: 'incidentLocationId', field: 'incident_location_id', allowNull: true}})
     }
 
     return Case

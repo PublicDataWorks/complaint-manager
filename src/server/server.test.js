@@ -113,9 +113,9 @@ describe('server', () => {
             expect(log.length).toEqual(1)
         });
 
-        afterEach( async()=>{
+        afterEach(async () => {
             await models.audit_log.destroy({
-                where:{
+                where: {
                     action: mockLog
                 }
             })
@@ -157,9 +157,15 @@ describe('server', () => {
                 }
             })
 
+
             models.cases.destroy({
                 where: {
                     id: responseBody.id
+                }
+            })
+            models.address.destroy({
+                where: {
+                    id: responseBody.incidentLocationId
                 }
             })
         })
@@ -190,10 +196,12 @@ describe('server', () => {
                     )
                 })
 
+
             const editBody = {
                 firstContactDate: "2018-04-27",
                 incidentTime: "16:00:00",
                 incidentDate: "2018-03-18",
+                incidentLocation: new Address.Builder().defaultAddress().withId(undefined).withStreetAddress('123 fleet street').build()
             }
 
             await caseRequest
@@ -208,6 +216,9 @@ describe('server', () => {
                             {
                                 id: createdCaseId,
                                 ...editBody,
+                                incidentLocation: expect.objectContaining({
+                                    streetAddress: '123 fleet street'
+                                }),
                                 civilians: expect.arrayContaining([
                                     expect.objectContaining(requestBody.civilian)
                                 ])
@@ -253,6 +264,7 @@ describe('server', () => {
                 .withId(undefined)
                 .withCivilians([civilian])
                 .withAttachments(undefined)
+                .withIncidentLocation(undefined)
                 .build()
 
             seededCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}]})
@@ -324,6 +336,7 @@ describe('server', () => {
             const caseToCreate = new Case.Builder()
                 .defaultCase()
                 .withId(undefined)
+                .withIncidentLocation(undefined)
                 .withCivilians([existingCivilianToCreate])
 
             existingCase = await models.cases.create(caseToCreate, {
@@ -391,13 +404,18 @@ describe('server', () => {
     describe('PUT /civilian/:id', () => {
         let seededCivilian, seededCase
         beforeEach(async () => {
-            const caseDefault = new Case.Builder().defaultCase().build();
+            const caseDefault = new Case.Builder().defaultCase().withIncidentLocation(undefined).build();
             await models.address.destroy({where: {id: caseDefault.civilians[0].addressId}})
             await models.audit_log.destroy({where: {caseId: caseDefault.id}})
             await models.civilian.destroy({where: {caseId: caseDefault.id}})
             await models.cases.destroy({where: {id: caseDefault.id}})
 
-            seededCase = await models.cases.create(caseDefault, {include: [{model: models.civilian, include: [{model: models.address}]},]})
+            seededCase = await models.cases.create(caseDefault, {
+                include: [{
+                    model: models.civilian,
+                    include: [{model: models.address}]
+                },]
+            })
             seededCivilian = seededCase.civilians[0]
         });
 
@@ -642,7 +660,7 @@ describe('server', () => {
     })
 
     describe('GET /cases/:id', () => {
-        let caseToRetrieve
+        let caseToRetrieve, incidentLocation, expectedStreetAddress
 
         beforeEach(async () => {
             let attachment = new Attachment.Builder()
@@ -657,18 +675,27 @@ describe('server', () => {
                 .withFirstName('Eleanor')
                 .build()
 
+            expectedStreetAddress = '1234 flower ave'
+            incidentLocation = new Address.Builder().defaultAddress().withStreetAddress(expectedStreetAddress).withId(undefined).build()
             let caseToCreate = new Case.Builder()
                 .defaultCase()
                 .withId(undefined)
                 .withCivilians([civilian])
                 .withAttachments([attachment])
+                .withIncidentLocation(incidentLocation)
                 .build()
+
 
             caseToRetrieve = await models.cases.create(caseToCreate, {
                 returning: true,
                 include: [
                     {model: models.civilian},
-                    {model: models.attachment}]
+                    {model: models.attachment},
+                    {
+                        model: models.address,
+                        as: 'incidentLocation'
+                    }
+                ]
             })
         })
 
@@ -687,6 +714,12 @@ describe('server', () => {
             await models.cases.destroy({
                 where: {
                     id: caseToRetrieve.id
+                }
+            })
+
+            await models.address.destroy({
+                where: {
+                    id: caseToRetrieve.incidentLocationId
                 }
             })
         })
@@ -716,7 +749,11 @@ describe('server', () => {
                                     caseId: caseToRetrieve.attachments[0].caseId,
                                     fileName: caseToRetrieve.attachments[0].fileName
                                 })
-                            ])
+                            ]),
+                            incidentLocation: expect.objectContaining({
+                                streetAddress: expectedStreetAddress,
+                                id: caseToRetrieve.incidentLocationId
+                            })
                         })
                     )
                 })
@@ -738,6 +775,7 @@ describe('server', () => {
                 .withId(undefined)
                 .withCivilians([civilian])
                 .withNarrativeDetails('Beginning narrative')
+                .withIncidentLocation(undefined)
                 .build()
 
             caseToUpdate = await models.cases.create(caseToCreate
@@ -791,7 +829,7 @@ describe('server', () => {
             await models.officer.destroy({truncate: true});
         });
 
-        test('returns officer that partially matches first name', async() => {
+        test('returns officer that partially matches first name', async () => {
             const bobOfficer = await models.officer.create(new Officer.Builder().defaultOfficer().withFirstName('Bob').withLastName('Ferguson').build())
             await request(app)
                 .get('/api/cases/5/officers/search')
@@ -807,7 +845,7 @@ describe('server', () => {
                 })
         })
 
-        test('returns officer that partially matches last name', async() => {
+        test('returns officer that partially matches last name', async () => {
             await models.officer.create(new Officer.Builder().defaultOfficer().withFirstName('Garret').withLastName('Fisher').build())
             await models.officer.create(new Officer.Builder().defaultOfficer().withFirstName('Grant').withLastName('Livingston').build())
             await request(app)
@@ -822,7 +860,7 @@ describe('server', () => {
                 })
         })
 
-        test('returns officer that matches district', async() => {
+        test('returns officer that matches district', async () => {
             await models.officer.create(new Officer.Builder().defaultOfficer()
                 .withFirstName('Garret')
                 .withLastName('Fisher')
@@ -848,7 +886,7 @@ describe('server', () => {
         })
 
 
-        test('returns officer that matches first name, last name, and district', async() => {
+        test('returns officer that matches first name, last name, and district', async () => {
             await models.officer.create(new Officer.Builder().defaultOfficer()
                 .withFirstName('Garret')
                 .withLastName('Fisher')
@@ -873,7 +911,7 @@ describe('server', () => {
                 })
         })
 
-        test('returns multiple officers that matches first name, last name, sorting by last name first name', async() => {
+        test('returns multiple officers that matches first name, last name, sorting by last name first name', async () => {
             await models.officer.create(new Officer.Builder().defaultOfficer()
                 .withFirstName('Garret')
                 .withLastName('Fisher')
@@ -914,8 +952,8 @@ describe('server', () => {
     describe('GET /api/export-audit-log', () => {
         let testCase;
         const testCreationDate = new Date("2018-01-31T19:00Z");
-        beforeEach( async () => {
-            testCase = await models.cases.create(new Case.Builder().defaultCase().withId(undefined).build())
+        beforeEach(async () => {
+            testCase = await models.cases.create(new Case.Builder().defaultCase().withIncidentLocation(undefined).withId(undefined).build())
             await models.audit_log.create({
                 user: 'tuser',
                 action: 'Test action entered',
@@ -924,7 +962,7 @@ describe('server', () => {
             })
         })
 
-        afterEach( async () => {
+        afterEach(async () => {
             await models.cases.destroy({
                 truncate: true,
                 cascade: true
@@ -937,7 +975,7 @@ describe('server', () => {
                 .get('/api/export-audit-log')
                 .set('Authorization', `Bearer ${tokenWithExportPermission}`)
                 .expect(200)
-                .then( response => {
+                .then(response => {
                     expect(response.text).toContain(`Date,Case #,Event,User\n01/31/2018 13:00 CST,${testCase.id},Test action entered,tuser\n`)
                 })
         })

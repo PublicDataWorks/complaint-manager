@@ -18,6 +18,7 @@ class Case {
         this.attachments = build.attachments
         this.incidentDate = build.incidentDate
         this.incidentTime = build.incidentTime
+        this.incidentLocationId = build.incidentLocationId
         this.incidentLocation = build.incidentLocation
     }
 
@@ -25,7 +26,6 @@ class Case {
         class Builder {
             defaultCase() {
                 const id = 17
-
                 this.id = id
                 this.civilians = [new Civilian.Builder().defaultCivilian().build()]
                 this.status = 'Initial'
@@ -34,6 +34,7 @@ class Case {
                 this.incidentDate = '2017-01-01'
                 this.incidentTime = '16:00:00'
                 this.incidentLocation = new Address.Builder().defaultAddress().build()
+                this.incidentLocationId = this.incidentLocation.id
                 this.complainantType = 'Civilian'
                 this.createdBy = 'tuser'
                 this.assignedTo = 'tuser'
@@ -47,6 +48,7 @@ class Case {
                 this.id = id
                 return this;
             }
+
 
             withCivilians(civilians) {
                 this.civilians = civilians
@@ -77,8 +79,14 @@ class Case {
                 return this
             }
 
-            withIncidentLocation(incidentLocation) {
-                this.incidentLocation = incidentLocation
+            withIncidentLocation(incidentLocation){
+                if (incidentLocation){
+                    this.incidentLocation = incidentLocation
+                    this.incidentLocationId = incidentLocation.id
+                }else{
+                    this.incidentLocation = undefined
+                    this.incidentLocationId = undefined
+                }
                 return this
             }
 

@@ -8,6 +8,10 @@ module.exports = {
             await queryInterface.addColumn('civilians', 'address_id', {
                 type: Sequelize.INTEGER,
                 allowNull: true,
+                references:{
+                    model: 'addresses',
+                    key: 'id'
+                },
                 transaction
             })
 
@@ -19,7 +23,6 @@ module.exports = {
 
             if (addresses[1].rowCount > 0) {
                 addresses[0].map( async(address) => {
-                    console.log(address)
                     query = `UPDATE civilians SET address_id=${address.id} where civilians.id=${address.civilian_id};`
                     await queryInterface.sequelize.query(query, {transaction})
                 })
@@ -52,7 +55,6 @@ module.exports = {
 
             if (civilians[1].rowCount > 0) {
                 civilians[0].map(async (civilian) => {
-                    console.log(civilian)
                     query = `UPDATE addresses SET civilian_id=${civilian.id} where addresses.id=${civilian.address_id};`
                     await queryInterface.sequelize.query(query, {transaction})
                 })

@@ -30,7 +30,11 @@ describe('get case', () => {
                         model: models.civilian,
                         include: [models.address]
                     },
-                    {model: models.attachment}
+                    {model: models.attachment},
+                    {
+                        model: models.address,
+                        as: 'incidentLocation'
+                    }
                 ]
             })
     })

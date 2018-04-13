@@ -2,6 +2,32 @@ const moment = require("moment")
 
 const models = require('../../models')
 
+async function upsertAddress(caseId, incidentLocationId, incidentLocation, transaction) {
+
+    if (!incidentLocationId) {
+        const createdAddress = await models.address.create(
+            {
+                ...incidentLocation,
+            }, {
+                transaction
+            })
+
+        await models.cases.update({
+            incidentLocationId: createdAddress.id
+        }, {
+            where: {id: caseId},
+            transaction
+        })
+    } else {
+        await models.address.update(
+            incidentLocation,
+            {
+                where: {id: incidentLocationId},
+                transaction
+            })
+    }
+}
+
 const editCase = async (request, response, next) => {
 
     try {
@@ -11,7 +37,15 @@ const editCase = async (request, response, next) => {
 
         else {
             const updatedCase = await models.sequelize.transaction(async (transaction) => {
-                await models.cases.update(request.body,
+
+                const {incidentLocationId, incidentLocation, ...caseValues} = request.body
+
+                if (incidentLocation) {
+                    await upsertAddress(request.params.id, incidentLocationId, incidentLocation, transaction);
+                }
+
+                await models.cases.update(
+                    caseValues,
                     {
                         where: {id: request.params.id},
                         individualHooks: true,
@@ -37,6 +71,10 @@ const editCase = async (request, response, next) => {
                             },
                             {
                                 model: models.attachment
+                            },
+                            {
+                                model: models.address,
+                                as: 'incidentLocation'
                             }
                         ],
                         transaction: transaction

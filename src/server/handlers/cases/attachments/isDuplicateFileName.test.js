@@ -9,6 +9,8 @@ describe('generateFileName', () => {
             .withId(undefined)
             .withCivilians([])
             .withAttachments([])
+            .withIncidentLocation(undefined)
+            .build()
 
         newCase = await models.cases.create(someCase)
     })

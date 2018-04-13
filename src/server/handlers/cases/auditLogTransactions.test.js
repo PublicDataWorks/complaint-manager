@@ -53,6 +53,7 @@ describe('transactions', () => {
         const caseToCreate = new Case.Builder().defaultCase()
             .withId(undefined)
             .withNarrativeDetails('initial narrative')
+            .withIncidentLocation(undefined)
             .build()
         const caseToUpdate = await models.cases.create(caseToCreate)
 
@@ -84,6 +85,7 @@ describe('transactions', () => {
         const caseToCreate = new Case.Builder().defaultCase()
             .withId(undefined)
             .withCivilians([new Civilian.Builder().defaultCivilian().withId(undefined).withFirstName('Original').build()])
+            .withIncidentLocation(undefined)
             .build()
 
         const caseToUpdate = await models.cases.create(caseToCreate, {include: [{model: models.civilian}]})
@@ -124,6 +126,7 @@ describe('transactions', () => {
                 .withId(undefined)
                 .withCivilians([new Civilian.Builder().defaultCivilian().withId(undefined).withFirstName('Original').build()])
                 .withAttachments([new Attachment.Builder().defaultAttachment().withId(undefined).withFileName('correct.jpg').build()])
+                .withIncidentLocation(undefined)
                 .build()
 
             caseToUpdate = await models.cases.create(caseToCreate, {include: [{model: models.civilian}, {model: models.attachment}]})
