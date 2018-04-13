@@ -1,5 +1,6 @@
 import searchOfficersReducer from "./searchOfficersReducer";
 import {
+    searchOfficersCleared,
     searchOfficersFailed, searchOfficersInitiated,
     searchOfficersSuccess
 } from "../../actionCreators/officersActionCreators";
@@ -27,6 +28,14 @@ describe('searchOfficersReducer', ()=>{
         test('hide the spinner when search fails', () => {
             const initialState = {searchResults: [], spinnerVisible: true};
             const newState = searchOfficersReducer(initialState, searchOfficersFailed());
+            expect(newState).toEqual({searchResults: [], spinnerVisible: false});
+        })
+    })
+
+    describe('SEARCH_OFFICERS_CLEARED', () => {
+        test('clear search results and hide spinner', () => {
+            const initialState = {searchResults: [{firstName: 'someone'}], spinnerVisible: true};
+            const newState = searchOfficersReducer(initialState, searchOfficersCleared());
             expect(newState).toEqual({searchResults: [], spinnerVisible: false});
         })
     })

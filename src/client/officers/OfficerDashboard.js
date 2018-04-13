@@ -35,7 +35,7 @@ export class OfficerDashboard extends Component {
                 <LinkButton data-test="back-to-case-link" component={Link} to={`/cases/${caseId}`} style={{margin: '2% 0% 2% 5%'}}>
                     Back to Case
                 </LinkButton>
-                <div style={{margin: '0% 5%'}}>
+                <div style={{margin: '0% 5% 3%'}}>
                     <div style={{margin: '0 0 20px 0'}}>
                         <Typography type="title">Search for an Officer</Typography>
                         <Typography type="body1">Search by entering at least one of the following fields</Typography>

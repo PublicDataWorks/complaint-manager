@@ -1,6 +1,6 @@
 import {
     SEARCH_OFFICERS_SUCCESS, SEARCH_OFFICERS_INITIATED,
-    SEARCH_OFFICERS_FAILED
+    SEARCH_OFFICERS_FAILED, SEARCH_OFFICERS_CLEARED
 } from "../../sharedUtilities/constants";
 
 export const searchOfficersSuccess = (searchResults) => ({
@@ -14,4 +14,8 @@ export const searchOfficersInitiated = () => ({
 
 export const searchOfficersFailed = () => ({
     type: SEARCH_OFFICERS_FAILED
+});
+
+export const searchOfficersCleared = () => ({
+    type: SEARCH_OFFICERS_CLEARED
 });

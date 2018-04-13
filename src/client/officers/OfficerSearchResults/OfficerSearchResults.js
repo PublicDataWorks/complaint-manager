@@ -4,6 +4,7 @@ import { Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, wi
 import { LinearProgress } from 'material-ui/Progress'
 import {connect} from "react-redux";
 import OfficerSearchResultsRow from "./OfficerSearchResultsRow";
+import {searchOfficersCleared} from "../../actionCreators/officersActionCreators";
 
 const numberOfColumns = 9;
 
@@ -13,6 +14,10 @@ const styles = theme => ({
 })
 
 export class OfficerSearchResults extends Component {
+    componentWillUnmount() {
+        this.props.dispatch(searchOfficersCleared())
+    }
+
     render() {
         return (
             <div>
@@ -50,7 +55,7 @@ export class OfficerSearchResults extends Component {
             <Table data-test='allCasesTable'>
                 <TableHead>
                     <TableRow className={classes.row}>
-                        <TableCell data-test='casesNumberHeader' className={classes.cell}>
+                        <TableCell data-test='casesNumberHeader' className={classes.cell} style={{paddingLeft: '24px'}}>
                             <Typography type='body2'>Name (status)</Typography>
                         </TableCell>
                         <TableCell data-test='casesComplainantHeader' className={classes.cell}>

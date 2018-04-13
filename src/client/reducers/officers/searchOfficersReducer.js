@@ -1,6 +1,6 @@
 import {
     SEARCH_OFFICERS_SUCCESS, SEARCH_OFFICERS_INITIATED,
-    SEARCH_OFFICERS_FAILED
+    SEARCH_OFFICERS_FAILED, SEARCH_OFFICERS_CLEARED
 } from "../../../sharedUtilities/constants";
 
 const initialState = {
@@ -15,6 +15,8 @@ const  searchOfficersReducer = (state = initialState, action) => {
         case SEARCH_OFFICERS_INITIATED:
             return { searchResults: [], spinnerVisible: true };
         case SEARCH_OFFICERS_FAILED:
+            return { searchResults: [], spinnerVisible: false };
+        case SEARCH_OFFICERS_CLEARED:
             return { searchResults: [], spinnerVisible: false };
         default:
             return state;
