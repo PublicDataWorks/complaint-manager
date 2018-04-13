@@ -14,7 +14,9 @@ const OfficerSearchResultsRow = ({classes, officer}) => (
     <TableRow className={classes.row}>
         <TableCell className={classes.cell}  style={{paddingLeft: '16px'}}>
             <div>{officer.fullName}</div>
-            { officer.workStatus ? (<div>({officer.workStatus})</div>) : null }
+        </TableCell>
+        <TableCell className={classes.cell}>
+            {officer.workStatus}
         </TableCell>
         <TableCell className={classes.cell}>
             {officer.rank}
@@ -34,7 +36,7 @@ const OfficerSearchResultsRow = ({classes, officer}) => (
         <TableCell className={classes.cell}>
             {officer.age}
         </TableCell>
-        <TableCell className={classes.cell}>
+        <TableCell className={classes.buttonCell}>
             <LinkButton>
                 select
             </LinkButton>

@@ -55,6 +55,7 @@ export class OfficerSearchResults extends Component {
             <Typography
                 type="body1"
                 data-test={"searchResultsMessage"}
+                style={{marginBottom: '16px'}}
             >
                 {message}
             </Typography>
@@ -69,7 +70,10 @@ export class OfficerSearchResults extends Component {
                 <TableHead>
                     <TableRow className={classes.row}>
                         <TableCell data-test='casesNumberHeader' className={classes.cell} style={{paddingLeft: '24px', width: "17%"}}>
-                            <Typography type='body2'>Name (status)</Typography>
+                            <Typography type='body2'>Name</Typography>
+                        </TableCell>
+                        <TableCell data-test='casesComplainantHeader' className={classes.cell} style={{width: "9%"}}>
+                            <Typography type='body2'>Status</Typography>
                         </TableCell>
                         <TableCell data-test='casesComplainantHeader' className={classes.cell} style={{width: "17%"}}>
                             <Typography type='body2'>Rank</Typography>
@@ -89,7 +93,7 @@ export class OfficerSearchResults extends Component {
                         <TableCell data-test='casesAssignedToHeader' className={classes.cell} style={{width: "8%"}}>
                             <Typography type='body2'>Age</Typography>
                         </TableCell>
-                        <TableCell className={classes.cell} style={{width: "17%"}}/>
+                        <TableCell className={classes.cell} style={{width: "8%"}}/>
                     </TableRow>
                 </TableHead>
                 <TableBody>
