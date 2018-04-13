@@ -2,7 +2,10 @@ import _ from 'lodash'
 import formatAddress from "./utilities/formatAddress";
 
 export function atLeastOneRequired(values, errorMessage, keys) {
-    const allAbsent = keys.every( key => !(_.get(values, key)));
+    const allAbsent = keys.every( key => {
+        const value = _.get(values, key);
+        return !value || value.trim() === ""
+    });
 
     const errors = {};
     if (allAbsent) {

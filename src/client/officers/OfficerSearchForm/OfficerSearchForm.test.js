@@ -38,5 +38,18 @@ describe("OfficerSearchForm", () => {
             officerSearchForm.find(SubmitButton).simulate('click');
             expect(dispatchSpy).toHaveBeenCalledWith(getOfficerSearchResults({firstName: 'emma', lastName: 'watson', district: 'First District'}));
         });
+
+        test("normalizes first and last name on submit", () => {
+            const store = createConfiguredStore();
+            const dispatchSpy = jest.spyOn(store, 'dispatch');
+
+            const officerSearchForm = mount(<Provider store={store}><OfficerSearchForm /></Provider>);
+            changeInput(officerSearchForm, "[data-test='firstNameField']", ' bubba joe ');
+            changeInput(officerSearchForm, "[data-test='lastNameField']", ' smith ');
+            selectDropdownOption(officerSearchForm, "[data-test='districtField']", '1st District');
+
+            officerSearchForm.find(SubmitButton).simulate('click');
+            expect(dispatchSpy).toHaveBeenCalledWith(getOfficerSearchResults({firstName: 'bubba joe', lastName: 'smith', district: 'First District'}));
+        });
     });
 });

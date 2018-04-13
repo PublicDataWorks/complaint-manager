@@ -14,7 +14,7 @@ const validate = (values) => {
 
 const fieldTooShort = (value) => {
     const minLength = 2;
-    return !!value && (value.length < minLength);
+    return !!value && (value.trim().length < minLength);
 };
 
 export default validate;

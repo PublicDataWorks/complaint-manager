@@ -47,4 +47,11 @@ describe("validateOfficerSearchForm", () => {
         expect(actualErrors).toEqual(expectedErrors);
     });
 
+    test("should return error when less than two characters excluding whitespace present", () => {
+        const values = {firstName: 'a '}
+        const actualErrors = validateOfficerSearchForm(values)
+        const expectedErrors = {firstName: "Please enter at least two characters"}
+        expect(actualErrors).toEqual(expectedErrors)
+    } )
+
 });

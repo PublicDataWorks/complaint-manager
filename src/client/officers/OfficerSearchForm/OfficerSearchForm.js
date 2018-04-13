@@ -5,13 +5,20 @@ import NoBlurTextField from "../../cases/CaseDetails/CivilianDialog/FormSelect";
 import {districtMenu} from "../../utilities/generateMenus";
 import {SubmitButton} from "../../sharedComponents/StyledButtons";
 import validate from "./validateOfficerSearchForm";
-import {trimWhiteSpace} from "../../utilities/fieldNormalizers";
 import getOfficerSearchResults from "../thunks/getOfficerSearchResults";
 
 export const OfficerSearchForm = (props) => {
     const {invalid, handleSubmit, caseId} = props;
+
     const onSubmit = (values, dispatch) => {
-        dispatch(getOfficerSearchResults(values, caseId));
+        dispatch(getOfficerSearchResults(normalizeValues(values), caseId));
+    };
+
+    const normalizeValues = (values) => {
+        const normalizedValues = {};
+        if(values.firstName) { normalizedValues.firstName = values.firstName.trim() }
+        if(values.lastName) { normalizedValues.lastName = values.lastName.trim() }
+        return {...values, ...normalizedValues};
     };
 
     return (
@@ -23,7 +30,6 @@ export const OfficerSearchForm = (props) => {
                         name='firstName'
                         component={TextField}
                         inputProps={{"data-test":'firstNameField'}}
-                        normalize={trimWhiteSpace}
                         style={{flex: '1', marginRight: '24px'}}
                     />
 
@@ -32,7 +38,6 @@ export const OfficerSearchForm = (props) => {
                         name='lastName'
                         component={TextField}
                         inputProps={{"data-test":'lastNameField'}}
-                        normalize={trimWhiteSpace}
                         style={{flex: '1', marginRight: '24px'}}
                     />
 

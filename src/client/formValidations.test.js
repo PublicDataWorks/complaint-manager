@@ -18,7 +18,7 @@ describe('synchronous validations', () => {
 
     })
 
-    test('test phone number or email validation when nested object', () => {
+    test('test empty phone number or email validation when nested object', () => {
         const testValues = {
             civilian: {
                 phoneNumber: '',
@@ -38,6 +38,19 @@ describe('synchronous validations', () => {
         expect(errors).toEqual(expectedErrors)
     })
 
+    test('test valid phone number or email validation when nested object', () => {
+        const testValues = {
+            civilian: {
+                phoneNumber: ' 9999999999 ',
+                email: ' sdflkj@slfkj.com'
+            }
+        }
+
+        const expectedErrors = {}
+        const errors = atLeastOneRequired(testValues, 'Please enter phone number or email address', ['civilian.phoneNumber', 'civilian.email'])
+        expect(errors).toEqual(expectedErrors)
+    })
+
     test('should not produce errors when one of the fields is provided', () => {
         const testValues = {
             phoneNumber: '',
@@ -48,6 +61,15 @@ describe('synchronous validations', () => {
         const errors = atLeastOneRequired(testValues, 'Please enter phone number or email address', ['phoneNumber', 'email'])
 
         expect(errors).toEqual(expectedErrors)
+    })
+
+    test('should add error when field is just spaces', () => {
+        const testValues = {
+            phoneNumber: '  ',
+            email: '   '
+        }
+        const errors = atLeastOneRequired(testValues, 'Please enter at least one', ['phoneNumber', 'email']);
+        expect(errors).toEqual({phoneNumber: 'Please enter at least one', email: 'Please enter at least one'});
     })
 
     test('should produce errors when address is not autosuggested', () => {
