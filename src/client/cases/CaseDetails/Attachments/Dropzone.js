@@ -17,7 +17,8 @@ class Dropzone extends Component {
     state = {
         attachmentValid: false,
         attachmentDescription: '',
-        touched: false
+        touched: false,
+        uploadInProgress: false
     }
 
     dropZoneComponentConfig = {
@@ -49,6 +50,9 @@ class Dropzone extends Component {
                     this.props.uploadAttachmentFailed()
             }
         },
+        complete: (file) => {
+            this.setState({uploadInProgress: false})
+        },
         removedfile: (file) => {
             this.props.removeDropzoneFile()
             this.setState({attachmentValid: false})
@@ -72,7 +76,7 @@ class Dropzone extends Component {
     }
 
     uploadAttachment = () => {
-        this.setState({attachmentValid: true})
+        this.setState({attachmentValid: true, uploadInProgress: true})
         this.dropzone.processQueue()
     }
 
@@ -133,14 +137,13 @@ class Dropzone extends Component {
                         onClick={this.uploadAttachment}
                         data-test="attachmentUploadButton"
                         disabled={
-                            !this.state.attachmentValid || this.invalidDescription()
+                            !this.state.attachmentValid || this.invalidDescription() || this.state.uploadInProgress
                         }
                     >
                         Upload
                     </SubmitButton>
                 </div>
             </div>
-
         )
     }
 

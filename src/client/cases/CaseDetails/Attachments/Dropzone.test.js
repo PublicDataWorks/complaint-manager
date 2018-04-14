@@ -43,7 +43,7 @@ describe('Dropzone', () => {
         expect(submitButton.props()).toHaveProperty("disabled", true)
     })
 
-    test('should disable upload button when attachment absent and description present', () => {
+    test('should disable upload button when attachment absent, no upload ongoing, and description present', () => {
         const inputField = wrapper.find('[data-test="attachmentDescriptionInput"]').last()
 
         inputField.simulate('change', { target: { value: 'some description' } })
@@ -52,23 +52,37 @@ describe('Dropzone', () => {
         expect(submitButton.props()).toHaveProperty("disabled", true)
     })
 
-    test('should disable upload button when description absent and attachment present', () => {
+    test('should disable upload button when description absent, no upload ongoing, and attachment present', () => {
         wrapper.setState({
             attachmentValid: true,
-            attachmentDescription: ''
+            attachmentDescription: '',
+            uploadInProgress: false
         })
 
         const submitButton = wrapper.find('[data-test="attachmentUploadButton"]').last()
         expect(submitButton.props()).toHaveProperty("disabled", true)
     })
 
-    test('should enable upload button when description and attachment present', () => {
+    test('should enable upload button when description and attachment present, no upload ongoing', () => {
         wrapper.setState({
             attachmentValid: true,
-            attachmentDescription: 'this is a description'
+            attachmentDescription: 'this is a description',
+            uploadInProgress: false
         })
 
         const submitButton = wrapper.find('[data-test="attachmentUploadButton"]').last()
         expect(submitButton.props()).toHaveProperty("disabled", false)
     })
+
+    test('should disable upload button when description and attachment present, and upload ongoing', () => {
+        wrapper.setState({
+            attachmentValid: true,
+            attachmentDescription: 'this is a description',
+            uploadInProgress: true
+        })
+
+        const submitButton = wrapper.find('[data-test="attachmentUploadButton"]').last()
+        expect(submitButton.props()).toHaveProperty("disabled", true)
+    })
+
 });
