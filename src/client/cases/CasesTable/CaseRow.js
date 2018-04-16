@@ -5,10 +5,7 @@ import {Link} from "react-router-dom";
 import LinkButton from "../../sharedComponents/LinkButton";
 import formatName from "../../utilities/formatName";
 import tableStyleGenerator from "../../tableStyles";
-
-const getFirstComplainant = (civilians) => (
-    civilians.find(civilian => civilian.roleOnCase === 'Complainant')
-)
+import getFirstCivilian from "../../utilities/getFirstCivilian";
 
 const styles = theme => ({
     ...tableStyleGenerator(theme).body,
@@ -26,7 +23,7 @@ const CaseRow = ({classes, caseDetails}) => (
             {caseDetails.status}
         </TableCell>
         <TableCell data-test="caseName" className={classes.cell}>
-            {formatName(getFirstComplainant(caseDetails.civilians))}
+            {formatName(getFirstCivilian(caseDetails.civilians))}
         </TableCell>
         <TableCell data-test="caseFirstContactDate" className={classes.cell}>
             {formatDate(caseDetails.firstContactDate)}

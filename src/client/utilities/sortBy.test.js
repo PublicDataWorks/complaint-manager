@@ -21,6 +21,15 @@ describe('sorting', () => {
                     roleOnCase: 'Complainant'
                 }],
                 assignedTo: 'DceUser'
+            },
+            {
+                id: 3,
+                status: 'Active',
+                civilians: [{
+                    lastName: 'Aaron',
+                    roleOnCase: 'Witness'
+                }],
+                assignedTo: 'DceUser'
             }
         ]
     });
@@ -44,6 +53,15 @@ describe('sorting', () => {
                     roleOnCase: 'Complainant'
                 }],
                 assignedTo: 'DceUser'
+            },
+            {
+                id: 3,
+                status: 'Active',
+                civilians: [{
+                    lastName: 'Aaron',
+                    roleOnCase: 'Witness'
+                }],
+                assignedTo: 'DceUser'
             }
         ]
 
@@ -54,6 +72,15 @@ describe('sorting', () => {
 
     test('should sort by status desc', () => {
         const expectedSortedCases = [
+            {
+                id: 3,
+                status: 'Active',
+                civilians: [{
+                    lastName: 'Aaron',
+                    roleOnCase: 'Witness'
+                }],
+                assignedTo: 'DceUser'
+            },
             {
                 id: 1,
                 status: 'Active',
@@ -79,8 +106,17 @@ describe('sorting', () => {
         expect(sortedCases).toEqual(expectedSortedCases)
     })
 
-    test('should sort by last name ignoring case', () => {
+    test('should sort by civilian last name ignoring case', () => {
         const expectedSortedCases = [
+            {
+                id: 3,
+                status: 'Active',
+                civilians: [{
+                    lastName: 'Aaron',
+                    roleOnCase: 'Witness'
+                }],
+                assignedTo: 'DceUser'
+            },
             {
                 id: 2,
                 status: 'Initial',
@@ -123,6 +159,15 @@ describe('sorting', () => {
                 civilians: [{
                     lastName: 'Zeke',
                     roleOnCase: 'Complainant'
+                }],
+                assignedTo: 'DceUser'
+            },
+            {
+                id: 3,
+                status: 'Active',
+                civilians: [{
+                    lastName: 'Aaron',
+                    roleOnCase: 'Witness'
                 }],
                 assignedTo: 'DceUser'
             }

@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import getFirstCivilian from "./getFirstCivilian";
 
 const STATUS = Object.freeze({
     'Initial': 1,
@@ -24,8 +25,9 @@ const sortBy = (collection, sortBy, sortDirection) => {
 
     if (sortBy === 'lastName') {
         const sortedCases = _.sortBy(collection, [(o) => {
-            const primaryComplainant = o.civilians.find(civilian => civilian.roleOnCase === 'Complainant')
-            return primaryComplainant.lastName.toUpperCase()
+            const nameToSortBy = getFirstCivilian(o.civilians).lastName
+
+            if (nameToSortBy) { return nameToSortBy.toUpperCase()}
         }])
 
          if (sortDirection === 'desc') {
