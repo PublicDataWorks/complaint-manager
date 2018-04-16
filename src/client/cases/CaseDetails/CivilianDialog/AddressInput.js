@@ -55,6 +55,14 @@ class AddressInput extends Component {
                 />
                 <Field
                     type={'hidden'}
+                    name={`${this.props.fieldName}.intersection`}
+                    component={TextField}
+                    inputProps={{
+                        'data-test': 'streetAddressInput'
+                    }}
+                />
+                <Field
+                    type={'hidden'}
                     name={`${this.props.fieldName}.city`}
                     component={TextField}
                     inputProps={{

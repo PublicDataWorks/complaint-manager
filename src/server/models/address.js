@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
             field: 'street_address'
         },
 
+        intersection: {
+            type: DataTypes.STRING
+        },
+
         streetAddress2: {
             type: DataTypes.STRING,
             field: 'street_address2'

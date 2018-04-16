@@ -115,7 +115,7 @@ const connectedForm = reduxForm({ form: 'IncidentDetails' })(IncidentDetailsDial
 const mapStateToProps = (state) => {
     const selector = formValueSelector('IncidentDetails')
     const values = selector(state,
-        'incidentLocation.streetAddress', 'incidentLocation.city',
+        'incidentLocation.streetAddress', 'incidentLocation.intersection', 'incidentLocation.city',
         'incidentLocation.state', 'incidentLocation.zipCode', 'incidentLocation.country')
 
     return {

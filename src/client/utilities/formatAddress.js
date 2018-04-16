@@ -2,6 +2,7 @@ const formatAddress = (address) => {
     let formattedAddress = ''
     if (address) {
         const streetAddress = `${address.streetAddress || ''}`
+        const intersection = `${address.intersection || ''}`
         const city = `${address.city || ''}`
         const addressState = `${address.state || ''}`
         const zipCode = `${address.zipCode || ''}`
@@ -10,6 +11,7 @@ const formatAddress = (address) => {
         let addressParts =
             [
                 streetAddress,
+                intersection,
                 city,
                 addressState,
                 zipCode,

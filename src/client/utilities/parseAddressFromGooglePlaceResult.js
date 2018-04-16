@@ -29,8 +29,18 @@ const parseAddressFromGooglePlaceResult = (address) => {
     const countryComponent = getComponentOnType(address, ['country', 'political'])
     const country = countryComponent ? countryComponent.short_name : ''
 
+    let intersection = ''
+    if (streetAddress === ''
+        && (address.name.includes('&') || address.name.includes('and'))
+        && address.name !== city
+        && address.name !== state
+        && address.name !== country){
+        intersection = address.name
+    }
+
     return {
         streetAddress,
+        intersection,
         city,
         state,
         zipCode,

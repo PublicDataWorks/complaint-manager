@@ -187,7 +187,7 @@ const connectedForm = reduxForm({
 const mapStateToProps = (state) => {
     const selector = formValueSelector(CIVILIAN_FORM_NAME)
     const values = selector(state,
-        'address.streetAddress', 'address.city',
+        'address.streetAddress', 'address.intersection', 'address.city',
         'address.state', 'address.zipCode', 'address.country')
 
     return {

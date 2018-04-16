@@ -146,6 +146,7 @@ class AddressAutoSuggest extends Component {
             this.props.onInputChanged(formatAddress(address))
 
             this.props.change(this.props.formName, `${this.props.fieldName}.streetAddress`, address.streetAddress)
+            this.props.change(this.props.formName, `${this.props.fieldName}.intersection`, address.intersection)
             this.props.change(this.props.formName, `${this.props.fieldName}.city`, address.city)
             this.props.change(this.props.formName, `${this.props.fieldName}.state`, address.state)
             this.props.change(this.props.formName, `${this.props.fieldName}.zipCode`, address.zipCode)
@@ -175,11 +176,14 @@ class AddressAutoSuggest extends Component {
         this.props.onInputChanged(newValue)
         this.setState({value: newValue})
 
-        this.props.change(this.props.formName, `${this.props.fieldName}.streetAddress`, '')
-        this.props.change(this.props.formName, `${this.props.fieldName}.city`, '')
-        this.props.change(this.props.formName, `${this.props.fieldName}.state`, '')
-        this.props.change(this.props.formName, `${this.props.fieldName}.zipCode`, '')
-        this.props.change(this.props.formName, `${this.props.fieldName}.country`, '')
+        if (!newValue) {
+            this.props.change(this.props.formName, `${this.props.fieldName}.streetAddress`, '')
+            this.props.change(this.props.formName, `${this.props.fieldName}.intersection`, '')
+            this.props.change(this.props.formName, `${this.props.fieldName}.city`, '')
+            this.props.change(this.props.formName, `${this.props.fieldName}.state`, '')
+            this.props.change(this.props.formName, `${this.props.fieldName}.zipCode`, '')
+            this.props.change(this.props.formName, `${this.props.fieldName}.country`, '')
+        }
 
         this.props.clearSubmitErrors(this.props.formName)
     };
