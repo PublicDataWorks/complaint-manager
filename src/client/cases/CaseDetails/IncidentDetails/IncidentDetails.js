@@ -5,6 +5,7 @@ import CivilianInfoDisplay from "../ComplainantWitnesses/CivilianInfoDisplay";
 import formatDate, {computeTimeZone, format12HourTime} from "../../../utilities/formatDate";
 import LinkButton from "../../../sharedComponents/LinkButton";
 import IncidentDetailsDialog from "./IncidentDetailsDialog";
+import formatAddress from "../../../utilities/formatAddress";
 
 class IncidentDetails extends React.Component {
 
@@ -26,7 +27,7 @@ class IncidentDetails extends React.Component {
     }
 
     render() {
-        const {firstContactDate, incidentDate, incidentTime, caseId} = this.props
+        const {firstContactDate, incidentDate, incidentTime, caseId, incidentLocation} = this.props
 
         return (
             <BaseCaseDetailsCard
@@ -53,6 +54,11 @@ class IncidentDetails extends React.Component {
                             value={this.formatTimeForDisplay(incidentDate, incidentTime)}
                             testLabel="incidentTime"
                         />
+                        <CivilianInfoDisplay
+                            displayLabel='Incident Location'
+                            value={formatAddress(incidentLocation)}
+                            testLabel="incidentLocation"
+                        />
                         <LinkButton
                             data-test="editIncidentDetailsButton"
                             onClick={this.handleDialogOpen}
@@ -65,7 +71,8 @@ class IncidentDetails extends React.Component {
                     initialValues={{
                         firstContactDate,
                         incidentDate,
-                        incidentTime
+                        incidentTime,
+                        incidentLocation
                     }}
                     dialogOpen={this.state.dialogOpen}
                     handleDialogClose={this.handleDialogClose}

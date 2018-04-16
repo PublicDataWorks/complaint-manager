@@ -6,10 +6,10 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import {Provider} from "react-redux";
 import {getCaseDetailsSuccess} from "../../../actionCreators/casesActionCreators";
 import Case from "../../../testUtilities/case";
-import formatDate, {computeTimeZone} from "../../../utilities/formatDate";
+import formatDate from "../../../utilities/formatDate";
 import editIncidentDetails from "../../thunks/editIncidentDetails";
 import {changeInput, expectEventuallyNotToExist} from "../../../../testHelpers";
-import { DialogContent } from "material-ui";
+import {DialogContent} from "material-ui";
 
 jest.mock("../../thunks/editIncidentDetails", () =>
     jest.fn((values) => ({
@@ -17,6 +17,33 @@ jest.mock("../../thunks/editIncidentDetails", () =>
         values
     })
     ))
+
+jest.mock("../CivilianDialog/SuggestionEngines/addressSuggestionEngine", () => {
+
+    return jest.fn().mockImplementation(() => ({
+        healthCheck: (callback) => {
+            callback({googleAddressServiceIsAvailable: false})
+        },
+
+        getSuggestionValue: (suggestion) => {
+            return suggestion.description
+        },
+
+        onFetchSuggestions: (input, callback) => {
+            callback([{description: '200 East Randolph Street, Chicago, IL, US'}])
+        },
+
+        onSuggestionSelected: (suggestion, callback) => {
+            callback({
+                streetAddress: '200 E Randolph St',
+                city: 'Chicago',
+                state: 'IL',
+                zipCode: '60601',
+                country: 'US'
+            })
+        }
+    }))
+})
 
 describe('incident details container', () => {
     let incidentDetails, currentCase, firstContactDate, incidentDate, incidentTime, wrapper, dispatchSpy, formattedIncidentTime
@@ -34,6 +61,7 @@ describe('incident details container', () => {
             .withFirstContactDate(firstContactDate)
             .withIncidentDate(incidentDate)
             .withIncidentTime(incidentTime)
+            .withIncidentLocation(undefined)
             .build()
 
         dispatchSpy = jest.spyOn(store, 'dispatch')
@@ -56,6 +84,10 @@ describe('incident details container', () => {
 
     test('should display incident time', () => {
         expect(wrapper.find('[data-test="incidentTime"]').first().text()).toEqual(formattedIncidentTime)
+    })
+
+    test('should display incident location', () => {
+        expect(wrapper.find('[data-test="incidentLocation"]').first().text()).toEqual('N/A')
     })
 
     test('should open dialog and prepopulate fields', () => {

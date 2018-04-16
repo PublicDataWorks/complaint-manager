@@ -6,7 +6,7 @@ import RoleOnCaseRadioGroup from "./RoleOnCaseRadioGroup";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";
 import LastNameField from "../../sharedFormComponents/LastNameField";
 import {CancelButton, SubmitButton} from "../../../sharedComponents/StyledButtons";
-import {closeEditDialog} from "../../../actionCreators/casesActionCreators";
+import {closeEditDialog, updateAddressAutoSuggest} from "../../../actionCreators/casesActionCreators";
 import {genderIdentityIsRequired, raceEthnicityIsRequired } from "../../../formFieldLevelValidations";
 import NoBlurTextField from "./FormSelect";
 import {withTheme} from "material-ui/styles/index";
@@ -15,7 +15,6 @@ import MiddleInitialField from "../../sharedFormComponents/MiddleInitialField";
 import SuffixField from "../../sharedFormComponents/SuffixField";
 import PhoneNumberField from "../../sharedFormComponents/PhoneNumberField";
 import EmailField from "../../sharedFormComponents/EmailField";
-import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine";
 import formatAddress from "../../../utilities/formatAddress";
 import moment from "moment"
 import {genderIdentityMenu, raceEthnicityMenu} from "../../../utilities/generateMenus";
@@ -27,15 +26,6 @@ import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
 import {addressMustBeAutoSuggested} from "../../../formValidations";
 
 class CivilianDialog extends Component {
-
-    //TODO  IS there a good way to do dependency injection in react/redux?
-    // It's generally poor form to have a default service instance.
-    // Would it be a bad idea to have a set of services defined in some corner of Redux
-    // that would be set differently based on the environment?
-    constructor(props) {
-        super(props)
-        this.suggestionEngine = props.suggestionEngine || new AddressSuggestionEngine()
-    }
 
     handleCivilian = (values, dispatch) => {
         const errors = addressMustBeAutoSuggested(values.address, this.props.addressAutoSuggestValue)
@@ -143,7 +133,9 @@ class CivilianDialog extends Component {
                         <PhoneNumberField name='phoneNumber'/>
                         <EmailField name='email'/>
                         <AddressInput
-                            suggestionEngine={this.suggestionEngine}
+                            formName={CIVILIAN_FORM_NAME}
+                            fieldName={'address'}
+                            onInputChanged={updateAddressAutoSuggest}
                             formattedAddress={this.props.formattedAddress}
                         />
 

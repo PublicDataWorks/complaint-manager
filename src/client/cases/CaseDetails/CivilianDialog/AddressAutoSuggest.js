@@ -7,8 +7,6 @@ import {change, clearSubmitErrors} from "redux-form";
 import {connect} from "react-redux";
 import {withStyles} from "material-ui/styles/index";
 import poweredByGoogle from '../../../../assets/powered_by_google_on_white_hdpi.png'
-import {CIVILIAN_FORM_NAME} from "../../../../sharedUtilities/constants";
-import {updateAddressAutoSuggest} from "../../../actionCreators/casesActionCreators";
 import formatAddress from "../../../utilities/formatAddress";
 
 const styles = theme => ({
@@ -145,13 +143,13 @@ class AddressAutoSuggest extends Component {
 
     onSuggestionSelected = (event, {suggestion}) => {
         this.props.suggestionEngine.onSuggestionSelected(suggestion, (address) => {
-            this.props.updateAddressAutoSuggest(formatAddress(address))
+            this.props.onInputChanged(formatAddress(address))
 
-            this.props.change(CIVILIAN_FORM_NAME, 'address.streetAddress', address.streetAddress)
-            this.props.change(CIVILIAN_FORM_NAME, 'address.city', address.city)
-            this.props.change(CIVILIAN_FORM_NAME, 'address.state', address.state)
-            this.props.change(CIVILIAN_FORM_NAME, 'address.zipCode', address.zipCode)
-            this.props.change(CIVILIAN_FORM_NAME, 'address.country', address.country)
+            this.props.change(this.props.formName, `${this.props.fieldName}.streetAddress`, address.streetAddress)
+            this.props.change(this.props.formName, `${this.props.fieldName}.city`, address.city)
+            this.props.change(this.props.formName, `${this.props.fieldName}.state`, address.state)
+            this.props.change(this.props.formName, `${this.props.fieldName}.zipCode`, address.zipCode)
+            this.props.change(this.props.formName, `${this.props.fieldName}.country`, address.country)
 
         })
     }
@@ -174,16 +172,16 @@ class AddressAutoSuggest extends Component {
     };
 
     handleChange = (event, {newValue}) => {
-        this.props.updateAddressAutoSuggest(newValue)
+        this.props.onInputChanged(newValue)
         this.setState({value: newValue})
 
-        this.props.change(CIVILIAN_FORM_NAME, 'address.streetAddress', '')
-        this.props.change(CIVILIAN_FORM_NAME, 'address.city', '')
-        this.props.change(CIVILIAN_FORM_NAME, 'address.state', '')
-        this.props.change(CIVILIAN_FORM_NAME, 'address.zipCode', '')
-        this.props.change(CIVILIAN_FORM_NAME, 'address.country', '')
+        this.props.change(this.props.formName, `${this.props.fieldName}.streetAddress`, '')
+        this.props.change(this.props.formName, `${this.props.fieldName}.city`, '')
+        this.props.change(this.props.formName, `${this.props.fieldName}.state`, '')
+        this.props.change(this.props.formName, `${this.props.fieldName}.zipCode`, '')
+        this.props.change(this.props.formName, `${this.props.fieldName}.country`, '')
 
-        this.props.clearSubmitErrors(CIVILIAN_FORM_NAME)
+        this.props.clearSubmitErrors(this.props.formName)
     };
 
     render() {
@@ -223,10 +221,18 @@ class AddressAutoSuggest extends Component {
     }
 }
 
-const mapDispatchToProps = {
-    change,
-    updateAddressAutoSuggest,
-    clearSubmitErrors
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        change: (...params) => {
+           dispatch(change(...params))
+        },
+        clearSubmitErrors: (...params) => {
+           dispatch(clearSubmitErrors(...params))
+        },
+        onInputChanged: (...params) => {
+           dispatch(ownProps.onInputChanged(...params))
+        }
+    }
 }
 
 const ConnectedComponent = connect(undefined, mapDispatchToProps)(AddressAutoSuggest)

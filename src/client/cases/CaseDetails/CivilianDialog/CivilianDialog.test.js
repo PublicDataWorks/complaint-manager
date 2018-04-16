@@ -13,36 +13,39 @@ import {
 import {initialize} from "redux-form";
 import Address from "../../../testUtilities/Address";
 import Civilian from "../../../testUtilities/civilian";
-import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
+import {CIVILIAN_FORM_NAME} from "../../../../sharedUtilities/constants";
 
 jest.mock('../../thunks/editCivilian', () => (
     jest.fn(() => ({type: 'MOCK_CIVILIAN_REQUESTED'}))
 ))
 
 
-const suggestionEngine = {
-    healthCheck: (callback) => {
-        callback({googleAddressServiceIsAvailable : true})
-    },
+jest.mock("./SuggestionEngines/addressSuggestionEngine", () => {
 
-    getSuggestionValue: (suggestion) => {
-        return suggestion.description
-    },
+    return jest.fn().mockImplementation(() => ({
+        healthCheck: (callback) => {
+            callback({googleAddressServiceIsAvailable: false})
+        },
 
-    onFetchSuggestions: (input, callback) => {
-        callback([{description: '200 East Randolph Street, Chicago, IL, US'}])
-    },
+        getSuggestionValue: (suggestion) => {
+            return suggestion.description
+        },
 
-    onSuggestionSelected: (suggestion, callback) => {
-        callback({
-            streetAddress: '200 E Randolph St',
-            city: 'Chicago',
-            state: 'IL',
-            zipCode: '60601',
-            country: 'US'
-        })
-    }
-}
+        onFetchSuggestions: (input, callback) => {
+            callback([{description: '200 East Randolph Street, Chicago, IL, US'}])
+        },
+
+        onSuggestionSelected: (suggestion, callback) => {
+            callback({
+                streetAddress: '200 E Randolph St',
+                city: 'Chicago',
+                state: 'IL',
+                zipCode: '60601',
+                country: 'US'
+            })
+        }
+    }))
+})
 
 describe('civilian dialog', () => {
     let civilianDialog, store, dispatchSpy, caseCivilian, save, submitAction
@@ -84,7 +87,7 @@ describe('civilian dialog', () => {
 
         civilianDialog = mount(
             <Provider store={store}>
-                <CivilianDialog suggestionEngine={suggestionEngine}/>
+                <CivilianDialog/>
             </Provider>)
 
         civilianDialog.update()
@@ -93,22 +96,13 @@ describe('civilian dialog', () => {
 
     describe('address', () => {
         test('should disable address entry when google address suggestion service is not available', () => {
-            const suggestionEngine = {
-                healthCheck: async (callback) => {
-                    callback({googleAddressServiceIsAvailable : false})
-                },
-                getSuggestionValue: (suggestion) => {},
-                onFetchSuggestions: (input, callback) => {},
-                onSuggestionSelected: (suggestion, callback) => {}
-            }
-
             const otherStore = createConfiguredStore()
 
             otherStore.dispatch(openCivilianDialog('Test Title', 'Test Submit Text', submitAction))
 
             const otherCivilianDialog = mount(
                 <Provider store={otherStore}>
-                    <CivilianDialog suggestionEngine={suggestionEngine}/>
+                    <CivilianDialog/>
                 </Provider>)
 
             otherCivilianDialog.update()

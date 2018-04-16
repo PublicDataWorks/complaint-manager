@@ -5,7 +5,7 @@ import {
     CIVILIAN_CREATION_SUCCEEDED,
     CIVILIAN_CREATION_FAILED,
     INCIDENT_DETAILS_UPDATE_SUCCEEDED,
-    INCIDENT_DETAILS_UPDATE_FAILED, CIVILIAN_ADDRESS_AUTOSUGGEST_UPDATED,
+    INCIDENT_DETAILS_UPDATE_FAILED, CIVILIAN_ADDRESS_AUTOSUGGEST_UPDATED, INCIDENT_LOCATION_AUTOSUGGEST_VALUE_UPDATED,
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = (caseDetails) => ({
@@ -86,6 +86,11 @@ export const uploadAttachmentFailed = () => ({
 export const updateIncidentDetailsSuccess = (caseDetails) => ({
     type: INCIDENT_DETAILS_UPDATE_SUCCEEDED,
     caseDetails
+})
+
+export const updateIncidentLocationAutoSuggest = (autoSuggestValue) => ({
+    type: INCIDENT_LOCATION_AUTOSUGGEST_VALUE_UPDATED,
+        autoSuggestValue
 })
 
 export const updateIncidentDetailsFailure = () => ({

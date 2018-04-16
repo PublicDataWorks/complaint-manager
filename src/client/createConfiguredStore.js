@@ -13,6 +13,7 @@ import civilianDialogReducer from "./reducers/ui/civilianDialogReducer";
 import userInfoReducer from "./auth/reducers/userInfoReducer";
 import attachmentsReducer from "./reducers/ui/attachmentsReducer";
 import searchOfficersReducer from "./reducers/officers/searchOfficersReducer";
+import incidentDetailsDialogReducer from "./reducers/ui/incidentDetailsDialogReducer";
 
 const rootReducer = combineReducers({
     form: formReducer,
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
         snackbar: snackbarReducer,
         casesTable: casesTableReducer,
         civilianDialog: civilianDialogReducer,
+        incidentDetailsDialog: incidentDetailsDialogReducer,
         attachments: attachmentsReducer
     }),
     officers: searchOfficersReducer
