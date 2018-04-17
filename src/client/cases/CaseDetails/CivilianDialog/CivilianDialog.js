@@ -24,6 +24,7 @@ import {TextField} from "redux-form-material-ui";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
 import {addressMustBeAutoSuggested} from "../../../formValidations";
+import AdditionalAddressInfoField from "../../sharedFormComponents/AdditionalAddressInfoField";
 
 class CivilianDialog extends Component {
 
@@ -135,8 +136,18 @@ class CivilianDialog extends Component {
                         <AddressInput
                             formName={CIVILIAN_FORM_NAME}
                             fieldName={'address'}
+                            addressLabel={'Address'}
                             onInputChanged={updateAddressAutoSuggest}
                             formattedAddress={this.props.formattedAddress}
+                        />
+                        <AdditionalAddressInfoField
+                            label={'Additional Address Information'}
+                            fieldName={`address`}
+                            style={{
+                                marginRight: '5%',
+                                marginBottom: '24px',
+                                width: '50%'
+                            }}
                         />
 
                         <Typography type='body2' style={{marginBottom: '8px'}}>

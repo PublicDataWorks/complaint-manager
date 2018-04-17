@@ -8,7 +8,7 @@ import {getCaseDetailsSuccess} from "../../../actionCreators/casesActionCreators
 import Case from "../../../testUtilities/case";
 import formatDate from "../../../utilities/formatDate";
 import editIncidentDetails from "../../thunks/editIncidentDetails";
-import {changeInput, expectEventuallyNotToExist} from "../../../../testHelpers";
+import {changeInput, expectEventuallyNotToExist, selectDropdownOption} from "../../../../testHelpers";
 import {DialogContent} from "material-ui";
 
 jest.mock("../../thunks/editIncidentDetails", () =>
@@ -62,6 +62,7 @@ describe('incident details container', () => {
             .withIncidentDate(incidentDate)
             .withIncidentTime(incidentTime)
             .withIncidentLocation(undefined)
+            .withDistrict('Second District')
             .build()
 
         dispatchSpy = jest.spyOn(store, 'dispatch')
@@ -87,7 +88,11 @@ describe('incident details container', () => {
     })
 
     test('should display incident location', () => {
-        expect(wrapper.find('[data-test="incidentLocation"]').first().text()).toEqual('N/A')
+        expect(wrapper.find('[data-test="incidentLocation"]').first().text()).toEqual('No address specified')
+    })
+
+    test('should display a district', () => {
+        expect(wrapper.find('[data-test="incidentDistrict"]').first().text()).toEqual('Second District')
     })
 
     test('should open dialog and prepopulate fields', () => {
@@ -110,6 +115,7 @@ describe('incident details container', () => {
         changeInput(wrapper, 'input[data-test="editFirstContactDateInput"]', "1994-05-03")
         changeInput(wrapper, 'input[data-test="editIncidentDateInput"]', "1994-05-02")
         changeInput(wrapper, 'input[data-test="editIncidentTimeInput"]', "13:00")
+        selectDropdownOption(wrapper, '[data-test="districtDropdown"]', "1st District")
 
         const saveButton = wrapper.find('button[data-test="saveIncidentDetailsButton"]')
         saveButton.simulate('click')
@@ -118,7 +124,8 @@ describe('incident details container', () => {
             id: currentCase.id,
             firstContactDate: "1994-05-03",
             incidentDate: "1994-05-02",
-            incidentTime: "13:00"
+            incidentTime: "13:00",
+            district: 'First District'
         }))
     })
 

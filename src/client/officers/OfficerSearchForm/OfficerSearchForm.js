@@ -2,7 +2,7 @@ import React from 'react';
 import {TextField} from "redux-form-material-ui";
 import {reduxForm, Field} from "redux-form";
 import NoBlurTextField from "../../cases/CaseDetails/CivilianDialog/FormSelect";
-import {districtMenu} from "../../utilities/generateMenus";
+import {searchDistrictMenu} from "../../utilities/generateMenus";
 import {SubmitButton} from "../../sharedComponents/StyledButtons";
 import validate from "./validateOfficerSearchForm";
 import getOfficerSearchResults from "../thunks/getOfficerSearchResults";
@@ -48,7 +48,7 @@ export const OfficerSearchForm = (props) => {
                         inputProps={{"data-test":'districtField'}}
                         style={{flex: '1', marginRight: '24px'}}
                     >
-                        {districtMenu}
+                        {searchDistrictMenu}
                     </Field>
                     <div style={{flex: '2', alignSelf: 'center', textAlign: 'right'}}>
                         <SubmitButton

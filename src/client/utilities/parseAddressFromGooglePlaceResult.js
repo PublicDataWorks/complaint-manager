@@ -10,6 +10,22 @@ const getComponentOnType = (address, desired_types) => {
     return _.find(addressComponents, componentMatchesAllTypes)
 }
 
+const addIntersectionToAddressIfPresent = (name, address) => {
+    let intersection = ''
+    if (address.streetAddress === ''
+        && (name.includes('&') || name.includes('and'))
+        && name !== address.city
+        && name !== address.state
+        && name !== address.country) {
+        intersection = name
+    }
+
+    return {
+        ...address,
+        intersection
+    }
+}
+
 const parseAddressFromGooglePlaceResult = (address) => {
     const streetNumberComponent = getComponentOnType(address, ['street_number'])
     const streetNumber = streetNumberComponent ? streetNumberComponent.long_name : ''
@@ -29,22 +45,14 @@ const parseAddressFromGooglePlaceResult = (address) => {
     const countryComponent = getComponentOnType(address, ['country', 'political'])
     const country = countryComponent ? countryComponent.short_name : ''
 
-    let intersection = ''
-    if (streetAddress === ''
-        && (address.name.includes('&') || address.name.includes('and'))
-        && address.name !== city
-        && address.name !== state
-        && address.name !== country){
-        intersection = address.name
-    }
-
-    return {
+    const parsedAddress = {
         streetAddress,
-        intersection,
         city,
         state,
         zipCode,
         country
     }
+
+    return addIntersectionToAddressIfPresent(address.name, parsedAddress)
 }
 export default parseAddressFromGooglePlaceResult

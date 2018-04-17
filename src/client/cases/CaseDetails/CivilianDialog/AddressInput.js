@@ -3,6 +3,7 @@ import {TextField} from "redux-form-material-ui";
 import AddressAutoSuggest from "./AddressAutoSuggest";
 import {Field} from "redux-form";
 import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine";
+import AdditionalAddressInfoField from "../../sharedFormComponents/AdditionalAddressInfoField";
 
 class AddressInput extends Component {
 
@@ -10,7 +11,7 @@ class AddressInput extends Component {
     // It's generally poor form to have a default service instance.
     // Would it be a bad idea to have a set of services defined in some corner of Redux
     // that would be set differently based on the environment?
-    constructor(props){
+    constructor(props) {
         super(props)
         this.suggestionEngine = props.suggestionEngine || new AddressSuggestionEngine()
     }
@@ -22,27 +23,13 @@ class AddressInput extends Component {
                     name='autoSuggestValue'
                     component={AddressAutoSuggest}
                     props={{
-                        label: 'Address',
+                        label: this.props.addressLabel,
                         suggestionEngine: this.suggestionEngine,
                         defaultText: this.props.formattedAddress,
                         'data-test': 'addressSuggestionField',
                         fieldName: this.props.fieldName,
                         formName: this.props.formName,
                         onInputChanged: this.props.onInputChanged
-                    }}
-                />
-                <Field
-                    label={'Additional Address Information'}
-                    name={`${this.props.fieldName}.streetAddress2`}
-                    component={TextField}
-                    style={{
-                        marginRight: '5%',
-                        marginBottom: '24px',
-                        width: '50%'
-                    }}
-                    inputProps={{
-                        'data-test': 'streetAddress2Input',
-                        maxLength: 25
                     }}
                 />
                 <Field

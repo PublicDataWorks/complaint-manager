@@ -18,6 +18,9 @@ module.exports = (sequelize, DataTypes) => {
                 ]),
                 defaultValue: 'Initial'
             },
+            district: {
+                type: DataTypes.STRING
+            },
             firstContactDate: {
                 field: 'first_contact_date',
                 type: DataTypes.DATEONLY

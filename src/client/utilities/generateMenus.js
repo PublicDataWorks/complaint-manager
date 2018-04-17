@@ -50,8 +50,20 @@ export const raceEthnicityMenu = generateMenu([
     'Unknown'
 ])
 
-export const districtMenu = generateMenu([
+export const searchDistrictMenu = generateMenu([
     ['Any District', ''],
+    ['1st District', 'First District'],
+    ['2nd District', 'Second District'],
+    ['3rd District', 'Third District'],
+    ['4th District', 'Fourth District'],
+    ['5th District', 'Fifth District'],
+    ['6th District', 'Sixth District'],
+    ['7th District', 'Seventh District'],
+    ['8th District', 'Eighth District']
+])
+
+export const inputDistrictMenu = generateMenu([
+    ['Unknown', ''],
     ['1st District', 'First District'],
     ['2nd District', 'Second District'],
     ['3rd District', 'Third District'],

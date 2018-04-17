@@ -126,12 +126,13 @@ describe('Complainant and Witnesses', () => {
             complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseWithNoAddress}/>)
 
             complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
-            containsText(complainantPanel, '[data-test="complainantAddress"]', 'No address specified')
+            containsText(complainantPanel, '[data-test="civilianAddress"]', 'No address specified')
         })
+
         test('should display address when present', () => {
             const expectedAddress = formatAddress(caseDetail.civilians[0].address)
 
-            containsText(complainantPanel, '[data-test="complainantAddress"]', expectedAddress)
+            containsText(complainantPanel, '[data-test="civilianAddress"]', expectedAddress)
         })
     });
 
@@ -148,10 +149,10 @@ describe('Complainant and Witnesses', () => {
             complainantWitnesses = mount(<ComplainantWitnesses caseDetail={caseWithNoAddress}/>)
 
             complainantPanel = complainantWitnesses.find('[data-test="complainantWitnessesPanel"]').first()
-            containsText(complainantPanel, '[data-test="complainantAdditionalAddressInfo"]', '')
+            containsText(complainantPanel, '[data-test="civilianAddressAdditionalInfo"]', '')
         })
         test('should display additional address info when present', () => {
-            containsText(complainantPanel, '[data-test="complainantAdditionalAddressInfo"]', caseDetail.civilians[0].address.streetAddress2)
+            containsText(complainantPanel, '[data-test="civilianAddressAdditionalInfo"]', caseDetail.civilians[0].address.streetAddress2)
         })
     });
 

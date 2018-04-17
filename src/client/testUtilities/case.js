@@ -20,6 +20,7 @@ class Case {
         this.incidentTime = build.incidentTime
         this.incidentLocationId = build.incidentLocationId
         this.incidentLocation = build.incidentLocation
+        this.district = build.district
     }
 
     static get Builder() {
@@ -41,6 +42,7 @@ class Case {
                 this.narrativeDetails = null
                 this.narrativeSummary = null
                 this.attachments = [new Attachment.Builder().defaultAttachment().withCaseId(id).build()]
+                this.district = 'First District'
                 return this;
             }
 
@@ -53,6 +55,11 @@ class Case {
             withCivilians(civilians) {
                 this.civilians = civilians
                 return this;
+            }
+
+            withDistrict(district) {
+                this.district = district
+                return this
             }
 
             withComplainantType(complainantType) {

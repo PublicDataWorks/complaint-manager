@@ -1,17 +1,20 @@
 import React from 'react'
 import moment from "moment/moment";
-import {Dialog, DialogActions, DialogContent, DialogTitle} from "material-ui";
+import {Dialog, DialogActions, DialogContent, DialogTitle, withStyles} from "material-ui";
 import {TextField} from "redux-form-material-ui"
 import DateField from "../../sharedFormComponents/DateField";
 import {Field, formValueSelector, reduxForm, SubmissionError} from "redux-form";
 import {CancelButton, SubmitButton} from "../../../sharedComponents/StyledButtons";
 import editIncidentDetails from "../../thunks/editIncidentDetails";
-import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
+import {nullifyFieldUnlessValid} from "../../../utilities/fieldNormalizers";
 import AddressInput from "../CivilianDialog/AddressInput";
 import {updateIncidentLocationAutoSuggest} from "../../../actionCreators/casesActionCreators";
 import {connect} from "react-redux";
 import formatAddress from "../../../utilities/formatAddress";
 import {addressMustBeAutoSuggested} from "../../../formValidations";
+import NoBlurTextField from "../CivilianDialog/FormSelect";
+import {inputDistrictMenu} from "../../../utilities/generateMenus";
+import AdditionalAddressInfoField from "../../sharedFormComponents/AdditionalAddressInfoField";
 
 const submitIncidentDetails = (values, dispatch, props) => {
     const errors = addressMustBeAutoSuggested(values.incidentLocation, props.autoSuggestValue)
@@ -31,10 +34,19 @@ const submitIncidentDetails = (values, dispatch, props) => {
     return dispatch(editIncidentDetails(normalizedValuesWithId, props.handleDialogClose))
 }
 
+const styles = {
+    paperWidthSm: {
+        maxWidth: '500px'
+    }
+}
+
 const IncidentDetailsDialog = (props) => (
     <Dialog
         open={props.dialogOpen}
-        fullWidth={false}
+        fullWidth={ true}
+        classes={{
+            paperWidthSm: props.classes.paperWidthSm
+        }}
     >
         <DialogTitle
             data-test="editIncidentDetailsTitle"
@@ -67,6 +79,7 @@ const IncidentDetailsDialog = (props) => (
                     }}
                     style={{
                         marginRight: '16px',
+                        marginBottom: '16px',
                     }}
                     clearable={true}
                 />
@@ -86,9 +99,33 @@ const IncidentDetailsDialog = (props) => (
                 <AddressInput
                     formName={'IncidentDetails'}
                     fieldName={'incidentLocation'}
+                    addressLabel={'Incident Location'}
                     onInputChanged={updateIncidentLocationAutoSuggest}
                     formattedAddress={props.formattedAddress}
                 />
+                <div style={{display: 'flex'}}>
+                    <AdditionalAddressInfoField
+                        label={'Additional Location Info'}
+                        fieldName={`incidentLocation`}
+                        style={{
+                            marginRight: '5%',
+                            flex: '2'
+                        }}
+                    />
+                    <Field
+                        label='District'
+                        name='district'
+                        component={NoBlurTextField}
+                        inputProps={{
+                            "data-test": "districtDropdown"
+                        }}
+                        style={{
+                            flex: '1'
+                        }}
+                    >
+                        {inputDistrictMenu}
+                    </Field>
+                </div>
             </form>
         </DialogContent>
         <DialogActions
@@ -126,4 +163,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps)(connectedForm)
+export default withStyles(styles)(connect(mapStateToProps)(connectedForm))

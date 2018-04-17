@@ -1,16 +1,16 @@
 import React from "react";
-import { initialize } from "redux-form";
-import { openCivilianDialog } from "../../../actionCreators/casesActionCreators";
+import {initialize} from "redux-form";
+import {openCivilianDialog} from "../../../actionCreators/casesActionCreators";
 import formatName from "../../../utilities/formatName";
-import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
+import {CIVILIAN_FORM_NAME} from "../../../../sharedUtilities/constants";
 import editCivilian from "../../thunks/editCivilian";
 import LinkButton from "../../../sharedComponents/LinkButton";
-import formatAddress from "../../../utilities/formatAddress";
 import StyledExpansionPanelDetails from "./StyledExpansionPanelDetails";
 import CivilianInfoDisplay from "./CivilianInfoDisplay";
-import {Divider, ExpansionPanel, ExpansionPanelSummary, Typography} from "material-ui";
+import {Divider, ExpansionPanel, ExpansionPanelSummary} from "material-ui";
 import formatDate from "../../../utilities/formatDate";
 import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
+import AddresesInfoDisplay from "../../../sharedComponents/AddressInfoDisplay";
 
 const ComplainantPanel = ({ civilian, dispatch }) => {
     const phoneNumber = formatPhoneNumber(civilian.phoneNumber)
@@ -71,25 +71,11 @@ const ComplainantPanel = ({ civilian, dispatch }) => {
                     />
                 </StyledExpansionPanelDetails>
                 <StyledExpansionPanelDetails>
-                    <div style={{flex: 2, textAlign: 'left', marginRight: '10px'}}>
-                        <Typography
-                            type='caption'
-                        >
-                            Address
-                        </Typography>
-                        <Typography
-                            type='body1'
-                            data-test="complainantAddress"
-                        >
-                            {Boolean(formatAddress(civilian.address)) ? formatAddress(civilian.address) : 'No address specified'}
-                        </Typography>
-                        <Typography
-                            type='body1'
-                            data-test="complainantAdditionalAddressInfo"
-                        >
-                            {civilian.address && civilian.address.streetAddress2 ? civilian.address.streetAddress2 : ''}
-                        </Typography>
-                    </div>
+                    <AddresesInfoDisplay
+                        testLabel={'civilianAddress'}
+                        displayLabel={'Address'}
+                        address={civilian.address}
+                    />
                 </StyledExpansionPanelDetails>
                 <StyledExpansionPanelDetails>
                     <CivilianInfoDisplay

@@ -13,8 +13,8 @@ const styles = theme => ({
     container: {
         flexGrow: 1,
         position: 'relative',
-        width: '80%',
-        marginBottom: '16px'
+        width: '90%',
+        marginBottom: '8px'
     },
     suggestionsContainerOpen: {
         position: 'relative',
@@ -89,6 +89,10 @@ class AddressAutoSuggest extends Component {
                 FormHelperTextProps={{
                     error: shouldRenderError
                 }}
+                InputLabelProps={{
+                    shrink:true
+                }}
+                placeholder={'Search for an Address'}
 
             />
         );

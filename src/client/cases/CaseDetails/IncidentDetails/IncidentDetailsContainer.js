@@ -6,6 +6,7 @@ const mapStateToProps = state => ({
     incidentDate: state.currentCase.incidentDate,
     incidentTime: state.currentCase.incidentTime,
     incidentLocation: state.currentCase.incidentLocation,
+    district: state.currentCase.district,
     caseId: state.currentCase.id
 })
 

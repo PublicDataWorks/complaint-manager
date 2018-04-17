@@ -36,7 +36,8 @@ describe('parseAddressFromGooglePlaceResult', () => {
                     "long_name": "70119",
                     "short_name": "70119",
                     "types": ["postal_code"]
-                }]
+                }],
+            name: '2714 Canal Street'
         }
         const parsedAddress = parseAddressFromGooglePlaceResult(somePlace)
 
@@ -70,7 +71,8 @@ describe('parseAddressFromGooglePlaceResult', () => {
                     "long_name": "70119",
                     "short_name": "70119",
                     "types": ["postal_code"]
-                }]
+                }],
+            name: 'Canal Street'
         }
         const parsedAddress = parseAddressFromGooglePlaceResult(somePlace)
 
@@ -96,7 +98,8 @@ describe('parseAddressFromGooglePlaceResult', () => {
                     "long_name": "70119",
                     "short_name": "70119",
                     "types": ["postal_code"]
-                }]
+                }],
+            name: 'New Orleans'
         }
         const parsedAddress = parseAddressFromGooglePlaceResult(somePlace)
 
@@ -118,7 +121,8 @@ describe('parseAddressFromGooglePlaceResult', () => {
                     "long_name": "70119",
                     "short_name": "70119",
                     "types": ["postal_code"]
-                }]
+                }],
+            name: 'Louisiana'
         }
         const parsedAddress = parseAddressFromGooglePlaceResult(somePlace)
 
@@ -144,7 +148,8 @@ describe('parseAddressFromGooglePlaceResult', () => {
                     "long_name": "70119",
                     "short_name": "70119",
                     "types": ["postal_code"]
-                }]
+                }],
+            name: 'Mid-City'
         }
         const parsedAddress = parseAddressFromGooglePlaceResult(somePlace)
 
@@ -170,7 +175,8 @@ describe('parseAddressFromGooglePlaceResult', () => {
                     "long_name": "United States",
                     "short_name": "US",
                     "types": ["country", "political"]
-                }]
+                }],
+            name: 'Mid-City'
         }
         const parsedAddress = parseAddressFromGooglePlaceResult(somePlace)
 
@@ -196,10 +202,40 @@ describe('parseAddressFromGooglePlaceResult', () => {
                     "long_name": "70119",
                     "short_name": "70119",
                     "types": ["postal_code"]
-                }]
+                }],
+            name: 'Mid-City'
         }
         const parsedAddress = parseAddressFromGooglePlaceResult(somePlace)
 
         expect(parsedAddress.country).toEqual('')
+    })
+
+    test('should parse an intersection from an address', () => {
+        const somePlace = {
+            "address_components": [
+                {
+                    "long_name": "New Orleans",
+                    "short_name": "New Orleans",
+                    "types": ["locality", "political"]
+                }, {
+                    "long_name": "Louisiana",
+                    "short_name": "LA",
+                    "types": ["administrative_area_level_1", "political"]
+                }, {
+                    "long_name": "United States",
+                    "short_name": "US",
+                    "types": ["country", "political"]
+                }, {
+                    "long_name": "70119",
+                    "short_name": "70119",
+                    "types": ["postal_code"]
+                }],
+            name: 'Bourbon Street & Canal Street'
+        }
+
+        const parsedAddress = parseAddressFromGooglePlaceResult(somePlace)
+
+        expect(parsedAddress.intersection).toEqual('Bourbon Street & Canal Street')
+
     })
 });
