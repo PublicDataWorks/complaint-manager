@@ -3,7 +3,6 @@ import {TextField} from "redux-form-material-ui";
 import AddressAutoSuggest from "./AddressAutoSuggest";
 import {Field} from "redux-form";
 import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine";
-import AdditionalAddressInfoField from "../../sharedFormComponents/AdditionalAddressInfoField";
 
 class AddressInput extends Component {
 

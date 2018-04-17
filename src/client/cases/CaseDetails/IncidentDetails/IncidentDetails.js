@@ -6,6 +6,7 @@ import formatDate, {computeTimeZone, format12HourTime} from "../../../utilities/
 import LinkButton from "../../../sharedComponents/LinkButton";
 import IncidentDetailsDialog from "./IncidentDetailsDialog";
 import AddressInfoDisplay from "../../../sharedComponents/AddressInfoDisplay";
+import {initialize, reset} from "redux-form";
 
 class IncidentDetails extends React.Component {
 
@@ -19,10 +20,20 @@ class IncidentDetails extends React.Component {
     }
 
     handleDialogOpen = () => {
+        const formValues = {
+            firstContactDate: this.props.firstContactDate,
+            incidentDate: this.props.incidentDate,
+            incidentTime: this.props.incidentTime,
+            incidentLocation: this.props.incidentLocation,
+            district: this.props.district
+        }
+
+        this.props.dispatch(initialize("IncidentDetails", formValues))
         this.setState({dialogOpen: true})
     }
 
     handleDialogClose = () => {
+        this.props.dispatch(reset('IncidentDetails'))
         this.setState({dialogOpen: false})
     }
 
@@ -79,12 +90,6 @@ class IncidentDetails extends React.Component {
                     </div>
                 </CardContent>
                 <IncidentDetailsDialog
-                    initialValues={{
-                        firstContactDate,
-                        incidentDate,
-                        incidentTime,
-                        incidentLocation
-                    }}
                     dialogOpen={this.state.dialogOpen}
                     handleDialogClose={this.handleDialogClose}
                     caseId={caseId}
