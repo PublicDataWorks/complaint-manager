@@ -2,7 +2,7 @@
 const moment = require("moment/moment");
 
 module.exports = (sequelize, DataTypes) => {
-    var officer = sequelize.define('officer', {
+    var Officer = sequelize.define('officer', {
         id: {
             allowNull: false,
             autoIncrement: true,
@@ -92,5 +92,16 @@ module.exports = (sequelize, DataTypes) => {
             }
         }
     });
-    return officer;
+
+    Officer.associate = (models) => {
+        Officer.belongsToMany(models.cases, {
+            through: models.case_officer,
+            foreignKey: {
+                name: 'officerId',
+                field: 'officer_id',
+                allowNull: false
+            }
+        })
+    }
+    return Officer;
 };

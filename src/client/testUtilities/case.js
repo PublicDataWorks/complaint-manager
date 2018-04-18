@@ -1,6 +1,7 @@
 import Civilian from "./civilian";
 import Attachment from "./attachment";
 import Address from "./Address";
+import Officer from "./Officer";
 
 class Case {
     constructor(build) {
@@ -21,6 +22,7 @@ class Case {
         this.incidentLocationId = build.incidentLocationId
         this.incidentLocation = build.incidentLocation
         this.district = build.district
+        this.officers = build.officers
     }
 
     static get Builder() {
@@ -42,7 +44,7 @@ class Case {
                 this.narrativeDetails = null
                 this.narrativeSummary = null
                 this.attachments = [new Attachment.Builder().defaultAttachment().withCaseId(id).build()]
-                this.district = 'First District'
+                this.officers = [new Officer.Builder().defaultOfficer().build()]
                 return this;
             }
 
@@ -124,6 +126,11 @@ class Case {
 
             withAttachments(attachments) {
                 this.attachments = attachments
+                return this
+            }
+
+            withOfficers(officers) {
+                this.officers = officers
                 return this
             }
 
