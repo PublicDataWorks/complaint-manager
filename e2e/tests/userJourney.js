@@ -100,7 +100,7 @@ if (TEST_PASS && TEST_USER && HOST) {
 
         "should display suggestions when text is entered": (browser) => {
             browser
-                .setValue('[data-test="addressSuggestionField"] > input', ['2001 North Milwaukee'])
+                .setValue('[data-test="addressSuggestionField"] > input', ['200'])
                 .waitForElementPresent('[data-test="suggestion-container"] > ul', rerenderWait)
                 .pause(1000)  //Need to wait for suggestions to finish updating (Network call)
 
@@ -109,6 +109,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         "should not select suggestion when navigating through them": (browser) => {
             browser
                 .setValue('[data-test="addressSuggestionField"] > input', [browser.Keys.ARROW_DOWN])
+                .pause(1000)
                 .getText('li[data-suggestion-index="0"]', (result) => {
                     browser.assert.valueContains('[data-test="addressSuggestionField"] > input', result.value)
                     this.address = result.value
