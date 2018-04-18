@@ -32,7 +32,7 @@ describe('Audit', () => {
             user: currentUser
         };
         expect(models.audit_log.create)
-            .toHaveBeenCalledWith(expectedLog, {transaction: 'MOCK_TRANSACTION'});
+            .toHaveBeenCalledWith(expectedLog);
 
         expect(response.statusCode).toEqual(201)
     });
