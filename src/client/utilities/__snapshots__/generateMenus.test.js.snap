@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`civilian info dropdown menus gender identity menu should contain all required values 1`] = `
+Array [
+  "Unknown",
+  "Female",
+  "Male",
+  "Trans Female",
+  "Trans Male",
+  "Other",
+]
+`;
+
+exports[`civilian info dropdown menus race ethnicity menu should contain all required values 1`] = `
+Array [
+  "Unknown",
+  "American Indian or Alaska Native",
+  "Asian Indian",
+  "Black, African American",
+  "Chinese",
+  "Cuban",
+  "Filipino",
+  "Guamanian or Chamorro",
+  "Hispanic, Latino, or Spanish origin",
+  "Japanese",
+  "Korean",
+  "Mexican, Mexican American, Chicano",
+  "Native Hawaiian",
+  "Puerto Rican",
+  "Vietnamese",
+  "Samoan",
+  "White",
+  "Other Pacific Islander",
+  "Other Asian",
+  "Other",
+]
+`;

@@ -19,15 +19,16 @@ export const generateMenu = contents => {
 }
 
 export const genderIdentityMenu = generateMenu([
+    'Unknown',
     'Female',
     'Male',
     'Trans Female',
     'Trans Male',
     'Other',
-    'Unknown'
 ])
 
 export const raceEthnicityMenu = generateMenu([
+    'Unknown',
     'American Indian or Alaska Native',
     'Asian Indian',
     'Black, African American',
@@ -47,7 +48,6 @@ export const raceEthnicityMenu = generateMenu([
     'Other Pacific Islander',
     'Other Asian',
     'Other',
-    'Unknown'
 ])
 
 export const searchDistrictMenu = generateMenu([
