@@ -101,6 +101,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         "should display suggestions when text is entered": (browser) => {
             browser
                 .setValue('[data-test="addressSuggestionField"] > input', ['200'])
+                .moveToElement('[data-test="phoneNumberField"]', 10, 10) // hover mouse away from suggestion container
                 .waitForElementPresent('[data-test="suggestion-container"] > ul', rerenderWait)
                 .pause(1000)  //Need to wait for suggestions to finish updating (Network call)
 
