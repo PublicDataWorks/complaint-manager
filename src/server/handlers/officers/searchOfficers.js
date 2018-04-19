@@ -1,10 +1,11 @@
 const models = require('../../models/index');
+const Op = require('sequelize').Op
 
 const searchOfficers = async (request, response) => {
     const whereClause = {};
-    if (request.query.firstName) {whereClause.first_name = {$iLike: `${request.query.firstName}%`}}
-    if (request.query.lastName) {whereClause.last_name = {$iLike: `${request.query.lastName}%`}}
-    if (request.query.district) {whereClause.district = {$eq: `${request.query.district}`}}
+    if (request.query.firstName) {whereClause.first_name = {[Op.iLike]: `${request.query.firstName}%`}}
+    if (request.query.lastName) {whereClause.last_name = {[Op.iLike]: `${request.query.lastName}%`}}
+    if (request.query.district) {whereClause.district = {[Op.eq]: `${request.query.district}`}}
 
     try {
         const officers = await models.officer.findAll({

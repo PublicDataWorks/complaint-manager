@@ -24,7 +24,8 @@ module.exports = {
             issuer: "https://noipm.auth0.com/",
             algorithm: 'RS256',
             nicknameKey: 'https://noipm-staging.herokuapp.com/nickname'
-        }
+        },
+        operatorsAliases: false
     },
     test: {
         username: 'postgres',
@@ -54,7 +55,8 @@ module.exports = {
             algorithm: 'RS256',
             scope: 'openid profile',
             nicknameKey: 'https://noipm-staging.herokuapp.com/nickname'
-        }
+        },
+        operatorsAliases: false
 
     },
     staging: {
@@ -93,7 +95,8 @@ module.exports = {
             issuer: "https://noipm.auth0.com/",
             algorithm: 'RS256',
             nicknameKey: 'https://noipm-staging.herokuapp.com/nickname'
-        }
+        },
+        operatorsAliases: false
     },
     production: {
         username: process.env.DATABASE_USERNAME,
@@ -131,6 +134,7 @@ module.exports = {
             issuer: "https://noipm-production.auth0.com/",
             algorithm: 'RS256',
             nicknameKey: 'https://noipm-production.herokuapp.com/nickname'
-        }
+        },
+        operatorsAliases: false
     }
 }
