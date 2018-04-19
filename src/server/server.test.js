@@ -679,6 +679,8 @@ describe('server', () => {
                 .withFirstName('Eleanor')
                 .build()
 
+            let officer = new Officer.Builder().defaultOfficer().build()
+
             expectedStreetAddress = '1234 flower ave'
             incidentLocation = new Address.Builder().defaultAddress().withStreetAddress(expectedStreetAddress).withId(undefined).build()
             let caseToCreate = new Case.Builder()
@@ -687,23 +689,37 @@ describe('server', () => {
                 .withCivilians([civilian])
                 .withAttachments([attachment])
                 .withIncidentLocation(incidentLocation)
+                .withOfficers([officer])
                 .build()
 
 
             caseToRetrieve = await models.cases.create(caseToCreate, {
                 returning: true,
                 include: [
-                    {model: models.civilian},
-                    {model: models.attachment},
+                    {
+                        model: models.civilian
+                    },
+                    {
+                        model: models.attachment
+                    },
                     {
                         model: models.address,
                         as: 'incidentLocation'
+                    },
+                    {
+                        model: models.officer
                     }
                 ]
             })
         })
 
         afterEach(async () => {
+            await models.case_officer.destroy({
+                where: {
+                    case_id: caseToRetrieve.id
+                }
+            })
+
             await models.attachment.destroy({
                 where: {
                     caseId: caseToRetrieve.id
@@ -715,9 +731,16 @@ describe('server', () => {
                     id: caseToRetrieve.civilians[0].id
                 }
             })
+
             await models.cases.destroy({
                 where: {
                     id: caseToRetrieve.id
+                }
+            })
+
+            await models.officer.destroy({
+                where: {
+                    id: caseToRetrieve.officers[0].id
                 }
             })
 
@@ -757,7 +780,14 @@ describe('server', () => {
                             incidentLocation: expect.objectContaining({
                                 streetAddress: expectedStreetAddress,
                                 id: caseToRetrieve.incidentLocationId
-                            })
+                            }),
+                            officers: expect.arrayContaining([
+                                expect.objectContaining({
+                                    id: caseToRetrieve.officers[0].id
+
+                                })
+
+                            ])
                         })
                     )
                 })
@@ -990,6 +1020,59 @@ describe('server', () => {
             });
         });
     });
+
+    describe('PUT /cases/:caseId/officers/:officerId', () => {
+        let caseToCreate, officerToCreate, seededCase, seededOfficer
+
+        beforeEach(async () => {
+            caseToCreate = new Case.Builder().defaultCase().withId(undefined).withIncidentLocation(undefined).build();
+            officerToCreate = new Officer.Builder().defaultOfficer().build()
+            seededOfficer = await models.officer.create(officerToCreate)
+            seededCase = await models.cases.create(caseToCreate)
+        })
+
+        afterEach(async () => {
+            await models.case_officer.destroy({
+                where: {
+                    case_id: seededCase.id
+                }
+            })
+
+            await models.cases.destroy({
+                where: {
+                    id: seededCase.id
+                }
+            })
+
+            await models.officer.destroy({
+                where: {
+                    id: seededOfficer.id
+                }
+            })
+        })
+
+        test('should add an officer to a case', async () => {
+            await request(app)
+                .put(`/api/cases/${seededCase.id}/officers/${seededOfficer.id}`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .send({})
+                .expect(200)
+                .then(response => {
+                    expect(response.body).toEqual(
+                        expect.objectContaining({
+                            officers: expect.arrayContaining([
+                                expect.objectContaining({
+                                    id: seededOfficer.id
+                                })
+                            ])
+                        })
+                    )
+                })
+
+
+        })
+    })
 
     describe('GET /api/export-audit-log', () => {
         let testCase;

@@ -15,6 +15,7 @@ const getUserProfile = require("./handlers/getUserProfile")
 const authErrorHandler = require("./handlers/authErrorHandler")
 const exportAuditLog = require("./handlers/audit_logs/export")
 const searchOfficers = require("./handlers/officers/searchOfficers")
+const addOfficer = require("./handlers/officers/addOfficer")
 const attachmentRouter = require("./attachmentRouter")
 
 const express = require('express')
@@ -31,6 +32,7 @@ router.get('/cases/:id', getCase)
 router.put('/cases/:id', editCase)
 router.put('/cases/:id/narrative', updateCaseNarrative)
 router.get('/cases/:id/officers/search', searchOfficers);
+router.put('/cases/:caseId/officers/:officerId', addOfficer);
 
 router.use('/cases/:id/attachments', attachmentRouter)
 

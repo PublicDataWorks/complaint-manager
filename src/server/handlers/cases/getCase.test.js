@@ -34,6 +34,9 @@ describe('get case', () => {
                     {
                         model: models.address,
                         as: 'incidentLocation'
+                    },
+                    {
+                        model: models.officer
                     }
                 ]
             })
