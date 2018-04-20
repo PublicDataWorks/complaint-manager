@@ -14,6 +14,7 @@ import userInfoReducer from "./auth/reducers/userInfoReducer";
 import attachmentsReducer from "./reducers/ui/attachmentsReducer";
 import searchOfficersReducer from "./reducers/officers/searchOfficersReducer";
 import incidentDetailsDialogReducer from "./reducers/ui/incidentDetailsDialogReducer";
+import recentActivityReducer from "./reducers/cases/recentActivityReducer";
 
 const rootReducer = combineReducers({
     form: formReducer,
@@ -21,7 +22,10 @@ const rootReducer = combineReducers({
     cases: combineReducers({
         all: allCasesReducer
     }),
-    currentCase: caseDetailsReducer,
+    currentCase: combineReducers({
+        details: caseDetailsReducer,
+        recentActivity: recentActivityReducer
+    }),
     users: combineReducers({
         all: allUsersReducer,
         current: userInfoReducer

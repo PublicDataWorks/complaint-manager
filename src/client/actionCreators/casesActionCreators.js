@@ -5,7 +5,10 @@ import {
     CIVILIAN_CREATION_SUCCEEDED,
     CIVILIAN_CREATION_FAILED,
     INCIDENT_DETAILS_UPDATE_SUCCEEDED,
-    INCIDENT_DETAILS_UPDATE_FAILED, CIVILIAN_ADDRESS_AUTOSUGGEST_UPDATED, INCIDENT_LOCATION_AUTOSUGGEST_VALUE_UPDATED,
+    INCIDENT_DETAILS_UPDATE_FAILED,
+    CIVILIAN_ADDRESS_AUTOSUGGEST_UPDATED,
+    INCIDENT_LOCATION_AUTOSUGGEST_VALUE_UPDATED,
+    GET_RECENT_ACTIVITY_SUCCEEDED,
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = (caseDetails) => ({
@@ -31,6 +34,10 @@ export const getCaseDetailsSuccess = (caseDetails) => ({
     caseDetails
 })
 
+export const getRecentActivitySuccess = (recentActivity) => ({
+    type: GET_RECENT_ACTIVITY_SUCCEEDED,
+    recentActivity
+})
 export const updateNarrativeSuccess = (caseDetails) => ({
     type: 'NARRATIVE_UPDATE_SUCCEEDED',
     caseDetails

@@ -2,6 +2,7 @@ import getAccessToken from "../../auth/getAccessToken";
 import {push} from "react-router-redux"
 import config from "../../config/config";
 import {updateIncidentDetailsFailure, updateIncidentDetailsSuccess} from "../../actionCreators/casesActionCreators";
+import getRecentActivity from "./getRecentActivity";
 
 
 const hostname = config[process.env.NODE_ENV].hostname
@@ -28,7 +29,8 @@ const editIncidentDetails = (incidentDetails, closeDialogCallback) => async (dis
             case 200:
                 const updatedCase = await response.json()
                 closeDialogCallback()
-                return dispatch(updateIncidentDetailsSuccess(updatedCase))
+                dispatch(updateIncidentDetailsSuccess(updatedCase))
+                return await dispatch(getRecentActivity(updatedCase.id))
             case 401:
                 return dispatch(push('/login'))
             default:

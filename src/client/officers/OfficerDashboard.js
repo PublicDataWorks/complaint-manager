@@ -65,7 +65,7 @@ export class OfficerDashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-    caseId: state.currentCase.id
+    caseId: state.currentCase.details.id
 });
 
 export default connect(mapStateToProps)(OfficerDashboard);

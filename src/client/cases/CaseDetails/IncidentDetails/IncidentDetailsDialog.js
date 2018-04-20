@@ -156,7 +156,7 @@ const mapStateToProps = (state) => {
         'incidentLocation.state', 'incidentLocation.zipCode', 'incidentLocation.country')
 
     return {
-        incidentLocationId: state.currentCase.incidentLocationId,
+        incidentLocationId: state.currentCase.details.incidentLocationId,
         autoSuggestValue: state.ui.incidentDetailsDialog.autoSuggestValue,
         formattedAddress: formatAddress(values.incidentLocation),
     }

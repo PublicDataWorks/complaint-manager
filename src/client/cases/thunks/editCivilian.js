@@ -2,6 +2,7 @@ import {push} from "react-router-redux";
 import {closeEditDialog, editCivilianFailed, editCivilianSuccess} from "../../actionCreators/casesActionCreators";
 import getAccessToken from "../../auth/getAccessToken";
 import config from '../../config/config'
+import getRecentActivity from "./getRecentActivity";
 
 const hostname = config[process.env.NODE_ENV].hostname
 
@@ -26,8 +27,9 @@ const editCivilian = (civilian) => async (dispatch) => {
         switch (response.status) {
             case 200:
                 const parsedCivilian = await response.json()
+                dispatch(closeEditDialog())
                 dispatch(editCivilianSuccess(parsedCivilian))
-                return dispatch(closeEditDialog())
+                return await dispatch(getRecentActivity(parsedCivilian[0].caseId))
             case 401:
                 dispatch(push(`/login`))
                 return dispatch(editCivilianFailed())

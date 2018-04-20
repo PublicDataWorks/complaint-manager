@@ -6,6 +6,7 @@ import {
     createCivilianSuccess
 } from "../../actionCreators/casesActionCreators";
 import config from "../../config/config";
+import getRecentActivity from "./getRecentActivity";
 
 const hostname = config[process.env.NODE_ENV].hostname
 
@@ -32,7 +33,8 @@ const createCivilian = (civilian) => async (dispatch) => {
             case 201:
                 const civilians = await response.json()
                 dispatch(createCivilianSuccess(civilians))
-                return dispatch(closeEditDialog())
+                dispatch(closeEditDialog())
+                return await dispatch(getRecentActivity(civilians[0].caseId))
             case 401:
                 dispatch(push(`/login`))
                 return dispatch(createCivilianFailure())

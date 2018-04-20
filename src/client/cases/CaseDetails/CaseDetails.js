@@ -152,7 +152,7 @@ CaseDetails.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    caseDetail: state.currentCase
+    caseDetail: state.currentCase.details
 })
 
 export default withStyles(styles, {withTheme: true})(connect(mapStateToProps)(CaseDetails));

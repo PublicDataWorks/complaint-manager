@@ -780,6 +780,48 @@ describe('server', () => {
         })
     });
 
+    describe('GET /cases/:id/recent-activity', () => {
+        let createdCase
+        beforeEach(async() => {
+            const existingCase = new Case.Builder().defaultCase().withIncidentLocation(undefined).build()
+            createdCase = await models.cases.create(existingCase)
+
+            await models.audit_log.create({
+                caseId: createdCase.id,
+                action: 'Case created',
+                user: 'tuser'
+            })
+        });
+
+        afterEach(async() => {
+            await models.cases.truncate({
+                cascade: true
+            })
+        });
+
+        test('should display recent activity for an existing case', async () => {
+
+            await request(app)
+                .get(`/api/cases/${createdCase.dataValues.id}/recent-activity`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+                .then( response => {
+                    expect(response.body).toEqual(
+                        expect.arrayContaining([
+                            expect.objectContaining({
+                                caseId: createdCase.id,
+                                action: 'Case created',
+                                user: 'tuser'
+                            })
+                        ])
+                    )
+
+                    expect(response.body[0].createdAt).toBeDefined()
+                })
+        })
+    });
+
     describe('PUT /cases/id/narrative', () => {
         let caseToUpdate
 

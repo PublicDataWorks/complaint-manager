@@ -3,8 +3,8 @@ import AttachmentsList from './AttachmentsList'
 import removeAttachment from "../../thunks/removeAttachment";
 
 const mapStateToProps = state => ({
-    caseId: state.currentCase.id,
-    attachments: state.currentCase.attachments
+    caseId: state.currentCase.details.id,
+    attachments: state.currentCase.details.attachments
 })
 
 const mapDispatchToProps = {

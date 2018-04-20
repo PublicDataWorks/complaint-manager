@@ -3,6 +3,7 @@ const createCase = require("./handlers/cases/createCase");
 const editCase = require("./handlers/cases/editCase");
 const getCases = require("./handlers/cases/getCases");
 const getCase = require("./handlers/cases/getCase");
+const getRecentActivity = require("./handlers/cases/getRecentActivity");
 const updateCaseNarrative = require("./handlers/cases/updateCaseNarrative");
 const editCivilian = require("./handlers/civilians/editCivilian");
 const createCivilian = require("./handlers/civilians/createCivilian");
@@ -29,6 +30,7 @@ router.use(authErrorHandler)
 router.post('/cases', createCase);
 router.get('/cases', getCases);
 router.get('/cases/:id', getCase)
+router.get('/cases/:id/recent-activity', getRecentActivity)
 router.put('/cases/:id', editCase)
 router.put('/cases/:id/narrative', updateCaseNarrative)
 router.get('/cases/:id/officers/search', searchOfficers);

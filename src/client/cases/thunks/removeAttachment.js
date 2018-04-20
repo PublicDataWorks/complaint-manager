@@ -2,6 +2,7 @@ import {push} from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
 import {removeAttachmentFailed, removeAttachmentSuccess} from "../../actionCreators/attachmentsActionCreators";
 import config from '../../config/config'
+import getRecentActivity from "./getRecentActivity";
 const hostname = config[process.env.NODE_ENV].hostname
 
 const removeAttachment = (caseId, fileName, shouldCloseDialog) => async(dispatch) => {
@@ -24,7 +25,8 @@ const removeAttachment = (caseId, fileName, shouldCloseDialog) => async(dispatch
             case 200:
                 const caseDetails = await response.json()
                 shouldCloseDialog()
-                return dispatch(removeAttachmentSuccess(caseDetails))
+                dispatch(removeAttachmentSuccess(caseDetails))
+                return await dispatch(getRecentActivity(caseDetails.id))
             case 401:
                 dispatch(push(`/login`))
                 return dispatch(removeAttachmentFailed())

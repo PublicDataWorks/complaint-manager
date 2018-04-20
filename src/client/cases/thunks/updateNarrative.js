@@ -2,6 +2,7 @@ import {updateNarrativeFailure, updateNarrativeSuccess} from "../../actionCreato
 import getAccessToken from "../../auth/getAccessToken";
 import {push} from "react-router-redux";
 import config from '../../config/config'
+import getRecentActivity from "./getRecentActivity";
 
 const hostname = config[process.env.NODE_ENV].hostname
 
@@ -30,7 +31,8 @@ const updateNarrative = (updateDetails) => async (dispatch) => {
         switch (response.status) {
             case 200:
                 const updatedCase = await response.json()
-                return dispatch(updateNarrativeSuccess(updatedCase))
+                dispatch(updateNarrativeSuccess(updatedCase))
+                return await dispatch(getRecentActivity(updatedCase.id))
             case 401:
                 dispatch(push(`/login`))
                 return dispatch(updateNarrativeFailure())
