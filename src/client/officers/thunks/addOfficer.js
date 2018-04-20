@@ -30,6 +30,7 @@ const addOfficer = (caseId, officerId) => async (dispatch) => {
         }
 
     } catch (e) {
+        dispatch(addOfficerToCaseFailure())
     }
 }
 export default addOfficer
