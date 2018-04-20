@@ -9,10 +9,6 @@ export default class Auth {
 
     authConfig = config[process.env.REACT_APP_ENV || process.env.NODE_ENV].auth
     authWeb = new auth0.WebAuth(this.authConfig);
-    auth = new auth0.Authentication({},{
-        domain: this.authConfig.domain,
-        clientID: this.authConfig.clientID
-    });
 
     login = () => {
         this.authWeb.authorize();
@@ -50,17 +46,10 @@ export default class Auth {
     }
 
     setUserInfo = (accessToken, callback) => {
-        this.auth.userInfo(accessToken, (err, userInfoResult) => {
-            if (!err) {
-                const decodedToken = jwt.decode(accessToken);
-                const permissions = parsePermissions(decodedToken.scope);
-                callback({...userInfoResult, permissions});
-            }
-        })
+        const decodedToken = jwt.decode(accessToken);
+        const permissions = parsePermissions(decodedToken.scope);
+        const nickname = decodedToken[this.authConfig.nicknameKey];
+        callback({nickname, permissions});
     }
 
-    isAuthenticated = () => {
-        let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-        return new Date().getTime() < expiresAt;
-    }
 }

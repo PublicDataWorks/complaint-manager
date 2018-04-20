@@ -1,12 +1,16 @@
 import Auth from "./Auth";
 import auditLogin from "../users/thunks/auditLogin";
 import {mockLocalStorage} from "../../mockLocalStorage";
+import config from '../config/config'
 
 jest.mock("../users/thunks/auditLogin")
+jest.mock('jsonwebtoken', () => ({
+    decode: () => ({
+        scope: 'MOCK_SCOPE',
+        "https://noipm-staging.herokuapp.com/nickname": 'MOCK_NICKNAME'
+    })
+}))
 jest.mock('auth0-js', () => ({
-    Authentication: jest.fn(() => ({
-        userInfo: jest.fn()
-    })),
     WebAuth: jest.fn(() => ({
         parseHash: jest.fn((callback) => callback({}, {accessToken: 'AToken', idToken: 'IToken'}))
     }))
@@ -17,7 +21,7 @@ describe('Auth', () => {
         mockLocalStorage();
         const auth = new Auth();
 
-        auth.handleAuthentication();
+        auth.handleAuthentication(jest.fn());
 
         expect(auditLogin).toHaveBeenCalledTimes(1)
     });

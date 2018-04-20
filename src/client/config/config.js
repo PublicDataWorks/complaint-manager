@@ -6,7 +6,8 @@ export default {
             redirectUri: 'http://localhost:3000/callback',
             audience: 'https://noipm-staging.herokuapp.com/',
             responseType: 'token id_token',
-            scope: 'openid profile'
+            scope: 'openid profile',
+            nicknameKey: 'https://noipm-staging.herokuapp.com/nickname'
         },
         hostname: ''
     },
@@ -17,7 +18,8 @@ export default {
             redirectUri: 'http://localhost:3000/callback',
             audience: 'test audience',
             responseType: 'token id_token',
-            scope: 'openid profile read:cases'
+            scope: 'openid profile read:cases',
+            nicknameKey: 'https://noipm-staging.herokuapp.com/nickname'
         },
         hostname: 'http://localhost'
     },
@@ -28,7 +30,8 @@ export default {
             redirectUri: 'https://noipm-staging.herokuapp.com/callback',
             audience: 'https://noipm-staging.herokuapp.com/',
             responseType: 'token id_token',
-            scope: 'openid profile'
+            scope: 'openid profile',
+            nicknameKey: 'https://noipm-staging.herokuapp.com/nickname'
         },
         hostname: ''
     },
@@ -39,7 +42,8 @@ export default {
             redirectUri: 'https://noipm-production.herokuapp.com/callback',
             audience: 'https://noipm-production.herokuapp.com/',
             responseType: 'token id_token',
-            scope: 'openid profile'
+            scope: 'openid profile',
+            nicknameKey: 'https://noipm-production.herokuapp.com/nickname'
         },
         hostname: ''
     }
