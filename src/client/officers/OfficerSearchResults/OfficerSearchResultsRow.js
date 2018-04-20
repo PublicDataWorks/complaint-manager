@@ -51,7 +51,7 @@ const OfficerSearchResultsRow = ({ classes, officer, caseId, dispatch }) => (
 )
 
 const mapStateToProps = (state) => ({
-  caseId: state.currentCase.id
+  caseId: state.currentCase.details.id
 });
 
 export default withStyles(styles, {withTheme: true})(connect(mapStateToProps)(OfficerSearchResultsRow))
