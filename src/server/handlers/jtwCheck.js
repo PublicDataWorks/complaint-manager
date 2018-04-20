@@ -10,7 +10,7 @@ const getSecret = () => {
         return jwks.expressJwtSecret({
             cache: true,
             rateLimit: true,
-            jwksRequestsPerMinute: 5,
+            jwksRequestsPerMinute: 20,
             jwksUri: config.authentication.publicKeyURL
         })
     }
