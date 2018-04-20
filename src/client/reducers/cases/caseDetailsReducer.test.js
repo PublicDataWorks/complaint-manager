@@ -9,9 +9,11 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import {removeAttachmentSuccess} from "../../actionCreators/attachmentsActionCreators";
 import {
+    ADD_OFFICER_TO_CASE_SUCCEEDED,
     CIVILIAN_CREATION_SUCCEEDED,
     REMOVE_ATTACHMENT_SUCCESS
 } from "../../../sharedUtilities/constants";
+import {addOfficerToCaseSuccess} from "../../actionCreators/officersActionCreators";
 
 describe('caseDetailsReducers', () => {
     test('should default to empty object', () => {
@@ -36,7 +38,7 @@ describe('caseDetailsReducers', () => {
         test('should update current case details', () => {
             const oldState = {caseDetailProp: 'old detail value'}
 
-            const caseDetails = {caseDetailProp: 'new  detail value'}
+            const caseDetails = {caseDetailProp: 'new detail value'}
             const action = updateNarrativeSuccess(caseDetails)
 
             const newState = caseDetailsReducer(oldState, action)
@@ -48,8 +50,19 @@ describe('caseDetailsReducers', () => {
     test('INCIDENT_DETAILS_UPDATE_SUCCEEDED', () => {
         const oldState = {caseDetailProp: 'old detail value'}
 
-        const caseDetails = {caseDetailProp: 'new  detail value'}
+        const caseDetails = {caseDetailProp: 'new detail value'}
         const action = updateIncidentDetailsSuccess(caseDetails)
+
+        const newState = caseDetailsReducer(oldState, action)
+
+        expect(newState).toEqual(caseDetails)
+    })
+
+    test(ADD_OFFICER_TO_CASE_SUCCEEDED, () => {
+        const oldState = {caseDetailProp: 'old detail value'}
+
+        const caseDetails = {caseDetailProp: 'new detail value'}
+        const action = addOfficerToCaseSuccess(caseDetails)
 
         const newState = caseDetailsReducer(oldState, action)
 

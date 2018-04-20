@@ -2,6 +2,8 @@ import React from 'react';
 import tableStyleGenerator from "../../tableStyles";
 import {TableCell, TableRow, withStyles} from "material-ui";
 import LinkButton from "../../sharedComponents/LinkButton";
+import { connect } from "react-redux";
+import addOfficer from "../thunks/addOfficer";
 
 const styles = theme => ({
     ...tableStyleGenerator(theme).body,
@@ -10,7 +12,7 @@ const styles = theme => ({
     },
 });
 
-const OfficerSearchResultsRow = ({classes, officer}) => (
+const OfficerSearchResultsRow = ({ classes, officer, caseId, dispatch }) => (
     <TableRow className={classes.row}>
         <TableCell className={classes.cell}  style={{paddingLeft: '16px'}}>
             <div>{officer.fullName}</div>
@@ -37,12 +39,19 @@ const OfficerSearchResultsRow = ({classes, officer}) => (
             {officer.age}
         </TableCell>
         <TableCell className={classes.buttonCell}>
-            <LinkButton>
+            <LinkButton
+              onClick={() => {
+                dispatch(addOfficer(caseId, officer.id))
+              }}
+            >
                 select
             </LinkButton>
         </TableCell>
     </TableRow>
 )
 
+const mapStateToProps = (state) => ({
+  caseId: state.currentCase.id
+});
 
-export default withStyles(styles, {withTheme: true})(OfficerSearchResultsRow)
+export default withStyles(styles, {withTheme: true})(connect(mapStateToProps)(OfficerSearchResultsRow))

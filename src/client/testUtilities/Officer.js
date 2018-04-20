@@ -1,5 +1,6 @@
 class Officer {
     constructor(build) {
+        this.id = build.id;
         this.officerNumber = build.officerNumber;
         this.firstName = build.firstName;
         this.middleName = build.middleName;
@@ -28,6 +29,11 @@ class Officer {
                 this.district = 'First District';
                 this.workStatus = 'Active';
                 return this;
+            }
+
+            withId(id) {
+                this.id = id;
+                return this
             }
 
             withFirstName(firstName) {
