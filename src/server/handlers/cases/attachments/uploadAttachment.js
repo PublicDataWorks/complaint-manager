@@ -65,7 +65,10 @@ const uploadAttachment = (request, response, next) => {
                         {
                             include: [
                                 {model: models.civilian},
-                                {model: models.attachment}
+                                {model: models.attachment},
+                                {
+                                    model: models.officer
+                                }
                             ],
                             transaction: t
                         })

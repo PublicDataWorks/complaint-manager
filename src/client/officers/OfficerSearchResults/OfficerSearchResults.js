@@ -69,7 +69,7 @@ export class OfficerSearchResults extends Component {
             <Table data-test='allCasesTable'>
                 <TableHead>
                     <TableRow className={classes.row}>
-                        <TableCell data-test='casesNumberHeader' className={classes.cell} style={{paddingLeft: '24px', width: "17%"}}>
+                        <TableCell data-test='casesNumberHeader' className={classes.cell} style={{paddingLeft: '12px', width: "17%"}}>
                             <Typography type='body2'>Name</Typography>
                         </TableCell>
                         <TableCell data-test='casesComplainantHeader' className={classes.cell} style={{width: "9%"}}>

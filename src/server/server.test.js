@@ -1032,6 +1032,12 @@ describe('server', () => {
         })
 
         afterEach(async () => {
+            await models.audit_log.destroy({
+                where: {
+                    case_id: seededCase.id
+                }
+            })
+
             await models.case_officer.destroy({
                 where: {
                     case_id: seededCase.id
@@ -1069,8 +1075,10 @@ describe('server', () => {
                         })
                     )
                 })
+            const auditLog = await models.audit_log.findAll({ where: { caseId: seededCase.id }})
 
-
+            expect(auditLog.length).toEqual(1)
+            expect(auditLog[0].dataValues.action).toEqual("Accused Officer Added")
         })
     })
 

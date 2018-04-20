@@ -15,12 +15,13 @@ export class OfficerDashboard extends Component {
             this.props.dispatch(getCaseDetails(this.props.match.params.id))
         }
     }
+
     render() {
         if (`${this.props.caseId}` !== this.props.match.params.id) {
             return null
         }
 
-        const { caseId } = this.props
+        const {caseId} = this.props
         return (
             <div>
                 <NavBar>
@@ -32,7 +33,8 @@ export class OfficerDashboard extends Component {
                         {`Case #${caseId} : Add Officer`}
                     </Typography>
                 </NavBar>
-                <LinkButton data-test="back-to-case-link" component={Link} to={`/cases/${caseId}`} style={{margin: '2% 0% 2% 5%'}}>
+                <LinkButton data-test="back-to-case-link" component={Link} to={`/cases/${caseId}`}
+                            style={{margin: '2% 0% 2% 4%'}}>
                     Back to Case
                 </LinkButton>
                 <div style={{margin: '0% 5% 3%'}}>

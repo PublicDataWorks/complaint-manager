@@ -75,7 +75,11 @@ const editCase = async (request, response, next) => {
                             {
                                 model: models.address,
                                 as: 'incidentLocation'
+                            },
+                            {
+                                model: models.officer
                             }
+
                         ],
                         transaction: transaction
                     }

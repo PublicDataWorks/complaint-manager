@@ -35,8 +35,9 @@ const deleteAttachment = async (request, response, next) => {
             return await models.cases.findById(request.params.id,
                 {
                     include: [
-                        {model: models.civilian},
-                        {model: models.attachment}
+                        { model: models.civilian },
+                        { model: models.attachment },
+                        { model: models.officer }
                     ],
                     transaction: t
                 })

@@ -35,6 +35,9 @@ const updateCaseNarrative = async (request, response, next) => {
                         },
                         {
                             model: models.attachment
+                        },
+                        {
+                            model: models.officer
                         }
                     ],
                     transaction: t

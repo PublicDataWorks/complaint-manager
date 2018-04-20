@@ -22,6 +22,7 @@ import createCivilian from "../thunks/createCivilian";
 import {CIVILIAN_FORM_NAME} from "../../../sharedUtilities/constants";
 import {initialize} from "redux-form";
 import {push} from 'react-router-redux'
+import Officers from "./Officers/Officers";
 
 
 const drawerWidthPercentage = '30%';
@@ -93,6 +94,7 @@ class CaseDetails extends React.Component {
                             }}
                             caseId={this.props.caseDetail.id}
                         />
+                        <Officers caseDetail={this.props.caseDetail} />
                         <Attachments />
                     </main>
                     <CivilianDialog/>

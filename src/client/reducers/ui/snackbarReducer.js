@@ -9,6 +9,7 @@ import {
     INCIDENT_DETAILS_UPDATE_SUCCEEDED,
     REMOVE_ATTACHMENT_FAILED,
     REMOVE_ATTACHMENT_SUCCESS, SNACKBAR_ERROR,
+    ADD_OFFICER_TO_CASE_SUCCEEDED, ADD_OFFICER_TO_CASE_FAILED
 } from "../../../sharedUtilities/constants";
 
 //TODO Discuss separation of concerns.
@@ -107,7 +108,7 @@ const snackbarReducer = (state = initialState, action) => {
                 message: 'Your Incident Details were successfully updated'
             }
         case INCIDENT_DETAILS_UPDATE_FAILED:
-            return  {
+            return {
                 open: true,
                 success: false,
                 message: 'Something went wrong on our end and your case was not updated. Please try again.'
@@ -165,7 +166,18 @@ const snackbarReducer = (state = initialState, action) => {
                 open: true,
                 success: false,
                 message: 'We could not download your file. Please try again.'
-
+            }
+        case ADD_OFFICER_TO_CASE_SUCCEEDED:
+            return {
+                open: true,
+                success: true,
+                message: "Accused officer successfully added"
+            };
+        case ADD_OFFICER_TO_CASE_FAILED:
+            return {
+                open: true,
+                success: false,
+                message: "We could not add the officer to your case. Please try again."
             }
         default:
             return state
