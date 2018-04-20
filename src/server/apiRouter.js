@@ -11,7 +11,7 @@ const getUsers = require("./handlers/users/getUsers");
 const audit = require("./handlers/audit_logs/audit");
 const jwtCheck = require("./handlers/jtwCheck")
 const jwtAuthz = require('express-jwt-authz')
-const getUserProfile = require("./handlers/getUserProfile")
+const verifyUserInfo = require("./handlers/verifyUserNickname")
 const authErrorHandler = require("./handlers/authErrorHandler")
 const exportAuditLog = require("./handlers/audit_logs/export")
 const searchOfficers = require("./handlers/officers/searchOfficers")
@@ -22,7 +22,7 @@ const express = require('express')
 const router = express.Router()
 
 router.use(jwtCheck)
-router.use(getUserProfile.unless({path: ['/callback']}))
+router.use(verifyUserInfo)
 router.use(authErrorHandler)
 
 //Any routes defined below this point will require authentication

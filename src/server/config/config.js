@@ -22,7 +22,8 @@ module.exports = {
             publicKeyURL: 'https://noipm.auth0.com/.well-known/jwks.json',
             audience: "https://noipm-staging.herokuapp.com/",
             issuer: "https://noipm.auth0.com/",
-            algorithm: 'RS256'
+            algorithm: 'RS256',
+            nicknameKey: 'https://noipm-staging.herokuapp.com/nickname'
         }
     },
     test: {
@@ -51,7 +52,8 @@ module.exports = {
             audience: "test audience",
             issuer: "test issuer",
             algorithm: 'RS256',
-            scope: 'openid profile'
+            scope: 'openid profile',
+            nicknameKey: 'https://noipm-staging.herokuapp.com/nickname'
         }
 
     },
@@ -89,7 +91,8 @@ module.exports = {
             publicKeyURL: 'https://noipm.auth0.com/.well-known/jwks.json',
             audience: "https://noipm-staging.herokuapp.com/",
             issuer: "https://noipm.auth0.com/",
-            algorithm: 'RS256'
+            algorithm: 'RS256',
+            nicknameKey: 'https://noipm-staging.herokuapp.com/nickname'
         }
     },
     production: {
@@ -126,7 +129,8 @@ module.exports = {
             publicKeyURL: 'https://noipm-production.auth0.com/.well-known/jwks.json',
             audience: "https://noipm-production.herokuapp.com/",
             issuer: "https://noipm-production.auth0.com/",
-            algorithm: 'RS256'
+            algorithm: 'RS256',
+            nicknameKey: 'https://noipm-production.herokuapp.com/nickname'
         }
     }
 }

@@ -30,17 +30,17 @@ jest.mock('aws-sdk', () => ({
 
 const Op = Sequelize.Op
 
-function buildTokenWithPermissions(permissions) {
-    var privateKeyPath = path.join(__dirname, 'config', 'test', 'private.pem')
-    var cert = fs.readFileSync(privateKeyPath)
+function buildTokenWithPermissions(permissions, nickname) {
+    const privateKeyPath = path.join(__dirname, 'config', 'test', 'private.pem')
+    const cert = fs.readFileSync(privateKeyPath)
 
-    var payload = {
+    const payload = {
         foo: 'bar',
         scope: `${config.authentication.scope} ${permissions}`
+    };
+    payload[`${config.authentication.nicknameKey}`] = nickname;
 
-    }
-
-    var options = {
+    const options = {
         audience: config.authentication.audience,
         issuer: config.authentication.issuer,
         algorithm: config.authentication.algorithm,
@@ -53,15 +53,7 @@ describe('server', () => {
     let token
 
     beforeEach(async () => {
-        token = buildTokenWithPermissions();
-
-        AuthenticationClient.mockImplementation(() => {
-            return {
-                users: {
-                    getInfo: () => Promise.resolve({nickname: 'test user'})
-                }
-            }
-        })
+        token = buildTokenWithPermissions('', 'some_nickname');
     })
 
     describe('GET /health-check', () => {
@@ -80,7 +72,7 @@ describe('server', () => {
                 .set('Authorization', `Bearer INVALID_KEY`)
                 .expect(401)
                 .then(response => {
-                    expect(response.body).toEqual({error: 'invalid token...'})
+                    expect(response.body).toEqual({error: 'Invalid token'})
                 })
         })
 
@@ -90,7 +82,7 @@ describe('server', () => {
                 .set('Content-Header', 'application/json')
                 .expect(401)
                 .then(response => {
-                    expect(response.body).toEqual({error: 'invalid token...'})
+                    expect(response.body).toEqual({error: 'Invalid token'})
                 })
         })
     })
@@ -230,14 +222,8 @@ describe('server', () => {
                 })
         })
 
-        test('should return 500 when cannot fetch user profile', async () => {
-            AuthenticationClient.mockImplementation(() => {
-                return {
-                    users: {
-                        getInfo: () => Promise.resolve('Unauthorized')
-                    }
-                }
-            })
+        test('should return 500 when nickname missing', async () => {
+            token = buildTokenWithPermissions();
 
             await request(app)
                 .post('/api/cases')
@@ -246,7 +232,7 @@ describe('server', () => {
                 .send(requestBody)
                 .expect(500)
                 .then(response => {
-                    expect(response.body).toEqual({error: 'Could not retrieve user profile'})
+                    expect(response.body).toEqual({error: 'User nickname missing'})
                 })
         })
     })
@@ -1103,7 +1089,7 @@ describe('server', () => {
         })
 
         test('should return audit log csv when user has token with export permissions', async () => {
-            const tokenWithExportPermission = buildTokenWithPermissions(EXPORT_AUDIT_LOG)
+            const tokenWithExportPermission = buildTokenWithPermissions(EXPORT_AUDIT_LOG, 'nickname');
             await request(app)
                 .get('/api/export-audit-log')
                 .set('Authorization', `Bearer ${tokenWithExportPermission}`)
@@ -1214,7 +1200,7 @@ describe('server', () => {
                     }
                 })
 
-                expect(log.dataValues.user).toEqual('test user')
+                expect(log.dataValues.user).toEqual('some_nickname')
             })
 
             test('should return 409 when file is a duplicate', async () => {
