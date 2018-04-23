@@ -1112,7 +1112,8 @@ describe('server', () => {
 
     describe('GET /api/export-audit-log', () => {
         let testCase;
-        const testCreationDate = new Date("2018-01-31T19:00Z");
+        const testCreationDate = new Date("2018-01-31T19:00:22Z");
+        const testCreationDateTwo = new Date("2018-01-28T19:00:50Z");
         beforeEach(async () => {
             testCase = await models.cases.create(new Case.Builder().defaultCase().withIncidentLocation(undefined).withId(undefined).build())
             await models.audit_log.create({
@@ -1120,6 +1121,13 @@ describe('server', () => {
                 action: 'Test action entered',
                 caseId: testCase.id,
                 createdAt: testCreationDate
+            })
+
+            await models.audit_log.create({
+                user: 'tuser',
+                action: 'Test action entered',
+                caseId: testCase.id,
+                createdAt: testCreationDateTwo
             })
         })
 
@@ -1137,7 +1145,7 @@ describe('server', () => {
                 .set('Authorization', `Bearer ${tokenWithExportPermission}`)
                 .expect(200)
                 .then(response => {
-                    expect(response.text).toContain(`Date,Case #,Event,User\n01/31/2018 13:00 CST,${testCase.id},Test action entered,tuser\n`)
+                    expect(response.text).toEqual(expect.stringContaining(`Date,Case #,Event,User\n01/28/2018 13:00:50 CST,${testCase.id},Test action entered,tuser\n01/31/2018 13:00:22 CST,${testCase.id},Test action entered,tuser\n`))
                 })
         })
 

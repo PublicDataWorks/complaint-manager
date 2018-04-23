@@ -8,7 +8,7 @@ const formatDateForCSV = date => {
     if (!date) {
         return ''
     }
-    return moment(date).tz(TIMEZONE).format('MM/DD/YYYY HH:mm z');
+    return moment(date).tz(TIMEZONE).format('MM/DD/YYYY HH:mm:ss z');
 }
 
 const exportAuditLog = async (request, response, next) => {
@@ -31,6 +31,7 @@ const exportAuditLog = async (request, response, next) => {
             )
 
             return await models.audit_log.findAll({
+                order: [["created_at", "ASC"]],
                 attributes: attributesWithAliases,
                 raw: true,
                 transaction: t
