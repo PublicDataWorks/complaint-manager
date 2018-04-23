@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import tableStyleGenerator from "../../tableStyles";
+import tableStyleGenerator from "../../../tableStyles";
 import { Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, withStyles } from "material-ui";
 import { LinearProgress } from 'material-ui/Progress'
 import {connect} from "react-redux";
 import OfficerSearchResultsRow from "./OfficerSearchResultsRow";
-import {searchOfficersCleared} from "../../actionCreators/officersActionCreators";
+import {searchOfficersCleared} from "../../../actionCreators/officersActionCreators";
 
 const styles = theme => ({
     ...(tableStyleGenerator(theme).header),

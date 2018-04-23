@@ -2,12 +2,11 @@ import React, {Component} from 'react'
 import getCaseDetails from "../cases/thunks/getCaseDetails";
 import {connect} from "react-redux";
 import NavBar from "../sharedComponents/NavBar/NavBar";
-import {Card, CardContent, Typography} from "material-ui";
+import {Typography} from "material-ui";
 import {Link} from "react-router-dom";
 import LinkButton from "../sharedComponents/LinkButton";
 import OfficersSnackbar from "./OfficersSnackBar/OfficersSnackbar";
-import OfficerSearchForm from "./OfficerSearchForm/OfficerSearchForm";
-import OfficerSearchResults from "./OfficerSearchResults/OfficerSearchResults";
+import OfficerSearch from "./OfficerSearch/OfficerSearch";
 
 export class OfficerDashboard extends Component {
     componentDidMount() {
@@ -38,24 +37,7 @@ export class OfficerDashboard extends Component {
                     Back to Case
                 </LinkButton>
                 <div style={{margin: '0% 5% 3%'}}>
-                    <div style={{margin: '0 0 20px 0'}}>
-                        <Typography type="title">Search for an Officer</Typography>
-                        <Typography type="body1">Search by entering at least one of the following fields</Typography>
-                    </div>
-
-                    <Card
-                        style=
-                            {{
-                                backgroundColor: 'white',
-                                width: '100%',
-                                margin: '0 0 32px 0'
-                            }}
-                    >
-                        <CardContent style={{paddingBottom: '8px'}}>
-                            <OfficerSearchForm caseId={this.props.caseId}/>
-                        </CardContent>
-                    </Card>
-                    <OfficerSearchResults/>
+                    <OfficerSearch caseId={caseId}/>
                 </div>
 
                 <OfficersSnackbar/>

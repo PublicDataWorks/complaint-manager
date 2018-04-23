@@ -2,13 +2,13 @@ import React from "react";
 import {mount, shallow} from "enzyme";
 import {OfficerSearchForm as OfficerSearchFormUnconnected} from "./OfficerSearchForm";
 import OfficerSearchForm from "./OfficerSearchForm";
-import {SubmitButton} from "../../sharedComponents/StyledButtons";
-import createConfiguredStore from "../../createConfiguredStore";
-import getOfficerSearchResults from "../thunks/getOfficerSearchResults";
+import {SubmitButton} from "../../../sharedComponents/StyledButtons";
+import createConfiguredStore from "../../../createConfiguredStore";
+import getOfficerSearchResults from "../../thunks/getOfficerSearchResults";
 import {Provider} from "react-redux";
-import {changeInput, selectDropdownOption} from "../../../testHelpers";
+import {changeInput, selectDropdownOption} from "../../../../testHelpers";
 
-jest.mock("../thunks/getOfficerSearchResults", () => (searchCriteria) => ({type:"something", searchCriteria}));
+jest.mock("../../thunks/getOfficerSearchResults", () => (searchCriteria) => ({type:"something", searchCriteria}));
 
 describe("OfficerSearchForm", () => {
     describe("submit button", () => {

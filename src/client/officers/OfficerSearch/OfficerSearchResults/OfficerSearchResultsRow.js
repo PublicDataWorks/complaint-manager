@@ -1,9 +1,9 @@
 import React from 'react';
-import tableStyleGenerator from "../../tableStyles";
+import tableStyleGenerator from "../../../tableStyles";
 import {TableCell, TableRow, withStyles} from "material-ui";
-import LinkButton from "../../sharedComponents/LinkButton";
+import LinkButton from "../../../sharedComponents/LinkButton";
 import { connect } from "react-redux";
-import addOfficer from "../thunks/addOfficer";
+import addOfficer from "../../thunks/addOfficer";
 
 const styles = theme => ({
     ...tableStyleGenerator(theme).body,
