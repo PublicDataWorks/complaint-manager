@@ -4,6 +4,7 @@ import {TableCell, TableRow, withStyles} from "material-ui";
 import LinkButton from "../../../sharedComponents/LinkButton";
 import { connect } from "react-redux";
 import addOfficer from "../../thunks/addOfficer";
+import {selectOfficer} from "../../../actionCreators/officersActionCreators";
 
 const styles = theme => ({
     ...tableStyleGenerator(theme).body,
@@ -41,7 +42,7 @@ const OfficerSearchResultsRow = ({ classes, officer, caseId, dispatch }) => (
         <TableCell className={classes.buttonCell}>
             <LinkButton
               onClick={() => {
-                dispatch(addOfficer(caseId, officer.id))
+                dispatch(selectOfficer(officer))
               }}
             >
                 select

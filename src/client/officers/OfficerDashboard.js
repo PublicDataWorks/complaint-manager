@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import LinkButton from "../sharedComponents/LinkButton";
 import OfficersSnackbar from "./OfficersSnackBar/OfficersSnackbar";
 import OfficerSearch from "./OfficerSearch/OfficerSearch";
+import OfficerDetails from "./OfficerDetails/OfficerDetails";
 
 export class OfficerDashboard extends Component {
     componentDidMount() {
@@ -37,7 +38,7 @@ export class OfficerDashboard extends Component {
                     Back to Case
                 </LinkButton>
                 <div style={{margin: '0% 5% 3%'}}>
-                    <OfficerSearch caseId={caseId}/>
+                    { this.props.selectedOfficer ? <OfficerDetails officer={this.props.selectedOfficer}/> : <OfficerSearch caseId={caseId}/>}
                 </div>
 
                 <OfficersSnackbar/>
@@ -47,7 +48,8 @@ export class OfficerDashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-    caseId: state.currentCase.details.id
+    caseId: state.currentCase.details.id,
+    selectedOfficer: state.officers.selectedOfficer
 });
 
 export default connect(mapStateToProps)(OfficerDashboard);

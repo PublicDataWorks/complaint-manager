@@ -1,15 +1,10 @@
 import React, { Component } from 'react'
-import tableStyleGenerator from "../../../tableStyles";
-import { Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, withStyles } from "material-ui";
+import { Paper, Table, TableBody, Typography } from "material-ui";
 import { LinearProgress } from 'material-ui/Progress'
 import {connect} from "react-redux";
 import OfficerSearchResultsRow from "./OfficerSearchResultsRow";
 import {searchOfficersCleared} from "../../../actionCreators/officersActionCreators";
-
-const styles = theme => ({
-    ...(tableStyleGenerator(theme).header),
-    ...(tableStyleGenerator(theme).table)
-})
+import OfficerSearchTableHeader from "../../OfficerSearchTableHeader";
 
 export class OfficerSearchResults extends Component {
     componentWillUnmount() {
@@ -64,38 +59,9 @@ export class OfficerSearchResults extends Component {
 
     renderSearchResults = () => {
         if (this.props.searchResults.length === 0 ) { return null }
-        const {classes} = this.props;
         return (
             <Table data-test='allCasesTable'>
-                <TableHead>
-                    <TableRow className={classes.row}>
-                        <TableCell data-test='casesNumberHeader' className={classes.cell} style={{paddingLeft: '12px', width: "17%"}}>
-                            <Typography type='body2'>Name</Typography>
-                        </TableCell>
-                        <TableCell data-test='casesComplainantHeader' className={classes.cell} style={{width: "9%"}}>
-                            <Typography type='body2'>Status</Typography>
-                        </TableCell>
-                        <TableCell data-test='casesComplainantHeader' className={classes.cell} style={{width: "17%"}}>
-                            <Typography type='body2'>Rank</Typography>
-                        </TableCell>
-                        <TableCell data-test='casesFirstContactDateHeader' className={classes.cell} style={{width: "17%"}}>
-                            <Typography type='body2'>Bureau</Typography>
-                        </TableCell>
-                        <TableCell data-test='casesAssignedToHeader' className={classes.cell} style={{width: "8%"}}>
-                            <Typography type='body2'>District</Typography>
-                        </TableCell>
-                        <TableCell data-test='casesAssignedToHeader' className={classes.cell} style={{width: "8%"}}>
-                            <Typography type='body2'>Gender</Typography>
-                        </TableCell>
-                        <TableCell data-test='casesAssignedToHeader' className={classes.cell} style={{width: "8%"}}>
-                            <Typography type='body2'>Race</Typography>
-                        </TableCell>
-                        <TableCell data-test='casesAssignedToHeader' className={classes.cell} style={{width: "8%"}}>
-                            <Typography type='body2'>Age</Typography>
-                        </TableCell>
-                        <TableCell className={classes.cell} style={{width: "8%"}}/>
-                    </TableRow>
-                </TableHead>
+                <OfficerSearchTableHeader/>
                 <TableBody>
                     {
                         this.props.searchResults.map(officer => <OfficerSearchResultsRow key={officer.id} officer={officer}/>)
@@ -112,4 +78,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default withStyles(styles, {withTheme: true})(connect(mapStateToProps)(OfficerSearchResults));
+export default (connect(mapStateToProps)(OfficerSearchResults));

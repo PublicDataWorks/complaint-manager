@@ -1,7 +1,8 @@
 import {
     SEARCH_OFFICERS_SUCCESS, SEARCH_OFFICERS_INITIATED,
     SEARCH_OFFICERS_FAILED, SEARCH_OFFICERS_CLEARED,
-    ADD_OFFICER_TO_CASE_SUCCEEDED, ADD_OFFICER_TO_CASE_FAILED
+    ADD_OFFICER_TO_CASE_SUCCEEDED, ADD_OFFICER_TO_CASE_FAILED,
+    OFFICER_SELECTED
 } from "../../sharedUtilities/constants";
 
 export const searchOfficersSuccess = (searchResults) => ({
@@ -29,3 +30,8 @@ export const addOfficerToCaseSuccess = (caseDetails) => ({
 export const addOfficerToCaseFailure = () => ({
     type: ADD_OFFICER_TO_CASE_FAILED
 })
+
+export const selectOfficer = (officer) => ({
+    type: OFFICER_SELECTED,
+    officer
+});
