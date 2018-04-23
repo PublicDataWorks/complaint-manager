@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const helmet = require("helmet");
+const config = require('./config/config')
 
 const healthCheck = require("./handlers/healthCheck");
 const errorHandler = require("./handlers/errorHandler");
@@ -11,6 +12,17 @@ const app = express();
 const twoYearsInSeconds = 63113852;
 app.use(helmet.hsts({
     maxAge: twoYearsInSeconds
+}))
+
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+        connectSrc: config[process.env.NODE_ENV].contentSecurityPolicy.connectSrc,
+        fontSrc: ['https://fonts.googleapis.com' ,'https://fonts.gstatic.com'],
+        objectSrc: ["'none'"],
+        imgSrc: ["'self'", "data:"],
+        scriptSrc: ["'self'", 'https://maps.googleapis.com'],
+        styleSrc: ["'self'", 'https://fonts.googleapis.com', "'unsafe-inline'"]
+    }
 }))
 
 const buildDirectory = path.join(__dirname, '../../build');

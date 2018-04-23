@@ -1,4 +1,5 @@
 var path = require('path');
+const LOCAL_DEV_PORT = require("../../sharedUtilities/constants").LOCAL_DEV_PORT;
 
 module.exports = {
     development: {
@@ -25,7 +26,10 @@ module.exports = {
             algorithm: 'RS256',
             nicknameKey: 'https://noipm-staging.herokuapp.com/nickname'
         },
-        operatorsAliases: false
+        operatorsAliases: false,
+        contentSecurityPolicy:{
+            connectSrc: ["'self'", 'https://noipm.auth0.com', `ws://localhost:${LOCAL_DEV_PORT}`]
+        }
     },
     test: {
         username: 'postgres',
@@ -56,7 +60,10 @@ module.exports = {
             scope: 'openid profile',
             nicknameKey: 'https://noipm-staging.herokuapp.com/nickname'
         },
-        operatorsAliases: false
+        operatorsAliases: false,
+        contentSecurityPolicy:{
+            connectSrc: ["'self'", 'https://noipm.auth0.com', `ws://localhost:${LOCAL_DEV_PORT}`]
+        }
 
     },
     staging: {
@@ -96,7 +103,10 @@ module.exports = {
             algorithm: 'RS256',
             nicknameKey: 'https://noipm-staging.herokuapp.com/nickname'
         },
-        operatorsAliases: false
+        operatorsAliases: false,
+        contentSecurityPolicy:{
+            connectSrc: ["'self'", 'https://noipm.auth0.com']
+        }
     },
     production: {
         username: process.env.DATABASE_USERNAME,
@@ -135,6 +145,9 @@ module.exports = {
             algorithm: 'RS256',
             nicknameKey: 'https://noipm-production.herokuapp.com/nickname'
         },
-        operatorsAliases: false
+        operatorsAliases: false,
+        contentSecurityPolicy:{
+            connectSrc: ["'self'", 'https://noipm.auth0.com']
+        }
     }
 }

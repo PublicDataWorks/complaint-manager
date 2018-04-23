@@ -1,3 +1,5 @@
+const LOCAL_DEV_PORT = 3000
+const PORT = 1234;
 // ----------------------------------------
 //          Action Types
 // ----------------------------------------
@@ -74,6 +76,8 @@ const ADD_OFFICER_TO_CASE_FAILED = "ADD_OFFICER_TO_CASE_FAILED";
 const TIMEZONE = 'America/Chicago'
 
 module.exports = {
+    LOCAL_DEV_PORT,
+    PORT,
     INVALID_FILE_TYPE_DROPPED,
     DUPLICATE_FILE_DROPPED,
     DROPZONE_FILE_REMOVED,
