@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta http-equiv="Content-Security-Policy" content=
+                  "connect-src 'self' https://noipm.auth0.com %REACT_APP_WEB_SOCKET%;
+                  font-src https://fonts.googleapis.com https://fonts.gstatic.com;
+                  img-src 'self' data:;
+                  script-src 'self' https://maps.googleapis.com;
+                  style-src 'self' https://fonts.googleapis.com 'unsafe-inline'">
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">

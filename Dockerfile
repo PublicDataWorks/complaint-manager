@@ -6,7 +6,7 @@ RUN yarn install --pure-lockfile
 ARG REACT_ENV='staging'
 
 COPY . /app/
-RUN REACT_APP_ENV=$REACT_ENV yarn build
+RUN REACT_APP_ENV=$REACT_ENV REACT_APP_WEB_SOCKET= yarn build
 
 EXPOSE 1234 3000
 
