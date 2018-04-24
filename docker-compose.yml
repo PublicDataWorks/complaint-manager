@@ -4,8 +4,11 @@ services:
   app:
     build:
       context: .
+      args:
+        - REACT_ENV=static_development
     environment:
       - NODE_ENV=development
+      - REACT_APP_ENV=development
     depends_on:
       - db
       - email

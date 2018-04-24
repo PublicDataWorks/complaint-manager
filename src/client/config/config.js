@@ -1,4 +1,4 @@
-import {LOCAL_DEV_PORT} from "../../sharedUtilities/constants";
+import {LOCAL_DEV_PORT, PORT} from "../../sharedUtilities/constants";
 
 export default {
     development: {
@@ -6,6 +6,18 @@ export default {
             domain: 'noipm.auth0.com',
             clientID: '2o6uTkEwbxxU6tzKwG24ghmAtPBEKeKI',
             redirectUri: `http://localhost:${LOCAL_DEV_PORT}/callback`,
+            audience: 'https://noipm-staging.herokuapp.com/',
+            responseType: 'token id_token',
+            scope: 'openid profile',
+            nicknameKey: 'https://noipm-staging.herokuapp.com/nickname'
+        },
+        hostname: ''
+    },
+    static_development: {
+        auth: {
+            domain: 'noipm.auth0.com',
+            clientID: '2o6uTkEwbxxU6tzKwG24ghmAtPBEKeKI',
+            redirectUri: `http://localhost:${PORT}/callback`,
             audience: 'https://noipm-staging.herokuapp.com/',
             responseType: 'token id_token',
             scope: 'openid profile',

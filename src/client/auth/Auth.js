@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 
 export default class Auth {
 
-    authConfig = config[process.env.REACT_APP_ENV || process.env.NODE_ENV].auth
+    authConfig = config[process.env.REACT_APP_ENV].auth
     authWeb = new auth0.WebAuth(this.authConfig);
 
     login = () => {

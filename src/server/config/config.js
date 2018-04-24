@@ -147,7 +147,7 @@ module.exports = {
         },
         operatorsAliases: false,
         contentSecurityPolicy:{
-            connectSrc: ["'self'", 'https://noipm.auth0.com']
+            connectSrc: ["'self'", 'https://noipm-production.auth0.com']
         }
     }
 }
