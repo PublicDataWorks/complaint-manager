@@ -7,6 +7,13 @@ module.exports = (sequelize, DataTypes) => {
                 primaryKey: true,
                 autoIncrement: true
             },
+            notes: {
+                type: DataTypes.TEXT,
+            },
+            roleOnCase: {
+                field: 'role_on_case',
+                type: DataTypes.ENUM(['AccusedOfficer'])
+            },
             createdAt: {
                 field: 'created_at',
                 type: DataTypes.DATE

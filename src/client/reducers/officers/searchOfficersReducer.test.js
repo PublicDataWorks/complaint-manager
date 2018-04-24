@@ -1,5 +1,6 @@
 import searchOfficersReducer from "./searchOfficersReducer";
 import {
+    clearSelectedOfficer,
     searchOfficersCleared,
     searchOfficersFailed, searchOfficersInitiated,
     searchOfficersSuccess, selectOfficer
@@ -49,4 +50,12 @@ describe('searchOfficersReducer', ()=>{
             expect(newState).toEqual({searchResults: [{firstName: 'someone'}], spinnerVisible: false, selectedOfficer: officer});
         })
     })
+
+    describe("CLEAR_SELECTED_OFFICER", () => {
+        test('clear the selected officer', () => {
+            const initialState = {searchResuts: [], spinnerVisible: false, selectedOfficer: {firstName: 'bob'}}
+            const newState = searchOfficersReducer(initialState, clearSelectedOfficer());
+            expect(newState).toEqual({searchResuts: [], spinnerVisible: false, selectedOfficer: null});
+        });
+    });
 });

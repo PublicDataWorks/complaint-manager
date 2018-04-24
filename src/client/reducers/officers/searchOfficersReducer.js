@@ -1,7 +1,7 @@
 import {
     SEARCH_OFFICERS_SUCCESS, SEARCH_OFFICERS_INITIATED,
     SEARCH_OFFICERS_FAILED, SEARCH_OFFICERS_CLEARED,
-    OFFICER_SELECTED
+    OFFICER_SELECTED, CLEAR_SELECTED_OFFICER
 } from "../../../sharedUtilities/constants";
 
 const initialState = {
@@ -22,6 +22,8 @@ const  searchOfficersReducer = (state = initialState, action) => {
             return { ...state, searchResults: [], spinnerVisible: false };
         case OFFICER_SELECTED:
             return { ...state, selectedOfficer: action.officer };
+        case CLEAR_SELECTED_OFFICER:
+            return { ...state, selectedOfficer: null};
         default:
             return state;
     }

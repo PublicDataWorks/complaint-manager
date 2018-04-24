@@ -17,11 +17,11 @@ export class OfficerDashboard extends Component {
     }
 
     render() {
-        if (`${this.props.caseId}` !== this.props.match.params.id) {
+        const {caseId, selectedOfficer, match} = this.props;
+        if (`${caseId}` !== match.params.id) {
             return null
         }
 
-        const {caseId} = this.props
         return (
             <div>
                 <NavBar>
@@ -38,7 +38,7 @@ export class OfficerDashboard extends Component {
                     Back to Case
                 </LinkButton>
                 <div style={{margin: '0% 5% 3%'}}>
-                    { this.props.selectedOfficer ? <OfficerDetails officer={this.props.selectedOfficer}/> : <OfficerSearch caseId={caseId}/>}
+                    { selectedOfficer ? <OfficerDetails officer={selectedOfficer} caseId={caseId}/> : <OfficerSearch caseId={caseId}/>}
                 </div>
 
                 <OfficersSnackbar/>

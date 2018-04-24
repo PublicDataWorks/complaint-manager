@@ -60,7 +60,7 @@ export class OfficerSearchResults extends Component {
     renderSearchResults = () => {
         if (this.props.searchResults.length === 0 ) { return null }
         return (
-            <Table data-test='allCasesTable'>
+            <Table>
                 <OfficerSearchTableHeader/>
                 <TableBody>
                     {

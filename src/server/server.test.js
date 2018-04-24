@@ -783,7 +783,7 @@ describe('server', () => {
     describe('GET /cases/:id/recent-activity', () => {
         let createdCase
         beforeEach(async() => {
-            const existingCase = new Case.Builder().defaultCase().withIncidentLocation(undefined).build()
+            const existingCase = new Case.Builder().defaultCase().withId(undefined).withIncidentLocation(undefined).build()
             createdCase = await models.cases.create(existingCase)
 
             await models.audit_log.create({
@@ -1086,11 +1086,14 @@ describe('server', () => {
         })
 
         test('should add an officer to a case', async () => {
+            const officerNotes = "some notes";
+            const officerRole = 'Accused';
+
             await request(app)
                 .put(`/api/cases/${seededCase.id}/officers/${seededOfficer.id}`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
-                .send({})
+                .send({notes: officerNotes, roleOnCase: officerRole})
                 .expect(200)
                 .then(response => {
                     expect(response.body).toEqual(
@@ -1103,12 +1106,25 @@ describe('server', () => {
                         })
                     )
                 })
-            const auditLog = await models.audit_log.findAll({ where: { caseId: seededCase.id }})
+            const caseOfficers = await models.case_officer.findAll({ where: { caseId: seededCase.id }}, {plain: true});
+            expect(caseOfficers.length).toEqual(1);
+            expect(caseOfficers[0].officerId).toEqual(seededOfficer.id);
+            expect(caseOfficers[0].notes).toEqual(officerNotes)
+            expect(caseOfficers[0].roleOnCase).toEqual(officerRole)
+        })
 
+        test('should track add officer in audit log', async () => {
+            await request(app)
+                .put(`/api/cases/${seededCase.id}/officers/${seededOfficer.id}`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .send({})
+                .expect(200);
+            const auditLog = await models.audit_log.findAll({ where: { caseId: seededCase.id }})
             expect(auditLog.length).toEqual(1)
             expect(auditLog[0].dataValues.action).toEqual("Accused Officer Added")
         })
-    })
+    });
 
     describe('GET /api/export-audit-log', () => {
         let testCase;

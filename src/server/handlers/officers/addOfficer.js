@@ -2,13 +2,12 @@ const models = require('../../models/index');
 
 const addOfficer = async (request, response, next) => {
     try {
+        const retrievedCase = await models.cases.findById(request.params.caseId)
+        const retrievedOfficer = await models.officer.findById(request.params.officerId)
 
+        const caseOfficerAttributes = {notes: request.body.notes, roleOnCase: request.body.roleOnCase};
         const updatedCase = await models.sequelize.transaction(async (t) => {
-
-            const retrievedCase = await models.cases.findById(request.params.caseId, {transaction: t})
-            const retrievedOfficer = await models.officer.findById(request.params.officerId, {transaction: t})
-
-            const caseOfficer = await retrievedCase.addOfficer(retrievedOfficer, {transaction: t})
+            await retrievedCase.addOfficer(retrievedOfficer, {through: caseOfficerAttributes, transaction: t});
 
             await models.audit_log.create({
                     action: `Accused Officer Added`,

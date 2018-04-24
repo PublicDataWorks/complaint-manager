@@ -5,7 +5,7 @@ import { addOfficerToCaseSuccess, addOfficerToCaseFailure } from "../../actionCr
 
 const hostname = config[process.env.NODE_ENV].hostname
 
-const addOfficer = (caseId, officerId) => async (dispatch) => {
+const addOfficer = (caseId, officerId, values) => async (dispatch) => {
     try {
         const token = getAccessToken()
 
@@ -17,8 +17,9 @@ const addOfficer = (caseId, officerId) => async (dispatch) => {
             method: "PUT",
             headers: {
                 'Authorization': `Bearer ${token}`
-            }
-        })
+            },
+            body: JSON.stringify(values)
+        });
 
         if (response.status === 200) {
             dispatch(addOfficerToCaseSuccess(await response.json()))
