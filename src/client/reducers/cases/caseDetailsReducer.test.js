@@ -32,6 +32,13 @@ describe('caseDetailsReducers', () => {
 
             expect(newState).toEqual(caseDetails)
         })
+
+        test('merges officer with accusedOfficer', () => {
+            const caseDetails = {accusedOfficers: [{id: 5, notes: 'note', roleOnCase: 'Accused', officer: {id: 1, firstName: 'Monica', lastName: 'Smith'}}]};
+            const newState = caseDetailsReducer({}, getCaseDetailsSuccess(caseDetails))
+            const expectedNewState = {accusedOfficers: [{id: 5, notes: 'note', roleOnCase: 'Accused', officerId: 1, firstName: 'Monica', lastName: 'Smith'}]};
+            expect(newState).toEqual(expectedNewState);
+        })
     })
 
     describe('NARRATIVE_UPDATE_SUCCEEDED', () => {
@@ -45,28 +52,53 @@ describe('caseDetailsReducers', () => {
 
             expect(newState).toEqual(caseDetails)
         })
+
+        test('merges officer with accusedOfficer', () => {
+            const caseDetails = {accusedOfficers: [{id: 5, notes: 'note', roleOnCase: 'Accused', officer: {id: 1, firstName: 'Monica', lastName: 'Smith'}}]};
+            const newState = caseDetailsReducer({}, updateNarrativeSuccess(caseDetails))
+            const expectedNewState = {accusedOfficers: [{id: 5, notes: 'note', roleOnCase: 'Accused', officerId: 1, firstName: 'Monica', lastName: 'Smith'}]};
+            expect(newState).toEqual(expectedNewState);
+        })
     })
 
-    test('INCIDENT_DETAILS_UPDATE_SUCCEEDED', () => {
-        const oldState = {caseDetailProp: 'old detail value'}
+    describe('INCIDENT_DETAILS_UPDATE_SUCCEEDED', () => {
+        test("updates the case details", () => {
+            const oldState = {caseDetailProp: 'old detail value'}
 
-        const caseDetails = {caseDetailProp: 'new detail value'}
-        const action = updateIncidentDetailsSuccess(caseDetails)
+            const caseDetails = {caseDetailProp: 'new detail value'}
+            const action = updateIncidentDetailsSuccess(caseDetails)
 
-        const newState = caseDetailsReducer(oldState, action)
+            const newState = caseDetailsReducer(oldState, action)
 
-        expect(newState).toEqual(caseDetails)
+            expect(newState).toEqual(caseDetails)
+        });
+
+        test('merges officer with accusedOfficer', () => {
+            const caseDetails = {accusedOfficers: [{id: 5, notes: 'note', roleOnCase: 'Accused', officer: {id: 1, firstName: 'Monica', lastName: 'Smith'}}]};
+            const newState = caseDetailsReducer({}, updateNarrativeSuccess(caseDetails))
+            const expectedNewState = {accusedOfficers: [{id: 5, notes: 'note', roleOnCase: 'Accused', officerId: 1, firstName: 'Monica', lastName: 'Smith'}]};
+            expect(newState).toEqual(expectedNewState);
+        })
     })
 
-    test(ADD_OFFICER_TO_CASE_SUCCEEDED, () => {
-        const oldState = {caseDetailProp: 'old detail value'}
+    describe(ADD_OFFICER_TO_CASE_SUCCEEDED, () => {
+        test("updates case details", () => {
+            const oldState = {caseDetailProp: 'old detail value'}
 
-        const caseDetails = {caseDetailProp: 'new detail value'}
-        const action = addOfficerToCaseSuccess(caseDetails)
+            const caseDetails = {caseDetailProp: 'new detail value'}
+            const action = addOfficerToCaseSuccess(caseDetails)
 
-        const newState = caseDetailsReducer(oldState, action)
+            const newState = caseDetailsReducer(oldState, action)
 
-        expect(newState).toEqual(caseDetails)
+            expect(newState).toEqual(caseDetails)
+        })
+
+        test('merges officer with accusedOfficer', () => {
+            const caseDetails = {accusedOfficers: [{id: 5, notes: 'note', roleOnCase: 'Accused', officer: {id: 1, firstName: 'Monica', lastName: 'Smith'}}]};
+            const newState = caseDetailsReducer({}, addOfficerToCaseSuccess(caseDetails))
+            const expectedNewState = {accusedOfficers: [{id: 5, notes: 'note', roleOnCase: 'Accused', officerId: 1, firstName: 'Monica', lastName: 'Smith'}]};
+            expect(newState).toEqual(expectedNewState);
+        })
     })
 
     describe('ATTACHMENT_UPLOAD_SUCCEEDED', () => {
@@ -79,6 +111,13 @@ describe('caseDetailsReducers', () => {
             const newState = caseDetailsReducer(oldState, action)
 
             expect(newState).toEqual(caseDetails)
+        })
+
+        test('merges officer with accusedOfficer', () => {
+            const caseDetails = {accusedOfficers: [{id: 5, notes: 'note', roleOnCase: 'Accused', officer: {id: 1, firstName: 'Monica', lastName: 'Smith'}}]};
+            const newState = caseDetailsReducer({}, uploadAttachmentSuccess(caseDetails))
+            const expectedNewState = {accusedOfficers: [{id: 5, notes: 'note', roleOnCase: 'Accused', officerId: 1, firstName: 'Monica', lastName: 'Smith'}]};
+            expect(newState).toEqual(expectedNewState);
         })
     })
 
@@ -128,6 +167,13 @@ describe('caseDetailsReducers', () => {
             const newState = caseDetailsReducer(oldState, action)
 
             expect(newState).toEqual(updatedCaseDetails)
+        })
+
+        test('merges officer with accusedOfficer', () => {
+            const caseDetails = {accusedOfficers: [{id: 5, notes: 'note', roleOnCase: 'Accused', officer: {id: 1, firstName: 'Monica', lastName: 'Smith'}}]};
+            const newState = caseDetailsReducer({}, removeAttachmentSuccess(caseDetails))
+            const expectedNewState = {accusedOfficers: [{id: 5, notes: 'note', roleOnCase: 'Accused', officerId: 1, firstName: 'Monica', lastName: 'Smith'}]};
+            expect(newState).toEqual(expectedNewState);
         })
     });
 })

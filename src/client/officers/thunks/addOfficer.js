@@ -16,6 +16,7 @@ const addOfficer = (caseId, officerId, values) => async (dispatch) => {
         const response = await fetch(`${hostname}/api/cases/${caseId}/officers/${officerId}`, {
             method: "PUT",
             headers: {
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(values)

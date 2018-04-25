@@ -6,7 +6,7 @@ import OfficerPanel from "./OfficerPanel";
 
 const Officers = (props) => {
 
-    const officers = props.caseDetail.officers
+    const officers = props.caseDetail.accusedOfficers
 
     return (
         <BaseCaseDetailsCard

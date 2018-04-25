@@ -1,15 +1,9 @@
 import loadOfficersFromCsv from "./loadOfficersFromCsv"
 import models from '../models/index';
 
-import {Op} from "sequelize"
-
 describe("loadOfficersFromCsv", () => {
     afterEach(async () => {
-        await models.officer.destroy({
-            where: {
-                officerNumber: {[Op.in]: [4638, 2597]}
-            }
-        });
+        await models.officer.destroy({truncate: true, cascade: true});
     });
 
     test("it creates an officer for each row in the csv", async () => {

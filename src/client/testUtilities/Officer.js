@@ -17,6 +17,7 @@ class Officer {
     static get Builder() {
         class Builder {
             defaultOfficer() {
+                this.id = 57;
                 this.officerNumber = 200;
                 this.firstName = 'Ugochi';
                 this.middleName = 'Grant';

@@ -29,7 +29,6 @@ async function upsertAddress(caseId, incidentLocationId, incidentLocation, trans
 }
 
 const editCase = async (request, response, next) => {
-
     try {
         if(!request.body.firstContactDate || !moment(request.body.firstContactDate).isValid()) {
             response.status(400).json({ error: "firstContactDate is required"});
@@ -77,7 +76,9 @@ const editCase = async (request, response, next) => {
                                 as: 'incidentLocation'
                             },
                             {
-                                model: models.officer
+                                model: models.case_officer,
+                                as: "accusedOfficers",
+                                include: [models.officer]
                             }
 
                         ],

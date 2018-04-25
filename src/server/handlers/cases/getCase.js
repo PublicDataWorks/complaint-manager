@@ -9,13 +9,16 @@ const getCase = async (req, res) => {
                     include: [models.address]
                 },
                 {
-                    model: models.attachment},
+                    model: models.attachment
+                },
                 {
                     model: models.address,
                     as: 'incidentLocation'
                 },
                 {
-                    model: models.officer
+                    model: models.case_officer,
+                    as: 'accusedOfficers',
+                    include: [models.officer]
                 }
             ]
         })

@@ -1,7 +1,7 @@
 import Civilian from "./civilian";
 import Attachment from "./attachment";
 import Address from "./Address";
-import Officer from "./Officer";
+import CaseOfficer from "./caseOfficer";
 
 class Case {
     constructor(build) {
@@ -22,7 +22,7 @@ class Case {
         this.incidentLocationId = build.incidentLocationId
         this.incidentLocation = build.incidentLocation
         this.district = build.district
-        this.officers = build.officers
+        this.accusedOfficers = build.accusedOfficers
     }
 
     static get Builder() {
@@ -44,7 +44,7 @@ class Case {
                 this.narrativeDetails = null
                 this.narrativeSummary = null
                 this.attachments = [new Attachment.Builder().defaultAttachment().withCaseId(id).build()]
-                this.officers = [new Officer.Builder().defaultOfficer().build()]
+                this.accusedOfficers = [new CaseOfficer.Builder().defaultCaseOfficer().withCaseId(id).withRoleOnCase("Accused").build()]
                 return this;
             }
 
@@ -129,8 +129,8 @@ class Case {
                 return this
             }
 
-            withOfficers(officers) {
-                this.officers = officers
+            withAccusedOfficers(accusedOfficers) {
+                this.accusedOfficers = accusedOfficers
                 return this
             }
 

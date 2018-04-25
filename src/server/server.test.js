@@ -665,8 +665,6 @@ describe('server', () => {
                 .withFirstName('Eleanor')
                 .build()
 
-            let officer = new Officer.Builder().defaultOfficer().build()
-
             expectedStreetAddress = '1234 flower ave'
             incidentLocation = new Address.Builder().defaultAddress().withStreetAddress(expectedStreetAddress).withId(undefined).build()
             let caseToCreate = new Case.Builder()
@@ -675,7 +673,6 @@ describe('server', () => {
                 .withCivilians([civilian])
                 .withAttachments([attachment])
                 .withIncidentLocation(incidentLocation)
-                .withOfficers([officer])
                 .build()
 
 
@@ -693,7 +690,9 @@ describe('server', () => {
                         as: 'incidentLocation'
                     },
                     {
-                        model: models.officer
+                        model: models.case_officer,
+                        as: 'accusedOfficers',
+                        include: [models.officer]
                     }
                 ]
             })
@@ -726,7 +725,7 @@ describe('server', () => {
 
             await models.officer.destroy({
                 where: {
-                    id: caseToRetrieve.officers[0].id
+                    id: caseToRetrieve.accusedOfficers[0].officer.id
                 }
             })
 
@@ -767,12 +766,14 @@ describe('server', () => {
                                 streetAddress: expectedStreetAddress,
                                 id: caseToRetrieve.incidentLocationId
                             }),
-                            officers: expect.arrayContaining([
-                                expect.objectContaining({
-                                    id: caseToRetrieve.officers[0].id
-
+                            accusedOfficers: expect.arrayContaining([
+                                expect.objectContaining(
+                                    {
+                                        officer: expect.objectContaining({
+                                                id: caseToRetrieve.accusedOfficers[0].officer.id
+                                        }),
+                                        roleOnCase: 'Accused'
                                 })
-
                             ])
                         })
                     )
@@ -900,12 +901,14 @@ describe('server', () => {
             beforeEach(async () => {
                 bobOfficer = new Officer.Builder()
                     .defaultOfficer()
+                    .withId(undefined)
                     .withFirstName("Bob")
                     .withLastName("Ferguson")
                     .build();
 
                 const garretOfficer = new Officer.Builder()
                     .defaultOfficer()
+                    .withId(undefined)
                     .withFirstName("Garret")
                     .withLastName("Fisher")
                     .withDistrict("First District")
@@ -913,6 +916,7 @@ describe('server', () => {
 
                 const grantOfficer = new Officer.Builder()
                     .defaultOfficer()
+                    .withId(undefined)
                     .withFirstName("Grant")
                     .withLastName("Livingston")
                     .withDistrict("Eighth District")
@@ -983,18 +987,21 @@ describe('server', () => {
 
             beforeEach(async () => {
                 const garretOfficer = new Officer.Builder().defaultOfficer()
+                    .withId(undefined)
                     .withFirstName("Garret")
                     .withLastName("Fisher")
                     .withDistrict("1st District")
                     .build();
 
                 const garyOfficer = new Officer.Builder().defaultOfficer()
+                    .withId(undefined)
                     .withFirstName("Gary")
                     .withLastName("Fibbleton")
                     .withDistrict("8th District")
                     .build();
 
                 const gaaOfficer = new Officer.Builder().defaultOfficer()
+                    .withId(undefined)
                     .withFirstName("Gaaaa")
                     .withLastName("Fibbleton")
                     .withDistrict("8th District")
@@ -1054,7 +1061,7 @@ describe('server', () => {
 
         beforeEach(async () => {
             caseToCreate = new Case.Builder().defaultCase().withId(undefined).withIncidentLocation(undefined).build();
-            officerToCreate = new Officer.Builder().defaultOfficer().build()
+            officerToCreate = new Officer.Builder().defaultOfficer().withId(undefined).build()
             seededOfficer = await models.officer.create(officerToCreate)
             seededCase = await models.cases.create(caseToCreate)
         })
@@ -1098,9 +1105,14 @@ describe('server', () => {
                 .then(response => {
                     expect(response.body).toEqual(
                         expect.objectContaining({
-                            officers: expect.arrayContaining([
+                            accusedOfficers: expect.arrayContaining([
                                 expect.objectContaining({
-                                    id: seededOfficer.id
+                                    id: expect.anything(),
+                                    notes: officerNotes,
+                                    officer: expect.objectContaining({
+                                        firstName: seededOfficer.firstName,
+                                        lastName: seededOfficer.lastName
+                                    })
                                 })
                             ])
                         })

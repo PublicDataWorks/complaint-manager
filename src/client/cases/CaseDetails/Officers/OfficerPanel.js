@@ -35,9 +35,9 @@ const OfficerPanel = ({officer}) => {
                 </ExpansionPanelSummary>
                 <StyledExpansionPanelDetails>
                     <OfficerInfoDisplay
-                        displayLabel='Placeholder'
-                        value={"Officer details"}
-                        testLabel="officerDetails"
+                        displayLabel='Notes'
+                        value={officer.notes}
+                        testLabel="notes"
                     />
                 </StyledExpansionPanelDetails>
             </ExpansionPanel>

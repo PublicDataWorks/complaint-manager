@@ -3,11 +3,14 @@ const models = require('../../models/index');
 const addOfficer = async (request, response, next) => {
     try {
         const retrievedCase = await models.cases.findById(request.params.caseId)
-        const retrievedOfficer = await models.officer.findById(request.params.officerId)
+        const caseOfficerAttributes = {
+            notes: request.body.notes,
+            roleOnCase: request.body.roleOnCase,
+            officerId: request.params.officerId
+        };
 
-        const caseOfficerAttributes = {notes: request.body.notes, roleOnCase: request.body.roleOnCase};
-        const updatedCase = await models.sequelize.transaction(async (t) => {
-            await retrievedCase.addOfficer(retrievedOfficer, {through: caseOfficerAttributes, transaction: t});
+        await models.sequelize.transaction(async (t) => {
+            await retrievedCase.createAccusedOfficer(caseOfficerAttributes, {transaction: t});
 
             await models.audit_log.create({
                     action: `Accused Officer Added`,
@@ -18,28 +21,29 @@ const addOfficer = async (request, response, next) => {
                     transaction: t
                 }
             )
-
-            return await models.cases.findById(retrievedCase.id,
-                {
-                    include: [
-                        {
-                            model: models.civilian,
-                            include: [models.address]
-                        },
-                        {
-                            model: models.attachment
-                        },
-                        {
-                            model: models.address,
-                            as: 'incidentLocation'
-                        },
-                        {
-                            model: models.officer
-                        }
-                    ],
-                    transaction: t
-                })
         })
+
+        const updatedCase = await models.cases.findById(retrievedCase.id,
+            {
+                include: [
+                    {
+                        model: models.civilian,
+                        include: [models.address]
+                    },
+                    {
+                        model: models.attachment
+                    },
+                    {
+                        model: models.address,
+                        as: 'incidentLocation'
+                    },
+                    {
+                        model: models.case_officer,
+                        as: 'accusedOfficers',
+                        include: [models.officer]
+                    }
+                ]
+            })
 
         return response.send(updatedCase)
 

@@ -28,5 +28,9 @@ module.exports = (sequelize, DataTypes) => {
         }
     )
 
+    CaseOfficer.associate = (models) => {
+        CaseOfficer.belongsTo(models.officer, {foreignKey: { name: 'officerId', field: 'officer_id'}})
+    }
+
     return CaseOfficer
 }
