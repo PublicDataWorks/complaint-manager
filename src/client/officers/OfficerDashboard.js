@@ -28,7 +28,7 @@ export class OfficerDashboard extends Component {
                 <NavBar>
                     <Typography
                         data-test="pageTitle"
-                        type="title"
+                        variant="title"
                         color="inherit"
                     >
                         {`Case #${caseId} : Add Officer`}

@@ -23,22 +23,22 @@ const StyleGuide = (props) => (
     <div>
         <NavBar>Style Guide</NavBar>
         <Card elevation={0} style={{marginTop: 30, backgroundColor: 'white'}}>
-            <Typography type='title' style={{marginTop: 30, marginLeft: 20}}>TYPOGRAPHY</Typography>
+            <Typography variant='title' style={{marginLeft: 20}}>TYPOGRAPHY</Typography>
             <CardContent>
-                <Typography type="title">{`Title`}</Typography>
-                <Typography type="subheading">{`Subtitle`}</Typography>
-                <Typography type="body1">{`Body`}</Typography>
-                <Typography type="body2">{`Section`}</Typography>
-                <Typography type="caption">{`Caption`}</Typography>
-                <Typography type="display1">{`Hint Text`}</Typography>
-                <Typography type="button" style={{color: 'black'}}>{`Button`}</Typography>
+                <Typography variant="title">{`Title`}</Typography>
+                <Typography variant="subheading">{`Subtitle`}</Typography>
+                <Typography variant="body1">{`Body`}</Typography>
+                <Typography variant="body2">{`Section`}</Typography>
+                <Typography variant="caption">{`Caption`}</Typography>
+                <Typography variant="display1">{`Hint Text`}</Typography>
+                <Typography variant="button" style={{color: 'black'}}>{`Button`}</Typography>
                 <StyledLink style={{marginRight: 20}}>{'Link'}</StyledLink>
             </CardContent>
         </Card>
 
         <Card elevation={0} style={{marginTop: 30, backgroundColor: 'white'}}>
-            <Typography type='title' style={{marginLeft: 20}}>COLORS</Typography>
-            <Typography type="subheading" style={{marginLeft: 20}}>Primary</Typography>
+            <Typography variant='title' style={{marginLeft: 20}}>COLORS</Typography>
+            <Typography variant="subheading" style={{marginLeft: 20}}>Primary</Typography>
             <Card elevation={0} style={{marginTop: 30, backgroundColor: 'white'}}>
                 <GridList style={{flexWrap: 'nowrap'}} cols={2} cellHeight={'auto'}>
                     <GridListTile
@@ -75,7 +75,7 @@ const StyleGuide = (props) => (
             </Card>
 
 
-            <Typography type="subheading" style={{marginLeft: 20}}>Secondary</Typography>
+            <Typography variant="subheading" style={{marginLeft: 20}}>Secondary</Typography>
 
             <Card elevation={0} style={{marginTop: 30, backgroundColor: 'white'}}>
                 <GridList style={{flexWrap: 'nowrap'}} cols={2} padding={10} cellHeight={'auto'}>
@@ -110,7 +110,7 @@ const StyleGuide = (props) => (
             </Card>
 
 
-            <Typography type="subheading" style={{marginLeft: 20}}>Info, Error, and Warning colors</Typography>
+            <Typography variant="subheading" style={{marginLeft: 20}}>Info, Error, and Warning colors</Typography>
             <Card elevation={0} style={{marginTop: 30, backgroundColor: 'white'}}>
                 <GridList style={{flexWrap: 'nowrap'}} cols={2} padding={10} cellHeight={'auto'}>
                     <GridListTile
@@ -154,7 +154,7 @@ const StyleGuide = (props) => (
         </Card>
 
         <Card elevation={0} style={{marginTop: 30, backgroundColor: 'white'}}>
-            <Typography type='title' style={{marginLeft: 20}}>BUTTONS</Typography>
+            <Typography variant='title' style={{marginLeft: 20}}>BUTTONS</Typography>
             <CardContent>
                 <CancelButton style={{marginRight: 20}}>Cancel Button</CancelButton>
                 <SubmitButton style={{marginRight: 20}}>Submit Button</SubmitButton>

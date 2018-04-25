@@ -1,6 +1,6 @@
 import React from 'react'
 import {IconButton, Snackbar, withStyles} from 'material-ui'
-import CloseIcon from 'material-ui-icons/Close'
+import CloseIcon from '@material-ui/icons/Close'
 
 const styleSheet = theme => ({
     error: {

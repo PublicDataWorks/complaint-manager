@@ -1,6 +1,6 @@
 import React from 'react'
-import HomeIcon from 'material-ui-icons/Home';
-import Settings from 'material-ui-icons/Settings';
+import HomeIcon from '@material-ui/icons/Home';
+import Settings from '@material-ui/icons/Settings';
 import {AppBar, IconButton, Menu, MenuItem, Toolbar, Typography} from 'material-ui'
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
@@ -87,7 +87,7 @@ class NavBar extends React.Component {
 
                     <Typography
                         data-test="userNickName"
-                        type="title"
+                        variant="title"
                         color="inherit"
 
                     >{`${nickname}`}</Typography>

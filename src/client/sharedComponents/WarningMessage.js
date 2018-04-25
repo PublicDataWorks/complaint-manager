@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react'
-import ReportProblemIcon from 'material-ui-icons/ReportProblem'
+import ReportProblemIcon from '@material-ui/icons/ReportProblem'
 import {withStyles} from "material-ui";
 
 const styles = theme => ({

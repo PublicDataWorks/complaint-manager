@@ -67,7 +67,7 @@ class CreateUserDialog extends React.Component {
                 </Dialog>
 
                 <Button
-                    raised
+                    variant="raised"
                     data-test="createUserButton"
                     onClick={this.openDialog}
                     color="primary"

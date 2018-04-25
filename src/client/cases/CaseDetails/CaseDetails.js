@@ -14,7 +14,7 @@ import Attachments from "./Attachments/Attachments";
 import styles from "./caseDetailsStyles"
 import CaseDrawer from "./CaseDrawer";
 import Button from 'material-ui/Button';
-import AddIcon from 'material-ui-icons/Add';
+import AddIcon from '@material-ui/icons/Add';
 import { Menu, MenuItem } from "material-ui";
 import IncidentDetailsContainer from "./IncidentDetails/IncidentDetailsContainer";
 import {openCivilianDialog} from "../../actionCreators/casesActionCreators";
@@ -67,7 +67,7 @@ class CaseDetails extends React.Component {
                     <NavBar isHome={false} customStyle={appBar}>
                         <Typography
                             data-test="pageTitle"
-                            type="title"
+                            variant="title"
                             color="inherit"
                             style={{ marginRight: '20px' }}
 
@@ -76,7 +76,7 @@ class CaseDetails extends React.Component {
                         </Typography>
                         <Typography
                             data-test="caseStatusBox"
-                            type="caption"
+                            variant="caption"
                             color="inherit"
                             className={classes.statusBox}
                         >
@@ -101,7 +101,7 @@ class CaseDetails extends React.Component {
                     <CaseDetailSnackbar/>
                     <Button
                         data-test="caseActionMenu"
-                        fab
+                        variant="fab"
                         color="primary"
                         style={{ position: 'fixed', bottom: '32px', right: '32px' }}
                         onClick={this.handleMenuOpen}

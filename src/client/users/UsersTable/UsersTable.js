@@ -22,7 +22,7 @@ class UsersTable extends React.Component {
         return (
             <div>
                 <Typography
-                    type="title"
+                    variant="title"
                     className={classes.labelMargin}>
                     All Users
                 </Typography>
@@ -31,17 +31,17 @@ class UsersTable extends React.Component {
                         <TableHead>
                             <TableRow className={classes.row}>
                                 <TableCell className={classes.cell}>
-                                    <Typography type='body2'>
+                                    <Typography variant='body2'>
                                         Name
                                     </Typography>
                                 </TableCell>
                                 <TableCell className={classes.cell}>
-                                    <Typography type='body2'>
+                                    <Typography variant='body2'>
                                         Email
                                     </Typography>
                                 </TableCell>
                                 <TableCell className={classes.cell}>
-                                    <Typography type='body2'>
+                                    <Typography variant='body2'>
                                         Date Added
                                     </Typography>
                                 </TableCell>

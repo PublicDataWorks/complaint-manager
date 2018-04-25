@@ -33,7 +33,7 @@ const getSubtitleText = ( civilians ) => {
 
     return (
         <WarningMessage>
-            <Typography type={'body1'}>Please add at least one complainant to this case</Typography>
+            <Typography variant={'body1'}>Please add at least one complainant to this case</Typography>
         </WarningMessage>
     )
 }

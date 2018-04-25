@@ -16,7 +16,7 @@ export class OfficerSearchResults extends Component {
         return (
             <div>
                 <Typography
-                    type="title">
+                    variant="title">
                     Search Results
                 </Typography>
                 <Paper elevation={0}>
@@ -49,7 +49,7 @@ export class OfficerSearchResults extends Component {
 
         return (
             <Typography
-                type="body1"
+                variant="body1"
                 data-test={"searchResultsMessage"}
                 style={{marginBottom: '16px'}}
             >

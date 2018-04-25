@@ -19,7 +19,7 @@ class CasesTable extends React.Component {
         return (
             <div>
                 <Typography
-                    type="title"
+                    variant="title"
                     className={classes.labelMargin}>
                     Results
                 </Typography>
@@ -34,7 +34,7 @@ class CasesTable extends React.Component {
                                         direction={this.props.sortDirection}
                                         active={this.props.sortBy === 'id'}
                                     >
-                                        <Typography type='body2'>Case #</Typography>
+                                        <Typography variant='body2'>Case #</Typography>
                                     </TableSortLabel>
                                 </TableCell>
                                 <TableCell data-test='casesStatusHeader' style={{paddingLeft:'24px', width: '18%'}} className={classes.cell}>
@@ -44,7 +44,7 @@ class CasesTable extends React.Component {
                                         direction={this.props.sortDirection}
                                         active={this.props.sortBy === 'status'}
                                     >
-                                        <Typography type='body2'>Status</Typography>
+                                        <Typography variant='body2'>Status</Typography>
                                     </TableSortLabel>
                                 </TableCell>
                                 <TableCell data-test='casesComplainantHeader' style={{paddingLeft:'24px', width: '18%'}} className={classes.cell}>
@@ -54,7 +54,7 @@ class CasesTable extends React.Component {
                                         direction={this.props.sortDirection}
                                         active={this.props.sortBy === 'lastName'}
                                     >
-                                        <Typography type='body2'>Complainant</Typography>
+                                        <Typography variant='body2'>Complainant</Typography>
                                     </TableSortLabel>
                                 </TableCell>
                                 <TableCell data-test='casesFirstContactDateHeader' style={{paddingLeft:'24px', width: '18%'}} className={classes.cell}>
@@ -64,7 +64,7 @@ class CasesTable extends React.Component {
                                         direction={this.props.sortDirection}
                                         active={this.props.sortBy === 'firstContactDate'}
                                     >
-                                        <Typography type='body2'>First Contact Date</Typography>
+                                        <Typography variant='body2'>First Contact Date</Typography>
                                     </TableSortLabel>
                                 </TableCell>
                                 <TableCell data-test='casesAssignedToHeader' style={{paddingLeft:'24px', width: '18%'}} className={classes.cell}>
@@ -74,7 +74,7 @@ class CasesTable extends React.Component {
                                         direction={this.props.sortDirection}
                                         active={this.props.sortBy === 'assignedTo'}
                                     >
-                                        <Typography type='body2'>Assigned To</Typography>
+                                        <Typography variant='body2'>Assigned To</Typography>
                                     </TableSortLabel>
                                 </TableCell>
                                 <TableCell style={{paddingLeft:'24px', width: '15%'}} className={classes.cell}/>

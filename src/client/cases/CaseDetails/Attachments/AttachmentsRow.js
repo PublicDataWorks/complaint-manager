@@ -29,7 +29,7 @@ const AttachmentsRow = ({attachment, onRemoveAttachment, dispatch }) => {
                 </div>
                 <div style={{flex: 1, textAlign: 'left', marginRight: '16px'}}>
                     <Typography
-                        type='body1'
+                        variant='body1'
                         data-test="attachmentDescription"
                     >
                         {

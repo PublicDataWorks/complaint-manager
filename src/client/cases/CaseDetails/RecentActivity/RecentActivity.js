@@ -15,7 +15,7 @@ class RecentActivity extends Component {
         return (
             <div style={{margin: '0px 24px'}}>
                 <Typography
-                    type={'title'}
+                    variant={'title'}
                     style={{
                         marginBottom: '16px'
                     }}

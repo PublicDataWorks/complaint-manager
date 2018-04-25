@@ -13,25 +13,25 @@ const OfficerSearchTableHeader = (props) => {
         <TableHead>
             <TableRow className={classes.row}>
                 <TableCell data-test='casesNumberHeader' className={classes.cell} style={{paddingLeft: '12px', width: "17%"}}>
-                    <Typography type='body2'>Name</Typography>
+                    <Typography variant='body2'>Name</Typography>
                 </TableCell>
                 <TableCell data-test='casesComplainantHeader' className={classes.cell} style={{width: "17%"}}>
-                    <Typography type='body2'>Rank</Typography>
+                    <Typography variant='body2'>Rank</Typography>
                 </TableCell>
                 <TableCell data-test='casesFirstContactDateHeader' className={classes.cell} style={{width: "17%"}}>
-                    <Typography type='body2'>Bureau</Typography>
+                    <Typography variant='body2'>Bureau</Typography>
                 </TableCell>
                 <TableCell data-test='casesAssignedToHeader' className={classes.cell} style={{width: "11%"}}>
-                    <Typography type='body2'>District</Typography>
+                    <Typography variant='body2'>District</Typography>
                 </TableCell>
                 <TableCell data-test='casesAssignedToHeader' className={classes.cell} style={{width: "10%"}}>
-                    <Typography type='body2'>Gender</Typography>
+                    <Typography variant='body2'>Gender</Typography>
                 </TableCell>
                 <TableCell data-test='casesAssignedToHeader' className={classes.cell} style={{width: "10%"}}>
-                    <Typography type='body2'>Race</Typography>
+                    <Typography variant='body2'>Race</Typography>
                 </TableCell>
                 <TableCell data-test='casesAssignedToHeader' className={classes.cell} style={{width: "8%"}}>
-                    <Typography type='body2'>Age</Typography>
+                    <Typography variant='body2'>Age</Typography>
                 </TableCell>
                 <TableCell className={classes.cell} style={{width: "10%"}}/>
             </TableRow>

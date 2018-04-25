@@ -8,8 +8,6 @@ import {TextField} from 'redux-form-material-ui'
 import OfficerTypeRadioGroup from "./OfficerTypeRadioGroup";
 import {Field, reduxForm} from "redux-form";
 import styles from "../../globalStyling/styles";
-import {clearSelectedOfficer} from "../../actionCreators/officersActionCreators";
-import LinkButton from "../../sharedComponents/LinkButton";
 import addOfficer from "../thunks/addOfficer";
 import {SubmitButton} from "../../sharedComponents/StyledButtons";
 import {ChangeOfficer} from "../OfficerSearch/OfficerSearchResults/officerSearchResultsRowButtons";
@@ -25,7 +23,7 @@ const OfficerDetails = (props) => {
         <div>
             <Typography
                 style={{marginBottom: '16px'}}
-                type="title">
+                variant="title">
                 Selected Officer
             </Typography>
             <Table style={{marginBottom: '32px'}}>
@@ -37,7 +35,7 @@ const OfficerDetails = (props) => {
                 </TableBody>
             </Table>
             <Typography
-                type="title"
+                variant="title"
                 style={{marginBottom: '16px'}}
             >
                 Additional Info
@@ -55,7 +53,7 @@ const OfficerDetails = (props) => {
                             />
                         </div>
                         <Typography style={styles.section}>Notes</Typography>
-                        <Typography type='body1'>Use this section to indicate any information about the officer's
+                        <Typography variant='body1'>Use this section to indicate any information about the officer's
                             history or risk assessment.</Typography>
                         <Field
                             component={TextField}

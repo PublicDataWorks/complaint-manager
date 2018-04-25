@@ -28,7 +28,7 @@ const ActivityDisplay = ({activity}) => (
                         {activity.action}
                     </Typography>
                     <Typography
-                        type={'caption'}
+                        variant={'caption'}
                         data-test="userText"
                     >
                         {activity.user}

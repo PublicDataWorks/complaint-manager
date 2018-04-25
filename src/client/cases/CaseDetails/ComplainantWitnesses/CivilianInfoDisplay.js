@@ -4,13 +4,13 @@ import {Typography} from "material-ui";
 const CivilianInfoDisplay = (props) => (
     <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
         <Typography
-            type='caption'
+            variant='caption'
             data-test={`${props.testLabel}Label`}
         >
             {props.displayLabel}
         </Typography>
         <Typography
-            type='body1'
+            variant='body1'
             data-test={props.testLabel}
             style={{whiteSpace: "pre-wrap"}}
         >

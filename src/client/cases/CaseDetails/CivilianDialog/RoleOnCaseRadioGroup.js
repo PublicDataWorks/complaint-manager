@@ -4,7 +4,7 @@ import {RadioGroup} from 'redux-form-material-ui';
 
 const RoleOnCaseRadioGroup = (props) => (
     <FormControl>
-        <Typography type='body2' style={{marginBottom: '8px'}}>Role On Case</Typography>
+        <Typography variant='body2' style={{marginBottom: '8px'}}>Role On Case</Typography>
         <RadioGroup
             {...props}
             style={{flexDirection: "row", marginBottom: '24px'}}
@@ -12,11 +12,11 @@ const RoleOnCaseRadioGroup = (props) => (
         >
             <FormControlLabel
                 value="Complainant"
-                control={<Radio />}
+                control={<Radio color="primary"/>}
                 label="Complainant" />
             <FormControlLabel
                 value="Witness"
-                control={<Radio/>}
+                control={<Radio color="primary"/>}
                 label="Witness"
             />
         </RadioGroup>

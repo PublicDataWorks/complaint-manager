@@ -4,7 +4,7 @@ import React from 'react'
 export const CancelButton = ({children, onClick, ...other}) => {
   return (
     <Button
-      raised
+      variant="raised"
       onClick={onClick}
       color="secondary"
       {...other}>{children}</Button>
@@ -14,14 +14,10 @@ export const CancelButton = ({children, onClick, ...other}) => {
 export const SubmitButton = ({children, onClick, ...other}) => {
   return (
     <Button
-      raised
+      variant="raised"
       onClick={onClick}
       type="submit"
       color="primary"
       {...other}>{children}</Button>
   )
 }
-
-
-
-

@@ -39,7 +39,7 @@ class AttachmentsList extends Component {
                         ))
                         : (
                             <div>
-                                <Typography type='body1' data-test='noAttachmentsText'>
+                                <Typography variant='body1' data-test='noAttachmentsText'>
                                     No files are attached
                                 </Typography>
                             </div>

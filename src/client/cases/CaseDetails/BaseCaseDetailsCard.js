@@ -24,7 +24,7 @@ const BaseCaseDetailsCard = (props) => (
     >
         <CardContent>
             <Typography
-                type='title'
+                variant='title'
             >
                 {props.title}
             </Typography>

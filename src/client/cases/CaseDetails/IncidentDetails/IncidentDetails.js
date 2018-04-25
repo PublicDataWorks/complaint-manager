@@ -44,11 +44,7 @@ class IncidentDetails extends React.Component {
             <BaseCaseDetailsCard
                 title='Incident Details'
             >
-                <CardContent
-                    style={{
-                        padding: '16px'
-                    }}
-                >
+                <CardContent>
                     <div style={{display: 'flex', width: '100%', paddingRight: 0, marginBottom: '26px'}}>
                         <CivilianInfoDisplay
                             displayLabel='First Contact Date'

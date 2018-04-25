@@ -16,7 +16,7 @@ class RemoveAttachmentConfirmationDialog extends React.Component {
                 <DialogContent>
                     <Typography
                         data-test={'removeAttachmentText'}
-                        type={'body1'}
+                        variant={'body1'}
                         style={{wordBreak: 'break-word'}}
                     >
                         Are you sure you wish to remove <strong>{this.props.attachmentFileName}</strong> from this case?

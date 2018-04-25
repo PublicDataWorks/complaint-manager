@@ -103,13 +103,13 @@ class CreateCaseDialog extends React.Component {
                     </DialogTitle>
                     <DialogContent style={{padding: '0px 24px'}}>
                         <DialogContentText style={{paddingBottom: '3%'}}>
-                            <Typography type='caption'>
+                            <Typography variant='caption'>
                                 Enter as much information as available to start a case. You will be able to edit this
                                 information later.
                             </Typography>
                         </DialogContentText>
                         <form data-test="createCaseForm">
-                            <Typography type='body2' style={{marginBottom: '8px'}}>Timeline</Typography>
+                            <Typography variant='body2' style={{marginBottom: '8px'}}>Timeline</Typography>
                             <DateField
                                 required={true}
                                 name='case.firstContactDate'

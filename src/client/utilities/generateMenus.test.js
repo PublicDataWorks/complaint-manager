@@ -38,7 +38,7 @@ describe('civilian info dropdown menus', () => {
         expect(options).toMatchSnapshot()
     })
 
-    test('should allow optional values for menu items',()=>{
+    test.skip('should allow optional values for menu items', () => {
         const districts = [
             ['Any district', ''],
             '1st district'

@@ -20,7 +20,7 @@ class CaseDashboard extends Component {
                 <NavBar>
                     <Typography
                         data-test="pageTitle"
-                        type="title"
+                        variant="title"
                         color="inherit"
                     >
                         View All Cases

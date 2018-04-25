@@ -30,7 +30,6 @@ describe('DateField', () => {
 
     test('should display label', () => {
         expect(datePickerField.text()).toContain('TEST DATE FIELD LABEL')
-
     })
 
     test('should have a name', () => {
@@ -40,7 +39,7 @@ describe('DateField', () => {
     test('should show validation error when input is a future date', () => {
         const tomorrow = moment(Date.now()).add(2, 'days').format("YYYY-MM-DD")
         datePicker.simulate('change', {target: {value: tomorrow}})
-        datePickerField.simulate('blur')
+        datePicker.simulate('blur')
 
         expect(datePickerField.text()).toContain('Date cannot be in the future')
     })
@@ -48,7 +47,7 @@ describe('DateField', () => {
     test('should allow past date as input', () => {
         const yesterday = moment(Date.now()).subtract(1, 'days').format("YYYY-MM-DD")
         datePicker.simulate('change', {target: {value: yesterday}})
-        datePickerField.simulate('blur')
+        datePicker.simulate('blur')
 
         expect(datePicker.instance().value).toEqual(yesterday)
     })

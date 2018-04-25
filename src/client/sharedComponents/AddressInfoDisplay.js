@@ -6,18 +6,18 @@ const AddresesInfoDisplay = ({testLabel, displayLabel, address}) => {
     return (
         <div style={{flex: 2, textAlign: 'left', marginRight: '20px'}}>
             <Typography
-                type='caption'
+                variant='caption'
             >
                 {displayLabel}
             </Typography>
             <Typography
-                type='body1'
+                variant='body1'
                 data-test={testLabel}
             >
                 {Boolean(formatAddress(address)) ? formatAddress(address) : 'No address specified'}
             </Typography>
             <Typography
-                type='body1'
+                variant='body1'
                 data-test={`${testLabel}AdditionalInfo`}
             >
                 {address && address.streetAddress2 ? address.streetAddress2 : ''}

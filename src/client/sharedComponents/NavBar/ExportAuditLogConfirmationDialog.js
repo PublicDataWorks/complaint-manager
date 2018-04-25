@@ -20,7 +20,7 @@ const ExportAuditLogConfirmationDialog = (props) => {
             <DialogContent>
                 <Typography
                     data-test="exportAuditLogConfirmationText"
-                    type={'body1'}
+                    variant={'body1'}
                     style={{wordBreak: 'break-word'}}
                 >
                     Your export will be saved as <strong>{fileName}</strong>

@@ -67,7 +67,7 @@ class CivilianDialog extends Component {
                             style={{marginBottom: '8px'}}
                         />
 
-                        <Typography type='body2' style={{marginBottom: '8px'}}>
+                        <Typography variant='body2' style={{marginBottom: '8px'}}>
                             Personal Information
                         </Typography>
                         <FirstNameField name='firstName'/>
@@ -128,7 +128,7 @@ class CivilianDialog extends Component {
                             { raceEthnicityMenu }
                         </Field>
 
-                        <Typography type='body2' style={{marginBottom: '8px'}}>
+                        <Typography variant='body2' style={{marginBottom: '8px'}}>
                             Contact Information
                         </Typography>
                         <PhoneNumberField name='phoneNumber'/>
@@ -150,7 +150,7 @@ class CivilianDialog extends Component {
                             }}
                         />
 
-                        <Typography type='body2' style={{marginBottom: '8px'}}>
+                        <Typography variant='body2' style={{marginBottom: '8px'}}>
                             Notes
                         </Typography>
                         <Field
