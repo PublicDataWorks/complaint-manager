@@ -14,8 +14,14 @@ app.use(helmet.hsts({
     maxAge: twoYearsInSeconds
 }))
 
+app.use(helmet.frameguard({ action: 'deny' }))
+app.use(helmet.noSniff())
+
 app.use(helmet.contentSecurityPolicy({
     directives: {
+        formAction: [ "'none'" ],
+        defaultSrc: [ "'none'" ],
+        baseUri: [ "'none'" ],
         connectSrc: config[process.env.NODE_ENV].contentSecurityPolicy.connectSrc,
         fontSrc: ['https://fonts.googleapis.com' ,'https://fonts.gstatic.com'],
         objectSrc: ["'none'"],
