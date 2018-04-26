@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import getFirstCivilian from "./getFirstCivilian";
+import getFirstComplainant from "./getFirstComplainant";
 
 const STATUS = Object.freeze({
     'Initial': 1,
@@ -8,6 +8,22 @@ const STATUS = Object.freeze({
     'Suspended': 4,
     'Complete': 5
 })
+
+const complainantExists = ({ civilians }) => {
+    const complainant = getFirstComplainant(civilians)
+
+    return Boolean(complainant)
+};
+
+const existingComplainantLastName = ({ civilians }) => {
+    const complainant = getFirstComplainant(civilians)
+
+    if (complainant) {
+        return complainant.lastName.toUpperCase()
+    } else {
+        return null
+    }
+};
 
 const sortBy = (collection, sortBy, sortDirection) => {
     if (sortBy === 'status') {
@@ -24,11 +40,8 @@ const sortBy = (collection, sortBy, sortDirection) => {
     }
 
     if (sortBy === 'lastName') {
-        const sortedCases = _.sortBy(collection, [(o) => {
-            const nameToSortBy = getFirstCivilian(o.civilians).lastName
 
-            if (nameToSortBy) { return nameToSortBy.toUpperCase()}
-        }])
+        const sortedCases = _.sortBy(collection, [complainantExists, existingComplainantLastName])
 
          if (sortDirection === 'desc') {
             return sortedCases.reverse()

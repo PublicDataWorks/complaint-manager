@@ -161,4 +161,26 @@ describe('Complainant and Witnesses', () => {
             containsText(complainantPanel, '[data-test="complainantAdditionalInfo"]', complainant.additionalInfo)
         })
     })
+
+    test('warning message shows when no complainants', () => {
+        const witness = new Civilian.Builder().defaultCivilian()
+            .withRoleOnCase("Witness")
+            .build()
+
+        const caseWithoutComplainant = new Case.Builder().defaultCase()
+            .withCivilians([witness])
+            .build()
+
+        const wrapper = mount(<ComplainantWitnesses caseDetail={caseWithoutComplainant}/>)
+        const warn = wrapper.find("[data-test='warnIcon']")
+
+        expect(warn.exists()).toBeTruthy()
+        containsText(wrapper, "[data-test='complainantWitnessesSection']", "Please add at least one complainant to this case")
+    })
+
+    test('warning message does not when no complainants', () => {
+        const title = complainantWitnesses.find("[data-test='warnIcon']")
+
+        expect(title.exists()).toBeFalsy()
+    })
 })

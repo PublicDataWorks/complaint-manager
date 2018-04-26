@@ -3,9 +3,8 @@ import {TableCell, TableRow, withStyles} from 'material-ui'
 import formatDate from "../../utilities/formatDate";
 import {Link} from "react-router-dom";
 import LinkButton from "../../sharedComponents/LinkButton";
-import formatName from "../../utilities/formatName";
 import tableStyleGenerator from "../../tableStyles";
-import getFirstCivilian from "../../utilities/getFirstCivilian";
+import DisplayComplainant from "./DisplayComplainant";
 
 const styles = theme => ({
     ...tableStyleGenerator(theme).body,
@@ -23,7 +22,7 @@ const CaseRow = ({classes, caseDetails}) => (
             {caseDetails.status}
         </TableCell>
         <TableCell data-test="caseName" className={classes.cell}>
-            {formatName(getFirstCivilian(caseDetails.civilians))}
+            <DisplayComplainant civilians={caseDetails.civilians}/>
         </TableCell>
         <TableCell data-test="caseFirstContactDate" className={classes.cell}>
             {formatDate(caseDetails.firstContactDate)}

@@ -142,6 +142,48 @@ describe('sorting', () => {
         expect(sortedCases).toEqual(expectedSortedCases)
     })
 
+    test('should sort by last name and handle cases with no civilians', () => {
+        const unsorted = [
+            {
+                id: 1,
+                status: 'Active',
+                civilians: [{
+                    lastName: 'Zeke',
+                    roleOnCase: 'Complainant'
+                }],
+                assignedTo: 'testUser'
+            },
+            {
+                id: 2,
+                status: 'Active',
+                civilians: [],
+                assignedTo: 'testUser'
+            }
+        ]
+
+        const expected = [
+            {
+                id: 2,
+                status: 'Active',
+                civilians: [],
+                assignedTo: 'testUser'
+            },
+            {
+                id: 1,
+                status: 'Active',
+                civilians: [{
+                    lastName: 'Zeke',
+                    roleOnCase: 'Complainant'
+                }],
+                assignedTo: 'testUser'
+            }
+        ]
+
+        const sortedCases = sortBy(unsorted, 'lastName', 'asc')
+
+        expect(sortedCases).toEqual(expected)
+    })
+
     test('should sort by assigned to ignoring case', () => {
         const expectedSortedCases = [
             {
@@ -177,5 +219,7 @@ describe('sorting', () => {
 
         expect(sortedCases).toEqual(expectedSortedCases)
     })
+
+
 });
 

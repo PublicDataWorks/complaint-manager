@@ -1,14 +1,18 @@
 import React from "react";
-import {CardContent} from "material-ui";
+import {CardContent, Typography} from "material-ui";
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import ComplainantPanel from "./ComplainantPanel";
 import _ from "lodash"
+import WarningMessage from "../../../sharedComponents/WarningMessage";
+import getFirstComplainant from "../../../utilities/getFirstComplainant";
 
 const ComplainantWitnesses = (props) => {
+
     return (
         <BaseCaseDetailsCard
             data-test="complainantWitnessesSection"
             title='Complainant & Witnesses'
+            subtitle={getSubtitleText(props.caseDetail.civilians)}
         >
             <CardContent style={{padding: '0'}}>
                 {
@@ -18,6 +22,19 @@ const ComplainantWitnesses = (props) => {
                 }
             </CardContent>
         </BaseCaseDetailsCard>
+    )
+}
+
+const getSubtitleText = ( civilians ) => {
+    const complainant = getFirstComplainant(civilians)
+    const hasComplainants = Boolean(complainant)
+
+    if (hasComplainants) { return null }
+
+    return (
+        <WarningMessage>
+            <Typography type={'body1'}>Please add at least one complainant to this case</Typography>
+        </WarningMessage>
     )
 }
 
