@@ -43,7 +43,8 @@ const ComplainantPanel = ({ civilian, dispatch }) => {
                         <div>
                             <LinkButton
                                 data-test="editComplainantLink"
-                                onClick={() => {
+                                onClick={(event) => {
+                                    event.stopPropagation()
                                     dispatch(initialize(CIVILIAN_FORM_NAME, civilian))
                                     dispatch(openCivilianDialog('Edit Civilian', 'Save', editCivilian))
                                 }}
