@@ -1,12 +1,12 @@
 import React from 'react'
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
-import {CardContent} from "material-ui";
 import CivilianInfoDisplay from "../ComplainantWitnesses/CivilianInfoDisplay";
 import formatDate, {computeTimeZone, format12HourTime} from "../../../utilities/formatDate";
 import LinkButton from "../../../sharedComponents/LinkButton";
 import IncidentDetailsDialog from "./IncidentDetailsDialog";
 import AddressInfoDisplay from "../../../sharedComponents/AddressInfoDisplay";
 import {initialize, reset} from "redux-form";
+import {CardContent} from "material-ui";
 
 class IncidentDetails extends React.Component {
 
@@ -44,7 +44,7 @@ class IncidentDetails extends React.Component {
             <BaseCaseDetailsCard
                 title='Incident Details'
             >
-                <CardContent>
+                <CardContent style={{ padding: '24px' }}>
                     <div style={{display: 'flex', width: '100%', paddingRight: 0, marginBottom: '26px'}}>
                         <CivilianInfoDisplay
                             displayLabel='First Contact Date'

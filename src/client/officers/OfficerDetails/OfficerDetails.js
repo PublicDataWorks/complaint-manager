@@ -1,8 +1,6 @@
 import React from 'react'
 import OfficerSearchTableHeader from "../OfficerSearchTableHeader";
-import {
-    Card, CardContent, Table, TableBody, Typography
-} from "material-ui";
+import {Card, CardContent, Table, TableBody, Typography} from "material-ui";
 import OfficerSearchResultsRow from "../OfficerSearch/OfficerSearchResults/OfficerSearchResultsRow";
 import {TextField} from 'redux-form-material-ui'
 import OfficerTypeRadioGroup from "./OfficerTypeRadioGroup";
@@ -41,7 +39,7 @@ const OfficerDetails = (props) => {
                 Additional Info
             </Typography>
             <Card style={{backgroundColor: 'white', marginBottom: '16px'}}>
-                <CardContent style={{paddingLeft: "16px"}}>
+                <CardContent>
                     <form>
                         <div style={{marginBottom: '24px'}}>
                             <Typography style={styles.section}>

@@ -23,7 +23,7 @@ const ComplainantPanel = ({ civilian, dispatch }) => {
                 elevation={0}
                 style={{backgroundColor: 'white'}}
             >
-                <ExpansionPanelSummary style={{padding: "0px 16px"}}>
+                <ExpansionPanelSummary style={{padding: "0px 24px"}}>
                     <div style={{display: 'flex', width: '100%', paddingRight: 0}}>
                         <CivilianInfoDisplay
                             displayLabel={civilian.roleOnCase}

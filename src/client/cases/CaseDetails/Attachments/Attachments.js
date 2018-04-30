@@ -8,7 +8,7 @@ import AttachmentsListContainer from "./AttachmentsListContainer";
 const Attachments = (props) => {
     return (
         <BaseCaseDetailsCard title='Attachments'>
-            <CardContent style={{paddingBottom: '16px'}}>
+            <CardContent style={{paddingBottom: '24px'}}>
                 <div style={{display: 'flex', width: '100%'}}>
                     <div style={{flex: 1, textAlign: 'left', marginRight: '32px', marginBottom: '8px'}}>
                         <Typography style={styles.section}>
