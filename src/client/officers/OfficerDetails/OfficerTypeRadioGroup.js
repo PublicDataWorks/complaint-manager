@@ -4,7 +4,7 @@ import {RadioGroup} from 'redux-form-material-ui'
 const OfficerTypeRadioGroup = (props) => (
     <FormControl>
         <RadioGroup {...props}>
-            <FormControlLabel control={<Radio/>} label="Accused Officer" value="Accused"/>
+            <FormControlLabel control={<Radio/>} label="Accused" value="Accused"/>
         </RadioGroup>
     </FormControl>
 )

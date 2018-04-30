@@ -27,13 +27,23 @@ describe('OfficerSearchResults', () => {
             expect(searchResultsMessage.exists()).toEqual(false)
         });
         test('should display number of search results when single result is present and spinner is not visible', () => {
-            const wrapper = shallow(<OfficerSearchResults spinnerVisible={false} classes={{}}
-                                                          searchResults={[{firstName: 'bob', id: 1}]}/>);
+            const wrapper = shallow(
+                <OfficerSearchResults
+                    spinnerVisible={false}
+                    classes={{}}
+                    searchResults={[{firstName: 'bob', id: 1}]}
+                    officerIds={[4]}
+            />);
             expect(wrapper.find("[data-test='searchResultsMessage']").children().text()).toEqual("1 result found");
         })
         test('should display number of search results when searchResults are present and spinner is not visible', () => {
-            const wrapper = shallow(<OfficerSearchResults spinnerVisible={false} classes={{}}
-                                                          searchResults={[{firstName: 'bob', id: 1}, {firstName: 'joan', id: 2}]}/>);
+            const wrapper = shallow(
+                <OfficerSearchResults
+                    spinnerVisible={false}
+                    classes={{}}
+                    searchResults={[{firstName: 'bob', id: 1}, {firstName: 'joan', id: 2}]}
+                    officerIds={[4]}
+                />);
             expect(wrapper.find("[data-test='searchResultsMessage']").children().text()).toEqual("2 results found");
         })
     });

@@ -63,10 +63,17 @@ const OfficerDetails = (props) => {
                     </form>
                 </CardContent>
             </Card>
-            <LinkButton onClick={() => props.dispatch(clearSelectedOfficer())}>Back to Search</LinkButton>
-            <SubmitButton onClick={props.handleSubmit(onSubmit)}>Add Officer to Case</SubmitButton>
+            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                <LinkButton onClick={() => props.dispatch(clearSelectedOfficer())}>Back to Search</LinkButton>
+                <SubmitButton onClick={props.handleSubmit(onSubmit)}>Add Officer to Case</SubmitButton>
+            </div>
         </div>
     );
 };
 
-export default reduxForm({form: "OfficerDetails"})(OfficerDetails)
+export default reduxForm({
+    form: "OfficerDetails",
+    initialValues: {
+        roleOnCase: "Accused"
+    }
+})(OfficerDetails)

@@ -86,7 +86,17 @@ describe('Officer Dashboard', () => {
     test('should clear selected officer when Back to Case is clicked', () => {
         const store = createConfiguredStore()
         const dispatchSpy = jest.spyOn(store, 'dispatch')
-        store.dispatch(getCaseDetailsSuccess({id: 1}))
+        store.dispatch(getCaseDetailsSuccess({
+            id: 1,
+            accusedOfficers: [{
+                id: 23,
+                roleOnCase: "Accused",
+                officer: {
+                   id: 34
+                }
+            }]
+        }))
+
         const officerDashboard = mount(
             <Provider store={store}>
                 <Router>
