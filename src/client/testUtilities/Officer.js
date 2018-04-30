@@ -57,6 +57,11 @@ class Officer {
                 return this;
             }
 
+            withWorkStatus(status) {
+                this.workStatus = status;
+                return this
+            }
+
             build() {
                 return new Officer(this)
             }

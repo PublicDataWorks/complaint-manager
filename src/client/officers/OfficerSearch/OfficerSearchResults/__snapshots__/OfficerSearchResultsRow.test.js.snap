@@ -1,0 +1,642 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it can render officer search results with correct styles 1`] = `
+<WithStyles(Table)>
+  <Table
+    classes={
+      Object {
+        "root": "MuiTable-root-1",
+      }
+    }
+    component="table"
+  >
+    <table
+      className="MuiTable-root-1"
+    >
+      <TableBody
+        component="tbody"
+      >
+        <tbody>
+          <WithStyles(OfficerSearchResultsRow)
+            officer={
+              Officer {
+                "bureau": "FOB - Field Operations Bureau",
+                "district": "First District",
+                "dob": "1990-04-30",
+                "firstName": "Ugochi",
+                "gender": "Female",
+                "id": 57,
+                "lastName": "Smith",
+                "middleName": "Grant",
+                "officerNumber": 200,
+                "race": "Cuban",
+                "rank": "Police Commander",
+                "workStatus": "Inactive",
+              }
+            }
+          >
+            <OfficerSearchResultsRow
+              classes={
+                Object {
+                  "active": "OfficerSearchResultsRow-active-5",
+                  "buttonCell": "OfficerSearchResultsRow-buttonCell-4",
+                  "cell": "OfficerSearchResultsRow-cell-3",
+                  "deceased": "OfficerSearchResultsRow-deceased-7",
+                  "inactive": "OfficerSearchResultsRow-inactive-9",
+                  "retired": "OfficerSearchResultsRow-retired-8",
+                  "row": "OfficerSearchResultsRow-row-2",
+                  "terminated": "OfficerSearchResultsRow-terminated-6",
+                }
+              }
+              officer={
+                Officer {
+                  "bureau": "FOB - Field Operations Bureau",
+                  "district": "First District",
+                  "dob": "1990-04-30",
+                  "firstName": "Ugochi",
+                  "gender": "Female",
+                  "id": 57,
+                  "lastName": "Smith",
+                  "middleName": "Grant",
+                  "officerNumber": 200,
+                  "race": "Cuban",
+                  "rank": "Police Commander",
+                  "workStatus": "Inactive",
+                }
+              }
+              theme={
+                Object {
+                  "breakpoints": Object {
+                    "between": [Function],
+                    "down": [Function],
+                    "keys": Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ],
+                    "only": [Function],
+                    "up": [Function],
+                    "values": Object {
+                      "lg": 1280,
+                      "md": 960,
+                      "sm": 600,
+                      "xl": 1920,
+                      "xs": 0,
+                    },
+                    "width": [Function],
+                  },
+                  "direction": "ltr",
+                  "mixins": Object {
+                    "gutters": [Function],
+                    "toolbar": Object {
+                      "@media (min-width:0px) and (orientation: landscape)": Object {
+                        "minHeight": 48,
+                      },
+                      "@media (min-width:600px)": Object {
+                        "minHeight": 64,
+                      },
+                      "minHeight": 56,
+                    },
+                  },
+                  "palette": Object {
+                    "action": Object {
+                      "active": "rgba(0, 0, 0, 0.54)",
+                      "disabled": "rgba(0, 0, 0, 0.26)",
+                      "disabledBackground": "rgba(0, 0, 0, 0.12)",
+                      "hover": "rgba(0, 0, 0, 0.14)",
+                      "selected": "rgba(0, 0, 0, 0.08)",
+                    },
+                    "background": Object {
+                      "appBar": "#f5f5f5",
+                      "avatar": "#bdbdbd",
+                      "chip": "#e0e0e0",
+                      "default": "#fafafa",
+                      "paper": "#fff",
+                    },
+                    "common": Object {
+                      "black": "#000",
+                      "fullBlack": "rgba(0, 0, 0, 1)",
+                      "fullWhite": "rgba(255, 255, 255, 1)",
+                      "transparent": "transparent",
+                      "white": "#fff",
+                    },
+                    "contrastThreshold": 3,
+                    "divider": "rgba(0, 0, 0, 0.12)",
+                    "error": Object {
+                      "contrastText": "rgba(255, 255, 255, 1)",
+                      "dark": "rgb(170, 46, 37)",
+                      "light": "rgb(246, 104, 94)",
+                      "main": "#f44336",
+                    },
+                    "getContrastText": [Function],
+                    "grey": Object {
+                      "100": "#f5f5f5",
+                      "200": "#eeeeee",
+                      "300": "#e0e0e0",
+                      "400": "#bdbdbd",
+                      "50": "#fafafa",
+                      "500": "#9e9e9e",
+                      "600": "#757575",
+                      "700": "#616161",
+                      "800": "#424242",
+                      "900": "#212121",
+                      "A100": "#d5d5d5",
+                      "A200": "#aaaaaa",
+                      "A400": "#303030",
+                      "A700": "#616161",
+                    },
+                    "primary": Object {
+                      "contrastText": "rgba(255, 255, 255, 1)",
+                      "dark": "#303f9f",
+                      "light": "#7986cb",
+                      "main": "#3f51b5",
+                    },
+                    "secondary": Object {
+                      "contrastText": "rgba(255, 255, 255, 1)",
+                      "dark": "#c51162",
+                      "light": "#ff4081",
+                      "main": "#f50057",
+                    },
+                    "text": Object {
+                      "disabled": "rgba(0, 0, 0, 0.38)",
+                      "hint": "rgba(0, 0, 0, 0.38)",
+                      "primary": "rgba(0, 0, 0, 0.87)",
+                      "secondary": "rgba(0, 0, 0, 0.54)",
+                    },
+                    "tonalOffset": 0.2,
+                    "type": "light",
+                    "types": Object {
+                      "dark": Object {
+                        "action": Object {
+                          "active": "rgba(255, 255, 255, 1)",
+                          "disabled": "rgba(255, 255, 255, 0.3)",
+                          "disabledBackground": "rgba(255, 255, 255, 0.12)",
+                          "hover": "rgba(255, 255, 255, 0.14)",
+                          "selected": "rgba(255, 255, 255, 0.8)",
+                        },
+                        "background": Object {
+                          "appBar": "#212121",
+                          "avatar": "#757575",
+                          "chip": "#616161",
+                          "default": "#303030",
+                          "paper": "#424242",
+                        },
+                        "divider": "rgba(255, 255, 255, 0.12)",
+                        "text": Object {
+                          "disabled": "rgba(255, 255, 255, 0.5)",
+                          "hint": "rgba(255, 255, 255, 0.5)",
+                          "icon": "rgba(255, 255, 255, 0.5)",
+                          "primary": "rgba(255, 255, 255, 1)",
+                          "secondary": "rgba(255, 255, 255, 0.7)",
+                        },
+                      },
+                      "light": Object {
+                        "action": Object {
+                          "active": "rgba(0, 0, 0, 0.54)",
+                          "disabled": "rgba(0, 0, 0, 0.26)",
+                          "disabledBackground": "rgba(0, 0, 0, 0.12)",
+                          "hover": "rgba(0, 0, 0, 0.14)",
+                          "selected": "rgba(0, 0, 0, 0.08)",
+                        },
+                        "background": Object {
+                          "appBar": "#f5f5f5",
+                          "avatar": "#bdbdbd",
+                          "chip": "#e0e0e0",
+                          "default": "#fafafa",
+                          "paper": "#fff",
+                        },
+                        "divider": "rgba(0, 0, 0, 0.12)",
+                        "text": Object {
+                          "disabled": "rgba(0, 0, 0, 0.38)",
+                          "hint": "rgba(0, 0, 0, 0.38)",
+                          "primary": "rgba(0, 0, 0, 0.87)",
+                          "secondary": "rgba(0, 0, 0, 0.54)",
+                        },
+                      },
+                    },
+                  },
+                  "shadows": Array [
+                    "none",
+                    "0px 1px 3px 0px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 2px 1px -1px rgba(0, 0, 0, 0.12)",
+                    "0px 1px 5px 0px rgba(0, 0, 0, 0.2),0px 2px 2px 0px rgba(0, 0, 0, 0.14),0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
+                    "0px 1px 8px 0px rgba(0, 0, 0, 0.2),0px 3px 4px 0px rgba(0, 0, 0, 0.14),0px 3px 3px -2px rgba(0, 0, 0, 0.12)",
+                    "0px 2px 4px -1px rgba(0, 0, 0, 0.2),0px 4px 5px 0px rgba(0, 0, 0, 0.14),0px 1px 10px 0px rgba(0, 0, 0, 0.12)",
+                    "0px 3px 5px -1px rgba(0, 0, 0, 0.2),0px 5px 8px 0px rgba(0, 0, 0, 0.14),0px 1px 14px 0px rgba(0, 0, 0, 0.12)",
+                    "0px 3px 5px -1px rgba(0, 0, 0, 0.2),0px 6px 10px 0px rgba(0, 0, 0, 0.14),0px 1px 18px 0px rgba(0, 0, 0, 0.12)",
+                    "0px 4px 5px -2px rgba(0, 0, 0, 0.2),0px 7px 10px 1px rgba(0, 0, 0, 0.14),0px 2px 16px 1px rgba(0, 0, 0, 0.12)",
+                    "0px 5px 5px -3px rgba(0, 0, 0, 0.2),0px 8px 10px 1px rgba(0, 0, 0, 0.14),0px 3px 14px 2px rgba(0, 0, 0, 0.12)",
+                    "0px 5px 6px -3px rgba(0, 0, 0, 0.2),0px 9px 12px 1px rgba(0, 0, 0, 0.14),0px 3px 16px 2px rgba(0, 0, 0, 0.12)",
+                    "0px 6px 6px -3px rgba(0, 0, 0, 0.2),0px 10px 14px 1px rgba(0, 0, 0, 0.14),0px 4px 18px 3px rgba(0, 0, 0, 0.12)",
+                    "0px 6px 7px -4px rgba(0, 0, 0, 0.2),0px 11px 15px 1px rgba(0, 0, 0, 0.14),0px 4px 20px 3px rgba(0, 0, 0, 0.12)",
+                    "0px 7px 8px -4px rgba(0, 0, 0, 0.2),0px 12px 17px 2px rgba(0, 0, 0, 0.14),0px 5px 22px 4px rgba(0, 0, 0, 0.12)",
+                    "0px 7px 8px -4px rgba(0, 0, 0, 0.2),0px 13px 19px 2px rgba(0, 0, 0, 0.14),0px 5px 24px 4px rgba(0, 0, 0, 0.12)",
+                    "0px 7px 9px -4px rgba(0, 0, 0, 0.2),0px 14px 21px 2px rgba(0, 0, 0, 0.14),0px 5px 26px 4px rgba(0, 0, 0, 0.12)",
+                    "0px 8px 9px -5px rgba(0, 0, 0, 0.2),0px 15px 22px 2px rgba(0, 0, 0, 0.14),0px 6px 28px 5px rgba(0, 0, 0, 0.12)",
+                    "0px 8px 10px -5px rgba(0, 0, 0, 0.2),0px 16px 24px 2px rgba(0, 0, 0, 0.14),0px 6px 30px 5px rgba(0, 0, 0, 0.12)",
+                    "0px 8px 11px -5px rgba(0, 0, 0, 0.2),0px 17px 26px 2px rgba(0, 0, 0, 0.14),0px 6px 32px 5px rgba(0, 0, 0, 0.12)",
+                    "0px 9px 11px -5px rgba(0, 0, 0, 0.2),0px 18px 28px 2px rgba(0, 0, 0, 0.14),0px 7px 34px 6px rgba(0, 0, 0, 0.12)",
+                    "0px 9px 12px -6px rgba(0, 0, 0, 0.2),0px 19px 29px 2px rgba(0, 0, 0, 0.14),0px 7px 36px 6px rgba(0, 0, 0, 0.12)",
+                    "0px 10px 13px -6px rgba(0, 0, 0, 0.2),0px 20px 31px 3px rgba(0, 0, 0, 0.14),0px 8px 38px 7px rgba(0, 0, 0, 0.12)",
+                    "0px 10px 13px -6px rgba(0, 0, 0, 0.2),0px 21px 33px 3px rgba(0, 0, 0, 0.14),0px 8px 40px 7px rgba(0, 0, 0, 0.12)",
+                    "0px 10px 14px -6px rgba(0, 0, 0, 0.2),0px 22px 35px 3px rgba(0, 0, 0, 0.14),0px 8px 42px 7px rgba(0, 0, 0, 0.12)",
+                    "0px 11px 14px -7px rgba(0, 0, 0, 0.2),0px 23px 36px 3px rgba(0, 0, 0, 0.14),0px 9px 44px 8px rgba(0, 0, 0, 0.12)",
+                    "0px 11px 15px -7px rgba(0, 0, 0, 0.2),0px 24px 38px 3px rgba(0, 0, 0, 0.14),0px 9px 46px 8px rgba(0, 0, 0, 0.12)",
+                  ],
+                  "spacing": Object {
+                    "unit": 8,
+                  },
+                  "transitions": Object {
+                    "create": [Function],
+                    "duration": Object {
+                      "complex": 375,
+                      "enteringScreen": 225,
+                      "leavingScreen": 195,
+                      "short": 250,
+                      "shorter": 200,
+                      "shortest": 150,
+                      "standard": 300,
+                    },
+                    "easing": Object {
+                      "easeIn": "cubic-bezier(0.4, 0, 1, 1)",
+                      "easeInOut": "cubic-bezier(0.4, 0, 0.2, 1)",
+                      "easeOut": "cubic-bezier(0.0, 0, 0.2, 1)",
+                      "sharp": "cubic-bezier(0.4, 0, 0.6, 1)",
+                    },
+                    "getAutoHeightDuration": [Function],
+                  },
+                  "typography": Object {
+                    "body1": Object {
+                      "color": "rgba(0, 0, 0, 0.87)",
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "0.875rem",
+                      "fontWeight": 400,
+                      "lineHeight": "1.46429em",
+                    },
+                    "body2": Object {
+                      "color": "rgba(0, 0, 0, 0.87)",
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "0.875rem",
+                      "fontWeight": 500,
+                      "lineHeight": "1.71429em",
+                    },
+                    "button": Object {
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "0.875rem",
+                      "fontWeight": 500,
+                      "textTransform": "uppercase",
+                    },
+                    "caption": Object {
+                      "color": "rgba(0, 0, 0, 0.54)",
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "0.75rem",
+                      "fontWeight": 400,
+                      "lineHeight": "1.375em",
+                    },
+                    "display1": Object {
+                      "color": "rgba(0, 0, 0, 0.54)",
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "2.125rem",
+                      "fontWeight": 400,
+                      "lineHeight": "1.20588em",
+                      "marginLeft": "-.04em",
+                    },
+                    "display2": Object {
+                      "color": "rgba(0, 0, 0, 0.54)",
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "2.8125rem",
+                      "fontWeight": 400,
+                      "lineHeight": "1.06667em",
+                      "marginLeft": "-.04em",
+                    },
+                    "display3": Object {
+                      "color": "rgba(0, 0, 0, 0.54)",
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "3.5rem",
+                      "fontWeight": 400,
+                      "letterSpacing": "-.02em",
+                      "lineHeight": "1.30357em",
+                      "marginLeft": "-.04em",
+                    },
+                    "display4": Object {
+                      "color": "rgba(0, 0, 0, 0.54)",
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "7rem",
+                      "fontWeight": 300,
+                      "letterSpacing": "-.04em",
+                      "lineHeight": "1.14286em",
+                      "marginLeft": "-.06em",
+                    },
+                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                    "fontSize": 14,
+                    "fontWeightLight": 300,
+                    "fontWeightMedium": 500,
+                    "fontWeightRegular": 400,
+                    "headline": Object {
+                      "color": "rgba(0, 0, 0, 0.87)",
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "1.5rem",
+                      "fontWeight": 400,
+                      "lineHeight": "1.35417em",
+                    },
+                    "pxToRem": [Function],
+                    "round": [Function],
+                    "subheading": Object {
+                      "color": "rgba(0, 0, 0, 0.87)",
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "1rem",
+                      "fontWeight": 400,
+                      "lineHeight": "1.5em",
+                    },
+                    "title": Object {
+                      "color": "rgba(0, 0, 0, 0.87)",
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "1.3125rem",
+                      "fontWeight": 500,
+                      "lineHeight": "1.16667em",
+                    },
+                  },
+                  "zIndex": Object {
+                    "appBar": 1100,
+                    "drawer": 1200,
+                    "mobileStepper": 1000,
+                    "modal": 1300,
+                    "snackbar": 1400,
+                    "tooltip": 1500,
+                  },
+                }
+              }
+            >
+              <WithStyles(TableRow)
+                className="OfficerSearchResultsRow-row-2"
+              >
+                <TableRow
+                  className="OfficerSearchResultsRow-row-2"
+                  classes={
+                    Object {
+                      "hover": "MuiTableRow-hover-14",
+                      "root": "MuiTableRow-root-10",
+                      "selected": "MuiTableRow-selected-13",
+                      "typeFooter": "MuiTableRow-typeFooter-12",
+                      "typeHead": "MuiTableRow-typeHead-11",
+                    }
+                  }
+                  component="tr"
+                  hover={false}
+                  selected={false}
+                >
+                  <tr
+                    className="MuiTableRow-root-10 OfficerSearchResultsRow-row-2"
+                  >
+                    <WithStyles(TableCell)
+                      className="OfficerSearchResultsRow-cell-3"
+                      style={
+                        Object {
+                          "paddingLeft": "16px",
+                        }
+                      }
+                    >
+                      <TableCell
+                        className="OfficerSearchResultsRow-cell-3"
+                        classes={
+                          Object {
+                            "numeric": "MuiTableCell-numeric-16",
+                            "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
+                            "paddingDefault": "MuiTableCell-paddingDefault-20",
+                            "paddingDense": "MuiTableCell-paddingDense-21",
+                            "root": "MuiTableCell-root-15",
+                            "typeBody": "MuiTableCell-typeBody-18",
+                            "typeFooter": "MuiTableCell-typeFooter-19",
+                            "typeHead": "MuiTableCell-typeHead-17",
+                          }
+                        }
+                        numeric={false}
+                        padding="default"
+                        style={
+                          Object {
+                            "paddingLeft": "16px",
+                          }
+                        }
+                      >
+                        <td
+                          aria-sort={null}
+                          className="MuiTableCell-root-15 MuiTableCell-paddingDefault-20 MuiTableCell-typeBody-18 OfficerSearchResultsRow-cell-3"
+                          style={
+                            Object {
+                              "paddingLeft": "16px",
+                            }
+                          }
+                        >
+                          <div />
+                          <div
+                            className="OfficerSearchResultsRow-inactive-9"
+                          >
+                            Inactive
+                          </div>
+                        </td>
+                      </TableCell>
+                    </WithStyles(TableCell)>
+                    <WithStyles(TableCell)
+                      className="OfficerSearchResultsRow-cell-3"
+                    >
+                      <TableCell
+                        className="OfficerSearchResultsRow-cell-3"
+                        classes={
+                          Object {
+                            "numeric": "MuiTableCell-numeric-16",
+                            "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
+                            "paddingDefault": "MuiTableCell-paddingDefault-20",
+                            "paddingDense": "MuiTableCell-paddingDense-21",
+                            "root": "MuiTableCell-root-15",
+                            "typeBody": "MuiTableCell-typeBody-18",
+                            "typeFooter": "MuiTableCell-typeFooter-19",
+                            "typeHead": "MuiTableCell-typeHead-17",
+                          }
+                        }
+                        numeric={false}
+                        padding="default"
+                      >
+                        <td
+                          aria-sort={null}
+                          className="MuiTableCell-root-15 MuiTableCell-paddingDefault-20 MuiTableCell-typeBody-18 OfficerSearchResultsRow-cell-3"
+                        >
+                          Police Commander
+                        </td>
+                      </TableCell>
+                    </WithStyles(TableCell)>
+                    <WithStyles(TableCell)
+                      className="OfficerSearchResultsRow-cell-3"
+                    >
+                      <TableCell
+                        className="OfficerSearchResultsRow-cell-3"
+                        classes={
+                          Object {
+                            "numeric": "MuiTableCell-numeric-16",
+                            "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
+                            "paddingDefault": "MuiTableCell-paddingDefault-20",
+                            "paddingDense": "MuiTableCell-paddingDense-21",
+                            "root": "MuiTableCell-root-15",
+                            "typeBody": "MuiTableCell-typeBody-18",
+                            "typeFooter": "MuiTableCell-typeFooter-19",
+                            "typeHead": "MuiTableCell-typeHead-17",
+                          }
+                        }
+                        numeric={false}
+                        padding="default"
+                      >
+                        <td
+                          aria-sort={null}
+                          className="MuiTableCell-root-15 MuiTableCell-paddingDefault-20 MuiTableCell-typeBody-18 OfficerSearchResultsRow-cell-3"
+                        >
+                          FOB - Field Operations Bureau
+                        </td>
+                      </TableCell>
+                    </WithStyles(TableCell)>
+                    <WithStyles(TableCell)
+                      className="OfficerSearchResultsRow-cell-3"
+                    >
+                      <TableCell
+                        className="OfficerSearchResultsRow-cell-3"
+                        classes={
+                          Object {
+                            "numeric": "MuiTableCell-numeric-16",
+                            "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
+                            "paddingDefault": "MuiTableCell-paddingDefault-20",
+                            "paddingDense": "MuiTableCell-paddingDense-21",
+                            "root": "MuiTableCell-root-15",
+                            "typeBody": "MuiTableCell-typeBody-18",
+                            "typeFooter": "MuiTableCell-typeFooter-19",
+                            "typeHead": "MuiTableCell-typeHead-17",
+                          }
+                        }
+                        numeric={false}
+                        padding="default"
+                      >
+                        <td
+                          aria-sort={null}
+                          className="MuiTableCell-root-15 MuiTableCell-paddingDefault-20 MuiTableCell-typeBody-18 OfficerSearchResultsRow-cell-3"
+                        >
+                          First District
+                        </td>
+                      </TableCell>
+                    </WithStyles(TableCell)>
+                    <WithStyles(TableCell)
+                      className="OfficerSearchResultsRow-cell-3"
+                    >
+                      <TableCell
+                        className="OfficerSearchResultsRow-cell-3"
+                        classes={
+                          Object {
+                            "numeric": "MuiTableCell-numeric-16",
+                            "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
+                            "paddingDefault": "MuiTableCell-paddingDefault-20",
+                            "paddingDense": "MuiTableCell-paddingDense-21",
+                            "root": "MuiTableCell-root-15",
+                            "typeBody": "MuiTableCell-typeBody-18",
+                            "typeFooter": "MuiTableCell-typeFooter-19",
+                            "typeHead": "MuiTableCell-typeHead-17",
+                          }
+                        }
+                        numeric={false}
+                        padding="default"
+                      >
+                        <td
+                          aria-sort={null}
+                          className="MuiTableCell-root-15 MuiTableCell-paddingDefault-20 MuiTableCell-typeBody-18 OfficerSearchResultsRow-cell-3"
+                        >
+                          Female
+                        </td>
+                      </TableCell>
+                    </WithStyles(TableCell)>
+                    <WithStyles(TableCell)
+                      className="OfficerSearchResultsRow-cell-3"
+                    >
+                      <TableCell
+                        className="OfficerSearchResultsRow-cell-3"
+                        classes={
+                          Object {
+                            "numeric": "MuiTableCell-numeric-16",
+                            "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
+                            "paddingDefault": "MuiTableCell-paddingDefault-20",
+                            "paddingDense": "MuiTableCell-paddingDense-21",
+                            "root": "MuiTableCell-root-15",
+                            "typeBody": "MuiTableCell-typeBody-18",
+                            "typeFooter": "MuiTableCell-typeFooter-19",
+                            "typeHead": "MuiTableCell-typeHead-17",
+                          }
+                        }
+                        numeric={false}
+                        padding="default"
+                      >
+                        <td
+                          aria-sort={null}
+                          className="MuiTableCell-root-15 MuiTableCell-paddingDefault-20 MuiTableCell-typeBody-18 OfficerSearchResultsRow-cell-3"
+                        >
+                          Cuban
+                        </td>
+                      </TableCell>
+                    </WithStyles(TableCell)>
+                    <WithStyles(TableCell)
+                      className="OfficerSearchResultsRow-cell-3"
+                    >
+                      <TableCell
+                        className="OfficerSearchResultsRow-cell-3"
+                        classes={
+                          Object {
+                            "numeric": "MuiTableCell-numeric-16",
+                            "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
+                            "paddingDefault": "MuiTableCell-paddingDefault-20",
+                            "paddingDense": "MuiTableCell-paddingDense-21",
+                            "root": "MuiTableCell-root-15",
+                            "typeBody": "MuiTableCell-typeBody-18",
+                            "typeFooter": "MuiTableCell-typeFooter-19",
+                            "typeHead": "MuiTableCell-typeHead-17",
+                          }
+                        }
+                        numeric={false}
+                        padding="default"
+                      >
+                        <td
+                          aria-sort={null}
+                          className="MuiTableCell-root-15 MuiTableCell-paddingDefault-20 MuiTableCell-typeBody-18 OfficerSearchResultsRow-cell-3"
+                        />
+                      </TableCell>
+                    </WithStyles(TableCell)>
+                    <WithStyles(TableCell)
+                      className="OfficerSearchResultsRow-buttonCell-4"
+                    >
+                      <TableCell
+                        className="OfficerSearchResultsRow-buttonCell-4"
+                        classes={
+                          Object {
+                            "numeric": "MuiTableCell-numeric-16",
+                            "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
+                            "paddingDefault": "MuiTableCell-paddingDefault-20",
+                            "paddingDense": "MuiTableCell-paddingDense-21",
+                            "root": "MuiTableCell-root-15",
+                            "typeBody": "MuiTableCell-typeBody-18",
+                            "typeFooter": "MuiTableCell-typeFooter-19",
+                            "typeHead": "MuiTableCell-typeHead-17",
+                          }
+                        }
+                        numeric={false}
+                        padding="default"
+                      >
+                        <td
+                          aria-sort={null}
+                          className="MuiTableCell-root-15 MuiTableCell-paddingDefault-20 MuiTableCell-typeBody-18 OfficerSearchResultsRow-buttonCell-4"
+                        />
+                      </TableCell>
+                    </WithStyles(TableCell)>
+                  </tr>
+                </TableRow>
+              </WithStyles(TableRow)>
+            </OfficerSearchResultsRow>
+          </WithStyles(OfficerSearchResultsRow)>
+        </tbody>
+      </TableBody>
+    </table>
+  </Table>
+</WithStyles(Table)>
+`;

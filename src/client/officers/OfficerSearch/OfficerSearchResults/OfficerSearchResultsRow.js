@@ -1,22 +1,36 @@
 import React from 'react';
 import tableStyleGenerator from "../../../tableStyles";
 import {TableCell, TableRow, withStyles} from "material-ui";
-import {connect} from "react-redux";
 
 const styles = theme => ({
     ...tableStyleGenerator(theme).body,
     buttonCell: {
         textAlign: 'right'
     },
+    active: {
+        color: theme.palette.green
+    },
+    terminated: {
+        color: theme.palette.red
+    },
+    deceased: {
+        color: theme.palette.secondary.main + '66' // 66 is 40% opacity in hex
+    },
+    retired: {
+        color: theme.palette.secondary.main
+    },
+    inactive: {
+        color: theme.palette.yellow
+    }
 });
 
 const OfficerSearchResultsRow = ({classes, officer, children}) => (
     <TableRow className={classes.row}>
         <TableCell className={classes.cell} style={{paddingLeft: '16px'}}>
             <div>{officer.fullName}</div>
-        </TableCell>
-        <TableCell className={classes.cell}>
-            {officer.workStatus}
+            <div className={classes[officer.workStatus.toLowerCase()]}>
+                {officer.workStatus}
+            </div>
         </TableCell>
         <TableCell className={classes.cell}>
             {officer.rank}

@@ -15,6 +15,7 @@ const colors = {
     error: {
         main: "#d32f2f"
     },
+    red: "#d32f2f",
     green: "#388e3c",
     background: {
         default: "#ECEFF1",

@@ -19,6 +19,11 @@
     "test:once": "sleep 4 && NODE_ENV=test yarn setup:test:db && yarn test:client:ci && yarn test:server:ci",
     "eject": "react-scripts eject"
   },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
   "dependencies": {
     "auth0": "^2.9.1",
     "auth0-js": "^9.1.3",
@@ -67,6 +72,7 @@
     "concurrently": "^3.5.1",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
+    "enzyme-to-json": "^3.3.3",
     "nightwatch": "^0.9.20",
     "nock": "^9.1.5",
     "node-mocks-http": "^1.6.6",
