@@ -58,13 +58,20 @@ export class OfficerSearchResults extends Component {
     };
 
     renderSearchResults = () => {
-        if (this.props.searchResults.length === 0 ) { return null }
+        const { searchResults, officerIds } = this.props
+
+        if (searchResults.length === 0 ) { return null }
         return (
             <Table>
                 <OfficerSearchTableHeader/>
                 <TableBody>
                     {
-                        this.props.searchResults.map(officer => <OfficerSearchResultsRow key={officer.id} officer={officer}/>)
+                        searchResults.map(officer =>
+                            <OfficerSearchResultsRow
+                                key={officer.id}
+                                officer={officer}
+                                officerOnCase={officerIds.includes(officer.id)}
+                            />)
                     }
                 </TableBody>
             </Table>
@@ -74,7 +81,8 @@ export class OfficerSearchResults extends Component {
 
 const mapStateToProps = (state) => ({
     searchResults: state.officers.searchResults,
-    spinnerVisible: state.officers.spinnerVisible
+    spinnerVisible: state.officers.spinnerVisible,
+    officerIds: state.currentCase.details.accusedOfficers.map(officer => officer.officerId)
 });
 
 
