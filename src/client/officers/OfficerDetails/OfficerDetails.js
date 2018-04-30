@@ -40,7 +40,7 @@ const OfficerDetails = (props) => {
                 Additional Info
             </Typography>
             <Card style={{backgroundColor: 'white', marginBottom: '16px'}}>
-                <CardContent>
+                <CardContent style={{paddingLeft: "16px"}}>
                     <form>
                         <div style={{marginBottom: '24px'}}>
                             <Typography style={styles.section}>
@@ -53,13 +53,12 @@ const OfficerDetails = (props) => {
                         </div>
                         <Typography style={styles.section}>Notes</Typography>
                         <Typography type='body1'>Use this section to indicate any information about the officer's
-                            history on risk assessment.</Typography>
+                            history or risk assessment.</Typography>
                         <Field
                             component={TextField}
                             name='notes'
-                            fullWidth
                             multiline
-                            rowsMax={5}
+                            style={{width: '60%'}}
                         />
                     </form>
                 </CardContent>

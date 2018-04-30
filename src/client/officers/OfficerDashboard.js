@@ -8,6 +8,7 @@ import LinkButton from "../sharedComponents/LinkButton";
 import OfficersSnackbar from "./OfficersSnackBar/OfficersSnackbar";
 import OfficerSearch from "./OfficerSearch/OfficerSearch";
 import OfficerDetails from "./OfficerDetails/OfficerDetails";
+import {clearSelectedOfficer} from "../actionCreators/officersActionCreators";
 
 export class OfficerDashboard extends Component {
     componentDidMount() {
@@ -33,8 +34,13 @@ export class OfficerDashboard extends Component {
                         {`Case #${caseId} : Add Officer`}
                     </Typography>
                 </NavBar>
-                <LinkButton data-test="back-to-case-link" component={Link} to={`/cases/${caseId}`}
-                            style={{margin: '2% 0% 2% 4%'}}>
+                <LinkButton
+                    data-test="back-to-case-link"
+                    component={Link}
+                    to={`/cases/${caseId}`}
+                    style={{margin: '2% 0% 2% 4%'}}
+                    onClick={() => this.props.dispatch(clearSelectedOfficer())}
+                >
                     Back to Case
                 </LinkButton>
                 <div style={{margin: '0% 5% 3%'}}>

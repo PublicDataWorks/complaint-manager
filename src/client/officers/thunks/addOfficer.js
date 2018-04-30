@@ -1,7 +1,10 @@
 import getAccessToken from "../../auth/getAccessToken";
 import config from "../../config/config";
 import { push } from "react-router-redux";
-import { addOfficerToCaseSuccess, addOfficerToCaseFailure } from "../../actionCreators/officersActionCreators";
+import {
+    addOfficerToCaseSuccess, addOfficerToCaseFailure,
+    clearSelectedOfficer
+} from "../../actionCreators/officersActionCreators";
 
 const hostname = config[process.env.NODE_ENV].hostname
 
@@ -24,6 +27,7 @@ const addOfficer = (caseId, officerId, values) => async (dispatch) => {
 
         if (response.status === 200) {
             dispatch(addOfficerToCaseSuccess(await response.json()))
+            dispatch(clearSelectedOfficer())
             dispatch(push(`/cases/${caseId}`))
         } else if (response.status === 401) {
             dispatch(push('/login'))

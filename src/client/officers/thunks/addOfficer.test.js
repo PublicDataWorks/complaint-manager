@@ -4,7 +4,10 @@ import getAccessToken from "../../auth/getAccessToken";
 import {push} from "react-router-redux";
 import Officer from "../../testUtilities/Officer";
 import Case from "../../testUtilities/case";
-import {addOfficerToCaseFailure, addOfficerToCaseSuccess} from "../../actionCreators/officersActionCreators";
+import {
+    addOfficerToCaseFailure, addOfficerToCaseSuccess,
+    clearSelectedOfficer
+} from "../../actionCreators/officersActionCreators";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))
 
@@ -16,7 +19,7 @@ describe('addOfficer', () => {
         dispatch.mockClear()
     })
 
-    test('should dispatch success and redirect to caseDetails when successful', async () => {
+    test('should dispatch success, clear selected officer, and redirect to caseDetails when successful', async () => {
         const officer = new Officer.Builder().defaultOfficer().withId(14)
         const defaultCase = new Case.Builder().defaultCase().withId(14)
         const formValues = {
@@ -37,6 +40,7 @@ describe('addOfficer', () => {
         await addOfficer(officer.id, defaultCase.id, formValues)(dispatch)
 
         expect(dispatch).toHaveBeenCalledWith(addOfficerToCaseSuccess(responseBody))
+        expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer())
         expect(dispatch).toHaveBeenCalledWith(push(`/cases/${defaultCase.id}`))
     })
 

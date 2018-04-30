@@ -1,9 +1,14 @@
 import React from 'react'
-import {shallow} from 'enzyme'
-import {OfficerDashboard} from "./OfficerDashboard";
+import {mount, shallow} from 'enzyme'
+import {BrowserRouter as Router} from "react-router-dom";
+import ConnectedDashboard, {OfficerDashboard} from "./OfficerDashboard";
 import getCaseDetails from "../cases/thunks/getCaseDetails";
 import OfficerDetails from "./OfficerDetails/OfficerDetails";
 import OfficerSearch from "./OfficerSearch/OfficerSearch";
+import {clearSelectedOfficer} from "../actionCreators/officersActionCreators";
+import createConfiguredStore from "../createConfiguredStore";
+import {Provider} from "react-redux";
+import {getCaseDetailsSuccess} from "../actionCreators/casesActionCreators";
 
 jest.mock("../cases/thunks/getCaseDetails");
 
@@ -70,11 +75,33 @@ describe('Officer Dashboard', () => {
         expect(officerDetails.exists()).toEqual(false);
     });
 
-    test('should render OfficerSearch if officer has been selected', () => {
+    test('should not render OfficerSearch if officer has been selected', () => {
         const officerDashboard = shallow(<OfficerDashboard selectedOfficer={{firstName:'Bob'}} dispatch={mockDispatch} caseId={1} match={{params: {id: `${caseId}`}}}/>);
         const officerSearch = officerDashboard.find(OfficerSearch);
         const officerDetails = officerDashboard.find(OfficerDetails);
         expect(officerSearch.exists()).toEqual(false);
         expect(officerDetails.exists()).toEqual(true);
+    })
+
+    test('should clear selected officer when Back to Case is clicked', () => {
+        const store = createConfiguredStore()
+        const dispatchSpy = jest.spyOn(store, 'dispatch')
+        store.dispatch(getCaseDetailsSuccess({id: 1}))
+        const officerDashboard = mount(
+            <Provider store={store}>
+                <Router>
+                    <ConnectedDashboard
+                        match={{
+                            params: {
+                                id: `${caseId}`
+                            }
+                        }}/>
+                </Router>
+            </Provider>)
+
+        const backToCaseButton = officerDashboard.find('[data-test="back-to-case-link"]').last()
+        backToCaseButton.simulate('click')
+
+        expect(dispatchSpy).toHaveBeenCalledWith(clearSelectedOfficer())
     })
 });
