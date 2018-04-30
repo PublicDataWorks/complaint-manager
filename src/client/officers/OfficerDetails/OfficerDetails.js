@@ -12,6 +12,7 @@ import {clearSelectedOfficer} from "../../actionCreators/officersActionCreators"
 import LinkButton from "../../sharedComponents/LinkButton";
 import addOfficer from "../thunks/addOfficer";
 import {SubmitButton} from "../../sharedComponents/StyledButtons";
+import {ChangeOfficer} from "../OfficerSearch/OfficerSearchResults/officerSearchResultsRowButtons";
 
 
 const OfficerDetails = (props) => {
@@ -30,7 +31,9 @@ const OfficerDetails = (props) => {
             <Table style={{marginBottom: '32px'}}>
                 <OfficerSearchTableHeader/>
                 <TableBody>
-                    <OfficerSearchResultsRow officer={props.officer}/>
+                    <OfficerSearchResultsRow officer={props.officer}>
+                        <ChangeOfficer dispatch={props.dispatch}/>
+                    </OfficerSearchResultsRow>
                 </TableBody>
             </Table>
             <Typography
@@ -63,8 +66,7 @@ const OfficerDetails = (props) => {
                     </form>
                 </CardContent>
             </Card>
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                <LinkButton onClick={() => props.dispatch(clearSelectedOfficer())}>Back to Search</LinkButton>
+            <div style={{display: 'flex', justifyContent: 'flex-end'}}>
                 <SubmitButton onClick={props.handleSubmit(onSubmit)}>Add Officer to Case</SubmitButton>
             </div>
         </div>

@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import OfficerSearchResultsRow from "./OfficerSearchResultsRow";
 import {searchOfficersCleared} from "../../../actionCreators/officersActionCreators";
 import OfficerSearchTableHeader from "../../OfficerSearchTableHeader";
+import {PreviouslyAddedOfficer, SelectNewOfficer} from "./officerSearchResultsRowButtons";
 
 export class OfficerSearchResults extends Component {
     componentWillUnmount() {
@@ -58,23 +59,35 @@ export class OfficerSearchResults extends Component {
     };
 
     renderSearchResults = () => {
-        const { searchResults, officerIds } = this.props
-
-        if (searchResults.length === 0 ) { return null }
+        if (this.props.searchResults.length === 0 ) { return null }
         return (
             <Table>
                 <OfficerSearchTableHeader/>
                 <TableBody>
                     {
-                        searchResults.map(officer =>
-                            <OfficerSearchResultsRow
-                                key={officer.id}
-                                officer={officer}
-                                officerOnCase={officerIds.includes(officer.id)}
-                            />)
+                        this.generateResultsRows()
                     }
                 </TableBody>
             </Table>
+        )
+    }
+
+    generateResultsRows() {
+        const { searchResults, officerIds, dispatch } = this.props
+
+        return searchResults.map(officer =>
+            <OfficerSearchResultsRow
+                key={officer.id}
+                officer={officer}
+            >
+                {officerIds.includes(officer.id) ?
+                    <PreviouslyAddedOfficer/> :
+                    <SelectNewOfficer
+                        dispatch={dispatch}
+                        officer={officer}
+                    />
+                }
+            </OfficerSearchResultsRow>
         )
     }
 }
