@@ -22,6 +22,7 @@ and run all tests before pushing.
 
 ### Set up local configuration for AWS S3
 
+If you are a contributor, you can skip this step. You don't need AWS credentials unless you are working on attachments. 
 - Log into AWS with root user (credentials are in the team 1Password) 
 - Create a new user for yourself in the development group
 - Save your login, access key ID and secret access key in your personal password manager
@@ -67,6 +68,8 @@ npm install -g nightwatch
 docker-compose up app
 ```
 #### Then, set up environment variables for:
+(Use your credentials for auth0 staging and a host of http://localhost:3000/)
+
     TEST_USER
     TEST_PASS
     HOST
