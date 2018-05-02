@@ -66,7 +66,7 @@
     "redux-thunk": "^2.2.0",
     "sequelize": "^4.37.6",
     "sequelize-cli": "^4.0.0",
-    "validator": "^9.2.0"
+    "validator": "^10.0.0"
   },
   "devDependencies": {
     "concurrently": "^3.5.1",

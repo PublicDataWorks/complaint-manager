@@ -7,6 +7,7 @@ const getRecentActivity = require("./handlers/cases/getRecentActivity");
 const updateCaseNarrative = require("./handlers/cases/updateCaseNarrative");
 const editCivilian = require("./handlers/civilians/editCivilian");
 const createCivilian = require("./handlers/civilians/createCivilian");
+const removeCivilian = require("./handlers/civilians/removeCivilian");
 const createUser = require("./handlers/users/createUser");
 const getUsers = require("./handlers/users/getUsers");
 const audit = require("./handlers/audit_logs/audit");
@@ -37,6 +38,7 @@ router.put('/cases/:id', editCase)
 router.put('/cases/:id/narrative', updateCaseNarrative)
 router.get('/cases/:id/officers/search', searchOfficers);
 router.put('/cases/:caseId/officers/:officerId', addOfficer);
+router.delete('/cases/:caseId/civilians/:civilianId', removeCivilian);
 
 router.use('/cases/:id/attachments', attachmentRouter)
 

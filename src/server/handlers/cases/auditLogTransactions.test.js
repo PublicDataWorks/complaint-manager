@@ -122,9 +122,11 @@ describe('transactions', () => {
 
         expect(updatedCivilian.firstName).toEqual('Original')
 
-        await models.civilian.destroy({where: {id: updatedCivilian.id}})
-        await models.cases.destroy({where: {id: caseToUpdate.id}})
         await models.address.destroy({
+            truncate: true,
+            cascade: true
+        })
+        await models.cases.destroy({
             truncate: true,
             cascade: true
         })
@@ -163,10 +165,10 @@ describe('transactions', () => {
         })
 
         afterEach(async () => {
-            await models.civilian.destroy({where: {caseId: caseToUpdate.id}})
-            await models.audit_log.destroy({where: {caseId: caseToUpdate.id}})
-            await models.attachment.destroy({where: {caseId: caseToUpdate.id}})
-            await models.cases.destroy({where: {id: caseToUpdate.id}})
+            await models.cases.destroy({
+                truncate: true,
+                cascade: true
+            })
         })
 
         test('should not delete attachment if audit log fails', async () => {

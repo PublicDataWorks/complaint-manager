@@ -138,6 +138,10 @@ describe('server', () => {
         })
 
         afterEach(() => {
+            models.address.destroy({
+                truncate: true,
+                cascade: true
+            })
             models.civilian.destroy({
                 where: {
                     id: responseBody.civilians[0].id
@@ -154,12 +158,6 @@ describe('server', () => {
             models.cases.destroy({
                 where: {
                     id: responseBody.id
-                }
-            })
-
-            models.address.destroy({
-                where: {
-                    id: responseBody.incidentLocationId
                 }
             })
         })
@@ -290,17 +288,7 @@ describe('server', () => {
         })
 
         afterEach(async () => {
-            await models.civilian.destroy({
-                where: {
-                    caseId: seededCase.id
-                }
-            })
-
-            await models.cases.destroy({
-                where: {
-                    id: seededCase.id
-                }
-            })
+            await models.cases.destroy({ truncate:true, cascade:true})
         })
 
     })
@@ -340,10 +328,8 @@ describe('server', () => {
         })
 
         afterEach(async () => {
-            await models.audit_log.destroy({where: {caseId: existingCase.id}})
-            await models.civilian.destroy({where: {caseId: existingCase.id}})
-            await models.cases.destroy({where: {id: existingCase.id}})
-            await models.address.destroy({where: {city: 'post city'}})
+            await models.address.destroy({truncate:true, cascade:true})
+            await models.cases.destroy({truncate:true, cascade:true})
         })
 
         test('should create a civilian and add it to a case', async () => {
@@ -394,10 +380,6 @@ describe('server', () => {
         let seededCivilian, seededCase
         beforeEach(async () => {
             const caseDefault = new Case.Builder().defaultCase().withIncidentLocation(undefined).build();
-            await models.address.destroy({where: {id: caseDefault.civilians[0].addressId}})
-            await models.audit_log.destroy({where: {caseId: caseDefault.id}})
-            await models.civilian.destroy({where: {caseId: caseDefault.id}})
-            await models.cases.destroy({where: {id: caseDefault.id}})
 
             seededCase = await models.cases.create(caseDefault, {
                 include: [{
@@ -409,10 +391,8 @@ describe('server', () => {
         });
 
         afterEach(async () => {
-            await models.civilian.destroy({where: {id: seededCivilian.id}})
-            await models.audit_log.destroy({where: {caseId: seededCase.id}})
-            await models.cases.destroy({where: {id: seededCase.id}})
-            await models.address.destroy({where: {id: seededCivilian.addressId}})
+            await models.address.destroy({truncate:true, cascade:true})
+            await models.cases.destroy({truncate:true, cascade:true})
         });
 
         test('should update an existing civilian', async () => {
@@ -699,40 +679,27 @@ describe('server', () => {
         })
 
         afterEach(async () => {
+            await models.address.destroy({
+                truncate: true,
+                cascade: true
+            })
+            await models.cases.destroy({
+                truncate: true,
+                cascade: true
+            })
             await models.case_officer.destroy({
                 where: {
                     case_id: caseToRetrieve.id
                 }
             })
-
-            await models.attachment.destroy({
-                where: {
-                    caseId: caseToRetrieve.id
-                }
-            })
-
             await models.civilian.destroy({
-                where: {
-                    id: caseToRetrieve.civilians[0].id
-                }
-            })
-
-            await models.cases.destroy({
-                where: {
-                    id: caseToRetrieve.id
-                }
+                truncate: true,
+                cascade: true
             })
 
             await models.officer.destroy({
-                where: {
-                    id: caseToRetrieve.accusedOfficers[0].officer.id
-                }
-            })
-
-            await models.address.destroy({
-                where: {
-                    id: caseToRetrieve.incidentLocationId
-                }
+                truncate: true,
+                cascade: true
             })
         })
 
@@ -826,9 +793,9 @@ describe('server', () => {
 
     describe('POST /cases/:id/recent-history', () => {
 
-        afterEach( async ()=> {
-            await models.cases.destroy({truncate:true, cascade: true})
-            await models.user_action.destroy({truncate:true})
+        afterEach(async () => {
+            await models.cases.destroy({truncate: true, cascade: true})
+            await models.user_action.destroy({truncate: true})
         })
 
         test('should log a user action', async () => {
@@ -908,22 +875,11 @@ describe('server', () => {
         })
 
         afterEach(async () => {
-            await models.civilian.destroy({
-                where: {
-                    id: caseToUpdate.civilians[0].id
-                }
-            })
-            await models.audit_log.destroy({
-                where: {
-                    caseId: caseToUpdate.id
-                }
+            await models.address.destroy({
+                truncate: true,
+                cascade: true
             })
             await models.cases.destroy({
-                where: {
-                    id: caseToUpdate.id
-                }
-            })
-            await models.address.destroy({
                 truncate: true,
                 cascade: true
             })
@@ -1269,28 +1225,9 @@ describe('server', () => {
         });
 
         afterEach(async () => {
-            await models.attachment.destroy({
-                where: {
-                    caseId: defaultCase.id
-                }
-            })
-
-            await models.civilian.destroy({
-                where: {
-                    caseId: defaultCase.id
-                }
-            })
-
-            await models.audit_log.destroy({
-                where: {
-                    caseId: defaultCase.id
-                }
-            })
-
             await models.cases.destroy({
-                where: {
-                    id: defaultCase.id
-                }
+                truncate: true,
+                cascade: true
             })
         })
 
@@ -1407,28 +1344,9 @@ describe('server', () => {
             })
 
             afterEach(async () => {
-                await models.attachment.destroy({
-                    where: {
-                        caseId: caseWithSameFilename.id
-                    }
-                })
-
-                await models.civilian.destroy({
-                    where: {
-                        caseId: caseWithSameFilename.id
-                    }
-                })
-
-                await models.audit_log.destroy({
-                    where: {
-                        caseId: caseWithSameFilename.id
-                    }
-                })
-
                 await models.cases.destroy({
-                    where: {
-                        id: caseWithSameFilename.id
-                    }
+                    truncate: true,
+                    cascade: true
                 })
             })
         })
