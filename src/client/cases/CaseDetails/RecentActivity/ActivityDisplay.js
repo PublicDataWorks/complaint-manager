@@ -38,7 +38,7 @@ const ActivityDisplay = ({activity}) => {
                     <Typography
                         data-test="activityTimeText"
                         style={{
-                            alignSelf: 'flex-end'
+                            alignSelf: 'flex-start'
                         }}
                     >
                         {`${moment(activity.actionTakenAt, "YYYY-MM-DDTHH:mm:ssZ").fromNow()}`}

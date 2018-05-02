@@ -41,7 +41,7 @@ const CaseDrawer = ({classes, caseDetail}) => (
                                 variant='body1'>{caseDetail.complainantType}</Typography>
                 </div>
             </div>
-            <div className={classes.drawerRow}>
+            <div className={classes.drawerRowEnd}>
                 <div className={classes.drawerRowItem}>
                     <Typography variant='caption'>Assigned To</Typography>
                     <Typography data-test="assigned-to"

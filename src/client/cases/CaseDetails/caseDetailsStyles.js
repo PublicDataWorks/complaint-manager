@@ -30,6 +30,12 @@ const styles = theme => ({
         marginBottom: '8px',
         flexWrap: 'wrap'
     },
+    drawerRowEnd: {
+        marginLeft: '24px',
+        display: "flex",
+        marginBottom: '24px',
+        flexWrap: 'wrap'
+    },
     drawerRowItem: {
         flex: 1,
         textAlign: 'left',

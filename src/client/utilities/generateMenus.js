@@ -75,22 +75,22 @@ export const inputDistrictMenu = generateMenu([
 ])
 
 export const userActions = generateMenu([
-    'Case Briefing from NOPD',
-    'Checked Status',
-    'Contacted Complainant',
-    'Contacted Complainant Support Person',
+    'Case briefing from NOPD',
+    'Checked status',
+    'Contacted complainant',
+    'Contacted complainant support person',
     'Contacted NOPD',
-    'Contacted Outside Agency',
+    'Contacted outside agency',
     'Gathered information from outside source',
     'Memo to file',
     'Pulled docket from the court website',
-    'Pulled information from NOPD Databases',
-    'Requested documents from Other Agency',
+    'Pulled information from NOPD databases',
+    'Requested documents from other agency',
     'Requested information from NOPD',
     'Researched issue related to a complaint',
-    'Sent Closeout Memo',
-    'Sent Notice of Case Review',
-    'Sent Notice of Monitoring',
-    'Sent Supplemental Complaint Referral',
+    'Sent closeout memo',
+    'Sent notice of case review',
+    'Sent notice of monitoring',
+    'Sent supplemental complaint referral',
     'Miscellaneous'
 ])

@@ -1,8 +1,8 @@
 import {
-  ADD_OFFICER_TO_CASE_SUCCEEDED,
-  CIVILIAN_CREATION_SUCCEEDED,
-  INCIDENT_DETAILS_UPDATE_SUCCEEDED,
-  REMOVE_ATTACHMENT_SUCCESS
+    ADD_OFFICER_TO_CASE_SUCCEEDED, ADD_USER_ACTION_SUCCEEDED,
+    CIVILIAN_CREATION_SUCCEEDED,
+    INCIDENT_DETAILS_UPDATE_SUCCEEDED,
+    REMOVE_ATTACHMENT_SUCCESS
 } from "../../../sharedUtilities/constants";
 
 const initialState = {}
@@ -22,6 +22,11 @@ const caseDetailsReducer = (state = initialState, action) => {
                 ...state,
                 status: 'Active',
                 civilians: action.civilians
+            }
+        case ADD_USER_ACTION_SUCCEEDED:
+            return {
+                ...state,
+                status: state.status === 'Initial' ? 'Active' : state.status
             }
         default:
             return state

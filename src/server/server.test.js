@@ -874,7 +874,10 @@ describe('server', () => {
                 }
             })
 
+            const updatedCase = await models.cases.findById(createdCase.id)
+
             expect(numberOfUserActionsAfterRequest).toEqual(numberOfUserActionsBeforeRequest + 1)
+            expect(updatedCase.dataValues.status).toEqual('Active')
         })
     });
 

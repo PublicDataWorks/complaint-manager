@@ -70,7 +70,7 @@ const UserActionDialog = ({open, caseId, handleSubmit, dispatch}) => {
                         required
                         name='action'
                         component={NoBlurTextField}
-                        label={'Select action taken'}
+                        label={'Select Action Taken'}
                         data-test="actionsDropdown"
                         style={{
                             width: '75%',

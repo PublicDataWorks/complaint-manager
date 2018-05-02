@@ -1,5 +1,6 @@
 import caseDetailsReducer from "./caseDetailsReducer";
 import {
+    addUserActionSuccess,
     createCivilianSuccess,
     editCivilianSuccess,
     getCaseDetailsSuccess,
@@ -174,6 +175,15 @@ describe('caseDetailsReducers', () => {
             const newState = caseDetailsReducer({}, removeAttachmentSuccess(caseDetails))
             const expectedNewState = {accusedOfficers: [{id: 5, notes: 'note', roleOnCase: 'Accused', officerId: 1, firstName: 'Monica', lastName: 'Smith'}]};
             expect(newState).toEqual(expectedNewState);
+        })
+    });
+
+    describe('ADD_USER_ACTION_SUCCEEDED', () => {
+        test('should set case status to Active if Initial', () => {
+            const caseDetails = {status: 'Initial'}
+            const newState = caseDetailsReducer(caseDetails, addUserActionSuccess())
+
+            expect(newState).toEqual({status: 'Active'})
         })
     });
 })
