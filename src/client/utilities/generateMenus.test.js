@@ -38,7 +38,7 @@ describe('civilian info dropdown menus', () => {
         expect(options).toMatchSnapshot()
     })
 
-    test.skip('should allow optional values for menu items', () => {
+    test('should allow optional values for menu items', () => {
         const districts = [
             ['Any district', ''],
             '1st district'
@@ -58,10 +58,10 @@ describe('civilian info dropdown menus', () => {
 
         const anyDistrictOption = options.first();
         expect(anyDistrictOption.text()).toEqual("Any district");
-        expect(anyDistrictOption.props().value).toEqual("");
+        expect(anyDistrictOption.props()["data-value"]).toEqual("");
 
         const firstDistrictOption = options.last();
         expect(firstDistrictOption.text()).toEqual("1st district");
-        expect(firstDistrictOption.props().value).toEqual("1st district");
+        expect(firstDistrictOption.props()["data-value"]).toEqual("1st district");
     })
 });

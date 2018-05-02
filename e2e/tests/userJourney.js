@@ -85,7 +85,7 @@ if (TEST_PASS && TEST_USER && HOST) {
             browser
                 .click('[data-test="genderDropdown"] > div > div > div')
                 .waitForElementVisible('[id="menu-genderIdentity"]', rerenderWait)
-                .click('li[value=Female]')
+                .click('li[data-value=Female]')
                 .waitForElementNotPresent('[id="menu-genderIdentity"]', rerenderWait)
         },
 
@@ -94,7 +94,7 @@ if (TEST_PASS && TEST_USER && HOST) {
                 .click('[data-test="raceDropdown"] > div > div > div')
                 .pause(500) //TODO it takes longer to render the long list of races/ethnicities.  Need to wait so that click isn't dragged in animation
                 .waitForElementVisible('[id="menu-raceEthnicity"]', rerenderWait)
-                .click('li[value=Cuban]')
+                .click('li[data-value=Cuban]')
                 .waitForElementNotPresent('[id="menu-raceEthnicity"]', rerenderWait)
         },
 
