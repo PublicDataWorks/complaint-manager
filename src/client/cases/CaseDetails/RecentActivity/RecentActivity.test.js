@@ -11,7 +11,7 @@ describe('Recent Activity', () => {
                 caseId: 1,
                 user: 'tuser',
                 action: 'Created case',
-                createdAt: moment().subtract(3, 'days')
+                actionTakenAt: moment().subtract(3, 'days')
             }
         ]
 
@@ -44,15 +44,15 @@ describe('Recent Activity', () => {
                 caseId: 1,
                 user: 'tuser',
                 action: 'Created case',
-                createdAt: moment().subtract(3, 'days')
+                actionTakenAt: moment().subtract(3, 'days')
             }, {
                 id: 3,
                 caseId: 1,
                 user: 'fooUser',
                 action: 'Attachment added',
-                createdAt: moment().subtract(1, 'hours')
-            },
-
+                notes: 'some notes',
+                actionTakenAt: moment().subtract(1, 'hours')
+            }
         ]
 
         const wrapper = mount(

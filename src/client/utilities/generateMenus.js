@@ -73,3 +73,24 @@ export const inputDistrictMenu = generateMenu([
     ['7th District', 'Seventh District'],
     ['8th District', 'Eighth District']
 ])
+
+export const userActions = generateMenu([
+    'Case Briefing from NOPD',
+    'Checked Status',
+    'Contacted Complainant',
+    'Contacted Complainant Support Person',
+    'Contacted NOPD',
+    'Contacted Outside Agency',
+    'Gathered information from outside source',
+    'Memo to file',
+    'Pulled docket from the court website',
+    'Pulled information from NOPD Databases',
+    'Requested documents from Other Agency',
+    'Requested information from NOPD',
+    'Researched issue related to a complaint',
+    'Sent Closeout Memo',
+    'Sent Notice of Case Review',
+    'Sent Notice of Monitoring',
+    'Sent Supplemental Complaint Referral',
+    'Miscellaneous'
+])

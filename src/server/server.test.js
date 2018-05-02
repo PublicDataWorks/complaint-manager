@@ -770,10 +770,10 @@ describe('server', () => {
                                 expect.objectContaining(
                                     {
                                         officer: expect.objectContaining({
-                                                id: caseToRetrieve.accusedOfficers[0].officer.id
+                                            id: caseToRetrieve.accusedOfficers[0].officer.id
                                         }),
                                         roleOnCase: 'Accused'
-                                })
+                                    })
                             ])
                         })
                     )
@@ -783,18 +783,20 @@ describe('server', () => {
 
     describe('GET /cases/:id/recent-activity', () => {
         let createdCase
-        beforeEach(async() => {
+        beforeEach(async () => {
             const existingCase = new Case.Builder().defaultCase().withId(undefined).withIncidentLocation(undefined).build()
             createdCase = await models.cases.create(existingCase)
 
-            await models.audit_log.create({
+            await models.user_action.create({
                 caseId: createdCase.id,
-                action: 'Case created',
-                user: 'tuser'
+                action: 'Miscellaneous',
+                user: 'tuser',
+                actionTakenAt: new Date().toISOString(),
+                notes: 'some notes'
             })
         });
 
-        afterEach(async() => {
+        afterEach(async () => {
             await models.cases.truncate({
                 cascade: true
             })
@@ -807,19 +809,72 @@ describe('server', () => {
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
-                .then( response => {
+                .then(response => {
                     expect(response.body).toEqual(
                         expect.arrayContaining([
                             expect.objectContaining({
                                 caseId: createdCase.id,
-                                action: 'Case created',
-                                user: 'tuser'
+                                action: 'Miscellaneous',
+                                user: 'tuser',
+                                notes: 'some notes'
                             })
                         ])
                     )
-
-                    expect(response.body[0].createdAt).toBeDefined()
                 })
+        })
+    });
+
+    describe('POST /cases/:id/recent-history', () => {
+
+        afterEach( async ()=> {
+            await models.cases.destroy({truncate:true, cascade: true})
+            await models.user_action.destroy({truncate:true})
+        })
+
+        test('should log a user action', async () => {
+            const existingCase = new Case.Builder().defaultCase().withId(undefined).withIncidentLocation(undefined).build()
+            const createdCase = await models.cases.create(existingCase)
+
+            const userAction = {
+                caseId: createdCase.dataValues.id,
+                action: 'Miscellaneous',
+                notes: 'some interesting notes....',
+                actionTakenAt: new Date().toISOString()
+            }
+
+            const numberOfUserActionsBeforeRequest = await models.user_action.count({
+                where: {
+                    caseId: userAction.caseId
+                }
+            })
+
+            await request(app)
+                .post(`/api/cases/${createdCase.dataValues.id}/recent-activity`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .send(userAction)
+                .expect(201)
+                .then(response => {
+                    expect(response.body).toEqual(
+                        expect.arrayContaining([
+                            expect.objectContaining({
+                                caseId: userAction.caseId,
+                                action: userAction.action,
+                                notes: userAction.notes,
+                                actionTakenAt: userAction.actionTakenAt,
+                                id: expect.anything()
+                            })
+                        ])
+                    )
+                })
+
+            const numberOfUserActionsAfterRequest = await models.user_action.count({
+                where: {
+                    caseId: userAction.caseId
+                }
+            })
+
+            expect(numberOfUserActionsAfterRequest).toEqual(numberOfUserActionsBeforeRequest + 1)
         })
     });
 
@@ -1118,7 +1173,7 @@ describe('server', () => {
                         })
                     )
                 })
-            const caseOfficers = await models.case_officer.findAll({ where: { caseId: seededCase.id }}, {plain: true});
+            const caseOfficers = await models.case_officer.findAll({where: {caseId: seededCase.id}}, {plain: true});
             expect(caseOfficers.length).toEqual(1);
             expect(caseOfficers[0].officerId).toEqual(seededOfficer.id);
             expect(caseOfficers[0].notes).toEqual(officerNotes)
@@ -1132,7 +1187,7 @@ describe('server', () => {
                 .set('Authorization', `Bearer ${token}`)
                 .send({})
                 .expect(200);
-            const auditLog = await models.audit_log.findAll({ where: { caseId: seededCase.id }})
+            const auditLog = await models.audit_log.findAll({where: {caseId: seededCase.id}})
             expect(auditLog.length).toEqual(1)
             expect(auditLog[0].dataValues.action).toEqual("Accused Officer Added")
         })
@@ -1188,7 +1243,7 @@ describe('server', () => {
     describe('attachment routes', () => {
         let defaultCase, defaultCivilian, defaultAttachment, attachmentToDelete
 
-        beforeEach( async() => {
+        beforeEach(async () => {
             defaultCivilian = new Civilian.Builder().defaultCivilian()
                 .withId(undefined)
                 .withNoAddress()
@@ -1266,7 +1321,7 @@ describe('server', () => {
                         expect(response.body.attachments).toEqual(
                             expect.arrayContaining([
                                 expect.objectContaining(
-                                    { fileName: "README.md" })
+                                    {fileName: "README.md"})
                             ])
                         )
                         expect(response.body.status).toEqual('Active')

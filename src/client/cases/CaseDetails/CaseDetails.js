@@ -17,12 +17,14 @@ import Button from 'material-ui/Button';
 import AddIcon from '@material-ui/icons/Add';
 import { Menu, MenuItem } from "material-ui";
 import IncidentDetailsContainer from "./IncidentDetails/IncidentDetailsContainer";
-import {openCivilianDialog} from "../../actionCreators/casesActionCreators";
+import {openCivilianDialog, openUserActionDialog} from "../../actionCreators/casesActionCreators";
 import createCivilian from "../thunks/createCivilian";
-import {CIVILIAN_FORM_NAME} from "../../../sharedUtilities/constants";
+import {CIVILIAN_FORM_NAME, TIMEZONE} from "../../../sharedUtilities/constants";
 import {initialize} from "redux-form";
 import {push} from 'react-router-redux'
 import Officers from "./Officers/Officers";
+import UserActionDialog from "./UserActionDialog/UserActionDialog";
+import timezone from "moment-timezone";
 
 
 const drawerWidthPercentage = '30%';
@@ -139,7 +141,19 @@ class CaseDetails extends React.Component {
                         >
                            Add Officer
                         </MenuItem>
+                        <MenuItem
+                            data-test="logUserActionButton"
+                            onClick={() => {
+                                this.props.dispatch(initialize('UserActions', {
+                                    actionTakenAt: timezone.tz(new Date(Date.now()), TIMEZONE).format("YYYY-MM-DDTHH:mm")
+                                }))
+                                this.props.dispatch(openUserActionDialog())
+                                this.handleMenuClose()
+                            }}>
+                            Log User Action
+                        </MenuItem>
                     </Menu>
+                    <UserActionDialog/>
                 </div>
             </div>
         );

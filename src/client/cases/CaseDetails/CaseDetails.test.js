@@ -10,8 +10,11 @@ import {mockLocalStorage} from "../../../mockLocalStorage";
 import Case from "../../testUtilities/case";
 import getCaseDetails from "../thunks/getCaseDetails";
 import createCivilian from "../thunks/createCivilian";
-import {openCivilianDialog} from "../../actionCreators/casesActionCreators";
+import {openCivilianDialog, openUserActionDialog} from "../../actionCreators/casesActionCreators";
 import {getCaseDetailsSuccess} from "../../actionCreators/casesActionCreators";
+import {TIMEZONE} from "../../../sharedUtilities/constants";
+import timezone from "moment-timezone";
+import {initialize} from "redux-form";
 
 jest.mock('../thunks/getCaseDetails', () => () => ({
     type: 'MOCK_GET_CASE_DETAILS'
@@ -98,6 +101,20 @@ describe('Case Details Component', () => {
             addCivilian.simulate('click')
 
             expect(dispatchSpy).toHaveBeenCalledWith(openCivilianDialog("Add Civilian", "Create", createCivilian))
+        })
+
+        test('should open and initialize User Action Dialog when Log User Action button is clicked', () => {
+            const plusButton = caseDetails.find('button[data-test="caseActionMenu"]')
+            plusButton.simulate('click')
+
+            const logUserActionButton = caseDetails.find('li[data-test="logUserActionButton"]')
+            logUserActionButton.simulate('click')
+
+            expect(dispatchSpy).toHaveBeenCalledWith(initialize('UserActions' , {
+                actionTakenAt: timezone.tz(new Date(Date.now()), TIMEZONE).format("YYYY-MM-DDTHH:mm")
+            }))
+            expect(dispatchSpy).toHaveBeenCalledWith(openUserActionDialog())
+
         })
     });
 });

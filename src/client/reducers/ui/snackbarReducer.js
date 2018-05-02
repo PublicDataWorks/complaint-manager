@@ -9,7 +9,7 @@ import {
     INCIDENT_DETAILS_UPDATE_SUCCEEDED,
     REMOVE_ATTACHMENT_FAILED,
     REMOVE_ATTACHMENT_SUCCESS, SNACKBAR_ERROR,
-    ADD_OFFICER_TO_CASE_SUCCEEDED, ADD_OFFICER_TO_CASE_FAILED
+    ADD_OFFICER_TO_CASE_SUCCEEDED, ADD_OFFICER_TO_CASE_FAILED, ADD_USER_ACTION_SUCCEEDED, ADD_USER_ACTION_FAILED
 } from "../../../sharedUtilities/constants";
 
 //TODO Discuss separation of concerns.
@@ -178,6 +178,18 @@ const snackbarReducer = (state = initialState, action) => {
                 open: true,
                 success: false,
                 message: "We could not add the officer to your case. Please try again."
+            }
+        case ADD_USER_ACTION_SUCCEEDED:
+            return {
+                success: true,
+                open: true,
+                message: 'Your action was successfully logged'
+            }
+        case ADD_USER_ACTION_FAILED:
+            return {
+                success: false,
+                open: true,
+                message: 'We could not log your action. Please try again.'
             }
         default:
             return state

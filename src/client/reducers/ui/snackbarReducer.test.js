@@ -1,6 +1,8 @@
 import snackbarReducer from "./snackbarReducer";
 import {createUserFailure, createUserSuccess, requestUserCreation} from "../../actionCreators/usersActionCreators";
 import {
+    addUserActionFailure,
+    addUserActionSuccess,
     createCaseFailure,
     createCaseSuccess,
     editCivilianFailed,
@@ -15,7 +17,7 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import {closeSnackbar, snackbarError} from "../../actionCreators/snackBarActionCreators";
 import {removeAttachmentFailed, removeAttachmentSuccess} from "../../actionCreators/attachmentsActionCreators";
-import {SNACKBAR_ERROR} from "../../../sharedUtilities/constants";
+import {ADD_USER_ACTION_SUCCEEDED, SNACKBAR_ERROR} from "../../../sharedUtilities/constants";
 
 describe('snackbarReducer', () => {
     test('should default open to false', () => {
@@ -194,6 +196,31 @@ describe('snackbarReducer', () => {
                 open: true,
                 success: false,
                 message: 'We could not remove your attachment. Please try again.'
+            }
+            expect(newState).toEqual(expectedState)
+        })
+    });
+
+    describe('USER ACTION DIALOG', () => {
+        test('ADD_USER_ACTION_SUCCEEDED', () => {
+            const initialState = { success: false, open: false, message: ''}
+            const newState = snackbarReducer(initialState, addUserActionSuccess())
+
+            const expectedState = {
+                success: true,
+                open: true,
+                message: 'Your action was successfully logged'
+            }
+            expect(newState).toEqual(expectedState)
+        })
+        test('ADD_USER_ACTION_FAILED', () => {
+            const initialState = { success: true, open: false, message: ''}
+            const newState = snackbarReducer(initialState, addUserActionFailure())
+
+            const expectedState = {
+                success: false,
+                open: true,
+                message: 'We could not log your action. Please try again.'
             }
             expect(newState).toEqual(expectedState)
         })

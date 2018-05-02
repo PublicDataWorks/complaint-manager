@@ -15,6 +15,7 @@ import attachmentsReducer from "./reducers/ui/attachmentsReducer";
 import searchOfficersReducer from "./reducers/officers/searchOfficersReducer";
 import incidentDetailsDialogReducer from "./reducers/ui/incidentDetailsDialogReducer";
 import recentActivityReducer from "./reducers/cases/recentActivityReducer";
+import userActionDialogReducer from "./reducers/ui/userActionDialogReducer";
 
 const rootReducer = combineReducers({
     form: formReducer,
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
     ui: combineReducers({
         snackbar: snackbarReducer,
         casesTable: casesTableReducer,
+        userActionDialog: userActionDialogReducer,
         civilianDialog: civilianDialogReducer,
         incidentDetailsDialog: incidentDetailsDialogReducer,
         attachments: attachmentsReducer

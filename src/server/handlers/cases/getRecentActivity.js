@@ -2,7 +2,7 @@ const models = require('../../models/index')
 
 const getRecentActivity = async (request, response, next) => {
     try {
-        const recentActivity = await models.audit_log.findAll({
+        const recentActivity = await models.user_action.findAll({
             where: {
                 caseId: request.params.id
             }

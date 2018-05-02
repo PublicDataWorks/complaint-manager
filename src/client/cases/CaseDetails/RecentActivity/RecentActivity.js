@@ -24,7 +24,7 @@ class RecentActivity extends Component {
                 </Typography>
                 <div data-test="recentActivityContainer">
                     {
-                        _.orderBy(recentActivity, ['createdAt'], 'desc').map(activity => {
+                        _.orderBy(recentActivity, ['actionTakenAt'], 'desc').map(activity => {
                             return (
                                 <ActivityDisplay
                                     key={activity.id}

@@ -9,6 +9,10 @@ import {
     CIVILIAN_ADDRESS_AUTOSUGGEST_UPDATED,
     INCIDENT_LOCATION_AUTOSUGGEST_VALUE_UPDATED,
     GET_RECENT_ACTIVITY_SUCCEEDED,
+    USER_ACTION_DIALOG_OPENED,
+    USER_ACTION_DIALOG_CLOSED,
+    ADD_USER_ACTION_FAILED,
+    ADD_USER_ACTION_SUCCEEDED
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = (caseDetails) => ({
@@ -50,6 +54,14 @@ export const updateNarrativeFailure = () => ({
 export const updateSort = (sortBy) => ({
     type: 'SORT_UPDATED',
     sortBy
+})
+
+export const openUserActionDialog = () => ({
+    type: USER_ACTION_DIALOG_OPENED,
+})
+
+export const closeUserActionDialog = () => ({
+    type: USER_ACTION_DIALOG_CLOSED,
 })
 
 export const openCivilianDialog = (title, submitButtonText, submitAction) => ({
@@ -107,4 +119,13 @@ export const updateIncidentDetailsFailure = () => ({
 export const updateAddressAutoSuggest = (addressValue) => ({
     type: CIVILIAN_ADDRESS_AUTOSUGGEST_UPDATED,
     addressValue
+})
+
+export const addUserActionFailure = () => ({
+    type: ADD_USER_ACTION_FAILED
+})
+
+export const addUserActionSuccess = (recentActivity) => ({
+    type: ADD_USER_ACTION_SUCCEEDED,
+    recentActivity
 })
