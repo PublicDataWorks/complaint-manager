@@ -32,6 +32,8 @@ const removeCivilian = (civilianId, caseId) => async (dispatch) => {
                 return dispatch(push('/login'))
             case 500:
                 return dispatch(removeCivilianFailure())
+            default:
+                return dispatch(removeCivilianFailure())
         }
     }
     catch (error) {
