@@ -2,7 +2,7 @@ import React from 'react'
 import {ExpansionPanelDetails} from "material-ui";
 
 const StyledExpansionPanelDetails = (props) => (
-    <ExpansionPanelDetails style={{padding: "8px 16px 24px 16px"}}>
+    <ExpansionPanelDetails style={{padding: "8px 24px 24px 24px"}}>
         <div style={{
             display: 'flex',
             width: '100%',
