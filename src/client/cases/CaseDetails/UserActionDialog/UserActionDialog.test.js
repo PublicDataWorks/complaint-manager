@@ -38,7 +38,7 @@ describe('UserActionDialog', () => {
         expect(dispatchSpy).toHaveBeenCalledWith(reset('UserActions'))
     })
 
-    test('should submit form when Log Action is clicked', () => {
+    test('should submit form when Add Case Note is clicked', () => {
         const store = createConfiguredStore()
         const dispatchSpy = jest.spyOn(store, 'dispatch')
         const caseId = 12
@@ -71,7 +71,7 @@ describe('UserActionDialog', () => {
         expect(dispatchSpy).toHaveBeenCalledWith(addUserAction(submittedValues))
     })
 
-    test('should not submit form when Log Action is clicked and no action is selected', () => {
+    test('should not submit form when Add Case Note is clicked and no action is selected', () => {
         const store = createConfiguredStore()
         const dispatchSpy = jest.spyOn(store, 'dispatch')
         const caseId = 12

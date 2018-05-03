@@ -113,7 +113,7 @@ describe('Case Details Component', () => {
             expect(dispatchSpy).toHaveBeenCalledWith(openRemoveCivilianDialog(expectedCase.civilians[0]))
         })
 
-        test('should open and initialize User Action Dialog when Log User Action button is clicked', () => {
+        test('should open and initialize User Action Dialog when Add Case Note button is clicked', () => {
             const plusButton = caseDetails.find('button[data-test="caseActionMenu"]')
             plusButton.simulate('click')
 

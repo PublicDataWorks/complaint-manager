@@ -34,7 +34,7 @@ const UserActionDialog = ({open, caseId, handleSubmit, dispatch}) => {
                     paddingBottom: '8px'
                 }}
             >
-                Log User Action
+                Add Case Note
             </DialogTitle>
             <DialogContent
                 style={{
@@ -122,7 +122,7 @@ const UserActionDialog = ({open, caseId, handleSubmit, dispatch}) => {
                     data-test="submitButton"
                     onClick={handleSubmit(submit)}
                 >
-                    Log Action
+                    Add Case Note
                 </SubmitButton>
             </DialogActions>
         </Dialog>

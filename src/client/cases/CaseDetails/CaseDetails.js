@@ -152,7 +152,7 @@ class CaseDetails extends React.Component {
                                 this.props.dispatch(openUserActionDialog())
                                 this.handleMenuClose()
                             }}>
-                            Log User Action
+                            Add Case Note
                         </MenuItem>
                     </Menu>
                     <UserActionDialog/>
