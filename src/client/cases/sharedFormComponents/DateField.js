@@ -26,7 +26,7 @@ const DateField = ({inputProps, style, clearable= false, ...fieldProps}) => {
                 } else {
                     return isValid
                         ? date
-                        : ' '
+                        : ''
                 }
             }}
 

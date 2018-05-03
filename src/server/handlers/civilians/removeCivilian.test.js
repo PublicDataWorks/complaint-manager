@@ -6,6 +6,7 @@ import models from "../../models";
 import path from 'path'
 import jwt from "jsonwebtoken";
 import fs from 'fs'
+import Address from "../../../client/testUtilities/Address";
 
 const config = require('../../config/config')[process.env.NODE_ENV]
 
@@ -38,6 +39,7 @@ describe('DELETE /cases/:caseId/civilian/:civilianId', () => {
     })
 
     afterEach(async() => {
+        await models.address.destroy({truncate:true, cascade:true})
         await models.cases.destroy({truncate:true, cascade:true})
         await models.civilian.destroy({truncate:true})
     })
@@ -45,7 +47,7 @@ describe('DELETE /cases/:caseId/civilian/:civilianId', () => {
     test('should soft delete an existing civilian', async() => {
         const civilian = new Civilian.Builder()
             .defaultCivilian()
-            .withNoAddress()
+            .withAddress(new Address.Builder().defaultAddress().withId(undefined).build())
             .withId(undefined)
             .withCaseId(undefined).build()
         const exisitingCase = new Case.Builder()
@@ -53,7 +55,10 @@ describe('DELETE /cases/:caseId/civilian/:civilianId', () => {
 
         const createdCase = await models.cases.create(exisitingCase, {
             include: [
-                {model: models.civilian}
+                {
+                    model: models.civilian,
+                    include: [models.address]
+                }
             ]
         })
         const createdCivilian = createdCase.dataValues.civilians[0]
@@ -72,6 +77,10 @@ describe('DELETE /cases/:caseId/civilian/:civilianId', () => {
                 )
             })
 
+
+        //assert that address is not returned by find
+        const civilianAddress = await models.address.findById(createdCivilian.addressId)
+        expect(civilianAddress).toEqual(null)
 
         //assert that civilian is not returned by find
         const civilianInTable = await models.civilian.findById(createdCivilian.id)

@@ -40,8 +40,15 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: {
             field: 'updated_at',
             type: DataTypes.DATE
+        },
+        deletedAt: {
+            field: 'deleted_at',
+            type: DataTypes.DATE
         }
-    });
+    },
+        {
+            paranoid: true
+        });
 
     return Address;
 };

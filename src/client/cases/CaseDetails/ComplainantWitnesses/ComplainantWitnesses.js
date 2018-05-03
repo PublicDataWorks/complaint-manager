@@ -23,7 +23,7 @@ const ComplainantWitnesses = (props) => {
                                 margin: '16px 24px'
                             }}
                         >
-                            No Complainants or Witnesses are on this case
+                            No complainants or witnesses have been added
                           </Typography>
                         : _.sortBy(props.caseDetail.civilians, civilian => [civilian.lastName, civilian.firstName]).map(civilian => (
                             <ComplainantPanel key={civilian.id} civilian={civilian} dispatch={props.dispatch}/>
