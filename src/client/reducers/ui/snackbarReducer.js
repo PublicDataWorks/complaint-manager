@@ -9,7 +9,10 @@ import {
     INCIDENT_DETAILS_UPDATE_SUCCEEDED,
     REMOVE_ATTACHMENT_FAILED,
     REMOVE_ATTACHMENT_SUCCESS, SNACKBAR_ERROR,
-    ADD_OFFICER_TO_CASE_SUCCEEDED, ADD_OFFICER_TO_CASE_FAILED, ADD_USER_ACTION_SUCCEEDED, ADD_USER_ACTION_FAILED
+    ADD_OFFICER_TO_CASE_SUCCEEDED,
+    ADD_OFFICER_TO_CASE_FAILED,
+    ADD_USER_ACTION_SUCCEEDED,
+    ADD_USER_ACTION_FAILED, REMOVE_CIVILIAN_FAILED, REMOVE_CIVILIAN_SUCCEEDED
 } from "../../../sharedUtilities/constants";
 
 //TODO Discuss separation of concerns.
@@ -124,6 +127,18 @@ const snackbarReducer = (state = initialState, action) => {
                 open: true,
                 success: false,
                 message: 'Something went wrong on our end and your civilian was not created. Please try again.'
+            }
+        case REMOVE_CIVILIAN_FAILED:
+            return {
+                open: true,
+                success: false,
+                message: 'Something went wrong on our end and your civilian was not removed. Please try again.'
+            }
+        case REMOVE_CIVILIAN_SUCCEEDED:
+            return {
+                open: true,
+                success: true,
+                message: 'Civilian has been successfully deleted.'
             }
         case 'EDIT_CIVILIAN_SUCCESS':
             return {

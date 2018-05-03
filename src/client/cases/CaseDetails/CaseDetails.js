@@ -25,6 +25,7 @@ import {push} from 'react-router-redux'
 import Officers from "./Officers/Officers";
 import UserActionDialog from "./UserActionDialog/UserActionDialog";
 import timezone from "moment-timezone";
+import RemoveCivilianDialog from "../RemoveCivilianDialog/RemoveCivilianDialog";
 
 
 const drawerWidthPercentage = '30%';
@@ -100,6 +101,7 @@ class CaseDetails extends React.Component {
                         <Attachments />
                     </main>
                     <CivilianDialog/>
+                    <RemoveCivilianDialog data-test="removeCivilianDialog"/>
                     <CaseDetailSnackbar/>
                     <Button
                         data-test="caseActionMenu"

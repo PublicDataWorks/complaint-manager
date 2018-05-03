@@ -10,7 +10,10 @@ import {mockLocalStorage} from "../../../mockLocalStorage";
 import Case from "../../testUtilities/case";
 import getCaseDetails from "../thunks/getCaseDetails";
 import createCivilian from "../thunks/createCivilian";
-import {openCivilianDialog, openUserActionDialog} from "../../actionCreators/casesActionCreators";
+import {
+    openCivilianDialog, openRemoveCivilianDialog,
+    openUserActionDialog
+} from "../../actionCreators/casesActionCreators";
 import {getCaseDetailsSuccess} from "../../actionCreators/casesActionCreators";
 import {TIMEZONE} from "../../../sharedUtilities/constants";
 import timezone from "moment-timezone";
@@ -101,6 +104,13 @@ describe('Case Details Component', () => {
             addCivilian.simulate('click')
 
             expect(dispatchSpy).toHaveBeenCalledWith(openCivilianDialog("Add Civilian", "Create", createCivilian))
+        })
+
+        test('should open dialog when remove civilian button is clicked', () => {
+            const removeComplainantButton = caseDetails.find('[data-test="removeCivilianLink"]').first()
+            removeComplainantButton.simulate('click')
+
+            expect(dispatchSpy).toHaveBeenCalledWith(openRemoveCivilianDialog(expectedCase.civilians[0]))
         })
 
         test('should open and initialize User Action Dialog when Log User Action button is clicked', () => {

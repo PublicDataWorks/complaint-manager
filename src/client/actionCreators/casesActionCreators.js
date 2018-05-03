@@ -12,7 +12,8 @@ import {
     USER_ACTION_DIALOG_OPENED,
     USER_ACTION_DIALOG_CLOSED,
     ADD_USER_ACTION_FAILED,
-    ADD_USER_ACTION_SUCCEEDED
+    ADD_USER_ACTION_SUCCEEDED, REMOVE_CIVILIAN_DIALOG_OPENED, REMOVE_CIVILIAN_DIALOG_CLOSED, REMOVE_CIVILIAN_FAILED,
+    REMOVE_CIVILIAN_SUCCEEDED
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = (caseDetails) => ({
@@ -128,4 +129,22 @@ export const addUserActionFailure = () => ({
 export const addUserActionSuccess = (recentActivity) => ({
     type: ADD_USER_ACTION_SUCCEEDED,
     recentActivity
+})
+
+export const openRemoveCivilianDialog = (civilianDetails) => ({
+    type: REMOVE_CIVILIAN_DIALOG_OPENED,
+    civilianDetails
+})
+
+export const closeRemoveCivilianDialog = () => ({
+    type: REMOVE_CIVILIAN_DIALOG_CLOSED
+})
+
+export const removeCivilianFailure = () => ({
+    type: REMOVE_CIVILIAN_FAILED
+})
+
+export const removeCivilianSuccess = (caseDetails) => ({
+    type: REMOVE_CIVILIAN_SUCCEEDED,
+    caseDetails
 })

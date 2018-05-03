@@ -16,20 +16,31 @@ const ComplainantWitnesses = (props) => {
         >
             <CardContent style={{padding: '0'}}>
                 {
-                    _.sortBy(props.caseDetail.civilians, civilian =>  [civilian.lastName, civilian.firstName]).map(civilian => (
-                        <ComplainantPanel key={civilian.id} civilian={civilian} dispatch={props.dispatch}/>
-                    ))
+                    props.caseDetail.civilians.length === 0
+                        ? <Typography
+                            data-test='noCivilianMessage'
+                            style={{
+                                margin: '16px 24px'
+                            }}
+                        >
+                            No Complainants or Witnesses are on this case
+                          </Typography>
+                        : _.sortBy(props.caseDetail.civilians, civilian => [civilian.lastName, civilian.firstName]).map(civilian => (
+                            <ComplainantPanel key={civilian.id} civilian={civilian} dispatch={props.dispatch}/>
+                        ))
                 }
             </CardContent>
         </BaseCaseDetailsCard>
     )
 }
 
-const getSubtitleText = ( civilians ) => {
+const getSubtitleText = (civilians) => {
     const complainant = getFirstComplainant(civilians)
     const hasComplainants = Boolean(complainant)
 
-    if (hasComplainants) { return null }
+    if (hasComplainants) {
+        return null
+    }
 
     return (
         <WarningMessage>

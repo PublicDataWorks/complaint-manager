@@ -3,7 +3,7 @@ import {
     addUserActionSuccess,
     createCivilianSuccess,
     editCivilianSuccess,
-    getCaseDetailsSuccess,
+    getCaseDetailsSuccess, removeCivilianSuccess,
     updateIncidentDetailsSuccess,
     updateNarrativeSuccess,
     uploadAttachmentSuccess
@@ -309,6 +309,22 @@ describe('caseDetailsReducers', () => {
             const newState = caseDetailsReducer(caseDetails, addUserActionSuccess())
 
             expect(newState).toEqual({status: 'Active'})
+        })
+    });
+
+    describe('REMOVED_CIVILIAN_SUCCEEDED', () => {
+        test('should update current case after civilian is removed', () => {
+           const oldCaseDetails = {
+               civilians: [{id:1}]
+           }
+
+           const newCaseDetails = {
+               civilians:[]
+           }
+
+           const newState = caseDetailsReducer(oldCaseDetails, removeCivilianSuccess(newCaseDetails))
+
+            expect(newState).toEqual(newCaseDetails)
         })
     });
 })

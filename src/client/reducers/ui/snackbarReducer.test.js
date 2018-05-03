@@ -6,7 +6,7 @@ import {
     createCaseFailure,
     createCaseSuccess,
     editCivilianFailed,
-    editCivilianSuccess,
+    editCivilianSuccess, removeCivilianFailure, removeCivilianSuccess,
     requestCaseCreation,
     updateIncidentDetailsFailure,
     updateIncidentDetailsSuccess,
@@ -248,6 +248,34 @@ describe('snackbarReducer', () => {
                 open: true,
                 success: false,
                 message: 'Something went wrong on our end and your case was not updated. Please try again.'
+            }
+
+            expect(newState).toEqual(expectedState)
+        })
+    });
+
+    describe('REMOVE_CIVILIAN', () => {
+        test('REMOVE_CIVILIAN_FAILED', () => {
+            const initialState = { success: true, open: false, message: ''}
+            const newState = snackbarReducer(initialState, removeCivilianFailure())
+
+            const expectedState = {
+                open: true,
+                success: false,
+                message: 'Something went wrong on our end and your civilian was not removed. Please try again.'
+            }
+
+            expect(newState).toEqual(expectedState)
+        })
+
+        test('REMOVE_CIVILIAN_SUCCEEDED', () => {
+            const initialState = { success: false, open: false, message: ''}
+            const newState = snackbarReducer(initialState, removeCivilianSuccess())
+
+            const expectedState = {
+                open: true,
+                success: true,
+                message: 'Civilian has been successfully deleted.'
             }
 
             expect(newState).toEqual(expectedState)

@@ -29,7 +29,7 @@ describe('Complainant and Witnesses', () => {
             .withGenderIdentity(undefined)
             .build()
 
-        caseDetail = new Case.Builder().defaultCase()
+              caseDetail = new Case.Builder().defaultCase()
             .withCivilians([complainant])
             .build()
 
@@ -182,5 +182,16 @@ describe('Complainant and Witnesses', () => {
         const title = complainantWitnesses.find("[data-test='warnIcon']")
 
         expect(title.exists()).toBeFalsy()
+    })
+
+    test('should display another warning message when no complainants or witnesses on a case', () => {
+        const caseWithoutComplainant = new Case.Builder().defaultCase()
+            .withCivilians([])
+            .build()
+
+        const wrapper = mount(<ComplainantWitnesses caseDetail={caseWithoutComplainant}/>)
+        const noCivilianMessage = wrapper.find("[data-test='noCivilianMessage']")
+
+        expect(noCivilianMessage.exists()).toBeTruthy()
     })
 })

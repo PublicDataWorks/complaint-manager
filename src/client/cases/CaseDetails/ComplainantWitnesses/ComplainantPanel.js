@@ -1,6 +1,6 @@
 import React from "react";
 import {initialize} from "redux-form";
-import {openCivilianDialog} from "../../../actionCreators/casesActionCreators";
+import {openCivilianDialog, openRemoveCivilianDialog} from "../../../actionCreators/casesActionCreators";
 import formatName from "../../../utilities/formatName";
 import {CIVILIAN_FORM_NAME} from "../../../../sharedUtilities/constants";
 import editCivilian from "../../thunks/editCivilian";
@@ -50,6 +50,15 @@ const ComplainantPanel = ({ civilian, dispatch }) => {
                                 }}
                             >
                                 Edit
+                            </LinkButton>
+                            <LinkButton
+                                data-test="removeCivilianLink"
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    dispatch(openRemoveCivilianDialog(civilian))
+                                }}
+                            >
+                                Remove
                             </LinkButton>
                         </div>
                     </div>
