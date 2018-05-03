@@ -6,7 +6,7 @@ const addOfficer = async (request, response, next) => {
         const caseOfficerAttributes = {
             notes: request.body.notes,
             roleOnCase: request.body.roleOnCase,
-            officerId: request.params.officerId
+            officerId: request.body.officerId
         };
 
         await models.sequelize.transaction(async (t) => {

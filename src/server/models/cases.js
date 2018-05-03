@@ -76,5 +76,19 @@ module.exports = (sequelize, DataTypes) => {
         Case.hasMany(models.case_officer, {as: 'accusedOfficers', foreignKey: {name: 'caseId', field: 'case_id'}, scope: {role_on_case: 'Accused'}})
     }
 
+    Case.prototype.toJSON = function() {
+        const { accusedOfficers, ...caseToReturn } = this.get()
+
+        if (!accusedOfficers) { return this.get() }
+
+        accusedOfficers.forEach(officer => {
+            if ( officer.getDataValue('officerId') === null) {
+                officer.setDataValue('officer', { fullName: "Unknown Officer" })
+            }
+        })
+
+        return Object.assign({}, caseToReturn, { accusedOfficers: accusedOfficers })
+    }
+
     return Case
 }

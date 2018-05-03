@@ -1070,7 +1070,7 @@ describe('server', () => {
         });
     });
 
-    describe('PUT /cases/:caseId/officers/:officerId', () => {
+    describe('POST /cases/:caseId/cases_officers', () => {
         let caseToCreate, officerToCreate, seededCase, seededOfficer
 
         beforeEach(async () => {
@@ -1106,15 +1106,19 @@ describe('server', () => {
             })
         })
 
-        test('should add an officer to a case', async () => {
+        test('should add a known officer to a case', async () => {
             const officerNotes = "some notes";
             const officerRole = 'Accused';
 
             await request(app)
-                .put(`/api/cases/${seededCase.id}/officers/${seededOfficer.id}`)
+                .post(`/api/cases/${seededCase.id}/cases-officers`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
-                .send({notes: officerNotes, roleOnCase: officerRole})
+                .send({
+                    officerId: seededOfficer.id,
+                    notes: officerNotes,
+                    roleOnCase: officerRole
+                })
                 .expect(200)
                 .then(response => {
                     expect(response.body).toEqual(
@@ -1133,18 +1137,56 @@ describe('server', () => {
                     )
                 })
             const caseOfficers = await models.case_officer.findAll({where: {caseId: seededCase.id}}, {plain: true});
+
             expect(caseOfficers.length).toEqual(1);
-            expect(caseOfficers[0].officerId).toEqual(seededOfficer.id);
-            expect(caseOfficers[0].notes).toEqual(officerNotes)
-            expect(caseOfficers[0].roleOnCase).toEqual(officerRole)
+            expect(caseOfficers[0]).toEqual(
+                expect.objectContaining({
+                    officerId: seededOfficer.id,
+                    notes: officerNotes,
+                    roleOnCase: officerRole,
+                }))
+        })
+
+        test('should add an unknown officer to a case', async () => {
+            const officerNotes = "some notes for an unknown officer";
+            const officerRole = 'Accused';
+
+            await request(app)
+                .post(`/api/cases/${seededCase.id}/cases-officers/`)
+                .set('Content-Header', 'application/json')
+                .set('Authorization', `Bearer ${token}`)
+                .send({ officerId: null, notes: officerNotes, roleOnCase: officerRole })
+                .expect(200)
+                .then(response => {
+                    expect(response.body).toEqual(
+                        expect.objectContaining({
+                            accusedOfficers: expect.arrayContaining([
+                                expect.objectContaining({
+                                    id: expect.anything(),
+                                    notes: officerNotes,
+                                    officer: { fullName: "Unknown Officer" }
+                                })
+                            ])
+                        })
+                    )
+                })
+            const caseOfficers = await models.case_officer.findAll({where: {caseId: seededCase.id}}, {plain: true});
+
+            expect(caseOfficers.length).toEqual(1);
+            expect(caseOfficers[0]).toEqual(
+                expect.objectContaining({
+                    officerId: null,
+                    notes: officerNotes,
+                    roleOnCase: officerRole,
+            }))
         })
 
         test('should track add officer in audit log', async () => {
             await request(app)
-                .put(`/api/cases/${seededCase.id}/officers/${seededOfficer.id}`)
+                .post(`/api/cases/${seededCase.id}/cases-officers`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
-                .send({})
+                .send({ officerId: seededOfficer.id })
                 .expect(200);
             const auditLog = await models.audit_log.findAll({where: {caseId: seededCase.id}})
             expect(auditLog.length).toEqual(1)

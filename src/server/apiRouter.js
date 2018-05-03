@@ -37,7 +37,7 @@ router.post('/cases/:id/recent-activity', createUserAction)
 router.put('/cases/:id', editCase)
 router.put('/cases/:id/narrative', updateCaseNarrative)
 router.get('/cases/:id/officers/search', searchOfficers);
-router.put('/cases/:caseId/officers/:officerId', addOfficer);
+router.post('/cases/:caseId/cases-officers', addOfficer);
 router.delete('/cases/:caseId/civilians/:civilianId', removeCivilian);
 
 router.use('/cases/:id/attachments', attachmentRouter)

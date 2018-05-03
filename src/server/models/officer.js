@@ -99,7 +99,7 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: {
                 name: 'officerId',
                 field: 'officer_id',
-                allowNull: false
+                allowNull: true
             }
         })
     }

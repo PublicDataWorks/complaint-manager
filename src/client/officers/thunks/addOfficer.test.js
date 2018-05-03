@@ -26,6 +26,7 @@ describe('addOfficer', () => {
             roleOnCase: "Accused",
             notes: "Some very very very important notes"
         }
+        const payload = { officerId: officer.id, ...formValues }
 
         const responseBody = {updatedCaseProp: "updatedCaseValues"}
 
@@ -34,10 +35,10 @@ describe('addOfficer', () => {
                 'Authorization': `Bearer TEST_TOKEN`
             }
         })
-            .put(`/api/cases/${defaultCase.id}/officers/${officer.id}`, JSON.stringify(formValues))
+            .post(`/api/cases/${defaultCase.id}/cases-officers`, JSON.stringify(payload))
             .reply(200, responseBody)
 
-        await addOfficer(officer.id, defaultCase.id, formValues)(dispatch)
+        await addOfficer(defaultCase.id, officer.id, formValues)(dispatch)
 
         expect(dispatch).toHaveBeenCalledWith(addOfficerToCaseSuccess(responseBody))
         expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer())
@@ -51,16 +52,17 @@ describe('addOfficer', () => {
             roleOnCase: "Accused",
             notes: "Some very very very important notes"
         }
+        const payload = { officerId: officer.id, ...formValues }
 
         nock('http://localhost', {
             reqheaders: {
                 'Authorization': `Bearer TEST_TOKEN`
             }
         })
-            .put(`/api/cases/${defaultCase.id}/officers/${officer.id}`, JSON.stringify(formValues))
+            .post(`/api/cases/${defaultCase.id}/cases-officers`, JSON.stringify(payload))
             .reply(500)
 
-        await addOfficer(officer.id, defaultCase.id, formValues)(dispatch)
+        await addOfficer(defaultCase.id, officer.id, formValues)(dispatch)
 
         expect(dispatch).toHaveBeenCalledWith(addOfficerToCaseFailure())
     })
@@ -72,16 +74,17 @@ describe('addOfficer', () => {
             roleOnCase: "Accused",
             notes: "Some very very very important notes"
         };
+        const payload = { officerId: officer.id, ...formValues }
 
         nock('http://localhost', {
             reqheaders: {
                 'Authorization': `Bearer TEST_TOKEN`
             }
         })
-            .put(`/api/cases/${defaultCase.id}/officers/${officer.id}`, JSON.stringify(formValues))
+            .post(`/api/cases/${defaultCase.id}/cases-officers`, JSON.stringify(payload))
             .reply(401)
 
-        await addOfficer(officer.id, defaultCase.id, formValues)(dispatch)
+        await addOfficer(defaultCase.id, officer.id, formValues)(dispatch)
 
         expect(dispatch).toHaveBeenCalledWith(push(`/login`))
     })

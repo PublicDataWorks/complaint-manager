@@ -23,7 +23,7 @@ const getCaseDetails = (caseId) => async (dispatch) => {
 
         switch (response.status) {
             case 200:
-            const responseBody = await response.json()
+                const responseBody = await response.json()
                 return dispatch(getCaseDetailsSuccess(responseBody))
             case 401:
                 return dispatch(push(`/login`))

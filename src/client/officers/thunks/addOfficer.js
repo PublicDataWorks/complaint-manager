@@ -9,6 +9,8 @@ import {
 const hostname = config[process.env.NODE_ENV].hostname
 
 const addOfficer = (caseId, officerId, values) => async (dispatch) => {
+    const payload = { officerId, ...values }
+
     try {
         const token = getAccessToken()
 
@@ -16,13 +18,13 @@ const addOfficer = (caseId, officerId, values) => async (dispatch) => {
             dispatch(push('/login'))
             throw new Error('No access token found');
         }
-        const response = await fetch(`${hostname}/api/cases/${caseId}/officers/${officerId}`, {
-            method: "PUT",
+        const response = await fetch(`${hostname}/api/cases/${caseId}/cases-officers`, {
+            method: "POST",
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify(values)
+            body: JSON.stringify(payload)
         });
 
         if (response.status === 200) {
