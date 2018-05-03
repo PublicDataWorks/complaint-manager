@@ -72,6 +72,7 @@ describe('DELETE /cases/:caseId/civilian/:civilianId', () => {
                 expect(response.body).toEqual(
                     expect.objectContaining({
                         id: createdCase.id,
+                        status: 'Active',
                         civilians: []
                     })
                 )
@@ -90,6 +91,7 @@ describe('DELETE /cases/:caseId/civilian/:civilianId', () => {
         const softDeletedCivilianInTable = await models.civilian.findById(createdCivilian.id, {
             paranoid:false
         })
+
         expect(softDeletedCivilianInTable).toBeDefined()
     })
 });

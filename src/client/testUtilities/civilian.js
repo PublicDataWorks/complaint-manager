@@ -58,6 +58,7 @@ class Civilian {
                     zipCode: '',
                     country: ''
                 }
+                this.addressId = undefined
                 return this
             }
 

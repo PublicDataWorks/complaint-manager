@@ -28,8 +28,6 @@ jest.mock('aws-sdk', () => ({
     })
 )
 
-const Op = Sequelize.Op
-
 function buildTokenWithPermissions(permissions, nickname) {
     const privateKeyPath = path.join(__dirname, 'config', 'test', 'private.pem')
     const cert = fs.readFileSync(privateKeyPath)
@@ -55,6 +53,15 @@ describe('server', () => {
     beforeEach(async () => {
         token = buildTokenWithPermissions('', 'some_nickname');
     })
+
+    afterEach(async () => {
+        await models.address.destroy({truncate: true, cascade: true, force:true})
+        await models.case_officer.destroy({truncate: true, cascade: true})
+        await models.cases.destroy({truncate: true, cascade: true})
+        await models.officer.destroy({truncate: true, cascade: true})
+        await models.audit_log.destroy({truncate: true, cascade: true})
+        await models.civilian.destroy({truncate: true, cascade: true, force: true})
+    });
 
     describe('GET /health-check', () => {
         test('should show healthy if db connection works', async () => {
@@ -106,13 +113,6 @@ describe('server', () => {
             expect(log.length).toEqual(1)
         });
 
-        afterEach(async () => {
-            await models.audit_log.destroy({
-                where: {
-                    action: mockLog
-                }
-            })
-        })
     });
 
     describe('POST and PUT /cases', () => {
@@ -135,31 +135,6 @@ describe('server', () => {
                     assignedTo: 'tuser'
                 }
             }
-        })
-
-        afterEach(() => {
-            models.address.destroy({
-                truncate: true,
-                cascade: true
-            })
-            models.civilian.destroy({
-                where: {
-                    id: responseBody.civilians[0].id
-                }
-            })
-
-            models.audit_log.destroy({
-                where: {
-                    caseId: responseBody.id
-                }
-            })
-
-
-            models.cases.destroy({
-                where: {
-                    id: responseBody.id
-                }
-            })
         })
 
         test('should create and edit a case', async () => {
@@ -287,10 +262,6 @@ describe('server', () => {
                 })
         })
 
-        afterEach(async () => {
-            await models.cases.destroy({ truncate:true, cascade:true})
-        })
-
     })
 
     describe('POST /civilian', () => {
@@ -325,11 +296,6 @@ describe('server', () => {
                 }]
             })
             existingCivilian = existingCase.civilians[0]
-        })
-
-        afterEach(async () => {
-            await models.address.destroy({truncate:true, cascade:true})
-            await models.cases.destroy({truncate:true, cascade:true})
         })
 
         test('should create a civilian and add it to a case', async () => {
@@ -379,20 +345,17 @@ describe('server', () => {
     describe('PUT /civilian/:id', () => {
         let seededCivilian, seededCase
         beforeEach(async () => {
-            const caseDefault = new Case.Builder().defaultCase().withIncidentLocation(undefined).build();
+            const addressDefault = new Address.Builder().defaultAddress().withId(undefined).build()
+            const civilianDefault = new Civilian.Builder().defaultCivilian().withAddress(addressDefault).withId(undefined).build()
+            const caseDefault = new Case.Builder().defaultCase().withCivilians([civilianDefault]).withIncidentLocation(undefined).build();
 
             seededCase = await models.cases.create(caseDefault, {
                 include: [{
                     model: models.civilian,
                     include: [{model: models.address}]
-                },]
+                }]
             })
             seededCivilian = seededCase.civilians[0]
-        });
-
-        afterEach(async () => {
-            await models.address.destroy({truncate:true, cascade:true})
-            await models.cases.destroy({truncate:true, cascade:true})
         });
 
         test('should update an existing civilian', async () => {
@@ -447,20 +410,29 @@ describe('server', () => {
                 })
         })
         test('should update address if it exists', async () => {
+            const caseDefault = new Case.Builder().defaultCase().withId(undefined).withIncidentLocation(undefined).withCivilians([civilianWithAddress]).build()
+
+            const caseToUpdate = await models.cases.create(caseDefault,
+                {
+                    include: [{
+                        model: models.civilian,
+                        include: [{model: models.address}]
+                    }]
+                })
+
+            let civilianToUpdate = caseToUpdate.dataValues.civilians[0]
 
             await request(app)
-                .put(`/api/civilian/${civilianWithAddress.id}`)
+                .put(`/api/civilian/${civilianToUpdate.id}`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
-                .send(civilianWithAddress)
-
-            civilianWithAddress.address.city = 'New Orleans'
-
-            await request(app)
-                .put(`/api/civilian/${civilianWithAddress.id}`)
-                .set('Content-Header', 'application/json')
-                .set('Authorization', `Bearer ${token}`)
-                .send(civilianWithAddress)
+                .send({
+                    addressId: civilianToUpdate.addressId,
+                    address: {
+                        id: civilianToUpdate.addressId,
+                        city: 'New Orleans'
+                    }
+                })
                 .expect(200)
                 .then(response => {
                     const civilians = response.body
@@ -475,20 +447,37 @@ describe('server', () => {
                         ])
                     )
                 })
-
         })
         test('should allow blank address', async () => {
-            await request(app)
-                .put(`/api/civilian/${civilianWithAddress.id}`)
-                .set('Content-Header', 'application/json')
-                .set('Authorization', `Bearer ${token}`)
-                .send(civilianWithAddress)
+            const caseDefault = new Case.Builder().defaultCase().withId(undefined).withIncidentLocation(undefined).withCivilians([civilianWithAddress]).build()
+
+            const caseToUpdate = await models.cases.create(caseDefault,
+                {
+                    include: [{
+                        model: models.civilian,
+                        include: [{model: models.address}]
+                    }]
+                })
+
+            let civilianToUpdate = caseToUpdate.dataValues.civilians[0]
+
 
             await request(app)
-                .put(`/api/civilian/${civilianWithoutAddress.id}`)
+                .put(`/api/civilian/${civilianToUpdate.id}`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
-                .send(civilianWithoutAddress)
+                .send({
+                    addressId: civilianToUpdate.addressId,
+                    address: {
+                        id: civilianToUpdate.addressId,
+                        streetAddress: '',
+                        streetAddress2: '',
+                        city: '',
+                        state: '',
+                        zipCode: '',
+                        country: ''
+                    }
+                })
                 .then(response => {
                     const civilians = response.body
 
@@ -539,10 +528,7 @@ describe('server', () => {
         })
         afterEach(async () => {
             await models.users.destroy({
-                where: {
-                    firstName: 'Ron',
-                    lastName: 'Swanson'
-                }
+                truncate: true
             })
             mailServer.stop()
         })
@@ -590,14 +576,8 @@ describe('server', () => {
         })
 
         afterEach(async () => {
-            const seededIds = seededUsers.map(user => user.id)
-
             await models.users.destroy({
-                where: {
-                    id: {
-                        [Op.in]: seededIds
-                    }
-                }
+                truncate: true
             })
         })
 
@@ -678,31 +658,6 @@ describe('server', () => {
             })
         })
 
-        afterEach(async () => {
-            await models.address.destroy({
-                truncate: true,
-                cascade: true
-            })
-            await models.cases.destroy({
-                truncate: true,
-                cascade: true
-            })
-            await models.case_officer.destroy({
-                where: {
-                    case_id: caseToRetrieve.id
-                }
-            })
-            await models.civilian.destroy({
-                truncate: true,
-                cascade: true
-            })
-
-            await models.officer.destroy({
-                truncate: true,
-                cascade: true
-            })
-        })
-
         test('should get case', async () => {
             await request(app)
                 .get(`/api/cases/${caseToRetrieve.id}`)
@@ -763,12 +718,6 @@ describe('server', () => {
             })
         });
 
-        afterEach(async () => {
-            await models.cases.truncate({
-                cascade: true
-            })
-        });
-
         test('should display recent activity for an existing case', async () => {
 
             await request(app)
@@ -792,11 +741,6 @@ describe('server', () => {
     });
 
     describe('POST /cases/:id/recent-history', () => {
-
-        afterEach(async () => {
-            await models.cases.destroy({truncate: true, cascade: true})
-            await models.user_action.destroy({truncate: true})
-        })
 
         test('should log a user action', async () => {
             const existingCase = new Case.Builder().defaultCase().withId(undefined).withIncidentLocation(undefined).build()
@@ -874,17 +818,6 @@ describe('server', () => {
                 })
         })
 
-        afterEach(async () => {
-            await models.address.destroy({
-                truncate: true,
-                cascade: true
-            })
-            await models.cases.destroy({
-                truncate: true,
-                cascade: true
-            })
-        })
-
         test('should update case narrative', async () => {
             const updatedNarrative = {narrativeDetails: 'A very updated case narrative.'}
 
@@ -941,16 +874,6 @@ describe('server', () => {
                     {
                         returning: true
                     });
-            });
-
-            afterEach(async () => {
-                const seededOfficerIds = seededOfficers.map(officer => officer.id);
-
-                await models.officer.destroy({
-                    where: {
-                        id: {[Op.in]: seededOfficerIds}
-                    }
-                });
             });
 
             test("returns officer that partially matches first name", async () => {
@@ -1028,16 +951,6 @@ describe('server', () => {
                     });
             });
 
-            afterEach(async () => {
-                const seededOfficerIds = seededOfficers.map(officer => officer.id);
-
-                await models.officer.destroy({
-                    where: {
-                        id: {[Op.in]: seededOfficerIds}
-                    }
-                });
-            });
-
             test("returns officer that matches first name, last name, and district", async () => {
                 await request(app)
                     .get("/api/cases/5/officers/search")
@@ -1078,32 +991,6 @@ describe('server', () => {
             officerToCreate = new Officer.Builder().defaultOfficer().withId(undefined).build()
             seededOfficer = await models.officer.create(officerToCreate)
             seededCase = await models.cases.create(caseToCreate)
-        })
-
-        afterEach(async () => {
-            await models.audit_log.destroy({
-                where: {
-                    case_id: seededCase.id
-                }
-            })
-
-            await models.case_officer.destroy({
-                where: {
-                    case_id: seededCase.id
-                }
-            })
-
-            await models.cases.destroy({
-                where: {
-                    id: seededCase.id
-                }
-            })
-
-            await models.officer.destroy({
-                where: {
-                    id: seededOfficer.id
-                }
-            })
         })
 
         test('should add a known officer to a case', async () => {
@@ -1155,7 +1042,7 @@ describe('server', () => {
                 .post(`/api/cases/${seededCase.id}/cases-officers/`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
-                .send({ officerId: null, notes: officerNotes, roleOnCase: officerRole })
+                .send({officerId: null, notes: officerNotes, roleOnCase: officerRole})
                 .expect(200)
                 .then(response => {
                     expect(response.body).toEqual(
@@ -1164,7 +1051,7 @@ describe('server', () => {
                                 expect.objectContaining({
                                     id: expect.anything(),
                                     notes: officerNotes,
-                                    officer: { fullName: "Unknown Officer" }
+                                    officer: {fullName: "Unknown Officer"}
                                 })
                             ])
                         })
@@ -1178,7 +1065,7 @@ describe('server', () => {
                     officerId: null,
                     notes: officerNotes,
                     roleOnCase: officerRole,
-            }))
+                }))
         })
 
         test('should track add officer in audit log', async () => {
@@ -1186,7 +1073,7 @@ describe('server', () => {
                 .post(`/api/cases/${seededCase.id}/cases-officers`)
                 .set('Content-Header', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
-                .send({ officerId: seededOfficer.id })
+                .send({officerId: seededOfficer.id})
                 .expect(200);
             const auditLog = await models.audit_log.findAll({where: {caseId: seededCase.id}})
             expect(auditLog.length).toEqual(1)
@@ -1212,13 +1099,6 @@ describe('server', () => {
                 action: 'Test action entered',
                 caseId: testCase.id,
                 createdAt: testCreationDateTwo
-            })
-        })
-
-        afterEach(async () => {
-            await models.address.destroy({
-                truncate: true,
-                cascade: true
             })
         })
 
@@ -1265,13 +1145,6 @@ describe('server', () => {
                 .build()
             defaultCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}, {model: models.attachment}]})
         });
-
-        afterEach(async () => {
-            await models.cases.destroy({
-                truncate: true,
-                cascade: true
-            })
-        })
 
         describe('POST /cases/:id/attachments', () => {
 
@@ -1383,13 +1256,6 @@ describe('server', () => {
 
                 expect(attachmentsFromUnmodifiedCase.length).toEqual(2)
 
-            })
-
-            afterEach(async () => {
-                await models.cases.destroy({
-                    truncate: true,
-                    cascade: true
-                })
             })
         })
     });

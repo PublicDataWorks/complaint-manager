@@ -10,8 +10,11 @@ const removeCivilian = async (request, response, next) => {
                 }]
         })
 
-        await models.civilian.destroy({ where: {id: request.params.civilianId}})
-        await models.address.destroy({ where: {id: civilian.dataValues.addressId}})
+        await models.sequelize.transaction(async (t) => {
+            await models.civilian.destroy({ where: {id: request.params.civilianId}}, {transaction: t})
+            await models.address.destroy({ where: {id: civilian.dataValues.addressId}}, {transaction: t})
+            await models.cases.update({status: 'Active'}, { where: {id: request.params.caseId}}, {transaction: t})
+        })
 
         const caseDetails = await getCaseWithAllAssociations(request.params.caseId)
 
