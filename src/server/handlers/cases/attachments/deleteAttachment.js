@@ -1,5 +1,6 @@
 const config = require("../../../config/config")
 const models = require('../../../models/index')
+const getCaseWithAllAssociations = require('../../getCaseWithAllAssociations')
 const createConfiguredS3Instance = require("./createConfiguredS3Instance")
 
 const deleteAttachment = async (request, response, next) => {
@@ -32,19 +33,7 @@ const deleteAttachment = async (request, response, next) => {
                     transaction: t
                 })
 
-            return await models.cases.findById(request.params.id,
-                {
-                    include: [
-                        { model: models.civilian },
-                        { model: models.attachment },
-                        {
-                            model: models.case_officer,
-                            as: 'accusedOfficers',
-                            include: [models.officer]
-                        }
-                    ],
-                    transaction: t
-                })
+            return await getCaseWithAllAssociations(request.params.id, t)
         })
         response.status(200).send(caseDetails)
     } catch (error) {

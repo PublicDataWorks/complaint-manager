@@ -40,7 +40,8 @@ describe('get case', () => {
                         as: 'accusedOfficers',
                         include: [models.officer]
                     }
-                ]
+                ],
+                transaction: null
             })
     })
 })

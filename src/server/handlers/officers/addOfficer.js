@@ -1,4 +1,5 @@
 const models = require('../../models/index');
+const getCaseWithAllAssociations = require('../getCaseWithAllAssociations');
 
 const addOfficer = async (request, response, next) => {
     try {
@@ -9,7 +10,7 @@ const addOfficer = async (request, response, next) => {
             officerId: request.body.officerId
         };
 
-        await models.sequelize.transaction(async (t) => {
+        const updatedCase = await models.sequelize.transaction(async (t) => {
             await retrievedCase.createAccusedOfficer(caseOfficerAttributes, {transaction: t});
 
             await models.audit_log.create({
@@ -21,29 +22,9 @@ const addOfficer = async (request, response, next) => {
                     transaction: t
                 }
             )
-        })
 
-        const updatedCase = await models.cases.findById(retrievedCase.id,
-            {
-                include: [
-                    {
-                        model: models.civilian,
-                        include: [models.address]
-                    },
-                    {
-                        model: models.attachment
-                    },
-                    {
-                        model: models.address,
-                        as: 'incidentLocation'
-                    },
-                    {
-                        model: models.case_officer,
-                        as: 'accusedOfficers',
-                        include: [models.officer]
-                    }
-                ]
-            })
+            return await getCaseWithAllAssociations(retrievedCase.id, t)
+        })
 
         return response.send(updatedCase)
 

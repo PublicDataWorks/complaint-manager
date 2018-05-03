@@ -1,4 +1,5 @@
 const models = require('../../models/index')
+const getCaseWithAllAssociations = require('../getCaseWithAllAssociations')
 
 const updateCaseNarrative = async (request, response, next) => {
     try {
@@ -25,26 +26,7 @@ const updateCaseNarrative = async (request, response, next) => {
                     transaction: t
                 })
 
-            return await models.cases.findById(
-                caseId,
-                {
-                    include: [
-                        {
-                            model: models.civilian,
-                            include: [models.address]
-                        },
-                        {
-                            model: models.attachment
-                        },
-                        {
-                            model: models.case_officer,
-                            as: 'accusedOfficers',
-                            include: [models.officer]
-                        }
-                    ],
-                    transaction: t
-                }
-            )
+            return await getCaseWithAllAssociations(caseId, t)
         })
 
         response.send(updatedCase)

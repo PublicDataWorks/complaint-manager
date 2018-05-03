@@ -4,6 +4,7 @@ const isDuplicateFileName = require("./isDuplicateFileName")
 const createConfiguredS3Instance = require("./createConfiguredS3Instance")
 const config = require("../../../config/config")
 const DUPLICATE_FILE_NAME = require("../../../../sharedUtilities/constants").DUPLICATE_FILE_NAME
+const getCaseWithAllAssociations = require('../../getCaseWithAllAssociations');
 
 const uploadAttachment = (request, response, next) => {
     let managedUpload
@@ -61,19 +62,7 @@ const uploadAttachment = (request, response, next) => {
                         }
                     )
 
-                    return await models.cases.findById(caseId,
-                        {
-                            include: [
-                                {model: models.civilian},
-                                {model: models.attachment},
-                                {
-                                    model: models.case_officer,
-                                    as: 'accusedOfficers',
-                                    include: [models.officer]
-                                }
-                            ],
-                            transaction: t
-                        })
+                    return await getCaseWithAllAssociations(caseId, t)
                 })
 
                 response.send(updatedCase)

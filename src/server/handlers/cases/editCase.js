@@ -1,6 +1,6 @@
 const moment = require("moment")
-
 const models = require('../../models')
+const getCaseWithAllAssociations = require('../getCaseWithAllAssociations');
 
 async function upsertAddress(caseId, incidentLocationId, incidentLocation, transaction) {
 
@@ -60,31 +60,7 @@ const editCase = async (request, response, next) => {
                     transaction
                 })
 
-                return await models.cases.findById(
-                    request.params.id,
-                    {
-                        include: [
-                            {
-                                model: models.civilian,
-                                include: [models.address]
-                            },
-                            {
-                                model: models.attachment
-                            },
-                            {
-                                model: models.address,
-                                as: 'incidentLocation'
-                            },
-                            {
-                                model: models.case_officer,
-                                as: "accusedOfficers",
-                                include: [models.officer]
-                            }
-
-                        ],
-                        transaction: transaction
-                    }
-                )
+                return await getCaseWithAllAssociations(request.params.id, transaction)
             })
             response.status(200).send(updatedCase)
         }
