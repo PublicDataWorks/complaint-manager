@@ -220,6 +220,70 @@ describe('sorting', () => {
         expect(sortedCases).toEqual(expectedSortedCases)
     })
 
+    test('should sort accusedOfficer by officer last name', () => {
+
+        const unsortedCases = [
+            {
+                id: 2,
+                status: 'Initial',
+                accusedOfficers: [{
+                    officer:{
+                        lastName: 'Brown'
+                    }
+                }],
+                assignedTo: 'abcUser'
+            },
+            {
+                id: 1,
+                status: 'Active',
+                accusedOfficers: [{
+                    officer:{
+                        lastName: 'adams'
+                    }
+                }],
+                assignedTo: 'adams'
+            },
+            {
+                id: 3,
+                status: 'Active',
+                accusedOfficers: [],
+                assignedTo: 'Johnson'
+            }
+        ]
+
+        const expectedSortedCases = [
+            {
+                id: 3,
+                status: 'Active',
+                accusedOfficers: [],
+                assignedTo: 'Johnson'
+            },
+            {
+                id: 1,
+                status: 'Active',
+                accusedOfficers: [{
+                    officer:{
+                        lastName: 'adams'
+                    }
+                }],
+                assignedTo: 'adams'
+            },
+            {
+                id: 2,
+                status: 'Initial',
+                accusedOfficers: [{
+                    officer:{
+                        lastName: 'Brown'
+                    }
+                }],
+                assignedTo: 'abcUser'
+            }
+        ]
+
+        const sortedCases = sortBy(unsortedCases, 'accusedOfficer', 'asc')
+
+        expect(sortedCases).toEqual(expectedSortedCases)
+    })
 
 });
 

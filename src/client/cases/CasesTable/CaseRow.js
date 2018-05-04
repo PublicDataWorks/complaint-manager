@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import LinkButton from "../../sharedComponents/LinkButton";
 import tableStyleGenerator from "../../tableStyles";
 import DisplayComplainant from "./DisplayComplainant";
+import DisplayAccusedOfficer from "./DisplayAccusedOfficer";
 
 const styles = theme => ({
     ...tableStyleGenerator(theme).body,
@@ -23,6 +24,9 @@ const CaseRow = ({classes, caseDetails}) => (
         </TableCell>
         <TableCell data-test="caseName" className={classes.cell}>
             <DisplayComplainant civilians={caseDetails.civilians}/>
+        </TableCell>
+        <TableCell data-test="accusedOfficer" className={classes.cell}>
+            <DisplayAccusedOfficer accusedOfficers={caseDetails.accusedOfficers}/>
         </TableCell>
         <TableCell data-test="caseFirstContactDate" className={classes.cell}>
             {formatDate(caseDetails.firstContactDate)}

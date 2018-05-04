@@ -7,13 +7,15 @@ import {createCaseSuccess, getCasesSuccess, updateSort} from '../../actionCreato
 import {BrowserRouter as Router} from 'react-router-dom'
 import Civilian from "../../testUtilities/civilian";
 import Case from "../../testUtilities/case";
+import CaseOfficer from "../../testUtilities/caseOfficer";
+import Officer from "../../testUtilities/Officer";
 
 jest.mock('../thunks/getCases', () => () => ({
     type: 'MOCK_GET_CASES_THUNK'
 }))
 
 describe('cases table', () => {
-    let tableWrapper, cases, store, dispatchSpy, civilianChuck, civilianAriel;
+    let tableWrapper, cases, store, dispatchSpy, civilianChuck, civilianAriel, officer;
 
     beforeEach(() => {
         civilianChuck = new Civilian.Builder()
@@ -26,15 +28,27 @@ describe('cases table', () => {
             .withLastName('Pink')
             .withRoleOnCase('Complainant').build();
 
+        officer = new Officer.Builder()
+            .defaultOfficer()
+            .withFullName('Jeff Wallace').build()
+
+        const accusedOfficer = new CaseOfficer.Builder()
+            .defaultCaseOfficer()
+            .withOfficer(officer)
+            .build()
+
         const caseOne = new Case.Builder()
+            .defaultCase()
             .withId(17)
             .withCivilians([civilianChuck])
             .withComplainantType('Civilian')
             .withStatus('Initial')
             .withCreatedAt(new Date(2015, 8, 13).toISOString())
             .withAssignedTo('tuser')
+            .withAccusedOfficers([accusedOfficer])
             .withFirstContactDate("2017-12-25T00:00:00.000Z").build()
         const caseTwo = new Case.Builder()
+            .defaultCase()
             .withId(24)
             .withCivilians([civilianAriel])
             .withComplainantType('Civilian')
@@ -143,6 +157,11 @@ describe('cases table', () => {
             expect(name.text()).toEqual('Chuck Berry');
         });
 
+        test('should display accused officer', () => {
+            const accusedOfficerName = caseRow.find('td[data-test="accusedOfficer"]');
+            expect(accusedOfficerName.text()).toEqual(officer.fullName);
+        });
+
         test('should display first contact date', () => {
             const firstContactDate = caseRow.find('td[data-test="caseFirstContactDate"]');
             expect(firstContactDate.text()).toEqual('Dec 25, 2017');
@@ -158,6 +177,8 @@ describe('cases table', () => {
             expect(openCaseButton.exists()).toEqual(true);
         });
 
+
+
         test('open case button should refer to the case detail page', () => {
             const openCaseButton = caseRow.find('a[data-test="openCaseButton"]');
             expect(openCaseButton.prop('href')).toEqual('/cases/17');
@@ -170,6 +191,7 @@ describe('cases table', () => {
 
         test('should remain in numeric descending order by case # after creation', () => {
             const yetAnotherCase = new Case.Builder()
+                .defaultCase()
                 .withId(50)
                 .withCivilians([civilianChuck])
                 .withStatus('Initial')

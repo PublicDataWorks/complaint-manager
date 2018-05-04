@@ -3,12 +3,17 @@ const models = require('../../models/index')
 const getCases = async (req, res) => {
     const cases = await models.cases.findAll(
         {
-            include: [{
-                model: models.civilian
-            }]
+            include: [
+                { model: models.civilian},
+                {
+                    model: models.case_officer,
+                    as: 'accusedOfficers',
+                    include: [models.officer]
+                }
+            ]
         })
 
-    res.send({cases})
+    res.status(200).send({cases})
 };
 
 module.exports = getCases

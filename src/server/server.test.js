@@ -1,17 +1,15 @@
 import app from './server'
 import request from 'supertest'
-import moment from "moment"
 import fs from 'fs'
 import path from 'path'
 import jwt from 'jsonwebtoken'
 import ms from 'smtp-tester'
-import Sequelize from 'sequelize'
 import models from './models'
 import {AuthenticationClient} from 'auth0'
 import Civilian from "../client/testUtilities/civilian";
 import Case from "../client/testUtilities/case";
 import Attachment from "../client/testUtilities/attachment";
-import {civilianWithAddress, civilianWithoutAddress} from "../client/testUtilities/ObjectMothers";
+import {civilianWithAddress} from "../client/testUtilities/ObjectMothers";
 import Address from "../client/testUtilities/Address";
 import {EXPORT_AUDIT_LOG} from "../sharedUtilities/constants";
 import Officer from "../client/testUtilities/Officer";
@@ -208,60 +206,6 @@ describe('server', () => {
                     expect(response.body).toEqual({error: 'User nickname missing'})
                 })
         })
-    })
-
-
-    describe('GET /cases', () => {
-        let seededCase
-
-        beforeEach(async () => {
-            let civilian = new Civilian.Builder().defaultCivilian()
-                .withId(undefined)
-                .withNoAddress()
-                .withFirstName('Robert')
-                .build()
-
-
-            let defaultCase = new Case.Builder().defaultCase()
-                .withId(undefined)
-                .withCivilians([civilian])
-                .withAttachments(undefined)
-                .withIncidentLocation(undefined)
-                .build()
-
-            seededCase = await models.cases.create(defaultCase, {include: [{model: models.civilian}]})
-        })
-
-        test('should get all cases', async () => {
-            await request(app)
-                .get('/api/cases')
-                .set('Content-Header', 'application/json')
-                .set('Authorization', `Bearer ${token}`)
-                .expect(200)
-                .then(response => {
-                    expect(response.body.cases).toEqual(
-                        expect.arrayContaining([
-                            expect.objectContaining({
-                                civilians: expect.arrayContaining([
-                                    expect.objectContaining({
-                                        firstName: seededCase.civilians[0].firstName,
-                                        lastName: seededCase.civilians[0].lastName,
-                                        phoneNumber: seededCase.civilians[0].phoneNumber,
-                                        email: seededCase.civilians[0].email,
-                                    })
-                                ]),
-                                complainantType: seededCase.complainantType,
-                                createdAt: seededCase.createdAt.toISOString(),
-                                firstContactDate: moment(seededCase.firstContactDate).format("YYYY-MM-DD"),
-                                status: 'Initial',
-                                createdBy: 'tuser',
-                                assignedTo: 'tuser'
-                            })
-                        ])
-                    )
-                })
-        })
-
     })
 
     describe('POST /civilian', () => {

@@ -2,6 +2,7 @@ class Officer {
     constructor(build) {
         this.id = build.id;
         this.officerNumber = build.officerNumber;
+        this.fullName = build.fullName
         this.firstName = build.firstName;
         this.middleName = build.middleName;
         this.lastName = build.lastName;
@@ -19,6 +20,7 @@ class Officer {
             defaultOfficer() {
                 this.id = 57;
                 this.officerNumber = 200;
+                this.fullName = 'Ugochi Grant Smith';
                 this.firstName = 'Ugochi';
                 this.middleName = 'Grant';
                 this.lastName = 'Smith';
@@ -34,6 +36,11 @@ class Officer {
 
             withId(id) {
                 this.id = id;
+                return this
+            }
+
+            withFullName(fullName) {
+                this.fullName = fullName;
                 return this
             }
 

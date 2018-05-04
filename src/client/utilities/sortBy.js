@@ -25,6 +25,18 @@ const existingComplainantLastName = ({ civilians }) => {
     }
 };
 
+const hasAccusedOfficers = ({ accusedOfficers }) => {
+    return accusedOfficers.length > 0
+};
+
+const accusedOfficerLastName = ({ accusedOfficers }) => {
+    if (accusedOfficers.length > 0) {
+        return accusedOfficers[0].officer.lastName.toUpperCase()
+    } else {
+        return null
+    }
+};
+
 const sortBy = (collection, sortBy, sortDirection) => {
     if (sortBy === 'status') {
         if (sortDirection === 'asc') {
@@ -47,6 +59,15 @@ const sortBy = (collection, sortBy, sortDirection) => {
             return sortedCases.reverse()
          }
          else return sortedCases
+    }
+
+    if (sortBy === 'accusedOfficer') {
+        const sortedCases = _.sortBy(collection, [hasAccusedOfficers, accusedOfficerLastName])
+
+        if (sortDirection === 'desc') {
+            return sortedCases.reverse()
+        }
+        else return sortedCases
     }
 
     if (sortBy === 'assignedTo') {
