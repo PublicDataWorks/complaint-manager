@@ -68,15 +68,23 @@ describe('Officer Dashboard', () => {
     })
 
     test('should render OfficerSearch if no officer selected yet', () => {
-        const officerDashboard = shallow(<OfficerDashboard dispatch={mockDispatch} caseId={1} match={{params: {id: `${caseId}`}}}/>);
+        const officerDashboard = shallow(<OfficerDashboard officerCurrentlySelected={false} dispatch={mockDispatch} caseId={1} match={{params: {id: `${caseId}`}}}/>);
         const officerSearch = officerDashboard.find(OfficerSearch);
         const officerDetails = officerDashboard.find(OfficerDetails);
         expect(officerSearch.exists()).toEqual(true);
         expect(officerDetails.exists()).toEqual(false);
     });
 
-    test('should not render OfficerSearch if officer has been selected', () => {
-        const officerDashboard = shallow(<OfficerDashboard selectedOfficer={{firstName:'Bob'}} dispatch={mockDispatch} caseId={1} match={{params: {id: `${caseId}`}}}/>);
+    test('should not render OfficerSearch when known officer has been selected', () => {
+        const officerDashboard = shallow(<OfficerDashboard selectedOfficer={{firstName:'Bob'}} officerCurrentlySelected={true} dispatch={mockDispatch} caseId={1} match={{params: {id: `${caseId}`}}}/>);
+        const officerSearch = officerDashboard.find(OfficerSearch);
+        const officerDetails = officerDashboard.find(OfficerDetails);
+        expect(officerSearch.exists()).toEqual(false);
+        expect(officerDetails.exists()).toEqual(true);
+    })
+
+    test('should not render OfficerSearch when unknown officer has been selected', () => {
+        const officerDashboard = shallow(<OfficerDashboard selectedOfficer={null} officerCurrentlySelected={true} dispatch={mockDispatch} caseId={1} match={{params: {id: `${caseId}`}}}/>);
         const officerSearch = officerDashboard.find(OfficerSearch);
         const officerDetails = officerDashboard.find(OfficerDetails);
         expect(officerSearch.exists()).toEqual(false);

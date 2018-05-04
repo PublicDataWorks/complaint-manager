@@ -9,6 +9,9 @@ import OfficersSnackbar from "./OfficersSnackBar/OfficersSnackbar";
 import OfficerSearch from "./OfficerSearch/OfficerSearch";
 import OfficerDetails from "./OfficerDetails/OfficerDetails";
 import {clearSelectedOfficer} from "../actionCreators/officersActionCreators";
+import {
+    SelectUnknownOfficer
+} from "./OfficerSearch/OfficerSearchResults/officerSearchResultsRowButtons";
 
 export class OfficerDashboard extends Component {
     componentDidMount() {
@@ -18,7 +21,7 @@ export class OfficerDashboard extends Component {
     }
 
     render() {
-        const {caseId, selectedOfficer, match} = this.props;
+        const {caseId, selectedOfficerData, officerCurrentlySelected, match} = this.props;
         if (`${caseId}` !== match.params.id) {
             return null
         }
@@ -31,7 +34,7 @@ export class OfficerDashboard extends Component {
                         variant="title"
                         color="inherit"
                     >
-                        {`Case #${caseId} : Add Officer`}
+                        {`Case #${caseId}   : Add Officer`}
                     </Typography>
                 </NavBar>
                 <LinkButton
@@ -44,9 +47,20 @@ export class OfficerDashboard extends Component {
                     Back to Case
                 </LinkButton>
                 <div style={{margin: '0% 5% 3%'}}>
-                    { selectedOfficer ? <OfficerDetails officer={selectedOfficer} caseId={caseId}/> : <OfficerSearch caseId={caseId}/>}
+                    {
+                        officerCurrentlySelected ? (
+                            <OfficerDetails
+                                selectedOfficerData={selectedOfficerData}
+                                caseId={caseId}
+                            />
+                        ) : (
+                            <div>
+                                <OfficerSearch dispatch={this.props.dispatch} caseId={caseId}/>
+                                <SelectUnknownOfficer dispatch={this.props.dispatch}/>
+                            </div>
+                        )
+                    }
                 </div>
-
                 <OfficersSnackbar/>
             </div>
         )
@@ -55,7 +69,8 @@ export class OfficerDashboard extends Component {
 
 const mapStateToProps = state => ({
     caseId: state.currentCase.details.id,
-    selectedOfficer: state.officers.selectedOfficer
+    selectedOfficerData: state.officers.selectedOfficerData,
+    officerCurrentlySelected: state.officers.officerCurrentlySelected
 });
 
 export default connect(mapStateToProps)(OfficerDashboard);
