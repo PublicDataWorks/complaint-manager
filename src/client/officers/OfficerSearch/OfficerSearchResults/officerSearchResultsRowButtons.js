@@ -26,7 +26,7 @@ export const SelectUnknownOfficer = ({ dispatch }) => (
             dispatch(selectUnknownOfficer())
         }}
     >
-        continue as unknown officer
+        add an unknown officer
     </CancelButton>
 )
 

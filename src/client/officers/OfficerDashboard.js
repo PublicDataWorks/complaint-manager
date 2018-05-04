@@ -9,15 +9,16 @@ import OfficersSnackbar from "./OfficersSnackBar/OfficersSnackbar";
 import OfficerSearch from "./OfficerSearch/OfficerSearch";
 import OfficerDetails from "./OfficerDetails/OfficerDetails";
 import {clearSelectedOfficer} from "../actionCreators/officersActionCreators";
-import {
-    SelectUnknownOfficer
-} from "./OfficerSearch/OfficerSearchResults/officerSearchResultsRowButtons";
 
 export class OfficerDashboard extends Component {
     componentDidMount() {
         if (`${this.props.caseId}` !== this.props.match.params.id) {
             this.props.dispatch(getCaseDetails(this.props.match.params.id))
         }
+    }
+
+    componentWillMount() {
+        this.props.dispatch(clearSelectedOfficer())
     }
 
     render() {
@@ -56,7 +57,6 @@ export class OfficerDashboard extends Component {
                         ) : (
                             <div>
                                 <OfficerSearch dispatch={this.props.dispatch} caseId={caseId}/>
-                                <SelectUnknownOfficer dispatch={this.props.dispatch}/>
                             </div>
                         )
                     }

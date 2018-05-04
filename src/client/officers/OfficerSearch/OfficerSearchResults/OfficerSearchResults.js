@@ -31,7 +31,7 @@ export class OfficerSearchResults extends Component {
         if (!this.props.spinnerVisible) { return null }
         return (
             <div style={{textAlign: 'center'}}>
-                <LinearProgress data-test="spinner" style={{marginTop: '24px'}} size={300}/>
+                <LinearProgress data-test="spinner" style={{marginTop: '24px', marginBottom: "32px"}} size={300}/>
             </div>
         );
     };
@@ -61,7 +61,7 @@ export class OfficerSearchResults extends Component {
     renderSearchResults = () => {
         if (this.props.searchResults.length === 0 ) { return null }
         return (
-            <Table>
+            <Table style={{marginBottom: "32px"}}>
                 <OfficerSearchTableHeader/>
                 <TableBody>
                     {

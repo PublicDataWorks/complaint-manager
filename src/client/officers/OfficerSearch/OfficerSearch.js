@@ -4,19 +4,21 @@ import {Card, CardContent, Typography} from "material-ui";
 import OfficerSearchResults from "./OfficerSearchResults/OfficerSearchResults";
 import StyledLink from "../../sharedComponents/StyledLink";
 import {selectUnknownOfficer} from "../../actionCreators/officersActionCreators";
+import {SelectUnknownOfficer} from "./OfficerSearchResults/officerSearchResultsRowButtons";
 
 const OfficerSearch = (props) => {
     return (
         <div>
-            <div style={{margin: '0 0 20px 0'}}>
+            <div style={{margin: '0 0 32px 0'}}>
                 <Typography variant="title">Search for an Officer</Typography>
                 <Typography variant="body1">
-                    Search by entering at least one of the following fields. Unable to find an officer? You <StyledLink
+                    Search by entering at least one of the following fields. Unable to find an officer? You can <StyledLink
+                    style={{cursor: "pointer"}}
                     onClick={() => {
                         props.dispatch(selectUnknownOfficer())
                     }}
                 >
-                        can add an Unknown Officer
+                        Add an Unknown Officer
                     </StyledLink> and identify them later.
                 </Typography>
             </div>
@@ -34,6 +36,7 @@ const OfficerSearch = (props) => {
                 </CardContent>
             </Card>
             <OfficerSearchResults/>
+            <SelectUnknownOfficer dispatch={props.dispatch}/>
         </div>
     )
 };
