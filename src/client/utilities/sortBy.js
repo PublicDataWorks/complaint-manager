@@ -29,8 +29,18 @@ const hasAccusedOfficers = ({ accusedOfficers }) => {
     return accusedOfficers.length > 0
 };
 
-const accusedOfficerLastName = ({ accusedOfficers }) => {
+const isUnknownOfficer = ({ accusedOfficers }) => {
     if (accusedOfficers.length > 0) {
+        const name = accusedOfficers[0].officer.fullName
+        if (name === 'Unknown Officer') {
+            return name
+        }
+    }
+    return null
+}
+
+const accusedOfficerLastName = ({ accusedOfficers }) => {
+    if (accusedOfficers.length > 0 && accusedOfficers[0].officer.lastName) {
         return accusedOfficers[0].officer.lastName.toUpperCase()
     } else {
         return null
@@ -62,7 +72,10 @@ const sortBy = (collection, sortBy, sortDirection) => {
     }
 
     if (sortBy === 'accusedOfficer') {
-        const sortedCases = _.sortBy(collection, [hasAccusedOfficers, accusedOfficerLastName])
+        const sortedCases = _.sortBy(collection, [
+            hasAccusedOfficers,
+            isUnknownOfficer,
+            accusedOfficerLastName])
 
         if (sortDirection === 'desc') {
             return sortedCases.reverse()

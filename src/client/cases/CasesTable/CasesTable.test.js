@@ -127,7 +127,7 @@ describe('cases table', () => {
         })
 
         test('should display first contact date', () => {
-            expect(firstContactDate.text()).toEqual('First Contact Date');
+            expect(firstContactDate.text()).toEqual('First Contact');
         })
 
         test('should display assigned to', () => {

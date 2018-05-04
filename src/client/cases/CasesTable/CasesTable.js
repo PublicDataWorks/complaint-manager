@@ -37,7 +37,7 @@ class CasesTable extends React.Component {
                                         <Typography variant='body2'>Case #</Typography>
                                     </TableSortLabel>
                                 </TableCell>
-                                <TableCell data-test='casesStatusHeader' style={{paddingLeft:'24px', width: '14%'}} className={classes.cell}>
+                                <TableCell data-test='casesStatusHeader' style={{paddingLeft:'24px', width: '13%'}} className={classes.cell}>
                                     <TableSortLabel
                                         data-test='statusSortLabel'
                                         onClick={() => this.props.dispatch(updateSort('status'))}
@@ -67,14 +67,14 @@ class CasesTable extends React.Component {
                                         <Typography variant='body2'>Accused Officer</Typography>
                                     </TableSortLabel>
                                 </TableCell>
-                                <TableCell data-test='casesFirstContactDateHeader' style={{paddingLeft:'24px', width: '14%'}} className={classes.cell}>
+                                <TableCell data-test='casesFirstContactDateHeader' style={{paddingLeft:'24px', width: '15%'}} className={classes.cell}>
                                     <TableSortLabel
                                         data-test='firstContactDateSortLabel'
                                         onClick={() => this.props.dispatch(updateSort('firstContactDate'))}
                                         direction={this.props.sortDirection}
                                         active={this.props.sortBy === 'firstContactDate'}
                                     >
-                                        <Typography variant='body2'>First Contact Date</Typography>
+                                        <Typography variant='body2'>First Contact</Typography>
                                     </TableSortLabel>
                                 </TableCell>
                                 <TableCell data-test='casesAssignedToHeader' style={{paddingLeft:'24px', width: '14%'}} className={classes.cell}>
