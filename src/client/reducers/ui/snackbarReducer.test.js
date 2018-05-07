@@ -275,7 +275,7 @@ describe('snackbarReducer', () => {
             const expectedState = {
                 open: true,
                 success: true,
-                message: 'Civilian has been successfully deleted.'
+                message: 'Civilian has been successfully removed.'
             }
 
             expect(newState).toEqual(expectedState)
