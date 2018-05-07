@@ -52,6 +52,33 @@ describe("validateOfficerSearchForm", () => {
         const actualErrors = validateOfficerSearchForm(values)
         const expectedErrors = {firstName: "Please enter at least two characters"}
         expect(actualErrors).toEqual(expectedErrors)
-    } )
+    });
 
+    test("should return error on first name when % present", () => {
+        const values = {firstName: '%'};
+        const actualErrors = validateOfficerSearchForm(values);
+        const expectedErrors = {firstName: "Please note that % and _ are not allowed"};
+        expect(actualErrors).toEqual(expectedErrors)
+    });
+
+    test("should return error on last name when % present", () => {
+        const values = {lastName: '%'};
+        const actualErrors = validateOfficerSearchForm(values);
+        const expectedErrors = {lastName: "Please note that % and _ are not allowed"};
+        expect(actualErrors).toEqual(expectedErrors)
+    });
+
+    test("should return error on first name when _ present", () => {
+        const values = {firstName: '_'};
+        const actualErrors = validateOfficerSearchForm(values);
+        const expectedErrors = {firstName: "Please note that % and _ are not allowed"};
+        expect(actualErrors).toEqual(expectedErrors)
+    });
+
+    test("should return error on last name when _ present", () => {
+        const values = {lastName: '_'};
+        const actualErrors = validateOfficerSearchForm(values);
+        const expectedErrors = {lastName: "Please note that % and _ are not allowed"};
+        expect(actualErrors).toEqual(expectedErrors)
+    });
 });
