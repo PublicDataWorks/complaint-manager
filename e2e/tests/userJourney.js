@@ -23,7 +23,7 @@ if (TEST_PASS && TEST_USER && HOST) {
             browser
                 .url(HOST)
                 .waitForElementVisible("body", rerenderWait)
-                .verify.title("Sign In with Auth0")
+                .verify.title("This should fail now")
         },
 
         "should authenticate": (browser) => {
