@@ -1,7 +1,7 @@
 const models = require('../../models/index');
 const getCaseWithAllAssociations = require('../getCaseWithAllAssociations');
 
-const addOfficer = async (request, response, next) => {
+const addCaseOfficer = async (request, response, next) => {
     try {
         const retrievedCase = await models.cases.findById(request.params.caseId)
         const caseOfficerAttributes = {
@@ -23,6 +23,12 @@ const addOfficer = async (request, response, next) => {
                 }
             )
 
+            await models.cases.update({status:'Active'}, {
+                where:{
+                    id: request.params.caseId
+                }
+            })
+
             return await getCaseWithAllAssociations(retrievedCase.id, t)
         })
 
@@ -34,4 +40,4 @@ const addOfficer = async (request, response, next) => {
 }
 
 
-module.exports = addOfficer
+module.exports = addCaseOfficer

@@ -17,7 +17,7 @@ const verifyUserInfo = require("./handlers/verifyUserNickname")
 const authErrorHandler = require("./handlers/authErrorHandler")
 const exportAuditLog = require("./handlers/audit_logs/export")
 const searchOfficers = require("./handlers/officers/searchOfficers")
-const addOfficer = require("./handlers/officers/addOfficer")
+const addCaseOfficer = require("./handlers/officers/addCaseOfficer")
 const createUserAction = require('./handlers/cases/createUserAction')
 const attachmentRouter = require("./attachmentRouter")
 
@@ -37,7 +37,7 @@ router.post('/cases/:id/recent-activity', createUserAction)
 router.put('/cases/:id', editCase)
 router.put('/cases/:id/narrative', updateCaseNarrative)
 router.get('/cases/:id/officers/search', searchOfficers);
-router.post('/cases/:caseId/cases-officers', addOfficer);
+router.post('/cases/:caseId/cases-officers', addCaseOfficer);
 router.delete('/cases/:caseId/civilians/:civilianId', removeCivilian);
 
 router.use('/cases/:id/attachments', attachmentRouter)

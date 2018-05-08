@@ -954,6 +954,7 @@ describe('server', () => {
                 .then(response => {
                     expect(response.body).toEqual(
                         expect.objectContaining({
+                            status: "Active",
                             accusedOfficers: expect.arrayContaining([
                                 expect.objectContaining({
                                     id: expect.anything(),
