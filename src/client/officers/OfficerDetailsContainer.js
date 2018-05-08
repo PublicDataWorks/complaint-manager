@@ -6,24 +6,27 @@ import {Typography} from "material-ui";
 import {Link} from "react-router-dom";
 import LinkButton from "../sharedComponents/LinkButton";
 import OfficersSnackbar from "./OfficersSnackBar/OfficersSnackbar";
-import OfficerSearch from "./OfficerSearch/OfficerSearch";
 import OfficerDetails from "./OfficerDetails/OfficerDetails";
 import {clearSelectedOfficer} from "../actionCreators/officersActionCreators";
+import {IndexRoute} from "react-router";
+import {push} from 'react-router-redux'
+import {snackbarError} from "../actionCreators/snackBarActionCreators";
 
-export class OfficerDashboard extends Component {
+export class OfficerDetailsContainer extends Component {
     componentDidMount() {
         if (`${this.props.caseId}` !== this.props.match.params.id) {
             this.props.dispatch(getCaseDetails(this.props.match.params.id))
         }
-    }
 
-    componentWillMount() {
-        this.props.dispatch(clearSelectedOfficer())
+        if (!this.props.officerCurrentlySelected){
+            this.props.dispatch(push(`/cases/${this.props.match.params.id}/officers/search`));
+            this.props.dispatch(snackbarError("Please select an officer or unknown officer to continue"));
+        }
     }
 
     render() {
-        const {caseId, selectedOfficerData, officerCurrentlySelected, match} = this.props;
-        if (`${caseId}` !== match.params.id) {
+        const {caseId, selectedOfficerData} = this.props;
+        if (`${caseId}` !== this.props.match.params.id) {
             return null
         }
 
@@ -48,18 +51,10 @@ export class OfficerDashboard extends Component {
                     Back to Case
                 </LinkButton>
                 <div style={{margin: '0% 5% 3%'}}>
-                    {
-                        officerCurrentlySelected ? (
-                            <OfficerDetails
-                                selectedOfficerData={selectedOfficerData}
-                                caseId={caseId}
-                            />
-                        ) : (
-                            <div>
-                                <OfficerSearch dispatch={this.props.dispatch} caseId={caseId}/>
-                            </div>
-                        )
-                    }
+                   <OfficerDetails
+                       caseId={this.props.caseId}
+                       selectedOfficerData={selectedOfficerData}
+                   />
                 </div>
                 <OfficersSnackbar/>
             </div>
@@ -73,4 +68,4 @@ const mapStateToProps = state => ({
     officerCurrentlySelected: state.officers.officerCurrentlySelected
 });
 
-export default connect(mapStateToProps)(OfficerDashboard);
+export default connect(mapStateToProps)(OfficerDetailsContainer);

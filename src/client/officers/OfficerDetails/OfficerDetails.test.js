@@ -1,5 +1,6 @@
 import {mount} from "enzyme/build/index";
 import createConfiguredStore from "../../createConfiguredStore";
+import {BrowserRouter as Router} from "react-router-dom";
 import {Provider} from "react-redux";
 import React from "react";
 import OfficerDetails from "./OfficerDetails";
@@ -22,10 +23,12 @@ test('should dispatch thunk with correct stuff when unknown officer selected', (
 
     const wrapper = mount(
         <Provider store={store}>
-            <OfficerDetails
-                selectedOfficerData={null}
-                caseId={caseId}
-            />
+            <Router>
+                <OfficerDetails
+                    selectedOfficerData={null}
+                    caseId={caseId}
+                />
+            </Router>
         </Provider>)
 
     const submitButton = wrapper.find('button[data-test="addOfficerSubmitButton"]')
@@ -45,10 +48,12 @@ test('should dispatch thunk with correct stuff when known officer selected', () 
 
     const wrapper = mount(
         <Provider store={store}>
-            <OfficerDetails
-                selectedOfficerData={{ knownOfficer: "bob", workStatus: "retired", id: officerId }}
-                caseId={caseId}
-            />
+            <Router>
+                <OfficerDetails
+                    selectedOfficerData={{ knownOfficer: "bob", workStatus: "retired", id: officerId }}
+                    caseId={caseId}
+                />
+            </Router>
         </Provider>)
 
     const submitButton = wrapper.find('button[data-test="addOfficerSubmitButton"]')

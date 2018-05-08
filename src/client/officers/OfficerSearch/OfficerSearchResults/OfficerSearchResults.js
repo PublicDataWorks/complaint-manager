@@ -73,7 +73,7 @@ export class OfficerSearchResults extends Component {
     }
 
     generateResultsRows() {
-        const { searchResults, officerIds, dispatch } = this.props
+        const { searchResults, officerIds, dispatch, caseId } = this.props
 
         return searchResults.map(officer =>
             <OfficerSearchResultsRow
@@ -83,6 +83,7 @@ export class OfficerSearchResults extends Component {
                 {officerIds.includes(officer.id) ?
                     <PreviouslyAddedOfficer/> :
                     <SelectNewOfficer
+                        caseId={caseId}
                         dispatch={dispatch}
                         officer={officer}
                     />
@@ -93,6 +94,7 @@ export class OfficerSearchResults extends Component {
 }
 
 const mapStateToProps = (state) => ({
+    caseId: state.currentCase.details.id,
     searchResults: state.officers.searchResults,
     spinnerVisible: state.officers.spinnerVisible,
     officerIds: state.currentCase.details.accusedOfficers.map(officer => officer.officerId)

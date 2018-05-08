@@ -24,36 +24,46 @@ const styles = theme => ({
     }
 });
 
-const OfficerSearchResultsRow = ({classes, officer, children}) => (
-    <TableRow className={classes.row}>
-        <TableCell className={classes.cell} style={{paddingLeft: '16px'}}>
-            <div>{officer.fullName}</div>
-            <div className={classes[officer.workStatus.toLowerCase()]}>
-                {officer.workStatus}
-            </div>
-        </TableCell>
-        <TableCell className={classes.cell}>
-            {officer.rank}
-        </TableCell>
-        <TableCell className={classes.cell}>
-            {officer.bureau}
-        </TableCell>
-        <TableCell className={classes.cell}>
-            {officer.district}
-        </TableCell>
-        <TableCell className={classes.cell}>
-            {officer.gender}
-        </TableCell>
-        <TableCell className={classes.cell}>
-            {officer.race}
-        </TableCell>
-        <TableCell className={classes.cell}>
-            {officer.age}
-        </TableCell>
-        <TableCell className={classes.buttonCell}>
-            {children}
-        </TableCell>
-    </TableRow>
-)
+const getClassName = (classes, workStatus) => {
+    if ( workStatus === '' ) { return '' }
+    return classes[workStatus.toLowerCase()]
+}
+
+const OfficerSearchResultsRow = ({classes, officer, children}) => {
+
+    const { workStatus = ''} = officer
+
+    return (
+        <TableRow className={classes.row}>
+            <TableCell className={classes.cell} style={{paddingLeft: '16px'}}>
+                <div>{officer.fullName}</div>
+                <div className={getClassName(classes, workStatus)}>
+                    {workStatus}
+                </div>
+            </TableCell>
+            <TableCell className={classes.cell}>
+                {officer.rank}
+            </TableCell>
+            <TableCell className={classes.cell}>
+                {officer.bureau}
+            </TableCell>
+            <TableCell className={classes.cell}>
+                {officer.district}
+            </TableCell>
+            <TableCell className={classes.cell}>
+                {officer.gender}
+            </TableCell>
+            <TableCell className={classes.cell}>
+                {officer.race}
+            </TableCell>
+            <TableCell className={classes.cell}>
+                {officer.age}
+            </TableCell>
+            <TableCell className={classes.buttonCell}>
+                {children}
+            </TableCell>
+        </TableRow>
+    )
+}
 
 export default withStyles(styles, {withTheme: true})(OfficerSearchResultsRow)

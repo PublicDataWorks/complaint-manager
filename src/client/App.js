@@ -15,7 +15,8 @@ import {connect} from "react-redux";
 import {userAuthSuccess} from "./auth/actionCreators";
 import getAccessToken from "./auth/getAccessToken";
 import Auth from "./auth/Auth";
-import OfficerDashboard from "./officers/OfficerDashboard";
+import OfficerSearchContainer from "./officers/OfficerSearchContainer";
+import OfficerDetailsContainer from "./officers/OfficerDetailsContainer";
 import ScrollToTop from "./ScrollToTop";
 
 class App extends Component {
@@ -37,7 +38,8 @@ class App extends Component {
                             <Route path="/login" component={Login}/>
                             <Route path="/callback" component={Callback}/>
                             <Route exact path="/" component={CaseDashboard}/>
-                            <Route exact path="/cases/:id/officers/search" component={OfficerDashboard}/>
+                            <Route exact path="/cases/:id/officers/search" component={OfficerSearchContainer}/>
+                            <Route exact path="/cases/:id/officers/details" component={OfficerDetailsContainer}/>
                             <Route exact path="/cases/:id" component={CaseDetails}/>
                             <Route exact path="/styleguide" component={StyleGuide}/>
                             <Route exact path="/admin" component={UserDashboard}/>

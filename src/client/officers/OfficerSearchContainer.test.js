@@ -1,10 +1,8 @@
 import React from 'react'
 import {mount, shallow} from 'enzyme'
 import {BrowserRouter as Router} from "react-router-dom";
-import ConnectedDashboard, {OfficerDashboard} from "./OfficerDashboard";
+import ConnectedDashboard, {OfficerSearchContainer} from "./OfficerSearchContainer";
 import getCaseDetails from "../cases/thunks/getCaseDetails";
-import OfficerDetails from "./OfficerDetails/OfficerDetails";
-import OfficerSearch from "./OfficerSearch/OfficerSearch";
 import {clearSelectedOfficer} from "../actionCreators/officersActionCreators";
 import createConfiguredStore from "../createConfiguredStore";
 import {Provider} from "react-redux";
@@ -12,14 +10,14 @@ import {getCaseDetailsSuccess} from "../actionCreators/casesActionCreators";
 
 jest.mock("../cases/thunks/getCaseDetails");
 
-describe('Officer Dashboard', () => {
+describe('OfficerSearchContainer', () => {
     let mockDispatch = jest.fn()
     getCaseDetails.mockImplementation(() => "");
     const caseId = 1;
 
     test('should not fetch case details when already loaded', () => {
         shallow(
-            <OfficerDashboard
+            <OfficerSearchContainer
             match={{
                 params: {
                     id: `${caseId}`
@@ -36,7 +34,7 @@ describe('Officer Dashboard', () => {
     test('should fetch case details when different case is loaded', () => {
         const differentCaseId = 5;
         shallow(
-            <OfficerDashboard
+            <OfficerSearchContainer
             match={{
                 params: {
                     id: `${caseId}`
@@ -47,13 +45,12 @@ describe('Officer Dashboard', () => {
         />)
 
         expect(mockDispatch).toHaveBeenCalledWith(getCaseDetails())
-
     })
 
     test('should fetch case details when no case is loaded', () => {
         const noCase = null;
         shallow(
-            <OfficerDashboard
+            <OfficerSearchContainer
             match={{
                 params: {
                     id: `${caseId}`
@@ -64,31 +61,6 @@ describe('Officer Dashboard', () => {
         />)
 
         expect(mockDispatch).toHaveBeenCalledWith(getCaseDetails())
-
-    })
-
-    test('should render OfficerSearch if no officer selected yet', () => {
-        const officerDashboard = shallow(<OfficerDashboard officerCurrentlySelected={false} dispatch={mockDispatch} caseId={1} match={{params: {id: `${caseId}`}}}/>);
-        const officerSearch = officerDashboard.find(OfficerSearch);
-        const officerDetails = officerDashboard.find(OfficerDetails);
-        expect(officerSearch.exists()).toEqual(true);
-        expect(officerDetails.exists()).toEqual(false);
-    });
-
-    test('should not render OfficerSearch when known officer has been selected', () => {
-        const officerDashboard = shallow(<OfficerDashboard selectedOfficer={{firstName:'Bob'}} officerCurrentlySelected={true} dispatch={mockDispatch} caseId={1} match={{params: {id: `${caseId}`}}}/>);
-        const officerSearch = officerDashboard.find(OfficerSearch);
-        const officerDetails = officerDashboard.find(OfficerDetails);
-        expect(officerSearch.exists()).toEqual(false);
-        expect(officerDetails.exists()).toEqual(true);
-    })
-
-    test('should not render OfficerSearch when unknown officer has been selected', () => {
-        const officerDashboard = shallow(<OfficerDashboard selectedOfficer={null} officerCurrentlySelected={true} dispatch={mockDispatch} caseId={1} match={{params: {id: `${caseId}`}}}/>);
-        const officerSearch = officerDashboard.find(OfficerSearch);
-        const officerDetails = officerDashboard.find(OfficerDetails);
-        expect(officerSearch.exists()).toEqual(false);
-        expect(officerDetails.exists()).toEqual(true);
     })
 
     test('should clear selected officer when Back to Case is clicked', () => {

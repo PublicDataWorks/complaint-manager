@@ -30,19 +30,19 @@ const OfficerDetails = (props) => {
                         <OfficerSearchTableHeader/>
                         <TableBody>
                             <OfficerSearchResultsRow officer={props.selectedOfficerData}>
-                                <ChangeOfficer dispatch={props.dispatch}>change</ChangeOfficer>
+                                <ChangeOfficer caseId={props.caseId} dispatch={props.dispatch}>change</ChangeOfficer>
                             </OfficerSearchResultsRow>
                         </TableBody>
                     </Table>
                 ) : (
-                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'start'}}>
                         <Typography
-                            style={{marginBottom: '16px'}}
+                            style={{marginBottom: '32px'}}
                             variant="body1"
                         >
                             You have selected Unknown Officer. Change this officer to a known officer by selecting Search for Officer.
                         </Typography>
-                        <ChangeOfficer dispatch={props.dispatch}>Search For Officer</ChangeOfficer>
+                        <ChangeOfficer caseId={props.caseId} dispatch={props.dispatch}>Search For Officer</ChangeOfficer>
                     </div>
                 )
             }
