@@ -80,7 +80,7 @@ jobs:
           - checkout
           - run:
               name: Run E2E tests
-              command: cd e2e && nightwatch --env $ENVIRONMENT
+              command: cd e2e && nightwatch --env $ENVIRONMENT || true
           - run:
               name: Find location of screenshot
               command: find . -name should*.png | sed 's|/[^/]*$||'
