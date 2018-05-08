@@ -69,6 +69,21 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             field: 'work_status'
         },
+        supervisor: {
+            type: DataTypes.INTEGER,
+        },
+        hireDate: {
+            type: DataTypes.DATE,
+            field: 'hire_date'
+        },
+        endDate: {
+            type: DataTypes.DATE,
+            field: 'end_date'
+        },
+        employeeType: {
+            type: DataTypes.ENUM(['Commissioned', 'Non-Commissioned', 'Recruit']),
+            field: 'employee_type'
+        },
         createdAt: {
             type: DataTypes.DATE,
             field: 'created_at'
