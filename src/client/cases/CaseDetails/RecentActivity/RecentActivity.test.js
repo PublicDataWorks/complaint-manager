@@ -2,8 +2,22 @@ import React from 'react'
 import {mount} from 'enzyme'
 import RecentActivity from "./RecentActivity";
 import moment from "moment";
+import {containsText} from "../../../../testHelpers";
 
 describe('Recent Activity', () => {
+    test('should display placeholder text when no recent activity', () => {
+        const recentActivity = []
+
+        const wrapper = mount(<RecentActivity
+            caseId={1}
+            dispatch={jest.fn()}
+            recentActivity={recentActivity}
+        />)
+
+        containsText(wrapper, '[data-test="recentActivityContainer"]', "No case notes have been added")
+    })
+
+
     test('should display recent activity', () => {
         const someRecentActivity = [
             {

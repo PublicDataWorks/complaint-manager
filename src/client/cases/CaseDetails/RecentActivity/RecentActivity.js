@@ -24,15 +24,20 @@ class RecentActivity extends Component {
                 </Typography>
                 <div data-test="recentActivityContainer">
                     {
-                        _.orderBy(recentActivity, ['actionTakenAt'], 'desc').map(activity => {
-                            return (
-                                <ActivityDisplay
-                                    key={activity.id}
-                                    activity={activity}
-                                    data-test="recentActivityItem"
-                                />
-                            )
-                        })
+                        recentActivity.length === 0
+                            ? (
+                            <Typography variant="body1">No case notes have been added</Typography>)
+                            : (
+                            _.orderBy(recentActivity, ['actionTakenAt'], 'desc').map(activity => {
+                                return (
+                                    <ActivityDisplay
+                                        key={activity.id}
+                                        activity={activity}
+                                        data-test="recentActivityItem"
+                                    />
+                                )
+                            })
+                        )
                     }
                 </div>
 
