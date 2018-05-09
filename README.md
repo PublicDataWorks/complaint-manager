@@ -53,9 +53,23 @@ docker-compose build
 docker-compose up app
 ```
 
-### Run the unit tests in watch mode:
+### Running tests 
+
+#### Running client side tests in watch mode:
+Run all tests in `src/client` in parallel:
 ```bash
-docker-compose run app test
+docker-compose run app test:client
+```
+
+#### Running server side tests in watch mode:
+Set up a test DB and run all tests in `src/server` sequentially:
+
+```bash
+docker-compose run app test:client
+```
+#### Running all tests (no watch mode)
+```bash
+docker-compose run app test:once
 ```
 
 ### Run the end-to-end tests locally:
