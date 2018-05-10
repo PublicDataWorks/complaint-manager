@@ -3,6 +3,7 @@ import models from '../models/index';
 
 describe("loadOfficersFromCsv", () => {
     afterEach(async () => {
+        await models.case_officer.destroy({truncate: true, cascade: true});
         await models.officer.destroy({truncate: true, cascade: true});
     });
 
@@ -12,7 +13,7 @@ describe("loadOfficersFromCsv", () => {
         expect(officers.length).toEqual(2);
 
         const officer1 = officers[0].dataValues;
-        expect(officer1.firstName).toEqual('Claudell');
-        expect(officer1.lastName).toEqual('Sorenson');
+        expect(officer1.firstName).toEqual('Chris');
+        expect(officer1.lastName).toEqual('Paucek');
     })
 });

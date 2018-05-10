@@ -4,9 +4,14 @@ const models = require('../models/index');
 const path = require('path');
 
 const loadOfficersFromCsv = async (fileName) => {
+    const parse = (value) => {
+        if (value === '' || value === 'NULL') return null
+        return value
+    }
+
     const filePath = path.join(__dirname, fileName);
     try {
-        const parser = csvParse({columns: true, trim: true});
+        const parser = csvParse({auto_parse: parse, columns: true, trim: true});
         const officers = [];
 
         const stream = fs.createReadStream(filePath)

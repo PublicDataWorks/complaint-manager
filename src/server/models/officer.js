@@ -69,20 +69,25 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             field: 'work_status'
         },
-        supervisor: {
+        supervisorOfficerNumber: {
             type: DataTypes.INTEGER,
+            field: 'supervisor_officer_number'
         },
         hireDate: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             field: 'hire_date'
         },
         endDate: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             field: 'end_date'
         },
         employeeType: {
             type: DataTypes.ENUM(['Commissioned', 'Non-Commissioned', 'Recruit']),
             field: 'employee_type'
+        },
+        windowsUsername: {
+            type: DataTypes.INTEGER,
+            field: 'windows_username'
         },
         createdAt: {
             type: DataTypes.DATE,
@@ -95,17 +100,16 @@ module.exports = (sequelize, DataTypes) => {
     }, {
             getterMethods: {
                 fullName() {
-                    return `${this.firstName} ${this.middleName} ${this.lastName}`.replace("  ", " ")
+                    const firstName = this.firstName ? this.firstName : '';
+                    const middleName = this.middleName ? this.middleName : '';
+                    const lastName = this.lastName ? this.lastName : '';
+
+                    return `${firstName} ${middleName} ${lastName}`.replace("  ", " ")
                 },
                 age() {
                     return moment().diff(this.dob, 'years', false)
                 }
             },
-        classMethods: {
-            associate: function (models) {
-                // associations can be defined here
-            }
-        }
     });
 
     Officer.associate = (models) => {
@@ -116,6 +120,15 @@ module.exports = (sequelize, DataTypes) => {
                 field: 'officer_id',
                 allowNull: true
             }
+        })
+        Officer.belongsTo(models.officer, {
+            as: 'supervisor',
+            foreignKey: {
+                name: 'supervisorOfficerNumber',
+                field: 'supervisor_officer_number',
+                allowNull: true
+            },
+            targetKey: 'officerNumber'
         })
     }
     return Officer;

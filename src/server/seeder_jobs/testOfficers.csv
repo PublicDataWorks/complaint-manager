@@ -1,3 +1,3 @@
-officerNumber,firstName,middleName,lastName,rank,race,gender,dob,bureau,district,workStatus
-4638, Claudell, G, Sorenson, Crime Analyst I, Hispanic, Male, 1953-12-05, FOB - Field Operations Bureau, Reserve Division, Inactive
-2597, Hoyt, P, Montgomery, POLICE AIDE, American Ind, Female, 1960-07-31, FOB - Field Operations Bureau, First District, Active
+workStatus,rank,bureau,district,sex,race,windowsUsername,hireDate,endDate,supervisorOfficerNumber,employeeType,shift,officerNumber,firstName,middleName,lastName,dob
+Retired,ADMIN SUPPORT SPECIALIST II,MSB - Management Service Bureau,,F,Black,4567,,,,Non-Commissioned,,386, Chris, R, Paucek,
+,Admin Sup Sup IV,MSB - Management Service Bureau,,F,Black,,1987-04-12,,,Non-Commissioned,,2248, Kirstin, H, Hudson,

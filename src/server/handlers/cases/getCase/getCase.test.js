@@ -1,5 +1,5 @@
 const httpMocks = require("node-mocks-http")
-const models = require('../../models/index')
+const models = require('../../../models/index')
 const getCase = require('./getCase')
 
 jest.mock('../../models', () => ({

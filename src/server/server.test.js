@@ -1,8 +1,5 @@
 import app from './server'
 import request from 'supertest'
-import fs from 'fs'
-import path from 'path'
-import jwt from 'jsonwebtoken'
 import ms from 'smtp-tester'
 import models from './models'
 import {AuthenticationClient} from 'auth0'
@@ -14,6 +11,7 @@ import Address from "../client/testUtilities/Address";
 import {EXPORT_AUDIT_LOG} from "../sharedUtilities/constants";
 import Officer from "../client/testUtilities/Officer";
 import AWS from "aws-sdk";
+import buildTokenWithPermissions from "./requestTestHelpers";
 
 const config = require('./config/config')[process.env.NODE_ENV]
 
@@ -25,25 +23,6 @@ jest.mock('aws-sdk', () => ({
         S3: jest.fn()
     })
 )
-
-function buildTokenWithPermissions(permissions, nickname) {
-    const privateKeyPath = path.join(__dirname, 'config', 'test', 'private.pem')
-    const cert = fs.readFileSync(privateKeyPath)
-
-    const payload = {
-        foo: 'bar',
-        scope: `${config.authentication.scope} ${permissions}`
-    };
-    payload[`${config.authentication.nicknameKey}`] = nickname;
-
-    const options = {
-        audience: config.authentication.audience,
-        issuer: config.authentication.issuer,
-        algorithm: config.authentication.algorithm,
-    }
-
-    return jwt.sign(payload, cert, options);
-}
 
 describe('server', () => {
     let token
@@ -552,101 +531,6 @@ describe('server', () => {
         })
     })
 
-    describe('GET /cases/:id', () => {
-        let caseToRetrieve, incidentLocation, expectedStreetAddress
-
-        beforeEach(async () => {
-            let attachment = new Attachment.Builder()
-                .defaultAttachment()
-                .withId(undefined)
-                .withCaseId(undefined)
-                .build()
-
-            let civilian = new Civilian.Builder()
-                .defaultCivilian()
-                .withNoAddress()
-                .withId(undefined)
-                .withFirstName('Eleanor')
-                .build()
-
-            expectedStreetAddress = '1234 flower ave'
-            incidentLocation = new Address.Builder().defaultAddress().withStreetAddress(expectedStreetAddress).withId(undefined).build()
-            let caseToCreate = new Case.Builder()
-                .defaultCase()
-                .withId(undefined)
-                .withCivilians([civilian])
-                .withAttachments([attachment])
-                .withIncidentLocation(incidentLocation)
-                .build()
-
-
-            caseToRetrieve = await models.cases.create(caseToCreate, {
-                returning: true,
-                include: [
-                    {
-                        model: models.civilian
-                    },
-                    {
-                        model: models.attachment
-                    },
-                    {
-                        model: models.address,
-                        as: 'incidentLocation'
-                    },
-                    {
-                        model: models.case_officer,
-                        as: 'accusedOfficers',
-                        include: [models.officer]
-                    }
-                ]
-            })
-        })
-
-        test('should get case', async () => {
-            await request(app)
-                .get(`/api/cases/${caseToRetrieve.id}`)
-                .set('Content-Header', 'application/json')
-                .set('Authorization', `Bearer ${token}`)
-                .expect(200)
-                .then(response => {
-                    expect(response.body).toEqual(
-                        expect.objectContaining({
-                            id: caseToRetrieve.id,
-                            complainantType: caseToRetrieve.complainantType,
-                            status: caseToRetrieve.status,
-                            civilians: expect.arrayContaining([
-                                expect.objectContaining({
-                                    firstName: caseToRetrieve.civilians[0].firstName,
-                                    lastName: caseToRetrieve.civilians[0].lastName,
-                                    email: caseToRetrieve.civilians[0].email
-                                })
-                            ]),
-                            attachments: expect.arrayContaining([
-                                expect.objectContaining({
-                                    id: caseToRetrieve.attachments[0].id,
-                                    caseId: caseToRetrieve.attachments[0].caseId,
-                                    fileName: caseToRetrieve.attachments[0].fileName
-                                })
-                            ]),
-                            incidentLocation: expect.objectContaining({
-                                streetAddress: expectedStreetAddress,
-                                id: caseToRetrieve.incidentLocationId
-                            }),
-                            accusedOfficers: expect.arrayContaining([
-                                expect.objectContaining(
-                                    {
-                                        officer: expect.objectContaining({
-                                            id: caseToRetrieve.accusedOfficers[0].officer.id
-                                        }),
-                                        roleOnCase: 'Accused'
-                                    })
-                            ])
-                        })
-                    )
-                })
-        })
-    });
-
     describe('GET /cases/:id/recent-activity', () => {
         let createdCase
         beforeEach(async () => {
@@ -793,6 +677,7 @@ describe('server', () => {
                 bobOfficer = new Officer.Builder()
                     .defaultOfficer()
                     .withId(undefined)
+                    .withOfficerNumber(123)
                     .withFirstName("Bob")
                     .withLastName("Ferguson")
                     .build();
@@ -800,6 +685,7 @@ describe('server', () => {
                 const garretOfficer = new Officer.Builder()
                     .defaultOfficer()
                     .withId(undefined)
+                    .withOfficerNumber(345)
                     .withFirstName("Garret")
                     .withLastName("Fisher")
                     .withDistrict("First District")
@@ -808,6 +694,7 @@ describe('server', () => {
                 const grantOfficer = new Officer.Builder()
                     .defaultOfficer()
                     .withId(undefined)
+                    .withOfficerNumber(567)
                     .withFirstName("Grant")
                     .withLastName("Livingston")
                     .withDistrict("Eighth District")
@@ -869,6 +756,7 @@ describe('server', () => {
             beforeEach(async () => {
                 const garretOfficer = new Officer.Builder().defaultOfficer()
                     .withId(undefined)
+                    .withOfficerNumber(123)
                     .withFirstName("Garret")
                     .withLastName("Fisher")
                     .withDistrict("1st District")
@@ -876,6 +764,7 @@ describe('server', () => {
 
                 const garyOfficer = new Officer.Builder().defaultOfficer()
                     .withId(undefined)
+                    .withOfficerNumber(321)
                     .withFirstName("Gary")
                     .withLastName("Fibbleton")
                     .withDistrict("8th District")
@@ -883,6 +772,7 @@ describe('server', () => {
 
                 const gaaOfficer = new Officer.Builder().defaultOfficer()
                     .withId(undefined)
+                    .withOfficerNumber(231)
                     .withFirstName("Gaaaa")
                     .withLastName("Fibbleton")
                     .withDistrict("8th District")

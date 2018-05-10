@@ -51,7 +51,7 @@ const OfficerSearchResultsRow = ({classes, officer, children}) => {
                 {officer.district}
             </TableCell>
             <TableCell className={classes.cell}>
-                {officer.gender}
+                {officer.sex}
             </TableCell>
             <TableCell className={classes.cell}>
                 {officer.race}

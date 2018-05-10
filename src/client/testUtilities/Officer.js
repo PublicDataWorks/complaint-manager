@@ -13,6 +13,11 @@ class Officer {
         this.bureau = build.bureau;
         this.district = build.district;
         this.workStatus = build.workStatus;
+        this.supervisorId = build.supervisorId;
+        this.supervisor = build.supervisor;
+        this.hireDate = build.hireDate;
+        this.endDate = build.endDate;
+        this.employeeType = build.employeeType;
     }
 
     static get Builder() {
@@ -31,12 +36,22 @@ class Officer {
                 this.bureau = 'FOB - Field Operations Bureau';
                 this.district = 'First District';
                 this.workStatus = 'Active';
+                this.supervisorId = null;
+                this.supervisor = null;
+                this.hireDate = '2008-04-30';
+                this.endDate = '2009-04-30';
+                this.employeeType = 'Commissioned';
                 return this;
             }
 
             withId(id) {
                 this.id = id;
                 return this
+            }
+
+            withOfficerNumber(officerNumber) {
+                this.officerNumber = officerNumber;
+                return this;
             }
 
             withFullName(fullName) {
@@ -69,6 +84,26 @@ class Officer {
                 return this
             }
 
+            withSupervisor(supervisor) {
+                this.supervisor = supervisor;
+                this.supervisorId = supervisor.officerNumber;
+                return this;
+            }
+
+            withHireDate(hireDate) {
+                this.hireDate = hireDate;
+                return this;
+            }
+
+            withEndDate(endDate) {
+                this.endDate = endDate;
+                return this;
+            }
+
+            withEmployeeType(employeeType) {
+                this.employeeType = employeeType;
+                return this;
+            }
             build() {
                 return new Officer(this)
             }
