@@ -2,7 +2,7 @@ const httpMocks = require("node-mocks-http")
 const models = require('../../../models/index')
 const getCase = require('./getCase')
 
-jest.mock('../../models', () => ({
+jest.mock('../../../models', () => ({
     cases: {
         findById: jest.fn(),
     },
@@ -38,7 +38,13 @@ describe('get case', () => {
                     {
                         model: models.case_officer,
                         as: 'accusedOfficers',
-                        include: [models.officer]
+                        include: [{
+                            model: models.officer,
+                            include: [{
+                                model: models.officer,
+                                as: 'supervisor'
+                            }]
+                        }]
                     }
                 ],
                 transaction: null

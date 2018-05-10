@@ -2,6 +2,7 @@ import React from 'react'
 import {Divider, ExpansionPanel, ExpansionPanelSummary, Typography} from "material-ui";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
+import formatDate from "../../../utilities/formatDate";
 
 const OfficerPanel = ({officer}) => {
     return (
@@ -67,17 +68,17 @@ const OfficerPanel = ({officer}) => {
                 <StyledExpansionPanelDetails>
                     <OfficerInfoDisplay
                         displayLabel='Status'
-                        value={officer.status}
+                        value={officer.workStatus}
                         testLabel="status"
                     />
                     <OfficerInfoDisplay
                         displayLabel='Hire Date'
-                        value={officer.hireDate}
+                        value={formatDate(officer.hireDate)}
                         testLabel="hireDate"
                     />
                     <OfficerInfoDisplay
                         displayLabel='End of Employment'
-                        value={officer.endDate}
+                        value={formatDate(officer.endDate)}
                         testLabel="endDate"
                     />
                 </StyledExpansionPanelDetails>
@@ -89,7 +90,7 @@ const OfficerPanel = ({officer}) => {
                     />
                     <OfficerInfoDisplay
                         displayLabel='Sex'
-                        value={officer.gender}
+                        value={officer.sex}
                         testLabel="sex"
                     />
                     <OfficerInfoDisplay

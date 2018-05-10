@@ -31,15 +31,20 @@ exports[`it can render officer search results with correct styles 1`] = `
                   "bureau": "FOB - Field Operations Bureau",
                   "district": "First District",
                   "dob": "1990-04-30",
+                  "employeeType": "Commissioned",
+                  "endDate": "2009-04-30",
                   "firstName": "Ugochi",
                   "fullName": "Ugochi Grant Smith",
                   "gender": "Female",
+                  "hireDate": "2008-04-30",
                   "id": 57,
                   "lastName": "Smith",
                   "middleName": "Grant",
                   "officerNumber": 200,
                   "race": "Cuban",
                   "rank": "Police Commander",
+                  "supervisor": null,
+                  "supervisorId": null,
                   "workStatus": "Inactive",
                 }
               }
@@ -62,15 +67,20 @@ exports[`it can render officer search results with correct styles 1`] = `
                     "bureau": "FOB - Field Operations Bureau",
                     "district": "First District",
                     "dob": "1990-04-30",
+                    "employeeType": "Commissioned",
+                    "endDate": "2009-04-30",
                     "firstName": "Ugochi",
                     "fullName": "Ugochi Grant Smith",
                     "gender": "Female",
+                    "hireDate": "2008-04-30",
                     "id": 57,
                     "lastName": "Smith",
                     "middleName": "Grant",
                     "officerNumber": 200,
                     "race": "Cuban",
                     "rank": "Police Commander",
+                    "supervisor": null,
+                    "supervisorId": null,
                     "workStatus": "Inactive",
                   }
                 }
@@ -504,9 +514,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                           <td
                             aria-sort={null}
                             className="MuiTableCell-root-16 MuiTableCell-body-18 OfficerSearchResultsRow-cell-4"
-                          >
-                            Female
-                          </td>
+                          />
                         </TableCell>
                       </WithStyles(TableCell)>
                       <WithStyles(TableCell)
