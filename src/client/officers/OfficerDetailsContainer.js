@@ -8,7 +8,6 @@ import LinkButton from "../sharedComponents/LinkButton";
 import OfficersSnackbar from "./OfficersSnackBar/OfficersSnackbar";
 import OfficerDetails from "./OfficerDetails/OfficerDetails";
 import {clearSelectedOfficer} from "../actionCreators/officersActionCreators";
-import {IndexRoute} from "react-router";
 import {push} from 'react-router-redux'
 import {snackbarError} from "../actionCreators/snackBarActionCreators";
 

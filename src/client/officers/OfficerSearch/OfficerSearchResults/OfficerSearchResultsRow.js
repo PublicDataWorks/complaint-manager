@@ -25,7 +25,7 @@ const styles = theme => ({
 });
 
 const getClassName = (classes, workStatus) => {
-    if ( workStatus === '' ) { return '' }
+    if ( workStatus === '' || workStatus == null) { return '' }
     return classes[workStatus.toLowerCase()]
 }
 
