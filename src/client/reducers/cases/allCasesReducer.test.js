@@ -27,16 +27,4 @@ describe('allCasesReducer', () => {
             expect(newState).toEqual(['case details'])
         })
     })
-
-    describe('NARRATIVE_UPDATE_SUCCEEDED', () => {
-        test('should update case with new narrative', () => {
-            const oldState = [{id: 1, narrative: null}, {id: 2, narrative: null}]
-            const action = updateNarrativeSuccess({id: 1, narrative: 'a new narrative'})
-
-            const newState = allCasesReducer(oldState, action)
-
-            expect(oldState[0]).toEqual({id: 1, narrative: null})
-            expect(newState[0]).toEqual({id: 1, narrative: 'a new narrative'})
-        })
-    });
 })

@@ -23,6 +23,7 @@ class Case {
         this.incidentLocation = build.incidentLocation
         this.district = build.district
         this.accusedOfficers = build.accusedOfficers
+        this.complainantWitnessOfficers = build.complainantWitnessOfficers
     }
 
     static get Builder() {
@@ -45,6 +46,7 @@ class Case {
                 this.narrativeSummary = null
                 this.attachments = [new Attachment.Builder().defaultAttachment().withCaseId(id).build()]
                 this.accusedOfficers = [new CaseOfficer.Builder().defaultCaseOfficer().withCaseId(id).withRoleOnCase("Accused").build()]
+                this.complainantWitnessOfficers = [new CaseOfficer.Builder().defaultCaseOfficer().withCaseId(id).withRoleOnCase("Complainant").build()]
                 return this;
             }
 
@@ -131,6 +133,11 @@ class Case {
 
             withAccusedOfficers(accusedOfficers) {
                 this.accusedOfficers = accusedOfficers
+                return this
+            }
+
+            withComplainantWitnessOfficers(complainantWitnessOfficers) {
+                this.complainantWitnessOfficers = complainantWitnessOfficers;
                 return this
             }
 

@@ -1,4 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
+
+    const Op = sequelize.Op;
+
     const Case = sequelize.define('cases', {
             id: {
                 type: DataTypes.INTEGER,
@@ -72,22 +75,41 @@ module.exports = (sequelize, DataTypes) => {
     Case.associate = (models) => {
         Case.hasMany(models.civilian, {foreignKey: {name: 'caseId', field: 'case_id'}})
         Case.hasMany(models.attachment, {foreignKey: {name: 'caseId', field: 'case_id'}})
-        Case.belongsTo(models.address, { as: "incidentLocation", foreignKey: {name: 'incidentLocationId', field: 'incident_location_id', allowNull: true}})
-        Case.hasMany(models.case_officer, {as: 'accusedOfficers', foreignKey: {name: 'caseId', field: 'case_id'}, scope: {role_on_case: 'Accused'}})
+        Case.belongsTo(models.address, {
+            as: "incidentLocation",
+            foreignKey: {name: 'incidentLocationId', field: 'incident_location_id', allowNull: true}
+        })
+        Case.hasMany(models.case_officer, {
+            as: 'accusedOfficers',
+            foreignKey: {name: 'caseId', field: 'case_id'},
+            scope: {role_on_case: 'Accused'}
+        })
+        Case.hasMany(models.case_officer, {
+            as: 'complainantWitnessOfficers',
+            foreignKey: {name: 'caseId', field: 'case_id'},
+            scope: {
+                role_on_case: {[Op.in]: ['Complainant', 'Witness']}
+            }
+        })
     }
 
-    Case.prototype.toJSON = function() {
-        const { accusedOfficers, ...caseToReturn } = this.get()
+    Case.prototype.toJSON = function () {
+        const {accusedOfficers, ...caseToReturn} = this.get()
 
-        if (!accusedOfficers) { return this.get() }
+        if (!accusedOfficers) {
+            return this.get()
+        }
+
+
 
         accusedOfficers.forEach(officer => {
-            if ( officer.getDataValue('officerId') === null) {
-                officer.setDataValue('officer', { fullName: "Unknown Officer" })
+
+            if (officer.getDataValue('officerId') === null) {
+                officer.setDataValue('officer', {fullName: "Unknown Officer"})
             }
         })
 
-        return Object.assign({}, caseToReturn, { accusedOfficers: accusedOfficers })
+        return Object.assign({}, caseToReturn, {accusedOfficers: accusedOfficers})
     }
 
     return Case
