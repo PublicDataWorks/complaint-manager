@@ -3,10 +3,14 @@ import {CardContent, Typography} from "material-ui";
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import _ from "lodash"
 import OfficerPanel from "./OfficerPanel";
+import UnknownOfficerPanel from "./UnknownOfficerPanel";
 
 const Officers = (props) => {
 
     const officers = props.caseDetail.accusedOfficers
+    const officerIsKnown = (officer) => (
+        officer.fullName !== 'Unknown Officer'
+    )
 
     return (
         <BaseCaseDetailsCard
@@ -19,8 +23,13 @@ const Officers = (props) => {
 
                         _.sortBy(officers, officer => [officer.lastName, officer.firstName])
                             .map(officer => (
-                                <OfficerPanel key={officer.officerNumber} officer={officer}/>
-                            ))
+
+                                    officerIsKnown(officer) ?
+                                        <OfficerPanel key={officer.officerNumber} officer={officer}/>
+                                        :
+                                        <UnknownOfficerPanel key={officer.officerNumber} officer={officer}/>
+                                )
+                            )
                     )
                 }
             </CardContent>

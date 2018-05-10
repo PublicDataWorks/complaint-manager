@@ -12,7 +12,11 @@ const OfficerPanel = ({officer}) => {
                 elevation={0}
                 style={{backgroundColor: "white"}}
             >
-                <ExpansionPanelSummary style={{padding: "0px 24px"}}>
+                <ExpansionPanelSummary
+                    style={{
+                        padding: "0px 24px",
+                        marginRight: '184px'
+                    }}>
                     <div style={{display: "flex", width: "100%", paddingRight: 0}}>
                         <div style={{flex: 1, textAlign: 'left', marginRight: '10px'}}>
                             <Typography
@@ -43,9 +47,7 @@ const OfficerPanel = ({officer}) => {
                             value={officer.supervisor}
                             testLabel="supervisor"
                         />
-                        <div style={{flex: 1}}>
 
-                        </div>
                     </div>
                 </ExpansionPanelSummary>
                 <StyledExpansionPanelDetails>
@@ -98,7 +100,8 @@ const OfficerPanel = ({officer}) => {
                         value={officer.age}
                         testLabel="age"
                     />
-                </StyledExpansionPanelDetails><StyledExpansionPanelDetails>
+                </StyledExpansionPanelDetails>
+                <StyledExpansionPanelDetails>
                     <OfficerInfoDisplay
                         displayLabel='Notes'
                         value={officer.notes}
