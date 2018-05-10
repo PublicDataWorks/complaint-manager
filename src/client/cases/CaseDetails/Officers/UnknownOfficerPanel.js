@@ -1,4 +1,4 @@
-import {ExpansionPanel, ExpansionPanelSummary} from "material-ui";
+import {Divider, ExpansionPanel, ExpansionPanelSummary} from "material-ui";
 import React from "react";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
@@ -28,6 +28,7 @@ const UnknownOfficerPanel = ({officer}) => {
                     />
                 </StyledExpansionPanelDetails>
             </ExpansionPanel>
+            <Divider/>
         </div>
     );
 };
