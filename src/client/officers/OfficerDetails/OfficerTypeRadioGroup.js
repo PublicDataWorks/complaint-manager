@@ -4,11 +4,11 @@ import {RadioGroup} from 'redux-form-material-ui'
 
 const styles = {
     radio: {
-        marginRight: "32px"
+        marginRight: "48px"
     }
 }
 
-const OfficerTypeRadioGroup = ({classes, ...other}) => {
+const OfficerTypeRadioGroup = ({ classes, ...other }) => {
     return (
         <FormControl>
             <RadioGroup style={{flexDirection: "row"}} {...other}>

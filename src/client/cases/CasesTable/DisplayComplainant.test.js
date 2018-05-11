@@ -21,6 +21,7 @@ test('displays the complainant when complainant is civilian', () => {
 
 test('displays complainant if the complainant is an officer', () => {
     const officerFullName = "TEST_OFFICER_COMPLAINANT_NAME";
+    const expectedDisplayName = "Officer " + officerFullName;
 
     const complainantOfficer = new CaseOfficer.Builder()
         .defaultCaseOfficer().withRoleOnCase("Complainant").withOfficer(
@@ -28,7 +29,7 @@ test('displays complainant if the complainant is an officer', () => {
 
     const wrapper = mount(<DisplayComplainant caseDetails={{ civilians: [], complainantWitnessOfficers: [complainantOfficer] }} />)
 
-    expect(wrapper.text()).toEqual(officerFullName)
+    expect(wrapper.text()).toEqual(expectedDisplayName)
 })
 
 test('displays an civilian complainant by default if civilian and officer complainants exist', () => {

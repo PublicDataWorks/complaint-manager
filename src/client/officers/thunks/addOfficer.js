@@ -31,7 +31,7 @@ const addOfficer = (caseId, officerId, values) => async (dispatch) => {
         if (response.status === 200) {
             dispatch(addOfficerToCaseSuccess(await response.json()))
             dispatch(clearSelectedOfficer())
-            dispatch(snackbarSuccess(`Officer added as ${values.roleOnCase}`))
+            dispatch(snackbarSuccess(`Officer successfully added as ${values.roleOnCase}`))
             dispatch(push(`/cases/${caseId}`))
         } else if (response.status === 401) {
             dispatch(push('/login'))

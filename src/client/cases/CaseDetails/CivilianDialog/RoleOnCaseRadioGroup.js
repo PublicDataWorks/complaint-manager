@@ -4,7 +4,7 @@ import {RadioGroup} from 'redux-form-material-ui';
 
 const styles = {
     radio: {
-        marginRight: "32px"
+        marginRight: "48px"
     }
 }
 

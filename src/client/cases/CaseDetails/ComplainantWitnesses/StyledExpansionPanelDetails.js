@@ -8,7 +8,7 @@ const StyledExpansionPanelDetails = (props) => (
             width: '100%',
             background: 'white',
             padding: '0',
-            marginRight: '184px'
+            marginRight: '190px'
         }}>
             {props.children}
         </div>

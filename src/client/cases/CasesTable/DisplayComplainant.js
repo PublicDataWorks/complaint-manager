@@ -13,9 +13,9 @@ const styles = {
     }
 }
 
-const DisplayComplainant = ({ caseDetails, classes }) => {
+const DisplayComplainant = ({caseDetails, classes}) => {
 
-    const { complainantWitnessOfficers = [], civilians = [] } = caseDetails
+    const {complainantWitnessOfficers = [], civilians = []} = caseDetails
 
     const civilianComplainant = getFirstComplainant(civilians)
     const officerComplainant = getFirstComplainant(complainantWitnessOfficers)
@@ -25,7 +25,14 @@ const DisplayComplainant = ({ caseDetails, classes }) => {
     if (Boolean(civilianComplainant)) {
         formattedComplainant = formatCivilianName(civilianComplainant)
     } else if (Boolean(officerComplainant)) {
-        formattedComplainant = officerComplainant.officer.fullName
+
+        if (officerComplainant.officer.fullName !== 'Unknown Officer') {
+            formattedComplainant = `Officer ${officerComplainant.officer.fullName}`
+
+        } else {
+            formattedComplainant = officerComplainant.officer.fullName
+        }
+
     } else {
         formattedComplainant = ""
     }
