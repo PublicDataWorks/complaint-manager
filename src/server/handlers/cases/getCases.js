@@ -9,6 +9,11 @@ const getCases = async (req, res) => {
                     model: models.case_officer,
                     as: 'accusedOfficers',
                     include: [models.officer]
+                },
+                {
+                    model: models.case_officer,
+                    as: 'complainantWitnessOfficers',
+                    include: [models.officer]
                 }
             ]
         })

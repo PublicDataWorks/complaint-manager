@@ -1,12 +1,37 @@
 import React from 'react'
-import {FormControl, FormControlLabel, Radio} from "material-ui";
+import {FormControl, FormControlLabel, Radio, withStyles} from "material-ui";
 import {RadioGroup} from 'redux-form-material-ui'
-const OfficerTypeRadioGroup = (props) => (
-    <FormControl>
-        <RadioGroup {...props}>
-            <FormControlLabel control={<Radio color="primary"/>} label="Accused" value="Accused"/>
-        </RadioGroup>
-    </FormControl>
-)
 
-export default OfficerTypeRadioGroup
+const styles = {
+    radio: {
+        marginRight: "32px"
+    }
+}
+
+const OfficerTypeRadioGroup = ({classes, ...other}) => {
+    return (
+        <FormControl>
+            <RadioGroup style={{flexDirection: "row"}} {...other}>
+                <FormControlLabel
+                    className={classes.radio}
+                    control={<Radio color="primary"/>}
+                    label="Accused"
+                    value="Accused"
+                />
+                <FormControlLabel
+                    className={classes.radio}
+                    control={<Radio color="primary"/>}
+                    label="Complainant" value="Complainant"
+                />
+                <FormControlLabel
+                    className={classes.radio}
+                    control={<Radio color="primary"/>}
+                    label="Witness"
+                    value="Witness"
+                />
+            </RadioGroup>
+        </FormControl>
+    )
+}
+
+export default withStyles(styles)(OfficerTypeRadioGroup)

@@ -1,39 +1,39 @@
-import formatName from "./formatName";
+import formatCivilianName from "./formatCivilianName";
 
 describe('Name Formatter', () => {
     test("should format first and last name", () => {
         const civilian = {firstName: "Hello", lastName: "Kitty"}
-        expect(formatName(civilian)).toEqual("Hello Kitty")
+        expect(formatCivilianName(civilian)).toEqual("Hello Kitty")
     })
     
     test('should format middle initial', () => {
         const civilian = {firstName: "Hello", middleInitial:'M', lastName: "Kitty"}
-        expect(formatName(civilian)).toEqual("Hello M. Kitty")
+        expect(formatCivilianName(civilian)).toEqual("Hello M. Kitty")
     })
 
     test('should format name with suffix', () => {
         const civilian = {firstName: "Hello", middleInitial:'M', lastName: "Kitty", suffix:'III'}
-        expect(formatName(civilian)).toEqual("Hello M. Kitty III")
+        expect(formatCivilianName(civilian)).toEqual("Hello M. Kitty III")
     })
 
     test('should handle nulls for middle and suffix', () => {
         const civilian = {firstName: "Hello", middleInitial: null, lastName: "Kitty", suffix: null}
-        expect(formatName(civilian)).toEqual("Hello Kitty")
+        expect(formatCivilianName(civilian)).toEqual("Hello Kitty")
     })
 
     test('should handle undefined for middle and suffix', () => {
         const civilian = {firstName: "Hello", middleInitial: undefined, lastName: "Kitty", suffix: undefined}
-        expect(formatName(civilian)).toEqual("Hello Kitty")
+        expect(formatCivilianName(civilian)).toEqual("Hello Kitty")
     })
 
     test('should handle empty string for middle and suffix', () => {
         const civilian = {firstName: "Hello", middleInitial: '', lastName: "Kitty", suffix: ''}
-        expect(formatName(civilian)).toEqual("Hello Kitty")
+        expect(formatCivilianName(civilian)).toEqual("Hello Kitty")
     })
 
     test('should handle empty object', () => {
         const civilian = {}
-        expect(formatName(civilian)).toEqual("")
+        expect(formatCivilianName(civilian)).toEqual("")
     })
 
 })

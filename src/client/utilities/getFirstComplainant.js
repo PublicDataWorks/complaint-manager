@@ -1,3 +1,3 @@
-export default function getFirstComplainant(civilians) {
-    return civilians.find(civilian => civilian.roleOnCase === 'Complainant')
+export default function getFirstComplainant(collection) {
+    return collection.find(element => element.roleOnCase === 'Complainant')
 }

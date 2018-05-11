@@ -6,7 +6,7 @@ import createConfiguredStore from "../../createConfiguredStore";
 import {
     openRemoveCivilianDialog, closeRemoveCivilianDialog,
 } from "../../actionCreators/casesActionCreators";
-import formatName from "../../utilities/formatName";
+import formatCivilianName from "../../utilities/formatCivilianName";
 import removeCivilian from "../thunks/removeCivilian";
 
 jest.mock('../thunks/removeCivilian', () => () => ({
@@ -53,6 +53,6 @@ describe('removeCivilianDialog', () => {
 
     test('should contain civilian full name', () => {
         const dialogText = wrapper.find('[data-test="warningText"]').first().text()
-        expect(dialogText).toContain(formatName(civilianDetails))
+        expect(dialogText).toContain(formatCivilianName(civilianDetails))
     })
 });

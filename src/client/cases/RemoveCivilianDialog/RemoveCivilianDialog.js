@@ -3,7 +3,7 @@ import {Dialog, DialogActions, DialogContent, DialogTitle, Typography} from "mat
 import {connect} from "react-redux";
 import {CancelButton, SubmitButton} from "../../sharedComponents/StyledButtons";
 import {closeRemoveCivilianDialog} from "../../actionCreators/casesActionCreators";
-import formatName from "../../utilities/formatName";
+import formatCivilianName from "../../utilities/formatCivilianName";
 import removeCivilian from "../thunks/removeCivilian";
 
 const RemoveCivilianDialog = ({open, civilianDetails, dispatch}) =>(
@@ -13,7 +13,7 @@ const RemoveCivilianDialog = ({open, civilianDetails, dispatch}) =>(
         </DialogTitle>
         <DialogContent>
             <Typography data-test="warningText">
-                This action will remove <strong>{formatName(civilianDetails)}</strong> and all information associated to this person from the case. Are you sure you want to continue?
+                This action will remove <strong>{formatCivilianName(civilianDetails)}</strong> and all information associated to this person from the case. Are you sure you want to continue?
             </Typography>
         </DialogContent>
         <DialogActions>

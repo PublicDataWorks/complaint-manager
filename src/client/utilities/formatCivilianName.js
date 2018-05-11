@@ -1,4 +1,4 @@
-const formatName = (civilian) => {
+const formatCivilianName = (civilian) => {
     let { firstName, middleInitial, lastName, suffix} = civilian
     middleInitial = middleInitial ?  middleInitial + '.' : ''
 
@@ -19,4 +19,4 @@ const formatName = (civilian) => {
     }, '')
 }
 
-export default formatName
+export default formatCivilianName

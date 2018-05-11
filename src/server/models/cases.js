@@ -94,22 +94,25 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     Case.prototype.toJSON = function () {
-        const {accusedOfficers, ...caseToReturn} = this.get()
+        const { accusedOfficers, complainantWitnessOfficers, ...restOfCase } = this.get()
 
-        if (!accusedOfficers) {
-            return this.get()
+        if (complainantWitnessOfficers) {
+            complainantWitnessOfficers.forEach(officer => {
+                if (officer.getDataValue('officerId') === null) {
+                    officer.setDataValue('officer', { fullName: "Unknown Officer" })
+                }
+            })
         }
 
+        if (accusedOfficers) {
+            accusedOfficers.forEach(officer => {
+                if (officer.getDataValue('officerId') === null) {
+                    officer.setDataValue('officer', { fullName: "Unknown Officer" })
+                }
+            })
+        }
 
-
-        accusedOfficers.forEach(officer => {
-
-            if (officer.getDataValue('officerId') === null) {
-                officer.setDataValue('officer', {fullName: "Unknown Officer"})
-            }
-        })
-
-        return Object.assign({}, caseToReturn, {accusedOfficers: accusedOfficers})
+        return Object.assign({}, restOfCase, { accusedOfficers, complainantWitnessOfficers })
     }
 
     return Case

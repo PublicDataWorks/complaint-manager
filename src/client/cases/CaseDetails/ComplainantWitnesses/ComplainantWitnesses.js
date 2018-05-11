@@ -2,21 +2,24 @@ import React from "react";
 import {CardContent, Typography} from "material-ui";
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import ComplainantPanel from "./ComplainantPanel";
-import _ from "lodash"
 import WarningMessage from "../../../sharedComponents/WarningMessage";
 import getFirstComplainant from "../../../utilities/getFirstComplainant";
+import OfficerPanel from "../Officers/OfficerPanel";
+import sortComplainantOfficers from "./sortComplainantOfficers";
 
 const ComplainantWitnesses = (props) => {
+
+    const civiliansAndOfficers = props.caseDetail.civilians.concat(props.caseDetail.complainantWitnessOfficers)
 
     return (
         <BaseCaseDetailsCard
             data-test="complainantWitnessesSection"
             title='Complainant & Witnesses'
-            subtitle={getSubtitleText(props.caseDetail.civilians)}
+            subtitle={getSubtitleText(civiliansAndOfficers)}
         >
             <CardContent style={{padding: '0'}}>
                 {
-                    props.caseDetail.civilians.length === 0
+                    civiliansAndOfficers.length === 0
                         ? <Typography
                             data-test='noCivilianMessage'
                             style={{
@@ -24,18 +27,25 @@ const ComplainantWitnesses = (props) => {
                             }}
                         >
                             No complainants or witnesses have been added
-                          </Typography>
-                        : _.sortBy(props.caseDetail.civilians, civilian => [civilian.lastName, civilian.firstName]).map(civilian => (
-                            <ComplainantPanel key={civilian.id} civilian={civilian} dispatch={props.dispatch}/>
-                        ))
+                        </Typography>
+                        : sortComplainantOfficers(props.caseDetail)
+                            .map(civilianOrOfficer => {
+
+                                if (civilianOrOfficer.hasOwnProperty('officerId')) {
+                                    return <OfficerPanel key={civilianOrOfficer.officerId} caseOfficer={civilianOrOfficer}/>
+                                } else {
+                                    return <ComplainantPanel key={civilianOrOfficer.id} civilian={civilianOrOfficer}
+                                                             dispatch={props.dispatch}/>
+                                }
+                            })
                 }
             </CardContent>
         </BaseCaseDetailsCard>
     )
 }
 
-const getSubtitleText = (civilians) => {
-    const complainant = getFirstComplainant(civilians)
+const getSubtitleText = (complainantWitnesses) => {
+    const complainant = getFirstComplainant(complainantWitnesses)
     const hasComplainants = Boolean(complainant)
 
     if (hasComplainants) {

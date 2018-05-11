@@ -5,11 +5,10 @@ import _ from "lodash"
 import OfficerPanel from "./OfficerPanel";
 import UnknownOfficerPanel from "./UnknownOfficerPanel";
 
-const Officers = (props) => {
+const AccusedOfficers = ({ accusedOfficers }) => {
 
-    const officers = props.caseDetail.accusedOfficers
-    const officerIsKnown = (officer) => (
-        officer.fullName !== 'Unknown Officer'
+    const officerIsKnown = (caseOfficer) => (
+        caseOfficer.officer.fullName !== 'Unknown Officer'
     )
 
     return (
@@ -19,15 +18,15 @@ const Officers = (props) => {
         >
             <CardContent style={{padding: '0'}}>
                 {
-                    !officers || officers.length === 0 ? renderNoOfficers() : (
+                    !accusedOfficers || accusedOfficers.length === 0 ? renderNoOfficers() : (
 
-                        _.sortBy(officers, officer => [officer.lastName, officer.firstName])
-                            .map(officer => (
+                        _.sortBy(accusedOfficers, accusedOfficer => [accusedOfficer.officer.lastName, accusedOfficer.officer.firstName])
+                            .map(caseOfficer => (
 
-                                    officerIsKnown(officer) ?
-                                        <OfficerPanel key={officer.officerNumber} officer={officer}/>
+                                    officerIsKnown(caseOfficer) ?
+                                        <OfficerPanel key={caseOfficer.officer.officerNumber} caseOfficer={caseOfficer}/>
                                         :
-                                        <UnknownOfficerPanel key={officer.officerNumber} officer={officer}/>
+                                        <UnknownOfficerPanel key={caseOfficer.officer.officerNumber} officer={caseOfficer.officer}/>
                                 )
                             )
                     )
@@ -45,4 +44,4 @@ const renderNoOfficers = () => (
     </CardContent>
 )
 
-export default Officers
+export default AccusedOfficers

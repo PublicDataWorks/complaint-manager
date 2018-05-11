@@ -16,7 +16,7 @@ const caseDetailsReducer = (state = initialState, action) => {
         case REMOVE_ATTACHMENT_SUCCESS:
         case REMOVE_CIVILIAN_SUCCEEDED:
         case ADD_OFFICER_TO_CASE_SUCCEEDED:
-            return mergeOfficerDetails(action.caseDetails);
+            return action.caseDetails;
         case 'EDIT_CIVILIAN_SUCCESS':
         case CIVILIAN_CREATION_SUCCEEDED:
             return {
@@ -32,20 +32,6 @@ const caseDetailsReducer = (state = initialState, action) => {
         default:
             return state
     }
-}
-
-const mergeOfficerDetails = (caseDetails) => {
-    if (!caseDetails.accusedOfficers) { return caseDetails }
-
-    const transformedOfficers = caseDetails.accusedOfficers.map(accusedOfficer => ({
-        ...accusedOfficer.officer,
-        id: accusedOfficer.id,
-        officerId: accusedOfficer.officer.id,
-        roleOnCase: accusedOfficer.roleOnCase,
-        notes: accusedOfficer.notes
-    }));
-    caseDetails.accusedOfficers = transformedOfficers
-    return caseDetails;
 }
 
 export default caseDetailsReducer

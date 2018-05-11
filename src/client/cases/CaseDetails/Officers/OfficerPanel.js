@@ -4,7 +4,7 @@ import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
 import formatDate from "../../../utilities/formatDate";
 
-const OfficerPanel = ({officer}) => {
+const OfficerPanel = ({ caseOfficer }) => {
     return (
         <div>
             <ExpansionPanel
@@ -22,29 +22,29 @@ const OfficerPanel = ({officer}) => {
                             <Typography
                                 variant='caption'
                             >
-                                Officer
+                                {`Officer ${caseOfficer.roleOnCase === 'Accused' ? '' : caseOfficer.roleOnCase }` }
                             </Typography>
                             <Typography
                                 variant='body1'
                                 style={{whiteSpace: "pre-wrap"}}
                             >
-                                {officer.fullName ? officer.fullName : "N/A"}
+                                {caseOfficer.officer.fullName ? caseOfficer.officer.fullName : "N/A"}
                             </Typography>
                             <Typography
                                 variant='body1'
                                 style={{whiteSpace: "pre-wrap"}}
                             >
-                                {officer.windowsUsername ? `#${officer.windowsUsername}` : "N/A"}
+                                {caseOfficer.officer.windowsUsername ? `#${caseOfficer.officer.windowsUsername}` : "N/A"}
                             </Typography>
                         </div>
                         <OfficerInfoDisplay
                             displayLabel='Rank/Title'
-                            value={officer.rank}
+                            value={caseOfficer.officer.rank}
                             testLabel="rank"
                         />
                         <OfficerInfoDisplay
                             displayLabel='Supervisor'
-                            value={officer.supervisor}
+                            value={caseOfficer.officer.supervisor}
                             testLabel="supervisor"
                         />
 
@@ -53,58 +53,58 @@ const OfficerPanel = ({officer}) => {
                 <StyledExpansionPanelDetails>
                     <OfficerInfoDisplay
                         displayLabel='Employee Type'
-                        value={officer.employeeType}
+                        value={caseOfficer.officer.employeeType}
                         testLabel="employeeType"
                     />
                     <OfficerInfoDisplay
                         displayLabel='District'
-                        value={officer.district}
+                        value={caseOfficer.officer.district}
                         testLabel="district"
                     />
                     <OfficerInfoDisplay
                         displayLabel='Bureau'
-                        value={officer.bureau}
+                        value={caseOfficer.officer.bureau}
                         testLabel="bureau"
                     />
                 </StyledExpansionPanelDetails>
                 <StyledExpansionPanelDetails>
                     <OfficerInfoDisplay
                         displayLabel='Status'
-                        value={officer.workStatus}
+                        value={caseOfficer.officer.workStatus}
                         testLabel="status"
                     />
                     <OfficerInfoDisplay
                         displayLabel='Hire Date'
-                        value={formatDate(officer.hireDate)}
+                        value={formatDate(caseOfficer.officer.hireDate)}
                         testLabel="hireDate"
                     />
                     <OfficerInfoDisplay
                         displayLabel='End of Employment'
-                        value={formatDate(officer.endDate)}
+                        value={formatDate(caseOfficer.officer.endDate)}
                         testLabel="endDate"
                     />
                 </StyledExpansionPanelDetails>
                 <StyledExpansionPanelDetails>
                     <OfficerInfoDisplay
                         displayLabel='Race'
-                        value={officer.race}
+                        value={caseOfficer.officer.race}
                         testLabel="race"
                     />
                     <OfficerInfoDisplay
                         displayLabel='Sex'
-                        value={officer.sex}
+                        value={caseOfficer.officer.sex}
                         testLabel="sex"
                     />
                     <OfficerInfoDisplay
                         displayLabel='Age'
-                        value={officer.age}
+                        value={caseOfficer.officer.age}
                         testLabel="age"
                     />
                 </StyledExpansionPanelDetails>
                 <StyledExpansionPanelDetails>
                     <OfficerInfoDisplay
                         displayLabel='Notes'
-                        value={officer.notes}
+                        value={caseOfficer.notes}
                         testLabel="notes"
                     />
                 </StyledExpansionPanelDetails>

@@ -1,6 +1,6 @@
 import React from 'react'
 import getFirstComplainant from "../../utilities/getFirstComplainant";
-import formatName from "../../utilities/formatName";
+import formatCivilianName from "../../utilities/formatCivilianName";
 import WarningMessage from "../../sharedComponents/WarningMessage";
 import {withStyles} from "material-ui";
 
@@ -13,14 +13,26 @@ const styles = {
     }
 }
 
-const DisplayComplainant = ({ civilians, classes }) => {
+const DisplayComplainant = ({ caseDetails, classes }) => {
 
-    const complainant = getFirstComplainant(civilians)
-    const hasComplainants = Boolean(complainant)
+    const { complainantWitnessOfficers = [], civilians = [] } = caseDetails
+
+    const civilianComplainant = getFirstComplainant(civilians)
+    const officerComplainant = getFirstComplainant(complainantWitnessOfficers)
+
+    let formattedComplainant
+
+    if (Boolean(civilianComplainant)) {
+        formattedComplainant = formatCivilianName(civilianComplainant)
+    } else if (Boolean(officerComplainant)) {
+        formattedComplainant = officerComplainant.officer.fullName
+    } else {
+        formattedComplainant = ""
+    }
 
     return (
-        hasComplainants
-            ? <div>{formatName(complainant)}</div>
+        formattedComplainant
+            ? <div>{formattedComplainant}</div>
             : (
                 <div className={classes.messageContainer}>
                     <WarningMessage>

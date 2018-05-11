@@ -23,7 +23,7 @@ const CaseRow = ({classes, caseDetails}) => (
             {caseDetails.status}
         </TableCell>
         <TableCell data-test="caseName" className={classes.cell}>
-            <DisplayComplainant civilians={caseDetails.civilians}/>
+            <DisplayComplainant caseDetails={caseDetails}/>
         </TableCell>
         <TableCell data-test="accusedOfficer" className={classes.cell}>
             <DisplayAccusedOfficer accusedOfficers={caseDetails.accusedOfficers}/>

@@ -8,10 +8,12 @@ import {initialize} from "redux-form";
 import formatAddress from "../../../utilities/formatAddress";
 import Civilian from "../../../testUtilities/civilian";
 import Case from "../../../testUtilities/case";
-import formatName from "../../../utilities/formatName";
+import formatCivilianName from "../../../utilities/formatCivilianName";
 import editCivilian from "../../thunks/editCivilian";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 import _ from "lodash"
+import CaseOfficer from "../../../testUtilities/caseOfficer";
+import Officer from "../../../testUtilities/Officer";
 
 jest.mock('redux-form', () => ({
     reducer: {mockReducer: 'mockReducerState'},
@@ -47,7 +49,7 @@ describe('Complainant and Witnesses', () => {
         })
 
         test('should display civilian first and last name', () => {
-            const complainantName = formatName(complainant)
+            const complainantName = formatCivilianName(complainant)
             containsText(complainantWitnessesSection, '[data-test="complainant"]', complainantName)
         })
     });
@@ -169,6 +171,7 @@ describe('Complainant and Witnesses', () => {
 
         const caseWithoutComplainant = new Case.Builder().defaultCase()
             .withCivilians([witness])
+            .withComplainantWitnessOfficers([])
             .build()
 
         const wrapper = mount(<ComplainantWitnesses caseDetail={caseWithoutComplainant}/>)
@@ -187,11 +190,37 @@ describe('Complainant and Witnesses', () => {
     test('should display another warning message when no complainants or witnesses on a case', () => {
         const caseWithoutComplainant = new Case.Builder().defaultCase()
             .withCivilians([])
+            .withComplainantWitnessOfficers([])
             .build()
 
         const wrapper = mount(<ComplainantWitnesses caseDetail={caseWithoutComplainant}/>)
         const noCivilianMessage = wrapper.find("[data-test='noCivilianMessage']")
 
         expect(noCivilianMessage.exists()).toBeTruthy()
+    })
+
+    test('should display officer and civilian complainants', () => {
+        const civilianComplainant = new Civilian.Builder().defaultCivilian()
+            .withLastName('Alpha')
+            .build()
+
+        const officerComplainant = new Officer.Builder().defaultOfficer()
+            .withLastName('Miller')
+            .build()
+
+        const caseOfficer = new CaseOfficer.Builder().defaultCaseOfficer()
+            .withOfficer(officerComplainant)
+            .build()
+
+        const caseWithMixedComplainants = new Case.Builder().defaultCase()
+            .withCivilians([civilianComplainant])
+            .withComplainantWitnessOfficers([caseOfficer])
+            .build()
+
+        const wrapper = mount(<ComplainantWitnesses caseDetail={caseWithMixedComplainants}/>)
+
+        const complainantPanel = wrapper.find('[data-test="complainantWitnessesPanel"]').first()
+
+        expect(complainantPanel.text()).toContain("Alpha")
     })
 })

@@ -35,7 +35,7 @@ class CaseOfficer {
 
             withOfficer(officer) {
                 this.officer = officer
-                this.officerId = officer.id
+                this.officerId = officer ? officer.id : null
 
                 return this;
             }

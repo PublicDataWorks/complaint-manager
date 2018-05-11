@@ -1,7 +1,7 @@
 import React from "react";
 import {initialize} from "redux-form";
 import {openCivilianDialog, openRemoveCivilianDialog} from "../../../actionCreators/casesActionCreators";
-import formatName from "../../../utilities/formatName";
+import formatCivilianName from "../../../utilities/formatCivilianName";
 import {CIVILIAN_FORM_NAME} from "../../../../sharedUtilities/constants";
 import editCivilian from "../../thunks/editCivilian";
 import LinkButton from "../../../sharedComponents/LinkButton";
@@ -27,7 +27,7 @@ const ComplainantPanel = ({ civilian, dispatch }) => {
                     <div style={{display: 'flex', width: '100%', paddingRight: 0}}>
                         <CivilianInfoDisplay
                             displayLabel={civilian.roleOnCase}
-                            value={formatName(civilian)}
+                            value={formatCivilianName(civilian)}
                             testLabel="complainant"
                         />
                         <CivilianInfoDisplay

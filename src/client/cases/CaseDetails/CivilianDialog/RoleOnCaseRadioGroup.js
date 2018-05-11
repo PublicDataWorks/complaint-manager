@@ -1,20 +1,28 @@
 import React from 'react';
-import {FormControl, FormControlLabel, Radio, Typography} from 'material-ui';
+import {FormControl, FormControlLabel, Radio, Typography, withStyles} from 'material-ui';
 import {RadioGroup} from 'redux-form-material-ui';
 
-const RoleOnCaseRadioGroup = (props) => (
+const styles = {
+    radio: {
+        marginRight: "32px"
+    }
+}
+
+const RoleOnCaseRadioGroup = ({ classes, ...other }) => (
     <FormControl>
         <Typography variant='body2' style={{marginBottom: '8px'}}>Role On Case</Typography>
         <RadioGroup
-            {...props}
+            {...other}
             style={{flexDirection: "row", marginBottom: '24px'}}
             data-test="roleOnCaseRadioGroup"
         >
             <FormControlLabel
+                className={classes.radio}
                 value="Complainant"
                 control={<Radio color="primary"/>}
                 label="Complainant" />
             <FormControlLabel
+                className={classes.radio}
                 value="Witness"
                 control={<Radio color="primary"/>}
                 label="Witness"
@@ -23,4 +31,4 @@ const RoleOnCaseRadioGroup = (props) => (
     </FormControl>
 )
 
-export default RoleOnCaseRadioGroup
+export default withStyles(styles)(RoleOnCaseRadioGroup)

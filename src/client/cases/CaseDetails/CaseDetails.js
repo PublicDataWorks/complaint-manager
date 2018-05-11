@@ -22,7 +22,7 @@ import createCivilian from "../thunks/createCivilian";
 import {CIVILIAN_FORM_NAME, TIMEZONE} from "../../../sharedUtilities/constants";
 import {initialize} from "redux-form";
 import {push} from 'react-router-redux'
-import Officers from "./Officers/Officers";
+import AccusedOfficers from "./Officers/AccusedOfficers";
 import UserActionDialog from "./UserActionDialog/UserActionDialog";
 import timezone from "moment-timezone";
 import RemoveCivilianDialog from "../RemoveCivilianDialog/RemoveCivilianDialog";
@@ -97,7 +97,7 @@ class CaseDetails extends React.Component {
                             }}
                             caseId={this.props.caseDetail.id}
                         />
-                        <Officers caseDetail={this.props.caseDetail} />
+                        <AccusedOfficers accusedOfficers={this.props.caseDetail.accusedOfficers} />
                         <Attachments />
                     </main>
                     <CivilianDialog/>

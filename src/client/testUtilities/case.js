@@ -46,7 +46,7 @@ class Case {
                 this.narrativeSummary = null
                 this.attachments = [new Attachment.Builder().defaultAttachment().withCaseId(id).build()]
                 this.accusedOfficers = [new CaseOfficer.Builder().defaultCaseOfficer().withCaseId(id).withRoleOnCase("Accused").build()]
-                this.complainantWitnessOfficers = [new CaseOfficer.Builder().defaultCaseOfficer().withCaseId(id).withRoleOnCase("Complainant").build()]
+                this.complainantWitnessOfficers = [new CaseOfficer.Builder().defaultCaseOfficer().withCaseId(id).withRoleOnCase("Witness").build()]
                 return this;
             }
 
