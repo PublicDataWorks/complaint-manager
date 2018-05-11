@@ -1,4 +1,4 @@
-import {SNACKBAR_ERROR} from "../../sharedUtilities/constants";
+import {SNACKBAR_ERROR, SNACKBAR_SUCCESS} from "../../sharedUtilities/constants";
 
 export const openSnackbar = () =>{
     return {
@@ -9,6 +9,13 @@ export const openSnackbar = () =>{
 export const snackbarError = (message) => {
     return {
         type: SNACKBAR_ERROR,
+        message
+    }
+}
+
+export const snackbarSuccess = (message) => {
+    return {
+        type: SNACKBAR_SUCCESS,
         message
     }
 }

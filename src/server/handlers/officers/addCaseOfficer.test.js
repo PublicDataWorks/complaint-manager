@@ -171,6 +171,6 @@ describe("addCaseOfficer", () => {
         await addCaseOfficer(request, response, jest.fn());
         const auditLog = await models.audit_log.findAll({where: {caseId: createdCase.id}})
         expect(auditLog.length).toEqual(1)
-        expect(auditLog[0].dataValues.action).toEqual("Accused Officer Added")
+        expect(auditLog[0].dataValues.action).toEqual("Officer Added as Accused")
     })
 });

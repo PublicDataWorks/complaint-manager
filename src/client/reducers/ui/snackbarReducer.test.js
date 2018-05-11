@@ -15,9 +15,9 @@ import {
     uploadAttachmentFailed,
     uploadAttachmentSuccess
 } from "../../actionCreators/casesActionCreators";
-import {closeSnackbar, snackbarError} from "../../actionCreators/snackBarActionCreators";
+import {closeSnackbar, snackbarError, snackbarSuccess} from "../../actionCreators/snackBarActionCreators";
 import {removeAttachmentFailed, removeAttachmentSuccess} from "../../actionCreators/attachmentsActionCreators";
-import {ADD_USER_ACTION_SUCCEEDED, SNACKBAR_ERROR} from "../../../sharedUtilities/constants";
+import {ADD_USER_ACTION_SUCCEEDED, SNACKBAR_ERROR, SNACKBAR_SUCCESS} from "../../../sharedUtilities/constants";
 
 describe('snackbarReducer', () => {
     test('should default open to false', () => {
@@ -34,6 +34,16 @@ describe('snackbarReducer', () => {
             expect(state.open).toEqual(true);
             expect(state.success).toEqual(false);
             expect(state.message).toEqual("Something happened!");
+        })
+    })
+
+    describe(SNACKBAR_SUCCESS, () => {
+        test('should set open to true, success false, and message to given message', () => {
+            const initialState = {open: false, success: false, message: ''};
+            const state = snackbarReducer(initialState, snackbarSuccess("Something good happened!"));
+            expect(state.open).toEqual(true);
+            expect(state.success).toEqual(true);
+            expect(state.message).toEqual("Something good happened!");
         })
     })
 

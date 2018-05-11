@@ -14,7 +14,7 @@ const addCaseOfficer = async (request, response, next) => {
             await retrievedCase.createAccusedOfficer(caseOfficerAttributes, {transaction: t});
 
             await models.audit_log.create({
-                    action: `Accused Officer Added`,
+                    action: `Officer Added as ${request.body.roleOnCase}`,
                     caseId: request.params.caseId,
                     user: request.nickname
                 },

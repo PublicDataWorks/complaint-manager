@@ -97,7 +97,7 @@ const mapStateToProps = (state) => ({
     caseId: state.currentCase.details.id,
     searchResults: state.officers.searchResults,
     spinnerVisible: state.officers.spinnerVisible,
-    officerIds: state.currentCase.details.accusedOfficers.map(officer => officer.officerId)
+    officerIds: state.currentCase.details.accusedOfficers.concat(state.currentCase.details.complainantWitnessOfficers).map(officer => officer.officerId)
 });
 
 

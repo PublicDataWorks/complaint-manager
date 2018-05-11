@@ -47,10 +47,11 @@ const REMOVE_ATTACHMENT_FAILED = 'REMOVE_ATTACHMENT_FAILED'
 
 
 // ----------------------------------------
-//          Attachment Removal
+//          Snackbar Actions
 // ----------------------------------------
 
 const SNACKBAR_ERROR = 'SNACKBAR_ERROR';
+const SNACKBAR_SUCCESS = 'SNACKBAR_SUCCESS'
 
 // ----------------------------------------
 //          Redux Forms
@@ -115,6 +116,7 @@ module.exports = {
     REMOVE_ATTACHMENT_FAILED,
     REMOVE_ATTACHMENT_SUCCESS,
     SNACKBAR_ERROR,
+    SNACKBAR_SUCCESS,
     CIVILIAN_FORM_NAME,
     EXPORT_AUDIT_LOG,
     SEARCH_OFFICERS_SUCCESS,

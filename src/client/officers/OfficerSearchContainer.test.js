@@ -74,7 +74,8 @@ describe('OfficerSearchContainer', () => {
                 officer: {
                    id: 34
                 }
-            }]
+            }],
+            complainantWitnessOfficers: []
         }))
 
         const officerDashboard = mount(

@@ -12,7 +12,7 @@ import {
     ADD_OFFICER_TO_CASE_SUCCEEDED,
     ADD_OFFICER_TO_CASE_FAILED,
     ADD_USER_ACTION_SUCCEEDED,
-    ADD_USER_ACTION_FAILED, REMOVE_CIVILIAN_FAILED, REMOVE_CIVILIAN_SUCCEEDED
+    ADD_USER_ACTION_FAILED, REMOVE_CIVILIAN_FAILED, REMOVE_CIVILIAN_SUCCEEDED, SNACKBAR_SUCCESS
 } from "../../../sharedUtilities/constants";
 
 //TODO Discuss separation of concerns.
@@ -50,6 +50,12 @@ const snackbarReducer = (state = initialState, action) => {
                 success: false,
                 message: action.message
         };
+        case SNACKBAR_SUCCESS:
+            return {
+                open: true,
+                success: true,
+                message: action.message
+        }
         case 'CLOSE_SNACKBAR':
             return {
                 open: false,
@@ -182,12 +188,6 @@ const snackbarReducer = (state = initialState, action) => {
                 success: false,
                 message: 'We could not download your file. Please try again.'
             }
-        case ADD_OFFICER_TO_CASE_SUCCEEDED:
-            return {
-                open: true,
-                success: true,
-                message: "Accused officer successfully added"
-            };
         case ADD_OFFICER_TO_CASE_FAILED:
             return {
                 open: true,
