@@ -6,10 +6,15 @@ import WarningMessage from "../../../sharedComponents/WarningMessage";
 import getFirstComplainant from "../../../utilities/getFirstComplainant";
 import OfficerPanel from "../Officers/OfficerPanel";
 import sortComplainantOfficers from "./sortComplainantOfficers";
+import UnknownOfficerPanel from "../Officers/UnknownOfficerPanel";
 
 const ComplainantWitnesses = (props) => {
 
     const civiliansAndOfficers = props.caseDetail.civilians.concat(props.caseDetail.complainantWitnessOfficers)
+
+    const officerIsKnown = (caseOfficer) => (
+        caseOfficer.officer.fullName !== 'Unknown Officer'
+    )
 
     return (
         <BaseCaseDetailsCard
@@ -32,7 +37,11 @@ const ComplainantWitnesses = (props) => {
                             .map(civilianOrOfficer => {
 
                                 if (civilianOrOfficer.hasOwnProperty('officerId')) {
-                                    return <OfficerPanel key={civilianOrOfficer.officerId} caseOfficer={civilianOrOfficer}/>
+                                    if (officerIsKnown(civilianOrOfficer)) {
+                                        return <OfficerPanel key={civilianOrOfficer.officer.officerNumber} caseOfficer={civilianOrOfficer}/>
+                                    } else {
+                                        return <UnknownOfficerPanel key={civilianOrOfficer.id} caseOfficer={civilianOrOfficer} />
+                                    }
                                 } else {
                                     return <ComplainantPanel key={civilianOrOfficer.id} civilian={civilianOrOfficer}
                                                              dispatch={props.dispatch}/>

@@ -26,7 +26,7 @@ const AccusedOfficers = ({ accusedOfficers }) => {
                                     officerIsKnown(caseOfficer) ?
                                         <OfficerPanel key={caseOfficer.officer.officerNumber} caseOfficer={caseOfficer}/>
                                         :
-                                        <UnknownOfficerPanel key={caseOfficer.officer.officerNumber} officer={caseOfficer.officer}/>
+                                        <UnknownOfficerPanel key={caseOfficer.id} caseOfficer={caseOfficer}/>
                                 )
                             )
                     )
