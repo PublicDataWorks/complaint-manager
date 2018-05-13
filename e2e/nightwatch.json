@@ -24,7 +24,7 @@
       "silent": true,
       "screenshots" : {
         "enabled" : true,
-        "path" : "./tests/userJourney",
+        "path" : "./tests",
         "on_failure": true,
         "on_error": true
       },
