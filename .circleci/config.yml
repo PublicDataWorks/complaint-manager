@@ -81,14 +81,6 @@ jobs:
           - run:
               name: Run E2E tests
               command: cd e2e && nightwatch --env $ENVIRONMENT
-          - run:
-              name: Find location of screenshot
-              when: on_fail
-              command: find . -name should*.png | sed 's|/[^/]*$||'
-          - run:
-              name: Print filename of screenshot
-              when: on_fail
-              command: find . -name should*.png
           - store_artifacts:
               path: e2e/tests/userJourney
 
