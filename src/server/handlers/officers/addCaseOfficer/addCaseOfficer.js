@@ -1,5 +1,5 @@
-const models = require('../../models/index');
-const getCaseWithAllAssociations = require('../getCaseWithAllAssociations');
+const models = require('../../../models/index');
+const getCaseWithAllAssociations = require('../../getCaseWithAllAssociations');
 
 const addCaseOfficer = async (request, response, next) => {
     try {

@@ -1,16 +1,16 @@
 import request from "supertest";
-import Officer from "../../../client/testUtilities/Officer";
-import models from "../../models";
-import Case from "../../../client/testUtilities/case";
-import app from "../../server";
+import Officer from "../../../../client/testUtilities/Officer";
+import models from "../../../models/index";
+import Case from "../../../../client/testUtilities/case";
+import app from "../../../server";
 import jwt from "jsonwebtoken";
 import path from "path";
 import fs from "fs";
 
-const config = require('../../config/config')[process.env.NODE_ENV]
+const config = require('../../../config/config')[process.env.NODE_ENV]
 
 function buildTokenWithPermissions(permissions, nickname) {
-    const privateKeyPath = path.join(__dirname, '../../', 'config', 'test', 'private.pem')
+    const privateKeyPath = path.join(__dirname, '../../../', 'config', 'test', 'private.pem')
     const cert = fs.readFileSync(privateKeyPath)
 
     const payload = {

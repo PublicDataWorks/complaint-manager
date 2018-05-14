@@ -1,8 +1,8 @@
-import Case from "../../../client/testUtilities/case";
-import models from "../../models";
+import Case from "../../../../client/testUtilities/case";
+import models from "../../../models/index";
 import addCaseOfficer from "./addCaseOfficer";
 import * as httpMocks from "node-mocks-http";
-import Officer from "../../../client/testUtilities/Officer";
+import Officer from "../../../../client/testUtilities/Officer";
 
 describe("addCaseOfficer", () => {
 
