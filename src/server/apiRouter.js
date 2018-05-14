@@ -18,6 +18,7 @@ const authErrorHandler = require("./handlers/authErrorHandler");
 const exportAuditLog = require("./handlers/audit_logs/export");
 const searchOfficers = require("./handlers/officers/searchOfficers");
 const addCaseOfficer = require("./handlers/officers/addCaseOfficer/addCaseOfficer");
+const getCaseOfficer = require("./handlers/officers/getCaseOfficer/getCaseOfficer");
 const editCaseOfficer = require("./handlers/officers/editCaseOfficer/editCaseOfficer");
 const createUserAction = require("./handlers/cases/createUserAction");
 const attachmentRouter = require("./attachmentRouter");
@@ -38,8 +39,11 @@ router.post("/cases/:id/recent-activity", createUserAction);
 router.put("/cases/:id", editCase);
 router.put("/cases/:id/narrative", updateCaseNarrative);
 router.get("/cases/:id/officers/search", searchOfficers);
+
+router.get("/cases/:caseId/cases-officers/:caseOfficerId", getCaseOfficer);
 router.post("/cases/:caseId/cases-officers", addCaseOfficer);
 router.put("/cases/:caseId/cases-officers/:caseOfficerId", editCaseOfficer);
+
 router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
 
 router.use("/cases/:id/attachments", attachmentRouter);
