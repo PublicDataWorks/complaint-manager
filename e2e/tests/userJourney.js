@@ -33,7 +33,7 @@ if (TEST_PASS && TEST_USER && HOST) {
                 .setValue("[name=password]", TEST_PASS)
                 .click('button[type=submit]')
                 .waitForElementVisible("[data-test=createCaseButton]", roundTripWait)
-                .verify.title("Complaint Manager")
+                .assert.title("Complaint Manager")
                 .assert.urlEquals(HOST)
         },
 
@@ -198,7 +198,7 @@ if (TEST_PASS && TEST_USER && HOST) {
                 .waitForElementVisible('[data-test="logOutButton"]',rerenderWait)
                 .click('[data-test="logOutButton"]')
                 .waitForElementVisible("body", rerenderWait)
-                .verify.title("Sign In with Auth0")
+                .assert.title("Sign In with Auth0")
         },
 
         "end user journey ;)": (browser) => {
