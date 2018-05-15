@@ -12,6 +12,7 @@
     "start:server": "nodemon --watch src/server src/startServer.js",
     "e2e": "nightwatch -c e2e/nightwatch.local.json",
     "build": "react-scripts build",
+    "test:all": "NODE_ENV=test yarn setup:test:db && react-scripts test --maxWorkers=1",
     "test:server": "NODE_ENV=test yarn setup:test:db && react-scripts test src/server --maxWorkers=1",
     "test:server:ci": "CI=true react-scripts test src/server --maxWorkers=1 --forceExit",
     "test:client": "react-scripts test src/client --env=jsdom",

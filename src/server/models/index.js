@@ -5,12 +5,14 @@ var basename  = path.basename(__filename);
 var env       = process.env.NODE_ENV || 'development';
 var config    = require(__dirname + '/../config/config.js')[env];
 var db        = {};
+var dataChangeAuditHooks = require('../sequelizeHooks/dataChangeAuditHooks');
 
 if (config.use_env_variable) {
   var sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
   var sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
+dataChangeAuditHooks.init(sequelize);
 
 fs
   .readdirSync(__dirname)

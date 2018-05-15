@@ -91,6 +91,10 @@ module.exports = (sequelize, DataTypes) => {
                 role_on_case: {[Op.in]: ['Complainant', 'Witness']}
             }
         })
+        Case.hasMany(models.data_change_audit, {
+            as: 'dataChangeAudits',
+            foreignKey: {name: 'caseId', field: 'case_id'}
+        })
     }
 
     Case.prototype.toJSON = function () {
@@ -114,6 +118,8 @@ module.exports = (sequelize, DataTypes) => {
 
         return Object.assign({}, restOfCase, { accusedOfficers, complainantWitnessOfficers })
     }
+
+    Case.auditDataChange();
 
     return Case
 }

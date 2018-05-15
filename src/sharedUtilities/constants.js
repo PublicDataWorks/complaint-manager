@@ -63,7 +63,6 @@ const CIVILIAN_FORM_NAME = 'Civilian form'
 //          Auth0 Scopes / Permissions
 // ----------------------------------------
 
-
 const EXPORT_AUDIT_LOG = "export:audit_log"
 const OPENID = "openid"
 const PROFILE = "profile"
@@ -86,7 +85,13 @@ const CLEAR_SELECTED_OFFICER = 'CLEAR_SELECTED_OFFICER';
 //          Other
 // ----------------------------------------
 
-const TIMEZONE = 'America/Chicago'
+const TIMEZONE = 'America/Chicago';
+
+// ----------------------------------------
+//          Audit data change actions
+// ----------------------------------------
+const DATA_UPDATED = 'updated';
+const DATA_CREATED = 'created';
 
 module.exports = {
     LOCAL_DEV_PORT,
@@ -131,6 +136,8 @@ module.exports = {
     OPENID,
     PROFILE,
     TIMEZONE,
+    DATA_UPDATED,
+    DATA_CREATED,
     REMOVE_CIVILIAN_DIALOG_OPENED,
     REMOVE_CIVILIAN_DIALOG_CLOSED,
     REMOVE_CIVILIAN_FAILED,
