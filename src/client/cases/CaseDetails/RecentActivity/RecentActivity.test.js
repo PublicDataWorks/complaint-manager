@@ -3,16 +3,22 @@ import {mount} from 'enzyme'
 import RecentActivity from "./RecentActivity";
 import moment from "moment";
 import {containsText} from "../../../../testHelpers";
+import createConfiguredStore from "../../../createConfiguredStore";
+import {Provider} from "react-redux";
 
 describe('Recent Activity', () => {
     test('should display placeholder text when no recent activity', () => {
         const recentActivity = []
 
-        const wrapper = mount(<RecentActivity
-            caseId={1}
-            dispatch={jest.fn()}
-            recentActivity={recentActivity}
-        />)
+        const wrapper = mount(
+            <Provider store={createConfiguredStore()}>
+                <RecentActivity
+                    caseId={1}
+                    dispatch={jest.fn()}
+                    recentActivity={recentActivity}
+                />
+            </Provider>
+        )
 
         containsText(wrapper, '[data-test="recentActivityContainer"]', "No case notes have been added")
     })
@@ -30,11 +36,13 @@ describe('Recent Activity', () => {
         ]
 
         const wrapper = mount(
-            <RecentActivity
-                caseId={1}
-                dispatch={jest.fn()}
-                recentActivity={someRecentActivity}
-            />
+            <Provider store={createConfiguredStore()}>
+                <RecentActivity
+                    caseId={1}
+                    dispatch={jest.fn()}
+                    recentActivity={someRecentActivity}
+                />
+            </Provider>
         )
 
         const activityContainer = wrapper.find('[data-test="recentActivityContainer"]').first()
@@ -70,20 +78,22 @@ describe('Recent Activity', () => {
         ]
 
         const wrapper = mount(
-            <RecentActivity
-                caseId={1}
-                dispatch={jest.fn()}
-                recentActivity={someRecentActivity}
-            />
+            <Provider store={createConfiguredStore()}>
+                <RecentActivity
+                    caseId={1}
+                    dispatch={jest.fn()}
+                    recentActivity={someRecentActivity}
+                />
+            </Provider>
         )
 
         const activityContainer = wrapper.find('[data-test="recentActivityContainer"]').first()
         const activityItems = activityContainer.find('[data-test="recentActivityItem"]')
 
-        const firstActivity  =  activityItems.first()
-        const firstActivityActionText  =  firstActivity.find('[data-test="actionText"]').first().text()
+        const firstActivity = activityItems.first()
+        const firstActivityActionText = firstActivity.find('[data-test="actionText"]').first().text()
         const secondActivity = activityItems.last()
-        const secondActivityActionText  =  secondActivity.find('[data-test="actionText"]').first().text()
+        const secondActivityActionText = secondActivity.find('[data-test="actionText"]').first().text()
 
         expect(firstActivityActionText).toEqual('Attachment added')
         expect(secondActivityActionText).toEqual('Created case')

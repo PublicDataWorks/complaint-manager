@@ -17,6 +17,7 @@ import incidentDetailsDialogReducer from "./reducers/ui/incidentDetailsDialogRed
 import recentActivityReducer from "./reducers/cases/recentActivityReducer";
 import userActionDialogReducer from "./reducers/ui/userActionDialogReducer";
 import removeCivilianDialogReducer from "./reducers/ui/removeCivilianDialogReducer";
+import removeUserActionDialogReducer from "./reducers/ui/removeUserActionDialogReducer";
 
 const rootReducer = combineReducers({
     form: formReducer,
@@ -39,6 +40,7 @@ const rootReducer = combineReducers({
         userActionDialog: userActionDialogReducer,
         civilianDialog: civilianDialogReducer,
         removeCivilianDialog: removeCivilianDialogReducer,
+        removeUserActionDialog: removeUserActionDialogReducer,
         incidentDetailsDialog: incidentDetailsDialogReducer,
         attachments: attachmentsReducer
     }),

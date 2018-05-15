@@ -1,8 +1,9 @@
 import React from 'react'
 import {Card, CardContent, Typography} from "material-ui";
 import moment from "moment";
+import ActivityMenu from "./ActivityMenu";
 
-const ActivityDisplay = ({activity}) => {
+const ActivityDisplay = ({caseId, activity}) => {
     return (
         <Card
             key={activity.id}
@@ -43,6 +44,10 @@ const ActivityDisplay = ({activity}) => {
                     >
                         {`${moment(activity.actionTakenAt, "YYYY-MM-DDTHH:mm:ssZ").fromNow()}`}
                     </Typography>
+                    <ActivityMenu
+                        activityId={activity.id}
+                        caseId={caseId}
+                    />
                 </div>
                 {activity.notes ?
                     <div

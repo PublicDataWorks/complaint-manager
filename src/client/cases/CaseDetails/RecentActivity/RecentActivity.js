@@ -3,6 +3,7 @@ import ActivityDisplay from "./ActivityDisplay";
 import * as _ from 'lodash'
 import getRecentActivity from "../../thunks/getRecentActivity";
 import {Typography} from "material-ui";
+import RemoveUserActionDialog from "../RemoveUserActionDialog/RemoveUserActionDialog";
 
 class RecentActivity extends Component {
 
@@ -11,7 +12,7 @@ class RecentActivity extends Component {
     }
 
     render() {
-        const {recentActivity} = this.props
+        const {recentActivity, caseId} = this.props
         return (
             <div style={{margin: '0px 24px'}}>
                 <Typography
@@ -33,6 +34,7 @@ class RecentActivity extends Component {
                                     <ActivityDisplay
                                         key={activity.id}
                                         activity={activity}
+                                        caseId={caseId}
                                         data-test="recentActivityItem"
                                     />
                                 )
@@ -40,7 +42,7 @@ class RecentActivity extends Component {
                         )
                     }
                 </div>
-
+                <RemoveUserActionDialog/>
             </div>
         )
     }

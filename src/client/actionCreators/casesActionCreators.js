@@ -12,8 +12,14 @@ import {
     USER_ACTION_DIALOG_OPENED,
     USER_ACTION_DIALOG_CLOSED,
     ADD_USER_ACTION_FAILED,
-    ADD_USER_ACTION_SUCCEEDED, REMOVE_CIVILIAN_DIALOG_OPENED, REMOVE_CIVILIAN_DIALOG_CLOSED, REMOVE_CIVILIAN_FAILED,
-    REMOVE_CIVILIAN_SUCCEEDED
+    ADD_USER_ACTION_SUCCEEDED,
+    REMOVE_CIVILIAN_DIALOG_OPENED,
+    REMOVE_CIVILIAN_DIALOG_CLOSED,
+    REMOVE_CIVILIAN_FAILED,
+    REMOVE_CIVILIAN_SUCCEEDED,
+    REMOVE_USER_ACTION_DIALOG_OPENED,
+    REMOVE_USER_ACTION_DIALOG_CLOSED,
+    REMOVE_USER_ACTION_SUCCEEDED, REMOVE_USER_ACTION_FAILED
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = (caseDetails) => ({
@@ -63,6 +69,17 @@ export const openUserActionDialog = () => ({
 
 export const closeUserActionDialog = () => ({
     type: USER_ACTION_DIALOG_CLOSED,
+})
+
+export const openRemoveUserActionDialog = (caseId = null, userActionId = null) => ({
+    type: REMOVE_USER_ACTION_DIALOG_OPENED,
+    caseId,
+    userActionId
+
+})
+
+export const closeRemoveUserActionDialog = () => ({
+    type: REMOVE_USER_ACTION_DIALOG_CLOSED
 })
 
 export const openCivilianDialog = (title, submitButtonText, submitAction) => ({
@@ -129,6 +146,16 @@ export const addUserActionFailure = () => ({
 export const addUserActionSuccess = (recentActivity) => ({
     type: ADD_USER_ACTION_SUCCEEDED,
     recentActivity
+})
+
+export const removeUserActionSuccess = (currentCase) => ({
+    type: REMOVE_USER_ACTION_SUCCEEDED,
+    caseDetails: currentCase.caseDetails,
+    recentActivity: currentCase.recentActivity
+})
+
+export const removeUserActionFailure = () => ({
+    type: REMOVE_USER_ACTION_FAILED
 })
 
 export const openRemoveCivilianDialog = (civilianDetails) => ({

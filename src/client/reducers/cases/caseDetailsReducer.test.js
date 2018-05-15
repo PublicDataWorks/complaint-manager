@@ -3,7 +3,7 @@ import {
     addUserActionSuccess,
     createCivilianSuccess,
     editCivilianSuccess,
-    getCaseDetailsSuccess, removeCivilianSuccess,
+    getCaseDetailsSuccess, removeCivilianSuccess, removeUserActionSuccess,
     updateIncidentDetailsSuccess,
     updateNarrativeSuccess,
     uploadAttachmentSuccess
@@ -86,6 +86,27 @@ describe('caseDetailsReducers', () => {
             expect(newState).toEqual(caseDetails)
         })
     })
+
+    describe('REMOVE_USER_ACTION_SUCCEEDED', function () {
+        test('should replace current case on remove user action', () => {
+            const oldState = {
+                some: 'old state',
+            }
+
+            const userActionDetails = {
+                caseDetails: {
+                    some: 'new state'
+                },
+                recentActivity: {
+                    not: 'copied over'
+                }
+
+            }
+            const newState = caseDetailsReducer(oldState, removeUserActionSuccess(userActionDetails))
+
+            expect(newState).toEqual(userActionDetails.caseDetails)
+        })
+    });
 
     describe('EDIT_CIVILIAN_SUCCESS', () => {
         test('should replace civilians array and leave rest of object untouched except status when editing civilian', () => {

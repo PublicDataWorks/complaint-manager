@@ -1,5 +1,9 @@
 import recentActivityReducer from "./recentActivityReducer";
-import {addUserActionSuccess, getRecentActivitySuccess} from "../../actionCreators/casesActionCreators";
+import {
+    addUserActionSuccess,
+    getRecentActivitySuccess,
+    removeUserActionSuccess
+} from "../../actionCreators/casesActionCreators";
 
 describe('recentActivityReducer', () => {
     test('should set default state', () => {
@@ -20,5 +24,23 @@ describe('recentActivityReducer', () => {
 
         const newState = recentActivityReducer([], addUserActionSuccess(expectedRecentActivity))
         expect(newState).toEqual(expectedRecentActivity)
+    })
+
+    test('should replace recent activity after removing user action',()=>{
+        const oldState = {some: 'old state'}
+
+        const userActionDetails = {
+            details: {
+                some: 'new state'
+            },
+            recentActivity: {
+                not: 'copied over'
+            }
+
+        }
+
+        const newState = recentActivityReducer(oldState, removeUserActionSuccess(userActionDetails))
+
+        expect(newState).toEqual(userActionDetails.recentActivity)
     })
 });
