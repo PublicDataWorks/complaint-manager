@@ -1,5 +1,5 @@
 import * as httpMocks from "node-mocks-http";
-import verifyUserNickname from "./verifyUserNickname"
+import verifyUserNickname from "./verifyUserNickname";
 
 describe('verifyUserNickname', () => {
     let response, next;

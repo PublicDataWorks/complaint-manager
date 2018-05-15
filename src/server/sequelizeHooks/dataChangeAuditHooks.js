@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { DATA_UPDATED } = require('../../sharedUtilities/constants');
+const httpContext = require('express-http-context');
 
 exports.init = (sequelize) => {
     _.extend(sequelize.Model, {
@@ -11,7 +12,7 @@ exports.init = (sequelize) => {
     const afterUpdateHook = async (instance, options) => {
         try {
             await sequelize.model('data_change_audit').create({
-                user: 'XXXX',  //get this from context
+                user: httpContext.get("userNickname") || '', //fix tests to remove this
                 action: DATA_UPDATED,
                 modelName: instance._modelOptions.name.singular,
                 modelId: instance.id,
