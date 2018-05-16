@@ -5,6 +5,7 @@ import moment from "moment";
 import { containsText } from "../../../../testHelpers";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
+import {BrowserRouter as Router} from 'react-router-dom'
 
 describe("Recent Activity", () => {
   test("should display placeholder text when no recent activity", () => {
@@ -12,11 +13,13 @@ describe("Recent Activity", () => {
 
     const wrapper = mount(
       <Provider store={createConfiguredStore()}>
-        <RecentActivity
-          caseId={1}
-          dispatch={jest.fn()}
-          recentActivity={recentActivity}
-        />
+        <Router>
+            <RecentActivity
+              caseId={1}
+              dispatch={jest.fn()}
+              recentActivity={recentActivity}
+            />
+        </Router>
       </Provider>
     );
 
@@ -40,11 +43,13 @@ describe("Recent Activity", () => {
 
     const wrapper = mount(
       <Provider store={createConfiguredStore()}>
-        <RecentActivity
-          caseId={1}
-          dispatch={jest.fn()}
-          recentActivity={someRecentActivity}
-        />
+        <Router>
+            <RecentActivity
+              caseId={1}
+              dispatch={jest.fn()}
+              recentActivity={someRecentActivity}
+            />
+        </Router>
       </Provider>
     );
 
@@ -89,11 +94,13 @@ describe("Recent Activity", () => {
 
     const wrapper = mount(
       <Provider store={createConfiguredStore()}>
-        <RecentActivity
-          caseId={1}
-          dispatch={jest.fn()}
-          recentActivity={someRecentActivity}
-        />
+        <Router>
+          <RecentActivity
+            caseId={1}
+            dispatch={jest.fn()}
+            recentActivity={someRecentActivity}
+          />
+        </Router>
       </Provider>
     );
 

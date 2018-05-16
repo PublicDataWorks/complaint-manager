@@ -90,6 +90,12 @@ const CLEAR_SELECTED_OFFICER = "CLEAR_SELECTED_OFFICER";
 const EDIT_CASE_OFFICER_SELECTED = "EDIT_CASE_OFFICER_SELECTED";
 
 // ----------------------------------------
+//          Case History Actions
+// ----------------------------------------
+
+const GET_CASE_HISTORY_SUCCESS = 'GET_CASE_HISTORY_SUCCESS';
+
+// ----------------------------------------
 //          Other
 // ----------------------------------------
 
@@ -148,6 +154,7 @@ module.exports = {
   UNKNOWN_OFFICER_SELECTED,
   CLEAR_SELECTED_OFFICER,
   EDIT_CASE_OFFICER_SELECTED,
+  GET_CASE_HISTORY_SUCCESS,
   OPENID,
   PROFILE,
   TIMEZONE,

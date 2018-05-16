@@ -8,6 +8,7 @@ import allCasesReducer from "./reducers/cases/allCasesReducer";
 import allUsersReducer from "./reducers/users/allUsersReducer";
 import snackbarReducer from "./reducers/ui/snackbarReducer";
 import caseDetailsReducer from "./reducers/cases/caseDetailsReducer";
+import caseHistoryReducer from "./reducers/cases/caseHistoryReducer";
 import casesTableReducer from "./reducers/ui/casesTableReducer";
 import civilianDialogReducer from "./reducers/ui/civilianDialogReducer";
 import userInfoReducer from "./auth/reducers/userInfoReducer";
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
   }),
   currentCase: combineReducers({
     details: caseDetailsReducer,
-    recentActivity: recentActivityReducer
+    recentActivity: recentActivityReducer,
+    caseHistory: caseHistoryReducer
   }),
   users: combineReducers({
     all: allUsersReducer,

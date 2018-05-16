@@ -18,8 +18,10 @@ import Auth from "./auth/Auth";
 import OfficerSearchContainer from "./officers/OfficerSearchContainer";
 import OfficerDetailsContainer from "./officers/OfficerDetailsContainer";
 import ScrollToTop from "./ScrollToTop";
+import CaseHistory from "./cases/CaseDetails/CaseHistory/CaseHistory";
 
 class App extends Component {
+
   componentDidMount() {
     const accessToken = getAccessToken();
     if (accessToken) {
@@ -47,6 +49,7 @@ class App extends Component {
                 path="/cases/:id/officers/details"
                 component={OfficerDetailsContainer}
               />
+              <Route exact path="/cases/:id/history" component={CaseHistory}/>
               <Route exact path="/cases/:id" component={CaseDetails} />
               <Route exact path="/styleguide" component={StyleGuide} />
               <Route exact path="/admin" component={UserDashboard} />

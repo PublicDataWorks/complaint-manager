@@ -4,6 +4,8 @@ import * as _ from "lodash";
 import getRecentActivity from "../../thunks/getRecentActivity";
 import { Typography } from "material-ui";
 import RemoveUserActionDialog from "../RemoveUserActionDialog/RemoveUserActionDialog";
+import LinkButton from "../../../sharedComponents/LinkButton";
+import {Link} from "react-router-dom";
 
 class RecentActivity extends Component {
   componentDidMount() {
@@ -43,6 +45,9 @@ class RecentActivity extends Component {
           )}
         </div>
         <RemoveUserActionDialog />
+        <div style={{width: '100%', textAlign: 'right'}}>
+            <LinkButton component={Link} to={`/cases/${this.props.caseId}/history`}>See Full Case History</LinkButton>
+        </div>
       </div>
     );
   }
