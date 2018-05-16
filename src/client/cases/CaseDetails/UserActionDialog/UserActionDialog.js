@@ -9,8 +9,8 @@ import {
 import { TextField } from "redux-form-material-ui";
 import { connect } from "react-redux";
 import {
-  CancelButton,
-  SubmitButton
+  SecondaryButton,
+  PrimaryButton
 } from "../../../sharedComponents/StyledButtons";
 import { closeUserActionDialog } from "../../../actionCreators/casesActionCreators";
 import { Field, reduxForm, reset } from "redux-form";
@@ -129,7 +129,7 @@ const UserActionDialog = ({
           justifyContent: "space-between"
         }}
       >
-        <CancelButton
+        <SecondaryButton
           style={{
             marginLeft: "0px"
           }}
@@ -140,10 +140,10 @@ const UserActionDialog = ({
           }}
         >
           Cancel
-        </CancelButton>
-        <SubmitButton data-test="submitButton" onClick={handleSubmit(submit)}>
+        </SecondaryButton>
+        <PrimaryButton data-test="submitButton" onClick={handleSubmit(submit)}>
           {dialogType ? `${dialogType} Case Note` : " "}
-        </SubmitButton>
+        </PrimaryButton>
       </DialogActions>
     </Dialog>
   );

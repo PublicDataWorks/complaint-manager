@@ -10,8 +10,8 @@ import {
   withTheme
 } from "material-ui";
 import {
-  CancelButton,
-  SubmitButton
+  SecondaryButton,
+  PrimaryButton
 } from "../../sharedComponents/StyledButtons";
 import CreateUserForm from "./CreateUserForm";
 import { closeSnackbar } from "../../actionCreators/snackBarActionCreators";
@@ -61,15 +61,15 @@ class CreateUserDialog extends React.Component {
               margin: `${theme.spacing.unit * 2}px`
             }}
           >
-            <CancelButton data-test="cancelUser" onClick={this.closeDialog}>
+            <SecondaryButton data-test="cancelUser" onClick={this.closeDialog}>
               Cancel
-            </CancelButton>
-            <SubmitButton
+            </SecondaryButton>
+            <PrimaryButton
               data-test="submitUser"
               onClick={() => this.props.dispatch(submit("CreateUser"))}
             >
               Add User
-            </SubmitButton>
+            </PrimaryButton>
           </DialogActions>
         </Dialog>
 

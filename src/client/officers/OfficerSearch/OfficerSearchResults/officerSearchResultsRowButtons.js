@@ -6,7 +6,7 @@ import {
 } from "../../../actionCreators/officersActionCreators";
 import LinkButton from "../../../sharedComponents/LinkButton";
 import { Button } from "material-ui";
-import { CancelButton } from "../../../sharedComponents/StyledButtons";
+import { SecondaryButton } from "../../../sharedComponents/StyledButtons";
 import { Link } from "react-router-dom";
 
 export const SelectNewOfficer = ({ caseId, officer, dispatch }) => (
@@ -22,7 +22,7 @@ export const SelectNewOfficer = ({ caseId, officer, dispatch }) => (
 );
 
 export const SelectUnknownOfficerButton = ({ dispatch, caseId }) => (
-  <CancelButton
+  <SecondaryButton
     style={{ marginRight: 20 }}
     data-test="unknownOfficerButton"
     component={Link}
@@ -32,7 +32,7 @@ export const SelectUnknownOfficerButton = ({ dispatch, caseId }) => (
     }}
   >
     add an unknown officer
-  </CancelButton>
+  </SecondaryButton>
 );
 
 export const PreviouslyAddedOfficer = () => (

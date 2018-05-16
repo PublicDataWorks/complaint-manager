@@ -8,8 +8,8 @@ import {
 } from "material-ui";
 import { connect } from "react-redux";
 import {
-  CancelButton,
-  SubmitButton
+  SecondaryButton,
+  PrimaryButton
 } from "../../sharedComponents/StyledButtons";
 import { closeRemoveCivilianDialog } from "../../actionCreators/casesActionCreators";
 import formatCivilianName from "../../utilities/formatCivilianName";
@@ -27,20 +27,20 @@ const RemoveCivilianDialog = ({ open, civilianDetails, dispatch }) => (
       </Typography>
     </DialogContent>
     <DialogActions>
-      <CancelButton
+      <SecondaryButton
         onClick={() => dispatch(closeRemoveCivilianDialog())}
         data-test="cancelButton"
       >
         Cancel
-      </CancelButton>
-      <SubmitButton
+      </SecondaryButton>
+      <PrimaryButton
         data-test="removeButton"
         onClick={() =>
           dispatch(removeCivilian(civilianDetails.id, civilianDetails.caseId))
         }
       >
         Remove
-      </SubmitButton>
+      </PrimaryButton>
     </DialogActions>
   </Dialog>
 );

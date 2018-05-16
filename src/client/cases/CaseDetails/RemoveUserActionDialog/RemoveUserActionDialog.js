@@ -8,8 +8,8 @@ import {
   Typography
 } from "material-ui";
 import {
-  CancelButton,
-  SubmitButton
+  SecondaryButton,
+  PrimaryButton
 } from "../../../sharedComponents/StyledButtons";
 import removeUserAction from "../../thunks/removeUserAction";
 import { closeRemoveUserActionDialog } from "../../../actionCreators/casesActionCreators";
@@ -30,18 +30,18 @@ const RemoveUserActionDialog = ({
         </Typography>
       </DialogContent>
       <DialogActions>
-        <CancelButton
+        <SecondaryButton
           data-test="cancelButton"
           onClick={() => dispatch(closeRemoveUserActionDialog())}
         >
           Cancel
-        </CancelButton>
-        <SubmitButton
+        </SecondaryButton>
+        <PrimaryButton
           data-test="removeUserAction"
           onClick={() => dispatch(removeUserAction(caseId, userActionId))}
         >
           Remove
-        </SubmitButton>
+        </PrimaryButton>
       </DialogActions>
     </Dialog>
   );

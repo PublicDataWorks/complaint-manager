@@ -6,7 +6,7 @@ import {
   DialogTitle,
   Typography
 } from "material-ui";
-import { CancelButton, SubmitButton } from "../StyledButtons";
+import { SecondaryButton, PrimaryButton } from "../StyledButtons";
 import moment from "moment";
 import downloader from "../../cases/thunks/downloader";
 import { connect } from "react-redux";
@@ -29,15 +29,15 @@ const ExportAuditLogConfirmationDialog = props => {
         </Typography>
       </DialogContent>
       <DialogActions>
-        <CancelButton onClick={props.handleClose}>Cancel</CancelButton>
-        <SubmitButton
+        <SecondaryButton onClick={props.handleClose}>Cancel</SecondaryButton>
+        <PrimaryButton
           data-test="exportAuditLogButton"
           onClick={() =>
             props.dispatch(downloader(path, fileName, props.handleClose))
           }
         >
           Export
-        </SubmitButton>
+        </PrimaryButton>
       </DialogActions>
     </Dialog>
   );

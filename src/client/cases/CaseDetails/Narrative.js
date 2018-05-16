@@ -3,7 +3,7 @@ import { Field, reduxForm, submit } from "redux-form";
 import { TextField } from "redux-form-material-ui";
 import updateNarrative from "../thunks/updateNarrative";
 import { CardActions, CardContent, Typography } from "material-ui";
-import { SubmitButton } from "../../sharedComponents/StyledButtons";
+import { PrimaryButton } from "../../sharedComponents/StyledButtons";
 import BaseCaseDetailsCard from "./BaseCaseDetailsCard";
 
 const Narrative = props => {
@@ -63,14 +63,14 @@ const Narrative = props => {
           padding: "0px 16px 16px 0px"
         }}
       >
-        <SubmitButton
+        <PrimaryButton
           data-test="saveNarrative"
           disabled={props.pristine}
           onClick={() => props.dispatch(submit("Narrative"))}
           style={{ margin: "0px" }}
         >
           Save
-        </SubmitButton>
+        </PrimaryButton>
       </CardActions>
     </BaseCaseDetailsCard>
   );

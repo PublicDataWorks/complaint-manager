@@ -2,7 +2,7 @@ import React from "react";
 import { mount, shallow } from "enzyme";
 import { OfficerSearchForm as OfficerSearchFormUnconnected } from "./OfficerSearchForm";
 import OfficerSearchForm from "./OfficerSearchForm";
-import { SubmitButton } from "../../../sharedComponents/StyledButtons";
+import { PrimaryButton } from "../../../sharedComponents/StyledButtons";
 import createConfiguredStore from "../../../createConfiguredStore";
 import getOfficerSearchResults from "../../thunks/getOfficerSearchResults";
 import { Provider } from "react-redux";
@@ -19,7 +19,7 @@ describe("OfficerSearchForm", () => {
       const searchForm = shallow(
         <OfficerSearchFormUnconnected handleSubmit={() => {}} invalid={true} />
       );
-      const submitButton = searchForm.find(SubmitButton);
+      const submitButton = searchForm.find(PrimaryButton);
       expect(!!submitButton.disabled).toBeTruthy;
     });
 
@@ -27,7 +27,7 @@ describe("OfficerSearchForm", () => {
       const searchForm = shallow(
         <OfficerSearchFormUnconnected handleSubmit={() => {}} invalid={false} />
       );
-      const submitButton = searchForm.find(SubmitButton);
+      const submitButton = searchForm.find(PrimaryButton);
       expect(!!submitButton.disabled).toBeFalsy();
     });
   });
@@ -50,7 +50,7 @@ describe("OfficerSearchForm", () => {
         "1st District"
       );
 
-      officerSearchForm.find(SubmitButton).simulate("click");
+      officerSearchForm.find(PrimaryButton).simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
         getOfficerSearchResults({
           firstName: "emma",
@@ -81,7 +81,7 @@ describe("OfficerSearchForm", () => {
         "1st District"
       );
 
-      officerSearchForm.find(SubmitButton).simulate("click");
+      officerSearchForm.find(PrimaryButton).simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
         getOfficerSearchResults({
           firstName: "bubba joe",

@@ -102,7 +102,7 @@ describe("CreateCaseDialog component", () => {
 
     test("should plan to redirect when clicking Create-And-View", () => {
       const submitButton = dialog.find(
-        'SubmitButton[data-test="createAndView"]'
+        'PrimaryButton[data-test="createAndView"]'
       );
       submitButton.simulate("click");
 

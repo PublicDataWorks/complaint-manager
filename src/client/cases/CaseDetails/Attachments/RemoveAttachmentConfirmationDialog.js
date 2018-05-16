@@ -7,8 +7,8 @@ import {
   Typography
 } from "material-ui";
 import {
-  CancelButton,
-  SubmitButton
+  SecondaryButton,
+  PrimaryButton
 } from "../../../sharedComponents/StyledButtons";
 
 class RemoveAttachmentConfirmationDialog extends React.Component {
@@ -32,13 +32,15 @@ class RemoveAttachmentConfirmationDialog extends React.Component {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <CancelButton onClick={this.props.handleClose}>Cancel</CancelButton>
-          <SubmitButton
+          <SecondaryButton onClick={this.props.handleClose}>
+            Cancel
+          </SecondaryButton>
+          <PrimaryButton
             data-test="confirmRemoveAttachmentButton"
             onClick={this.props.removeAttachment}
           >
             Remove
-          </SubmitButton>
+          </PrimaryButton>
         </DialogActions>
       </Dialog>
     );

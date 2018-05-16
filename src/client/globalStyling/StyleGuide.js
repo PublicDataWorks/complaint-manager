@@ -4,7 +4,10 @@ import GridList, { GridListTile, GridListTileBar } from "material-ui/GridList";
 import Typography from "material-ui/Typography";
 import NavBar from "../sharedComponents/NavBar/NavBar";
 import StyledLink from "../sharedComponents/StyledLink";
-import { CancelButton, SubmitButton } from "../sharedComponents/StyledButtons";
+import {
+  SecondaryButton,
+  PrimaryButton
+} from "../sharedComponents/StyledButtons";
 import { CardContent, withTheme } from "material-ui";
 import LinkButton from "../sharedComponents/LinkButton";
 
@@ -35,7 +38,9 @@ const StyleGuide = props => (
           variant="button"
           style={{ color: "black" }}
         >{`Button`}</Typography>
-        <StyledLink style={{ marginRight: 20 }}>{"Link"}</StyledLink>
+        <StyledLink to={"/styleguide"} style={{ marginRight: 20 }}>
+          {"Link"}
+        </StyledLink>
       </CardContent>
     </Card>
 
@@ -159,8 +164,12 @@ const StyleGuide = props => (
         BUTTONS
       </Typography>
       <CardContent>
-        <CancelButton style={{ marginRight: 20 }}>Cancel Button</CancelButton>
-        <SubmitButton style={{ marginRight: 20 }}>Submit Button</SubmitButton>
+        <PrimaryButton style={{ marginRight: 20 }}>
+          Primary Button
+        </PrimaryButton>
+        <SecondaryButton style={{ marginRight: 20 }}>
+          Secondary Button
+        </SecondaryButton>
         <LinkButton>Link Button</LinkButton>
       </CardContent>
     </Card>

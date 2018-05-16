@@ -9,7 +9,7 @@ import {
   UPLOAD_CANCELED
 } from "../../../../sharedUtilities/constants";
 import { FormControl, FormHelperText } from "material-ui/Form";
-import { SubmitButton } from "../../../sharedComponents/StyledButtons";
+import { PrimaryButton } from "../../../sharedComponents/StyledButtons";
 import { Input, InputLabel } from "material-ui";
 
 class Dropzone extends Component {
@@ -138,7 +138,7 @@ class Dropzone extends Component {
           </FormControl>
         </div>
         <div style={{ alignSelf: "flex-end", marginBottom: "20px" }}>
-          <SubmitButton
+          <PrimaryButton
             onClick={this.uploadAttachment}
             data-test="attachmentUploadButton"
             disabled={
@@ -148,7 +148,7 @@ class Dropzone extends Component {
             }
           >
             Upload
-          </SubmitButton>
+          </PrimaryButton>
         </div>
       </div>
     );

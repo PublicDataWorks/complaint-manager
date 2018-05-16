@@ -1,7 +1,7 @@
 import { Button } from "material-ui";
 import React from "react";
 
-export const CancelButton = ({ children, onClick, ...other }) => {
+export const SecondaryButton = ({ children, onClick, ...other }) => {
   return (
     <Button variant="raised" onClick={onClick} color="secondary" {...other}>
       {children}
@@ -9,7 +9,7 @@ export const CancelButton = ({ children, onClick, ...other }) => {
   );
 };
 
-export const SubmitButton = ({ children, onClick, ...other }) => {
+export const PrimaryButton = ({ children, onClick, ...other }) => {
   return (
     <Button
       variant="raised"

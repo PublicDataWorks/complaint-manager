@@ -7,7 +7,7 @@ import OfficerTypeRadioGroup from "./OfficerTypeRadioGroup";
 import { Field, reduxForm } from "redux-form";
 import styles from "../../globalStyling/styles";
 import addOfficer from "../thunks/addOfficer";
-import { SubmitButton } from "../../sharedComponents/StyledButtons";
+import { PrimaryButton } from "../../sharedComponents/StyledButtons";
 import { ChangeOfficer } from "../OfficerSearch/OfficerSearchResults/officerSearchResultsRowButtons";
 
 const OfficerDetails = props => {
@@ -73,12 +73,12 @@ const OfficerDetails = props => {
         </CardContent>
       </Card>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <SubmitButton
+        <PrimaryButton
           data-test="addOfficerSubmitButton"
           onClick={props.handleSubmit(onSubmit)}
         >
           Add Officer to Case
-        </SubmitButton>
+        </PrimaryButton>
       </div>
     </div>
   );

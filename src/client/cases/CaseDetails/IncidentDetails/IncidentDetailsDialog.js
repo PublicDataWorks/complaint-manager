@@ -16,8 +16,8 @@ import {
   SubmissionError
 } from "redux-form";
 import {
-  CancelButton,
-  SubmitButton
+  SecondaryButton,
+  PrimaryButton
 } from "../../../sharedComponents/StyledButtons";
 import editIncidentDetails from "../../thunks/editIncidentDetails";
 import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
@@ -146,18 +146,18 @@ const IncidentDetailsDialog = props => (
       </form>
     </DialogContent>
     <DialogActions style={{ justifyContent: "space-between", margin: "16px" }}>
-      <CancelButton
+      <SecondaryButton
         data-test="cancelEditIncidentDetailsButton"
         onClick={props.handleDialogClose}
       >
         Cancel
-      </CancelButton>
-      <SubmitButton
+      </SecondaryButton>
+      <PrimaryButton
         data-test="saveIncidentDetailsButton"
         onClick={props.handleSubmit(submitIncidentDetails)}
       >
         Save
-      </SubmitButton>
+      </PrimaryButton>
     </DialogActions>
   </Dialog>
 );

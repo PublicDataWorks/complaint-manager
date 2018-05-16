@@ -10,8 +10,8 @@ import {
   Typography
 } from "material-ui";
 import {
-  CancelButton,
-  SubmitButton
+  SecondaryButton,
+  PrimaryButton
 } from "../../sharedComponents/StyledButtons";
 import { withTheme } from "material-ui/styles";
 import FirstNameField from "../sharedFormComponents/FirstNameField";
@@ -95,13 +95,13 @@ class CreateCaseDialog extends React.Component {
 
     return (
       <div>
-        <SubmitButton
+        <PrimaryButton
           data-test="createCaseButton"
           onClick={this.openDialog}
           style={margin}
         >
           Create New Case
-        </SubmitButton>
+        </PrimaryButton>
         <Dialog
           data-test="createCaseDialog"
           open={this.state.dialogOpen}
@@ -173,9 +173,9 @@ class CreateCaseDialog extends React.Component {
               margin: `${theme.spacing.unit * 2}px`
             }}
           >
-            <CancelButton data-test="cancelCase" onClick={this.closeDialog}>
+            <SecondaryButton data-test="cancelCase" onClick={this.closeDialog}>
               Cancel
-            </CancelButton>
+            </SecondaryButton>
             <div>
               <LinkButton
                 data-test="createCaseOnly"
@@ -184,12 +184,12 @@ class CreateCaseDialog extends React.Component {
               >
                 Create Only
               </LinkButton>
-              <SubmitButton
+              <PrimaryButton
                 data-test="createAndView"
                 onClick={handleSubmit(this.createAndView)}
               >
                 Create And View
-              </SubmitButton>
+              </PrimaryButton>
             </div>
           </DialogActions>
         </Dialog>

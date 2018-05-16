@@ -17,8 +17,8 @@ import RoleOnCaseRadioGroup from "./RoleOnCaseRadioGroup";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";
 import LastNameField from "../../sharedFormComponents/LastNameField";
 import {
-  CancelButton,
-  SubmitButton
+  SecondaryButton,
+  PrimaryButton
 } from "../../../sharedComponents/StyledButtons";
 import {
   closeEditDialog,
@@ -190,18 +190,18 @@ class CivilianDialog extends Component {
             margin: `${this.props.theme.spacing.unit * 2}px`
           }}
         >
-          <CancelButton
+          <SecondaryButton
             data-test="cancelEditCivilian"
             onClick={() => this.props.dispatch(closeEditDialog())}
           >
             Cancel
-          </CancelButton>
-          <SubmitButton
+          </SecondaryButton>
+          <PrimaryButton
             data-test="submitEditCivilian"
             onClick={this.props.handleSubmit(this.handleCivilian)}
           >
             {this.props.submitButtonText}
-          </SubmitButton>
+          </PrimaryButton>
         </DialogActions>
       </Dialog>
     );
