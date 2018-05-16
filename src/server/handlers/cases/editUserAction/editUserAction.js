@@ -1,21 +1,18 @@
 const models = require("../../../models");
+const _ = require('lodash')
 
 const editUserAction = async (req, res, next) => {
   try {
     const caseId = req.params.caseId;
     const userActionId = req.params.userActionId;
+    const valuesToUpdate = _.pick(req.body, ['action', 'actionTakenAt', 'notes'])
 
-    const recentActivity = await models.sequelize.transaction(
-      async transaction => {
-        await models.user_action.update(
-          req.body,
-          {
+    const recentActivity = await models.sequelize.transaction(async (transaction) => {
+        await models.user_action.update(valuesToUpdate, {
             where: {
-              id: userActionId
+                id: userActionId
             }
-          },
-          { transaction }
-        );
+        }, {transaction})
 
         await models.cases.update(
           {
