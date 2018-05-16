@@ -68,11 +68,15 @@ describe("UserActionDialog", () => {
     expect(title.text()).toEqual("Edit Case Note");
     expect(submitButton.text()).toEqual("Edit Case Note");
 
+    const dateWithOutTimeZone = "2018-05-16T18:47";
+
     const submittedValues = {
       caseId: caseId,
-      actionTakenAt: timezone.tz(new Date(Date.now()), TIMEZONE).format(),
+      actionTakenAt: "2018-05-16T18:47:00-05:00",
       action: "Miscellaneous"
     };
+
+    changeInput(wrapper, '[data-test="dateAndTimeInput"]', dateWithOutTimeZone);
 
     selectDropdownOption(
       wrapper,
@@ -96,11 +100,14 @@ describe("UserActionDialog", () => {
         <UserActionDialog caseId={caseId} />
       </Provider>
     );
+    const dateWithOutTimeZone = "2018-05-16T18:47";
 
     const submittedValues = {
       caseId: caseId,
-      actionTakenAt: timezone.tz(new Date(Date.now()), TIMEZONE).format()
+      actionTakenAt: "2018-05-16T18:47:00-05:00"
     };
+
+    changeInput(wrapper, '[data-test="dateAndTimeInput"]', dateWithOutTimeZone);
 
     const submitButton = wrapper.find('[data-test="submitButton"]').first();
     submitButton.simulate("click");
@@ -127,19 +134,16 @@ describe("UserActionDialog", () => {
       </Provider>
     );
 
-    const date = timezone.tz(new Date(Date.now()), TIMEZONE).format();
+    const dateWithOutTimeZone = "2018-05-16T18:47";
+
     const submittedValues = {
       caseId: caseId,
-      actionTakenAt: date,
+      actionTakenAt: "2018-05-16T18:47:00-05:00",
       action: "Miscellaneous",
       notes: "these are notes"
     };
 
-    changeInput(
-      wrapper,
-      '[data-test="dateAndTimeInput"]',
-      submittedValues.actionTakenAt
-    );
+    changeInput(wrapper, '[data-test="dateAndTimeInput"]', dateWithOutTimeZone);
     selectDropdownOption(
       wrapper,
       '[data-test="actionsDropdown"]',
@@ -166,9 +170,13 @@ describe("UserActionDialog", () => {
       </Provider>
     );
 
+    const dateWithOutTimeZone = "2018-05-16T18:47";
+
+    changeInput(wrapper, '[data-test="dateAndTimeInput"]', dateWithOutTimeZone);
+
     const submittedValues = {
       caseId: caseId,
-      actionTakenAt: timezone.tz(new Date(Date.now()), TIMEZONE).format()
+      actionTakenAt: "2018-05-16T18:47:00-05:00"
     };
 
     const submitButton = wrapper.find('[data-test="submitButton"]').first();
