@@ -7,7 +7,8 @@ import {
   ADD_OFFICER_TO_CASE_FAILED,
   OFFICER_SELECTED,
   CLEAR_SELECTED_OFFICER,
-  UNKNOWN_OFFICER_SELECTED
+  UNKNOWN_OFFICER_SELECTED,
+  EDIT_CASE_OFFICER_SELECTED
 } from "../../sharedUtilities/constants";
 
 export const searchOfficersSuccess = searchResults => ({
@@ -47,4 +48,9 @@ export const clearSelectedOfficer = () => ({
 
 export const selectUnknownOfficer = () => ({
   type: UNKNOWN_OFFICER_SELECTED
+});
+
+export const selectCaseOfficer = caseOfficer => ({
+  type: EDIT_CASE_OFFICER_SELECTED,
+  caseOfficer
 });

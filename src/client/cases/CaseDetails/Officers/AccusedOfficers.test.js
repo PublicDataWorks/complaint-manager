@@ -3,6 +3,8 @@ import AccusedOfficers from "./AccusedOfficers";
 import React from "react";
 import Officer from "../../../testUtilities/Officer";
 import CaseOfficer from "../../../testUtilities/caseOfficer";
+import createConfiguredStore from "../../../createConfiguredStore";
+import { Provider } from "react-redux";
 
 describe("AccusedOfficers", function() {
   test("should display officers", () => {
@@ -18,7 +20,9 @@ describe("AccusedOfficers", function() {
     ];
 
     const wrapper = mount(
-      <AccusedOfficers accusedOfficers={accusedOfficers} />
+      <Provider store={createConfiguredStore()}>
+        <AccusedOfficers accusedOfficers={accusedOfficers} />
+      </Provider>
     );
 
     const officersDisplayed = wrapper.find('[data-test="officerPanel"]');

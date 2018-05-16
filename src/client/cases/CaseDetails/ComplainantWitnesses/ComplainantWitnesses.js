@@ -4,7 +4,7 @@ import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import ComplainantPanel from "./ComplainantPanel";
 import WarningMessage from "../../../sharedComponents/WarningMessage";
 import getFirstComplainant from "../../../utilities/getFirstComplainant";
-import OfficerPanel from "../Officers/OfficerPanel";
+import AccusedOfficerPanel from "../Officers/OfficerPanel";
 import sortComplainantOfficers from "./sortComplainantOfficers";
 import UnknownOfficerPanel from "../Officers/UnknownOfficerPanel";
 
@@ -37,7 +37,7 @@ const ComplainantWitnesses = props => {
             if (civilianOrOfficer.hasOwnProperty("officerId")) {
               if (officerIsKnown(civilianOrOfficer)) {
                 return (
-                  <OfficerPanel
+                  <AccusedOfficerPanel
                     key={civilianOrOfficer.officer.officerNumber}
                     caseOfficer={civilianOrOfficer}
                   />

@@ -2,8 +2,9 @@ import React from "react";
 import { CardContent, Typography } from "material-ui";
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import _ from "lodash";
-import OfficerPanel from "./OfficerPanel";
+import AccusedOfficerPanel from "./OfficerPanel";
 import UnknownOfficerPanel from "./UnknownOfficerPanel";
+import ManageOfficerMenu from "./ManageOfficerMenu";
 
 const AccusedOfficers = ({ accusedOfficers }) => {
   const officerIsKnown = caseOfficer =>
@@ -20,15 +21,19 @@ const AccusedOfficers = ({ accusedOfficers }) => {
             ]).map(
               caseOfficer =>
                 officerIsKnown(caseOfficer) ? (
-                  <OfficerPanel
+                  <AccusedOfficerPanel
                     key={caseOfficer.officer.officerNumber}
                     caseOfficer={caseOfficer}
-                  />
+                  >
+                    <ManageOfficerMenu caseOfficer={caseOfficer} />
+                  </AccusedOfficerPanel>
                 ) : (
                   <UnknownOfficerPanel
                     key={caseOfficer.id}
                     caseOfficer={caseOfficer}
-                  />
+                  >
+                    <ManageOfficerMenu caseOfficer={caseOfficer} />
+                  </UnknownOfficerPanel>
                 )
             )}
       </CardContent>

@@ -3,7 +3,7 @@ import React from "react";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
 
-const UnknownOfficerPanel = ({ caseOfficer }) => {
+const UnknownOfficerPanel = ({ caseOfficer, children }) => {
   return (
     <div>
       <ExpansionPanel
@@ -22,6 +22,7 @@ const UnknownOfficerPanel = ({ caseOfficer }) => {
               value={caseOfficer.officer.fullName}
               testLabel="officerName"
             />
+            {children}
           </div>
         </ExpansionPanelSummary>
         <StyledExpansionPanelDetails>
