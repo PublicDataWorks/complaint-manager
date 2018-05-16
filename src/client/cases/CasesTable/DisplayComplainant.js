@@ -1,53 +1,45 @@
-import React from 'react'
+import React from "react";
 import getFirstComplainant from "../../utilities/getFirstComplainant";
 import formatCivilianName from "../../utilities/formatCivilianName";
 import WarningMessage from "../../sharedComponents/WarningMessage";
-import {withStyles} from "material-ui";
+import { withStyles } from "material-ui";
 
 const styles = {
-    messageContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: '16px'
-    }
-}
+  messageContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "16px"
+  }
+};
 
-const DisplayComplainant = ({caseDetails, classes}) => {
+const DisplayComplainant = ({ caseDetails, classes }) => {
+  const { complainantWitnessOfficers = [], civilians = [] } = caseDetails;
 
-    const {complainantWitnessOfficers = [], civilians = []} = caseDetails
+  const civilianComplainant = getFirstComplainant(civilians);
+  const officerComplainant = getFirstComplainant(complainantWitnessOfficers);
 
-    const civilianComplainant = getFirstComplainant(civilians)
-    const officerComplainant = getFirstComplainant(complainantWitnessOfficers)
+  let formattedComplainant;
 
-    let formattedComplainant
-
-    if (Boolean(civilianComplainant)) {
-        formattedComplainant = formatCivilianName(civilianComplainant)
-    } else if (Boolean(officerComplainant)) {
-
-        if (officerComplainant.officer.fullName !== 'Unknown Officer') {
-            formattedComplainant = `Officer ${officerComplainant.officer.fullName}`
-
-        } else {
-            formattedComplainant = officerComplainant.officer.fullName
-        }
-
+  if (Boolean(civilianComplainant)) {
+    formattedComplainant = formatCivilianName(civilianComplainant);
+  } else if (Boolean(officerComplainant)) {
+    if (officerComplainant.officer.fullName !== "Unknown Officer") {
+      formattedComplainant = `Officer ${officerComplainant.officer.fullName}`;
     } else {
-        formattedComplainant = ""
+      formattedComplainant = officerComplainant.officer.fullName;
     }
+  } else {
+    formattedComplainant = "";
+  }
 
-    return (
-        formattedComplainant
-            ? <div>{formattedComplainant}</div>
-            : (
-                <div className={classes.messageContainer}>
-                    <WarningMessage>
-                        No Complainants
-                    </WarningMessage>
-                </div>
-            )
-    )
-}
+  return formattedComplainant ? (
+    <div>{formattedComplainant}</div>
+  ) : (
+    <div className={classes.messageContainer}>
+      <WarningMessage>No Complainants</WarningMessage>
+    </div>
+  );
+};
 
-export default withStyles(styles)(DisplayComplainant)
+export default withStyles(styles)(DisplayComplainant);

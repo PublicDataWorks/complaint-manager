@@ -1,160 +1,181 @@
-import React from 'react'
-import mount from 'enzyme/mount'
+import React from "react";
+import mount from "enzyme/mount";
 import UserActionDialog from "./UserActionDialog";
 import createConfiguredStore from "../../../createConfiguredStore";
-import {Provider} from "react-redux";
+import { Provider } from "react-redux";
 import {
-    closeUserActionDialog, getCaseDetailsSuccess,
-    openUserActionDialog
+  closeUserActionDialog,
+  getCaseDetailsSuccess,
+  openUserActionDialog
 } from "../../../actionCreators/casesActionCreators";
-import {changeInput, selectDropdownOption} from "../../../../testHelpers";
+import { changeInput, selectDropdownOption } from "../../../../testHelpers";
 import addUserAction from "../../thunks/addUserAction";
-import timezone from 'moment-timezone'
-import {TIMEZONE} from "../../../../sharedUtilities/constants";
-import {reset} from "redux-form";
+import timezone from "moment-timezone";
+import { TIMEZONE } from "../../../../sharedUtilities/constants";
+import { reset } from "redux-form";
 import editUserAction from "../../thunks/editUserAction";
 
-jest.mock("../../thunks/addUserAction", () => (values) => ({
-    type: 'MOCK_THUNK',
-    values
-}))
+jest.mock("../../thunks/addUserAction", () => values => ({
+  type: "MOCK_THUNK",
+  values
+}));
 
-jest.mock("../../thunks/editUserAction", () => (values) => ({
-    type: 'MOCK_THUNK_TWO',
-    values
-}))
+jest.mock("../../thunks/editUserAction", () => values => ({
+  type: "MOCK_THUNK_TWO",
+  values
+}));
 
-describe('UserActionDialog', () => {
-    test('should close dialog and reset form when cancel button is clicked', () => {
-        const store = createConfiguredStore()
-        const dispatchSpy = jest.spyOn(store, 'dispatch')
+describe("UserActionDialog", () => {
+  test("should close dialog and reset form when cancel button is clicked", () => {
+    const store = createConfiguredStore();
+    const dispatchSpy = jest.spyOn(store, "dispatch");
 
-        store.dispatch(openUserActionDialog())
+    store.dispatch(openUserActionDialog());
 
-        const wrapper = mount(
-            <Provider store={store}>
-                <UserActionDialog/>
-            </Provider>
-        )
+    const wrapper = mount(
+      <Provider store={store}>
+        <UserActionDialog />
+      </Provider>
+    );
 
-        const closeButton = wrapper.find('[data-test="cancelButton"]').first()
-        closeButton.simulate('click')
+    const closeButton = wrapper.find('[data-test="cancelButton"]').first();
+    closeButton.simulate("click");
 
-        expect(dispatchSpy).toHaveBeenCalledWith(closeUserActionDialog())
-        expect(dispatchSpy).toHaveBeenCalledWith(reset('UserActions'))
-    })
+    expect(dispatchSpy).toHaveBeenCalledWith(closeUserActionDialog());
+    expect(dispatchSpy).toHaveBeenCalledWith(reset("UserActions"));
+  });
 
-    test('should render and submit edit version of the dialog', () => {
-        const store = createConfiguredStore()
-        const dispatchSpy = jest.spyOn(store, 'dispatch')
-        const caseId = 12
-        store.dispatch(openUserActionDialog('Edit'))
-        store.dispatch(getCaseDetailsSuccess({
-            id: caseId
-        }))
+  test("should render and submit edit version of the dialog", () => {
+    const store = createConfiguredStore();
+    const dispatchSpy = jest.spyOn(store, "dispatch");
+    const caseId = 12;
+    store.dispatch(openUserActionDialog("Edit"));
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId
+      })
+    );
 
-        const wrapper = mount(
-            <Provider store={store}>
-                <UserActionDialog/>
-            </Provider>
-        )
+    const wrapper = mount(
+      <Provider store={store}>
+        <UserActionDialog />
+      </Provider>
+    );
 
-        const title = wrapper.find('[data-test="userActionDialogTitle"]').first()
-        const submitButton = wrapper.find('[data-test="submitButton"]').first()
+    const title = wrapper.find('[data-test="userActionDialogTitle"]').first();
+    const submitButton = wrapper.find('[data-test="submitButton"]').first();
 
-        expect(title.text()).toEqual('Edit Case Note')
-        expect(submitButton.text()).toEqual('Edit Case Note')
+    expect(title.text()).toEqual("Edit Case Note");
+    expect(submitButton.text()).toEqual("Edit Case Note");
 
-        const submittedValues = {
-            caseId: caseId,
-            actionTakenAt: timezone.tz(new Date(Date.now()), TIMEZONE).format(),
-            action: 'Miscellaneous'
-        }
+    const submittedValues = {
+      caseId: caseId,
+      actionTakenAt: timezone.tz(new Date(Date.now()), TIMEZONE).format(),
+      action: "Miscellaneous"
+    };
 
-        selectDropdownOption(wrapper, '[data-test="actionsDropdown"]', submittedValues.action)
-        submitButton.simulate('click')
+    selectDropdownOption(
+      wrapper,
+      '[data-test="actionsDropdown"]',
+      submittedValues.action
+    );
+    submitButton.simulate("click");
 
-        expect(dispatchSpy).toHaveBeenCalledWith(editUserAction(submittedValues))
-    })
+    expect(dispatchSpy).toHaveBeenCalledWith(editUserAction(submittedValues));
+  });
 
-    test('should not submit form when Edit Case Note is clicked and no action is selected', () => {
-        const store = createConfiguredStore()
-        const dispatchSpy = jest.spyOn(store, 'dispatch')
-        const caseId = 12
+  test("should not submit form when Edit Case Note is clicked and no action is selected", () => {
+    const store = createConfiguredStore();
+    const dispatchSpy = jest.spyOn(store, "dispatch");
+    const caseId = 12;
 
-        store.dispatch(openUserActionDialog('Edit'))
+    store.dispatch(openUserActionDialog("Edit"));
 
-        const wrapper = mount(
-            <Provider store={store}>
-                <UserActionDialog caseId={caseId}/>
-            </Provider>
-        )
+    const wrapper = mount(
+      <Provider store={store}>
+        <UserActionDialog caseId={caseId} />
+      </Provider>
+    );
 
-        const submittedValues = {
-            caseId: caseId,
-            actionTakenAt: timezone.tz(new Date(Date.now()), TIMEZONE).format(),
-        }
+    const submittedValues = {
+      caseId: caseId,
+      actionTakenAt: timezone.tz(new Date(Date.now()), TIMEZONE).format()
+    };
 
-        const submitButton = wrapper.find('[data-test="submitButton"]').first()
-        submitButton.simulate('click')
+    const submitButton = wrapper.find('[data-test="submitButton"]').first();
+    submitButton.simulate("click");
 
-        expect(dispatchSpy).not.toHaveBeenCalledWith(editUserAction(submittedValues))
-    })
+    expect(dispatchSpy).not.toHaveBeenCalledWith(
+      editUserAction(submittedValues)
+    );
+  });
 
-    test('should submit form when Add Case Note is clicked', () => {
-        const store = createConfiguredStore()
-        const dispatchSpy = jest.spyOn(store, 'dispatch')
-        const caseId = 12
-        store.dispatch(openUserActionDialog('Add'))
-        store.dispatch(getCaseDetailsSuccess({
-            id: caseId
-        }))
+  test("should submit form when Add Case Note is clicked", () => {
+    const store = createConfiguredStore();
+    const dispatchSpy = jest.spyOn(store, "dispatch");
+    const caseId = 12;
+    store.dispatch(openUserActionDialog("Add"));
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId
+      })
+    );
 
-        const wrapper = mount(
-            <Provider store={store}>
-                <UserActionDialog/>
-            </Provider>
-        )
+    const wrapper = mount(
+      <Provider store={store}>
+        <UserActionDialog />
+      </Provider>
+    );
 
-        const date = timezone.tz(new Date(Date.now()), TIMEZONE).format()
-        const submittedValues = {
-            caseId: caseId,
-            actionTakenAt: date,
-            action: 'Miscellaneous',
-            notes: 'these are notes'
-        }
+    const date = timezone.tz(new Date(Date.now()), TIMEZONE).format();
+    const submittedValues = {
+      caseId: caseId,
+      actionTakenAt: date,
+      action: "Miscellaneous",
+      notes: "these are notes"
+    };
 
-        changeInput(wrapper, '[data-test="dateAndTimeInput"]', submittedValues.actionTakenAt)
-        selectDropdownOption(wrapper, '[data-test="actionsDropdown"]', submittedValues.action)
-        changeInput(wrapper, '[data-test="notesInput"]', submittedValues.notes)
+    changeInput(
+      wrapper,
+      '[data-test="dateAndTimeInput"]',
+      submittedValues.actionTakenAt
+    );
+    selectDropdownOption(
+      wrapper,
+      '[data-test="actionsDropdown"]',
+      submittedValues.action
+    );
+    changeInput(wrapper, '[data-test="notesInput"]', submittedValues.notes);
 
-        const submitButton = wrapper.find('[data-test="submitButton"]').first()
-        submitButton.simulate('click')
+    const submitButton = wrapper.find('[data-test="submitButton"]').first();
+    submitButton.simulate("click");
 
-        expect(dispatchSpy).toHaveBeenCalledWith(addUserAction(submittedValues))
-    })
+    expect(dispatchSpy).toHaveBeenCalledWith(addUserAction(submittedValues));
+  });
 
-    test('should not submit form when Add Case Note is clicked and no action is selected', () => {
-        const store = createConfiguredStore()
-        const dispatchSpy = jest.spyOn(store, 'dispatch')
-        const caseId = 12
+  test("should not submit form when Add Case Note is clicked and no action is selected", () => {
+    const store = createConfiguredStore();
+    const dispatchSpy = jest.spyOn(store, "dispatch");
+    const caseId = 12;
 
-        store.dispatch(openUserActionDialog('Add'))
+    store.dispatch(openUserActionDialog("Add"));
 
-        const wrapper = mount(
-            <Provider store={store}>
-                <UserActionDialog caseId={caseId}/>
-            </Provider>
-        )
+    const wrapper = mount(
+      <Provider store={store}>
+        <UserActionDialog caseId={caseId} />
+      </Provider>
+    );
 
-        const submittedValues = {
-            caseId: caseId,
-            actionTakenAt: timezone.tz(new Date(Date.now()), TIMEZONE).format(),
-        }
+    const submittedValues = {
+      caseId: caseId,
+      actionTakenAt: timezone.tz(new Date(Date.now()), TIMEZONE).format()
+    };
 
-        const submitButton = wrapper.find('[data-test="submitButton"]').first()
-        submitButton.simulate('click')
+    const submitButton = wrapper.find('[data-test="submitButton"]').first();
+    submitButton.simulate("click");
 
-        expect(dispatchSpy).not.toHaveBeenCalledWith(addUserAction(submittedValues))
-    })
+    expect(dispatchSpy).not.toHaveBeenCalledWith(
+      addUserAction(submittedValues)
+    );
+  });
 });

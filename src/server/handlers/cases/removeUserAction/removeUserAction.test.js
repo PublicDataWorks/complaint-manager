@@ -2,60 +2,70 @@ import * as httpMocks from "node-mocks-http";
 import Case from "../../../../client/testUtilities/case";
 import models from "../../../models";
 import UserAction from "../../../../client/testUtilities/userAction";
-import removeUserAction from './removeUserAction'
+import removeUserAction from "./removeUserAction";
 
-describe('RemoveUserAction unit', () => {
+describe("RemoveUserAction unit", () => {
+  afterEach(async () => {
+    await models.cases.destroy({ truncate: true, cascade: true });
+    await models.user_action.destroy({
+      truncate: true,
+      cascade: true,
+      force: true
+    });
+  });
 
-    afterEach(async () => {
-        await models.cases.destroy({truncate: true, cascade: true})
-        await models.user_action.destroy({truncate: true, cascade: true, force: true})
+  test("should update case status and recent activity in the db after user action removed", async () => {
+    const caseToCreate = new Case.Builder()
+      .defaultCase()
+      .withId(undefined)
+      .withStatus("Initial")
+      .withCivilians([])
+      .withAttachments([])
+      .withAccusedOfficers([])
+      .withIncidentLocation(undefined)
+      .build();
+
+    const createdCase = await models.cases.create(caseToCreate);
+
+    const userActionToCreate = new UserAction.Builder()
+      .defaultUserAction()
+      .withCaseId(createdCase.id)
+      .build();
+
+    const createdUserAction = await models.user_action.create(
+      userActionToCreate
+    );
+
+    const request = httpMocks.createRequest({
+      method: "DELETE",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: createdCase.id,
+        userActionId: createdUserAction.id
+      },
+      nickname: "TEST_USER_NICKNAME"
     });
 
-    test('should update case status and recent activity in the db after user action removed', async () => {
+    const response = httpMocks.createResponse();
+    await removeUserAction(request, response, jest.fn());
 
-        const caseToCreate = new Case.Builder().defaultCase()
-            .withId(undefined)
-            .withStatus("Initial")
-            .withCivilians([])
-            .withAttachments([])
-            .withAccusedOfficers([])
-            .withIncidentLocation(undefined)
-            .build()
+    const updatedCase = await models.cases.findAll({
+      where: { id: createdCase.id }
+    });
 
-        const createdCase = await models.cases.create(caseToCreate);
+    expect(updatedCase).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          status: "Active"
+        })
+      ])
+    );
 
-        const userActionToCreate = new UserAction.Builder().defaultUserAction()
-            .withCaseId(createdCase.id)
-            .build()
-
-        const createdUserAction = await models.user_action.create(userActionToCreate)
-
-        const request = httpMocks.createRequest({
-            method: "DELETE",
-            headers: {
-                authorization: "Bearer SOME_MOCK_TOKEN"
-            },
-            params: {
-                caseId: createdCase.id,
-                userActionId: createdUserAction.id
-            },
-            nickname: "TEST_USER_NICKNAME"
-        });
-
-        const response = httpMocks.createResponse();
-        await removeUserAction(request, response, jest.fn());
-
-        const updatedCase = await models.cases.findAll({where: {id: createdCase.id}})
-
-        expect(updatedCase).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining({
-                    status: 'Active'
-                })
-            ])
-        )
-
-        const updatedRecentActivity = await models.user_action.findAll({where: {caseId: updatedCase.id}})
-        expect(updatedRecentActivity).toEqual([])
-    })
+    const updatedRecentActivity = await models.user_action.findAll({
+      where: { caseId: updatedCase.id }
+    });
+    expect(updatedRecentActivity).toEqual([]);
+  });
 });

@@ -1,4 +1,4 @@
 export const userAuthSuccess = userInfo => ({
-    type: 'AUTH_SUCCESS',
-    userInfo
-})
+  type: "AUTH_SUCCESS",
+  userInfo
+});

@@ -1,71 +1,72 @@
 import React from "react";
-import {connect} from "react-redux";
-import {Table, TableBody, TableCell, TableHead, TableRow, Typography, withStyles} from "material-ui";
+import { connect } from "react-redux";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+  withStyles
+} from "material-ui";
 import UserRow from "./UserRow";
 import getUsers from "../thunks/getUsers";
 import Paper from "material-ui/Paper";
 import tableStyleGenerator from "../../tableStyles";
-import _ from 'lodash'
+import _ from "lodash";
 
 const styles = theme => ({
-    ...(tableStyleGenerator(theme).header),
-    ...(tableStyleGenerator(theme).table)
-})
+  ...tableStyleGenerator(theme).header,
+  ...tableStyleGenerator(theme).table
+});
 
 class UsersTable extends React.Component {
-    componentWillMount() {
-        this.props.getUsers()
-    }
+  componentWillMount() {
+    this.props.getUsers();
+  }
 
-    render() {
-        const {classes} = this.props
-        return (
-            <div>
-                <Typography
-                    variant="title"
-                    className={classes.labelMargin}>
-                    All Users
-                </Typography>
-                <Paper elevation={0} className={classes.tableMargin}>
-                    <Table>
-                        <TableHead>
-                            <TableRow className={classes.row}>
-                                <TableCell className={classes.cell}>
-                                    <Typography variant='body2'>
-                                        Name
-                                    </Typography>
-                                </TableCell>
-                                <TableCell className={classes.cell}>
-                                    <Typography variant='body2'>
-                                        Email
-                                    </Typography>
-                                </TableCell>
-                                <TableCell className={classes.cell}>
-                                    <Typography variant='body2'>
-                                        Date Added
-                                    </Typography>
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {
-                                _.sortBy(this.props.users, 'lastName')
-                                    .map(user => <UserRow key={user.id} user={user}/>)
-                            }
-                        </TableBody>
-                    </Table>
-                </Paper>
-            </div>
-        )
-    }
+  render() {
+    const { classes } = this.props;
+    return (
+      <div>
+        <Typography variant="title" className={classes.labelMargin}>
+          All Users
+        </Typography>
+        <Paper elevation={0} className={classes.tableMargin}>
+          <Table>
+            <TableHead>
+              <TableRow className={classes.row}>
+                <TableCell className={classes.cell}>
+                  <Typography variant="body2">Name</Typography>
+                </TableCell>
+                <TableCell className={classes.cell}>
+                  <Typography variant="body2">Email</Typography>
+                </TableCell>
+                <TableCell className={classes.cell}>
+                  <Typography variant="body2">Date Added</Typography>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {_.sortBy(this.props.users, "lastName").map(user => (
+                <UserRow key={user.id} user={user} />
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = state => ({
-    users: state.users.all
-})
+  users: state.users.all
+});
 
 const mapDispatchToProps = {
-    getUsers
-}
+  getUsers
+};
 
-export default withStyles(styles, {withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(UsersTable))
+export default withStyles(styles, { withTheme: true })(
+  connect(mapStateToProps, mapDispatchToProps)(UsersTable)
+);

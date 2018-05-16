@@ -1,23 +1,24 @@
-import {Button} from 'material-ui'
-import React from 'react'
+import { Button } from "material-ui";
+import React from "react";
 
-export const CancelButton = ({children, onClick, ...other}) => {
+export const CancelButton = ({ children, onClick, ...other }) => {
   return (
-    <Button
-      variant="raised"
-      onClick={onClick}
-      color="secondary"
-      {...other}>{children}</Button>
-  )
-}
+    <Button variant="raised" onClick={onClick} color="secondary" {...other}>
+      {children}
+    </Button>
+  );
+};
 
-export const SubmitButton = ({children, onClick, ...other}) => {
+export const SubmitButton = ({ children, onClick, ...other }) => {
   return (
     <Button
       variant="raised"
       onClick={onClick}
       type="submit"
       color="primary"
-      {...other}>{children}</Button>
-  )
-}
+      {...other}
+    >
+      {children}
+    </Button>
+  );
+};

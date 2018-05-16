@@ -1,5 +1,5 @@
-import { DOWNLOAD_FAILED } from "../../sharedUtilities/constants"
+import { DOWNLOAD_FAILED } from "../../sharedUtilities/constants";
 
 export default function downloadFailed() {
-    return { type: DOWNLOAD_FAILED }
+  return { type: DOWNLOAD_FAILED };
 }

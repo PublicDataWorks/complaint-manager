@@ -1,99 +1,97 @@
-import nock from 'nock'
-import createUser from "./createUser"
-import {createUserFailure, createUserSuccess} from "../../actionCreators/usersActionCreators"
-import {push} from "react-router-redux";
+import nock from "nock";
+import createUser from "./createUser";
+import {
+  createUserFailure,
+  createUserSuccess
+} from "../../actionCreators/usersActionCreators";
+import { push } from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
 
-jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"))
+jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
-describe('createUser', () => {
-    const dispatch = jest.fn()
+describe("createUser", () => {
+  const dispatch = jest.fn();
 
-    beforeEach(() => {
-        dispatch.mockClear()
+  beforeEach(() => {
+    dispatch.mockClear();
+  });
+
+  test("should dispatch success when user created successfully", async () => {
+    const user = {
+      someUser: "some value"
+    };
+    const responseBody = {
+      someResponse: "the response"
+    };
+
+    nock("http://localhost", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer TEST_TOKEN`
+      }
     })
+      .post("/api/users", user)
+      .reply(201, responseBody);
 
-    test('should dispatch success when user created successfully', async () => {
-        const user = {
-            someUser: 'some value'
-        }
-        const responseBody = {
-            someResponse: 'the response'
-        }
+    await createUser(user)(dispatch);
 
-        nock('http://localhost', {
-            reqheaders: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer TEST_TOKEN`
-            }
-        })
-            .post('/api/users', user)
-            .reply(201, responseBody)
+    expect(dispatch).toHaveBeenCalledWith(createUserSuccess(responseBody));
+  });
 
-        await createUser(user)(dispatch)
+  test("should dispatch failure when user not created successfully", async () => {
+    const user = {
+      someUser: "some value"
+    };
 
-        expect(dispatch).toHaveBeenCalledWith(
-            createUserSuccess(responseBody)
-        )
+    nock("http://localhost", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer TEST_TOKEN`
+      }
     })
+      .post("/api/users", user)
+      .reply(500);
 
-    test('should dispatch failure when user not created successfully', async () => {
-        const user = {
-            someUser: 'some value'
-        }
+    await createUser(user)(dispatch);
 
-        nock('http://localhost', {
-            reqheaders: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer TEST_TOKEN`
+    expect(dispatch).toHaveBeenCalledWith(createUserFailure());
+  });
 
-            }
-        })
-            .post('/api/users', user)
-            .reply(500)
+  test("should not dispatch success if unauthorized and should redirect", async () => {
+    const user = { someUser: "some value" };
 
-        await createUser(user)(dispatch)
-
-        expect(dispatch).toHaveBeenCalledWith(
-            createUserFailure()
-        )
+    nock("http://localhost", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer TEST_TOKEN`
+      }
     })
+      .post("/api/users", user)
+      .reply(401, user);
 
-    test('should not dispatch success if unauthorized and should redirect', async () => {
-        const user = { someUser: 'some value' }
+    await createUser(user)(dispatch);
 
-        nock('http://localhost', {
-            reqheaders: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer TEST_TOKEN`
-            }
-        })
-            .post('/api/users', user)
-            .reply(401, user)
+    expect(dispatch).not.toHaveBeenCalledWith(createUserSuccess(user));
+    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
+  });
 
-        await createUser(user)(dispatch)
+  test("should redirect immediately if token missing", async () => {
+    getAccessToken.mockImplementation(() => false);
 
-        expect(dispatch).not.toHaveBeenCalledWith(createUserSuccess(user))
-        expect(dispatch).toHaveBeenCalledWith(push(`/login`))
+    const user = { someUser: "some value" };
+
+    nock("http://localhost", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer TEST_TOKEN`
+      }
     })
+      .post("/api/users", user)
+      .reply(201, user);
 
-    test('should redirect immediately if token missing', async () => {
-        getAccessToken.mockImplementation(() => false)
+    await createUser(user)(dispatch);
 
-        const user = { someUser: 'some value' }
-
-        nock('http://localhost', {
-            reqheaders: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer TEST_TOKEN`
-            }
-        })
-            .post('/api/users', user)
-            .reply(201, user)
-
-        await createUser(user)(dispatch)
-
-        expect(dispatch).not.toHaveBeenCalledWith(createUserSuccess(user))
-        expect(dispatch).toHaveBeenCalledWith(push(`/login`))
-    })
-})
+    expect(dispatch).not.toHaveBeenCalledWith(createUserSuccess(user));
+    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
+  });
+});

@@ -1,56 +1,52 @@
 import DisplayAccusedOfficer from "./DisplayAccusedOfficer";
 import React from "react";
-import {mount} from "enzyme";
+import { mount } from "enzyme";
 import CaseOfficer from "../../testUtilities/caseOfficer";
-import {containsText} from "../../../testHelpers";
+import { containsText } from "../../../testHelpers";
 
-describe('DisplayAccusedOfficer', () => {
-    test('should display an accused officer', () => {
-        const accusedOfficer = new CaseOfficer.Builder().defaultCaseOfficer().build()
-        const accusedOfficers = [accusedOfficer]
-        const wrapper = mount(
-            <DisplayAccusedOfficer
-                accusedOfficers={accusedOfficers}
-            />
-        )
+describe("DisplayAccusedOfficer", () => {
+  test("should display an accused officer", () => {
+    const accusedOfficer = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .build();
+    const accusedOfficers = [accusedOfficer];
+    const wrapper = mount(
+      <DisplayAccusedOfficer accusedOfficers={accusedOfficers} />
+    );
 
-        containsText(wrapper, '[data-test="accusedOfficerName"]', accusedOfficer.officer.fullName)
-    })
+    containsText(
+      wrapper,
+      '[data-test="accusedOfficerName"]',
+      accusedOfficer.officer.fullName
+    );
+  });
 
-    test('should be blank when no accused officers', () => {
-        const wrapper = mount(
-            <DisplayAccusedOfficer
-                accusedOfficers={[]}
-            />
-        )
+  test("should be blank when no accused officers", () => {
+    const wrapper = mount(<DisplayAccusedOfficer accusedOfficers={[]} />);
 
-        const nameDisplay = wrapper.find('div[data-test="accusedOfficerName"]')
-        expect(nameDisplay.text()).toEqual('')
-    })
+    const nameDisplay = wrapper.find('div[data-test="accusedOfficerName"]');
+    expect(nameDisplay.text()).toEqual("");
+  });
 
-    test('should be blank when accused officers is null', () => {
-        const wrapper = mount(
-            <DisplayAccusedOfficer
-                accusedOfficers={null}
-            />
-        )
+  test("should be blank when accused officers is null", () => {
+    const wrapper = mount(<DisplayAccusedOfficer accusedOfficers={null} />);
 
-        const nameDisplay = wrapper.find('div[data-test="accusedOfficerName"]')
-        expect(nameDisplay.text()).toEqual('')
-    })
+    const nameDisplay = wrapper.find('div[data-test="accusedOfficerName"]');
+    expect(nameDisplay.text()).toEqual("");
+  });
 
-    test('should be blank when accused officer present but officer details are not', () => {
-        const accusedOfficer = new CaseOfficer.Builder().defaultCaseOfficer().build()
-        const { officer, ...accusedOfficerWithoutOfficerDetails } = accusedOfficer
-        const accusedOfficers = [accusedOfficerWithoutOfficerDetails]
+  test("should be blank when accused officer present but officer details are not", () => {
+    const accusedOfficer = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .build();
+    const { officer, ...accusedOfficerWithoutOfficerDetails } = accusedOfficer;
+    const accusedOfficers = [accusedOfficerWithoutOfficerDetails];
 
-        const wrapper = mount(
-            <DisplayAccusedOfficer
-                accusedOfficers={accusedOfficers}
-            />
-        )
+    const wrapper = mount(
+      <DisplayAccusedOfficer accusedOfficers={accusedOfficers} />
+    );
 
-        const nameDisplay = wrapper.find('div[data-test="accusedOfficerName"]')
-        expect(nameDisplay.text()).toEqual('')
-    })
+    const nameDisplay = wrapper.find('div[data-test="accusedOfficerName"]');
+    expect(nameDisplay.text()).toEqual("");
+  });
 });

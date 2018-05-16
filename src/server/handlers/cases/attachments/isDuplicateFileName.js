@@ -1,15 +1,14 @@
-const models = require("../../../models")
+const models = require("../../../models");
 
 const isDuplicateFileName = async (caseId, requestedFileName) => {
-    const attachmentsWithSimilarName = await models.attachment.count(
-        {
-            where: {
-                caseId: caseId,
-                fileName: requestedFileName
-            }
-        })
+  const attachmentsWithSimilarName = await models.attachment.count({
+    where: {
+      caseId: caseId,
+      fileName: requestedFileName
+    }
+  });
 
-    return attachmentsWithSimilarName > 0
-}
+  return attachmentsWithSimilarName > 0;
+};
 
-module.exports = isDuplicateFileName
+module.exports = isDuplicateFileName;

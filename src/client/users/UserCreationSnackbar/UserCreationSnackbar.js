@@ -1,17 +1,17 @@
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import SharedSnackbar from "../../sharedComponents/SharedSnackbar";
-import {closeSnackbar} from "../../actionCreators/snackBarActionCreators";
+import { closeSnackbar } from "../../actionCreators/snackBarActionCreators";
 
 const mapStateToProps = state => {
-    return {
-        message: state.ui.snackbar.message,
-        success: state.ui.snackbar.success,
-        open: state.ui.snackbar.open,
-    }
-}
-
-const mapDispatchToProps = {
-    closeSnackbar: closeSnackbar
+  return {
+    message: state.ui.snackbar.message,
+    success: state.ui.snackbar.success,
+    open: state.ui.snackbar.open
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SharedSnackbar)
+const mapDispatchToProps = {
+  closeSnackbar: closeSnackbar
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SharedSnackbar);

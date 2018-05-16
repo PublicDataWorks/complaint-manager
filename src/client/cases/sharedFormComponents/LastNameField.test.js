@@ -1,47 +1,52 @@
-import React from 'react';
+import React from "react";
 import LastNameField from "./LastNameField";
 import createConfiguredStore from "../../createConfiguredStore";
-import {Provider} from 'react-redux';
-import {reduxForm} from 'redux-form';
-import {mount} from "enzyme/build/index";
-import {changeInput} from "../../../testHelpers";
+import { Provider } from "react-redux";
+import { reduxForm } from "redux-form";
+import { mount } from "enzyme/build/index";
+import { changeInput } from "../../../testHelpers";
 
-describe('Last Name field', () => {
-    let lastNameField, lastNameInput;
-    
-    beforeEach(() => {
-        const ReduxFormField = reduxForm({form: "testForm"})(() => <LastNameField name={'lastName'}/>)
-        const store = createConfiguredStore()
-        lastNameField = mount(<Provider store={store}><ReduxFormField/></Provider>)    
-        lastNameInput = lastNameField.find('input[data-test="lastNameInput"]').last()
-    })
+describe("Last Name field", () => {
+  let lastNameField, lastNameInput;
 
-    test('last name should have max length of 25 characters', () => {
-        const lastName = lastNameField.find('input[data-test="lastNameInput"]')
-        expect(lastName.props().maxLength).toEqual(25)
-    })
+  beforeEach(() => {
+    const ReduxFormField = reduxForm({ form: "testForm" })(() => (
+      <LastNameField name={"lastName"} />
+    ));
+    const store = createConfiguredStore();
+    lastNameField = mount(
+      <Provider store={store}>
+        <ReduxFormField />
+      </Provider>
+    );
+    lastNameInput = lastNameField
+      .find('input[data-test="lastNameInput"]')
+      .last();
+  });
 
-    test('last name should not use autoComplete', () => {
-        const lastName = lastNameField.find('input[data-test="lastNameInput"]')
-        expect(lastName.props().autoComplete).toEqual('off')
-    })
+  test("last name should have max length of 25 characters", () => {
+    const lastName = lastNameField.find('input[data-test="lastNameInput"]');
+    expect(lastName.props().maxLength).toEqual(25);
+  });
 
-    test('should not be an empty string', () => {
+  test("last name should not use autoComplete", () => {
+    const lastName = lastNameField.find('input[data-test="lastNameInput"]');
+    expect(lastName.props().autoComplete).toEqual("off");
+  });
 
-        lastNameInput.simulate('focus')
-        changeInput(lastNameInput, '[data-test="lastNameInput"]', "")
-        lastNameInput.simulate('blur')
+  test("should not be an empty string", () => {
+    lastNameInput.simulate("focus");
+    changeInput(lastNameInput, '[data-test="lastNameInput"]', "");
+    lastNameInput.simulate("blur");
 
-        expect(lastNameField.text()).toContain('Please enter Last Name')
-    })
+    expect(lastNameField.text()).toContain("Please enter Last Name");
+  });
 
-    test('should display error when whitespace', () => {
-        lastNameInput.simulate('focus')
-        lastNameInput.simulate('change', {target: {value: '   '}})
-        lastNameInput.simulate('blur')
+  test("should display error when whitespace", () => {
+    lastNameInput.simulate("focus");
+    lastNameInput.simulate("change", { target: { value: "   " } });
+    lastNameInput.simulate("blur");
 
-        expect(lastNameField.text()).toContain('Please enter Last Name')
-    })
-
-
-})
+    expect(lastNameField.text()).toContain("Please enter Last Name");
+  });
+});

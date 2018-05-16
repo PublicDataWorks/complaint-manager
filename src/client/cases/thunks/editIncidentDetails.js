@@ -1,45 +1,51 @@
 import getAccessToken from "../../auth/getAccessToken";
-import {push} from "react-router-redux"
+import { push } from "react-router-redux";
 import config from "../../config/config";
-import {updateIncidentDetailsFailure, updateIncidentDetailsSuccess} from "../../actionCreators/casesActionCreators";
+import {
+  updateIncidentDetailsFailure,
+  updateIncidentDetailsSuccess
+} from "../../actionCreators/casesActionCreators";
 import getRecentActivity from "./getRecentActivity";
 
+const hostname = config[process.env.NODE_ENV].hostname;
 
-const hostname = config[process.env.NODE_ENV].hostname
+const editIncidentDetails = (
+  incidentDetails,
+  closeDialogCallback
+) => async dispatch => {
+  try {
+    const token = getAccessToken();
 
-
-const editIncidentDetails = (incidentDetails, closeDialogCallback) => async (dispatch) => {
-    try {
-        const token = getAccessToken()
-
-        if (!token) {
-            return dispatch(push('/login'))
-        }
-
-        const response = await fetch(`${hostname}/api/cases/${incidentDetails.id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(incidentDetails)
-        })
-
-        switch (response.status) {
-            case 200:
-                const updatedCase = await response.json()
-                closeDialogCallback()
-                dispatch(updateIncidentDetailsSuccess(updatedCase))
-                return await dispatch(getRecentActivity(updatedCase.id))
-            case 401:
-                return dispatch(push('/login'))
-            default:
-                return dispatch(updateIncidentDetailsFailure())
-        }
+    if (!token) {
+      return dispatch(push("/login"));
     }
-    catch (error) {
-        return dispatch(updateIncidentDetailsFailure())
-    }
-}
 
-export default editIncidentDetails
+    const response = await fetch(
+      `${hostname}/api/cases/${incidentDetails.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(incidentDetails)
+      }
+    );
+
+    switch (response.status) {
+      case 200:
+        const updatedCase = await response.json();
+        closeDialogCallback();
+        dispatch(updateIncidentDetailsSuccess(updatedCase));
+        return await dispatch(getRecentActivity(updatedCase.id));
+      case 401:
+        return dispatch(push("/login"));
+      default:
+        return dispatch(updateIncidentDetailsFailure());
+    }
+  } catch (error) {
+    return dispatch(updateIncidentDetailsFailure());
+  }
+};
+
+export default editIncidentDetails;

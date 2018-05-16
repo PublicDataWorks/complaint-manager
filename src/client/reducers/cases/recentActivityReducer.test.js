@@ -1,58 +1,70 @@
 import recentActivityReducer from "./recentActivityReducer";
 import {
-    addUserActionSuccess, editUserActionSuccess,
-    getRecentActivitySuccess,
-    removeUserActionSuccess
+  addUserActionSuccess,
+  editUserActionSuccess,
+  getRecentActivitySuccess,
+  removeUserActionSuccess
 } from "../../actionCreators/casesActionCreators";
 
-describe('recentActivityReducer', () => {
-    test('should set default state', () => {
-        const newState = recentActivityReducer(undefined, {type: 'SOME_ACTION'})
+describe("recentActivityReducer", () => {
+  test("should set default state", () => {
+    const newState = recentActivityReducer(undefined, { type: "SOME_ACTION" });
 
-        expect(newState).toEqual([])
-    })
+    expect(newState).toEqual([]);
+  });
 
-    test('should return recent activity array after successful get', () => {
-        const expectedRecentActivity = ['action 1', 'action 2']
-        const newState = recentActivityReducer([], getRecentActivitySuccess(expectedRecentActivity))
+  test("should return recent activity array after successful get", () => {
+    const expectedRecentActivity = ["action 1", "action 2"];
+    const newState = recentActivityReducer(
+      [],
+      getRecentActivitySuccess(expectedRecentActivity)
+    );
 
-        expect(newState).toEqual(expectedRecentActivity)
-    })
+    expect(newState).toEqual(expectedRecentActivity);
+  });
 
-    test('should return recent activity after user action logged', () => {
-        const expectedRecentActivity = ['action 1', 'action 2']
+  test("should return recent activity after user action logged", () => {
+    const expectedRecentActivity = ["action 1", "action 2"];
 
-        const newState = recentActivityReducer([], addUserActionSuccess(expectedRecentActivity))
-        expect(newState).toEqual(expectedRecentActivity)
-    })
+    const newState = recentActivityReducer(
+      [],
+      addUserActionSuccess(expectedRecentActivity)
+    );
+    expect(newState).toEqual(expectedRecentActivity);
+  });
 
-    test('should replace recent activity after removing user action', () => {
-        const oldState = {some: 'old state'}
+  test("should replace recent activity after removing user action", () => {
+    const oldState = { some: "old state" };
 
-        const userActionDetails = {
-            details: {
-                some: 'new state'
-            },
-            recentActivity: {
-                not: 'copied over'
-            }
+    const userActionDetails = {
+      details: {
+        some: "new state"
+      },
+      recentActivity: {
+        not: "copied over"
+      }
+    };
 
-        }
+    const newState = recentActivityReducer(
+      oldState,
+      removeUserActionSuccess(userActionDetails)
+    );
 
-        const newState = recentActivityReducer(oldState, removeUserActionSuccess(userActionDetails))
+    expect(newState).toEqual(userActionDetails.recentActivity);
+  });
 
-        expect(newState).toEqual(userActionDetails.recentActivity)
-    })
+  test("should replace recent activity after editing user action", () => {
+    const oldState = { some: "old state" };
 
-    test('should replace recent activity after editing user action', () => {
-        const oldState = {some: 'old state'}
+    const userActionDetails = {
+      some: "new state"
+    };
 
-        const userActionDetails = {
-            some: 'new state'
-        }
+    const newState = recentActivityReducer(
+      oldState,
+      editUserActionSuccess(userActionDetails)
+    );
 
-        const newState = recentActivityReducer(oldState, editUserActionSuccess(userActionDetails))
-
-        expect(newState).toEqual(userActionDetails)
-    })
+    expect(newState).toEqual(userActionDetails);
+  });
 });

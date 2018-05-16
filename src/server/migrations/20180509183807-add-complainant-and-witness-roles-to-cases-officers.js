@@ -1,13 +1,17 @@
-'use strict';
+"use strict";
 
 module.exports = {
-    up: async (queryInterface, Sequelize) => {
-        await queryInterface.sequelize.query("ALTER TYPE enum_cases_officers_role_on_case ADD VALUE 'Complainant'");
-        await queryInterface.sequelize.query("ALTER TYPE enum_cases_officers_role_on_case ADD VALUE 'Witness'");
-    },
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.sequelize.query(
+      "ALTER TYPE enum_cases_officers_role_on_case ADD VALUE 'Complainant'"
+    );
+    await queryInterface.sequelize.query(
+      "ALTER TYPE enum_cases_officers_role_on_case ADD VALUE 'Witness'"
+    );
+  },
 
-    down: (queryInterface, Sequelize) => {
-        return queryInterface.sequelize.query(`
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.sequelize.query(`
         DELETE 
         FROM
             pg_enum
@@ -23,5 +27,5 @@ module.exports = {
                     typname = 'enum_cases_officers_role_on_case'
             )
     `);
-    }
+  }
 };

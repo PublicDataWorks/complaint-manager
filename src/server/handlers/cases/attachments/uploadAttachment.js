@@ -1,84 +1,89 @@
-const Busboy = require('busboy')
-const models = require('../../../models/index')
-const isDuplicateFileName = require("./isDuplicateFileName")
-const createConfiguredS3Instance = require("./createConfiguredS3Instance")
-const config = require("../../../config/config")
-const DUPLICATE_FILE_NAME = require("../../../../sharedUtilities/constants").DUPLICATE_FILE_NAME
-const getCaseWithAllAssociations = require('../../getCaseWithAllAssociations');
+const Busboy = require("busboy");
+const models = require("../../../models/index");
+const isDuplicateFileName = require("./isDuplicateFileName");
+const createConfiguredS3Instance = require("./createConfiguredS3Instance");
+const config = require("../../../config/config");
+const DUPLICATE_FILE_NAME = require("../../../../sharedUtilities/constants")
+  .DUPLICATE_FILE_NAME;
+const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
 
 const uploadAttachment = (request, response, next) => {
-    let managedUpload
-    const caseId = request.params.id
-    const busboy = new Busboy({
-        headers: request.headers
-    })
+  let managedUpload;
+  const caseId = request.params.id;
+  const busboy = new Busboy({
+    headers: request.headers
+  });
 
-    let attachmentDescription
+  let attachmentDescription;
 
-    busboy.on('field', function(fieldname, value) {
-        if (fieldname === "description") {
-            attachmentDescription = value
-        }
-    })
+  busboy.on("field", function(fieldname, value) {
+    if (fieldname === "description") {
+      attachmentDescription = value;
+    }
+  });
 
-    busboy.on('file', async function (fieldname, file, fileName, encoding, mimetype) {
-        const s3 = createConfiguredS3Instance()
+  busboy.on("file", async function(
+    fieldname,
+    file,
+    fileName,
+    encoding,
+    mimetype
+  ) {
+    const s3 = createConfiguredS3Instance();
 
-        try {
-            if (await isDuplicateFileName(caseId, fileName)) {
+    try {
+      if (await isDuplicateFileName(caseId, fileName)) {
+        response.status(409).send(DUPLICATE_FILE_NAME);
+      } else {
+        managedUpload = s3.upload({
+          Bucket: config[process.env.NODE_ENV].s3Bucket,
+          Key: `${caseId}/${fileName}`,
+          Body: file
+        });
 
-                response.status(409).send(DUPLICATE_FILE_NAME)
+        const data = await managedUpload.promise();
 
-            } else {
-                managedUpload = s3.upload({
-                    Bucket: config[process.env.NODE_ENV].s3Bucket,
-                    Key: `${caseId}/${fileName}`,
-                    Body: file
-                })
-
-                const data = await managedUpload.promise()
-
-                const updatedCase = await models.sequelize.transaction(async (t) => {
-                    await models.attachment.create({
-                            fileName: fileName,
-                            description: attachmentDescription,
-                            caseId: caseId
-                        },
-                        {
-                            transaction: t
-                        })
-
-                    await models.audit_log.create({
-                        caseId: caseId,
-                        user: request.nickname,
-                        action: `Attachment added`
-                    })
-
-                    await models.cases.update(
-                        {status: 'Active'},
-                        {
-                            where: {id: caseId},
-                            transaction: t
-                        }
-                    )
-
-                    return await getCaseWithAllAssociations(caseId, t)
-                })
-
-                response.send(updatedCase)
+        const updatedCase = await models.sequelize.transaction(async t => {
+          await models.attachment.create(
+            {
+              fileName: fileName,
+              description: attachmentDescription,
+              caseId: caseId
+            },
+            {
+              transaction: t
             }
+          );
 
-        } catch (error) {
-            next(error)
-        }
-    })
+          await models.audit_log.create({
+            caseId: caseId,
+            user: request.nickname,
+            action: `Attachment added`
+          });
 
-    request.on('close', () => {
-        managedUpload.abort()
-    })
+          await models.cases.update(
+            { status: "Active" },
+            {
+              where: { id: caseId },
+              transaction: t
+            }
+          );
 
-    request.pipe(busboy);
-}
+          return await getCaseWithAllAssociations(caseId, t);
+        });
 
-module.exports = uploadAttachment
+        response.send(updatedCase);
+      }
+    } catch (error) {
+      next(error);
+    }
+  });
 
+  request.on("close", () => {
+    managedUpload.abort();
+  });
+
+  request.pipe(busboy);
+};
+
+module.exports = uploadAttachment;

@@ -5,172 +5,187 @@ import * as httpMocks from "node-mocks-http";
 import Officer from "../../../../client/testUtilities/Officer";
 
 describe("addCaseOfficer", () => {
+  afterEach(async () => {
+    await models.address.destroy({
+      truncate: true,
+      cascade: true,
+      force: true
+    });
+    await models.case_officer.destroy({ truncate: true, cascade: true });
+    await models.cases.destroy({ truncate: true, cascade: true });
+    await models.officer.destroy({ truncate: true, cascade: true });
+    await models.audit_log.destroy({ truncate: true, cascade: true });
+    await models.civilian.destroy({
+      truncate: true,
+      cascade: true,
+      force: true
+    });
+  });
 
-    afterEach(async () => {
-        await models.address.destroy({truncate: true, cascade: true, force: true})
-        await models.case_officer.destroy({truncate: true, cascade: true})
-        await models.cases.destroy({truncate: true, cascade: true})
-        await models.officer.destroy({truncate: true, cascade: true})
-        await models.audit_log.destroy({truncate: true, cascade: true})
-        await models.civilian.destroy({truncate: true, cascade: true, force: true})
+  test("should change the case status to active when any officer is added", async () => {
+    const caseToCreate = new Case.Builder()
+      .defaultCase()
+      .withId(undefined)
+      .withStatus("Initial")
+      .withIncidentLocation(undefined);
+
+    const createdCase = await models.cases.create(caseToCreate);
+
+    const request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: createdCase.id
+      },
+      body: {
+        officerId: null,
+        roleOnCase: "Accused",
+        notes: "these are notes"
+      },
+      nickname: "TEST_USER_NICKNAME"
     });
 
-    test("should change the case status to active when any officer is added", async () => {
-        const caseToCreate = new Case.Builder()
-            .defaultCase()
-            .withId(undefined)
-            .withStatus("Initial")
-            .withIncidentLocation(undefined);
+    const response = httpMocks.createResponse();
 
-        const createdCase = await models.cases.create(caseToCreate);
+    await addCaseOfficer(request, response, jest.fn());
 
-        const request = httpMocks.createRequest({
-            method: "POST",
-            headers: {
-                authorization: "Bearer SOME_MOCK_TOKEN"
-            },
-            params: {
-                caseId: createdCase.id
-            },
-            body: {
-                officerId: null,
-                roleOnCase: "Accused",
-                notes: "these are notes"
-            },
-            nickname: "TEST_USER_NICKNAME"
-        });
+    const caseOfInterest = await models.cases.findById(createdCase.id);
+    expect(caseOfInterest).toEqual(
+      expect.objectContaining({
+        status: "Active"
+      })
+    );
+  });
 
-        const response = httpMocks.createResponse();
+  test("should create a case_officer record when adding known officer to a case", async () => {
+    const caseToCreate = new Case.Builder()
+      .defaultCase()
+      .withId(undefined)
+      .withStatus("Initial")
+      .withIncidentLocation(undefined);
 
-        await addCaseOfficer(request, response, jest.fn());
+    const officerToCreate = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined);
 
-        const caseOfInterest = await models.cases.findById(createdCase.id);
-        expect(caseOfInterest).toEqual(
-            expect.objectContaining({
-                status: "Active"
-            })
-        );
+    const createdCase = await models.cases.create(caseToCreate);
+    const createdOfficer = await models.officer.create(officerToCreate);
+
+    const officerAttributes = {
+      officerId: createdOfficer.id,
+      roleOnCase: "Accused",
+      notes: "these are notes"
+    };
+
+    const request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: createdCase.id
+      },
+      body: officerAttributes,
+      nickname: "TEST_USER_NICKNAME"
     });
 
-    test("should create a case_officer record when adding known officer to a case", async () => {
-        const caseToCreate = new Case.Builder()
-            .defaultCase()
-            .withId(undefined)
-            .withStatus("Initial")
-            .withIncidentLocation(undefined);
+    const response = httpMocks.createResponse();
 
-        const officerToCreate = new Officer.Builder()
-            .defaultOfficer()
-            .withId(undefined)
+    await addCaseOfficer(request, response, jest.fn());
 
-        const createdCase = await models.cases.create(caseToCreate);
-        const createdOfficer = await models.officer.create(officerToCreate);
-
-        const officerAttributes = {
-            officerId: createdOfficer.id,
-            roleOnCase: "Accused",
-            notes: "these are notes"
-        }
-
-        const request = httpMocks.createRequest({
-            method: "POST",
-            headers: {
-                authorization: "Bearer SOME_MOCK_TOKEN"
-            },
-            params: {
-                caseId: createdCase.id
-            },
-            body: officerAttributes,
-            nickname: "TEST_USER_NICKNAME"
-        });
-
-        const response = httpMocks.createResponse();
-
-        await addCaseOfficer(request, response, jest.fn());
-
-        const caseOfficerCreated = await models.case_officer.findOne({where: {caseId: createdCase.id}});
-
-        expect(caseOfficerCreated).toEqual(
-            expect.objectContaining({
-                officerId: createdOfficer.id,
-                notes: officerAttributes.notes,
-                roleOnCase: officerAttributes.roleOnCase,
-            }))
+    const caseOfficerCreated = await models.case_officer.findOne({
+      where: { caseId: createdCase.id }
     });
 
-    test("should create a case_officer record when adding unknown officer to a case", async () => {
-        const caseToCreate = new Case.Builder()
-            .defaultCase()
-            .withId(undefined)
-            .withStatus("Initial")
-            .withIncidentLocation(undefined);
+    expect(caseOfficerCreated).toEqual(
+      expect.objectContaining({
+        officerId: createdOfficer.id,
+        notes: officerAttributes.notes,
+        roleOnCase: officerAttributes.roleOnCase
+      })
+    );
+  });
 
-        const createdCase = await models.cases.create(caseToCreate);
+  test("should create a case_officer record when adding unknown officer to a case", async () => {
+    const caseToCreate = new Case.Builder()
+      .defaultCase()
+      .withId(undefined)
+      .withStatus("Initial")
+      .withIncidentLocation(undefined);
 
-        const officerAttributes = {
-            officerId: null,
-            roleOnCase: "Accused",
-            notes: "these are notes"
-        }
+    const createdCase = await models.cases.create(caseToCreate);
 
-        const request = httpMocks.createRequest({
-            method: "POST",
-            headers: {
-                authorization: "Bearer SOME_MOCK_TOKEN"
-            },
-            params: {
-                caseId: createdCase.id
-            },
-            body: officerAttributes,
-            nickname: "TEST_USER_NICKNAME"
-        });
+    const officerAttributes = {
+      officerId: null,
+      roleOnCase: "Accused",
+      notes: "these are notes"
+    };
 
-        const response = httpMocks.createResponse();
-
-        await addCaseOfficer(request, response, jest.fn());
-
-        const caseOfficerCreated = await models.case_officer.findOne({where: { caseId: createdCase.id }});
-
-        expect(caseOfficerCreated).toEqual(
-            expect.objectContaining({
-                officerId: null,
-                notes: officerAttributes.notes,
-                roleOnCase: officerAttributes.roleOnCase,
-            }))
+    const request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: createdCase.id
+      },
+      body: officerAttributes,
+      nickname: "TEST_USER_NICKNAME"
     });
 
-    test('should track add officer in audit log', async () => {
-        const caseToCreate = new Case.Builder()
-            .defaultCase()
-            .withId(undefined)
-            .withStatus("Initial")
-            .withIncidentLocation(undefined);
+    const response = httpMocks.createResponse();
 
-        const createdCase = await models.cases.create(caseToCreate);
+    await addCaseOfficer(request, response, jest.fn());
 
-        const officerAttributes = {
-            officerId: null,
-            roleOnCase: "Accused",
-            notes: "these are notes"
-        }
+    const caseOfficerCreated = await models.case_officer.findOne({
+      where: { caseId: createdCase.id }
+    });
 
-        const request = httpMocks.createRequest({
-            method: "POST",
-            headers: {
-                authorization: "Bearer SOME_MOCK_TOKEN"
-            },
-            params: {
-                caseId: createdCase.id
-            },
-            body: officerAttributes,
-            nickname: "TEST_USER_NICKNAME"
-        });
+    expect(caseOfficerCreated).toEqual(
+      expect.objectContaining({
+        officerId: null,
+        notes: officerAttributes.notes,
+        roleOnCase: officerAttributes.roleOnCase
+      })
+    );
+  });
 
-        const response = httpMocks.createResponse();
+  test("should track add officer in audit log", async () => {
+    const caseToCreate = new Case.Builder()
+      .defaultCase()
+      .withId(undefined)
+      .withStatus("Initial")
+      .withIncidentLocation(undefined);
 
-        await addCaseOfficer(request, response, jest.fn());
-        const auditLog = await models.audit_log.findAll({where: {caseId: createdCase.id}})
-        expect(auditLog.length).toEqual(1)
-        expect(auditLog[0].dataValues.action).toEqual("Officer Added as Accused")
-    })
+    const createdCase = await models.cases.create(caseToCreate);
+
+    const officerAttributes = {
+      officerId: null,
+      roleOnCase: "Accused",
+      notes: "these are notes"
+    };
+
+    const request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: createdCase.id
+      },
+      body: officerAttributes,
+      nickname: "TEST_USER_NICKNAME"
+    });
+
+    const response = httpMocks.createResponse();
+
+    await addCaseOfficer(request, response, jest.fn());
+    const auditLog = await models.audit_log.findAll({
+      where: { caseId: createdCase.id }
+    });
+    expect(auditLog.length).toEqual(1);
+    expect(auditLog[0].dataValues.action).toEqual("Officer Added as Accused");
+  });
 });

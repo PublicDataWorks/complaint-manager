@@ -1,13 +1,13 @@
-import {OPENID, PROFILE} from "../../sharedUtilities/constants";
+import { OPENID, PROFILE } from "../../sharedUtilities/constants";
 
-const parsePermissions = (auth0Scope) => {
-    if (!Boolean(auth0Scope)){
-        return []
-    }
+const parsePermissions = auth0Scope => {
+  if (!Boolean(auth0Scope)) {
+    return [];
+  }
 
-    const allScopeValues = auth0Scope.split(" ");
-    const ignoredValues = [OPENID, PROFILE];
-    return allScopeValues.filter(value => !ignoredValues.includes(value));
-}
+  const allScopeValues = auth0Scope.split(" ");
+  const ignoredValues = [OPENID, PROFILE];
+  return allScopeValues.filter(value => !ignoredValues.includes(value));
+};
 
-export default parsePermissions
+export default parsePermissions;

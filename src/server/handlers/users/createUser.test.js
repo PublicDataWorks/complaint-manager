@@ -1,125 +1,131 @@
 const createUser = require("./createUser");
 const httpMocks = require("node-mocks-http");
-const models = require('../../models/index')
-const generatePassword = require('password-generator')
-const transporter = require('../../email/transporter')
+const models = require("../../models/index");
+const generatePassword = require("password-generator");
+const transporter = require("../../email/transporter");
 
-jest.mock('../../models', () => ({
-    users: {
-        create: jest.fn()
-    }
-}))
+jest.mock("../../models", () => ({
+  users: {
+    create: jest.fn()
+  }
+}));
 
-jest.mock('password-generator', () => jest.fn(() => "TEST_PASSWORD"))
+jest.mock("password-generator", () => jest.fn(() => "TEST_PASSWORD"));
 
-jest.mock('../../email/transporter', () => ({
-    sendMail: jest.fn()
-}))
+jest.mock("../../email/transporter", () => ({
+  sendMail: jest.fn()
+}));
 
+describe("create user", () => {
+  let request, response;
 
-describe('create user', () => {
-    let request, response
+  beforeEach(() => {
+    request = httpMocks.createRequest({
+      method: "POST",
+      body: {
+        firstName: "First",
+        lastName: "Last",
+        email: "blah@mail.org"
+      }
+    });
 
-    beforeEach(() => {
-        request = httpMocks.createRequest({
-            method: 'POST',
-            body: {
-                firstName: "First",
-                lastName: "Last",
-                email: "blah@mail.org"
-            }
-        })
+    response = httpMocks.createResponse();
 
-        response = httpMocks.createResponse()
+    const createdUser = {
+      email: "blah@mail.org",
+      password: "SUPER_SECRET_PASSWORD"
+    };
 
-        const createdUser = {
-            email: "blah@mail.org",
-            password: "SUPER_SECRET_PASSWORD"
-        };
+    models.users.create.mockImplementation(() => {
+      return Promise.resolve(createdUser);
+    });
 
-        models.users.create.mockImplementation(() => {
-            return Promise.resolve(createdUser)
-        })
+    transporter.sendMail.mockReset();
+  });
 
-       transporter.sendMail.mockReset()
-    })
+  test("should create user with generated password", async () => {
+    transporter.sendMail.mockImplementation(() =>
+      Promise.resolve({ accepted: "", response: "", rejected: "" })
+    );
+    await createUser(request, response);
 
-    test('should create user with generated password', async () => {
-        transporter.sendMail.mockImplementation(() => Promise.resolve({accepted: '', response: '', rejected: ''}))
-        await createUser(request, response)
+    expect(models.users.create).toHaveBeenCalledWith({
+      firstName: "First",
+      lastName: "Last",
+      email: "blah@mail.org",
+      password: "TEST_PASSWORD"
+    });
+  });
 
-        expect(models.users.create).toHaveBeenCalledWith({
-            firstName: 'First',
-            lastName: 'Last',
-            email: "blah@mail.org",
-            password: "TEST_PASSWORD"
-        })
-    })
+  test("should generate a 12 character password", async () => {
+    transporter.sendMail.mockImplementation(() =>
+      Promise.resolve({ accepted: "", response: "", rejected: "" })
+    );
 
-    test('should generate a 12 character password', async () => {
-        transporter.sendMail.mockImplementation(() => Promise.resolve({accepted: '', response: '', rejected: ''}))
+    await createUser(request, response);
 
-        await createUser(request, response)
+    expect(generatePassword).toHaveBeenCalledWith(12);
+  });
 
-        expect(generatePassword).toHaveBeenCalledWith(12)
-    })
+  test("should respond with 201 code", async () => {
+    transporter.sendMail.mockImplementation(() =>
+      Promise.resolve({ accepted: "", response: "", rejected: "" })
+    );
+    await createUser(request, response);
 
-    test('should respond with 201 code', async () => {
-        transporter.sendMail.mockImplementation(() => Promise.resolve({accepted: '', response: '', rejected: ''}))
-        await createUser(request, response)
+    expect(response.statusCode).toEqual(201);
+  });
 
-        expect(response.statusCode).toEqual(201)
-    })
+  test("should respond with 500 when create user fails", async () => {
+    const next = jest.fn();
+    const error = new Error("DB Down!");
 
-    test('should respond with 500 when create user fails', async () => {
-        const next = jest.fn()
-        const error = new Error('DB Down!')
+    models.users.create.mockImplementation(() => Promise.reject(error));
 
-        models.users.create.mockImplementation(() => Promise.reject(error))
+    await createUser(request, response, next);
 
-        await createUser(request, response, next)
+    expect(next).toHaveBeenCalledWith(error);
+  });
 
-        expect(next).toHaveBeenCalledWith(error)
-    })
+  test("should invoke send email when user is successfully created", async () => {
+    transporter.sendMail.mockImplementation(() =>
+      Promise.resolve({ accepted: "", response: "", rejected: "" })
+    );
 
-    test('should invoke send email when user is successfully created', async () => {
-        transporter.sendMail.mockImplementation(() => Promise.resolve({accepted: '', response: '', rejected: ''}))
-
-
-        const message = {
-            from: 'test_env_email@example.com',
-            to: 'blah@mail.org',
-            subject: 'You have been added to NOIPM Complaint Manager',
-            text: `A new password has been generated for you. Login with the password below:
+    const message = {
+      from: "test_env_email@example.com",
+      to: "blah@mail.org",
+      subject: "You have been added to NOIPM Complaint Manager",
+      text: `A new password has been generated for you. Login with the password below:
 
 SUPER_SECRET_PASSWORD
 
 Thanks,
 NOIPM Team`
-        };
+    };
 
-        await createUser(request, response)
+    await createUser(request, response);
 
-        expect(transporter.sendMail).toHaveBeenCalledWith(message)
-    })
+    expect(transporter.sendMail).toHaveBeenCalledWith(message);
+  });
 
-    test('should not send email if create user fails', async () => {
-        const next = jest.fn()
-        const error = new Error('User was not created')
-        models.users.create.mockImplementation(() => Promise.reject(error))
+  test("should not send email if create user fails", async () => {
+    const next = jest.fn();
+    const error = new Error("User was not created");
+    models.users.create.mockImplementation(() => Promise.reject(error));
 
-        await createUser(request, response, next)
+    await createUser(request, response, next);
 
-        expect(transporter.sendMail).toHaveBeenCalledTimes(0)
-    })
+    expect(transporter.sendMail).toHaveBeenCalledTimes(0);
+  });
 
-    test('should respond with 500 when when email send fails', async () => {
-        const next = jest.fn()
-        const error = new Error('Email was not sent')
-        transporter.sendMail.mockImplementation(() => Promise.reject(error))
+  test("should respond with 500 when when email send fails", async () => {
+    const next = jest.fn();
+    const error = new Error("Email was not sent");
+    transporter.sendMail.mockImplementation(() => Promise.reject(error));
 
-        await createUser(request, response, next)
+    await createUser(request, response, next);
 
-        expect(next).toHaveBeenCalledWith(error)
-    })
-})
+    expect(next).toHaveBeenCalledWith(error);
+  });
+});

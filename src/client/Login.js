@@ -1,16 +1,15 @@
-import React, {Component} from 'react'
+import React, { Component } from "react";
 import Auth from "./auth/Auth";
 
 class Login extends Component {
+  componentWillMount() {
+    const auth = new Auth();
+    auth.login();
+  }
 
-    componentWillMount() {
-        const auth = new Auth()
-        auth.login()
-    }
-
-    render() {
-        return <div></div>
-    }
+  render() {
+    return <div />;
+  }
 }
 
-export default Login
+export default Login;

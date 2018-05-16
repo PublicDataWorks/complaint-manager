@@ -1,16 +1,16 @@
-const models = require('../index')
+const models = require("../index");
 
-describe('users', () => {
-    test('should remove password from JSON representation', () => {
-        const user = models.users.build({
-            firstName: "Ekua",
-            lastName: "Bogumil",
-            email: "ebogumil@gmail.com",
-            password: "password123"
-        })
+describe("users", () => {
+  test("should remove password from JSON representation", () => {
+    const user = models.users.build({
+      firstName: "Ekua",
+      lastName: "Bogumil",
+      email: "ebogumil@gmail.com",
+      password: "password123"
+    });
 
-        const jsonRepresentation = user.toJSON()
+    const jsonRepresentation = user.toJSON();
 
-        expect(jsonRepresentation.password).toBeUndefined()
-    })
-})
+    expect(jsonRepresentation.password).toBeUndefined();
+  });
+});

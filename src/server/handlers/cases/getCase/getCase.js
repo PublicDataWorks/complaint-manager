@@ -1,9 +1,9 @@
-const getCaseWithAllAssociations = require('../../getCaseWithAllAssociations')
+const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
 
 const getCase = async (req, res) => {
-    const singleCase = await getCaseWithAllAssociations(req.params.id)
+  const singleCase = await getCaseWithAllAssociations(req.params.id);
 
-    res.send(singleCase)
-}
+  res.send(singleCase);
+};
 
-module.exports = getCase
+module.exports = getCase;
