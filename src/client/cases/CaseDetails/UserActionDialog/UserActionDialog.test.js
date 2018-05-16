@@ -66,7 +66,7 @@ describe("UserActionDialog", () => {
     const submitButton = wrapper.find('[data-test="submitButton"]').first();
 
     expect(title.text()).toEqual("Edit Case Note");
-    expect(submitButton.text()).toEqual("Edit Case Note");
+    expect(submitButton.text()).toEqual("Save");
 
     const dateWithOutTimeZone = "2018-05-16T18:47";
 

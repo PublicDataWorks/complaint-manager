@@ -75,13 +75,9 @@ export const closeUserActionDialog = () => ({
   type: USER_ACTION_DIALOG_CLOSED
 });
 
-export const openRemoveUserActionDialog = (
-  caseId = null,
-  userActionId = null
-) => ({
+export const openRemoveUserActionDialog = (activity = {}) => ({
   type: REMOVE_USER_ACTION_DIALOG_OPENED,
-  caseId,
-  userActionId
+  activity
 });
 
 export const closeRemoveUserActionDialog = () => ({

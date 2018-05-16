@@ -13,21 +13,42 @@ import {
 } from "../../../sharedComponents/StyledButtons";
 import removeUserAction from "../../thunks/removeUserAction";
 import { closeRemoveUserActionDialog } from "../../../actionCreators/casesActionCreators";
+import moment from "moment";
 
-const RemoveUserActionDialog = ({
-  dialogOpen,
-  caseId,
-  userActionId,
-  dispatch
-}) => {
+const RemoveUserActionDialog = ({ dialogOpen, activity, dispatch }) => {
   return (
-    <Dialog open={dialogOpen}>
+    <Dialog open={dialogOpen} fullWidth={true}>
       <DialogTitle>Remove Case Note</DialogTitle>
       <DialogContent>
-        <Typography>
-          This action will remove this note and its information. Are you sure
-          you want to continue?
+        <Typography
+          style={{
+            marginBottom: "24px"
+          }}
+        >
+          This action will remove the following note:
         </Typography>
+        <div
+          style={{
+            marginBottom: "24px",
+            marginLeft: "24px",
+            borderLeft: "solid lightgrey 4px",
+            paddingLeft: "8px"
+          }}
+        >
+          <Typography>
+            <strong>[{activity.user}]</strong> {activity.action}
+          </Typography>
+          <Typography
+            variant="caption"
+            style={{
+              marginBottom: "16px"
+            }}
+          >
+            {moment(activity.actionTakenAt).fromNow()}
+          </Typography>
+          {activity.notes ? <Typography>{activity.notes}</Typography> : null}
+        </div>
+        <Typography>Are you sure you want to continue?</Typography>
       </DialogContent>
       <DialogActions>
         <SecondaryButton
@@ -38,7 +59,9 @@ const RemoveUserActionDialog = ({
         </SecondaryButton>
         <PrimaryButton
           data-test="removeUserAction"
-          onClick={() => dispatch(removeUserAction(caseId, userActionId))}
+          onClick={() =>
+            dispatch(removeUserAction(activity.caseId, activity.id))
+          }
         >
           Remove
         </PrimaryButton>
@@ -49,8 +72,7 @@ const RemoveUserActionDialog = ({
 
 const mapStateToProps = state => ({
   dialogOpen: state.ui.removeUserActionDialog.dialogOpen,
-  caseId: state.ui.removeUserActionDialog.caseId,
-  userActionId: state.ui.removeUserActionDialog.userActionId
+  activity: state.ui.removeUserActionDialog.activity
 });
 
 export default connect(mapStateToProps)(RemoveUserActionDialog);

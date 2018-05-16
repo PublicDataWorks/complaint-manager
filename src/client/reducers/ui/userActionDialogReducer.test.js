@@ -12,7 +12,7 @@ describe("userActionDialogReducer", () => {
     expect(newState).toEqual({ open: false, dialogType: "Add" });
   });
 
-  test("should set open to true and set the dialog type on openDialog", () => {
+  test("should set open to true and set the edit dialog state on openDialog", () => {
     const oldState = {
       open: false,
       dialogType: "none"
@@ -35,10 +35,10 @@ describe("userActionDialogReducer", () => {
 
   test("should set open to false on closeDialog", () => {
     const newState = userActionDialogReducer(
-      { open: true },
+      { open: true, some: "old state" },
       closeUserActionDialog()
     );
 
-    expect(newState).toEqual({ open: false });
+    expect(newState).toEqual({ open: false, some: "old state" });
   });
 });

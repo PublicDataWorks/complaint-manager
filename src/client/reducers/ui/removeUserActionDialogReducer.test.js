@@ -12,34 +12,16 @@ describe("removeUserActionDialogReducer", () => {
 
     expect(newState).toEqual({
       dialogOpen: false,
-      caseId: null,
-      userActionId: null
-    });
-  });
-
-  test("should set dialogOpen to true when open dialog requested", () => {
-    const dialogClosedState = {
-      dialogOpen: false,
-      caseId: null,
-      userActionId: null
-    };
-    const newState = removeUserActionDialogReducer(
-      dialogClosedState,
-      openRemoveUserActionDialog()
-    );
-
-    expect(newState).toEqual({
-      dialogOpen: true,
-      caseId: null,
-      userActionId: null
+      activity: {}
     });
   });
 
   test("should set dialogOpen to false when close dialog requested", () => {
     const dialogClosedState = {
       dialogOpen: true,
-      caseId: 23,
-      userActionId: 54
+      activity: {
+        some: "data"
+      }
     };
     const newState = removeUserActionDialogReducer(
       dialogClosedState,
@@ -48,23 +30,25 @@ describe("removeUserActionDialogReducer", () => {
 
     expect(newState).toEqual({
       dialogOpen: false,
-      caseId: null,
-      userActionId: null
+      activity: dialogClosedState.activity
     });
   });
 
-  test("should set caseId and userActionId", () => {
+  test("should set activity to remove", () => {
     const dialogClosedState = {
       dialogOpen: false
     };
-    const caseId = 1;
-    const userActionId = 2;
+
+    const activityToRemove = {
+      some: "activity",
+      to: "remove"
+    };
 
     const newState = removeUserActionDialogReducer(
       dialogClosedState,
-      openRemoveUserActionDialog(caseId, userActionId)
+      openRemoveUserActionDialog(activityToRemove)
     );
 
-    expect(newState).toEqual({ dialogOpen: true, caseId, userActionId });
+    expect(newState).toEqual({ dialogOpen: true, activity: activityToRemove });
   });
 });

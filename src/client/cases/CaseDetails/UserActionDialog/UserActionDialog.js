@@ -57,7 +57,7 @@ const UserActionDialog = ({
         }}
         data-test="userActionDialogTitle"
       >
-        {dialogType ? `${dialogType} Case Note` : " "}
+        {dialogType === "Add" ? "Add Case Note" : "Edit Case Note"}
       </DialogTitle>
       <DialogContent
         style={{
@@ -142,7 +142,7 @@ const UserActionDialog = ({
           Cancel
         </SecondaryButton>
         <PrimaryButton data-test="submitButton" onClick={handleSubmit(submit)}>
-          {dialogType ? `${dialogType} Case Note` : " "}
+          {dialogType === "Add" ? "Add Case Note" : "Save"}
         </PrimaryButton>
       </DialogActions>
     </Dialog>

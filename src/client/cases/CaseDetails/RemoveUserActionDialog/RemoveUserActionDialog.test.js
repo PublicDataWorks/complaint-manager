@@ -18,11 +18,13 @@ jest.mock("../../thunks/removeUserAction", () => (caseId, userActionId) => ({
 describe("RemoveUserActionDialog", function() {
   test("should call removeUserAction thunk with correct values", () => {
     const store = createConfiguredStore();
-    const caseId = 1;
-    const userActionId = 2;
+    const activity = {
+      id: 1,
+      caseId: 2
+    };
     const dispatchSpy = jest.spyOn(store, "dispatch");
 
-    store.dispatch(openRemoveUserActionDialog(caseId, userActionId));
+    store.dispatch(openRemoveUserActionDialog(activity));
 
     const wrapper = mount(
       <Provider store={store}>
@@ -36,7 +38,7 @@ describe("RemoveUserActionDialog", function() {
     removeUserActionButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
-      removeUserAction(caseId, userActionId)
+      removeUserAction(activity.caseId, activity.id)
     );
   });
 

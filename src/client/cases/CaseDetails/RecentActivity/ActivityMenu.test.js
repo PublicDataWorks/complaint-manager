@@ -67,7 +67,7 @@ describe("ActivityMenu", () => {
     const activityMenu = wrapper.find(Menu);
 
     expect(dispatchSpy).toHaveBeenCalledWith(
-      openRemoveUserActionDialog(caseId, activity.id)
+      openRemoveUserActionDialog(activity)
     );
     expect(activityMenu.props().open).toEqual(false);
   });

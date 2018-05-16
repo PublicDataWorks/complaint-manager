@@ -5,8 +5,7 @@ import {
 
 const initialState = {
   dialogOpen: false,
-  caseId: null,
-  userActionId: null
+  activity: {}
 };
 
 const removeUserActionDialogReducer = (state = initialState, action) => {
@@ -14,11 +13,13 @@ const removeUserActionDialogReducer = (state = initialState, action) => {
     case REMOVE_USER_ACTION_DIALOG_OPENED:
       return {
         dialogOpen: true,
-        caseId: action.caseId,
-        userActionId: action.userActionId
+        activity: action.activity
       };
     case REMOVE_USER_ACTION_DIALOG_CLOSED:
-      return initialState;
+      return {
+        ...initialState,
+        activity: state.activity
+      };
     default:
       return state;
   }

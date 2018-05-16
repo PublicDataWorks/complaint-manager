@@ -16,6 +16,7 @@ const userActionDialogReducer = (state = initialState, action) => {
       };
     case USER_ACTION_DIALOG_CLOSED:
       return {
+        ...state,
         open: false
       };
     default:

@@ -303,7 +303,7 @@ describe("snackbarReducer", () => {
       const expectedState = {
         success: true,
         open: true,
-        message: "Your case note was successfully updated."
+        message: "Case note successfully updated."
       };
       expect(newState).toEqual(expectedState);
     });
@@ -329,7 +329,7 @@ describe("snackbarReducer", () => {
       const expectedState = {
         success: true,
         open: true,
-        message: "Note successfully removed from case."
+        message: "Case note successfully removed."
       };
       expect(newState).toEqual(expectedState);
     });

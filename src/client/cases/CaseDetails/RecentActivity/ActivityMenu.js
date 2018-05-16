@@ -41,9 +41,7 @@ class ActivityMenu extends React.Component {
   };
 
   handleRemoveNoteClick = () => {
-    this.props.dispatch(
-      openRemoveUserActionDialog(this.props.caseId, this.props.activity.id)
-    );
+    this.props.dispatch(openRemoveUserActionDialog(this.props.activity));
     this.handleMenuClose();
   };
 
