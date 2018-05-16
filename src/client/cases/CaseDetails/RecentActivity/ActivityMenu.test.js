@@ -7,14 +7,21 @@ import {openRemoveUserActionDialog, openUserActionDialog} from "../../../actionC
 import {Provider} from "react-redux";
 
 describe('ActivityMenu', () => {
-    let wrapper, activityMenuButton, dispatchSpy
+    let wrapper, activityMenuButton, dispatchSpy, caseId, activity
 
     beforeEach(() => {
         const store = createConfiguredStore()
         dispatchSpy = jest.spyOn(store, 'dispatch')
+        caseId = 1
+        activity = {
+            id: 1,
+        }
         wrapper = mount(
             <Provider store={store}>
-                <ActivityMenu/>
+                <ActivityMenu
+                    caseId={caseId}
+                    activity={activity}
+                />
             </Provider>
         )
 
@@ -47,7 +54,7 @@ describe('ActivityMenu', () => {
         editMenuItem.simulate('click')
         const activityMenu = wrapper.find(Menu)
 
-        expect(dispatchSpy).toHaveBeenCalledWith(openUserActionDialog())
+        expect(dispatchSpy).toHaveBeenCalledWith(openUserActionDialog('Edit'))
         expect(activityMenu.props().open).toEqual(false)
     })
 
@@ -57,7 +64,7 @@ describe('ActivityMenu', () => {
         removeMenuItem.simulate('click')
         const activityMenu = wrapper.find(Menu)
 
-        expect(dispatchSpy).toHaveBeenCalledWith(openRemoveUserActionDialog())
+        expect(dispatchSpy).toHaveBeenCalledWith(openRemoveUserActionDialog(caseId, activity.id))
         expect(activityMenu.props().open).toEqual(false)
     })
 });

@@ -6,7 +6,12 @@ import {
     createCaseFailure,
     createCaseSuccess,
     editCivilianFailed,
-    editCivilianSuccess, removeCivilianFailure, removeCivilianSuccess,
+    editCivilianSuccess,
+    editUserActionFailure,
+    editUserActionSuccess,
+    removeCivilianFailure,
+    removeCivilianSuccess, removeUserActionFailure,
+    removeUserActionSuccess,
     requestCaseCreation,
     updateIncidentDetailsFailure,
     updateIncidentDetailsSuccess,
@@ -231,6 +236,50 @@ describe('snackbarReducer', () => {
                 success: false,
                 open: true,
                 message: 'We could not log your action. Please try again.'
+            }
+            expect(newState).toEqual(expectedState)
+        })
+        test('EDIT_USER_ACTION_SUCCEEDED', () => {
+            const initialState = { success: false, open: false, message: ''}
+            const newState = snackbarReducer(initialState, editUserActionSuccess())
+
+            const expectedState = {
+                success: true,
+                open: true,
+                message: 'Your case note was successfully updated.'
+            }
+            expect(newState).toEqual(expectedState)
+        })
+        test('EDIT_USER_ACTION_FAILED', () => {
+            const initialState = { success: true, open: false, message: ''}
+            const newState = snackbarReducer(initialState, editUserActionFailure())
+
+            const expectedState = {
+                success: false,
+                open: true,
+                message: 'Something went wrong on our end and the case note was not updated. Please try again.'
+            }
+            expect(newState).toEqual(expectedState)
+        })
+        test('REMOVE_USER_ACTION_SUCCEEDED', () => {
+            const initialState = { success: false, open: false, message: ''}
+            const newState = snackbarReducer(initialState, removeUserActionSuccess({caseDetails:'', recentActivity:''}))
+
+            const expectedState = {
+                success: true,
+                open: true,
+                message: 'Note successfully removed from case.'
+            }
+            expect(newState).toEqual(expectedState)
+        })
+        test('REMOVE_USER_ACTION_FAILED', () => {
+            const initialState = { success: true, open: false, message: ''}
+            const newState = snackbarReducer(initialState, removeUserActionFailure())
+
+            const expectedState = {
+                success: false,
+                open: true,
+                message: 'Something went wrong on our end and the case note was not removed. Please try again.'
             }
             expect(newState).toEqual(expectedState)
         })

@@ -4,19 +4,24 @@ import {closeUserActionDialog, openUserActionDialog} from "../../actionCreators/
 describe('userActionDialogReducer', () => {
     test('should set up initial state', () => {
         const newState = userActionDialogReducer(undefined, {type: 'some_action'})
-        expect(newState).toEqual({open: false})
+        expect(newState).toEqual({open: false, dialogType: 'Add'})
     })
 
-    test('should set open to true on openDialog', () => {
+    test('should set open to true and set the dialog type on openDialog', () => {
         const oldState = {
-            open: false
+            open: false,
+            dialogType: 'none'
         }
+
+        const dialogType = 'Edit'
+
+        const actualState = userActionDialogReducer(oldState, openUserActionDialog(dialogType))
 
         const expectedState = {
-            open: true
+            open: true,
+            dialogType
         }
 
-        const actualState = userActionDialogReducer(oldState, openUserActionDialog())
         expect(actualState).toEqual(expectedState)
     })
 

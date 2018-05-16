@@ -19,7 +19,7 @@ import {
     REMOVE_CIVILIAN_SUCCEEDED,
     REMOVE_USER_ACTION_DIALOG_OPENED,
     REMOVE_USER_ACTION_DIALOG_CLOSED,
-    REMOVE_USER_ACTION_SUCCEEDED, REMOVE_USER_ACTION_FAILED
+    REMOVE_USER_ACTION_SUCCEEDED, REMOVE_USER_ACTION_FAILED, EDIT_USER_ACTION_FAILED, EDIT_USER_ACTION_SUCCEEDED
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = (caseDetails) => ({
@@ -63,8 +63,9 @@ export const updateSort = (sortBy) => ({
     sortBy
 })
 
-export const openUserActionDialog = () => ({
+export const openUserActionDialog = (dialogType) => ({
     type: USER_ACTION_DIALOG_OPENED,
+    dialogType
 })
 
 export const closeUserActionDialog = () => ({
@@ -145,6 +146,15 @@ export const addUserActionFailure = () => ({
 
 export const addUserActionSuccess = (recentActivity) => ({
     type: ADD_USER_ACTION_SUCCEEDED,
+    recentActivity
+})
+
+export const editUserActionFailure = () => ({
+    type: EDIT_USER_ACTION_FAILED
+})
+
+export const editUserActionSuccess = (recentActivity) => ({
+    type: EDIT_USER_ACTION_SUCCEEDED,
     recentActivity
 })
 

@@ -50,12 +50,10 @@ describe('Recent Activity', () => {
 
         const activityItem = activityItems.at(0)
 
-        const activityText = activityItem.find('[data-test="actionText"]').first()
-        const userText = activityItem.find('[data-test="userText"]').first()
+        const userAndActionText = activityItem.find('[data-test="userAndActionText"]').first()
         const activityTimeText = activityItem.find('[data-test="activityTimeText"]').first()
 
-        expect(activityText.text()).toEqual('Created case')
-        expect(userText.text()).toEqual('tuser')
+        expect(userAndActionText.text()).toEqual('[tuser] Created case')
         expect(activityTimeText.text()).toEqual('3 days ago')
     })
 
@@ -91,11 +89,11 @@ describe('Recent Activity', () => {
         const activityItems = activityContainer.find('[data-test="recentActivityItem"]')
 
         const firstActivity = activityItems.first()
-        const firstActivityActionText = firstActivity.find('[data-test="actionText"]').first().text()
+        const firstUserAndActivityActionText = firstActivity.find('[data-test="userAndActionText"]').first().text()
         const secondActivity = activityItems.last()
-        const secondActivityActionText = secondActivity.find('[data-test="actionText"]').first().text()
+        const secondUserAndActivityActionText = secondActivity.find('[data-test="userAndActionText"]').first().text()
 
-        expect(firstActivityActionText).toEqual('Attachment added')
-        expect(secondActivityActionText).toEqual('Created case')
+        expect(firstUserAndActivityActionText).toEqual('[fooUser] Attachment added')
+        expect(secondUserAndActivityActionText).toEqual('[tuser] Created case')
     })
 });

@@ -12,14 +12,15 @@ const createUser = require("./handlers/users/createUser");
 const getUsers = require("./handlers/users/getUsers");
 const audit = require("./handlers/audit_logs/audit");
 const jwtCheck = require("./handlers/jtwCheck");
-const jwtAuthz = require("express-jwt-authz");
+const jwtAuthz = require('express-jwt-authz');
 const verifyUserInfo = require("./handlers/verifyUserNickname");
 const authErrorHandler = require("./handlers/authErrorHandler");
 const exportAuditLog = require("./handlers/audit_logs/export");
 const searchOfficers = require("./handlers/officers/searchOfficers");
-const addCaseOfficer = require("./handlers/officers/addCaseOfficer");
+const addCaseOfficer = require("./handlers/officers/addCaseOfficer/addCaseOfficer");
 const getCaseOfficer = require("./handlers/officers/getCaseOfficer/getCaseOfficer");
 const editCaseOfficer = require("./handlers/officers/editCaseOfficer/editCaseOfficer");
+const editUserAction = require("./handlers/cases/editUserAction/editUserAction");
 const removeUserAction = require("./handlers/cases/removeUserAction/removeUserAction");
 const createUserAction = require("./handlers/cases/createUserAction");
 const attachmentRouter = require("./attachmentRouter");
@@ -32,30 +33,31 @@ router.use(verifyUserInfo);
 router.use(authErrorHandler);
 
 //Any routes defined below this point will require authentication
-router.post("/cases", createCase);
-router.get("/cases", getCases);
-router.get("/cases/:id", getCase);
-router.get("/cases/:id/recent-activity", getRecentActivity);
-router.post("/cases/:id/recent-activity", createUserAction);
-router.delete("/cases/:caseId/recent-activity/:userActionId", removeUserAction);
-router.put("/cases/:id", editCase);
-router.put("/cases/:id/narrative", updateCaseNarrative);
-router.get("/cases/:id/officers/search", searchOfficers);
+router.post('/cases', createCase);
+router.get('/cases', getCases);
+router.get('/cases/:id', getCase)
+router.get('/cases/:id/recent-activity', getRecentActivity)
+router.post('/cases/:id/recent-activity', createUserAction)
+router.put('/cases/:caseId/recent-activity/:userActionId', editUserAction)
+router.delete('/cases/:caseId/recent-activity/:userActionId', removeUserAction)
+router.put('/cases/:id', editCase)
+router.put('/cases/:id/narrative', updateCaseNarrative)
+router.get('/cases/:id/officers/search', searchOfficers);
 
 router.get("/cases/:caseId/cases-officers/:caseOfficerId", getCaseOfficer);
-router.post("/cases/:caseId/cases-officers", addCaseOfficer);
+router.post('/cases/:caseId/cases-officers', addCaseOfficer);
 router.put("/cases/:caseId/cases-officers/:caseOfficerId", editCaseOfficer);
 
-router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
+router.delete('/cases/:caseId/civilians/:civilianId', removeCivilian);
 
-router.use("/cases/:id/attachments", attachmentRouter);
+router.use('/cases/:id/attachments', attachmentRouter);
 
-router.post("/civilian", createCivilian);
-router.put("/civilian/:id", editCivilian);
+router.post('/civilian', createCivilian);
+router.put('/civilian/:id', editCivilian);
 
-router.post("/audit", audit);
-router.post("/users", createUser);
-router.get("/users", getUsers);
-router.get("/export-audit-log", jwtAuthz([EXPORT_AUDIT_LOG]), exportAuditLog);
+router.post('/audit', audit);
+router.post('/users', createUser);
+router.get('/users', getUsers);
+router.get('/export-audit-log', jwtAuthz([EXPORT_AUDIT_LOG]), exportAuditLog);
 
 module.exports = router;

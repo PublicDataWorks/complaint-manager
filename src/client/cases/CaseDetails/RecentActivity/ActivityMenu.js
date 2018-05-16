@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {IconButton, MenuItem} from "material-ui";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {Menu} from "material-ui"
 import {connect} from "react-redux";
 import {openRemoveUserActionDialog, openUserActionDialog} from "../../../actionCreators/casesActionCreators";
+import {initialize} from 'redux-form'
+import moment from "moment";
 
 class ActivityMenu extends React.Component {
     state = {
@@ -23,19 +25,23 @@ class ActivityMenu extends React.Component {
     }
 
     handleEditNoteClick = () => {
-        this.props.dispatch(openUserActionDialog())
+        this.props.dispatch(initialize('UserActions', {
+            ...this.props.activity,
+            actionTakenAt: moment(this.props.activity.actionTakenAt).format('YYYY-MM-DDTHH:mm:ss')
+        }))
+        this.props.dispatch(openUserActionDialog('Edit'))
         this.handleMenuClose()
     }
 
     handleRemoveNoteClick = () => {
-        this.props.dispatch(openRemoveUserActionDialog(this.props.caseId, this.props.activityId))
+        this.props.dispatch(openRemoveUserActionDialog(this.props.caseId, this.props.activity.id))
         this.handleMenuClose()
     }
 
     render() {
 
         return (
-            <div>
+            <Fragment>
                 <IconButton
                     data-test="activityMenuButton"
                     onClick={this.handleMenuOpen}
@@ -60,7 +66,7 @@ class ActivityMenu extends React.Component {
                         Remove Note
                     </MenuItem>
                 </Menu>
-            </div>
+            </Fragment>
         )
     }
 }

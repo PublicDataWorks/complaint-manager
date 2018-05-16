@@ -149,7 +149,7 @@ class CaseDetails extends React.Component {
                                 this.props.dispatch(initialize('UserActions', {
                                     actionTakenAt: timezone.tz(new Date(Date.now()), TIMEZONE).format("YYYY-MM-DDTHH:mm")
                                 }))
-                                this.props.dispatch(openUserActionDialog())
+                                this.props.dispatch(openUserActionDialog('Add'))
                                 this.handleMenuClose()
                             }}>
                             Add Case Note

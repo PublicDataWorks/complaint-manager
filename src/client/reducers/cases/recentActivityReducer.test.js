@@ -1,6 +1,6 @@
 import recentActivityReducer from "./recentActivityReducer";
 import {
-    addUserActionSuccess,
+    addUserActionSuccess, editUserActionSuccess,
     getRecentActivitySuccess,
     removeUserActionSuccess
 } from "../../actionCreators/casesActionCreators";
@@ -26,7 +26,7 @@ describe('recentActivityReducer', () => {
         expect(newState).toEqual(expectedRecentActivity)
     })
 
-    test('should replace recent activity after removing user action',()=>{
+    test('should replace recent activity after removing user action', () => {
         const oldState = {some: 'old state'}
 
         const userActionDetails = {
@@ -42,5 +42,17 @@ describe('recentActivityReducer', () => {
         const newState = recentActivityReducer(oldState, removeUserActionSuccess(userActionDetails))
 
         expect(newState).toEqual(userActionDetails.recentActivity)
+    })
+
+    test('should replace recent activity after editing user action', () => {
+        const oldState = {some: 'old state'}
+
+        const userActionDetails = {
+            some: 'new state'
+        }
+
+        const newState = recentActivityReducer(oldState, editUserActionSuccess(userActionDetails))
+
+        expect(newState).toEqual(userActionDetails)
     })
 });

@@ -22,51 +22,47 @@ const ActivityDisplay = ({caseId, activity}) => {
                 >
                     <div>
                         <Typography
-                            style={{
-                                fontWeight: 'bold'
-                            }}
-                            data-test="actionText"
+                            data-test="userAndActionText"
+                            style={{marginBottom: '2px'}}
                         >
-                            {activity.action}
+                            <strong>[{activity.user}]</strong> {activity.action}
                         </Typography>
                         <Typography
                             variant={'caption'}
-                            data-test="userText"
+                            data-test="activityTimeText"
                         >
-                            {activity.user}
+                            {`${moment(activity.actionTakenAt, "YYYY-MM-DDTHH:mm:ssZ").fromNow()}`}
                         </Typography>
+
+                        {activity.notes ?
+                            <div
+                                style={{
+                                    marginTop: "16px"
+                                }}
+                            >
+
+                                <Typography
+                                    data-test="notesText"
+                                >
+                                    {activity.notes}
+                                </Typography>
+                            </div> : null
+                        }
                     </div>
-                    <Typography
-                        data-test="activityTimeText"
-                        style={{
-                            alignSelf: 'flex-start'
-                        }}
-                    >
-                        {`${moment(activity.actionTakenAt, "YYYY-MM-DDTHH:mm:ssZ").fromNow()}`}
-                    </Typography>
-                    <ActivityMenu
-                        activityId={activity.id}
-                        caseId={caseId}
-                    />
-                </div>
-                {activity.notes ?
                     <div
                         style={{
-                            marginTop:"16px"
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignSelf: 'flex-center'
                         }}
                     >
-                        <Typography
-                            variant={'caption'}
-                        >
-                            Notes
-                        </Typography>
-                        <Typography
-                            data-test="notesText"
-                        >
-                            {activity.notes}
-                        </Typography>
-                    </div> : null
-                }
+                        <ActivityMenu
+                            activity={activity}
+                            caseId={caseId}
+
+                        />
+                    </div>
+                </div>
             </CardContent>
         </Card>
     )

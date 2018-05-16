@@ -123,7 +123,7 @@ describe('Case Details Component', () => {
             expect(dispatchSpy).toHaveBeenCalledWith(initialize('UserActions' , {
                 actionTakenAt: timezone.tz(new Date(Date.now()), TIMEZONE).format("YYYY-MM-DDTHH:mm")
             }))
-            expect(dispatchSpy).toHaveBeenCalledWith(openUserActionDialog())
+            expect(dispatchSpy).toHaveBeenCalledWith(openUserActionDialog('Add'))
 
         })
     });

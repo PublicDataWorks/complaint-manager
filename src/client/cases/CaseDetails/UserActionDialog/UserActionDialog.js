@@ -12,8 +12,9 @@ import addUserAction from "../../thunks/addUserAction";
 import {actionIsRequired} from "../../../formFieldLevelValidations";
 import timezone from "moment-timezone"
 import {TIMEZONE} from "../../../../sharedUtilities/constants";
+import editUserAction from "../../thunks/editUserAction";
 
-const UserActionDialog = ({open, caseId, handleSubmit, dispatch}) => {
+const UserActionDialog = ({open, caseId, handleSubmit, dialogType, dispatch}) => {
     const submit = (values, dispatch) => {
         const valuesToSubmit = {
             ...values,
@@ -21,7 +22,16 @@ const UserActionDialog = ({open, caseId, handleSubmit, dispatch}) => {
             caseId
         }
 
-        dispatch(addUserAction(valuesToSubmit))
+        switch (dialogType){
+            case 'Add':
+                dispatch(addUserAction(valuesToSubmit))
+                break;
+            case 'Edit':
+                dispatch(editUserAction(valuesToSubmit))
+                break;
+            default:
+                break
+        }
     }
 
     return (
@@ -33,8 +43,13 @@ const UserActionDialog = ({open, caseId, handleSubmit, dispatch}) => {
                 style={{
                     paddingBottom: '8px'
                 }}
+                data-test="userActionDialogTitle"
             >
-                Add Case Note
+                {
+                    dialogType
+                        ? `${dialogType} Case Note`
+                        : ' '
+                }
             </DialogTitle>
             <DialogContent
                 style={{
@@ -42,13 +57,14 @@ const UserActionDialog = ({open, caseId, handleSubmit, dispatch}) => {
                     marginBottom: '24px'
                 }}
             >
-                <Typography 
+                <Typography
                     type='body1'
                     style={{
                         marginBottom: '24px'
                     }}
                 >
-                    Use this form to log any external correspondences or actions that take place outside of the Complaint Manager System.
+                    Use this form to log any external correspondences or actions that take place outside of the
+                    Complaint Manager System.
                     Your name will automatically be recorded.
                 </Typography>
                 <form>
@@ -57,12 +73,12 @@ const UserActionDialog = ({open, caseId, handleSubmit, dispatch}) => {
                         name={'actionTakenAt'}
                         inputProps={{
                             type: 'datetime-local',
-                            "data-test":"dateAndTimeInput"
+                            "data-test": "dateAndTimeInput"
                         }}
                         label={'Date and Time'}
                         style={{
-                            marginBottom:'16px',
-                            width:'41%'
+                            marginBottom: '16px',
+                            width: '41%'
                         }}
                     />
                     <br/>
@@ -86,10 +102,10 @@ const UserActionDialog = ({open, caseId, handleSubmit, dispatch}) => {
                         component={TextField}
                         inputProps={{
                             maxLength: 255,
-                            "data-test":"notesInput"
+                            "data-test": "notesInput"
                         }}
                         InputLabelProps={{
-                            shrink:true
+                            shrink: true
                         }}
                         multiline
                         placeholder="Enter any notes about this action"
@@ -111,8 +127,8 @@ const UserActionDialog = ({open, caseId, handleSubmit, dispatch}) => {
                     }}
                     data-test="cancelButton"
                     onClick={() => {
-                        dispatch(closeUserActionDialog())
                         dispatch(reset('UserActions'))
+                        dispatch(closeUserActionDialog())
 
                     }}
                 >
@@ -122,7 +138,11 @@ const UserActionDialog = ({open, caseId, handleSubmit, dispatch}) => {
                     data-test="submitButton"
                     onClick={handleSubmit(submit)}
                 >
-                    Add Case Note
+                    {
+                        dialogType
+                            ? `${dialogType} Case Note`
+                            : ' '
+                    }
                 </SubmitButton>
             </DialogActions>
         </Dialog>
@@ -130,11 +150,12 @@ const UserActionDialog = ({open, caseId, handleSubmit, dispatch}) => {
 }
 
 const ConnectedForm = reduxForm({
-    form:'UserActions'
+    form: 'UserActions'
 })(UserActionDialog)
 
 const mapStateToProps = state => ({
     open: state.ui.userActionDialog.open,
-    caseId: state.currentCase.details.id
+    caseId: state.currentCase.details.id,
+    dialogType: state.ui.userActionDialog.dialogType
 })
 export default connect(mapStateToProps)(ConnectedForm)

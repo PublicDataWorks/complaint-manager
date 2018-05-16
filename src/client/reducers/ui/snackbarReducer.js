@@ -7,13 +7,13 @@ import {
     CASE_CREATED_SUCCESS,
     CIVILIAN_CREATION_FAILED,
     CIVILIAN_CREATION_SUCCEEDED,
-    DOWNLOAD_FAILED,
+    DOWNLOAD_FAILED, EDIT_USER_ACTION_FAILED, EDIT_USER_ACTION_SUCCEEDED,
     INCIDENT_DETAILS_UPDATE_FAILED,
     INCIDENT_DETAILS_UPDATE_SUCCEEDED,
     REMOVE_ATTACHMENT_FAILED,
     REMOVE_ATTACHMENT_SUCCESS,
     REMOVE_CIVILIAN_FAILED,
-    REMOVE_CIVILIAN_SUCCEEDED,
+    REMOVE_CIVILIAN_SUCCEEDED, REMOVE_USER_ACTION_FAILED, REMOVE_USER_ACTION_SUCCEEDED,
     SNACKBAR_ERROR,
     SNACKBAR_SUCCESS
 } from "../../../sharedUtilities/constants";
@@ -208,6 +208,30 @@ const snackbarReducer = (state = initialState, action) => {
                 success: false,
                 open: true,
                 message: 'We could not log your action. Please try again.'
+            }
+        case EDIT_USER_ACTION_SUCCEEDED:
+            return {
+                success: true,
+                open: true,
+                message: 'Your case note was successfully updated.'
+            }
+        case EDIT_USER_ACTION_FAILED:
+            return {
+                success: false,
+                open: true,
+                message: 'Something went wrong on our end and the case note was not updated. Please try again.'
+            }
+        case REMOVE_USER_ACTION_SUCCEEDED:
+            return {
+                success: true,
+                open: true,
+                message: 'Note successfully removed from case.'
+            }
+        case REMOVE_USER_ACTION_FAILED:
+            return {
+                success: false,
+                open: true,
+                message: 'Something went wrong on our end and the case note was not removed. Please try again.'
             }
         default:
             return state

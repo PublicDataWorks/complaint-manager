@@ -22,8 +22,8 @@ describe('ActivityDisplay', () => {
                     activity={userAction}/>
             </Provider>)
 
-        containsText(wrapper, '[data-test="actionText"]', userAction.action)
-        containsText(wrapper, '[data-test="userText"]', userAction.user)
+        containsText(wrapper, '[data-test="userAndActionText"]', userAction.action)
+        containsText(wrapper, '[data-test="userAndActionText"]', userAction.user)
         containsText(wrapper, '[data-test="activityTimeText"]', "a few seconds ago")
         containsText(wrapper, '[data-test="notesText"]', userAction.notes)
     })
