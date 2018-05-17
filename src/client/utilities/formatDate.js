@@ -18,6 +18,12 @@ const formatDate = dateString => {
   return dateString;
 };
 
+export const dateTimeFromString = dateTimeString => {
+  return dateTimeString
+    ? timezone.tz(dateTimeString, TIMEZONE).format("MMM DD, YYYY h:mm:ss A z")
+    : null;
+};
+
 export const timeFromDateString = dateString => {
   return dateString
     ? timezone.tz(dateString, TIMEZONE).format("h:mm A z")

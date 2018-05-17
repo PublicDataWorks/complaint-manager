@@ -47,4 +47,21 @@ describe("transformAuditToCaseHistory", () => {
     ];
     expect(caseHistories[0].details).toEqual(expectedDetails);
   });
+
+  test("it transforms null values in changes field to empty string", () => {
+    const auditChanges = {
+      complainantType: { previous: null, new: "Police Officer" },
+      status: { previous: "Initial", new: null }
+    };
+    const audit = new DataChangeAudit.Builder()
+      .defaultDataChangeAudit()
+      .withChanges(auditChanges);
+    const caseHistories = transformAuditToCaseHistory([audit]);
+
+    const expectedDetails = [
+      "Complainant Type changed from '' to 'Police Officer'",
+      "Status changed from 'Initial' to ''"
+    ];
+    expect(caseHistories[0].details).toEqual(expectedDetails);
+  });
 });

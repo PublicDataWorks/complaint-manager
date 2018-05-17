@@ -14,28 +14,16 @@ const CaseHistoryTableHeader = ({ classes }) => {
   return (
     <TableHead>
       <TableRow className={classes.row}>
-        <TableCell
-          style={{ paddingLeft: "24px", width: "10%" }}
-          className={classes.cell}
-        >
+        <TableCell style={{ width: "10%" }} className={classes.cell}>
           <Typography variant="body2">User</Typography>
         </TableCell>
-        <TableCell
-          style={{ paddingLeft: "24px", width: "10%" }}
-          className={classes.cell}
-        >
+        <TableCell style={{ width: "10%" }} className={classes.cell}>
           <Typography variant="body2">Action</Typography>
         </TableCell>
-        <TableCell
-          style={{ paddingLeft: "24px", width: "70%" }}
-          className={classes.cell}
-        >
+        <TableCell style={{ width: "60%" }} className={classes.cell}>
           <Typography variant="body2">Details</Typography>
         </TableCell>
-        <TableCell
-          style={{ paddingLeft: "24px", width: "10%" }}
-          className={classes.cell}
-        >
+        <TableCell style={{ width: "20%" }} className={classes.cell}>
           <Typography variant="body2">Timestamp</Typography>
         </TableCell>
       </TableRow>

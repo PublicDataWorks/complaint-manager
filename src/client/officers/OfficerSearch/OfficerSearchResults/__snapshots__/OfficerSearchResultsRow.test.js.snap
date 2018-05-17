@@ -52,14 +52,15 @@ exports[`it can render officer search results with correct styles 1`] = `
               <OfficerSearchResultsRow
                 classes={
                   Object {
-                    "active": "OfficerSearchResultsRow-active-6",
-                    "buttonCell": "OfficerSearchResultsRow-buttonCell-5",
+                    "active": "OfficerSearchResultsRow-active-7",
+                    "buttonCell": "OfficerSearchResultsRow-buttonCell-6",
                     "cell": "OfficerSearchResultsRow-cell-4",
-                    "deceased": "OfficerSearchResultsRow-deceased-8",
-                    "inactive": "OfficerSearchResultsRow-inactive-10",
-                    "retired": "OfficerSearchResultsRow-retired-9",
+                    "deceased": "OfficerSearchResultsRow-deceased-9",
+                    "inactive": "OfficerSearchResultsRow-inactive-11",
+                    "retired": "OfficerSearchResultsRow-retired-10",
                     "row": "OfficerSearchResultsRow-row-3",
-                    "terminated": "OfficerSearchResultsRow-terminated-7",
+                    "terminated": "OfficerSearchResultsRow-terminated-8",
+                    "topAlignCell": "OfficerSearchResultsRow-topAlignCell-5",
                   }
                 }
                 officer={
@@ -343,11 +344,11 @@ exports[`it can render officer search results with correct styles 1`] = `
                     className="OfficerSearchResultsRow-row-3"
                     classes={
                       Object {
-                        "footer": "MuiTableRow-footer-15",
-                        "head": "MuiTableRow-head-14",
-                        "hover": "MuiTableRow-hover-13",
-                        "root": "MuiTableRow-root-11",
-                        "selected": "MuiTableRow-selected-12",
+                        "footer": "MuiTableRow-footer-16",
+                        "head": "MuiTableRow-head-15",
+                        "hover": "MuiTableRow-hover-14",
+                        "root": "MuiTableRow-root-12",
+                        "selected": "MuiTableRow-selected-13",
                       }
                     }
                     component="tr"
@@ -355,7 +356,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                     selected={false}
                   >
                     <tr
-                      className="MuiTableRow-root-11 OfficerSearchResultsRow-row-3"
+                      className="MuiTableRow-root-12 OfficerSearchResultsRow-row-3"
                     >
                       <WithStyles(TableCell)
                         className="OfficerSearchResultsRow-cell-4"
@@ -369,14 +370,14 @@ exports[`it can render officer search results with correct styles 1`] = `
                           className="OfficerSearchResultsRow-cell-4"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-18",
-                              "footer": "MuiTableCell-footer-19",
-                              "head": "MuiTableCell-head-17",
-                              "numeric": "MuiTableCell-numeric-20",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
-                              "paddingDense": "MuiTableCell-paddingDense-21",
-                              "paddingNone": "MuiTableCell-paddingNone-23",
-                              "root": "MuiTableCell-root-16",
+                              "body": "MuiTableCell-body-19",
+                              "footer": "MuiTableCell-footer-20",
+                              "head": "MuiTableCell-head-18",
+                              "numeric": "MuiTableCell-numeric-21",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
+                              "paddingDense": "MuiTableCell-paddingDense-22",
+                              "paddingNone": "MuiTableCell-paddingNone-24",
+                              "root": "MuiTableCell-root-17",
                             }
                           }
                           numeric={false}
@@ -389,7 +390,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-16 MuiTableCell-body-18 OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-cell-4"
                             style={
                               Object {
                                 "paddingLeft": "16px",
@@ -400,7 +401,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                               Ugochi Grant Smith
                             </div>
                             <div
-                              className="OfficerSearchResultsRow-inactive-10"
+                              className="OfficerSearchResultsRow-inactive-11"
                             >
                               Inactive
                             </div>
@@ -414,14 +415,14 @@ exports[`it can render officer search results with correct styles 1`] = `
                           className="OfficerSearchResultsRow-cell-4"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-18",
-                              "footer": "MuiTableCell-footer-19",
-                              "head": "MuiTableCell-head-17",
-                              "numeric": "MuiTableCell-numeric-20",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
-                              "paddingDense": "MuiTableCell-paddingDense-21",
-                              "paddingNone": "MuiTableCell-paddingNone-23",
-                              "root": "MuiTableCell-root-16",
+                              "body": "MuiTableCell-body-19",
+                              "footer": "MuiTableCell-footer-20",
+                              "head": "MuiTableCell-head-18",
+                              "numeric": "MuiTableCell-numeric-21",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
+                              "paddingDense": "MuiTableCell-paddingDense-22",
+                              "paddingNone": "MuiTableCell-paddingNone-24",
+                              "root": "MuiTableCell-root-17",
                             }
                           }
                           numeric={false}
@@ -429,7 +430,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-16 MuiTableCell-body-18 OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-cell-4"
                           >
                             Police Commander
                           </td>
@@ -442,14 +443,14 @@ exports[`it can render officer search results with correct styles 1`] = `
                           className="OfficerSearchResultsRow-cell-4"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-18",
-                              "footer": "MuiTableCell-footer-19",
-                              "head": "MuiTableCell-head-17",
-                              "numeric": "MuiTableCell-numeric-20",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
-                              "paddingDense": "MuiTableCell-paddingDense-21",
-                              "paddingNone": "MuiTableCell-paddingNone-23",
-                              "root": "MuiTableCell-root-16",
+                              "body": "MuiTableCell-body-19",
+                              "footer": "MuiTableCell-footer-20",
+                              "head": "MuiTableCell-head-18",
+                              "numeric": "MuiTableCell-numeric-21",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
+                              "paddingDense": "MuiTableCell-paddingDense-22",
+                              "paddingNone": "MuiTableCell-paddingNone-24",
+                              "root": "MuiTableCell-root-17",
                             }
                           }
                           numeric={false}
@@ -457,7 +458,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-16 MuiTableCell-body-18 OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-cell-4"
                           >
                             FOB - Field Operations Bureau
                           </td>
@@ -470,14 +471,14 @@ exports[`it can render officer search results with correct styles 1`] = `
                           className="OfficerSearchResultsRow-cell-4"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-18",
-                              "footer": "MuiTableCell-footer-19",
-                              "head": "MuiTableCell-head-17",
-                              "numeric": "MuiTableCell-numeric-20",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
-                              "paddingDense": "MuiTableCell-paddingDense-21",
-                              "paddingNone": "MuiTableCell-paddingNone-23",
-                              "root": "MuiTableCell-root-16",
+                              "body": "MuiTableCell-body-19",
+                              "footer": "MuiTableCell-footer-20",
+                              "head": "MuiTableCell-head-18",
+                              "numeric": "MuiTableCell-numeric-21",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
+                              "paddingDense": "MuiTableCell-paddingDense-22",
+                              "paddingNone": "MuiTableCell-paddingNone-24",
+                              "root": "MuiTableCell-root-17",
                             }
                           }
                           numeric={false}
@@ -485,7 +486,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-16 MuiTableCell-body-18 OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-cell-4"
                           >
                             First District
                           </td>
@@ -498,14 +499,14 @@ exports[`it can render officer search results with correct styles 1`] = `
                           className="OfficerSearchResultsRow-cell-4"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-18",
-                              "footer": "MuiTableCell-footer-19",
-                              "head": "MuiTableCell-head-17",
-                              "numeric": "MuiTableCell-numeric-20",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
-                              "paddingDense": "MuiTableCell-paddingDense-21",
-                              "paddingNone": "MuiTableCell-paddingNone-23",
-                              "root": "MuiTableCell-root-16",
+                              "body": "MuiTableCell-body-19",
+                              "footer": "MuiTableCell-footer-20",
+                              "head": "MuiTableCell-head-18",
+                              "numeric": "MuiTableCell-numeric-21",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
+                              "paddingDense": "MuiTableCell-paddingDense-22",
+                              "paddingNone": "MuiTableCell-paddingNone-24",
+                              "root": "MuiTableCell-root-17",
                             }
                           }
                           numeric={false}
@@ -513,7 +514,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-16 MuiTableCell-body-18 OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-cell-4"
                           />
                         </TableCell>
                       </WithStyles(TableCell)>
@@ -524,14 +525,14 @@ exports[`it can render officer search results with correct styles 1`] = `
                           className="OfficerSearchResultsRow-cell-4"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-18",
-                              "footer": "MuiTableCell-footer-19",
-                              "head": "MuiTableCell-head-17",
-                              "numeric": "MuiTableCell-numeric-20",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
-                              "paddingDense": "MuiTableCell-paddingDense-21",
-                              "paddingNone": "MuiTableCell-paddingNone-23",
-                              "root": "MuiTableCell-root-16",
+                              "body": "MuiTableCell-body-19",
+                              "footer": "MuiTableCell-footer-20",
+                              "head": "MuiTableCell-head-18",
+                              "numeric": "MuiTableCell-numeric-21",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
+                              "paddingDense": "MuiTableCell-paddingDense-22",
+                              "paddingNone": "MuiTableCell-paddingNone-24",
+                              "root": "MuiTableCell-root-17",
                             }
                           }
                           numeric={false}
@@ -539,7 +540,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-16 MuiTableCell-body-18 OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-cell-4"
                           >
                             Cuban
                           </td>
@@ -552,14 +553,14 @@ exports[`it can render officer search results with correct styles 1`] = `
                           className="OfficerSearchResultsRow-cell-4"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-18",
-                              "footer": "MuiTableCell-footer-19",
-                              "head": "MuiTableCell-head-17",
-                              "numeric": "MuiTableCell-numeric-20",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
-                              "paddingDense": "MuiTableCell-paddingDense-21",
-                              "paddingNone": "MuiTableCell-paddingNone-23",
-                              "root": "MuiTableCell-root-16",
+                              "body": "MuiTableCell-body-19",
+                              "footer": "MuiTableCell-footer-20",
+                              "head": "MuiTableCell-head-18",
+                              "numeric": "MuiTableCell-numeric-21",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
+                              "paddingDense": "MuiTableCell-paddingDense-22",
+                              "paddingNone": "MuiTableCell-paddingNone-24",
+                              "root": "MuiTableCell-root-17",
                             }
                           }
                           numeric={false}
@@ -567,25 +568,25 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-16 MuiTableCell-body-18 OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-cell-4"
                           />
                         </TableCell>
                       </WithStyles(TableCell)>
                       <WithStyles(TableCell)
-                        className="OfficerSearchResultsRow-buttonCell-5"
+                        className="OfficerSearchResultsRow-buttonCell-6"
                       >
                         <TableCell
-                          className="OfficerSearchResultsRow-buttonCell-5"
+                          className="OfficerSearchResultsRow-buttonCell-6"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-18",
-                              "footer": "MuiTableCell-footer-19",
-                              "head": "MuiTableCell-head-17",
-                              "numeric": "MuiTableCell-numeric-20",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-22",
-                              "paddingDense": "MuiTableCell-paddingDense-21",
-                              "paddingNone": "MuiTableCell-paddingNone-23",
-                              "root": "MuiTableCell-root-16",
+                              "body": "MuiTableCell-body-19",
+                              "footer": "MuiTableCell-footer-20",
+                              "head": "MuiTableCell-head-18",
+                              "numeric": "MuiTableCell-numeric-21",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
+                              "paddingDense": "MuiTableCell-paddingDense-22",
+                              "paddingNone": "MuiTableCell-paddingNone-24",
+                              "root": "MuiTableCell-root-17",
                             }
                           }
                           numeric={false}
@@ -593,7 +594,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-16 MuiTableCell-body-18 OfficerSearchResultsRow-buttonCell-5"
+                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-buttonCell-6"
                           />
                         </TableCell>
                       </WithStyles(TableCell)>

@@ -12,7 +12,7 @@ exports.init = sequelize => {
   const afterUpdateHook = async (instance, options) => {
     try {
       await sequelize.model("data_change_audit").create({
-        user: httpContext.get("userNickname") || "", //fix tests to remove this
+        user: httpContext.get("userNickname") || "bob", //fix
         action: DATA_UPDATED,
         modelName: instance._modelOptions.name.singular,
         modelId: instance.id,
@@ -22,6 +22,7 @@ exports.init = sequelize => {
       });
     } catch (error) {
       console.log("ERROR IN AFTER UPDATE HOOK: ", error);
+      throw error;
     }
   };
 

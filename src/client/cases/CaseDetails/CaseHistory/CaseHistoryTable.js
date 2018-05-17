@@ -1,19 +1,12 @@
 import React, { Component } from "react";
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  Typography,
-  withStyles
-} from "material-ui";
+import { Paper, Table, TableBody, Typography, withStyles } from "material-ui";
 import tableStyleGenerator from "../../../tableStyles";
 import CaseHistoryTableHeader from "./CaseHistoryTableHeader";
+import { connect } from "react-redux";
+import CaseHistoryRow from "./CaseHistoryTableRow";
 
 const styles = theme => ({
-  ...tableStyleGenerator(theme).table,
-  ...tableStyleGenerator(theme).body
+  ...tableStyleGenerator(theme).table
 });
 
 class CaseHistoryTable extends Component {
@@ -24,26 +17,38 @@ class CaseHistoryTable extends Component {
         <Typography variant="title" className={classes.labelMargin}>
           Case History
         </Typography>
-        <Typography variant="body1" className={classes.labelMargin}>
+        <Typography
+          variant="body1"
+          className={classes.labelMargin}
+          style={{ marginBottom: "16px" }}
+        >
           Below you will find the full case history, including all automatically
           captured actions since the case's creation.
         </Typography>
         <Paper elevation={0} className={classes.tableMargin}>
           <Table>
             <CaseHistoryTableHeader />
-            <TableBody>
-              <TableRow className={classes.row}>
-                <TableCell className={classes.cell}>someone</TableCell>
-                <TableCell className={classes.cell}>something</TableCell>
-                <TableCell className={classes.cell}>details</TableCell>
-                <TableCell className={classes.cell}>now</TableCell>
-              </TableRow>
-            </TableBody>
+            <TableBody>{this.renderCaseHistoryRows()}</TableBody>
           </Table>
         </Paper>
       </div>
     );
   }
+
+  renderCaseHistoryRows() {
+    if (!this.props.caseHistory) {
+      return null;
+    }
+    return this.props.caseHistory.map(history => {
+      return <CaseHistoryRow history={history} key={history.id} />;
+    });
+  }
 }
 
-export default withStyles(styles, { withTheme: true })(CaseHistoryTable);
+const mapStateToProps = state => ({
+  caseHistory: state.currentCase.caseHistory
+});
+
+export default withStyles(styles, { withTheme: true })(
+  connect(mapStateToProps)(CaseHistoryTable)
+);

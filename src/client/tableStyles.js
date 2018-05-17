@@ -16,8 +16,8 @@ const tableStyles = theme => ({
       overflowX: "scroll"
     },
     cell: {
-      padding: "0%",
-      textAlign: "center"
+      padding: "0 0 0 24px",
+      textAlign: "left"
     }
   },
   body: {
@@ -30,8 +30,13 @@ const tableStyles = theme => ({
       overflowX: "scroll"
     },
     cell: {
-      padding: "0%",
-      textAlign: "center"
+      padding: "0 0 0 24px",
+      textAlign: "left"
+    },
+    topAlignCell: {
+      padding: "24px 0 24px 24px",
+      textAlign: "left",
+      verticalAlign: "top"
     }
   }
 });

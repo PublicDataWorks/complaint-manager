@@ -1,5 +1,4 @@
-import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
-
+const transformAuditToCaseHistory = require("./transformAuditToCaseHistory");
 const models = require("../../../models");
 
 const getCaseHistory = async (request, response, next) => {

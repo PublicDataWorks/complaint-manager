@@ -20,13 +20,17 @@ const transformDetails = audit => {
   return _.reduce(
     audit.changes,
     (result, value, key) => {
-      return _.concat(
-        result,
-        `${_.startCase(key)} changed from '${value.previous}' to '${value.new}'`
-      );
+      const detail = `${_.startCase(key)} changed from '${transformNull(
+        value.previous
+      )}' to '${transformNull(value.new)}'`;
+      return _.concat(result, detail);
     },
     []
   );
 };
 
-export default transformAuditToCaseHistory;
+const transformNull = value => {
+  return value == null ? "" : value;
+};
+
+module.exports = transformAuditToCaseHistory;

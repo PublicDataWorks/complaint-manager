@@ -32,7 +32,7 @@ class CasesTable extends React.Component {
               <TableRow className={classes.row}>
                 <TableCell
                   data-test="casesNumberHeader"
-                  style={{ paddingLeft: "24px", width: "10%" }}
+                  style={{ width: "10%" }}
                   className={classes.cell}
                 >
                   <TableSortLabel
@@ -46,7 +46,7 @@ class CasesTable extends React.Component {
                 </TableCell>
                 <TableCell
                   data-test="casesStatusHeader"
-                  style={{ paddingLeft: "24px", width: "13%" }}
+                  style={{ width: "13%" }}
                   className={classes.cell}
                 >
                   <TableSortLabel
@@ -60,7 +60,7 @@ class CasesTable extends React.Component {
                 </TableCell>
                 <TableCell
                   data-test="casesComplainantHeader"
-                  style={{ paddingLeft: "24px", width: "16%" }}
+                  style={{ width: "16%" }}
                   className={classes.cell}
                 >
                   <TableSortLabel
@@ -74,7 +74,7 @@ class CasesTable extends React.Component {
                 </TableCell>
                 <TableCell
                   data-test="casesAccusedOfficerHeader"
-                  style={{ paddingLeft: "24px", width: "16%" }}
+                  style={{ width: "16%" }}
                   className={classes.cell}
                 >
                   <TableSortLabel
@@ -90,7 +90,7 @@ class CasesTable extends React.Component {
                 </TableCell>
                 <TableCell
                   data-test="casesFirstContactDateHeader"
-                  style={{ paddingLeft: "24px", width: "15%" }}
+                  style={{ width: "15%" }}
                   className={classes.cell}
                 >
                   <TableSortLabel
@@ -106,7 +106,7 @@ class CasesTable extends React.Component {
                 </TableCell>
                 <TableCell
                   data-test="casesAssignedToHeader"
-                  style={{ paddingLeft: "24px", width: "14%" }}
+                  style={{ width: "14%" }}
                   className={classes.cell}
                 >
                   <TableSortLabel
@@ -120,10 +120,7 @@ class CasesTable extends React.Component {
                     <Typography variant="body2">Assigned To</Typography>
                   </TableSortLabel>
                 </TableCell>
-                <TableCell
-                  style={{ paddingLeft: "24px", width: "14%" }}
-                  className={classes.cell}
-                />
+                <TableCell style={{ width: "14%" }} className={classes.cell} />
               </TableRow>
             </TableHead>
             <TableBody>
