@@ -10,7 +10,6 @@ import SharedSnackbarContainer from "../../../sharedComponents/SharedSnackbarCon
 
 export class CaseHistory extends Component {
   componentDidMount() {
-    console.log("Did mount");
     this.props.getCaseHistory(this.props.match.params.id);
   }
 

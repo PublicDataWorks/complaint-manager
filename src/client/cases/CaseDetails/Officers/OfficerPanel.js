@@ -1,19 +1,13 @@
 import React from "react";
 import {
-  Button,
   Divider,
   ExpansionPanel,
   ExpansionPanelSummary,
-  Menu,
-  MenuItem,
   Typography
 } from "material-ui";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
 import formatDate from "../../../utilities/formatDate";
-import { selectCaseOfficer } from "../../../actionCreators/officersActionCreators";
-import { connect } from "react-redux";
-import { push } from "react-router-redux";
 
 const OfficerPanel = ({ caseOfficer, children }) => (
   <div>

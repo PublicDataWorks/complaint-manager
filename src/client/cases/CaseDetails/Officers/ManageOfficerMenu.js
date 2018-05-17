@@ -1,7 +1,7 @@
 import React from "react";
 import { push } from "react-router-redux";
 import { selectCaseOfficer } from "../../../actionCreators/officersActionCreators";
-import { Button, Menu, MenuItem } from "material-ui";
+import { Menu, MenuItem } from "material-ui";
 import { connect } from "react-redux";
 import { SecondaryButton } from "../../../sharedComponents/StyledButtons";
 
