@@ -1,3 +1,5 @@
+import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
+
 const models = require("../../../models");
 
 const getCaseHistory = async (request, response, next) => {
@@ -5,20 +7,12 @@ const getCaseHistory = async (request, response, next) => {
     const caseId = request.params.id;
     const audits = await models.data_change_audit.findAll({
       where: { caseId: caseId },
-      attributes: [
-        "id",
-        "action",
-        "modelName",
-        "modelId",
-        "changes",
-        "user",
-        "createdAt",
-        "caseId"
-      ],
+      attributes: ["id", "action", "modelName", "changes", "user", "createdAt"],
       order: [["createdAt", "desc"]],
       raw: true
     });
-    response.status(200).send(audits);
+    const caseHistory = transformAuditToCaseHistory(audits);
+    response.status(200).send(caseHistory);
   } catch (error) {
     next(error);
   }

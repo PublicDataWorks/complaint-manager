@@ -2,8 +2,8 @@ import DataChangeAudit from "../../../../client/testUtilities/dataChangeAudit";
 import { DATA_UPDATED } from "../../../../sharedUtilities/constants";
 import models from "../../../models";
 import httpMocks from "node-mocks-http";
-import _ from "lodash";
 import getCaseHistory from "./getCaseHistory";
+import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
 
 describe("getCaseHistory", () => {
   let request, response, next;
@@ -59,7 +59,7 @@ describe("getCaseHistory", () => {
     expect(response._getData()).toEqual([]);
   });
 
-  test("should return the properties needed for display", async () => {
+  test("should return the transformed case history needed for display", async () => {
     const dataChangeAudit = await createDataChangeAudit(
       caseId,
       "2017-01-31T13:00Z"
@@ -67,9 +67,9 @@ describe("getCaseHistory", () => {
     await getCaseHistory(request, response, next);
 
     expect(response.statusCode).toEqual(200);
-    expect(response._getData()).toEqual([
-      auditChangeProperties(dataChangeAudit)
-    ]);
+    expect(response._getData()).toEqual(
+      transformAuditToCaseHistory([dataChangeAudit])
+    );
   });
 
   const createDataChangeAudit = async (caseId, createdAt) => {
@@ -84,18 +84,5 @@ describe("getCaseHistory", () => {
       .withUser("bob")
       .withCreatedAt(createdAt);
     return await models.data_change_audit.create(dataChangeAuditAttributes);
-  };
-
-  const auditChangeProperties = dataChangeAudit => {
-    return _.pick(dataChangeAudit, [
-      "id",
-      "caseId",
-      "action",
-      "modelName",
-      "modelId",
-      "changes",
-      "user",
-      "createdAt"
-    ]);
   };
 });

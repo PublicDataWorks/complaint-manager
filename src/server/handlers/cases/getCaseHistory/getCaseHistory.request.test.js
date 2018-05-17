@@ -34,25 +34,18 @@ describe("GET /api/cases/:caseId/case-history", () => {
       dataChangeAuditAttributes
     );
 
-    const expectedAuditProperties = _.pick(dataChangeAudit, [
-      "id",
-      "caseId",
-      "action",
-      "modelName",
-      "modelId",
-      "changes",
-      "user",
-      "createdAt"
-    ]);
-    expectedAuditProperties["createdAt"] = dataChangeAudit.createdAt.toJSON();
-
     await request(app)
       .get(`/api/cases/${existingCase.id}/case-history`)
       .set("Authorization", `Bearer ${token}`)
       .set("Content-Type", "application/json")
       .expect(200)
       .then(response => {
-        expect(response.body).toEqual([expectedAuditProperties]);
+        expect(response.body).toEqual([
+          expect.objectContaining({
+            id: dataChangeAudit.id,
+            user: dataChangeAudit.user
+          })
+        ]);
       });
   });
 });
