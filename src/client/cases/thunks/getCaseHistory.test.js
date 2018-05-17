@@ -1,79 +1,86 @@
-import {getCaseHistorySuccess} from "../../actionCreators/caseHistoryActionCreators";
+import { getCaseHistorySuccess } from "../../actionCreators/caseHistoryActionCreators";
 import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
 import getCaseHistory from "./getCaseHistory";
-import {push} from "react-router-redux";
-import {snackbarError} from "../../actionCreators/snackBarActionCreators";
+import { push } from "react-router-redux";
+import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 
-jest.mock('../../auth/getAccessToken');
+jest.mock("../../auth/getAccessToken");
 
 describe("getCaseHistory", () => {
-    const caseId = 2;
-    const dispatch = jest.fn();
-    const token = 'token';
+  const caseId = 2;
+  const dispatch = jest.fn();
+  const token = "token";
 
-    test("redirects to login if no token", async () => {
-        getAccessToken.mockImplementation(() => null);
-        await getCaseHistory(caseId)(dispatch);
-        expect(dispatch).toHaveBeenCalledWith(push('/login'));
-    });
+  test("redirects to login if no token", async () => {
+    getAccessToken.mockImplementation(() => null);
+    await getCaseHistory(caseId)(dispatch);
+    expect(dispatch).toHaveBeenCalledWith(push("/login"));
+  });
 
-   test("should dispatch success when receive case history with 200", async () => {
-       const responseBody = [{action: 'updated', changes: {}}];
-       getAccessToken.mockImplementation(() => token);
+  test("should dispatch success when receive case history with 200", async () => {
+    const responseBody = [{ action: "updated", changes: {} }];
+    getAccessToken.mockImplementation(() => token);
 
-       nock("http://localhost/", {
-           reqheaders: {
-               'Content-Type': 'application/json',
-               'Authorization': `Bearer ${token}`
-           }
-       }).get(`/api/cases/${caseId}/case-history`)
-           .reply(200, responseBody);
+    nock("http://localhost/", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .get(`/api/cases/${caseId}/case-history`)
+      .reply(200, responseBody);
 
-       await getCaseHistory(caseId)(dispatch);
-       expect(dispatch).toHaveBeenCalledWith(getCaseHistorySuccess(responseBody));
-   });
+    await getCaseHistory(caseId)(dispatch);
+    expect(dispatch).toHaveBeenCalledWith(getCaseHistorySuccess(responseBody));
+  });
 
-    test("redirects to login when server call returns 401", async () => {
-        getAccessToken.mockImplementation(() => token);
-        nock('http://localhost/', {
-            reqheaders: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .get(`/api/cases/${caseId}/case-history`)
-            .reply(401);
+  test("redirects to login when server call returns 401", async () => {
+    getAccessToken.mockImplementation(() => token);
+    nock("http://localhost/", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .get(`/api/cases/${caseId}/case-history`)
+      .reply(401);
 
-        await getCaseHistory(caseId)(dispatch);
-        expect(dispatch).toHaveBeenCalledWith(push('/login'));
-    });
+    await getCaseHistory(caseId)(dispatch);
+    expect(dispatch).toHaveBeenCalledWith(push("/login"));
+  });
 
-    test("dispatches snackbar error when 500 response code", async () => {
-        getAccessToken.mockImplementation(() => token);
-        nock('http://localhost/', {
-            reqheaders: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        }).get(`/api/cases/${caseId}/case-history`)
-            .reply(500);
+  test("dispatches snackbar error when 500 response code", async () => {
+    getAccessToken.mockImplementation(() => token);
+    nock("http://localhost/", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .get(`/api/cases/${caseId}/case-history`)
+      .reply(500);
 
-        await getCaseHistory(caseId)(dispatch);
-        expect(dispatch).toHaveBeenCalledWith(snackbarError("Something went wrong and we could not fetch the case history."));
-    });
+    await getCaseHistory(caseId)(dispatch);
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarError(
+        "Something went wrong and we could not fetch the case history."
+      )
+    );
+  });
 
-    test("redirects to login when 401 response code", async () => {
-        getAccessToken.mockImplementation(() => token);
-        nock('http://localhost/', {
-            reqheaders: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        }).get(`/api/cases/${caseId}/case-history`)
-            .reply(401);
+  test("redirects to login when 401 response code", async () => {
+    getAccessToken.mockImplementation(() => token);
+    nock("http://localhost/", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .get(`/api/cases/${caseId}/case-history`)
+      .reply(401);
 
-        await getCaseHistory(caseId)(dispatch);
-        expect(dispatch).toHaveBeenCalledWith(push('/login'));
-    });
+    await getCaseHistory(caseId)(dispatch);
+    expect(dispatch).toHaveBeenCalledWith(push("/login"));
+  });
 });
