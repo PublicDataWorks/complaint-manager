@@ -4,7 +4,7 @@ const editCase = require("./handlers/cases/editCase");
 const getCases = require("./handlers/cases/getCases");
 const getCase = require("./handlers/cases/getCase/getCase");
 const getRecentActivity = require("./handlers/cases/getRecentActivity");
-const getCaseHistory = require('./handlers/cases/getCaseHistory/getCaseHistory');
+const getCaseHistory = require("./handlers/cases/getCaseHistory/getCaseHistory");
 const updateCaseNarrative = require("./handlers/cases/updateCaseNarrative");
 const editCivilian = require("./handlers/civilians/editCivilian");
 const createCivilian = require("./handlers/civilians/createCivilian");
@@ -24,6 +24,7 @@ const editCaseOfficer = require("./handlers/officers/editCaseOfficer/editCaseOff
 const editUserAction = require("./handlers/cases/editUserAction/editUserAction");
 const removeUserAction = require("./handlers/cases/removeUserAction/removeUserAction");
 const createUserAction = require("./handlers/cases/createUserAction");
+const searchAllegations = require("./handlers/allegations/searchAllegations");
 const attachmentRouter = require("./attachmentRouter");
 
 const express = require("express");
@@ -61,5 +62,7 @@ router.post("/audit", audit);
 router.post("/users", createUser);
 router.get("/users", getUsers);
 router.get("/export-audit-log", jwtAuthz([EXPORT_AUDIT_LOG]), exportAuditLog);
+
+router.get("/allegations", searchAllegations);
 
 module.exports = router;
