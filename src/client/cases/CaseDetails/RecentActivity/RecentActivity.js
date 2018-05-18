@@ -5,7 +5,7 @@ import getRecentActivity from "../../thunks/getRecentActivity";
 import { Typography } from "material-ui";
 import RemoveUserActionDialog from "../RemoveUserActionDialog/RemoveUserActionDialog";
 import LinkButton from "../../../sharedComponents/LinkButton";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class RecentActivity extends Component {
   componentDidMount() {
@@ -24,7 +24,10 @@ class RecentActivity extends Component {
         >
           Recent Activity
         </Typography>
-        <div data-test="recentActivityContainer">
+        <div
+          data-test="recentActivityContainer"
+          style={{ paddingBottom: "16px" }}
+        >
           {recentActivity.length === 0 ? (
             <Typography variant="body1">
               No case notes have been added
@@ -45,8 +48,13 @@ class RecentActivity extends Component {
           )}
         </div>
         <RemoveUserActionDialog />
-        <div style={{width: '100%', textAlign: 'right'}}>
-            <LinkButton component={Link} to={`/cases/${this.props.caseId}/history`}>See Full Case History</LinkButton>
+        <div style={{ width: "100%", textAlign: "right" }}>
+          <LinkButton
+            component={Link}
+            to={`/cases/${this.props.caseId}/history`}
+          >
+            View Case History
+          </LinkButton>
         </div>
       </div>
     );
