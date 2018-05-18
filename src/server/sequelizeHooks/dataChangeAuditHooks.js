@@ -27,7 +27,7 @@ exports.init = sequelize => {
         modelName: instance._modelOptions.name.singular,
         modelId: instance.id,
         caseId: instance.id,
-        snapshot: {},
+        snapshot: instance.dataValues,
         changes: objectChanges(instance)
       });
     } catch (error) {

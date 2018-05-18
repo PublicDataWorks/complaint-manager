@@ -9,23 +9,8 @@ describe("dataChangeAuditHooks", () => {
   });
 
   describe("update case", () => {
-    test("it creates an audit entry for the case creation with the basic attributes", async () => {
-      const initialCaseAttributes = new Case.Builder()
-        .defaultCase()
-        .withId(undefined)
-        .withIncidentLocation(undefined);
-      const createdCase = await models.cases.create(initialCaseAttributes);
-
-      const audits = await createdCase.getDataChangeAudits();
-      expect(audits.length).toEqual(1);
-      const audit = audits[0];
-
-      expect(audit.modelName).toEqual("case");
-      expect(audit.modelId).toEqual(createdCase.id);
-      expect(audit.action).toEqual(DATA_CREATED);
-    });
-
-    test("it saves the changes of the new values", async () => {
+    let createdCase = null;
+    beforeEach(async () => {
       const initialCaseAttributes = new Case.Builder()
         .defaultCase()
         .withId(undefined)
@@ -37,8 +22,22 @@ describe("dataChangeAuditHooks", () => {
         .withIncidentTime(null)
         .withNarrativeSummary("original narrative summary")
         .withNarrativeDetails(null)
-        .withAssignedTo("originalAssignedToPerson");
-      const createdCase = await models.cases.create(initialCaseAttributes);
+        .withAssignedTo("originalAssignedToPerson")
+        .withCreatedBy("createdByPerson");
+      createdCase = await models.cases.create(initialCaseAttributes);
+    });
+
+    test("it creates an audit entry for the case creation with the basic attributes", async () => {
+      const audits = await createdCase.getDataChangeAudits();
+      expect(audits.length).toEqual(1);
+      const audit = audits[0];
+
+      expect(audit.modelName).toEqual("case");
+      expect(audit.modelId).toEqual(createdCase.id);
+      expect(audit.action).toEqual(DATA_CREATED);
+    });
+
+    test("it saves the changes of the new values", async () => {
       const audit = (await createdCase.getDataChangeAudits())[0];
 
       const expectedChanges = {
@@ -54,6 +53,28 @@ describe("dataChangeAuditHooks", () => {
         status: { new: "Initial" }
       };
       expect(audit.changes).toEqual(expectedChanges);
+    });
+
+    test("it saves the full snapshot of the object", async () => {
+      const audit = (await createdCase.getDataChangeAudits())[0];
+
+      const expectedSnapshot = {
+        narrativeSummary: "original narrative summary",
+        narrativeDetails: null,
+        incidentTime: null,
+        incidentDate: null,
+        firstContactDate: "2017-12-25",
+        district: null,
+        complainantType: "Police Officer",
+        incidentLocationId: null,
+        assignedTo: "originalAssignedToPerson",
+        status: "Initial",
+        createdAt: createdCase.createdAt.toJSON(),
+        createdBy: "createdByPerson",
+        updatedAt: createdCase.updatedAt.toJSON(),
+        id: createdCase.id
+      };
+      expect(audit.snapshot).toEqual(expectedSnapshot);
     });
   });
 
@@ -71,7 +92,8 @@ describe("dataChangeAuditHooks", () => {
         .withIncidentTime("01:01:01")
         .withNarrativeSummary("original narrative summary")
         .withNarrativeDetails("original narrative details")
-        .withAssignedTo("originalAssignedToPerson");
+        .withAssignedTo("originalAssignedToPerson")
+        .withCreatedBy("createdByPerson");
       existingCase = await models.cases.create(initialCaseAttributes);
     });
 
@@ -145,6 +167,40 @@ describe("dataChangeAuditHooks", () => {
         }
       };
       expect(audit.changes).toEqual(expectedChanges);
+    });
+
+    test("it saves a snapshot of the objects new values", async () => {
+      await existingCase.update({
+        complainantType: "Civilian",
+        district: "2nd District",
+        firstContactDate: "2018-01-01T00:00:00.000Z",
+        incidentDate: "2017-12-05",
+        incidentTime: "12:59:59",
+        narrativeSummary: "updated narrative summary",
+        narrativeDetails: "updated narrative details",
+        assignedTo: "updatedAssignedPerson"
+      });
+      const audit = (await existingCase.getDataChangeAudits({
+        where: { action: DATA_UPDATED }
+      }))[0];
+
+      const expectedSnapshot = {
+        narrativeSummary: "updated narrative summary",
+        narrativeDetails: "updated narrative details",
+        incidentTime: "12:59:59",
+        incidentDate: "2017-12-05",
+        firstContactDate: "2018-01-01",
+        district: "2nd District",
+        complainantType: "Civilian",
+        incidentLocationId: null,
+        assignedTo: "updatedAssignedPerson",
+        status: "Active",
+        createdAt: existingCase.createdAt.toJSON(),
+        createdBy: "createdByPerson",
+        updatedAt: existingCase.updatedAt.toJSON(),
+        id: existingCase.id
+      };
+      expect(audit.snapshot).toEqual(expectedSnapshot);
     });
   });
 });
