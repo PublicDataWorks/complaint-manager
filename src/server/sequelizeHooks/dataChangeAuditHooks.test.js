@@ -1,10 +1,60 @@
 import models from "../models/index";
 import Case from "../../client/testUtilities/case";
-import { DATA_UPDATED } from "../../sharedUtilities/constants";
+import { DATA_CREATED, DATA_UPDATED } from "../../sharedUtilities/constants";
 
 describe("dataChangeAuditHooks", () => {
   afterEach(async () => {
     await models.cases.truncate({ cascade: true, force: true });
+    await models.data_change_audit.truncate({ cascade: true, force: true });
+  });
+
+  describe("update case", () => {
+    test("it creates an audit entry for the case creation with the basic attributes", async () => {
+      const initialCaseAttributes = new Case.Builder()
+        .defaultCase()
+        .withId(undefined)
+        .withIncidentLocation(undefined);
+      const createdCase = await models.cases.create(initialCaseAttributes);
+
+      const audits = await createdCase.getDataChangeAudits();
+      expect(audits.length).toEqual(1);
+      const audit = audits[0];
+
+      expect(audit.modelName).toEqual("case");
+      expect(audit.modelId).toEqual(createdCase.id);
+      expect(audit.action).toEqual(DATA_CREATED);
+    });
+
+    test("it saves the changes of the new values", async () => {
+      const initialCaseAttributes = new Case.Builder()
+        .defaultCase()
+        .withId(undefined)
+        .withIncidentLocation(undefined)
+        .withComplainantType("Police Officer")
+        .withDistrict(null)
+        .withFirstContactDate("2017-12-25T00:00:00.000Z")
+        .withIncidentDate(null)
+        .withIncidentTime(null)
+        .withNarrativeSummary("original narrative summary")
+        .withNarrativeDetails(null)
+        .withAssignedTo("originalAssignedToPerson");
+      const createdCase = await models.cases.create(initialCaseAttributes);
+      const audit = (await createdCase.getDataChangeAudits())[0];
+
+      const expectedChanges = {
+        narrativeSummary: { new: "original narrative summary" },
+        narrativeDetails: { new: null },
+        incidentTime: { new: null },
+        incidentDate: { new: null },
+        firstContactDate: { new: "2017-12-25" },
+        district: { new: null },
+        complainantType: { new: "Police Officer" },
+        incidentLocationId: { new: null },
+        assignedTo: { new: "originalAssignedToPerson" },
+        status: { new: "Initial" }
+      };
+      expect(audit.changes).toEqual(expectedChanges);
+    });
   });
 
   describe("update case", () => {
@@ -30,20 +80,24 @@ describe("dataChangeAuditHooks", () => {
         narrativeSummary: "updated narrative summary"
       });
 
-      const audits = await existingCase.getDataChangeAudits();
-      expect(audits.length).toEqual(1);
-      const audit = audits[0];
+      const updateAudits = await existingCase.getDataChangeAudits({
+        where: { action: DATA_UPDATED }
+      });
+      expect(updateAudits.length).toEqual(1);
+      const auditUpdate = updateAudits[0];
 
-      expect(audit.modelName).toEqual("case");
-      expect(audit.modelId).toEqual(existingCase.id);
-      expect(audit.action).toEqual(DATA_UPDATED);
+      expect(auditUpdate.modelName).toEqual("case");
+      expect(auditUpdate.modelId).toEqual(existingCase.id);
+      expect(auditUpdate.action).toEqual(DATA_UPDATED);
     });
 
     test("it saves the changes when only one field has changed and status triggered", async () => {
       await existingCase.update({
         narrativeSummary: "updated narrative summary"
       });
-      const audit = (await existingCase.getDataChangeAudits())[0];
+      const audit = (await existingCase.getDataChangeAudits({
+        where: { action: DATA_UPDATED }
+      }))[0];
 
       const expectedChanges = {
         narrativeSummary: {
@@ -66,7 +120,9 @@ describe("dataChangeAuditHooks", () => {
         narrativeDetails: "updated narrative details",
         assignedTo: "updatedAssignedPerson"
       });
-      const audit = (await existingCase.getDataChangeAudits())[0];
+      const audit = (await existingCase.getDataChangeAudits({
+        where: { action: DATA_UPDATED }
+      }))[0];
 
       const expectedChanges = {
         status: { previous: "Initial", new: "Active" },

@@ -1,19 +1,29 @@
+const { DATA_CREATED } = require("../../sharedUtilities/constants");
 const _ = require("lodash");
 const { DATA_UPDATED } = require("../../sharedUtilities/constants");
 const httpContext = require("express-http-context");
 
 exports.init = sequelize => {
   _.extend(sequelize.Model, {
-    auditDataChange: () => {
-      sequelize.addHook("afterUpdate", afterUpdateHook);
+    auditDataChange: function() {
+      this.addHook("afterCreate", afterCreateHook);
+      this.addHook("afterUpdate", afterUpdateHook);
     }
   });
 
+  const afterCreateHook = async (instance, options) => {
+    await createDataChangeAudit(instance, DATA_CREATED);
+  };
+
   const afterUpdateHook = async (instance, options) => {
+    await createDataChangeAudit(instance, DATA_UPDATED);
+  };
+
+  const createDataChangeAudit = async (instance, action) => {
     try {
       await sequelize.model("data_change_audit").create({
         user: httpContext.get("userNickname") || "bob", //fix
-        action: DATA_UPDATED,
+        action: action,
         modelName: instance._modelOptions.name.singular,
         modelId: instance.id,
         caseId: instance.id,
@@ -21,7 +31,7 @@ exports.init = sequelize => {
         changes: objectChanges(instance)
       });
     } catch (error) {
-      console.log("ERROR IN AFTER UPDATE HOOK: ", error);
+      console.log(`ERROR IN AFTER ${action} HOOK: `, error);
       throw error;
     }
   };

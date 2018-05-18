@@ -21,19 +21,6 @@ describe("GET /api/cases/:caseId/case-history", () => {
       .withIncidentLocation(undefined);
     const existingCase = await models.cases.create(caseAttributes);
 
-    const dataChangeAuditAttributes = new DataChangeAudit.Builder()
-      .defaultDataChangeAudit()
-      .withId(undefined)
-      .withModelName("case")
-      .withModelId(existingCase.id)
-      .withCaseId(existingCase.id)
-      .withAction(DATA_UPDATED)
-      .withChanges({})
-      .withUser("bob");
-    const dataChangeAudit = await models.data_change_audit.create(
-      dataChangeAuditAttributes
-    );
-
     await request(app)
       .get(`/api/cases/${existingCase.id}/case-history`)
       .set("Authorization", `Bearer ${token}`)
@@ -42,8 +29,7 @@ describe("GET /api/cases/:caseId/case-history", () => {
       .then(response => {
         expect(response.body).toEqual([
           expect.objectContaining({
-            id: dataChangeAudit.id,
-            user: dataChangeAudit.user
+            action: "Case created"
           })
         ]);
       });
