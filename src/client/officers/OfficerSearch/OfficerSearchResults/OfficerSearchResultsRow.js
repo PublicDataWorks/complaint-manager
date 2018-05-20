@@ -14,7 +14,7 @@ const styles = theme => ({
     color: theme.palette.red
   },
   deceased: {
-    color: theme.palette.secondary.main + "66" // 66 is 40% opacity in hex
+    color: theme.palette.secondary.lighter
   },
   retired: {
     color: theme.palette.secondary.main

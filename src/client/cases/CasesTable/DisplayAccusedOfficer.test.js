@@ -5,6 +5,8 @@ import CaseOfficer from "../../testUtilities/caseOfficer";
 import { containsText } from "../../../testHelpers";
 
 describe("DisplayAccusedOfficer", () => {
+  const noAccusedDisplayText = "No Accused Officers";
+
   test("should display an accused officer", () => {
     const accusedOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
@@ -25,14 +27,14 @@ describe("DisplayAccusedOfficer", () => {
     const wrapper = mount(<DisplayAccusedOfficer accusedOfficers={[]} />);
 
     const nameDisplay = wrapper.find('div[data-test="accusedOfficerName"]');
-    expect(nameDisplay.text()).toEqual("");
+    expect(nameDisplay.text()).toEqual(noAccusedDisplayText);
   });
 
   test("should be blank when accused officers is null", () => {
     const wrapper = mount(<DisplayAccusedOfficer accusedOfficers={null} />);
 
     const nameDisplay = wrapper.find('div[data-test="accusedOfficerName"]');
-    expect(nameDisplay.text()).toEqual("");
+    expect(nameDisplay.text()).toEqual(noAccusedDisplayText);
   });
 
   test("should be blank when accused officer present but officer details are not", () => {
@@ -47,6 +49,6 @@ describe("DisplayAccusedOfficer", () => {
     );
 
     const nameDisplay = wrapper.find('div[data-test="accusedOfficerName"]');
-    expect(nameDisplay.text()).toEqual("");
+    expect(nameDisplay.text()).toEqual(noAccusedDisplayText);
   });
 });

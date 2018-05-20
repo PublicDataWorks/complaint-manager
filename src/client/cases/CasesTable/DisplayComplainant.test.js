@@ -113,13 +113,11 @@ test("displays no complainant when non-complainants exists", () => {
     />
   );
 
-  expect(wrapper.find("[data-test='warnIcon']").exists()).toBeTruthy();
   expect(wrapper.text()).toEqual("No Complainants");
 });
 
 test("displays no complainant when there no civilians exist", () => {
   const wrapper = mount(<DisplayComplainant caseDetails={{ civilians: [] }} />);
 
-  expect(wrapper.find("[data-test='warnIcon']").exists()).toBeTruthy();
   expect(wrapper.text()).toEqual("No Complainants");
 });

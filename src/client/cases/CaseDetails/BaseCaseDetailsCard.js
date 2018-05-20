@@ -4,14 +4,11 @@ import { withStyles } from "material-ui";
 
 const styles = {
   subtitle: {
-    display: "flex",
-    justifyContent: "start",
-    alignItems: "center",
-    margin: "0 16px 16px 16px"
+    paddingTop: "0px"
   }
 };
 
-const BaseCaseDetailsCard = props => (
+const BaseCaseDetailsCard = ({ title, subtitle, classes, children }) => (
   <Card
     style={{
       backgroundColor: "white",
@@ -22,13 +19,13 @@ const BaseCaseDetailsCard = props => (
     }}
   >
     <CardContent>
-      <Typography variant="title">{props.title}</Typography>
+      <Typography variant="title">{title}</Typography>
     </CardContent>
-    {props.subtitle ? (
-      <div className={props.classes.subtitle}>{props.subtitle}</div>
+    {subtitle ? (
+      <CardContent className={classes.subtitle}>{subtitle}</CardContent>
     ) : null}
     <Divider />
-    {props.children}
+    {children}
   </Card>
 );
 

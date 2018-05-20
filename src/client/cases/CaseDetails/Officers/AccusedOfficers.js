@@ -5,6 +5,7 @@ import _ from "lodash";
 import AccusedOfficerPanel from "./OfficerPanel";
 import UnknownOfficerPanel from "./UnknownOfficerPanel";
 import ManageOfficerMenu from "./ManageOfficerMenu";
+import WarningMessage from "../../../sharedComponents/WarningMessage";
 
 const AccusedOfficers = ({ accusedOfficers }) => {
   const officerIsKnown = caseOfficer =>
@@ -43,7 +44,11 @@ const AccusedOfficers = ({ accusedOfficers }) => {
 
 const renderNoOfficers = () => (
   <CardContent>
-    <Typography>No accused officers have been added</Typography>
+    <WarningMessage>
+      <Typography variant="body1">
+        No accused officers have been added
+      </Typography>
+    </WarningMessage>
   </CardContent>
 );
 

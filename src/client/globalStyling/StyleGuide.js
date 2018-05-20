@@ -5,8 +5,8 @@ import Typography from "material-ui/Typography";
 import NavBar from "../sharedComponents/NavBar/NavBar";
 import StyledLink from "../sharedComponents/StyledLink";
 import {
-  SecondaryButton,
-  PrimaryButton
+  PrimaryButton,
+  SecondaryButton
 } from "../sharedComponents/StyledButtons";
 import { CardContent, withTheme } from "material-ui";
 import LinkButton from "../sharedComponents/LinkButton";
@@ -58,23 +58,25 @@ const StyleGuide = props => (
               title="Primary"
               subtitle="#673ab7"
               position="bottom"
-              style={{ background: props.theme.palette.primary.main }}
+              style={{ backgroundColor: "transparent" }}
             />
           </GridListTile>
+
           <GridListTile style={getBoxStyle(props.theme.palette.primary.light)}>
             <GridListTileBar
               title="P - Light"
               subtitle="#9a67ea"
               position="bottom"
-              style={{ background: props.theme.palette.primary.light }}
+              style={{ backgroundColor: "transparent" }}
             />
           </GridListTile>
+
           <GridListTile style={getBoxStyle(props.theme.palette.primary.dark)}>
             <GridListTileBar
               title="P - Dark"
               subtitle="#320b86"
               position="bottom"
-              style={{ background: props.theme.palette.primary.dark }}
+              style={{ backgroundColor: "transparent" }}
             />
           </GridListTile>
         </GridList>
@@ -95,23 +97,34 @@ const StyleGuide = props => (
             <GridListTileBar
               title="Secondary"
               subtitle="#62757f"
-              style={{ background: props.theme.palette.secondary.main }}
+              style={{ background: "transparent" }}
             />
           </GridListTile>
+
           <GridListTile
             style={getBoxStyle(props.theme.palette.secondary.light)}
           >
             <GridListTileBar
               title="S - Light"
+              subtitle={"#62757f66"}
+              style={{ background: "transparent" }}
+            />
+          </GridListTile>
+
+          <GridListTile
+            style={getBoxStyle(props.theme.palette.secondary.lighter)}
+          >
+            <GridListTileBar
+              title="S - Lighter"
               subtitle="#eceff1"
-              style={{ background: props.theme.palette.secondary.light }}
+              style={{ background: "transparent" }}
             />
           </GridListTile>
           <GridListTile style={getBoxStyle(props.theme.palette.secondary.dark)}>
             <GridListTileBar
               title="S - Dark"
               subtitle="#000a12"
-              style={{ background: props.theme.palette.secondary.dark }}
+              style={{ background: "transparent" }}
             />
           </GridListTile>
         </GridList>
@@ -131,28 +144,28 @@ const StyleGuide = props => (
             <GridListTileBar
               title="Blue"
               subtitle="#1565c0"
-              style={{ background: props.theme.palette.blue }}
+              style={{ backgroundColor: "transparent" }}
             />
           </GridListTile>
           <GridListTile style={getBoxStyle(props.theme.palette.yellow)}>
             <GridListTileBar
               title="Yellow"
               subtitle="#fbc02d"
-              style={{ background: props.theme.palette.yellow }}
+              style={{ backgroundColor: "transparent" }}
             />
           </GridListTile>
           <GridListTile style={getBoxStyle(props.theme.palette.error.main)}>
             <GridListTileBar
               title="Red"
               subtitle="#d32f2f"
-              style={{ background: props.theme.palette.error.main }}
+              style={{ backgroundColor: "transparent" }}
             />
           </GridListTile>
           <GridListTile style={getBoxStyle(props.theme.palette.green)}>
             <GridListTileBar
               title="Green"
               subtitle="#388e3c"
-              style={{ background: props.theme.palette.green }}
+              style={{ backgroundColor: "transparent" }}
             />
           </GridListTile>
         </GridList>

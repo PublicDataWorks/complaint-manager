@@ -5,7 +5,8 @@ const colors = {
     dark: "#320b86"
   },
   secondary: {
-    light: "#eceff1",
+    lighter: "#eceff1",
+    light: "#62757f66",
     main: "#62757f",
     dark: "#000a12"
   },

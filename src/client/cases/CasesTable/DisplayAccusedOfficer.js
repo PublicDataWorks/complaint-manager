@@ -1,13 +1,16 @@
 import React from "react";
+import WarningMessage from "../../sharedComponents/WarningMessage";
 
 const DisplayAccusedOfficer = ({ accusedOfficers }) => {
   return (
     <div data-test="accusedOfficerName">
       {accusedOfficers &&
       accusedOfficers.length > 0 &&
-      accusedOfficers[0].officer
-        ? accusedOfficers[0].officer.fullName
-        : null}
+      accusedOfficers[0].officer ? (
+        accusedOfficers[0].officer.fullName
+      ) : (
+        <WarningMessage variant="tableCell">No Accused Officers</WarningMessage>
+      )}
     </div>
   );
 };
