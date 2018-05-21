@@ -9,9 +9,9 @@ describe("dataChangeAuditHooks", () => {
   });
 
   describe("update case", () => {
-    let createdCase = null;
+    let initialCaseAttributes = {};
     beforeEach(async () => {
-      const initialCaseAttributes = new Case.Builder()
+      initialCaseAttributes = new Case.Builder()
         .defaultCase()
         .withId(undefined)
         .withIncidentLocation(undefined)
@@ -24,10 +24,12 @@ describe("dataChangeAuditHooks", () => {
         .withNarrativeDetails(null)
         .withAssignedTo("originalAssignedToPerson")
         .withCreatedBy("createdByPerson");
-      createdCase = await models.cases.create(initialCaseAttributes);
     });
 
     test("it creates an audit entry for the case creation with the basic attributes", async () => {
+      const createdCase = await models.cases.create(initialCaseAttributes, {
+        auditUser: "someone"
+      });
       const audits = await createdCase.getDataChangeAudits();
       expect(audits.length).toEqual(1);
       const audit = audits[0];
@@ -35,9 +37,13 @@ describe("dataChangeAuditHooks", () => {
       expect(audit.modelName).toEqual("case");
       expect(audit.modelId).toEqual(createdCase.id);
       expect(audit.action).toEqual(DATA_CREATED);
+      expect(audit.user).toEqual("someone");
     });
 
     test("it saves the changes of the new values", async () => {
+      const createdCase = await models.cases.create(initialCaseAttributes, {
+        auditUser: "someone"
+      });
       const audit = (await createdCase.getDataChangeAudits())[0];
 
       const expectedChanges = {
@@ -56,6 +62,9 @@ describe("dataChangeAuditHooks", () => {
     });
 
     test("it saves the full snapshot of the object", async () => {
+      const createdCase = await models.cases.create(initialCaseAttributes, {
+        auditUser: "someone"
+      });
       const audit = (await createdCase.getDataChangeAudits())[0];
 
       const expectedSnapshot = {
@@ -76,6 +85,26 @@ describe("dataChangeAuditHooks", () => {
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
+
+    describe("errors", () => {
+      let oldConsoleError = null;
+      beforeAll(() => {
+        oldConsoleError = console.error;
+        console.error = jest.fn();
+      });
+
+      afterAll(() => {
+        console.error = oldConsoleError;
+      });
+
+      test("it does not allow blank username", () => {
+        expect(
+          models.cases.create(initialCaseAttributes, { auditUser: "" })
+        ).rejects.toEqual(
+          new Error("User nickname must be given for auditing data changes")
+        );
+      });
+    });
   });
 
   describe("update case", () => {
@@ -94,13 +123,18 @@ describe("dataChangeAuditHooks", () => {
         .withNarrativeDetails("original narrative details")
         .withAssignedTo("originalAssignedToPerson")
         .withCreatedBy("createdByPerson");
-      existingCase = await models.cases.create(initialCaseAttributes);
+      existingCase = await models.cases.create(initialCaseAttributes, {
+        auditUser: "someone"
+      });
     });
 
     test("it creates an audit entry for the case update with the basic attributes", async () => {
-      await existingCase.update({
-        narrativeSummary: "updated narrative summary"
-      });
+      await existingCase.update(
+        {
+          narrativeSummary: "updated narrative summary"
+        },
+        { auditUser: "someoneWhoUpdated" }
+      );
 
       const updateAudits = await existingCase.getDataChangeAudits({
         where: { action: DATA_UPDATED }
@@ -111,12 +145,16 @@ describe("dataChangeAuditHooks", () => {
       expect(auditUpdate.modelName).toEqual("case");
       expect(auditUpdate.modelId).toEqual(existingCase.id);
       expect(auditUpdate.action).toEqual(DATA_UPDATED);
+      expect(auditUpdate.user).toEqual("someoneWhoUpdated");
     });
 
     test("it saves the changes when only one field has changed and status triggered", async () => {
-      await existingCase.update({
-        narrativeSummary: "updated narrative summary"
-      });
+      await existingCase.update(
+        {
+          narrativeSummary: "updated narrative summary"
+        },
+        { auditUser: "someoneWhoUpdated" }
+      );
       const audit = (await existingCase.getDataChangeAudits({
         where: { action: DATA_UPDATED }
       }))[0];
@@ -132,16 +170,19 @@ describe("dataChangeAuditHooks", () => {
     });
 
     test("it saves the changes when many fields changed", async () => {
-      await existingCase.update({
-        complainantType: "Civilian",
-        district: "2nd District",
-        firstContactDate: "2018-01-01T00:00:00.000Z",
-        incidentDate: "2017-12-05",
-        incidentTime: "12:59:59",
-        narrativeSummary: "updated narrative summary",
-        narrativeDetails: "updated narrative details",
-        assignedTo: "updatedAssignedPerson"
-      });
+      await existingCase.update(
+        {
+          complainantType: "Civilian",
+          district: "2nd District",
+          firstContactDate: "2018-01-01T00:00:00.000Z",
+          incidentDate: "2017-12-05",
+          incidentTime: "12:59:59",
+          narrativeSummary: "updated narrative summary",
+          narrativeDetails: "updated narrative details",
+          assignedTo: "updatedAssignedPerson"
+        },
+        { auditUser: "someoneWhoUpdated" }
+      );
       const audit = (await existingCase.getDataChangeAudits({
         where: { action: DATA_UPDATED }
       }))[0];
@@ -170,16 +211,19 @@ describe("dataChangeAuditHooks", () => {
     });
 
     test("it saves a snapshot of the objects new values", async () => {
-      await existingCase.update({
-        complainantType: "Civilian",
-        district: "2nd District",
-        firstContactDate: "2018-01-01T00:00:00.000Z",
-        incidentDate: "2017-12-05",
-        incidentTime: "12:59:59",
-        narrativeSummary: "updated narrative summary",
-        narrativeDetails: "updated narrative details",
-        assignedTo: "updatedAssignedPerson"
-      });
+      await existingCase.update(
+        {
+          complainantType: "Civilian",
+          district: "2nd District",
+          firstContactDate: "2018-01-01T00:00:00.000Z",
+          incidentDate: "2017-12-05",
+          incidentTime: "12:59:59",
+          narrativeSummary: "updated narrative summary",
+          narrativeDetails: "updated narrative details",
+          assignedTo: "updatedAssignedPerson"
+        },
+        { auditUser: "someoneWhoUpdated" }
+      );
       const audit = (await existingCase.getDataChangeAudits({
         where: { action: DATA_UPDATED }
       }))[0];

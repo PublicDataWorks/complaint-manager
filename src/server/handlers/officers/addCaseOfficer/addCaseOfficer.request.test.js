@@ -53,7 +53,9 @@ describe("POST /cases/:caseId/cases_officers", () => {
       .withId(undefined)
       .build();
     seededOfficer = await models.officer.create(officerToCreate);
-    seededCase = await models.cases.create(caseToCreate);
+    seededCase = await models.cases.create(caseToCreate, {
+      auditUser: "someone"
+    });
   });
 
   afterEach(async () => {

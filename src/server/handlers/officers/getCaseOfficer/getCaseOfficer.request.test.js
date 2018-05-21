@@ -38,6 +38,7 @@ describe("GET /cases/:caseId/cases-officers/:caseOfficerId", () => {
           include: [models.officer]
         }
       ],
+      auditUser: "someone",
       returning: true
     });
 

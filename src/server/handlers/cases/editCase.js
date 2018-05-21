@@ -6,7 +6,8 @@ async function upsertAddress(
   caseId,
   incidentLocationId,
   incidentLocation,
-  transaction
+  transaction,
+  nickname
 ) {
   if (!incidentLocationId) {
     const createdAddress = await models.address.create(
@@ -24,7 +25,8 @@ async function upsertAddress(
       },
       {
         where: { id: caseId },
-        transaction
+        transaction,
+        auditUser: nickname
       }
     );
   } else {
@@ -56,14 +58,16 @@ const editCase = async (request, response, next) => {
               request.params.id,
               incidentLocationId,
               incidentLocation,
-              transaction
+              transaction,
+              request.nickname
             );
           }
 
           await models.cases.update(caseValues, {
             where: { id: request.params.id },
             individualHooks: true,
-            transaction
+            transaction,
+            auditUser: request.nickname
           });
 
           await models.audit_log.create(

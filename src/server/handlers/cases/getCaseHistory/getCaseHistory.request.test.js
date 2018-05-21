@@ -19,7 +19,9 @@ describe("GET /api/cases/:caseId/case-history", () => {
       .defaultCase()
       .withId(undefined)
       .withIncidentLocation(undefined);
-    const existingCase = await models.cases.create(caseAttributes);
+    const existingCase = await models.cases.create(caseAttributes, {
+      auditUser: "someone"
+    });
 
     await request(app)
       .get(`/api/cases/${existingCase.id}/case-history`)

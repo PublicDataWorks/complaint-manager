@@ -57,7 +57,8 @@ describe("createCase handler", () => {
             model: models.civilian
           }
         ],
-        transaction: "MOCK_TRANSACTION"
+        transaction: "MOCK_TRANSACTION",
+        auditUser: "TEST_USER_NICKNAME"
       }
     );
   });

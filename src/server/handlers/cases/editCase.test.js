@@ -47,7 +47,8 @@ describe("Edit Case", () => {
       {
         where: { id: 5 },
         individualHooks: true,
-        transaction: "MOCK_TRANSACTION"
+        transaction: "MOCK_TRANSACTION",
+        auditUser: "TEST_USER_NICKNAME"
       }
     );
   });

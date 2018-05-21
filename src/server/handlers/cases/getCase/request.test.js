@@ -89,7 +89,8 @@ describe("GET /cases/:id", () => {
             }
           ]
         }
-      ]
+      ],
+      auditUser: "someone"
     });
   });
 

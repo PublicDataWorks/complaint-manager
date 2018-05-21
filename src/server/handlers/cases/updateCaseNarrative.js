@@ -14,7 +14,8 @@ const updateCaseNarrative = async (request, response, next) => {
         {
           where: { id: caseId },
           individualHooks: true,
-          transaction: t
+          transaction: t,
+          auditUser: request.nickname
         }
       );
 

@@ -28,7 +28,8 @@ const createCase = async (req, res, next) => {
                 model: models.civilian
               }
             ],
-            transaction: t
+            transaction: t,
+            auditUser: req.nickname
           }
         );
 

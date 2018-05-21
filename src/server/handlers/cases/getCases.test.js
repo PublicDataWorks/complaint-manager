@@ -103,7 +103,8 @@ describe("getCases", () => {
             as: "accusedOfficers",
             include: [models.officer]
           }
-        ]
+        ],
+        auditUser: "someone"
       });
     });
 

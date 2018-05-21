@@ -6,7 +6,6 @@ const config = require("./config/config");
 const healthCheck = require("./handlers/healthCheck");
 const errorHandler = require("./handlers/errorHandler");
 const apiRouter = require("./apiRouter");
-const httpContext = require("express-http-context");
 
 const app = express();
 const twoYearsInSeconds = 63113852;
@@ -36,7 +35,6 @@ app.use(
 );
 
 const buildDirectory = path.join(__dirname, "../../build");
-app.use(httpContext.middleware);
 
 app.use(bodyParser.json());
 app.use(express.static(buildDirectory));

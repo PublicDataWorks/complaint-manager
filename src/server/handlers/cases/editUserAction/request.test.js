@@ -27,7 +27,9 @@ describe("editUserAction request", function() {
       .withIncidentLocation(undefined)
       .build();
 
-    const createdCase = await models.cases.create(caseToCreate);
+    const createdCase = await models.cases.create(caseToCreate, {
+      auditUser: "someone"
+    });
     const userActionToCreate = new UserAction.Builder()
       .defaultUserAction()
       .withUser("tuser")

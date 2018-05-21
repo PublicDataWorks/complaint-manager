@@ -29,7 +29,9 @@ describe("addCaseOfficer", () => {
       .withStatus("Initial")
       .withIncidentLocation(undefined);
 
-    const createdCase = await models.cases.create(caseToCreate);
+    const createdCase = await models.cases.create(caseToCreate, {
+      auditUser: "someone"
+    });
 
     const request = httpMocks.createRequest({
       method: "POST",
@@ -70,7 +72,9 @@ describe("addCaseOfficer", () => {
       .defaultOfficer()
       .withId(undefined);
 
-    const createdCase = await models.cases.create(caseToCreate);
+    const createdCase = await models.cases.create(caseToCreate, {
+      auditUser: "someone"
+    });
     const createdOfficer = await models.officer.create(officerToCreate);
 
     const officerAttributes = {
@@ -115,7 +119,9 @@ describe("addCaseOfficer", () => {
       .withStatus("Initial")
       .withIncidentLocation(undefined);
 
-    const createdCase = await models.cases.create(caseToCreate);
+    const createdCase = await models.cases.create(caseToCreate, {
+      auditUser: "someone"
+    });
 
     const officerAttributes = {
       officerId: null,
@@ -159,7 +165,9 @@ describe("addCaseOfficer", () => {
       .withStatus("Initial")
       .withIncidentLocation(undefined);
 
-    const createdCase = await models.cases.create(caseToCreate);
+    const createdCase = await models.cases.create(caseToCreate, {
+      auditUser: "someone"
+    });
 
     const officerAttributes = {
       officerId: null,

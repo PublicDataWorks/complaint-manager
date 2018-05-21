@@ -13,8 +13,6 @@ import Officer from "../client/testUtilities/Officer";
 import AWS from "aws-sdk";
 import buildTokenWithPermissions from "./requestTestHelpers";
 
-const config = require("./config/config")[process.env.NODE_ENV];
-
 jest.mock("auth0", () => ({
   AuthenticationClient: jest.fn()
 }));
@@ -225,7 +223,8 @@ describe("server", () => {
               }
             ]
           }
-        ]
+        ],
+        auditUser: "someone"
       });
       existingCivilian = existingCase.civilians[0];
     });
@@ -299,7 +298,8 @@ describe("server", () => {
             model: models.civilian,
             include: [{ model: models.address }]
           }
-        ]
+        ],
+        auditUser: "someone"
       });
       seededCivilian = seededCase.civilians[0];
     });
@@ -369,7 +369,8 @@ describe("server", () => {
             model: models.civilian,
             include: [{ model: models.address }]
           }
-        ]
+        ],
+        auditUser: "someone"
       });
 
       let civilianToUpdate = caseToUpdate.dataValues.civilians[0];
@@ -414,7 +415,8 @@ describe("server", () => {
             model: models.civilian,
             include: [{ model: models.address }]
           }
-        ]
+        ],
+        auditUser: "someone"
       });
 
       let civilianToUpdate = caseToUpdate.dataValues.civilians[0];
@@ -584,7 +586,9 @@ describe("server", () => {
         .withId(undefined)
         .withIncidentLocation(undefined)
         .build();
-      createdCase = await models.cases.create(existingCase);
+      createdCase = await models.cases.create(existingCase, {
+        auditUser: "someone"
+      });
 
       await models.user_action.create({
         caseId: createdCase.id,
@@ -623,7 +627,9 @@ describe("server", () => {
         .withId(undefined)
         .withIncidentLocation(undefined)
         .build();
-      const createdCase = await models.cases.create(existingCase);
+      const createdCase = await models.cases.create(existingCase, {
+        auditUser: "someone"
+      });
 
       const userAction = {
         caseId: createdCase.dataValues.id,
@@ -694,7 +700,8 @@ describe("server", () => {
 
       caseToUpdate = await models.cases.create(caseToCreate, {
         returning: true,
-        include: [{ model: models.civilian }]
+        include: [{ model: models.civilian }],
+        auditUser: "someone"
       });
     });
 
@@ -897,7 +904,8 @@ describe("server", () => {
           .defaultCase()
           .withIncidentLocation(undefined)
           .withId(undefined)
-          .build()
+          .build(),
+        { auditUser: "someone" }
       );
       await models.audit_log.create({
         user: "tuser",
@@ -971,7 +979,8 @@ describe("server", () => {
         .withIncidentLocation(undefined)
         .build();
       defaultCase = await models.cases.create(defaultCase, {
-        include: [{ model: models.civilian }, { model: models.attachment }]
+        include: [{ model: models.civilian }, { model: models.attachment }],
+        auditUser: "someone"
       });
     });
 
@@ -1055,7 +1064,8 @@ describe("server", () => {
           .build();
 
         caseWithSameFilename = await models.cases.create(caseWithSameFilename, {
-          include: [{ model: models.civilian }, { model: models.attachment }]
+          include: [{ model: models.civilian }, { model: models.attachment }],
+          auditUser: "someone"
         });
 
         AWS.S3.mockImplementation(() => {

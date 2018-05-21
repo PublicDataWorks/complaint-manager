@@ -49,6 +49,7 @@ describe("updateCaseNarrative handler", () => {
       },
       {
         where: { id: request.params.id },
+        auditUser: "test_user",
         individualHooks: true,
         transaction: "MOCK_TRANSACTION"
       }

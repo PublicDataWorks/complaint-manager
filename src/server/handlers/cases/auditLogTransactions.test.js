@@ -14,6 +14,16 @@ jest.mock("aws-sdk", () => ({
 }));
 
 describe("transactions", () => {
+  let oldConsoleError = null;
+  beforeAll(() => {
+    oldConsoleError = console.error;
+    console.error = jest.fn();
+  });
+
+  afterAll(() => {
+    console.error = oldConsoleError;
+  });
+
   test("should not create case when audit logging fails", async () => {
     const requestWithBadDataForAudit = httpMocks.createRequest({
       method: "POST",
@@ -65,7 +75,9 @@ describe("transactions", () => {
       .withNarrativeDetails("initial narrative")
       .withIncidentLocation(undefined)
       .build();
-    const caseToUpdate = await models.cases.create(caseToCreate);
+    const caseToUpdate = await models.cases.create(caseToCreate, {
+      auditUser: "someone"
+    });
 
     const requestWithBadDataForAudit = httpMocks.createRequest({
       method: "PUT",
@@ -107,7 +119,8 @@ describe("transactions", () => {
       .build();
 
     const caseToUpdate = await models.cases.create(caseToCreate, {
-      include: [{ model: models.civilian }]
+      include: [{ model: models.civilian }],
+      auditUser: "someone"
     });
     const civilianToUpdate = caseToUpdate.civilians[0];
 
@@ -169,7 +182,8 @@ describe("transactions", () => {
         .build();
 
       caseToUpdate = await models.cases.create(caseToCreate, {
-        include: [{ model: models.civilian }, { model: models.attachment }]
+        include: [{ model: models.civilian }, { model: models.attachment }],
+        auditUser: "someone"
       });
 
       AWS.S3.mockImplementation(() => {

@@ -39,6 +39,7 @@ describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
           include: [models.officer]
         }
       ],
+      auditUser: "someone",
       returning: true
     });
 

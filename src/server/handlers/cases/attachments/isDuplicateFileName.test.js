@@ -13,7 +13,7 @@ describe("generateFileName", () => {
       .withIncidentLocation(undefined)
       .build();
 
-    newCase = await models.cases.create(someCase);
+    newCase = await models.cases.create(someCase, { auditUser: "someone" });
   });
 
   afterEach(async () => {

@@ -72,7 +72,8 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
           model: models.civilian,
           include: [models.address]
         }
-      ]
+      ],
+      auditUser: "someone"
     });
     const createdCivilian = createdCase.dataValues.civilians[0];
 

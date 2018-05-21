@@ -1,7 +1,6 @@
 const { DATA_CREATED } = require("../../sharedUtilities/constants");
 const _ = require("lodash");
 const { DATA_UPDATED } = require("../../sharedUtilities/constants");
-const httpContext = require("express-http-context");
 
 exports.init = sequelize => {
   _.extend(sequelize.Model, {
@@ -12,17 +11,17 @@ exports.init = sequelize => {
   });
 
   const afterCreateHook = async (instance, options) => {
-    await createDataChangeAudit(instance, DATA_CREATED);
+    await createDataChangeAudit(instance, options, DATA_CREATED);
   };
 
   const afterUpdateHook = async (instance, options) => {
-    await createDataChangeAudit(instance, DATA_UPDATED);
+    await createDataChangeAudit(instance, options, DATA_UPDATED);
   };
 
-  const createDataChangeAudit = async (instance, action) => {
+  const createDataChangeAudit = async (instance, options, action) => {
     try {
       await sequelize.model("data_change_audit").create({
-        user: httpContext.get("userNickname") || "bob", //fix
+        user: getUserNickname(options),
         action: action,
         modelName: instance._modelOptions.name.singular,
         modelId: instance.id,
@@ -31,9 +30,16 @@ exports.init = sequelize => {
         changes: objectChanges(instance)
       });
     } catch (error) {
-      console.log(`ERROR IN AFTER ${action} HOOK: `, error);
+      console.error(`ERROR IN AFTER ${action} HOOK: `, error);
       throw error;
     }
+  };
+
+  const getUserNickname = options => {
+    const userNickname = options.auditUser;
+    if (!userNickname)
+      throw new Error("User nickname must be given for auditing data changes");
+    return userNickname;
   };
 
   const objectChanges = instance => {

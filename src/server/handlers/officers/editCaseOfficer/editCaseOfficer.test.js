@@ -38,6 +38,7 @@ describe("editCaseOfficer", () => {
           include: [models.officer]
         }
       ],
+      auditUser: "someone",
       returning: true
     });
 
