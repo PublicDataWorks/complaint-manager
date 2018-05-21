@@ -45,6 +45,7 @@ class Dropzone extends Component {
     },
     error: (file, errorMessage, xhr) => {
       this.setState({ attachmentValid: false });
+      this.hideDropzoneErrorPopup();
 
       switch (errorMessage) {
         case DUPLICATE_FILE_NAME:
@@ -92,6 +93,10 @@ class Dropzone extends Component {
 
   invalidDescription = () => {
     return !Boolean(this.state.attachmentDescription);
+  };
+
+  hideDropzoneErrorPopup = () => {
+    document.getElementsByClassName('dz-error-message')[0].style.display = 'none';
   };
 
   render() {
