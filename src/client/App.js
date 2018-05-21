@@ -18,10 +18,16 @@ import Auth from "./auth/Auth";
 import OfficerSearchContainer from "./officers/OfficerSearchContainer";
 import OfficerDetailsContainer from "./officers/OfficerDetailsContainer";
 import ScrollToTop from "./ScrollToTop";
+import { Switch } from "react-router";
+import AddOfficerSearch from "./officers/OfficerSearch/AddOfficerSearch";
+import EditOfficerSearch from "./officers/OfficerSearch/EditOfficerSearch";
+import AddOfficerDetails from "./officers/OfficerDetails/AddOfficerDetails";
+import EditOfficerDetails from "./officers/OfficerDetails/EditOfficerDetails";
 import CaseHistory from "./cases/CaseDetails/CaseHistory/CaseHistory";
 import AllegationSearchContainer from "./allegations/AllegationSearchContainer";
 
 class App extends Component {
+
   componentDidMount() {
     const accessToken = getAccessToken();
     if (accessToken) {
@@ -39,17 +45,29 @@ class App extends Component {
               <Route path="/login" component={Login} />
               <Route path="/callback" component={Callback} />
               <Route exact path="/" component={CaseDashboard} />
-              <Route
-                exact
-                path="/cases/:id/officers/search"
-                component={OfficerSearchContainer}
-              />
-              <Route
-                exact
-                path="/cases/:id/officers/details"
-                component={OfficerDetailsContainer}
-              />
-              <Route exact path="/cases/:id/history" component={CaseHistory} />
+              <Switch>
+                <Route
+                  exact
+                  path="/cases/:id/officers/search"
+                  component={AddOfficerSearch}
+                />
+                <Route
+                  exact
+                  path="/cases/:id/officers/details"
+                  component={AddOfficerDetails}
+                />
+                <Route
+                  exact
+                  path="/cases/:id/officers/:caseOfficerId"
+                  component={EditOfficerDetails}
+                />
+                <Route
+                  exact
+                  path="/cases/:id/officers/:caseOfficerId/search"
+                  component={EditOfficerSearch}
+                />
+              </Switch>
+              <Route exact path="/cases/:id/history" component={CaseHistory}/>
               <Route exact path="/cases/:id" component={CaseDetails} />
               <Route exact path="/styleguide" component={StyleGuide} />
               <Route exact path="/admin" component={UserDashboard} />

@@ -14,62 +14,32 @@ jest.mock("../thunks/addOfficer", () => (caseId, officerId, values) => ({
 }));
 
 test("should dispatch thunk with correct stuff when unknown officer selected", () => {
+  const mockOfficerSearchUrl = "/mock-officer-search-url";
   const expectedValues = { roleOnCase: "Accused" };
 
   const store = createConfiguredStore();
   const dispatchSpy = jest.spyOn(store, "dispatch");
+  const submitAction = jest.fn(values => ({ type: "MOCK_THUNK", values }));
 
   const caseId = 12;
-
-  const wrapper = mount(
-    <Provider store={store}>
-      <Router>
-        <OfficerDetails selectedOfficerData={null} caseId={caseId} />
-      </Router>
-    </Provider>
-  );
-
-  const submitButton = wrapper.find(
-    'button[data-test="addOfficerSubmitButton"]'
-  );
-
-  submitButton.simulate("click");
-
-  expect(dispatchSpy).toHaveBeenCalledWith(
-    addOfficer(caseId, null, expectedValues)
-  );
-});
-
-test("should dispatch thunk with correct stuff when known officer selected", () => {
-  const expectedValues = { roleOnCase: "Accused" };
-
-  const store = createConfiguredStore();
-  const dispatchSpy = jest.spyOn(store, "dispatch");
-  const caseId = 12;
-  const officerId = 30;
 
   const wrapper = mount(
     <Provider store={store}>
       <Router>
         <OfficerDetails
-          selectedOfficerData={{
-            knownOfficer: "bob",
-            workStatus: "retired",
-            id: officerId
-          }}
+          submitButtonText={"Button"}
+          submitAction={submitAction}
+          officerSearchUrl={mockOfficerSearchUrl}
+          selectedOfficerData={null}
           caseId={caseId}
         />
       </Router>
     </Provider>
   );
 
-  const submitButton = wrapper.find(
-    'button[data-test="addOfficerSubmitButton"]'
-  );
+  const submitButton = wrapper.find('button[data-test="officerSubmitButton"]');
 
   submitButton.simulate("click");
 
-  expect(dispatchSpy).toHaveBeenCalledWith(
-    addOfficer(caseId, officerId, expectedValues)
-  );
+  expect(dispatchSpy).toHaveBeenCalledWith(submitAction(expectedValues));
 });

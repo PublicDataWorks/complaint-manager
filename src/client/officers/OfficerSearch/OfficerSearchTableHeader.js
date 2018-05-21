@@ -6,7 +6,7 @@ import {
   Typography,
   withStyles
 } from "material-ui";
-import tableStyleGenerator from "../tableStyles";
+import tableStyleGenerator from "../../tableStyles";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).header

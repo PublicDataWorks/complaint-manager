@@ -1,18 +1,18 @@
 import React from "react";
-import { mount } from "enzyme";
+import CaseOfficer from "../../../testUtilities/caseOfficer";
 import createConfiguredStore from "../../../createConfiguredStore";
-import { Provider } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
 import { push } from "react-router-redux";
+import { Provider } from "react-redux";
+import { mount } from "enzyme";
+import { BrowserRouter as Router } from "react-router-dom";
+import OfficerActions from "./OfficerActions";
 import {
   selectOfficer,
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
-import CaseOfficer from "../../../testUtilities/caseOfficer";
-import ManageOfficerMenu from "./ManageOfficerMenu";
 
-describe("ManageOfficerMenu", () => {
-  test("should select officer and redirect when edit known Officer is clicked", () => {
+describe("OfficerActions", () => {
+  test("should select caseOfficer & navigate to edit page when Edit Known Officer is clicked", () => {
     const caseOfficer = new CaseOfficer.Builder().defaultCaseOfficer().build();
     const store = createConfiguredStore();
     const dispatchSpy = jest.spyOn(store, "dispatch");
@@ -20,14 +20,12 @@ describe("ManageOfficerMenu", () => {
     const wrapper = mount(
       <Provider store={store}>
         <Router>
-          <ManageOfficerMenu caseOfficer={caseOfficer} />
+          <OfficerActions caseOfficer={caseOfficer} />
         </Router>
       </Provider>
     );
 
-    const manage = wrapper.find('[data-test="manageCaseOfficer"]').last();
-    manage.simulate("click");
-    const editOfficer = wrapper.find('[data-test="editCaseOfficer"]').last();
+    const editOfficer = wrapper.find('[data-test="editOfficerLink"]').last();
     editOfficer.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -38,7 +36,7 @@ describe("ManageOfficerMenu", () => {
     );
   });
 
-  test("should select officer and redirect when edit unknown Officer is clicked", () => {
+  test("should select caseOfficer & navigate to edit page when unknown officer is clicked", () => {
     const caseOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
       .withOfficer({ fullName: "Unknown Officer" })
@@ -50,16 +48,12 @@ describe("ManageOfficerMenu", () => {
     const wrapper = mount(
       <Provider store={store}>
         <Router>
-          <ManageOfficerMenu caseOfficer={caseOfficer} />
+          <OfficerActions caseOfficer={caseOfficer} />
         </Router>
       </Provider>
     );
 
-    const manage = wrapper.find('[data-test="manageCaseOfficer"]').last();
-
-    manage.simulate("click");
-    const editOfficer = wrapper.find('[data-test="editCaseOfficer"]').last();
-
+    const editOfficer = wrapper.find('[data-test="editOfficerLink"]').last();
     editOfficer.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(selectUnknownOfficer());

@@ -9,10 +9,11 @@ import { Button } from "material-ui";
 import { SecondaryButton } from "../../../sharedComponents/StyledButtons";
 import { Link } from "react-router-dom";
 
-export const SelectNewOfficer = ({ caseId, officer, dispatch }) => (
+export const SelectNewOfficer = ({ path, officer, dispatch }) => (
   <LinkButton
+    data-test="selectNewOfficerButton"
     component={Link}
-    to={`/cases/${caseId}/officers/details`}
+    to={path}
     onClick={() => {
       dispatch(selectOfficer(officer));
     }}
@@ -21,12 +22,12 @@ export const SelectNewOfficer = ({ caseId, officer, dispatch }) => (
   </LinkButton>
 );
 
-export const SelectUnknownOfficerButton = ({ dispatch, caseId }) => (
+export const SelectUnknownOfficerButton = ({ dispatch, path }) => (
   <SecondaryButton
     style={{ marginRight: 20 }}
     data-test="unknownOfficerButton"
     component={Link}
-    to={`/cases/${caseId}/officers/details`}
+    to={path}
     onClick={() => {
       dispatch(selectUnknownOfficer());
     }}
@@ -39,10 +40,10 @@ export const PreviouslyAddedOfficer = () => (
   <Button disabled={true}>added</Button>
 );
 
-export const ChangeOfficer = ({ children, dispatch, caseId }) => (
+export const ChangeOfficer = ({ children, dispatch, officerSearchUrl }) => (
   <LinkButton
     component={Link}
-    to={`/cases/${caseId}/officers/search`}
+    to={officerSearchUrl}
     onClick={() => {
       dispatch(clearSelectedOfficer());
     }}

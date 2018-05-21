@@ -15,7 +15,7 @@ const OfficerSearch = props => {
           Search by entering at least one of the following fields. Unable to
           find an officer? You can{" "}
           <StyledLink
-            to={`/cases/${props.caseId}/officers/details`}
+            to={props.path}
             style={{ cursor: "pointer" }}
             onClick={() => {
               props.dispatch(selectUnknownOfficer());
@@ -38,11 +38,8 @@ const OfficerSearch = props => {
           <OfficerSearchForm caseId={props.caseId} />
         </CardContent>
       </Card>
-      <OfficerSearchResults />
-      <SelectUnknownOfficerButton
-        dispatch={props.dispatch}
-        caseId={props.caseId}
-      />
+      <OfficerSearchResults path={props.path} caseId={props.caseId} />
+      <SelectUnknownOfficerButton dispatch={props.dispatch} path={props.path} />
     </div>
   );
 };

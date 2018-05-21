@@ -1,36 +1,26 @@
 import React, { Component } from "react";
-import getCaseDetails from "../cases/thunks/getCaseDetails";
 import { connect } from "react-redux";
-import NavBar from "../sharedComponents/NavBar/NavBar";
+import NavBar from "../../sharedComponents/NavBar/NavBar";
 import { Typography } from "material-ui";
 import { Link } from "react-router-dom";
-import LinkButton from "../sharedComponents/LinkButton";
-import OfficersSnackbar from "./OfficersSnackBar/OfficersSnackbar";
-import OfficerSearch from "./OfficerSearch/OfficerSearch";
-import { clearSelectedOfficer } from "../actionCreators/officersActionCreators";
+import LinkButton from "../../sharedComponents/LinkButton";
+import OfficersSnackbar from "../OfficersSnackBar/OfficersSnackbar";
+import OfficerSearch from "./OfficerSearch";
+import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 
 export class OfficerSearchContainer extends Component {
-  componentDidMount() {
-    if (`${this.props.caseId}` !== this.props.match.params.id) {
-      this.props.dispatch(getCaseDetails(this.props.match.params.id));
-    }
-  }
-
   componentWillMount() {
     this.props.dispatch(clearSelectedOfficer());
   }
 
   render() {
-    const { caseId } = this.props;
-    if (`${caseId}` !== this.props.match.params.id) {
-      return null;
-    }
+    const { caseId, titleAction, officerDetailsPath } = this.props;
 
     return (
       <div>
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${caseId}   : Add Officer`}
+            {`Case #${caseId}   : ${titleAction} Officer`}
           </Typography>
         </NavBar>
         <LinkButton
@@ -44,9 +34,8 @@ export class OfficerSearchContainer extends Component {
         </LinkButton>
         <div style={{ margin: "0% 5% 3%" }}>
           <OfficerSearch
-            match={this.props.match}
             dispatch={this.props.dispatch}
-            caseId={caseId}
+            path={officerDetailsPath}
           />
         </div>
         <OfficersSnackbar />
@@ -55,8 +44,4 @@ export class OfficerSearchContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  caseId: state.currentCase.details.id
-});
-
-export default connect(mapStateToProps)(OfficerSearchContainer);
+export default connect()(OfficerSearchContainer);

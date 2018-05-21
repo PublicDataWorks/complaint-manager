@@ -1,22 +1,18 @@
 import React from "react";
-import OfficerSearchTableHeader from "../OfficerSearchTableHeader";
+import OfficerSearchTableHeader from "../OfficerSearch/OfficerSearchTableHeader";
 import { Card, CardContent, Table, TableBody, Typography } from "material-ui";
 import OfficerSearchResultsRow from "../OfficerSearch/OfficerSearchResults/OfficerSearchResultsRow";
 import { TextField } from "redux-form-material-ui";
 import OfficerTypeRadioGroup from "./OfficerTypeRadioGroup";
 import { Field, reduxForm } from "redux-form";
 import styles from "../../globalStyling/styles";
-import addOfficer from "../thunks/addOfficer";
 import { PrimaryButton } from "../../sharedComponents/StyledButtons";
 import { ChangeOfficer } from "../OfficerSearch/OfficerSearchResults/officerSearchResultsRowButtons";
 
 const OfficerDetails = props => {
   const onSubmit = (values, dispatch) => {
-    const officerId = props.selectedOfficerData && props.selectedOfficerData.id;
-
-    dispatch(addOfficer(props.caseId, officerId, values));
+    dispatch(props.submitAction(values));
   };
-
   return (
     <div>
       <Typography variant="title">Selected Officer</Typography>
@@ -25,7 +21,11 @@ const OfficerDetails = props => {
           <OfficerSearchTableHeader />
           <TableBody>
             <OfficerSearchResultsRow officer={props.selectedOfficerData}>
-              <ChangeOfficer caseId={props.caseId} dispatch={props.dispatch}>
+              <ChangeOfficer
+                caseId={props.caseId}
+                dispatch={props.dispatch}
+                officerSearchUrl={props.officerSearchUrl}
+              >
                 change
               </ChangeOfficer>
             </OfficerSearchResultsRow>
@@ -43,7 +43,11 @@ const OfficerDetails = props => {
             You have selected Unknown Officer. Change this officer to a known
             officer by selecting Search for Officer.
           </Typography>
-          <ChangeOfficer caseId={props.caseId} dispatch={props.dispatch}>
+          <ChangeOfficer
+            caseId={props.caseId}
+            dispatch={props.dispatch}
+            officerSearchUrl={props.officerSearchUrl}
+          >
             Search For Officer
           </ChangeOfficer>
         </div>
@@ -74,10 +78,10 @@ const OfficerDetails = props => {
       </Card>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <PrimaryButton
-          data-test="addOfficerSubmitButton"
+          data-test="officerSubmitButton"
           onClick={props.handleSubmit(onSubmit)}
         >
-          Add Officer to Case
+          {props.submitButtonText}
         </PrimaryButton>
       </div>
     </div>

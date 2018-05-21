@@ -7,6 +7,7 @@ import getFirstComplainant from "../../../utilities/getFirstComplainant";
 import AccusedOfficerPanel from "../Officers/OfficerPanel";
 import sortComplainantOfficers from "./sortComplainantOfficers";
 import UnknownOfficerPanel from "../Officers/UnknownOfficerPanel";
+import OfficerActions from "./OfficerActions";
 
 const ComplainantWitnesses = props => {
   const civiliansAndOfficers = props.caseDetail.civilians.concat(
@@ -40,14 +41,18 @@ const ComplainantWitnesses = props => {
                   <AccusedOfficerPanel
                     key={civilianOrOfficer.officer.officerNumber}
                     caseOfficer={civilianOrOfficer}
-                  />
+                  >
+                    <OfficerActions caseOfficer={civilianOrOfficer} />
+                  </AccusedOfficerPanel>
                 );
               } else {
                 return (
                   <UnknownOfficerPanel
                     key={civilianOrOfficer.id}
                     caseOfficer={civilianOrOfficer}
-                  />
+                  >
+                    <OfficerActions caseOfficer={civilianOrOfficer} />
+                  </UnknownOfficerPanel>
                 );
               }
             } else {

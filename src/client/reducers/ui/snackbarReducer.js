@@ -8,6 +8,8 @@ import {
   CIVILIAN_CREATION_FAILED,
   CIVILIAN_CREATION_SUCCEEDED,
   DOWNLOAD_FAILED,
+  EDIT_CASE_OFFICER_FAILED,
+  EDIT_CASE_OFFICER_SUCCEEDED,
   EDIT_USER_ACTION_FAILED,
   EDIT_USER_ACTION_SUCCEEDED,
   INCIDENT_DETAILS_UPDATE_FAILED,
@@ -244,6 +246,19 @@ const snackbarReducer = (state = initialState, action) => {
         open: true,
         message:
           "Something went wrong on our end and the case note was not removed. Please try again."
+      };
+    case EDIT_CASE_OFFICER_SUCCEEDED:
+      return {
+        open: true,
+        success: true,
+        message: "Officer successfully updated"
+      };
+    case EDIT_CASE_OFFICER_FAILED:
+      return {
+        success: false,
+        open: true,
+        message:
+          "Something went wrong on our end and the officer was not updated. Please try again."
       };
     default:
       return state;

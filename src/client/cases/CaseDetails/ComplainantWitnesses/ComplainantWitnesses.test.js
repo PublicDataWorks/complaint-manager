@@ -14,6 +14,7 @@ import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 import _ from "lodash";
 import CaseOfficer from "../../../testUtilities/caseOfficer";
 import Officer from "../../../testUtilities/Officer";
+import { Provider } from "react-redux";
 
 jest.mock("redux-form", () => ({
   reducer: { mockReducer: "mockReducerState" },
@@ -28,7 +29,8 @@ describe("Complainant and Witnesses", () => {
     complainantPanel,
     caseDetail,
     dispatchSpy,
-    complainant;
+    complainant,
+    store;
   beforeEach(() => {
     complainant = new Civilian.Builder()
       .defaultCivilian()
@@ -42,11 +44,13 @@ describe("Complainant and Witnesses", () => {
       .withCivilians([complainant])
       .build();
 
-    const store = createConfiguredStore();
+    store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
 
     complainantWitnesses = mount(
-      <ComplainantWitnesses caseDetail={caseDetail} dispatch={dispatchSpy} />
+      <Provider store={store}>
+        <ComplainantWitnesses caseDetail={caseDetail} dispatch={dispatchSpy} />
+      </Provider>
     );
     complainantWitnessesSection = complainantWitnesses
       .find('[data-test="complainantWitnessesSection"]')
@@ -108,7 +112,9 @@ describe("Complainant and Witnesses", () => {
         .build();
 
       complainantWitnesses = mount(
-        <ComplainantWitnesses caseDetail={caseDetail} />
+        <Provider store={store}>
+          <ComplainantWitnesses caseDetail={caseDetail} />
+        </Provider>
       );
 
       const complainantNames = complainantWitnesses.find(
@@ -176,7 +182,9 @@ describe("Complainant and Witnesses", () => {
         .build();
 
       complainantWitnesses = mount(
-        <ComplainantWitnesses caseDetail={caseWithNoAddress} />
+        <Provider store={store}>
+          <ComplainantWitnesses caseDetail={caseWithNoAddress} />
+        </Provider>
       );
 
       complainantPanel = complainantWitnesses
@@ -213,7 +221,9 @@ describe("Complainant and Witnesses", () => {
         .build();
 
       complainantWitnesses = mount(
-        <ComplainantWitnesses caseDetail={caseWithNoAddress} />
+        <Provider store={store}>
+          <ComplainantWitnesses caseDetail={caseWithNoAddress} />
+        </Provider>
       );
 
       complainantPanel = complainantWitnesses
@@ -257,7 +267,9 @@ describe("Complainant and Witnesses", () => {
       .build();
 
     const wrapper = mount(
-      <ComplainantWitnesses caseDetail={caseWithoutComplainant} />
+      <Provider store={store}>
+        <ComplainantWitnesses caseDetail={caseWithoutComplainant} />
+      </Provider>
     );
     const warn = wrapper.find("[data-test='warnIcon']");
 
@@ -283,7 +295,9 @@ describe("Complainant and Witnesses", () => {
       .build();
 
     const wrapper = mount(
-      <ComplainantWitnesses caseDetail={caseWithoutComplainant} />
+      <Provider store={store}>
+        <ComplainantWitnesses caseDetail={caseWithoutComplainant} />
+      </Provider>
     );
     const noCivilianMessage = wrapper.find("[data-test='noCivilianMessage']");
 
@@ -313,7 +327,9 @@ describe("Complainant and Witnesses", () => {
       .build();
 
     const wrapper = mount(
-      <ComplainantWitnesses caseDetail={caseWithMixedComplainants} />
+      <Provider store={store}>
+        <ComplainantWitnesses caseDetail={caseWithMixedComplainants} />
+      </Provider>
     );
 
     const complainantPanel = wrapper

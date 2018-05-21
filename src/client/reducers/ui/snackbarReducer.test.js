@@ -39,6 +39,10 @@ import {
   SNACKBAR_ERROR,
   SNACKBAR_SUCCESS
 } from "../../../sharedUtilities/constants";
+import {
+  editCaseOfficerFailure,
+  editCaseOfficerSuccess
+} from "../../actionCreators/officersActionCreators";
 
 describe("snackbarReducer", () => {
   test("should default open to false", () => {
@@ -405,6 +409,43 @@ describe("snackbarReducer", () => {
         open: true,
         success: true,
         message: "Civilian has been successfully removed."
+      };
+
+      expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe("EDIT_OFFICER", () => {
+    test("should show success snackbar on EDIT_OFFICER_SUCCEEDED", () => {
+      const oldState = {
+        open: false,
+        success: false,
+        message: ""
+      };
+
+      const newState = snackbarReducer(oldState, editCaseOfficerSuccess());
+      const expectedState = {
+        open: true,
+        success: true,
+        message: "Officer successfully updated"
+      };
+
+      expect(newState).toEqual(expectedState);
+    });
+
+    test("should display failure message on edit case failure", () => {
+      const oldState = {
+        open: false,
+        success: true,
+        message: ""
+      };
+
+      const newState = snackbarReducer(oldState, editCaseOfficerFailure());
+      const expectedState = {
+        success: false,
+        open: true,
+        message:
+          "Something went wrong on our end and the officer was not updated. Please try again."
       };
 
       expect(newState).toEqual(expectedState);

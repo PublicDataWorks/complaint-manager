@@ -4,70 +4,21 @@ import { MemoryRouter as Router, Route } from "react-router-dom";
 import ConnectedOfficerDetailsContainer, {
   OfficerDetailsContainer
 } from "./OfficerDetailsContainer";
-import getCaseDetails from "../cases/thunks/getCaseDetails";
-import { clearSelectedOfficer } from "../actionCreators/officersActionCreators";
-import createConfiguredStore from "../createConfiguredStore";
+import getCaseDetails from "../../cases/thunks/getCaseDetails";
+import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
+import createConfiguredStore from "../../createConfiguredStore";
 import { Provider } from "react-redux";
-import { getCaseDetailsSuccess } from "../actionCreators/casesActionCreators";
+import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import { push } from "react-router-redux";
-import { snackbarError } from "../actionCreators/snackBarActionCreators";
+import { snackbarError } from "../../actionCreators/snackBarActionCreators";
+import {editThunkWrapper} from "../thunks/officerThunkWrappers";
 
-jest.mock("../cases/thunks/getCaseDetails");
+jest.mock("../../cases/thunks/getCaseDetails");
 
 describe("OfficerDetailsContainer", () => {
   let mockDispatch = jest.fn();
-  getCaseDetails.mockImplementation(() => "");
+  getCaseDetails.mockImplementation(() => ({type: "mock"}));
   const caseId = 1;
-
-  test("should not fetch case details when already loaded", () => {
-    shallow(
-      <OfficerDetailsContainer
-        match={{
-          params: {
-            id: `${caseId}`
-          }
-        }}
-        caseId={caseId}
-        dispatch={mockDispatch}
-      />
-    );
-
-    expect(mockDispatch).not.toHaveBeenCalledWith(getCaseDetails());
-  });
-
-  test("should fetch case details when different case is loaded", () => {
-    const differentCaseId = 5;
-    shallow(
-      <OfficerDetailsContainer
-        match={{
-          params: {
-            id: `${caseId}`
-          }
-        }}
-        caseId={differentCaseId}
-        dispatch={mockDispatch}
-      />
-    );
-
-    expect(mockDispatch).toHaveBeenCalledWith(getCaseDetails());
-  });
-
-  test("should fetch case details when no case is loaded", () => {
-    const noCase = null;
-    shallow(
-      <OfficerDetailsContainer
-        match={{
-          params: {
-            id: `${caseId}`
-          }
-        }}
-        caseId={noCase}
-        dispatch={mockDispatch}
-      />
-    );
-
-    expect(mockDispatch).toHaveBeenCalledWith(getCaseDetails());
-  });
 
   test("should clear selected officer when Back to Case is clicked", () => {
     const store = createConfiguredStore();
@@ -96,6 +47,11 @@ describe("OfficerDetailsContainer", () => {
                 id: `${caseId}`
               }
             }}
+            caseId={caseId}
+            titleAction={"Test"}
+            submitButtonText={"Test Officer"}
+            submitAction={jest.fn()}
+            officerSearchUrl={`/test-search`}
           />
         </Router>
       </Provider>
@@ -137,7 +93,13 @@ describe("OfficerDetailsContainer", () => {
         >
           <Route
             path="/cases/:id/officers/details"
-            component={props => <ConnectedOfficerDetailsContainer {...props} />}
+            component={props => <ConnectedOfficerDetailsContainer
+              submitAction={jest.fn()}
+              caseId={caseId}
+              titleAction={"Test"}
+              submitButtonText={"Test Officer"}
+              officerSearchUrl={`/cases/${caseId}/officers/search`}
+              { ...props} />}
           />
         </Router>
       </Provider>
@@ -150,4 +112,5 @@ describe("OfficerDetailsContainer", () => {
       snackbarError("Please select an officer or unknown officer to continue")
     );
   });
+
 });

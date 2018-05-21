@@ -1,9 +1,10 @@
 import React from "react";
 import { push } from "react-router-redux";
-import { selectCaseOfficer } from "../../../actionCreators/officersActionCreators";
+import { selectCaseOfficer, selectUnknownOfficer } from "../../../actionCreators/officersActionCreators";
 import { Menu, MenuItem } from "material-ui";
 import { connect } from "react-redux";
 import { SecondaryButton } from "../../../sharedComponents/StyledButtons";
+import { initialize } from "redux-form";
 
 class ManageOfficerMenu extends React.Component {
   state = { menuOpen: false, anchorEl: null };
@@ -19,26 +20,27 @@ class ManageOfficerMenu extends React.Component {
     return (
       <div style={{ marginLeft: "88px" }}>
         <SecondaryButton
-          data-test="manageOfficer"
+          data-test="manageCaseOfficer"
           onClick={this.handleMenuOpen}
         >
           Manage
         </SecondaryButton>
         <Menu open={this.state.menuOpen} anchorEl={this.state.anchorEl}>
           <MenuItem
-            data-test="editOfficer"
-            onClick={event => {
-              this.props.dispatch(selectCaseOfficer(caseOfficer));
+            data-test="editCaseOfficer"
+            onClick={() => {
+              if (caseOfficer.officerId) {
+                this.props.dispatch(selectOfficer(caseOfficer.officer));
+              } else {
+                this.props.dispatch(selectUnknownOfficer());
+              }
+              this.props.dispatch(initialize("OfficerDetails", caseOfficer));
               this.props.dispatch(
-                push(
-                  `/api/cases/${caseOfficer.caseId}/cases-officers/${
-                    caseOfficer.id
-                  }`
-                )
+                push(`/cases/${caseOfficer.caseId}/officers/${caseOfficer.id}`)
               );
             }}
           >
-            Edit Case
+            Edit Officer
           </MenuItem>
           <MenuItem
             data-test="addAllegation"

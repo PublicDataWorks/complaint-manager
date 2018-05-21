@@ -1,26 +1,19 @@
 import React, { Component } from "react";
-import getCaseDetails from "../cases/thunks/getCaseDetails";
 import { connect } from "react-redux";
-import NavBar from "../sharedComponents/NavBar/NavBar";
+import NavBar from "../../sharedComponents/NavBar/NavBar";
 import { Typography } from "material-ui";
 import { Link } from "react-router-dom";
-import LinkButton from "../sharedComponents/LinkButton";
-import OfficersSnackbar from "./OfficersSnackBar/OfficersSnackbar";
-import OfficerDetails from "./OfficerDetails/OfficerDetails";
-import { clearSelectedOfficer } from "../actionCreators/officersActionCreators";
+import LinkButton from "../../sharedComponents/LinkButton";
+import OfficersSnackbar from "../OfficersSnackBar/OfficersSnackbar";
+import OfficerDetails from "./OfficerDetails";
+import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 import { push } from "react-router-redux";
-import { snackbarError } from "../actionCreators/snackBarActionCreators";
+import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 
 export class OfficerDetailsContainer extends Component {
   componentDidMount() {
-    if (`${this.props.caseId}` !== this.props.match.params.id) {
-      this.props.dispatch(getCaseDetails(this.props.match.params.id));
-    }
-
     if (!this.props.officerCurrentlySelected) {
-      this.props.dispatch(
-        push(`/cases/${this.props.match.params.id}/officers/search`)
-      );
+      this.props.dispatch(push(this.props.officerSearchUrl));
       this.props.dispatch(
         snackbarError("Please select an officer or unknown officer to continue")
       );
@@ -28,16 +21,22 @@ export class OfficerDetailsContainer extends Component {
   }
 
   render() {
-    const { caseId, selectedOfficerData } = this.props;
-    if (`${caseId}` !== this.props.match.params.id) {
-      return null;
-    }
+    const {
+      selectedOfficerData,
+      caseId,
+      titleAction,
+      submitButtonText,
+      submitAction,
+      officerSearchUrl
+    } = this.props;
+
+    const selectedOfficerId = selectedOfficerData && selectedOfficerData.id;
 
     return (
       <div>
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${caseId}   : Add Officer`}
+            {`Case #${caseId}   : ${titleAction} Officer`}
           </Typography>
         </NavBar>
         <LinkButton
@@ -51,7 +50,10 @@ export class OfficerDetailsContainer extends Component {
         </LinkButton>
         <div style={{ margin: "0% 5% 3%" }}>
           <OfficerDetails
-            caseId={this.props.caseId}
+            officerSearchUrl={officerSearchUrl}
+            submitAction={submitAction(selectedOfficerId)}
+            submitButtonText={submitButtonText}
+            caseId={caseId}
             selectedOfficerData={selectedOfficerData}
           />
         </div>
@@ -62,7 +64,6 @@ export class OfficerDetailsContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  caseId: state.currentCase.details.id,
   selectedOfficerData: state.officers.selectedOfficerData,
   officerCurrentlySelected: state.officers.officerCurrentlySelected
 });

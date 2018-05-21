@@ -4,13 +4,23 @@ import { LinearProgress } from "material-ui/Progress";
 import { connect } from "react-redux";
 import OfficerSearchResultsRow from "./OfficerSearchResultsRow";
 import { searchOfficersCleared } from "../../../actionCreators/officersActionCreators";
-import OfficerSearchTableHeader from "../../OfficerSearchTableHeader";
+import OfficerSearchTableHeader from "../OfficerSearchTableHeader";
 import {
   PreviouslyAddedOfficer,
   SelectNewOfficer
 } from "./officerSearchResultsRowButtons";
+import getCaseDetails from "../../../cases/thunks/getCaseDetails";
 
 export class OfficerSearchResults extends Component {
+  componentDidMount() {
+    if (
+      !this.props.currentCase ||
+      this.props.currentCase.id !== this.props.caseId
+    ) {
+      this.props.dispatch(getCaseDetails(this.props.caseId));
+    }
+  }
+
   componentWillUnmount() {
     this.props.dispatch(searchOfficersCleared());
   }
@@ -48,7 +58,7 @@ export class OfficerSearchResults extends Component {
       return null;
     }
     let message = "";
-    if (this.props.searchResults.length === 0) {
+    if (!this.props.searchResults || this.props.searchResults.length === 0) {
       message = "No results found";
     } else if (this.props.searchResults.length === 1) {
       message = `1 result found`;
@@ -68,7 +78,7 @@ export class OfficerSearchResults extends Component {
   };
 
   renderSearchResults = () => {
-    if (this.props.searchResults.length === 0) {
+    if (!this.props.searchResults || this.props.searchResults.length === 0) {
       return null;
     }
     return (
@@ -80,7 +90,7 @@ export class OfficerSearchResults extends Component {
   };
 
   generateResultsRows() {
-    const { searchResults, officerIds, dispatch, caseId } = this.props;
+    const { searchResults, officerIds, dispatch } = this.props;
 
     return searchResults.map(officer => (
       <OfficerSearchResultsRow key={officer.id} officer={officer}>
@@ -88,9 +98,9 @@ export class OfficerSearchResults extends Component {
           <PreviouslyAddedOfficer />
         ) : (
           <SelectNewOfficer
-            caseId={caseId}
             dispatch={dispatch}
             officer={officer}
+            path={this.props.path}
           />
         )}
       </OfficerSearchResultsRow>
@@ -98,13 +108,18 @@ export class OfficerSearchResults extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  caseId: state.currentCase.details.id,
-  searchResults: state.officers.searchResults,
-  spinnerVisible: state.officers.spinnerVisible,
-  officerIds: state.currentCase.details.accusedOfficers
-    .concat(state.currentCase.details.complainantWitnessOfficers)
-    .map(officer => officer.officerId)
-});
+const mapStateToProps = state => {
+  if (state.currentCase.details.accusedOfficers) {
+    return {
+      currentCase: state.currentCase.details,
+      searchResults: state.officers.searchResults,
+      spinnerVisible: state.officers.spinnerVisible,
+      officerIds: state.currentCase.details.accusedOfficers
+        .concat(state.currentCase.details.complainantWitnessOfficers)
+        .map(officer => officer.officerId)
+    };
+  }
+  return {};
+};
 
 export default connect(mapStateToProps)(OfficerSearchResults);
