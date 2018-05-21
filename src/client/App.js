@@ -15,8 +15,6 @@ import { connect } from "react-redux";
 import { userAuthSuccess } from "./auth/actionCreators";
 import getAccessToken from "./auth/getAccessToken";
 import Auth from "./auth/Auth";
-import OfficerSearchContainer from "./officers/OfficerSearchContainer";
-import OfficerDetailsContainer from "./officers/OfficerDetailsContainer";
 import ScrollToTop from "./ScrollToTop";
 import { Switch } from "react-router";
 import AddOfficerSearch from "./officers/OfficerSearch/AddOfficerSearch";
@@ -67,7 +65,7 @@ class App extends Component {
                   component={EditOfficerSearch}
                 />
               </Switch>
-              <Route exact path="/cases/:id/history" component={CaseHistory}/>
+              <Route exact path="/cases/:id/history" component={CaseHistory} />
               <Route exact path="/cases/:id" component={CaseDetails} />
               <Route exact path="/styleguide" component={StyleGuide} />
               <Route exact path="/admin" component={UserDashboard} />

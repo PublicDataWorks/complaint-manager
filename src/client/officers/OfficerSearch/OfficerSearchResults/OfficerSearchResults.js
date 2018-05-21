@@ -9,18 +9,8 @@ import {
   PreviouslyAddedOfficer,
   SelectNewOfficer
 } from "./officerSearchResultsRowButtons";
-import getCaseDetails from "../../../cases/thunks/getCaseDetails";
 
 export class OfficerSearchResults extends Component {
-  componentDidMount() {
-    if (
-      !this.props.currentCase ||
-      this.props.currentCase.id !== this.props.caseId
-    ) {
-      this.props.dispatch(getCaseDetails(this.props.caseId));
-    }
-  }
-
   componentWillUnmount() {
     this.props.dispatch(searchOfficersCleared());
   }
@@ -90,7 +80,13 @@ export class OfficerSearchResults extends Component {
   };
 
   generateResultsRows() {
-    const { searchResults, officerIds, dispatch } = this.props;
+    const {
+      searchResults,
+      officerIds,
+      dispatch,
+      initialize,
+      path
+    } = this.props;
 
     return searchResults.map(officer => (
       <OfficerSearchResultsRow key={officer.id} officer={officer}>
@@ -98,9 +94,10 @@ export class OfficerSearchResults extends Component {
           <PreviouslyAddedOfficer />
         ) : (
           <SelectNewOfficer
+            initialize={initialize}
             dispatch={dispatch}
             officer={officer}
-            path={this.props.path}
+            path={path}
           />
         )}
       </OfficerSearchResultsRow>

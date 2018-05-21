@@ -1,7 +1,10 @@
 import React from "react";
 import { push } from "react-router-redux";
-import { selectCaseOfficer, selectUnknownOfficer } from "../../../actionCreators/officersActionCreators";
 import { Menu, MenuItem } from "material-ui";
+import {
+  selectOfficer,
+  selectUnknownOfficer
+} from "../../../actionCreators/officersActionCreators";
 import { connect } from "react-redux";
 import { SecondaryButton } from "../../../sharedComponents/StyledButtons";
 import { initialize } from "redux-form";

@@ -89,8 +89,5 @@ const OfficerDetails = props => {
 };
 
 export default reduxForm({
-  form: "OfficerDetails",
-  initialValues: {
-    roleOnCase: "Accused"
-  }
+  form: "OfficerDetails"
 })(OfficerDetails);

@@ -12,7 +12,6 @@ import {
 import createConfiguredStore from "../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
-import { containsText } from "../../../testHelpers";
 import Officer from "../../testUtilities/Officer";
 import Case from "../../testUtilities/case";
 
@@ -42,42 +41,6 @@ describe("OfficerSearchContainer", () => {
     );
 
     expect(mockDispatch).not.toHaveBeenCalledWith(getCaseDetails());
-  });
-
-  test("should display Edit Officer when caseOfficerId param exists", () => {
-    const store = createConfiguredStore();
-
-    store.dispatch(
-      getCaseDetailsSuccess({
-        id: caseId,
-        accusedOfficers: [
-          {
-            id: caseOfficerId,
-            roleOnCase: "Accused",
-            officer: {
-              id: 34
-            }
-          }
-        ],
-        complainantWitnessOfficers: []
-      })
-    );
-
-    const officerDashboard = mount(
-      <Provider store={store}>
-        <Router>
-          <ConnectedDashboard
-            officerDetailsPath={"/"}
-            submitAction={jest.fn(() => {
-              type: "mock";
-            })}
-            titleAction={"Edit"}
-          />
-        </Router>
-      </Provider>
-    );
-
-    containsText(officerDashboard, '[data-test="pageTitle"]', "Edit Officer");
   });
 
   test("should navigate to edit when selecting to replace existing officer with unknown", () => {
@@ -139,6 +102,48 @@ describe("OfficerSearchContainer", () => {
       .find('[data-test="selectNewOfficerButton"]')
       .first();
     expect(selectNewOfficer.prop("to")).toEqual(path);
+  });
+
+  test("should navigate to edit & initialize form when selecting to replace current officer with unknown officer", () => {
+    const store = createConfiguredStore();
+    const dispatchSpy = jest.spyOn(store, "dispatch");
+
+    const officer = new Officer.Builder()
+      .defaultOfficer()
+      .withId(234)
+      .withFullName("Some Other Officer")
+      .withOfficerNumber(456)
+      .build();
+    const caseDetails = new Case.Builder().defaultCase().build();
+    const caseId = caseDetails.id;
+    const caseOfficerId = caseDetails.accusedOfficers[0].id;
+    const path = "/";
+
+    store.dispatch(getCaseDetailsSuccess(caseDetails));
+
+    const officerDashboard = mount(
+      <Provider store={store}>
+        <Router>
+          <ConnectedDashboard
+            officerDetailsPath={path}
+            submitAction={jest.fn(() => {
+              type: "mock";
+            })}
+            titleAction={""}
+            caseId={caseId}
+            caseOfficerId={caseOfficerId}
+            initialize={{ type: "MOCK_TYPE" }}
+          />
+        </Router>
+      </Provider>
+    );
+
+    const selectUnknownOfficer = officerDashboard
+      .find('[data-test="unknownOfficerButton"]')
+      .first();
+    selectUnknownOfficer.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith({ type: "MOCK_TYPE" });
   });
 
   test("should clear selected officer when Back to Case is clicked", () => {

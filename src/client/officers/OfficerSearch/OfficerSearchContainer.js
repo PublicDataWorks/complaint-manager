@@ -34,6 +34,7 @@ export class OfficerSearchContainer extends Component {
         </LinkButton>
         <div style={{ margin: "0% 5% 3%" }}>
           <OfficerSearch
+            initialize={this.props.initialize}
             dispatch={this.props.dispatch}
             path={officerDetailsPath}
           />

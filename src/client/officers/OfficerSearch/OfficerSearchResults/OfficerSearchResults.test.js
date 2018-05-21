@@ -1,7 +1,14 @@
 import React from "react";
-import { shallow } from "enzyme";
-import { OfficerSearchResults } from "./OfficerSearchResults";
+import { mount, shallow } from "enzyme";
+import ConnectedOfficerSearchResults, {
+  OfficerSearchResults
+} from "./OfficerSearchResults";
 import getCaseDetails from "../../../cases/thunks/getCaseDetails";
+import createConfiguredStore from "../../../createConfiguredStore";
+import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
+import { Provider } from "react-redux";
+import { searchOfficersSuccess } from "../../../actionCreators/officersActionCreators";
+import { BrowserRouter as Router } from "react-router-dom";
 
 jest.mock("../../../cases/thunks/getCaseDetails", () => caseId => ({
   type: "MOCK_ACTION",
@@ -65,40 +72,46 @@ describe("OfficerSearchResults", () => {
       expect(searchResultsMessage.exists()).toEqual(false);
     });
 
-    test("should fetch case details when different case is loaded", () => {
-      const mockDispatch = jest.fn();
-      const caseId = 2;
-      const wrapper = shallow(
-        <OfficerSearchResults
-          currentCase={{ id: 1 }}
-          caseId={caseId}
-          spinnerVisible={false}
-          classes={{}}
-          searchResults={[{ firstName: "bob", id: 1 }]}
-          officerIds={[4]}
-          dispatch={mockDispatch}
-        />
+    test("should initialize OfficerDetails form when select is clicked", () => {
+      const store = createConfiguredStore();
+      const anAccusedOfficer = {
+        id: 34,
+        notes: "bad person",
+        roleOnCase: "Accused",
+        officerId: 23
+      };
+      store.dispatch(
+        getCaseDetailsSuccess({
+          id: 1,
+          accusedOfficers: [anAccusedOfficer],
+          complainantWitnessOfficers: []
+        })
       );
 
-      expect(mockDispatch).toHaveBeenCalledWith(getCaseDetails(caseId));
-    });
+      store.dispatch(searchOfficersSuccess([{ firstName: "bob", id: 1 }]));
+      const dispatchSpy = jest.spyOn(store, "dispatch");
 
-    test("should fetch case details when no case is loaded", () => {
-      const mockDispatch = jest.fn();
-      const caseId = 2;
-      const wrapper = shallow(
-        <OfficerSearchResults
-          currentCase={null}
-          caseId={caseId}
-          spinnerVisible={false}
-          classes={{}}
-          searchResults={[{ firstName: "bob", id: 1 }]}
-          officerIds={[4]}
-          dispatch={mockDispatch}
-        />
+      const wrapper = mount(
+        <Provider store={store}>
+          <Router>
+            <ConnectedOfficerSearchResults
+              caseId={1}
+              caseOfficerId={"34"}
+              spinnerVisible={false}
+              classes={{}}
+              path={"/some/path"}
+              initialize={{ type: "MOCK_TYPE" }}
+            />
+          </Router>
+        </Provider>
       );
 
-      expect(mockDispatch).toHaveBeenCalledWith(getCaseDetails(caseId));
+      const selectNewOfficerButton = wrapper
+        .find('[data-test="selectNewOfficerButton"]')
+        .first();
+      selectNewOfficerButton.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith({ type: "MOCK_TYPE" });
     });
 
     test("should display number of search results when single result is present and spinner is not visible", () => {

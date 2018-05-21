@@ -9,26 +9,28 @@ import { Button } from "material-ui";
 import { SecondaryButton } from "../../../sharedComponents/StyledButtons";
 import { Link } from "react-router-dom";
 
-export const SelectNewOfficer = ({ path, officer, dispatch }) => (
+export const SelectNewOfficer = ({ path, officer, initialize, dispatch }) => (
   <LinkButton
     data-test="selectNewOfficerButton"
     component={Link}
     to={path}
     onClick={() => {
       dispatch(selectOfficer(officer));
+      dispatch(initialize);
     }}
   >
     select
   </LinkButton>
 );
 
-export const SelectUnknownOfficerButton = ({ dispatch, path }) => (
+export const SelectUnknownOfficerButton = ({ dispatch, initialize, path }) => (
   <SecondaryButton
     style={{ marginRight: 20 }}
     data-test="unknownOfficerButton"
     component={Link}
     to={path}
     onClick={() => {
+      dispatch(initialize);
       dispatch(selectUnknownOfficer());
     }}
   >

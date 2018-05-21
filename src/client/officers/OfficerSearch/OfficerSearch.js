@@ -18,6 +18,7 @@ const OfficerSearch = props => {
             to={props.path}
             style={{ cursor: "pointer" }}
             onClick={() => {
+              props.dispatch(props.initialize);
               props.dispatch(selectUnknownOfficer());
             }}
           >
@@ -38,8 +39,16 @@ const OfficerSearch = props => {
           <OfficerSearchForm caseId={props.caseId} />
         </CardContent>
       </Card>
-      <OfficerSearchResults path={props.path} caseId={props.caseId} />
-      <SelectUnknownOfficerButton dispatch={props.dispatch} path={props.path} />
+      <OfficerSearchResults
+        path={props.path}
+        caseId={props.caseId}
+        initialize={props.initialize}
+      />
+      <SelectUnknownOfficerButton
+        initialize={props.initialize}
+        dispatch={props.dispatch}
+        path={props.path}
+      />
     </div>
   );
 };
