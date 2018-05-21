@@ -114,8 +114,9 @@ if (TEST_PASS && TEST_USER && HOST) {
 
     "should display suggestions when text is entered": browser => {
       browser
-        .moveToElement('[data-test="raceDropdown"]', 10, 10) // hover mouse away from suggestion container
-        .setValue('[data-test="addressSuggestionField"] > input', ["200"])
+        .setValue('[data-test="addressSuggestionField"] > input', [
+          "6500 Magazine Street, New Orleans, LA, USA 70118"
+        ])
         .waitForElementPresent(
           '[data-test="suggestion-container"] > ul',
           rerenderWait
