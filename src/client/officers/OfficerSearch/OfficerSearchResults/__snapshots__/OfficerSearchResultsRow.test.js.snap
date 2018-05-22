@@ -397,7 +397,9 @@ exports[`it can render officer search results with correct styles 1`] = `
                               }
                             }
                           >
-                            <div>
+                            <div
+                              data-test="officerFullName"
+                            >
                               Ugochi Grant Smith
                             </div>
                             <div

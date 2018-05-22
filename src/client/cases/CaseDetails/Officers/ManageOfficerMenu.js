@@ -19,7 +19,6 @@ class ManageOfficerMenu extends React.Component {
     return (
       <div style={{ marginLeft: "88px" }}>
         <SecondaryButton
-          style={{ visibility: "hidden" }}
           data-test="manageOfficer"
           onClick={this.handleMenuOpen}
         >
@@ -40,6 +39,20 @@ class ManageOfficerMenu extends React.Component {
             }}
           >
             Edit Case
+          </MenuItem>
+          <MenuItem
+            data-test="addAllegation"
+            onClick={() => {
+              this.props.dispatch(
+                push(
+                  `/cases/${caseOfficer.caseId}/cases-officers/${
+                    caseOfficer.id
+                  }/allegations/search`
+                )
+              );
+            }}
+          >
+            Add Allegation
           </MenuItem>
         </Menu>
       </div>
