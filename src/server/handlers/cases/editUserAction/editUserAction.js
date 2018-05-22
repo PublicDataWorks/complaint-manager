@@ -30,9 +30,11 @@ const editUserAction = async (req, res, next) => {
           {
             where: {
               id: caseId
-            }
-          },
-          { transaction, returning: true }
+            },
+            transaction,
+            returning: true,
+            auditUser: req.nickname
+          }
         );
 
         return await models.user_action.findAll(

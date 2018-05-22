@@ -8,7 +8,15 @@ describe("dataChangeAuditHooks", () => {
     await models.data_change_audit.truncate({ cascade: true, force: true });
   });
 
-  describe("update case", () => {
+  describe("audit not implemented", () => {
+    test("calling upsert throws an error", () => {
+      expect(models.cases.upsert({})).rejects.toEqual(
+        new Error("Audit is not implemented for this function.")
+      );
+    });
+  });
+
+  describe("create case", () => {
     let initialCaseAttributes = {};
     beforeEach(async () => {
       initialCaseAttributes = new Case.Builder()
@@ -86,7 +94,7 @@ describe("dataChangeAuditHooks", () => {
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
 
-    describe("errors", () => {
+    describe("errors on create", () => {
       let oldConsoleError = null;
       beforeAll(() => {
         oldConsoleError = console.error;
@@ -104,13 +112,41 @@ describe("dataChangeAuditHooks", () => {
           new Error("User nickname must be given for auditing data changes")
         );
       });
+
+      test("it does not create the case if the audit fails", async () => {
+        await models.cases.truncate({ cascade: true });
+        try {
+          await models.cases.create(initialCaseAttributes, { auditUser: null });
+        } catch (error) {
+          expect(error).toEqual(
+            new Error("User nickname must be given for auditing data changes")
+          );
+        }
+
+        await models.cases.count().then(numCases => {
+          expect(numCases).toEqual(0);
+        });
+      });
+
+      test("it does not create the audit if the case creation fails", async () => {
+        await models.data_change_audit.truncate({ cascade: true });
+        try {
+          await models.cases.create({}, { auditUser: "someone" });
+        } catch (error) {
+          expect(error.name).toEqual("SequelizeDatabaseError");
+        }
+        await models.data_change_audit.count().then(numAudits => {
+          expect(numAudits).toEqual(0);
+        });
+      });
     });
   });
 
   describe("update case", () => {
     let existingCase = null;
+    let initialCaseAttributes = {};
     beforeEach(async () => {
-      const initialCaseAttributes = new Case.Builder()
+      initialCaseAttributes = new Case.Builder()
         .defaultCase()
         .withId(undefined)
         .withIncidentLocation(undefined)
@@ -245,6 +281,129 @@ describe("dataChangeAuditHooks", () => {
         id: existingCase.id
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
+    });
+
+    describe("errors on update", () => {
+      let oldConsoleError = null;
+      beforeAll(async () => {
+        oldConsoleError = console.error;
+        console.error = jest.fn();
+      });
+
+      afterAll(() => {
+        console.error = oldConsoleError;
+      });
+
+      test("it does not allow blank username", () => {
+        expect(
+          existingCase.update(
+            { narrativeDetails: "something new happened" },
+            { auditUser: "" }
+          )
+        ).rejects.toEqual(
+          new Error("User nickname must be given for auditing data changes")
+        );
+      });
+
+      test("it does not update the case if the audit fails when updating an instance", async () => {
+        try {
+          await existingCase.update(
+            { narrativeDetails: "something new happened" },
+            { auditUser: null }
+          );
+        } catch (error) {
+          expect(error).toEqual(
+            new Error("User nickname must be given for auditing data changes")
+          );
+        }
+
+        const refreshedCase = await models.cases.findById(existingCase.id);
+        expect(refreshedCase.narrativeDetails).toEqual(
+          initialCaseAttributes.narrativeDetails
+        );
+      });
+
+      test("it does not update the case if the audit fails when updating Model class with individual hooks", async () => {
+        try {
+          await models.cases.update(
+            { narrativeDetails: "something new happened" },
+            {
+              where: { id: existingCase.id },
+              auditUser: null,
+              individualHooks: true
+            }
+          );
+        } catch (error) {
+          expect(error).toEqual(
+            new Error("User nickname must be given for auditing data changes")
+          );
+        }
+
+        const refreshedCase = await models.cases.findById(existingCase.id);
+        expect(refreshedCase.narrativeDetails).toEqual(
+          initialCaseAttributes.narrativeDetails
+        );
+      });
+
+      test("it does not update the case if the audit fails when updating Model class without individual hooks", async () => {
+        try {
+          await models.cases.update(
+            { narrativeDetails: "something new happened" },
+            { where: { id: existingCase.id }, auditUser: null }
+          );
+        } catch (error) {
+          expect(error).toEqual(
+            new Error("User nickname must be given for auditing data changes")
+          );
+        }
+
+        const refreshedCase = await models.cases.findById(existingCase.id);
+        expect(refreshedCase.narrativeDetails).toEqual(
+          initialCaseAttributes.narrativeDetails
+        );
+      });
+
+      test("it does not create the audit if the case update fails", async () => {
+        await models.data_change_audit.truncate({ cascade: true });
+        try {
+          await existingCase.update(
+            { createdBy: null },
+            { auditUser: "someone" }
+          );
+        } catch (error) {
+          expect(error.name).toEqual("SequelizeDatabaseError");
+        }
+        await models.data_change_audit.count().then(numAudits => {
+          expect(numAudits).toEqual(0);
+        });
+      });
+
+      test("it rolls back outer transaction if audit fails", async () => {
+        try {
+          await models.sequelize.transaction(async t => {
+            await models.cases.create(initialCaseAttributes, {
+              auditUser: "sldkfj",
+              transaction: t
+            });
+            return await existingCase.update(
+              { narrativeDetails: "something new happened" },
+              { auditUser: null, transaction: t }
+            );
+          });
+        } catch (error) {
+          expect(error).toEqual(
+            new Error("User nickname must be given for auditing data changes")
+          );
+        }
+
+        await models.cases.count().then(numCases => {
+          expect(numCases).toEqual(1);
+        });
+        const refreshedCase = await models.cases.findById(existingCase.id);
+        expect(refreshedCase.narrativeDetails).toEqual(
+          initialCaseAttributes.narrativeDetails
+        );
+      });
     });
   });
 });

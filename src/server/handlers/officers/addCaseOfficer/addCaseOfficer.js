@@ -31,7 +31,8 @@ const addCaseOfficer = async (request, response, next) => {
         {
           where: {
             id: request.params.caseId
-          }
+          },
+          auditUser: request.nickname
         }
       );
 

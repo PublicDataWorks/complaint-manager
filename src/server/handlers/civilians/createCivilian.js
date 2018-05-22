@@ -14,7 +14,8 @@ const createCivilian = async (req, res, next) => {
         },
         {
           where: { id: civilianCreated.caseId },
-          transaction: t
+          transaction: t,
+          auditUser: req.nickname
         }
       );
 

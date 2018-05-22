@@ -79,7 +79,7 @@ test("should return allegation based on partial match on directive", async () =>
   );
 });
 
-test.only("should return allegation with multiple search criteria", async () => {
+test("should return allegation with multiple search criteria", async () => {
   const allegation1 = new Allegation.Builder()
     .defaultAllegation()
     .withId(undefined)

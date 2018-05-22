@@ -65,7 +65,8 @@ const uploadAttachment = (request, response, next) => {
             { status: "Active" },
             {
               where: { id: caseId },
-              transaction: t
+              transaction: t,
+              auditUser: request.nickname
             }
           );
 

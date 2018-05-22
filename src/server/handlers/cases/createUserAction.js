@@ -10,7 +10,10 @@ const createUserAction = async (request, response, next) => {
 
     await models.cases.update(
       { status: "Active" },
-      { where: { id: request.params.id } }
+      {
+        where: { id: request.params.id },
+        auditUser: request.nickname
+      }
     );
 
     const recentActivity = await models.user_action.findAll({

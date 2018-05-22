@@ -24,7 +24,8 @@ const removeUserAction = async (req, res, next) => {
           {
             where: {
               id: caseId
-            }
+            },
+            auditUser: req.nickname
           },
           { transaction }
         );

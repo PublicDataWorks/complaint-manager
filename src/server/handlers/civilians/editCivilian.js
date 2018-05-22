@@ -55,7 +55,8 @@ const editCivilian = async (req, res, next) => {
         { status: "Active" },
         {
           where: { id: caseId },
-          transaction: t
+          transaction: t,
+          auditUser: req.nickname
         }
       );
 
