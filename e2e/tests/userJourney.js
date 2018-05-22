@@ -22,6 +22,7 @@ if (TEST_PASS && TEST_USER && HOST) {
     "should see sign-in title": browser => {
       browser
         .url(HOST)
+        .resizeWindow(1366, 768)
         .waitForElementVisible("body", rerenderWait)
         .assert.title("Sign In with Auth0");
     },
@@ -49,45 +50,45 @@ if (TEST_PASS && TEST_USER && HOST) {
         .assert.urlContains("cases");
     },
 
-    // "should add and remove an attachment": browser => {
-    //   const imagesDir = "images/";
-    //   const fileName = "dog_nose.jpg";
-    //
-    //   browser
-    //     .setValue(
-    //       'input[type="file"]',
-    //       path.resolve(__dirname, imagesDir, fileName)
-    //     )
-    //     .waitForElementVisible(
-    //       "[data-test='attachmentDescriptionInput']",
-    //       roundTripWait
-    //     )
-    //     .setValue('[data-test="attachmentDescriptionInput"]', "a description")
-    //     .waitForElementVisible(
-    //       "[data-test=attachmentUploadButton]",
-    //       rerenderWait
-    //     )
-    //     .click("[data-test=attachmentUploadButton]")
-    //     .pause(2000)
-    //
-    //     .waitForElementVisible("[data-test=attachmentRow]", roundTripWait)
-    //     .assert.containsText("[data-test=attachmentRow]", fileName)
-    //     .waitForElementVisible(
-    //       "[data-test=removeAttachmentButton]",
-    //       roundTripWait
-    //     )
-    //     .click("[data-test=removeAttachmentButton]")
-    //     .pause(2000)
-    //     .click("[data-test=confirmRemoveAttachmentButton]")
-    //     .pause(2000)
-    //
-    //     .waitForElementVisible("[data-test=noAttachmentsText]", roundTripWait)
-    //     .assert.containsText(
-    //       "[data-test=noAttachmentsText]",
-    //       "No files are attached"
-    //     )
-    //     .pause(2000);
-    // },
+    "should add and remove an attachment": browser => {
+      const imagesDir = "images/";
+      const fileName = "dog_nose.jpg";
+
+      browser
+        .setValue(
+          'input[type="file"]',
+          path.resolve(__dirname, imagesDir, fileName)
+        )
+        .waitForElementVisible(
+          "[data-test='attachmentDescriptionInput']",
+          roundTripWait
+        )
+        .setValue('[data-test="attachmentDescriptionInput"]', "a description")
+        .waitForElementVisible(
+          "[data-test=attachmentUploadButton]",
+          rerenderWait
+        )
+        .click("[data-test=attachmentUploadButton]")
+        .pause(2000)
+
+        .waitForElementVisible("[data-test=attachmentRow]", roundTripWait)
+        .assert.containsText("[data-test=attachmentRow]", fileName)
+        .waitForElementVisible(
+          "[data-test=removeAttachmentButton]",
+          roundTripWait
+        )
+        .click("[data-test=removeAttachmentButton]")
+        .pause(2000)
+        .click("[data-test=confirmRemoveAttachmentButton]")
+        .pause(2000)
+
+        .waitForElementVisible("[data-test=noAttachmentsText]", roundTripWait)
+        .assert.containsText(
+          "[data-test=noAttachmentsText]",
+          "No files are attached"
+        )
+        .pause(2000);
+    },
 
     "should open edit civilian form": browser => {
       browser
@@ -236,6 +237,79 @@ if (TEST_PASS && TEST_USER && HOST) {
           result.value
         );
       });
+    },
+
+    "should navigate to Add Case Officer Page": browser => {
+      browser
+        .click('[data-test="caseActionMenu"]')
+        .waitForElementVisible('[data-test="addOfficerButton"]', rerenderWait)
+        .click('[data-test="addOfficerButton"]')
+        .waitForElementVisible(
+          '[data-test="selectUnknownOfficerLink"]',
+          rerenderWait
+        );
+    },
+
+    "should navigate to add officer form for unknown officer": browser => {
+      browser
+        .click('[data-test="selectUnknownOfficerLink"]')
+        .waitForElementVisible(
+          '[data-test="officerSubmitButton"]',
+          rerenderWait
+        );
+    },
+
+    "should see Unknown Officer in Accused section when added": browser => {
+      browser
+        .click('[data-test="officerSubmitButton"]')
+        .waitForElementVisible(
+          '[data-test="unknownOfficerPanel"]',
+          roundTripWait
+        )
+        .assert.containsText(
+          '[data-test="unknownOfficerPanel"]',
+          "Unknown Officer"
+        );
+    },
+
+    "should see Edit Officer page when Edit Officer clicked": browser => {
+      browser
+        .click('[data-test="manageCaseOfficer"]')
+        .waitForElementVisible('[data-test="editCaseOfficer"]', rerenderWait)
+        .click('[data-test="editCaseOfficer"]')
+        .waitForElementVisible('[data-test="changeOfficerLink"]', rerenderWait);
+    },
+
+    "should see Edit Officer search page when change officer clicked": browser => {
+      browser
+        .click('[data-test="changeOfficerLink"]')
+        .waitForElementVisible(
+          '[data-test="officerSearchSubmitButton"]',
+          rerenderWait
+        );
+    },
+
+    "should search for officer to replace unknown": browser => {
+      browser
+        .setValue('[data-test="lastNameField"]', "Ri")
+        .click('[data-test="officerSearchSubmitButton"]')
+        .waitForElementVisible(
+          '[data-test="selectNewOfficerButton"]',
+          roundTripWait
+        );
+    },
+
+    "should return to Edit Officer when new officer selected": browser => {
+      browser
+        .click('[data-test="selectNewOfficerButton"]')
+        .waitForElementVisible('[data-test="changeOfficerLink"]', rerenderWait);
+    },
+
+    "should see that officer is no longer unknown in accused officers": browser => {
+      browser
+        .click('[data-test="officerSubmitButton"]')
+        .waitForElementVisible('[data-test="officerPanel"]', roundTripWait)
+        .assert.containsText('[data-test="officerPanel"]', "Ri");
     },
 
     "should log out of the system": browser => {

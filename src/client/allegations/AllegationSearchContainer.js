@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import LinkButton from "../sharedComponents/LinkButton";
 import { connect } from "react-redux";
 import OfficerSearchResultsRow from "../officers/OfficerSearch/OfficerSearchResults/OfficerSearchResultsRow";
-import OfficerSearchTableHeader from "../officers/OfficerSearchTableHeader";
 import getCaseDetails from "../cases/thunks/getCaseDetails";
+import OfficerSearchTableHeader from "../officers/OfficerSearch/OfficerSearchTableHeader";
 
 export class AllegationSearchContainer extends Component {
   componentDidMount() {

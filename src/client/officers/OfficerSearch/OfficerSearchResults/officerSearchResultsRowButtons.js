@@ -44,6 +44,7 @@ export const PreviouslyAddedOfficer = () => (
 
 export const ChangeOfficer = ({ children, dispatch, officerSearchUrl }) => (
   <LinkButton
+    data-test="changeOfficerLink"
     component={Link}
     to={officerSearchUrl}
     onClick={() => {

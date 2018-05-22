@@ -15,6 +15,7 @@ const OfficerSearch = props => {
           Search by entering at least one of the following fields. Unable to
           find an officer? You can{" "}
           <StyledLink
+            data-test="selectUnknownOfficerLink"
             to={props.path}
             style={{ cursor: "pointer" }}
             onClick={() => {

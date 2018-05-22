@@ -158,6 +158,7 @@ class CaseDetails extends React.Component {
               Add Civilian
             </MenuItem>
             <MenuItem
+              data-test="addOfficerButton"
               onClick={() => {
                 this.props.dispatch(
                   push(`/cases/${this.props.caseDetail.id}/officers/search`)
