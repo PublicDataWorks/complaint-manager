@@ -14,7 +14,7 @@ const styles = theme => ({
     color: theme.palette.red
   },
   deceased: {
-    color: theme.palette.secondary.lighter
+    color: theme.palette.secondary.light
   },
   retired: {
     color: theme.palette.secondary.main
