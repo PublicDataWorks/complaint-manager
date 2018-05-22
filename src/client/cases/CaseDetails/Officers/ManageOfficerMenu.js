@@ -17,6 +17,11 @@ class ManageOfficerMenu extends React.Component {
     this.setState({ menuOpen: true, anchorEl: event.target });
   };
 
+  handleMenuClose = event => {
+    event.stopPropagation();
+    this.setState({ menuOpen: false, anchorEl: null });
+  };
+
   render() {
     const { caseOfficer } = this.props;
 
@@ -28,7 +33,11 @@ class ManageOfficerMenu extends React.Component {
         >
           Manage
         </SecondaryButton>
-        <Menu open={this.state.menuOpen} anchorEl={this.state.anchorEl}>
+        <Menu
+          open={this.state.menuOpen}
+          anchorEl={this.state.anchorEl}
+          onClose={this.handleMenuClose}
+        >
           <MenuItem
             data-test="editCaseOfficer"
             onClick={() => {

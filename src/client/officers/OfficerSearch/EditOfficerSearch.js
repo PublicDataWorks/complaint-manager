@@ -49,7 +49,8 @@ class EditOfficerSearch extends React.Component {
 const mapStateToProps = state => ({
   currentCase: state.currentCase.details,
   accusedOfficers: state.currentCase.details.accusedOfficers,
-  complaintWitnessOfficers: state.currentCase.details.complaintWitnessOfficers
+  complainantWitnessOfficers:
+    state.currentCase.details.complainantWitnessOfficers
 });
 
 export default connect(mapStateToProps)(EditOfficerSearch);
