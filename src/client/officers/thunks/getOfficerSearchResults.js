@@ -10,14 +10,14 @@ import {
 } from "../../actionCreators/officersActionCreators";
 const hostname = config[process.env.NODE_ENV].hostname;
 
-const getOfficerSearchResults = (searchCriteria, caseId) => async dispatch => {
+const getOfficerSearchResults = searchCriteria => async dispatch => {
   try {
     const token = getAccessToken();
     if (!token) {
       return dispatch(push("/login"));
     }
     dispatch(searchOfficersInitiated());
-    const response = await fetchSearchResults(token, searchCriteria, caseId);
+    const response = await fetchSearchResults(token, searchCriteria);
     return await handleResponse(response, dispatch);
   } catch (error) {
     dispatch(searchOfficersFailed());

@@ -22,7 +22,7 @@ describe("getOfficerSearchResults", () => {
   });
   test("redirects to login if no token", async () => {
     getAccessToken.mockImplementation(() => null);
-    await getOfficerSearchResults(searchCriteria, caseId)(dispatch);
+    await getOfficerSearchResults(searchCriteria)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
@@ -37,7 +37,7 @@ describe("getOfficerSearchResults", () => {
       .query(searchCriteria)
       .reply(500);
     getAccessToken.mockImplementation(() => token);
-    await getOfficerSearchResults(searchCriteria, caseId)(dispatch);
+    await getOfficerSearchResults(searchCriteria)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
         "Something went wrong on our end and we could not complete your search."
@@ -57,7 +57,7 @@ describe("getOfficerSearchResults", () => {
       .query(searchCriteria)
       .reply(200, responseBody);
     getAccessToken.mockImplementation(() => token);
-    await getOfficerSearchResults(searchCriteria, caseId)(dispatch);
+    await getOfficerSearchResults(searchCriteria)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(searchOfficersSuccess(responseBody));
   });
 
@@ -73,7 +73,7 @@ describe("getOfficerSearchResults", () => {
       .reply(401);
 
     getAccessToken.mockImplementation(() => token);
-    await getOfficerSearchResults(searchCriteria, caseId)(dispatch);
+    await getOfficerSearchResults(searchCriteria)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 });

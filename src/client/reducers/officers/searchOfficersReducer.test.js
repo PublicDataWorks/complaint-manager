@@ -27,8 +27,7 @@ describe("searchOfficersReducer", () => {
         searchResults: [{ firstName: "Bob" }],
         spinnerVisible: false,
         selectedOfficerData: null,
-        officerCurrentlySelected: false,
-        currentCaseOfficer: null
+        officerCurrentlySelected: false
       };
       expect(newState).toEqual(expectedState);
     });
@@ -48,8 +47,7 @@ describe("searchOfficersReducer", () => {
         searchResults: [],
         spinnerVisible: true,
         selectedOfficerData: null,
-        officerCurrentlySelected: false,
-        currentCaseOfficer: null
+        officerCurrentlySelected: false
       });
     });
   });
@@ -69,8 +67,7 @@ describe("searchOfficersReducer", () => {
         searchResults: [],
         spinnerVisible: false,
         selectedOfficerData: null,
-        officerCurrentlySelected: false,
-        currentCaseOfficer: null
+        officerCurrentlySelected: false
       });
     });
   });
@@ -92,8 +89,7 @@ describe("searchOfficersReducer", () => {
         searchResults: [],
         spinnerVisible: false,
         selectedOfficerData: officer,
-        officerCurrentlySelected: true,
-        currentCaseOfficer: null
+        officerCurrentlySelected: true
       });
     });
   });
@@ -115,8 +111,7 @@ describe("searchOfficersReducer", () => {
         searchResults: [{ firstName: "someone" }],
         spinnerVisible: false,
         selectedOfficerData: officer,
-        officerCurrentlySelected: true,
-        currentCaseOfficer: null
+        officerCurrentlySelected: true
       });
     });
   });
@@ -137,8 +132,7 @@ describe("searchOfficersReducer", () => {
         searchResults: [],
         spinnerVisible: false,
         selectedOfficerData: null,
-        officerCurrentlySelected: false,
-        currentCaseOfficer: null
+        officerCurrentlySelected: false
       });
     });
   });
@@ -159,8 +153,7 @@ describe("searchOfficersReducer", () => {
         searchResults: [],
         spinnerVisible: false,
         selectedOfficerData: null,
-        officerCurrentlySelected: true,
-        currentCaseOfficer: null
+        officerCurrentlySelected: true
       });
     });
   });

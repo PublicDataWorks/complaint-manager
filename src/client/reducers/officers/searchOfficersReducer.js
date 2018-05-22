@@ -12,8 +12,7 @@ const initialState = {
   searchResults: [],
   spinnerVisible: false,
   selectedOfficerData: null,
-  officerCurrentlySelected: false,
-  currentCaseOfficer: null
+  officerCurrentlySelected: false
 };
 const searchOfficersReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -22,52 +21,45 @@ const searchOfficersReducer = (state = initialState, action) => {
         searchResults: action.searchResults,
         spinnerVisible: false,
         selectedOfficerData: null,
-        officerCurrentlySelected: false,
-        currentCaseOfficer: null
+        officerCurrentlySelected: false
       };
     case SEARCH_OFFICERS_INITIATED:
       return {
         searchResults: [],
         spinnerVisible: true,
         selectedOfficerData: null,
-        officerCurrentlySelected: false,
-        currentCaseOfficer: null
+        officerCurrentlySelected: false
       };
     case SEARCH_OFFICERS_FAILED:
       return {
         searchResults: [],
         spinnerVisible: false,
         selectedOfficerData: null,
-        officerCurrentlySelected: false,
-        currentCaseOfficer: null
+        officerCurrentlySelected: false
       };
     case SEARCH_OFFICERS_CLEARED:
       return {
         ...state,
         searchResults: [],
-        spinnerVisible: false,
-        currentCaseOfficer: null
+        spinnerVisible: false
       };
     case OFFICER_SELECTED:
       return {
         ...state,
         selectedOfficerData: action.officer,
-        officerCurrentlySelected: true,
-        currentCaseOfficer: null
+        officerCurrentlySelected: true
       };
     case UNKNOWN_OFFICER_SELECTED:
       return {
         ...state,
         selectedOfficerData: null,
-        officerCurrentlySelected: true,
-        currentCaseOfficer: null
+        officerCurrentlySelected: true
       };
     case CLEAR_SELECTED_OFFICER:
       return {
         ...state,
         selectedOfficerData: null,
-        officerCurrentlySelected: false,
-        currentCaseOfficer: null
+        officerCurrentlySelected: false
       };
     default:
       return state;

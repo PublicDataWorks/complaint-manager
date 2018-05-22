@@ -8,10 +8,10 @@ import validate from "./validateOfficerSearchForm";
 import getOfficerSearchResults from "../../thunks/getOfficerSearchResults";
 
 export const OfficerSearchForm = props => {
-  const { invalid, handleSubmit, caseId } = props;
+  const { invalid, handleSubmit } = props;
 
   const onSubmit = (values, dispatch) => {
-    dispatch(getOfficerSearchResults(normalizeValues(values), caseId));
+    dispatch(getOfficerSearchResults(normalizeValues(values)));
   };
 
   const normalizeValues = values => {
