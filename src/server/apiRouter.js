@@ -45,7 +45,6 @@ router.delete("/cases/:caseId/recent-activity/:userActionId", removeUserAction);
 router.get("/cases/:id/case-history", getCaseHistory);
 router.put("/cases/:id", editCase);
 router.put("/cases/:id/narrative", updateCaseNarrative);
-router.get("/cases/:id/officers/search", searchOfficers);
 
 router.get("/cases/:caseId/cases-officers/:caseOfficerId", getCaseOfficer);
 router.post("/cases/:caseId/cases-officers", addCaseOfficer);
@@ -63,6 +62,7 @@ router.post("/users", createUser);
 router.get("/users", getUsers);
 router.get("/export-audit-log", jwtAuthz([EXPORT_AUDIT_LOG]), exportAuditLog);
 
+router.get("/officers/search", searchOfficers);
 router.get("/allegations", searchAllegations);
 
 module.exports = router;

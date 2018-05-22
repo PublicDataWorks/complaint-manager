@@ -33,7 +33,7 @@ describe("getOfficerSearchResults", () => {
         Authorization: `Bearer ${token}`
       }
     })
-      .get(`/api/cases/${caseId}/officers/search`)
+      .get(`/api/officers/search`)
       .query(searchCriteria)
       .reply(500);
     getAccessToken.mockImplementation(() => token);
@@ -53,7 +53,7 @@ describe("getOfficerSearchResults", () => {
         Authorization: `Bearer ${token}`
       }
     })
-      .get(`/api/cases/${caseId}/officers/search`)
+      .get(`/api/officers/search`)
       .query(searchCriteria)
       .reply(200, responseBody);
     getAccessToken.mockImplementation(() => token);
@@ -68,7 +68,7 @@ describe("getOfficerSearchResults", () => {
         Authorization: `Bearer ${token}`
       }
     })
-      .get(`/api/cases/${caseId}/officers/search`)
+      .get(`/api/officers/search`)
       .query(searchCriteria)
       .reply(401);
 

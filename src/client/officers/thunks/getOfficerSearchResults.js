@@ -29,8 +29,8 @@ const getOfficerSearchResults = (searchCriteria, caseId) => async dispatch => {
   }
 };
 
-const fetchSearchResults = async (token, searchCriteria, caseId) => {
-  const url = `${hostname}/api/cases/${caseId}/officers/search`;
+const fetchSearchResults = async (token, searchCriteria) => {
+  const url = `${hostname}/api/officers/search`;
   const encodedUri = encodeUriWithParams(url, searchCriteria);
 
   return await fetch(encodedUri, {
