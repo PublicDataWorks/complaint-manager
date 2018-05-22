@@ -1,12 +1,12 @@
 import React from "react";
 import { push } from "react-router-redux";
 import { Menu, MenuItem } from "material-ui";
+import LinkButton from "../../../sharedComponents/LinkButton";
 import {
   selectOfficer,
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
 import { connect } from "react-redux";
-import { SecondaryButton } from "../../../sharedComponents/StyledButtons";
 import { initialize } from "redux-form";
 
 class ManageOfficerMenu extends React.Component {
@@ -27,12 +27,9 @@ class ManageOfficerMenu extends React.Component {
 
     return (
       <div style={{ marginLeft: "88px" }}>
-        <SecondaryButton
-          data-test="manageCaseOfficer"
-          onClick={this.handleMenuOpen}
-        >
+        <LinkButton data-test="manageCaseOfficer" onClick={this.handleMenuOpen}>
           Manage
-        </SecondaryButton>
+        </LinkButton>
         <Menu
           open={this.state.menuOpen}
           anchorEl={this.state.anchorEl}
