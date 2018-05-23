@@ -1,6 +1,11 @@
 const models = require("../../models/index");
+const allowedAuditActions = ["Logged In"];
 
 const audit = async (request, response, next) => {
+  if (!allowedAuditActions.includes(request.body.log)) {
+    return response.sendStatus(400);
+  }
+
   try {
     await models.audit_log.create({
       action: request.body.log,
