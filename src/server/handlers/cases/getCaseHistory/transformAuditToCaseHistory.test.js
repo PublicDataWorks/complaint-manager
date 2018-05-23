@@ -59,9 +59,37 @@ describe("transformAuditToCaseHistory", () => {
     const caseHistories = transformAuditToCaseHistory([audit]);
 
     const expectedDetails = {
-      "Complainant Type": { previous: "", new: "Police Officer" },
-      Status: { previous: "Initial", new: "" }
+      "Complainant Type": { previous: " ", new: "Police Officer" },
+      Status: { previous: "Initial", new: " " }
     };
     expect(caseHistories[0].details).toEqual(expectedDetails);
+  });
+
+  test("filters out updates to *Id fields but not *id", () => {
+    const auditChanges = {
+      incident: { previous: null, new: "something" },
+      incidentLocationId: { previous: null, new: 5 }
+    };
+    const audit = new DataChangeAudit.Builder()
+      .defaultDataChangeAudit()
+      .withChanges(auditChanges);
+    const caseHistories = transformAuditToCaseHistory([audit]);
+
+    const expectedDetails = {
+      Incident: { previous: " ", new: "something" }
+    };
+    expect(caseHistories[0].details).toEqual(expectedDetails);
+  });
+
+  test("filters out audits that are empty after filtering *Id fields", () => {
+    const auditChanges = {
+      incidentLocationId: { previous: null, new: 5 }
+    };
+    const audit = new DataChangeAudit.Builder()
+      .defaultDataChangeAudit()
+      .withChanges(auditChanges);
+    const caseHistories = transformAuditToCaseHistory([audit]);
+
+    expect(caseHistories).toHaveLength(0);
   });
 });

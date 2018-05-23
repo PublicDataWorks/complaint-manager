@@ -1,15 +1,21 @@
 const _ = require("lodash");
+const fieldPatternToIgnore = ".*Id";
 
 const transformAuditToCaseHistory = dataChangeAudits => {
-  return dataChangeAudits.map(audit => {
-    return {
+  const caseHistory = [];
+  dataChangeAudits.forEach(audit => {
+    const details = transformDetails(audit);
+    if (_.isEmpty(details)) return;
+
+    caseHistory.push({
       id: audit.id,
       user: audit.user,
       action: transformAction(audit),
-      details: transformDetails(audit),
+      details: details,
       timestamp: audit.createdAt
-    };
+    });
   });
+  return caseHistory;
 };
 
 const transformAction = audit => {
@@ -19,19 +25,20 @@ const transformAction = audit => {
 const transformDetails = audit => {
   return _.reduce(
     audit.changes,
-    (result, value, key) => {
-      result[_.startCase(key)] = {
+    (details, value, key) => {
+      if (key.match(fieldPatternToIgnore)) return details;
+      details[_.startCase(key)] = {
         previous: transformNull(value.previous),
         new: transformNull(value.new)
       };
-      return result;
+      return details;
     },
     {}
   );
 };
 
 const transformNull = value => {
-  return value == null ? "" : value;
+  return value == null ? " " : value;
 };
 
 module.exports = transformAuditToCaseHistory;

@@ -80,7 +80,7 @@ describe("getCaseHistory", () => {
       .withModelId(caseId)
       .withCaseId(caseId)
       .withAction(DATA_UPDATED)
-      .withChanges({})
+      .withChanges({ something: { previous: "old", new: "new" } })
       .withUser("bob")
       .withCreatedAt(createdAt);
     return await models.data_change_audit.create(dataChangeAuditAttributes);
