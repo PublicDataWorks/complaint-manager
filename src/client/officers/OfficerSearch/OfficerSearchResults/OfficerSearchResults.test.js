@@ -1,11 +1,12 @@
 import React from "react";
-import { mount, shallow } from "enzyme";
+import { mount } from "enzyme";
 import ConnectedOfficerSearchResults from "./OfficerSearchResults";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { Provider } from "react-redux";
 import { searchOfficersSuccess } from "../../../actionCreators/officersActionCreators";
 import { BrowserRouter as Router } from "react-router-dom";
+import { searchSuccess } from "../../../actionCreators/searchActionCreators";
 
 jest.mock("../../../cases/thunks/getCaseDetails", () => caseId => ({
   type: "MOCK_ACTION",
@@ -29,7 +30,7 @@ describe("OfficerSearchResults", () => {
       })
     );
 
-    store.dispatch(searchOfficersSuccess([{ firstName: "bob", id: 1 }]));
+    store.dispatch(searchSuccess([{ firstName: "bob", id: 1 }]));
     const dispatchSpy = jest.spyOn(store, "dispatch");
 
     const wrapper = mount(

@@ -3,7 +3,7 @@ import { push } from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
-import { searchOfficersSuccess } from "../../actionCreators/officersActionCreators";
+import { searchSuccess } from "../../actionCreators/searchActionCreators";
 
 jest.mock("../../auth/getAccessToken");
 
@@ -13,7 +13,6 @@ describe("getOfficerSearchResults", () => {
     lastName: "Monster",
     district: "1st District"
   };
-  const caseId = 5;
   const dispatch = jest.fn();
   const token = "token";
 
@@ -45,7 +44,7 @@ describe("getOfficerSearchResults", () => {
     );
   });
 
-  test("dispatches searchOfficersSuccess", async () => {
+  test("dispatches searchSuccess", async () => {
     const responseBody = [{ firstName: "Bob" }];
     nock("http://localhost/", {
       reqheaders: {
@@ -58,7 +57,7 @@ describe("getOfficerSearchResults", () => {
       .reply(200, responseBody);
     getAccessToken.mockImplementation(() => token);
     await getOfficerSearchResults(searchCriteria)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(searchOfficersSuccess(responseBody));
+    expect(dispatch).toHaveBeenCalledWith(searchSuccess(responseBody));
   });
 
   test("redirects to login when api call returns 401", async () => {

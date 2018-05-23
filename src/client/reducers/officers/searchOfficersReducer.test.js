@@ -1,93 +1,75 @@
 import searchOfficersReducer from "./searchOfficersReducer";
 import {
   clearSelectedOfficer,
-  searchOfficersCleared,
-  searchOfficersFailed,
-  searchOfficersInitiated,
-  searchOfficersSuccess,
   selectOfficer,
   selectUnknownOfficer
 } from "../../actionCreators/officersActionCreators";
+import {
+  searchCleared,
+  searchFailed,
+  searchInitiated,
+  searchSuccess
+} from "../../actionCreators/searchActionCreators";
 
 describe("searchOfficersReducer", () => {
-  describe("SEARCH_OFFICERS_SUCCESS", () => {
-    test("sets state include search results and hide spinner", () => {
+  describe("SEARCH_SUCCESS", () => {
+    test("clear selection when successful search", () => {
       const initialState = {
-        searchResults: [],
-        spinnerVisible: true,
+        selectedOfficerData: { someSelectedOfficer: "Some data" },
         officerCurrentlySelected: true
       };
       const searchResults = [{ firstName: "Bob" }];
       const newState = searchOfficersReducer(
         initialState,
-        searchOfficersSuccess(searchResults)
+        searchSuccess(searchResults)
       );
 
       const expectedState = {
-        searchResults: [{ firstName: "Bob" }],
-        spinnerVisible: false,
         selectedOfficerData: null,
         officerCurrentlySelected: false
       };
       expect(newState).toEqual(expectedState);
     });
   });
-  describe("SEARCH_OFFICERS_INITIATED", () => {
-    test("clears previous officer search results and shows spinner", () => {
+
+  describe("SEARCH_INITIATED", () => {
+    test("clears selected officer when search initiated", () => {
       const initialState = {
         searchResults: [{ firstName: "someone" }],
         spinnerVisible: false,
         officerCurrentlySelected: true
       };
-      const newState = searchOfficersReducer(
-        initialState,
-        searchOfficersInitiated()
-      );
+      const newState = searchOfficersReducer(initialState, searchInitiated());
       expect(newState).toEqual({
-        searchResults: [],
-        spinnerVisible: true,
         selectedOfficerData: null,
         officerCurrentlySelected: false
       });
     });
   });
 
-  describe("SEARCH_OFFICERS_FAILED", () => {
-    test("hide the spinner when search fails", () => {
+  describe("SEARCH_FAILED", () => {
+    test("clear selected officer when search fails", () => {
       const initialState = {
-        searchResults: [],
-        spinnerVisible: true,
+        selectedOfficerData: { someSelectedOfficer: "Some data" },
         officerCurrentlySelected: true
       };
-      const newState = searchOfficersReducer(
-        initialState,
-        searchOfficersFailed()
-      );
+      const newState = searchOfficersReducer(initialState, searchFailed());
       expect(newState).toEqual({
-        searchResults: [],
-        spinnerVisible: false,
         selectedOfficerData: null,
         officerCurrentlySelected: false
       });
     });
   });
 
-  describe("SEARCH_OFFICERS_CLEARED", () => {
-    test("clear search results, hide spinner, and retain selected officer", () => {
+  describe("SEARCH_CLEARED", () => {
+    test("retain selected officer when search cleared", () => {
       const officer = { firstName: "selected", lastName: "officer" };
       const initialState = {
-        searchResults: [{ firstName: "someone" }],
-        spinnerVisible: true,
         selectedOfficerData: officer,
         officerCurrentlySelected: true
       };
-      const newState = searchOfficersReducer(
-        initialState,
-        searchOfficersCleared()
-      );
+      const newState = searchOfficersReducer(initialState, searchCleared());
       expect(newState).toEqual({
-        searchResults: [],
-        spinnerVisible: false,
         selectedOfficerData: officer,
         officerCurrentlySelected: true
       });
@@ -97,8 +79,6 @@ describe("searchOfficersReducer", () => {
   describe("OFFICER_SELECTED", () => {
     test("set selected officer", () => {
       const initialState = {
-        searchResults: [{ firstName: "someone" }],
-        spinnerVisible: false,
         selectedOfficerData: {},
         officerCurrentlySelected: false
       };
@@ -108,8 +88,6 @@ describe("searchOfficersReducer", () => {
         selectOfficer(officer)
       );
       expect(newState).toEqual({
-        searchResults: [{ firstName: "someone" }],
-        spinnerVisible: false,
         selectedOfficerData: officer,
         officerCurrentlySelected: true
       });
@@ -119,8 +97,6 @@ describe("searchOfficersReducer", () => {
   describe("CLEAR_SELECTED_OFFICER", () => {
     test("clear the selected officer", () => {
       const initialState = {
-        searchResults: [],
-        spinnerVisible: false,
         selectedOfficerData: { firstName: "bob" },
         officerCurrentlySelected: true
       };
@@ -129,8 +105,6 @@ describe("searchOfficersReducer", () => {
         clearSelectedOfficer()
       );
       expect(newState).toEqual({
-        searchResults: [],
-        spinnerVisible: false,
         selectedOfficerData: null,
         officerCurrentlySelected: false
       });
@@ -140,8 +114,6 @@ describe("searchOfficersReducer", () => {
   describe("UNKNOWN_OFFICER_SELECTED", () => {
     test("select unknown officer", () => {
       const initialState = {
-        searchResults: [],
-        spinnerVisible: false,
         selectedOfficerData: null,
         officerCurrentlySelected: false
       };
@@ -150,8 +122,6 @@ describe("searchOfficersReducer", () => {
         selectUnknownOfficer()
       );
       expect(newState).toEqual({
-        searchResults: [],
-        spinnerVisible: false,
         selectedOfficerData: null,
         officerCurrentlySelected: true
       });

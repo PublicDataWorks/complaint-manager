@@ -75,13 +75,18 @@ const OPENID = "openid";
 const PROFILE = "profile";
 
 // ----------------------------------------
+//          Shared Search
+// ----------------------------------------
+
+const SEARCH_INITIATED = "SEARCH_INITIATED";
+const SEARCH_SUCCESS = "SEARCH_SUCCESS";
+const SEARCH_FAILED = "SEARCH_FAILED";
+const SEARCH_CLEARED = "SEARCH_CLEARED";
+
+// ----------------------------------------
 //          Officers
 // ----------------------------------------
 
-const SEARCH_OFFICERS_SUCCESS = "SEARCH_OFFICERS_SUCCESS";
-const SEARCH_OFFICERS_INITIATED = "SEARCH_OFFICERS_INITIATED";
-const SEARCH_OFFICERS_FAILED = "SEARCH_OFFICERS_FAILED";
-const SEARCH_OFFICERS_CLEARED = "SEARCH_OFFICERS_CLEARED";
 const ADD_OFFICER_TO_CASE_SUCCEEDED = "ADD_OFFICER_TO_CASE_SUCCEEDED";
 const ADD_OFFICER_TO_CASE_FAILED = "ADD_OFFICER_TO_CASE_FAILED";
 const OFFICER_SELECTED = "OFFICER_SELECTED";
@@ -94,7 +99,7 @@ const EDIT_CASE_OFFICER_FAILED = "EDIT_CASE_OFFICER_FAILED";
 //          Case History Actions
 // ----------------------------------------
 
-const GET_CASE_HISTORY_SUCCESS = 'GET_CASE_HISTORY_SUCCESS';
+const GET_CASE_HISTORY_SUCCESS = "GET_CASE_HISTORY_SUCCESS";
 
 // ----------------------------------------
 //          Other
@@ -145,10 +150,10 @@ module.exports = {
   SNACKBAR_SUCCESS,
   CIVILIAN_FORM_NAME,
   EXPORT_AUDIT_LOG,
-  SEARCH_OFFICERS_SUCCESS,
-  SEARCH_OFFICERS_INITIATED,
-  SEARCH_OFFICERS_FAILED,
-  SEARCH_OFFICERS_CLEARED,
+  SEARCH_SUCCESS,
+  SEARCH_INITIATED,
+  SEARCH_FAILED,
+  SEARCH_CLEARED,
   ADD_OFFICER_TO_CASE_SUCCEEDED,
   ADD_OFFICER_TO_CASE_FAILED,
   OFFICER_SELECTED,

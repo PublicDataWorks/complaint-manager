@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { Paper, Table, TableBody, Typography } from "material-ui";
 import { LinearProgress } from "material-ui/Progress";
+import { searchCleared } from "../actionCreators/searchActionCreators";
 
 export class SearchResults extends Component {
   componentWillUnmount() {
-    this.props.dispatch(this.props.clearMethod());
+    this.props.dispatch(searchCleared());
   }
 
   render() {

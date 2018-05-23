@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import OfficerSearchResultsRow from "./OfficerSearchResultsRow";
-import { searchOfficersCleared } from "../../../actionCreators/officersActionCreators";
 import OfficerSearchTableHeader from "../OfficerSearchTableHeader";
 import {
   PreviouslyAddedOfficer,
@@ -17,7 +16,6 @@ export class OfficerSearchResults extends Component {
         spinnerVisible={this.props.spinnerVisible}
         searchResultsIds={this.props.officerIds}
         tableHeaderComponent={<OfficerSearchTableHeader />}
-        clearMethod={searchOfficersCleared}
         dispatch={this.props.dispatch}
         render={(officer, officerIds) => (
           <OfficerSearchResultsRow key={officer.id} officer={officer}>
@@ -42,8 +40,8 @@ const mapStateToProps = state => {
   if (state.currentCase.details.accusedOfficers) {
     return {
       currentCase: state.currentCase.details,
-      searchResults: state.officers.searchResults,
-      spinnerVisible: state.officers.spinnerVisible,
+      searchResults: state.ui.search.searchResults,
+      spinnerVisible: state.ui.search.spinnerVisible,
       officerIds: state.currentCase.details.accusedOfficers
         .concat(state.currentCase.details.complainantWitnessOfficers)
         .map(officer => officer.officerId)

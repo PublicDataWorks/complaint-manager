@@ -14,6 +14,7 @@ import { Provider } from "react-redux";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import Officer from "../../testUtilities/Officer";
 import Case from "../../testUtilities/case";
+import { searchSuccess } from "../../actionCreators/searchActionCreators";
 
 jest.mock("../../cases/thunks/getCaseDetails");
 
@@ -21,7 +22,6 @@ describe("OfficerSearchContainer", () => {
   let mockDispatch = jest.fn();
   getCaseDetails.mockImplementation(() => ({ type: "mock" }));
   const caseId = 1;
-  const caseOfficerId = 2;
 
   test("should not fetch case details when already loaded", () => {
     shallow(
@@ -77,10 +77,8 @@ describe("OfficerSearchContainer", () => {
       .withOfficerNumber(456)
       .build();
     const caseDetails = new Case.Builder().defaultCase().build();
-    const caseId = caseDetails.id;
-    const caseOfficerId = caseDetails.accusedOfficers[0].id;
 
-    store.dispatch(searchOfficersSuccess([officer]));
+    store.dispatch(searchSuccess([officer]));
     store.dispatch(getCaseDetailsSuccess(caseDetails));
 
     const path = "/";
