@@ -2,14 +2,14 @@ import React from "react";
 import Card from "material-ui/Card";
 import GridList, { GridListTile, GridListTileBar } from "material-ui/GridList";
 import Typography from "material-ui/Typography";
-import NavBar from "../sharedComponents/NavBar/NavBar";
-import StyledLink from "../sharedComponents/StyledLink";
+import NavBar from "../shared/components/NavBar/NavBar";
+import StyledLink from "../shared/components/StyledLink";
 import {
   PrimaryButton,
   SecondaryButton
-} from "../sharedComponents/StyledButtons";
+} from "../shared/components/StyledButtons";
 import { CardContent, withTheme } from "material-ui";
-import LinkButton from "../sharedComponents/LinkButton";
+import LinkButton from "../shared/components/LinkButton";
 
 const getBoxStyle = color => ({
   width: 150,

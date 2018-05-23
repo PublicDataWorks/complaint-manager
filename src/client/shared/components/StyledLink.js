@@ -1,6 +1,6 @@
 import React from "react";
 import { withStyles } from "material-ui/styles";
-import themeStyles from "../globalStyling/styles";
+import themeStyles from "../../globalStyling/styles";
 import { Link } from "react-router-dom";
 
 const styles = () => ({

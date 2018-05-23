@@ -1,8 +1,8 @@
 import React from "react";
 import { mount } from "enzyme";
 import AddressInfoDisplay from "./AddressInfoDisplay";
-import Address from "../testUtilities/Address";
-import { containsText } from "../../testHelpers";
+import Address from "../../testUtilities/Address";
+import { containsText } from "../../../testHelpers";
 
 describe("AddressInfoDisplay", () => {
   test("should display Address Info", () => {

@@ -4,7 +4,7 @@ import * as _ from "lodash";
 import getRecentActivity from "../../thunks/getRecentActivity";
 import { Typography } from "material-ui";
 import RemoveUserActionDialog from "../RemoveUserActionDialog/RemoveUserActionDialog";
-import LinkButton from "../../../sharedComponents/LinkButton";
+import LinkButton from "../../../shared/components/LinkButton";
 import { Link } from "react-router-dom";
 
 class RecentActivity extends Component {

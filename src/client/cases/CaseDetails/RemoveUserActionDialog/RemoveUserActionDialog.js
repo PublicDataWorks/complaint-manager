@@ -10,7 +10,7 @@ import {
 import {
   SecondaryButton,
   PrimaryButton
-} from "../../../sharedComponents/StyledButtons";
+} from "../../../shared/components/StyledButtons";
 import removeUserAction from "../../thunks/removeUserAction";
 import { closeRemoveUserActionDialog } from "../../../actionCreators/casesActionCreators";
 import moment from "moment";

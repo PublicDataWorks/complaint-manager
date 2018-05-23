@@ -1,5 +1,5 @@
 import React from "react";
-import WarningMessage from "../../sharedComponents/WarningMessage";
+import WarningMessage from "../../shared/components/WarningMessage";
 
 const DisplayAccusedOfficer = ({ accusedOfficers }) => {
   return (

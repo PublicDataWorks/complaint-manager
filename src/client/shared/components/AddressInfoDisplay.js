@@ -1,5 +1,5 @@
 import React from "react";
-import formatAddress from "../utilities/formatAddress";
+import formatAddress from "../../utilities/formatAddress";
 import { Typography } from "material-ui";
 
 const AddresesInfoDisplay = ({ testLabel, displayLabel, address }) => {

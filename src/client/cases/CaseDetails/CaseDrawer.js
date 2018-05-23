@@ -1,7 +1,7 @@
 import React from "react";
 import formatDate from "../../utilities/formatDate";
 import { Link } from "react-router-dom";
-import LinkButton from "../../sharedComponents/LinkButton";
+import LinkButton from "../../shared/components/LinkButton";
 import { Drawer, Typography } from "material-ui";
 import RecentActivityContainer from "./RecentActivity/RecentActivityContainer";
 

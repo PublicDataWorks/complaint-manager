@@ -9,7 +9,7 @@ import {
   UPLOAD_CANCELED
 } from "../../../../sharedUtilities/constants";
 import { FormControl, FormHelperText } from "material-ui/Form";
-import { PrimaryButton } from "../../../sharedComponents/StyledButtons";
+import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import { Input, InputLabel } from "material-ui";
 
 class Dropzone extends Component {
@@ -96,7 +96,8 @@ class Dropzone extends Component {
   };
 
   hideDropzoneErrorPopup = () => {
-    document.getElementsByClassName('dz-error-message')[0].style.display = 'none';
+    document.getElementsByClassName("dz-error-message")[0].style.display =
+      "none";
   };
 
   render() {

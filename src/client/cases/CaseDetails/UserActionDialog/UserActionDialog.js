@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import {
   SecondaryButton,
   PrimaryButton
-} from "../../../sharedComponents/StyledButtons";
+} from "../../../shared/components/StyledButtons";
 import { closeUserActionDialog } from "../../../actionCreators/casesActionCreators";
 import { Field, reduxForm, reset } from "redux-form";
 import DateField from "../../sharedFormComponents/DateField";

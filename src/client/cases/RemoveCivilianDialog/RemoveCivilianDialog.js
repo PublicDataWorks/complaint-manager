@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import {
   SecondaryButton,
   PrimaryButton
-} from "../../sharedComponents/StyledButtons";
+} from "../../shared/components/StyledButtons";
 import { closeRemoveCivilianDialog } from "../../actionCreators/casesActionCreators";
 import formatCivilianName from "../../utilities/formatCivilianName";
 import removeCivilian from "../thunks/removeCivilian";

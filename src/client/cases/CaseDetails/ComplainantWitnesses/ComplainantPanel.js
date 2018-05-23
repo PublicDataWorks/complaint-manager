@@ -7,13 +7,13 @@ import {
 import formatCivilianName from "../../../utilities/formatCivilianName";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 import editCivilian from "../../thunks/editCivilian";
-import LinkButton from "../../../sharedComponents/LinkButton";
+import LinkButton from "../../../shared/components/LinkButton";
 import StyledExpansionPanelDetails from "./StyledExpansionPanelDetails";
 import CivilianInfoDisplay from "./CivilianInfoDisplay";
 import { Divider, ExpansionPanel, ExpansionPanelSummary } from "material-ui";
 import formatDate from "../../../utilities/formatDate";
 import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
-import AddresesInfoDisplay from "../../../sharedComponents/AddressInfoDisplay";
+import AddresesInfoDisplay from "../../../shared/components/AddressInfoDisplay";
 
 const ComplainantPanel = ({ civilian, dispatch }) => {
   const phoneNumber = formatPhoneNumber(civilian.phoneNumber);

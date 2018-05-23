@@ -12,13 +12,13 @@ import {
 import {
   SecondaryButton,
   PrimaryButton
-} from "../../sharedComponents/StyledButtons";
+} from "../../shared/components/StyledButtons";
 import { withTheme } from "material-ui/styles";
 import FirstNameField from "../sharedFormComponents/FirstNameField";
 import LastNameField from "../sharedFormComponents/LastNameField";
 import PhoneNumberField from "../sharedFormComponents/PhoneNumberField";
 import EmailField from "../sharedFormComponents/EmailField";
-import LinkButton from "../../sharedComponents/LinkButton";
+import LinkButton from "../../shared/components/LinkButton";
 import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import createCase from "../thunks/createCase";
 import { closeSnackbar } from "../../actionCreators/snackBarActionCreators";

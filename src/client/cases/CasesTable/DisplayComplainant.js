@@ -1,7 +1,7 @@
 import React from "react";
 import getFirstComplainant from "../../utilities/getFirstComplainant";
 import formatCivilianName from "../../utilities/formatCivilianName";
-import WarningMessage from "../../sharedComponents/WarningMessage";
+import WarningMessage from "../../shared/components/WarningMessage";
 
 const DisplayComplainant = ({ caseDetails }) => {
   const { complainantWitnessOfficers = [], civilians = [] } = caseDetails;

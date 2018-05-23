@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import CasesTable from "./CasesTable/CasesTable";
 import CreateCaseDialog from "./CreateCaseDialog/CreateCaseDialog";
 import CaseCreationSnackbar from "./CaseCreationSnackbar/CaseCreationSnackbar";
-import NavBar from "../sharedComponents/NavBar/NavBar";
+import NavBar from "../shared/components/NavBar/NavBar";
 import { Typography } from "material-ui";
 import { connect } from "react-redux";
 import { closeSnackbar } from "../actionCreators/snackBarActionCreators";

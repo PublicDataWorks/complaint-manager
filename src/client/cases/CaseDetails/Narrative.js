@@ -3,7 +3,7 @@ import { Field, reduxForm, submit } from "redux-form";
 import { TextField } from "redux-form-material-ui";
 import updateNarrative from "../thunks/updateNarrative";
 import { CardActions, CardContent, Typography } from "material-ui";
-import { PrimaryButton } from "../../sharedComponents/StyledButtons";
+import { PrimaryButton } from "../../shared/components/StyledButtons";
 import BaseCaseDetailsCard from "./BaseCaseDetailsCard";
 
 const Narrative = props => {

@@ -12,7 +12,7 @@ import {
 import {
   SecondaryButton,
   PrimaryButton
-} from "../../sharedComponents/StyledButtons";
+} from "../../shared/components/StyledButtons";
 import CreateUserForm from "./CreateUserForm";
 import { closeSnackbar } from "../../actionCreators/snackBarActionCreators";
 

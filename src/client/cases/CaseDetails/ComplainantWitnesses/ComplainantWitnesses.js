@@ -2,7 +2,7 @@ import React from "react";
 import { CardContent, Typography } from "material-ui";
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import ComplainantPanel from "./ComplainantPanel";
-import WarningMessage from "../../../sharedComponents/WarningMessage";
+import WarningMessage from "../../../shared/components/WarningMessage";
 import getFirstComplainant from "../../../utilities/getFirstComplainant";
 import AccusedOfficerPanel from "../Officers/OfficerPanel";
 import sortComplainantOfficers from "./sortComplainantOfficers";

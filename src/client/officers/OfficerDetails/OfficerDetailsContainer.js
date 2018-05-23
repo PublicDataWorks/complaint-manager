@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import NavBar from "../../sharedComponents/NavBar/NavBar";
+import NavBar from "../../shared/components/NavBar/NavBar";
 import { Typography } from "material-ui";
 import { Link } from "react-router-dom";
-import LinkButton from "../../sharedComponents/LinkButton";
+import LinkButton from "../../shared/components/LinkButton";
 import OfficersSnackbar from "../OfficersSnackBar/OfficersSnackbar";
 import OfficerDetails from "./OfficerDetails";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";

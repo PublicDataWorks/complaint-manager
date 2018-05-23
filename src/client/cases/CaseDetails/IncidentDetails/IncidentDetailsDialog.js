@@ -18,7 +18,7 @@ import {
 import {
   SecondaryButton,
   PrimaryButton
-} from "../../../sharedComponents/StyledButtons";
+} from "../../../shared/components/StyledButtons";
 import editIncidentDetails from "../../thunks/editIncidentDetails";
 import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
 import AddressInput from "../CivilianDialog/AddressInput";

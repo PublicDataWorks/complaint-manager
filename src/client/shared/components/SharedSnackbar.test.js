@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme/build/index";
 import SharedSnackbar from "./SharedSnackbar";
-import { expectEventuallyNotToExist } from "../../testHelpers";
+import { expectEventuallyNotToExist } from "../../../testHelpers";
 
 describe("SharedSnackbar", () => {
   test("should not be visible initially", () => {

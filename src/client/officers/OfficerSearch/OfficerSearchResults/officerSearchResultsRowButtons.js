@@ -4,9 +4,9 @@ import {
   selectOfficer,
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
-import LinkButton from "../../../sharedComponents/LinkButton";
+import LinkButton from "../../../shared/components/LinkButton";
 import { Button } from "material-ui";
-import { SecondaryButton } from "../../../sharedComponents/StyledButtons";
+import { SecondaryButton } from "../../../shared/components/StyledButtons";
 import { Link } from "react-router-dom";
 
 export const SelectNewOfficer = ({ path, officer, initialize, dispatch }) => (

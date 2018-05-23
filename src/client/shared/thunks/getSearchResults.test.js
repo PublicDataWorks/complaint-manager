@@ -1,4 +1,4 @@
-import getOfficerSearchResults from "./getOfficerSearchResults";
+import getSearchResults from "./getSearchResults";
 import { push } from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
@@ -7,7 +7,7 @@ import { searchSuccess } from "../../actionCreators/searchActionCreators";
 
 jest.mock("../../auth/getAccessToken");
 
-describe("getOfficerSearchResults", () => {
+describe("getSearchResults", () => {
   const searchCriteria = {
     firstName: "Zoe",
     lastName: "Monster",
@@ -16,12 +16,14 @@ describe("getOfficerSearchResults", () => {
   const dispatch = jest.fn();
   const token = "token";
 
+  const resourceToSearch = "resources"
+
   beforeEach(() => {
     dispatch.mockClear();
   });
   test("redirects to login if no token", async () => {
     getAccessToken.mockImplementation(() => null);
-    await getOfficerSearchResults(searchCriteria)(dispatch);
+    await getSearchResults(searchCriteria, resourceToSearch)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
@@ -32,11 +34,11 @@ describe("getOfficerSearchResults", () => {
         Authorization: `Bearer ${token}`
       }
     })
-      .get(`/api/officers/search`)
+      .get(`/api/${resourceToSearch}/search`)
       .query(searchCriteria)
       .reply(500);
     getAccessToken.mockImplementation(() => token);
-    await getOfficerSearchResults(searchCriteria)(dispatch);
+    await getSearchResults(searchCriteria, resourceToSearch)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
         "Something went wrong on our end and we could not complete your search."
@@ -52,11 +54,11 @@ describe("getOfficerSearchResults", () => {
         Authorization: `Bearer ${token}`
       }
     })
-      .get(`/api/officers/search`)
+      .get(`/api/${resourceToSearch}/search`)
       .query(searchCriteria)
       .reply(200, responseBody);
     getAccessToken.mockImplementation(() => token);
-    await getOfficerSearchResults(searchCriteria)(dispatch);
+    await getSearchResults(searchCriteria, resourceToSearch)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(searchSuccess(responseBody));
   });
 
@@ -67,12 +69,12 @@ describe("getOfficerSearchResults", () => {
         Authorization: `Bearer ${token}`
       }
     })
-      .get(`/api/officers/search`)
+      .get(`/api/${resourceToSearch}/search`)
       .query(searchCriteria)
       .reply(401);
 
     getAccessToken.mockImplementation(() => token);
-    await getOfficerSearchResults(searchCriteria)(dispatch);
+    await getSearchResults(searchCriteria, resourceToSearch)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 });

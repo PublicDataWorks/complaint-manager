@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "material-ui/styles";
 import Typography from "material-ui/Typography";
-import NavBar from "../../sharedComponents/NavBar/NavBar";
+import NavBar from "../../shared/components/NavBar/NavBar";
 import { connect } from "react-redux";
 import Narrative from "./Narrative";
 import CaseDetailSnackbar from "./CaseDetailSnackbar/CaseDetailSnackbar";

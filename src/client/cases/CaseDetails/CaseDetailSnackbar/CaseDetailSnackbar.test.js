@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";
-import SharedSnackbar from "../../../sharedComponents/SharedSnackbar";
+import SharedSnackbar from "../../../shared/components/SharedSnackbar";
 import createConfiguredStore from "../../../createConfiguredStore";
 import CaseDetailSnackbar from "./CaseDetailSnackbar";
 

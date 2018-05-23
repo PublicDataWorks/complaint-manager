@@ -1,5 +1,5 @@
 import React from "react";
-import LinkButton from "../../../sharedComponents/LinkButton";
+import LinkButton from "../../../shared/components/LinkButton";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import {

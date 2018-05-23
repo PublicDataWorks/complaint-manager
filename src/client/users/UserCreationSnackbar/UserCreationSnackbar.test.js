@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import createConfiguredStore from "../../createConfiguredStore";
 import { mount } from "enzyme";
 import UserCreationSnackbar from "./UserCreationSnackbar";
-import SharedSnackbar from "../../sharedComponents/SharedSnackbar";
+import SharedSnackbar from "../../shared/components/SharedSnackbar";
 
 describe("UserCreationSnackbar", () => {
   let userCreationSnackbar, snackbar;

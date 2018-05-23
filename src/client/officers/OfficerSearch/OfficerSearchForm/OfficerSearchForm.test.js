@@ -2,16 +2,19 @@ import React from "react";
 import { mount, shallow } from "enzyme";
 import { OfficerSearchForm as OfficerSearchFormUnconnected } from "./OfficerSearchForm";
 import OfficerSearchForm from "./OfficerSearchForm";
-import { PrimaryButton } from "../../../sharedComponents/StyledButtons";
+import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import createConfiguredStore from "../../../createConfiguredStore";
-import getOfficerSearchResults from "../../thunks/getOfficerSearchResults";
+import getSearchResults from "../../../shared/thunks/getSearchResults";
 import { Provider } from "react-redux";
 import { changeInput, selectDropdownOption } from "../../../../testHelpers";
 
-jest.mock("../../thunks/getOfficerSearchResults", () => searchCriteria => ({
-  type: "something",
-  searchCriteria
-}));
+jest.mock(
+  "../../../shared/thunks/getSearchResults",
+  () => (searchCriteria, resourceToSearch) => ({
+    type: "something",
+    searchCriteria
+  })
+);
 
 describe("OfficerSearchForm", () => {
   describe("submit button", () => {
@@ -52,11 +55,14 @@ describe("OfficerSearchForm", () => {
 
       officerSearchForm.find(PrimaryButton).simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
-        getOfficerSearchResults({
-          firstName: "emma",
-          lastName: "watson",
-          district: "First District"
-        })
+        getSearchResults(
+          {
+            firstName: "emma",
+            lastName: "watson",
+            district: "First District"
+          },
+          "officers"
+        )
       );
     });
 
@@ -83,11 +89,14 @@ describe("OfficerSearchForm", () => {
 
       officerSearchForm.find(PrimaryButton).simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
-        getOfficerSearchResults({
-          firstName: "bubba joe",
-          lastName: "smith",
-          district: "First District"
-        })
+        getSearchResults(
+          {
+            firstName: "bubba joe",
+            lastName: "smith",
+            district: "First District"
+          },
+          "officers"
+        )
       );
     });
   });

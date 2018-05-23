@@ -10,14 +10,14 @@ import {
 } from "../../actionCreators/searchActionCreators";
 const hostname = config[process.env.NODE_ENV].hostname;
 
-const getOfficerSearchResults = searchCriteria => async dispatch => {
+const getSearchResults = ( searchCriteria, resourceToSearch )=> async dispatch => {
   try {
     const token = getAccessToken();
     if (!token) {
       return dispatch(push("/login"));
     }
     dispatch(searchInitiated());
-    const response = await fetchSearchResults(token, searchCriteria);
+    const response = await fetchSearchResults(token, searchCriteria, resourceToSearch);
     return await handleResponse(response, dispatch);
   } catch (error) {
     dispatch(searchFailed());
@@ -29,8 +29,8 @@ const getOfficerSearchResults = searchCriteria => async dispatch => {
   }
 };
 
-const fetchSearchResults = async (token, searchCriteria) => {
-  const url = `${hostname}/api/officers/search`;
+const fetchSearchResults = async (token, searchCriteria, resourceToSearch) => {
+  const url = `${hostname}/api/${resourceToSearch}/search`;
   const encodedUri = encodeUriWithParams(url, searchCriteria);
 
   return await fetch(encodedUri, {
@@ -59,4 +59,4 @@ const handleResponse = async (response, dispatch) => {
   }
 };
 
-export default getOfficerSearchResults;
+export default getSearchResults;

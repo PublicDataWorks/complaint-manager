@@ -3,12 +3,12 @@ import { mount } from "enzyme";
 import NavBar from "./NavBar";
 import { Backdrop } from "material-ui";
 import { BrowserRouter as Router } from "react-router-dom";
-import createConfiguredStore from "../../createConfiguredStore";
+import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
-import { mockLocalStorage } from "../../../mockLocalStorage";
-import { containsText } from "../../../testHelpers";
-import { userAuthSuccess } from "../../auth/actionCreators";
-import { EXPORT_AUDIT_LOG } from "../../../sharedUtilities/constants";
+import { mockLocalStorage } from "../../../../mockLocalStorage";
+import { containsText } from "../../../../testHelpers";
+import { userAuthSuccess } from "../../../auth/actionCreators";
+import { EXPORT_AUDIT_LOG } from "../../../../sharedUtilities/constants";
 
 describe("NavBar", () => {
   let wrapper, store;

@@ -19,7 +19,7 @@ import LastNameField from "../../sharedFormComponents/LastNameField";
 import {
   SecondaryButton,
   PrimaryButton
-} from "../../../sharedComponents/StyledButtons";
+} from "../../../shared/components/StyledButtons";
 import {
   closeEditDialog,
   updateAddressAutoSuggest

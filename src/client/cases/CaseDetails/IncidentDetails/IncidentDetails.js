@@ -5,9 +5,9 @@ import formatDate, {
   computeTimeZone,
   format12HourTime
 } from "../../../utilities/formatDate";
-import LinkButton from "../../../sharedComponents/LinkButton";
+import LinkButton from "../../../shared/components/LinkButton";
 import IncidentDetailsDialog from "./IncidentDetailsDialog";
-import AddressInfoDisplay from "../../../sharedComponents/AddressInfoDisplay";
+import AddressInfoDisplay from "../../../shared/components/AddressInfoDisplay";
 import { initialize, reset } from "redux-form";
 import { CardContent } from "material-ui";
 

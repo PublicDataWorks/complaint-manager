@@ -12,8 +12,8 @@ import {
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ExportAuditLogConfirmationDialog from "./ExportAuditLogConfirmationDialog";
-import handleLogout from "../../users/thunks/handleLogout";
-import { EXPORT_AUDIT_LOG } from "../../../sharedUtilities/constants";
+import handleLogout from "../../../users/thunks/handleLogout";
+import { EXPORT_AUDIT_LOG } from "../../../../sharedUtilities/constants";
 
 const styles = {
   appBarStyle: {

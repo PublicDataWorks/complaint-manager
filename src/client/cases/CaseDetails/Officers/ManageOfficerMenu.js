@@ -1,7 +1,7 @@
 import React from "react";
 import { push } from "react-router-redux";
 import { Menu, MenuItem } from "material-ui";
-import LinkButton from "../../../sharedComponents/LinkButton";
+import LinkButton from "../../../shared/components/LinkButton";
 import {
   selectOfficer,
   selectUnknownOfficer

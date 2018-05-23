@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import CaseDashboard from "./CaseDashboard";
-import NavBar from "../sharedComponents/NavBar/NavBar";
+import NavBar from "../shared/components/NavBar/NavBar";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import createConfiguredStore from "../createConfiguredStore";

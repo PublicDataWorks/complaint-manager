@@ -6,7 +6,7 @@ import { TextField } from "redux-form-material-ui";
 import OfficerTypeRadioGroup from "./OfficerTypeRadioGroup";
 import { Field, reduxForm } from "redux-form";
 import styles from "../../globalStyling/styles";
-import { PrimaryButton } from "../../sharedComponents/StyledButtons";
+import { PrimaryButton } from "../../shared/components/StyledButtons";
 import { ChangeOfficer } from "../OfficerSearch/OfficerSearchResults/officerSearchResultsRowButtons";
 
 const OfficerDetails = props => {

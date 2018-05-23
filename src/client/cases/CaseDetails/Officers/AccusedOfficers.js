@@ -5,7 +5,7 @@ import _ from "lodash";
 import AccusedOfficerPanel from "./OfficerPanel";
 import UnknownOfficerPanel from "./UnknownOfficerPanel";
 import ManageOfficerMenu from "./ManageOfficerMenu";
-import WarningMessage from "../../../sharedComponents/WarningMessage";
+import WarningMessage from "../../../shared/components/WarningMessage";
 
 const AccusedOfficers = ({ accusedOfficers }) => {
   const officerIsKnown = caseOfficer =>

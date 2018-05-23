@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import NavBar from "../../../sharedComponents/NavBar/NavBar";
+import NavBar from "../../../shared/components/NavBar/NavBar";
 import { Typography } from "material-ui";
 import { Link } from "react-router-dom";
-import LinkButton from "../../../sharedComponents/LinkButton";
+import LinkButton from "../../../shared/components/LinkButton";
 import CaseHistoryTable from "./CaseHistoryTable";
 import getCaseHistory from "../../thunks/getCaseHistory";
 import { connect } from "react-redux";
-import SharedSnackbarContainer from "../../../sharedComponents/SharedSnackbarContainer";
+import SharedSnackbarContainer from "../../../shared/components/SharedSnackbarContainer";
 
 export class CaseHistory extends Component {
   componentDidMount() {

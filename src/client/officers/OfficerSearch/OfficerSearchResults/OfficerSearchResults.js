@@ -6,7 +6,7 @@ import {
   PreviouslyAddedOfficer,
   SelectNewOfficer
 } from "./officerSearchResultsRowButtons";
-import SearchResults from "../../../sharedComponents/SearchResults";
+import SearchResults from "../../../shared/components/SearchResults";
 
 export class OfficerSearchResults extends Component {
   render() {

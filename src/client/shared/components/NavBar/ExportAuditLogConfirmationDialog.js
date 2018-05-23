@@ -8,7 +8,7 @@ import {
 } from "material-ui";
 import { SecondaryButton, PrimaryButton } from "../StyledButtons";
 import moment from "moment";
-import downloader from "../../cases/thunks/downloader";
+import downloader from "../../../cases/thunks/downloader";
 import { connect } from "react-redux";
 
 const ExportAuditLogConfirmationDialog = props => {

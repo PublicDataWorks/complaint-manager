@@ -3,15 +3,15 @@ import { TextField } from "redux-form-material-ui";
 import { reduxForm, Field } from "redux-form";
 import NoBlurTextField from "../../../cases/CaseDetails/CivilianDialog/FormSelect";
 import { searchDistrictMenu } from "../../../utilities/generateMenus";
-import { PrimaryButton } from "../../../sharedComponents/StyledButtons";
+import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import validate from "./validateOfficerSearchForm";
-import getOfficerSearchResults from "../../thunks/getOfficerSearchResults";
+import getSearchResults from "../../../shared/thunks/getSearchResults";
 
 export const OfficerSearchForm = props => {
   const { invalid, handleSubmit } = props;
 
   const onSubmit = (values, dispatch) => {
-    dispatch(getOfficerSearchResults(normalizeValues(values)));
+    dispatch(getSearchResults(normalizeValues(values), "officers"));
   };
 
   const normalizeValues = values => {

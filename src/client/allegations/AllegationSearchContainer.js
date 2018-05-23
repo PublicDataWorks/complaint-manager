@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import NavBar from "../sharedComponents/NavBar/NavBar";
+import NavBar from "../shared/components/NavBar/NavBar";
 import { Table, TableBody, Typography } from "material-ui";
 import { Link } from "react-router-dom";
-import LinkButton from "../sharedComponents/LinkButton";
+import LinkButton from "../shared/components/LinkButton";
 import { connect } from "react-redux";
 import OfficerSearchResultsRow from "../officers/OfficerSearch/OfficerSearchResults/OfficerSearchResultsRow";
 import getCaseDetails from "../cases/thunks/getCaseDetails";

@@ -1,4 +1,4 @@
-import SharedSnackbar from "../../sharedComponents/SharedSnackbar";
+import SharedSnackbar from "../../shared/components/SharedSnackbar";
 import { connect } from "react-redux";
 import { closeSnackbar } from "../../actionCreators/snackBarActionCreators";
 

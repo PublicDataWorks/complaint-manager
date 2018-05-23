@@ -9,7 +9,7 @@ import {
 import {
   SecondaryButton,
   PrimaryButton
-} from "../../../sharedComponents/StyledButtons";
+} from "../../../shared/components/StyledButtons";
 
 class RemoveAttachmentConfirmationDialog extends React.Component {
   render() {

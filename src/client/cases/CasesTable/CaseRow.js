@@ -2,7 +2,7 @@ import React from "react";
 import { TableCell, TableRow, withStyles } from "material-ui";
 import formatDate from "../../utilities/formatDate";
 import { Link } from "react-router-dom";
-import LinkButton from "../../sharedComponents/LinkButton";
+import LinkButton from "../../shared/components/LinkButton";
 import tableStyleGenerator from "../../tableStyles";
 import DisplayComplainant from "./DisplayComplainant";
 import DisplayAccusedOfficer from "./DisplayAccusedOfficer";

@@ -2,7 +2,7 @@ import React from "react";
 import OfficerSearchForm from "./OfficerSearchForm/OfficerSearchForm";
 import { Card, CardContent, Typography } from "material-ui";
 import OfficerSearchResults from "./OfficerSearchResults/OfficerSearchResults";
-import StyledLink from "../../sharedComponents/StyledLink";
+import StyledLink from "../../shared/components/StyledLink";
 import { selectUnknownOfficer } from "../../actionCreators/officersActionCreators";
 import { SelectUnknownOfficerButton } from "./OfficerSearchResults/officerSearchResultsRowButtons";
 

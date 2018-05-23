@@ -3,7 +3,7 @@ import createConfiguredStore from "../../createConfiguredStore";
 import { mount } from "enzyme/build/index";
 import CaseDetails from "./CaseDetails";
 import { Provider } from "react-redux";
-import NavBar from "../../sharedComponents/NavBar/NavBar";
+import NavBar from "../../shared/components/NavBar/NavBar";
 import { BrowserRouter as Router } from "react-router-dom";
 import { containsText } from "../../../testHelpers";
 import { mockLocalStorage } from "../../../mockLocalStorage";
