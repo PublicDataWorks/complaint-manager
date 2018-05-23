@@ -21,9 +21,9 @@ describe("transformAuditToCaseHistory", () => {
       {
         user: audit.user,
         action: "Case updated",
-        details: [
-          "Complainant Type changed from 'Civilian' to 'Police Officer'"
-        ],
+        details: {
+          "Complainant Type": { previous: "Civilian", new: "Police Officer" }
+        },
         timestamp: audit.createdAt,
         id: audit.id
       }
@@ -41,10 +41,10 @@ describe("transformAuditToCaseHistory", () => {
       .withChanges(auditChanges);
     const caseHistories = transformAuditToCaseHistory([audit]);
 
-    const expectedDetails = [
-      "Complainant Type changed from 'Civilian' to 'Police Officer'",
-      "Status changed from 'Initial' to 'Active'"
-    ];
+    const expectedDetails = {
+      "Complainant Type": { previous: "Civilian", new: "Police Officer" },
+      Status: { previous: "Initial", new: "Active" }
+    };
     expect(caseHistories[0].details).toEqual(expectedDetails);
   });
 
@@ -58,10 +58,10 @@ describe("transformAuditToCaseHistory", () => {
       .withChanges(auditChanges);
     const caseHistories = transformAuditToCaseHistory([audit]);
 
-    const expectedDetails = [
-      "Complainant Type changed from '' to 'Police Officer'",
-      "Status changed from 'Initial' to ''"
-    ];
+    const expectedDetails = {
+      "Complainant Type": { previous: "", new: "Police Officer" },
+      Status: { previous: "Initial", new: "" }
+    };
     expect(caseHistories[0].details).toEqual(expectedDetails);
   });
 });

@@ -20,12 +20,13 @@ const transformDetails = audit => {
   return _.reduce(
     audit.changes,
     (result, value, key) => {
-      const detail = `${_.startCase(key)} changed from '${transformNull(
-        value.previous
-      )}' to '${transformNull(value.new)}'`;
-      return _.concat(result, detail);
+      result[_.startCase(key)] = {
+        previous: transformNull(value.previous),
+        new: transformNull(value.new)
+      };
+      return result;
     },
-    []
+    {}
   );
 };
 
