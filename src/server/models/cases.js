@@ -67,7 +67,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       hooks: {
         beforeUpdate: (instance, options) => {
-          if (instance.status === "Initial") {
+          if (instance.changed() && instance.status === "Initial") {
             instance.status = "Active";
           }
         }

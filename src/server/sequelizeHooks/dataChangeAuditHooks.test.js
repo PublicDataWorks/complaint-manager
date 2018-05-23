@@ -283,6 +283,14 @@ describe("dataChangeAuditHooks", () => {
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
 
+    test("does not record audit when nothing changes", async () => {
+      await existingCase.update({}, { auditUser: "someone" });
+
+      await models.data_change_audit.count().then(num => {
+        expect(num).toEqual(1);
+      });
+    });
+
     describe("errors on update", () => {
       let oldConsoleError = null;
       beforeAll(async () => {

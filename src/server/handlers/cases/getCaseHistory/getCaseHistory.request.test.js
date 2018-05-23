@@ -1,9 +1,6 @@
 import buildTokenWithPermissions from "../../../requestTestHelpers";
 import Case from "../../../../client/testUtilities/case";
-import DataChangeAudit from "../../../../client/testUtilities/dataChangeAudit";
 import models from "../../../models/index";
-import { DATA_UPDATED } from "../../../../sharedUtilities/constants";
-import _ from "lodash";
 import request from "supertest";
 import app from "../../../server";
 
