@@ -15,17 +15,6 @@ const addCaseOfficer = async (request, response, next) => {
         transaction: t
       });
 
-      await models.audit_log.create(
-        {
-          action: `Officer Added as ${request.body.roleOnCase}`,
-          caseId: request.params.caseId,
-          user: request.nickname
-        },
-        {
-          transaction: t
-        }
-      );
-
       await models.cases.update(
         { status: "Active" },
         {

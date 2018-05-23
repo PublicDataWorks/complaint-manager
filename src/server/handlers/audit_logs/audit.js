@@ -1,5 +1,5 @@
 const models = require("../../models/index");
-const allowedAuditActions = ["Logged In"];
+const allowedAuditActions = ["Logged In", "Logged Out", "System Log Exported"];
 
 const audit = async (request, response, next) => {
   if (!allowedAuditActions.includes(request.body.log)) {

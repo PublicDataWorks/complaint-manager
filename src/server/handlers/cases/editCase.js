@@ -70,17 +70,6 @@ const editCase = async (request, response, next) => {
             auditUser: request.nickname
           });
 
-          await models.audit_log.create(
-            {
-              action: "Incident details updated",
-              caseId: request.params.id,
-              user: request.nickname
-            },
-            {
-              transaction
-            }
-          );
-
           return await getCaseWithAllAssociations(
             request.params.id,
             transaction

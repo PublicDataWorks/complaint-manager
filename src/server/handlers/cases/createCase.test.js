@@ -3,16 +3,10 @@ const createCase = require("./createCase");
 const models = require("../../models");
 
 jest.mock("../../models", () => ({
-  sequelize: {
-    transaction: func => func("MOCK_TRANSACTION")
-  },
   cases: {
     create: jest.fn()
   },
   civilian: {
-    create: jest.fn()
-  },
-  audit_log: {
     create: jest.fn()
   }
 }));
@@ -57,28 +51,9 @@ describe("createCase handler", () => {
             model: models.civilian
           }
         ],
-        transaction: "MOCK_TRANSACTION",
         auditUser: "TEST_USER_NICKNAME"
       }
     );
-  });
-
-  test("should create record of case creation in system audit log", async () => {
-    const createdId = 123;
-    const createdCase = { id: createdId };
-    models.cases.create.mockImplementation(() => Promise.resolve(createdCase));
-
-    await createCase(request, response, next);
-
-    const expectedLog = {
-      action: `Case created`,
-      caseId: createdCase.id,
-      user: "TEST_USER_NICKNAME"
-    };
-
-    expect(models.audit_log.create).toHaveBeenCalledWith(expectedLog, {
-      transaction: "MOCK_TRANSACTION"
-    });
   });
 
   test("should send response and 201 status with created entity", async () => {

@@ -55,12 +55,6 @@ const uploadAttachment = (request, response, next) => {
             }
           );
 
-          await models.audit_log.create({
-            caseId: caseId,
-            user: request.nickname,
-            action: `Attachment added`
-          });
-
           await models.cases.update(
             { status: "Active" },
             {

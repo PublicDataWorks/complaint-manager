@@ -14,28 +14,14 @@ const deleteAttachment = async (request, response, next) => {
 
     await deleteRequest.promise();
 
-    const caseDetails = await models.sequelize.transaction(async t => {
-      await models.attachment.destroy({
-        where: {
-          fileName: request.params.fileName,
-          caseId: request.params.id
-        },
-        transaction: t
-      });
-
-      await models.audit_log.create(
-        {
-          caseId: request.params.id,
-          user: request.nickname,
-          action: `Attachment removed`
-        },
-        {
-          transaction: t
-        }
-      );
-
-      return await getCaseWithAllAssociations(request.params.id, t);
+    await models.attachment.destroy({
+      where: {
+        fileName: request.params.fileName,
+        caseId: request.params.id
+      }
     });
+
+    const caseDetails = await getCaseWithAllAssociations(request.params.id);
     response.status(200).send(caseDetails);
   } catch (error) {
     next(error);

@@ -19,17 +19,6 @@ const createCivilian = async (req, res, next) => {
         }
       );
 
-      await models.audit_log.create(
-        {
-          action: `Civilian created`,
-          caseId: civilianCreated.caseId,
-          user: req.nickname
-        },
-        {
-          transaction: t
-        }
-      );
-
       return await models.civilian.findAll({
         include: [{ model: models.address }],
         where: {

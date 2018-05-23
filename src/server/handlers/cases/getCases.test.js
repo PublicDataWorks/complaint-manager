@@ -52,7 +52,6 @@ describe("getCases", () => {
     await models.case_officer.destroy({ truncate: true, cascade: true });
     await models.cases.destroy({ truncate: true, cascade: true });
     await models.officer.destroy({ truncate: true, cascade: true });
-    await models.audit_log.destroy({ truncate: true, cascade: true });
     await models.civilian.destroy({
       truncate: true,
       cascade: true,

@@ -3,17 +3,11 @@ const models = require("../../models/index");
 const updateCaseNarrative = require("./updateCaseNarrative");
 
 jest.mock("../../models", () => ({
-  sequelize: {
-    transaction: func => func("MOCK_TRANSACTION")
-  },
   cases: {
     update: jest.fn(),
     findById: jest.fn()
   },
-  civilian: jest.fn(),
-  audit_log: {
-    create: jest.fn()
-  }
+  civilian: jest.fn()
 }));
 
 describe("updateCaseNarrative handler", () => {
@@ -50,8 +44,7 @@ describe("updateCaseNarrative handler", () => {
       {
         where: { id: request.params.id },
         auditUser: "test_user",
-        individualHooks: true,
-        transaction: "MOCK_TRANSACTION"
+        individualHooks: true
       }
     );
   });
@@ -62,29 +55,11 @@ describe("updateCaseNarrative handler", () => {
     models.cases.findById.mockImplementation(() =>
       Promise.resolve(updatedCase)
     );
-    models.audit_log.create.mockImplementation(() => Promise.resolve());
 
     await updateCaseNarrative(request, response, jest.fn());
 
     expect(response._getStatusCode()).toEqual(200);
     expect(response._getData()).toEqual(updatedCase);
     expect(response._isEndCalled()).toBeTruthy();
-  });
-
-  test("should log on update", () => {
-    const expectedLog = {
-      action: `Narrative updated`,
-      caseId: request.params.id,
-      user: userNickname
-    };
-
-    models.cases.update.mockImplementation(() => Promise.resolve());
-    models.cases.findById.mockImplementation(() => Promise.resolve());
-
-    updateCaseNarrative(request, response, jest.fn());
-
-    expect(models.audit_log.create).toHaveBeenCalledWith(expectedLog, {
-      transaction: "MOCK_TRANSACTION"
-    });
   });
 });

@@ -14,7 +14,6 @@ describe("addCaseOfficer", () => {
     await models.case_officer.destroy({ truncate: true, cascade: true });
     await models.cases.destroy({ truncate: true, cascade: true });
     await models.officer.destroy({ truncate: true, cascade: true });
-    await models.audit_log.destroy({ truncate: true, cascade: true });
     await models.civilian.destroy({
       truncate: true,
       cascade: true,
@@ -156,44 +155,5 @@ describe("addCaseOfficer", () => {
         roleOnCase: officerAttributes.roleOnCase
       })
     );
-  });
-
-  test("should track add officer in audit log", async () => {
-    const caseToCreate = new Case.Builder()
-      .defaultCase()
-      .withId(undefined)
-      .withStatus("Initial")
-      .withIncidentLocation(undefined);
-
-    const createdCase = await models.cases.create(caseToCreate, {
-      auditUser: "someone"
-    });
-
-    const officerAttributes = {
-      officerId: null,
-      roleOnCase: "Accused",
-      notes: "these are notes"
-    };
-
-    const request = httpMocks.createRequest({
-      method: "POST",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
-      params: {
-        caseId: createdCase.id
-      },
-      body: officerAttributes,
-      nickname: "TEST_USER_NICKNAME"
-    });
-
-    const response = httpMocks.createResponse();
-
-    await addCaseOfficer(request, response, jest.fn());
-    const auditLog = await models.audit_log.findAll({
-      where: { caseId: createdCase.id }
-    });
-    expect(auditLog.length).toEqual(1);
-    expect(auditLog[0].dataValues.action).toEqual("Officer Added as Accused");
   });
 });

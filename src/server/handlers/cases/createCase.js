@@ -7,43 +7,26 @@ const invalidName = input => {
 
 const createCase = async (req, res, next) => {
   try {
-    //  TODO extract validation logic
     if (
       invalidName(req.body.civilian.firstName) ||
       invalidName(req.body.civilian.lastName)
     ) {
       res.sendStatus(400);
     } else {
-      //TODO When we refactor the request to nest civilian under case, we may be able to get rid of this mapping logic
-      //we should be able to simply say: const createdCase = await models.cases.create({req.body.case})
-      const createdCase = await models.sequelize.transaction(async t => {
-        const createdCase = await models.cases.create(
-          {
-            ...req.body.case,
-            civilians: [req.body.civilian]
-          },
-          {
-            include: [
-              {
-                model: models.civilian
-              }
-            ],
-            transaction: t,
-            auditUser: req.nickname
-          }
-        );
-
-        await models.audit_log.create(
-          {
-            action: `Case created`,
-            caseId: createdCase.id,
-            user: req.nickname
-          },
-          { transaction: t }
-        );
-
-        return createdCase;
-      });
+      const createdCase = await models.cases.create(
+        {
+          ...req.body.case,
+          civilians: [req.body.civilian]
+        },
+        {
+          include: [
+            {
+              model: models.civilian
+            }
+          ],
+          auditUser: req.nickname
+        }
+      );
 
       res.status(201).send(createdCase);
     }

@@ -76,7 +76,7 @@ describe("server", () => {
   });
 
   describe("POST /audit", () => {
-    const mockLog = "Test Output";
+    const mockLog = "Logged Out";
     test("should audit log out", async () => {
       await request(app)
         .post("/api/audit")
@@ -861,14 +861,6 @@ describe("server", () => {
             );
             expect(response.body.status).toEqual("Active");
           });
-
-        const log = await models.audit_log.findOne({
-          where: {
-            caseId: defaultCase.id
-          }
-        });
-
-        expect(log.dataValues.user).toEqual("some_nickname");
       });
 
       test("should return 409 when file is a duplicate", async () => {

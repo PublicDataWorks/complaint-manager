@@ -5,33 +5,19 @@ const updateCaseNarrative = async (request, response, next) => {
   try {
     const caseId = request.params.id;
 
-    const updatedCase = await models.sequelize.transaction(async t => {
-      await models.cases.update(
-        {
-          narrativeDetails: request.body.narrativeDetails,
-          narrativeSummary: request.body.narrativeSummary
-        },
-        {
-          where: { id: caseId },
-          individualHooks: true,
-          transaction: t,
-          auditUser: request.nickname
-        }
-      );
+    await models.cases.update(
+      {
+        narrativeDetails: request.body.narrativeDetails,
+        narrativeSummary: request.body.narrativeSummary
+      },
+      {
+        where: { id: caseId },
+        individualHooks: true,
+        auditUser: request.nickname
+      }
+    );
 
-      await models.audit_log.create(
-        {
-          caseId: caseId,
-          user: request.nickname,
-          action: `Narrative updated`
-        },
-        {
-          transaction: t
-        }
-      );
-
-      return await getCaseWithAllAssociations(caseId, t);
-    });
+    const updatedCase = await getCaseWithAllAssociations(caseId);
 
     response.send(updatedCase);
   } catch (e) {

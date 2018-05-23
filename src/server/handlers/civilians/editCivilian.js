@@ -60,17 +60,6 @@ const editCivilian = async (req, res, next) => {
         }
       );
 
-      await models.audit_log.create(
-        {
-          action: `Civilian updated`,
-          caseId: caseId,
-          user: req.nickname
-        },
-        {
-          transaction: t
-        }
-      );
-
       return civilians;
     });
     res.status(200).send(updatedCivilian);

@@ -6,9 +6,6 @@ jest.mock("../../models", () => ({
   sequelize: {
     transaction: func => func("MOCK_TRANSACTION")
   },
-  audit_log: {
-    create: jest.fn()
-  },
   civilian: {
     update: jest.fn(),
     findAll: jest.fn()
@@ -50,41 +47,6 @@ describe("editCivilian handler", () => {
     };
 
     expect(models.civilian.update).toHaveBeenCalledWith(request.body, options);
-  });
-
-  test("should create audit log after successful civilian update", async () => {
-    models.civilian.update.mockImplementation(() => {
-      return Promise.resolve([1, [{ dataValues: { id: 1, caseId: 2 } }]]);
-    });
-
-    models.cases.update.mockImplementation(() => {
-      return Promise.resolve();
-    });
-
-    const request = httpMocks.createRequest({
-      method: "PUT",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
-      params: {
-        id: 1
-      },
-      body: {
-        firstName: "mock name"
-      },
-      nickname: "TEST_USER_NICKNAME"
-    });
-    const response = httpMocks.createResponse();
-
-    await editCivilian(request, response, jest.fn());
-    const expectedLog = {
-      action: `Civilian updated`,
-      caseId: 2,
-      user: "TEST_USER_NICKNAME"
-    };
-    expect(models.audit_log.create).toHaveBeenCalledWith(expectedLog, {
-      transaction: "MOCK_TRANSACTION"
-    });
   });
 
   test("should call next when civilian edit fails", async () => {
