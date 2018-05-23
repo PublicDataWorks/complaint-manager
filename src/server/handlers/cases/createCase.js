@@ -1,5 +1,4 @@
 const models = require("../../models/index");
-const moment = require("moment");
 
 const invalidName = input => {
   return !input || input.length === 0 || input.length > 25;

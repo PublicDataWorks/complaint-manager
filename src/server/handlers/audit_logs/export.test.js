@@ -1,16 +1,8 @@
 const httpMocks = require("node-mocks-http");
 const exportAuditLogs = require("./export");
-const models = require("../../models");
-
-jest.mock("../../models", () => ({
-  audit_log: {
-    findAll: jest.fn()
-  }
-}));
 
 describe("audit log export", function() {
-  test("should call next when error received from db", async () => {
-    models.audit_log.findAll.mockImplementation(() => Promise.reject());
+  test("should call next when error received from db (missing nickname)", async () => {
     const request = httpMocks.createRequest({
       method: "GET"
     });

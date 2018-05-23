@@ -1,26 +1,30 @@
+import Civilian from "../../../client/testUtilities/civilian";
+import Case from "../../../client/testUtilities/case";
+
 const editCivilian = require("./editCivilian");
 const models = require("../../models/index");
 const httpMocks = require("node-mocks-http");
 
-jest.mock("../../models", () => ({
-  sequelize: {
-    transaction: func => func("MOCK_TRANSACTION")
-  },
-  civilian: {
-    update: jest.fn(),
-    findAll: jest.fn()
-  },
-  cases: {
-    update: jest.fn()
-  },
-  address: {
-    update: jest.fn(),
-    create: jest.fn(),
-    find: jest.fn()
-  }
-}));
-
 describe("editCivilian handler", () => {
+  let existingCase, existingCivilian;
+  beforeEach(async () => {
+    const caseAttributes = new Case.Builder()
+      .defaultCase()
+      .withId(undefined)
+      .withIncidentLocation(undefined)
+      .withCivilians([
+        new Civilian.Builder()
+          .defaultCivilian()
+          .withNoAddress()
+          .withId(undefined)
+      ]);
+    existingCase = await models.cases.create(caseAttributes, {
+      include: [{ model: models.civilian }],
+      auditUser: "someone"
+    });
+    existingCivilian = existingCase.dataValues.civilians[0];
+  });
+
   test("should update civilian with correct properties", async () => {
     const request = httpMocks.createRequest({
       method: "PUT",
@@ -28,46 +32,31 @@ describe("editCivilian handler", () => {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       params: {
-        id: 1
+        id: existingCivilian.id
       },
       body: {
-        firstName: "mock name"
+        firstName: "Bob"
       },
       nickname: "TEST_USER_NICKNAME"
     });
-
     const response = httpMocks.createResponse();
 
     await editCivilian(request, response, jest.fn());
 
-    const options = {
-      where: { id: request.params.id },
-      transaction: "MOCK_TRANSACTION",
-      returning: true
-    };
-
-    expect(models.civilian.update).toHaveBeenCalledWith(request.body, options);
+    await existingCivilian.reload();
+    expect(existingCivilian.firstName).toEqual("Bob");
   });
 
-  test("should call next when civilian edit fails", async () => {
-    const error = new Error("DB Down!");
-
-    models.civilian.update.mockImplementation(() => Promise.reject(error));
-
+  test("should call next when something blows up", async () => {
     const request = httpMocks.createRequest({
       method: "PUT",
-      body: {
-        civilian: {
-          firstName: "Valid",
-          lastName: "Name"
-        }
-      }
+      body: {}
     });
 
     const response = httpMocks.createResponse();
     const next = jest.fn();
     await editCivilian(request, response, next);
 
-    expect(next).toHaveBeenCalledWith(error);
+    expect(next).toHaveBeenCalled();
   });
 });

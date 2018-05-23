@@ -1,19 +1,21 @@
+import Case from "../../../client/testUtilities/case";
+
 const httpMocks = require("node-mocks-http");
 const models = require("../../models/index");
 const updateCaseNarrative = require("./updateCaseNarrative");
 
-jest.mock("../../models", () => ({
-  cases: {
-    update: jest.fn(),
-    findById: jest.fn()
-  },
-  civilian: jest.fn()
-}));
-
 describe("updateCaseNarrative handler", () => {
-  let request, response, userNickname;
+  let request, response, existingCase, userNickname;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    const caseToCreate = new Case.Builder()
+      .defaultCase()
+      .withId(undefined)
+      .withIncidentLocation(undefined);
+    existingCase = await models.cases.create(caseToCreate, {
+      auditUser: "someone"
+    });
+
     userNickname = "test_user";
     request = httpMocks.createRequest({
       method: "PUT",
@@ -21,7 +23,7 @@ describe("updateCaseNarrative handler", () => {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       params: {
-        id: 1
+        id: existingCase.id
       },
       body: {
         narrativeSummary: "So much summary",
@@ -33,33 +35,28 @@ describe("updateCaseNarrative handler", () => {
     response = httpMocks.createResponse();
   });
 
-  test("should update case and include civilians", () => {
-    updateCaseNarrative(request, response, jest.fn());
+  test("should update case", async () => {
+    await updateCaseNarrative(request, response, jest.fn());
 
-    expect(models.cases.update).toHaveBeenCalledWith(
-      {
-        narrativeSummary: request.body.narrativeSummary,
-        narrativeDetails: request.body.narrativeDetails
-      },
-      {
-        where: { id: request.params.id },
-        auditUser: "test_user",
-        individualHooks: true
-      }
+    await existingCase.reload();
+    expect(existingCase.dataValues).toEqual(
+      expect.objectContaining({
+        narrativeSummary: "So much summary",
+        narrativeDetails: "So much narrative"
+      })
     );
   });
 
-  test("should send a 200 response and updated case when updating narrative", async () => {
-    const updatedCase = "updated case";
-    models.cases.update.mockImplementation(() => Promise.resolve());
-    models.cases.findById.mockImplementation(() =>
-      Promise.resolve(updatedCase)
-    );
-
+  test("should send a 200 response and updated case", async () => {
     await updateCaseNarrative(request, response, jest.fn());
 
     expect(response._getStatusCode()).toEqual(200);
-    expect(response._getData()).toEqual(updatedCase);
+    expect(response._getData()).toEqual(
+      expect.objectContaining({
+        narrativeSummary: "So much summary",
+        narrativeDetails: "So much narrative"
+      })
+    );
     expect(response._isEndCalled()).toBeTruthy();
   });
 });
