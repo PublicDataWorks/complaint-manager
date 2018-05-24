@@ -20,7 +20,7 @@ const OfficerSearchTableHeader = props => {
         <TableCell
           data-test="casesNumberHeader"
           className={classes.cell}
-          style={{ paddingLeft: "12px", width: "17%" }}
+          style={{ width: "17%" }}
         >
           <Typography variant="body2">Name</Typography>
         </TableCell>

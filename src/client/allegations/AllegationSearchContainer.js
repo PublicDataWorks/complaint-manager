@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import OfficerSearchResultsRow from "../officers/OfficerSearch/OfficerSearchResults/OfficerSearchResultsRow";
 import getCaseDetails from "../cases/thunks/getCaseDetails";
 import OfficerSearchTableHeader from "../officers/OfficerSearch/OfficerSearchTableHeader";
+import AllegationSearch from "./AllegationSearch";
 
 export class AllegationSearchContainer extends Component {
   componentDidMount() {
@@ -59,6 +60,9 @@ export class AllegationSearchContainer extends Component {
               />
             </TableBody>
           </Table>
+        </div>
+        <div style={{ margin: "0% 5% 3%" }}>
+          <AllegationSearch />
         </div>
       </div>
     );

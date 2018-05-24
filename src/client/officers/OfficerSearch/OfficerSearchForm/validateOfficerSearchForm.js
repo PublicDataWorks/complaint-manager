@@ -1,4 +1,8 @@
 import { atLeastOneRequired } from "../../../formValidations";
+import {
+  fieldTooShort,
+  includesInvalidCharacter
+} from "../../../searchFormValidations";
 
 const validate = values => {
   const includesInvalidCharMessage = "Please note that % and _ are not allowed";
@@ -25,12 +29,4 @@ const validate = values => {
   return errors;
 };
 
-const fieldTooShort = value => {
-  const minLength = 2;
-  return !!value && value.trim().length < minLength;
-};
-
-const includesInvalidCharacter = value => {
-  return value && (value.includes("%") || value.includes("_"));
-};
 export default validate;

@@ -63,7 +63,7 @@ class ManageOfficerMenu extends React.Component {
               );
             }}
           >
-            Add Allegation
+            Manage Allegations
           </MenuItem>
         </Menu>
       </div>

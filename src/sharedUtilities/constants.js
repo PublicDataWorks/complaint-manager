@@ -39,6 +39,9 @@ const REMOVE_CIVILIAN_SUCCEEDED = "REMOVE_CIVILIAN_SUCCEEDED";
 
 const DOWNLOAD_FAILED = "DOWNLOAD_FAILED";
 
+const GET_ALLEGATIONS_SUCCEEDED = "GET_ALLEGATIONS_SUCCEEDED";
+const GET_ALLEGATIONS_FAILED = "GET_ALLEGATIONS_FAILED";
+
 // ----------------------------------------
 //          Attachment Errors
 // ----------------------------------------
@@ -65,6 +68,7 @@ const SNACKBAR_SUCCESS = "SNACKBAR_SUCCESS";
 // ----------------------------------------
 
 const CIVILIAN_FORM_NAME = "Civilian form";
+const ALLEGATION_SEARCH_FORM_NAME = "AllegationSearchForm";
 
 // ----------------------------------------
 //          Auth0 Scopes / Permissions
@@ -149,6 +153,7 @@ module.exports = {
   SNACKBAR_ERROR,
   SNACKBAR_SUCCESS,
   CIVILIAN_FORM_NAME,
+  ALLEGATION_SEARCH_FORM_NAME,
   EXPORT_AUDIT_LOG,
   SEARCH_SUCCESS,
   SEARCH_INITIATED,
@@ -170,5 +175,7 @@ module.exports = {
   REMOVE_CIVILIAN_DIALOG_OPENED,
   REMOVE_CIVILIAN_DIALOG_CLOSED,
   REMOVE_CIVILIAN_FAILED,
-  REMOVE_CIVILIAN_SUCCEEDED
+  REMOVE_CIVILIAN_SUCCEEDED,
+  GET_ALLEGATIONS_SUCCEEDED,
+  GET_ALLEGATIONS_FAILED
 };

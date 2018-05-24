@@ -25,6 +25,7 @@ const editUserAction = require("./handlers/cases/editUserAction/editUserAction")
 const removeUserAction = require("./handlers/cases/removeUserAction/removeUserAction");
 const createUserAction = require("./handlers/cases/createUserAction");
 const searchAllegations = require("./handlers/allegations/searchAllegations");
+const getAllegations = require("./handlers/allegations/getAllegations");
 const attachmentRouter = require("./attachmentRouter");
 
 const express = require("express");
@@ -63,6 +64,7 @@ router.get("/users", getUsers);
 router.get("/export-audit-log", jwtAuthz([EXPORT_AUDIT_LOG]), exportAuditLog);
 
 router.get("/officers/search", searchOfficers);
-router.get("/allegations", searchAllegations);
+router.get("/allegations/search", searchAllegations);
+router.get("/allegations", getAllegations);
 
 module.exports = router;

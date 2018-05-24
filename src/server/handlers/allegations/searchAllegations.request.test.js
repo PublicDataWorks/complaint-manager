@@ -19,7 +19,7 @@ test("should return an allegation", async () => {
   const token = buildTokenWithPermissions("", "TEST_NICKNAME");
 
   await request(app)
-    .get("/api/allegations")
+    .get("/api/allegations/search")
     .set("Authorization", `Bearer ${token}`)
     .query({ rule: createdAllegation.rule })
     .expect(200)

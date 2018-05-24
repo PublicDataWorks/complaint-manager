@@ -360,11 +360,6 @@ exports[`it can render officer search results with correct styles 1`] = `
                     >
                       <WithStyles(TableCell)
                         className="OfficerSearchResultsRow-cell-4"
-                        style={
-                          Object {
-                            "paddingLeft": "16px",
-                          }
-                        }
                       >
                         <TableCell
                           className="OfficerSearchResultsRow-cell-4"
@@ -382,20 +377,10 @@ exports[`it can render officer search results with correct styles 1`] = `
                           }
                           numeric={false}
                           padding="default"
-                          style={
-                            Object {
-                              "paddingLeft": "16px",
-                            }
-                          }
                         >
                           <td
                             aria-sort={null}
                             className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-cell-4"
-                            style={
-                              Object {
-                                "paddingLeft": "16px",
-                              }
-                            }
                           >
                             <div
                               data-test="officerFullName"
