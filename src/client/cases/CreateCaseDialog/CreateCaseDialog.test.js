@@ -278,4 +278,62 @@ describe("CreateCaseDialog component", () => {
       );
     });
   });
+
+  describe("police officer radio button", () => {
+    beforeEach(() => {
+      const officerRadioButton = dialog
+        .find('[data-test="officerRadioButton"]')
+        .last();
+      officerRadioButton.simulate("click");
+    });
+
+    test("should not see civilian details or civilian create buttons when officer selected", () => {
+      expect(dialog.find('[data-test="firstNameField"]').exists()).toBeFalsy();
+      expect(dialog.find('[data-test="createAndView"]').exists()).toBeFalsy();
+      expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeFalsy();
+    });
+
+    test("should see create and search button when officer complainant selected", () => {
+      expect(
+        dialog.find('[data-test="createAndSearch"]').exists()
+      ).toBeTruthy();
+    });
+
+    test("should see civilian details & buttons when civilian reselected", () => {
+      const civilianRadioButton = dialog
+        .find('[data-test="civilianRadioButton"]')
+        .last();
+      civilianRadioButton.simulate("click");
+
+      expect(dialog.find('[data-test="firstNameField"]').exists()).toBeTruthy();
+      expect(dialog.find('[data-test="createAndView"]').exists()).toBeTruthy();
+      expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeTruthy();
+    });
+
+    test("should default to civilian complainant whenever dialog opened", () => {
+      const cancelButton = dialog.find('[data-test="cancelCase"]').last();
+      cancelButton.simulate("click");
+      const createCaseButton = dialog.find(
+        'button[data-test="createCaseButton"]'
+      );
+      createCaseButton.simulate("click");
+      expect(dialog.find('[data-test="firstNameField"]').exists()).toBeTruthy();
+      expect(dialog.find('[data-test="createAndView"]').exists()).toBeTruthy();
+      expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeTruthy();
+    });
+
+    test("should dispatch createCase with redirect to add officer when create & search clicked", () => {
+      const createAndSearch = dialog
+        .find('[data-test="createAndSearch"]')
+        .last();
+      createAndSearch.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith({
+        type: "MOCK_CREATE_CASE_THUNK",
+        creationDetails: expect.objectContaining({
+          redirect: true
+        })
+      });
+    });
+  });
 });

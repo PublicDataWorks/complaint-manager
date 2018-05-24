@@ -28,8 +28,10 @@ describe("createCase", () => {
   test("should dispatch success when case created successfully", async () => {
     const creationDetails = {
       caseDetails: {
-        firstName: "Fats",
-        lastName: "Domino"
+        case: {
+          firstName: "Fats",
+          lastName: "Domino"
+        }
       },
       redirect: false
     };
@@ -93,7 +95,7 @@ describe("createCase", () => {
 
   test("should redirect immediately if token missing", async () => {
     const responseBody = { cases: [] };
-    getAccessToken.mockImplementation(() => false);
+    getAccessToken.mockImplementationOnce(() => false);
     await createCase()(dispatch);
 
     expect(dispatch).not.toHaveBeenCalledWith(
@@ -101,5 +103,79 @@ describe("createCase", () => {
     );
     expect(dispatch).toHaveBeenCalledWith(createCaseFailure());
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
+  });
+
+  test("should redirect to add officer if complainant is officer", async () => {
+    const caseId = 12;
+
+    const creationDetails = {
+      caseDetails: {
+        case: {
+          firstName: "Police",
+          lastName: "Officer",
+          complainantType: "Police Officer"
+        }
+      },
+      redirect: true
+    };
+
+    const responseBody = {
+      id: caseId,
+      firstName: "Police",
+      lastName: "Officer",
+      status: "Initial"
+    };
+
+    nock("http://localhost", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer TEST_TOKEN`
+      }
+    })
+      .post("/api/cases", creationDetails.caseDetails)
+      .reply(201, responseBody);
+
+    await createCase(creationDetails)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
+    expect(dispatch).toHaveBeenCalledWith(
+      push(`/cases/${caseId}/officers/search?role=Complainant`)
+    );
+  });
+
+  test("should redirect to case details if complainant is civilian", async () => {
+    const caseId = 12;
+
+    const creationDetails = {
+      caseDetails: {
+        case: {
+          firstName: "Some",
+          lastName: "Civilian",
+          complainantType: "Civilian"
+        }
+      },
+      redirect: true
+    };
+
+    const responseBody = {
+      id: caseId,
+      firstName: "Some",
+      lastName: "Civilian",
+      status: "Initial"
+    };
+
+    nock("http://localhost", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer TEST_TOKEN`
+      }
+    })
+      .post("/api/cases", creationDetails.caseDetails)
+      .reply(201, responseBody);
+
+    await createCase(creationDetails)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
+    expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
 });

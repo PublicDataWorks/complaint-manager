@@ -9,25 +9,20 @@ import {
   DialogTitle,
   Typography
 } from "material-ui";
-import {
-  SecondaryButton,
-  PrimaryButton
-} from "../../shared/components/StyledButtons";
 import { withTheme } from "material-ui/styles";
-import FirstNameField from "../sharedFormComponents/FirstNameField";
-import LastNameField from "../sharedFormComponents/LastNameField";
-import PhoneNumberField from "../sharedFormComponents/PhoneNumberField";
-import EmailField from "../sharedFormComponents/EmailField";
-import LinkButton from "../../shared/components/LinkButton";
 import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import createCase from "../thunks/createCase";
 import { closeSnackbar } from "../../actionCreators/snackBarActionCreators";
 import moment from "moment";
 import DateField from "../sharedFormComponents/DateField";
-import MiddleInitialField from "../sharedFormComponents/MiddleInitialField";
-import SuffixField from "../sharedFormComponents/SuffixField";
 import { atLeastOneRequired } from "../../formValidations";
 import { applyCentralTimeZoneOffset } from "../../utilities/formatDate";
+import CivilianComplainantFields from "./CivilianComplainantFields";
+import CivilianComplainantButtons from "./CivilianComplainantButtons";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../../shared/components/StyledButtons";
 
 const margin = {
   marginLeft: "5%",
@@ -39,7 +34,8 @@ const offSet = { marginRight: "5%", marginBottom: "3%" };
 
 class CreateCaseDialog extends React.Component {
   state = {
-    dialogOpen: false
+    dialogOpen: false,
+    civilianComplainant: true
   };
 
   componentWillReceiveProps = nextProps => {
@@ -49,7 +45,7 @@ class CreateCaseDialog extends React.Component {
   };
 
   openDialog = () => {
-    this.setState({ dialogOpen: true });
+    this.setState({ dialogOpen: true, civilianComplainant: true });
     this.props.dispatch(closeSnackbar());
   };
 
@@ -58,9 +54,20 @@ class CreateCaseDialog extends React.Component {
     this.props.dispatch(reset("CreateCase"));
   };
 
+  setOfficerComplainantType = () => {
+    this.setState({ civilianComplainant: false });
+  };
+
+  setCivilianComplainantType = () => {
+    this.setState({ civilianComplainant: true });
+  };
+
   createAndView = (values, dispatch) => {
     const creationDetails = {
-      caseDetails: this.prepareCaseDetails(values),
+      caseDetails: {
+        case: this.prepareCaseValues(values),
+        civilian: this.prepareCivilianValues(values)
+      },
       redirect: true
     };
 
@@ -69,29 +76,45 @@ class CreateCaseDialog extends React.Component {
 
   createOnly = (values, dispatch) => {
     const creationDetails = {
-      caseDetails: this.prepareCaseDetails(values),
+      caseDetails: {
+        case: this.prepareCaseValues(values),
+        civilian: this.prepareCivilianValues(values)
+      },
       redirect: false
     };
 
     dispatch(createCase(creationDetails));
   };
 
-  prepareCaseDetails = values => ({
-    case: {
-      ...values.case,
-      createdBy: this.props.currentUser,
-      assignedTo: this.props.currentUser,
-      incidentDate: applyCentralTimeZoneOffset(values.case.incidentDate)
-    },
-    civilian: {
-      ...values.civilian,
-      firstName: values.civilian.firstName.trim(),
-      lastName: values.civilian.lastName.trim()
-    }
+  createAndSearch = (values, dispatch) => {
+    const creationDetails = {
+      caseDetails: {
+        case: this.prepareCaseValues(values)
+      },
+      redirect: true
+    };
+
+    dispatch(createCase(creationDetails));
+  };
+
+  prepareCaseValues = values => ({
+    ...values.case,
+    createdBy: this.props.currentUser,
+    assignedTo: this.props.currentUser,
+    incidentDate: applyCentralTimeZoneOffset(values.case.incidentDate)
+  });
+
+  prepareCivilianValues = values => ({
+    ...values.civilian,
+    firstName: values.civilian.firstName.trim(),
+    lastName: values.civilian.lastName.trim()
   });
 
   render() {
     const { theme, handleSubmit } = this.props;
+    const createCaseOnly = handleSubmit(this.createOnly);
+    const createAndView = handleSubmit(this.createAndView);
+    const createAndSearch = handleSubmit(this.createAndSearch);
 
     return (
       <div>
@@ -145,26 +168,13 @@ class CreateCaseDialog extends React.Component {
               <Field
                 name="case.complainantType"
                 component={ComplainantTypeRadioGroup}
+                setOfficerComplainantType={this.setOfficerComplainantType}
+                setCivilianComplainantType={this.setCivilianComplainantType}
               />
               <br />
-              <FirstNameField name="civilian.firstName" />
-              <MiddleInitialField
-                name="civilian.middleInitial"
-                style={{
-                  width: "40px",
-                  marginRight: "5%"
-                }}
-              />
-              <LastNameField name="civilian.lastName" />
-              <SuffixField
-                name="civilian.suffix"
-                style={{
-                  width: "120px"
-                }}
-              />
-              <br />
-              <PhoneNumberField name={"civilian.phoneNumber"} />
-              <EmailField name={"civilian.email"} />
+              {this.state.civilianComplainant ? (
+                <CivilianComplainantFields />
+              ) : null}
             </form>
           </DialogContent>
           <DialogActions
@@ -176,21 +186,19 @@ class CreateCaseDialog extends React.Component {
             <SecondaryButton data-test="cancelCase" onClick={this.closeDialog}>
               Cancel
             </SecondaryButton>
-            <div>
-              <LinkButton
-                data-test="createCaseOnly"
-                onClick={handleSubmit(this.createOnly)}
-                style={{ marginRight: "10px" }}
-              >
-                Create Only
-              </LinkButton>
+            {this.state.civilianComplainant ? (
+              <CivilianComplainantButtons
+                createCaseOnly={createCaseOnly}
+                createAndView={createAndView}
+              />
+            ) : (
               <PrimaryButton
-                data-test="createAndView"
-                onClick={handleSubmit(this.createAndView)}
+                data-test="createAndSearch"
+                onClick={createAndSearch}
               >
-                Create And View
+                Create and Search
               </PrimaryButton>
-            </div>
+            )}
           </DialogActions>
         </Dialog>
       </div>

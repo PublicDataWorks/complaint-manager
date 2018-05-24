@@ -4,7 +4,7 @@ import { initialize } from "redux-form";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
 import { connect } from "react-redux";
 
-class AddOfficerSearch extends React.Component {
+export class AddOfficerSearch extends React.Component {
   missingCaseDetails = () => {
     return (
       !this.props.currentCase ||
@@ -19,12 +19,15 @@ class AddOfficerSearch extends React.Component {
 
   render() {
     if (this.missingCaseDetails()) return null;
-
     const caseId = this.props.match.params.id;
 
     return (
       <OfficerSearchContainer
-        initialize={initialize("OfficerDetails", { roleOnCase: "Accused" })}
+        initialize={initialize("OfficerDetails", {
+          roleOnCase: this.props.location.search.includes("Complainant")
+            ? "Complainant"
+            : "Accused"
+        })}
         caseId={caseId}
         titleAction={"Add"}
         officerDetailsPath={`/cases/${caseId}/officers/details`}

@@ -36,7 +36,18 @@ const createCase = creationDetails => async dispatch => {
         dispatch(createCaseSuccess(createdCase));
 
         if (creationDetails.redirect) {
-          dispatch(push(`/cases/${createdCase.id}`));
+          if (
+            creationDetails.caseDetails.case.complainantType ===
+            "Police Officer"
+          ) {
+            dispatch(
+              push(`/cases/${createdCase.id}/officers/search?role=Complainant`)
+            );
+          } else if (
+            creationDetails.caseDetails.case.complainantType === "Civilian"
+          ) {
+            dispatch(push(`/cases/${createdCase.id}`));
+          }
         }
         return dispatch(reset("CreateCase"));
       case 401:

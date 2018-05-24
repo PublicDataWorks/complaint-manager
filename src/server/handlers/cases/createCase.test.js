@@ -5,7 +5,9 @@ const models = require("../../models");
 describe("createCase handler", () => {
   let request, response, next, caseAttributes, civilianAttributes;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    await models.cases.destroy({ truncate: true, cascade: true });
+
     caseAttributes = {
       complainantType: "Civilian",
       firstContactDate: "2018-02-08",
@@ -34,16 +36,68 @@ describe("createCase handler", () => {
     next = jest.fn();
   });
 
-  test("should create case in database", async () => {
+  afterEach(async () => {
+    await models.cases.destroy({ truncate: true, cascade: true });
+  });
+
+  test("should create case with civilian if civilian complainant type ", async () => {
     await createCase(request, response, next);
-    const createdCase = (await models.cases.findAll({
-      include: [{ model: models.civilian }]
-    }))[0];
-    expect(createdCase.dataValues).toEqual(
-      expect.objectContaining(caseAttributes)
+
+    const insertedCase = await models.cases.find({
+      where: { complainantType: "Civilian" },
+      include: [models.civilian]
+    });
+
+    expect(insertedCase).toEqual(
+      expect.objectContaining({
+        complainantType: "Civilian",
+        firstContactDate: "2018-02-08",
+        incidentDate: "2018-03-16",
+        civilians: expect.arrayContaining([
+          expect.objectContaining({
+            firstName: "First",
+            lastName: "Last",
+            phoneNumber: "1234567890"
+          })
+        ])
+      })
     );
-    expect(createdCase.dataValues.civilians[0]).toEqual(
-      expect.objectContaining(civilianAttributes)
+  });
+
+  test("should create case without civilian model if officer complainant", async () => {
+    const policeOfficerRequest = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      body: {
+        case: {
+          createdBy: "tuser",
+          assignedTo: "tuser",
+          complainantType: "Police Officer",
+          firstContactDate: "2018-02-08",
+          incidentDate: "2018-03-16T17:42"
+        }
+      },
+      nickname: "TEST_USER_NICKNAME"
+    });
+
+    await createCase(policeOfficerRequest, response, next);
+    const insertedCase = await models.cases.find({
+      where: { complainantType: "Police Officer" }
+    });
+
+    expect(insertedCase).toEqual(
+      expect.objectContaining({
+        complainantType: "Police Officer",
+        firstContactDate: "2018-02-08",
+        incidentDate: "2018-03-16"
+      })
+    );
+    expect(insertedCase).not.toEqual(
+      expect.objectContaining({
+        civilians: expect.arrayContaining([expect.anything()])
+      })
     );
   });
 
@@ -70,6 +124,9 @@ describe("createCase handler", () => {
     request = httpMocks.createRequest({
       method: "POST",
       body: {
+        case: {
+          complainantType: "Civilian"
+        },
         civilian: {
           firstName: "",
           lastName: ""
@@ -78,6 +135,7 @@ describe("createCase handler", () => {
     });
 
     await createCase(request, response, next);
+
     expect(response.statusCode).toEqual(400);
   });
 
@@ -85,6 +143,9 @@ describe("createCase handler", () => {
     request = httpMocks.createRequest({
       method: "POST",
       body: {
+        case: {
+          complainantType: "Civilian"
+        },
         civilian: {
           firstName: "someveryveryveryveryveryveryveryveryveryveryverylongname",
           lastName: "name"

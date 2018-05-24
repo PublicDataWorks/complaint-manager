@@ -1,37 +1,59 @@
 const models = require("../../models/index");
 
-const invalidName = input => {
-  return !input || input.length === 0 || input.length > 25;
-};
-
 const createCase = async (req, res, next) => {
   try {
-    if (
-      invalidName(req.body.civilian.firstName) ||
-      invalidName(req.body.civilian.lastName)
-    ) {
-      res.sendStatus(400);
-    } else {
-      const createdCase = await models.cases.create(
-        {
-          ...req.body.case,
-          civilians: [req.body.civilian]
-        },
-        {
-          include: [
-            {
-              model: models.civilian
-            }
-          ],
-          auditUser: req.nickname
-        }
-      );
+    let newCase;
 
-      res.status(201).send(createdCase);
+    if (req.body.case.complainantType == "Police Officer") {
+      newCase = await createCaseWithoutCivilian(req);
+      res.status(201).send(newCase);
+    } else {
+      const first = req.body.civilian.firstName;
+      const last = req.body.civilian.lastName;
+
+      if (invalidName(first) || invalidName(last)) {
+        res.sendStatus(400);
+      } else {
+        newCase = await createCaseWithCivilian(req);
+        res.status(201).send(newCase);
+      }
     }
   } catch (e) {
     next(e);
   }
+};
+
+const invalidName = input => {
+  return !input || input.length === 0 || input.length > 25;
+};
+
+const createCaseWithoutCivilian = async req => {
+  return await models.cases.create(
+    {
+      ...req.body.case
+    },
+    {
+      auditUser: req.nickname
+    }
+  );
+};
+
+const createCaseWithCivilian = async req => {
+  console.log("should be creating a case with a civilian");
+  return await models.cases.create(
+    {
+      ...req.body.case,
+      civilians: [req.body.civilian]
+    },
+    {
+      include: [
+        {
+          model: models.civilian
+        }
+      ],
+      auditUser: req.nickname
+    }
+  );
 };
 
 module.exports = createCase;
