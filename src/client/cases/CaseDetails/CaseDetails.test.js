@@ -13,6 +13,8 @@ import createCivilian from "../thunks/createCivilian";
 import {
   openCivilianDialog,
   openRemoveCivilianDialog,
+  closeEditDialog,
+  closeUserActionDialog,
   openUserActionDialog
 } from "../../actionCreators/casesActionCreators";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
@@ -60,6 +62,18 @@ describe("Case Details Component", () => {
   test("should dispatch get case details action on mount", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(
       getCaseDetails(expectedCase.id.toString())
+    );
+  });
+
+  test("should dispatch close edit dialog action on mount", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      closeEditDialog()
+    );
+  });
+
+  test("should dispatch close user action dialog on mount", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      closeUserActionDialog()
     );
   });
 

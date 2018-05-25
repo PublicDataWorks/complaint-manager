@@ -18,6 +18,8 @@ import { Menu, MenuItem } from "material-ui";
 import IncidentDetailsContainer from "./IncidentDetails/IncidentDetailsContainer";
 import {
   openCivilianDialog,
+  closeEditDialog,
+  closeUserActionDialog,
   openUserActionDialog
 } from "../../actionCreators/casesActionCreators";
 import createCivilian from "../thunks/createCivilian";
@@ -57,6 +59,11 @@ class CaseDetails extends React.Component {
 
   componentDidMount() {
     this.props.dispatch(getCaseDetails(this.props.match.params.id));
+  }
+
+  componentWillMount(){
+    this.props.dispatch(closeEditDialog())
+    this.props.dispatch(closeUserActionDialog())
   }
 
   caseDetailsNotYetLoaded() {
