@@ -1,12 +1,12 @@
 const config = require("../config/config")[process.env.NODE_ENV];
+const Boom = require("boom");
 
 const verifyUserNickname = (request, response, next) => {
   const userInfo = request.user;
   if (!userInfo || !userInfo[config.authentication.nicknameKey]) {
-    const err = new Error("User nickname missing");
-    err.name = "UserNicknameFetchError";
-    return next(err);
+    return next(Boom.unauthorized("User nickname missing"));
   }
+
   request.nickname = userInfo[config.authentication.nicknameKey];
   next();
 };

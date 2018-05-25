@@ -1,25 +1,21 @@
 const nodemailer = require("nodemailer");
-
+const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models/index");
 const generatePassword = require("password-generator");
 const transporter = require("../../email/transporter");
 const config = require("../../config/config")[process.env.NODE_ENV];
 
-const createUser = async (request, response, next) => {
-  try {
-    const userToCreate = {
-      password: generatePassword(12),
-      ...request.body
-    };
+const createUser = asyncMiddleware(async (request, response) => {
+  const userToCreate = {
+    password: generatePassword(12),
+    ...request.body
+  };
 
-    const createdUser = await models.users.create(userToCreate);
-    await transporter.sendMail(message(createdUser));
+  const createdUser = await models.users.create(userToCreate);
+  await transporter.sendMail(message(createdUser));
 
-    response.status(201).send(createdUser);
-  } catch (e) {
-    next(e);
-  }
-};
+  response.status(201).send(createdUser);
+});
 
 const message = createdUser => ({
   to: createdUser.email,

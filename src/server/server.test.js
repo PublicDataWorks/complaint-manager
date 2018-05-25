@@ -60,7 +60,11 @@ describe("server", () => {
         .set("Authorization", `Bearer INVALID_KEY`)
         .expect(401)
         .then(response => {
-          expect(response.body).toEqual({ error: "Invalid token" });
+          expect(response.body).toEqual({
+            error: "Unauthorized",
+            message: "Invalid token",
+            statusCode: 401
+          });
         });
     });
 
@@ -70,7 +74,11 @@ describe("server", () => {
         .set("Content-Header", "application/json")
         .expect(401)
         .then(response => {
-          expect(response.body).toEqual({ error: "Invalid token" });
+          expect(response.body).toEqual({
+            error: "Unauthorized",
+            message: "Invalid token",
+            statusCode: 401
+          });
         });
     });
   });
@@ -174,7 +182,7 @@ describe("server", () => {
         });
     });
 
-    test("should return 500 when nickname missing", async () => {
+    test("should return 401 when nickname missing", async () => {
       token = buildTokenWithPermissions();
 
       await request(app)
@@ -182,9 +190,13 @@ describe("server", () => {
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send(requestBody)
-        .expect(500)
+        .expect(401)
         .then(response => {
-          expect(response.body).toEqual({ error: "User nickname missing" });
+          expect(response.body).toEqual({
+            error: "Unauthorized",
+            message: "User nickname missing",
+            statusCode: 401
+          });
         });
     });
   });

@@ -1,7 +1,8 @@
 const models = require("../../models/index");
+const asyncMiddleware = require("../asyncMiddleware");
 const Op = require("sequelize").Op;
 
-const searchOfficers = async (request, response) => {
+const searchOfficers = asyncMiddleware(async (request, response) => {
   const whereClause = {};
   if (request.query.firstName) {
     whereClause.first_name = { [Op.iLike]: `${request.query.firstName}%` };
@@ -13,15 +14,11 @@ const searchOfficers = async (request, response) => {
     whereClause.district = { [Op.eq]: `${request.query.district}` };
   }
 
-  try {
-    const officers = await models.officer.findAll({
-      where: whereClause,
-      order: [["last_name", "ASC"], ["first_name", "ASC"]]
-    });
-    response.send(officers);
-  } catch (error) {
-    next(error);
-  }
-};
+  const officers = await models.officer.findAll({
+    where: whereClause,
+    order: [["last_name", "ASC"], ["first_name", "ASC"]]
+  });
+  response.send(officers);
+});
 
 module.exports = searchOfficers;

@@ -109,7 +109,7 @@ describe("dataChangeAuditHooks", () => {
         expect(
           models.cases.create(initialCaseAttributes, { auditUser: "" })
         ).rejects.toEqual(
-          new Error("User nickname must be given for auditing data changes")
+          new Error("User nickname must be given to db query for auditing")
         );
       });
 
@@ -119,7 +119,7 @@ describe("dataChangeAuditHooks", () => {
           await models.cases.create(initialCaseAttributes, { auditUser: null });
         } catch (error) {
           expect(error).toEqual(
-            new Error("User nickname must be given for auditing data changes")
+            new Error("User nickname must be given to db query for auditing")
           );
         }
 
@@ -309,7 +309,7 @@ describe("dataChangeAuditHooks", () => {
             { auditUser: "" }
           )
         ).rejects.toEqual(
-          new Error("User nickname must be given for auditing data changes")
+          new Error("User nickname must be given to db query for auditing")
         );
       });
 
@@ -321,7 +321,7 @@ describe("dataChangeAuditHooks", () => {
           );
         } catch (error) {
           expect(error).toEqual(
-            new Error("User nickname must be given for auditing data changes")
+            new Error("User nickname must be given to db query for auditing")
           );
         }
 
@@ -343,7 +343,7 @@ describe("dataChangeAuditHooks", () => {
           );
         } catch (error) {
           expect(error).toEqual(
-            new Error("User nickname must be given for auditing data changes")
+            new Error("User nickname must be given to db query for auditing")
           );
         }
 
@@ -361,7 +361,7 @@ describe("dataChangeAuditHooks", () => {
           );
         } catch (error) {
           expect(error).toEqual(
-            new Error("User nickname must be given for auditing data changes")
+            new Error("User nickname must be given to db query for auditing")
           );
         }
 
@@ -400,7 +400,7 @@ describe("dataChangeAuditHooks", () => {
           });
         } catch (error) {
           expect(error).toEqual(
-            new Error("User nickname must be given for auditing data changes")
+            new Error("User nickname must be given to db query for auditing")
           );
         }
 

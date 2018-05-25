@@ -32,6 +32,7 @@
     "autosuggest-highlight": "^3.1.1",
     "aws-sdk": "^2.203.0",
     "body-parser": "^1.18.2",
+    "boom": "^7.2.0",
     "busboy": "^0.2.14",
     "csv-parse": "^2.2.0",
     "csv-stringify": "^3.0.0",

@@ -1,6 +1,7 @@
 const { DATA_CREATED } = require("../../sharedUtilities/constants");
 const _ = require("lodash");
 const { DATA_UPDATED } = require("../../sharedUtilities/constants");
+const Boom = require("boom");
 
 exports.init = sequelize => {
   const originalCreate = sequelize.Model.create;
@@ -97,7 +98,9 @@ exports.init = sequelize => {
   const getUserNickname = options => {
     const userNickname = options.auditUser;
     if (!userNickname)
-      throw new Error("User nickname must be given for auditing data changes");
+      throw Boom.badImplementation(
+        "User nickname must be given to db query for auditing"
+      );
     return userNickname;
   };
 

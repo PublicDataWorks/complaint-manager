@@ -1,27 +1,24 @@
+const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models/index");
 
-const createCase = async (req, res, next) => {
-  try {
-    let newCase;
+const createCase = asyncMiddleware(async (req, res, next) => {
+  let newCase;
 
-    if (req.body.case.complainantType == "Police Officer") {
-      newCase = await createCaseWithoutCivilian(req);
-      res.status(201).send(newCase);
+  if (req.body.case.complainantType == "Police Officer") {
+    newCase = await createCaseWithoutCivilian(req);
+    res.status(201).send(newCase);
+  } else {
+    const first = req.body.civilian.firstName;
+    const last = req.body.civilian.lastName;
+
+    if (invalidName(first) || invalidName(last)) {
+      res.sendStatus(400);
     } else {
-      const first = req.body.civilian.firstName;
-      const last = req.body.civilian.lastName;
-
-      if (invalidName(first) || invalidName(last)) {
-        res.sendStatus(400);
-      } else {
-        newCase = await createCaseWithCivilian(req);
-        res.status(201).send(newCase);
-      }
+      newCase = await createCaseWithCivilian(req);
+      res.status(201).send(newCase);
     }
-  } catch (e) {
-    next(e);
   }
-};
+});
 
 const invalidName = input => {
   return !input || input.length === 0 || input.length > 25;

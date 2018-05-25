@@ -1,7 +1,8 @@
+const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models/index");
 const Op = require("sequelize").Op;
 
-const searchAllegations = async (request, response, next) => {
+const searchAllegations = asyncMiddleware(async (request, response) => {
   const whereClause = {};
   if (request.query.rule) {
     whereClause.rule = { [Op.eq]: `${request.query.rule}` };
@@ -15,15 +16,12 @@ const searchAllegations = async (request, response, next) => {
     whereClause.directive = { [Op.iLike]: `%${request.query.directive}%` };
   }
 
-  try {
-    const allegations = await models.allegation.findAll({
-      where: whereClause,
-      order: [["rule", "ASC"]]
-    });
-    response.send(allegations);
-  } catch (error) {
-    next(error);
-  }
-};
+  const allegations = await models.allegation.findAll({
+    where: whereClause,
+    order: [["rule", "ASC"]]
+  });
+
+  response.send(allegations);
+});
 
 module.exports = searchAllegations;

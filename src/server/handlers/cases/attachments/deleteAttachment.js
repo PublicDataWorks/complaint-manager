@@ -1,31 +1,28 @@
+const asyncMiddleware = require("../../asyncMiddleware");
 const config = require("../../../config/config");
 const models = require("../../../models/index");
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
 const createConfiguredS3Instance = require("./createConfiguredS3Instance");
 
-const deleteAttachment = async (request, response, next) => {
+const deleteAttachment = asyncMiddleware(async (request, response) => {
   const s3 = createConfiguredS3Instance();
 
-  try {
-    const deleteRequest = s3.deleteObject({
-      Bucket: config[process.env.NODE_ENV].s3Bucket,
-      Key: `${request.params.id}/${request.params.fileName}`
-    });
+  const deleteRequest = s3.deleteObject({
+    Bucket: config[process.env.NODE_ENV].s3Bucket,
+    Key: `${request.params.id}/${request.params.fileName}`
+  });
 
-    await deleteRequest.promise();
+  await deleteRequest.promise();
 
-    await models.attachment.destroy({
-      where: {
-        fileName: request.params.fileName,
-        caseId: request.params.id
-      }
-    });
+  await models.attachment.destroy({
+    where: {
+      fileName: request.params.fileName,
+      caseId: request.params.id
+    }
+  });
 
-    const caseDetails = await getCaseWithAllAssociations(request.params.id);
-    response.status(200).send(caseDetails);
-  } catch (error) {
-    next(error);
-  }
-};
+  const caseDetails = await getCaseWithAllAssociations(request.params.id);
+  response.status(200).send(caseDetails);
+});
 
 module.exports = deleteAttachment;

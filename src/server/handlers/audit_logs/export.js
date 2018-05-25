@@ -1,6 +1,6 @@
-const TIMEZONE = require("../../../sharedUtilities/constants").TIMEZONE;
-
+const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models/index");
+const TIMEZONE = require("../../../sharedUtilities/constants").TIMEZONE;
 const stringify = require("csv-stringify");
 const moment = require("moment");
 
@@ -13,7 +13,7 @@ const formatDateForCSV = date => {
     .format("MM/DD/YYYY HH:mm:ss z");
 };
 
-const exportAuditLog = async (request, response, next) => {
+const exportAuditLog = asyncMiddleware(async (request, response) => {
   const dateFormatter = {
     date: formatDateForCSV
   };
@@ -25,33 +25,29 @@ const exportAuditLog = async (request, response, next) => {
   ];
   const csvOptions = { header: true, formatters: dateFormatter };
 
-  try {
-    const audit_logs = await models.sequelize.transaction(async t => {
-      await models.audit_log.create(
-        {
-          action: `System Log Exported`,
-          caseId: null,
-          user: request.nickname
-        },
-        {
-          transaction: t
-        }
-      );
-
-      return await models.audit_log.findAll({
-        order: [["created_at", "ASC"]],
-        attributes: attributesWithAliases,
-        raw: true,
+  const audit_logs = await models.sequelize.transaction(async t => {
+    await models.audit_log.create(
+      {
+        action: `System Log Exported`,
+        caseId: null,
+        user: request.nickname
+      },
+      {
         transaction: t
-      });
-    });
+      }
+    );
 
-    stringify({ audit_logs }["audit_logs"], csvOptions, (err, csvOutput) => {
-      response.send(csvOutput);
+    return await models.audit_log.findAll({
+      order: [["created_at", "ASC"]],
+      attributes: attributesWithAliases,
+      raw: true,
+      transaction: t
     });
-  } catch (error) {
-    next(error);
-  }
-};
+  });
+
+  stringify({ audit_logs }["audit_logs"], csvOptions, (err, csvOutput) => {
+    response.send(csvOutput);
+  });
+});
 
 module.exports = exportAuditLog;
