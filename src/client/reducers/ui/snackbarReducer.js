@@ -21,7 +21,8 @@ import {
   REMOVE_USER_ACTION_FAILED,
   REMOVE_USER_ACTION_SUCCEEDED,
   SNACKBAR_ERROR,
-  SNACKBAR_SUCCESS
+  SNACKBAR_SUCCESS,
+  GET_ALLEGATIONS_FAILED
 } from "../../../sharedUtilities/constants";
 
 //TODO Discuss separation of concerns.
@@ -259,6 +260,13 @@ const snackbarReducer = (state = initialState, action) => {
         open: true,
         message:
           "Something went wrong on our end and the officer was not updated. Please try again."
+      };
+    case GET_ALLEGATIONS_FAILED:
+      return {
+        success: false,
+        open: true,
+        message:
+          "There was a problem loading this page. Please refresh and try again."
       };
     default:
       return state;

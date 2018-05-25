@@ -43,6 +43,7 @@ import {
   editCaseOfficerFailure,
   editCaseOfficerSuccess
 } from "../../actionCreators/officersActionCreators";
+import { getAllegationsFailed } from "../../actionCreators/allegationsActionCreators";
 
 describe("snackbarReducer", () => {
   test("should default open to false", () => {
@@ -448,6 +449,17 @@ describe("snackbarReducer", () => {
           "Something went wrong on our end and the officer was not updated. Please try again."
       };
 
+      expect(newState).toEqual(expectedState);
+    });
+
+    test("should display failure message on allegation dropdown failure", () => {
+      const newState = snackbarReducer(undefined, getAllegationsFailed());
+      const expectedState = {
+        success: false,
+        open: true,
+        message:
+          "There was a problem loading this page. Please refresh and try again."
+      };
       expect(newState).toEqual(expectedState);
     });
   });

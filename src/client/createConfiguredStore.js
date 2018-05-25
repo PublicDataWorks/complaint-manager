@@ -20,6 +20,7 @@ import userActionDialogReducer from "./reducers/ui/userActionDialogReducer";
 import removeCivilianDialogReducer from "./reducers/ui/removeCivilianDialogReducer";
 import removeUserActionDialogReducer from "./reducers/ui/removeUserActionDialogReducer";
 import searchReducer from "./reducers/ui/searchReducer";
+import allegationMenuDisplay from "./reducers/ui/allegationMenuDisplay";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -45,7 +46,8 @@ const rootReducer = combineReducers({
     removeUserActionDialog: removeUserActionDialogReducer,
     incidentDetailsDialog: incidentDetailsDialogReducer,
     attachments: attachmentsReducer,
-    search: searchReducer
+    search: searchReducer,
+    allegations: allegationMenuDisplay
   }),
   officers: searchOfficersReducer
 });

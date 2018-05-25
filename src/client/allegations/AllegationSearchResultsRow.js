@@ -1,6 +1,7 @@
 import React from "react";
 import tableStyleGenerator from "../tableStyles";
 import { TableCell, TableRow, withStyles } from "material-ui";
+import formatStringToTitleCase from "../utilities/formatStringToTitleCase";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).body
@@ -9,8 +10,12 @@ const styles = theme => ({
 const AllegationSearchResultsRow = ({ classes, allegation, children }) => {
   return (
     <TableRow className={classes.row}>
-      <TableCell className={classes.cell}>{allegation.rule}</TableCell>
-      <TableCell className={classes.cell}>{allegation.paragraph}</TableCell>
+      <TableCell className={classes.cell}>
+        {formatStringToTitleCase(allegation.rule)}
+      </TableCell>
+      <TableCell className={classes.cell}>
+        {formatStringToTitleCase(allegation.paragraph)}
+      </TableCell>
       <TableCell className={classes.cell}>
         {allegation.directive || "N/A"}
       </TableCell>

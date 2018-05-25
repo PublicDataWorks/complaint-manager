@@ -9,7 +9,8 @@ import { ALLEGATION_SEARCH_FORM_NAME } from "../../sharedUtilities/constants";
 import getAllegationDropdownValues from "../cases/thunks/getAllegationDropdownValues";
 
 jest.mock("../cases/thunks/getAllegationDropdownValues", () => () => ({
-  type: "MOCK_ACTION"
+  type: "GET_ALLEGATIONS_SUCCEEDED",
+  allegations: [{ rule: "RULE 1", paragraphs: ["1", "2"] }]
 }));
 
 describe("AllegationSearchForm", () => {
@@ -23,11 +24,7 @@ describe("AllegationSearchForm", () => {
       </Provider>
     );
 
-    selectDropdownOption(
-      wrapper,
-      '[data-test="ruleField"]',
-      "Rule 2: Moral Conduct"
-    );
+    selectDropdownOption(wrapper, '[data-test="ruleField"]', "Rule 1");
     wrapper.update();
     selectDropdownOption(wrapper, '[data-test="ruleField"]', "Select a Rule");
     wrapper.update();

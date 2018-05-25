@@ -26,7 +26,12 @@ class AllegationSearchForm extends React.Component {
   }
 
   render() {
-    const { invalid, handleSubmit, currentRuleSelected } = this.props;
+    const {
+      invalid,
+      handleSubmit,
+      currentRuleSelected,
+      allegations
+    } = this.props;
 
     const onSubmit = (values, dispatch) => {
       dispatch(getSearchResults(normalizeValues(values), "allegations"));
@@ -53,7 +58,7 @@ class AllegationSearchForm extends React.Component {
               }}
               style={{ flex: "1", marginRight: "24px" }}
             >
-              {searchRuleMenu}
+              {searchRuleMenu(allegations)}
             </Field>
             <Field
               disabled={!currentRuleSelected}
@@ -64,7 +69,7 @@ class AllegationSearchForm extends React.Component {
               style={{ flex: "1", marginRight: "24px" }}
             >
               {currentRuleSelected || currentRuleSelected ? (
-                searchParagraphMenu(currentRuleSelected)
+                searchParagraphMenu(allegations, currentRuleSelected)
               ) : (
                 <MenuItem />
               )}
@@ -107,7 +112,10 @@ const selector = formValueSelector(ALLEGATION_SEARCH_FORM_NAME);
 
 AllegationSearchForm = connect(state => {
   const currentRuleSelected = selector(state, "rule");
-  return { currentRuleSelected };
+  return {
+    allegations: state.ui.allegations,
+    currentRuleSelected
+  };
 })(AllegationSearchForm);
 
 export default AllegationSearchForm;

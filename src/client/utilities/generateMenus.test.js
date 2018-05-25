@@ -2,7 +2,9 @@ import React from "react";
 import {
   genderIdentityMenu,
   generateMenu,
-  raceEthnicityMenu
+  raceEthnicityMenu,
+  searchParagraphMenu,
+  searchRuleMenu
 } from "./generateMenus";
 import { mount } from "enzyme";
 import { Select } from "material-ui";
@@ -53,5 +55,36 @@ describe("civilian info dropdown menus", () => {
     const firstDistrictOption = options.last();
     expect(firstDistrictOption.text()).toEqual("1st district");
     expect(firstDistrictOption.props()["data-value"]).toEqual("1st district");
+  });
+});
+
+describe("allegations menus", () => {
+  test("should return rule menu based on allegation data", () => {
+    const allegations = [
+      { rule: "RULE 1", paragraphs: ["PARAGRAPH 1", "PARAGRAPH 2"] }
+    ];
+    const expectedMenu = generateMenu([
+      ["Select a Rule", ""],
+      ["Rule 1", "RULE 1"]
+    ]);
+    const actualMenu = searchRuleMenu(allegations);
+
+    expect(actualMenu).toEqual(expectedMenu);
+  });
+
+  test("should return paragraph menu based on allegation data", () => {
+    const allegations = [
+      { rule: "RULE 1", paragraphs: ["PARAGRAPH 1", "PARAGRAPH 2"] },
+      { rule: "RULE 2", paragraphs: ["PARAGRAPH 3"] }
+    ];
+    const rule = allegations[0].rule;
+    const expectedMenu = generateMenu([
+      ["Select a Paragraph", ""],
+      ["Paragraph 1", "PARAGRAPH 1"],
+      ["Paragraph 2", "PARAGRAPH 2"]
+    ]);
+    const actualMenu = searchParagraphMenu(allegations, rule);
+
+    expect(actualMenu).toEqual(expectedMenu);
   });
 });
