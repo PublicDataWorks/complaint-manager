@@ -5,6 +5,12 @@ const getCaseWithAllAssociations = async (caseId, transaction = null) => {
     include: [
       {
         model: models.civilian,
+        as: "complainantCivilians",
+        include: [models.address]
+      },
+      {
+        model: models.civilian,
+        as: "witnessCivilians",
         include: [models.address]
       },
       {
@@ -31,8 +37,33 @@ const getCaseWithAllAssociations = async (caseId, transaction = null) => {
       },
       {
         model: models.case_officer,
-        as: "complainantWitnessOfficers",
-        include: [models.officer]
+        as: "complainantOfficers",
+        include: [
+          {
+            model: models.officer,
+            include: [
+              {
+                model: models.officer,
+                as: "supervisor"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        model: models.case_officer,
+        as: "witnessOfficers",
+        include: [
+          {
+            model: models.officer,
+            include: [
+              {
+                model: models.officer,
+                as: "supervisor"
+              }
+            ]
+          }
+        ]
       }
     ],
     transaction: transaction

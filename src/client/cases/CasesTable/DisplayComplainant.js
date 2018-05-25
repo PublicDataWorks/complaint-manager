@@ -4,10 +4,10 @@ import formatCivilianName from "../../utilities/formatCivilianName";
 import WarningMessage from "../../shared/components/WarningMessage";
 
 const DisplayComplainant = ({ caseDetails }) => {
-  const { complainantWitnessOfficers = [], civilians = [] } = caseDetails;
+  const { complainantOfficers = [], complainantCivilians = [] } = caseDetails;
 
-  const civilianComplainant = getFirstComplainant(civilians);
-  const officerComplainant = getFirstComplainant(complainantWitnessOfficers);
+  const civilianComplainant = getFirstComplainant(complainantCivilians);
+  const officerComplainant = getFirstComplainant(complainantOfficers);
 
   let formattedComplainant;
 

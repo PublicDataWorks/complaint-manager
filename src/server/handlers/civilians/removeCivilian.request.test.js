@@ -44,7 +44,7 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
   afterEach(async () => {
     await models.address.destroy({ truncate: true, cascade: true });
     await models.cases.destroy({ truncate: true, cascade: true });
-    await models.civilian.destroy({ truncate: true });
+    await models.civilian.destroy({ truncate: true, force: true });
   });
 
   test("should soft delete an existing civilian", async () => {
@@ -63,19 +63,20 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
       .defaultCase()
       .withId(undefined)
       .withIncidentLocation(undefined)
-      .withCivilians([civilian])
+      .withComplainantCivilians([civilian])
       .build();
 
     const createdCase = await models.cases.create(exisitingCase, {
       include: [
         {
           model: models.civilian,
+          as: "complainantCivilians",
           include: [models.address]
         }
       ],
       auditUser: "someone"
     });
-    const createdCivilian = createdCase.dataValues.civilians[0];
+    const createdCivilian = createdCase.dataValues.complainantCivilians[0];
 
     await request(app)
       .delete(`/api/cases/${createdCase.id}/civilians/${createdCivilian.id}`)
@@ -87,7 +88,7 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
           expect.objectContaining({
             id: createdCase.id,
             status: "Active",
-            civilians: []
+            complainantCivilians: []
           })
         );
       });

@@ -14,14 +14,9 @@ test("displays the complainant when complainant is civilian", () => {
     .withLastName(lastName)
     .withRoleOnCase("Complainant")
     .build();
-  const witness = new Civilian.Builder()
-    .withFirstName(firstName)
-    .withLastName(lastName)
-    .withRoleOnCase("Witness")
-    .build();
 
   const wrapper = mount(
-    <DisplayComplainant caseDetails={{ civilians: [civilian, witness] }} />
+    <DisplayComplainant caseDetails={{ complainantCivilians: [civilian] }} />
   );
 
   expect(wrapper.text()).toEqual(firstName + " " + lastName);
@@ -45,8 +40,8 @@ test("displays complainant if the complainant is an officer", () => {
   const wrapper = mount(
     <DisplayComplainant
       caseDetails={{
-        civilians: [],
-        complainantWitnessOfficers: [complainantOfficer]
+        complainantCivilians: [],
+        complainantOfficers: [complainantOfficer]
       }}
     />
   );
@@ -79,8 +74,8 @@ test("displays an civilian complainant by default if civilian and officer compla
   const wrapper = mount(
     <DisplayComplainant
       caseDetails={{
-        civilians: [complainantCivilian],
-        complainantWitnessOfficers: [complainantOfficer]
+        complainantCivilians: [complainantCivilian],
+        complainantOfficers: [complainantOfficer]
       }}
     />
   );
@@ -90,34 +85,10 @@ test("displays an civilian complainant by default if civilian and officer compla
   );
 });
 
-test("displays no complainant when non-complainants exists", () => {
-  const firstName = "Sal";
-  const lastName = "Ariza";
-
-  const witness = new Civilian.Builder()
-    .withFirstName(firstName)
-    .withLastName(lastName)
-    .withRoleOnCase("Witness")
-    .build();
-
-  const witnessOfficer = new CaseOfficer.Builder()
-    .defaultCaseOfficer()
-    .withOfficer(new Officer.Builder().defaultOfficer());
-
+test("displays no complainant when no civilians exist", () => {
   const wrapper = mount(
-    <DisplayComplainant
-      caseDetails={{
-        civilians: [witness],
-        complainantWitnessOfficers: [witnessOfficer]
-      }}
-    />
+    <DisplayComplainant caseDetails={{ complainantCivilians: [] }} />
   );
-
-  expect(wrapper.text()).toEqual("No Complainants");
-});
-
-test("displays no complainant when there no civilians exist", () => {
-  const wrapper = mount(<DisplayComplainant caseDetails={{ civilians: [] }} />);
 
   expect(wrapper.text()).toEqual("No Complainants");
 });

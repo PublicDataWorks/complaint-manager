@@ -55,7 +55,7 @@ describe("GET /cases/:id", () => {
     let caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)
-      .withCivilians([civilian])
+      .withComplainantCivilians([civilian])
       .withAttachments([attachment])
       .withIncidentLocation(incidentLocation)
       .withAccusedOfficers([accusedOfficer])
@@ -65,7 +65,12 @@ describe("GET /cases/:id", () => {
       returning: true,
       include: [
         {
-          model: models.civilian
+          model: models.civilian,
+          as: "complainantCivilians"
+        },
+        {
+          model: models.civilian,
+          as: "witnessCivilians"
         },
         {
           model: models.attachment
@@ -122,11 +127,18 @@ describe("GET /cases/:id", () => {
             id: caseToRetrieve.id,
             complainantType: caseToRetrieve.complainantType,
             status: caseToRetrieve.status,
-            civilians: expect.arrayContaining([
+            complainantCivilians: expect.arrayContaining([
               expect.objectContaining({
-                firstName: caseToRetrieve.civilians[0].firstName,
-                lastName: caseToRetrieve.civilians[0].lastName,
-                email: caseToRetrieve.civilians[0].email
+                firstName: caseToRetrieve.complainantCivilians[0].firstName,
+                lastName: caseToRetrieve.complainantCivilians[0].lastName,
+                email: caseToRetrieve.complainantCivilians[0].email
+              })
+            ]),
+            witnessCivilians: expect.arrayContaining([
+              expect.objectContaining({
+                firstName: caseToRetrieve.witnessCivilians[0].firstName,
+                lastName: caseToRetrieve.witnessCivilians[0].lastName,
+                email: caseToRetrieve.witnessCivilians[0].email
               })
             ]),
             attachments: expect.arrayContaining([

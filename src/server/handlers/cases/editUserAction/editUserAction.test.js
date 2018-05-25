@@ -18,7 +18,7 @@ test("should update case status and recent activity in the db after user action 
     .defaultCase()
     .withId(undefined)
     .withStatus("Initial")
-    .withCivilians([])
+    .withComplainantCivilians([])
     .withAttachments([])
     .withAccusedOfficers([])
     .withIncidentLocation(undefined)

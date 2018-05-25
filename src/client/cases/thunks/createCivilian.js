@@ -30,10 +30,10 @@ const createCivilian = civilian => async dispatch => {
 
     switch (response.status) {
       case 201:
-        const civilians = await response.json();
-        dispatch(createCivilianSuccess(civilians));
+        const caseDetails = await response.json();
+        dispatch(createCivilianSuccess(caseDetails));
         dispatch(closeEditDialog());
-        return await dispatch(getRecentActivity(civilians[0].caseId));
+        return await dispatch(getRecentActivity(caseDetails.id));
       case 401:
         dispatch(push(`/login`));
         return dispatch(createCivilianFailure());

@@ -15,7 +15,7 @@ import formatDate from "../../../utilities/formatDate";
 import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
 import AddresesInfoDisplay from "../../../shared/components/AddressInfoDisplay";
 
-const ComplainantPanel = ({ civilian, dispatch }) => {
+const CivilianPanel = ({ civilian, dispatch }) => {
   const phoneNumber = formatPhoneNumber(civilian.phoneNumber);
   const birthDate = formatDate(civilian.birthDate);
 
@@ -29,7 +29,7 @@ const ComplainantPanel = ({ civilian, dispatch }) => {
         <ExpansionPanelSummary style={{ padding: "0px 24px" }}>
           <div style={{ display: "flex", width: "100%", paddingRight: 0 }}>
             <CivilianInfoDisplay
-              displayLabel={civilian.roleOnCase}
+              displayLabel={"Civilian"}
               value={formatCivilianName(civilian)}
               testLabel="complainant"
             />
@@ -105,4 +105,4 @@ const ComplainantPanel = ({ civilian, dispatch }) => {
   );
 };
 
-export default ComplainantPanel;
+export default CivilianPanel;

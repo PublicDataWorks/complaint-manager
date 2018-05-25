@@ -26,7 +26,8 @@ describe("OfficerSearchResults", () => {
       getCaseDetailsSuccess({
         id: 1,
         accusedOfficers: [anAccusedOfficer],
-        complainantWitnessOfficers: []
+        complainantOfficers: [],
+        witnessOfficers: []
       })
     );
 

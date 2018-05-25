@@ -45,7 +45,7 @@ describe("createCase handler", () => {
 
     const insertedCase = await models.cases.find({
       where: { complainantType: "Civilian" },
-      include: [models.civilian]
+      include: [{ model: models.civilian, as: "complainantCivilians" }]
     });
 
     expect(insertedCase).toEqual(
@@ -53,7 +53,7 @@ describe("createCase handler", () => {
         complainantType: "Civilian",
         firstContactDate: "2018-02-08",
         incidentDate: "2018-03-16",
-        civilians: expect.arrayContaining([
+        complainantCivilians: expect.arrayContaining([
           expect.objectContaining({
             firstName: "First",
             lastName: "Last",
@@ -84,19 +84,16 @@ describe("createCase handler", () => {
 
     await createCase(policeOfficerRequest, response, next);
     const insertedCase = await models.cases.find({
-      where: { complainantType: "Police Officer" }
+      where: { complainantType: "Police Officer" },
+      include: [{ model: models.civilian, as: "complainantCivilians" }]
     });
 
     expect(insertedCase).toEqual(
       expect.objectContaining({
         complainantType: "Police Officer",
         firstContactDate: "2018-02-08",
-        incidentDate: "2018-03-16"
-      })
-    );
-    expect(insertedCase).not.toEqual(
-      expect.objectContaining({
-        civilians: expect.arrayContaining([expect.anything()])
+        incidentDate: "2018-03-16",
+        complainantCivilians: []
       })
     );
   });
@@ -109,7 +106,7 @@ describe("createCase handler", () => {
       expect(response._getData()).toEqual(
         expect.objectContaining({
           ...caseAttributes,
-          civilians: expect.arrayContaining([
+          complainantCivilians: expect.arrayContaining([
             expect.objectContaining({
               ...civilianAttributes
             })

@@ -113,52 +113,24 @@ describe("caseDetailsReducers", () => {
   });
 
   describe("EDIT_CIVILIAN_SUCCESS", () => {
-    test("should replace civilians array and leave rest of object untouched except status when editing civilian", () => {
-      const oldState = {
-        status: "Initial",
-        left: "untouched",
-        civilians: [{ some: "someString" }]
-      };
-      const newCivilianDetail = [{ gender: "other" }];
-
-      const action = editCivilianSuccess(newCivilianDetail);
-
+    test("should replace current case on successful civilian edit", () => {
+      const oldState = { caseDetailProp: "old detail value" };
+      const caseDetails = { caseDetailProp: "new  detail value" };
+      const action = editCivilianSuccess(caseDetails);
       const newState = caseDetailsReducer(oldState, action);
 
-      const expectedState = {
-        status: "Active",
-        left: "untouched",
-        civilians: [{ gender: "other" }]
-      };
-      expect(newState).toEqual(expectedState);
+      expect(newState).toEqual(caseDetails);
     });
   });
 
   describe(CIVILIAN_CREATION_SUCCEEDED, () => {
-    test("should replace civilians array and leave rest of object untouched except status when adding civilian", () => {
-      const oldState = {
-        status: "Initial",
-        left: "untouched",
-        civilians: [{ some: "someString" }]
-      };
-      const newCivilians = [
-        { someNew: "thingToReplaceCivilians" },
-        { some: "someString" }
-      ];
-
-      const action = createCivilianSuccess(newCivilians);
-
+    test("should replace case details when adding civilian", () => {
+      const oldState = { caseDetailProp: "old detail value" };
+      const caseDetails = { caseDetailProp: "new  detail value" };
+      const action = createCivilianSuccess(caseDetails);
       const newState = caseDetailsReducer(oldState, action);
 
-      const expectedState = {
-        status: "Active",
-        left: "untouched",
-        civilians: [
-          { someNew: "thingToReplaceCivilians" },
-          { some: "someString" }
-        ]
-      };
-      expect(newState).toEqual(expectedState);
+      expect(newState).toEqual(caseDetails);
     });
   });
 

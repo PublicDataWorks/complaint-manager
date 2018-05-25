@@ -134,7 +134,7 @@ describe("server", () => {
           expect(response.body).toEqual(
             expect.objectContaining({
               ...requestBody.case,
-              civilians: expect.arrayContaining([
+              complainantCivilians: expect.arrayContaining([
                 expect.objectContaining(requestBody.civilian)
               ])
             })
@@ -166,7 +166,7 @@ describe("server", () => {
               incidentLocation: expect.objectContaining({
                 streetAddress: "123 fleet street"
               }),
-              civilians: expect.arrayContaining([
+              complainantCivilians: expect.arrayContaining([
                 expect.objectContaining(requestBody.civilian)
               ])
             })
@@ -210,12 +210,13 @@ describe("server", () => {
         .defaultCase()
         .withId(undefined)
         .withIncidentLocation(undefined)
-        .withCivilians([existingCivilianToCreate]);
+        .withComplainantCivilians([existingCivilianToCreate]);
 
       existingCase = await models.cases.create(caseToCreate, {
         include: [
           {
             model: models.civilian,
+            as: "complainantCivilians",
             include: [
               {
                 model: models.address
@@ -225,7 +226,7 @@ describe("server", () => {
         ],
         auditUser: "someone"
       });
-      existingCivilian = existingCase.civilians[0];
+      existingCivilian = existingCase.complainantCivilians[0];
     });
 
     test("should create a civilian and add it to a case", async () => {
@@ -249,25 +250,27 @@ describe("server", () => {
         .send(newCivilian)
         .expect(201)
         .then(response => {
-          const civilians = response.body;
+          const caseDetails = response.body;
 
-          expect(civilians).toEqual(
-            expect.arrayContaining([
-              expect.objectContaining({
-                firstName: existingCivilian.firstName,
-                caseId: existingCase.id,
-                address: expect.objectContaining({
-                  city: "post city"
+          expect(caseDetails).toEqual(
+            expect.objectContaining({
+              complainantCivilians: expect.arrayContaining([
+                expect.objectContaining({
+                  firstName: existingCivilian.firstName,
+                  caseId: existingCase.id,
+                  address: expect.objectContaining({
+                    city: "post city"
+                  })
+                }),
+                expect.objectContaining({
+                  firstName: newCivilian.firstName,
+                  caseId: existingCase.id,
+                  address: expect.objectContaining({
+                    city: "post city"
+                  })
                 })
-              }),
-              expect.objectContaining({
-                firstName: newCivilian.firstName,
-                caseId: existingCase.id,
-                address: expect.objectContaining({
-                  city: "post city"
-                })
-              })
-            ])
+              ])
+            })
           );
         });
     });
@@ -287,7 +290,7 @@ describe("server", () => {
         .build();
       const caseDefault = new Case.Builder()
         .defaultCase()
-        .withCivilians([civilianDefault])
+        .withComplainantCivilians([civilianDefault])
         .withIncidentLocation(undefined)
         .build();
 
@@ -295,12 +298,13 @@ describe("server", () => {
         include: [
           {
             model: models.civilian,
+            as: "complainantCivilians",
             include: [{ model: models.address }]
           }
         ],
         auditUser: "someone"
       });
-      seededCivilian = seededCase.civilians[0];
+      seededCivilian = seededCase.complainantCivilians[0];
     });
 
     test("should update an existing civilian", async () => {
@@ -315,15 +319,17 @@ describe("server", () => {
         .send(updatedCivilian)
         .expect(200)
         .then(response => {
-          const civilians = response.body;
+          const caseDetails = response.body;
 
-          expect(civilians).toEqual(
-            expect.arrayContaining([
-              expect.objectContaining({
-                firstName: updatedCivilian.firstName,
-                lastName: updatedCivilian.lastName
-              })
-            ])
+          expect(caseDetails).toEqual(
+            expect.objectContaining({
+              complainantCivilians: expect.arrayContaining([
+                expect.objectContaining({
+                  firstName: updatedCivilian.firstName,
+                  lastName: updatedCivilian.lastName
+                })
+              ])
+            })
           );
         });
     });
@@ -341,16 +347,18 @@ describe("server", () => {
         .send(updatedCivilian)
         .expect(200)
         .then(response => {
-          const civilians = response.body;
+          const caseDetails = response.body;
 
-          expect(civilians).toEqual(
-            expect.arrayContaining([
-              expect.objectContaining({
-                address: expect.objectContaining({
-                  state: updatedCivilian.address.state
+          expect(caseDetails).toEqual(
+            expect.objectContaining({
+              complainantCivilians: expect.arrayContaining([
+                expect.objectContaining({
+                  address: expect.objectContaining({
+                    state: updatedCivilian.address.state
+                  })
                 })
-              })
-            ])
+              ])
+            })
           );
         });
     });
@@ -359,20 +367,21 @@ describe("server", () => {
         .defaultCase()
         .withId(undefined)
         .withIncidentLocation(undefined)
-        .withCivilians([civilianWithAddress])
+        .withComplainantCivilians([civilianWithAddress])
         .build();
 
       const caseToUpdate = await models.cases.create(caseDefault, {
         include: [
           {
             model: models.civilian,
+            as: "complainantCivilians",
             include: [{ model: models.address }]
           }
         ],
         auditUser: "someone"
       });
 
-      let civilianToUpdate = caseToUpdate.dataValues.civilians[0];
+      let civilianToUpdate = caseToUpdate.dataValues.complainantCivilians[0];
 
       await request(app)
         .put(`/api/civilian/${civilianToUpdate.id}`)
@@ -387,38 +396,42 @@ describe("server", () => {
         })
         .expect(200)
         .then(response => {
-          const civilians = response.body;
+          const caseDetails = response.body;
 
-          expect(civilians).toEqual(
-            expect.arrayContaining([
-              expect.objectContaining({
-                address: expect.objectContaining({
-                  city: "New Orleans"
+          expect(caseDetails).toEqual(
+            expect.objectContaining({
+              complainantCivilians: expect.arrayContaining([
+                expect.objectContaining({
+                  address: expect.objectContaining({
+                    city: "New Orleans"
+                  })
                 })
-              })
-            ])
+              ])
+            })
           );
         });
     });
+
     test("should allow blank address", async () => {
       const caseDefault = new Case.Builder()
         .defaultCase()
         .withId(undefined)
         .withIncidentLocation(undefined)
-        .withCivilians([civilianWithAddress])
+        .withComplainantCivilians([civilianWithAddress])
         .build();
 
       const caseToUpdate = await models.cases.create(caseDefault, {
         include: [
           {
             model: models.civilian,
+            as: "complainantCivilians",
             include: [{ model: models.address }]
           }
         ],
         auditUser: "someone"
       });
 
-      let civilianToUpdate = caseToUpdate.dataValues.civilians[0];
+      let civilianToUpdate = caseToUpdate.dataValues.complainantCivilians[0];
 
       await request(app)
         .put(`/api/civilian/${civilianToUpdate.id}`)
@@ -437,21 +450,23 @@ describe("server", () => {
           }
         })
         .then(response => {
-          const civilians = response.body;
+          const caseDetails = response.body;
 
-          expect(civilians).toEqual(
-            expect.arrayContaining([
-              expect.objectContaining({
-                address: expect.objectContaining({
-                  streetAddress: "",
-                  streetAddress2: "",
-                  city: "",
-                  state: "",
-                  country: "",
-                  zipCode: ""
+          expect(caseDetails).toEqual(
+            expect.objectContaining({
+              complainantCivilians: expect.arrayContaining([
+                expect.objectContaining({
+                  address: expect.objectContaining({
+                    streetAddress: "",
+                    streetAddress2: "",
+                    city: "",
+                    state: "",
+                    country: "",
+                    zipCode: ""
+                  })
                 })
-              })
-            ])
+              ])
+            })
           );
         });
     });
@@ -465,15 +480,9 @@ describe("server", () => {
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send(updatedCivilian)
-        .expect(200);
-
-      await request(app)
-        .get(`/api/cases/${seededCase.id}`)
-        .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
         .expect(200)
         .then(response => {
-          expect(response.body.status).toEqual("Active"); //TODO Status should be an ENUM or at least a global constant
+          expect(response.body.status).toEqual("Active");
         });
     });
   });
@@ -692,14 +701,14 @@ describe("server", () => {
       let caseToCreate = new Case.Builder()
         .defaultCase()
         .withId(undefined)
-        .withCivilians([civilian])
+        .withComplainantCivilians([civilian])
         .withNarrativeDetails("Beginning narrative")
         .withIncidentLocation(undefined)
         .build();
 
       caseToUpdate = await models.cases.create(caseToCreate, {
         returning: true,
-        include: [{ model: models.civilian }],
+        include: [{ model: models.civilian, as: "complainantCivilians" }],
         auditUser: "someone"
       });
     });
@@ -717,14 +726,14 @@ describe("server", () => {
         .expect(200)
         .then(response => {
           expect(response.body.id).toEqual(caseToUpdate.id);
-          expect(response.body.civilians[0].firstName).toEqual(
-            caseToUpdate.civilians[0].firstName
+          expect(response.body.complainantCivilians[0].firstName).toEqual(
+            caseToUpdate.complainantCivilians[0].firstName
           );
-          expect(response.body.civilians[0].lastName).toEqual(
-            caseToUpdate.civilians[0].lastName
+          expect(response.body.complainantCivilians[0].lastName).toEqual(
+            caseToUpdate.complainantCivilians[0].lastName
           );
-          expect(response.body.civilians[0].email).toEqual(
-            caseToUpdate.civilians[0].email
+          expect(response.body.complainantCivilians[0].email).toEqual(
+            caseToUpdate.complainantCivilians[0].email
           );
           expect(response.body.complainantType).toEqual(
             caseToUpdate.complainantType
@@ -817,12 +826,15 @@ describe("server", () => {
       defaultCase = new Case.Builder()
         .defaultCase()
         .withId(undefined)
-        .withCivilians([defaultCivilian])
+        .withComplainantCivilians([defaultCivilian])
         .withAttachments([defaultAttachment, attachmentToDelete])
         .withIncidentLocation(undefined)
         .build();
       defaultCase = await models.cases.create(defaultCase, {
-        include: [{ model: models.civilian }, { model: models.attachment }],
+        include: [
+          { model: models.civilian, as: "complainantCivilians" },
+          { model: models.attachment }
+        ],
         auditUser: "someone"
       });
     });
@@ -851,8 +863,8 @@ describe("server", () => {
           .expect(200)
           .then(response => {
             expect(response.body.id).toEqual(defaultCase.id);
-            expect(response.body.civilians[0].id).toEqual(
-              defaultCase.civilians[0].id
+            expect(response.body.complainantCivilians[0].id).toEqual(
+              defaultCase.complainantCivilians[0].id
             );
             expect(response.body.attachments).toEqual(
               expect.arrayContaining([
@@ -893,13 +905,12 @@ describe("server", () => {
         caseWithSameFilename = new Case.Builder()
           .defaultCase()
           .withId(undefined)
-          .withCivilians([defaultCivilian])
           .withAttachments([defaultAttachment, attachmentToDelete])
           .withIncidentLocation(undefined)
           .build();
 
         caseWithSameFilename = await models.cases.create(caseWithSameFilename, {
-          include: [{ model: models.civilian }, { model: models.attachment }],
+          include: [models.attachment],
           auditUser: "someone"
         });
 

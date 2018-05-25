@@ -1,71 +1,45 @@
 import React from "react";
 import { CardContent, Typography } from "material-ui";
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
-import ComplainantPanel from "./ComplainantPanel";
 import WarningMessage from "../../../shared/components/WarningMessage";
 import getFirstComplainant from "../../../utilities/getFirstComplainant";
-import AccusedOfficerPanel from "../Officers/OfficerPanel";
-import sortComplainantOfficers from "./sortComplainantOfficers";
-import UnknownOfficerPanel from "../Officers/UnknownOfficerPanel";
-import OfficerActions from "./OfficerActions";
+import ComplainantWitnessDisplay from "./ComplainantWitnessDisplay";
+import * as _ from "lodash";
 
 const ComplainantWitnesses = props => {
-  const civiliansAndOfficers = props.caseDetail.civilians.concat(
-    props.caseDetail.complainantWitnessOfficers
+  const allComplainants = props.caseDetail.complainantCivilians.concat(
+    props.caseDetail.complainantOfficers
+  );
+  const sortedComplainants = _.orderBy(
+    allComplainants,
+    [o => o.createdAt],
+    ["desc"]
   );
 
-  const officerIsKnown = caseOfficer =>
-    caseOfficer.officer.fullName !== "Unknown Officer";
+  const allWitnesses = props.caseDetail.witnessCivilians.concat(
+    props.caseDetail.witnessOfficers
+  );
+  const sortedWitnesses = _.orderBy(allWitnesses, [o => o.createdAt], ["desc"]);
 
   return (
     <BaseCaseDetailsCard
       data-test="complainantWitnessesSection"
-      title="Complainant & Witnesses"
-      subtitle={getSubtitleText(civiliansAndOfficers)}
+      title="Complainants & Witnesses"
+      subtitle={getSubtitleText(sortedComplainants)}
     >
       <CardContent style={{ padding: "0" }}>
-        {civiliansAndOfficers.length === 0 ? (
-          <Typography
-            data-test="noCivilianMessage"
-            style={{
-              margin: "16px 24px"
-            }}
-          >
-            No complainants or witnesses have been added
-          </Typography>
-        ) : (
-          sortComplainantOfficers(props.caseDetail).map(civilianOrOfficer => {
-            if (civilianOrOfficer.hasOwnProperty("officerId")) {
-              if (officerIsKnown(civilianOrOfficer)) {
-                return (
-                  <AccusedOfficerPanel
-                    key={civilianOrOfficer.officer.officerNumber}
-                    caseOfficer={civilianOrOfficer}
-                  >
-                    <OfficerActions caseOfficer={civilianOrOfficer} />
-                  </AccusedOfficerPanel>
-                );
-              } else {
-                return (
-                  <UnknownOfficerPanel
-                    key={civilianOrOfficer.id}
-                    caseOfficer={civilianOrOfficer}
-                  >
-                    <OfficerActions caseOfficer={civilianOrOfficer} />
-                  </UnknownOfficerPanel>
-                );
-              }
-            } else {
-              return (
-                <ComplainantPanel
-                  key={civilianOrOfficer.id}
-                  civilian={civilianOrOfficer}
-                  dispatch={props.dispatch}
-                />
-              );
-            }
-          })
-        )}
+        <ComplainantWitnessDisplay
+          title={"Complainants"}
+          emptyMessage={"No complainants have been added"}
+          civiliansAndOfficers={sortedComplainants}
+          dispatch={props.dispatch}
+        />
+        <ComplainantWitnessDisplay
+          title={"Witnesses"}
+          emptyMessage={"No witnesses have been added"}
+          civiliansAndOfficers={sortedWitnesses}
+          dispatch={props.dispatch}
+        />
       </CardContent>
     </BaseCaseDetailsCard>
   );

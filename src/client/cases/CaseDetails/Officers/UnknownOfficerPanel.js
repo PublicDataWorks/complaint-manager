@@ -14,11 +14,7 @@ const UnknownOfficerPanel = ({ caseOfficer, children }) => {
         <ExpansionPanelSummary style={{ padding: "0px 24px" }}>
           <div style={{ display: "flex", width: "100%", paddingRight: 0 }}>
             <OfficerInfoDisplay
-              displayLabel={`Officer ${
-                caseOfficer.roleOnCase !== "Accused"
-                  ? caseOfficer.roleOnCase
-                  : ""
-              }`}
+              displayLabel="Officer"
               value={caseOfficer.officer.fullName}
               testLabel="officerName"
             />

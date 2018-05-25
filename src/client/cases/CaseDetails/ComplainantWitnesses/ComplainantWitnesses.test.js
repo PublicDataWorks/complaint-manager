@@ -41,7 +41,7 @@ describe("Complainant and Witnesses", () => {
 
     caseDetail = new Case.Builder()
       .defaultCase()
-      .withCivilians([complainant])
+      .withComplainantCivilians([complainant])
       .build();
 
     store = createConfiguredStore();
@@ -61,14 +61,6 @@ describe("Complainant and Witnesses", () => {
   });
 
   describe("full name", () => {
-    test("should display civilian role on case", () => {
-      containsText(
-        complainantWitnessesSection,
-        '[data-test="complainantLabel"]',
-        complainant.roleOnCase
-      );
-    });
-
     test("should display civilian first and last name", () => {
       const complainantName = formatCivilianName(complainant);
       containsText(
@@ -80,35 +72,41 @@ describe("Complainant and Witnesses", () => {
   });
 
   describe("Sort order", () => {
-    test("Civilians should be sorted by last name, first name", () => {
-      const civilianBA = new Civilian.Builder()
+    test("People should be sorted by createdAt descending", () => {
+      const civilian1 = new Civilian.Builder()
         .defaultCivilian()
         .withFirstName("Blake")
         .withLastName("Anderson")
         .withMiddleInitial("")
         .withSuffix("")
+        .withCreatedAt("2018-04-26")
         .withId(1)
         .build();
-      const civilianAS = new Civilian.Builder()
+      const civilian2 = new Civilian.Builder()
         .defaultCivilian()
         .withFirstName("Amy")
         .withLastName("Smith")
+        .withCreatedAt("2018-04-30")
         .withMiddleInitial("")
         .withSuffix("")
         .withId(2)
         .build();
-      const civilianAA = new Civilian.Builder()
+      const civilian3 = new Civilian.Builder()
         .defaultCivilian()
         .withFirstName("Amy")
         .withLastName("Anderson")
         .withMiddleInitial("")
         .withSuffix("")
+        .withCreatedAt("2018-05-01")
         .withId(3)
         .build();
 
       caseDetail = new Case.Builder()
         .defaultCase()
-        .withCivilians([civilianBA, civilianAS, civilianAA])
+        .withComplainantCivilians([civilian1, civilian2, civilian3])
+        .withComplainantOfficers([])
+        .withWitnessCivilians([])
+        .withWitnessOfficers([])
         .build();
 
       complainantWitnesses = mount(
@@ -125,8 +123,8 @@ describe("Complainant and Witnesses", () => {
       );
       expect(uniqueComplainantNamesRendered).toEqual([
         "Amy Anderson",
-        "Blake Anderson",
-        "Amy Smith"
+        "Amy Smith",
+        "Blake Anderson"
       ]);
     });
   });
@@ -178,7 +176,7 @@ describe("Complainant and Witnesses", () => {
 
       const caseWithNoAddress = new Case.Builder()
         .defaultCase()
-        .withCivilians([civilianWithNoAddress])
+        .withComplainantCivilians([civilianWithNoAddress])
         .build();
 
       complainantWitnesses = mount(
@@ -198,7 +196,9 @@ describe("Complainant and Witnesses", () => {
     });
 
     test("should display address when present", () => {
-      const expectedAddress = formatAddress(caseDetail.civilians[0].address);
+      const expectedAddress = formatAddress(
+        caseDetail.complainantCivilians[0].address
+      );
 
       containsText(
         complainantPanel,
@@ -217,7 +217,7 @@ describe("Complainant and Witnesses", () => {
 
       const caseWithNoAddress = new Case.Builder()
         .defaultCase()
-        .withCivilians([civilianWithNoAddress])
+        .withComplainantCivilians([civilianWithNoAddress])
         .build();
 
       complainantWitnesses = mount(
@@ -239,7 +239,7 @@ describe("Complainant and Witnesses", () => {
       containsText(
         complainantPanel,
         '[data-test="civilianAddressAdditionalInfo"]',
-        caseDetail.civilians[0].address.streetAddress2
+        caseDetail.complainantCivilians[0].address.streetAddress2
       );
     });
   });
@@ -262,8 +262,9 @@ describe("Complainant and Witnesses", () => {
 
     const caseWithoutComplainant = new Case.Builder()
       .defaultCase()
-      .withCivilians([witness])
-      .withComplainantWitnessOfficers([])
+      .withWitnessCivilians([witness])
+      .withComplainantCivilians([])
+      .withComplainantOfficers([])
       .build();
 
     const wrapper = mount(
@@ -290,8 +291,10 @@ describe("Complainant and Witnesses", () => {
   test("should display another warning message when no complainants or witnesses on a case", () => {
     const caseWithoutComplainant = new Case.Builder()
       .defaultCase()
-      .withCivilians([])
-      .withComplainantWitnessOfficers([])
+      .withComplainantCivilians([])
+      .withComplainantOfficers([])
+      .withWitnessCivilians([])
+      .withWitnessOfficers([])
       .build();
 
     const wrapper = mount(
@@ -322,8 +325,8 @@ describe("Complainant and Witnesses", () => {
 
     const caseWithMixedComplainants = new Case.Builder()
       .defaultCase()
-      .withCivilians([civilianComplainant])
-      .withComplainantWitnessOfficers([caseOfficer])
+      .withComplainantCivilians([civilianComplainant])
+      .withComplainantOfficers([caseOfficer])
       .build();
 
     const wrapper = mount(

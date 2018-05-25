@@ -1,4 +1,3 @@
-import Civilian from "../../../client/testUtilities/civilian";
 import Case from "../../../client/testUtilities/case";
 
 const editCivilian = require("./editCivilian");
@@ -8,21 +7,41 @@ const httpMocks = require("node-mocks-http");
 describe("editCivilian handler", () => {
   let existingCase, existingCivilian;
   beforeEach(async () => {
+    await models.address.destroy({
+      truncate: true,
+      cascade: true,
+      force: true
+    });
+    await models.cases.destroy({ truncate: true, cascade: true });
+    await models.civilian.destroy({ truncate: true });
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
       .withIncidentLocation(undefined)
-      .withCivilians([
-        new Civilian.Builder()
-          .defaultCivilian()
-          .withNoAddress()
-          .withId(undefined)
-      ]);
+      .build();
+
     existingCase = await models.cases.create(caseAttributes, {
-      include: [{ model: models.civilian }],
+      include: [
+        {
+          model: models.civilian,
+          as: "complainantCivilians",
+          include: [models.address]
+        }
+      ],
       auditUser: "someone"
     });
-    existingCivilian = existingCase.dataValues.civilians[0];
+    existingCivilian = existingCase.dataValues.complainantCivilians[0];
+  });
+
+  afterEach(async () => {
+    await models.address.destroy({
+      truncate: true,
+      cascade: true,
+      force: true
+    });
+    await models.cases.destroy({ truncate: true, cascade: true });
+    await models.civilian.destroy({ truncate: true });
   });
 
   test("should update civilian with correct properties", async () => {
@@ -56,7 +75,6 @@ describe("editCivilian handler", () => {
     const response = httpMocks.createResponse();
     const next = jest.fn();
     await editCivilian(request, response, next);
-
     expect(next).toHaveBeenCalled();
   });
 });

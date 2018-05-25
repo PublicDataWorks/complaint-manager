@@ -2,11 +2,13 @@ import Civilian from "./civilian";
 import Attachment from "./attachment";
 import Address from "./Address";
 import CaseOfficer from "./caseOfficer";
+import Officer from "./Officer";
 
 class Case {
   constructor(build) {
     this.id = build.id;
-    this.civilians = build.civilians;
+    this.complainantCivilians = build.complainantCivilians;
+    this.witnessCivilians = build.witnessCivilians;
     this.complainantType = build.complainantType;
     this.status = build.status;
     this.createdAt = build.createdAt;
@@ -23,15 +25,72 @@ class Case {
     this.incidentLocation = build.incidentLocation;
     this.district = build.district;
     this.accusedOfficers = build.accusedOfficers;
-    this.complainantWitnessOfficers = build.complainantWitnessOfficers;
+    this.complainantOfficers = build.complainantOfficers;
+    this.witnessOfficers = build.witnessOfficers;
   }
 
   static get Builder() {
     class Builder {
       defaultCase() {
         const id = 17;
+        const complainantCivilian = new Civilian.Builder()
+          .defaultCivilian()
+          .withId(23)
+          .withRoleOnCase("Complainant")
+          .build();
+        const witnessCivilian = new Civilian.Builder()
+          .defaultCivilian()
+          .withId(32)
+          .withNoAddress()
+          .withRoleOnCase("Witness")
+          .build();
+        const accusedOfficer = new CaseOfficer.Builder()
+          .defaultCaseOfficer()
+          .withId(456)
+          .withOfficer(
+            new Officer.Builder()
+              .defaultOfficer()
+              .withOfficerNumber(456)
+              .withId(456)
+              .build()
+          )
+          .withCaseId(id)
+          .withRoleOnCase("Accused")
+          .build();
+        const complainantOfficer = new CaseOfficer.Builder()
+          .defaultCaseOfficer()
+          .withId(654)
+          .withOfficer(
+            new Officer.Builder()
+              .defaultOfficer()
+              .withOfficerNumber(654)
+              .withId(654)
+              .build()
+          )
+          .withCaseId(id)
+          .withRoleOnCase("Complainant")
+          .build();
+        const witnessOfficer = new CaseOfficer.Builder()
+          .defaultCaseOfficer()
+          .withId(565)
+          .withOfficer(
+            new Officer.Builder()
+              .defaultOfficer()
+              .withOfficerNumber(565)
+              .withId(565)
+              .build()
+          )
+          .withCaseId(id)
+          .withRoleOnCase("Witness")
+          .build();
+        const attachment = new Attachment.Builder()
+          .defaultAttachment()
+          .withCaseId(id)
+          .build();
+
         this.id = id;
-        this.civilians = [new Civilian.Builder().defaultCivilian().build()];
+        this.complainantCivilians = [complainantCivilian];
+        this.witnessCivilians = [witnessCivilian];
         this.status = "Initial";
         this.createdAt = new Date(2015, 8, 13).toISOString();
         this.firstContactDate = "2017-12-25T00:00:00.000Z";
@@ -44,26 +103,10 @@ class Case {
         this.assignedTo = "tuser";
         this.narrativeDetails = null;
         this.narrativeSummary = null;
-        this.attachments = [
-          new Attachment.Builder()
-            .defaultAttachment()
-            .withCaseId(id)
-            .build()
-        ];
-        this.accusedOfficers = [
-          new CaseOfficer.Builder()
-            .defaultCaseOfficer()
-            .withCaseId(id)
-            .withRoleOnCase("Accused")
-            .build()
-        ];
-        this.complainantWitnessOfficers = [
-          new CaseOfficer.Builder()
-            .defaultCaseOfficer()
-            .withCaseId(id)
-            .withRoleOnCase("Witness")
-            .build()
-        ];
+        this.attachments = [attachment];
+        this.accusedOfficers = [accusedOfficer];
+        this.complainantOfficers = [complainantOfficer];
+        this.witnessOfficers = [witnessOfficer];
         return this;
       }
 
@@ -72,8 +115,13 @@ class Case {
         return this;
       }
 
-      withCivilians(civilians) {
-        this.civilians = civilians;
+      withComplainantCivilians(complainantCivilians) {
+        this.complainantCivilians = complainantCivilians;
+        return this;
+      }
+
+      withWitnessCivilians(witnessCivilians) {
+        this.witnessCivilians = witnessCivilians;
         return this;
       }
 
@@ -152,8 +200,13 @@ class Case {
         return this;
       }
 
-      withComplainantWitnessOfficers(complainantWitnessOfficers) {
-        this.complainantWitnessOfficers = complainantWitnessOfficers;
+      withComplainantOfficers(complainantOfficers) {
+        this.complainantOfficers = complainantOfficers;
+        return this;
+      }
+
+      withWitnessOfficers(witnessOfficers) {
+        this.witnessOfficers = witnessOfficers;
         return this;
       }
 

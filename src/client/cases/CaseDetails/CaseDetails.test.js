@@ -139,7 +139,7 @@ describe("Case Details Component", () => {
       removeComplainantButton.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(
-        openRemoveCivilianDialog(expectedCase.civilians[0])
+        openRemoveCivilianDialog(expectedCase.complainantCivilians[0])
       );
     });
 

@@ -159,7 +159,8 @@ describe("OfficerSearchContainer", () => {
             }
           }
         ],
-        complainantWitnessOfficers: []
+        complainantOfficers: [],
+        witnessOfficers: []
       })
     );
 

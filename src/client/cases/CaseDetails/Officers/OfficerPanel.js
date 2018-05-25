@@ -23,13 +23,7 @@ const OfficerPanel = ({ caseOfficer, children }) => (
       >
         <div style={{ display: "flex", width: "100%", paddingRight: 0 }}>
           <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }}>
-            <Typography variant="caption">
-              {`Officer ${
-                caseOfficer.roleOnCase === "Accused"
-                  ? ""
-                  : caseOfficer.roleOnCase
-              }`}
-            </Typography>
+            <Typography variant="caption">Officer</Typography>
             <Typography variant="body1" style={{ whiteSpace: "pre-wrap" }}>
               {caseOfficer.officer.fullName
                 ? caseOfficer.officer.fullName

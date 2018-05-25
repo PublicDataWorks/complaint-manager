@@ -7,7 +7,7 @@ describe("sorting", () => {
       {
         id: 2,
         status: "Initial",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "austin",
             roleOnCase: "Complainant"
@@ -18,7 +18,7 @@ describe("sorting", () => {
       {
         id: 1,
         status: "Active",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "Zeke",
             roleOnCase: "Complainant"
@@ -29,7 +29,7 @@ describe("sorting", () => {
       {
         id: 3,
         status: "Active",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "Aaron",
             roleOnCase: "Witness"
@@ -45,7 +45,7 @@ describe("sorting", () => {
       {
         id: 2,
         status: "Initial",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "austin",
             roleOnCase: "Complainant"
@@ -56,7 +56,7 @@ describe("sorting", () => {
       {
         id: 1,
         status: "Active",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "Zeke",
             roleOnCase: "Complainant"
@@ -67,7 +67,7 @@ describe("sorting", () => {
       {
         id: 3,
         status: "Active",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "Aaron",
             roleOnCase: "Witness"
@@ -87,7 +87,7 @@ describe("sorting", () => {
       {
         id: 3,
         status: "Active",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "Aaron",
             roleOnCase: "Witness"
@@ -98,7 +98,7 @@ describe("sorting", () => {
       {
         id: 1,
         status: "Active",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "Zeke",
             roleOnCase: "Complainant"
@@ -109,7 +109,7 @@ describe("sorting", () => {
       {
         id: 2,
         status: "Initial",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "austin",
             roleOnCase: "Complainant"
@@ -129,7 +129,7 @@ describe("sorting", () => {
       {
         id: 3,
         status: "Active",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "Aaron",
             roleOnCase: "Witness"
@@ -140,7 +140,7 @@ describe("sorting", () => {
       {
         id: 2,
         status: "Initial",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "austin",
             roleOnCase: "Complainant"
@@ -151,7 +151,7 @@ describe("sorting", () => {
       {
         id: 1,
         status: "Active",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "Zeke",
             roleOnCase: "Complainant"
@@ -166,12 +166,12 @@ describe("sorting", () => {
     expect(sortedCases).toEqual(expectedSortedCases);
   });
 
-  test("should sort by last name and handle cases with no civilians", () => {
+  test("should sort by last name and handle cases with no complainantCivilians", () => {
     const unsorted = [
       {
         id: 1,
         status: "Active",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "Zeke",
             roleOnCase: "Complainant"
@@ -182,7 +182,7 @@ describe("sorting", () => {
       {
         id: 2,
         status: "Active",
-        civilians: [],
+        complainantCivilians: [],
         assignedTo: "testUser"
       }
     ];
@@ -191,13 +191,13 @@ describe("sorting", () => {
       {
         id: 2,
         status: "Active",
-        civilians: [],
+        complainantCivilians: [],
         assignedTo: "testUser"
       },
       {
         id: 1,
         status: "Active",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "Zeke",
             roleOnCase: "Complainant"
@@ -217,7 +217,7 @@ describe("sorting", () => {
       {
         id: 2,
         status: "Initial",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "austin",
             roleOnCase: "Complainant"
@@ -228,7 +228,7 @@ describe("sorting", () => {
       {
         id: 1,
         status: "Active",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "Zeke",
             roleOnCase: "Complainant"
@@ -239,7 +239,7 @@ describe("sorting", () => {
       {
         id: 3,
         status: "Active",
-        civilians: [
+        complainantCivilians: [
           {
             lastName: "Aaron",
             roleOnCase: "Witness"

@@ -43,7 +43,8 @@ const mapStateToProps = state => {
       searchResults: state.ui.search.searchResults,
       spinnerVisible: state.ui.search.spinnerVisible,
       officerIds: state.currentCase.details.accusedOfficers
-        .concat(state.currentCase.details.complainantWitnessOfficers)
+        .concat(state.currentCase.details.complainantOfficers)
+        .concat(state.currentCase.details.witnessOfficers)
         .map(officer => officer.officerId)
     };
   }

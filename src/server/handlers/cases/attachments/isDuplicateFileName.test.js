@@ -8,7 +8,7 @@ describe("generateFileName", () => {
     const someCase = new Case.Builder()
       .defaultCase()
       .withId(undefined)
-      .withCivilians([])
+      .withComplainantCivilians([])
       .withAttachments([])
       .withIncidentLocation(undefined)
       .build();

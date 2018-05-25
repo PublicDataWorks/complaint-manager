@@ -9,14 +9,14 @@ const STATUS = Object.freeze({
   Complete: 5
 });
 
-const complainantExists = ({ civilians }) => {
-  const complainant = getFirstComplainant(civilians);
+const complainantExists = ({ complainantCivilians }) => {
+  const complainant = getFirstComplainant(complainantCivilians);
 
   return Boolean(complainant);
 };
 
-const existingComplainantLastName = ({ civilians }) => {
-  const complainant = getFirstComplainant(civilians);
+const existingComplainantLastName = ({ complainantCivilians }) => {
+  const complainant = getFirstComplainant(complainantCivilians);
 
   if (complainant) {
     return complainant.lastName.toUpperCase();

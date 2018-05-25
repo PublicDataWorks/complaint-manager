@@ -1,20 +1,3 @@
-import _ from "lodash";
-
-const sortComplainantOfficers = caseDetails => {
-  const civiliansAndOfficers = caseDetails.complainantWitnessOfficers.concat(
-    caseDetails.civilians
-  );
-
-  return _.sortBy(civiliansAndOfficers, [getLastName, getFirstName]);
-};
-
-export const isKnownOfficer = civilianOrOfficer => {
-  return (
-    civilianOrOfficer.hasOwnProperty("officerId") &&
-    civilianOrOfficer.officer.fullName !== "Unknown Officer"
-  );
-};
-
 export const getLastName = civilianOrOfficer => {
   if (isKnownOfficer(civilianOrOfficer)) {
     return civilianOrOfficer.officer.lastName.toLowerCase();
@@ -35,5 +18,3 @@ export const getFirstName = civilianOrOfficer => {
   }
   return "";
 };
-
-export default sortComplainantOfficers;

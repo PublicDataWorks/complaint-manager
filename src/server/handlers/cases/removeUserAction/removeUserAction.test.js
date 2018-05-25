@@ -19,7 +19,7 @@ describe("RemoveUserAction unit", () => {
       .defaultCase()
       .withId(undefined)
       .withStatus("Initial")
-      .withCivilians([])
+      .withComplainantCivilians([])
       .withAttachments([])
       .withAccusedOfficers([])
       .withIncidentLocation(undefined)

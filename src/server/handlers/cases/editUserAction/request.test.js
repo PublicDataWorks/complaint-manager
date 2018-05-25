@@ -21,7 +21,7 @@ describe("editUserAction request", function() {
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)
-      .withCivilians([])
+      .withComplainantCivilians([])
       .withAttachments([])
       .withAccusedOfficers([])
       .withIncidentLocation(undefined)

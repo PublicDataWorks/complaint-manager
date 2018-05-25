@@ -1,4 +1,5 @@
 const models = require("../../models/index");
+const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
 
 async function upsertAddress(civilianId, addressId, address, transaction) {
   if (!addressId) {
@@ -30,7 +31,7 @@ async function upsertAddress(civilianId, addressId, address, transaction) {
 
 const editCivilian = async (req, res, next) => {
   try {
-    const updatedCivilian = await models.sequelize.transaction(async t => {
+    const caseId = await models.sequelize.transaction(async t => {
       const { addressId, address, ...civilianValues } = req.body;
 
       //if there are address values to update
@@ -43,13 +44,8 @@ const editCivilian = async (req, res, next) => {
         transaction: t,
         returning: true
       });
-      const caseId = updatedCivilian[1][0].dataValues.caseId;
 
-      const civilians = await models.civilian.findAll({
-        where: { caseId: caseId },
-        transaction: t,
-        include: [{ model: models.address }]
-      });
+      const caseId = updatedCivilian[1][0].dataValues.caseId;
 
       await models.cases.update(
         { status: "Active" },
@@ -60,9 +56,11 @@ const editCivilian = async (req, res, next) => {
         }
       );
 
-      return civilians;
+      return caseId;
     });
-    res.status(200).send(updatedCivilian);
+
+    const updatedCaseDetails = await getCaseWithAllAssociations(caseId);
+    res.status(200).send(updatedCaseDetails);
   } catch (e) {
     next(e);
   }

@@ -23,9 +23,10 @@ class EditOfficerSearch extends React.Component {
     const caseId = this.props.match.params.id;
     const caseOfficerId = this.props.match.params.caseOfficerId;
 
-    const allOfficers = this.props.accusedOfficers.concat(
-      this.props.complainantWitnessOfficers
-    );
+    const allOfficers = this.props.accusedOfficers
+      .concat(this.props.complainantOfficers)
+      .concat(this.props.witnessOfficers);
+
     const currentCaseOfficer = allOfficers.find(
       caseOfficer => caseOfficer && `${caseOfficer.id}` === caseOfficerId
     );
@@ -49,8 +50,8 @@ class EditOfficerSearch extends React.Component {
 const mapStateToProps = state => ({
   currentCase: state.currentCase.details,
   accusedOfficers: state.currentCase.details.accusedOfficers,
-  complainantWitnessOfficers:
-    state.currentCase.details.complainantWitnessOfficers
+  complainantOfficers: state.currentCase.details.complainantOfficers,
+  witnessOfficers: state.currentCase.details.witnessOfficers
 });
 
 export default connect(mapStateToProps)(EditOfficerSearch);

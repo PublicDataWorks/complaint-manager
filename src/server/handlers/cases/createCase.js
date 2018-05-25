@@ -39,16 +39,16 @@ const createCaseWithoutCivilian = async req => {
 };
 
 const createCaseWithCivilian = async req => {
-  console.log("should be creating a case with a civilian");
   return await models.cases.create(
     {
       ...req.body.case,
-      civilians: [req.body.civilian]
+      complainantCivilians: [req.body.civilian]
     },
     {
       include: [
         {
-          model: models.civilian
+          model: models.civilian,
+          as: "complainantCivilians"
         }
       ],
       auditUser: req.nickname

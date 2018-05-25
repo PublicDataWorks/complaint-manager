@@ -30,10 +30,10 @@ const editCivilian = civilian => async dispatch => {
 
     switch (response.status) {
       case 200:
-        const parsedCivilian = await response.json();
+        const caseDetails = await response.json();
         dispatch(closeEditDialog());
-        dispatch(editCivilianSuccess(parsedCivilian));
-        return await dispatch(getRecentActivity(parsedCivilian[0].caseId));
+        dispatch(editCivilianSuccess(caseDetails));
+        return await dispatch(getRecentActivity(caseDetails.id));
       case 401:
         dispatch(push(`/login`));
         return dispatch(editCivilianFailed());

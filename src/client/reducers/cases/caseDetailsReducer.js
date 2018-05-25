@@ -20,14 +20,9 @@ const caseDetailsReducer = (state = initialState, action) => {
     case REMOVE_CIVILIAN_SUCCEEDED:
     case ADD_OFFICER_TO_CASE_SUCCEEDED:
     case REMOVE_USER_ACTION_SUCCEEDED:
-      return action.caseDetails;
     case "EDIT_CIVILIAN_SUCCESS":
     case CIVILIAN_CREATION_SUCCEEDED:
-      return {
-        ...state,
-        status: "Active",
-        civilians: action.civilians
-      };
+      return action.caseDetails;
     case ADD_USER_ACTION_SUCCEEDED:
       return {
         ...state,

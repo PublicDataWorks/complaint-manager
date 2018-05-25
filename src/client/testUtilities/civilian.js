@@ -4,6 +4,7 @@ import Address from "./Address";
 class Civilian {
   constructor(build) {
     this.id = build.id;
+    this.createdAt = build.createdAt;
     this.caseId = build.caseId;
     this.firstName = build.firstName;
     this.middleInitial = build.middleInitial;
@@ -26,6 +27,7 @@ class Civilian {
       defaultCivilian() {
         this.id = 17;
         this.caseId = 17;
+        this.createdAt = "2018-04-26";
         this.firstName = "Chuck";
         this.middleInitial = "E";
         this.lastName = "Berry";
@@ -76,6 +78,11 @@ class Civilian {
 
       withCaseId(caseId) {
         this.caseId = caseId;
+        return this;
+      }
+
+      withCreatedAt(createdAt) {
+        this.createdAt = createdAt;
         return this;
       }
 

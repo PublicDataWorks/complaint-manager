@@ -77,7 +77,14 @@ module.exports = (sequelize, DataTypes) => {
 
   Case.associate = models => {
     Case.hasMany(models.civilian, {
-      foreignKey: { name: "caseId", field: "case_id" }
+      as: "complainantCivilians",
+      foreignKey: { name: "caseId", field: "case_id" },
+      scope: { role_on_case: "Complainant" }
+    });
+    Case.hasMany(models.civilian, {
+      as: "witnessCivilians",
+      foreignKey: { name: "caseId", field: "case_id" },
+      scope: { role_on_case: "Witness" }
     });
     Case.hasMany(models.attachment, {
       foreignKey: { name: "caseId", field: "case_id" }
@@ -96,11 +103,14 @@ module.exports = (sequelize, DataTypes) => {
       scope: { role_on_case: "Accused" }
     });
     Case.hasMany(models.case_officer, {
-      as: "complainantWitnessOfficers",
+      as: "complainantOfficers",
       foreignKey: { name: "caseId", field: "case_id" },
-      scope: {
-        role_on_case: { [Op.in]: ["Complainant", "Witness"] }
-      }
+      scope: { role_on_case: "Complainant" }
+    });
+    Case.hasMany(models.case_officer, {
+      as: "witnessOfficers",
+      foreignKey: { name: "caseId", field: "case_id" },
+      scope: { role_on_case: "Witness" }
     });
     Case.hasMany(models.data_change_audit, {
       as: "dataChangeAudits",
@@ -111,12 +121,21 @@ module.exports = (sequelize, DataTypes) => {
   Case.prototype.toJSON = function() {
     const {
       accusedOfficers,
-      complainantWitnessOfficers,
+      complainantOfficers,
+      witnessOfficers,
       ...restOfCase
     } = this.get();
 
-    if (complainantWitnessOfficers) {
-      complainantWitnessOfficers.forEach(officer => {
+    if (complainantOfficers) {
+      complainantOfficers.forEach(officer => {
+        if (officer.getDataValue("officerId") === null) {
+          officer.setDataValue("officer", { fullName: "Unknown Officer" });
+        }
+      });
+    }
+
+    if (witnessOfficers) {
+      witnessOfficers.forEach(officer => {
         if (officer.getDataValue("officerId") === null) {
           officer.setDataValue("officer", { fullName: "Unknown Officer" });
         }
@@ -133,7 +152,8 @@ module.exports = (sequelize, DataTypes) => {
 
     return Object.assign({}, restOfCase, {
       accusedOfficers,
-      complainantWitnessOfficers
+      complainantOfficers,
+      witnessOfficers
     });
   };
 

@@ -1,8 +1,9 @@
 const models = require("../../models");
+const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
 
 const createCivilian = async (req, res, next) => {
   try {
-    const allCivilians = await models.sequelize.transaction(async t => {
+    const caseId = await models.sequelize.transaction(async t => {
       const civilianCreated = await models.civilian.create(req.body, {
         include: [{ model: models.address }],
         transaction: t
@@ -19,16 +20,11 @@ const createCivilian = async (req, res, next) => {
         }
       );
 
-      return await models.civilian.findAll({
-        include: [{ model: models.address }],
-        where: {
-          caseId: civilianCreated.caseId
-        },
-        transaction: t
-      });
+      return civilianCreated.caseId;
     });
 
-    res.status(201).send(allCivilians);
+    const caseDetails = await getCaseWithAllAssociations(caseId);
+    res.status(201).send(caseDetails);
   } catch (e) {
     next(e);
     // How to manage adding a civilian to a case that doesn't exist
