@@ -4,7 +4,6 @@ import NavBar from "../../shared/components/NavBar/NavBar";
 import { Typography } from "material-ui";
 import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
-import OfficersSnackbar from "../OfficersSnackBar/OfficersSnackbar";
 import OfficerSearch from "./OfficerSearch";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 
@@ -39,7 +38,6 @@ export class OfficerSearchContainer extends Component {
             path={officerDetailsPath}
           />
         </div>
-        <OfficersSnackbar />
       </div>
     );
   }

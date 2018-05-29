@@ -23,9 +23,9 @@ import AddOfficerDetails from "./officers/OfficerDetails/AddOfficerDetails";
 import EditOfficerDetails from "./officers/OfficerDetails/EditOfficerDetails";
 import CaseHistory from "./cases/CaseDetails/CaseHistory/CaseHistory";
 import AllegationSearchContainer from "./allegations/AllegationSearchContainer";
+import SharedSnackbarContainer from "./shared/components/SharedSnackbarContainer";
 
 class App extends Component {
-
   componentDidMount() {
     const accessToken = getAccessToken();
     if (accessToken) {
@@ -74,6 +74,7 @@ class App extends Component {
                 path="/cases/:id/cases-officers/:caseOfficerId/allegations/search"
                 component={AllegationSearchContainer}
               />
+              <SharedSnackbarContainer />
             </ScrollToTop>
           </Paper>
         </MuiThemeProvider>

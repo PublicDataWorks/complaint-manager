@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import UsersTable from "./UsersTable/UsersTable";
 import CreateUserDialog from "./CreateUserDialog/CreateUserDialog";
-import UserCreationSnackbar from "./UserCreationSnackbar/UserCreationSnackbar";
 import NavBar from "../shared/components/NavBar/NavBar";
 import { Typography } from "material-ui";
 import { connect } from "react-redux";
@@ -22,7 +21,6 @@ class UserDashboard extends Component {
         </NavBar>
         <CreateUserDialog />
         <UsersTable />
-        <UserCreationSnackbar />
       </div>
     );
   }

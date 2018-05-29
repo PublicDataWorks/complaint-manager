@@ -4,7 +4,6 @@ import NavBar from "../../shared/components/NavBar/NavBar";
 import { Typography } from "material-ui";
 import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
-import OfficersSnackbar from "../OfficersSnackBar/OfficersSnackbar";
 import OfficerDetails from "./OfficerDetails";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 import { push } from "react-router-redux";
@@ -57,7 +56,6 @@ export class OfficerDetailsContainer extends Component {
             selectedOfficerData={selectedOfficerData}
           />
         </div>
-        <OfficersSnackbar />
       </div>
     );
   }

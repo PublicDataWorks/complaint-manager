@@ -6,7 +6,6 @@ import LinkButton from "../../../shared/components/LinkButton";
 import CaseHistoryTable from "./CaseHistoryTable";
 import getCaseHistory from "../../thunks/getCaseHistory";
 import { connect } from "react-redux";
-import SharedSnackbarContainer from "../../../shared/components/SharedSnackbarContainer";
 
 export class CaseHistory extends Component {
   componentDidMount() {
@@ -36,7 +35,6 @@ export class CaseHistory extends Component {
           Back to Case
         </LinkButton>
         <CaseHistoryTable />
-        <SharedSnackbarContainer />
       </div>
     );
   }

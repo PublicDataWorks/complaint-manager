@@ -20,7 +20,10 @@ class AllegationSearchForm extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.currentRuleSelected && !this.props.currentRuleSelected) {
+    const prevRule = prevProps.currentRuleSelected;
+    const currentRule = this.props.currentRuleSelected;
+
+    if (prevRule && prevRule !== currentRule) {
       this.props.dispatch(change(ALLEGATION_SEARCH_FORM_NAME, "paragraph", ""));
     }
   }

@@ -5,7 +5,6 @@ import Typography from "material-ui/Typography";
 import NavBar from "../../shared/components/NavBar/NavBar";
 import { connect } from "react-redux";
 import Narrative from "./Narrative";
-import CaseDetailSnackbar from "./CaseDetailSnackbar/CaseDetailSnackbar";
 import ComplainantWitnesses from "./ComplainantWitnesses/ComplainantWitnesses";
 import CivilianDialog from "./CivilianDialog/CivilianDialog";
 import getCaseDetails from "../thunks/getCaseDetails";
@@ -116,7 +115,6 @@ class CaseDetails extends React.Component {
           </main>
           <CivilianDialog />
           <RemoveCivilianDialog data-test="removeCivilianDialog" />
-          <CaseDetailSnackbar />
           <Button
             data-test="caseActionMenu"
             variant="fab"
