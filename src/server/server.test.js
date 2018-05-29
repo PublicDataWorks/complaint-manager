@@ -11,6 +11,7 @@ import Address from "../client/testUtilities/Address";
 import { EXPORT_AUDIT_LOG } from "../sharedUtilities/constants";
 import AWS from "aws-sdk";
 import buildTokenWithPermissions from "./requestTestHelpers";
+import winston from "winston";
 
 jest.mock("auth0", () => ({
   AuthenticationClient: jest.fn()
@@ -53,7 +54,18 @@ describe("server", () => {
   });
 
   describe("token check", () => {
-    test("should return 401 with invalid token", async () => {
+    beforeEach(() => {
+      winston.remove(winston.transports.Console);
+    });
+
+    afterEach(() => {
+      winston.add(winston.transports.Console, {
+        json: true,
+        colorize: true
+      });
+    });
+
+    test.only("should return 401 with invalid token", async () => {
       await request(app)
         .get("/api/cases")
         .set("Content-Header", "application/json")
@@ -98,7 +110,6 @@ describe("server", () => {
           action: mockLog
         }
       });
-
       expect(log.length).toEqual(1);
     });
   });

@@ -4,20 +4,22 @@ const LOCAL_DEV_PORT = require("../../sharedUtilities/constants")
 
 module.exports = {
   development: {
-    username: "postgres",
-    password: "password",
-    database: "complaint-manager",
     host: "db",
-    dialect: "postgres",
-    migrationStorageTableName: "sequelize_meta",
-    seederStorage: "sequelize",
-    seederStorageTableName: "sequelize_data",
     s3Bucket: "noipm-staging",
     email: {
       secureConnection: false,
       host: "email",
       port: 587,
       fromEmailAddress: "dev_env_email@example.com"
+    },
+    sequelizeConfig: {
+      username: "postgres",
+      password: "password",
+      database: "complaint-manager",
+      dialect: "postgres",
+      migrationStorageTableName: "sequelize_meta",
+      seederStorage: "sequelize",
+      seederStorageTableName: "sequelize_data"
     },
     authentication: {
       domain: "noipm.auth0.com",
@@ -38,17 +40,19 @@ module.exports = {
     winstonLogLevel: "info"
   },
   test: {
-    username: "postgres",
-    password: "password",
-    database: "complaint-manager-test",
     host: process.env.CIRCLECI ? "localhost" : "db",
     port: 5432,
-    dialect: "postgres",
-    migrationStorageTableName: "sequelize_meta",
-    seederStorage: "sequelize",
-    seederStorageTableName: "sequelize_data",
-    logging: false,
     s3Bucket: "noipm-staging",
+    sequelizeConfig: {
+      username: "postgres",
+      password: "password",
+      database: "complaint-manager-test",
+      dialect: "postgres",
+      migrationStorageTableName: "sequelize_meta",
+      seederStorage: "sequelize",
+      seederStorageTableName: "sequelize_data",
+      logging: false
+    },
     email: {
       secureConnection: false,
       secure: false,
@@ -74,21 +78,23 @@ module.exports = {
         `ws://localhost:${LOCAL_DEV_PORT}`
       ]
     },
-    winstonLogLevel: "info"
+    winstonLogLevel: "error"
   },
   staging: {
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASS,
-    database: process.env.DATABASE_NAME,
-    dialectOptions: {
-      ssl: true
+    sequelizeConfig: {
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASS,
+      database: process.env.DATABASE_NAME,
+      dialectOptions: {
+        ssl: true
+      },
+      dialect: "postgres",
+      migrationStorageTableName: "sequelize_meta",
+      seederStorage: "sequelize",
+      seederStorageTableName: "sequelize_data"
     },
     port: 5432,
     host: process.env.DATABASE_HOST,
-    dialect: "postgres",
-    migrationStorageTableName: "sequelize_meta",
-    seederStorage: "sequelize",
-    seederStorageTableName: "sequelize_data",
     s3Bucket: "noipm-staging",
     email: {
       host: "smtp-mail.outlook.com",
@@ -120,18 +126,21 @@ module.exports = {
     winstonLogLevel: "info"
   },
   production: {
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASS,
-    database: process.env.DATABASE_NAME,
-    dialectOptions: {
-      ssl: true
+    sequelizeConfig: {
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASS,
+      database: process.env.DATABASE_NAME,
+      dialectOptions: {
+        ssl: true
+      },
+      dialect: "postgres",
+      migrationStorageTableName: "sequelize_meta",
+      seederStorage: "sequelize",
+      seederStorageTableName: "sequelize_data",
+      logging: false
     },
     port: 5432,
     host: process.env.DATABASE_HOST,
-    dialect: "postgres",
-    migrationStorageTableName: "sequelize_meta",
-    seederStorage: "sequelize",
-    seederStorageTableName: "sequelize_data",
     s3Bucket: "noipm-production",
     email: {
       host: "smtp-mail.outlook.com",

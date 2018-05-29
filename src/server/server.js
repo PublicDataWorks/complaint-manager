@@ -12,7 +12,6 @@ const winston = require("winston");
 winston.configure({
   transports: [
     new winston.transports.Console({
-      handleExceptions: true,
       json: true,
       colorize: true
     })
