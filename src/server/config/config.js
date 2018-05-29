@@ -34,7 +34,8 @@ module.exports = {
         "https://noipm.auth0.com",
         `ws://localhost:${LOCAL_DEV_PORT}`
       ]
-    }
+    },
+    winstonLogLevel: "info"
   },
   test: {
     username: "postgres",
@@ -72,7 +73,8 @@ module.exports = {
         "https://noipm.auth0.com",
         `ws://localhost:${LOCAL_DEV_PORT}`
       ]
-    }
+    },
+    winstonLogLevel: "info"
   },
   staging: {
     username: process.env.DATABASE_USERNAME,
@@ -114,7 +116,8 @@ module.exports = {
     operatorsAliases: false,
     contentSecurityPolicy: {
       connectSrc: ["'self'", "https://noipm.auth0.com"]
-    }
+    },
+    winstonLogLevel: "info"
   },
   production: {
     username: process.env.DATABASE_USERNAME,
@@ -156,6 +159,7 @@ module.exports = {
     operatorsAliases: false,
     contentSecurityPolicy: {
       connectSrc: ["'self'", "https://noipm-production.auth0.com"]
-    }
+    },
+    winstonLogLevel: "error"
   }
 };

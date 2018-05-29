@@ -6,6 +6,20 @@ const config = require("./config/config");
 const healthCheck = require("./handlers/healthCheck");
 const errorHandler = require("./handlers/errorHandler");
 const apiRouter = require("./apiRouter");
+const expressWinston = require("express-winston");
+const winston = require("winston");
+
+winston.configure({
+  transports: [
+    new winston.transports.Console({
+      handleExceptions: true,
+      json: true,
+      colorize: true
+    })
+  ],
+  level: config[process.env.NODE_ENV].winstonLogLevel,
+  colorize: true // Color the text and status code, using the Express/morgan color palette (text: gray, status: default green, 3XX cyan, 4XX yellow, 5XX red).
+});
 
 const app = express();
 const twoYearsInSeconds = 63113852;
@@ -41,11 +55,27 @@ app.use(express.static(buildDirectory));
 
 app.get("/health-check", healthCheck);
 
+app.use(
+  expressWinston.logger({
+    winstonInstance: winston,
+    requestWhitelist: ["url", "method", "body", "originalUrl", "query"], //hide request headers
+    bodyBlacklist: ""
+  })
+);
+
 app.use("/api", apiRouter);
 
 app.get("*", function(req, res) {
   res.sendFile(path.join(buildDirectory, "index.html"));
 });
+
+app.use(
+  expressWinston.errorLogger({
+    winstonInstance: winston,
+    baseMeta: { trace: "See stack", memoryUsage: "" },
+    requestWhitelist: ["url", "method", "originalUrl", "query"] //hide request headers and body
+  })
+);
 
 app.use(errorHandler);
 
