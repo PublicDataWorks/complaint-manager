@@ -12,15 +12,6 @@ module.exports = {
       port: 587,
       fromEmailAddress: "dev_env_email@example.com"
     },
-    sequelizeConfig: {
-      username: "postgres",
-      password: "password",
-      database: "complaint-manager",
-      dialect: "postgres",
-      migrationStorageTableName: "sequelize_meta",
-      seederStorage: "sequelize",
-      seederStorageTableName: "sequelize_data"
-    },
     authentication: {
       domain: "noipm.auth0.com",
       publicKeyURL: "https://noipm.auth0.com/.well-known/jwks.json",
@@ -29,7 +20,6 @@ module.exports = {
       algorithm: "RS256",
       nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
     },
-    operatorsAliases: false,
     contentSecurityPolicy: {
       connectSrc: [
         "'self'",
@@ -42,17 +32,6 @@ module.exports = {
   test: {
     host: process.env.CIRCLECI ? "localhost" : "db",
     port: 5432,
-    s3Bucket: "noipm-staging",
-    sequelizeConfig: {
-      username: "postgres",
-      password: "password",
-      database: "complaint-manager-test",
-      dialect: "postgres",
-      migrationStorageTableName: "sequelize_meta",
-      seederStorage: "sequelize",
-      seederStorageTableName: "sequelize_data",
-      logging: false
-    },
     email: {
       secureConnection: false,
       secure: false,
@@ -70,7 +49,6 @@ module.exports = {
       scope: "openid profile",
       nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
     },
-    operatorsAliases: false,
     contentSecurityPolicy: {
       connectSrc: [
         "'self'",
@@ -81,18 +59,6 @@ module.exports = {
     winstonLogLevel: "error"
   },
   staging: {
-    sequelizeConfig: {
-      username: process.env.DATABASE_USERNAME,
-      password: process.env.DATABASE_PASS,
-      database: process.env.DATABASE_NAME,
-      dialectOptions: {
-        ssl: true
-      },
-      dialect: "postgres",
-      migrationStorageTableName: "sequelize_meta",
-      seederStorage: "sequelize",
-      seederStorageTableName: "sequelize_data"
-    },
     port: 5432,
     host: process.env.DATABASE_HOST,
     s3Bucket: "noipm-staging",
@@ -119,26 +85,12 @@ module.exports = {
       algorithm: "RS256",
       nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
     },
-    operatorsAliases: false,
     contentSecurityPolicy: {
       connectSrc: ["'self'", "https://noipm.auth0.com"]
     },
     winstonLogLevel: "info"
   },
   production: {
-    sequelizeConfig: {
-      username: process.env.DATABASE_USERNAME,
-      password: process.env.DATABASE_PASS,
-      database: process.env.DATABASE_NAME,
-      dialectOptions: {
-        ssl: true
-      },
-      dialect: "postgres",
-      migrationStorageTableName: "sequelize_meta",
-      seederStorage: "sequelize",
-      seederStorageTableName: "sequelize_data",
-      logging: false
-    },
     port: 5432,
     host: process.env.DATABASE_HOST,
     s3Bucket: "noipm-production",
@@ -165,7 +117,6 @@ module.exports = {
       algorithm: "RS256",
       nicknameKey: "https://noipm-production.herokuapp.com/nickname"
     },
-    operatorsAliases: false,
     contentSecurityPolicy: {
       connectSrc: ["'self'", "https://noipm-production.auth0.com"]
     },
