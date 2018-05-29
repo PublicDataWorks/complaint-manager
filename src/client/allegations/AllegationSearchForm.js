@@ -19,15 +19,6 @@ class AllegationSearchForm extends React.Component {
     await this.props.dispatch(getAllegationDropdownValues());
   }
 
-  componentDidUpdate(prevProps) {
-    const prevRule = prevProps.currentRuleSelected;
-    const currentRule = this.props.currentRuleSelected;
-
-    if (prevRule && prevRule !== currentRule) {
-      this.props.dispatch(change(ALLEGATION_SEARCH_FORM_NAME, "paragraph", ""));
-    }
-  }
-
   render() {
     const {
       invalid,
@@ -48,11 +39,16 @@ class AllegationSearchForm extends React.Component {
       return { ...values, ...normalizedValues };
     };
 
+    const clearParagraphValue = () => {
+      this.props.dispatch(change(ALLEGATION_SEARCH_FORM_NAME, "paragraph", ""));
+    };
+
     return (
       <div>
         <form>
           <div style={{ display: "flex" }}>
             <Field
+              onChange={clearParagraphValue}
               label="Rule"
               name="rule"
               component={NoBlurTextField}
