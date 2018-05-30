@@ -3,17 +3,16 @@ const createCase = require("./createCase");
 const models = require("../../models");
 
 describe("createCase handler", () => {
-  let request, response, next, caseAttributes, civilianAttributes;
+  let request, response, next, caseAttributes, civilianAttributes, user;
 
   beforeEach(async () => {
     await models.cases.destroy({ truncate: true, cascade: true });
 
+    user = "TEST_USER_NICKNAME";
     caseAttributes = {
       complainantType: "Civilian",
       firstContactDate: "2018-02-08",
-      incidentDate: "2018-03-16",
-      createdBy: "someone",
-      assignedTo: "someone"
+      incidentDate: "2018-03-16"
     };
     civilianAttributes = {
       firstName: "First",
@@ -30,7 +29,7 @@ describe("createCase handler", () => {
         case: caseAttributes,
         civilian: civilianAttributes
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: user
     });
     response = httpMocks.createResponse();
     next = jest.fn();
@@ -53,6 +52,8 @@ describe("createCase handler", () => {
         complainantType: "Civilian",
         firstContactDate: "2018-02-08",
         incidentDate: "2018-03-16",
+        createdBy: user,
+        assignedTo: user,
         complainantCivilians: expect.arrayContaining([
           expect.objectContaining({
             firstName: "First",
@@ -72,14 +73,12 @@ describe("createCase handler", () => {
       },
       body: {
         case: {
-          createdBy: "tuser",
-          assignedTo: "tuser",
           complainantType: "Police Officer",
           firstContactDate: "2018-02-08",
           incidentDate: "2018-03-16T17:42"
         }
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: user
     });
 
     await createCase(policeOfficerRequest, response, next);
@@ -93,6 +92,8 @@ describe("createCase handler", () => {
         complainantType: "Police Officer",
         firstContactDate: "2018-02-08",
         incidentDate: "2018-03-16",
+        createdBy: user,
+        assignedTo: user,
         complainantCivilians: []
       })
     );
@@ -106,6 +107,8 @@ describe("createCase handler", () => {
       expect(response._getData()).toEqual(
         expect.objectContaining({
           ...caseAttributes,
+          createdBy: user,
+          assignedTo: user,
           complainantCivilians: expect.arrayContaining([
             expect.objectContaining({
               ...civilianAttributes
@@ -128,7 +131,8 @@ describe("createCase handler", () => {
           firstName: "",
           lastName: ""
         }
-      }
+      },
+      nickname: user
     });
 
     await createCase(request, response, next);
@@ -147,7 +151,8 @@ describe("createCase handler", () => {
           firstName: "someveryveryveryveryveryveryveryveryveryveryverylongname",
           lastName: "name"
         }
-      }
+      },
+      nickname: user
     });
 
     await createCase(request, response, next);

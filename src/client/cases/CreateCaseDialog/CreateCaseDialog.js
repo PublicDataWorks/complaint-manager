@@ -99,8 +99,6 @@ class CreateCaseDialog extends React.Component {
 
   prepareCaseValues = values => ({
     ...values.case,
-    createdBy: this.props.currentUser,
-    assignedTo: this.props.currentUser,
     incidentDate: applyCentralTimeZoneOffset(values.case.incidentDate)
   });
 
@@ -208,8 +206,7 @@ class CreateCaseDialog extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    caseCreationSuccess: state.ui.snackbar.success,
-    currentUser: state.users.current.userInfo.nickname
+    caseCreationSuccess: state.ui.snackbar.success
   };
 };
 

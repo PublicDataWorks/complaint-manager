@@ -20,7 +20,6 @@ describe("CreateCaseDialog component", () => {
   let store,
     dialog,
     dispatchSpy,
-    testUsername,
     dateAndTimeToday,
     dateAndTimeTodayWithTimezone;
 
@@ -28,9 +27,6 @@ describe("CreateCaseDialog component", () => {
     store = createConfiguredStore();
     dateAndTimeToday = moment(Date.now()).format("YYYY-MM-DDTHH:mm");
     dateAndTimeTodayWithTimezone = applyCentralTimeZoneOffset(dateAndTimeToday);
-
-    testUsername = "tuser";
-    store.dispatch(userAuthSuccess({ nickname: testUsername }));
 
     dispatchSpy = jest.spyOn(store, "dispatch");
 
@@ -66,9 +62,7 @@ describe("CreateCaseDialog component", () => {
       caseDetails = {
         case: {
           complainantType: "Civilian",
-          firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
-          createdBy: testUsername,
-          assignedTo: testUsername
+          firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
         },
         civilian: {
           firstName: "Fats",
@@ -253,9 +247,7 @@ describe("CreateCaseDialog component", () => {
       const caseDetails = {
         case: {
           complainantType: "Civilian",
-          firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
-          createdBy: testUsername,
-          assignedTo: testUsername
+          firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
         },
         civilian: {
           firstName: "Hello",

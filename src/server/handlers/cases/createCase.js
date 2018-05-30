@@ -27,7 +27,9 @@ const invalidName = input => {
 const createCaseWithoutCivilian = async req => {
   return await models.cases.create(
     {
-      ...req.body.case
+      ...req.body.case,
+      createdBy: req.nickname,
+      assignedTo: req.nickname
     },
     {
       auditUser: req.nickname
@@ -39,6 +41,8 @@ const createCaseWithCivilian = async req => {
   return await models.cases.create(
     {
       ...req.body.case,
+      createdBy: req.nickname,
+      assignedTo: req.nickname,
       complainantCivilians: [req.body.civilian]
     },
     {
