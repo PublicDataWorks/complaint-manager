@@ -17,7 +17,9 @@ const AllegationSearchResultsRow = ({ classes, allegation, children }) => {
         {formatStringToTitleCase(allegation.paragraph)}
       </TableCell>
       <TableCell className={classes.cell}>
-        {allegation.directive || "N/A"}
+        {allegation.directive
+          ? formatStringToTitleCase(allegation.directive)
+          : "N/A"}
       </TableCell>
       <TableCell className={classes.buttonCell}>{children}</TableCell>
     </TableRow>
