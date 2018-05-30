@@ -68,31 +68,26 @@ exports.init = sequelize => {
   };
 
   const raiseAuditException = (instance, options) => {
-    throw new Error(`Audit is not implemented for this function.`);
+    throw Boom.notImplemented(`Audit is not implemented for this function.`);
   };
 
   const createDataChangeAudit = async (instance, options, action) => {
     const changes = objectChanges(instance);
     if (_.isEmpty(changes)) return;
-    try {
-      await sequelize.model("data_change_audit").create(
-        {
-          user: getUserNickname(options),
-          action: action,
-          modelName: instance._modelOptions.name.singular,
-          modelId: instance.id,
-          caseId: instance.id,
-          snapshot: instance.dataValues,
-          changes: changes
-        },
-        {
-          transaction: options.transaction
-        }
-      );
-    } catch (error) {
-      console.error(`ERROR IN AFTER ${action} HOOK: `, error);
-      throw error;
-    }
+    await sequelize.model("data_change_audit").create(
+      {
+        user: getUserNickname(options),
+        action: action,
+        modelName: instance._modelOptions.name.singular,
+        modelId: instance.id,
+        caseId: instance.id,
+        snapshot: instance.dataValues,
+        changes: changes
+      },
+      {
+        transaction: options.transaction
+      }
+    );
   };
 
   const getUserNickname = options => {
