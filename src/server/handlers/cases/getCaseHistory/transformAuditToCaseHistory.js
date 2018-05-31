@@ -1,12 +1,11 @@
-const { DATA_DELETED } = require("../../../../sharedUtilities/constants");
 const _ = require("lodash");
-const fieldPatternToIgnore = ".*Id";
+const fieldPatternToIgnore = "(.*Id$|^id$)";
 
 const transformAuditToCaseHistory = dataChangeAudits => {
   const caseHistory = [];
   dataChangeAudits.forEach(audit => {
     const details = transformDetails(audit);
-    if (_.isEmpty(details) && audit.action !== DATA_DELETED) return;
+    if (_.isEmpty(details)) return;
 
     caseHistory.push({
       id: audit.id,

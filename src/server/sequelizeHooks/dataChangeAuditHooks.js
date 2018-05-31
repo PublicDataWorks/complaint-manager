@@ -11,6 +11,8 @@ exports.init = sequelize => {
   const originalDestroy = sequelize.Model.destroy;
   const originalInstanceDestroy = sequelize.Model.prototype.destroy;
 
+  const fieldsToIgnore = ["createdAt", "updatedAt", "createdBy", "deletedAt"];
+
   sequelize.Model.prototype.update = async function(values, options) {
     return await addTransactionToFunction(
       originalInstanceUpdate,
@@ -106,7 +108,7 @@ exports.init = sequelize => {
   };
 
   const createDataChangeAudit = async (instance, options, action) => {
-    const changes = objectChanges(instance);
+    const changes = objectChanges(action, instance);
     const caseId = instance.caseId || instance.id;
     if (_.isEmpty(changes) && action !== DATA_DELETED) return;
     await sequelize.model("data_change_audit").create(
@@ -134,8 +136,12 @@ exports.init = sequelize => {
     return userNickname;
   };
 
-  const objectChanges = instance => {
-    const fieldsToIgnore = ["createdAt", "updatedAt", "createdBy"];
+  const objectChanges = (action, instance) => {
+    if (action === DATA_DELETED) return deleteObjectChanges(instance);
+    return createOrUpdateObjectChanges(instance);
+  };
+
+  const createOrUpdateObjectChanges = instance => {
     const previousValuesChanging = instance.previous();
     const fieldsChanging = Object.keys(previousValuesChanging).filter(
       field => !fieldsToIgnore.includes(field)
@@ -145,6 +151,20 @@ exports.init = sequelize => {
       objectChanges[field] = {
         previous: previousValuesChanging[field],
         new: instance[field]
+      };
+    });
+    return objectChanges;
+  };
+
+  const deleteObjectChanges = instance => {
+    const fieldsChanging = Object.keys(instance.dataValues).filter(
+      key => !fieldsToIgnore.includes(key)
+    );
+
+    const objectChanges = {};
+    _.forEach(fieldsChanging, field => {
+      objectChanges[field] = {
+        previous: instance[field]
       };
     });
     return objectChanges;

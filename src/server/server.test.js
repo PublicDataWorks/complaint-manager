@@ -22,10 +22,11 @@ jest.mock("aws-sdk", () => ({
 }));
 
 describe("server", () => {
-  let token;
+  let token, user;
 
   beforeEach(async () => {
-    token = buildTokenWithPermissions("", "some_nickname");
+    user = "some_nickname";
+    token = buildTokenWithPermissions("", user);
   });
 
   afterEach(async () => {
@@ -70,7 +71,7 @@ describe("server", () => {
       });
     });
 
-    test.only("should return 401 with invalid token", async () => {
+    test("should return 401 with invalid token", async () => {
       await request(app)
         .get("/api/cases")
         .set("Content-Header", "application/json")
@@ -94,6 +95,24 @@ describe("server", () => {
           expect(response.body).toEqual({
             error: "Unauthorized",
             message: "Invalid token",
+            statusCode: 401
+          });
+        });
+    });
+
+    test("should return 401 when nickname missing", async () => {
+      token = buildTokenWithPermissions();
+
+      await request(app)
+        .post("/api/cases")
+        .set("Content-Header", "application/json")
+        .set("Authorization", `Bearer ${token}`)
+        .send({})
+        .expect(401)
+        .then(response => {
+          expect(response.body).toEqual({
+            error: "Unauthorized",
+            message: "User nickname missing",
             statusCode: 401
           });
         });
@@ -134,9 +153,7 @@ describe("server", () => {
         case: {
           firstContactDate: "2018-01-31",
           incidentDate: "2018-03-16",
-          complainantType: "Civilian",
-          createdBy: "tuser",
-          assignedTo: "tuser"
+          complainantType: "Civilian"
         }
       };
     });
@@ -158,6 +175,8 @@ describe("server", () => {
           expect(response.body).toEqual(
             expect.objectContaining({
               ...requestBody.case,
+              createdBy: user,
+              assignedTo: user,
               complainantCivilians: expect.arrayContaining([
                 expect.objectContaining(requestBody.civilian)
               ])
@@ -195,24 +214,6 @@ describe("server", () => {
               ])
             })
           );
-        });
-    });
-
-    test("should return 401 when nickname missing", async () => {
-      token = buildTokenWithPermissions();
-
-      await request(app)
-        .post("/api/cases")
-        .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
-        .send(requestBody)
-        .expect(401)
-        .then(response => {
-          expect(response.body).toEqual({
-            error: "Unauthorized",
-            message: "User nickname missing",
-            statusCode: 401
-          });
         });
     });
   });
@@ -861,7 +862,7 @@ describe("server", () => {
       defaultCase = await models.cases.create(defaultCase, {
         include: [
           { model: models.civilian, as: "complainantCivilians" },
-          { model: models.attachment }
+          { model: models.attachment, auditUser: "someone" }
         ],
         auditUser: "someone"
       });
@@ -938,7 +939,7 @@ describe("server", () => {
           .build();
 
         caseWithSameFilename = await models.cases.create(caseWithSameFilename, {
-          include: [models.attachment],
+          include: [{ model: models.attachment, auditUser: "someone" }],
           auditUser: "someone"
         });
 

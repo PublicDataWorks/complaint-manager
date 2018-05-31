@@ -1,7 +1,4 @@
-import {
-  DATA_DELETED,
-  DATA_UPDATED
-} from "../../../../sharedUtilities/constants";
+import { DATA_UPDATED } from "../../../../sharedUtilities/constants";
 import DataChangeAudit from "../../../../client/testUtilities/dataChangeAudit";
 import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
 
@@ -68,9 +65,10 @@ describe("transformAuditToCaseHistory", () => {
     expect(caseHistories[0].details).toEqual(expectedDetails);
   });
 
-  test("filters out updates to *Id fields but not *id", () => {
+  test("filters out updates to *Id and ^id$ fields but not *id", () => {
     const auditChanges = {
       incident: { previous: null, new: "something" },
+      id: { previous: null, new: 6 },
       incidentLocationId: { previous: null, new: 5 }
     };
     const audit = new DataChangeAudit.Builder()
@@ -94,15 +92,5 @@ describe("transformAuditToCaseHistory", () => {
     const caseHistories = transformAuditToCaseHistory([audit]);
 
     expect(caseHistories).toHaveLength(0);
-  });
-
-  test("does not filter out audits that are delete even when no changes", () => {
-    const audit = new DataChangeAudit.Builder()
-      .defaultDataChangeAudit()
-      .withChanges({})
-      .withAction(DATA_DELETED);
-
-    const caseHistories = transformAuditToCaseHistory([audit]);
-    expect(caseHistories).toHaveLength(1);
   });
 });

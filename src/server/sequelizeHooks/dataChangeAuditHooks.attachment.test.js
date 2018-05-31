@@ -139,7 +139,6 @@ describe("dataChangeAuditHooks for attachment", () => {
       expect(audit.modelId).toEqual(attachment.id);
       expect(audit.user).toEqual("someone else");
       expect(audit.caseId).toEqual(existingCase.id);
-      expect(audit.changes).toEqual({});
     });
 
     test("it creates data change object when destroying from Model method", async () => {
@@ -157,7 +156,33 @@ describe("dataChangeAuditHooks for attachment", () => {
       expect(audit.modelId).toEqual(attachment.id);
       expect(audit.user).toEqual("someone else");
       expect(audit.caseId).toEqual(existingCase.id);
-      expect(audit.changes).toEqual({});
+    });
+
+    test("it stores the values being deleted in the changes field of the audit", async () => {
+      await models.attachment.destroy({
+        where: { id: attachment.id },
+        auditUser: "someone else"
+      });
+      const audit = await models.data_change_audit.find({
+        where: { modelName: "attachment", action: DATA_DELETED }
+      });
+
+      const expectedChanges = {
+        fileName: {
+          previous: attachment.fileName
+        },
+        description: {
+          previous: attachment.description
+        },
+        caseId: {
+          previous: attachment.caseId
+        },
+        id: {
+          previous: attachment.id
+        }
+      };
+
+      expect(audit.changes).toEqual(expectedChanges);
     });
 
     test("it stores the snapshot at time of delete", async () => {
