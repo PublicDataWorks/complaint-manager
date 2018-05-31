@@ -1,4 +1,6 @@
 "use strict";
+const moment = require("moment");
+const models = require("./index");
 
 module.exports = (sequelize, DataTypes) => {
   const CaseOfficer = sequelize.define(
@@ -8,6 +10,15 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
+      },
+      officerId: {
+        field: "officer_id",
+        type: DataTypes.INTEGER,
+        references: {
+          model: models.officer,
+          key: "id"
+        },
+        allowNull: true
       },
       firstName: {
         field: "first_name",
@@ -115,15 +126,42 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "cases_officers",
-      paranoid: true
+      paranoid: true,
+      getterMethods: {
+        fullName() {
+          if (this.officerId) {
+            const firstName = this.firstName ? this.firstName : "";
+            const middleName = this.middleName ? this.middleName : "";
+            const lastName = this.lastName ? this.lastName : "";
+
+            return `${firstName} ${middleName} ${lastName}`.replace("  ", " ");
+          }
+
+          return "Unknown Officer";
+        },
+        age() {
+          return moment().diff(this.dob, "years", false);
+        },
+        supervisorFullName() {
+          if (this.officerId) {
+            const firstName = this.supervisorFirstName
+              ? this.supervisorFirstName
+              : "";
+            const middleName = this.supervisorMiddleName
+              ? this.supervisorMiddleName
+              : "";
+            const lastName = this.supervisorLastName
+              ? this.supervisorLastName
+              : "";
+
+            return `${firstName} ${middleName} ${lastName}`.replace("  ", " ");
+          }
+
+          return "";
+        }
+      }
     }
   );
-
-  CaseOfficer.associate = models => {
-    CaseOfficer.belongsTo(models.officer, {
-      foreignKey: { name: "officerId", field: "officer_id" }
-    });
-  };
 
   return CaseOfficer;
 };

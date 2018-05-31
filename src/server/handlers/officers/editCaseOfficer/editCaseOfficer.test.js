@@ -24,9 +24,10 @@ describe("editCaseOfficer", () => {
       .withId(undefined)
       .withOfficerNumber(200)
       .build();
+    const createdOfficer = await models.officer.create(existingOfficer);
     const existingCaseOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
-      .withOfficer(existingOfficer)
+      .withOfficer(createdOfficer)
       .build();
     const existingCase = new Case.Builder()
       .defaultCase()
@@ -39,8 +40,7 @@ describe("editCaseOfficer", () => {
       include: [
         {
           model: models.case_officer,
-          as: "accusedOfficers",
-          include: [models.officer]
+          as: "accusedOfficers"
         }
       ],
       auditUser: "someone",

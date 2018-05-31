@@ -39,7 +39,7 @@ class ManageOfficerMenu extends React.Component {
             data-test="editCaseOfficer"
             onClick={() => {
               if (caseOfficer.officerId) {
-                this.props.dispatch(selectOfficer(caseOfficer.officer));
+                this.props.dispatch(selectOfficer(caseOfficer));
               } else {
                 this.props.dispatch(selectUnknownOfficer());
               }

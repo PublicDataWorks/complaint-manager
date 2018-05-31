@@ -101,10 +101,11 @@ describe("POST /cases/:caseId/cases_officers", () => {
               expect.objectContaining({
                 id: expect.anything(),
                 notes: officerNotes,
-                officer: expect.objectContaining({
-                  firstName: seededOfficer.firstName,
-                  lastName: seededOfficer.lastName
-                })
+                roleOnCase: officerRole,
+                firstName: seededOfficer.firstName,
+                middleName: seededOfficer.middleName,
+                lastName: seededOfficer.lastName,
+                fullName: "Ugochi Grant Smith"
               })
             ])
           })
@@ -129,7 +130,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
               expect.objectContaining({
                 id: expect.anything(),
                 notes: officerNotes,
-                officer: { fullName: "Unknown Officer" }
+                fullName: "Unknown Officer"
               })
             ])
           })

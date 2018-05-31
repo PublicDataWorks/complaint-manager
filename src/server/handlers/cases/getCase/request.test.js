@@ -19,17 +19,20 @@ describe("GET /cases/:id", () => {
       .withId(undefined)
       .withOfficerNumber(123)
       .build();
+    const createdSupervisor = await models.officer.create(supervisor);
 
     const officer = new Officer.Builder()
       .defaultOfficer()
       .withOfficerNumber(567)
-      .withSupervisor(supervisor)
+      .withSupervisor(createdSupervisor)
       .withId(undefined)
       .build();
+    const createdOfficer = await models.officer.create(officer);
 
     const accusedOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
-      .withOfficer(officer)
+      .withOfficer(createdOfficer)
+      .withSupervisor(createdSupervisor)
       .withId(undefined)
       .build();
 
@@ -82,18 +85,7 @@ describe("GET /cases/:id", () => {
         },
         {
           model: models.case_officer,
-          as: "accusedOfficers",
-          include: [
-            {
-              model: models.officer,
-              include: [
-                {
-                  model: models.officer,
-                  as: "supervisor"
-                }
-              ]
-            }
-          ]
+          as: "accusedOfficers"
         }
       ],
       auditUser: "someone"
@@ -160,16 +152,10 @@ describe("GET /cases/:id", () => {
             }),
             accusedOfficers: expect.arrayContaining([
               expect.objectContaining({
-                officer: expect.objectContaining({
-                  id: caseToRetrieve.accusedOfficers[0].officer.id,
-                  employeeType:
-                    caseToRetrieve.accusedOfficers[0].officer.employeeType,
-                  supervisor: expect.objectContaining({
-                    fullName:
-                      caseToRetrieve.accusedOfficers[0].officer.supervisor
-                        .fullName
-                  })
-                }),
+                officerId: caseToRetrieve.accusedOfficers[0].officerId,
+                employeeType: caseToRetrieve.accusedOfficers[0].employeeType,
+                supervisorFullName:
+                  caseToRetrieve.accusedOfficers[0].supervisorFullName,
                 roleOnCase: "Accused"
               })
             ])

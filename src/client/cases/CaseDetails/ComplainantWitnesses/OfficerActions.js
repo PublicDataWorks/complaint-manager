@@ -16,7 +16,7 @@ const OfficerActions = ({ caseOfficer, dispatch }) => (
         event.stopPropagation();
 
         if (caseOfficer.officerId) {
-          dispatch(selectOfficer(caseOfficer.officer));
+          dispatch(selectOfficer(caseOfficer));
         } else {
           dispatch(selectUnknownOfficer());
         }

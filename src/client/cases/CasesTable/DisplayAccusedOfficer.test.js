@@ -19,7 +19,7 @@ describe("DisplayAccusedOfficer", () => {
     containsText(
       wrapper,
       '[data-test="accusedOfficerName"]',
-      accusedOfficer.officer.fullName
+      accusedOfficer.fullName
     );
   });
 
@@ -40,12 +40,11 @@ describe("DisplayAccusedOfficer", () => {
   test("should be blank when accused officer present but officer details are not", () => {
     const accusedOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
+      .withNoOfficer()
       .build();
-    const { officer, ...accusedOfficerWithoutOfficerDetails } = accusedOfficer;
-    const accusedOfficers = [accusedOfficerWithoutOfficerDetails];
 
     const wrapper = mount(
-      <DisplayAccusedOfficer accusedOfficers={accusedOfficers} />
+      <DisplayAccusedOfficer accusedOfficers={[accusedOfficer]} />
     );
 
     const nameDisplay = wrapper.find('div[data-test="accusedOfficerName"]');

@@ -6,8 +6,8 @@ const DisplayAccusedOfficer = ({ accusedOfficers }) => {
     <div data-test="accusedOfficerName">
       {accusedOfficers &&
       accusedOfficers.length > 0 &&
-      accusedOfficers[0].officer ? (
-        accusedOfficers[0].officer.fullName
+      accusedOfficers[0].fullName ? (
+        accusedOfficers[0].fullName
       ) : (
         <WarningMessage variant="tableCell">No Accused Officers</WarningMessage>
       )}

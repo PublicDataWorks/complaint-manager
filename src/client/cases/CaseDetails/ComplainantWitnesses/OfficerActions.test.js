@@ -28,9 +28,7 @@ describe("OfficerActions", () => {
     const editOfficer = wrapper.find('[data-test="editOfficerLink"]').last();
     editOfficer.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      selectOfficer(caseOfficer.officer)
-    );
+    expect(dispatchSpy).toHaveBeenCalledWith(selectOfficer(caseOfficer));
     expect(dispatchSpy).toHaveBeenCalledWith(
       push(`/cases/${caseOfficer.caseId}/officers/${caseOfficer.id}`)
     );

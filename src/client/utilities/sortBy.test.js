@@ -261,9 +261,7 @@ describe("sorting", () => {
         status: "Initial",
         accusedOfficers: [
           {
-            officer: {
-              lastName: "Brown"
-            }
+            lastName: "Brown"
           }
         ],
         assignedTo: "abcUser"
@@ -273,9 +271,7 @@ describe("sorting", () => {
         status: "Active",
         accusedOfficers: [
           {
-            officer: {
-              lastName: "adams"
-            }
+            lastName: "adams"
           }
         ],
         assignedTo: "adams"
@@ -300,9 +296,7 @@ describe("sorting", () => {
         status: "Active",
         accusedOfficers: [
           {
-            officer: {
-              lastName: "adams"
-            }
+            lastName: "adams"
           }
         ],
         assignedTo: "adams"
@@ -312,9 +306,7 @@ describe("sorting", () => {
         status: "Initial",
         accusedOfficers: [
           {
-            officer: {
-              lastName: "Brown"
-            }
+            lastName: "Brown"
           }
         ],
         assignedTo: "abcUser"

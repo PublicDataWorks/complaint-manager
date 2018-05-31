@@ -15,7 +15,7 @@ const UnknownOfficerPanel = ({ caseOfficer, children }) => {
           <div style={{ display: "flex", width: "100%", paddingRight: 0 }}>
             <OfficerInfoDisplay
               displayLabel="Officer"
-              value={caseOfficer.officer.fullName}
+              value={caseOfficer.fullName}
               testLabel="officerName"
             />
             {children}

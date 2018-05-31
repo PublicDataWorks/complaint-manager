@@ -25,11 +25,17 @@ describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
   });
 
   test("it updates the thing", async () => {
-    const existingOfficer = new Officer.Builder().defaultOfficer().build();
+    const existingOfficer = new Officer.Builder()
+      .defaultOfficer()
+      .withOfficerNumber(123)
+      .build();
+    const createdOfficer = await models.officer.create(existingOfficer);
+
     const existingCaseOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
-      .withOfficer(existingOfficer)
+      .withOfficer(createdOfficer)
       .build();
+
     const existingCase = new Case.Builder()
       .defaultCase()
       .withAccusedOfficers([existingCaseOfficer])
@@ -40,8 +46,7 @@ describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
       include: [
         {
           model: models.case_officer,
-          as: "accusedOfficers",
-          include: [models.officer]
+          as: "accusedOfficers"
         }
       ],
       auditUser: "someone",

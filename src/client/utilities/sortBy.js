@@ -31,7 +31,7 @@ const hasAccusedOfficers = ({ accusedOfficers }) => {
 
 const isUnknownOfficer = ({ accusedOfficers }) => {
   if (accusedOfficers.length > 0) {
-    const name = accusedOfficers[0].officer.fullName;
+    const name = accusedOfficers[0].fullName;
     if (name === "Unknown Officer") {
       return name;
     }
@@ -40,8 +40,8 @@ const isUnknownOfficer = ({ accusedOfficers }) => {
 };
 
 const accusedOfficerLastName = ({ accusedOfficers }) => {
-  if (accusedOfficers.length > 0 && accusedOfficers[0].officer.lastName) {
-    return accusedOfficers[0].officer.lastName.toUpperCase();
+  if (accusedOfficers.length > 0 && accusedOfficers[0].lastName) {
+    return accusedOfficers[0].lastName.toUpperCase();
   } else {
     return null;
   }

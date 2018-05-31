@@ -30,9 +30,7 @@ describe("ManageOfficerMenu", () => {
     const editOfficer = wrapper.find('[data-test="editCaseOfficer"]').last();
     editOfficer.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      selectOfficer(caseOfficer.officer)
-    );
+    expect(dispatchSpy).toHaveBeenCalledWith(selectOfficer(caseOfficer));
     expect(dispatchSpy).toHaveBeenCalledWith(
       push(`/cases/${caseOfficer.caseId}/officers/${caseOfficer.id}`)
     );

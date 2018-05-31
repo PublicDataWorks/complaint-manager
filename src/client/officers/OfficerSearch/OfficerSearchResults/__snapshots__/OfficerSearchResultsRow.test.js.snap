@@ -43,8 +43,8 @@ exports[`it can render officer search results with correct styles 1`] = `
                   "officerNumber": 200,
                   "race": "Cuban",
                   "rank": "Police Commander",
-                  "supervisor": null,
-                  "supervisorId": null,
+                  "supervisorOfficerNumber": null,
+                  "windowsUsername": 3241,
                   "workStatus": "Inactive",
                 }
               }
@@ -80,8 +80,8 @@ exports[`it can render officer search results with correct styles 1`] = `
                     "officerNumber": 200,
                     "race": "Cuban",
                     "rank": "Police Commander",
-                    "supervisor": null,
-                    "supervisorId": null,
+                    "supervisorOfficerNumber": null,
+                    "windowsUsername": 3241,
                     "workStatus": "Inactive",
                   }
                 }

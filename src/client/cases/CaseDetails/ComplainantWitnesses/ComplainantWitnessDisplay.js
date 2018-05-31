@@ -13,7 +13,7 @@ const ComplainantWitnessDisplay = ({
   dispatch
 }) => {
   const officerIsKnown = caseOfficer =>
-    caseOfficer.officer.fullName !== "Unknown Officer";
+    caseOfficer.fullName !== "Unknown Officer";
 
   return (
     <div>
@@ -41,7 +41,7 @@ const ComplainantWitnessDisplay = ({
             if (officerIsKnown(civilianOrOfficer)) {
               return (
                 <OfficerPanel
-                  key={civilianOrOfficer.officer.officerNumber}
+                  key={civilianOrOfficer.id}
                   caseOfficer={civilianOrOfficer}
                 >
                   <OfficerActions caseOfficer={civilianOrOfficer} />

@@ -13,10 +13,10 @@ class Officer {
     this.bureau = build.bureau;
     this.district = build.district;
     this.workStatus = build.workStatus;
-    this.supervisorId = build.supervisorId;
-    this.supervisor = build.supervisor;
+    this.supervisorOfficerNumber = build.supervisorOfficerNumber;
     this.hireDate = build.hireDate;
     this.endDate = build.endDate;
+    this.windowsUsername = build.windowsUsername;
     this.employeeType = build.employeeType;
   }
 
@@ -36,11 +36,11 @@ class Officer {
         this.bureau = "FOB - Field Operations Bureau";
         this.district = "First District";
         this.workStatus = "Active";
-        this.supervisorId = null;
-        this.supervisor = null;
+        this.supervisorOfficerNumber = null;
         this.hireDate = "2008-04-30";
         this.endDate = "2009-04-30";
         this.employeeType = "Commissioned";
+        this.windowsUsername = 3241;
         return this;
       }
 
@@ -84,9 +84,8 @@ class Officer {
         return this;
       }
 
-      withSupervisor(supervisor) {
-        this.supervisor = supervisor;
-        this.supervisorId = supervisor.officerNumber;
+      withSupervisor(officer) {
+        this.supervisorOfficerNumber = officer.officerNumber;
         return this;
       }
 

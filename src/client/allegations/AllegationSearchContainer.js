@@ -55,9 +55,7 @@ export class AllegationSearchContainer extends Component {
           <Table style={{ marginBottom: "32px" }}>
             <OfficerSearchTableHeader />
             <TableBody>
-              <OfficerSearchResultsRow
-                officer={currentCaseOfficerData.officer}
-              />
+              <OfficerSearchResultsRow officer={currentCaseOfficerData} />
             </TableBody>
           </Table>
         </div>

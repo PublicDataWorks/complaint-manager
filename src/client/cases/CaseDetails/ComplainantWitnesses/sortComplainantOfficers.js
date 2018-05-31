@@ -1,6 +1,6 @@
 export const getLastName = civilianOrOfficer => {
   if (isKnownOfficer(civilianOrOfficer)) {
-    return civilianOrOfficer.officer.lastName.toLowerCase();
+    return civilianOrOfficer.lastName.toLowerCase();
   }
 
   if (civilianOrOfficer.hasOwnProperty("lastName")) {
@@ -11,7 +11,7 @@ export const getLastName = civilianOrOfficer => {
 
 export const getFirstName = civilianOrOfficer => {
   if (isKnownOfficer(civilianOrOfficer)) {
-    return civilianOrOfficer.officer.firstName.toLowerCase();
+    return civilianOrOfficer.firstName.toLowerCase();
   }
   if (civilianOrOfficer.hasOwnProperty("firstName")) {
     return civilianOrOfficer.firstName.toLowerCase();

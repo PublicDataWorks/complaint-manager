@@ -5,7 +5,6 @@ const getCaseOfficer = asyncMiddleware(async (request, response) => {
   const caseOfficer = await models.case_officer.findById(
     request.params.caseOfficerId,
     {
-      include: [models.officer],
       returning: true
     }
   );

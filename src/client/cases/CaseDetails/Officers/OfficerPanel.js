@@ -25,24 +25,22 @@ const OfficerPanel = ({ caseOfficer, children }) => (
           <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }}>
             <Typography variant="caption">Officer</Typography>
             <Typography variant="body1" style={{ whiteSpace: "pre-wrap" }}>
-              {caseOfficer.officer.fullName
-                ? caseOfficer.officer.fullName
-                : "N/A"}
+              {caseOfficer.fullName ? caseOfficer.fullName : "N/A"}
             </Typography>
             <Typography variant="body1" style={{ whiteSpace: "pre-wrap" }}>
-              {caseOfficer.officer.windowsUsername
-                ? `#${caseOfficer.officer.windowsUsername}`
+              {caseOfficer.windowsUsername
+                ? `#${caseOfficer.windowsUsername}`
                 : "N/A"}
             </Typography>
           </div>
           <OfficerInfoDisplay
             displayLabel="Rank/Title"
-            value={caseOfficer.officer.rank}
+            value={caseOfficer.rank}
             testLabel="rank"
           />
           <OfficerInfoDisplay
             displayLabel="Supervisor"
-            value={caseOfficer.officer.supervisor}
+            value={caseOfficer.supervisor}
             testLabel="supervisor"
           />
           {children}
@@ -51,51 +49,51 @@ const OfficerPanel = ({ caseOfficer, children }) => (
       <StyledExpansionPanelDetails>
         <OfficerInfoDisplay
           displayLabel="Employee Type"
-          value={caseOfficer.officer.employeeType}
+          value={caseOfficer.employeeType}
           testLabel="employeeType"
         />
         <OfficerInfoDisplay
           displayLabel="District"
-          value={caseOfficer.officer.district}
+          value={caseOfficer.district}
           testLabel="district"
         />
         <OfficerInfoDisplay
           displayLabel="Bureau"
-          value={caseOfficer.officer.bureau}
+          value={caseOfficer.bureau}
           testLabel="bureau"
         />
       </StyledExpansionPanelDetails>
       <StyledExpansionPanelDetails>
         <OfficerInfoDisplay
           displayLabel="Status"
-          value={caseOfficer.officer.workStatus}
+          value={caseOfficer.workStatus}
           testLabel="status"
         />
         <OfficerInfoDisplay
           displayLabel="Hire Date"
-          value={formatDate(caseOfficer.officer.hireDate)}
+          value={formatDate(caseOfficer.hireDate)}
           testLabel="hireDate"
         />
         <OfficerInfoDisplay
           displayLabel="End of Employment"
-          value={formatDate(caseOfficer.officer.endDate)}
+          value={formatDate(caseOfficer.endDate)}
           testLabel="endDate"
         />
       </StyledExpansionPanelDetails>
       <StyledExpansionPanelDetails>
         <OfficerInfoDisplay
           displayLabel="Race"
-          value={caseOfficer.officer.race}
+          value={caseOfficer.race}
           testLabel="race"
         />
         <OfficerInfoDisplay
           displayLabel="Sex"
-          value={caseOfficer.officer.sex}
+          value={caseOfficer.sex}
           testLabel="sex"
         />
         <OfficerInfoDisplay
           displayLabel="Age"
-          value={caseOfficer.officer.age}
+          value={caseOfficer.age}
           testLabel="age"
         />
       </StyledExpansionPanelDetails>

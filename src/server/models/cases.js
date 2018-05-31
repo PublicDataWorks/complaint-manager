@@ -118,45 +118,6 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Case.prototype.toJSON = function() {
-    const {
-      accusedOfficers,
-      complainantOfficers,
-      witnessOfficers,
-      ...restOfCase
-    } = this.get();
-
-    if (complainantOfficers) {
-      complainantOfficers.forEach(officer => {
-        if (officer.getDataValue("officerId") === null) {
-          officer.setDataValue("officer", { fullName: "Unknown Officer" });
-        }
-      });
-    }
-
-    if (witnessOfficers) {
-      witnessOfficers.forEach(officer => {
-        if (officer.getDataValue("officerId") === null) {
-          officer.setDataValue("officer", { fullName: "Unknown Officer" });
-        }
-      });
-    }
-
-    if (accusedOfficers) {
-      accusedOfficers.forEach(officer => {
-        if (officer.getDataValue("officerId") === null) {
-          officer.setDataValue("officer", { fullName: "Unknown Officer" });
-        }
-      });
-    }
-
-    return Object.assign({}, restOfCase, {
-      accusedOfficers,
-      complainantOfficers,
-      witnessOfficers
-    });
-  };
-
   Case.auditDataChange();
 
   return Case;

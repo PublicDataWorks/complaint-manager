@@ -9,7 +9,7 @@ import WarningMessage from "../../../shared/components/WarningMessage";
 
 const AccusedOfficers = ({ accusedOfficers }) => {
   const officerIsKnown = caseOfficer =>
-    caseOfficer.officer.fullName !== "Unknown Officer";
+    caseOfficer.fullName !== "Unknown Officer";
 
   return (
     <BaseCaseDetailsCard data-test="officersSection" title="Accused Officers">
@@ -17,13 +17,13 @@ const AccusedOfficers = ({ accusedOfficers }) => {
         {!accusedOfficers || accusedOfficers.length === 0
           ? renderNoOfficers()
           : _.sortBy(accusedOfficers, accusedOfficer => [
-              accusedOfficer.officer.lastName,
-              accusedOfficer.officer.firstName
+              accusedOfficer.lastName,
+              accusedOfficer.firstName
             ]).map(
               caseOfficer =>
                 officerIsKnown(caseOfficer) ? (
                   <AccusedOfficerPanel
-                    key={caseOfficer.officer.officerNumber}
+                    key={caseOfficer.id}
                     caseOfficer={caseOfficer}
                   >
                     <ManageOfficerMenu caseOfficer={caseOfficer} />

@@ -20,12 +20,12 @@ describe("getCases", () => {
       cascade: true,
       force: true
     });
-    await models.case_officer.destroy({ truncate: true, cascade: true });
-    await models.cases.destroy({
+    await models.case_officer.destroy({
       truncate: true,
       cascade: true,
-      auditUser: "test user"
+      force: true
     });
+    await models.cases.destroy({ truncate: true, cascade: true });
     await models.officer.destroy({ truncate: true, cascade: true });
     await models.civilian.destroy({
       truncate: true,
@@ -57,9 +57,7 @@ describe("getCases", () => {
   });
 
   describe("GET /cases", () => {
-    let seededCase, officer;
-
-    beforeEach(async () => {
+    test("should get all cases", async () => {
       const civilian = new Civilian.Builder()
         .defaultCivilian()
         .withId(undefined)
@@ -67,29 +65,52 @@ describe("getCases", () => {
         .withFirstName("Robert")
         .build();
 
-      officer = new Officer.Builder()
+      const officer = new Officer.Builder()
         .defaultOfficer()
         .withFirstName("Jeff")
+        .withOfficerNumber(123)
         .withId(undefined)
         .build();
+      const createdOfficer = await models.officer.create(officer);
+
+      const officerComplainant = new Officer.Builder()
+        .defaultOfficer()
+        .withOfficerNumber(321)
+        .withFirstName("Marty")
+        .withId(undefined)
+        .build();
+      const createdOfficerComplainant = await models.officer.create(
+        officerComplainant
+      );
 
       const accusedOfficer = new CaseOfficer.Builder()
         .defaultCaseOfficer()
-        .withCaseId(undefined)
         .withId(undefined)
-        .withOfficer(officer)
+        .withOfficer(createdOfficer)
+        .withNoSupervisor()
+        .build();
+
+      const complainantOfficer = new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withOfficer(createdOfficerComplainant)
+        .withNoSupervisor()
+        .withRoleOnCase("Complainant")
         .build();
 
       const defaultCase = new Case.Builder()
         .defaultCase()
         .withId(undefined)
         .withComplainantCivilians([civilian])
+        .withAccusedOfficers([accusedOfficer])
+        .withComplainantOfficers([complainantOfficer])
         .withAttachments(undefined)
         .withIncidentLocation(undefined)
-        .withAccusedOfficers([accusedOfficer])
+        .withWitnessOfficers(undefined)
+        .withWitnessCivilians(undefined)
         .build();
 
-      seededCase = await models.cases.create(defaultCase, {
+      const seededCase = await models.cases.create(defaultCase, {
         include: [
           {
             model: models.civilian,
@@ -97,20 +118,16 @@ describe("getCases", () => {
           },
           {
             model: models.case_officer,
-            as: "accusedOfficers",
-            include: [models.officer]
+            as: "accusedOfficers"
           },
           {
             model: models.case_officer,
-            as: "complainantOfficers",
-            include: [models.officer]
+            as: "complainantOfficers"
           }
         ],
         auditUser: "someone"
       });
-    });
 
-    test("should get all cases", async () => {
       await request(app)
         .get("/api/cases")
         .set("Content-Header", "application/json")
@@ -130,17 +147,12 @@ describe("getCases", () => {
                 ]),
                 accusedOfficers: expect.arrayContaining([
                   expect.objectContaining({
-                    officer: expect.objectContaining({
-                      firstName: officer.firstName
-                    })
+                    firstName: officer.firstName
                   })
                 ]),
                 complainantOfficers: expect.arrayContaining([
                   expect.objectContaining({
-                    officer: expect.objectContaining({
-                      fullName:
-                        seededCase.complainantOfficers[0].officer.fullName
-                    })
+                    fullName: seededCase.complainantOfficers[0].fullName
                   })
                 ]),
                 complainantType: seededCase.complainantType,

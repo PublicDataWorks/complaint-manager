@@ -14,10 +14,10 @@ const DisplayComplainant = ({ caseDetails }) => {
   if (Boolean(civilianComplainant)) {
     formattedComplainant = formatCivilianName(civilianComplainant);
   } else if (Boolean(officerComplainant)) {
-    if (officerComplainant.officer.fullName !== "Unknown Officer") {
-      formattedComplainant = `Officer ${officerComplainant.officer.fullName}`;
+    if (officerComplainant.fullName !== "Unknown Officer") {
+      formattedComplainant = `Officer ${officerComplainant.fullName}`;
     } else {
-      formattedComplainant = officerComplainant.officer.fullName;
+      formattedComplainant = officerComplainant.fullName;
     }
   } else {
     formattedComplainant = "";
