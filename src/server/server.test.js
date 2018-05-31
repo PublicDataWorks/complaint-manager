@@ -43,6 +43,7 @@ describe("server", () => {
       cascade: true,
       force: true
     });
+    await models.data_change_audit.truncate();
   });
 
   describe("GET /health-check", () => {

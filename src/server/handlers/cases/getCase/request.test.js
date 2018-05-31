@@ -73,7 +73,8 @@ describe("GET /cases/:id", () => {
           as: "witnessCivilians"
         },
         {
-          model: models.attachment
+          model: models.attachment,
+          auditUser: "someone else"
         },
         {
           model: models.address,
@@ -113,6 +114,7 @@ describe("GET /cases/:id", () => {
       cascade: true,
       force: true
     });
+    await models.data_change_audit.truncate();
   });
 
   test("should get case", async () => {

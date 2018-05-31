@@ -1,6 +1,6 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const attachment = sequelize.define("attachment", {
+  const Attachment = sequelize.define("attachment", {
     fileName: {
       field: "file_name",
       type: DataTypes.STRING
@@ -19,11 +19,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  attachment.associate = models => {
-    attachment.belongsTo(models.cases, {
+  Attachment.associate = models => {
+    Attachment.belongsTo(models.cases, {
       foreignKey: { name: "caseId", field: "case_id", allowNull: false }
     });
   };
 
-  return attachment;
+  Attachment.auditDataChange();
+
+  return Attachment;
 };

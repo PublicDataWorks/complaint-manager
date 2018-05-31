@@ -51,7 +51,8 @@ const uploadAttachment = asyncMiddleware((request, response) => {
             caseId: caseId
           },
           {
-            transaction: t
+            transaction: t,
+            auditUser: request.nickname
           }
         );
 

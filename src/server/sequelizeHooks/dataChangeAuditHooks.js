@@ -73,6 +73,7 @@ exports.init = sequelize => {
 
   const createDataChangeAudit = async (instance, options, action) => {
     const changes = objectChanges(instance);
+    const caseId = instance.caseId || instance.id;
     if (_.isEmpty(changes)) return;
     await sequelize.model("data_change_audit").create(
       {
@@ -80,7 +81,7 @@ exports.init = sequelize => {
         action: action,
         modelName: instance._modelOptions.name.singular,
         modelId: instance.id,
-        caseId: instance.id,
+        caseId: caseId,
         snapshot: instance.dataValues,
         changes: changes
       },
