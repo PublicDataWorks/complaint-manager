@@ -1,4 +1,7 @@
-import { DATA_UPDATED } from "../../../../sharedUtilities/constants";
+import {
+  DATA_DELETED,
+  DATA_UPDATED
+} from "../../../../sharedUtilities/constants";
 import DataChangeAudit from "../../../../client/testUtilities/dataChangeAudit";
 import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
 
@@ -91,5 +94,15 @@ describe("transformAuditToCaseHistory", () => {
     const caseHistories = transformAuditToCaseHistory([audit]);
 
     expect(caseHistories).toHaveLength(0);
+  });
+
+  test("does not filter out audits that are delete even when no changes", () => {
+    const audit = new DataChangeAudit.Builder()
+      .defaultDataChangeAudit()
+      .withChanges({})
+      .withAction(DATA_DELETED);
+
+    const caseHistories = transformAuditToCaseHistory([audit]);
+    expect(caseHistories).toHaveLength(1);
   });
 });

@@ -6,12 +6,17 @@ import removeUserAction from "./removeUserAction";
 
 describe("RemoveUserAction unit", () => {
   afterEach(async () => {
-    await models.cases.destroy({ truncate: true, cascade: true });
+    await models.cases.destroy({
+      truncate: true,
+      cascade: true,
+      auditUser: "test user"
+    });
     await models.user_action.destroy({
       truncate: true,
       cascade: true,
       force: true
     });
+    await models.data_change_audit.truncate();
   });
 
   test("should update case status and recent activity in the db after user action removed", async () => {

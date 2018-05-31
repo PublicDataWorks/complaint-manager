@@ -1,12 +1,15 @@
+const { DATA_DELETED } = require("../../sharedUtilities/constants");
 const { DATA_CREATED } = require("../../sharedUtilities/constants");
-const _ = require("lodash");
 const { DATA_UPDATED } = require("../../sharedUtilities/constants");
+const _ = require("lodash");
 const Boom = require("boom");
 
 exports.init = sequelize => {
   const originalCreate = sequelize.Model.create;
   const originalUpdate = sequelize.Model.update;
   const originalInstanceUpdate = sequelize.Model.prototype.update;
+  const originalDestroy = sequelize.Model.destroy;
+  const originalInstanceDestroy = sequelize.Model.prototype.destroy;
 
   sequelize.Model.prototype.update = async function(values, options) {
     return await addTransactionToFunction(
@@ -17,10 +20,19 @@ exports.init = sequelize => {
     );
   };
 
+  sequelize.Model.prototype.destroy = async function(options) {
+    return await addTransactionToDestroy(
+      originalInstanceDestroy,
+      options,
+      this
+    );
+  };
+
   _.extend(sequelize.Model, {
     auditDataChange: function() {
       this.addHook("afterCreate", afterCreateHook);
       this.addHook("afterUpdate", afterUpdateHook);
+      this.addHook("afterDestroy", afterDestroyHook);
       this.addHook("beforeUpsert", raiseAuditException);
     },
     create: async function(values, options = {}) {
@@ -40,6 +52,10 @@ exports.init = sequelize => {
         options,
         this
       );
+    },
+    destroy: async function(options = {}) {
+      options.individualHooks = true;
+      return await addTransactionToDestroy(originalDestroy, options, this);
     }
   });
 
@@ -59,6 +75,21 @@ exports.init = sequelize => {
     });
   };
 
+  const addTransactionToDestroy = async function(
+    originalFunction,
+    options,
+    thisReference
+  ) {
+    if (options.transaction) {
+      return await originalFunction.bind(thisReference)(options);
+    }
+
+    return await sequelize.transaction(async t => {
+      options.transaction = t;
+      return await originalFunction.bind(thisReference)(options);
+    });
+  };
+
   const afterCreateHook = async (instance, options) => {
     await createDataChangeAudit(instance, options, DATA_CREATED);
   };
@@ -67,6 +98,9 @@ exports.init = sequelize => {
     await createDataChangeAudit(instance, options, DATA_UPDATED);
   };
 
+  const afterDestroyHook = async (instance, options) => {
+    await createDataChangeAudit(instance, options, DATA_DELETED);
+  };
   const raiseAuditException = (instance, options) => {
     throw Boom.notImplemented(`Audit is not implemented for this function.`);
   };
@@ -74,7 +108,7 @@ exports.init = sequelize => {
   const createDataChangeAudit = async (instance, options, action) => {
     const changes = objectChanges(instance);
     const caseId = instance.caseId || instance.id;
-    if (_.isEmpty(changes)) return;
+    if (_.isEmpty(changes) && action !== DATA_DELETED) return;
     await sequelize.model("data_change_audit").create(
       {
         user: getUserNickname(options),

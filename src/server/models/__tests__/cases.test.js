@@ -16,7 +16,11 @@ describe("cases", function() {
   });
 
   afterEach(async () => {
-    await models.cases.truncate({ cascade: true, force: true });
+    await models.cases.truncate({
+      cascade: true,
+      force: true,
+      auditUser: "test user"
+    });
     await models.data_change_audit.truncate({ force: true });
   });
 

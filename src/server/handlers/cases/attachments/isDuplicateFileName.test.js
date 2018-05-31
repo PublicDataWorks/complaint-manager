@@ -18,11 +18,13 @@ describe("generateFileName", () => {
 
   afterEach(async () => {
     await models.attachment.destroy({
-      where: { caseId: newCase.id }
+      where: { caseId: newCase.id },
+      auditUser: "test user"
     });
 
     await models.cases.destroy({
-      where: { id: newCase.id }
+      where: { id: newCase.id },
+      auditUser: "test user"
     });
 
     await models.data_change_audit.truncate();

@@ -18,7 +18,8 @@ const deleteAttachment = asyncMiddleware(async (request, response) => {
     where: {
       fileName: request.params.fileName,
       caseId: request.params.id
-    }
+    },
+    auditUser: request.nickname
   });
 
   const caseDetails = await getCaseWithAllAssociations(request.params.id);

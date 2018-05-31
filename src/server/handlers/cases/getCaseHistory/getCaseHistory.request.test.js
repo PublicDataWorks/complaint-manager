@@ -6,7 +6,7 @@ import app from "../../../server";
 
 describe("GET /api/cases/:caseId/case-history", () => {
   afterEach(async () => {
-    await models.cases.truncate({ cascade: true });
+    await models.cases.truncate({ cascade: true, auditUser: "test user" });
     await models.data_change_audit.truncate({ cascade: true });
   });
 

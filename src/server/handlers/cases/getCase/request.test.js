@@ -107,7 +107,11 @@ describe("GET /cases/:id", () => {
       force: true
     });
     await models.case_officer.destroy({ truncate: true, cascade: true });
-    await models.cases.destroy({ truncate: true, cascade: true });
+    await models.cases.destroy({
+      truncate: true,
+      cascade: true,
+      auditUser: "test user"
+    });
     await models.officer.destroy({ truncate: true, cascade: true });
     await models.civilian.destroy({
       truncate: true,

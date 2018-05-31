@@ -1,6 +1,10 @@
 import models from "../models";
 import Attachment from "../../client/testUtilities/attachment";
-import { DATA_CREATED, DATA_UPDATED } from "../../sharedUtilities/constants";
+import {
+  DATA_CREATED,
+  DATA_DELETED,
+  DATA_UPDATED
+} from "../../sharedUtilities/constants";
 import Case from "../../client/testUtilities/case";
 
 describe("dataChangeAuditHooks for attachment", () => {
@@ -22,7 +26,7 @@ describe("dataChangeAuditHooks for attachment", () => {
     });
   });
   afterEach(async () => {
-    await models.cases.truncate({ cascade: true });
+    await models.cases.truncate({ cascade: true, auditUser: "test user" });
     await models.data_change_audit.truncate();
   });
 
@@ -118,6 +122,98 @@ describe("dataChangeAuditHooks for attachment", () => {
         id: attachment.id
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
+    });
+  });
+
+  describe("delete attachment", () => {
+    test("it creates a data change object with basic attributes", async () => {
+      await attachment.destroy({ auditUser: "someone else" });
+      const audits = await models.data_change_audit.findAll({
+        where: { modelName: "attachment", action: DATA_DELETED }
+      });
+
+      const audit = audits[0];
+
+      expect(audits.length).toEqual(1);
+
+      expect(audit.modelId).toEqual(attachment.id);
+      expect(audit.user).toEqual("someone else");
+      expect(audit.caseId).toEqual(existingCase.id);
+      expect(audit.changes).toEqual({});
+    });
+
+    test("it creates data change object when destroying from Model method", async () => {
+      await models.attachment.destroy({
+        where: { id: attachment.id },
+        auditUser: "someone else"
+      });
+      const audits = await models.data_change_audit.findAll({
+        where: { modelName: "attachment", action: DATA_DELETED }
+      });
+
+      const audit = audits[0];
+      expect(audits.length).toEqual(1);
+
+      expect(audit.modelId).toEqual(attachment.id);
+      expect(audit.user).toEqual("someone else");
+      expect(audit.caseId).toEqual(existingCase.id);
+      expect(audit.changes).toEqual({});
+    });
+
+    test("it stores the snapshot at time of delete", async () => {
+      await attachment.destroy({ auditUser: "someone else" });
+      const audits = await models.data_change_audit.findAll({
+        where: { modelName: "attachment", action: DATA_DELETED }
+      });
+
+      const audit = audits[0];
+
+      const expectedSnapshot = {
+        caseId: attachment.caseId,
+        description: attachment.description,
+        id: attachment.id,
+        fileName: attachment.fileName,
+        updatedAt: attachment.updatedAt.toJSON(),
+        createdAt: attachment.createdAt.toJSON()
+      };
+      expect(audit.snapshot).toEqual(expectedSnapshot);
+    });
+
+    test("it does not delete the attachment if the audit fails to save", async () => {
+      try {
+        await attachment.destroy({ auditUser: null });
+      } catch (e) {
+        expect(e.message).toEqual(
+          "User nickname must be given to db query for auditing"
+        );
+      }
+      models.data_change_audit
+        .count({ where: { action: DATA_DELETED } })
+        .then(numAudits => {
+          expect(numAudits).toEqual(0);
+        });
+      const foundAttachment = await models.attachment.findById(attachment.id);
+      expect(foundAttachment).not.toBeNull();
+    });
+
+    test("it does not the attachment if audit fails to save from class method", async () => {
+      try {
+        await models.attachment.destroy({
+          where: { id: attachment.id },
+          auditUser: null
+        });
+      } catch (e) {
+        expect(e.message).toEqual(
+          "User nickname must be given to db query for auditing"
+        );
+      }
+      models.data_change_audit
+        .count({ where: { action: DATA_DELETED } })
+        .then(numAudits => {
+          expect(numAudits).toEqual(0);
+        });
+      const foundAttachment = await models.attachment.findById(attachment.id);
+      expect(foundAttachment).not.toBeNull();
     });
   });
 });

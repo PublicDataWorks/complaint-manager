@@ -7,12 +7,17 @@ import UserAction from "../../../../client/testUtilities/userAction";
 
 describe("removeUserAction request", () => {
   afterEach(async () => {
-    await models.cases.destroy({ truncate: true, cascade: true });
+    await models.cases.destroy({
+      truncate: true,
+      cascade: true,
+      auditUser: "test user"
+    });
     await models.user_action.destroy({
       truncate: true,
       cascade: true,
       force: true
     });
+    await models.data_change_audit.truncate();
   });
 
   test("should remove a user action", async () => {

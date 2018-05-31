@@ -4,7 +4,11 @@ import { DATA_CREATED, DATA_UPDATED } from "../../sharedUtilities/constants";
 
 describe("dataChangeAuditHooks", () => {
   afterEach(async () => {
-    await models.cases.truncate({ cascade: true, force: true });
+    await models.cases.truncate({
+      cascade: true,
+      force: true,
+      auditUser: "test user"
+    });
     await models.data_change_audit.truncate({ cascade: true, force: true });
   });
 
@@ -114,7 +118,7 @@ describe("dataChangeAuditHooks", () => {
       });
 
       test("it does not create the case if the audit fails", async () => {
-        await models.cases.truncate({ cascade: true });
+        await models.cases.truncate({ cascade: true, auditUser: "test user" });
         try {
           await models.cases.create(initialCaseAttributes, { auditUser: null });
         } catch (error) {

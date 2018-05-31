@@ -6,7 +6,11 @@ describe("createCase handler", () => {
   let request, response, next, caseAttributes, civilianAttributes, user;
 
   beforeEach(async () => {
-    await models.cases.destroy({ truncate: true, cascade: true });
+    await models.cases.destroy({
+      truncate: true,
+      cascade: true,
+      auditUser: "test user"
+    });
 
     user = "TEST_USER_NICKNAME";
     caseAttributes = {
@@ -36,7 +40,12 @@ describe("createCase handler", () => {
   });
 
   afterEach(async () => {
-    await models.cases.destroy({ truncate: true, cascade: true });
+    await models.cases.destroy({
+      truncate: true,
+      cascade: true,
+      auditUser: "test user"
+    });
+    await models.data_change_audit.truncate();
   });
 
   test("should create case with civilian if civilian complainant type ", async () => {

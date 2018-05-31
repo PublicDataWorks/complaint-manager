@@ -23,7 +23,7 @@ describe("getCaseHistory", () => {
   });
 
   afterEach(async () => {
-    await models.cases.truncate({ cascade: true });
+    await models.cases.truncate({ cascade: true, auditUser: "test user" });
     await models.data_change_audit.truncate({ cascade: true });
   });
 

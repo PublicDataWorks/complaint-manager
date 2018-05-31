@@ -116,6 +116,7 @@ const TIMEZONE = "America/Chicago";
 // ----------------------------------------
 const DATA_UPDATED = "updated";
 const DATA_CREATED = "created";
+const DATA_DELETED = "deleted";
 
 module.exports = {
   LOCAL_DEV_PORT,
@@ -172,6 +173,7 @@ module.exports = {
   TIMEZONE,
   DATA_UPDATED,
   DATA_CREATED,
+  DATA_DELETED,
   REMOVE_CIVILIAN_DIALOG_OPENED,
   REMOVE_CIVILIAN_DIALOG_CLOSED,
   REMOVE_CIVILIAN_FAILED,

@@ -43,8 +43,13 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
 
   afterEach(async () => {
     await models.address.destroy({ truncate: true, cascade: true });
-    await models.cases.destroy({ truncate: true, cascade: true });
+    await models.cases.destroy({
+      truncate: true,
+      cascade: true,
+      auditUser: "test user"
+    });
     await models.civilian.destroy({ truncate: true, force: true });
+    await models.data_change_audit.truncate();
   });
 
   test("should soft delete an existing civilian", async () => {

@@ -7,12 +7,17 @@ import app from "../../../server";
 
 describe("editUserAction request", function() {
   afterEach(async () => {
-    await models.cases.destroy({ truncate: true, cascade: true });
+    await models.cases.destroy({
+      truncate: true,
+      cascade: true,
+      auditUser: "test user"
+    });
     await models.user_action.destroy({
       truncate: true,
       cascade: true,
       force: true
     });
+    await models.data_change_audit.truncate();
   });
 
   test("should edit a user action", async () => {

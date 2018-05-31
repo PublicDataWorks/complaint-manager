@@ -12,8 +12,13 @@ describe("editCivilian handler", () => {
       cascade: true,
       force: true
     });
-    await models.cases.destroy({ truncate: true, cascade: true });
+    await models.cases.destroy({
+      truncate: true,
+      cascade: true,
+      auditUser: "test user"
+    });
     await models.civilian.destroy({ truncate: true });
+    await models.data_change_audit.truncate();
 
     const caseAttributes = new Case.Builder()
       .defaultCase()
@@ -40,8 +45,13 @@ describe("editCivilian handler", () => {
       cascade: true,
       force: true
     });
-    await models.cases.destroy({ truncate: true, cascade: true });
+    await models.cases.destroy({
+      truncate: true,
+      cascade: true,
+      auditUser: "test user"
+    });
     await models.civilian.destroy({ truncate: true });
+    await models.data_change_audit.truncate();
   });
 
   test("should update civilian with correct properties", async () => {

@@ -15,8 +15,13 @@ describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
   afterEach(async () => {
     await models.address.destroy({ truncate: true, cascade: true });
     await models.case_officer.destroy({ truncate: true, cascade: true });
-    await models.cases.destroy({ truncate: true, cascade: true });
+    await models.cases.destroy({
+      truncate: true,
+      cascade: true,
+      auditUser: "test user"
+    });
     await models.officer.destroy({ truncate: true, cascade: true });
+    await models.data_change_audit.truncate();
   });
 
   test("it updates the thing", async () => {
