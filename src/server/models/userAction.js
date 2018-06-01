@@ -50,5 +50,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  UserAction.auditDataChange();
+
   return UserAction;
 };

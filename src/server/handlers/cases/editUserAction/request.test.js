@@ -15,7 +15,8 @@ describe("editUserAction request", function() {
     await models.user_action.destroy({
       truncate: true,
       cascade: true,
-      force: true
+      force: true,
+      auditUser: "someone"
     });
     await models.data_change_audit.truncate();
   });
@@ -44,7 +45,8 @@ describe("editUserAction request", function() {
       .build();
 
     const createdUserAction = await models.user_action.create(
-      userActionToCreate
+      userActionToCreate,
+      { auditUser: "someone" }
     );
     const updatedUserAction = {
       action: "Miscellaneous",

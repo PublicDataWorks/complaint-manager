@@ -2,11 +2,14 @@ const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
 
 const createUserAction = asyncMiddleware(async (request, response) => {
-  await models.user_action.create({
-    ...request.body,
-    user: request.nickname,
-    caseId: request.params.id
-  });
+  await models.user_action.create(
+    {
+      ...request.body,
+      user: request.nickname,
+      caseId: request.params.id
+    },
+    { auditUser: request.nickname }
+  );
 
   await models.cases.update(
     { status: "Active" },

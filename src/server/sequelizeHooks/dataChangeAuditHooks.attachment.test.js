@@ -209,7 +209,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         await attachment.destroy({ auditUser: null });
       } catch (e) {
         expect(e.message).toEqual(
-          "User nickname must be given to db query for auditing"
+          "User nickname must be given to db query for auditing. (attachment deleted)"
         );
       }
       models.data_change_audit
@@ -229,7 +229,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         });
       } catch (e) {
         expect(e.message).toEqual(
-          "User nickname must be given to db query for auditing"
+          "User nickname must be given to db query for auditing. (attachment deleted)"
         );
       }
       models.data_change_audit

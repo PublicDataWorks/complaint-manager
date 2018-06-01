@@ -110,10 +110,11 @@ exports.init = sequelize => {
   const createDataChangeAudit = async (instance, options, action) => {
     const changes = objectChanges(action, instance);
     const caseId = instance.caseId || instance.id;
+    const modelName = instance._modelOptions.name.singular;
     if (_.isEmpty(changes) && action !== DATA_DELETED) return;
     await sequelize.model("data_change_audit").create(
       {
-        user: getUserNickname(options),
+        user: getUserNickname(options, action, modelName),
         action: action,
         modelName: instance._modelOptions.name.singular,
         modelId: instance.id,
@@ -127,11 +128,11 @@ exports.init = sequelize => {
     );
   };
 
-  const getUserNickname = options => {
+  const getUserNickname = (options, action, modelName) => {
     const userNickname = options.auditUser;
     if (!userNickname)
       throw Boom.badImplementation(
-        "User nickname must be given to db query for auditing"
+        `User nickname must be given to db query for auditing. (${modelName} ${action})`
       );
     return userNickname;
   };

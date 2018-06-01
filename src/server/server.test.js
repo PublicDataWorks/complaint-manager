@@ -627,13 +627,16 @@ describe("server", () => {
         auditUser: "someone"
       });
 
-      await models.user_action.create({
-        caseId: createdCase.id,
-        action: "Miscellaneous",
-        user: "tuser",
-        actionTakenAt: new Date().toISOString(),
-        notes: "some notes"
-      });
+      await models.user_action.create(
+        {
+          caseId: createdCase.id,
+          action: "Miscellaneous",
+          user: "tuser",
+          actionTakenAt: new Date().toISOString(),
+          notes: "some notes"
+        },
+        { auditUser: "someone" }
+      );
     });
 
     test("should display recent activity for an existing case", async () => {

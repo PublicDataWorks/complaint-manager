@@ -9,15 +9,13 @@ const editUserAction = asyncMiddleware(async (req, res) => {
 
   const recentActivity = await models.sequelize.transaction(
     async transaction => {
-      await models.user_action.update(
-        valuesToUpdate,
-        {
-          where: {
-            id: userActionId
-          }
+      await models.user_action.update(valuesToUpdate, {
+        where: {
+          id: userActionId
         },
-        { transaction }
-      );
+        transaction,
+        auditUser: req.nickname
+      });
 
       await models.cases.update(
         {
@@ -33,10 +31,10 @@ const editUserAction = asyncMiddleware(async (req, res) => {
         }
       );
 
-      return await models.user_action.findAll(
-        { where: { caseId } },
-        { transaction }
-      );
+      return await models.user_action.findAll({
+        where: { caseId },
+        transaction
+      });
     }
   );
 

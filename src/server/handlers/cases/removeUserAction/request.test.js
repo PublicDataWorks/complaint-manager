@@ -15,7 +15,8 @@ describe("removeUserAction request", () => {
     await models.user_action.destroy({
       truncate: true,
       cascade: true,
-      force: true
+      force: true,
+      auditUser: "someone"
     });
     await models.data_change_audit.truncate();
   });
@@ -42,7 +43,8 @@ describe("removeUserAction request", () => {
       .build();
 
     const createdUserAction = await models.user_action.create(
-      userActionToCreate
+      userActionToCreate,
+      { auditUser: "someone" }
     );
 
     await request(app)

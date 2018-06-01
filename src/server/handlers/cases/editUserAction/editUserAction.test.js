@@ -40,7 +40,10 @@ test("should update case status and recent activity in the db after user action 
     .withAction("Memo to file")
     .build();
 
-  const createdUserAction = await models.user_action.create(userActionToCreate);
+  const createdUserAction = await models.user_action.create(
+    userActionToCreate,
+    { auditUser: "someone" }
+  );
 
   const updatedUserAction = {
     action: "Miscellaneous",

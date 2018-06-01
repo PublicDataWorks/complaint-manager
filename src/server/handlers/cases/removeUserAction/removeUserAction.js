@@ -7,14 +7,13 @@ const removeUserAction = asyncMiddleware(async (req, res) => {
   const userActionId = req.params.userActionId;
 
   const currentCase = await models.sequelize.transaction(async transaction => {
-    await models.user_action.destroy(
-      {
-        where: {
-          id: userActionId
-        }
+    await models.user_action.destroy({
+      where: {
+        id: userActionId
       },
-      { transaction }
-    );
+      transaction,
+      auditUser: req.nickname
+    });
 
     await models.cases.update(
       {
@@ -24,16 +23,16 @@ const removeUserAction = asyncMiddleware(async (req, res) => {
         where: {
           id: caseId
         },
-        auditUser: req.nickname
-      },
-      { transaction }
+        auditUser: req.nickname,
+        transaction
+      }
     );
 
     const caseDetails = await getCaseWithAllAssociations(caseId, transaction);
-    const recentActivity = await models.user_action.findAll(
-      { where: { caseId } },
-      { transaction }
-    );
+    const recentActivity = await models.user_action.findAll({
+      where: { caseId },
+      transaction
+    });
 
     return {
       caseDetails,

@@ -14,7 +14,8 @@ describe("RemoveUserAction unit", () => {
     await models.user_action.destroy({
       truncate: true,
       cascade: true,
-      force: true
+      force: true,
+      auditUser: "someone"
     });
     await models.data_change_audit.truncate();
   });
@@ -40,7 +41,8 @@ describe("RemoveUserAction unit", () => {
       .build();
 
     const createdUserAction = await models.user_action.create(
-      userActionToCreate
+      userActionToCreate,
+      { auditUser: "someone" }
     );
 
     const request = httpMocks.createRequest({
