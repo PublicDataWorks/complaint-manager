@@ -19,7 +19,7 @@ export class OfficerSearchResults extends Component {
         dispatch={this.props.dispatch}
         render={(officer, officerIds) => (
           <OfficerSearchResultsRow key={officer.id} officer={officer}>
-            {officerIds.includes(officer.id) ? (
+            {officerIds.includes(officer.officerId) ? (
               <PreviouslyAddedOfficer />
             ) : (
               <SelectNewOfficer

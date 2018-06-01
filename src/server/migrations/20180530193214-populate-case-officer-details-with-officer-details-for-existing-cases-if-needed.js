@@ -11,7 +11,7 @@ module.exports = {
     allCaseOfficers[0].forEach(async caseOfficer => {
       const officerDataResults = await queryInterface.sequelize.query(`SELECT 
          first_name, middle_name, last_name, windows_username, employee_type, district, 
-         bureau, rank, dob, end_date, sex, race, work_status, supervisor_officer_number
+         bureau, rank, dob, end_date, hire_date, sex, race, work_status, supervisor_officer_number
         from officers where id=${caseOfficer.officer_id}`);
       const officer = officerDataResults[0][0];
 
@@ -58,6 +58,10 @@ module.exports = {
       const formattedRank = formatQueryColumn("rank", officer.rank);
       const formattedDOB = formatQueryColumn("dob", officer.dob);
       const formattedEndDate = formatQueryColumn("end_date", officer.end_date);
+      const formattedHireDate = formatQueryColumn(
+        "hire_date",
+        officer.hire_date
+      );
       const formattedSex = formatQueryColumn("sex", officer.sex);
       const formattedRace = formatQueryColumn("race", officer.race);
       const formattedWorkStatus = formatQueryColumn(
@@ -88,7 +92,7 @@ module.exports = {
       await queryInterface.sequelize.query(`
       UPDATE cases_officers
       SET ${formattedFirstName}, ${formattedMiddleName}, ${formattedLastName}, ${formattedWindowsUserName}, 
-      ${formattedEmployeeType}, ${formattedDistrict}, ${formattedBureau}, ${formattedRank}, ${formattedDOB}, ${formattedEndDate}, 
+      ${formattedEmployeeType}, ${formattedDistrict}, ${formattedBureau}, ${formattedRank}, ${formattedDOB}, ${formattedEndDate}, ${formattedHireDate}, 
       ${formattedSex}, ${formattedRace}, ${formattedWorkStatus}, ${formattedSupervisorOfficerNumber}, ${formattedSupervisorFirstName},
       ${formattedSupervisorMiddleName}, ${formattedSupervisorLastName}, ${formattedSupervisorWindowsUsername}
       WHERE id=${caseOfficer.case_officer_id}
@@ -105,7 +109,7 @@ module.exports = {
       await queryInterface.sequelize.query(`
       UPDATE cases_officers
       SET first_name='', middle_name='', last_name='', windows_username=null, 
-      employee_type=null, district='', bureau='', rank='', dob=null, end_date=null, 
+      employee_type=null, district='', bureau='', rank='', dob=null, end_date=null, hire_date=null, 
       sex='', race='', work_status='', supervisor_officer_number=null, supervisor_first_name='',
       supervisor_middle_name='', supervisor_last_name='', supervisor_windows_username=null
       WHERE id=${caseOfficer.case_officer_id}

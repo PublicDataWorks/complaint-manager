@@ -4,8 +4,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import React from "react";
 import OfficerDetails from "./OfficerDetails";
-import addOfficer from "../thunks/addOfficer";
 import { initialize } from "redux-form";
+import { selectOfficer } from "../../actionCreators/officersActionCreators";
 
 jest.mock("../thunks/addOfficer", () => (caseId, officerId, values) => ({
   type: "MOCK_ADD_OFFICER_ACTION",
@@ -24,6 +24,7 @@ test("should dispatch thunk with correct stuff when unknown officer selected", (
   const dispatchSpy = jest.spyOn(store, "dispatch");
 
   store.dispatch(initialize("OfficerDetails", { roleOnCase: "Accused" }));
+  store.dispatch(selectOfficer({}));
 
   const wrapper = mount(
     <Provider store={store}>
@@ -32,7 +33,6 @@ test("should dispatch thunk with correct stuff when unknown officer selected", (
           submitButtonText={"Button"}
           submitAction={submitAction}
           officerSearchUrl={mockOfficerSearchUrl}
-          selectedOfficerData={null}
           caseId={caseId}
         />
       </Router>

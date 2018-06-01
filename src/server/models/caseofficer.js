@@ -91,6 +91,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATEONLY,
         allowNull: true
       },
+      hireDate: {
+        field: "hire_date",
+        type: DataTypes.DATEONLY,
+        allowNull: true
+      },
       sex: {
         type: DataTypes.STRING,
         allowNull: true

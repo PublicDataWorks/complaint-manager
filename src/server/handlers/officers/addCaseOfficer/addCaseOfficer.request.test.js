@@ -3,59 +3,12 @@ import Officer from "../../../../client/testUtilities/Officer";
 import models from "../../../models/index";
 import Case from "../../../../client/testUtilities/case";
 import app from "../../../server";
-import jwt from "jsonwebtoken";
-import path from "path";
-import fs from "fs";
-
-const config = require("../../../config/config")[process.env.NODE_ENV];
-
-function buildTokenWithPermissions(permissions, nickname) {
-  const privateKeyPath = path.join(
-    __dirname,
-    "../../../",
-    "config",
-    "test",
-    "private.pem"
-  );
-  const cert = fs.readFileSync(privateKeyPath);
-
-  const payload = {
-    foo: "bar",
-    scope: `${config.authentication.scope} ${permissions}`
-  };
-  payload[`${config.authentication.nicknameKey}`] = nickname;
-
-  const options = {
-    audience: config.authentication.audience,
-    issuer: config.authentication.issuer,
-    algorithm: config.authentication.algorithm
-  };
-
-  return jwt.sign(payload, cert, options);
-}
+import buildTokenWithPermissions from "../../../requestTestHelpers";
 
 describe("POST /cases/:caseId/cases_officers", () => {
   let token;
   beforeAll(() => {
     token = buildTokenWithPermissions("", "TEST_NICKNAME");
-  });
-
-  let caseToCreate, officerToCreate, seededCase, seededOfficer;
-
-  beforeEach(async () => {
-    caseToCreate = new Case.Builder()
-      .defaultCase()
-      .withId(undefined)
-      .withIncidentLocation(undefined)
-      .build();
-    officerToCreate = new Officer.Builder()
-      .defaultOfficer()
-      .withId(undefined)
-      .build();
-    seededOfficer = await models.officer.create(officerToCreate);
-    seededCase = await models.cases.create(caseToCreate, {
-      auditUser: "someone"
-    });
   });
 
   afterEach(async () => {
@@ -80,6 +33,21 @@ describe("POST /cases/:caseId/cases_officers", () => {
   });
 
   test("should add a known officer to a case", async () => {
+    let caseToCreate, officerToCreate, seededCase, seededOfficer;
+    caseToCreate = new Case.Builder()
+      .defaultCase()
+      .withId(undefined)
+      .withIncidentLocation(undefined)
+      .build();
+    officerToCreate = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined)
+      .build();
+    seededOfficer = await models.officer.create(officerToCreate);
+    seededCase = await models.cases.create(caseToCreate, {
+      auditUser: "someone"
+    });
+
     const officerNotes = "some notes";
     const officerRole = "Accused";
 
@@ -105,7 +73,88 @@ describe("POST /cases/:caseId/cases_officers", () => {
                 firstName: seededOfficer.firstName,
                 middleName: seededOfficer.middleName,
                 lastName: seededOfficer.lastName,
-                fullName: "Ugochi Grant Smith"
+                fullName: "Ugochi Grant Smith",
+                supervisorFirstName: null,
+                supervisorMiddleName: null,
+                supervisorLastName: null,
+                supervisorFullName: " ",
+                supervisorWindowsUsername: null,
+                supervisorOfficerNumber: null
+              })
+            ])
+          })
+        );
+      });
+  });
+
+  test("should add officer that has supervisor to a case", async () => {
+    let caseToCreate,
+      supervisorToCreate,
+      officerToCreate,
+      seededCase,
+      seededSupervisor,
+      seededOfficer;
+    caseToCreate = new Case.Builder()
+      .defaultCase()
+      .withId(undefined)
+      .withIncidentLocation(undefined)
+      .build();
+
+    supervisorToCreate = new Officer.Builder()
+      .defaultOfficer()
+      .withOfficerNumber(123)
+      .withFirstName("Garret")
+      .withMiddleName("Bobby")
+      .withLastName("Ferguson")
+      .withWindowsUsername(12345)
+      .withId(undefined)
+      .build();
+    seededSupervisor = await models.officer.create(supervisorToCreate);
+
+    officerToCreate = new Officer.Builder()
+      .defaultOfficer()
+      .withOfficerNumber(132)
+      .withId(undefined)
+      .withSupervisor(seededSupervisor)
+      .build();
+    seededOfficer = await models.officer.create(officerToCreate);
+
+    seededCase = await models.cases.create(caseToCreate, {
+      auditUser: "someone"
+    });
+
+    const officerNotes = "some notes";
+    const officerRole = "Accused";
+
+    await request(app)
+      .post(`/api/cases/${seededCase.id}/cases-officers`)
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        officerId: seededOfficer.id,
+        notes: officerNotes,
+        roleOnCase: officerRole
+      })
+      .expect(200)
+      .then(response => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            status: "Active",
+            accusedOfficers: expect.arrayContaining([
+              expect.objectContaining({
+                id: expect.anything(),
+                notes: officerNotes,
+                roleOnCase: officerRole,
+                firstName: seededOfficer.firstName,
+                middleName: seededOfficer.middleName,
+                lastName: seededOfficer.lastName,
+                fullName: "Ugochi Grant Smith",
+                supervisorFirstName: seededSupervisor.firstName,
+                supervisorMiddleName: seededSupervisor.middleName,
+                supervisorLastName: seededSupervisor.lastName,
+                supervisorFullName: "Garret Bobby Ferguson",
+                supervisorWindowsUsername: seededSupervisor.windowsUsername,
+                supervisorOfficerNumber: seededSupervisor.officerNumber
               })
             ])
           })
@@ -114,6 +163,22 @@ describe("POST /cases/:caseId/cases_officers", () => {
   });
 
   test("should add an unknown officer to a case", async () => {
+    let caseToCreate, officerToCreate, seededCase;
+    caseToCreate = new Case.Builder()
+      .defaultCase()
+      .withId(undefined)
+      .withIncidentLocation(undefined)
+      .build();
+    officerToCreate = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined)
+      .build();
+
+    await models.officer.create(officerToCreate);
+    seededCase = await models.cases.create(caseToCreate, {
+      auditUser: "someone"
+    });
+
     const officerNotes = "some notes for an unknown officer";
     const officerRole = "Accused";
 

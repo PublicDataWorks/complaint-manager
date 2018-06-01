@@ -89,6 +89,11 @@ class Officer {
         return this;
       }
 
+      withWindowsUsername(windowsUsername) {
+        this.windowsUsername = windowsUsername;
+        return this;
+      }
+
       withHireDate(hireDate) {
         this.hireDate = hireDate;
         return this;

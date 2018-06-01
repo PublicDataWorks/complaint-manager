@@ -43,7 +43,13 @@ class ManageOfficerMenu extends React.Component {
               } else {
                 this.props.dispatch(selectUnknownOfficer());
               }
-              this.props.dispatch(initialize("OfficerDetails", caseOfficer));
+              this.props.dispatch(
+                initialize("OfficerDetails", {
+                  notes: caseOfficer.notes,
+                  roleOnCase: caseOfficer.roleOnCase,
+                  officerId: caseOfficer.officerId
+                })
+              );
               this.props.dispatch(
                 push(`/cases/${caseOfficer.caseId}/officers/${caseOfficer.id}`)
               );

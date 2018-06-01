@@ -8,6 +8,22 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
   if (request.body.officerId) {
     const caseOfficer = await models.officer.findById(request.body.officerId);
 
+    let supervisorFirstName = null;
+    let supervisorMiddleName = null;
+    let supervisorLastName = null;
+    let supervisorWindowsUsername = null;
+
+    if (caseOfficer.supervisorOfficerNumber) {
+      const supervisor = await models.officer.findOne({
+        where: { officerNumber: caseOfficer.supervisorOfficerNumber }
+      });
+
+      supervisorFirstName = supervisor.firstName;
+      supervisorMiddleName = supervisor.middleName;
+      supervisorLastName = supervisor.lastName;
+      supervisorWindowsUsername = supervisor.windowsUsername;
+    }
+
     caseOfficerAttributes = {
       notes: request.body.notes,
       roleOnCase: request.body.roleOnCase,
@@ -23,8 +39,14 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
       sex: caseOfficer.sex,
       dob: caseOfficer.dob,
       endDate: caseOfficer.endDate,
+      hireDate: caseOfficer.hireDate,
       employeeType: caseOfficer.employeeType,
-      workStatus: caseOfficer.workStatus
+      workStatus: caseOfficer.workStatus,
+      supervisorOfficerNumber: caseOfficer.supervisorOfficerNumber,
+      supervisorFirstName,
+      supervisorMiddleName,
+      supervisorLastName,
+      supervisorWindowsUsername
     };
   } else {
     caseOfficerAttributes = {
@@ -34,6 +56,7 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
   }
 
   const updatedCase = await models.sequelize.transaction(async t => {
+    //WORKS FOR WITNESS/COMPLAINANT
     await retrievedCase.createAccusedOfficer(caseOfficerAttributes, {
       transaction: t
     });

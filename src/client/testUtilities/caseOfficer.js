@@ -22,6 +22,7 @@ class CaseOfficer {
     this.bureau = build.bureau;
     this.district = build.district;
     this.workStatus = build.workStatus;
+    this.hireDate = build.hireDate;
     this.endDate = build.endDate;
     this.employeeType = build.employeeType;
   }
@@ -48,6 +49,7 @@ class CaseOfficer {
         this.bureau = "MSB - Management Service Bureau";
         this.district = "First District";
         this.workStatus = "Retired";
+        this.hireDate = "2018-05-30";
         this.endDate = "2018-05-31";
         this.employeeType = "Commissioned";
         this.officerId = 123456;
@@ -98,6 +100,7 @@ class CaseOfficer {
         this.bureau = officer.bureau;
         this.district = officer.district;
         this.workStatus = officer.workStatus;
+        this.hireDate = officer.hireDate;
         this.endDate = officer.endDate;
         this.employeeType = officer.employeeType;
         this.officerId = officer.id;

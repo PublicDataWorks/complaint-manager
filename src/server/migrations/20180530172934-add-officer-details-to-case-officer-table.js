@@ -63,6 +63,10 @@ module.exports = {
       type: Sequelize.DATEONLY,
       allowNull: true
     });
+    await queryInterface.addColumn("cases_officers", "hire_date", {
+      type: Sequelize.DATEONLY,
+      allowNull: true
+    });
     await queryInterface.addColumn("cases_officers", "sex", {
       type: Sequelize.STRING
     });
@@ -109,6 +113,7 @@ module.exports = {
     await queryInterface.removeColumn("cases_officers", "rank");
     await queryInterface.removeColumn("cases_officers", "dob");
     await queryInterface.removeColumn("cases_officers", "end_date");
+    await queryInterface.removeColumn("cases_officers", "hire_date");
     await queryInterface.removeColumn("cases_officers", "sex");
     await queryInterface.removeColumn("cases_officers", "race");
     await queryInterface.removeColumn("cases_officers", "work_status");

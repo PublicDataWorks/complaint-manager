@@ -31,10 +31,11 @@ class EditOfficerSearch extends React.Component {
       caseOfficer => caseOfficer && `${caseOfficer.id}` === caseOfficerId
     );
 
-    const initializeCaseDetails = initialize(
-      "OfficerDetails",
-      currentCaseOfficer
-    );
+    const initializeCaseDetails = initialize("OfficerDetails", {
+      notes: currentCaseOfficer.notes,
+      roleOnCase: currentCaseOfficer.roleOnCase,
+      officerId: currentCaseOfficer.officerId
+    });
 
     return (
       <OfficerSearchContainer

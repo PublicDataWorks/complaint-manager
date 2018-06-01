@@ -23,6 +23,7 @@ describe("editCaseOfficer", () => {
       .defaultOfficer()
       .withId(undefined)
       .withOfficerNumber(200)
+      .withHireDate("2018-01-12")
       .build();
     const createdOfficer = await models.officer.create(existingOfficer);
     const existingCaseOfficer = new CaseOfficer.Builder()
@@ -49,13 +50,25 @@ describe("editCaseOfficer", () => {
 
     const newOfficer = new Officer.Builder()
       .defaultOfficer()
+      .withFirstName("Garret")
+      .withMiddleName("Bobby")
+      .withLastName("Freezer")
+      .withWindowsUsername(87654)
       .withId(undefined)
+      .withHireDate("2008-01-12")
       .withOfficerNumber(201)
       .build();
     const createdNewOfficer = await models.officer.create(newOfficer, {
       returning: true
     });
-    const fieldsToUpdate = { officerId: createdNewOfficer.id };
+    const fieldsToUpdate = {
+      officerId: createdNewOfficer.id,
+      firstName: "Garret",
+      middleName: "Bobby",
+      lastName: "Freezer",
+      windowsUsername: 87654,
+      fullName: "Garret Bobby Freezer"
+    };
 
     const request = httpMocks.createRequest({
       method: "PUT",
@@ -78,5 +91,12 @@ describe("editCaseOfficer", () => {
     );
 
     expect(updatedCaseOfficer.officerId).toEqual(createdNewOfficer.id);
+    expect(updatedCaseOfficer.firstName).toEqual(createdNewOfficer.firstName);
+    expect(updatedCaseOfficer.middleName).toEqual(createdNewOfficer.middleName);
+    expect(updatedCaseOfficer.lastName).toEqual(createdNewOfficer.lastName);
+    expect(updatedCaseOfficer.fullName).toEqual(createdNewOfficer.fullName);
+    expect(updatedCaseOfficer.windowsUsername).toEqual(
+      createdNewOfficer.windowsUsername
+    );
   });
 });

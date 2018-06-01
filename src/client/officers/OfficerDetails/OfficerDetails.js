@@ -8,6 +8,7 @@ import { Field, reduxForm } from "redux-form";
 import styles from "../../globalStyling/styles";
 import { PrimaryButton } from "../../shared/components/StyledButtons";
 import { ChangeOfficer } from "../OfficerSearch/OfficerSearchResults/officerSearchResultsRowButtons";
+import { connect } from "react-redux";
 
 const OfficerDetails = props => {
   const onSubmit = (values, dispatch) => {
@@ -88,6 +89,11 @@ const OfficerDetails = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  selectedOfficer: state.officers.selectedOfficerData
+});
+const ConnectedComponent = connect(mapStateToProps)(OfficerDetails);
+
 export default reduxForm({
   form: "OfficerDetails"
-})(OfficerDetails);
+})(ConnectedComponent);

@@ -20,7 +20,13 @@ const OfficerActions = ({ caseOfficer, dispatch }) => (
         } else {
           dispatch(selectUnknownOfficer());
         }
-        dispatch(initialize("OfficerDetails", caseOfficer));
+        dispatch(
+          initialize("OfficerDetails", {
+            notes: caseOfficer.notes,
+            roleOnCase: caseOfficer.roleOnCase,
+            officerId: caseOfficer.officerId
+          })
+        );
         dispatch(
           push(`/cases/${caseOfficer.caseId}/officers/${caseOfficer.id}`)
         );
