@@ -8,17 +8,5 @@ echo "$jsfiles" | xargs ./node_modules/.bin/prettier --write
 # Add back the modified/prettified files to staging
 echo "$jsfiles" | xargs git add
 
-disallowed_text="(test.only|describe.only)"
-matches=$(grep -rnE --include '*.test.js' "$disallowed_text" .)
-if [[ ${#matches[@]} > 0 ]]
-then
-    echo "*Do not commit .only in tests*"
-    for pattern in "${matches[@]}"
-    do
-        echo "$pattern"
-    done
-    exit 1
-fi
-
 
 exit 0
