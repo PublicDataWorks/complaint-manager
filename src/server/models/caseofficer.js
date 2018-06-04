@@ -175,6 +175,31 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  CaseOfficer.prototype.emptyCaseOfficerAttributes = function() {
+    return {
+      officerId: null,
+      firstName: null,
+      middleName: null,
+      lastName: null,
+      windowsUsername: null,
+      supervisorFirstName: null,
+      supervisorMiddleName: null,
+      supervisorLastName: null,
+      supervisorWindowsUsername: null,
+      supervisorOfficerNumber: null,
+      employeeType: null,
+      district: null,
+      bureau: null,
+      rank: null,
+      dob: null,
+      endDate: null,
+      hireDate: null,
+      sex: null,
+      race: null,
+      workStatus: null
+    };
+  };
+
   CaseOfficer.auditDataChange();
 
   return CaseOfficer;
