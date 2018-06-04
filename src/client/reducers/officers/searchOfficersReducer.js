@@ -5,7 +5,8 @@ import {
   SEARCH_CLEARED,
   OFFICER_SELECTED,
   CLEAR_SELECTED_OFFICER,
-  UNKNOWN_OFFICER_SELECTED
+  UNKNOWN_OFFICER_SELECTED,
+  CASE_OFFICER_SELECTED
 } from "../../../sharedUtilities/constants";
 
 const initialState = {
@@ -28,6 +29,15 @@ const searchOfficersReducer = (state = initialState, action) => {
     case OFFICER_SELECTED:
       return {
         selectedOfficerData: action.officer,
+        officerCurrentlySelected: true
+      };
+    case CASE_OFFICER_SELECTED:
+      const selectedOfficer = {
+        ...action.caseOfficer,
+        id: action.caseOfficer.officerId
+      };
+      return {
+        selectedOfficerData: selectedOfficer,
         officerCurrentlySelected: true
       };
     case UNKNOWN_OFFICER_SELECTED:

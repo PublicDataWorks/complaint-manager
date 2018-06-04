@@ -3,7 +3,7 @@ import { push } from "react-router-redux";
 import { Menu, MenuItem } from "material-ui";
 import LinkButton from "../../../shared/components/LinkButton";
 import {
-  selectOfficer,
+  selectCaseOfficer,
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
 import { connect } from "react-redux";
@@ -39,7 +39,7 @@ class ManageOfficerMenu extends React.Component {
             data-test="editCaseOfficer"
             onClick={() => {
               if (caseOfficer.officerId) {
-                this.props.dispatch(selectOfficer(caseOfficer));
+                this.props.dispatch(selectCaseOfficer(caseOfficer));
               } else {
                 this.props.dispatch(selectUnknownOfficer());
               }

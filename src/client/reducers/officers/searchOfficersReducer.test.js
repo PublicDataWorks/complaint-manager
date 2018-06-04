@@ -1,6 +1,7 @@
 import searchOfficersReducer from "./searchOfficersReducer";
 import {
   clearSelectedOfficer,
+  selectCaseOfficer,
   selectOfficer,
   selectUnknownOfficer
 } from "../../actionCreators/officersActionCreators";
@@ -10,6 +11,7 @@ import {
   searchInitiated,
   searchSuccess
 } from "../../actionCreators/searchActionCreators";
+import CaseOfficer from "../../testUtilities/caseOfficer";
 
 describe("searchOfficersReducer", () => {
   describe("SEARCH_SUCCESS", () => {
@@ -125,6 +127,36 @@ describe("searchOfficersReducer", () => {
         selectedOfficerData: null,
         officerCurrentlySelected: true
       });
+    });
+  });
+
+  describe("CASE_OFFICER_SELECTED", function() {
+    test("officer data populated by selected case officer", () => {
+      const initialState = {
+        selectedOfficerData: null,
+        officerCurrentlySelected: false
+      };
+
+      const caseOfficer = new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withId(123)
+        .withOfficerId(456);
+
+      const newState = searchOfficersReducer(
+        initialState,
+        selectCaseOfficer(caseOfficer)
+      );
+
+      expect(newState).toEqual(
+        expect.objectContaining({
+          selectedOfficerData: expect.objectContaining({
+            id: caseOfficer.officerId,
+            firstName: caseOfficer.firstName,
+            lastName: caseOfficer.lastName
+          }),
+          officerCurrentlySelected: true
+        })
+      );
     });
   });
 });

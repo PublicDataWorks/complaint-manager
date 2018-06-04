@@ -3,7 +3,7 @@ import LinkButton from "../../../shared/components/LinkButton";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import {
-  selectOfficer,
+  selectCaseOfficer,
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
 import { initialize } from "redux-form";
@@ -16,7 +16,7 @@ const OfficerActions = ({ caseOfficer, dispatch }) => (
         event.stopPropagation();
 
         if (caseOfficer.officerId) {
-          dispatch(selectOfficer(caseOfficer));
+          dispatch(selectCaseOfficer(caseOfficer));
         } else {
           dispatch(selectUnknownOfficer());
         }

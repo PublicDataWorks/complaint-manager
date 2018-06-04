@@ -139,6 +139,11 @@ class CaseOfficer {
         return this;
       }
 
+      withOfficerId(officerId) {
+        this.officerId = officerId;
+        return this;
+      }
+
       build() {
         return new CaseOfficer(this);
       }

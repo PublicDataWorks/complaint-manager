@@ -7,7 +7,7 @@ import { mount } from "enzyme";
 import { BrowserRouter as Router } from "react-router-dom";
 import OfficerActions from "./OfficerActions";
 import {
-  selectOfficer,
+  selectCaseOfficer,
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
 
@@ -28,7 +28,7 @@ describe("OfficerActions", () => {
     const editOfficer = wrapper.find('[data-test="editOfficerLink"]').last();
     editOfficer.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(selectOfficer(caseOfficer));
+    expect(dispatchSpy).toHaveBeenCalledWith(selectCaseOfficer(caseOfficer));
     expect(dispatchSpy).toHaveBeenCalledWith(
       push(`/cases/${caseOfficer.caseId}/officers/${caseOfficer.id}`)
     );

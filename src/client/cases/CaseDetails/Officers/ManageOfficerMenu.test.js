@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { push } from "react-router-redux";
 import {
-  selectOfficer,
+  selectCaseOfficer,
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
 import CaseOfficer from "../../../testUtilities/caseOfficer";
@@ -30,7 +30,7 @@ describe("ManageOfficerMenu", () => {
     const editOfficer = wrapper.find('[data-test="editCaseOfficer"]').last();
     editOfficer.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(selectOfficer(caseOfficer));
+    expect(dispatchSpy).toHaveBeenCalledWith(selectCaseOfficer(caseOfficer));
     expect(dispatchSpy).toHaveBeenCalledWith(
       push(`/cases/${caseOfficer.caseId}/officers/${caseOfficer.id}`)
     );

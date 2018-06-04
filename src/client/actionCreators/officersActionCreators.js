@@ -5,7 +5,8 @@ import {
   CLEAR_SELECTED_OFFICER,
   UNKNOWN_OFFICER_SELECTED,
   EDIT_CASE_OFFICER_SUCCEEDED,
-  EDIT_CASE_OFFICER_FAILED
+  EDIT_CASE_OFFICER_FAILED,
+  CASE_OFFICER_SELECTED
 } from "../../sharedUtilities/constants";
 
 export const addOfficerToCaseSuccess = caseDetails => ({
@@ -20,6 +21,11 @@ export const addOfficerToCaseFailure = () => ({
 export const selectOfficer = officer => ({
   type: OFFICER_SELECTED,
   officer
+});
+
+export const selectCaseOfficer = caseOfficer => ({
+  type: CASE_OFFICER_SELECTED,
+  caseOfficer
 });
 
 export const clearSelectedOfficer = () => ({
