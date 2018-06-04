@@ -1,5 +1,5 @@
 "use strict";
-import { COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
+const { COMPLAINANT, WITNESS } = require("../../sharedUtilities/constants");
 
 module.exports = (sequelize, DataTypes) => {
   const Civilian = sequelize.define(

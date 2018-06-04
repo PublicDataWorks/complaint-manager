@@ -56,7 +56,6 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
   }
 
   const updatedCase = await models.sequelize.transaction(async t => {
-    //WORKS FOR WITNESS/COMPLAINANT
     await retrievedCase.createAccusedOfficer(caseOfficerAttributes, {
       transaction: t,
       auditUser: request.nickname

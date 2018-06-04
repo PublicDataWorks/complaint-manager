@@ -5,6 +5,7 @@ import buildTokenWithPermissions from "../../../requestTestHelpers";
 import Officer from "../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Case from "../../../../client/testUtilities/case";
+import { ACCUSED } from "../../../../sharedUtilities/constants";
 
 describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
   let token;
@@ -28,7 +29,7 @@ describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
     await models.data_change_audit.truncate();
   });
 
-  test("it updates the thing", async () => {
+  test("it updates the case officer", async () => {
     const existingOfficer = new Officer.Builder()
       .defaultOfficer()
       .withOfficerNumber(123)
@@ -58,7 +59,10 @@ describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
       returning: true
     });
 
-    const fieldsToUpdate = { notes: "Some very updated notes" };
+    const fieldsToUpdate = {
+      notes: "Some very updated notes",
+      roleOnCase: ACCUSED
+    };
     await request(app)
       .put(
         `/api/cases/${createdCase.id}/cases-officers/${

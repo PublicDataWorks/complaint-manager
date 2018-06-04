@@ -13,16 +13,16 @@ const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
   });
 
   if (officerId && officerId !== caseOfficerToUpdate.officerId) {
-    const caseOfficer = await models.officer.findById(officerId);
+    const newOfficer = await models.officer.findById(officerId);
 
     let supervisorFirstName = null;
     let supervisorMiddleName = null;
     let supervisorLastName = null;
     let supervisorWindowsUsername = null;
 
-    if (caseOfficer.supervisorOfficerNumber) {
+    if (newOfficer.supervisorOfficerNumber) {
       const supervisor = await models.officer.findOne({
-        where: { officerNumber: caseOfficer.supervisorOfficerNumber }
+        where: { officerNumber: newOfficer.supervisorOfficerNumber }
       });
 
       supervisorFirstName = supervisor.firstName;
@@ -32,22 +32,22 @@ const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
     }
 
     officerAttributes = {
-      officerId: request.body.officerId,
-      firstName: caseOfficer.firstName,
-      middleName: caseOfficer.middleName,
-      lastName: caseOfficer.lastName,
-      windowsUsername: caseOfficer.windowsUsername,
-      bureau: caseOfficer.bureau,
-      rank: caseOfficer.rank,
-      race: caseOfficer.race,
-      district: caseOfficer.district,
-      sex: caseOfficer.sex,
-      dob: caseOfficer.dob,
-      endDate: caseOfficer.endDate,
-      hireDate: caseOfficer.hireDate,
-      employeeType: caseOfficer.employeeType,
-      workStatus: caseOfficer.workStatus,
-      supervisorOfficerNumber: caseOfficer.supervisorOfficerNumber,
+      officerId: newOfficer.id,
+      firstName: newOfficer.firstName,
+      middleName: newOfficer.middleName,
+      lastName: newOfficer.lastName,
+      windowsUsername: newOfficer.windowsUsername,
+      bureau: newOfficer.bureau,
+      rank: newOfficer.rank,
+      race: newOfficer.race,
+      district: newOfficer.district,
+      sex: newOfficer.sex,
+      dob: newOfficer.dob,
+      endDate: newOfficer.endDate,
+      hireDate: newOfficer.hireDate,
+      employeeType: newOfficer.employeeType,
+      workStatus: newOfficer.workStatus,
+      supervisorOfficerNumber: newOfficer.supervisorOfficerNumber,
       supervisorFirstName,
       supervisorMiddleName,
       supervisorLastName,

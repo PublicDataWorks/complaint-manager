@@ -1,6 +1,10 @@
 "use strict";
-import { ACCUSED, COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
 
+const {
+  ACCUSED,
+  COMPLAINANT,
+  WITNESS
+} = require("../../sharedUtilities/constants");
 const moment = require("moment");
 const models = require("./index");
 
@@ -116,7 +120,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       roleOnCase: {
         field: "role_on_case",
-        type: DataTypes.ENUM([ACCUSED, COMPLAINANT, WITNESS])
+        type: DataTypes.ENUM([ACCUSED, COMPLAINANT, WITNESS]),
+        allowNull: false
       },
       createdAt: {
         field: "created_at",

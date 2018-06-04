@@ -24,7 +24,7 @@ describe("editCaseOfficer", () => {
     await models.data_change_audit.truncate();
   });
 
-  test("it persists the updated case officer", async () => {
+  test("it updates to a new officer", async () => {
     const existingOfficer = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined)
@@ -70,11 +70,7 @@ describe("editCaseOfficer", () => {
     });
     const fieldsToUpdate = {
       officerId: createdNewOfficer.id,
-      firstName: "Garret",
-      middleName: "Bobby",
-      lastName: "Freezer",
-      windowsUsername: 87654,
-      fullName: "Garret Bobby Freezer"
+      roleOnCase: existingCaseOfficer.roleOnCase
     };
 
     const request = httpMocks.createRequest({
