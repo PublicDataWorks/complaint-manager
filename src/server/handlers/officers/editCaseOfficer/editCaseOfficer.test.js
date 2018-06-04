@@ -8,9 +8,15 @@ import editCaseOfficer from "./editCaseOfficer";
 describe("editCaseOfficer", () => {
   afterEach(async () => {
     await models.address.destroy({ truncate: true, cascade: true });
-    await models.case_officer.destroy({ truncate: true, cascade: true });
+    await models.case_officer.destroy({
+      truncate: true,
+      cascade: true,
+      force: true,
+      auditUser: "someone"
+    });
     await models.cases.destroy({
       truncate: true,
+      force: true,
       cascade: true,
       auditUser: "test user"
     });
@@ -28,7 +34,7 @@ describe("editCaseOfficer", () => {
     const createdOfficer = await models.officer.create(existingOfficer);
     const existingCaseOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
-      .withOfficer(createdOfficer)
+      .withOfficerAttributes(createdOfficer)
       .build();
     const existingCase = new Case.Builder()
       .defaultCase()
@@ -41,7 +47,8 @@ describe("editCaseOfficer", () => {
       include: [
         {
           model: models.case_officer,
-          as: "accusedOfficers"
+          as: "accusedOfficers",
+          auditUser: "someone"
         }
       ],
       auditUser: "someone",
@@ -80,7 +87,7 @@ describe("editCaseOfficer", () => {
         caseId: createdCase.id,
         caseOfficerId: createdCase.accusedOfficers[0].id
       },
-      nickname: null
+      nickname: "test user"
     });
     const response = httpMocks.createResponse();
 

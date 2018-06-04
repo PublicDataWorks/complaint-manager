@@ -11,7 +11,11 @@ describe("addCaseOfficer", () => {
       cascade: true,
       force: true
     });
-    await models.case_officer.destroy({ truncate: true, cascade: true });
+    await models.case_officer.destroy({
+      truncate: true,
+      cascade: true,
+      auditUser: "test"
+    });
     await models.cases.destroy({
       truncate: true,
       cascade: true,

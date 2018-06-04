@@ -88,7 +88,7 @@ class CaseOfficer {
         return this;
       }
 
-      withOfficer(officer) {
+      withOfficerAttributes(officer) {
         this.firstName = officer.firstName;
         this.middleName = officer.middleName;
         this.lastName = officer.lastName;

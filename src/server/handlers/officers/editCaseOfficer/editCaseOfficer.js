@@ -64,7 +64,8 @@ const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
     {
       where: {
         id: request.params.caseOfficerId
-      }
+      },
+      auditUser: request.nickname
     }
   );
 

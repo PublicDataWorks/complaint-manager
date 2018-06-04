@@ -37,7 +37,7 @@ describe("OfficerActions", () => {
   test("should select caseOfficer & navigate to edit page when unknown officer is clicked", () => {
     const caseOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
-      .withOfficer({ fullName: "Unknown Officer" })
+      .withOfficerAttributes({ fullName: "Unknown Officer" })
       .build();
 
     const store = createConfiguredStore();

@@ -39,7 +39,7 @@ describe("ManageOfficerMenu", () => {
   test("should select officer and redirect when edit unknown Officer is clicked", () => {
     const caseOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
-      .withOfficer({ fullName: "Unknown Officer" })
+      .withOfficerAttributes({ fullName: "Unknown Officer" })
       .build();
 
     const store = createConfiguredStore();

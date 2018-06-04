@@ -320,7 +320,7 @@ describe("Complainant and Witnesses", () => {
 
     const caseOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
-      .withOfficer(officerComplainant)
+      .withOfficerAttributes(officerComplainant)
       .build();
 
     const caseWithMixedComplainants = new Case.Builder()

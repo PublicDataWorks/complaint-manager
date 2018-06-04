@@ -47,7 +47,7 @@ describe("cases table", () => {
 
     const accusedOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
-      .withOfficer(officer)
+      .withOfficerAttributes(officer)
       .build();
 
     const caseOne = new Case.Builder()

@@ -168,5 +168,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  CaseOfficer.auditDataChange();
+
   return CaseOfficer;
 };

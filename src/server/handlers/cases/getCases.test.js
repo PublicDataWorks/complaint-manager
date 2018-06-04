@@ -41,7 +41,11 @@ describe("getCases", () => {
       cascade: true,
       force: true
     });
-    await models.case_officer.destroy({ truncate: true, cascade: true });
+    await models.case_officer.destroy({
+      truncate: true,
+      cascade: true,
+      auditUser: "someone"
+    });
     await models.cases.destroy({
       truncate: true,
       cascade: true,
@@ -87,14 +91,14 @@ describe("getCases", () => {
       const accusedOfficer = new CaseOfficer.Builder()
         .defaultCaseOfficer()
         .withId(undefined)
-        .withOfficer(createdOfficer)
+        .withOfficerAttributes(createdOfficer)
         .withNoSupervisor()
         .build();
 
       const complainantOfficer = new CaseOfficer.Builder()
         .defaultCaseOfficer()
         .withId(undefined)
-        .withOfficer(createdOfficerComplainant)
+        .withOfficerAttributes(createdOfficerComplainant)
         .withNoSupervisor()
         .withRoleOnCase("Complainant")
         .build();
@@ -120,11 +124,13 @@ describe("getCases", () => {
           },
           {
             model: models.case_officer,
-            as: "accusedOfficers"
+            as: "accusedOfficers",
+            auditUser: "someone"
           },
           {
             model: models.case_officer,
-            as: "complainantOfficers"
+            as: "complainantOfficers",
+            auditUser: "someone"
           }
         ],
         auditUser: "someone"

@@ -35,7 +35,7 @@ beforeEach(() => {
     .defaultCaseOfficer()
     .withId(caseOfficerId)
     .withCaseId(caseId)
-    .withOfficer(officer)
+    .withOfficerAttributes(officer)
     .build();
   seededCase = new Case.Builder()
     .defaultCase()

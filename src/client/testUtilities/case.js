@@ -47,7 +47,7 @@ class Case {
         const accusedOfficer = new CaseOfficer.Builder()
           .defaultCaseOfficer()
           .withId(456)
-          .withOfficer(
+          .withOfficerAttributes(
             new Officer.Builder()
               .defaultOfficer()
               .withOfficerNumber(456)
@@ -60,7 +60,7 @@ class Case {
         const complainantOfficer = new CaseOfficer.Builder()
           .defaultCaseOfficer()
           .withId(654)
-          .withOfficer(
+          .withOfficerAttributes(
             new Officer.Builder()
               .defaultOfficer()
               .withOfficerNumber(654)
@@ -73,7 +73,7 @@ class Case {
         const witnessOfficer = new CaseOfficer.Builder()
           .defaultCaseOfficer()
           .withId(565)
-          .withOfficer(
+          .withOfficerAttributes(
             new Officer.Builder()
               .defaultOfficer()
               .withOfficerNumber(565)

@@ -29,7 +29,7 @@ test("displays complainant if the complainant is an officer", () => {
   const complainantOfficer = new CaseOfficer.Builder()
     .defaultCaseOfficer()
     .withRoleOnCase("Complainant")
-    .withOfficer(
+    .withOfficerAttributes(
       new Officer.Builder()
         .defaultOfficer()
         .withFullName(officerFullName)
@@ -57,7 +57,7 @@ test("displays an civilian complainant by default if civilian and officer compla
   const complainantOfficer = new CaseOfficer.Builder()
     .defaultCaseOfficer()
     .withRoleOnCase("Complainant")
-    .withOfficer(
+    .withOfficerAttributes(
       new Officer.Builder()
         .defaultOfficer()
         .withFullName(officerFullName)

@@ -11,7 +11,11 @@ describe("GET /cases/:caseId/cases-officers/:caseOfficerId", () => {
 
   afterEach(async () => {
     await models.address.destroy({ truncate: true, cascade: true });
-    await models.case_officer.destroy({ truncate: true, cascade: true });
+    await models.case_officer.destroy({
+      truncate: true,
+      cascade: true,
+      auditUser: "someone"
+    });
     await models.cases.destroy({
       truncate: true,
       cascade: true,
@@ -47,7 +51,7 @@ describe("GET /cases/:caseId/cases-officers/:caseOfficerId", () => {
     const existingCaseOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
       .withId(undefined)
-      .withOfficer(createdOfficer.dataValues)
+      .withOfficerAttributes(createdOfficer.dataValues)
       .withSupervisor(createdSupervisor.dataValues)
       .build();
 
@@ -62,7 +66,8 @@ describe("GET /cases/:caseId/cases-officers/:caseOfficerId", () => {
       include: [
         {
           model: models.case_officer,
-          as: "accusedOfficers"
+          as: "accusedOfficers",
+          auditUser: "someone"
         }
       ],
       auditUser: "someone",

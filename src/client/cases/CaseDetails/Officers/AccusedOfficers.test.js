@@ -15,7 +15,7 @@ describe("AccusedOfficers", function() {
     const accusedOfficers = [
       new CaseOfficer.Builder()
         .defaultCaseOfficer()
-        .withOfficer(anOfficer)
+        .withOfficerAttributes(anOfficer)
         .build()
     ];
 
