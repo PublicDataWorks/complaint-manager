@@ -25,6 +25,7 @@ import {
 import createCivilian from "../thunks/createCivilian";
 import {
   CIVILIAN_FORM_NAME,
+  COMPLAINANT,
   TIMEZONE
 } from "../../../sharedUtilities/constants";
 import { initialize } from "redux-form";
@@ -61,9 +62,9 @@ class CaseDetails extends React.Component {
     this.props.dispatch(getCaseDetails(this.props.match.params.id));
   }
 
-  componentWillMount(){
-    this.props.dispatch(closeEditDialog())
-    this.props.dispatch(closeUserActionDialog())
+  componentWillMount() {
+    this.props.dispatch(closeEditDialog());
+    this.props.dispatch(closeUserActionDialog());
   }
 
   caseDetailsNotYetLoaded() {
@@ -151,7 +152,7 @@ class CaseDetails extends React.Component {
                 this.handleMenuClose();
                 this.props.dispatch(
                   initialize(CIVILIAN_FORM_NAME, {
-                    roleOnCase: "Complainant",
+                    roleOnCase: COMPLAINANT,
                     caseId: this.props.caseDetail.id
                   })
                 );

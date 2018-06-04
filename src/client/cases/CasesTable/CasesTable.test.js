@@ -13,6 +13,7 @@ import Civilian from "../../testUtilities/civilian";
 import Case from "../../testUtilities/case";
 import CaseOfficer from "../../testUtilities/caseOfficer";
 import Officer from "../../testUtilities/Officer";
+import { COMPLAINANT } from "../../../sharedUtilities/constants";
 
 jest.mock("../thunks/getCases", () => () => ({
   type: "MOCK_GET_CASES_THUNK"
@@ -31,13 +32,13 @@ describe("cases table", () => {
     civilianChuck = new Civilian.Builder()
       .withFirstName("Chuck")
       .withLastName("Berry")
-      .withRoleOnCase("Complainant")
+      .withRoleOnCase(COMPLAINANT)
       .build();
 
     civilianAriel = new Civilian.Builder()
       .withFirstName("Ariel")
       .withLastName("Pink")
-      .withRoleOnCase("Complainant")
+      .withRoleOnCase(COMPLAINANT)
       .build();
 
     officer = new Officer.Builder()
@@ -155,7 +156,7 @@ describe("cases table", () => {
     });
 
     test("should display complainant", () => {
-      expect(complainant.text()).toEqual("Complainant");
+      expect(complainant.text()).toEqual(COMPLAINANT);
     });
 
     test("should display first contact date", () => {

@@ -118,6 +118,13 @@ const DATA_UPDATED = "updated";
 const DATA_CREATED = "created";
 const DATA_DELETED = "deleted";
 
+// ----------------------------------------
+//          Role on Case Options
+// ----------------------------------------
+const ACCUSED = "Accused";
+const WITNESS = "Witness";
+const COMPLAINANT = "Complainant";
+
 module.exports = {
   LOCAL_DEV_PORT,
   PORT,
@@ -179,5 +186,8 @@ module.exports = {
   REMOVE_CIVILIAN_FAILED,
   REMOVE_CIVILIAN_SUCCEEDED,
   GET_ALLEGATIONS_SUCCEEDED,
-  GET_ALLEGATIONS_FAILED
+  GET_ALLEGATIONS_FAILED,
+  ACCUSED,
+  WITNESS,
+  COMPLAINANT
 };

@@ -1,4 +1,5 @@
 import sortBy from "./sortBy";
+import { COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
 
 describe("sorting", () => {
   let unsortedCases;
@@ -10,7 +11,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "austin",
-            roleOnCase: "Complainant"
+            roleOnCase: COMPLAINANT
           }
         ],
         assignedTo: "abcUser"
@@ -21,7 +22,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "Zeke",
-            roleOnCase: "Complainant"
+            roleOnCase: COMPLAINANT
           }
         ],
         assignedTo: "DceUser"
@@ -32,7 +33,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "Aaron",
-            roleOnCase: "Witness"
+            roleOnCase: WITNESS
           }
         ],
         assignedTo: "DceUser"
@@ -48,7 +49,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "austin",
-            roleOnCase: "Complainant"
+            roleOnCase: COMPLAINANT
           }
         ],
         assignedTo: "abcUser"
@@ -59,7 +60,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "Zeke",
-            roleOnCase: "Complainant"
+            roleOnCase: COMPLAINANT
           }
         ],
         assignedTo: "DceUser"
@@ -70,7 +71,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "Aaron",
-            roleOnCase: "Witness"
+            roleOnCase: WITNESS
           }
         ],
         assignedTo: "DceUser"
@@ -90,7 +91,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "Aaron",
-            roleOnCase: "Witness"
+            roleOnCase: WITNESS
           }
         ],
         assignedTo: "DceUser"
@@ -101,7 +102,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "Zeke",
-            roleOnCase: "Complainant"
+            roleOnCase: COMPLAINANT
           }
         ],
         assignedTo: "DceUser"
@@ -112,7 +113,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "austin",
-            roleOnCase: "Complainant"
+            roleOnCase: COMPLAINANT
           }
         ],
         assignedTo: "abcUser"
@@ -132,7 +133,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "Aaron",
-            roleOnCase: "Witness"
+            roleOnCase: WITNESS
           }
         ],
         assignedTo: "DceUser"
@@ -143,7 +144,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "austin",
-            roleOnCase: "Complainant"
+            roleOnCase: COMPLAINANT
           }
         ],
         assignedTo: "abcUser"
@@ -154,7 +155,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "Zeke",
-            roleOnCase: "Complainant"
+            roleOnCase: COMPLAINANT
           }
         ],
         assignedTo: "DceUser"
@@ -174,7 +175,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "Zeke",
-            roleOnCase: "Complainant"
+            roleOnCase: COMPLAINANT
           }
         ],
         assignedTo: "testUser"
@@ -200,7 +201,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "Zeke",
-            roleOnCase: "Complainant"
+            roleOnCase: COMPLAINANT
           }
         ],
         assignedTo: "testUser"
@@ -220,7 +221,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "austin",
-            roleOnCase: "Complainant"
+            roleOnCase: COMPLAINANT
           }
         ],
         assignedTo: "abcUser"
@@ -231,7 +232,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "Zeke",
-            roleOnCase: "Complainant"
+            roleOnCase: COMPLAINANT
           }
         ],
         assignedTo: "DceUser"
@@ -242,7 +243,7 @@ describe("sorting", () => {
         complainantCivilians: [
           {
             lastName: "Aaron",
-            roleOnCase: "Witness"
+            roleOnCase: WITNESS
           }
         ],
         assignedTo: "DceUser"

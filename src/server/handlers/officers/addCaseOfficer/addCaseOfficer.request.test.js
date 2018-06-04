@@ -4,6 +4,7 @@ import models from "../../../models/index";
 import Case from "../../../../client/testUtilities/case";
 import app from "../../../server";
 import buildTokenWithPermissions from "../../../requestTestHelpers";
+import { ACCUSED } from "../../../../sharedUtilities/constants";
 
 describe("POST /cases/:caseId/cases_officers", () => {
   let token;
@@ -53,7 +54,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
     });
 
     const officerNotes = "some notes";
-    const officerRole = "Accused";
+    const officerRole = ACCUSED;
 
     await request(app)
       .post(`/api/cases/${seededCase.id}/cases-officers`)
@@ -128,7 +129,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
     });
 
     const officerNotes = "some notes";
-    const officerRole = "Accused";
+    const officerRole = ACCUSED;
 
     await request(app)
       .post(`/api/cases/${seededCase.id}/cases-officers`)
@@ -184,7 +185,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
     });
 
     const officerNotes = "some notes for an unknown officer";
-    const officerRole = "Accused";
+    const officerRole = ACCUSED;
 
     await request(app)
       .post(`/api/cases/${seededCase.id}/cases-officers/`)

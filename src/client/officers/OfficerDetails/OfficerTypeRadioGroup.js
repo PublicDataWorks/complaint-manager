@@ -1,6 +1,11 @@
 import React from "react";
 import { FormControl, FormControlLabel, Radio, withStyles } from "material-ui";
 import { RadioGroup } from "redux-form-material-ui";
+import {
+  ACCUSED,
+  COMPLAINANT,
+  WITNESS
+} from "../../../sharedUtilities/constants";
 
 const styles = {
   radio: {
@@ -15,20 +20,20 @@ const OfficerTypeRadioGroup = ({ classes, ...other }) => {
         <FormControlLabel
           className={classes.radio}
           control={<Radio color="primary" />}
-          label="Accused"
-          value="Accused"
+          label={ACCUSED}
+          value={ACCUSED}
         />
         <FormControlLabel
           className={classes.radio}
           control={<Radio color="primary" />}
-          label="Complainant"
-          value="Complainant"
+          label={COMPLAINANT}
+          value={COMPLAINANT}
         />
         <FormControlLabel
           className={classes.radio}
           control={<Radio color="primary" />}
-          label="Witness"
-          value="Witness"
+          label={WITNESS}
+          value={WITNESS}
         />
       </RadioGroup>
     </FormControl>

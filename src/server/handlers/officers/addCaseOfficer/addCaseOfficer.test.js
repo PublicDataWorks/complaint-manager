@@ -3,6 +3,7 @@ import models from "../../../models/index";
 import addCaseOfficer from "./addCaseOfficer";
 import * as httpMocks from "node-mocks-http";
 import Officer from "../../../../client/testUtilities/Officer";
+import { ACCUSED } from "../../../../sharedUtilities/constants";
 
 describe("addCaseOfficer", () => {
   afterEach(async () => {
@@ -51,7 +52,7 @@ describe("addCaseOfficer", () => {
       },
       body: {
         officerId: null,
-        roleOnCase: "Accused",
+        roleOnCase: ACCUSED,
         notes: "these are notes"
       },
       nickname: "TEST_USER_NICKNAME"
@@ -87,7 +88,7 @@ describe("addCaseOfficer", () => {
 
     const officerAttributes = {
       officerId: createdOfficer.id,
-      roleOnCase: "Accused",
+      roleOnCase: ACCUSED,
       notes: "these are notes"
     };
 
@@ -133,7 +134,7 @@ describe("addCaseOfficer", () => {
 
     const officerAttributes = {
       officerId: null,
-      roleOnCase: "Accused",
+      roleOnCase: ACCUSED,
       notes: "these are notes"
     };
 

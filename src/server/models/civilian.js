@@ -1,4 +1,6 @@
 "use strict";
+import { COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
+
 module.exports = (sequelize, DataTypes) => {
   const Civilian = sequelize.define(
     "civilian",
@@ -25,8 +27,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       roleOnCase: {
         field: "role_on_case",
-        type: DataTypes.ENUM(["Complainant", "Witness"]),
-        defaultValue: "Complainant"
+        type: DataTypes.ENUM([COMPLAINANT, WITNESS]),
+        defaultValue: COMPLAINANT
       },
       genderIdentity: {
         field: "gender_identity",

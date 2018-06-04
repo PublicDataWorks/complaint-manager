@@ -1,3 +1,9 @@
+const {
+  ACCUSED,
+  COMPLAINANT,
+  WITNESS
+} = require("../../sharedUtilities/constants");
+
 module.exports = (sequelize, DataTypes) => {
   const Op = sequelize.Op;
 
@@ -79,12 +85,12 @@ module.exports = (sequelize, DataTypes) => {
     Case.hasMany(models.civilian, {
       as: "complainantCivilians",
       foreignKey: { name: "caseId", field: "case_id" },
-      scope: { role_on_case: "Complainant" }
+      scope: { role_on_case: COMPLAINANT }
     });
     Case.hasMany(models.civilian, {
       as: "witnessCivilians",
       foreignKey: { name: "caseId", field: "case_id" },
-      scope: { role_on_case: "Witness" }
+      scope: { role_on_case: WITNESS }
     });
     Case.hasMany(models.attachment, {
       foreignKey: { name: "caseId", field: "case_id" }
@@ -100,17 +106,17 @@ module.exports = (sequelize, DataTypes) => {
     Case.hasMany(models.case_officer, {
       as: "accusedOfficers",
       foreignKey: { name: "caseId", field: "case_id" },
-      scope: { role_on_case: "Accused" }
+      scope: { role_on_case: ACCUSED }
     });
     Case.hasMany(models.case_officer, {
       as: "complainantOfficers",
       foreignKey: { name: "caseId", field: "case_id" },
-      scope: { role_on_case: "Complainant" }
+      scope: { role_on_case: COMPLAINANT }
     });
     Case.hasMany(models.case_officer, {
       as: "witnessOfficers",
       foreignKey: { name: "caseId", field: "case_id" },
-      scope: { role_on_case: "Witness" }
+      scope: { role_on_case: WITNESS }
     });
     Case.hasMany(models.data_change_audit, {
       as: "dataChangeAudits",

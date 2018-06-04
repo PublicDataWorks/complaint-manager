@@ -8,6 +8,7 @@ import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Case from "../../../../client/testUtilities/case";
 import Address from "../../../../client/testUtilities/Address";
 import buildTokenWithPermissions from "../../../requestTestHelpers";
+import { ACCUSED } from "../../../../sharedUtilities/constants";
 
 describe("GET /cases/:id", () => {
   let caseToRetrieve, incidentLocation, expectedStreetAddress, token;
@@ -164,7 +165,7 @@ describe("GET /cases/:id", () => {
                 employeeType: caseToRetrieve.accusedOfficers[0].employeeType,
                 supervisorFullName:
                   caseToRetrieve.accusedOfficers[0].supervisorFullName,
-                roleOnCase: "Accused"
+                roleOnCase: ACCUSED
               })
             ])
           })

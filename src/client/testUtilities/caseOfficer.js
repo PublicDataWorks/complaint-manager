@@ -1,3 +1,5 @@
+import { ACCUSED } from "../../sharedUtilities/constants";
+
 class CaseOfficer {
   constructor(build) {
     this.id = build.id;
@@ -53,7 +55,7 @@ class CaseOfficer {
         this.endDate = "2018-05-31";
         this.employeeType = "Commissioned";
         this.officerId = 123456;
-        this.roleOnCase = "Accused";
+        this.roleOnCase = ACCUSED;
         this.notes = "Some notes about this officer's history";
 
         return this;

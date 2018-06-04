@@ -6,6 +6,7 @@ import React from "react";
 import OfficerDetails from "./OfficerDetails";
 import { initialize } from "redux-form";
 import { selectOfficer } from "../../actionCreators/officersActionCreators";
+import { ACCUSED } from "../../../sharedUtilities/constants";
 
 jest.mock("../thunks/addOfficer", () => (caseId, officerId, values) => ({
   type: "MOCK_ADD_OFFICER_ACTION",
@@ -16,14 +17,14 @@ jest.mock("../thunks/addOfficer", () => (caseId, officerId, values) => ({
 
 test("should dispatch thunk with correct stuff when unknown officer selected", () => {
   const mockOfficerSearchUrl = "/mock-officer-search-url";
-  const expectedValues = { roleOnCase: "Accused" };
+  const expectedValues = { roleOnCase: ACCUSED };
   const caseId = 12;
   const submitAction = jest.fn(values => ({ type: "MOCK_THUNK", values }));
 
   const store = createConfiguredStore();
   const dispatchSpy = jest.spyOn(store, "dispatch");
 
-  store.dispatch(initialize("OfficerDetails", { roleOnCase: "Accused" }));
+  store.dispatch(initialize("OfficerDetails", { roleOnCase: ACCUSED }));
   store.dispatch(selectOfficer({}));
 
   const wrapper = mount(

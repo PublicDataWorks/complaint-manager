@@ -7,6 +7,7 @@ import {
   withStyles
 } from "material-ui";
 import { RadioGroup } from "redux-form-material-ui";
+import { COMPLAINANT, WITNESS } from "../../../../sharedUtilities/constants";
 
 const styles = {
   radio: {
@@ -26,15 +27,15 @@ const RoleOnCaseRadioGroup = ({ classes, ...other }) => (
     >
       <FormControlLabel
         className={classes.radio}
-        value="Complainant"
+        value={COMPLAINANT}
         control={<Radio color="primary" />}
-        label="Complainant"
+        label={COMPLAINANT}
       />
       <FormControlLabel
         className={classes.radio}
-        value="Witness"
+        value={WITNESS}
         control={<Radio color="primary" />}
-        label="Witness"
+        label={WITNESS}
       />
     </RadioGroup>
   </FormControl>

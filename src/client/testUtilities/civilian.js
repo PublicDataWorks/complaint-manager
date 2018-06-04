@@ -1,5 +1,6 @@
 //TODO Should we use a Civilian class in our app code?
 import Address from "./Address";
+import { COMPLAINANT } from "../../sharedUtilities/constants";
 
 class Civilian {
   constructor(build) {
@@ -32,7 +33,7 @@ class Civilian {
         this.middleInitial = "E";
         this.lastName = "Berry";
         this.suffix = "XVI";
-        this.roleOnCase = "Complainant";
+        this.roleOnCase = COMPLAINANT;
         this.phoneNumber = "1234567890";
         this.email = "cberry@cberry.com";
         this.birthDate = "1994-04-24";

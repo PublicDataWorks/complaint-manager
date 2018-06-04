@@ -9,6 +9,7 @@ import {
   addOfficerToCaseSuccess,
   clearSelectedOfficer
 } from "../../actionCreators/officersActionCreators";
+import { ACCUSED } from "../../../sharedUtilities/constants";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -24,7 +25,7 @@ describe("addOfficer", () => {
     const officer = new Officer.Builder().defaultOfficer().withId(14);
     const defaultCase = new Case.Builder().defaultCase().withId(14);
     const formValues = {
-      roleOnCase: "Accused",
+      roleOnCase: ACCUSED,
       notes: "Some very very very important notes"
     };
     const payload = { officerId: officer.id, ...formValues };
@@ -55,7 +56,7 @@ describe("addOfficer", () => {
     const officer = new Officer.Builder().defaultOfficer().withId(14);
     const defaultCase = new Case.Builder().defaultCase().withId(14);
     const formValues = {
-      roleOnCase: "Accused",
+      roleOnCase: ACCUSED,
       notes: "Some very very very important notes"
     };
     const payload = { officerId: officer.id, ...formValues };
@@ -80,7 +81,7 @@ describe("addOfficer", () => {
     const officer = new Officer.Builder().defaultOfficer().withId(14);
     const defaultCase = new Case.Builder().defaultCase().withId(14);
     const formValues = {
-      roleOnCase: "Accused",
+      roleOnCase: ACCUSED,
       notes: "Some very very very important notes"
     };
     const payload = { officerId: officer.id, ...formValues };

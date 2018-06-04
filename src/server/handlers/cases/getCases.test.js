@@ -7,6 +7,7 @@ import Civilian from "../../../client/testUtilities/civilian";
 import Officer from "../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../client/testUtilities/caseOfficer";
 import buildTokenWithPermissions from "../../requestTestHelpers";
+import { COMPLAINANT } from "../../../sharedUtilities/constants";
 
 const config = require("../../config/config")[process.env.NODE_ENV];
 
@@ -100,7 +101,7 @@ describe("getCases", () => {
         .withId(undefined)
         .withOfficerAttributes(createdOfficerComplainant)
         .withNoSupervisor()
-        .withRoleOnCase("Complainant")
+        .withRoleOnCase(COMPLAINANT)
         .build();
 
       const defaultCase = new Case.Builder()

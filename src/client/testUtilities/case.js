@@ -3,6 +3,7 @@ import Attachment from "./attachment";
 import Address from "./Address";
 import CaseOfficer from "./caseOfficer";
 import Officer from "./Officer";
+import { ACCUSED, COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
 
 class Case {
   constructor(build) {
@@ -36,13 +37,13 @@ class Case {
         const complainantCivilian = new Civilian.Builder()
           .defaultCivilian()
           .withId(23)
-          .withRoleOnCase("Complainant")
+          .withRoleOnCase(COMPLAINANT)
           .build();
         const witnessCivilian = new Civilian.Builder()
           .defaultCivilian()
           .withId(32)
           .withNoAddress()
-          .withRoleOnCase("Witness")
+          .withRoleOnCase(WITNESS)
           .build();
         const accusedOfficer = new CaseOfficer.Builder()
           .defaultCaseOfficer()
@@ -55,7 +56,7 @@ class Case {
               .build()
           )
           .withCaseId(id)
-          .withRoleOnCase("Accused")
+          .withRoleOnCase(ACCUSED)
           .build();
         const complainantOfficer = new CaseOfficer.Builder()
           .defaultCaseOfficer()
@@ -68,7 +69,7 @@ class Case {
               .build()
           )
           .withCaseId(id)
-          .withRoleOnCase("Complainant")
+          .withRoleOnCase(COMPLAINANT)
           .build();
         const witnessOfficer = new CaseOfficer.Builder()
           .defaultCaseOfficer()
@@ -81,7 +82,7 @@ class Case {
               .build()
           )
           .withCaseId(id)
-          .withRoleOnCase("Witness")
+          .withRoleOnCase(WITNESS)
           .build();
         const attachment = new Attachment.Builder()
           .defaultAttachment()

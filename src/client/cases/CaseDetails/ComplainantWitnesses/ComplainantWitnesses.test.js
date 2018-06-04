@@ -10,7 +10,10 @@ import Civilian from "../../../testUtilities/civilian";
 import Case from "../../../testUtilities/case";
 import formatCivilianName from "../../../utilities/formatCivilianName";
 import editCivilian from "../../thunks/editCivilian";
-import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
+import {
+  CIVILIAN_FORM_NAME,
+  WITNESS
+} from "../../../../sharedUtilities/constants";
 import _ from "lodash";
 import CaseOfficer from "../../../testUtilities/caseOfficer";
 import Officer from "../../../testUtilities/Officer";
@@ -257,7 +260,7 @@ describe("Complainant and Witnesses", () => {
   test("warning message shows when no complainants", () => {
     const witness = new Civilian.Builder()
       .defaultCivilian()
-      .withRoleOnCase("Witness")
+      .withRoleOnCase(WITNESS)
       .build();
 
     const caseWithoutComplainant = new Case.Builder()

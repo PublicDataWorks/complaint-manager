@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { searchOfficersSuccess } from "../../../actionCreators/officersActionCreators";
 import { BrowserRouter as Router } from "react-router-dom";
 import { searchSuccess } from "../../../actionCreators/searchActionCreators";
+import { ACCUSED } from "../../../../sharedUtilities/constants";
 
 jest.mock("../../../cases/thunks/getCaseDetails", () => caseId => ({
   type: "MOCK_ACTION",
@@ -19,7 +20,7 @@ describe("OfficerSearchResults", () => {
     const anAccusedOfficer = {
       id: 34,
       notes: "bad person",
-      roleOnCase: "Accused",
+      roleOnCase: ACCUSED,
       officerId: 23
     };
     store.dispatch(

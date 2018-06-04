@@ -15,6 +15,7 @@ import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators"
 import Officer from "../../testUtilities/Officer";
 import Case from "../../testUtilities/case";
 import { searchSuccess } from "../../actionCreators/searchActionCreators";
+import { ACCUSED } from "../../../sharedUtilities/constants";
 
 jest.mock("../../cases/thunks/getCaseDetails");
 
@@ -153,7 +154,7 @@ describe("OfficerSearchContainer", () => {
         accusedOfficers: [
           {
             id: 23,
-            roleOnCase: "Accused",
+            roleOnCase: ACCUSED,
             officer: {
               id: 34
             }

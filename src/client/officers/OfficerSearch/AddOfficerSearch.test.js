@@ -6,6 +6,7 @@ import createConfiguredStore from "../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import OfficerSearchContainer from "./OfficerSearchContainer";
+import { COMPLAINANT } from "../../../sharedUtilities/constants";
 
 describe("AddOfficerSearch", () => {
   test("should set up initialize with roleOnCase as complainant when coming from create case flow", () => {
@@ -24,7 +25,7 @@ describe("AddOfficerSearch", () => {
 
     const officerSearchContainer = wrapper.find(OfficerSearchContainer);
     expect(officerSearchContainer.prop("initialize")).toEqual(
-      initialize("OfficerDetails", { roleOnCase: "Complainant" })
+      initialize("OfficerDetails", { roleOnCase: COMPLAINANT })
     );
   });
 });

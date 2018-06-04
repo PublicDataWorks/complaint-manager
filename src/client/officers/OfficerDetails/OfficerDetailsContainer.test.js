@@ -1,5 +1,5 @@
 import React from "react";
-import { mount, shallow } from "enzyme";
+import { mount } from "enzyme";
 import { MemoryRouter as Router, Route } from "react-router-dom";
 import ConnectedOfficerDetailsContainer, {
   OfficerDetailsContainer
@@ -11,13 +11,12 @@ import { Provider } from "react-redux";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import { push } from "react-router-redux";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
-import {editThunkWrapper} from "../thunks/officerThunkWrappers";
+import { ACCUSED } from "../../../sharedUtilities/constants";
 
 jest.mock("../../cases/thunks/getCaseDetails");
 
 describe("OfficerDetailsContainer", () => {
-  let mockDispatch = jest.fn();
-  getCaseDetails.mockImplementation(() => ({type: "mock"}));
+  getCaseDetails.mockImplementation(() => ({ type: "mock" }));
   const caseId = 1;
 
   test("should clear selected officer when Back to Case is clicked", () => {
@@ -29,7 +28,7 @@ describe("OfficerDetailsContainer", () => {
         accusedOfficers: [
           {
             id: 23,
-            roleOnCase: "Accused",
+            roleOnCase: ACCUSED,
             officer: {
               id: 34
             }
@@ -76,7 +75,7 @@ describe("OfficerDetailsContainer", () => {
         accusedOfficers: [
           {
             id: 23,
-            roleOnCase: "Accused",
+            roleOnCase: ACCUSED,
             officer: {
               id: 34
             }
@@ -93,13 +92,16 @@ describe("OfficerDetailsContainer", () => {
         >
           <Route
             path="/cases/:id/officers/details"
-            component={props => <ConnectedOfficerDetailsContainer
-              submitAction={jest.fn()}
-              caseId={caseId}
-              titleAction={"Test"}
-              submitButtonText={"Test Officer"}
-              officerSearchUrl={`/cases/${caseId}/officers/search`}
-              { ...props} />}
+            component={props => (
+              <ConnectedOfficerDetailsContainer
+                submitAction={jest.fn()}
+                caseId={caseId}
+                titleAction={"Test"}
+                submitButtonText={"Test Officer"}
+                officerSearchUrl={`/cases/${caseId}/officers/search`}
+                {...props}
+              />
+            )}
           />
         </Router>
       </Provider>
@@ -112,5 +114,4 @@ describe("OfficerDetailsContainer", () => {
       snackbarError("Please select an officer or unknown officer to continue")
     );
   });
-
 });

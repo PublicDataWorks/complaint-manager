@@ -4,6 +4,7 @@ import { mount } from "enzyme";
 import DisplayComplainant from "./DisplayComplainant";
 import CaseOfficer from "../../testUtilities/caseOfficer";
 import Officer from "../../testUtilities/Officer";
+import { COMPLAINANT } from "../../../sharedUtilities/constants";
 
 test("displays the complainant when complainant is civilian", () => {
   const firstName = "Sal";
@@ -12,7 +13,7 @@ test("displays the complainant when complainant is civilian", () => {
   const civilian = new Civilian.Builder()
     .withFirstName(firstName)
     .withLastName(lastName)
-    .withRoleOnCase("Complainant")
+    .withRoleOnCase(COMPLAINANT)
     .build();
 
   const wrapper = mount(
@@ -28,8 +29,8 @@ test("displays complainant if the complainant is an officer", () => {
 
   const complainantOfficer = new CaseOfficer.Builder()
     .defaultCaseOfficer()
-    .withRoleOnCase("Complainant")
-    .withOfficerAttributes(
+    .withRoleOnCase(COMPLAINANT)
+      .withOfficerAttributes(
       new Officer.Builder()
         .defaultOfficer()
         .withFullName(officerFullName)
@@ -56,7 +57,7 @@ test("displays an civilian complainant by default if civilian and officer compla
 
   const complainantOfficer = new CaseOfficer.Builder()
     .defaultCaseOfficer()
-    .withRoleOnCase("Complainant")
+    .withRoleOnCase(COMPLAINANT)
     .withOfficerAttributes(
       new Officer.Builder()
         .defaultOfficer()
@@ -68,7 +69,7 @@ test("displays an civilian complainant by default if civilian and officer compla
   const complainantCivilian = new Civilian.Builder()
     .withFirstName(complainantFirstName)
     .withLastName(complainantLastName)
-    .withRoleOnCase("Complainant")
+    .withRoleOnCase(COMPLAINANT)
     .build();
 
   const wrapper = mount(
