@@ -17,7 +17,7 @@ describe("editCivilian handler", () => {
       cascade: true,
       auditUser: "test user"
     });
-    await models.civilian.destroy({ truncate: true });
+    await models.civilian.destroy({ truncate: true, auditUser: "test user" });
     await models.data_change_audit.truncate();
 
     const caseAttributes = new Case.Builder()
@@ -31,6 +31,7 @@ describe("editCivilian handler", () => {
         {
           model: models.civilian,
           as: "complainantCivilians",
+          auditUser: "someone",
           include: [models.address]
         }
       ],
@@ -50,7 +51,7 @@ describe("editCivilian handler", () => {
       cascade: true,
       auditUser: "test user"
     });
-    await models.civilian.destroy({ truncate: true });
+    await models.civilian.destroy({ truncate: true, auditUser: "test user" });
     await models.data_change_audit.truncate();
   });
 

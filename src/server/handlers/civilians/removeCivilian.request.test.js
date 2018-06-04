@@ -48,7 +48,11 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
       cascade: true,
       auditUser: "test user"
     });
-    await models.civilian.destroy({ truncate: true, force: true });
+    await models.civilian.destroy({
+      truncate: true,
+      force: true,
+      auditUser: "test user"
+    });
     await models.data_change_audit.truncate();
   });
 
@@ -76,6 +80,7 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
         {
           model: models.civilian,
           as: "complainantCivilians",
+          auditUser: "someone",
           include: [models.address]
         }
       ],

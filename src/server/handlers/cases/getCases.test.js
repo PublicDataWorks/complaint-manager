@@ -51,7 +51,8 @@ describe("getCases", () => {
     await models.civilian.destroy({
       truncate: true,
       cascade: true,
-      force: true
+      force: true,
+      auditUser: "test user"
     });
     await models.data_change_audit.truncate();
   });
@@ -114,7 +115,8 @@ describe("getCases", () => {
         include: [
           {
             model: models.civilian,
-            as: "complainantCivilians"
+            as: "complainantCivilians",
+            auditUser: "someone"
           },
           {
             model: models.case_officer,

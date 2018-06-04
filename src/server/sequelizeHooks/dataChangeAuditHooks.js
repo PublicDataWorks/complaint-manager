@@ -97,6 +97,9 @@ exports.init = sequelize => {
   };
 
   const afterUpdateHook = async (instance, options) => {
+    if (options.returning) {
+      throw Boom.badImplementation('Invalid option: "returning:true"');
+    }
     await createDataChangeAudit(instance, options, DATA_UPDATED);
   };
 

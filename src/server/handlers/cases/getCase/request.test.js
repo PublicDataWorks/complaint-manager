@@ -69,11 +69,13 @@ describe("GET /cases/:id", () => {
       include: [
         {
           model: models.civilian,
-          as: "complainantCivilians"
+          as: "complainantCivilians",
+          auditUser: "someone else"
         },
         {
           model: models.civilian,
-          as: "witnessCivilians"
+          as: "witnessCivilians",
+          auditUser: "someone else"
         },
         {
           model: models.attachment,
@@ -108,7 +110,8 @@ describe("GET /cases/:id", () => {
     await models.civilian.destroy({
       truncate: true,
       cascade: true,
-      force: true
+      force: true,
+      auditUser: "test user"
     });
     await models.data_change_audit.truncate();
   });

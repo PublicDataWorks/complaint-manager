@@ -49,7 +49,8 @@ const createCaseWithCivilian = async req => {
       include: [
         {
           model: models.civilian,
-          as: "complainantCivilians"
+          as: "complainantCivilians",
+          auditUser: req.nickname
         }
       ],
       auditUser: req.nickname

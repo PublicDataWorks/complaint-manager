@@ -82,5 +82,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  Civilian.auditDataChange();
+
   return Civilian;
 };

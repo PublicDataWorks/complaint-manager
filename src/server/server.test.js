@@ -46,7 +46,8 @@ describe("server", () => {
     await models.civilian.destroy({
       truncate: true,
       cascade: true,
-      force: true
+      force: true,
+      auditUser: "test user"
     });
     await models.data_change_audit.truncate();
   });
@@ -246,6 +247,7 @@ describe("server", () => {
           {
             model: models.civilian,
             as: "complainantCivilians",
+            auditUser: "test user",
             include: [
               {
                 model: models.address
@@ -328,6 +330,7 @@ describe("server", () => {
           {
             model: models.civilian,
             as: "complainantCivilians",
+            auditUser: "test user",
             include: [{ model: models.address }]
           }
         ],
@@ -404,6 +407,7 @@ describe("server", () => {
           {
             model: models.civilian,
             as: "complainantCivilians",
+            auditUser: "test user",
             include: [{ model: models.address }]
           }
         ],
@@ -454,6 +458,7 @@ describe("server", () => {
           {
             model: models.civilian,
             as: "complainantCivilians",
+            auditUser: "test user",
             include: [{ model: models.address }]
           }
         ],
@@ -740,7 +745,13 @@ describe("server", () => {
 
       caseToUpdate = await models.cases.create(caseToCreate, {
         returning: true,
-        include: [{ model: models.civilian, as: "complainantCivilians" }],
+        include: [
+          {
+            model: models.civilian,
+            as: "complainantCivilians",
+            auditUser: "test user"
+          }
+        ],
         auditUser: "someone"
       });
     });
@@ -864,7 +875,11 @@ describe("server", () => {
         .build();
       defaultCase = await models.cases.create(defaultCase, {
         include: [
-          { model: models.civilian, as: "complainantCivilians" },
+          {
+            model: models.civilian,
+            as: "complainantCivilians",
+            auditUser: "test user"
+          },
           { model: models.attachment, auditUser: "someone" }
         ],
         auditUser: "someone"

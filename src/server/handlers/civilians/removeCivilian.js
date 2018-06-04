@@ -14,7 +14,8 @@ const removeCivilian = asyncMiddleware(async (request, response) => {
   await models.sequelize.transaction(async t => {
     await models.civilian.destroy({
       where: { id: request.params.civilianId },
-      transaction: t
+      transaction: t,
+      auditUser: request.nickname
     });
     await models.address.destroy({
       where: { id: civilian.dataValues.addressId },

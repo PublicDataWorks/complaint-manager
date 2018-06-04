@@ -26,7 +26,6 @@ const editUserAction = asyncMiddleware(async (req, res) => {
             id: caseId
           },
           transaction,
-          returning: true,
           auditUser: req.nickname
         }
       );
