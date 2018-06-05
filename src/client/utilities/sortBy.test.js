@@ -318,4 +318,39 @@ describe("sorting", () => {
 
     expect(sortedCases).toEqual(expectedSortedCases);
   });
+
+  test("should sort accusedOfficer with unknown officers before known officers", () => {
+    const unsortedCases = [
+      {
+        id: 1,
+        status: "Active",
+        accusedOfficers: [
+          {
+            isUnknownOfficer: true
+          }
+        ],
+        assignedTo: "adams"
+      },
+      {
+        id: 2,
+        status: "Initial",
+        accusedOfficers: [
+          {
+            isUnknownOfficer: false,
+            lastName: "Brown"
+          }
+        ],
+        assignedTo: "abcUser"
+      },
+      {
+        id: 3,
+        status: "Active",
+        accusedOfficers: [],
+        assignedTo: "Johnson"
+      }
+    ];
+    const sortedCases = sortBy(unsortedCases, "accusedOfficer", "asc");
+
+    expect(sortedCases.map(sortedCase => sortedCase.id)).toEqual([3, 1, 2]);
+  });
 });

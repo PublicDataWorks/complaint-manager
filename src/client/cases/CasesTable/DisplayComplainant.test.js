@@ -50,6 +50,27 @@ test("displays complainant if the complainant is an officer", () => {
   expect(wrapper.text()).toEqual(expectedDisplayName);
 });
 
+test("displays complainant if the complainant is an officer and is unknown", () => {
+  const expectedDisplayName = "Unknown Officer";
+
+  const complainantOfficer = new CaseOfficer.Builder()
+    .defaultCaseOfficer()
+    .withRoleOnCase(COMPLAINANT)
+    .withUnknownOfficer()
+    .build();
+
+  const wrapper = mount(
+    <DisplayComplainant
+      caseDetails={{
+        complainantCivilians: [],
+        complainantOfficers: [complainantOfficer]
+      }}
+    />
+  );
+
+  expect(wrapper.text()).toEqual(expectedDisplayName);
+});
+
 test("displays an civilian complainant by default if civilian and officer complainants exist", () => {
   const complainantFirstName = "TEST_FIRST_NAME";
   const complainantLastName = "TEST_LAST_NAME";

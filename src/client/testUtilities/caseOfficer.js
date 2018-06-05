@@ -27,6 +27,7 @@ class CaseOfficer {
     this.hireDate = build.hireDate;
     this.endDate = build.endDate;
     this.employeeType = build.employeeType;
+    this.isUnknownOfficer = build.isUnknownOfficer;
   }
 
   static get Builder() {
@@ -57,6 +58,7 @@ class CaseOfficer {
         this.officerId = 123456;
         this.roleOnCase = ACCUSED;
         this.notes = "Some notes about this officer's history";
+        this.isUnknownOfficer = false;
 
         return this;
       }
@@ -71,7 +73,7 @@ class CaseOfficer {
         return this;
       }
 
-      withNoOfficer() {
+      withUnknownOfficer() {
         this.firstName = null;
         this.middleName = null;
         this.lastName = null;
@@ -86,7 +88,8 @@ class CaseOfficer {
         this.endDate = null;
         this.employeeType = null;
         this.officerId = null;
-        this.fullName = null;
+        this.fullName = "Unknown Officer";
+        this.isUnknownOfficer = true;
         return this;
       }
 
@@ -141,6 +144,11 @@ class CaseOfficer {
 
       withOfficerId(officerId) {
         this.officerId = officerId;
+        return this;
+      }
+
+      withFullName(fullName) {
+        this.fullName = fullName;
         return this;
       }
 

@@ -30,4 +30,25 @@ describe("AccusedOfficers", function() {
 
     expect(firstOfficer.text()).toContain(anOfficer.fullName);
   });
+
+  test("should display unknown officers", () => {
+    const accusedOfficers = [
+      new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withUnknownOfficer()
+        .withFullName("Unknown Officer")
+        .build()
+    ];
+
+    const wrapper = mount(
+      <Provider store={createConfiguredStore()}>
+        <AccusedOfficers accusedOfficers={accusedOfficers} />
+      </Provider>
+    );
+
+    const officersDisplayed = wrapper.find('[data-test="unknownOfficerPanel"]');
+    const firstOfficer = officersDisplayed.first();
+
+    expect(firstOfficer.text()).toContain("Unknown Officer");
+  });
 });

@@ -4,9 +4,7 @@ import WarningMessage from "../../shared/components/WarningMessage";
 const DisplayAccusedOfficer = ({ accusedOfficers }) => {
   return (
     <div data-test="accusedOfficerName">
-      {accusedOfficers &&
-      accusedOfficers.length > 0 &&
-      accusedOfficers[0].fullName ? (
+      {accusedOfficers && accusedOfficers.length > 0 ? (
         accusedOfficers[0].fullName
       ) : (
         <WarningMessage variant="tableCell">No Accused Officers</WarningMessage>

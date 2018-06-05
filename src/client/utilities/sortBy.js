@@ -29,12 +29,9 @@ const hasAccusedOfficers = ({ accusedOfficers }) => {
   return accusedOfficers.length > 0;
 };
 
-const isUnknownOfficer = ({ accusedOfficers }) => {
+const isKnownOfficer = ({ accusedOfficers }) => {
   if (accusedOfficers.length > 0) {
-    const name = accusedOfficers[0].fullName;
-    if (name === "Unknown Officer") {
-      return name;
-    }
+    return !accusedOfficers[0].isUnknownOfficer;
   }
   return null;
 };
@@ -79,7 +76,7 @@ const sortBy = (collection, sortBy, sortDirection) => {
   if (sortBy === "accusedOfficer") {
     const sortedCases = _.sortBy(collection, [
       hasAccusedOfficers,
-      isUnknownOfficer,
+      isKnownOfficer,
       accusedOfficerLastName
     ]);
 

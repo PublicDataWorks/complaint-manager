@@ -36,18 +36,4 @@ describe("DisplayAccusedOfficer", () => {
     const nameDisplay = wrapper.find('div[data-test="accusedOfficerName"]');
     expect(nameDisplay.text()).toEqual(noAccusedDisplayText);
   });
-
-  test("should be blank when accused officer present but officer details are not", () => {
-    const accusedOfficer = new CaseOfficer.Builder()
-      .defaultCaseOfficer()
-      .withNoOfficer()
-      .build();
-
-    const wrapper = mount(
-      <DisplayAccusedOfficer accusedOfficers={[accusedOfficer]} />
-    );
-
-    const nameDisplay = wrapper.find('div[data-test="accusedOfficerName"]');
-    expect(nameDisplay.text()).toEqual(noAccusedDisplayText);
-  });
 });

@@ -151,6 +151,9 @@ module.exports = (sequelize, DataTypes) => {
 
           return "Unknown Officer";
         },
+        isUnknownOfficer() {
+          return !this.officerId;
+        },
         age() {
           return moment().diff(this.dob, "years", false);
         },
@@ -166,7 +169,8 @@ module.exports = (sequelize, DataTypes) => {
               ? this.supervisorLastName
               : "";
 
-            return `${firstName} ${middleName} ${lastName}`.replace("  ", " ");
+            const fullName = `${firstName} ${middleName} ${lastName}`;
+            return fullName.replace("  ", " ").trim();
           }
 
           return "";

@@ -82,7 +82,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
                 supervisorFirstName: null,
                 supervisorMiddleName: null,
                 supervisorLastName: null,
-                supervisorFullName: " ",
+                supervisorFullName: "",
                 supervisorWindowsUsername: null,
                 supervisorOfficerNumber: null
               })

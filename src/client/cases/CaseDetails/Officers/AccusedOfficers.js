@@ -8,9 +8,6 @@ import ManageOfficerMenu from "./ManageOfficerMenu";
 import WarningMessage from "../../../shared/components/WarningMessage";
 
 const AccusedOfficers = ({ accusedOfficers }) => {
-  const officerIsKnown = caseOfficer =>
-    caseOfficer.fullName !== "Unknown Officer";
-
   return (
     <BaseCaseDetailsCard data-test="officersSection" title="Accused Officers">
       <CardContent style={{ padding: "0" }}>
@@ -21,20 +18,20 @@ const AccusedOfficers = ({ accusedOfficers }) => {
               accusedOfficer.firstName
             ]).map(
               caseOfficer =>
-                officerIsKnown(caseOfficer) ? (
-                  <AccusedOfficerPanel
-                    key={caseOfficer.id}
-                    caseOfficer={caseOfficer}
-                  >
-                    <ManageOfficerMenu caseOfficer={caseOfficer} />
-                  </AccusedOfficerPanel>
-                ) : (
+                caseOfficer.isUnknownOfficer ? (
                   <UnknownOfficerPanel
                     key={caseOfficer.id}
                     caseOfficer={caseOfficer}
                   >
                     <ManageOfficerMenu caseOfficer={caseOfficer} />
                   </UnknownOfficerPanel>
+                ) : (
+                  <AccusedOfficerPanel
+                    key={caseOfficer.id}
+                    caseOfficer={caseOfficer}
+                  >
+                    <ManageOfficerMenu caseOfficer={caseOfficer} />
+                  </AccusedOfficerPanel>
                 )
             )}
       </CardContent>

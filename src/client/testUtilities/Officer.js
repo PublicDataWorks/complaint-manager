@@ -99,6 +99,11 @@ class Officer {
         return this;
       }
 
+      withSupervisorOfficerNumber(supervisorOfficerNumber) {
+        this.supervisorOfficerNumber = supervisorOfficerNumber;
+        return this;
+      }
+
       withEndDate(endDate) {
         this.endDate = endDate;
         return this;

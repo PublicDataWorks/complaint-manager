@@ -12,9 +12,6 @@ const ComplainantWitnessDisplay = ({
   emptyMessage,
   dispatch
 }) => {
-  const officerIsKnown = caseOfficer =>
-    caseOfficer.fullName !== "Unknown Officer";
-
   return (
     <div>
       <Typography
@@ -38,16 +35,7 @@ const ComplainantWitnessDisplay = ({
       ) : (
         civiliansAndOfficers.map(civilianOrOfficer => {
           if (civilianOrOfficer.hasOwnProperty("officerId")) {
-            if (officerIsKnown(civilianOrOfficer)) {
-              return (
-                <OfficerPanel
-                  key={civilianOrOfficer.id}
-                  caseOfficer={civilianOrOfficer}
-                >
-                  <OfficerActions caseOfficer={civilianOrOfficer} />
-                </OfficerPanel>
-              );
-            } else {
+            if (civilianOrOfficer.isUnknownOfficer) {
               return (
                 <UnknownOfficerPanel
                   key={civilianOrOfficer.id}
@@ -55,6 +43,15 @@ const ComplainantWitnessDisplay = ({
                 >
                   <OfficerActions caseOfficer={civilianOrOfficer} />
                 </UnknownOfficerPanel>
+              );
+            } else {
+              return (
+                <OfficerPanel
+                  key={civilianOrOfficer.id}
+                  caseOfficer={civilianOrOfficer}
+                >
+                  <OfficerActions caseOfficer={civilianOrOfficer} />
+                </OfficerPanel>
               );
             }
           } else {

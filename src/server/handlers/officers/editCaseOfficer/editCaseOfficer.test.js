@@ -91,7 +91,7 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: 'someone'
+        nickname: "someone"
       });
       const response = httpMocks.createResponse();
 
@@ -130,7 +130,7 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: 'someone'
+        nickname: "someone"
       });
       const response = httpMocks.createResponse();
 
@@ -206,14 +206,146 @@ describe("editCaseOfficer", () => {
       expect(existingCaseOfficer.roleOnCase).toEqual(fieldsToUpdate.roleOnCase);
       expect(existingCaseOfficer.notes).toEqual(fieldsToUpdate.notes);
     });
+
+    test("it updates case officer with a different officer with a supervisor", async () => {
+      const supervisorAttributes = new Officer.Builder()
+        .defaultOfficer()
+        .withFirstName("Super")
+        .withMiddleName("G")
+        .withLastName("Visor")
+        .withWindowsUsername(27705)
+        .withId(undefined)
+        .withOfficerNumber(444)
+        .build();
+      const supervisor = await models.officer.create(supervisorAttributes, {
+        returning: true
+      });
+
+      const newOfficerAttributes = new Officer.Builder()
+        .defaultOfficer()
+        .withFirstName("Garret")
+        .withMiddleName("Bobby")
+        .withLastName("Freezer")
+        .withWindowsUsername(87654)
+        .withId(undefined)
+        .withOfficerNumber(201)
+        .withSupervisor(supervisor)
+        .build();
+      const newOfficer = await models.officer.create(newOfficerAttributes, {
+        returning: true
+      });
+
+      const fieldsToUpdate = {
+        officerId: newOfficer.id,
+        roleOnCase: existingCaseOfficerAttributes.roleOnCase
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "someone"
+      });
+      const response = httpMocks.createResponse();
+
+      await editCaseOfficer(request, response, jest.fn());
+
+      const updatedCaseOfficer = await models.case_officer.findById(
+        existingCaseOfficer.id
+      );
+
+      expect(updatedCaseOfficer.officerId).toEqual(newOfficer.id);
+      expect(updatedCaseOfficer.firstName).toEqual(newOfficer.firstName);
+      expect(updatedCaseOfficer.middleName).toEqual(newOfficer.middleName);
+      expect(updatedCaseOfficer.lastName).toEqual(newOfficer.lastName);
+      expect(updatedCaseOfficer.fullName).toEqual(newOfficer.fullName);
+      expect(updatedCaseOfficer.windowsUsername).toEqual(
+        newOfficer.windowsUsername
+      );
+      expect(updatedCaseOfficer.supervisorFirstName).toEqual(
+        supervisor.firstName
+      );
+      expect(updatedCaseOfficer.supervisorMiddleName).toEqual(
+        supervisor.middleName
+      );
+      expect(updatedCaseOfficer.supervisorLastName).toEqual(
+        supervisor.lastName
+      );
+      expect(updatedCaseOfficer.supervisorWindowsUsername).toEqual(
+        supervisor.windowsUsername
+      );
+    });
+
+    test("it updates case officer with a different officer without a supervisor", async () => {
+      const newOfficerAttributes = new Officer.Builder()
+        .defaultOfficer()
+        .withFirstName("Garret")
+        .withMiddleName("Bobby")
+        .withLastName("Freezer")
+        .withWindowsUsername(87654)
+        .withId(undefined)
+        .withOfficerNumber(201)
+        .withSupervisorOfficerNumber(null)
+        .build();
+      const newOfficer = await models.officer.create(newOfficerAttributes, {
+        returning: true
+      });
+
+      const fieldsToUpdate = {
+        officerId: newOfficer.id,
+        roleOnCase: existingCaseOfficerAttributes.roleOnCase
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "someone"
+      });
+      const response = httpMocks.createResponse();
+
+      await editCaseOfficer(request, response, jest.fn());
+
+      const updatedCaseOfficer = await models.case_officer.findById(
+        existingCaseOfficer.id
+      );
+
+      expect(updatedCaseOfficer.officerId).toEqual(newOfficer.id);
+      expect(updatedCaseOfficer.firstName).toEqual(newOfficer.firstName);
+      expect(updatedCaseOfficer.middleName).toEqual(newOfficer.middleName);
+      expect(updatedCaseOfficer.lastName).toEqual(newOfficer.lastName);
+      expect(updatedCaseOfficer.fullName).toEqual(newOfficer.fullName);
+      expect(updatedCaseOfficer.windowsUsername).toEqual(
+        newOfficer.windowsUsername
+      );
+      expect(updatedCaseOfficer.supervisorFirstName).toEqual(null);
+      expect(updatedCaseOfficer.supervisorMiddleName).toEqual(null);
+      expect(updatedCaseOfficer.supervisorLastName).toEqual(null);
+      expect(updatedCaseOfficer.supervisorWindowsUsername).toEqual(null);
+    });
   });
 
   test("updates unknown officer to known officer", async () => {
-    const existingCaseOfficer = await models.case_officer.create({
-      officerId: null,
-      caseId: existingCase.id,
-      roleOnCase: ACCUSED
-    }, {auditUser: 'someone'});
+    const existingCaseOfficer = await models.case_officer.create(
+      {
+        officerId: null,
+        caseId: existingCase.id,
+        roleOnCase: ACCUSED
+      },
+      { auditUser: "someone" }
+    );
 
     const newOfficer = new Officer.Builder()
       .defaultOfficer()
