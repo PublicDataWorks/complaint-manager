@@ -3,6 +3,14 @@ module.exports = (sequelize, DataTypes) => {
   var Address = sequelize.define(
     "address",
     {
+      addressableId: {
+        type: DataTypes.INTEGER,
+        field: "addressable_id"
+      },
+      addressableType: {
+        type: DataTypes.STRING,
+        field: "addressable_type"
+      },
       streetAddress: {
         type: DataTypes.STRING,
         field: "street_address"

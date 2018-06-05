@@ -105,7 +105,7 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
 
     //assert that address is not returned by find
     const civilianAddress = await models.address.findById(
-      createdCivilian.addressId
+      createdCivilian.address.id
     );
     expect(civilianAddress).toEqual(null);
 

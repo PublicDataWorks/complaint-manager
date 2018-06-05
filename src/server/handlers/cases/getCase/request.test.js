@@ -55,6 +55,8 @@ describe("GET /cases/:id", () => {
       .defaultAddress()
       .withStreetAddress(expectedStreetAddress)
       .withId(undefined)
+      .withAddressableId(undefined)
+      .withAddressableType("cases")
       .build();
     let caseToCreate = new Case.Builder()
       .defaultCase()
@@ -157,7 +159,7 @@ describe("GET /cases/:id", () => {
             ]),
             incidentLocation: expect.objectContaining({
               streetAddress: expectedStreetAddress,
-              id: caseToRetrieve.incidentLocationId
+              id: caseToRetrieve.incidentLocation.id
             }),
             accusedOfficers: expect.arrayContaining([
               expect.objectContaining({

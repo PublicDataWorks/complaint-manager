@@ -1,6 +1,8 @@
 class Address {
   constructor(build) {
     this.id = build.id;
+    this.addressableId = build.addressableId;
+    this.addressableType = build.addressableType;
     this.streetAddress = build.streetAddress;
     this.streetAddress2 = build.streetAddress2;
     this.city = build.city;
@@ -13,6 +15,8 @@ class Address {
     class Builder {
       defaultAddress() {
         this.id = 11111;
+        this.addressableId = 17;
+        this.addressableType = "cases";
         this.streetAddress = "123 Main St";
         this.streetAddress2 = "Fl 2";
         this.city = "Sandwich";
@@ -25,6 +29,22 @@ class Address {
 
       withId(id) {
         this.id = id;
+        return this;
+      }
+
+      withNoAddressable() {
+        this.addressableId = undefined;
+        this.addressableType = undefined;
+        return this;
+      }
+
+      withAddressableType(addressableType) {
+        this.addressableType = addressableType;
+        return this;
+      }
+
+      withAddressableId(addressableId) {
+        this.addressableId = addressableId;
         return this;
       }
 

@@ -2,36 +2,21 @@ const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models/index");
 const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
 
-async function upsertAddress(
-  civilianId,
-  addressId,
-  address,
-  transaction,
-  nickname
-) {
-  if (!addressId) {
+async function upsertAddress(civilianId, address, transaction, nickname) {
+  if (!address.id) {
     const createdAddress = await models.address.create(
       {
-        ...address
+        ...address,
+        addressableId: civilianId,
+        addressableType: "civilian"
       },
       {
-        transaction
-      }
-    );
-
-    await models.civilian.update(
-      {
-        addressId: createdAddress.id
-      },
-      {
-        where: { id: civilianId },
-        auditUser: nickname,
         transaction
       }
     );
   } else {
     await models.address.update(address, {
-      where: { id: addressId },
+      where: { id: address.id },
       transaction
     });
   }
@@ -39,17 +24,11 @@ async function upsertAddress(
 
 const editCivilian = asyncMiddleware(async (req, res) => {
   const caseId = await models.sequelize.transaction(async t => {
-    const { addressId, address, ...civilianValues } = req.body;
+    const { address, ...civilianValues } = req.body;
 
     //if there are address values to update
     if (address) {
-      await upsertAddress(
-        civilianValues.id,
-        addressId,
-        address,
-        t,
-        req.nickname
-      );
+      await upsertAddress(civilianValues.id, address, t, req.nickname);
     }
 
     const updatedCivilian = await models.civilian.update(civilianValues, {

@@ -79,8 +79,8 @@ module.exports = (sequelize, DataTypes) => {
     Civilian.belongsTo(models.cases, {
       foreignKey: { name: "caseId", field: "case_id", allowNull: false }
     });
-    Civilian.belongsTo(models.address, {
-      foreignKey: { name: "addressId", field: "address_id", allowNull: true }
+    Civilian.hasOne(models.address, {
+      foreignKey: { name: "addressableId", field: "addressable_id" }
     });
   };
 

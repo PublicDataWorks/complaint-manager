@@ -66,7 +66,6 @@ describe("dataChangeAuditHooks", () => {
         firstContactDate: { new: "2017-12-25" },
         district: { new: null },
         complainantType: { new: "Police Officer" },
-        incidentLocationId: { new: null },
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: "Initial" }
       };
@@ -87,7 +86,6 @@ describe("dataChangeAuditHooks", () => {
         firstContactDate: "2017-12-25",
         district: null,
         complainantType: "Police Officer",
-        incidentLocationId: null,
         assignedTo: "originalAssignedToPerson",
         status: "Initial",
         createdAt: createdCase.createdAt.toJSON(),
@@ -280,7 +278,6 @@ describe("dataChangeAuditHooks", () => {
         firstContactDate: "2018-01-01",
         district: "2nd District",
         complainantType: "Civilian",
-        incidentLocationId: null,
         assignedTo: "updatedAssignedPerson",
         status: "Active",
         createdAt: existingCase.createdAt.toJSON(),

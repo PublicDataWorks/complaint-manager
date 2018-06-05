@@ -4,7 +4,16 @@ const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
 
 const createCivilian = asyncMiddleware(async (req, res) => {
   const caseId = await models.sequelize.transaction(async t => {
-    const civilianCreated = await models.civilian.create(req.body, {
+    let values = req.body;
+
+    if (req.body.address) {
+      values.address = {
+        ...req.body.address,
+        addressableType: "civilian"
+      };
+    }
+
+    const civilianCreated = await models.civilian.create(values, {
       include: [{ model: models.address }],
       transaction: t,
       auditUser: req.nickname

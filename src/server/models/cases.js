@@ -95,12 +95,11 @@ module.exports = (sequelize, DataTypes) => {
     Case.hasMany(models.attachment, {
       foreignKey: { name: "caseId", field: "case_id" }
     });
-    Case.belongsTo(models.address, {
+    Case.hasOne(models.address, {
       as: "incidentLocation",
       foreignKey: {
-        name: "incidentLocationId",
-        field: "incident_location_id",
-        allowNull: true
+        name: "addressableId",
+        field: "addressable_id"
       }
     });
     Case.hasMany(models.case_officer, {

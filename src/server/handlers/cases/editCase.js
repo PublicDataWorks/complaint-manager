@@ -3,36 +3,21 @@ const models = require("../../models");
 const asyncMiddleware = require("../asyncMiddleware");
 const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
 
-async function upsertAddress(
-  caseId,
-  incidentLocationId,
-  incidentLocation,
-  transaction,
-  nickname
-) {
-  if (!incidentLocationId) {
+async function upsertAddress(caseId, incidentLocation, transaction, nickname) {
+  if (!incidentLocation.id) {
     const createdAddress = await models.address.create(
       {
-        ...incidentLocation
+        ...incidentLocation,
+        addressableType: "cases",
+        addressableId: caseId
       },
       {
         transaction
       }
     );
-
-    await models.cases.update(
-      {
-        incidentLocationId: createdAddress.id
-      },
-      {
-        where: { id: caseId },
-        transaction,
-        auditUser: nickname
-      }
-    );
   } else {
     await models.address.update(incidentLocation, {
-      where: { id: incidentLocationId },
+      where: { id: incidentLocation.id },
       transaction
     });
   }
@@ -47,16 +32,11 @@ const editCase = asyncMiddleware(async (request, response, next) => {
   } else {
     const updatedCase = await models.sequelize.transaction(
       async transaction => {
-        const {
-          incidentLocationId,
-          incidentLocation,
-          ...caseValues
-        } = request.body;
+        const { incidentLocation, ...caseValues } = request.body;
 
         if (incidentLocation) {
           await upsertAddress(
             request.params.id,
-            incidentLocationId,
             incidentLocation,
             transaction,
             request.nickname

@@ -18,7 +18,7 @@ const removeCivilian = asyncMiddleware(async (request, response) => {
       auditUser: request.nickname
     });
     await models.address.destroy({
-      where: { id: civilian.dataValues.addressId },
+      where: { id: civilian.dataValues.address.id },
       transaction: t
     });
     await models.cases.update(

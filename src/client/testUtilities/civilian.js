@@ -19,14 +19,20 @@ class Civilian {
     this.genderIdentity = build.genderIdentity;
     this.address = build.address;
     this.additionalInfo = build.additionalInfo;
-    this.addressId = build.addressId;
   }
 
   //TODO: Builders are not usually part of the class that they're building.  The class is usually a domain object used in the app, not just tests.  Should this be refactored?
   static get Builder() {
     class Builder {
       defaultCivilian() {
-        this.id = 17;
+        const id = 17;
+        const address = new Address.Builder()
+          .defaultAddress()
+          .withAddressableId(id)
+          .withAddressableType("civilian")
+          .build();
+
+        this.id = id;
         this.caseId = 17;
         this.createdAt = "2018-04-26";
         this.firstName = "Chuck";
@@ -39,16 +45,14 @@ class Civilian {
         this.birthDate = "1994-04-24";
         this.genderIdentity = "Female";
         this.raceEthnicity = "Korean";
-        this.address = new Address.Builder().defaultAddress().build();
+        this.address = address;
         this.additionalInfo =
           "Some additional information about this civilian.";
-        this.addressId = this.address.id;
         return this;
       }
 
       withNoAddress() {
         this.address = null;
-        this.addressId = null;
         return this;
       }
 
@@ -62,12 +66,10 @@ class Civilian {
           zipCode: "",
           country: ""
         };
-        this.addressId = undefined;
         return this;
       }
 
       withAddress(address) {
-        this.addressId = address.id;
         this.address = address;
         return this;
       }

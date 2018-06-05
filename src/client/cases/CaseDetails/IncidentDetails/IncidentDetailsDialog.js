@@ -42,7 +42,6 @@ const submitIncidentDetails = (values, dispatch, props) => {
 
   const normalizedValuesWithId = {
     ...values,
-    incidentLocationId: props.incidentLocationId,
     incidentDate: nullifyFieldUnlessValid(values.incidentDate),
     incidentTime: nullifyFieldUnlessValid(values.incidentTime),
     id: props.caseId
@@ -179,7 +178,6 @@ const mapStateToProps = state => {
   );
 
   return {
-    incidentLocationId: state.currentCase.details.incidentLocationId,
     autoSuggestValue: state.ui.incidentDetailsDialog.autoSuggestValue,
     formattedAddress: formatAddress(values.incidentLocation)
   };

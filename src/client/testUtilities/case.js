@@ -22,7 +22,6 @@ class Case {
     this.attachments = build.attachments;
     this.incidentDate = build.incidentDate;
     this.incidentTime = build.incidentTime;
-    this.incidentLocationId = build.incidentLocationId;
     this.incidentLocation = build.incidentLocation;
     this.district = build.district;
     this.accusedOfficers = build.accusedOfficers;
@@ -88,6 +87,11 @@ class Case {
           .defaultAttachment()
           .withCaseId(id)
           .build();
+        const incidentLocation = new Address.Builder()
+          .defaultAddress()
+          .withAddressableType("cases")
+          .withAddressableId(id)
+          .build();
 
         this.id = id;
         this.complainantCivilians = [complainantCivilian];
@@ -97,8 +101,7 @@ class Case {
         this.firstContactDate = "2017-12-25T00:00:00.000Z";
         this.incidentDate = "2017-01-01";
         this.incidentTime = "16:00:00";
-        this.incidentLocation = new Address.Builder().defaultAddress().build();
-        this.incidentLocationId = this.incidentLocation.id;
+        this.incidentLocation = incidentLocation;
         this.complainantType = "Civilian";
         this.createdBy = "tuser";
         this.assignedTo = "tuser";
@@ -156,13 +159,7 @@ class Case {
       }
 
       withIncidentLocation(incidentLocation) {
-        if (incidentLocation) {
-          this.incidentLocation = incidentLocation;
-          this.incidentLocationId = incidentLocation.id;
-        } else {
-          this.incidentLocation = undefined;
-          this.incidentLocationId = undefined;
-        }
+        this.incidentLocation = incidentLocation;
         return this;
       }
 

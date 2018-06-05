@@ -192,6 +192,8 @@ describe("server", () => {
         incidentLocation: new Address.Builder()
           .defaultAddress()
           .withId(undefined)
+          .withAddressableId(undefined)
+          .withAddressableType("cases")
           .withStreetAddress("123 fleet street")
           .build()
       };
@@ -208,7 +210,9 @@ describe("server", () => {
               id: createdCaseId,
               ...editBody,
               incidentLocation: expect.objectContaining({
-                streetAddress: "123 fleet street"
+                streetAddress: "123 fleet street",
+                addressableId: createdCaseId,
+                addressableType: "cases"
               }),
               complainantCivilians: expect.arrayContaining([
                 expect.objectContaining(requestBody.civilian)
@@ -264,6 +268,7 @@ describe("server", () => {
       const newCivilianAddress = new Address.Builder()
         .defaultAddress()
         .withId(undefined)
+        .withNoAddressable()
         .withCity("post city");
 
       const newCivilian = new Civilian.Builder()
@@ -313,6 +318,8 @@ describe("server", () => {
       const addressDefault = new Address.Builder()
         .defaultAddress()
         .withId(undefined)
+        .withAddressableId(undefined)
+        .withAddressableType("civilian")
         .build();
       const civilianDefault = new Civilian.Builder()
         .defaultCivilian()
@@ -386,7 +393,8 @@ describe("server", () => {
               complainantCivilians: expect.arrayContaining([
                 expect.objectContaining({
                   address: expect.objectContaining({
-                    state: updatedCivilian.address.state
+                    state: updatedCivilian.address.state,
+                    addressableType: "civilian"
                   })
                 })
               ])
@@ -421,9 +429,8 @@ describe("server", () => {
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send({
-          addressId: civilianToUpdate.addressId,
           address: {
-            id: civilianToUpdate.addressId,
+            id: civilianToUpdate.address.id,
             city: "New Orleans"
           }
         })
@@ -472,9 +479,8 @@ describe("server", () => {
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send({
-          addressId: civilianToUpdate.addressId,
           address: {
-            id: civilianToUpdate.addressId,
+            id: civilianToUpdate.address.id,
             streetAddress: "",
             streetAddress2: "",
             city: "",
