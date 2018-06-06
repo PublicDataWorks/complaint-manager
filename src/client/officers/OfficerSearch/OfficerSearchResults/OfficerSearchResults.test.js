@@ -44,7 +44,7 @@ describe("OfficerSearchResults", () => {
             spinnerVisible={false}
             classes={{}}
             path={"/some/path"}
-            initialize={{ type: "MOCK_TYPE" }}
+            initialize={{ type: "INTIALIZE_FORM_MOCK_TYPE" }}
           />
         </Router>
       </Provider>
@@ -55,6 +55,49 @@ describe("OfficerSearchResults", () => {
       .first();
     selectNewOfficerButton.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith({ type: "MOCK_TYPE" });
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      type: "INTIALIZE_FORM_MOCK_TYPE"
+    });
+  });
+
+  test("should show officer added if adding duplicate officer", () => {
+    const store = createConfiguredStore();
+    const anAccusedOfficer = {
+      id: 34,
+      notes: "bad person",
+      roleOnCase: ACCUSED,
+      officerId: 23
+    };
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        accusedOfficers: [anAccusedOfficer],
+        complainantOfficers: [],
+        witnessOfficers: []
+      })
+    );
+
+    store.dispatch(searchSuccess([{ firstName: "bob", id: 23 }]));
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <ConnectedOfficerSearchResults
+            caseId={1}
+            caseOfficerId={"34"}
+            spinnerVisible={false}
+            classes={{}}
+            path={"/some/path"}
+            initialize={{ type: "MOCK_TYPE" }}
+          />
+        </Router>
+      </Provider>
+    );
+
+    const officerAlreadyAddedButton = wrapper
+      .find('[data-test="officerAlreadyAdded"]')
+      .first();
+
+    expect(officerAlreadyAddedButton.text()).toEqual("added");
   });
 });

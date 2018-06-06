@@ -39,7 +39,9 @@ export const SelectUnknownOfficerButton = ({ dispatch, initialize, path }) => (
 );
 
 export const PreviouslyAddedOfficer = () => (
-  <Button disabled={true}>added</Button>
+  <Button disabled={true} data-test="officerAlreadyAdded">
+    added
+  </Button>
 );
 
 export const ChangeOfficer = ({ children, dispatch, officerSearchUrl }) => (

@@ -19,7 +19,7 @@ export class OfficerSearchResults extends Component {
         dispatch={this.props.dispatch}
         render={(officer, officerIds) => (
           <OfficerSearchResultsRow key={officer.id} officer={officer}>
-            {officerIds.includes(officer.officerId) ? (
+            {officerIds.includes(officer.id) ? (
               <PreviouslyAddedOfficer />
             ) : (
               <SelectNewOfficer
@@ -45,7 +45,7 @@ const mapStateToProps = state => {
       officerIds: state.currentCase.details.accusedOfficers
         .concat(state.currentCase.details.complainantOfficers)
         .concat(state.currentCase.details.witnessOfficers)
-        .map(officer => officer.officerId)
+        .map(caseOfficer => caseOfficer.officerId)
     };
   }
   return {};
