@@ -17,6 +17,7 @@ describe("Edit Case", () => {
     initialCaseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
+      .withCreatedBy("ORIGINAL_USER")
       .withFirstContactDate("2017-01-01")
       .withIncidentTime("01:01")
       .withIncidentDate("2017-01-02")
@@ -44,6 +45,15 @@ describe("Edit Case", () => {
     next = jest.fn();
   });
 
+  afterEach(async () => {
+    await models.cases.destroy({
+      truncate: true,
+      cascade: true,
+      auditUser: "test user"
+    });
+    await models.data_change_audit.truncate();
+  });
+
   test("should call update the case", async () => {
     await editCase(request, response, next);
     await existingCase.reload();
@@ -58,7 +68,7 @@ describe("Edit Case", () => {
   });
 
   test("should not update address if the case fails to update", async () => {
-    valuesToUpdate.createdBy = null;
+    valuesToUpdate.status = null;
     valuesToUpdate.incidentLocation = new Address.Builder()
       .defaultAddress()
       .withId(undefined)
@@ -130,5 +140,30 @@ describe("Edit Case", () => {
   test("should call next if error occurs on edit", async () => {
     await editCase({}, response, next);
     expect(next).toHaveBeenCalled();
+  });
+
+  test("should ignore included with createdBy or assignedTo", async () => {
+    const requestWithCreatedBy = httpMocks.createRequest({
+      method: "PUT",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: { id: existingCase.id },
+      body: {
+        firstContactDate: "2018-04-01",
+        incidentTime: "17:42",
+        incidentDateNew: "2018-03-16",
+        createdBy: "Ihackedyou",
+        assignedTo: "Ihackedyou"
+      },
+      nickname: "TEST_USER_NICKNAME"
+    });
+
+    await editCase(requestWithCreatedBy, response, next);
+
+    expect(response.statusCode).toEqual(200);
+    await existingCase.reload();
+
+    expect(existingCase.dataValues.createdBy).toEqual("ORIGINAL_USER");
   });
 });

@@ -2,6 +2,7 @@ const moment = require("moment");
 const models = require("../../models");
 const asyncMiddleware = require("../asyncMiddleware");
 const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
+const _ = require("lodash");
 
 async function upsertAddress(caseId, incidentLocation, transaction, nickname) {
   if (!incidentLocation.id) {
@@ -32,18 +33,21 @@ const editCase = asyncMiddleware(async (request, response, next) => {
   } else {
     const updatedCase = await models.sequelize.transaction(
       async transaction => {
-        const { incidentLocation, ...caseValues } = request.body;
+        const valuesToUpdate = _.omit(request.body, [
+          "createdBy",
+          "assignedTo"
+        ]);
 
-        if (incidentLocation) {
+        if (request.body.incidentLocation) {
           await upsertAddress(
             request.params.id,
-            incidentLocation,
+            request.body.incidentLocation,
             transaction,
             request.nickname
           );
         }
 
-        await models.cases.update(caseValues, {
+        await models.cases.update(valuesToUpdate, {
           where: { id: request.params.id },
           individualHooks: true,
           transaction,
