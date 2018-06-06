@@ -166,4 +166,59 @@ describe("addCaseOfficer", () => {
       })
     );
   });
+
+  test("should not change case officer snapshot if officer changes", async () => {
+    const officerAttributes = new Officer.Builder()
+      .defaultOfficer()
+      .withFirstName("Brandon")
+      .withId(undefined)
+      .withOfficerNumber(200)
+      .withHireDate("2018-01-12")
+      .build();
+
+    const officer = await models.officer.create(officerAttributes);
+
+    const existingCaseAttributes = new Case.Builder()
+      .defaultCase()
+      .withId(undefined)
+      .withIncidentLocation(undefined)
+      .build();
+
+    const existingCase = await models.cases.create(existingCaseAttributes, {
+      auditUser: "someone"
+    });
+
+    const additionalOfficerAttributes = {
+      officerId: officer.id,
+      roleOnCase: ACCUSED,
+      notes: "these are notes"
+    };
+
+    const request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: existingCase.id
+      },
+      body: additionalOfficerAttributes,
+      nickname: "TEST_USER_NICKNAME"
+    });
+
+    const response = httpMocks.createResponse();
+
+    await addCaseOfficer(request, response, jest.fn());
+
+    const caseOfficerId = response._getData().dataValues.accusedOfficers[0].id;
+
+    await officer.update(
+      { firstName: "Wilbert" },
+      { auditUser: request.nickname }
+    );
+
+    const caseOfficer = await models.case_officer.findById(caseOfficerId);
+
+    expect(caseOfficer.firstName).toEqual("Brandon");
+  });
 });
