@@ -8,6 +8,7 @@ import {
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
 import formatDate from "../../../utilities/formatDate";
+import OfficerNameDisplay from "./OfficerNameDisplay";
 
 const OfficerPanel = ({ caseOfficer, children }) => (
   <div>
@@ -22,26 +23,20 @@ const OfficerPanel = ({ caseOfficer, children }) => (
         }}
       >
         <div style={{ display: "flex", width: "100%", paddingRight: 0 }}>
-          <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }}>
-            <Typography variant="caption">Officer</Typography>
-            <Typography variant="body1" style={{ whiteSpace: "pre-wrap" }}>
-              {caseOfficer.fullName ? caseOfficer.fullName : "N/A"}
-            </Typography>
-            <Typography variant="body1" style={{ whiteSpace: "pre-wrap" }}>
-              {caseOfficer.windowsUsername
-                ? `#${caseOfficer.windowsUsername}`
-                : "N/A"}
-            </Typography>
-          </div>
+          <OfficerNameDisplay
+            displayLabel="Officer"
+            fullName={caseOfficer.fullName}
+            windowsUsername={caseOfficer.windowsUsername}
+          />
           <OfficerInfoDisplay
             displayLabel="Rank/Title"
             value={caseOfficer.rank}
             testLabel="rank"
           />
-          <OfficerInfoDisplay
+          <OfficerNameDisplay
             displayLabel="Supervisor"
-            value={caseOfficer.supervisor}
-            testLabel="supervisor"
+            fullName={caseOfficer.supervisorFullName}
+            windowsUsername={caseOfficer.supervisorWindowsUsername}
           />
           {children}
         </div>
