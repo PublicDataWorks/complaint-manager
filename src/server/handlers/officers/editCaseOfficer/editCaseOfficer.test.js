@@ -40,18 +40,18 @@ describe("editCaseOfficer", () => {
   });
 
   describe("starting with known officer", function() {
-    let existingCaseOfficerAttributes, existingCaseOfficer;
+    let existingCaseOfficerAttributes, existingCaseOfficer, existingOfficer;
 
     beforeEach(async () => {
       const existingOfficerAttributes = new Officer.Builder()
         .defaultOfficer()
+        .withFirstName("Brandon")
         .withId(undefined)
         .withOfficerNumber(200)
         .withHireDate("2018-01-12")
         .build();
-      const existingOfficer = await models.officer.create(
-        existingOfficerAttributes
-      );
+
+      existingOfficer = await models.officer.create(existingOfficerAttributes);
       existingCaseOfficerAttributes = new CaseOfficer.Builder()
         .defaultCaseOfficer()
         .withOfficerAttributes(existingOfficer)
@@ -334,6 +334,39 @@ describe("editCaseOfficer", () => {
       expect(updatedCaseOfficer.supervisorMiddleName).toEqual(null);
       expect(updatedCaseOfficer.supervisorLastName).toEqual(null);
       expect(updatedCaseOfficer.supervisorWindowsUsername).toEqual(null);
+    });
+
+    test("it does not change the case officer attributes snapshot when editing notes or roleOnCase", async () => {
+      const fieldsToUpdate = {
+        officerId: existingCaseOfficer.officerId,
+        notes: "a new note",
+        roleOnCase: WITNESS
+      };
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "someone"
+      });
+
+      const response = httpMocks.createResponse();
+
+      await existingOfficer.update(
+        { firstName: "Wilbert" },
+        { auditUser: request.nickname }
+      );
+
+      await editCaseOfficer(request, response, jest.fn());
+
+      await existingCaseOfficer.reload();
+
+      expect(existingCaseOfficer.firstName).toEqual("Brandon");
     });
   });
 

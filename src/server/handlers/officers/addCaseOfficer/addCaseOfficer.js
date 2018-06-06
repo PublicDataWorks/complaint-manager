@@ -11,6 +11,7 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const { officerId, notes, roleOnCase } = request.body;
 
   const retrievedCase = await models.cases.findById(request.params.caseId);
+
   let caseOfficerAttributes = {};
   if (!officerId) {
     caseOfficerAttributes = buildOfficerAttributesForUnknownOfficer();
