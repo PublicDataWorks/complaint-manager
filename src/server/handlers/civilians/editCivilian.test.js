@@ -1,5 +1,5 @@
 import Case from "../../../client/testUtilities/case";
-import Address from "../../../client/testUtilities/address";
+import Address from "../../../client/testUtilities/Address";
 import Civilian from "../../../client/testUtilities/civilian";
 
 const editCivilian = require("./editCivilian");
