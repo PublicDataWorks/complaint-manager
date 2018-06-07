@@ -32,5 +32,8 @@ describe("dataChangeAuditHooks for userAction", () => {
     expect(audit.caseId).toEqual(existingCase.id);
     expect(audit.modelId).toEqual(userAction.id);
     expect(audit.user).toEqual("someone");
+    expect(audit.modelDescription).toEqual(
+      `Action: ${userAction.action}\nTaken At: ${userAction.actionTakenAt}`
+    );
   });
 });

@@ -10,12 +10,19 @@ describe("addCaseOfficer", () => {
     await models.address.destroy({
       truncate: true,
       cascade: true,
-      force: true
+      force: true,
+      auditUser: "test user"
     });
     await models.case_officer.destroy({
       truncate: true,
       cascade: true,
       auditUser: "test"
+    });
+    await models.civilian.destroy({
+      truncate: true,
+      cascade: true,
+      force: true,
+      auditUser: "test user"
     });
     await models.cases.destroy({
       truncate: true,
@@ -23,11 +30,6 @@ describe("addCaseOfficer", () => {
       auditUser: "test user"
     });
     await models.officer.destroy({ truncate: true, cascade: true });
-    await models.civilian.destroy({
-      truncate: true,
-      cascade: true,
-      force: true
-    });
     await models.data_change_audit.truncate();
   });
 

@@ -19,6 +19,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
+  Attachment.prototype.modelDescription = async (instance, options) => {
+    return instance.fileName;
+  };
   Attachment.associate = models => {
     Attachment.belongsTo(models.cases, {
       foreignKey: { name: "caseId", field: "case_id", allowNull: false }

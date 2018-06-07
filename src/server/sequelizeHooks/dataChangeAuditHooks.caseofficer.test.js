@@ -51,5 +51,8 @@ describe("dataChangeAudithooks caseofficer", () => {
     expect(audit.user).toEqual("someone");
     expect(audit.modelId).toEqual(createdCase.accusedOfficers[0].id);
     expect(audit.caseId).toEqual(createdCase.id);
+    expect(audit.modelDescription).toEqual(
+      createdCase.accusedOfficers[0].fullName
+    );
   });
 });

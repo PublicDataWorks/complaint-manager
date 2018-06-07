@@ -1,4 +1,6 @@
 import Case from "../../../client/testUtilities/case";
+import Address from "../../../client/testUtilities/address";
+import Civilian from "../../../client/testUtilities/civilian";
 
 const editCivilian = require("./editCivilian");
 const models = require("../../models/index");
@@ -7,23 +9,18 @@ const httpMocks = require("node-mocks-http");
 describe("editCivilian handler", () => {
   let existingCase, existingCivilian;
   beforeEach(async () => {
-    await models.address.destroy({
-      truncate: true,
-      cascade: true,
-      force: true
-    });
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.civilian.destroy({ truncate: true, auditUser: "test user" });
-    await models.data_change_audit.truncate();
+    const civilianAttributes = new Civilian.Builder()
+      .defaultCivilian()
+      .withId(undefined)
+      .withNoAddress()
+      .withRoleOnCase("Complainant")
+      .build();
 
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
       .withIncidentLocation(undefined)
+      .withComplainantCivilians([civilianAttributes])
       .build();
 
     existingCase = await models.cases.create(caseAttributes, {
@@ -31,28 +28,65 @@ describe("editCivilian handler", () => {
         {
           model: models.civilian,
           as: "complainantCivilians",
-          auditUser: "someone",
-          include: [models.address]
+          auditUser: "someone"
         }
       ],
       auditUser: "someone"
     });
     existingCivilian = existingCase.dataValues.complainantCivilians[0];
+    const address = new Address.Builder()
+      .defaultAddress()
+      .withAddressableId(existingCivilian.id)
+      .withAddressableType("civilian")
+      .withId(undefined)
+      .build();
+    await existingCivilian.createAddress(address, { auditUser: "someone" });
+    await existingCivilian.reload({ include: [models.address] });
   });
 
   afterEach(async () => {
-    await models.address.destroy({
-      truncate: true,
+    await models.address.truncate({ auditUser: "test user", force: true });
+    await models.civilian.truncate({ auditUser: "test user" });
+    await models.cases.truncate({
       cascade: true,
-      force: true
-    });
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
+      force: true,
       auditUser: "test user"
     });
-    await models.civilian.destroy({ truncate: true, auditUser: "test user" });
     await models.data_change_audit.truncate();
+  });
+
+  test("should update an address", async () => {
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        id: existingCivilian.id
+      },
+      body: {
+        address: {
+          id: existingCivilian.address.id,
+          streetAddress: "123 Fleet Street",
+          city: "Chicago"
+        }
+      },
+      nickname: "TEST_USER_NICKNAME"
+    });
+    const response = httpMocks.createResponse();
+
+    await editCivilian(request, response, jest.fn());
+    const updatedAddress = await models.address.find({
+      where: {
+        id: existingCivilian.address.id
+      }
+    });
+    expect(updatedAddress).toEqual(
+      expect.objectContaining({
+        streetAddress: "123 Fleet Street",
+        city: "Chicago"
+      })
+    );
   });
 
   test("should update civilian with correct properties", async () => {

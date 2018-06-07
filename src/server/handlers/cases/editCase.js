@@ -13,13 +13,15 @@ async function upsertAddress(caseId, incidentLocation, transaction, nickname) {
         addressableId: caseId
       },
       {
-        transaction
+        transaction,
+        auditUser: nickname
       }
     );
   } else {
     await models.address.update(incidentLocation, {
       where: { id: incidentLocation.id },
-      transaction
+      transaction,
+      auditUser: nickname
     });
   }
 }

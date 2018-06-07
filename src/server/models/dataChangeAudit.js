@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
         field: "model_name",
         type: DataTypes.STRING
       },
+      modelDescription: {
+        field: "model_description",
+        type: DataTypes.STRING
+      },
       modelId: {
         allowNull: false,
         field: "model_id",

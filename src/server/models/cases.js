@@ -81,6 +81,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  Case.prototype.modelDescription = async (instance, options) => {
+    return "";
+  };
+
   Case.associate = models => {
     Case.hasMany(models.civilian, {
       as: "complainantCivilians",

@@ -42,15 +42,15 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
   });
 
   afterEach(async () => {
-    await models.address.destroy({ truncate: true, cascade: true });
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
+    await models.address.truncate({ force: true, auditUser: "test user" });
     await models.civilian.destroy({
       truncate: true,
       force: true,
+      auditUser: "test user"
+    });
+    await models.cases.destroy({
+      truncate: true,
+      cascade: true,
       auditUser: "test user"
     });
     await models.data_change_audit.truncate();
@@ -59,12 +59,7 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
   test("should soft delete an existing civilian", async () => {
     const civilian = new Civilian.Builder()
       .defaultCivilian()
-      .withAddress(
-        new Address.Builder()
-          .defaultAddress()
-          .withId(undefined)
-          .build()
-      )
+      .withNoAddress()
       .withId(undefined)
       .withCaseId(undefined)
       .build();
@@ -80,13 +75,20 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
         {
           model: models.civilian,
           as: "complainantCivilians",
-          auditUser: "someone",
-          include: [models.address]
+          auditUser: "someone"
         }
       ],
       auditUser: "someone"
     });
     const createdCivilian = createdCase.dataValues.complainantCivilians[0];
+    const address = new Address.Builder()
+      .defaultAddress()
+      .withId(undefined)
+      .withAddressableType("civilian")
+      .withAddressableId(createdCivilian.id)
+      .build();
+    await createdCivilian.createAddress(address, { auditUser: "someone" });
+    await createdCivilian.reload({ include: [models.address] });
 
     await request(app)
       .delete(`/api/cases/${createdCase.id}/civilians/${createdCivilian.id}`)

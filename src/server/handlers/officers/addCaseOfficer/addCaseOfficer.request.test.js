@@ -16,11 +16,18 @@ describe("POST /cases/:caseId/cases_officers", () => {
     await models.address.destroy({
       truncate: true,
       cascade: true,
-      force: true
+      force: true,
+      auditUser: "test user"
     });
     await models.case_officer.destroy({
       truncate: true,
       cascade: true,
+      auditUser: "test user"
+    });
+    await models.civilian.destroy({
+      truncate: true,
+      cascade: true,
+      force: true,
       auditUser: "test user"
     });
     await models.cases.destroy({
@@ -29,11 +36,6 @@ describe("POST /cases/:caseId/cases_officers", () => {
       auditUser: "test user"
     });
     await models.officer.destroy({ truncate: true, cascade: true });
-    await models.civilian.destroy({
-      truncate: true,
-      cascade: true,
-      force: true
-    });
     await models.data_change_audit.truncate();
   });
 

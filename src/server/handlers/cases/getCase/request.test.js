@@ -86,7 +86,8 @@ describe("GET /cases/:id", () => {
         },
         {
           model: models.address,
-          as: "incidentLocation"
+          as: "incidentLocation",
+          auditUser: "someone else"
         },
         {
           model: models.case_officer,
@@ -102,11 +103,18 @@ describe("GET /cases/:id", () => {
     await models.address.destroy({
       truncate: true,
       cascade: true,
-      force: true
+      force: true,
+      auditUser: "test user"
     });
     await models.case_officer.destroy({
       truncate: true,
       cascade: true,
+      auditUser: "test user"
+    });
+    await models.civilian.destroy({
+      truncate: true,
+      cascade: true,
+      force: true,
       auditUser: "test user"
     });
     await models.cases.destroy({
@@ -115,12 +123,6 @@ describe("GET /cases/:id", () => {
       auditUser: "test user"
     });
     await models.officer.destroy({ truncate: true, cascade: true });
-    await models.civilian.destroy({
-      truncate: true,
-      cascade: true,
-      force: true,
-      auditUser: "test user"
-    });
     await models.data_change_audit.truncate();
   });
 

@@ -30,12 +30,17 @@ describe("server", () => {
   });
 
   afterEach(async () => {
-    await models.address.destroy({
-      truncate: true,
-      cascade: true,
-      force: true
+    await models.address.truncate({
+      force: true,
+      auditUser: "test user"
     });
     await models.case_officer.destroy({ truncate: true, cascade: true });
+    await models.civilian.destroy({
+      truncate: true,
+      cascade: true,
+      force: true,
+      auditUser: "test user"
+    });
     await models.cases.destroy({
       truncate: true,
       cascade: true,
@@ -43,12 +48,6 @@ describe("server", () => {
     });
     await models.officer.destroy({ truncate: true, cascade: true });
     await models.audit_log.destroy({ truncate: true, cascade: true });
-    await models.civilian.destroy({
-      truncate: true,
-      cascade: true,
-      force: true,
-      auditUser: "test user"
-    });
     await models.data_change_audit.truncate();
   });
 
@@ -227,14 +226,9 @@ describe("server", () => {
     let existingCase, existingCivilian;
 
     beforeEach(async () => {
-      const existingCivilianAddress = new Address.Builder()
-        .defaultAddress()
-        .withId(undefined)
-        .withCity("post city");
-
       const existingCivilianToCreate = new Civilian.Builder()
         .defaultCivilian()
-        .withAddress(existingCivilianAddress)
+        .withNoAddress()
         .withId(undefined)
         .withCaseId(undefined)
         .withFirstName("Existing Civilian")
@@ -251,17 +245,23 @@ describe("server", () => {
           {
             model: models.civilian,
             as: "complainantCivilians",
-            auditUser: "test user",
-            include: [
-              {
-                model: models.address
-              }
-            ]
+            auditUser: "test user"
           }
         ],
         auditUser: "someone"
       });
+
       existingCivilian = existingCase.complainantCivilians[0];
+      const existingCivilianAddress = new Address.Builder()
+        .defaultAddress()
+        .withId(undefined)
+        .withAddressableId(existingCivilian.id)
+        .withAddressableType("civilian")
+        .withCity("post city")
+        .build();
+      await existingCivilian.createAddress(existingCivilianAddress, {
+        auditUser: "someone"
+      });
     });
 
     test("should create a civilian and add it to a case", async () => {
@@ -315,15 +315,9 @@ describe("server", () => {
   describe("PUT /civilian/:id", () => {
     let seededCivilian, seededCase;
     beforeEach(async () => {
-      const addressDefault = new Address.Builder()
-        .defaultAddress()
-        .withId(undefined)
-        .withAddressableId(undefined)
-        .withAddressableType("civilian")
-        .build();
       const civilianDefault = new Civilian.Builder()
         .defaultCivilian()
-        .withAddress(addressDefault)
+        .withNoAddress()
         .withId(undefined)
         .build();
       const caseDefault = new Case.Builder()
@@ -337,13 +331,19 @@ describe("server", () => {
           {
             model: models.civilian,
             as: "complainantCivilians",
-            auditUser: "test user",
-            include: [{ model: models.address }]
+            auditUser: "test user"
           }
         ],
         auditUser: "someone"
       });
       seededCivilian = seededCase.complainantCivilians[0];
+      const address = new Address.Builder()
+        .defaultAddress()
+        .withId(undefined)
+        .withAddressableId(seededCivilian.id)
+        .withAddressableType("civilian")
+        .build();
+      await seededCivilian.createAddress(address, { auditUser: "someone" });
     });
 
     test("should update an existing civilian", async () => {
@@ -375,6 +375,7 @@ describe("server", () => {
 
     test("should save new address if it doesnt exist yet", async () => {
       const updatedCivilian = {
+        id: seededCivilian.id,
         address: {
           state: "IL"
         }
@@ -415,20 +416,29 @@ describe("server", () => {
           {
             model: models.civilian,
             as: "complainantCivilians",
-            auditUser: "test user",
-            include: [{ model: models.address }]
+            auditUser: "test user"
           }
         ],
         auditUser: "someone"
       });
 
       let civilianToUpdate = caseToUpdate.dataValues.complainantCivilians[0];
+      const address = new Address.Builder()
+        .defaultAddress()
+        .withId(undefined)
+        .withAddressableType("civilian")
+        .withAddressableId(civilianToUpdate.id)
+        .build();
+
+      await civilianToUpdate.createAddress(address, { auditUser: "someone" });
+      await civilianToUpdate.reload({ include: [models.address] });
 
       await request(app)
         .put(`/api/civilian/${civilianToUpdate.id}`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send({
+          id: civilianToUpdate.id,
           address: {
             id: civilianToUpdate.address.id,
             city: "New Orleans"
@@ -465,20 +475,28 @@ describe("server", () => {
           {
             model: models.civilian,
             as: "complainantCivilians",
-            auditUser: "test user",
-            include: [{ model: models.address }]
+            auditUser: "test user"
           }
         ],
         auditUser: "someone"
       });
 
       let civilianToUpdate = caseToUpdate.dataValues.complainantCivilians[0];
+      const address = new Address.Builder()
+        .defaultAddress()
+        .withId(undefined)
+        .withAddressableType("civilian")
+        .withAddressableId(civilianToUpdate.id)
+        .build();
+      await civilianToUpdate.createAddress(address, { auditUser: "someone" });
+      await civilianToUpdate.reload({ include: [models.address] });
 
       await request(app)
         .put(`/api/civilian/${civilianToUpdate.id}`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send({
+          id: civilianToUpdate.id,
           address: {
             id: civilianToUpdate.address.id,
             streetAddress: "",

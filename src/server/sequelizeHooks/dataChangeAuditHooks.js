@@ -110,17 +110,46 @@ exports.init = sequelize => {
     throw Boom.notImplemented(`Audit is not implemented for this function.`);
   };
 
+  const getCaseId = async (modelName, instance, options) => {
+    switch (modelName) {
+      case "case":
+        return instance.id;
+      case "address":
+        if (instance.addressableType === "cases") {
+          return instance.addressableId;
+        }
+        const civilian = await sequelize
+          .model("civilian")
+          .findById(instance.addressableId, {
+            transaction: options.transaction
+          });
+        return civilian.caseId;
+      default:
+        return instance.caseId;
+    }
+  };
+
+  const getModelDescription = async (instance, options) => {
+    const modelDescription = await instance.modelDescription(instance, options);
+    if (modelDescription !== null && modelDescription !== undefined) {
+      return modelDescription;
+    }
+
+    throw Boom.badImplementation("Model must supply model description");
+  };
+
   const createDataChangeAudit = async (instance, options, action) => {
     const changes = objectChanges(action, instance);
-    const caseId = instance.caseId || instance.id;
     const modelName = instance._modelOptions.name.singular;
-    if (_.isEmpty(changes) && action !== DATA_DELETED) return;
+    const caseId = await getCaseId(modelName, instance, options);
+    if (_.isEmpty(changes)) return;
     await sequelize.model("data_change_audit").create(
       {
         user: getUserNickname(options, action, modelName),
         action: action,
         modelName: instance._modelOptions.name.singular,
         modelId: instance.id,
+        modelDescription: await getModelDescription(instance, options),
         caseId: caseId,
         snapshot: instance.dataValues,
         changes: changes

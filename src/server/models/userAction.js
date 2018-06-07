@@ -44,6 +44,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  UserAction.prototype.modelDescription = async (instance, options) => {
+    return `Action: ${instance.action}\nTaken At: ${instance.actionTakenAt}`;
+  };
+
   UserAction.associate = models => {
     UserAction.belongsTo(models.cases, {
       foreignKey: { name: "caseId", field: "case_id", allowNull: false }

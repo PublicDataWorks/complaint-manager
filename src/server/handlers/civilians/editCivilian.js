@@ -11,13 +11,15 @@ async function upsertAddress(civilianId, address, transaction, nickname) {
         addressableType: "civilian"
       },
       {
-        transaction
+        transaction,
+        auditUser: nickname
       }
     );
   } else {
     await models.address.update(address, {
       where: { id: address.id },
-      transaction
+      transaction,
+      auditUser: nickname
     });
   }
 }

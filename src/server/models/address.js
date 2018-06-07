@@ -61,5 +61,39 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  Address.prototype.modelDescription = async (instance, options) => {
+    let addressIdentifier;
+    if (instance.addressableType === "cases") {
+      addressIdentifier = "Incident Location";
+    } else {
+      const civilian = await sequelize
+        .model("civilian")
+        .findById(instance.addressableId, options);
+      const civilianName = civilian.fullName;
+      addressIdentifier = civilian ? `Address for ${civilianName}` : null;
+    }
+    return addressIdentifier;
+  };
+
+  Address.associate = models => {
+    Address.belongsTo(models.cases, {
+      foreignKey: {
+        name: "addressableId",
+        field: "addressable_id",
+        allowNull: false
+      }
+    });
+    Address.belongsTo(models.civilian, {
+      foreignKey: {
+        name: "addressableId",
+        field: "addressable_id",
+        allowNull: false,
+        hooks: true
+      }
+    });
+  };
+
+  Address.auditDataChange();
+
   return Address;
 };

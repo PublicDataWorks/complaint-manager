@@ -16,36 +16,22 @@ describe("getCases", () => {
 
   beforeEach(async () => {
     token = buildTokenWithPermissions("", "some_nickname");
-    await models.address.destroy({
-      truncate: true,
-      cascade: true,
-      force: true
-    });
-    await models.case_officer.destroy({
-      truncate: true,
-      cascade: true,
-      force: true
-    });
-    await models.cases.destroy({ truncate: true, cascade: true });
-    await models.officer.destroy({ truncate: true, cascade: true });
-    await models.civilian.destroy({
-      truncate: true,
-      cascade: true,
-      force: true
-    });
-    await models.data_change_audit.truncate();
   });
 
   afterEach(async () => {
-    await models.address.destroy({
-      truncate: true,
-      cascade: true,
-      force: true
+    await models.address.truncate({
+      force: true,
+      auditUser: "someone"
     });
     await models.case_officer.destroy({
       truncate: true,
       cascade: true,
       auditUser: "someone"
+    });
+    await models.civilian.truncate({
+      cascade: true,
+      force: true,
+      auditUser: "test user"
     });
     await models.cases.destroy({
       truncate: true,
@@ -53,12 +39,6 @@ describe("getCases", () => {
       auditUser: "test user"
     });
     await models.officer.destroy({ truncate: true, cascade: true });
-    await models.civilian.destroy({
-      truncate: true,
-      cascade: true,
-      force: true,
-      auditUser: "test user"
-    });
     await models.data_change_audit.truncate();
   });
 

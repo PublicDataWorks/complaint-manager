@@ -179,6 +179,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  CaseOfficer.prototype.modelDescription = async (instance, options) => {
+    return instance.fullName;
+  };
+
   CaseOfficer.prototype.emptyCaseOfficerAttributes = function() {
     return {
       officerId: null,
