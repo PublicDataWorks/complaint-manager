@@ -6,7 +6,15 @@ const getCaseHistory = asyncMiddleware(async (request, response) => {
   const caseId = request.params.id;
   const audits = await models.data_change_audit.findAll({
     where: { caseId: caseId },
-    attributes: ["id", "action", "modelName", "changes", "user", "createdAt"],
+    attributes: [
+      "id",
+      "action",
+      "modelName",
+      "modelDescription",
+      "changes",
+      "user",
+      "createdAt"
+    ],
     order: [["createdAt", "desc"]],
     raw: true
   });

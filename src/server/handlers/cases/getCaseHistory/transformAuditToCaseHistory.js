@@ -11,6 +11,7 @@ const transformAuditToCaseHistory = dataChangeAudits => {
       id: audit.id,
       user: audit.user,
       action: transformAction(audit),
+      modelDescription: audit.modelDescription,
       details: details,
       timestamp: audit.createdAt
     });

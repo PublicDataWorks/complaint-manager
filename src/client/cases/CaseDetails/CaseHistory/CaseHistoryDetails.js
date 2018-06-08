@@ -1,6 +1,15 @@
 import React from "react";
 
-const CaseHistoryDetails = ({ details, action }) => {
+const CaseHistoryDetails = ({ details, action, modelDescription }) => (
+  <div>
+    <div>
+      <strong>{modelDescription ? modelDescription : null}</strong>
+    </div>
+    {renderDetails(details, action)}
+  </div>
+);
+
+const renderDetails = (details, action) => {
   const longFieldLength = 50;
 
   if (action.includes("updated")) {

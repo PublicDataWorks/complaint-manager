@@ -5,6 +5,7 @@ class DataChangeAudit {
     this.id = build.id;
     this.caseId = build.caseId;
     this.modelName = build.modelName;
+    this.modelDescription = build.modelDescription;
     this.modelId = build.modelId;
     this.snapshot = build.snapshot;
     this.action = build.action;
@@ -18,7 +19,8 @@ class DataChangeAudit {
       defaultDataChangeAudit() {
         this.id = 22;
         this.caseId = 1;
-        this.modelName = "case";
+        this.modelName = "civilian";
+        this.modelDescription = "Jane Doe";
         this.modelId = 1;
         this.snapshot = {};
         this.action = DATA_UPDATED;
@@ -37,6 +39,10 @@ class DataChangeAudit {
       }
       withModelName(modelName) {
         this.modelName = modelName;
+        return this;
+      }
+      withModelDescription(modelDescription) {
+        this.modelDescription = modelDescription;
         return this;
       }
       withModelId(modelId) {

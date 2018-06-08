@@ -6,12 +6,13 @@ describe("transformAuditToCaseHistory", () => {
   test("it returns case history for given audits", () => {
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
-      .withModelName("case")
+      .withModelName("civilian")
+      .withModelDescription("Jasmine Rodda")
       .withModelId(5)
       .withCaseId(5)
       .withAction(DATA_UPDATED)
       .withChanges({
-        complainantType: { previous: "Civilian", new: "Police Officer" }
+        firstName: { previous: "Emily", new: "Jasmine" }
       })
       .withUser("bob")
       .withCreatedAt(new Date());
@@ -20,10 +21,11 @@ describe("transformAuditToCaseHistory", () => {
     const expectedCaseHistories = [
       {
         user: audit.user,
-        action: "Case updated",
+        action: "Civilian updated",
         details: {
-          "Complainant Type": { previous: "Civilian", new: "Police Officer" }
+          "First Name": { previous: "Emily", new: "Jasmine" }
         },
+        modelDescription: "Jasmine Rodda",
         timestamp: audit.createdAt,
         id: audit.id
       }

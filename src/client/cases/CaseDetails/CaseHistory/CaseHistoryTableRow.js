@@ -14,7 +14,11 @@ const CaseHistoryRow = ({ classes, history }) => {
       <TableCell className={classes.topAlignCell}>{history.user}</TableCell>
       <TableCell className={classes.topAlignCell}>{history.action}</TableCell>
       <TableCell className={classes.topAlignCell}>
-        <CaseHistoryDetails details={history.details} action={history.action} />
+        <CaseHistoryDetails
+          details={history.details}
+          action={history.action}
+          modelDescription={history.modelDescription}
+        />
       </TableCell>
       <TableCell className={classes.topAlignCell}>
         {dateTimeFromString(history.timestamp)}
