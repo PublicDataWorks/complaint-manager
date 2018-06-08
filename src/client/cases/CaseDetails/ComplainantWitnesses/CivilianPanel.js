@@ -4,7 +4,6 @@ import {
   openCivilianDialog,
   openRemoveCivilianDialog
 } from "../../../actionCreators/casesActionCreators";
-import formatCivilianName from "../../../utilities/formatCivilianName";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 import editCivilian from "../../thunks/editCivilian";
 import LinkButton from "../../../shared/components/LinkButton";
@@ -30,7 +29,7 @@ const CivilianPanel = ({ civilian, dispatch }) => {
           <div style={{ display: "flex", width: "100%", paddingRight: 0 }}>
             <CivilianInfoDisplay
               displayLabel={"Civilian"}
-              value={formatCivilianName(civilian)}
+              value={civilian.fullName}
               testLabel="complainant"
             />
             <CivilianInfoDisplay

@@ -19,6 +19,7 @@ class Civilian {
     this.genderIdentity = build.genderIdentity;
     this.address = build.address;
     this.additionalInfo = build.additionalInfo;
+    this.fullName = build.fullName;
   }
 
   //TODO: Builders are not usually part of the class that they're building.  The class is usually a domain object used in the app, not just tests.  Should this be refactored?
@@ -48,6 +49,7 @@ class Civilian {
         this.address = address;
         this.additionalInfo =
           "Some additional information about this civilian.";
+        this.fullName = "Chuck E. Berry XVI";
         return this;
       }
 
@@ -141,6 +143,11 @@ class Civilian {
 
       withAdditionalInfo(additionalInfo) {
         this.additionalInfo = additionalInfo;
+        return this;
+      }
+
+      withFullName(fullName) {
+        this.fullName = fullName;
         return this;
       }
 

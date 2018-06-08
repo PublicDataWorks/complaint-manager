@@ -1,4 +1,6 @@
 "use strict";
+const Boom = require("boom");
+
 module.exports = (sequelize, DataTypes) => {
   var Address = sequelize.define(
     "address",
@@ -62,17 +64,20 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Address.prototype.modelDescription = async (instance, options) => {
-    let addressIdentifier;
     if (instance.addressableType === "cases") {
-      addressIdentifier = "Incident Location";
-    } else {
-      const civilian = await sequelize
-        .model("civilian")
-        .findById(instance.addressableId, options);
-      const civilianName = civilian.fullName;
-      addressIdentifier = civilian ? `Address for ${civilianName}` : null;
+      return "Incident Location";
     }
-    return addressIdentifier;
+
+    const civilian = await sequelize
+      .model("civilian")
+      .findById(instance.addressableId, { transaction: options.transaction });
+    if (civilian) {
+      return `Address for ${civilian.fullName}`;
+    }
+
+    throw Boom.badImplementation(
+      "Civilian address cannot be created through nested include."
+    );
   };
 
   Address.auditDataChange();

@@ -11,8 +11,7 @@ test("displays the complainant when complainant is civilian", () => {
   const lastName = "Ariza";
 
   const civilian = new Civilian.Builder()
-    .withFirstName(firstName)
-    .withLastName(lastName)
+    .withFullName(`${firstName} ${lastName}`)
     .withRoleOnCase(COMPLAINANT)
     .build();
 
@@ -30,7 +29,7 @@ test("displays complainant if the complainant is an officer", () => {
   const complainantOfficer = new CaseOfficer.Builder()
     .defaultCaseOfficer()
     .withRoleOnCase(COMPLAINANT)
-      .withOfficerAttributes(
+    .withOfficerAttributes(
       new Officer.Builder()
         .defaultOfficer()
         .withFullName(officerFullName)
@@ -72,8 +71,7 @@ test("displays complainant if the complainant is an officer and is unknown", () 
 });
 
 test("displays an civilian complainant by default if civilian and officer complainants exist", () => {
-  const complainantFirstName = "TEST_FIRST_NAME";
-  const complainantLastName = "TEST_LAST_NAME";
+  const complainantFullName = "TEST_CIVILIAN_NAME";
   const officerFullName = "TEST_OFFICER_COMPLAINANT_NAME";
 
   const complainantOfficer = new CaseOfficer.Builder()
@@ -88,8 +86,7 @@ test("displays an civilian complainant by default if civilian and officer compla
     .build();
 
   const complainantCivilian = new Civilian.Builder()
-    .withFirstName(complainantFirstName)
-    .withLastName(complainantLastName)
+    .withFullName(complainantFullName)
     .withRoleOnCase(COMPLAINANT)
     .build();
 
@@ -102,9 +99,7 @@ test("displays an civilian complainant by default if civilian and officer compla
     />
   );
 
-  expect(wrapper.text()).toEqual(
-    complainantFirstName + " " + complainantLastName
-  );
+  expect(wrapper.text()).toEqual(complainantFullName);
 });
 
 test("displays no complainant when no civilians exist", () => {

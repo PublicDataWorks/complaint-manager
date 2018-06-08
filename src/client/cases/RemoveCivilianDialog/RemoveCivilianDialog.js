@@ -12,7 +12,6 @@ import {
   PrimaryButton
 } from "../../shared/components/StyledButtons";
 import { closeRemoveCivilianDialog } from "../../actionCreators/casesActionCreators";
-import formatCivilianName from "../../utilities/formatCivilianName";
 import removeCivilian from "../thunks/removeCivilian";
 
 const RemoveCivilianDialog = ({ open, civilianDetails, dispatch }) => (
@@ -20,10 +19,9 @@ const RemoveCivilianDialog = ({ open, civilianDetails, dispatch }) => (
     <DialogTitle data-test="dialogTitle">Remove Civilian</DialogTitle>
     <DialogContent>
       <Typography data-test="warningText">
-        This action will remove{" "}
-        <strong>{formatCivilianName(civilianDetails)}</strong> and all
-        information associated to this person from the case. Are you sure you
-        want to continue?
+        This action will remove <strong>{civilianDetails.fullName}</strong> and
+        all information associated to this person from the case. Are you sure
+        you want to continue?
       </Typography>
     </DialogContent>
     <DialogActions>

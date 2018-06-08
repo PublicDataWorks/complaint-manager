@@ -7,7 +7,6 @@ import {
   openRemoveCivilianDialog,
   closeRemoveCivilianDialog
 } from "../../actionCreators/casesActionCreators";
-import formatCivilianName from "../../utilities/formatCivilianName";
 import removeCivilian from "../thunks/removeCivilian";
 
 jest.mock("../thunks/removeCivilian", () => () => ({
@@ -25,7 +24,8 @@ describe("removeCivilianDialog", () => {
       firstName: "John",
       middleInitial: "D",
       lastName: "Doe",
-      suffix: "III"
+      suffix: "III",
+      fullName: "John D. Doe III"
     };
 
     store.dispatch(openRemoveCivilianDialog(civilianDetails));
@@ -59,6 +59,6 @@ describe("removeCivilianDialog", () => {
       .find('[data-test="warningText"]')
       .first()
       .text();
-    expect(dialogText).toContain(formatCivilianName(civilianDetails));
+    expect(dialogText).toContain(civilianDetails.fullName);
   });
 });

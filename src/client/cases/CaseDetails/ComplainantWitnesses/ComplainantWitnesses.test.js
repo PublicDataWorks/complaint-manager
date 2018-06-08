@@ -8,7 +8,6 @@ import { initialize } from "redux-form";
 import formatAddress from "../../../utilities/formatAddress";
 import Civilian from "../../../testUtilities/civilian";
 import Case from "../../../testUtilities/case";
-import formatCivilianName from "../../../utilities/formatCivilianName";
 import editCivilian from "../../thunks/editCivilian";
 import {
   CIVILIAN_FORM_NAME,
@@ -65,7 +64,7 @@ describe("Complainant and Witnesses", () => {
 
   describe("full name", () => {
     test("should display civilian first and last name", () => {
-      const complainantName = formatCivilianName(complainant);
+      const complainantName = complainant.fullName;
       containsText(
         complainantWitnessesSection,
         '[data-test="complainant"]',
@@ -80,6 +79,7 @@ describe("Complainant and Witnesses", () => {
         .defaultCivilian()
         .withFirstName("Blake")
         .withLastName("Anderson")
+        .withFullName("Blake Anderson")
         .withMiddleInitial("")
         .withSuffix("")
         .withCreatedAt("2018-04-26")
@@ -89,6 +89,7 @@ describe("Complainant and Witnesses", () => {
         .defaultCivilian()
         .withFirstName("Amy")
         .withLastName("Smith")
+        .withFullName("Amy Smith")
         .withCreatedAt("2018-04-30")
         .withMiddleInitial("")
         .withSuffix("")
@@ -98,6 +99,7 @@ describe("Complainant and Witnesses", () => {
         .defaultCivilian()
         .withFirstName("Amy")
         .withLastName("Anderson")
+        .withFullName("Amy Anderson")
         .withMiddleInitial("")
         .withSuffix("")
         .withCreatedAt("2018-05-01")
@@ -313,7 +315,7 @@ describe("Complainant and Witnesses", () => {
   test("should display officer and civilian complainants", () => {
     const civilianComplainant = new Civilian.Builder()
       .defaultCivilian()
-      .withLastName("Alpha")
+      .withFullName("First Alpha")
       .build();
 
     const officerComplainant = new Officer.Builder()

@@ -1,6 +1,5 @@
 import React from "react";
 import getFirstComplainant from "../../utilities/getFirstComplainant";
-import formatCivilianName from "../../utilities/formatCivilianName";
 import WarningMessage from "../../shared/components/WarningMessage";
 
 const DisplayComplainant = ({ caseDetails }) => {
@@ -12,7 +11,7 @@ const DisplayComplainant = ({ caseDetails }) => {
   let formattedComplainant;
 
   if (Boolean(civilianComplainant)) {
-    formattedComplainant = formatCivilianName(civilianComplainant);
+    formattedComplainant = civilianComplainant.fullName;
   } else if (Boolean(officerComplainant)) {
     if (officerComplainant.isUnknownOfficer) {
       formattedComplainant = officerComplainant.fullName;

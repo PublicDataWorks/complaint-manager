@@ -30,8 +30,10 @@ describe("cases table", () => {
 
   beforeEach(() => {
     civilianChuck = new Civilian.Builder()
+      .defaultCivilian()
       .withFirstName("Chuck")
       .withLastName("Berry")
+      .withFullName("Chuck Berry")
       .withRoleOnCase(COMPLAINANT)
       .build();
 
