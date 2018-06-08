@@ -75,24 +75,6 @@ module.exports = (sequelize, DataTypes) => {
     return addressIdentifier;
   };
 
-  Address.associate = models => {
-    Address.belongsTo(models.cases, {
-      foreignKey: {
-        name: "addressableId",
-        field: "addressable_id",
-        allowNull: false
-      }
-    });
-    Address.belongsTo(models.civilian, {
-      foreignKey: {
-        name: "addressableId",
-        field: "addressable_id",
-        allowNull: false,
-        hooks: true
-      }
-    });
-  };
-
   Address.auditDataChange();
 
   return Address;

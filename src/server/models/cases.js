@@ -104,6 +104,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: "addressableId",
         field: "addressable_id"
+      },
+      scope: {
+        addressable_type: "cases"
       }
     });
     Case.hasMany(models.case_officer, {

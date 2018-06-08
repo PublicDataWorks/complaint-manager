@@ -109,7 +109,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: { name: "caseId", field: "case_id", allowNull: false }
     });
     Civilian.hasOne(models.address, {
-      foreignKey: { name: "addressableId", field: "addressable_id" }
+      foreignKey: { name: "addressableId", field: "addressable_id" },
+      scope: {
+        addressable_type: "civilian"
+      }
     });
   };
 

@@ -1,5 +1,6 @@
 import Case from "../../../client/testUtilities/case";
 import Address from "../../../client/testUtilities/Address";
+import Civilian from "../../../client/testUtilities/civilian";
 
 const httpMocks = require("node-mocks-http");
 const models = require("../../models");
@@ -11,20 +12,50 @@ describe("Edit Case", () => {
     next,
     existingCase,
     valuesToUpdate,
-    initialCaseAttributes;
+    initialCaseAttributes,
+    addressAttributes,
+    civilianAttributes;
 
   beforeEach(async () => {
+    const sharedId = 55;
+    civilianAttributes = new Civilian.Builder()
+      .defaultCivilian()
+      .withNoAddress()
+      .withId(sharedId)
+      .build();
+
     initialCaseAttributes = new Case.Builder()
       .defaultCase()
-      .withId(undefined)
+      .withId(sharedId)
       .withCreatedBy("ORIGINAL_USER")
       .withFirstContactDate("2017-01-01")
       .withIncidentTime("01:01")
       .withIncidentDate("2017-01-02")
+      .withComplainantCivilians([civilianAttributes])
       .withIncidentLocation(undefined);
+
     existingCase = await models.cases.create(initialCaseAttributes, {
-      auditUser: "someone"
+      auditUser: "someone",
+      include: [
+        {
+          model: models.civilian,
+          auditUser: "test user",
+          as: "complainantCivilians"
+        }
+      ]
     });
+
+    addressAttributes = new Address.Builder()
+      .defaultAddress()
+      .withAddressableId(sharedId)
+      .withAddressableType("civilian")
+      .withId(undefined)
+      .build();
+
+    await existingCase.complainantCivilians[0].createAddress(
+      addressAttributes,
+      { auditUser: "test user" }
+    );
 
     valuesToUpdate = {
       firstContactDate: "2018-02-08",
@@ -46,6 +77,8 @@ describe("Edit Case", () => {
   });
 
   afterEach(async () => {
+    await models.address.truncate({ force: true, auditUser: "someone" });
+    await models.civilian.truncate({ force: true, auditUser: "someone" });
     await models.cases.destroy({
       truncate: true,
       cascade: true,
@@ -72,7 +105,9 @@ describe("Edit Case", () => {
     valuesToUpdate.incidentLocation = new Address.Builder()
       .defaultAddress()
       .withId(undefined)
-      .withStreetAddress("1234 Main St");
+      .withStreetAddress("1234 Main St")
+      .withNoAddressable()
+      .build();
     request = httpMocks.createRequest({
       method: "PUT",
       headers: {
@@ -165,5 +200,29 @@ describe("Edit Case", () => {
     await existingCase.reload();
 
     expect(existingCase.dataValues.createdBy).toEqual("ORIGINAL_USER");
+  });
+
+  test("should not change civilian address when incident location edited", async () => {
+    valuesToUpdate = {
+      incidentLocation: { city: "Durham" }
+    };
+
+    const requestWithCreatedBy = httpMocks.createRequest({
+      method: "PUT",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: { id: existingCase.id },
+      body: valuesToUpdate,
+      nickname: "TEST_USER_NICKNAME"
+    });
+
+    await editCase(requestWithCreatedBy, response, next);
+    await existingCase.complainantCivilians[0].reload({
+      include: [models.address]
+    });
+    expect(existingCase.complainantCivilians[0].address.city).not.toEqual(
+      "Durham"
+    );
   });
 });
