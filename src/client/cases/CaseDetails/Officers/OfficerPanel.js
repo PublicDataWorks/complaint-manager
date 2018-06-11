@@ -2,8 +2,7 @@ import React from "react";
 import {
   Divider,
   ExpansionPanel,
-  ExpansionPanelSummary,
-  Typography
+  ExpansionPanelSummary
 } from "material-ui";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";

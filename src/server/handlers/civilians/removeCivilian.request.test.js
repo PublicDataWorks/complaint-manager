@@ -56,7 +56,52 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
     await models.data_change_audit.truncate();
   });
 
-  test("should soft delete an existing civilian", async () => {
+  test("should delete a civilian even when they don't have an address", async () => {
+    const civilianToCreate = new Civilian.Builder()
+      .defaultCivilian()
+      .withId(undefined)
+      .withRoleOnCase("Complainant")
+      .withCaseId(undefined)
+      .withNoAddress()
+      .build();
+
+    const caseToCreate = new Case.Builder()
+      .defaultCase()
+      .withId(undefined)
+      .withIncidentLocation(undefined)
+      .withComplainantCivilians([civilianToCreate])
+      .build();
+
+    const createdCase = await models.cases.create(caseToCreate, {
+      include: [
+        {
+          model: models.civilian,
+          as: "complainantCivilians",
+          auditUser: "someone",
+        }
+      ],
+      auditUser: "someone"
+    });
+    const createdCivilian = createdCase.complainantCivilians[0]
+
+    await request(app)
+      .delete(`/api/cases/${createdCase.id}/civilians/${createdCivilian.id}`)
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            id: createdCase.id,
+            status: "Active",
+            complainantCivilians: []
+          })
+        );
+      });
+
+  });
+
+  test("should soft delete an existing civilian that has an address", async () => {
     const civilian = new Civilian.Builder()
       .defaultCivilian()
       .withNoAddress()
