@@ -5,6 +5,7 @@ import Case from "../../../../client/testUtilities/case";
 import httpMocks from "node-mocks-http";
 import editCaseOfficer from "./editCaseOfficer";
 import { ACCUSED, WITNESS } from "../../../../sharedUtilities/constants";
+import Boom from "boom";
 
 describe("editCaseOfficer", () => {
   afterEach(async () => {
@@ -25,8 +26,10 @@ describe("editCaseOfficer", () => {
     await models.data_change_audit.truncate();
   });
 
-  let existingCase;
+  let existingCase, next, response;
   beforeEach(async () => {
+    next = jest.fn();
+    response = httpMocks.createResponse();
     const existingCaseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
@@ -93,9 +96,8 @@ describe("editCaseOfficer", () => {
         },
         nickname: "someone"
       });
-      const response = httpMocks.createResponse();
 
-      await editCaseOfficer(request, response, jest.fn());
+      await editCaseOfficer(request, response, next);
 
       const updatedCaseOfficer = await models.case_officer.findById(
         existingCaseOfficer.id
@@ -132,15 +134,50 @@ describe("editCaseOfficer", () => {
         },
         nickname: "someone"
       });
-      const response = httpMocks.createResponse();
 
-      await editCaseOfficer(request, response, jest.fn());
+      await editCaseOfficer(request, response, next);
 
       const updatedCaseOfficer = await models.case_officer.findById(
         existingCaseOfficerAttributes.id
       );
       expect(updatedCaseOfficer.notes).toEqual(fieldsToUpdate.notes);
       expect(updatedCaseOfficer.roleOnCase).toEqual(fieldsToUpdate.roleOnCase);
+    });
+
+    test("raise error if update fails", async () => {
+      const fieldsToUpdate = {
+        officerId: existingCaseOfficerAttributes.officerId,
+        notes: "some notes",
+        roleOnCase: null
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "someone"
+      });
+
+      await editCaseOfficer(request, response, next);
+      expect(next).toHaveBeenCalledWith(
+        Boom.badImplementation(
+          "notNull Violation: case_officer.roleOnCase cannot be null"
+        )
+      );
+
+      const updatedCaseOfficer = await models.case_officer.findById(
+        existingCaseOfficerAttributes.id
+      );
+      expect(updatedCaseOfficer.notes).toEqual(existingCaseOfficer.notes);
+      expect(updatedCaseOfficer.roleOnCase).toEqual(
+        existingCaseOfficer.roleOnCase
+      );
     });
 
     test("does not change officer when officer id is the same as before", async () => {
@@ -162,9 +199,8 @@ describe("editCaseOfficer", () => {
         },
         nickname: "someone"
       });
-      const response = httpMocks.createResponse();
 
-      await editCaseOfficer(request, response, jest.fn());
+      await editCaseOfficer(request, response, next);
 
       const updatedCaseOfficer = await models.case_officer.findById(
         existingCaseOfficerAttributes.id
@@ -195,9 +231,8 @@ describe("editCaseOfficer", () => {
         },
         nickname: "someone"
       });
-      const response = httpMocks.createResponse();
 
-      await editCaseOfficer(request, response, jest.fn());
+      await editCaseOfficer(request, response, next);
       await existingCaseOfficer.reload();
 
       expect(existingCaseOfficer.officerId).toEqual(null);
@@ -252,9 +287,8 @@ describe("editCaseOfficer", () => {
         },
         nickname: "someone"
       });
-      const response = httpMocks.createResponse();
 
-      await editCaseOfficer(request, response, jest.fn());
+      await editCaseOfficer(request, response, next);
 
       const updatedCaseOfficer = await models.case_officer.findById(
         existingCaseOfficer.id
@@ -314,9 +348,8 @@ describe("editCaseOfficer", () => {
         },
         nickname: "someone"
       });
-      const response = httpMocks.createResponse();
 
-      await editCaseOfficer(request, response, jest.fn());
+      await editCaseOfficer(request, response, next);
 
       const updatedCaseOfficer = await models.case_officer.findById(
         existingCaseOfficer.id
@@ -355,14 +388,12 @@ describe("editCaseOfficer", () => {
         nickname: "someone"
       });
 
-      const response = httpMocks.createResponse();
-
       await existingOfficer.update(
         { firstName: "Wilbert" },
         { auditUser: request.nickname }
       );
 
-      await editCaseOfficer(request, response, jest.fn());
+      await editCaseOfficer(request, response, next);
 
       await existingCaseOfficer.reload();
 
@@ -410,9 +441,8 @@ describe("editCaseOfficer", () => {
       },
       nickname: "test user"
     });
-    const response = httpMocks.createResponse();
 
-    await editCaseOfficer(request, response, jest.fn());
+    await editCaseOfficer(request, response, next);
     await existingCaseOfficer.reload();
 
     expect(existingCaseOfficer.officerId).toEqual(createdNewOfficer.id);

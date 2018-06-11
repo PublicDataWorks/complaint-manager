@@ -6,7 +6,7 @@ const {
   buildOfficerAttributesForNewOfficer
 } = require("../buildOfficerAttributesHelpers");
 
-const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
+const editCaseOfficer = asyncMiddleware(async (request, response) => {
   const { officerId, notes, roleOnCase } = request.body;
   const caseOfficerToUpdate = await models.case_officer.findOne({
     where: {
@@ -21,16 +21,13 @@ const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
     officerAttributes = await buildOfficerAttributesForNewOfficer(officerId);
   }
 
-  await models.case_officer.update(
+  await caseOfficerToUpdate.update(
     {
       notes,
       roleOnCase,
       ...officerAttributes
     },
     {
-      where: {
-        id: request.params.caseOfficerId
-      },
       auditUser: request.nickname
     }
   );
