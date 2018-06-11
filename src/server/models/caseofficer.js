@@ -179,8 +179,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  CaseOfficer.prototype.modelDescription = async (instance, options) => {
-    return instance.fullName;
+  CaseOfficer.prototype.modelDescription = async function(transaction) {
+    return this.fullName;
+  };
+
+  CaseOfficer.prototype.getCaseId = async function(transaction) {
+    return this.caseId;
   };
 
   CaseOfficer.prototype.emptyCaseOfficerAttributes = function() {

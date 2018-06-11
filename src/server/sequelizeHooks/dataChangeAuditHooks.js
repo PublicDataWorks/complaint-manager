@@ -110,27 +110,8 @@ exports.init = sequelize => {
     throw Boom.notImplemented(`Audit is not implemented for this function.`);
   };
 
-  const getCaseId = async (modelName, instance, options) => {
-    switch (modelName) {
-      case "case":
-        return instance.id;
-      case "address":
-        if (instance.addressableType === "cases") {
-          return instance.addressableId;
-        }
-        const civilian = await sequelize
-          .model("civilian")
-          .findById(instance.addressableId, {
-            transaction: options.transaction
-          });
-        return civilian.caseId;
-      default:
-        return instance.caseId;
-    }
-  };
-
-  const getModelDescription = async (instance, options) => {
-    const modelDescription = await instance.modelDescription(instance, options);
+  const getModelDescription = async (instance, transaction) => {
+    const modelDescription = await instance.modelDescription(transaction);
     if (modelDescription !== null && modelDescription !== undefined) {
       return modelDescription;
     }
@@ -141,7 +122,7 @@ exports.init = sequelize => {
   const createDataChangeAudit = async (instance, options, action) => {
     const changes = objectChanges(action, instance);
     const modelName = instance._modelOptions.name.singular;
-    const caseId = await getCaseId(modelName, instance, options);
+    const caseId = await instance.getCaseId(options.transaction);
     if (_.isEmpty(changes)) return;
     await sequelize.model("data_change_audit").create(
       {
@@ -149,7 +130,10 @@ exports.init = sequelize => {
         action: action,
         modelName: instance._modelOptions.name.singular,
         modelId: instance.id,
-        modelDescription: await getModelDescription(instance, options),
+        modelDescription: await getModelDescription(
+          instance,
+          options.transaction
+        ),
         caseId: caseId,
         snapshot: instance.dataValues,
         changes: changes

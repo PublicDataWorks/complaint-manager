@@ -2,9 +2,12 @@ import React from "react";
 
 const CaseHistoryDetails = ({ details, action, modelDescription }) => (
   <div>
-    <div>
-      <strong>{modelDescription ? modelDescription : null}</strong>
-    </div>
+    {modelDescription ? (
+      <div>
+        <strong>{modelDescription}</strong>
+      </div>
+    ) : null}
+
     {renderDetails(details, action)}
   </div>
 );

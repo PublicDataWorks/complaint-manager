@@ -100,8 +100,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Civilian.prototype.modelDescription = async (instance, options) => {
-    return instance.fullName;
+  Civilian.prototype.modelDescription = async function(transaction) {
+    return this.fullName;
+  };
+
+  Civilian.prototype.getCaseId = async function(transaction) {
+    return this.caseId;
   };
 
   Civilian.associate = models => {

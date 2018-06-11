@@ -44,8 +44,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  UserAction.prototype.modelDescription = async (instance, options) => {
-    return `Action: ${instance.action}\nTaken At: ${instance.actionTakenAt}`;
+  UserAction.prototype.modelDescription = async function(transaction) {
+    return `Action: ${this.action}\nTaken At: ${this.actionTakenAt}`;
+  };
+
+  UserAction.prototype.getCaseId = async function(transaction) {
+    return this.caseId;
   };
 
   UserAction.associate = models => {

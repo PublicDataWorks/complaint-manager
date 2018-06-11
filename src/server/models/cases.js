@@ -81,8 +81,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Case.prototype.modelDescription = async (instance, options) => {
+  Case.prototype.modelDescription = async function(transaction) {
     return "";
+  };
+
+  Case.prototype.getCaseId = async function(transaction) {
+    return this.id;
   };
 
   Case.associate = models => {

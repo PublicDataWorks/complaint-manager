@@ -63,16 +63,35 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Address.prototype.modelDescription = async (instance, options) => {
-    if (instance.addressableType === "cases") {
+  Address.prototype.modelDescription = async function(transaction) {
+    if (this.addressableType === "cases") {
       return "Incident Location";
     }
 
     const civilian = await sequelize
       .model("civilian")
-      .findById(instance.addressableId, { transaction: options.transaction });
+      .findById(this.addressableId, { transaction: transaction });
     if (civilian) {
       return `Address for ${civilian.fullName}`;
+    }
+
+    throw Boom.badImplementation(
+      "Civilian address cannot be created through nested include."
+    );
+  };
+
+  Address.prototype.getCaseId = async function(transaction) {
+    if (this.addressableType === "cases") {
+      return this.addressableId;
+    }
+    const civilian = await sequelize
+      .model("civilian")
+      .findById(this.addressableId, {
+        transaction: transaction
+      });
+
+    if (civilian) {
+      return civilian.caseId;
     }
 
     throw Boom.badImplementation(
