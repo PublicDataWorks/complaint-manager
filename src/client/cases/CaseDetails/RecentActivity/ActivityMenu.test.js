@@ -8,6 +8,8 @@ import {
   openUserActionDialog
 } from "../../../actionCreators/casesActionCreators";
 import { Provider } from "react-redux";
+import moment from "moment";
+import { initialize } from "redux-form";
 
 describe("ActivityMenu", () => {
   let wrapper, activityMenuButton, dispatchSpy, caseId, activity;
@@ -17,7 +19,8 @@ describe("ActivityMenu", () => {
     dispatchSpy = jest.spyOn(store, "dispatch");
     caseId = 1;
     activity = {
-      id: 1
+      id: 1,
+      actionTakenAt: moment()
     };
     wrapper = mount(
       <Provider store={store}>
@@ -56,7 +59,19 @@ describe("ActivityMenu", () => {
     editMenuItem.simulate("click");
     const activityMenu = wrapper.find(Menu);
 
-    expect(dispatchSpy).toHaveBeenCalledWith(openUserActionDialog("Edit"));
+    const valuesToInitialize = {
+      ...activity,
+      actionTakenAt: moment(activity.actionTakenAt).format(
+        "YYYY-MM-DDTHH:mm:ss"
+      )
+    };
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      initialize("UserActions", valuesToInitialize)
+    );
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openUserActionDialog("Edit", activity)
+    );
     expect(activityMenu.props().open).toEqual(false);
   });
 

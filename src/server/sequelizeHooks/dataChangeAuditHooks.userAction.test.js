@@ -1,7 +1,8 @@
 import Case from "../../client/testUtilities/case";
 import UserAction from "../../client/testUtilities/userAction";
 import models from "../models";
-import { DATA_CREATED } from "../../sharedUtilities/constants";
+import { DATA_CREATED, TIMEZONE } from "../../sharedUtilities/constants";
+import timezone from "moment-timezone";
 
 describe("dataChangeAuditHooks for userAction", () => {
   afterEach(async () => {
@@ -29,11 +30,15 @@ describe("dataChangeAuditHooks for userAction", () => {
       where: { modelName: "user_action", action: DATA_CREATED }
     });
 
+    const formattedActionTakenAt = timezone
+      .tz(userAction.actionTakenAt, TIMEZONE)
+      .format("MMM DD, YYYY h:mm:ss A z");
+
     expect(audit.caseId).toEqual(existingCase.id);
     expect(audit.modelId).toEqual(userAction.id);
     expect(audit.user).toEqual("someone");
     expect(audit.modelDescription).toEqual(
-      `Action: ${userAction.action}\nTaken At: ${userAction.actionTakenAt}`
+      `${userAction.action} (${formattedActionTakenAt})`
     );
   });
 });

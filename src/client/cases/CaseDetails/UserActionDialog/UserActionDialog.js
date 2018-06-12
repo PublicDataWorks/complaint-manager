@@ -20,22 +20,31 @@ import { userActions } from "../../../utilities/generateMenus";
 import addUserAction from "../../thunks/addUserAction";
 import { actionIsRequired } from "../../../formFieldLevelValidations";
 import timezone from "moment-timezone";
+import moment from "moment";
+import _ from "lodash";
 import { TIMEZONE } from "../../../../sharedUtilities/constants";
 import editUserAction from "../../thunks/editUserAction";
 
-const UserActionDialog = ({
-  open,
-  caseId,
-  handleSubmit,
-  dialogType,
-  dispatch
-}) => {
-  const submit = (values, dispatch) => {
-    const valuesToSubmit = {
-      ...values,
-      actionTakenAt: timezone.tz(values.actionTakenAt, TIMEZONE).format(),
-      caseId
-    };
+const UserActionDialog = props => {
+  const {
+    open,
+    caseId,
+    handleSubmit,
+    dialogType,
+    dispatch,
+    initialCaseNote
+  } = props;
+
+  const submit = (values, dispatch, props) => {
+    let valuesToSubmit = moment(values.actionTakenAt).isSame(
+      initialCaseNote.actionTakenAt
+    )
+      ? { ..._.omit(values, ["actionTakenAt"]), caseId }
+      : {
+          ...values,
+          actionTakenAt: timezone.tz(values.actionTakenAt, TIMEZONE).format(),
+          caseId
+        };
 
     switch (dialogType) {
       case "Add":
@@ -156,6 +165,7 @@ const ConnectedForm = reduxForm({
 const mapStateToProps = state => ({
   open: state.ui.userActionDialog.open,
   caseId: state.currentCase.details.id,
-  dialogType: state.ui.userActionDialog.dialogType
+  dialogType: state.ui.userActionDialog.dialogType,
+  initialCaseNote: state.ui.userActionDialog.initialCaseNote
 });
 export default connect(mapStateToProps)(ConnectedForm);

@@ -68,9 +68,10 @@ export const updateSort = sortBy => ({
   sortBy
 });
 
-export const openUserActionDialog = dialogType => ({
+export const openUserActionDialog = (dialogType, initialCaseNote) => ({
   type: USER_ACTION_DIALOG_OPENED,
-  dialogType
+  dialogType,
+  initialCaseNote
 });
 
 export const closeUserActionDialog = () => ({

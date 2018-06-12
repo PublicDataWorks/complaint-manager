@@ -66,15 +66,11 @@ describe("Case Details Component", () => {
   });
 
   test("should dispatch close edit dialog action on mount", () => {
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      closeEditDialog()
-    );
+    expect(dispatchSpy).toHaveBeenCalledWith(closeEditDialog());
   });
 
   test("should dispatch close user action dialog on mount", () => {
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      closeUserActionDialog()
-    );
+    expect(dispatchSpy).toHaveBeenCalledWith(closeUserActionDialog());
   });
 
   describe("nav bar", () => {
@@ -173,7 +169,7 @@ describe("Case Details Component", () => {
             .format("YYYY-MM-DDTHH:mm")
         })
       );
-      expect(dispatchSpy).toHaveBeenCalledWith(openUserActionDialog("Add"));
+      expect(dispatchSpy).toHaveBeenCalledWith(openUserActionDialog("Add", {}));
     });
   });
 });

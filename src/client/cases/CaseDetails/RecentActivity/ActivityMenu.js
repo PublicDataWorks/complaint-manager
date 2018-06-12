@@ -36,7 +36,7 @@ class ActivityMenu extends React.Component {
         )
       })
     );
-    this.props.dispatch(openUserActionDialog("Edit"));
+    this.props.dispatch(openUserActionDialog("Edit", this.props.activity));
     this.handleMenuClose();
   };
 

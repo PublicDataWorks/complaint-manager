@@ -1,3 +1,6 @@
+const timezone = require("moment-timezone");
+const { TIMEZONE } = require("../../sharedUtilities/constants");
+
 module.exports = (sequelize, DataTypes) => {
   const UserAction = sequelize.define(
     "user_action",
@@ -45,7 +48,11 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   UserAction.prototype.modelDescription = async function(transaction) {
-    return `Action: ${this.action}\nTaken At: ${this.actionTakenAt}`;
+    const formattedActionTakenAt = timezone
+      .tz(this.actionTakenAt, TIMEZONE)
+      .format("MMM DD, YYYY h:mm:ss A z");
+
+    return `${this.action} (${formattedActionTakenAt})`;
   };
 
   UserAction.prototype.getCaseId = async function(transaction) {

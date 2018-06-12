@@ -10,10 +10,9 @@ import {
 } from "../../../actionCreators/casesActionCreators";
 import { changeInput, selectDropdownOption } from "../../../../testHelpers";
 import addUserAction from "../../thunks/addUserAction";
-import timezone from "moment-timezone";
-import { TIMEZONE } from "../../../../sharedUtilities/constants";
-import { reset } from "redux-form";
+import { reset, initialize } from "redux-form";
 import editUserAction from "../../thunks/editUserAction";
+import moment from "moment";
 
 jest.mock("../../thunks/addUserAction", () => values => ({
   type: "MOCK_THUNK",
@@ -49,7 +48,7 @@ describe("UserActionDialog", () => {
     const store = createConfiguredStore();
     const dispatchSpy = jest.spyOn(store, "dispatch");
     const caseId = 12;
-    store.dispatch(openUserActionDialog("Edit"));
+    store.dispatch(openUserActionDialog("Edit", {}));
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId
@@ -93,7 +92,7 @@ describe("UserActionDialog", () => {
     const dispatchSpy = jest.spyOn(store, "dispatch");
     const caseId = 12;
 
-    store.dispatch(openUserActionDialog("Edit"));
+    store.dispatch(openUserActionDialog("Edit", {}));
 
     const wrapper = mount(
       <Provider store={store}>
@@ -117,11 +116,11 @@ describe("UserActionDialog", () => {
     );
   });
 
-  test("should submit form when Add Case Note is clicked", () => {
+  test("should submit form with new actionTakenAt when Add Case Note is clicked", () => {
     const store = createConfiguredStore();
     const dispatchSpy = jest.spyOn(store, "dispatch");
     const caseId = 12;
-    store.dispatch(openUserActionDialog("Add"));
+    store.dispatch(openUserActionDialog("Add", {}));
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId
@@ -162,7 +161,7 @@ describe("UserActionDialog", () => {
     const dispatchSpy = jest.spyOn(store, "dispatch");
     const caseId = 12;
 
-    store.dispatch(openUserActionDialog("Add"));
+    store.dispatch(openUserActionDialog("Add", {}));
 
     const wrapper = mount(
       <Provider store={store}>
@@ -185,5 +184,43 @@ describe("UserActionDialog", () => {
     expect(dispatchSpy).not.toHaveBeenCalledWith(
       addUserAction(submittedValues)
     );
+  });
+
+  test("should not submit actionTakenAt value when it is equal to current value", () => {
+    const store = createConfiguredStore();
+    const dispatchSpy = jest.spyOn(store, "dispatch");
+    const caseId = 12;
+    const actionTakenAt = new Date();
+    const initialValues = {
+      actionTakenAt: moment(actionTakenAt).format("YYYY-MM-DDTHH:mm:ss"),
+      action: "some action"
+    };
+
+    store.dispatch(initialize("UserActions", initialValues));
+    store.dispatch(openUserActionDialog("Edit", initialValues));
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId
+      })
+    );
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <UserActionDialog />
+      </Provider>
+    );
+
+    changeInput(wrapper, '[data-test="notesInput"]', "some notes");
+
+    const submitButton = wrapper.find('[data-test="submitButton"]').first();
+    submitButton.simulate("click");
+
+    const valuesToSubmit = {
+      caseId: caseId,
+      notes: "some notes",
+      action: "some action"
+    };
+
+    expect(dispatchSpy).toHaveBeenCalledWith(editUserAction(valuesToSubmit));
   });
 });

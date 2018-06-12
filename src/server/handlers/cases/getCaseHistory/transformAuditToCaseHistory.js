@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const fieldPatternToIgnore = "(.*Id$|^id$)";
+const fieldPatternToIgnore = "(.*Id$|^id$|addressableType)";
 
 const transformAuditToCaseHistory = dataChangeAudits => {
   const caseHistory = [];
@@ -20,7 +20,7 @@ const transformAuditToCaseHistory = dataChangeAudits => {
 };
 
 const transformAction = audit => {
-  return `${_.upperFirst(audit.modelName)} ${audit.action}`;
+  return `${_.startCase(audit.modelName)} ${audit.action}`;
 };
 
 const transformDetails = audit => {

@@ -9,25 +9,32 @@ describe("userActionDialogReducer", () => {
     const newState = userActionDialogReducer(undefined, {
       type: "some_action"
     });
-    expect(newState).toEqual({ open: false, dialogType: "Add" });
+    expect(newState).toEqual({
+      open: false,
+      dialogType: "Add",
+      initialCaseNote: {}
+    });
   });
 
   test("should set open to true and set the edit dialog state on openDialog", () => {
     const oldState = {
       open: false,
-      dialogType: "none"
+      dialogType: "none",
+      initialCaseNote: {}
     };
 
     const dialogType = "Edit";
+    const initialCaseNote = { some: "case note object" };
 
     const actualState = userActionDialogReducer(
       oldState,
-      openUserActionDialog(dialogType)
+      openUserActionDialog(dialogType, initialCaseNote)
     );
 
     const expectedState = {
       open: true,
-      dialogType
+      dialogType,
+      initialCaseNote: initialCaseNote
     };
 
     expect(actualState).toEqual(expectedState);

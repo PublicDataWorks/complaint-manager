@@ -180,7 +180,7 @@ class CaseDetails extends React.Component {
                       .format("YYYY-MM-DDTHH:mm")
                   })
                 );
-                this.props.dispatch(openUserActionDialog("Add"));
+                this.props.dispatch(openUserActionDialog("Add", {}));
                 this.handleMenuClose();
               }}
             >

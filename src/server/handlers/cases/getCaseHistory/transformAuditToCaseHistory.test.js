@@ -6,7 +6,7 @@ describe("transformAuditToCaseHistory", () => {
   test("it returns case history for given audits", () => {
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
-      .withModelName("civilian")
+      .withModelName("case_officer")
       .withModelDescription("Jasmine Rodda")
       .withModelId(5)
       .withCaseId(5)
@@ -21,7 +21,7 @@ describe("transformAuditToCaseHistory", () => {
     const expectedCaseHistories = [
       {
         user: audit.user,
-        action: "Civilian updated",
+        action: "Case Officer updated",
         details: {
           "First Name": { previous: "Emily", new: "Jasmine" }
         },
@@ -80,6 +80,23 @@ describe("transformAuditToCaseHistory", () => {
 
     const expectedDetails = {
       Incident: { previous: " ", new: "something" }
+    };
+    expect(caseHistories[0].details).toEqual(expectedDetails);
+  });
+
+  test("filters out addressable type", () => {
+    const auditChanges = {
+      id: { previous: null, new: 6 },
+      city: { previous: null, new: "Chicago" },
+      addressableType: { previous: null, new: "cases" }
+    };
+    const audit = new DataChangeAudit.Builder()
+      .defaultDataChangeAudit()
+      .withChanges(auditChanges);
+    const caseHistories = transformAuditToCaseHistory([audit]);
+
+    const expectedDetails = {
+      City: { previous: " ", new: "Chicago" }
     };
     expect(caseHistories[0].details).toEqual(expectedDetails);
   });
