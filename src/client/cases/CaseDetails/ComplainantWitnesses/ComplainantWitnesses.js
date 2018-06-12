@@ -13,13 +13,13 @@ const ComplainantWitnesses = props => {
   const sortedComplainants = _.orderBy(
     allComplainants,
     [o => o.createdAt],
-    ["desc"]
+    ["asc"]
   );
 
   const allWitnesses = props.caseDetail.witnessCivilians.concat(
     props.caseDetail.witnessOfficers
   );
-  const sortedWitnesses = _.orderBy(allWitnesses, [o => o.createdAt], ["desc"]);
+  const sortedWitnesses = _.orderBy(allWitnesses, [o => o.createdAt], ["asc"]);
 
   return (
     <BaseCaseDetailsCard

@@ -74,7 +74,7 @@ describe("Complainant and Witnesses", () => {
   });
 
   describe("Sort order", () => {
-    test("People should be sorted by createdAt descending", () => {
+    test("People should be sorted by createdAt ascending", () => {
       const civilian1 = new Civilian.Builder()
         .defaultCivilian()
         .withFirstName("Blake")
@@ -127,9 +127,9 @@ describe("Complainant and Witnesses", () => {
         complainantNames.map(complainant => complainant.text())
       );
       expect(uniqueComplainantNamesRendered).toEqual([
-        "Amy Anderson",
+        "Blake Anderson",
         "Amy Smith",
-        "Blake Anderson"
+        "Amy Anderson"
       ]);
     });
   });
