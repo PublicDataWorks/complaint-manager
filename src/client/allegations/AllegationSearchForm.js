@@ -11,7 +11,7 @@ import {
 import getSearchResults from "../shared/thunks/getSearchResults";
 import { PrimaryButton } from "../shared/components/StyledButtons";
 import { connect } from "react-redux";
-import { MenuItem } from "material-ui";
+import { MenuItem } from "@material-ui/core";
 import getAllegationDropdownValues from "../cases/thunks/getAllegationDropdownValues";
 
 class AllegationSearchForm extends React.Component {

@@ -4,9 +4,9 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
-  withStyles
-} from "material-ui";
+  DialogTitle
+} from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import { TextField } from "redux-form-material-ui";
 import DateField from "../../sharedFormComponents/DateField";
 import {

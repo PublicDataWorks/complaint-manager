@@ -1,14 +1,17 @@
 import React from "react";
-import Table, {
+import { withStyles } from "@material-ui/core/styles";
+import {
+  Table,
   TableBody,
   TableCell,
   TableHead,
-  TableRow
-} from "material-ui/Table";
-import Typography from "material-ui/Typography";
+  TableRow,
+  Paper,
+  TableSortLabel,
+  Typography
+} from "@material-ui/core";
 import { connect } from "react-redux";
 import CaseRow from "./CaseRow";
-import { Paper, TableSortLabel, withStyles } from "material-ui";
 import tableStyleGenerator from "../../tableStyles";
 import { updateSort } from "../../actionCreators/casesActionCreators";
 import sortBy from "../../utilities/sortBy";

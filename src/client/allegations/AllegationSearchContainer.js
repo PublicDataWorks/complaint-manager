@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import NavBar from "../shared/components/NavBar/NavBar";
-import { Table, TableBody, Typography } from "material-ui";
+import { Table, TableBody, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LinkButton from "../shared/components/LinkButton";
 import { connect } from "react-redux";

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Typography } from "material-ui";
+import { Typography } from "@material-ui/core";
 import AttachmentsRow from "./AttachmentsRow";
 import _ from "lodash";
 import RemoveAttachmentConfirmationDialog from "./RemoveAttachmentConfirmationDialog";

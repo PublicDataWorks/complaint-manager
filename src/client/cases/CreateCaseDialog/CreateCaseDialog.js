@@ -8,8 +8,8 @@ import {
   DialogContentText,
   DialogTitle,
   Typography
-} from "material-ui";
-import { withTheme } from "material-ui/styles";
+} from "@material-ui/core";
+import { withTheme } from "@material-ui/core/styles";
 import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import createCase from "../thunks/createCase";
 import { closeSnackbar } from "../../actionCreators/snackBarActionCreators";

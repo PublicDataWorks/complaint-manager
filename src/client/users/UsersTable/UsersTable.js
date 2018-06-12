@@ -1,17 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 import {
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Typography,
-  withStyles
-} from "material-ui";
+  Typography
+} from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import UserRow from "./UserRow";
 import getUsers from "../thunks/getUsers";
-import Paper from "material-ui/Paper";
 import tableStyleGenerator from "../../tableStyles";
 import _ from "lodash";
 

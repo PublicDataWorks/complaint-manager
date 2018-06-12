@@ -1,5 +1,6 @@
 import React from "react";
-import { TableCell, TableRow, withStyles } from "material-ui";
+import { TableCell, TableRow } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import formatDate from "../../utilities/formatDate";
 import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";

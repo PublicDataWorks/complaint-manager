@@ -9,7 +9,7 @@ import editCivilian from "../../thunks/editCivilian";
 import LinkButton from "../../../shared/components/LinkButton";
 import StyledExpansionPanelDetails from "./StyledExpansionPanelDetails";
 import CivilianInfoDisplay from "./CivilianInfoDisplay";
-import { Divider, ExpansionPanel, ExpansionPanelSummary } from "material-ui";
+import { Divider, ExpansionPanel, ExpansionPanelSummary } from "@material-ui/core";
 import formatDate from "../../../utilities/formatDate";
 import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
 import AddresesInfoDisplay from "../../../shared/components/AddressInfoDisplay";

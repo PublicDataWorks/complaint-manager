@@ -1,5 +1,6 @@
 import React from "react";
-import { IconButton, Snackbar, withStyles } from "material-ui";
+import { IconButton, Snackbar } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";
 
 const styleSheet = theme => ({
@@ -20,7 +21,7 @@ const SharedSnackbar = props => (
       onClose={() => {
         props.closeSnackbar();
       }}
-      SnackbarContentProps={{
+      ContentProps={{
         classes: {
           root: props.success ? props.classes.success : props.classes.error
         },

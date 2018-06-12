@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuItem } from "material-ui";
+import { MenuItem } from "@material-ui/core";
 import * as _ from "lodash";
 import formatStringToTitleCase from "./formatStringToTitleCase";
 

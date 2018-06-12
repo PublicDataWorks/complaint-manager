@@ -1,19 +1,12 @@
 import React from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import Settings from "@material-ui/icons/Settings";
-import {
-  AppBar,
-  IconButton,
-  Menu,
-  MenuItem,
-  Toolbar,
-  Typography
-} from "material-ui";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import {AppBar, IconButton, Menu, MenuItem, Toolbar, Typography} from "@material-ui/core";
+import {Link} from "react-router-dom";
+import {connect} from "react-redux";
 import ExportAuditLogConfirmationDialog from "./ExportAuditLogConfirmationDialog";
 import handleLogout from "../../../users/thunks/handleLogout";
-import { EXPORT_AUDIT_LOG } from "../../../../sharedUtilities/constants";
+import {EXPORT_AUDIT_LOG} from "../../../../sharedUtilities/constants";
 
 const styles = {
   appBarStyle: {

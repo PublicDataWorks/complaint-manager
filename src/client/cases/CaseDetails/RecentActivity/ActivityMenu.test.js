@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import ActivityMenu from "./ActivityMenu";
-import { Backdrop, Menu } from "material-ui";
+import { Backdrop, Menu } from "@material-ui/core";
 import createConfiguredStore from "../../../createConfiguredStore";
 import {
   openRemoveUserActionDialog,

@@ -1,6 +1,11 @@
 import React, { Component } from "react";
-import { Paper, Table, TableBody, Typography } from "material-ui";
-import { LinearProgress } from "material-ui/Progress";
+import {
+  Paper,
+  Table,
+  TableBody,
+  Typography,
+  LinearProgress
+} from "@material-ui/core";
 import { searchCleared } from "../../actionCreators/searchActionCreators";
 
 export class SearchResults extends Component {

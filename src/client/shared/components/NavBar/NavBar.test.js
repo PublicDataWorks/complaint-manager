@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import NavBar from "./NavBar";
-import { Backdrop } from "material-ui";
+import { Backdrop } from "@material-ui/core";
 import { BrowserRouter as Router } from "react-router-dom";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";

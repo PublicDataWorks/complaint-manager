@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   Typography
-} from "material-ui";
+} from "@material-ui/core";
 import { TextField } from "redux-form-material-ui";
 import { connect } from "react-redux";
 import {

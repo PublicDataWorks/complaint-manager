@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "material-ui/styles";
-import Typography from "material-ui/Typography";
+import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import NavBar from "../../shared/components/NavBar/NavBar";
 import { connect } from "react-redux";
 import Narrative from "./Narrative";
@@ -12,9 +12,9 @@ import * as _ from "lodash";
 import Attachments from "./Attachments/Attachments";
 import styles from "./caseDetailsStyles";
 import CaseDrawer from "./CaseDrawer";
-import Button from "material-ui/Button";
-import AddIcon from "@material-ui/icons/Add";
-import { Menu, MenuItem } from "material-ui";
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import { Menu, MenuItem } from "@material-ui/core";
 import IncidentDetailsContainer from "./IncidentDetails/IncidentDetailsContainer";
 import {
   openCivilianDialog,

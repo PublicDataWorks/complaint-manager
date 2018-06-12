@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import Autosuggest from "react-autosuggest";
 import match from "autosuggest-highlight/match";
 import parse from "autosuggest-highlight/parse";
-import { MenuItem, Paper, TextField } from "material-ui";
+import { MenuItem, Paper, TextField } from "@material-ui/core";
 import { change, clearSubmitErrors } from "redux-form";
 import { connect } from "react-redux";
-import { withStyles } from "material-ui/styles/index";
+import { withStyles } from "@material-ui/core/styles";
 import poweredByGoogle from "../../../../assets/powered_by_google_on_white_hdpi.png";
 import formatAddress from "../../../utilities/formatAddress";
 

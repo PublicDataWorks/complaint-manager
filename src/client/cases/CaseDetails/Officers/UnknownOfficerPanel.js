@@ -1,4 +1,4 @@
-import { Divider, ExpansionPanel, ExpansionPanelSummary } from "material-ui";
+import { Divider, ExpansionPanel, ExpansionPanelSummary } from "@material-ui/core";
 import React from "react";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";

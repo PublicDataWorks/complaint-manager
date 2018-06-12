@@ -9,7 +9,7 @@ import LinkButton from "../../../shared/components/LinkButton";
 import IncidentDetailsDialog from "./IncidentDetailsDialog";
 import AddressInfoDisplay from "../../../shared/components/AddressInfoDisplay";
 import { initialize, reset } from "redux-form";
-import { CardContent } from "material-ui";
+import { CardContent } from "@material-ui/core";
 
 class IncidentDetails extends React.Component {
   state = {

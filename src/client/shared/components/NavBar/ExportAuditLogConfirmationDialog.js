@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   Typography
-} from "material-ui";
+} from "@material-ui/core";
 import { SecondaryButton, PrimaryButton } from "../StyledButtons";
 import moment from "moment";
 import downloader from "../../../cases/thunks/downloader";

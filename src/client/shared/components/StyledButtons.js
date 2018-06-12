@@ -1,4 +1,4 @@
-import { Button } from "material-ui";
+import { Button } from "@material-ui/core";
 import React from "react";
 
 export const SecondaryButton = ({ children, onClick, ...other }) => {

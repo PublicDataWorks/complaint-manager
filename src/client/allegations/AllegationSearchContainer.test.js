@@ -8,7 +8,7 @@ import Case from "../testUtilities/case";
 import CaseOfficer from "../testUtilities/caseOfficer";
 import Officer from "../testUtilities/Officer";
 import { getCaseDetailsSuccess } from "../actionCreators/casesActionCreators";
-import { Table } from "material-ui";
+import { Table } from "@material-ui/core";
 import getCaseDetails from "../cases/thunks/getCaseDetails";
 
 jest.mock("../cases/thunks/getCaseDetails", () => caseId => ({

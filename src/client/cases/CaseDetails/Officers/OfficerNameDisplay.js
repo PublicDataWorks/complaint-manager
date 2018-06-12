@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "material-ui";
+import { Typography } from "@material-ui/core";
 
 const OfficerNameDisplay = props => {
   return (

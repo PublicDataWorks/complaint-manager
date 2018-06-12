@@ -1,5 +1,6 @@
 import React from "react";
-import { FormControl, FormControlLabel, Radio, withStyles } from "material-ui";
+import { FormControl, FormControlLabel, Radio } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import { RadioGroup } from "redux-form-material-ui";
 import {
   ACCUSED,

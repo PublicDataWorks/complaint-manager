@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   Typography
-} from "material-ui";
+} from "@material-ui/core";
 import {
   SecondaryButton,
   PrimaryButton

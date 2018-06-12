@@ -1,6 +1,6 @@
 import React from "react";
 import OfficerSearchTableHeader from "../OfficerSearch/OfficerSearchTableHeader";
-import { Card, CardContent, Table, TableBody, Typography } from "material-ui";
+import { Card, CardContent, Table, TableBody, Typography } from "@material-ui/core";
 import OfficerSearchResultsRow from "../OfficerSearch/OfficerSearchResults/OfficerSearchResultsRow";
 import { TextField } from "redux-form-material-ui";
 import OfficerTypeRadioGroup from "./OfficerTypeRadioGroup";

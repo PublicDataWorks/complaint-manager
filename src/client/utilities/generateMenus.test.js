@@ -7,7 +7,7 @@ import {
   searchRuleMenu
 } from "./generateMenus";
 import { mount } from "enzyme";
-import { Select } from "material-ui";
+import { Select } from "@material-ui/core";
 
 const getMenuOptions = mountedComponent => {
   return mountedComponent.find('li[role="option"]').map(node => node.text());

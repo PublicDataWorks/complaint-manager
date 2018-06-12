@@ -5,7 +5,7 @@ import {
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
 import LinkButton from "../../../shared/components/LinkButton";
-import { Button } from "material-ui";
+import { Button } from "@material-ui/core";
 import { SecondaryButton } from "../../../shared/components/StyledButtons";
 import { Link } from "react-router-dom";
 

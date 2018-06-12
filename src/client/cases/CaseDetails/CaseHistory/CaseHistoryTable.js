@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Paper, Table, TableBody, Typography, withStyles } from "material-ui";
+import { Paper, Table, TableBody, Typography } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import tableStyleGenerator from "../../../tableStyles";
 import CaseHistoryTableHeader from "./CaseHistoryTableHeader";
 import { connect } from "react-redux";

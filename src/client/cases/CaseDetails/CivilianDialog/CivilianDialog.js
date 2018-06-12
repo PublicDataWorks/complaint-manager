@@ -6,14 +6,16 @@ import {
   reduxForm,
   SubmissionError
 } from "redux-form";
+import { RadioGroup } from "redux-form-material-ui";
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Typography
-} from "material-ui";
-import RoleOnCaseRadioGroup from "./RoleOnCaseRadioGroup";
+  Typography,
+  FormControlLabel,
+  Radio
+} from "@material-ui/core";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";
 import LastNameField from "../../sharedFormComponents/LastNameField";
 import {
@@ -29,7 +31,7 @@ import {
   raceEthnicityIsRequired
 } from "../../../formFieldLevelValidations";
 import NoBlurTextField from "./FormSelect";
-import { withTheme } from "material-ui/styles/index";
+import { withTheme } from "@material-ui/core/styles";
 import DateField from "../../sharedFormComponents/DateField";
 import MiddleInitialField from "../../sharedFormComponents/MiddleInitialField";
 import SuffixField from "../../sharedFormComponents/SuffixField";
@@ -44,7 +46,11 @@ import {
 import validate from "./helpers/validateCivilianFields";
 import AddressInput from "./AddressInput";
 import { TextField } from "redux-form-material-ui";
-import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
+import {
+  CIVILIAN_FORM_NAME,
+  COMPLAINANT,
+  WITNESS
+} from "../../../../sharedUtilities/constants";
 import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
 import { addressMustBeAutoSuggested } from "../../../formValidations";
 import AdditionalAddressInfoField from "../../sharedFormComponents/AdditionalAddressInfoField";
@@ -76,12 +82,28 @@ class CivilianDialog extends Component {
         </DialogTitle>
         <DialogContent style={{ padding: "0px 24px" }}>
           <form>
-            <Field type={"hidden"} name={"caseId"} component={TextField} />
+            <Typography variant="body2" style={{ marginBottom: "8px" }}>
+              Role On Case
+            </Typography>
             <Field
               name="roleOnCase"
-              component={RoleOnCaseRadioGroup}
-              style={{ marginBottom: "8px" }}
-            />
+              component={RadioGroup}
+              style={{ flexDirection: "row", marginBottom: "24px" }}
+              data-test="roleOnCaseRadioGroup"
+            >
+              <FormControlLabel
+                style={{ marginRight: "48px" }}
+                value={COMPLAINANT}
+                control={<Radio color="primary" />}
+                label={COMPLAINANT}
+              />
+              <FormControlLabel
+                style={{ marginRight: "48px" }}
+                value={WITNESS}
+                control={<Radio color="primary" />}
+                label={WITNESS}
+              />
+            </Field>
 
             <Typography variant="body2" style={{ marginBottom: "8px" }}>
               Personal Information
@@ -182,6 +204,7 @@ class CivilianDialog extends Component {
               }}
               data-test="additionalInfoField"
             />
+            <Field type={"hidden"} name={"caseId"} component={TextField} />
           </form>
         </DialogContent>
         <DialogActions

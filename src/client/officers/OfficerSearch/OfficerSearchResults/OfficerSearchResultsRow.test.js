@@ -2,7 +2,7 @@ import OfficerSearchResultsRow from "./OfficerSearchResultsRow";
 import { mount } from "enzyme";
 import React from "react";
 import Officer from "../../../testUtilities/Officer";
-import { Table, TableBody } from "material-ui";
+import { Table, TableBody } from "@material-ui/core";
 
 test("it can render officer search results with correct styles", () => {
   const officer = new Officer.Builder()

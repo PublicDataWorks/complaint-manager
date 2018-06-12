@@ -1,6 +1,6 @@
 import React from "react";
 import ReportProblemIcon from "@material-ui/icons/ReportProblem";
-import { withStyles } from "material-ui";
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   warnIcon: {

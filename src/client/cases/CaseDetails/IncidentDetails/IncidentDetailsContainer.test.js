@@ -13,7 +13,7 @@ import {
   expectEventuallyNotToExist,
   selectDropdownOption
 } from "../../../../testHelpers";
-import { DialogContent } from "material-ui";
+import { DialogContent } from "@material-ui/core";
 
 jest.mock("../../thunks/editIncidentDetails", () =>
   jest.fn(values => ({

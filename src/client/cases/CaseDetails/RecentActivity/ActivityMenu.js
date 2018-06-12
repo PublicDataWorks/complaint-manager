@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
-import { IconButton, MenuItem } from "material-ui";
+import { IconButton, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { Menu } from "material-ui";
+import { Menu } from "@material-ui/core";
 import { connect } from "react-redux";
 import {
   openRemoveUserActionDialog,

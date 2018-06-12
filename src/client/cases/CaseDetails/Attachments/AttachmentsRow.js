@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, Typography } from "material-ui";
+import { Divider, Typography } from "@material-ui/core";
 import styles from "../../../globalStyling/styles";
 import LinkButton from "../../../shared/components/LinkButton";
 import downloader from "../../thunks/downloader";

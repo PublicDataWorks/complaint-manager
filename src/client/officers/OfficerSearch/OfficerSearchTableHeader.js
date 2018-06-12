@@ -3,9 +3,9 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography,
-  withStyles
-} from "material-ui";
+  Typography
+} from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import tableStyleGenerator from "../../tableStyles";
 
 const styles = theme => ({

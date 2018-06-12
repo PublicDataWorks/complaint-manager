@@ -1,5 +1,5 @@
 import React from "react";
-import { ExpansionPanelDetails } from "material-ui";
+import { ExpansionPanelDetails } from "@material-ui/core";
 
 const StyledExpansionPanelDetails = props => (
   <ExpansionPanelDetails style={{ padding: "8px 24px 24px 24px" }}>

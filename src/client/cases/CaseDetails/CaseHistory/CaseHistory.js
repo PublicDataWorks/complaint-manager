@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import NavBar from "../../../shared/components/NavBar/NavBar";
-import { Typography } from "material-ui";
+import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LinkButton from "../../../shared/components/LinkButton";
 import CaseHistoryTable from "./CaseHistoryTable";

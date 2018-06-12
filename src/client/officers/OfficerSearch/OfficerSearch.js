@@ -1,6 +1,6 @@
 import React from "react";
 import OfficerSearchForm from "./OfficerSearchForm/OfficerSearchForm";
-import { Card, CardContent, Typography } from "material-ui";
+import { Card, CardContent, Typography } from "@material-ui/core";
 import OfficerSearchResults from "./OfficerSearchResults/OfficerSearchResults";
 import StyledLink from "../../shared/components/StyledLink";
 import { selectUnknownOfficer } from "../../actionCreators/officersActionCreators";

@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "material-ui";
+import { Typography } from "@material-ui/core";
 
 const OfficerInfoDisplay = props => (
   <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }}>

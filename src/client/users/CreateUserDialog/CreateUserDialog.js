@@ -8,7 +8,7 @@ import {
   DialogContent,
   DialogTitle,
   withTheme
-} from "material-ui";
+} from "@material-ui/core";
 import {
   SecondaryButton,
   PrimaryButton

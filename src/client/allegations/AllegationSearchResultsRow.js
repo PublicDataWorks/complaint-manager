@@ -1,6 +1,7 @@
 import React from "react";
 import tableStyleGenerator from "../tableStyles";
-import { TableCell, TableRow, withStyles } from "material-ui";
+import { TableCell, TableRow } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import formatStringToTitleCase from "../utilities/formatStringToTitleCase";
 
 const styles = theme => ({

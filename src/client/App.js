@@ -3,11 +3,11 @@ import { Route } from "react-router-dom";
 import { ConnectedRouter } from "react-router-redux";
 import history from "./history";
 import StyleGuide from "./globalStyling/StyleGuide";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import { MuiThemeProvider } from "@material-ui/core/styles"
 import customTheme from "./globalStyling/muiTheme";
 import CaseDashboard from "./cases/CaseDashboard";
 import UserDashboard from "./users/UserDashboard";
-import { Paper } from "material-ui";
+import { Paper } from "@material-ui/core";
 import Login from "./Login";
 import Callback from "./Callback";
 import CaseDetails from "./cases/CaseDetails/CaseDetails";

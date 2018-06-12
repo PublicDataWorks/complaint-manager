@@ -1,14 +1,19 @@
 import React from "react";
-import Card from "material-ui/Card";
-import GridList, { GridListTile, GridListTileBar } from "material-ui/GridList";
-import Typography from "material-ui/Typography";
+import {
+  Card,
+  Typography,
+  GridList,
+  GridListTile,
+  GridListTileBar,
+  CardContent,
+  withTheme
+} from "@material-ui/core";
 import NavBar from "../shared/components/NavBar/NavBar";
 import StyledLink from "../shared/components/StyledLink";
 import {
   PrimaryButton,
   SecondaryButton
 } from "../shared/components/StyledButtons";
-import { CardContent, withTheme } from "material-ui";
 import LinkButton from "../shared/components/LinkButton";
 
 const getBoxStyle = color => ({

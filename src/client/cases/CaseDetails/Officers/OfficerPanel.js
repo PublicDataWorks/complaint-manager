@@ -3,7 +3,7 @@ import {
   Divider,
   ExpansionPanel,
   ExpansionPanelSummary
-} from "material-ui";
+} from "@material-ui/core";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
 import formatDate from "../../../utilities/formatDate";

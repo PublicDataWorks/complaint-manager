@@ -1,4 +1,5 @@
-import { Button, withStyles } from "material-ui";
+import { Button } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import React from "react";
 import themeStyles from "../../globalStyling/styles";
 

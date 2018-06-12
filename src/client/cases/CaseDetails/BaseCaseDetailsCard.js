@@ -1,6 +1,6 @@
 import React from "react";
-import { Card, CardContent, Divider, Typography } from "material-ui";
-import { withStyles } from "material-ui";
+import { Card, CardContent, Divider, Typography } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = {
   subtitle: {

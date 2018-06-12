@@ -5,7 +5,7 @@ import {
   FormLabel,
   Radio,
   Typography
-} from "material-ui";
+} from "@material-ui/core";
 import { RadioGroup } from "redux-form-material-ui";
 import * as _ from "lodash";
 
