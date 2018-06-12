@@ -6,23 +6,18 @@ const createCivilian = asyncMiddleware(async (req, res) => {
   const caseId = await models.sequelize.transaction(async t => {
     let values = req.body;
 
-    const civilianCreated = await models.civilian.create(values, {
-      transaction: t,
-      auditUser: req.nickname
-    });
-
     if (req.body.address) {
       values.address = {
         ...req.body.address,
-        addressableType: "civilian",
-        addressableId: civilianCreated.id
+        addressableType: "civilian"
       };
-
-      await civilianCreated.createAddress(values.address, {
-        auditUser: req.nickname,
-        transaction: t
-      });
     }
+
+    const civilianCreated = await models.civilian.create(values, {
+      transaction: t,
+      auditUser: req.nickname,
+      include: [{ model: models.address, auditUser: req.nickname }]
+    });
 
     await models.cases.update(
       {

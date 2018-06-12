@@ -30,7 +30,7 @@ const editCivilian = asyncMiddleware(async (req, res) => {
 
     //if there are address values to update
     if (address) {
-      await upsertAddress(civilianValues.id, address, t, req.nickname);
+      await upsertAddress(req.params.id, address, t, req.nickname);
     }
 
     const updatedCivilian = await models.civilian.update(civilianValues, {

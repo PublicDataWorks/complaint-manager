@@ -117,6 +117,50 @@ describe("dataChangeAuditHooks", () => {
         );
       });
 
+      test("it does not allow for model with no model description method", async () => {
+        let testInstance = await models.cases.create(initialCaseAttributes, {
+          auditUser: "test user"
+        });
+
+        testInstance.modelDescription = undefined;
+        try {
+          await testInstance.update(
+            { firstContactDate: new Date() },
+            { auditUser: "test user" }
+          );
+          const audit = await models.data_change_audit.find({
+            where: { modelName: "case", action: DATA_UPDATED }
+          });
+          expect(audit).toEqual(null);
+        } catch (error) {
+          expect(error.message).toEqual(
+            "Model must implement modelDescription (case)"
+          );
+        }
+      });
+
+      test("it does not create audit if caseId is null", async () => {
+        let testInstance = await models.cases.create(initialCaseAttributes, {
+          auditUser: "test user"
+        });
+
+        testInstance.getCaseId = undefined;
+        try {
+          await testInstance.update(
+            { firstContactDate: new Date() },
+            { auditUser: "test user" }
+          );
+          const audit = await models.data_change_audit.find({
+            where: { modelName: "case", action: DATA_UPDATED }
+          });
+          expect(audit).toEqual(null);
+        } catch (error) {
+          expect(error.message).toEqual(
+            "Model must implement getCaseId (case)"
+          );
+        }
+      });
+
       test("it does not create the case if the audit fails", async () => {
         await models.cases.truncate({ cascade: true, auditUser: "test user" });
         try {

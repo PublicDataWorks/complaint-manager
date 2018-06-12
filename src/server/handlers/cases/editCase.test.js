@@ -16,12 +16,21 @@ describe("Edit Case", () => {
     addressAttributes,
     civilianAttributes;
 
+  const initialCityValue = "Old City";
   beforeEach(async () => {
     const sharedId = 55;
     civilianAttributes = new Civilian.Builder()
       .defaultCivilian()
       .withNoAddress()
       .withId(sharedId)
+      .build();
+
+    const incidentLocation = new Address.Builder()
+      .defaultAddress()
+      .withCity(initialCityValue)
+      .withAddressableType("cases")
+      .withAddressableId(undefined)
+      .withId(undefined)
       .build();
 
     initialCaseAttributes = new Case.Builder()
@@ -32,7 +41,7 @@ describe("Edit Case", () => {
       .withIncidentTime("01:01")
       .withIncidentDate("2017-01-02")
       .withComplainantCivilians([civilianAttributes])
-      .withIncidentLocation(undefined);
+      .withIncidentLocation(incidentLocation);
 
     existingCase = await models.cases.create(initialCaseAttributes, {
       auditUser: "someone",
@@ -41,6 +50,11 @@ describe("Edit Case", () => {
           model: models.civilian,
           auditUser: "test user",
           as: "complainantCivilians"
+        },
+        {
+          model: models.address,
+          as: "incidentLocation",
+          auditUser: "test user"
         }
       ]
     });
@@ -87,7 +101,7 @@ describe("Edit Case", () => {
     await models.data_change_audit.truncate();
   });
 
-  test("should call update the case", async () => {
+  test("should update the case", async () => {
     await editCase(request, response, next);
     await existingCase.reload();
     expect(existingCase.dataValues.firstContactDate).toEqual("2018-02-08");
@@ -102,12 +116,7 @@ describe("Edit Case", () => {
 
   test("should not update address if the case fails to update", async () => {
     valuesToUpdate.status = null;
-    valuesToUpdate.incidentLocation = new Address.Builder()
-      .defaultAddress()
-      .withId(undefined)
-      .withStreetAddress("1234 Main St")
-      .withNoAddressable()
-      .build();
+    valuesToUpdate.incidentLocation = { city: "New City" };
     request = httpMocks.createRequest({
       method: "PUT",
       headers: {
@@ -122,7 +131,7 @@ describe("Edit Case", () => {
     const updatedCase = await models.cases.findById(existingCase.id, {
       include: [{ model: models.address, as: "incidentLocation" }]
     });
-    expect(updatedCase.incidentLocation).toEqual(null);
+    expect(updatedCase.incidentLocation.city).toEqual(initialCityValue);
   });
 
   test("should respond with 400 when required field (firstContactDate) is not provided", async () => {
@@ -133,7 +142,7 @@ describe("Edit Case", () => {
       },
       params: { id: existingCase.id },
       body: {
-        incidentTime: "17:42",
+        incidentLocation: { city: "New City" },
         incidentDateNew: "2018-03-16"
       },
       nickname: "TEST_USER_NICKNAME"
@@ -142,10 +151,17 @@ describe("Edit Case", () => {
     await editCase(requestWithoutFirstContactDate, response, next);
 
     expect(response.statusCode).toEqual(400);
-    await existingCase.reload();
-    expect(existingCase.dataValues.firstContactDate).toEqual(
-      initialCaseAttributes.firstContactDate
-    );
+    await existingCase.reload({
+      include: [
+        {
+          model: models.civilian,
+          as: "complainantCivilians",
+          include: [models.address]
+        },
+        { model: models.address, as: "incidentLocation" }
+      ]
+    });
+    expect(existingCase.incidentLocation.city).toEqual(initialCityValue);
   });
 
   test("should respond with 400 when firstContactDate is invalid date", async () => {
@@ -157,7 +173,7 @@ describe("Edit Case", () => {
       params: { id: existingCase.id },
       body: {
         firstContactDate: "",
-        incidentTime: "17:42",
+        incidentLocation: { city: "New City" },
         incidentDateNew: "2018-03-16"
       },
       nickname: "TEST_USER_NICKNAME"
@@ -166,10 +182,17 @@ describe("Edit Case", () => {
     await editCase(requestWithoutFirstContactDate, response, next);
 
     expect(response.statusCode).toEqual(400);
-    await existingCase.reload();
-    expect(existingCase.dataValues.firstContactDate).toEqual(
-      initialCaseAttributes.firstContactDate
-    );
+    await existingCase.reload({
+      include: [
+        {
+          model: models.civilian,
+          as: "complainantCivilians",
+          include: [models.address]
+        },
+        { model: models.address, as: "incidentLocation" }
+      ]
+    });
+    expect(existingCase.incidentLocation.city).toEqual(initialCityValue);
   });
 
   test("should call next if error occurs on edit", async () => {
@@ -202,12 +225,13 @@ describe("Edit Case", () => {
     expect(existingCase.dataValues.createdBy).toEqual("ORIGINAL_USER");
   });
 
-  test("should not change civilian address when incident location edited", async () => {
+  test("should change incident location and not change civilian address when incident location edited", async () => {
     valuesToUpdate = {
-      incidentLocation: { city: "Durham" }
+      firstContactDate: new Date(),
+      incidentLocation: { id: existingCase.incidentLocation.id, city: "Durham" }
     };
 
-    const requestWithCreatedBy = httpMocks.createRequest({
+    const request = httpMocks.createRequest({
       method: "PUT",
       headers: {
         authorization: "Bearer SOME_MOCK_TOKEN"
@@ -217,12 +241,21 @@ describe("Edit Case", () => {
       nickname: "TEST_USER_NICKNAME"
     });
 
-    await editCase(requestWithCreatedBy, response, next);
-    await existingCase.complainantCivilians[0].reload({
-      include: [models.address]
+    await editCase(request, response, next);
+    await existingCase.reload({
+      include: [
+        {
+          model: models.civilian,
+          as: "complainantCivilians",
+          include: [models.address]
+        },
+        { model: models.address, as: "incidentLocation" }
+      ]
     });
+
     expect(existingCase.complainantCivilians[0].address.city).not.toEqual(
       "Durham"
     );
+    expect(existingCase.incidentLocation.city).toEqual("Durham");
   });
 });

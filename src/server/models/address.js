@@ -71,13 +71,8 @@ module.exports = (sequelize, DataTypes) => {
     const civilian = await sequelize
       .model("civilian")
       .findById(this.addressableId, { transaction: transaction });
-    if (civilian) {
-      return `Address for ${civilian.fullName}`;
-    }
 
-    throw Boom.badImplementation(
-      "Civilian address cannot be created through nested include."
-    );
+    return `Address for ${civilian.fullName}`;
   };
 
   Address.prototype.getCaseId = async function(transaction) {
@@ -90,13 +85,7 @@ module.exports = (sequelize, DataTypes) => {
         transaction: transaction
       });
 
-    if (civilian) {
-      return civilian.caseId;
-    }
-
-    throw Boom.badImplementation(
-      "Civilian address cannot be created through nested include."
-    );
+    return civilian.caseId;
   };
 
   Address.auditDataChange();

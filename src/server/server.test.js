@@ -302,7 +302,8 @@ describe("server", () => {
                   firstName: newCivilian.firstName,
                   caseId: existingCase.id,
                   address: expect.objectContaining({
-                    city: "post city"
+                    city: "post city",
+                    addressableType: "civilian"
                   })
                 })
               ])

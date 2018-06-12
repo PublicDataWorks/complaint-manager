@@ -110,19 +110,33 @@ exports.init = sequelize => {
     throw Boom.notImplemented(`Audit is not implemented for this function.`);
   };
 
-  const getModelDescription = async (instance, transaction) => {
-    const modelDescription = await instance.modelDescription(transaction);
-    if (modelDescription !== null && modelDescription !== undefined) {
-      return modelDescription;
+  const getModelDescription = async (modelName, instance, transaction) => {
+    if (instance.modelDescription) {
+      const modelDescription = await instance.modelDescription(transaction);
+
+      if (modelDescription !== null && modelDescription !== undefined) {
+        return modelDescription;
+      }
+    }
+    throw Boom.badImplementation(
+      `Model must implement modelDescription (${modelName})`
+    );
+  };
+
+  const getCaseId = async (modelName, instance, transaction) => {
+    if (instance.getCaseId) {
+      return await instance.getCaseId(transaction);
     }
 
-    throw Boom.badImplementation("Model must supply model description");
+    throw Boom.badImplementation(
+      `Model must implement getCaseId (${modelName})`
+    );
   };
 
   const createDataChangeAudit = async (instance, options, action) => {
     const changes = objectChanges(action, instance);
     const modelName = instance._modelOptions.name.singular;
-    const caseId = await instance.getCaseId(options.transaction);
+    const caseId = await getCaseId(modelName, instance, options.transaction);
     if (_.isEmpty(changes)) return;
     await sequelize.model("data_change_audit").create(
       {
@@ -131,6 +145,7 @@ exports.init = sequelize => {
         modelName: instance._modelOptions.name.singular,
         modelId: instance.id,
         modelDescription: await getModelDescription(
+          modelName,
           instance,
           options.transaction
         ),

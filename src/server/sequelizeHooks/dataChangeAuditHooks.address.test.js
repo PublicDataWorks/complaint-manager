@@ -94,14 +94,20 @@ describe("dataChangeAuditHooks address", () => {
     });
   });
 
-  describe("civilian address", () => {
+  describe("civilian address created with nested include", () => {
     let createdCase, createdCivilian, createdAddress;
 
     beforeEach(async () => {
+      const address = new Address.Builder()
+        .defaultAddress()
+        .withId(undefined)
+        .withAddressableId(undefined)
+        .withAddressableType("civilian")
+        .build();
       const civilian = new Civilian.Builder()
         .defaultCivilian()
         .withId(undefined)
-        .withNoAddress()
+        .withAddress(address)
         .withRoleOnCase("Complainant")
         .build();
       const caseDetails = new Case.Builder()
@@ -115,22 +121,15 @@ describe("dataChangeAuditHooks address", () => {
           {
             model: models.civilian,
             as: "complainantCivilians",
-            auditUser: "someone"
+            auditUser: "someone",
+            include: [{ model: models.address, auditUser: "someone" }]
           }
         ],
         auditUser: "someone"
       });
 
       createdCivilian = createdCase.complainantCivilians[0];
-      const address = new Address.Builder()
-        .defaultAddress()
-        .withId(undefined)
-        .withAddressableId(createdCivilian.id)
-        .withAddressableType("civilian")
-        .build();
-      createdAddress = await models.address.create(address, {
-        auditUser: "someone"
-      });
+      createdAddress = createdCivilian.address;
     });
 
     test("should audit civilian address", async () => {
@@ -181,59 +180,5 @@ describe("dataChangeAuditHooks address", () => {
         `Address for ${createdCivilian.fullName}`
       );
     });
-  });
-});
-
-describe("dataChangeAuditHooks address model description", () => {
-  afterEach(async () => {
-    await models.address.truncate({ force: true, auditUser: "someone" });
-    await models.civilian.truncate({ force: true, auditUser: "someone" });
-    await models.cases.truncate({
-      cascade: true,
-      force: true,
-      auditUser: "someone"
-    });
-    await models.data_change_audit.truncate();
-  });
-
-  test("should throw exception when adding address through civilian using includes", async () => {
-    const address = new Address.Builder()
-      .defaultAddress()
-      .withId(undefined)
-      .withAddressableId(undefined)
-      .withAddressableType("civilian")
-      .build();
-
-    const civilian = new Civilian.Builder()
-      .defaultCivilian()
-      .withId(undefined)
-      .withAddress(address)
-      .withRoleOnCase("Complainant")
-      .build();
-
-    const caseToCreate = new Case.Builder()
-      .defaultCase()
-      .withId(undefined)
-      .withIncidentLocation(undefined)
-      .withComplainantCivilians([civilian])
-      .build();
-
-    try {
-      await models.cases.create(caseToCreate, {
-        include: [
-          {
-            model: models.civilian,
-            as: "complainantCivilians",
-            auditUser: "someone",
-            include: [{ model: models.address, auditUser: "someone" }]
-          }
-        ],
-        auditUser: "someone"
-      });
-    } catch (error) {
-      expect(error.message).toEqual(
-        "Civilian address cannot be created through nested include."
-      );
-    }
   });
 });
