@@ -1,12 +1,12 @@
 import nock from "nock";
 import {
+  closeCreateCaseDialog,
   createCaseFailure,
   createCaseSuccess,
-  getCasesSuccess,
   requestCaseCreation
 } from "../../actionCreators/casesActionCreators";
 import createCase from "./createCase";
-import { push } from "react-router-redux";
+import {push} from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
@@ -25,7 +25,7 @@ describe("createCase", () => {
     expect(dispatch).toHaveBeenCalledWith(requestCaseCreation());
   });
 
-  test("should dispatch success when case created successfully", async () => {
+  test("should dispatch success and close the dialog when case created successfully", async () => {
     const creationDetails = {
       caseDetails: {
         case: {
@@ -54,6 +54,7 @@ describe("createCase", () => {
     await createCase(creationDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
+    expect(dispatch).toHaveBeenCalledWith(closeCreateCaseDialog());
   });
 
   test("should dispatch failure when case creation fails", async () => {

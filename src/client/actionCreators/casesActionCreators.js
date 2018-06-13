@@ -1,6 +1,8 @@
 import {
   CASE_CREATED_SUCCESS,
   ATTACHMENT_UPLOAD_FAILED,
+  CREATE_CASE_DIALOG_OPENED,
+  CREATE_CASE_DIALOG_CLOSED,
   CIVILIAN_DIALOG_OPENED,
   CIVILIAN_CREATION_SUCCEEDED,
   CIVILIAN_CREATION_FAILED,
@@ -83,6 +85,14 @@ export const openRemoveUserActionDialog = (activity = {}) => ({
 export const closeRemoveUserActionDialog = () => ({
   type: REMOVE_USER_ACTION_DIALOG_CLOSED
 });
+
+export const openCreateCaseDialog = () =>({
+  type: CREATE_CASE_DIALOG_OPENED
+})
+
+export const closeCreateCaseDialog = () =>({
+  type: CREATE_CASE_DIALOG_CLOSED
+})
 
 export const openCivilianDialog = (title, submitButtonText, submitAction) => ({
   type: CIVILIAN_DIALOG_OPENED,

@@ -2,13 +2,11 @@ import React from "react";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../createConfiguredStore";
 import { mount } from "enzyme/build/index";
-import { createCaseSuccess } from "../../actionCreators/casesActionCreators";
 import CreateCaseDialog from "./CreateCaseDialog";
 import { changeInput, expectEventuallyNotToExist } from "../../../testHelpers";
 import createCase from "../thunks/createCase";
 import { openSnackbar } from "../../actionCreators/snackBarActionCreators";
 import moment from "moment";
-import { userAuthSuccess } from "../../auth/actionCreators";
 import { applyCentralTimeZoneOffset } from "../../utilities/formatDate";
 
 jest.mock("../thunks/createCase", () => creationDetails => ({
@@ -126,15 +124,6 @@ describe("CreateCaseDialog component", () => {
         '[data-test="createCaseDialogTitle"]'
       );
     });
-
-    test("should dismiss after successful case creation", async () => {
-      store.dispatch(createCaseSuccess({ id: 1234 }));
-
-      await expectEventuallyNotToExist(
-        dialog,
-        '[data-test="createCaseDialogTitle"]'
-      );
-    });
   });
 
   describe("fields", () => {
@@ -146,6 +135,17 @@ describe("CreateCaseDialog component", () => {
         expect(datePicker.instance().value).toEqual(
           moment(Date.now()).format("YYYY-MM-DD")
         );
+      });
+
+      test("should default to civilian complainant whenever dialog opened", () => {
+        const civilianRadioButton = dialog
+          .find('Radio[value="Civilian"]')
+          .last();
+
+        expect(civilianRadioButton.prop("checked")).toEqual(true);
+        expect(dialog.find('[data-test="firstNameField"]').exists()).toBeTruthy();
+        expect(dialog.find('[data-test="createAndView"]').exists()).toBeTruthy();
+        expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeTruthy();
       });
     });
   });
@@ -285,6 +285,18 @@ describe("CreateCaseDialog component", () => {
       expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeFalsy();
     });
 
+    test("should default to civilian complainant whenever dialog opened", () => {
+      const cancelButton = dialog.find('[data-test="cancelCase"]').last();
+      cancelButton.simulate("click");
+      const createCaseButton = dialog.find(
+        'button[data-test="createCaseButton"]'
+      );
+      createCaseButton.simulate("click");
+      expect(dialog.find('[data-test="firstNameField"]').exists()).toBeTruthy();
+      expect(dialog.find('[data-test="createAndView"]').exists()).toBeTruthy();
+      expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeTruthy();
+    });
+
     test("should see create and search button when officer complainant selected", () => {
       expect(
         dialog.find('[data-test="createAndSearch"]').exists()
@@ -297,18 +309,6 @@ describe("CreateCaseDialog component", () => {
         .last();
       civilianRadioButton.simulate("click");
 
-      expect(dialog.find('[data-test="firstNameField"]').exists()).toBeTruthy();
-      expect(dialog.find('[data-test="createAndView"]').exists()).toBeTruthy();
-      expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeTruthy();
-    });
-
-    test("should default to civilian complainant whenever dialog opened", () => {
-      const cancelButton = dialog.find('[data-test="cancelCase"]').last();
-      cancelButton.simulate("click");
-      const createCaseButton = dialog.find(
-        'button[data-test="createCaseButton"]'
-      );
-      createCaseButton.simulate("click");
       expect(dialog.find('[data-test="firstNameField"]').exists()).toBeTruthy();
       expect(dialog.find('[data-test="createAndView"]').exists()).toBeTruthy();
       expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeTruthy();

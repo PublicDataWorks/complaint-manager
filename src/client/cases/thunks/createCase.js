@@ -1,4 +1,5 @@
 import {
+  closeCreateCaseDialog,
   createCaseFailure,
   createCaseSuccess,
   requestCaseCreation
@@ -34,7 +35,7 @@ const createCase = creationDetails => async dispatch => {
       case 201:
         const createdCase = await response.json();
         dispatch(createCaseSuccess(createdCase));
-
+        dispatch(closeCreateCaseDialog())
         if (creationDetails.redirect) {
           if (
             creationDetails.caseDetails.case.complainantType ===

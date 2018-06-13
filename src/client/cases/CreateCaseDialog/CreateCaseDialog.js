@@ -23,6 +23,7 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../shared/components/StyledButtons";
+import {closeCreateCaseDialog, openCreateCaseDialog} from "../../actionCreators/casesActionCreators";
 
 const margin = {
   marginLeft: "5%",
@@ -34,23 +35,17 @@ const offSet = { marginRight: "5%", marginBottom: "3%" };
 
 class CreateCaseDialog extends React.Component {
   state = {
-    dialogOpen: false,
     civilianComplainant: true
   };
 
-  componentWillReceiveProps = nextProps => {
-    if (!this.props.caseCreationSuccess && nextProps.caseCreationSuccess) {
-      this.closeDialog();
-    }
-  };
-
   openDialog = () => {
-    this.setState({ dialogOpen: true, civilianComplainant: true });
+    this.props.dispatch(openCreateCaseDialog())
     this.props.dispatch(closeSnackbar());
+    this.setCivilianComplainantType()
   };
 
   closeDialog = () => {
-    this.setState({ dialogOpen: false });
+    this.props.dispatch(closeCreateCaseDialog())
     this.props.dispatch(reset("CreateCase"));
   };
 
@@ -125,7 +120,7 @@ class CreateCaseDialog extends React.Component {
         </PrimaryButton>
         <Dialog
           data-test="createCaseDialog"
-          open={this.state.dialogOpen}
+          open={this.props.open}
           fullWidth
         >
           <DialogTitle
@@ -206,7 +201,7 @@ class CreateCaseDialog extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    caseCreationSuccess: state.ui.snackbar.success
+    open: state.ui.createCaseDialog.open
   };
 };
 
