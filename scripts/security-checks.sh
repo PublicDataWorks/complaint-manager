@@ -24,6 +24,17 @@ function run_hawkeye_on_container_code() {
   hawkeye_return=$?
 }
 
+function run_ncu_on_container_code() {
+    docker run --volumes-from target-code node:latest /bin/bash -c "npm install -g npm-check-updates && ncu -e 2 --packageFile /target/package.json -x winston"
+    ncu_return=$?
+}
+
+function run_security_checks_on_container_code() {
+    run_hawkeye_on_container_code
+    run_ncu_on_container_code
+    security_checks=$((hawkeye_return | ncu_return))
+}
+
 function create_artifacts_folder() {
   mkdir -p /tmp/artifacts/;
 }
@@ -33,15 +44,15 @@ function copy_report_from_docker_remote_to_artifacts() {
 }
 
 create_container_with_code
-run_hawkeye_on_container_code
+run_security_checks_on_container_code
 create_artifacts_folder
 copy_report_from_docker_remote_to_artifacts
 
-if [ ${hawkeye_return} == 0 ]
+if [ ${security_checks} == 0 ]
 then
     echo "Security checks passed"
 else
     echo "Security checks failed. Report is available on artifacts tab."
 fi
 
-exit ${hawkeye_return}
+exit ${security_checks}
