@@ -1,6 +1,7 @@
 import Case from "../../../../client/testUtilities/case";
 const models = require("../../../models");
 const isDuplicateFileName = require("./isDuplicateFileName");
+import { cleanupDatabase } from "../../../requestTestHelpers";
 
 describe("generateFileName", () => {
   let newCase;
@@ -17,17 +18,7 @@ describe("generateFileName", () => {
   });
 
   afterEach(async () => {
-    await models.attachment.destroy({
-      where: { caseId: newCase.id },
-      auditUser: "test user"
-    });
-
-    await models.cases.destroy({
-      where: { id: newCase.id },
-      auditUser: "test user"
-    });
-
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("should return true when file with requested name has been added to case", async () => {

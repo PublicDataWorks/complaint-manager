@@ -1,6 +1,7 @@
 import Case from "../../../client/testUtilities/case";
 import Address from "../../../client/testUtilities/Address";
 import Civilian from "../../../client/testUtilities/civilian";
+import { cleanupDatabase } from "../../requestTestHelpers";
 
 const httpMocks = require("node-mocks-http");
 const models = require("../../models");
@@ -91,14 +92,7 @@ describe("Edit Case", () => {
   });
 
   afterEach(async () => {
-    await models.address.truncate({ force: true, auditUser: "someone" });
-    await models.civilian.truncate({ force: true, auditUser: "someone" });
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("should update the case", async () => {

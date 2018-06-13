@@ -1,24 +1,16 @@
-import buildTokenWithPermissions from "../../../requestTestHelpers";
 import models from "../../../models/index";
 import app from "../../../server";
 import request from "supertest";
 import Case from "../../../../client/testUtilities/case";
 import CaseNote from "../../../../client/testUtilities/caseNote";
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase
+} from "../../../requestTestHelpers";
 
 describe("removeCaseNote request", () => {
   afterEach(async () => {
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.case_note.destroy({
-      truncate: true,
-      cascade: true,
-      force: true,
-      auditUser: "someone"
-    });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("should remove a case note", async () => {
@@ -42,10 +34,9 @@ describe("removeCaseNote request", () => {
       .withCaseId(createdCase.id)
       .build();
 
-    const createdCaseNote = await models.case_note.create(
-      caseNoteToCreate,
-      { auditUser: "someone" }
-    );
+    const createdCaseNote = await models.case_note.create(caseNoteToCreate, {
+      auditUser: "someone"
+    });
 
     await request(app)
       .delete(

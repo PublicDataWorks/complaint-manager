@@ -1,13 +1,15 @@
-import buildTokenWithPermissions from "../../../requestTestHelpers";
 import Case from "../../../../client/testUtilities/case";
 import models from "../../../models/index";
 import request from "supertest";
 import app from "../../../server";
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase
+} from "../../../requestTestHelpers";
 
 describe("GET /api/cases/:caseId/case-history", () => {
   afterEach(async () => {
-    await models.cases.truncate({ cascade: true, auditUser: "test user" });
-    await models.data_change_audit.truncate({ cascade: true });
+    await cleanupDatabase();
   });
 
   test("it returns the case history ordered by createdAt desc", async () => {

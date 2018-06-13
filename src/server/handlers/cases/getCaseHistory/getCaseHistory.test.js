@@ -4,6 +4,7 @@ import models from "../../../models";
 import httpMocks from "node-mocks-http";
 import getCaseHistory from "./getCaseHistory";
 import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
+import { cleanupDatabase } from "../../../requestTestHelpers";
 
 describe("getCaseHistory", () => {
   let request, response, next;
@@ -23,8 +24,7 @@ describe("getCaseHistory", () => {
   });
 
   afterEach(async () => {
-    await models.cases.truncate({ cascade: true, auditUser: "test user" });
-    await models.data_change_audit.truncate({ cascade: true });
+    await cleanupDatabase();
   });
 
   test("should return case audits in order of created at desc", async () => {

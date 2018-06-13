@@ -3,36 +3,11 @@ import Case from "../../../client/testUtilities/case";
 import request from "supertest";
 import Civilian from "../../../client/testUtilities/civilian";
 import models from "../../models";
-import path from "path";
-import jwt from "jsonwebtoken";
-import fs from "fs";
 import Address from "../../../client/testUtilities/Address";
-
-const config = require("../../config/config")[process.env.NODE_ENV];
-
-function buildTokenWithPermissions(permissions, nickname) {
-  const privateKeyPath = path.join(
-    __dirname,
-    "../../config",
-    "test",
-    "private.pem"
-  );
-  const cert = fs.readFileSync(privateKeyPath);
-
-  const payload = {
-    foo: "bar",
-    scope: `${config.authentication.scope} ${permissions}`
-  };
-  payload[`${config.authentication.nicknameKey}`] = nickname;
-
-  const options = {
-    audience: config.authentication.audience,
-    issuer: config.authentication.issuer,
-    algorithm: config.authentication.algorithm
-  };
-
-  return jwt.sign(payload, cert, options);
-}
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase
+} from "../../requestTestHelpers";
 
 describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
   let token;
@@ -42,18 +17,7 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
   });
 
   afterEach(async () => {
-    await models.address.truncate({ force: true, auditUser: "test user" });
-    await models.civilian.destroy({
-      truncate: true,
-      force: true,
-      auditUser: "test user"
-    });
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("should delete a civilian even when they don't have an address", async () => {
@@ -77,12 +41,12 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
         {
           model: models.civilian,
           as: "complainantCivilians",
-          auditUser: "someone",
+          auditUser: "someone"
         }
       ],
       auditUser: "someone"
     });
-    const createdCivilian = createdCase.complainantCivilians[0]
+    const createdCivilian = createdCase.complainantCivilians[0];
 
     await request(app)
       .delete(`/api/cases/${createdCase.id}/civilians/${createdCivilian.id}`)
@@ -98,7 +62,6 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
           })
         );
       });
-
   });
 
   test("should soft delete an existing civilian that has an address", async () => {

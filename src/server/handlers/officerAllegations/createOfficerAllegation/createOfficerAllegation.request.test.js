@@ -1,4 +1,3 @@
-import buildTokenWithPermissions from "../../../requestTestHelpers";
 import models from "../../../models";
 import Case from "../../../../client/testUtilities/case";
 import Officer from "../../../../client/testUtilities/Officer";
@@ -6,33 +5,14 @@ import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
 import app from "../../../server";
 import request from "supertest";
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase
+} from "../../../requestTestHelpers";
 
 describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations", function() {
   afterEach(async () => {
-    await models.address.destroy({
-      truncate: true,
-      cascade: true,
-      force: true,
-      auditUser: "test user"
-    });
-    await models.case_officer.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.civilian.destroy({
-      truncate: true,
-      cascade: true,
-      force: true,
-      auditUser: "test user"
-    });
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.officer.destroy({ truncate: true, cascade: true });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("should create officer allegation", async () => {

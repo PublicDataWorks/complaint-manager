@@ -1,6 +1,7 @@
 import Case from "../../../client/testUtilities/case";
 import Address from "../../../client/testUtilities/Address";
 import Civilian from "../../../client/testUtilities/civilian";
+import { cleanupDatabase } from "../../requestTestHelpers";
 
 const editCivilian = require("./editCivilian");
 const models = require("../../models/index");
@@ -8,14 +9,7 @@ const httpMocks = require("node-mocks-http");
 
 describe("editCivilian handler editing civilian with no address", () => {
   afterEach(async () => {
-    await models.address.truncate({ auditUser: "test user", force: true });
-    await models.civilian.truncate({ auditUser: "test user" });
-    await models.cases.truncate({
-      cascade: true,
-      force: true,
-      auditUser: "test user"
-    });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("should create, not update, an address when no address ID given", async () => {

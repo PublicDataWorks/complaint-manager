@@ -1,24 +1,16 @@
 import models from "../../../models";
-import buildTokenWithPermissions from "../../../requestTestHelpers";
 import Case from "../../../../client/testUtilities/case";
 import CaseNote from "../../../../client/testUtilities/caseNote";
 import request from "supertest";
 import app from "../../../server";
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase
+} from "../../../requestTestHelpers";
 
 describe("editCaseNote request", function() {
   afterEach(async () => {
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.case_note.destroy({
-      truncate: true,
-      cascade: true,
-      force: true,
-      auditUser: "someone"
-    });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("should edit a case note", async () => {
@@ -44,19 +36,16 @@ describe("editCaseNote request", function() {
       .withCaseId(createdCase.id)
       .build();
 
-    const createdCaseNote = await models.case_note.create(
-      caseNoteToCreate,
-      { auditUser: "someone" }
-    );
+    const createdCaseNote = await models.case_note.create(caseNoteToCreate, {
+      auditUser: "someone"
+    });
     const updatedCaseNote = {
       action: "Miscellaneous",
       notes: "updated notes"
     };
 
     await request(app)
-      .put(
-        `/api/cases/${createdCase.id}/recent-activity/${createdCaseNote.id}`
-      )
+      .put(`/api/cases/${createdCase.id}/recent-activity/${createdCaseNote.id}`)
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .send(updatedCaseNote)

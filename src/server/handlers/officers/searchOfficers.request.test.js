@@ -1,7 +1,10 @@
 import models from "../../models";
 import app from "../../server";
 import request from "supertest";
-import buildTokenWithPermissions from "../../requestTestHelpers";
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase
+} from "../../requestTestHelpers";
 import Officer from "../../../client/testUtilities/Officer";
 
 describe("GET /officers/search", () => {
@@ -11,24 +14,7 @@ describe("GET /officers/search", () => {
   });
 
   afterEach(async () => {
-    await models.address.destroy({
-      truncate: true,
-      cascade: true,
-      force: true
-    });
-    await models.case_officer.destroy({ truncate: true, cascade: true });
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.officer.destroy({ truncate: true, cascade: true });
-    await models.civilian.destroy({
-      truncate: true,
-      cascade: true,
-      force: true
-    });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   describe("match single attribute", () => {

@@ -3,8 +3,11 @@ import Officer from "../../../../client/testUtilities/Officer";
 import models from "../../../models/index";
 import Case from "../../../../client/testUtilities/case";
 import app from "../../../server";
-import buildTokenWithPermissions from "../../../requestTestHelpers";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase
+} from "../../../requestTestHelpers";
 
 describe("POST /cases/:caseId/cases_officers", () => {
   let token;
@@ -13,30 +16,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
   });
 
   afterEach(async () => {
-    await models.address.destroy({
-      truncate: true,
-      cascade: true,
-      force: true,
-      auditUser: "test user"
-    });
-    await models.case_officer.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.civilian.destroy({
-      truncate: true,
-      cascade: true,
-      force: true,
-      auditUser: "test user"
-    });
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.officer.destroy({ truncate: true, cascade: true });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("should add a known officer to a case", async () => {

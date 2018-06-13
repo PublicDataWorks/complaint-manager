@@ -3,19 +3,10 @@ import CaseNote from "../../../../client/testUtilities/caseNote";
 import models from "../../../models";
 import Case from "../../../../client/testUtilities/case";
 import editCaseNote from "./editCaseNote";
+import { cleanupDatabase } from "../../../requestTestHelpers";
 
 afterEach(async () => {
-  await models.cases.destroy({
-    truncate: true,
-    cascade: true,
-    auditUser: "test user"
-  });
-  await models.case_note.destroy({
-    truncate: true,
-    cascade: true,
-    force: true
-  });
-  await models.data_change_audit.truncate();
+  await cleanupDatabase();
 });
 
 test("should update case status and recent activity in the db after case note edited", async () => {
@@ -40,10 +31,9 @@ test("should update case status and recent activity in the db after case note ed
     .withAction("Memo to file")
     .build();
 
-  const createdCaseNote = await models.case_note.create(
-    caseNoteToCreate,
-    { auditUser: "someone" }
-  );
+  const createdCaseNote = await models.case_note.create(caseNoteToCreate, {
+    auditUser: "someone"
+  });
 
   const updatedCaseNote = {
     action: "Miscellaneous",

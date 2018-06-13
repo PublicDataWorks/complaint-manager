@@ -2,10 +2,13 @@ import Allegation from "../../../client/testUtilities/Allegation";
 import models from "../../models";
 import request from "supertest";
 import app from "../../server";
-import buildTokenWithPermissions from "../../requestTestHelpers";
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase
+} from "../../requestTestHelpers";
 
 afterEach(async () => {
-  await models.allegation.destroy({ truncate: true, cascade: true });
+  await cleanupDatabase();
 });
 
 test("should return an allegation", async () => {

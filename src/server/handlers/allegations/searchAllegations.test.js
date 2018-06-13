@@ -2,9 +2,10 @@ import Allegation from "../../../client/testUtilities/Allegation";
 import models from "../../models";
 import * as httpMocks from "node-mocks-http";
 import searchAllegations from "./searchAllegations";
+import { cleanupDatabase } from "../../requestTestHelpers";
 
 afterEach(async () => {
-  await models.allegation.destroy({ truncate: true, cascade: true });
+  await cleanupDatabase();
 });
 
 test("should return allegations based on rule", async () => {

@@ -2,11 +2,11 @@ import models from "../../models";
 const httpMocks = require("node-mocks-http");
 import createCivilian from "./createCivilian";
 import Case from "../../../client/testUtilities/case";
+import { cleanupDatabase } from "../../requestTestHelpers";
 
 describe("createCivilian handler", () => {
   afterEach(async () => {
-    await models.cases.truncate({ cascade: true, auditUser: "someone" });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
   test("should not create an address when no address values given", async () => {
     const caseAttributes = new Case.Builder().defaultCase().build();

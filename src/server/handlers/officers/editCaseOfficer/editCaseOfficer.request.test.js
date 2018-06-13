@@ -1,11 +1,14 @@
 import models from "../../../models";
 import app from "../../../server";
 import request from "supertest";
-import buildTokenWithPermissions from "../../../requestTestHelpers";
 import Officer from "../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Case from "../../../../client/testUtilities/case";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase
+} from "../../../requestTestHelpers";
 
 describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
   let token;
@@ -14,19 +17,7 @@ describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
   });
 
   afterEach(async () => {
-    await models.address.destroy({ truncate: true, cascade: true });
-    await models.case_officer.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "someone"
-    });
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.officer.destroy({ truncate: true, cascade: true });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("it updates the case officer", async () => {

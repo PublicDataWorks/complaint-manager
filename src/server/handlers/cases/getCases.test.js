@@ -6,10 +6,11 @@ import request from "supertest";
 import Civilian from "../../../client/testUtilities/civilian";
 import Officer from "../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../client/testUtilities/caseOfficer";
-import buildTokenWithPermissions from "../../requestTestHelpers";
 import { COMPLAINANT } from "../../../sharedUtilities/constants";
-
-const config = require("../../config/config")[process.env.NODE_ENV];
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase
+} from "../../requestTestHelpers";
 
 describe("getCases", () => {
   let token;
@@ -19,27 +20,7 @@ describe("getCases", () => {
   });
 
   afterEach(async () => {
-    await models.address.truncate({
-      force: true,
-      auditUser: "someone"
-    });
-    await models.case_officer.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "someone"
-    });
-    await models.civilian.truncate({
-      cascade: true,
-      force: true,
-      auditUser: "test user"
-    });
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.officer.destroy({ truncate: true, cascade: true });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   describe("GET /cases", () => {

@@ -6,24 +6,11 @@ import httpMocks from "node-mocks-http";
 import editCaseOfficer from "./editCaseOfficer";
 import { ACCUSED, WITNESS } from "../../../../sharedUtilities/constants";
 import Boom from "boom";
+import { cleanupDatabase } from "../../../requestTestHelpers";
 
 describe("editCaseOfficer", () => {
   afterEach(async () => {
-    await models.address.destroy({ truncate: true, cascade: true });
-    await models.case_officer.destroy({
-      truncate: true,
-      cascade: true,
-      force: true,
-      auditUser: "someone"
-    });
-    await models.cases.destroy({
-      truncate: true,
-      force: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.officer.destroy({ truncate: true, cascade: true });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   let existingCase, next, response;

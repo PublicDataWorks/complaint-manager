@@ -1,11 +1,15 @@
 import Case from "../../../client/testUtilities/case";
-
+import { cleanupDatabase } from "../../requestTestHelpers";
 const httpMocks = require("node-mocks-http");
 const models = require("../../models/index");
 const updateCaseNarrative = require("./updateCaseNarrative");
 
 describe("updateCaseNarrative handler", () => {
   let request, response, existingCase, userNickname;
+
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
 
   beforeEach(async () => {
     const caseToCreate = new Case.Builder()

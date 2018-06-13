@@ -4,33 +4,11 @@ import addCaseOfficer from "./addCaseOfficer";
 import * as httpMocks from "node-mocks-http";
 import Officer from "../../../../client/testUtilities/Officer";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
+import { cleanupDatabase } from "../../../requestTestHelpers";
 
 describe("addCaseOfficer", () => {
   afterEach(async () => {
-    await models.address.destroy({
-      truncate: true,
-      cascade: true,
-      force: true,
-      auditUser: "test user"
-    });
-    await models.case_officer.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test"
-    });
-    await models.civilian.destroy({
-      truncate: true,
-      cascade: true,
-      force: true,
-      auditUser: "test user"
-    });
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.officer.destroy({ truncate: true, cascade: true });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("should change the case status to active when any officer is added", async () => {

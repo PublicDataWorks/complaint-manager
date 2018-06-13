@@ -1,11 +1,11 @@
 const httpMocks = require("node-mocks-http");
 const audit = require("./audit");
 const models = require("../../models/index");
+import { cleanupDatabase } from "../../requestTestHelpers";
 
 describe("Audit", () => {
   afterEach(async () => {
-    await models.audit_log.truncate();
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("should create an audit record", async () => {

@@ -1,6 +1,7 @@
 const httpMocks = require("node-mocks-http");
 const createCase = require("./createCase");
 const models = require("../../models");
+import { cleanupDatabase } from "../../requestTestHelpers";
 
 describe("createCase handler", () => {
   let request, response, next, caseAttributes, civilianAttributes, user;
@@ -40,12 +41,7 @@ describe("createCase handler", () => {
   });
 
   afterEach(async () => {
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("should create case with civilian if civilian complainant type ", async () => {

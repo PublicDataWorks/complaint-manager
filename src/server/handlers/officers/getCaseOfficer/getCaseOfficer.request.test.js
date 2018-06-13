@@ -1,4 +1,7 @@
-import buildTokenWithPermissions from "../../../requestTestHelpers";
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase
+} from "../../../requestTestHelpers";
 import Case from "../../../../client/testUtilities/case";
 import Officer from "../../../../client/testUtilities/Officer";
 import models from "../../../models";
@@ -10,19 +13,7 @@ describe("GET /cases/:caseId/cases-officers/:caseOfficerId", () => {
   let token;
 
   afterEach(async () => {
-    await models.address.destroy({ truncate: true, cascade: true });
-    await models.case_officer.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "someone"
-    });
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.officer.destroy({ truncate: true, cascade: true });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("should return back a case officer", async () => {

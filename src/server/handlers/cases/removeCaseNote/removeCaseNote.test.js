@@ -3,21 +3,11 @@ import Case from "../../../../client/testUtilities/case";
 import models from "../../../models";
 import CaseNote from "../../../../client/testUtilities/caseNote";
 import removeCaseNote from "./removeCaseNote";
+import { cleanupDatabase } from "../../../requestTestHelpers";
 
 describe("RemoveCaseNote unit", () => {
   afterEach(async () => {
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.case_note.destroy({
-      truncate: true,
-      cascade: true,
-      force: true,
-      auditUser: "someone"
-    });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("should update case status and recent activity in the db after case note removed", async () => {
@@ -40,10 +30,9 @@ describe("RemoveCaseNote unit", () => {
       .withCaseId(createdCase.id)
       .build();
 
-    const createdCaseNote = await models.case_note.create(
-      caseNoteToCreate,
-      { auditUser: "someone" }
-    );
+    const createdCaseNote = await models.case_note.create(caseNoteToCreate, {
+      auditUser: "someone"
+    });
 
     const request = httpMocks.createRequest({
       method: "DELETE",

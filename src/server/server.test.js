@@ -10,7 +10,10 @@ import { civilianWithAddress } from "../client/testUtilities/ObjectMothers";
 import Address from "../client/testUtilities/Address";
 import { EXPORT_AUDIT_LOG } from "../sharedUtilities/constants";
 import AWS from "aws-sdk";
-import buildTokenWithPermissions from "./requestTestHelpers";
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase
+} from "./requestTestHelpers";
 import winston from "winston";
 
 jest.mock("auth0", () => ({
@@ -30,25 +33,7 @@ describe("server", () => {
   });
 
   afterEach(async () => {
-    await models.address.truncate({
-      force: true,
-      auditUser: "test user"
-    });
-    await models.case_officer.destroy({ truncate: true, cascade: true });
-    await models.civilian.destroy({
-      truncate: true,
-      cascade: true,
-      force: true,
-      auditUser: "test user"
-    });
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-    await models.officer.destroy({ truncate: true, cascade: true });
-    await models.audit_log.destroy({ truncate: true, cascade: true });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   describe("GET /health-check", () => {

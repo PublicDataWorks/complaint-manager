@@ -1,7 +1,10 @@
 import models from "../../models";
-import buildTokenWithPermissions from "../../requestTestHelpers";
 import request from "supertest";
 import app from "../../server";
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase
+} from "../../requestTestHelpers";
 
 describe("GET /allegations", function() {
   let token;
@@ -10,9 +13,7 @@ describe("GET /allegations", function() {
   });
 
   afterEach(async () => {
-    await models.allegation.destroy({
-      truncate: true
-    });
+    await cleanupDatabase();
   });
 
   test("should retrieve allegation from database", async () => {

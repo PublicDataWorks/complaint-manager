@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
 import fs from "fs";
 import path from "path";
+import models from "./models";
 
 const config = require("./config/config")[process.env.NODE_ENV];
 
-function buildTokenWithPermissions(permissions, nickname) {
+export const buildTokenWithPermissions = (permissions, nickname) => {
   const privateKeyPath = path.join(__dirname, "config", "test", "private.pem");
   const cert = fs.readFileSync(privateKeyPath);
 
@@ -21,6 +22,58 @@ function buildTokenWithPermissions(permissions, nickname) {
   };
 
   return jwt.sign(payload, cert, options);
-}
+};
 
-module.exports = buildTokenWithPermissions;
+export const cleanupDatabase = async () => {
+  await models.address.destroy({
+    truncate: true,
+    cascade: true,
+    force: true,
+    auditUser: "test user"
+  });
+  await models.officer_allegation.destroy({
+    truncate: true,
+    cascade: true,
+    force: true,
+    auditUser: "test user"
+  });
+  await models.case_officer.destroy({
+    truncate: true,
+    cascade: true,
+    auditUser: "test user"
+  });
+  await models.civilian.destroy({
+    truncate: true,
+    cascade: true,
+    force: true,
+    auditUser: "test user"
+  });
+  await models.attachment.destroy({
+    truncate: true,
+    cascade: true,
+    force: true,
+    auditUser: "test user"
+  });
+  await models.case_note.destroy({
+    truncate: true,
+    cascade: true,
+    force: true,
+    auditUser: "test user"
+  });
+  await models.audit_log.destroy({
+    truncate: true,
+    cascade: true,
+    force: true
+  });
+  await models.cases.destroy({
+    truncate: true,
+    cascade: true,
+    auditUser: "test user"
+  });
+  await models.allegation.destroy({
+    truncate: true,
+    cascade: true
+  });
+  await models.officer.destroy({ truncate: true, cascade: true });
+  await models.data_change_audit.truncate();
+};
