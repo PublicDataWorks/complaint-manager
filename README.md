@@ -75,7 +75,7 @@ docker-compose run app test:client
 Set up a test DB and run all tests in `src/server` sequentially:
 
 ```bash
-docker-compose run app test:client
+docker-compose run app test:server
 ```
 
 #### Running all tests (no watch mode)
