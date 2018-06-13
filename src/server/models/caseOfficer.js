@@ -212,6 +212,17 @@ module.exports = (sequelize, DataTypes) => {
     };
   };
 
+  CaseOfficer.associate = models => {
+    CaseOfficer.hasMany(models.officer_allegation, {
+      as: 'allegations',
+      foreignKey: {
+        name: "caseOfficerId",
+        field: "case_officer_id"
+      },
+      cascade: true
+    });
+  };
+
   CaseOfficer.auditDataChange();
 
   return CaseOfficer;

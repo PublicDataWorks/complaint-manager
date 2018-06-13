@@ -22,7 +22,14 @@ const getCaseWithAllAssociations = async (caseId, transaction = null) => {
       },
       {
         model: models.case_officer,
-        as: "accusedOfficers"
+        as: "accusedOfficers",
+        include: [
+          {
+            model: models.officer_allegation,
+            as: "allegations",
+            include: [models.allegation]
+          }
+        ]
       },
       {
         model: models.case_officer,

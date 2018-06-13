@@ -1,0 +1,24 @@
+const asyncMiddleware = require("../../asyncMiddleware");
+const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
+const models = require("../../../models");
+const _ = require("lodash");
+
+const createOfficerAllegation = asyncMiddleware(async (request, response) => {
+  const caseOfficer = await models.case_officer.findById(
+    request.params.caseOfficerId
+  );
+
+  const allegationAttributes = _.pick(request.body, [
+    "allegationId",
+    "details"
+  ]);
+
+  await caseOfficer.createAllegation(allegationAttributes);
+
+  const caseWithAssociations = await getCaseWithAllAssociations(
+    request.params.caseId
+  );
+  return response.send(caseWithAssociations);
+});
+
+module.exports = createOfficerAllegation;

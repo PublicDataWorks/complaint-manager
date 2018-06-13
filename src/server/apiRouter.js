@@ -11,12 +11,12 @@ const createCivilian = require("./handlers/civilians/createCivilian");
 const removeCivilian = require("./handlers/civilians/removeCivilian");
 const createUser = require("./handlers/users/createUser");
 const getUsers = require("./handlers/users/getUsers");
-const audit = require("./handlers/audit_logs/audit");
+const audit = require("./handlers/auditLogs/audit");
 const jwtCheck = require("./handlers/jtwCheck");
 const jwtAuthz = require("express-jwt-authz");
 const verifyUserInfo = require("./handlers/verifyUserNickname");
 const authErrorHandler = require("./handlers/authErrorHandler");
-const exportAuditLog = require("./handlers/audit_logs/export");
+const exportAuditLog = require("./handlers/auditLogs/export");
 const searchOfficers = require("./handlers/officers/searchOfficers");
 const addCaseOfficer = require("./handlers/officers/addCaseOfficer/addCaseOfficer");
 const getCaseOfficer = require("./handlers/officers/getCaseOfficer/getCaseOfficer");
@@ -27,6 +27,7 @@ const createCaseNote = require("./handlers/cases/createCaseNote");
 const searchAllegations = require("./handlers/allegations/searchAllegations");
 const getAllegations = require("./handlers/allegations/getAllegations");
 const attachmentRouter = require("./attachmentRouter");
+const createOfficerAllegation = require("./handlers/officerAllegations/createOfficerAllegation/createOfficerAllegation");
 
 const express = require("express");
 const router = express.Router();
@@ -50,6 +51,11 @@ router.put("/cases/:id/narrative", updateCaseNarrative);
 router.get("/cases/:caseId/cases-officers/:caseOfficerId", getCaseOfficer);
 router.post("/cases/:caseId/cases-officers", addCaseOfficer);
 router.put("/cases/:caseId/cases-officers/:caseOfficerId", editCaseOfficer);
+
+router.post(
+  "/cases/:caseId/cases-officers/:caseOfficerId/officers-allegations",
+  createOfficerAllegation
+);
 
 router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
 
