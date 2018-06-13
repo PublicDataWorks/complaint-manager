@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Auth from "./auth/Auth";
 
 class Login extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const auth = new Auth();
     auth.login();
   }

@@ -60,9 +60,6 @@ class CaseDetails extends React.Component {
 
   componentDidMount() {
     this.props.dispatch(getCaseDetails(this.props.match.params.id));
-  }
-
-  componentWillMount() {
     this.props.dispatch(closeEditDialog());
     this.props.dispatch(closeUserActionDialog());
   }

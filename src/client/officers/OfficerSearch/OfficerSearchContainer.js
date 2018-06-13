@@ -8,7 +8,7 @@ import OfficerSearch from "./OfficerSearch";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 
 export class OfficerSearchContainer extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.dispatch(clearSelectedOfficer());
   }
 

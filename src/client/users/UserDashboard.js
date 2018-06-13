@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { closeSnackbar } from "../actionCreators/snackBarActionCreators";
 
 class UserDashboard extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.dispatch(closeSnackbar());
   }
 

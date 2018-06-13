@@ -8,7 +8,7 @@ import { closeSnackbar } from "../actionCreators/snackBarActionCreators";
 import getCases from "./thunks/getCases";
 
 class CaseDashboard extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.getCases();
     this.props.closeSnackbar();
   }

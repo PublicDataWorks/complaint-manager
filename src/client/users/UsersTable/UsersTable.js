@@ -21,7 +21,7 @@ const styles = theme => ({
 });
 
 class UsersTable extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.getUsers();
   }
 

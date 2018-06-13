@@ -13,7 +13,7 @@ import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import { Input, InputLabel } from "@material-ui/core";
 
 class Dropzone extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.removeDropzoneFile();
   }
 
