@@ -1,6 +1,6 @@
 import {
-  USER_ACTION_DIALOG_CLOSED,
-  USER_ACTION_DIALOG_OPENED
+  CASE_NOTE_DIALOG_CLOSED,
+  CASE_NOTE_DIALOG_OPENED
 } from "../../../sharedUtilities/constants";
 
 const initialState = {
@@ -8,15 +8,15 @@ const initialState = {
   dialogType: "Add",
   initialCaseNote: {}
 };
-const userActionDialogReducer = (state = initialState, action) => {
+const caseNoteDialogReducer = (state = initialState, action) => {
   switch (action.type) {
-    case USER_ACTION_DIALOG_OPENED:
+    case CASE_NOTE_DIALOG_OPENED:
       return {
         open: true,
         dialogType: action.dialogType,
         initialCaseNote: action.initialCaseNote
       };
-    case USER_ACTION_DIALOG_CLOSED:
+    case CASE_NOTE_DIALOG_CLOSED:
       return {
         ...state,
         open: false
@@ -26,4 +26,4 @@ const userActionDialogReducer = (state = initialState, action) => {
   }
 };
 
-export default userActionDialogReducer;
+export default caseNoteDialogReducer;

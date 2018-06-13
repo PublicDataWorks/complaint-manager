@@ -1,12 +1,12 @@
-import removeUserActionDialogReducer from "./removeUserActionDialogReducer";
+import removeCaseNoteDialogReducer from "./removeCaseNoteDialogReducer";
 import {
-  closeRemoveUserActionDialog,
-  openRemoveUserActionDialog
+  closeRemoveCaseNoteDialog,
+  openRemoveCaseNoteDialog
 } from "../../actionCreators/casesActionCreators";
 
-describe("removeUserActionDialogReducer", () => {
+describe("removeCaseNoteDialogReducer", () => {
   test("should set default state", () => {
-    const newState = removeUserActionDialogReducer(undefined, {
+    const newState = removeCaseNoteDialogReducer(undefined, {
       type: "anything here"
     });
 
@@ -23,9 +23,9 @@ describe("removeUserActionDialogReducer", () => {
         some: "data"
       }
     };
-    const newState = removeUserActionDialogReducer(
+    const newState = removeCaseNoteDialogReducer(
       dialogClosedState,
-      closeRemoveUserActionDialog()
+      closeRemoveCaseNoteDialog()
     );
 
     expect(newState).toEqual({
@@ -44,9 +44,9 @@ describe("removeUserActionDialogReducer", () => {
       to: "remove"
     };
 
-    const newState = removeUserActionDialogReducer(
+    const newState = removeCaseNoteDialogReducer(
       dialogClosedState,
-      openRemoveUserActionDialog(activityToRemove)
+      openRemoveCaseNoteDialog(activityToRemove)
     );
 
     expect(newState).toEqual({ dialogOpen: true, activity: activityToRemove });

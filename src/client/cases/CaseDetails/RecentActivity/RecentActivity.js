@@ -3,7 +3,7 @@ import ActivityDisplay from "./ActivityDisplay";
 import * as _ from "lodash";
 import getRecentActivity from "../../thunks/getRecentActivity";
 import { Typography } from "@material-ui/core";
-import RemoveUserActionDialog from "../RemoveUserActionDialog/RemoveUserActionDialog";
+import RemoveCaseNoteDialog from "../RemoveCaseNoteDialog/RemoveCaseNoteDialog";
 import LinkButton from "../../../shared/components/LinkButton";
 import { Link } from "react-router-dom";
 
@@ -47,7 +47,7 @@ class RecentActivity extends Component {
             )
           )}
         </div>
-        <RemoveUserActionDialog />
+        <RemoveCaseNoteDialog />
         <div style={{ width: "100%", textAlign: "right" }}>
           <LinkButton
             component={Link}

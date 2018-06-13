@@ -1,54 +1,54 @@
 import React from "react";
 import mount from "enzyme/mount";
-import UserActionDialog from "./UserActionDialog";
+import CaseNoteDialog from "./CaseNoteDialog";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import {
-  closeUserActionDialog,
+  closeCaseNoteDialog,
   getCaseDetailsSuccess,
-  openUserActionDialog
+  openCaseNoteDialog
 } from "../../../actionCreators/casesActionCreators";
 import { changeInput, selectDropdownOption } from "../../../../testHelpers";
-import addUserAction from "../../thunks/addUserAction";
+import addCaseNote from "../../thunks/addCaseNote";
 import { reset, initialize } from "redux-form";
-import editUserAction from "../../thunks/editUserAction";
+import editCaseNote from "../../thunks/editCaseNote";
 import moment from "moment";
 
-jest.mock("../../thunks/addUserAction", () => values => ({
+jest.mock("../../thunks/addCaseNote", () => values => ({
   type: "MOCK_THUNK",
   values
 }));
 
-jest.mock("../../thunks/editUserAction", () => values => ({
+jest.mock("../../thunks/editCaseNote", () => values => ({
   type: "MOCK_THUNK_TWO",
   values
 }));
 
-describe("UserActionDialog", () => {
+describe("CaseNoteDialog", () => {
   test("should close dialog and reset form when cancel button is clicked", () => {
     const store = createConfiguredStore();
     const dispatchSpy = jest.spyOn(store, "dispatch");
 
-    store.dispatch(openUserActionDialog());
+    store.dispatch(openCaseNoteDialog());
 
     const wrapper = mount(
       <Provider store={store}>
-        <UserActionDialog />
+        <CaseNoteDialog />
       </Provider>
     );
 
     const closeButton = wrapper.find('[data-test="cancelButton"]').first();
     closeButton.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(closeUserActionDialog());
-    expect(dispatchSpy).toHaveBeenCalledWith(reset("UserActions"));
+    expect(dispatchSpy).toHaveBeenCalledWith(closeCaseNoteDialog());
+    expect(dispatchSpy).toHaveBeenCalledWith(reset("CaseNotes"));
   });
 
   test("should render and submit edit version of the dialog", () => {
     const store = createConfiguredStore();
     const dispatchSpy = jest.spyOn(store, "dispatch");
     const caseId = 12;
-    store.dispatch(openUserActionDialog("Edit", {}));
+    store.dispatch(openCaseNoteDialog("Edit", {}));
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId
@@ -57,11 +57,11 @@ describe("UserActionDialog", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <UserActionDialog />
+        <CaseNoteDialog />
       </Provider>
     );
 
-    const title = wrapper.find('[data-test="userActionDialogTitle"]').first();
+    const title = wrapper.find('[data-test="caseNoteDialogTitle"]').first();
     const submitButton = wrapper.find('[data-test="submitButton"]').first();
 
     expect(title.text()).toEqual("Edit Case Note");
@@ -84,7 +84,7 @@ describe("UserActionDialog", () => {
     );
     submitButton.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(editUserAction(submittedValues));
+    expect(dispatchSpy).toHaveBeenCalledWith(editCaseNote(submittedValues));
   });
 
   test("should not submit form when Edit Case Note is clicked and no action is selected", () => {
@@ -92,11 +92,11 @@ describe("UserActionDialog", () => {
     const dispatchSpy = jest.spyOn(store, "dispatch");
     const caseId = 12;
 
-    store.dispatch(openUserActionDialog("Edit", {}));
+    store.dispatch(openCaseNoteDialog("Edit", {}));
 
     const wrapper = mount(
       <Provider store={store}>
-        <UserActionDialog caseId={caseId} />
+        <CaseNoteDialog caseId={caseId} />
       </Provider>
     );
     const dateWithOutTimeZone = "2018-05-16T18:47";
@@ -112,7 +112,7 @@ describe("UserActionDialog", () => {
     submitButton.simulate("click");
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(
-      editUserAction(submittedValues)
+      editCaseNote(submittedValues)
     );
   });
 
@@ -120,7 +120,7 @@ describe("UserActionDialog", () => {
     const store = createConfiguredStore();
     const dispatchSpy = jest.spyOn(store, "dispatch");
     const caseId = 12;
-    store.dispatch(openUserActionDialog("Add", {}));
+    store.dispatch(openCaseNoteDialog("Add", {}));
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId
@@ -129,7 +129,7 @@ describe("UserActionDialog", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <UserActionDialog />
+        <CaseNoteDialog />
       </Provider>
     );
 
@@ -153,7 +153,7 @@ describe("UserActionDialog", () => {
     const submitButton = wrapper.find('[data-test="submitButton"]').first();
     submitButton.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(addUserAction(submittedValues));
+    expect(dispatchSpy).toHaveBeenCalledWith(addCaseNote(submittedValues));
   });
 
   test("should not submit form when Add Case Note is clicked and no action is selected", () => {
@@ -161,11 +161,11 @@ describe("UserActionDialog", () => {
     const dispatchSpy = jest.spyOn(store, "dispatch");
     const caseId = 12;
 
-    store.dispatch(openUserActionDialog("Add", {}));
+    store.dispatch(openCaseNoteDialog("Add", {}));
 
     const wrapper = mount(
       <Provider store={store}>
-        <UserActionDialog caseId={caseId} />
+        <CaseNoteDialog caseId={caseId} />
       </Provider>
     );
 
@@ -182,7 +182,7 @@ describe("UserActionDialog", () => {
     submitButton.simulate("click");
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(
-      addUserAction(submittedValues)
+      addCaseNote(submittedValues)
     );
   });
 
@@ -196,8 +196,8 @@ describe("UserActionDialog", () => {
       action: "some action"
     };
 
-    store.dispatch(initialize("UserActions", initialValues));
-    store.dispatch(openUserActionDialog("Edit", initialValues));
+    store.dispatch(initialize("CaseNotes", initialValues));
+    store.dispatch(openCaseNoteDialog("Edit", initialValues));
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId
@@ -206,7 +206,7 @@ describe("UserActionDialog", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <UserActionDialog />
+        <CaseNoteDialog />
       </Provider>
     );
 
@@ -221,6 +221,6 @@ describe("UserActionDialog", () => {
       action: "some action"
     };
 
-    expect(dispatchSpy).toHaveBeenCalledWith(editUserAction(valuesToSubmit));
+    expect(dispatchSpy).toHaveBeenCalledWith(editCaseNote(valuesToSubmit));
   });
 });

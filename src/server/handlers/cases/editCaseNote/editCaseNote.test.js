@@ -1,8 +1,8 @@
 import * as httpMocks from "node-mocks-http";
-import UserAction from "../../../../client/testUtilities/userAction";
+import CaseNote from "../../../../client/testUtilities/caseNote";
 import models from "../../../models";
 import Case from "../../../../client/testUtilities/case";
-import editUserAction from "./editUserAction";
+import editCaseNote from "./editCaseNote";
 
 afterEach(async () => {
   await models.cases.destroy({
@@ -10,7 +10,7 @@ afterEach(async () => {
     cascade: true,
     auditUser: "test user"
   });
-  await models.user_action.destroy({
+  await models.case_note.destroy({
     truncate: true,
     cascade: true,
     force: true
@@ -18,7 +18,7 @@ afterEach(async () => {
   await models.data_change_audit.truncate();
 });
 
-test("should update case status and recent activity in the db after user action edited", async () => {
+test("should update case status and recent activity in the db after case note edited", async () => {
   const caseToCreate = new Case.Builder()
     .defaultCase()
     .withId(undefined)
@@ -33,19 +33,19 @@ test("should update case status and recent activity in the db after user action 
     auditUser: "someone"
   });
 
-  const userActionToCreate = new UserAction.Builder()
-    .defaultUserAction()
+  const caseNoteToCreate = new CaseNote.Builder()
+    .defaultCaseNote()
     .withCaseId(createdCase.id)
     .withNotes("default notes")
     .withAction("Memo to file")
     .build();
 
-  const createdUserAction = await models.user_action.create(
-    userActionToCreate,
+  const createdCaseNote = await models.case_note.create(
+    caseNoteToCreate,
     { auditUser: "someone" }
   );
 
-  const updatedUserAction = {
+  const updatedCaseNote = {
     action: "Miscellaneous",
     notes: "updated notes"
   };
@@ -57,14 +57,14 @@ test("should update case status and recent activity in the db after user action 
     },
     params: {
       caseId: createdCase.id,
-      userActionId: createdUserAction.id
+      caseNoteId: createdCaseNote.id
     },
-    body: updatedUserAction,
+    body: updatedCaseNote,
     nickname: "TEST_USER_NICKNAME"
   });
 
   const response = httpMocks.createResponse();
-  await editUserAction(request, response, jest.fn());
+  await editCaseNote(request, response, jest.fn());
 
   const updatedCase = await models.cases.find({
     where: { id: createdCase.id }
@@ -76,16 +76,16 @@ test("should update case status and recent activity in the db after user action 
     })
   );
 
-  const updatedRecentActivity = await models.user_action.findAll({
+  const updatedRecentActivity = await models.case_note.findAll({
     where: { caseId: createdCase.id }
   });
   expect(updatedRecentActivity).toEqual(
     expect.arrayContaining([
       expect.objectContaining({
-        id: createdUserAction.id,
-        caseId: createdUserAction.caseId,
-        notes: updatedUserAction.notes,
-        action: updatedUserAction.action
+        id: createdCaseNote.id,
+        caseId: createdCaseNote.caseId,
+        notes: updatedCaseNote.notes,
+        action: updatedCaseNote.action
       })
     ])
   );

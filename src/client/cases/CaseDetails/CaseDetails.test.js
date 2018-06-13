@@ -14,8 +14,8 @@ import {
   openCivilianDialog,
   openRemoveCivilianDialog,
   closeEditDialog,
-  closeUserActionDialog,
-  openUserActionDialog
+  closeCaseNoteDialog,
+  openCaseNoteDialog
 } from "../../actionCreators/casesActionCreators";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import { TIMEZONE } from "../../../sharedUtilities/constants";
@@ -69,8 +69,8 @@ describe("Case Details Component", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(closeEditDialog());
   });
 
-  test("should dispatch close user action dialog on mount", () => {
-    expect(dispatchSpy).toHaveBeenCalledWith(closeUserActionDialog());
+  test("should dispatch close case note dialog on mount", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith(closeCaseNoteDialog());
   });
 
   describe("nav bar", () => {
@@ -153,23 +153,23 @@ describe("Case Details Component", () => {
       );
     });
 
-    test("should open and initialize User Action Dialog when Add Case Note button is clicked", () => {
+    test("should open and initialize Case Note Dialog when Add Case Note button is clicked", () => {
       const plusButton = caseDetails.find('button[data-test="caseActionMenu"]');
       plusButton.simulate("click");
 
-      const logUserActionButton = caseDetails.find(
-        'li[data-test="logUserActionButton"]'
+      const logCaseNoteButton = caseDetails.find(
+        'li[data-test="logCaseNoteButton"]'
       );
-      logUserActionButton.simulate("click");
+      logCaseNoteButton.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(
-        initialize("UserActions", {
+        initialize("CaseNotes", {
           actionTakenAt: timezone
             .tz(new Date(Date.now()), TIMEZONE)
             .format("YYYY-MM-DDTHH:mm")
         })
       );
-      expect(dispatchSpy).toHaveBeenCalledWith(openUserActionDialog("Add", {}));
+      expect(dispatchSpy).toHaveBeenCalledWith(openCaseNoteDialog("Add", {}));
     });
   });
 });

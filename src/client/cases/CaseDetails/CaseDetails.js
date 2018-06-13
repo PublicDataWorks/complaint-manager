@@ -19,8 +19,8 @@ import IncidentDetailsContainer from "./IncidentDetails/IncidentDetailsContainer
 import {
   openCivilianDialog,
   closeEditDialog,
-  closeUserActionDialog,
-  openUserActionDialog
+  closeCaseNoteDialog,
+  openCaseNoteDialog
 } from "../../actionCreators/casesActionCreators";
 import createCivilian from "../thunks/createCivilian";
 import {
@@ -31,7 +31,7 @@ import {
 import { initialize } from "redux-form";
 import { push } from "react-router-redux";
 import AccusedOfficers from "./Officers/AccusedOfficers";
-import UserActionDialog from "./UserActionDialog/UserActionDialog";
+import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
 import timezone from "moment-timezone";
 import RemoveCivilianDialog from "../RemoveCivilianDialog/RemoveCivilianDialog";
 
@@ -61,7 +61,7 @@ class CaseDetails extends React.Component {
   componentDidMount() {
     this.props.dispatch(getCaseDetails(this.props.match.params.id));
     this.props.dispatch(closeEditDialog());
-    this.props.dispatch(closeUserActionDialog());
+    this.props.dispatch(closeCaseNoteDialog());
   }
 
   caseDetailsNotYetLoaded() {
@@ -171,23 +171,23 @@ class CaseDetails extends React.Component {
               Add Officer
             </MenuItem>
             <MenuItem
-              data-test="logUserActionButton"
+              data-test="logCaseNoteButton"
               onClick={() => {
                 this.props.dispatch(
-                  initialize("UserActions", {
+                  initialize("CaseNotes", {
                     actionTakenAt: timezone
                       .tz(new Date(Date.now()), TIMEZONE)
                       .format("YYYY-MM-DDTHH:mm")
                   })
                 );
-                this.props.dispatch(openUserActionDialog("Add", {}));
+                this.props.dispatch(openCaseNoteDialog("Add", {}));
                 this.handleMenuClose();
               }}
             >
               Add Case Note
             </MenuItem>
           </Menu>
-          <UserActionDialog />
+          <CaseNoteDialog />
         </div>
       </div>
     );

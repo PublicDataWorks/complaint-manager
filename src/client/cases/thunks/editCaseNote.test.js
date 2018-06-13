@@ -1,16 +1,16 @@
 import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
 import { push } from "react-router-redux";
-import editUserAction from "./editUserAction";
+import editCaseNote from "./editCaseNote";
 import {
-  editUserActionFailure,
-  editUserActionSuccess,
-  closeUserActionDialog
+  editCaseNoteFailure,
+  editCaseNoteSuccess,
+  closeCaseNoteDialog
 } from "../../actionCreators/casesActionCreators";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
-describe("editUserAction", () => {
+describe("editCaseNote", () => {
   const dispatch = jest.fn();
 
   beforeEach(() => {
@@ -19,13 +19,13 @@ describe("editUserAction", () => {
 
   test("should redirect immediately if token missing", async () => {
     getAccessToken.mockImplementationOnce(() => false);
-    await editUserAction()(dispatch);
+    await editCaseNote()(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
-  test("should dispatch failure when edit user action fails", async () => {
-    const userAction = {
+  test("should dispatch failure when edit case note fails", async () => {
+    const caseNote = {
       id: 1,
       caseId: 12,
       action: "Miscellaneous"
@@ -38,18 +38,18 @@ describe("editUserAction", () => {
       }
     })
       .put(
-        `/api/cases/${userAction.caseId}/recent-activity/${userAction.id}`,
-        userAction
+        `/api/cases/${caseNote.caseId}/recent-activity/${caseNote.id}`,
+        caseNote
       )
       .reply(500);
 
-    await editUserAction(userAction)(dispatch);
+    await editCaseNote(caseNote)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(editUserActionFailure());
+    expect(dispatch).toHaveBeenCalledWith(editCaseNoteFailure());
   });
 
-  test("should dispatch success when user action edited successfully", async () => {
-    const userAction = {
+  test("should dispatch success when case note edited successfully", async () => {
+    const caseNote = {
       id: 1,
       caseId: 12,
       action: "Miscellaneous"
@@ -64,19 +64,19 @@ describe("editUserAction", () => {
       }
     })
       .put(
-        `/api/cases/${userAction.caseId}/recent-activity/${userAction.id}`,
-        userAction
+        `/api/cases/${caseNote.caseId}/recent-activity/${caseNote.id}`,
+        caseNote
       )
       .reply(200, responseBody);
 
-    await editUserAction(userAction)(dispatch);
+    await editCaseNote(caseNote)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(editUserActionSuccess(responseBody));
-    expect(dispatch).toHaveBeenCalledWith(closeUserActionDialog());
+    expect(dispatch).toHaveBeenCalledWith(editCaseNoteSuccess(responseBody));
+    expect(dispatch).toHaveBeenCalledWith(closeCaseNoteDialog());
   });
 
   test("should not dispatch success if unauthorized and redirect", async () => {
-    const userAction = {
+    const caseNote = {
       id: 1,
       caseId: 12,
       action: "Miscellaneous"
@@ -89,12 +89,12 @@ describe("editUserAction", () => {
       }
     })
       .put(
-        `/api/cases/${userAction.caseId}/recent-activity/${userAction.id}`,
-        userAction
+        `/api/cases/${caseNote.caseId}/recent-activity/${caseNote.id}`,
+        caseNote
       )
       .reply(401);
 
-    await editUserAction(userAction)(dispatch);
+    await editCaseNote(caseNote)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });

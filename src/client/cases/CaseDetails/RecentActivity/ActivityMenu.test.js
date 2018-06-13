@@ -4,8 +4,8 @@ import ActivityMenu from "./ActivityMenu";
 import { Backdrop, Menu } from "@material-ui/core";
 import createConfiguredStore from "../../../createConfiguredStore";
 import {
-  openRemoveUserActionDialog,
-  openUserActionDialog
+  openRemoveCaseNoteDialog,
+  openCaseNoteDialog
 } from "../../../actionCreators/casesActionCreators";
 import { Provider } from "react-redux";
 import moment from "moment";
@@ -67,10 +67,10 @@ describe("ActivityMenu", () => {
     };
 
     expect(dispatchSpy).toHaveBeenCalledWith(
-      initialize("UserActions", valuesToInitialize)
+      initialize("CaseNotes", valuesToInitialize)
     );
     expect(dispatchSpy).toHaveBeenCalledWith(
-      openUserActionDialog("Edit", activity)
+      openCaseNoteDialog("Edit", activity)
     );
     expect(activityMenu.props().open).toEqual(false);
   });
@@ -82,7 +82,7 @@ describe("ActivityMenu", () => {
     const activityMenu = wrapper.find(Menu);
 
     expect(dispatchSpy).toHaveBeenCalledWith(
-      openRemoveUserActionDialog(activity)
+      openRemoveCaseNoteDialog(activity)
     );
     expect(activityMenu.props().open).toEqual(false);
   });

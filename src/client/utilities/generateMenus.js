@@ -76,7 +76,7 @@ export const inputDistrictMenu = generateMenu([
   ["8th District", "Eighth District"]
 ]);
 
-export const userActions = generateMenu([
+export const caseNotes = generateMenu([
   "Case briefing from NOPD",
   "Checked status",
   "Contacted complainant",

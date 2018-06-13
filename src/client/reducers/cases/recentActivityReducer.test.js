@@ -1,9 +1,9 @@
 import recentActivityReducer from "./recentActivityReducer";
 import {
-  addUserActionSuccess,
-  editUserActionSuccess,
+  addCaseNoteSuccess,
+  editCaseNoteSuccess,
   getRecentActivitySuccess,
-  removeUserActionSuccess
+  removeCaseNoteSuccess
 } from "../../actionCreators/casesActionCreators";
 
 describe("recentActivityReducer", () => {
@@ -23,20 +23,20 @@ describe("recentActivityReducer", () => {
     expect(newState).toEqual(expectedRecentActivity);
   });
 
-  test("should return recent activity after user action logged", () => {
+  test("should return recent activity after case note logged", () => {
     const expectedRecentActivity = ["action 1", "action 2"];
 
     const newState = recentActivityReducer(
       [],
-      addUserActionSuccess(expectedRecentActivity)
+      addCaseNoteSuccess(expectedRecentActivity)
     );
     expect(newState).toEqual(expectedRecentActivity);
   });
 
-  test("should replace recent activity after removing user action", () => {
+  test("should replace recent activity after removing case note", () => {
     const oldState = { some: "old state" };
 
-    const userActionDetails = {
+    const caseNoteDetails = {
       details: {
         some: "new state"
       },
@@ -47,24 +47,24 @@ describe("recentActivityReducer", () => {
 
     const newState = recentActivityReducer(
       oldState,
-      removeUserActionSuccess(userActionDetails)
+      removeCaseNoteSuccess(caseNoteDetails)
     );
 
-    expect(newState).toEqual(userActionDetails.recentActivity);
+    expect(newState).toEqual(caseNoteDetails.recentActivity);
   });
 
-  test("should replace recent activity after editing user action", () => {
+  test("should replace recent activity after editing case note", () => {
     const oldState = { some: "old state" };
 
-    const userActionDetails = {
+    const caseNoteDetails = {
       some: "new state"
     };
 
     const newState = recentActivityReducer(
       oldState,
-      editUserActionSuccess(userActionDetails)
+      editCaseNoteSuccess(caseNoteDetails)
     );
 
-    expect(newState).toEqual(userActionDetails);
+    expect(newState).toEqual(caseNoteDetails);
   });
 });

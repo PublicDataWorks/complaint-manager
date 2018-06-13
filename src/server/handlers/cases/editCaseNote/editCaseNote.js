@@ -2,16 +2,16 @@ const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
 const _ = require("lodash");
 
-const editUserAction = asyncMiddleware(async (req, res) => {
+const editCaseNote = asyncMiddleware(async (req, res) => {
   const caseId = req.params.caseId;
-  const userActionId = req.params.userActionId;
+  const caseNoteId = req.params.caseNoteId;
   const valuesToUpdate = _.pick(req.body, ["action", "actionTakenAt", "notes"]);
 
   const recentActivity = await models.sequelize.transaction(
     async transaction => {
-      await models.user_action.update(valuesToUpdate, {
+      await models.case_note.update(valuesToUpdate, {
         where: {
-          id: userActionId
+          id: caseNoteId
         },
         transaction,
         auditUser: req.nickname
@@ -30,7 +30,7 @@ const editUserAction = asyncMiddleware(async (req, res) => {
         }
       );
 
-      return await models.user_action.findAll({
+      return await models.case_note.findAll({
         where: { caseId },
         transaction
       });
@@ -40,4 +40,4 @@ const editUserAction = asyncMiddleware(async (req, res) => {
   res.status(200).send(recentActivity);
 });
 
-module.exports = editUserAction;
+module.exports = editCaseNote;

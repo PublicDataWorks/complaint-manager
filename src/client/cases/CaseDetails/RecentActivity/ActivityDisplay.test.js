@@ -6,8 +6,8 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
 
 describe("ActivityDisplay", () => {
-  test("should be able to display user action", () => {
-    const userAction = {
+  test("should be able to display case note", () => {
+    const caseNote = {
       id: 1,
       caseId: 2,
       user: "tuser",
@@ -18,17 +18,17 @@ describe("ActivityDisplay", () => {
 
     const wrapper = mount(
       <Provider store={createConfiguredStore()}>
-        <ActivityDisplay activity={userAction} />
+        <ActivityDisplay activity={caseNote} />
       </Provider>
     );
 
-    containsText(wrapper, '[data-test="userAndActionText"]', userAction.action);
-    containsText(wrapper, '[data-test="userAndActionText"]', userAction.user);
+    containsText(wrapper, '[data-test="userAndActionText"]', caseNote.action);
+    containsText(wrapper, '[data-test="userAndActionText"]', caseNote.user);
     containsText(
       wrapper,
       '[data-test="activityTimeText"]',
       "a few seconds ago"
     );
-    containsText(wrapper, '[data-test="notesText"]', userAction.notes);
+    containsText(wrapper, '[data-test="notesText"]', caseNote.notes);
   });
 });

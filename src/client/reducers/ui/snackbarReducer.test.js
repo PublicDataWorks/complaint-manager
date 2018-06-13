@@ -5,18 +5,18 @@ import {
   requestUserCreation
 } from "../../actionCreators/usersActionCreators";
 import {
-  addUserActionFailure,
-  addUserActionSuccess,
+  addCaseNoteFailure,
+  addCaseNoteSuccess,
   createCaseFailure,
   createCaseSuccess,
   editCivilianFailed,
   editCivilianSuccess,
-  editUserActionFailure,
-  editUserActionSuccess,
+  editCaseNoteFailure,
+  editCaseNoteSuccess,
   removeCivilianFailure,
   removeCivilianSuccess,
-  removeUserActionFailure,
-  removeUserActionSuccess,
+  removeCaseNoteFailure,
+  removeCaseNoteSuccess,
   requestCaseCreation,
   updateIncidentDetailsFailure,
   updateIncidentDetailsSuccess,
@@ -35,7 +35,7 @@ import {
   removeAttachmentSuccess
 } from "../../actionCreators/attachmentsActionCreators";
 import {
-  ADD_USER_ACTION_SUCCEEDED,
+  ADD_CASE_NOTE_SUCCEEDED,
   SNACKBAR_ERROR,
   SNACKBAR_SUCCESS
 } from "../../../sharedUtilities/constants";
@@ -278,10 +278,10 @@ describe("snackbarReducer", () => {
     });
   });
 
-  describe("USER ACTION DIALOG", () => {
-    test("ADD_USER_ACTION_SUCCEEDED", () => {
+  describe("CASE NOTE DIALOG", () => {
+    test("ADD_CASE_NOTE_SUCCEEDED", () => {
       const initialState = { success: false, open: false, message: "" };
-      const newState = snackbarReducer(initialState, addUserActionSuccess());
+      const newState = snackbarReducer(initialState, addCaseNoteSuccess());
 
       const expectedState = {
         success: true,
@@ -290,9 +290,9 @@ describe("snackbarReducer", () => {
       };
       expect(newState).toEqual(expectedState);
     });
-    test("ADD_USER_ACTION_FAILED", () => {
+    test("ADD_CASE_NOTE_FAILED", () => {
       const initialState = { success: true, open: false, message: "" };
-      const newState = snackbarReducer(initialState, addUserActionFailure());
+      const newState = snackbarReducer(initialState, addCaseNoteFailure());
 
       const expectedState = {
         success: false,
@@ -301,9 +301,9 @@ describe("snackbarReducer", () => {
       };
       expect(newState).toEqual(expectedState);
     });
-    test("EDIT_USER_ACTION_SUCCEEDED", () => {
+    test("EDIT_CASE_NOTE_SUCCEEDED", () => {
       const initialState = { success: false, open: false, message: "" };
-      const newState = snackbarReducer(initialState, editUserActionSuccess());
+      const newState = snackbarReducer(initialState, editCaseNoteSuccess());
 
       const expectedState = {
         success: true,
@@ -312,9 +312,9 @@ describe("snackbarReducer", () => {
       };
       expect(newState).toEqual(expectedState);
     });
-    test("EDIT_USER_ACTION_FAILED", () => {
+    test("EDIT_CASE_NOTE_FAILED", () => {
       const initialState = { success: true, open: false, message: "" };
-      const newState = snackbarReducer(initialState, editUserActionFailure());
+      const newState = snackbarReducer(initialState, editCaseNoteFailure());
 
       const expectedState = {
         success: false,
@@ -324,11 +324,11 @@ describe("snackbarReducer", () => {
       };
       expect(newState).toEqual(expectedState);
     });
-    test("REMOVE_USER_ACTION_SUCCEEDED", () => {
+    test("REMOVE_CASE_NOTE_SUCCEEDED", () => {
       const initialState = { success: false, open: false, message: "" };
       const newState = snackbarReducer(
         initialState,
-        removeUserActionSuccess({ caseDetails: "", recentActivity: "" })
+        removeCaseNoteSuccess({ caseDetails: "", recentActivity: "" })
       );
 
       const expectedState = {
@@ -338,9 +338,9 @@ describe("snackbarReducer", () => {
       };
       expect(newState).toEqual(expectedState);
     });
-    test("REMOVE_USER_ACTION_FAILED", () => {
+    test("REMOVE_CASE_NOTE_FAILED", () => {
       const initialState = { success: true, open: false, message: "" };
-      const newState = snackbarReducer(initialState, removeUserActionFailure());
+      const newState = snackbarReducer(initialState, removeCaseNoteFailure());
 
       const expectedState = {
         success: false,

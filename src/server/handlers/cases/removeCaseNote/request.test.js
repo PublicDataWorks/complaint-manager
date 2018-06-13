@@ -1,18 +1,18 @@
-import models from "../../../models";
 import buildTokenWithPermissions from "../../../requestTestHelpers";
-import Case from "../../../../client/testUtilities/case";
-import UserAction from "../../../../client/testUtilities/userAction";
-import request from "supertest";
+import models from "../../../models/index";
 import app from "../../../server";
+import request from "supertest";
+import Case from "../../../../client/testUtilities/case";
+import CaseNote from "../../../../client/testUtilities/caseNote";
 
-describe("editUserAction request", function() {
+describe("removeCaseNote request", () => {
   afterEach(async () => {
     await models.cases.destroy({
       truncate: true,
       cascade: true,
       auditUser: "test user"
     });
-    await models.user_action.destroy({
+    await models.case_note.destroy({
       truncate: true,
       cascade: true,
       force: true,
@@ -21,7 +21,7 @@ describe("editUserAction request", function() {
     await models.data_change_audit.truncate();
   });
 
-  test("should edit a user action", async () => {
+  test("should remove a case note", async () => {
     const token = buildTokenWithPermissions("", "tuser");
 
     const caseToCreate = new Case.Builder()
@@ -36,40 +36,35 @@ describe("editUserAction request", function() {
     const createdCase = await models.cases.create(caseToCreate, {
       auditUser: "someone"
     });
-    const userActionToCreate = new UserAction.Builder()
-      .defaultUserAction()
-      .withUser("tuser")
-      .withAction("Memo to file")
-      .withNotes("default notes")
+
+    const caseNoteToCreate = new CaseNote.Builder()
+      .defaultCaseNote()
       .withCaseId(createdCase.id)
       .build();
 
-    const createdUserAction = await models.user_action.create(
-      userActionToCreate,
+    const createdCaseNote = await models.case_note.create(
+      caseNoteToCreate,
       { auditUser: "someone" }
     );
-    const updatedUserAction = {
-      action: "Miscellaneous",
-      notes: "updated notes"
-    };
 
     await request(app)
-      .put(
-        `/api/cases/${createdCase.id}/recent-activity/${createdUserAction.id}`
+      .delete(
+        `/api/cases/${createdCase.id}/recent-activity/${createdCaseNote.id}`
       )
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
-      .send(updatedUserAction)
       .expect(200)
       .then(response => {
-        expect(response.body).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({
-              ...updatedUserAction,
-              id: createdUserAction.id,
-              user: "tuser"
+        const currentCase = response.body;
+
+        expect(currentCase).toEqual(
+          expect.objectContaining({
+            recentActivity: [],
+            caseDetails: expect.objectContaining({
+              id: createdCase.id,
+              status: "Active"
             })
-          ])
+          })
         );
       });
   });

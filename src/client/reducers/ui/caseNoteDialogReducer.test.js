@@ -1,12 +1,12 @@
-import userActionDialogReducer from "./userActionDialogReducer";
+import caseNoteDialogReducer from "./caseNoteDialogReducer";
 import {
-  closeUserActionDialog,
-  openUserActionDialog
+  closeCaseNoteDialog,
+  openCaseNoteDialog
 } from "../../actionCreators/casesActionCreators";
 
-describe("userActionDialogReducer", () => {
+describe("caseNoteDialogReducer", () => {
   test("should set up initial state", () => {
-    const newState = userActionDialogReducer(undefined, {
+    const newState = caseNoteDialogReducer(undefined, {
       type: "some_action"
     });
     expect(newState).toEqual({
@@ -26,9 +26,9 @@ describe("userActionDialogReducer", () => {
     const dialogType = "Edit";
     const initialCaseNote = { some: "case note object" };
 
-    const actualState = userActionDialogReducer(
+    const actualState = caseNoteDialogReducer(
       oldState,
-      openUserActionDialog(dialogType, initialCaseNote)
+      openCaseNoteDialog(dialogType, initialCaseNote)
     );
 
     const expectedState = {
@@ -41,9 +41,9 @@ describe("userActionDialogReducer", () => {
   });
 
   test("should set open to false on closeDialog", () => {
-    const newState = userActionDialogReducer(
+    const newState = caseNoteDialogReducer(
       { open: true, some: "old state" },
-      closeUserActionDialog()
+      closeCaseNoteDialog()
     );
 
     expect(newState).toEqual({ open: false, some: "old state" });

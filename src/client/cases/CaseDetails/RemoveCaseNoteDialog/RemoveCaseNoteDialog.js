@@ -11,11 +11,11 @@ import {
   SecondaryButton,
   PrimaryButton
 } from "../../../shared/components/StyledButtons";
-import removeUserAction from "../../thunks/removeUserAction";
-import { closeRemoveUserActionDialog } from "../../../actionCreators/casesActionCreators";
+import removeCaseNote from "../../thunks/removeCaseNote";
+import { closeRemoveCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
 import moment from "moment";
 
-const RemoveUserActionDialog = ({ dialogOpen, activity, dispatch }) => {
+const RemoveCaseNoteDialog = ({ dialogOpen, activity, dispatch }) => {
   return (
     <Dialog open={dialogOpen} fullWidth={true}>
       <DialogTitle>Remove Case Note</DialogTitle>
@@ -53,14 +53,14 @@ const RemoveUserActionDialog = ({ dialogOpen, activity, dispatch }) => {
       <DialogActions>
         <SecondaryButton
           data-test="cancelButton"
-          onClick={() => dispatch(closeRemoveUserActionDialog())}
+          onClick={() => dispatch(closeRemoveCaseNoteDialog())}
         >
           Cancel
         </SecondaryButton>
         <PrimaryButton
-          data-test="removeUserAction"
+          data-test="removeCaseNote"
           onClick={() =>
-            dispatch(removeUserAction(activity.caseId, activity.id))
+            dispatch(removeCaseNote(activity.caseId, activity.id))
           }
         >
           Remove
@@ -71,8 +71,8 @@ const RemoveUserActionDialog = ({ dialogOpen, activity, dispatch }) => {
 };
 
 const mapStateToProps = state => ({
-  dialogOpen: state.ui.removeUserActionDialog.dialogOpen,
-  activity: state.ui.removeUserActionDialog.activity
+  dialogOpen: state.ui.removeCaseNoteDialog.dialogOpen,
+  activity: state.ui.removeCaseNoteDialog.activity
 });
 
-export default connect(mapStateToProps)(RemoveUserActionDialog);
+export default connect(mapStateToProps)(RemoveCaseNoteDialog);

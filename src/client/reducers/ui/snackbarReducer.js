@@ -1,7 +1,7 @@
 import {
   ADD_OFFICER_TO_CASE_FAILED,
-  ADD_USER_ACTION_FAILED,
-  ADD_USER_ACTION_SUCCEEDED,
+  ADD_CASE_NOTE_FAILED,
+  ADD_CASE_NOTE_SUCCEEDED,
   ATTACHMENT_UPLOAD_FAILED,
   ATTACHMENT_UPLOAD_SUCCEEDED,
   CASE_CREATED_SUCCESS,
@@ -10,16 +10,16 @@ import {
   DOWNLOAD_FAILED,
   EDIT_CASE_OFFICER_FAILED,
   EDIT_CASE_OFFICER_SUCCEEDED,
-  EDIT_USER_ACTION_FAILED,
-  EDIT_USER_ACTION_SUCCEEDED,
+  EDIT_CASE_NOTE_FAILED,
+  EDIT_CASE_NOTE_SUCCEEDED,
   INCIDENT_DETAILS_UPDATE_FAILED,
   INCIDENT_DETAILS_UPDATE_SUCCEEDED,
   REMOVE_ATTACHMENT_FAILED,
   REMOVE_ATTACHMENT_SUCCESS,
   REMOVE_CIVILIAN_FAILED,
   REMOVE_CIVILIAN_SUCCEEDED,
-  REMOVE_USER_ACTION_FAILED,
-  REMOVE_USER_ACTION_SUCCEEDED,
+  REMOVE_CASE_NOTE_FAILED,
+  REMOVE_CASE_NOTE_SUCCEEDED,
   SNACKBAR_ERROR,
   SNACKBAR_SUCCESS,
   GET_ALLEGATIONS_FAILED
@@ -210,38 +210,38 @@ const snackbarReducer = (state = initialState, action) => {
         success: false,
         message: "We could not add the officer to your case. Please try again."
       };
-    case ADD_USER_ACTION_SUCCEEDED:
+    case ADD_CASE_NOTE_SUCCEEDED:
       return {
         success: true,
         open: true,
         message: "Your action was successfully logged"
       };
-    case ADD_USER_ACTION_FAILED:
+    case ADD_CASE_NOTE_FAILED:
       return {
         success: false,
         open: true,
         message: "We could not log your action. Please try again."
       };
-    case EDIT_USER_ACTION_SUCCEEDED:
+    case EDIT_CASE_NOTE_SUCCEEDED:
       return {
         success: true,
         open: true,
         message: "Case note successfully updated."
       };
-    case EDIT_USER_ACTION_FAILED:
+    case EDIT_CASE_NOTE_FAILED:
       return {
         success: false,
         open: true,
         message:
           "Something went wrong on our end and the case note was not updated. Please try again."
       };
-    case REMOVE_USER_ACTION_SUCCEEDED:
+    case REMOVE_CASE_NOTE_SUCCEEDED:
       return {
         success: true,
         open: true,
         message: "Case note successfully removed."
       };
-    case REMOVE_USER_ACTION_FAILED:
+    case REMOVE_CASE_NOTE_FAILED:
       return {
         success: false,
         open: true,

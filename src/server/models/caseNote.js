@@ -2,8 +2,8 @@ const timezone = require("moment-timezone");
 const { TIMEZONE } = require("../../sharedUtilities/constants");
 
 module.exports = (sequelize, DataTypes) => {
-  const UserAction = sequelize.define(
-    "user_action",
+  const CaseNote = sequelize.define(
+    "case_note",
     {
       id: {
         allowNull: false,
@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  UserAction.prototype.modelDescription = async function(transaction) {
+  CaseNote.prototype.modelDescription = async function(transaction) {
     const formattedActionTakenAt = timezone
       .tz(this.actionTakenAt, TIMEZONE)
       .format("MMM DD, YYYY h:mm:ss A z");
@@ -55,17 +55,17 @@ module.exports = (sequelize, DataTypes) => {
     return `${this.action} (${formattedActionTakenAt})`;
   };
 
-  UserAction.prototype.getCaseId = async function(transaction) {
+  CaseNote.prototype.getCaseId = async function(transaction) {
     return this.caseId;
   };
 
-  UserAction.associate = models => {
-    UserAction.belongsTo(models.cases, {
+  CaseNote.associate = models => {
+    CaseNote.belongsTo(models.cases, {
       foreignKey: { name: "caseId", field: "case_id", allowNull: false }
     });
   };
 
-  UserAction.auditDataChange();
+  CaseNote.auditDataChange();
 
-  return UserAction;
+  return CaseNote;
 };

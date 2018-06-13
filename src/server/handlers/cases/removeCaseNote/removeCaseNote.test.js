@@ -1,17 +1,17 @@
 import * as httpMocks from "node-mocks-http";
 import Case from "../../../../client/testUtilities/case";
 import models from "../../../models";
-import UserAction from "../../../../client/testUtilities/userAction";
-import removeUserAction from "./removeUserAction";
+import CaseNote from "../../../../client/testUtilities/caseNote";
+import removeCaseNote from "./removeCaseNote";
 
-describe("RemoveUserAction unit", () => {
+describe("RemoveCaseNote unit", () => {
   afterEach(async () => {
     await models.cases.destroy({
       truncate: true,
       cascade: true,
       auditUser: "test user"
     });
-    await models.user_action.destroy({
+    await models.case_note.destroy({
       truncate: true,
       cascade: true,
       force: true,
@@ -20,7 +20,7 @@ describe("RemoveUserAction unit", () => {
     await models.data_change_audit.truncate();
   });
 
-  test("should update case status and recent activity in the db after user action removed", async () => {
+  test("should update case status and recent activity in the db after case note removed", async () => {
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)
@@ -35,13 +35,13 @@ describe("RemoveUserAction unit", () => {
       auditUser: "someone"
     });
 
-    const userActionToCreate = new UserAction.Builder()
-      .defaultUserAction()
+    const caseNoteToCreate = new CaseNote.Builder()
+      .defaultCaseNote()
       .withCaseId(createdCase.id)
       .build();
 
-    const createdUserAction = await models.user_action.create(
-      userActionToCreate,
+    const createdCaseNote = await models.case_note.create(
+      caseNoteToCreate,
       { auditUser: "someone" }
     );
 
@@ -52,13 +52,13 @@ describe("RemoveUserAction unit", () => {
       },
       params: {
         caseId: createdCase.id,
-        userActionId: createdUserAction.id
+        caseNoteId: createdCaseNote.id
       },
       nickname: "TEST_USER_NICKNAME"
     });
 
     const response = httpMocks.createResponse();
-    await removeUserAction(request, response, jest.fn());
+    await removeCaseNote(request, response, jest.fn());
 
     const updatedCase = await models.cases.findAll({
       where: { id: createdCase.id }
@@ -72,7 +72,7 @@ describe("RemoveUserAction unit", () => {
       ])
     );
 
-    const updatedRecentActivity = await models.user_action.findAll({
+    const updatedRecentActivity = await models.case_note.findAll({
       where: { caseId: updatedCase.id }
     });
     expect(updatedRecentActivity).toEqual([]);

@@ -12,20 +12,20 @@ import {
   SecondaryButton,
   PrimaryButton
 } from "../../../shared/components/StyledButtons";
-import { closeUserActionDialog } from "../../../actionCreators/casesActionCreators";
+import { closeCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
 import { Field, reduxForm, reset } from "redux-form";
 import DateField from "../../sharedFormComponents/DateField";
 import NoBlurTextField from "../CivilianDialog/FormSelect";
-import { userActions } from "../../../utilities/generateMenus";
-import addUserAction from "../../thunks/addUserAction";
+import { caseNotes } from "../../../utilities/generateMenus";
+import addCaseNote from "../../thunks/addCaseNote";
 import { actionIsRequired } from "../../../formFieldLevelValidations";
 import timezone from "moment-timezone";
 import moment from "moment";
 import _ from "lodash";
 import { TIMEZONE } from "../../../../sharedUtilities/constants";
-import editUserAction from "../../thunks/editUserAction";
+import editCaseNote from "../../thunks/editCaseNote";
 
-const UserActionDialog = props => {
+const CaseNoteDialog = props => {
   const {
     open,
     caseId,
@@ -48,10 +48,10 @@ const UserActionDialog = props => {
 
     switch (dialogType) {
       case "Add":
-        dispatch(addUserAction(valuesToSubmit));
+        dispatch(addCaseNote(valuesToSubmit));
         break;
       case "Edit":
-        dispatch(editUserAction(valuesToSubmit));
+        dispatch(editCaseNote(valuesToSubmit));
         break;
       default:
         break;
@@ -64,7 +64,7 @@ const UserActionDialog = props => {
         style={{
           paddingBottom: "8px"
         }}
-        data-test="userActionDialogTitle"
+        data-test="caseNoteDialogTitle"
       >
         {dialogType === "Add" ? "Add Case Note" : "Edit Case Note"}
       </DialogTitle>
@@ -111,7 +111,7 @@ const UserActionDialog = props => {
             }}
             validate={[actionIsRequired]}
           >
-            {userActions}
+            {caseNotes}
           </Field>
           <Field
             name="notes"
@@ -144,8 +144,8 @@ const UserActionDialog = props => {
           }}
           data-test="cancelButton"
           onClick={() => {
-            dispatch(reset("UserActions"));
-            dispatch(closeUserActionDialog());
+            dispatch(reset("CaseNotes"));
+            dispatch(closeCaseNoteDialog());
           }}
         >
           Cancel
@@ -159,13 +159,13 @@ const UserActionDialog = props => {
 };
 
 const ConnectedForm = reduxForm({
-  form: "UserActions"
-})(UserActionDialog);
+  form: "CaseNotes"
+})(CaseNoteDialog);
 
 const mapStateToProps = state => ({
-  open: state.ui.userActionDialog.open,
+  open: state.ui.caseNoteDialog.open,
   caseId: state.currentCase.details.id,
-  dialogType: state.ui.userActionDialog.dialogType,
-  initialCaseNote: state.ui.userActionDialog.initialCaseNote
+  dialogType: state.ui.caseNoteDialog.dialogType,
+  initialCaseNote: state.ui.caseNoteDialog.initialCaseNote
 });
 export default connect(mapStateToProps)(ConnectedForm);

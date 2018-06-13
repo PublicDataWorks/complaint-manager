@@ -1,11 +1,11 @@
 import caseDetailsReducer from "./caseDetailsReducer";
 import {
-  addUserActionSuccess,
+  addCaseNoteSuccess,
   createCivilianSuccess,
   editCivilianSuccess,
   getCaseDetailsSuccess,
   removeCivilianSuccess,
-  removeUserActionSuccess,
+  removeCaseNoteSuccess,
   updateIncidentDetailsSuccess,
   updateNarrativeSuccess,
   uploadAttachmentSuccess
@@ -89,13 +89,13 @@ describe("caseDetailsReducers", () => {
     });
   });
 
-  describe("REMOVE_USER_ACTION_SUCCEEDED", function() {
-    test("should replace current case on remove user action", () => {
+  describe("REMOVE_CASE_NOTE_SUCCEEDED", function() {
+    test("should replace current case on remove case note", () => {
       const oldState = {
         some: "old state"
       };
 
-      const userActionDetails = {
+      const caseNoteDetails = {
         caseDetails: {
           some: "new state"
         },
@@ -105,10 +105,10 @@ describe("caseDetailsReducers", () => {
       };
       const newState = caseDetailsReducer(
         oldState,
-        removeUserActionSuccess(userActionDetails)
+        removeCaseNoteSuccess(caseNoteDetails)
       );
 
-      expect(newState).toEqual(userActionDetails.caseDetails);
+      expect(newState).toEqual(caseNoteDetails.caseDetails);
     });
   });
 
@@ -150,10 +150,10 @@ describe("caseDetailsReducers", () => {
     });
   });
 
-  describe("ADD_USER_ACTION_SUCCEEDED", () => {
+  describe("ADD_CASE_NOTE_SUCCEEDED", () => {
     test("should set case status to Active if Initial", () => {
       const caseDetails = { status: "Initial" };
-      const newState = caseDetailsReducer(caseDetails, addUserActionSuccess());
+      const newState = caseDetailsReducer(caseDetails, addCaseNoteSuccess());
 
       expect(newState).toEqual({ status: "Active" });
     });

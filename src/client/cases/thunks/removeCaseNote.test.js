@@ -1,21 +1,21 @@
-import removeUserAction from "./removeUserAction";
+import removeCaseNote from "./removeCaseNote";
 import nock from "nock";
 import { push } from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
 import {
-  closeRemoveUserActionDialog,
-  removeUserActionFailure,
-  removeUserActionSuccess
+  closeRemoveCaseNoteDialog,
+  removeCaseNoteFailure,
+  removeCaseNoteSuccess
 } from "../../actionCreators/casesActionCreators";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
-describe("removeUserAction", () => {
-  test("should dispatch success when user action removed successfully", async () => {
+describe("removeCaseNote", () => {
+  test("should dispatch success when case note removed successfully", async () => {
     const dispatch = jest.fn();
 
     const caseId = 1;
-    const userActionId = 2;
+    const caseNoteId = 2;
 
     const responseBody = {
       caseDetails: {
@@ -29,22 +29,22 @@ describe("removeUserAction", () => {
         Authorization: "Bearer TEST_TOKEN"
       }
     })
-      .delete(`/api/cases/${caseId}/recent-activity/${userActionId}`)
+      .delete(`/api/cases/${caseId}/recent-activity/${caseNoteId}`)
       .reply(200, responseBody);
 
-    await removeUserAction(caseId, userActionId)(dispatch);
+    await removeCaseNote(caseId, caseNoteId)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
-      removeUserActionSuccess(responseBody)
+      removeCaseNoteSuccess(responseBody)
     );
-    expect(dispatch).toHaveBeenCalledWith(closeRemoveUserActionDialog());
+    expect(dispatch).toHaveBeenCalledWith(closeRemoveCaseNoteDialog());
   });
 
-  test("should dispatch failure when remove user action fails", async () => {
+  test("should dispatch failure when remove case note fails", async () => {
     const dispatch = jest.fn();
 
     const caseId = 1;
-    const userActionId = 2;
+    const caseNoteId = 2;
 
     nock("http://localhost", {
       reqheaders: {
@@ -52,19 +52,19 @@ describe("removeUserAction", () => {
         Authorization: "Bearer TEST_TOKEN"
       }
     })
-      .delete(`/api/cases/${caseId}/recent-activity/${userActionId}`)
+      .delete(`/api/cases/${caseId}/recent-activity/${caseNoteId}`)
       .reply(500);
 
-    await removeUserAction(caseId, userActionId)(dispatch);
+    await removeCaseNote(caseId, caseNoteId)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(removeUserActionFailure());
+    expect(dispatch).toHaveBeenCalledWith(removeCaseNoteFailure());
   });
 
   test("should redirect if unauthorized", async () => {
     const dispatch = jest.fn();
 
     const caseId = 1;
-    const userActionId = 2;
+    const caseNoteId = 2;
 
     nock("http://localhost", {
       reqheaders: {
@@ -72,10 +72,10 @@ describe("removeUserAction", () => {
         Authorization: "Bearer TEST_TOKEN"
       }
     })
-      .delete(`/api/cases/${caseId}/recent-activity/${userActionId}`)
+      .delete(`/api/cases/${caseId}/recent-activity/${caseNoteId}`)
       .reply(401);
 
-    await removeUserAction(caseId, userActionId)(dispatch);
+    await removeCaseNote(caseId, caseNoteId)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
@@ -84,7 +84,7 @@ describe("removeUserAction", () => {
     const dispatch = jest.fn();
 
     const caseId = 1;
-    const userActionId = 2;
+    const caseNoteId = 2;
 
     getAccessToken.mockImplementationOnce(() => false);
 
@@ -94,10 +94,10 @@ describe("removeUserAction", () => {
         Authorization: "Bearer false"
       }
     })
-      .delete(`/api/cases/${caseId}/recent-activity/${userActionId}`)
+      .delete(`/api/cases/${caseId}/recent-activity/${caseNoteId}`)
       .reply(200);
 
-    await removeUserAction(caseId, userActionId)(dispatch);
+    await removeCaseNote(caseId, caseNoteId)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });

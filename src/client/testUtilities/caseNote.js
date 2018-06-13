@@ -1,4 +1,4 @@
-class UserAction {
+class CaseNote {
   constructor(build) {
     this.caseId = build.caseId;
     this.id = build.id;
@@ -10,7 +10,7 @@ class UserAction {
 
   static get Builder() {
     class Builder {
-      defaultUserAction() {
+      defaultCaseNote() {
         this.id = undefined;
         this.caseId = undefined;
         this.user = "tuser";
@@ -51,7 +51,7 @@ class UserAction {
       }
 
       build() {
-        return new UserAction(this);
+        return new CaseNote(this);
       }
     }
 
@@ -59,4 +59,4 @@ class UserAction {
   }
 }
 
-export default UserAction;
+export default CaseNote;

@@ -4,8 +4,8 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Menu } from "@material-ui/core";
 import { connect } from "react-redux";
 import {
-  openRemoveUserActionDialog,
-  openUserActionDialog
+  openRemoveCaseNoteDialog,
+  openCaseNoteDialog
 } from "../../../actionCreators/casesActionCreators";
 import { initialize } from "redux-form";
 import moment from "moment";
@@ -29,19 +29,19 @@ class ActivityMenu extends React.Component {
 
   handleEditNoteClick = () => {
     this.props.dispatch(
-      initialize("UserActions", {
+      initialize("CaseNotes", {
         ...this.props.activity,
         actionTakenAt: moment(this.props.activity.actionTakenAt).format(
           "YYYY-MM-DDTHH:mm:ss"
         )
       })
     );
-    this.props.dispatch(openUserActionDialog("Edit", this.props.activity));
+    this.props.dispatch(openCaseNoteDialog("Edit", this.props.activity));
     this.handleMenuClose();
   };
 
   handleRemoveNoteClick = () => {
-    this.props.dispatch(openRemoveUserActionDialog(this.props.activity));
+    this.props.dispatch(openRemoveCaseNoteDialog(this.props.activity));
     this.handleMenuClose();
   };
 

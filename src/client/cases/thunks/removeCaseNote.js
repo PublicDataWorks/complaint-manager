@@ -1,15 +1,15 @@
 import getAccessToken from "../../auth/getAccessToken";
 import {
-  closeRemoveUserActionDialog,
-  removeUserActionFailure,
-  removeUserActionSuccess
+  closeRemoveCaseNoteDialog,
+  removeCaseNoteFailure,
+  removeCaseNoteSuccess
 } from "../../actionCreators/casesActionCreators";
 import config from "../../config/config";
 import { push } from "react-router-redux";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
-const removeUserAction = (caseId, userActionId) => async dispatch => {
+const removeCaseNote = (caseId, caseNoteId) => async dispatch => {
   try {
     const token = getAccessToken();
     if (!token) {
@@ -17,7 +17,7 @@ const removeUserAction = (caseId, userActionId) => async dispatch => {
     }
 
     const response = await fetch(
-      `${hostname}/api/cases/${caseId}/recent-activity/${userActionId}`,
+      `${hostname}/api/cases/${caseId}/recent-activity/${caseNoteId}`,
       {
         method: "DELETE",
         headers: {
@@ -29,19 +29,19 @@ const removeUserAction = (caseId, userActionId) => async dispatch => {
 
     switch (response.status) {
       case 200:
-        dispatch(closeRemoveUserActionDialog());
+        dispatch(closeRemoveCaseNoteDialog());
         const currentCase = await response.json();
-        return dispatch(removeUserActionSuccess(currentCase));
+        return dispatch(removeCaseNoteSuccess(currentCase));
       case 500:
-        return dispatch(removeUserActionFailure());
+        return dispatch(removeCaseNoteFailure());
       case 401:
         return dispatch(push("/login"));
       default:
-        return dispatch(removeUserActionFailure());
+        return dispatch(removeCaseNoteFailure());
     }
   } catch (error) {
-    return dispatch(removeUserActionFailure());
+    return dispatch(removeCaseNoteFailure());
   }
 };
 
-export default removeUserAction;
+export default removeCaseNote;

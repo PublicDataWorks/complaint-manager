@@ -2,14 +2,14 @@ const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
 
-const removeUserAction = asyncMiddleware(async (req, res) => {
+const removeCaseNote = asyncMiddleware(async (req, res) => {
   const caseId = req.params.caseId;
-  const userActionId = req.params.userActionId;
+  const caseNoteId = req.params.caseNoteId;
 
   const currentCase = await models.sequelize.transaction(async transaction => {
-    await models.user_action.destroy({
+    await models.case_note.destroy({
       where: {
-        id: userActionId
+        id: caseNoteId
       },
       transaction,
       auditUser: req.nickname
@@ -29,7 +29,7 @@ const removeUserAction = asyncMiddleware(async (req, res) => {
     );
 
     const caseDetails = await getCaseWithAllAssociations(caseId, transaction);
-    const recentActivity = await models.user_action.findAll({
+    const recentActivity = await models.case_note.findAll({
       where: { caseId },
       transaction
     });
@@ -42,4 +42,4 @@ const removeUserAction = asyncMiddleware(async (req, res) => {
   res.status(200).send(currentCase);
 });
 
-module.exports = removeUserAction;
+module.exports = removeCaseNote;

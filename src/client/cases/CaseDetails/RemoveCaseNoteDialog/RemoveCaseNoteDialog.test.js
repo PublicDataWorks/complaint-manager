@@ -1,22 +1,22 @@
-import RemoveUserActionDialog from "./RemoveUserActionDialog";
+import RemoveCaseNoteDialog from "./RemoveCaseNoteDialog";
 import createConfiguredStore from "../../../createConfiguredStore";
 import {
-  closeRemoveUserActionDialog,
-  openRemoveUserActionDialog
+  closeRemoveCaseNoteDialog,
+  openRemoveCaseNoteDialog
 } from "../../../actionCreators/casesActionCreators";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import React from "react";
-import removeUserAction from "../../thunks/removeUserAction";
+import removeCaseNote from "../../thunks/removeCaseNote";
 
-jest.mock("../../thunks/removeUserAction", () => (caseId, userActionId) => ({
+jest.mock("../../thunks/removeCaseNote", () => (caseId, caseNoteId) => ({
   type: "MOCK_ACTION",
   caseId,
-  userActionId
+  caseNoteId
 }));
 
-describe("RemoveUserActionDialog", function() {
-  test("should call removeUserAction thunk with correct values", () => {
+describe("RemoveCaseNoteDialog", function() {
+  test("should call removeCaseNote thunk with correct values", () => {
     const store = createConfiguredStore();
     const activity = {
       id: 1,
@@ -24,37 +24,37 @@ describe("RemoveUserActionDialog", function() {
     };
     const dispatchSpy = jest.spyOn(store, "dispatch");
 
-    store.dispatch(openRemoveUserActionDialog(activity));
+    store.dispatch(openRemoveCaseNoteDialog(activity));
 
     const wrapper = mount(
       <Provider store={store}>
-        <RemoveUserActionDialog />
+        <RemoveCaseNoteDialog />
       </Provider>
     );
 
-    const removeUserActionButton = wrapper
-      .find('[data-test="removeUserAction"]')
+    const removeCaseNoteButton = wrapper
+      .find('[data-test="removeCaseNote"]')
       .first();
-    removeUserActionButton.simulate("click");
+    removeCaseNoteButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
-      removeUserAction(activity.caseId, activity.id)
+      removeCaseNote(activity.caseId, activity.id)
     );
   });
 
   test("should close dialog when cancel button clicked", function() {
     const store = createConfiguredStore();
-    store.dispatch(openRemoveUserActionDialog());
+    store.dispatch(openRemoveCaseNoteDialog());
     const dispatchSpy = jest.spyOn(store, "dispatch");
 
     const wrapper = mount(
       <Provider store={store}>
-        <RemoveUserActionDialog />
+        <RemoveCaseNoteDialog />
       </Provider>
     );
 
     const cancelButton = wrapper.find('[data-test="cancelButton"]').first();
     cancelButton.simulate("click");
-    expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveUserActionDialog());
+    expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveCaseNoteDialog());
   });
 });

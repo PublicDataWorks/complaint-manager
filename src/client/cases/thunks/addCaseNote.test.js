@@ -1,16 +1,16 @@
 import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
 import { push } from "react-router-redux";
-import addUserAction from "./addUserAction";
+import addCaseNote from "./addCaseNote";
 import {
-  addUserActionFailure,
-  addUserActionSuccess,
-  closeUserActionDialog
+  addCaseNoteFailure,
+  addCaseNoteSuccess,
+  closeCaseNoteDialog
 } from "../../actionCreators/casesActionCreators";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
-describe("addUserAction", () => {
+describe("addCaseNote", () => {
   const dispatch = jest.fn();
 
   beforeEach(() => {
@@ -19,13 +19,13 @@ describe("addUserAction", () => {
 
   test("should redirect immediately if token missing", async () => {
     getAccessToken.mockImplementationOnce(() => false);
-    await addUserAction()(dispatch);
+    await addCaseNote()(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
-  test("should dispatch failure when add user action fails", async () => {
-    const userAction = {
+  test("should dispatch failure when add case note fails", async () => {
+    const caseNote = {
       caseId: 12,
       action: "Miscellaneous"
     };
@@ -36,16 +36,16 @@ describe("addUserAction", () => {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .post(`/api/cases/${userAction.caseId}/recent-activity`, userAction)
+      .post(`/api/cases/${caseNote.caseId}/recent-activity`, caseNote)
       .reply(500);
 
-    await addUserAction(userAction)(dispatch);
+    await addCaseNote(caseNote)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(addUserActionFailure());
+    expect(dispatch).toHaveBeenCalledWith(addCaseNoteFailure());
   });
 
-  test("should dispatch success when user action added successfully", async () => {
-    const userAction = {
+  test("should dispatch success when case note added successfully", async () => {
+    const caseNote = {
       caseId: 12,
       action: "Miscellaneous"
     };
@@ -58,17 +58,17 @@ describe("addUserAction", () => {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .post(`/api/cases/${userAction.caseId}/recent-activity`, userAction)
+      .post(`/api/cases/${caseNote.caseId}/recent-activity`, caseNote)
       .reply(201, responseBody);
 
-    await addUserAction(userAction)(dispatch);
+    await addCaseNote(caseNote)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(addUserActionSuccess(responseBody));
-    expect(dispatch).toHaveBeenCalledWith(closeUserActionDialog());
+    expect(dispatch).toHaveBeenCalledWith(addCaseNoteSuccess(responseBody));
+    expect(dispatch).toHaveBeenCalledWith(closeCaseNoteDialog());
   });
 
   test("should not dispatch success if unauthorized and redirect", async () => {
-    const userAction = {
+    const caseNote = {
       caseId: 12,
       action: "Miscellaneous"
     };
@@ -79,10 +79,10 @@ describe("addUserAction", () => {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .post(`/api/cases/${userAction.caseId}/recent-activity`, userAction)
+      .post(`/api/cases/${caseNote.caseId}/recent-activity`, caseNote)
       .reply(401);
 
-    await addUserAction(userAction)(dispatch);
+    await addCaseNote(caseNote)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });

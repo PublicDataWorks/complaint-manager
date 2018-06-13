@@ -1,8 +1,8 @@
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
 
-const createUserAction = asyncMiddleware(async (request, response) => {
-  await models.user_action.create(
+const createCaseNote = asyncMiddleware(async (request, response) => {
+  await models.case_note.create(
     {
       ...request.body,
       user: request.nickname,
@@ -19,7 +19,7 @@ const createUserAction = asyncMiddleware(async (request, response) => {
     }
   );
 
-  const recentActivity = await models.user_action.findAll({
+  const recentActivity = await models.case_note.findAll({
     where: {
       caseId: request.params.id
     }
@@ -28,4 +28,4 @@ const createUserAction = asyncMiddleware(async (request, response) => {
   response.status(201).send(recentActivity);
 });
 
-module.exports = createUserAction;
+module.exports = createCaseNote;

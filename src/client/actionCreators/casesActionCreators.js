@@ -11,20 +11,20 @@ import {
   CIVILIAN_ADDRESS_AUTOSUGGEST_UPDATED,
   INCIDENT_LOCATION_AUTOSUGGEST_VALUE_UPDATED,
   GET_RECENT_ACTIVITY_SUCCEEDED,
-  USER_ACTION_DIALOG_OPENED,
-  USER_ACTION_DIALOG_CLOSED,
-  ADD_USER_ACTION_FAILED,
-  ADD_USER_ACTION_SUCCEEDED,
+  CASE_NOTE_DIALOG_OPENED,
+  CASE_NOTE_DIALOG_CLOSED,
+  ADD_CASE_NOTE_FAILED,
+  ADD_CASE_NOTE_SUCCEEDED,
   REMOVE_CIVILIAN_DIALOG_OPENED,
   REMOVE_CIVILIAN_DIALOG_CLOSED,
   REMOVE_CIVILIAN_FAILED,
   REMOVE_CIVILIAN_SUCCEEDED,
-  REMOVE_USER_ACTION_DIALOG_OPENED,
-  REMOVE_USER_ACTION_DIALOG_CLOSED,
-  REMOVE_USER_ACTION_SUCCEEDED,
-  REMOVE_USER_ACTION_FAILED,
-  EDIT_USER_ACTION_FAILED,
-  EDIT_USER_ACTION_SUCCEEDED
+  REMOVE_CASE_NOTE_DIALOG_OPENED,
+  REMOVE_CASE_NOTE_DIALOG_CLOSED,
+  REMOVE_CASE_NOTE_SUCCEEDED,
+  REMOVE_CASE_NOTE_FAILED,
+  EDIT_CASE_NOTE_FAILED,
+  EDIT_CASE_NOTE_SUCCEEDED
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = caseDetails => ({
@@ -68,23 +68,23 @@ export const updateSort = sortBy => ({
   sortBy
 });
 
-export const openUserActionDialog = (dialogType, initialCaseNote) => ({
-  type: USER_ACTION_DIALOG_OPENED,
+export const openCaseNoteDialog = (dialogType, initialCaseNote) => ({
+  type: CASE_NOTE_DIALOG_OPENED,
   dialogType,
   initialCaseNote
 });
 
-export const closeUserActionDialog = () => ({
-  type: USER_ACTION_DIALOG_CLOSED
+export const closeCaseNoteDialog = () => ({
+  type: CASE_NOTE_DIALOG_CLOSED
 });
 
-export const openRemoveUserActionDialog = (activity = {}) => ({
-  type: REMOVE_USER_ACTION_DIALOG_OPENED,
+export const openRemoveCaseNoteDialog = (activity = {}) => ({
+  type: REMOVE_CASE_NOTE_DIALOG_OPENED,
   activity
 });
 
-export const closeRemoveUserActionDialog = () => ({
-  type: REMOVE_USER_ACTION_DIALOG_CLOSED
+export const closeRemoveCaseNoteDialog = () => ({
+  type: REMOVE_CASE_NOTE_DIALOG_CLOSED
 });
 
 export const openCreateCaseDialog = () =>({
@@ -152,32 +152,32 @@ export const updateAddressAutoSuggest = addressValue => ({
   addressValue
 });
 
-export const addUserActionFailure = () => ({
-  type: ADD_USER_ACTION_FAILED
+export const addCaseNoteFailure = () => ({
+  type: ADD_CASE_NOTE_FAILED
 });
 
-export const addUserActionSuccess = recentActivity => ({
-  type: ADD_USER_ACTION_SUCCEEDED,
+export const addCaseNoteSuccess = recentActivity => ({
+  type: ADD_CASE_NOTE_SUCCEEDED,
   recentActivity
 });
 
-export const editUserActionFailure = () => ({
-  type: EDIT_USER_ACTION_FAILED
+export const editCaseNoteFailure = () => ({
+  type: EDIT_CASE_NOTE_FAILED
 });
 
-export const editUserActionSuccess = recentActivity => ({
-  type: EDIT_USER_ACTION_SUCCEEDED,
+export const editCaseNoteSuccess = recentActivity => ({
+  type: EDIT_CASE_NOTE_SUCCEEDED,
   recentActivity
 });
 
-export const removeUserActionSuccess = currentCase => ({
-  type: REMOVE_USER_ACTION_SUCCEEDED,
+export const removeCaseNoteSuccess = currentCase => ({
+  type: REMOVE_CASE_NOTE_SUCCEEDED,
   caseDetails: currentCase.caseDetails,
   recentActivity: currentCase.recentActivity
 });
 
-export const removeUserActionFailure = () => ({
-  type: REMOVE_USER_ACTION_FAILED
+export const removeCaseNoteFailure = () => ({
+  type: REMOVE_CASE_NOTE_FAILED
 });
 
 export const openRemoveCivilianDialog = civilianDetails => ({

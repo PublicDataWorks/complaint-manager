@@ -657,7 +657,7 @@ describe("server", () => {
         auditUser: "someone"
       });
 
-      await models.user_action.create(
+      await models.case_note.create(
         {
           caseId: createdCase.id,
           action: "Miscellaneous",
@@ -691,7 +691,7 @@ describe("server", () => {
   });
 
   describe("POST /cases/:id/recent-history", () => {
-    test("should log a user action", async () => {
+    test("should log a case note", async () => {
       const existingCase = new Case.Builder()
         .defaultCase()
         .withId(undefined)
@@ -701,16 +701,16 @@ describe("server", () => {
         auditUser: "someone"
       });
 
-      const userAction = {
+      const caseNote = {
         caseId: createdCase.dataValues.id,
         action: "Miscellaneous",
         notes: "some interesting notes....",
         actionTakenAt: new Date().toISOString()
       };
 
-      const numberOfUserActionsBeforeRequest = await models.user_action.count({
+      const numberOfCaseNotesBeforeRequest = await models.case_note.count({
         where: {
-          caseId: userAction.caseId
+          caseId: caseNote.caseId
         }
       });
 
@@ -718,32 +718,32 @@ describe("server", () => {
         .post(`/api/cases/${createdCase.dataValues.id}/recent-activity`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
-        .send(userAction)
+        .send(caseNote)
         .expect(201)
         .then(response => {
           expect(response.body).toEqual(
             expect.arrayContaining([
               expect.objectContaining({
-                caseId: userAction.caseId,
-                action: userAction.action,
-                notes: userAction.notes,
-                actionTakenAt: userAction.actionTakenAt,
+                caseId: caseNote.caseId,
+                action: caseNote.action,
+                notes: caseNote.notes,
+                actionTakenAt: caseNote.actionTakenAt,
                 id: expect.anything()
               })
             ])
           );
         });
 
-      const numberOfUserActionsAfterRequest = await models.user_action.count({
+      const numberOfCaseNotesAfterRequest = await models.case_note.count({
         where: {
-          caseId: userAction.caseId
+          caseId: caseNote.caseId
         }
       });
 
       const updatedCase = await models.cases.findById(createdCase.id);
 
-      expect(numberOfUserActionsAfterRequest).toEqual(
-        numberOfUserActionsBeforeRequest + 1
+      expect(numberOfCaseNotesAfterRequest).toEqual(
+        numberOfCaseNotesBeforeRequest + 1
       );
       expect(updatedCase.dataValues.status).toEqual("Active");
     });

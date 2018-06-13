@@ -1,15 +1,15 @@
 import getAccessToken from "../../auth/getAccessToken";
 import { push } from "react-router-redux";
 import {
-  addUserActionFailure,
-  addUserActionSuccess,
-  closeUserActionDialog
+  addCaseNoteFailure,
+  addCaseNoteSuccess,
+  closeCaseNoteDialog
 } from "../../actionCreators/casesActionCreators";
 import config from "../../config/config";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
-const addUserAction = values => async dispatch => {
+const addCaseNote = values => async dispatch => {
   try {
     const token = getAccessToken();
 
@@ -32,18 +32,18 @@ const addUserAction = values => async dispatch => {
     switch (response.status) {
       case 201:
         const recentActivity = await response.json();
-        dispatch(addUserActionSuccess(recentActivity));
-        return dispatch(closeUserActionDialog());
+        dispatch(addCaseNoteSuccess(recentActivity));
+        return dispatch(closeCaseNoteDialog());
       case 401:
         return dispatch(push("/login"));
       case 500:
-        return dispatch(addUserActionFailure());
+        return dispatch(addCaseNoteFailure());
       default:
-        return dispatch(addUserActionFailure());
+        return dispatch(addCaseNoteFailure());
     }
   } catch (error) {
-    return dispatch(addUserActionFailure());
+    return dispatch(addCaseNoteFailure());
   }
 };
 
-export default addUserAction;
+export default addCaseNote;
