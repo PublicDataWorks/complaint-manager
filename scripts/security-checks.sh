@@ -19,20 +19,9 @@ function create_container_with_code() {
 }
 
 function run_hawkeye_on_container_code() {
-  docker rm -f /hawkeye
-  docker run --volumes-from target-code --name hawkeye stono/hawkeye:latest scan -t /target --exclude $TO_EXCLUDE --json ${ISSUES_REPORT_FILE}
-  hawkeye_return=$?
-}
-
-function run_ncu_on_container_code() {
-    docker run --volumes-from target-code node:latest /bin/bash -c "npm install -g npm-check-updates && ncu -e 2 --packageFile /target/package.json -x winston"
-    ncu_return=$?
-}
-
-function run_security_checks_on_container_code() {
-    run_hawkeye_on_container_code
-    run_ncu_on_container_code
-    security_checks=$((hawkeye_return | ncu_return))
+    docker rm -f /hawkeye
+    docker run --volumes-from target-code --name hawkeye --entrypoint /bin/bash stono/hawkeye:latest -c "hawkeye scan -t /target --exclude \"$TO_EXCLUDE\" --json $ISSUES_REPORT_FILE && npm install -g npm-check-updates && ncu -e 2 --packageFile /target/package.json -x winston"
+    hawkeye_return=$?
 }
 
 function create_artifacts_folder() {
@@ -44,15 +33,15 @@ function copy_report_from_docker_remote_to_artifacts() {
 }
 
 create_container_with_code
-run_security_checks_on_container_code
+run_hawkeye_on_container_code
 create_artifacts_folder
 copy_report_from_docker_remote_to_artifacts
 
-if [ ${security_checks} == 0 ]
+if [ ${hawkeye_return} == 0 ]
 then
     echo "Security checks passed"
 else
     echo "Security checks failed. Report is available on artifacts tab."
 fi
 
-exit ${security_checks}
+exit ${hawkeye_return}
