@@ -7,7 +7,7 @@ describe("TextTruncate", () => {
     return new Array(length + 1).join("x");
   }
 
-  test("should not display show more/less button if less than 400 characters", () => {
+  test("should not display show more/less button if message is less than or equal to 400 characters", () => {
     let message = getStringOfLength(400);
     const textTruncate = mount(
       <TextTruncate message={message} testLabel={"untruncatedMessage"} />
