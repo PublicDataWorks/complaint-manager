@@ -1,10 +1,11 @@
 import { DATA_UPDATED } from "../../../../sharedUtilities/constants";
 import DataChangeAudit from "../../../../client/testUtilities/dataChangeAudit";
 import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
+import ActionAudit from "../../../../client/testUtilities/ActionAudit";
 
 describe("transformAuditToCaseHistory", () => {
   test("it returns case history for given audits", () => {
-    const audit = new DataChangeAudit.Builder()
+    const dataChangeAudit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
       .withModelName("case_officer")
       .withModelDescription("Jasmine Rodda")
@@ -15,22 +16,37 @@ describe("transformAuditToCaseHistory", () => {
         firstName: { previous: "Emily", new: "Jasmine" }
       })
       .withUser("bob")
-      .withCreatedAt(new Date());
-    const caseHistories = transformAuditToCaseHistory([audit]);
+      .withCreatedAt(new Date("2018-06-12"));
 
-    const expectedCaseHistories = [
-      {
-        user: audit.user,
+    const actionAudit = new ActionAudit.Builder()
+      .defaultActionAudit()
+      .withCreatedAt(new Date(Date.now()))
+      .build();
+
+    const caseHistories = transformAuditToCaseHistory(
+      [dataChangeAudit],
+      [actionAudit]
+    );
+
+    expect(caseHistories).toEqual([
+      expect.objectContaining({
+        user: actionAudit.user,
+        action: "Case Viewed",
+        details: "User opened case",
+        timestamp: actionAudit.createdAt,
+        id: expect.anything()
+      }),
+      expect.objectContaining({
+        user: dataChangeAudit.user,
         action: "Case Officer updated",
         details: {
           "First Name": { previous: "Emily", new: "Jasmine" }
         },
         modelDescription: "Jasmine Rodda",
-        timestamp: audit.createdAt,
-        id: audit.id
-      }
-    ];
-    expect(caseHistories).toEqual(expectedCaseHistories);
+        timestamp: dataChangeAudit.createdAt,
+        id: expect.anything()
+      })
+    ]);
   });
 
   test("it transforms multiple entries in the changes field", () => {
@@ -41,13 +57,43 @@ describe("transformAuditToCaseHistory", () => {
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
       .withChanges(auditChanges);
-    const caseHistories = transformAuditToCaseHistory([audit]);
+    const caseHistories = transformAuditToCaseHistory([audit], []);
 
     const expectedDetails = {
       "Complainant Type": { previous: "Civilian", new: "Police Officer" },
       Status: { previous: "Initial", new: "Active" }
     };
     expect(caseHistories[0].details).toEqual(expectedDetails);
+  });
+
+  test("it returns only dataChangeAudits when no associated action audits exist", () => {
+    const dataChangeAudit = new DataChangeAudit.Builder()
+      .defaultDataChangeAudit()
+      .withModelName("civilian")
+      .withModelDescription("Jasmine Rodda")
+      .withModelId(5)
+      .withCaseId(5)
+      .withAction(DATA_UPDATED)
+      .withChanges({
+        firstName: { previous: "Emily", new: "Jasmine" }
+      })
+      .withUser("bob")
+      .withCreatedAt(new Date("2018-06-12"));
+
+    const caseHistories = transformAuditToCaseHistory([dataChangeAudit], null);
+
+    expect(caseHistories).toEqual([
+      expect.objectContaining({
+        user: dataChangeAudit.user,
+        action: "Civilian updated",
+        details: {
+          "First Name": { previous: "Emily", new: "Jasmine" }
+        },
+        modelDescription: "Jasmine Rodda",
+        timestamp: dataChangeAudit.createdAt,
+        id: expect.anything()
+      })
+    ]);
   });
 
   test("it transforms null values in changes field to empty string", () => {
@@ -58,7 +104,7 @@ describe("transformAuditToCaseHistory", () => {
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
       .withChanges(auditChanges);
-    const caseHistories = transformAuditToCaseHistory([audit]);
+    const caseHistories = transformAuditToCaseHistory([audit], []);
 
     const expectedDetails = {
       "Complainant Type": { previous: " ", new: "Police Officer" },
@@ -76,7 +122,7 @@ describe("transformAuditToCaseHistory", () => {
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
       .withChanges(auditChanges);
-    const caseHistories = transformAuditToCaseHistory([audit]);
+    const caseHistories = transformAuditToCaseHistory([audit], []);
 
     const expectedDetails = {
       Incident: { previous: " ", new: "something" }
@@ -108,7 +154,7 @@ describe("transformAuditToCaseHistory", () => {
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
       .withChanges(auditChanges);
-    const caseHistories = transformAuditToCaseHistory([audit]);
+    const caseHistories = transformAuditToCaseHistory([audit], []);
 
     expect(caseHistories).toHaveLength(0);
   });

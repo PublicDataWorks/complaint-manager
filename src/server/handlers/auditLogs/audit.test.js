@@ -22,7 +22,7 @@ describe("Audit", () => {
     const response = httpMocks.createResponse();
     await audit(requestWithValidDataForAudit, response, jest.fn());
 
-    const createdAudits = await models.audit_log.findAll({ raw: true });
+    const createdAudits = await models.action_audit.findAll({ raw: true });
     expect(response.statusCode).toEqual(201);
     expect(createdAudits.length).toEqual(1);
 
@@ -48,7 +48,7 @@ describe("Audit", () => {
     const response = httpMocks.createResponse();
     await audit(requestWithValidDataForAudit, response, jest.fn());
 
-    await models.audit_log.count().then(numAudits => {
+    await models.action_audit.count().then(numAudits => {
       expect(numAudits).toEqual(0);
     });
     expect(response.statusCode).toEqual(400);

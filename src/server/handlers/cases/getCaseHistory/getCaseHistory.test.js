@@ -28,26 +28,17 @@ describe("getCaseHistory", () => {
   });
 
   test("should return case audits in order of created at desc", async () => {
-    const dataChangeAudit1 = await createDataChangeAudit(
-      caseId,
-      "2017-01-31T13:00Z"
-    );
-    const dataChangeAudit2 = await createDataChangeAudit(
-      caseId,
-      "2018-01-31T08:00Z"
-    );
-    const dataChangeAudit3 = await createDataChangeAudit(
-      caseId,
-      "2018-01-31T06:00Z"
-    );
+    await createDataChangeAudit(caseId, "cases", "2017-01-31T13:00Z");
+    await createDataChangeAudit(caseId, "address", "2018-01-31T08:00Z");
+    await createDataChangeAudit(caseId, "civilians", "2018-01-31T06:00Z");
 
     await getCaseHistory(request, response, next);
 
     expect(response.statusCode).toEqual(200);
     expect(response._getData()).toEqual([
-      expect.objectContaining({ id: dataChangeAudit2.id }),
-      expect.objectContaining({ id: dataChangeAudit3.id }),
-      expect.objectContaining({ id: dataChangeAudit1.id })
+      expect.objectContaining({ action: expect.stringContaining("Address") }),
+      expect.objectContaining({ action: expect.stringContaining("Civilian") }),
+      expect.objectContaining({ action: expect.stringContaining("Case") })
     ]);
   });
 
@@ -68,15 +59,19 @@ describe("getCaseHistory", () => {
 
     expect(response.statusCode).toEqual(200);
     expect(response._getData()).toEqual(
-      transformAuditToCaseHistory([dataChangeAudit])
+      transformAuditToCaseHistory([dataChangeAudit], [])
     );
   });
 
-  const createDataChangeAudit = async (caseId, createdAt) => {
+  const createDataChangeAudit = async (
+    caseId,
+    modelName = "case",
+    createdAt
+  ) => {
     const dataChangeAuditAttributes = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
       .withId(undefined)
-      .withModelName("case")
+      .withModelName(modelName)
       .withModelId(caseId)
       .withCaseId(caseId)
       .withAction(DATA_UPDATED)

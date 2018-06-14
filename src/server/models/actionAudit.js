@@ -1,6 +1,6 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const AuditLog = sequelize.define("audit_log", {
+  const ActionAudit = sequelize.define("action_audit", {
     action: {
       field: "action",
       type: DataTypes.STRING
@@ -19,11 +19,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  AuditLog.associate = models => {
-    AuditLog.belongsTo(models.cases, {
+  ActionAudit.associate = models => {
+    ActionAudit.belongsTo(models.cases, {
       foreignKey: { name: "caseId", field: "case_id" }
     });
   };
 
-  return AuditLog;
+  return ActionAudit;
 };

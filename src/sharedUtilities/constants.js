@@ -115,6 +115,11 @@ const GET_CASE_HISTORY_SUCCESS = "GET_CASE_HISTORY_SUCCESS";
 const TIMEZONE = "America/Chicago";
 
 // ----------------------------------------
+//          Action data (Data access) actions
+// ----------------------------------------
+const CASE_VIEWED = "CASE_VIEWED";
+
+// ----------------------------------------
 //          Audit data change actions
 // ----------------------------------------
 const DATA_UPDATED = "updated";
@@ -184,6 +189,7 @@ module.exports = {
   OPENID,
   PROFILE,
   TIMEZONE,
+  CASE_VIEWED,
   DATA_UPDATED,
   DATA_CREATED,
   DATA_DELETED,

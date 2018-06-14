@@ -7,7 +7,7 @@ const audit = asyncMiddleware(async (request, response) => {
     return response.sendStatus(400);
   }
 
-  await models.audit_log.create({
+  await models.action_audit.create({
     action: request.body.log,
     caseId: null,
     user: request.nickname

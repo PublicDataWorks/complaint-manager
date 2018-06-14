@@ -4,10 +4,9 @@ const models = require("../../../models");
 
 const getCaseHistory = asyncMiddleware(async (request, response) => {
   const caseId = request.params.id;
-  const audits = await models.data_change_audit.findAll({
+  const dataChangeAudits = await models.data_change_audit.findAll({
     where: { caseId: caseId },
     attributes: [
-      "id",
       "action",
       "modelName",
       "modelDescription",
@@ -15,10 +14,18 @@ const getCaseHistory = asyncMiddleware(async (request, response) => {
       "user",
       "createdAt"
     ],
-    order: [["createdAt", "desc"]],
     raw: true
   });
-  const caseHistory = transformAuditToCaseHistory(audits);
+
+  const actionAudits = await models.action_audit.findAll({
+    where: { caseId: caseId },
+    attributes: ["user", "createdAt", "action"]
+  });
+
+  const caseHistory = transformAuditToCaseHistory(
+    dataChangeAudits,
+    actionAudits
+  );
   response.status(200).send(caseHistory);
 });
 

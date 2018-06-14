@@ -114,7 +114,7 @@ describe("server", () => {
         .send({ log: mockLog })
         .expect(201);
 
-      const log = await models.audit_log.findAll({
+      const log = await models.action_audit.findAll({
         where: {
           action: mockLog
         }
@@ -812,14 +812,14 @@ describe("server", () => {
           .build(),
         { auditUser: "someone" }
       );
-      await models.audit_log.create({
+      await models.action_audit.create({
         user: "tuser",
         action: "Test action entered",
         caseId: testCase.id,
         createdAt: testCreationDate
       });
 
-      await models.audit_log.create({
+      await models.action_audit.create({
         user: "tuser",
         action: "Test action entered",
         caseId: testCase.id,

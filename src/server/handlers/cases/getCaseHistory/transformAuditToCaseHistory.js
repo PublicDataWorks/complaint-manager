@@ -1,22 +1,38 @@
 const _ = require("lodash");
 const fieldPatternToIgnore = "(.*Id$|^id$|addressableType)";
 
-const transformAuditToCaseHistory = dataChangeAudits => {
+const transformAuditToCaseHistory = (dataChangeAudits, actionAudits) => {
   const caseHistory = [];
+  let auditId = 0;
   dataChangeAudits.forEach(audit => {
     const details = transformDetails(audit);
     if (_.isEmpty(details)) return;
 
     caseHistory.push({
-      id: audit.id,
+      id: auditId,
       user: audit.user,
       action: transformAction(audit),
       modelDescription: audit.modelDescription,
       details: details,
       timestamp: audit.createdAt
     });
+    auditId++;
   });
-  return caseHistory;
+
+  if (actionAudits) {
+    actionAudits.forEach(audit => {
+      caseHistory.push({
+        id: auditId,
+        user: audit.user,
+        details: "User opened case",
+        action: _.startCase(_.lowerCase(audit.action)),
+        timestamp: audit.createdAt
+      });
+      auditId++;
+    });
+  }
+
+  return _.orderBy(caseHistory, ["timestamp"], "desc");
 };
 
 const transformAction = audit => {

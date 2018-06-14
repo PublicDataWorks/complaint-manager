@@ -26,7 +26,7 @@ const exportAuditLog = asyncMiddleware(async (request, response) => {
   const csvOptions = { header: true, formatters: dateFormatter };
 
   const audit_logs = await models.sequelize.transaction(async t => {
-    await models.audit_log.create(
+    await models.action_audit.create(
       {
         action: `System Log Exported`,
         caseId: null,
@@ -37,7 +37,7 @@ const exportAuditLog = asyncMiddleware(async (request, response) => {
       }
     );
 
-    return await models.audit_log.findAll({
+    return await models.action_audit.findAll({
       order: [["created_at", "ASC"]],
       attributes: attributesWithAliases,
       raw: true,

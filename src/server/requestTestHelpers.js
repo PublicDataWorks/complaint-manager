@@ -60,7 +60,7 @@ export const cleanupDatabase = async () => {
     force: true,
     auditUser: "test user"
   });
-  await models.audit_log.destroy({
+  await models.action_audit.destroy({
     truncate: true,
     cascade: true,
     force: true

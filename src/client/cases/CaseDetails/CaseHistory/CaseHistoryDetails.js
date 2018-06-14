@@ -1,4 +1,5 @@
 import React from "react";
+import * as _ from "lodash";
 
 const CaseHistoryDetails = ({ details, action, modelDescription }) => (
   <div>
@@ -27,10 +28,14 @@ const renderDetails = (details, action) => {
     });
   }
 
+  if (_.isString(details)) return renderStringDetails(details);
+
   return Object.keys(details).map((field, index) => {
     return renderSingleValueDetails(field, details, index);
   });
 };
+
+const renderStringDetails = details => <div>{details}</div>;
 
 const renderSingleValueDetails = (field, details, index) => {
   const value =

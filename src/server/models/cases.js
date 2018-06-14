@@ -132,6 +132,10 @@ module.exports = (sequelize, DataTypes) => {
       as: "dataChangeAudits",
       foreignKey: { name: "caseId", field: "case_id" }
     });
+    Case.hasMany(models.action_audit, {
+      as: "actionAudits",
+      foreignKey: { name: "caseId", field: "case_id" }
+    });
   };
 
   Case.auditDataChange();
