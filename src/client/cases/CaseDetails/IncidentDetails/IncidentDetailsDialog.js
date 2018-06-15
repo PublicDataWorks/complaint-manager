@@ -81,7 +81,7 @@ const IncidentDetailsDialog = props => (
             type: "date",
             max: moment(Date.now()).format("YYYY-MM-DD")
           }}
-          style={{ marginBottom: "16px" }}
+          style={{ display: "inherit" }}
         />
         <br />
         <DateField
