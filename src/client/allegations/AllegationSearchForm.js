@@ -11,7 +11,7 @@ import {
 import getSearchResults from "../shared/thunks/getSearchResults";
 import { PrimaryButton } from "../shared/components/StyledButtons";
 import { connect } from "react-redux";
-import { MenuItem } from "@material-ui/core";
+import { MenuItem, Typography } from "@material-ui/core";
 import getAllegationDropdownValues from "../cases/thunks/getAllegationDropdownValues";
 
 class AllegationSearchForm extends React.Component {
@@ -48,6 +48,29 @@ class AllegationSearchForm extends React.Component {
         <form>
           <div style={{ display: "flex" }}>
             <Field
+              label="Directive Keyword"
+              name="directive"
+              component={TextField}
+              placeholder="Enter one or more keywords"
+              inputProps={{ "data-test": "directiveField" }}
+              style={{ flex: "1", marginRight: "24px" }}
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+
+            <Typography
+              variant="button"
+              style={{
+                alignSelf: "flex-end",
+                marginBottom: "22px",
+                marginRight: "24px"
+              }}
+            >
+              OR
+            </Typography>
+
+            <Field
               onChange={clearParagraphValue}
               label="Rule"
               name="rule"
@@ -74,18 +97,7 @@ class AllegationSearchForm extends React.Component {
               )}
             </Field>
 
-            <Field
-              label="Directive Keyword"
-              name="directive"
-              component={TextField}
-              placeholder="Enter one or more keywords"
-              inputProps={{ "data-test": "directiveField" }}
-              style={{ flex: "1", marginRight: "24px" }}
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-            <div style={{ flex: "2", alignSelf: "center", textAlign: "right" }}>
+            <div style={{ alignSelf: "center", textAlign: "center" }}>
               <PrimaryButton
                 disabled={invalid}
                 onClick={handleSubmit(onSubmit)}
