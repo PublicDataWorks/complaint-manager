@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const fieldPatternToIgnore = "(.*Id$|^id$|addressableType)";
 
-const transformAuditToCaseHistory = (dataChangeAudits, actionAudits) => {
+const transformAuditToCaseHistory = dataChangeAudits => {
   const caseHistory = [];
   let auditId = 0;
   dataChangeAudits.forEach(audit => {
@@ -18,19 +18,6 @@ const transformAuditToCaseHistory = (dataChangeAudits, actionAudits) => {
     });
     auditId++;
   });
-
-  if (actionAudits) {
-    actionAudits.forEach(audit => {
-      caseHistory.push({
-        id: auditId,
-        user: audit.user,
-        details: "User opened case",
-        action: _.startCase(_.lowerCase(audit.action)),
-        timestamp: audit.createdAt
-      });
-      auditId++;
-    });
-  }
 
   return _.orderBy(caseHistory, ["timestamp"], "desc");
 };

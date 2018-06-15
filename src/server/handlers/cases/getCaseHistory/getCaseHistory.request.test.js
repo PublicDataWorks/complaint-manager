@@ -23,12 +23,6 @@ describe("GET /api/cases/:caseId/case-history", () => {
       auditUser: "someone"
     });
 
-    await models.action_audit.create({
-      caseId: existingCase.id,
-      user: "someone",
-      action: CASE_VIEWED
-    });
-
     await request(app)
       .get(`/api/cases/${existingCase.id}/case-history`)
       .set("Authorization", `Bearer ${token}`)
@@ -36,9 +30,6 @@ describe("GET /api/cases/:caseId/case-history", () => {
       .expect(200)
       .then(response => {
         expect(response.body).toEqual([
-          expect.objectContaining({
-            action: "Case Viewed"
-          }),
           expect.objectContaining({
             action: "Case created",
             modelDescription: ""

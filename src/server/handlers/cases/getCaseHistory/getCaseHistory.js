@@ -17,15 +17,7 @@ const getCaseHistory = asyncMiddleware(async (request, response) => {
     raw: true
   });
 
-  const actionAudits = await models.action_audit.findAll({
-    where: { caseId: caseId },
-    attributes: ["user", "createdAt", "action"]
-  });
-
-  const caseHistory = transformAuditToCaseHistory(
-    dataChangeAudits,
-    actionAudits
-  );
+  const caseHistory = transformAuditToCaseHistory(dataChangeAudits);
   response.status(200).send(caseHistory);
 });
 
