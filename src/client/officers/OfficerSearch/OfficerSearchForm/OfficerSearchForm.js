@@ -54,7 +54,7 @@ export const OfficerSearchForm = props => {
           >
             {searchDistrictMenu}
           </Field>
-          <div style={{ flex: "2", alignSelf: "center", textAlign: "right" }}>
+          <div style={{ alignSelf: "center" }}>
             <PrimaryButton
               disabled={invalid}
               onClick={handleSubmit(onSubmit)}
