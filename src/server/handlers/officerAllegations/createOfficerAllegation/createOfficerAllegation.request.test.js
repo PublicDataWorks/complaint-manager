@@ -70,7 +70,7 @@ describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations
         allegationId: allegation.id,
         details: allegationDetails
       })
-      .expect(200)
+      .expect(201)
       .then(response => {
         expect(response.body).toEqual(
           expect.objectContaining({

@@ -18,7 +18,7 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
   const caseWithAssociations = await getCaseWithAllAssociations(
     request.params.caseId
   );
-  return response.send(caseWithAssociations);
+  return response.status(201).send(caseWithAssociations);
 });
 
 module.exports = createOfficerAllegation;

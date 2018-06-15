@@ -9,10 +9,7 @@ import DisplayComplainant from "./DisplayComplainant";
 import DisplayAccusedOfficer from "./DisplayAccusedOfficer";
 
 const styles = theme => ({
-  ...tableStyleGenerator(theme).body,
-  buttonCell: {
-    textAlign: "right"
-  }
+  ...tableStyleGenerator(theme).body
 });
 
 const CaseRow = ({ classes, caseDetails }) => (

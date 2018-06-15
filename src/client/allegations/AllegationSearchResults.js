@@ -16,6 +16,8 @@ export class AllegationSearchResults extends Component {
           <AllegationSearchResultsRow
             key={allegation.id}
             allegation={allegation}
+            caseId={this.props.caseId}
+            caseOfficerId={this.props.caseOfficerId}
           />
         )}
       />

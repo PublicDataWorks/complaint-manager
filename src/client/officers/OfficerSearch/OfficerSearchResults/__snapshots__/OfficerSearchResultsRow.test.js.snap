@@ -52,15 +52,17 @@ exports[`it can render officer search results with correct styles 1`] = `
               <OfficerSearchResultsRow
                 classes={
                   Object {
-                    "active": "OfficerSearchResultsRow-active-7",
-                    "buttonCell": "OfficerSearchResultsRow-buttonCell-6",
-                    "cell": "OfficerSearchResultsRow-cell-4",
-                    "deceased": "OfficerSearchResultsRow-deceased-9",
-                    "inactive": "OfficerSearchResultsRow-inactive-11",
-                    "retired": "OfficerSearchResultsRow-retired-10",
+                    "active": "OfficerSearchResultsRow-active-9",
+                    "buttonCell": "OfficerSearchResultsRow-buttonCell-7",
+                    "cell": "OfficerSearchResultsRow-cell-6",
+                    "deceased": "OfficerSearchResultsRow-deceased-11",
+                    "inactive": "OfficerSearchResultsRow-inactive-13",
+                    "noBorderBottom": "OfficerSearchResultsRow-noBorderBottom-4",
+                    "noBorderTop": "OfficerSearchResultsRow-noBorderTop-5",
+                    "retired": "OfficerSearchResultsRow-retired-12",
                     "row": "OfficerSearchResultsRow-row-3",
-                    "terminated": "OfficerSearchResultsRow-terminated-8",
-                    "topAlignCell": "OfficerSearchResultsRow-topAlignCell-5",
+                    "terminated": "OfficerSearchResultsRow-terminated-10",
+                    "topAlignCell": "OfficerSearchResultsRow-topAlignCell-8",
                   }
                 }
                 officer={
@@ -345,11 +347,11 @@ exports[`it can render officer search results with correct styles 1`] = `
                     className="OfficerSearchResultsRow-row-3"
                     classes={
                       Object {
-                        "footer": "MuiTableRow-footer-16",
-                        "head": "MuiTableRow-head-15",
-                        "hover": "MuiTableRow-hover-14",
-                        "root": "MuiTableRow-root-12",
-                        "selected": "MuiTableRow-selected-13",
+                        "footer": "MuiTableRow-footer-18",
+                        "head": "MuiTableRow-head-17",
+                        "hover": "MuiTableRow-hover-16",
+                        "root": "MuiTableRow-root-14",
+                        "selected": "MuiTableRow-selected-15",
                       }
                     }
                     component="tr"
@@ -357,23 +359,23 @@ exports[`it can render officer search results with correct styles 1`] = `
                     selected={false}
                   >
                     <tr
-                      className="MuiTableRow-root-12 OfficerSearchResultsRow-row-3"
+                      className="MuiTableRow-root-14 OfficerSearchResultsRow-row-3"
                     >
                       <WithStyles(TableCell)
-                        className="OfficerSearchResultsRow-cell-4"
+                        className="OfficerSearchResultsRow-cell-6"
                       >
                         <TableCell
-                          className="OfficerSearchResultsRow-cell-4"
+                          className="OfficerSearchResultsRow-cell-6"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-19",
-                              "footer": "MuiTableCell-footer-20",
-                              "head": "MuiTableCell-head-18",
-                              "numeric": "MuiTableCell-numeric-21",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
-                              "paddingDense": "MuiTableCell-paddingDense-22",
-                              "paddingNone": "MuiTableCell-paddingNone-24",
-                              "root": "MuiTableCell-root-17",
+                              "body": "MuiTableCell-body-21",
+                              "footer": "MuiTableCell-footer-22",
+                              "head": "MuiTableCell-head-20",
+                              "numeric": "MuiTableCell-numeric-23",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-25",
+                              "paddingDense": "MuiTableCell-paddingDense-24",
+                              "paddingNone": "MuiTableCell-paddingNone-26",
+                              "root": "MuiTableCell-root-19",
                             }
                           }
                           numeric={false}
@@ -381,7 +383,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root-19 MuiTableCell-body-21 OfficerSearchResultsRow-cell-6"
                           >
                             <div
                               data-test="officerFullName"
@@ -389,7 +391,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                               Ugochi Grant Smith
                             </div>
                             <div
-                              className="OfficerSearchResultsRow-inactive-11"
+                              className="OfficerSearchResultsRow-inactive-13"
                             >
                               Inactive
                             </div>
@@ -397,20 +399,20 @@ exports[`it can render officer search results with correct styles 1`] = `
                         </TableCell>
                       </WithStyles(TableCell)>
                       <WithStyles(TableCell)
-                        className="OfficerSearchResultsRow-cell-4"
+                        className="OfficerSearchResultsRow-cell-6"
                       >
                         <TableCell
-                          className="OfficerSearchResultsRow-cell-4"
+                          className="OfficerSearchResultsRow-cell-6"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-19",
-                              "footer": "MuiTableCell-footer-20",
-                              "head": "MuiTableCell-head-18",
-                              "numeric": "MuiTableCell-numeric-21",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
-                              "paddingDense": "MuiTableCell-paddingDense-22",
-                              "paddingNone": "MuiTableCell-paddingNone-24",
-                              "root": "MuiTableCell-root-17",
+                              "body": "MuiTableCell-body-21",
+                              "footer": "MuiTableCell-footer-22",
+                              "head": "MuiTableCell-head-20",
+                              "numeric": "MuiTableCell-numeric-23",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-25",
+                              "paddingDense": "MuiTableCell-paddingDense-24",
+                              "paddingNone": "MuiTableCell-paddingNone-26",
+                              "root": "MuiTableCell-root-19",
                             }
                           }
                           numeric={false}
@@ -418,27 +420,27 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root-19 MuiTableCell-body-21 OfficerSearchResultsRow-cell-6"
                           >
                             Police Commander
                           </td>
                         </TableCell>
                       </WithStyles(TableCell)>
                       <WithStyles(TableCell)
-                        className="OfficerSearchResultsRow-cell-4"
+                        className="OfficerSearchResultsRow-cell-6"
                       >
                         <TableCell
-                          className="OfficerSearchResultsRow-cell-4"
+                          className="OfficerSearchResultsRow-cell-6"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-19",
-                              "footer": "MuiTableCell-footer-20",
-                              "head": "MuiTableCell-head-18",
-                              "numeric": "MuiTableCell-numeric-21",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
-                              "paddingDense": "MuiTableCell-paddingDense-22",
-                              "paddingNone": "MuiTableCell-paddingNone-24",
-                              "root": "MuiTableCell-root-17",
+                              "body": "MuiTableCell-body-21",
+                              "footer": "MuiTableCell-footer-22",
+                              "head": "MuiTableCell-head-20",
+                              "numeric": "MuiTableCell-numeric-23",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-25",
+                              "paddingDense": "MuiTableCell-paddingDense-24",
+                              "paddingNone": "MuiTableCell-paddingNone-26",
+                              "root": "MuiTableCell-root-19",
                             }
                           }
                           numeric={false}
@@ -446,27 +448,27 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root-19 MuiTableCell-body-21 OfficerSearchResultsRow-cell-6"
                           >
                             FOB - Field Operations Bureau
                           </td>
                         </TableCell>
                       </WithStyles(TableCell)>
                       <WithStyles(TableCell)
-                        className="OfficerSearchResultsRow-cell-4"
+                        className="OfficerSearchResultsRow-cell-6"
                       >
                         <TableCell
-                          className="OfficerSearchResultsRow-cell-4"
+                          className="OfficerSearchResultsRow-cell-6"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-19",
-                              "footer": "MuiTableCell-footer-20",
-                              "head": "MuiTableCell-head-18",
-                              "numeric": "MuiTableCell-numeric-21",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
-                              "paddingDense": "MuiTableCell-paddingDense-22",
-                              "paddingNone": "MuiTableCell-paddingNone-24",
-                              "root": "MuiTableCell-root-17",
+                              "body": "MuiTableCell-body-21",
+                              "footer": "MuiTableCell-footer-22",
+                              "head": "MuiTableCell-head-20",
+                              "numeric": "MuiTableCell-numeric-23",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-25",
+                              "paddingDense": "MuiTableCell-paddingDense-24",
+                              "paddingNone": "MuiTableCell-paddingNone-26",
+                              "root": "MuiTableCell-root-19",
                             }
                           }
                           numeric={false}
@@ -474,27 +476,27 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root-19 MuiTableCell-body-21 OfficerSearchResultsRow-cell-6"
                           >
                             First District
                           </td>
                         </TableCell>
                       </WithStyles(TableCell)>
                       <WithStyles(TableCell)
-                        className="OfficerSearchResultsRow-cell-4"
+                        className="OfficerSearchResultsRow-cell-6"
                       >
                         <TableCell
-                          className="OfficerSearchResultsRow-cell-4"
+                          className="OfficerSearchResultsRow-cell-6"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-19",
-                              "footer": "MuiTableCell-footer-20",
-                              "head": "MuiTableCell-head-18",
-                              "numeric": "MuiTableCell-numeric-21",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
-                              "paddingDense": "MuiTableCell-paddingDense-22",
-                              "paddingNone": "MuiTableCell-paddingNone-24",
-                              "root": "MuiTableCell-root-17",
+                              "body": "MuiTableCell-body-21",
+                              "footer": "MuiTableCell-footer-22",
+                              "head": "MuiTableCell-head-20",
+                              "numeric": "MuiTableCell-numeric-23",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-25",
+                              "paddingDense": "MuiTableCell-paddingDense-24",
+                              "paddingNone": "MuiTableCell-paddingNone-26",
+                              "root": "MuiTableCell-root-19",
                             }
                           }
                           numeric={false}
@@ -502,25 +504,25 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root-19 MuiTableCell-body-21 OfficerSearchResultsRow-cell-6"
                           />
                         </TableCell>
                       </WithStyles(TableCell)>
                       <WithStyles(TableCell)
-                        className="OfficerSearchResultsRow-cell-4"
+                        className="OfficerSearchResultsRow-cell-6"
                       >
                         <TableCell
-                          className="OfficerSearchResultsRow-cell-4"
+                          className="OfficerSearchResultsRow-cell-6"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-19",
-                              "footer": "MuiTableCell-footer-20",
-                              "head": "MuiTableCell-head-18",
-                              "numeric": "MuiTableCell-numeric-21",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
-                              "paddingDense": "MuiTableCell-paddingDense-22",
-                              "paddingNone": "MuiTableCell-paddingNone-24",
-                              "root": "MuiTableCell-root-17",
+                              "body": "MuiTableCell-body-21",
+                              "footer": "MuiTableCell-footer-22",
+                              "head": "MuiTableCell-head-20",
+                              "numeric": "MuiTableCell-numeric-23",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-25",
+                              "paddingDense": "MuiTableCell-paddingDense-24",
+                              "paddingNone": "MuiTableCell-paddingNone-26",
+                              "root": "MuiTableCell-root-19",
                             }
                           }
                           numeric={false}
@@ -528,27 +530,27 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root-19 MuiTableCell-body-21 OfficerSearchResultsRow-cell-6"
                           >
                             Cuban
                           </td>
                         </TableCell>
                       </WithStyles(TableCell)>
                       <WithStyles(TableCell)
-                        className="OfficerSearchResultsRow-cell-4"
+                        className="OfficerSearchResultsRow-cell-6"
                       >
                         <TableCell
-                          className="OfficerSearchResultsRow-cell-4"
+                          className="OfficerSearchResultsRow-cell-6"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-19",
-                              "footer": "MuiTableCell-footer-20",
-                              "head": "MuiTableCell-head-18",
-                              "numeric": "MuiTableCell-numeric-21",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
-                              "paddingDense": "MuiTableCell-paddingDense-22",
-                              "paddingNone": "MuiTableCell-paddingNone-24",
-                              "root": "MuiTableCell-root-17",
+                              "body": "MuiTableCell-body-21",
+                              "footer": "MuiTableCell-footer-22",
+                              "head": "MuiTableCell-head-20",
+                              "numeric": "MuiTableCell-numeric-23",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-25",
+                              "paddingDense": "MuiTableCell-paddingDense-24",
+                              "paddingNone": "MuiTableCell-paddingNone-26",
+                              "root": "MuiTableCell-root-19",
                             }
                           }
                           numeric={false}
@@ -556,25 +558,25 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root-19 MuiTableCell-body-21 OfficerSearchResultsRow-cell-6"
                           />
                         </TableCell>
                       </WithStyles(TableCell)>
                       <WithStyles(TableCell)
-                        className="OfficerSearchResultsRow-buttonCell-6"
+                        className="OfficerSearchResultsRow-buttonCell-7"
                       >
                         <TableCell
-                          className="OfficerSearchResultsRow-buttonCell-6"
+                          className="OfficerSearchResultsRow-buttonCell-7"
                           classes={
                             Object {
-                              "body": "MuiTableCell-body-19",
-                              "footer": "MuiTableCell-footer-20",
-                              "head": "MuiTableCell-head-18",
-                              "numeric": "MuiTableCell-numeric-21",
-                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-23",
-                              "paddingDense": "MuiTableCell-paddingDense-22",
-                              "paddingNone": "MuiTableCell-paddingNone-24",
-                              "root": "MuiTableCell-root-17",
+                              "body": "MuiTableCell-body-21",
+                              "footer": "MuiTableCell-footer-22",
+                              "head": "MuiTableCell-head-20",
+                              "numeric": "MuiTableCell-numeric-23",
+                              "paddingCheckbox": "MuiTableCell-paddingCheckbox-25",
+                              "paddingDense": "MuiTableCell-paddingDense-24",
+                              "paddingNone": "MuiTableCell-paddingNone-26",
+                              "root": "MuiTableCell-root-19",
                             }
                           }
                           numeric={false}
@@ -582,7 +584,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root-17 MuiTableCell-body-19 OfficerSearchResultsRow-buttonCell-6"
+                            className="MuiTableCell-root-19 MuiTableCell-body-21 OfficerSearchResultsRow-buttonCell-7"
                           />
                         </TableCell>
                       </WithStyles(TableCell)>

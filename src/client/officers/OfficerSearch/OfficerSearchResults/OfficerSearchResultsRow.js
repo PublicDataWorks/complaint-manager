@@ -5,9 +5,6 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).body,
-  buttonCell: {
-    textAlign: "right"
-  },
   active: {
     color: theme.palette.green
   },

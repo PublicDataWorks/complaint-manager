@@ -60,7 +60,7 @@ export class AllegationSearchContainer extends Component {
           </Table>
         </div>
         <div style={{ margin: "0% 5% 3%" }}>
-          <AllegationSearch />
+          <AllegationSearch caseId={caseId} caseOfficerId={caseOfficerId} />
         </div>
       </div>
     );

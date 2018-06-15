@@ -29,9 +29,18 @@ const tableStyles = theme => ({
       width: "100%",
       overflowX: "scroll"
     },
+    noBorderBottom: {
+      borderBottom: "0px"
+    },
+    noBorderTop: {
+      borderTop: "0px"
+    },
     cell: {
       padding: "0 0 0 24px",
       textAlign: "left"
+    },
+    buttonCell: {
+      textAlign: "right"
     },
     topAlignCell: {
       padding: "24px 0 24px 24px",

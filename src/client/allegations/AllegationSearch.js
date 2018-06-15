@@ -24,7 +24,10 @@ const AllegationSearch = props => {
           <AllegationSearchForm />
         </CardContent>
       </Card>
-      <AllegationSearchResults />
+      <AllegationSearchResults
+        caseId={props.caseId}
+        caseOfficerId={props.caseOfficerId}
+      />
     </div>
   );
 };
