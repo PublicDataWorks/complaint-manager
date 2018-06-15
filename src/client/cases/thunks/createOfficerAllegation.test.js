@@ -14,6 +14,7 @@ describe("create officer allegation", function() {
   const formValues = { allegationId: 54, details: "allegation details" };
   const caseId = 15;
   const caseOfficerId = 3;
+  const callBackFunction = jest.fn();
 
   beforeEach(() => {
     dispatch.mockClear();
@@ -21,7 +22,12 @@ describe("create officer allegation", function() {
 
   test("should redirect to login if token missing", async () => {
     getAccessToken.mockImplementationOnce(() => false);
-    await createOfficerAllegation(formValues, caseId, caseOfficerId)(dispatch);
+    await createOfficerAllegation(
+      formValues,
+      caseId,
+      caseOfficerId,
+      callBackFunction
+    )(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
@@ -40,7 +46,12 @@ describe("create officer allegation", function() {
       )
       .reply(401);
 
-    await createOfficerAllegation(formValues, caseId, caseOfficerId)(dispatch);
+    await createOfficerAllegation(
+      formValues,
+      caseId,
+      caseOfficerId,
+      callBackFunction
+    )(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
@@ -60,7 +71,12 @@ describe("create officer allegation", function() {
       )
       .reply(500);
 
-    await createOfficerAllegation(formValues, caseId, caseOfficerId)(dispatch);
+    await createOfficerAllegation(
+      formValues,
+      caseId,
+      caseOfficerId,
+      callBackFunction
+    )(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
         "Something went wrong on our end and your allegation was not added. Please try again."
@@ -68,7 +84,7 @@ describe("create officer allegation", function() {
     );
   });
 
-  test("should dispatch success when officer allegation added successfully", async () => {
+  test("should dispatch success and call the callback when officer allegation added successfully", async () => {
     nock("http://localhost", {
       reqheaders: {
         "Content-Type": "application/json",
@@ -83,10 +99,16 @@ describe("create officer allegation", function() {
       )
       .reply(201);
 
-    await createOfficerAllegation(formValues, caseId, caseOfficerId)(dispatch);
+    await createOfficerAllegation(
+      formValues,
+      caseId,
+      caseOfficerId,
+      callBackFunction
+    )(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Allegation successfully added to officer.")
     );
+    expect(callBackFunction).toHaveBeenCalled();
   });
 });

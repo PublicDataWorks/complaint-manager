@@ -16,6 +16,13 @@ export class AllegationSearchResultsRow extends React.Component {
     displaySelectButton: true
   };
 
+  addAllegationSuccess = () => {
+    this.setState({ displayForm: false, displaySelectButton: true });
+    if (document.getElementsByTagName("header").length > 0) {
+      document.getElementsByTagName("header")[0].scrollIntoView(false);
+    }
+  };
+
   selectAllegation = () => {
     this.setState({ displayForm: true, displaySelectButton: false });
   };
@@ -35,6 +42,7 @@ export class AllegationSearchResultsRow extends React.Component {
             allegationId={allegation.id}
             caseId={this.props.caseId}
             caseOfficerId={this.props.caseOfficerId}
+            addAllegationSuccess={this.addAllegationSuccess}
           />
         </TableCell>
       </TableRow>

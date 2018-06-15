@@ -9,16 +9,22 @@ import { changeInput } from "../../testHelpers";
 
 jest.mock(
   "../cases/thunks/createOfficerAllegation",
-  () => (formValues, caseId, caseOfficerId) => ({
+  () => (formValues, caseId, caseOfficerId, callbackFunction) => ({
     type: "something",
     formValues,
     caseId,
-    caseOfficerId
+    caseOfficerId,
+    callbackFunction
   })
 );
 
 describe("AllegationDetailsForm", () => {
-  let allegationId, caseId, caseOfficerId, allegationDetailsForm, dispatch;
+  let allegationId,
+    caseId,
+    caseOfficerId,
+    allegationDetailsForm,
+    dispatch,
+    successCallbackFunction;
 
   beforeEach(() => {
     const store = createConfiguredStore();
@@ -26,6 +32,7 @@ describe("AllegationDetailsForm", () => {
     allegationId = 1;
     caseId = "15";
     caseOfficerId = "4";
+    successCallbackFunction = jest.fn();
 
     allegationDetailsForm = mount(
       <Provider store={store}>
@@ -34,6 +41,7 @@ describe("AllegationDetailsForm", () => {
           form={`AllegationForm_${allegationId}`}
           caseId={caseId}
           caseOfficerId={caseOfficerId}
+          addAllegationSuccess={successCallbackFunction}
         />
       </Provider>
     );
@@ -54,7 +62,12 @@ describe("AllegationDetailsForm", () => {
     const formValues = { allegationId, details: "some details" };
 
     expect(dispatch).toHaveBeenCalledWith(
-      createOfficerAllegation(formValues, caseId, caseOfficerId)
+      createOfficerAllegation(
+        formValues,
+        caseId,
+        caseOfficerId,
+        successCallbackFunction
+      )
     );
   });
 

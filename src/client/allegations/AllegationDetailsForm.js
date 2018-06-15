@@ -13,7 +13,12 @@ const AllegationDetailsForm = props => {
   const onSubmit = (values, dispatch) => {
     const formValues = { ...values, allegationId: props.allegationId };
     dispatch(
-      createOfficerAllegation(formValues, props.caseId, props.caseOfficerId)
+      createOfficerAllegation(
+        formValues,
+        props.caseId,
+        props.caseOfficerId,
+        props.addAllegationSuccess
+      )
     );
   };
   return (
@@ -50,7 +55,8 @@ const AllegationDetailsForm = props => {
 
 AllegationDetailsForm.propTypes = {
   caseId: PropTypes.string.isRequired,
-  caseOfficerId: PropTypes.string.isRequired
+  caseOfficerId: PropTypes.string.isRequired,
+  addAllegationSuccess: PropTypes.func.isRequired
 };
 
 export default reduxForm({})(AllegationDetailsForm);

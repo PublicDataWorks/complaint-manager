@@ -11,7 +11,8 @@ const hostname = config[process.env.NODE_ENV].hostname;
 const createOfficerAllegation = (
   formValues,
   caseId,
-  caseOfficerId
+  caseOfficerId,
+  addAllegationSuccessCallback
 ) => async dispatch => {
   const errorMessage =
     "Something went wrong on our end and your allegation was not added. Please try again.";
@@ -38,6 +39,7 @@ const createOfficerAllegation = (
 
     switch (response.status) {
       case 201:
+        addAllegationSuccessCallback();
         return dispatch(snackbarSuccess(successMessage));
       case 401:
         return dispatch(push(`/login`));
