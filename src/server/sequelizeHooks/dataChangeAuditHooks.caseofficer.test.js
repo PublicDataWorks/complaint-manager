@@ -2,20 +2,11 @@ import Case from "../../client/testUtilities/case";
 import CaseOfficer from "../../client/testUtilities/caseOfficer";
 import Officer from "../../client/testUtilities/Officer";
 import models from "../models";
-import { DATA_CREATED } from "../../sharedUtilities/constants";
+import { DATA_CREATED, DATA_DELETED } from "../../sharedUtilities/constants";
 
 describe("dataChangeAudithooks caseofficer", () => {
-  afterEach(async () => {
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "someone",
-      force: true
-    });
-    await models.data_change_audit.truncate();
-  });
-
-  test("should audit caseofficer creation", async () => {
+  let createdCase;
+  beforeEach(async () => {
     const anOfficer = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined)
@@ -33,7 +24,7 @@ describe("dataChangeAudithooks caseofficer", () => {
       .withAccusedOfficers([anAccusedOfficer])
       .build();
 
-    const createdCase = await models.cases.create(caseToCreate, {
+    createdCase = await models.cases.create(caseToCreate, {
       include: [
         {
           model: models.case_officer,
@@ -43,7 +34,19 @@ describe("dataChangeAudithooks caseofficer", () => {
       ],
       auditUser: "someone"
     });
+  });
 
+  afterEach(async () => {
+    await models.cases.destroy({
+      truncate: true,
+      cascade: true,
+      auditUser: "someone",
+      force: true
+    });
+    await models.data_change_audit.truncate();
+  });
+
+  test("should audit caseofficer creation", async () => {
     const audit = await models.data_change_audit.find({
       where: { modelName: "case_officer", action: DATA_CREATED }
     });
@@ -54,5 +57,17 @@ describe("dataChangeAudithooks caseofficer", () => {
     expect(audit.modelDescription).toEqual(
       createdCase.accusedOfficers[0].fullName
     );
+  });
+
+  test("should audit caseofficer destroy and exclude deletedAt from changes", async () => {
+    const caseOfficer = createdCase.accusedOfficers[0];
+    await caseOfficer.destroy({ auditUser: "someone" });
+
+    const audit = await models.data_change_audit.find({
+      where: { modelName: "case_officer", action: DATA_DELETED }
+    });
+
+    expect(audit.changes.deleted_at).not.toBeDefined();
+    expect(audit.changes.deletedAt).not.toBeDefined();
   });
 });

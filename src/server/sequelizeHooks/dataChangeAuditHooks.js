@@ -11,7 +11,13 @@ exports.init = sequelize => {
   const originalDestroy = sequelize.Model.destroy;
   const originalInstanceDestroy = sequelize.Model.prototype.destroy;
 
-  const fieldsToIgnore = ["createdAt", "updatedAt", "createdBy", "deletedAt"];
+  const fieldsToIgnore = [
+    "createdAt",
+    "updatedAt",
+    "createdBy",
+    "deletedAt",
+    "deleted_at"
+  ];
 
   sequelize.Model.prototype.update = async function(values, options) {
     return await addTransactionToFunction(
