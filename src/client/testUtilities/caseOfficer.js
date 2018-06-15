@@ -28,6 +28,7 @@ class CaseOfficer {
     this.endDate = build.endDate;
     this.employeeType = build.employeeType;
     this.isUnknownOfficer = build.isUnknownOfficer;
+    this.createdAt = build.createdAt;
   }
 
   static get Builder() {
@@ -59,6 +60,7 @@ class CaseOfficer {
         this.roleOnCase = ACCUSED;
         this.notes = "Some notes about this officer's history";
         this.isUnknownOfficer = false;
+        this.createdAt = new Date();
 
         return this;
       }
@@ -149,6 +151,11 @@ class CaseOfficer {
 
       withFullName(fullName) {
         this.fullName = fullName;
+        return this;
+      }
+
+      withCreatedAt(createdAt) {
+        this.createdAt = createdAt;
         return this;
       }
 

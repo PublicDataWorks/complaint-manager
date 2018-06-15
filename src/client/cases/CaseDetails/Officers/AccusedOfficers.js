@@ -13,10 +13,7 @@ const AccusedOfficers = ({ accusedOfficers }) => {
       <CardContent style={{ padding: "0" }}>
         {!accusedOfficers || accusedOfficers.length === 0
           ? renderNoOfficers()
-          : _.sortBy(accusedOfficers, accusedOfficer => [
-              accusedOfficer.lastName,
-              accusedOfficer.firstName
-            ]).map(
+          : _.orderBy(accusedOfficers, ["createdAt"], "asc").map(
               caseOfficer =>
                 caseOfficer.isUnknownOfficer ? (
                   <UnknownOfficerPanel

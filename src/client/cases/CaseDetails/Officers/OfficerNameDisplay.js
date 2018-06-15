@@ -5,7 +5,11 @@ const OfficerNameDisplay = props => {
   return (
     <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }}>
       <Typography variant="caption">{props.displayLabel}</Typography>
-      <Typography variant="body1" style={{ whiteSpace: "pre-wrap" }}>
+      <Typography
+        variant="body1"
+        style={{ whiteSpace: "pre-wrap" }}
+        data-test={`${props.displayLabel}FullName`}
+      >
         {props.fullName ? props.fullName : "N/A"}
       </Typography>
       <Typography variant="body1" style={{ whiteSpace: "pre-wrap" }}>
