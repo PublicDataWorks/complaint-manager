@@ -13,8 +13,8 @@ import {
   editCivilianSuccess,
   editCaseNoteFailure,
   editCaseNoteSuccess,
-  removeCivilianFailure,
-  removeCivilianSuccess,
+  removePersonFailure,
+  removePersonSuccess,
   removeCaseNoteFailure,
   removeCaseNoteSuccess,
   requestCaseCreation,
@@ -387,10 +387,13 @@ describe("snackbarReducer", () => {
     });
   });
 
-  describe("REMOVE_CIVILIAN", () => {
-    test("REMOVE_CIVILIAN_FAILED", () => {
+  describe("REMOVE_PERSON", () => {
+    test("REMOVE_PERSON_FAILED", () => {
       const initialState = { success: true, open: false, message: "" };
-      const newState = snackbarReducer(initialState, removeCivilianFailure());
+      const newState = snackbarReducer(
+        initialState,
+        removePersonFailure("civilian")
+      );
 
       const expectedState = {
         open: true,
@@ -402,9 +405,12 @@ describe("snackbarReducer", () => {
       expect(newState).toEqual(expectedState);
     });
 
-    test("REMOVE_CIVILIAN_SUCCEEDED", () => {
+    test("REMOVE_PERSON_SUCCEEDED", () => {
       const initialState = { success: false, open: false, message: "" };
-      const newState = snackbarReducer(initialState, removeCivilianSuccess());
+      const newState = snackbarReducer(
+        initialState,
+        removePersonSuccess({}, "civilian")
+      );
 
       const expectedState = {
         open: true,

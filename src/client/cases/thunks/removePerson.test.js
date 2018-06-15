@@ -1,26 +1,34 @@
 import { push } from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
-import removeCivilian from "./removeCivilian";
+import removePerson from "./removePerson";
 import {
-  closeRemoveCivilianDialog,
-  removeCivilianFailure,
-  removeCivilianSuccess
+  closeRemovePersonDialog,
+  removePersonFailure,
+  removePersonSuccess
 } from "../../actionCreators/casesActionCreators";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
-describe("removeCivilian", () => {
+describe("removePerson", () => {
   let dispatch = jest.fn();
+  const personTypeForDisplay = "civilian";
+  const personType = "civilians";
   const caseId = 123;
-  const civilianId = 345;
+  const id = 345;
+  const personDetails = {
+    caseId: caseId,
+    id: id,
+    personType: personType
+  };
+
   beforeEach(() => {
     dispatch.mockClear();
   });
 
   test("should redirect immediately if token missing", async () => {
     getAccessToken.mockImplementationOnce(() => false);
-    await removeCivilian()(dispatch);
+    await removePerson(personDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
@@ -30,22 +38,22 @@ describe("removeCivilian", () => {
       "Content-Type": "application/json",
       Authorization: `Bearer TEST_TOKEN`
     })
-      .delete(`/api/cases/${caseId}/civilians/${civilianId}`)
+      .delete(`/api/cases/${caseId}/${personType}/${id}`)
       .reply(401);
 
-    await removeCivilian(civilianId, caseId)(dispatch);
+    await removePerson(personDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
   test("should dispatch error action if we get an unrecognized response", async () => {
     nock("http://localhost", {})
-      .delete(`/api/cases/${caseId}/civilians/${civilianId}`)
+      .delete(`/api/cases/${caseId}/${personType}/${id}`)
       .reply(500);
 
-    await removeCivilian(civilianId, caseId)(dispatch);
+    await removePerson(personDetails)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(removeCivilianFailure());
+    expect(dispatch).toHaveBeenCalledWith(removePersonFailure(personTypeForDisplay));
   });
 
   test("should dispatch success when civilian removed successfully", async () => {
@@ -56,11 +64,11 @@ describe("removeCivilian", () => {
       "Content-Type": "application/json",
       Authorization: `Bearer TEST_TOKEN`
     })
-      .delete(`/api/cases/${caseId}/civilians/${civilianId}`)
+      .delete(`/api/cases/${caseId}/${personType}/${id}`)
       .reply(200, response);
 
-    await removeCivilian(civilianId, caseId)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(removeCivilianSuccess(response));
-    expect(dispatch).toHaveBeenCalledWith(closeRemoveCivilianDialog());
+    await removePerson(personDetails)(dispatch);
+    expect(dispatch).toHaveBeenCalledWith(removePersonSuccess(response, personTypeForDisplay));
+    expect(dispatch).toHaveBeenCalledWith(closeRemovePersonDialog());
   });
 });

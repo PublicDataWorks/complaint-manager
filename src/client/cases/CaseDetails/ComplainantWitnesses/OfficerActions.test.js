@@ -10,6 +10,7 @@ import {
   selectCaseOfficer,
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
+import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
 
 describe("OfficerActions", () => {
   test("should select caseOfficer & navigate to edit page when Edit Known Officer is clicked", () => {
@@ -57,6 +58,30 @@ describe("OfficerActions", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(selectUnknownOfficer());
     expect(dispatchSpy).toHaveBeenCalledWith(
       push(`/cases/${caseOfficer.caseId}/officers/${caseOfficer.id}`)
+    );
+  });
+
+  test("should remove officer from the complaintants list", () => {
+    const caseOfficer = new CaseOfficer.Builder().defaultCaseOfficer().build();
+
+    const store = createConfiguredStore();
+    const dispatchSpy = jest.spyOn(store, "dispatch");
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <OfficerActions caseOfficer={caseOfficer} />
+        </Router>
+      </Provider>
+    );
+
+    const removeOfficer = wrapper
+      .find('[data-test="removeOfficerLink"]')
+      .last();
+    removeOfficer.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openRemovePersonDialog(caseOfficer, "cases-officers")
     );
   });
 });

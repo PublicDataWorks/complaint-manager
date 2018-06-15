@@ -2,14 +2,16 @@ import getAccessToken from "../../auth/getAccessToken";
 import { push } from "react-router-redux";
 import config from "../../config/config";
 import {
-  closeRemoveCivilianDialog,
-  removeCivilianFailure,
-  removeCivilianSuccess
+  closeRemovePersonDialog,
+  removePersonFailure,
+  removePersonSuccess
 } from "../../actionCreators/casesActionCreators";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
-const removeCivilian = (civilianId, caseId) => async dispatch => {
+const removePerson = ({ personType, id, caseId }) => async dispatch => {
+  const personTypeForDisplay =
+    personType === "civilians" ? "civilian" : "officer";
   try {
     const token = getAccessToken();
     if (!token) {
@@ -17,7 +19,7 @@ const removeCivilian = (civilianId, caseId) => async dispatch => {
     }
 
     const response = await fetch(
-      `${hostname}/api/cases/${caseId}/civilians/${civilianId}`,
+      `${hostname}/api/cases/${caseId}/${personType}/${id}`,
       {
         method: "DELETE",
         headers: {
@@ -30,16 +32,18 @@ const removeCivilian = (civilianId, caseId) => async dispatch => {
     switch (response.status) {
       case 200:
         const caseDetails = await response.json();
-        dispatch(closeRemoveCivilianDialog());
-        return dispatch(removeCivilianSuccess(caseDetails));
+        dispatch(closeRemovePersonDialog());
+        return dispatch(removePersonSuccess(caseDetails, personTypeForDisplay));
       case 401:
         return dispatch(push("/login"));
       case 500:
-        return dispatch(removeCivilianFailure());
+        return dispatch(removePersonFailure(personTypeForDisplay));
       default:
-        return dispatch(removeCivilianFailure());
+        return dispatch(removePersonFailure(personTypeForDisplay));
     }
-  } catch (error) {}
+  } catch (error) {
+    return dispatch(removePersonFailure(personTypeForDisplay));
+  }
 };
 
-export default removeCivilian;
+export default removePerson;

@@ -1,19 +1,19 @@
-import RemoveCivilianDialog from "./RemoveCivilianDialog";
+import RemoveCivilianDialog from "./RemovePersonDialog";
 import React from "react";
 import { Provider } from "react-redux";
 import { mount } from "enzyme";
 import createConfiguredStore from "../../createConfiguredStore";
 import {
-  openRemoveCivilianDialog,
-  closeRemoveCivilianDialog
+  openRemovePersonDialog,
+  closeRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
-import removeCivilian from "../thunks/removeCivilian";
+import removePerson from "../thunks/removePerson";
 
-jest.mock("../thunks/removeCivilian", () => () => ({
+jest.mock("../thunks/removePerson", () => () => ({
   type: "MOCK_THUNK"
 }));
 
-describe("removeCivilianDialog", () => {
+describe("removePersonDialog", () => {
   let dispatchSpy, wrapper, caseId, civilianDetails;
   beforeEach(() => {
     const store = createConfiguredStore();
@@ -28,7 +28,7 @@ describe("removeCivilianDialog", () => {
       fullName: "John D. Doe III"
     };
 
-    store.dispatch(openRemoveCivilianDialog(civilianDetails));
+    store.dispatch(openRemovePersonDialog(civilianDetails, "civilians"));
     dispatchSpy = jest.spyOn(store, "dispatch");
 
     wrapper = mount(
@@ -42,7 +42,7 @@ describe("removeCivilianDialog", () => {
     const cancelButton = wrapper.find('[data-test="cancelButton"]').first();
     cancelButton.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveCivilianDialog());
+    expect(dispatchSpy).toHaveBeenCalledWith(closeRemovePersonDialog());
   });
 
   test("should dispatch thunk when remove button is clicked", () => {
@@ -50,7 +50,7 @@ describe("removeCivilianDialog", () => {
     removeButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
-      removeCivilian(civilianDetails.id, civilianDetails.caseId)
+      removePerson(civilianDetails.id, civilianDetails.caseId)
     );
   });
 

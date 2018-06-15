@@ -7,6 +7,7 @@ import {
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
 import { initialize } from "redux-form";
+import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
 
 const OfficerActions = ({ caseOfficer, dispatch }) => (
   <div>
@@ -35,10 +36,10 @@ const OfficerActions = ({ caseOfficer, dispatch }) => (
       Edit
     </LinkButton>
     <LinkButton
-      style={{ visibility: "hidden" }}
       data-test="removeOfficerLink"
       onClick={event => {
         event.stopPropagation();
+        dispatch(openRemovePersonDialog(caseOfficer, "cases-officers"));
       }}
     >
       Remove

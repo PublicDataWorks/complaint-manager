@@ -12,7 +12,7 @@ import getCaseDetails from "../thunks/getCaseDetails";
 import createCivilian from "../thunks/createCivilian";
 import {
   openCivilianDialog,
-  openRemoveCivilianDialog,
+  openRemovePersonDialog,
   closeEditDialog,
   closeCaseNoteDialog,
   openCaseNoteDialog
@@ -149,7 +149,10 @@ describe("Case Details Component", () => {
       removeComplainantButton.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(
-        openRemoveCivilianDialog(expectedCase.complainantCivilians[0])
+        openRemovePersonDialog(
+          expectedCase.complainantCivilians[0],
+          "civilians"
+        )
       );
     });
 

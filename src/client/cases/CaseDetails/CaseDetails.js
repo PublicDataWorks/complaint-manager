@@ -12,8 +12,8 @@ import * as _ from "lodash";
 import Attachments from "./Attachments/Attachments";
 import styles from "./caseDetailsStyles";
 import CaseDrawer from "./CaseDrawer";
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
 import { Menu, MenuItem } from "@material-ui/core";
 import IncidentDetailsContainer from "./IncidentDetails/IncidentDetailsContainer";
 import {
@@ -33,7 +33,7 @@ import { push } from "react-router-redux";
 import AccusedOfficers from "./Officers/AccusedOfficers";
 import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
 import timezone from "moment-timezone";
-import RemoveCivilianDialog from "../RemoveCivilianDialog/RemoveCivilianDialog";
+import RemoveCivilianDialog from "../RemoveCivilianDialog/RemovePersonDialog";
 
 const drawerWidthPercentage = "30%";
 

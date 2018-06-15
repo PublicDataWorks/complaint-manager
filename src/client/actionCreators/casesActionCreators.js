@@ -1,3 +1,4 @@
+import * as _ from "lodash";
 import {
   CASE_CREATED_SUCCESS,
   ATTACHMENT_UPLOAD_FAILED,
@@ -15,10 +16,10 @@ import {
   CASE_NOTE_DIALOG_CLOSED,
   ADD_CASE_NOTE_FAILED,
   ADD_CASE_NOTE_SUCCEEDED,
-  REMOVE_CIVILIAN_DIALOG_OPENED,
-  REMOVE_CIVILIAN_DIALOG_CLOSED,
-  REMOVE_CIVILIAN_FAILED,
-  REMOVE_CIVILIAN_SUCCEEDED,
+  REMOVE_PERSON_DIALOG_OPENED,
+  REMOVE_PERSON_DIALOG_CLOSED,
+  REMOVE_PERSON_FAILED,
+  REMOVE_PERSON_SUCCEEDED,
   REMOVE_CASE_NOTE_DIALOG_OPENED,
   REMOVE_CASE_NOTE_DIALOG_CLOSED,
   REMOVE_CASE_NOTE_SUCCEEDED,
@@ -87,13 +88,13 @@ export const closeRemoveCaseNoteDialog = () => ({
   type: REMOVE_CASE_NOTE_DIALOG_CLOSED
 });
 
-export const openCreateCaseDialog = () =>({
+export const openCreateCaseDialog = () => ({
   type: CREATE_CASE_DIALOG_OPENED
-})
+});
 
-export const closeCreateCaseDialog = () =>({
+export const closeCreateCaseDialog = () => ({
   type: CREATE_CASE_DIALOG_CLOSED
-})
+});
 
 export const openCivilianDialog = (title, submitButtonText, submitAction) => ({
   type: CIVILIAN_DIALOG_OPENED,
@@ -180,20 +181,39 @@ export const removeCaseNoteFailure = () => ({
   type: REMOVE_CASE_NOTE_FAILED
 });
 
-export const openRemoveCivilianDialog = civilianDetails => ({
-  type: REMOVE_CIVILIAN_DIALOG_OPENED,
-  civilianDetails
+export const openRemovePersonDialog = (personDetails, personType) => {
+  let optionalText, personTypeTitleDisplay;
+
+  if (personType === "civilians") {
+    optionalText = "";
+    personTypeTitleDisplay = "Civilian";
+  } else {
+    optionalText =
+      " This includes any Notes or Allegations associated to the officer.";
+    personTypeTitleDisplay = "Officer";
+  }
+
+  return {
+    type: REMOVE_PERSON_DIALOG_OPENED,
+    personDetails: { ...personDetails, personType: personType },
+    optionalText,
+    personTypeTitleDisplay
+  };
+};
+
+export const closeRemovePersonDialog = () => ({
+  type: REMOVE_PERSON_DIALOG_CLOSED
 });
 
-export const closeRemoveCivilianDialog = () => ({
-  type: REMOVE_CIVILIAN_DIALOG_CLOSED
+export const removePersonFailure = personType => ({
+  type: REMOVE_PERSON_FAILED,
+  message: `Something went wrong on our end and your ${_.lowerCase(
+    personType
+  )} was not removed. Please try again.`
 });
 
-export const removeCivilianFailure = () => ({
-  type: REMOVE_CIVILIAN_FAILED
-});
-
-export const removeCivilianSuccess = caseDetails => ({
-  type: REMOVE_CIVILIAN_SUCCEEDED,
-  caseDetails
+export const removePersonSuccess = (caseDetails, personType) => ({
+  type: REMOVE_PERSON_SUCCEEDED,
+  caseDetails,
+  message: `${_.startCase(personType)} has been successfully removed.`
 });

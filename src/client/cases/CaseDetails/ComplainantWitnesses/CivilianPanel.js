@@ -2,14 +2,18 @@ import React from "react";
 import { initialize } from "redux-form";
 import {
   openCivilianDialog,
-  openRemoveCivilianDialog
+  openRemovePersonDialog
 } from "../../../actionCreators/casesActionCreators";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 import editCivilian from "../../thunks/editCivilian";
 import LinkButton from "../../../shared/components/LinkButton";
 import StyledExpansionPanelDetails from "./StyledExpansionPanelDetails";
 import CivilianInfoDisplay from "./CivilianInfoDisplay";
-import { Divider, ExpansionPanel, ExpansionPanelSummary } from "@material-ui/core";
+import {
+  Divider,
+  ExpansionPanel,
+  ExpansionPanelSummary
+} from "@material-ui/core";
 import formatDate from "../../../utilities/formatDate";
 import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
 import AddresesInfoDisplay from "../../../shared/components/AddressInfoDisplay";
@@ -59,7 +63,7 @@ const CivilianPanel = ({ civilian, dispatch }) => {
                 data-test="removeCivilianLink"
                 onClick={event => {
                   event.stopPropagation();
-                  dispatch(openRemoveCivilianDialog(civilian));
+                  dispatch(openRemovePersonDialog(civilian, "civilians"));
                 }}
               >
                 Remove

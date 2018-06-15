@@ -4,7 +4,7 @@ import {
   createCivilianSuccess,
   editCivilianSuccess,
   getCaseDetailsSuccess,
-  removeCivilianSuccess,
+  removePersonSuccess,
   removeCaseNoteSuccess,
   updateIncidentDetailsSuccess,
   updateNarrativeSuccess,
@@ -171,7 +171,7 @@ describe("caseDetailsReducers", () => {
 
       const newState = caseDetailsReducer(
         oldCaseDetails,
-        removeCivilianSuccess(newCaseDetails)
+        removePersonSuccess(newCaseDetails)
       );
 
       expect(newState).toEqual(newCaseDetails);

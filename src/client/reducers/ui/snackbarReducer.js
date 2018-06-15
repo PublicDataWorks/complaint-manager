@@ -16,8 +16,8 @@ import {
   INCIDENT_DETAILS_UPDATE_SUCCEEDED,
   REMOVE_ATTACHMENT_FAILED,
   REMOVE_ATTACHMENT_SUCCESS,
-  REMOVE_CIVILIAN_FAILED,
-  REMOVE_CIVILIAN_SUCCEEDED,
+  REMOVE_PERSON_FAILED,
+  REMOVE_PERSON_SUCCEEDED,
   REMOVE_CASE_NOTE_FAILED,
   REMOVE_CASE_NOTE_SUCCEEDED,
   SNACKBAR_ERROR,
@@ -148,18 +148,17 @@ const snackbarReducer = (state = initialState, action) => {
         message:
           "Something went wrong on our end and your civilian was not created. Please try again."
       };
-    case REMOVE_CIVILIAN_FAILED:
+    case REMOVE_PERSON_FAILED:
       return {
         open: true,
         success: false,
-        message:
-          "Something went wrong on our end and your civilian was not removed. Please try again."
+        message: action.message
       };
-    case REMOVE_CIVILIAN_SUCCEEDED:
+    case REMOVE_PERSON_SUCCEEDED:
       return {
         open: true,
         success: true,
-        message: "Civilian has been successfully removed."
+        message: action.message
       };
     case "EDIT_CIVILIAN_SUCCESS":
       return {
