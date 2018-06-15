@@ -20,6 +20,7 @@ const exportAuditLog = require("./handlers/auditLogs/export");
 const searchOfficers = require("./handlers/officers/searchOfficers");
 const addCaseOfficer = require("./handlers/officers/addCaseOfficer/addCaseOfficer");
 const getCaseOfficer = require("./handlers/officers/getCaseOfficer/getCaseOfficer");
+const removeCaseOfficer = require("./handlers/officers/removeCaseOfficer/removeCaseOfficer");
 const editCaseOfficer = require("./handlers/officers/editCaseOfficer/editCaseOfficer");
 const editCaseNote = require("./handlers/cases/editCaseNote/editCaseNote");
 const removeCaseNote = require("./handlers/cases/removeCaseNote/removeCaseNote");
@@ -51,6 +52,10 @@ router.put("/cases/:id/narrative", updateCaseNarrative);
 router.get("/cases/:caseId/cases-officers/:caseOfficerId", getCaseOfficer);
 router.post("/cases/:caseId/cases-officers", addCaseOfficer);
 router.put("/cases/:caseId/cases-officers/:caseOfficerId", editCaseOfficer);
+router.delete(
+  "/cases/:caseId/cases-officers/:caseOfficerId",
+  removeCaseOfficer
+);
 
 router.post(
   "/cases/:caseId/cases-officers/:caseOfficerId/officers-allegations",
