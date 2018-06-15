@@ -18,14 +18,16 @@ jest.mock(
 );
 
 describe("AllegationDetailsForm", () => {
-  test("it calls createOfficerAllegation with appropriate values on submit", () => {
-    const store = createConfiguredStore();
-    const dispatch = jest.spyOn(store, "dispatch");
-    const allegationId = 1;
-    const caseId = 15;
-    const caseOfficerId = 4;
+  let allegationId, caseId, caseOfficerId, allegationDetailsForm, dispatch;
 
-    const allegationDetailsForm = mount(
+  beforeEach(() => {
+    const store = createConfiguredStore();
+    dispatch = jest.spyOn(store, "dispatch");
+    allegationId = 1;
+    caseId = "15";
+    caseOfficerId = "4";
+
+    allegationDetailsForm = mount(
       <Provider store={store}>
         <AllegationDetailsForm
           allegationId={allegationId}
@@ -35,7 +37,9 @@ describe("AllegationDetailsForm", () => {
         />
       </Provider>
     );
+  });
 
+  test("it calls createOfficerAllegation with appropriate values on submit", () => {
     changeInput(
       allegationDetailsForm,
       '[data-test="allegationDetailsInput"]',
@@ -52,5 +56,41 @@ describe("AllegationDetailsForm", () => {
     expect(dispatch).toHaveBeenCalledWith(
       createOfficerAllegation(formValues, caseId, caseOfficerId)
     );
+  });
+
+  test("submit button is disabled when no allegation details have been entered", () => {
+    const addButton = allegationDetailsForm
+      .find('[data-test="addAllegationButton"]')
+      .last();
+
+    expect(addButton.props().disabled).toBeTruthy();
+  });
+
+  test("submit button is disabled when empty string has been entered as allegation details", () => {
+    changeInput(
+      allegationDetailsForm,
+      '[data-test="allegationDetailsInput"]',
+      "   "
+    );
+
+    const addButton = allegationDetailsForm
+      .find('[data-test="addAllegationButton"]')
+      .last();
+
+    expect(addButton.props().disabled).toBeTruthy();
+  });
+
+  test("submit button is enabled when allegation details are present", () => {
+    changeInput(
+      allegationDetailsForm,
+      '[data-test="allegationDetailsInput"]',
+      "details"
+    );
+
+    const addButton = allegationDetailsForm
+      .find('[data-test="addAllegationButton"]')
+      .last();
+
+    expect(addButton.props().disabled).toBeFalsy();
   });
 });

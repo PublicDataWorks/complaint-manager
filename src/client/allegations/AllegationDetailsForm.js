@@ -4,6 +4,10 @@ import { Field, reduxForm } from "redux-form";
 import { TextField } from "redux-form-material-ui";
 import { PrimaryButton } from "../shared/components/StyledButtons";
 import createOfficerAllegation from "../cases/thunks/createOfficerAllegation";
+import {
+  allegationDetailsNotBlank,
+  allegationDetailsRequired
+} from "../formFieldLevelValidations";
 
 const AllegationDetailsForm = props => {
   const onSubmit = (values, dispatch) => {
@@ -16,6 +20,8 @@ const AllegationDetailsForm = props => {
     <form>
       <div style={{ display: "flex" }}>
         <Field
+          required
+          validate={[allegationDetailsRequired, allegationDetailsNotBlank]}
           data-test="allegationDetailsField"
           style={{ width: "80%" }}
           component={TextField}
@@ -30,6 +36,7 @@ const AllegationDetailsForm = props => {
         />
         <div style={{ width: "20%", textAlign: "right" }}>
           <PrimaryButton
+            disabled={props.invalid}
             data-test="addAllegationButton"
             onClick={props.handleSubmit(onSubmit)}
           >
@@ -42,8 +49,8 @@ const AllegationDetailsForm = props => {
 };
 
 AllegationDetailsForm.propTypes = {
-  caseId: PropTypes.number.isRequired,
-  caseOfficerId: PropTypes.number.isRequired
+  caseId: PropTypes.string.isRequired,
+  caseOfficerId: PropTypes.string.isRequired
 };
 
 export default reduxForm({})(AllegationDetailsForm);

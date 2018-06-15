@@ -38,3 +38,5 @@ export const emailIsRequired = isRequired("Email Address");
 export const genderIdentityIsRequired = isRequired("Gender Identity");
 export const raceEthnicityIsRequired = isRequired("Race/Ethnicity");
 export const actionIsRequired = selectRequired("action");
+export const allegationDetailsRequired = isRequired("Allegation Details");
+export const allegationDetailsNotBlank = notBlank("Allegation Details");
