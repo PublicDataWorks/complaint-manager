@@ -74,7 +74,7 @@ const IncidentDetailsDialog = props => (
         <DateField
           required={true}
           name="firstContactDate"
-          label="First Contact Date"
+          label="First Contacted IPM"
           data-test="editFirstContactDateField"
           inputProps={{
             "data-test": "editFirstContactDateInput",

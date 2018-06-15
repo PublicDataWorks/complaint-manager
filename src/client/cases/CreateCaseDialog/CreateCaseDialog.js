@@ -23,7 +23,10 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../shared/components/StyledButtons";
-import {closeCreateCaseDialog, openCreateCaseDialog} from "../../actionCreators/casesActionCreators";
+import {
+  closeCreateCaseDialog,
+  openCreateCaseDialog
+} from "../../actionCreators/casesActionCreators";
 
 const margin = {
   marginLeft: "5%",
@@ -39,13 +42,13 @@ class CreateCaseDialog extends React.Component {
   };
 
   openDialog = () => {
-    this.props.dispatch(openCreateCaseDialog())
+    this.props.dispatch(openCreateCaseDialog());
     this.props.dispatch(closeSnackbar());
-    this.setCivilianComplainantType()
+    this.setCivilianComplainantType();
   };
 
   closeDialog = () => {
-    this.props.dispatch(closeCreateCaseDialog())
+    this.props.dispatch(closeCreateCaseDialog());
     this.props.dispatch(reset("CreateCase"));
   };
 
@@ -118,11 +121,7 @@ class CreateCaseDialog extends React.Component {
         >
           Create New Case
         </PrimaryButton>
-        <Dialog
-          data-test="createCaseDialog"
-          open={this.props.open}
-          fullWidth
-        >
+        <Dialog data-test="createCaseDialog" open={this.props.open} fullWidth>
           <DialogTitle
             data-test="createCaseDialogTitle"
             style={{ paddingBottom: "1%" }}
@@ -143,7 +142,7 @@ class CreateCaseDialog extends React.Component {
               <DateField
                 required={true}
                 name="case.firstContactDate"
-                label="First Contact Date"
+                label="First Contacted IPM"
                 data-test="firstContactDateField"
                 inputProps={{
                   "data-test": "firstContactDateInput",

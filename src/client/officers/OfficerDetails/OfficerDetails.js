@@ -1,6 +1,12 @@
 import React from "react";
 import OfficerSearchTableHeader from "../OfficerSearch/OfficerSearchTableHeader";
-import { Card, CardContent, Table, TableBody, Typography } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  Table,
+  TableBody,
+  Typography
+} from "@material-ui/core";
 import OfficerSearchResultsRow from "../OfficerSearch/OfficerSearchResults/OfficerSearchResultsRow";
 import { TextField } from "redux-form-material-ui";
 import OfficerTypeRadioGroup from "./OfficerTypeRadioGroup";
@@ -65,8 +71,8 @@ const OfficerDetails = props => {
             </div>
             <Typography style={styles.section}>Notes</Typography>
             <Typography variant="body1">
-              Use this section to indicate any information about the officer's
-              history or risk assessment.
+              Use this section to add notes, a description, or indicate any
+              information about the officer’s history or risk assessment.
             </Typography>
             <Field
               component={TextField}
