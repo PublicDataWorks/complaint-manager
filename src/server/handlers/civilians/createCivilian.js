@@ -19,17 +19,6 @@ const createCivilian = asyncMiddleware(async (req, res) => {
       include: [{ model: models.address, auditUser: req.nickname }]
     });
 
-    await models.cases.update(
-      {
-        status: "Active"
-      },
-      {
-        where: { id: civilianCreated.caseId },
-        transaction: t,
-        auditUser: req.nickname
-      }
-    );
-
     return civilianCreated.caseId;
   });
 

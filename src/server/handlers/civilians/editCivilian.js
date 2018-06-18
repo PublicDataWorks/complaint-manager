@@ -4,7 +4,7 @@ const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
 
 async function upsertAddress(civilianId, address, transaction, nickname) {
   if (!address.id) {
-    const createdAddress = await models.address.create(
+    await models.address.create(
       {
         ...address,
         addressableId: civilianId,
@@ -33,24 +33,13 @@ const editCivilian = asyncMiddleware(async (req, res) => {
       await upsertAddress(req.params.id, address, t, req.nickname);
     }
 
-    const updatedCivilian = await models.civilian.update(civilianValues, {
-      where: { id: req.params.id },
+    const civilian = await models.civilian.findById(req.params.id);
+    await civilian.update(civilianValues, {
       transaction: t,
       auditUser: req.nickname
     });
 
-    const caseId = updatedCivilian[1][0].dataValues.caseId;
-
-    await models.cases.update(
-      { status: "Active" },
-      {
-        where: { id: caseId },
-        transaction: t,
-        auditUser: req.nickname
-      }
-    );
-
-    return caseId;
+    return civilian.caseId;
   });
 
   const updatedCaseDetails = await getCaseWithAllAssociations(caseId);

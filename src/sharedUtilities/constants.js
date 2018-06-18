@@ -133,6 +133,18 @@ const ACCUSED = "Accused";
 const WITNESS = "Witness";
 const COMPLAINANT = "Complainant";
 
+// ----------------------------------------
+//          Case Status Map
+// ----------------------------------------
+const CASE_STATUS = {
+  INITIAL: 'Initial',
+  ACTIVE: 'Active',
+  READY_FOR_REVIEW: 'Ready for Review',
+  FORWARDED_TO_AGENCY: 'Forwarded to Agency',
+  CLOSED: 'Closed'
+}
+
+
 module.exports = {
   LOCAL_DEV_PORT,
   PORT,
@@ -201,5 +213,6 @@ module.exports = {
   GET_ALLEGATIONS_FAILED,
   ACCUSED,
   WITNESS,
-  COMPLAINANT
+  COMPLAINANT,
+  CASE_STATUS
 };

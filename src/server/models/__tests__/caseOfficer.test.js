@@ -1,6 +1,9 @@
 import CaseOfficer from "../../../client/testUtilities/caseOfficer";
 import models from "../index";
 import Officer from "../../../client/testUtilities/Officer";
+import { createCaseWithoutCivilian } from "../../modelTestHelpers/helpers";
+import { cleanupDatabase } from "../../requestTestHelpers";
+import { CASE_STATUS } from "../../../sharedUtilities/constants";
 
 describe("caseOfficer", () => {
   describe("isUnknownOfficer", () => {
@@ -49,6 +52,55 @@ describe("caseOfficer", () => {
         .withNoSupervisor();
       const caseOfficer = models.case_officer.build(caseOfficerAttributes);
       expect(caseOfficer.supervisorFullName).toEqual("");
+    });
+  });
+
+  describe("updating case status", () => {
+    afterEach(async () => {
+      await cleanupDatabase();
+    });
+
+    test("should update case status when adding a case officer", async () => {
+      const initialCase = await createCaseWithoutCivilian();
+
+      const caseOfficerToCreate = new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withCaseId(initialCase.id)
+        .withUnknownOfficer()
+        .build();
+
+      expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
+      await models.case_officer.create(caseOfficerToCreate, {
+        auditUser: "someone"
+      });
+
+      await initialCase.reload();
+      expect(initialCase.status).toEqual(CASE_STATUS.ACTIVE);
+    });
+
+    test("should NOT update case status when adding a case officer is unsuccessful", async () => {
+      const initialCase = await createCaseWithoutCivilian();
+
+      const caseOfficerToCreate = new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withCaseId(initialCase.id)
+        .withRoleOnCase(null)
+        .withUnknownOfficer()
+        .build();
+
+      expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
+      try {
+        await models.case_officer.create(caseOfficerToCreate, {
+          auditUser: "someone"
+        });
+      } catch (error) {
+
+      }
+
+      await initialCase.reload();
+      expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
     });
   });
 });

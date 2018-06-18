@@ -1,0 +1,66 @@
+import { cleanupDatabase } from "../../requestTestHelpers";
+import {
+  createCaseWithCivilian,
+  createCaseWithoutCivilian
+} from "../../modelTestHelpers/helpers";
+import Address from "../../../client/testUtilities/Address";
+import { CASE_STATUS } from "../../../sharedUtilities/constants";
+import models from "../../models";
+
+describe("address", () => {
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
+
+  test("should update case status when adding an incident location", async () => {
+    const initialCase = await createCaseWithoutCivilian();
+
+    const addressToCreate = new Address.Builder()
+      .defaultAddress()
+      .withId(undefined)
+      .withAddressableId(initialCase.id)
+      .withAddressableType("cases")
+      .withStreetAddress("very legit street. i mean it")
+      .build();
+
+    expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
+
+    await initialCase.createIncidentLocation(addressToCreate, {
+      auditUser: "someone"
+    });
+    await initialCase.reload();
+    const createdIncidentLocation = await initialCase.getIncidentLocation();
+
+    expect(createdIncidentLocation.streetAddress).toEqual(
+      "very legit street. i mean it"
+    );
+    expect(initialCase.status).toEqual(CASE_STATUS.ACTIVE);
+  });
+
+  test("should update case status when adding an civilian address", async () => {
+    const initialCase = await createCaseWithCivilian();
+    const caseCivilians = await initialCase.getComplainantCivilians();
+    const civilian = caseCivilians[0];
+
+    const addressToCreate = new Address.Builder()
+      .defaultAddress()
+      .withId(undefined)
+      .withAddressableId(civilian.id)
+      .withAddressableType("civilian")
+      .withStreetAddress("very legit street. i mean it")
+      .build();
+
+    await civilian.createAddress(addressToCreate, {
+      auditUser: "someone"
+    });
+
+    await civilian.reload({ include: [models.address] });
+    await initialCase.reload();
+
+    expect(initialCase.status).toEqual(CASE_STATUS.ACTIVE);
+    expect(civilian.address.streetAddress).toEqual(
+      "very legit street. i mean it"
+    );
+  });
+
+});

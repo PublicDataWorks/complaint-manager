@@ -17,19 +17,6 @@ const editCaseNote = asyncMiddleware(async (req, res) => {
         auditUser: req.nickname
       });
 
-      await models.cases.update(
-        {
-          status: "Active"
-        },
-        {
-          where: {
-            id: caseId
-          },
-          transaction,
-          auditUser: req.nickname
-        }
-      );
-
       return await models.case_note.findAll({
         where: { caseId },
         transaction

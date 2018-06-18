@@ -175,6 +175,14 @@ module.exports = (sequelize, DataTypes) => {
 
           return "";
         }
+      },
+      hooks: {
+        afterCreate: async (instance, options) => {
+          await instance.sequelize.models["cases"].update(
+            {},
+            { where: { id: instance.caseId }, auditUser: options.auditUser }
+          );
+        }
       }
     }
   );

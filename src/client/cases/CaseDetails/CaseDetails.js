@@ -34,6 +34,7 @@ import AccusedOfficers from "./Officers/AccusedOfficers";
 import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
 import timezone from "moment-timezone";
 import RemoveCivilianDialog from "../RemoveCivilianDialog/RemovePersonDialog";
+import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
 
 const drawerWidthPercentage = "30%";
 
@@ -101,6 +102,7 @@ class CaseDetails extends React.Component {
           </NavBar>
           <CaseDrawer classes={classes} caseDetail={this.props.caseDetail} />
           <main className={classes.content}>
+            <CaseStatusStepper/>
             <IncidentDetailsContainer />
             <ComplainantWitnesses
               caseDetail={this.props.caseDetail}

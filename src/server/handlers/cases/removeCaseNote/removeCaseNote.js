@@ -15,19 +15,6 @@ const removeCaseNote = asyncMiddleware(async (req, res) => {
       auditUser: req.nickname
     });
 
-    await models.cases.update(
-      {
-        status: "Active"
-      },
-      {
-        where: {
-          id: caseId
-        },
-        auditUser: req.nickname,
-        transaction
-      }
-    );
-
     const caseDetails = await getCaseWithAllAssociations(caseId, transaction);
     const recentActivity = await models.case_note.findAll({
       where: { caseId },

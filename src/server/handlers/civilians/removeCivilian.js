@@ -26,14 +26,6 @@ const removeCivilian = asyncMiddleware(async (request, response) => {
       transaction: t,
       auditUser: request.nickname
     });
-    await models.cases.update(
-      { status: "Active" },
-      {
-        where: { id: request.params.caseId },
-        transaction: t,
-        auditUser: request.nickname
-      }
-    );
   });
 
   const caseDetails = await getCaseWithAllAssociations(request.params.caseId);

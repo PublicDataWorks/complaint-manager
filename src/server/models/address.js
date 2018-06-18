@@ -5,6 +5,12 @@ module.exports = (sequelize, DataTypes) => {
   var Address = sequelize.define(
     "address",
     {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
+      },
       addressableId: {
         type: DataTypes.INTEGER,
         field: "addressable_id"
@@ -59,7 +65,17 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
-      paranoid: true
+      paranoid: true,
+      hooks: {
+        afterCreate: async (instance, options) => {
+          const caseId = await instance.getCaseId(options.transaction);
+
+          await instance.sequelize.models["cases"].update(
+            {},
+            { where: { id: caseId }, auditUser: options.auditUser }
+          );
+        }
+      }
     }
   );
 

@@ -30,16 +30,6 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
       }
     );
 
-    await models.cases.update(
-      { status: "Active" },
-      {
-        where: {
-          id: request.params.caseId
-        },
-        auditUser: request.nickname
-      }
-    );
-
     return await getCaseWithAllAssociations(retrievedCase.id, t);
   });
 

@@ -56,15 +56,6 @@ const uploadAttachment = asyncMiddleware((request, response) => {
           }
         );
 
-        await models.cases.update(
-          { status: "Active" },
-          {
-            where: { id: caseId },
-            transaction: t,
-            auditUser: request.nickname
-          }
-        );
-
         return await getCaseWithAllAssociations(caseId, t);
       });
 

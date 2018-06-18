@@ -183,7 +183,7 @@ describe("dataChangeAuditHooks", () => {
         try {
           await models.cases.create({}, { auditUser: "someone" });
         } catch (error) {
-          expect(error.name).toEqual("SequelizeDatabaseError");
+          expect(error.name).toEqual("SequelizeValidationError");
         }
         await models.data_change_audit.count().then(numAudits => {
           expect(numAudits).toEqual(0);
@@ -437,7 +437,7 @@ describe("dataChangeAuditHooks", () => {
             { auditUser: "someone" }
           );
         } catch (error) {
-          expect(error.name).toEqual("SequelizeDatabaseError");
+          expect(error.name).toEqual("SequelizeValidationError");
         }
         await models.data_change_audit.count().then(numAudits => {
           expect(numAudits).toEqual(0);

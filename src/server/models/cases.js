@@ -1,3 +1,5 @@
+const CASE_STATUS = require("../../sharedUtilities/constants").CASE_STATUS;
+
 const {
   ACCUSED,
   COMPLAINANT,
@@ -18,17 +20,19 @@ module.exports = (sequelize, DataTypes) => {
       complainantType: {
         type: DataTypes.ENUM(["Civilian", "Police Officer"]),
         defaultValue: "Civilian",
-        field: "complainant_type"
+        field: "complainant_type",
+        allowNull: false
       },
       status: {
         type: DataTypes.ENUM([
-          "Initial",
-          "Active",
-          "Forwarded",
-          "Suspended",
-          "Complete"
+          CASE_STATUS.INITIAL,
+          CASE_STATUS.ACTIVE,
+          CASE_STATUS.READY_FOR_REVIEW,
+          CASE_STATUS.FORWARDED_TO_AGENCY,
+          CASE_STATUS.CLOSED
         ]),
-        defaultValue: "Initial"
+        defaultValue: "Initial",
+        allowNull: false
       },
       district: {
         type: DataTypes.STRING
@@ -55,11 +59,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       createdBy: {
         field: "created_by",
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false
       },
       assignedTo: {
         field: "assigned_to",
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false
       },
       createdAt: {
         field: "created_at",
