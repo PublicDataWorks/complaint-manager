@@ -4,6 +4,7 @@ import models from "../../../models";
 import CaseNote from "../../../../client/testUtilities/caseNote";
 import removeCaseNote from "./removeCaseNote";
 import { cleanupDatabase } from "../../../requestTestHelpers";
+import {CASE_STATUS} from "../../../../sharedUtilities/constants";
 
 describe("RemoveCaseNote unit", () => {
   afterEach(async () => {
@@ -14,7 +15,7 @@ describe("RemoveCaseNote unit", () => {
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)
-      .withStatus("Initial")
+      .withStatus(CASE_STATUS.INITIAL)
       .withComplainantCivilians([])
       .withAttachments([])
       .withAccusedOfficers([])
@@ -56,7 +57,7 @@ describe("RemoveCaseNote unit", () => {
     expect(updatedCase).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          status: "Active"
+          status: CASE_STATUS.ACTIVE
         })
       ])
     );

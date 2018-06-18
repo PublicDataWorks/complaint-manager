@@ -1,3 +1,5 @@
+import {CASE_STATUS} from "../../sharedUtilities/constants";
+
 class Officer {
   constructor(build) {
     this.id = build.id;
@@ -35,7 +37,7 @@ class Officer {
         this.dob = "1990-04-30";
         this.bureau = "FOB - Field Operations Bureau";
         this.district = "First District";
-        this.workStatus = "Active";
+        this.workStatus = CASE_STATUS.ACTIVE;
         this.supervisorOfficerNumber = null;
         this.hireDate = "2008-04-30";
         this.endDate = "2009-04-30";

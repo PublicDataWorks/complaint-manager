@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
           CASE_STATUS.FORWARDED_TO_AGENCY,
           CASE_STATUS.CLOSED
         ]),
-        defaultValue: "Initial",
+        defaultValue: CASE_STATUS.INITIAL,
         allowNull: false
       },
       district: {
@@ -79,8 +79,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       hooks: {
         beforeUpdate: (instance, options) => {
-          if (instance.changed() && instance.status === "Initial") {
-            instance.status = "Active";
+          if (instance.changed() && instance.status === CASE_STATUS.INITIAL) {
+            instance.status = CASE_STATUS.ACTIVE;
           }
         }
       }

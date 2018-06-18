@@ -7,6 +7,7 @@ import {
   buildTokenWithPermissions,
   cleanupDatabase
 } from "../../../requestTestHelpers";
+import {CASE_STATUS} from "../../../../sharedUtilities/constants";
 
 describe("removeCaseNote request", () => {
   afterEach(async () => {
@@ -53,7 +54,7 @@ describe("removeCaseNote request", () => {
             recentActivity: [],
             caseDetails: expect.objectContaining({
               id: createdCase.id,
-              status: "Active"
+              status: CASE_STATUS.ACTIVE
             })
           })
         );

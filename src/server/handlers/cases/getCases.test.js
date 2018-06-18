@@ -6,7 +6,7 @@ import request from "supertest";
 import Civilian from "../../../client/testUtilities/civilian";
 import Officer from "../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../client/testUtilities/caseOfficer";
-import { COMPLAINANT } from "../../../sharedUtilities/constants";
+import {CASE_STATUS, COMPLAINANT} from "../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
@@ -130,7 +130,7 @@ describe("getCases", () => {
                 firstContactDate: moment(seededCase.firstContactDate).format(
                   "YYYY-MM-DD"
                 ),
-                status: "Initial",
+                status: CASE_STATUS.INITIAL,
                 createdBy: "tuser",
                 assignedTo: "tuser"
               })

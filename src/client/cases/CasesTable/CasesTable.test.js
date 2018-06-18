@@ -13,7 +13,7 @@ import Civilian from "../../testUtilities/civilian";
 import Case from "../../testUtilities/case";
 import CaseOfficer from "../../testUtilities/caseOfficer";
 import Officer from "../../testUtilities/Officer";
-import { COMPLAINANT } from "../../../sharedUtilities/constants";
+import {CASE_STATUS, COMPLAINANT} from "../../../sharedUtilities/constants";
 
 jest.mock("../thunks/getCases", () => () => ({
   type: "MOCK_GET_CASES_THUNK"
@@ -58,7 +58,7 @@ describe("cases table", () => {
       .withId(17)
       .withComplainantCivilians([civilianChuck])
       .withComplainantType("Civilian")
-      .withStatus("Initial")
+      .withStatus(CASE_STATUS.INITIAL)
       .withCreatedAt(new Date(2015, 8, 13).toISOString())
       .withAssignedTo("tuser")
       .withAccusedOfficers([accusedOfficer])
@@ -69,7 +69,7 @@ describe("cases table", () => {
       .withId(24)
       .withComplainantCivilians([civilianAriel])
       .withComplainantType("Civilian")
-      .withStatus("Initial")
+      .withStatus(CASE_STATUS.INITIAL)
       .withCreatedAt(new Date().toISOString())
       .withAssignedTo("tuser")
       .withFirstContactDate("2017-12-25T00:00:00.000Z")
@@ -184,7 +184,7 @@ describe("cases table", () => {
 
     test("should display status", () => {
       const status = caseRow.find('td[data-test="caseStatus"]');
-      expect(status.text()).toEqual("Initial");
+      expect(status.text()).toEqual(CASE_STATUS.INITIAL);
     });
 
     test("should display name", () => {
@@ -229,7 +229,7 @@ describe("cases table", () => {
         .defaultCase()
         .withId(50)
         .withComplainantCivilians([civilianChuck])
-        .withStatus("Initial")
+        .withStatus(CASE_STATUS.INITIAL)
         .withComplainantType("Civilian")
         .withCreatedAt(new Date(2015, 8, 15).toISOString())
         .withAssignedTo("tuser")

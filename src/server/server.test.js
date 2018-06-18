@@ -8,7 +8,7 @@ import Case from "../client/testUtilities/case";
 import Attachment from "../client/testUtilities/attachment";
 import { civilianWithAddress } from "../client/testUtilities/ObjectMothers";
 import Address from "../client/testUtilities/Address";
-import { EXPORT_AUDIT_LOG } from "../sharedUtilities/constants";
+import {CASE_STATUS, EXPORT_AUDIT_LOG} from "../sharedUtilities/constants";
 import AWS from "aws-sdk";
 import {
   buildTokenWithPermissions,
@@ -526,7 +526,7 @@ describe("server", () => {
         .send(updatedCivilian)
         .expect(200)
         .then(response => {
-          expect(response.body.status).toEqual("Active");
+          expect(response.body.status).toEqual(CASE_STATUS.ACTIVE);
         });
     });
   });
@@ -730,7 +730,7 @@ describe("server", () => {
       expect(numberOfCaseNotesAfterRequest).toEqual(
         numberOfCaseNotesBeforeRequest + 1
       );
-      expect(updatedCase.dataValues.status).toEqual("Active");
+      expect(updatedCase.dataValues.status).toEqual(CASE_STATUS.ACTIVE);
     });
   });
 
@@ -794,7 +794,7 @@ describe("server", () => {
           expect(response.body.narrativeDetails).toEqual(
             updatedNarrative.narrativeDetails
           );
-          expect(response.body.status).toEqual("Active");
+          expect(response.body.status).toEqual(CASE_STATUS.ACTIVE);
         });
     });
   });
@@ -929,7 +929,7 @@ describe("server", () => {
                 expect.objectContaining({ fileName: "README.md" })
               ])
             );
-            expect(response.body.status).toEqual("Active");
+            expect(response.body.status).toEqual(CASE_STATUS.ACTIVE);
           });
       });
 

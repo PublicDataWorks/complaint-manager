@@ -12,7 +12,7 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import { removeAttachmentSuccess } from "../../actionCreators/attachmentsActionCreators";
 import {
-  ADD_OFFICER_TO_CASE_SUCCEEDED,
+  ADD_OFFICER_TO_CASE_SUCCEEDED, CASE_STATUS,
   CIVILIAN_CREATION_SUCCEEDED,
   REMOVE_ATTACHMENT_SUCCESS
 } from "../../../sharedUtilities/constants";
@@ -152,10 +152,10 @@ describe("caseDetailsReducers", () => {
 
   describe("ADD_CASE_NOTE_SUCCEEDED", () => {
     test("should set case status to Active if Initial", () => {
-      const caseDetails = { status: "Initial" };
+      const caseDetails = { status: CASE_STATUS.INITIAL };
       const newState = caseDetailsReducer(caseDetails, addCaseNoteSuccess());
 
-      expect(newState).toEqual({ status: "Active" });
+      expect(newState).toEqual({ status: CASE_STATUS.ACTIVE });
     });
   });
 

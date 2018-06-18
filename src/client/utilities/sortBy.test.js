@@ -1,5 +1,5 @@
 import sortBy from "./sortBy";
-import { COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
+import {CASE_STATUS, COMPLAINANT, WITNESS} from "../../sharedUtilities/constants";
 
 describe("sorting", () => {
   let unsortedCases;
@@ -7,7 +7,7 @@ describe("sorting", () => {
     unsortedCases = [
       {
         id: 2,
-        status: "Initial",
+        status: CASE_STATUS.INITIAL,
         complainantCivilians: [
           {
             lastName: "austin",
@@ -18,7 +18,7 @@ describe("sorting", () => {
       },
       {
         id: 1,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         complainantCivilians: [
           {
             lastName: "Zeke",
@@ -29,7 +29,7 @@ describe("sorting", () => {
       },
       {
         id: 3,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         complainantCivilians: [
           {
             lastName: "Aaron",
@@ -45,7 +45,7 @@ describe("sorting", () => {
     const expectedSortedCases = [
       {
         id: 2,
-        status: "Initial",
+        status: CASE_STATUS.INITIAL,
         complainantCivilians: [
           {
             lastName: "austin",
@@ -56,7 +56,7 @@ describe("sorting", () => {
       },
       {
         id: 1,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         complainantCivilians: [
           {
             lastName: "Zeke",
@@ -67,7 +67,7 @@ describe("sorting", () => {
       },
       {
         id: 3,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         complainantCivilians: [
           {
             lastName: "Aaron",
@@ -87,7 +87,7 @@ describe("sorting", () => {
     const expectedSortedCases = [
       {
         id: 3,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         complainantCivilians: [
           {
             lastName: "Aaron",
@@ -98,7 +98,7 @@ describe("sorting", () => {
       },
       {
         id: 1,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         complainantCivilians: [
           {
             lastName: "Zeke",
@@ -109,7 +109,7 @@ describe("sorting", () => {
       },
       {
         id: 2,
-        status: "Initial",
+        status: CASE_STATUS.INITIAL,
         complainantCivilians: [
           {
             lastName: "austin",
@@ -129,7 +129,7 @@ describe("sorting", () => {
     const expectedSortedCases = [
       {
         id: 3,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         complainantCivilians: [
           {
             lastName: "Aaron",
@@ -140,7 +140,7 @@ describe("sorting", () => {
       },
       {
         id: 2,
-        status: "Initial",
+        status: CASE_STATUS.INITIAL,
         complainantCivilians: [
           {
             lastName: "austin",
@@ -151,7 +151,7 @@ describe("sorting", () => {
       },
       {
         id: 1,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         complainantCivilians: [
           {
             lastName: "Zeke",
@@ -171,7 +171,7 @@ describe("sorting", () => {
     const unsorted = [
       {
         id: 1,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         complainantCivilians: [
           {
             lastName: "Zeke",
@@ -182,7 +182,7 @@ describe("sorting", () => {
       },
       {
         id: 2,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         complainantCivilians: [],
         assignedTo: "testUser"
       }
@@ -191,13 +191,13 @@ describe("sorting", () => {
     const expected = [
       {
         id: 2,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         complainantCivilians: [],
         assignedTo: "testUser"
       },
       {
         id: 1,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         complainantCivilians: [
           {
             lastName: "Zeke",
@@ -217,7 +217,7 @@ describe("sorting", () => {
     const expectedSortedCases = [
       {
         id: 2,
-        status: "Initial",
+        status: CASE_STATUS.INITIAL,
         complainantCivilians: [
           {
             lastName: "austin",
@@ -228,7 +228,7 @@ describe("sorting", () => {
       },
       {
         id: 1,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         complainantCivilians: [
           {
             lastName: "Zeke",
@@ -239,7 +239,7 @@ describe("sorting", () => {
       },
       {
         id: 3,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         complainantCivilians: [
           {
             lastName: "Aaron",
@@ -259,7 +259,7 @@ describe("sorting", () => {
     const unsortedCases = [
       {
         id: 2,
-        status: "Initial",
+        status: CASE_STATUS.INITIAL,
         accusedOfficers: [
           {
             lastName: "Brown"
@@ -269,7 +269,7 @@ describe("sorting", () => {
       },
       {
         id: 1,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         accusedOfficers: [
           {
             lastName: "adams"
@@ -279,7 +279,7 @@ describe("sorting", () => {
       },
       {
         id: 3,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         accusedOfficers: [],
         assignedTo: "Johnson"
       }
@@ -288,13 +288,13 @@ describe("sorting", () => {
     const expectedSortedCases = [
       {
         id: 3,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         accusedOfficers: [],
         assignedTo: "Johnson"
       },
       {
         id: 1,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         accusedOfficers: [
           {
             lastName: "adams"
@@ -304,7 +304,7 @@ describe("sorting", () => {
       },
       {
         id: 2,
-        status: "Initial",
+        status: CASE_STATUS.INITIAL,
         accusedOfficers: [
           {
             lastName: "Brown"
@@ -323,7 +323,7 @@ describe("sorting", () => {
     const unsortedCases = [
       {
         id: 1,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         accusedOfficers: [
           {
             isUnknownOfficer: true
@@ -333,7 +333,7 @@ describe("sorting", () => {
       },
       {
         id: 2,
-        status: "Initial",
+        status: CASE_STATUS.INITIAL,
         accusedOfficers: [
           {
             isUnknownOfficer: false,
@@ -344,7 +344,7 @@ describe("sorting", () => {
       },
       {
         id: 3,
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         accusedOfficers: [],
         assignedTo: "Johnson"
       }

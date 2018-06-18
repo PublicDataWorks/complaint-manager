@@ -1,6 +1,6 @@
 import models from "../models/index";
 import Case from "../../client/testUtilities/case";
-import { DATA_CREATED, DATA_UPDATED } from "../../sharedUtilities/constants";
+import {CASE_STATUS, DATA_CREATED, DATA_UPDATED} from "../../sharedUtilities/constants";
 
 describe("dataChangeAuditHooks", () => {
   afterEach(async () => {
@@ -67,7 +67,7 @@ describe("dataChangeAuditHooks", () => {
         district: { new: null },
         complainantType: { new: "Police Officer" },
         assignedTo: { new: "originalAssignedToPerson" },
-        status: { new: "Initial" }
+        status: { new: CASE_STATUS.INITIAL }
       };
       expect(audit.changes).toEqual(expectedChanges);
     });
@@ -87,7 +87,7 @@ describe("dataChangeAuditHooks", () => {
         district: null,
         complainantType: "Police Officer",
         assignedTo: "originalAssignedToPerson",
-        status: "Initial",
+        status: CASE_STATUS.INITIAL,
         createdAt: createdCase.createdAt.toJSON(),
         createdBy: "createdByPerson",
         updatedAt: createdCase.updatedAt.toJSON(),
@@ -251,7 +251,7 @@ describe("dataChangeAuditHooks", () => {
           previous: "original narrative summary",
           new: "updated narrative summary"
         },
-        status: { previous: "Initial", new: "Active" }
+        status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE }
       };
       expect(audit.changes).toEqual(expectedChanges);
     });
@@ -275,7 +275,7 @@ describe("dataChangeAuditHooks", () => {
       }))[0];
 
       const expectedChanges = {
-        status: { previous: "Initial", new: "Active" },
+        status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE },
         complainantType: { previous: "Police Officer", new: "Civilian" },
         district: { previous: "1st District", new: "2nd District" },
         firstContactDate: { previous: "2017-12-25", new: "2018-01-01" },
@@ -324,7 +324,7 @@ describe("dataChangeAuditHooks", () => {
         district: "2nd District",
         complainantType: "Civilian",
         assignedTo: "updatedAssignedPerson",
-        status: "Active",
+        status: CASE_STATUS.ACTIVE,
         createdAt: existingCase.createdAt.toJSON(),
         createdBy: "createdByPerson",
         updatedAt: existingCase.updatedAt.toJSON(),

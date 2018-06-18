@@ -8,6 +8,7 @@ import {
   buildTokenWithPermissions,
   cleanupDatabase
 } from "../../requestTestHelpers";
+import {CASE_STATUS} from "../../../sharedUtilities/constants";
 
 describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
   let token;
@@ -57,7 +58,7 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
         expect(response.body).toEqual(
           expect.objectContaining({
             id: createdCase.id,
-            status: "Active",
+            status: CASE_STATUS.ACTIVE,
             complainantCivilians: []
           })
         );
@@ -107,7 +108,7 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
         expect(response.body).toEqual(
           expect.objectContaining({
             id: createdCase.id,
-            status: "Active",
+            status: CASE_STATUS.ACTIVE,
             complainantCivilians: []
           })
         );

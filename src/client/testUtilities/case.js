@@ -3,7 +3,7 @@ import Attachment from "./attachment";
 import Address from "./Address";
 import CaseOfficer from "./caseOfficer";
 import Officer from "./Officer";
-import { ACCUSED, COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
+import {ACCUSED, CASE_STATUS, COMPLAINANT, WITNESS} from "../../sharedUtilities/constants";
 
 class Case {
   constructor(build) {
@@ -96,7 +96,7 @@ class Case {
         this.id = id;
         this.complainantCivilians = [complainantCivilian];
         this.witnessCivilians = [witnessCivilian];
-        this.status = "Initial";
+        this.status = CASE_STATUS.INITIAL;
         this.createdAt = new Date(2015, 8, 13).toISOString();
         this.firstContactDate = "2017-12-25T00:00:00.000Z";
         this.incidentDate = "2017-01-01";

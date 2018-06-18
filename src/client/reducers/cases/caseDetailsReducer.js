@@ -5,7 +5,7 @@ import {
   INCIDENT_DETAILS_UPDATE_SUCCEEDED,
   REMOVE_ATTACHMENT_SUCCESS,
   REMOVE_PERSON_SUCCEEDED,
-  REMOVE_CASE_NOTE_SUCCEEDED
+  REMOVE_CASE_NOTE_SUCCEEDED, CASE_STATUS
 } from "../../../sharedUtilities/constants";
 
 const initialState = {};
@@ -26,7 +26,7 @@ const caseDetailsReducer = (state = initialState, action) => {
     case ADD_CASE_NOTE_SUCCEEDED:
       return {
         ...state,
-        status: state.status === "Initial" ? "Active" : state.status
+        status: state.status === CASE_STATUS.INITIAL ? CASE_STATUS.ACTIVE : state.status
       };
     default:
       return state;

@@ -4,6 +4,7 @@ import models from "../../../models";
 import Case from "../../../../client/testUtilities/case";
 import editCaseNote from "./editCaseNote";
 import { cleanupDatabase } from "../../../requestTestHelpers";
+import {CASE_STATUS} from "../../../../sharedUtilities/constants";
 
 afterEach(async () => {
   await cleanupDatabase();
@@ -13,7 +14,7 @@ test("should update case status and recent activity in the db after case note ed
   const caseToCreate = new Case.Builder()
     .defaultCase()
     .withId(undefined)
-    .withStatus("Initial")
+    .withStatus(CASE_STATUS.INITIAL)
     .withComplainantCivilians([])
     .withAttachments([])
     .withAccusedOfficers([])
@@ -62,7 +63,7 @@ test("should update case status and recent activity in the db after case note ed
 
   expect(updatedCase).toEqual(
     expect.objectContaining({
-      status: "Active"
+      status: CASE_STATUS.ACTIVE
     })
   );
 

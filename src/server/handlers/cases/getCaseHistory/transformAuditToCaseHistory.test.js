@@ -1,4 +1,4 @@
-import { DATA_UPDATED } from "../../../../sharedUtilities/constants";
+import {CASE_STATUS, DATA_UPDATED} from "../../../../sharedUtilities/constants";
 import DataChangeAudit from "../../../../client/testUtilities/dataChangeAudit";
 import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
 import ActionAudit from "../../../../client/testUtilities/ActionAudit";
@@ -37,7 +37,7 @@ describe("transformAuditToCaseHistory", () => {
   test("it transforms multiple entries in the changes field", () => {
     const auditChanges = {
       complainantType: { previous: "Civilian", new: "Police Officer" },
-      status: { previous: "Initial", new: "Active" }
+      status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE }
     };
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
@@ -46,7 +46,7 @@ describe("transformAuditToCaseHistory", () => {
 
     const expectedDetails = {
       "Complainant Type": { previous: "Civilian", new: "Police Officer" },
-      Status: { previous: "Initial", new: "Active" }
+      Status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE }
     };
     expect(caseHistories[0].details).toEqual(expectedDetails);
   });
@@ -54,7 +54,7 @@ describe("transformAuditToCaseHistory", () => {
   test("it transforms null values in changes field to empty string", () => {
     const auditChanges = {
       complainantType: { previous: null, new: "Police Officer" },
-      status: { previous: "Initial", new: null }
+      status: { previous: CASE_STATUS.INITIAL, new: null }
     };
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
@@ -63,7 +63,7 @@ describe("transformAuditToCaseHistory", () => {
 
     const expectedDetails = {
       "Complainant Type": { previous: " ", new: "Police Officer" },
-      Status: { previous: "Initial", new: " " }
+      Status: { previous: CASE_STATUS.INITIAL, new: " " }
     };
     expect(caseHistories[0].details).toEqual(expectedDetails);
   });

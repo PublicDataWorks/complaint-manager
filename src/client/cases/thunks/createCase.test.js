@@ -8,6 +8,7 @@ import {
 import createCase from "./createCase";
 import {push} from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
+import {CASE_STATUS} from "../../../sharedUtilities/constants";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -39,7 +40,7 @@ describe("createCase", () => {
     const responseBody = {
       firstName: "Fats",
       lastName: "Domino",
-      status: "Initial"
+      status: CASE_STATUS.INITIAL
     };
 
     nock("http://localhost", {
@@ -124,7 +125,7 @@ describe("createCase", () => {
       id: caseId,
       firstName: "Police",
       lastName: "Officer",
-      status: "Initial"
+      status: CASE_STATUS.INITIAL
     };
 
     nock("http://localhost", {
@@ -162,7 +163,7 @@ describe("createCase", () => {
       id: caseId,
       firstName: "Some",
       lastName: "Civilian",
-      status: "Initial"
+      status: CASE_STATUS.INITIAL
     };
 
     nock("http://localhost", {

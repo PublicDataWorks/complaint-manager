@@ -3,7 +3,7 @@ import models from "../../../models/index";
 import addCaseOfficer from "./addCaseOfficer";
 import * as httpMocks from "node-mocks-http";
 import Officer from "../../../../client/testUtilities/Officer";
-import { ACCUSED } from "../../../../sharedUtilities/constants";
+import {ACCUSED, CASE_STATUS} from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../requestTestHelpers";
 
 describe("addCaseOfficer", () => {
@@ -15,7 +15,7 @@ describe("addCaseOfficer", () => {
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)
-      .withStatus("Initial")
+      .withStatus(CASE_STATUS.INITIAL)
       .withIncidentLocation(undefined);
 
     const createdCase = await models.cases.create(caseToCreate, {
@@ -45,7 +45,7 @@ describe("addCaseOfficer", () => {
     const caseOfInterest = await models.cases.findById(createdCase.id);
     expect(caseOfInterest).toEqual(
       expect.objectContaining({
-        status: "Active"
+        status: CASE_STATUS.ACTIVE
       })
     );
   });
@@ -54,7 +54,7 @@ describe("addCaseOfficer", () => {
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)
-      .withStatus("Initial")
+      .withStatus(CASE_STATUS.INITIAL)
       .withIncidentLocation(undefined);
 
     const officerToCreate = new Officer.Builder()
@@ -105,7 +105,7 @@ describe("addCaseOfficer", () => {
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)
-      .withStatus("Initial")
+      .withStatus(CASE_STATUS.INITIAL)
       .withIncidentLocation(undefined);
 
     const createdCase = await models.cases.create(caseToCreate, {

@@ -3,7 +3,7 @@ import Officer from "../../../../client/testUtilities/Officer";
 import models from "../../../models/index";
 import Case from "../../../../client/testUtilities/case";
 import app from "../../../server";
-import { ACCUSED } from "../../../../sharedUtilities/constants";
+import { CASE_STATUS, ACCUSED } from "../../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
@@ -51,7 +51,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
       .then(response => {
         expect(response.body).toEqual(
           expect.objectContaining({
-            status: "Active",
+            status: CASE_STATUS.ACTIVE,
             accusedOfficers: expect.arrayContaining([
               expect.objectContaining({
                 id: expect.anything(),
@@ -126,7 +126,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
       .then(response => {
         expect(response.body).toEqual(
           expect.objectContaining({
-            status: "Active",
+            status: CASE_STATUS.ACTIVE,
             accusedOfficers: expect.arrayContaining([
               expect.objectContaining({
                 id: expect.anything(),

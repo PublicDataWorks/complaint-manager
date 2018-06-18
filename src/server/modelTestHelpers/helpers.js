@@ -1,9 +1,10 @@
 import models from "../models/index";
+import {CASE_STATUS} from "../../sharedUtilities/constants";
 
 export const createCaseWithoutCivilian = async () => {
   const initialCase = await models.cases.create(
     {
-      status: "Initial",
+      status: CASE_STATUS.INITIAL,
       createdBy: "test_user",
       assignedTo: "test_user"
     },
@@ -16,7 +17,7 @@ export const createCaseWithoutCivilian = async () => {
 export const createCaseWithCivilian = async () => {
   const initialCase = await models.cases.create(
     {
-      status: "Initial",
+      status: CASE_STATUS.INITIAL,
       createdBy: "test_user",
       assignedTo: "test_user",
       complainantCivilians: [

@@ -3,7 +3,6 @@ import { Step, Stepper, StepLabel } from "@material-ui/core";
 import {CASE_STATUS} from "../../../../sharedUtilities/constants";
 import {connect} from "react-redux"
 
-//TODO replace magic strings with constants
 const caseStatusMap = {
   [CASE_STATUS.INITIAL] : 0,
   [CASE_STATUS.ACTIVE] : 1,
