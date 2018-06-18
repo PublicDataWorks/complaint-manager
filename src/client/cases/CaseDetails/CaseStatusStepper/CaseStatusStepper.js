@@ -23,7 +23,16 @@ const generateSteps = map => {
 
 const CaseStatusStepper = ({status}) => {
   return (
-    <Stepper data-test="statusStepper" activeStep={caseStatusMap[status]} alternativeLabel>
+    <Stepper
+      data-test="statusStepper"
+      activeStep={caseStatusMap[status]}
+      alternativeLabel
+      style={{
+        marginLeft: '5%',
+        maxWidth: '850px',
+        padding: '24px 0px'
+      }}
+    >
       {generateSteps(caseStatusMap)}
     </Stepper>
   );
