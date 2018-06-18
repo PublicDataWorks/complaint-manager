@@ -9,6 +9,7 @@ import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Case from "../../../../client/testUtilities/case";
 import Officer from "../../../../client/testUtilities/Officer";
 import { COMPLAINANT } from "../../../../sharedUtilities/constants";
+import winston from "winston";
 
 describe("DELETE /cases/:caseId/cases-officers/:caseOfficerId", () => {
   let token;
@@ -16,10 +17,15 @@ describe("DELETE /cases/:caseId/cases-officers/:caseOfficerId", () => {
 
   beforeEach(() => {
     token = buildTokenWithPermissions("", "tuser");
+    winston.remove(winston.transports.Console);
   });
 
   afterEach(async () => {
     await cleanupDatabase();
+    winston.add(winston.transports.Console, {
+      json: true,
+      colorize: true
+    });
   });
 
   test("should respond with 200 and updated case when removing officer", async () => {
