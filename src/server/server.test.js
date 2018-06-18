@@ -906,7 +906,8 @@ describe("server", () => {
               promise: () => Promise.resolve({ Key: mockKey })
             }),
             config: {
-              loadFromPath: jest.fn()
+              loadFromPath: jest.fn(),
+              update: jest.fn()
             }
           };
         });
@@ -941,7 +942,8 @@ describe("server", () => {
               promise: () => Promise.resolve({ Key: mockFileName })
             }),
             config: {
-              loadFromPath: jest.fn()
+              loadFromPath: jest.fn(),
+              update: jest.fn()
             }
           };
         });
@@ -977,7 +979,8 @@ describe("server", () => {
               promise: () => Promise.resolve({})
             }),
             config: {
-              loadFromPath: jest.fn()
+              loadFromPath: jest.fn(),
+              update: jest.fn()
             }
           };
         });

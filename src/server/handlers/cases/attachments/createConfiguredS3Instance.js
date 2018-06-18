@@ -11,6 +11,11 @@ const createConfiguredS3Instance = () => {
     s3.config.loadFromPath(path.join(__dirname, "../../../awsConfig.json"));
   }
 
+  s3.config.update({
+    region: "us-east-2",
+    sslEnabled: true
+  });
+
   return s3;
 };
 
