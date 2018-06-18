@@ -36,7 +36,7 @@ const AllegationDetailsForm = props => {
           }}
           multiline
           rowsMax={5}
-          label="Allegation details"
+          label="Allegation Details"
         />
         <div style={{ marginLeft: "16px" }}>
           <PrimaryButton

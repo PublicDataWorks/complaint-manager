@@ -5,6 +5,7 @@ import {
   snackbarError,
   snackbarSuccess
 } from "../../actionCreators/snackBarActionCreators";
+import { createOfficerAllegationSuccess } from "../../actionCreators/allegationsActionCreators";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -39,7 +40,9 @@ const createOfficerAllegation = (
 
     switch (response.status) {
       case 201:
+        const caseDetails = await response.json();
         addAllegationSuccessCallback();
+        dispatch(createOfficerAllegationSuccess(caseDetails));
         return dispatch(snackbarSuccess(successMessage));
       case 401:
         return dispatch(push(`/login`));

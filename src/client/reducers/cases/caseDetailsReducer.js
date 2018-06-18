@@ -5,7 +5,9 @@ import {
   INCIDENT_DETAILS_UPDATE_SUCCEEDED,
   REMOVE_ATTACHMENT_SUCCESS,
   REMOVE_PERSON_SUCCEEDED,
-  REMOVE_CASE_NOTE_SUCCEEDED, CASE_STATUS
+  REMOVE_CASE_NOTE_SUCCEEDED,
+  ADD_OFFICER_ALLEGATION_SUCCEEDED,
+  CASE_STATUS
 } from "../../../sharedUtilities/constants";
 
 const initialState = {};
@@ -22,6 +24,7 @@ const caseDetailsReducer = (state = initialState, action) => {
     case REMOVE_CASE_NOTE_SUCCEEDED:
     case "EDIT_CIVILIAN_SUCCESS":
     case CIVILIAN_CREATION_SUCCEEDED:
+    case ADD_OFFICER_ALLEGATION_SUCCEEDED:
       return action.caseDetails;
     case ADD_CASE_NOTE_SUCCEEDED:
       return {

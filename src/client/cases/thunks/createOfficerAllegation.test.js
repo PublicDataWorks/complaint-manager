@@ -6,6 +6,7 @@ import {
   snackbarError,
   snackbarSuccess
 } from "../../actionCreators/snackBarActionCreators";
+import { createOfficerAllegationSuccess } from "../../actionCreators/allegationsActionCreators";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -85,6 +86,24 @@ describe("create officer allegation", function() {
   });
 
   test("should dispatch success and call the callback when officer allegation added successfully", async () => {
+    const responseBody = {
+      accusedOfficers: [
+        {
+          allegations: [
+            {
+              details: "details",
+              allegation: {
+                id: 5,
+                rule: "rule",
+                paragraph: "paragraph",
+                directive: "directive"
+              }
+            }
+          ]
+        }
+      ]
+    };
+
     nock("http://localhost", {
       reqheaders: {
         "Content-Type": "application/json",
@@ -97,7 +116,7 @@ describe("create officer allegation", function() {
         caseId,
         caseOfficerId
       )
-      .reply(201);
+      .reply(201, responseBody);
 
     await createOfficerAllegation(
       formValues,
@@ -110,5 +129,8 @@ describe("create officer allegation", function() {
       snackbarSuccess("Allegation successfully added to officer.")
     );
     expect(callBackFunction).toHaveBeenCalled();
+    expect(dispatch).toHaveBeenCalledWith(
+      createOfficerAllegationSuccess(responseBody)
+    );
   });
 });
