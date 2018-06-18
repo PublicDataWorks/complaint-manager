@@ -33,7 +33,7 @@ import { push } from "react-router-redux";
 import AccusedOfficers from "./Officers/AccusedOfficers";
 import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
 import timezone from "moment-timezone";
-import RemoveCivilianDialog from "../RemoveCivilianDialog/RemovePersonDialog";
+import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
 
 const drawerWidthPercentage = "30%";
