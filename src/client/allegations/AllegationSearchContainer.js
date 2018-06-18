@@ -8,6 +8,7 @@ import OfficerSearchResultsRow from "../officers/OfficerSearch/OfficerSearchResu
 import getCaseDetails from "../cases/thunks/getCaseDetails";
 import OfficerSearchTableHeader from "../officers/OfficerSearch/OfficerSearchTableHeader";
 import AllegationSearch from "./AllegationSearch";
+import OfficerAllegations from "./OfficerAllegations";
 
 export class AllegationSearchContainer extends Component {
   componentDidMount() {
@@ -56,6 +57,12 @@ export class AllegationSearchContainer extends Component {
             <OfficerSearchTableHeader />
             <TableBody>
               <OfficerSearchResultsRow officer={currentCaseOfficerData} />
+              {currentCaseOfficerData.allegations.length !== 0 && (
+                <OfficerAllegations
+                  officerAllegations={currentCaseOfficerData.allegations}
+                  caseId={caseId}
+                />
+              )}
             </TableBody>
           </Table>
         </div>

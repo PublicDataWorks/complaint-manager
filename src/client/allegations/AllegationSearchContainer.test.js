@@ -10,6 +10,7 @@ import Officer from "../testUtilities/Officer";
 import { getCaseDetailsSuccess } from "../actionCreators/casesActionCreators";
 import { Table } from "@material-ui/core";
 import getCaseDetails from "../cases/thunks/getCaseDetails";
+import OfficerAllegations from "./OfficerAllegations";
 
 jest.mock("../cases/thunks/getCaseDetails", () => caseId => ({
   type: "MOCK_ACTION",
@@ -135,4 +136,37 @@ test("should show the correct accused officer when state matches route", () => {
   expect(wrapper.find('[data-test="officerFullName"]').text()).toEqual(
     officer.fullName
   );
+});
+
+test("should display case allegations for the officer", () => {
+  caseOfficer.allegations = [
+    {
+      allegation: {
+        id: 1,
+        rule: "rule",
+        paragraph: "paragraph",
+        directive: "directive"
+      },
+      id: 2,
+      caseOfficerId: 3
+    }
+  ];
+
+  store.dispatch(getCaseDetailsSuccess(seededCase));
+
+  const wrapper = mount(
+    <Provider store={store}>
+      <Router>
+        <AllegationSearchContainer
+          match={{
+            params: {
+              id: seededCase.id,
+              caseOfficerId: caseOfficer.id
+            }
+          }}
+        />
+      </Router>
+    </Provider>
+  );
+  expect(wrapper.find(OfficerAllegations).exists()).toBeTruthy();
 });

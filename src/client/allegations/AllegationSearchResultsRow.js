@@ -2,9 +2,9 @@ import React, { Fragment } from "react";
 import tableStyleGenerator from "../tableStyles";
 import { TableCell, TableRow } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import formatStringToTitleCase from "../utilities/formatStringToTitleCase";
 import AllegationDetailsForm from "./AllegationDetailsForm";
 import LinkButton from "../shared/components/LinkButton";
+import Allegation from "./Allegation";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).body
@@ -67,7 +67,6 @@ export class AllegationSearchResultsRow extends React.Component {
   render() {
     const { classes, allegation } = this.props;
     const primaryRowClasses = `${classes.row} ${classes.noBorderBottom}`;
-    const primaryCellClasses = `${classes.cell} ${classes.noBorderBottom}`;
     const primaryButtonCellClasses = `${classes.buttonCell} ${
       classes.noBorderBottom
     }`;
@@ -75,17 +74,7 @@ export class AllegationSearchResultsRow extends React.Component {
     return (
       <Fragment>
         <TableRow className={primaryRowClasses}>
-          <TableCell className={primaryCellClasses}>
-            {formatStringToTitleCase(allegation.rule)}
-          </TableCell>
-          <TableCell className={primaryCellClasses}>
-            {formatStringToTitleCase(allegation.paragraph)}
-          </TableCell>
-          <TableCell className={primaryCellClasses}>
-            {allegation.directive
-              ? formatStringToTitleCase(allegation.directive)
-              : "N/A"}
-          </TableCell>
+          <Allegation allegation={allegation} />
           <TableCell className={primaryButtonCellClasses}>
             {this.renderSelectButton()}
           </TableCell>

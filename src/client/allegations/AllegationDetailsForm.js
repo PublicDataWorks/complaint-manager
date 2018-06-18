@@ -28,7 +28,7 @@ const AllegationDetailsForm = props => {
           required
           validate={[allegationDetailsRequired, allegationDetailsNotBlank]}
           data-test="allegationDetailsField"
-          style={{ width: "80%" }}
+          style={{ width: "40%" }}
           component={TextField}
           name="details"
           inputProps={{
@@ -39,13 +39,13 @@ const AllegationDetailsForm = props => {
           rowsMax={5}
           placeholder="Enter allegation details"
         />
-        <div style={{ width: "20%", textAlign: "right" }}>
+        <div style={{ marginLeft: "16px" }}>
           <PrimaryButton
-            disabled={props.invalid}
+            disabled={props.invalid || props.pristine}
             data-test="addAllegationButton"
             onClick={props.handleSubmit(onSubmit)}
           >
-            Add
+            Add Allegation
           </PrimaryButton>
         </div>
       </div>
