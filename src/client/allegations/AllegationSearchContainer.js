@@ -53,10 +53,16 @@ export class AllegationSearchContainer extends Component {
         </LinkButton>
         <div style={{ margin: "0% 5% 3%" }}>
           <Typography variant="title">Accused Officer</Typography>
-          <Table style={{ marginBottom: "32px" }}>
+          <Table>
             <OfficerSearchTableHeader />
             <TableBody>
               <OfficerSearchResultsRow officer={currentCaseOfficerData} />
+            </TableBody>
+          </Table>
+          <Table
+            style={{ marginBottom: "32px", width: "95%", marginLeft: "auto" }}
+          >
+            <TableBody>
               {currentCaseOfficerData.allegations.length !== 0 && (
                 <OfficerAllegations
                   officerAllegations={currentCaseOfficerData.allegations}

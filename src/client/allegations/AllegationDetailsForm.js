@@ -25,7 +25,6 @@ const AllegationDetailsForm = props => {
     <form>
       <div style={{ display: "flex" }}>
         <Field
-          required
           validate={[allegationDetailsRequired, allegationDetailsNotBlank]}
           data-test="allegationDetailsField"
           style={{ width: "40%" }}
@@ -37,7 +36,7 @@ const AllegationDetailsForm = props => {
           }}
           multiline
           rowsMax={5}
-          placeholder="Enter allegation details"
+          label="Allegation details"
         />
         <div style={{ marginLeft: "16px" }}>
           <PrimaryButton
