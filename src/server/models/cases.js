@@ -1,3 +1,6 @@
+import { CASE_STATUS_MAP } from "../../sharedUtilities/constants";
+import Boom from "boom";
+
 const CASE_STATUS = require("../../sharedUtilities/constants").CASE_STATUS;
 
 const {
@@ -32,7 +35,21 @@ module.exports = (sequelize, DataTypes) => {
           CASE_STATUS.CLOSED
         ]),
         defaultValue: CASE_STATUS.INITIAL,
-        allowNull: false
+        allowNull: false,
+        set(newStatus) {
+          const currentStatusIndex = CASE_STATUS_MAP[this.status];
+          const newStatusIndex = CASE_STATUS_MAP[newStatus];
+
+          if (!this.status && newStatus === CASE_STATUS.INITIAL){
+            this.setDataValue("status", CASE_STATUS.INITIAL);
+          }
+          else if (newStatus === this.status || newStatusIndex === currentStatusIndex + 1) {
+            this.setDataValue("status", newStatus);
+          }
+          else{
+            throw Boom.badRequest('Invalid case status')
+          }
+        }
       },
       district: {
         type: DataTypes.STRING
@@ -79,7 +96,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       hooks: {
         beforeUpdate: (instance, options) => {
-          if (instance.changed() && instance.status === CASE_STATUS.INITIAL) {
+          if (!instance.changed() || instance.changed().includes("status"))
+            return;
+          if (instance.status === CASE_STATUS.INITIAL) {
             instance.status = CASE_STATUS.ACTIVE;
           }
         }
