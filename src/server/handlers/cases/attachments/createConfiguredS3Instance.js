@@ -1,5 +1,6 @@
 const AWS = require("aws-sdk");
 const path = require("path");
+const config = require("../../../config/config");
 
 const createConfiguredS3Instance = () => {
   const s3 = new AWS.S3();
@@ -11,10 +12,7 @@ const createConfiguredS3Instance = () => {
     s3.config.loadFromPath(path.join(__dirname, "../../../awsConfig.json"));
   }
 
-  s3.config.update({
-    region: "us-east-2",
-    sslEnabled: true
-  });
+  s3.config.update(config.s3config);
 
   return s3;
 };

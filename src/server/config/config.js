@@ -121,5 +121,9 @@ module.exports = {
       connectSrc: ["'self'", "https://noipm-production.auth0.com"]
     },
     winstonLogLevel: "error"
+  },
+  s3config: {
+    region: "us-east-2",
+    sslEnabled: true
   }
 };
