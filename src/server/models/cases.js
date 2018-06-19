@@ -1,7 +1,7 @@
-import { CASE_STATUS_MAP } from "../../sharedUtilities/constants";
-import Boom from "boom";
-
+const Boom = require("boom");
 const CASE_STATUS = require("../../sharedUtilities/constants").CASE_STATUS;
+const CASE_STATUS_MAP = require("../../sharedUtilities/constants")
+  .CASE_STATUS_MAP;
 
 const {
   ACCUSED,
@@ -40,14 +40,15 @@ module.exports = (sequelize, DataTypes) => {
           const currentStatusIndex = CASE_STATUS_MAP[this.status];
           const newStatusIndex = CASE_STATUS_MAP[newStatus];
 
-          if (!this.status && newStatus === CASE_STATUS.INITIAL){
-            this.setDataValue("status", CASE_STATUS.INITIAL);
-          }
-          else if (newStatus === this.status || newStatusIndex === currentStatusIndex + 1) {
+          if (!this.status && newStatus === CASE_STATUS.INITIAL) {
             this.setDataValue("status", newStatus);
-          }
-          else{
-            throw Boom.badRequest('Invalid case status')
+          } else if (
+            newStatus === this.status ||
+            newStatusIndex === currentStatusIndex + 1
+          ) {
+            this.setDataValue("status", newStatus);
+          } else {
+            throw Boom.badRequest("Invalid case status");
           }
         }
       },
