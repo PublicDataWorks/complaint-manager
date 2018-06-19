@@ -312,6 +312,26 @@ if (TEST_PASS && TEST_USER && HOST) {
         .assert.containsText('[data-test="officerPanel"]', "Ri");
     },
 
+    "should not see officer on case when removed": browser => {
+      browser
+        .click('[data-test="manageCaseOfficer"]')
+        .waitForElementVisible('[data-test="removeCaseOfficer"]', rerenderWait)
+        .click('[data-test="removeCaseOfficer"]')
+        .waitForElementVisible(
+          '[data-test="removePersonDialogTitle"]',
+          rerenderWait
+        )
+        .click('[data-test="removeButton"]')
+        .waitForElementVisible(
+          '[data-test="noAccusedOfficersMessage"]',
+          roundTripWait
+        )
+        .assert.containsText(
+          '[data-test="noAccusedOfficersMessage"]',
+          "No accused officers have been added"
+        );
+    },
+
     "should log out of the system": browser => {
       browser
         .click('[data-test="gearButton"]')

@@ -8,6 +8,7 @@ import {
 } from "../../../actionCreators/officersActionCreators";
 import { connect } from "react-redux";
 import { initialize } from "redux-form";
+import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
 
 class ManageOfficerMenu extends React.Component {
   state = { menuOpen: false, anchorEl: null };
@@ -36,6 +37,20 @@ class ManageOfficerMenu extends React.Component {
           onClose={this.handleMenuClose}
         >
           <MenuItem
+            data-test="addAllegation"
+            onClick={() => {
+              this.props.dispatch(
+                push(
+                  `/cases/${caseOfficer.caseId}/cases-officers/${
+                    caseOfficer.id
+                  }/allegations/search`
+                )
+              );
+            }}
+          >
+            Manage Allegations
+          </MenuItem>
+          <MenuItem
             data-test="editCaseOfficer"
             onClick={() => {
               if (caseOfficer.officerId) {
@@ -58,18 +73,14 @@ class ManageOfficerMenu extends React.Component {
             Edit Officer
           </MenuItem>
           <MenuItem
-            data-test="addAllegation"
-            onClick={() => {
+            data-test="removeCaseOfficer"
+            onClick={() =>
               this.props.dispatch(
-                push(
-                  `/cases/${caseOfficer.caseId}/cases-officers/${
-                    caseOfficer.id
-                  }/allegations/search`
-                )
-              );
-            }}
+                openRemovePersonDialog(caseOfficer, "cases-officers")
+              )
+            }
           >
-            Manage Allegations
+            Remove Officer
           </MenuItem>
         </Menu>
       </div>

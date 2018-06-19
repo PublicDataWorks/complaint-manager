@@ -10,14 +10,16 @@ import {
 } from "../../../actionCreators/officersActionCreators";
 import CaseOfficer from "../../../testUtilities/caseOfficer";
 import ManageOfficerMenu from "./ManageOfficerMenu";
+import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
 
 describe("ManageOfficerMenu", () => {
-  test("should select officer and redirect when edit known Officer is clicked", () => {
-    const caseOfficer = new CaseOfficer.Builder().defaultCaseOfficer().build();
+  let caseOfficer, dispatchSpy, wrapper;
+  beforeEach(() => {
+    caseOfficer = new CaseOfficer.Builder().defaultCaseOfficer().build();
     const store = createConfiguredStore();
-    const dispatchSpy = jest.spyOn(store, "dispatch");
+    dispatchSpy = jest.spyOn(store, "dispatch");
 
-    const wrapper = mount(
+    wrapper = mount(
       <Provider store={store}>
         <Router>
           <ManageOfficerMenu caseOfficer={caseOfficer} />
@@ -27,6 +29,9 @@ describe("ManageOfficerMenu", () => {
 
     const manage = wrapper.find('[data-test="manageCaseOfficer"]').last();
     manage.simulate("click");
+  });
+
+  test("should select officer and redirect when edit known Officer is clicked", () => {
     const editOfficer = wrapper.find('[data-test="editCaseOfficer"]').last();
     editOfficer.simulate("click");
 
@@ -63,6 +68,18 @@ describe("ManageOfficerMenu", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(selectUnknownOfficer());
     expect(dispatchSpy).toHaveBeenCalledWith(
       push(`/cases/${caseOfficer.caseId}/officers/${caseOfficer.id}`)
+    );
+  });
+
+  test("should open remove person dialog with officer details when remove officer is selected", () => {
+    const removeOfficer = wrapper
+      .find('[data-test="removeCaseOfficer"]')
+      .last();
+
+    removeOfficer.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openRemovePersonDialog(caseOfficer, "cases-officers")
     );
   });
 });

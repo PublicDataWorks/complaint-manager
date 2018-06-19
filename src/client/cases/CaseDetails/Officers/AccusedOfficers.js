@@ -39,7 +39,7 @@ const AccusedOfficers = ({ accusedOfficers }) => {
 const renderNoOfficers = () => (
   <CardContent>
     <WarningMessage>
-      <Typography variant="body1">
+      <Typography data-test="noAccusedOfficersMessage" variant="body1">
         No accused officers have been added
       </Typography>
     </WarningMessage>

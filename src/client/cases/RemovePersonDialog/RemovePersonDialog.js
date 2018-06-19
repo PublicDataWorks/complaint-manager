@@ -22,7 +22,7 @@ const RemovePersonDialog = ({
   optionalText
 }) => (
   <Dialog open={open}>
-    <DialogTitle data-test="dialogTitle">
+    <DialogTitle data-test="removePersonDialogTitle">
       Remove {personTypeTitleDisplay}
     </DialogTitle>
     <DialogContent>
