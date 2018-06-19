@@ -2,7 +2,13 @@ import React, { Fragment } from "react";
 import Allegation from "./Allegation";
 import tableStyleGenerator from "../tableStyles";
 import { withStyles } from "@material-ui/core/styles";
-import { TableRow } from "@material-ui/core";
+import {
+  TableRow,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  Typography
+} from "@material-ui/core";
+import StyledExpansionPanelDetails from "../cases/CaseDetails/ComplainantWitnesses/StyledExpansionPanelDetails";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).body
@@ -16,7 +22,30 @@ const OfficerAllegations = props => {
     <Fragment>
       {officerAllegations.map(officerAllegation => (
         <TableRow className={primaryRowClasses} key={officerAllegation.id}>
-          <Allegation allegation={officerAllegation.allegation} />
+          <ExpansionPanel elevation={0} style={{ backgroundColor: "white" }}>
+            <ExpansionPanelSummary
+              style={{
+                padding: "0px 24px"
+              }}
+            >
+              <Allegation allegation={officerAllegation.allegation} />
+            </ExpansionPanelSummary>
+            <StyledExpansionPanelDetails>
+              <div
+                style={{
+                  flex: 1,
+                  textAlign: "left",
+                  marginRight: "10px",
+                  padding: "0px 24px"
+                }}
+              >
+                <Typography variant="caption">Allegation Details</Typography>
+                <Typography variant="body1" style={{ whiteSpace: "pre-wrap" }}>
+                  {officerAllegation.details}
+                </Typography>
+              </div>
+            </StyledExpansionPanelDetails>
+          </ExpansionPanel>
         </TableRow>
       ))}
     </Fragment>
