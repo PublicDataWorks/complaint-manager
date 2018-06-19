@@ -1,5 +1,6 @@
 const { EXPORT_AUDIT_LOG } = require("../sharedUtilities/constants");
 const createCase = require("./handlers/cases/createCase");
+const changeStatus = require('./handlers/cases/changeStatus/changeStatus')
 const editCase = require("./handlers/cases/editCase");
 const getCases = require("./handlers/cases/getCases");
 const getCase = require("./handlers/cases/getCase/getCase");
@@ -47,6 +48,7 @@ router.put("/cases/:caseId/recent-activity/:caseNoteId", editCaseNote);
 router.delete("/cases/:caseId/recent-activity/:caseNoteId", removeCaseNote);
 router.get("/cases/:id/case-history", getCaseHistory);
 router.put("/cases/:id", editCase);
+router.put("/cases/:id/status", changeStatus);
 router.put("/cases/:id/narrative", updateCaseNarrative);
 
 router.get("/cases/:caseId/cases-officers/:caseOfficerId", getCaseOfficer);

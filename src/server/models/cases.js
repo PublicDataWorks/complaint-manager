@@ -1,7 +1,6 @@
+const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
 const CASE_STATUS = require("../../sharedUtilities/constants").CASE_STATUS;
-const CASE_STATUS_MAP = require("../../sharedUtilities/constants")
-  .CASE_STATUS_MAP;
 
 const {
   ACCUSED,
@@ -37,15 +36,8 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: CASE_STATUS.INITIAL,
         allowNull: false,
         set(newStatus) {
-          const currentStatusIndex = CASE_STATUS_MAP[this.status];
-          const newStatusIndex = CASE_STATUS_MAP[newStatus];
-
-          if (!this.status && newStatus === CASE_STATUS.INITIAL) {
-            this.setDataValue("status", newStatus);
-          } else if (
-            newStatus === this.status ||
-            newStatusIndex === currentStatusIndex + 1
-          ) {
+          const nextStatus = determineNextCaseStatus(this.status);
+          if (newStatus === nextStatus || newStatus === this.status) {
             this.setDataValue("status", newStatus);
           } else {
             throw Boom.badRequest("Invalid case status");
@@ -102,6 +94,11 @@ module.exports = (sequelize, DataTypes) => {
           if (instance.status === CASE_STATUS.INITIAL) {
             instance.status = CASE_STATUS.ACTIVE;
           }
+        }
+      },
+      getterMethods: {
+        nextStatus () {
+          return determineNextCaseStatus(this.status)
         }
       }
     }
