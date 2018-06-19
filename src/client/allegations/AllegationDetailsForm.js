@@ -27,7 +27,7 @@ const AllegationDetailsForm = props => {
         <Field
           validate={[allegationDetailsRequired, allegationDetailsNotBlank]}
           data-test="allegationDetailsField"
-          style={{ width: "40%" }}
+          style={{ width: "40%", marginBottom: "16px" }}
           component={TextField}
           name="details"
           inputProps={{

@@ -9,6 +9,7 @@ import {
   Typography
 } from "@material-ui/core";
 import StyledExpansionPanelDetails from "../cases/CaseDetails/ComplainantWitnesses/StyledExpansionPanelDetails";
+import TextTruncate from "../shared/components/TextTruncate";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).body
@@ -41,7 +42,7 @@ const OfficerAllegations = props => {
               >
                 <Typography variant="caption">Allegation Details</Typography>
                 <Typography variant="body1" style={{ whiteSpace: "pre-wrap" }}>
-                  {officerAllegation.details}
+                  <TextTruncate message={officerAllegation.details} />
                 </Typography>
               </div>
             </StyledExpansionPanelDetails>
