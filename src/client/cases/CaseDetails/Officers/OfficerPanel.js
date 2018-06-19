@@ -1,13 +1,17 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   Divider,
   ExpansionPanel,
-  ExpansionPanelSummary
+  ExpansionPanelSummary,
+  Typography
 } from "@material-ui/core";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
 import formatDate from "../../../utilities/formatDate";
 import OfficerNameDisplay from "./OfficerNameDisplay";
+import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
+import styles from "../../../globalStyling/styles";
+import { ACCUSED } from "../../../../sharedUtilities/constants";
 
 const OfficerPanel = ({ caseOfficer, children }) => (
   <div>
@@ -98,6 +102,28 @@ const OfficerPanel = ({ caseOfficer, children }) => (
           testLabel="notes"
         />
       </StyledExpansionPanelDetails>
+      {caseOfficer &&
+        caseOfficer.roleOnCase === ACCUSED && (
+          <Fragment>
+            <Typography
+              style={{
+                ...styles.section,
+                margin: "8px 24px"
+              }}
+            >
+              Allegations
+            </Typography>
+            {caseOfficer.allegations.length > 0 ? (
+              <OfficerAllegationsDisplay
+                officerAllegations={caseOfficer.allegations}
+              />
+            ) : (
+              <Typography style={{ marginLeft: "24px", fontStyle: "italic" }}>
+                No allegations have been added.
+              </Typography>
+            )}
+          </Fragment>
+        )}
     </ExpansionPanel>
     <Divider />
   </div>
