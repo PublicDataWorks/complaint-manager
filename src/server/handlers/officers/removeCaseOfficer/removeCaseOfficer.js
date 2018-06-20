@@ -12,9 +12,18 @@ const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
     next(Boom.badRequest("Case Officer requested for removal does not exist."));
   }
 
-  await officerToRemove.destroy({
-    auditUser: request.nickname
+  await models.sequelize.transaction(async transaction => {
+    await models.officer_allegation.destroy({
+      where: { caseOfficerId: officerToRemove.id },
+      transaction
+    });
+
+    await officerToRemove.destroy({
+      auditUser: request.nickname,
+      transaction
+    });
   });
+
   const updatedCase = await getCaseWithAllAssociations(request.params.caseId);
 
   response.status(200).send(updatedCase);
