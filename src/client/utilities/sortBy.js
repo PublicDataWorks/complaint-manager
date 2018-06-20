@@ -1,13 +1,8 @@
 import _ from "lodash";
 import getFirstComplainant from "./getFirstComplainant";
+import {CASE_STATUS_MAP} from "../../sharedUtilities/constants";
 
-const STATUS = Object.freeze({
-  Initial: 1,
-  Active: 2,
-  Forwarded: 3,
-  Suspended: 4,
-  Complete: 5
-});
+const STATUS = Object.freeze(CASE_STATUS_MAP);
 
 const complainantExists = ({ complainantCivilians }) => {
   const complainant = getFirstComplainant(complainantCivilians);

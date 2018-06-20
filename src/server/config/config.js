@@ -18,7 +18,8 @@ module.exports = {
       audience: "https://noipm-staging.herokuapp.com/",
       issuer: "https://noipm.auth0.com/",
       algorithm: "RS256",
-      nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
+      nicknameKey: "https://noipm-staging.herokuapp.com/nickname",
+      rolesKey: "https://noipm-staging.herokuapp.com/roles",
     },
     contentSecurityPolicy: {
       connectSrc: [
@@ -47,7 +48,8 @@ module.exports = {
       issuer: "test issuer",
       algorithm: "RS256",
       scope: "openid profile",
-      nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
+      nicknameKey: "https://noipm-staging.herokuapp.com/nickname",
+      rolesKey: "https://noipm-staging.herokuapp.com/roles"
     },
     contentSecurityPolicy: {
       connectSrc: [
@@ -83,7 +85,8 @@ module.exports = {
       audience: "https://noipm-staging.herokuapp.com/",
       issuer: "https://noipm.auth0.com/",
       algorithm: "RS256",
-      nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
+      nicknameKey: "https://noipm-staging.herokuapp.com/nickname",
+      rolesKey: "https://noipm-staging.herokuapp.com/roles"
     },
     contentSecurityPolicy: {
       connectSrc: ["'self'", "https://noipm.auth0.com"]
@@ -115,7 +118,8 @@ module.exports = {
       audience: "https://noipm-production.herokuapp.com/",
       issuer: "https://noipm-production.auth0.com/",
       algorithm: "RS256",
-      nicknameKey: "https://noipm-production.herokuapp.com/nickname"
+      nicknameKey: "https://noipm-production.herokuapp.com/nickname",
+      rolesKey: "https://noipm-production.herokuapp.com/roles"
     },
     contentSecurityPolicy: {
       connectSrc: ["'self'", "https://noipm-production.auth0.com"]

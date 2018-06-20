@@ -1,5 +1,5 @@
 import React from "react";
-import { TableCell, TableRow } from "@material-ui/core";
+import { TableCell, TableRow, div } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import formatDate from "../../utilities/formatDate";
 import { Link } from "react-router-dom";
@@ -7,18 +7,30 @@ import LinkButton from "../../shared/components/LinkButton";
 import tableStyleGenerator from "../../tableStyles";
 import DisplayComplainant from "./DisplayComplainant";
 import DisplayAccusedOfficer from "./DisplayAccusedOfficer";
+import colors from "../../globalStyling/colors";
+import {CASE_STATUS, USER_ROLES} from "../../../sharedUtilities/constants";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).body
 });
 
-const CaseRow = ({ classes, caseDetails }) => (
+const formatCaseStatusForDPM = status => {
+  return status === CASE_STATUS.READY_FOR_REVIEW ? (
+    <div style={{ fontWeight: 700, color: colors.green }}>{status}</div>
+  ) : (
+    <div>{status}</div>
+  );
+};
+
+const CaseRow = ({ classes, caseDetails, currentUser }) => (
   <TableRow data-test={`caseRow${caseDetails.id}`} className={classes.row}>
     <TableCell data-test="caseNumber" className={classes.cell}>
-      {caseDetails.id}
+      <div>{caseDetails.id}</div>
     </TableCell>
     <TableCell data-test="caseStatus" className={classes.cell}>
-      {caseDetails.status}
+      {currentUser.roles.includes(USER_ROLES.DEPUTY_POLICE_MONITOR)
+        ? formatCaseStatusForDPM(caseDetails.status)
+        : caseDetails.status}
     </TableCell>
     <TableCell data-test="caseName" className={classes.cell}>
       <DisplayComplainant caseDetails={caseDetails} />
@@ -27,10 +39,10 @@ const CaseRow = ({ classes, caseDetails }) => (
       <DisplayAccusedOfficer accusedOfficers={caseDetails.accusedOfficers} />
     </TableCell>
     <TableCell data-test="caseFirstContactDate" className={classes.cell}>
-      {formatDate(caseDetails.firstContactDate)}
+      <div>{formatDate(caseDetails.firstContactDate)}</div>
     </TableCell>
     <TableCell data-test="caseAssignedTo" className={classes.cell}>
-      {caseDetails.assignedTo}
+      <div>{caseDetails.assignedTo}</div>
     </TableCell>
     <TableCell data-test="openCase" className={classes.buttonCell}>
       <LinkButton

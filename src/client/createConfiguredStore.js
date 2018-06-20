@@ -22,6 +22,7 @@ import removeCaseNoteDialogReducer from "./reducers/ui/removeCaseNoteDialogReduc
 import searchReducer from "./reducers/ui/searchReducer";
 import allegationMenuDisplay from "./reducers/ui/allegationMenuDisplay";
 import createCaseDialogReducer from "./reducers/ui/createCaseDialogReducer";
+import updateCaseStatusDialogReducer from "./reducers/ui/updateCaseStatusDialogReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -41,6 +42,7 @@ const rootReducer = combineReducers({
   ui: combineReducers({
     snackbar: snackbarReducer,
     casesTable: casesTableReducer,
+    updateCaseStatusDialog: updateCaseStatusDialogReducer,
     caseNoteDialog: caseNoteDialogReducer,
     civilianDialog: civilianDialogReducer,
     createCaseDialog: createCaseDialogReducer,

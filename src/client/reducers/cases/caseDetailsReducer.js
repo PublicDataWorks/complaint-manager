@@ -6,8 +6,9 @@ import {
   REMOVE_ATTACHMENT_SUCCESS,
   REMOVE_PERSON_SUCCEEDED,
   REMOVE_CASE_NOTE_SUCCEEDED,
-  ADD_OFFICER_ALLEGATION_SUCCEEDED,
-  CASE_STATUS
+  CASE_STATUS,
+  UPDATE_CASE_STATUS_SUCCESS,
+  ADD_OFFICER_ALLEGATION_SUCCEEDED
 } from "../../../sharedUtilities/constants";
 
 const initialState = {};
@@ -22,6 +23,7 @@ const caseDetailsReducer = (state = initialState, action) => {
     case REMOVE_PERSON_SUCCEEDED:
     case ADD_OFFICER_TO_CASE_SUCCEEDED:
     case REMOVE_CASE_NOTE_SUCCEEDED:
+    case UPDATE_CASE_STATUS_SUCCESS:
     case "EDIT_CIVILIAN_SUCCESS":
     case CIVILIAN_CREATION_SUCCEEDED:
     case ADD_OFFICER_ALLEGATION_SUCCEEDED:
@@ -29,7 +31,10 @@ const caseDetailsReducer = (state = initialState, action) => {
     case ADD_CASE_NOTE_SUCCEEDED:
       return {
         ...state,
-        status: state.status === CASE_STATUS.INITIAL ? CASE_STATUS.ACTIVE : state.status
+        status:
+          state.status === CASE_STATUS.INITIAL
+            ? CASE_STATUS.ACTIVE
+            : state.status
       };
     default:
       return state;

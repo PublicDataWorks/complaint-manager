@@ -25,7 +25,10 @@ import {
   REMOVE_CASE_NOTE_SUCCEEDED,
   REMOVE_CASE_NOTE_FAILED,
   EDIT_CASE_NOTE_FAILED,
-  EDIT_CASE_NOTE_SUCCEEDED
+  EDIT_CASE_NOTE_SUCCEEDED,
+  UPDATE_CASE_STATUS_SUCCESS,
+  CASE_STATUS_UPDATE_DIALOG_OPENED,
+  CASE_STATUS_UPDATE_DIALOG_CLOSED
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = caseDetails => ({
@@ -130,6 +133,11 @@ export const uploadAttachmentSuccess = caseDetails => ({
   caseDetails
 });
 
+export const updateCaseStatusSuccess = caseDetails => ({
+  type: UPDATE_CASE_STATUS_SUCCESS,
+  caseDetails
+});
+
 export const uploadAttachmentFailed = () => ({
   type: ATTACHMENT_UPLOAD_FAILED
 });
@@ -216,4 +224,13 @@ export const removePersonSuccess = (caseDetails, personType) => ({
   type: REMOVE_PERSON_SUCCEEDED,
   caseDetails,
   message: `${_.startCase(personType)} has been successfully removed.`
+});
+
+export const openCaseStatusUpdateDialog = nextStatus => ({
+  type: CASE_STATUS_UPDATE_DIALOG_OPENED,
+  nextStatus
+});
+
+export const closeCaseStatusUpdateDialog = () => ({
+  type: CASE_STATUS_UPDATE_DIALOG_CLOSED
 });

@@ -34,6 +34,8 @@ const CIVILIAN_ADDRESS_AUTOSUGGEST_UPDATED =
 
 const CREATE_CASE_DIALOG_OPENED = "CREATE_CASE_DIALOG_OPENED";
 const CREATE_CASE_DIALOG_CLOSED = "CREATE_CASE_DIALOG_CLOSED";
+const CASE_STATUS_UPDATE_DIALOG_OPENED = "CASE_STATUS_UPDATE_DIALOG_OPENED";
+const CASE_STATUS_UPDATE_DIALOG_CLOSED = "CASE_STATUS_UPDATE_DIALOG_CLOSED";
 const REMOVE_PERSON_DIALOG_OPENED = "REMOVE_PERSON_DIALOG_OPENED";
 const REMOVE_PERSON_DIALOG_CLOSED = "REMOVE_PERSON_DIALOG_CLOSED";
 const REMOVE_PERSON_FAILED = "REMOVE_PERSON_FAILED";
@@ -110,6 +112,12 @@ const EDIT_CASE_OFFICER_FAILED = "EDIT_CASE_OFFICER_FAILED";
 const GET_CASE_HISTORY_SUCCESS = "GET_CASE_HISTORY_SUCCESS";
 
 // ----------------------------------------
+//          Case Status Actions
+// ----------------------------------------
+
+const UPDATE_CASE_STATUS_SUCCESS = "UPDATE_CASE_STATUS_SUCCESS";
+
+// ----------------------------------------
 //          Other
 // ----------------------------------------
 
@@ -138,22 +146,29 @@ const COMPLAINANT = "Complainant";
 //          Case Status Map
 // ----------------------------------------
 const CASE_STATUS = {
-  INITIAL: 'Initial',
-  ACTIVE: 'Active',
-  READY_FOR_REVIEW: 'Ready for Review',
-  FORWARDED_TO_AGENCY: 'Forwarded to Agency',
-  CLOSED: 'Closed'
-}
-
-const CASE_STATUS_MAP = {
-  [CASE_STATUS.INITIAL] : 0,
-  [CASE_STATUS.ACTIVE] : 1,
-  [CASE_STATUS.READY_FOR_REVIEW] : 2,
-  [CASE_STATUS.FORWARDED_TO_AGENCY] : 3,
-  [CASE_STATUS.CLOSED] : 4,
+  INITIAL: "Initial",
+  ACTIVE: "Active",
+  READY_FOR_REVIEW: "Ready for Review",
+  FORWARDED_TO_AGENCY: "Forwarded to Agency",
+  CLOSED: "Closed"
 };
 
+const CASE_STATUS_MAP = {
+  [CASE_STATUS.INITIAL]: 0,
+  [CASE_STATUS.ACTIVE]: 1,
+  [CASE_STATUS.READY_FOR_REVIEW]: 2,
+  [CASE_STATUS.FORWARDED_TO_AGENCY]: 3,
+  [CASE_STATUS.CLOSED]: 4
+};
 
+// ----------------------------------------
+//          User
+// ----------------------------------------
+
+const USER_ROLES = {
+  DEPUTY_POLICE_MONITOR: "Deputy-Police-Monitor",
+  COMPLAINT_INTAKE_SPECIALIST: "Complaint-Intake-Specialist"
+}
 
 module.exports = {
   LOCAL_DEV_PORT,
@@ -208,6 +223,9 @@ module.exports = {
   EDIT_CASE_OFFICER_SUCCEEDED,
   EDIT_CASE_OFFICER_FAILED,
   GET_CASE_HISTORY_SUCCESS,
+  UPDATE_CASE_STATUS_SUCCESS,
+  CASE_STATUS_UPDATE_DIALOG_OPENED,
+  CASE_STATUS_UPDATE_DIALOG_CLOSED,
   OPENID,
   PROFILE,
   TIMEZONE,
@@ -225,6 +243,7 @@ module.exports = {
   ACCUSED,
   WITNESS,
   COMPLAINANT,
+  USER_ROLES,
   CASE_STATUS,
   CASE_STATUS_MAP
 };

@@ -13,7 +13,8 @@ import Civilian from "../../testUtilities/civilian";
 import Case from "../../testUtilities/case";
 import CaseOfficer from "../../testUtilities/caseOfficer";
 import Officer from "../../testUtilities/Officer";
-import {CASE_STATUS, COMPLAINANT} from "../../../sharedUtilities/constants";
+import { CASE_STATUS, COMPLAINANT } from "../../../sharedUtilities/constants";
+import {userAuthSuccess} from "../../auth/actionCreators";
 
 jest.mock("../thunks/getCases", () => () => ({
   type: "MOCK_GET_CASES_THUNK"
@@ -69,7 +70,7 @@ describe("cases table", () => {
       .withId(24)
       .withComplainantCivilians([civilianAriel])
       .withComplainantType("Civilian")
-      .withStatus(CASE_STATUS.INITIAL)
+      .withStatus(CASE_STATUS.READY_FOR_REVIEW)
       .withCreatedAt(new Date().toISOString())
       .withAssignedTo("tuser")
       .withFirstContactDate("2017-12-25T00:00:00.000Z")
@@ -80,7 +81,7 @@ describe("cases table", () => {
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
     store.dispatch(getCasesSuccess(cases));
-
+    store.dispatch(userAuthSuccess({roles:[]}))
     tableWrapper = mount(
       <Provider store={store}>
         <Router>
