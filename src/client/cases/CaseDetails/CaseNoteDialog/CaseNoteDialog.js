@@ -103,11 +103,14 @@ const CaseNoteDialog = props => {
             required
             name="action"
             component={NoBlurTextField}
-            label={"Select Action Taken"}
+            label={"Action Taken"}
             data-test="actionsDropdown"
             style={{
               width: "75%",
               marginBottom: "16px"
+            }}
+            InputLabelProps={{
+              shrink: true
             }}
             validate={[actionIsRequired]}
           >

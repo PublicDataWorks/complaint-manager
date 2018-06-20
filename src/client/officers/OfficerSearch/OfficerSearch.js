@@ -36,7 +36,7 @@ const OfficerSearch = props => {
         }}
       >
         <CardContent style={{ paddingBottom: "8px" }}>
-          <Typography variant="body1">
+          <Typography variant="body1" style={{ marginBottom: "8px" }}>
             Search by entering at least one of the following fields:
           </Typography>
           <OfficerSearchForm caseId={props.caseId} />

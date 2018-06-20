@@ -126,7 +126,7 @@ class CivilianDialog extends Component {
             <div style={{ display: "flex" }}>
               <DateField
                 name="birthDate"
-                label="Birthday"
+                label="Date of Birth"
                 data-test="birthDateField"
                 inputProps={{
                   "data-test": "birthDateInput",

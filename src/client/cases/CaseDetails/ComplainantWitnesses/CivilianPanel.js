@@ -73,7 +73,7 @@ const CivilianPanel = ({ civilian, dispatch }) => {
         </ExpansionPanelSummary>
         <StyledExpansionPanelDetails>
           <CivilianInfoDisplay
-            displayLabel="Birthday"
+            displayLabel="Date of Birth"
             value={birthDate}
             testLabel="complainantBirthday"
           />
