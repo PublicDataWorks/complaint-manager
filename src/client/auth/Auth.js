@@ -50,7 +50,7 @@ export default class Auth {
     const decodedToken = jwt.decode(accessToken);
     const permissions = parsePermissions(decodedToken.scope);
     const nickname = decodedToken[this.authConfig.nicknameKey];
-    const roles = decodedToken[this.authConfig.rolesKey];
+    const roles = decodedToken[this.authConfig.rolesKey] || [];
     callback({ nickname, permissions, roles });
   };
 }
