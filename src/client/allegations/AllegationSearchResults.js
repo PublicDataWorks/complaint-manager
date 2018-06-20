@@ -28,7 +28,7 @@ export class AllegationSearchResults extends Component {
 const mapStateToProps = state => {
   return {
     currentCase: state.currentCase.details,
-    searchResults: state.ui.search.searchResults,
+    searchResults: state.ui.search.searchResults.rows,
     spinnerVisible: state.ui.search.spinnerVisible
   };
 };

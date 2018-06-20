@@ -16,9 +16,11 @@ const searchAllegations = asyncMiddleware(async (request, response) => {
     whereClause.directive = { [Op.iLike]: `%${request.query.directive}%` };
   }
 
-  const allegations = await models.allegation.findAll({
+  const allegations = await models.allegation.findAndCountAll({
     where: whereClause,
-    order: [["rule", "ASC"]]
+    order: [["rule", "ASC"]],
+    limit: request.query.limit,
+    offset: request.query.offset
   });
 
   response.send(allegations);

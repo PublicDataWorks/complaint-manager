@@ -30,7 +30,7 @@ test("should return allegations based on rule", async () => {
   const response = httpMocks.createResponse();
   await searchAllegations(request, response, jest.fn());
 
-  expect(response._getData()[0].dataValues).toEqual(
+  expect(response._getData().rows[0].dataValues).toEqual(
     expect.objectContaining({
       rule: createdAllegation.rule,
       paragraph: createdAllegation.paragraph,
@@ -71,7 +71,7 @@ test("should return allegation based on partial match on directive", async () =>
   const response = httpMocks.createResponse();
   await searchAllegations(request, response, jest.fn());
 
-  expect(response._getData()).toEqual(
+  expect(response._getData().rows).toEqual(
     expect.arrayContaining([
       expect.objectContaining({
         directive: forceAllegation.directive
@@ -121,8 +121,8 @@ test("should return allegation with multiple search criteria", async () => {
 
   await searchAllegations(request, response, jest.fn());
 
-  expect(response._getData().length).toEqual(1);
-  expect(response._getData()).toEqual(
+  expect(response._getData().rows.length).toEqual(1);
+  expect(response._getData().rows).toEqual(
     expect.arrayContaining([
       expect.objectContaining({
         rule: allegation2.rule,
