@@ -341,7 +341,7 @@ if (TEST_PASS && TEST_USER && HOST) {
           rerenderWait
         )
         .click('[data-test="addAllegationButton"]')
-        .waitForElementVisible('[data-test="officerAllegation"]', rerenderWait)
+        .waitForElementVisible('[data-test="officerAllegation0"]', rerenderWait)
         .click('[data-test="back-to-case-link"]')
     },
 
