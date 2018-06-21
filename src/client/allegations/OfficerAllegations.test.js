@@ -1,8 +1,6 @@
 import React from "react";
-import { mount } from "enzyme";
-import { Table, TableBody } from "@material-ui/core";
+import {mount} from "enzyme";
 import OfficerAllegations from "./OfficerAllegations";
-import Allegation from "./Allegation";
 
 describe("OfficerAllegations", function() {
   const caseId = 12;
@@ -11,9 +9,9 @@ describe("OfficerAllegations", function() {
     {
       allegation: {
         id: 3,
-        paragraph: "paragraph",
-        rule: "rule",
-        directive: "directive"
+        paragraph: "paragraph1",
+        rule: "A specific rule",
+        directive: "directive1"
       },
       caseOfficerId,
       id: 1
@@ -22,7 +20,7 @@ describe("OfficerAllegations", function() {
       allegation: {
         id: 4,
         paragraph: "paragraph2",
-        rule: "rule2",
+        rule: "a very very specific rule",
         directive: "directive2"
       },
       caseOfficerId,
@@ -30,35 +28,18 @@ describe("OfficerAllegations", function() {
     }
   ];
 
-  test("should render children for each officer allegation", () => {
+  test("should render officer allegations", () => {
     const wrapper = mount(
-      <Table>
-        <TableBody>
-          <OfficerAllegations
-            officerAllegations={officerAllegations}
-            caseId={caseId}
-          />
-        </TableBody>
-      </Table>
+      <OfficerAllegations
+        officerAllegations={officerAllegations}
+        caseId={caseId}
+      />
     );
 
-    expect(wrapper.find(Allegation).length).toEqual(2);
-  });
+    const allegation1 = wrapper.find('[data-test="officerAllegation0"]').first()
+    const allegation2 = wrapper.find('[data-test="officerAllegation1"]').first()
 
-  test("should not render select button on allegation component", () => {
-    const wrapper = mount(
-      <Table>
-        <TableBody>
-          <OfficerAllegations
-            officerAllegations={officerAllegations}
-            caseId={caseId}
-          />
-        </TableBody>
-      </Table>
-    );
-
-    expect(
-      wrapper.find('[data-test="selectAllegationButton"]').exists()
-    ).toBeFalsy();
+    expect(allegation1.text()).toContain("A Specific Rule");
+    expect(allegation2.text()).toContain("A Very Very Specific Rule");
   });
 });

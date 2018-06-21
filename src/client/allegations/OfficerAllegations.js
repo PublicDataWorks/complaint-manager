@@ -1,56 +1,51 @@
-import React, { Fragment } from "react";
-import Allegation from "./Allegation";
-import tableStyleGenerator from "../tableStyles";
-import { withStyles } from "@material-ui/core/styles";
-import {
-  TableRow,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  Typography
-} from "@material-ui/core";
-import StyledExpansionPanelDetails from "../cases/CaseDetails/ComplainantWitnesses/StyledExpansionPanelDetails";
+import React, {Fragment} from "react";
+import {ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Typography} from "@material-ui/core";
 import TextTruncate from "../shared/components/TextTruncate";
-
-const styles = theme => ({
-  ...tableStyleGenerator(theme).body
-});
+import formatStringToTitleCase from "../utilities/formatStringToTitleCase";
 
 const OfficerAllegations = props => {
-  const { classes, officerAllegations } = props;
-  const primaryRowClasses = `${classes.row} ${classes.noBorderBottom}`;
+  const { officerAllegations } = props;
 
   return (
     <Fragment>
-      {officerAllegations.map(officerAllegation => (
-        <TableRow className={primaryRowClasses} key={officerAllegation.id}>
-          <ExpansionPanel elevation={0} style={{ backgroundColor: "white" }}>
-            <ExpansionPanelSummary
-              style={{
-                padding: "0px 24px"
-              }}
-            >
-              <Allegation allegation={officerAllegation.allegation} />
-            </ExpansionPanelSummary>
-            <StyledExpansionPanelDetails>
-              <div
-                style={{
-                  flex: 1,
-                  textAlign: "left",
-                  marginRight: "10px",
-                  padding: "0px 24px"
-                }}
-              >
-                <Typography variant="caption">Allegation Details</Typography>
-                <Typography variant="body1" style={{ whiteSpace: "pre-wrap" }}>
-                  <TextTruncate message={officerAllegation.details} />
-                </Typography>
-              </div>
-            </StyledExpansionPanelDetails>
-          </ExpansionPanel>
-        </TableRow>
+      {officerAllegations.map((officerAllegation, index) => (
+        <ExpansionPanel
+          key={index}
+          data-test={`officerAllegation${index}`}
+          elevation={0}
+          style={{
+            backgroundColor: "white",
+            width: "95%",
+            marginBottom: "8px",
+            padding: "8px",
+            marginLeft: 'auto'
+          }}
+        >
+          <ExpansionPanelSummary style={{display: 'flex'}}>
+            <Typography style={{flex: 1}}>
+              {formatStringToTitleCase(officerAllegation.allegation.rule)}
+            </Typography>
+            <Typography style={{flex: 1}}>
+              {formatStringToTitleCase(officerAllegation.allegation.paragraph)}
+            </Typography>
+            <Typography style={{flex: 1}}>
+              {officerAllegation.allegation.directive
+                ? formatStringToTitleCase(
+                    officerAllegation.allegation.directive
+                  )
+                : "N/A"}
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <div>
+              <Typography variant="caption">Allegation Details</Typography>
+              <TextTruncate message={officerAllegation.details} />
+            </div>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
       ))}
     </Fragment>
   );
 };
 
-export default withStyles(styles, { withTheme: true })(OfficerAllegations);
+export default OfficerAllegations;

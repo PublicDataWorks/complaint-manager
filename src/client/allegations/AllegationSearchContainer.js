@@ -59,18 +59,12 @@ export class AllegationSearchContainer extends Component {
               <OfficerSearchResultsRow officer={currentCaseOfficerData} />
             </TableBody>
           </Table>
-          <Table
-            style={{ marginBottom: "32px", width: "95%", marginLeft: "auto" }}
-          >
-            <TableBody>
-              {currentCaseOfficerData.allegations.length !== 0 && (
-                <OfficerAllegations
-                  officerAllegations={currentCaseOfficerData.allegations}
-                  caseId={caseId}
-                />
-              )}
-            </TableBody>
-          </Table>
+          {currentCaseOfficerData.allegations.length !== 0 && (
+            <OfficerAllegations
+              officerAllegations={currentCaseOfficerData.allegations}
+              caseId={caseId}
+            />
+          )}
         </div>
         <div style={{ margin: "0% 5% 3%" }}>
           <AllegationSearch caseId={caseId} caseOfficerId={caseOfficerId} />

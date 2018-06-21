@@ -13,13 +13,13 @@ const Allegation = ({ classes, allegation }) => {
 
   return (
     <Fragment>
-      <TableCell className={primaryCellClasses} style={{ width: "20%" }}>
+      <TableCell className={primaryCellClasses}>
         {formatStringToTitleCase(allegation.rule)}
       </TableCell>
-      <TableCell className={primaryCellClasses} style={{ width: "25%" }}>
+      <TableCell className={primaryCellClasses}>
         {formatStringToTitleCase(allegation.paragraph)}
       </TableCell>
-      <TableCell className={primaryCellClasses} style={{ width: "45%" }}>
+      <TableCell className={primaryCellClasses}>
         {allegation.directive
           ? formatStringToTitleCase(allegation.directive)
           : "N/A"}

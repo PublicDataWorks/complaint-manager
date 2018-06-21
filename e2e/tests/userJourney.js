@@ -312,6 +312,39 @@ if (TEST_PASS && TEST_USER && HOST) {
         .assert.containsText('[data-test="officerPanel"]', "Ri");
     },
 
+    "should add an allegation to the officer": browser => {
+      browser
+        .click('[data-test="manageCaseOfficer"]')
+        .waitForElementVisible('[data-test="addAllegation"]', rerenderWait)
+        .click('[data-test="addAllegation"]')
+        .waitForElementVisible('[data-test="ruleDropdown"]', rerenderWait)
+        .click('[data-test="ruleDropdown"]')
+        .waitForElementVisible('[role="listbox"]', rerenderWait)
+        .click('[role="listbox"] > li:last-child')
+        .waitForElementVisible(
+          '[data-test="allegationSearchSubmitButton"]',
+          rerenderWait
+        )
+        .pause(500)
+        .click('[data-test="allegationSearchSubmitButton"]')
+        .waitForElementVisible(
+          '[data-test="selectAllegationButton"]',
+          rerenderWait
+        )
+        .click('[data-test="selectAllegationButton"]')
+        .setValue(
+          '[data-test="allegationDetailsInput"]',
+          "Used department property."
+        )
+        .waitForElementVisible(
+          '[data-test="addAllegationButton"]',
+          rerenderWait
+        )
+        .click('[data-test="addAllegationButton"]')
+        .waitForElementVisible('[data-test="officerAllegation"]', rerenderWait)
+        .click('[data-test="back-to-case-link"]')
+    },
+
     "should not see officer on case when removed": browser => {
       browser
         .click('[data-test="manageCaseOfficer"]')

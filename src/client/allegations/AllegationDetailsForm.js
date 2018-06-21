@@ -38,7 +38,7 @@ const AllegationDetailsForm = props => {
           rowsMax={5}
           label="Allegation Details"
         />
-        <div style={{ marginLeft: "16px" }}>
+        <div style={{ marginLeft: "16px", alignSelf: 'flex-start', marginBottom: '48px'}}>
           <PrimaryButton
             disabled={props.invalid || props.pristine}
             data-test="addAllegationButton"

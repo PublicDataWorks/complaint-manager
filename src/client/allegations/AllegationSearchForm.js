@@ -44,7 +44,7 @@ class AllegationSearchForm extends React.Component {
     };
 
     return (
-      <div>
+      <div data-test="allegationSearchBox">
         <form>
           <div style={{ display: "flex" }}>
             <Field
@@ -75,6 +75,7 @@ class AllegationSearchForm extends React.Component {
               label="Rule"
               name="rule"
               component={NoBlurTextField}
+              data-test="ruleDropdown"
               inputProps={{
                 "data-test": "ruleField"
               }}
