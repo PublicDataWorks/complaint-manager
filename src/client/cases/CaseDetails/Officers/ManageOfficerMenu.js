@@ -52,7 +52,8 @@ class ManageOfficerMenu extends React.Component {
           </MenuItem>
           <MenuItem
             data-test="editCaseOfficer"
-            onClick={() => {
+            onClick={event => {
+              this.handleMenuClose(event);
               if (caseOfficer.officerId) {
                 this.props.dispatch(selectCaseOfficer(caseOfficer));
               } else {
@@ -74,11 +75,12 @@ class ManageOfficerMenu extends React.Component {
           </MenuItem>
           <MenuItem
             data-test="removeCaseOfficer"
-            onClick={() =>
-              this.props.dispatch(
+            onClick={event => {
+              this.handleMenuClose(event);
+              return this.props.dispatch(
                 openRemovePersonDialog(caseOfficer, "cases-officers")
-              )
-            }
+              );
+            }}
           >
             Remove Officer
           </MenuItem>
