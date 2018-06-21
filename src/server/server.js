@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
-const config = require("./config/config");
+const config = require("./config/config")[process.env.NODE_ENV];
 const healthCheck = require("./handlers/healthCheck");
 const errorHandler = require("./handlers/errorHandler");
 const apiRouter = require("./apiRouter");
@@ -12,11 +12,11 @@ const winston = require("winston");
 winston.configure({
   transports: [
     new winston.transports.Console({
-      json: true,
+      json: config.winston.json,
       colorize: true
     })
   ],
-  level: config[process.env.NODE_ENV].winstonLogLevel,
+  level: config.winston.logLevel,
   colorize: true // Color the text and status code, using the Express/morgan color palette (text: gray, status: default green, 3XX cyan, 4XX yellow, 5XX red).
 });
 
@@ -37,7 +37,7 @@ app.use(
       formAction: ["'none'"],
       defaultSrc: ["'none'"],
       baseUri: ["'none'"],
-      connectSrc: config[process.env.NODE_ENV].contentSecurityPolicy.connectSrc,
+      connectSrc: config.contentSecurityPolicy.connectSrc,
       fontSrc: ["https://fonts.googleapis.com", "https://fonts.gstatic.com"],
       objectSrc: ["'none'"],
       imgSrc: ["'self'", "data:"],

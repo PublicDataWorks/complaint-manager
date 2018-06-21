@@ -19,7 +19,7 @@ module.exports = {
       issuer: "https://noipm.auth0.com/",
       algorithm: "RS256",
       nicknameKey: "https://noipm-staging.herokuapp.com/nickname",
-      rolesKey: "https://noipm-staging.herokuapp.com/roles",
+      rolesKey: "https://noipm-staging.herokuapp.com/roles"
     },
     contentSecurityPolicy: {
       connectSrc: [
@@ -28,7 +28,10 @@ module.exports = {
         `ws://localhost:${LOCAL_DEV_PORT}`
       ]
     },
-    winstonLogLevel: "info"
+    winston: {
+      logLevel: "info",
+      json: true
+    }
   },
   test: {
     host: process.env.CIRCLECI ? "localhost" : "db",
@@ -58,7 +61,10 @@ module.exports = {
         `ws://localhost:${LOCAL_DEV_PORT}`
       ]
     },
-    winstonLogLevel: "error"
+    winston: {
+      logLevel: "error",
+      json: true
+    }
   },
   staging: {
     port: 5432,
@@ -91,7 +97,10 @@ module.exports = {
     contentSecurityPolicy: {
       connectSrc: ["'self'", "https://noipm.auth0.com"]
     },
-    winstonLogLevel: "info"
+    winston: {
+      logLevel: "info",
+      json: false
+    }
   },
   production: {
     port: 5432,
@@ -124,7 +133,10 @@ module.exports = {
     contentSecurityPolicy: {
       connectSrc: ["'self'", "https://noipm-production.auth0.com"]
     },
-    winstonLogLevel: "error"
+    winston: {
+      logLevel: "error",
+      json: false
+    }
   },
   s3config: {
     region: "us-east-2",
