@@ -1,16 +1,28 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
+import {Typography} from "@material-ui/core";
 import TextTruncate from "../../../shared/components/TextTruncate";
 
-const OfficerInfoDisplay = props => (
+const OfficerInfoDisplay = ({
+  testLabel,
+  shouldTruncate = true,
+  value,
+  displayLabel
+}) => (
   <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }}>
-    <Typography variant="caption" data-test={`${props.testLabel}Label`}>
-      {props.displayLabel}
+    <Typography variant="caption" data-test={`${testLabel}Label`}>
+      {displayLabel}
     </Typography>
-    <TextTruncate
-      testLabel={props.testLabel}
-      message={props.value ? props.value : "N/A"}
-    />
+    {shouldTruncate ? (
+      <TextTruncate testLabel={testLabel} message={value ? value : "N/A"} />
+    ) : (
+      <Typography
+        variant="body1"
+        data-test={testLabel}
+        style={{ whiteSpace: "pre-wrap" }}
+      >
+        {value ? value : "N/A"}
+      </Typography>
+    )}
   </div>
 );
 

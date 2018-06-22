@@ -1,7 +1,7 @@
 import React, {Fragment} from "react";
 import {ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Typography} from "@material-ui/core";
-import TextTruncate from "../shared/components/TextTruncate";
 import formatStringToTitleCase from "../utilities/formatStringToTitleCase";
+import OfficerInfoDisplay from "../cases/CaseDetails/Officers/OfficerInfoDisplay";
 
 const OfficerAllegations = props => {
   const { officerAllegations } = props;
@@ -37,10 +37,11 @@ const OfficerAllegations = props => {
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <div>
-              <Typography variant="caption">Allegation Details</Typography>
-              <TextTruncate message={officerAllegation.details} />
-            </div>
+            <OfficerInfoDisplay
+            shouldTruncate={false}
+            displayLabel="Allegation Details"
+            value={officerAllegation.details}
+          />
           </ExpansionPanelDetails>
         </ExpansionPanel>
       ))}
