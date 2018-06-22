@@ -11,3 +11,6 @@
 .rc-pagination-item-active:hover a {
     color: #fff;
 }
+.rc-pagination-total-text {
+    font-size: 0.875rem;
+}

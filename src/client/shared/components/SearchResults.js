@@ -36,15 +36,11 @@ export class SearchResults extends Component {
 
   render() {
     const paginating = this.props.pagination != null;
-    const resultsFitOnSinglePage =
-      paginating && this.props.pagination.count <= DEFAULT_PAGINATION_LIMIT;
-    const shouldShowResultCount = !paginating || resultsFitOnSinglePage;
     return (
       <div>
         <Typography variant="title">Search Results</Typography>
-        {paginating && this.pagination()}
         <Paper elevation={0}>
-          {shouldShowResultCount && this.renderSearchResultsMessage()}
+          {this.renderSearchResultsMessage(paginating)}
           {this.renderSearchResults()}
           {this.renderSpinner()}
         </Paper>
@@ -68,17 +64,22 @@ export class SearchResults extends Component {
     );
   };
 
-  renderSearchResultsMessage = () => {
+  renderSearchResultsMessage = paginating => {
     if (this.props.spinnerVisible) {
       return null;
     }
     let message = "";
-    if (!this.props.searchResults || this.props.searchResults.length === 0) {
+    const searchResultsLength =
+      this.props.searchResults && this.props.searchResults.length;
+    if (!this.props.searchResults || searchResultsLength === 0) {
       message = "No results found";
-    } else if (this.props.searchResults.length === 1) {
+    } else if (searchResultsLength === 1) {
       message = `1 result found`;
     } else {
-      message = `${this.props.searchResults.length} results found`;
+      const amountOfResults = paginating
+        ? this.props.pagination.count
+        : searchResultsLength;
+      message = `${amountOfResults} results found`;
     }
 
     return (

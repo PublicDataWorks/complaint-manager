@@ -50,7 +50,7 @@ export class AllegationSearchResults extends Component {
         <SearchResults
           pagination={{
             onChange: this.onChange,
-            totalMessage: total => `Total ${total} allegations`,
+            totalMessage: total => `${total} results found`,
             count: this.props.count,
             currentPage: this.state.currentPage
           }}
