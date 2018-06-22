@@ -12,7 +12,9 @@ import CivilianInfoDisplay from "./CivilianInfoDisplay";
 import {
   Divider,
   ExpansionPanel,
-  ExpansionPanelSummary
+  ExpansionPanelSummary,
+  IconButton,
+  Icon
 } from "@material-ui/core";
 import formatDate from "../../../utilities/formatDate";
 import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
@@ -31,6 +33,13 @@ const CivilianPanel = ({ civilian, dispatch }) => {
       >
         <ExpansionPanelSummary style={{ padding: "0px 24px" }}>
           <div style={{ display: "flex", width: "100%", paddingRight: 0 }}>
+            <IconButton
+              style={{ marginRight: 16 }}
+              color="secondary"
+              className="chevron-right"
+            >
+              <Icon>unfold_more</Icon>
+            </IconButton>
             <CivilianInfoDisplay
               displayLabel={"Civilian"}
               value={civilian.fullName}

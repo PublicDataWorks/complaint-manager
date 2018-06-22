@@ -3,7 +3,9 @@ import {
   Divider,
   ExpansionPanel,
   ExpansionPanelSummary,
-  Typography
+  Typography,
+  IconButton,
+  Icon
 } from "@material-ui/core";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
@@ -26,6 +28,13 @@ const OfficerPanel = ({ caseOfficer, children }) => (
         }}
       >
         <div style={{ display: "flex", width: "100%", paddingRight: 0 }}>
+          <IconButton
+            style={{ marginRight: 16 }}
+            color="secondary"
+            className="chevron-right"
+          >
+            <Icon>unfold_more</Icon>
+          </IconButton>
           <OfficerNameDisplay
             displayLabel="Officer"
             fullName={caseOfficer.fullName}
