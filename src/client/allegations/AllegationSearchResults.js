@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import Pagination from "rc-pagination";
-import localeInfo from "rc-pagination/lib/locale/en_US";
 import "rc-pagination/assets/index.css";
 import "./pagination.css";
 import AllegationSearchTableHeader from "./AllegationSearchTableHeader";
@@ -46,29 +44,16 @@ export class AllegationSearchResults extends Component {
     );
   }
 
-  pagination() {
-    return (
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Pagination
-          showTotal={total => `Total ${total} allegations`}
-          total={this.props.count}
-          pageSize={20}
-          onChange={this.onChange}
-          defaultCurrent={1}
-          defaultPageSize={20}
-          locale={localeInfo}
-          current={this.state.currentPage}
-          hideOnSinglePage={true}
-        />
-      </div>
-    );
-  }
-
   render() {
     return (
       <Fragment>
-        {this.pagination()}
         <SearchResults
+          pagination={{
+            onChange: this.onChange,
+            totalMessage: total => `Total ${total} allegations`,
+            count: this.props.count,
+            currentPage: this.state.currentPage
+          }}
           searchResults={this.props.searchResults}
           spinnerVisible={this.props.spinnerVisible}
           tableHeaderComponent={<AllegationSearchTableHeader />}
@@ -82,7 +67,6 @@ export class AllegationSearchResults extends Component {
             />
           )}
         />
-        {this.pagination()}
       </Fragment>
     );
   }

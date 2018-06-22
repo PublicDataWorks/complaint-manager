@@ -7,21 +7,48 @@ import {
   LinearProgress
 } from "@material-ui/core";
 import { searchCleared } from "../../actionCreators/searchActionCreators";
+import { DEFAULT_PAGINATION_LIMIT } from "../../../sharedUtilities/constants";
+import localeInfo from "rc-pagination/lib/locale/en_US";
+import Pagination from "rc-pagination";
 
 export class SearchResults extends Component {
   componentWillUnmount() {
     this.props.dispatch(searchCleared());
   }
 
+  pagination() {
+    return (
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <Pagination
+          showTotal={this.props.pagination.totalMessage}
+          total={this.props.pagination.count}
+          pageSize={DEFAULT_PAGINATION_LIMIT}
+          onChange={this.props.pagination.onChange}
+          defaultCurrent={1}
+          defaultPageSize={DEFAULT_PAGINATION_LIMIT}
+          locale={localeInfo}
+          current={this.props.pagination.currentPage}
+          hideOnSinglePage={true}
+        />
+      </div>
+    );
+  }
+
   render() {
+    const paginating = this.props.pagination != null;
+    const resultsFitOnSinglePage =
+      paginating && this.props.pagination.count <= DEFAULT_PAGINATION_LIMIT;
+    const shouldShowResultCount = !paginating || resultsFitOnSinglePage;
     return (
       <div>
         <Typography variant="title">Search Results</Typography>
+        {paginating && this.pagination()}
         <Paper elevation={0}>
-          {this.renderSearchResultsMessage()}
+          {shouldShowResultCount && this.renderSearchResultsMessage()}
           {this.renderSearchResults()}
           {this.renderSpinner()}
         </Paper>
+        {paginating && this.pagination()}
       </div>
     );
   }
