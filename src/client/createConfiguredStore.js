@@ -23,6 +23,7 @@ import searchReducer from "./reducers/ui/searchReducer";
 import allegationMenuDisplay from "./reducers/ui/allegationMenuDisplay";
 import createCaseDialogReducer from "./reducers/ui/createCaseDialogReducer";
 import updateCaseStatusDialogReducer from "./reducers/ui/updateCaseStatusDialogReducer";
+import accusedOfficerPanelsReducer from "./reducers/ui/accusedOfficerPanelsReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -51,7 +52,8 @@ const rootReducer = combineReducers({
     incidentDetailsDialog: incidentDetailsDialogReducer,
     attachments: attachmentsReducer,
     search: searchReducer,
-    allegations: allegationMenuDisplay
+    allegations: allegationMenuDisplay,
+    accusedOfficerPanels: accusedOfficerPanelsReducer
   }),
   officers: searchOfficersReducer
 });

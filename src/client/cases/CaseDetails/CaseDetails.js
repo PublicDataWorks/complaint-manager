@@ -35,6 +35,7 @@ import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
 import timezone from "moment-timezone";
 import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
+import {clearOfficerPanelData} from "../../actionCreators/accusedOfficerPanelsActionCreators";
 
 const drawerWidthPercentage = "30%";
 
@@ -63,6 +64,10 @@ class CaseDetails extends React.Component {
     this.props.dispatch(getCaseDetails(this.props.match.params.id));
     this.props.dispatch(closeEditDialog());
     this.props.dispatch(closeCaseNoteDialog());
+  }
+
+  componentWillUnmount(){
+    this.props.dispatch(clearOfficerPanelData())
   }
 
   caseDetailsNotYetLoaded() {

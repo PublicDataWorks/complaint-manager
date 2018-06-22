@@ -175,6 +175,13 @@ const USER_ROLES = {
 // ----------------------------------------
 const DEFAULT_PAGINATION_LIMIT = 20;
 
+// ------------------------------------------
+//           UI
+// ------------------------------------------
+const OFFICER_PANEL_DATA_CLEARED = "OFFICER_PANEL_DATA_CLEARED";
+const ACCUSED_OFFICER_PANEL_COLLAPSED = "ACCUSED_OFFICER_PANEL_COLLAPSED"
+const ACCUSED_OFFICER_PANEL_EXPANDED = "ACCUSED_OFFICER_PANEL_EXPANDED"
+
 module.exports = {
   LOCAL_DEV_PORT,
   PORT,
@@ -251,5 +258,8 @@ module.exports = {
   USER_ROLES,
   CASE_STATUS,
   CASE_STATUS_MAP,
+  ACCUSED_OFFICER_PANEL_COLLAPSED,
+  ACCUSED_OFFICER_PANEL_EXPANDED,
+  OFFICER_PANEL_DATA_CLEARED,
   DEFAULT_PAGINATION_LIMIT
 };

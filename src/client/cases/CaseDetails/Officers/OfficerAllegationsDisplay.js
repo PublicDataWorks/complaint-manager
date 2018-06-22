@@ -2,7 +2,7 @@ import React from "react";
 import OfficerAllegationDisplay from "./OfficerAllegationDisplay";
 
 const OfficerAllegationsDisplay = props => {
-  const { officerAllegations } = props;
+  const { officerAllegations, officerId } = props;
 
   return officerAllegations.map(officerAllegation => {
     const props = {
@@ -12,7 +12,7 @@ const OfficerAllegationsDisplay = props => {
       directive: officerAllegation.allegation.directive || "N/A",
       details: officerAllegation.details
     };
-    return <OfficerAllegationDisplay {...props} />;
+    return <OfficerAllegationDisplay officerId={officerId} {...props} />;
   });
 };
 

@@ -319,17 +319,17 @@ if (TEST_PASS && TEST_USER && HOST) {
         .click('[data-test="addAllegation"]')
         .waitForElementVisible('[data-test="ruleDropdown"]', rerenderWait)
         .click('[data-test="ruleDropdown"]')
-        .waitForElementVisible('[role="listbox"]', rerenderWait)
+        .waitForElementVisible('[role="listbox"]', 3000)
         .click('[role="listbox"] > li:last-child')
         .waitForElementVisible(
           '[data-test="allegationSearchSubmitButton"]',
-          rerenderWait
+          1500
         )
         .pause(500)
         .click('[data-test="allegationSearchSubmitButton"]')
         .waitForElementVisible(
           '[data-test="selectAllegationButton"]',
-          rerenderWait
+          5000
         )
         .click('[data-test="selectAllegationButton"]')
         .setValue(

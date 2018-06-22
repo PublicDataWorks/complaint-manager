@@ -2,6 +2,8 @@ import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
 import { mount } from "enzyme";
 import React from "react";
 import OfficerAllegationDisplay from "./OfficerAllegationDisplay";
+import createConfiguredStore from "../../../createConfiguredStore";
+import {Provider} from "react-redux";
 
 describe("OfficerAllegationsDisplay", function() {
   test("should render accused officer's allegations", () => {
@@ -27,7 +29,9 @@ describe("OfficerAllegationsDisplay", function() {
     ];
 
     const wrapper = mount(
-      <OfficerAllegationsDisplay officerAllegations={officerAllegations} />
+      <Provider store={createConfiguredStore()}>
+        <OfficerAllegationsDisplay officerAllegations={officerAllegations} />
+      </Provider>
     );
 
     expect(wrapper.find(OfficerAllegationDisplay).length).toEqual(2);
