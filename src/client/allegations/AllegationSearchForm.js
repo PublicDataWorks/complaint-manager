@@ -16,7 +16,6 @@ import { PrimaryButton } from "../shared/components/StyledButtons";
 import { connect } from "react-redux";
 import { MenuItem, Typography } from "@material-ui/core";
 import getAllegationDropdownValues from "../cases/thunks/getAllegationDropdownValues";
-import { allegationFormNormalizer } from "../utilities/reduxFormNormalizers";
 
 class AllegationSearchForm extends React.Component {
   async componentDidMount() {
@@ -31,10 +30,17 @@ class AllegationSearchForm extends React.Component {
       allegations
     } = this.props;
 
+    const normalizeValues = values => {
+      const normalizedValues = values.directive && {
+        directive: values.directive.trim()
+      };
+      return { ...values, ...normalizedValues };
+    };
+
     const onSubmit = (values, dispatch) => {
       const initialOffset = 0;
       const normalizedValues = {
-        ...allegationFormNormalizer(values),
+        ...normalizeValues(values),
         offset: initialOffset,
         limit: DEFAULT_PAGINATION_LIMIT
       };

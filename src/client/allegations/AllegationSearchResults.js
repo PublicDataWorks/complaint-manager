@@ -12,7 +12,6 @@ import {
   ALLEGATION_SEARCH_FORM_NAME,
   DEFAULT_PAGINATION_LIMIT
 } from "../../sharedUtilities/constants";
-import { allegationFormNormalizer } from "../utilities/reduxFormNormalizers";
 
 export class AllegationSearchResults extends Component {
   constructor(props) {
@@ -27,9 +26,16 @@ export class AllegationSearchResults extends Component {
     const offset = (currentPage - 1) * pageSize;
     const values = this.props.form[ALLEGATION_SEARCH_FORM_NAME].values;
 
+    const normalizeValues = values => {
+      const normalizedValues = values.directive && {
+        directive: values.directive.trim()
+      };
+      return { ...values, ...normalizedValues };
+    };
+
     this.setState({ currentPage });
     const normalizedValues = {
-      ...allegationFormNormalizer(values),
+      ...normalizeValues(values),
       offset: offset,
       limit: DEFAULT_PAGINATION_LIMIT
     };
