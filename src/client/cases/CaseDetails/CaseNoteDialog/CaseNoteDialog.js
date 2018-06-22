@@ -109,9 +109,6 @@ const CaseNoteDialog = props => {
               width: "75%",
               marginBottom: "16px"
             }}
-            InputLabelProps={{
-              shrink: true
-            }}
             validate={[actionIsRequired]}
           >
             {caseNotes}
