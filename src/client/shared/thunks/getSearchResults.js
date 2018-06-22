@@ -10,14 +10,24 @@ import {
 } from "../../actionCreators/searchActionCreators";
 const hostname = config[process.env.NODE_ENV].hostname;
 
-const getSearchResults = ( searchCriteria, resourceToSearch )=> async dispatch => {
+const getSearchResults = (
+  searchCriteria,
+  resourceToSearch,
+  paginatingSearch = false
+) => async dispatch => {
   try {
     const token = getAccessToken();
     if (!token) {
       return dispatch(push("/login"));
     }
-    dispatch(searchInitiated());
-    const response = await fetchSearchResults(token, searchCriteria, resourceToSearch);
+    if (!paginatingSearch) {
+      dispatch(searchInitiated());
+    }
+    const response = await fetchSearchResults(
+      token,
+      searchCriteria,
+      resourceToSearch
+    );
     return await handleResponse(response, dispatch);
   } catch (error) {
     dispatch(searchFailed());

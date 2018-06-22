@@ -2,7 +2,10 @@ import React from "react";
 import { TextField } from "redux-form-material-ui";
 import { change, Field, formValueSelector, reduxForm } from "redux-form";
 import validate from "./validateAllegationSearchForm";
-import { ALLEGATION_SEARCH_FORM_NAME } from "../../sharedUtilities/constants";
+import {
+  ALLEGATION_SEARCH_FORM_NAME,
+  DEFAULT_PAGINATION_LIMIT
+} from "../../sharedUtilities/constants";
 import NoBlurTextField from "../cases/CaseDetails/CivilianDialog/FormSelect";
 import {
   searchParagraphMenu,
@@ -13,6 +16,7 @@ import { PrimaryButton } from "../shared/components/StyledButtons";
 import { connect } from "react-redux";
 import { MenuItem, Typography } from "@material-ui/core";
 import getAllegationDropdownValues from "../cases/thunks/getAllegationDropdownValues";
+import { allegationFormNormalizer } from "../utilities/reduxFormNormalizers";
 
 class AllegationSearchForm extends React.Component {
   async componentDidMount() {
@@ -28,15 +32,13 @@ class AllegationSearchForm extends React.Component {
     } = this.props;
 
     const onSubmit = (values, dispatch) => {
-      dispatch(getSearchResults(normalizeValues(values), "allegations"));
-    };
-
-    const normalizeValues = values => {
-      const normalizedValues = {};
-      if (values.directive) {
-        normalizedValues.directive = values.directive.trim();
-      }
-      return { ...values, ...normalizedValues };
+      const initialOffset = 0;
+      const normalizedValues = {
+        ...allegationFormNormalizer(values),
+        offset: initialOffset,
+        limit: DEFAULT_PAGINATION_LIMIT
+      };
+      dispatch(getSearchResults(normalizedValues, "allegations"));
     };
 
     const clearParagraphValue = () => {

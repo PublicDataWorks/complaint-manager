@@ -168,7 +168,12 @@ const CASE_STATUS_MAP = {
 const USER_ROLES = {
   DEPUTY_POLICE_MONITOR: "Deputy-Police-Monitor",
   COMPLAINT_INTAKE_SPECIALIST: "Complaint-Intake-Specialist"
-}
+};
+
+// ----------------------------------------
+//          Pagination
+// ----------------------------------------
+const DEFAULT_PAGINATION_LIMIT = 20;
 
 module.exports = {
   LOCAL_DEV_PORT,
@@ -245,5 +250,6 @@ module.exports = {
   COMPLAINANT,
   USER_ROLES,
   CASE_STATUS,
-  CASE_STATUS_MAP
+  CASE_STATUS_MAP,
+  DEFAULT_PAGINATION_LIMIT
 };

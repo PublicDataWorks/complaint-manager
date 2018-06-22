@@ -54,6 +54,7 @@
     "password-generator": "^2.2.0",
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",
+    "rc-pagination": "^1.16.4",
     "react": "^16.4.0",
     "react-autosuggest": "^9.3.4",
     "react-dom": "^16.4.0",
