@@ -23,13 +23,13 @@ describe("AllegationSearchResults", function() {
 
   describe("onChange", function() {
     test("should make api call to allegations search", () => {
-      allegationSearchResults.onChange(12, 1);
+      allegationSearchResults.onChange(12);
 
       expect(getSearchResults).toHaveBeenCalled();
     });
 
     test("should paginate search", function() {
-      allegationSearchResults.onChange(12, 1);
+      allegationSearchResults.onChange(12);
 
       expect(getSearchResults.mock.calls[0][2]).toBeTruthy();
     });

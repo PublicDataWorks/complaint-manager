@@ -21,9 +21,12 @@ const getSearchResults = (
     if (!token) {
       return dispatch(push("/login"));
     }
-    if (!paginatingSearch) {
+    if (paginatingSearch) {
+      searchCriteria = { ...searchCriteria, page: newPage };
+    } else {
       dispatch(searchInitiated());
     }
+
     const response = await fetchSearchResults(
       token,
       searchCriteria,

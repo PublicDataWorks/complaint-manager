@@ -1,3 +1,7 @@
+const {
+  DEFAULT_PAGINATION_LIMIT
+} = require("../../../sharedUtilities/constants");
+
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models/index");
 const Op = require("sequelize").Op;
@@ -16,11 +20,15 @@ const searchAllegations = asyncMiddleware(async (request, response) => {
     whereClause.directive = { [Op.iLike]: `%${request.query.directive}%` };
   }
 
+  const offset = request.query.page
+    ? (request.query.page - 1) * DEFAULT_PAGINATION_LIMIT
+    : null;
+
   const allegations = await models.allegation.findAndCountAll({
     where: whereClause,
-    order: [["rule", "ASC"]],
-    limit: request.query.limit,
-    offset: request.query.offset
+    order: [["rule", "ASC"], ["paragraph", "ASC"], ["directive", "ASC"]],
+    limit: DEFAULT_PAGINATION_LIMIT,
+    offset: offset
   });
 
   response.send(allegations);

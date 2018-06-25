@@ -15,8 +15,9 @@ describe("getSearchResults", () => {
   };
   const dispatch = jest.fn();
   const token = "token";
-
   const resourceToSearch = "resources";
+  const page = 5;
+  const queryParamsWithPagination = { ...searchCriteria, page };
 
   beforeEach(() => {
     dispatch.mockClear();
@@ -71,18 +72,14 @@ describe("getSearchResults", () => {
       }
     })
       .get(`/api/${resourceToSearch}/search`)
-      .query(searchCriteria)
+      .query(queryParamsWithPagination)
       .reply(200, responseBody);
     getAccessToken.mockImplementation(() => token);
     const paginating = true;
-    const newPage = 3;
-    await getSearchResults(
-      searchCriteria,
-      resourceToSearch,
-      paginating,
-      newPage
-    )(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(searchSuccess(responseBody, newPage));
+    await getSearchResults(searchCriteria, resourceToSearch, paginating, page)(
+      dispatch
+    );
+    expect(dispatch).toHaveBeenCalledWith(searchSuccess(responseBody, page));
   });
 
   test("redirects to login when api call returns 401", async () => {

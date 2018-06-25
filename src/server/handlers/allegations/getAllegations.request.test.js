@@ -57,4 +57,66 @@ describe("GET /allegations", function() {
         expect(response.body).toEqual(expect.arrayContaining(expectedResponse));
       });
   });
+
+  test("rule should be sorted in ascending order", async () => {
+    const allegation1 = {
+      rule: "rule2"
+    };
+
+    const allegation2 = {
+      rule: "rule1"
+    };
+
+    const allegation3 = {
+      rule: "rule3"
+    };
+
+    const expectedResponse = [
+      { rule: "rule1", paragraphs: [null] },
+      { rule: "rule2", paragraphs: [null] },
+      { rule: "rule3", paragraphs: [null] }
+    ];
+
+    await models.allegation.bulkCreate([allegation1, allegation2, allegation3]);
+
+    await request(app)
+      .get("/api/allegations")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        expect(response.body).toEqual(expectedResponse);
+      });
+  });
+
+  test("rule and paragraph should be sorted in ascending order", async () => {
+    const allegation1 = {
+      rule: "rule2",
+      paragraph: "paragraph1"
+    };
+
+    const allegation2 = {
+      rule: "rule1",
+      paragraph: "paragraph2"
+    };
+
+    const allegation3 = {
+      rule: "rule1",
+      paragraph: "paragraph1"
+    };
+
+    const expectedResponse = [
+      { rule: "rule1", paragraphs: ["paragraph1", "paragraph2"] },
+      { rule: "rule2", paragraphs: ["paragraph1"] }
+    ];
+
+    await models.allegation.bulkCreate([allegation1, allegation2, allegation3]);
+
+    await request(app)
+      .get("/api/allegations")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        expect(response.body).toEqual(expectedResponse);
+      });
+  });
 });

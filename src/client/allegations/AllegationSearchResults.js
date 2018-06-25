@@ -6,10 +6,7 @@ import AllegationSearchTableHeader from "./AllegationSearchTableHeader";
 import AllegationSearchResultsRow from "./AllegationSearchResultsRow";
 import SearchResults from "../shared/components/SearchResults";
 import getSearchResults from "../shared/thunks/getSearchResults";
-import {
-  ALLEGATION_SEARCH_FORM_NAME,
-  DEFAULT_PAGINATION_LIMIT
-} from "../../sharedUtilities/constants";
+import { ALLEGATION_SEARCH_FORM_NAME } from "../../sharedUtilities/constants";
 
 export class AllegationSearchResults extends Component {
   constructor(props) {
@@ -17,27 +14,20 @@ export class AllegationSearchResults extends Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  onChange(currentPage, pageSize) {
-    const offset = (currentPage - 1) * pageSize;
+  normalizeValues(values) {
+    const normalizedValues = values.directive && {
+      directive: values.directive.trim()
+    };
+    return { ...values, ...normalizedValues };
+  }
+
+  onChange(currentPage) {
     const values = this.props.form[ALLEGATION_SEARCH_FORM_NAME].values;
-
-    const normalizeValues = values => {
-      const normalizedValues = values.directive && {
-        directive: values.directive.trim()
-      };
-      return { ...values, ...normalizedValues };
-    };
-
-    const normalizedValues = {
-      ...normalizeValues(values),
-      offset: offset,
-      limit: DEFAULT_PAGINATION_LIMIT
-    };
     const paginatingSearch = true;
 
     this.props.dispatch(
       getSearchResults(
-        normalizedValues,
+        this.normalizeValues(values),
         "allegations",
         paginatingSearch,
         currentPage

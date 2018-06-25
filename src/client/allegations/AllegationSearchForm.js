@@ -2,10 +2,7 @@ import React from "react";
 import { TextField } from "redux-form-material-ui";
 import { change, Field, formValueSelector, reduxForm } from "redux-form";
 import validate from "./validateAllegationSearchForm";
-import {
-  ALLEGATION_SEARCH_FORM_NAME,
-  DEFAULT_PAGINATION_LIMIT
-} from "../../sharedUtilities/constants";
+import { ALLEGATION_SEARCH_FORM_NAME } from "../../sharedUtilities/constants";
 import NoBlurTextField from "../cases/CaseDetails/CivilianDialog/FormSelect";
 import {
   searchParagraphMenu,
@@ -38,19 +35,12 @@ class AllegationSearchForm extends React.Component {
     };
 
     const onSubmit = (values, dispatch) => {
-      const initialOffset = 0;
-      const normalizedValues = {
-        ...normalizeValues(values),
-        offset: initialOffset,
-        limit: DEFAULT_PAGINATION_LIMIT
-      };
-
       const paginatingSearch = false;
       const firstPage = 1;
 
       dispatch(
         getSearchResults(
-          normalizedValues,
+          normalizeValues(values),
           "allegations",
           paginatingSearch,
           firstPage
