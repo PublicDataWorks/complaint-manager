@@ -20,6 +20,9 @@ jobs:
           - run:
               name: Run server tests
               command: yarn test:server --forceExit
+              environment:
+                NEW_RELIC_ENABLED: false
+                NEW_RELIC_NO_CONFIG_FILE: true
 
 
     security-check:
