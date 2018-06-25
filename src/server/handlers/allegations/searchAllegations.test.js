@@ -3,6 +3,7 @@ import models from "../../models";
 import * as httpMocks from "node-mocks-http";
 import searchAllegations from "./searchAllegations";
 import { cleanupDatabase } from "../../requestTestHelpers";
+import { DEFAULT_PAGINATION_LIMIT } from "../../../sharedUtilities/constants";
 
 describe("searchAllegations handler", function() {
   afterEach(async () => {
@@ -213,7 +214,7 @@ describe("searchAllegations handler", function() {
   });
 
   test("should handle pagination", async () => {
-    const totalAllegations = 21;
+    const totalAllegations = DEFAULT_PAGINATION_LIMIT + 1;
     const allegations = [];
     for (let x = 1; x <= totalAllegations; x++) {
       const ruleNumber = `${x}`.length == 1 ? `0${x}` : x;
