@@ -1,8 +1,15 @@
-import { Typography, Divider, ExpansionPanel, ExpansionPanelSummary } from "@material-ui/core";
-import React, {Fragment} from "react";
+import {
+  Typography,
+  Divider,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  IconButton,
+  Icon
+} from "@material-ui/core";
+import React, { Fragment } from "react";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
-import {ACCUSED} from "../../../../sharedUtilities/constants";
+import { ACCUSED } from "../../../../sharedUtilities/constants";
 import styles from "../../../globalStyling/styles";
 import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
 
@@ -16,6 +23,13 @@ const UnknownOfficerPanel = ({ caseOfficer, children }) => {
       >
         <ExpansionPanelSummary style={{ padding: "0px 24px" }}>
           <div style={{ display: "flex", width: "100%", paddingRight: 0 }}>
+            <IconButton
+              style={{ marginRight: 16 }}
+              color="secondary"
+              className="chevron-right"
+            >
+              <Icon>unfold_more</Icon>
+            </IconButton>
             <OfficerInfoDisplay
               displayLabel="Officer"
               value={caseOfficer.fullName}
@@ -32,27 +46,27 @@ const UnknownOfficerPanel = ({ caseOfficer, children }) => {
           />
         </StyledExpansionPanelDetails>
         {caseOfficer &&
-        caseOfficer.roleOnCase === ACCUSED && (
-          <Fragment>
-            <Typography
-              style={{
-                ...styles.section,
-                margin: "8px 24px"
-              }}
-            >
-              Allegations
-            </Typography>
-            {caseOfficer.allegations.length > 0 ? (
-              <OfficerAllegationsDisplay
-                officerAllegations={caseOfficer.allegations}
-              />
-            ) : (
-              <Typography style={{ marginLeft: "24px", fontStyle: "italic" }}>
-                No allegations have been added.
+          caseOfficer.roleOnCase === ACCUSED && (
+            <Fragment>
+              <Typography
+                style={{
+                  ...styles.section,
+                  margin: "8px 24px"
+                }}
+              >
+                Allegations
               </Typography>
-            )}
-          </Fragment>
-        )}
+              {caseOfficer.allegations.length > 0 ? (
+                <OfficerAllegationsDisplay
+                  officerAllegations={caseOfficer.allegations}
+                />
+              ) : (
+                <Typography style={{ marginLeft: "24px", fontStyle: "italic" }}>
+                  No allegations have been added.
+                </Typography>
+              )}
+            </Fragment>
+          )}
       </ExpansionPanel>
       <Divider />
     </div>
