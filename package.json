@@ -49,6 +49,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
+    "newrelic": "^4.2.0",
     "nodemailer": "^4.4.1",
     "nodemon": "^1.14.9",
     "password-generator": "^2.2.0",
