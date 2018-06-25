@@ -13,7 +13,8 @@ const hostname = config[process.env.NODE_ENV].hostname;
 const getSearchResults = (
   searchCriteria,
   resourceToSearch,
-  paginatingSearch = false
+  paginatingSearch = false,
+  newPage = undefined
 ) => async dispatch => {
   try {
     const token = getAccessToken();
@@ -28,7 +29,7 @@ const getSearchResults = (
       searchCriteria,
       resourceToSearch
     );
-    return await handleResponse(response, dispatch);
+    return await handleResponse(response, dispatch, newPage);
   } catch (error) {
     dispatch(searchFailed());
     return dispatch(
@@ -52,11 +53,11 @@ const fetchSearchResults = async (token, searchCriteria, resourceToSearch) => {
   });
 };
 
-const handleResponse = async (response, dispatch) => {
+const handleResponse = async (response, dispatch, newPage) => {
   switch (response.status) {
     case 200:
       const searchResults = await response.json();
-      return dispatch(searchSuccess(searchResults));
+      return dispatch(searchSuccess(searchResults, newPage));
     case 401:
       return dispatch(push("/login"));
     default:

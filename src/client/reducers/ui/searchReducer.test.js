@@ -26,21 +26,24 @@ describe("searchReducer", () => {
   });
 
   describe("SEARCH_SUCCESS", () => {
-    test("sets state include search results and hide spinner", () => {
+    test("sets state include search results, hide spinner, and update pagination page number", () => {
       const initialState = {
         searchResults: [],
-        spinnerVisible: true
+        spinnerVisible: true,
+        newPage: undefined
       };
       const searchResults = [{ someSearchResult: "something" }];
+      const newPageNumber = 2;
 
       const newState = searchReducer(
         initialState,
-        searchSuccess(searchResults)
+        searchSuccess(searchResults, newPageNumber)
       );
 
       const expectedState = {
         searchResults: searchResults,
-        spinnerVisible: false
+        spinnerVisible: false,
+        newPage: newPageNumber
       };
       expect(newState).toEqual(expectedState);
     });

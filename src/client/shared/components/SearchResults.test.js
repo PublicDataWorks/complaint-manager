@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme/build/index";
 import SearchResults from "./SearchResults";
+import Pagination from "rc-pagination";
 
 describe("SearchResults", () => {
   test("should display spinner when spinnerVisible is true", () => {
@@ -94,5 +95,41 @@ describe("SearchResults", () => {
         .children()
         .text()
     ).toEqual("2 results found");
+  });
+
+  test("should not find pagination component when not paginating", () => {
+    const wrapper = shallow(
+      <SearchResults
+        spinnerVisible={false}
+        searchResults={[
+          { firstName: "bob", id: 1 },
+          { firstName: "joan", id: 2 }
+        ]}
+        searchResultsIds={[1, 2]}
+        render={jest.fn()}
+      />
+    );
+    expect(wrapper.find(Pagination).exists()).toBeFalsy();
+  });
+
+  test("should find pagination component when paginating", () => {
+    const wrapper = shallow(
+      <SearchResults
+        pagination={{
+          onChange: jest.fn(),
+          totalMessage: jest.fn(),
+          count: 2,
+          currentPage: 1
+        }}
+        spinnerVisible={false}
+        searchResults={[
+          { firstName: "bob", id: 1 },
+          { firstName: "joan", id: 2 }
+        ]}
+        searchResultsIds={[1, 2]}
+        render={jest.fn()}
+      />
+    );
+    expect(wrapper.find(Pagination).exists()).toBeTruthy();
   });
 });

@@ -6,16 +6,11 @@ import {
   Typography,
   LinearProgress
 } from "@material-ui/core";
-import { searchCleared } from "../../actionCreators/searchActionCreators";
 import { DEFAULT_PAGINATION_LIMIT } from "../../../sharedUtilities/constants";
 import localeInfo from "rc-pagination/lib/locale/en_US";
 import Pagination from "rc-pagination";
 
 export class SearchResults extends Component {
-  componentWillUnmount() {
-    this.props.dispatch(searchCleared());
-  }
-
   pagination() {
     return (
       <div style={{ display: "flex", justifyContent: "flex-end" }}>

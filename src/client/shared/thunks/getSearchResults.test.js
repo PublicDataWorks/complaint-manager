@@ -16,7 +16,7 @@ describe("getSearchResults", () => {
   const dispatch = jest.fn();
   const token = "token";
 
-  const resourceToSearch = "resources"
+  const resourceToSearch = "resources";
 
   beforeEach(() => {
     dispatch.mockClear();
@@ -60,6 +60,29 @@ describe("getSearchResults", () => {
     getAccessToken.mockImplementation(() => token);
     await getSearchResults(searchCriteria, resourceToSearch)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(searchSuccess(responseBody));
+  });
+
+  test("dispatches searchSuccess with pagination", async () => {
+    const responseBody = [{ firstName: "Bob" }];
+    nock("http://localhost/", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .get(`/api/${resourceToSearch}/search`)
+      .query(searchCriteria)
+      .reply(200, responseBody);
+    getAccessToken.mockImplementation(() => token);
+    const paginating = true;
+    const newPage = 3;
+    await getSearchResults(
+      searchCriteria,
+      resourceToSearch,
+      paginating,
+      newPage
+    )(dispatch);
+    expect(dispatch).toHaveBeenCalledWith(searchSuccess(responseBody, newPage));
   });
 
   test("redirects to login when api call returns 401", async () => {

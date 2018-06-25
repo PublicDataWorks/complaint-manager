@@ -7,7 +7,9 @@ const AllegationSearch = props => {
   return (
     <div>
       <div style={{ marginBottom: "16px" }}>
-        <Typography variant="title">Search for an Allegation</Typography>
+        <Typography variant="title" className="allegationSearchHeader">
+          Search for an Allegation
+        </Typography>
       </div>
       <Card
         style={{

@@ -44,7 +44,18 @@ class AllegationSearchForm extends React.Component {
         offset: initialOffset,
         limit: DEFAULT_PAGINATION_LIMIT
       };
-      dispatch(getSearchResults(normalizedValues, "allegations"));
+
+      const paginatingSearch = false;
+      const firstPage = 1;
+
+      dispatch(
+        getSearchResults(
+          normalizedValues,
+          "allegations",
+          paginatingSearch,
+          firstPage
+        )
+      );
     };
 
     const clearParagraphValue = () => {

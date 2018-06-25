@@ -7,7 +7,8 @@ import {
 
 const initialState = {
   searchResults: [],
-  spinnerVisible: false
+  spinnerVisible: false,
+  newPage: undefined
 };
 
 const searchReducer = (state = initialState, action) => {
@@ -15,18 +16,21 @@ const searchReducer = (state = initialState, action) => {
     case SEARCH_INITIATED:
       return {
         searchResults: [],
-        spinnerVisible: true
+        spinnerVisible: true,
+        newPage: undefined
       };
     case SEARCH_SUCCESS:
       return {
         searchResults: action.searchResults,
-        spinnerVisible: false
+        spinnerVisible: false,
+        newPage: action.newPage
       };
     case SEARCH_FAILED:
     case SEARCH_CLEARED:
       return {
         searchResults: [],
-        spinnerVisible: false
+        spinnerVisible: false,
+        newPage: undefined
       };
     default:
       return state;

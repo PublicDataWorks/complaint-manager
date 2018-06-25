@@ -9,9 +9,10 @@ export const searchInitiated = () => ({
   type: SEARCH_INITIATED
 });
 
-export const searchSuccess = searchResults => ({
+export const searchSuccess = (searchResults, newPage) => ({
   type: SEARCH_SUCCESS,
-  searchResults
+  searchResults,
+  newPage
 });
 
 export const searchFailed = () => ({

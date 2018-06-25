@@ -14,9 +14,6 @@ import {
 export class AllegationSearchResults extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentPage: 1
-    };
     this.onChange = this.onChange.bind(this);
   }
 
@@ -31,7 +28,6 @@ export class AllegationSearchResults extends Component {
       return { ...values, ...normalizedValues };
     };
 
-    this.setState({ currentPage });
     const normalizedValues = {
       ...normalizeValues(values),
       offset: offset,
@@ -40,8 +36,19 @@ export class AllegationSearchResults extends Component {
     const paginatingSearch = true;
 
     this.props.dispatch(
-      getSearchResults(normalizedValues, "allegations", paginatingSearch)
+      getSearchResults(
+        normalizedValues,
+        "allegations",
+        paginatingSearch,
+        currentPage
+      )
     );
+
+    if (document.getElementsByClassName("allegationSearchHeader").length > 0) {
+      document
+        .getElementsByClassName("allegationSearchHeader")[0]
+        .scrollIntoView(true);
+    }
   }
 
   render() {
@@ -52,7 +59,7 @@ export class AllegationSearchResults extends Component {
             onChange: this.onChange,
             totalMessage: total => `${total} results found`,
             count: this.props.count,
-            currentPage: this.state.currentPage
+            currentPage: this.props.newPage
           }}
           searchResults={this.props.searchResults}
           spinnerVisible={this.props.spinnerVisible}
@@ -78,6 +85,7 @@ const mapStateToProps = state => {
     searchResults: state.ui.search.searchResults.rows,
     count: state.ui.search.searchResults.count,
     spinnerVisible: state.ui.search.spinnerVisible,
+    newPage: state.ui.search.newPage,
     form: state.form
   };
 };
