@@ -13,8 +13,8 @@ import formatDate from "../../../utilities/formatDate";
 import OfficerNameDisplay from "./OfficerNameDisplay";
 import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
 import styles from "../../../globalStyling/styles";
-import { ACCUSED } from "../../../../sharedUtilities/constants";
-import { connect } from "react-redux";
+import {ACCUSED} from "../../../../sharedUtilities/constants";
+import {connect} from "react-redux";
 import {
   accusedOfficerPanelCollapsed,
   accusedOfficerPanelExpanded
@@ -123,7 +123,11 @@ const OfficerPanel = ({ dispatch, caseOfficer, children }) => (
       </StyledExpansionPanelDetails>
       {caseOfficer &&
         caseOfficer.roleOnCase === ACCUSED && (
-          <Fragment>
+          <div
+            style={{
+              marginLeft: '64px'
+            }}
+          >
             <Typography
               style={{
                 ...styles.section,
@@ -142,7 +146,7 @@ const OfficerPanel = ({ dispatch, caseOfficer, children }) => (
                 No allegations have been added.
               </Typography>
             )}
-          </Fragment>
+          </div>
         )}
     </ExpansionPanel>
     <Divider />

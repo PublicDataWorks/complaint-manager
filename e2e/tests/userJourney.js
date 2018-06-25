@@ -320,6 +320,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         .waitForElementVisible('[data-test="ruleDropdown"]', rerenderWait)
         .click('[data-test="ruleDropdown"]')
         .waitForElementVisible('[role="listbox"]', 3000)
+        .pause(500)
         .click('[role="listbox"] > li:last-child')
         .waitForElementVisible(
           '[data-test="allegationSearchSubmitButton"]',

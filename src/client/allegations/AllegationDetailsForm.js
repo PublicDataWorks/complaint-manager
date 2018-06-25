@@ -21,13 +21,16 @@ const AllegationDetailsForm = props => {
       )
     );
   };
+
+  const marginBottomOffset = 16;
+
   return (
-    <form>
+    <form  style={{ justifyContent: "center" }}>
       <div style={{ display: "flex" }}>
         <Field
           validate={[allegationDetailsRequired, allegationDetailsNotBlank]}
           data-test="allegationDetailsField"
-          style={{ width: "40%", marginBottom: "16px" }}
+          style={{ width: "40%", marginBottom: `${marginBottomOffset}px` }}
           component={TextField}
           name="details"
           inputProps={{
@@ -38,7 +41,7 @@ const AllegationDetailsForm = props => {
           rowsMax={5}
           label="Allegation Details"
         />
-        <div style={{ marginLeft: "16px", alignSelf: 'flex-start', marginBottom: '48px'}}>
+        <div style={{ marginLeft: "16px", alignSelf: 'flex-end', marginBottom: props.anyTouched && props.invalid ? `${marginBottomOffset + 20}px` : `${marginBottomOffset}px` }}>
           <PrimaryButton
             disabled={props.invalid || props.pristine}
             data-test="addAllegationButton"

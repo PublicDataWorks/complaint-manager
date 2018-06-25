@@ -2,6 +2,15 @@ import React, {Fragment} from "react";
 import {ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Typography} from "@material-ui/core";
 import formatStringToTitleCase from "../utilities/formatStringToTitleCase";
 import OfficerInfoDisplay from "../cases/CaseDetails/Officers/OfficerInfoDisplay";
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = ({
+  root: {
+    "&:before": {
+      height: 0,
+    }
+  }
+});
 
 const OfficerAllegations = props => {
   const { officerAllegations } = props;
@@ -11,6 +20,9 @@ const OfficerAllegations = props => {
       {officerAllegations.map((officerAllegation, index) => (
         <ExpansionPanel
           key={index}
+          classes={{
+            root: props.classes.root
+          }}
           data-test={`officerAllegation${index}`}
           elevation={0}
           style={{
@@ -49,4 +61,4 @@ const OfficerAllegations = props => {
   );
 };
 
-export default OfficerAllegations;
+export default withStyles(styles)(OfficerAllegations);

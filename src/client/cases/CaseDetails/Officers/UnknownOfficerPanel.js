@@ -6,7 +6,7 @@ import {
   IconButton,
   Icon
 } from "@material-ui/core";
-import React, { Fragment } from "react";
+import React from "react";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
@@ -44,10 +44,14 @@ const UnknownOfficerPanel = ({ caseOfficer, children }) => {
             value={caseOfficer.notes}
             testLabel="notes"
           />
-        </StyledExpansionPanelDetails>
+        </StyledExpansionPanelDetails
+        >
         {caseOfficer &&
           caseOfficer.roleOnCase === ACCUSED && (
-            <Fragment>
+            <div
+              style={{
+                marginLeft: '64px'
+              }}>
               <Typography
                 style={{
                   ...styles.section,
@@ -65,7 +69,7 @@ const UnknownOfficerPanel = ({ caseOfficer, children }) => {
                   No allegations have been added.
                 </Typography>
               )}
-            </Fragment>
+            </div>
           )}
       </ExpansionPanel>
       <Divider />

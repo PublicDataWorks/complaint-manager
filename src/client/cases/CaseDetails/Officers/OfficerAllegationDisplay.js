@@ -69,7 +69,11 @@ class OfficerAllegationDisplay extends Component {
               testLabel="directive"
             />
           </ExpansionPanelSummary>
-          <StyledExpansionPanelDetails>
+          <StyledExpansionPanelDetails
+            style={{
+              marginLeft: "0px"
+            }}
+          >
             <OfficerInfoDisplay
               shouldTruncate={false}
               displayLabel="Notes"

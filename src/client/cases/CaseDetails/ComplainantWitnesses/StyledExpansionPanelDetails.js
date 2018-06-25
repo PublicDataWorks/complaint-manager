@@ -1,9 +1,9 @@
 import React from "react";
 import { ExpansionPanelDetails } from "@material-ui/core";
 
-const StyledExpansionPanelDetails = props => (
+const StyledExpansionPanelDetails = ({children, style} )=> (
   <ExpansionPanelDetails
-    style={{ padding: "8px 24px 24px 24px", marginLeft: "65px" }}
+    style={{ padding: "8px 24px 24px 24px", marginLeft: "64px", ...style }}
   >
     <div
       style={{
@@ -14,7 +14,7 @@ const StyledExpansionPanelDetails = props => (
         marginRight: "190px"
       }}
     >
-      {props.children}
+      {children}
     </div>
   </ExpansionPanelDetails>
 );
