@@ -49,6 +49,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     });
+    OfficerAllegation.belongsTo(models.case_officer, {
+      as: "caseOfficer"
+    });
   };
 
   return OfficerAllegation;

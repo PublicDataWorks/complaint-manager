@@ -137,6 +137,11 @@ class CaseOfficer {
         return this;
       }
 
+      withOfficerAllegations (officerAllegations) {
+        this.allegations = officerAllegations
+        return this
+      }
+
       withRoleOnCase(roleOnCase) {
         this.roleOnCase = roleOnCase;
         return this;

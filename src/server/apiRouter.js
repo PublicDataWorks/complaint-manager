@@ -30,7 +30,7 @@ const searchAllegations = require("./handlers/allegations/searchAllegations");
 const getAllegations = require("./handlers/allegations/getAllegations");
 const attachmentRouter = require("./attachmentRouter");
 const createOfficerAllegation = require("./handlers/officerAllegations/createOfficerAllegation/createOfficerAllegation");
-
+const editOfficerAllegation = require("./handlers/officerAllegations/editOfficerAllegation/editOfficerAllegation")
 const express = require("express");
 const router = express.Router();
 
@@ -63,6 +63,7 @@ router.post(
   "/cases/:caseId/cases-officers/:caseOfficerId/officers-allegations",
   createOfficerAllegation
 );
+router.put("/officers-allegations/:officerAllegationId", editOfficerAllegation)
 
 router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
 

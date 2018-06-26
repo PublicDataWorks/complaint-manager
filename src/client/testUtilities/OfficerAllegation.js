@@ -18,8 +18,18 @@ class OfficerAllegation {
         return this;
       }
 
+      withId(id){
+        this.id = id;
+        return this;
+      }
+
       withCaseOfficerId(id) {
         this.caseOfficerId = id;
+        return this;
+      }
+
+      withDetails(details) {
+        this.details = details;
         return this;
       }
 

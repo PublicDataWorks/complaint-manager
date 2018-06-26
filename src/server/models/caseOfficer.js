@@ -221,6 +221,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       cascade: true
     });
+    CaseOfficer.belongsTo(models.cases, {
+      foreignKey: {
+        name: "caseId",
+        field: "case_id"
+      }
+    })
   };
 
   CaseOfficer.auditDataChange();
