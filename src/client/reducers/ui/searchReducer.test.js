@@ -1,5 +1,6 @@
 import searchReducer from "./searchReducer";
 import {
+  searchCleared,
   searchFailed,
   searchInitiated,
   searchSuccess
@@ -55,6 +56,20 @@ describe("searchReducer", () => {
         spinnerVisible: true
       };
       const newState = searchReducer(initialState, searchFailed());
+      expect(newState).toEqual({
+        searchResults: [],
+        spinnerVisible: false
+      });
+    });
+  });
+
+  describe("SEARCH_CLEARED", () => {
+    test("clear search results, hide spinner", () => {
+      const initialState = {
+        searchResults: [{ firstName: "someone" }],
+        spinnerVisible: true
+      };
+      const newState = searchReducer(initialState, searchCleared());
       expect(newState).toEqual({
         searchResults: [],
         spinnerVisible: false

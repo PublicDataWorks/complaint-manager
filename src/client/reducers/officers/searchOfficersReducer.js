@@ -2,6 +2,7 @@ import {
   SEARCH_SUCCESS,
   SEARCH_FAILED,
   SEARCH_INITIATED,
+  SEARCH_CLEARED,
   OFFICER_SELECTED,
   CLEAR_SELECTED_OFFICER,
   UNKNOWN_OFFICER_SELECTED,
@@ -20,6 +21,10 @@ const searchOfficersReducer = (state = initialState, action) => {
       return {
         selectedOfficerData: null,
         officerCurrentlySelected: false
+      };
+    case SEARCH_CLEARED:
+      return {
+        ...state
       };
     case OFFICER_SELECTED:
       return {

@@ -1,4 +1,5 @@
 import {
+  SEARCH_CLEARED,
   SEARCH_FAILED,
   SEARCH_INITIATED,
   SEARCH_SUCCESS
@@ -16,4 +17,8 @@ export const searchSuccess = (searchResults, newPage) => ({
 
 export const searchFailed = () => ({
   type: SEARCH_FAILED
+});
+
+export const searchCleared = () => ({
+  type: SEARCH_CLEARED
 });

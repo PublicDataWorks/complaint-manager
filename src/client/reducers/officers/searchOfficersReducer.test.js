@@ -6,6 +6,7 @@ import {
   selectUnknownOfficer
 } from "../../actionCreators/officersActionCreators";
 import {
+  searchCleared,
   searchFailed,
   searchInitiated,
   searchSuccess
@@ -58,6 +59,21 @@ describe("searchOfficersReducer", () => {
       expect(newState).toEqual({
         selectedOfficerData: null,
         officerCurrentlySelected: false
+      });
+    });
+  });
+
+  describe("SEARCH_CLEARED", () => {
+    test("retain selected officer when search cleared", () => {
+      const officer = { firstName: "selected", lastName: "officer" };
+      const initialState = {
+        selectedOfficerData: officer,
+        officerCurrentlySelected: true
+      };
+      const newState = searchOfficersReducer(initialState, searchCleared());
+      expect(newState).toEqual({
+        selectedOfficerData: officer,
+        officerCurrentlySelected: true
       });
     });
   });
