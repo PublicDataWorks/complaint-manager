@@ -1,12 +1,5 @@
-import React, { Fragment } from "react";
-import {
-  Divider,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  Typography,
-  IconButton,
-  Icon
-} from "@material-ui/core";
+import React from "react";
+import {Divider, ExpansionPanel, ExpansionPanelSummary, Icon, IconButton, Typography} from "@material-ui/core";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
 import formatDate from "../../../utilities/formatDate";
@@ -26,6 +19,7 @@ const OfficerPanel = ({ dispatch, caseOfficer, children }) => (
       data-test="officerPanel"
       elevation={0}
       onChange={(event, expanded) => {
+        console.log(caseOfficer.id)
         expanded
           ? dispatch(accusedOfficerPanelExpanded(caseOfficer.id))
           : dispatch(accusedOfficerPanelCollapsed(caseOfficer.id));

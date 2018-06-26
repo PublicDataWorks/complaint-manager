@@ -12,13 +12,23 @@ import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansion
 import { ACCUSED } from "../../../../sharedUtilities/constants";
 import styles from "../../../globalStyling/styles";
 import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
+import {
+  accusedOfficerPanelCollapsed,
+  accusedOfficerPanelExpanded
+} from "../../../actionCreators/accusedOfficerPanelsActionCreators";
+import {connect} from "react-redux"
 
-const UnknownOfficerPanel = ({ caseOfficer, children }) => {
+const UnknownOfficerPanel = ({ dispatch, caseOfficer, children }) => {
   return (
     <div>
       <ExpansionPanel
         data-test="unknownOfficerPanel"
         elevation={0}
+        onChange={(event, expanded) => {
+          expanded
+            ? dispatch(accusedOfficerPanelExpanded(caseOfficer.id))
+            : dispatch(accusedOfficerPanelCollapsed(caseOfficer.id));
+        }}
         style={{ backgroundColor: "white" }}
       >
         <ExpansionPanelSummary style={{ padding: "0px 24px" }}>
@@ -62,6 +72,7 @@ const UnknownOfficerPanel = ({ caseOfficer, children }) => {
               </Typography>
               {caseOfficer.allegations.length > 0 ? (
                 <OfficerAllegationsDisplay
+                  officerId={caseOfficer.id}
                   officerAllegations={caseOfficer.allegations}
                 />
               ) : (
@@ -77,4 +88,4 @@ const UnknownOfficerPanel = ({ caseOfficer, children }) => {
   );
 };
 
-export default UnknownOfficerPanel;
+export default connect()(UnknownOfficerPanel);
