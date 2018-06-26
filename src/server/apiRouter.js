@@ -1,6 +1,6 @@
-const { EXPORT_AUDIT_LOG } = require("../sharedUtilities/constants");
+const { USER_PERMISSIONS } = require("../sharedUtilities/constants");
 const createCase = require("./handlers/cases/createCase");
-const changeStatus = require('./handlers/cases/changeStatus/changeStatus')
+const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
 const editCase = require("./handlers/cases/editCase");
 const getCases = require("./handlers/cases/getCases");
 const getCase = require("./handlers/cases/getCase/getCase");
@@ -74,7 +74,11 @@ router.put("/civilian/:id", editCivilian);
 router.post("/audit", audit);
 router.post("/users", createUser);
 router.get("/users", getUsers);
-router.get("/export-audit-log", jwtAuthz([EXPORT_AUDIT_LOG]), exportAuditLog);
+router.get(
+  "/export-audit-log",
+  jwtAuthz([USER_PERMISSIONS.EXPORT_AUDIT_LOG]),
+  exportAuditLog
+);
 
 router.get("/officers/search", searchOfficers);
 router.get("/allegations/search", searchAllegations);

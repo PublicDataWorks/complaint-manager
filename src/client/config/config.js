@@ -9,8 +9,7 @@ export default {
       audience: "https://noipm-staging.herokuapp.com/",
       responseType: "token id_token",
       scope: "openid profile",
-      nicknameKey: "https://noipm-staging.herokuapp.com/nickname",
-      rolesKey: "https://noipm-staging.herokuapp.com/roles"
+      nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
     },
     hostname: ""
   },
@@ -22,8 +21,7 @@ export default {
       audience: "https://noipm-staging.herokuapp.com/",
       responseType: "token id_token",
       scope: "openid profile",
-      nicknameKey: "https://noipm-staging.herokuapp.com/nickname",
-      rolesKey: "https://noipm-staging.herokuapp.com/roles"
+      nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
     },
     hostname: ""
   },
@@ -35,8 +33,7 @@ export default {
       audience: "test audience",
       responseType: "token id_token",
       scope: "openid profile read:cases",
-      nicknameKey: "https://noipm-staging.herokuapp.com/nickname",
-      rolesKey: "https://noipm-staging.herokuapp.com/roles"
+      nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
     },
     hostname: "http://localhost"
   },
@@ -48,8 +45,7 @@ export default {
       audience: "https://noipm-staging.herokuapp.com/",
       responseType: "token id_token",
       scope: "openid profile",
-      nicknameKey: "https://noipm-staging.herokuapp.com/nickname",
-      rolesKey: "https://noipm-staging.herokuapp.com/roles"
+      nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
     },
     hostname: ""
   },
@@ -61,8 +57,7 @@ export default {
       audience: "https://noipm-production.herokuapp.com/",
       responseType: "token id_token",
       scope: "openid profile",
-      nicknameKey: "https://noipm-production.herokuapp.com/nickname",
-      rolesKey: "https://noipm-production.herokuapp.com/roles",
+      nicknameKey: "https://noipm-production.herokuapp.com/nickname"
     },
     hostname: ""
   }

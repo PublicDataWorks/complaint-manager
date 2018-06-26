@@ -8,7 +8,10 @@ import tableStyleGenerator from "../../tableStyles";
 import DisplayComplainant from "./DisplayComplainant";
 import DisplayAccusedOfficer from "./DisplayAccusedOfficer";
 import colors from "../../globalStyling/colors";
-import {CASE_STATUS, USER_ROLES} from "../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  USER_PERMISSIONS
+} from "../../../sharedUtilities/constants";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).body
@@ -28,7 +31,7 @@ const CaseRow = ({ classes, caseDetails, currentUser }) => (
       <div>{caseDetails.id}</div>
     </TableCell>
     <TableCell data-test="caseStatus" className={classes.cell}>
-      {currentUser.roles.includes(USER_ROLES.DEPUTY_POLICE_MONITOR)
+      {currentUser.permissions.includes(USER_PERMISSIONS.UPDATE_CASE_STATUS)
         ? formatCaseStatusForDPM(caseDetails.status)
         : caseDetails.status}
     </TableCell>

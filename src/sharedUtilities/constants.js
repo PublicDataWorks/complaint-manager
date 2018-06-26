@@ -79,7 +79,10 @@ const ALLEGATION_SEARCH_FORM_NAME = "AllegationSearchForm";
 //          Auth0 Scopes / Permissions
 // ----------------------------------------
 
-const EXPORT_AUDIT_LOG = "export:audit_log";
+const USER_PERMISSIONS = {
+  EXPORT_AUDIT_LOG: "export:audit-log",
+  UPDATE_CASE_STATUS: "update:case-status"
+};
 const OPENID = "openid";
 const PROFILE = "profile";
 
@@ -162,15 +165,6 @@ const CASE_STATUS_MAP = {
 };
 
 // ----------------------------------------
-//          User
-// ----------------------------------------
-
-const USER_ROLES = {
-  DEPUTY_POLICE_MONITOR: "Deputy-Police-Monitor",
-  COMPLAINT_INTAKE_SPECIALIST: "Complaint-Intake-Specialist"
-};
-
-// ----------------------------------------
 //          Pagination
 // ----------------------------------------
 const DEFAULT_PAGINATION_LIMIT = 20;
@@ -179,8 +173,8 @@ const DEFAULT_PAGINATION_LIMIT = 20;
 //           UI
 // ------------------------------------------
 const OFFICER_PANEL_DATA_CLEARED = "OFFICER_PANEL_DATA_CLEARED";
-const ACCUSED_OFFICER_PANEL_COLLAPSED = "ACCUSED_OFFICER_PANEL_COLLAPSED"
-const ACCUSED_OFFICER_PANEL_EXPANDED = "ACCUSED_OFFICER_PANEL_EXPANDED"
+const ACCUSED_OFFICER_PANEL_COLLAPSED = "ACCUSED_OFFICER_PANEL_COLLAPSED";
+const ACCUSED_OFFICER_PANEL_EXPANDED = "ACCUSED_OFFICER_PANEL_EXPANDED";
 
 module.exports = {
   LOCAL_DEV_PORT,
@@ -221,7 +215,7 @@ module.exports = {
   SNACKBAR_SUCCESS,
   CIVILIAN_FORM_NAME,
   ALLEGATION_SEARCH_FORM_NAME,
-  EXPORT_AUDIT_LOG,
+  USER_PERMISSIONS,
   SEARCH_SUCCESS,
   SEARCH_INITIATED,
   SEARCH_FAILED,
@@ -255,7 +249,6 @@ module.exports = {
   ACCUSED,
   WITNESS,
   COMPLAINANT,
-  USER_ROLES,
   CASE_STATUS,
   CASE_STATUS_MAP,
   ACCUSED_OFFICER_PANEL_COLLAPSED,

@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 import { mockLocalStorage } from "../../../../mockLocalStorage";
 import { containsText } from "../../../../testHelpers";
 import { userAuthSuccess } from "../../../auth/actionCreators";
-import { EXPORT_AUDIT_LOG } from "../../../../sharedUtilities/constants";
+import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
 
 describe("NavBar", () => {
   let wrapper, store;
@@ -84,7 +84,7 @@ describe("NavBar", () => {
     test("should open and close menu and see dialog box when click on Export System Log when have export permissions", () => {
       const userInfo = {
         nickname: "whatever",
-        permissions: [EXPORT_AUDIT_LOG]
+        permissions: [USER_PERMISSIONS.EXPORT_AUDIT_LOG]
       };
 
       store.dispatch(userAuthSuccess(userInfo));

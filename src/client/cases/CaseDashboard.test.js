@@ -10,7 +10,7 @@ import { mockLocalStorage } from "../../mockLocalStorage";
 import { getCasesSuccess } from "../actionCreators/casesActionCreators";
 import Case from "../testUtilities/case";
 import getCases from "./thunks/getCases";
-import {userAuthSuccess} from "../auth/actionCreators";
+import { userAuthSuccess } from "../auth/actionCreators";
 
 jest.mock("./thunks/getCases", () => () => ({
   type: "MOCK_GET_CASES_THUNK"
@@ -30,7 +30,6 @@ describe("CaseDashboard", () => {
     cases = [newCase, newCase2];
 
     store = createConfiguredStore();
-    store.dispatch(userAuthSuccess({roles:[]}))
     store.dispatch(getCasesSuccess(cases));
     store.dispatch(openSnackbar());
 

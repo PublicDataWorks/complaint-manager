@@ -8,7 +8,7 @@ import Case from "../client/testUtilities/case";
 import Attachment from "../client/testUtilities/attachment";
 import { civilianWithAddress } from "../client/testUtilities/ObjectMothers";
 import Address from "../client/testUtilities/Address";
-import {CASE_STATUS, EXPORT_AUDIT_LOG} from "../sharedUtilities/constants";
+import { CASE_STATUS, USER_PERMISSIONS } from "../sharedUtilities/constants";
 import AWS from "aws-sdk";
 import {
   buildTokenWithPermissions,
@@ -829,7 +829,7 @@ describe("server", () => {
 
     test("should return audit log csv when user has token with export permissions", async () => {
       const tokenWithExportPermission = buildTokenWithPermissions(
-        EXPORT_AUDIT_LOG,
+        USER_PERMISSIONS.EXPORT_AUDIT_LOG,
         "nickname"
       );
       await request(app)
