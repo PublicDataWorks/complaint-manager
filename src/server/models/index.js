@@ -6,6 +6,7 @@ var env = process.env.NODE_ENV || "development";
 var config = require(__dirname + "/../config/sequelize_config.js")[env];
 var db = {};
 var dataChangeAuditHooks = require("../sequelizeHooks/dataChangeAuditHooks");
+var caseStatusHooks = require("../sequelizeHooks/caseStatusHooks");
 
 if (config.use_env_variable) {
   var sequelize = new Sequelize(process.env[config.use_env_variable], config);
@@ -18,6 +19,7 @@ if (config.use_env_variable) {
   );
 }
 dataChangeAuditHooks.init(sequelize);
+caseStatusHooks.init(sequelize);
 
 fs
   .readdirSync(__dirname)

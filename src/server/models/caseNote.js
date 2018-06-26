@@ -43,15 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
-      paranoid: true,
-      hooks: {
-        afterCreate: async (instance, options) => {
-          await instance.sequelize.models["cases"].update(
-            {},
-            { where: { id: instance.caseId }, auditUser: options.auditUser }
-          );
-        }
-      }
+      paranoid: true
     }
   );
 
@@ -74,6 +66,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   CaseNote.auditDataChange();
+  CaseNote.updateCaseStatusAfterCreate();
 
   return CaseNote;
 };

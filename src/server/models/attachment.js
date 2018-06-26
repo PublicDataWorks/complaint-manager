@@ -17,15 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       field: "updated_at",
       type: DataTypes.DATE
     }
-  },{
-    hooks:{
-      afterCreate: async (instance, options) =>{
-        await instance.sequelize.models["cases"].update(
-          {},
-          { where: { id: instance.caseId }, auditUser: options.auditUser }
-        );
-      }
-    }
   });
 
   Attachment.prototype.modelDescription = async function(transaction) {
@@ -43,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Attachment.auditDataChange();
+  Attachment.updateCaseStatusAfterCreate();
 
   return Attachment;
 };

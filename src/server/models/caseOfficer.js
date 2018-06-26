@@ -175,14 +175,6 @@ module.exports = (sequelize, DataTypes) => {
 
           return "";
         }
-      },
-      hooks: {
-        afterCreate: async (instance, options) => {
-          await instance.sequelize.models["cases"].update(
-            {},
-            { where: { id: instance.caseId }, auditUser: options.auditUser }
-          );
-        }
       }
     }
   );
@@ -222,7 +214,7 @@ module.exports = (sequelize, DataTypes) => {
 
   CaseOfficer.associate = models => {
     CaseOfficer.hasMany(models.officer_allegation, {
-      as: 'allegations',
+      as: "allegations",
       foreignKey: {
         name: "caseOfficerId",
         field: "case_officer_id"
@@ -232,6 +224,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   CaseOfficer.auditDataChange();
+  CaseOfficer.updateCaseStatusAfterCreate();
 
   return CaseOfficer;
 };

@@ -96,26 +96,6 @@ module.exports = (sequelize, DataTypes) => {
             ""
           );
         }
-      },
-      hooks: {
-        afterCreate: async (instance, options) => {
-          await instance.sequelize.models["cases"].update(
-            {},
-            { where: { id: instance.caseId }, auditUser: options.auditUser }
-          );
-        },
-        afterDestroy: async (instance, options) => {
-          await instance.sequelize.models["cases"].update(
-            {},
-            { where: { id: instance.caseId }, auditUser: options.auditUser }
-          );
-        },
-        afterUpdate: async (instance, options) => {
-          await instance.sequelize.models["cases"].update(
-            {},
-            { where: { id: instance.caseId }, auditUser: options.auditUser }
-          );
-        }
       }
     }
   );
@@ -141,6 +121,9 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Civilian.auditDataChange();
+  Civilian.updateCaseStatusAfterCreate();
+  Civilian.updateCaseStatusAfterUpdate();
+  Civilian.updateCaseStatusAfterDestroy();
 
   return Civilian;
 };
