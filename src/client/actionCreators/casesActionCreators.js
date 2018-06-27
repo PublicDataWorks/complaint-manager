@@ -28,7 +28,8 @@ import {
   EDIT_CASE_NOTE_SUCCEEDED,
   UPDATE_CASE_STATUS_SUCCESS,
   CASE_STATUS_UPDATE_DIALOG_OPENED,
-  CASE_STATUS_UPDATE_DIALOG_CLOSED
+  CASE_STATUS_UPDATE_DIALOG_CLOSED,
+  UPDATE_ALLEGATION_DETAILS_SUCCEEDED
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = caseDetails => ({
@@ -188,6 +189,11 @@ export const removeCaseNoteSuccess = currentCase => ({
 export const removeCaseNoteFailure = () => ({
   type: REMOVE_CASE_NOTE_FAILED
 });
+
+export const updateAllegationDetailsSuccess = caseDetails => ({
+  type: UPDATE_ALLEGATION_DETAILS_SUCCEEDED,
+  caseDetails
+})
 
 export const openRemovePersonDialog = (personDetails, personType) => {
   let optionalText, personTypeTitleDisplay;
