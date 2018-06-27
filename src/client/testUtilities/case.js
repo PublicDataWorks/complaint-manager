@@ -3,7 +3,12 @@ import Attachment from "./attachment";
 import Address from "./Address";
 import CaseOfficer from "./caseOfficer";
 import Officer from "./Officer";
-import {ACCUSED, CASE_STATUS, COMPLAINANT, WITNESS} from "../../sharedUtilities/constants";
+import {
+  ACCUSED,
+  CASE_STATUS,
+  COMPLAINANT,
+  WITNESS
+} from "../../sharedUtilities/constants";
 
 class Case {
   constructor(build) {
@@ -102,6 +107,7 @@ class Case {
         this.incidentDate = "2017-01-01";
         this.incidentTime = "16:00:00";
         this.incidentLocation = incidentLocation;
+        this.district = "First District";
         this.complainantType = "Civilian";
         this.createdBy = "tuser";
         this.assignedTo = "tuser";

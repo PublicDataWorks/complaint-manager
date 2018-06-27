@@ -31,6 +31,7 @@ const getAllegations = require("./handlers/allegations/getAllegations");
 const attachmentRouter = require("./attachmentRouter");
 const createOfficerAllegation = require("./handlers/officerAllegations/createOfficerAllegation/createOfficerAllegation");
 const editOfficerAllegation = require("./handlers/officerAllegations/editOfficerAllegation/editOfficerAllegation")
+const exportCases = require("./handlers/cases/export/exportCases");
 const express = require("express");
 const router = express.Router();
 
@@ -39,6 +40,8 @@ router.use(verifyUserInfo);
 router.use(authErrorHandler);
 
 //Any routes defined below this point will require authentication
+
+router.get("/cases/export", exportCases);
 router.post("/cases", createCase);
 router.get("/cases", getCases);
 router.get("/cases/:id", getCase);

@@ -1,13 +1,20 @@
 import React from "react";
-import {Divider, ExpansionPanel, ExpansionPanelSummary, Icon, IconButton, Typography} from "@material-ui/core";
+import {
+  Divider,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  Icon,
+  IconButton,
+  Typography
+} from "@material-ui/core";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
 import formatDate from "../../../utilities/formatDate";
 import OfficerNameDisplay from "./OfficerNameDisplay";
 import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
 import styles from "../../../globalStyling/styles";
-import {ACCUSED} from "../../../../sharedUtilities/constants";
-import {connect} from "react-redux";
+import { ACCUSED } from "../../../../sharedUtilities/constants";
+import { connect } from "react-redux";
 import {
   accusedOfficerPanelCollapsed,
   accusedOfficerPanelExpanded
@@ -19,7 +26,6 @@ const OfficerPanel = ({ dispatch, caseOfficer, children }) => (
       data-test="officerPanel"
       elevation={0}
       onChange={(event, expanded) => {
-        console.log(caseOfficer.id)
         expanded
           ? dispatch(accusedOfficerPanelExpanded(caseOfficer.id))
           : dispatch(accusedOfficerPanelCollapsed(caseOfficer.id));
@@ -119,7 +125,7 @@ const OfficerPanel = ({ dispatch, caseOfficer, children }) => (
         caseOfficer.roleOnCase === ACCUSED && (
           <div
             style={{
-              marginLeft: '64px'
+              marginLeft: "64px"
             }}
           >
             <Typography

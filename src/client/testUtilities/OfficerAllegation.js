@@ -18,7 +18,7 @@ class OfficerAllegation {
         return this;
       }
 
-      withId(id){
+      withId(id) {
         this.id = id;
         return this;
       }
