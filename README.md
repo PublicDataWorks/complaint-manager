@@ -67,7 +67,7 @@ docker-compose up app
 Run all tests in `src/client` in parallel:
 
 ```bash
-docker-compose run app test:client
+docker-compose run app yarn test:client
 ```
 
 #### Running server side tests in watch mode:
@@ -75,13 +75,13 @@ docker-compose run app test:client
 Set up a test DB and run all tests in `src/server` sequentially:
 
 ```bash
-docker-compose run app test:server
+docker-compose run app yarn test:server
 ```
 
 #### Running all tests (no watch mode)
 
 ```bash
-docker-compose run app test:once
+docker-compose run app yarn test:once
 ```
 
 ### Run the end-to-end tests locally:

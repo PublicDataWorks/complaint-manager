@@ -14,12 +14,13 @@ services:
     depends_on:
       - db
       - email
-    command: start
     ports:
       - "1234:1234"
       - "3000:3000"
+    entrypoint: ["./wait-for-it.sh","db:5432", "--"]
+    command: ["yarn", "start"]
     volumes:
-      - "./src:/app/src"
+      - ./src:/app/src
   db:
     image: postgres:10.1-alpine
     environment:
