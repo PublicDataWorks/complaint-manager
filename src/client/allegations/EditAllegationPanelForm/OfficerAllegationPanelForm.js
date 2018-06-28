@@ -114,6 +114,7 @@ class OfficerAllegationPanelForm extends React.Component {
           ) : (
             renderDetailsView(details)
           )}
+          <div style={{ minWidth: "88px" }} />
         </ExpansionPanelDetails>
       </ExpansionPanel>
     );
