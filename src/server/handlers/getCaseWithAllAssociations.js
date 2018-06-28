@@ -52,8 +52,7 @@ const getCaseWithAllAssociations = async (caseId, transaction = null) => {
           as: "allegations",
           include: [models.allegation]
         },
-        "createdAt",
-        "DESC"
+        "createdAt"
       ]
     ]
   });
