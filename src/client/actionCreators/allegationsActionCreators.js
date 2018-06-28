@@ -1,5 +1,8 @@
 import {
   ADD_OFFICER_ALLEGATION_SUCCEEDED,
+  EDIT_ALLEGATION_FORM_CLOSED,
+  EDIT_ALLEGATION_FORM_DATA_CLEARED,
+  EDIT_ALLEGATION_FORM_OPENED,
   GET_ALLEGATIONS_FAILED,
   GET_ALLEGATIONS_SUCCEEDED
 } from "../../sharedUtilities/constants";
@@ -17,3 +20,19 @@ export const createOfficerAllegationSuccess = caseDetails => ({
   type: ADD_OFFICER_ALLEGATION_SUCCEEDED,
   caseDetails
 });
+
+export const openEditAllegationForm = allegationId => ({
+  type: EDIT_ALLEGATION_FORM_OPENED,
+  allegationId
+})
+
+export const closeEditAllegationForm = allegationId => {
+  return {
+    type: EDIT_ALLEGATION_FORM_CLOSED,
+    allegationId
+  }
+}
+
+export const clearEditAllegationFormData = () => ({
+  type: EDIT_ALLEGATION_FORM_DATA_CLEARED
+})

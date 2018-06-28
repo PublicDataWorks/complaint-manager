@@ -190,8 +190,9 @@ export const removeCaseNoteFailure = () => ({
   type: REMOVE_CASE_NOTE_FAILED
 });
 
-export const updateAllegationDetailsSuccess = caseDetails => ({
+export const updateAllegationDetailsSuccess = (allegationId, caseDetails) => ({
   type: UPDATE_ALLEGATION_DETAILS_SUCCEEDED,
+  allegationId,
   caseDetails
 })
 

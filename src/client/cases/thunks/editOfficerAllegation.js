@@ -28,7 +28,7 @@ const editOfficerAllegation = allegation => async(dispatch) => {
       return dispatch(push('/login'))
     case 200:
       const responseBody = await response.json()
-      dispatch(updateAllegationDetailsSuccess(responseBody))
+      dispatch(updateAllegationDetailsSuccess(allegation.id, responseBody))
       return dispatch(snackbarSuccess("Allegation successfully updated"))
     default:
       return dispatch(snackbarError("Something went wrong on our end and the allegation was not updated."))

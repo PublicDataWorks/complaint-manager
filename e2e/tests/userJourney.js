@@ -328,10 +328,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         )
         .pause(500)
         .click('[data-test="allegationSearchSubmitButton"]')
-        .waitForElementVisible(
-          '[data-test="selectAllegationButton"]',
-          5000
-        )
+        .waitForElementVisible('[data-test="selectAllegationButton"]', 5000)
         .click('[data-test="selectAllegationButton"]')
         .setValue(
           '[data-test="allegationDetailsInput"]',
@@ -343,7 +340,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         )
         .click('[data-test="addAllegationButton"]')
         .waitForElementVisible('[data-test="officerAllegation0"]', rerenderWait)
-        .click('[data-test="back-to-case-link"]')
+        .click('[data-test="back-to-case-link"]');
     },
 
     "should not see officer on case when removed": browser => {

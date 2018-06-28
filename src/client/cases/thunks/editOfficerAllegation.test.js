@@ -56,7 +56,7 @@ describe("editOfficerAllegation thunk", () => {
     await editOfficerAllegation(allegationChanges)(mockDispatch);
 
     expect(mockDispatch).toHaveBeenCalledWith(snackbarSuccess("Allegation successfully updated"));
-    expect(mockDispatch).toHaveBeenCalledWith(updateAllegationDetailsSuccess(updatedCase));
+    expect(mockDispatch).toHaveBeenCalledWith(updateAllegationDetailsSuccess(allegationChanges.id, updatedCase));
   })
 
   test("should dispatch failure when officer allegation does not exist", async() => {
