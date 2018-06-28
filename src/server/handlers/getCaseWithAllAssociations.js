@@ -40,7 +40,22 @@ const getCaseWithAllAssociations = async (caseId, transaction = null) => {
         as: "witnessOfficers"
       }
     ],
-    transaction: transaction
+    transaction: transaction,
+    order: [
+      [
+        {
+          model: models.case_officer,
+          as: "accusedOfficers"
+        },
+        {
+          model: models.officer_allegation,
+          as: "allegations",
+          include: [models.allegation]
+        },
+        "createdAt",
+        "DESC"
+      ]
+    ]
   });
 };
 

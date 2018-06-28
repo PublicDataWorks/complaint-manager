@@ -1,7 +1,6 @@
 import React from "react";
 import { CardContent, Typography } from "@material-ui/core";
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
-import _ from "lodash";
 import AccusedOfficerPanel from "./OfficerPanel";
 import UnknownOfficerPanel from "./UnknownOfficerPanel";
 import ManageOfficerMenu from "./ManageOfficerMenu";
@@ -13,7 +12,7 @@ const AccusedOfficers = ({ accusedOfficers }) => {
       <CardContent style={{ padding: "0" }}>
         {!accusedOfficers || accusedOfficers.length === 0
           ? renderNoOfficers()
-          : _.orderBy(accusedOfficers, ["createdAt"], "asc").map(
+          : accusedOfficers.map(
               caseOfficer =>
                 caseOfficer.isUnknownOfficer ? (
                   <UnknownOfficerPanel
