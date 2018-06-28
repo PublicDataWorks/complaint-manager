@@ -35,7 +35,6 @@ class Civilian {
 
         this.id = id;
         this.caseId = 17;
-        this.createdAt = "2018-04-26";
         this.firstName = "Chuck";
         this.middleInitial = "E";
         this.lastName = "Berry";

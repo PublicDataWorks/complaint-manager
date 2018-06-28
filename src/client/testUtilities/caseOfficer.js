@@ -105,7 +105,7 @@ class CaseOfficer {
         this.windowsUsername = officer.windowsUsername;
         this.rank = officer.rank;
         this.race = officer.race;
-        this.sex = officer.sex;
+        this.sex = officer.gender;
         this.dob = officer.dob;
         this.bureau = officer.bureau;
         this.district = officer.district;
@@ -137,9 +137,9 @@ class CaseOfficer {
         return this;
       }
 
-      withOfficerAllegations (officerAllegations) {
-        this.allegations = officerAllegations
-        return this
+      withOfficerAllegations(officerAllegations) {
+        this.allegations = officerAllegations;
+        return this;
       }
 
       withRoleOnCase(roleOnCase) {

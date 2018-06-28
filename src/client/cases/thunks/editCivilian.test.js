@@ -19,7 +19,10 @@ jest.mock("../../actionCreators/casesActionCreators", () => ({
 
 describe("edit civilian thunk", () => {
   const dispatch = jest.fn();
-  const civilian = new Civilian.Builder().defaultCivilian().build();
+  const civilian = new Civilian.Builder()
+    .defaultCivilian()
+    .withCreatedAt("some time")
+    .build();
   const responseCivilians = [civilian];
   const responseBody = {};
 

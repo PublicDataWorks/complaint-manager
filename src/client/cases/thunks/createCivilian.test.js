@@ -27,7 +27,10 @@ jest.mock("../../actionCreators/casesActionCreators", () => ({
 
 describe("civilian creation", function() {
   const dispatch = jest.fn();
-  const civilian = new Civilian.Builder().defaultCivilian().build();
+  const civilian = new Civilian.Builder()
+    .defaultCivilian()
+    .withCreatedAt("sometime")
+    .build();
 
   beforeEach(() => {
     dispatch.mockClear();

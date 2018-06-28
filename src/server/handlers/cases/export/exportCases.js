@@ -41,12 +41,28 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
       "incident_time"
     ],
     "district",
-    "complainant_type"
+    "complainant_type",
+    "narrative_summary",
+    "narrative_details"
+    // [
+    //   models.sequelize.literal(
+    //     '(SELECT COUNT("witnessCivilians1".*) ' +
+    //       'FROM "civilians" AS "witnessCivilians1" ' +
+    //       'WHERE "witnessCivilians1"."role_on_case" = \'Witness\'' +
+    //       'AND "cases1"."id" = "witnessCivilians1"."case_id")'
+    //   ),
+    //   "witnessCount"
+    // ]
   ];
 
   const cases = await models.cases.findAll({
     attributes: attributesWithAliases,
     raw: true,
+    order: [
+      [models.sequelize.col("cases.created_at"), "ASC"],
+      [models.sequelize.col("complainantCivilians.created_at"), "ASC"],
+      [models.sequelize.col("accusedOfficers.created_at"), "ASC"]
+    ],
     include: [
       {
         model: models.address,
@@ -100,6 +116,65 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
             ]
           }
         ]
+      },
+      {
+        model: models.case_officer,
+        order: [["created_at", "ASC"]],
+        as: "accusedOfficers",
+        attributes: [
+          [
+            models.sequelize.fn(
+              "concat_ws",
+              " ",
+              models.sequelize.col("accusedOfficers.first_name"),
+              models.sequelize.col("accusedOfficers.middle_name"),
+              models.sequelize.col("accusedOfficers.last_name")
+            ),
+            "full_name"
+          ],
+          "windows_username",
+          "rank",
+          [
+            models.sequelize.fn(
+              "concat_ws",
+              " ",
+              models.sequelize.col("accusedOfficers.supervisor_first_name"),
+              models.sequelize.col("accusedOfficers.supervisor_middle_name"),
+              models.sequelize.col("accusedOfficers.supervisor_last_name")
+            ),
+            "supervisor_full_name"
+          ],
+          "supervisor_windows_username",
+          "employee_type",
+          "district",
+          "bureau",
+          "work_status",
+          [
+            models.sequelize.fn(
+              "to_char",
+              models.sequelize.col("accusedOfficers.hire_date"),
+              "MM/DD/YYYY"
+            ),
+            "hire_date"
+          ],
+          [
+            models.sequelize.fn(
+              "to_char",
+              models.sequelize.col("accusedOfficers.end_date"),
+              "MM/DD/YYYY"
+            ),
+            "end_date"
+          ],
+          "race",
+          "sex",
+          [
+            models.sequelize.literal(
+              'date_part(\'year\', age("accusedOfficers"."dob"))'
+            ),
+            "age"
+          ],
+          "notes"
+        ]
       }
     ]
   });
@@ -131,7 +206,27 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "complainantCivilians.address.zip_code": "Complainant Zip Code",
     "complainantCivilians.address.street_address2":
       "Additional Address Information (complainant)",
-    "complainantCivilians.additional_info": "Notes (complainant)"
+    "complainantCivilians.additional_info": "Notes (complainant)",
+    witnessCount: "Number of Witnesses",
+    witnessNames: "Witnesses",
+    narrative_summary: "Narrative Summary",
+    narrative_details: "Narrative Details",
+    "accusedOfficers.full_name": "Accused Officer (Name)",
+    "accusedOfficers.windows_username": "Officer Windows Username",
+    "accusedOfficers.rank": "Rank/Title",
+    "accusedOfficers.supervisor_full_name": "Supervisor Name",
+    "accusedOfficers.supervisor_windows_username":
+      "Supervisor Windows Username",
+    "accusedOfficers.employee_type": "Employee Type",
+    "accusedOfficers.district": "District",
+    "accusedOfficers.bureau": "Bureau",
+    "accusedOfficers.work_status": "Status",
+    "accusedOfficers.hire_date": "Hire Date",
+    "accusedOfficers.end_date": "End of Employment",
+    "accusedOfficers.race": "Race",
+    "accusedOfficers.sex": "Sex",
+    "accusedOfficers.age": "Age",
+    "accusedOfficers.notes": "Notes"
   };
 
   const csvOptions = {
