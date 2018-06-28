@@ -43,6 +43,6 @@ exports.config = {
     ]
   },
   error_collector: {
-    ignore_status_codes: [401, 404]
+    ignore_status_codes: [401]
   }
 };
