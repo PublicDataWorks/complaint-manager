@@ -83,7 +83,7 @@ const ALLEGATION_SEARCH_FORM_NAME = "AllegationSearchForm";
 
 const USER_PERMISSIONS = {
   EXPORT_AUDIT_LOG: "export:audit-log",
-  UPDATE_CASE_STATUS: "update:case-status"
+  CAN_REVIEW_CASE: "update:case-status"
 };
 const OPENID = "openid";
 const PROFILE = "profile";

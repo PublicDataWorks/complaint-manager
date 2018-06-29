@@ -31,7 +31,7 @@ const CaseRow = ({ classes, caseDetails, currentUser }) => (
       <div>{caseDetails.id}</div>
     </TableCell>
     <TableCell data-test="caseStatus" className={classes.cell}>
-      {currentUser.permissions.includes(USER_PERMISSIONS.UPDATE_CASE_STATUS)
+      {currentUser.permissions.includes(USER_PERMISSIONS.CAN_REVIEW_CASE)
         ? formatCaseStatusForDPM(caseDetails.status)
         : caseDetails.status}
     </TableCell>

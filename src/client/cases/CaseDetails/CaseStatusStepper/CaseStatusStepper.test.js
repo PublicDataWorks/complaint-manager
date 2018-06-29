@@ -1,11 +1,17 @@
 import CaseStatusStepper from "./CaseStatusStepper";
-import {mount} from "enzyme";
+import { mount } from "enzyme";
 import React from "react";
 import createConfiguredStore from "../../../createConfiguredStore";
-import {Provider} from "react-redux";
-import {getCaseDetailsSuccess, openCaseStatusUpdateDialog} from "../../../actionCreators/casesActionCreators";
-import {CASE_STATUS} from "../../../../sharedUtilities/constants";
-
+import { Provider } from "react-redux";
+import {
+  getCaseDetailsSuccess,
+  openCaseStatusUpdateDialog
+} from "../../../actionCreators/casesActionCreators";
+import {
+  CASE_STATUS,
+  USER_PERMISSIONS
+} from "../../../../sharedUtilities/constants";
+import { userAuthSuccess } from "../../../auth/actionCreators";
 
 describe("CaseStatusStepper", () => {
   test("should set status to Initial", () => {
@@ -92,30 +98,10 @@ describe("CaseStatusStepper", () => {
       .first();
 
     expect(updateStatusButton.exists()).toBeTruthy();
-    expect(updateStatusButton.text()).toEqual(`Mark as ${CASE_STATUS.READY_FOR_REVIEW}`);
+    expect(updateStatusButton.text()).toEqual(
+      `Mark as ${CASE_STATUS.READY_FOR_REVIEW}`
+    );
   });
-
-  test("should not show button if current status is ready for review", () => {
-    const store = createConfiguredStore();
-    store.dispatch(
-      getCaseDetailsSuccess({
-        id: 1,
-        status: CASE_STATUS.READY_FOR_REVIEW,
-      })
-    );
-
-    const wrapper = mount(
-      <Provider store={store}>
-        <CaseStatusStepper />
-      </Provider>
-    );
-
-    const updateStatusButton = wrapper
-      .find('[data-test="updateStatusButton"]')
-      .first();
-
-    expect(updateStatusButton.exists()).toBeFalsy();
-  })
 
   test("should open update status dialog and pass in the next status", () => {
     const store = createConfiguredStore();
@@ -143,5 +129,85 @@ describe("CaseStatusStepper", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(
       openCaseStatusUpdateDialog(CASE_STATUS.READY_FOR_REVIEW)
     );
+  });
+
+  test("should render Forward to Agency if authorized to do so and currently in Ready for Review", () => {
+    const store = createConfiguredStore();
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+
+    store.dispatch(
+      userAuthSuccess({
+        permissions: [USER_PERMISSIONS.CAN_REVIEW_CASE]
+      })
+    );
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <CaseStatusStepper />
+      </Provider>
+    );
+
+    const updateStatusButton = wrapper
+      .find('[data-test="updateStatusButton"]')
+      .first();
+
+    expect(updateStatusButton.exists()).toEqual(true);
+  });
+
+  test("should not render Forward to Agency if not authorized to forward and currently in Ready for Review", () => {
+    const store = createConfiguredStore();
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+
+    store.dispatch(
+      userAuthSuccess({
+        permissions: []
+      })
+    );
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <CaseStatusStepper />
+      </Provider>
+    );
+
+    const updateStatusButton = wrapper
+      .find('[data-test="updateStatusButton"]')
+      .first();
+
+    expect(updateStatusButton.exists()).toEqual(false);
+  });
+
+  test("should not render Forward to Agency if already forwarded", () => {
+    const store = createConfiguredStore();
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <CaseStatusStepper />
+      </Provider>
+    );
+
+    const updateStatusButton = wrapper
+      .find('[data-test="updateStatusButton"]')
+      .first();
+
+    expect(updateStatusButton.exists()).toBeFalsy();
   });
 });
