@@ -14,8 +14,17 @@ import {
 import { userAuthSuccess } from "../../../auth/actionCreators";
 
 describe("CaseStatusStepper", () => {
+  let store;
+  beforeEach(() => {
+    store = createConfiguredStore();
+    store.dispatch(
+      userAuthSuccess({
+        permissions: [USER_PERMISSIONS.CAN_REVIEW_CASE]
+      })
+    );
+  });
+
   test("should set status to Initial", () => {
-    const store = createConfiguredStore();
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
@@ -35,7 +44,6 @@ describe("CaseStatusStepper", () => {
   });
 
   test("should set status to Forwarded To Agency", () => {
-    const store = createConfiguredStore();
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
@@ -55,7 +63,6 @@ describe("CaseStatusStepper", () => {
   });
 
   test("should NOT show a button when a case is initial", () => {
-    const store = createConfiguredStore();
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
@@ -78,7 +85,6 @@ describe("CaseStatusStepper", () => {
   });
 
   test("should show a button when case is active", () => {
-    const store = createConfiguredStore();
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
@@ -104,7 +110,6 @@ describe("CaseStatusStepper", () => {
   });
 
   test("should open update status dialog and pass in the next status", () => {
-    const store = createConfiguredStore();
     const dispatchSpy = jest.spyOn(store, "dispatch");
     store.dispatch(
       getCaseDetailsSuccess({
@@ -132,18 +137,11 @@ describe("CaseStatusStepper", () => {
   });
 
   test("should render Forward to Agency if authorized to do so and currently in Ready for Review", () => {
-    const store = createConfiguredStore();
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
         status: CASE_STATUS.READY_FOR_REVIEW,
         nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
-      })
-    );
-
-    store.dispatch(
-      userAuthSuccess({
-        permissions: [USER_PERMISSIONS.CAN_REVIEW_CASE]
       })
     );
 
@@ -161,7 +159,6 @@ describe("CaseStatusStepper", () => {
   });
 
   test("should not render Forward to Agency if not authorized to forward and currently in Ready for Review", () => {
-    const store = createConfiguredStore();
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
@@ -190,17 +187,10 @@ describe("CaseStatusStepper", () => {
   });
 
   test("should not render Closed if already closed", () => {
-    const store = createConfiguredStore();
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
         status: CASE_STATUS.CLOSED
-      })
-    );
-
-    store.dispatch(
-      userAuthSuccess({
-        permissions: [USER_PERMISSIONS.CAN_REVIEW_CASE]
       })
     );
 
