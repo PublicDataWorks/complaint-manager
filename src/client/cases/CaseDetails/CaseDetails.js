@@ -24,6 +24,7 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import createCivilian from "../thunks/createCivilian";
 import {
+  CASE_STATUS,
   CIVILIAN_FORM_NAME,
   COMPLAINANT,
   TIMEZONE
@@ -35,7 +36,7 @@ import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
 import timezone from "moment-timezone";
 import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
-import {clearOfficerPanelData} from "../../actionCreators/accusedOfficerPanelsActionCreators";
+import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 
 const drawerWidthPercentage = "30%";
 
@@ -66,8 +67,8 @@ class CaseDetails extends React.Component {
     this.props.dispatch(closeCaseNoteDialog());
   }
 
-  componentWillUnmount(){
-    this.props.dispatch(clearOfficerPanelData())
+  componentWillUnmount() {
+    this.props.dispatch(clearOfficerPanelData());
   }
 
   caseDetailsNotYetLoaded() {
@@ -82,6 +83,7 @@ class CaseDetails extends React.Component {
       return null;
     }
 
+    const statusIsClosed = this.props.caseDetail.status === CASE_STATUS.CLOSED;
     const { classes } = this.props;
 
     return (
@@ -100,14 +102,16 @@ class CaseDetails extends React.Component {
               data-test="caseStatusBox"
               variant="caption"
               color="inherit"
-              className={classes.statusBox}
+              className={
+                statusIsClosed ? classes.closedStatusBox : classes.statusBox
+              }
             >
               {this.props.caseDetail.status}
             </Typography>
           </NavBar>
           <CaseDrawer classes={classes} caseDetail={this.props.caseDetail} />
           <main className={classes.content}>
-            <CaseStatusStepper/>
+            <CaseStatusStepper />
             <IncidentDetailsContainer />
             <ComplainantWitnesses
               caseDetail={this.props.caseDetail}
