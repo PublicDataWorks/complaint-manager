@@ -28,7 +28,7 @@ exports.init = sequelize => {
     );
   };
 
-  sequelize.Model.prototype.destroy = async function(options) {
+  sequelize.Model.prototype.destroy = async function(options = {}) {
     return await addTransactionToDestroy(
       originalInstanceDestroy,
       options,
