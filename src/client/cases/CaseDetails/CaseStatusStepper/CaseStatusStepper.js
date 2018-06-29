@@ -21,6 +21,8 @@ const generateSteps = map => {
 };
 
 function shouldRenderStatusTransitionButton(status, userInfo) {
+  if (status === CASE_STATUS.CLOSED) return false;
+
   return (
     status === CASE_STATUS.ACTIVE ||
     (userInfo &&

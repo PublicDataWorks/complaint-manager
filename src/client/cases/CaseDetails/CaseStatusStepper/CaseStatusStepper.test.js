@@ -189,12 +189,18 @@ describe("CaseStatusStepper", () => {
     expect(updateStatusButton.exists()).toEqual(false);
   });
 
-  test("should not render Forward to Agency if already forwarded", () => {
+  test("should not render Closed if already closed", () => {
     const store = createConfiguredStore();
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
-        status: CASE_STATUS.FORWARDED_TO_AGENCY
+        status: CASE_STATUS.CLOSED
+      })
+    );
+
+    store.dispatch(
+      userAuthSuccess({
+        permissions: [USER_PERMISSIONS.CAN_REVIEW_CASE]
       })
     );
 

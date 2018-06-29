@@ -13,6 +13,18 @@ import {
 import { connect } from "react-redux";
 import setCaseStatus from "../../thunks/setCaseStatus";
 import { closeCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+
+const STATUS_DESCRIPTION = {
+  [CASE_STATUS.READY_FOR_REVIEW]:
+    "This status signifies, to the Deputy Police Monitor, that all available information has been entered.",
+  [CASE_STATUS.FORWARDED_TO_AGENCY]:
+    "This status signifies that the case has been sent to the investigation agency.",
+  [CASE_STATUS.CLOSED]:
+    "This status signifies that an outcome has been reached and this case is available for public records."
+  // [CASE_STATUS.CLOSED]: "Marking this case as closed will signify that an outcome has been reached and this case is available for public records. "
+};
+
 const UpdateCaseStatusDialog = ({ dispatch, open, caseId, nextStatus }) => {
   return (
     <Dialog open={open}>
@@ -23,12 +35,13 @@ const UpdateCaseStatusDialog = ({ dispatch, open, caseId, nextStatus }) => {
             marginBottom: "24px"
           }}
         >
-          This action will mark the case as <strong>{nextStatus}</strong>.
-          This status signifies, to the Deputy Police Monitor, that all
-          available information has been entered.
+          This action will mark the case as <strong>{nextStatus}</strong>.&nbsp;{
+            STATUS_DESCRIPTION[nextStatus]
+          }
         </Typography>
         <Typography>
-          Are you sure you want to mark this case as <strong>{nextStatus}</strong>?
+          Are you sure you want to mark this case as{" "}
+          <strong>{nextStatus}</strong>?
         </Typography>
       </DialogContent>
       <DialogActions>

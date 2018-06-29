@@ -10,7 +10,6 @@ import { mockLocalStorage } from "../../mockLocalStorage";
 import { getCasesSuccess } from "../actionCreators/casesActionCreators";
 import Case from "../testUtilities/case";
 import getCases from "./thunks/getCases";
-import { userAuthSuccess } from "../auth/actionCreators";
 
 jest.mock("./thunks/getCases", () => () => ({
   type: "MOCK_GET_CASES_THUNK"
