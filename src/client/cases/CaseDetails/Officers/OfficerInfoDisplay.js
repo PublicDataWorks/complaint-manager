@@ -1,14 +1,15 @@
 import React from "react";
-import {Typography} from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import TextTruncate from "../../../shared/components/TextTruncate";
 
 const OfficerInfoDisplay = ({
   testLabel,
   shouldTruncate = true,
   value,
-  displayLabel
+  displayLabel,
+  style
 }) => (
-  <div style={{ flex: 1, textAlign: "left", marginRight: "16px"}}>
+  <div style={{ flex: 1, textAlign: "left", marginRight: "16px", ...style }}>
     <Typography variant="caption" data-test={`${testLabel}Label`}>
       {displayLabel}
     </Typography>

@@ -25,6 +25,9 @@ const renderDetailsView = details => {
       shouldTruncate={false}
       displayLabel="Allegation Details"
       value={details}
+      style={{
+        marginRight: "32px"
+      }}
     />
   );
 };
