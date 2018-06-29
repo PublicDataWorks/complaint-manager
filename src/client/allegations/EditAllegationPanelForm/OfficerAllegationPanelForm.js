@@ -84,13 +84,13 @@ class OfficerAllegationPanelForm extends React.Component {
       >
         <ExpansionPanelSummary style={{ display: "flex" }}>
           <div style={{ display: "flex", flex: 20 }}>
-            <Typography style={{ flex: 1 }}>
+            <Typography style={{ flex: 1, marginRight: "24px" }}>
               {formatStringToTitleCase(allegation.rule)}
             </Typography>
-            <Typography style={{ flex: 1 }}>
+            <Typography style={{ flex: 1, marginRight: "24px" }}>
               {formatStringToTitleCase(allegation.paragraph)}
             </Typography>
-            <Typography style={{ flex: 1 }}>
+            <Typography style={{ flex: 1, marginRight: "24px" }}>
               {allegation.directive
                 ? formatStringToTitleCase(allegation.directive)
                 : "N/A"}
@@ -117,7 +117,7 @@ class OfficerAllegationPanelForm extends React.Component {
           ) : (
             renderDetailsView(details)
           )}
-          <div style={{ minWidth: "88px" }} />
+          <div style={{ flex: "1" }} />
         </ExpansionPanelDetails>
       </ExpansionPanel>
     );
