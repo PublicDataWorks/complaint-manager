@@ -4,179 +4,98 @@ const models = require("../../../models/index");
 const stringify = require("csv-stringify");
 
 const exportCases = asyncMiddleware(async (request, response, next) => {
-  const attributesWithAliases = [
-    "id",
-    "status",
-    "created_by",
-    [
-      models.sequelize.fn(
-        "to_char",
-        models.sequelize.literal(`cases.created_at at time zone '${TIMEZONE}'`),
-        "MM/DD/YYYY HH24:MI:SS TZ"
-      ),
-      "created_at"
-    ],
-    [
-      models.sequelize.fn(
-        "to_char",
-        models.sequelize.col("cases.first_contact_date"),
-        "MM/DD/YYYY"
-      ),
-      "first_contact_date"
-    ],
-    [
-      models.sequelize.fn(
-        "to_char",
-        models.sequelize.col("cases.incident_date"),
-        "MM/DD/YYYY"
-      ),
-      "incident_date"
-    ],
-    [
-      models.sequelize.fn(
-        "to_char",
-        models.sequelize.col("cases.incident_time"),
-        "HH24:MI:SS"
-      ),
-      "incident_time"
-    ],
-    "district",
-    "complainant_type",
-    "narrative_summary",
-    "narrative_details"
-    // [
-    //   models.sequelize.literal(
-    //     '(SELECT COUNT("witnessCivilians1".*) ' +
-    //       'FROM "civilians" AS "witnessCivilians1" ' +
-    //       'WHERE "witnessCivilians1"."role_on_case" = \'Witness\'' +
-    //       'AND "cases1"."id" = "witnessCivilians1"."case_id")'
-    //   ),
-    //   "witnessCount"
-    // ]
-  ];
+  const DATE_ONLY_FORMAT = "MM/DD/YYYY";
+  const TIMESTAMP_FORMAT = "MM/DD/YYYY HH24:MI:SS TZ";
+  const TIME_ONLY_FORMAT = "HH24:MI:SS";
 
-  const cases = await models.cases.findAll({
-    attributes: attributesWithAliases,
-    raw: true,
-    order: [
-      [models.sequelize.col("cases.created_at"), "ASC"],
-      [models.sequelize.col("complainantCivilians.created_at"), "ASC"],
-      [models.sequelize.col("accusedOfficers.created_at"), "ASC"]
-    ],
-    include: [
-      {
-        model: models.address,
-        as: "incidentLocation",
-        attributes: [
-          "street_address",
-          "city",
-          "state",
-          "zip_code",
-          "street_address2"
-        ]
-      },
-      {
-        model: models.civilian,
-        as: "complainantCivilians",
-        attributes: [
-          [
-            models.sequelize.fn(
-              "concat_ws",
-              " ",
-              models.sequelize.col("complainantCivilians.first_name"),
-              models.sequelize.col("complainantCivilians.middle_initial"),
-              models.sequelize.col("complainantCivilians.last_name"),
-              models.sequelize.col("complainantCivilians.suffix")
-            ),
-            "full_name"
-          ],
-          "gender_identity",
-          "race_ethnicity",
-          [
-            models.sequelize.fn(
-              "to_char",
-              models.sequelize.col("complainantCivilians.birth_date"),
-              "MM/DD/YYYY"
-            ),
-            "birth_date"
-          ],
-          "phone_number",
-          "email",
-          "additional_info"
-        ],
-        include: [
-          {
-            model: models.address,
-            attributes: [
-              "street_address",
-              "city",
-              "state",
-              "zip_code",
-              "street_address2"
-            ]
-          }
-        ]
-      },
-      {
-        model: models.case_officer,
-        order: [["created_at", "ASC"]],
-        as: "accusedOfficers",
-        attributes: [
-          [
-            models.sequelize.fn(
-              "concat_ws",
-              " ",
-              models.sequelize.col("accusedOfficers.first_name"),
-              models.sequelize.col("accusedOfficers.middle_name"),
-              models.sequelize.col("accusedOfficers.last_name")
-            ),
-            "full_name"
-          ],
-          "windows_username",
-          "rank",
-          [
-            models.sequelize.fn(
-              "concat_ws",
-              " ",
-              models.sequelize.col("accusedOfficers.supervisor_first_name"),
-              models.sequelize.col("accusedOfficers.supervisor_middle_name"),
-              models.sequelize.col("accusedOfficers.supervisor_last_name")
-            ),
-            "supervisor_full_name"
-          ],
-          "supervisor_windows_username",
-          "employee_type",
-          "district",
-          "bureau",
-          "work_status",
-          [
-            models.sequelize.fn(
-              "to_char",
-              models.sequelize.col("accusedOfficers.hire_date"),
-              "MM/DD/YYYY"
-            ),
-            "hire_date"
-          ],
-          [
-            models.sequelize.fn(
-              "to_char",
-              models.sequelize.col("accusedOfficers.end_date"),
-              "MM/DD/YYYY"
-            ),
-            "end_date"
-          ],
-          "race",
-          "sex",
-          [
-            models.sequelize.literal(
-              'date_part(\'year\', age("accusedOfficers"."dob"))'
-            ),
-            "age"
-          ],
-          "notes"
-        ]
-      }
-    ]
+  const query =
+    "SELECT " +
+    '"cases"."id", ' +
+    '"cases"."status", ' +
+    '"cases"."created_by", ' +
+    `to_char(cases.created_at at time zone \'${TIMEZONE}\', \'${TIMESTAMP_FORMAT}\') AS "created_at", ` +
+    `to_char("cases"."first_contact_date", \'${DATE_ONLY_FORMAT}\') AS "first_contact_date", ` +
+    `to_char("cases"."incident_date", \'${DATE_ONLY_FORMAT}\') AS "incident_date", ` +
+    `to_char("cases"."incident_time", \'${TIME_ONLY_FORMAT}\') AS "incident_time", ` +
+    '"cases"."district", ' +
+    '"cases"."complainant_type", ' +
+    '"cases"."narrative_summary", ' +
+    '"cases"."narrative_details", ' +
+    '"incidentLocation"."street_address" AS "incidentLocation.street_address", ' +
+    '"incidentLocation"."city" AS "incidentLocation.city", ' +
+    '"incidentLocation"."state" AS "incidentLocation.state", ' +
+    '"incidentLocation"."zip_code" AS "incidentLocation.zip_code", ' +
+    '"incidentLocation"."street_address2" AS "incidentLocation.street_address2", ' +
+    "concat_ws(" +
+    "' ', " +
+    '"complainantCivilians"."first_name", ' +
+    '"complainantCivilians"."middle_initial", ' +
+    '"complainantCivilians"."last_name", ' +
+    '"complainantCivilians"."suffix") ' +
+    'AS "complainantCivilians.full_name", ' +
+    '"complainantCivilians"."gender_identity" AS "complainantCivilians.gender_identity", ' +
+    '"complainantCivilians"."race_ethnicity" AS "complainantCivilians.race_ethnicity", ' +
+    `to_char("complainantCivilians"."birth_date", \'${DATE_ONLY_FORMAT}\') AS "complainantCivilians.birth_date", ` +
+    '"complainantCivilians"."phone_number" AS "complainantCivilians.phone_number", ' +
+    '"complainantCivilians"."email" AS "complainantCivilians.email", ' +
+    '"complainantCivilians"."additional_info" AS "complainantCivilians.additional_info", ' +
+    '"complainantCivilians->address"."id" AS "complainantCivilians.address.id", ' +
+    '"complainantCivilians->address"."street_address" AS "complainantCivilians.address.street_address", ' +
+    '"complainantCivilians->address"."city" AS "complainantCivilians.address.city", ' +
+    '"complainantCivilians->address"."state" AS "complainantCivilians.address.state", ' +
+    '"complainantCivilians->address"."zip_code" AS "complainantCivilians.address.zip_code", ' +
+    '"complainantCivilians->address"."street_address2" AS "complainantCivilians.address.street_address2", ' +
+    "concat_ws(" +
+    "' ', " +
+    '"accusedOfficers"."first_name", ' +
+    '"accusedOfficers"."middle_name", ' +
+    '"accusedOfficers"."last_name"' +
+    ') AS "accusedOfficers.full_name", ' +
+    '"accusedOfficers"."windows_username" AS "accusedOfficers.windows_username", ' +
+    '"accusedOfficers"."rank" AS "accusedOfficers.rank", ' +
+    "concat_ws(" +
+    "' ', " +
+    '"accusedOfficers"."supervisor_first_name", ' +
+    '"accusedOfficers"."supervisor_middle_name", ' +
+    '"accusedOfficers"."supervisor_last_name"' +
+    ') AS "accusedOfficers.supervisor_full_name", ' +
+    '"accusedOfficers"."supervisor_windows_username" AS "accusedOfficers.supervisor_windows_username", ' +
+    '"accusedOfficers"."employee_type" AS "accusedOfficers.employee_type", ' +
+    '"accusedOfficers"."district" AS "accusedOfficers.district", ' +
+    '"accusedOfficers"."bureau" AS "accusedOfficers.bureau", ' +
+    '"accusedOfficers"."work_status" AS "accusedOfficers.work_status", ' +
+    `to_char("accusedOfficers"."hire_date", \'${DATE_ONLY_FORMAT}\') AS "accusedOfficers.hire_date", ` +
+    `to_char("accusedOfficers"."end_date", \'${DATE_ONLY_FORMAT}\') AS "accusedOfficers.end_date", ` +
+    '"accusedOfficers"."race" AS "accusedOfficers.race", ' +
+    '"accusedOfficers"."sex" AS "accusedOfficers.sex", ' +
+    'date_part(\'year\', age("accusedOfficers"."dob")) AS "accusedOfficers.age", ' +
+    '"accusedOfficers"."notes" AS "accusedOfficers.notes" ' +
+    'FROM "cases" AS "cases" ' +
+    'LEFT OUTER JOIN "addresses" AS "incidentLocation" ' +
+    'ON "cases"."id" = "incidentLocation"."addressable_id" ' +
+    "AND (" +
+    '"incidentLocation"."deleted_at" IS NULL ' +
+    'AND "incidentLocation"."addressable_type" = \'cases\') ' +
+    'LEFT OUTER JOIN "civilians" AS "complainantCivilians" ' +
+    'ON "cases"."id" = "complainantCivilians"."case_id" ' +
+    "AND (" +
+    '"complainantCivilians"."deleted_at" IS NULL ' +
+    'AND "complainantCivilians"."role_on_case" = \'Complainant\') ' +
+    'LEFT OUTER JOIN "addresses" AS "complainantCivilians->address" ' +
+    'ON "complainantCivilians"."id" = "complainantCivilians->address"."addressable_id" ' +
+    "AND (" +
+    '"complainantCivilians->address"."deleted_at" IS NULL ' +
+    'AND "complainantCivilians->address"."addressable_type" = \'civilian\') ' +
+    'LEFT OUTER JOIN "cases_officers" AS "accusedOfficers" ' +
+    'ON "cases"."id" = "accusedOfficers"."case_id" ' +
+    "AND (" +
+    '("accusedOfficers"."deleted_at" > \'2018-06-29 14:57:02.099 +00:00\' ' +
+    'OR "accusedOfficers"."deleted_at" IS NULL) ' +
+    'AND "accusedOfficers"."role_on_case" = \'Accused\') ' +
+    'ORDER BY "cases"."created_at" ASC, "complainantCivilians"."created_at" ASC, "accusedOfficers"."created_at" ASC;';
+
+  const caseData = await models.sequelize.query(query, {
+    type: models.sequelize.QueryTypes.SELECT
   });
 
   const columns = {
@@ -207,8 +126,8 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "complainantCivilians.address.street_address2":
       "Additional Address Information (complainant)",
     "complainantCivilians.additional_info": "Notes (complainant)",
-    witnessCount: "Number of Witnesses",
-    witnessNames: "Witnesses",
+    witness_count: "Number of Witnesses",
+    witness_names: "Witnesses",
     narrative_summary: "Narrative Summary",
     narrative_details: "Narrative Details",
     "accusedOfficers.full_name": "Accused Officer (Name)",
@@ -233,7 +152,7 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     header: true,
     columns: columns
   };
-  stringify(cases, csvOptions, (err, csvOutput) => {
+  stringify(caseData, csvOptions, (err, csvOutput) => {
     return response.send(csvOutput);
   });
 });
