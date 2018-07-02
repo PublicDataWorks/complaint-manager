@@ -11,7 +11,11 @@ import React from "react";
 import { connect } from "react-redux";
 import EditOfficerAllegationForm from "./EditOfficerAllegationForm";
 import LinkButton from "../../shared/components/LinkButton";
-import { openRemoveOfficerAllegationDialog } from "../../actionCreators/allegationsActionCreators";
+import {
+  closeEditAllegationForm,
+  openEditAllegationForm,
+  openRemoveOfficerAllegationDialog
+} from "../../actionCreators/allegationsActionCreators";
 
 const styles = {
   root: {
@@ -56,9 +60,7 @@ class OfficerAllegationPanelForm extends React.Component {
 
   handleRemoveAllegation = () => e => {
     e.stopPropagation();
-    this.props.dispatch(
-      openRemoveOfficerAllegationDialog(this.props.officerAllegation)
-    );
+    this.props.openRemoveOfficerAllegationDialog(this.props.officerAllegation);
   };
 
   componentWillUnmount() {
@@ -143,5 +145,11 @@ class OfficerAllegationPanelForm extends React.Component {
   }
 }
 
+const mapDispatchToProps = {
+  openEditAllegationForm,
+  closeEditAllegationForm,
+  openRemoveOfficerAllegationDialog
+};
+
 const StyledComponent = withStyles(styles)(OfficerAllegationPanelForm);
-export default connect()(StyledComponent);
+export default connect(undefined, mapDispatchToProps)(StyledComponent);

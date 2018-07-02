@@ -3,34 +3,34 @@ import OfficerAllegationPanelForm from "./EditAllegationPanelForm/OfficerAllegat
 import { connect } from "react-redux";
 import {
   closeEditAllegationForm,
+  closeRemoveOfficerAllegationDialog,
   openEditAllegationForm
 } from "../actionCreators/allegationsActionCreators";
 import RemoveOfficerAllegationDialog from "./RemoveOfficerAllegationDialog";
 
-const OfficerAllegations = props => {
-  const {
-    officerAllegations,
-    editAllegationForms,
-    closeEditAllegationForm,
-    openEditAllegationForm
-  } = props;
+class OfficerAllegations extends React.Component {
+  componentWillUnmount() {
+    this.props.closeRemoveOfficerAllegationDialog();
+  }
 
-  return (
-    <Fragment>
-      {officerAllegations.map((officerAllegation, index) => (
-        <OfficerAllegationPanelForm
-          editAllegationFormState={editAllegationForms[officerAllegation.id]}
-          openEditAllegationForm={openEditAllegationForm}
-          closeEditAllegationForm={closeEditAllegationForm}
-          key={officerAllegation.id}
-          index={index}
-          officerAllegation={officerAllegation}
-        />
-      ))}
-      <RemoveOfficerAllegationDialog />
-    </Fragment>
-  );
-};
+  render() {
+    const { officerAllegations, editAllegationForms } = this.props;
+
+    return (
+      <Fragment>
+        {officerAllegations.map((officerAllegation, index) => (
+          <OfficerAllegationPanelForm
+            editAllegationFormState={editAllegationForms[officerAllegation.id]}
+            key={officerAllegation.id}
+            index={index}
+            officerAllegation={officerAllegation}
+          />
+        ))}
+        <RemoveOfficerAllegationDialog />
+      </Fragment>
+    );
+  }
+}
 
 const mapStateToProps = state => ({
   editAllegationForms: state.ui.editAllegationForms
@@ -38,7 +38,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   openEditAllegationForm,
-  closeEditAllegationForm
+  closeEditAllegationForm,
+  closeRemoveOfficerAllegationDialog
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OfficerAllegations);
