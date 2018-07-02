@@ -2,8 +2,23 @@ import jwt from "jsonwebtoken";
 import fs from "fs";
 import path from "path";
 import models from "../models/index";
+import winston from "winston";
 
 const config = require("../config/config")[process.env.NODE_ENV];
+
+export const suppressWinstonLogs = test => async () => {
+  winston.remove(winston.transports.Console);
+  try {
+    await test();
+  } catch (err) {
+    throw err;
+  } finally {
+    winston.add(winston.transports.Console, {
+      json: true,
+      colorize: true
+    });
+  }
+};
 
 export const buildTokenWithPermissions = (permissions, nickname) => {
   const privateKeyPath = path.join(

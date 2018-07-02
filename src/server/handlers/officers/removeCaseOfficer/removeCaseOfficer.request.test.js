@@ -1,6 +1,7 @@
 import {
   buildTokenWithPermissions,
-  cleanupDatabase
+  cleanupDatabase,
+  suppressWinstonLogs
 } from "../../../testHelpers/requestTestHelpers";
 import app from "../../../server";
 import request from "supertest";
@@ -17,15 +18,10 @@ describe("DELETE /cases/:caseId/cases-officers/:caseOfficerId", () => {
 
   beforeEach(() => {
     token = buildTokenWithPermissions("", "tuser");
-    winston.remove(winston.transports.Console);
   });
 
   afterEach(async () => {
     await cleanupDatabase();
-    winston.add(winston.transports.Console, {
-      json: true,
-      colorize: true
-    });
   });
 
   test("should respond with 200 and updated case when removing officer", async () => {
@@ -102,28 +98,31 @@ describe("DELETE /cases/:caseId/cases-officers/:caseOfficerId", () => {
       });
   });
 
-  test("should respond with 400 status and error message if caseofficer does not exist", async () => {
-    const caseAttributes = new Case.Builder()
-      .defaultCase()
-      .withId(undefined)
-      .build();
+  test(
+    "should respond with 400 status and error message if caseofficer does not exist",
+    suppressWinstonLogs(async () => {
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withId(undefined)
+        .build();
 
-    const createdCase = await models.cases.create(caseAttributes, {
-      auditUser: nickname
-    });
-    const invalidId = 1;
-
-    await request(app)
-      .delete(`/api/cases/${createdCase.id}/cases-officers/${invalidId}`)
-      .set("Authorization", `Bearer ${token}`)
-      .set("Content-Type", "application/json")
-      .expect(400)
-      .then(response => {
-        expect(response.body).toEqual(
-          expect.objectContaining({
-            message: "Case Officer requested for removal does not exist."
-          })
-        );
+      const createdCase = await models.cases.create(caseAttributes, {
+        auditUser: nickname
       });
-  });
+      const invalidId = 1;
+
+      await request(app)
+        .delete(`/api/cases/${createdCase.id}/cases-officers/${invalidId}`)
+        .set("Authorization", `Bearer ${token}`)
+        .set("Content-Type", "application/json")
+        .expect(400)
+        .then(response => {
+          expect(response.body).toEqual(
+            expect.objectContaining({
+              message: "Case Officer requested for removal does not exist."
+            })
+          );
+        });
+    })
+  );
 });

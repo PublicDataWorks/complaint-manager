@@ -12,9 +12,9 @@ import { CASE_STATUS, USER_PERMISSIONS } from "../sharedUtilities/constants";
 import AWS from "aws-sdk";
 import {
   buildTokenWithPermissions,
-  cleanupDatabase
+  cleanupDatabase,
+  suppressWinstonLogs
 } from "./testHelpers/requestTestHelpers";
-import winston from "winston";
 
 jest.mock("auth0", () => ({
   AuthenticationClient: jest.fn()
@@ -45,63 +45,61 @@ describe("server", () => {
   });
 
   describe("token check", () => {
-    beforeEach(() => {
-      winston.remove(winston.transports.Console);
-    });
-
-    afterEach(() => {
-      winston.add(winston.transports.Console, {
-        json: true,
-        colorize: true
-      });
-    });
-
-    test("should return 401 with invalid token", async () => {
-      await request(app)
-        .get("/api/cases")
-        .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer INVALID_KEY`)
-        .expect(401)
-        .then(response => {
-          expect(response.body).toEqual({
-            error: "Unauthorized",
-            message: "Invalid token",
-            statusCode: 401
+    test(
+      "should return 401 with invalid token",
+      suppressWinstonLogs(async () => {
+        await request(app)
+          .get("/api/cases")
+          .set("Content-Header", "application/json")
+          .set("Authorization", `Bearer INVALID_KEY`)
+          .expect(401)
+          .then(response => {
+            expect(response.body).toEqual({
+              error: "Unauthorized",
+              message: "Invalid token",
+              statusCode: 401
+            });
           });
-        });
-    });
+      })
+    );
 
-    test("should return 401 without authorization header", async () => {
-      await request(app)
-        .get("/api/cases")
-        .set("Content-Header", "application/json")
-        .expect(401)
-        .then(response => {
-          expect(response.body).toEqual({
-            error: "Unauthorized",
-            message: "Invalid token",
-            statusCode: 401
+    test(
+      "should return 401 without authorization header",
+      suppressWinstonLogs(async () => {
+        await request(app)
+          .get("/api/cases")
+          .set("Content-Header", "application/json")
+          .expect(401)
+          .then(response => {
+            expect(response.body).toEqual({
+              error: "Unauthorized",
+              message: "Invalid token",
+              statusCode: 401
+            });
           });
-        });
-    });
+      })
+    );
 
-    test("should return 401 when nickname missing", async () => {
-      token = buildTokenWithPermissions();
+    test(
+      "should return 401 when nickname missing",
+      suppressWinstonLogs(async () => {
+        token = buildTokenWithPermissions();
 
-      await request(app)
-        .post("/api/cases")
-        .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
-        .send({})
-        .expect(401)
-        .then(response => {
-          expect(response.body).toEqual({
-            error: "Unauthorized",
-            message: "User nickname missing",
-            statusCode: 401
+        await request(app)
+          .post("/api/cases")
+          .set("Content-Header", "application/json")
+          .set("Authorization", `Bearer ${token}`)
+          .send({})
+          .expect(401)
+          .then(response => {
+            expect(response.body).toEqual({
+              error: "Unauthorized",
+              message: "User nickname missing",
+              statusCode: 401
+            });
           });
-        });
-    });
+      })
+    );
   });
 
   describe("POST /audit", () => {

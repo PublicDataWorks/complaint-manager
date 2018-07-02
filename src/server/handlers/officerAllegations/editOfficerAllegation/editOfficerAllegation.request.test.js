@@ -5,7 +5,8 @@ import app from "../../../server";
 import request from "supertest";
 import {
   buildTokenWithPermissions,
-  cleanupDatabase
+  cleanupDatabase,
+  suppressWinstonLogs
 } from "../../../testHelpers/requestTestHelpers";
 import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
@@ -16,23 +17,26 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
     await cleanupDatabase();
   });
 
-  test("should reply a 404 if officer allegation doesnt exist ", async () => {
-    const token = buildTokenWithPermissions("", "TEST_NICKNAME");
-    const nonExistantAllegationId = 9;
-    await request(app)
-      .put(`/api/officers-allegations/${nonExistantAllegationId}`)
-      .set("Content-Header", "application/json")
-      .set("Authorization", `Bearer ${token}`)
-      .send({})
-      .expect(404)
-      .then(response => {
-        expect(response.body).toEqual({
-          statusCode: 404,
-          error: "Not Found",
-          message: `Officer Allegation does not exist`
+  test(
+    "should reply a 404 if officer allegation doesnt exist ",
+    suppressWinstonLogs(async () => {
+      const token = buildTokenWithPermissions("", "TEST_NICKNAME");
+      const nonExistantAllegationId = 9;
+      await request(app)
+        .put(`/api/officers-allegations/${nonExistantAllegationId}`)
+        .set("Content-Header", "application/json")
+        .set("Authorization", `Bearer ${token}`)
+        .send({})
+        .expect(404)
+        .then(response => {
+          expect(response.body).toEqual({
+            statusCode: 404,
+            error: "Not Found",
+            message: `Officer Allegation does not exist`
+          });
         });
-      });
-  });
+    })
+  );
 
   test("should update officer allegation details", async () => {
     const token = buildTokenWithPermissions("", "TEST_NICKNAME");
