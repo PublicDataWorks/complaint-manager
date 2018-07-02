@@ -43,11 +43,14 @@ const RemoveOfficerAllegationDialog = ({
               paddingLeft: "8px"
             }}
           >
+            <Typography>{officerAllegation.allegation.rule}</Typography>
+            <Typography>{officerAllegation.allegation.paragraph}</Typography>
             <Typography>
-              {officerAllegation.allegation.rule}{" "}
-              {officerAllegation.allegation.paragraph}{" "}
-              {officerAllegation.allegation.directive}
+              {officerAllegation.allegation.directive
+                ? officerAllegation.allegation.directive
+                : "N/A"}
             </Typography>
+            <br />
             <TextTruncate message={officerAllegation.details} />
           </div>
         )}

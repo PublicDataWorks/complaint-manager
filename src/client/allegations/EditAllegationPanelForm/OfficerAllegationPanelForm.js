@@ -105,18 +105,20 @@ class OfficerAllegationPanelForm extends React.Component {
                 : "N/A"}
             </Typography>
           </div>
-          <div style={{ flex: 1, minWidth: "88px" }}>
+          <div style={{ minWidth: "88px", paddingRight: "0px" }}>
             {editMode ? null : (
               <div>
                 <LinkButton
                   data-test={"editAllegationButton"}
                   onClick={this.handleSubmit(id)}
+                  style={{ flex: 1 }}
                 >
                   Edit
                 </LinkButton>
                 <LinkButton
                   data-test={"removeAllegationButton"}
                   onClick={this.handleRemoveAllegation()}
+                  style={{ flex: 1 }}
                 >
                   Remove
                 </LinkButton>
