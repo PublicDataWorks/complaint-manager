@@ -1,14 +1,15 @@
 const newRelic = require("newrelic");
-
+const Boom = require("boom");
 
 const errorHandler = (error, request, response, next) => {
-  if (error.isServer) {
-     newRelic.recordCustomEvent('ServerErrorEvent', error);
+  let boomError = error.isBoom ? error : Boom.badImplementation(error);
+  if (boomError.isServer) {
+    newRelic.recordCustomEvent("ServerErrorEvent", boomError);
     response
-      .status(error.output.statusCode)
-      .json({ ...error.output.payload, message: "Something went wrong!" });
+      .status(boomError.output.statusCode)
+      .json({ ...boomError.output.payload, message: "Something went wrong!" });
   } else {
-    response.status(error.output.statusCode).json(error.output.payload);
+    response.status(boomError.output.statusCode).json(boomError.output.payload);
   }
 };
 
