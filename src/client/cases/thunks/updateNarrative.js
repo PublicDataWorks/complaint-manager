@@ -6,6 +6,7 @@ import getAccessToken from "../../auth/getAccessToken";
 import { push } from "react-router-redux";
 import config from "../../config/config";
 import getRecentActivity from "./getRecentActivity";
+import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -18,7 +19,7 @@ const updateNarrative = updateDetails => async dispatch => {
       return dispatch(updateNarrativeFailure());
     }
 
-    const response = await fetch(
+    const response = await axios(
       `${hostname}/api/cases/${updateDetails.id}/narrative`,
       {
         method: "PUT",
@@ -26,24 +27,15 @@ const updateNarrative = updateDetails => async dispatch => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({
+        data: JSON.stringify({
           narrativeSummary: updateDetails.narrativeSummary,
           narrativeDetails: updateDetails.narrativeDetails
         })
       }
     );
 
-    switch (response.status) {
-      case 200:
-        const updatedCase = await response.json();
-        dispatch(updateNarrativeSuccess(updatedCase));
-        return await dispatch(getRecentActivity(updatedCase.id));
-      case 401:
-        dispatch(push(`/login`));
-        return dispatch(updateNarrativeFailure());
-      default:
-        return dispatch(updateNarrativeFailure());
-    }
+    dispatch(updateNarrativeSuccess(response.data));
+    return await dispatch(getRecentActivity(response.data.id));
   } catch (e) {
     return dispatch(updateNarrativeFailure());
   }

@@ -18,32 +18,12 @@ describe("getAllegationDropdownValues", function() {
 
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
-  test("should redirect to login if unauthorized response", async () => {
-    dispatch.mockClear();
-
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .get(`/api/allegations`)
-      .reply(401);
-
-    await getAllegationDropdownValues()(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
-  });
 
   test("should redirect dispatch success on 200 response", async () => {
     dispatch.mockClear();
 
     const responseBody = { some: "response" };
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
+    nock("http://localhost")
       .get(`/api/allegations`)
       .reply(200, responseBody);
 

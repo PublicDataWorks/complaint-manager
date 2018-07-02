@@ -49,12 +49,8 @@ describe("getSearchResults", () => {
 
   test("dispatches searchSuccess", async () => {
     const responseBody = [{ firstName: "Bob" }];
-    nock("http://localhost/", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
-    })
+    nock("http://localhost/")
+      .log(console.log)
       .get(`/api/${resourceToSearch}/search`)
       .query(searchCriteria)
       .reply(200, responseBody);
@@ -65,12 +61,7 @@ describe("getSearchResults", () => {
 
   test("dispatches searchSuccess with pagination", async () => {
     const responseBody = [{ firstName: "Bob" }];
-    nock("http://localhost/", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
-    })
+    nock("http://localhost/")
       .get(`/api/${resourceToSearch}/search`)
       .query(queryParamsWithPagination)
       .reply(200, responseBody);
@@ -80,21 +71,5 @@ describe("getSearchResults", () => {
       dispatch
     );
     expect(dispatch).toHaveBeenCalledWith(searchSuccess(responseBody, page));
-  });
-
-  test("redirects to login when api call returns 401", async () => {
-    nock("http://localhost/", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .get(`/api/${resourceToSearch}/search`)
-      .query(searchCriteria)
-      .reply(401);
-
-    getAccessToken.mockImplementation(() => token);
-    await getSearchResults(searchCriteria, resourceToSearch)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 });

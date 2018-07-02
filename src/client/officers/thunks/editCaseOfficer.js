@@ -6,6 +6,7 @@ import {
   editCaseOfficerFailure,
   editCaseOfficerSuccess
 } from "../../actionCreators/officersActionCreators";
+import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -22,7 +23,7 @@ const editCaseOfficer = (
   }
   try {
     const payload = { ...values, officerId };
-    const response = await fetch(
+    const response = await axios(
       `${hostname}/api/cases/${caseId}/cases-officers/${caseOfficerId}`,
       {
         method: "PUT",
@@ -30,23 +31,13 @@ const editCaseOfficer = (
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(payload)
+        data: JSON.stringify(payload)
       }
     );
 
-    switch (response.status) {
-      case 200:
-        const caseDetails = await response.json();
-        dispatch(editCaseOfficerSuccess(caseDetails));
-        dispatch(clearSelectedOfficer());
-        return dispatch(push(`/cases/${caseId}`));
-      case 401:
-        return dispatch(push("/login"));
-      case 500:
-        return dispatch(editCaseOfficerFailure());
-      default:
-        return dispatch(editCaseOfficerFailure());
-    }
+    dispatch(editCaseOfficerSuccess(response.data));
+    dispatch(clearSelectedOfficer());
+    return dispatch(push(`/cases/${caseId}`));
   } catch (error) {
     return dispatch(editCaseOfficerFailure());
   }

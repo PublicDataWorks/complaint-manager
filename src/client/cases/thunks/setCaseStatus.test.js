@@ -3,8 +3,14 @@ import { push } from "react-router-redux";
 import setCaseStatus from "./setCaseStatus";
 import nock from "nock";
 import { CASE_STATUS } from "../../../sharedUtilities/constants";
-import {snackbarError, snackbarSuccess} from "../../actionCreators/snackBarActionCreators";
-import {closeCaseStatusUpdateDialog, updateCaseStatusSuccess} from "../../actionCreators/casesActionCreators";
+import {
+  snackbarError,
+  snackbarSuccess
+} from "../../actionCreators/snackBarActionCreators";
+import {
+  closeCaseStatusUpdateDialog,
+  updateCaseStatusSuccess
+} from "../../actionCreators/casesActionCreators";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -18,28 +24,6 @@ describe("setCaseStatus", () => {
     getAccessToken.mockImplementationOnce(() => false);
 
     await setCaseStatus()(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
-  });
-
-  test("should not dispatch success if unauthorized and redirect", async () => {
-    const updateDetails = {
-      id: 1,
-      status: CASE_STATUS.ACTIVE
-    };
-
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer TEST_TOKEN"
-      }
-    })
-      .put(`/api/cases/${updateDetails.id}/status`, {
-        status: updateDetails.status
-      })
-      .reply(401);
-
-    await setCaseStatus(updateDetails.id, updateDetails.status)(dispatch);
-
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
@@ -65,7 +49,7 @@ describe("setCaseStatus", () => {
       id: 1,
       status: CASE_STATUS.ACTIVE
     };
-    const responseBody = {id: 1};
+    const responseBody = { id: 1 };
 
     nock("http://localhost", {
       reqheaders: {
@@ -80,8 +64,12 @@ describe("setCaseStatus", () => {
 
     await setCaseStatus(updateDetails.id, updateDetails.status)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(updateCaseStatusSuccess(responseBody));
-    expect(dispatch).toHaveBeenCalledWith(snackbarSuccess("Status successfully updated"));
+    expect(dispatch).toHaveBeenCalledWith(
+      updateCaseStatusSuccess(responseBody)
+    );
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarSuccess("Status successfully updated")
+    );
     expect(dispatch).toHaveBeenCalledWith(closeCaseStatusUpdateDialog());
   });
 });

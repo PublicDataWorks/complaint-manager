@@ -7,6 +7,7 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import config from "../../config/config";
 import getRecentActivity from "./getRecentActivity";
+import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -19,27 +20,18 @@ const createCivilian = civilian => async dispatch => {
       return dispatch(createCivilianFailure());
     }
 
-    const response = await fetch(`${hostname}/api/civilian`, {
+    const response = await axios(`${hostname}/api/civilian`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify(civilian)
+      data: JSON.stringify(civilian)
     });
 
-    switch (response.status) {
-      case 201:
-        const caseDetails = await response.json();
-        dispatch(createCivilianSuccess(caseDetails));
-        dispatch(closeEditDialog());
-        return await dispatch(getRecentActivity(caseDetails.id));
-      case 401:
-        dispatch(push(`/login`));
-        return dispatch(createCivilianFailure());
-      default:
-        return dispatch(createCivilianFailure());
-    }
+    dispatch(createCivilianSuccess(response.data));
+    dispatch(closeEditDialog());
+    return await dispatch(getRecentActivity(response.data.id));
   } catch (e) {
     return dispatch(createCivilianFailure());
   }

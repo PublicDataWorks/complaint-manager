@@ -5,6 +5,7 @@ import {
   getAllegationsFailed,
   getAllegationsSuccess
 } from "../../actionCreators/allegationsActionCreators";
+import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -15,7 +16,7 @@ const getAllegationDropdownValues = () => async dispatch => {
       return dispatch(push("/login"));
     }
 
-    const response = await fetch(`${hostname}/api/allegations`, {
+    const response = await axios(`${hostname}/api/allegations`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -23,17 +24,7 @@ const getAllegationDropdownValues = () => async dispatch => {
       }
     });
 
-    switch (response.status) {
-      case 200:
-        const responseBody = await response.json();
-        return dispatch(getAllegationsSuccess(responseBody));
-      case 401:
-        return dispatch(push("/login"));
-      case 500:
-        return dispatch(getAllegationsFailed());
-      default:
-        return dispatch(getAllegationsFailed());
-    }
+    return dispatch(getAllegationsSuccess(response.data));
   } catch (e) {
     return dispatch(getAllegationsFailed());
   }

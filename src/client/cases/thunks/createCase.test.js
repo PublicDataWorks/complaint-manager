@@ -6,9 +6,9 @@ import {
   requestCaseCreation
 } from "../../actionCreators/casesActionCreators";
 import createCase from "./createCase";
-import {push} from "react-router-redux";
+import { push } from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
-import {CASE_STATUS} from "../../../sharedUtilities/constants";
+import { CASE_STATUS } from "../../../sharedUtilities/constants";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -76,23 +76,6 @@ describe("createCase", () => {
     await createCase(caseDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(createCaseFailure());
-  });
-
-  test("should not dispatch success if unauthorized and redirect", async () => {
-    const creationDetails = {};
-
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .post("/api/cases", creationDetails.caseDetails)
-      .reply(401);
-
-    await createCase(creationDetails)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
   test("should redirect immediately if token missing", async () => {

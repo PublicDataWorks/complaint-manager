@@ -77,31 +77,6 @@ describe("addOfficer", () => {
     expect(dispatch).toHaveBeenCalledWith(addOfficerToCaseFailure());
   });
 
-  test("should not dispatch success and should redirect when 401 response", async () => {
-    const officer = new Officer.Builder().defaultOfficer().withId(14);
-    const defaultCase = new Case.Builder().defaultCase().withId(14);
-    const formValues = {
-      roleOnCase: ACCUSED,
-      notes: "Some very very very important notes"
-    };
-    const payload = { officerId: officer.id, ...formValues };
-
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .post(
-        `/api/cases/${defaultCase.id}/cases-officers`,
-        JSON.stringify(payload)
-      )
-      .reply(401);
-
-    await addOfficer(defaultCase.id, officer.id, formValues)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
-  });
-
   test("should redirect immediately if token missing", async () => {
     getAccessToken.mockImplementation(() => false);
 

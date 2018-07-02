@@ -34,11 +34,7 @@ describe("editCaseOfficer thunk", () => {
 
     const responseBody = { response: "Successful" };
 
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
+    nock("http://localhost")
       .put(
         `/api/cases/${caseId}/cases-officers/${caseOfficerId}`,
         JSON.stringify(payload)
@@ -50,30 +46,6 @@ describe("editCaseOfficer thunk", () => {
     expect(dispatch).toHaveBeenCalledWith(editCaseOfficerSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer());
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
-  });
-
-  test("should dispatch redirect to login when 401 response", async () => {
-    const caseId = 100;
-    const caseOfficerId = 100;
-    const officerId = 200;
-
-    const values = { payload: "test edit" };
-    const payload = { ...values, officerId };
-
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .put(
-        `/api/cases/${caseId}/cases-officers/${caseOfficerId}`,
-        JSON.stringify(payload)
-      )
-      .reply(401, {});
-
-    await editCaseOfficer(caseId, caseOfficerId, officerId, values)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
   test("should dispatch failure when 500 response", async () => {

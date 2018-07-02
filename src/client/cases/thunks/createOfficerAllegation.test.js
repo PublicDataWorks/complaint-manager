@@ -32,31 +32,6 @@ describe("create officer allegation", function() {
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
-  test("should not dispatch success if unauthorized and redirect", async () => {
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .post(
-        `/api/cases/${caseId}/cases-officers/${caseOfficerId}/officers-allegations`,
-        formValues,
-        caseId,
-        caseOfficerId
-      )
-      .reply(401);
-
-    await createOfficerAllegation(
-      formValues,
-      caseId,
-      caseOfficerId,
-      callBackFunction
-    )(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
-  });
-
   test("should dispatch failure when create officer allegation fails", async () => {
     nock("http://localhost", {
       reqheaders: {

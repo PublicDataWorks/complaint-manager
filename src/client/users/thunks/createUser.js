@@ -5,6 +5,7 @@ import {
 } from "../../actionCreators/usersActionCreators";
 import getAccessToken from "../../auth/getAccessToken";
 import { push } from "react-router-redux";
+import axios from "axios";
 
 const testing = process.env.NODE_ENV === "test";
 const hostname = testing ? "http://localhost" : "";
@@ -20,25 +21,16 @@ const createUser = user => async dispatch => {
       throw Error("No Token");
     }
 
-    const response = await fetch(`${hostname}/api/users`, {
+    const response = await axios(`${hostname}/api/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify(user)
+      data: JSON.stringify(user)
     });
 
-    switch (response.status) {
-      case 201:
-        const createdUser = await response.json();
-        return dispatch(createUserSuccess(createdUser));
-      case 401:
-        dispatch(createUserFailure());
-        return dispatch(push(`/login`));
-      default:
-        throw response.status;
-    }
+    return dispatch(createUserSuccess(response.data));
   } catch (e) {
     dispatch(createUserFailure());
   }

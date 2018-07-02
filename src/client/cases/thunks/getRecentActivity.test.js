@@ -22,12 +22,7 @@ describe("getRecentActivity", () => {
   });
 
   test("should dispatch success when recent activity fetched", async () => {
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
+    nock("http://localhost")
       .get(`/api/cases/${caseId}/recent-activity`)
       .reply(200, responseBody);
 
@@ -40,21 +35,6 @@ describe("getRecentActivity", () => {
 
   test("should redirect to login when no token present", async () => {
     getAccessToken.mockImplementationOnce(() => null);
-
-    await getRecentActivity(caseId)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
-  });
-
-  test("should redirect if unauthorized", async () => {
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .get(`/api/cases/${caseId}/recent-activity`)
-      .reply(401, responseBody);
 
     await getRecentActivity(caseId)(dispatch);
 

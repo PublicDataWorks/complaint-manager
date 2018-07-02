@@ -60,21 +60,6 @@ describe("civilian creation", function() {
     expect(dispatch).toHaveBeenCalledWith(closeEditDialog());
   });
 
-  test("should redirect to login if unauthorized", async () => {
-    nock(hostname, {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .post("/api/civilian", civilian)
-      .reply(401);
-
-    await createCivilian(civilian)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
-  });
-
   test("should dispatch failure when civilian creation fails", async () => {
     nock(hostname, {
       reqheaders: {

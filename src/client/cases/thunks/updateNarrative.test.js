@@ -30,12 +30,7 @@ describe("updateNarrative", () => {
       narrativeSummary: "Some case narrative summary"
     };
 
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer TEST_TOKEN"
-      }
-    })
+    nock("http://localhost")
       .put(`/api/cases/${updateDetails.id}/narrative`, {
         narrativeDetails: updateDetails.narrativeDetails,
         narrativeSummary: updateDetails.narrativeSummary
@@ -63,27 +58,6 @@ describe("updateNarrative", () => {
     await updateNarrative(updateDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(updateNarrativeFailure());
-  });
-
-  test("should not dispatch success if unauthorized and redirect", async () => {
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer TEST_TOKEN"
-      }
-    })
-      .put(`/api/cases/${updateDetails.id}/narrative`, {
-        narrativeDetails: updateDetails.narrativeDetails,
-        narrativeSummary: updateDetails.narrativeSummary
-      })
-      .reply(401);
-
-    await updateNarrative(updateDetails)(dispatch);
-
-    expect(dispatch).not.toHaveBeenCalledWith(
-      updateNarrativeSuccess(updateDetails)
-    );
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
   test("should redirect immediately if token missing", async () => {

@@ -6,6 +6,7 @@ import {
   updateIncidentDetailsSuccess
 } from "../../actionCreators/casesActionCreators";
 import getRecentActivity from "./getRecentActivity";
+import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -20,7 +21,7 @@ const editIncidentDetails = (
       return dispatch(push("/login"));
     }
 
-    const response = await fetch(
+    const response = await axios(
       `${hostname}/api/cases/${incidentDetails.id}`,
       {
         method: "PUT",
@@ -28,21 +29,13 @@ const editIncidentDetails = (
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(incidentDetails)
+        data: JSON.stringify(incidentDetails)
       }
     );
 
-    switch (response.status) {
-      case 200:
-        const updatedCase = await response.json();
-        closeDialogCallback();
-        dispatch(updateIncidentDetailsSuccess(updatedCase));
-        return await dispatch(getRecentActivity(updatedCase.id));
-      case 401:
-        return dispatch(push("/login"));
-      default:
-        return dispatch(updateIncidentDetailsFailure());
-    }
+    closeDialogCallback();
+    dispatch(updateIncidentDetailsSuccess(response.data));
+    return await dispatch(getRecentActivity(response.data.id));
   } catch (error) {
     return dispatch(updateIncidentDetailsFailure());
   }

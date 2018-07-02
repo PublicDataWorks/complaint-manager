@@ -2,31 +2,23 @@ import getAccessToken from "../../auth/getAccessToken";
 import FileSaver from "file-saver";
 import { push } from "react-router-redux";
 import downloadFailed from "../../actionCreators/downloadActionCreators";
+import axios from "axios";
 
 const downloader = (path, filename, callback) => async dispatch => {
   if (!getAccessToken()) {
     return dispatch(push("/login"));
   }
   try {
-    const response = await fetch(path, {
+    const response = await axios(path, {
       headers: {
         Authorization: `Bearer ${getAccessToken()}`
       }
     });
 
-    switch (response.status) {
-      case 200:
-        const blob = await response.blob();
-        const fileToDownload = new File([blob], filename);
-        FileSaver.saveAs(fileToDownload, filename);
+    const fileToDownload = new File([response.data], filename);
+    FileSaver.saveAs(fileToDownload, filename);
 
-        if (callback) callback();
-        break;
-      case 401:
-        return dispatch(push("/login"));
-      default:
-        return dispatch(downloadFailed());
-    }
+    if (callback) callback();
   } catch (e) {
     dispatch(downloadFailed());
   }

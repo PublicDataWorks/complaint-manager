@@ -6,6 +6,7 @@ import {
   editCaseNoteSuccess
 } from "../../actionCreators/casesActionCreators";
 import config from "../../config/config";
+import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -16,7 +17,7 @@ const editCaseNote = values => async dispatch => {
       return dispatch(push("/login"));
     }
 
-    const response = await fetch(
+    const response = await axios(
       `${hostname}/api/cases/${values.caseId}/recent-activity/${values.id}`,
       {
         method: "PUT",
@@ -24,22 +25,12 @@ const editCaseNote = values => async dispatch => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(values)
+        data: JSON.stringify(values)
       }
     );
 
-    switch (response.status) {
-      case 200:
-        const recentActivity = await response.json();
-        dispatch(editCaseNoteSuccess(recentActivity));
-        return dispatch(closeCaseNoteDialog());
-      case 401:
-        return dispatch(push("/login"));
-      case 500:
-        return dispatch(editCaseNoteFailure());
-      default:
-        return dispatch(editCaseNoteFailure());
-    }
+    dispatch(editCaseNoteSuccess(response.data));
+    return dispatch(closeCaseNoteDialog());
   } catch (error) {
     return dispatch(editCaseNoteFailure());
   }

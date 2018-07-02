@@ -57,24 +57,6 @@ describe("createUser", () => {
     expect(dispatch).toHaveBeenCalledWith(createUserFailure());
   });
 
-  test("should not dispatch success if unauthorized and should redirect", async () => {
-    const user = { someUser: "some value" };
-
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .post("/api/users", user)
-      .reply(401, user);
-
-    await createUser(user)(dispatch);
-
-    expect(dispatch).not.toHaveBeenCalledWith(createUserSuccess(user));
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
-  });
-
   test("should redirect immediately if token missing", async () => {
     getAccessToken.mockImplementation(() => false);
 

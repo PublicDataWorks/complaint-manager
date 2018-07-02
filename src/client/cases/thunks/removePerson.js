@@ -6,6 +6,7 @@ import {
   removePersonFailure,
   removePersonSuccess
 } from "../../actionCreators/casesActionCreators";
+import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -18,7 +19,7 @@ const removePerson = ({ personType, id, caseId }) => async dispatch => {
       return dispatch(push("/login"));
     }
 
-    const response = await fetch(
+    const response = await axios(
       `${hostname}/api/cases/${caseId}/${personType}/${id}`,
       {
         method: "DELETE",
@@ -29,18 +30,8 @@ const removePerson = ({ personType, id, caseId }) => async dispatch => {
       }
     );
 
-    switch (response.status) {
-      case 200:
-        const caseDetails = await response.json();
-        dispatch(closeRemovePersonDialog());
-        return dispatch(removePersonSuccess(caseDetails, personTypeForDisplay));
-      case 401:
-        return dispatch(push("/login"));
-      case 500:
-        return dispatch(removePersonFailure(personTypeForDisplay));
-      default:
-        return dispatch(removePersonFailure(personTypeForDisplay));
-    }
+    dispatch(closeRemovePersonDialog());
+    return dispatch(removePersonSuccess(response.data, personTypeForDisplay));
   } catch (error) {
     return dispatch(removePersonFailure(personTypeForDisplay));
   }

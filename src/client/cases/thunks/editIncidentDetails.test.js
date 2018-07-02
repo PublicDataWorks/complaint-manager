@@ -35,10 +35,7 @@ describe("editIncidentDetails", () => {
     const response = {};
     getAccessToken.mockImplementationOnce(() => "TEST_TOKEN");
 
-    nock("http://localhost", {
-      "Content-Type": "application/json",
-      Authorization: `Bearer TEST_TOKEN`
-    })
+    nock("http://localhost")
       .put(`/api/cases/${updateDetails.id}`, JSON.stringify(updateDetails))
       .reply(200, response);
 
@@ -70,28 +67,6 @@ describe("editIncidentDetails", () => {
     await editIncidentDetails(updateDetails, closeDialogCallback)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(updateIncidentDetailsFailure());
-  });
-
-  test("should redirect to login on unauthorized response", async () => {
-    getAccessToken.mockImplementationOnce(() => "TEST_TOKEN");
-
-    const updateDetails = {
-      id: 17,
-      firstContactDate: "2018-04-01",
-      incidentDate: "2018-04-01",
-      incidentTime: "16:00:00"
-    };
-
-    nock("http://localhost", {
-      "Content-Type": "application/json",
-      Authorization: `Bearer TEST_TOKEN`
-    })
-      .put(`/api/cases/${updateDetails.id}`, JSON.stringify(updateDetails))
-      .reply(401);
-
-    await editIncidentDetails(updateDetails, closeDialogCallback)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
   test("should dispatch failure on error", async () => {

@@ -6,6 +6,7 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import config from "../../config/config";
 import { push } from "react-router-redux";
+import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -16,7 +17,7 @@ const removeCaseNote = (caseId, caseNoteId) => async dispatch => {
       return dispatch(push("/login"));
     }
 
-    const response = await fetch(
+    const response = await axios(
       `${hostname}/api/cases/${caseId}/recent-activity/${caseNoteId}`,
       {
         method: "DELETE",
@@ -27,18 +28,8 @@ const removeCaseNote = (caseId, caseNoteId) => async dispatch => {
       }
     );
 
-    switch (response.status) {
-      case 200:
-        dispatch(closeRemoveCaseNoteDialog());
-        const currentCase = await response.json();
-        return dispatch(removeCaseNoteSuccess(currentCase));
-      case 500:
-        return dispatch(removeCaseNoteFailure());
-      case 401:
-        return dispatch(push("/login"));
-      default:
-        return dispatch(removeCaseNoteFailure());
-    }
+    dispatch(closeRemoveCaseNoteDialog());
+    return dispatch(removeCaseNoteSuccess(response.data));
   } catch (error) {
     return dispatch(removeCaseNoteFailure());
   }

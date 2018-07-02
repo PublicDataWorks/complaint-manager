@@ -6,6 +6,8 @@ import {
 } from "../../actionCreators/attachmentsActionCreators";
 import config from "../../config/config";
 import getRecentActivity from "./getRecentActivity";
+import axios from "axios";
+
 const hostname = config[process.env.NODE_ENV].hostname;
 
 const removeAttachment = (
@@ -20,7 +22,7 @@ const removeAttachment = (
       dispatch(push(`/login`));
       return dispatch(removeAttachmentFailed());
     }
-    const response = await fetch(
+    const response = await axios(
       `${hostname}/api/cases/${caseId}/attachments/${fileName}`,
       {
         method: "DELETE",
@@ -31,18 +33,9 @@ const removeAttachment = (
       }
     );
 
-    switch (response.status) {
-      case 200:
-        const caseDetails = await response.json();
-        shouldCloseDialog();
-        dispatch(removeAttachmentSuccess(caseDetails));
-        return await dispatch(getRecentActivity(caseDetails.id));
-      case 401:
-        dispatch(push(`/login`));
-        return dispatch(removeAttachmentFailed());
-      default:
-        return dispatch(removeAttachmentFailed());
-    }
+    shouldCloseDialog();
+    dispatch(removeAttachmentSuccess(response.data));
+    return await dispatch(getRecentActivity(response.data.id));
   } catch (error) {
     return dispatch(removeAttachmentFailed());
   }

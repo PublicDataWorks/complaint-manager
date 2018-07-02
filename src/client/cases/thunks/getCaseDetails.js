@@ -2,6 +2,7 @@ import getAccessToken from "../../auth/getAccessToken";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import { push } from "react-router-redux";
 import config from "../../config/config";
+import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -13,7 +14,7 @@ const getCaseDetails = caseId => async dispatch => {
       return dispatch(push(`/login`));
     }
 
-    const response = await fetch(`${hostname}/api/cases/${caseId}`, {
+    const response = await axios(`${hostname}/api/cases/${caseId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -21,15 +22,7 @@ const getCaseDetails = caseId => async dispatch => {
       }
     });
 
-    switch (response.status) {
-      case 200:
-        const responseBody = await response.json();
-        return dispatch(getCaseDetailsSuccess(responseBody));
-      case 401:
-        return dispatch(push(`/login`));
-      default:
-        return;
-    }
+    return dispatch(getCaseDetailsSuccess(response.data));
   } catch (e) {}
 };
 

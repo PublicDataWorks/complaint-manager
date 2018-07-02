@@ -38,19 +38,6 @@ describe("edit civilian thunk", () => {
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
-  test("should redirect to login if unauthorized", async () => {
-    nock("http://localhost", {
-      "Content-Type": "application/json",
-      Authorization: `Bearer TEST_TOKEN`
-    })
-      .put(`/api/civilian/${civilian.id}`, civilian)
-      .reply(401, responseBody);
-
-    await editCivilian(civilian)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
-  });
-
   test("should dispatch error action if we get an unrecognized response", async () => {
     nock("http://localhost", {})
       .put(`/api/civilian/${civilian.id}`, civilian)

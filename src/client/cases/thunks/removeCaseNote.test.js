@@ -23,20 +23,13 @@ describe("removeCaseNote", () => {
       }
     };
 
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer TEST_TOKEN"
-      }
-    })
+    nock("http://localhost")
       .delete(`/api/cases/${caseId}/recent-activity/${caseNoteId}`)
       .reply(200, responseBody);
 
     await removeCaseNote(caseId, caseNoteId)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(
-      removeCaseNoteSuccess(responseBody)
-    );
+    expect(dispatch).toHaveBeenCalledWith(removeCaseNoteSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(closeRemoveCaseNoteDialog());
   });
 
@@ -58,26 +51,6 @@ describe("removeCaseNote", () => {
     await removeCaseNote(caseId, caseNoteId)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(removeCaseNoteFailure());
-  });
-
-  test("should redirect if unauthorized", async () => {
-    const dispatch = jest.fn();
-
-    const caseId = 1;
-    const caseNoteId = 2;
-
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer TEST_TOKEN"
-      }
-    })
-      .delete(`/api/cases/${caseId}/recent-activity/${caseNoteId}`)
-      .reply(401);
-
-    await removeCaseNote(caseId, caseNoteId)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
   test("should redirect immediately if token missing", async () => {

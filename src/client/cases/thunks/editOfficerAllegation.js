@@ -6,6 +6,7 @@ import {
   snackbarSuccess
 } from "../../actionCreators/snackBarActionCreators";
 import { updateAllegationDetailsSuccess } from "../../actionCreators/casesActionCreators";
+import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -18,7 +19,7 @@ const editOfficerAllegation = allegation => async dispatch => {
   }
 
   try {
-    const response = await fetch(
+    const response = await axios(
       `${hostname}/api/officers-allegations/${allegation.id}`,
       {
         method: "PUT",
@@ -26,24 +27,12 @@ const editOfficerAllegation = allegation => async dispatch => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(allegation)
+        data: JSON.stringify(allegation)
       }
     );
 
-    switch (response.status) {
-      case 401:
-        return dispatch(push("/login"));
-      case 200:
-        const responseBody = await response.json();
-        dispatch(updateAllegationDetailsSuccess(allegation.id, responseBody));
-        return dispatch(snackbarSuccess("Allegation successfully updated"));
-      default:
-        return dispatch(
-          snackbarError(
-            "Something went wrong on our end and the allegation was not updated."
-          )
-        );
-    }
+    dispatch(updateAllegationDetailsSuccess(allegation.id, response.data));
+    return dispatch(snackbarSuccess("Allegation successfully updated"));
   } catch (error) {
     return dispatch(
       snackbarError(

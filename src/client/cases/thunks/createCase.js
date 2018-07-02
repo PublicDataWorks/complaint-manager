@@ -7,8 +7,9 @@ import {
 import { reset } from "redux-form";
 import { push } from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
-
+import axios from "axios";
 import config from "../../config/config";
+
 const hostname = config[process.env.NODE_ENV].hostname;
 
 const createCase = creationDetails => async dispatch => {
@@ -22,41 +23,31 @@ const createCase = creationDetails => async dispatch => {
       return dispatch(createCaseFailure());
     }
 
-    const response = await fetch(`${hostname}/api/cases`, {
+    const response = await axios(`${hostname}/api/cases`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify(creationDetails.caseDetails)
+      data: JSON.stringify(creationDetails.caseDetails)
     });
 
-    switch (response.status) {
-      case 201:
-        const createdCase = await response.json();
-        dispatch(createCaseSuccess(createdCase));
-        dispatch(closeCreateCaseDialog())
-        if (creationDetails.redirect) {
-          if (
-            creationDetails.caseDetails.case.complainantType ===
-            "Police Officer"
-          ) {
-            dispatch(
-              push(`/cases/${createdCase.id}/officers/search?role=Complainant`)
-            );
-          } else if (
-            creationDetails.caseDetails.case.complainantType === "Civilian"
-          ) {
-            dispatch(push(`/cases/${createdCase.id}`));
-          }
-        }
-        return dispatch(reset("CreateCase"));
-      case 401:
-        dispatch(push(`/login`));
-        return dispatch(createCaseFailure());
-      default:
-        return dispatch(createCaseFailure());
+    dispatch(createCaseSuccess(response.data));
+    dispatch(closeCreateCaseDialog());
+    if (creationDetails.redirect) {
+      if (
+        creationDetails.caseDetails.case.complainantType === "Police Officer"
+      ) {
+        dispatch(
+          push(`/cases/${response.data.id}/officers/search?role=Complainant`)
+        );
+      } else if (
+        creationDetails.caseDetails.case.complainantType === "Civilian"
+      ) {
+        dispatch(push(`/cases/${response.data.id}`));
+      }
     }
+    return dispatch(reset("CreateCase"));
   } catch (e) {
     return dispatch(createCaseFailure());
   }

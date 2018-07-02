@@ -3,6 +3,7 @@ import { push } from "react-router-redux";
 import config from "../../config/config";
 import { getCaseHistorySuccess } from "../../actionCreators/caseHistoryActionCreators";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
+import axios from "axios";
 
 const getCaseHistory = caseId => async dispatch => {
   const hostname = config[process.env.NODE_ENV].hostname;
@@ -12,7 +13,7 @@ const getCaseHistory = caseId => async dispatch => {
       return dispatch(push(`/login`));
     }
 
-    const response = await fetch(
+    const response = await axios(
       `${hostname}/api/cases/${caseId}/case-history`,
       {
         method: "GET",
@@ -23,19 +24,7 @@ const getCaseHistory = caseId => async dispatch => {
       }
     );
 
-    switch (response.status) {
-      case 200:
-        const responseBody = await response.json();
-        return dispatch(getCaseHistorySuccess(responseBody));
-      case 401:
-        return dispatch(push(`/login`));
-      default:
-        return dispatch(
-          snackbarError(
-            "Something went wrong and we could not fetch the case history."
-          )
-        );
-    }
+    return dispatch(getCaseHistorySuccess(response.data));
   } catch (error) {
     return dispatch(
       snackbarError(

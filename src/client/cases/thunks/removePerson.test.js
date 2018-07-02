@@ -33,19 +33,6 @@ describe("removePerson", () => {
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
-  test("should redirect to login if unauthorized", async () => {
-    nock("http://localhost", {
-      "Content-Type": "application/json",
-      Authorization: `Bearer TEST_TOKEN`
-    })
-      .delete(`/api/cases/${caseId}/${personType}/${id}`)
-      .reply(401);
-
-    await removePerson(personDetails)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
-  });
-
   test("should dispatch error action if we get an unrecognized response", async () => {
     nock("http://localhost", {})
       .delete(`/api/cases/${caseId}/${personType}/${id}`)
@@ -53,7 +40,9 @@ describe("removePerson", () => {
 
     await removePerson(personDetails)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(removePersonFailure(personTypeForDisplay));
+    expect(dispatch).toHaveBeenCalledWith(
+      removePersonFailure(personTypeForDisplay)
+    );
   });
 
   test("should dispatch success when civilian removed successfully", async () => {
@@ -68,7 +57,9 @@ describe("removePerson", () => {
       .reply(200, response);
 
     await removePerson(personDetails)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(removePersonSuccess(response, personTypeForDisplay));
+    expect(dispatch).toHaveBeenCalledWith(
+      removePersonSuccess(response, personTypeForDisplay)
+    );
     expect(dispatch).toHaveBeenCalledWith(closeRemovePersonDialog());
   });
 });

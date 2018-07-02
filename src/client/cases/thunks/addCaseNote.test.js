@@ -71,24 +71,4 @@ describe("addCaseNote", () => {
     );
     expect(dispatch).toHaveBeenCalledWith(closeCaseNoteDialog());
   });
-
-  test("should not dispatch success if unauthorized and redirect", async () => {
-    const caseNote = {
-      caseId: 12,
-      action: "Miscellaneous"
-    };
-
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .post(`/api/cases/${caseNote.caseId}/recent-activity`, caseNote)
-      .reply(401);
-
-    await addCaseNote(caseNote)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
-  });
 });

@@ -7,6 +7,7 @@ import {
   clearSelectedOfficer
 } from "../../actionCreators/officersActionCreators";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
+import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -20,7 +21,7 @@ const addOfficer = (caseId, officerId, values) => async dispatch => {
       dispatch(push("/login"));
       throw new Error("No access token found");
     }
-    const response = await fetch(
+    const response = await axios(
       `${hostname}/api/cases/${caseId}/cases-officers`,
       {
         method: "POST",
@@ -28,22 +29,16 @@ const addOfficer = (caseId, officerId, values) => async dispatch => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(payload)
+        data: JSON.stringify(payload)
       }
     );
 
-    if (response.status === 200) {
-      dispatch(addOfficerToCaseSuccess(await response.json()));
-      dispatch(clearSelectedOfficer());
-      dispatch(
-        snackbarSuccess(`Officer successfully added as ${values.roleOnCase}`)
-      );
-      dispatch(push(`/cases/${caseId}`));
-    } else if (response.status === 401) {
-      dispatch(push("/login"));
-    } else {
-      dispatch(addOfficerToCaseFailure());
-    }
+    dispatch(addOfficerToCaseSuccess(response.data));
+    dispatch(clearSelectedOfficer());
+    dispatch(
+      snackbarSuccess(`Officer successfully added as ${values.roleOnCase}`)
+    );
+    dispatch(push(`/cases/${caseId}`));
   } catch (e) {
     dispatch(addOfficerToCaseFailure());
   }

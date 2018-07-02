@@ -22,32 +22,12 @@ describe("getCaseHistory", () => {
     const responseBody = [{ action: "updated", changes: {} }];
     getAccessToken.mockImplementation(() => token);
 
-    nock("http://localhost/", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
-    })
+    nock("http://localhost/")
       .get(`/api/cases/${caseId}/case-history`)
       .reply(200, responseBody);
 
     await getCaseHistory(caseId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(getCaseHistorySuccess(responseBody));
-  });
-
-  test("redirects to login when server call returns 401", async () => {
-    getAccessToken.mockImplementation(() => token);
-    nock("http://localhost/", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .get(`/api/cases/${caseId}/case-history`)
-      .reply(401);
-
-    await getCaseHistory(caseId)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
   test("dispatches snackbar error when 500 response code", async () => {

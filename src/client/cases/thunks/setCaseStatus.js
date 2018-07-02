@@ -9,6 +9,7 @@ import {
   closeCaseStatusUpdateDialog,
   updateCaseStatusSuccess
 } from "../../actionCreators/casesActionCreators";
+import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -19,33 +20,20 @@ const setCaseStatus = (caseId, status) => async dispatch => {
   }
 
   try {
-    const response = await fetch(`${hostname}/api/cases/${caseId}/status`, {
+    const response = await axios(`${hostname}/api/cases/${caseId}/status`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({
+      data: JSON.stringify({
         status
       })
     });
 
-    switch (response.status) {
-      case 200:
-        const caseDetails = await response.json();
-        dispatch(snackbarSuccess("Status successfully updated"));
-        dispatch(closeCaseStatusUpdateDialog());
-        return dispatch(updateCaseStatusSuccess(caseDetails));
-
-      case 401:
-        return dispatch(push(`/login`));
-      default:
-        return dispatch(
-          snackbarError(
-            "Something went wrong and the case status was not updated."
-          )
-        );
-    }
+    dispatch(snackbarSuccess("Status successfully updated"));
+    dispatch(closeCaseStatusUpdateDialog());
+    return dispatch(updateCaseStatusSuccess(response.data));
   } catch (err) {
     return dispatch(
       snackbarError("Something went wrong and the case status was not updated.")

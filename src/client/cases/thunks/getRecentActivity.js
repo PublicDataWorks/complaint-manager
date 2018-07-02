@@ -2,6 +2,7 @@ import config from "../../config/config";
 import { getRecentActivitySuccess } from "../../actionCreators/casesActionCreators";
 import getAccessToken from "../../auth/getAccessToken";
 import { push } from "react-router-redux";
+import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -12,7 +13,7 @@ const getRecentActivity = caseId => async dispatch => {
       return dispatch(push("/login"));
     }
 
-    const response = await fetch(
+    const response = await axios(
       `${hostname}/api/cases/${caseId}/recent-activity`,
       {
         method: "GET",
@@ -23,15 +24,7 @@ const getRecentActivity = caseId => async dispatch => {
       }
     );
 
-    switch (response.status) {
-      case 200:
-        const recentActivity = await response.json();
-        return dispatch(getRecentActivitySuccess(recentActivity));
-      case 401:
-        return dispatch(push("/login"));
-      default:
-        return;
-    }
+    return dispatch(getRecentActivitySuccess(response.data));
   } catch (error) {}
 };
 

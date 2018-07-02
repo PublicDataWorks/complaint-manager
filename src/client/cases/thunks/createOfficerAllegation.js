@@ -6,6 +6,7 @@ import {
   snackbarSuccess
 } from "../../actionCreators/snackBarActionCreators";
 import { createOfficerAllegationSuccess } from "../../actionCreators/allegationsActionCreators";
+import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -26,7 +27,7 @@ const createOfficerAllegation = (
       return dispatch(push("/login"));
     }
 
-    const response = await fetch(
+    const response = await axios(
       `${hostname}/api/cases/${caseId}/cases-officers/${caseOfficerId}/officers-allegations`,
       {
         method: "POST",
@@ -34,23 +35,13 @@ const createOfficerAllegation = (
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(formValues)
+        data: JSON.stringify(formValues)
       }
     );
 
-    switch (response.status) {
-      case 201:
-        const caseDetails = await response.json();
-        addAllegationSuccessCallback();
-        dispatch(createOfficerAllegationSuccess(caseDetails));
-        return dispatch(snackbarSuccess(successMessage));
-      case 401:
-        return dispatch(push(`/login`));
-      case 500:
-        return dispatch(snackbarError(errorMessage));
-      default:
-        return dispatch(snackbarError(errorMessage));
-    }
+    addAllegationSuccessCallback();
+    dispatch(createOfficerAllegationSuccess(response.data));
+    return dispatch(snackbarSuccess(successMessage));
   } catch (error) {
     return dispatch(snackbarError(errorMessage));
   }
