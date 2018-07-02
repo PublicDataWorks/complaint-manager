@@ -5,6 +5,7 @@ import {
   closeEditAllegationForm,
   openEditAllegationForm
 } from "../actionCreators/allegationsActionCreators";
+import RemoveOfficerAllegationDialog from "./RemoveOfficerAllegationDialog";
 
 const OfficerAllegations = props => {
   const {
@@ -26,6 +27,7 @@ const OfficerAllegations = props => {
           officerAllegation={officerAllegation}
         />
       ))}
+      <RemoveOfficerAllegationDialog />
     </Fragment>
   );
 };

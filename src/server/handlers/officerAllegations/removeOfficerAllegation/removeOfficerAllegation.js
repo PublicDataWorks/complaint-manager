@@ -1,8 +1,7 @@
-import Boom from "boom";
-
 const asyncMiddleware = require("../../asyncMiddleware");
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
 const models = require("../../../models");
+const Boom = require("boom");
 
 const removeOfficerAllegation = asyncMiddleware(
   async (request, response, next) => {

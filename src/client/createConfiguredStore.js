@@ -25,6 +25,7 @@ import createCaseDialogReducer from "./reducers/ui/createCaseDialogReducer";
 import updateCaseStatusDialogReducer from "./reducers/ui/updateCaseStatusDialogReducer";
 import accusedOfficerPanelsReducer from "./reducers/ui/accusedOfficerPanelsReducer";
 import editAllegationFormsReducer from "./reducers/ui/editAllegationFormsReducer";
+import removeOfficerAllegationDialogReducer from "./reducers/ui/removeOfficerAllegationDialogReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -55,6 +56,7 @@ const rootReducer = combineReducers({
     search: searchReducer,
     allegations: allegationMenuDisplay,
     editAllegationForms: editAllegationFormsReducer,
+    removeOfficerAllegationDialog: removeOfficerAllegationDialogReducer,
     accusedOfficerPanels: accusedOfficerPanelsReducer
   }),
   officers: searchOfficersReducer

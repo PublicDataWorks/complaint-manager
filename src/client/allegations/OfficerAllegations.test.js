@@ -6,6 +6,8 @@ import { Provider } from "react-redux";
 import { EDIT_ALLEGATION_FORM_CLOSED } from "../../sharedUtilities/constants";
 import editOfficerAllegation from "../cases/thunks/editOfficerAllegation";
 import { changeInput } from "../../testHelpers";
+import { openRemoveOfficerAllegationDialog } from "../actionCreators/allegationsActionCreators";
+import { getCaseDetailsSuccess } from "../actionCreators/casesActionCreators";
 
 //mock thunk to return action that closes the allegation form
 jest.mock("../cases/thunks/editOfficerAllegation", () => allegation => ({
@@ -44,6 +46,9 @@ describe("OfficerAllegations", function() {
     ];
 
     const store = createConfiguredStore();
+    store.dispatch(
+      getCaseDetailsSuccess({ accusedOfficers: [{ id: caseOfficerId }] })
+    );
     dispatchSpy = jest.spyOn(store, "dispatch");
 
     wrapper = mount(
@@ -126,5 +131,16 @@ describe("OfficerAllegations", function() {
 
     expect(updatedEditButton1.exists()).toEqual(true);
     expect(saveAllegationButton.exists()).toEqual(false);
+  });
+
+  test("should open remove allegation dialog when remove button clicked", () => {
+    const removeButton = allegation1
+      .find('[data-test="removeAllegationButton"]')
+      .last();
+    removeButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openRemoveOfficerAllegationDialog(officerAllegations[0])
+    );
   });
 });

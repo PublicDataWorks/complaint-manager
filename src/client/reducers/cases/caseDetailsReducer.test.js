@@ -12,11 +12,13 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import { removeAttachmentSuccess } from "../../actionCreators/attachmentsActionCreators";
 import {
-  ADD_OFFICER_TO_CASE_SUCCEEDED, CASE_STATUS,
+  ADD_OFFICER_TO_CASE_SUCCEEDED,
+  CASE_STATUS,
   CIVILIAN_CREATION_SUCCEEDED,
   REMOVE_ATTACHMENT_SUCCESS
 } from "../../../sharedUtilities/constants";
 import { addOfficerToCaseSuccess } from "../../actionCreators/officersActionCreators";
+import { removeOfficerAllegationSuccess } from "../../actionCreators/allegationsActionCreators";
 
 describe("caseDetailsReducers", () => {
   test("should default to empty object", () => {
@@ -174,6 +176,19 @@ describe("caseDetailsReducers", () => {
         removePersonSuccess(newCaseDetails)
       );
 
+      expect(newState).toEqual(newCaseDetails);
+    });
+  });
+
+  describe("REMOVE_OFFICER_ALLEGATION_SUCCEEDED", () => {
+    test("should update current case after officer allegation is removed", () => {
+      const oldCaseDetails = { allegation: { details: "some details" } };
+      const newCaseDetails = { allegation: {} };
+
+      const newState = caseDetailsReducer(
+        oldCaseDetails,
+        removeOfficerAllegationSuccess(newCaseDetails)
+      );
       expect(newState).toEqual(newCaseDetails);
     });
   });

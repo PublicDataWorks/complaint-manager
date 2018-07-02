@@ -8,8 +8,10 @@ import {
 import OfficerInfoDisplay from "../../cases/CaseDetails/Officers/OfficerInfoDisplay";
 import { withStyles } from "@material-ui/core/styles/index";
 import React from "react";
+import { connect } from "react-redux";
 import EditOfficerAllegationForm from "./EditOfficerAllegationForm";
 import LinkButton from "../../shared/components/LinkButton";
+import { openRemoveOfficerAllegationDialog } from "../../actionCreators/allegationsActionCreators";
 
 const styles = {
   root: {
@@ -50,6 +52,13 @@ class OfficerAllegationPanelForm extends React.Component {
     e.stopPropagation();
     this.props.openEditAllegationForm(id);
     this.setState({ expanded: true });
+  };
+
+  handleRemoveAllegation = () => e => {
+    e.stopPropagation();
+    this.props.dispatch(
+      openRemoveOfficerAllegationDialog(this.props.officerAllegation)
+    );
   };
 
   componentWillUnmount() {
@@ -98,12 +107,20 @@ class OfficerAllegationPanelForm extends React.Component {
           </div>
           <div style={{ flex: 1, minWidth: "88px" }}>
             {editMode ? null : (
-              <LinkButton
-                data-test={"editAllegationButton"}
-                onClick={this.handleSubmit(id)}
-              >
-                Edit
-              </LinkButton>
+              <div>
+                <LinkButton
+                  data-test={"editAllegationButton"}
+                  onClick={this.handleSubmit(id)}
+                >
+                  Edit
+                </LinkButton>
+                <LinkButton
+                  data-test={"removeAllegationButton"}
+                  onClick={this.handleRemoveAllegation()}
+                >
+                  Remove
+                </LinkButton>
+              </div>
             )}
           </div>
         </ExpansionPanelSummary>
@@ -124,4 +141,5 @@ class OfficerAllegationPanelForm extends React.Component {
   }
 }
 
-export default withStyles(styles)(OfficerAllegationPanelForm);
+const StyledComponent = withStyles(styles)(OfficerAllegationPanelForm);
+export default connect()(StyledComponent);
