@@ -4,9 +4,15 @@ import models from "../../../models";
 import Case from "../../../../client/testUtilities/case";
 import httpMocks from "node-mocks-http";
 import editCaseOfficer from "./editCaseOfficer";
-import { ACCUSED, WITNESS } from "../../../../sharedUtilities/constants";
+import {
+  ACCUSED,
+  COMPLAINANT,
+  WITNESS
+} from "../../../../sharedUtilities/constants";
 import Boom from "boom";
 import { cleanupDatabase } from "../../../requestTestHelpers";
+import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
+import Allegation from "../../../../client/testUtilities/Allegation";
 
 describe("editCaseOfficer", () => {
   afterEach(async () => {
@@ -436,5 +442,159 @@ describe("editCaseOfficer", () => {
     expect(existingCaseOfficer.roleOnCase).toEqual(ACCUSED);
     expect(existingCaseOfficer.firstName).toEqual(createdNewOfficer.firstName);
     expect(existingCaseOfficer.lastName).toEqual(createdNewOfficer.lastName);
+  });
+
+  describe("changing officer role on case", () => {
+    let existingCaseOfficerAttributes,
+      existingCaseOfficer,
+      existingOfficer,
+      officerAllegationAttributes;
+
+    beforeEach(async () => {
+      const existingOfficerAttributes = new Officer.Builder()
+        .defaultOfficer()
+        .withFirstName("Brandon")
+        .withId(undefined)
+        .withOfficerNumber(200)
+        .withHireDate("2018-01-12")
+        .build();
+
+      existingOfficer = await models.officer.create(existingOfficerAttributes);
+
+      const caseOfficerId = 2;
+      const allegationAttributes = new Allegation.Builder()
+        .defaultAllegation()
+        .withId(undefined)
+        .build();
+
+      const existingAllegation = await models.allegation.create(
+        allegationAttributes
+      );
+
+      officerAllegationAttributes = new OfficerAllegation.Builder()
+        .defaultOfficerAllegation()
+        .withCaseOfficerId(caseOfficerId)
+        .withAllegationId(existingAllegation.id)
+        .build();
+
+      existingCaseOfficerAttributes = new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withId(caseOfficerId)
+        .withRoleOnCase(ACCUSED)
+        .withOfficerAttributes(existingOfficer)
+        .withOfficerAllegations(officerAllegationAttributes)
+        .withCaseId(existingCase.dataValues.id)
+        .build();
+
+      existingCaseOfficer = await models.case_officer.create(
+        existingCaseOfficerAttributes,
+        {
+          auditUser: "someone",
+          include: [{ model: models.officer_allegation, as: "allegations" }]
+        }
+      );
+    });
+
+    test("should remove allegations when changing officer role from accused to complainant", async () => {
+      const fieldsToUpdate = {
+        roleOnCase: COMPLAINANT
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "test user"
+      });
+
+      await editCaseOfficer(request, response, next);
+      await existingCaseOfficer.reload();
+
+      expect(existingCaseOfficer.allegations).toEqual([]);
+    });
+
+    test("should remove allegations when changing officer role from accused to witness", async () => {
+      const fieldsToUpdate = {
+        roleOnCase: WITNESS
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "test user"
+      });
+
+      await editCaseOfficer(request, response, next);
+      await existingCaseOfficer.reload();
+
+      expect(existingCaseOfficer.allegations).toEqual([]);
+    });
+
+    test("should not remove allegations when not changing officer role from accused", async () => {
+      const fieldsToUpdate = {
+        roleOnCase: ACCUSED,
+        notes: "some new notes"
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "test user"
+      });
+
+      await editCaseOfficer(request, response, next);
+      await existingCaseOfficer.reload();
+
+      expect(existingCaseOfficer.allegations).toEqual([
+        expect.objectContaining(officerAllegationAttributes)
+      ]);
+    });
+
+    test("should not remove allegations when editing officer fails", async () => {
+      const fieldsToUpdate = {
+        roleOnCase: "invalid role",
+        notes: "some new notes"
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "test user"
+      });
+
+      await editCaseOfficer(request, response, next);
+      await existingCaseOfficer.reload();
+
+      expect(existingCaseOfficer.allegations).toEqual([
+        expect.objectContaining(officerAllegationAttributes)
+      ]);
+    });
   });
 });
