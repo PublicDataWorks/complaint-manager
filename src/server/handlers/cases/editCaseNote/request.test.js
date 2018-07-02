@@ -6,7 +6,7 @@ import app from "../../../server";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../../requestTestHelpers";
+} from "../../../testHelpers/requestTestHelpers";
 
 describe("editCaseNote request", function() {
   afterEach(async () => {

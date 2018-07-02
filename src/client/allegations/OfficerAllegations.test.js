@@ -5,7 +5,7 @@ import createConfiguredStore from "../createConfiguredStore";
 import { Provider } from "react-redux";
 import { EDIT_ALLEGATION_FORM_CLOSED } from "../../sharedUtilities/constants";
 import editOfficerAllegation from "../cases/thunks/editOfficerAllegation";
-import { changeInput } from "../../testHelpers";
+import { changeInput } from "../testHelpers";
 import { openRemoveOfficerAllegationDialog } from "../actionCreators/allegationsActionCreators";
 import { getCaseDetailsSuccess } from "../actionCreators/casesActionCreators";
 

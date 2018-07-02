@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import updateNarrative from "../thunks/updateNarrative";
-import { changeInput, containsText } from "../../../testHelpers";
+import { changeInput, containsText } from "../../testHelpers";
 import Narrative from "./Narrative";
 import createConfiguredStore from "../../createConfiguredStore";
 import { Provider } from "react-redux";

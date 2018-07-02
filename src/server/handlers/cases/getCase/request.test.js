@@ -11,7 +11,7 @@ import { ACCUSED } from "../../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../../requestTestHelpers";
+} from "../../../testHelpers/requestTestHelpers";
 
 describe("GET /cases/:id", () => {
   let caseToRetrieve, incidentLocation, expectedStreetAddress, token;

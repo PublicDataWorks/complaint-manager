@@ -1,5 +1,5 @@
 import React from "react";
-import { containsText } from "../../../../testHelpers";
+import { containsText } from "../../../testHelpers";
 import ComplainantWitnesses from "./ComplainantWitnesses";
 import { mount } from "enzyme";
 import { openCivilianDialog } from "../../../actionCreators/casesActionCreators";

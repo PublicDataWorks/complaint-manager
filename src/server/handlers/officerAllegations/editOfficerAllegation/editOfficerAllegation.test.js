@@ -1,5 +1,5 @@
-import { cleanupDatabase } from "../../../requestTestHelpers";
-import { createCaseWithoutCivilian } from "../../../modelTestHelpers/helpers";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
 import { ACCUSED } from "../../../../sharedUtilities/constants";

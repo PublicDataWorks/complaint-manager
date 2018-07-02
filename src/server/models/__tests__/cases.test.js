@@ -1,8 +1,8 @@
 import models from "../index";
-import { createCaseWithoutCivilian } from "../../modelTestHelpers/helpers";
+import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import Civilian from "../../../client/testUtilities/civilian";
 import { CASE_STATUS } from "../../../sharedUtilities/constants";
-import { cleanupDatabase } from "../../requestTestHelpers";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
 
 describe("cases", function() {
@@ -106,10 +106,13 @@ describe("cases", function() {
     });
 
     test("allows status to stay the same", async () => {
-      await createdCase.update({status: CASE_STATUS.INITIAL}, {auditUser: 'someone'})
+      await createdCase.update(
+        { status: CASE_STATUS.INITIAL },
+        { auditUser: "someone" }
+      );
       await createdCase.reload();
       expect(createdCase.status).toEqual(CASE_STATUS.INITIAL);
-    })
+    });
   });
 
   describe("status beforeUpdate hook", async () => {

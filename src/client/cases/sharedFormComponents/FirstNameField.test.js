@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { reduxForm } from "redux-form";
 import { mount } from "enzyme/build/index";
 import createConfiguredStore from "../../createConfiguredStore";
-import { changeInput } from "../../../testHelpers";
+import { changeInput } from "../../testHelpers";
 
 describe("First name field", () => {
   let firstNameField, firstNameInput;

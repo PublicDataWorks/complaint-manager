@@ -6,8 +6,8 @@ import CaseNote from "../../../../client/testUtilities/caseNote";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../../requestTestHelpers";
-import {CASE_STATUS} from "../../../../sharedUtilities/constants";
+} from "../../../testHelpers/requestTestHelpers";
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 
 describe("removeCaseNote request", () => {
   afterEach(async () => {

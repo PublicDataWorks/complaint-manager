@@ -1,5 +1,5 @@
 import Case from "../../../client/testUtilities/case";
-import { cleanupDatabase } from "../../requestTestHelpers";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 const httpMocks = require("node-mocks-http");
 const models = require("../../models/index");
 const updateCaseNarrative = require("./updateCaseNarrative");

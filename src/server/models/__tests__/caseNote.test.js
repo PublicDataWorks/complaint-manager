@@ -1,8 +1,8 @@
-import { cleanupDatabase } from "../../requestTestHelpers";
-import { createCaseWithoutCivilian } from "../../modelTestHelpers/helpers";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import CaseNote from "../../../client/testUtilities/caseNote";
 import { CASE_STATUS } from "../../../sharedUtilities/constants";
-import models from "../../models"
+import models from "../../models";
 
 describe("caseNote", () => {
   afterEach(async () => {

@@ -4,7 +4,7 @@ import models from "../../../models";
 import Case from "../../../../client/testUtilities/case";
 import httpMocks from "node-mocks-http";
 import { WITNESS } from "../../../../sharedUtilities/constants";
-import { cleanupDatabase } from "../../../requestTestHelpers";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import removeCaseOfficer from "./removeCaseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";

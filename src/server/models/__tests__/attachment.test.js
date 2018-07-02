@@ -1,5 +1,5 @@
-import { cleanupDatabase } from "../../requestTestHelpers";
-import { createCaseWithoutCivilian } from "../../modelTestHelpers/helpers";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import models from "../../models";
 import { CASE_STATUS } from "../../../sharedUtilities/constants";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { changeInput, containsValue } from "../../../testHelpers";
+import { changeInput, containsValue } from "../../testHelpers";
 import { reduxForm } from "redux-form";
 import createConfiguredStore from "../../createConfiguredStore";
 import MiddleInitialField from "./MiddleInitialField";

@@ -1,7 +1,7 @@
 import React from "react";
 import CreateUserDialog from "./CreateUserDialog";
 import { mount } from "enzyme";
-import { changeInput, expectEventuallyNotToExist } from "../../../testHelpers";
+import { changeInput, expectEventuallyNotToExist } from "../../testHelpers";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../createConfiguredStore";
 import createUser from "../thunks/createUser";

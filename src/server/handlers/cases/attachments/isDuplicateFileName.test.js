@@ -1,7 +1,7 @@
 import Case from "../../../../client/testUtilities/case";
 const models = require("../../../models");
 const isDuplicateFileName = require("./isDuplicateFileName");
-import { cleanupDatabase } from "../../../requestTestHelpers";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 
 describe("generateFileName", () => {
   let newCase;

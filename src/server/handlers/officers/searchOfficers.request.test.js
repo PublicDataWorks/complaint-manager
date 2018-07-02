@@ -4,7 +4,7 @@ import request from "supertest";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../requestTestHelpers";
+} from "../../testHelpers/requestTestHelpers";
 import Officer from "../../../client/testUtilities/Officer";
 
 describe("GET /officers/search", () => {

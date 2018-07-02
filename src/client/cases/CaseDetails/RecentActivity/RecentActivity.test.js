@@ -2,10 +2,10 @@ import React from "react";
 import { mount } from "enzyme";
 import RecentActivity from "./RecentActivity";
 import moment from "moment";
-import { containsText } from "../../../../testHelpers";
+import { containsText } from "../../../testHelpers";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
-import {BrowserRouter as Router} from 'react-router-dom'
+import { BrowserRouter as Router } from "react-router-dom";
 
 describe("Recent Activity", () => {
   test("should display placeholder text when no recent activity", () => {
@@ -14,11 +14,11 @@ describe("Recent Activity", () => {
     const wrapper = mount(
       <Provider store={createConfiguredStore()}>
         <Router>
-            <RecentActivity
-              caseId={1}
-              dispatch={jest.fn()}
-              recentActivity={recentActivity}
-            />
+          <RecentActivity
+            caseId={1}
+            dispatch={jest.fn()}
+            recentActivity={recentActivity}
+          />
         </Router>
       </Provider>
     );
@@ -44,11 +44,11 @@ describe("Recent Activity", () => {
     const wrapper = mount(
       <Provider store={createConfiguredStore()}>
         <Router>
-            <RecentActivity
-              caseId={1}
-              dispatch={jest.fn()}
-              recentActivity={someRecentActivity}
-            />
+          <RecentActivity
+            caseId={1}
+            dispatch={jest.fn()}
+            recentActivity={someRecentActivity}
+          />
         </Router>
       </Provider>
     );

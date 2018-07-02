@@ -2,7 +2,7 @@ import Allegation from "../../../client/testUtilities/Allegation";
 import models from "../../models";
 import * as httpMocks from "node-mocks-http";
 import searchAllegations from "./searchAllegations";
-import { cleanupDatabase } from "../../requestTestHelpers";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { DEFAULT_PAGINATION_LIMIT } from "../../../sharedUtilities/constants";
 
 describe("searchAllegations handler", function() {

@@ -1,9 +1,9 @@
-import { cleanupDatabase } from "../../../requestTestHelpers";
-import { createCaseWithoutCivilian } from "../../../modelTestHelpers/helpers";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import changeStatus from "./changeStatus";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
-import Boom from 'boom';
+import Boom from "boom";
 
 describe("changeStatus", async () => {
   let initialCase, response, next;
@@ -71,6 +71,8 @@ describe("changeStatus", async () => {
     await changeStatus(request, response, next);
     await initialCase.reload();
 
-    expect(next).toBeCalledWith(Boom.badRequest(`Case #${initialCase.id + 5} doesn't exist`));
+    expect(next).toBeCalledWith(
+      Boom.badRequest(`Case #${initialCase.id + 5} doesn't exist`)
+    );
   });
 });

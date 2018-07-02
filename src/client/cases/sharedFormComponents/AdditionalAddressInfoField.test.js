@@ -4,7 +4,7 @@ import { mount } from "enzyme";
 import { reduxForm } from "redux-form";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../createConfiguredStore";
-import { containsText } from "../../../testHelpers";
+import { containsText } from "../../testHelpers";
 
 describe("AdditionalAddressInfoField", () => {
   test("should render a custom label", () => {

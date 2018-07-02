@@ -5,7 +5,7 @@ import app from "../../server";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../requestTestHelpers";
+} from "../../testHelpers/requestTestHelpers";
 
 afterEach(async () => {
   await cleanupDatabase();

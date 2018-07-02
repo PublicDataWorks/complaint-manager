@@ -4,7 +4,7 @@ import models from "../../../models";
 import httpMocks from "node-mocks-http";
 import getCaseHistory from "./getCaseHistory";
 import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
-import { cleanupDatabase } from "../../../requestTestHelpers";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 
 describe("getCaseHistory", () => {
   let request, response, next;

@@ -3,8 +3,8 @@ import Case from "../../../../client/testUtilities/case";
 import models from "../../../models";
 import CaseNote from "../../../../client/testUtilities/caseNote";
 import removeCaseNote from "./removeCaseNote";
-import { cleanupDatabase } from "../../../requestTestHelpers";
-import {CASE_STATUS} from "../../../../sharedUtilities/constants";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 
 describe("RemoveCaseNote unit", () => {
   afterEach(async () => {

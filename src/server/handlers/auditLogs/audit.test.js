@@ -1,7 +1,7 @@
 const httpMocks = require("node-mocks-http");
 const audit = require("./audit");
 const models = require("../../models/index");
-import { cleanupDatabase } from "../../requestTestHelpers";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 
 describe("Audit", () => {
   afterEach(async () => {

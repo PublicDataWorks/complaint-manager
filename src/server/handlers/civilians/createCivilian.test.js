@@ -2,7 +2,7 @@ import models from "../../models";
 const httpMocks = require("node-mocks-http");
 import createCivilian from "./createCivilian";
 import Case from "../../../client/testUtilities/case";
-import { cleanupDatabase } from "../../requestTestHelpers";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 
 describe("createCivilian handler", () => {
   afterEach(async () => {

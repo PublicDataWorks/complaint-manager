@@ -5,7 +5,7 @@ import createConfiguredStore from "../createConfiguredStore";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import AllegationDetailsForm from "./AllegationDetailsForm";
-import { changeInput } from "../../testHelpers";
+import { changeInput } from "../testHelpers";
 
 jest.mock(
   "../cases/thunks/createOfficerAllegation",

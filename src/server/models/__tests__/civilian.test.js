@@ -1,7 +1,10 @@
-import { cleanupDatabase } from "../../requestTestHelpers";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import models from "../../models";
 import { CASE_STATUS } from "../../../sharedUtilities/constants";
-import { createCaseWithCivilian, createCaseWithoutCivilian } from "../../modelTestHelpers/helpers";
+import {
+  createCaseWithCivilian,
+  createCaseWithoutCivilian
+} from "../../testHelpers/modelMothers";
 import Civilian from "../../../client/testUtilities/civilian";
 
 describe("civilian", () => {

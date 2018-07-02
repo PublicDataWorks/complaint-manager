@@ -4,7 +4,7 @@ import app from "../../server";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../requestTestHelpers";
+} from "../../testHelpers/requestTestHelpers";
 
 describe("GET /allegations", function() {
   let token;

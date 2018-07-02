@@ -1,7 +1,7 @@
 const httpMocks = require("node-mocks-http");
 const createCase = require("./createCase");
 const models = require("../../models");
-import { cleanupDatabase } from "../../requestTestHelpers";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 
 describe("createCase handler", () => {
   let request, response, next, caseAttributes, civilianAttributes, user;

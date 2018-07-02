@@ -10,9 +10,9 @@ import {
   WITNESS
 } from "../../../../sharedUtilities/constants";
 import Boom from "boom";
-import { cleanupDatabase } from "../../../requestTestHelpers";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
 import Allegation from "../../../../client/testUtilities/Allegation";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 
 describe("editCaseOfficer", () => {
   afterEach(async () => {

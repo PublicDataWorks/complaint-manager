@@ -3,8 +3,8 @@ import CaseNote from "../../../../client/testUtilities/caseNote";
 import models from "../../../models";
 import Case from "../../../../client/testUtilities/case";
 import editCaseNote from "./editCaseNote";
-import { cleanupDatabase } from "../../../requestTestHelpers";
-import {CASE_STATUS} from "../../../../sharedUtilities/constants";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 
 afterEach(async () => {
   await cleanupDatabase();

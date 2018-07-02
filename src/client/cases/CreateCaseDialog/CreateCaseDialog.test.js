@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import createConfiguredStore from "../../createConfiguredStore";
 import { mount } from "enzyme/build/index";
 import CreateCaseDialog from "./CreateCaseDialog";
-import { changeInput, expectEventuallyNotToExist } from "../../../testHelpers";
+import { changeInput, expectEventuallyNotToExist } from "../../testHelpers";
 import createCase from "../thunks/createCase";
 import { openSnackbar } from "../../actionCreators/snackBarActionCreators";
 import moment from "moment";
@@ -143,9 +143,15 @@ describe("CreateCaseDialog component", () => {
           .last();
 
         expect(civilianRadioButton.prop("checked")).toEqual(true);
-        expect(dialog.find('[data-test="firstNameField"]').exists()).toBeTruthy();
-        expect(dialog.find('[data-test="createAndView"]').exists()).toBeTruthy();
-        expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeTruthy();
+        expect(
+          dialog.find('[data-test="firstNameField"]').exists()
+        ).toBeTruthy();
+        expect(
+          dialog.find('[data-test="createAndView"]').exists()
+        ).toBeTruthy();
+        expect(
+          dialog.find('[data-test="createCaseOnly"]').exists()
+        ).toBeTruthy();
       });
     });
   });

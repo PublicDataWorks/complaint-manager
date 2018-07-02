@@ -1,5 +1,5 @@
 import React from "react";
-import { changeInput, containsText, containsValue } from "../../../testHelpers";
+import { changeInput, containsText, containsValue } from "../../testHelpers";
 import { reduxForm } from "redux-form";
 import createConfiguredStore from "../../createConfiguredStore";
 import { mount } from "enzyme/build/index";

@@ -12,7 +12,7 @@ import {
   containsValue,
   expectEventuallyNotToExist,
   selectDropdownOption
-} from "../../../../testHelpers";
+} from "../../../testHelpers";
 import { initialize } from "redux-form";
 import Address from "../../../testUtilities/Address";
 import Civilian from "../../../testUtilities/civilian";

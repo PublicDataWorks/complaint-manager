@@ -1,8 +1,8 @@
-import { cleanupDatabase } from "../../requestTestHelpers";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
   createCaseWithCivilian,
   createCaseWithoutCivilian
-} from "../../modelTestHelpers/helpers";
+} from "../../testHelpers/modelMothers";
 import Address from "../../../client/testUtilities/Address";
 import { CASE_STATUS } from "../../../sharedUtilities/constants";
 import models from "../../models";
@@ -62,5 +62,4 @@ describe("address", () => {
       "very legit street. i mean it"
     );
   });
-
 });

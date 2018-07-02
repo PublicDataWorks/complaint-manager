@@ -1,10 +1,10 @@
 import Case from "../../../client/testUtilities/case";
 import Address from "../../../client/testUtilities/Address";
 import Civilian from "../../../client/testUtilities/civilian";
-import { cleanupDatabase } from "../../requestTestHelpers";
-import {CASE_STATUS} from "../../../sharedUtilities/constants";
-import Boom from 'boom';
-import {createCaseWithCivilian} from "../../modelTestHelpers/helpers";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import { CASE_STATUS } from "../../../sharedUtilities/constants";
+import Boom from "boom";
+import { createCaseWithCivilian } from "../../testHelpers/modelMothers";
 
 const editCivilian = require("./editCivilian");
 const models = require("../../models/index");
@@ -16,12 +16,14 @@ describe("editCivilian handler editing civilian with no address", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
-  beforeEach(async()=>{
+  beforeEach(async () => {
     existingCase = await createCaseWithCivilian();
-  })
+  });
 
   test("should create, not update, an address when no address ID given", async () => {
-    const existingCivilians = await existingCase.getComplainantCivilians({include: [models.address]});
+    const existingCivilians = await existingCase.getComplainantCivilians({
+      include: [models.address]
+    });
     const existingCivilian = existingCivilians[0];
     const initialAddressCount = await models.address.count();
     const request = httpMocks.createRequest({
@@ -53,12 +55,11 @@ describe("editCivilian handler editing civilian with no address", () => {
       })
     );
     expect(updatedAddressCount).toEqual(initialAddressCount + 1);
-    await existingCase.reload()
-    expect(existingCase.status).toEqual(CASE_STATUS.ACTIVE)
+    await existingCase.reload();
+    expect(existingCase.status).toEqual(CASE_STATUS.ACTIVE);
   });
 
   test("should call next when missing civilian id", async () => {
-
     const request = httpMocks.createRequest({
       method: "PUT",
       body: {},
@@ -68,9 +69,11 @@ describe("editCivilian handler editing civilian with no address", () => {
     const response = httpMocks.createResponse();
     const next = jest.fn();
     await editCivilian(request, response, next);
-    expect(next).toHaveBeenCalledWith(Boom.badImplementation("Cannot read property 'update' of null"));
-    await existingCase.reload()
-    expect(existingCase.status).toEqual(CASE_STATUS.INITIAL)
+    expect(next).toHaveBeenCalledWith(
+      Boom.badImplementation("Cannot read property 'update' of null")
+    );
+    await existingCase.reload();
+    expect(existingCase.status).toEqual(CASE_STATUS.INITIAL);
   });
 });
 
@@ -162,8 +165,8 @@ describe("editCivilian handler editing civilian with an address", () => {
       })
     );
     expect(updatedAddressCount).toEqual(initialAddressCount);
-    await existingCase.reload()
-    expect(existingCase.status).toEqual(CASE_STATUS.ACTIVE)
+    await existingCase.reload();
+    expect(existingCase.status).toEqual(CASE_STATUS.ACTIVE);
   });
 
   test("should update civilian with correct properties", async () => {
@@ -186,8 +189,8 @@ describe("editCivilian handler editing civilian with an address", () => {
 
     await existingCivilian.reload();
     expect(existingCivilian.firstName).toEqual("Bob");
-    await existingCase.reload()
-    expect(existingCase.status).toEqual(CASE_STATUS.ACTIVE)
+    await existingCase.reload();
+    expect(existingCase.status).toEqual(CASE_STATUS.ACTIVE);
   });
 
   test("should not update civilian address or case status if civilian update fails", async () => {

@@ -3,7 +3,7 @@ import { mount } from "enzyme";
 import createConfiguredStore from "../createConfiguredStore";
 import { Provider } from "react-redux";
 import AllegationSearchForm from "./AllegationSearchForm";
-import { selectDropdownOption } from "../../testHelpers";
+import { selectDropdownOption } from "../testHelpers";
 import { change } from "redux-form";
 import { ALLEGATION_SEARCH_FORM_NAME } from "../../sharedUtilities/constants";
 import getAllegationDropdownValues from "../cases/thunks/getAllegationDropdownValues";

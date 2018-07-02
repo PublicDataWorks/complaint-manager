@@ -5,7 +5,7 @@ import CaseDetails from "./CaseDetails";
 import { Provider } from "react-redux";
 import NavBar from "../../shared/components/NavBar/NavBar";
 import { BrowserRouter as Router } from "react-router-dom";
-import { containsText } from "../../../testHelpers";
+import { containsText } from "../../testHelpers";
 import { mockLocalStorage } from "../../../mockLocalStorage";
 import Case from "../../testUtilities/case";
 import getCaseDetails from "../thunks/getCaseDetails";

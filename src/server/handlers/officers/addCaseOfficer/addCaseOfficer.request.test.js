@@ -7,7 +7,7 @@ import { CASE_STATUS, ACCUSED } from "../../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../../requestTestHelpers";
+} from "../../../testHelpers/requestTestHelpers";
 
 describe("POST /cases/:caseId/cases_officers", () => {
   let token;

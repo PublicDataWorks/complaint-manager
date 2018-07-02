@@ -8,7 +8,7 @@ import { ACCUSED } from "../../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../../requestTestHelpers";
+} from "../../../testHelpers/requestTestHelpers";
 
 describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
   let token;

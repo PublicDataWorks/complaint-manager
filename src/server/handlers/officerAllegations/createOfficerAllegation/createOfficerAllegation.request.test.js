@@ -8,7 +8,7 @@ import request from "supertest";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../../requestTestHelpers";
+} from "../../../testHelpers/requestTestHelpers";
 
 describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations", function() {
   afterEach(async () => {

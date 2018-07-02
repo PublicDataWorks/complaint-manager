@@ -1,9 +1,9 @@
 import Case from "../../../client/testUtilities/case";
 import Address from "../../../client/testUtilities/Address";
 import Civilian from "../../../client/testUtilities/civilian";
-import { cleanupDatabase } from "../../requestTestHelpers";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { CASE_STATUS } from "../../../sharedUtilities/constants";
-import { createCaseWithoutCivilian } from "../../modelTestHelpers/helpers";
+import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 
 const httpMocks = require("node-mocks-http");
 const models = require("../../models");
@@ -28,7 +28,7 @@ describe("Edit Case", () => {
   describe("case status update", function() {
     test("should set the status to active when you edit a case", async () => {
       valuesToUpdate = {
-        firstContactDate: '2018-06-24',
+        firstContactDate: "2018-06-24",
         narrativeSummary: "a summary"
       };
 

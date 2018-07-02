@@ -8,7 +8,7 @@ import {
   getCaseDetailsSuccess,
   openCaseNoteDialog
 } from "../../../actionCreators/casesActionCreators";
-import { changeInput, selectDropdownOption } from "../../../../testHelpers";
+import { changeInput, selectDropdownOption } from "../../../testHelpers";
 import addCaseNote from "../../thunks/addCaseNote";
 import { reset, initialize } from "redux-form";
 import editCaseNote from "../../thunks/editCaseNote";
@@ -111,9 +111,7 @@ describe("CaseNoteDialog", () => {
     const submitButton = wrapper.find('[data-test="submitButton"]').first();
     submitButton.simulate("click");
 
-    expect(dispatchSpy).not.toHaveBeenCalledWith(
-      editCaseNote(submittedValues)
-    );
+    expect(dispatchSpy).not.toHaveBeenCalledWith(editCaseNote(submittedValues));
   });
 
   test("should submit form with new actionTakenAt when Add Case Note is clicked", () => {
@@ -181,9 +179,7 @@ describe("CaseNoteDialog", () => {
     const submitButton = wrapper.find('[data-test="submitButton"]').first();
     submitButton.simulate("click");
 
-    expect(dispatchSpy).not.toHaveBeenCalledWith(
-      addCaseNote(submittedValues)
-    );
+    expect(dispatchSpy).not.toHaveBeenCalledWith(addCaseNote(submittedValues));
   });
 
   test("should not submit actionTakenAt value when it is equal to current value", () => {

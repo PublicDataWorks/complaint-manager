@@ -13,7 +13,7 @@ import AWS from "aws-sdk";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "./requestTestHelpers";
+} from "./testHelpers/requestTestHelpers";
 import winston from "winston";
 
 jest.mock("auth0", () => ({

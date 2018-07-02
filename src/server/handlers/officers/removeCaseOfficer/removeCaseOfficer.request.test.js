@@ -1,7 +1,7 @@
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../../requestTestHelpers";
+} from "../../../testHelpers/requestTestHelpers";
 import app from "../../../server";
 import request from "supertest";
 import models from "../../../models";

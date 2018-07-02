@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { mockLocalStorage } from "../../../../mockLocalStorage";
-import { containsText } from "../../../../testHelpers";
+import { containsText } from "../../../testHelpers";
 import { userAuthSuccess } from "../../../auth/actionCreators";
 import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
 

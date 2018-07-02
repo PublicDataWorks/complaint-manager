@@ -3,8 +3,8 @@ import models from "../../../models/index";
 import addCaseOfficer from "./addCaseOfficer";
 import * as httpMocks from "node-mocks-http";
 import Officer from "../../../../client/testUtilities/Officer";
-import {ACCUSED, CASE_STATUS} from "../../../../sharedUtilities/constants";
-import { cleanupDatabase } from "../../../requestTestHelpers";
+import { ACCUSED, CASE_STATUS } from "../../../../sharedUtilities/constants";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 
 describe("addCaseOfficer", () => {
   afterEach(async () => {

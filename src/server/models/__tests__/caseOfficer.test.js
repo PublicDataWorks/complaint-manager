@@ -1,8 +1,8 @@
 import CaseOfficer from "../../../client/testUtilities/caseOfficer";
 import models from "../index";
 import Officer from "../../../client/testUtilities/Officer";
-import { createCaseWithoutCivilian } from "../../modelTestHelpers/helpers";
-import { cleanupDatabase } from "../../requestTestHelpers";
+import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { CASE_STATUS } from "../../../sharedUtilities/constants";
 
 describe("caseOfficer", () => {
@@ -95,9 +95,7 @@ describe("caseOfficer", () => {
         await models.case_officer.create(caseOfficerToCreate, {
           auditUser: "someone"
         });
-      } catch (error) {
-
-      }
+      } catch (error) {}
 
       await initialCase.reload();
       expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);

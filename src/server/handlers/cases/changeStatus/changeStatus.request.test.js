@@ -1,42 +1,45 @@
-import {createCaseWithoutCivilian} from "../../../modelTestHelpers/helpers";
-import {buildTokenWithPermissions, cleanupDatabase} from "../../../requestTestHelpers";
-import request from "supertest"
+import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase
+} from "../../../testHelpers/requestTestHelpers";
+import request from "supertest";
 import app from "../../../server";
-import {CASE_STATUS} from "../../../../sharedUtilities/constants";
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 
-describe('changeStatus request', () => {
-
+describe("changeStatus request", () => {
   let initialCase, token;
-  beforeEach(async() => {
-    initialCase = await createCaseWithoutCivilian()
-    token = buildTokenWithPermissions("","someone")
-  })
-
-  afterEach(async() => {
-    await cleanupDatabase()
+  beforeEach(async () => {
+    initialCase = await createCaseWithoutCivilian();
+    token = buildTokenWithPermissions("", "someone");
   });
 
-  test("should return an updated case when updating case status", async() => {
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
+
+  test("should return an updated case when updating case status", async () => {
     await request(app)
       .put(`/api/cases/${initialCase.id}/status`)
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
-      .send({status: CASE_STATUS.ACTIVE})
+      .send({ status: CASE_STATUS.ACTIVE })
       .expect(200)
       .then(response => {
-        expect(response.body).toEqual(expect.objectContaining({
-          status: CASE_STATUS.ACTIVE
-        }))
-      })
-  })
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            status: CASE_STATUS.ACTIVE
+          })
+        );
+      });
+  });
 
-  test("should return a bad request error code if invalid status is given", async() => {
+  test("should return a bad request error code if invalid status is given", async () => {
     await request(app)
       .put(`/api/cases/${initialCase.id}/status`)
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
-      .send({status: CASE_STATUS.FORWARDED_TO_AGENCY})
-      .expect(400)
-
-  })
+      .send({ status: CASE_STATUS.FORWARDED_TO_AGENCY })
+      .expect(400);
+  });
 });

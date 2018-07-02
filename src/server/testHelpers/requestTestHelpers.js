@@ -1,12 +1,17 @@
 import jwt from "jsonwebtoken";
 import fs from "fs";
 import path from "path";
-import models from "./models";
+import models from "../models/index";
 
-const config = require("./config/config")[process.env.NODE_ENV];
+const config = require("../config/config")[process.env.NODE_ENV];
 
 export const buildTokenWithPermissions = (permissions, nickname) => {
-  const privateKeyPath = path.join(__dirname, "config", "test", "private.pem");
+  const privateKeyPath = path.join(
+    __dirname,
+    "../config",
+    "test",
+    "private.pem"
+  );
   const cert = fs.readFileSync(privateKeyPath);
 
   const payload = {

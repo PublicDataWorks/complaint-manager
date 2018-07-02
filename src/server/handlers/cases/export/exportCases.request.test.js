@@ -1,7 +1,7 @@
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../../requestTestHelpers";
+} from "../../../testHelpers/requestTestHelpers";
 import Officer from "../../../../client/testUtilities/Officer";
 import models from "../../../models";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";

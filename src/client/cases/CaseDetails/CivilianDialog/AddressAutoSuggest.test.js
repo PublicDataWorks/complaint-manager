@@ -1,7 +1,7 @@
 import { mount } from "enzyme";
 import AddressAutoSuggest from "./AddressAutoSuggest";
 import React from "react";
-import { changeInput, containsText } from "../../../../testHelpers";
+import { changeInput, containsText } from "../../../testHelpers";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../../createConfiguredStore";
 

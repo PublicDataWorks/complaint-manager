@@ -1,5 +1,5 @@
 import Case from "../../../../client/testUtilities/case";
-import { cleanupDatabase } from "../../../requestTestHelpers";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 const CASE_VIEWED = require("../../../../sharedUtilities/constants")
   .CASE_VIEWED;
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");

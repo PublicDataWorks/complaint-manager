@@ -6,8 +6,8 @@ import request from "supertest";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../../requestTestHelpers";
-import { createCaseWithoutCivilian } from "../../../modelTestHelpers/helpers";
+} from "../../../testHelpers/requestTestHelpers";
+import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
 

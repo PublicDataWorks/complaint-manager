@@ -6,7 +6,7 @@ import { CASE_VIEWED } from "../../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../../requestTestHelpers";
+} from "../../../testHelpers/requestTestHelpers";
 
 describe("GET /api/cases/:caseId/case-history", () => {
   afterEach(async () => {

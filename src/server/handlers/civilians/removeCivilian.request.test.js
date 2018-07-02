@@ -7,8 +7,8 @@ import Address from "../../../client/testUtilities/Address";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../requestTestHelpers";
-import {CASE_STATUS} from "../../../sharedUtilities/constants";
+} from "../../testHelpers/requestTestHelpers";
+import { CASE_STATUS } from "../../../sharedUtilities/constants";
 
 describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
   let token;

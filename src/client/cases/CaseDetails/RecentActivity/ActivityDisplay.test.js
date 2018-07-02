@@ -1,7 +1,7 @@
 import ActivityDisplay from "./ActivityDisplay";
 import React from "react";
 import { mount } from "enzyme";
-import { containsText } from "../../../../testHelpers";
+import { containsText } from "../../../testHelpers";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
 

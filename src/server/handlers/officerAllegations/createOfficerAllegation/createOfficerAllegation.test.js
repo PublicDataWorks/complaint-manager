@@ -6,7 +6,7 @@ import Officer from "../../../../client/testUtilities/Officer";
 import * as httpMocks from "node-mocks-http";
 import createOfficerAllegation from "./createOfficerAllegation";
 import Boom from "boom";
-import { cleanupDatabase } from "../../../requestTestHelpers";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 
 describe("createOfficerAllegation", () => {
   let newCase, allegation;
