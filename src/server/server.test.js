@@ -797,64 +797,6 @@ describe("server", () => {
     });
   });
 
-  describe("GET /api/export-audit-log", () => {
-    let testCase;
-    const testCreationDate = new Date("2018-01-31T19:00:22Z");
-    const testCreationDateTwo = new Date("2018-01-28T19:00:50Z");
-    beforeEach(async () => {
-      testCase = await models.cases.create(
-        new Case.Builder()
-          .defaultCase()
-          .withIncidentLocation(undefined)
-          .withId(undefined)
-          .build(),
-        { auditUser: "someone" }
-      );
-      await models.action_audit.create({
-        user: "tuser",
-        action: "Test action entered",
-        caseId: testCase.id,
-        createdAt: testCreationDate
-      });
-
-      await models.action_audit.create({
-        user: "tuser",
-        action: "Test action entered",
-        caseId: testCase.id,
-        createdAt: testCreationDateTwo
-      });
-    });
-
-    test("should return audit log csv when user has token with export permissions", async () => {
-      const tokenWithExportPermission = buildTokenWithPermissions(
-        USER_PERMISSIONS.EXPORT_AUDIT_LOG,
-        "nickname"
-      );
-      await request(app)
-        .get("/api/export-audit-log")
-        .set("Authorization", `Bearer ${tokenWithExportPermission}`)
-        .expect(200)
-        .then(response => {
-          expect(response.text).toEqual(
-            expect.stringContaining(
-              `Date,Case #,Event,User\n01/28/2018 13:00:50 CST,${
-                testCase.id
-              },Test action entered,tuser\n01/31/2018 13:00:22 CST,${
-                testCase.id
-              },Test action entered,tuser\n`
-            )
-          );
-        });
-    });
-
-    test("should return 401 when user has token without export permissions", async () => {
-      await request(app)
-        .get("/api/export-audit-log")
-        .set("Authorization", `Bearer ${token}`)
-        .expect(401);
-    });
-  });
-
   describe("attachment routes", () => {
     let defaultCase, defaultCivilian, defaultAttachment, attachmentToDelete;
 

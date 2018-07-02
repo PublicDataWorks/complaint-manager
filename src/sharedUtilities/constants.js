@@ -134,12 +134,25 @@ const TIMEZONE = "America/Chicago";
 const CASE_VIEWED = "CASE_VIEWED";
 
 // ----------------------------------------
-//          Audit data change actions
+//          Audit
 // ----------------------------------------
+const AUDIT_TYPE = {
+  DATA_CHANGE: "Data Change",
+  EXPORT: "Export",
+  AUTHENTICATION: "Log in/out"
+};
+
+const AUDIT_SUBJECT = {
+  AUDIT_LOG: "Audit Log",
+  ALL_CASES: "All Cases"
+};
+
 const DATA_UPDATED = "updated";
 const DATA_CREATED = "created";
 const DATA_DELETED = "deleted";
-
+const LOGGED_IN = "Logged in";
+const LOGGED_OUT = "Logged out";
+const EXPORTED = "Exported";
 // ----------------------------------------
 //          Role on Case Options
 // ----------------------------------------
@@ -272,5 +285,10 @@ module.exports = {
   REMOVE_ALLEGATION_DIALOG_OPENED,
   REMOVE_ALLEGATION_DIALOG_CLOSED,
   REMOVE_OFFICER_ALLEGATION_FAILED,
-  REMOVE_OFFICER_ALLEGATION_SUCCEEDED
+  REMOVE_OFFICER_ALLEGATION_SUCCEEDED,
+  AUDIT_TYPE,
+  LOGGED_IN,
+  LOGGED_OUT,
+  EXPORTED,
+  AUDIT_SUBJECT
 };

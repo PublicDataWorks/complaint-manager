@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       field: "user",
       type: DataTypes.STRING
     },
+    caseId: {
+      field: "case_id",
+      type: DataTypes.INTEGER
+    },
     createdAt: {
       field: "created_at",
       type: DataTypes.DATE
