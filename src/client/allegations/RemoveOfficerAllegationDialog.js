@@ -31,7 +31,8 @@ const RemoveOfficerAllegationDialog = ({
             marginBottom: "24px"
           }}
         >
-          This action will remove the following allegation from {officerName}:
+          This action will remove the following allegation from{" "}
+          <strong>{officerName}</strong>:
         </Typography>
         {officerAllegation.allegation && (
           <div
@@ -54,7 +55,7 @@ const RemoveOfficerAllegationDialog = ({
             <TextTruncate message={officerAllegation.details} />
           </div>
         )}
-        <Typography>Are you sure you wish to continue?</Typography>
+        <Typography>Are you sure you want to continue?</Typography>
       </DialogContent>
       <DialogActions>
         <SecondaryButton

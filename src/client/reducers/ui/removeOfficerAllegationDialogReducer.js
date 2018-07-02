@@ -12,7 +12,7 @@ const removeOfficerAllegationDialogReducer = (state = initialState, action) => {
       return { open: true, allegation: action.allegation };
     case REMOVE_ALLEGATION_DIALOG_CLOSED:
     case REMOVE_OFFICER_ALLEGATION_SUCCEEDED:
-      return initialState;
+      return { ...state, open: false };
     default:
       return state;
   }

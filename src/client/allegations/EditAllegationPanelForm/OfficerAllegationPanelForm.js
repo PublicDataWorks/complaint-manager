@@ -107,7 +107,7 @@ class OfficerAllegationPanelForm extends React.Component {
                 : "N/A"}
             </Typography>
           </div>
-          <div style={{ minWidth: "88px", paddingRight: "0px" }}>
+          <div style={{ minWidth: "189px", paddingRight: "0px" }}>
             {editMode ? null : (
               <div>
                 <LinkButton
