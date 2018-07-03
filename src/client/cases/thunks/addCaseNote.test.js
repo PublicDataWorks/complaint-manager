@@ -50,7 +50,10 @@ describe("addCaseNote", () => {
       action: "Miscellaneous"
     };
 
-    const responseBody = [{ action: "Miscellaneous" }];
+    const responseBody = {
+      caseDetails: "deets",
+      recentActivity: ["recent", "activity"]
+    };
 
     nock("http://localhost", {
       reqheaders: {
@@ -63,7 +66,9 @@ describe("addCaseNote", () => {
 
     await addCaseNote(caseNote)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(addCaseNoteSuccess(responseBody));
+    expect(dispatch).toHaveBeenCalledWith(
+      addCaseNoteSuccess(responseBody.caseDetails, responseBody.recentActivity)
+    );
     expect(dispatch).toHaveBeenCalledWith(closeCaseNoteDialog());
   });
 

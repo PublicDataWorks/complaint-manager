@@ -31,8 +31,8 @@ const addCaseNote = values => async dispatch => {
 
     switch (response.status) {
       case 201:
-        const recentActivity = await response.json();
-        dispatch(addCaseNoteSuccess(recentActivity));
+        const data = await response.json();
+        dispatch(addCaseNoteSuccess(data.caseDetails, data.recentActivity));
         return dispatch(closeCaseNoteDialog());
       case 401:
         return dispatch(push("/login"));

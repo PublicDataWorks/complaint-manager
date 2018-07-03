@@ -24,13 +24,13 @@ describe("recentActivityReducer", () => {
   });
 
   test("should return recent activity after case note logged", () => {
-    const expectedRecentActivity = ["action 1", "action 2"];
+    const recentActivity = ["action 1", "action 2"];
 
     const newState = recentActivityReducer(
       [],
-      addCaseNoteSuccess(expectedRecentActivity)
+      addCaseNoteSuccess(undefined, recentActivity)
     );
-    expect(newState).toEqual(expectedRecentActivity);
+    expect(newState).toEqual(recentActivity);
   });
 
   test("should replace recent activity after removing case note", () => {

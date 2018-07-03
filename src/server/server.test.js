@@ -705,15 +705,20 @@ describe("server", () => {
         .expect(201)
         .then(response => {
           expect(response.body).toEqual(
-            expect.arrayContaining([
-              expect.objectContaining({
-                caseId: caseNote.caseId,
-                action: caseNote.action,
-                notes: caseNote.notes,
-                actionTakenAt: caseNote.actionTakenAt,
-                id: expect.anything()
-              })
-            ])
+            expect.objectContaining({
+              caseDetails: expect.objectContaining({
+                status: CASE_STATUS.ACTIVE
+              }),
+              recentActivity: expect.arrayContaining([
+                expect.objectContaining({
+                  caseId: caseNote.caseId,
+                  action: caseNote.action,
+                  notes: caseNote.notes,
+                  actionTakenAt: caseNote.actionTakenAt,
+                  id: expect.anything()
+                })
+              ])
+            })
           );
         });
 

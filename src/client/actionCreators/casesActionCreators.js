@@ -166,8 +166,9 @@ export const addCaseNoteFailure = () => ({
   type: ADD_CASE_NOTE_FAILED
 });
 
-export const addCaseNoteSuccess = recentActivity => ({
+export const addCaseNoteSuccess = (caseDetails, recentActivity) => ({
   type: ADD_CASE_NOTE_SUCCEEDED,
+  caseDetails,
   recentActivity
 });
 
@@ -194,7 +195,7 @@ export const updateAllegationDetailsSuccess = (allegationId, caseDetails) => ({
   type: UPDATE_ALLEGATION_DETAILS_SUCCEEDED,
   allegationId,
   caseDetails
-})
+});
 
 export const openRemovePersonDialog = (personDetails, personType) => {
   let optionalText, personTypeTitleDisplay;

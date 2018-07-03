@@ -1,5 +1,6 @@
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
+const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
 
 const createCaseNote = asyncMiddleware(async (request, response) => {
   await models.case_note.create(
@@ -17,7 +18,8 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
     }
   });
 
-  response.status(201).send(recentActivity);
+  const caseDetails = await getCaseWithAllAssociations(request.params.id);
+  response.status(201).send({ recentActivity, caseDetails });
 });
 
 module.exports = createCaseNote;

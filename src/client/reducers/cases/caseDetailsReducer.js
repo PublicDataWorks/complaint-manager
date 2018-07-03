@@ -6,7 +6,6 @@ import {
   REMOVE_ATTACHMENT_SUCCESS,
   REMOVE_PERSON_SUCCEEDED,
   REMOVE_CASE_NOTE_SUCCEEDED,
-  CASE_STATUS,
   UPDATE_CASE_STATUS_SUCCESS,
   ADD_OFFICER_ALLEGATION_SUCCEEDED,
   UPDATE_ALLEGATION_DETAILS_SUCCEEDED,
@@ -31,15 +30,8 @@ const caseDetailsReducer = (state = initialState, action) => {
     case UPDATE_ALLEGATION_DETAILS_SUCCEEDED:
     case ADD_OFFICER_ALLEGATION_SUCCEEDED:
     case REMOVE_OFFICER_ALLEGATION_SUCCEEDED:
-      return action.caseDetails;
     case ADD_CASE_NOTE_SUCCEEDED:
-      return {
-        ...state,
-        status:
-          state.status === CASE_STATUS.INITIAL
-            ? CASE_STATUS.ACTIVE
-            : state.status
-      };
+      return action.caseDetails;
     default:
       return state;
   }

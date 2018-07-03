@@ -154,10 +154,13 @@ describe("caseDetailsReducers", () => {
 
   describe("ADD_CASE_NOTE_SUCCEEDED", () => {
     test("should set case status to Active if Initial", () => {
-      const caseDetails = { status: CASE_STATUS.INITIAL };
-      const newState = caseDetailsReducer(caseDetails, addCaseNoteSuccess());
+      const caseDetails = { status: CASE_STATUS.ACTIVE };
+      const newState = caseDetailsReducer(
+        undefined,
+        addCaseNoteSuccess(caseDetails, undefined)
+      );
 
-      expect(newState).toEqual({ status: CASE_STATUS.ACTIVE });
+      expect(newState).toEqual(caseDetails);
     });
   });
 
