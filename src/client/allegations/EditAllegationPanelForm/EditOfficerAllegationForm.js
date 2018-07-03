@@ -18,7 +18,7 @@ const onSubmit = (values, dispatch) => {
 
 const DetailsForm = ({ handleSubmit, onCancel, invalid, pristine }) => {
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", marginLeft: "64px" }}>
       <form>
         <Field
           label={"Allegation Details"}

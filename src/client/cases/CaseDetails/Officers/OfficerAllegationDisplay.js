@@ -1,11 +1,13 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import formatStringToTitleCase from "../../../utilities/formatStringToTitleCase";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
-  CardContent
+  CardContent,
+  IconButton,
+  Icon
 } from "@material-ui/core";
 import { connect } from "react-redux";
 
@@ -13,38 +15,41 @@ class OfficerAllegationDisplay extends Component {
   handleChange = (event, expanded) => {
     this.setState({
       expanded: expanded
-    })
-  }
+    });
+  };
 
   state = {
     expanded: false
-  }
+  };
 
-  static getDerivedStateFromProps(nextProps){
-    if (nextProps.accusedOfficerPanel && nextProps.accusedOfficerPanel.collapsed){
+  static getDerivedStateFromProps(nextProps) {
+    if (
+      nextProps.accusedOfficerPanel &&
+      nextProps.accusedOfficerPanel.collapsed
+    ) {
       return {
         expanded: false
-      }
+      };
     }
 
-    return null
+    return null;
   }
 
-  render(){
-    const {
-      rule,
-      paragraph,
-      directive,
-      details} = this.props;
+  render() {
+    const { rule, paragraph, directive, details } = this.props;
 
     return (
       <CardContent
-        style={{ marginBottom: "16px", paddingTop: "0px", paddingBottom: "0px" }}
+        style={{
+          marginBottom: "16px",
+          paddingTop: "0px",
+          paddingBottom: "0px"
+        }}
       >
         <ExpansionPanel
           elevation={5}
-          onChange={this.handleChange }
-          expanded={ this.state.expanded}
+          onChange={this.handleChange}
+          expanded={this.state.expanded}
           style={{
             width: "100%",
             background: "white",
@@ -53,6 +58,13 @@ class OfficerAllegationDisplay extends Component {
           }}
         >
           <ExpansionPanelSummary>
+            <IconButton
+              style={{ marginRight: 16 }}
+              color="secondary"
+              className="chevron-right"
+            >
+              <Icon>unfold_more</Icon>
+            </IconButton>
             <OfficerInfoDisplay
               displayLabel="Rule"
               value={formatStringToTitleCase(rule)}
@@ -69,11 +81,7 @@ class OfficerAllegationDisplay extends Component {
               testLabel="directive"
             />
           </ExpansionPanelSummary>
-          <StyledExpansionPanelDetails
-            style={{
-              marginLeft: "0px"
-            }}
-          >
+          <StyledExpansionPanelDetails>
             <OfficerInfoDisplay
               shouldTruncate={false}
               displayLabel="Notes"
@@ -87,7 +95,7 @@ class OfficerAllegationDisplay extends Component {
   }
 }
 
-const mapStateToProps = (state, {officerId}) => {
+const mapStateToProps = (state, { officerId }) => {
   return {
     accusedOfficerPanel: state.ui.accusedOfficerPanels[officerId]
   };

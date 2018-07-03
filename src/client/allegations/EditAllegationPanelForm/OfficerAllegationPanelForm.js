@@ -3,7 +3,9 @@ import {
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
-  Typography
+  Typography,
+  IconButton,
+  Icon
 } from "@material-ui/core";
 import OfficerInfoDisplay from "../../cases/CaseDetails/Officers/OfficerInfoDisplay";
 import { withStyles } from "@material-ui/core/styles/index";
@@ -32,7 +34,8 @@ const renderDetailsView = details => {
       displayLabel="Allegation Details"
       value={details}
       style={{
-        marginRight: "32px"
+        marginRight: "32px",
+        marginLeft: "64px"
       }}
     />
   );
@@ -94,6 +97,14 @@ class OfficerAllegationPanelForm extends React.Component {
         }}
       >
         <ExpansionPanelSummary style={{ display: "flex" }}>
+          <IconButton
+            style={{ marginRight: 16 }}
+            color="secondary"
+            className="chevron-right"
+            disabled={editMode}
+          >
+            <Icon>unfold_more</Icon>
+          </IconButton>
           <div style={{ display: "flex", flex: 20 }}>
             <Typography style={{ flex: 1, marginRight: "24px" }}>
               {formatStringToTitleCase(allegation.rule)}
