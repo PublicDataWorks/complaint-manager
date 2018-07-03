@@ -102,6 +102,7 @@ class OfficerAllegationPanelForm extends React.Component {
             color="secondary"
             className="chevron-right"
             disabled={editMode}
+            data-test="expandIcon"
           >
             <Icon>unfold_more</Icon>
           </IconButton>

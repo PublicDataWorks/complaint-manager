@@ -95,6 +95,22 @@ describe("OfficerAllegations", function() {
     expect(submitButton.exists()).toEqual(true);
   });
 
+  test("expand icon should be disabled in edit mode", () => {
+    const expandIcon = wrapper.find('[data-test="expandIcon"]').first();
+
+    const editButton1 = allegation1
+      .find('[data-test="editAllegationButton"]')
+      .first();
+    editButton1.simulate("click");
+
+    wrapper.update();
+
+    const updatedExpandIcon = wrapper.find('[data-test="expandIcon"]').first();
+
+    expect(expandIcon.props().disabled).toBeFalsy();
+    expect(updatedExpandIcon.props().disabled).toBeTruthy();
+  });
+
   test("should not render allegation form after submit", () => {
     const editButton1 = allegation1
       .find('[data-test="editAllegationButton"]')
