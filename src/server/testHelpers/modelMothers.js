@@ -1,14 +1,14 @@
 import models from "../models/index";
-import {CASE_STATUS} from "../../sharedUtilities/constants";
+import { CASE_STATUS } from "../../sharedUtilities/constants";
 
-export const createCaseWithoutCivilian = async () => {
+export const createCaseWithoutCivilian = async (user = "someone") => {
   const initialCase = await models.cases.create(
     {
       status: CASE_STATUS.INITIAL,
       createdBy: "test_user",
       assignedTo: "test_user"
     },
-    { auditUser: "someone" }
+    { auditUser: user }
   );
 
   return initialCase;

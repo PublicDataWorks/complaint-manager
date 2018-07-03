@@ -1,5 +1,7 @@
 const _ = require("lodash");
-const fieldPatternToIgnore = "(.*Id$|^id$|addressableType)";
+const {
+  AUDIT_FIELDS_TO_EXCLUDE
+} = require("../../../../sharedUtilities/constants");
 
 const transformAuditToCaseHistory = dataChangeAudits => {
   const caseHistory = [];
@@ -23,14 +25,14 @@ const transformAuditToCaseHistory = dataChangeAudits => {
 };
 
 const transformAction = audit => {
-  return `${_.startCase(audit.modelName)} ${audit.action}`;
+  return `${audit.modelName} ${audit.action}`;
 };
 
 const transformDetails = audit => {
   return _.reduce(
     audit.changes,
     (details, value, key) => {
-      if (key.match(fieldPatternToIgnore)) return details;
+      if (key.match(AUDIT_FIELDS_TO_EXCLUDE)) return details;
       details[_.startCase(key)] = {
         previous: transformNull(value.previous),
         new: transformNull(value.new)

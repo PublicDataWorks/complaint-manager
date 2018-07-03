@@ -1,8 +1,10 @@
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
-const CASE_VIEWED = require("../../../../sharedUtilities/constants")
-  .CASE_VIEWED;
+const {
+  DATA_VIEWED,
+  AUDIT_TYPE
+} = require("../../../../sharedUtilities/constants");
 
 const getCase = asyncMiddleware(async (req, res) => {
   const singleCase = await models.sequelize.transaction(async transaction => {
@@ -10,7 +12,9 @@ const getCase = asyncMiddleware(async (req, res) => {
       {
         user: req.nickname,
         caseId: req.params.id,
-        action: CASE_VIEWED
+        action: DATA_VIEWED,
+        auditType: AUDIT_TYPE.PAGE_VIEW
+        //TEST THIS BEFORE COMMIT
       },
       { transaction }
     );

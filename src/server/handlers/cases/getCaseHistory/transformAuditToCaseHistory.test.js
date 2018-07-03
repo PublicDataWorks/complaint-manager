@@ -1,13 +1,15 @@
-import {CASE_STATUS, DATA_UPDATED} from "../../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  DATA_UPDATED
+} from "../../../../sharedUtilities/constants";
 import DataChangeAudit from "../../../../client/testUtilities/dataChangeAudit";
 import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
-import ActionAudit from "../../../../client/testUtilities/ActionAudit";
 
 describe("transformAuditToCaseHistory", () => {
   test("it returns case history for given audits", () => {
     const dataChangeAudit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
-      .withModelName("case_officer")
+      .withModelName("Case Officer")
       .withModelDescription("Jasmine Rodda")
       .withModelId(5)
       .withCaseId(5)
@@ -23,7 +25,7 @@ describe("transformAuditToCaseHistory", () => {
     expect(caseHistories).toEqual([
       expect.objectContaining({
         user: dataChangeAudit.user,
-        action: "Case Officer updated",
+        action: "Case Officer Updated",
         details: {
           "First Name": { previous: "Emily", new: "Jasmine" }
         },

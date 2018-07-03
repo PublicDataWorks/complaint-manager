@@ -1,10 +1,13 @@
-import { CASE_VIEWED } from "../../sharedUtilities/constants";
+import { AUDIT_TYPE, DATA_VIEWED } from "../../sharedUtilities/constants";
 
 class ActionAudit {
   constructor(build) {
     this.id = build.id;
     this.caseId = build.caseId;
     this.user = build.user;
+    this.subject = build.subject;
+    this.subjectId = build.subjectId;
+    this.auditType = build.auditType;
     this.action = build.action;
     this.createdAt = build.createdAt;
     this.updatedAt = build.updatedAt;
@@ -16,7 +19,8 @@ class ActionAudit {
         this.id = 11111;
         this.caseId = 17;
         this.user = "Bobby";
-        this.action = CASE_VIEWED;
+        this.action = DATA_VIEWED;
+        this.auditType = AUDIT_TYPE.PAGE_VIEW;
         this.createdAt = new Date().toISOString();
         this.updatedAt = new Date().toISOString();
         return this;
@@ -34,6 +38,20 @@ class ActionAudit {
 
       withAction(action) {
         this.action = action;
+        return this;
+      }
+
+      withAuditType(auditType) {
+        this.auditType = auditType;
+        return this;
+      }
+
+      withSubject(subject) {
+        this.subject = subject;
+        return this;
+      }
+      withSubjectId(subjectId) {
+        this.subjectId = subjectId;
         return this;
       }
 

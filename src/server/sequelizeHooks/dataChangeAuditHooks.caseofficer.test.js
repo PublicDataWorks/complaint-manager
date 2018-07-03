@@ -48,7 +48,7 @@ describe("dataChangeAudithooks caseofficer", () => {
 
   test("should audit caseofficer creation", async () => {
     const audit = await models.data_change_audit.find({
-      where: { modelName: "case_officer", action: DATA_CREATED }
+      where: { modelName: "Case Officer", action: DATA_CREATED }
     });
 
     expect(audit.user).toEqual("someone");
@@ -64,7 +64,7 @@ describe("dataChangeAudithooks caseofficer", () => {
     await caseOfficer.destroy({ auditUser: "someone" });
 
     const audit = await models.data_change_audit.find({
-      where: { modelName: "case_officer", action: DATA_DELETED }
+      where: { modelName: "Case Officer", action: DATA_DELETED }
     });
 
     expect(audit.changes.deleted_at).not.toBeDefined();

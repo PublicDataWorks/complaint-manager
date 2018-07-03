@@ -73,6 +73,7 @@
     "redux-thunk": "^2.2.0",
     "sequelize": "^4.37.6",
     "sequelize-cli": "^4.0.0",
+    "timekeeper": "^2.1.2",
     "validator": "^10.0.0",
     "winston": "2.4.2"
   },

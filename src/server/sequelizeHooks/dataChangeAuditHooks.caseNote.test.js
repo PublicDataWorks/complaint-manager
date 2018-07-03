@@ -27,7 +27,7 @@ describe("dataChangeAuditHooks for caseNote", () => {
     });
 
     const audit = await models.data_change_audit.find({
-      where: { modelName: "case_note", action: DATA_CREATED }
+      where: { modelName: "Case Note", action: DATA_CREATED }
     });
 
     const formattedActionTakenAt = timezone

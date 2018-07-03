@@ -141,14 +141,14 @@ exports.init = sequelize => {
 
   const createDataChangeAudit = async (instance, options, action) => {
     const changes = objectChanges(action, instance);
-    const modelName = instance._modelOptions.name.singular;
+    const modelName = _.startCase(instance._modelOptions.name.singular);
     const caseId = await getCaseId(modelName, instance, options.transaction);
     if (_.isEmpty(changes)) return;
     await sequelize.model("data_change_audit").create(
       {
         user: getUserNickname(options, action, modelName),
         action: action,
-        modelName: instance._modelOptions.name.singular,
+        modelName,
         modelId: instance.id,
         modelDescription: await getModelDescription(
           modelName,

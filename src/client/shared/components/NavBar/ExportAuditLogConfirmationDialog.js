@@ -18,14 +18,18 @@ const ExportAuditLogConfirmationDialog = props => {
 
   return (
     <Dialog maxWidth="sm" fullWidth={true} open={props.dialogOpen}>
-      <DialogTitle>Export System Log</DialogTitle>
-      <DialogContent>
+      <DialogTitle>Export Audit Log</DialogTitle>
+      <DialogContent data-test="exportAuditLogConfirmationText">
         <Typography
-          data-test="exportAuditLogConfirmationText"
           variant={"body1"}
-          style={{ wordBreak: "break-word" }}
+          style={{ wordBreak: "break-word", marginBottom: "16px" }}
         >
-          Your export will be saved as <strong>{fileName}</strong>
+          This action will export a log of all actions taken within the system
+          as a .csv file. This file will download automatically and may take a
+          few seconds to generate.
+        </Typography>
+        <Typography variant={"body1"} style={{ wordBreak: "break-word" }}>
+          Are you sure you wish to continue?
         </Typography>
       </DialogContent>
       <DialogActions>

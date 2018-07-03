@@ -4,6 +4,7 @@ import nock from "nock";
 import getCaseHistory from "./getCaseHistory";
 import { push } from "react-router-redux";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
+import { DATA_UPDATED } from "../../../sharedUtilities/constants";
 
 jest.mock("../../auth/getAccessToken");
 
@@ -19,7 +20,7 @@ describe("getCaseHistory", () => {
   });
 
   test("should dispatch success when receive case history with 200", async () => {
-    const responseBody = [{ action: "updated", changes: {} }];
+    const responseBody = [{ action: DATA_UPDATED, changes: {} }];
     getAccessToken.mockImplementation(() => token);
 
     nock("http://localhost/")

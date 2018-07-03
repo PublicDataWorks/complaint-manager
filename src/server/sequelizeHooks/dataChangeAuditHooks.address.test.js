@@ -52,7 +52,7 @@ describe("dataChangeAuditHooks address", () => {
 
     test("should audit incident location", async () => {
       const audit = await models.data_change_audit.find({
-        where: { modelName: "address", action: DATA_CREATED }
+        where: { modelName: "Address", action: DATA_CREATED }
       });
 
       expect(audit.caseId).toEqual(existingCase.id);
@@ -68,7 +68,7 @@ describe("dataChangeAuditHooks address", () => {
       );
 
       const audit = await models.data_change_audit.find({
-        where: { modelName: "address", action: DATA_UPDATED }
+        where: { modelName: "Address", action: DATA_UPDATED }
       });
 
       expect(audit.caseId).toEqual(existingCase.id);
@@ -84,7 +84,7 @@ describe("dataChangeAuditHooks address", () => {
       });
 
       const audit = await models.data_change_audit.find({
-        where: { modelName: "address", action: DATA_DELETED }
+        where: { modelName: "Address", action: DATA_DELETED }
       });
 
       expect(audit.caseId).toEqual(existingCase.id);
@@ -134,7 +134,7 @@ describe("dataChangeAuditHooks address", () => {
 
     test("should audit civilian address", async () => {
       const audit = await models.data_change_audit.find({
-        where: { modelName: "address", action: DATA_CREATED }
+        where: { modelName: "Address", action: DATA_CREATED }
       });
 
       expect(audit.caseId).toEqual(createdCase.id);
@@ -152,7 +152,7 @@ describe("dataChangeAuditHooks address", () => {
       );
 
       const audit = await models.data_change_audit.find({
-        where: { modelName: "address", action: DATA_UPDATED }
+        where: { modelName: "Address", action: DATA_UPDATED }
       });
 
       expect(audit.caseId).toEqual(createdCase.id);
@@ -170,7 +170,7 @@ describe("dataChangeAuditHooks address", () => {
       });
 
       const audit = await models.data_change_audit.find({
-        where: { modelName: "address", action: DATA_DELETED }
+        where: { modelName: "Address", action: DATA_DELETED }
       });
 
       expect(audit.caseId).toEqual(createdCase.id);

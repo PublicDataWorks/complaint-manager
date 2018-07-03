@@ -30,7 +30,7 @@ describe("dataChangeAuditHooks for civilian", () => {
 
   test("creates audit on civilian creation", async () => {
     const audit = await models.data_change_audit.find({
-      where: { modelName: "civilian", action: DATA_CREATED }
+      where: { modelName: "Civilian", action: DATA_CREATED }
     });
 
     expect(audit.caseId).toEqual(existingCase.id);
@@ -63,7 +63,7 @@ describe("dataChangeAuditHooks for civilian", () => {
       { where: { id: civilian.id }, auditUser: "someone" }
     );
     const audit = await models.data_change_audit.find({
-      where: { modelName: "civilian", action: DATA_UPDATED }
+      where: { modelName: "Civilian", action: DATA_UPDATED }
     });
 
     expect(audit.caseId).toEqual(existingCase.id);

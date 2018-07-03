@@ -3,14 +3,28 @@ module.exports = (sequelize, DataTypes) => {
   const ActionAudit = sequelize.define("action_audit", {
     action: {
       field: "action",
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    auditType: {
+      field: "audit_type",
+      type: DataTypes.STRING,
+      allowNull: false
     },
     user: {
       field: "user",
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     caseId: {
       field: "case_id",
+      type: DataTypes.INTEGER
+    },
+    subject: {
+      type: DataTypes.STRING
+    },
+    subjectId: {
+      field: "subject_id",
       type: DataTypes.INTEGER
     },
     createdAt: {

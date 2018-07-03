@@ -1,7 +1,7 @@
 import Case from "../../../../client/testUtilities/case";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-const CASE_VIEWED = require("../../../../sharedUtilities/constants")
-  .CASE_VIEWED;
+const DATA_VIEWED = require("../../../../sharedUtilities/constants")
+  .DATA_VIEWED;
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
 const getCase = require("./getCase");
 const models = require("../../../models");
@@ -47,7 +47,7 @@ describe("getCase", () => {
     });
 
     expect(actionAudit.user).toEqual("nickname");
-    expect(actionAudit.action).toEqual(CASE_VIEWED);
+    expect(actionAudit.action).toEqual(DATA_VIEWED);
   });
 
   test("should not audit if an error occurs while retrieving case", async () => {

@@ -129,17 +129,13 @@ const UPDATE_CASE_STATUS_SUCCESS = "UPDATE_CASE_STATUS_SUCCESS";
 const TIMEZONE = "America/Chicago";
 
 // ----------------------------------------
-//          Action data (Data access) actions
-// ----------------------------------------
-const CASE_VIEWED = "CASE_VIEWED";
-
-// ----------------------------------------
 //          Audit
 // ----------------------------------------
 const AUDIT_TYPE = {
   DATA_CHANGE: "Data Change",
   EXPORT: "Export",
-  AUTHENTICATION: "Log in/out"
+  AUTHENTICATION: "Log in/out",
+  PAGE_VIEW: "Page View"
 };
 
 const AUDIT_SUBJECT = {
@@ -147,12 +143,16 @@ const AUDIT_SUBJECT = {
   ALL_CASES: "All Cases"
 };
 
-const DATA_UPDATED = "updated";
-const DATA_CREATED = "created";
-const DATA_DELETED = "deleted";
+const DATA_UPDATED = "Updated";
+const DATA_CREATED = "Created";
+const DATA_DELETED = "Deleted";
+const DATA_VIEWED = "Viewed";
 const LOGGED_IN = "Logged in";
 const LOGGED_OUT = "Logged out";
 const EXPORTED = "Exported";
+
+const AUDIT_FIELDS_TO_EXCLUDE = "(.*Id$|^id$|addressableType)";
+
 // ----------------------------------------
 //          Role on Case Options
 // ----------------------------------------
@@ -258,7 +258,7 @@ module.exports = {
   OPENID,
   PROFILE,
   TIMEZONE,
-  CASE_VIEWED,
+  DATA_VIEWED,
   DATA_UPDATED,
   DATA_CREATED,
   DATA_DELETED,
@@ -290,5 +290,6 @@ module.exports = {
   LOGGED_IN,
   LOGGED_OUT,
   EXPORTED,
-  AUDIT_SUBJECT
+  AUDIT_SUBJECT,
+  AUDIT_FIELDS_TO_EXCLUDE
 };

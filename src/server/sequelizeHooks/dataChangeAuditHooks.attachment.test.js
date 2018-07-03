@@ -33,7 +33,7 @@ describe("dataChangeAuditHooks for attachment", () => {
   describe("create attachment", () => {
     test("it saves basic attributes", async () => {
       const audits = await models.data_change_audit.findAll({
-        where: { modelName: "attachment" }
+        where: { modelName: "Attachment" }
       });
       expect(audits.length).toEqual(1);
       const audit = audits[0];
@@ -47,7 +47,7 @@ describe("dataChangeAuditHooks for attachment", () => {
 
     test("it saves snapshot of object values", async () => {
       const audit = (await models.data_change_audit.findAll({
-        where: { modelName: "attachment" }
+        where: { modelName: "Attachment" }
       }))[0];
 
       const expectedSnapshot = {
@@ -62,7 +62,7 @@ describe("dataChangeAuditHooks for attachment", () => {
 
     test("saves changes when creating new object", async () => {
       const audit = (await models.data_change_audit.findAll({
-        where: { modelName: "attachment" }
+        where: { modelName: "Attachment" }
       }))[0];
 
       const expectedChanges = {
@@ -86,7 +86,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         { auditUser: "someone else" }
       );
       audits = await models.data_change_audit.findAll({
-        where: { modelName: "attachment", action: DATA_UPDATED }
+        where: { modelName: "Attachment", action: DATA_UPDATED }
       });
       audit = audits[0];
     });
@@ -130,7 +130,7 @@ describe("dataChangeAuditHooks for attachment", () => {
     test("it creates a data change object with basic attributes", async () => {
       await attachment.destroy({ auditUser: "someone else" });
       const audits = await models.data_change_audit.findAll({
-        where: { modelName: "attachment", action: DATA_DELETED }
+        where: { modelName: "Attachment", action: DATA_DELETED }
       });
 
       const audit = audits[0];
@@ -148,7 +148,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         auditUser: "someone else"
       });
       const audits = await models.data_change_audit.findAll({
-        where: { modelName: "attachment", action: DATA_DELETED }
+        where: { modelName: "Attachment", action: DATA_DELETED }
       });
 
       const audit = audits[0];
@@ -165,7 +165,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         auditUser: "someone else"
       });
       const audit = await models.data_change_audit.find({
-        where: { modelName: "attachment", action: DATA_DELETED }
+        where: { modelName: "Attachment", action: DATA_DELETED }
       });
 
       const expectedChanges = {
@@ -189,7 +189,7 @@ describe("dataChangeAuditHooks for attachment", () => {
     test("it stores the snapshot at time of delete", async () => {
       await attachment.destroy({ auditUser: "someone else" });
       const audits = await models.data_change_audit.findAll({
-        where: { modelName: "attachment", action: DATA_DELETED }
+        where: { modelName: "Attachment", action: DATA_DELETED }
       });
 
       const audit = audits[0];
@@ -210,7 +210,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         await attachment.destroy({ auditUser: null });
       } catch (e) {
         expect(e.message).toEqual(
-          "User nickname must be given to db query for auditing. (attachment deleted)"
+          "User nickname must be given to db query for auditing. (Attachment Deleted)"
         );
       }
       models.data_change_audit
@@ -222,7 +222,7 @@ describe("dataChangeAuditHooks for attachment", () => {
       expect(foundAttachment).not.toBeNull();
     });
 
-    test("it does not the attachment if audit fails to save from class method", async () => {
+    test("it does not delete the attachment if audit fails to save from class method", async () => {
       try {
         await models.attachment.destroy({
           where: { id: attachment.id },
@@ -230,7 +230,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         });
       } catch (e) {
         expect(e.message).toEqual(
-          "User nickname must be given to db query for auditing. (attachment deleted)"
+          "User nickname must be given to db query for auditing. (Attachment Deleted)"
         );
       }
       models.data_change_audit

@@ -28,9 +28,9 @@ describe("getCaseHistory", () => {
   });
 
   test("should return case audits in order of created at desc", async () => {
-    await createDataChangeAudit(caseId, "cases", "2017-01-31T13:00Z");
-    await createDataChangeAudit(caseId, "address", "2018-01-31T08:00Z");
-    await createDataChangeAudit(caseId, "civilians", "2018-01-31T06:00Z");
+    await createDataChangeAudit(caseId, "Cases", "2017-01-31T13:00Z");
+    await createDataChangeAudit(caseId, "Address", "2018-01-31T08:00Z");
+    await createDataChangeAudit(caseId, "Civilians", "2018-01-31T06:00Z");
 
     await getCaseHistory(request, response, next);
 
@@ -65,7 +65,7 @@ describe("getCaseHistory", () => {
 
   const createDataChangeAudit = async (
     caseId,
-    modelName = "case",
+    modelName = "Case",
     createdAt
   ) => {
     const dataChangeAuditAttributes = new DataChangeAudit.Builder()

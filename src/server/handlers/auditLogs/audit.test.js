@@ -2,6 +2,7 @@ const httpMocks = require("node-mocks-http");
 const audit = require("./audit");
 const models = require("../../models/index");
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import { AUDIT_TYPE } from "../../../sharedUtilities/constants";
 
 describe("Audit", () => {
   afterEach(async () => {
@@ -29,7 +30,8 @@ describe("Audit", () => {
     const expectedLog = {
       action: `Logged In`,
       caseId: null,
-      user: currentUser
+      user: currentUser,
+      auditType: AUDIT_TYPE.AUTHENTICATION
     };
     expect(createdAudits[0]).toEqual(expect.objectContaining(expectedLog));
   });

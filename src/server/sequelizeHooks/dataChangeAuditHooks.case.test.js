@@ -1,6 +1,10 @@
 import models from "../models/index";
 import Case from "../../client/testUtilities/case";
-import {CASE_STATUS, DATA_CREATED, DATA_UPDATED} from "../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  DATA_CREATED,
+  DATA_UPDATED
+} from "../../sharedUtilities/constants";
 
 describe("dataChangeAuditHooks", () => {
   afterEach(async () => {
@@ -46,7 +50,7 @@ describe("dataChangeAuditHooks", () => {
       expect(audits.length).toEqual(1);
       const audit = audits[0];
 
-      expect(audit.modelName).toEqual("case");
+      expect(audit.modelName).toEqual("Case");
       expect(audit.modelId).toEqual(createdCase.id);
       expect(audit.action).toEqual(DATA_CREATED);
       expect(audit.user).toEqual("someone");
@@ -112,7 +116,7 @@ describe("dataChangeAuditHooks", () => {
           models.cases.create(initialCaseAttributes, { auditUser: "" })
         ).rejects.toEqual(
           new Error(
-            "User nickname must be given to db query for auditing. (case created)"
+            "User nickname must be given to db query for auditing. (Case Created)"
           )
         );
       });
@@ -129,12 +133,12 @@ describe("dataChangeAuditHooks", () => {
             { auditUser: "test user" }
           );
           const audit = await models.data_change_audit.find({
-            where: { modelName: "case", action: DATA_UPDATED }
+            where: { modelName: "Case", action: DATA_UPDATED }
           });
           expect(audit).toEqual(null);
         } catch (error) {
           expect(error.message).toEqual(
-            "Model must implement modelDescription (case)"
+            "Model must implement modelDescription (Case)"
           );
         }
       });
@@ -151,12 +155,12 @@ describe("dataChangeAuditHooks", () => {
             { auditUser: "test user" }
           );
           const audit = await models.data_change_audit.find({
-            where: { modelName: "case", action: DATA_UPDATED }
+            where: { modelName: "Case", action: DATA_UPDATED }
           });
           expect(audit).toEqual(null);
         } catch (error) {
           expect(error.message).toEqual(
-            "Model must implement getCaseId (case)"
+            "Model must implement getCaseId (Case)"
           );
         }
       });
@@ -168,7 +172,7 @@ describe("dataChangeAuditHooks", () => {
         } catch (error) {
           expect(error).toEqual(
             new Error(
-              "User nickname must be given to db query for auditing. (case created)"
+              "User nickname must be given to db query for auditing. (Case Created)"
             )
           );
         }
@@ -228,7 +232,7 @@ describe("dataChangeAuditHooks", () => {
       expect(updateAudits.length).toEqual(1);
       const auditUpdate = updateAudits[0];
 
-      expect(auditUpdate.modelName).toEqual("case");
+      expect(auditUpdate.modelName).toEqual("Case");
       expect(auditUpdate.modelId).toEqual(existingCase.id);
       expect(auditUpdate.action).toEqual(DATA_UPDATED);
       expect(auditUpdate.user).toEqual("someoneWhoUpdated");
@@ -360,7 +364,7 @@ describe("dataChangeAuditHooks", () => {
           )
         ).rejects.toEqual(
           new Error(
-            "User nickname must be given to db query for auditing. (case updated)"
+            "User nickname must be given to db query for auditing. (Case Updated)"
           )
         );
       });
@@ -374,7 +378,7 @@ describe("dataChangeAuditHooks", () => {
         } catch (error) {
           expect(error).toEqual(
             new Error(
-              "User nickname must be given to db query for auditing. (case updated)"
+              "User nickname must be given to db query for auditing. (Case Updated)"
             )
           );
         }
@@ -398,7 +402,7 @@ describe("dataChangeAuditHooks", () => {
         } catch (error) {
           expect(error).toEqual(
             new Error(
-              "User nickname must be given to db query for auditing. (case updated)"
+              "User nickname must be given to db query for auditing. (Case Updated)"
             )
           );
         }
@@ -418,7 +422,7 @@ describe("dataChangeAuditHooks", () => {
         } catch (error) {
           expect(error).toEqual(
             new Error(
-              "User nickname must be given to db query for auditing. (case updated)"
+              "User nickname must be given to db query for auditing. (Case Updated)"
             )
           );
         }
@@ -459,7 +463,7 @@ describe("dataChangeAuditHooks", () => {
         } catch (error) {
           expect(error).toEqual(
             new Error(
-              "User nickname must be given to db query for auditing. (case updated)"
+              "User nickname must be given to db query for auditing. (Case Updated)"
             )
           );
         }

@@ -63,7 +63,7 @@ class NavBar extends React.Component {
         data-test="exportAuditLog"
         onClick={this.handleExportDialogOpen}
       >
-        Export System Log
+        Export Audit Log
       </MenuItem>
     );
   };

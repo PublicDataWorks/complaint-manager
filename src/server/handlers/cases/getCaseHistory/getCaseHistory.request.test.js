@@ -2,7 +2,6 @@ import Case from "../../../../client/testUtilities/case";
 import models from "../../../models/index";
 import request from "supertest";
 import app from "../../../server";
-import { CASE_VIEWED } from "../../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
@@ -31,7 +30,7 @@ describe("GET /api/cases/:caseId/case-history", () => {
       .then(response => {
         expect(response.body).toEqual([
           expect.objectContaining({
-            action: "Case created",
+            action: "Case Created",
             modelDescription: ""
           })
         ]);
