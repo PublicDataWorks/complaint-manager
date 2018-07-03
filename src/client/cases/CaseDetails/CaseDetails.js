@@ -20,7 +20,10 @@ import {
   openCivilianDialog,
   closeEditDialog,
   closeCaseNoteDialog,
-  openCaseNoteDialog
+  openCaseNoteDialog,
+  closeCaseStatusUpdateDialog,
+  closeRemoveCaseNoteDialog,
+  closeRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
 import createCivilian from "../thunks/createCivilian";
 import {
@@ -63,12 +66,15 @@ class CaseDetails extends React.Component {
 
   componentDidMount() {
     this.props.dispatch(getCaseDetails(this.props.match.params.id));
-    this.props.dispatch(closeEditDialog());
-    this.props.dispatch(closeCaseNoteDialog());
   }
 
   componentWillUnmount() {
     this.props.dispatch(clearOfficerPanelData());
+    this.props.dispatch(closeEditDialog());
+    this.props.dispatch(closeCaseNoteDialog());
+    this.props.dispatch(closeCaseStatusUpdateDialog());
+    this.props.dispatch(closeRemoveCaseNoteDialog());
+    this.props.dispatch(closeRemovePersonDialog());
   }
 
   caseDetailsNotYetLoaded() {

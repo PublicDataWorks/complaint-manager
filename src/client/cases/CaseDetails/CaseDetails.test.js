@@ -15,7 +15,10 @@ import {
   openRemovePersonDialog,
   closeEditDialog,
   closeCaseNoteDialog,
-  openCaseNoteDialog
+  openCaseNoteDialog,
+  closeRemovePersonDialog,
+  closeRemoveCaseNoteDialog,
+  closeCaseStatusUpdateDialog
 } from "../../actionCreators/casesActionCreators";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import { TIMEZONE } from "../../../sharedUtilities/constants";
@@ -65,12 +68,13 @@ describe("Case Details Component", () => {
     );
   });
 
-  test("should dispatch close edit dialog action on mount", () => {
+  test("should dispatch close dialog actions on unmount", () => {
+    caseDetails.unmount();
     expect(dispatchSpy).toHaveBeenCalledWith(closeEditDialog());
-  });
-
-  test("should dispatch close case note dialog on mount", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(closeCaseNoteDialog());
+    expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveCaseNoteDialog());
+    expect(dispatchSpy).toHaveBeenCalledWith(closeRemovePersonDialog());
+    expect(dispatchSpy).toHaveBeenCalledWith(closeCaseStatusUpdateDialog());
   });
 
   describe("nav bar", () => {
