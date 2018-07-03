@@ -131,7 +131,7 @@ class OfficerAllegationPanelForm extends React.Component {
         <ExpansionPanelDetails>
           {editMode ? (
             <EditOfficerAllegationForm
-              form={`Allegation${index}DetailsForm`}
+              form={`Allegation${id}DetailsForm`}
               initialValues={{ id, details }}
               onCancel={this.handleCancel}
             />
