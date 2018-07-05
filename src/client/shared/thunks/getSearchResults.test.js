@@ -50,7 +50,6 @@ describe("getSearchResults", () => {
   test("dispatches searchSuccess", async () => {
     const responseBody = [{ firstName: "Bob" }];
     nock("http://localhost/")
-      .log(console.log)
       .get(`/api/${resourceToSearch}/search`)
       .query(searchCriteria)
       .reply(200, responseBody);

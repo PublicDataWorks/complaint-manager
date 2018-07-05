@@ -23,9 +23,7 @@ const getCases = () => async dispatch => {
       }
     });
     return dispatch(getCasesSuccess(response.data.cases));
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 export default getCases;
