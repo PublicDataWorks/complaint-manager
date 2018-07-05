@@ -52,6 +52,7 @@ const CaseStatusStepper = ({
         <div
           style={{
             marginLeft: "5%",
+            marginRight: "5%",
             maxWidth: "850px",
             paddingBottom: "24px",
             display: "flex",
