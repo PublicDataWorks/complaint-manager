@@ -6,6 +6,7 @@ module.exports = {
   development: {
     host: "db",
     s3Bucket: "noipm-staging",
+    officerBucket: "nopd-officers-staging",
     email: {
       secureConnection: false,
       host: "email",
@@ -68,6 +69,7 @@ module.exports = {
     port: 5432,
     host: process.env.DATABASE_HOST,
     s3Bucket: "noipm-staging",
+    officerBucket: "nopd-officers-staging",
     email: {
       host: "smtp-mail.outlook.com",
       port: 587,
@@ -103,6 +105,7 @@ module.exports = {
     port: 5432,
     host: process.env.DATABASE_HOST,
     s3Bucket: "noipm-production",
+    officerBucket: "nopd-officers-production",
     email: {
       host: "smtp-mail.outlook.com",
       port: 587,

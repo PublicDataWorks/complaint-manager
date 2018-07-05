@@ -2,7 +2,7 @@ const asyncMiddleware = require("../../asyncMiddleware");
 const config = require("../../../config/config");
 const models = require("../../../models/index");
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
-const createConfiguredS3Instance = require("./createConfiguredS3Instance");
+const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
 
 const deleteAttachment = asyncMiddleware(async (request, response) => {
   const s3 = createConfiguredS3Instance();

@@ -19,7 +19,7 @@ exports.init = sequelize => {
     "deleted_at"
   ];
 
-  sequelize.Model.prototype.update = async function(values, options) {
+  sequelize.Model.prototype.update = async function(values, options = {}) {
     return await addTransactionToFunction(
       originalInstanceUpdate,
       values,

@@ -1,5 +1,5 @@
 const asyncMiddleware = require("../../asyncMiddleware");
-const createConfiguredS3Instance = require("./createConfiguredS3Instance");
+const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
 const config = require("../../../config/config");
 
 const downloadAttachment = asyncMiddleware((request, response, next) => {
