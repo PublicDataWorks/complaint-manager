@@ -166,12 +166,22 @@ describe("GET /api/export-audit-log", () => {
     timekeeper.reset();
   });
 
-  test("includes data change audit changes and  snapshot transformation", async () => {
+  test("includes data change audit changes and snapshot transformation", async () => {
     await models.data_change_audit.create({
       auditType: AUDIT_TYPE.DATA_CHANGE,
       user: "smith",
       action: DATA_UPDATED,
-      snapshot: { id: 5, name: "bob" },
+      snapshot: {
+        id: 5,
+        name: "bob",
+        isBadBoy: true,
+        clearlyAnObject: { key: "val" },
+        clearlyAnArray: [{ key: "val" }],
+        nullField: null,
+        addressableId: "",
+        addressableType: "",
+        undefinedField: undefined
+      },
       caseId: 1,
       modelName: "Case",
       changes: { name: { previous: "greg II", new: "bob" } },
@@ -193,7 +203,9 @@ describe("GET /api/export-audit-log", () => {
         expect(dataChangeRecord["Changes"]).toEqual(
           "Name changed from 'greg II' to 'bob'"
         );
-        expect(dataChangeRecord["Snapshot"]).toEqual("Id: 5\nName: bob");
+        expect(dataChangeRecord["Snapshot"]).toEqual(
+          `Case DB ID: 5\nName: bob\nIs Bad Boy: true`
+        );
       });
   });
 });

@@ -22,11 +22,25 @@ const transformChanges = changes => {
     .join("\n");
 };
 
-const generateSnapshot = ({ snapshot, modelDescription }) => {
+const shouldShowInSnapshot = (value, key) => {
+  return !(
+    typeof value === "object" ||
+    key === "addressableId" ||
+    key === "addressableType"
+  );
+};
+
+const generateSnapshot = ({ snapshot, subject, modelDescription }) => {
   if (!snapshot) return "";
 
-  let snapshotArray = Object.keys(snapshot).map(key => {
-    return `${_.startCase(key)}: ${snapshot[key]}`;
+  const snapshotKeysToShow = Object.keys(snapshot).filter(key =>
+    shouldShowInSnapshot(snapshot[key], key)
+  );
+
+  let snapshotArray = snapshotKeysToShow.map(key => {
+    const formattedKey =
+      key === "id" ? `${subject} DB ID` : `${_.startCase(key)}`;
+    return `${formattedKey}: ${snapshot[key]}`;
   });
 
   if (modelDescription) {
@@ -37,7 +51,7 @@ const generateSnapshot = ({ snapshot, modelDescription }) => {
 };
 
 const transformDataChangeAuditForExport = audits => {
-  const transformedAudits = audits.map(audit => {
+  return audits.map(audit => {
     return {
       ...audit,
       audit_type: AUDIT_TYPE.DATA_CHANGE,
@@ -46,7 +60,6 @@ const transformDataChangeAuditForExport = audits => {
       snapshot: generateSnapshot(audit)
     };
   });
-  return transformedAudits;
 };
 
 module.exports = transformDataChangeAuditForExport;

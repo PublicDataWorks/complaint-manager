@@ -5,7 +5,7 @@ sh ./scripts/security-checks.sh
 git pull --rebase
 
 docker-compose down
-docker-compose build
+docker-compose build app
 
 # Run Unit
 docker-compose run app yarn test:once

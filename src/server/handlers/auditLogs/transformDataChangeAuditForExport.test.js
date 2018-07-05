@@ -108,6 +108,7 @@ describe("transformDataChangeAuditForExport", () => {
         id: 392,
         createdAt: "2018-01-01 12:12:00"
       },
+      subject: "Case",
       modelDescription: "a model description"
     };
 
@@ -117,32 +118,33 @@ describe("transformDataChangeAuditForExport", () => {
       expect.arrayContaining([
         expect.objectContaining({
           snapshot:
-            "a model description\nName: Bob Smith\nAge: 50\nId: 392\nCreated At: 2018-01-01 12:12:00"
+            "a model description\nName: Bob Smith\nAge: 50\nCase DB ID: 392\nCreated At: 2018-01-01 12:12:00"
         })
       ])
     );
+  });
 
-    test.only("transforms snapshot field when there is no model description", () => {
-      const audit = {
-        snapshot: {
-          name: "Bob Smith",
-          age: 50,
-          id: 392,
-          createdAt: "2018-01-01 12:12:00"
-        },
-        modelDescription: ""
-      };
+  test("transforms snapshot field when there is no model description", () => {
+    const audit = {
+      snapshot: {
+        name: "Bob Smith",
+        age: 50,
+        id: 392,
+        createdAt: "2018-01-01 12:12:00"
+      },
+      subject: "Case",
+      modelDescription: ""
+    };
 
-      const transformedAudit = transformDataChangeAuditForExport([audit]);
+    const transformedAudit = transformDataChangeAuditForExport([audit]);
 
-      expect(transformedAudit).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            snapshot:
-              "Name: Bob Smith\nAge: 50\nId: 392\nCreated At: 2018-01-01 12:12:00"
-          })
-        ])
-      );
-    });
+    expect(transformedAudit).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          snapshot:
+            "Name: Bob Smith\nAge: 50\nCase DB ID: 392\nCreated At: 2018-01-01 12:12:00"
+        })
+      ])
+    );
   });
 });
