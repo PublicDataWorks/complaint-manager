@@ -66,6 +66,24 @@ describe("GET /api/export-audit-log", () => {
       });
   });
 
+  test("inserts action audit into db when exporting", async () => {
+    await request(app)
+      .get("/api/export-audit-log")
+      .set("Authorization", `Bearer ${tokenWithExportPermission}`)
+      .expect(200);
+
+    const exportActionAudit = await models.action_audit.find({
+      where: {
+        auditType: AUDIT_TYPE.EXPORT,
+        action: EXPORTED,
+        subject: AUDIT_SUBJECT.AUDIT_LOG,
+        caseId: null,
+        user: nickname
+      }
+    });
+    expect(exportActionAudit).not.toBeNull();
+  });
+
   test("it includes export audit type", async () => {
     const timeOfExport = new Date("2018-07-01 19:00:22 CDT");
     timekeeper.freeze(timeOfExport);

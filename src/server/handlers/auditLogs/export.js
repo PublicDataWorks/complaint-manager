@@ -12,15 +12,6 @@ const moment = require("moment");
 const _ = require("lodash");
 const transformDataChangeAuditForExport = require("./transformDataChangeAuditForExport");
 
-const formatDateForCSV = date => {
-  if (!date) {
-    return "";
-  }
-  return moment(date)
-    .tz(TIMEZONE)
-    .format("MM/DD/YYYY HH:mm:ss z");
-};
-
 const exportAuditLog = asyncMiddleware(async (request, response) => {
   const dateFormatter = {
     date: formatDateForCSV
@@ -39,7 +30,7 @@ const exportAuditLog = asyncMiddleware(async (request, response) => {
   };
   const csvOptions = { header: true, columns, formatters: dateFormatter };
 
-  const audit_logs = await models.sequelize.transaction(async t => {
+  await models.sequelize.transaction(async t => {
     await models.action_audit.create(
       {
         auditType: AUDIT_TYPE.EXPORT,
@@ -86,16 +77,25 @@ const exportAuditLog = asyncMiddleware(async (request, response) => {
       dataChangeAudits
     );
 
-    return _.orderBy(
+    const sortedAuditLogs = _.orderBy(
       actionAudits.concat(modifiedDataChangeAudits),
       "created_at",
       "desc"
     );
-  });
 
-  stringify({ audit_logs }["audit_logs"], csvOptions, (err, csvOutput) => {
-    response.send(csvOutput);
+    stringify(sortedAuditLogs, csvOptions, (err, csvOutput) => {
+      response.send(csvOutput);
+    });
   });
 });
+
+const formatDateForCSV = date => {
+  if (!date) {
+    return "";
+  }
+  return moment(date)
+    .tz(TIMEZONE)
+    .format("MM/DD/YYYY HH:mm:ss z");
+};
 
 module.exports = exportAuditLog;
