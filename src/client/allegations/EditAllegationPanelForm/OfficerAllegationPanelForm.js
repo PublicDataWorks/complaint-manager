@@ -107,17 +107,26 @@ class OfficerAllegationPanelForm extends React.Component {
             <Icon>unfold_more</Icon>
           </IconButton>
           <div style={{ display: "flex", flex: 20 }}>
-            <Typography style={{ flex: 1, marginRight: "24px" }}>
-              {formatStringToTitleCase(allegation.rule)}
-            </Typography>
-            <Typography style={{ flex: 1, marginRight: "24px" }}>
-              {formatStringToTitleCase(allegation.paragraph)}
-            </Typography>
-            <Typography style={{ flex: 1, marginRight: "24px" }}>
-              {allegation.directive
-                ? formatStringToTitleCase(allegation.directive)
-                : "N/A"}
-            </Typography>
+            <div style={{ flex: 1, marginRight: "24px" }}>
+              <Typography variant="caption">Rule</Typography>
+              <Typography>
+                {formatStringToTitleCase(allegation.rule)}
+              </Typography>
+            </div>
+            <div style={{ flex: "1", marginRight: "24px" }}>
+              <Typography variant="caption">Paragraph</Typography>
+              <Typography>
+                {formatStringToTitleCase(allegation.paragraph)}
+              </Typography>
+            </div>
+            <div style={{ flex: 1, marginRight: "24px" }}>
+              <Typography variant="caption">Directive</Typography>
+              <Typography>
+                {allegation.directive
+                  ? formatStringToTitleCase(allegation.directive)
+                  : "N/A"}
+              </Typography>
+            </div>
           </div>
           <div style={{ minWidth: "189px", paddingRight: "0px" }}>
             {editMode ? null : (
