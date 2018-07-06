@@ -14,7 +14,6 @@ const getCase = asyncMiddleware(async (req, res) => {
         caseId: req.params.id,
         action: DATA_VIEWED,
         auditType: AUDIT_TYPE.PAGE_VIEW
-        //TEST THIS BEFORE COMMIT
       },
       { transaction }
     );
