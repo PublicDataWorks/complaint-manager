@@ -147,4 +147,29 @@ describe("transformDataChangeAuditForExport", () => {
       ])
     );
   });
+
+  test("excludes objects, arrays, nulls, and relational fields (*Id and AddressableType) from snapshot", () => {
+    const audit = {
+      snapshot: {
+        id: 392,
+        addressableId: 5,
+        addressableType: "Civilian",
+        civilian: { name: "John" },
+        allegations: ["one", "two"],
+        nullField: null,
+        isSomething: true
+      },
+      subject: "Case"
+    };
+
+    const transformedAudit = transformDataChangeAuditForExport([audit]);
+
+    expect(transformedAudit).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          snapshot: "Case DB ID: 392\nIs Something: true"
+        })
+      ])
+    );
+  });
 });

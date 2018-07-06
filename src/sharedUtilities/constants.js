@@ -152,6 +152,7 @@ const LOGGED_OUT = "Logged out";
 const EXPORTED = "Exported";
 
 const AUDIT_FIELDS_TO_EXCLUDE = "(.*Id$|^id$|addressableType)";
+const AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE = "(.*Id$|addressableType)";
 
 // ----------------------------------------
 //          Role on Case Options
@@ -291,5 +292,6 @@ module.exports = {
   LOGGED_OUT,
   EXPORTED,
   AUDIT_SUBJECT,
-  AUDIT_FIELDS_TO_EXCLUDE
+  AUDIT_FIELDS_TO_EXCLUDE,
+  AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE
 };

@@ -173,14 +173,7 @@ describe("GET /api/export-audit-log", () => {
       action: DATA_UPDATED,
       snapshot: {
         id: 5,
-        name: "bob",
-        isBadBoy: true,
-        clearlyAnObject: { key: "val" },
-        clearlyAnArray: [{ key: "val" }],
-        nullField: null,
-        addressableId: "",
-        addressableType: "",
-        undefinedField: undefined
+        name: "bob"
       },
       caseId: 1,
       modelName: "Case",
@@ -204,7 +197,7 @@ describe("GET /api/export-audit-log", () => {
           "Name changed from 'greg II' to 'bob'"
         );
         expect(dataChangeRecord["Snapshot"]).toEqual(
-          `Case DB ID: 5\nName: bob\nIs Bad Boy: true`
+          `Case DB ID: 5\nName: bob`
         );
       });
   });
