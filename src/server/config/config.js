@@ -5,7 +5,7 @@ const LOCAL_DEV_PORT = require("../../sharedUtilities/constants")
 module.exports = {
   development: {
     host: "db",
-    s3Bucket: "noipm-staging",
+    s3Bucket: "noipm-local",
     officerBucket: "nopd-officers-staging",
     email: {
       secureConnection: false,

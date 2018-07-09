@@ -17,7 +17,7 @@ describe("updating database using csv file in S3", () => {
     await loadCsv("testOfficers.csv", models.officer);
   });
 
-  afterEach(async function() {
+  afterEach(async () => {
     await cleanupDatabase();
   });
 
@@ -31,32 +31,23 @@ describe("updating database using csv file in S3", () => {
     }
   }));
 
-  test("should update existing officer when new data in S3 file", async () => {
+  test("handling update/insert on new data & not update on unchanged data", async () => {
     await updateOfficerDataFromS3();
 
-    const updatedOfficer = await models.officer.find({
-      where: { firstName: "Chris" }
-    });
-
-    expect(updatedOfficer.lastName).not.toEqual("Paucek");
-  });
-
-  test("should create new officer when new data in S3 file", async () => {
-    await updateOfficerDataFromS3();
-
-    const updatedOfficer = await models.officer.find({
+    const newOfficerMaggie = await models.officer.find({
       where: { firstName: "Maggie" }
     });
-
-    expect(updatedOfficer).not.toEqual(null);
-  });
-
-  test("should not update if officer exists and is unchanged", async () => {
-    await updateOfficerDataFromS3();
-
-    const officer = await models.officer.find({
+    const updatedOfficerChris = await models.officer.find({
+      where: { firstName: "Chris" }
+    });
+    const unchangedOfficerKristin = await models.officer.find({
       where: { firstName: "Kirstin" }
     });
-    expect(officer.updatedAt).toEqual(officer.createdAt);
+
+    expect(updatedOfficerChris.lastName).not.toEqual("Paucek");
+    expect(newOfficerMaggie).not.toEqual(null);
+    expect(unchangedOfficerKristin.updatedAt).toEqual(
+      unchangedOfficerKristin.createdAt
+    );
   });
 });
