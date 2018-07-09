@@ -36,7 +36,9 @@ describe("dataChangeAuditHooks for civilian", () => {
     expect(audit.caseId).toEqual(existingCase.id);
     expect(audit.modelId).toEqual(civilian.id);
     expect(audit.user).toEqual("someone");
-    expect(audit.modelDescription).toEqual(civilian.fullName);
+    expect(audit.modelDescription).toEqual([
+      { "Full Name": civilian.fullName }
+    ]);
   });
 
   test("should throw an exception if update is called with returning true", async () => {

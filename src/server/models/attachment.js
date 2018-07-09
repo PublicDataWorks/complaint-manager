@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Attachment.prototype.modelDescription = async function(transaction) {
-    return this.fileName;
+    return [{ "File Name": this.fileName }];
   };
 
   Attachment.prototype.getCaseId = async function(transaction) {

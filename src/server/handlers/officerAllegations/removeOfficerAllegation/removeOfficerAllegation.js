@@ -13,7 +13,7 @@ const removeOfficerAllegation = asyncMiddleware(
       next(Boom.notFound("Officer Allegation does not exist"));
     }
 
-    await officerAllegation.destroy();
+    await officerAllegation.destroy({ auditUser: request.nickname });
 
     const caseOfficer = await officerAllegation.getCaseOfficer();
     const updatedCase = await getCaseWithAllAssociations(caseOfficer.caseId);

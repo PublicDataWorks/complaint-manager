@@ -37,8 +37,13 @@ describe("dataChangeAuditHooks for caseNote", () => {
     expect(audit.caseId).toEqual(existingCase.id);
     expect(audit.modelId).toEqual(caseNote.id);
     expect(audit.user).toEqual("someone");
-    expect(audit.modelDescription).toEqual(
-      `${caseNote.action} (${formattedActionTakenAt})`
-    );
+    expect(audit.modelDescription).toEqual([
+      {
+        Action: caseNote.action
+      },
+      {
+        "Action Taken At": formattedActionTakenAt
+      }
+    ]);
   });
 });

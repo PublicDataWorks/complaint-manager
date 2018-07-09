@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       modelDescription: {
         field: "model_description",
-        type: DataTypes.STRING
+        type: DataTypes.JSONB
       },
       modelId: {
         allowNull: false,

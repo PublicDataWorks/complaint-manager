@@ -20,6 +20,7 @@ const editCaseOfficer = asyncMiddleware(async (request, response) => {
     if (oldRoleOnCase === ACCUSED && roleOnCase !== ACCUSED) {
       await models.officer_allegation.destroy({
         where: { caseOfficerId: caseOfficerToUpdate.id },
+        auditUser: request.nickname,
         transaction
       });
     }

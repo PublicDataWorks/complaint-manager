@@ -97,15 +97,15 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       getterMethods: {
-        nextStatus () {
-          return determineNextCaseStatus(this.status)
+        nextStatus() {
+          return determineNextCaseStatus(this.status);
         }
       }
     }
   );
 
   Case.prototype.modelDescription = async function(transaction) {
-    return "";
+    return [];
   };
 
   Case.prototype.getCaseId = async function(transaction) {

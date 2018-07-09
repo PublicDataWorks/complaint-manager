@@ -42,7 +42,9 @@ describe("dataChangeAuditHooks for attachment", () => {
       expect(audit.action).toEqual(DATA_CREATED);
       expect(audit.user).toEqual("someone");
       expect(audit.caseId).toEqual(existingCase.id);
-      expect(audit.modelDescription).toEqual(attachment.fileName);
+      expect(audit.modelDescription).toEqual([
+        { "File Name": attachment.fileName }
+      ]);
     });
 
     test("it saves snapshot of object values", async () => {

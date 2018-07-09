@@ -4,9 +4,17 @@ import { DATA_UPDATED } from "../../../../sharedUtilities/constants";
 
 const CaseHistoryDetails = ({ details, action, modelDescription }) => (
   <div>
-    {modelDescription ? (
-      <div>
-        <strong>{modelDescription}</strong>
+    {modelDescription.length !== 0 ? (
+      <div style={{ marginBottom: "8px" }}>
+        {modelDescription.map(identifier => {
+          const keys = Object.keys(identifier);
+
+          return (
+            <div>
+              <strong>{`${keys[0]}: ${identifier[keys[0]]}`}</strong>
+            </div>
+          );
+        })}
       </div>
     ) : null}
 

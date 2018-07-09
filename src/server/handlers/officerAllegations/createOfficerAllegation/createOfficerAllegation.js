@@ -13,7 +13,9 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
     "details"
   ]);
 
-  await caseOfficer.createAllegation(allegationAttributes);
+  await caseOfficer.createAllegation(allegationAttributes, {
+    auditUser: request.nickname
+  });
 
   const caseWithAssociations = await getCaseWithAllAssociations(
     request.params.caseId

@@ -162,6 +162,21 @@ class CaseOfficer {
         return this;
       }
 
+      withFirstName(firstName) {
+        this.firstName = firstName;
+        return this;
+      }
+
+      withMiddleName(middleName) {
+        this.middleName = middleName;
+        return this;
+      }
+
+      withLastName(lastName) {
+        this.lastName = lastName;
+        return this;
+      }
+
       withCreatedAt(createdAt) {
         this.createdAt = createdAt;
         return this;

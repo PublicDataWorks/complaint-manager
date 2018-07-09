@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true
       },
       details: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false
       },
       caseOfficerId: {
@@ -41,6 +41,46 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  OfficerAllegation.prototype.getCaseId = async function(transaction) {
+    const caseOfficer = await sequelize
+      .model("case_officer")
+      .findById(this.caseOfficerId, {
+        transaction: transaction
+      });
+
+    return caseOfficer.caseId;
+  };
+
+  OfficerAllegation.prototype.modelDescription = async function(transaction) {
+    const caseOfficer = await sequelize
+      .model("case_officer")
+      .findById(this.caseOfficerId, {
+        transaction: transaction
+      });
+
+    const allegation = await sequelize
+      .model("allegation")
+      .findById(this.allegationId, {
+        transaction: transaction
+      });
+
+    const fullName = caseOfficer.fullName;
+    const rule = allegation.rule;
+    const paragraph = allegation.paragraph;
+    const directive = allegation.directive;
+
+    return [
+      {
+        "Full Name": fullName
+      },
+      { Rule: rule },
+      { Paragraph: paragraph },
+      {
+        Directive: directive
+      }
+    ];
+  };
+
   OfficerAllegation.associate = models => {
     OfficerAllegation.belongsTo(models.allegation, {
       foreignKey: {
@@ -53,6 +93,8 @@ module.exports = (sequelize, DataTypes) => {
       as: "caseOfficer"
     });
   };
+
+  OfficerAllegation.auditDataChange();
 
   return OfficerAllegation;
 };

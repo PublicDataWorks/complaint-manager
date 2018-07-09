@@ -71,14 +71,17 @@ module.exports = (sequelize, DataTypes) => {
 
   Address.prototype.modelDescription = async function(transaction) {
     if (this.addressableType === "cases") {
-      return "Incident Location";
+      return [{ "Address Type": "Incident Location" }];
     }
 
     const civilian = await sequelize
       .model("civilian")
       .findById(this.addressableId, { transaction: transaction });
 
-    return `Address for ${civilian.fullName}`;
+    return [
+      { "Address Type": "Civilian" },
+      { "Civilian Full Name": civilian.fullName }
+    ];
   };
 
   Address.prototype.getCaseId = async function(transaction) {

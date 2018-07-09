@@ -490,7 +490,13 @@ describe("editCaseOfficer", () => {
         existingCaseOfficerAttributes,
         {
           auditUser: "someone",
-          include: [{ model: models.officer_allegation, as: "allegations" }]
+          include: [
+            {
+              model: models.officer_allegation,
+              as: "allegations",
+              auditUser: "someone"
+            }
+          ]
         }
       );
     });

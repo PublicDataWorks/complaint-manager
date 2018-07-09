@@ -31,7 +31,7 @@ describe("GET /api/cases/:caseId/case-history", () => {
         expect(response.body).toEqual([
           expect.objectContaining({
             action: "Case Created",
-            modelDescription: ""
+            modelDescription: []
           })
         ]);
       });

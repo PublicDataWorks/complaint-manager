@@ -52,7 +52,10 @@ module.exports = (sequelize, DataTypes) => {
       .tz(this.actionTakenAt, TIMEZONE)
       .format("MMM DD, YYYY h:mm:ss A z");
 
-    return `${this.action} (${formattedActionTakenAt})`;
+    return [
+      { Action: this.action },
+      { "Action Taken At": formattedActionTakenAt }
+    ];
   };
 
   CaseNote.prototype.getCaseId = async function(transaction) {

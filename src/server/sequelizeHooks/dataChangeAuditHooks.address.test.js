@@ -58,7 +58,11 @@ describe("dataChangeAuditHooks address", () => {
       expect(audit.caseId).toEqual(existingCase.id);
       expect(audit.modelId).toEqual(incidentLocationCreated.id);
       expect(audit.user).toEqual("someone");
-      expect(audit.modelDescription).toEqual("Incident Location");
+      expect(audit.modelDescription).toEqual([
+        {
+          "Address Type": "Incident Location"
+        }
+      ]);
     });
 
     test("should audit incident location update", async () => {
@@ -74,7 +78,11 @@ describe("dataChangeAuditHooks address", () => {
       expect(audit.caseId).toEqual(existingCase.id);
       expect(audit.modelId).toEqual(incidentLocationCreated.id);
       expect(audit.user).toEqual("someone");
-      expect(audit.modelDescription).toEqual("Incident Location");
+      expect(audit.modelDescription).toEqual([
+        {
+          "Address Type": "Incident Location"
+        }
+      ]);
     });
 
     test("should audit incident location on delete", async () => {
@@ -90,7 +98,11 @@ describe("dataChangeAuditHooks address", () => {
       expect(audit.caseId).toEqual(existingCase.id);
       expect(audit.modelId).toEqual(incidentLocationCreated.id);
       expect(audit.user).toEqual("someone");
-      expect(audit.modelDescription).toEqual("Incident Location");
+      expect(audit.modelDescription).toEqual([
+        {
+          "Address Type": "Incident Location"
+        }
+      ]);
     });
   });
 
@@ -140,9 +152,14 @@ describe("dataChangeAuditHooks address", () => {
       expect(audit.caseId).toEqual(createdCase.id);
       expect(audit.modelId).toEqual(createdAddress.id);
       expect(audit.user).toEqual("someone");
-      expect(audit.modelDescription).toEqual(
-        `Address for ${createdCivilian.fullName}`
-      );
+      expect(audit.modelDescription).toEqual([
+        {
+          "Address Type": "Civilian"
+        },
+        {
+          "Civilian Full Name": createdCivilian.fullName
+        }
+      ]);
     });
 
     test("should audit civilian address on update", async () => {
@@ -158,9 +175,14 @@ describe("dataChangeAuditHooks address", () => {
       expect(audit.caseId).toEqual(createdCase.id);
       expect(audit.modelId).toEqual(createdAddress.id);
       expect(audit.user).toEqual("someone");
-      expect(audit.modelDescription).toEqual(
-        `Address for ${createdCivilian.fullName}`
-      );
+      expect(audit.modelDescription).toEqual([
+        {
+          "Address Type": "Civilian"
+        },
+        {
+          "Civilian Full Name": createdCivilian.fullName
+        }
+      ]);
     });
 
     test("should audit civilian address on delete", async () => {
@@ -176,9 +198,14 @@ describe("dataChangeAuditHooks address", () => {
       expect(audit.caseId).toEqual(createdCase.id);
       expect(audit.modelId).toEqual(createdAddress.id);
       expect(audit.user).toEqual("someone");
-      expect(audit.modelDescription).toEqual(
-        `Address for ${createdCivilian.fullName}`
-      );
+      expect(audit.modelDescription).toEqual([
+        {
+          "Address Type": "Civilian"
+        },
+        {
+          "Civilian Full Name": createdCivilian.fullName
+        }
+      ]);
     });
   });
 });

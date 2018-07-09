@@ -180,7 +180,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   CaseOfficer.prototype.modelDescription = async function(transaction) {
-    return this.fullName;
+    return [{ "Full Name": this.fullName }];
   };
 
   CaseOfficer.prototype.getCaseId = async function(transaction) {
@@ -226,7 +226,7 @@ module.exports = (sequelize, DataTypes) => {
         name: "caseId",
         field: "case_id"
       }
-    })
+    });
   };
 
   CaseOfficer.auditDataChange();
