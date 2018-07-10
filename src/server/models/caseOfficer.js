@@ -180,7 +180,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   CaseOfficer.prototype.modelDescription = async function(transaction) {
-    return [{ "Full Name": this.fullName }];
+    return [{ "Officer Name": this.fullName }];
   };
 
   CaseOfficer.prototype.getCaseId = async function(transaction) {

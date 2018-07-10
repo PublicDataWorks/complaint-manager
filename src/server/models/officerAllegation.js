@@ -71,7 +71,7 @@ module.exports = (sequelize, DataTypes) => {
 
     return [
       {
-        "Full Name": fullName
+        "Officer Name": fullName
       },
       { Rule: rule },
       { Paragraph: paragraph },

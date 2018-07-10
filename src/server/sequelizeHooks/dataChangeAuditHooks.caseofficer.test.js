@@ -56,7 +56,7 @@ describe("dataChangeAudithooks caseofficer", () => {
     expect(audit.caseId).toEqual(createdCase.id);
     expect(audit.modelDescription).toEqual([
       {
-        "Full Name": createdCase.accusedOfficers[0].fullName
+        "Officer Name": createdCase.accusedOfficers[0].fullName
       }
     ]);
   });

@@ -1,5 +1,4 @@
 "use strict";
-const Boom = require("boom");
 
 module.exports = (sequelize, DataTypes) => {
   var Address = sequelize.define(
@@ -80,7 +79,7 @@ module.exports = (sequelize, DataTypes) => {
 
     return [
       { "Address Type": "Civilian" },
-      { "Civilian Full Name": civilian.fullName }
+      { "Civilian Name": civilian.fullName }
     ];
   };
 

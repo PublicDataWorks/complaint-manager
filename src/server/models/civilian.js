@@ -101,7 +101,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Civilian.prototype.modelDescription = async function(transaction) {
-    return [{ "Full Name": this.fullName }];
+    return [{ "Civilian Name": this.fullName }];
   };
 
   Civilian.prototype.getCaseId = async function(transaction) {

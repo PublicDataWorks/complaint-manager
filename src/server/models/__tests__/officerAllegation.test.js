@@ -67,7 +67,7 @@ describe("officerAllegation", function() {
 
     expect(modelDescription).toEqual([
       {
-        "Full Name": "full name smith"
+        "Officer Name": "full name smith"
       },
       { Rule: "rule1" },
       { Paragraph: "paragraph2" },

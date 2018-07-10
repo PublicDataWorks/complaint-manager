@@ -37,7 +37,7 @@ describe("dataChangeAuditHooks for civilian", () => {
     expect(audit.modelId).toEqual(civilian.id);
     expect(audit.user).toEqual("someone");
     expect(audit.modelDescription).toEqual([
-      { "Full Name": civilian.fullName }
+      { "Civilian Name": civilian.fullName }
     ]);
   });
 

@@ -157,7 +157,7 @@ describe("dataChangeAuditHooks address", () => {
           "Address Type": "Civilian"
         },
         {
-          "Civilian Full Name": createdCivilian.fullName
+          "Civilian Name": createdCivilian.fullName
         }
       ]);
     });
@@ -180,7 +180,7 @@ describe("dataChangeAuditHooks address", () => {
           "Address Type": "Civilian"
         },
         {
-          "Civilian Full Name": createdCivilian.fullName
+          "Civilian Name": createdCivilian.fullName
         }
       ]);
     });
@@ -203,7 +203,7 @@ describe("dataChangeAuditHooks address", () => {
           "Address Type": "Civilian"
         },
         {
-          "Civilian Full Name": createdCivilian.fullName
+          "Civilian Name": createdCivilian.fullName
         }
       ]);
     });
