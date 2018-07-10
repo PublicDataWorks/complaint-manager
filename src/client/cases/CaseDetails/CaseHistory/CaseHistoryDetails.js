@@ -8,10 +8,9 @@ const CaseHistoryDetails = ({ details, action, modelDescription }) => (
       <div style={{ marginBottom: "8px" }}>
         {modelDescription.map(identifier => {
           const keys = Object.keys(identifier);
-
           return (
             <div>
-              <strong>{`${keys[0]}: ${identifier[keys[0]]}`}</strong>
+              <strong>{`${keys[0]}: ${identifier[keys[0]] || "N/A"}`}</strong>
             </div>
           );
         })}

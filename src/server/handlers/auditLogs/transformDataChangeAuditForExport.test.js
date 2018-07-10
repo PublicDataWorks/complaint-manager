@@ -109,7 +109,7 @@ describe("transformDataChangeAuditForExport", () => {
         createdAt: "2018-01-01 12:12:00"
       },
       subject: "Case",
-      modelDescription: "a model description"
+      modelDescription: [{ tis: "a" }, { model: "description" }]
     };
 
     const transformedAudit = transformDataChangeAuditForExport([audit]);
@@ -118,7 +118,7 @@ describe("transformDataChangeAuditForExport", () => {
       expect.arrayContaining([
         expect.objectContaining({
           snapshot:
-            "a model description\nName: Bob Smith\nAge: 50\nCase DB ID: 392\nCreated At: 2018-01-01 12:12:00"
+            "Tis: a\nModel: description\n\n\nName: Bob Smith\nAge: 50\nCase DB ID: 392\nCreated At: 2018-01-01 12:12:00"
         })
       ])
     );
