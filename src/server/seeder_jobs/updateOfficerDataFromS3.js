@@ -14,7 +14,7 @@ const updateOfficerDataFromS3 = async () => {
     const s3 = createConfiguredS3Instance();
     const officerBucketName = config[process.env.NODE_ENV].officerBucket;
     const officerFileName =
-      process.env.OFFICER_FILE_NAME || "updatedOfficerSeedData.csv";
+      process.env.OFFICER_FILE_NAME || "officerSeedData.csv";
 
     const parser = csvParse({
       auto_parse: parseNullValues,
