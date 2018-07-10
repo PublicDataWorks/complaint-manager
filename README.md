@@ -25,10 +25,13 @@ and run all tests before pushing.
 
 ### Set up local configuration for AWS S3
 
-If you are a contributor, you can skip this step. You don't need AWS credentials unless you are working on attachments.
-
+If you are a core team member:
 * Log into AWS with root user (credentials are in the team 1Password)
 * Create a new user for yourself in the development group
+
+If you are a contributor, ask a core team member to setup AWS credentials for you.
+
+Everyone:
 * Save your login, access key ID and secret access key in your personal password manager
 * Create a file named `awsConfig.json` in the the `src/server/` directory with your credentials:
 
