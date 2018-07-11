@@ -118,7 +118,7 @@ describe("transformDataChangeAuditForExport", () => {
       expect.arrayContaining([
         expect.objectContaining({
           snapshot:
-            "Tis: a\nModel: description\n\n\nName: Bob Smith\nAge: 50\nCase DB ID: 392\nCreated At: 2018-01-01 12:12:00"
+            "Tis: a\nModel: description\n\n\nName: Bob Smith\nAge: 50\nCase Id: 392\nCreated At: 2018-01-01 12:12:00"
         })
       ])
     );
@@ -142,13 +142,13 @@ describe("transformDataChangeAuditForExport", () => {
       expect.arrayContaining([
         expect.objectContaining({
           snapshot:
-            "Name: Bob Smith\nAge: 50\nCase DB ID: 392\nCreated At: 2018-01-01 12:12:00"
+            "Name: Bob Smith\nAge: 50\nCase Id: 392\nCreated At: 2018-01-01 12:12:00"
         })
       ])
     );
   });
 
-  test("excludes objects, arrays, nulls, and relational fields (*Id and AddressableType) from snapshot", () => {
+  test("excludes objects, arrays, nulls, and AddressableType from snapshot", () => {
     const audit = {
       snapshot: {
         id: 392,
@@ -167,7 +167,7 @@ describe("transformDataChangeAuditForExport", () => {
     expect(transformedAudit).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          snapshot: "Case DB ID: 392\nIs Something: true"
+          snapshot: "Case Id: 392\nAddressable Id: 5\nIs Something: true"
         })
       ])
     );

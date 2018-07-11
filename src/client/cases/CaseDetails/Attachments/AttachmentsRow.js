@@ -32,6 +32,7 @@ const AttachmentsRow = ({ attachment, onRemoveAttachment, dispatch }) => {
                     attachment.fileName
                   }`,
                   attachment.fileName,
+                  false,
                   undefined
                 )
               )

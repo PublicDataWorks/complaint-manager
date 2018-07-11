@@ -13,8 +13,8 @@ import { connect } from "react-redux";
 
 const ExportAuditLogConfirmationDialog = props => {
   const path = "/api/export-audit-log";
-  const date = moment().format("MM-DD-YYYY");
-  const fileName = `Complaint_Manager_System_Log_${date}.csv`;
+  const date = moment().format("YYYY-MM-DD_HH.MM");
+  const fileName = `Complaint_Manager_Audit_Log_${date}.csv`;
 
   return (
     <Dialog maxWidth="sm" fullWidth={true} open={props.dialogOpen}>
@@ -37,7 +37,7 @@ const ExportAuditLogConfirmationDialog = props => {
         <PrimaryButton
           data-test="exportAuditLogButton"
           onClick={() =>
-            props.dispatch(downloader(path, fileName, props.handleClose))
+            props.dispatch(downloader(path, fileName, true, props.handleClose))
           }
         >
           Export

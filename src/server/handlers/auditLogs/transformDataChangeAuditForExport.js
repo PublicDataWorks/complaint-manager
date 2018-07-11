@@ -53,7 +53,7 @@ const transformSnapshot = ({ snapshot, subject, modelDescription }) => {
 
   let snapshotArray = fieldNamesValidForSnapshot(snapshot).map(fieldName => {
     const formattedFieldName =
-      fieldName === "id" ? `${subject} DB ID` : `${_.startCase(fieldName)}`;
+      fieldName === "id" ? `${subject} Id` : `${_.startCase(fieldName)}`;
     return `${formattedFieldName}: ${snapshot[fieldName]}`;
   });
 

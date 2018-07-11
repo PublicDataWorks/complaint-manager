@@ -214,9 +214,7 @@ describe("GET /api/export-audit-log", () => {
         expect(dataChangeRecord["Changes"]).toEqual(
           "Name changed from 'greg II' to 'bob'"
         );
-        expect(dataChangeRecord["Snapshot"]).toEqual(
-          `Case DB ID: 5\nName: bob`
-        );
+        expect(dataChangeRecord["Snapshot"]).toEqual(`Case Id: 5\nName: bob`);
       });
   });
 });

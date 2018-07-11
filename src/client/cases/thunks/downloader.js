@@ -1,11 +1,16 @@
 import getAccessToken from "../../auth/getAccessToken";
 import FileSaver from "file-saver";
 import { push } from "react-router-redux";
+import { UTF8_BYTE_ORDER_MARK } from "../../../sharedUtilities/constants";
 import downloadFailed from "../../actionCreators/downloadActionCreators";
 import axios from "axios";
-import { UTF8_BYTE_ORDER_MARK } from "../../../sharedUtilities/constants";
 
-const downloader = (path, filename, callback) => async dispatch => {
+const downloader = (
+  path,
+  filename,
+  fileNeedsUtfEncoding,
+  callback
+) => async dispatch => {
   if (!getAccessToken()) {
     return dispatch(push("/login"));
   }
@@ -16,11 +21,11 @@ const downloader = (path, filename, callback) => async dispatch => {
       }
     });
 
-    const fileToDownload = new File(
-      [UTF8_BYTE_ORDER_MARK + response.data],
-      filename,
-      { type: "text/csv;charset=utf-8" }
-    );
+    const fileData = fileNeedsUtfEncoding
+      ? UTF8_BYTE_ORDER_MARK + response.data
+      : response.data;
+    const fileToDownload = new File([fileData], filename, { type: "text/csv;charset=utf-8" });
+
     FileSaver.saveAs(fileToDownload, filename);
 
     if (callback) callback();
