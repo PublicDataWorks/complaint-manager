@@ -7,12 +7,14 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import getSearchResults from "../../../shared/thunks/getSearchResults";
 import { Provider } from "react-redux";
 import { changeInput, selectDropdownOption } from "../../../testHelpers";
+import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 
 jest.mock(
   "../../../shared/thunks/getSearchResults",
-  () => (searchCriteria, resourceToSearch) => ({
+  () => (caseId, searchCriteria, resourceToSearch) => ({
     type: "something",
-    searchCriteria
+    searchCriteria,
+    caseId
   })
 );
 
@@ -37,7 +39,9 @@ describe("OfficerSearchForm", () => {
 
   describe("onSubmit", () => {
     test("dispatches searchOfficer on submit", () => {
+      const caseId = 2;
       const store = createConfiguredStore();
+      store.dispatch(getCaseDetailsSuccess({ id: caseId }));
       const dispatchSpy = jest.spyOn(store, "dispatch");
 
       const officerSearchForm = mount(
@@ -56,6 +60,7 @@ describe("OfficerSearchForm", () => {
       officerSearchForm.find(PrimaryButton).simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
         getSearchResults(
+          caseId,
           {
             firstName: "emma",
             lastName: "watson",
@@ -66,9 +71,12 @@ describe("OfficerSearchForm", () => {
       );
     });
 
-    test("normalizes first and last name on submit", () => {
+    test("normalizes first and last name on submit and pass case id", () => {
       const store = createConfiguredStore();
       const dispatchSpy = jest.spyOn(store, "dispatch");
+      const caseId = 1;
+
+      store.dispatch(getCaseDetailsSuccess({ id: caseId }));
 
       const officerSearchForm = mount(
         <Provider store={store}>
@@ -90,6 +98,7 @@ describe("OfficerSearchForm", () => {
       officerSearchForm.find(PrimaryButton).simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
         getSearchResults(
+          caseId,
           {
             firstName: "bubba joe",
             lastName: "smith",

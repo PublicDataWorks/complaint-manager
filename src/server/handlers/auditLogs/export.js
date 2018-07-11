@@ -58,6 +58,10 @@ const exportAuditLog = asyncMiddleware(async (request, response) => {
       transaction: t
     });
 
+    // const modifiedActionAudits = transformActionAuditForExport(
+    //   actionAudits
+    // );
+
     const dataChangeAudits = await models.data_change_audit.findAll({
       attributes: [
         "created_at",

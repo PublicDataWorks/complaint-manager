@@ -18,13 +18,14 @@ describe("getSearchResults", () => {
   const resourceToSearch = "resources";
   const page = 5;
   const queryParamsWithPagination = { ...searchCriteria, page };
+  const caseId = 12;
 
   beforeEach(() => {
     dispatch.mockClear();
   });
   test("redirects to login if no token", async () => {
     getAccessToken.mockImplementation(() => null);
-    await getSearchResults(searchCriteria, resourceToSearch)(dispatch);
+    await getSearchResults(caseId, searchCriteria, resourceToSearch)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
@@ -39,7 +40,7 @@ describe("getSearchResults", () => {
       .query(searchCriteria)
       .reply(500);
     getAccessToken.mockImplementation(() => token);
-    await getSearchResults(searchCriteria, resourceToSearch)(dispatch);
+    await getSearchResults(caseId, searchCriteria, resourceToSearch)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
         "Something went wrong on our end and we could not complete your search."
@@ -51,10 +52,10 @@ describe("getSearchResults", () => {
     const responseBody = [{ firstName: "Bob" }];
     nock("http://localhost/")
       .get(`/api/${resourceToSearch}/search`)
-      .query(searchCriteria)
+      .query({ ...searchCriteria, caseId })
       .reply(200, responseBody);
     getAccessToken.mockImplementation(() => token);
-    await getSearchResults(searchCriteria, resourceToSearch)(dispatch);
+    await getSearchResults(caseId, searchCriteria, resourceToSearch)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(searchSuccess(responseBody));
   });
 
@@ -62,13 +63,17 @@ describe("getSearchResults", () => {
     const responseBody = [{ firstName: "Bob" }];
     nock("http://localhost/")
       .get(`/api/${resourceToSearch}/search`)
-      .query(queryParamsWithPagination)
+      .query({ ...queryParamsWithPagination, caseId })
       .reply(200, responseBody);
     getAccessToken.mockImplementation(() => token);
     const paginating = true;
-    await getSearchResults(searchCriteria, resourceToSearch, paginating, page)(
-      dispatch
-    );
+    await getSearchResults(
+      caseId,
+      searchCriteria,
+      resourceToSearch,
+      paginating,
+      page
+    )(dispatch);
     expect(dispatch).toHaveBeenCalledWith(searchSuccess(responseBody, page));
   });
 });

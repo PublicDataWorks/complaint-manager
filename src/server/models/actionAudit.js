@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
     subject: {
       type: DataTypes.STRING
     },
+    subjectDetails: {
+      field: "subject_details",
+      type: DataTypes.STRING
+    },
     subjectId: {
       field: "subject_id",
       type: DataTypes.INTEGER

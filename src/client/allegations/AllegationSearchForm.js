@@ -21,6 +21,7 @@ class AllegationSearchForm extends React.Component {
 
   render() {
     const {
+      caseId,
       invalid,
       handleSubmit,
       currentRuleSelected,
@@ -40,6 +41,7 @@ class AllegationSearchForm extends React.Component {
 
       dispatch(
         getSearchResults(
+          caseId,
           normalizeValues(values),
           "allegations",
           paginatingSearch,
@@ -134,6 +136,7 @@ const selector = formValueSelector(ALLEGATION_SEARCH_FORM_NAME);
 AllegationSearchForm = connect(state => {
   const currentRuleSelected = selector(state, "rule");
   return {
+    caseId: state.currentCase.details.id,
     allegations: state.ui.allegations,
     currentRuleSelected
   };

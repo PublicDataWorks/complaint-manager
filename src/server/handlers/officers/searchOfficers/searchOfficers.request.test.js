@@ -1,11 +1,11 @@
-import models from "../../models";
-import app from "../../server";
+import models from "../../../models/index";
+import app from "../../../server";
 import request from "supertest";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../testHelpers/requestTestHelpers";
-import Officer from "../../../client/testUtilities/Officer";
+} from "../../../testHelpers/requestTestHelpers";
+import Officer from "../../../../client/testUtilities/Officer";
 
 describe("GET /officers/search", () => {
   let token;

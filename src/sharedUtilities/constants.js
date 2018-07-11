@@ -141,7 +141,11 @@ const AUDIT_TYPE = {
 
 const AUDIT_SUBJECT = {
   AUDIT_LOG: "Audit Log",
-  ALL_CASES: "All Cases"
+  CASE_DETAILS: "Case Details Page",
+  OFFICER_DETAILS: "Officer Details Page",
+  OFFICER_SEARCH: "Officer Search Page",
+  OFFICER_ALLEGATIONS: "Officer Allegations Page",
+  CASE_HISTORY: "Case History Page"
 };
 
 const DATA_UPDATED = "Updated";
