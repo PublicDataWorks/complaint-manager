@@ -12,7 +12,7 @@ import OfficerAllegations from "./OfficerAllegations";
 
 export class AllegationSearchContainer extends Component {
   componentDidMount() {
-    if (this.props.match.params.id !== this.props.caseDetails.id) {
+    if (this.props.match.params.id !== `${this.props.caseDetails.id}`) {
       this.props.dispatch(getCaseDetails(this.props.match.params.id));
     }
   }

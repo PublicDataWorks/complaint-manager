@@ -121,6 +121,7 @@ describe("GET /api/export-audit-log", () => {
       .withAction(LOGGED_IN)
       .withCaseId(undefined)
       .withId(undefined)
+      .withSubject(undefined)
       .withCreatedAt(new Date("2018-06-01 19:00:22 CDT"));
     await models.action_audit.create(actionAuditAttributes);
 

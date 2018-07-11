@@ -12,6 +12,7 @@ const stringify = require("csv-stringify");
 const moment = require("moment");
 const _ = require("lodash");
 const transformDataChangeAuditForExport = require("./transformDataChangeAuditForExport");
+const transformActionAuditForExport = require("./transformActionAuditForExport");
 
 const exportAuditLog = asyncMiddleware(async (request, response) => {
   const dateFormatter = {
@@ -51,16 +52,16 @@ const exportAuditLog = asyncMiddleware(async (request, response) => {
         "case_id",
         "action",
         "user",
-        "audit_type",
-        "subject"
+        ["audit_type", "auditType"],
+        "subject",
+        "subject_id",
+        ["subject_details", "subjectDetails"]
       ],
       raw: true,
       transaction: t
     });
 
-    // const modifiedActionAudits = transformActionAuditForExport(
-    //   actionAudits
-    // );
+    const modifiedActionAudits = transformActionAuditForExport(actionAudits);
 
     const dataChangeAudits = await models.data_change_audit.findAll({
       attributes: [
@@ -83,7 +84,7 @@ const exportAuditLog = asyncMiddleware(async (request, response) => {
     );
 
     const sortedAuditLogs = _.orderBy(
-      actionAudits.concat(modifiedDataChangeAudits),
+      modifiedActionAudits.concat(modifiedDataChangeAudits),
       "created_at",
       "desc"
     );

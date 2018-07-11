@@ -1,7 +1,7 @@
 import React from "react";
 import AllegationSearchContainer from "./AllegationSearchContainer";
 import { mount } from "enzyme";
-import { BrowserRouter as Router } from "react-router-dom";
+import { MemoryRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../createConfiguredStore";
 import Case from "../testUtilities/case";
@@ -48,7 +48,7 @@ beforeEach(() => {
 test("should retrieve case details if not present in state", () => {
   store.dispatch(getCaseDetailsSuccess(seededCase));
 
-  const caseIdThatDoesNotMatchStore = 100;
+  const caseIdThatDoesNotMatchStore = `100`;
 
   mount(
     <Provider store={store}>
@@ -57,7 +57,7 @@ test("should retrieve case details if not present in state", () => {
           match={{
             params: {
               id: caseIdThatDoesNotMatchStore,
-              caseOfficerId: caseOfficer.id
+              caseOfficerId: `${caseOfficer.id}`
             }
           }}
         />
@@ -72,6 +72,7 @@ test("should retrieve case details if not present in state", () => {
 
 test("should not retrieve case details if correct data already present in state", () => {
   store.dispatch(getCaseDetailsSuccess(seededCase));
+  const caseId = `${seededCase.id}`;
 
   mount(
     <Provider store={store}>
@@ -79,8 +80,8 @@ test("should not retrieve case details if correct data already present in state"
         <AllegationSearchContainer
           match={{
             params: {
-              id: seededCase.id,
-              caseOfficerId: caseOfficer.id
+              id: caseId,
+              caseOfficerId: `${caseOfficer.id}`
             }
           }}
         />
@@ -88,7 +89,7 @@ test("should not retrieve case details if correct data already present in state"
     </Provider>
   );
 
-  expect(dispatchSpy).not.toHaveBeenCalledWith(getCaseDetails(seededCase.id));
+  expect(dispatchSpy).not.toHaveBeenCalledWith(getCaseDetails(caseId));
 });
 
 test("should not render when caseOfficerId in route doesn't exist for a case", () => {

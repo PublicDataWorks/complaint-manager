@@ -1,4 +1,8 @@
-import { AUDIT_TYPE, DATA_VIEWED } from "../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  AUDIT_TYPE,
+  DATA_VIEWED
+} from "../../sharedUtilities/constants";
 
 class ActionAudit {
   constructor(build) {
@@ -7,6 +11,7 @@ class ActionAudit {
     this.user = build.user;
     this.subject = build.subject;
     this.subjectId = build.subjectId;
+    this.subjectDetails = build.subjectDetails;
     this.auditType = build.auditType;
     this.action = build.action;
     this.createdAt = build.createdAt;
@@ -19,6 +24,9 @@ class ActionAudit {
         this.id = 11111;
         this.caseId = 17;
         this.user = "Bobby";
+        this.subject = AUDIT_SUBJECT.CASE_DETAILS;
+        this.subjectId = null;
+        this.subjectDetails = null;
         this.action = DATA_VIEWED;
         this.auditType = AUDIT_TYPE.PAGE_VIEW;
         this.createdAt = new Date().toISOString();
@@ -52,6 +60,11 @@ class ActionAudit {
       }
       withSubjectId(subjectId) {
         this.subjectId = subjectId;
+        return this;
+      }
+
+      withSubjectDetails(subjectDetails) {
+        this.subjectDetails = subjectDetails;
         return this;
       }
 
