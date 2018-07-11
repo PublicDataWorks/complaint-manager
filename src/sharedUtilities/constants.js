@@ -127,6 +127,7 @@ const UPDATE_CASE_STATUS_SUCCESS = "UPDATE_CASE_STATUS_SUCCESS";
 // ----------------------------------------
 
 const TIMEZONE = "America/Chicago";
+const UTF8_BYTE_ORDER_MARK = "\ufeff";
 
 // ----------------------------------------
 //          Audit
@@ -293,5 +294,6 @@ module.exports = {
   EXPORTED,
   AUDIT_SUBJECT,
   AUDIT_FIELDS_TO_EXCLUDE,
-  AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE
+  AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE,
+  UTF8_BYTE_ORDER_MARK
 };

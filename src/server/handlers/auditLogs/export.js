@@ -1,3 +1,4 @@
+const { UTF8_BYTE_ORDER_MARK } = require("../../../sharedUtilities/constants");
 const {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
@@ -84,7 +85,7 @@ const exportAuditLog = asyncMiddleware(async (request, response) => {
     );
 
     stringify(sortedAuditLogs, csvOptions, (err, csvOutput) => {
-      response.send(csvOutput);
+      response.send(UTF8_BYTE_ORDER_MARK + csvOutput);
     });
   });
 });
