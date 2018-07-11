@@ -21,7 +21,7 @@ import parse from "csv-parse/lib/sync";
 import Address from "../../../../client/testUtilities/Address";
 
 describe("exportCases request", function() {
-  let token, caseToExport, civilian, caseOfficer;
+  let token, caseToExport, civilian, caseOfficer, allegation, officerAllegation;
   beforeEach(async () => {
     token = buildTokenWithPermissions("", "tuser");
 
@@ -73,7 +73,7 @@ describe("exportCases request", function() {
     const allegationAttributes = new Allegation.Builder()
       .defaultAllegation()
       .withId(undefined);
-    const allegation = await models.allegation.create(allegationAttributes, {
+    allegation = await models.allegation.create(allegationAttributes, {
       auditUser: "tuser"
     });
 
@@ -82,7 +82,7 @@ describe("exportCases request", function() {
       .withId(undefined)
       .withAllegationId(allegation.id)
       .withCaseOfficerId(caseOfficer.id);
-    const officerAllegation = await models.officer_allegation.create(
+    officerAllegation = await models.officer_allegation.create(
       officerAllegationAttributes,
       { auditUser: "tuser" }
     );
@@ -152,7 +152,11 @@ describe("exportCases request", function() {
               "Race," +
               "Sex," +
               "Age," +
-              "Notes\n"
+              "Notes," +
+              "Allegation Rule," +
+              "Allegation Paragraph," +
+              "Allegation Directive," +
+              "Allegation Details\n"
           )
         );
       });
@@ -464,7 +468,7 @@ describe("exportCases request", function() {
       });
   });
 
-  test("should not include officers from a different case", async () => {
+  test("exports officers from a different case that case", async () => {
     const otherCaseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
@@ -629,6 +633,72 @@ describe("exportCases request", function() {
         );
         expect(fourthRecord["Officer Windows Username"]).toEqual(
           caseOfficer2.windowsUsername.toString()
+        );
+      });
+  });
+
+  test("exports allegation information for single allegation", async () => {
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+
+        expect(records.length).toEqual(1);
+        const record = records[0];
+        expect(record["Allegation Rule"]).toEqual(allegation.rule);
+        expect(record["Allegation Paragraph"]).toEqual(allegation.paragraph);
+        expect(record["Allegation Directive"]).toEqual(allegation.directive);
+        expect(record["Allegation Details"]).toEqual(officerAllegation.details);
+      });
+  });
+
+  test("exports allegation information for two allegations on same officer", async () => {
+    const allegation2Attributes = new Allegation.Builder()
+      .defaultAllegation()
+      .withRule("new rule")
+      .withParagraph("new paragraph")
+      .withDirective("new directive")
+      .withId(undefined);
+    const allegation2 = await models.allegation.create(allegation2Attributes, {
+      auditUser: "test"
+    });
+    const officerAllegation2Attributes = new OfficerAllegation.Builder()
+      .defaultOfficerAllegation()
+      .withId(undefined)
+      .withDetails("new details")
+      .withAllegationId(allegation2.id)
+      .withCaseOfficerId(caseOfficer.id);
+    const officerAllegation2 = await models.officer_allegation.create(
+      officerAllegation2Attributes,
+      { auditUser: "test" }
+    );
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+
+        expect(records.length).toEqual(2);
+        const record1 = records[0];
+        expect(record1["Allegation Rule"]).toEqual(allegation.rule);
+        expect(record1["Allegation Paragraph"]).toEqual(allegation.paragraph);
+        expect(record1["Allegation Directive"]).toEqual(allegation.directive);
+        expect(record1["Allegation Details"]).toEqual(
+          officerAllegation.details
+        );
+
+        const record2 = records[1];
+        expect(record2["Allegation Rule"]).toEqual(allegation2.rule);
+        expect(record2["Allegation Paragraph"]).toEqual(allegation2.paragraph);
+        expect(record2["Allegation Directive"]).toEqual(allegation2.directive);
+        expect(record2["Allegation Details"]).toEqual(
+          officerAllegation2.details
         );
       });
   });

@@ -69,7 +69,11 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     'accusedOfficers.race AS "accusedOfficers.race", ' +
     'accusedOfficers.sex AS "accusedOfficers.sex", ' +
     "date_part('year', age(accusedOfficers.dob)) AS \"accusedOfficers.age\", " +
-    'accusedOfficers.notes AS "accusedOfficers.notes" ' +
+    'accusedOfficers.notes AS "accusedOfficers.notes", ' +
+    'allegations.rule as "allegations.rule", ' +
+    'allegations.paragraph as "allegations.paragraph", ' +
+    'allegations.directive as "allegations.directive", ' +
+    'officerAllegations.details as "officerAllegations.details" ' +
     "FROM cases AS cases " +
     "LEFT OUTER JOIN addresses AS incidentLocation " +
     "ON cases.id = incidentLocation.addressable_id " +
@@ -91,7 +95,12 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "AND (" +
     "accusedOfficers.deleted_at IS NULL " +
     "AND accusedOfficers.role_on_case = 'Accused') " +
-    "ORDER BY cases.created_at ASC, complainantCivilians.created_at ASC, accusedOfficers.created_at ASC;";
+    "LEFT OUTER JOIN officers_allegations as officerAllegations " +
+    "ON accusedOfficers.id = officerAllegations.case_officer_id " +
+    "AND officerAllegations.deleted_at IS NULL " +
+    "LEFT OUTER JOIN allegations " +
+    "ON officerAllegations.allegation_id = allegations.id " +
+    "ORDER BY cases.created_at ASC, complainantCivilians.created_at ASC, accusedOfficers.created_at ASC, officerAllegations.created_at ASC;";
 
   const caseData = await models.sequelize.query(query, {
     type: models.sequelize.QueryTypes.SELECT
@@ -144,7 +153,11 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "accusedOfficers.race": "Race",
     "accusedOfficers.sex": "Sex",
     "accusedOfficers.age": "Age",
-    "accusedOfficers.notes": "Notes"
+    "accusedOfficers.notes": "Notes",
+    "allegations.rule": "Allegation Rule",
+    "allegations.paragraph": "Allegation Paragraph",
+    "allegations.directive": "Allegation Directive",
+    "officerAllegations.details": "Allegation Details"
   };
 
   const csvOptions = {
