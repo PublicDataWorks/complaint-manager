@@ -1,5 +1,5 @@
-const { UTF8_BYTE_ORDER_MARK } = require("../../../sharedUtilities/constants");
 const {
+  UTF8_BYTE_ORDER_MARK,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   EXPORTED
