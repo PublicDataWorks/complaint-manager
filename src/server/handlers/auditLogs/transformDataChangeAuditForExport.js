@@ -57,14 +57,14 @@ const transformSnapshot = ({ snapshot, subject, modelDescription }) => {
     return `${formattedFieldName}: ${snapshot[fieldName]}`;
   });
 
-  if (modelDescription) {
+  if (modelDescription && modelDescription.length !== 0) {
     let modelDescriptionArray = modelDescription.map(identifier => {
       const keys = Object.keys(identifier);
       return `${_.startCase(keys[0])}: ${identifier[keys[0]] || "N/A"}`;
     });
-
     snapshotArray.unshift(...modelDescriptionArray, "\n");
   }
+
   return snapshotArray.join("\n");
 };
 
