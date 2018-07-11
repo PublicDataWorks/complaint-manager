@@ -1,5 +1,8 @@
 const {
-  DEFAULT_PAGINATION_LIMIT
+  DEFAULT_PAGINATION_LIMIT,
+  DATA_VIEWED,
+  AUDIT_TYPE,
+  AUDIT_SUBJECT
 } = require("../../../sharedUtilities/constants");
 
 const asyncMiddleware = require("../asyncMiddleware");
@@ -24,11 +27,40 @@ const searchAllegations = asyncMiddleware(async (request, response) => {
     ? (request.query.page - 1) * DEFAULT_PAGINATION_LIMIT
     : null;
 
-  const allegations = await models.allegation.findAndCountAll({
-    where: whereClause,
-    order: [["rule", "ASC"], ["paragraph", "ASC"], ["directive", "ASC"]],
-    limit: DEFAULT_PAGINATION_LIMIT,
-    offset: offset
+  const allegations = await models.sequelize.transaction(async transaction => {
+    const allegations = await models.allegation.findAndCountAll({
+      where: whereClause,
+      order: [["rule", "ASC"], ["paragraph", "ASC"], ["directive", "ASC"]],
+      limit: DEFAULT_PAGINATION_LIMIT,
+      offset: offset,
+      transaction
+    });
+
+    const caseOfficer = await models.case_officer.findById(
+      request.query.caseOfficerId
+    );
+
+    let caseOfficerFullName;
+    if (caseOfficer) {
+      caseOfficerFullName = caseOfficer.fullName;
+    } else {
+      caseOfficerFullName = "Unknown Officer";
+    }
+
+    await models.action_audit.create(
+      {
+        user: request.nickname,
+        caseId: request.query.caseId,
+        action: DATA_VIEWED,
+        auditType: AUDIT_TYPE.PAGE_VIEW,
+        subject: AUDIT_SUBJECT.OFFICER_ALLEGATIONS,
+        subjectId: request.query.caseOfficerId,
+        subjectDetails: caseOfficerFullName
+      },
+      { auditUser: request.nickname, transaction }
+    );
+
+    return allegations;
   });
 
   response.send(allegations);

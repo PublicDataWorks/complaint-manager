@@ -7,11 +7,34 @@ import { selectDropdownOption } from "../testHelpers";
 import { change } from "redux-form";
 import { ALLEGATION_SEARCH_FORM_NAME } from "../../sharedUtilities/constants";
 import getAllegationDropdownValues from "../cases/thunks/getAllegationDropdownValues";
+import getSearchResults from "../shared/thunks/getSearchResults";
+import { getCaseDetailsSuccess } from "../actionCreators/casesActionCreators";
 
 jest.mock("../cases/thunks/getAllegationDropdownValues", () => () => ({
   type: "GET_ALLEGATIONS_SUCCEEDED",
-  allegations: [{ rule: "RULE 1", paragraphs: ["1", "2"] }]
+  allegations: [{ rule: "Rule 1", paragraphs: ["1", "2"] }]
 }));
+
+jest.mock("../shared/thunks/getSearchResults", () =>
+  jest.fn(
+    (
+      caseId,
+      searchCriteria,
+      resourceToSearch,
+      paginatingSearch,
+      newPage,
+      auditMetaData
+    ) => ({
+      type: "MOCK_ACTION",
+      caseId,
+      searchCriteria,
+      resourceToSearch,
+      paginatingSearch,
+      newPage,
+      auditMetaData
+    })
+  )
+);
 
 describe("AllegationSearchForm", () => {
   test("should clear paragraph value when rule deselected", () => {
@@ -33,9 +56,7 @@ describe("AllegationSearchForm", () => {
       change(ALLEGATION_SEARCH_FORM_NAME, "paragraph", "")
     );
   });
-});
 
-describe("AllegationSearchForm", () => {
   test("should retrieve dropdown values from database", () => {
     const store = createConfiguredStore();
     const dispatchSpy = jest.spyOn(store, "dispatch");
@@ -47,5 +68,45 @@ describe("AllegationSearchForm", () => {
     );
 
     expect(dispatchSpy).toHaveBeenCalledWith(getAllegationDropdownValues());
+  });
+
+  test("should pass expected audit meta data to thunk", () => {
+    const caseId = 2;
+    const caseOfficerId = 23;
+
+    const store = createConfiguredStore();
+    store.dispatch(getCaseDetailsSuccess({ id: caseId }));
+    const dispatchSpy = jest.spyOn(store, "dispatch");
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <AllegationSearchForm caseOfficerId={caseOfficerId} />
+      </Provider>
+    );
+
+    selectDropdownOption(wrapper, '[data-test="ruleField"]', "Rule 1");
+    wrapper.update();
+
+    const searchButton = wrapper
+      .find('[data-test="allegationSearchSubmitButton"]')
+      .first();
+    searchButton.simulate("click");
+
+    const expectedSearchCriteria = { rule: "Rule 1" };
+    const expectedResourceToSearch = "allegations";
+    const expectedAuditMetaData = { caseOfficerId };
+    const expectedPaginatingSearch = false;
+    const expectedNewPage = 1;
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      getSearchResults(
+        caseId,
+        expectedSearchCriteria,
+        expectedResourceToSearch,
+        expectedPaginatingSearch,
+        expectedNewPage,
+        expectedAuditMetaData
+      )
+    );
   });
 });

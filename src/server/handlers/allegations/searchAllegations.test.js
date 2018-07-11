@@ -3,9 +3,35 @@ import models from "../../models";
 import * as httpMocks from "node-mocks-http";
 import searchAllegations from "./searchAllegations";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { DEFAULT_PAGINATION_LIMIT } from "../../../sharedUtilities/constants";
+import {
+  DATA_VIEWED,
+  DEFAULT_PAGINATION_LIMIT,
+  AUDIT_TYPE,
+  AUDIT_SUBJECT
+} from "../../../sharedUtilities/constants";
+import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
+import CaseOfficer from "../../../client/testUtilities/caseOfficer";
+import Officer from "../../../client/testUtilities/Officer";
 
 describe("searchAllegations handler", function() {
+  let existingCase, caseOfficer;
+
+  beforeEach(async () => {
+    existingCase = await createCaseWithoutCivilian();
+    const officerAttributes = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined);
+    const officer = await models.officer.create(officerAttributes);
+    const caseOfficerAttributes = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withId(undefined)
+      .withOfficerId(officer.id)
+      .withCaseId(existingCase.id);
+    caseOfficer = await models.case_officer.create(caseOfficerAttributes, {
+      auditUser: "tuser"
+    });
+  });
+
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -27,8 +53,11 @@ describe("searchAllegations handler", function() {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       query: {
+        caseId: existingCase.id,
+        caseOfficerId: caseOfficer.id,
         rule: createdAllegation.rule
-      }
+      },
+      nickname: "nickname"
     });
 
     const response = httpMocks.createResponse();
@@ -68,8 +97,11 @@ describe("searchAllegations handler", function() {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       query: {
+        caseId: existingCase.id,
+        caseOfficerId: caseOfficer.id,
         directive: "force"
-      }
+      },
+      nickname: "nickname"
     });
 
     const response = httpMocks.createResponse();
@@ -81,6 +113,44 @@ describe("searchAllegations handler", function() {
           directive: forceAllegation.directive
         })
       ])
+    );
+  });
+
+  test("should audit officer allegation search", async () => {
+    const request = httpMocks.createRequest({
+      method: "GET",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      query: {
+        caseId: existingCase.id,
+        caseOfficerId: caseOfficer.id,
+        rule: "Test Rule A",
+        paragraph: "Test Paragraph B"
+      },
+      nickname: "nickname"
+    });
+
+    const response = httpMocks.createResponse();
+    const next = jest.fn();
+
+    await searchAllegations(request, response, next);
+
+    const auditedAction = await models.action_audit.find({
+      where: { caseId: existingCase.id },
+      returning: true
+    });
+
+    expect(auditedAction).toEqual(
+      expect.objectContaining({
+        user: "nickname",
+        action: DATA_VIEWED,
+        subject: AUDIT_SUBJECT.OFFICER_ALLEGATIONS,
+        auditType: AUDIT_TYPE.PAGE_VIEW,
+        caseId: existingCase.id,
+        subjectId: caseOfficer.id,
+        subjectDetails: caseOfficer.fullName
+      })
     );
   });
 
@@ -119,9 +189,12 @@ describe("searchAllegations handler", function() {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       query: {
+        caseId: existingCase.id,
+        caseOfficerId: caseOfficer.id,
         rule: "Test Rule A",
         paragraph: "Test Paragraph B"
-      }
+      },
+      nickname: "nickname"
     });
 
     const response = httpMocks.createResponse();
@@ -184,7 +257,11 @@ describe("searchAllegations handler", function() {
       headers: {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
-      query: {}
+      query: {
+        caseId: existingCase.id,
+        caseOfficerId: caseOfficer.id
+      },
+      nickname: "nickname"
     });
 
     const response = httpMocks.createResponse();
@@ -235,8 +312,11 @@ describe("searchAllegations handler", function() {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       query: {
+        caseId: existingCase.id,
+        caseOfficerId: caseOfficer.id,
         page: 2
-      }
+      },
+      nickname: "nickname"
     });
 
     const response = httpMocks.createResponse();

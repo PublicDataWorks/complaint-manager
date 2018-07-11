@@ -17,7 +17,8 @@ const getSearchResults = (
   searchCriteria,
   resourceToSearch,
   paginatingSearch = false,
-  newPage = undefined
+  newPage = undefined,
+  auditMetaData = {}
 ) => async dispatch => {
   try {
     const token = getAccessToken();
@@ -34,7 +35,8 @@ const getSearchResults = (
       caseId,
       token,
       searchCriteria,
-      resourceToSearch
+      resourceToSearch,
+      auditMetaData
     );
     return dispatch(searchSuccess(response.data, newPage));
   } catch (error) {
@@ -51,10 +53,12 @@ const fetchSearchResults = async (
   caseId,
   token,
   searchCriteria,
-  resourceToSearch
+  resourceToSearch,
+  auditMetaData
 ) => {
   const url = `${hostname}/api/${resourceToSearch}/search`;
-  const encodedUri = encodeUriWithParams(url, { ...searchCriteria, caseId });
+  const params = { caseId, ...searchCriteria, ...auditMetaData };
+  const encodedUri = encodeUriWithParams(url, params);
 
   return await axios(encodedUri, {
     method: "GET",

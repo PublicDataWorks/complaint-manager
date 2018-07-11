@@ -30,7 +30,8 @@ export class AllegationSearchResults extends Component {
         this.normalizeValues(values),
         "allegations",
         paginatingSearch,
-        currentPage
+        currentPage,
+        { caseOfficerId: this.props.caseOfficerId }
       )
     );
 

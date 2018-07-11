@@ -38,14 +38,15 @@ class AllegationSearchForm extends React.Component {
     const onSubmit = (values, dispatch) => {
       const paginatingSearch = false;
       const firstPage = 1;
-
+      const caseOfficerId = this.props.caseOfficerId;
       dispatch(
         getSearchResults(
           caseId,
           normalizeValues(values),
           "allegations",
           paginatingSearch,
-          firstPage
+          firstPage,
+          { caseOfficerId }
         )
       );
     };
