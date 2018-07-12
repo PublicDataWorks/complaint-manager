@@ -1,4 +1,7 @@
-const { TIMEZONE } = require("../../../../sharedUtilities/constants");
+const {
+  COMPLAINANT,
+  TIMEZONE
+} = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models/index");
 const stringify = require("csv-stringify");
@@ -22,29 +25,23 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "cases.narrative_summary, " +
     "cases.narrative_details, " +
     'incidentLocation.street_address AS "incidentLocation.street_address", ' +
+    'incidentLocation.intersection AS "incidentLocation.intersection", ' +
     'incidentLocation.city AS "incidentLocation.city", ' +
     'incidentLocation.state AS "incidentLocation.state", ' +
     'incidentLocation.zip_code AS "incidentLocation.zip_code", ' +
     'incidentLocation.street_address2 AS "incidentLocation.street_address2", ' +
-    "concat_ws(" +
-    "' ', " +
-    "complainantCivilians.first_name, " +
-    "complainantCivilians.middle_initial, " +
-    "complainantCivilians.last_name, " +
-    "complainantCivilians.suffix) " +
-    'AS "complainantCivilians.full_name", ' +
-    'complainantCivilians.gender_identity AS "complainantCivilians.gender_identity", ' +
-    'complainantCivilians.race_ethnicity AS "complainantCivilians.race_ethnicity", ' +
-    `to_char(complainantCivilians.birth_date, \'${DATE_ONLY_FORMAT}\') AS "complainantCivilians.birth_date", ` +
-    'complainantCivilians.phone_number AS "complainantCivilians.phone_number", ' +
-    'complainantCivilians.email AS "complainantCivilians.email", ' +
-    'complainantCivilians.additional_info AS "complainantCivilians.additional_info", ' +
-    '"complainantCivilians->address".id AS "complainantCivilians.address.id", ' +
-    '"complainantCivilians->address".street_address AS "complainantCivilians.address.street_address", ' +
-    '"complainantCivilians->address".city AS "complainantCivilians.address.city", ' +
-    '"complainantCivilians->address".state AS "complainantCivilians.address.state", ' +
-    '"complainantCivilians->address".zip_code AS "complainantCivilians.address.zip_code", ' +
-    '"complainantCivilians->address".street_address2 AS "complainantCivilians.address.street_address2", ' +
+    'complainants.full_name as "complainants.full_name", ' +
+    'complainants.gender_identity AS "complainants.gender_identity", ' +
+    'complainants.race_ethnicity AS "complainants.race_ethnicity", ' +
+    `complainants.birth_date AS "complainants.birth_date", ` +
+    'complainants.phone_number AS "complainants.phone_number", ' +
+    'complainants.email AS "complainants.email", ' +
+    'complainants.additional_info AS "complainants.additional_info", ' +
+    'complainants.street_address AS "complainants.street_address", ' +
+    'complainants.city AS "complainants.city", ' +
+    'complainants.state AS "complainants.state", ' +
+    'complainants.zip_code AS "complainants.zip_code", ' +
+    'complainants.street_address2 AS "complainants.street_address2", ' +
     "concat_ws(" +
     "' ', " +
     "accusedOfficers.first_name, " +
@@ -80,16 +77,36 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "AND (" +
     "incidentLocation.deleted_at IS NULL " +
     "AND incidentLocation.addressable_type = 'cases') " +
-    "LEFT OUTER JOIN civilians AS complainantCivilians " +
-    "ON cases.id = complainantCivilians.case_id " +
-    "AND (" +
-    "complainantCivilians.deleted_at IS NULL " +
-    "AND complainantCivilians.role_on_case = 'Complainant') " +
-    'LEFT OUTER JOIN addresses AS "complainantCivilians->address" ' +
-    'ON complainantCivilians.id = "complainantCivilians->address".addressable_id ' +
-    "AND (" +
-    '"complainantCivilians->address".deleted_at IS NULL ' +
-    "AND \"complainantCivilians->address\".addressable_type = 'civilian') " +
+    "LEFT OUTER JOIN (" +
+    " SELECT " +
+    "   concat_ws(" +
+    "     ' ', " +
+    "     first_name, " +
+    "     middle_initial, " +
+    "     last_name, " +
+    "     suffix) " +
+    '     AS "full_name", ' +
+    '   case_id AS "case_id", ' +
+    '   gender_identity AS "gender_identity", ' +
+    '   race_ethnicity AS "race_ethnicity", ' +
+    `   to_char(birth_date, \'${DATE_ONLY_FORMAT}\') AS "birth_date", ` +
+    '   phone_number AS "phone_number", ' +
+    '   email AS "email", ' +
+    "   additional_info AS additional_info, " +
+    "   civilians.created_at, " +
+    "   addresses.street_address AS street_address, " +
+    "   addresses.city AS city, " +
+    "   addresses.state AS state, " +
+    "   addresses.zip_code AS zip_code, " +
+    "   addresses.street_address2 AS street_address2 " +
+    " FROM civilians " +
+    " LEFT OUTER JOIN addresses " +
+    "   ON addresses.addressable_id = civilians.id " +
+    "   AND addresses.addressable_type = 'civilian' " +
+    "   AND addresses.deleted_at IS NULL " +
+    " WHERE civilians.deleted_at IS NULL " +
+    ` AND civilians.role_on_case = \'${COMPLAINANT}\'` +
+    ") AS complainants ON cases.id = complainants.case_id " +
     "LEFT OUTER JOIN cases_officers AS accusedOfficers " +
     "ON cases.id = accusedOfficers.case_id " +
     "AND (" +
@@ -100,7 +117,7 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "AND officerAllegations.deleted_at IS NULL " +
     "LEFT OUTER JOIN allegations " +
     "ON officerAllegations.allegation_id = allegations.id " +
-    "ORDER BY cases.created_at ASC, complainantCivilians.created_at ASC, accusedOfficers.created_at ASC, officerAllegations.created_at ASC;";
+    "ORDER BY cases.created_at ASC, complainants.created_at ASC, accusedOfficers.created_at ASC, officerAllegations.created_at ASC;";
 
   const caseData = await models.sequelize.query(query, {
     type: models.sequelize.QueryTypes.SELECT
@@ -115,25 +132,26 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     incident_date: "Incident Date",
     incident_time: "Incident Time",
     "incidentLocation.street_address": "Incident Address",
+    "incidentLocation.intersection": "Incident Intersection",
     "incidentLocation.city": "Incident City",
     "incidentLocation.state": "Incident State",
     "incidentLocation.zip_code": "Incident Zip Code",
     district: "Incident District",
     "incidentLocation.street_address2": "Additional Incident Location Info",
     complainant_type: "Complainant Type",
-    "complainantCivilians.full_name": "Complainant Name",
-    "complainantCivilians.gender_identity": "Gender Identity (complainant)",
-    "complainantCivilians.race_ethnicity": "Race/Ethnicity (complainant)",
-    "complainantCivilians.birth_date": "Birthday (complainant)",
-    "complainantCivilians.phone_number": "Phone Number (complainant)",
-    "complainantCivilians.email": "Email (complainant)",
-    "complainantCivilians.address.street_address": "Complainant Address",
-    "complainantCivilians.address.city": "Complainant City",
-    "complainantCivilians.address.state": "Complainant State",
-    "complainantCivilians.address.zip_code": "Complainant Zip Code",
-    "complainantCivilians.address.street_address2":
+    "complainants.full_name": "Complainant Name",
+    "complainants.gender_identity": "Gender Identity (complainant)",
+    "complainants.race_ethnicity": "Race/Ethnicity (complainant)",
+    "complainants.birth_date": "Birthday (complainant)",
+    "complainants.phone_number": "Phone Number (complainant)",
+    "complainants.email": "Email (complainant)",
+    "complainants.street_address": "Complainant Address",
+    "complainants.city": "Complainant City",
+    "complainants.state": "Complainant State",
+    "complainants.zip_code": "Complainant Zip Code",
+    "complainants.street_address2":
       "Additional Address Information (complainant)",
-    "complainantCivilians.additional_info": "Notes (complainant)",
+    "complainants.additional_info": "Notes (complainant)",
     witness_count: "Number of Witnesses",
     witness_names: "Witnesses",
     narrative_summary: "Narrative Summary",

@@ -21,14 +21,20 @@ import parse from "csv-parse/lib/sync";
 import Address from "../../../../client/testUtilities/Address";
 
 describe("exportCases request", function() {
-  let token, caseToExport, civilian, caseOfficer, allegation, officerAllegation;
+  let token,
+    caseToExport,
+    civilian,
+    officer,
+    caseOfficer,
+    allegation,
+    officerAllegation;
   beforeEach(async () => {
     token = buildTokenWithPermissions("", "tuser");
 
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined);
-    const officer = await models.officer.create(officerAttributes, {
+    officer = await models.officer.create(officerAttributes, {
       auditUser: "tuser"
     });
 
@@ -117,6 +123,7 @@ describe("exportCases request", function() {
               "Incident Date," +
               "Incident Time," +
               "Incident Address," +
+              "Incident Intersection," +
               "Incident City," +
               "Incident State," +
               "Incident Zip Code," +
@@ -202,6 +209,9 @@ describe("exportCases request", function() {
         expect(records[0]["Incident Address"]).toEqual(
           caseToExport.incidentLocation.streetAddress
         );
+        expect(records[0]["Incident Intersection"]).toEqual(
+          caseToExport.incidentLocation.intersection
+        );
         expect(records[0]["Incident City"]).toEqual(
           caseToExport.incidentLocation.city
         );
@@ -224,7 +234,7 @@ describe("exportCases request", function() {
       });
   });
 
-  test("should retrieve civilian data", async () => {
+  test("should retrieve civilian complainant data", async () => {
     await request(app)
       .get("/api/cases/export")
       .set("Authorization", `Bearer ${token}`)
@@ -308,6 +318,77 @@ describe("exportCases request", function() {
           } ${civilian2.suffix}`
         );
         expect(secondRecord["Case #"]).toEqual(caseToExport.id.toString());
+      });
+  });
+
+  test("should retrieve civilian complainant + officer complainant data", async () => {
+    const officerComplainantAttributes = new Officer.Builder()
+      .defaultOfficer()
+      .withFirstName("Jasmine")
+      .withLastName("Grace")
+      .withOfficerNumber(officer.officerNumber + 5)
+      .withId(undefined);
+    const officerComplainant = await models.officer.create(
+      officerComplainantAttributes,
+      {
+        auditUser: "tuser"
+      }
+    );
+    const caseOfficerComplainantAttributes = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withOfficerAttributes(officerComplainant)
+      .withNotes("hello")
+      .withCaseId(caseToExport.id)
+      .withRoleOnCase(COMPLAINANT);
+    const caseOfficerComplainant = await models.case_officer.create(
+      caseOfficerComplainantAttributes,
+      { auditUser: "tuser" }
+    );
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+        expect(records.length).toEqual(2);
+
+        const officerComplainantRow = records[1];
+        expect(officerComplainantRow["Complainant Type"]).toEqual(
+          caseToExport.complainantType
+        );
+        expect(officerComplainantRow["Complainant Name"]).toEqual(
+          `${officerComplainant.firstName} ${officerComplainant.middleName} ${
+            officerComplainant.lastName
+          }`
+        );
+        expect(officerComplainantRow["Gender Identity (complainant)"]).toEqual(
+          ""
+        );
+        expect(officerComplainantRow["Race/Ethnicity (complainant)"]).toEqual(
+          officerComplainant.race
+        );
+        expect(officerComplainantRow["Birthday (complainant)"]).toEqual(
+          moment(officerComplainant.dob).format("MM/DD/YYYY")
+        );
+        expect(officerComplainantRow["Phone Number (complainant)"]).toEqual("");
+        expect(officerComplainantRow["Email (complainant)"]).toEqual("");
+        expect(officerComplainantRow["Complainant Address"]).toEqual("");
+        expect(officerComplainantRow["Complainant City"]).toEqual("");
+        expect(officerComplainantRow["Complainant State"]).toEqual("");
+        expect(officerComplainantRow["Complainant Zip Code"]).toEqual("");
+        expect(
+          officerComplainantRow["Additional Address Information (complainant)"]
+        ).toEqual("");
+        expect(officerComplainantRow["Notes (complainant)"]).toEqual(
+          officerComplainant.notes
+        );
+
+        const civilianComplainantRow = records[0];
+        expect(civilianComplainantRow["Complainant Name"]).toEqual(
+          `${civilian.firstName} ${civilian.middleName} ${civilian.lastName}`
+        );
       });
   });
 
