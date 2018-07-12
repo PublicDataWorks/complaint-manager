@@ -153,7 +153,8 @@ const LOGGED_OUT = "Logged out";
 const EXPORTED = "Exported";
 
 const AUDIT_FIELDS_TO_EXCLUDE = "(.*Id$|^id$|addressableType)";
-const AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE = "(addressableType)";
+const AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE =
+  "(createdAt|updatedAt|addressableType)";
 
 // ----------------------------------------
 //          Role on Case Options

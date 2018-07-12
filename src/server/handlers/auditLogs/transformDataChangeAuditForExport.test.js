@@ -105,8 +105,7 @@ describe("transformDataChangeAuditForExport", () => {
       snapshot: {
         name: "Bob Smith",
         age: 50,
-        id: 392,
-        createdAt: "2018-01-01 12:12:00"
+        id: 392
       },
       subject: "Case",
       modelDescription: [{ tis: "a" }, { model: "description" }]
@@ -118,7 +117,7 @@ describe("transformDataChangeAuditForExport", () => {
       expect.arrayContaining([
         expect.objectContaining({
           snapshot:
-            "Tis: a\nModel: description\n\n\nName: Bob Smith\nAge: 50\nCase Id: 392\nCreated At: 2018-01-01 12:12:00"
+            "Tis: a\nModel: description\n\n\nName: Bob Smith\nAge: 50\nCase Id: 392"
         })
       ])
     );
@@ -129,8 +128,7 @@ describe("transformDataChangeAuditForExport", () => {
       snapshot: {
         name: "Bob Smith",
         age: 50,
-        id: 392,
-        createdAt: "2018-01-01 12:12:00"
+        id: 392
       },
       subject: "Case",
       modelDescription: ""
@@ -141,20 +139,21 @@ describe("transformDataChangeAuditForExport", () => {
     expect(transformedAudit).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          snapshot:
-            "Name: Bob Smith\nAge: 50\nCase Id: 392\nCreated At: 2018-01-01 12:12:00"
+          snapshot: "Name: Bob Smith\nAge: 50\nCase Id: 392"
         })
       ])
     );
   });
 
-  test("excludes objects, arrays, nulls, and AddressableType from snapshot", () => {
+  test("excludes objects, arrays, nulls, createdAt, updatedAt, and AddressableType from snapshot", () => {
     const audit = {
       snapshot: {
         id: 392,
         addressableId: 5,
         addressableType: "Civilian",
         civilian: { name: "John" },
+        createdAt: "2018-01-01 12:12:00",
+        updatedAt: "2018-01-01 12:12:00",
         allegations: ["one", "two"],
         nullField: null,
         isSomething: true
