@@ -23,8 +23,8 @@ const exportAuditLog = asyncMiddleware(async (request, response) => {
     user: "User",
     case_id: "Case ID",
     action: "Action",
-    subject: "Subject",
-    subject_id: "Subject ID",
+    subject: "Audit Subject",
+    subject_id: "Subject Database ID",
     changes: "Changes",
     snapshot: "Snapshot",
     created_at: "Timestamp"

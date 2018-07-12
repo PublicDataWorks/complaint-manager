@@ -60,7 +60,7 @@ describe("GET /api/export-audit-log", () => {
       .then(response => {
         expect(response.text).toEqual(
           expect.stringContaining(
-            "Audit Type,User,Case ID,Action,Subject,Subject ID,Changes,Snapshot,Timestamp\n"
+            "Audit Type,User,Case ID,Action,Audit Subject,Subject Database ID,Changes,Snapshot,Timestamp\n"
           )
         );
       });
@@ -101,8 +101,8 @@ describe("GET /api/export-audit-log", () => {
         expect(record["User"]).toEqual(nickname);
         expect(record["Case ID"]).toEqual("");
         expect(record["Action"]).toEqual(EXPORTED);
-        expect(record["Subject"]).toEqual(AUDIT_SUBJECT.AUDIT_LOG);
-        expect(record["Subject ID"]).toEqual("");
+        expect(record["Audit Subject"]).toEqual(AUDIT_SUBJECT.AUDIT_LOG);
+        expect(record["Subject Database ID"]).toEqual("");
         expect(record["Changes"]).toEqual("");
         expect(record["Snapshot"]).toEqual("");
         expect(record["Timestamp"]).toEqual(
@@ -137,8 +137,8 @@ describe("GET /api/export-audit-log", () => {
         expect(loginRecord["User"]).toEqual(actionAuditAttributes.user);
         expect(loginRecord["Case ID"]).toEqual("");
         expect(loginRecord["Action"]).toEqual(LOGGED_IN);
-        expect(loginRecord["Subject"]).toEqual("");
-        expect(loginRecord["Subject ID"]).toEqual("");
+        expect(loginRecord["Audit Subject"]).toEqual("");
+        expect(loginRecord["Subject Database ID"]).toEqual("");
         expect(loginRecord["Changes"]).toEqual("");
         expect(loginRecord["Snapshot"]).toEqual("");
         expect(loginRecord["Timestamp"]).toEqual(
@@ -172,8 +172,10 @@ describe("GET /api/export-audit-log", () => {
         expect(dataChangeRecord["User"]).toEqual("nickname");
         expect(dataChangeRecord["Case ID"]).toEqual(`${createdCase.id}`);
         expect(dataChangeRecord["Action"]).toEqual("Created");
-        expect(dataChangeRecord["Subject"]).toEqual("Case");
-        expect(dataChangeRecord["Subject ID"]).toEqual(`${createdCase.id}`);
+        expect(dataChangeRecord["Audit Subject"]).toEqual("Case");
+        expect(dataChangeRecord["Subject Database ID"]).toEqual(
+          `${createdCase.id}`
+        );
         expect(dataChangeRecord["Changes"]).toEqual("");
         expect(dataChangeRecord["Timestamp"]).toEqual(
           moment(timeOfExport)
