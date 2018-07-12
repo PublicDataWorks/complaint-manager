@@ -105,7 +105,7 @@ class CaseOfficer {
         this.windowsUsername = officer.windowsUsername;
         this.rank = officer.rank;
         this.race = officer.race;
-        this.sex = officer.gender;
+        this.sex = officer.sex;
         this.dob = officer.dob;
         this.bureau = officer.bureau;
         this.district = officer.district;

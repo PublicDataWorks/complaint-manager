@@ -359,18 +359,18 @@ describe("exportCases request", function() {
           caseToExport.complainantType
         );
         expect(officerComplainantRow["Complainant Name"]).toEqual(
-          `${officerComplainant.firstName} ${officerComplainant.middleName} ${
-            officerComplainant.lastName
-          }`
+          `${caseOfficerComplainant.firstName} ${
+            caseOfficerComplainant.middleName
+          } ${caseOfficerComplainant.lastName}`
         );
         expect(officerComplainantRow["Gender Identity (complainant)"]).toEqual(
-          ""
+          caseOfficerComplainant.sex
         );
         expect(officerComplainantRow["Race/Ethnicity (complainant)"]).toEqual(
-          officerComplainant.race
+          caseOfficerComplainant.race
         );
         expect(officerComplainantRow["Birthday (complainant)"]).toEqual(
-          moment(officerComplainant.dob).format("MM/DD/YYYY")
+          moment(caseOfficerComplainant.dob).format("MM/DD/YYYY")
         );
         expect(officerComplainantRow["Phone Number (complainant)"]).toEqual("");
         expect(officerComplainantRow["Email (complainant)"]).toEqual("");
@@ -382,12 +382,14 @@ describe("exportCases request", function() {
           officerComplainantRow["Additional Address Information (complainant)"]
         ).toEqual("");
         expect(officerComplainantRow["Notes (complainant)"]).toEqual(
-          officerComplainant.notes
+          caseOfficerComplainant.notes
         );
 
         const civilianComplainantRow = records[0];
         expect(civilianComplainantRow["Complainant Name"]).toEqual(
-          `${civilian.firstName} ${civilian.middleName} ${civilian.lastName}`
+          `${civilian.firstName} ${civilian.middleInitial} ${
+            civilian.lastName
+          } ${civilian.suffix}`
         );
       });
   });

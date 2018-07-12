@@ -1,4 +1,4 @@
-import {CASE_STATUS} from "../../sharedUtilities/constants";
+import { CASE_STATUS } from "../../sharedUtilities/constants";
 
 class Officer {
   constructor(build) {
@@ -10,7 +10,7 @@ class Officer {
     this.lastName = build.lastName;
     this.rank = build.rank;
     this.race = build.race;
-    this.gender = build.gender;
+    this.sex = build.sex;
     this.dob = build.dob;
     this.bureau = build.bureau;
     this.district = build.district;
@@ -33,7 +33,7 @@ class Officer {
         this.lastName = "Smith";
         this.rank = "Police Commander";
         this.race = "Cuban";
-        this.gender = "Female";
+        this.sex = "Female";
         this.dob = "1990-04-30";
         this.bureau = "FOB - Field Operations Bureau";
         this.district = "First District";
@@ -73,6 +73,11 @@ class Officer {
 
       withLastName(lastName) {
         this.lastName = lastName;
+        return this;
+      }
+
+      withSex(sex) {
+        this.sex = sex;
         return this;
       }
 

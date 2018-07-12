@@ -87,7 +87,7 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "     suffix) " +
     '     AS "full_name", ' +
     '   case_id AS "case_id", ' +
-    '   gender_identity AS "gender_identity", ' +
+    '   gender_identity::text AS "gender_identity", ' +
     '   race_ethnicity AS "race_ethnicity", ' +
     `   to_char(birth_date, \'${DATE_ONLY_FORMAT}\') AS "birth_date", ` +
     '   phone_number AS "phone_number", ' +
@@ -106,6 +106,30 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "   AND addresses.deleted_at IS NULL " +
     " WHERE civilians.deleted_at IS NULL " +
     ` AND civilians.role_on_case = \'${COMPLAINANT}\'` +
+    " UNION ALL " +
+    " SELECT " +
+    "   concat_ws(" +
+    "     ' ', " +
+    "     first_name, " +
+    "     middle_name, " +
+    "     last_name) " +
+    '     AS "full_name", ' +
+    '   case_id AS "case_id", ' +
+    '   sex AS "gender_identity", ' +
+    '   race AS "race_ethnicity", ' +
+    `   to_char(dob, \'${DATE_ONLY_FORMAT}\') AS "birth_date", ` +
+    "   '' AS \"phone_number\", " +
+    "   '' AS \"email\", " +
+    "   notes AS additional_info, " +
+    "   created_at, " +
+    "   '' AS street_address, " +
+    "   '' AS city, " +
+    "   '' AS state, " +
+    "   '' AS zip_code, " +
+    "   '' AS street_address2 " +
+    " FROM cases_officers " +
+    " WHERE deleted_at IS NULL " +
+    ` AND role_on_case = \'${COMPLAINANT}\'` +
     ") AS complainants ON cases.id = complainants.case_id " +
     "LEFT OUTER JOIN cases_officers AS accusedOfficers " +
     "ON cases.id = accusedOfficers.case_id " +
