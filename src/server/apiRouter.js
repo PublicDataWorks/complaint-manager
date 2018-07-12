@@ -55,7 +55,6 @@ router.put("/cases/:id", editCase);
 router.put("/cases/:id/status", changeStatus);
 router.put("/cases/:id/narrative", updateCaseNarrative);
 
-router.get("/cases/:caseId/cases-officers/:caseOfficerId", getCaseOfficer);
 router.post("/cases/:caseId/cases-officers", addCaseOfficer);
 router.put("/cases/:caseId/cases-officers/:caseOfficerId", editCaseOfficer);
 router.delete(
