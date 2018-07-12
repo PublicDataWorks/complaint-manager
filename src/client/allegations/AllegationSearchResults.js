@@ -27,6 +27,7 @@ export class AllegationSearchResults extends Component {
 
     this.props.dispatch(
       getSearchResults(
+        this.props.caseId,
         this.normalizeValues(values),
         "allegations",
         paginatingSearch,

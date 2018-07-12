@@ -6,10 +6,10 @@ const CaseHistoryDetails = ({ details, action, modelDescription }) => (
   <div>
     {modelDescription.length !== 0 ? (
       <div style={{ marginBottom: "8px" }}>
-        {modelDescription.map(identifier => {
+        {modelDescription.map((identifier, index) => {
           const keys = Object.keys(identifier);
           return (
-            <div>
+            <div key={index}>
               <strong>{`${keys[0]}: ${identifier[keys[0]] || "N/A"}`}</strong>
             </div>
           );
