@@ -25,7 +25,9 @@ describe("getSearchResults", () => {
   });
   test("redirects to login if no token", async () => {
     getAccessToken.mockImplementation(() => null);
-    await getSearchResults(caseId, searchCriteria, resourceToSearch)(dispatch);
+    await getSearchResults(searchCriteria, resourceToSearch, { caseId })(
+      dispatch
+    );
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
@@ -40,7 +42,9 @@ describe("getSearchResults", () => {
       .query(searchCriteria)
       .reply(500);
     getAccessToken.mockImplementation(() => token);
-    await getSearchResults(caseId, searchCriteria, resourceToSearch)(dispatch);
+    await getSearchResults(searchCriteria, resourceToSearch, { caseId })(
+      dispatch
+    );
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
         "Something went wrong on our end and we could not complete your search."
@@ -55,7 +59,9 @@ describe("getSearchResults", () => {
       .query({ ...searchCriteria, caseId })
       .reply(200, responseBody);
     getAccessToken.mockImplementation(() => token);
-    await getSearchResults(caseId, searchCriteria, resourceToSearch)(dispatch);
+    await getSearchResults(searchCriteria, resourceToSearch, { caseId })(
+      dispatch
+    );
     expect(dispatch).toHaveBeenCalledWith(searchSuccess(responseBody));
   });
 
@@ -68,9 +74,9 @@ describe("getSearchResults", () => {
     getAccessToken.mockImplementation(() => token);
     const paginating = true;
     await getSearchResults(
-      caseId,
       searchCriteria,
       resourceToSearch,
+      { caseId },
       paginating,
       page
     )(dispatch);

@@ -18,20 +18,18 @@ jest.mock("../cases/thunks/getAllegationDropdownValues", () => () => ({
 jest.mock("../shared/thunks/getSearchResults", () =>
   jest.fn(
     (
-      caseId,
       searchCriteria,
       resourceToSearch,
+      auditMetaData,
       paginatingSearch,
-      newPage,
-      auditMetaData
+      newPage
     ) => ({
       type: "MOCK_ACTION",
-      caseId,
       searchCriteria,
       resourceToSearch,
+      auditMetaData,
       paginatingSearch,
-      newPage,
-      auditMetaData
+      newPage
     })
   )
 );
@@ -94,18 +92,17 @@ describe("AllegationSearchForm", () => {
 
     const expectedSearchCriteria = { rule: "Rule 1" };
     const expectedResourceToSearch = "allegations";
-    const expectedAuditMetaData = { caseOfficerId };
+    const expectedAuditMetaData = { caseId, caseOfficerId };
     const expectedPaginatingSearch = false;
     const expectedNewPage = 1;
 
     expect(dispatchSpy).toHaveBeenCalledWith(
       getSearchResults(
-        caseId,
         expectedSearchCriteria,
         expectedResourceToSearch,
+        expectedAuditMetaData,
         expectedPaginatingSearch,
-        expectedNewPage,
-        expectedAuditMetaData
+        expectedNewPage
       )
     );
   });

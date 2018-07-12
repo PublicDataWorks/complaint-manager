@@ -13,12 +13,11 @@ import axios from "axios";
 const hostname = config[process.env.NODE_ENV].hostname;
 
 const getSearchResults = (
-  caseId,
   searchCriteria,
   resourceToSearch,
+  auditMetaData = {},
   paginatingSearch = false,
-  newPage = undefined,
-  auditMetaData = {}
+  newPage = undefined
 ) => async dispatch => {
   try {
     const token = getAccessToken();
@@ -32,7 +31,6 @@ const getSearchResults = (
     }
 
     const response = await fetchSearchResults(
-      caseId,
       token,
       searchCriteria,
       resourceToSearch,
@@ -50,14 +48,13 @@ const getSearchResults = (
 };
 
 const fetchSearchResults = async (
-  caseId,
   token,
   searchCriteria,
   resourceToSearch,
   auditMetaData
 ) => {
   const url = `${hostname}/api/${resourceToSearch}/search`;
-  const params = { caseId, ...searchCriteria, ...auditMetaData };
+  const params = { ...searchCriteria, ...auditMetaData };
   const encodedUri = encodeUriWithParams(url, params);
 
   return await axios(encodedUri, {

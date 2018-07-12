@@ -12,7 +12,7 @@ export const OfficerSearchForm = props => {
   const { invalid, handleSubmit, caseId } = props;
 
   const onSubmit = (values, dispatch) => {
-    dispatch(getSearchResults(caseId, normalizeValues(values), "officers"));
+    dispatch(getSearchResults(normalizeValues(values), "officers", { caseId }));
   };
 
   const normalizeValues = values => {

@@ -41,12 +41,11 @@ class AllegationSearchForm extends React.Component {
       const caseOfficerId = this.props.caseOfficerId;
       dispatch(
         getSearchResults(
-          caseId,
           normalizeValues(values),
           "allegations",
+          { caseId, caseOfficerId },
           paginatingSearch,
-          firstPage,
-          { caseOfficerId }
+          firstPage
         )
       );
     };

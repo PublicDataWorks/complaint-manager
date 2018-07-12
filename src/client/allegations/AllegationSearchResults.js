@@ -24,15 +24,15 @@ export class AllegationSearchResults extends Component {
   onChange(currentPage) {
     const values = this.props.form[ALLEGATION_SEARCH_FORM_NAME].values;
     const paginatingSearch = true;
+    const { caseId, caseOfficerId } = this.props;
 
     this.props.dispatch(
       getSearchResults(
-        this.props.caseId,
         this.normalizeValues(values),
         "allegations",
+        { caseId, caseOfficerId },
         paginatingSearch,
-        currentPage,
-        { caseOfficerId: this.props.caseOfficerId }
+        currentPage
       )
     );
 

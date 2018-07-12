@@ -11,10 +11,11 @@ import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreato
 
 jest.mock(
   "../../../shared/thunks/getSearchResults",
-  () => (caseId, searchCriteria, resourceToSearch) => ({
+  () => (searchCriteria, resourceToSearch, auditMetaData) => ({
     type: "something",
     searchCriteria,
-    caseId
+    resourceToSearch,
+    auditMetaData
   })
 );
 
@@ -60,13 +61,13 @@ describe("OfficerSearchForm", () => {
       officerSearchForm.find(PrimaryButton).simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
         getSearchResults(
-          caseId,
           {
             firstName: "emma",
             lastName: "watson",
             district: "First District"
           },
-          "officers"
+          "officers",
+          { caseId }
         )
       );
     });
@@ -98,13 +99,13 @@ describe("OfficerSearchForm", () => {
       officerSearchForm.find(PrimaryButton).simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
         getSearchResults(
-          caseId,
           {
             firstName: "bubba joe",
             lastName: "smith",
             district: "First District"
           },
-          "officers"
+          "officers",
+          { caseId }
         )
       );
     });
