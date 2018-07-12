@@ -26,7 +26,7 @@ const exportAuditLog = asyncMiddleware(async (request, response) => {
     subject: "Audit Subject",
     subject_id: "Subject Database ID",
     changes: "Changes",
-    snapshot: "Snapshot",
+    snapshot: "Subject Details",
     created_at: "Timestamp"
   };
   const csvOptions = { header: true, columns, formatters: dateFormatter };

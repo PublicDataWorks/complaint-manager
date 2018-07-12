@@ -145,7 +145,7 @@ describe("transformDataChangeAuditForExport", () => {
     );
   });
 
-  test("excludes objects, arrays, nulls, createdAt, updatedAt, and AddressableType from snapshot", () => {
+  test("excludes objects, arrays, nulls, createdAt, updatedAt, deletedAt and AddressableType from snapshot", () => {
     const audit = {
       snapshot: {
         id: 392,
@@ -154,6 +154,7 @@ describe("transformDataChangeAuditForExport", () => {
         civilian: { name: "John" },
         createdAt: "2018-01-01 12:12:00",
         updatedAt: "2018-01-01 12:12:00",
+        deletedAt: "2018-01-01 12:14:00",
         allegations: ["one", "two"],
         nullField: null,
         isSomething: true

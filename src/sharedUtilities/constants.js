@@ -154,7 +154,7 @@ const EXPORTED = "Exported";
 
 const AUDIT_FIELDS_TO_EXCLUDE = "(.*Id$|^id$|addressableType)";
 const AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE =
-  "(createdAt|updatedAt|addressableType)";
+  "(createdAt|updatedAt|deletedAt|addressableType)";
 
 // ----------------------------------------
 //          Role on Case Options
