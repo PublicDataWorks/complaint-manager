@@ -7,13 +7,16 @@ import {
   Typography
 } from "@material-ui/core";
 import { SecondaryButton, PrimaryButton } from "../StyledButtons";
-import moment from "moment";
+import timezone from "moment-timezone";
+import { TIMEZONE } from "../../../../sharedUtilities/constants";
 import downloader from "../../../cases/thunks/downloader";
 import { connect } from "react-redux";
 
 const ExportAuditLogConfirmationDialog = props => {
   const path = "/api/export-audit-log";
-  const date = moment().format("YYYY-MM-DD_HH.MM");
+  const date = timezone()
+    .tz(TIMEZONE)
+    .format("YYYY-MM-DD_HH.MM.ss.zz");
   const fileName = `Complaint_Manager_Audit_Log_${date}.csv`;
 
   return (

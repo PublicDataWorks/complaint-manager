@@ -1,7 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
-import moment from "moment";
 import downloader from "../../../cases/thunks/downloader";
 import createConfiguredStore from "../../../createConfiguredStore";
 import ExportAuditLogConfirmationDialog from "./ExportAuditLogConfirmationDialog";
@@ -32,10 +31,11 @@ describe("ExportAuditLogConfirmationDialog", () => {
       .last();
     submitButton.simulate("click");
 
-    const date = moment().format("YYYY-MM-DD_HH.MM");
-    const fileName = `Complaint_Manager_Audit_Log_${date}.csv`;
+    const fileNameRegex = /^Complaint_Manager_Audit_Log_\d\d\d\d-\d\d-\d\d_\d\d\.\d\d\.\d\d\.C[D|S]T\.csv/;
+    const fileNameMatcher = expect.stringMatching(fileNameRegex);
+
     expect(dispatchSpy).toHaveBeenCalledWith(
-      downloader("/api/export-audit-log", fileName, true)
+      downloader("/api/export-audit-log", fileNameMatcher, true)
     );
   });
 });
