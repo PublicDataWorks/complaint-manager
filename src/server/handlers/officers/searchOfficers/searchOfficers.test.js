@@ -4,7 +4,7 @@ const { cleanupDatabase } = require("../../../testHelpers/requestTestHelpers");
 const httpMocks = require("node-mocks-http");
 const searchOfficers = require("./searchOfficers");
 const {
-  DATA_VIEWED,
+  DATA_ACCESSED,
   AUDIT_TYPE,
   AUDIT_SUBJECT
 } = require("../../../../sharedUtilities/constants");
@@ -47,9 +47,9 @@ describe("searchOfficers", function() {
     });
 
     expect(actionAudit.user).toEqual("nickname");
-    expect(actionAudit.action).toEqual(DATA_VIEWED);
-    expect(actionAudit.subject).toEqual(AUDIT_SUBJECT.OFFICER_SEARCH);
-    expect(actionAudit.auditType).toEqual(AUDIT_TYPE.PAGE_VIEW);
+    expect(actionAudit.action).toEqual(DATA_ACCESSED);
+    expect(actionAudit.subject).toEqual(AUDIT_SUBJECT.OFFICER_DATA);
+    expect(actionAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
     expect(actionAudit.caseId).toEqual(existingCase.id);
   });
 });

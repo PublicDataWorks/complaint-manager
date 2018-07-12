@@ -1,7 +1,7 @@
 const {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  DATA_VIEWED
+  DATA_ACCESSED
 } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const transformAuditToCaseHistory = require("./transformAuditToCaseHistory");
@@ -27,9 +27,9 @@ const getCaseHistory = asyncMiddleware(async (request, response) => {
       await models.action_audit.create(
         {
           user: request.nickname,
-          action: DATA_VIEWED,
+          action: DATA_ACCESSED,
           subject: AUDIT_SUBJECT.CASE_HISTORY,
-          auditType: AUDIT_TYPE.PAGE_VIEW,
+          auditType: AUDIT_TYPE.DATA_ACCESS,
           caseId
         },
         { transaction }

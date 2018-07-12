@@ -136,22 +136,22 @@ const AUDIT_TYPE = {
   DATA_CHANGE: "Data Change",
   EXPORT: "Export",
   AUTHENTICATION: "Log in/out",
-  PAGE_VIEW: "Page View"
+  DATA_ACCESS: "Data Access"
 };
 
 const AUDIT_SUBJECT = {
   AUDIT_LOG: "Audit Log",
-  CASE_DETAILS: "Case Details Page",
-  OFFICER_DETAILS: "Officer Details Page",
-  OFFICER_SEARCH: "Officer Search Page",
+  CASE_DETAILS: "Case Details",
+  OFFICER_DETAILS: "Officer Details",
+  OFFICER_DATA: "Officer Data",
   OFFICER_ALLEGATIONS: "Officer Allegations Page",
-  CASE_HISTORY: "Case History Page"
+  CASE_HISTORY: "Case History"
 };
 
 const DATA_UPDATED = "Updated";
 const DATA_CREATED = "Created";
 const DATA_DELETED = "Deleted";
-const DATA_VIEWED = "Viewed";
+const DATA_ACCESSED = "Accessed";
 const LOGGED_IN = "Logged in";
 const LOGGED_OUT = "Logged out";
 const EXPORTED = "Exported";
@@ -265,7 +265,7 @@ module.exports = {
   OPENID,
   PROFILE,
   TIMEZONE,
-  DATA_VIEWED,
+  DATA_ACCESSED,
   DATA_UPDATED,
   DATA_CREATED,
   DATA_DELETED,

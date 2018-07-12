@@ -1,10 +1,16 @@
+const {
+  AUDIT_SUBJECT,
+  AUDIT_TYPE,
+  DATA_ACCESSED
+} = require("../../../sharedUtilities/constants");
+
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models/index");
 
 const createCase = asyncMiddleware(async (req, res, next) => {
   let newCase;
 
-  if (req.body.case.complainantType == "Police Officer") {
+  if (req.body.case.complainantType === "Police Officer") {
     newCase = await createCaseWithoutCivilian(req);
     res.status(201).send(newCase);
   } else {
@@ -15,6 +21,7 @@ const createCase = asyncMiddleware(async (req, res, next) => {
       res.sendStatus(400);
     } else {
       newCase = await createCaseWithCivilian(req);
+
       res.status(201).send(newCase);
     }
   }
@@ -25,37 +32,69 @@ const invalidName = input => {
 };
 
 const createCaseWithoutCivilian = async req => {
-  return await models.cases.create(
-    {
-      ...req.body.case,
-      createdBy: req.nickname,
-      assignedTo: req.nickname
-    },
-    {
-      auditUser: req.nickname
-    }
-  );
+  return await models.sequelize.transaction(async transaction => {
+    const createdCase = await models.cases.create(
+      {
+        ...req.body.case,
+        createdBy: req.nickname,
+        assignedTo: req.nickname
+      },
+      {
+        auditUser: req.nickname,
+        transaction
+      }
+    );
+
+    await models.action_audit.create(
+      {
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        action: DATA_ACCESSED,
+        subject: AUDIT_SUBJECT.CASE_DETAILS,
+        caseId: createdCase.id,
+        user: req.nickname
+      },
+      { transaction }
+    );
+
+    return createdCase;
+  });
 };
 
 const createCaseWithCivilian = async req => {
-  return await models.cases.create(
-    {
-      ...req.body.case,
-      createdBy: req.nickname,
-      assignedTo: req.nickname,
-      complainantCivilians: [req.body.civilian]
-    },
-    {
-      include: [
-        {
-          model: models.civilian,
-          as: "complainantCivilians",
-          auditUser: req.nickname
-        }
-      ],
-      auditUser: req.nickname
-    }
-  );
+  return await models.sequelize.transaction(async transaction => {
+    const createdCase = await models.cases.create(
+      {
+        ...req.body.case,
+        createdBy: req.nickname,
+        assignedTo: req.nickname,
+        complainantCivilians: [req.body.civilian]
+      },
+      {
+        include: [
+          {
+            model: models.civilian,
+            as: "complainantCivilians",
+            auditUser: req.nickname
+          }
+        ],
+        auditUser: req.nickname,
+        transaction
+      }
+    );
+
+    await models.action_audit.create(
+      {
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        action: DATA_ACCESSED,
+        subject: AUDIT_SUBJECT.CASE_DETAILS,
+        caseId: createdCase.id,
+        user: req.nickname
+      },
+      { transaction }
+    );
+
+    return createdCase;
+  });
 };
 
 module.exports = createCase;

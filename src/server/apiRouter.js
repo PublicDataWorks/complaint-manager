@@ -20,7 +20,6 @@ const authErrorHandler = require("./handlers/authErrorHandler");
 const exportAuditLog = require("./handlers/auditLogs/export");
 const searchOfficers = require("./handlers/officers/searchOfficers/searchOfficers");
 const addCaseOfficer = require("./handlers/officers/addCaseOfficer/addCaseOfficer");
-const getCaseOfficer = require("./handlers/officers/getCaseOfficer/getCaseOfficer");
 const removeCaseOfficer = require("./handlers/officers/removeCaseOfficer/removeCaseOfficer");
 const editCaseOfficer = require("./handlers/officers/editCaseOfficer/editCaseOfficer");
 const editCaseNote = require("./handlers/cases/editCaseNote/editCaseNote");

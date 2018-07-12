@@ -1,7 +1,7 @@
 import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  DATA_VIEWED
+  DATA_ACCESSED
 } from "../../sharedUtilities/constants";
 
 class ActionAudit {
@@ -27,8 +27,8 @@ class ActionAudit {
         this.subject = AUDIT_SUBJECT.CASE_DETAILS;
         this.subjectId = null;
         this.subjectDetails = null;
-        this.action = DATA_VIEWED;
-        this.auditType = AUDIT_TYPE.PAGE_VIEW;
+        this.action = DATA_ACCESSED;
+        this.auditType = AUDIT_TYPE.DATA_ACCESS;
         this.createdAt = new Date().toISOString();
         this.updatedAt = new Date().toISOString();
         return this;

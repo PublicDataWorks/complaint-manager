@@ -3,7 +3,7 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   DATA_UPDATED,
-  DATA_VIEWED
+  DATA_ACCESSED
 } from "../../../../sharedUtilities/constants";
 import models from "../../../models";
 import httpMocks from "node-mocks-http";
@@ -46,9 +46,9 @@ describe("getCaseHistory", () => {
     expect(actionAudit).toEqual(
       expect.objectContaining({
         user: "nickname",
-        action: DATA_VIEWED,
+        action: DATA_ACCESSED,
         subject: AUDIT_SUBJECT.CASE_HISTORY,
-        auditType: AUDIT_TYPE.PAGE_VIEW,
+        auditType: AUDIT_TYPE.DATA_ACCESS,
         caseId: createdCase.id
       })
     );

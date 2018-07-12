@@ -1,3 +1,9 @@
+import {
+  DATA_ACCESSED,
+  AUDIT_TYPE,
+  AUDIT_SUBJECT
+} from "../../../sharedUtilities/constants";
+
 const httpMocks = require("node-mocks-http");
 const createCase = require("./createCase");
 const models = require("../../models");
@@ -163,5 +169,62 @@ describe("createCase handler", () => {
     await createCase(request, response, next);
 
     expect(response.statusCode).toEqual(400);
+  });
+
+  describe("audit data access", () => {
+    test("should audit when creating a case with an officer complainant", async () => {
+      const policeOfficerRequest = httpMocks.createRequest({
+        method: "POST",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: {
+          case: {
+            complainantType: "Police Officer",
+            firstContactDate: "2018-02-08",
+            incidentDate: "2018-03-16T17:42"
+          }
+        },
+        nickname: user
+      });
+
+      await createCase(policeOfficerRequest, response, next);
+
+      const cases = await models.cases.findAll({ returning: true });
+
+      const audit = await models.action_audit.find({
+        where: { caseId: cases[0].id }
+      });
+
+      expect(audit).toEqual(
+        expect.objectContaining({
+          user,
+          auditType: AUDIT_TYPE.DATA_ACCESS,
+          action: DATA_ACCESSED,
+          subject: AUDIT_SUBJECT.CASE_DETAILS,
+          caseId: cases[0].id
+        })
+      );
+    });
+
+    test("should audit when creating a case with a civilian complainant", async () => {
+      await createCase(request, response, next);
+
+      const cases = await models.cases.findAll({ returning: true });
+
+      const audit = await models.action_audit.find({
+        where: { caseId: cases[0].id }
+      });
+
+      expect(audit).toEqual(
+        expect.objectContaining({
+          user,
+          auditType: AUDIT_TYPE.DATA_ACCESS,
+          action: DATA_ACCESSED,
+          subject: AUDIT_SUBJECT.CASE_DETAILS,
+          caseId: cases[0].id
+        })
+      );
+    });
   });
 });

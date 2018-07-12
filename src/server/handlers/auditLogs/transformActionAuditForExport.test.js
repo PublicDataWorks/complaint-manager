@@ -61,19 +61,19 @@ describe("transformActionAuditForExport", () => {
     const caseDetailsActionAudit = new ActionAudit.Builder()
       .defaultActionAudit()
       .withSubject(AUDIT_SUBJECT.CASE_DETAILS)
-      .withAuditType(AUDIT_TYPE.PAGE_VIEW)
+      .withAuditType(AUDIT_TYPE.DATA_ACCESS)
       .build();
 
     const officerSearchActionAudit = new ActionAudit.Builder()
       .defaultActionAudit()
-      .withSubject(AUDIT_SUBJECT.OFFICER_SEARCH)
-      .withAuditType(AUDIT_TYPE.PAGE_VIEW)
+      .withSubject(AUDIT_SUBJECT.OFFICER_DATA)
+      .withAuditType(AUDIT_TYPE.DATA_ACCESS)
       .build();
 
     const caseHistoryActionAudit = new ActionAudit.Builder()
       .defaultActionAudit()
       .withSubject(AUDIT_SUBJECT.CASE_HISTORY)
-      .withAuditType(AUDIT_TYPE.PAGE_VIEW)
+      .withAuditType(AUDIT_TYPE.DATA_ACCESS)
       .build();
 
     const transformedAudits = transformActionAuditForExport([

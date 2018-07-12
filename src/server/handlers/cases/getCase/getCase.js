@@ -2,7 +2,7 @@ const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
 const {
-  DATA_VIEWED,
+  DATA_ACCESSED,
   AUDIT_TYPE,
   AUDIT_SUBJECT
 } = require("../../../../sharedUtilities/constants");
@@ -13,8 +13,8 @@ const getCase = asyncMiddleware(async (req, res) => {
       {
         user: req.nickname,
         caseId: req.params.id,
-        action: DATA_VIEWED,
-        auditType: AUDIT_TYPE.PAGE_VIEW,
+        action: DATA_ACCESSED,
+        auditType: AUDIT_TYPE.DATA_ACCESS,
         subject: AUDIT_SUBJECT.CASE_DETAILS
       },
       { transaction }

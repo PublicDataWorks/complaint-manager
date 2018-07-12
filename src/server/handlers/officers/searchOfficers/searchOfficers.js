@@ -1,6 +1,6 @@
 const models = require("../../../models/index");
 const {
-  DATA_VIEWED,
+  DATA_ACCESSED,
   AUDIT_TYPE,
   AUDIT_SUBJECT
 } = require("../../../../sharedUtilities/constants");
@@ -31,9 +31,9 @@ const searchOfficers = asyncMiddleware(async (request, response) => {
       {
         user: request.nickname,
         caseId: request.query.caseId,
-        action: DATA_VIEWED,
-        auditType: AUDIT_TYPE.PAGE_VIEW,
-        subject: AUDIT_SUBJECT.OFFICER_SEARCH
+        action: DATA_ACCESSED,
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        subject: AUDIT_SUBJECT.OFFICER_DATA
       },
       { auditUser: request.nickname, transaction }
     );
