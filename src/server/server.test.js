@@ -459,21 +459,19 @@ describe("server", () => {
           {
             model: models.civilian,
             as: "complainantCivilians",
-            auditUser: "test user"
+            auditUser: "test user",
+            include: [
+              {
+                model: models.address,
+                auditUser: "test user"
+              }
+            ]
           }
         ],
         auditUser: "someone"
       });
 
       let civilianToUpdate = caseToUpdate.dataValues.complainantCivilians[0];
-      const address = new Address.Builder()
-        .defaultAddress()
-        .withId(undefined)
-        .withAddressableType("civilian")
-        .withAddressableId(civilianToUpdate.id)
-        .build();
-      await civilianToUpdate.createAddress(address, { auditUser: "someone" });
-      await civilianToUpdate.reload({ include: [models.address] });
 
       await request(app)
         .put(`/api/civilian/${civilianToUpdate.id}`)
