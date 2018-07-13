@@ -129,38 +129,55 @@ describe("exportCases request", function() {
               "Incident State," +
               "Incident Zip Code," +
               "Incident District," +
-              "Additional Incident Location Info,Complainant Type," +
-              "Complainant Name," +
-              "Gender Identity (complainant)," +
-              "Race/Ethnicity (complainant)," +
-              "Birthday (complainant)," +
-              "Phone Number (complainant)," +
-              "Email (complainant)," +
-              "Complainant Address," +
-              "Complainant City," +
-              "Complainant State," +
-              "Complainant Zip Code," +
-              "Additional Address Information (complainant)," +
-              "Notes (complainant)," +
+              "Additional Incident Location Info," +
+              "Complainant Type," +
+              "Complainant," +
+              "Civilian Complainant Name," +
+              "Civilian Complainant Gender Identity," +
+              "Civilian Complainant Race/Ethnicity," +
+              "Civilian Complainant Age," +
+              "Civilian Complainant Phone Number," +
+              "Civilian Complainant Email," +
+              "Civilian Complainant Address," +
+              "Civilian Complainant City," +
+              "Civilian Complainant State," +
+              "Civilian Complainant Zip Code," +
+              "Civilian Complainant Additional Address Information," +
+              "Civilian Complainant Notes," +
+              "Officer Complainant Name," +
+              "Officer Complainant Windows Username," +
+              "Officer Complainant Rank/Title," +
+              "Officer Complainant Supervisor Name," +
+              "Officer Complainant Supervisor Windows Username," +
+              "Officer Complainant Employee Type," +
+              "Officer Complainant District," +
+              "Officer Complainant Bureau," +
+              "Officer Complainant Status," +
+              "Officer Complainant Hire Date," +
+              "Officer Complainant End of Employment," +
+              "Officer Complainant Race," +
+              "Officer Complainant Sex," +
+              "Officer Complainant Age," +
+              "Officer Complainant Notes," +
               "Number of Witnesses," +
               "Witnesses," +
               "Narrative Summary," +
               "Narrative Details," +
-              "Accused Officer (Name)," +
-              "Officer Windows Username," +
-              "Rank/Title," +
-              "Supervisor Name," +
-              "Supervisor Windows Username," +
-              "Employee Type," +
-              "District," +
-              "Bureau," +
-              "Status," +
-              "Hire Date," +
-              "End of Employment," +
-              "Race," +
-              "Sex," +
-              "Age," +
-              "Notes," +
+              "Accused Officer Name," +
+              "Accused Officer Windows Username," +
+              "Accused Officer Rank/Title," +
+              "Accused Officer Supervisor Name," +
+              "Accused Officer Supervisor Windows Username," +
+              "Accused Officer Employee Type," +
+              "Accused Officer District," +
+              "Accused Officer Bureau," +
+              "Accused Officer Status," +
+              "Accused Officer Hire Date," +
+              "Accused Officer End of Employment," +
+              "Accused Officer Race," +
+              "Accused Officer Sex," +
+              "Accused Officer Age," +
+              "Accused Officer Notes," +
               "Allegation Rule," +
               "Allegation Paragraph," +
               "Allegation Directive," +
@@ -244,39 +261,46 @@ describe("exportCases request", function() {
       .then(response => {
         const resultingCsv = response.text;
         const records = parse(resultingCsv, { columns: true });
-        expect(records[0]["Complainant Type"]).toEqual(
-          caseToExport.complainantType
-        );
-        expect(records[0]["Complainant Name"]).toEqual(
+        expect(records[0]["Complainant"]).toEqual("Civilian");
+        expect(records[0]["Civilian Complainant Name"]).toEqual(
           `${civilian.firstName} ${civilian.middleInitial} ${
             civilian.lastName
           } ${civilian.suffix}`
         );
-        expect(records[0]["Gender Identity (complainant)"]).toEqual(
+        expect(records[0]["Civilian Complainant Gender Identity"]).toEqual(
           civilian.genderIdentity
         );
-        expect(records[0]["Race/Ethnicity (complainant)"]).toEqual(
+        expect(records[0]["Civilian Complainant Race/Ethnicity"]).toEqual(
           civilian.raceEthnicity
         );
-        expect(records[0]["Birthday (complainant)"]).toEqual(
-          moment(civilian.birthDate).format("MM/DD/YYYY")
-        );
-        expect(records[0]["Phone Number (complainant)"]).toEqual(
+        const expectedAge = `${moment().diff(
+          civilian.birthDate,
+          "years",
+          false
+        )}`;
+        expect(records[0]["Civilian Complainant Age"]).toEqual(expectedAge);
+        expect(records[0]["Civilian Complainant Phone Number"]).toEqual(
           civilian.phoneNumber
         );
-        expect(records[0]["Email (complainant)"]).toEqual(civilian.email);
-        expect(records[0]["Complainant Address"]).toEqual(
+        expect(records[0]["Civilian Complainant Email"]).toEqual(
+          civilian.email
+        );
+        expect(records[0]["Civilian Complainant Address"]).toEqual(
           civilian.address.streetAddress
         );
-        expect(records[0]["Complainant City"]).toEqual(civilian.address.city);
-        expect(records[0]["Complainant State"]).toEqual(civilian.address.state);
-        expect(records[0]["Complainant Zip Code"]).toEqual(
+        expect(records[0]["Civilian Complainant City"]).toEqual(
+          civilian.address.city
+        );
+        expect(records[0]["Civilian Complainant State"]).toEqual(
+          civilian.address.state
+        );
+        expect(records[0]["Civilian Complainant Zip Code"]).toEqual(
           civilian.address.zipCode
         );
         expect(
-          records[0]["Additional Address Information (complainant)"]
+          records[0]["Civilian Complainant Additional Address Information"]
         ).toEqual(civilian.address.streetAddress2);
-        expect(records[0]["Notes (complainant)"]).toEqual(
+        expect(records[0]["Civilian Complainant Notes"]).toEqual(
           civilian.additionalInfo
         );
       });
@@ -307,14 +331,14 @@ describe("exportCases request", function() {
         const firstRecord = records[0];
         const secondRecord = records[1];
 
-        expect(firstRecord["Complainant Name"]).toEqual(
+        expect(firstRecord["Civilian Complainant Name"]).toEqual(
           `${civilian.firstName} ${civilian.middleInitial} ${
             civilian.lastName
           } ${civilian.suffix}`
         );
         expect(firstRecord["Case #"]).toEqual(caseToExport.id.toString());
 
-        expect(secondRecord["Complainant Name"]).toEqual(
+        expect(secondRecord["Civilian Complainant Name"]).toEqual(
           `${civilian2.firstName} ${civilian2.middleInitial} ${
             civilian2.lastName
           } ${civilian2.suffix}`
@@ -357,38 +381,70 @@ describe("exportCases request", function() {
         expect(records.length).toEqual(2);
 
         const officerComplainantRow = records[1];
-        expect(officerComplainantRow["Complainant Type"]).toEqual(
-          caseToExport.complainantType
-        );
-        expect(officerComplainantRow["Complainant Name"]).toEqual(
+        expect(officerComplainantRow["Complainant"]).toEqual("Officer");
+        expect(officerComplainantRow["Officer Complainant Name"]).toEqual(
           `${caseOfficerComplainant.firstName} ${
             caseOfficerComplainant.middleName
           } ${caseOfficerComplainant.lastName}`
         );
-        expect(officerComplainantRow["Gender Identity (complainant)"]).toEqual(
-          caseOfficerComplainant.sex
+        expect(
+          officerComplainantRow["Officer Complainant Windows Username"]
+        ).toEqual(`${caseOfficerComplainant.windowsUsername}`);
+        expect(officerComplainantRow["Officer Complainant Rank/Title"]).toEqual(
+          caseOfficerComplainant.rank
         );
-        expect(officerComplainantRow["Race/Ethnicity (complainant)"]).toEqual(
+        expect(
+          officerComplainantRow["Officer Complainant Supervisor Name"]
+        ).toEqual(
+          `${caseOfficerComplainant.supervisorFirstName} ${
+            caseOfficerComplainant.supervisorMiddleName
+          } ${caseOfficerComplainant.supervisorLastName}`
+        );
+        expect(
+          officerComplainantRow[
+            "Officer Complainant Supervisor Windows Username"
+          ]
+        ).toEqual(`${caseOfficerComplainant.supervisorWindowsUsername}`);
+        expect(
+          officerComplainantRow["Officer Complainant Employee Type"]
+        ).toEqual(caseOfficerComplainant.employeeType);
+        expect(officerComplainantRow["Officer Complainant District"]).toEqual(
+          caseOfficerComplainant.district
+        );
+        expect(officerComplainantRow["Officer Complainant Bureau"]).toEqual(
+          caseOfficerComplainant.bureau
+        );
+        expect(officerComplainantRow["Officer Complainant Status"]).toEqual(
+          caseOfficerComplainant.workStatus
+        );
+        expect(officerComplainantRow["Officer Complainant Hire Date"]).toEqual(
+          moment(caseOfficerComplainant.hireDate).format("MM/DD/YYYY")
+        );
+        expect(
+          officerComplainantRow["Officer Complainant End of Employment"]
+        ).toEqual(moment(caseOfficerComplainant.endDate).format("MM/DD/YYYY"));
+        expect(officerComplainantRow["Officer Complainant Race"]).toEqual(
           caseOfficerComplainant.race
         );
-        expect(officerComplainantRow["Birthday (complainant)"]).toEqual(
-          moment(caseOfficerComplainant.dob).format("MM/DD/YYYY")
+        expect(officerComplainantRow["Officer Complainant Sex"]).toEqual(
+          caseOfficerComplainant.sex
         );
-        expect(officerComplainantRow["Phone Number (complainant)"]).toEqual("");
-        expect(officerComplainantRow["Email (complainant)"]).toEqual("");
-        expect(officerComplainantRow["Complainant Address"]).toEqual("");
-        expect(officerComplainantRow["Complainant City"]).toEqual("");
-        expect(officerComplainantRow["Complainant State"]).toEqual("");
-        expect(officerComplainantRow["Complainant Zip Code"]).toEqual("");
-        expect(
-          officerComplainantRow["Additional Address Information (complainant)"]
-        ).toEqual("");
-        expect(officerComplainantRow["Notes (complainant)"]).toEqual(
+        const expectedAge = `${moment().diff(
+          caseOfficerComplainant.dob,
+          "years",
+          false
+        )}`;
+        expect(officerComplainantRow["Officer Complainant Age"]).toEqual(
+          expectedAge
+        );
+        expect(officerComplainantRow["Officer Complainant Notes"]).toEqual(
           caseOfficerComplainant.notes
         );
 
+        expect(officerComplainantRow["Civilian Complainant Name"]).toEqual("");
+
         const civilianComplainantRow = records[0];
-        expect(civilianComplainantRow["Complainant Name"]).toEqual(
+        expect(civilianComplainantRow["Civilian Complainant Name"]).toEqual(
           `${civilian.firstName} ${civilian.middleInitial} ${
             civilian.lastName
           } ${civilian.suffix}`
@@ -463,38 +519,50 @@ describe("exportCases request", function() {
         const resultingCsv = response.text;
         const records = parse(resultingCsv, { columns: true });
         const firstRecord = records[0];
-        expect(firstRecord["Accused Officer (Name)"]).toEqual(
+        expect(firstRecord["Accused Officer Name"]).toEqual(
           `${caseOfficer.firstName} ${caseOfficer.middleName} ${
             caseOfficer.lastName
           }`
         );
-        expect(firstRecord["Officer Windows Username"]).toEqual(
+        expect(firstRecord["Accused Officer Windows Username"]).toEqual(
           caseOfficer.windowsUsername.toString()
         );
-        expect(firstRecord["Rank/Title"]).toEqual(caseOfficer.rank);
-        expect(firstRecord["Supervisor Name"]).toEqual(
+        expect(firstRecord["Accused Officer Rank/Title"]).toEqual(
+          caseOfficer.rank
+        );
+        expect(firstRecord["Accused Officer Supervisor Name"]).toEqual(
           `${caseOfficer.supervisorFirstName} ${
             caseOfficer.supervisorMiddleName
           } ${caseOfficer.supervisorLastName}`
         );
-        expect(firstRecord["Supervisor Windows Username"]).toEqual(
-          caseOfficer.supervisorWindowsUsername.toString()
+        expect(
+          firstRecord["Accused Officer Supervisor Windows Username"]
+        ).toEqual(caseOfficer.supervisorWindowsUsername.toString());
+        expect(firstRecord["Accused Officer Employee Type"]).toEqual(
+          caseOfficer.employeeType
         );
-        expect(firstRecord["Employee Type"]).toEqual(caseOfficer.employeeType);
-        expect(firstRecord["District"]).toEqual(caseOfficer.district);
-        expect(firstRecord["Bureau"]).toEqual(caseOfficer.bureau);
-        expect(firstRecord["Status"]).toEqual(caseOfficer.workStatus);
-        expect(firstRecord["Hire Date"]).toEqual(
+        expect(firstRecord["Accused Officer District"]).toEqual(
+          caseOfficer.district
+        );
+        expect(firstRecord["Accused Officer Bureau"]).toEqual(
+          caseOfficer.bureau
+        );
+        expect(firstRecord["Accused Officer Status"]).toEqual(
+          caseOfficer.workStatus
+        );
+        expect(firstRecord["Accused Officer Hire Date"]).toEqual(
           moment(caseOfficer.hireDate).format("MM/DD/YYYY")
         );
-        expect(firstRecord["End of Employment"]).toEqual(
+        expect(firstRecord["Accused Officer End of Employment"]).toEqual(
           moment(caseOfficer.endDate).format("MM/DD/YYYY")
         );
-        expect(firstRecord["Race"]).toEqual(caseOfficer.race);
-        expect(firstRecord["Sex"]).toEqual(caseOfficer.sex);
+        expect(firstRecord["Accused Officer Race"]).toEqual(caseOfficer.race);
+        expect(firstRecord["Accused Officer Sex"]).toEqual(caseOfficer.sex);
         const expectedAge = moment().diff(caseOfficer.dob, "years", false);
-        expect(firstRecord["Age"]).toEqual(expectedAge.toString());
-        expect(firstRecord["Notes"]).toEqual(caseOfficer.notes);
+        expect(firstRecord["Accused Officer Age"]).toEqual(
+          expectedAge.toString()
+        );
+        expect(firstRecord["Accused Officer Notes"]).toEqual(caseOfficer.notes);
       });
   });
 
@@ -536,24 +604,24 @@ describe("exportCases request", function() {
         const firstRecord = records[0];
         const secondRecord = records[1];
 
-        expect(firstRecord["Accused Officer (Name)"]).toEqual(
+        expect(firstRecord["Accused Officer Name"]).toEqual(
           caseOfficer.fullName
         );
-        expect(firstRecord["Officer Windows Username"]).toEqual(
+        expect(firstRecord["Accused Officer Windows Username"]).toEqual(
           caseOfficer.windowsUsername.toString()
         );
         expect(firstRecord["Case #"]).toEqual(caseOfficer.caseId.toString());
-        expect(secondRecord["Accused Officer (Name)"]).toEqual(
+        expect(secondRecord["Accused Officer Name"]).toEqual(
           caseOfficer2.fullName
         );
-        expect(secondRecord["Officer Windows Username"]).toEqual(
+        expect(secondRecord["Accused Officer Windows Username"]).toEqual(
           caseOfficer2.windowsUsername.toString()
         );
         expect(secondRecord["Case #"]).toEqual(caseOfficer2.caseId.toString());
       });
   });
 
-  test("exports officers from a different case that case", async () => {
+  test("exports officers from two different cases", async () => {
     const otherCaseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
@@ -600,24 +668,24 @@ describe("exportCases request", function() {
         const secondRecord = records[1];
 
         expect(firstRecord["Case #"]).toEqual(caseToExport.id.toString());
-        expect(firstRecord["Accused Officer (Name)"]).toEqual(
+        expect(firstRecord["Accused Officer Name"]).toEqual(
           caseOfficer.fullName
         );
-        expect(firstRecord["Officer Windows Username"]).toEqual(
+        expect(firstRecord["Accused Officer Windows Username"]).toEqual(
           caseOfficer.windowsUsername.toString()
         );
 
         expect(secondRecord["Case #"]).toEqual(otherCase.id.toString());
-        expect(secondRecord["Accused Officer (Name)"]).toEqual(
+        expect(secondRecord["Accused Officer Name"]).toEqual(
           caseOfficer2.fullName
         );
-        expect(secondRecord["Officer Windows Username"]).toEqual(
+        expect(secondRecord["Accused Officer Windows Username"]).toEqual(
           caseOfficer2.windowsUsername.toString()
         );
       });
   });
 
-  test("creates 4 rows for 2 civilian complainants and 2 officers", async () => {
+  test("creates 4 rows for 2 civilian complainants and 2 accused officers", async () => {
     const civilianAttributes2 = new Civilian.Builder()
       .defaultCivilian()
       .withId(undefined)
@@ -669,54 +737,54 @@ describe("exportCases request", function() {
         const fourthRecord = records[3];
 
         expect(firstRecord["Case #"]).toEqual(caseToExport.id.toString());
-        expect(firstRecord["Complainant Name"]).toEqual(
+        expect(firstRecord["Civilian Complainant Name"]).toEqual(
           `${civilian.firstName} ${civilian.middleInitial} ${
             civilian.lastName
           } ${civilian.suffix}`
         );
-        expect(firstRecord["Accused Officer (Name)"]).toEqual(
+        expect(firstRecord["Accused Officer Name"]).toEqual(
           caseOfficer.fullName
         );
-        expect(firstRecord["Officer Windows Username"]).toEqual(
+        expect(firstRecord["Accused Officer Windows Username"]).toEqual(
           caseOfficer.windowsUsername.toString()
         );
 
         expect(secondRecord["Case #"]).toEqual(caseToExport.id.toString());
-        expect(secondRecord["Complainant Name"]).toEqual(
+        expect(secondRecord["Civilian Complainant Name"]).toEqual(
           `${civilian.firstName} ${civilian.middleInitial} ${
             civilian.lastName
           } ${civilian.suffix}`
         );
-        expect(secondRecord["Accused Officer (Name)"]).toEqual(
+        expect(secondRecord["Accused Officer Name"]).toEqual(
           caseOfficer2.fullName
         );
-        expect(secondRecord["Officer Windows Username"]).toEqual(
+        expect(secondRecord["Accused Officer Windows Username"]).toEqual(
           caseOfficer2.windowsUsername.toString()
         );
 
         expect(thirdRecord["Case #"]).toEqual(caseToExport.id.toString());
-        expect(thirdRecord["Complainant Name"]).toEqual(
+        expect(thirdRecord["Civilian Complainant Name"]).toEqual(
           `${civilian2.firstName} ${civilian2.middleInitial} ${
             civilian2.lastName
           } ${civilian2.suffix}`
         );
-        expect(thirdRecord["Accused Officer (Name)"]).toEqual(
+        expect(thirdRecord["Accused Officer Name"]).toEqual(
           caseOfficer.fullName
         );
-        expect(thirdRecord["Officer Windows Username"]).toEqual(
+        expect(thirdRecord["Accused Officer Windows Username"]).toEqual(
           caseOfficer.windowsUsername.toString()
         );
 
         expect(fourthRecord["Case #"]).toEqual(caseToExport.id.toString());
-        expect(fourthRecord["Complainant Name"]).toEqual(
+        expect(fourthRecord["Civilian Complainant Name"]).toEqual(
           `${civilian2.firstName} ${civilian2.middleInitial} ${
             civilian2.lastName
           } ${civilian2.suffix}`
         );
-        expect(fourthRecord["Accused Officer (Name)"]).toEqual(
+        expect(fourthRecord["Accused Officer Name"]).toEqual(
           caseOfficer2.fullName
         );
-        expect(fourthRecord["Officer Windows Username"]).toEqual(
+        expect(fourthRecord["Accused Officer Windows Username"]).toEqual(
           caseOfficer2.windowsUsername.toString()
         );
       });
