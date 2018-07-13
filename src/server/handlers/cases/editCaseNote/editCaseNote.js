@@ -1,3 +1,4 @@
+const {AUDIT_SUBJECT, DATA_ACCESSED, AUDIT_TYPE} = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
 const _ = require("lodash");
@@ -16,6 +17,17 @@ const editCaseNote = asyncMiddleware(async (req, res) => {
         transaction,
         auditUser: req.nickname
       });
+
+      await models.action_audit.create(
+        {
+          auditType: AUDIT_TYPE.DATA_ACCESS,
+          action: DATA_ACCESSED,
+          subject: AUDIT_SUBJECT.CASE_NOTES,
+          caseId,
+          user: req.nickname
+        },
+        { transaction }
+      );
 
       return await models.case_note.findAll({
         where: { caseId },

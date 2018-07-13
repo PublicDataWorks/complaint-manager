@@ -1,3 +1,8 @@
+const {
+  DATA_ACCESSED,
+  AUDIT_TYPE,
+  AUDIT_SUBJECT
+} = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
@@ -20,6 +25,27 @@ const removeCaseNote = asyncMiddleware(async (req, res) => {
       where: { caseId },
       transaction
     });
+
+    const caseAuditAttributes = {
+      auditType: AUDIT_TYPE.DATA_ACCESS,
+      action: DATA_ACCESSED,
+      subject: AUDIT_SUBJECT.CASE_DETAILS,
+      caseId,
+      user: req.nickname
+    };
+
+    const caseNoteAuditAttributes = {
+      auditType: AUDIT_TYPE.DATA_ACCESS,
+      action: DATA_ACCESSED,
+      subject: AUDIT_SUBJECT.CASE_NOTES,
+      caseId,
+      user: req.nickname
+    };
+
+    await models.action_audit.bulkCreate(
+      [caseAuditAttributes, caseNoteAuditAttributes],
+      { transaction }
+    );
 
     return {
       caseDetails,
