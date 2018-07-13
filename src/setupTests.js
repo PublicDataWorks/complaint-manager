@@ -4,3 +4,4 @@ import EventEmitter from "events";
 
 EventEmitter.defaultMaxListeners = 67;
 Enzyme.configure({ adapter: new Adapter() });
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
