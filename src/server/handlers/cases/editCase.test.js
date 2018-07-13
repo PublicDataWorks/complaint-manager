@@ -2,7 +2,12 @@ import Case from "../../../client/testUtilities/case";
 import Address from "../../../client/testUtilities/Address";
 import Civilian from "../../../client/testUtilities/civilian";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { CASE_STATUS } from "../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  AUDIT_TYPE,
+  CASE_STATUS,
+  DATA_ACCESSED
+} from "../../../sharedUtilities/constants";
 import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 
 const httpMocks = require("node-mocks-http");
@@ -288,6 +293,25 @@ describe("Edit Case", () => {
         "Durham"
       );
       expect(existingCase.incidentLocation.city).toEqual("Durham");
+    });
+
+    test("should audit case details access when case updated", async () => {
+      await editCase(request, response, next);
+
+      const actionAudit = await models.action_audit.find({
+        where: { caseId: existingCase.id },
+        returning: true
+      });
+
+      expect(actionAudit).toEqual(
+        expect.objectContaining({
+          user: "TEST_USER_NICKNAME",
+          action: DATA_ACCESSED,
+          subject: AUDIT_SUBJECT.CASE_DETAILS,
+          auditType: AUDIT_TYPE.DATA_ACCESS,
+          caseId: existingCase.id
+        })
+      );
     });
   });
 });

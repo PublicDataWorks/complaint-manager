@@ -3,6 +3,11 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 const httpMocks = require("node-mocks-http");
 const models = require("../../models/index");
 const updateCaseNarrative = require("./updateCaseNarrative");
+import {
+  DATA_ACCESSED,
+  AUDIT_TYPE,
+  AUDIT_SUBJECT
+} from "../../../sharedUtilities/constants";
 
 describe("updateCaseNarrative handler", () => {
   let request, response, existingCase, userNickname;
@@ -62,5 +67,23 @@ describe("updateCaseNarrative handler", () => {
       })
     );
     expect(response._isEndCalled()).toBeTruthy();
+  });
+
+  test("should audit case details access when case narrative updated", async () => {
+    await updateCaseNarrative(request, response, jest.fn());
+
+    const actionAudit = await models.action_audit.find({
+      where: { caseId: existingCase.id }
+    });
+
+    expect(actionAudit).toEqual(
+      expect.objectContaining({
+        user: userNickname,
+        caseId: existingCase.id,
+        subject: AUDIT_SUBJECT.CASE_DETAILS,
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        action: DATA_ACCESSED
+      })
+    );
   });
 });

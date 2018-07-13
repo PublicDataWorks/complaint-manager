@@ -1,9 +1,15 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import changeStatus from "./changeStatus";
-import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  DATA_ACCESSED,
+  AUDIT_SUBJECT,
+  AUDIT_TYPE
+} from "../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
 import Boom from "boom";
+import models from "../../../models/index"
 
 describe("changeStatus", async () => {
   let initialCase, response, next;
@@ -73,6 +79,36 @@ describe("changeStatus", async () => {
 
     expect(next).toBeCalledWith(
       Boom.badRequest(`Case #${initialCase.id + 5} doesn't exist`)
+    );
+  });
+
+  test("should audit case details", async () => {
+    const newStatus = CASE_STATUS.ACTIVE;
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      params: {
+        id: initialCase.id
+      },
+      body: {
+        status: newStatus
+      },
+      nickname: "someone"
+    });
+
+    await changeStatus(request, response, next);
+
+    const actionAudit = await models.action_audit.find({
+      where: { caseId: initialCase.id }
+    });
+
+    expect(actionAudit).toEqual(
+      expect.objectContaining({
+        user: "someone",
+        action: DATA_ACCESSED,
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        subject: AUDIT_SUBJECT.CASE_DETAILS,
+        caseId: initialCase.id
+      })
     );
   });
 });

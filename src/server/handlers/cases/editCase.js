@@ -3,6 +3,11 @@ const models = require("../../models");
 const asyncMiddleware = require("../asyncMiddleware");
 const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
 const _ = require("lodash");
+const {
+  DATA_ACCESSED,
+  AUDIT_TYPE,
+  AUDIT_SUBJECT
+} = require("../../../sharedUtilities/constants");
 
 async function upsertAddress(caseId, incidentLocation, transaction, nickname) {
   if (!incidentLocation.id) {
@@ -55,6 +60,17 @@ const editCase = asyncMiddleware(async (request, response, next) => {
           transaction,
           auditUser: request.nickname
         });
+
+        await models.action_audit.create(
+          {
+            user: request.nickname,
+            action: DATA_ACCESSED,
+            subject: AUDIT_SUBJECT.CASE_DETAILS,
+            auditType: AUDIT_TYPE.DATA_ACCESS,
+            caseId: request.params.id
+          },
+          transaction
+        );
 
         return await getCaseWithAllAssociations(request.params.id, transaction);
       }
