@@ -35,7 +35,6 @@ exports[`it can render officer search results with correct styles 1`] = `
                   "endDate": "2009-04-30",
                   "firstName": "Ugochi",
                   "fullName": "Ugochi Grant Smith",
-                  "gender": "Female",
                   "hireDate": "2008-04-30",
                   "id": 57,
                   "lastName": "Smith",
@@ -43,6 +42,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                   "officerNumber": 200,
                   "race": "Cuban",
                   "rank": "Police Commander",
+                  "sex": "Female",
                   "supervisorOfficerNumber": null,
                   "windowsUsername": 3241,
                   "workStatus": "Inactive",
@@ -74,7 +74,6 @@ exports[`it can render officer search results with correct styles 1`] = `
                     "endDate": "2009-04-30",
                     "firstName": "Ugochi",
                     "fullName": "Ugochi Grant Smith",
-                    "gender": "Female",
                     "hireDate": "2008-04-30",
                     "id": 57,
                     "lastName": "Smith",
@@ -82,6 +81,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                     "officerNumber": 200,
                     "race": "Cuban",
                     "rank": "Police Commander",
+                    "sex": "Female",
                     "supervisorOfficerNumber": null,
                     "windowsUsername": 3241,
                     "workStatus": "Inactive",
@@ -505,7 +505,9 @@ exports[`it can render officer search results with correct styles 1`] = `
                           <td
                             aria-sort={null}
                             className="MuiTableCell-root-19 MuiTableCell-body-21 OfficerSearchResultsRow-cell-6"
-                          />
+                          >
+                            Female
+                          </td>
                         </TableCell>
                       </WithStyles(TableCell)>
                       <WithStyles(TableCell)
