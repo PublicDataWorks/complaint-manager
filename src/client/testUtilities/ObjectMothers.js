@@ -5,6 +5,7 @@ export const civilianWithoutAddress = new Civilian.Builder()
   .defaultCivilian()
   .withClearedOutAddress()
   .withId(undefined)
+  .withCaseId(undefined)
   .build();
 
 export const civilianWithAddress = new Civilian.Builder()
@@ -18,4 +19,5 @@ export const civilianWithAddress = new Civilian.Builder()
       .build()
   )
   .withId(undefined)
+  .withCaseId(undefined)
   .build();

@@ -312,6 +312,7 @@ describe("server", () => {
           .build();
         const caseDefault = new Case.Builder()
           .defaultCase()
+          .withId(undefined)
           .withComplainantCivilians([civilianDefault])
           .withIncidentLocation(undefined)
           .build();
