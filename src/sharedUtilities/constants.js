@@ -145,7 +145,8 @@ const AUDIT_SUBJECT = {
   OFFICER_DETAILS: "Officer Details",
   OFFICER_DATA: "Officer Data",
   OFFICER_ALLEGATIONS: "Officer Allegations Page",
-  CASE_HISTORY: "Case History"
+  CASE_HISTORY: "Case History",
+  CASE_NOTES: "Case Notes"
 };
 
 const DATA_UPDATED = "Updated";
