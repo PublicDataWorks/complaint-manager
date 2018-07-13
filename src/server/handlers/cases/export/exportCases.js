@@ -10,6 +10,7 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
   const DATE_ONLY_FORMAT = "MM/DD/YYYY";
   const TIMESTAMP_FORMAT = "MM/DD/YYYY HH24:MI:SS TZ";
   const TIME_ONLY_FORMAT = "HH24:MI:SS";
+  const FILE_EXTENSION_PATTERN = "([^.]+)$";
 
   const query =
     "SELECT " +
@@ -70,7 +71,8 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     'allegations.rule as "allegations.rule", ' +
     'allegations.paragraph as "allegations.paragraph", ' +
     'allegations.directive as "allegations.directive", ' +
-    'officerAllegations.details as "officerAllegations.details" ' +
+    'officerAllegations.details as "officerAllegations.details", ' +
+    'attachments.attachment_types as "attachments.attachment_types" ' +
     "FROM cases AS cases " +
     "LEFT OUTER JOIN addresses AS incidentLocation " +
     "ON cases.id = incidentLocation.addressable_id " +
@@ -141,6 +143,12 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "AND officerAllegations.deleted_at IS NULL " +
     "LEFT OUTER JOIN allegations " +
     "ON officerAllegations.allegation_id = allegations.id " +
+    "LEFT OUTER JOIN ( " +
+    ` SELECT case_id, string_agg(substring(file_name from '${FILE_EXTENSION_PATTERN}'), ', ') as attachment_types` +
+    " FROM attachments " +
+    " GROUP BY case_id" +
+    ") as attachments " +
+    "ON attachments.case_id = cases.id " +
     "ORDER BY cases.created_at ASC, complainants.created_at ASC, accusedOfficers.created_at ASC, officerAllegations.created_at ASC;";
 
   const caseData = await models.sequelize.query(query, {
@@ -199,7 +207,8 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "allegations.rule": "Allegation Rule",
     "allegations.paragraph": "Allegation Paragraph",
     "allegations.directive": "Allegation Directive",
-    "officerAllegations.details": "Allegation Details"
+    "officerAllegations.details": "Allegation Details",
+    "attachments.attachment_types": "Types of Attachments"
   };
 
   const csvOptions = {

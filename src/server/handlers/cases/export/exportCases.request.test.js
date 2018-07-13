@@ -19,6 +19,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import parse from "csv-parse/lib/sync";
 import Address from "../../../../client/testUtilities/Address";
+import Attachment from "../../../../client/testUtilities/attachment";
 
 describe("exportCases request", function() {
   let token,
@@ -163,7 +164,8 @@ describe("exportCases request", function() {
               "Allegation Rule," +
               "Allegation Paragraph," +
               "Allegation Directive," +
-              "Allegation Details\n"
+              "Allegation Details," +
+              "Types of Attachments\n"
           )
         );
       });
@@ -783,6 +785,54 @@ describe("exportCases request", function() {
         expect(record2["Allegation Details"]).toEqual(
           officerAllegation2.details
         );
+      });
+  });
+
+  test("should include list of attachment file types in case data", async () => {
+    const extension1 = "pdf";
+    const extension2 = "mp4";
+    const extension3 = "csv";
+
+    const attachmentAttributes1 = new Attachment.Builder()
+      .defaultAttachment()
+      .withId(undefined)
+      .withCaseId(caseToExport.id)
+      .withFileName(`Attachment1.${extension1}`);
+    const attachmentAttributes2 = new Attachment.Builder()
+      .defaultAttachment()
+      .withId(undefined)
+      .withCaseId(caseToExport.id)
+      .withFileName(`Attachment2.${extension2}`);
+    const attachmentAttributes3 = new Attachment.Builder()
+      .defaultAttachment()
+      .withId(undefined)
+      .withCaseId(caseToExport.id)
+      .withFileName(`Attachment3.${extension3}`);
+
+    await models.attachment.bulkCreate([
+      attachmentAttributes1,
+      attachmentAttributes2,
+      attachmentAttributes3
+    ]);
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+
+        expect(records.length).toEqual(1);
+
+        const record1 = records[0];
+        const extension1Matcher = expect.stringMatching(/^pdf\b|\spdf\b/);
+        const extension2Matcher = expect.stringMatching(/^mp4\b|\smp4\b/);
+        const extension3Matcher = expect.stringMatching(/^csv\b|\scsv\b/);
+
+        expect(record1["Types of Attachments"]).toEqual(extension1Matcher);
+        expect(record1["Types of Attachments"]).toEqual(extension2Matcher);
+        expect(record1["Types of Attachments"]).toEqual(extension3Matcher);
       });
   });
 });
