@@ -12,6 +12,7 @@ import request from "supertest";
 import Civilian from "../../../../client/testUtilities/civilian";
 import Case from "../../../../client/testUtilities/case";
 import moment from "moment";
+import timezone from "moment-timezone";
 import {
   COMPLAINANT,
   TIMEZONE,
@@ -214,7 +215,7 @@ describe("exportCases request", function() {
         expect(records[0]["Created on"]).toEqual(
           moment(caseToExport.createdAt)
             .tz(TIMEZONE)
-            .format("MM/DD/YYYY HH:mm:ss ")
+            .format("MM/DD/YYYY HH:mm:ss zz")
         );
         expect(records[0]["First Contact Date"]).toEqual(
           moment(caseToExport.firstContactDate).format("MM/DD/YYYY")
@@ -901,6 +902,26 @@ describe("exportCases request", function() {
         expect(record1["Types of Attachments"]).toEqual(extension1Matcher);
         expect(record1["Types of Attachments"]).toEqual(extension2Matcher);
         expect(record1["Types of Attachments"]).toEqual(extension3Matcher);
+      });
+  });
+
+  test("should display correct timezone", async () => {
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+
+        expect(records.length).toEqual(1);
+
+        const record1 = records[0];
+        const expectedTimestampString = timezone(caseToExport.createdAt)
+          .tz(TIMEZONE)
+          .format("MM/DD/YYYY HH:mm:ss zz");
+
+        expect(record1["Created on"]).toEqual(expectedTimestampString);
       });
   });
 });

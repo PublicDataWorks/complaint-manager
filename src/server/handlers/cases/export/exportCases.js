@@ -4,11 +4,15 @@ const {
 } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models/index");
+const timezone = require("moment-timezone");
 const stringify = require("csv-stringify");
 
 const exportCases = asyncMiddleware(async (request, response, next) => {
   const DATE_ONLY_FORMAT = "MM/DD/YYYY";
-  const TIMESTAMP_FORMAT = "MM/DD/YYYY HH24:MI:SS TZ";
+  const TIMESTAMP_FORMAT = "MM/DD/YYYY HH24:MI:SS";
+  const TIMEZONE_DISPLAY = timezone()
+    .tz(TIMEZONE)
+    .format("zz");
   const TIME_ONLY_FORMAT = "HH24:MI:SS";
   const FILE_EXTENSION_PATTERN = "([^.]+)$";
 
@@ -17,7 +21,11 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "cases.id, " +
     "cases.status, " +
     "cases.created_by, " +
-    `to_char(cases.created_at at time zone \'${TIMEZONE}\', \'${TIMESTAMP_FORMAT}\') AS created_at, ` +
+    "concat_ws(" +
+    "' ', " +
+    `to_char(cases.created_at at time zone \'${TIMEZONE}\', \'${TIMESTAMP_FORMAT}\'), ` +
+    `\'${TIMEZONE_DISPLAY}\'` +
+    ") AS created_at, " +
     `to_char(cases.first_contact_date, \'${DATE_ONLY_FORMAT}\') AS first_contact_date, ` +
     `to_char(cases.incident_date, \'${DATE_ONLY_FORMAT}\') AS incident_date, ` +
     `to_char(cases.incident_time, \'${TIME_ONLY_FORMAT}\') AS incident_time, ` +
