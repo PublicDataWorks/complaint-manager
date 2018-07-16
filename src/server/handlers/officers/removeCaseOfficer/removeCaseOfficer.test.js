@@ -3,7 +3,12 @@ import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import models from "../../../models";
 import Case from "../../../../client/testUtilities/case";
 import httpMocks from "node-mocks-http";
-import { WITNESS } from "../../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  AUDIT_TYPE,
+  DATA_ACCESSED,
+  WITNESS
+} from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import removeCaseOfficer from "./removeCaseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
@@ -96,6 +101,36 @@ describe("removeCaseOfficer", () => {
       });
 
       expect(officerAllegation).toEqual(null);
+    });
+
+    test("should audit removing case officer", async () => {
+      const request = httpMocks.createRequest({
+        method: "DELETE",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "someone"
+      });
+
+      await removeCaseOfficer(request, response, next);
+
+      const audit = await models.action_audit.find({
+        where: { caseId: existingCase.id }
+      });
+
+      expect(audit).toEqual(
+        expect.objectContaining({
+          user: "someone",
+          subject: AUDIT_SUBJECT.CASE_DETAILS,
+          caseId: existingCase.id,
+          action: DATA_ACCESSED,
+          auditType: AUDIT_TYPE.DATA_ACCESS
+        })
+      );
     });
 
     test("should not delete associated officerAllegations when caseOfficer deletion fails", async () => {

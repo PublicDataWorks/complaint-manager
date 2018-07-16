@@ -6,6 +6,11 @@ const {
 const models = require("../../../models/index");
 const asyncMiddleware = require("../../asyncMiddleware");
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
+const {
+  DATA_ACCESSED,
+  AUDIT_SUBJECT,
+  AUDIT_TYPE
+} = require("../../../../sharedUtilities/constants");
 
 const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const { officerId, notes, roleOnCase } = request.body;
@@ -21,16 +26,27 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
     );
   }
 
-  const updatedCase = await models.sequelize.transaction(async t => {
+  const updatedCase = await models.sequelize.transaction(async transaction => {
     await retrievedCase.createAccusedOfficer(
       { notes, roleOnCase, ...caseOfficerAttributes },
       {
-        transaction: t,
+        transaction,
         auditUser: request.nickname
       }
     );
 
-    return await getCaseWithAllAssociations(retrievedCase.id, t);
+    await models.action_audit.create(
+      {
+        user: request.nickname,
+        caseId: retrievedCase.id,
+        action: DATA_ACCESSED,
+        subject: AUDIT_SUBJECT.CASE_DETAILS,
+        auditType: AUDIT_TYPE.DATA_ACCESS
+      },
+      transaction
+    );
+
+    return await getCaseWithAllAssociations(retrievedCase.id, transaction);
   });
 
   return response.send(updatedCase);

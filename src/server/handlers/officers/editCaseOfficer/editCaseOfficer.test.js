@@ -7,7 +7,10 @@ import editCaseOfficer from "./editCaseOfficer";
 import {
   ACCUSED,
   COMPLAINANT,
-  WITNESS
+  WITNESS,
+  DATA_ACCESSED,
+  AUDIT_SUBJECT,
+  AUDIT_TYPE
 } from "../../../../sharedUtilities/constants";
 import Boom from "boom";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
@@ -392,6 +395,44 @@ describe("editCaseOfficer", () => {
 
       expect(existingCaseOfficer.firstName).toEqual("Brandon");
     });
+
+    test("should audit case details access when case officer edited", async () => {
+      const fieldsToUpdate = {
+        roleOnCase: WITNESS,
+        notes: "some new notes"
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "test user"
+      });
+
+      await editCaseOfficer(request, response, next);
+
+      const actionAudit = await models.action_audit.find({
+        where: { caseId: existingCase.id }
+      });
+
+      expect(actionAudit).toEqual(
+        expect.objectContaining({
+          user: "test user",
+          subject: AUDIT_SUBJECT.CASE_DETAILS,
+          caseId: existingCase.id,
+          action: DATA_ACCESSED,
+          auditType: AUDIT_TYPE.DATA_ACCESS
+        })
+      );
+    });
+
+
   });
 
   test("updates unknown officer to known officer", async () => {

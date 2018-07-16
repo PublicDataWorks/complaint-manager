@@ -5,7 +5,12 @@ const {
   buildOfficerAttributesForUnknownOfficer,
   buildOfficerAttributesForNewOfficer
 } = require("../buildOfficerAttributesHelpers");
-const ACCUSED = require("../../../../sharedUtilities/constants").ACCUSED;
+const {
+  ACCUSED,
+  DATA_ACCESSED,
+  AUDIT_TYPE,
+  AUDIT_SUBJECT
+} = require("../../../../sharedUtilities/constants");
 
 const editCaseOfficer = asyncMiddleware(async (request, response) => {
   const { officerId, notes, roleOnCase } = request.body;
@@ -42,6 +47,17 @@ const editCaseOfficer = asyncMiddleware(async (request, response) => {
         auditUser: request.nickname,
         transaction
       }
+    );
+
+    await models.action_audit.create(
+      {
+        caseId: request.params.caseId,
+        user: request.nickname,
+        subject: AUDIT_SUBJECT.CASE_DETAILS,
+        action: DATA_ACCESSED,
+        auditType: AUDIT_TYPE.DATA_ACCESS
+      },
+      transaction
     );
   });
 
