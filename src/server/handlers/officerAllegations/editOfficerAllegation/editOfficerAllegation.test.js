@@ -2,18 +2,21 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
-import { ACCUSED } from "../../../../sharedUtilities/constants";
+import {
+  ACCUSED,
+  DATA_ACCESSED,
+  AUDIT_TYPE,
+  AUDIT_SUBJECT
+} from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
 import httpMocks from "node-mocks-http";
 import models from "../../../models";
 import editOfficerAllegation from "./editOfficerAllegation";
 
 describe("editOfficerAllegation", () => {
-  afterEach(async () => {
-    await cleanupDatabase();
-  });
+  let officerAllegationToUpdate, caseOfficer;
 
-  test("should edit a case officer allegation", async () => {
+  beforeEach(async () => {
     const createdCase = await createCaseWithoutCivilian();
     const anAllegation = new Allegation.Builder()
       .defaultAllegation()
@@ -58,9 +61,51 @@ describe("editOfficerAllegation", () => {
       ]
     });
 
-    const officerAllegationToUpdate =
-      createdCase.accusedOfficers[0].allegations[0];
+    caseOfficer = createdCase.accusedOfficers[0];
+    officerAllegationToUpdate = caseOfficer.allegations[0];
+  });
 
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
+
+  test("should audit case data access", async () => {
+    const data = {
+      details: "new details"
+    };
+
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        officerAllegationId: officerAllegationToUpdate.id
+      },
+      body: data,
+      nickname: "TEST_USER_NICKNAME"
+    });
+
+    const response = httpMocks.createResponse();
+
+    await editOfficerAllegation(request, response, jest.fn());
+
+    const audit = await models.action_audit.find({
+      where: { caseId: caseOfficer.caseId }
+    });
+
+    expect(audit).toEqual(
+      expect.objectContaining({
+        user: "TEST_USER_NICKNAME",
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        subject: AUDIT_SUBJECT.CASE_DETAILS,
+        caseId: caseOfficer.caseId,
+        action: DATA_ACCESSED
+      })
+    );
+  });
+
+  test("should edit a case officer allegation", async () => {
     const data = {
       details: "new details"
     };

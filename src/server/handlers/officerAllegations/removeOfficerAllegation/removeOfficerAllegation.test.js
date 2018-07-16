@@ -1,18 +1,18 @@
-import {
-  buildTokenWithPermissions,
-  cleanupDatabase
-} from "../../../testHelpers/requestTestHelpers";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
-import { ACCUSED } from "../../../../sharedUtilities/constants";
+import {
+  ACCUSED,
+  DATA_ACCESSED,
+  AUDIT_SUBJECT,
+  AUDIT_TYPE
+} from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
 import httpMocks from "node-mocks-http";
 import models from "../../../models";
 import removeOfficerAllegation from "./removeOfficerAllegation";
 import Boom from "boom";
-import app from "../../../server";
-import request from "supertest";
 
 describe("removeOfficerAllegation", () => {
   afterEach(async () => {
@@ -43,10 +43,10 @@ describe("removeOfficerAllegation", () => {
     );
   });
 
-  test("should remove officer allegation", () => {
-    test("should update officer allegation details", async () => {
-      const token = buildTokenWithPermissions("", "TEST_NICKNAME");
+  describe("should remove officer allegation", () => {
+    let officerAllegationToRemove, createdAccusedOfficer;
 
+    beforeEach(async () => {
       const createdCase = await createCaseWithoutCivilian();
       const anAllegation = new Allegation.Builder()
         .defaultAllegation()
@@ -70,7 +70,7 @@ describe("removeOfficerAllegation", () => {
         .withOfficerAllegations([anOfficerAllegation])
         .build();
 
-      const createdAccusedOfficer = await createdCase.createAccusedOfficer(
+      createdAccusedOfficer = await createdCase.createAccusedOfficer(
         accusedOfficer,
         {
           include: [
@@ -84,8 +84,10 @@ describe("removeOfficerAllegation", () => {
         }
       );
 
-      const officerAllegationToRemove = createdAccusedOfficer.allegations[0];
+      officerAllegationToRemove = createdAccusedOfficer.allegations[0];
+    });
 
+    test("should clear out officer allegation details on remove", async () => {
       const request = httpMocks.createRequest({
         method: "DELETE",
         headers: {
@@ -104,6 +106,38 @@ describe("removeOfficerAllegation", () => {
       await createdAccusedOfficer.reload();
 
       expect(createdAccusedOfficer.allegations).toEqual([]);
+    });
+
+    test("should audit case details access on remove officer allegation", async () => {
+      const request = httpMocks.createRequest({
+        method: "DELETE",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        params: {
+          officerAllegationId: officerAllegationToRemove.id
+        },
+        nickname: "TEST_USER_NICKNAME"
+      });
+
+      const response = httpMocks.createResponse();
+      const next = jest.fn();
+
+      await removeOfficerAllegation(request, response, next);
+
+      const actionAudit = await models.action_audit.find({
+        where: { caseId: createdAccusedOfficer.caseId }
+      });
+
+      expect(actionAudit).toEqual(
+        expect.objectContaining({
+          caseId: createdAccusedOfficer.caseId,
+          subject: AUDIT_SUBJECT.CASE_DETAILS,
+          user: "TEST_USER_NICKNAME",
+          action: DATA_ACCESSED,
+          auditType: AUDIT_TYPE.DATA_ACCESS
+        })
+      );
     });
   });
 });

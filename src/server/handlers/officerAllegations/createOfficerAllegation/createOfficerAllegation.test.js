@@ -7,6 +7,11 @@ import * as httpMocks from "node-mocks-http";
 import createOfficerAllegation from "./createOfficerAllegation";
 import Boom from "boom";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import {
+  DATA_ACCESSED,
+  AUDIT_TYPE,
+  AUDIT_SUBJECT
+} from "../../../../sharedUtilities/constants";
 
 describe("createOfficerAllegation", () => {
   let newCase, allegation;
@@ -117,6 +122,46 @@ describe("createOfficerAllegation", () => {
 
     expect(officerAllegation).toEqual(
       expect.objectContaining({ details: allegationDetails })
+    );
+  });
+
+  test("should audit case data access when officer allegation created", async () => {
+    const caseOfficer = newCase.accusedOfficers[0];
+    const allegationDetails = "test details";
+
+    const request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: newCase.id,
+        caseOfficerId: caseOfficer.id
+      },
+      body: {
+        allegationId: allegation.id,
+        details: allegationDetails
+      },
+      nickname: "TEST_USER_NICKNAME"
+    });
+
+    const response = httpMocks.createResponse();
+    const next = jest.fn();
+
+    await createOfficerAllegation(request, response, next);
+
+    const actionAudit = await models.action_audit.find({
+      where: { caseId: newCase.id }
+    });
+
+    expect(actionAudit).toEqual(
+      expect.objectContaining({
+        caseId: newCase.id,
+        subject: AUDIT_SUBJECT.CASE_DETAILS,
+        action: DATA_ACCESSED,
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        user: "TEST_USER_NICKNAME"
+      })
     );
   });
 });
