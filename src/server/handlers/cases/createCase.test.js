@@ -1,7 +1,9 @@
 import {
   DATA_ACCESSED,
   AUDIT_TYPE,
-  AUDIT_SUBJECT
+  AUDIT_SUBJECT,
+  CIVILIAN_INITIATED,
+  RANK_INITIATED
 } from "../../../sharedUtilities/constants";
 
 const httpMocks = require("node-mocks-http");
@@ -21,7 +23,7 @@ describe("createCase handler", () => {
 
     user = "TEST_USER_NICKNAME";
     caseAttributes = {
-      complainantType: "Civilian",
+      complaintType: CIVILIAN_INITIATED,
       firstContactDate: "2018-02-08",
       incidentDate: "2018-03-16"
     };
@@ -54,13 +56,13 @@ describe("createCase handler", () => {
     await createCase(request, response, next);
 
     const insertedCase = await models.cases.find({
-      where: { complainantType: "Civilian" },
+      where: { complaintType: CIVILIAN_INITIATED },
       include: [{ model: models.civilian, as: "complainantCivilians" }]
     });
 
     expect(insertedCase).toEqual(
       expect.objectContaining({
-        complainantType: "Civilian",
+        complaintType: CIVILIAN_INITIATED,
         firstContactDate: "2018-02-08",
         incidentDate: "2018-03-16",
         createdBy: user,
@@ -84,7 +86,7 @@ describe("createCase handler", () => {
       },
       body: {
         case: {
-          complainantType: "Police Officer",
+          complaintType: RANK_INITIATED,
           firstContactDate: "2018-02-08",
           incidentDate: "2018-03-16T17:42"
         }
@@ -94,13 +96,13 @@ describe("createCase handler", () => {
 
     await createCase(policeOfficerRequest, response, next);
     const insertedCase = await models.cases.find({
-      where: { complainantType: "Police Officer" },
+      where: { complaintType: RANK_INITIATED },
       include: [{ model: models.civilian, as: "complainantCivilians" }]
     });
 
     expect(insertedCase).toEqual(
       expect.objectContaining({
-        complainantType: "Police Officer",
+        complaintType: RANK_INITIATED,
         firstContactDate: "2018-02-08",
         incidentDate: "2018-03-16",
         createdBy: user,
@@ -136,7 +138,7 @@ describe("createCase handler", () => {
       method: "POST",
       body: {
         case: {
-          complainantType: "Civilian"
+          complaintType: CIVILIAN_INITIATED
         },
         civilian: {
           firstName: "",
@@ -156,7 +158,7 @@ describe("createCase handler", () => {
       method: "POST",
       body: {
         case: {
-          complainantType: "Civilian"
+          complaintType: CIVILIAN_INITIATED
         },
         civilian: {
           firstName: "someveryveryveryveryveryveryveryveryveryveryverylongname",
@@ -180,7 +182,7 @@ describe("createCase handler", () => {
         },
         body: {
           case: {
-            complainantType: "Police Officer",
+            complaintType: RANK_INITIATED,
             firstContactDate: "2018-02-08",
             incidentDate: "2018-03-16T17:42"
           }

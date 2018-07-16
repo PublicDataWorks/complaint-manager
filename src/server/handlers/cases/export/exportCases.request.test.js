@@ -130,7 +130,7 @@ describe("exportCases request", function() {
               "Incident Zip Code," +
               "Incident District," +
               "Additional Incident Location Info," +
-              "Complainant Type," +
+              "Complaint Type," +
               "Complainant," +
               "Civilian Complainant Name," +
               "Civilian Complainant Gender Identity," +

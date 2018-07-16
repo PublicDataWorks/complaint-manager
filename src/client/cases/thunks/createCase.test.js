@@ -8,7 +8,11 @@ import {
 import createCase from "./createCase";
 import { push } from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
-import { CASE_STATUS } from "../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  CIVILIAN_INITIATED,
+  RANK_INITIATED
+} from "../../../sharedUtilities/constants";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -98,7 +102,7 @@ describe("createCase", () => {
         case: {
           firstName: "Police",
           lastName: "Officer",
-          complainantType: "Police Officer"
+          complaintType: RANK_INITIATED
         }
       },
       redirect: true
@@ -136,7 +140,7 @@ describe("createCase", () => {
         case: {
           firstName: "Some",
           lastName: "Civilian",
-          complainantType: "Civilian"
+          complaintType: CIVILIAN_INITIATED
         }
       },
       redirect: true

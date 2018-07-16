@@ -1,6 +1,8 @@
 import {
   CASE_STATUS,
-  DATA_UPDATED
+  DATA_UPDATED,
+  CIVILIAN_INITIATED,
+  RANK_INITIATED
 } from "../../../../sharedUtilities/constants";
 import DataChangeAudit from "../../../../client/testUtilities/dataChangeAudit";
 import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
@@ -38,7 +40,7 @@ describe("transformAuditToCaseHistory", () => {
 
   test("it transforms multiple entries in the changes field", () => {
     const auditChanges = {
-      complainantType: { previous: "Civilian", new: "Police Officer" },
+      complaintType: { previous: CIVILIAN_INITIATED, new: RANK_INITIATED },
       status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE }
     };
     const audit = new DataChangeAudit.Builder()
@@ -47,7 +49,7 @@ describe("transformAuditToCaseHistory", () => {
     const caseHistories = transformAuditToCaseHistory([audit], []);
 
     const expectedDetails = {
-      "Complainant Type": { previous: "Civilian", new: "Police Officer" },
+      "Complaint Type": { previous: CIVILIAN_INITIATED, new: RANK_INITIATED },
       Status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE }
     };
     expect(caseHistories[0].details).toEqual(expectedDetails);
@@ -55,7 +57,7 @@ describe("transformAuditToCaseHistory", () => {
 
   test("it transforms null values in changes field to empty string", () => {
     const auditChanges = {
-      complainantType: { previous: null, new: "Police Officer" },
+      complaintType: { previous: null, new: RANK_INITIATED },
       status: { previous: CASE_STATUS.INITIAL, new: null }
     };
     const audit = new DataChangeAudit.Builder()
@@ -64,7 +66,7 @@ describe("transformAuditToCaseHistory", () => {
     const caseHistories = transformAuditToCaseHistory([audit], []);
 
     const expectedDetails = {
-      "Complainant Type": { previous: " ", new: "Police Officer" },
+      "Complaint Type": { previous: " ", new: RANK_INITIATED },
       Status: { previous: CASE_STATUS.INITIAL, new: " " }
     };
     expect(caseHistories[0].details).toEqual(expectedDetails);

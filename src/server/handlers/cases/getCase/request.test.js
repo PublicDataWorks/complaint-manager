@@ -116,7 +116,7 @@ describe("GET /cases/:id", () => {
         expect(response.body).toEqual(
           expect.objectContaining({
             id: caseToRetrieve.id,
-            complainantType: caseToRetrieve.complainantType,
+            complaintType: caseToRetrieve.complaintType,
             status: caseToRetrieve.status,
             complainantCivilians: expect.arrayContaining([
               expect.objectContaining({

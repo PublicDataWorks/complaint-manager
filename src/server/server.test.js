@@ -8,7 +8,12 @@ import Case from "../client/testUtilities/case";
 import Attachment from "../client/testUtilities/attachment";
 import { civilianWithAddress } from "../client/testUtilities/ObjectMothers";
 import Address from "../client/testUtilities/Address";
-import { CASE_STATUS, USER_PERMISSIONS } from "../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  USER_PERMISSIONS,
+  CIVILIAN_INITIATED,
+  RANK_INITIATED
+} from "../sharedUtilities/constants";
 import AWS from "aws-sdk";
 import {
   buildTokenWithPermissions,
@@ -136,7 +141,7 @@ describe("server", () => {
         case: {
           firstContactDate: "2018-01-31",
           incidentDate: "2018-03-16",
-          complainantType: "Civilian"
+          complaintType: CIVILIAN_INITIATED
         }
       };
     });
@@ -790,8 +795,8 @@ describe("server", () => {
           expect(response.body.complainantCivilians[0].email).toEqual(
             caseToUpdate.complainantCivilians[0].email
           );
-          expect(response.body.complainantType).toEqual(
-            caseToUpdate.complainantType
+          expect(response.body.complaintType).toEqual(
+            caseToUpdate.complaintType
           );
           expect(response.body.narrativeDetails).toEqual(
             updatedNarrative.narrativeDetails

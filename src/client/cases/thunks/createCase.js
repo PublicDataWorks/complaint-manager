@@ -9,6 +9,10 @@ import { push } from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
 import axios from "axios";
 import config from "../../config/config";
+import {
+  CIVILIAN_INITIATED,
+  RANK_INITIATED
+} from "../../../sharedUtilities/constants";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -35,14 +39,12 @@ const createCase = creationDetails => async dispatch => {
     dispatch(createCaseSuccess(response.data));
     dispatch(closeCreateCaseDialog());
     if (creationDetails.redirect) {
-      if (
-        creationDetails.caseDetails.case.complainantType === "Police Officer"
-      ) {
+      if (creationDetails.caseDetails.case.complaintType === RANK_INITIATED) {
         dispatch(
           push(`/cases/${response.data.id}/officers/search?role=Complainant`)
         );
       } else if (
-        creationDetails.caseDetails.case.complainantType === "Civilian"
+        creationDetails.caseDetails.case.complaintType === CIVILIAN_INITIATED
       ) {
         dispatch(push(`/cases/${response.data.id}`));
       }

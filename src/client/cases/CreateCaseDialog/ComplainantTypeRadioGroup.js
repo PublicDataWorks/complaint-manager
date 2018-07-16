@@ -7,6 +7,10 @@ import {
   Typography
 } from "@material-ui/core";
 import { RadioGroup } from "redux-form-material-ui";
+import {
+  CIVILIAN_INITIATED,
+  RANK_INITIATED
+} from "../../../sharedUtilities/constants";
 import * as _ from "lodash";
 
 const ComplainantTypeRadioGroup = props => (
@@ -25,14 +29,14 @@ const ComplainantTypeRadioGroup = props => (
       <FormControlLabel
         style={{ marginRight: "48px" }}
         data-test="civilianRadioButton"
-        value="Civilian"
+        value={CIVILIAN_INITIATED}
         control={<Radio color="primary" />}
         label="Civilian"
         onClick={props.setCivilianComplainantType}
       />
       <FormControlLabel
         data-test="officerRadioButton"
-        value="Police Officer"
+        value={RANK_INITIATED}
         control={<Radio color="primary" />}
         label="Police Officer"
         onClick={props.setOfficerComplainantType}

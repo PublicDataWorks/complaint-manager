@@ -44,9 +44,9 @@ const CaseDrawer = ({ classes, caseDetail }) => (
           </Typography>
         </div>
         <div className={classes.drawerRowItem}>
-          <Typography variant="caption">Complainant Type</Typography>
-          <Typography data-test="complainant-type" variant="body1">
-            {caseDetail.complainantType}
+          <Typography variant="caption">Complaint Type</Typography>
+          <Typography data-test="complaint-type" variant="body1">
+            {caseDetail.complaintType}
           </Typography>
         </div>
       </div>

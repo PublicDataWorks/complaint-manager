@@ -8,6 +8,7 @@ import createCase from "../thunks/createCase";
 import { openSnackbar } from "../../actionCreators/snackBarActionCreators";
 import moment from "moment";
 import { applyCentralTimeZoneOffset } from "../../utilities/formatDate";
+import { CIVILIAN_INITIATED } from "../../../sharedUtilities/constants";
 
 jest.mock("../thunks/createCase", () => creationDetails => ({
   type: "MOCK_CREATE_CASE_THUNK",
@@ -59,7 +60,7 @@ describe("CreateCaseDialog component", () => {
     beforeEach(() => {
       caseDetails = {
         case: {
-          complainantType: "Civilian",
+          complaintType: CIVILIAN_INITIATED,
           firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
         },
         civilian: {
@@ -139,7 +140,7 @@ describe("CreateCaseDialog component", () => {
 
       test("should default to civilian complainant whenever dialog opened", () => {
         const civilianRadioButton = dialog
-          .find('Radio[value="Civilian"]')
+          .find(`Radio[value="${CIVILIAN_INITIATED}"]`)
           .last();
 
         expect(civilianRadioButton.prop("checked")).toEqual(true);
@@ -252,7 +253,7 @@ describe("CreateCaseDialog component", () => {
     test("whitespace should be trimmed from fields prior to sending", () => {
       const caseDetails = {
         case: {
-          complainantType: "Civilian",
+          complaintType: CIVILIAN_INITIATED,
           firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
         },
         civilian: {

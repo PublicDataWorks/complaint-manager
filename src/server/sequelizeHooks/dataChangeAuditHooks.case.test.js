@@ -3,7 +3,9 @@ import Case from "../../client/testUtilities/case";
 import {
   CASE_STATUS,
   DATA_CREATED,
-  DATA_UPDATED
+  DATA_UPDATED,
+  RANK_INITIATED,
+  CIVILIAN_INITIATED
 } from "../../sharedUtilities/constants";
 
 describe("dataChangeAuditHooks", () => {
@@ -31,7 +33,7 @@ describe("dataChangeAuditHooks", () => {
         .defaultCase()
         .withId(undefined)
         .withIncidentLocation(undefined)
-        .withComplainantType("Police Officer")
+        .withComplaintType(RANK_INITIATED)
         .withDistrict(null)
         .withFirstContactDate("2017-12-25T00:00:00.000Z")
         .withIncidentDate(null)
@@ -69,7 +71,7 @@ describe("dataChangeAuditHooks", () => {
         incidentDate: { new: null },
         firstContactDate: { new: "2017-12-25" },
         district: { new: null },
-        complainantType: { new: "Police Officer" },
+        complaintType: { new: RANK_INITIATED },
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL }
       };
@@ -89,7 +91,7 @@ describe("dataChangeAuditHooks", () => {
         incidentDate: null,
         firstContactDate: "2017-12-25",
         district: null,
-        complainantType: "Police Officer",
+        complaintType: RANK_INITIATED,
         assignedTo: "originalAssignedToPerson",
         status: CASE_STATUS.INITIAL,
         createdAt: createdCase.createdAt.toJSON(),
@@ -204,7 +206,7 @@ describe("dataChangeAuditHooks", () => {
         .defaultCase()
         .withId(undefined)
         .withIncidentLocation(undefined)
-        .withComplainantType("Police Officer")
+        .withComplaintType(RANK_INITIATED)
         .withDistrict("1st District")
         .withFirstContactDate("2017-12-25T00:00:00.000Z")
         .withIncidentDate("2017-12-01")
@@ -263,7 +265,7 @@ describe("dataChangeAuditHooks", () => {
     test("it saves the changes when many fields changed", async () => {
       await existingCase.update(
         {
-          complainantType: "Civilian",
+          complaintType: CIVILIAN_INITIATED,
           district: "2nd District",
           firstContactDate: "2018-01-01T00:00:00.000Z",
           incidentDate: "2017-12-05",
@@ -280,7 +282,7 @@ describe("dataChangeAuditHooks", () => {
 
       const expectedChanges = {
         status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE },
-        complainantType: { previous: "Police Officer", new: "Civilian" },
+        complaintType: { previous: RANK_INITIATED, new: CIVILIAN_INITIATED },
         district: { previous: "1st District", new: "2nd District" },
         firstContactDate: { previous: "2017-12-25", new: "2018-01-01" },
         incidentDate: { previous: "2017-12-01", new: "2017-12-05" },
@@ -304,7 +306,7 @@ describe("dataChangeAuditHooks", () => {
     test("it saves a snapshot of the objects new values", async () => {
       await existingCase.update(
         {
-          complainantType: "Civilian",
+          complaintType: CIVILIAN_INITIATED,
           district: "2nd District",
           firstContactDate: "2018-01-01T00:00:00.000Z",
           incidentDate: "2017-12-05",
@@ -326,7 +328,7 @@ describe("dataChangeAuditHooks", () => {
         incidentDate: "2017-12-05",
         firstContactDate: "2018-01-01",
         district: "2nd District",
-        complainantType: "Civilian",
+        complaintType: CIVILIAN_INITIATED,
         assignedTo: "updatedAssignedPerson",
         status: CASE_STATUS.ACTIVE,
         createdAt: existingCase.createdAt.toJSON(),

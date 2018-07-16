@@ -111,8 +111,8 @@ describe("Case Details Component", () => {
     test("should display complaint type", () => {
       containsText(
         caseDetails,
-        '[data-test="complainant-type"]',
-        expectedCase.complainantType
+        '[data-test="complaint-type"]',
+        expectedCase.complaintType
       );
     });
 

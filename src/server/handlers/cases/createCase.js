@@ -1,7 +1,8 @@
 const {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  DATA_ACCESSED
+  DATA_ACCESSED,
+  RANK_INITIATED
 } = require("../../../sharedUtilities/constants");
 
 const asyncMiddleware = require("../asyncMiddleware");
@@ -10,7 +11,7 @@ const models = require("../../models/index");
 const createCase = asyncMiddleware(async (req, res, next) => {
   let newCase;
 
-  if (req.body.case.complainantType === "Police Officer") {
+  if (req.body.case.complaintType === RANK_INITIATED) {
     newCase = await createCaseWithoutCivilian(req);
     res.status(201).send(newCase);
   } else {

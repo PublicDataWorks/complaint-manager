@@ -125,7 +125,7 @@ describe("getCases", () => {
                     fullName: seededCase.complainantOfficers[0].fullName
                   })
                 ]),
-                complainantType: seededCase.complainantType,
+                complaintType: seededCase.complaintType,
                 createdAt: seededCase.createdAt.toISOString(),
                 firstContactDate: moment(seededCase.firstContactDate).format(
                   "YYYY-MM-DD"

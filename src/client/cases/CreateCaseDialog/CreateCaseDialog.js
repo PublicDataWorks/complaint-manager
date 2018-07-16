@@ -10,7 +10,7 @@ import {
   Typography
 } from "@material-ui/core";
 import { withTheme } from "@material-ui/core/styles";
-import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
+import ComplaintTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import createCase from "../thunks/createCase";
 import { closeSnackbar } from "../../actionCreators/snackBarActionCreators";
 import moment from "moment";
@@ -27,6 +27,7 @@ import {
   closeCreateCaseDialog,
   openCreateCaseDialog
 } from "../../actionCreators/casesActionCreators";
+import { CIVILIAN_INITIATED } from "../../../sharedUtilities/constants";
 
 const margin = {
   marginLeft: "5%",
@@ -158,8 +159,8 @@ class CreateCaseDialog extends React.Component {
               />
               <br />
               <Field
-                name="case.complainantType"
-                component={ComplainantTypeRadioGroup}
+                name="case.complaintType"
+                component={ComplaintTypeRadioGroup}
                 setOfficerComplainantType={this.setOfficerComplainantType}
                 setCivilianComplainantType={this.setCivilianComplainantType}
               />
@@ -217,7 +218,7 @@ export default reduxForm({
   form: "CreateCase",
   initialValues: {
     case: {
-      complainantType: "Civilian",
+      complaintType: CIVILIAN_INITIATED,
       firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
     }
   },

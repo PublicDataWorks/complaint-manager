@@ -7,7 +7,8 @@ import {
   ACCUSED,
   CASE_STATUS,
   COMPLAINANT,
-  WITNESS
+  WITNESS,
+  CIVILIAN_INITIATED
 } from "../../sharedUtilities/constants";
 
 class Case {
@@ -15,11 +16,10 @@ class Case {
     this.id = build.id;
     this.complainantCivilians = build.complainantCivilians;
     this.witnessCivilians = build.witnessCivilians;
-    this.complainantType = build.complainantType;
+    this.complaintType = build.complaintType;
     this.status = build.status;
     this.createdAt = build.createdAt;
     this.firstContactDate = build.firstContactDate;
-    this.complainantType = build.complainantType;
     this.createdBy = build.createdBy;
     this.assignedTo = build.assignedTo;
     this.narrativeDetails = build.narrativeDetails;
@@ -108,7 +108,7 @@ class Case {
         this.incidentTime = "16:00:00";
         this.incidentLocation = incidentLocation;
         this.district = "First District";
-        this.complainantType = "Civilian";
+        this.complaintType = CIVILIAN_INITIATED;
         this.createdBy = "tuser";
         this.assignedTo = "tuser";
         this.narrativeDetails = null;
@@ -140,8 +140,8 @@ class Case {
         return this;
       }
 
-      withComplainantType(complainantType) {
-        this.complainantType = complainantType;
+      withComplaintType(complaintType) {
+        this.complaintType = complaintType;
         return this;
       }
 

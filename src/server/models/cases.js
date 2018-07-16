@@ -1,6 +1,10 @@
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
 const CASE_STATUS = require("../../sharedUtilities/constants").CASE_STATUS;
+const RANK_INITIATED = require("../../sharedUtilities/constants")
+  .RANK_INITIATED;
+const CIVILIAN_INITIATED = require("../../sharedUtilities/constants")
+  .CIVILIAN_INITIATED;
 
 const {
   ACCUSED,
@@ -19,10 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true
       },
-      complainantType: {
-        type: DataTypes.ENUM(["Civilian", "Police Officer"]),
-        defaultValue: "Civilian",
-        field: "complainant_type",
+      complaintType: {
+        type: DataTypes.ENUM([CIVILIAN_INITIATED, RANK_INITIATED]),
+        defaultValue: CIVILIAN_INITIATED,
+        field: "complaint_type",
         allowNull: false
       },
       status: {

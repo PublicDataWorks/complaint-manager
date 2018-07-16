@@ -13,7 +13,11 @@ import Civilian from "../../testUtilities/civilian";
 import Case from "../../testUtilities/case";
 import CaseOfficer from "../../testUtilities/caseOfficer";
 import Officer from "../../testUtilities/Officer";
-import { CASE_STATUS, COMPLAINANT } from "../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  COMPLAINANT,
+  CIVILIAN_INITIATED
+} from "../../../sharedUtilities/constants";
 import { userAuthSuccess } from "../../auth/actionCreators";
 
 jest.mock("../thunks/getCases", () => () => ({
@@ -58,7 +62,7 @@ describe("cases table", () => {
       .defaultCase()
       .withId(17)
       .withComplainantCivilians([civilianChuck])
-      .withComplainantType("Civilian")
+      .withComplaintType(CIVILIAN_INITIATED)
       .withStatus(CASE_STATUS.INITIAL)
       .withCreatedAt(new Date(2015, 8, 13).toISOString())
       .withAssignedTo("tuser")
@@ -69,7 +73,7 @@ describe("cases table", () => {
       .defaultCase()
       .withId(24)
       .withComplainantCivilians([civilianAriel])
-      .withComplainantType("Civilian")
+      .withComplaintType(CIVILIAN_INITIATED)
       .withStatus(CASE_STATUS.READY_FOR_REVIEW)
       .withCreatedAt(new Date().toISOString())
       .withAssignedTo("tuser")
@@ -130,7 +134,7 @@ describe("cases table", () => {
 
   describe("column headers", () => {
     let caseNumber,
-      complainantType,
+      complaintType,
       status,
       complainant,
       firstContactDate,
@@ -138,8 +142,8 @@ describe("cases table", () => {
 
     beforeEach(() => {
       caseNumber = tableWrapper.find('th[data-test="casesNumberHeader"]');
-      complainantType = tableWrapper.find(
-        'th[data-test="casesComplainantTypeHeader"]'
+      complaintType = tableWrapper.find(
+        'th[data-test="casesComplaintTypeHeader"]'
       );
       status = tableWrapper.find('th[data-test="casesStatusHeader"]');
       complainant = tableWrapper.find('th[data-test="casesComplainantHeader"]');
@@ -230,7 +234,7 @@ describe("cases table", () => {
         .withId(50)
         .withComplainantCivilians([civilianChuck])
         .withStatus(CASE_STATUS.INITIAL)
-        .withComplainantType("Civilian")
+        .withComplaintType(CIVILIAN_INITIATED)
         .withCreatedAt(new Date(2015, 8, 15).toISOString())
         .withAssignedTo("tuser")
         .withFirstContactDate("2017-12-25T00:00:00.000Z")

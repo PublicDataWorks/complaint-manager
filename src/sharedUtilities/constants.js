@@ -169,6 +169,12 @@ const WITNESS = "Witness";
 const COMPLAINANT = "Complainant";
 
 // ----------------------------------------
+//          Complaint Type Options
+// ----------------------------------------
+const CIVILIAN_INITIATED = "Civilian Initiated";
+const RANK_INITIATED = "Rank Initiated";
+
+// ----------------------------------------
 //          Case Status Map
 // ----------------------------------------
 const CASE_STATUS = {
@@ -280,6 +286,8 @@ module.exports = {
   ACCUSED,
   WITNESS,
   COMPLAINANT,
+  CIVILIAN_INITIATED,
+  RANK_INITIATED,
   CASE_STATUS,
   CASE_STATUS_MAP,
   ACCUSED_OFFICER_PANEL_COLLAPSED,

@@ -22,7 +22,7 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     `to_char(cases.incident_date, \'${DATE_ONLY_FORMAT}\') AS incident_date, ` +
     `to_char(cases.incident_time, \'${TIME_ONLY_FORMAT}\') AS incident_time, ` +
     "cases.district, " +
-    "cases.complainant_type, " +
+    "cases.complaint_type, " +
     "cases.narrative_summary, " +
     "cases.narrative_details, " +
     'incidentLocation.street_address AS "incidentLocation.street_address", ' +
@@ -222,7 +222,7 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "incidentLocation.zip_code": "Incident Zip Code",
     district: "Incident District",
     "incidentLocation.street_address2": "Additional Incident Location Info",
-    complainant_type: "Complainant Type",
+    complaint_type: "Complaint Type",
     "complainants.complainant": "Complainant",
     "complainants.civilian_full_name": "Civilian Complainant Name",
     "complainants.civilian_gender_identity":
