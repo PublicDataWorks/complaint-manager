@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     subjectDetails: {
       field: "subject_details",
-      type: DataTypes.STRING
+      type: DataTypes.JSONB
     },
     subjectId: {
       field: "subject_id",

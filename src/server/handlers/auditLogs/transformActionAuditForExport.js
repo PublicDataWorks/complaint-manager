@@ -1,13 +1,5 @@
-const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
-
 const generateSnapshot = audit => {
-  switch (audit.subject) {
-    case AUDIT_SUBJECT.OFFICER_DETAILS:
-    case AUDIT_SUBJECT.OFFICER_ALLEGATIONS:
-      return `Viewed Officer ${audit.subjectDetails}`;
-    default:
-      return "";
-  }
+  return "";
 };
 
 const transformActionAuditForExport = audits => {
