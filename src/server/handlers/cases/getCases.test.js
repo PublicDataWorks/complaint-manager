@@ -6,7 +6,13 @@ import request from "supertest";
 import Civilian from "../../../client/testUtilities/civilian";
 import Officer from "../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../client/testUtilities/caseOfficer";
-import { CASE_STATUS, COMPLAINANT } from "../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  COMPLAINANT,
+  AUDIT_TYPE,
+  AUDIT_SUBJECT,
+  DATA_ACCESSED
+} from "../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
@@ -24,6 +30,27 @@ describe("getCases", () => {
   });
 
   describe("GET /cases", () => {
+    test("should audit data access", async () => {
+      await request(app)
+        .get("/api/cases")
+        .set("Content-Header", "application/json")
+        .set("Authorization", `Bearer ${token}`)
+        .expect(200);
+
+      const audit = await models.action_audit.find({
+        where: { subject: AUDIT_SUBJECT.ALL_CASES }
+      });
+
+      expect(audit).toEqual(
+        expect.objectContaining({
+          auditType: AUDIT_TYPE.DATA_ACCESS,
+          action: DATA_ACCESSED,
+          subject: AUDIT_SUBJECT.ALL_CASES,
+          user: "some_nickname"
+        })
+      );
+    });
+
     test("should get all cases", async () => {
       const civilian = new Civilian.Builder()
         .defaultCivilian()
