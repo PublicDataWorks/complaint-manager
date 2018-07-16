@@ -33,12 +33,7 @@ describe("server", () => {
   });
 
   afterEach(async () => {
-    try {
-      await cleanupDatabase();
-    } catch (error) {
-      console.log("ERROR OCCURRING IN AFTER EACH CLEANUP", error);
-      throw error;
-    }
+    await cleanupDatabase();
   });
 
   describe("GET /health-check", () => {
@@ -304,41 +299,36 @@ describe("server", () => {
   describe("PUT /civilian/:id", () => {
     let seededCivilian, seededCase;
     beforeEach(async () => {
-      try {
-        const civilianDefault = new Civilian.Builder()
-          .defaultCivilian()
-          .withNoAddress()
-          .withId(undefined)
-          .build();
-        const caseDefault = new Case.Builder()
-          .defaultCase()
-          .withId(undefined)
-          .withComplainantCivilians([civilianDefault])
-          .withIncidentLocation(undefined)
-          .build();
+      const civilianDefault = new Civilian.Builder()
+        .defaultCivilian()
+        .withNoAddress()
+        .withId(undefined)
+        .build();
+      const caseDefault = new Case.Builder()
+        .defaultCase()
+        .withId(undefined)
+        .withComplainantCivilians([civilianDefault])
+        .withIncidentLocation(undefined)
+        .build();
 
-        seededCase = await models.cases.create(caseDefault, {
-          include: [
-            {
-              model: models.civilian,
-              as: "complainantCivilians",
-              auditUser: "test user"
-            }
-          ],
-          auditUser: "someone"
-        });
-        seededCivilian = seededCase.complainantCivilians[0];
-        const address = new Address.Builder()
-          .defaultAddress()
-          .withId(undefined)
-          .withAddressableId(seededCivilian.id)
-          .withAddressableType("civilian")
-          .build();
-        await seededCivilian.createAddress(address, { auditUser: "someone" });
-      } catch (error) {
-        console.log("ERROR OCCURRING IN BEFORE EACH:", error);
-        throw error;
-      }
+      seededCase = await models.cases.create(caseDefault, {
+        include: [
+          {
+            model: models.civilian,
+            as: "complainantCivilians",
+            auditUser: "test user"
+          }
+        ],
+        auditUser: "someone"
+      });
+      seededCivilian = seededCase.complainantCivilians[0];
+      const address = new Address.Builder()
+        .defaultAddress()
+        .withId(undefined)
+        .withAddressableId(seededCivilian.id)
+        .withAddressableType("civilian")
+        .build();
+      await seededCivilian.createAddress(address, { auditUser: "someone" });
     });
 
     test("should update an existing civilian", async () => {
@@ -458,73 +448,68 @@ describe("server", () => {
     });
 
     test("should allow blank address", async () => {
-      try {
-        const caseDefault = new Case.Builder()
-          .defaultCase()
-          .withId(undefined)
-          .withIncidentLocation(undefined)
-          .withComplainantCivilians([civilianWithAddress])
-          .build();
+      const caseDefault = new Case.Builder()
+        .defaultCase()
+        .withId(undefined)
+        .withIncidentLocation(undefined)
+        .withComplainantCivilians([civilianWithAddress])
+        .build();
 
-        const caseToUpdate = await models.cases.create(caseDefault, {
-          include: [
-            {
-              model: models.civilian,
-              as: "complainantCivilians",
-              auditUser: "test user",
-              include: [
-                {
-                  model: models.address,
-                  auditUser: "test user"
-                }
-              ]
-            }
-          ],
-          auditUser: "someone"
-        });
+      const caseToUpdate = await models.cases.create(caseDefault, {
+        include: [
+          {
+            model: models.civilian,
+            as: "complainantCivilians",
+            auditUser: "test user",
+            include: [
+              {
+                model: models.address,
+                auditUser: "test user"
+              }
+            ]
+          }
+        ],
+        auditUser: "someone"
+      });
 
-        let civilianToUpdate = caseToUpdate.dataValues.complainantCivilians[0];
+      let civilianToUpdate = caseToUpdate.dataValues.complainantCivilians[0];
 
-        await request(app)
-          .put(`/api/civilian/${civilianToUpdate.id}`)
-          .set("Content-Header", "application/json")
-          .set("Authorization", `Bearer ${token}`)
-          .send({
-            id: civilianToUpdate.id,
-            address: {
-              id: civilianToUpdate.address.id,
-              streetAddress: "",
-              streetAddress2: "",
-              city: "",
-              state: "",
-              zipCode: "",
-              country: ""
-            }
-          })
-          .then(response => {
-            const caseDetails = response.body;
+      await request(app)
+        .put(`/api/civilian/${civilianToUpdate.id}`)
+        .set("Content-Header", "application/json")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          id: civilianToUpdate.id,
+          address: {
+            id: civilianToUpdate.address.id,
+            streetAddress: "",
+            streetAddress2: "",
+            city: "",
+            state: "",
+            zipCode: "",
+            country: ""
+          }
+        })
+        .then(response => {
+          const caseDetails = response.body;
 
-            expect(caseDetails).toEqual(
-              expect.objectContaining({
-                complainantCivilians: expect.arrayContaining([
-                  expect.objectContaining({
-                    address: expect.objectContaining({
-                      streetAddress: "",
-                      streetAddress2: "",
-                      city: "",
-                      state: "",
-                      country: "",
-                      zipCode: ""
-                    })
+          expect(caseDetails).toEqual(
+            expect.objectContaining({
+              complainantCivilians: expect.arrayContaining([
+                expect.objectContaining({
+                  address: expect.objectContaining({
+                    streetAddress: "",
+                    streetAddress2: "",
+                    city: "",
+                    state: "",
+                    country: "",
+                    zipCode: ""
                   })
-                ])
-              })
-            );
-          });
-      } catch (error) {
-        console.log("ERROR OCCURRING IN BLANK ADDRESS TEST:", error);
-        throw error;
-      }
+                })
+              ])
+            })
+          );
+        });
     });
 
     test("should update the case status to active when an associated civilian has been updated ", async () => {
