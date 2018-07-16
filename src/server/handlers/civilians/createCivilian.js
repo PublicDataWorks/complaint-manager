@@ -1,9 +1,14 @@
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
 const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
+const {
+  DATA_ACCESSED,
+  AUDIT_TYPE,
+  AUDIT_SUBJECT
+} = require("../../../sharedUtilities/constants");
 
 const createCivilian = asyncMiddleware(async (req, res) => {
-  const caseId = await models.sequelize.transaction(async t => {
+  const caseDetails = await models.sequelize.transaction(async transaction => {
     let values = req.body;
 
     if (req.body.address) {
@@ -14,15 +19,27 @@ const createCivilian = asyncMiddleware(async (req, res) => {
     }
 
     const civilianCreated = await models.civilian.create(values, {
-      transaction: t,
       auditUser: req.nickname,
-      include: [{ model: models.address, auditUser: req.nickname }]
+      include: [{ model: models.address, auditUser: req.nickname }],
+      transaction
     });
 
-    return civilianCreated.caseId;
+    const caseId = civilianCreated.caseId;
+
+    await models.action_audit.create(
+      {
+        user: req.nickname,
+        subject: AUDIT_SUBJECT.CASE_DETAILS,
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        caseId,
+        action: DATA_ACCESSED
+      },
+      { transaction }
+    );
+
+    return await getCaseWithAllAssociations(caseId, transaction);
   });
 
-  const caseDetails = await getCaseWithAllAssociations(caseId);
   res.status(201).send(caseDetails);
 });
 

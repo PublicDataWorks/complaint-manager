@@ -2,7 +2,12 @@ import Case from "../../../client/testUtilities/case";
 import Address from "../../../client/testUtilities/Address";
 import Civilian from "../../../client/testUtilities/civilian";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { CASE_STATUS } from "../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  DATA_ACCESSED,
+  AUDIT_SUBJECT,
+  AUDIT_TYPE
+} from "../../../sharedUtilities/constants";
 import Boom from "boom";
 import { createCaseWithCivilian } from "../../testHelpers/modelMothers";
 
@@ -18,6 +23,45 @@ describe("editCivilian handler editing civilian with no address", () => {
   });
   beforeEach(async () => {
     existingCase = await createCaseWithCivilian();
+  });
+
+  test("should audit case details access when civilian edited", async () => {
+    const existingCivilians = await existingCase.getComplainantCivilians({
+      include: [models.address]
+    });
+    const existingCivilian = existingCivilians[0];
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        id: existingCivilian.id
+      },
+      body: {
+        address: {
+          streetAddress: "123 Fleet Street",
+          city: "Chicago"
+        }
+      },
+      nickname: "TEST_USER_NICKNAME"
+    });
+    const response = httpMocks.createResponse();
+    await editCivilian(request, response, next);
+
+    const actionAudit = await models.action_audit.find({
+      where: { caseId: existingCase.id }
+    });
+
+    expect(actionAudit).toEqual(
+      expect.objectContaining({
+        caseId: existingCase.id,
+        action: DATA_ACCESSED,
+        subject: AUDIT_SUBJECT.CASE_DETAILS,
+        user: "TEST_USER_NICKNAME",
+        auditType: AUDIT_TYPE.DATA_ACCESS
+      })
+    );
   });
 
   test("should create, not update, an address when no address ID given", async () => {
