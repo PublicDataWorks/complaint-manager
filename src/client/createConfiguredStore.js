@@ -26,6 +26,7 @@ import updateCaseStatusDialogReducer from "./reducers/ui/updateCaseStatusDialogR
 import accusedOfficerPanelsReducer from "./reducers/ui/accusedOfficerPanelsReducer";
 import editAllegationFormsReducer from "./reducers/ui/editAllegationFormsReducer";
 import removeOfficerAllegationDialogReducer from "./reducers/ui/removeOfficerAllegationDialogReducer";
+import exportDialogReducer from "./reducers/ui/exportDialogReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -49,6 +50,7 @@ const rootReducer = combineReducers({
     caseNoteDialog: caseNoteDialogReducer,
     civilianDialog: civilianDialogReducer,
     createCaseDialog: createCaseDialogReducer,
+    exportDialog: exportDialogReducer,
     removePersonDialog: removePersonDialogReducer,
     removeCaseNoteDialog: removeCaseNoteDialogReducer,
     incidentDetailsDialog: incidentDetailsDialogReducer,

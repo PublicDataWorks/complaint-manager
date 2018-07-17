@@ -11,9 +11,14 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import ExportAuditLogConfirmationDialog from "./ExportAuditLogConfirmationDialog";
+import ExportConfirmationDialog from "./ExportConfirmationDialog";
 import handleLogout from "../../../users/thunks/handleLogout";
 import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
+import {
+  openExportAuditLogConfirmationDialog,
+  openExportAllCasesConfirmationDialog,
+  closeExportConfirmationDialog
+} from "../../../actionCreators/navBarActionCreators";
 
 const styles = {
   appBarStyle: {
@@ -29,6 +34,10 @@ class NavBar extends React.Component {
     exportDialogOpen: false
   };
 
+  componentWillUnmount() {
+    this.props.dispatch(closeExportConfirmationDialog());
+  }
+
   handleMenuOpen = event => {
     this.setState({
       menuOpen: true,
@@ -43,14 +52,6 @@ class NavBar extends React.Component {
     });
   };
 
-  handleExportDialogOpen = () => {
-    this.setState({ exportDialogOpen: true, menuOpen: false });
-  };
-
-  handleExportDialogClose = () => {
-    this.setState({ exportDialogOpen: false });
-  };
-
   renderExportAuditLogOption = () => {
     if (
       !this.props.permissions ||
@@ -61,7 +62,10 @@ class NavBar extends React.Component {
     return (
       <MenuItem
         data-test="exportAuditLog"
-        onClick={this.handleExportDialogOpen}
+        onClick={() => {
+          this.setState({ menuOpen: false });
+          this.props.dispatch(openExportAuditLogConfirmationDialog());
+        }}
       >
         Export Audit Log
       </MenuItem>
@@ -110,6 +114,14 @@ class NavBar extends React.Component {
             onClose={this.handleMenuClose}
           >
             {this.renderExportAuditLogOption()}
+            <MenuItem
+              onClick={() => {
+                this.setState({ menuOpen: false });
+                this.props.dispatch(openExportAllCasesConfirmationDialog());
+              }}
+            >
+              Export All Case Information
+            </MenuItem>
             <MenuItem data-test="adminButton" component={Link} to="/admin">
               Manage Users
             </MenuItem>
@@ -123,10 +135,7 @@ class NavBar extends React.Component {
             </MenuItem>
           </Menu>
         </Toolbar>
-        <ExportAuditLogConfirmationDialog
-          dialogOpen={this.state.exportDialogOpen}
-          handleClose={this.handleExportDialogClose}
-        />
+        <ExportConfirmationDialog />
       </AppBar>
     );
   }

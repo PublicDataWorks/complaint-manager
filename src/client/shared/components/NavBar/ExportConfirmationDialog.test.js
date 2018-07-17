@@ -3,7 +3,8 @@ import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import downloader from "../../../cases/thunks/downloader";
 import createConfiguredStore from "../../../createConfiguredStore";
-import ExportAuditLogConfirmationDialog from "./ExportAuditLogConfirmationDialog";
+import ExportAuditLogConfirmationDialog from "./ExportConfirmationDialog";
+import {openExportAuditLogConfirmationDialog} from "../../../actionCreators/navBarActionCreators";
 
 jest.mock(
   "../../../cases/thunks/downloader",
@@ -18,11 +19,12 @@ jest.mock(
 describe("ExportAuditLogConfirmationDialog", () => {
   test("should include date,time in file name & set fileNeedsUtfEncoding flag to true", () => {
     const store = createConfiguredStore();
+    store.dispatch(openExportAuditLogConfirmationDialog())
     const dispatchSpy = jest.spyOn(store, "dispatch");
 
     const wrapper = mount(
       <Provider store={store}>
-        <ExportAuditLogConfirmationDialog dialogOpen={true} />
+        <ExportAuditLogConfirmationDialog />
       </Provider>
     );
 

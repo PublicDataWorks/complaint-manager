@@ -11,36 +11,41 @@ import timezone from "moment-timezone";
 import { TIMEZONE } from "../../../../sharedUtilities/constants";
 import downloader from "../../../cases/thunks/downloader";
 import { connect } from "react-redux";
+import { closeExportConfirmationDialog } from "../../../actionCreators/navBarActionCreators";
 
-const ExportAuditLogConfirmationDialog = props => {
-  const path = "/api/export-audit-log";
+const ExportConfirmationDialog = props => {
   const date = timezone()
     .tz(TIMEZONE)
     .format("YYYY-MM-DD_HH.MM.ss.zz");
-  const fileName = `Complaint_Manager_Audit_Log_${date}.csv`;
+  const titleForFileName = props.title.replace(" ", "_");
+  const fileName = `Complaint_Manager_${titleForFileName}_${date}.csv`;
+
+  const closeDialog = () => {
+    props.dispatch(closeExportConfirmationDialog());
+  };
 
   return (
-    <Dialog maxWidth="sm" fullWidth={true} open={props.dialogOpen}>
-      <DialogTitle>Export Audit Log</DialogTitle>
+    <Dialog maxWidth="sm" fullWidth={true} open={props.open}>
+      <DialogTitle>Export {props.title}</DialogTitle>
       <DialogContent data-test="exportAuditLogConfirmationText">
         <Typography
           variant={"body1"}
           style={{ wordBreak: "break-word", marginBottom: "16px" }}
         >
-          This action will export a log of all actions taken within the system
-          as a .csv file. This file will download automatically and may take a
-          few seconds to generate.
+          This action will export {props.warningText} the system as a .csv file.
+          This file will download automatically and may take a few seconds to
+          generate.
         </Typography>
         <Typography variant={"body1"} style={{ wordBreak: "break-word" }}>
           Are you sure you wish to continue?
         </Typography>
       </DialogContent>
       <DialogActions>
-        <SecondaryButton onClick={props.handleClose}>Cancel</SecondaryButton>
+        <SecondaryButton onClick={closeDialog}>Cancel</SecondaryButton>
         <PrimaryButton
           data-test="exportAuditLogButton"
           onClick={() =>
-            props.dispatch(downloader(path, fileName, true, props.handleClose))
+            props.dispatch(downloader(props.path, fileName, true, closeDialog))
           }
         >
           Export
@@ -50,4 +55,10 @@ const ExportAuditLogConfirmationDialog = props => {
   );
 };
 
-export default connect()(ExportAuditLogConfirmationDialog);
+const mapStateToProps = state => ({
+  open: state.ui.exportDialog.open,
+  path: state.ui.exportDialog.path,
+  title: state.ui.exportDialog.title,
+  warningText: state.ui.exportDialog.warningText
+});
+export default connect(mapStateToProps)(ExportConfirmationDialog);
