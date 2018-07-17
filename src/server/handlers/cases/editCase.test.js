@@ -13,6 +13,7 @@ import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 const httpMocks = require("node-mocks-http");
 const models = require("../../models");
 const editCase = require("./editCase");
+const Boom = require("boom");
 
 describe("Edit Case", () => {
   let request,
@@ -183,7 +184,10 @@ describe("Edit Case", () => {
 
       await editCase(requestWithoutFirstContactDate, response, next);
 
-      expect(response.statusCode).toEqual(400);
+      expect(next).toHaveBeenCalledWith(
+        Boom.badRequest("Valid first contact date is required")
+      );
+
       await existingCase.reload({
         include: [
           {
@@ -214,7 +218,9 @@ describe("Edit Case", () => {
 
       await editCase(requestWithoutFirstContactDate, response, next);
 
-      expect(response.statusCode).toEqual(400);
+      expect(next).toHaveBeenCalledWith(
+        Boom.badRequest("Valid first contact date is required")
+      );
       await existingCase.reload({
         include: [
           {

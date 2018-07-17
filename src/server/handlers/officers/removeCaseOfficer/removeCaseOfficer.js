@@ -2,11 +2,8 @@ const models = require("../../../models");
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
 const asyncMiddleware = require("../../asyncMiddleware");
 const Boom = require("boom");
-const {
-  DATA_ACCESSED,
-  AUDIT_TYPE,
-  AUDIT_SUBJECT
-} = require("../../../../sharedUtilities/constants");
+const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
+const auditDataAccess = require("../../auditDataAccess");
 
 const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const officerToRemove = await models.case_officer.findById(
@@ -29,13 +26,12 @@ const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
       transaction
     });
 
-    await models.action_audit.create({
-      user: request.nickname,
-      action: DATA_ACCESSED,
-      subject: AUDIT_SUBJECT.CASE_DETAILS,
-      caseId: request.params.caseId,
-      auditType: AUDIT_TYPE.DATA_ACCESS
-    });
+    await auditDataAccess(
+      request.nickname,
+      request.params.caseId,
+      AUDIT_SUBJECT.CASE_DETAILS,
+      transaction
+    );
   });
 
   const updatedCase = await getCaseWithAllAssociations(request.params.caseId);

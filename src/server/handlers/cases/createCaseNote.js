@@ -1,9 +1,5 @@
-const {
-  DATA_ACCESSED,
-  AUDIT_SUBJECT,
-  AUDIT_TYPE
-} = require("../../../sharedUtilities/constants");
-
+const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
+const auditDataAccess = require("../auditDataAccess");
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
 const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
@@ -22,25 +18,18 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
       }
     );
 
-    const caseNoteAuditAttributes = {
-      auditType: AUDIT_TYPE.DATA_ACCESS,
-      action: DATA_ACCESSED,
-      subject: AUDIT_SUBJECT.CASE_NOTES,
-      caseId: request.params.id,
-      user: request.nickname
-    };
+    await auditDataAccess(
+      request.nickname,
+      request.params.id,
+      AUDIT_SUBJECT.CASE_NOTES,
+      transaction
+    );
 
-    const caseAuditAttributes = {
-      auditType: AUDIT_TYPE.DATA_ACCESS,
-      action: DATA_ACCESSED,
-      subject: AUDIT_SUBJECT.CASE_DETAILS,
-      caseId: request.params.id,
-      user: request.nickname
-    };
-
-    await models.action_audit.bulkCreate(
-      [caseNoteAuditAttributes, caseAuditAttributes],
-      { transaction }
+    await auditDataAccess(
+      request.nickname,
+      request.params.id,
+      AUDIT_SUBJECT.CASE_DETAILS,
+      transaction
     );
 
     const recentActivity = await models.case_note.findAll({

@@ -1,12 +1,9 @@
-const {
-  AUDIT_SUBJECT,
-  AUDIT_TYPE,
-  DATA_ACCESSED
-} = require("../../../../sharedUtilities/constants");
+const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
 const models = require("../../../models");
 const _ = require("lodash");
+const auditDataAccess = require("../../auditDataAccess");
 
 const createOfficerAllegation = asyncMiddleware(async (request, response) => {
   const allegationAttributes = _.pick(request.body, [
@@ -29,15 +26,11 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
         { transaction }
       );
 
-      await models.action_audit.create(
-        {
-          caseId: caseOfficer.caseId,
-          subject: AUDIT_SUBJECT.CASE_DETAILS,
-          action: DATA_ACCESSED,
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          user: request.nickname
-        },
-        { transaction }
+      await auditDataAccess(
+        request.nickname,
+        caseOfficer.caseId,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        transaction
       );
 
       return await getCaseWithAllAssociations(

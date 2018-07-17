@@ -11,6 +11,7 @@ const {
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } = require("../../../../sharedUtilities/constants");
+const auditDataAccess = require("../../auditDataAccess");
 
 const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const { officerId, notes, roleOnCase } = request.body;
@@ -35,14 +36,10 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
       }
     );
 
-    await models.action_audit.create(
-      {
-        user: request.nickname,
-        caseId: retrievedCase.id,
-        action: DATA_ACCESSED,
-        subject: AUDIT_SUBJECT.CASE_DETAILS,
-        auditType: AUDIT_TYPE.DATA_ACCESS
-      },
+    await auditDataAccess(
+      request.nickname,
+      retrievedCase.id,
+      AUDIT_SUBJECT.CASE_DETAILS,
       transaction
     );
 

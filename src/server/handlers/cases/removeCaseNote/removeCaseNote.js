@@ -1,11 +1,8 @@
-const {
-  DATA_ACCESSED,
-  AUDIT_TYPE,
-  AUDIT_SUBJECT
-} = require("../../../../sharedUtilities/constants");
+const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
+const auditDataAccess = require("../../auditDataAccess");
 
 const removeCaseNote = asyncMiddleware(async (req, res) => {
   const caseId = req.params.caseId;
@@ -26,25 +23,18 @@ const removeCaseNote = asyncMiddleware(async (req, res) => {
       transaction
     });
 
-    const caseAuditAttributes = {
-      auditType: AUDIT_TYPE.DATA_ACCESS,
-      action: DATA_ACCESSED,
-      subject: AUDIT_SUBJECT.CASE_DETAILS,
+    await auditDataAccess(
+      req.nickname,
       caseId,
-      user: req.nickname
-    };
+      AUDIT_SUBJECT.CASE_DETAILS,
+      transaction
+    );
 
-    const caseNoteAuditAttributes = {
-      auditType: AUDIT_TYPE.DATA_ACCESS,
-      action: DATA_ACCESSED,
-      subject: AUDIT_SUBJECT.CASE_NOTES,
+    await auditDataAccess(
+      req.nickname,
       caseId,
-      user: req.nickname
-    };
-
-    await models.action_audit.bulkCreate(
-      [caseAuditAttributes, caseNoteAuditAttributes],
-      { transaction }
+      AUDIT_SUBJECT.CASE_NOTES,
+      transaction
     );
 
     return {

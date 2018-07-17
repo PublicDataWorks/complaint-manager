@@ -2,11 +2,8 @@ const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models/index");
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
 const Boom = require("boom");
-const {
-  DATA_ACCESSED,
-  AUDIT_TYPE,
-  AUDIT_SUBJECT
-} = require("../../../../sharedUtilities/constants");
+const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
+const auditDataAccess = require("../../auditDataAccess");
 
 const changeStatus = asyncMiddleware(async (request, response, next) => {
   const currentCase = await models.sequelize.transaction(async transaction => {
@@ -21,14 +18,10 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
       transaction
     );
 
-    await models.action_audit.create(
-      {
-        user: request.nickname,
-        caseId: request.params.id,
-        auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: DATA_ACCESSED,
-        subject: AUDIT_SUBJECT.CASE_DETAILS
-      },
+    await auditDataAccess(
+      request.nickname,
+      request.params.id,
+      AUDIT_SUBJECT.CASE_DETAILS,
       transaction
     );
 

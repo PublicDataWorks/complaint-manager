@@ -3,15 +3,13 @@ const models = require("../../models");
 const asyncMiddleware = require("../asyncMiddleware");
 const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
 const _ = require("lodash");
-const {
-  DATA_ACCESSED,
-  AUDIT_TYPE,
-  AUDIT_SUBJECT
-} = require("../../../sharedUtilities/constants");
+const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
+const auditDataAccess = require("../auditDataAccess");
+const Boom = require("boom");
 
 async function upsertAddress(caseId, incidentLocation, transaction, nickname) {
   if (!incidentLocation.id) {
-    const createdAddress = await models.address.create(
+    await models.address.create(
       {
         ...incidentLocation,
         addressableType: "cases",
@@ -36,7 +34,7 @@ const editCase = asyncMiddleware(async (request, response, next) => {
     !request.body.firstContactDate ||
     !moment(request.body.firstContactDate).isValid()
   ) {
-    response.status(400).json({ error: "firstContactDate is required" });
+    throw Boom.badRequest("Valid first contact date is required");
   } else {
     const updatedCase = await models.sequelize.transaction(
       async transaction => {
@@ -61,14 +59,10 @@ const editCase = asyncMiddleware(async (request, response, next) => {
           auditUser: request.nickname
         });
 
-        await models.action_audit.create(
-          {
-            user: request.nickname,
-            action: DATA_ACCESSED,
-            subject: AUDIT_SUBJECT.CASE_DETAILS,
-            auditType: AUDIT_TYPE.DATA_ACCESS,
-            caseId: request.params.id
-          },
+        await auditDataAccess(
+          request.nickname,
+          request.params.id,
+          AUDIT_SUBJECT.CASE_DETAILS,
           transaction
         );
 

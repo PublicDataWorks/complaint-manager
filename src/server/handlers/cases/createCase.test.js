@@ -10,6 +10,7 @@ const httpMocks = require("node-mocks-http");
 const createCase = require("./createCase");
 const models = require("../../models");
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import Boom from "boom";
 
 describe("createCase handler", () => {
   let request, response, next, caseAttributes, civilianAttributes, user;
@@ -149,8 +150,7 @@ describe("createCase handler", () => {
     });
 
     await createCase(request, response, next);
-
-    expect(response.statusCode).toEqual(400);
+    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid civilian name"));
   });
 
   test("should respond with 400 when name input is more than 25 characters", async () => {
@@ -170,7 +170,7 @@ describe("createCase handler", () => {
 
     await createCase(request, response, next);
 
-    expect(response.statusCode).toEqual(400);
+    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid civilian name"));
   });
 
   describe("audit data access", () => {

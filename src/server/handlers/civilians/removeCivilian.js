@@ -1,11 +1,8 @@
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
 const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
-const {
-  AUDIT_SUBJECT,
-  AUDIT_TYPE,
-  DATA_ACCESSED
-} = require("../../../sharedUtilities/constants");
+const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
+const auditDataAccess = require("../auditDataAccess");
 
 const removeCivilian = asyncMiddleware(async (request, response) => {
   const caseDetails = await models.sequelize.transaction(async t => {
@@ -32,15 +29,11 @@ const removeCivilian = asyncMiddleware(async (request, response) => {
       auditUser: request.nickname
     });
 
-    await models.action_audit.create(
-      {
-        user: request.nickname,
-        subject: AUDIT_SUBJECT.CASE_DETAILS,
-        auditType: AUDIT_TYPE.DATA_ACCESS,
-        caseId: civilian.caseId,
-        action: DATA_ACCESSED
-      },
-      { transaction: t }
+    await auditDataAccess(
+      request.nickname,
+      civilian.caseId,
+      AUDIT_SUBJECT.CASE_DETAILS,
+      t
     );
 
     return await getCaseWithAllAssociations(request.params.caseId, t);

@@ -1,11 +1,8 @@
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
 const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
-const {
-  DATA_ACCESSED,
-  AUDIT_TYPE,
-  AUDIT_SUBJECT
-} = require("../../../sharedUtilities/constants");
+const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
+const auditDataAccess = require("../auditDataAccess");
 
 const createCivilian = asyncMiddleware(async (req, res) => {
   const caseDetails = await models.sequelize.transaction(async transaction => {
@@ -26,15 +23,11 @@ const createCivilian = asyncMiddleware(async (req, res) => {
 
     const caseId = civilianCreated.caseId;
 
-    await models.action_audit.create(
-      {
-        user: req.nickname,
-        subject: AUDIT_SUBJECT.CASE_DETAILS,
-        auditType: AUDIT_TYPE.DATA_ACCESS,
-        caseId,
-        action: DATA_ACCESSED
-      },
-      { transaction }
+    await auditDataAccess(
+      req.nickname,
+      caseId,
+      AUDIT_SUBJECT.CASE_DETAILS,
+      transaction
     );
 
     return await getCaseWithAllAssociations(caseId, transaction);

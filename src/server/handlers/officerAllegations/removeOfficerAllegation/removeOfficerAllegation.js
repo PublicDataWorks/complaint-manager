@@ -1,12 +1,9 @@
-const {
-  AUDIT_SUBJECT,
-  AUDIT_TYPE,
-  DATA_ACCESSED
-} = require("../../../../sharedUtilities/constants");
+const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
 const models = require("../../../models");
 const Boom = require("boom");
+const auditDataAccess = require("../../auditDataAccess");
 
 const removeOfficerAllegation = asyncMiddleware(
   async (request, response, next) => {
@@ -30,15 +27,11 @@ const removeOfficerAllegation = asyncMiddleware(
           transaction
         });
 
-        await models.action_audit.create(
-          {
-            caseId: caseOfficer.caseId,
-            subject: AUDIT_SUBJECT.CASE_DETAILS,
-            user: request.nickname,
-            action: DATA_ACCESSED,
-            auditType: AUDIT_TYPE.DATA_ACCESS
-          },
-          { transaction }
+        await auditDataAccess(
+          request.nickname,
+          caseOfficer.caseId,
+          AUDIT_SUBJECT.CASE_DETAILS,
+          transaction
         );
 
         return await getCaseWithAllAssociations(

@@ -1,21 +1,15 @@
 const models = require("../../models/index");
 const asyncMiddleware = require("../asyncMiddleware");
-const {
-  DATA_ACCESSED,
-  AUDIT_TYPE,
-  AUDIT_SUBJECT
-} = require("../../../sharedUtilities/constants");
+const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
+const auditDataAccess = require("../auditDataAccess");
 
 const getCases = asyncMiddleware(async (req, res) => {
   const cases = await models.sequelize.transaction(async transaction => {
-    await models.action_audit.create(
-      {
-        user: req.nickname,
-        auditType: AUDIT_TYPE.DATA_ACCESS,
-        subject: AUDIT_SUBJECT.ALL_CASES,
-        action: DATA_ACCESSED
-      },
-      { transaction }
+    await auditDataAccess(
+      req.nickname,
+      undefined,
+      AUDIT_SUBJECT.ALL_CASES,
+      transaction
     );
 
     return await models.cases.findAll(

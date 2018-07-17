@@ -1,11 +1,8 @@
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models/index");
 const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
-const {
-  AUDIT_SUBJECT,
-  AUDIT_TYPE,
-  DATA_ACCESSED
-} = require("../../../sharedUtilities/constants");
+const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
+const auditDataAccess = require("../auditDataAccess");
 
 async function upsertAddress(civilianId, address, transaction, nickname) {
   if (!address.id) {
@@ -43,15 +40,11 @@ const editCivilian = asyncMiddleware(async (req, res) => {
         auditUser: req.nickname
       });
 
-      await models.action_audit.create(
-        {
-          caseId: civilian.caseId,
-          action: DATA_ACCESSED,
-          subject: AUDIT_SUBJECT.CASE_DETAILS,
-          user: req.nickname,
-          auditType: AUDIT_TYPE.DATA_ACCESS
-        },
-        { transaction }
+      await auditDataAccess(
+        req.nickname,
+        civilian.caseId,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        transaction
       );
 
       return await getCaseWithAllAssociations(civilian.caseId, transaction);

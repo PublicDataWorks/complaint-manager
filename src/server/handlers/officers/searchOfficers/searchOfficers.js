@@ -1,11 +1,8 @@
 const models = require("../../../models/index");
-const {
-  DATA_ACCESSED,
-  AUDIT_TYPE,
-  AUDIT_SUBJECT
-} = require("../../../../sharedUtilities/constants");
+const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const Op = require("sequelize").Op;
+const auditDataAccess = require("../../auditDataAccess");
 
 const searchOfficers = asyncMiddleware(async (request, response) => {
   const whereClause = {};
@@ -27,15 +24,11 @@ const searchOfficers = asyncMiddleware(async (request, response) => {
       transaction
     });
 
-    await models.action_audit.create(
-      {
-        user: request.nickname,
-        caseId: request.query.caseId,
-        action: DATA_ACCESSED,
-        auditType: AUDIT_TYPE.DATA_ACCESS,
-        subject: AUDIT_SUBJECT.OFFICER_DATA
-      },
-      { auditUser: request.nickname, transaction }
+    await auditDataAccess(
+      request.nickname,
+      request.query.caseId,
+      AUDIT_SUBJECT.OFFICER_DATA,
+      transaction
     );
 
     return officers;
