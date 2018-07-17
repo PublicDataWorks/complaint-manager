@@ -43,7 +43,7 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     'complainants.civilian_full_name as "complainants.civilian_full_name", ' +
     'complainants.civilian_gender_identity AS "complainants.civilian_gender_identity", ' +
     'complainants.civilian_race_ethnicity AS "complainants.civilian_race_ethnicity", ' +
-    `complainants.civilian_age AS "complainants.civilian_age", ` +
+    `date_part('year', age(cases.incident_date, complainants.civilian_dob)) AS "complainants.civilian_age", ` +
     'complainants.civilian_phone_number AS "complainants.civilian_phone_number", ' +
     'complainants.civilian_email AS "complainants.civilian_email", ' +
     'complainants.civilian_additional_info AS "complainants.civilian_additional_info", ' +
@@ -65,12 +65,12 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     `to_char(complainants.officer_end_date, \'${DATE_ONLY_FORMAT}\') AS "complainants.officer_end_date", ` +
     'complainants.officer_race AS "complainants.officer_race", ' +
     'complainants.officer_sex AS "complainants.officer_sex", ' +
-    'complainants.officer_age AS "complainants.officer_age", ' +
+    `date_part('year',age(cases.incident_date, complainants.officer_dob)) AS "complainants.officer_age", ` +
     'complainants.officer_notes AS "complainants.officer_notes", ' +
     "concat_ws(" +
     "' ', " +
     "accusedOfficers.first_name, " +
-    "accusedOfficers.middle_name, " +
+    "NULLIF(accusedOfficers.middle_name, ''), " +
     "accusedOfficers.last_name" +
     ') AS "accusedOfficers.full_name", ' +
     'accusedOfficers.windows_username AS "accusedOfficers.windows_username", ' +
@@ -78,7 +78,7 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "concat_ws(" +
     "' ', " +
     "accusedOfficers.supervisor_first_name, " +
-    "accusedOfficers.supervisor_middle_name, " +
+    "NULLIF(accusedOfficers.supervisor_middle_name, ''), " +
     "accusedOfficers.supervisor_last_name" +
     ') AS "accusedOfficers.supervisor_full_name", ' +
     'accusedOfficers.supervisor_windows_username AS "accusedOfficers.supervisor_windows_username", ' +
@@ -90,7 +90,7 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     `to_char(accusedOfficers.end_date, \'${DATE_ONLY_FORMAT}\') AS "accusedOfficers.end_date", ` +
     'accusedOfficers.race AS "accusedOfficers.race", ' +
     'accusedOfficers.sex AS "accusedOfficers.sex", ' +
-    "date_part('year', age(accusedOfficers.dob)) AS \"accusedOfficers.age\", " +
+    "date_part('year', age(cases.incident_date, accusedOfficers.dob)) AS \"accusedOfficers.age\", " +
     'accusedOfficers.notes AS "accusedOfficers.notes", ' +
     'allegations.rule as "allegations.rule", ' +
     'allegations.paragraph as "allegations.paragraph", ' +
@@ -111,13 +111,13 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "   concat_ws(" +
     "     ' ', " +
     "     first_name, " +
-    "     middle_initial, " +
+    "     NULLIF(middle_initial, ''), " +
     "     last_name, " +
-    "     suffix) " +
+    "     suffix)" +
     '     AS "civilian_full_name", ' +
     '   gender_identity AS "civilian_gender_identity", ' +
     '   race_ethnicity AS "civilian_race_ethnicity", ' +
-    "   date_part('year', age(birth_date)) AS civilian_age, " +
+    "   birth_date AS civilian_dob, " +
     '   phone_number AS "civilian_phone_number", ' +
     '   email AS "civilian_email", ' +
     "   additional_info AS civilian_additional_info, " +
@@ -139,7 +139,7 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "   NULL AS officer_end_date, " +
     "   NULL AS officer_race, " +
     "   NULL AS officer_sex, " +
-    `   NULL AS officer_age, ` +
+    `   NULL AS officer_dob, ` +
     "   NULL AS officer_notes " +
     " FROM civilians " +
     " LEFT OUTER JOIN addresses " +
@@ -156,7 +156,7 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     '   NULL  AS "civilian_full_name", ' +
     '   NULL AS "civilian_gender_identity", ' +
     '   NULL AS "civilian_race_ethnicity", ' +
-    `   NULL AS "civilian_age", ` +
+    `   NULL AS "civilian_dob", ` +
     '   NULL AS "civilian_phone_number", ' +
     '   NULL AS "civilian_email", ' +
     "   NULL AS civilian_additional_info, " +
@@ -168,14 +168,14 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "   concat_ws(" +
     "     ' ', " +
     "     first_name, " +
-    "     middle_name, " +
+    "     NULLIF(middle_name, ''), " +
     "     last_name) " +
     '     AS "officer_full_name", ' +
     "   windows_username AS officer_windows_username, " +
     "   rank AS officer_rank, " +
     "   concat_ws(' ', " +
     "     supervisor_first_name, " +
-    "     supervisor_middle_name, " +
+    "     NULLIF(supervisor_middle_name, ''), " +
     "     supervisor_last_name" +
     "   ) AS officer_supervisor_full_name, " +
     "   supervisor_windows_username AS officer_supervisor_windows_username, " +
@@ -187,7 +187,7 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "   end_date AS officer_end_date, " +
     '   race AS "officer_race", ' +
     '   sex AS "officer_sex", ' +
-    "   date_part('year', age(dob)) AS officer_age, " +
+    "   dob AS officer_dob, " +
     "   notes AS officer_notes " +
     " FROM cases_officers " +
     " WHERE deleted_at IS NULL " +

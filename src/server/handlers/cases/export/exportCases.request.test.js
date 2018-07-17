@@ -274,7 +274,7 @@ describe("exportCases request", function() {
         expect(records[0]["Civilian Complainant Race/Ethnicity"]).toEqual(
           civilian.raceEthnicity
         );
-        const expectedAge = `${moment().diff(
+        const expectedAge = `${moment(caseToExport.incidentDate).diff(
           civilian.birthDate,
           "years",
           false
@@ -430,7 +430,7 @@ describe("exportCases request", function() {
         expect(officerComplainantRow["Officer Complainant Sex"]).toEqual(
           caseOfficerComplainant.sex
         );
-        const expectedAge = `${moment().diff(
+        const expectedAge = `${moment(caseToExport.incidentDate).diff(
           caseOfficerComplainant.dob,
           "years",
           false
@@ -559,7 +559,11 @@ describe("exportCases request", function() {
         );
         expect(firstRecord["Accused Officer Race"]).toEqual(caseOfficer.race);
         expect(firstRecord["Accused Officer Sex"]).toEqual(caseOfficer.sex);
-        const expectedAge = moment().diff(caseOfficer.dob, "years", false);
+        const expectedAge = moment(caseToExport.incidentDate).diff(
+          caseOfficer.dob,
+          "years",
+          false
+        );
         expect(firstRecord["Accused Officer Age"]).toEqual(
           expectedAge.toString()
         );
@@ -922,6 +926,171 @@ describe("exportCases request", function() {
           .format("MM/DD/YYYY HH:mm:ss zz");
 
         expect(record1["Created on"]).toEqual(expectedTimestampString);
+      });
+  });
+
+  test("should not add extra space when civilian has no middle initial", async () => {
+    await civilian.update({ middleInitial: "" }, { auditUser: "test user" });
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+
+        expect(records.length).toEqual(1);
+
+        const record1 = records[0];
+        const expectedFullName = `${civilian.firstName} ${civilian.lastName} ${
+          civilian.suffix
+        }`;
+
+        expect(record1["Civilian Complainant Name"]).toEqual(expectedFullName);
+      });
+  });
+
+  test("should not add extra space when complainant officer has no middle name", async () => {
+    const officerToCreate = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined)
+      .withMiddleName("")
+      .withOfficerNumber(300)
+      .build();
+
+    const createdOfficer = await models.officer.create(officerToCreate);
+
+    const complainantOfficerToCreate = new CaseOfficer.Builder()
+      .withId(undefined)
+      .withRoleOnCase(COMPLAINANT)
+      .withCaseId(caseToExport.id)
+      .withOfficerAttributes(createdOfficer)
+      .build();
+
+    const createdComplainantOfficer = await models.case_officer.create(
+      complainantOfficerToCreate,
+      { auditUser: "test user" }
+    );
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+
+        expect(records.length).toEqual(2);
+
+        const complainantOfficerRow = records[1];
+        const expectedFullName = `${createdOfficer.firstName} ${
+          createdOfficer.lastName
+        }`;
+
+        expect(complainantOfficerRow["Officer Complainant Name"]).toEqual(
+          expectedFullName
+        );
+      });
+  });
+
+  test("should not add extra space when complainant officer supervisor has no middle name", async () => {
+    const supervisorToCreate = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined)
+      .withOfficerNumber(300)
+      .withMiddleName("")
+      .build();
+
+    const createdSupervisor = await models.officer.create(supervisorToCreate);
+
+    const officerToCreate = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined)
+      .withOfficerNumber(400)
+      .build();
+
+    const createdOfficer = await models.officer.create(officerToCreate);
+
+    const complainantOfficerToCreate = new CaseOfficer.Builder()
+      .withId(undefined)
+      .withRoleOnCase(COMPLAINANT)
+      .withCaseId(caseToExport.id)
+      .withOfficerAttributes(createdOfficer)
+      .withSupervisor(createdSupervisor)
+      .build();
+
+    const createdComplainantOfficer = await models.case_officer.create(
+      complainantOfficerToCreate,
+      { auditUser: "test user" }
+    );
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+
+        expect(records.length).toEqual(2);
+
+        const complainantOfficerRow = records[1];
+        const expectedFullName = `${
+          createdComplainantOfficer.supervisorFirstName
+        } ${createdComplainantOfficer.supervisorLastName}`;
+
+        expect(
+          complainantOfficerRow["Officer Complainant Supervisor Name"]
+        ).toEqual(expectedFullName);
+      });
+  });
+
+  test("should not add extra space when accused officer middle name is blank", async () => {
+    await caseOfficer.update({ middleName: "" }, { auditUser: "test user" });
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+
+        expect(records.length).toEqual(1);
+
+        const record1 = records[0];
+        const expectedFullName = `${caseOfficer.firstName} ${
+          caseOfficer.lastName
+        }`;
+
+        expect(record1["Accused Officer Name"]).toEqual(expectedFullName);
+      });
+  });
+  test("should not add extra space when accused officer supervisor middle name is blank", async () => {
+    await caseOfficer.update(
+      { supervisorMiddleName: "" },
+      { auditUser: "test user" }
+    );
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+
+        expect(records.length).toEqual(1);
+
+        const record1 = records[0];
+        const expectedFullName = `${caseOfficer.supervisorFirstName} ${
+          caseOfficer.supervisorLastName
+        }`;
+
+        expect(record1["Accused Officer Supervisor Name"]).toEqual(
+          expectedFullName
+        );
       });
   });
 });
