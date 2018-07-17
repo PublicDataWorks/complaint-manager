@@ -151,16 +151,18 @@ const AUDIT_SUBJECT = {
   ALL_CASES: "All Cases",
   OFFICER_DATA: "Officer Data",
   CASE_HISTORY: "Case History",
-  CASE_NOTES: "Case Notes"
+  CASE_NOTES: "Case Notes",
+  ATTACHMENTS: "Attachments"
 };
 
 const DATA_UPDATED = "Updated";
+const DATA_ACCESSED = "Accessed";
 const DATA_CREATED = "Created";
 const DATA_DELETED = "Deleted";
-const DATA_ACCESSED = "Accessed";
 const LOGGED_IN = "Logged in";
 const LOGGED_OUT = "Logged out";
 const EXPORTED = "Exported";
+const DOWNLOADED = "Downloaded";
 
 const AUDIT_FIELDS_TO_EXCLUDE = "(.*Id$|^id$|addressableType)";
 const AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE =
@@ -311,6 +313,7 @@ module.exports = {
   LOGGED_IN,
   LOGGED_OUT,
   EXPORTED,
+  DOWNLOADED,
   AUDIT_SUBJECT,
   AUDIT_FIELDS_TO_EXCLUDE,
   AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE,

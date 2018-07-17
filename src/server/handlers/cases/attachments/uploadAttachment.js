@@ -4,10 +4,13 @@ const models = require("../../../models/index");
 const isDuplicateFileName = require("./isDuplicateFileName");
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
 const config = require("../../../config/config");
-const DUPLICATE_FILE_NAME = require("../../../../sharedUtilities/constants")
-  .DUPLICATE_FILE_NAME;
+const {
+  DUPLICATE_FILE_NAME,
+  AUDIT_SUBJECT
+} = require("../../../../sharedUtilities/constants");
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
 const Boom = require("boom");
+const auditDataAccess = require("../../auditDataAccess");
 
 const uploadAttachment = asyncMiddleware((request, response, next) => {
   let managedUpload;
@@ -61,6 +64,13 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
                 transaction: t,
                 auditUser: request.nickname
               }
+            );
+
+            await auditDataAccess(
+              request.nickname,
+              caseId,
+              AUDIT_SUBJECT.CASE_DETAILS,
+              t
             );
 
             return await getCaseWithAllAssociations(caseId, t);

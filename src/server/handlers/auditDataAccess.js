@@ -4,12 +4,18 @@ const {
   AUDIT_TYPE
 } = require("../../sharedUtilities/constants");
 
-const auditDataAccess = async (user, caseId, subject, transaction) => {
-  await models.action_audit.create(
+const auditDataAccess = async (
+  user,
+  caseId,
+  subject,
+  transaction,
+  action = DATA_ACCESSED
+) => {
+  return await models.action_audit.create(
     {
       user,
       caseId,
-      action: DATA_ACCESSED,
+      action,
       auditType: AUDIT_TYPE.DATA_ACCESS,
       subject
     },
