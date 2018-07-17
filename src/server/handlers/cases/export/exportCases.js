@@ -1,6 +1,7 @@
 const {
   COMPLAINANT,
-  TIMEZONE
+  TIMEZONE,
+  WITNESS
 } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models/index");
@@ -33,8 +34,10 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "cases.complaint_type, " +
     "cases.narrative_summary, " +
     "cases.narrative_details, " +
-    'incidentLocation.street_address AS "incidentLocation.street_address", ' +
-    'incidentLocation.intersection AS "incidentLocation.intersection", ' +
+    `(select count(*) from cases_officers where role_on_case='${WITNESS}' AND case_id=cases.id) +` +
+    `(select count(*) from civilians where role_on_case='${WITNESS}' AND case_id=cases.id) AS witness_count, ` +
+    `incidentLocation.street_address AS "incidentLocation.street_address", ` +
+    `incidentLocation.intersection AS "incidentLocation.intersection", ` +
     'incidentLocation.city AS "incidentLocation.city", ' +
     'incidentLocation.state AS "incidentLocation.state", ' +
     'incidentLocation.zip_code AS "incidentLocation.zip_code", ' +
@@ -266,7 +269,6 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "complainants.officer_age": "Officer Complainant Age",
     "complainants.officer_notes": "Officer Complainant Notes",
     witness_count: "Number of Witnesses",
-    witness_names: "Witnesses",
     narrative_summary: "Narrative Summary",
     narrative_details: "Narrative Details",
     "accusedOfficers.full_name": "Accused Officer Name",

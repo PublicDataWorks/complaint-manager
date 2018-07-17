@@ -161,7 +161,6 @@ describe("exportCases request", function() {
               "Officer Complainant Age," +
               "Officer Complainant Notes," +
               "Number of Witnesses," +
-              "Witnesses," +
               "Narrative Summary," +
               "Narrative Details," +
               "Accused Officer Name," +
@@ -453,7 +452,7 @@ describe("exportCases request", function() {
       });
   });
 
-  test.skip("should include witness count when two civilian witnesses", async () => {
+  test("should include witness count when two civilian witnesses", async () => {
     const otherCaseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
@@ -491,15 +490,55 @@ describe("exportCases request", function() {
       .then(response => {
         const resultingCsv = response.text;
         const records = parse(resultingCsv, { columns: true });
-        expect(records.length).toEqual(1);
+        expect(records.length).toEqual(2);
         expect(records[0]["Number of Witnesses"]).toEqual("2");
-        expect(records[2]["Number of Witnesses"]).toEqual("1");
+        expect(records[1]["Number of Witnesses"]).toEqual("1");
       });
   });
 
-  test.skip("should include witness count when 1 officer witness and 1 civilian witness", async () => {});
+  test("should include witness count when 1 officer witness and 1 civilian witness", async () => {
+    const officerToBeCreated = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined)
+      .withOfficerNumber(300)
+      .build();
+    const createdOfficer = await models.officer.create(officerToBeCreated);
 
-  test.skip("should include witness count when no witnesses", async () => {
+    const caseOfficerWitnessToCreate = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withId(undefined)
+      .withOfficerAttributes(createdOfficer)
+      .withRoleOnCase(WITNESS)
+      .withCaseId(caseToExport.id)
+      .build();
+    const createdCaseOfficerWitness = await models.case_officer.create(
+      caseOfficerWitnessToCreate,
+      { auditUser: "test user" }
+    );
+
+    const civilianWitnessToCreate = new Civilian.Builder()
+      .defaultCivilian()
+      .withId(undefined)
+      .withCaseId(caseToExport.id)
+      .withRoleOnCase(WITNESS)
+      .build();
+    const createdCivilianWitness = await models.civilian.create(
+      civilianWitnessToCreate,
+      { auditUser: "test user" }
+    );
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+        expect(records[0]["Number of Witnesses"]).toEqual("2");
+      });
+  });
+
+  test("should include witness count when no witnesses", async () => {
     await request(app)
       .get("/api/cases/export")
       .set("Authorization", `Bearer ${token}`)
