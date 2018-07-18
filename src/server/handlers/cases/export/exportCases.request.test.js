@@ -14,6 +14,9 @@ import Case from "../../../../client/testUtilities/case";
 import moment from "moment";
 import timezone from "moment-timezone";
 import {
+  AUDIT_ACTION,
+  AUDIT_SUBJECT,
+  AUDIT_TYPE,
   COMPLAINANT,
   TIMEZONE,
   WITNESS
@@ -98,6 +101,7 @@ describe("exportCases request", function() {
   afterEach(async () => {
     await cleanupDatabase();
   });
+
   test("should retrieve correct headers", async () => {
     await caseToExport.reload({
       include: [
@@ -450,6 +454,24 @@ describe("exportCases request", function() {
           } ${civilian.suffix}`
         );
       });
+  });
+
+  test("should audit exporting all case information", async () => {
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200);
+
+    const audit = await models.action_audit.find({
+      where: { subject: AUDIT_SUBJECT.ALL_CASE_INFORMATION }
+    });
+
+    expect(audit).toEqual(
+      expect.objectContaining({
+        auditType: AUDIT_TYPE.EXPORT,
+        action: AUDIT_ACTION.EXPORTED
+      })
+    );
   });
 
   test("should include witness count when two civilian witnesses", async () => {
@@ -1104,6 +1126,61 @@ describe("exportCases request", function() {
         }`;
 
         expect(record1["Accused Officer Name"]).toEqual(expectedFullName);
+      });
+  });
+
+  test("should set age to blank when dob is blank and incident date is not blank", async () => {
+    await caseOfficer.update({ dob: null }, { auditUser: "someone" });
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+
+        expect(records.length).toEqual(1);
+
+        const record1 = records[0];
+        expect(record1["Accused Officer Age"]).toEqual("");
+      });
+  });
+
+  test("should set age to blank when dob is given and incident date is blank", async () => {
+    await caseToExport.update({ incidentDate: null }, { auditUser: "someone" });
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+
+        expect(records.length).toEqual(1);
+
+        const record1 = records[0];
+        expect(record1["Accused Officer Age"]).toEqual("");
+      });
+  });
+
+  test("should set age to blank when both and incident date are blank", async () => {
+    await caseOfficer.update({ dob: null }, { auditUser: "someone" });
+    await caseToExport.update({ incidentDate: null }, { auditUser: "someone" });
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+
+        expect(records.length).toEqual(1);
+
+        const record1 = records[0];
+        expect(record1["Accused Officer Age"]).toEqual("");
       });
   });
   test("should not add extra space when accused officer supervisor middle name is blank", async () => {

@@ -1,7 +1,10 @@
 const {
   COMPLAINANT,
   TIMEZONE,
-  WITNESS
+  WITNESS,
+  AUDIT_ACTION,
+  AUDIT_TYPE,
+  AUDIT_SUBJECT
 } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models/index");
@@ -214,8 +217,21 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     "ON attachments.case_id = cases.id " +
     "ORDER BY cases.created_at ASC, complainants.created_at ASC, accusedOfficers.created_at ASC, officerAllegations.created_at ASC;";
 
-  const caseData = await models.sequelize.query(query, {
-    type: models.sequelize.QueryTypes.SELECT
+  const caseData = await models.sequelize.transaction(async transaction => {
+    await models.action_audit.create(
+      {
+        auditType: AUDIT_TYPE.EXPORT,
+        action: AUDIT_ACTION.EXPORTED,
+        subject: AUDIT_SUBJECT.ALL_CASE_INFORMATION,
+        user: request.nickname
+      },
+      { transaction }
+    );
+
+    return await models.sequelize.query(query, {
+      type: models.sequelize.QueryTypes.SELECT,
+      transaction
+    });
   });
 
   const columns = {

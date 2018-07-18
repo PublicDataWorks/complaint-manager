@@ -149,6 +149,7 @@ const AUDIT_SUBJECT = {
   AUDIT_LOG: "Audit Log",
   CASE_DETAILS: "Case Details",
   ALL_CASES: "All Cases",
+  ALL_CASE_INFORMATION: "All Case Information",
   OFFICER_DATA: "Officer Data",
   CASE_HISTORY: "Case History",
   CASE_NOTES: "Case Notes",
