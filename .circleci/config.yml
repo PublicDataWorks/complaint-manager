@@ -72,6 +72,7 @@ jobs:
           - run: docker tag noipm/complaint-manager-staging:$CIRCLE_SHA1 registry.heroku.com/noipm-staging/web
           - run: docker push registry.heroku.com/noipm-staging/web
           - run: heroku container:release web --app noipm-staging
+          - run: heroku maintenance:off --app noipm-staging
 
     ensure-staging-deploy-succeeded:
       docker:
@@ -115,6 +116,7 @@ jobs:
           - run: docker tag noipm/complaint-manager-production:$CIRCLE_SHA1 registry.heroku.com/noipm-production/web
           - run: docker push registry.heroku.com/noipm-production/web
           - run: heroku container:release web --app noipm-production
+          - run: heroku maintenance:off --app noipm-production
 
     ensure-production-deploy-succeeded:
       docker:
