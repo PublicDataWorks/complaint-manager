@@ -26,7 +26,7 @@ const searchOfficers = asyncMiddleware(async (request, response) => {
 
     await auditDataAccess(
       request.nickname,
-      request.query.caseId,
+      undefined,
       AUDIT_SUBJECT.OFFICER_DATA,
       transaction
     );

@@ -18,7 +18,8 @@ const downloadAttachment = asyncMiddleware(async (request, response, next) => {
       request.params.id,
       AUDIT_SUBJECT.ATTACHMENTS,
       transaction,
-      DOWNLOADED
+      DOWNLOADED,
+      { fileName: request.params.fileName }
     );
 
     s3

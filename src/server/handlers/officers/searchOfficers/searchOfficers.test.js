@@ -42,7 +42,7 @@ describe("searchOfficers", function() {
     await searchOfficers(request, response, next);
 
     const actionAudit = await models.action_audit.find({
-      where: { caseId: existingCase.id },
+      where: { subject: AUDIT_SUBJECT.OFFICER_DATA },
       returning: true
     });
 
@@ -50,6 +50,6 @@ describe("searchOfficers", function() {
     expect(actionAudit.action).toEqual(DATA_ACCESSED);
     expect(actionAudit.subject).toEqual(AUDIT_SUBJECT.OFFICER_DATA);
     expect(actionAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
-    expect(actionAudit.caseId).toEqual(existingCase.id);
+    expect(actionAudit.caseId).toEqual(null);
   });
 });
