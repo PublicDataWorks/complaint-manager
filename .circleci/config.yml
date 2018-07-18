@@ -54,6 +54,7 @@ jobs:
           - setup_remote_docker
           - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
           - run: docker pull noipm/complaint-manager-staging:$CIRCLE_SHA1
+          - run: heroku maintenance:on --app noipm-staging
           - run:
               name: Migrate and Seed DB
               command: |
@@ -97,6 +98,7 @@ jobs:
           - setup_remote_docker
           - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
           - run: docker pull noipm/complaint-manager-production:$CIRCLE_SHA1
+          - run: heroku maintenance:on --app noipm-production
           - run:
               name: Migrate production database
               command: |
