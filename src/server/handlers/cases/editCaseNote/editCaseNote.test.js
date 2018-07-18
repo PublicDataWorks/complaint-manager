@@ -4,7 +4,12 @@ import models from "../../../models";
 import Case from "../../../../client/testUtilities/case";
 import editCaseNote from "./editCaseNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import {AUDIT_SUBJECT, AUDIT_TYPE, CASE_STATUS, DATA_ACCESSED} from "../../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  AUDIT_TYPE,
+  CASE_STATUS,
+  AUDIT_ACTION
+} from "../../../../sharedUtilities/constants";
 
 describe("editCaseNote", function() {
   let createdCase, createdCaseNote, updatedCaseNote;
@@ -112,7 +117,7 @@ describe("editCaseNote", function() {
       expect.objectContaining({
         user: "TEST_USER_NICKNAME",
         auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: DATA_ACCESSED,
+        action: AUDIT_ACTION.DATA_ACCESSED,
         subject: AUDIT_SUBJECT.CASE_NOTES,
         caseId: createdCase.id
       })

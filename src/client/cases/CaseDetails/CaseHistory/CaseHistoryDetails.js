@@ -1,6 +1,6 @@
 import React from "react";
 import * as _ from "lodash";
-import { DATA_UPDATED } from "../../../../sharedUtilities/constants";
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 
 const CaseHistoryDetails = ({ details, action, modelDescription }) => (
   <div>
@@ -24,7 +24,7 @@ const CaseHistoryDetails = ({ details, action, modelDescription }) => (
 const renderDetails = (details, action) => {
   const longFieldLength = 50;
 
-  if (action.includes(DATA_UPDATED)) {
+  if (action.includes(AUDIT_ACTION.DATA_UPDATED)) {
     return Object.keys(details).map((field, index) => {
       if (
         details[field]["previous"].length > longFieldLength ||

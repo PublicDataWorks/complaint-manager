@@ -6,7 +6,7 @@ import httpMocks from "node-mocks-http";
 import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  DATA_ACCESSED,
+  AUDIT_ACTION,
   WITNESS
 } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
@@ -127,7 +127,7 @@ describe("removeCaseOfficer", () => {
           user: "someone",
           subject: AUDIT_SUBJECT.CASE_DETAILS,
           caseId: existingCase.id,
-          action: DATA_ACCESSED,
+          action: AUDIT_ACTION.DATA_ACCESSED,
           auditType: AUDIT_TYPE.DATA_ACCESS
         })
       );

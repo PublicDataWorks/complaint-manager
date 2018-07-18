@@ -1,7 +1,7 @@
 import Case from "../../../../client/testUtilities/case";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 const {
-  DATA_ACCESSED,
+  AUDIT_ACTION,
   AUDIT_TYPE,
   AUDIT_SUBJECT
 } = require("../../../../sharedUtilities/constants");
@@ -50,7 +50,7 @@ describe("getCase", () => {
     });
 
     expect(actionAudit.user).toEqual("nickname");
-    expect(actionAudit.action).toEqual(DATA_ACCESSED);
+    expect(actionAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
     expect(actionAudit.subject).toEqual(AUDIT_SUBJECT.CASE_DETAILS);
     expect(actionAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
     expect(actionAudit.caseId).toEqual(existingCase.id);

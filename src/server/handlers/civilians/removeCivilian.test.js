@@ -2,7 +2,7 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { createCaseWithCivilian } from "../../testHelpers/modelMothers";
 import removeCivilian from "./removeCivilian";
 import {
-  DATA_ACCESSED,
+  AUDIT_ACTION,
   AUDIT_TYPE,
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
@@ -55,7 +55,7 @@ describe("removeCivilian", function() {
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         auditType: AUDIT_TYPE.DATA_ACCESS,
         caseId: existingCase.id,
-        action: DATA_ACCESSED
+        action: AUDIT_ACTION.DATA_ACCESSED
       })
     );
   });

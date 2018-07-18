@@ -1,6 +1,6 @@
 const models = require("../models");
 const {
-  DATA_ACCESSED,
+  AUDIT_ACTION,
   AUDIT_TYPE,
   AUDIT_SUBJECT
 } = require("../../sharedUtilities/constants");
@@ -37,7 +37,7 @@ const auditDataAccess = async (
   caseId,
   subject,
   transaction,
-  action = DATA_ACCESSED,
+  action = AUDIT_ACTION.DATA_ACCESSED,
   subjectDetails
 ) => {
   await models.action_audit.create(
@@ -48,7 +48,9 @@ const auditDataAccess = async (
       auditType: AUDIT_TYPE.DATA_ACCESS,
       subject,
       subjectDetails:
-        action === DATA_ACCESSED ? SUBJECT_DETAILS[subject] : subjectDetails
+        action === AUDIT_ACTION.DATA_ACCESSED
+          ? SUBJECT_DETAILS[subject]
+          : subjectDetails
     },
     { transaction }
   );

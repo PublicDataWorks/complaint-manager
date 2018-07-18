@@ -1,4 +1,4 @@
-import { DATA_UPDATED } from "../../sharedUtilities/constants";
+import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 
 class DataChangeAudit {
   constructor(build) {
@@ -23,7 +23,7 @@ class DataChangeAudit {
         this.modelDescription = "Jane Doe";
         this.modelId = 1;
         this.snapshot = {};
-        this.action = DATA_UPDATED;
+        this.action = AUDIT_ACTION.DATA_UPDATED;
         this.changes = {};
         this.user = "nickname";
         this.createdAt = new Date().toISOString();

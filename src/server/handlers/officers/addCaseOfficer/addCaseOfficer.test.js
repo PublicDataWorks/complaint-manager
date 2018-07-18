@@ -6,7 +6,7 @@ import Officer from "../../../../client/testUtilities/Officer";
 import {
   ACCUSED,
   CASE_STATUS,
-  DATA_ACCESSED,
+  AUDIT_ACTION,
   AUDIT_TYPE,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
@@ -255,7 +255,7 @@ describe("addCaseOfficer", () => {
         user: "TEST_USER_NICKNAME",
         caseId: createdCase.id,
         auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: DATA_ACCESSED,
+        action: AUDIT_ACTION.DATA_ACCESSED,
         subject: AUDIT_SUBJECT.CASE_DETAILS
       })
     );

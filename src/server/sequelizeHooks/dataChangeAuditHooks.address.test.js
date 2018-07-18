@@ -1,9 +1,5 @@
 import models from "../models";
-import {
-  DATA_CREATED,
-  DATA_DELETED,
-  DATA_UPDATED
-} from "../../sharedUtilities/constants";
+import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import Case from "../../client/testUtilities/case";
 import Address from "../../client/testUtilities/Address";
 import Civilian from "../../client/testUtilities/civilian";
@@ -52,7 +48,7 @@ describe("dataChangeAuditHooks address", () => {
 
     test("should audit incident location", async () => {
       const audit = await models.data_change_audit.find({
-        where: { modelName: "Address", action: DATA_CREATED }
+        where: { modelName: "Address", action: AUDIT_ACTION.DATA_CREATED }
       });
 
       expect(audit.caseId).toEqual(existingCase.id);
@@ -72,7 +68,7 @@ describe("dataChangeAuditHooks address", () => {
       );
 
       const audit = await models.data_change_audit.find({
-        where: { modelName: "Address", action: DATA_UPDATED }
+        where: { modelName: "Address", action: AUDIT_ACTION.DATA_UPDATED }
       });
 
       expect(audit.caseId).toEqual(existingCase.id);
@@ -92,7 +88,7 @@ describe("dataChangeAuditHooks address", () => {
       });
 
       const audit = await models.data_change_audit.find({
-        where: { modelName: "Address", action: DATA_DELETED }
+        where: { modelName: "Address", action: AUDIT_ACTION.DATA_DELETED }
       });
 
       expect(audit.caseId).toEqual(existingCase.id);
@@ -146,7 +142,7 @@ describe("dataChangeAuditHooks address", () => {
 
     test("should audit civilian address", async () => {
       const audit = await models.data_change_audit.find({
-        where: { modelName: "Address", action: DATA_CREATED }
+        where: { modelName: "Address", action: AUDIT_ACTION.DATA_CREATED }
       });
 
       expect(audit.caseId).toEqual(createdCase.id);
@@ -169,7 +165,7 @@ describe("dataChangeAuditHooks address", () => {
       );
 
       const audit = await models.data_change_audit.find({
-        where: { modelName: "Address", action: DATA_UPDATED }
+        where: { modelName: "Address", action: AUDIT_ACTION.DATA_UPDATED }
       });
 
       expect(audit.caseId).toEqual(createdCase.id);
@@ -192,7 +188,7 @@ describe("dataChangeAuditHooks address", () => {
       });
 
       const audit = await models.data_change_audit.find({
-        where: { modelName: "Address", action: DATA_DELETED }
+        where: { modelName: "Address", action: AUDIT_ACTION.DATA_DELETED }
       });
 
       expect(audit.caseId).toEqual(createdCase.id);

@@ -155,14 +155,16 @@ const AUDIT_SUBJECT = {
   ATTACHMENTS: "Attachments"
 };
 
-const DATA_UPDATED = "Updated";
-const DATA_ACCESSED = "Accessed";
-const DATA_CREATED = "Created";
-const DATA_DELETED = "Deleted";
-const LOGGED_IN = "Logged in";
-const LOGGED_OUT = "Logged out";
-const EXPORTED = "Exported";
-const DOWNLOADED = "Downloaded";
+const AUDIT_ACTION = {
+  DATA_UPDATED: "Updated",
+  DATA_ACCESSED: "Accessed",
+  DATA_CREATED: "Created",
+  DATA_DELETED: "Deleted",
+  LOGGED_IN: "Logged in",
+  LOGGED_OUT: "Logged out",
+  EXPORTED: "Exported",
+  DOWNLOADED: "Downloaded"
+};
 
 const AUDIT_FIELDS_TO_EXCLUDE = "(.*Id$|^id$|addressableType)";
 const AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE =
@@ -279,10 +281,6 @@ module.exports = {
   OPENID,
   PROFILE,
   TIMEZONE,
-  DATA_ACCESSED,
-  DATA_UPDATED,
-  DATA_CREATED,
-  DATA_DELETED,
   REMOVE_PERSON_DIALOG_OPENED,
   REMOVE_PERSON_DIALOG_CLOSED,
   REMOVE_PERSON_FAILED,
@@ -310,10 +308,7 @@ module.exports = {
   REMOVE_OFFICER_ALLEGATION_FAILED,
   REMOVE_OFFICER_ALLEGATION_SUCCEEDED,
   AUDIT_TYPE,
-  LOGGED_IN,
-  LOGGED_OUT,
-  EXPORTED,
-  DOWNLOADED,
+  AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_FIELDS_TO_EXCLUDE,
   AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE,

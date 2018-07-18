@@ -3,12 +3,7 @@ import models from "../../models";
 import * as httpMocks from "node-mocks-http";
 import searchAllegations from "./searchAllegations";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import {
-  DATA_ACCESSED,
-  DEFAULT_PAGINATION_LIMIT,
-  AUDIT_TYPE,
-  AUDIT_SUBJECT
-} from "../../../sharedUtilities/constants";
+import { DEFAULT_PAGINATION_LIMIT } from "../../../sharedUtilities/constants";
 import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import CaseOfficer from "../../../client/testUtilities/caseOfficer";
 import Officer from "../../../client/testUtilities/Officer";

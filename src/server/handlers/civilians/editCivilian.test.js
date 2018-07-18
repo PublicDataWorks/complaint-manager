@@ -4,7 +4,7 @@ import Civilian from "../../../client/testUtilities/civilian";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
   CASE_STATUS,
-  DATA_ACCESSED,
+  AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } from "../../../sharedUtilities/constants";
@@ -56,7 +56,7 @@ describe("editCivilian handler editing civilian with no address", () => {
     expect(actionAudit).toEqual(
       expect.objectContaining({
         caseId: existingCase.id,
-        action: DATA_ACCESSED,
+        action: AUDIT_ACTION.DATA_ACCESSED,
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         user: "TEST_USER_NICKNAME",
         auditType: AUDIT_TYPE.DATA_ACCESS

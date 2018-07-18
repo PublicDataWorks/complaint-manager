@@ -8,7 +8,7 @@ import {
   ACCUSED,
   COMPLAINANT,
   WITNESS,
-  DATA_ACCESSED,
+  AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } from "../../../../sharedUtilities/constants";
@@ -426,13 +426,11 @@ describe("editCaseOfficer", () => {
           user: "test user",
           subject: AUDIT_SUBJECT.CASE_DETAILS,
           caseId: existingCase.id,
-          action: DATA_ACCESSED,
+          action: AUDIT_ACTION.DATA_ACCESSED,
           auditType: AUDIT_TYPE.DATA_ACCESS
         })
       );
     });
-
-
   });
 
   test("updates unknown officer to known officer", async () => {

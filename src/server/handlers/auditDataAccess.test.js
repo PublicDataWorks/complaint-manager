@@ -1,5 +1,5 @@
 import models from "../models";
-import { AUDIT_SUBJECT, DOWNLOADED } from "../../sharedUtilities/constants";
+import { AUDIT_SUBJECT, AUDIT_ACTION } from "../../sharedUtilities/constants";
 import auditDataAccess from "./auditDataAccess";
 import { createCaseWithoutCivilian } from "../testHelpers/modelMothers";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
@@ -135,7 +135,7 @@ describe("auditDataAccess", () => {
           caseForAudit.id,
           AUDIT_SUBJECT.ATTACHMENTS,
           transaction,
-          DOWNLOADED,
+          AUDIT_ACTION.DOWNLOADED,
           { fileName: "cats.jpg" }
         );
       });

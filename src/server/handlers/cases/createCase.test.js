@@ -1,5 +1,5 @@
 import {
-  DATA_ACCESSED,
+  AUDIT_ACTION,
   AUDIT_TYPE,
   AUDIT_SUBJECT,
   CIVILIAN_INITIATED,
@@ -202,7 +202,7 @@ describe("createCase handler", () => {
         expect.objectContaining({
           user,
           auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: DATA_ACCESSED,
+          action: AUDIT_ACTION.DATA_ACCESSED,
           subject: AUDIT_SUBJECT.CASE_DETAILS,
           caseId: cases[0].id
         })
@@ -222,7 +222,7 @@ describe("createCase handler", () => {
         expect.objectContaining({
           user,
           auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: DATA_ACCESSED,
+          action: AUDIT_ACTION.DATA_ACCESSED,
           subject: AUDIT_SUBJECT.CASE_DETAILS,
           caseId: cases[0].id
         })

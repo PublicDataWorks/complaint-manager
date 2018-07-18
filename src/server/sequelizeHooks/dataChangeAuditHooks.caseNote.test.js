@@ -1,7 +1,7 @@
 import Case from "../../client/testUtilities/case";
 import CaseNote from "../../client/testUtilities/caseNote";
 import models from "../models";
-import { DATA_CREATED, TIMEZONE } from "../../sharedUtilities/constants";
+import { AUDIT_ACTION, TIMEZONE } from "../../sharedUtilities/constants";
 import timezone from "moment-timezone";
 
 describe("dataChangeAuditHooks for caseNote", () => {
@@ -27,7 +27,7 @@ describe("dataChangeAuditHooks for caseNote", () => {
     });
 
     const audit = await models.data_change_audit.find({
-      where: { modelName: "Case Note", action: DATA_CREATED }
+      where: { modelName: "Case Note", action: AUDIT_ACTION.DATA_CREATED }
     });
 
     const formattedActionTakenAt = timezone

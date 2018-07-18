@@ -8,7 +8,7 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   CASE_STATUS,
-  DATA_ACCESSED
+  AUDIT_ACTION
 } from "../../../../sharedUtilities/constants";
 
 describe("RemoveCaseNote unit", () => {
@@ -102,7 +102,7 @@ describe("RemoveCaseNote unit", () => {
         expect.objectContaining({
           user: "TEST_USER_NICKNAME",
           auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: DATA_ACCESSED,
+          action: AUDIT_ACTION.DATA_ACCESSED,
           subject: AUDIT_SUBJECT.CASE_DETAILS,
           caseId: createdCase.id
         })
@@ -135,7 +135,7 @@ describe("RemoveCaseNote unit", () => {
         expect.objectContaining({
           user: "TEST_USER_NICKNAME",
           auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: DATA_ACCESSED,
+          action: AUDIT_ACTION.DATA_ACCESSED,
           subject: AUDIT_SUBJECT.CASE_NOTES,
           caseId: createdCase.id
         })

@@ -1,5 +1,5 @@
 import {
-  DATA_UPDATED,
+  AUDIT_ACTION,
   GET_CASE_HISTORY_SUCCESS
 } from "../../../sharedUtilities/constants";
 import caseHistoryReducer from "./caseHistoryReducer";
@@ -9,7 +9,7 @@ describe("caseHistoryReducer", () => {
   describe("GET_CASE_HISTORY_SUCCESS", () => {
     test("it updates the case history", () => {
       const newCaseHistory = [
-        { action: DATA_UPDATED, user: "someone", details: {} }
+        { action: AUDIT_ACTION.DATA_UPDATED, user: "someone", details: {} }
       ];
       const newState = caseHistoryReducer(
         [],

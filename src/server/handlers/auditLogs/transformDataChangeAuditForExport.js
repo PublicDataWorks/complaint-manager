@@ -1,5 +1,5 @@
 const {
-  DATA_UPDATED,
+  AUDIT_ACTION,
   AUDIT_FIELDS_TO_EXCLUDE,
   AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE,
   AUDIT_TYPE
@@ -18,7 +18,7 @@ const transformDataChangeAuditForExport = audits => {
 };
 
 const transformChangeList = (action, changes) => {
-  if (action !== DATA_UPDATED) return "";
+  if (action !== AUDIT_ACTION.DATA_UPDATED) return "";
   if (!changes) return "";
 
   return fieldNamesValidForChangeList(changes)

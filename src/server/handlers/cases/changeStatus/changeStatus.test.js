@@ -3,13 +3,13 @@ import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import changeStatus from "./changeStatus";
 import {
   CASE_STATUS,
-  DATA_ACCESSED,
+  AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } from "../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
 import Boom from "boom";
-import models from "../../../models/index"
+import models from "../../../models/index";
 
 describe("changeStatus", async () => {
   let initialCase, response, next;
@@ -104,7 +104,7 @@ describe("changeStatus", async () => {
     expect(actionAudit).toEqual(
       expect.objectContaining({
         user: "someone",
-        action: DATA_ACCESSED,
+        action: AUDIT_ACTION.DATA_ACCESSED,
         auditType: AUDIT_TYPE.DATA_ACCESS,
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         caseId: initialCase.id

@@ -3,9 +3,7 @@ import app from "../../server";
 import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  DATA_UPDATED,
-  EXPORTED,
-  LOGGED_IN,
+  AUDIT_ACTION,
   TIMEZONE,
   USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
@@ -75,7 +73,7 @@ describe("GET /api/export-audit-log", () => {
     const exportActionAudit = await models.action_audit.find({
       where: {
         auditType: AUDIT_TYPE.EXPORT,
-        action: EXPORTED,
+        action: AUDIT_ACTION.EXPORTED,
         subject: AUDIT_SUBJECT.AUDIT_LOG,
         caseId: null,
         user: nickname
@@ -100,7 +98,7 @@ describe("GET /api/export-audit-log", () => {
         expect(record["Audit Type"]).toEqual(AUDIT_TYPE.EXPORT);
         expect(record["User"]).toEqual(nickname);
         expect(record["Case ID"]).toEqual("");
-        expect(record["Action"]).toEqual(EXPORTED);
+        expect(record["Action"]).toEqual(AUDIT_ACTION.EXPORTED);
         expect(record["Audit Subject"]).toEqual(AUDIT_SUBJECT.AUDIT_LOG);
         expect(record["Subject Database ID"]).toEqual("");
         expect(record["Changes"]).toEqual("");
@@ -118,7 +116,7 @@ describe("GET /api/export-audit-log", () => {
     const actionAuditAttributes = new ActionAudit.Builder()
       .defaultActionAudit()
       .withAuditType(AUDIT_TYPE.AUTHENTICATION)
-      .withAction(LOGGED_IN)
+      .withAction(AUDIT_ACTION.LOGGED_IN)
       .withCaseId(undefined)
       .withId(undefined)
       .withSubject(undefined)
@@ -137,7 +135,7 @@ describe("GET /api/export-audit-log", () => {
         expect(loginRecord["Audit Type"]).toEqual(AUDIT_TYPE.AUTHENTICATION);
         expect(loginRecord["User"]).toEqual(actionAuditAttributes.user);
         expect(loginRecord["Case ID"]).toEqual("");
-        expect(loginRecord["Action"]).toEqual(LOGGED_IN);
+        expect(loginRecord["Action"]).toEqual(AUDIT_ACTION.LOGGED_IN);
         expect(loginRecord["Audit Subject"]).toEqual("");
         expect(loginRecord["Subject Database ID"]).toEqual("");
         expect(loginRecord["Changes"]).toEqual("");
@@ -191,7 +189,7 @@ describe("GET /api/export-audit-log", () => {
     await models.data_change_audit.create({
       auditType: AUDIT_TYPE.DATA_CHANGE,
       user: "smith",
-      action: DATA_UPDATED,
+      action: AUDIT_ACTION.DATA_UPDATED,
       snapshot: {
         id: 5,
         name: "bob"
@@ -213,7 +211,7 @@ describe("GET /api/export-audit-log", () => {
         const dataChangeRecord = records[1];
         expect(dataChangeRecord["Audit Type"]).toEqual(AUDIT_TYPE.DATA_CHANGE);
         expect(dataChangeRecord["User"]).toEqual("smith");
-        expect(dataChangeRecord["Action"]).toEqual(DATA_UPDATED);
+        expect(dataChangeRecord["Action"]).toEqual(AUDIT_ACTION.DATA_UPDATED);
         expect(dataChangeRecord["Changes"]).toEqual(
           "Name changed from 'greg II' to 'bob'"
         );

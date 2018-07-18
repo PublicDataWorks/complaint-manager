@@ -2,7 +2,7 @@ import Case from "../../client/testUtilities/case";
 import CaseOfficer from "../../client/testUtilities/caseOfficer";
 import Officer from "../../client/testUtilities/Officer";
 import models from "../models";
-import { DATA_CREATED, DATA_DELETED } from "../../sharedUtilities/constants";
+import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 
 describe("dataChangeAudithooks caseofficer", () => {
   let createdCase;
@@ -48,7 +48,7 @@ describe("dataChangeAudithooks caseofficer", () => {
 
   test("should audit caseofficer creation", async () => {
     const audit = await models.data_change_audit.find({
-      where: { modelName: "Case Officer", action: DATA_CREATED }
+      where: { modelName: "Case Officer", action: AUDIT_ACTION.DATA_CREATED }
     });
 
     expect(audit.user).toEqual("someone");
@@ -66,7 +66,7 @@ describe("dataChangeAudithooks caseofficer", () => {
     await caseOfficer.destroy({ auditUser: "someone" });
 
     const audit = await models.data_change_audit.find({
-      where: { modelName: "Case Officer", action: DATA_DELETED }
+      where: { modelName: "Case Officer", action: AUDIT_ACTION.DATA_DELETED }
     });
 
     expect(audit.changes.deleted_at).not.toBeDefined();

@@ -1,6 +1,4 @@
-const { DATA_DELETED } = require("../../sharedUtilities/constants");
-const { DATA_CREATED } = require("../../sharedUtilities/constants");
-const { DATA_UPDATED } = require("../../sharedUtilities/constants");
+const { AUDIT_ACTION } = require("../../sharedUtilities/constants");
 const _ = require("lodash");
 const Boom = require("boom");
 
@@ -99,18 +97,18 @@ exports.init = sequelize => {
   };
 
   const afterCreateHook = async (instance, options) => {
-    await createDataChangeAudit(instance, options, DATA_CREATED);
+    await createDataChangeAudit(instance, options, AUDIT_ACTION.DATA_CREATED);
   };
 
   const afterUpdateHook = async (instance, options) => {
     if (options.returning) {
       throw Boom.badImplementation('Invalid option: "returning:true"');
     }
-    await createDataChangeAudit(instance, options, DATA_UPDATED);
+    await createDataChangeAudit(instance, options, AUDIT_ACTION.DATA_UPDATED);
   };
 
   const afterDestroyHook = async (instance, options) => {
-    await createDataChangeAudit(instance, options, DATA_DELETED);
+    await createDataChangeAudit(instance, options, AUDIT_ACTION.DATA_DELETED);
   };
   const raiseAuditException = (instance, options) => {
     throw Boom.notImplemented(`Audit is not implemented for this function.`);
@@ -175,7 +173,8 @@ exports.init = sequelize => {
   };
 
   const objectChanges = (action, instance) => {
-    if (action === DATA_DELETED) return deleteObjectChanges(instance);
+    if (action === AUDIT_ACTION.DATA_DELETED)
+      return deleteObjectChanges(instance);
     return createOrUpdateObjectChanges(instance);
   };
 

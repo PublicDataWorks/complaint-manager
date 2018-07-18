@@ -5,7 +5,7 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   CASE_STATUS,
-  DATA_ACCESSED
+  AUDIT_ACTION
 } from "../../../sharedUtilities/constants";
 import createCaseNote from "./createCaseNote";
 import * as httpMocks from "node-mocks-http";
@@ -60,7 +60,7 @@ describe("createCaseNote", function() {
         expect.objectContaining({
           user: "TEST_USER_NICKNAME",
           auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: DATA_ACCESSED,
+          action: AUDIT_ACTION.DATA_ACCESSED,
           subject: AUDIT_SUBJECT.CASE_NOTES,
           caseId: createdCase.id
         })
@@ -94,7 +94,7 @@ describe("createCaseNote", function() {
         expect.objectContaining({
           user: "TEST_USER_NICKNAME",
           auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: DATA_ACCESSED,
+          action: AUDIT_ACTION.DATA_ACCESSED,
           subject: AUDIT_SUBJECT.CASE_DETAILS,
           caseId: createdCase.id
         })

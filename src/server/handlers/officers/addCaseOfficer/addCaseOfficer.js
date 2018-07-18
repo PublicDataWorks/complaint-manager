@@ -6,11 +6,7 @@ const {
 const models = require("../../../models/index");
 const asyncMiddleware = require("../../asyncMiddleware");
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
-const {
-  DATA_ACCESSED,
-  AUDIT_SUBJECT,
-  AUDIT_TYPE
-} = require("../../../../sharedUtilities/constants");
+const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const auditDataAccess = require("../../auditDataAccess");
 
 const addCaseOfficer = asyncMiddleware(async (request, response, next) => {

@@ -4,7 +4,7 @@ const config = require("../../../config/config");
 const auditDataAccess = require("../../auditDataAccess");
 const {
   AUDIT_SUBJECT,
-  DOWNLOADED
+  AUDIT_ACTION
 } = require("../../../../sharedUtilities/constants");
 const models = require("../../../models/index");
 
@@ -18,7 +18,7 @@ const downloadAttachment = asyncMiddleware(async (request, response, next) => {
       request.params.id,
       AUDIT_SUBJECT.ATTACHMENTS,
       transaction,
-      DOWNLOADED,
+      AUDIT_ACTION.DOWNLOADED,
       { fileName: request.params.fileName }
     );
 

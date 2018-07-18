@@ -4,7 +4,7 @@ const httpMocks = require("node-mocks-http");
 import {
   AUDIT_TYPE,
   AUDIT_SUBJECT,
-  DOWNLOADED
+  AUDIT_ACTION
 } from "../../../../sharedUtilities/constants";
 import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import Attachment from "../../../../client/testUtilities/attachment";
@@ -70,7 +70,7 @@ describe("downloadAttachment", function() {
         caseId: attachment.caseId,
         user: "TEST_USER_NICKNAME",
         auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: DOWNLOADED,
+        action: AUDIT_ACTION.DOWNLOADED,
         subject: AUDIT_SUBJECT.ATTACHMENTS,
         subjectDetails: { fileName: attachment.fileName }
       })

@@ -1,5 +1,6 @@
 import nock from "nock";
 import auditLogin from "./auditLogin";
+import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -11,7 +12,7 @@ describe("auditLogin", () => {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .post("/api/audit", { log: "Logged In" })
+      .post("/api/audit", { log: AUDIT_ACTION.LOGGED_IN })
       .reply(201);
 
     await auditLogin();

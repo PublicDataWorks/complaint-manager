@@ -4,7 +4,7 @@ import stringify from "csv-stringify/lib/index";
 import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  EXPORTED,
+  AUDIT_ACTION,
   USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
 import request from "supertest";
@@ -44,7 +44,7 @@ describe("GET /api/export-audit-log", () => {
       const exportActionAudit = await models.action_audit.find({
         where: {
           auditType: AUDIT_TYPE.EXPORT,
-          action: EXPORTED,
+          action: AUDIT_ACTION.EXPORTED,
           subject: AUDIT_SUBJECT.AUDIT_LOG,
           caseId: null,
           user: nickname

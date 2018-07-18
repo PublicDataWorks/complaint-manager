@@ -10,9 +10,8 @@ import { civilianWithAddress } from "../client/testUtilities/ObjectMothers";
 import Address from "../client/testUtilities/Address";
 import {
   CASE_STATUS,
-  USER_PERMISSIONS,
   CIVILIAN_INITIATED,
-  RANK_INITIATED
+  AUDIT_ACTION
 } from "../sharedUtilities/constants";
 import AWS from "aws-sdk";
 import {
@@ -108,7 +107,7 @@ describe("server", () => {
   });
 
   describe("POST /audit", () => {
-    const mockLog = "Logged Out";
+    const mockLog = AUDIT_ACTION.LOGGED_OUT;
     test("should audit log out", async () => {
       await request(app)
         .post("/api/audit")

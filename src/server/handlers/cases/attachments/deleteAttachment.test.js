@@ -5,7 +5,7 @@ import models from "../../../models/index";
 import deleteAttachment from "./deleteAttachment";
 const httpMocks = require("node-mocks-http");
 import {
-  DATA_ACCESSED,
+  AUDIT_ACTION,
   AUDIT_TYPE,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
@@ -65,7 +65,7 @@ describe("deleteAttachment", function() {
       expect.objectContaining({
         caseId: existingCase.id,
         user: "TEST_USER_NICKNAME",
-        action: DATA_ACCESSED,
+        action: AUDIT_ACTION.DATA_ACCESSED,
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         auditType: AUDIT_TYPE.DATA_ACCESS
       })

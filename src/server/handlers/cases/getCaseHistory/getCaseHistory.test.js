@@ -2,8 +2,7 @@ import DataChangeAudit from "../../../../client/testUtilities/dataChangeAudit";
 import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  DATA_UPDATED,
-  DATA_ACCESSED
+  AUDIT_ACTION
 } from "../../../../sharedUtilities/constants";
 import models from "../../../models";
 import httpMocks from "node-mocks-http";
@@ -46,7 +45,7 @@ describe("getCaseHistory", () => {
     expect(actionAudit).toEqual(
       expect.objectContaining({
         user: "nickname",
-        action: DATA_ACCESSED,
+        action: AUDIT_ACTION.DATA_ACCESSED,
         subject: AUDIT_SUBJECT.CASE_HISTORY,
         auditType: AUDIT_TYPE.DATA_ACCESS,
         caseId: createdCase.id
@@ -114,7 +113,7 @@ describe("getCaseHistory", () => {
       .withModelName(modelName)
       .withModelId(caseId)
       .withCaseId(caseId)
-      .withAction(DATA_UPDATED)
+      .withAction(AUDIT_ACTION.DATA_UPDATED)
       .withChanges({ something: { previous: "old", new: "new" } })
       .withUser("bob")
       .withCreatedAt(createdAt);

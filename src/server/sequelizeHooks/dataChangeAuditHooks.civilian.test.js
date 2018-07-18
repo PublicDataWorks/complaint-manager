@@ -1,6 +1,6 @@
 import models from "../models";
 import Case from "../../client/testUtilities/case";
-import { DATA_CREATED, DATA_UPDATED } from "../../sharedUtilities/constants";
+import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import Civilian from "../../client/testUtilities/civilian";
 
 describe("dataChangeAuditHooks for civilian", () => {
@@ -30,7 +30,7 @@ describe("dataChangeAuditHooks for civilian", () => {
 
   test("creates audit on civilian creation", async () => {
     const audit = await models.data_change_audit.find({
-      where: { modelName: "Civilian", action: DATA_CREATED }
+      where: { modelName: "Civilian", action: AUDIT_ACTION.DATA_CREATED }
     });
 
     expect(audit.caseId).toEqual(existingCase.id);
@@ -65,7 +65,7 @@ describe("dataChangeAuditHooks for civilian", () => {
       { where: { id: civilian.id }, auditUser: "someone" }
     );
     const audit = await models.data_change_audit.find({
-      where: { modelName: "Civilian", action: DATA_UPDATED }
+      where: { modelName: "Civilian", action: AUDIT_ACTION.DATA_UPDATED }
     });
 
     expect(audit.caseId).toEqual(existingCase.id);

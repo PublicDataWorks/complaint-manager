@@ -1,5 +1,6 @@
 import nock from "nock";
 import handleLogout from "./handleLogout";
+import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -18,7 +19,7 @@ describe("handleLogout", () => {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .post("/api/audit", { log: "Logged Out" })
+      .post("/api/audit", { log: AUDIT_ACTION.LOGGED_OUT })
       .reply(201);
 
     await handleLogout();

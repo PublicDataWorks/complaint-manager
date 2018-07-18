@@ -2,8 +2,7 @@ import models from "../models/index";
 import Case from "../../client/testUtilities/case";
 import {
   CASE_STATUS,
-  DATA_CREATED,
-  DATA_UPDATED,
+  AUDIT_ACTION,
   RANK_INITIATED,
   CIVILIAN_INITIATED
 } from "../../sharedUtilities/constants";
@@ -54,7 +53,7 @@ describe("dataChangeAuditHooks", () => {
 
       expect(audit.modelName).toEqual("Case");
       expect(audit.modelId).toEqual(createdCase.id);
-      expect(audit.action).toEqual(DATA_CREATED);
+      expect(audit.action).toEqual(AUDIT_ACTION.DATA_CREATED);
       expect(audit.user).toEqual("someone");
     });
 
@@ -135,7 +134,7 @@ describe("dataChangeAuditHooks", () => {
             { auditUser: "test user" }
           );
           const audit = await models.data_change_audit.find({
-            where: { modelName: "Case", action: DATA_UPDATED }
+            where: { modelName: "Case", action: AUDIT_ACTION.DATA_UPDATED }
           });
           expect(audit).toEqual(null);
         } catch (error) {
@@ -157,7 +156,7 @@ describe("dataChangeAuditHooks", () => {
             { auditUser: "test user" }
           );
           const audit = await models.data_change_audit.find({
-            where: { modelName: "Case", action: DATA_UPDATED }
+            where: { modelName: "Case", action: AUDIT_ACTION.DATA_UPDATED }
           });
           expect(audit).toEqual(null);
         } catch (error) {
@@ -229,14 +228,14 @@ describe("dataChangeAuditHooks", () => {
       );
 
       const updateAudits = await existingCase.getDataChangeAudits({
-        where: { action: DATA_UPDATED }
+        where: { action: AUDIT_ACTION.DATA_UPDATED }
       });
       expect(updateAudits.length).toEqual(1);
       const auditUpdate = updateAudits[0];
 
       expect(auditUpdate.modelName).toEqual("Case");
       expect(auditUpdate.modelId).toEqual(existingCase.id);
-      expect(auditUpdate.action).toEqual(DATA_UPDATED);
+      expect(auditUpdate.action).toEqual(AUDIT_ACTION.DATA_UPDATED);
       expect(auditUpdate.user).toEqual("someoneWhoUpdated");
       expect(auditUpdate.modelDescription).toEqual([]);
     });
@@ -249,7 +248,7 @@ describe("dataChangeAuditHooks", () => {
         { auditUser: "someoneWhoUpdated" }
       );
       const audit = (await existingCase.getDataChangeAudits({
-        where: { action: DATA_UPDATED }
+        where: { action: AUDIT_ACTION.DATA_UPDATED }
       }))[0];
 
       const expectedChanges = {
@@ -277,7 +276,7 @@ describe("dataChangeAuditHooks", () => {
         { auditUser: "someoneWhoUpdated" }
       );
       const audit = (await existingCase.getDataChangeAudits({
-        where: { action: DATA_UPDATED }
+        where: { action: AUDIT_ACTION.DATA_UPDATED }
       }))[0];
 
       const expectedChanges = {
@@ -318,7 +317,7 @@ describe("dataChangeAuditHooks", () => {
         { auditUser: "someoneWhoUpdated" }
       );
       const audit = (await existingCase.getDataChangeAudits({
-        where: { action: DATA_UPDATED }
+        where: { action: AUDIT_ACTION.DATA_UPDATED }
       }))[0];
 
       const expectedSnapshot = {

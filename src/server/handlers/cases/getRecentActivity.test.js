@@ -1,7 +1,7 @@
 import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  DATA_ACCESSED
+  AUDIT_ACTION
 } from "../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { createCaseWithCivilian } from "../../testHelpers/modelMothers";
@@ -20,7 +20,7 @@ describe("getRecentActivity", function() {
     const caseNoteAttributes = new CaseNote.Builder()
       .defaultCaseNote()
       .withCaseId(existingCase.id);
-    await models.case_note.create(caseNoteAttributes, {auditUser: "tuser"});
+    await models.case_note.create(caseNoteAttributes, { auditUser: "tuser" });
 
     const request = httpMocks.createRequest({
       method: "GET",
@@ -44,7 +44,7 @@ describe("getRecentActivity", function() {
       expect.objectContaining({
         user: "tuser",
         auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: DATA_ACCESSED,
+        action: AUDIT_ACTION.DATA_ACCESSED,
         subject: AUDIT_SUBJECT.CASE_NOTES,
         caseId: existingCase.id
       })

@@ -1,8 +1,4 @@
-import {
-  DATA_CREATED,
-  DATA_DELETED,
-  DATA_UPDATED
-} from "../../../sharedUtilities/constants";
+import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 
 const AUDIT_TYPE = require("../../../sharedUtilities/constants").AUDIT_TYPE;
 
@@ -23,7 +19,7 @@ describe("transformDataChangeAuditForExport", () => {
 
   test("transforms changes field to empty when created for created model", () => {
     const audit = {
-      action: DATA_CREATED,
+      action: AUDIT_ACTION.DATA_CREATED,
       changes: {
         details: { new: "New Details" },
         otherDetails: { new: "New new" }
@@ -42,7 +38,7 @@ describe("transformDataChangeAuditForExport", () => {
 
   test("transforms changes field for updated model", () => {
     const audit = {
-      action: DATA_UPDATED,
+      action: AUDIT_ACTION.DATA_UPDATED,
       changes: {
         details: { new: "New Details", previous: "Old Details" },
         otherDetails: { new: "New new", previous: "old Old" },
@@ -63,7 +59,7 @@ describe("transformDataChangeAuditForExport", () => {
 
   test("transforms changes field to ignore id, *Id, and addressableType", () => {
     const audit = {
-      action: DATA_UPDATED,
+      action: AUDIT_ACTION.DATA_UPDATED,
       changes: {
         id: { new: 5 },
         caseId: { new: 6, previous: 5 },
@@ -83,7 +79,7 @@ describe("transformDataChangeAuditForExport", () => {
 
   test("transforms changes field to empty string for destroyed model", () => {
     const audit = {
-      action: DATA_DELETED,
+      action: AUDIT_ACTION.DATA_DELETED,
       changes: {
         details: { previous: "Old Details" },
         otherDetails: { previous: "old Old" }

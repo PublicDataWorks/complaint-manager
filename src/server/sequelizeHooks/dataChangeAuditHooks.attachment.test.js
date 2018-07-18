@@ -1,10 +1,6 @@
 import models from "../models";
 import Attachment from "../../client/testUtilities/attachment";
-import {
-  DATA_CREATED,
-  DATA_DELETED,
-  DATA_UPDATED
-} from "../../sharedUtilities/constants";
+import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import Case from "../../client/testUtilities/case";
 
 describe("dataChangeAuditHooks for attachment", () => {
@@ -39,7 +35,7 @@ describe("dataChangeAuditHooks for attachment", () => {
       const audit = audits[0];
 
       expect(audit.modelId).toEqual(attachment.id);
-      expect(audit.action).toEqual(DATA_CREATED);
+      expect(audit.action).toEqual(AUDIT_ACTION.DATA_CREATED);
       expect(audit.user).toEqual("someone");
       expect(audit.caseId).toEqual(existingCase.id);
       expect(audit.modelDescription).toEqual([
@@ -88,7 +84,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         { auditUser: "someone else" }
       );
       audits = await models.data_change_audit.findAll({
-        where: { modelName: "Attachment", action: DATA_UPDATED }
+        where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_UPDATED }
       });
       audit = audits[0];
     });
@@ -132,7 +128,7 @@ describe("dataChangeAuditHooks for attachment", () => {
     test("it creates a data change object with basic attributes", async () => {
       await attachment.destroy({ auditUser: "someone else" });
       const audits = await models.data_change_audit.findAll({
-        where: { modelName: "Attachment", action: DATA_DELETED }
+        where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_DELETED }
       });
 
       const audit = audits[0];
@@ -150,7 +146,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         auditUser: "someone else"
       });
       const audits = await models.data_change_audit.findAll({
-        where: { modelName: "Attachment", action: DATA_DELETED }
+        where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_DELETED }
       });
 
       const audit = audits[0];
@@ -167,7 +163,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         auditUser: "someone else"
       });
       const audit = await models.data_change_audit.find({
-        where: { modelName: "Attachment", action: DATA_DELETED }
+        where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_DELETED }
       });
 
       const expectedChanges = {
@@ -191,7 +187,7 @@ describe("dataChangeAuditHooks for attachment", () => {
     test("it stores the snapshot at time of delete", async () => {
       await attachment.destroy({ auditUser: "someone else" });
       const audits = await models.data_change_audit.findAll({
-        where: { modelName: "Attachment", action: DATA_DELETED }
+        where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_DELETED }
       });
 
       const audit = audits[0];
@@ -216,7 +212,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         );
       }
       models.data_change_audit
-        .count({ where: { action: DATA_DELETED } })
+        .count({ where: { action: AUDIT_ACTION.DATA_DELETED } })
         .then(numAudits => {
           expect(numAudits).toEqual(0);
         });
@@ -236,7 +232,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         );
       }
       models.data_change_audit
-        .count({ where: { action: DATA_DELETED } })
+        .count({ where: { action: AUDIT_ACTION.DATA_DELETED } })
         .then(numAudits => {
           expect(numAudits).toEqual(0);
         });

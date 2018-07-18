@@ -4,7 +4,7 @@ const httpMocks = require("node-mocks-http");
 const models = require("../../models/index");
 const updateCaseNarrative = require("./updateCaseNarrative");
 import {
-  DATA_ACCESSED,
+  AUDIT_ACTION,
   AUDIT_TYPE,
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
@@ -82,7 +82,7 @@ describe("updateCaseNarrative handler", () => {
         caseId: existingCase.id,
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: DATA_ACCESSED
+        action: AUDIT_ACTION.DATA_ACCESSED
       })
     );
   });

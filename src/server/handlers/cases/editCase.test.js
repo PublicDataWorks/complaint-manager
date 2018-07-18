@@ -6,7 +6,7 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   CASE_STATUS,
-  DATA_ACCESSED
+  AUDIT_ACTION
 } from "../../../sharedUtilities/constants";
 import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 
@@ -312,7 +312,7 @@ describe("Edit Case", () => {
       expect(actionAudit).toEqual(
         expect.objectContaining({
           user: "TEST_USER_NICKNAME",
-          action: DATA_ACCESSED,
+          action: AUDIT_ACTION.DATA_ACCESSED,
           subject: AUDIT_SUBJECT.CASE_DETAILS,
           auditType: AUDIT_TYPE.DATA_ACCESS,
           caseId: existingCase.id

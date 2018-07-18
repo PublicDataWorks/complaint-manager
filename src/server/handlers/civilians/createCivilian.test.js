@@ -7,7 +7,7 @@ import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import {
   AUDIT_TYPE,
   AUDIT_SUBJECT,
-  DATA_ACCESSED
+  AUDIT_ACTION
 } from "../../../sharedUtilities/constants";
 
 describe("createCivilian handler", () => {
@@ -49,7 +49,7 @@ describe("createCivilian handler", () => {
         user: "TEST_USER_NICKNAME",
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: DATA_ACCESSED
+        action: AUDIT_ACTION.DATA_ACCESSED
       })
     );
   });

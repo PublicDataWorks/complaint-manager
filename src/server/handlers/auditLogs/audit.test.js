@@ -2,7 +2,7 @@ const httpMocks = require("node-mocks-http");
 const audit = require("./audit");
 const models = require("../../models/index");
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { AUDIT_TYPE } from "../../../sharedUtilities/constants";
+import { AUDIT_ACTION, AUDIT_TYPE } from "../../../sharedUtilities/constants";
 
 describe("Audit", () => {
   afterEach(async () => {
@@ -16,7 +16,7 @@ describe("Audit", () => {
       headers: {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
-      body: { log: "Logged In" },
+      body: { log: AUDIT_ACTION.LOGGED_IN },
       nickname: currentUser
     });
 
@@ -28,7 +28,7 @@ describe("Audit", () => {
     expect(createdAudits.length).toEqual(1);
 
     const expectedLog = {
-      action: `Logged In`,
+      action: AUDIT_ACTION.LOGGED_IN,
       caseId: null,
       user: currentUser,
       auditType: AUDIT_TYPE.AUTHENTICATION

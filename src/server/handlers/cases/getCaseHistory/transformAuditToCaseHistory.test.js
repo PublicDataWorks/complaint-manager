@@ -1,6 +1,6 @@
 import {
   CASE_STATUS,
-  DATA_UPDATED,
+  AUDIT_ACTION,
   CIVILIAN_INITIATED,
   RANK_INITIATED
 } from "../../../../sharedUtilities/constants";
@@ -15,7 +15,7 @@ describe("transformAuditToCaseHistory", () => {
       .withModelDescription("Jasmine Rodda")
       .withModelId(5)
       .withCaseId(5)
-      .withAction(DATA_UPDATED)
+      .withAction(AUDIT_ACTION.DATA_UPDATED)
       .withChanges({
         firstName: { previous: "Emily", new: "Jasmine" }
       })

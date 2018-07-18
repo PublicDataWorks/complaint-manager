@@ -11,7 +11,7 @@ import {
   COMPLAINANT,
   AUDIT_TYPE,
   AUDIT_SUBJECT,
-  DATA_ACCESSED
+  AUDIT_ACTION
 } from "../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
@@ -44,7 +44,7 @@ describe("getCases", () => {
       expect(audit).toEqual(
         expect.objectContaining({
           auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: DATA_ACCESSED,
+          action: AUDIT_ACTION.DATA_ACCESSED,
           subject: AUDIT_SUBJECT.ALL_CASES,
           user: "some_nickname"
         })

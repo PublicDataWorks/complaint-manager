@@ -2,7 +2,7 @@ const {
   UTF8_BYTE_ORDER_MARK,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  EXPORTED
+  AUDIT_ACTION
 } = require("../../../sharedUtilities/constants");
 
 const asyncMiddleware = require("../asyncMiddleware");
@@ -36,7 +36,7 @@ const exportAuditLog = asyncMiddleware(async (request, response) => {
     await models.action_audit.create(
       {
         auditType: AUDIT_TYPE.EXPORT,
-        action: EXPORTED,
+        action: AUDIT_ACTION.EXPORTED,
         subject: AUDIT_SUBJECT.AUDIT_LOG,
         caseId: null,
         user: request.nickname

@@ -4,7 +4,7 @@ import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
 import {
   ACCUSED,
-  DATA_ACCESSED,
+  AUDIT_ACTION,
   AUDIT_TYPE,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
@@ -100,7 +100,7 @@ describe("editOfficerAllegation", () => {
         auditType: AUDIT_TYPE.DATA_ACCESS,
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         caseId: caseOfficer.caseId,
-        action: DATA_ACCESSED
+        action: AUDIT_ACTION.DATA_ACCESSED
       })
     );
   });

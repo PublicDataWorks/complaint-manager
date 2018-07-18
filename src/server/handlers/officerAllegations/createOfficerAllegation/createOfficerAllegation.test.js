@@ -8,7 +8,7 @@ import createOfficerAllegation from "./createOfficerAllegation";
 import Boom from "boom";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
-  DATA_ACCESSED,
+  AUDIT_ACTION,
   AUDIT_TYPE,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
@@ -158,7 +158,7 @@ describe("createOfficerAllegation", () => {
       expect.objectContaining({
         caseId: newCase.id,
         subject: AUDIT_SUBJECT.CASE_DETAILS,
-        action: DATA_ACCESSED,
+        action: AUDIT_ACTION.DATA_ACCESSED,
         auditType: AUDIT_TYPE.DATA_ACCESS,
         user: "TEST_USER_NICKNAME"
       })
