@@ -31,11 +31,13 @@ describe("auditDataAccess", () => {
       expect(createdAudits.length).toEqual(1);
 
       expect(createdAudits[0].subjectDetails).toEqual([
-        "Case",
+        "Case Information",
         "Incident Location",
-        "Complainants",
+        "Civilian Complainants",
+        "Officer Complainants",
+        "Civilian Witnesses",
+        "Officer Witnesses",
         "Civilian Address",
-        "Witnesses",
         "Accused Officers",
         "Allegations",
         "Attachments"
@@ -58,8 +60,9 @@ describe("auditDataAccess", () => {
       expect(createdAudits.length).toEqual(1);
 
       expect(createdAudits[0].subjectDetails).toEqual([
-        "Cases",
-        "Complainants",
+        "Case Information",
+        "Civilian Complainants",
+        "Officer Complainants",
         "Accused Officers"
       ]);
     });
@@ -80,11 +83,13 @@ describe("auditDataAccess", () => {
       expect(createdAudits.length).toEqual(1);
 
       expect(createdAudits[0].subjectDetails).toEqual([
-        "Case",
+        "Case Information",
         "Incident Location",
-        "Complainants",
+        "Civilian Complainants",
+        "Officer Complainants",
+        "Civilian Witnesses",
+        "Officer Witnesses",
         "Civilian Address",
-        "Witnesses",
         "Accused Officers",
         "Allegations",
         "Attachments",

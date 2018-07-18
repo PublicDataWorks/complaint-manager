@@ -7,22 +7,31 @@ const {
 
 const SUBJECT_DETAILS = {
   [AUDIT_SUBJECT.CASE_DETAILS]: [
-    "Case",
+    "Case Information",
     "Incident Location",
-    "Complainants",
+    "Civilian Complainants",
+    "Officer Complainants",
+    "Civilian Witnesses",
+    "Officer Witnesses",
     "Civilian Address",
-    "Witnesses",
     "Accused Officers",
     "Allegations",
     "Attachments"
   ],
-  [AUDIT_SUBJECT.ALL_CASES]: ["Cases", "Complainants", "Accused Officers"],
+  [AUDIT_SUBJECT.ALL_CASES]: [
+    "Case Information",
+    "Civilian Complainants",
+    "Officer Complainants",
+    "Accused Officers"
+  ],
   [AUDIT_SUBJECT.CASE_HISTORY]: [
-    "Case",
+    "Case Information",
     "Incident Location",
-    "Complainants",
+    "Civilian Complainants",
+    "Officer Complainants",
+    "Civilian Witnesses",
+    "Officer Witnesses",
     "Civilian Address",
-    "Witnesses",
     "Accused Officers",
     "Allegations",
     "Attachments",
