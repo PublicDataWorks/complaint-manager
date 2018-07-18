@@ -14,11 +14,14 @@ import { connect } from "react-redux";
 import { closeExportConfirmationDialog } from "../../../actionCreators/navBarActionCreators";
 
 const ExportConfirmationDialog = props => {
-  const date = timezone()
-    .tz(TIMEZONE)
-    .format("YYYY-MM-DD_HH.MM.ss.zz");
-  const titleForFileName = props.title.replace(" ", "_");
-  const fileName = `Complaint_Manager_${titleForFileName}_${date}.csv`;
+  const generateFileName = () => {
+    const date = timezone()
+      .tz(TIMEZONE)
+      .format("YYYY-MM-DD_HH.mm.ss.zz");
+    const titleForFileName = props.title.replace(" ", "_");
+    const fileName = `Complaint_Manager_${titleForFileName}_${date}.csv`;
+    return fileName;
+  };
 
   const closeDialog = () => {
     props.dispatch(closeExportConfirmationDialog());
@@ -45,7 +48,9 @@ const ExportConfirmationDialog = props => {
         <PrimaryButton
           data-test="exportAuditLogButton"
           onClick={() =>
-            props.dispatch(downloader(props.path, fileName, true, closeDialog))
+            props.dispatch(
+              downloader(props.path, generateFileName(), true, closeDialog)
+            )
           }
         >
           Export
