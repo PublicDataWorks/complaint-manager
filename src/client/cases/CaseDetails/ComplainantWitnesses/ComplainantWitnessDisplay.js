@@ -33,12 +33,12 @@ const ComplainantWitnessDisplay = ({
           {emptyMessage}
         </Typography>
       ) : (
-        civiliansAndOfficers.map(civilianOrOfficer => {
+        civiliansAndOfficers.map((civilianOrOfficer, index) => {
           if (civilianOrOfficer.hasOwnProperty("officerId")) {
             if (civilianOrOfficer.isUnknownOfficer) {
               return (
                 <UnknownOfficerPanel
-                  key={civilianOrOfficer.id}
+                  key={index}
                   caseOfficer={civilianOrOfficer}
                 >
                   <OfficerActions caseOfficer={civilianOrOfficer} />
@@ -46,10 +46,7 @@ const ComplainantWitnessDisplay = ({
               );
             } else {
               return (
-                <OfficerPanel
-                  key={civilianOrOfficer.id}
-                  caseOfficer={civilianOrOfficer}
-                >
+                <OfficerPanel key={index} caseOfficer={civilianOrOfficer}>
                   <OfficerActions caseOfficer={civilianOrOfficer} />
                 </OfficerPanel>
               );
@@ -57,7 +54,7 @@ const ComplainantWitnessDisplay = ({
           } else {
             return (
               <CivilianPanel
-                key={civilianOrOfficer.id}
+                key={index}
                 civilian={civilianOrOfficer}
                 dispatch={dispatch}
               />
