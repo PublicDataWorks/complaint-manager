@@ -5,12 +5,14 @@ import OfficerActions from "./OfficerActions";
 import UnknownOfficerPanel from "../Officers/UnknownOfficerPanel";
 import OfficerPanel from "../Officers/OfficerPanel";
 import CivilianPanel from "./CivilianPanel";
+import calculateAgeBasedOnIncidentDate from "../../../utilities/calculateAgeBasedOnIncidentDate";
 
 const ComplainantWitnessDisplay = ({
   civiliansAndOfficers,
   title,
   emptyMessage,
-  dispatch
+  dispatch,
+  incidentDate
 }) => {
   return (
     <div>
@@ -46,7 +48,14 @@ const ComplainantWitnessDisplay = ({
               );
             } else {
               return (
-                <OfficerPanel key={index} caseOfficer={civilianOrOfficer}>
+                <OfficerPanel
+                  key={index}
+                  caseOfficer={civilianOrOfficer}
+                  officerAge={calculateAgeBasedOnIncidentDate(
+                    civilianOrOfficer,
+                    incidentDate
+                  )}
+                >
                   <OfficerActions caseOfficer={civilianOrOfficer} />
                 </OfficerPanel>
               );
@@ -57,6 +66,10 @@ const ComplainantWitnessDisplay = ({
                 key={index}
                 civilian={civilianOrOfficer}
                 dispatch={dispatch}
+                civilianAge={calculateAgeBasedOnIncidentDate(
+                  civilianOrOfficer,
+                  incidentDate
+                )}
               />
             );
           }

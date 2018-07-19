@@ -20,7 +20,7 @@ import formatDate from "../../../utilities/formatDate";
 import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
 import AddresesInfoDisplay from "../../../shared/components/AddressInfoDisplay";
 
-const CivilianPanel = ({ civilian, dispatch }) => {
+const CivilianPanel = ({ civilian, civilianAge, dispatch }) => {
   const phoneNumber = formatPhoneNumber(civilian.phoneNumber);
   const birthDate = formatDate(civilian.birthDate);
 
@@ -82,8 +82,8 @@ const CivilianPanel = ({ civilian, dispatch }) => {
         </ExpansionPanelSummary>
         <StyledExpansionPanelDetails>
           <CivilianInfoDisplay
-            displayLabel="Date of Birth"
-            value={birthDate}
+            displayLabel="Date of Birth (Age)"
+            value={`${birthDate} (${civilianAge})`}
             testLabel="complainantBirthday"
           />
           <CivilianInfoDisplay

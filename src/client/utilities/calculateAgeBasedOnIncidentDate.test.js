@@ -22,7 +22,7 @@ describe("calculateAgeBasedOnIncidentDate", function() {
       incidentDate
     );
 
-    expect(age).toEqual(null);
+    expect(age).toEqual("N/A");
   });
 
   test("should return null if no incident date for civilian", () => {
@@ -38,7 +38,7 @@ describe("calculateAgeBasedOnIncidentDate", function() {
       incidentDate
     );
 
-    expect(age).toEqual(null);
+    expect(age).toEqual("N/A");
   });
 
   test("should return correct age if there is an incident date for officer", () => {

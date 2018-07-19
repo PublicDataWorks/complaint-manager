@@ -33,12 +33,14 @@ const ComplainantWitnesses = props => {
           emptyMessage={"No complainants have been added"}
           civiliansAndOfficers={sortedComplainants}
           dispatch={props.dispatch}
+          incidentDate={props.caseDetail.incidentDate}
         />
         <ComplainantWitnessDisplay
           title={"Witnesses"}
           emptyMessage={"No witnesses have been added"}
           civiliansAndOfficers={sortedWitnesses}
           dispatch={props.dispatch}
+          incidentDate={props.caseDetail.incidentDate}
         />
       </CardContent>
     </BaseCaseDetailsCard>

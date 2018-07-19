@@ -110,10 +110,7 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => (
         />
         <OfficerInfoDisplay
           displayLabel="Date of Birth (Age)"
-          value={
-            officerAge !== null &&
-            `${formatDate(caseOfficer.dob)} (${officerAge})`
-          }
+          value={`${formatDate(caseOfficer.dob)} (${officerAge})`}
           testLabel="age"
         />
       </StyledExpansionPanelDetails>
