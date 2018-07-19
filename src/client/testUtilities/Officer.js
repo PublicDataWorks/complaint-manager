@@ -120,6 +120,12 @@ class Officer {
         this.employeeType = employeeType;
         return this;
       }
+
+      withDOB(dob) {
+        this.dob = dob;
+        return this;
+      }
+
       build() {
         return new Officer(this);
       }

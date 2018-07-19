@@ -5,7 +5,6 @@ import Officer from "../../../testUtilities/Officer";
 import CaseOfficer from "../../../testUtilities/caseOfficer";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
-import * as _ from "lodash";
 
 describe("AccusedOfficers", function() {
   test("should display officers", () => {

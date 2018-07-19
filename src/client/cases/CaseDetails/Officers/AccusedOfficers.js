@@ -5,8 +5,9 @@ import AccusedOfficerPanel from "./OfficerPanel";
 import UnknownOfficerPanel from "./UnknownOfficerPanel";
 import ManageOfficerMenu from "./ManageOfficerMenu";
 import WarningMessage from "../../../shared/components/WarningMessage";
+import calculateAgeBasedOnIncidentDate from "../../../utilities/calculateAgeBasedOnIncidentDate";
 
-const AccusedOfficers = ({ accusedOfficers }) => {
+const AccusedOfficers = ({ accusedOfficers, incidentDate }) => {
   return (
     <BaseCaseDetailsCard data-test="officersSection" title="Accused Officers">
       <CardContent style={{ padding: "0" }}>
@@ -25,6 +26,10 @@ const AccusedOfficers = ({ accusedOfficers }) => {
                   <AccusedOfficerPanel
                     key={caseOfficer.id}
                     caseOfficer={caseOfficer}
+                    officerAge={calculateAgeBasedOnIncidentDate(
+                      caseOfficer,
+                      incidentDate
+                    )}
                   >
                     <ManageOfficerMenu caseOfficer={caseOfficer} />
                   </AccusedOfficerPanel>

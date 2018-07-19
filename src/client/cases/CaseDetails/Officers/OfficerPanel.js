@@ -20,7 +20,7 @@ import {
   accusedOfficerPanelExpanded
 } from "../../../actionCreators/accusedOfficerPanelsActionCreators";
 
-const OfficerPanel = ({ dispatch, caseOfficer, children }) => (
+const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => (
   <div>
     <ExpansionPanel
       data-test="officerPanel"
@@ -109,8 +109,11 @@ const OfficerPanel = ({ dispatch, caseOfficer, children }) => (
           testLabel="sex"
         />
         <OfficerInfoDisplay
-          displayLabel="Age"
-          value={caseOfficer.age}
+          displayLabel="Date of Birth (Age)"
+          value={
+            officerAge !== null &&
+            `${formatDate(caseOfficer.dob)} (${officerAge})`
+          }
           testLabel="age"
         />
       </StyledExpansionPanelDetails>
