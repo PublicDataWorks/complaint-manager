@@ -3,17 +3,11 @@ import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import Case from "../../client/testUtilities/case";
 import Address from "../../client/testUtilities/Address";
 import Civilian from "../../client/testUtilities/civilian";
+import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 describe("dataChangeAuditHooks address", () => {
   afterEach(async () => {
-    await models.address.truncate({ force: true, auditUser: "someone" });
-    await models.civilian.truncate({ force: true, auditUser: "someone" });
-    await models.cases.truncate({
-      cascade: true,
-      force: true,
-      auditUser: "someone"
-    });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   describe("incident location", () => {

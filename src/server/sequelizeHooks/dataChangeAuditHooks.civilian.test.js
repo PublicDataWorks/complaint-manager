@@ -2,6 +2,7 @@ import models from "../models";
 import Case from "../../client/testUtilities/case";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import Civilian from "../../client/testUtilities/civilian";
+import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 describe("dataChangeAuditHooks for civilian", () => {
   let existingCase, civilian;
@@ -24,8 +25,7 @@ describe("dataChangeAuditHooks for civilian", () => {
     });
   });
   afterEach(async () => {
-    await models.cases.truncate({ cascade: true, auditUser: true });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("creates audit on civilian creation", async () => {

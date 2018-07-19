@@ -1,11 +1,10 @@
 import loadCsv from "./loadCsv";
 import models from "../models/index";
+import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 describe("loadCsv", () => {
   afterEach(async () => {
-    await models.case_officer.destroy({ truncate: true, cascade: true });
-    await models.officer.destroy({ truncate: true, cascade: true });
-    await models.allegation.destroy({ truncate: true, cascade: true });
+    await cleanupDatabase();
   });
 
   test("it creates an officer for each row in the csv", async () => {

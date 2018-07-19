@@ -3,11 +3,11 @@ import CaseNote from "../../client/testUtilities/caseNote";
 import models from "../models";
 import { AUDIT_ACTION, TIMEZONE } from "../../sharedUtilities/constants";
 import timezone from "moment-timezone";
+import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 describe("dataChangeAuditHooks for caseNote", () => {
   afterEach(async () => {
-    await models.cases.truncate({ cascade: true, auditUser: true });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("creates audit on caseNote creation", async () => {

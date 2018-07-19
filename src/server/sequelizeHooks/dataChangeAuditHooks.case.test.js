@@ -6,15 +6,11 @@ import {
   RANK_INITIATED,
   CIVILIAN_INITIATED
 } from "../../sharedUtilities/constants";
+import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 describe("dataChangeAuditHooks", () => {
   afterEach(async () => {
-    await models.cases.truncate({
-      cascade: true,
-      force: true,
-      auditUser: "test user"
-    });
-    await models.data_change_audit.truncate({ cascade: true, force: true });
+    await cleanupDatabase();
   });
 
   describe("audit not implemented", () => {
@@ -167,7 +163,6 @@ describe("dataChangeAuditHooks", () => {
       });
 
       test("it does not create the case if the audit fails", async () => {
-        await models.cases.truncate({ cascade: true, auditUser: "test user" });
         try {
           await models.cases.create(initialCaseAttributes, { auditUser: null });
         } catch (error) {
@@ -184,7 +179,6 @@ describe("dataChangeAuditHooks", () => {
       });
 
       test("it does not create the audit if the case creation fails", async () => {
-        await models.data_change_audit.truncate({ cascade: true });
         try {
           await models.cases.create({}, { auditUser: "someone" });
         } catch (error) {

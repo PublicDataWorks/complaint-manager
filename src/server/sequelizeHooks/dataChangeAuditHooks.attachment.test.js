@@ -2,6 +2,7 @@ import models from "../models";
 import Attachment from "../../client/testUtilities/attachment";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import Case from "../../client/testUtilities/case";
+import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 describe("dataChangeAuditHooks for attachment", () => {
   let attachment, attachmentOriginalAttributes, existingCase;
@@ -22,8 +23,7 @@ describe("dataChangeAuditHooks for attachment", () => {
     });
   });
   afterEach(async () => {
-    await models.cases.truncate({ cascade: true, auditUser: "test user" });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   describe("create attachment", () => {

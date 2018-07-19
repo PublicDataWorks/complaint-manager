@@ -3,6 +3,7 @@ import CaseOfficer from "../../client/testUtilities/caseOfficer";
 import Officer from "../../client/testUtilities/Officer";
 import models from "../models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
+import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 describe("dataChangeAudithooks caseofficer", () => {
   let createdCase;
@@ -37,13 +38,7 @@ describe("dataChangeAudithooks caseofficer", () => {
   });
 
   afterEach(async () => {
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "someone",
-      force: true
-    });
-    await models.data_change_audit.truncate();
+    await cleanupDatabase();
   });
 
   test("should audit caseofficer creation", async () => {

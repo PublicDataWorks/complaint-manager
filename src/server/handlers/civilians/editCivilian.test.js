@@ -162,17 +162,6 @@ describe("editCivilian handler editing civilian with an address", () => {
     await existingCivilian.reload({ include: [models.address] });
   });
 
-  afterEach(async () => {
-    await models.address.truncate({ auditUser: "test user", force: true });
-    await models.civilian.truncate({ auditUser: "test user" });
-    await models.cases.truncate({
-      cascade: true,
-      force: true,
-      auditUser: "test user"
-    });
-    await models.data_change_audit.truncate();
-  });
-
   test("should update, not create, an address when address ID given", async () => {
     const initialAddressCount = await models.address.count();
     const request = httpMocks.createRequest({

@@ -45,55 +45,19 @@ export const buildTokenWithPermissions = (permissions, nickname) => {
 };
 
 export const cleanupDatabase = async () => {
-  await models.address.destroy({
-    truncate: true,
-    cascade: true,
-    force: true,
-    auditUser: "test user"
+  const truncationQuery =
+    "TRUNCATE addresses CASCADE;" +
+    "TRUNCATE cases_officers CASCADE;" +
+    "TRUNCATE officers_allegations CASCADE;" +
+    "TRUNCATE officers CASCADE;" +
+    "TRUNCATE allegations CASCADE;" +
+    "TRUNCATE civilians CASCADE;" +
+    "TRUNCATE attachments CASCADE;" +
+    "TRUNCATE case_notes CASCADE;" +
+    "TRUNCATE action_audits CASCADE;" +
+    "TRUNCATE data_change_audits CASCADE;" +
+    "TRUNCATE cases CASCADE;";
+  await models.sequelize.query(truncationQuery, {
+    type: models.sequelize.QueryTypes.RAW
   });
-  await models.officer_allegation.destroy({
-    truncate: true,
-    cascade: true,
-    force: true,
-    auditUser: "test user"
-  });
-  await models.case_officer.destroy({
-    truncate: true,
-    cascade: true,
-    auditUser: "test user"
-  });
-  await models.civilian.destroy({
-    truncate: true,
-    cascade: true,
-    force: true,
-    auditUser: "test user"
-  });
-  await models.attachment.destroy({
-    truncate: true,
-    cascade: true,
-    force: true,
-    auditUser: "test user"
-  });
-  await models.case_note.destroy({
-    truncate: true,
-    cascade: true,
-    force: true,
-    auditUser: "test user"
-  });
-  await models.action_audit.destroy({
-    truncate: true,
-    cascade: true,
-    force: true
-  });
-  await models.cases.destroy({
-    truncate: true,
-    cascade: true,
-    auditUser: "test user"
-  });
-  await models.allegation.destroy({
-    truncate: true,
-    cascade: true
-  });
-  await models.officer.destroy({ truncate: true, cascade: true });
-  await models.data_change_audit.truncate();
 };

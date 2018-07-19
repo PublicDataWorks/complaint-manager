@@ -16,12 +16,6 @@ describe("createCase handler", () => {
   let request, response, next, caseAttributes, civilianAttributes, user;
 
   beforeEach(async () => {
-    await models.cases.destroy({
-      truncate: true,
-      cascade: true,
-      auditUser: "test user"
-    });
-
     user = "TEST_USER_NICKNAME";
     caseAttributes = {
       complaintType: CIVILIAN_INITIATED,
