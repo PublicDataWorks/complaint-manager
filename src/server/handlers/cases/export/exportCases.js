@@ -62,6 +62,7 @@ const columns = {
   "complainants.civilian_street_address2":
     "Civilian Complainant Additional Address Information",
   "complainants.civilian_additional_info": "Civilian Complainant Notes",
+  "complainants.officer_id": "Officer Complainant Case Officer Database ID",
   "complainants.officer_full_name": "Officer Complainant Name",
   "complainants.officer_windows_username":
     "Officer Complainant Windows Username",
@@ -83,6 +84,7 @@ const columns = {
   witness_count: "Number of Witnesses",
   narrative_summary: "Narrative Summary",
   narrative_details: "Narrative Details",
+  "accusedOfficers.id": "Accused Officer Case Officer Database ID",
   "accusedOfficers.full_name": "Accused Officer Name",
   "accusedOfficers.windows_username": "Accused Officer Windows Username",
   "accusedOfficers.rank": "Accused Officer Rank/Title",

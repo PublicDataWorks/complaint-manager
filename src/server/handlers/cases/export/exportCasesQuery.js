@@ -52,7 +52,12 @@ const exportCasesQuery = () => {
     'complainants.civilian_state AS "complainants.civilian_state", ' +
     'complainants.civilian_zip_code AS "complainants.civilian_zip_code", ' +
     'complainants.civilian_street_address2 AS "complainants.civilian_street_address2", ' +
-    'complainants.officer_full_name AS "complainants.officer_full_name", ' +
+    'complainants.officer_id AS "complainants.officer_id", ' +
+    "complainants.officer_full_name, " +
+    " CASE WHEN complainants.officer_full_name='' THEN 'Unknown Officer'" +
+    "   ELSE complainants.officer_full_name" +
+    " END " +
+    'AS "complainants.officer_full_name", ' +
     'complainants.officer_windows_username AS "complainants.officer_windows_username", ' +
     'complainants.officer_rank AS "complainants.officer_rank", ' +
     'complainants.officer_supervisor_full_name AS "complainants.officer_supervisor_full_name", ' +
@@ -67,12 +72,25 @@ const exportCasesQuery = () => {
     'complainants.officer_sex AS "complainants.officer_sex", ' +
     `date_part('year',age(cases.incident_date, complainants.officer_dob)) AS "complainants.officer_age", ` +
     'complainants.officer_notes AS "complainants.officer_notes", ' +
+    'accusedOfficers.id AS "accusedOfficers.id", ' +
     "concat_ws(" +
     " ' ', " +
     " accusedOfficers.first_name, " +
     " NULLIF(accusedOfficers.middle_name, ''), " +
     " accusedOfficers.last_name" +
-    ') AS "accusedOfficers.full_name", ' +
+    ")," +
+    "   CASE WHEN concat_ws(" +
+    "             ' ', " +
+    "             accusedOfficers.first_name, " +
+    "             NULLIF(accusedOfficers.middle_name, ''), " +
+    "             accusedOfficers.last_name)='' THEN 'Unknown Officer' " +
+    "   ELSE  concat_ws(" +
+    "         ' ', " +
+    "         accusedOfficers.first_name, " +
+    "         NULLIF(accusedOfficers.middle_name, ''), " +
+    "         accusedOfficers.last_name) " +
+    "   END" +
+    ' AS "accusedOfficers.full_name", ' +
     'accusedOfficers.windows_username AS "accusedOfficers.windows_username", ' +
     'accusedOfficers.rank AS "accusedOfficers.rank", ' +
     "concat_ws(" +
@@ -125,6 +143,7 @@ const exportCasesQuery = () => {
     "   addresses.state AS civilian_state, " +
     "   addresses.zip_code AS civilian_zip_code, " +
     "   addresses.street_address2 AS civilian_street_address2, " +
+    '   NULL AS "officer_id", ' +
     '   NULL AS "officer_full_name", ' +
     "   NULL AS officer_windows_username, " +
     "   NULL AS officer_rank, " +
@@ -164,6 +183,7 @@ const exportCasesQuery = () => {
     "   NULL AS civilian_state, " +
     "   NULL AS civilian_zip_code, " +
     "   NULL AS civilian_street_address2, " +
+    "   id AS officer_id, " +
     "   concat_ws(" +
     "     ' ', " +
     "     first_name, " +

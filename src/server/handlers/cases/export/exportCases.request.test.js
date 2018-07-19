@@ -14,6 +14,7 @@ import Case from "../../../../client/testUtilities/case";
 import moment from "moment";
 import timezone from "moment-timezone";
 import {
+  ACCUSED,
   AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
@@ -149,6 +150,7 @@ describe("exportCases request", function() {
               "Civilian Complainant Zip Code," +
               "Civilian Complainant Additional Address Information," +
               "Civilian Complainant Notes," +
+              "Officer Complainant Case Officer Database ID," +
               "Officer Complainant Name," +
               "Officer Complainant Windows Username," +
               "Officer Complainant Rank/Title," +
@@ -167,6 +169,7 @@ describe("exportCases request", function() {
               "Number of Witnesses," +
               "Narrative Summary," +
               "Narrative Details," +
+              "Accused Officer Case Officer Database ID," +
               "Accused Officer Name," +
               "Accused Officer Windows Username," +
               "Accused Officer Rank/Title," +
@@ -386,6 +389,9 @@ describe("exportCases request", function() {
 
         const officerComplainantRow = records[1];
         expect(officerComplainantRow["Complainant"]).toEqual("Officer");
+        expect(
+          officerComplainantRow["Officer Complainant Case Officer Database ID"]
+        ).toEqual(`${caseOfficerComplainant.id}`);
         expect(officerComplainantRow["Officer Complainant Name"]).toEqual(
           `${caseOfficerComplainant.firstName} ${
             caseOfficerComplainant.middleName
@@ -616,6 +622,48 @@ describe("exportCases request", function() {
       });
   });
 
+  test("should display unknown officer names when unknown officers", async () => {
+    const unknownComplainantOfficerToCreate = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withRoleOnCase(COMPLAINANT)
+      .withId(undefined)
+      .withCaseId(caseToExport.id)
+      .withUnknownOfficer()
+      .withFullName(null)
+      .build();
+
+    await models.case_officer.create(unknownComplainantOfficerToCreate, {
+      auditUser: "someone"
+    });
+
+    const unknownAccusedOfficerToCreate = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withRoleOnCase(ACCUSED)
+      .withId(undefined)
+      .withCaseId(caseToExport.id)
+      .withUnknownOfficer()
+      .withFullName(null)
+      .build();
+
+    await models.case_officer.create(unknownAccusedOfficerToCreate, {
+      auditUser: "someone"
+    });
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+
+        expect(records[2]["Officer Complainant Name"]).toEqual(
+          "Unknown Officer"
+        );
+        expect(records[1]["Accused Officer Name"]).toEqual("Unknown Officer");
+      });
+  });
+
   test("should include data about officer", async () => {
     await request(app)
       .get("/api/cases/export")
@@ -625,11 +673,17 @@ describe("exportCases request", function() {
         const resultingCsv = response.text;
         const records = parse(resultingCsv, { columns: true });
         const firstRecord = records[0];
+
+        expect(firstRecord["Accused Officer Case Officer Database ID"]).toEqual(
+          `${caseOfficer.id}`
+        );
+
         expect(firstRecord["Accused Officer Name"]).toEqual(
           `${caseOfficer.firstName} ${caseOfficer.middleName} ${
             caseOfficer.lastName
           }`
         );
+
         expect(firstRecord["Accused Officer Windows Username"]).toEqual(
           caseOfficer.windowsUsername.toString()
         );
