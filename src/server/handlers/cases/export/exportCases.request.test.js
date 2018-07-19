@@ -537,7 +537,7 @@ describe("exportCases request", function() {
       caseOfficerWitnessToCreate,
       { auditUser: "test user" }
     );
-    createdCaseOfficerWitness.destroy({ auditUser: "test user" });
+    await createdCaseOfficerWitness.destroy({ auditUser: "test user" });
 
     const civilianWitnessToCreate = new Civilian.Builder()
       .defaultCivilian()
@@ -549,7 +549,7 @@ describe("exportCases request", function() {
       civilianWitnessToCreate,
       { auditUser: "test user" }
     );
-    createdCivilianWitness.destroy({ auditUser: "test user" });
+    await createdCivilianWitness.destroy({ auditUser: "test user" });
 
     await request(app)
       .get("/api/cases/export")
