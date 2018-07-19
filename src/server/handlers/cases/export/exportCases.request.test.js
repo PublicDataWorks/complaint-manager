@@ -518,6 +518,50 @@ describe("exportCases request", function() {
       });
   });
 
+  test("should not include deleted witnesses in witness count", async () => {
+    const officerToBeCreated = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined)
+      .withOfficerNumber(300)
+      .build();
+    const createdOfficer = await models.officer.create(officerToBeCreated);
+
+    const caseOfficerWitnessToCreate = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withId(undefined)
+      .withOfficerAttributes(createdOfficer)
+      .withRoleOnCase(WITNESS)
+      .withCaseId(caseToExport.id)
+      .build();
+    const createdCaseOfficerWitness = await models.case_officer.create(
+      caseOfficerWitnessToCreate,
+      { auditUser: "test user" }
+    );
+    createdCaseOfficerWitness.destroy({ auditUser: "test user" });
+
+    const civilianWitnessToCreate = new Civilian.Builder()
+      .defaultCivilian()
+      .withId(undefined)
+      .withCaseId(caseToExport.id)
+      .withRoleOnCase(WITNESS)
+      .build();
+    const createdCivilianWitness = await models.civilian.create(
+      civilianWitnessToCreate,
+      { auditUser: "test user" }
+    );
+    createdCivilianWitness.destroy({ auditUser: "test user" });
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+        expect(records[0]["Number of Witnesses"]).toEqual("0");
+      });
+  });
+
   test("should include witness count when 1 officer witness and 1 civilian witness", async () => {
     const officerToBeCreated = new Officer.Builder()
       .defaultOfficer()
