@@ -69,7 +69,7 @@ jobs:
                     -e AWS_SECRET_ACCESS_KEY=$DEVELOPMENT_AWS_SECRET_ACCESS_KEY \
                     noipm/complaint-manager-development:$CIRCLE_SHA1 yarn setup:db
 
-              - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY
+              - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
               - run: docker tag noipm/complaint-manager-development:$CIRCLE_SHA1 registry.heroku.com/noipm-development/web
               - run: docker push registry.heroku.com/noipm-development/web
               - run: heroku container:release web --app noipm-development
