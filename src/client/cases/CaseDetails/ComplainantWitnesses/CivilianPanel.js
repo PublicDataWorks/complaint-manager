@@ -83,7 +83,7 @@ const CivilianPanel = ({ civilian, civilianAge, dispatch }) => {
         <StyledExpansionPanelDetails>
           <CivilianInfoDisplay
             displayLabel="Date of Birth (Age)"
-            value={`${birthDate} (${civilianAge})`}
+            value={birthDate === null ? "N/A" : `${birthDate} (${civilianAge})`}
             testLabel="complainantBirthday"
           />
           <CivilianInfoDisplay
