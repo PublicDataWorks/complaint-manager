@@ -18,7 +18,8 @@ import {
 } from "@material-ui/core";
 import formatDate from "../../../utilities/formatDate";
 import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
-import AddresesInfoDisplay from "../../../shared/components/AddressInfoDisplay";
+import AddressInfoDisplay from "../../../shared/components/AddressInfoDisplay";
+import DateOfBirthAgeInfoDisplay from "../../../shared/components/DateOfBirthAgeInfoDisplay";
 
 const CivilianPanel = ({ civilian, civilianAge, dispatch }) => {
   const phoneNumber = formatPhoneNumber(civilian.phoneNumber);
@@ -81,10 +82,11 @@ const CivilianPanel = ({ civilian, civilianAge, dispatch }) => {
           </div>
         </ExpansionPanelSummary>
         <StyledExpansionPanelDetails>
-          <CivilianInfoDisplay
+          <DateOfBirthAgeInfoDisplay
             displayLabel="Date of Birth (Age)"
-            value={birthDate === null ? "N/A" : `${birthDate} (${civilianAge})`}
             testLabel="complainantBirthday"
+            birthDate={birthDate}
+            age={civilianAge}
           />
           <CivilianInfoDisplay
             displayLabel="Phone Number"
@@ -98,7 +100,7 @@ const CivilianPanel = ({ civilian, civilianAge, dispatch }) => {
           />
         </StyledExpansionPanelDetails>
         <StyledExpansionPanelDetails>
-          <AddresesInfoDisplay
+          <AddressInfoDisplay
             testLabel={"civilianAddress"}
             displayLabel={"Address"}
             address={civilian.address}

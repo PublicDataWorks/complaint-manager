@@ -19,6 +19,7 @@ import {
   accusedOfficerPanelCollapsed,
   accusedOfficerPanelExpanded
 } from "../../../actionCreators/accusedOfficerPanelsActionCreators";
+import DateOfBirthAgeInfoDisplay from "../../../shared/components/DateOfBirthAgeInfoDisplay";
 
 const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => (
   <div>
@@ -108,14 +109,11 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => (
           value={caseOfficer.sex}
           testLabel="sex"
         />
-        <OfficerInfoDisplay
+        <DateOfBirthAgeInfoDisplay
           displayLabel="Date of Birth (Age)"
-          value={
-            caseOfficer.dob === null
-              ? "N/A"
-              : `${formatDate(caseOfficer.dob)} (${officerAge})`
-          }
           testLabel="age"
+          birthDate={formatDate(caseOfficer.dob)}
+          age={officerAge}
         />
       </StyledExpansionPanelDetails>
       <StyledExpansionPanelDetails>

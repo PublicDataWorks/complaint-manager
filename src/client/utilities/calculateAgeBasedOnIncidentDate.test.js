@@ -78,4 +78,42 @@ describe("calculateAgeBasedOnIncidentDate", function() {
 
     expect(age).toEqual(30);
   });
+
+  test("returns null when no birthdate for civilian", () => {
+    const civilianAttributes = new Civilian.Builder()
+      .defaultCivilian()
+      .withBirthDate(undefined)
+      .build();
+
+    const incidentDate = "2000-01-01";
+
+    const age = calculateAgeBasedOnIncidentDate(
+      civilianAttributes,
+      incidentDate
+    );
+
+    expect(age).toEqual(null);
+  });
+
+  test("returns null when no birthdate for case officer", () => {
+    const officerAttributes = new Officer.Builder()
+      .defaultOfficer()
+      .withFullName("Jerry Springfield")
+      .withDOB(undefined)
+      .build();
+
+    const accusedOfficerAttributes = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withOfficerAttributes(officerAttributes)
+      .build();
+
+    const incidentDate = "2000-01-01";
+
+    const age = calculateAgeBasedOnIncidentDate(
+      accusedOfficerAttributes,
+      incidentDate
+    );
+
+    expect(age).toEqual(null);
+  });
 });
