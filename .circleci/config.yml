@@ -179,23 +179,23 @@ workflows:
       - e2e-testing:
           requires:
             - ensure-development-deploy-succeeded
-      - hold:
+      - hold-for-staging:
           type: approval
           requires:
             - e2e-testing
       - deploy-staging:
           requires:
-            - build-and-publish
+            - hold-for-staging
       - ensure-staging-deploy-succeeded:
           requires:
             - deploy-staging
-      - hold:
+      - hold-for-production:
           type: approval
           requires:
             - ensure-staging-deploy-succeeded
       - deploy-production:
           requires:
-            - hold
+            - hold-for-production
       - ensure-production-deploy-succeeded:
           requires:
             - deploy-production
