@@ -14,17 +14,17 @@ module.exports = {
       fromEmailAddress: "dev_env_email@example.com"
     },
     authentication: {
-      domain: "noipm.auth0.com",
-      publicKeyURL: "https://noipm.auth0.com/.well-known/jwks.json",
-      audience: "https://noipm-staging.herokuapp.com/",
-      issuer: "https://noipm.auth0.com/",
+      domain: "noipm-dev.auth0.com",
+      publicKeyURL: "https://noipm-dev.auth0.com/.well-known/jwks.json",
+      audience: "https://noipm-development.herokuapp.com/",
+      issuer: "https://noipm-dev.auth0.com/",
       algorithm: "RS256",
-      nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
+      nicknameKey: "https://noipm-development.herokuapp.com/nickname"
     },
     contentSecurityPolicy: {
       connectSrc: [
         "'self'",
-        "https://noipm.auth0.com",
+        "https://noipm-dev.auth0.com",
         `ws://localhost:${LOCAL_DEV_PORT}`
       ]
     },
@@ -45,24 +45,60 @@ module.exports = {
       fromEmailAddress: "test_env_email@example.com"
     },
     authentication: {
-      domain: "noipm.auth0.com",
+      domain: "noipm-dev.auth0.com",
       publicKeyPath: path.join(__dirname, "..", "config", "test", "public.pem"),
       audience: "test audience",
       issuer: "test issuer",
       algorithm: "RS256",
       scope: "openid profile",
-      nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
+      nicknameKey: "https://noipm-development.herokuapp.com/nickname"
     },
     contentSecurityPolicy: {
       connectSrc: [
         "'self'",
-        "https://noipm.auth0.com",
+        "https://noipm-dev.auth0.com",
         `ws://localhost:${LOCAL_DEV_PORT}`
       ]
     },
     winston: {
       logLevel: "error",
       json: true
+    }
+  },
+  development_ci: {
+    port: 5432,
+    host: process.env.DATABASE_HOST,
+    s3Bucket: "noipm-development",
+    officerBucket: "nopd-officers-development",
+    email: {
+      host: "smtp-mail.outlook.com",
+      port: 587,
+      secureConnection: false,
+      //Apparently, TLS requires this to be false.
+      //https://stackoverflow.com/questions/19509357/not-able-to-connect-to-outlook-com-smtp-using-nodemailer
+      tls: {
+        ciphers: "SSLv3"
+      },
+      auth: {
+        user: process.env.EMAIL_ADDRESS,
+        pass: process.env.EMAIL_PASSWORD
+      },
+      fromEmailAddress: process.env.EMAIL_ADDRESS
+    },
+    authentication: {
+      domain: "noipm-dev.auth0.com",
+      publicKeyURL: "https://noipm-dev.auth0.com/.well-known/jwks.json",
+      audience: "https://noipm-development.herokuapp.com/",
+      issuer: "https://noipm-dev.auth0.com/",
+      algorithm: "RS256",
+      nicknameKey: "https://noipm-development.herokuapp.com/nickname"
+    },
+    contentSecurityPolicy: {
+      connectSrc: ["'self'", "https://noipm-dev.auth0.com"]
+    },
+    winston: {
+      logLevel: "info",
+      json: false
     }
   },
   staging: {

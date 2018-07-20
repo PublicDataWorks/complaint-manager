@@ -25,8 +25,8 @@ describe("verifyUserNickname", () => {
         authorization: "Bearer VALID_TOKEN_FORMAT"
       },
       user: {
-        "https://noipm-staging.herokuapp.com/nickname": "mrsmith",
-        iss: "https://noipm.auth0.com/"
+        "https://noipm-development.herokuapp.com/nickname": "mrsmith",
+        iss: "https://noipm-dev.auth0.com/"
       }
     });
 

@@ -22,6 +22,20 @@ module.exports = {
     logging: false,
     operatorsAliases: false
   },
+  development_ci: {
+    host: process.env.DATABASE_HOST,
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASS,
+    database: process.env.DATABASE_NAME,
+    dialectOptions: {
+      ssl: true
+    },
+    dialect: "postgres",
+    operatorsAliases: false,
+    migrationStorageTableName: "sequelize_meta",
+    seederStorage: "sequelize",
+    seederStorageTableName: "sequelize_data"
+  },
   staging: {
     host: process.env.DATABASE_HOST,
     username: process.env.DATABASE_USERNAME,
