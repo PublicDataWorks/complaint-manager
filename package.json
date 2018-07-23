@@ -19,7 +19,8 @@
     "test:client": "react-scripts test src/client --env=jsdom",
     "test:client:ci": "CI=true react-scripts test src/client --env=jsdom",
     "test:once": "NODE_ENV=test yarn setup:test:db && yarn test:client:ci && yarn test:server:ci",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "transformOfficerCsvData": "node -e \"require('./scripts/transformOfficerCsvData')\""
   },
   "jest": {
     "snapshotSerializers": [
