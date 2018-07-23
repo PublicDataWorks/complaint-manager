@@ -8,7 +8,7 @@ const DateOfBirthAgeInfoDisplay = props => {
         {props.displayLabel}
       </Typography>
       <Typography data-test={props.testLabel}>
-        {props.age === null ? "N/A" : `${props.birthDate} (${props.age})`}
+        {!props.birthDate ? "N/A" : `${props.birthDate} (${props.age})`}
       </Typography>
     </div>
   );

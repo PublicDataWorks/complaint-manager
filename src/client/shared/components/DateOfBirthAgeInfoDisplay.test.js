@@ -183,4 +183,57 @@ describe("DateOfBirthAgeInfoDisplay", () => {
       "Jan 1, 1990 (N/A)"
     );
   });
+
+  test("displays N/A for civilian without incident date or birthdate", () => {
+    const civilian = new Civilian.Builder()
+      .defaultCivilian()
+      .withBirthDate("1990-01-01")
+      .build();
+
+    const incidentDate = null;
+
+    const age = calculateAgeBasedOnIncidentDate(civilian, incidentDate);
+
+    const birthDateInfoWrapper = mount(
+      <DateOfBirthAgeInfoDisplay
+        birthDate={formatDate(civilian.dob)}
+        age={age}
+        testLabel={"test"}
+        displayLabel={"TEST LABEL"}
+      />
+    );
+
+    containsText(birthDateInfoWrapper, '[data-test="test"]', "N/A");
+  });
+
+  test("displays N/A for officer without incident date or birthdate", () => {
+    const officerAttributes = new Officer.Builder()
+      .defaultOfficer()
+      .withFullName("Jerry Springfield")
+      .withDOB("1990-01-01")
+      .build();
+
+    const accusedOfficerAttributes = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withOfficerAttributes(officerAttributes)
+      .build();
+
+    const incidentDate = null;
+
+    const age = calculateAgeBasedOnIncidentDate(
+      accusedOfficerAttributes,
+      incidentDate
+    );
+
+    const birthDateInfoWrapper = mount(
+      <DateOfBirthAgeInfoDisplay
+        birthDate={formatDate(accusedOfficerAttributes.dob)}
+        age={age}
+        testLabel={"test"}
+        displayLabel={"TEST LABEL"}
+      />
+    );
+
+    containsText(birthDateInfoWrapper, '[data-test="test"]', "N/A");
+  });
 });
