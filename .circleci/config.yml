@@ -42,44 +42,44 @@ jobs:
           - checkout
           - setup_remote_docker
           - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-          - run: docker build --build-arg REACT_ENV=development_ci -t noipm/complaint-manager-development:$CIRCLE_SHA1 .
+          - run: docker build --build-arg REACT_ENV=ci -t noipm/complaint-manager-ci:$CIRCLE_SHA1 .
           - run: docker build --build-arg REACT_ENV=staging -t noipm/complaint-manager-staging:$CIRCLE_SHA1 .
           - run: docker build --build-arg REACT_ENV=production -t noipm/complaint-manager-production:$CIRCLE_SHA1 .
-          - run: docker push noipm/complaint-manager-development:$CIRCLE_SHA1
+          - run: docker push noipm/complaint-manager-ci:$CIRCLE_SHA1
           - run: docker push noipm/complaint-manager-staging:$CIRCLE_SHA1
           - run: docker push noipm/complaint-manager-production:$CIRCLE_SHA1
 
-    deploy-development:
+    deploy-ci:
             docker:
               - image: noipm/docker-heroku:7.0.65
             steps:
               - setup_remote_docker
               - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-              - run: docker pull noipm/complaint-manager-development:$CIRCLE_SHA1
+              - run: docker pull noipm/complaint-manager-ci:$CIRCLE_SHA1
               - run:
                   name: Migrate and Seed DB
                   command: |
                     docker run \
-                    -e NODE_ENV=development_ci \
+                    -e NODE_ENV=ci \
                     -e DATABASE_USERNAME=$DEVELOPMENT_DATABASE_USERNAME \
                     -e DATABASE_PASS=$DEVELOPMENT_DATABASE_PASS \
                     -e DATABASE_NAME=$DEVELOPMENT_DATABASE_NAME \
                     -e DATABASE_HOST=$DEVELOPMENT_DATABASE_HOST \
                     -e AWS_ACCESS_KEY_ID=$DEVELOPMENT_AWS_ACCESS_KEY_ID \
                     -e AWS_SECRET_ACCESS_KEY=$DEVELOPMENT_AWS_SECRET_ACCESS_KEY \
-                    noipm/complaint-manager-development:$CIRCLE_SHA1 yarn setup:db
+                    noipm/complaint-manager-ci:$CIRCLE_SHA1 yarn setup:db
 
               - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
-              - run: docker tag noipm/complaint-manager-development:$CIRCLE_SHA1 registry.heroku.com/noipm-development/web
-              - run: docker push registry.heroku.com/noipm-development/web
-              - run: heroku container:release web --app noipm-development
+              - run: docker tag noipm/complaint-manager-ci:$CIRCLE_SHA1 registry.heroku.com/noipm-ci/web
+              - run: docker push registry.heroku.com/noipm-ci/web
+              - run: heroku container:release web --app noipm-ci
 
-    ensure-development-deploy-succeeded:
+    ensure-ci-deploy-succeeded:
           docker:
             - image: alpine:latest
           steps:
             - checkout
-            - run: scripts/ensure-deploy-succeeded.sh https://noipm-development.herokuapp.com/health-check
+            - run: scripts/ensure-deploy-succeeded.sh https://noipm-ci.herokuapp.com/health-check
 
     e2e-testing:
             docker:
@@ -170,15 +170,15 @@ workflows:
       - build-and-publish:
           requires:
             - security-check
-      - deploy-development:
+      - deploy-ci:
           requires:
             - build-and-publish
-      - ensure-development-deploy-succeeded:
+      - ensure-ci-deploy-succeeded:
           requires:
-            - deploy-development
+            - deploy-ci
       - e2e-testing:
           requires:
-            - ensure-development-deploy-succeeded
+            - ensure-ci-deploy-succeeded
       - hold-for-staging:
           type: approval
           requires:

@@ -16,10 +16,10 @@ module.exports = {
     authentication: {
       domain: "noipm-dev.auth0.com",
       publicKeyURL: "https://noipm-dev.auth0.com/.well-known/jwks.json",
-      audience: "https://noipm-development.herokuapp.com/",
+      audience: "https://noipm-ci.herokuapp.com/",
       issuer: "https://noipm-dev.auth0.com/",
       algorithm: "RS256",
-      nicknameKey: "https://noipm-development.herokuapp.com/nickname"
+      nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
     contentSecurityPolicy: {
       connectSrc: [
@@ -51,7 +51,7 @@ module.exports = {
       issuer: "test issuer",
       algorithm: "RS256",
       scope: "openid profile",
-      nicknameKey: "https://noipm-development.herokuapp.com/nickname"
+      nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
     contentSecurityPolicy: {
       connectSrc: [
@@ -65,11 +65,11 @@ module.exports = {
       json: true
     }
   },
-  development_ci: {
+  ci: {
     port: 5432,
     host: process.env.DATABASE_HOST,
-    s3Bucket: "noipm-development",
-    officerBucket: "nopd-officers-development",
+    s3Bucket: "noipm-ci",
+    officerBucket: "nopd-officers-ci",
     email: {
       host: "smtp-mail.outlook.com",
       port: 587,
@@ -88,10 +88,10 @@ module.exports = {
     authentication: {
       domain: "noipm-dev.auth0.com",
       publicKeyURL: "https://noipm-dev.auth0.com/.well-known/jwks.json",
-      audience: "https://noipm-development.herokuapp.com/",
+      audience: "https://noipm-ci.herokuapp.com/",
       issuer: "https://noipm-dev.auth0.com/",
       algorithm: "RS256",
-      nicknameKey: "https://noipm-development.herokuapp.com/nickname"
+      nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
     contentSecurityPolicy: {
       connectSrc: ["'self'", "https://noipm-dev.auth0.com"]

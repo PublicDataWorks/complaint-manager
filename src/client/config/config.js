@@ -6,10 +6,10 @@ export default {
       domain: "noipm-dev.auth0.com",
       clientID: "LwpX2IDfqQRJs3PI7Ckm8AK6m1TLXv99",
       redirectUri: `http://localhost:${LOCAL_DEV_PORT}/callback`,
-      audience: "https://noipm-development.herokuapp.com/",
+      audience: "https://noipm-ci.herokuapp.com/",
       responseType: "token id_token",
       scope: "openid profile",
-      nicknameKey: "https://noipm-development.herokuapp.com/nickname"
+      nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
     hostname: ""
   },
@@ -18,10 +18,10 @@ export default {
       domain: "noipm-dev.auth0.com",
       clientID: "LwpX2IDfqQRJs3PI7Ckm8AK6m1TLXv99",
       redirectUri: `http://localhost:${PORT}/callback`,
-      audience: "https://noipm-development.herokuapp.com/",
+      audience: "https://noipm-ci.herokuapp.com/",
       responseType: "token id_token",
       scope: "openid profile",
-      nicknameKey: "https://noipm-development.herokuapp.com/nickname"
+      nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
     hostname: ""
   },
@@ -33,19 +33,19 @@ export default {
       audience: "test audience",
       responseType: "token id_token",
       scope: "openid profile read:cases",
-      nicknameKey: "https://noipm-development.herokuapp.com/nickname"
+      nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
     hostname: "http://localhost"
   },
-  development_ci: {
+  ci: {
     auth: {
       domain: "noipm-dev.auth0.com",
       clientID: "LwpX2IDfqQRJs3PI7Ckm8AK6m1TLXv99",
-      redirectUri: "https://noipm-development.herokuapp.com/callback",
-      audience: "https://noipm-development.herokuapp.com/",
+      redirectUri: "https://noipm-ci.herokuapp.com/callback",
+      audience: "https://noipm-ci.herokuapp.com/",
       responseType: "token id_token",
       scope: "openid profile",
-      nicknameKey: "https://noipm-development.herokuapp.com/nickname"
+      nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
     hostname: ""
   },
