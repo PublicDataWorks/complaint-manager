@@ -1,6 +1,6 @@
 import React from "react";
 import HomeIcon from "@material-ui/icons/Home";
-import Settings from "@material-ui/icons/Settings";
+import Settings from "@material-ui/icons/SettingsSharp";
 import {
   AppBar,
   IconButton,
