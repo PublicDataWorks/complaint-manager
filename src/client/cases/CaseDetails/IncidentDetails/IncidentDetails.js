@@ -96,7 +96,7 @@ class IncidentDetails extends React.Component {
               value={district}
               testLabel="incidentDistrict"
             />
-            <div style={{ width: "88px" }} />
+            <div style={{ width: "69.5px" }} />
           </div>
         </CardContent>
         <IncidentDetailsDialog

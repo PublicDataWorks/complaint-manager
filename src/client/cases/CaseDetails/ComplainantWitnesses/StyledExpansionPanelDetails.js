@@ -1,7 +1,7 @@
 import React from "react";
 import { ExpansionPanelDetails } from "@material-ui/core";
 
-const StyledExpansionPanelDetails = ({children, style} )=> (
+const StyledExpansionPanelDetails = ({ children, style }) => (
   <ExpansionPanelDetails
     style={{ padding: "8px 24px 24px 24px", marginLeft: "64px", ...style }}
   >
@@ -11,7 +11,7 @@ const StyledExpansionPanelDetails = ({children, style} )=> (
         width: "100%",
         background: "white",
         padding: "0",
-        marginRight: "190px"
+        marginRight: "170px"
       }}
     >
       {children}
