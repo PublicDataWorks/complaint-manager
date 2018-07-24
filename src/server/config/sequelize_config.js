@@ -8,7 +8,13 @@ module.exports = {
     migrationStorageTableName: "sequelize_meta",
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
-    operatorsAliases: false
+    operatorsAliases: false,
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 10000,
+      acquire: 20000
+    }
   },
   test: {
     host: process.env.CIRCLECI ? "localhost" : "db",
@@ -20,7 +26,13 @@ module.exports = {
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
     logging: false,
-    operatorsAliases: false
+    operatorsAliases: false,
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 10000,
+      acquire: 20000
+    }
   },
   ci: {
     host: process.env.DATABASE_HOST,
@@ -34,7 +46,13 @@ module.exports = {
     operatorsAliases: false,
     migrationStorageTableName: "sequelize_meta",
     seederStorage: "sequelize",
-    seederStorageTableName: "sequelize_data"
+    seederStorageTableName: "sequelize_data",
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 10000,
+      acquire: 20000
+    }
   },
   staging: {
     host: process.env.DATABASE_HOST,
@@ -48,7 +66,13 @@ module.exports = {
     operatorsAliases: false,
     migrationStorageTableName: "sequelize_meta",
     seederStorage: "sequelize",
-    seederStorageTableName: "sequelize_data"
+    seederStorageTableName: "sequelize_data",
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 10000,
+      acquire: 20000
+    }
   },
   production: {
     host: process.env.DATABASE_HOST,
@@ -63,6 +87,12 @@ module.exports = {
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
     logging: false,
-    operatorsAliases: false
+    operatorsAliases: false,
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 10000,
+      acquire: 20000
+    }
   }
 };
