@@ -184,13 +184,13 @@ workflows:
       - e2e-testing-ci:
           requires:
             - ensure-ci-deploy-succeeded
-      - hold-for-staging:
-          type: approval
-          requires:
-            - e2e-testing-ci
       - deploy-staging:
           requires:
-            - hold-for-staging
+            - e2e-testing-ci
+          filters:
+            branches:
+              only:
+               - release
       - ensure-staging-deploy-succeeded:
           requires:
             - deploy-staging
