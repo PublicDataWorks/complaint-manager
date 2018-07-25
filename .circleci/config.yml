@@ -181,7 +181,7 @@ workflows:
       - ensure-ci-deploy-succeeded:
           requires:
             - deploy-ci
-      - e2e-testing:
+      - e2e-testing-ci:
           requires:
             - ensure-ci-deploy-succeeded
       - hold-for-staging:
