@@ -3,7 +3,7 @@ import { Typography } from "@material-ui/core";
 
 const DateOfBirthAgeInfoDisplay = props => {
   return (
-    <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }}>
+    <div style={{ flex: 1, textAlign: "left", marginRight: props.marginRight }}>
       <Typography variant="caption" data-test={`${props.testLabel}Label`}>
         {props.displayLabel}
       </Typography>

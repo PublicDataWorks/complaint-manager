@@ -27,7 +27,7 @@ class ManageOfficerMenu extends React.Component {
     const { caseOfficer } = this.props;
 
     return (
-      <div style={{ marginLeft: "88px" }}>
+      <div style={{ marginLeft: "69.5px" }}>
         <LinkButton data-test="manageCaseOfficer" onClick={this.handleMenuOpen}>
           Manage
         </LinkButton>

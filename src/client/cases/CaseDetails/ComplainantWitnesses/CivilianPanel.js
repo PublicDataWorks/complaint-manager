@@ -87,6 +87,7 @@ const CivilianPanel = ({ civilian, civilianAge, dispatch }) => {
             testLabel="complainantBirthday"
             birthDate={birthDate}
             age={civilianAge}
+            marginRight="10px"
           />
           <CivilianInfoDisplay
             displayLabel="Phone Number"

@@ -114,6 +114,7 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => (
           testLabel="age"
           birthDate={formatDate(caseOfficer.dob)}
           age={officerAge}
+          marginRight="16px"
         />
       </StyledExpansionPanelDetails>
       <StyledExpansionPanelDetails>
