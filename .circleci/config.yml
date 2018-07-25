@@ -81,14 +81,19 @@ jobs:
             - checkout
             - run: scripts/ensure-deploy-succeeded.sh https://noipm-ci.herokuapp.com/health-check
 
-    e2e-testing:
+    e2e-testing-ci:
             docker:
               - image: noipm/nightwatch-chrome:latest
             steps:
               - checkout
               - run:
                   name: Run E2E tests
-                  command: cd e2e && nightwatch --env $ENVIRONMENT
+                  command: |
+                    echo 'export HOST=$CI_HOST' >> $BASH_ENV
+                    echo 'export TEST_USER=$CI_TEST_USER' >> $BASH_ENV
+                    echo 'export TEST_PASS=$CI_TEST_PASS' >> $BASH_ENV
+                    source $BASH_ENV
+                    cd e2e nightwatch --env $ENVIRONMENT
               - store_artifacts:
                   path: e2e/tests/userJourney
 
