@@ -14,17 +14,17 @@ module.exports = {
       fromEmailAddress: "dev_env_email@example.com"
     },
     authentication: {
-      domain: "noipm.auth0.com",
-      publicKeyURL: "https://noipm.auth0.com/.well-known/jwks.json",
-      audience: "https://noipm-staging.herokuapp.com/",
-      issuer: "https://noipm.auth0.com/",
+      domain: "noipm-dev.auth0.com",
+      publicKeyURL: "https://noipm-dev.auth0.com/.well-known/jwks.json",
+      audience: "https://noipm-ci.herokuapp.com/",
+      issuer: "https://noipm-dev.auth0.com/",
       algorithm: "RS256",
-      nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
+      nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
     contentSecurityPolicy: {
       connectSrc: [
         "'self'",
-        "https://noipm.auth0.com",
+        "https://noipm-dev.auth0.com",
         `ws://localhost:${LOCAL_DEV_PORT}`
       ]
     },
@@ -45,18 +45,18 @@ module.exports = {
       fromEmailAddress: "test_env_email@example.com"
     },
     authentication: {
-      domain: "noipm.auth0.com",
+      domain: "noipm-dev.auth0.com",
       publicKeyPath: path.join(__dirname, "..", "config", "test", "public.pem"),
       audience: "test audience",
       issuer: "test issuer",
       algorithm: "RS256",
       scope: "openid profile",
-      nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
+      nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
     contentSecurityPolicy: {
       connectSrc: [
         "'self'",
-        "https://noipm.auth0.com",
+        "https://noipm-dev.auth0.com",
         `ws://localhost:${LOCAL_DEV_PORT}`
       ]
     },
