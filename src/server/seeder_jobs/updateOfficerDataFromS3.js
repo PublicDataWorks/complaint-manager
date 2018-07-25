@@ -13,6 +13,7 @@ const updateOfficerDataFromS3 = async (
   officerFileName = "officerSeedData.csv",
   shouldCloseConnections = false
 ) => {
+  winston.info("File name", officerFileName);
   try {
     const s3 = createConfiguredS3Instance();
     const officerBucketName = config[process.env.NODE_ENV].officerBucket;

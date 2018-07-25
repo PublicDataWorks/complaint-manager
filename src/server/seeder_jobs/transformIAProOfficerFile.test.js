@@ -52,6 +52,24 @@ describe("transformIAProOfficerFile", () => {
       "1234"
     ]);
   });
+  test("ignores rows containing empty first or last names", async () => {
+    const iaProOfficerBufferedData = await readFile(
+      "testIAProOfficerFile.correctHeaders.csv"
+    );
+    let transformedOfficerDataString = await transformIAProOfficerData(
+      iaProOfficerBufferedData
+    );
+
+    transformedOfficerDataString = transformedOfficerDataString.replace(
+      /\n$/,
+      ""
+    ); //remove final line break
+    const rows = transformedOfficerDataString.split("\n");
+    expect(rows.length).toEqual(4);
+    expect(rows[1][0]).toEqual("1");
+    expect(rows[2][0]).toEqual("2");
+    expect(rows[3][0]).toEqual("6");
+  });
 
   test("throws error if required headers are missing", async () => {
     const iaProOfficerBufferedData = await readFile(

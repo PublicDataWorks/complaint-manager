@@ -24,20 +24,25 @@ const transformIAProOfficerFile = async (
 };
 
 const transformIAProOfficerData = async iaProOfficerData => {
-  const parsedValues = await promisifiedParse(iaProOfficerData, {
+  const parsedRows = await promisifiedParse(iaProOfficerData, {
     columns: true,
     trim: true
   });
 
-  validateHeaders(parsedValues[0]);
-  parsedValues.forEach(row => {
+  validateHeaders(parsedRows[0]);
+
+  const validRows = parsedRows.filter(row => {
+    return row.FNAM !== "" && row.LNAM !== "";
+  });
+
+  validRows.forEach(row => {
     if (!row["UDTEXT24B"].match(ALLOWED_DISTRICT_VALUES)) {
       row["UDTEXT24B"] = "";
     }
     row["EMP_TYPE"] = row["EMP_TYPE"].replace("Commisioned", "Commissioned");
   });
 
-  return await promisifiedStringify(parsedValues, csvOptions);
+  return await promisifiedStringify(validRows, csvOptions);
 };
 
 const validateHeaders = firstParsedRow => {

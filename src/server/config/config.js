@@ -6,7 +6,7 @@ module.exports = {
   development: {
     host: "db",
     s3Bucket: "noipm-local",
-    officerBucket: "nopd-officers-staging",
+    officerBucket: "nopd-officers-local",
     email: {
       secureConnection: false,
       host: "email",
