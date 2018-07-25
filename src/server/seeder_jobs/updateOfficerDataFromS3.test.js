@@ -1,4 +1,7 @@
-import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
+import {
+  cleanupDatabase,
+  suppressWinstonLogs
+} from "../testHelpers/requestTestHelpers";
 import models from "../models";
 import fs from "fs";
 import path from "path";
@@ -31,23 +34,26 @@ describe("updating database using csv file in S3", () => {
     }
   }));
 
-  test("handling update/insert on new data & not update on unchanged data", async () => {
-    await updateOfficerDataFromS3();
+  test(
+    "handling update/insert on new data & not update on unchanged data",
+    suppressWinstonLogs(async () => {
+      await updateOfficerDataFromS3();
 
-    const newOfficerMaggie = await models.officer.find({
-      where: { firstName: "Maggie" }
-    });
-    const updatedOfficerChris = await models.officer.find({
-      where: { firstName: "Chris" }
-    });
-    const unchangedOfficerKristin = await models.officer.find({
-      where: { firstName: "Kirstin" }
-    });
+      const newOfficerMaggie = await models.officer.find({
+        where: { firstName: "Maggie" }
+      });
+      const updatedOfficerChris = await models.officer.find({
+        where: { firstName: "Chris" }
+      });
+      const unchangedOfficerKristin = await models.officer.find({
+        where: { firstName: "Kirstin" }
+      });
 
-    expect(updatedOfficerChris.lastName).not.toEqual("Paucek");
-    expect(newOfficerMaggie).not.toEqual(null);
-    expect(unchangedOfficerKristin.updatedAt).toEqual(
-      unchangedOfficerKristin.createdAt
-    );
-  });
+      expect(updatedOfficerChris.lastName).not.toEqual("Paucek");
+      expect(newOfficerMaggie).not.toEqual(null);
+      expect(unchangedOfficerKristin.updatedAt).toEqual(
+        unchangedOfficerKristin.createdAt
+      );
+    })
+  );
 });

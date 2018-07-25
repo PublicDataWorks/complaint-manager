@@ -9,12 +9,13 @@ const promises = [];
 const officersToUpdate = [];
 const officersToCreate = [];
 
-const updateOfficerDataFromS3 = async () => {
+const updateOfficerDataFromS3 = async (
+  officerFileName = "officerSeedData.csv",
+  shouldCloseConnections = false
+) => {
   try {
     const s3 = createConfiguredS3Instance();
     const officerBucketName = config[process.env.NODE_ENV].officerBucket;
-    const officerFileName =
-      process.env.OFFICER_FILE_NAME || "officerSeedData.csv";
 
     const parser = csvParse({
       auto_parse: parseNullValues,
@@ -33,14 +34,24 @@ const updateOfficerDataFromS3 = async () => {
 
     await new Promise((resolve, reject) => {
       stream.on("end", () => {
+        winston.info(`Received ${promises.length} rows of officer data.`);
         Promise.all(promises)
-          .then(() => {
-            return models.officer.bulkCreate(officersToCreate);
+          .then(async () => {
+            await models.officer
+              .bulkCreate(officersToCreate)
+              .then(() => {
+                winston.info(`Created ${officersToCreate.length} officers.`);
+              })
+              .catch(error => {
+                winston.error(
+                  "Error creating officers: ",
+                  error.name,
+                  error.message
+                );
+              });
           })
-          .then(() => {
-            return updateOfficers(officersToUpdate);
-          })
-          .then(() => {
+          .then(async () => {
+            await updateOfficers(officersToUpdate);
             return resolve();
           })
           .catch(error => reject(error));
@@ -48,42 +59,58 @@ const updateOfficerDataFromS3 = async () => {
     });
   } catch (error) {
     winston.error(`Officer Update Error: ${error}`);
+  } finally {
+    if (shouldCloseConnections) models.sequelize.close();
   }
 };
 
-const createOrUpdateOfficer = seedDataRow => {
-  return new Promise(async resolve => {
-    const officerNumber = seedDataRow.officerNumber;
-    const existingOfficer = await models.officer.find({
-      where: { officerNumber }
-    });
-
-    if (existingOfficer) {
-      if (rowDataIsOfficerToBeUpdated(seedDataRow, existingOfficer)) {
-        officersToUpdate.push(seedDataRow);
-      }
-    } else {
-      officersToCreate.push(seedDataRow);
-    }
-    return resolve();
+const determineWhetherToCreateOrUpdateOfficer = async seedDataRow => {
+  const officerNumber = seedDataRow.officerNumber;
+  const existingOfficer = await models.officer.find({
+    where: { officerNumber }
   });
+
+  if (existingOfficer) {
+    if (rowDataIsOfficerToBeUpdated(seedDataRow, existingOfficer)) {
+      officersToUpdate.push(seedDataRow);
+    }
+  } else {
+    officersToCreate.push(seedDataRow);
+  }
 };
 
 const onData = seedDataRow => {
-  const promise = createOrUpdateOfficer(seedDataRow);
+  const promise = determineWhetherToCreateOrUpdateOfficer(seedDataRow);
   promises.push(promise);
 };
 
-const updateOfficers = officersToUpdate => {
-  return new Promise(async resolve => {
-    const promises = officersToUpdate.map(officer => {
-      return models.officer.update(officer, {
-        where: { officerNumber: officer.officerNumber }
+const updateOfficers = async officersToUpdate => {
+  if (officersToUpdate.length === 0) {
+    winston.info("No officers to update");
+    return;
+  }
+  let totalCount = 0;
+  let errorCount = 0;
+  for (let officerData of officersToUpdate) {
+    await models.officer
+      .update(officerData, {
+        where: { officerNumber: officerData.officerNumber }
+      })
+      .catch(error => {
+        winston.error(
+          `Error updating officer number ${officerData.officerNumber}; `,
+          error.message
+        );
+        errorCount++;
+      })
+      .then(() => {
+        totalCount++;
       });
-    });
-    await Promise.all(promises);
-    return resolve();
-  });
+  }
+  winston.info(
+    `Finished updating ${totalCount - errorCount} officers successfully`
+  );
+  winston.error(`${errorCount} officer updates failed`);
 };
 
 const parseNullValues = value => {
