@@ -6,8 +6,13 @@ import parsePermissions from "../utilities/parsePermissions";
 import jwt from "jsonwebtoken";
 
 export default class Auth {
-  authConfig = config[process.env.REACT_APP_ENV].auth;
-  authWeb = new auth0.WebAuth(this.authConfig);
+  getAuthConfig = () => {
+    if (process.env.REACT_APP_ENV === "static_development") {
+      return config[process.env.REACT_APP_ENV].auth;
+    }
+    return config[process.env.NODE_ENV].auth;
+  };
+  authWeb = new auth0.WebAuth(this.getAuthConfig());
 
   login = () => {
     this.authWeb.authorize();
@@ -49,7 +54,7 @@ export default class Auth {
   setUserInfo = (accessToken, callback) => {
     const decodedToken = jwt.decode(accessToken);
     const permissions = parsePermissions(decodedToken.scope);
-    const nickname = decodedToken[this.authConfig.nicknameKey];
+    const nickname = decodedToken[this.getAuthConfig().nicknameKey];
     callback({ nickname, permissions });
   };
 }
