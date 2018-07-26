@@ -28,7 +28,7 @@ describe("transformActionAuditForExport", () => {
 
     expect(transformedAudits).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ snapshot: "model1\nmodel2" })
+        expect.objectContaining({ snapshot: "model1, model2" })
       ])
     );
   });
@@ -44,7 +44,7 @@ describe("transformActionAuditForExport", () => {
     ]);
 
     expect(transformedAudits[0]["snapshot"]).toEqual(
-      "File Name: cats.jpg\nDescription: Cute cats"
+      "File Name: cats.jpg, Description: Cute cats"
     );
   });
 });

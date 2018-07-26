@@ -2,7 +2,7 @@ const _ = require("lodash");
 
 const generateSnapshot = subjectDetails => {
   if (_.isArray(subjectDetails)) {
-    return subjectDetails.join("\n");
+    return subjectDetails.join(", ");
   }
 
   if (_.isObject(subjectDetails)) {
@@ -10,7 +10,7 @@ const generateSnapshot = subjectDetails => {
       .map(key => {
         return `${_.startCase(key)}: ${subjectDetails[key]}`;
       })
-      .join("\n");
+      .join(", ");
   }
   return "";
 };
