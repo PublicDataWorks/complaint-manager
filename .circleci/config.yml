@@ -227,7 +227,7 @@ workflows:
               - security-check
         - deploy-staging:
             requires:
-              - e2e-testing-ci
+              - build-and-publish-release
         - ensure-staging-deploy-succeeded:
             requires:
               - deploy-staging
