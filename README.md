@@ -6,7 +6,7 @@
 
 ## Local development setup
 
-### Install docker
+### Install docker:
 
 On Linux, run `apt-get install docker`.
 On Mac or Windows you may [download it here](https://www.docker.com/products/docker).
