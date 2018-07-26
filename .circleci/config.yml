@@ -35,7 +35,7 @@ jobs:
               name: Run Security Checks
               command: ./scripts/security-checks.sh
 
-    build-and-publish:
+    build-and-publish-master:
         docker:
           - image: docker:stable
         steps:
@@ -43,9 +43,17 @@ jobs:
           - setup_remote_docker
           - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
           - run: docker build --build-arg REACT_ENV=ci -t noipm/complaint-manager-ci:$CIRCLE_SHA1 .
+          - run: docker push noipm/complaint-manager-ci:$CIRCLE_SHA1
+
+    build-and-publish-release:
+        docker:
+          - image: docker:stable
+        steps:
+          - checkout
+          - setup_remote_docker
+          - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
           - run: docker build --build-arg REACT_ENV=staging -t noipm/complaint-manager-staging:$CIRCLE_SHA1 .
           - run: docker build --build-arg REACT_ENV=production -t noipm/complaint-manager-production:$CIRCLE_SHA1 .
-          - run: docker push noipm/complaint-manager-ci:$CIRCLE_SHA1
           - run: docker push noipm/complaint-manager-staging:$CIRCLE_SHA1
           - run: docker push noipm/complaint-manager-production:$CIRCLE_SHA1
 
@@ -131,6 +139,22 @@ jobs:
         - checkout
         - run: scripts/ensure-deploy-succeeded.sh https://noipm-staging.herokuapp.com/health-check
 
+    e2e-testing-staging:
+            docker:
+              - image: noipm/nightwatch-chrome:latest
+            steps:
+              - checkout
+              - run:
+                  name: Run E2E tests
+                  command: |
+                    echo 'export HOST=$STAGING_HOST' >> $BASH_ENV
+                    echo 'export TEST_USER=$STAGING_TEST_USER' >> $BASH_ENV
+                    echo 'export TEST_PASS=$STAGING_TEST_PASS' >> $BASH_ENV
+                    source $BASH_ENV
+                    cd e2e nightwatch --env $ENVIRONMENT
+              - store_artifacts:
+                  path: e2e/tests/userJourney
+
     deploy-production:
         docker:
           - image: noipm/docker-heroku:7.0.65
@@ -166,41 +190,57 @@ jobs:
 
 workflows:
   version: 2
-  build_and_deploy:
+  build_and_deploy_master:
     jobs:
-      - test
+      - test:
+          filters:
+            branches:
+              only:
+                - master
       - security-check:
           requires:
             - test
-      - build-and-publish:
+      - build-and-publish-master:
           requires:
             - security-check
       - deploy-ci:
           requires:
-            - build-and-publish
+            - build-and-publish-master
       - ensure-ci-deploy-succeeded:
           requires:
             - deploy-ci
       - e2e-testing-ci:
           requires:
             - ensure-ci-deploy-succeeded
-      - deploy-staging:
-          requires:
-            - e2e-testing-ci
-          filters:
-            branches:
-              only:
-               - release
-      - ensure-staging-deploy-succeeded:
-          requires:
-            - deploy-staging
-      - hold-for-production:
-          type: approval
-          requires:
-            - ensure-staging-deploy-succeeded
-      - deploy-production:
-          requires:
-            - hold-for-production
-      - ensure-production-deploy-succeeded:
-          requires:
-            - deploy-production
+  build_and_deploy_release:
+      jobs:
+        - test:
+            filters:
+              branches:
+                only:
+                  - release
+        - security-check:
+            requires:
+              - test
+        - build-and-publish-release:
+            requires:
+              - security-check
+        - deploy-staging:
+            requires:
+              - e2e-testing-ci
+        - ensure-staging-deploy-succeeded:
+            requires:
+              - deploy-staging
+        - e2e-testing-staging:
+            requires:
+              - ensure-staging-deploy-succeeded
+        - hold-for-production:
+            type: approval
+            requires:
+              - e2e-testing-staging
+        - deploy-production:
+            requires:
+              - hold-for-production
+        - ensure-production-deploy-succeeded:
+            requires:
+              - deploy-production
