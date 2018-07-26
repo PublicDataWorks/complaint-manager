@@ -8,7 +8,7 @@ import {
   dropDuplicateFile,
   removeDropzoneFile
 } from "../../../actionCreators/attachmentsActionCreators";
-import getRecentActivity from "../../thunks/getRecentActivity";
+import getCaseNotes from "../../thunks/getCaseNotes";
 
 const mapStateToProps = state => ({
   errorMessage: state.ui.attachments.errorMessage,
@@ -20,7 +20,7 @@ const mapDispatchToProps = {
   dropDuplicateFile,
   uploadAttachmentFailed,
   removeDropzoneFile,
-  getRecentActivity
+  getCaseNotes
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dropzone);

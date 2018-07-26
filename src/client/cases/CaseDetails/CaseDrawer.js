@@ -3,7 +3,7 @@ import formatDate from "../../utilities/formatDate";
 import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
 import { Drawer, Typography } from "@material-ui/core";
-import RecentActivityContainer from "./RecentActivity/RecentActivityContainer";
+import CaseNotesContainer from "./CaseNotes/CaseNotesContainer";
 
 const CaseDrawer = ({ classes, caseDetail }) => (
   <Drawer
@@ -60,7 +60,7 @@ const CaseDrawer = ({ classes, caseDetail }) => (
         <div className={classes.drawerRowItem} />
         <div className={classes.drawerRowItem} />
       </div>
-      <RecentActivityContainer />
+      <CaseNotesContainer />
     </div>
   </Drawer>
 );

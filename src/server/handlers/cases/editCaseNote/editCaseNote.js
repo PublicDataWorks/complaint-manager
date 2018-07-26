@@ -9,31 +9,29 @@ const editCaseNote = asyncMiddleware(async (req, res) => {
   const caseNoteId = req.params.caseNoteId;
   const valuesToUpdate = _.pick(req.body, ["action", "actionTakenAt", "notes"]);
 
-  const recentActivity = await models.sequelize.transaction(
-    async transaction => {
-      await models.case_note.update(valuesToUpdate, {
-        where: {
-          id: caseNoteId
-        },
-        transaction,
-        auditUser: req.nickname
-      });
+  const caseNotes = await models.sequelize.transaction(async transaction => {
+    await models.case_note.update(valuesToUpdate, {
+      where: {
+        id: caseNoteId
+      },
+      transaction,
+      auditUser: req.nickname
+    });
 
-      await auditDataAccess(
-        req.nickname,
-        caseId,
-        AUDIT_SUBJECT.CASE_NOTES,
-        transaction
-      );
+    await auditDataAccess(
+      req.nickname,
+      caseId,
+      AUDIT_SUBJECT.CASE_NOTES,
+      transaction
+    );
 
-      return await models.case_note.findAll({
-        where: { caseId },
-        transaction
-      });
-    }
-  );
+    return await models.case_note.findAll({
+      where: { caseId },
+      transaction
+    });
+  });
 
-  res.status(200).send(recentActivity);
+  res.status(200).send(caseNotes);
 });
 
 module.exports = editCaseNote;

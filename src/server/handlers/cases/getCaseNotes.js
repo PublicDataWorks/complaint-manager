@@ -3,10 +3,10 @@ const asyncMiddleWare = require("../asyncMiddleware");
 const models = require("../../models/index");
 const auditDataAccess = require("../auditDataAccess");
 
-const getRecentActivity = asyncMiddleWare(async (request, response) => {
-  const recentActivity = await models.sequelize.transaction(
+const getCaseNotes = asyncMiddleWare(async (request, response) => {
+  const caseNotes = await models.sequelize.transaction(
     async transaction => {
-      const recentActivity = await models.case_note.findAll({
+      const caseNotes = await models.case_note.findAll({
         where: {
           caseId: request.params.id
         },
@@ -21,10 +21,10 @@ const getRecentActivity = asyncMiddleWare(async (request, response) => {
         transaction
       );
 
-      return recentActivity;
+      return caseNotes;
     }
   );
-  response.send(recentActivity);
+  response.send(caseNotes);
 });
 
-module.exports = getRecentActivity;
+module.exports = getCaseNotes;

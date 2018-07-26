@@ -11,7 +11,7 @@ import {
   INCIDENT_DETAILS_UPDATE_FAILED,
   CIVILIAN_ADDRESS_AUTOSUGGEST_UPDATED,
   INCIDENT_LOCATION_AUTOSUGGEST_VALUE_UPDATED,
-  GET_RECENT_ACTIVITY_SUCCEEDED,
+  GET_CASE_NOTES_SUCCEEDED,
   CASE_NOTE_DIALOG_OPENED,
   CASE_NOTE_DIALOG_CLOSED,
   ADD_CASE_NOTE_FAILED,
@@ -55,9 +55,9 @@ export const getCaseDetailsSuccess = caseDetails => ({
   caseDetails
 });
 
-export const getRecentActivitySuccess = recentActivity => ({
-  type: GET_RECENT_ACTIVITY_SUCCEEDED,
-  recentActivity
+export const getCaseNotesSuccess = caseNotes => ({
+  type: GET_CASE_NOTES_SUCCEEDED,
+  caseNotes
 });
 export const updateNarrativeSuccess = caseDetails => ({
   type: "NARRATIVE_UPDATE_SUCCEEDED",
@@ -166,25 +166,25 @@ export const addCaseNoteFailure = () => ({
   type: ADD_CASE_NOTE_FAILED
 });
 
-export const addCaseNoteSuccess = (caseDetails, recentActivity) => ({
+export const addCaseNoteSuccess = (caseDetails, caseNotes) => ({
   type: ADD_CASE_NOTE_SUCCEEDED,
   caseDetails,
-  recentActivity
+  caseNotes
 });
 
 export const editCaseNoteFailure = () => ({
   type: EDIT_CASE_NOTE_FAILED
 });
 
-export const editCaseNoteSuccess = recentActivity => ({
+export const editCaseNoteSuccess = caseNotes => ({
   type: EDIT_CASE_NOTE_SUCCEEDED,
-  recentActivity
+  caseNotes
 });
 
 export const removeCaseNoteSuccess = currentCase => ({
   type: REMOVE_CASE_NOTE_SUCCEEDED,
   caseDetails: currentCase.caseDetails,
-  recentActivity: currentCase.recentActivity
+  caseNotes: currentCase.caseNotes
 });
 
 export const removeCaseNoteFailure = () => ({

@@ -101,7 +101,7 @@ describe("caseDetailsReducers", () => {
         caseDetails: {
           some: "new state"
         },
-        recentActivity: {
+        caseNotes: {
           not: "copied over"
         }
       };

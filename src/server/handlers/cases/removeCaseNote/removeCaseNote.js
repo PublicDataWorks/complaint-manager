@@ -18,7 +18,7 @@ const removeCaseNote = asyncMiddleware(async (req, res) => {
     });
 
     const caseDetails = await getCaseWithAllAssociations(caseId, transaction);
-    const recentActivity = await models.case_note.findAll({
+    const caseNotes = await models.case_note.findAll({
       where: { caseId },
       transaction
     });
@@ -39,7 +39,7 @@ const removeCaseNote = asyncMiddleware(async (req, res) => {
 
     return {
       caseDetails,
-      recentActivity
+      caseNotes
     };
   });
   res.status(200).send(currentCase);

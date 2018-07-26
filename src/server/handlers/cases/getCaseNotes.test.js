@@ -5,12 +5,12 @@ import {
 } from "../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { createCaseWithCivilian } from "../../testHelpers/modelMothers";
-import getRecentActivity from "./getRecentActivity";
+import getCaseNotes from "./getCaseNotes";
 import CaseNote from "../../../client/testUtilities/caseNote";
 const models = require("../../models");
 const httpMocks = require("node-mocks-http");
 
-describe("getRecentActivity", function() {
+describe("getCaseNotes", function() {
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -34,7 +34,7 @@ describe("getRecentActivity", function() {
     const response = httpMocks.createResponse();
     const next = jest.fn();
 
-    await getRecentActivity(request, response, next);
+    await getCaseNotes(request, response, next);
 
     const actionAudit = await models.action_audit.find({
       where: { caseId: existingCase.id }

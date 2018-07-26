@@ -18,7 +18,7 @@ const editCaseNote = values => async dispatch => {
     }
 
     const response = await axios(
-      `${hostname}/api/cases/${values.caseId}/recent-activity/${values.id}`,
+      `${hostname}/api/cases/${values.caseId}/case-notes/${values.id}`,
       {
         method: "PUT",
         headers: {

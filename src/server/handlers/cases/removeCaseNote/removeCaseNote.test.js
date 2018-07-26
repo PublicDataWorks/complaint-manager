@@ -43,7 +43,7 @@ describe("RemoveCaseNote unit", () => {
     });
   });
 
-  test("should update case status and recent activity in the db after case note removed", async () => {
+  test("should update case status and case notes in the db after case note removed", async () => {
     const request = httpMocks.createRequest({
       method: "DELETE",
       headers: {
@@ -71,10 +71,10 @@ describe("RemoveCaseNote unit", () => {
       ])
     );
 
-    const updatedRecentActivity = await models.case_note.findAll({
+    const updatedCaseNotes = await models.case_note.findAll({
       where: { caseId: updatedCase.id }
     });
-    expect(updatedRecentActivity).toEqual([]);
+    expect(updatedCaseNotes).toEqual([]);
   });
 
   test("should audit case details access when case note removed", async () => {

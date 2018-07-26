@@ -18,7 +18,7 @@ const removeCaseNote = (caseId, caseNoteId) => async dispatch => {
     }
 
     const response = await axios(
-      `${hostname}/api/cases/${caseId}/recent-activity/${caseNoteId}`,
+      `${hostname}/api/cases/${caseId}/case-notes/${caseNoteId}`,
       {
         method: "DELETE",
         headers: {

@@ -49,7 +49,7 @@ describe("editCaseNote", function() {
     };
   });
 
-  test("should update case status and recent activity in the db after case note edited", async () => {
+  test("should update case status and case notes in the db after case note edited", async () => {
     const request = httpMocks.createRequest({
       method: "PUT",
       headers: {
@@ -76,10 +76,10 @@ describe("editCaseNote", function() {
       })
     );
 
-    const updatedRecentActivity = await models.case_note.findAll({
+    const updatedCaseNotes = await models.case_note.findAll({
       where: { caseId: createdCase.id }
     });
-    expect(updatedRecentActivity).toEqual(
+    expect(updatedCaseNotes).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           id: createdCaseNote.id,

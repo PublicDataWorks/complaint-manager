@@ -45,7 +45,7 @@ describe("editCaseNote request", function() {
     };
 
     await request(app)
-      .put(`/api/cases/${createdCase.id}/recent-activity/${createdCaseNote.id}`)
+      .put(`/api/cases/${createdCase.id}/case-notes/${createdCaseNote.id}`)
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .send(updatedCaseNote)

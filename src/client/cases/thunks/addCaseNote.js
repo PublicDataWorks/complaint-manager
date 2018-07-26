@@ -19,7 +19,7 @@ const addCaseNote = values => async dispatch => {
     }
 
     const response = await axios(
-      `${hostname}/api/cases/${values.caseId}/recent-activity`,
+      `${hostname}/api/cases/${values.caseId}/case-notes`,
       {
         method: "POST",
         headers: {
@@ -31,10 +31,7 @@ const addCaseNote = values => async dispatch => {
     );
 
     dispatch(
-      addCaseNoteSuccess(
-        response.data.caseDetails,
-        response.data.recentActivity
-      )
+      addCaseNoteSuccess(response.data.caseDetails, response.data.caseNotes)
     );
     return dispatch(closeCaseNoteDialog());
   } catch (error) {

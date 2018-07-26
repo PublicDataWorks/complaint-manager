@@ -24,7 +24,7 @@ describe("removeCaseNote", () => {
     };
 
     nock("http://localhost")
-      .delete(`/api/cases/${caseId}/recent-activity/${caseNoteId}`)
+      .delete(`/api/cases/${caseId}/case-notes/${caseNoteId}`)
       .reply(200, responseBody);
 
     await removeCaseNote(caseId, caseNoteId)(dispatch);
@@ -45,7 +45,7 @@ describe("removeCaseNote", () => {
         Authorization: "Bearer TEST_TOKEN"
       }
     })
-      .delete(`/api/cases/${caseId}/recent-activity/${caseNoteId}`)
+      .delete(`/api/cases/${caseId}/case-notes/${caseNoteId}`)
       .reply(500);
 
     await removeCaseNote(caseId, caseNoteId)(dispatch);
@@ -67,7 +67,7 @@ describe("removeCaseNote", () => {
         Authorization: "Bearer false"
       }
     })
-      .delete(`/api/cases/${caseId}/recent-activity/${caseNoteId}`)
+      .delete(`/api/cases/${caseId}/case-notes/${caseNoteId}`)
       .reply(200);
 
     await removeCaseNote(caseId, caseNoteId)(dispatch);

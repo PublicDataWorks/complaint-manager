@@ -15,7 +15,7 @@ import userInfoReducer from "./auth/reducers/userInfoReducer";
 import attachmentsReducer from "./reducers/ui/attachmentsReducer";
 import searchOfficersReducer from "./reducers/officers/searchOfficersReducer";
 import incidentDetailsDialogReducer from "./reducers/ui/incidentDetailsDialogReducer";
-import recentActivityReducer from "./reducers/cases/recentActivityReducer";
+import caseNotesReducer from "./reducers/cases/caseNotesReducer";
 import caseNoteDialogReducer from "./reducers/ui/caseNoteDialogReducer";
 import removePersonDialogReducer from "./reducers/ui/removePersonDialogReducer";
 import removeCaseNoteDialogReducer from "./reducers/ui/removeCaseNoteDialogReducer";
@@ -36,7 +36,7 @@ const rootReducer = combineReducers({
   }),
   currentCase: combineReducers({
     details: caseDetailsReducer,
-    recentActivity: recentActivityReducer,
+    caseNotes: caseNotesReducer,
     caseHistory: caseHistoryReducer
   }),
   users: combineReducers({

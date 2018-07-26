@@ -40,9 +40,7 @@ describe("removeCaseNote request", () => {
     });
 
     await request(app)
-      .delete(
-        `/api/cases/${createdCase.id}/recent-activity/${createdCaseNote.id}`
-      )
+      .delete(`/api/cases/${createdCase.id}/case-notes/${createdCaseNote.id}`)
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .expect(200)
@@ -51,7 +49,7 @@ describe("removeCaseNote request", () => {
 
         expect(currentCase).toEqual(
           expect.objectContaining({
-            recentActivity: [],
+            caseNotes: [],
             caseDetails: expect.objectContaining({
               id: createdCase.id,
               status: CASE_STATUS.ACTIVE

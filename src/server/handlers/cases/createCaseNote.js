@@ -32,7 +32,7 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
       transaction
     );
 
-    const recentActivity = await models.case_note.findAll({
+    const caseNotes = await models.case_note.findAll({
       where: {
         caseId: request.params.id
       },
@@ -43,7 +43,7 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
       request.params.id,
       transaction
     );
-    return { recentActivity, caseDetails };
+    return { caseNotes, caseDetails };
   });
 
   response.status(201).send(currentCase);

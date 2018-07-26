@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import ActivityDisplay from "./ActivityDisplay";
 import * as _ from "lodash";
-import getRecentActivity from "../../thunks/getRecentActivity";
+import getCaseNotes from "../../thunks/getCaseNotes";
 import { Typography } from "@material-ui/core";
 import RemoveCaseNoteDialog from "../RemoveCaseNoteDialog/RemoveCaseNoteDialog";
 import LinkButton from "../../../shared/components/LinkButton";
 import { Link } from "react-router-dom";
 
-class RecentActivity extends Component {
+class CaseNotes extends Component {
   componentDidMount() {
-    this.props.dispatch(getRecentActivity(this.props.caseId));
+    this.props.dispatch(getCaseNotes(this.props.caseId));
   }
 
   render() {
-    const { recentActivity, caseId } = this.props;
+    const { caseNotes, caseId } = this.props;
     return (
       <div style={{ margin: "0px 24px" }}>
         <Typography
@@ -22,25 +22,25 @@ class RecentActivity extends Component {
             marginBottom: "16px"
           }}
         >
-          Recent Activity
+          Case Notes
         </Typography>
         <div
-          data-test="recentActivityContainer"
+          data-test="caseNotesContainer"
           style={{ paddingBottom: "16px" }}
         >
-          {recentActivity.length === 0 ? (
+          {caseNotes.length === 0 ? (
             <Typography variant="body1">
               No case notes have been added
             </Typography>
           ) : (
-            _.orderBy(recentActivity, ["actionTakenAt"], "desc").map(
+            _.orderBy(caseNotes, ["actionTakenAt"], "desc").map(
               activity => {
                 return (
                   <ActivityDisplay
                     key={activity.id}
                     activity={activity}
                     caseId={caseId}
-                    data-test="recentActivityItem"
+                    data-test="caseNotesItem"
                   />
                 );
               }
@@ -61,4 +61,4 @@ class RecentActivity extends Component {
   }
 }
 
-export default RecentActivity;
+export default CaseNotes;

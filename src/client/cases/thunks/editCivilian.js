@@ -6,7 +6,7 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import getAccessToken from "../../auth/getAccessToken";
 import config from "../../config/config";
-import getRecentActivity from "./getRecentActivity";
+import getCaseNotes from "./getCaseNotes";
 import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
@@ -31,7 +31,7 @@ const editCivilian = civilian => async dispatch => {
 
     dispatch(closeEditDialog());
     dispatch(editCivilianSuccess(response.data));
-    return await dispatch(getRecentActivity(response.data.id));
+    return await dispatch(getCaseNotes(response.data.id));
   } catch (e) {
     return dispatch(editCivilianFailed());
   }

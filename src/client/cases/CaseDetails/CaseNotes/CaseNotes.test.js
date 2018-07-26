@@ -1,23 +1,23 @@
 import React from "react";
 import { mount } from "enzyme";
-import RecentActivity from "./RecentActivity";
+import CaseNotes from "./CaseNotes";
 import moment from "moment";
 import { containsText } from "../../../testHelpers";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 
-describe("Recent Activity", () => {
-  test("should display placeholder text when no recent activity", () => {
-    const recentActivity = [];
+describe("Case Notes", () => {
+  test("should display placeholder text when no case notes", () => {
+    const caseNotes = [];
 
     const wrapper = mount(
       <Provider store={createConfiguredStore()}>
         <Router>
-          <RecentActivity
+          <CaseNotes
             caseId={1}
             dispatch={jest.fn()}
-            recentActivity={recentActivity}
+            caseNotes={caseNotes}
           />
         </Router>
       </Provider>
@@ -25,13 +25,13 @@ describe("Recent Activity", () => {
 
     containsText(
       wrapper,
-      '[data-test="recentActivityContainer"]',
+      '[data-test="caseNotesContainer"]',
       "No case notes have been added"
     );
   });
 
-  test("should display recent activity", () => {
-    const someRecentActivity = [
+  test("should display case notes", () => {
+    const someCaseNotes = [
       {
         id: 1,
         caseId: 1,
@@ -44,20 +44,20 @@ describe("Recent Activity", () => {
     const wrapper = mount(
       <Provider store={createConfiguredStore()}>
         <Router>
-          <RecentActivity
+          <CaseNotes
             caseId={1}
             dispatch={jest.fn()}
-            recentActivity={someRecentActivity}
+            caseNotes={someCaseNotes}
           />
         </Router>
       </Provider>
     );
 
     const activityContainer = wrapper
-      .find('[data-test="recentActivityContainer"]')
+      .find('[data-test="caseNotesContainer"]')
       .first();
     const activityItems = activityContainer
-      .find('[data-test="recentActivityItem"]')
+      .find('[data-test="caseNotesItem"]')
       .first();
 
     const activityItem = activityItems.at(0);
@@ -73,8 +73,8 @@ describe("Recent Activity", () => {
     expect(activityTimeText.text()).toEqual("3 days ago");
   });
 
-  test("should display most recent activity first ", () => {
-    const someRecentActivity = [
+  test("should display most case notes first ", () => {
+    const someCaseNotes = [
       {
         id: 1,
         caseId: 1,
@@ -95,20 +95,20 @@ describe("Recent Activity", () => {
     const wrapper = mount(
       <Provider store={createConfiguredStore()}>
         <Router>
-          <RecentActivity
+          <CaseNotes
             caseId={1}
             dispatch={jest.fn()}
-            recentActivity={someRecentActivity}
+            caseNotes={someCaseNotes}
           />
         </Router>
       </Provider>
     );
 
     const activityContainer = wrapper
-      .find('[data-test="recentActivityContainer"]')
+      .find('[data-test="caseNotesContainer"]')
       .first();
     const activityItems = activityContainer.find(
-      '[data-test="recentActivityItem"]'
+      '[data-test="caseNotesItem"]'
     );
 
     const firstActivity = activityItems.first();

@@ -1,12 +1,12 @@
 import config from "../../config/config";
-import { getRecentActivitySuccess } from "../../actionCreators/casesActionCreators";
+import { getCaseNotesSuccess } from "../../actionCreators/casesActionCreators";
 import getAccessToken from "../../auth/getAccessToken";
 import { push } from "react-router-redux";
 import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
-const getRecentActivity = caseId => async dispatch => {
+const getCaseNotes = caseId => async dispatch => {
   try {
     const token = getAccessToken();
     if (!token) {
@@ -14,7 +14,7 @@ const getRecentActivity = caseId => async dispatch => {
     }
 
     const response = await axios(
-      `${hostname}/api/cases/${caseId}/recent-activity`,
+      `${hostname}/api/cases/${caseId}/case-notes`,
       {
         method: "GET",
         headers: {
@@ -24,8 +24,8 @@ const getRecentActivity = caseId => async dispatch => {
       }
     );
 
-    return dispatch(getRecentActivitySuccess(response.data));
+    return dispatch(getCaseNotesSuccess(response.data));
   } catch (error) {}
 };
 
-export default getRecentActivity;
+export default getCaseNotes;

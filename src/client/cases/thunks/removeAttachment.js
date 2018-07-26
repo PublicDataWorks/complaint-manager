@@ -5,7 +5,7 @@ import {
   removeAttachmentSuccess
 } from "../../actionCreators/attachmentsActionCreators";
 import config from "../../config/config";
-import getRecentActivity from "./getRecentActivity";
+import getCaseNotes from "./getCaseNotes";
 import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
@@ -35,7 +35,7 @@ const removeAttachment = (
 
     shouldCloseDialog();
     dispatch(removeAttachmentSuccess(response.data));
-    return await dispatch(getRecentActivity(response.data.id));
+    return await dispatch(getCaseNotes(response.data.id));
   } catch (error) {
     return dispatch(removeAttachmentFailed());
   }

@@ -631,7 +631,7 @@ describe("server", () => {
     });
   });
 
-  describe("GET /cases/:id/recent-activity", () => {
+  describe("GET /cases/:id/case-notes", () => {
     let createdCase;
     beforeEach(async () => {
       const existingCase = new Case.Builder()
@@ -655,9 +655,9 @@ describe("server", () => {
       );
     });
 
-    test("should display recent activity for an existing case", async () => {
+    test("should display case notes for an existing case", async () => {
       await request(app)
-        .get(`/api/cases/${createdCase.dataValues.id}/recent-activity`)
+        .get(`/api/cases/${createdCase.dataValues.id}/case-notes`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .expect(200)
@@ -701,7 +701,7 @@ describe("server", () => {
       });
 
       await request(app)
-        .post(`/api/cases/${createdCase.dataValues.id}/recent-activity`)
+        .post(`/api/cases/${createdCase.dataValues.id}/case-notes`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send(caseNote)
@@ -712,7 +712,7 @@ describe("server", () => {
               caseDetails: expect.objectContaining({
                 status: CASE_STATUS.ACTIVE
               }),
-              recentActivity: expect.arrayContaining([
+              caseNotes: expect.arrayContaining([
                 expect.objectContaining({
                   caseId: caseNote.caseId,
                   action: caseNote.action,

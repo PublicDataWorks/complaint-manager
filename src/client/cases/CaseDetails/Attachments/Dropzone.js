@@ -41,7 +41,7 @@ class Dropzone extends Component {
       this.props.uploadAttachmentSuccess(response);
       this.dropzone.removeFile(file);
       this.setState({ attachmentDescription: "", touched: false });
-      await this.props.getRecentActivity(this.props.caseId);
+      await this.props.getCaseNotes(this.props.caseId);
     },
     error: (file, errorMessage, xhr) => {
       this.setState({ attachmentValid: false });

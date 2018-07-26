@@ -1,12 +1,12 @@
-import getRecentActivity from "./getRecentActivity";
+import getCaseNotes from "./getCaseNotes";
 import nock from "nock";
 import getAccessToken from "../../auth/getAccessToken";
-import { getRecentActivitySuccess } from "../../actionCreators/casesActionCreators";
+import { getCaseNotesSuccess } from "../../actionCreators/casesActionCreators";
 import { push } from "react-router-redux";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
-describe("getRecentActivity", () => {
+describe("getCaseNotes", () => {
   const dispatch = jest.fn();
   const caseId = 1;
   const responseBody = [
@@ -21,22 +21,22 @@ describe("getRecentActivity", () => {
     dispatch.mockClear();
   });
 
-  test("should dispatch success when recent activity fetched", async () => {
+  test("should dispatch success when case notes fetched", async () => {
     nock("http://localhost")
-      .get(`/api/cases/${caseId}/recent-activity`)
+      .get(`/api/cases/${caseId}/case-notes`)
       .reply(200, responseBody);
 
-    await getRecentActivity(caseId)(dispatch);
+    await getCaseNotes(caseId)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
-      getRecentActivitySuccess(responseBody)
+      getCaseNotesSuccess(responseBody)
     );
   });
 
   test("should redirect to login when no token present", async () => {
     getAccessToken.mockImplementationOnce(() => null);
 
-    await getRecentActivity(caseId)(dispatch);
+    await getCaseNotes(caseId)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });

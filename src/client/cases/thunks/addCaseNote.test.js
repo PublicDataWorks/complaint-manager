@@ -36,7 +36,7 @@ describe("addCaseNote", () => {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .post(`/api/cases/${caseNote.caseId}/recent-activity`, caseNote)
+      .post(`/api/cases/${caseNote.caseId}/case-notes`, caseNote)
       .reply(500);
 
     await addCaseNote(caseNote)(dispatch);
@@ -52,7 +52,7 @@ describe("addCaseNote", () => {
 
     const responseBody = {
       caseDetails: "deets",
-      recentActivity: ["recent", "activity"]
+      caseNotes: ["recent", "activity"]
     };
 
     nock("http://localhost", {
@@ -61,13 +61,13 @@ describe("addCaseNote", () => {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .post(`/api/cases/${caseNote.caseId}/recent-activity`, caseNote)
+      .post(`/api/cases/${caseNote.caseId}/case-notes`, caseNote)
       .reply(201, responseBody);
 
     await addCaseNote(caseNote)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
-      addCaseNoteSuccess(responseBody.caseDetails, responseBody.recentActivity)
+      addCaseNoteSuccess(responseBody.caseDetails, responseBody.caseNotes)
     );
     expect(dispatch).toHaveBeenCalledWith(closeCaseNoteDialog());
   });

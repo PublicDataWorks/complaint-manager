@@ -5,7 +5,7 @@ import {
 import getAccessToken from "../../auth/getAccessToken";
 import { push } from "react-router-redux";
 import config from "../../config/config";
-import getRecentActivity from "./getRecentActivity";
+import getCaseNotes from "./getCaseNotes";
 import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
@@ -35,7 +35,7 @@ const updateNarrative = updateDetails => async dispatch => {
     );
 
     dispatch(updateNarrativeSuccess(response.data));
-    return await dispatch(getRecentActivity(response.data.id));
+    return await dispatch(getCaseNotes(response.data.id));
   } catch (e) {
     return dispatch(updateNarrativeFailure());
   }

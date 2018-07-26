@@ -328,7 +328,7 @@ describe("snackbarReducer", () => {
       const initialState = { success: false, open: false, message: "" };
       const newState = snackbarReducer(
         initialState,
-        removeCaseNoteSuccess({ caseDetails: "", recentActivity: "" })
+        removeCaseNoteSuccess({ caseDetails: "", caseNotes: "" })
       );
 
       const expectedState = {

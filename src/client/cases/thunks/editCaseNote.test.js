@@ -37,10 +37,7 @@ describe("editCaseNote", () => {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .put(
-        `/api/cases/${caseNote.caseId}/recent-activity/${caseNote.id}`,
-        caseNote
-      )
+      .put(`/api/cases/${caseNote.caseId}/case-notes/${caseNote.id}`, caseNote)
       .reply(500);
 
     await editCaseNote(caseNote)(dispatch);
@@ -63,10 +60,7 @@ describe("editCaseNote", () => {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .put(
-        `/api/cases/${caseNote.caseId}/recent-activity/${caseNote.id}`,
-        caseNote
-      )
+      .put(`/api/cases/${caseNote.caseId}/case-notes/${caseNote.id}`, caseNote)
       .reply(200, responseBody);
 
     await editCaseNote(caseNote)(dispatch);
