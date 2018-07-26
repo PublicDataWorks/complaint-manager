@@ -34,6 +34,7 @@ describe("exportCases request", function() {
     caseOfficer,
     allegation,
     officerAllegation;
+
   beforeEach(async () => {
     token = buildTokenWithPermissions("", "tuser");
 
@@ -64,6 +65,7 @@ describe("exportCases request", function() {
     const civilianAttributes = new Civilian.Builder()
       .defaultCivilian()
       .withId(undefined)
+      .withPhoneNumber("1234567890")
       .withRoleOnCase(COMPLAINANT)
       .withCaseId(caseToExport.id)
       .withAddress(addressAttributes);
@@ -260,6 +262,34 @@ describe("exportCases request", function() {
       });
   });
 
+  test("should display empty when civilian has no phone number", async () => {
+    await civilian.update({ phoneNumber: null }, { auditUser: "someone" });
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+        expect(records[0]["Civilian Complainant Phone Number"]).toEqual("");
+      });
+  });
+
+  test("should display empty when civilian has a blank phone number", async () => {
+    await civilian.update({ phoneNumber: "" }, { auditUser: "someone" });
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+        expect(records[0]["Civilian Complainant Phone Number"]).toEqual("");
+      });
+  });
+
   test("should retrieve civilian complainant data", async () => {
     await request(app)
       .get("/api/cases/export")
@@ -287,7 +317,7 @@ describe("exportCases request", function() {
         )}`;
         expect(records[0]["Civilian Complainant Age"]).toEqual(expectedAge);
         expect(records[0]["Civilian Complainant Phone Number"]).toEqual(
-          civilian.phoneNumber
+          "(123) 456-7890"
         );
         expect(records[0]["Civilian Complainant Email"]).toEqual(
           civilian.email

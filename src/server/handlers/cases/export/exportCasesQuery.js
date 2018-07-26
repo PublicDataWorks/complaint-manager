@@ -144,7 +144,11 @@ const exportCasesQuery = () => {
     '   gender_identity AS "civilian_gender_identity", ' +
     '   race_ethnicity AS "civilian_race_ethnicity", ' +
     "   birth_date AS civilian_dob, " +
-    '   phone_number AS "civilian_phone_number", ' +
+    `   CASE WHEN phone_number = '' OR phone_number IS NULL ` +
+    `     THEN ''` +
+    `     ELSE '(' || (SUBSTRING(phone_number from 1 for 3) || ') ' || SUBSTRING(phone_number from 4 for 3) || '-' || SUBSTRING(phone_number from 7 for 4)) ` +
+    `     END ` +
+    `     AS "civilian_phone_number", ` +
     '   email AS "civilian_email", ' +
     "   additional_info AS civilian_additional_info, " +
     "   addresses.street_address AS civilian_street_address, " +
