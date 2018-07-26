@@ -43,7 +43,10 @@ const exportCasesQuery = () => {
     'complainants.civilian_full_name as "complainants.civilian_full_name", ' +
     'complainants.civilian_gender_identity AS "complainants.civilian_gender_identity", ' +
     'complainants.civilian_race_ethnicity AS "complainants.civilian_race_ethnicity", ' +
-    `date_part('year', age(cases.incident_date, complainants.civilian_dob)) AS "complainants.civilian_age", ` +
+    `CASE WHEN complainants.civilian_dob IS NULL OR cases.incident_date IS NULL THEN 'N/A' ` +
+    `     ELSE trim(to_char(date_part('year', age(cases.incident_date, complainants.civilian_dob)), '999')) ` +
+    `END ` +
+    `AS "complainants.civilian_age", ` +
     'complainants.civilian_phone_number AS "complainants.civilian_phone_number", ' +
     'complainants.civilian_email AS "complainants.civilian_email", ' +
     'complainants.civilian_additional_info AS "complainants.civilian_additional_info", ' +
@@ -70,7 +73,10 @@ const exportCasesQuery = () => {
     `to_char(complainants.officer_end_date, \'${DATE_ONLY_FORMAT}\') AS "complainants.officer_end_date", ` +
     'complainants.officer_race AS "complainants.officer_race", ' +
     'complainants.officer_sex AS "complainants.officer_sex", ' +
-    `date_part('year',age(cases.incident_date, complainants.officer_dob)) AS "complainants.officer_age", ` +
+    `CASE WHEN complainants.officer_dob IS NULL OR cases.incident_date IS NULL THEN 'N/A' ` +
+    `     ELSE trim(to_char(date_part('year',age(cases.incident_date, complainants.officer_dob)), '999')) ` +
+    `END ` +
+    ` AS "complainants.officer_age", ` +
     'complainants.officer_notes AS "complainants.officer_notes", ' +
     'accusedOfficers.id AS "accusedOfficers.id", ' +
     "concat_ws(" +
@@ -108,7 +114,10 @@ const exportCasesQuery = () => {
     `to_char(accusedOfficers.end_date, \'${DATE_ONLY_FORMAT}\') AS "accusedOfficers.end_date", ` +
     'accusedOfficers.race AS "accusedOfficers.race", ' +
     'accusedOfficers.sex AS "accusedOfficers.sex", ' +
-    "date_part('year', age(cases.incident_date, accusedOfficers.dob)) AS \"accusedOfficers.age\", " +
+    `CASE WHEN accusedOfficers.dob IS NULL OR cases.incident_date IS NULL THEN 'N/A' ` +
+    `     ELSE trim(to_char(date_part('year', age(cases.incident_date, accusedOfficers.dob)), '999')) ` +
+    `END ` +
+    ' AS "accusedOfficers.age", ' +
     'accusedOfficers.notes AS "accusedOfficers.notes", ' +
     'allegations.rule as "allegations.rule", ' +
     'allegations.paragraph as "allegations.paragraph", ' +

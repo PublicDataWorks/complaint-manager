@@ -313,6 +313,20 @@ describe("exportCases request", function() {
       });
   });
 
+  test("should set civilian complainant age to N/A when dob or incident date is blank", async () => {
+    await civilian.update({ birthDate: null }, { auditUser: "someone" });
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+        expect(records[0]["Complainant"]).toEqual("Civilian");
+        expect(records[0]["Civilian Complainant Age"]).toEqual("N/A");
+      });
+  });
+
   test("should retrieve civilian data with two civilian complainants", async () => {
     const civilianAttributes2 = new Civilian.Builder()
       .defaultCivilian()
@@ -459,6 +473,39 @@ describe("exportCases request", function() {
             civilian.lastName
           } ${civilian.suffix}`
         );
+      });
+  });
+
+  test("should set officer complainant age to N/A when dob or incident date is blank", async () => {
+    const officerComplainantAttributes = new Officer.Builder()
+      .defaultOfficer()
+      .withDOB(null)
+      .withOfficerNumber(officer.officerNumber + 5)
+      .withId(undefined);
+    const officerComplainant = await models.officer.create(
+      officerComplainantAttributes,
+      {
+        auditUser: "tuser"
+      }
+    );
+    const caseOfficerComplainantAttributes = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withOfficerAttributes(officerComplainant)
+      .withNotes("hello")
+      .withCaseId(caseToExport.id)
+      .withRoleOnCase(COMPLAINANT);
+    await models.case_officer.create(caseOfficerComplainantAttributes, {
+      auditUser: "tuser"
+    });
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const complainantOfficerRow = parse(resultingCsv, { columns: true })[1];
+        expect(complainantOfficerRow["Complainant"]).toEqual("Officer");
+        expect(complainantOfficerRow["Officer Complainant Age"]).toEqual("N/A");
       });
   });
 
@@ -1227,7 +1274,7 @@ describe("exportCases request", function() {
       });
   });
 
-  test("should set age to blank when dob is blank and incident date is not blank", async () => {
+  test("should set age to NA when dob is blank and incident date is not blank", async () => {
     await caseOfficer.update({ dob: null }, { auditUser: "someone" });
 
     await request(app)
@@ -1241,11 +1288,11 @@ describe("exportCases request", function() {
         expect(records.length).toEqual(1);
 
         const record1 = records[0];
-        expect(record1["Accused Officer Age"]).toEqual("");
+        expect(record1["Accused Officer Age"]).toEqual("N/A");
       });
   });
 
-  test("should set age to blank when dob is given and incident date is blank", async () => {
+  test("should set age to NA when dob is given and incident date is blank", async () => {
     await caseToExport.update({ incidentDate: null }, { auditUser: "someone" });
 
     await request(app)
@@ -1259,11 +1306,11 @@ describe("exportCases request", function() {
         expect(records.length).toEqual(1);
 
         const record1 = records[0];
-        expect(record1["Accused Officer Age"]).toEqual("");
+        expect(record1["Accused Officer Age"]).toEqual("N/A");
       });
   });
 
-  test("should set age to blank when both and incident date are blank", async () => {
+  test("should set age to NA when both and incident date are blank", async () => {
     await caseOfficer.update({ dob: null }, { auditUser: "someone" });
     await caseToExport.update({ incidentDate: null }, { auditUser: "someone" });
 
@@ -1278,7 +1325,7 @@ describe("exportCases request", function() {
         expect(records.length).toEqual(1);
 
         const record1 = records[0];
-        expect(record1["Accused Officer Age"]).toEqual("");
+        expect(record1["Accused Officer Age"]).toEqual("N/A");
       });
   });
   test("should not add extra space when accused officer supervisor middle name is blank", async () => {
