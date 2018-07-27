@@ -5,26 +5,24 @@ import { UTF8_BYTE_ORDER_MARK } from "../../../sharedUtilities/constants";
 import downloadFailed from "../../actionCreators/downloadActionCreators";
 import axios from "axios";
 
-const downloader = (
-  path,
-  filename,
-  fileNeedsUtfEncoding,
-  callback
-) => async dispatch => {
+const downloader = (path, filename, fileIsCsv, callback) => async dispatch => {
   if (!getAccessToken()) {
     return dispatch(push("/login"));
   }
   try {
-    const response = await axios(path, {
+    const responseType = fileIsCsv ? "" : "blob";
+
+    const response = await axios.get(path, {
       headers: {
         Authorization: `Bearer ${getAccessToken()}`
-      }
+      },
+      responseType: responseType
     });
 
-    const fileData = fileNeedsUtfEncoding
+    const fileData = fileIsCsv
       ? UTF8_BYTE_ORDER_MARK + response.data
       : response.data;
-    const fileToDownload = new File([fileData], filename, { type: "text/csv;charset=utf-8" });
+    const fileToDownload = new File([fileData], filename);
 
     FileSaver.saveAs(fileToDownload, filename);
 
