@@ -38,7 +38,7 @@ class App extends Component {
     return (
       <ConnectedRouter history={history}>
         <MuiThemeProvider theme={customTheme}>
-          <Paper elevation={0} style={{ height: "100%", overflowY: "scroll", "border-radius": "0px" }}>
+          <Paper elevation={0} style={{ height: "100%", overflowY: "scroll", borderRadius: "0px" }}>
             <ScrollToTop>
               <Route path="/login" component={Login} />
               <Route path="/callback" component={Callback} />
