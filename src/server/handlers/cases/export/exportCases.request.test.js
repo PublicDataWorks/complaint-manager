@@ -543,18 +543,19 @@ describe("exportCases request", function() {
     await request(app)
       .get("/api/cases/export")
       .set("Authorization", `Bearer ${token}`)
-      .expect(200);
+      .expect(200)
+      .then(async () => {
+        const audit = await models.action_audit.find({
+          where: { subject: AUDIT_SUBJECT.ALL_CASE_INFORMATION }
+        });
 
-    const audit = await models.action_audit.find({
-      where: { subject: AUDIT_SUBJECT.ALL_CASE_INFORMATION }
-    });
-
-    expect(audit).toEqual(
-      expect.objectContaining({
-        auditType: AUDIT_TYPE.EXPORT,
-        action: AUDIT_ACTION.EXPORTED
-      })
-    );
+        expect(audit).toEqual(
+          expect.objectContaining({
+            auditType: AUDIT_TYPE.EXPORT,
+            action: AUDIT_ACTION.EXPORTED
+          })
+        );
+      });
   });
 
   test("should include witness count when two civilian witnesses", async () => {

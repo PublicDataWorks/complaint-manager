@@ -68,18 +68,19 @@ describe("GET /api/export-audit-log", () => {
     await request(app)
       .get("/api/export-audit-log")
       .set("Authorization", `Bearer ${tokenWithExportPermission}`)
-      .expect(200);
-
-    const exportActionAudit = await models.action_audit.find({
-      where: {
-        auditType: AUDIT_TYPE.EXPORT,
-        action: AUDIT_ACTION.EXPORTED,
-        subject: AUDIT_SUBJECT.AUDIT_LOG,
-        caseId: null,
-        user: nickname
-      }
-    });
-    expect(exportActionAudit).not.toBeNull();
+      .expect(200)
+      .then(async () => {
+        const exportActionAudit = await models.action_audit.find({
+          where: {
+            auditType: AUDIT_TYPE.EXPORT,
+            action: AUDIT_ACTION.EXPORTED,
+            subject: AUDIT_SUBJECT.AUDIT_LOG,
+            caseId: null,
+            user: nickname
+          }
+        });
+        expect(exportActionAudit).not.toBeNull();
+      });
   });
 
   test("it includes export audit type", async () => {
