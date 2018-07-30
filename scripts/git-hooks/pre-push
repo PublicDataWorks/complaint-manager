@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 set -o nounset -o errexit
 
+if [ "$(git rev-parse --abbrev-ref HEAD)" = 'release' ];
+then
+    read -p 'You are committing changes to the release branch. Is this correct? Enter Y to continue or any other character to quit: ' ANSWER
+
+    if [ "$ANSWER" != 'Y' ]
+    then
+        exit 0
+    fi
+fi
+
 sh ./scripts/security-checks.sh
 git pull --rebase
 
