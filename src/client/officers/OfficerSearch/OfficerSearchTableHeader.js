@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography
-} from "@material-ui/core";
+import { TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import tableStyleGenerator from "../../tableStyles";
 
@@ -48,21 +43,21 @@ const OfficerSearchTableHeader = props => {
         <TableCell
           data-test="casesAssignedToHeader"
           className={classes.cell}
-          style={{ width: "10%" }}
+          style={{ width: "8%" }}
         >
           <Typography variant="body2">Gender</Typography>
         </TableCell>
         <TableCell
           data-test="casesAssignedToHeader"
           className={classes.cell}
-          style={{ width: "10%" }}
+          style={{ width: "14%" }}
         >
           <Typography variant="body2">Race</Typography>
         </TableCell>
         <TableCell
           data-test="casesAssignedToHeader"
           className={classes.cell}
-          style={{ width: "8%" }}
+          style={{ width: "6%" }}
         >
           <Typography variant="body2">Age</Typography>
         </TableCell>
