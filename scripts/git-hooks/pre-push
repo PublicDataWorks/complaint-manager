@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -o nounset -o errexit
+exec < /dev/tty
 
 if [ "$(git rev-parse --abbrev-ref HEAD)" = 'release' ];
 then
@@ -7,7 +8,8 @@ then
 
     if [ "$ANSWER" != 'Y' ]
     then
-        exit 0
+        echo "Aborting push"
+        exit 1
     fi
 fi
 
