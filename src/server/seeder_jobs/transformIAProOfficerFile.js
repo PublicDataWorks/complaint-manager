@@ -36,13 +36,75 @@ const transformIAProOfficerData = async iaProOfficerData => {
   });
 
   validRows.forEach(row => {
-    if (!row["UDTEXT24B"].match(ALLOWED_DISTRICT_VALUES)) {
-      row["UDTEXT24B"] = "";
-    }
-    row["EMP_TYPE"] = row["EMP_TYPE"].replace("Commisioned", "Commissioned");
+    removeNonDistrictDivisionValues(row);
+    fixCommissionMisspellings(row);
+    normalizeSexValues(row);
+    normalizeRaceValues(row);
   });
 
   return await promisifiedStringify(validRows, csvOptions);
+};
+
+const removeNonDistrictDivisionValues = row => {
+  if (!row["UDTEXT24B"].match(ALLOWED_DISTRICT_VALUES)) {
+    row["UDTEXT24B"] = "";
+  }
+};
+
+const fixCommissionMisspellings = row => {
+  row["EMP_TYPE"] = row["EMP_TYPE"].replace("Commisioned", "Commissioned");
+};
+
+const normalizeSexValues = row => {
+  row["SEX"] = normalizeSexValue(row["SEX"]);
+};
+
+const normalizeSexValue = originalSexValue => {
+  switch (originalSexValue) {
+    case "F":
+    case "Female":
+      return "F";
+    case "M":
+    case "Male":
+      return "M";
+    case "N":
+    case "Sex-Unk":
+    case "":
+    case "''":
+    case '""':
+      return "Unknown Sex";
+    default:
+      throw Boom.badData(`Unexpected Sex Value: '${originalSexValue}'`);
+  }
+};
+
+const normalizeRaceValues = row => {
+  row["RACE"] = normalizeRaceValue(row["RACE"]);
+};
+
+const normalizeRaceValue = originalRaceValue => {
+  switch (originalRaceValue) {
+    case "American Ind":
+      return "Native American";
+    case "Asian/Pacif":
+    case "Asian/Pacifi":
+      return "Asian / Pacific Islander";
+    case "Black":
+      return "Black / African American";
+    case "Hispanic":
+      return "Hispanic";
+    case "White":
+      return "White";
+    case "Not Applicab":
+    case "Not Specifie":
+    case "Race-Unknown":
+    case "":
+    case "''":
+    case '""':
+      return "Unknown Race";
+    default:
+      throw Boom.badData(`Unexpected Race Value: '${originalRaceValue}'`);
+  }
 };
 
 const validateHeaders = firstParsedRow => {
