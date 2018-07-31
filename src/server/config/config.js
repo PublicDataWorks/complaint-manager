@@ -122,15 +122,15 @@ module.exports = {
       fromEmailAddress: process.env.EMAIL_ADDRESS
     },
     authentication: {
-      domain: "noipm.auth0.com",
-      publicKeyURL: "https://noipm.auth0.com/.well-known/jwks.json",
+      domain: "noipm-staging.auth0.com",
+      publicKeyURL: "https://noipm-staging.auth0.com/.well-known/jwks.json",
       audience: "https://noipm-staging.herokuapp.com/",
-      issuer: "https://noipm.auth0.com/",
+      issuer: "https://noipm-staging.auth0.com/",
       algorithm: "RS256",
       nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
     },
     contentSecurityPolicy: {
-      connectSrc: ["'self'", "https://noipm.auth0.com"]
+      connectSrc: ["'self'", "https://noipm-staging.auth0.com"]
     },
     winston: {
       logLevel: "info",

@@ -51,8 +51,8 @@ export default {
   },
   staging: {
     auth: {
-      domain: "noipm.auth0.com",
-      clientID: "2o6uTkEwbxxU6tzKwG24ghmAtPBEKeKI",
+      domain: "noipm-staging.auth0.com",
+      clientID: "r4WGrntga7nkl4iDqnJiDVY6DAMqHFJ2",
       redirectUri: "https://noipm-staging.herokuapp.com/callback",
       audience: "https://noipm-staging.herokuapp.com/",
       responseType: "token id_token",
