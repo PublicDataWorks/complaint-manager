@@ -10,7 +10,7 @@ import {
 import OfficerSearchResultsRow from "../OfficerSearch/OfficerSearchResults/OfficerSearchResultsRow";
 import { TextField } from "redux-form-material-ui";
 import OfficerTypeRadioGroup from "./OfficerTypeRadioGroup";
-import { Field, formValueSelector, reduxForm } from "redux-form";
+import { Field, reduxForm } from "redux-form";
 import styles from "../../globalStyling/styles";
 import { PrimaryButton } from "../../shared/components/StyledButtons";
 import { ChangeOfficer } from "../OfficerSearch/OfficerSearchResults/officerSearchResultsRowButtons";
@@ -18,25 +18,20 @@ import { connect } from "react-redux";
 
 const OfficerDetails = props => {
   const onSubmit = (values, dispatch) => {
-    const selectedOfficerId = props.selectedOfficer && props.selectedOfficer.id;
-    dispatch(props.submitAction(selectedOfficerId)(values));
+    dispatch(props.submitAction(values));
   };
-
   return (
     <div>
       <Typography variant="title">Selected Officer</Typography>
-      {props.selectedOfficer ? (
+      {props.selectedOfficerData ? (
         <Table style={{ marginBottom: "32px" }}>
           <OfficerSearchTableHeader />
           <TableBody>
-            <OfficerSearchResultsRow officer={props.selectedOfficer}>
+            <OfficerSearchResultsRow officer={props.selectedOfficerData}>
               <ChangeOfficer
-                data-test="knownOfficerChangeOfficerLink"
                 caseId={props.caseId}
                 dispatch={props.dispatch}
-                officerSearchUrl={`${props.officerSearchUrl}?role=${
-                  props.roleOnCase
-                }`}
+                officerSearchUrl={props.officerSearchUrl}
               >
                 change
               </ChangeOfficer>
@@ -56,12 +51,9 @@ const OfficerDetails = props => {
             officer by selecting Search for Officer.
           </Typography>
           <ChangeOfficer
-            data-test="unknownOfficerChangeOfficerLink"
             caseId={props.caseId}
             dispatch={props.dispatch}
-            officerSearchUrl={`${props.officerSearchUrl}?role=${
-              props.roleOnCase
-            }`}
+            officerSearchUrl={props.officerSearchUrl}
           >
             Search For Officer
           </ChangeOfficer>
@@ -103,14 +95,9 @@ const OfficerDetails = props => {
   );
 };
 
-const mapStateToProps = state => {
-  const selector = formValueSelector("OfficerDetails");
-
-  return {
-    selectedOfficer: state.officers.selectedOfficerData,
-    roleOnCase: selector(state, "roleOnCase")
-  };
-};
+const mapStateToProps = state => ({
+  selectedOfficer: state.officers.selectedOfficerData
+});
 const ConnectedComponent = connect(mapStateToProps)(OfficerDetails);
 
 export default reduxForm({

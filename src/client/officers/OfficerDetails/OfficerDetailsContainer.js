@@ -21,12 +21,15 @@ export class OfficerDetailsContainer extends Component {
 
   render() {
     const {
+      selectedOfficerData,
       caseId,
       titleAction,
       submitButtonText,
       submitAction,
       officerSearchUrl
     } = this.props;
+
+    const selectedOfficerId = selectedOfficerData && selectedOfficerData.id;
 
     return (
       <div>
@@ -47,9 +50,10 @@ export class OfficerDetailsContainer extends Component {
         <div style={{ margin: "0% 5% 3%" }}>
           <OfficerDetails
             officerSearchUrl={officerSearchUrl}
-            submitAction={submitAction}
+            submitAction={submitAction(selectedOfficerId)}
             submitButtonText={submitButtonText}
             caseId={caseId}
+            selectedOfficerData={selectedOfficerData}
           />
         </div>
       </div>
@@ -58,6 +62,7 @@ export class OfficerDetailsContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+  selectedOfficerData: state.officers.selectedOfficerData,
   officerCurrentlySelected: state.officers.officerCurrentlySelected
 });
 
