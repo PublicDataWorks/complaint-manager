@@ -1,0 +1,8 @@
+[
+  {
+    "id": "experimentalFeature",
+    "name": "AnExperimentalFeature",
+    "description": "This is a test feature to show config",
+    "enabled": true
+  }
+]

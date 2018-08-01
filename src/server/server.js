@@ -7,7 +7,7 @@ const config = require("./config/config")[process.env.NODE_ENV];
 const healthCheck = require("./handlers/healthCheck");
 const errorHandler = require("./handlers/errorHandler");
 const apiRouter = require("./apiRouter");
-const toggleMiddleware = require("./toggleMiddleware");
+const featureToggleRouter = require("./featureToggleRouter");
 const expressWinston = require("express-winston");
 const winston = require("winston");
 const cookieParser = require("cookie-parser");
@@ -58,7 +58,7 @@ app.use(express.static(buildDirectory));
 
 app.get("/health-check", healthCheck);
 
-app.use(toggleMiddleware);
+app.use("/features", featureToggleRouter);
 
 app.use(
   expressWinston.logger({
