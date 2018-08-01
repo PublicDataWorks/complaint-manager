@@ -3,8 +3,8 @@ import { LOCAL_DEV_PORT, PORT } from "../../sharedUtilities/constants";
 export default {
   development: {
     auth: {
-      domain: "noipm-dev.auth0.com",
-      clientID: "LwpX2IDfqQRJs3PI7Ckm8AK6m1TLXv99",
+      domain: "noipm-ci.auth0.com",
+      clientID: "po0KCHqu1sHYuVxNHE2DAioLfQghB9aP",
       redirectUri: `http://localhost:${LOCAL_DEV_PORT}/callback`,
       audience: "https://noipm-ci.herokuapp.com/",
       responseType: "token id_token",
@@ -15,8 +15,8 @@ export default {
   },
   static_development: {
     auth: {
-      domain: "noipm-dev.auth0.com",
-      clientID: "LwpX2IDfqQRJs3PI7Ckm8AK6m1TLXv99",
+      domain: "noipm-ci.auth0.com",
+      clientID: "po0KCHqu1sHYuVxNHE2DAioLfQghB9aP",
       redirectUri: `http://localhost:${PORT}/callback`,
       audience: "https://noipm-ci.herokuapp.com/",
       responseType: "token id_token",
@@ -27,8 +27,8 @@ export default {
   },
   test: {
     auth: {
-      domain: "noipm-dev.auth0.com",
-      clientID: "LwpX2IDfqQRJs3PI7Ckm8AK6m1TLXv99",
+      domain: "noipm-ci.auth0.com",
+      clientID: "po0KCHqu1sHYuVxNHE2DAioLfQghB9aP",
       redirectUri: `http://localhost:${LOCAL_DEV_PORT}/callback`,
       audience: "test audience",
       responseType: "token id_token",
@@ -39,8 +39,8 @@ export default {
   },
   ci: {
     auth: {
-      domain: "noipm-dev.auth0.com",
-      clientID: "LwpX2IDfqQRJs3PI7Ckm8AK6m1TLXv99",
+      domain: "noipm-ci.auth0.com",
+      clientID: "po0KCHqu1sHYuVxNHE2DAioLfQghB9aP",
       redirectUri: "https://noipm-ci.herokuapp.com/callback",
       audience: "https://noipm-ci.herokuapp.com/",
       responseType: "token id_token",

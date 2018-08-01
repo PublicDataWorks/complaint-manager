@@ -14,17 +14,17 @@ module.exports = {
       fromEmailAddress: "dev_env_email@example.com"
     },
     authentication: {
-      domain: "noipm-dev.auth0.com",
-      publicKeyURL: "https://noipm-dev.auth0.com/.well-known/jwks.json",
+      domain: "noipm-ci.auth0.com",
+      publicKeyURL: "https://noipm-ci.auth0.com/.well-known/jwks.json",
       audience: "https://noipm-ci.herokuapp.com/",
-      issuer: "https://noipm-dev.auth0.com/",
+      issuer: "https://noipm-ci.auth0.com/",
       algorithm: "RS256",
       nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
     contentSecurityPolicy: {
       connectSrc: [
         "'self'",
-        "https://noipm-dev.auth0.com",
+        "https://noipm-ci.auth0.com",
         `ws://localhost:${LOCAL_DEV_PORT}`
       ]
     },
@@ -45,7 +45,7 @@ module.exports = {
       fromEmailAddress: "test_env_email@example.com"
     },
     authentication: {
-      domain: "noipm-dev.auth0.com",
+      domain: "noipm-ci.auth0.com",
       publicKeyPath: path.join(__dirname, "..", "config", "test", "public.pem"),
       audience: "test audience",
       issuer: "test issuer",
@@ -56,7 +56,7 @@ module.exports = {
     contentSecurityPolicy: {
       connectSrc: [
         "'self'",
-        "https://noipm-dev.auth0.com",
+        "https://noipm-ci.auth0.com",
         `ws://localhost:${LOCAL_DEV_PORT}`
       ]
     },
@@ -86,15 +86,15 @@ module.exports = {
       fromEmailAddress: process.env.EMAIL_ADDRESS
     },
     authentication: {
-      domain: "noipm-dev.auth0.com",
-      publicKeyURL: "https://noipm-dev.auth0.com/.well-known/jwks.json",
+      domain: "noipm-ci.auth0.com",
+      publicKeyURL: "https://noipm-ci.auth0.com/.well-known/jwks.json",
       audience: "https://noipm-ci.herokuapp.com/",
-      issuer: "https://noipm-dev.auth0.com/",
+      issuer: "https://noipm-ci.auth0.com/",
       algorithm: "RS256",
       nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
     contentSecurityPolicy: {
-      connectSrc: ["'self'", "https://noipm-dev.auth0.com"]
+      connectSrc: ["'self'", "https://noipm-ci.auth0.com"]
     },
     winston: {
       logLevel: "info",
