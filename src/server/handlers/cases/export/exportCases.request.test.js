@@ -143,7 +143,7 @@ describe("exportCases request", function() {
               "Civilian Complainant Name," +
               "Civilian Complainant Gender Identity," +
               "Civilian Complainant Race/Ethnicity," +
-              "Civilian Complainant Age," +
+              "Civilian Complainant Age on Incident Date," +
               "Civilian Complainant Phone Number," +
               "Civilian Complainant Email," +
               "Civilian Complainant Address," +
@@ -166,7 +166,7 @@ describe("exportCases request", function() {
               "Officer Complainant End of Employment," +
               "Officer Complainant Race," +
               "Officer Complainant Sex," +
-              "Officer Complainant Age," +
+              "Officer Complainant Age on Incident Date," +
               "Officer Complainant Notes," +
               "Number of Witnesses," +
               "Narrative Summary," +
@@ -185,7 +185,7 @@ describe("exportCases request", function() {
               "Accused Officer End of Employment," +
               "Accused Officer Race," +
               "Accused Officer Sex," +
-              "Accused Officer Age," +
+              "Accused Officer Age on Incident Date," +
               "Accused Officer Notes," +
               "Allegation Rule," +
               "Allegation Paragraph," +
@@ -315,7 +315,9 @@ describe("exportCases request", function() {
           "years",
           false
         )}`;
-        expect(records[0]["Civilian Complainant Age"]).toEqual(expectedAge);
+        expect(records[0]["Civilian Complainant Age on Incident Date"]).toEqual(
+          expectedAge
+        );
         expect(records[0]["Civilian Complainant Phone Number"]).toEqual(
           "(123) 456-7890"
         );
@@ -353,7 +355,9 @@ describe("exportCases request", function() {
         const resultingCsv = response.text;
         const records = parse(resultingCsv, { columns: true });
         expect(records[0]["Complainant"]).toEqual("Civilian");
-        expect(records[0]["Civilian Complainant Age"]).toEqual("N/A");
+        expect(records[0]["Civilian Complainant Age on Incident Date"]).toEqual(
+          "N/A"
+        );
       });
   });
 
@@ -488,9 +492,9 @@ describe("exportCases request", function() {
           "years",
           false
         )}`;
-        expect(officerComplainantRow["Officer Complainant Age"]).toEqual(
-          expectedAge
-        );
+        expect(
+          officerComplainantRow["Officer Complainant Age on Incident Date"]
+        ).toEqual(expectedAge);
         expect(officerComplainantRow["Officer Complainant Notes"]).toEqual(
           caseOfficerComplainant.notes
         );
@@ -535,7 +539,9 @@ describe("exportCases request", function() {
         const resultingCsv = response.text;
         const complainantOfficerRow = parse(resultingCsv, { columns: true })[1];
         expect(complainantOfficerRow["Complainant"]).toEqual("Officer");
-        expect(complainantOfficerRow["Officer Complainant Age"]).toEqual("N/A");
+        expect(
+          complainantOfficerRow["Officer Complainant Age on Incident Date"]
+        ).toEqual("N/A");
       });
   });
 
@@ -801,7 +807,7 @@ describe("exportCases request", function() {
           "years",
           false
         );
-        expect(firstRecord["Accused Officer Age"]).toEqual(
+        expect(firstRecord["Accused Officer Age on Incident Date"]).toEqual(
           expectedAge.toString()
         );
         expect(firstRecord["Accused Officer Notes"]).toEqual(caseOfficer.notes);
@@ -1319,7 +1325,7 @@ describe("exportCases request", function() {
         expect(records.length).toEqual(1);
 
         const record1 = records[0];
-        expect(record1["Accused Officer Age"]).toEqual("N/A");
+        expect(record1["Accused Officer Age on Incident Date"]).toEqual("N/A");
       });
   });
 
@@ -1337,7 +1343,7 @@ describe("exportCases request", function() {
         expect(records.length).toEqual(1);
 
         const record1 = records[0];
-        expect(record1["Accused Officer Age"]).toEqual("N/A");
+        expect(record1["Accused Officer Age on Incident Date"]).toEqual("N/A");
       });
   });
 
@@ -1356,7 +1362,7 @@ describe("exportCases request", function() {
         expect(records.length).toEqual(1);
 
         const record1 = records[0];
-        expect(record1["Accused Officer Age"]).toEqual("N/A");
+        expect(record1["Accused Officer Age on Incident Date"]).toEqual("N/A");
       });
   });
   test("should not add extra space when accused officer supervisor middle name is blank", async () => {

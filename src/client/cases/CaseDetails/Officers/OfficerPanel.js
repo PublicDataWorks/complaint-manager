@@ -110,7 +110,7 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => (
           testLabel="sex"
         />
         <DateOfBirthAgeInfoDisplay
-          displayLabel="Date of Birth (Age)"
+          displayLabel="Date of Birth (Age on Incident Date)"
           testLabel="age"
           birthDate={formatDate(caseOfficer.dob)}
           age={officerAge}
