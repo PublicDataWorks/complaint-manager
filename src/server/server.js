@@ -7,8 +7,10 @@ const config = require("./config/config")[process.env.NODE_ENV];
 const healthCheck = require("./handlers/healthCheck");
 const errorHandler = require("./handlers/errorHandler");
 const apiRouter = require("./apiRouter");
+const toggleMiddleware = require("./toggleMiddleware");
 const expressWinston = require("express-winston");
 const winston = require("winston");
+const cookieParser = require("cookie-parser");
 
 winston.configure({
   transports: [
@@ -50,10 +52,13 @@ app.use(
 
 const buildDirectory = path.join(__dirname, "../../build");
 
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.static(buildDirectory));
 
 app.get("/health-check", healthCheck);
+
+app.use(toggleMiddleware);
 
 app.use(
   expressWinston.logger({

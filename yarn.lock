@@ -2073,6 +2073,13 @@ convert-source-map@^1.4.0, convert-source-map@^1.5.0, convert-source-map@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-1.5.1.tgz#b8278097b9bc229365de5c62cf5fcaed8b5599e5"
 
+cookie-parser@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/cookie-parser/-/cookie-parser-1.4.3.tgz#0fe31fa19d000b95f4aadf1f53fdc2b8a203baa5"
+  dependencies:
+    cookie "0.3.1"
+    cookie-signature "1.0.6"
+
 cookie-signature@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
@@ -3381,6 +3388,14 @@ fbjs@^0.8.1, fbjs@^0.8.16:
     promise "^7.1.1"
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.18"
+
+fflip-express@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/fflip-express/-/fflip-express-1.0.2.tgz#6e9bf5c69cd29b32154f7342fbaec7aa0c160610"
+
+fflip@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/fflip/-/fflip-4.0.0.tgz#43f6c0a1eb6417e2d745d9e542b58bf6df96d81c"
 
 figures@^2.0.0:
   version "2.0.0"
