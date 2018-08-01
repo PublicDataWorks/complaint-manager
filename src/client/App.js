@@ -3,7 +3,7 @@ import { Route } from "react-router-dom";
 import { ConnectedRouter } from "react-router-redux";
 import history from "./history";
 import StyleGuide from "./globalStyling/StyleGuide";
-import { MuiThemeProvider } from "@material-ui/core/styles"
+import { MuiThemeProvider } from "@material-ui/core/styles";
 import customTheme from "./globalStyling/muiTheme";
 import CaseDashboard from "./cases/CaseDashboard";
 import UserDashboard from "./users/UserDashboard";
@@ -24,6 +24,7 @@ import EditOfficerDetails from "./officers/OfficerDetails/EditOfficerDetails";
 import CaseHistory from "./cases/CaseDetails/CaseHistory/CaseHistory";
 import AllegationSearchContainer from "./allegations/AllegationSearchContainer";
 import SharedSnackbarContainer from "./shared/components/SharedSnackbarContainer";
+import getFeatureToggles from "./featureToggles/thunks/getFeatureToggles";
 
 class App extends Component {
   componentDidMount() {
@@ -32,13 +33,18 @@ class App extends Component {
       const auth = new Auth();
       auth.setUserInfo(accessToken, this.props.userAuthSuccess);
     }
+
+    this.props.getFeatureToggles();
   }
 
   render() {
     return (
       <ConnectedRouter history={history}>
         <MuiThemeProvider theme={customTheme}>
-          <Paper elevation={0} style={{ height: "100%", overflowY: "scroll", borderRadius: "0px" }}>
+          <Paper
+            elevation={0}
+            style={{ height: "100%", overflowY: "scroll", borderRadius: "0px" }}
+          >
             <ScrollToTop>
               <Route path="/login" component={Login} />
               <Route path="/callback" component={Callback} />
@@ -84,7 +90,11 @@ class App extends Component {
 }
 
 const mapDispatchToProps = {
-  userAuthSuccess
+  userAuthSuccess,
+  getFeatureToggles
 };
 
-export default connect(undefined, mapDispatchToProps)(App);
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(App);

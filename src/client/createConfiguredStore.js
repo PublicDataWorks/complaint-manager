@@ -27,6 +27,7 @@ import accusedOfficerPanelsReducer from "./reducers/ui/accusedOfficerPanelsReduc
 import editAllegationFormsReducer from "./reducers/ui/editAllegationFormsReducer";
 import removeOfficerAllegationDialogReducer from "./reducers/ui/removeOfficerAllegationDialogReducer";
 import exportDialogReducer from "./reducers/ui/exportDialogReducer";
+import featureTogglesReducer from "./reducers/featureToggles/featureTogglesReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -61,7 +62,8 @@ const rootReducer = combineReducers({
     removeOfficerAllegationDialog: removeOfficerAllegationDialogReducer,
     accusedOfficerPanels: accusedOfficerPanelsReducer
   }),
-  officers: searchOfficersReducer
+  officers: searchOfficersReducer,
+  featureToggles: featureTogglesReducer
 });
 
 const routingMiddleware = routerMiddleware(history);
