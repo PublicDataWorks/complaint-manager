@@ -2,6 +2,7 @@ import React from "react";
 import { MenuItem } from "@material-ui/core";
 import * as _ from "lodash";
 import formatStringToTitleCase from "./formatStringToTitleCase";
+import { ACCUSED, COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
 
 export const generateMenu = contents => {
   return contents.map(content => {
@@ -96,6 +97,8 @@ export const caseNotes = generateMenu([
   "Sent supplemental complaint referral",
   "Miscellaneous"
 ]);
+
+export const roleOnCaseMenu = generateMenu([ACCUSED, COMPLAINANT, WITNESS]);
 
 export const searchRuleMenu = allegations => {
   allegations = _.sortBy(allegations, allegation => allegation.rule);

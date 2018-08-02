@@ -128,7 +128,7 @@ describe("createCase", () => {
 
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(
-      push(`/cases/${caseId}/officers/search?role=Complainant`)
+      push(`/cases/${caseId}/officers/search`)
     );
   });
 

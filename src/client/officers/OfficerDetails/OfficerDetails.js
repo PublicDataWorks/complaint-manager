@@ -9,12 +9,14 @@ import {
 } from "@material-ui/core";
 import OfficerSearchResultsRow from "../OfficerSearch/OfficerSearchResults/OfficerSearchResultsRow";
 import { TextField } from "redux-form-material-ui";
-import OfficerTypeRadioGroup from "./OfficerTypeRadioGroup";
 import { Field, reduxForm } from "redux-form";
 import styles from "../../globalStyling/styles";
 import { PrimaryButton } from "../../shared/components/StyledButtons";
 import { ChangeOfficer } from "../OfficerSearch/OfficerSearchResults/officerSearchResultsRowButtons";
 import { connect } from "react-redux";
+import NoBlurTextField from "../../cases/CaseDetails/CivilianDialog/FormSelect";
+import { roleOnCaseMenu } from "../../utilities/generateMenus";
+import { officerRoleRequired } from "../../formFieldLevelValidations";
 
 const OfficerDetails = props => {
   const onSubmit = (values, dispatch) => {
@@ -66,8 +68,20 @@ const OfficerDetails = props => {
         <CardContent>
           <form>
             <div style={{ marginBottom: "24px" }}>
-              <Typography style={styles.section}>Role on case</Typography>
-              <Field component={OfficerTypeRadioGroup} name="roleOnCase" />
+              <Field
+                inputProps={{
+                  "data-test": "roleOnCaseDropdownInput"
+                }}
+                data-test="roleOnCaseDropdown"
+                component={NoBlurTextField}
+                name="roleOnCase"
+                required
+                validate={[officerRoleRequired]}
+                label="Role on Case"
+                style={{ width: "10%" }}
+              >
+                {roleOnCaseMenu}
+              </Field>
             </div>
             <Typography style={styles.section}>Notes</Typography>
             <Typography variant="body1">

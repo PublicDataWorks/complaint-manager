@@ -2,9 +2,10 @@ import React from "react";
 import OfficerSearchForm from "./OfficerSearchForm/OfficerSearchForm";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import OfficerSearchResults from "./OfficerSearchResults/OfficerSearchResults";
-import StyledLink from "../../shared/components/StyledLink";
-import { selectUnknownOfficer } from "../../actionCreators/officersActionCreators";
-import { SelectUnknownOfficerButton } from "./OfficerSearchResults/officerSearchResultsRowButtons";
+import {
+  SelectUnknownOfficerButton,
+  SelectUnknownOfficerLink
+} from "./OfficerSearchResults/officerSearchResultsRowButtons";
 
 const OfficerSearch = props => {
   return (
@@ -13,17 +14,11 @@ const OfficerSearch = props => {
         <Typography variant="title">Search for an Officer</Typography>
         <Typography variant="body1">
           Unable to find an officer? You can{" "}
-          <StyledLink
-            data-test="selectUnknownOfficerLink"
-            to={props.path}
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              props.dispatch(props.initialize);
-              props.dispatch(selectUnknownOfficer());
-            }}
-          >
-            Add an Unknown Officer
-          </StyledLink>{" "}
+          <SelectUnknownOfficerLink
+            dispatch={props.dispatch}
+            initialize={props.initialize}
+            path={props.path}
+          />{" "}
           and identify them later.
         </Typography>
       </div>

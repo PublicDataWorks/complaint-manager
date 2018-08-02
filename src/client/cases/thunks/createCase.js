@@ -40,9 +40,7 @@ const createCase = creationDetails => async dispatch => {
     dispatch(closeCreateCaseDialog());
     if (creationDetails.redirect) {
       if (creationDetails.caseDetails.case.complaintType === RANK_INITIATED) {
-        dispatch(
-          push(`/cases/${response.data.id}/officers/search?role=Complainant`)
-        );
+        dispatch(push(`/cases/${response.data.id}/officers/search`));
       } else if (
         creationDetails.caseDetails.case.complaintType === CIVILIAN_INITIATED
       ) {

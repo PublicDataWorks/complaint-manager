@@ -1,31 +1,33 @@
 import React from "react";
 import { mount } from "enzyme";
-import { initialize } from "redux-form";
-import { AddOfficerSearch } from "./AddOfficerSearch";
+import AddOfficerSearch from "./AddOfficerSearch";
 import createConfiguredStore from "../../createConfiguredStore";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
-import OfficerSearchContainer from "./OfficerSearchContainer";
-import { COMPLAINANT } from "../../../sharedUtilities/constants";
+import { MemoryRouter as Router } from "react-router-dom";
+import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
+import getCaseDetails from "../../cases/thunks/getCaseDetails";
+
+jest.mock("../../cases/thunks/getCaseDetails", () => caseId => ({
+  type: "MOCK_ACTION",
+  caseId
+}));
 
 describe("AddOfficerSearch", () => {
-  test("should set up initialize with roleOnCase as complainant when coming from create case flow", () => {
-    const wrapper = mount(
-      <Provider store={createConfiguredStore()}>
-        <BrowserRouter>
-          <AddOfficerSearch
-            dispatch={jest.fn()}
-            match={{ params: { id: "1" } }}
-            currentCase={{ id: 1 }}
-            location={{ search: "?role=Complainant" }}
-          />
-        </BrowserRouter>
+  test("should fetch case details when match params does not match current loaded case", () => {
+    const store = createConfiguredStore();
+    const mockDispatch = jest.spyOn(store, "dispatch");
+    store.dispatch(getCaseDetailsSuccess({ id: 2 }));
+
+    const newCaseId = "1";
+
+    mount(
+      <Provider store={store}>
+        <Router>
+          <AddOfficerSearch match={{ params: { id: newCaseId } }} />
+        </Router>
       </Provider>
     );
 
-    const officerSearchContainer = wrapper.find(OfficerSearchContainer);
-    expect(officerSearchContainer.prop("initialize")).toEqual(
-      initialize("OfficerDetails", { roleOnCase: COMPLAINANT })
-    );
+    expect(mockDispatch).toHaveBeenCalledWith(getCaseDetails(newCaseId));
   });
 });

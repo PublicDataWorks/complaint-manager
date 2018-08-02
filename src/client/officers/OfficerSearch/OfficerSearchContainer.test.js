@@ -107,12 +107,6 @@ describe("OfficerSearchContainer", () => {
     const store = createConfiguredStore();
     const dispatchSpy = jest.spyOn(store, "dispatch");
 
-    const officer = new Officer.Builder()
-      .defaultOfficer()
-      .withId(234)
-      .withFullName("Some Other Officer")
-      .withOfficerNumber(456)
-      .build();
     const caseDetails = new Case.Builder().defaultCase().build();
     const caseId = caseDetails.id;
     const caseOfficerId = caseDetails.accusedOfficers[0].id;
