@@ -14,6 +14,10 @@ const PhoneNumberField = props => (
     data-test="phoneNumberField"
     validate={[isPhoneNumber]}
     style={{ marginRight: "5%", marginBottom: "3%" }}
+    InputLabelProps={{
+      shrink: true
+    }}
+    placeholder="Ex. 1231231234"
   />
 );
 
