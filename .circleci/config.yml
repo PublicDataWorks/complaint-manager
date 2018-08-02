@@ -2,7 +2,7 @@ version: 2
 jobs:
     test:
         docker:
-          - image: kkarczmarczyk/node-yarn
+          - image: node:8.11-alpine
             environment:
               NODE_ENV: test
           - image: postgres:10.1-alpine
