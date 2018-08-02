@@ -13,12 +13,19 @@ export default class Auth {
     this.authWeb.authorize();
   };
 
-  handleAuthentication = callback => {
+  handleAuthentication = (
+    populateStoreWithUserInfoCallback,
+    getFeatureTogglesCallback
+  ) => {
     this.authWeb.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setUserInfo(authResult.accessToken, callback);
+        this.setUserInfoInStore(
+          authResult.accessToken,
+          populateStoreWithUserInfoCallback
+        );
         this.setSession(authResult);
         auditLogin();
+        getFeatureTogglesCallback();
         history.replace("/");
       } else if (err) {
         history.replace("/");
@@ -34,8 +41,6 @@ export default class Auth {
     localStorage.setItem("access_token", authResult.accessToken);
     localStorage.setItem("id_token", authResult.idToken);
     localStorage.setItem("expires_at", expiresAt);
-
-    history.replace("/");
   };
 
   logout = () => {
@@ -46,10 +51,10 @@ export default class Auth {
     history.push("/login");
   };
 
-  setUserInfo = (accessToken, callback) => {
+  setUserInfoInStore = (accessToken, populateStoreWithUserInfoCallback) => {
     const decodedToken = jwt.decode(accessToken);
     const permissions = parsePermissions(decodedToken.scope);
     const nickname = decodedToken[this.authConfig.nicknameKey];
-    callback({ nickname, permissions });
+    populateStoreWithUserInfoCallback({ nickname, permissions });
   };
 }

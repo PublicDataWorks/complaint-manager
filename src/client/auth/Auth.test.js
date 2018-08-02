@@ -22,8 +22,17 @@ describe("Auth", () => {
     mockLocalStorage();
     const auth = new Auth();
 
-    auth.handleAuthentication(jest.fn());
+    auth.handleAuthentication(jest.fn(), jest.fn());
 
     expect(auditLogin).toHaveBeenCalledTimes(1);
+  });
+  test("should call feature toggles callback", () => {
+    mockLocalStorage();
+    const auth = new Auth();
+
+    const featureToggleCallback = jest.fn();
+    auth.handleAuthentication(jest.fn(), featureToggleCallback);
+
+    expect(featureToggleCallback).toHaveBeenCalled();
   });
 });

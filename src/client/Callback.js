@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Auth from "./auth/Auth";
 import { userAuthSuccess } from "./auth/actionCreators";
+import getFeatureToggles from "./featureToggles/thunks/getFeatureToggles";
 
 const style = {
   position: "absolute",
@@ -16,15 +17,14 @@ const style = {
   backgroundColor: "white"
 };
 
-const populateUserInfo = userInfo => dispatch => {
-  dispatch(userAuthSuccess(userInfo));
-};
-
 class Callback extends Component {
   handleAuthentication = location => {
     if (/access_token|id_token|error/.test(location.hash)) {
       const auth = new Auth();
-      auth.handleAuthentication(this.props.populateUserInfo);
+      auth.handleAuthentication(
+        this.props.userAuthSuccess,
+        this.props.getFeatureToggles
+      );
     }
   };
 
@@ -39,7 +39,8 @@ class Callback extends Component {
 }
 
 const mapDispatchToProps = {
-  populateUserInfo
+  userAuthSuccess,
+  getFeatureToggles
 };
 
 export default connect(undefined, mapDispatchToProps)(Callback);

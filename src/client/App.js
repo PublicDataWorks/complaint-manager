@@ -31,10 +31,9 @@ class App extends Component {
     const accessToken = getAccessToken();
     if (accessToken) {
       const auth = new Auth();
-      auth.setUserInfo(accessToken, this.props.userAuthSuccess);
+      auth.setUserInfoInStore(accessToken, this.props.userAuthSuccess);
+      this.props.getFeatureToggles();
     }
-
-    this.props.getFeatureToggles();
   }
 
   render() {
@@ -94,7 +93,4 @@ const mapDispatchToProps = {
   getFeatureToggles
 };
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(App);
+export default connect(undefined, mapDispatchToProps)(App);
