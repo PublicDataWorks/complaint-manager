@@ -254,6 +254,14 @@ if (TEST_PASS && TEST_USER && HOST) {
       browser
         .click('[data-test="selectUnknownOfficerLink"]')
         .waitForElementVisible(
+          '[data-test="roleOnCaseDropdown"] > div > div > div',
+          rerenderWait
+        )
+        .click('[data-test="roleOnCaseDropdown"] > div > div > div')
+        .waitForElementVisible('[id="menu-roleOnCase"]', rerenderWait)
+        .click("li[data-value=Accused]")
+        .waitForElementNotPresent('[id="menu-roleOnCase"]', rerenderWait)
+        .waitForElementVisible(
           '[data-test="officerSubmitButton"]',
           rerenderWait
         );
