@@ -6,12 +6,15 @@ const HOST = process.env.HOST;
 
 if (!TEST_PASS) {
   console.log("Set the password in the ENV VAR 'TEST_PASS' for login");
+  process.exit(1);
 }
 if (!TEST_USER) {
   console.log("Set the username in the ENV VAR 'TEST_USER' for login");
+  process.exit(1);
 }
 if (!HOST) {
   console.log("Set the host in the ENV VAR 'HOST' for login");
+  process.exit(1);
 }
 
 if (TEST_PASS && TEST_USER && HOST) {
