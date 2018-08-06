@@ -1,6 +1,6 @@
 import React from "react";
 import { containsText } from "../../../testHelpers";
-import ComplainantWitnesses from "./ComplainantWitnesses";
+import Complainants from "./Complainants";
 import { mount } from "enzyme";
 import { openCivilianDialog } from "../../../actionCreators/casesActionCreators";
 import createConfiguredStore from "../../../createConfiguredStore";
@@ -25,7 +25,7 @@ jest.mock("redux-form", () => ({
   }))
 }));
 
-describe("Complainant and Witnesses", () => {
+describe("Complainants", () => {
   let complainantWitnessesSection,
     complainantWitnesses,
     complainantPanel,
@@ -51,7 +51,7 @@ describe("Complainant and Witnesses", () => {
 
     complainantWitnesses = mount(
       <Provider store={store}>
-        <ComplainantWitnesses caseDetail={caseDetail} dispatch={dispatchSpy} />
+        <Complainants caseDetail={caseDetail} dispatch={dispatchSpy} />
       </Provider>
     );
     complainantWitnessesSection = complainantWitnesses
@@ -67,7 +67,7 @@ describe("Complainant and Witnesses", () => {
       const complainantName = complainant.fullName;
       containsText(
         complainantWitnessesSection,
-        '[data-test="complainant"]',
+        '[data-test="complainantWitness"]',
         complainantName
       );
     });
@@ -116,12 +116,12 @@ describe("Complainant and Witnesses", () => {
 
       complainantWitnesses = mount(
         <Provider store={store}>
-          <ComplainantWitnesses caseDetail={caseDetail} />
+          <Complainants caseDetail={caseDetail} />
         </Provider>
       );
 
       const complainantNames = complainantWitnesses.find(
-        '[data-test="complainant"]'
+        '[data-test="complainantWitness"]'
       );
       const uniqueComplainantNamesRendered = _.uniq(
         complainantNames.map(complainant => complainant.text())
@@ -186,7 +186,7 @@ describe("Complainant and Witnesses", () => {
 
       complainantWitnesses = mount(
         <Provider store={store}>
-          <ComplainantWitnesses caseDetail={caseWithNoAddress} />
+          <Complainants caseDetail={caseWithNoAddress} />
         </Provider>
       );
 
@@ -227,7 +227,7 @@ describe("Complainant and Witnesses", () => {
 
       complainantWitnesses = mount(
         <Provider store={store}>
-          <ComplainantWitnesses caseDetail={caseWithNoAddress} />
+          <Complainants caseDetail={caseWithNoAddress} />
         </Provider>
       );
 
@@ -274,7 +274,7 @@ describe("Complainant and Witnesses", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <ComplainantWitnesses caseDetail={caseWithoutComplainant} />
+        <Complainants caseDetail={caseWithoutComplainant} />
       </Provider>
     );
     const warn = wrapper.find("[data-test='warnIcon']");
@@ -304,7 +304,7 @@ describe("Complainant and Witnesses", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <ComplainantWitnesses caseDetail={caseWithoutComplainant} />
+        <Complainants caseDetail={caseWithoutComplainant} />
       </Provider>
     );
     const noCivilianMessage = wrapper.find("[data-test='noCivilianMessage']");
@@ -336,7 +336,7 @@ describe("Complainant and Witnesses", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <ComplainantWitnesses caseDetail={caseWithMixedComplainants} />
+        <Complainants caseDetail={caseWithMixedComplainants} />
       </Provider>
     );
 

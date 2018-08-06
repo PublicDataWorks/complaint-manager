@@ -44,7 +44,7 @@ const CivilianPanel = ({ civilian, civilianAge, dispatch }) => {
             <CivilianInfoDisplay
               displayLabel={"Civilian"}
               value={civilian.fullName}
-              testLabel="complainant"
+              testLabel="complainantWitness"
             />
             <CivilianInfoDisplay
               displayLabel="Gender Identity"

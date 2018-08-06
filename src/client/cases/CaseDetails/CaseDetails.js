@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import NavBar from "../../shared/components/NavBar/NavBar";
 import { connect } from "react-redux";
 import Narrative from "./Narrative";
-import ComplainantWitnesses from "./ComplainantWitnesses/ComplainantWitnesses";
+import Complainants from "./ComplainantWitnesses/Complainants";
 import CivilianDialog from "./CivilianDialog/CivilianDialog";
 import getCaseDetails from "../thunks/getCaseDetails";
 import * as _ from "lodash";
@@ -40,6 +40,7 @@ import timezone from "moment-timezone";
 import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
+import Witnesses from "./ComplainantWitnesses/Witnesses";
 
 const drawerWidthPercentage = "30%";
 
@@ -119,7 +120,11 @@ class CaseDetails extends React.Component {
           <main className={classes.content}>
             <CaseStatusStepper />
             <IncidentDetailsContainer />
-            <ComplainantWitnesses
+            <Complainants
+              caseDetail={this.props.caseDetail}
+              dispatch={this.props.dispatch}
+            />
+            <Witnesses
               caseDetail={this.props.caseDetail}
               dispatch={this.props.dispatch}
             />

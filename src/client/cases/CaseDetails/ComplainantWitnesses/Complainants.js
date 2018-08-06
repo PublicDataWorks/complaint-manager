@@ -6,7 +6,7 @@ import getFirstComplainant from "../../../utilities/getFirstComplainant";
 import ComplainantWitnessDisplay from "./ComplainantWitnessDisplay";
 import * as _ from "lodash";
 
-const ComplainantWitnesses = props => {
+const Complainants = props => {
   const allComplainants = props.caseDetail.complainantCivilians.concat(
     props.caseDetail.complainantOfficers
   );
@@ -16,29 +16,16 @@ const ComplainantWitnesses = props => {
     ["asc"]
   );
 
-  const allWitnesses = props.caseDetail.witnessCivilians.concat(
-    props.caseDetail.witnessOfficers
-  );
-  const sortedWitnesses = _.orderBy(allWitnesses, [o => o.createdAt], ["asc"]);
-
   return (
     <BaseCaseDetailsCard
       data-test="complainantWitnessesSection"
-      title="Complainants & Witnesses"
+      title="Complainants"
       subtitle={getSubtitleText(sortedComplainants)}
     >
       <CardContent style={{ padding: "0" }}>
         <ComplainantWitnessDisplay
-          title={"Complainants"}
           emptyMessage={"No complainants have been added"}
           civiliansAndOfficers={sortedComplainants}
-          dispatch={props.dispatch}
-          incidentDate={props.caseDetail.incidentDate}
-        />
-        <ComplainantWitnessDisplay
-          title={"Witnesses"}
-          emptyMessage={"No witnesses have been added"}
-          civiliansAndOfficers={sortedWitnesses}
           dispatch={props.dispatch}
           incidentDate={props.caseDetail.incidentDate}
         />
@@ -64,4 +51,4 @@ const getSubtitleText = complainantWitnesses => {
   );
 };
 
-export default ComplainantWitnesses;
+export default Complainants;

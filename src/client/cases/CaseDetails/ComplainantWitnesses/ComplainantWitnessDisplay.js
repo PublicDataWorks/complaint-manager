@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../../../globalStyling/styles";
-import { Divider, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import OfficerActions from "./OfficerActions";
 import UnknownOfficerPanel from "../Officers/UnknownOfficerPanel";
 import OfficerPanel from "../Officers/OfficerPanel";
@@ -9,7 +9,6 @@ import calculateAgeBasedOnIncidentDate from "../../../utilities/calculateAgeBase
 
 const ComplainantWitnessDisplay = ({
   civiliansAndOfficers,
-  title,
   emptyMessage,
   dispatch,
   incidentDate
@@ -21,10 +20,7 @@ const ComplainantWitnessDisplay = ({
           ...styles.section,
           margin: "8px 24px"
         }}
-      >
-        {title}
-      </Typography>
-      <Divider />
+      />
       {civiliansAndOfficers.length === 0 ? (
         <Typography
           data-test="noCivilianMessage"
