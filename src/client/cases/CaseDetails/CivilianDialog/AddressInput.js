@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { TextField } from "redux-form-material-ui";
 import AddressAutoSuggest from "./AddressAutoSuggest";
 import { Field } from "redux-form";
+import colors from "../../../globalStyling/colors";
 import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine";
 
 class AddressInput extends Component {
@@ -13,7 +14,37 @@ class AddressInput extends Component {
     super(props);
     this.suggestionEngine =
       props.suggestionEngine || new AddressSuggestionEngine();
+    this.state = { validAddress: false };
   }
+
+  getAddressIfNotAutoSuggested = (selectedAutoSuggest, enteredText) => (
+    event,
+    options
+  ) => {
+    if (
+      this.props.featureToggles &&
+      this.props.featureToggles.addressIntersections
+    ) {
+      this.setState({ validAddress: selectedAutoSuggest });
+    }
+  };
+
+  renderValidMessage = () => {
+    if (this.state.validAddress) {
+      return (
+        <div
+          style={{
+            fontSize: "0.75rem",
+            textAlign: "left",
+            marginTop: "8px",
+            color: colors.green
+          }}
+        >
+          This is a valid address
+        </div>
+      );
+    }
+  };
 
   render() {
     return (
@@ -28,9 +59,11 @@ class AddressInput extends Component {
             "data-test": "addressSuggestionField",
             fieldName: this.props.fieldName,
             formName: this.props.formName,
-            onInputChanged: this.props.onInputChanged
+            onInputChanged: this.props.onInputChanged,
+            onBlur: this.getAddressIfNotAutoSuggested
           }}
         />
+        {this.renderValidMessage()}
         <Field
           type={"hidden"}
           name={`${this.props.fieldName}.streetAddress`}

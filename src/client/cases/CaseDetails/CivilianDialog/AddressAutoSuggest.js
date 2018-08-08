@@ -37,7 +37,8 @@ class AddressAutoSuggest extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.defaultText || "",
+      inputValue: props.defaultText || "",
+      selectedAutoSuggest: true,
       suggestionServiceAvailable: true,
       suggestions: []
     };
@@ -154,6 +155,7 @@ class AddressAutoSuggest extends Component {
   onSuggestionSelected = (event, { suggestion }) => {
     this.props.suggestionEngine.onSuggestionSelected(suggestion, address => {
       this.props.onInputChanged(formatAddress(address));
+      this.setState({ selectedAutoSuggest: true });
 
       this.props.change(
         this.props.formName,
@@ -206,7 +208,8 @@ class AddressAutoSuggest extends Component {
 
   handleChange = (event, { newValue }) => {
     this.props.onInputChanged(newValue);
-    this.setState({ value: newValue });
+    this.setState({ inputValue: newValue });
+    this.setState({ selectedAutoSuggest: false });
 
     if (!newValue) {
       this.props.change(
@@ -278,8 +281,12 @@ class AddressAutoSuggest extends Component {
           ...inputProps,
           classes,
           reduxFormMeta: meta,
-          value: this.state.value,
-          onChange: this.handleChange
+          value: this.state.inputValue,
+          onChange: this.handleChange,
+          onBlur: this.props.onBlur(
+            this.state.selectedAutoSuggest,
+            this.state.inputValue
+          )
         }}
       />
     );

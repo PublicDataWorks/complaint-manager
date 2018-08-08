@@ -118,6 +118,7 @@ const IncidentDetailsDialog = props => (
           addressLabel={"Incident Location"}
           onInputChanged={updateIncidentLocationAutoSuggest}
           formattedAddress={props.formattedAddress}
+          featureToggles={props.featureToggles}
         />
         <div style={{ display: "flex" }}>
           <AdditionalAddressInfoField
@@ -179,7 +180,8 @@ const mapStateToProps = state => {
 
   return {
     autoSuggestValue: state.ui.incidentDetailsDialog.autoSuggestValue,
-    formattedAddress: formatAddress(values.incidentLocation)
+    formattedAddress: formatAddress(values.incidentLocation),
+    featureToggles: state.featureToggles
   };
 };
 

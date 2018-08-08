@@ -177,6 +177,7 @@ class CivilianDialog extends Component {
               addressLabel={"Address"}
               onInputChanged={updateAddressAutoSuggest}
               formattedAddress={this.props.formattedAddress}
+              featureToggles={this.props.featureToggles}
             />
             <AdditionalAddressInfoField
               label={"Additional Address Information"}
@@ -256,7 +257,8 @@ const mapStateToProps = state => {
     formattedAddress: formatAddress(values.address),
     submitAction: state.ui.civilianDialog.submitAction,
     title: state.ui.civilianDialog.title,
-    submitButtonText: state.ui.civilianDialog.submitButtonText
+    submitButtonText: state.ui.civilianDialog.submitButtonText,
+    featureToggles: state.featureToggles
   };
 };
 
