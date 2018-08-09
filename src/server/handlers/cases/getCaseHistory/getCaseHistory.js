@@ -5,7 +5,6 @@ const models = require("../../../models");
 const auditDataAccess = require("../../auditDataAccess");
 
 const getCaseHistory = asyncMiddleware(async (request, response) => {
-  console.log("node env", process.env.NODE_ENV);
   const caseId = request.params.id;
   const dataChangeAudits = await models.sequelize.transaction(
     async transaction => {

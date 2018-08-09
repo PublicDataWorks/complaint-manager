@@ -6,7 +6,6 @@ import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import axios from "axios";
 
 const getCaseHistory = caseId => async dispatch => {
-  console.log("node env", process.env.NODE_ENV);
   const hostname = config[process.env.NODE_ENV].hostname;
   try {
     const token = getAccessToken();
