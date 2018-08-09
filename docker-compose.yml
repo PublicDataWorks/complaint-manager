@@ -11,6 +11,7 @@ services:
       - REACT_APP_ENV=development
       - NEW_RELIC_ENABLED=false
       - NEW_RELIC_NO_CONFIG_FILE=true
+      - REACT_APP_GOOGLE_API_KEY=${GOOGLE_API_KEY}
     depends_on:
       - db
       - email

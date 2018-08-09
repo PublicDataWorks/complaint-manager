@@ -25,6 +25,9 @@ class AddressInput extends Component {
       this.props.featureToggles &&
       this.props.featureToggles.addressIntersections
     ) {
+      if (enteredText.trim() === "") {
+        return;
+      }
       this.setState({ validAddress: selectedAutoSuggest });
     }
   };
