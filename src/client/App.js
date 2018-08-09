@@ -37,6 +37,8 @@ class App extends Component {
   }
 
   render() {
+    console.log("api key", process.env.REACT_APP_GOOGLE_API_KEY);
+    console.log("all env", process.env);
     return (
       <ConnectedRouter history={history}>
         <MuiThemeProvider theme={customTheme}>
