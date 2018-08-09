@@ -1,9 +1,5 @@
 # Complaint Manager
 
-#### Build Status
-
-[![CircleCI](https://circleci.com/gh/NOIPM/complaint-manager.svg?style=svg&circle-token=8fe915d6040eb1655d952ae1d9311648393350ab)](https://circleci.com/gh/NOIPM/complaint-manager)
-
 ## Local development setup
 
 ### Install docker:
@@ -22,6 +18,12 @@ If you have an earlier version of Windows you'll need to install [docker toolbox
 The pre-push hook will execute when you run `git push`.
 It will pull any remote changes, rebuild the app,
 and run all tests before pushing.
+
+## Set up google maps api key
+
+* Log into Google with the noipm infrastructure google account from 1Password.
+* Look up the api key for test environment at https://console.cloud.google.com/apis/credentials
+* Set  a local environment variable of REACT_APP_GOOGLE_API_KEY with the value of the test api key.
 
 ### Set up local configuration for AWS S3
 
