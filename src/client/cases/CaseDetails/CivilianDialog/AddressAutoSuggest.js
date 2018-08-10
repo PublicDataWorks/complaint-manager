@@ -9,6 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 import poweredByGoogle from "../../../../assets/powered_by_google_on_white_hdpi.png";
 import formatAddress from "../../../utilities/formatAddress";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import { updateAddressInputValidity } from "../../../actionCreators/casesActionCreators";
 
 const styles = theme => ({
   container: {
@@ -39,7 +40,6 @@ class AddressAutoSuggest extends Component {
     super(props);
     this.state = {
       inputValue: props.defaultText || "",
-      selectedAutoSuggest: true,
       suggestionServiceAvailable: true,
       suggestions: []
     };
@@ -155,7 +155,7 @@ class AddressAutoSuggest extends Component {
 
   handleValidatedAddress = address => {
     this.props.onInputChanged(formatAddress(address));
-    this.setState({ selectedAutoSuggest: true });
+    this.props.updateAddressInputValidity(true);
 
     this.props.change(
       this.props.formName,
@@ -220,9 +220,13 @@ class AddressAutoSuggest extends Component {
   handleChange = (event, { newValue }) => {
     this.props.onInputChanged(newValue);
     this.setState({ inputValue: newValue });
-    this.setState({ selectedAutoSuggest: false });
+    if (newValue.trim() === "") {
+      this.props.updateAddressInputValidity(true);
+    } else {
+      this.props.updateAddressInputValidity(false);
+    }
 
-    if (!newValue) {
+    if (newValue.trim() === "") {
       this.props.change(
         this.props.formName,
         `${this.props.fieldName}.streetAddress`,
@@ -293,11 +297,7 @@ class AddressAutoSuggest extends Component {
           classes,
           reduxFormMeta: meta,
           value: this.state.inputValue,
-          onChange: this.handleChange,
-          onBlur: this.props.onBlur(
-            this.state.selectedAutoSuggest,
-            this.state.inputValue
-          )
+          onChange: this.handleChange
         }}
       />
     );
@@ -314,6 +314,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onInputChanged: (...params) => {
       dispatch(ownProps.onInputChanged(...params));
+    },
+    updateAddressInputValidity: (...params) => {
+      dispatch(updateAddressInputValidity(...params));
     },
     snackbarError: (...params) => {
       dispatch(snackbarError(...params));

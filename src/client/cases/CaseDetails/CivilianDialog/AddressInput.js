@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { TextField } from "redux-form-material-ui";
 import AddressAutoSuggest from "./AddressAutoSuggest";
 import { Field } from "redux-form";
+import { connect } from "react-redux";
 import colors from "../../../globalStyling/colors";
 import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine";
 
@@ -17,23 +18,12 @@ class AddressInput extends Component {
     this.state = { validAddress: false };
   }
 
-  getAddressIfNotAutoSuggested = (selectedAutoSuggest, enteredText) => (
-    event,
-    options
-  ) => {
+  renderValidMessage = () => {
     if (
+      this.props.addressValid &&
       this.props.featureToggles &&
       this.props.featureToggles.addressIntersections
     ) {
-      if (enteredText.trim() === "") {
-        return;
-      }
-      this.setState({ validAddress: selectedAutoSuggest });
-    }
-  };
-
-  renderValidMessage = () => {
-    if (this.state.validAddress) {
       return (
         <div
           style={{
@@ -62,8 +52,7 @@ class AddressInput extends Component {
             "data-test": "addressSuggestionField",
             fieldName: this.props.fieldName,
             formName: this.props.formName,
-            onInputChanged: this.props.onInputChanged,
-            onBlur: this.getAddressIfNotAutoSuggested
+            onInputChanged: this.props.onInputChanged
           }}
         />
         {this.renderValidMessage()}
@@ -120,4 +109,8 @@ class AddressInput extends Component {
   }
 }
 
-export default AddressInput;
+const mapStateToProps = state => ({
+  addressValid: state.ui.addressInput.addressValid
+});
+
+export default connect(mapStateToProps)(AddressInput);

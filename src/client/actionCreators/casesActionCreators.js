@@ -29,7 +29,8 @@ import {
   UPDATE_CASE_STATUS_SUCCESS,
   CASE_STATUS_UPDATE_DIALOG_OPENED,
   CASE_STATUS_UPDATE_DIALOG_CLOSED,
-  UPDATE_ALLEGATION_DETAILS_SUCCEEDED
+  UPDATE_ALLEGATION_DETAILS_SUCCEEDED,
+  ADDRESS_VALIDITY_UPDATED
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = caseDetails => ({
@@ -151,6 +152,11 @@ export const updateIncidentDetailsSuccess = caseDetails => ({
 export const updateIncidentLocationAutoSuggest = autoSuggestValue => ({
   type: INCIDENT_LOCATION_AUTOSUGGEST_VALUE_UPDATED,
   autoSuggestValue
+});
+
+export const updateAddressInputValidity = addressValid => ({
+  type: ADDRESS_VALIDITY_UPDATED,
+  addressValid
 });
 
 export const updateIncidentDetailsFailure = () => ({
