@@ -8,7 +8,10 @@ import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import poweredByGoogle from "../../../../assets/powered_by_google_on_white_hdpi.png";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
-import { updateAddressInputValidity } from "../../../actionCreators/casesActionCreators";
+import {
+  updateAddressInputValidity,
+  updateShowAddressMessage
+} from "../../../actionCreators/casesActionCreators";
 
 const styles = theme => ({
   container: {
@@ -52,6 +55,8 @@ class AddressAutoSuggest extends Component {
         });
       }
     );
+    this.props.updateAddressInputValidity(true);
+    this.props.updateShowAddressMessage(false);
   }
 
   renderInput = inputProps => {
@@ -215,8 +220,13 @@ class AddressAutoSuggest extends Component {
     });
   };
 
+  handleBlur = () => {
+    this.props.updateShowAddressMessage(true);
+  };
+
   handleChange = (event, { newValue }) => {
     this.setState({ inputValue: newValue });
+    this.props.updateShowAddressMessage(false);
     if (newValue.trim() === "") {
       this.props.updateAddressInputValidity(true);
     } else {
@@ -294,7 +304,8 @@ class AddressAutoSuggest extends Component {
           classes,
           reduxFormMeta: meta,
           value: this.state.inputValue,
-          onChange: this.handleChange
+          onChange: this.handleChange,
+          onBlur: this.handleBlur
         }}
       />
     );
@@ -311,6 +322,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     updateAddressInputValidity: (...params) => {
       dispatch(updateAddressInputValidity(...params));
+    },
+    updateShowAddressMessage: (...params) => {
+      dispatch(updateShowAddressMessage(...params));
     },
     snackbarError: (...params) => {
       dispatch(snackbarError(...params));

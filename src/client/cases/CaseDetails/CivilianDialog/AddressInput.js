@@ -20,23 +20,33 @@ class AddressInput extends Component {
 
   renderValidMessage = () => {
     if (
-      this.props.addressValid &&
-      this.props.featureToggles &&
-      this.props.featureToggles.addressIntersections
+      !this.props.featureToggles ||
+      !this.props.featureToggles.addressIntersections ||
+      !this.props.addressMessageVisible
     ) {
-      return (
-        <div
-          style={{
-            fontSize: "0.75rem",
-            textAlign: "left",
-            marginTop: "8px",
-            color: colors.green
-          }}
-        >
-          This is a valid address
-        </div>
-      );
+      return null;
     }
+
+    let message, color;
+    if (this.props.addressValid) {
+      color = colors.green;
+      message = "This is a valid address.";
+    } else {
+      color = colors.red;
+      message = "This is not a valid address.";
+    }
+    return (
+      <div
+        style={{
+          fontSize: "0.75rem",
+          textAlign: "left",
+          marginTop: "8px",
+          color: color
+        }}
+      >
+        {message}
+      </div>
+    );
   };
 
   render() {
@@ -109,7 +119,8 @@ class AddressInput extends Component {
 }
 
 const mapStateToProps = state => ({
-  addressValid: state.ui.addressInput.addressValid
+  addressValid: state.ui.addressInput.addressValid,
+  addressMessageVisible: state.ui.addressInput.addressMessageVisible
 });
 
 export default connect(mapStateToProps)(AddressInput);

@@ -1,12 +1,16 @@
 import addressInputReducer from "./addressInputReducer";
-import { updateAddressInputValidity } from "../../actionCreators/casesActionCreators";
+import {
+  updateAddressInputValidity,
+  updateShowAddressMessage
+} from "../../actionCreators/casesActionCreators";
 
 describe("addressInputDialogReducer", () => {
   test("should set default state", () => {
     const newState = addressInputReducer(undefined, { type: "any action" });
 
     expect(newState).toEqual({
-      addressValid: true
+      addressValid: true,
+      addressMessageVisible: false
     });
   });
 
@@ -15,6 +19,18 @@ describe("addressInputDialogReducer", () => {
 
     expect(newState).toEqual({
       addressValid: false
+    });
+  });
+
+  test("should set addressMessageVisible to given value", () => {
+    const newState = addressInputReducer(
+      { addressValid: false, addressMessageVisible: false },
+      updateShowAddressMessage(true)
+    );
+
+    expect(newState).toEqual({
+      addressValid: false,
+      addressMessageVisible: true
     });
   });
 });
