@@ -85,11 +85,12 @@ describe("generateAttachmentDownloadUrl", function() {
 
     const response = httpMocks.createResponse();
     response.send = jest.fn();
+    response.status = jest.fn();
+    response.status.mockReturnValueOnce(response);
 
-    const next = jest.fn();
+    await generateAttachmentDownloadUrl(request, response, jest.fn());
 
-    await generateAttachmentDownloadUrl(request, response, next);
-
+    expect(response.status).toHaveBeenCalledWith(200);
     expect(response.send).toHaveBeenCalledWith(SIGNED_TEST_URL);
   });
 

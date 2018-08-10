@@ -28,6 +28,7 @@ const createCaseNote = require("./handlers/cases/createCaseNote");
 const searchAllegations = require("./handlers/allegations/searchAllegations");
 const getAllegations = require("./handlers/allegations/getAllegations");
 const attachmentRouter = require("./attachmentRouter");
+const generateAttachmentDownloadUrl = require("./handlers/cases/attachments/generateAttachmentDownloadUrl");
 const createOfficerAllegation = require("./handlers/officerAllegations/createOfficerAllegation/createOfficerAllegation");
 const editOfficerAllegation = require("./handlers/officerAllegations/editOfficerAllegation/editOfficerAllegation");
 const removeOfficerAllegation = require("./handlers/officerAllegations/removeOfficerAllegation/removeOfficerAllegation");
@@ -74,6 +75,10 @@ router.delete(
 router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
 
 router.use("/cases/:id/attachments", attachmentRouter);
+router.use(
+  "/cases/:id/attachmentUrls/:fileName",
+  generateAttachmentDownloadUrl
+);
 
 router.post("/civilian", createCivilian);
 router.put("/civilian/:id", editCivilian);

@@ -30,7 +30,7 @@ const generateAttachmentDownloadUrl = asyncMiddleware(
         Expires: S3_URL_EXPIRATION
       });
 
-      response.send(singedUrl);
+      response.status(200).send(singedUrl);
       if (next) next();
     });
   }
