@@ -1,8 +1,7 @@
 import editDialogReducer from "./civilianDialogReducer";
 import {
   closeEditDialog,
-  openCivilianDialog,
-  updateAddressAutoSuggest
+  openCivilianDialog
 } from "../../actionCreators/casesActionCreators";
 
 describe("civilianDialogReducer", () => {
@@ -13,8 +12,7 @@ describe("civilianDialogReducer", () => {
       open: false,
       title: "",
       submitButtonText: "",
-      submitAction: undefined,
-      addressAutoSuggestValue: ""
+      submitAction: undefined
     });
   });
 
@@ -40,31 +38,7 @@ describe("civilianDialogReducer", () => {
       open: false,
       title: "",
       submitButtonText: "",
-      submitAction: undefined,
-      addressAutoSuggestValue: ""
-    });
-  });
-
-  test("should set current address suggestion text", () => {
-    const newAddressValue = "200 East Randolph";
-    const initialState = {
-      open: false,
-      title: "",
-      submitButtonText: "",
-      submitAction: undefined,
-      addressAutoSuggestValue: "200 E"
-    };
-    const newState = editDialogReducer(
-      initialState,
-      updateAddressAutoSuggest(newAddressValue)
-    );
-
-    expect(newState).toEqual({
-      open: false,
-      title: "",
-      submitButtonText: "",
-      submitAction: undefined,
-      addressAutoSuggestValue: newAddressValue
+      submitAction: undefined
     });
   });
 });

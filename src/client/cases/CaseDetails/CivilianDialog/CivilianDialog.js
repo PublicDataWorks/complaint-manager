@@ -22,10 +22,7 @@ import {
   SecondaryButton,
   PrimaryButton
 } from "../../../shared/components/StyledButtons";
-import {
-  closeEditDialog,
-  updateAddressAutoSuggest
-} from "../../../actionCreators/casesActionCreators";
+import { closeEditDialog } from "../../../actionCreators/casesActionCreators";
 import {
   genderIdentityIsRequired,
   raceEthnicityIsRequired
@@ -52,15 +49,12 @@ import {
   WITNESS
 } from "../../../../sharedUtilities/constants";
 import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
-import { addressMustBeAutoSuggested } from "../../../formValidations";
+import { addressMustBeValid } from "../../../formValidations";
 import AdditionalAddressInfoField from "../../sharedFormComponents/AdditionalAddressInfoField";
 
 class CivilianDialog extends Component {
   handleCivilian = (values, dispatch) => {
-    const errors = addressMustBeAutoSuggested(
-      values.address,
-      this.props.addressAutoSuggestValue
-    );
+    const errors = addressMustBeValid(this.props.addressValid);
 
     if (errors.autoSuggestValue) {
       throw new SubmissionError(errors);
@@ -175,7 +169,6 @@ class CivilianDialog extends Component {
               formName={CIVILIAN_FORM_NAME}
               fieldName={"address"}
               addressLabel={"Address"}
-              onInputChanged={updateAddressAutoSuggest}
               formattedAddress={this.props.formattedAddress}
               featureToggles={this.props.featureToggles}
             />
@@ -253,12 +246,12 @@ const mapStateToProps = state => {
 
   return {
     open: state.ui.civilianDialog.open,
-    addressAutoSuggestValue: state.ui.civilianDialog.addressAutoSuggestValue,
     formattedAddress: formatAddress(values.address),
     submitAction: state.ui.civilianDialog.submitAction,
     title: state.ui.civilianDialog.title,
     submitButtonText: state.ui.civilianDialog.submitButtonText,
-    featureToggles: state.featureToggles
+    featureToggles: state.featureToggles,
+    addressValid: state.ui.addressInput.addressValid
   };
 };
 

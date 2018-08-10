@@ -14,7 +14,6 @@ import civilianDialogReducer from "./reducers/ui/civilianDialogReducer";
 import userInfoReducer from "./auth/reducers/userInfoReducer";
 import attachmentsReducer from "./reducers/ui/attachmentsReducer";
 import searchOfficersReducer from "./reducers/officers/searchOfficersReducer";
-import incidentDetailsDialogReducer from "./reducers/ui/incidentDetailsDialogReducer";
 import caseNotesReducer from "./reducers/cases/caseNotesReducer";
 import caseNoteDialogReducer from "./reducers/ui/caseNoteDialogReducer";
 import removePersonDialogReducer from "./reducers/ui/removePersonDialogReducer";
@@ -55,7 +54,6 @@ const rootReducer = combineReducers({
     exportDialog: exportDialogReducer,
     removePersonDialog: removePersonDialogReducer,
     removeCaseNoteDialog: removeCaseNoteDialogReducer,
-    incidentDetailsDialog: incidentDetailsDialogReducer,
     attachments: attachmentsReducer,
     search: searchReducer,
     allegations: allegationMenuDisplay,

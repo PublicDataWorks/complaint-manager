@@ -51,8 +51,7 @@ class AddressInput extends Component {
             defaultText: this.props.formattedAddress,
             "data-test": "addressSuggestionField",
             fieldName: this.props.fieldName,
-            formName: this.props.formName,
-            onInputChanged: this.props.onInputChanged
+            formName: this.props.formName
           }}
         />
         {this.renderValidMessage()}

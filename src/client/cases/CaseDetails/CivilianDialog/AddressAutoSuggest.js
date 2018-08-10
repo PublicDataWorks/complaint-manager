@@ -7,7 +7,6 @@ import { change, clearSubmitErrors } from "redux-form";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import poweredByGoogle from "../../../../assets/powered_by_google_on_white_hdpi.png";
-import formatAddress from "../../../utilities/formatAddress";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import { updateAddressInputValidity } from "../../../actionCreators/casesActionCreators";
 
@@ -154,7 +153,6 @@ class AddressAutoSuggest extends Component {
   };
 
   handleValidatedAddress = address => {
-    this.props.onInputChanged(formatAddress(address));
     this.props.updateAddressInputValidity(true);
 
     this.props.change(
@@ -218,7 +216,6 @@ class AddressAutoSuggest extends Component {
   };
 
   handleChange = (event, { newValue }) => {
-    this.props.onInputChanged(newValue);
     this.setState({ inputValue: newValue });
     if (newValue.trim() === "") {
       this.props.updateAddressInputValidity(true);
@@ -311,9 +308,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clearSubmitErrors: (...params) => {
       dispatch(clearSubmitErrors(...params));
-    },
-    onInputChanged: (...params) => {
-      dispatch(ownProps.onInputChanged(...params));
     },
     updateAddressInputValidity: (...params) => {
       dispatch(updateAddressInputValidity(...params));

@@ -22,20 +22,15 @@ import {
 import editIncidentDetails from "../../thunks/editIncidentDetails";
 import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
 import AddressInput from "../CivilianDialog/AddressInput";
-import { updateIncidentLocationAutoSuggest } from "../../../actionCreators/casesActionCreators";
 import { connect } from "react-redux";
 import formatAddress from "../../../utilities/formatAddress";
-import { addressMustBeAutoSuggested } from "../../../formValidations";
+import { addressMustBeValid } from "../../../formValidations";
 import NoBlurTextField from "../CivilianDialog/FormSelect";
 import { inputDistrictMenu } from "../../../utilities/generateMenus";
 import AdditionalAddressInfoField from "../../sharedFormComponents/AdditionalAddressInfoField";
 
 const submitIncidentDetails = (values, dispatch, props) => {
-  const errors = addressMustBeAutoSuggested(
-    values.incidentLocation,
-    props.autoSuggestValue
-  );
-
+  const errors = addressMustBeValid(props.addressValid);
   if (errors.autoSuggestValue) {
     throw new SubmissionError(errors);
   }
@@ -116,7 +111,6 @@ const IncidentDetailsDialog = props => (
           formName={"IncidentDetails"}
           fieldName={"incidentLocation"}
           addressLabel={"Incident Location"}
-          onInputChanged={updateIncidentLocationAutoSuggest}
           formattedAddress={props.formattedAddress}
           featureToggles={props.featureToggles}
         />
@@ -179,9 +173,9 @@ const mapStateToProps = state => {
   );
 
   return {
-    autoSuggestValue: state.ui.incidentDetailsDialog.autoSuggestValue,
     formattedAddress: formatAddress(values.incidentLocation),
-    featureToggles: state.featureToggles
+    featureToggles: state.featureToggles,
+    addressValid: state.ui.addressInput.addressValid
   };
 };
 

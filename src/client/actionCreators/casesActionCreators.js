@@ -9,8 +9,6 @@ import {
   CIVILIAN_CREATION_FAILED,
   INCIDENT_DETAILS_UPDATE_SUCCEEDED,
   INCIDENT_DETAILS_UPDATE_FAILED,
-  CIVILIAN_ADDRESS_AUTOSUGGEST_UPDATED,
-  INCIDENT_LOCATION_AUTOSUGGEST_VALUE_UPDATED,
   GET_CASE_NOTES_SUCCEEDED,
   CASE_NOTE_DIALOG_OPENED,
   CASE_NOTE_DIALOG_CLOSED,
@@ -149,11 +147,6 @@ export const updateIncidentDetailsSuccess = caseDetails => ({
   caseDetails
 });
 
-export const updateIncidentLocationAutoSuggest = autoSuggestValue => ({
-  type: INCIDENT_LOCATION_AUTOSUGGEST_VALUE_UPDATED,
-  autoSuggestValue
-});
-
 export const updateAddressInputValidity = addressValid => ({
   type: ADDRESS_VALIDITY_UPDATED,
   addressValid
@@ -161,11 +154,6 @@ export const updateAddressInputValidity = addressValid => ({
 
 export const updateIncidentDetailsFailure = () => ({
   type: INCIDENT_DETAILS_UPDATE_FAILED
-});
-
-export const updateAddressAutoSuggest = addressValue => ({
-  type: CIVILIAN_ADDRESS_AUTOSUGGEST_UPDATED,
-  addressValue
 });
 
 export const addCaseNoteFailure = () => ({

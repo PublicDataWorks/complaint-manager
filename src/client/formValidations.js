@@ -1,5 +1,4 @@
 import _ from "lodash";
-import formatAddress from "./utilities/formatAddress";
 
 export function atLeastOneRequired(values, errorMessage, keys) {
   const allAbsent = keys.every(key => {
@@ -15,15 +14,11 @@ export function atLeastOneRequired(values, errorMessage, keys) {
   return errors;
 }
 
-export function addressMustBeAutoSuggested(address, autoCompleteText) {
-  const formattedAddress = formatAddress(address);
-
+export function addressMustBeValid(addressValid) {
   const errors = {};
-
-  if (autoCompleteText && formattedAddress !== autoCompleteText) {
+  if (!addressValid) {
     errors.autoSuggestValue =
       "Please select an address from the suggestion list";
   }
-
   return errors;
 }
