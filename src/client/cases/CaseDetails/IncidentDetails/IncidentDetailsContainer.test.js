@@ -36,8 +36,8 @@ jest.mock("../CivilianDialog/SuggestionEngines/addressSuggestionEngine", () => {
       callback([{ description: "200 East Randolph Street, Chicago, IL, US" }]);
     },
 
-    onSuggestionSelected: (suggestion, callback) => {
-      callback({
+    onSuggestionSelected: (suggestion, successCallback, failureCallback) => {
+      successCallback({
         streetAddress: "200 E Randolph St",
         city: "Chicago",
         state: "IL",

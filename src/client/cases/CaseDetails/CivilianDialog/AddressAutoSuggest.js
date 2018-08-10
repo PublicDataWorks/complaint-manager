@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import poweredByGoogle from "../../../../assets/powered_by_google_on_white_hdpi.png";
 import formatAddress from "../../../utilities/formatAddress";
+import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 
 const styles = theme => ({
   container: {
@@ -152,42 +153,52 @@ class AddressAutoSuggest extends Component {
     return this.props.suggestionEngine.getSuggestionValue(suggestion);
   };
 
-  onSuggestionSelected = (event, { suggestion }) => {
-    this.props.suggestionEngine.onSuggestionSelected(suggestion, address => {
-      this.props.onInputChanged(formatAddress(address));
-      this.setState({ selectedAutoSuggest: true });
+  handleValidatedAddress = address => {
+    this.props.onInputChanged(formatAddress(address));
+    this.setState({ selectedAutoSuggest: true });
 
-      this.props.change(
-        this.props.formName,
-        `${this.props.fieldName}.streetAddress`,
-        address.streetAddress
-      );
-      this.props.change(
-        this.props.formName,
-        `${this.props.fieldName}.intersection`,
-        address.intersection
-      );
-      this.props.change(
-        this.props.formName,
-        `${this.props.fieldName}.city`,
-        address.city
-      );
-      this.props.change(
-        this.props.formName,
-        `${this.props.fieldName}.state`,
-        address.state
-      );
-      this.props.change(
-        this.props.formName,
-        `${this.props.fieldName}.zipCode`,
-        address.zipCode
-      );
-      this.props.change(
-        this.props.formName,
-        `${this.props.fieldName}.country`,
-        address.country
-      );
-    });
+    this.props.change(
+      this.props.formName,
+      `${this.props.fieldName}.streetAddress`,
+      address.streetAddress
+    );
+    this.props.change(
+      this.props.formName,
+      `${this.props.fieldName}.intersection`,
+      address.intersection
+    );
+    this.props.change(
+      this.props.formName,
+      `${this.props.fieldName}.city`,
+      address.city
+    );
+    this.props.change(
+      this.props.formName,
+      `${this.props.fieldName}.state`,
+      address.state
+    );
+    this.props.change(
+      this.props.formName,
+      `${this.props.fieldName}.zipCode`,
+      address.zipCode
+    );
+    this.props.change(
+      this.props.formName,
+      `${this.props.fieldName}.country`,
+      address.country
+    );
+  };
+
+  showAddressLookupError = message => {
+    this.props.snackbarError(message);
+  };
+
+  onSuggestionSelected = (event, { suggestion }) => {
+    this.props.suggestionEngine.onSuggestionSelected(
+      suggestion,
+      this.handleValidatedAddress,
+      this.showAddressLookupError
+    );
   };
 
   handleSuggestionsFetchRequested = ({ value, reason }) => {
@@ -303,6 +314,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onInputChanged: (...params) => {
       dispatch(ownProps.onInputChanged(...params));
+    },
+    snackbarError: (...params) => {
+      dispatch(snackbarError(...params));
     }
   };
 };
