@@ -10,6 +10,7 @@ import poweredByGoogle from "../../../../assets/powered_by_google_on_white_hdpi.
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import {
   updateAddressInputValidity,
+  updateAddressToConfirm,
   updateShowAddressMessage
 } from "../../../actionCreators/casesActionCreators";
 
@@ -43,7 +44,8 @@ class AddressAutoSuggest extends Component {
     this.state = {
       inputValue: props.defaultText || "",
       suggestionServiceAvailable: true,
-      suggestions: []
+      suggestions: [],
+      suggestionSelected: true
     };
   }
 
@@ -197,8 +199,9 @@ class AddressAutoSuggest extends Component {
   };
 
   onSuggestionSelected = (event, { suggestion }) => {
-    this.props.suggestionEngine.onSuggestionSelected(
-      suggestion,
+    this.setState({ suggestionSelected: true });
+    this.props.suggestionEngine.fetchAddressDetails(
+      { placeId: suggestion.place_id },
       this.handleValidatedAddress,
       this.showAddressLookupError
     );
@@ -206,7 +209,7 @@ class AddressAutoSuggest extends Component {
 
   handleSuggestionsFetchRequested = ({ value, reason }) => {
     if (value && reason === "input-changed") {
-      this.props.suggestionEngine.onFetchSuggestions(value, values => {
+      this.props.suggestionEngine.fetchSuggestions(value, values => {
         this.setState({
           suggestions: values || []
         });
@@ -221,11 +224,29 @@ class AddressAutoSuggest extends Component {
   };
 
   handleBlur = () => {
+    if (
+      !this.props.featureToggles ||
+      !this.props.featureToggles.addressIntersections
+    ) {
+      return null;
+    }
     this.props.updateShowAddressMessage(true);
+    if (!this.state.suggestionSelected && this.state.inputValue.trim() !== "") {
+      this.props.suggestionEngine.fetchAddressDetails(
+        { address: this.state.inputValue },
+        this.handleNonConfirmedValidAddress,
+        this.showAddressLookupError
+      );
+    }
+  };
+
+  handleNonConfirmedValidAddress = address => {
+    this.props.updateAddressToConfirm(address);
   };
 
   handleChange = (event, { newValue }) => {
-    this.setState({ inputValue: newValue });
+    this.setState({ inputValue: newValue, suggestionSelected: false });
+    this.props.updateAddressToConfirm({});
     this.props.updateShowAddressMessage(false);
     if (newValue.trim() === "") {
       this.props.updateAddressInputValidity(true);
@@ -326,13 +347,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     updateShowAddressMessage: (...params) => {
       dispatch(updateShowAddressMessage(...params));
     },
+    updateAddressToConfirm: (...params) => {
+      dispatch(updateAddressToConfirm(...params));
+    },
     snackbarError: (...params) => {
       dispatch(snackbarError(...params));
     }
   };
 };
 
-const ConnectedComponent = connect(undefined, mapDispatchToProps)(
+const mapStateToProps = state => ({ featureToggles: state.featureToggles });
+
+const ConnectedComponent = connect(mapStateToProps, mapDispatchToProps)(
   AddressAutoSuggest
 );
 export default withStyles(styles)(ConnectedComponent);

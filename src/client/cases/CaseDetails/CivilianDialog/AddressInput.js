@@ -5,6 +5,8 @@ import { Field } from "redux-form";
 import { connect } from "react-redux";
 import colors from "../../../globalStyling/colors";
 import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine";
+import formatAddress from "../../../utilities/formatAddress";
+import _ from "lodash";
 
 class AddressInput extends Component {
   //TODO  IS there a good way to do dependency injection in react/redux?
@@ -30,10 +32,14 @@ class AddressInput extends Component {
     let message, color;
     if (this.props.addressValid) {
       color = colors.green;
-      message = "This is a valid address.";
-    } else {
+      message = <span>This is a valid address.</span>;
+    } else if (!_.isEmpty(this.props.addressToConfirm)) {
       color = colors.red;
-      message = "This is not a valid address.";
+      message = (
+        <span>
+          Did you mean <b>{formatAddress(this.props.addressToConfirm)}</b>
+        </span>
+      );
     }
     return (
       <div
@@ -120,7 +126,9 @@ class AddressInput extends Component {
 
 const mapStateToProps = state => ({
   addressValid: state.ui.addressInput.addressValid,
-  addressMessageVisible: state.ui.addressInput.addressMessageVisible
+  addressMessageVisible: state.ui.addressInput.addressMessageVisible,
+  addressToConfirm: state.ui.addressInput.addressToConfirm,
+  featureToggles: state.featureToggles
 });
 
 export default connect(mapStateToProps)(AddressInput);

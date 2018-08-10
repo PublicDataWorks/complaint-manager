@@ -28,7 +28,7 @@ class AddressSuggestionEngine {
     return Boolean(suggestion) ? suggestion.description : "";
   };
 
-  onFetchSuggestions = (input, callback) => {
+  fetchSuggestions = (input, callback) => {
     this.autoCompleteService.getPlacePredictions(
       {
         input: input
@@ -40,14 +40,6 @@ class AddressSuggestionEngine {
           callback(addresses);
         }
       }
-    );
-  };
-
-  onSuggestionSelected = (suggestion, successCallback, failureCallback) => {
-    this.fetchAddressDetails(
-      { placeId: suggestion.place_id },
-      successCallback,
-      failureCallback
     );
   };
 

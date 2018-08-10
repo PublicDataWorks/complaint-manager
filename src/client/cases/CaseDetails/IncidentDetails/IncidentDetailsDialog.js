@@ -112,7 +112,6 @@ const IncidentDetailsDialog = props => (
           fieldName={"incidentLocation"}
           addressLabel={"Incident Location"}
           formattedAddress={props.formattedAddress}
-          featureToggles={props.featureToggles}
         />
         <div style={{ display: "flex" }}>
           <AdditionalAddressInfoField
@@ -174,7 +173,6 @@ const mapStateToProps = state => {
 
   return {
     formattedAddress: formatAddress(values.incidentLocation),
-    featureToggles: state.featureToggles,
     addressValid: state.ui.addressInput.addressValid
   };
 };

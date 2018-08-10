@@ -14,6 +14,7 @@ const addIntersectionToAddressIfPresent = (name, address) => {
   let intersection = "";
   if (
     address.streetAddress === "" &&
+    name &&
     (name.includes("&") || name.includes("and")) &&
     name !== address.city &&
     name !== address.state &&

@@ -170,7 +170,6 @@ class CivilianDialog extends Component {
               fieldName={"address"}
               addressLabel={"Address"}
               formattedAddress={this.props.formattedAddress}
-              featureToggles={this.props.featureToggles}
             />
             <AdditionalAddressInfoField
               label={"Additional Address Information"}
@@ -250,7 +249,6 @@ const mapStateToProps = state => {
     submitAction: state.ui.civilianDialog.submitAction,
     title: state.ui.civilianDialog.title,
     submitButtonText: state.ui.civilianDialog.submitButtonText,
-    featureToggles: state.featureToggles,
     addressValid: state.ui.addressInput.addressValid
   };
 };

@@ -29,7 +29,8 @@ import {
   CASE_STATUS_UPDATE_DIALOG_CLOSED,
   UPDATE_ALLEGATION_DETAILS_SUCCEEDED,
   ADDRESS_VALIDITY_UPDATED,
-  ADDRESS_MESSAGE_VISIBILITY_UPDATED
+  ADDRESS_MESSAGE_VISIBILITY_UPDATED,
+  ADDRESS_TO_CONFIRM_UPDATED
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = caseDetails => ({
@@ -156,6 +157,11 @@ export const updateAddressInputValidity = addressValid => ({
 export const updateShowAddressMessage = addressMessageVisible => ({
   type: ADDRESS_MESSAGE_VISIBILITY_UPDATED,
   addressMessageVisible
+});
+
+export const updateAddressToConfirm = addressToConfirm => ({
+  type: ADDRESS_TO_CONFIRM_UPDATED,
+  addressToConfirm
 });
 
 export const updateIncidentDetailsFailure = () => ({

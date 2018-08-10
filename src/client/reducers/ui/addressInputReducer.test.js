@@ -1,6 +1,7 @@
 import addressInputReducer from "./addressInputReducer";
 import {
   updateAddressInputValidity,
+  updateAddressToConfirm,
   updateShowAddressMessage
 } from "../../actionCreators/casesActionCreators";
 
@@ -10,7 +11,8 @@ describe("addressInputDialogReducer", () => {
 
     expect(newState).toEqual({
       addressValid: true,
-      addressMessageVisible: false
+      addressMessageVisible: false,
+      addressToConfirm: {}
     });
   });
 
@@ -31,6 +33,30 @@ describe("addressInputDialogReducer", () => {
     expect(newState).toEqual({
       addressValid: false,
       addressMessageVisible: true
+    });
+  });
+
+  test("should set addressToConfirm", () => {
+    const newAddressToConfirm = {
+      streetAddress: "123 main st",
+      city: "chicago",
+      state: "IL",
+      zipCode: "60601",
+      country: "US"
+    };
+    const newState = addressInputReducer(
+      {
+        addressValid: false,
+        addressMessageVisible: false,
+        addressToConfirm: {}
+      },
+      updateAddressToConfirm(newAddressToConfirm)
+    );
+
+    expect(newState).toEqual({
+      addressValid: false,
+      addressMessageVisible: false,
+      addressToConfirm: newAddressToConfirm
     });
   });
 });
