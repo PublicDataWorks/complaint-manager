@@ -227,6 +227,12 @@ const REMOVE_OFFICER_ALLEGATION_SUCCEEDED =
 // ------------------------------------------
 const GET_FEATURES_SUCCEEDED = "GET_FEATURES_SUCCEEDED";
 
+// ------------------------------------------
+//           S3 operations
+// ------------------------------------------
+const S3_GET_OBJECT = "getObject";
+const S3_URL_EXPIRATION = 60;
+
 module.exports = {
   LOCAL_DEV_PORT,
   PORT,
@@ -321,5 +327,6 @@ module.exports = {
   EXPORT_AUDIT_LOG_CONFIRMATION_OPENED,
   EXPORT_CONFIRMATION_CLOSED,
   EXPORT_ALL_CASES_CONFIRMATION_OPENED,
-  GET_FEATURES_SUCCEEDED
+  GET_FEATURES_SUCCEEDED,
+  S3_GET_OBJECT
 };
