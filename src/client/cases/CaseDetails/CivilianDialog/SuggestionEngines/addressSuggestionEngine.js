@@ -31,7 +31,8 @@ class AddressSuggestionEngine {
   fetchSuggestions = (input, callback) => {
     this.autoCompleteService.getPlacePredictions(
       {
-        input: input
+        input: input,
+        types: ["address"]
       },
       addresses => {
         if (!addresses) {
