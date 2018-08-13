@@ -62,8 +62,7 @@ class AddressInput extends Component {
           </span>{" "}
           <StyledLink
             onClick={this.fillConfirmedAddress}
-            to={"#"}
-            style={{ fontSize: "0.75rem" }}
+            style={{ fontSize: "0.75rem", cursor: "pointer" }}
           >
             Fill Address
           </StyledLink>

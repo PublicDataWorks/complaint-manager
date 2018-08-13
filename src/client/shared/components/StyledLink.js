@@ -9,11 +9,18 @@ const styles = () => ({
 
 function StyledLink(props) {
   const { children, classes, ...other } = props;
-
-  return (
-    <Link className={classes.root} {...other}>
-      {children}
-    </Link>
-  );
+  if (props.to) {
+    return (
+      <Link className={classes.root} {...other}>
+        {children}
+      </Link>
+    );
+  } else {
+    return (
+      <a className={classes.root} {...other}>
+        {children}
+      </a>
+    );
+  }
 }
 export default withStyles(styles)(StyledLink);
