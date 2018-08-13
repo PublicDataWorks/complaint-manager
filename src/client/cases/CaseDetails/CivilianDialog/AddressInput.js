@@ -7,6 +7,13 @@ import colors from "../../../globalStyling/colors";
 import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine";
 import formatAddress from "../../../utilities/formatAddress";
 import _ from "lodash";
+import StyledLink from "../../../shared/components/StyledLink";
+import {
+  updateAddressDisplayValue,
+  updateAddressInputValidity,
+  updateAddressToConfirm
+} from "../../../actionCreators/casesActionCreators";
+import parseAddressFromGooglePlaceResult from "../../../utilities/parseAddressFromGooglePlaceResult";
 
 class AddressInput extends Component {
   //TODO  IS there a good way to do dependency injection in react/redux?
@@ -29,33 +36,51 @@ class AddressInput extends Component {
       return null;
     }
 
-    let message, color;
     if (this.props.addressValid) {
-      color = colors.green;
-      message = <span>This is a valid address.</span>;
+      return (
+        <div
+          style={{
+            fontSize: "0.75rem",
+            marginTop: "8px",
+            color: colors.green
+          }}
+        >
+          <span>This is a valid address</span>
+        </div>
+      );
     } else if (!_.isEmpty(this.props.addressToConfirm)) {
-      color = colors.red;
-      message = (
-        <span>
-          Did you mean <b>{formatAddress(this.props.addressToConfirm)}</b>
-        </span>
+      return (
+        <div
+          style={{
+            fontSize: "0.75rem",
+            marginTop: "8px"
+          }}
+        >
+          <span style={{ color: colors.red }}>
+            Did you mean <b>{formatAddress(this.props.addressToConfirm)}</b>?
+          </span>{" "}
+          <StyledLink
+            onClick={this.fillConfirmedAddress}
+            to={"#"}
+            style={{ fontSize: "0.75rem" }}
+          >
+            Fill Address
+          </StyledLink>
+        </div>
       );
     }
-    return (
-      <div
-        style={{
-          fontSize: "0.75rem",
-          textAlign: "left",
-          marginTop: "8px",
-          color: color
-        }}
-      >
-        {message}
-      </div>
+  };
+
+  fillConfirmedAddress = () => {
+    this.setFormValues(this.props.addressToConfirm);
+    this.props.updateAddressDisplayValue(
+      formatAddress(this.props.addressToConfirm)
     );
+    this.props.updateAddressToConfirm(parseAddressFromGooglePlaceResult({}));
   };
 
   setFormValues = address => {
+    this.props.updateAddressInputValidity(true);
     this.props.change(
       this.props.formName,
       `${this.props.fieldName}.streetAddress`,
@@ -163,6 +188,15 @@ const mapDispatchToProps = dispatch => {
     },
     clearSubmitErrors: (...params) => {
       dispatch(clearSubmitErrors(...params));
+    },
+    updateAddressDisplayValue: (...params) => {
+      dispatch(updateAddressDisplayValue(...params));
+    },
+    updateAddressToConfirm: (...params) => {
+      dispatch(updateAddressToConfirm(...params));
+    },
+    updateAddressInputValidity: (...params) => {
+      dispatch(updateAddressInputValidity(...params));
     }
   };
 };

@@ -1,13 +1,15 @@
 import {
   ADDRESS_VALIDITY_UPDATED,
   ADDRESS_MESSAGE_VISIBILITY_UPDATED,
-  ADDRESS_TO_CONFIRM_UPDATED
+  ADDRESS_TO_CONFIRM_UPDATED,
+  ADDRESS_DISPLAY_VALUE_UPDATED
 } from "../../../sharedUtilities/constants";
 
 const initialState = {
   addressValid: true,
   addressMessageVisible: false,
-  addressToConfirm: {}
+  addressToConfirm: {},
+  addressDisplayValue: ""
 };
 
 const addressInputReducer = (state = initialState, action) => {
@@ -18,6 +20,8 @@ const addressInputReducer = (state = initialState, action) => {
       return { ...state, addressMessageVisible: action.addressMessageVisible };
     case ADDRESS_TO_CONFIRM_UPDATED:
       return { ...state, addressToConfirm: action.addressToConfirm };
+    case ADDRESS_DISPLAY_VALUE_UPDATED:
+      return { ...state, addressDisplayValue: action.addressDisplayValue };
     default:
       return state;
   }

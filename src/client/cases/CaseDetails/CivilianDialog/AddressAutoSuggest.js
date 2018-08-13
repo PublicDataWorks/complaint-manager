@@ -8,6 +8,7 @@ import { withStyles } from "@material-ui/core/styles";
 import poweredByGoogle from "../../../../assets/powered_by_google_on_white_hdpi.png";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import {
+  updateAddressDisplayValue,
   updateAddressInputValidity,
   updateAddressToConfirm,
   updateShowAddressMessage
@@ -41,8 +42,8 @@ const styles = theme => ({
 class AddressAutoSuggest extends Component {
   constructor(props) {
     super(props);
+    this.props.updateAddressDisplayValue(props.defaultText || "");
     this.state = {
-      inputValue: props.defaultText || "",
       suggestionServiceAvailable: true,
       suggestions: [],
       suggestionSelected: true
@@ -160,7 +161,6 @@ class AddressAutoSuggest extends Component {
   };
 
   handleValidatedAddress = address => {
-    this.props.updateAddressInputValidity(true);
     this.props.setFormValues(address);
   };
 
@@ -201,9 +201,12 @@ class AddressAutoSuggest extends Component {
       return null;
     }
     this.props.updateShowAddressMessage(true);
-    if (!this.state.suggestionSelected && this.state.inputValue.trim() !== "") {
+    if (
+      !this.state.suggestionSelected &&
+      this.props.addressDisplayValue.trim() !== ""
+    ) {
       this.props.suggestionEngine.fetchAddressDetails(
-        { address: this.state.inputValue },
+        { address: this.props.addressDisplayValue },
         this.handleNonConfirmedValidAddress,
         this.showAddressLookupError
       );
@@ -215,17 +218,14 @@ class AddressAutoSuggest extends Component {
   };
 
   handleChange = (event, { newValue }) => {
-    this.setState({ inputValue: newValue, suggestionSelected: false });
+    this.props.updateAddressDisplayValue(newValue);
+    this.setState({ suggestionSelected: false });
     this.props.updateAddressToConfirm({});
     this.props.updateShowAddressMessage(false);
     if (newValue.trim() === "") {
-      this.props.updateAddressInputValidity(true);
+      this.props.setFormValues(parseAddressFromGooglePlaceResult({}));
     } else {
       this.props.updateAddressInputValidity(false);
-    }
-
-    if (newValue.trim() === "") {
-      this.props.setFormValues(parseAddressFromGooglePlaceResult({}));
     }
   };
 
@@ -263,7 +263,7 @@ class AddressAutoSuggest extends Component {
           ...inputProps,
           classes,
           reduxFormMeta: meta,
-          value: this.state.inputValue,
+          value: this.props.addressDisplayValue,
           onChange: this.handleChange,
           onBlur: this.handleBlur
         }}
@@ -283,13 +283,19 @@ const mapDispatchToProps = dispatch => {
     updateAddressToConfirm: (...params) => {
       dispatch(updateAddressToConfirm(...params));
     },
+    updateAddressDisplayValue: (...params) => {
+      dispatch(updateAddressDisplayValue(...params));
+    },
     snackbarError: (...params) => {
       dispatch(snackbarError(...params));
     }
   };
 };
 
-const mapStateToProps = state => ({ featureToggles: state.featureToggles });
+const mapStateToProps = state => ({
+  featureToggles: state.featureToggles,
+  addressDisplayValue: state.ui.addressInput.addressDisplayValue
+});
 
 const ConnectedComponent = connect(mapStateToProps, mapDispatchToProps)(
   AddressAutoSuggest

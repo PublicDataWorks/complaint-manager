@@ -1,5 +1,6 @@
 import addressInputReducer from "./addressInputReducer";
 import {
+  updateAddressDisplayValue,
   updateAddressInputValidity,
   updateAddressToConfirm,
   updateShowAddressMessage
@@ -12,7 +13,8 @@ describe("addressInputDialogReducer", () => {
     expect(newState).toEqual({
       addressValid: true,
       addressMessageVisible: false,
-      addressToConfirm: {}
+      addressToConfirm: {},
+      addressDisplayValue: ""
     });
   });
 
@@ -57,6 +59,26 @@ describe("addressInputDialogReducer", () => {
       addressValid: false,
       addressMessageVisible: false,
       addressToConfirm: newAddressToConfirm
+    });
+  });
+
+  test("should set addressDisplayValue", () => {
+    const newAddressDisplayValue = "123 main st, chicago IL, US";
+    const newState = addressInputReducer(
+      {
+        addressValid: false,
+        addressMessageVisible: false,
+        addressToConfirm: {},
+        addressDisplayValue: ""
+      },
+      updateAddressDisplayValue(newAddressDisplayValue)
+    );
+
+    expect(newState).toEqual({
+      addressValid: false,
+      addressMessageVisible: false,
+      addressToConfirm: {},
+      addressDisplayValue: "123 main st, chicago IL, US"
     });
   });
 });
