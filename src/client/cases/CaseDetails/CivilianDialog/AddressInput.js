@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { TextField } from "redux-form-material-ui";
 import AddressAutoSuggest from "./AddressAutoSuggest";
-import { Field } from "redux-form";
+import { change, Field, clearSubmitErrors } from "redux-form";
 import { connect } from "react-redux";
 import colors from "../../../globalStyling/colors";
 import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine";
@@ -55,6 +55,40 @@ class AddressInput extends Component {
     );
   };
 
+  setFormValues = address => {
+    this.props.change(
+      this.props.formName,
+      `${this.props.fieldName}.streetAddress`,
+      address.streetAddress
+    );
+    this.props.change(
+      this.props.formName,
+      `${this.props.fieldName}.intersection`,
+      address.intersection
+    );
+    this.props.change(
+      this.props.formName,
+      `${this.props.fieldName}.city`,
+      address.city
+    );
+    this.props.change(
+      this.props.formName,
+      `${this.props.fieldName}.state`,
+      address.state
+    );
+    this.props.change(
+      this.props.formName,
+      `${this.props.fieldName}.zipCode`,
+      address.zipCode
+    );
+    this.props.change(
+      this.props.formName,
+      `${this.props.fieldName}.country`,
+      address.country
+    );
+    this.props.clearSubmitErrors(this.props.formName);
+  };
+
   render() {
     return (
       <div>
@@ -66,8 +100,7 @@ class AddressInput extends Component {
             suggestionEngine: this.suggestionEngine,
             defaultText: this.props.formattedAddress,
             "data-test": "addressSuggestionField",
-            fieldName: this.props.fieldName,
-            formName: this.props.formName
+            setFormValues: this.setFormValues
           }}
         />
         {this.renderValidMessage()}
@@ -123,6 +156,16 @@ class AddressInput extends Component {
     );
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    change: (...params) => {
+      dispatch(change(...params));
+    },
+    clearSubmitErrors: (...params) => {
+      dispatch(clearSubmitErrors(...params));
+    }
+  };
+};
 
 const mapStateToProps = state => ({
   addressValid: state.ui.addressInput.addressValid,
@@ -131,4 +174,4 @@ const mapStateToProps = state => ({
   featureToggles: state.featureToggles
 });
 
-export default connect(mapStateToProps)(AddressInput);
+export default connect(mapStateToProps, mapDispatchToProps)(AddressInput);

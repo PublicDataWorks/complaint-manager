@@ -3,7 +3,6 @@ import Autosuggest from "react-autosuggest";
 import match from "autosuggest-highlight/match";
 import parse from "autosuggest-highlight/parse";
 import { MenuItem, Paper, TextField } from "@material-ui/core";
-import { change, clearSubmitErrors } from "redux-form";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import poweredByGoogle from "../../../../assets/powered_by_google_on_white_hdpi.png";
@@ -13,6 +12,7 @@ import {
   updateAddressToConfirm,
   updateShowAddressMessage
 } from "../../../actionCreators/casesActionCreators";
+import parseAddressFromGooglePlaceResult from "../../../utilities/parseAddressFromGooglePlaceResult";
 
 const styles = theme => ({
   container: {
@@ -161,37 +161,7 @@ class AddressAutoSuggest extends Component {
 
   handleValidatedAddress = address => {
     this.props.updateAddressInputValidity(true);
-
-    this.props.change(
-      this.props.formName,
-      `${this.props.fieldName}.streetAddress`,
-      address.streetAddress
-    );
-    this.props.change(
-      this.props.formName,
-      `${this.props.fieldName}.intersection`,
-      address.intersection
-    );
-    this.props.change(
-      this.props.formName,
-      `${this.props.fieldName}.city`,
-      address.city
-    );
-    this.props.change(
-      this.props.formName,
-      `${this.props.fieldName}.state`,
-      address.state
-    );
-    this.props.change(
-      this.props.formName,
-      `${this.props.fieldName}.zipCode`,
-      address.zipCode
-    );
-    this.props.change(
-      this.props.formName,
-      `${this.props.fieldName}.country`,
-      address.country
-    );
+    this.props.setFormValues(address);
   };
 
   showAddressLookupError = message => {
@@ -255,39 +225,8 @@ class AddressAutoSuggest extends Component {
     }
 
     if (newValue.trim() === "") {
-      this.props.change(
-        this.props.formName,
-        `${this.props.fieldName}.streetAddress`,
-        ""
-      );
-      this.props.change(
-        this.props.formName,
-        `${this.props.fieldName}.intersection`,
-        ""
-      );
-      this.props.change(
-        this.props.formName,
-        `${this.props.fieldName}.city`,
-        ""
-      );
-      this.props.change(
-        this.props.formName,
-        `${this.props.fieldName}.state`,
-        ""
-      );
-      this.props.change(
-        this.props.formName,
-        `${this.props.fieldName}.zipCode`,
-        ""
-      );
-      this.props.change(
-        this.props.formName,
-        `${this.props.fieldName}.country`,
-        ""
-      );
+      this.props.setFormValues(parseAddressFromGooglePlaceResult({}));
     }
-
-    this.props.clearSubmitErrors(this.props.formName);
   };
 
   render() {
@@ -333,14 +272,8 @@ class AddressAutoSuggest extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = dispatch => {
   return {
-    change: (...params) => {
-      dispatch(change(...params));
-    },
-    clearSubmitErrors: (...params) => {
-      dispatch(clearSubmitErrors(...params));
-    },
     updateAddressInputValidity: (...params) => {
       dispatch(updateAddressInputValidity(...params));
     },
