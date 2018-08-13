@@ -242,6 +242,39 @@ describe("parseAddressFromGooglePlaceResult", () => {
     expect(parsedAddress.country).toEqual("");
   });
 
+  test("parses intersection if present", () => {
+    const address = {
+      address_components: [
+        {
+          long_name: "North Desplaines Street & West Randolph Street",
+          short_name: "N Desplaines St & W Randolph St",
+          types: ["intersection"]
+        }
+      ]
+    };
+    const parsedAddress = parseAddressFromGooglePlaceResult(address);
+    expect(parsedAddress.intersection).toEqual(
+      "N Desplaines St & W Randolph St"
+    );
+  });
+
+  test("does not override intersection with value from name if real intersection present", () => {
+    const address = {
+      address_components: [
+        {
+          long_name: "North Desplaines Street & West Randolph Street",
+          short_name: "N Desplaines St & W Randolph St",
+          types: ["intersection"]
+        }
+      ],
+      name: "Bourbon Street & Canal Street"
+    };
+    const parsedAddress = parseAddressFromGooglePlaceResult(address);
+    expect(parsedAddress.intersection).toEqual(
+      "N Desplaines St & W Randolph St"
+    );
+  });
+
   test("should parse an intersection from an address", () => {
     const somePlace = {
       address_components: [
