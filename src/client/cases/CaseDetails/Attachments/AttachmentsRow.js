@@ -2,7 +2,7 @@ import React from "react";
 import { Divider, Typography } from "@material-ui/core";
 import styles from "../../../globalStyling/styles";
 import LinkButton from "../../../shared/components/LinkButton";
-import downloader from "../../thunks/downloader";
+import inBrowserDownload from "../../thunks/inBrowserDownload";
 import { connect } from "react-redux";
 
 const AttachmentsRow = ({ attachment, onRemoveAttachment, dispatch }) => {
@@ -27,12 +27,11 @@ const AttachmentsRow = ({ attachment, onRemoveAttachment, dispatch }) => {
             }}
             onClick={() =>
               dispatch(
-                downloader(
-                  `/api/cases/${attachment.caseId}/attachments/${
+                inBrowserDownload(
+                  `/api/cases/${attachment.caseId}/attachmentUrls/${
                     attachment.fileName
                   }`,
-                  attachment.fileName,
-                  false,
+                  this,
                   undefined
                 )
               )
