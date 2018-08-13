@@ -31,7 +31,8 @@ class AddressInput extends Component {
     if (
       !this.props.featureToggles ||
       !this.props.featureToggles.addressIntersections ||
-      !this.props.addressMessageVisible
+      !this.props.addressMessageVisible ||
+      this.props.addressDisplayValue.trim() === ""
     ) {
       return null;
     }
@@ -205,7 +206,8 @@ const mapStateToProps = state => ({
   addressValid: state.ui.addressInput.addressValid,
   addressMessageVisible: state.ui.addressInput.addressMessageVisible,
   addressToConfirm: state.ui.addressInput.addressToConfirm,
-  featureToggles: state.featureToggles
+  featureToggles: state.featureToggles,
+  addressDisplayValue: state.ui.addressInput.addressDisplayValue
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddressInput);
