@@ -14,7 +14,7 @@ const generateAttachmentDownloadUrl = asyncMiddleware(
   async (request, response, next) => {
     const s3 = createConfiguredS3Instance();
 
-    await models.sequelize.transaction(async transaction => {
+    const signedUrl = await models.sequelize.transaction(async transaction => {
       await auditDataAccess(
         request.nickname,
         request.params.id,
@@ -24,15 +24,16 @@ const generateAttachmentDownloadUrl = asyncMiddleware(
         { fileName: request.params.fileName }
       );
 
-      const singedUrl = s3.getSignedUrl(S3_GET_OBJECT, {
+      return s3.getSignedUrl(S3_GET_OBJECT, {
         Bucket: config[process.env.NODE_ENV].s3Bucket,
         Key: `${request.params.id}/${request.params.fileName}`,
         Expires: S3_URL_EXPIRATION
       });
-
-      response.status(200).send(singedUrl);
-      if (next) next();
     });
+
+    response.setHeader("Content-Type", "text/html");
+    response.write(signedUrl);
+    response.end();
   }
 );
 

@@ -84,14 +84,11 @@ describe("generateAttachmentDownloadUrl", function() {
     const { attachment, request } = await requestWithExistingCaseAttachment();
 
     const response = httpMocks.createResponse();
-    response.send = jest.fn();
-    response.status = jest.fn();
-    response.status.mockReturnValueOnce(response);
+    response.write = jest.fn();
 
     await generateAttachmentDownloadUrl(request, response, jest.fn());
 
-    expect(response.status).toHaveBeenCalledWith(200);
-    expect(response.send).toHaveBeenCalledWith(SIGNED_TEST_URL);
+    expect(response.write).toHaveBeenCalledWith(SIGNED_TEST_URL);
   });
 
   test("should not audit data access when generation of download url fails", async () => {
