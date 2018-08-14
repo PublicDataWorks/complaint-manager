@@ -129,6 +129,21 @@ class AddressInput extends Component {
       `${this.props.fieldName}.country`,
       address.country
     );
+    this.props.change(
+      this.props.formName,
+      `${this.props.fieldName}.lat`,
+      address.lat
+    );
+    this.props.change(
+      this.props.formName,
+      `${this.props.fieldName}.lng`,
+      address.lng
+    );
+    this.props.change(
+      this.props.formName,
+      `${this.props.fieldName}.placeId`,
+      address.placeId
+    );
     this.props.clearSubmitErrors(this.props.formName);
   };
 
@@ -193,6 +208,30 @@ class AddressInput extends Component {
           component={TextField}
           inputProps={{
             "data-test": "countryInput"
+          }}
+        />
+        <Field
+          type={"hidden"}
+          name={`${this.props.fieldName}.lat`}
+          component={TextField}
+          inputProps={{
+            "data-test": "latInput"
+          }}
+        />
+        <Field
+          type={"hidden"}
+          name={`${this.props.fieldName}.lng`}
+          component={TextField}
+          inputProps={{
+            "data-test": "lngInput"
+          }}
+        />
+        <Field
+          type={"hidden"}
+          name={`${this.props.fieldName}.placeId`}
+          component={TextField}
+          inputProps={{
+            "data-test": "placeIdInput"
           }}
         />
       </div>

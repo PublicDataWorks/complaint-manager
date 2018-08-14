@@ -9,6 +9,16 @@ const getComponentOnType = (address, desired_types) => {
   return _.find(addressComponents, componentMatchesAllTypes);
 };
 
+const getLatLng = address => {
+  let lat,
+    lng = null;
+  if (address.geometry) {
+    lat = address.geometry.location.lat();
+    lng = address.geometry.location.lng();
+  }
+  return { lat, lng };
+};
+
 const addIntersectionToAddressIfPresent = (name, address) => {
   let intersection = "";
   if (
@@ -56,13 +66,20 @@ const parseAddressFromGooglePlaceResult = address => {
     ? intersectionComponent.short_name
     : "";
 
+  const placeId = address.place_id;
+  const lat = getLatLng(address).lat;
+  const lng = getLatLng(address).lng;
+
   const parsedAddress = {
     streetAddress,
     intersection,
     city,
     state,
     zipCode,
-    country
+    country,
+    placeId,
+    lat,
+    lng
   };
 
   if (intersection === "") {

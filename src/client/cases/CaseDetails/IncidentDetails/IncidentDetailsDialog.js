@@ -168,7 +168,10 @@ const mapStateToProps = state => {
     "incidentLocation.city",
     "incidentLocation.state",
     "incidentLocation.zipCode",
-    "incidentLocation.country"
+    "incidentLocation.country",
+    "incidentLocation.lat",
+    "incidentLocation.lng",
+    "incidentLocation.placeId"
   );
 
   return {

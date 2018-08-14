@@ -50,6 +50,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         field: "country"
       },
+      lat: {
+        type: DataTypes.FLOAT
+      },
+      lng: {
+        type: DataTypes.FLOAT
+      },
+      placeId: {
+        type: DataTypes.STRING,
+        field: "place_id"
+      },
       createdAt: {
         field: "created_at",
         type: DataTypes.DATE

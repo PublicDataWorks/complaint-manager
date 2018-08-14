@@ -240,7 +240,10 @@ const mapStateToProps = state => {
     "address.city",
     "address.state",
     "address.zipCode",
-    "address.country"
+    "address.country",
+    "address.lat",
+    "address.lng",
+    "address.placeId"
   );
 
   return {

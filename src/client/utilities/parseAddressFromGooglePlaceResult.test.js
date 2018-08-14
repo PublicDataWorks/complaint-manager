@@ -306,4 +306,83 @@ describe("parseAddressFromGooglePlaceResult", () => {
 
     expect(parsedAddress.intersection).toEqual("Bourbon Street & Canal Street");
   });
+
+  test("should parse place id from address", () => {
+    const somePlace = {
+      address_components: [
+        {
+          long_name: "New Orleans",
+          short_name: "New Orleans",
+          types: ["locality", "political"]
+        },
+        {
+          long_name: "Louisiana",
+          short_name: "LA",
+          types: ["administrative_area_level_1", "political"]
+        },
+        {
+          long_name: "United States",
+          short_name: "US",
+          types: ["country", "political"]
+        },
+        {
+          long_name: "70119",
+          short_name: "70119",
+          types: ["postal_code"]
+        }
+      ],
+      name: "Bourbon Street & Canal Street",
+      place_id: "some place id"
+    };
+
+    const parsedAddress = parseAddressFromGooglePlaceResult(somePlace);
+
+    expect(parsedAddress.placeId).toEqual("some place id");
+  });
+
+  test("should parse lat and lng from address", () => {
+    const latFunction = () => {
+      return 12.2;
+    };
+    const lngFunction = () => {
+      return 14.4;
+    };
+    const somePlace = {
+      address_components: [
+        {
+          long_name: "New Orleans",
+          short_name: "New Orleans",
+          types: ["locality", "political"]
+        },
+        {
+          long_name: "Louisiana",
+          short_name: "LA",
+          types: ["administrative_area_level_1", "political"]
+        },
+        {
+          long_name: "United States",
+          short_name: "US",
+          types: ["country", "political"]
+        },
+        {
+          long_name: "70119",
+          short_name: "70119",
+          types: ["postal_code"]
+        }
+      ],
+      name: "Bourbon Street & Canal Street",
+      place_id: "some place id",
+      geometry: {
+        location: {
+          lat: latFunction,
+          lng: lngFunction
+        }
+      }
+    };
+
+    const parsedAddress = parseAddressFromGooglePlaceResult(somePlace);
+
+    expect(parsedAddress.lat).toEqual(12.2);
+    expect(parsedAddress.lng).toEqual(14.4);
+  });
 });
