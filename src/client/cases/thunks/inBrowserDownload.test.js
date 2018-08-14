@@ -9,19 +9,22 @@ describe("in browser download thunk", function() {
 
   test("should add an anchor html tag with the file to download", async () => {
     const responseData = "https://url of the file to download";
-    const fileName = "test_file.csv";
 
     nock("http://localhost", {
       reqheaders: {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .get("/some-path")
+      .get(testPath)
       .reply(200, responseData);
 
-    await inBrowserDownload(testPath, fileName, true)(dispatch);
+    const htmlAnchor = {
+      href: "",
+      click: jest.fn()
+    };
 
-    const anchor = document.getElementsByTagName("a");
-    expect(anchor[0].href).toBe(responseData);
+    await inBrowserDownload(testPath, htmlAnchor)(dispatch);
+
+    expect(htmlAnchor.href).toBe(responseData);
   });
 });

@@ -19,6 +19,7 @@ const AttachmentsRow = ({ attachment, onRemoveAttachment, dispatch }) => {
         data-test="attachmentRow"
       >
         <div style={{ flex: 1, textAlign: "left", marginRight: "32px" }}>
+          <a id={"attachment_" + attachment.id} />
           <Typography
             data-test="attachmentName"
             style={{
@@ -31,8 +32,7 @@ const AttachmentsRow = ({ attachment, onRemoveAttachment, dispatch }) => {
                   `/api/cases/${attachment.caseId}/attachmentUrls/${
                     attachment.fileName
                   }`,
-                  this,
-                  undefined
+                  document.getElementById(`attachment_${attachment.id}`)
                 )
               )
             }
