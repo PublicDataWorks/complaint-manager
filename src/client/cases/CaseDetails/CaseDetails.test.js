@@ -33,7 +33,7 @@ jest.mock("../thunks/updateNarrative", () => () => ({
   type: "MOCK_UPDATE_NARRATIVE_THUNK"
 }));
 
-jest.mock("./CivilianDialog/SuggestionEngines/addressSuggestionEngine");
+jest.mock("./CivilianDialog/MapServices/MapService");
 
 describe("Case Details Component", () => {
   let caseDetails, expectedCase, dispatchSpy, store;

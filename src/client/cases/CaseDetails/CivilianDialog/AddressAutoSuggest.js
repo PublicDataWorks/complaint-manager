@@ -52,7 +52,7 @@ class AddressAutoSuggest extends Component {
   }
 
   async componentDidMount() {
-    await this.props.suggestionEngine.healthCheck(
+    await this.props.mapService.healthCheck(
       ({ googleAddressServiceIsAvailable }) => {
         this.setState({
           suggestionServiceAvailable: googleAddressServiceIsAvailable
@@ -133,7 +133,7 @@ class AddressAutoSuggest extends Component {
   };
 
   renderSuggestion = (suggestion, { query, isHighlighted }) => {
-    const suggestionValue = this.props.suggestionEngine.getSuggestionValue(
+    const suggestionValue = this.props.mapService.getSuggestionValue(
       suggestion
     );
     const matches = match(suggestionValue, query);
@@ -159,7 +159,7 @@ class AddressAutoSuggest extends Component {
   };
 
   getSuggestionValue = suggestion => {
-    return this.props.suggestionEngine.getSuggestionValue(suggestion);
+    return this.props.mapService.getSuggestionValue(suggestion);
   };
 
   handleValidatedAddress = address => {
@@ -177,7 +177,7 @@ class AddressAutoSuggest extends Component {
 
   onSuggestionSelected = (event, { suggestion }) => {
     this.setState({ suggestionSelected: true });
-    this.props.suggestionEngine.fetchAddressDetails(
+    this.props.mapService.fetchAddressDetails(
       { placeId: suggestion.place_id },
       this.handleValidatedAddress,
       this.showAddressLookupError
@@ -186,7 +186,7 @@ class AddressAutoSuggest extends Component {
 
   handleSuggestionsFetchRequested = ({ value, reason }) => {
     if (value && reason === "input-changed") {
-      this.props.suggestionEngine.fetchSuggestions(value, values => {
+      this.props.mapService.fetchSuggestions(value, values => {
         this.setState({
           suggestions: values || []
         });
@@ -213,7 +213,7 @@ class AddressAutoSuggest extends Component {
       !this.state.suggestionSelected &&
       this.props.addressDisplayValue.trim() !== ""
     ) {
-      this.props.suggestionEngine.fetchAddressDetails(
+      this.props.mapService.fetchAddressDetails(
         { address: this.props.addressDisplayValue },
         this.handleNonConfirmedValidAddress,
         this.showAddressLookupError

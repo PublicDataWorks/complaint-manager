@@ -1,6 +1,6 @@
 import parseAddressFromGooglePlaceResult from "../../../../utilities/parseAddressFromGooglePlaceResult";
 
-class AddressSuggestionEngine {
+class MapService {
   constructor() {
     this.google = window.google;
     this.autoCompleteService = new window.google.maps.places.AutocompleteService();
@@ -63,4 +63,4 @@ class AddressSuggestionEngine {
   };
 }
 
-export default AddressSuggestionEngine;
+export default MapService;

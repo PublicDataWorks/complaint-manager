@@ -4,7 +4,7 @@ import AddressAutoSuggest from "./AddressAutoSuggest";
 import { change, Field, clearSubmitErrors } from "redux-form";
 import { connect } from "react-redux";
 import colors from "../../../globalStyling/colors";
-import AddressSuggestionEngine from "./SuggestionEngines/addressSuggestionEngine";
+import MapService from "./MapServices/MapService";
 import formatAddress from "../../../utilities/formatAddress";
 import _ from "lodash";
 import StyledLink from "../../../shared/components/StyledLink";
@@ -23,8 +23,7 @@ class AddressInput extends Component {
   // that would be set differently based on the environment?
   constructor(props) {
     super(props);
-    this.suggestionEngine =
-      props.suggestionEngine || new AddressSuggestionEngine();
+    this.mapService = props.mapService || new MapService();
     this.state = { validAddress: false };
   }
 
@@ -64,6 +63,7 @@ class AddressInput extends Component {
           <StyledLink
             onClick={this.fillConfirmedAddress}
             style={{ fontSize: "0.75rem", cursor: "pointer" }}
+            data-test="fillAddressToConfirm"
           >
             Fill Address
           </StyledLink>
@@ -140,7 +140,7 @@ class AddressInput extends Component {
           component={AddressAutoSuggest}
           props={{
             label: this.props.addressLabel,
-            suggestionEngine: this.suggestionEngine,
+            mapService: this.mapService,
             defaultText: this.props.formattedAddress,
             "data-test": "addressSuggestionField",
             setFormValues: this.setFormValues

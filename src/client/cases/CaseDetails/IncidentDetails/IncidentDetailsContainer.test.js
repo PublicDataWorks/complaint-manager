@@ -22,7 +22,7 @@ jest.mock("../../thunks/editIncidentDetails", () =>
   }))
 );
 
-jest.mock("../CivilianDialog/SuggestionEngines/addressSuggestionEngine", () => {
+jest.mock("../CivilianDialog/MapServices/MapService", () => {
   return jest.fn().mockImplementation(() => ({
     healthCheck: callback => {
       callback({ googleAddressServiceIsAvailable: false });

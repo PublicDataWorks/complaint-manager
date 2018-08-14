@@ -6,11 +6,11 @@ import { Provider } from "react-redux";
 import createConfiguredStore from "../../../createConfiguredStore";
 
 describe("AddressAutoSuggest", () => {
-  let store, cannedSuggestions, suggestionEngine;
+  let store, cannedSuggestions, mapService;
   beforeEach(() => {
     store = createConfiguredStore();
     cannedSuggestions = ["123 main street", "Chicago, IL", "Burma"];
-    suggestionEngine = {
+    mapService = {
       //returns suggestion value for updating input value
       getSuggestionValue: jest.fn(() => suggestion => {
         return suggestion;
@@ -38,7 +38,7 @@ describe("AddressAutoSuggest", () => {
         <AddressAutoSuggest
           label={label}
           data-test="my-custom-autosuggest"
-          suggestionEngine={suggestionEngine}
+          mapService={mapService}
           input={{}}
           meta={{ error: "Error" }}
           onBlur={() => {}}
