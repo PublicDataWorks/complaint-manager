@@ -19,20 +19,20 @@ const AttachmentsRow = ({ attachment, onRemoveAttachment, dispatch }) => {
         data-test="attachmentRow"
       >
         <div style={{ flex: 1, textAlign: "left", marginRight: "32px" }}>
-          <a id={"attachment_" + attachment.id} />
+          <a />
           <Typography
             data-test="attachmentName"
             style={{
               ...styles.link,
               cursor: "pointer"
             }}
-            onClick={() =>
+            onClick={e =>
               dispatch(
                 inBrowserDownload(
                   `/api/cases/${attachment.caseId}/attachmentUrls/${
                     attachment.fileName
                   }`,
-                  document.getElementById(`attachment_${attachment.id}`)
+                  e.target.parentElement.getElementsByTagName("a")[0]
                 )
               )
             }
