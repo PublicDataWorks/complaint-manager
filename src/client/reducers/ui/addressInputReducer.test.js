@@ -1,6 +1,7 @@
 import addressInputReducer from "./addressInputReducer";
 import {
   updateAddressDisplayValue,
+  updateAddressErrorMessage,
   updateAddressInputValidity,
   updateAddressToConfirm,
   updateShowAddressMessage
@@ -14,7 +15,8 @@ describe("addressInputDialogReducer", () => {
       addressValid: true,
       addressMessageVisible: false,
       addressToConfirm: {},
-      addressDisplayValue: ""
+      addressDisplayValue: "",
+      addressErrorMessage: ""
     });
   });
 
@@ -79,6 +81,30 @@ describe("addressInputDialogReducer", () => {
       addressMessageVisible: false,
       addressToConfirm: {},
       addressDisplayValue: "123 main st, chicago IL, US"
+    });
+  });
+
+  test("should set addressErrorMessage", () => {
+    const newAddressErrorMessage =
+      "We could not find any matching addresses. Please enter a valid address.";
+    const newState = addressInputReducer(
+      {
+        addressValid: false,
+        addressMessageVisible: false,
+        addressToConfirm: {},
+        addressDisplayValue: "",
+        addressErrorMessage: ""
+      },
+      updateAddressErrorMessage(newAddressErrorMessage)
+    );
+
+    expect(newState).toEqual({
+      addressValid: false,
+      addressMessageVisible: false,
+      addressToConfirm: {},
+      addressDisplayValue: "",
+      addressErrorMessage:
+        "We could not find any matching addresses. Please enter a valid address."
     });
   });
 });

@@ -9,6 +9,7 @@ import poweredByGoogle from "../../../../assets/powered_by_google_on_white_hdpi.
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import {
   updateAddressDisplayValue,
+  updateAddressErrorMessage,
   updateAddressInputValidity,
   updateAddressToConfirm,
   updateShowAddressMessage
@@ -59,6 +60,7 @@ class AddressAutoSuggest extends Component {
       }
     );
     this.props.updateAddressInputValidity(true);
+    this.props.updateAddressErrorMessage("");
     this.props.updateShowAddressMessage(false);
   }
 
@@ -165,7 +167,12 @@ class AddressAutoSuggest extends Component {
   };
 
   showAddressLookupError = message => {
-    this.props.snackbarError(message);
+    this.props.updateAddressErrorMessage(
+      "We could not find any matching addresses"
+    );
+    if (message) {
+      this.props.snackbarError(message);
+    }
   };
 
   onSuggestionSelected = (event, { suggestion }) => {
@@ -201,6 +208,7 @@ class AddressAutoSuggest extends Component {
       return null;
     }
     this.props.updateShowAddressMessage(true);
+    this.props.updateAddressErrorMessage("");
     if (
       !this.state.suggestionSelected &&
       this.props.addressDisplayValue.trim() !== ""
@@ -286,6 +294,9 @@ const mapDispatchToProps = dispatch => {
     updateAddressDisplayValue: (...params) => {
       dispatch(updateAddressDisplayValue(...params));
     },
+    updateAddressErrorMessage: (...params) => {
+      dispatch(updateAddressErrorMessage(...params));
+    },
     snackbarError: (...params) => {
       dispatch(snackbarError(...params));
     }
@@ -297,7 +308,8 @@ const mapStateToProps = state => ({
   addressDisplayValue: state.ui.addressInput.addressDisplayValue
 });
 
-const ConnectedComponent = connect(mapStateToProps, mapDispatchToProps)(
-  AddressAutoSuggest
-);
+const ConnectedComponent = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddressAutoSuggest);
 export default withStyles(styles)(ConnectedComponent);

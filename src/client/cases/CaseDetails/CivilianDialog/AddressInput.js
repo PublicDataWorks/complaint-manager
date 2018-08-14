@@ -10,6 +10,7 @@ import _ from "lodash";
 import StyledLink from "../../../shared/components/StyledLink";
 import {
   updateAddressDisplayValue,
+  updateAddressErrorMessage,
   updateAddressInputValidity,
   updateAddressToConfirm
 } from "../../../actionCreators/casesActionCreators";
@@ -68,6 +69,22 @@ class AddressInput extends Component {
           </StyledLink>
         </div>
       );
+    } else {
+      return (
+        <div
+          style={{
+            fontSize: "0.75rem",
+            marginTop: "8px",
+            color: colors.red
+          }}
+        >
+          <span>
+            {this.props.addressErrorMessage
+              ? this.props.addressErrorMessage
+              : null}
+          </span>
+        </div>
+      );
     }
   };
 
@@ -81,6 +98,7 @@ class AddressInput extends Component {
 
   setFormValues = address => {
     this.props.updateAddressInputValidity(true);
+    this.props.updateAddressErrorMessage("");
     this.props.change(
       this.props.formName,
       `${this.props.fieldName}.streetAddress`,
@@ -195,6 +213,9 @@ const mapDispatchToProps = dispatch => {
     updateAddressToConfirm: (...params) => {
       dispatch(updateAddressToConfirm(...params));
     },
+    updateAddressErrorMessage: (...params) => {
+      dispatch(updateAddressErrorMessage(...params));
+    },
     updateAddressInputValidity: (...params) => {
       dispatch(updateAddressInputValidity(...params));
     }
@@ -206,7 +227,11 @@ const mapStateToProps = state => ({
   addressMessageVisible: state.ui.addressInput.addressMessageVisible,
   addressToConfirm: state.ui.addressInput.addressToConfirm,
   featureToggles: state.featureToggles,
-  addressDisplayValue: state.ui.addressInput.addressDisplayValue
+  addressDisplayValue: state.ui.addressInput.addressDisplayValue,
+  addressErrorMessage: state.ui.addressInput.addressErrorMessage
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddressInput);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddressInput);

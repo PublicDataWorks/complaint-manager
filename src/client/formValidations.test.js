@@ -97,7 +97,7 @@ describe("synchronous validations", () => {
     const errors = addressMustBeValid(false);
 
     const expectedErrors = {
-      autoSuggestValue: "Please select an address from the suggestion list"
+      autoSuggestValue: "Please enter a valid address"
     };
 
     expect(errors).toEqual(expectedErrors);

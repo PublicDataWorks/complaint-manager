@@ -17,8 +17,7 @@ export function atLeastOneRequired(values, errorMessage, keys) {
 export function addressMustBeValid(addressValid) {
   const errors = {};
   if (!addressValid) {
-    errors.autoSuggestValue =
-      "Please select an address from the suggestion list";
+    errors.autoSuggestValue = "Please enter a valid address";
   }
   return errors;
 }

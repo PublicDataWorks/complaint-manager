@@ -53,7 +53,7 @@ class AddressSuggestionEngine {
       if (status === window.google.maps.GeocoderStatus.OK) {
         successCallback(parseAddressFromGooglePlaceResult(results[0]));
       } else if (status === window.google.maps.GeocoderStatus.ZERO_RESULTS) {
-        failureCallback("No results were found for the entered address.");
+        failureCallback("");
       } else {
         failureCallback(
           "Something went wrong and we could not validate the entered address."
