@@ -8,32 +8,29 @@ class MapService {
   }
 
   healthCheck(callback) {
-    let googleAddressServiceIsAvailable = true,
-      geocoderServiceIsAvailable = true;
-
     this.autoCompleteService.getPlacePredictions(
       {
         input: "test"
       },
       (addresses, status) => {
-        googleAddressServiceIsAvailable = !(
-          status === this.google.maps.places.PlacesServiceStatus.UNKNOWN_ERROR
-        );
+        const googleAddressServiceIsAvailable =
+          status === this.google.maps.places.PlacesServiceStatus.OK ||
+          status === this.google.maps.places.PlacesServiceStatus.ZERO_RESULTS;
+        callback({ googleAddressServiceIsAvailable });
       }
     );
 
     this.geocoderService.geocode(
       {
-        placeId: "test"
+        placeId: "ChIJrTLr-GyuEmsRBfy61i59si0"
       },
       (results, status) => {
-        geocoderServiceIsAvailable = !(
-          status === window.google.maps.GeocoderStatus.UNKNOWN_ERROR
-        );
+        const geocoderServiceIsAvailable =
+          status === window.google.maps.GeocoderStatus.OK ||
+          status === window.google.maps.GeocoderStatus.ZERO_RESULTS;
+        callback({ geocoderServiceIsAvailable });
       }
     );
-
-    callback({ googleAddressServiceIsAvailable, geocoderServiceIsAvailable });
   }
 
   getSuggestionValue = suggestion => {

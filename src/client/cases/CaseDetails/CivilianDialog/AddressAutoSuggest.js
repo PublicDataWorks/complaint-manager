@@ -45,22 +45,17 @@ class AddressAutoSuggest extends Component {
     super(props);
     this.props.updateAddressDisplayValue(props.defaultText || "");
     this.state = {
-      suggestionServiceAvailable: true,
-      geocoderServiceAvailable: true,
+      googleAddressServiceIsAvailable: true,
+      geocoderServiceIsAvailable: true,
       suggestions: [],
       suggestionSelected: true
     };
   }
 
   async componentDidMount() {
-    await this.props.mapService.healthCheck(
-      ({ googleAddressServiceIsAvailable, geocoderServiceIsAvailable }) => {
-        this.setState({
-          suggestionServiceAvailable: googleAddressServiceIsAvailable,
-          geocoderServiceAvailable: geocoderServiceIsAvailable
-        });
-      }
-    );
+    await this.props.mapService.healthCheck(currentMapServiceIsAvailable => {
+      this.setState(currentMapServiceIsAvailable);
+    });
     this.props.updateAddressInputValidity(true);
     this.props.updateAddressErrorMessage("");
     this.props.updateShowAddressMessage(false);
@@ -77,7 +72,10 @@ class AddressAutoSuggest extends Component {
     } = inputProps;
     const shouldRenderError = Boolean(reduxFormMeta.error);
 
-    if (!this.state.suggestionServiceAvailable) {
+    if (
+      !this.state.googleAddressServiceIsAvailable ||
+      !this.state.geocoderServiceIsAvailable
+    ) {
       return (
         <TextField
           disabled={true}
