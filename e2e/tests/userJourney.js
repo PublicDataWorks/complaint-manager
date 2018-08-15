@@ -242,6 +242,48 @@ if (TEST_PASS && TEST_USER && HOST) {
       });
     },
 
+    /*** E2E TEST FOR TOGGLED-OFF ADDRESS INTERSECTIONS FEATURE ***
+
+    "should open incident details": browser => {
+      browser
+        .waitForElementPresent(
+          '[data-test="editIncidentDetailsButton"]',
+          rerenderWait
+        )
+        .click('[data-test="editIncidentDetailsButton"]');
+    },
+
+    "should enter and fill intersection address into incident location": async browser => {
+      browser
+        .setValue('[data-test="addressSuggestionField"] > input', [
+          "canal st & bourbon st"
+        ])
+        .waitForElementPresent(
+          '[data-test="saveIncidentDetailsButton"]',
+          rerenderWait
+        )
+        .click('[data-test="saveIncidentDetailsButton"]')
+        .waitForElementPresent(
+          '[data-test="fillAddressToConfirm"]',
+          rerenderWait
+        )
+        .click('[data-test="fillAddressToConfirm"]')
+        .waitForElementPresent(
+          '[data-test="saveIncidentDetailsButton"]',
+          rerenderWait
+        )
+        .click('[data-test="saveIncidentDetailsButton"]');
+    },
+
+    "should display the incident location in the Incident Details section of the Case Detail": browser => {
+      browser.pause(500);
+      browser.expect
+        .element('[data-test="incidentLocation"]')
+        .text.to.not.equal("No address specified");
+    },
+
+    ***/
+
     "should navigate to Add Case Officer Page": browser => {
       browser
         .click('[data-test="caseActionMenu"]')
