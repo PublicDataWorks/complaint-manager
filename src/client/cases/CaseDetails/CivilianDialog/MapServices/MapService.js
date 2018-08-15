@@ -8,20 +8,32 @@ class MapService {
   }
 
   healthCheck(callback) {
+    let googleAddressServiceIsAvailable = true,
+      geocoderServiceIsAvailable = true;
+
     this.autoCompleteService.getPlacePredictions(
       {
         input: "test"
       },
       (addresses, status) => {
-        if (
+        googleAddressServiceIsAvailable = !(
           status === this.google.maps.places.PlacesServiceStatus.UNKNOWN_ERROR
-        ) {
-          callback({ googleAddressServiceIsAvailable: false });
-        } else {
-          callback({ googleAddressServiceIsAvailable: true });
-        }
+        );
       }
     );
+
+    this.geocoderService.geocode(
+      {
+        placeId: "test"
+      },
+      (results, status) => {
+        geocoderServiceIsAvailable = !(
+          status === window.google.maps.GeocoderStatus.UNKNOWN_ERROR
+        );
+      }
+    );
+
+    callback({ googleAddressServiceIsAvailable, geocoderServiceIsAvailable });
   }
 
   getSuggestionValue = suggestion => {

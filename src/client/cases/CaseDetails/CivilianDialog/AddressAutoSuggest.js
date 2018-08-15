@@ -46,6 +46,7 @@ class AddressAutoSuggest extends Component {
     this.props.updateAddressDisplayValue(props.defaultText || "");
     this.state = {
       suggestionServiceAvailable: true,
+      geocoderServiceAvailable: true,
       suggestions: [],
       suggestionSelected: true
     };
@@ -53,9 +54,10 @@ class AddressAutoSuggest extends Component {
 
   async componentDidMount() {
     await this.props.mapService.healthCheck(
-      ({ googleAddressServiceIsAvailable }) => {
+      ({ googleAddressServiceIsAvailable, geocoderServiceIsAvailable }) => {
         this.setState({
-          suggestionServiceAvailable: googleAddressServiceIsAvailable
+          suggestionServiceAvailable: googleAddressServiceIsAvailable,
+          geocoderServiceAvailable: geocoderServiceIsAvailable
         });
       }
     );
