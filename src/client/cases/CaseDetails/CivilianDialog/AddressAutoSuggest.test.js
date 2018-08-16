@@ -26,7 +26,10 @@ describe("AddressAutoSuggest", () => {
         return suggestion;
       }),
 
-      healthCheck: jest.fn()
+      healthCheck: setServiceAvailableProps => {
+        setServiceAvailableProps({ googleAddressServiceIsAvailable: true });
+        setServiceAvailableProps({ geocoderServiceIsAvailable: true });
+      }
     };
   });
 
@@ -51,5 +54,91 @@ describe("AddressAutoSuggest", () => {
       '[data-test="my-custom-autosuggest"]',
       label
     );
+  });
+
+  test(" lookup address when map service is available", () => {
+    let autoSuggestWrapper, label;
+    label = "Test Label";
+    autoSuggestWrapper = mount(
+      <Provider store={store}>
+        <AddressAutoSuggest
+          label={label}
+          data-test="my-custom-autosuggest"
+          mapService={mapService}
+          input={{}}
+          meta={{ error: "Error" }}
+          onBlur={() => {}}
+        />
+      </Provider>
+    );
+
+    const input = autoSuggestWrapper.find(
+      '[data-test="my-custom-autosuggest"] > input'
+    );
+
+    expect(input.props().placeholder).toBe("Search for an Address");
+    expect(input.props().disabled).toBe(false);
+  });
+
+  test("address lookup should be down if places map service is down", () => {
+    mapService.healthCheck = setServiceAvailableProps => {
+      setServiceAvailableProps({ googleAddressServiceIsAvailable: false });
+      setServiceAvailableProps({ geocoderServiceIsAvailable: true });
+    };
+
+    let autoSuggestWrapper, label;
+    label = "Test Label";
+    autoSuggestWrapper = mount(
+      <Provider store={store}>
+        <AddressAutoSuggest
+          label={label}
+          data-test="my-custom-autosuggest"
+          mapService={mapService}
+          input={{}}
+          meta={{ error: "Error" }}
+          onBlur={() => {}}
+        />
+      </Provider>
+    );
+
+    const input = autoSuggestWrapper.find(
+      '[data-test="my-custom-autosuggest"] > input'
+    );
+
+    expect(input.props().value).toBe(
+      "Address lookup is down, please try again later"
+    );
+    expect(input.props().disabled).toBe(true);
+  });
+
+  test("address lookup should be down if geo map service is down", () => {
+    mapService.healthCheck = setServiceAvailableProps => {
+      setServiceAvailableProps({ googleAddressServiceIsAvailable: true });
+      setServiceAvailableProps({ geocoderServiceIsAvailable: false });
+    };
+
+    let autoSuggestWrapper, label;
+    label = "Test Label";
+    autoSuggestWrapper = mount(
+      <Provider store={store}>
+        <AddressAutoSuggest
+          label={label}
+          data-test="my-custom-autosuggest"
+          mapService={mapService}
+          input={{}}
+          meta={{ error: "Error" }}
+          onBlur={() => {}}
+        />
+      </Provider>
+    );
+
+    const input = autoSuggestWrapper.find(
+      '[data-test="my-custom-autosuggest"] > input'
+    );
+
+    expect(input.props().value).toBe(
+      "Address lookup is down, please try again later"
+    );
+    expect(input.props().disabled).toBe(true);
   });
 });
