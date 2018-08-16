@@ -7,6 +7,11 @@ class MapService {
     this.geocoderService = new window.google.maps.Geocoder();
   }
 
+  setMapServices(autoCompleteService, geocoderService) {
+    this.autoCompleteService = autoCompleteService;
+    this.geocoderService = geocoderService;
+  }
+
   healthCheck(callback) {
     this.autoCompleteService.getPlacePredictions(
       {
