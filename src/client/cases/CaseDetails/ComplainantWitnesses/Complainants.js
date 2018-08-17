@@ -5,7 +5,8 @@ import WarningMessage from "../../../shared/components/WarningMessage";
 import getFirstComplainant from "../../../utilities/getFirstComplainant";
 import ComplainantWitnessDisplay from "./ComplainantWitnessDisplay";
 import * as _ from "lodash";
-import LinkButton from "../../../shared/components/LinkButton";
+import { COMPLAINANT } from "../../../../sharedUtilities/constants";
+import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
 
 const Complainants = props => {
   const allComplainants = props.caseDetail.complainantCivilians.concat(
@@ -32,16 +33,15 @@ const Complainants = props => {
           incidentDate={props.caseDetail.incidentDate}
         />
         {props.updateAddComplainantWitnessesToggle ? (
-          <LinkButton
-            style={{
-              marginLeft: "32px",
-              marginTop: "8px",
-              marginBottom: "8px"
-            }}
-            onClick={props.handleComplainantMenuOpen}
-          >
-            + Add Complainant
-          </LinkButton>
+          <ComplainantWitnessMenu
+            menuOpen={props.menuOpen}
+            handleMenuClose={props.handleMenuClose}
+            handleMenuOpen={props.handleMenuOpen}
+            anchorEl={props.anchorEl}
+            dispatch={props.dispatch}
+            caseDetail={props.caseDetail}
+            civilianType={COMPLAINANT}
+          />
         ) : null}
       </CardContent>
     </BaseCaseDetailsCard>

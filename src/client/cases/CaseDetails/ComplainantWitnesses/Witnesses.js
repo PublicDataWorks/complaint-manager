@@ -3,7 +3,8 @@ import { CardContent } from "@material-ui/core";
 import * as _ from "lodash";
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import ComplainantWitnessDisplay from "./ComplainantWitnessDisplay";
-import LinkButton from "../../../shared/components/LinkButton";
+import { WITNESS } from "../../../../sharedUtilities/constants";
+import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
 
 const Witnesses = props => {
   const allWitnesses = props.caseDetail.witnessCivilians.concat(
@@ -22,16 +23,15 @@ const Witnesses = props => {
           incidentDate={props.caseDetail.incidentDate}
         />
         {props.updateAddComplainantWitnessesToggle ? (
-          <LinkButton
-            style={{
-              marginLeft: "32px",
-              marginTop: "8px",
-              marginBottom: "8px"
-            }}
-            onClick={props.handleWitnessMenuOpen}
-          >
-            + Add Witness
-          </LinkButton>
+          <ComplainantWitnessMenu
+            menuOpen={props.menuOpen}
+            handleMenuOpen={props.handleMenuOpen}
+            handleMenuClose={props.handleMenuClose}
+            anchorEl={props.anchorEl}
+            dispatch={props.dispatch}
+            caseDetail={props.caseDetail}
+            civilianType={WITNESS}
+          />
         ) : null}
       </CardContent>
     </BaseCaseDetailsCard>
