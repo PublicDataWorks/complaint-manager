@@ -41,6 +41,8 @@ import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 import Witnesses from "./ComplainantWitnesses/Witnesses";
+import ComplainantMenu from "./ComplainantMenu";
+import WitnessMenu from "./WitnessMenu";
 
 const drawerWidthPercentage = "30%";
 
@@ -54,7 +56,9 @@ class CaseDetails extends React.Component {
   state = {
     mobileOpen: false,
     menuOpen: false,
-    anchorEl: null
+    anchorEl: null,
+    complainantMenuOpen: false,
+    witnessMenuOpen: false
   };
 
   handleMenuOpen = event => {
@@ -63,6 +67,22 @@ class CaseDetails extends React.Component {
 
   handleMenuClose = () => {
     this.setState({ menuOpen: false });
+  };
+
+  handleComplainantMenuOpen = event => {
+    this.setState({ complainantMenuOpen: true, anchorEl: event.currentTarget });
+  };
+
+  handleComplainantMenuClose = () => {
+    this.setState({ complainantMenuOpen: false });
+  };
+
+  handleWitnessMenuOpen = event => {
+    this.setState({ witnessMenuOpen: true, anchorEl: event.currentTarget });
+  };
+
+  handleWitnessMenuClose = () => {
+    this.setState({ witnessMenuOpen: false });
   };
 
   componentDidMount() {
@@ -123,10 +143,26 @@ class CaseDetails extends React.Component {
             <Complainants
               caseDetail={this.props.caseDetail}
               dispatch={this.props.dispatch}
+              handleComplainantMenuOpen={this.handleComplainantMenuOpen}
+            />
+            <ComplainantMenu
+              complainantMenuOpen={this.state.complainantMenuOpen}
+              handleComplainantMenuClose={this.handleComplainantMenuClose}
+              anchorEl={this.state.anchorEl}
+              dispatch={this.props.dispatch}
+              caseDetail={this.props.caseDetail}
             />
             <Witnesses
               caseDetail={this.props.caseDetail}
               dispatch={this.props.dispatch}
+              handleWitnessMenuOpen={this.handleWitnessMenuOpen}
+            />
+            <WitnessMenu
+              witnessMenuOpen={this.state.witnessMenuOpen}
+              handleWitnessMenuClose={this.handleWitnessMenuClose}
+              anchorEl={this.state.anchorEl}
+              dispatch={this.props.dispatch}
+              caseDetail={this.props.caseDetail}
             />
             <Narrative
               initialValues={{

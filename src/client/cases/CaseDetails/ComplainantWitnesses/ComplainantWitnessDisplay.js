@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../../../globalStyling/styles";
-import { Typography } from "@material-ui/core";
+import { Typography, Divider } from "@material-ui/core";
 import OfficerActions from "./OfficerActions";
 import UnknownOfficerPanel from "../Officers/UnknownOfficerPanel";
 import OfficerPanel from "../Officers/OfficerPanel";
@@ -22,14 +22,17 @@ const ComplainantWitnessDisplay = ({
         }}
       />
       {civiliansAndOfficers.length === 0 ? (
-        <Typography
-          data-test="noCivilianMessage"
-          style={{
-            margin: "16px 24px"
-          }}
-        >
-          {emptyMessage}
-        </Typography>
+        <div>
+          <Typography
+            data-test="noCivilianMessage"
+            style={{
+              margin: "16px 24px"
+            }}
+          >
+            {emptyMessage}
+          </Typography>
+          <Divider />
+        </div>
       ) : (
         civiliansAndOfficers.map((civilianOrOfficer, index) => {
           if (civilianOrOfficer.hasOwnProperty("officerId")) {

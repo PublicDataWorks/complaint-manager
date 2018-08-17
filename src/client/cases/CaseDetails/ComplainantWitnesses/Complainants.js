@@ -5,11 +5,13 @@ import WarningMessage from "../../../shared/components/WarningMessage";
 import getFirstComplainant from "../../../utilities/getFirstComplainant";
 import ComplainantWitnessDisplay from "./ComplainantWitnessDisplay";
 import * as _ from "lodash";
+import LinkButton from "../../../shared/components/LinkButton";
 
 const Complainants = props => {
   const allComplainants = props.caseDetail.complainantCivilians.concat(
     props.caseDetail.complainantOfficers
   );
+
   const sortedComplainants = _.orderBy(
     allComplainants,
     [o => o.createdAt],
@@ -29,6 +31,16 @@ const Complainants = props => {
           dispatch={props.dispatch}
           incidentDate={props.caseDetail.incidentDate}
         />
+        <LinkButton
+          style={{
+            marginLeft: "32px",
+            marginTop: "8px",
+            marginBottom: "8px"
+          }}
+          onClick={props.handleComplainantMenuOpen}
+        >
+          + Add Complainant
+        </LinkButton>
       </CardContent>
     </BaseCaseDetailsCard>
   );
