@@ -45,6 +45,11 @@ const ComplainantMenu = props => {
       <MenuItem
         data-test="addOfficerComplainant"
         onClick={() => {
+          props.dispatch(
+            initialize("OfficerDetails", {
+              roleOnCase: COMPLAINANT
+            })
+          );
           props.dispatch(push(`/cases/${props.caseDetail.id}/officers/search`));
         }}
       >

@@ -45,6 +45,11 @@ const WitnessMenu = props => {
       <MenuItem
         data-test="addOfficerWitness"
         onClick={() => {
+          props.dispatch(
+            initialize("OfficerDetails", {
+              roleOnCase: WITNESS
+            })
+          );
           props.dispatch(push(`/cases/${props.caseDetail.id}/officers/search`));
         }}
       >
