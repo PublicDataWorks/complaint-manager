@@ -9,5 +9,10 @@
     "id": "addressIntersections",
     "name": "Address intersections",
     "enabled": false
+  },
+  {
+    "id": "updateAddComplainantsWitnesses",
+    "name": "Update add complainants witnesses",
+    "enabled": false
   }
 ]

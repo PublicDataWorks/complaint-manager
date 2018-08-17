@@ -31,16 +31,18 @@ const Complainants = props => {
           dispatch={props.dispatch}
           incidentDate={props.caseDetail.incidentDate}
         />
-        <LinkButton
-          style={{
-            marginLeft: "32px",
-            marginTop: "8px",
-            marginBottom: "8px"
-          }}
-          onClick={props.handleComplainantMenuOpen}
-        >
-          + Add Complainant
-        </LinkButton>
+        {props.updateAddComplainantWitnessesToggle ? (
+          <LinkButton
+            style={{
+              marginLeft: "32px",
+              marginTop: "8px",
+              marginBottom: "8px"
+            }}
+            onClick={props.handleComplainantMenuOpen}
+          >
+            + Add Complainant
+          </LinkButton>
+        ) : null}
       </CardContent>
     </BaseCaseDetailsCard>
   );

@@ -144,26 +144,36 @@ class CaseDetails extends React.Component {
               caseDetail={this.props.caseDetail}
               dispatch={this.props.dispatch}
               handleComplainantMenuOpen={this.handleComplainantMenuOpen}
+              updateAddComplainantWitnessesToggle={
+                this.props.featureToggles.updateAddComplainantsWitnesses
+              }
             />
-            <ComplainantMenu
-              complainantMenuOpen={this.state.complainantMenuOpen}
-              handleComplainantMenuClose={this.handleComplainantMenuClose}
-              anchorEl={this.state.anchorEl}
-              dispatch={this.props.dispatch}
-              caseDetail={this.props.caseDetail}
-            />
+            {this.props.featureToggles.updateAddComplainantsWitnesses ? (
+              <ComplainantMenu
+                complainantMenuOpen={this.state.complainantMenuOpen}
+                handleComplainantMenuClose={this.handleComplainantMenuClose}
+                anchorEl={this.state.anchorEl}
+                dispatch={this.props.dispatch}
+                caseDetail={this.props.caseDetail}
+              />
+            ) : null}
             <Witnesses
               caseDetail={this.props.caseDetail}
               dispatch={this.props.dispatch}
               handleWitnessMenuOpen={this.handleWitnessMenuOpen}
+              updateAddComplainantWitnessesToggle={
+                this.props.featureToggles.updateAddComplainantsWitnesses
+              }
             />
-            <WitnessMenu
-              witnessMenuOpen={this.state.witnessMenuOpen}
-              handleWitnessMenuClose={this.handleWitnessMenuClose}
-              anchorEl={this.state.anchorEl}
-              dispatch={this.props.dispatch}
-              caseDetail={this.props.caseDetail}
-            />
+            {this.props.featureToggles.updateAddComplainantsWitnesses ? (
+              <WitnessMenu
+                witnessMenuOpen={this.state.witnessMenuOpen}
+                handleWitnessMenuClose={this.handleWitnessMenuClose}
+                anchorEl={this.state.anchorEl}
+                dispatch={this.props.dispatch}
+                caseDetail={this.props.caseDetail}
+              />
+            ) : null}
             <Narrative
               initialValues={{
                 narrativeDetails: this.props.caseDetail.narrativeDetails,
@@ -259,6 +269,7 @@ CaseDetails.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  featureToggles: state.featureToggles,
   caseDetail: state.currentCase.details
 });
 

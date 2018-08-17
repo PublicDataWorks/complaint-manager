@@ -21,16 +21,18 @@ const Witnesses = props => {
           dispatch={props.dispatch}
           incidentDate={props.caseDetail.incidentDate}
         />
-        <LinkButton
-          style={{
-            marginLeft: "32px",
-            marginTop: "8px",
-            marginBottom: "8px"
-          }}
-          onClick={props.handleWitnessMenuOpen}
-        >
-          + Add Witness
-        </LinkButton>
+        {props.updateAddComplainantWitnessesToggle ? (
+          <LinkButton
+            style={{
+              marginLeft: "32px",
+              marginTop: "8px",
+              marginBottom: "8px"
+            }}
+            onClick={props.handleWitnessMenuOpen}
+          >
+            + Add Witness
+          </LinkButton>
+        ) : null}
       </CardContent>
     </BaseCaseDetailsCard>
   );
