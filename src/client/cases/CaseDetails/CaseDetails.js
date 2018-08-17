@@ -198,23 +198,25 @@ class CaseDetails extends React.Component {
               horizontal: "right"
             }}
           >
-            <MenuItem
-              data-test="addCivilianButton"
-              onClick={() => {
-                this.handleMenuClose();
-                this.props.dispatch(
-                  initialize(CIVILIAN_FORM_NAME, {
-                    roleOnCase: COMPLAINANT,
-                    caseId: this.props.caseDetail.id
-                  })
-                );
-                this.props.dispatch(
-                  openCivilianDialog("Add Civilian", "Create", createCivilian)
-                );
-              }}
-            >
-              Add Civilian
-            </MenuItem>
+            {!this.props.featureToggles.updateAddComplainantsWitnesses ? (
+              <MenuItem
+                data-test="addCivilianButton"
+                onClick={() => {
+                  this.handleMenuClose();
+                  this.props.dispatch(
+                    initialize(CIVILIAN_FORM_NAME, {
+                      roleOnCase: COMPLAINANT,
+                      caseId: this.props.caseDetail.id
+                    })
+                  );
+                  this.props.dispatch(
+                    openCivilianDialog("Add Civilian", "Create", createCivilian)
+                  );
+                }}
+              >
+                Add Civilian
+              </MenuItem>
+            ) : null}
             <MenuItem
               data-test="addOfficerButton"
               onClick={() => {
