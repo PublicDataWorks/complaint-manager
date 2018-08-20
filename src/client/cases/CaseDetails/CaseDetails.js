@@ -142,7 +142,7 @@ class CaseDetails extends React.Component {
               caseDetail={this.props.caseDetail}
               dispatch={this.props.dispatch}
               handleMenuOpen={this.handleComplainantMenuOpen}
-              updateAddComplainantWitnessesToggle={
+              removePlusButtonToggle={
                 this.props.featureToggles.removePlusButton
               }
               menuOpen={this.state.complainantMenuOpen}
@@ -153,7 +153,7 @@ class CaseDetails extends React.Component {
               caseDetail={this.props.caseDetail}
               dispatch={this.props.dispatch}
               handleMenuOpen={this.handleWitnessMenuOpen}
-              updateAddComplainantWitnessesToggle={
+              removePlusButtonToggle={
                 this.props.featureToggles.removePlusButton
               }
               menuOpen={this.state.witnessMenuOpen}
@@ -168,8 +168,13 @@ class CaseDetails extends React.Component {
               caseId={this.props.caseDetail.id}
             />
             <AccusedOfficers
-              accusedOfficers={this.props.caseDetail.accusedOfficers}
+              caseId={this.props.caseDetail.id}
               incidentDate={this.props.caseDetail.incidentDate}
+              accusedOfficers={this.props.caseDetail.accusedOfficers}
+              dispatch={this.props.dispatch}
+              removePlusButtonToggle={
+                this.props.featureToggles.removePlusButton
+              }
             />
             <Attachments />
           </main>
@@ -217,16 +222,18 @@ class CaseDetails extends React.Component {
                 Add Civilian
               </MenuItem>
             ) : null}
-            <MenuItem
-              data-test="addOfficerButton"
-              onClick={() => {
-                this.props.dispatch(
-                  push(`/cases/${this.props.caseDetail.id}/officers/search`)
-                );
-              }}
-            >
-              Add Officer
-            </MenuItem>
+            {!this.props.featureToggles.removePlusButton ? (
+              <MenuItem
+                data-test="addOfficerButton"
+                onClick={() => {
+                  this.props.dispatch(
+                    push(`/cases/${this.props.caseDetail.id}/officers/search`)
+                  );
+                }}
+              >
+                Add Officer
+              </MenuItem>
+            ) : null}
             <MenuItem
               data-test="logCaseNoteButton"
               onClick={() => {

@@ -22,7 +22,7 @@ const Witnesses = props => {
           dispatch={props.dispatch}
           incidentDate={props.caseDetail.incidentDate}
         />
-        {props.updateAddComplainantWitnessesToggle ? (
+        {props.removePlusButtonToggle ? (
           <ComplainantWitnessMenu
             menuOpen={props.menuOpen}
             handleMenuOpen={props.handleMenuOpen}
