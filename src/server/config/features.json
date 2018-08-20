@@ -11,8 +11,8 @@
     "enabled": false
   },
   {
-    "id": "updateAddComplainantsWitnesses",
-    "name": "Update add complainants witnesses",
+    "id": "removePlusButton",
+    "name": "Remove plus button",
     "enabled": false
   }
 ]

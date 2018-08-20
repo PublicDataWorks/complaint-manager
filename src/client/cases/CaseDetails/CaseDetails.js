@@ -143,7 +143,7 @@ class CaseDetails extends React.Component {
               dispatch={this.props.dispatch}
               handleMenuOpen={this.handleComplainantMenuOpen}
               updateAddComplainantWitnessesToggle={
-                this.props.featureToggles.updateAddComplainantsWitnesses
+                this.props.featureToggles.removePlusButton
               }
               menuOpen={this.state.complainantMenuOpen}
               handleMenuClose={this.handleComplainantMenuClose}
@@ -154,7 +154,7 @@ class CaseDetails extends React.Component {
               dispatch={this.props.dispatch}
               handleMenuOpen={this.handleWitnessMenuOpen}
               updateAddComplainantWitnessesToggle={
-                this.props.featureToggles.updateAddComplainantsWitnesses
+                this.props.featureToggles.removePlusButton
               }
               menuOpen={this.state.witnessMenuOpen}
               handleMenuClose={this.handleWitnessMenuClose}
@@ -198,7 +198,7 @@ class CaseDetails extends React.Component {
               horizontal: "right"
             }}
           >
-            {!this.props.featureToggles.updateAddComplainantsWitnesses ? (
+            {!this.props.featureToggles.removePlusButton ? (
               <MenuItem
                 data-test="addCivilianButton"
                 onClick={() => {
