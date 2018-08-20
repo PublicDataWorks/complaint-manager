@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -180,77 +180,81 @@ class CaseDetails extends React.Component {
           </main>
           <CivilianDialog />
           <RemoveCivilianDialog data-test="removeCivilianDialog" />
-          <Button
-            data-test="caseActionMenu"
-            variant="fab"
-            color="primary"
-            style={{ position: "fixed", bottom: "32px", right: "32px" }}
-            onClick={this.handleMenuOpen}
-          >
-            <AddIcon />
-          </Button>
-          <Menu
-            open={this.state.menuOpen}
-            onClose={this.handleMenuClose}
-            anchorEl={this.state.anchorEl}
-            getContentAnchorEl={null}
-            anchorOrigin={{
-              vertical: "center",
-              horizontal: "center"
-            }}
-            transformOrigin={{
-              vertical: "bottom",
-              horizontal: "right"
-            }}
-          >
-            {!this.props.featureToggles.removePlusButton ? (
-              <MenuItem
-                data-test="addCivilianButton"
-                onClick={() => {
-                  this.handleMenuClose();
-                  this.props.dispatch(
-                    initialize(CIVILIAN_FORM_NAME, {
-                      roleOnCase: COMPLAINANT,
-                      caseId: this.props.caseDetail.id
-                    })
-                  );
-                  this.props.dispatch(
-                    openCivilianDialog("Add Civilian", "Create", createCivilian)
-                  );
+          {!this.props.featureToggles.removePlusButton ? (
+            <Fragment>
+              <Button
+                data-test="caseActionMenu"
+                variant="fab"
+                color="primary"
+                style={{ position: "fixed", bottom: "32px", right: "32px" }}
+                onClick={this.handleMenuOpen}
+              >
+                <AddIcon />
+              </Button>
+              <Menu
+                open={this.state.menuOpen}
+                onClose={this.handleMenuClose}
+                anchorEl={this.state.anchorEl}
+                getContentAnchorEl={null}
+                anchorOrigin={{
+                  vertical: "center",
+                  horizontal: "center"
+                }}
+                transformOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right"
                 }}
               >
-                Add Civilian
-              </MenuItem>
-            ) : null}
-            {!this.props.featureToggles.removePlusButton ? (
-              <MenuItem
-                data-test="addOfficerButton"
-                onClick={() => {
-                  this.props.dispatch(
-                    push(`/cases/${this.props.caseDetail.id}/officers/search`)
-                  );
-                }}
-              >
-                Add Officer
-              </MenuItem>
-            ) : null}
-            <MenuItem
-              data-test="logCaseNoteButton"
-              onClick={() => {
-                this.props.dispatch(
-                  initialize("CaseNotes", {
-                    actionTakenAt: timezone
-                      .tz(new Date(Date.now()), TIMEZONE)
-                      .format("YYYY-MM-DDTHH:mm")
-                  })
-                );
-                this.props.dispatch(openCaseNoteDialog("Add", {}));
-                this.handleMenuClose();
-              }}
-            >
-              Add Case Note
-            </MenuItem>
-          </Menu>
+                <MenuItem
+                  data-test="addCivilianButton"
+                  onClick={() => {
+                    this.handleMenuClose();
+                    this.props.dispatch(
+                      initialize(CIVILIAN_FORM_NAME, {
+                        roleOnCase: COMPLAINANT,
+                        caseId: this.props.caseDetail.id
+                      })
+                    );
+                    this.props.dispatch(
+                      openCivilianDialog(
+                        "Add Civilian",
+                        "Create",
+                        createCivilian
+                      )
+                    );
+                  }}
+                >
+                  Add Civilian
+                </MenuItem>
+                <MenuItem
+                  data-test="addOfficerButton"
+                  onClick={() => {
+                    this.props.dispatch(
+                      push(`/cases/${this.props.caseDetail.id}/officers/search`)
+                    );
+                  }}
+                >
+                  Add Officer
+                </MenuItem>
+                <MenuItem
+                  data-test="logCaseNoteButton"
+                  onClick={() => {
+                    this.props.dispatch(
+                      initialize("CaseNotes", {
+                        actionTakenAt: timezone
+                          .tz(new Date(Date.now()), TIMEZONE)
+                          .format("YYYY-MM-DDTHH:mm")
+                      })
+                    );
+                    this.props.dispatch(openCaseNoteDialog("Add", {}));
+                    this.handleMenuClose();
+                  }}
+                >
+                  Add Case Note
+                </MenuItem>
+              </Menu>
+            </Fragment>
+          ) : null}
           <CaseNoteDialog />
         </div>
       </div>
