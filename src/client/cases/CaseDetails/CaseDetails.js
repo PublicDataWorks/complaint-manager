@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -12,31 +12,17 @@ import * as _ from "lodash";
 import Attachments from "./Attachments/Attachments";
 import styles from "./caseDetailsStyles";
 import CaseDrawer from "./CaseDrawer";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import { Menu, MenuItem } from "@material-ui/core";
 import IncidentDetailsContainer from "./IncidentDetails/IncidentDetailsContainer";
 import {
   closeCaseNoteDialog,
   closeCaseStatusUpdateDialog,
   closeEditDialog,
   closeRemoveCaseNoteDialog,
-  closeRemovePersonDialog,
-  openCaseNoteDialog,
-  openCivilianDialog
+  closeRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
-import createCivilian from "../thunks/createCivilian";
-import {
-  CASE_STATUS,
-  CIVILIAN_FORM_NAME,
-  COMPLAINANT,
-  TIMEZONE
-} from "../../../sharedUtilities/constants";
-import { initialize } from "redux-form";
-import { push } from "react-router-redux";
+import { CASE_STATUS } from "../../../sharedUtilities/constants";
 import AccusedOfficers from "./Officers/AccusedOfficers";
 import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
-import timezone from "moment-timezone";
 import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
@@ -53,18 +39,9 @@ const appBar = {
 class CaseDetails extends React.Component {
   state = {
     mobileOpen: false,
-    menuOpen: false,
     anchorEl: null,
     complainantMenuOpen: false,
     witnessMenuOpen: false
-  };
-
-  handleMenuOpen = event => {
-    this.setState({ menuOpen: true, anchorEl: event.currentTarget });
-  };
-
-  handleMenuClose = () => {
-    this.setState({ menuOpen: false });
   };
 
   handleComplainantMenuOpen = event => {
@@ -142,9 +119,6 @@ class CaseDetails extends React.Component {
               caseDetail={this.props.caseDetail}
               dispatch={this.props.dispatch}
               handleMenuOpen={this.handleComplainantMenuOpen}
-              removePlusButtonToggle={
-                this.props.featureToggles.removePlusButton
-              }
               menuOpen={this.state.complainantMenuOpen}
               handleMenuClose={this.handleComplainantMenuClose}
               anchorEl={this.state.anchorEl}
@@ -153,9 +127,6 @@ class CaseDetails extends React.Component {
               caseDetail={this.props.caseDetail}
               dispatch={this.props.dispatch}
               handleMenuOpen={this.handleWitnessMenuOpen}
-              removePlusButtonToggle={
-                this.props.featureToggles.removePlusButton
-              }
               menuOpen={this.state.witnessMenuOpen}
               handleMenuClose={this.handleWitnessMenuClose}
               anchorEl={this.state.anchorEl}
@@ -172,89 +143,11 @@ class CaseDetails extends React.Component {
               incidentDate={this.props.caseDetail.incidentDate}
               accusedOfficers={this.props.caseDetail.accusedOfficers}
               dispatch={this.props.dispatch}
-              removePlusButtonToggle={
-                this.props.featureToggles.removePlusButton
-              }
             />
             <Attachments />
           </main>
           <CivilianDialog />
           <RemoveCivilianDialog data-test="removeCivilianDialog" />
-          {!this.props.featureToggles.removePlusButton ? (
-            <Fragment>
-              <Button
-                data-test="caseActionMenu"
-                variant="fab"
-                color="primary"
-                style={{ position: "fixed", bottom: "32px", right: "32px" }}
-                onClick={this.handleMenuOpen}
-              >
-                <AddIcon />
-              </Button>
-              <Menu
-                open={this.state.menuOpen}
-                onClose={this.handleMenuClose}
-                anchorEl={this.state.anchorEl}
-                getContentAnchorEl={null}
-                anchorOrigin={{
-                  vertical: "center",
-                  horizontal: "center"
-                }}
-                transformOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right"
-                }}
-              >
-                <MenuItem
-                  data-test="addCivilianButton"
-                  onClick={() => {
-                    this.handleMenuClose();
-                    this.props.dispatch(
-                      initialize(CIVILIAN_FORM_NAME, {
-                        roleOnCase: COMPLAINANT,
-                        caseId: this.props.caseDetail.id
-                      })
-                    );
-                    this.props.dispatch(
-                      openCivilianDialog(
-                        "Add Civilian",
-                        "Create",
-                        createCivilian
-                      )
-                    );
-                  }}
-                >
-                  Add Civilian
-                </MenuItem>
-                <MenuItem
-                  data-test="addOfficerButton"
-                  onClick={() => {
-                    this.props.dispatch(
-                      push(`/cases/${this.props.caseDetail.id}/officers/search`)
-                    );
-                  }}
-                >
-                  Add Officer
-                </MenuItem>
-                <MenuItem
-                  data-test="logCaseNoteButton"
-                  onClick={() => {
-                    this.props.dispatch(
-                      initialize("CaseNotes", {
-                        actionTakenAt: timezone
-                          .tz(new Date(Date.now()), TIMEZONE)
-                          .format("YYYY-MM-DDTHH:mm")
-                      })
-                    );
-                    this.props.dispatch(openCaseNoteDialog("Add", {}));
-                    this.handleMenuClose();
-                  }}
-                >
-                  Add Case Note
-                </MenuItem>
-              </Menu>
-            </Fragment>
-          ) : null}
           <CaseNoteDialog />
         </div>
       </div>
@@ -268,7 +161,6 @@ CaseDetails.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  featureToggles: state.featureToggles,
   caseDetail: state.currentCase.details
 });
 

@@ -9,10 +9,5 @@
     "id": "addressIntersections",
     "name": "Address intersections",
     "enabled": false
-  },
-  {
-    "id": "removePlusButton",
-    "name": "Remove plus button",
-    "enabled": false
   }
 ]

@@ -12,7 +12,6 @@ import { initialize } from "redux-form";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
 
 const AccusedOfficers = ({
-  removePlusButtonToggle,
   dispatch,
   accusedOfficers,
   incidentDate,
@@ -45,25 +44,24 @@ const AccusedOfficers = ({
                   </AccusedOfficerPanel>
                 )
             )}
-        {removePlusButtonToggle ? (
-          <LinkButton
-            style={{
-              marginLeft: "8px",
-              marginTop: "8px",
-              marginBottom: "8px"
-            }}
-            onClick={() => {
-              dispatch(
-                initialize("OfficerDetails", {
-                  roleOnCase: ACCUSED
-                })
-              );
-              dispatch(push(`/cases/${caseId}/officers/search`));
-            }}
-          >
-            + Add Officer
-          </LinkButton>
-        ) : null}
+        <LinkButton
+          style={{
+            marginLeft: "8px",
+            marginTop: "8px",
+            marginBottom: "8px"
+          }}
+          onClick={() => {
+            dispatch(
+              initialize("OfficerDetails", {
+                roleOnCase: ACCUSED
+              })
+            );
+            dispatch(push(`/cases/${caseId}/officers/search`));
+          }}
+          data-test="addAccusedOfficerButton"
+        >
+          + Add Officer
+        </LinkButton>
       </CardContent>
     </BaseCaseDetailsCard>
   );

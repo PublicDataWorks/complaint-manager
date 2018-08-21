@@ -26,6 +26,7 @@ jest.mock("redux-form", () => ({
 }));
 
 describe("Witnesses", () => {
+  const menuOpen = true;
   let witnessSection,
     witnesses,
     witnessPanel,
@@ -52,7 +53,11 @@ describe("Witnesses", () => {
 
     witnesses = mount(
       <Provider store={store}>
-        <Witnesses caseDetail={caseDetail} dispatch={dispatchSpy} />
+        <Witnesses
+          caseDetail={caseDetail}
+          dispatch={dispatchSpy}
+          menuOpen={menuOpen}
+        />
       </Provider>
     );
     witnessSection = witnesses.find('[data-test="witnessesSection"]').first();
@@ -74,6 +79,7 @@ describe("Witnesses", () => {
 
   describe("Sort order", () => {
     test("People should be sorted by createdAt ascending", () => {
+      const menuOpen = true;
       const civilian1 = new Civilian.Builder()
         .defaultCivilian()
         .withFirstName("Blake")
@@ -118,7 +124,7 @@ describe("Witnesses", () => {
 
       witnesses = mount(
         <Provider store={store}>
-          <Witnesses caseDetail={caseDetail} />
+          <Witnesses caseDetail={caseDetail} menuOpen={menuOpen} />
         </Provider>
       );
 
@@ -174,6 +180,7 @@ describe("Witnesses", () => {
 
   describe("address", () => {
     test("should display N/A when no address", () => {
+      const menuOpen = true;
       const civilianWithNoAddress = new Civilian.Builder()
         .defaultCivilian()
         .withClearedOutAddress()
@@ -187,7 +194,7 @@ describe("Witnesses", () => {
 
       witnesses = mount(
         <Provider store={store}>
-          <Witnesses caseDetail={caseWithNoAddress} />
+          <Witnesses caseDetail={caseWithNoAddress} menuOpen={menuOpen} />
         </Provider>
       );
 
@@ -216,6 +223,7 @@ describe("Witnesses", () => {
 
   describe("additional address info", () => {
     test("should be empty when no address", () => {
+      const menuOpen = true;
       const civilianWithNoAddress = new Civilian.Builder()
         .defaultCivilian()
         .withClearedOutAddress()
@@ -229,7 +237,7 @@ describe("Witnesses", () => {
 
       witnesses = mount(
         <Provider store={store}>
-          <Witnesses caseDetail={caseWithNoAddress} />
+          <Witnesses caseDetail={caseWithNoAddress} menuOpen={menuOpen} />
         </Provider>
       );
 
@@ -262,6 +270,7 @@ describe("Witnesses", () => {
   });
 
   test("should display officer and civilian witnesses", () => {
+    const menuOpen = true;
     const civilianWitness = new Civilian.Builder()
       .defaultCivilian()
       .withFullName("First Alpha")
@@ -287,7 +296,7 @@ describe("Witnesses", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <Witnesses caseDetail={caseWithMixedComplainants} />
+        <Witnesses caseDetail={caseWithMixedComplainants} menuOpen={menuOpen} />
       </Provider>
     );
 

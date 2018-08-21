@@ -286,9 +286,17 @@ if (TEST_PASS && TEST_USER && HOST) {
 
     "should navigate to Add Case Officer Page": browser => {
       browser
-        .click('[data-test="caseActionMenu"]')
-        .waitForElementVisible('[data-test="addOfficerButton"]', rerenderWait)
-        .click('[data-test="addOfficerButton"]')
+        .waitForElementVisible(
+          "[data-test='attachmentDescriptionInput']",
+          roundTripWait
+        )
+        .click('[data-test="attachmentDescriptionInput"]')
+        .waitForElementVisible(
+          '[data-test="addAccusedOfficerButton"]',
+          rerenderWait
+        )
+        .pause(3000)
+        .click('[data-test="addAccusedOfficerButton"]')
         .waitForElementVisible(
           '[data-test="selectUnknownOfficerLink"]',
           rerenderWait

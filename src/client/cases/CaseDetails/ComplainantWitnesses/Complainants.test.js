@@ -26,6 +26,7 @@ jest.mock("redux-form", () => ({
 }));
 
 describe("Complainants", () => {
+  const menuOpen = true;
   let complainantWitnessesSection,
     complainantWitnesses,
     complainantPanel,
@@ -51,7 +52,11 @@ describe("Complainants", () => {
 
     complainantWitnesses = mount(
       <Provider store={store}>
-        <Complainants caseDetail={caseDetail} dispatch={dispatchSpy} />
+        <Complainants
+          caseDetail={caseDetail}
+          dispatch={dispatchSpy}
+          menuOpen={menuOpen}
+        />
       </Provider>
     );
     complainantWitnessesSection = complainantWitnesses
@@ -75,6 +80,7 @@ describe("Complainants", () => {
 
   describe("Sort order", () => {
     test("People should be sorted by createdAt ascending", () => {
+      const menuOpen = true;
       const civilian1 = new Civilian.Builder()
         .defaultCivilian()
         .withFirstName("Blake")
@@ -116,7 +122,7 @@ describe("Complainants", () => {
 
       complainantWitnesses = mount(
         <Provider store={store}>
-          <Complainants caseDetail={caseDetail} />
+          <Complainants caseDetail={caseDetail} menuOpen={menuOpen} />
         </Provider>
       );
 
@@ -174,6 +180,7 @@ describe("Complainants", () => {
 
   describe("address", () => {
     test("should display N/A when no address", () => {
+      const menuOpen = true;
       const civilianWithNoAddress = new Civilian.Builder()
         .defaultCivilian()
         .withClearedOutAddress()
@@ -186,7 +193,7 @@ describe("Complainants", () => {
 
       complainantWitnesses = mount(
         <Provider store={store}>
-          <Complainants caseDetail={caseWithNoAddress} />
+          <Complainants caseDetail={caseWithNoAddress} menuOpen={menuOpen} />
         </Provider>
       );
 
@@ -215,6 +222,7 @@ describe("Complainants", () => {
 
   describe("additional address info", () => {
     test("should be empty when no address", () => {
+      const menuOpen = true;
       const civilianWithNoAddress = new Civilian.Builder()
         .defaultCivilian()
         .withClearedOutAddress()
@@ -227,7 +235,7 @@ describe("Complainants", () => {
 
       complainantWitnesses = mount(
         <Provider store={store}>
-          <Complainants caseDetail={caseWithNoAddress} />
+          <Complainants caseDetail={caseWithNoAddress} menuOpen={menuOpen} />
         </Provider>
       );
 
@@ -260,6 +268,7 @@ describe("Complainants", () => {
   });
 
   test("warning message shows when no complainants", () => {
+    const menuOpen = true;
     const witness = new Civilian.Builder()
       .defaultCivilian()
       .withRoleOnCase(WITNESS)
@@ -274,7 +283,7 @@ describe("Complainants", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <Complainants caseDetail={caseWithoutComplainant} />
+        <Complainants caseDetail={caseWithoutComplainant} menuOpen={menuOpen} />
       </Provider>
     );
     const warn = wrapper.find("[data-test='warnIcon']");
@@ -294,6 +303,7 @@ describe("Complainants", () => {
   });
 
   test("should display another warning message when no complainants or witnesses on a case", () => {
+    const menuOpen = true;
     const caseWithoutComplainant = new Case.Builder()
       .defaultCase()
       .withComplainantCivilians([])
@@ -304,7 +314,7 @@ describe("Complainants", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <Complainants caseDetail={caseWithoutComplainant} />
+        <Complainants caseDetail={caseWithoutComplainant} menuOpen={menuOpen} />
       </Provider>
     );
     const noCivilianMessage = wrapper.find("[data-test='noCivilianMessage']");
@@ -313,6 +323,7 @@ describe("Complainants", () => {
   });
 
   test("should display officer and civilian complainants", () => {
+    const menuOpen = true;
     const civilianComplainant = new Civilian.Builder()
       .defaultCivilian()
       .withFullName("First Alpha")
@@ -336,7 +347,10 @@ describe("Complainants", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <Complainants caseDetail={caseWithMixedComplainants} />
+        <Complainants
+          caseDetail={caseWithMixedComplainants}
+          menuOpen={menuOpen}
+        />
       </Provider>
     );
 

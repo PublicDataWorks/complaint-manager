@@ -135,10 +135,14 @@ describe("Case Details Component", () => {
 
   describe("main", () => {
     test("should open Add Civilian Dialog when Add Civilian button is clicked", () => {
-      const plusButton = caseDetails.find('button[data-test="caseActionMenu"]');
-      plusButton.simulate("click");
+      const addButton = caseDetails
+        .find('button[data-test="addComplainantWitness"]')
+        .first();
+      addButton.simulate("click");
 
-      const addCivilian = caseDetails.find('li[data-test="addCivilianButton"]');
+      const addCivilian = caseDetails.find(
+        'li[data-test="addCivilianComplainantWitness"]'
+      );
       addCivilian.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -161,13 +165,10 @@ describe("Case Details Component", () => {
     });
 
     test("should open and initialize Case Note Dialog when Add Case Note button is clicked", () => {
-      const plusButton = caseDetails.find('button[data-test="caseActionMenu"]');
-      plusButton.simulate("click");
-
-      const logCaseNoteButton = caseDetails.find(
-        'li[data-test="logCaseNoteButton"]'
+      const addCaseNoteButton = caseDetails.find(
+        'button[data-test="addCaseNoteButton"]'
       );
-      logCaseNoteButton.simulate("click");
+      addCaseNoteButton.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(
         initialize("CaseNotes", {

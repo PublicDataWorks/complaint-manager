@@ -17,6 +17,7 @@ const ComplainantWitnessMenu = props => {
           marginBottom: "8px"
         }}
         onClick={props.handleMenuOpen}
+        data-test="addComplainantWitness"
       >
         + Add {props.civilianType}
       </LinkButton>

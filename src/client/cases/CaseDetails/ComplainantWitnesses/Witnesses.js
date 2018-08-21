@@ -22,17 +22,15 @@ const Witnesses = props => {
           dispatch={props.dispatch}
           incidentDate={props.caseDetail.incidentDate}
         />
-        {props.removePlusButtonToggle ? (
-          <ComplainantWitnessMenu
-            menuOpen={props.menuOpen}
-            handleMenuOpen={props.handleMenuOpen}
-            handleMenuClose={props.handleMenuClose}
-            anchorEl={props.anchorEl}
-            dispatch={props.dispatch}
-            caseDetail={props.caseDetail}
-            civilianType={WITNESS}
-          />
-        ) : null}
+        <ComplainantWitnessMenu
+          menuOpen={props.menuOpen}
+          handleMenuOpen={props.handleMenuOpen}
+          handleMenuClose={props.handleMenuClose}
+          anchorEl={props.anchorEl}
+          dispatch={props.dispatch}
+          caseDetail={props.caseDetail}
+          civilianType={WITNESS}
+        />
       </CardContent>
     </BaseCaseDetailsCard>
   );

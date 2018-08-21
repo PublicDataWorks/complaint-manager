@@ -32,17 +32,15 @@ const Complainants = props => {
           dispatch={props.dispatch}
           incidentDate={props.caseDetail.incidentDate}
         />
-        {props.removePlusButtonToggle ? (
-          <ComplainantWitnessMenu
-            menuOpen={props.menuOpen}
-            handleMenuClose={props.handleMenuClose}
-            handleMenuOpen={props.handleMenuOpen}
-            anchorEl={props.anchorEl}
-            dispatch={props.dispatch}
-            caseDetail={props.caseDetail}
-            civilianType={COMPLAINANT}
-          />
-        ) : null}
+        <ComplainantWitnessMenu
+          menuOpen={props.menuOpen}
+          handleMenuClose={props.handleMenuClose}
+          handleMenuOpen={props.handleMenuOpen}
+          anchorEl={props.anchorEl}
+          dispatch={props.dispatch}
+          caseDetail={props.caseDetail}
+          civilianType={COMPLAINANT}
+        />
       </CardContent>
     </BaseCaseDetailsCard>
   );
