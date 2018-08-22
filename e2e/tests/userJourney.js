@@ -286,16 +286,13 @@ if (TEST_PASS && TEST_USER && HOST) {
 
     "should navigate to Add Case Officer Page": browser => {
       browser
-        .waitForElementVisible(
-          "[data-test='attachmentDescriptionInput']",
-          roundTripWait
-        )
-        .click('[data-test="attachmentDescriptionInput"]')
+        .waitForElementVisible('[data-test="closeSnackbar"]', roundTripWait)
+        .click('[data-test="closeSnackbar"]')
         .waitForElementVisible(
           '[data-test="addAccusedOfficerButton"]',
           rerenderWait
         )
-        .pause(3000)
+        .pause(1000)
         .click('[data-test="addAccusedOfficerButton"]')
         .waitForElementVisible(
           '[data-test="selectUnknownOfficerLink"]',
