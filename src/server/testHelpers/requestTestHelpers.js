@@ -7,14 +7,31 @@ import winston from "winston";
 const config = require("../config/config")[process.env.NODE_ENV];
 
 export const suppressWinstonLogs = test => async () => {
-  winston.remove(winston.transports.Console);
+  winston.configure({
+    transports: [
+      new winston.transports.Console({
+        json: config.winston.json,
+        colorize: true,
+        silent: true
+      })
+    ],
+    level: config.winston.logLevel,
+    colorize: true
+  });
+
   try {
     await test();
   } catch (err) {
     throw err;
   } finally {
-    winston.add(winston.transports.Console, {
-      json: true,
+    winston.configure({
+      transports: [
+        new winston.transports.Console({
+          json: config.winston.json,
+          colorize: true
+        })
+      ],
+      level: config.winston.logLevel,
       colorize: true
     });
   }
