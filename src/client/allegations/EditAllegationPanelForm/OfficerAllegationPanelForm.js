@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import OfficerInfoDisplay from "../../cases/CaseDetails/Officers/OfficerInfoDisplay";
 import { withStyles } from "@material-ui/core/styles/index";
-import React from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import EditOfficerAllegationForm from "./EditOfficerAllegationForm";
 import LinkButton from "../../shared/components/LinkButton";
@@ -27,17 +27,32 @@ const styles = {
   }
 };
 
-const renderDetailsView = details => {
+const renderDetailsView = (details, severity) => {
   return (
-    <OfficerInfoDisplay
-      shouldTruncate={false}
-      displayLabel="Allegation Details"
-      value={details}
-      style={{
-        marginRight: "32px",
-        marginLeft: "64px"
-      }}
-    />
+    <Fragment>
+      <ExpansionPanelDetails>
+        <OfficerInfoDisplay
+          shouldTruncate={false}
+          displayLabel="Severity"
+          value={severity}
+          style={{
+            marginRight: "32px",
+            marginLeft: "64px"
+          }}
+        />
+      </ExpansionPanelDetails>
+      <ExpansionPanelDetails>
+        <OfficerInfoDisplay
+          shouldTruncate={false}
+          displayLabel="Allegation Details"
+          value={details}
+          style={{
+            marginRight: "32px",
+            marginLeft: "64px"
+          }}
+        />
+      </ExpansionPanelDetails>
+    </Fragment>
   );
 };
 
@@ -73,7 +88,7 @@ class OfficerAllegationPanelForm extends React.Component {
 
   render() {
     const {
-      officerAllegation: { allegation, id, details },
+      officerAllegation: { allegation, id, details, severity },
       editAllegationFormState,
       index,
       classes
@@ -149,18 +164,16 @@ class OfficerAllegationPanelForm extends React.Component {
             )}
           </div>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          {editMode ? (
-            <EditOfficerAllegationForm
-              form={`Allegation${id}DetailsForm`}
-              initialValues={{ id, details }}
-              onCancel={this.handleCancel}
-            />
-          ) : (
-            renderDetailsView(details)
-          )}
-          <div style={{ flex: "1" }} />
-        </ExpansionPanelDetails>
+        {editMode ? (
+          <EditOfficerAllegationForm
+            form={`Allegation${id}DetailsForm`}
+            initialValues={{ id, details }}
+            onCancel={this.handleCancel}
+          />
+        ) : (
+          renderDetailsView(details, severity)
+        )}
+        <div style={{ flex: "1" }} />
       </ExpansionPanel>
     );
   }
@@ -173,4 +186,7 @@ const mapDispatchToProps = {
 };
 
 const StyledComponent = withStyles(styles)(OfficerAllegationPanelForm);
-export default connect(undefined, mapDispatchToProps)(StyledComponent);
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(StyledComponent);

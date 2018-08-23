@@ -36,7 +36,7 @@ class OfficerAllegationDisplay extends Component {
   }
 
   render() {
-    const { rule, paragraph, directive, details } = this.props;
+    const { rule, paragraph, directive, details, severity } = this.props;
 
     return (
       <CardContent
@@ -81,6 +81,14 @@ class OfficerAllegationDisplay extends Component {
               testLabel="directive"
             />
           </ExpansionPanelSummary>
+          <StyledExpansionPanelDetails>
+            <OfficerInfoDisplay
+              shouldTruncate={false}
+              displayLabel="Severity"
+              value={severity}
+              testLabel="allegationSeverity"
+            />
+          </StyledExpansionPanelDetails>
           <StyledExpansionPanelDetails>
             <OfficerInfoDisplay
               shouldTruncate={false}
