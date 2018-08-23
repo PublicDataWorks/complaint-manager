@@ -196,6 +196,16 @@ const CASE_STATUS = {
   CLOSED: "Closed"
 };
 
+// ----------------------------------------
+//       Officers Allegations Severity
+// ----------------------------------------
+const ALLEGATION_SEVERITY = {
+  LOW: "Low",
+  MEDIUM: "Medium",
+  HIGH: "High",
+  ALL: ["Low", "Medium", "High"]
+};
+
 const CASE_STATUS_MAP = {
   [CASE_STATUS.INITIAL]: 0,
   [CASE_STATUS.ACTIVE]: 1,
@@ -310,6 +320,7 @@ module.exports = {
   RANK_INITIATED,
   CASE_STATUS,
   CASE_STATUS_MAP,
+  ALLEGATION_SEVERITY,
   ACCUSED_OFFICER_PANEL_COLLAPSED,
   ACCUSED_OFFICER_PANEL_EXPANDED,
   OFFICER_PANEL_DATA_CLEARED,

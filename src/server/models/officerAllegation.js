@@ -1,4 +1,5 @@
 const models = require("./index");
+const { ALLEGATION_SEVERITY } = require("../../sharedUtilities/constants");
 
 module.exports = (sequelize, DataTypes) => {
   const OfficerAllegation = sequelize.define(
@@ -21,6 +22,9 @@ module.exports = (sequelize, DataTypes) => {
           model: models.case_officer,
           key: "id"
         }
+      },
+      severity: {
+        type: DataTypes.ENUM(ALLEGATION_SEVERITY.ALL)
       },
       createdAt: {
         type: DataTypes.DATE,
