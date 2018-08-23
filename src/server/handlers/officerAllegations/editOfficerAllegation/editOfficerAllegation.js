@@ -4,6 +4,7 @@ const asyncMiddleware = require("../../asyncMiddleware");
 const Boom = require("boom");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const auditDataAccess = require("../../auditDataAccess");
+const _ = require("lodash");
 
 const editOfficerAllegation = asyncMiddleware(async (request, response) => {
   const updatedCase = await models.sequelize.transaction(async transaction => {
@@ -16,15 +17,12 @@ const editOfficerAllegation = asyncMiddleware(async (request, response) => {
       throw Boom.notFound("Officer Allegation does not exist");
     }
 
-    const newDetails = request.body.details;
+    const allegationAttributes = _.pick(request.body, ["details", "severity"]);
 
-    await officerAllegation.update(
-      { details: newDetails },
-      {
-        auditUser: request.nickname,
-        transaction
-      }
-    );
+    await officerAllegation.update(allegationAttributes, {
+      auditUser: request.nickname,
+      transaction
+    });
 
     const caseOfficer = await officerAllegation.getCaseOfficer({ transaction });
 

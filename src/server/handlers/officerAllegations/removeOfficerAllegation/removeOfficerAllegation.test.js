@@ -87,7 +87,7 @@ describe("removeOfficerAllegation", () => {
       officerAllegationToRemove = createdAccusedOfficer.allegations[0];
     });
 
-    test("should clear out officer allegation details on remove", async () => {
+    test("should clear out officer allegation on remove", async () => {
       const request = httpMocks.createRequest({
         method: "DELETE",
         headers: {

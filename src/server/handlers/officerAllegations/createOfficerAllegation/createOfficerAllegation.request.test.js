@@ -9,6 +9,7 @@ import {
   buildTokenWithPermissions,
   cleanupDatabase
 } from "../../../testHelpers/requestTestHelpers";
+import { ALLEGATION_SEVERITY } from "../../../../sharedUtilities/constants";
 
 describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations", function() {
   afterEach(async () => {
@@ -68,7 +69,8 @@ describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations
       .set("Authorization", `Bearer ${token}`)
       .send({
         allegationId: allegation.id,
-        details: allegationDetails
+        details: allegationDetails,
+        severity: ALLEGATION_SEVERITY.LOW
       })
       .expect(201)
       .then(response => {
@@ -80,6 +82,7 @@ describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations
                 allegations: [
                   expect.objectContaining({
                     details: allegationDetails,
+                    severity: ALLEGATION_SEVERITY.LOW,
                     allegation: expect.objectContaining({
                       rule: allegation.rule,
                       paragraph: allegation.paragraph,
