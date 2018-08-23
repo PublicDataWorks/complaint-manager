@@ -31,7 +31,7 @@ const AllegationDetailsForm = props => {
     <form style={{ justifyContent: "center" }}>
       <div>
         <Field
-          style={{ width: "20%", marginBottom: `${marginBottomOffset}px` }}
+          style={{ width: "15%", marginBottom: `${marginBottomOffset}px` }}
           component={NoBlurTextField}
           data-test="allegationSeverityField"
           name="severity"
