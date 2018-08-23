@@ -8,7 +8,8 @@ const auditDataAccess = require("../../auditDataAccess");
 const createOfficerAllegation = asyncMiddleware(async (request, response) => {
   const allegationAttributes = _.pick(request.body, [
     "allegationId",
-    "details"
+    "details",
+    "severity"
   ]);
 
   const caseWithAssociations = await models.sequelize.transaction(

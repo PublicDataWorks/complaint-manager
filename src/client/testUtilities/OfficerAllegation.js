@@ -1,7 +1,10 @@
+import { ALLEGATION_SEVERITY } from "../../sharedUtilities/constants";
+
 class OfficerAllegation {
   constructor(build) {
     this.id = build.id;
     this.details = build.details;
+    this.severity = build.severity;
     this.caseOfficerId = build.caseOfficerId;
     this.createdAt = build.createdAt;
     this.allegationId = build.allegationId;
@@ -12,6 +15,7 @@ class OfficerAllegation {
       defaultOfficerAllegation() {
         this.id = 1;
         this.details = "Allegation Details";
+        this.severity = ALLEGATION_SEVERITY.LOW;
         this.caseOfficerId = 1;
         this.createdAt = new Date();
         this.allegationId = 1;
@@ -30,6 +34,11 @@ class OfficerAllegation {
 
       withDetails(details) {
         this.details = details;
+        return this;
+      }
+
+      withSeverity(severity) {
+        this.severity = severity;
         return this;
       }
 

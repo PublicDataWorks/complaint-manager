@@ -10,7 +10,8 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
   AUDIT_ACTION,
   AUDIT_TYPE,
-  AUDIT_SUBJECT
+  AUDIT_SUBJECT,
+  ALLEGATION_SEVERITY
 } from "../../../../sharedUtilities/constants";
 
 describe("createOfficerAllegation", () => {
@@ -106,7 +107,8 @@ describe("createOfficerAllegation", () => {
       },
       body: {
         allegationId: allegation.id,
-        details: allegationDetails
+        details: allegationDetails,
+        severity: ALLEGATION_SEVERITY.LOW
       },
       nickname: "TEST_USER_NICKNAME"
     });
@@ -121,7 +123,10 @@ describe("createOfficerAllegation", () => {
     });
 
     expect(officerAllegation).toEqual(
-      expect.objectContaining({ details: allegationDetails })
+      expect.objectContaining({
+        details: allegationDetails,
+        severity: ALLEGATION_SEVERITY.LOW
+      })
     );
   });
 

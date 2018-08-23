@@ -6,7 +6,8 @@ import {
   ACCUSED,
   AUDIT_ACTION,
   AUDIT_TYPE,
-  AUDIT_SUBJECT
+  AUDIT_SUBJECT,
+  ALLEGATION_SEVERITY
 } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
 import httpMocks from "node-mocks-http";
@@ -107,7 +108,8 @@ describe("editOfficerAllegation", () => {
 
   test("should edit a case officer allegation", async () => {
     const data = {
-      details: "new details"
+      details: "new details",
+      severity: ALLEGATION_SEVERITY.HIGH
     };
 
     const request = httpMocks.createRequest({
@@ -129,5 +131,8 @@ describe("editOfficerAllegation", () => {
     await officerAllegationToUpdate.reload();
 
     expect(officerAllegationToUpdate.details).toEqual("new details");
+    expect(officerAllegationToUpdate.severity).toEqual(
+      ALLEGATION_SEVERITY.HIGH
+    );
   });
 });

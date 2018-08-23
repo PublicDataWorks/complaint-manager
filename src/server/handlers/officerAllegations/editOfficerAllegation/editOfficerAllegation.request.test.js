@@ -9,7 +9,10 @@ import {
   suppressWinstonLogs
 } from "../../../testHelpers/requestTestHelpers";
 import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
-import { ACCUSED } from "../../../../sharedUtilities/constants";
+import {
+  ACCUSED,
+  ALLEGATION_SEVERITY
+} from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
 
 describe("PUT /officers-allegations/:officerAllegationId", function() {
@@ -91,7 +94,8 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
     const newDetailsValue = "new details";
 
     const data = {
-      details: newDetailsValue
+      details: newDetailsValue,
+      severity: ALLEGATION_SEVERITY.HIGH
     };
 
     await request(app)
@@ -109,6 +113,7 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
                 allegations: [
                   expect.objectContaining({
                     details: newDetailsValue,
+                    severity: ALLEGATION_SEVERITY.HIGH,
                     allegation: expect.objectContaining({
                       rule: createdAllegation.rule,
                       paragraph: createdAllegation.paragraph,
