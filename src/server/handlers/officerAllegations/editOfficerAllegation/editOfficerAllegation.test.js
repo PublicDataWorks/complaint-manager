@@ -31,6 +31,7 @@ describe("editOfficerAllegation", () => {
       .defaultOfficerAllegation()
       .withId(undefined)
       .withDetails("old details")
+      .withSeverity(ALLEGATION_SEVERITY.LOW)
       .withAllegationId(createdAllegation.id);
 
     const accusedOfficer = new CaseOfficer.Builder()

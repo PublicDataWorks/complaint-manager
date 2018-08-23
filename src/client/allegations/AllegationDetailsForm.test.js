@@ -5,7 +5,8 @@ import createConfiguredStore from "../createConfiguredStore";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import AllegationDetailsForm from "./AllegationDetailsForm";
-import { changeInput } from "../testHelpers";
+import { changeInput, selectDropdownOption } from "../testHelpers";
+import { ALLEGATION_SEVERITY } from "../../sharedUtilities/constants";
 
 jest.mock(
   "../cases/thunks/createOfficerAllegation",
@@ -54,12 +55,22 @@ describe("AllegationDetailsForm", () => {
       "some details"
     );
 
+    selectDropdownOption(
+      allegationDetailsForm,
+      '[data-test="allegationSeverityInput"]',
+      ALLEGATION_SEVERITY.MEDIUM
+    );
+
     const addButton = allegationDetailsForm
       .find('[data-test="addAllegationButton"]')
       .last();
     addButton.simulate("click");
 
-    const formValues = { allegationId, details: "some details" };
+    const formValues = {
+      allegationId,
+      details: "some details",
+      severity: ALLEGATION_SEVERITY.MEDIUM
+    };
 
     expect(dispatch).toHaveBeenCalledWith(
       createOfficerAllegation(
@@ -76,6 +87,26 @@ describe("AllegationDetailsForm", () => {
       .find('[data-test="addAllegationButton"]')
       .last();
 
+    selectDropdownOption(
+      allegationDetailsForm,
+      '[data-test="allegationSeverityInput"]',
+      ALLEGATION_SEVERITY.MEDIUM
+    );
+
+    expect(addButton.props().disabled).toBeTruthy();
+  });
+
+  test("submit button is disabled when no allegation severity has been selected", () => {
+    const addButton = allegationDetailsForm
+      .find('[data-test="addAllegationButton"]')
+      .last();
+
+    changeInput(
+      allegationDetailsForm,
+      '[data-test="allegationDetailsInput"]',
+      "some details"
+    );
+
     expect(addButton.props().disabled).toBeTruthy();
   });
 
@@ -86,6 +117,12 @@ describe("AllegationDetailsForm", () => {
       "   "
     );
 
+    selectDropdownOption(
+      allegationDetailsForm,
+      '[data-test="allegationSeverityInput"]',
+      ALLEGATION_SEVERITY.MEDIUM
+    );
+
     const addButton = allegationDetailsForm
       .find('[data-test="addAllegationButton"]')
       .last();
@@ -93,11 +130,17 @@ describe("AllegationDetailsForm", () => {
     expect(addButton.props().disabled).toBeTruthy();
   });
 
-  test("submit button is enabled when allegation details are present", () => {
+  test("submit button is enabled when allegation details and severity are present", () => {
     changeInput(
       allegationDetailsForm,
       '[data-test="allegationDetailsInput"]',
       "details"
+    );
+
+    selectDropdownOption(
+      allegationDetailsForm,
+      '[data-test="allegationSeverityInput"]',
+      ALLEGATION_SEVERITY.MEDIUM
     );
 
     const addButton = allegationDetailsForm
