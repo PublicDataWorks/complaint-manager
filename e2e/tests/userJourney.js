@@ -389,9 +389,17 @@ if (TEST_PASS && TEST_USER && HOST) {
           "Used department property."
         )
         .waitForElementVisible(
+          '[data-test="allegationSeverityField"]',
+          rerenderWait
+        )
+        .click('[data-test="allegationSeverityField"]')
+        .waitForElementVisible('[role="listbox"]', 3000)
+        .click('[role="listbox"] > li:last-child')
+        .waitForElementVisible(
           '[data-test="addAllegationButton"]',
           rerenderWait
         )
+        .pause(500)
         .click('[data-test="addAllegationButton"]')
         .waitForElementVisible('[data-test="officerAllegation0"]', rerenderWait)
         .click('[data-test="back-to-case-link"]');
