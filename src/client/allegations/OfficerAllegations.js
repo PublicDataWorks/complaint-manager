@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import OfficerAllegationPanelForm from "./EditAllegationPanelForm/OfficerAllegationPanelForm";
 import { connect } from "react-redux";
 import {
@@ -17,7 +17,7 @@ class OfficerAllegations extends React.Component {
     const { officerAllegations, editAllegationForms } = this.props;
 
     return (
-      <Fragment>
+      <div>
         {officerAllegations.map((officerAllegation, index) => (
           <OfficerAllegationPanelForm
             editAllegationFormState={editAllegationForms[officerAllegation.id]}
@@ -27,7 +27,7 @@ class OfficerAllegations extends React.Component {
           />
         ))}
         <RemoveOfficerAllegationDialog />
-      </Fragment>
+      </div>
     );
   }
 }
@@ -42,4 +42,7 @@ const mapDispatchToProps = {
   closeRemoveOfficerAllegationDialog
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OfficerAllegations);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(OfficerAllegations);

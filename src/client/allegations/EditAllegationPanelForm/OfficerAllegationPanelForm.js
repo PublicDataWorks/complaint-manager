@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import OfficerInfoDisplay from "../../cases/CaseDetails/Officers/OfficerInfoDisplay";
 import { withStyles } from "@material-ui/core/styles/index";
-import React, { Fragment } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import EditOfficerAllegationForm from "./EditOfficerAllegationForm";
 import LinkButton from "../../shared/components/LinkButton";
@@ -29,7 +29,7 @@ const styles = {
 
 const renderDetailsView = (details, severity) => {
   return (
-    <Fragment>
+    <div>
       <ExpansionPanelDetails>
         <OfficerInfoDisplay
           shouldTruncate={false}
@@ -52,7 +52,7 @@ const renderDetailsView = (details, severity) => {
           }}
         />
       </ExpansionPanelDetails>
-    </Fragment>
+    </div>
   );
 };
 
@@ -167,7 +167,7 @@ class OfficerAllegationPanelForm extends React.Component {
         {editMode ? (
           <EditOfficerAllegationForm
             form={`Allegation${id}DetailsForm`}
-            initialValues={{ id, details }}
+            initialValues={{ id, details, severity }}
             onCancel={this.handleCancel}
           />
         ) : (

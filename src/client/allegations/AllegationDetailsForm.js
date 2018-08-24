@@ -62,10 +62,7 @@ const AllegationDetailsForm = props => {
       </div>
       <div
         style={{
-          marginBottom:
-            props.anyTouched && props.invalid
-              ? `${marginBottomOffset + 20}px`
-              : `${marginBottomOffset}px`
+          marginBottom: `${marginBottomOffset}px`
         }}
       >
         <PrimaryButton
