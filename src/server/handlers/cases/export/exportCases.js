@@ -105,6 +105,7 @@ const columns = {
   "allegations.paragraph": "Allegation Paragraph",
   "allegations.directive": "Allegation Directive",
   "officerAllegations.details": "Allegation Details",
+  "officerAllegations.severity": "Allegation Severity",
   "attachments.attachment_types": "Types of Attachments"
 };
 

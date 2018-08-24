@@ -15,6 +15,7 @@ import moment from "moment";
 import timezone from "moment-timezone";
 import {
   ACCUSED,
+  ALLEGATION_SEVERITY,
   AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
@@ -191,6 +192,7 @@ describe("exportCases request", function() {
               "Allegation Paragraph," +
               "Allegation Directive," +
               "Allegation Details," +
+              "Allegation Severity," +
               "Types of Attachments\n"
           )
         );
@@ -1053,6 +1055,9 @@ describe("exportCases request", function() {
         expect(record["Allegation Paragraph"]).toEqual(allegation.paragraph);
         expect(record["Allegation Directive"]).toEqual(allegation.directive);
         expect(record["Allegation Details"]).toEqual(officerAllegation.details);
+        expect(record["Allegation Severity"]).toEqual(
+          officerAllegation.severity
+        );
       });
   });
 
@@ -1070,6 +1075,7 @@ describe("exportCases request", function() {
       .defaultOfficerAllegation()
       .withId(undefined)
       .withDetails("new details")
+      .withSeverity(ALLEGATION_SEVERITY.HIGH)
       .withAllegationId(allegation2.id)
       .withCaseOfficerId(caseOfficer.id);
     const officerAllegation2 = await models.officer_allegation.create(
@@ -1093,6 +1099,9 @@ describe("exportCases request", function() {
         expect(record1["Allegation Details"]).toEqual(
           officerAllegation.details
         );
+        expect(record1["Allegation Severity"]).toEqual(
+          officerAllegation.severity
+        );
 
         const record2 = records[1];
         expect(record2["Allegation Rule"]).toEqual(allegation2.rule);
@@ -1100,6 +1109,9 @@ describe("exportCases request", function() {
         expect(record2["Allegation Directive"]).toEqual(allegation2.directive);
         expect(record2["Allegation Details"]).toEqual(
           officerAllegation2.details
+        );
+        expect(record2["Allegation Severity"]).toEqual(
+          officerAllegation2.severity
         );
       });
   });

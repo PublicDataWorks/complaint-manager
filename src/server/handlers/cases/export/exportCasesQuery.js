@@ -123,6 +123,7 @@ const exportCasesQuery = () => {
     'allegations.paragraph as "allegations.paragraph", ' +
     'allegations.directive as "allegations.directive", ' +
     'officerAllegations.details as "officerAllegations.details", ' +
+    'officerAllegations.severity as "officerAllegations.severity", ' +
     'attachments.attachment_types as "attachments.attachment_types" ' +
     "FROM cases AS cases " +
     "LEFT OUTER JOIN addresses AS incidentLocation " +
