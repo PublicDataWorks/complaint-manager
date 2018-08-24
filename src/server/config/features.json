@@ -8,6 +8,6 @@
   {
     "id": "addressIntersections",
     "name": "Address intersections",
-    "enabled": false
+    "enabled": true
   }
 ]
