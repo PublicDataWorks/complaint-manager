@@ -52,6 +52,8 @@ const RemoveOfficerAllegationDialog = ({
                 : "N/A"}
             </Typography>
             <br />
+            <Typography>Severity: {officerAllegation.severity}</Typography>
+            <br />
             <TextTruncate message={officerAllegation.details} />
           </div>
         )}
