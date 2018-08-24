@@ -3,7 +3,10 @@ import { mount } from "enzyme";
 import OfficerAllegations from "./OfficerAllegations";
 import createConfiguredStore from "../createConfiguredStore";
 import { Provider } from "react-redux";
-import { EDIT_ALLEGATION_FORM_CLOSED } from "../../sharedUtilities/constants";
+import {
+  EDIT_ALLEGATION_FORM_CLOSED,
+  ALLEGATION_SEVERITY
+} from "../../sharedUtilities/constants";
 import editOfficerAllegation from "../cases/thunks/editOfficerAllegation";
 import { changeInput } from "../testHelpers";
 import { openRemoveOfficerAllegationDialog } from "../actionCreators/allegationsActionCreators";
@@ -30,7 +33,8 @@ describe("OfficerAllegations", function() {
         },
         caseOfficerId,
         id: 1,
-        details: "detailsss1"
+        details: "detailsss1",
+        severity: ALLEGATION_SEVERITY.MEDIUM
       },
       {
         allegation: {
@@ -41,7 +45,8 @@ describe("OfficerAllegations", function() {
         },
         caseOfficerId,
         id: 2,
-        details: "detailsss2"
+        details: "detailsss2",
+        severity: ALLEGATION_SEVERITY.HIGH
       }
     ];
 

@@ -8,13 +8,16 @@ import React from "react";
 import editOfficerAllegation from "../../cases/thunks/editOfficerAllegation";
 import {
   allegationDetailsNotBlank,
-  allegationDetailsRequired
+  allegationDetailsRequired,
+  allegationSeverityRequired
 } from "../../formFieldLevelValidations";
 import { ExpansionPanelDetails } from "@material-ui/core";
+import { allegationSeverityMenu } from "../../utilities/generateMenus";
+import NoBlurTextField from "../../cases/CaseDetails/CivilianDialog/FormSelect";
 
 const onSubmit = (values, dispatch) => {
-  const { id, details } = values;
-  dispatch(editOfficerAllegation({ id, details }));
+  const { id, details, severity } = values;
+  dispatch(editOfficerAllegation({ id, details, severity }));
 };
 
 const DetailsForm = ({ handleSubmit, onCancel, invalid, pristine }) => {
@@ -22,18 +25,34 @@ const DetailsForm = ({ handleSubmit, onCancel, invalid, pristine }) => {
     <ExpansionPanelDetails>
       <div style={{ width: "100%", marginLeft: "64px" }}>
         <form>
-          <Field
-            label={"Allegation Details"}
-            name={"details"}
-            component={TextField}
-            inputProps={{
-              "data-test": "allegationInput"
-            }}
-            validate={[allegationDetailsRequired, allegationDetailsNotBlank]}
-            multiline
-            rowsMax={5}
-            style={{ width: "42%", marginBottom: `16px` }}
-          />
+          <div>
+            <Field
+              style={{ width: "15%", marginBottom: "32px" }}
+              component={NoBlurTextField}
+              name="severity"
+              inputProps={{
+                "data-test": "editAllegationSeverityInput"
+              }}
+              label="Allegation Severity"
+              validate={[allegationSeverityRequired]}
+            >
+              {allegationSeverityMenu}
+            </Field>
+          </div>
+          <div>
+            <Field
+              label={"Allegation Details"}
+              name={"details"}
+              component={TextField}
+              inputProps={{
+                "data-test": "allegationInput"
+              }}
+              validate={[allegationDetailsRequired, allegationDetailsNotBlank]}
+              multiline
+              rowsMax={5}
+              style={{ width: "42%", marginBottom: `16px` }}
+            />
+          </div>
         </form>
         <div
           style={{
