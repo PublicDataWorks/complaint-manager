@@ -82,7 +82,7 @@
     "winston": "^3.0.0"
   },
   "devDependencies": {
-    "concurrently": "^3.5.1",
+    "concurrently": "^4.0.0",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
     "enzyme-to-json": "^3.3.3",
