@@ -9,6 +9,7 @@ exports[`it can render officer search results with correct styles 1`] = `
       }
     }
     component="table"
+    padding="default"
   >
     <table
       className="MuiTable-root-1"
@@ -382,7 +383,6 @@ exports[`it can render officer search results with correct styles 1`] = `
                             }
                           }
                           numeric={false}
-                          padding="default"
                         >
                           <td
                             aria-sort={null}
@@ -419,7 +419,6 @@ exports[`it can render officer search results with correct styles 1`] = `
                             }
                           }
                           numeric={false}
-                          padding="default"
                         >
                           <td
                             aria-sort={null}
@@ -447,7 +446,6 @@ exports[`it can render officer search results with correct styles 1`] = `
                             }
                           }
                           numeric={false}
-                          padding="default"
                         >
                           <td
                             aria-sort={null}
@@ -475,7 +473,6 @@ exports[`it can render officer search results with correct styles 1`] = `
                             }
                           }
                           numeric={false}
-                          padding="default"
                         >
                           <td
                             aria-sort={null}
@@ -503,7 +500,6 @@ exports[`it can render officer search results with correct styles 1`] = `
                             }
                           }
                           numeric={false}
-                          padding="default"
                         >
                           <td
                             aria-sort={null}
@@ -531,7 +527,6 @@ exports[`it can render officer search results with correct styles 1`] = `
                             }
                           }
                           numeric={false}
-                          padding="default"
                         >
                           <td
                             aria-sort={null}
@@ -559,7 +554,6 @@ exports[`it can render officer search results with correct styles 1`] = `
                             }
                           }
                           numeric={false}
-                          padding="default"
                         >
                           <td
                             aria-sort={null}
@@ -585,7 +579,6 @@ exports[`it can render officer search results with correct styles 1`] = `
                             }
                           }
                           numeric={false}
-                          padding="default"
                         >
                           <td
                             aria-sort={null}
