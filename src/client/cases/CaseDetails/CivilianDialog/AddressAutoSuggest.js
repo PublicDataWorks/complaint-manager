@@ -201,12 +201,6 @@ class AddressAutoSuggest extends Component {
   };
 
   handleBlur = () => {
-    if (
-      !this.props.featureToggles ||
-      !this.props.featureToggles.addressIntersections
-    ) {
-      return null;
-    }
     this.props.updateShowAddressMessage(true);
     this.props.updateAddressErrorMessage("");
     if (
@@ -304,7 +298,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => ({
-  featureToggles: state.featureToggles,
   addressDisplayValue: state.ui.addressInput.addressDisplayValue
 });
 

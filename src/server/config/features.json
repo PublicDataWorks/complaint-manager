@@ -4,10 +4,5 @@
     "name": "AnExperimentalFeature",
     "description": "This is a test feature to show config",
     "enabled": true
-  },
-  {
-    "id": "addressIntersections",
-    "name": "Address intersections",
-    "enabled": true
   }
 ]
