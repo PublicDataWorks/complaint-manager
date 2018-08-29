@@ -242,8 +242,6 @@ if (TEST_PASS && TEST_USER && HOST) {
       });
     },
 
-    /*** E2E TEST FOR TOGGLED-OFF ADDRESS INTERSECTIONS FEATURE ***
-
     "should open incident details": browser => {
       browser
         .waitForElementPresent(
@@ -253,7 +251,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         .click('[data-test="editIncidentDetailsButton"]');
     },
 
-    "should enter and fill intersection address into incident location": async browser => {
+    "should enter and fill intersection address into incident location": browser => {
       browser
         .setValue('[data-test="addressSuggestionField"] > input', [
           "canal st & bourbon st"
@@ -281,8 +279,6 @@ if (TEST_PASS && TEST_USER && HOST) {
         .element('[data-test="incidentLocation"]')
         .text.to.not.equal("No address specified");
     },
-
-    ***/
 
     "should navigate to Add Case Officer Page": browser => {
       browser
