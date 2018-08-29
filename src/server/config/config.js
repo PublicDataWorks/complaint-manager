@@ -169,7 +169,7 @@ module.exports = {
       connectSrc: ["'self'", "https://noipm-production.auth0.com"]
     },
     winston: {
-      logLevel: "error",
+      logLevel: "info",
       json: false
     }
   },
