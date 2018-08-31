@@ -89,6 +89,26 @@ describe("transformAuditToCaseHistory", () => {
     expect(caseHistories[0].details).toEqual(expectedDetails);
   });
 
+  test("filters out updates to lat, lng, and placeId", () => {
+    const auditChanges = {
+      lat: { previous: 90, new: 100 },
+      lng: { previous: 40, new: 45 },
+      placeId: { previous: "IEOIELKJSF", new: "OIERU2348" },
+      latch: { previous: "door", new: "window" },
+      slngs: { previous: "something", new: "something else" }
+    };
+    const audit = new DataChangeAudit.Builder()
+      .defaultDataChangeAudit()
+      .withChanges(auditChanges);
+    const caseHistories = transformAuditToCaseHistory([audit], []);
+
+    const expectedDetails = {
+      Latch: { previous: "door", new: "window" },
+      Slngs: { previous: "something", new: "something else" }
+    };
+    expect(caseHistories[0].details).toEqual(expectedDetails);
+  });
+
   test("filters out addressable type", () => {
     const auditChanges = {
       id: { previous: null, new: 6 },
