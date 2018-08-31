@@ -44,6 +44,8 @@ const columns = {
   "incidentLocation.city": "Incident City",
   "incidentLocation.state": "Incident State",
   "incidentLocation.zip_code": "Incident Zip Code",
+  "incidentLocation.lat": "Incident Latitude",
+  "incidentLocation.lng": "Incident Longitude",
   district: "Incident District",
   "incidentLocation.street_address2": "Additional Incident Location Info",
   complaint_type: "Complaint Type",
@@ -59,6 +61,8 @@ const columns = {
   "complainants.civilian_city": "Civilian Complainant City",
   "complainants.civilian_state": "Civilian Complainant State",
   "complainants.civilian_zip_code": "Civilian Complainant Zip Code",
+  "complainants.civilian_lat": "Civilian Complainant Latitude",
+  "complainants.civilian_lng": "Civilian Complainant Longitude",
   "complainants.civilian_street_address2":
     "Civilian Complainant Additional Address Information",
   "complainants.civilian_additional_info": "Civilian Complainant Notes",

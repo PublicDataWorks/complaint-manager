@@ -19,25 +19,6 @@ const getLatLng = address => {
   return { lat, lng };
 };
 
-const addIntersectionToAddressIfPresent = (name, address) => {
-  let intersection = "";
-  if (
-    address.streetAddress === "" &&
-    name &&
-    (name.includes("&") || name.includes("and")) &&
-    name !== address.city &&
-    name !== address.state &&
-    name !== address.country
-  ) {
-    intersection = name;
-  }
-
-  return {
-    ...address,
-    intersection
-  };
-};
-
 const parseAddressFromGooglePlaceResult = address => {
   const streetNumberComponent = getComponentOnType(address, ["street_number"]);
   const streetNumber = streetNumberComponent
@@ -66,11 +47,11 @@ const parseAddressFromGooglePlaceResult = address => {
     ? intersectionComponent.short_name
     : "";
 
-  const placeId = address.place_id;
+  const placeId = address.place_id ? address.place_id : "";
   const lat = getLatLng(address).lat;
   const lng = getLatLng(address).lng;
 
-  const parsedAddress = {
+  return {
     streetAddress,
     intersection,
     city,
@@ -81,11 +62,5 @@ const parseAddressFromGooglePlaceResult = address => {
     lat,
     lng
   };
-
-  if (intersection === "") {
-    return addIntersectionToAddressIfPresent(address.name, parsedAddress);
-  } else {
-    return parsedAddress;
-  }
 };
 export default parseAddressFromGooglePlaceResult;

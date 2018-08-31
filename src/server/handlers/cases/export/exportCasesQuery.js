@@ -38,6 +38,8 @@ const exportCasesQuery = () => {
     'incidentLocation.city AS "incidentLocation.city", ' +
     'incidentLocation.state AS "incidentLocation.state", ' +
     'incidentLocation.zip_code AS "incidentLocation.zip_code", ' +
+    'incidentLocation.lat AS "incidentLocation.lat", ' +
+    'incidentLocation.lng AS "incidentLocation.lng", ' +
     'incidentLocation.street_address2 AS "incidentLocation.street_address2", ' +
     'complainants.complainant AS "complainants.complainant",' +
     'complainants.civilian_full_name as "complainants.civilian_full_name", ' +
@@ -54,6 +56,8 @@ const exportCasesQuery = () => {
     'complainants.civilian_city AS "complainants.civilian_city", ' +
     'complainants.civilian_state AS "complainants.civilian_state", ' +
     'complainants.civilian_zip_code AS "complainants.civilian_zip_code", ' +
+    'complainants.civilian_lat AS "complainants.civilian_lat", ' +
+    'complainants.civilian_lng AS "complainants.civilian_lng", ' +
     'complainants.civilian_street_address2 AS "complainants.civilian_street_address2", ' +
     'complainants.officer_id AS "complainants.officer_id", ' +
     "complainants.officer_full_name, " +
@@ -156,6 +160,8 @@ const exportCasesQuery = () => {
     "   addresses.city AS civilian_city, " +
     "   addresses.state AS civilian_state, " +
     "   addresses.zip_code AS civilian_zip_code, " +
+    "   addresses.lat AS civilian_lat, " +
+    "   addresses.lng AS civilian_lng, " +
     "   addresses.street_address2 AS civilian_street_address2, " +
     '   NULL AS "officer_id", ' +
     '   NULL AS "officer_full_name", ' +
@@ -196,6 +202,8 @@ const exportCasesQuery = () => {
     "   NULL AS civilian_city, " +
     "   NULL AS civilian_state, " +
     "   NULL AS civilian_zip_code, " +
+    "   NULL AS civilian_lat, " +
+    "   NULL AS civilian_lng, " +
     "   NULL AS civilian_street_address2, " +
     "   id AS officer_id, " +
     "   concat_ws(" +

@@ -258,55 +258,6 @@ describe("parseAddressFromGooglePlaceResult", () => {
     );
   });
 
-  test("does not override intersection with value from name if real intersection present", () => {
-    const address = {
-      address_components: [
-        {
-          long_name: "North Desplaines Street & West Randolph Street",
-          short_name: "N Desplaines St & W Randolph St",
-          types: ["intersection"]
-        }
-      ],
-      name: "Bourbon Street & Canal Street"
-    };
-    const parsedAddress = parseAddressFromGooglePlaceResult(address);
-    expect(parsedAddress.intersection).toEqual(
-      "N Desplaines St & W Randolph St"
-    );
-  });
-
-  test("should parse an intersection from an address", () => {
-    const somePlace = {
-      address_components: [
-        {
-          long_name: "New Orleans",
-          short_name: "New Orleans",
-          types: ["locality", "political"]
-        },
-        {
-          long_name: "Louisiana",
-          short_name: "LA",
-          types: ["administrative_area_level_1", "political"]
-        },
-        {
-          long_name: "United States",
-          short_name: "US",
-          types: ["country", "political"]
-        },
-        {
-          long_name: "70119",
-          short_name: "70119",
-          types: ["postal_code"]
-        }
-      ],
-      name: "Bourbon Street & Canal Street"
-    };
-
-    const parsedAddress = parseAddressFromGooglePlaceResult(somePlace);
-
-    expect(parsedAddress.intersection).toEqual("Bourbon Street & Canal Street");
-  });
-
   test("should parse place id from address", () => {
     const somePlace = {
       address_components: [

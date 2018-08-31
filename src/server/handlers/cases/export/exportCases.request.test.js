@@ -137,6 +137,8 @@ describe("exportCases request", function() {
               "Incident City," +
               "Incident State," +
               "Incident Zip Code," +
+              "Incident Latitude," +
+              "Incident Longitude," +
               "Incident District," +
               "Additional Incident Location Info," +
               "Complaint Type," +
@@ -151,6 +153,8 @@ describe("exportCases request", function() {
               "Civilian Complainant City," +
               "Civilian Complainant State," +
               "Civilian Complainant Zip Code," +
+              "Civilian Complainant Latitude," +
+              "Civilian Complainant Longitude," +
               "Civilian Complainant Additional Address Information," +
               "Civilian Complainant Notes," +
               "Officer Complainant Case Officer Database ID," +
@@ -251,6 +255,12 @@ describe("exportCases request", function() {
         expect(records[0]["Incident Zip Code"]).toEqual(
           caseToExport.incidentLocation.zipCode
         );
+        expect(records[0]["Incident Latitude"]).toEqual(
+          caseToExport.incidentLocation.lat.toString()
+        );
+        expect(records[0]["Incident Longitude"]).toEqual(
+          caseToExport.incidentLocation.lng.toString()
+        );
         expect(records[0]["Incident District"]).toEqual(caseToExport.district);
         expect(records[0]["Additional Incident Location Info"]).toEqual(
           caseToExport.incidentLocation.streetAddress2
@@ -337,6 +347,12 @@ describe("exportCases request", function() {
         );
         expect(records[0]["Civilian Complainant Zip Code"]).toEqual(
           civilian.address.zipCode
+        );
+        expect(records[0]["Civilian Complainant Latitude"]).toEqual(
+          civilian.address.lat.toString()
+        );
+        expect(records[0]["Civilian Complainant Longitude"]).toEqual(
+          civilian.address.lng.toString()
         );
         expect(
           records[0]["Civilian Complainant Additional Address Information"]
