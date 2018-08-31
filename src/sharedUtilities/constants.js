@@ -168,7 +168,7 @@ const AUDIT_ACTION = {
   DOWNLOADED: "Downloaded"
 };
 
-const AUDIT_FIELDS_TO_EXCLUDE = "(.*Id$|^id$|addressableType)";
+const AUDIT_FIELDS_TO_EXCLUDE = "(.*Id$|^id$|^addressableType$|^lat$|^lng$)";
 const AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE =
   "(createdAt|updatedAt|deletedAt|addressableType)";
 

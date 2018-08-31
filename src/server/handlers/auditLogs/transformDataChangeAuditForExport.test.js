@@ -77,6 +77,29 @@ describe("transformDataChangeAuditForExport", () => {
     );
   });
 
+  test("transforms changes field to ignore lat, lng, and placeId", () => {
+    const audit = {
+      action: AUDIT_ACTION.DATA_UPDATED,
+      changes: {
+        lat: { new: 234.543 },
+        lng: { new: 890.0, previous: 123.4 },
+        placeId: { new: "newPlaceId", previous: "oldPlaceId" },
+        latch: { new: "new", previous: "prev" },
+        slngs: { new: "new2", previous: "prev2" }
+      }
+    };
+    const transformedAudit = transformDataChangeAuditForExport([audit]);
+
+    expect(transformedAudit).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          changes:
+            "Latch changed from 'prev' to 'new'\nSlngs changed from 'prev2' to 'new2'"
+        })
+      ])
+    );
+  });
+
   test("transforms changes field to empty string for destroyed model", () => {
     const audit = {
       action: AUDIT_ACTION.DATA_DELETED,
