@@ -118,7 +118,6 @@ const CaseNoteDialog = props => {
             label="Notes"
             component={TextField}
             inputProps={{
-              maxLength: 255,
               "data-test": "notesInput"
             }}
             InputLabelProps={{
