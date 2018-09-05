@@ -51,6 +51,7 @@ class CaseNotes extends Component {
                     key={activity.id}
                     activity={activity}
                     caseId={caseId}
+                    shouldTruncate={true}
                     data-test="caseNotesItem"
                   />
                 );

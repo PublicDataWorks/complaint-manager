@@ -2,8 +2,9 @@ import React from "react";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import moment from "moment";
 import ActivityMenu from "./ActivityMenu";
+import TextTruncate from "../../../shared/components/TextTruncate";
 
-const ActivityDisplay = ({ caseId, activity }) => {
+const ActivityDisplay = ({ caseId, activity, shouldTruncate = true }) => {
   return (
     <Card
       key={activity.id}
@@ -33,16 +34,26 @@ const ActivityDisplay = ({ caseId, activity }) => {
                 "YYYY-MM-DDTHH:mm:ssZ"
               ).fromNow()}`}
             </Typography>
-
-            {activity.notes ? (
-              <div
-                style={{
-                  marginTop: "16px"
-                }}
-              >
-                <Typography data-test="notesText">{activity.notes}</Typography>
-              </div>
-            ) : null}
+            <div
+              style={{
+                marginTop: "16px"
+              }}
+            >
+              {activity.notes ? (
+                shouldTruncate ? (
+                  <TextTruncate
+                    testLabel="notesText"
+                    message={activity.notes ? activity.notes : "N/A"}
+                  />
+                ) : (
+                  <Typography data-test="notesText">
+                    {activity.notes}
+                  </Typography>
+                )
+              ) : (
+                ""
+              )}
+            </div>
           </div>
           <div
             style={{
