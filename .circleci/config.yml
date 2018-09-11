@@ -79,7 +79,7 @@ jobs:
 
               - run:
                   name: Run task migrations
-                  comand: docker run noipm/complaint-manager-ci:$CIRCLE_SHA1 node ./src/server/tasks/migrate.js up
+                  command: docker run noipm/complaint-manager-ci:$CIRCLE_SHA1 node ./src/server/tasks/migrate.js up
 
               - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
               - run: docker tag noipm/complaint-manager-ci:$CIRCLE_SHA1 registry.heroku.com/noipm-ci/web
