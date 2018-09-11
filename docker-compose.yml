@@ -15,11 +15,28 @@ services:
     depends_on:
       - db
       - email
+      - worker
     ports:
       - "1234:1234"
       - "3000:3000"
     entrypoint: ["./wait-for-it.sh","db:5432", "--"]
     command: ["yarn", "start"]
+    volumes:
+      - ./src:/app/src
+  worker:
+    build:
+      context: .
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_ENV=development
+      - NEW_RELIC_ENABLED=false
+      - NEW_RELIC_NO_CONFIG_FILE=true
+    depends_on:
+      - db
+    ports:
+      - "4567:4567"
+    entrypoint: ["./wait-for-it.sh","db:5432", "--"]
+    command: ["yarn", "start:worker"]
     volumes:
       - ./src:/app/src
   db:
