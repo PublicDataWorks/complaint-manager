@@ -16,12 +16,12 @@ router.use(authErrorHandler);
 
 //Any routes defined below this point will require authentication
 
-router.get("/cases/export", exportCases);
-
-router.get(
-  "/export-audit-log",
-  jwtAuthz([USER_PERMISSIONS.EXPORT_AUDIT_LOG]),
-  exportAuditLog
-);
+//router.get("/cases/export", exportCases);
+//
+//router.get(
+//  "/export-audit-log",
+//  jwtAuthz([USER_PERMISSIONS.EXPORT_AUDIT_LOG]),
+//  exportAuditLog
+//);
 
 module.exports = router;

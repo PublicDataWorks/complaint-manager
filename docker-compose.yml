@@ -19,6 +19,7 @@ services:
     ports:
       - "1234:1234"
       - "3000:3000"
+      - "4000:4000"
     entrypoint: ["./wait-for-it.sh","db:5432", "--"]
     command: ["yarn", "start"]
     volumes:
@@ -33,8 +34,10 @@ services:
       - NEW_RELIC_NO_CONFIG_FILE=true
     depends_on:
       - db
+      - redis
     ports:
       - "4567:4567"
+      - "5000:5000"
     entrypoint: ["./wait-for-it.sh","db:5432", "--"]
     command: ["yarn", "start:worker"]
     volumes:
@@ -60,3 +63,5 @@ services:
       - "./e2e/tests:/tests"
       - "./e2e/nightwatch.json:/nightwatch.json"
     command: --env local
+  redis:
+    image: redis

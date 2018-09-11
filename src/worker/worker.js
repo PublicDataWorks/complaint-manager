@@ -81,4 +81,22 @@ app.use(
 
 app.use(errorHandler);
 
+const { JOB_OPERATION, QUEUE_PREFIX } = require("../sharedUtilities/constants");
+
+const kue = require("kue");
+const exportCases = require("./handlers/cases/export/exportCases");
+
+const queue = kue.createQueue({
+  prefix: QUEUE_PREFIX,
+  redis: `redis://${config.queue.host}:${config.queue.port}`
+});
+
+kue.app.set("title", "Background Worker");
+
+kue.app.listen(5000);
+
+queue.process(JOB_OPERATION.CASE_EXPORT, function(job, done) {
+  exportCases(job.data, done);
+});
+
 module.exports = app;

@@ -31,6 +31,10 @@ module.exports = {
     winston: {
       logLevel: "info",
       json: true
+    },
+    queue: {
+      host: "redis",
+      port: 6379
     }
   },
   test: {
@@ -63,6 +67,10 @@ module.exports = {
     winston: {
       logLevel: "error",
       json: true
+    },
+    queue: {
+      host: "redis",
+      port: 6379
     }
   },
   ci: {
@@ -99,6 +107,10 @@ module.exports = {
     winston: {
       logLevel: "info",
       json: false
+    },
+    queue: {
+      host: "redis",
+      port: 6379
     }
   },
   staging: {
@@ -135,6 +147,10 @@ module.exports = {
     winston: {
       logLevel: "info",
       json: false
+    },
+    queue: {
+      host: "redis",
+      port: 6379
     }
   },
   production: {
@@ -171,6 +187,10 @@ module.exports = {
     winston: {
       logLevel: "info",
       json: false
+    },
+    queue: {
+      host: "redis",
+      port: 6379
     }
   },
   s3config: {

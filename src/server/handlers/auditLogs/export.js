@@ -1,36 +1,30 @@
 const {
-  UTF8_BYTE_ORDER_MARK,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  AUDIT_ACTION
+  AUDIT_ACTION,
+  JOB_OPERATION,
+  QUEUE_PREFIX
 } = require("../../../sharedUtilities/constants");
 
 const asyncMiddleware = require("../asyncMiddleware");
-const models = require("../../models/index");
-const TIMEZONE = require("../../../sharedUtilities/constants").TIMEZONE;
-const stringify = require("csv-stringify");
-const moment = require("moment");
-const _ = require("lodash");
-const transformDataChangeAuditForExport = require("./transformDataChangeAuditForExport");
-const transformActionAuditForExport = require("./transformActionAuditForExport");
+
+const config = require("../../config/config")[process.env.NODE_ENV];
+
+const kue = require("kue"),
+  queue = kue.createQueue({
+    prefix: QUEUE_PREFIX,
+    redis: `redis://${config.queue.host}:${config.queue.port}`
+  });
 
 const exportAuditLog = asyncMiddleware(async (request, response) => {
-  const dateFormatter = {
-    date: formatDateForCSV
-  };
-
-  const columns = {
-    audit_type: "Audit Type",
-    user: "User",
-    case_id: "Case ID",
-    action: "Action",
-    subject: "Audit Subject",
-    subject_id: "Subject Database ID",
-    changes: "Changes",
-    snapshot: "Subject Details",
-    created_at: "Timestamp"
-  };
-  const csvOptions = { header: true, columns, formatters: dateFormatter };
+  queue
+    .create(JOB_OPERATION.AUDIT_LOG_EXPORT, {
+      title: "Last year audit log export",
+      fileName: "audit_log_export.csv"
+    })
+    .attempts(3)
+    .backoff({ delay: 60 * 1000, type: "exponential" })
+    .save();
 
   await models.sequelize.transaction(async t => {
     await models.action_audit.create(
@@ -45,63 +39,7 @@ const exportAuditLog = asyncMiddleware(async (request, response) => {
         transaction: t
       }
     );
-
-    const actionAudits = await models.action_audit.findAll({
-      attributes: [
-        "created_at",
-        "case_id",
-        "action",
-        "user",
-        ["audit_type", "auditType"],
-        "subject",
-        "subject_id",
-        ["subject_details", "subjectDetails"]
-      ],
-      raw: true,
-      transaction: t
-    });
-
-    const modifiedActionAudits = transformActionAuditForExport(actionAudits);
-
-    const dataChangeAudits = await models.data_change_audit.findAll({
-      attributes: [
-        "created_at",
-        "case_id",
-        "action",
-        "user",
-        "changes",
-        "snapshot",
-        "modelDescription",
-        ["model_name", "subject"],
-        ["model_id", "subject_id"]
-      ],
-      raw: true,
-      transaction: t
-    });
-
-    const modifiedDataChangeAudits = transformDataChangeAuditForExport(
-      dataChangeAudits
-    );
-
-    const sortedAuditLogs = _.orderBy(
-      modifiedActionAudits.concat(modifiedDataChangeAudits),
-      "created_at",
-      "desc"
-    );
-
-    stringify(sortedAuditLogs, csvOptions, (err, csvOutput) => {
-      response.send(UTF8_BYTE_ORDER_MARK + csvOutput);
-    });
   });
 });
-
-const formatDateForCSV = date => {
-  if (!date) {
-    return "";
-  }
-  return moment(date)
-    .tz(TIMEZONE)
-    .format("MM/DD/YYYY HH:mm:ss z");
-};
 
 module.exports = exportAuditLog;

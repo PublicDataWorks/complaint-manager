@@ -244,6 +244,16 @@ const GET_FEATURES_SUCCEEDED = "GET_FEATURES_SUCCEEDED";
 const S3_GET_OBJECT = "getObject";
 const S3_URL_EXPIRATION = 60;
 
+// ------------------------------------------
+//           Background Job Operations
+// ------------------------------------------
+const JOB_OPERATION = {
+  AUDIT_LOG_EXPORT: "audit_log_export",
+  CASE_EXPORT: "case_export"
+};
+
+const QUEUE_PREFIX = "noimp_q";
+
 module.exports = {
   LOCAL_DEV_PORT,
   PORT,
@@ -344,5 +354,7 @@ module.exports = {
   EXPORT_ALL_CASES_CONFIRMATION_OPENED,
   GET_FEATURES_SUCCEEDED,
   S3_GET_OBJECT,
-  S3_URL_EXPIRATION
+  S3_URL_EXPIRATION,
+  JOB_OPERATION,
+  QUEUE_PREFIX
 };

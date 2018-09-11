@@ -8,14 +8,14 @@ const models = require("../../../../server/models/index");
 const stringify = require("csv-stringify");
 const exportCasesQuery = require("./exportCasesQuery");
 
-const exportCases = asyncMiddleware(async (request, response, next) => {
-  await models.sequelize.transaction(async transaction => {
+const exportCases = (job, done) => {
+  models.sequelize.transaction(async transaction => {
     await models.action_audit.create(
       {
         auditType: AUDIT_TYPE.EXPORT,
         action: AUDIT_ACTION.EXPORTED,
         subject: AUDIT_SUBJECT.ALL_CASE_INFORMATION,
-        user: request.nickname
+        user: job.user
       },
       { transaction }
     );
@@ -26,10 +26,10 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
     });
 
     stringify(caseData, csvOptions, (err, csvOutput) => {
-      return response.send(csvOutput);
+      done();
     });
   });
-});
+};
 
 const columns = {
   id: "Case #",
