@@ -7,7 +7,8 @@ const db = require("./db");
 const umzug = new Umzug({
   storage: "sequelize",
   storageOptions: {
-    sequelize: db.sequelize
+    sequelize: db.sequelize,
+    tableName: "task_migrations"
   },
   migrations: {
     params: [
