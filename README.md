@@ -147,3 +147,11 @@ docker push noipm/docker-heroku:[heroku-cli-version]
 ```
 docker-compose exec db psql -U postgres -d complaint-manager
 ```
+
+### One off tasks
+
+#### Adding migration
+All one off task migrations live in `src/server/tasks`.
+Create a `js` file in `src/server/tasks/migrations` where the name is `XXX_name.js` where `XXX` is the following number in the sequence.
+
+You'll be able to run the one off task locally if you have the application running and running the command `docker-compose run app node ./src/server/tasks/migrate.js up`.
