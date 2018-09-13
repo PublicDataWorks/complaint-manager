@@ -34,7 +34,10 @@ module.exports = {
     },
     queue: {
       host: "redis",
-      port: 6379
+      port: 6379,
+      failedJobAttempts: 3,
+      exponentialDelay: 60 * 1000,
+      jobTimeToLive: 120 * 1000
     }
   },
   test: {
@@ -70,7 +73,10 @@ module.exports = {
     },
     queue: {
       host: "redis",
-      port: 6379
+      port: 6379,
+      failedJobAttempts: 3,
+      exponentialDelay: 60 * 1000,
+      jobTimeToLive: 120 * 1000
     }
   },
   ci: {
@@ -110,7 +116,10 @@ module.exports = {
     },
     queue: {
       host: "redis",
-      port: 6379
+      port: 6379,
+      failedJobAttempts: 3,
+      exponentialDelay: 60 * 1000,
+      jobTimeToLive: 120 * 1000
     }
   },
   staging: {
@@ -150,7 +159,10 @@ module.exports = {
     },
     queue: {
       host: "redis",
-      port: 6379
+      port: 6379,
+      failedJobAttempts: 3,
+      exponentialDelay: 60 * 1000,
+      jobTimeToLive: 120 * 1000
     }
   },
   production: {
@@ -190,7 +202,10 @@ module.exports = {
     },
     queue: {
       host: "redis",
-      port: 6379
+      port: 6379,
+      failedJobAttempts: 3,
+      exponentialDelay: 60 * 1000,
+      jobTimeToLive: 120 * 1000
     }
   },
   s3config: {

@@ -95,7 +95,7 @@ kue.app.set("title", "Background Worker");
 
 kue.app.listen(5000);
 
-queue.process(JOB_OPERATION.CASE_EXPORT, function(job, done) {
+queue.process(JOB_OPERATION.CASE_EXPORT, (job, done) => {
   exportCases(job.data, done);
 });
 

@@ -32,7 +32,7 @@ const generateAttachmentDownloadUrl = require("./handlers/cases/attachments/gene
 const createOfficerAllegation = require("./handlers/officerAllegations/createOfficerAllegation/createOfficerAllegation");
 const editOfficerAllegation = require("./handlers/officerAllegations/editOfficerAllegation/editOfficerAllegation");
 const removeOfficerAllegation = require("./handlers/officerAllegations/removeOfficerAllegation/removeOfficerAllegation");
-const exportCases = require("./handlers/cases/export/exportCases");
+const { exportCases } = require("./handlers/cases/export/exportCases");
 const express = require("express");
 const router = express.Router();
 
