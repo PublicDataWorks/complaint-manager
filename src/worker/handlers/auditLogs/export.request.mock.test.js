@@ -1,5 +1,5 @@
 //Had to use separate file for this test to mock import
-import app from "../../server";
+import app from "../../../server/server";
 import stringify from "csv-stringify/lib/index";
 import {
   AUDIT_SUBJECT,
@@ -8,15 +8,15 @@ import {
   USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
 import request from "supertest";
-import models from "../../models";
+import models from "../../../server/models";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
   suppressWinstonLogs
-} from "../../testHelpers/requestTestHelpers";
+} from "../../../server/testHelpers/requestTestHelpers";
 jest.mock("csv-stringify/lib/index");
 
-describe("GET /api/export-audit-log", () => {
+xdescribe("GET /api/export-audit-log", () => {
   let nickname, tokenWithExportPermission;
 
   beforeEach(async () => {

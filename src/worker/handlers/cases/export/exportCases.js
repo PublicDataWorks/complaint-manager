@@ -3,13 +3,12 @@ const {
   AUDIT_TYPE,
   AUDIT_SUBJECT
 } = require("../../../../sharedUtilities/constants");
-const asyncMiddleware = require("../../../../server/handlers/asyncMiddleware");
 const models = require("../../../../server/models/index");
 const stringify = require("csv-stringify");
 const exportCasesQuery = require("./exportCasesQuery");
 
-const exportCases = (job, done) => {
-  models.sequelize.transaction(async transaction => {
+const exportCases = async (job, done) => {
+  await models.sequelize.transaction(async transaction => {
     await models.action_audit.create(
       {
         auditType: AUDIT_TYPE.EXPORT,
@@ -25,8 +24,8 @@ const exportCases = (job, done) => {
       transaction
     });
 
-    stringify(caseData, csvOptions, (err, csvOutput) => {
-      done();
+    await stringify(caseData, csvOptions, (err, csvOutput) => {
+      done(null, csvOutput);
     });
   });
 };
