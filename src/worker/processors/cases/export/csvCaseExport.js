@@ -1,20 +1,22 @@
 const {
   AUDIT_ACTION,
   AUDIT_TYPE,
-  AUDIT_SUBJECT
+  AUDIT_SUBJECT,
+  JOB_OPERATION
 } = require("../../../../sharedUtilities/constants");
 const models = require("../../../../server/models/index");
 const stringify = require("csv-stringify");
 const exportCasesQuery = require("./exportCasesQuery");
+const uploadFileToS3 = require("../../fileUpload/uploadFileToS3");
 
-const exportCases = async (job, done) => {
+const csvCaseExport = async (job, done) => {
   await models.sequelize.transaction(async transaction => {
     await models.action_audit.create(
       {
         auditType: AUDIT_TYPE.EXPORT,
         action: AUDIT_ACTION.EXPORTED,
         subject: AUDIT_SUBJECT.ALL_CASE_INFORMATION,
-        user: job.user
+        user: job.data.user
       },
       { transaction }
     );
@@ -25,7 +27,11 @@ const exportCases = async (job, done) => {
     });
 
     await stringify(caseData, csvOptions, (err, csvOutput) => {
-      done(null, csvOutput);
+      uploadFileToS3(job.id, csvOutput, JOB_OPERATION.CASE_EXPORT.filename).then(data => {
+        done(null, data);
+      }, err => {
+        done(err);
+      });
     });
   });
 };
@@ -117,4 +123,4 @@ const csvOptions = {
   columns: columns
 };
 
-module.exports = exportCases;
+module.exports = csvCaseExport;

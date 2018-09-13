@@ -7,6 +7,7 @@ module.exports = {
     host: "db",
     s3Bucket: "noipm-local",
     officerBucket: "nopd-officers-local",
+    exportsBucket: "noipm-exports-local",
     email: {
       secureConnection: false,
       host: "email",
@@ -43,6 +44,7 @@ module.exports = {
   test: {
     host: process.env.CIRCLECI ? "localhost" : "db",
     port: 5432,
+    exportsBucket: "noipm-exports-test",
     email: {
       secureConnection: false,
       secure: false,
@@ -84,6 +86,7 @@ module.exports = {
     host: process.env.DATABASE_HOST,
     s3Bucket: "noipm-ci",
     officerBucket: "nopd-officers-ci",
+    exportsBucket: "noipm-exports-ci",
     email: {
       host: "smtp-mail.outlook.com",
       port: 587,
@@ -127,6 +130,7 @@ module.exports = {
     host: process.env.DATABASE_HOST,
     s3Bucket: "noipm-staging",
     officerBucket: "nopd-officers-staging",
+    exportsBucket: "noipm-exports-staging",
     email: {
       host: "smtp-mail.outlook.com",
       port: 587,
@@ -170,6 +174,7 @@ module.exports = {
     host: process.env.DATABASE_HOST,
     s3Bucket: "noipm-production",
     officerBucket: "nopd-officers-production",
+    exportsBucket: "noipm-exports-production",
     email: {
       host: "smtp-mail.outlook.com",
       port: 587,

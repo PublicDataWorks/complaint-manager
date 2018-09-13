@@ -8,7 +8,9 @@ import Civilian from "../../../../client/testUtilities/civilian";
 import Case from "../../../../client/testUtilities/case";
 import moment from "moment";
 import timezone from "moment-timezone";
-import exportCases from "./exportCases";
+import csvCaseExport from "./csvCaseExport";
+import uploadFileToS3 from "../../fileUpload/uploadFileToS3";
+jest.mock("../../fileUpload/uploadFileToS3", () => jest.fn());
 
 import {
   ACCUSED,
@@ -18,13 +20,14 @@ import {
   AUDIT_TYPE,
   COMPLAINANT,
   TIMEZONE,
-  WITNESS
+  WITNESS,
+  JOB_OPERATION
 } from "../../../../sharedUtilities/constants";
 import parse from "csv-parse/lib/sync";
 import Address from "../../../../client/testUtilities/Address";
 import Attachment from "../../../../client/testUtilities/attachment";
 
-describe("exportCases request", function() {
+describe("csvCaseExport request", function() {
   let caseToExport,
     civilian,
     officer,
@@ -32,8 +35,18 @@ describe("exportCases request", function() {
     allegation,
     officerAllegation;
 
+  let records = [];
+
   beforeEach(async done => {
     await cleanupDatabase();
+    records = [];
+    uploadFileToS3.mockImplementation((jobId, dataToUpload, filename) => {
+      records = parse(dataToUpload, { columns: true });
+      return { then: jest.fn() };
+    });
+
+    //uploadFileToS3.mockReturnValue({then: jest.fn()});
+
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined);
@@ -104,6 +117,9 @@ describe("exportCases request", function() {
     done();
   });
 
+  const job = { data: { user: "some user" }, id: "123" };
+  const jobDone = jest.fn();
+
   test("should retrieve correct headers", async done => {
     await caseToExport.reload({
       include: [
@@ -116,11 +132,10 @@ describe("exportCases request", function() {
       ]
     });
 
-    const job = { user: "some user" };
-    const jobDone = jest.fn();
-    await exportCases(job, jobDone);
-    expect(jobDone).toHaveBeenCalledWith(
-      null,
+    await csvCaseExport(job, jobDone);
+
+    expect(uploadFileToS3).toHaveBeenCalledWith(
+      job.id,
       expect.stringContaining(
         "Case #," +
           "Case Status," +
@@ -195,7 +210,8 @@ describe("exportCases request", function() {
           "Allegation Details," +
           "Allegation Severity," +
           "Types of Attachments\n"
-      )
+      ),
+      JOB_OPERATION.CASE_EXPORT.filename
     );
     done();
   });
@@ -212,14 +228,7 @@ describe("exportCases request", function() {
       ]
     });
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(1);
     expect(records[0]["Case #"]).toEqual(caseToExport.id.toString());
@@ -276,14 +285,7 @@ describe("exportCases request", function() {
   test("should display empty when civilian has no phone number", async done => {
     await civilian.update({ phoneNumber: null }, { auditUser: "someone" });
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records[0]["Civilian Complainant Phone Number"]).toEqual("");
     done();
@@ -292,28 +294,14 @@ describe("exportCases request", function() {
   test("should display empty when civilian has a blank phone number", async done => {
     await civilian.update({ phoneNumber: "" }, { auditUser: "someone" });
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records[0]["Civilian Complainant Phone Number"]).toEqual("");
     done();
   });
 
   test("should retrieve civilian complainant data", async done => {
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records[0]["Complainant"]).toEqual("Civilian");
     expect(records[0]["Civilian Complainant Name"]).toEqual(
@@ -369,14 +357,7 @@ describe("exportCases request", function() {
   test("should set civilian complainant age to N/A when dob or incident date is blank", async done => {
     await civilian.update({ birthDate: null }, { auditUser: "someone" });
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records[0]["Complainant"]).toEqual("Civilian");
     expect(records[0]["Civilian Complainant Age on Incident Date"]).toEqual(
@@ -397,14 +378,7 @@ describe("exportCases request", function() {
       auditUser: "tuser"
     });
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(2);
 
@@ -451,14 +425,7 @@ describe("exportCases request", function() {
       { auditUser: "tuser" }
     );
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(2);
 
@@ -557,14 +524,7 @@ describe("exportCases request", function() {
       auditUser: "tuser"
     });
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     const complainantOfficerRow = records[1];
     expect(complainantOfficerRow["Complainant"]).toEqual("Officer");
@@ -575,11 +535,7 @@ describe("exportCases request", function() {
   });
 
   test("should audit exporting all case information", async done => {
-    const job = { user: "some user" };
-
-    const jobDone = (error, resultingCsv) => {};
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     const audit = await models.action_audit.find({
       where: { subject: AUDIT_SUBJECT.ALL_CASE_INFORMATION }
@@ -625,14 +581,7 @@ describe("exportCases request", function() {
       }
     );
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(2);
     expect(records[0]["Number of Witnesses"]).toEqual("2");
@@ -673,14 +622,7 @@ describe("exportCases request", function() {
     );
     await createdCivilianWitness.destroy({ auditUser: "test user" });
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records[0]["Number of Witnesses"]).toEqual("0");
     done();
@@ -717,28 +659,14 @@ describe("exportCases request", function() {
       { auditUser: "test user" }
     );
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records[0]["Number of Witnesses"]).toEqual("2");
     done();
   });
 
   test("should include witness count when no witnesses", async done => {
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records[0]["Number of Witnesses"]).toEqual("0");
     done();
@@ -771,14 +699,7 @@ describe("exportCases request", function() {
       auditUser: "someone"
     });
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records[2]["Officer Complainant Name"]).toEqual("Unknown Officer");
     expect(records[1]["Accused Officer Name"]).toEqual("Unknown Officer");
@@ -786,14 +707,7 @@ describe("exportCases request", function() {
   });
 
   test("should include data about officer", async done => {
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
     const firstRecord = records[0];
 
     expect(firstRecord["Accused Officer Case Officer Database ID"]).toEqual(
@@ -873,14 +787,7 @@ describe("exportCases request", function() {
       }
     );
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(2);
 
@@ -933,14 +840,7 @@ describe("exportCases request", function() {
       }
     );
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(2);
 
@@ -997,14 +897,7 @@ describe("exportCases request", function() {
       }
     );
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(4);
 
@@ -1060,14 +953,7 @@ describe("exportCases request", function() {
   });
 
   test("exports allegation information for single allegation", async done => {
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(1);
     const record = records[0];
@@ -1101,14 +987,7 @@ describe("exportCases request", function() {
       { auditUser: "test" }
     );
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(2);
     const record1 = records[0];
@@ -1154,14 +1033,7 @@ describe("exportCases request", function() {
       attachmentAttributes3
     ]);
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(1);
 
@@ -1177,14 +1049,7 @@ describe("exportCases request", function() {
   });
 
   test("should display correct timezone", async done => {
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(1);
 
@@ -1200,14 +1065,7 @@ describe("exportCases request", function() {
   test("should not add extra space when civilian has no middle initial", async done => {
     await civilian.update({ middleInitial: "" }, { auditUser: "test user" });
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(1);
 
@@ -1242,14 +1100,7 @@ describe("exportCases request", function() {
       { auditUser: "test user" }
     );
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(2);
 
@@ -1295,14 +1146,7 @@ describe("exportCases request", function() {
       { auditUser: "test user" }
     );
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(2);
 
@@ -1320,14 +1164,7 @@ describe("exportCases request", function() {
   test("should not add extra space when accused officer middle name is blank", async done => {
     await caseOfficer.update({ middleName: "" }, { auditUser: "test user" });
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(1);
 
@@ -1341,14 +1178,7 @@ describe("exportCases request", function() {
   test("should set age to NA when dob is blank and incident date is not blank", async done => {
     await caseOfficer.update({ dob: null }, { auditUser: "someone" });
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(1);
 
@@ -1360,14 +1190,7 @@ describe("exportCases request", function() {
   test("should set age to NA when dob is given and incident date is blank", async done => {
     await caseToExport.update({ incidentDate: null }, { auditUser: "someone" });
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(1);
 
@@ -1382,14 +1205,7 @@ describe("exportCases request", function() {
       { auditUser: "test user" }
     );
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(1);
 
@@ -1408,14 +1224,7 @@ describe("exportCases request", function() {
     await caseOfficer.update({ dob: null }, { auditUser: "someone" });
     await caseToExport.update({ incidentDate: null }, { auditUser: "someone" });
 
-    const job = { user: "some user" };
-
-    let records = [];
-    const jobDone = (error, resultingCsv) => {
-      records = parse(resultingCsv, { columns: true });
-    };
-
-    await exportCases(job, jobDone);
+    await csvCaseExport(job, jobDone);
 
     expect(records.length).toEqual(1);
 

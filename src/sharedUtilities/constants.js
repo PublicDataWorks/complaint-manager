@@ -248,8 +248,16 @@ const S3_URL_EXPIRATION = 60;
 //           Background Job Operations
 // ------------------------------------------
 const JOB_OPERATION = {
-  AUDIT_LOG_EXPORT: { key: "audit_log_export", title: "Audit Log Export" },
-  CASE_EXPORT: { key: "case_export", title: "Export All Cases" }
+  AUDIT_LOG_EXPORT: {
+    key: "audit_log_export",
+    title: "Export Audit Log",
+    filename: "Audit_Log"
+  },
+  CASE_EXPORT: {
+    key: "case_export",
+    title: "Export All Case Information",
+    filename: "All_Case_Information"
+  }
 };
 
 const QUEUE_PREFIX = "noimp_q";
