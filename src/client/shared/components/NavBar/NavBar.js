@@ -16,7 +16,6 @@ import handleLogout from "../../../users/thunks/handleLogout";
 import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
 import {
   openExportAuditLogConfirmationDialog,
-  openExportAllCasesConfirmationDialog,
   closeExportConfirmationDialog
 } from "../../../actionCreators/navBarActionCreators";
 
@@ -115,10 +114,9 @@ class NavBar extends React.Component {
           >
             {this.renderExportAuditLogOption()}
             <MenuItem
-              onClick={() => {
-                this.setState({ menuOpen: false });
-                this.props.dispatch(openExportAllCasesConfirmationDialog());
-              }}
+              data-test="exportAllCases"
+              component={Link}
+              to="/cases/export"
             >
               Export All Case Information
             </MenuItem>
