@@ -7,6 +7,7 @@ import getCaseDetails from "../thunks/getCaseDetails";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
+import LetterProgressStepper from "./LetterProgressStepper";
 
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {
@@ -42,6 +43,7 @@ export class LetterReview extends Component {
         >
           Save and Return to Case
         </LinkButton>
+        <LetterProgressStepper />
         <div style={{ margin: "0% 5% 3%" }}>
           <div style={{ margin: "0 0 32px 0" }}>
             <Typography variant="title">Review Case Details</Typography>

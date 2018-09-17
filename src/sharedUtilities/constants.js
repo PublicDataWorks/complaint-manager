@@ -197,6 +197,34 @@ const CASE_STATUS = {
   CLOSED: "Closed"
 };
 
+const CASE_STATUS_MAP = {
+  [CASE_STATUS.INITIAL]: 0,
+  [CASE_STATUS.ACTIVE]: 1,
+  [CASE_STATUS.LETTER_IN_PROGRESS]: 2,
+  [CASE_STATUS.READY_FOR_REVIEW]: 3,
+  [CASE_STATUS.FORWARDED_TO_AGENCY]: 4,
+  [CASE_STATUS.CLOSED]: 5
+};
+
+// ----------------------------------------
+//          Letter Progress Map
+// ----------------------------------------
+const LETTER_PROGRESS = {
+  REVIEW_CASE_DETAILS: "Review Case Details",
+  OFFICER_COMPLAINT_HISTORIES: "Officer Complaint Histories",
+  IAPRO_CORRECTIONS: "IAPro Corrections",
+  RECOMMENDED_ACTIONS: "Recommended Actions",
+  PREVIEW: "Preview"
+};
+
+const LETTER_PROGRESS_MAP = {
+  [LETTER_PROGRESS.REVIEW_CASE_DETAILS]: 0,
+  [LETTER_PROGRESS.OFFICER_COMPLAINT_HISTORIES]: 1,
+  [LETTER_PROGRESS.IAPRO_CORRECTIONS]: 2,
+  [LETTER_PROGRESS.RECOMMENDED_ACTIONS]: 3,
+  [LETTER_PROGRESS.PREVIEW]: 4
+};
+
 // ----------------------------------------
 //       Officers Allegations Severity
 // ----------------------------------------
@@ -205,15 +233,6 @@ const ALLEGATION_SEVERITY = {
   MEDIUM: "Medium",
   HIGH: "High",
   ALL: ["Low", "Medium", "High"]
-};
-
-const CASE_STATUS_MAP = {
-  [CASE_STATUS.INITIAL]: 0,
-  [CASE_STATUS.ACTIVE]: 1,
-  [CASE_STATUS.LETTER_IN_PROGRESS]: 2,
-  [CASE_STATUS.READY_FOR_REVIEW]: 3,
-  [CASE_STATUS.FORWARDED_TO_AGENCY]: 4,
-  [CASE_STATUS.CLOSED]: 5
 };
 
 // ----------------------------------------
@@ -322,6 +341,8 @@ module.exports = {
   RANK_INITIATED,
   CASE_STATUS,
   CASE_STATUS_MAP,
+  LETTER_PROGRESS,
+  LETTER_PROGRESS_MAP,
   ALLEGATION_SEVERITY,
   ACCUSED_OFFICER_PANEL_COLLAPSED,
   ACCUSED_OFFICER_PANEL_EXPANDED,
