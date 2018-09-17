@@ -12,6 +12,7 @@ import {
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import { userAuthSuccess } from "../../../auth/actionCreators";
+import { MemoryRouter } from "react-router-dom";
 
 describe("CaseStatusStepper", () => {
   let store;
@@ -59,7 +60,7 @@ describe("CaseStatusStepper", () => {
     );
     const statusStepper = wrapper.find('[data-test="statusStepper"]').first();
 
-    expect(statusStepper.prop("activeStep")).toEqual(3);
+    expect(statusStepper.prop("activeStep")).toEqual(4);
   });
 
   test("should NOT show a button when a case is initial", () => {
@@ -84,29 +85,29 @@ describe("CaseStatusStepper", () => {
     expect(updateStatusButton.exists()).toBeFalsy();
   });
 
-  test("should show a button when case is active", () => {
+  test("should show `Generate Letter` button when case is active", () => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
         status: CASE_STATUS.ACTIVE,
-        nextStatus: CASE_STATUS.READY_FOR_REVIEW
+        nextStatus: CASE_STATUS.LETTER_IN_PROGRESS
       })
     );
 
     const wrapper = mount(
-      <Provider store={store}>
-        <CaseStatusStepper />
-      </Provider>
+      <MemoryRouter>
+        <Provider store={store}>
+          <CaseStatusStepper />
+        </Provider>
+      </MemoryRouter>
     );
 
-    const updateStatusButton = wrapper
-      .find('[data-test="updateStatusButton"]')
+    const generateLetterButton = wrapper
+      .find('[data-test="generateLetterButton"]')
       .first();
 
-    expect(updateStatusButton.exists()).toBeTruthy();
-    expect(updateStatusButton.text()).toEqual(
-      `Mark as ${CASE_STATUS.READY_FOR_REVIEW}`
-    );
+    expect(generateLetterButton.exists()).toBeTruthy();
+    expect(generateLetterButton.text()).toEqual(`Generate Letter`);
   });
 
   test("should open update status dialog and pass in the next status", () => {
@@ -114,8 +115,8 @@ describe("CaseStatusStepper", () => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
-        status: CASE_STATUS.ACTIVE,
-        nextStatus: CASE_STATUS.READY_FOR_REVIEW
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
       })
     );
 
@@ -132,7 +133,7 @@ describe("CaseStatusStepper", () => {
     updateStatusButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
-      openCaseStatusUpdateDialog(CASE_STATUS.READY_FOR_REVIEW)
+      openCaseStatusUpdateDialog(CASE_STATUS.FORWARDED_TO_AGENCY)
     );
   });
 

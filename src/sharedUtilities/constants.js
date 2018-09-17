@@ -191,6 +191,7 @@ const RANK_INITIATED = "Rank Initiated";
 const CASE_STATUS = {
   INITIAL: "Initial",
   ACTIVE: "Active",
+  LETTER_IN_PROGRESS: "Letter in Progress",
   READY_FOR_REVIEW: "Ready for Review",
   FORWARDED_TO_AGENCY: "Forwarded to Agency",
   CLOSED: "Closed"
@@ -209,9 +210,10 @@ const ALLEGATION_SEVERITY = {
 const CASE_STATUS_MAP = {
   [CASE_STATUS.INITIAL]: 0,
   [CASE_STATUS.ACTIVE]: 1,
-  [CASE_STATUS.READY_FOR_REVIEW]: 2,
-  [CASE_STATUS.FORWARDED_TO_AGENCY]: 3,
-  [CASE_STATUS.CLOSED]: 4
+  [CASE_STATUS.LETTER_IN_PROGRESS]: 2,
+  [CASE_STATUS.READY_FOR_REVIEW]: 3,
+  [CASE_STATUS.FORWARDED_TO_AGENCY]: 4,
+  [CASE_STATUS.CLOSED]: 5
 };
 
 // ----------------------------------------
