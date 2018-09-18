@@ -8,6 +8,13 @@ import { clearSelectedOfficer } from "../../actionCreators/officersActionCreator
 import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
 import LetterProgressStepper from "./LetterProgressStepper";
+import styles from "../../globalStyling/styles";
+import CaseDetailCard from "./CaseDetailCard";
+import {
+  getComplainantData,
+  getIncidentInfoData,
+  getWitnessData
+} from "./CaseDetailDataHelpers";
 
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {
@@ -22,11 +29,13 @@ export class LetterReview extends Component {
   }
 
   render() {
+    const { caseDetail } = this.props;
     const caseId = this.props.match.params.id;
 
     if (this.caseDetailsNotYetLoaded()) {
       return null;
     }
+
     return (
       <div>
         <NavBar>
@@ -34,6 +43,7 @@ export class LetterReview extends Component {
             {`Case #${caseId}   : Letter Generation`}
           </Typography>
         </NavBar>
+
         <LinkButton
           data-test="save-and-return-to-case-link"
           component={Link}
@@ -43,11 +53,18 @@ export class LetterReview extends Component {
         >
           Save and Return to Case
         </LinkButton>
+
         <LetterProgressStepper />
+
         <div style={{ margin: "0% 5% 3%" }}>
           <div style={{ margin: "0 0 32px 0" }}>
             <Typography variant="title">Review Case Details</Typography>
           </div>
+
+          <CaseDetailCard
+            cardTitle={"Incident Info"}
+            cardData={getIncidentInfoData(caseDetail)}
+          />
 
           <Card
             style={{
@@ -56,7 +73,46 @@ export class LetterReview extends Component {
               margin: "0 0 32px 0"
             }}
           >
-            <CardContent style={{ paddingBottom: "8px" }}>Text</CardContent>
+            <CardContent style={{ paddingBottom: "8px" }}>
+              <Typography style={styles.section}>Narrative Summary</Typography>
+              <Typography>{caseDetail.narrativeSummary}</Typography>
+            </CardContent>
+          </Card>
+
+          <Card
+            style={{
+              backgroundColor: "white",
+              width: "60%",
+              margin: "0 0 32px 0"
+            }}
+          >
+            <CardContent style={{ paddingBottom: "8px" }}>
+              <Typography style={styles.section}>Narrative Details</Typography>
+              <Typography>{caseDetail.narrativeDetails}</Typography>
+            </CardContent>
+          </Card>
+
+          <CaseDetailCard
+            cardTitle={"Complainant Information"}
+            cardData={getComplainantData(caseDetail)}
+          />
+
+          <CaseDetailCard
+            cardTitle={"Witness Information"}
+            cardData={getWitnessData(caseDetail)}
+          />
+
+          <Card
+            style={{
+              backgroundColor: "white",
+              width: "60%",
+              margin: "0 0 32px 0"
+            }}
+          >
+            <CardContent style={{ paddingBottom: "8px" }}>
+              <Typography style={styles.section}>Accused Officer</Typography>
+              <Typography style={styles.section}>Allegations</Typography>
+            </CardContent>
           </Card>
         </div>
       </div>
