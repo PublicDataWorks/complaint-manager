@@ -170,6 +170,13 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: { name: "caseId", field: "case_id" },
       scope: { role_on_case: WITNESS }
     });
+    Case.belongsTo(models.classification, {
+      foreignKey: {
+        name: "classificationId",
+        field: "classification_id",
+        allowNull: true
+      }
+    });
     Case.hasMany(models.data_change_audit, {
       as: "dataChangeAudits",
       foreignKey: { name: "caseId", field: "case_id" }
