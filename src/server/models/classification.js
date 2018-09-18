@@ -4,8 +4,14 @@ module.exports = (sequelize, DataTypes) => {
   const Classification = sequelize.define(
     "classification",
     {
-      abbreviation: DataTypes.STRING,
-      name: DataTypes.STRING
+      abbreviation: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false
+      }
     },
     {}
   );
