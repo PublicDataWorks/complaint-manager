@@ -3,6 +3,7 @@ import { Step, StepLabel, Stepper } from "@material-ui/core";
 import {
   CASE_STATUS,
   CASE_STATUS_MAP,
+  TOGGLE_CASE_STATUS_MAP,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import { connect } from "react-redux";
@@ -88,18 +89,28 @@ const CaseStatusStepper = ({
     }
   };
 
+  const activeStatusMap = featureToggles.letterGenerationToggle
+    ? TOGGLE_CASE_STATUS_MAP
+    : CASE_STATUS_MAP;
+
+  const activeNextStatus = featureToggles.letterGenerationToggle
+    ? status === CASE_STATUS.ACTIVE
+      ? CASE_STATUS.READY_FOR_REVIEW
+      : nextStatus
+    : nextStatus;
+
   return (
     <Fragment>
       <Stepper
         data-test="statusStepper"
-        activeStep={CASE_STATUS_MAP[status]}
+        activeStep={activeStatusMap[status]}
         alternativeLabel
         style={{ marginLeft: "5%", maxWidth: "850px", padding: "24px 0px" }}
       >
-        {generateSteps(CASE_STATUS_MAP)}
+        {generateSteps(activeStatusMap)}
       </Stepper>
       {shouldRenderStatusTransitionButton(status, userInfo) ? (
-        featureToggles.letterGeneration ? (
+        featureToggles.letterGenerationToggle ? (
           <div
             style={{
               marginLeft: "5%",
@@ -113,10 +124,10 @@ const CaseStatusStepper = ({
             <PrimaryButton
               data-test="updateStatusButton"
               onClick={() => {
-                dispatch(openCaseStatusUpdateDialog(nextStatus));
+                dispatch(openCaseStatusUpdateDialog(activeNextStatus));
               }}
             >
-              {`Mark as ${nextStatus}`}
+              {`Mark as ${activeNextStatus}`}
             </PrimaryButton>
           </div>
         ) : (

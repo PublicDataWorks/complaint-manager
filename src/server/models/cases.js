@@ -42,7 +42,21 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         set(newStatus) {
           const nextStatus = determineNextCaseStatus(this.status);
-          if (newStatus === nextStatus || newStatus === this.status) {
+          /***
+          NOTE: the third validation:
+
+            (newStatus === CASE_STATUS.READY_FOR_REVIEW &&
+              this.status === CASE_STATUS.ACTIVE)
+
+           is only in place due to the letterGenerationToggle toggle.
+           Remove this logic when that toggle is removed.
+          ***/
+          if (
+            newStatus === nextStatus ||
+            newStatus === this.status ||
+            (newStatus === CASE_STATUS.READY_FOR_REVIEW &&
+              this.status === CASE_STATUS.ACTIVE)
+          ) {
             this.setDataValue("status", newStatus);
           } else {
             throw Boom.badRequest("Invalid case status");
