@@ -27,6 +27,7 @@ const removeCaseNote = require("./handlers/cases/removeCaseNote/removeCaseNote")
 const createCaseNote = require("./handlers/cases/createCaseNote");
 const searchAllegations = require("./handlers/allegations/searchAllegations");
 const getAllegations = require("./handlers/allegations/getAllegations");
+const getClassifications = require("./handlers/classifications/getClassifications");
 const attachmentRouter = require("./attachmentRouter");
 const generateAttachmentDownloadUrl = require("./handlers/cases/attachments/generateAttachmentDownloadUrl");
 const createOfficerAllegation = require("./handlers/officerAllegations/createOfficerAllegation/createOfficerAllegation");
@@ -95,5 +96,6 @@ router.get(
 router.get("/officers/search", searchOfficers);
 router.get("/allegations/search", searchAllegations);
 router.get("/allegations", getAllegations);
+router.get("/classifications", getClassifications);
 
 module.exports = router;
