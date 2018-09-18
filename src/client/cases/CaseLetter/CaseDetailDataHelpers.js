@@ -62,7 +62,7 @@ export const getComplainantData = caseDetail => {
   if (complainantCivilianData) {
     return complainantCivilianData.concat(complainantOfficerData);
   } else {
-    return complainantOfficerData;
+    return complainantOfficerData || [];
   }
 };
 
@@ -93,6 +93,6 @@ export const getWitnessData = caseDetail => {
   if (witnessCivilianData) {
     return witnessCivilianData.concat(witnessOfficerData);
   } else {
-    return witnessOfficerData;
+    return witnessOfficerData || [];
   }
 };

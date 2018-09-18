@@ -317,6 +317,17 @@ describe("caseDetailDataHelpers", function() {
     });
 
     describe("witness data", function() {
+      test("returns correct witness data when no witnesses", () => {
+        const caseDetail = {
+          witnessCivilians: [],
+          witnessOfficers: []
+        };
+
+        const witnessData = getWitnessData(caseDetail);
+
+        expect(witnessData).toEqual([]);
+      });
+
       test("returns correct witness data when single civilian witness", () => {
         const caseDetail = {
           witnessCivilians: [
