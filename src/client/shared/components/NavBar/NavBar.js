@@ -116,7 +116,7 @@ class NavBar extends React.Component {
             <MenuItem
               data-test="exportAllCases"
               component={Link}
-              to="/cases/export"
+              to="/all/export"
             >
               Export All Case Information
             </MenuItem>

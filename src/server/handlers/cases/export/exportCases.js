@@ -1,22 +1,7 @@
-const {
-  JOB_OPERATION,
-  QUEUE_PREFIX
-} = require("../../../../sharedUtilities/constants");
+const { JOB_OPERATION } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
-
+const kueJobQueue = require("./jobQueue");
 const config = require("../../../config/config")[process.env.NODE_ENV];
-const kue = require("kue");
-
-const createQueue = redisConnection => {
-  return kue.createQueue({
-    prefix: QUEUE_PREFIX,
-    redis: redisConnection
-  });
-};
-
-const kueJobQueue = createQueue(
-  `redis://${config.queue.host}:${config.queue.port}`
-);
 
 const exportCases = asyncMiddleware(async (request, response, next) => {
   const job = kueJobQueue.create(JOB_OPERATION.CASE_EXPORT.key, {

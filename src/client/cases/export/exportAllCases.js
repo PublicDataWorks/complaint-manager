@@ -8,11 +8,15 @@ import {
 import ExportConfirmationDialog from "../../shared/components/NavBar/ExportConfirmationDialog";
 import { closeSnackbar } from "../../actionCreators/snackBarActionCreators";
 import connect from "react-redux/es/connect/connect";
+import _ from "lodash";
+import JobDetails from "./jobDetails";
+import getExportJobs from "../thunks/getExportJobs";
 
 class ExportAllCases extends Component {
   componentDidMount() {
-    this.props.dispatch(closeSnackbar());
-    this.props.dispatch(closeExportConfirmationDialog());
+    // this.props.dispatch(closeSnackbar());
+    // this.props.dispatch(closeExportConfirmationDialog());
+    this.props.getExportJobs();
   }
 
   render() {
@@ -43,10 +47,27 @@ class ExportAllCases extends Component {
             </LinkButton>
           </div>
         </div>
+        <div>
+          <p> Found jobs {this.props.exportJobs.length} </p>
+          {_.sortBy(this.props.exportJobs, "id").map(job => (
+            <JobDetails key={job.id} job={job} />
+          ))}
+        </div>
         <ExportConfirmationDialog />
       </div>
     );
   }
 }
 
-export default connect()(ExportAllCases);
+const mapStateToProps = state => ({
+  exportJobs: state.exportJobs
+});
+
+const mapDispatchToProps = {
+  getExportJobs
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExportAllCases);

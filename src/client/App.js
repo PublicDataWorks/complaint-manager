@@ -73,7 +73,7 @@ class App extends Component {
               </Switch>
               <Route exact path="/cases/:id/history" component={CaseHistory} />
               <Route exact path="/cases/:id" component={CaseDetails} />
-              <Route exact path="/cases/export" component={exportAllCases} />
+              <Route exact path="/all/export" component={exportAllCases} />
               <Route exact path="/styleguide" component={StyleGuide} />
               <Route exact path="/admin" component={UserDashboard} />
               <Route
