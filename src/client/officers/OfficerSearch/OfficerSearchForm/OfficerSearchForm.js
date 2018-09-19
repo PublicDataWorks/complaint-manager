@@ -12,7 +12,8 @@ export const OfficerSearchForm = props => {
   const { invalid, handleSubmit, caseId } = props;
 
   const onSubmit = (values, dispatch) => {
-    dispatch(getSearchResults(normalizeValues(values), "officers", { caseId }));
+    const paginatingSearch = true;
+    dispatch(getSearchResults(normalizeValues(values), "officers", { caseId }, paginatingSearch, 1));
   };
 
   const normalizeValues = values => {

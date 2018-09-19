@@ -11,7 +11,7 @@ const OfficerSearch = props => {
   return (
     <div>
       <div style={{ margin: "0 0 32px 0" }}>
-        <Typography variant="title">Search for an Officer</Typography>
+        <Typography variant="title" className="officerSearchHeader">Search for an Officer</Typography>
         <Typography variant="body1">
           Unable to find an officer? You can{" "}
           <SelectUnknownOfficerLink
