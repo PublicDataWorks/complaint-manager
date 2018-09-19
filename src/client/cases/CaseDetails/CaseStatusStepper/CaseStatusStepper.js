@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import UpdateCaseStatusDialog from "../UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
-import { Link } from "react-router-dom";
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -55,10 +54,10 @@ const CaseStatusStepper = ({
           }}
         >
           <PrimaryButton
-            to={`/cases/${caseId}/letter/review`}
-            component={Link}
             data-test="generateLetterButton"
-            onClick={() => {}}
+            onClick={() => {
+              dispatch(openCaseStatusUpdateDialog(nextStatus));
+            }}
           >
             {`Generate Letter`}
           </PrimaryButton>

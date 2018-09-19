@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import setCaseStatus from "../../thunks/setCaseStatus";
 import { closeCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import history from "../../../history";
 
 const STATUS_DESCRIPTION = {
   [CASE_STATUS.READY_FOR_REVIEW]:
@@ -57,6 +58,9 @@ const UpdateCaseStatusDialog = ({ dispatch, open, caseId, nextStatus }) => {
           data-test="updateCaseStatus"
           onClick={() => {
             dispatch(setCaseStatus(caseId, nextStatus));
+            if (nextStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
+              history.push(`/cases/${caseId}/letter/review`);
+            }
           }}
         >{`Mark as ${nextStatus}`}</PrimaryButton>
       </DialogActions>
