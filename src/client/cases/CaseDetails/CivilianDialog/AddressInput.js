@@ -5,7 +5,7 @@ import { change, Field, clearSubmitErrors } from "redux-form";
 import { connect } from "react-redux";
 import colors from "../../../globalStyling/colors";
 import MapService from "./MapServices/MapService";
-import formatAddress from "../../../utilities/formatAddress";
+import { formatAddressAsString } from "../../../utilities/formatAddress";
 import _ from "lodash";
 import StyledLink from "../../../shared/components/StyledLink";
 import {
@@ -56,7 +56,8 @@ class AddressInput extends Component {
           }}
         >
           <span style={{ color: colors.red }}>
-            Did you mean <b>{formatAddress(this.props.addressToConfirm)}</b>?
+            Did you mean{" "}
+            <b>{formatAddressAsString(this.props.addressToConfirm)}</b>?
           </span>{" "}
           <StyledLink
             onClick={this.fillConfirmedAddress}
@@ -89,7 +90,7 @@ class AddressInput extends Component {
   fillConfirmedAddress = () => {
     this.setFormValues(this.props.addressToConfirm);
     this.props.updateAddressDisplayValue(
-      formatAddress(this.props.addressToConfirm)
+      formatAddressAsString(this.props.addressToConfirm)
     );
     this.props.updateAddressToConfirm(parseAddressFromGooglePlaceResult({}));
   };

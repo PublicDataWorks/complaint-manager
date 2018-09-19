@@ -47,8 +47,12 @@ class IncidentDetails extends React.Component {
       incidentTime,
       caseId,
       incidentLocation,
-      district
+      district,
+      classification
     } = this.props;
+    const classificationAbbreviation = classification
+      ? classification.abbreviation
+      : "";
 
     return (
       <BaseCaseDetailsCard title="Incident Details">
@@ -90,12 +94,18 @@ class IncidentDetails extends React.Component {
               testLabel="incidentLocation"
               displayLabel="Incident Location"
               address={incidentLocation}
-              style={{ flex: 2 }}
+              useLineBreaks={true}
+              style={{ flex: 1 }}
             />
             <CivilianInfoDisplay
               displayLabel="District"
               value={district}
               testLabel="incidentDistrict"
+            />
+            <CivilianInfoDisplay
+              displayLabel="Classification"
+              value={classificationAbbreviation}
+              testLabel="classification"
             />
             <div style={{ width: "69.5px" }} />
           </div>

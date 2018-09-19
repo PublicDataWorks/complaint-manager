@@ -23,7 +23,7 @@ import editIncidentDetails from "../../thunks/editIncidentDetails";
 import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
 import AddressInput from "../CivilianDialog/AddressInput";
 import { connect } from "react-redux";
-import formatAddress from "../../../utilities/formatAddress";
+import { formatAddressAsString } from "../../../utilities/formatAddress";
 import { addressMustBeValid } from "../../../formValidations";
 import NoBlurTextField from "../CivilianDialog/FormSelect";
 import {
@@ -211,7 +211,7 @@ const mapStateToProps = state => {
   );
 
   return {
-    formattedAddress: formatAddress(values.incidentLocation),
+    formattedAddress: formatAddressAsString(values.incidentLocation),
     addressValid: state.ui.addressInput.addressValid,
     classifications: state.ui.classifications
   };
