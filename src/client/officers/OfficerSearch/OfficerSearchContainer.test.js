@@ -79,7 +79,7 @@ describe("OfficerSearchContainer", () => {
       .build();
     const caseDetails = new Case.Builder().defaultCase().build();
 
-    store.dispatch(searchSuccess({rows: [officer]}));
+    store.dispatch(searchSuccess({ rows: [officer] }));
     store.dispatch(getCaseDetailsSuccess(caseDetails));
 
     const path = "/";
@@ -100,7 +100,6 @@ describe("OfficerSearchContainer", () => {
     const selectNewOfficer = officerDashboard
       .find('[data-test="selectNewOfficerButton"]')
       .first();
-    console.log(selectNewOfficer.prop("to"));
     expect(selectNewOfficer.prop("to")).toEqual(path);
   });
 

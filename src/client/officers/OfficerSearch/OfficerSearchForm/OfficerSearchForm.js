@@ -7,13 +7,22 @@ import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import validate from "./validateOfficerSearchForm";
 import getSearchResults from "../../../shared/thunks/getSearchResults";
 import { connect } from "react-redux";
+import { OFFICER_SEARCH_FORM_NAME } from "../../../../sharedUtilities/constants";
 
 export const OfficerSearchForm = props => {
   const { invalid, handleSubmit, caseId } = props;
 
   const onSubmit = (values, dispatch) => {
     const paginatingSearch = true;
-    dispatch(getSearchResults(normalizeValues(values), "officers", { caseId }, paginatingSearch, 1));
+    dispatch(
+      getSearchResults(
+        normalizeValues(values),
+        "officers",
+        { caseId },
+        paginatingSearch,
+        1
+      )
+    );
   };
 
   const normalizeValues = values => {
@@ -78,6 +87,6 @@ const mapStateToProps = state => ({
 const connectedComponent = connect(mapStateToProps)(OfficerSearchForm);
 
 export default reduxForm({
-  form: "OfficerSearchForm",
+  form: OFFICER_SEARCH_FORM_NAME,
   validate
 })(connectedComponent);
