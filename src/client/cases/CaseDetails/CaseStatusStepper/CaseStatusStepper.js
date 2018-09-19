@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import UpdateCaseStatusDialog from "../UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
+import { Link } from "react-router-dom";
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -52,20 +53,30 @@ const CaseStatusStepper = ({
           justifyContent: "flex-end"
         }}
       >
-        <PrimaryButton
-          data-test={
-            status === CASE_STATUS.ACTIVE
-              ? "generateLetterButton"
-              : "updateStatusButton"
-          }
-          onClick={() => {
-            dispatch(openCaseStatusUpdateDialog(nextStatus));
-          }}
-        >
-          {status === CASE_STATUS.ACTIVE
-            ? `Generate Letter`
-            : `Mark as ${nextStatus}`}
-        </PrimaryButton>
+        {status === CASE_STATUS.LETTER_IN_PROGRESS ? (
+          <PrimaryButton
+            data-test={status === "editLetterButton"}
+            to={`/cases/${caseId}/letter/review`}
+            component={Link}
+          >
+            Edit Letter
+          </PrimaryButton>
+        ) : (
+          <PrimaryButton
+            data-test={
+              status === CASE_STATUS.ACTIVE
+                ? "generateLetterButton"
+                : "updateStatusButton"
+            }
+            onClick={() => {
+              dispatch(openCaseStatusUpdateDialog(nextStatus));
+            }}
+          >
+            {status === CASE_STATUS.ACTIVE
+              ? `Generate Letter`
+              : `Mark as ${nextStatus}`}
+          </PrimaryButton>
+        )}
       </div>
     );
   };
