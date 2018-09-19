@@ -1,20 +1,36 @@
-import { buildTokenWithPermissions } from "../../testHelpers/requestTestHelpers";
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase
+} from "../../testHelpers/requestTestHelpers";
 import app from "../../server";
 import request from "supertest";
 import models from "../../models";
 
 describe("getClassifications", () => {
-  test("returns list of classifications to populate dropdown", async () => {
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
+
+  test("returns list of classifications to populate dropdown, sorted by Unable To Determine then alpha", async () => {
     const token = buildTokenWithPermissions("", "tuser");
-    const classifications = await models.classification.findAll({
-      order: [["abbreviation", "asc"]]
+
+    const fdi = await models.classification.create({
+      abbreviation: "FDI",
+      name: "Formal Disciplinary Investigation"
     });
-    const expectedClassifications = classifications.map(classification => {
-      return [
-        classification.id,
-        `${classification.abbreviation} - ${classification.name}`
-      ];
+    const utd = await models.classification.create({
+      abbreviation: "UTD",
+      name: "Unable to Determine"
     });
+    const bwc = await models.classification.create({
+      abbreviation: "BWC",
+      name: "Body Worn Camera"
+    });
+    const expectedOrderedClassificationValues = [
+      [utd.abbreviation, utd.id],
+      [bwc.abbreviation, bwc.id],
+      [fdi.abbreviation, fdi.id]
+    ];
 
     await request(app)
       .get("/api/classifications")
@@ -22,7 +38,7 @@ describe("getClassifications", () => {
       .set("Authorization", `Bearer ${token}`)
       .expect(200)
       .then(response => {
-        expect(response.body).toEqual(expectedClassifications);
+        expect(response.body).toEqual(expectedOrderedClassificationValues);
       });
   });
 });

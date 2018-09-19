@@ -98,6 +98,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  //when comment this out, no tests fail!
   OfficerAllegation.auditDataChange();
 
   return OfficerAllegation;

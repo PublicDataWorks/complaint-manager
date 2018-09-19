@@ -68,7 +68,8 @@ describe("dataChangeAuditHooks", () => {
         district: { new: null },
         complaintType: { new: RANK_INITIATED },
         assignedTo: { new: "originalAssignedToPerson" },
-        status: { new: CASE_STATUS.INITIAL }
+        status: { new: CASE_STATUS.INITIAL },
+        classificationId: { new: null }
       };
       expect(audit.changes).toEqual(expectedChanges);
     });
@@ -92,7 +93,8 @@ describe("dataChangeAuditHooks", () => {
         createdAt: createdCase.createdAt.toJSON(),
         createdBy: "createdByPerson",
         updatedAt: createdCase.updatedAt.toJSON(),
-        id: createdCase.id
+        id: createdCase.id,
+        classificationId: createdCase.classificationId
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -327,7 +329,8 @@ describe("dataChangeAuditHooks", () => {
         createdAt: existingCase.createdAt.toJSON(),
         createdBy: "createdByPerson",
         updatedAt: existingCase.updatedAt.toJSON(),
-        id: existingCase.id
+        id: existingCase.id,
+        classificationId: existingCase.classificationId
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });

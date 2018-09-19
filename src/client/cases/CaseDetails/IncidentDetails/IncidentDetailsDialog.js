@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import moment from "moment/moment";
 import {
   Dialog,
@@ -26,8 +26,12 @@ import { connect } from "react-redux";
 import formatAddress from "../../../utilities/formatAddress";
 import { addressMustBeValid } from "../../../formValidations";
 import NoBlurTextField from "../CivilianDialog/FormSelect";
-import { inputDistrictMenu } from "../../../utilities/generateMenus";
+import {
+  generateMenu,
+  inputDistrictMenu
+} from "../../../utilities/generateMenus";
 import AdditionalAddressInfoField from "../../sharedFormComponents/AdditionalAddressInfoField";
+import getClassificationDropDownOptions from "../../../classifications/thunks/getClassificationDropdownValues";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -53,107 +57,132 @@ const styles = {
   }
 };
 
-const IncidentDetailsDialog = props => (
-  <Dialog
-    open={props.dialogOpen}
-    fullWidth={true}
-    classes={{
-      paperWidthSm: props.classes.paperWidthSm
-    }}
-  >
-    <DialogTitle data-test="editIncidentDetailsTitle">
-      Edit Incident Details
-    </DialogTitle>
-    <DialogContent>
-      <form>
-        <DateField
-          required={true}
-          name="firstContactDate"
-          label="First Contacted IPM"
-          data-test="editFirstContactDateField"
-          inputProps={{
-            "data-test": "editFirstContactDateInput",
-            type: "date",
-            max: moment(Date.now()).format("YYYY-MM-DD")
-          }}
-          style={{ display: "inherit" }}
-        />
-        <br />
-        <DateField
-          name="incidentDate"
-          label="Incident Date"
-          data-test="editIncidentDateField"
-          inputProps={{
-            "data-test": "editIncidentDateInput",
-            type: "date",
-            max: moment(Date.now()).format("YYYY-MM-DD")
-          }}
-          style={{
-            marginRight: "16px",
-            marginBottom: "16px"
-          }}
-          clearable={true}
-        />
-        <Field
-          component={TextField}
-          name="incidentTime"
-          label="Incident Time"
-          data-test="editIncidentTimeField"
-          inputProps={{
-            "data-test": "editIncidentTimeInput",
-            type: "time"
-          }}
-          InputLabelProps={{
-            shrink: true
-          }}
-        />
-        <AddressInput
-          formName={"IncidentDetails"}
-          fieldName={"incidentLocation"}
-          addressLabel={"Incident Location"}
-          formattedAddress={props.formattedAddress}
-        />
-        <div style={{ display: "flex" }}>
-          <AdditionalAddressInfoField
-            label={"Additional Location Info"}
-            fieldName={`incidentLocation`}
-            style={{
-              marginRight: "5%",
-              flex: "2"
-            }}
-          />
-          <Field
-            label="District"
-            name="district"
-            component={NoBlurTextField}
-            inputProps={{
-              "data-test": "districtDropdown"
-            }}
-            style={{
-              flex: "1"
-            }}
+class IncidentDetailsDialog extends Component {
+  componentDidMount() {
+    this.props.getClassificationDropDownOptions();
+  }
+
+  render() {
+    const props = this.props;
+    return (
+      <Dialog
+        open={props.dialogOpen}
+        fullWidth={true}
+        classes={{
+          paperWidthSm: props.classes.paperWidthSm
+        }}
+      >
+        <DialogTitle data-test="editIncidentDetailsTitle">
+          Edit Incident Details
+        </DialogTitle>
+        <DialogContent>
+          <form>
+            <DateField
+              required={true}
+              name="firstContactDate"
+              label="First Contacted IPM"
+              data-test="editFirstContactDateField"
+              inputProps={{
+                "data-test": "editFirstContactDateInput",
+                type: "date",
+                max: moment(Date.now()).format("YYYY-MM-DD")
+              }}
+              style={{ display: "inherit" }}
+            />
+            <br />
+            <DateField
+              name="incidentDate"
+              label="Incident Date"
+              data-test="editIncidentDateField"
+              inputProps={{
+                "data-test": "editIncidentDateInput",
+                type: "date",
+                max: moment(Date.now()).format("YYYY-MM-DD")
+              }}
+              style={{
+                marginRight: "16px",
+                marginBottom: "16px"
+              }}
+              clearable={true}
+            />
+            <Field
+              component={TextField}
+              name="incidentTime"
+              label="Incident Time"
+              data-test="editIncidentTimeField"
+              inputProps={{
+                "data-test": "editIncidentTimeInput",
+                type: "time"
+              }}
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+            <AddressInput
+              formName={"IncidentDetails"}
+              fieldName={"incidentLocation"}
+              addressLabel={"Incident Location"}
+              formattedAddress={props.formattedAddress}
+            />
+            <div style={{ display: "flex" }}>
+              <AdditionalAddressInfoField
+                label={"Additional Location Info"}
+                fieldName={`incidentLocation`}
+                style={{
+                  marginRight: "5%",
+                  flex: "2"
+                }}
+              />
+              <Field
+                label="District"
+                name="district"
+                component={NoBlurTextField}
+                inputProps={{
+                  "data-test": "districtDropdown"
+                }}
+                style={{
+                  flex: "1"
+                }}
+              >
+                {inputDistrictMenu}
+              </Field>
+            </div>
+            <div style={{ display: "flex" }}>
+              <Field
+                label="Incident Classification"
+                name="classification"
+                component={NoBlurTextField}
+                style={{
+                  marginRight: "5%",
+                  flex: "2"
+                }}
+              >
+                {generateMenu(props.classifications)}
+              </Field>
+              <div style={{ flex: 1 }} />
+            </div>
+          </form>
+        </DialogContent>
+        <DialogActions
+          style={{ justifyContent: "space-between", margin: "16px" }}
+        >
+          <SecondaryButton
+            data-test="cancelEditIncidentDetailsButton"
+            onClick={props.handleDialogClose}
           >
-            {inputDistrictMenu}
-          </Field>
-        </div>
-      </form>
-    </DialogContent>
-    <DialogActions style={{ justifyContent: "space-between", margin: "16px" }}>
-      <SecondaryButton
-        data-test="cancelEditIncidentDetailsButton"
-        onClick={props.handleDialogClose}
-      >
-        Cancel
-      </SecondaryButton>
-      <PrimaryButton
-        data-test="saveIncidentDetailsButton"
-        onClick={props.handleSubmit(submitIncidentDetails)}
-      >
-        Save
-      </PrimaryButton>
-    </DialogActions>
-  </Dialog>
-);
+            Cancel
+          </SecondaryButton>
+          <PrimaryButton
+            data-test="saveIncidentDetailsButton"
+            onClick={props.handleSubmit(submitIncidentDetails)}
+          >
+            Save
+          </PrimaryButton>
+        </DialogActions>
+      </Dialog>
+    );
+  }
+}
 
 const connectedForm = reduxForm({ form: "IncidentDetails" })(
   IncidentDetailsDialog
@@ -176,8 +205,16 @@ const mapStateToProps = state => {
 
   return {
     formattedAddress: formatAddress(values.incidentLocation),
-    addressValid: state.ui.addressInput.addressValid
+    addressValid: state.ui.addressInput.addressValid,
+    classifications: state.ui.classifications
   };
 };
 
-export default withStyles(styles)(connect(mapStateToProps)(connectedForm));
+const mapDispatchToProps = { getClassificationDropDownOptions };
+
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(connectedForm)
+);
