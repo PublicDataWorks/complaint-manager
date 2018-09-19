@@ -1,4 +1,6 @@
 import formatDate from "../../utilities/formatDate";
+import CaseDetailCard from "./CaseDetailCard";
+import React from "react";
 
 export const getFormattedDate = date => {
   return date ? formatDate(date) : null;
@@ -93,6 +95,41 @@ export const getWitnessData = caseDetail => {
   if (witnessCivilianData) {
     return witnessCivilianData.concat(witnessOfficerData);
   } else {
-    return witnessOfficerData || [];
+    return witnessOfficerData || ["No witnesses have been added"];
   }
+};
+
+export const getAccusedOfficerData = caseDetail => {
+  return caseDetail.accusedOfficers.map(officer => {
+    let officerData = officer.isUnknownOfficer
+      ? [{ Name: "Unknown" }]
+      : [
+          {
+            "Officer Name": officer.fullName,
+            ID: officer.windowsUsername,
+            District: officer.district
+          }
+        ];
+
+    let allegationData = [];
+    allegationData = officer.allegations.map(allegation => {
+      allegationData.push({
+        Rule: allegation.allegation.rule,
+        Paragraph: allegation.allegation.paragraph,
+        Directive: allegation.allegation.directive,
+        Severity: allegation.severity,
+        "Allegation Details": allegation.details
+      });
+      return allegationData;
+    })[0];
+
+    return (
+      <CaseDetailCard
+        cardTitle={"Accused Officer"}
+        cardData={officerData}
+        cardSecondTitle={"Allegations"}
+        allegations={allegationData}
+      />
+    );
+  });
 };

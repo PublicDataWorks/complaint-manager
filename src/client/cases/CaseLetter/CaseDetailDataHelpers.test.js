@@ -325,7 +325,7 @@ describe("caseDetailDataHelpers", function() {
 
         const witnessData = getWitnessData(caseDetail);
 
-        expect(witnessData).toEqual([]);
+        expect(witnessData).toEqual(["No witnesses have been added"]);
       });
 
       test("returns correct witness data when single civilian witness", () => {

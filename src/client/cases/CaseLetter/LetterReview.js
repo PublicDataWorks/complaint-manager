@@ -11,10 +11,12 @@ import LetterProgressStepper from "./LetterProgressStepper";
 import styles from "../../globalStyling/styles";
 import CaseDetailCard from "./CaseDetailCard";
 import {
+  getAccusedOfficerData,
   getComplainantData,
   getIncidentInfoData,
   getWitnessData
 } from "./CaseDetailDataHelpers";
+import TextTruncate from "../../shared/components/TextTruncate";
 
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {
@@ -88,7 +90,14 @@ export class LetterReview extends Component {
           >
             <CardContent style={{ paddingBottom: "8px" }}>
               <Typography style={styles.section}>Narrative Details</Typography>
-              <Typography>{caseDetail.narrativeDetails}</Typography>
+              <TextTruncate
+                testLabel="letterReviewNarrativeDetails"
+                message={
+                  caseDetail.narrativeDetails
+                    ? caseDetail.narrativeDetails
+                    : "N/A"
+                }
+              />
             </CardContent>
           </Card>
 
@@ -102,18 +111,7 @@ export class LetterReview extends Component {
             cardData={getWitnessData(caseDetail)}
           />
 
-          <Card
-            style={{
-              backgroundColor: "white",
-              width: "60%",
-              margin: "0 0 32px 0"
-            }}
-          >
-            <CardContent style={{ paddingBottom: "8px" }}>
-              <Typography style={styles.section}>Accused Officer</Typography>
-              <Typography style={styles.section}>Allegations</Typography>
-            </CardContent>
-          </Card>
+          {getAccusedOfficerData(caseDetail)}
         </div>
       </div>
     );

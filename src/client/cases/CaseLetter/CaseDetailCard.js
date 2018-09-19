@@ -1,9 +1,10 @@
 import styles from "../../globalStyling/styles";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import React, { Fragment } from "react";
+import _ from "lodash";
 
 const CaseDetailCard = props => {
-  const cardData = props.cardData;
+  const { cardData, cardTitle } = props;
 
   return (
     <Card
@@ -13,24 +14,61 @@ const CaseDetailCard = props => {
         margin: "0 0 32px 0"
       }}
     >
-      <CardContent style={{ paddingBottom: "8px" }}>
-        <Typography style={styles.section}>{props.cardTitle}</Typography>
+      <CardContent
+        data-test={"caseDetailCard"}
+        style={{ paddingBottom: "8px" }}
+      >
+        <Typography style={styles.section}>{cardTitle}</Typography>
         {cardData.map(data => {
           if (data) {
             return (
-              <Fragment key={cardData.indexOf(data)}>
+              <div
+                data-test={"caseDetailCardItem"}
+                key={cardData.indexOf(data)}
+              >
                 <br />
-                {Object.keys(data).map(key => {
-                  return (
-                    <Typography key={Object.keys(data).indexOf(key)}>
-                      {key}: {data[key] ? data[key] : "N/A"}
-                    </Typography>
-                  );
-                })}
-              </Fragment>
+                {_.isObject(data) ? (
+                  Object.keys(data).map(key => {
+                    return (
+                      <Typography key={Object.keys(data).indexOf(key)}>
+                        {key}: {data[key] ? data[key] : "N/A"}
+                      </Typography>
+                    );
+                  })
+                ) : (
+                  <Typography style={{ fontStyle: "italic" }}>
+                    {data}
+                  </Typography>
+                )}
+              </div>
             );
           } else return null;
         })}
+        {props.cardSecondTitle ? (
+          <Fragment>
+            <br />
+            <Typography style={styles.section}>
+              {props.cardSecondTitle}
+            </Typography>
+            {props.allegations.map(allegation => {
+              return (
+                <div
+                  data-test="caseDetailCardAllegation"
+                  key={props.allegations.indexOf(allegation)}
+                >
+                  <br />
+                  {Object.keys(allegation).map(key => {
+                    return (
+                      <Typography key={Object.keys(allegation).indexOf(key)}>
+                        {key}: {allegation[key] ? allegation[key] : "N/A"}
+                      </Typography>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </Fragment>
+        ) : null}
       </CardContent>
     </Card>
   );
