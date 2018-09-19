@@ -83,6 +83,7 @@ const SNACKBAR_SUCCESS = "SNACKBAR_SUCCESS";
 
 const CIVILIAN_FORM_NAME = "Civilian form";
 const ALLEGATION_SEARCH_FORM_NAME = "AllegationSearchForm";
+const OFFICER_SEARCH_FORM_NAME = "OfficerSearchForm";
 
 // ----------------------------------------
 //          Auth0 Scopes / Permissions
@@ -323,6 +324,7 @@ module.exports = {
   SNACKBAR_SUCCESS,
   CIVILIAN_FORM_NAME,
   ALLEGATION_SEARCH_FORM_NAME,
+  OFFICER_SEARCH_FORM_NAME,
   USER_PERMISSIONS,
   SEARCH_SUCCESS,
   SEARCH_INITIATED,
