@@ -2,6 +2,7 @@ import styles from "../../globalStyling/styles";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import React, { Fragment } from "react";
 import _ from "lodash";
+import TextTruncate from "../../shared/components/TextTruncate";
 
 const CaseDetailCard = props => {
   const { cardData, cardTitle } = props;
@@ -58,7 +59,16 @@ const CaseDetailCard = props => {
                 >
                   <br />
                   {Object.keys(allegation).map(key => {
-                    return (
+                    return key === "Allegation Details" ? (
+                      <TextTruncate
+                        testLabel={"letterReviewAllegationDetails"}
+                        message={
+                          allegation[key]
+                            ? `${key}: ${allegation[key]}`
+                            : `${key}: N/A`
+                        }
+                      />
+                    ) : (
                       <Typography key={Object.keys(allegation).indexOf(key)}>
                         {key}: {allegation[key] ? allegation[key] : "N/A"}
                       </Typography>
