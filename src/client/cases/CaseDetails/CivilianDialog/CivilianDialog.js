@@ -165,12 +165,14 @@ class CivilianDialog extends Component {
             </Typography>
             <PhoneNumberField name="phoneNumber" />
             <EmailField name="email" />
-            <AddressInput
-              formName={CIVILIAN_FORM_NAME}
-              fieldName={"address"}
-              addressLabel={"Address"}
-              formattedAddress={this.props.formattedAddress}
-            />
+            <div style={{ marginBottom: "16px" }}>
+              <AddressInput
+                formName={CIVILIAN_FORM_NAME}
+                fieldName={"address"}
+                addressLabel={"Address"}
+                formattedAddress={this.props.formattedAddress}
+              />
+            </div>
             <AdditionalAddressInfoField
               label={"Additional Address Information"}
               fieldName={`address`}

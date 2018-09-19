@@ -14,12 +14,23 @@ import {
   selectDropdownOption
 } from "../../../testHelpers";
 import { DialogContent } from "@material-ui/core";
+import { getClassificationsSuccess } from "../../../actionCreators/classificationActionCreators";
+import getClassificationDropdownValues from "../../../classifications/thunks/getClassificationDropdownValues";
 
 jest.mock("../../thunks/editIncidentDetails", () =>
   jest.fn(values => ({
     type: "MOCK_THUNK",
     values
   }))
+);
+
+jest.mock(
+  "../../../classifications/thunks/getClassificationDropdownValues",
+  () =>
+    jest.fn(values => ({
+      type: "MOCK_THUNK",
+      values
+    }))
 );
 
 jest.mock("../CivilianDialog/MapServices/MapService", () => {
@@ -71,11 +82,13 @@ describe("incident details container", () => {
       .withIncidentDate(incidentDate)
       .withIncidentTime(incidentTime)
       .withIncidentLocation(undefined)
+      .withClassificationId(12)
       .withDistrict("Second District")
       .build();
 
     dispatchSpy = jest.spyOn(store, "dispatch");
     store.dispatch(getCaseDetailsSuccess(currentCase));
+    store.dispatch(getClassificationsSuccess([[0, "UTD"], [12, "OTB"]]));
     wrapper = mount(
       <Provider store={store}>
         <IncidentDetailsContainer />
@@ -129,6 +142,14 @@ describe("incident details container", () => {
     ).toEqual("Second District");
   });
 
+  test("should fetch classifications when open dialog", () => {
+    const editButton = wrapper.find(
+      'button[data-test="editIncidentDetailsButton"]'
+    );
+    editButton.simulate("click");
+    expect(getClassificationDropdownValues).toHaveBeenCalled();
+  });
+
   test("should open dialog and prepopulate fields", () => {
     const editButton = wrapper.find(
       'button[data-test="editIncidentDetailsButton"]'
@@ -144,10 +165,14 @@ describe("incident details container", () => {
     const editIncidentTimeInput = wrapper.find(
       'input[data-test="editIncidentTimeInput"]'
     );
+    const editIncidentClassification = wrapper.find(
+      'input[data-test="classificationDropdown"]'
+    );
 
     expect(editFirstContactDateInput.prop("value")).toEqual(firstContactDate);
     expect(editIncidentDateInput.prop("value")).toEqual(incidentDate);
     expect(editIncidentTimeInput.prop("value")).toEqual(incidentTime);
+    expect(editIncidentClassification.prop("value")).toEqual(12);
   });
 
   test("should submit form when Save is clicked", () => {
@@ -184,7 +209,8 @@ describe("incident details container", () => {
         firstContactDate: "1994-05-03",
         incidentDate: "1994-05-02",
         incidentTime: "13:00",
-        district: "First District"
+        district: "First District",
+        classificationId: 12
       })
     );
   });

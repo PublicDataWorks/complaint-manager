@@ -167,6 +167,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "streetAddressInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -175,6 +176,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "streetAddressInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -183,6 +185,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "cityInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -191,6 +194,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "stateInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -199,6 +203,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "zipCodeInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -207,6 +212,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "countryInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -215,6 +221,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "latInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -223,6 +230,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "lngInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -231,6 +239,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "placeIdInput"
           }}
+          style={{ display: "none" }}
         />
       </div>
     );

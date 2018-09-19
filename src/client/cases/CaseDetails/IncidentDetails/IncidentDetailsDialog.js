@@ -77,54 +77,60 @@ class IncidentDetailsDialog extends Component {
         </DialogTitle>
         <DialogContent>
           <form>
-            <DateField
-              required={true}
-              name="firstContactDate"
-              label="First Contacted IPM"
-              data-test="editFirstContactDateField"
-              inputProps={{
-                "data-test": "editFirstContactDateInput",
-                type: "date",
-                max: moment(Date.now()).format("YYYY-MM-DD")
-              }}
-              style={{ display: "inherit" }}
-            />
-            <br />
-            <DateField
-              name="incidentDate"
-              label="Incident Date"
-              data-test="editIncidentDateField"
-              inputProps={{
-                "data-test": "editIncidentDateInput",
-                type: "date",
-                max: moment(Date.now()).format("YYYY-MM-DD")
-              }}
-              style={{
-                marginRight: "16px",
-                marginBottom: "16px"
-              }}
-              clearable={true}
-            />
-            <Field
-              component={TextField}
-              name="incidentTime"
-              label="Incident Time"
-              data-test="editIncidentTimeField"
-              inputProps={{
-                "data-test": "editIncidentTimeInput",
-                type: "time"
-              }}
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-            <AddressInput
-              formName={"IncidentDetails"}
-              fieldName={"incidentLocation"}
-              addressLabel={"Incident Location"}
-              formattedAddress={props.formattedAddress}
-            />
-            <div style={{ display: "flex" }}>
+            <div style={{ marginBottom: "16px" }}>
+              <DateField
+                required={true}
+                name="firstContactDate"
+                label="First Contacted IPM"
+                data-test="editFirstContactDateField"
+                inputProps={{
+                  "data-test": "editFirstContactDateInput",
+                  type: "date",
+                  max: moment(Date.now()).format("YYYY-MM-DD")
+                }}
+                style={{ display: "inherit" }}
+              />
+            </div>
+
+            <div>
+              <DateField
+                name="incidentDate"
+                label="Incident Date"
+                data-test="editIncidentDateField"
+                inputProps={{
+                  "data-test": "editIncidentDateInput",
+                  type: "date",
+                  max: moment(Date.now()).format("YYYY-MM-DD")
+                }}
+                style={{
+                  marginRight: "16px",
+                  marginBottom: "16px"
+                }}
+                clearable={true}
+              />
+              <Field
+                component={TextField}
+                name="incidentTime"
+                label="Incident Time"
+                data-test="editIncidentTimeField"
+                inputProps={{
+                  "data-test": "editIncidentTimeInput",
+                  type: "time"
+                }}
+                InputLabelProps={{
+                  shrink: true
+                }}
+              />
+            </div>
+            <div style={{ marginBottom: "16px" }}>
+              <AddressInput
+                formName={"IncidentDetails"}
+                fieldName={"incidentLocation"}
+                addressLabel={"Incident Location"}
+                formattedAddress={props.formattedAddress}
+              />
+            </div>
+            <div style={{ display: "flex", marginBottom: "16px" }}>
               <AdditionalAddressInfoField
                 label={"Additional Location Info"}
                 fieldName={`incidentLocation`}
@@ -150,8 +156,9 @@ class IncidentDetailsDialog extends Component {
             <div style={{ display: "flex" }}>
               <Field
                 label="Incident Classification"
-                name="classification"
+                name="classificationId"
                 component={NoBlurTextField}
+                inputProps={{ "data-test": "classificationDropdown" }}
                 style={{
                   marginRight: "5%",
                   flex: "2"

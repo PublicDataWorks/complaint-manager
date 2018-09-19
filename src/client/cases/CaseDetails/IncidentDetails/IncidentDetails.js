@@ -27,7 +27,8 @@ class IncidentDetails extends React.Component {
       incidentDate: this.props.incidentDate,
       incidentTime: this.props.incidentTime,
       incidentLocation: this.props.incidentLocation,
-      district: this.props.district
+      district: this.props.district,
+      classificationId: this.props.classificationId
     };
 
     this.props.dispatch(initialize("IncidentDetails", formValues));

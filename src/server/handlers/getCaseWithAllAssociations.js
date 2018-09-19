@@ -4,6 +4,9 @@ const getCaseWithAllAssociations = async (caseId, transaction = null) => {
   return await models.cases.findById(caseId, {
     include: [
       {
+        model: models.classification
+      },
+      {
         model: models.civilian,
         as: "complainantCivilians",
         include: [models.address]
