@@ -41,51 +41,33 @@ const CaseStatusStepper = ({
   featureToggles
 }) => {
   const renderTransitionButton = () => {
-    if (status === CASE_STATUS.ACTIVE) {
-      return (
-        <div
-          style={{
-            marginLeft: "5%",
-            marginRight: "5%",
-            maxWidth: "850px",
-            paddingBottom: "24px",
-            display: "flex",
-            justifyContent: "flex-end"
+    return (
+      <div
+        style={{
+          marginLeft: "5%",
+          marginRight: "5%",
+          maxWidth: "850px",
+          paddingBottom: "24px",
+          display: "flex",
+          justifyContent: "flex-end"
+        }}
+      >
+        <PrimaryButton
+          data-test={
+            status === CASE_STATUS.ACTIVE
+              ? "generateLetterButton"
+              : "updateStatusButton"
+          }
+          onClick={() => {
+            dispatch(openCaseStatusUpdateDialog(nextStatus));
           }}
         >
-          <PrimaryButton
-            data-test="generateLetterButton"
-            onClick={() => {
-              dispatch(openCaseStatusUpdateDialog(nextStatus));
-            }}
-          >
-            {`Generate Letter`}
-          </PrimaryButton>
-        </div>
-      );
-    } else {
-      return (
-        <div
-          style={{
-            marginLeft: "5%",
-            marginRight: "5%",
-            maxWidth: "850px",
-            paddingBottom: "24px",
-            display: "flex",
-            justifyContent: "flex-end"
-          }}
-        >
-          <PrimaryButton
-            data-test="updateStatusButton"
-            onClick={() => {
-              dispatch(openCaseStatusUpdateDialog(nextStatus));
-            }}
-          >
-            {`Mark as ${nextStatus}`}
-          </PrimaryButton>
-        </div>
-      );
-    }
+          {status === CASE_STATUS.ACTIVE
+            ? `Generate Letter`
+            : `Mark as ${nextStatus}`}
+        </PrimaryButton>
+      </div>
+    );
   };
 
   const activeStatusMap = featureToggles.letterGenerationToggle

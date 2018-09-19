@@ -8,19 +8,22 @@ export const getFormattedDate = date => {
 
 export const getIncidentInfoData = caseDetail => {
   const incidentDate = getFormattedDate(caseDetail.incidentDate);
+  const incidentLocation = caseDetail.incidentLocation
+    ? caseDetail.incidentLocation.streetAddress +
+      " " +
+      caseDetail.incidentLocation.city +
+      " " +
+      caseDetail.incidentLocation.state +
+      " " +
+      caseDetail.incidentLocation.zipCode
+    : null;
+
   return [
     {
       "First Contacted IPM": formatDate(caseDetail.firstContactDate),
       "Incident Date": incidentDate,
       "Incident Time": caseDetail.incidentTime,
-      "Incident Location":
-        caseDetail.incidentLocation.streetAddress +
-        " " +
-        caseDetail.incidentLocation.city +
-        " " +
-        caseDetail.incidentLocation.state +
-        " " +
-        caseDetail.incidentLocation.zipCode,
+      "Incident Location": incidentLocation,
       District: caseDetail.district
     }
   ];
@@ -28,21 +31,25 @@ export const getIncidentInfoData = caseDetail => {
 
 export const getComplainantData = caseDetail => {
   let complainantCivilianData = [];
+
   complainantCivilianData = caseDetail.complainantCivilians.map(complainant => {
     const complainantBirthDate = getFormattedDate(complainant.birthDate);
-    complainantCivilianData.push({
-      "Civilian Name": complainant.fullName,
-      Race: complainant.raceEthnicity,
-      "Gender Identity": complainant.genderIdentity,
-      DOB: complainantBirthDate,
-      Address:
-        complainant.address.streetAddress +
+    const complainantAddress = complainant.address
+      ? complainant.address.streetAddress +
         " " +
         complainant.address.city +
         " " +
         complainant.address.state +
         " " +
-        complainant.address.zipCode,
+        complainant.address.zipCode
+      : null;
+
+    complainantCivilianData.push({
+      "Civilian Name": complainant.fullName,
+      Race: complainant.raceEthnicity,
+      "Gender Identity": complainant.genderIdentity,
+      DOB: complainantBirthDate,
+      Address: complainantAddress,
       "Cell Phone": complainant.phoneNumber
     });
     return complainantCivilianData;
@@ -113,10 +120,18 @@ export const getAccusedOfficerData = caseDetail => {
 
     let allegationData = [];
     allegationData = officer.allegations.map(allegation => {
+      const rule = allegation.allegation ? allegation.allegation.rule : null;
+      const paragraph = allegation.allegation
+        ? allegation.allegation.paragraph
+        : null;
+      const directive = allegation.allegation
+        ? allegation.allegation.directive
+        : null;
+
       allegationData.push({
-        Rule: allegation.allegation.rule,
-        Paragraph: allegation.allegation.paragraph,
-        Directive: allegation.allegation.directive,
+        Rule: rule,
+        Paragraph: paragraph,
+        Directive: directive,
         Severity: allegation.severity,
         "Allegation Details": allegation.details
       });
