@@ -1,5 +1,3 @@
-import Case from "./case";
-
 class Classification {
   constructor(build) {
     this.id = build.id;

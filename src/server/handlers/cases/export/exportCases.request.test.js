@@ -3,7 +3,7 @@ import {
   cleanupDatabase
 } from "../../../testHelpers/requestTestHelpers";
 import Officer from "../../../../client/testUtilities/Officer";
-import Classification from "../../../../client/testUtilities/Classification";
+import Classification from "../../../../client/testUtilities/classification";
 import models from "../../../models";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
