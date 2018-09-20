@@ -17,7 +17,7 @@ const CaseDetailCard = props => {
     >
       <CardContent
         data-test={"caseDetailCard"}
-        style={{ paddingBottom: "8px" }}
+        style={{ paddingBottom: "16px" }}
       >
         <Typography style={styles.section}>{cardTitle}</Typography>
         {cardData.map(data => {

@@ -75,7 +75,7 @@ export class LetterReview extends Component {
               margin: "0 0 32px 0"
             }}
           >
-            <CardContent style={{ paddingBottom: "8px" }}>
+            <CardContent style={{ paddingBottom: "16px" }}>
               <Typography style={styles.section}>Narrative Summary</Typography>
               <Typography>{caseDetail.narrativeSummary}</Typography>
             </CardContent>
@@ -88,7 +88,7 @@ export class LetterReview extends Component {
               margin: "0 0 32px 0"
             }}
           >
-            <CardContent style={{ paddingBottom: "8px" }}>
+            <CardContent style={{ paddingBottom: "16px" }}>
               <Typography style={styles.section}>Narrative Details</Typography>
               <TextTruncate
                 testLabel="letterReviewNarrativeDetails"

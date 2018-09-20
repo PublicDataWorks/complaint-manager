@@ -17,6 +17,8 @@ import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import history from "../../../history";
 
 const STATUS_DESCRIPTION = {
+  [CASE_STATUS.LETTER_IN_PROGRESS]:
+    "This status signifies that all available information has been entered and the letter generation process has started.",
   [CASE_STATUS.READY_FOR_REVIEW]:
     "This status signifies, to the Deputy Police Monitor, that all available information has been entered.",
   [CASE_STATUS.FORWARDED_TO_AGENCY]:
@@ -75,7 +77,11 @@ const UpdateCaseStatusDialog = ({
               history.push(`/cases/${caseId}/letter/review`);
             }
           }}
-        >{`Mark as ${nextStatus}`}</PrimaryButton>
+        >
+          {nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
+            ? `Generate Letter`
+            : `Mark as ${nextStatus}`}
+        </PrimaryButton>
       </DialogActions>
     </Dialog>
   );
