@@ -2,14 +2,13 @@ import React, { Fragment } from "react";
 import { Step, StepLabel, Stepper } from "@material-ui/core";
 import {
   CASE_STATUS,
-  CASE_STATUS_MAP,
+  TOGGLE_CASE_STATUS_MAP,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import { connect } from "react-redux";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import UpdateCaseStatusDialog from "../UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
-import { Link } from "react-router-dom";
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -32,66 +31,52 @@ function shouldRenderStatusTransitionButton(status, userInfo) {
   );
 }
 
-const CaseStatusStepper = ({
+const OldCaseStatusStepper = ({
   caseId,
   status,
   userInfo,
   nextStatus,
   dispatch
 }) => {
-  const renderTransitionButton = () => {
-    return (
-      <div
-        style={{
-          marginLeft: "5%",
-          marginRight: "5%",
-          maxWidth: "850px",
-          paddingBottom: "24px",
-          display: "flex",
-          justifyContent: "flex-end"
-        }}
-      >
-        {status === CASE_STATUS.LETTER_IN_PROGRESS ? (
-          <PrimaryButton
-            data-test={status === "editLetterButton"}
-            to={`/cases/${caseId}/letter/review`}
-            component={Link}
-          >
-            Edit Letter
-          </PrimaryButton>
-        ) : (
-          <PrimaryButton
-            data-test={
-              status === CASE_STATUS.ACTIVE
-                ? "generateLetterButton"
-                : "updateStatusButton"
-            }
-            onClick={() => {
-              dispatch(openCaseStatusUpdateDialog());
-            }}
-          >
-            {status === CASE_STATUS.ACTIVE
-              ? `Generate Letter`
-              : `Mark as ${nextStatus}`}
-          </PrimaryButton>
-        )}
-      </div>
-    );
-  };
+  if (
+    status === CASE_STATUS.LETTER_IN_PROGRESS ||
+    status === CASE_STATUS.ACTIVE
+  ) {
+    status = CASE_STATUS.ACTIVE;
+    nextStatus = CASE_STATUS.READY_FOR_REVIEW;
+  }
 
   return (
     <Fragment>
       <Stepper
         data-test="statusStepper"
-        activeStep={CASE_STATUS_MAP[status]}
+        activeStep={TOGGLE_CASE_STATUS_MAP[status]}
         alternativeLabel
         style={{ marginLeft: "5%", maxWidth: "850px", padding: "24px 0px" }}
       >
-        {generateSteps(CASE_STATUS_MAP)}
+        {generateSteps(TOGGLE_CASE_STATUS_MAP)}
       </Stepper>
-      {shouldRenderStatusTransitionButton(status, userInfo)
-        ? renderTransitionButton()
-        : null}
+      {shouldRenderStatusTransitionButton(status, userInfo) ? (
+        <div
+          style={{
+            marginLeft: "5%",
+            marginRight: "5%",
+            maxWidth: "850px",
+            paddingBottom: "24px",
+            display: "flex",
+            justifyContent: "flex-end"
+          }}
+        >
+          <PrimaryButton
+            data-test="updateStatusButton"
+            onClick={() => {
+              dispatch(openCaseStatusUpdateDialog());
+            }}
+          >
+            {`Mark as ${nextStatus}`}
+          </PrimaryButton>
+        </div>
+      ) : null}
       <UpdateCaseStatusDialog />
     </Fragment>
   );
@@ -104,4 +89,4 @@ const mapStateToProps = state => ({
   userInfo: state.users.current.userInfo
 });
 
-export default connect(mapStateToProps)(CaseStatusStepper);
+export default connect(mapStateToProps)(OldCaseStatusStepper);

@@ -26,7 +26,20 @@ const STATUS_DESCRIPTION = {
   // [CASE_STATUS.CLOSED]: "Marking this case as closed will signify that an outcome has been reached and this case is available for public records. "
 };
 
-const UpdateCaseStatusDialog = ({ dispatch, open, caseId, nextStatus }) => {
+const UpdateCaseStatusDialog = ({
+  dispatch,
+  open,
+  caseId,
+  nextStatus,
+  featureToggles
+}) => {
+  if (
+    featureToggles.letterGenerationToggle &&
+    nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
+  ) {
+    nextStatus = CASE_STATUS.READY_FOR_REVIEW;
+  }
+
   return (
     <Dialog open={open}>
       <DialogTitle>Update Case Status</DialogTitle>
@@ -70,8 +83,9 @@ const UpdateCaseStatusDialog = ({ dispatch, open, caseId, nextStatus }) => {
 
 const mapStateToProps = state => ({
   open: state.ui.updateCaseStatusDialog.open,
-  nextStatus: state.ui.updateCaseStatusDialog.nextStatus,
-  caseId: state.currentCase.details.id
+  nextStatus: state.currentCase.details.nextStatus,
+  caseId: state.currentCase.details.id,
+  featureToggles: state.featureToggles
 });
 
 export default connect(mapStateToProps)(UpdateCaseStatusDialog);

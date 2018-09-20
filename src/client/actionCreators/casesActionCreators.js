@@ -252,9 +252,8 @@ export const removePersonSuccess = (caseDetails, personType) => ({
   message: `${_.startCase(personType)} has been successfully removed.`
 });
 
-export const openCaseStatusUpdateDialog = nextStatus => ({
-  type: CASE_STATUS_UPDATE_DIALOG_OPENED,
-  nextStatus
+export const openCaseStatusUpdateDialog = () => ({
+  type: CASE_STATUS_UPDATE_DIALOG_OPENED
 });
 
 export const closeCaseStatusUpdateDialog = () => ({

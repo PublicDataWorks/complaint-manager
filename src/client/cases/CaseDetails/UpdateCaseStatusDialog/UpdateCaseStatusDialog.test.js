@@ -25,8 +25,10 @@ describe("UpdateCaseStatusDialog", () => {
     caseId = 1;
     nextStatus = CASE_STATUS.READY_FOR_REVIEW;
 
-    store.dispatch(getCaseDetailsSuccess({ id: caseId }));
-    store.dispatch(openCaseStatusUpdateDialog(nextStatus));
+    store.dispatch(
+      getCaseDetailsSuccess({ id: caseId, nextStatus: nextStatus })
+    );
+    store.dispatch(openCaseStatusUpdateDialog());
     wrapper = mount(
       <Provider store={store}>
         <UpdateCaseStatusDialog />
@@ -61,6 +63,5 @@ describe("UpdateCaseStatusDialog", () => {
     expect(updateCaseStatusButton.exists()).toBeDefined();
     updateCaseStatusButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(closeCaseStatusUpdateDialog());
-
   });
 });

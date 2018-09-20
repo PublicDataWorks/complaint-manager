@@ -1,12 +1,14 @@
 import updateCaseStatusDialogReducer from "./updateCaseStatusDialogReducer";
 import { CASE_STATUS } from "../../../sharedUtilities/constants";
-import {closeCaseStatusUpdateDialog, openCaseStatusUpdateDialog} from "../../actionCreators/casesActionCreators";
+import {
+  closeCaseStatusUpdateDialog,
+  openCaseStatusUpdateDialog
+} from "../../actionCreators/casesActionCreators";
 
 describe("updateCaseStatusDialogReducer", () => {
   test("should set the default state", () => {
     const expectedState = {
-      open: false,
-      nextStatus: ""
+      open: false
     };
 
     const actualState = updateCaseStatusDialogReducer(undefined, {
@@ -16,15 +18,13 @@ describe("updateCaseStatusDialogReducer", () => {
     expect(actualState).toEqual(expectedState);
   });
 
-  test("should set status when dispatching action to open dialog", () => {
+  test("should set dialog to open when dispatching action to open dialog", () => {
     const oldState = {
-      open: false,
-      nextStatus: ""
+      open: false
     };
 
     const expectedState = {
-      open: true,
-      nextStatus: CASE_STATUS.ACTIVE
+      open: true
     };
 
     const actualState = updateCaseStatusDialogReducer(
@@ -32,18 +32,16 @@ describe("updateCaseStatusDialogReducer", () => {
       openCaseStatusUpdateDialog(CASE_STATUS.ACTIVE)
     );
 
-    expect(actualState).toEqual(expectedState)
+    expect(actualState).toEqual(expectedState);
   });
 
-  test("should set status when dispatching action to close dialog", () => {
+  test("should set dialog to closed when dispatching action to close dialog", () => {
     const oldState = {
-      open: true,
-      nextStatus: CASE_STATUS.ACTIVE
+      open: true
     };
 
     const expectedState = {
-      open: false,
-      nextStatus: CASE_STATUS.ACTIVE
+      open: false
     };
 
     const actualState = updateCaseStatusDialogReducer(
@@ -51,6 +49,6 @@ describe("updateCaseStatusDialogReducer", () => {
       closeCaseStatusUpdateDialog()
     );
 
-    expect(actualState).toEqual(expectedState)
-  })
+    expect(actualState).toEqual(expectedState);
+  });
 });

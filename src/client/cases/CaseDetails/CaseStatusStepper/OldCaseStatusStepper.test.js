@@ -1,3 +1,4 @@
+import OldCaseStatusStepper from "./OldCaseStatusStepper";
 import { mount } from "enzyme";
 import React from "react";
 import createConfiguredStore from "../../../createConfiguredStore";
@@ -12,9 +13,8 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { userAuthSuccess } from "../../../auth/actionCreators";
 import { MemoryRouter } from "react-router-dom";
-import CaseStatusStepper from "./CaseStatusStepper";
 
-describe("CaseStatusStepper", () => {
+describe("OldCaseStatusStepper", () => {
   let store;
   beforeEach(() => {
     store = createConfiguredStore();
@@ -36,7 +36,7 @@ describe("CaseStatusStepper", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <CaseStatusStepper />
+        <OldCaseStatusStepper />
       </Provider>
     );
     const statusStepper = wrapper.find('[data-test="statusStepper"]').first();
@@ -44,7 +44,7 @@ describe("CaseStatusStepper", () => {
     expect(statusStepper.prop("activeStep")).toEqual(0);
   });
 
-  test("should set status to Forwarded To Agency", () => {
+  test("should set status to Forwarded To Agency (letter generation toggled off)", () => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
@@ -55,12 +55,12 @@ describe("CaseStatusStepper", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <CaseStatusStepper />
+        <OldCaseStatusStepper />
       </Provider>
     );
     const statusStepper = wrapper.find('[data-test="statusStepper"]').first();
 
-    expect(statusStepper.prop("activeStep")).toEqual(4);
+    expect(statusStepper.prop("activeStep")).toEqual(3);
   });
 
   test("should NOT show a button when a case is initial", () => {
@@ -74,7 +74,7 @@ describe("CaseStatusStepper", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <CaseStatusStepper />
+        <OldCaseStatusStepper />
       </Provider>
     );
 
@@ -85,32 +85,32 @@ describe("CaseStatusStepper", () => {
     expect(updateStatusButton.exists()).toBeFalsy();
   });
 
-  test("should show `Generate Letter` button when case is active", () => {
+  test.skip("should show button when case is active", () => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
         status: CASE_STATUS.ACTIVE,
-        nextStatus: CASE_STATUS.LETTER_IN_PROGRESS
+        nextStatus: CASE_STATUS.READY_FOR_REVIEW
       })
     );
 
     const wrapper = mount(
       <MemoryRouter>
         <Provider store={store}>
-          <CaseStatusStepper />
+          <OldCaseStatusStepper />
         </Provider>
       </MemoryRouter>
     );
 
-    const generateLetterButton = wrapper
-      .find('[data-test="generateLetterButton"]')
+    const updateStatusButton = wrapper
+      .find('[data-test="updateStatusButton"]')
       .first();
 
-    expect(generateLetterButton.exists()).toBeTruthy();
-    expect(generateLetterButton.text()).toEqual(`Generate Letter`);
+    expect(updateStatusButton.exists()).toBeTruthy();
+    expect(updateStatusButton.text()).toEqual("Mark as Ready for Review");
   });
 
-  test("should open update status dialog", () => {
+  test("should open update status dialog and pass in the next status", () => {
     const dispatchSpy = jest.spyOn(store, "dispatch");
     store.dispatch(
       getCaseDetailsSuccess({
@@ -122,7 +122,7 @@ describe("CaseStatusStepper", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <CaseStatusStepper />
+        <OldCaseStatusStepper />
       </Provider>
     );
 
@@ -132,7 +132,9 @@ describe("CaseStatusStepper", () => {
 
     updateStatusButton.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(openCaseStatusUpdateDialog());
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openCaseStatusUpdateDialog(CASE_STATUS.FORWARDED_TO_AGENCY)
+    );
   });
 
   test("should render Forward to Agency if authorized to do so and currently in Ready for Review", () => {
@@ -146,7 +148,7 @@ describe("CaseStatusStepper", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <CaseStatusStepper />
+        <OldCaseStatusStepper />
       </Provider>
     );
 
@@ -174,7 +176,7 @@ describe("CaseStatusStepper", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <CaseStatusStepper />
+        <OldCaseStatusStepper />
       </Provider>
     );
 
@@ -195,7 +197,7 @@ describe("CaseStatusStepper", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <CaseStatusStepper />
+        <OldCaseStatusStepper />
       </Provider>
     );
 
