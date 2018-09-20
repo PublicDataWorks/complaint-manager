@@ -193,7 +193,7 @@ describe("caseDetailDataHelpers", function() {
         expect.arrayContaining([
           expect.objectContaining({
             "Officer Name": "officer joe",
-            ID: 12345,
+            ID: "#12345",
             District: "some district"
           })
         ])
@@ -322,7 +322,7 @@ describe("caseDetailDataHelpers", function() {
           }),
           expect.objectContaining({
             "Officer Name": "officer joe",
-            ID: 12345,
+            ID: "#12345",
             District: "some district"
           }),
           expect.objectContaining({ Name: "Unknown" })
@@ -423,7 +423,7 @@ describe("caseDetailDataHelpers", function() {
           expect.arrayContaining([
             expect.objectContaining({
               "Officer Name": "witness officer joe",
-              ID: 12345,
+              ID: "#12345",
               District: "some district"
             })
           ])
@@ -500,7 +500,7 @@ describe("caseDetailDataHelpers", function() {
             }),
             expect.objectContaining({
               "Officer Name": "witness officer joe",
-              ID: 12345,
+              ID: "#12345",
               District: "some district"
             }),
             expect.objectContaining({ Name: "Unknown" })
