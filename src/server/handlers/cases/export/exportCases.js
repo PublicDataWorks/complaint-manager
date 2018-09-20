@@ -48,6 +48,7 @@ const columns = {
   "incidentLocation.lng": "Incident Longitude",
   district: "Incident District",
   "incidentLocation.street_address2": "Additional Incident Location Info",
+  classification_initialism: "Classification",
   complaint_type: "Complaint Type",
   "complainants.complainant": "Complainant",
   "complainants.civilian_full_name": "Civilian Complainant Name",

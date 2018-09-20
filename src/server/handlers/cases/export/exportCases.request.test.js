@@ -3,6 +3,7 @@ import {
   cleanupDatabase
 } from "../../../testHelpers/requestTestHelpers";
 import Officer from "../../../../client/testUtilities/Officer";
+import Classification from "../../../../client/testUtilities/Classification";
 import models from "../../../models";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
@@ -34,7 +35,8 @@ describe("exportCases request", function() {
     officer,
     caseOfficer,
     allegation,
-    officerAllegation;
+    officerAllegation,
+    bwcClassification;
 
   beforeEach(async () => {
     token = buildTokenWithPermissions("", "tuser");
@@ -46,11 +48,21 @@ describe("exportCases request", function() {
       auditUser: "tuser"
     });
 
+    const bwcClassificationAttributes = new Classification.Builder()
+      .defaultClassification()
+      .withId(null)
+      .withInitialism("BWC")
+      .withName("Body Worn Camera");
+    bwcClassification = await models.classification.create(
+      bwcClassificationAttributes
+    );
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
       .withNarrativeSummary("A summary of the narrative.")
-      .withNarrativeDetails("Some details about the narrative.");
+      .withNarrativeDetails("Some details about the narrative.")
+      .withClassificationId(bwcClassification.id);
 
     caseToExport = await models.cases.create(caseAttributes, {
       auditUser: "tuser",
@@ -141,6 +153,7 @@ describe("exportCases request", function() {
               "Incident Longitude," +
               "Incident District," +
               "Additional Incident Location Info," +
+              "Classification," +
               "Complaint Type," +
               "Complainant," +
               "Civilian Complainant Name," +
@@ -265,12 +278,32 @@ describe("exportCases request", function() {
         expect(records[0]["Additional Incident Location Info"]).toEqual(
           caseToExport.incidentLocation.streetAddress2
         );
+        expect(records[0]["Classification"]).toEqual(
+          bwcClassification.initialism
+        );
         expect(records[0]["Narrative Summary"]).toEqual(
           caseToExport.narrativeSummary
         );
         expect(records[0]["Narrative Details"]).toEqual(
           caseToExport.narrativeDetails
         );
+      });
+  });
+
+  test("it handles cases no classification", async () => {
+    await caseToExport.update(
+      { classificationId: null },
+      { auditUser: "someone" }
+    );
+
+    await request(app)
+      .get("/api/cases/export")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const resultingCsv = response.text;
+        const records = parse(resultingCsv, { columns: true });
+        expect(records[0]["Classification"]).toEqual("");
       });
   });
 
