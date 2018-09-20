@@ -91,7 +91,7 @@ describe("Edit Case", () => {
 
       classificationBWC = await models.classification.create({
         name: "Body Worn Camera",
-        abbreviation: "BWC"
+        initialism: "BWC"
       });
 
       existingCase = await models.cases.create(initialCaseAttributes, {
@@ -168,7 +168,7 @@ describe("Edit Case", () => {
       );
       const classificationUTD = await models.classification.create({
         name: "Unable to Determine",
-        abbreviation: "UTD"
+        initialism: "UTD"
       });
       request.body["classificationId"] = classificationUTD.id;
       await editCase(request, response, next);

@@ -15,21 +15,21 @@ describe("getClassifications", () => {
     const token = buildTokenWithPermissions("", "tuser");
 
     const fdi = await models.classification.create({
-      abbreviation: "FDI",
+      initialism: "FDI",
       name: "Formal Disciplinary Investigation"
     });
     const utd = await models.classification.create({
-      abbreviation: "UTD",
+      initialism: "UTD",
       name: "Unable to Determine"
     });
     const bwc = await models.classification.create({
-      abbreviation: "BWC",
+      initialism: "BWC",
       name: "Body Worn Camera"
     });
     const expectedOrderedClassificationValues = [
-      [utd.abbreviation, utd.id],
-      [bwc.abbreviation, bwc.id],
-      [fdi.abbreviation, fdi.id]
+      [utd.initialism, utd.id],
+      [bwc.initialism, bwc.id],
+      [fdi.initialism, fdi.id]
     ];
 
     await request(app)

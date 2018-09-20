@@ -50,8 +50,8 @@ class IncidentDetails extends React.Component {
       district,
       classification
     } = this.props;
-    const classificationAbbreviation = classification
-      ? classification.abbreviation
+    const classificationInitialism = classification
+      ? classification.initialism
       : "";
 
     return (
@@ -104,7 +104,7 @@ class IncidentDetails extends React.Component {
             />
             <CivilianInfoDisplay
               displayLabel="Classification"
-              value={classificationAbbreviation}
+              value={classificationInitialism}
               testLabel="classification"
             />
             <div style={{ width: "69.5px" }} />
