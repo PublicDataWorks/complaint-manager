@@ -2,7 +2,9 @@ import {
   getIncidentInfoData,
   getFormattedDate,
   getComplainantData,
-  getWitnessData
+  getWitnessData,
+  getAccusedOfficerData,
+  getAllegationData
 } from "./CaseDetailDataHelpers";
 
 describe("caseDetailDataHelpers", function() {
@@ -504,6 +506,161 @@ describe("caseDetailDataHelpers", function() {
               District: "some district"
             }),
             expect.objectContaining({ Name: "Unknown" })
+          ])
+        );
+      });
+    });
+
+    describe("accused officer data", function() {
+      test("returns correct accused officer data when single known officer", () => {
+        const officer = {
+          isUnknownOfficer: false,
+          fullName: "some name",
+          windowsUsername: "some id",
+          district: "some district"
+        };
+
+        const accusedOfficerData = getAccusedOfficerData(officer);
+
+        expect(accusedOfficerData).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              "Officer Name": "some name",
+              ID: "#some id",
+              District: "some district"
+            })
+          ])
+        );
+      });
+
+      test("returns correct accused officer data when single unknown officer", () => {
+        const officer = {
+          isUnknownOfficer: true
+        };
+
+        const accusedOfficerData = getAccusedOfficerData(officer);
+
+        expect(accusedOfficerData).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              Name: "Unknown"
+            })
+          ])
+        );
+      });
+    });
+
+    describe("allegation data", function() {
+      test("returns correct allegation data when single officer with no allegations", () => {
+        const officer = {
+          isUnknownOfficer: false,
+          fullName: "some name",
+          windowsUsername: "some id",
+          district: "some district",
+          allegations: []
+        };
+
+        const allegationData = getAllegationData(officer);
+
+        expect(allegationData).toEqual([]);
+      });
+
+      test("returns correct allegation data when single officer with one allegation", () => {
+        const officer = {
+          isUnknownOfficer: false,
+          fullName: "some name",
+          windowsUsername: "some id",
+          district: "some district",
+          allegations: [
+            {
+              details: "some details",
+              severity: "some severity",
+              allegation: {
+                rule: "some rule",
+                paragraph: "some paragraph",
+                directive: "some directive"
+              }
+            }
+          ]
+        };
+
+        const allegationData = getAllegationData(officer);
+
+        expect(allegationData).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              Rule: "some rule",
+              Paragraph: "some paragraph",
+              Directive: "some directive",
+              Severity: "some severity",
+              "Allegation Details": "some details"
+            })
+          ])
+        );
+      });
+
+      test("returns correct allegation data when single officer with multiple allegations", () => {
+        const officer = {
+          isUnknownOfficer: false,
+          fullName: "some name",
+          windowsUsername: "some id",
+          district: "some district",
+          allegations: [
+            {
+              details: "some details",
+              severity: "some severity",
+              allegation: {
+                rule: "some rule",
+                paragraph: "some paragraph",
+                directive: "some directive"
+              }
+            },
+            {
+              details: "some details2",
+              severity: "some severity2",
+              allegation: {
+                rule: "some rule2",
+                paragraph: "some paragraph2",
+                directive: "some directive2"
+              }
+            },
+            {
+              details: "some details3",
+              severity: "some severity3",
+              allegation: {
+                rule: "some rule3",
+                paragraph: "some paragraph3",
+                directive: "some directive3"
+              }
+            }
+          ]
+        };
+
+        const allegationData = getAllegationData(officer);
+
+        expect(allegationData).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              Rule: "some rule",
+              Paragraph: "some paragraph",
+              Directive: "some directive",
+              Severity: "some severity",
+              "Allegation Details": "some details"
+            }),
+            expect.objectContaining({
+              Rule: "some rule2",
+              Paragraph: "some paragraph2",
+              Directive: "some directive2",
+              Severity: "some severity2",
+              "Allegation Details": "some details2"
+            }),
+            expect.objectContaining({
+              Rule: "some rule3",
+              Paragraph: "some paragraph3",
+              Directive: "some directive3",
+              Severity: "some severity3",
+              "Allegation Details": "some details3"
+            })
           ])
         );
       });
