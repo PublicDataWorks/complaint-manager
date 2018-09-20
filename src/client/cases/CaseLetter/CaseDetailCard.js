@@ -32,7 +32,7 @@ const CaseDetailCard = props => {
         <br />
         <Typography style={styles.section}>{props.cardSecondTitle}</Typography>
         {props.allegations.map(allegation => {
-          renderAllegationData(allegation);
+          return renderAllegationData(allegation);
         })}
       </Fragment>
     );
@@ -78,7 +78,7 @@ const CaseDetailCard = props => {
         <Typography style={styles.section}>{cardTitle}</Typography>
         {cardData.map(data => {
           if (data) {
-            renderCardData(data);
+            return renderCardData(data);
           } else return null;
         })}
         {props.cardSecondTitle ? renderAllegationSection() : null}

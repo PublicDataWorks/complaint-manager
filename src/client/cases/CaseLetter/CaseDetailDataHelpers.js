@@ -1,5 +1,4 @@
 import formatDate from "../../utilities/formatDate";
-import React from "react";
 
 export const getFormattedDate = date => {
   return date ? formatDate(date) : null;

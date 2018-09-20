@@ -85,7 +85,7 @@ describe("OldCaseStatusStepper", () => {
     expect(updateStatusButton.exists()).toBeFalsy();
   });
 
-  test.skip("should show button when case is active", () => {
+  test("should show button when case is active", () => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,

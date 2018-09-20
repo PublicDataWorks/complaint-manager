@@ -4,7 +4,6 @@ import NavBar from "../../shared/components/NavBar/NavBar";
 import { connect } from "react-redux";
 import * as _ from "lodash";
 import getCaseDetails from "../thunks/getCaseDetails";
-import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
 import LetterProgressStepper from "./LetterProgressStepper";
