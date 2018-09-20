@@ -1,5 +1,4 @@
 import formatDate from "../../utilities/formatDate";
-import CaseDetailCard from "./CaseDetailCard";
 import React from "react";
 
 export const getFormattedDate = date => {
@@ -30,122 +29,102 @@ export const getIncidentInfoData = caseDetail => {
 };
 
 export const getComplainantData = caseDetail => {
-  let complainantCivilianData = [];
+  let complainantCivilianData = caseDetail.complainantCivilians.map(
+    complainant => {
+      const complainantBirthDate = getFormattedDate(complainant.birthDate);
+      const complainantAddress = complainant.address
+        ? complainant.address.streetAddress +
+          " " +
+          complainant.address.city +
+          " " +
+          complainant.address.state +
+          " " +
+          complainant.address.zipCode
+        : null;
 
-  complainantCivilianData = caseDetail.complainantCivilians.map(complainant => {
-    const complainantBirthDate = getFormattedDate(complainant.birthDate);
-    const complainantAddress = complainant.address
-      ? complainant.address.streetAddress +
-        " " +
-        complainant.address.city +
-        " " +
-        complainant.address.state +
-        " " +
-        complainant.address.zipCode
-      : null;
+      return {
+        "Civilian Name": complainant.fullName,
+        Race: complainant.raceEthnicity,
+        "Gender Identity": complainant.genderIdentity,
+        DOB: complainantBirthDate,
+        Address: complainantAddress,
+        "Cell Phone": complainant.phoneNumber,
+        Email: complainant.email
+      };
+    }
+  );
 
-    complainantCivilianData.push({
-      "Civilian Name": complainant.fullName,
-      Race: complainant.raceEthnicity,
-      "Gender Identity": complainant.genderIdentity,
-      DOB: complainantBirthDate,
-      Address: complainantAddress,
-      "Cell Phone": complainant.phoneNumber,
-      Email: complainant.email
-    });
-    return complainantCivilianData;
-  })[0];
+  let complainantOfficerData = caseDetail.complainantOfficers.map(
+    complainant => {
+      if (complainant.isUnknownOfficer) {
+        return { Name: "Unknown" };
+      } else
+        return {
+          "Officer Name": complainant.fullName,
+          ID: `#${complainant.windowsUsername}`,
+          District: complainant.district
+        };
+    }
+  );
 
-  let complainantOfficerData = [];
-  complainantOfficerData = caseDetail.complainantOfficers.map(complainant => {
-    if (complainant.isUnknownOfficer) {
-      complainantOfficerData.push({ Name: "Unknown" });
-    } else
-      complainantOfficerData.push({
-        "Officer Name": complainant.fullName,
-        ID: `#${complainant.windowsUsername}`,
-        District: complainant.district
-      });
-    return complainantOfficerData;
-  })[0];
-
-  if (complainantCivilianData) {
-    return complainantCivilianData.concat(complainantOfficerData);
-  } else {
-    return complainantOfficerData || [];
-  }
+  return complainantCivilianData.concat(complainantOfficerData);
 };
 
 export const getWitnessData = caseDetail => {
-  let witnessCivilianData = [];
-  witnessCivilianData = caseDetail.witnessCivilians.map(witness => {
-    witnessCivilianData.push({
+  let witnessCivilianData = caseDetail.witnessCivilians.map(witness => {
+    return {
       "Civilian Name": witness.fullName,
       "Email Address": witness.email
-    });
-    return witnessCivilianData;
-  })[0];
+    };
+  });
 
-  let witnessOfficerData = [];
-  witnessOfficerData = caseDetail.witnessOfficers.map(witness => {
+  if (witnessCivilianData.length === 0) {
+    witnessCivilianData = ["No witnesses have been added"];
+  }
+
+  let witnessOfficerData = caseDetail.witnessOfficers.map(witness => {
     if (witness.isUnknownOfficer) {
-      witnessOfficerData.push({ Name: "Unknown" });
+      return { Name: "Unknown" };
     } else {
-      witnessOfficerData.push({
+      return {
         "Officer Name": witness.fullName,
         ID: `#${witness.windowsUsername}`,
         District: witness.district
-      });
+      };
     }
-    return witnessOfficerData;
-  })[0];
+  });
 
-  if (witnessCivilianData) {
-    return witnessCivilianData.concat(witnessOfficerData);
-  } else {
-    return witnessOfficerData || ["No witnesses have been added"];
-  }
+  return witnessCivilianData.concat(witnessOfficerData);
 };
 
-export const getAccusedOfficerData = caseDetail => {
-  return caseDetail.accusedOfficers.map(officer => {
-    let officerData = officer.isUnknownOfficer
-      ? [{ Name: "Unknown" }]
-      : [
-          {
-            "Officer Name": officer.fullName,
-            ID: `#${officer.windowsUsername}`,
-            District: officer.district
-          }
-        ];
+export const getAccusedOfficerData = officer => {
+  return officer.isUnknownOfficer
+    ? [{ Name: "Unknown" }]
+    : [
+        {
+          "Officer Name": officer.fullName,
+          ID: `#${officer.windowsUsername}`,
+          District: officer.district
+        }
+      ];
+};
 
-    let allegationData = [];
-    allegationData = officer.allegations.map(allegation => {
-      const rule = allegation.allegation ? allegation.allegation.rule : null;
-      const paragraph = allegation.allegation
-        ? allegation.allegation.paragraph
-        : null;
-      const directive = allegation.allegation
-        ? allegation.allegation.directive
-        : null;
+export const getAllegationData = officer => {
+  return officer.allegations.map(allegation => {
+    const rule = allegation.allegation ? allegation.allegation.rule : null;
+    const paragraph = allegation.allegation
+      ? allegation.allegation.paragraph
+      : null;
+    const directive = allegation.allegation
+      ? allegation.allegation.directive
+      : null;
 
-      allegationData.push({
-        Rule: rule,
-        Paragraph: paragraph,
-        Directive: directive,
-        Severity: allegation.severity,
-        "Allegation Details": allegation.details
-      });
-      return allegationData;
-    })[0];
-
-    return (
-      <CaseDetailCard
-        cardTitle={"Accused Officer"}
-        cardData={officerData}
-        cardSecondTitle={"Allegations"}
-        allegations={allegationData ? allegationData : []}
-      />
-    );
+    return {
+      Rule: rule,
+      Paragraph: paragraph,
+      Directive: directive,
+      Severity: allegation.severity,
+      "Allegation Details": allegation.details
+    };
   });
 };

@@ -12,6 +12,7 @@ import styles from "../../globalStyling/styles";
 import CaseDetailCard from "./CaseDetailCard";
 import {
   getAccusedOfficerData,
+  getAllegationData,
   getComplainantData,
   getIncidentInfoData,
   getWitnessData
@@ -111,7 +112,16 @@ export class LetterReview extends Component {
             cardData={getWitnessData(caseDetail)}
           />
 
-          {getAccusedOfficerData(caseDetail)}
+          {caseDetail.accusedOfficers.map(officer => {
+            return (
+              <CaseDetailCard
+                cardTitle={"Accused Officer"}
+                cardData={getAccusedOfficerData(officer)}
+                cardSecondTitle={"Allegations"}
+                allegations={getAllegationData(officer)}
+              />
+            );
+          })}
         </div>
       </div>
     );
