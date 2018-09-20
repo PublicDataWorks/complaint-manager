@@ -48,13 +48,12 @@ export class LetterReview extends Component {
         </NavBar>
 
         <LinkButton
-          data-test="save-and-return-to-case-link"
+          data-test="return-to-case-link"
           component={Link}
           to={`/cases/${caseId}`}
           style={{ margin: "2% 0% 2% 4%" }}
-          onClick={() => this.props.dispatch(clearSelectedOfficer())}
         >
-          Save and Return to Case
+          Return to Case
         </LinkButton>
 
         <LetterProgressStepper />

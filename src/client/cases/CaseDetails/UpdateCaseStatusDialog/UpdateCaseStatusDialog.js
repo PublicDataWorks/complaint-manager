@@ -42,6 +42,11 @@ const UpdateCaseStatusDialog = ({
     nextStatus = CASE_STATUS.READY_FOR_REVIEW;
   }
 
+  const actionText =
+    nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
+      ? "Choosing to Generate a Letter"
+      : "This action";
+
   return (
     <Dialog open={open}>
       <DialogTitle>Update Case Status</DialogTitle>
@@ -51,7 +56,7 @@ const UpdateCaseStatusDialog = ({
             marginBottom: "24px"
           }}
         >
-          This action will mark the case as <strong>{nextStatus}</strong>.&nbsp;{
+          {actionText} will mark the case as <strong>{nextStatus}</strong>.&nbsp;{
             STATUS_DESCRIPTION[nextStatus]
           }
         </Typography>

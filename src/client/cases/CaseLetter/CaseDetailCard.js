@@ -7,6 +7,62 @@ import TextTruncate from "../../shared/components/TextTruncate";
 const CaseDetailCard = props => {
   const { cardData, cardTitle } = props;
 
+  const renderCardData = data => {
+    return (
+      <div data-test={"caseDetailCardItem"} key={cardData.indexOf(data)}>
+        <br />
+        {_.isObject(data) ? (
+          Object.keys(data).map(key => {
+            return (
+              <Typography key={Object.keys(data).indexOf(key)}>
+                {key}: {data[key] ? data[key] : "N/A"}
+              </Typography>
+            );
+          })
+        ) : (
+          <Typography style={{ fontStyle: "italic" }}>{data}</Typography>
+        )}
+      </div>
+    );
+  };
+
+  const renderAllegationSection = () => {
+    return (
+      <Fragment>
+        <br />
+        <Typography style={styles.section}>{props.cardSecondTitle}</Typography>
+        {props.allegations.map(allegation => {
+          renderAllegationData(allegation);
+        })}
+      </Fragment>
+    );
+  };
+
+  const renderAllegationData = allegation => {
+    return (
+      <div
+        data-test="caseDetailCardAllegation"
+        key={props.allegations.indexOf(allegation)}
+      >
+        <br />
+        {Object.keys(allegation).map(key => {
+          return key === "Allegation Details" ? (
+            <TextTruncate
+              testLabel={"letterReviewAllegationDetails"}
+              message={
+                allegation[key] ? `${key}: ${allegation[key]}` : `${key}: N/A`
+              }
+            />
+          ) : (
+            <Typography key={Object.keys(allegation).indexOf(key)}>
+              {key}: {allegation[key] ? allegation[key] : "N/A"}
+            </Typography>
+          );
+        })}
+      </div>
+    );
+  };
+
   return (
     <Card
       style={{
@@ -22,63 +78,10 @@ const CaseDetailCard = props => {
         <Typography style={styles.section}>{cardTitle}</Typography>
         {cardData.map(data => {
           if (data) {
-            return (
-              <div
-                data-test={"caseDetailCardItem"}
-                key={cardData.indexOf(data)}
-              >
-                <br />
-                {_.isObject(data) ? (
-                  Object.keys(data).map(key => {
-                    return (
-                      <Typography key={Object.keys(data).indexOf(key)}>
-                        {key}: {data[key] ? data[key] : "N/A"}
-                      </Typography>
-                    );
-                  })
-                ) : (
-                  <Typography style={{ fontStyle: "italic" }}>
-                    {data}
-                  </Typography>
-                )}
-              </div>
-            );
+            renderCardData(data);
           } else return null;
         })}
-        {props.cardSecondTitle ? (
-          <Fragment>
-            <br />
-            <Typography style={styles.section}>
-              {props.cardSecondTitle}
-            </Typography>
-            {props.allegations.map(allegation => {
-              return (
-                <div
-                  data-test="caseDetailCardAllegation"
-                  key={props.allegations.indexOf(allegation)}
-                >
-                  <br />
-                  {Object.keys(allegation).map(key => {
-                    return key === "Allegation Details" ? (
-                      <TextTruncate
-                        testLabel={"letterReviewAllegationDetails"}
-                        message={
-                          allegation[key]
-                            ? `${key}: ${allegation[key]}`
-                            : `${key}: N/A`
-                        }
-                      />
-                    ) : (
-                      <Typography key={Object.keys(allegation).indexOf(key)}>
-                        {key}: {allegation[key] ? allegation[key] : "N/A"}
-                      </Typography>
-                    );
-                  })}
-                </div>
-              );
-            })}
-          </Fragment>
-        ) : null}
+        {props.cardSecondTitle ? renderAllegationSection() : null}
       </CardContent>
     </Card>
   );
