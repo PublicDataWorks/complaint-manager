@@ -50,7 +50,8 @@ export const getComplainantData = caseDetail => {
       "Gender Identity": complainant.genderIdentity,
       DOB: complainantBirthDate,
       Address: complainantAddress,
-      "Cell Phone": complainant.phoneNumber
+      "Cell Phone": complainant.phoneNumber,
+      Email: complainant.email
     });
     return complainantCivilianData;
   })[0];
@@ -143,7 +144,7 @@ export const getAccusedOfficerData = caseDetail => {
         cardTitle={"Accused Officer"}
         cardData={officerData}
         cardSecondTitle={"Allegations"}
-        allegations={allegationData}
+        allegations={allegationData ? allegationData : []}
       />
     );
   });

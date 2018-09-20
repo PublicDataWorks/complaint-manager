@@ -58,7 +58,8 @@ describe("caseDetailDataHelpers", function() {
               state: "some state",
               zipCode: "10000"
             },
-            phoneNumber: "1234567890"
+            phoneNumber: "1234567890",
+            email: "test@test.com"
           }
         ],
         complainantOfficers: []
@@ -75,7 +76,8 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate,
             Address: "123 some street drive some city some state 10000",
-            "Cell Phone": "1234567890"
+            "Cell Phone": "1234567890",
+            Email: "test@test.com"
           })
         ])
       );
@@ -99,7 +101,8 @@ describe("caseDetailDataHelpers", function() {
               state: "some state",
               zipCode: "10000"
             },
-            phoneNumber: "1234567890"
+            phoneNumber: "1234567890",
+            email: "test@test.com"
           },
           {
             fullName: "Civilian Joe2",
@@ -112,7 +115,8 @@ describe("caseDetailDataHelpers", function() {
               state: "some state",
               zipCode: "10001"
             },
-            phoneNumber: "0987654321"
+            phoneNumber: "0987654321",
+            email: "test2@test.com"
           },
           {
             fullName: "Civilian Joe3",
@@ -125,7 +129,8 @@ describe("caseDetailDataHelpers", function() {
               state: "some state",
               zipCode: "10002"
             },
-            phoneNumber: "1111111111"
+            phoneNumber: "1111111111",
+            email: "test3@test.com"
           }
         ],
         complainantOfficers: []
@@ -144,7 +149,8 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate,
             Address: "123 some street drive some city some state 10000",
-            "Cell Phone": "1234567890"
+            "Cell Phone": "1234567890",
+            Email: "test@test.com"
           }),
           expect.objectContaining({
             "Civilian Name": "Civilian Joe2",
@@ -152,7 +158,8 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate2,
             Address: "123 some street road some city some state 10001",
-            "Cell Phone": "0987654321"
+            "Cell Phone": "0987654321",
+            Email: "test2@test.com"
           }),
           expect.objectContaining({
             "Civilian Name": "Civilian Joe3",
@@ -160,7 +167,8 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate3,
             Address: "123 some street ave some city some state 10002",
-            "Cell Phone": "1111111111"
+            "Cell Phone": "1111111111",
+            Email: "test3@test.com"
           })
         ])
       );
@@ -232,7 +240,8 @@ describe("caseDetailDataHelpers", function() {
               state: "some state",
               zipCode: "10000"
             },
-            phoneNumber: "1234567890"
+            phoneNumber: "1234567890",
+            email: "test@test.com"
           },
           {
             fullName: "Civilian Joe2",
@@ -245,7 +254,8 @@ describe("caseDetailDataHelpers", function() {
               state: "some state",
               zipCode: "10001"
             },
-            phoneNumber: "0987654321"
+            phoneNumber: "0987654321",
+            email: "test2@test.com"
           },
           {
             fullName: "Civilian Joe3",
@@ -258,7 +268,8 @@ describe("caseDetailDataHelpers", function() {
               state: "some state",
               zipCode: "10002"
             },
-            phoneNumber: "1111111111"
+            phoneNumber: "1111111111",
+            email: "test3@test.com"
           }
         ],
         complainantOfficers: [
@@ -288,7 +299,8 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate,
             Address: "123 some street drive some city some state 10000",
-            "Cell Phone": "1234567890"
+            "Cell Phone": "1234567890",
+            Email: "test@test.com"
           }),
           expect.objectContaining({
             "Civilian Name": "Civilian Joe2",
@@ -296,7 +308,8 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate2,
             Address: "123 some street road some city some state 10001",
-            "Cell Phone": "0987654321"
+            "Cell Phone": "0987654321",
+            Email: "test2@test.com"
           }),
           expect.objectContaining({
             "Civilian Name": "Civilian Joe3",
@@ -304,7 +317,8 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate3,
             Address: "123 some street ave some city some state 10002",
-            "Cell Phone": "1111111111"
+            "Cell Phone": "1111111111",
+            Email: "test3@test.com"
           }),
           expect.objectContaining({
             "Officer Name": "officer joe",

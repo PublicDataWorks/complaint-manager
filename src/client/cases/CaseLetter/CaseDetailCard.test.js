@@ -76,4 +76,27 @@ describe("Case Detail Card", function() {
       caseDetailCard.find('[data-test="caseDetailCardAllegation"]').length
     ).toEqual(3);
   });
+
+  test("it renders correct number of officers when there are no allegations", () => {
+    const wrapper = mount(
+      <Provider store={createConfiguredStore()}>
+        <Router>
+          <CaseDetailCard
+            cardTitle={"Test Title"}
+            cardData={[{ "Officer Name": "test name", ID: "test id" }]}
+            cardSecondTitle={"Allegations"}
+            allegations={[]}
+          />
+        </Router>
+      </Provider>
+    );
+
+    const caseDetailCard = wrapper.find('[data-test="caseDetailCard"]').first();
+    expect(
+      caseDetailCard.find('[data-test="caseDetailCardItem"]').length
+    ).toEqual(1);
+    expect(
+      caseDetailCard.find('[data-test="caseDetailCardAllegation"]').length
+    ).toEqual(0);
+  });
 });
