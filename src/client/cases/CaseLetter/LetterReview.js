@@ -38,7 +38,7 @@ export class LetterReview extends Component {
     }
 
     const narrativeSummaryCardData = (
-      <Typography>{caseDetail.narrativeSummary}</Typography>
+      <Typography>{caseDetail.narrativeSummary || "N/A"}</Typography>
     );
 
     const narrativeDetailsCardData = (
