@@ -15,7 +15,7 @@ export const getIncidentInfoData = caseDetail => {
       caseDetail.incidentLocation.state +
       " " +
       caseDetail.incidentLocation.zipCode
-    : null;
+    : "";
 
   return [
     {
@@ -40,7 +40,7 @@ export const getComplainantData = caseDetail => {
           complainant.address.state +
           " " +
           complainant.address.zipCode
-        : null;
+        : "";
       const complainantPhoneNumber = formatPhoneNumber(complainant.phoneNumber);
 
       return {
