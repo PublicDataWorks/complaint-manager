@@ -9,6 +9,7 @@ module.exports = {
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
     operatorsAliases: false,
+    logging: false,
     pool: {
       max: 5,
       min: 0,

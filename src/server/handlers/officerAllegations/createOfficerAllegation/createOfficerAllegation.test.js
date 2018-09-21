@@ -75,7 +75,8 @@ describe("createOfficerAllegation", () => {
       },
       body: {
         allegationId: allegation.id,
-        details: null
+        details: null,
+        severity: ALLEGATION_SEVERITY.LOW
       },
       nickname: "TEST_USER_NICKNAME"
     });
@@ -145,7 +146,8 @@ describe("createOfficerAllegation", () => {
       },
       body: {
         allegationId: allegation.id,
-        details: allegationDetails
+        details: allegationDetails,
+        severity: ALLEGATION_SEVERITY.MEDIUM
       },
       nickname: "TEST_USER_NICKNAME"
     });
