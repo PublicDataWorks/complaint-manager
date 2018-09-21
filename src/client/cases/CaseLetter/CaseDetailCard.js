@@ -48,9 +48,18 @@ const CaseDetailCard = props => {
       <Fragment>
         <br />
         <Typography style={styles.section}>{props.cardSecondTitle}</Typography>
-        {props.allegations.map(allegation => {
-          return renderAllegationData(allegation);
-        })}
+        {props.allegations.length === 0 ? (
+          <Fragment>
+            <br />
+            <Typography style={{ fontStyle: "italic" }}>
+              No allegations have been added
+            </Typography>
+          </Fragment>
+        ) : (
+          props.allegations.map(allegation => {
+            return renderAllegationData(allegation);
+          })
+        )}
       </Fragment>
     );
   };
