@@ -7,6 +7,14 @@ import TextTruncate from "../../shared/components/TextTruncate";
 const CaseDetailCard = props => {
   const { cardData, cardTitle } = props;
 
+  const renderComplainantWitnessOfficerData = () => {
+    return cardData.map(data => {
+      if (data) {
+        return renderCardData(data);
+      } else return null;
+    });
+  };
+
   const renderCardData = data => {
     return (
       <div data-test={"caseDetailCardItem"} key={cardData.indexOf(data)}>
@@ -23,6 +31,15 @@ const CaseDetailCard = props => {
           <Typography style={{ fontStyle: "italic" }}>{data}</Typography>
         )}
       </div>
+    );
+  };
+
+  const renderNarrativeData = () => {
+    return (
+      <Fragment>
+        <br />
+        {cardData}
+      </Fragment>
     );
   };
 
@@ -76,11 +93,9 @@ const CaseDetailCard = props => {
         style={{ paddingBottom: "16px" }}
       >
         <Typography style={styles.section}>{cardTitle}</Typography>
-        {cardData.map(data => {
-          if (data) {
-            return renderCardData(data);
-          } else return null;
-        })}
+        {_.isArray(cardData)
+          ? renderComplainantWitnessOfficerData()
+          : renderNarrativeData()}
         {props.cardSecondTitle ? renderAllegationSection() : null}
       </CardContent>
     </Card>

@@ -38,6 +38,19 @@ export class LetterReview extends Component {
       return null;
     }
 
+    const narrativeSummaryCardData = (
+      <Typography>{caseDetail.narrativeSummary}</Typography>
+    );
+
+    const narrativeDetailsCardData = (
+      <TextTruncate
+        testLabel="letterReviewNarrativeDetails"
+        message={
+          caseDetail.narrativeDetails ? caseDetail.narrativeDetails : "N/A"
+        }
+      />
+    );
+
     return (
       <div>
         <NavBar>
@@ -67,38 +80,15 @@ export class LetterReview extends Component {
             cardData={getIncidentInfoData(caseDetail)}
           />
 
-          <Card
-            style={{
-              backgroundColor: "white",
-              width: "60%",
-              margin: "0 0 32px 0"
-            }}
-          >
-            <CardContent style={{ paddingBottom: "16px" }}>
-              <Typography style={styles.section}>Narrative Summary</Typography>
-              <Typography>{caseDetail.narrativeSummary}</Typography>
-            </CardContent>
-          </Card>
+          <CaseDetailCard
+            cardTitle={"Narrative Summary"}
+            cardData={narrativeSummaryCardData}
+          />
 
-          <Card
-            style={{
-              backgroundColor: "white",
-              width: "60%",
-              margin: "0 0 32px 0"
-            }}
-          >
-            <CardContent style={{ paddingBottom: "16px" }}>
-              <Typography style={styles.section}>Narrative Details</Typography>
-              <TextTruncate
-                testLabel="letterReviewNarrativeDetails"
-                message={
-                  caseDetail.narrativeDetails
-                    ? caseDetail.narrativeDetails
-                    : "N/A"
-                }
-              />
-            </CardContent>
-          </Card>
+          <CaseDetailCard
+            cardTitle={"Narrative Details"}
+            cardData={narrativeDetailsCardData}
+          />
 
           <CaseDetailCard
             cardTitle={"Complainant Information"}
