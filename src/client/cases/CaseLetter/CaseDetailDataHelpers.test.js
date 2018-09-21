@@ -22,7 +22,8 @@ describe("caseDetailDataHelpers", function() {
           state: "IL",
           zipCode: "10000"
         },
-        district: "some district"
+        district: "some district",
+        classification: { initialism: "some classification" }
       };
 
       const incidentInfoData = getIncidentInfoData(caseDetail);
@@ -36,7 +37,8 @@ describe("caseDetailDataHelpers", function() {
             "First Contacted IPM": formattedFirstContactDate,
             "Incident Time": "10:00:00",
             "Incident Location": "100 Small Lake Road Skokie IL 10000",
-            District: "some district"
+            District: "some district",
+            Classification: "some classification"
           })
         ])
       );
@@ -55,7 +57,8 @@ describe("caseDetailDataHelpers", function() {
           state: " ",
           zipCode: " "
         },
-        district: "some district"
+        district: "some district",
+        classification: { initialism: "some classification" }
       };
 
       const incidentInfoData = getIncidentInfoData(caseDetail);
@@ -69,7 +72,8 @@ describe("caseDetailDataHelpers", function() {
             "First Contacted IPM": formattedFirstContactDate,
             "Incident Time": "10:00:00",
             "Incident Location": null,
-            District: "some district"
+            District: "some district",
+            Classification: "some classification"
           })
         ])
       );
@@ -423,7 +427,8 @@ describe("caseDetailDataHelpers", function() {
           witnessCivilians: [
             {
               fullName: "Witness Joe",
-              email: "email@email.com"
+              email: "email@email.com",
+              phoneNumber: "0000000000"
             }
           ],
           witnessOfficers: []
@@ -435,6 +440,7 @@ describe("caseDetailDataHelpers", function() {
           expect.arrayContaining([
             expect.objectContaining({
               "Civilian Name": "Witness Joe",
+              "Cell Phone": "(000) 000-0000",
               "Email Address": "email@email.com"
             })
           ])
@@ -446,15 +452,18 @@ describe("caseDetailDataHelpers", function() {
           witnessCivilians: [
             {
               fullName: "Witness Joe",
-              email: "email@email.com"
+              email: "email@email.com",
+              phoneNumber: "0000000000"
             },
             {
               fullName: "Another Witness",
-              email: "another@email.com"
+              email: "another@email.com",
+              phoneNumber: "1111111111"
             },
             {
               fullName: "Final Witness",
-              email: "final@email.com"
+              email: "final@email.com",
+              phoneNumber: "2222222222"
             }
           ],
           witnessOfficers: []
@@ -466,14 +475,17 @@ describe("caseDetailDataHelpers", function() {
           expect.arrayContaining([
             expect.objectContaining({
               "Civilian Name": "Witness Joe",
+              "Cell Phone": "(000) 000-0000",
               "Email Address": "email@email.com"
             }),
             expect.objectContaining({
               "Civilian Name": "Another Witness",
+              "Cell Phone": "(111) 111-1111",
               "Email Address": "another@email.com"
             }),
             expect.objectContaining({
               "Civilian Name": "Final Witness",
+              "Cell Phone": "(222) 222-2222",
               "Email Address": "final@email.com"
             })
           ])
@@ -533,15 +545,18 @@ describe("caseDetailDataHelpers", function() {
           witnessCivilians: [
             {
               fullName: "Witness Joe",
-              email: "email@email.com"
+              email: "email@email.com",
+              phoneNumber: "0000000000"
             },
             {
               fullName: "Another Witness",
-              email: "another@email.com"
+              email: "another@email.com",
+              phoneNumber: "1111111111"
             },
             {
               fullName: "Final Witness",
-              email: "final@email.com"
+              email: "final@email.com",
+              phoneNumber: "2222222222"
             }
           ],
           witnessOfficers: [
@@ -564,14 +579,17 @@ describe("caseDetailDataHelpers", function() {
           expect.arrayContaining([
             expect.objectContaining({
               "Civilian Name": "Witness Joe",
+              "Cell Phone": "(000) 000-0000",
               "Email Address": "email@email.com"
             }),
             expect.objectContaining({
               "Civilian Name": "Another Witness",
+              "Cell Phone": "(111) 111-1111",
               "Email Address": "another@email.com"
             }),
             expect.objectContaining({
               "Civilian Name": "Final Witness",
+              "Cell Phone": "(222) 222-2222",
               "Email Address": "final@email.com"
             }),
             expect.objectContaining({

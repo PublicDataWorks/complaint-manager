@@ -23,7 +23,8 @@ export const getIncidentInfoData = caseDetail => {
       "Incident Date": incidentDate,
       "Incident Time": caseDetail.incidentTime,
       "Incident Location": incidentLocation.trim() ? incidentLocation : null,
-      District: caseDetail.district
+      District: caseDetail.district,
+      Classification: caseDetail.classification.initialism
     }
   ];
 };
@@ -73,8 +74,10 @@ export const getComplainantData = caseDetail => {
 
 export const getWitnessData = caseDetail => {
   let witnessCivilianData = caseDetail.witnessCivilians.map(witness => {
+    const witnessPhoneNumber = formatPhoneNumber(witness.phoneNumber);
     return {
       "Civilian Name": witness.fullName,
+      "Cell Phone": witnessPhoneNumber,
       "Email Address": witness.email
     };
   });
