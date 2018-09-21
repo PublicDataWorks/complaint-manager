@@ -87,6 +87,12 @@ class CaseDetails extends React.Component {
     }
 
     const statusIsClosed = this.props.caseDetail.status === CASE_STATUS.CLOSED;
+    const status = this.props.featureToggles.letterGenerationFeature
+      ? this.props.caseDetail.status
+      : this.props.caseDetail.status === CASE_STATUS.LETTER_IN_PROGRESS
+        ? CASE_STATUS.ACTIVE
+        : this.props.caseDetail.status;
+
     const { classes } = this.props;
 
     return (
@@ -109,7 +115,7 @@ class CaseDetails extends React.Component {
                 statusIsClosed ? classes.closedStatusBox : classes.statusBox
               }
             >
-              {this.props.caseDetail.status}
+              {status}
             </Typography>
           </NavBar>
           <CaseDrawer classes={classes} caseDetail={this.props.caseDetail} />
