@@ -20,7 +20,8 @@ describe("caseDetailDataHelpers", function() {
           streetAddress: "100 Small Lake Road",
           city: "Skokie",
           state: "IL",
-          zipCode: "10000"
+          zipCode: "10000",
+          streetAddress2: "additional info"
         },
         district: "some district",
         classification: { initialism: "some classification" }
@@ -35,8 +36,9 @@ describe("caseDetailDataHelpers", function() {
           expect.objectContaining({
             "Incident Date": formattedIncidentDate,
             "First Contacted IPM": formattedFirstContactDate,
-            "Incident Time": "10:00:00",
+            "Incident Time": "10:00 AM CST",
             "Incident Location": "100 Small Lake Road Skokie IL 10000",
+            "Additional Location Information": "additional info",
             District: "some district",
             Classification: "some classification"
           })
@@ -70,7 +72,7 @@ describe("caseDetailDataHelpers", function() {
           expect.objectContaining({
             "Incident Date": formattedIncidentDate,
             "First Contacted IPM": formattedFirstContactDate,
-            "Incident Time": "10:00:00",
+            "Incident Time": "10:00 AM CST",
             "Incident Location": null,
             District: "some district",
             Classification: "some classification"
@@ -136,7 +138,8 @@ describe("caseDetailDataHelpers", function() {
               streetAddress: "123 some street drive",
               city: "some city",
               state: "some state",
-              zipCode: "10000"
+              zipCode: "10000",
+              streetAddress2: "additional info"
             },
             phoneNumber: "1234567890",
             email: "test@test.com"
@@ -156,6 +159,7 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate,
             Address: "123 some street drive some city some state 10000",
+            "Additional Address Information": "additional info",
             "Cell Phone": "(123) 456-7890",
             Email: "test@test.com"
           })
@@ -179,7 +183,8 @@ describe("caseDetailDataHelpers", function() {
               streetAddress: "123 some street drive",
               city: "some city",
               state: "some state",
-              zipCode: "10000"
+              zipCode: "10000",
+              streetAddress2: "additional info"
             },
             phoneNumber: "1234567890",
             email: "test@test.com"
@@ -193,7 +198,8 @@ describe("caseDetailDataHelpers", function() {
               streetAddress: "123 some street road",
               city: "some city",
               state: "some state",
-              zipCode: "10001"
+              zipCode: "10001",
+              streetAddress2: "additional info2"
             },
             phoneNumber: "0987654321",
             email: "test2@test.com"
@@ -207,7 +213,8 @@ describe("caseDetailDataHelpers", function() {
               streetAddress: "123 some street ave",
               city: "some city",
               state: "some state",
-              zipCode: "10002"
+              zipCode: "10002",
+              streetAddress2: "additional info3"
             },
             phoneNumber: "1111111111",
             email: "test3@test.com"
@@ -229,6 +236,7 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate,
             Address: "123 some street drive some city some state 10000",
+            "Additional Address Information": "additional info",
             "Cell Phone": "(123) 456-7890",
             Email: "test@test.com"
           }),
@@ -238,6 +246,7 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate2,
             Address: "123 some street road some city some state 10001",
+            "Additional Address Information": "additional info2",
             "Cell Phone": "(098) 765-4321",
             Email: "test2@test.com"
           }),
@@ -247,6 +256,7 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate3,
             Address: "123 some street ave some city some state 10002",
+            "Additional Address Information": "additional info3",
             "Cell Phone": "(111) 111-1111",
             Email: "test3@test.com"
           })
@@ -318,7 +328,8 @@ describe("caseDetailDataHelpers", function() {
               streetAddress: "123 some street drive",
               city: "some city",
               state: "some state",
-              zipCode: "10000"
+              zipCode: "10000",
+              streetAddress2: "additional info"
             },
             phoneNumber: "1234567890",
             email: "test@test.com"
@@ -332,7 +343,8 @@ describe("caseDetailDataHelpers", function() {
               streetAddress: "123 some street road",
               city: "some city",
               state: "some state",
-              zipCode: "10001"
+              zipCode: "10001",
+              streetAddress2: "additional info2"
             },
             phoneNumber: "0987654321",
             email: "test2@test.com"
@@ -346,7 +358,8 @@ describe("caseDetailDataHelpers", function() {
               streetAddress: "123 some street ave",
               city: "some city",
               state: "some state",
-              zipCode: "10002"
+              zipCode: "10002",
+              streetAddress2: "additional info3"
             },
             phoneNumber: "1111111111",
             email: "test3@test.com"
@@ -379,6 +392,7 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate,
             Address: "123 some street drive some city some state 10000",
+            "Additional Address Information": "additional info",
             "Cell Phone": "(123) 456-7890",
             Email: "test@test.com"
           }),
@@ -388,6 +402,7 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate2,
             Address: "123 some street road some city some state 10001",
+            "Additional Address Information": "additional info2",
             "Cell Phone": "(098) 765-4321",
             Email: "test2@test.com"
           }),
@@ -397,6 +412,7 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate3,
             Address: "123 some street ave some city some state 10002",
+            "Additional Address Information": "additional info3",
             "Cell Phone": "(111) 111-1111",
             Email: "test3@test.com"
           }),

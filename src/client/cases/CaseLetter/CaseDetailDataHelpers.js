@@ -10,8 +10,7 @@ export const getFormattedDate = date => {
 
 const formatTimeForDisplay = (date, time) => {
   if (!time) return time;
-  const time2 = format12HourTime(time) + " " + computeTimeZone(date, time);
-  return time2;
+  return format12HourTime(time) + " " + computeTimeZone(date, time);
 };
 
 export const getIncidentInfoData = caseDetail => {
@@ -36,6 +35,9 @@ export const getIncidentInfoData = caseDetail => {
       "Incident Date": incidentDate,
       "Incident Time": incidentTime,
       "Incident Location": incidentLocation.trim() ? incidentLocation : null,
+      "Additional Location Information": caseDetail.incidentLocation
+        ? caseDetail.incidentLocation.streetAddress2
+        : null,
       District: caseDetail.district,
       Classification: caseDetail.classification.initialism
     }
@@ -63,6 +65,9 @@ export const getComplainantData = caseDetail => {
         "Gender Identity": complainant.genderIdentity,
         DOB: complainantBirthDate,
         Address: complainantAddress.trim() ? complainantAddress : null,
+        "Additional Address Information": complainant.address
+          ? complainant.address.streetAddress2
+          : null,
         "Cell Phone": complainantPhoneNumber,
         Email: complainant.email
       };
