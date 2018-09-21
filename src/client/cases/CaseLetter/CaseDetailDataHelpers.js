@@ -1,8 +1,17 @@
-import formatDate from "../../utilities/formatDate";
+import formatDate, {
+  computeTimeZone,
+  format12HourTime
+} from "../../utilities/formatDate";
 import formatPhoneNumber from "../../utilities/formatPhoneNumber";
 
 export const getFormattedDate = date => {
   return date ? formatDate(date) : null;
+};
+
+const formatTimeForDisplay = (date, time) => {
+  if (!time) return time;
+  const time2 = format12HourTime(time) + " " + computeTimeZone(date, time);
+  return time2;
 };
 
 export const getIncidentInfoData = caseDetail => {
@@ -16,12 +25,16 @@ export const getIncidentInfoData = caseDetail => {
       " " +
       caseDetail.incidentLocation.zipCode
     : "";
+  const incidentTime = formatTimeForDisplay(
+    caseDetail.incidentDate,
+    caseDetail.incidentTime
+  );
 
   return [
     {
       "First Contacted IPM": formatDate(caseDetail.firstContactDate),
       "Incident Date": incidentDate,
-      "Incident Time": caseDetail.incidentTime,
+      "Incident Time": incidentTime,
       "Incident Location": incidentLocation.trim() ? incidentLocation : null,
       District: caseDetail.district,
       Classification: caseDetail.classification.initialism

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, CardContent, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import NavBar from "../../shared/components/NavBar/NavBar";
 import { connect } from "react-redux";
 import * as _ from "lodash";
@@ -7,7 +7,6 @@ import getCaseDetails from "../thunks/getCaseDetails";
 import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
 import LetterProgressStepper from "./LetterProgressStepper";
-import styles from "../../globalStyling/styles";
 import CaseDetailCard from "./CaseDetailCard";
 import {
   getAccusedOfficerData,
