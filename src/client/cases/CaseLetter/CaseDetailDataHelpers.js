@@ -1,4 +1,5 @@
 import formatDate from "../../utilities/formatDate";
+import formatPhoneNumber from "../../utilities/formatPhoneNumber";
 
 export const getFormattedDate = date => {
   return date ? formatDate(date) : null;
@@ -40,6 +41,7 @@ export const getComplainantData = caseDetail => {
           " " +
           complainant.address.zipCode
         : null;
+      const complainantPhoneNumber = formatPhoneNumber(complainant.phoneNumber);
 
       return {
         "Civilian Name": complainant.fullName,
@@ -47,7 +49,7 @@ export const getComplainantData = caseDetail => {
         "Gender Identity": complainant.genderIdentity,
         DOB: complainantBirthDate,
         Address: complainantAddress,
-        "Cell Phone": complainant.phoneNumber,
+        "Cell Phone": complainantPhoneNumber,
         Email: complainant.email
       };
     }

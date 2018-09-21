@@ -78,7 +78,7 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate,
             Address: "123 some street drive some city some state 10000",
-            "Cell Phone": "1234567890",
+            "Cell Phone": "(123) 456-7890",
             Email: "test@test.com"
           })
         ])
@@ -151,7 +151,7 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate,
             Address: "123 some street drive some city some state 10000",
-            "Cell Phone": "1234567890",
+            "Cell Phone": "(123) 456-7890",
             Email: "test@test.com"
           }),
           expect.objectContaining({
@@ -160,7 +160,7 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate2,
             Address: "123 some street road some city some state 10001",
-            "Cell Phone": "0987654321",
+            "Cell Phone": "(098) 765-4321",
             Email: "test2@test.com"
           }),
           expect.objectContaining({
@@ -169,7 +169,7 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate3,
             Address: "123 some street ave some city some state 10002",
-            "Cell Phone": "1111111111",
+            "Cell Phone": "(111) 111-1111",
             Email: "test3@test.com"
           })
         ])
@@ -301,7 +301,7 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate,
             Address: "123 some street drive some city some state 10000",
-            "Cell Phone": "1234567890",
+            "Cell Phone": "(123) 456-7890",
             Email: "test@test.com"
           }),
           expect.objectContaining({
@@ -310,7 +310,7 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate2,
             Address: "123 some street road some city some state 10001",
-            "Cell Phone": "0987654321",
+            "Cell Phone": "(098) 765-4321",
             Email: "test2@test.com"
           }),
           expect.objectContaining({
@@ -319,7 +319,7 @@ describe("caseDetailDataHelpers", function() {
             "Gender Identity": "some gender",
             DOB: formattedBirthDate3,
             Address: "123 some street ave some city some state 10002",
-            "Cell Phone": "1111111111",
+            "Cell Phone": "(111) 111-1111",
             Email: "test3@test.com"
           }),
           expect.objectContaining({
