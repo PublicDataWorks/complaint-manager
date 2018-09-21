@@ -77,10 +77,6 @@ export const getWitnessData = caseDetail => {
     };
   });
 
-  if (witnessCivilianData.length === 0) {
-    witnessCivilianData = ["No witnesses have been added"];
-  }
-
   let witnessOfficerData = caseDetail.witnessOfficers.map(witness => {
     if (witness.isUnknownOfficer) {
       return { Name: "Unknown" };
@@ -93,7 +89,9 @@ export const getWitnessData = caseDetail => {
     }
   });
 
-  return witnessCivilianData.concat(witnessOfficerData);
+  return witnessCivilianData.concat(witnessOfficerData).length === 0
+    ? ["No witnesses have been added"]
+    : witnessCivilianData.concat(witnessOfficerData);
 };
 
 export const getAccusedOfficerData = officer => {
