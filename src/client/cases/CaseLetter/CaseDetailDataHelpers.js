@@ -22,7 +22,7 @@ export const getIncidentInfoData = caseDetail => {
       "First Contacted IPM": formatDate(caseDetail.firstContactDate),
       "Incident Date": incidentDate,
       "Incident Time": caseDetail.incidentTime,
-      "Incident Location": incidentLocation,
+      "Incident Location": incidentLocation.trim() ? incidentLocation : null,
       District: caseDetail.district
     }
   ];
@@ -48,7 +48,7 @@ export const getComplainantData = caseDetail => {
         Race: complainant.raceEthnicity,
         "Gender Identity": complainant.genderIdentity,
         DOB: complainantBirthDate,
-        Address: complainantAddress,
+        Address: complainantAddress.trim() ? complainantAddress : null,
         "Cell Phone": complainantPhoneNumber,
         Email: complainant.email
       };

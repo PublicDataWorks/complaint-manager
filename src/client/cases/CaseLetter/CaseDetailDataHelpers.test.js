@@ -41,9 +41,83 @@ describe("caseDetailDataHelpers", function() {
         ])
       );
     });
+
+    test("it returns correct incident info when no incident location", () => {
+      const incidentDate = "2014-12-12";
+      const firstContactDate = "2015-01-01";
+      const caseDetail = {
+        incidentDate: incidentDate,
+        firstContactDate: firstContactDate,
+        incidentTime: "10:00:00",
+        incidentLocation: {
+          streetAddress: " ",
+          city: " ",
+          state: " ",
+          zipCode: " "
+        },
+        district: "some district"
+      };
+
+      const incidentInfoData = getIncidentInfoData(caseDetail);
+      const formattedIncidentDate = getFormattedDate(incidentDate);
+      const formattedFirstContactDate = getFormattedDate(firstContactDate);
+
+      expect(incidentInfoData).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            "Incident Date": formattedIncidentDate,
+            "First Contacted IPM": formattedFirstContactDate,
+            "Incident Time": "10:00:00",
+            "Incident Location": null,
+            District: "some district"
+          })
+        ])
+      );
+    });
   });
 
   describe("complainant data", function() {
+    test("returns correct complainant data when single civilian complainant no address", () => {
+      const birthDate = "1990-09-09";
+
+      const caseDetail = {
+        complainantCivilians: [
+          {
+            fullName: "Civilian Joe",
+            raceEthnicity: "some race",
+            genderIdentity: "some gender",
+            birthDate: birthDate,
+            address: {
+              streetAddress: "",
+              city: "",
+              state: " ",
+              zipCode: ""
+            },
+            phoneNumber: "1234567890",
+            email: "test@test.com"
+          }
+        ],
+        complainantOfficers: []
+      };
+
+      const complainantData = getComplainantData(caseDetail);
+      const formattedBirthDate = getFormattedDate(birthDate);
+
+      expect(complainantData).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            "Civilian Name": "Civilian Joe",
+            Race: "some race",
+            "Gender Identity": "some gender",
+            DOB: formattedBirthDate,
+            Address: null,
+            "Cell Phone": "(123) 456-7890",
+            Email: "test@test.com"
+          })
+        ])
+      );
+    });
+
     test("returns correct complainant data when single civilian complainant", () => {
       const birthDate = "1990-09-09";
 
