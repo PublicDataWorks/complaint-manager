@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
             (newStatus === CASE_STATUS.READY_FOR_REVIEW &&
               this.status === CASE_STATUS.ACTIVE)
 
-           is only in place due to the letterGenerationToggle toggle.
+           is only in place due to the letterGenerationFeature toggle.
            Remove this logic when that toggle is removed.
           ***/
           if (

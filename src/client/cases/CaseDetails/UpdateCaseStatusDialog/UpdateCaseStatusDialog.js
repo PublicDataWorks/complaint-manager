@@ -36,7 +36,7 @@ const UpdateCaseStatusDialog = ({
   featureToggles
 }) => {
   if (
-    featureToggles.letterGenerationToggle &&
+    !featureToggles.letterGenerationFeature &&
     nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
   ) {
     nextStatus = CASE_STATUS.READY_FOR_REVIEW;

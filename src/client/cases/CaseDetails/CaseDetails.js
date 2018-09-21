@@ -114,10 +114,10 @@ class CaseDetails extends React.Component {
           </NavBar>
           <CaseDrawer classes={classes} caseDetail={this.props.caseDetail} />
           <main className={classes.content}>
-            {this.props.featureToggles.letterGenerationToggle ? (
-              <OldCaseStatusStepper />
-            ) : (
+            {this.props.featureToggles.letterGenerationFeature ? (
               <CaseStatusStepper />
+            ) : (
+              <OldCaseStatusStepper />
             )}
 
             <IncidentDetailsContainer />

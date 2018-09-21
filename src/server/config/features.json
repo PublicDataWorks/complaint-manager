@@ -7,9 +7,9 @@
   },
 
   {
-    "id": "letterGenerationToggle",
-    "name": "letterGenerationToggle",
+    "id": "letterGenerationFeature",
+    "name": "letterGenerationFeature",
     "description": "Toggle for letter generation features",
-    "enabled": true
+    "enabled": false
   }
 ]
