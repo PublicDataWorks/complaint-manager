@@ -39,7 +39,9 @@ export const getIncidentInfoData = caseDetail => {
         ? caseDetail.incidentLocation.streetAddress2
         : null,
       District: caseDetail.district,
-      Classification: caseDetail.classification.initialism
+      Classification: caseDetail.classification
+        ? caseDetail.classification.initialism
+        : null
     }
   ];
 };

@@ -132,7 +132,12 @@ class CasesTable extends React.Component {
                 this.props.sortBy,
                 this.props.sortDirection
               ).map(caseDetails => (
-                <CaseRow key={caseDetails.id} caseDetails={caseDetails} currentUser={this.props.currentUser}/>
+                <CaseRow
+                  key={caseDetails.id}
+                  caseDetails={caseDetails}
+                  currentUser={this.props.currentUser}
+                  featureToggles={this.props.featureToggles}
+                />
               ))}
             </TableBody>
           </Table>
@@ -147,7 +152,8 @@ const mapStateToProps = state => ({
   currentUser: state.users.current.userInfo,
   caseCreationSuccess: state.ui.snackbar.success,
   sortBy: state.ui.casesTable.sortBy,
-  sortDirection: state.ui.casesTable.sortDirection
+  sortDirection: state.ui.casesTable.sortDirection,
+  featureToggles: state.featureToggles
 });
 
 export default withStyles(styles, { withTheme: true })(

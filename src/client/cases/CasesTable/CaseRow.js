@@ -1,5 +1,5 @@
 import React from "react";
-import { TableCell, TableRow, div } from "@material-ui/core";
+import { div, TableCell, TableRow } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import formatDate from "../../utilities/formatDate";
 import { Link } from "react-router-dom";
@@ -25,38 +25,46 @@ const formatCaseStatusForDPM = status => {
   );
 };
 
-const CaseRow = ({ classes, caseDetails, currentUser }) => (
-  <TableRow data-test={`caseRow${caseDetails.id}`} className={classes.row}>
-    <TableCell data-test="caseNumber" className={classes.cell}>
-      <div>{caseDetails.id}</div>
-    </TableCell>
-    <TableCell data-test="caseStatus" className={classes.cell}>
-      {currentUser.permissions.includes(USER_PERMISSIONS.CAN_REVIEW_CASE)
-        ? formatCaseStatusForDPM(caseDetails.status)
-        : caseDetails.status}
-    </TableCell>
-    <TableCell data-test="caseName" className={classes.cell}>
-      <DisplayComplainant caseDetails={caseDetails} />
-    </TableCell>
-    <TableCell data-test="accusedOfficer" className={classes.cell}>
-      <DisplayAccusedOfficer accusedOfficers={caseDetails.accusedOfficers} />
-    </TableCell>
-    <TableCell data-test="caseFirstContactDate" className={classes.cell}>
-      <div>{formatDate(caseDetails.firstContactDate)}</div>
-    </TableCell>
-    <TableCell data-test="caseAssignedTo" className={classes.cell}>
-      <div>{caseDetails.assignedTo}</div>
-    </TableCell>
-    <TableCell data-test="openCase" className={classes.buttonCell}>
-      <LinkButton
-        component={Link}
-        to={`/cases/${caseDetails.id}`}
-        data-test="openCaseButton"
-      >
-        Open Case
-      </LinkButton>
-    </TableCell>
-  </TableRow>
-);
+const CaseRow = ({ classes, caseDetails, currentUser, featureToggles }) => {
+  const toggleStatus = featureToggles.letterGenerationFeature
+    ? caseDetails.status
+    : caseDetails.status === CASE_STATUS.LETTER_IN_PROGRESS
+      ? CASE_STATUS.ACTIVE
+      : caseDetails.status;
+
+  return (
+    <TableRow data-test={`caseRow${caseDetails.id}`} className={classes.row}>
+      <TableCell data-test="caseNumber" className={classes.cell}>
+        <div>{caseDetails.id}</div>
+      </TableCell>
+      <TableCell data-test="caseStatus" className={classes.cell}>
+        {currentUser.permissions.includes(USER_PERMISSIONS.CAN_REVIEW_CASE)
+          ? formatCaseStatusForDPM(toggleStatus)
+          : toggleStatus}
+      </TableCell>
+      <TableCell data-test="caseName" className={classes.cell}>
+        <DisplayComplainant caseDetails={caseDetails} />
+      </TableCell>
+      <TableCell data-test="accusedOfficer" className={classes.cell}>
+        <DisplayAccusedOfficer accusedOfficers={caseDetails.accusedOfficers} />
+      </TableCell>
+      <TableCell data-test="caseFirstContactDate" className={classes.cell}>
+        <div>{formatDate(caseDetails.firstContactDate)}</div>
+      </TableCell>
+      <TableCell data-test="caseAssignedTo" className={classes.cell}>
+        <div>{caseDetails.assignedTo}</div>
+      </TableCell>
+      <TableCell data-test="openCase" className={classes.buttonCell}>
+        <LinkButton
+          component={Link}
+          to={`/cases/${caseDetails.id}`}
+          data-test="openCaseButton"
+        >
+          Open Case
+        </LinkButton>
+      </TableCell>
+    </TableRow>
+  );
+};
 
 export default withStyles(styles, { withTheme: true })(CaseRow);
