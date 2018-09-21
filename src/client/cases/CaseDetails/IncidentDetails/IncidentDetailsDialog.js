@@ -43,6 +43,7 @@ const submitIncidentDetails = (values, dispatch, props) => {
     ...values,
     incidentDate: nullifyFieldUnlessValid(values.incidentDate),
     incidentTime: nullifyFieldUnlessValid(values.incidentTime),
+    classificationId: nullifyFieldUnlessValid(values.classificationId),
     id: props.caseId
   };
 

@@ -25,6 +25,18 @@ describe("fieldNormalizers", () => {
       expect(normalizedValue).toBeNull();
     });
 
+    test("should not nullify a number", () => {
+      const normalizedValue = nullifyFieldUnlessValid(8);
+
+      expect(normalizedValue).toEqual(8);
+    });
+
+    test("should not nullify a boolean", () => {
+      const normalizedValue = nullifyFieldUnlessValid(false);
+
+      expect(normalizedValue).toEqual(false);
+    });
+
     test("should not nullify non blank or non whitespace input", () => {
       const normalizedValue = nullifyFieldUnlessValid("2018-01-01");
 
