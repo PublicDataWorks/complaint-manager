@@ -90,14 +90,7 @@ const CaseDetailCard = props => {
             />
           ) : (
             <Typography key={Object.keys(allegation).indexOf(key)}>
-              {key}:{" "}
-              {allegation[key] ? (
-                allegation[key]
-              ) : (
-                <span style={{ fontStyle: "italic", color: "grey" }}>
-                  Not specified
-                </span>
-              )}
+              {key}: {allegation[key] ? allegation[key] : "N/A"}
             </Typography>
           );
         })}
