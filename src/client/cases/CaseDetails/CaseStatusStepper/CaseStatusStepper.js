@@ -27,6 +27,7 @@ function shouldRenderStatusTransitionButton(status, userInfo) {
 
   return (
     status === CASE_STATUS.ACTIVE ||
+    status === CASE_STATUS.LETTER_IN_PROGRESS ||
     (userInfo &&
       userInfo.permissions.includes(USER_PERMISSIONS.CAN_REVIEW_CASE))
   );
