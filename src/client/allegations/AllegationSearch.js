@@ -23,7 +23,7 @@ const AllegationSearch = props => {
             Search by selecting a rule or entering at least one allegation
             keyword. For example, ‘Body Worn Camera’.
           </Typography>
-          <AllegationSearchForm caseOfficerId={props.caseOfficerId} />
+          <AllegationSearchForm />
         </CardContent>
       </Card>
       <AllegationSearchResults

@@ -6,22 +6,15 @@ import { searchDistrictMenu } from "../../../utilities/generateMenus";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import validate from "./validateOfficerSearchForm";
 import getSearchResults from "../../../shared/thunks/getSearchResults";
-import { connect } from "react-redux";
 import { OFFICER_SEARCH_FORM_NAME } from "../../../../sharedUtilities/constants";
 
-export const OfficerSearchForm = props => {
-  const { invalid, handleSubmit, caseId } = props;
+const OfficerSearchForm = props => {
+  const { invalid, handleSubmit } = props;
 
   const onSubmit = (values, dispatch) => {
     const paginatingSearch = true;
     dispatch(
-      getSearchResults(
-        normalizeValues(values),
-        "officers",
-        { caseId },
-        paginatingSearch,
-        1
-      )
+      getSearchResults(normalizeValues(values), "officers", paginatingSearch, 1)
     );
   };
 
@@ -81,12 +74,7 @@ export const OfficerSearchForm = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  caseId: state.currentCase.details.id
-});
-const connectedComponent = connect(mapStateToProps)(OfficerSearchForm);
-
 export default reduxForm({
   form: OFFICER_SEARCH_FORM_NAME,
   validate
-})(connectedComponent);
+})(OfficerSearchForm);
