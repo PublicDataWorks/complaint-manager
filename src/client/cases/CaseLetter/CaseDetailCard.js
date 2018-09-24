@@ -23,12 +23,21 @@ const CaseDetailCard = props => {
           Object.keys(data).map(key => {
             return (
               <Typography key={Object.keys(data).indexOf(key)}>
-                {key}: {data[key] ? data[key] : "N/A"}
+                {key}:{" "}
+                {data[key] ? (
+                  data[key]
+                ) : (
+                  <span style={{ fontStyle: "italic", color: "grey" }}>
+                    Not specified
+                  </span>
+                )}
               </Typography>
             );
           })
         ) : (
-          <Typography style={{ fontStyle: "italic" }}>{data}</Typography>
+          <Typography style={{ fontStyle: "italic", color: "grey" }}>
+            {data}
+          </Typography>
         )}
       </div>
     );
@@ -51,7 +60,7 @@ const CaseDetailCard = props => {
         {props.allegations.length === 0 ? (
           <Fragment>
             <br />
-            <Typography style={{ fontStyle: "italic" }}>
+            <Typography style={{ fontStyle: "italic", color: "grey" }}>
               No allegations have been added
             </Typography>
           </Fragment>
@@ -81,7 +90,14 @@ const CaseDetailCard = props => {
             />
           ) : (
             <Typography key={Object.keys(allegation).indexOf(key)}>
-              {key}: {allegation[key] ? allegation[key] : "N/A"}
+              {key}:{" "}
+              {allegation[key] ? (
+                allegation[key]
+              ) : (
+                <span style={{ fontStyle: "italic", color: "grey" }}>
+                  Not specified
+                </span>
+              )}
             </Typography>
           );
         })}

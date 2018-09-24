@@ -37,17 +37,23 @@ export class LetterReview extends Component {
       return null;
     }
 
-    const narrativeSummaryCardData = (
-      <Typography>{caseDetail.narrativeSummary || "N/A"}</Typography>
+    const narrativeSummaryCardData = caseDetail.narrativeSummary ? (
+      <Typography>{caseDetail.narrativeSummary}</Typography>
+    ) : (
+      <Typography style={{ fontStyle: "italic", color: "grey" }}>
+        Not specified
+      </Typography>
     );
 
-    const narrativeDetailsCardData = (
+    const narrativeDetailsCardData = caseDetail.narrativeDetails ? (
       <TextTruncate
         testLabel="letterReviewNarrativeDetails"
-        message={
-          caseDetail.narrativeDetails ? caseDetail.narrativeDetails : "N/A"
-        }
+        message={caseDetail.narrativeDetails}
       />
+    ) : (
+      <Typography style={{ fontStyle: "italic", color: "grey" }}>
+        Not specified
+      </Typography>
     );
 
     return (
