@@ -3,6 +3,7 @@ import formatDate, {
   format12HourTime
 } from "../../utilities/formatDate";
 import formatPhoneNumber from "../../utilities/formatPhoneNumber";
+import { formatAddressAsString } from "../../utilities/formatAddress";
 
 export const getFormattedDate = date => {
   return date ? formatDate(date) : null;
@@ -16,14 +17,8 @@ const formatTimeForDisplay = (date, time) => {
 export const getIncidentInfoData = caseDetail => {
   const incidentDate = getFormattedDate(caseDetail.incidentDate);
   const incidentLocation = caseDetail.incidentLocation
-    ? caseDetail.incidentLocation.streetAddress +
-      " " +
-      caseDetail.incidentLocation.city +
-      " " +
-      caseDetail.incidentLocation.state +
-      " " +
-      caseDetail.incidentLocation.zipCode
-    : "";
+    ? formatAddressAsString(caseDetail.incidentLocation)
+    : null;
   const incidentTime = formatTimeForDisplay(
     caseDetail.incidentDate,
     caseDetail.incidentTime
@@ -34,10 +29,7 @@ export const getIncidentInfoData = caseDetail => {
       "First Contacted IPM": formatDate(caseDetail.firstContactDate),
       "Incident Date": incidentDate,
       "Incident Time": incidentTime,
-      "Incident Location": incidentLocation.trim() ? incidentLocation : null,
-      "Additional Location Information": caseDetail.incidentLocation
-        ? caseDetail.incidentLocation.streetAddress2
-        : null,
+      "Incident Location": incidentLocation ? incidentLocation : null,
       District: caseDetail.district,
       Classification: caseDetail.classification
         ? caseDetail.classification.initialism
@@ -51,14 +43,8 @@ export const getComplainantData = caseDetail => {
     complainant => {
       const complainantBirthDate = getFormattedDate(complainant.birthDate);
       const complainantAddress = complainant.address
-        ? complainant.address.streetAddress +
-          " " +
-          complainant.address.city +
-          " " +
-          complainant.address.state +
-          " " +
-          complainant.address.zipCode
-        : "";
+        ? formatAddressAsString(complainant.address)
+        : null;
       const complainantPhoneNumber = formatPhoneNumber(complainant.phoneNumber);
 
       return {
@@ -66,10 +52,7 @@ export const getComplainantData = caseDetail => {
         Race: complainant.raceEthnicity,
         "Gender Identity": complainant.genderIdentity,
         DOB: complainantBirthDate,
-        Address: complainantAddress.trim() ? complainantAddress : null,
-        "Additional Address Information": complainant.address
-          ? complainant.address.streetAddress2
-          : null,
+        Address: complainantAddress ? complainantAddress : null,
         "Cell Phone": complainantPhoneNumber,
         Email: complainant.email
       };
