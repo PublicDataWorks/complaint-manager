@@ -1,3 +1,4 @@
+/*eslint no-control-regex: 0 */
 import React from "react";
 import LinkButton from "./LinkButton";
 import { Typography } from "@material-ui/core";
