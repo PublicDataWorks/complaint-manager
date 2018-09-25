@@ -296,7 +296,7 @@ describe("caseDetailDataHelpers", function() {
       expect(complainantData).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            Name: "Unknown"
+            "Officer Name": "Unknown"
           })
         ])
       );
@@ -405,7 +405,7 @@ describe("caseDetailDataHelpers", function() {
             ID: "#12345",
             District: "some district"
           }),
-          expect.objectContaining({ Name: "Unknown" })
+          expect.objectContaining({ "Officer Name": "Unknown" })
         ])
       );
     });
@@ -534,7 +534,7 @@ describe("caseDetailDataHelpers", function() {
         expect(witnessData).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              Name: "Unknown"
+              "Officer Name": "Unknown"
             })
           ])
         );
@@ -597,7 +597,7 @@ describe("caseDetailDataHelpers", function() {
               ID: "#12345",
               District: "some district"
             }),
-            expect.objectContaining({ Name: "Unknown" })
+            expect.objectContaining({ "Officer Name": "Unknown" })
           ])
         );
       });
@@ -635,7 +635,7 @@ describe("caseDetailDataHelpers", function() {
         expect(accusedOfficerData).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              Name: "Unknown"
+              "Officer Name": "Unknown"
             })
           ])
         );

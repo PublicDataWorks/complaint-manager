@@ -62,7 +62,7 @@ export const getComplainantData = caseDetail => {
   let complainantOfficerData = caseDetail.complainantOfficers.map(
     complainant => {
       if (complainant.isUnknownOfficer) {
-        return { Name: "Unknown" };
+        return { "Officer Name": "Unknown" };
       } else
         return {
           "Officer Name": complainant.fullName,
@@ -87,7 +87,7 @@ export const getWitnessData = caseDetail => {
 
   let witnessOfficerData = caseDetail.witnessOfficers.map(witness => {
     if (witness.isUnknownOfficer) {
-      return { Name: "Unknown" };
+      return { "Officer Name": "Unknown" };
     } else {
       return {
         "Officer Name": witness.fullName,
@@ -104,7 +104,7 @@ export const getWitnessData = caseDetail => {
 
 export const getAccusedOfficerData = officer => {
   return officer.isUnknownOfficer
-    ? [{ Name: "Unknown" }]
+    ? [{ "Officer Name": "Unknown" }]
     : [
         {
           "Officer Name": officer.fullName,
