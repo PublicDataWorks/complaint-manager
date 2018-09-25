@@ -25,7 +25,8 @@ import CaseHistory from "./cases/CaseDetails/CaseHistory/CaseHistory";
 import AllegationSearchContainer from "./allegations/AllegationSearchContainer";
 import SharedSnackbarContainer from "./shared/components/SharedSnackbarContainer";
 import getFeatureToggles from "./featureToggles/thunks/getFeatureToggles";
-import LetterReview from "./cases/CaseLetter/LetterReview";
+import LetterReview from "./cases/CaseLetter/LetterReview/LetterReview";
+import OfficerHistories from "./cases/CaseLetter/OfficerHistories/OfficerHistories";
 
 class App extends Component {
   componentDidMount() {
@@ -77,6 +78,11 @@ class App extends Component {
                 exact
                 path="/cases/:id/letter/review"
                 component={LetterReview}
+              />
+              <Route
+                exact
+                path="/cases/:id/letter/histories"
+                component={OfficerHistories}
               />
               <Route exact path="/styleguide" component={StyleGuide} />
               <Route exact path="/admin" component={UserDashboard} />

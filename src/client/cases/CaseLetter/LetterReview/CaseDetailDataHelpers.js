@@ -1,9 +1,9 @@
 import formatDate, {
   computeTimeZone,
   format12HourTime
-} from "../../utilities/formatDate";
-import formatPhoneNumber from "../../utilities/formatPhoneNumber";
-import { formatAddressAsString } from "../../utilities/formatAddress";
+} from "../../../utilities/formatDate";
+import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
+import { formatAddressAsString } from "../../../utilities/formatAddress";
 
 export const getFormattedDate = date => {
   return date ? formatDate(date) : null;

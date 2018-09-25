@@ -1,8 +1,8 @@
-import styles from "../../globalStyling/styles";
+import styles from "../../../globalStyling/styles";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import React, { Fragment } from "react";
 import _ from "lodash";
-import TextTruncate from "../../shared/components/TextTruncate";
+import TextTruncate from "../../../shared/components/TextTruncate";
 
 const CaseDetailCard = props => {
   const { cardData, cardTitle } = props;

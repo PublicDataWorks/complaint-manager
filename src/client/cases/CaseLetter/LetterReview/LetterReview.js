@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Typography } from "@material-ui/core";
-import NavBar from "../../shared/components/NavBar/NavBar";
+import NavBar from "../../../shared/components/NavBar/NavBar";
 import { connect } from "react-redux";
 import * as _ from "lodash";
-import getCaseDetails from "../thunks/getCaseDetails";
+import getCaseDetails from "../../thunks/getCaseDetails";
 import { Link } from "react-router-dom";
-import LinkButton from "../../shared/components/LinkButton";
-import LetterProgressStepper from "./LetterProgressStepper";
+import LinkButton from "../../../shared/components/LinkButton";
+import LetterProgressStepper from "../LetterProgressStepper";
 import CaseDetailCard from "./CaseDetailCard";
 import {
   getAccusedOfficerData,
@@ -15,7 +15,9 @@ import {
   getIncidentInfoData,
   getWitnessData
 } from "./CaseDetailDataHelpers";
-import TextTruncate from "../../shared/components/TextTruncate";
+import TextTruncate from "../../../shared/components/TextTruncate";
+import { PrimaryButton } from "../../../shared/components/StyledButtons";
+import { LETTER_PROGRESS } from "../../../../sharedUtilities/constants";
 
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {
@@ -73,7 +75,9 @@ export class LetterReview extends Component {
           Return to Case
         </LinkButton>
 
-        <LetterProgressStepper />
+        <LetterProgressStepper
+          currentLetterStatus={LETTER_PROGRESS.REVIEW_CASE_DETAILS}
+        />
 
         <div style={{ margin: "0% 5% 3%" }}>
           <div style={{ margin: "0 0 32px 0" }}>
@@ -115,6 +119,14 @@ export class LetterReview extends Component {
               />
             );
           })}
+          <div style={{ textAlign: "right", width: "60%" }}>
+            <PrimaryButton
+              component={Link}
+              to={`/cases/${caseId}/letter/histories`}
+            >
+              Next
+            </PrimaryButton>
+          </div>
         </div>
       </div>
     );
@@ -122,8 +134,7 @@ export class LetterReview extends Component {
 }
 
 const mapStateToProps = state => ({
-  caseDetail: state.currentCase.details,
-  featureToggles: state.featureToggles
+  caseDetail: state.currentCase.details
 });
 
 export default connect(mapStateToProps)(LetterReview);

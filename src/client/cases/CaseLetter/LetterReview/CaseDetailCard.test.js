@@ -1,4 +1,4 @@
-import createConfiguredStore from "../../createConfiguredStore";
+import createConfiguredStore from "../../../createConfiguredStore";
 import { mount } from "enzyme/build/index";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
