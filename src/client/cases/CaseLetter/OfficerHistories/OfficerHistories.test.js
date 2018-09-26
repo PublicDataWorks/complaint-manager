@@ -44,8 +44,15 @@ describe("OfficerHistories page", function() {
 
   test("it renders a tab content for the default selected officer", () => {
     containsText(wrapper, "[data-test='tab-content-0']", "Officer 1");
-    expect(wrapper.find("[data-test='tab-content-1']").length).toEqual(0);
-    expect(wrapper.find("[data-test='tab-content-2']").length).toEqual(0);
+    expect(
+      wrapper.find("[data-test='tab-content-0']").get(0).props.style
+    ).toHaveProperty("display", "block");
+    expect(
+      wrapper.find("[data-test='tab-content-1']").get(0).props.style
+    ).toHaveProperty("display", "none");
+    expect(
+      wrapper.find("[data-test='tab-content-2']").get(0).props.style
+    ).toHaveProperty("display", "none");
   });
 
   test("it renders a tab content for the selected officer", () => {
@@ -54,7 +61,14 @@ describe("OfficerHistories page", function() {
       .first()
       .simulate("click");
     containsText(wrapper, "[data-test='tab-content-1']", "Officer 2");
-    expect(wrapper.find("[data-test='tab-content-0']").length).toEqual(0);
-    expect(wrapper.find("[data-test='tab-content-2']").length).toEqual(0);
+    expect(
+      wrapper.find("[data-test='tab-content-1']").get(0).props.style
+    ).toHaveProperty("display", "block");
+    expect(
+      wrapper.find("[data-test='tab-content-0']").get(0).props.style
+    ).toHaveProperty("display", "none");
+    expect(
+      wrapper.find("[data-test='tab-content-2']").get(0).props.style
+    ).toHaveProperty("display", "none");
   });
 });

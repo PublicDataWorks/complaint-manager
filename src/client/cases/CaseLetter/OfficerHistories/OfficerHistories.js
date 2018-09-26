@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../../../shared/components/NavBar/NavBar";
-import { Typography, Card, CardContent } from "@material-ui/core";
+import { Card, CardContent, Typography } from "@material-ui/core";
 import LinkButton from "../../../shared/components/LinkButton";
 import LetterProgressStepper from "../LetterProgressStepper";
 import getCaseDetails from "../../thunks/getCaseDetails";
@@ -11,6 +11,8 @@ import _ from "lodash";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import OfficerHistoryTabContent from "./OfficerHistoryTabContent";
+import { FieldArray, reduxForm } from "redux-form";
 
 export class OfficerHistories extends Component {
   constructor(props) {
@@ -45,20 +47,20 @@ export class OfficerHistories extends Component {
     });
   };
 
-  renderTabContents = () => {
-    const officer = this.props.caseDetail.accusedOfficers[
-      this.state.selectedTab
-    ];
-
-    return (
-      <Typography
-        component="div"
-        style={{ padding: 8 * 3 }}
-        data-test={`tab-content-${officer.id}`}
-      >
-        {officer.fullName}
-      </Typography>
-    );
+  renderOfficerFields = ({ fields, selectedTab }) => {
+    return fields.map((officer, index) => {
+      const isSelectedOfficer = index === selectedTab;
+      const caseOfficer = fields.get(index);
+      return (
+        <OfficerHistoryTabContent
+          officer={officer}
+          caseOfficerName={caseOfficer.fullName}
+          caseOfficerId={caseOfficer.id}
+          key={index}
+          isSelectedOfficer={isSelectedOfficer}
+        />
+      );
+    });
   };
 
   render() {
@@ -108,7 +110,13 @@ export class OfficerHistories extends Component {
                   {this.renderTabHeaders()}
                 </Tabs>
               </AppBar>
-              {this.renderTabContents()}
+              <form>
+                <FieldArray
+                  name="officers"
+                  component={this.renderOfficerFields}
+                  selectedTab={this.state.selectedTab}
+                />
+              </form>
             </CardContent>
           </Card>
         </div>
@@ -118,7 +126,12 @@ export class OfficerHistories extends Component {
 }
 
 const mapStateToProps = state => ({
-  caseDetail: state.currentCase.details
+  caseDetail: state.currentCase.details,
+  initialValues: { officers: state.currentCase.details.accusedOfficers }
 });
 
-export default connect(mapStateToProps)(OfficerHistories);
+export default connect(mapStateToProps)(
+  reduxForm({ form: "OfficerHistories", enableReinitialize: true })(
+    OfficerHistories
+  )
+);
