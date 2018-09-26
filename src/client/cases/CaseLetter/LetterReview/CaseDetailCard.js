@@ -102,7 +102,6 @@ const CaseDetailCard = props => {
     <Card
       style={{
         backgroundColor: "white",
-        width: "60%",
         margin: "0 0 32px 0"
       }}
     >

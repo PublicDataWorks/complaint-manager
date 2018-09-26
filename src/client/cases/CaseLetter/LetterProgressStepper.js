@@ -19,7 +19,7 @@ const LetterProgressStepper = ({ currentLetterStatus }) => {
         data-test="statusStepper"
         activeStep={LETTER_PROGRESS_MAP[currentLetterStatus]}
         alternativeLabel
-        style={{ marginLeft: "5%", maxWidth: "850px", padding: "24px 0px" }}
+        style={{ margin: "0 0 3% 5%", padding: "24px 0px" }}
       >
         {generateSteps(LETTER_PROGRESS_MAP)}
       </Stepper>
