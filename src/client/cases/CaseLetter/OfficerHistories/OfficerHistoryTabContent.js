@@ -5,6 +5,7 @@ import { TextField } from "redux-form-material-ui";
 import { Field, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
 import { isIntegerString } from "../../../formFieldLevelValidations";
+import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 
 const totalAllegations = props => {
   const {
@@ -26,6 +27,14 @@ const getIntegerFromValue = value => {
   }
   return 0;
 };
+
+const RichTextEditorComponent = props => (
+  <RichTextEditor
+    initialValue={props.input.value}
+    onChange={newValue => props.input.onChange(newValue)}
+    style={{ height: "160px" }}
+  />
+);
 
 const OfficerHistoryTabContent = props => {
   const { officer, caseOfficerName, caseOfficerId, isSelectedOfficer } = props;
@@ -52,7 +61,7 @@ const OfficerHistoryTabContent = props => {
         Please enter the number of allegations this officer has received over
         the past 5 years
       </Typography>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", marginBottom: "32px" }}>
         <Field
           style={{ margin: "8px 24px 0 0", flex: 1 }}
           name={`${officer}.numberHistoricalHighAllegations`}
@@ -83,6 +92,17 @@ const OfficerHistoryTabContent = props => {
         >
           <b>{totalAllegations(props)}</b> total allegations
         </Typography>
+      </div>
+      <Typography style={{ marginBottom: "8px", ...styles.inputLabel }}>
+        Notes on any patterns of behavior
+      </Typography>
+      <div style={{ width: "60%", marginBottom: "32px" }}>
+        <Field
+          name={`${officer}.historicalBehaviorNotes`}
+          component={RichTextEditorComponent}
+          label="Notes on any patterns of behavior"
+          data-test={`${officer}-historicalBehaviorNotes`}
+        />
       </div>
     </div>
   );

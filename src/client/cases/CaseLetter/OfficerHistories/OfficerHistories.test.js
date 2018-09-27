@@ -6,6 +6,7 @@ import React from "react";
 import { mount } from "enzyme";
 import { BrowserRouter as Router } from "react-router-dom";
 import { changeInput, containsText } from "../../../testHelpers";
+jest.mock("../../../shared/components/RichTextEditor/RichTextEditor");
 
 describe("OfficerHistories page", function() {
   let wrapper, store, caseId;

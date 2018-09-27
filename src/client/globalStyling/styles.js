@@ -45,7 +45,11 @@ const styles = {
     fontWeight: 700,
     textTransform: "uppercase"
   },
-  colors: colors
+  colors: colors,
+  inputLabel: {
+    color: colors.secondary.medium,
+    fontSize: "0.875rem"
+  }
 };
 
 export default styles;

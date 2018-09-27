@@ -7,6 +7,7 @@ const colors = {
   secondary: {
     lighter: "#eceff1",
     light: "rgba(98,117,127,0.4)",
+    medium: "rgba(0,0,0,0.54)",
     main: "#62757f",
     dark: "#000a12"
   },
