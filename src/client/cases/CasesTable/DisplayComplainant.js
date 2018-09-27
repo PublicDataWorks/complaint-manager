@@ -25,7 +25,7 @@ const DisplayComplainant = ({ caseDetails }) => {
   return formattedComplainant ? (
     <div>{formattedComplainant}</div>
   ) : (
-    <WarningMessage variant="tableCell">No Complainants</WarningMessage>
+    <WarningMessage variant="grayText">No Complainants</WarningMessage>
   );
 };
 

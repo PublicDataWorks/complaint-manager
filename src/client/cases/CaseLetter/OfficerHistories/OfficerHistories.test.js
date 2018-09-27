@@ -8,9 +8,9 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { changeInput, containsText } from "../../../testHelpers";
 
 describe("OfficerHistories page", function() {
-  let wrapper;
+  let wrapper, store, caseId;
   beforeEach(() => {
-    const caseId = "4";
+    caseId = "4";
     const caseDetail = {
       id: caseId,
       accusedOfficers: [
@@ -20,17 +20,13 @@ describe("OfficerHistories page", function() {
       ]
     };
 
-    const store = createConfiguredStore();
+    store = createConfiguredStore();
     store.dispatch(getCaseDetailsSuccess(caseDetail));
-    const dispatchSpy = jest.spyOn(store, "dispatch");
 
     wrapper = mount(
       <Provider store={store}>
         <Router>
-          <OfficerHistories
-            match={{ params: { id: caseId } }}
-            dispatch={dispatchSpy}
-          />
+          <OfficerHistories match={{ params: { id: caseId } }} />
         </Router>
       </Provider>
     );
@@ -115,6 +111,20 @@ describe("OfficerHistories page", function() {
       wrapper,
       `[data-test='officers-0-total-historical-allegations']`,
       "2 total allegations"
+    );
+  });
+
+  test("it should display message when no officers", () => {
+    const caseDetailWithoutOfficers = {
+      id: caseId,
+      accusedOfficers: []
+    };
+    store.dispatch(getCaseDetailsSuccess(caseDetailWithoutOfficers));
+    wrapper.update();
+    containsText(
+      wrapper,
+      `[data-test='no-officers-message']`,
+      "There are no officers on this case"
     );
   });
 });

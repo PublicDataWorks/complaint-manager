@@ -52,35 +52,38 @@ const OfficerHistoryTabContent = props => {
         Please enter the number of allegations this officer has received over
         the past 5 years
       </Typography>
-      <Field
-        style={{ margin: "8px 24px 0 0" }}
-        name={`${officer}.numberHistoricalHighAllegations`}
-        component={TextField}
-        label="High Level"
-        data-test={`${officer}-numberHistoricalHighAllegations`}
-        validate={[isIntegerString]}
-      />
-      <Field
-        style={{ margin: "8px 24px 0 0" }}
-        name={`${officer}.numberHistoricalMediumAllegations`}
-        component={TextField}
-        label="Medium Level"
-        data-test={`${officer}-numberHistoricalMediumAllegations`}
-        validate={[isIntegerString]}
-      />
-      <Field
-        style={{ margin: "8px 24px 0 0" }}
-        name={`${officer}.numberHistoricalLowAllegations`}
-        component={TextField}
-        label="Low Level"
-        data-test={`${officer}-numberHistoricalLowAllegations`}
-        validate={[isIntegerString]}
-      />
-      <Typography
-        data-test={`officers-${caseOfficerId}-total-historical-allegations`}
-      >
-        {totalAllegations(props)} total allegations
-      </Typography>
+      <div style={{ display: "flex" }}>
+        <Field
+          style={{ margin: "8px 24px 0 0", flex: 1 }}
+          name={`${officer}.numberHistoricalHighAllegations`}
+          component={TextField}
+          label="High Level"
+          data-test={`${officer}-numberHistoricalHighAllegations`}
+          validate={[isIntegerString]}
+        />
+        <Field
+          style={{ margin: "8px 24px 0 0", flex: 1 }}
+          name={`${officer}.numberHistoricalMediumAllegations`}
+          component={TextField}
+          label="Medium Level"
+          data-test={`${officer}-numberHistoricalMediumAllegations`}
+          validate={[isIntegerString]}
+        />
+        <Field
+          style={{ margin: "8px 24px 0 0", flex: 1 }}
+          name={`${officer}.numberHistoricalLowAllegations`}
+          component={TextField}
+          label="Low Level"
+          data-test={`${officer}-numberHistoricalLowAllegations`}
+          validate={[isIntegerString]}
+        />
+        <Typography
+          style={{ flex: 1, marginTop: "32px" }}
+          data-test={`officers-${caseOfficerId}-total-historical-allegations`}
+        >
+          <b>{totalAllegations(props)}</b> total allegations
+        </Typography>
+      </div>
     </div>
   );
 };

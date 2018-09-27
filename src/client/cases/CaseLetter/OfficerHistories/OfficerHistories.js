@@ -13,6 +13,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import OfficerHistoryTabContent from "./OfficerHistoryTabContent";
 import { FieldArray, reduxForm } from "redux-form";
+import WarningMessage from "../../../shared/components/WarningMessage";
 
 class OfficerHistories extends Component {
   constructor(props) {
@@ -63,9 +64,49 @@ class OfficerHistories extends Component {
     });
   };
 
+  renderNoOfficers = () => {
+    return (
+      <WarningMessage variant="grayText" data-test="no-officers-message">
+        There are no officers on this case
+      </WarningMessage>
+    );
+  };
+
+  renderOfficerHistories = () => {
+    return (
+      <Card>
+        <CardContent style={{ backgroundColor: "white", padding: 0 }}>
+          <AppBar
+            position="static"
+            style={{ backgroundColor: "white" }}
+            color="default"
+          >
+            <Tabs
+              value={this.state.selectedTab}
+              onChange={this.handleTabChange}
+              indicatorColor="primary"
+              textColor="primary"
+              scrollable
+              scrollButtons="auto"
+            >
+              {this.renderTabHeaders()}
+            </Tabs>
+          </AppBar>
+          <form>
+            <FieldArray
+              name="officers"
+              component={this.renderOfficerFields}
+              selectedTab={this.state.selectedTab}
+            />
+          </form>
+        </CardContent>
+      </Card>
+    );
+  };
+
   render() {
     const caseId = this.props.match.params.id;
-    const { selectedTab } = this.state;
+    const accusedOfficers = this.props.caseDetail.accusedOfficers;
 
     if (this.caseDetailsNotYetLoaded()) {
       return null;
@@ -96,29 +137,9 @@ class OfficerHistories extends Component {
             <Typography variant="title">Officer Complaint History</Typography>
           </div>
 
-          <Card>
-            <CardContent style={{ backgroundColor: "white", padding: 0 }}>
-              <AppBar position="static" style={{ backgroundColor: "white" }}>
-                <Tabs
-                  value={selectedTab}
-                  onChange={this.handleTabChange}
-                  indicatorColor="primary"
-                  textColor="primary"
-                  scrollable
-                  scrollButtons="auto"
-                >
-                  {this.renderTabHeaders()}
-                </Tabs>
-              </AppBar>
-              <form>
-                <FieldArray
-                  name="officers"
-                  component={this.renderOfficerFields}
-                  selectedTab={this.state.selectedTab}
-                />
-              </form>
-            </CardContent>
-          </Card>
+          {accusedOfficers.length === 0
+            ? this.renderNoOfficers()
+            : this.renderOfficerHistories()}
         </div>
       </div>
     );

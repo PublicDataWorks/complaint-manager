@@ -13,20 +13,20 @@ const styles = theme => ({
     display: "flex",
     alignItems: "center"
   },
-  tableCell: {
+  grayText: {
     color: theme.palette.secondary.light
   }
 });
 
 const WarningMessage = ({ classes, children, variant }) => {
   const classesToApply =
-    variant === "tableCell"
-      ? [classes.messageContainer, classes.tableCell].join(" ")
+    variant === "grayText"
+      ? [classes.messageContainer, classes.grayText].join(" ")
       : classes.messageContainer;
 
   return (
     <div className={classesToApply}>
-      {variant === "tableCell" ? null : (
+      {variant === "grayText" ? null : (
         <ReportProblemIcon data-test="warnIcon" className={classes.warnIcon} />
       )}
       <em className={classes.text}>{children}</em>
