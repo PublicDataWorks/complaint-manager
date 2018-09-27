@@ -80,9 +80,10 @@ const CaseDetailCard = props => {
         key={props.allegations.indexOf(allegation)}
       >
         <br />
-        {Object.keys(allegation).map(key => {
+        {Object.keys(allegation).map((key, index) => {
           return key === "Allegation Details" ? (
             <TextTruncate
+              key={index}
               testLabel={"letterReviewAllegationDetails"}
               message={
                 allegation[key] ? `${key}: ${allegation[key]}` : `${key}: N/A`
