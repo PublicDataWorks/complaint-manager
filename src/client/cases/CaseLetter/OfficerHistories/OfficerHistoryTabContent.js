@@ -1,11 +1,13 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Typography } from "@material-ui/core";
 import styles from "../../../globalStyling/styles";
 import { TextField } from "redux-form-material-ui";
-import { Field, formValueSelector } from "redux-form";
+import { Field, FieldArray, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
 import { isIntegerString } from "../../../formFieldLevelValidations";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
+import OfficerHistoryNote from "./OfficerHistoryNote";
+import LinkButton from "../../../shared/components/LinkButton";
 
 const totalAllegations = props => {
   const {
@@ -32,9 +34,29 @@ const RichTextEditorComponent = props => (
   <RichTextEditor
     initialValue={props.input.value}
     onChange={newValue => props.input.onChange(newValue)}
-    style={{ height: "160px" }}
   />
 );
+
+const renderNoteFields = ({ fields }) => {
+  return (
+    <Fragment>
+      {renderOfficerHistoryNotes(fields)}
+      <LinkButton
+        onClick={() => {
+          fields.push();
+        }}
+      >
+        + Add Another Note
+      </LinkButton>
+    </Fragment>
+  );
+};
+
+const renderOfficerHistoryNotes = fields => {
+  return fields.map((note, index) => {
+    return <OfficerHistoryNote note={note} key={index} />;
+  });
+};
 
 const OfficerHistoryTabContent = props => {
   const { officer, caseOfficerName, caseOfficerId, isSelectedOfficer } = props;
@@ -96,7 +118,7 @@ const OfficerHistoryTabContent = props => {
       <Typography style={{ marginBottom: "8px", ...styles.inputLabel }}>
         Notes on any patterns of behavior
       </Typography>
-      <div style={{ width: "60%", marginBottom: "32px" }}>
+      <div style={{ width: "75%", marginBottom: "32px" }}>
         <Field
           name={`${officer}.historicalBehaviorNotes`}
           component={RichTextEditorComponent}
@@ -104,24 +126,31 @@ const OfficerHistoryTabContent = props => {
           data-test={`${officer}-historicalBehaviorNotes`}
         />
       </div>
+      <Typography style={{ paddingBottom: "16px", ...styles.section }}>
+        Notes
+      </Typography>
+      <FieldArray
+        name={`${officer}.officerHistoryNotes`}
+        component={renderNoteFields}
+      />
     </div>
   );
 };
 
 const selector = formValueSelector("OfficerHistories");
-export default connect((state, props) => {
-  return {
-    numberHistoricalHighAllegations: selector(
-      state,
-      `${props.officer}.numberHistoricalHighAllegations`
-    ),
-    numberHistoricalMediumAllegations: selector(
-      state,
-      `${props.officer}.numberHistoricalMediumAllegations`
-    ),
-    numberHistoricalLowAllegations: selector(
-      state,
-      `${props.officer}.numberHistoricalLowAllegations`
-    )
-  };
-})(OfficerHistoryTabContent);
+const mapStateToProps = (state, props) => ({
+  numberHistoricalHighAllegations: selector(
+    state,
+    `${props.officer}.numberHistoricalHighAllegations`
+  ),
+  numberHistoricalMediumAllegations: selector(
+    state,
+    `${props.officer}.numberHistoricalMediumAllegations`
+  ),
+  numberHistoricalLowAllegations: selector(
+    state,
+    `${props.officer}.numberHistoricalLowAllegations`
+  )
+});
+
+export default connect(mapStateToProps)(OfficerHistoryTabContent);
