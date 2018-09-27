@@ -7,7 +7,8 @@ import {
   lastNameNotBlank,
   lastNameRequired,
   notFutureDate,
-  validDate
+  validDate,
+  isIntegerString
 } from "./formFieldLevelValidations";
 import moment from "moment";
 
@@ -82,5 +83,38 @@ describe("Form Validations", () => {
       .add(1, "days")
       .format("YYYY-MM-DD");
     expect(notFutureDate(today)).toEqual("Date cannot be in the future");
+  });
+
+  test("isIntegerString returns an error when string given", () => {
+    expect(isIntegerString("abc")).toEqual("Please enter a number");
+  });
+
+  test("isIntegerString returns an error when decimal given", () => {
+    expect(isIntegerString(5.5)).toEqual("Please enter a number");
+    expect(isIntegerString("2.7")).toEqual("Please enter a number");
+  });
+
+  test("isIntegerString returns an error when string boolean given", () => {
+    expect(isIntegerString("false")).toEqual("Please enter a number");
+    expect(isIntegerString("true")).toEqual("Please enter a number");
+  });
+
+  test("isIntegerString does not return an error when string number given", () => {
+    expect(isIntegerString("5")).toBeUndefined();
+    expect(isIntegerString("57")).toBeUndefined();
+  });
+
+  test("isIntegerString does not return an error when number given", () => {
+    expect(isIntegerString(5)).toBeUndefined();
+  });
+
+  test("isIntegerString does not return an error when string with spaces given", () => {
+    expect(isIntegerString("   ")).toBeUndefined();
+  });
+
+  test("isIntegerString does not return an error when blank given", () => {
+    expect(isIntegerString("")).toBeUndefined();
+    expect(isIntegerString(null)).toBeUndefined();
+    expect(isIntegerString(undefined)).toBeUndefined();
   });
 });

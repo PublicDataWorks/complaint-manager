@@ -14,7 +14,7 @@ import Tab from "@material-ui/core/Tab";
 import OfficerHistoryTabContent from "./OfficerHistoryTabContent";
 import { FieldArray, reduxForm } from "redux-form";
 
-export class OfficerHistories extends Component {
+class OfficerHistories extends Component {
   constructor(props) {
     super(props);
     this.state = { selectedTab: 0 };

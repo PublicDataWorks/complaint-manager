@@ -116,6 +116,7 @@ export class LetterReview extends Component {
                 cardData={getAccusedOfficerData(officer)}
                 cardSecondTitle={"Allegations"}
                 allegations={getAllegationData(officer)}
+                key={officer.id}
               />
             );
           })}

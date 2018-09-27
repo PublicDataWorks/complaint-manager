@@ -5,7 +5,7 @@ import OfficerHistories from "./OfficerHistories";
 import React from "react";
 import { mount } from "enzyme";
 import { BrowserRouter as Router } from "react-router-dom";
-import { containsText } from "../../../testHelpers";
+import { changeInput, containsText } from "../../../testHelpers";
 
 describe("OfficerHistories page", function() {
   let wrapper;
@@ -70,5 +70,51 @@ describe("OfficerHistories page", function() {
     expect(
       wrapper.find("[data-test='tab-content-2']").get(0).props.style
     ).toHaveProperty("display", "none");
+  });
+
+  test("it calculates the number of total historical allegations entered", () => {
+    changeInput(
+      wrapper,
+      "[name='officers[0].numberHistoricalHighAllegations']",
+      "1"
+    );
+    changeInput(
+      wrapper,
+      "[name='officers[0].numberHistoricalMediumAllegations']",
+      "2"
+    );
+    changeInput(
+      wrapper,
+      "[name='officers[0].numberHistoricalLowAllegations']",
+      "3"
+    );
+    containsText(
+      wrapper,
+      `[data-test='officers-0-total-historical-allegations']`,
+      "6 total allegations"
+    );
+  });
+
+  test("it ignores invalid values when calculating the number of total historical allegations entered", () => {
+    changeInput(
+      wrapper,
+      "[name='officers[0].numberHistoricalHighAllegations']",
+      "abc"
+    );
+    changeInput(
+      wrapper,
+      "[name='officers[0].numberHistoricalMediumAllegations']",
+      " "
+    );
+    changeInput(
+      wrapper,
+      "[name='officers[0].numberHistoricalLowAllegations']",
+      2
+    );
+    containsText(
+      wrapper,
+      `[data-test='officers-0-total-historical-allegations']`,
+      "2 total allegations"
+    );
   });
 });

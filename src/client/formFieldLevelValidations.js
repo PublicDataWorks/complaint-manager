@@ -8,6 +8,12 @@ const selectRequired = text => value => {
   return value ? undefined : `Please select ${text}`;
 };
 
+export const isIntegerString = value => {
+  const trimmedValue = typeof value === "string" ? value.trim() : value;
+  const isInt = !trimmedValue || /^\d+$/.test(trimmedValue);
+  return isInt ? undefined : "Please enter a number";
+};
+
 const notBlank = text => value =>
   value.trim() === "" ? `Please enter ${text}` : undefined;
 
