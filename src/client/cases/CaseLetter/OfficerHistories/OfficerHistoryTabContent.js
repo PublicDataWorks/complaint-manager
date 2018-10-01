@@ -8,27 +8,8 @@ import { isIntegerString } from "../../../formFieldLevelValidations";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 import OfficerHistoryNote from "./OfficerHistoryNote";
 import LinkButton from "../../../shared/components/LinkButton";
-
-const totalAllegations = props => {
-  const {
-    numberHistoricalHighAllegations,
-    numberHistoricalMediumAllegations,
-    numberHistoricalLowAllegations
-  } = props;
-  let total = 0;
-  total += getIntegerFromValue(numberHistoricalHighAllegations);
-  total += getIntegerFromValue(numberHistoricalMediumAllegations);
-  total += getIntegerFromValue(numberHistoricalLowAllegations);
-  return total;
-};
-
-const getIntegerFromValue = value => {
-  const error = isIntegerString(value);
-  if (error === undefined) {
-    return parseInt(value, 10) || 0;
-  }
-  return 0;
-};
+import calculateOfficerHistoryTotalAllegations from "./calculateOfficerHistoryTotalAllegations";
+import shortid from "shortid";
 
 const RichTextEditorComponent = props => (
   <RichTextEditor
@@ -37,30 +18,43 @@ const RichTextEditorComponent = props => (
   />
 );
 
-const renderNoteFields = ({ fields }) => {
-  return (
-    <Fragment>
-      {renderOfficerHistoryNotes(fields)}
-      <LinkButton
-        onClick={() => {
-          fields.push();
-        }}
-      >
-        + Add Another Note
-      </LinkButton>
-    </Fragment>
-  );
-};
-
-const renderOfficerHistoryNotes = fields => {
-  return fields.map((note, index) => {
-    return <OfficerHistoryNote note={note} key={index} />;
-  });
-};
-
 const OfficerHistoryTabContent = props => {
   const { officer, caseOfficerName, caseOfficerId, isSelectedOfficer } = props;
   const displayValue = isSelectedOfficer ? "block" : "none";
+
+  const addNewOfficerNote = fields => () => {
+    const newNote = { tempId: shortid.generate() };
+    fields.push(newNote);
+  };
+
+  const renderNoteFields = ({ fields }) => {
+    return (
+      <Fragment>
+        {renderOfficerHistoryNotes(fields)}
+        <LinkButton
+          onClick={addNewOfficerNote(fields)}
+          data-test="addOfficerHistoryNoteButton"
+        >
+          + Add A Note
+        </LinkButton>
+      </Fragment>
+    );
+  };
+
+  const renderOfficerHistoryNotes = fields => {
+    return fields.map((note, index) => {
+      const noteInstance = fields.get(index);
+      const uniqueKey = noteInstance.id || noteInstance.tempId;
+      return (
+        <OfficerHistoryNote
+          note={note}
+          key={uniqueKey}
+          fieldArrayName={`${officer}.officerHistoryNotes`}
+          noteIndex={index}
+        />
+      );
+    });
+  };
 
   return (
     <div
@@ -112,7 +106,8 @@ const OfficerHistoryTabContent = props => {
           style={{ flex: 1, marginTop: "32px" }}
           data-test={`officers-${caseOfficerId}-total-historical-allegations`}
         >
-          <b>{totalAllegations(props)}</b> total allegations
+          <b>{calculateOfficerHistoryTotalAllegations(props)}</b> total
+          allegations
         </Typography>
       </div>
       <Typography style={{ marginBottom: "8px", ...styles.inputLabel }}>

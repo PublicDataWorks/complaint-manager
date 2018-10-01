@@ -6,6 +6,7 @@ import React from "react";
 import { mount } from "enzyme";
 import { BrowserRouter as Router } from "react-router-dom";
 import { changeInput, containsText } from "../../../testHelpers";
+import OfficerHistoryNote from "./OfficerHistoryNote";
 jest.mock("../../../shared/components/RichTextEditor/RichTextEditor");
 
 describe("OfficerHistories page", function() {
@@ -127,5 +128,63 @@ describe("OfficerHistories page", function() {
       `[data-test='no-officers-message']`,
       "There are no officers on this case"
     );
+  });
+
+  test("it should add a note when click add note button", () => {
+    const addNoteButton = wrapper
+      .find('[data-test="addOfficerHistoryNoteButton"]')
+      .first();
+    addNoteButton.simulate("click");
+    expect(wrapper.find(OfficerHistoryNote).length).toEqual(1);
+  });
+
+  test("it should remove a note when click add note button", () => {
+    const addNoteButton = wrapper
+      .find('[data-test="addOfficerHistoryNoteButton"]')
+      .first();
+    addNoteButton.simulate("click");
+    addNoteButton.simulate("click");
+    addNoteButton.simulate("click");
+
+    const notesFields = wrapper.find(OfficerHistoryNote);
+    expect(notesFields.length).toEqual(3);
+    changeInput(
+      notesFields.first(),
+      '[data-test="note-pib-case-number"]',
+      "first note"
+    );
+    changeInput(
+      notesFields.at(1),
+      '[data-test="note-pib-case-number"]',
+      "second note"
+    );
+    changeInput(
+      notesFields.at(2),
+      '[data-test="note-pib-case-number"]',
+      "third note"
+    );
+
+    const indexOfSecondNote = 1;
+    const openDialogButton = wrapper
+      .find(
+        `[data-test="note-${indexOfSecondNote}-openRemoveOfficerHistoryNoteButton"]`
+      )
+      .first();
+    openDialogButton.simulate("click");
+    const removeNoteButton = wrapper
+      .find('[data-test="removeOfficerHistoryNoteButton"]')
+      .first();
+    removeNoteButton.simulate("click");
+
+    const updatedNotesFields = wrapper.find(OfficerHistoryNote);
+    expect(updatedNotesFields.length).toEqual(2);
+    const firstNotePIBField = updatedNotesFields
+      .first()
+      .find('[data-test="note-pib-case-number"]');
+    const secondNotePIBField = updatedNotesFields
+      .at(1)
+      .find('[data-test="note-pib-case-number"]');
+    expect(firstNotePIBField.props().value).toEqual("first note");
+    expect(secondNotePIBField.props().value).toEqual("third note");
   });
 });

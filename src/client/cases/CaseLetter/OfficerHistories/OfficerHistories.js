@@ -14,6 +14,7 @@ import Tab from "@material-ui/core/Tab";
 import OfficerHistoryTabContent from "./OfficerHistoryTabContent";
 import { FieldArray, reduxForm } from "redux-form";
 import WarningMessage from "../../../shared/components/WarningMessage";
+import RemoveOfficerHistoryNoteDialog from "./RemoveOfficerHistoryNoteDialog";
 
 class OfficerHistories extends Component {
   constructor(props) {
@@ -57,7 +58,7 @@ class OfficerHistories extends Component {
           officer={officer}
           caseOfficerName={caseOfficer.fullName}
           caseOfficerId={caseOfficer.id}
-          key={index}
+          key={caseOfficer.id}
           isSelectedOfficer={isSelectedOfficer}
         />
       );
@@ -141,6 +142,7 @@ class OfficerHistories extends Component {
             ? this.renderNoOfficers()
             : this.renderOfficerHistories()}
         </div>
+        <RemoveOfficerHistoryNoteDialog removeNote={this.props.array.remove} />
       </div>
     );
   }
