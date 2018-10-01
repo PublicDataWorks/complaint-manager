@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, Typography } from "@material-ui/core";
-import { Field } from "redux-form";
+import { Field, formValueSelector } from "redux-form";
 import { TextField } from "redux-form-material-ui";
 import styles from "../../../globalStyling/styles";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
@@ -20,8 +20,16 @@ const OfficerHistoryNote = props => {
     note,
     openRemoveOfficerHistoryNoteDialog,
     fieldArrayName,
-    noteIndex
+    noteIndex,
+    caseOfficerName,
+    pibCaseNumber,
+    summary
   } = props;
+
+  const openRemoveNoteDialog = () => {
+    const noteDetails = { caseOfficerName, pibCaseNumber, summary };
+    openRemoveOfficerHistoryNoteDialog(fieldArrayName, noteIndex, noteDetails);
+  };
 
   return (
     <Card
@@ -48,9 +56,7 @@ const OfficerHistoryNote = props => {
           />
           <div style={{ marginTop: "16px" }}>
             <LinkButton
-              onClick={() => {
-                openRemoveOfficerHistoryNoteDialog(fieldArrayName, noteIndex);
-              }}
+              onClick={openRemoveNoteDialog}
               data-test={`note-${noteIndex}-openRemoveOfficerHistoryNoteButton`}
             >
               Remove
@@ -72,11 +78,17 @@ const OfficerHistoryNote = props => {
   );
 };
 
+const selector = formValueSelector("OfficerHistories");
+const mapStateToProps = (state, props) => ({
+  pibCaseNumber: selector(state, `${props.note}.pibCaseNumber`),
+  summary: selector(state, `${props.note}.summary`)
+});
+
 const mapDispatchToProps = {
   openRemoveOfficerHistoryNoteDialog
 };
 
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(OfficerHistoryNote);

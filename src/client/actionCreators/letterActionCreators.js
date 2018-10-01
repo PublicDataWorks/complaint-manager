@@ -5,11 +5,13 @@ import {
 
 export const openRemoveOfficerHistoryNoteDialog = (
   fieldArrayName,
-  noteIndex
+  noteIndex,
+  noteDetails
 ) => ({
   type: REMOVE_OFFICER_HISTORY_NOTE_DIALOG_OPENED,
   fieldArrayName,
-  noteIndex
+  noteIndex,
+  noteDetails
 });
 
 export const closeRemoveOfficerHistoryNoteDialog = () => ({

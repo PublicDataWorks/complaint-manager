@@ -6,7 +6,8 @@ import {
 const initialValues = {
   dialogOpen: false,
   fieldArrayName: undefined,
-  noteIndex: undefined
+  noteIndex: undefined,
+  noteDetails: {}
 };
 
 const officerHistoryNoteDialogReducer = (state = initialValues, action) => {
@@ -16,14 +17,16 @@ const officerHistoryNoteDialogReducer = (state = initialValues, action) => {
         ...state,
         dialogOpen: true,
         fieldArrayName: action.fieldArrayName,
-        noteIndex: action.noteIndex
+        noteIndex: action.noteIndex,
+        noteDetails: action.noteDetails
       };
     case REMOVE_OFFICER_HISTORY_NOTE_DIALOG_CLOSED:
       return {
         ...state,
         dialogOpen: false,
         fieldArrayName: undefined,
-        noteIndex: undefined
+        noteIndex: undefined,
+        noteDetails: {}
       };
     default:
       return state;

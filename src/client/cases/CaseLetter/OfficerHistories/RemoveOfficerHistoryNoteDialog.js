@@ -18,12 +18,15 @@ const RemoveOfficerHistoryNoteDialog = ({
   closeRemoveOfficerHistoryNoteDialog,
   removeNote,
   fieldArrayName,
-  noteIndex
+  noteIndex,
+  noteDetails
 }) => {
   const removeOfficerHistoryNote = () => {
     closeRemoveOfficerHistoryNoteDialog();
     removeNote(fieldArrayName, noteIndex);
   };
+
+  const summaryMarkup = { __html: noteDetails.summary };
 
   return (
     <Dialog open={dialogOpen} fullWidth={true}>
@@ -34,7 +37,8 @@ const RemoveOfficerHistoryNoteDialog = ({
             marginBottom: "24px"
           }}
         >
-          This action will remove the following note from xxx:
+          This action will remove the following note from{" "}
+          {noteDetails.caseOfficerName}:
         </Typography>
         <div
           style={{
@@ -44,8 +48,12 @@ const RemoveOfficerHistoryNoteDialog = ({
             paddingLeft: "8px"
           }}
         >
-          <Typography>Case Reference Number</Typography>
-          <Typography>Note contents</Typography>
+          <Typography>
+            Case Reference Number: {noteDetails.pibCaseNumber}
+          </Typography>
+          <Typography className="quill-editor-overrides">
+            Note Details: <span dangerouslySetInnerHTML={summaryMarkup} />
+          </Typography>
         </div>
         <Typography>Are you sure you want to continue?</Typography>
       </DialogContent>
@@ -74,7 +82,8 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   dialogOpen: state.ui.officerHistoryNoteDialog.dialogOpen,
   fieldArrayName: state.ui.officerHistoryNoteDialog.fieldArrayName,
-  noteIndex: state.ui.officerHistoryNoteDialog.noteIndex
+  noteIndex: state.ui.officerHistoryNoteDialog.noteIndex,
+  noteDetails: state.ui.officerHistoryNoteDialog.noteDetails
 });
 
 export default connect(

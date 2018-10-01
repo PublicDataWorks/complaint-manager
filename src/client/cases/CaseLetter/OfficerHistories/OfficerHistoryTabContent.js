@@ -51,6 +51,7 @@ const OfficerHistoryTabContent = props => {
           key={uniqueKey}
           fieldArrayName={`${officer}.officerHistoryNotes`}
           noteIndex={index}
+          caseOfficerName={caseOfficerName}
         />
       );
     });
