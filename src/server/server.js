@@ -45,7 +45,12 @@ app.use(
       objectSrc: ["'none'"],
       imgSrc: ["'self'", "data:"],
       scriptSrc: ["'self'", "https://maps.googleapis.com"],
-      styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"]
+      styleSrc: [
+        "'self'",
+        "https://fonts.googleapis.com",
+        "https://http://cdn.quilljs.com",
+        "'unsafe-inline'"
+      ]
     }
   })
 );
