@@ -48,7 +48,7 @@ app.use(
       styleSrc: [
         "'self'",
         "https://fonts.googleapis.com",
-        "https://http://cdn.quilljs.com",
+        "https://cdn.quilljs.com",
         "'unsafe-inline'"
       ]
     }
