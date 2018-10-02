@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       caseId: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        field: "case_id",
         references: {
           model: models.cases,
           key: "id"
@@ -37,6 +38,17 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: "referralLetterId",
         field: "referral_letter_id",
+        allowNull: false
+      }
+    });
+  };
+  ReferralLetter.associate = function(models) {
+    ReferralLetter.hasMany(models.case_officer, {
+      as: "caseOfficers",
+      sourceKey: "case_id",
+      foreignKey: {
+        name: "caseId",
+        field: "caseId",
         allowNull: false
       }
     });

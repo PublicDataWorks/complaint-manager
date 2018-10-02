@@ -8,9 +8,10 @@ import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import ReferralLetter from "../../../../client/testUtilities/ReferralLetter";
 import getReferralLetter from "./getReferralLetter";
 import httpMocks from "node-mocks-http";
+jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 
 describe("getReferralLetter", () => {
-  let existingCase, request, response, next;
+  let existingCase, referralLetter, request, response, next;
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -21,6 +22,15 @@ describe("getReferralLetter", () => {
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "test"
     });
+
+    const referralLetterAttributes = new ReferralLetter.Builder()
+      .defaultReferralLetter()
+      .withId(undefined)
+      .withCaseId(existingCase.id);
+    referralLetter = await models.referral_letter.create(
+      referralLetterAttributes,
+      { auditUser: "test" }
+    );
 
     request = httpMocks.createRequest({
       method: "GET",
@@ -33,6 +43,112 @@ describe("getReferralLetter", () => {
 
     response = httpMocks.createResponse();
     next = jest.fn();
+  });
+
+  test("it returns needed letter data when there are case officers but no letter officers yet", async () => {
+    const officerAttributes = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined);
+
+    const officer = await models.officer.create(officerAttributes, {
+      auditUser: "test"
+    });
+
+    const caseOfficerAttributes = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withId(undefined)
+      .withOfficerId(officer.id)
+      .withFirstName("SpongeBob")
+      .withLastName("SquarePants")
+      .withCaseId(existingCase.id);
+
+    const caseOfficer = await models.case_officer.create(
+      caseOfficerAttributes,
+      { auditUser: "test" }
+    );
+
+    const expectedResponseBody = {
+      id: referralLetter.id,
+      referralLetterOfficers: [
+        {
+          caseOfficerId: caseOfficer.id,
+          fullName: caseOfficer.fullName,
+          referralLetterOfficerHistoryNotes: [
+            {
+              tempId: "uniqueTempId"
+            }
+          ]
+        }
+      ]
+    };
+
+    await getReferralLetter(request, response, next);
+    expect(response._getData()).toEqual(expectedResponseBody);
+  });
+
+  test("it returns needed letter data when there are case officers and letter officers, but no notes (adds one empty note)", async () => {
+    const officerAttributes = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined);
+
+    const officer = await models.officer.create(officerAttributes, {
+      auditUser: "test"
+    });
+
+    const caseOfficerAttributes = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withId(undefined)
+      .withOfficerId(officer.id)
+      .withFirstName("SpongeBob")
+      .withLastName("SquarePants")
+      .withCaseId(existingCase.id);
+
+    const caseOfficer = await models.case_officer.create(
+      caseOfficerAttributes,
+      { auditUser: "test" }
+    );
+
+    const referralLetterOfficerAttributes = new ReferralLetterOfficer.Builder()
+      .defaultReferralLetterOfficer()
+      .withId(undefined)
+      .withReferralLetterId(referralLetter.id)
+      .withCaseOfficerId(caseOfficer.id)
+      .withnumHistoricalHighAllegations(2)
+      .withnumHistoricalMedAllegations(3)
+      .withnumHistoricalLowAllegations(1)
+      .withHistoricalBehaviorNotes("some historical behavior notes");
+
+    const referralLetterOfficer = await models.referral_letter_officer.create(
+      referralLetterOfficerAttributes,
+      { auditUser: "test" }
+    );
+
+    const expectedResponseBody = {
+      id: referralLetter.id,
+      referralLetterOfficers: [
+        {
+          id: referralLetterOfficer.id,
+          caseOfficerId: caseOfficer.id,
+          fullName: caseOfficer.fullName,
+          numHistoricalHighAllegations:
+            referralLetterOfficer.numHistoricalHighAllegations,
+          numHistoricalMedAllegations:
+            referralLetterOfficer.numHistoricalMedAllegations,
+          numHistoricalLowAllegations:
+            referralLetterOfficer.numHistoricalLowAllegations,
+          historicalBehaviorNotes:
+            referralLetterOfficer.historicalBehaviorNotes,
+          referralLetterOfficerHistoryNotes: [
+            {
+              tempId: "uniqueTempId"
+            }
+          ]
+        }
+      ]
+    };
+
+    await getReferralLetter(request, response, next);
+    expect(response._getData()).toEqual(expectedResponseBody);
   });
 
   test("it returns needed letter data when there is already a letter and letter officers and notes created", async () => {
@@ -57,24 +173,14 @@ describe("getReferralLetter", () => {
       { auditUser: "test" }
     );
 
-    const referralLetterAttributes = new ReferralLetter.Builder()
-      .defaultReferralLetter()
-      .withId(undefined)
-      .withCaseId(existingCase.id);
-
-    const referralLetter = await models.referral_letter.create(
-      referralLetterAttributes,
-      { auditUser: "test" }
-    );
-
     const referralLetterOfficerAttributes = new ReferralLetterOfficer.Builder()
       .defaultReferralLetterOfficer()
       .withId(undefined)
       .withReferralLetterId(referralLetter.id)
       .withCaseOfficerId(caseOfficer.id)
-      .withNumberHistoricalHighAllegations(2)
-      .withNumberHistoricalMediumAllegations(3)
-      .withNumberHistoricalLowAllegations(1)
+      .withnumHistoricalHighAllegations(2)
+      .withnumHistoricalMedAllegations(3)
+      .withnumHistoricalLowAllegations(1)
       .withHistoricalBehaviorNotes("some historical behavior notes");
 
     const referralLetterOfficer = await models.referral_letter_officer.create(
@@ -101,12 +207,12 @@ describe("getReferralLetter", () => {
           id: referralLetterOfficer.id,
           caseOfficerId: referralLetterOfficer.caseOfficerId,
           fullName: caseOfficer.fullName,
-          numberHistoricalHighAllegations:
-            referralLetterOfficer.numberHistoricalHighAllegations,
-          numberHistoricalMediumAllegations:
-            referralLetterOfficer.numberHistoricalMediumAllegations,
-          numberHistoricalLowAllegations:
-            referralLetterOfficer.numberHistoricalLowAllegations,
+          numHistoricalHighAllegations:
+            referralLetterOfficer.numHistoricalHighAllegations,
+          numHistoricalMedAllegations:
+            referralLetterOfficer.numHistoricalMedAllegations,
+          numHistoricalLowAllegations:
+            referralLetterOfficer.numHistoricalLowAllegations,
           historicalBehaviorNotes:
             referralLetterOfficer.historicalBehaviorNotes,
           referralLetterOfficerHistoryNotes: [

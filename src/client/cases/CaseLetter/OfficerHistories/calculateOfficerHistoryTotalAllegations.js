@@ -2,14 +2,14 @@ import { isIntegerString } from "../../../formFieldLevelValidations";
 
 const calculateOfficerHistoryTotalAllegations = props => {
   const {
-    numberHistoricalHighAllegations,
-    numberHistoricalMediumAllegations,
-    numberHistoricalLowAllegations
+    numHistoricalHighAllegations,
+    numHistoricalMedAllegations,
+    numHistoricalLowAllegations
   } = props;
   let total = 0;
-  total += getIntegerFromValue(numberHistoricalHighAllegations);
-  total += getIntegerFromValue(numberHistoricalMediumAllegations);
-  total += getIntegerFromValue(numberHistoricalLowAllegations);
+  total += getIntegerFromValue(numHistoricalHighAllegations);
+  total += getIntegerFromValue(numHistoricalMedAllegations);
+  total += getIntegerFromValue(numHistoricalLowAllegations);
   return total;
 };
 

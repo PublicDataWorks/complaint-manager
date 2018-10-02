@@ -81,26 +81,26 @@ const OfficerHistoryTabContent = props => {
       <div style={{ display: "flex", marginBottom: "32px" }}>
         <Field
           style={{ margin: "8px 24px 0 0", flex: 1 }}
-          name={`${officer}.numberHistoricalHighAllegations`}
+          name={`${officer}.numHistoricalHighAllegations`}
           component={TextField}
           label="High Level"
-          data-test={`${officer}-numberHistoricalHighAllegations`}
+          data-test={`${officer}-numHistoricalHighAllegations`}
           validate={[isIntegerString]}
         />
         <Field
           style={{ margin: "8px 24px 0 0", flex: 1 }}
-          name={`${officer}.numberHistoricalMediumAllegations`}
+          name={`${officer}.numHistoricalMedAllegations`}
           component={TextField}
           label="Medium Level"
-          data-test={`${officer}-numberHistoricalMediumAllegations`}
+          data-test={`${officer}-numHistoricalMedAllegations`}
           validate={[isIntegerString]}
         />
         <Field
           style={{ margin: "8px 24px 0 0", flex: 1 }}
-          name={`${officer}.numberHistoricalLowAllegations`}
+          name={`${officer}.numHistoricalLowAllegations`}
           component={TextField}
           label="Low Level"
-          data-test={`${officer}-numberHistoricalLowAllegations`}
+          data-test={`${officer}-numHistoricalLowAllegations`}
           validate={[isIntegerString]}
         />
         <Typography
@@ -135,17 +135,17 @@ const OfficerHistoryTabContent = props => {
 
 const selector = formValueSelector("OfficerHistories");
 const mapStateToProps = (state, props) => ({
-  numberHistoricalHighAllegations: selector(
+  numHistoricalHighAllegations: selector(
     state,
-    `${props.officer}.numberHistoricalHighAllegations`
+    `${props.officer}.numHistoricalHighAllegations`
   ),
-  numberHistoricalMediumAllegations: selector(
+  numHistoricalMedAllegations: selector(
     state,
-    `${props.officer}.numberHistoricalMediumAllegations`
+    `${props.officer}.numHistoricalMedAllegations`
   ),
-  numberHistoricalLowAllegations: selector(
+  numHistoricalLowAllegations: selector(
     state,
-    `${props.officer}.numberHistoricalLowAllegations`
+    `${props.officer}.numHistoricalLowAllegations`
   )
 });
 

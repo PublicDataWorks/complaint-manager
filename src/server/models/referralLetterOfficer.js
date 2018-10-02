@@ -28,17 +28,17 @@ module.exports = (sequelize, DataTypes) => {
           key: "id"
         }
       },
-      numberHistoricalHighAllegations: {
+      numHistoricalHighAllegations: {
         type: DataTypes.INTEGER,
-        field: "number_historical_high_allegations"
+        field: "num_historical_high_allegations"
       },
-      numberHistoricalMediumAllegations: {
+      numHistoricalMedAllegations: {
         type: DataTypes.INTEGER,
-        field: "number_historical_medium_allegations"
+        field: "num_historical_med_allegations"
       },
-      numberHistoricalLowAllegations: {
+      numHistoricalLowAllegations: {
         type: DataTypes.INTEGER,
-        field: "number_historical_low_allegations"
+        field: "num_historical_low_allegations"
       },
       historicalBehaviorNotes: {
         type: DataTypes.TEXT,

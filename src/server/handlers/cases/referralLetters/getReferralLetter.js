@@ -1,49 +1,77 @@
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models/");
+const shortid = require("shortid");
 
 const getReferralLetter = asyncMiddleware(async (request, response) => {
   let letterData = await getLetterData(request.params.caseId);
   letterData = letterData.toJSON();
 
-  for (let referralLetterOfficer of letterData.referralLetterOfficers) {
-    referralLetterOfficer.fullName = referralLetterOfficer.caseOfficer.fullName;
-    delete referralLetterOfficer.caseOfficer;
-  }
-  response.send(letterData);
+  const transformedLetterOfficerData = letterData.caseOfficers.map(
+    caseOfficer => {
+      return {
+        caseOfficerId: caseOfficer.id,
+        fullName: caseOfficer.fullName,
+        ...letterOfficerAttributesWithNotes(caseOfficer)
+      };
+    }
+  );
+  const transformedLetterData = {
+    id: letterData.id,
+    referralLetterOfficers: transformedLetterOfficerData
+  };
+
+  response.send(transformedLetterData);
 });
+
+const letterOfficerAttributesWithNotes = caseOfficer => {
+  const letterOfficerAttributes = caseOfficer.referralLetterOfficer || {};
+  if (
+    !letterOfficerAttributes.referralLetterOfficerHistoryNotes ||
+    letterOfficerAttributes.referralLetterOfficerHistoryNotes.length === 0
+  ) {
+    letterOfficerAttributes.referralLetterOfficerHistoryNotes = buildEmptyNotes();
+  }
+  return letterOfficerAttributes;
+};
+
+const buildEmptyNotes = () => {
+  return [{ tempId: shortid.generate() }];
+};
 
 const getLetterData = async caseId => {
   return await models.referral_letter.findOne({
     where: { caseId: caseId },
-    attributes: ["id"],
+    attributes: ["id", "caseId"],
     include: [
       {
-        model: models.referral_letter_officer,
-        as: "referralLetterOfficers",
-        attributes: [
-          "id",
-          "caseOfficerId",
-          "historicalBehaviorNotes",
-          "numberHistoricalHighAllegations",
-          "numberHistoricalMediumAllegations",
-          "numberHistoricalLowAllegations"
-        ],
+        model: models.case_officer,
+        as: "caseOfficers",
+        attributes: ["id", "officerId", "firstName", "middleName", "lastName"], //must include officerId or will be named unknown officer
         include: [
           {
-            model: models.case_officer,
-            as: "caseOfficer",
-            attributes: ["officerId", "firstName", "middleName", "lastName"]
-          },
-          {
-            model: models.referral_letter_officer_history_note,
-            as: "referralLetterOfficerHistoryNotes",
+            model: models.referral_letter_officer,
+            as: "referralLetterOfficer",
             attributes: [
               "id",
-              "referralLetterOfficerId",
-              "pibCaseNumber",
-              "details"
+              "caseOfficerId",
+              "historicalBehaviorNotes",
+              "numHistoricalHighAllegations",
+              "numHistoricalMedAllegations",
+              "numHistoricalLowAllegations"
             ],
-            separate: true
+            include: [
+              {
+                model: models.referral_letter_officer_history_note,
+                as: "referralLetterOfficerHistoryNotes",
+                attributes: [
+                  "id",
+                  "referralLetterOfficerId",
+                  "pibCaseNumber",
+                  "details"
+                ],
+                separate: true
+              }
+            ]
           }
         ]
       }

@@ -227,6 +227,13 @@ module.exports = (sequelize, DataTypes) => {
         field: "case_id"
       }
     });
+    CaseOfficer.hasOne(models.referral_letter_officer, {
+      as: "referralLetterOfficer",
+      foreignKey: {
+        name: "caseOfficerId",
+        field: "case_officer_id"
+      }
+    });
   };
 
   CaseOfficer.auditDataChange();

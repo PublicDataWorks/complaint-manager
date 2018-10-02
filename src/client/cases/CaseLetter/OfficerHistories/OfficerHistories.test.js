@@ -73,17 +73,17 @@ describe("OfficerHistories page", function() {
   test("it calculates the number of total historical allegations entered", () => {
     changeInput(
       wrapper,
-      "[name='officers[0].numberHistoricalHighAllegations']",
+      "[name='officers[0].numHistoricalHighAllegations']",
       "1"
     );
     changeInput(
       wrapper,
-      "[name='officers[0].numberHistoricalMediumAllegations']",
+      "[name='officers[0].numHistoricalMedAllegations']",
       "2"
     );
     changeInput(
       wrapper,
-      "[name='officers[0].numberHistoricalLowAllegations']",
+      "[name='officers[0].numHistoricalLowAllegations']",
       "3"
     );
     containsText(
@@ -96,19 +96,15 @@ describe("OfficerHistories page", function() {
   test("it ignores invalid values when calculating the number of total historical allegations entered", () => {
     changeInput(
       wrapper,
-      "[name='officers[0].numberHistoricalHighAllegations']",
+      "[name='officers[0].numHistoricalHighAllegations']",
       "abc"
     );
     changeInput(
       wrapper,
-      "[name='officers[0].numberHistoricalMediumAllegations']",
+      "[name='officers[0].numHistoricalMedAllegations']",
       " "
     );
-    changeInput(
-      wrapper,
-      "[name='officers[0].numberHistoricalLowAllegations']",
-      2
-    );
+    changeInput(wrapper, "[name='officers[0].numHistoricalLowAllegations']", 2);
     containsText(
       wrapper,
       `[data-test='officers-0-total-historical-allegations']`,

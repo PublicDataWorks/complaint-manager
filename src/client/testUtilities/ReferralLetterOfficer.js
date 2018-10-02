@@ -3,11 +3,9 @@ class ReferralLetterOfficer {
     this.id = build.id;
     this.caseOfficerId = build.caseOfficerId;
     this.referralLetterId = build.referralLetterId;
-    this.numberHistoricalHighAllegations =
-      build.numberHistoricalHighAllegations;
-    this.numberHistoricalMediumAllegations =
-      build.numberHistoricalMediumAllegations;
-    this.numberHistoricalLowAllegations = build.numberHistoricalLowAllegations;
+    this.numHistoricalHighAllegations = build.numHistoricalHighAllegations;
+    this.numHistoricalMedAllegations = build.numHistoricalMedAllegations;
+    this.numHistoricalLowAllegations = build.numHistoricalLowAllegations;
     this.historicalBehaviorNotes = build.historicalBehaviorNotes;
   }
 
@@ -17,9 +15,9 @@ class ReferralLetterOfficer {
         this.id = 123;
         this.caseOfficerId = 55;
         this.referralLetterId = 99;
-        this.numberHistoricalHighAllegations = 3;
-        this.numberHistoricalMediumAllegations = 2;
-        this.numberHistoricalLowAllegations = 1;
+        this.numHistoricalHighAllegations = 3;
+        this.numHistoricalMedAllegations = 2;
+        this.numHistoricalLowAllegations = 1;
         this.historicalBehaviorNotes = "This is a pattern";
         return this;
       }
@@ -39,18 +37,18 @@ class ReferralLetterOfficer {
         return this;
       }
 
-      withNumberHistoricalHighAllegations(numberHistoricalHighAllegations) {
-        this.numberHistoricalHighAllegations = numberHistoricalHighAllegations;
+      withnumHistoricalHighAllegations(numHistoricalHighAllegations) {
+        this.numHistoricalHighAllegations = numHistoricalHighAllegations;
         return this;
       }
 
-      withNumberHistoricalMediumAllegations(numberHistoricalMediumAllegations) {
-        this.numberHistoricalMediumAllegations = numberHistoricalMediumAllegations;
+      withnumHistoricalMedAllegations(numHistoricalMedAllegations) {
+        this.numHistoricalMedAllegations = numHistoricalMedAllegations;
         return this;
       }
 
-      withNumberHistoricalLowAllegations(numberHistoricalLowAllegations) {
-        this.numberHistoricalLowAllegations = numberHistoricalLowAllegations;
+      withnumHistoricalLowAllegations(numHistoricalLowAllegations) {
+        this.numHistoricalLowAllegations = numHistoricalLowAllegations;
         return this;
       }
 
