@@ -25,7 +25,7 @@ import CaseHistory from "./cases/CaseDetails/CaseHistory/CaseHistory";
 import AllegationSearchContainer from "./allegations/AllegationSearchContainer";
 import SharedSnackbarContainer from "./shared/components/SharedSnackbarContainer";
 import getFeatureToggles from "./featureToggles/thunks/getFeatureToggles";
-import exportAllCases from "./cases/export/exportAllCases";
+import JobDashboard from "./export/JobDashboard";
 
 class App extends Component {
   componentDidMount() {
@@ -73,7 +73,7 @@ class App extends Component {
               </Switch>
               <Route exact path="/cases/:id/history" component={CaseHistory} />
               <Route exact path="/cases/:id" component={CaseDetails} />
-              <Route exact path="/all/export" component={exportAllCases} />
+              <Route exact path="/export/all" component={JobDashboard} />
               <Route exact path="/styleguide" component={StyleGuide} />
               <Route exact path="/admin" component={UserDashboard} />
               <Route

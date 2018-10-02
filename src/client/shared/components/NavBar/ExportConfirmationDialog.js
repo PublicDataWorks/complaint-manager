@@ -9,21 +9,11 @@ import {
 import { SecondaryButton, PrimaryButton } from "../StyledButtons";
 import { connect } from "react-redux";
 import { closeExportConfirmationDialog } from "../../../actionCreators/navBarActionCreators";
-import axios from "axios";
-import getAccessToken from "../../../auth/getAccessToken";
+import generateExport from "../../../export/thunks/generateExport";
 
 const ExportConfirmationDialog = props => {
   const closeDialog = () => {
     props.dispatch(closeExportConfirmationDialog());
-  };
-
-  const generateExport = async (path, callback) => {
-    await axios.get(path, {
-      headers: {
-        Authorization: `Bearer ${getAccessToken()}`
-      }
-    });
-    if (callback) callback();
   };
 
   return (
@@ -46,8 +36,9 @@ const ExportConfirmationDialog = props => {
         <SecondaryButton onClick={closeDialog}>Cancel</SecondaryButton>
         <PrimaryButton
           data-test="exportAuditLogButton"
-          onClick={async () => {
-            await generateExport(props.path, closeDialog);
+          onClick={() => {
+            props.dispatch(generateExport(props.path));
+            closeDialog();
           }}
         >
           Export

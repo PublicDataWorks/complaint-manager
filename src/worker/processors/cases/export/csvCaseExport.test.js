@@ -45,8 +45,6 @@ describe("csvCaseExport request", function() {
       return { then: jest.fn() };
     });
 
-    //uploadFileToS3.mockReturnValue({then: jest.fn()});
-
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined);

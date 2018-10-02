@@ -1,21 +1,21 @@
 import React, { Component } from "react";
-import { Typography } from "@material-ui/core";
-import LinkButton from "../../shared/components/LinkButton";
+import {Typography} from "@material-ui/core";
+import LinkButton from "../shared/components/LinkButton";
 import {
   openExportAllCasesConfirmationDialog,
   closeExportConfirmationDialog
-} from "../../actionCreators/navBarActionCreators";
-import ExportConfirmationDialog from "../../shared/components/NavBar/ExportConfirmationDialog";
-import { closeSnackbar } from "../../actionCreators/snackBarActionCreators";
+} from "../actionCreators/navBarActionCreators";
+import ExportConfirmationDialog from "../shared/components/NavBar/ExportConfirmationDialog";
 import connect from "react-redux/es/connect/connect";
 import _ from "lodash";
 import JobDetails from "./jobDetails";
-import getExportJobs from "../thunks/getExportJobs";
+import getExportJobs from "./thunks/getExportJobs";
+
+import { bindActionCreators } from 'redux'
+
 
 class ExportAllCases extends Component {
   componentDidMount() {
-    // this.props.dispatch(closeSnackbar());
-    // this.props.dispatch(closeExportConfirmationDialog());
     this.props.getExportJobs();
   }
 
@@ -39,16 +39,17 @@ class ExportAllCases extends Component {
             style={{ paddingBottom: "16px" }}
           >
             <LinkButton
-              onClick={() => {
-                this.props.dispatch(openExportAllCasesConfirmationDialog());
-              }}
+              onClick={ () => {
+                  this.props.openExportAllCasesConfirmationDialog();
+                }
+              }
             >
               Export All Cases
             </LinkButton>
           </div>
         </div>
         <div>
-          <p> Found jobs {this.props.exportJobs.length} </p>
+          <p> Found jobs {this.props.exportJobs ? this.props.exportJobs.length : 0} </p>
           {_.sortBy(this.props.exportJobs, "id").map(job => (
             <JobDetails key={job.id} job={job} />
           ))}
@@ -60,14 +61,11 @@ class ExportAllCases extends Component {
 }
 
 const mapStateToProps = state => ({
-  exportJobs: state.exportJobs
+  exportJobs: state.export.exportJobs
 });
 
-const mapDispatchToProps = {
-  getExportJobs
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators( { getExportJobs, openExportAllCasesConfirmationDialog, closeExportConfirmationDialog }, dispatch);
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExportAllCases);
+export default connect(mapStateToProps, mapDispatchToProps)(ExportAllCases);

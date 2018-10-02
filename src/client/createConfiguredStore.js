@@ -28,6 +28,7 @@ import removeOfficerAllegationDialogReducer from "./reducers/ui/removeOfficerAll
 import exportDialogReducer from "./reducers/ui/exportDialogReducer";
 import featureTogglesReducer from "./reducers/featureToggles/featureTogglesReducer";
 import addressInputReducer from "./reducers/ui/addressInputReducer";
+import allJobsReducer from "./reducers/export/allJobsReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -63,7 +64,10 @@ const rootReducer = combineReducers({
     addressInput: addressInputReducer
   }),
   officers: searchOfficersReducer,
-  featureToggles: featureTogglesReducer
+  featureToggles: featureTogglesReducer,
+  export: combineReducers({
+    exportJobs: allJobsReducer
+  })
 });
 
 const routingMiddleware = routerMiddleware(history);
