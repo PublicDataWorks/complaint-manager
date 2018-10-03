@@ -30,6 +30,7 @@ import featureTogglesReducer from "./reducers/featureToggles/featureTogglesReduc
 import addressInputReducer from "./reducers/ui/addressInputReducer";
 import classificationReducer from "./reducers/ui/classificationReducer";
 import officerHistoryNoteDialogReducer from "./reducers/ui/officerHistoryNoteDialogReducer";
+import referralLetterReducer from "./reducers/cases/referralLetterReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -42,6 +43,7 @@ const rootReducer = combineReducers({
     caseNotes: caseNotesReducer,
     caseHistory: caseHistoryReducer
   }),
+  referralLetter: referralLetterReducer,
   users: combineReducers({
     all: allUsersReducer,
     current: userInfoReducer

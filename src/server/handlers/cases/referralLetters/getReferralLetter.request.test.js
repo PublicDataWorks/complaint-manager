@@ -8,7 +8,7 @@ import {
   cleanupDatabase
 } from "../../../testHelpers/requestTestHelpers";
 
-describe("GET /cases/:id/letter", function() {
+describe("GET /cases/:id/referral-letter", function() {
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -35,7 +35,7 @@ describe("GET /cases/:id/letter", function() {
     };
 
     await request(app)
-      .get(`/api/cases/${newCase.id}/letter`)
+      .get(`/api/cases/${newCase.id}/referral-letter`)
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .expect(200)

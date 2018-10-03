@@ -75,7 +75,7 @@ router.delete(
 );
 
 router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
-router.get("/cases/:caseId/letter", getReferralLetter);
+router.get("/cases/:caseId/referral-letter", getReferralLetter);
 
 router.use("/cases/:id/attachments", attachmentRouter);
 router.use(
