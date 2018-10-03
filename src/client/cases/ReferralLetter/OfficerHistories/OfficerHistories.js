@@ -4,7 +4,6 @@ import NavBar from "../../../shared/components/NavBar/NavBar";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import LinkButton from "../../../shared/components/LinkButton";
 import LetterProgressStepper from "../LetterProgressStepper";
-import getCaseDetails from "../../thunks/getCaseDetails";
 import { connect } from "react-redux";
 import { LETTER_PROGRESS } from "../../../../sharedUtilities/constants";
 import _ from "lodash";
@@ -15,6 +14,7 @@ import OfficerHistoryTabContent from "./OfficerHistoryTabContent";
 import { FieldArray, reduxForm } from "redux-form";
 import WarningMessage from "../../../shared/components/WarningMessage";
 import RemoveOfficerHistoryNoteDialog from "./RemoveOfficerHistoryNoteDialog";
+import getReferralLetter from "../thunks/getReferralLetter";
 
 class OfficerHistories extends Component {
   constructor(props) {
@@ -22,15 +22,15 @@ class OfficerHistories extends Component {
     this.state = { selectedTab: 0 };
   }
 
-  caseDetailsNotYetLoaded() {
+  referralLetterNotYetLoaded() {
     return (
-      _.isEmpty(this.props.caseDetail) ||
-      `${this.props.caseDetail.id}` !== this.props.match.params.id
+      _.isEmpty(this.props.letterDetails) ||
+      `${this.props.letterDetails.caseId}` !== this.props.match.params.id
     );
   }
 
   componentDidMount() {
-    this.props.dispatch(getCaseDetails(this.props.match.params.id));
+    this.props.dispatch(getReferralLetter(this.props.match.params.id));
   }
 
   handleTabChange = (event, selectedTab) => {
@@ -38,27 +38,29 @@ class OfficerHistories extends Component {
   };
 
   renderTabHeaders = () => {
-    return this.props.caseDetail.accusedOfficers.map(accusedOfficer => {
-      return (
-        <Tab
-          key={accusedOfficer.id}
-          label={accusedOfficer.fullName}
-          data-test={`tab-${accusedOfficer.id}`}
-        />
-      );
-    });
+    return this.props.letterDetails.referralLetterOfficers.map(
+      letterOfficer => {
+        return (
+          <Tab
+            key={letterOfficer.caseOfficerId}
+            label={letterOfficer.fullName}
+            data-test={`tab-${letterOfficer.caseOfficerId}`}
+          />
+        );
+      }
+    );
   };
 
   renderOfficerFields = ({ fields, selectedTab }) => {
-    return fields.map((officer, index) => {
+    return fields.map((referralLetterOfficerField, index) => {
       const isSelectedOfficer = index === selectedTab;
-      const caseOfficer = fields.get(index);
+      const letterOfficerInstance = fields.get(index);
       return (
         <OfficerHistoryTabContent
-          officer={officer}
-          caseOfficerName={caseOfficer.fullName}
-          caseOfficerId={caseOfficer.id}
-          key={caseOfficer.id}
+          referralLetterOfficer={referralLetterOfficerField}
+          caseOfficerName={letterOfficerInstance.fullName}
+          caseOfficerId={letterOfficerInstance.caseOfficerId}
+          key={letterOfficerInstance.caseOfficerId}
           isSelectedOfficer={isSelectedOfficer}
         />
       );
@@ -95,7 +97,7 @@ class OfficerHistories extends Component {
           </AppBar>
           <form>
             <FieldArray
-              name="officers"
+              name="referralLetterOfficers"
               component={this.renderOfficerFields}
               selectedTab={this.state.selectedTab}
             />
@@ -107,9 +109,9 @@ class OfficerHistories extends Component {
 
   render() {
     const caseId = this.props.match.params.id;
-    const accusedOfficers = this.props.caseDetail.accusedOfficers;
+    const letterOfficers = this.props.letterDetails.referralLetterOfficers;
 
-    if (this.caseDetailsNotYetLoaded()) {
+    if (this.referralLetterNotYetLoaded()) {
       return null;
     }
 
@@ -138,7 +140,7 @@ class OfficerHistories extends Component {
             <Typography variant="title">Officer Complaint History</Typography>
           </div>
 
-          {accusedOfficers.length === 0
+          {letterOfficers.length === 0
             ? this.renderNoOfficers()
             : this.renderOfficerHistories()}
         </div>
@@ -149,8 +151,11 @@ class OfficerHistories extends Component {
 }
 
 const mapStateToProps = state => ({
-  caseDetail: state.currentCase.details,
-  initialValues: { officers: state.currentCase.details.accusedOfficers }
+  letterDetails: state.referralLetter.letterDetails,
+  initialValues: {
+    referralLetterOfficers:
+      state.referralLetter.letterDetails.referralLetterOfficers
+  }
 });
 
 export default connect(mapStateToProps)(

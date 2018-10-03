@@ -1,5 +1,4 @@
 import createConfiguredStore from "../../../createConfiguredStore";
-import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { Provider } from "react-redux";
 import OfficerHistories from "./OfficerHistories";
 import React from "react";
@@ -7,23 +6,26 @@ import { mount } from "enzyme";
 import { BrowserRouter as Router } from "react-router-dom";
 import { changeInput, containsText } from "../../../testHelpers";
 import OfficerHistoryNote from "./OfficerHistoryNote";
+import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 jest.mock("../../../shared/components/RichTextEditor/RichTextEditor");
+jest.mock("../thunks/getReferralLetter", () => () => ({ type: "" }));
 
 describe("OfficerHistories page", function() {
   let wrapper, store, caseId;
   beforeEach(() => {
     caseId = "4";
-    const caseDetail = {
+    const referralLetterDetails = {
       id: caseId,
-      accusedOfficers: [
-        { fullName: "Officer 1", id: 0 },
-        { fullName: "Officer 2", id: 1 },
-        { fullName: "Officer 3", id: 2 }
+      caseId: caseId,
+      referralLetterOfficers: [
+        { fullName: "Officer 1", id: 0, caseOfficerId: 10 },
+        { fullName: "Officer 2", id: 1, caseOfficerId: 11 },
+        { fullName: "Officer 3", id: 2, caseOfficerId: 12 }
       ]
     };
 
     store = createConfiguredStore();
-    store.dispatch(getCaseDetailsSuccess(caseDetail));
+    store.dispatch(getReferralLetterSuccess(referralLetterDetails));
 
     wrapper = mount(
       <Provider store={store}>
@@ -35,60 +37,60 @@ describe("OfficerHistories page", function() {
   });
 
   test("it renders a tab header for each officer", () => {
-    containsText(wrapper, "[data-test='tab-0']", "Officer 1");
-    containsText(wrapper, "[data-test='tab-1']", "Officer 2");
-    containsText(wrapper, "[data-test='tab-2']", "Officer 3");
+    containsText(wrapper, "[data-test='tab-10']", "Officer 1");
+    containsText(wrapper, "[data-test='tab-11']", "Officer 2");
+    containsText(wrapper, "[data-test='tab-12']", "Officer 3");
   });
 
   test("it renders a tab content for the default selected officer", () => {
-    containsText(wrapper, "[data-test='tab-content-0']", "Officer 1");
+    containsText(wrapper, "[data-test='tab-content-10']", "Officer 1");
     expect(
-      wrapper.find("[data-test='tab-content-0']").get(0).props.style
+      wrapper.find("[data-test='tab-content-10']").get(0).props.style
     ).toHaveProperty("display", "block");
     expect(
-      wrapper.find("[data-test='tab-content-1']").get(0).props.style
+      wrapper.find("[data-test='tab-content-11']").get(0).props.style
     ).toHaveProperty("display", "none");
     expect(
-      wrapper.find("[data-test='tab-content-2']").get(0).props.style
+      wrapper.find("[data-test='tab-content-12']").get(0).props.style
     ).toHaveProperty("display", "none");
   });
 
   test("it renders a tab content for the selected officer", () => {
     wrapper
-      .find("[data-test='tab-1']")
+      .find("[data-test='tab-11']")
       .first()
       .simulate("click");
-    containsText(wrapper, "[data-test='tab-content-1']", "Officer 2");
+    containsText(wrapper, "[data-test='tab-content-11']", "Officer 2");
     expect(
-      wrapper.find("[data-test='tab-content-1']").get(0).props.style
+      wrapper.find("[data-test='tab-content-11']").get(0).props.style
     ).toHaveProperty("display", "block");
     expect(
-      wrapper.find("[data-test='tab-content-0']").get(0).props.style
+      wrapper.find("[data-test='tab-content-10']").get(0).props.style
     ).toHaveProperty("display", "none");
     expect(
-      wrapper.find("[data-test='tab-content-2']").get(0).props.style
+      wrapper.find("[data-test='tab-content-12']").get(0).props.style
     ).toHaveProperty("display", "none");
   });
 
   test("it calculates the number of total historical allegations entered", () => {
     changeInput(
       wrapper,
-      "[name='officers[0].numHistoricalHighAllegations']",
+      "[name='referralLetterOfficers[0].numHistoricalHighAllegations']",
       "1"
     );
     changeInput(
       wrapper,
-      "[name='officers[0].numHistoricalMedAllegations']",
+      "[name='referralLetterOfficers[0].numHistoricalMedAllegations']",
       "2"
     );
     changeInput(
       wrapper,
-      "[name='officers[0].numHistoricalLowAllegations']",
+      "[name='referralLetterOfficers[0].numHistoricalLowAllegations']",
       "3"
     );
     containsText(
       wrapper,
-      `[data-test='officers-0-total-historical-allegations']`,
+      `[data-test='officers-10-total-historical-allegations']`,
       "6 total allegations"
     );
   });
@@ -96,28 +98,35 @@ describe("OfficerHistories page", function() {
   test("it ignores invalid values when calculating the number of total historical allegations entered", () => {
     changeInput(
       wrapper,
-      "[name='officers[0].numHistoricalHighAllegations']",
+      "[name='referralLetterOfficers[0].numHistoricalHighAllegations']",
       "abc"
     );
     changeInput(
       wrapper,
-      "[name='officers[0].numHistoricalMedAllegations']",
+      "[name='referralLetterOfficers[0].numHistoricalMedAllegations']",
       " "
     );
-    changeInput(wrapper, "[name='officers[0].numHistoricalLowAllegations']", 2);
+    changeInput(
+      wrapper,
+      "[name='referralLetterOfficers[0].numHistoricalLowAllegations']",
+      2
+    );
     containsText(
       wrapper,
-      `[data-test='officers-0-total-historical-allegations']`,
+      `[data-test='officers-10-total-historical-allegations']`,
       "2 total allegations"
     );
   });
 
   test("it should display message when no officers", () => {
-    const caseDetailWithoutOfficers = {
+    const referralLetterDetailsWithoutOfficers = {
       id: caseId,
-      accusedOfficers: []
+      caseId: caseId,
+      referralLetterOfficers: []
     };
-    store.dispatch(getCaseDetailsSuccess(caseDetailWithoutOfficers));
+    store.dispatch(
+      getReferralLetterSuccess(referralLetterDetailsWithoutOfficers)
+    );
     wrapper.update();
     containsText(
       wrapper,

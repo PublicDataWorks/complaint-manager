@@ -31,6 +31,7 @@ describe("GET /cases/:id/referral-letter", function() {
 
     const expectedResponse = {
       id: referralLetter.id,
+      caseId: newCase.id,
       referralLetterOfficers: []
     };
 

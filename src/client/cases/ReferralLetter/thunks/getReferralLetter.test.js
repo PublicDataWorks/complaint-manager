@@ -1,9 +1,6 @@
 import getAccessToken from "../../../auth/getAccessToken";
 import nock from "nock";
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../../../actionCreators/snackBarActionCreators";
+import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 jest.mock("../../../auth/getAccessToken");
 import { push } from "react-router-redux";
 import getReferralLetter from "./getReferralLetter";

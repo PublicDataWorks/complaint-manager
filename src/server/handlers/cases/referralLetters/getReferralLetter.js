@@ -17,6 +17,7 @@ const getReferralLetter = asyncMiddleware(async (request, response) => {
   );
   const transformedLetterData = {
     id: letterData.id,
+    caseId: letterData.caseId,
     referralLetterOfficers: transformedLetterOfficerData
   };
 

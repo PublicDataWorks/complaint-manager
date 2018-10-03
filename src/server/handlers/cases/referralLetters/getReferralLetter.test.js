@@ -69,6 +69,7 @@ describe("getReferralLetter", () => {
 
     const expectedResponseBody = {
       id: referralLetter.id,
+      caseId: existingCase.id,
       referralLetterOfficers: [
         {
           caseOfficerId: caseOfficer.id,
@@ -125,6 +126,7 @@ describe("getReferralLetter", () => {
 
     const expectedResponseBody = {
       id: referralLetter.id,
+      caseId: existingCase.id,
       referralLetterOfficers: [
         {
           id: referralLetterOfficer.id,
@@ -202,6 +204,7 @@ describe("getReferralLetter", () => {
 
     const expectedResponseBody = {
       id: referralLetter.id,
+      caseId: existingCase.id,
       referralLetterOfficers: [
         {
           id: referralLetterOfficer.id,

@@ -19,7 +19,12 @@ const RichTextEditorComponent = props => (
 );
 
 const OfficerHistoryTabContent = props => {
-  const { officer, caseOfficerName, caseOfficerId, isSelectedOfficer } = props;
+  const {
+    referralLetterOfficer,
+    caseOfficerName,
+    caseOfficerId,
+    isSelectedOfficer
+  } = props;
   const displayValue = isSelectedOfficer ? "block" : "none";
 
   const addNewOfficerNote = fields => () => {
@@ -42,14 +47,18 @@ const OfficerHistoryTabContent = props => {
   };
 
   const renderOfficerHistoryNotes = fields => {
-    return fields.map((note, index) => {
-      const noteInstance = fields.get(index);
-      const uniqueKey = noteInstance.id || noteInstance.tempId;
+    return fields.map((referralLetterOfficerHistoryNoteField, index) => {
+      const referralLetterOfficerHistoryNoteInstance = fields.get(index);
+      const uniqueKey =
+        referralLetterOfficerHistoryNoteInstance.id ||
+        referralLetterOfficerHistoryNoteInstance.tempId;
       return (
         <OfficerHistoryNote
-          note={note}
+          referralLetterOfficerHistoryNote={
+            referralLetterOfficerHistoryNoteField
+          }
           key={uniqueKey}
-          fieldArrayName={`${officer}.officerHistoryNotes`}
+          fieldArrayName={`${referralLetterOfficer}.referralLetterOfficerHistoryNotes`}
           noteIndex={index}
           caseOfficerName={caseOfficerName}
         />
@@ -81,26 +90,26 @@ const OfficerHistoryTabContent = props => {
       <div style={{ display: "flex", marginBottom: "32px" }}>
         <Field
           style={{ margin: "8px 24px 0 0", flex: 1 }}
-          name={`${officer}.numHistoricalHighAllegations`}
+          name={`${referralLetterOfficer}.numHistoricalHighAllegations`}
           component={TextField}
           label="High Level"
-          data-test={`${officer}-numHistoricalHighAllegations`}
+          data-test={`${referralLetterOfficer}-numHistoricalHighAllegations`}
           validate={[isIntegerString]}
         />
         <Field
           style={{ margin: "8px 24px 0 0", flex: 1 }}
-          name={`${officer}.numHistoricalMedAllegations`}
+          name={`${referralLetterOfficer}.numHistoricalMedAllegations`}
           component={TextField}
           label="Medium Level"
-          data-test={`${officer}-numHistoricalMedAllegations`}
+          data-test={`${referralLetterOfficer}-numHistoricalMedAllegations`}
           validate={[isIntegerString]}
         />
         <Field
           style={{ margin: "8px 24px 0 0", flex: 1 }}
-          name={`${officer}.numHistoricalLowAllegations`}
+          name={`${referralLetterOfficer}.numHistoricalLowAllegations`}
           component={TextField}
           label="Low Level"
-          data-test={`${officer}-numHistoricalLowAllegations`}
+          data-test={`${referralLetterOfficer}-numHistoricalLowAllegations`}
           validate={[isIntegerString]}
         />
         <Typography
@@ -116,17 +125,17 @@ const OfficerHistoryTabContent = props => {
       </Typography>
       <div style={{ width: "75%", marginBottom: "32px" }}>
         <Field
-          name={`${officer}.historicalBehaviorNotes`}
+          name={`${referralLetterOfficer}.historicalBehaviorNotes`}
           component={RichTextEditorComponent}
           label="Notes on any patterns of behavior"
-          data-test={`${officer}-historicalBehaviorNotes`}
+          data-test={`${referralLetterOfficer}-historicalBehaviorNotes`}
         />
       </div>
       <Typography style={{ paddingBottom: "16px", ...styles.section }}>
         Notes
       </Typography>
       <FieldArray
-        name={`${officer}.officerHistoryNotes`}
+        name={`${referralLetterOfficer}.referralLetterOfficerHistoryNotes`}
         component={renderNoteFields}
       />
     </div>
@@ -137,15 +146,15 @@ const selector = formValueSelector("OfficerHistories");
 const mapStateToProps = (state, props) => ({
   numHistoricalHighAllegations: selector(
     state,
-    `${props.officer}.numHistoricalHighAllegations`
+    `${props.referralLetterOfficer}.numHistoricalHighAllegations`
   ),
   numHistoricalMedAllegations: selector(
     state,
-    `${props.officer}.numHistoricalMedAllegations`
+    `${props.referralLetterOfficer}.numHistoricalMedAllegations`
   ),
   numHistoricalLowAllegations: selector(
     state,
-    `${props.officer}.numHistoricalLowAllegations`
+    `${props.referralLetterOfficer}.numHistoricalLowAllegations`
   )
 });
 
