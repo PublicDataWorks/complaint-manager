@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { reduxForm } from "redux-form";
 import { mount } from "enzyme/build/index";
 import PhoneNumberField from "./PhoneNumberField";
+import { changeInput, containsValue } from "../../testHelpers";
 
 describe("Phone number field", () => {
   let phoneNumberFieldComponent;
@@ -26,7 +27,7 @@ describe("Phone number field", () => {
     );
 
     phoneNumberInput.simulate("focus");
-    phoneNumberInput.simulate("change", { target: { value: "bad-number" } });
+    phoneNumberInput.simulate("change", { target: { value: "123" } });
     phoneNumberInput.simulate("blur");
 
     const phoneNumberField = phoneNumberFieldComponent.find(
@@ -34,6 +35,71 @@ describe("Phone number field", () => {
     );
     expect(phoneNumberField.text()).toContain(
       "Please enter a numeric 10 digit value"
+    );
+  });
+
+  test("should display number with 1 parentheses when under length of 3", () => {
+    changeInput(
+      phoneNumberFieldComponent,
+      '[data-test="phoneNumberInput"]',
+      "12"
+    );
+    containsValue(
+      phoneNumberFieldComponent,
+      '[data-test="phoneNumberInput"]',
+      "(12"
+    );
+  });
+
+  test("should display number with 1 parentheses when length of 3", () => {
+    changeInput(
+      phoneNumberFieldComponent,
+      '[data-test="phoneNumberInput"]',
+      "123"
+    );
+    containsValue(
+      phoneNumberFieldComponent,
+      '[data-test="phoneNumberInput"]',
+      "(123"
+    );
+  });
+
+  test("should display number with parentheses and space with length > 3", () => {
+    changeInput(
+      phoneNumberFieldComponent,
+      '[data-test="phoneNumberInput"]',
+      "(123) 4"
+    );
+    containsValue(
+      phoneNumberFieldComponent,
+      '[data-test="phoneNumberInput"]',
+      "(123) 4"
+    );
+  });
+
+  test("should display number with parentheses, space, and hyphen with length > 6", () => {
+    changeInput(
+      phoneNumberFieldComponent,
+      '[data-test="phoneNumberInput"]',
+      "1234567"
+    );
+    containsValue(
+      phoneNumberFieldComponent,
+      '[data-test="phoneNumberInput"]',
+      "(123) 456-7"
+    );
+  });
+
+  test("should display one parentheses when bad input entered", () => {
+    changeInput(
+      phoneNumberFieldComponent,
+      '[data-test="phoneNumberInput"]',
+      "abc"
+    );
+    containsValue(
+      phoneNumberFieldComponent,
+      '[data-test="phoneNumberInput"]',
+      "("
     );
   });
 });
