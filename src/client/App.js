@@ -25,8 +25,8 @@ import CaseHistory from "./cases/CaseDetails/CaseHistory/CaseHistory";
 import AllegationSearchContainer from "./allegations/AllegationSearchContainer";
 import SharedSnackbarContainer from "./shared/components/SharedSnackbarContainer";
 import getFeatureToggles from "./featureToggles/thunks/getFeatureToggles";
-import LetterReview from "./cases/CaseLetter/LetterReview/LetterReview";
-import OfficerHistories from "./cases/CaseLetter/OfficerHistories/OfficerHistories";
+import LetterReview from "./cases/ReferralLetter/LetterReview/LetterReview";
+import OfficerHistories from "./cases/ReferralLetter/OfficerHistories/OfficerHistories";
 
 class App extends Component {
   componentDidMount() {
