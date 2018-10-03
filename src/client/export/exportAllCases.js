@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Typography} from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import LinkButton from "../shared/components/LinkButton";
 import {
   openExportAllCasesConfirmationDialog,
@@ -7,19 +7,15 @@ import {
 } from "../actionCreators/navBarActionCreators";
 import ExportConfirmationDialog from "../shared/components/NavBar/ExportConfirmationDialog";
 import connect from "react-redux/es/connect/connect";
-import _ from "lodash";
 import JobDetails from "./jobDetails";
-import getExportJobs from "./thunks/getExportJobs";
 
-import { bindActionCreators } from 'redux'
-
+import { bindActionCreators } from "redux";
 
 class ExportAllCases extends Component {
-  componentDidMount() {
-    this.props.getExportJobs();
-  }
+  componentDidMount() {}
 
   render() {
+    console.log("job id: ", this.props.jobId);
     return (
       <div>
         <div style={{ margin: "0px 24px" }}>
@@ -39,20 +35,16 @@ class ExportAllCases extends Component {
             style={{ paddingBottom: "16px" }}
           >
             <LinkButton
-              onClick={ () => {
-                  this.props.openExportAllCasesConfirmationDialog();
-                }
-              }
+              onClick={() => {
+                this.props.openExportAllCasesConfirmationDialog();
+              }}
             >
               Export All Cases
             </LinkButton>
           </div>
         </div>
         <div>
-          <p> Found jobs {this.props.exportJobs ? this.props.exportJobs.length : 0} </p>
-          {_.sortBy(this.props.exportJobs, "id").map(job => (
-            <JobDetails key={job.id} job={job} />
-          ))}
+          {this.props.jobId ? <JobDetails jobId={this.props.jobId} /> : null}
         </div>
         <ExportConfirmationDialog />
       </div>
@@ -61,11 +53,20 @@ class ExportAllCases extends Component {
 }
 
 const mapStateToProps = state => ({
-  exportJobs: state.export.exportJobs
+  jobId: state.export.generateJob.jobId
 });
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators( { getExportJobs, openExportAllCasesConfirmationDialog, closeExportConfirmationDialog }, dispatch);
+  return bindActionCreators(
+    {
+      openExportAllCasesConfirmationDialog,
+      closeExportConfirmationDialog
+    },
+    dispatch
+  );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExportAllCases);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExportAllCases);

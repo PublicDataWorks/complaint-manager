@@ -34,6 +34,7 @@ const editOfficerAllegation = require("./handlers/officerAllegations/editOfficer
 const removeOfficerAllegation = require("./handlers/officerAllegations/removeOfficerAllegation/removeOfficerAllegation");
 const { exportCases } = require("./handlers/cases/export/exportCases");
 const exportJobs = require("./handlers/cases/export/exportJobs");
+const exportJob = require("./handlers/cases/export/exportJob");
 
 const express = require("express");
 const router = express.Router();
@@ -44,6 +45,7 @@ router.use(authErrorHandler);
 
 //Any routes defined below this point will require authentication
 router.get("/export/jobs", exportJobs);
+router.get("/export/job/:id", exportJob);
 
 router.get("/cases/export", exportCases);
 router.post("/cases", createCase);

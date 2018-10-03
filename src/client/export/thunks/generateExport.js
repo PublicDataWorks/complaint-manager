@@ -1,6 +1,7 @@
 import getAccessToken from "../../auth/getAccessToken";
 import { push } from "react-router-redux";
 import axios from "axios";
+import { generateExportSuccess } from "../../actionCreators/exportActionCreators";
 
 const generateExport = path => async dispatch => {
   const token = getAccessToken();
@@ -9,11 +10,13 @@ const generateExport = path => async dispatch => {
     throw new Error("No access token found");
   }
 
-  await axios.get(path, {
+  const response = await axios.get(path, {
     headers: {
       Authorization: `Bearer ${token}`
     }
   });
+
+  dispatch(generateExportSuccess(response.data));
 };
 
 export default generateExport;

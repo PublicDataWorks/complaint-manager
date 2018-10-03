@@ -12,9 +12,10 @@ const exportCases = asyncMiddleware(async (request, response, next) => {
   job.attempts(config.queue.failedJobAttempts);
   job.backoff({ delay: config.queue.exponentialDelay, type: "exponential" });
   job.ttl(config.queue.jobTimeToLive);
-  job.save();
 
-  response.send(job.id);
+  job.save(() => {
+    response.json({ jobId: job.id });
+  });
 });
 
 module.exports = { exportCases, kueJobQueue };

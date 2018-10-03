@@ -29,6 +29,7 @@ import exportDialogReducer from "./reducers/ui/exportDialogReducer";
 import featureTogglesReducer from "./reducers/featureToggles/featureTogglesReducer";
 import addressInputReducer from "./reducers/ui/addressInputReducer";
 import allJobsReducer from "./reducers/export/allJobsReducer";
+import generateJobReducer from "./reducers/export/generateJobReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -66,7 +67,8 @@ const rootReducer = combineReducers({
   officers: searchOfficersReducer,
   featureToggles: featureTogglesReducer,
   export: combineReducers({
-    exportJobs: allJobsReducer
+    exportJobs: allJobsReducer,
+    generateJob: generateJobReducer
   })
 });
 
