@@ -16,11 +16,11 @@ describe("determineNextCaseStatus", () => {
   test("should return the Letter in Progress  when passed Active", () => {
     const result = determineNextCaseStatus(CASE_STATUS.ACTIVE);
     expect(result).toEqual(CASE_STATUS.LETTER_IN_PROGRESS);
+  });
 
-    test("should return the Ready for Review  when passed Letter in Progress", () => {
-      const result = determineNextCaseStatus(CASE_STATUS.LETTER_IN_PROGRESS);
-      expect(result).toEqual(CASE_STATUS.READY_FOR_REVIEW);
-    });
+  test("should return the Ready for Review  when passed Letter in Progress", () => {
+    const result = determineNextCaseStatus(CASE_STATUS.LETTER_IN_PROGRESS);
+    expect(result).toEqual(CASE_STATUS.READY_FOR_REVIEW);
   });
 
   test("should return the Forwarded to Agency  when passed Ready for Review", () => {

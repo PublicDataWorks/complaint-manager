@@ -1,3 +1,5 @@
+require("@babel/register");
+
 module.exports = {
   development: {
     host: "db",

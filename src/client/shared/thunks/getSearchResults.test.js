@@ -31,7 +31,6 @@ describe("getSearchResults", () => {
   test("dispatches failure when error response", async () => {
     nock("http://localhost/", {
       reqheaders: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       }
     })
