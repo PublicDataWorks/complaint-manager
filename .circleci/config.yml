@@ -16,10 +16,10 @@ jobs:
               command: yarn install
           - run:
               name: Run client tests
-              command: yarn test:client
+              command: yarn test:client:ci
           - run:
               name: Run server tests
-              command: yarn test:server --forceExit
+              command: yarn test:server:ci
               environment:
                 NEW_RELIC_ENABLED: false
                 NEW_RELIC_NO_CONFIG_FILE: true
@@ -256,7 +256,7 @@ workflows:
             filters:
               branches:
                 only:
-                  - release_v1.3.0
+                  - release_v1.4.0
         - security-check:
             requires:
               - test

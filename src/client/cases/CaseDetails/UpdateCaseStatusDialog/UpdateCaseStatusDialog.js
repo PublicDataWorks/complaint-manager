@@ -14,8 +14,11 @@ import { connect } from "react-redux";
 import setCaseStatus from "../../thunks/setCaseStatus";
 import { closeCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import history from "../../../history";
 
 const STATUS_DESCRIPTION = {
+  [CASE_STATUS.LETTER_IN_PROGRESS]:
+    "This status signifies that all available information has been entered and the letter generation process has started.",
   [CASE_STATUS.READY_FOR_REVIEW]:
     "This status signifies, to the Deputy Police Monitor, that all available information has been entered.",
   [CASE_STATUS.FORWARDED_TO_AGENCY]:
@@ -25,7 +28,25 @@ const STATUS_DESCRIPTION = {
   // [CASE_STATUS.CLOSED]: "Marking this case as closed will signify that an outcome has been reached and this case is available for public records. "
 };
 
-const UpdateCaseStatusDialog = ({ dispatch, open, caseId, nextStatus }) => {
+const UpdateCaseStatusDialog = ({
+  dispatch,
+  open,
+  caseId,
+  nextStatus,
+  featureToggles
+}) => {
+  if (
+    !featureToggles.letterGenerationFeature &&
+    nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
+  ) {
+    nextStatus = CASE_STATUS.READY_FOR_REVIEW;
+  }
+
+  const actionText =
+    nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
+      ? "Choosing to Generate a Letter"
+      : "This action";
+
   return (
     <Dialog open={open}>
       <DialogTitle>Update Case Status</DialogTitle>
@@ -35,7 +56,7 @@ const UpdateCaseStatusDialog = ({ dispatch, open, caseId, nextStatus }) => {
             marginBottom: "24px"
           }}
         >
-          This action will mark the case as <strong>{nextStatus}</strong>.&nbsp;{
+          {actionText} will mark the case as <strong>{nextStatus}</strong>.&nbsp;{
             STATUS_DESCRIPTION[nextStatus]
           }
         </Typography>
@@ -57,8 +78,15 @@ const UpdateCaseStatusDialog = ({ dispatch, open, caseId, nextStatus }) => {
           data-test="updateCaseStatus"
           onClick={() => {
             dispatch(setCaseStatus(caseId, nextStatus));
+            if (nextStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
+              history.push(`/cases/${caseId}/letter/review`);
+            }
           }}
-        >{`Mark as ${nextStatus}`}</PrimaryButton>
+        >
+          {nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
+            ? `Generate Letter`
+            : `Mark as ${nextStatus}`}
+        </PrimaryButton>
       </DialogActions>
     </Dialog>
   );
@@ -66,8 +94,9 @@ const UpdateCaseStatusDialog = ({ dispatch, open, caseId, nextStatus }) => {
 
 const mapStateToProps = state => ({
   open: state.ui.updateCaseStatusDialog.open,
-  nextStatus: state.ui.updateCaseStatusDialog.nextStatus,
-  caseId: state.currentCase.details.id
+  nextStatus: state.currentCase.details.nextStatus,
+  caseId: state.currentCase.details.id,
+  featureToggles: state.featureToggles
 });
 
 export default connect(mapStateToProps)(UpdateCaseStatusDialog);

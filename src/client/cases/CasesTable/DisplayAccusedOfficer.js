@@ -7,7 +7,7 @@ const DisplayAccusedOfficer = ({ accusedOfficers }) => {
       {accusedOfficers && accusedOfficers.length > 0 ? (
         accusedOfficers[0].fullName
       ) : (
-        <WarningMessage variant="tableCell">No Accused Officers</WarningMessage>
+        <WarningMessage variant="grayText">No Accused Officers</WarningMessage>
       )}
     </div>
   );

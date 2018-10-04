@@ -84,4 +84,66 @@ describe("TextTruncate", () => {
       .last();
     expect(displayedMessage.text()).toEqual(expectedDisplay);
   });
+
+  test("should display show more/less button when there are 2+ newlines", () => {
+    let message = "asdf\n\n\nasdf";
+    const textTruncate = mount(
+      <TextTruncate message={message} testLabel={"untruncatedMessage"} />
+    );
+
+    const showMoreButton = textTruncate.find("button");
+    expect(showMoreButton.exists());
+
+    const displayedMessage = textTruncate
+      .find('[data-test="untruncatedMessage"]')
+      .last();
+    expect(displayedMessage.text()).toEqual("asdf...(show more)");
+  });
+
+  test("should display show more button after 400 characters but before newlines", () => {
+    let message = getStringOfLength(402) + "\n\nasdf";
+    const textTruncate = mount(
+      <TextTruncate message={message} testLabel={"untruncatedMessage"} />
+    );
+
+    const showMoreButton = textTruncate.find("button");
+    expect(showMoreButton.exists());
+
+    const displayedMessage = textTruncate
+      .find('[data-test="untruncatedMessage"]')
+      .last();
+    expect(displayedMessage.text()).toEqual(
+      getStringOfLength(400) + "...(show more)"
+    );
+  });
+
+  test("should display show more button after line breaks with over 400 characters and line breaks at beginning", () => {
+    let message = "\n\n" + getStringOfLength(400);
+    const textTruncate = mount(
+      <TextTruncate message={message} testLabel={"untruncatedMessage"} />
+    );
+
+    const showMoreButton = textTruncate.find("button");
+    expect(showMoreButton.exists());
+
+    const displayedMessage = textTruncate
+      .find('[data-test="untruncatedMessage"]')
+      .last();
+    expect(displayedMessage.text()).toEqual("...(show more)");
+  });
+
+  test("should display show more button after line breaks with less than 400 chars", () => {
+    let message = "\n\nhello";
+    const textTruncate = mount(
+      <TextTruncate message={message} testLabel={"untruncatedMessage"} />
+    );
+
+    const showMoreButton = textTruncate.find("button");
+    expect(showMoreButton.exists());
+
+    const displayedMessage = textTruncate
+      .find('[data-test="untruncatedMessage"]')
+      .last();
+    expect(displayedMessage.text()).toEqual("...(show more)");
+  });
 });

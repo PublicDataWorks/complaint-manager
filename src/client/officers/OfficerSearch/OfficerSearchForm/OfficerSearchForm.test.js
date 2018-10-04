@@ -1,6 +1,5 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
-import { OfficerSearchForm as OfficerSearchFormUnconnected } from "./OfficerSearchForm";
 import OfficerSearchForm from "./OfficerSearchForm";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import createConfiguredStore from "../../../createConfiguredStore";
@@ -11,11 +10,10 @@ import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreato
 
 jest.mock(
   "../../../shared/thunks/getSearchResults",
-  () => (searchCriteria, resourceToSearch, auditMetaData) => ({
+  () => (searchCriteria, resourceToSearch) => ({
     type: "something",
     searchCriteria,
-    resourceToSearch,
-    auditMetaData
+    resourceToSearch
   })
 );
 
@@ -23,7 +21,7 @@ describe("OfficerSearchForm", () => {
   describe("submit button", () => {
     test("submit button should be disabled when form is not valid", () => {
       const searchForm = shallow(
-        <OfficerSearchFormUnconnected handleSubmit={() => {}} invalid={true} />
+        <OfficerSearchForm handleSubmit={() => {}} invalid={true} />
       );
       const submitButton = searchForm.find(PrimaryButton);
       expect(!!submitButton.disabled).toBeTruthy;
@@ -31,7 +29,7 @@ describe("OfficerSearchForm", () => {
 
     test("submit button should be enabled when form is valid", () => {
       const searchForm = shallow(
-        <OfficerSearchFormUnconnected handleSubmit={() => {}} invalid={false} />
+        <OfficerSearchForm handleSubmit={() => {}} invalid={false} />
       );
       const submitButton = searchForm.find(PrimaryButton);
       expect(!!submitButton.disabled).toBeFalsy();
@@ -40,9 +38,7 @@ describe("OfficerSearchForm", () => {
 
   describe("onSubmit", () => {
     test("dispatches searchOfficer on submit", () => {
-      const caseId = 2;
       const store = createConfiguredStore();
-      store.dispatch(getCaseDetailsSuccess({ id: caseId }));
       const dispatchSpy = jest.spyOn(store, "dispatch");
 
       const officerSearchForm = mount(
@@ -66,18 +62,14 @@ describe("OfficerSearchForm", () => {
             lastName: "watson",
             district: "First District"
           },
-          "officers",
-          { caseId }
+          "officers"
         )
       );
     });
 
-    test("normalizes first and last name on submit and pass case id", () => {
+    test("normalizes first and last name on submit", () => {
       const store = createConfiguredStore();
       const dispatchSpy = jest.spyOn(store, "dispatch");
-      const caseId = 1;
-
-      store.dispatch(getCaseDetailsSuccess({ id: caseId }));
 
       const officerSearchForm = mount(
         <Provider store={store}>
@@ -104,8 +96,7 @@ describe("OfficerSearchForm", () => {
             lastName: "smith",
             district: "First District"
           },
-          "officers",
-          { caseId }
+          "officers"
         )
       );
     });

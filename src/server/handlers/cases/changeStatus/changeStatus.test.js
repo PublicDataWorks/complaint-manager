@@ -62,6 +62,80 @@ describe("changeStatus", async () => {
     expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
   });
 
+  test("creates empty letter if status changes to LETTER_IN_PROGRESS", async () => {
+    await initialCase.update(
+      { status: CASE_STATUS.ACTIVE },
+      { auditUser: "someone" }
+    );
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      params: {
+        id: initialCase.id
+      },
+      body: {
+        status: CASE_STATUS.LETTER_IN_PROGRESS
+      },
+      nickname: "someone"
+    });
+
+    await changeStatus(request, response, next);
+
+    const letterCreated = await models.referral_letter.find({
+      where: { caseId: initialCase.id }
+    });
+    expect(letterCreated).not.toBeNull();
+
+    await initialCase.reload();
+    expect(initialCase.status).toEqual(CASE_STATUS.LETTER_IN_PROGRESS);
+  });
+
+  test("does not create letter if status changing to something other than LETTER_IN_PROGRESS", async () => {
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      params: {
+        id: initialCase.id
+      },
+      body: {
+        status: CASE_STATUS.ACTIVE
+      },
+      nickname: "someone"
+    });
+
+    await changeStatus(request, response, next);
+
+    const letterCreated = await models.referral_letter.find({
+      where: { caseId: initialCase.id }
+    });
+    expect(letterCreated).toBeNull();
+
+    await initialCase.reload();
+    expect(initialCase.status).toEqual(CASE_STATUS.ACTIVE);
+  });
+
+  test("does not create letter if status change fails (from initial to letter gen is invalid)", async () => {
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      params: {
+        id: initialCase.id
+      },
+      body: {
+        status: CASE_STATUS.LETTER_IN_PROGRESS
+      },
+      nickname: "someone"
+    });
+
+    await changeStatus(request, response, next);
+
+    const letterCreated = await models.referral_letter.find({
+      where: { caseId: initialCase.id }
+    });
+    expect(letterCreated).toBeNull();
+
+    await initialCase.reload();
+    expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
+    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
+  });
+
   test("should call next with error if case not found", async () => {
     const request = httpMocks.createRequest({
       method: "PUT",

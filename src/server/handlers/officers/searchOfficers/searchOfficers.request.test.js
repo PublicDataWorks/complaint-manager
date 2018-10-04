@@ -62,11 +62,17 @@ describe("GET /officers/search", () => {
         .query({ firstName: "bo" })
         .expect(200)
         .then(response => {
-          expect(response.body.length).toEqual(1);
-          expect(response.body[0].firstName).toEqual(bobOfficer.firstName);
-          expect(response.body[0].middleName).toEqual(bobOfficer.middleName);
-          expect(response.body[0].lastName).toEqual(bobOfficer.lastName);
-          expect(response.body[0].fullName).toEqual(
+          expect(response.body["rows"].length).toEqual(1);
+          expect(response.body["rows"][0].firstName).toEqual(
+            bobOfficer.firstName
+          );
+          expect(response.body["rows"][0].middleName).toEqual(
+            bobOfficer.middleName
+          );
+          expect(response.body["rows"][0].lastName).toEqual(
+            bobOfficer.lastName
+          );
+          expect(response.body["rows"][0].fullName).toEqual(
             `${bobOfficer.firstName} ${bobOfficer.middleName} ${
               bobOfficer.lastName
             }`
@@ -81,9 +87,9 @@ describe("GET /officers/search", () => {
         .query({ lastName: "fi" })
         .expect(200)
         .then(response => {
-          expect(response.body.length).toEqual(1);
-          expect(response.body[0].firstName).toEqual("Garret");
-          expect(response.body[0].lastName).toEqual("Fisher");
+          expect(response.body["rows"].length).toEqual(1);
+          expect(response.body["rows"][0].firstName).toEqual("Garret");
+          expect(response.body["rows"][0].lastName).toEqual("Fisher");
         });
     });
 
@@ -94,9 +100,9 @@ describe("GET /officers/search", () => {
         .query({ district: "Eighth District" })
         .expect(200)
         .then(response => {
-          expect(response.body.length).toEqual(1);
-          expect(response.body[0].firstName).toEqual("Grant");
-          expect(response.body[0].lastName).toEqual("Livingston");
+          expect(response.body["rows"].length).toEqual(1);
+          expect(response.body["rows"][0].firstName).toEqual("Grant");
+          expect(response.body["rows"][0].lastName).toEqual("Livingston");
         });
     });
   });
@@ -147,9 +153,9 @@ describe("GET /officers/search", () => {
         .query({ firstName: "Gar", lastName: "fi", district: "1st District" })
         .expect(200)
         .then(response => {
-          expect(response.body.length).toEqual(1);
-          expect(response.body[0].firstName).toEqual("Garret");
-          expect(response.body[0].lastName).toEqual("Fisher");
+          expect(response.body["rows"].length).toEqual(1);
+          expect(response.body["rows"][0].firstName).toEqual("Garret");
+          expect(response.body["rows"][0].lastName).toEqual("Fisher");
         });
     });
 
@@ -160,13 +166,13 @@ describe("GET /officers/search", () => {
         .query({ firstName: "Ga", lastName: "fi" })
         .expect(200)
         .then(response => {
-          expect(response.body.length).toEqual(3);
-          expect(response.body[0].firstName).toEqual("Gaaaa");
-          expect(response.body[0].lastName).toEqual("Fibbleton");
-          expect(response.body[1].firstName).toEqual("Gary");
-          expect(response.body[1].lastName).toEqual("Fibbleton");
-          expect(response.body[2].firstName).toEqual("Garret");
-          expect(response.body[2].lastName).toEqual("Fisher");
+          expect(response.body["rows"].length).toEqual(3);
+          expect(response.body["rows"][0].firstName).toEqual("Gaaaa");
+          expect(response.body["rows"][0].lastName).toEqual("Fibbleton");
+          expect(response.body["rows"][1].firstName).toEqual("Gary");
+          expect(response.body["rows"][1].lastName).toEqual("Fibbleton");
+          expect(response.body["rows"][2].firstName).toEqual("Garret");
+          expect(response.body["rows"][2].lastName).toEqual("Fisher");
         });
     });
   });

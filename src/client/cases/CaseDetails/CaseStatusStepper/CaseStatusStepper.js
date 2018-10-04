@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import UpdateCaseStatusDialog from "../UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
+import { Link } from "react-router-dom";
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -26,6 +27,7 @@ function shouldRenderStatusTransitionButton(status, userInfo) {
 
   return (
     status === CASE_STATUS.ACTIVE ||
+    status === CASE_STATUS.LETTER_IN_PROGRESS ||
     (userInfo &&
       userInfo.permissions.includes(USER_PERMISSIONS.CAN_REVIEW_CASE))
   );
@@ -38,6 +40,46 @@ const CaseStatusStepper = ({
   nextStatus,
   dispatch
 }) => {
+  const renderTransitionButton = () => {
+    return (
+      <div
+        style={{
+          marginLeft: "5%",
+          marginRight: "5%",
+          maxWidth: "850px",
+          paddingBottom: "24px",
+          display: "flex",
+          justifyContent: "flex-end"
+        }}
+      >
+        {status === CASE_STATUS.LETTER_IN_PROGRESS ? (
+          <PrimaryButton
+            data-test={status === "editLetterButton"}
+            to={`/cases/${caseId}/letter/review`}
+            component={Link}
+          >
+            Edit Letter
+          </PrimaryButton>
+        ) : (
+          <PrimaryButton
+            data-test={
+              status === CASE_STATUS.ACTIVE
+                ? "generateLetterButton"
+                : "updateStatusButton"
+            }
+            onClick={() => {
+              dispatch(openCaseStatusUpdateDialog());
+            }}
+          >
+            {status === CASE_STATUS.ACTIVE
+              ? `Generate Letter`
+              : `Mark as ${nextStatus}`}
+          </PrimaryButton>
+        )}
+      </div>
+    );
+  };
+
   return (
     <Fragment>
       <Stepper
@@ -48,33 +90,16 @@ const CaseStatusStepper = ({
       >
         {generateSteps(CASE_STATUS_MAP)}
       </Stepper>
-      {shouldRenderStatusTransitionButton(status, userInfo) ? (
-        <div
-          style={{
-            marginLeft: "5%",
-            marginRight: "5%",
-            maxWidth: "850px",
-            paddingBottom: "24px",
-            display: "flex",
-            justifyContent: "flex-end"
-          }}
-        >
-          <PrimaryButton
-            data-test="updateStatusButton"
-            onClick={() => {
-              dispatch(openCaseStatusUpdateDialog(nextStatus));
-            }}
-          >
-            {`Mark as ${nextStatus}`}
-          </PrimaryButton>
-        </div>
-      ) : null}
+      {shouldRenderStatusTransitionButton(status, userInfo)
+        ? renderTransitionButton()
+        : null}
       <UpdateCaseStatusDialog />
     </Fragment>
   );
 };
 
 const mapStateToProps = state => ({
+  caseId: state.currentCase.details.id,
   status: state.currentCase.details.status,
   nextStatus: state.currentCase.details.nextStatus,
   userInfo: state.users.current.userInfo

@@ -28,21 +28,6 @@ describe("removeOfficerAllegation thunk", () => {
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
-  test("should redirect to login if unauthorized", async () => {
-    const officerAllegationId = 15;
-
-    nock("http://localhost", {
-      "Content-Type": "application/json",
-      Authorization: `Bearer TEST_TOKEN`
-    })
-      .delete(`/api/officers-allegations/${officerAllegationId}`)
-      .reply(401);
-
-    await removeOfficerAllegation(officerAllegationId)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
-  });
-
   test("should dispatch error and snackbar failure if 500 response", async () => {
     nock("http://localhost", {
       "Content-Type": "application/json",
@@ -78,24 +63,6 @@ describe("removeOfficerAllegation thunk", () => {
     );
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Allegation successfully removed")
-    );
-  });
-
-  test("should dispatch failure and snackbar failure when fetch throws an error", async () => {
-    nock("http://localhost", {
-      "Content-Type": "application/json",
-      Authorization: `Bearer TEST_TOKEN`
-    })
-      .delete(`/api/officers-allegations/${officerAllegationId}`)
-      .replyWithError("connection disabled");
-
-    await removeOfficerAllegation(officerAllegationId)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(removeOfficerAllegationFailure());
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong on our end and the allegation was not removed. Please try again."
-      )
     );
   });
 });

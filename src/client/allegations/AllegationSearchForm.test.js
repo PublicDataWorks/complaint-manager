@@ -16,22 +16,13 @@ jest.mock("../cases/thunks/getAllegationDropdownValues", () => () => ({
 }));
 
 jest.mock("../shared/thunks/getSearchResults", () =>
-  jest.fn(
-    (
-      searchCriteria,
-      resourceToSearch,
-      auditMetaData,
-      paginatingSearch,
-      newPage
-    ) => ({
-      type: "MOCK_ACTION",
-      searchCriteria,
-      resourceToSearch,
-      auditMetaData,
-      paginatingSearch,
-      newPage
-    })
-  )
+  jest.fn((searchCriteria, resourceToSearch, paginatingSearch, newPage) => ({
+    type: "MOCK_ACTION",
+    searchCriteria,
+    resourceToSearch,
+    paginatingSearch,
+    newPage
+  }))
 );
 
 describe("AllegationSearchForm", () => {
@@ -68,17 +59,13 @@ describe("AllegationSearchForm", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(getAllegationDropdownValues());
   });
 
-  test("should pass expected audit meta data to thunk", () => {
-    const caseId = 2;
-    const caseOfficerId = 23;
-
+  test("should pass expected options to thunk", () => {
     const store = createConfiguredStore();
-    store.dispatch(getCaseDetailsSuccess({ id: caseId }));
     const dispatchSpy = jest.spyOn(store, "dispatch");
 
     const wrapper = mount(
       <Provider store={store}>
-        <AllegationSearchForm caseOfficerId={caseOfficerId} />
+        <AllegationSearchForm />
       </Provider>
     );
 
@@ -92,7 +79,6 @@ describe("AllegationSearchForm", () => {
 
     const expectedSearchCriteria = { rule: "Rule 1" };
     const expectedResourceToSearch = "allegations";
-    const expectedAuditMetaData = { caseId, caseOfficerId };
     const expectedPaginatingSearch = false;
     const expectedNewPage = 1;
 
@@ -100,7 +86,6 @@ describe("AllegationSearchForm", () => {
       getSearchResults(
         expectedSearchCriteria,
         expectedResourceToSearch,
-        expectedAuditMetaData,
         expectedPaginatingSearch,
         expectedNewPage
       )

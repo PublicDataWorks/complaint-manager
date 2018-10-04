@@ -63,9 +63,11 @@ describe("createCase", () => {
   });
 
   test("should dispatch failure when case creation fails", async () => {
-    const caseDetails = {
-      firstName: "Fats",
-      lastName: "Domino"
+    const creationDetails = {
+      caseDetails: {
+        firstName: "Fats",
+        lastName: "Domino"
+      }
     };
 
     nock("http://localhost", {
@@ -74,10 +76,10 @@ describe("createCase", () => {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .post("/api/cases", caseDetails)
+      .post("/api/cases", creationDetails.caseDetails)
       .reply(500);
 
-    await createCase(caseDetails)(dispatch);
+    await createCase(creationDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(createCaseFailure());
   });

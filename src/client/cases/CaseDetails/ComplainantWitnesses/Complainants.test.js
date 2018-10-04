@@ -5,7 +5,7 @@ import { mount } from "enzyme";
 import { openCivilianDialog } from "../../../actionCreators/casesActionCreators";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { initialize } from "redux-form";
-import formatAddress from "../../../utilities/formatAddress";
+import { formatAddressAsString } from "../../../utilities/formatAddress";
 import Civilian from "../../../testUtilities/civilian";
 import Case from "../../../testUtilities/case";
 import editCivilian from "../../thunks/editCivilian";
@@ -208,7 +208,7 @@ describe("Complainants", () => {
     });
 
     test("should display address when present", () => {
-      const expectedAddress = formatAddress(
+      const expectedAddress = formatAddressAsString(
         caseDetail.complainantCivilians[0].address
       );
 

@@ -79,7 +79,7 @@ describe("OfficerSearchContainer", () => {
       .build();
     const caseDetails = new Case.Builder().defaultCase().build();
 
-    store.dispatch(searchSuccess([officer]));
+    store.dispatch(searchSuccess({ rows: [officer] }));
     store.dispatch(getCaseDetailsSuccess(caseDetails));
 
     const path = "/";

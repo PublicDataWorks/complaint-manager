@@ -27,11 +27,14 @@ const removeCaseNote = require("./handlers/cases/removeCaseNote/removeCaseNote")
 const createCaseNote = require("./handlers/cases/createCaseNote");
 const searchAllegations = require("./handlers/allegations/searchAllegations");
 const getAllegations = require("./handlers/allegations/getAllegations");
+const getClassifications = require("./handlers/classifications/getClassifications");
 const attachmentRouter = require("./attachmentRouter");
 const generateAttachmentDownloadUrl = require("./handlers/cases/attachments/generateAttachmentDownloadUrl");
 const createOfficerAllegation = require("./handlers/officerAllegations/createOfficerAllegation/createOfficerAllegation");
 const editOfficerAllegation = require("./handlers/officerAllegations/editOfficerAllegation/editOfficerAllegation");
 const removeOfficerAllegation = require("./handlers/officerAllegations/removeOfficerAllegation/removeOfficerAllegation");
+const exportCases = require("./handlers/cases/export/exportCases");
+const getReferralLetter = require("./handlers/cases/referralLetters/getReferralLetter");
 const { exportCases } = require("./handlers/cases/export/exportCases");
 const exportJobs = require("./handlers/cases/export/exportJobs");
 const exportJob = require("./handlers/cases/export/exportJob");
@@ -78,6 +81,7 @@ router.delete(
 );
 
 router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
+router.get("/cases/:caseId/referral-letter", getReferralLetter);
 
 router.use("/cases/:id/attachments", attachmentRouter);
 router.use(
@@ -100,5 +104,6 @@ router.get(
 router.get("/officers/search", searchOfficers);
 router.get("/allegations/search", searchAllegations);
 router.get("/allegations", getAllegations);
+router.get("/classifications", getClassifications);
 
 module.exports = router;

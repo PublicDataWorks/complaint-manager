@@ -28,6 +28,9 @@ import removeOfficerAllegationDialogReducer from "./reducers/ui/removeOfficerAll
 import exportDialogReducer from "./reducers/ui/exportDialogReducer";
 import featureTogglesReducer from "./reducers/featureToggles/featureTogglesReducer";
 import addressInputReducer from "./reducers/ui/addressInputReducer";
+import classificationReducer from "./reducers/ui/classificationReducer";
+import officerHistoryNoteDialogReducer from "./reducers/ui/officerHistoryNoteDialogReducer";
+import referralLetterReducer from "./reducers/cases/referralLetterReducer";
 import allJobsReducer from "./reducers/export/allJobsReducer";
 import generateJobReducer from "./reducers/export/generateJobReducer";
 
@@ -42,6 +45,7 @@ const rootReducer = combineReducers({
     caseNotes: caseNotesReducer,
     caseHistory: caseHistoryReducer
   }),
+  referralLetter: referralLetterReducer,
   users: combineReducers({
     all: allUsersReducer,
     current: userInfoReducer
@@ -59,10 +63,12 @@ const rootReducer = combineReducers({
     attachments: attachmentsReducer,
     search: searchReducer,
     allegations: allegationMenuDisplay,
+    classifications: classificationReducer,
     editAllegationForms: editAllegationFormsReducer,
     removeOfficerAllegationDialog: removeOfficerAllegationDialogReducer,
     accusedOfficerPanels: accusedOfficerPanelsReducer,
-    addressInput: addressInputReducer
+    addressInput: addressInputReducer,
+    officerHistoryNoteDialog: officerHistoryNoteDialogReducer
   }),
   officers: searchOfficersReducer,
   featureToggles: featureTogglesReducer,

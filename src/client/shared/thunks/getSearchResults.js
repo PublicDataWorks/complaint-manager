@@ -15,7 +15,6 @@ const hostname = config[process.env.NODE_ENV].hostname;
 const getSearchResults = (
   searchCriteria,
   resourceToSearch,
-  auditMetaData = {},
   paginatingSearch = false,
   newPage = undefined
 ) => async dispatch => {
@@ -33,8 +32,7 @@ const getSearchResults = (
     const response = await fetchSearchResults(
       token,
       searchCriteria,
-      resourceToSearch,
-      auditMetaData
+      resourceToSearch
     );
     return dispatch(searchSuccess(response.data, newPage));
   } catch (error) {
@@ -47,15 +45,9 @@ const getSearchResults = (
   }
 };
 
-const fetchSearchResults = async (
-  token,
-  searchCriteria,
-  resourceToSearch,
-  auditMetaData
-) => {
+const fetchSearchResults = async (token, searchCriteria, resourceToSearch) => {
   const url = `${hostname}/api/${resourceToSearch}/search`;
-  const params = { ...searchCriteria, ...auditMetaData };
-  const encodedUri = encodeUriWithParams(url, params);
+  const encodedUri = encodeUriWithParams(url, searchCriteria);
 
   return await axios(encodedUri, {
     method: "GET",

@@ -32,7 +32,7 @@ describe("OfficerSearchResults", () => {
       })
     );
 
-    store.dispatch(searchSuccess([{ firstName: "bob", id: 1 }]));
+    store.dispatch(searchSuccess({ rows: [{ firstName: "bob", id: 1 }] }));
     const dispatchSpy = jest.spyOn(store, "dispatch");
 
     const wrapper = mount(
@@ -77,7 +77,9 @@ describe("OfficerSearchResults", () => {
       })
     );
 
-    store.dispatch(searchSuccess([{ firstName: "bob", id: 23 }]));
+    store.dispatch(
+      searchSuccess({ rows: [{ firstName: "bob", id: 23, page: 1 }] })
+    );
 
     const wrapper = mount(
       <Provider store={store}>

@@ -1,3 +1,4 @@
+/*eslint no-control-regex: 0 */
 import React from "react";
 import LinkButton from "./LinkButton";
 import { Typography } from "@material-ui/core";
@@ -46,7 +47,8 @@ class TextTruncate extends React.Component {
   };
 
   renderCollapsedState = message => {
-    const truncatedMessage = message.substring(0, characterLimit) + "...";
+    const truncatedMessage =
+      message.substring(0, this.calcMsgIndex(message)) + "...";
     return this.getDisplay(truncatedMessage, "(show more)", this.showMore);
   };
 
@@ -54,26 +56,43 @@ class TextTruncate extends React.Component {
     return this.getDisplay(message, "(show less)", this.showLess);
   };
 
+  calcMsgIndex = msg => {
+    const newlineIndex = this.parseNewlineIndex(msg);
+    if (newlineIndex !== null) {
+      return Math.min(newlineIndex, characterLimit);
+    }
+    return characterLimit;
+  };
+
+  parseNewlineIndex = msg => {
+    const regex1 = RegExp("(\n){2,}", "g");
+    const newlineIndex = regex1.exec(msg);
+    return newlineIndex ? newlineIndex.index : null;
+  };
+
   render() {
     const { message, testLabel } = this.props;
-    const stringifiedMessage = String(message);
+    const stringifiedMsg = String(message);
 
-    if (stringifiedMessage.length <= characterLimit) {
+    if (
+      this.parseNewlineIndex(message) === null &&
+      stringifiedMsg.length <= characterLimit
+    ) {
       return (
         <Typography
           variant="body1"
           data-test={testLabel}
           style={{ whiteSpace: "pre-wrap" }}
         >
-          {stringifiedMessage}
+          {stringifiedMsg}
         </Typography>
       );
     }
 
     if (this.state.isCollapsed) {
-      return this.renderCollapsedState(stringifiedMessage);
+      return this.renderCollapsedState(stringifiedMsg);
     }
-    return this.renderExpandedState(stringifiedMessage);
+    return this.renderExpandedState(stringifiedMsg);
   }
 }
 

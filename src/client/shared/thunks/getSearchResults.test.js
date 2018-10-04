@@ -18,23 +18,19 @@ describe("getSearchResults", () => {
   const resourceToSearch = "resources";
   const page = 5;
   const queryParamsWithPagination = { ...searchCriteria, page };
-  const caseId = 12;
 
   beforeEach(() => {
     dispatch.mockClear();
   });
   test("redirects to login if no token", async () => {
     getAccessToken.mockImplementation(() => null);
-    await getSearchResults(searchCriteria, resourceToSearch, { caseId })(
-      dispatch
-    );
+    await getSearchResults(searchCriteria, resourceToSearch)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
   test("dispatches failure when error response", async () => {
     nock("http://localhost/", {
       reqheaders: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       }
     })
@@ -42,9 +38,7 @@ describe("getSearchResults", () => {
       .query(searchCriteria)
       .reply(500);
     getAccessToken.mockImplementation(() => token);
-    await getSearchResults(searchCriteria, resourceToSearch, { caseId })(
-      dispatch
-    );
+    await getSearchResults(searchCriteria, resourceToSearch)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
         "Something went wrong on our end and we could not complete your search."
@@ -56,12 +50,10 @@ describe("getSearchResults", () => {
     const responseBody = [{ firstName: "Bob" }];
     nock("http://localhost/")
       .get(`/api/${resourceToSearch}/search`)
-      .query({ ...searchCriteria, caseId })
+      .query(searchCriteria)
       .reply(200, responseBody);
     getAccessToken.mockImplementation(() => token);
-    await getSearchResults(searchCriteria, resourceToSearch, { caseId })(
-      dispatch
-    );
+    await getSearchResults(searchCriteria, resourceToSearch)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(searchSuccess(responseBody));
   });
 
@@ -69,17 +61,13 @@ describe("getSearchResults", () => {
     const responseBody = [{ firstName: "Bob" }];
     nock("http://localhost/")
       .get(`/api/${resourceToSearch}/search`)
-      .query({ ...queryParamsWithPagination, caseId })
+      .query(queryParamsWithPagination)
       .reply(200, responseBody);
     getAccessToken.mockImplementation(() => token);
     const paginating = true;
-    await getSearchResults(
-      searchCriteria,
-      resourceToSearch,
-      { caseId },
-      paginating,
-      page
-    )(dispatch);
+    await getSearchResults(searchCriteria, resourceToSearch, paginating, page)(
+      dispatch
+    );
     expect(dispatch).toHaveBeenCalledWith(searchSuccess(responseBody, page));
   });
 });

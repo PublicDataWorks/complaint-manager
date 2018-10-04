@@ -29,6 +29,7 @@ class Case {
     this.incidentTime = build.incidentTime;
     this.incidentLocation = build.incidentLocation;
     this.district = build.district;
+    this.classificationId = build.classificationId;
     this.accusedOfficers = build.accusedOfficers;
     this.complainantOfficers = build.complainantOfficers;
     this.witnessOfficers = build.witnessOfficers;
@@ -108,6 +109,7 @@ class Case {
         this.incidentTime = "16:00:00";
         this.incidentLocation = incidentLocation;
         this.district = "First District";
+        this.classificationId = null;
         this.complaintType = CIVILIAN_INITIATED;
         this.createdBy = "tuser";
         this.assignedTo = "tuser";
@@ -137,6 +139,11 @@ class Case {
 
       withDistrict(district) {
         this.district = district;
+        return this;
+      }
+
+      withClassificationId(classificationId) {
+        this.classificationId = classificationId;
         return this;
       }
 

@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM([
           CASE_STATUS.INITIAL,
           CASE_STATUS.ACTIVE,
+          CASE_STATUS.LETTER_IN_PROGRESS,
           CASE_STATUS.READY_FOR_REVIEW,
           CASE_STATUS.FORWARDED_TO_AGENCY,
           CASE_STATUS.CLOSED
@@ -41,7 +42,21 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         set(newStatus) {
           const nextStatus = determineNextCaseStatus(this.status);
-          if (newStatus === nextStatus || newStatus === this.status) {
+          /***
+          NOTE: the third validation:
+
+            (newStatus === CASE_STATUS.READY_FOR_REVIEW &&
+              this.status === CASE_STATUS.ACTIVE)
+
+           is only in place due to the letterGenerationFeature toggle.
+           Remove this logic when that toggle is removed.
+          ***/
+          if (
+            newStatus === nextStatus ||
+            newStatus === this.status ||
+            (newStatus === CASE_STATUS.READY_FOR_REVIEW &&
+              this.status === CASE_STATUS.ACTIVE)
+          ) {
             this.setDataValue("status", newStatus);
           } else {
             throw Boom.badRequest("Invalid case status");
@@ -154,6 +169,13 @@ module.exports = (sequelize, DataTypes) => {
       as: "witnessOfficers",
       foreignKey: { name: "caseId", field: "case_id" },
       scope: { role_on_case: WITNESS }
+    });
+    Case.belongsTo(models.classification, {
+      foreignKey: {
+        name: "classificationId",
+        field: "classification_id",
+        allowNull: true
+      }
     });
     Case.hasMany(models.data_change_audit, {
       as: "dataChangeAudits",

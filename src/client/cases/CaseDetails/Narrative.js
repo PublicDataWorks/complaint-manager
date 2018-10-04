@@ -44,7 +44,8 @@ const Narrative = props => {
             component={TextField}
             fullWidth
             multiline
-            rowsMax={5}
+            rowsMax={20}
+            rows={5}
             placeholder="Enter a transcript or details of the incident"
             inputProps={{
               "data-test": "narrativeDetailsInput"

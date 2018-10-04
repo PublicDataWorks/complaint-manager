@@ -38,4 +38,28 @@ describe("AddressInfoDisplay", () => {
       "No address specified"
     );
   });
+
+  test("should include line break when param is true", () => {
+    const address = new Address.Builder()
+      .defaultAddress()
+      .withStreetAddress("200 E Randolph")
+      .withIntersection("")
+      .withCity("Chicago")
+      .build();
+    const addressInfoWrapper = mount(
+      <AddressInfoDisplay
+        address={address}
+        testLabel={"test"}
+        label={"TEST LABEL"}
+        useLineBreaks={true}
+      />
+    );
+    const renderedAddressHTML = addressInfoWrapper
+      .find('[data-test="test"]')
+      .last()
+      .html();
+    expect(renderedAddressHTML).toContain(
+      "200 E Randolph<span><br></span>Chicago, IL 63456 Merica"
+    );
+  });
 });

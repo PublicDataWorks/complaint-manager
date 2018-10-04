@@ -5,7 +5,7 @@ import { change, Field, clearSubmitErrors } from "redux-form";
 import { connect } from "react-redux";
 import colors from "../../../globalStyling/colors";
 import MapService from "./MapServices/MapService";
-import formatAddress from "../../../utilities/formatAddress";
+import { formatAddressAsString } from "../../../utilities/formatAddress";
 import _ from "lodash";
 import StyledLink from "../../../shared/components/StyledLink";
 import {
@@ -56,7 +56,8 @@ class AddressInput extends Component {
           }}
         >
           <span style={{ color: colors.red }}>
-            Did you mean <b>{formatAddress(this.props.addressToConfirm)}</b>?
+            Did you mean{" "}
+            <b>{formatAddressAsString(this.props.addressToConfirm)}</b>?
           </span>{" "}
           <StyledLink
             onClick={this.fillConfirmedAddress}
@@ -89,7 +90,7 @@ class AddressInput extends Component {
   fillConfirmedAddress = () => {
     this.setFormValues(this.props.addressToConfirm);
     this.props.updateAddressDisplayValue(
-      formatAddress(this.props.addressToConfirm)
+      formatAddressAsString(this.props.addressToConfirm)
     );
     this.props.updateAddressToConfirm(parseAddressFromGooglePlaceResult({}));
   };
@@ -167,6 +168,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "streetAddressInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -175,6 +177,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "streetAddressInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -183,6 +186,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "cityInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -191,6 +195,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "stateInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -199,6 +204,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "zipCodeInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -207,6 +213,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "countryInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -215,6 +222,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "latInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -223,6 +231,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "lngInput"
           }}
+          style={{ display: "none" }}
         />
         <Field
           type={"hidden"}
@@ -231,6 +240,7 @@ class AddressInput extends Component {
           inputProps={{
             "data-test": "placeIdInput"
           }}
+          style={{ display: "none" }}
         />
       </div>
     );

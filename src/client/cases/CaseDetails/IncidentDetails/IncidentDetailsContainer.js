@@ -7,7 +7,9 @@ const mapStateToProps = state => ({
   incidentTime: state.currentCase.details.incidentTime,
   incidentLocation: state.currentCase.details.incidentLocation,
   district: state.currentCase.details.district,
-  caseId: state.currentCase.details.id
+  caseId: state.currentCase.details.id,
+  classificationId: state.currentCase.details.classificationId,
+  classification: state.currentCase.details.classification
 });
 
 export default connect(mapStateToProps)(IncidentDetails);

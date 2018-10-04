@@ -34,7 +34,7 @@ import MiddleInitialField from "../../sharedFormComponents/MiddleInitialField";
 import SuffixField from "../../sharedFormComponents/SuffixField";
 import PhoneNumberField from "../../sharedFormComponents/PhoneNumberField";
 import EmailField from "../../sharedFormComponents/EmailField";
-import formatAddress from "../../../utilities/formatAddress";
+import { formatAddressAsString } from "../../../utilities/formatAddress";
 import moment from "moment";
 import {
   genderIdentityMenu,
@@ -165,12 +165,14 @@ class CivilianDialog extends Component {
             </Typography>
             <PhoneNumberField name="phoneNumber" />
             <EmailField name="email" />
-            <AddressInput
-              formName={CIVILIAN_FORM_NAME}
-              fieldName={"address"}
-              addressLabel={"Address"}
-              formattedAddress={this.props.formattedAddress}
-            />
+            <div style={{ marginBottom: "16px" }}>
+              <AddressInput
+                formName={CIVILIAN_FORM_NAME}
+                fieldName={"address"}
+                addressLabel={"Address"}
+                formattedAddress={this.props.formattedAddress}
+              />
+            </div>
             <AdditionalAddressInfoField
               label={"Additional Address Information"}
               fieldName={`address`}
@@ -248,7 +250,7 @@ const mapStateToProps = state => {
 
   return {
     open: state.ui.civilianDialog.open,
-    formattedAddress: formatAddress(values.address),
+    formattedAddress: formatAddressAsString(values.address),
     submitAction: state.ui.civilianDialog.submitAction,
     title: state.ui.civilianDialog.title,
     submitButtonText: state.ui.civilianDialog.submitButtonText,

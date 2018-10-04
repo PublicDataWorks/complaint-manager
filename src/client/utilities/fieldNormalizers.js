@@ -3,7 +3,7 @@ export const trimWhiteSpace = value => {
 };
 
 export const nullifyFieldUnlessValid = input => {
-  const isWhiteSpace = input && input.trim() === "";
-
+  const isWhiteSpace =
+    input && typeof input !== "number" && input.trim() === "";
   return input === "" || isWhiteSpace ? null : input;
 };

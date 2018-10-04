@@ -4,5 +4,12 @@
     "name": "AnExperimentalFeature",
     "description": "This is a test feature to show config",
     "enabled": true
+  },
+
+  {
+    "id": "letterGenerationFeature",
+    "name": "letterGenerationFeature",
+    "description": "Toggle for letter generation features",
+    "enabled": false
   }
 ]

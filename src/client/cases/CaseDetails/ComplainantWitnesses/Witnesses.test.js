@@ -14,7 +14,7 @@ import _ from "lodash";
 import { initialize } from "redux-form";
 import editCivilian from "../../thunks/editCivilian";
 import { openCivilianDialog } from "../../../actionCreators/casesActionCreators";
-import formatAddress from "../../../utilities/formatAddress";
+import { formatAddressAsString } from "../../../utilities/formatAddress";
 import CaseOfficer from "../../../testUtilities/caseOfficer";
 import Officer from "../../../testUtilities/Officer";
 
@@ -209,7 +209,7 @@ describe("Witnesses", () => {
     });
 
     test("should display address when present", () => {
-      const expectedAddress = formatAddress(
+      const expectedAddress = formatAddressAsString(
         caseDetail.witnessCivilians[0].address
       );
 

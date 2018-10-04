@@ -1,5 +1,6 @@
 import models from "../models/index";
 import Case from "../../client/testUtilities/case";
+import Classification from "../../client/testUtilities/classification";
 import {
   CASE_STATUS,
   AUDIT_ACTION,
@@ -23,6 +24,8 @@ describe("dataChangeAuditHooks", () => {
 
   describe("create case", () => {
     let initialCaseAttributes = {};
+    let utdClassification;
+
     beforeEach(async () => {
       initialCaseAttributes = new Case.Builder()
         .defaultCase()
@@ -37,6 +40,13 @@ describe("dataChangeAuditHooks", () => {
         .withNarrativeDetails(null)
         .withAssignedTo("originalAssignedToPerson")
         .withCreatedBy("createdByPerson");
+      const utdClassificationAttributes = new Classification.Builder()
+        .defaultClassification()
+        .withInitialism("UTD")
+        .withName("Unable to Determine");
+      utdClassification = await models.classification.create(
+        utdClassificationAttributes
+      );
     });
 
     test("it creates an audit entry for the case creation with the basic attributes", async () => {
@@ -68,7 +78,34 @@ describe("dataChangeAuditHooks", () => {
         district: { new: null },
         complaintType: { new: RANK_INITIATED },
         assignedTo: { new: "originalAssignedToPerson" },
-        status: { new: CASE_STATUS.INITIAL }
+        status: { new: CASE_STATUS.INITIAL },
+        classificationId: { new: null },
+        classification: { new: null }
+      };
+      expect(audit.changes).toEqual(expectedChanges);
+    });
+
+    test("it saves the changes of the new values including the initialism of the classification", async () => {
+      Object.assign(initialCaseAttributes, {
+        classificationId: utdClassification.id
+      });
+      const createdCase = await models.cases.create(initialCaseAttributes, {
+        auditUser: "someone"
+      });
+      const audit = (await createdCase.getDataChangeAudits())[0];
+
+      const expectedChanges = {
+        narrativeSummary: { new: "original narrative summary" },
+        narrativeDetails: { new: null },
+        incidentTime: { new: null },
+        incidentDate: { new: null },
+        firstContactDate: { new: "2017-12-25" },
+        district: { new: null },
+        complaintType: { new: RANK_INITIATED },
+        assignedTo: { new: "originalAssignedToPerson" },
+        status: { new: CASE_STATUS.INITIAL },
+        classificationId: { new: utdClassification.id },
+        classification: { new: utdClassification.initialism }
       };
       expect(audit.changes).toEqual(expectedChanges);
     });
@@ -92,7 +129,36 @@ describe("dataChangeAuditHooks", () => {
         createdAt: createdCase.createdAt.toJSON(),
         createdBy: "createdByPerson",
         updatedAt: createdCase.updatedAt.toJSON(),
-        id: createdCase.id
+        id: createdCase.id,
+        classificationId: null,
+        classification: null
+      };
+      expect(audit.snapshot).toEqual(expectedSnapshot);
+    });
+
+    test("it captures the initialism of the classification in addition to the id in the snapshot", async () => {
+      initialCaseAttributes.classificationId = utdClassification.id;
+      const createdCase = await models.cases.create(initialCaseAttributes, {
+        auditUser: "someone"
+      });
+      const audit = (await createdCase.getDataChangeAudits())[0];
+
+      const expectedSnapshot = {
+        narrativeSummary: "original narrative summary",
+        narrativeDetails: null,
+        incidentTime: null,
+        incidentDate: null,
+        firstContactDate: "2017-12-25",
+        district: null,
+        complaintType: RANK_INITIATED,
+        assignedTo: "originalAssignedToPerson",
+        status: CASE_STATUS.INITIAL,
+        createdAt: createdCase.createdAt.toJSON(),
+        createdBy: "createdByPerson",
+        updatedAt: createdCase.updatedAt.toJSON(),
+        id: createdCase.id,
+        classificationId: utdClassification.id,
+        classification: utdClassification.initialism
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -194,7 +260,26 @@ describe("dataChangeAuditHooks", () => {
   describe("update case", () => {
     let existingCase = null;
     let initialCaseAttributes = {};
+    let utdClassification = null;
+    let bwcClassification = null;
+
     beforeEach(async () => {
+      const utdClassificationAttributes = new Classification.Builder()
+        .defaultClassification()
+        .withId(null)
+        .withInitialism("UTD")
+        .withName("Unable to Determine");
+      utdClassification = await models.classification.create(
+        utdClassificationAttributes
+      );
+      const bwcClassificationAttributes = new Classification.Builder()
+        .defaultClassification()
+        .withId(null)
+        .withInitialism("BWC")
+        .withName("Body Worn Camera");
+      bwcClassification = await models.classification.create(
+        bwcClassificationAttributes
+      );
       initialCaseAttributes = new Case.Builder()
         .defaultCase()
         .withId(undefined)
@@ -207,6 +292,7 @@ describe("dataChangeAuditHooks", () => {
         .withNarrativeSummary("original narrative summary")
         .withNarrativeDetails("original narrative details")
         .withAssignedTo("originalAssignedToPerson")
+        .withClassificationId(utdClassification.id)
         .withCreatedBy("createdByPerson");
       existingCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
@@ -249,6 +335,59 @@ describe("dataChangeAuditHooks", () => {
         narrativeSummary: {
           previous: "original narrative summary",
           new: "updated narrative summary"
+        },
+        status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE }
+      };
+      expect(audit.changes).toEqual(expectedChanges);
+    });
+
+    test("it saves the changes when classification association has changed on instance update", async () => {
+      await existingCase.update(
+        {
+          classificationId: bwcClassification.id
+        },
+        { auditUser: "someoneWhoUpdated" }
+      );
+      const audit = (await existingCase.getDataChangeAudits({
+        where: { action: AUDIT_ACTION.DATA_UPDATED }
+      }))[0];
+
+      const expectedChanges = {
+        classificationId: {
+          previous: utdClassification.id,
+          new: bwcClassification.id
+        },
+        classification: {
+          previous: utdClassification.initialism,
+          new: bwcClassification.initialism
+        },
+        status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE }
+      };
+      expect(audit.changes).toEqual(expectedChanges);
+    });
+
+    test("it saves the changes when classification association has changed on class update", async () => {
+      await models.cases.update(
+        {
+          classificationId: bwcClassification.id
+        },
+        {
+          where: { id: existingCase.id },
+          auditUser: "someoneWhoUpdated"
+        }
+      );
+      const audit = (await existingCase.getDataChangeAudits({
+        where: { action: AUDIT_ACTION.DATA_UPDATED }
+      }))[0];
+
+      const expectedChanges = {
+        classificationId: {
+          previous: utdClassification.id,
+          new: bwcClassification.id
+        },
+        classification: {
+          previous: utdClassification.initialism,
+          new: bwcClassification.initialism
         },
         status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE }
       };
@@ -327,7 +466,9 @@ describe("dataChangeAuditHooks", () => {
         createdAt: existingCase.createdAt.toJSON(),
         createdBy: "createdByPerson",
         updatedAt: existingCase.updatedAt.toJSON(),
-        id: existingCase.id
+        id: existingCase.id,
+        classificationId: existingCase.classificationId,
+        classification: utdClassification.initialism
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -337,6 +478,66 @@ describe("dataChangeAuditHooks", () => {
 
       await models.data_change_audit.count().then(num => {
         expect(num).toEqual(1);
+      });
+    });
+
+    //cases can't be deleted as of now, but I'm testing this anyway to make sure delete of associations is covered
+    // since case is the only model that has associations to track as of now.
+    describe("delete/destroy", () => {
+      let existingCase = null;
+      let initialCaseAttributes = {};
+      let utdClassification = null;
+      let bwcClassification = null;
+
+      beforeEach(async () => {
+        const utdClassificationAttributes = new Classification.Builder()
+          .defaultClassification()
+          .withId(null)
+          .withInitialism("UTD")
+          .withName("Unable to Determine");
+        utdClassification = await models.classification.create(
+          utdClassificationAttributes
+        );
+        const bwcClassificationAttributes = new Classification.Builder()
+          .defaultClassification()
+          .withId(null)
+          .withInitialism("BWC")
+          .withName("Body Worn Camera");
+        bwcClassification = await models.classification.create(
+          bwcClassificationAttributes
+        );
+        initialCaseAttributes = new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withIncidentLocation(undefined)
+          .withClassificationId(utdClassification.id);
+        existingCase = await models.cases.create(initialCaseAttributes, {
+          auditUser: "someone"
+        });
+      });
+
+      test("should audit destroy including changes including classification association value", async () => {
+        await existingCase.destroy({ auditUser: "someone" });
+
+        const audit = await models.data_change_audit.find({
+          where: { modelName: "Case", action: AUDIT_ACTION.DATA_DELETED }
+        });
+
+        const expectedChanges = {
+          assignedTo: { previous: "tuser" },
+          classification: { previous: utdClassification.initialism },
+          classificationId: { previous: utdClassification.id },
+          complaintType: { previous: "Civilian Initiated" },
+          district: { previous: "First District" },
+          firstContactDate: { previous: "2017-12-25" },
+          id: { previous: existingCase.id },
+          incidentDate: { previous: "2017-01-01" },
+          incidentTime: { previous: "16:00:00" },
+          narrativeDetails: { previous: null },
+          narrativeSummary: { previous: null },
+          status: { previous: "Initial" }
+        };
+        expect(audit.changes).toEqual(expectedChanges);
       });
     });
 

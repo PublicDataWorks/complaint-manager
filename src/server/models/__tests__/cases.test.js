@@ -53,6 +53,10 @@ describe("cases", function() {
         { auditUser: "someone" }
       );
       await createdCase.update(
+        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        { auditUser: "someone" }
+      );
+      await createdCase.update(
         { status: CASE_STATUS.READY_FOR_REVIEW },
         { auditUser: "someone" }
       );
@@ -85,6 +89,10 @@ describe("cases", function() {
     test("does not update status from ready for review to active", async () => {
       await createdCase.update(
         { status: CASE_STATUS.ACTIVE },
+        { auditUser: "someone" }
+      );
+      await createdCase.update(
+        { status: CASE_STATUS.LETTER_IN_PROGRESS },
         { auditUser: "someone" }
       );
       await createdCase.update(
@@ -163,17 +171,17 @@ describe("cases", function() {
       expect(createdCase.status).toEqual(CASE_STATUS.ACTIVE);
 
       await createdCase.update(
-        { status: "Ready for Review" },
+        { status: "Letter in Progress" },
         { auditUser: "someone" }
       );
       await createdCase.reload();
-      expect(createdCase.status).toEqual(CASE_STATUS.READY_FOR_REVIEW);
+      expect(createdCase.status).toEqual(CASE_STATUS.LETTER_IN_PROGRESS);
 
       await createdCase.createWitnessCivilian(anotherCivilianToAdd, {
         auditUser: "someone"
       });
       await createdCase.reload();
-      expect(createdCase.status).toEqual(CASE_STATUS.READY_FOR_REVIEW);
+      expect(createdCase.status).toEqual(CASE_STATUS.LETTER_IN_PROGRESS);
     });
 
     test("should not update case status to active when main update fails", async () => {

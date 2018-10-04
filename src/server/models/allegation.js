@@ -2,15 +2,18 @@
 module.exports = (sequelize, DataTypes) => {
   const Allegation = sequelize.define("allegation", {
     rule: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
 
     paragraph: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
 
     directive: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
 
     createdAt: {

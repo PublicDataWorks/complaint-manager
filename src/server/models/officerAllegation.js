@@ -24,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       severity: {
-        type: DataTypes.ENUM(ALLEGATION_SEVERITY.ALL)
+        type: DataTypes.ENUM(ALLEGATION_SEVERITY.ALL),
+        allowNull: false
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -98,6 +99,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  //when comment this out, no tests fail!
   OfficerAllegation.auditDataChange();
 
   return OfficerAllegation;

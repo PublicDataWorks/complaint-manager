@@ -201,7 +201,7 @@ const snackbarReducer = (state = initialState, action) => {
       return {
         open: true,
         success: false,
-        message: "We were unable download file. Please try again."
+        message: "We were unable to download the file. Please try again."
       };
     case ADD_OFFICER_TO_CASE_FAILED:
       return {

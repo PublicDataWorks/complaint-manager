@@ -35,7 +35,6 @@ describe("getCaseHistory", () => {
     getAccessToken.mockImplementation(() => token);
     nock("http://localhost/", {
       reqheaders: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       }
     })
@@ -48,20 +47,5 @@ describe("getCaseHistory", () => {
         "Something went wrong and we could not fetch the case history."
       )
     );
-  });
-
-  test("redirects to login when 401 response code", async () => {
-    getAccessToken.mockImplementation(() => token);
-    nock("http://localhost/", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .get(`/api/cases/${caseId}/case-history`)
-      .reply(401);
-
-    await getCaseHistory(caseId)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 });
