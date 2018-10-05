@@ -1,3 +1,4 @@
+import editReferralLetter from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetter";
 const { USER_PERMISSIONS } = require("../sharedUtilities/constants");
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
@@ -81,6 +82,7 @@ router.delete(
 
 router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
 router.get("/cases/:caseId/referral-letter", getReferralLetter);
+router.put("/cases/:caseId/referral-letter", editReferralLetter);
 
 router.use("/cases/:id/attachments", attachmentRouter);
 router.use(
