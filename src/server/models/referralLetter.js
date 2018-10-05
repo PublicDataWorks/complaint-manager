@@ -33,16 +33,6 @@ module.exports = (sequelize, DataTypes) => {
     { tableName: "referral_letters" }
   );
   ReferralLetter.associate = function(models) {
-    ReferralLetter.hasMany(models.referral_letter_officer, {
-      as: "referralLetterOfficers",
-      foreignKey: {
-        name: "referralLetterId",
-        field: "referral_letter_id",
-        allowNull: false
-      }
-    });
-  };
-  ReferralLetter.associate = function(models) {
     ReferralLetter.hasMany(models.case_officer, {
       as: "caseOfficers",
       sourceKey: "case_id",

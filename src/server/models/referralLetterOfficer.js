@@ -19,15 +19,6 @@ module.exports = (sequelize, DataTypes) => {
           key: "id"
         }
       },
-      referralLetterId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        field: "referral_letter_id",
-        references: {
-          model: models.referral_letter,
-          key: "id"
-        }
-      },
       numHistoricalHighAllegations: {
         type: DataTypes.INTEGER,
         field: "num_historical_high_allegations"

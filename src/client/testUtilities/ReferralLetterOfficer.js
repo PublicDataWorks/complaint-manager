@@ -2,7 +2,6 @@ class ReferralLetterOfficer {
   constructor(build) {
     this.id = build.id;
     this.caseOfficerId = build.caseOfficerId;
-    this.referralLetterId = build.referralLetterId;
     this.numHistoricalHighAllegations = build.numHistoricalHighAllegations;
     this.numHistoricalMedAllegations = build.numHistoricalMedAllegations;
     this.numHistoricalLowAllegations = build.numHistoricalLowAllegations;
@@ -14,7 +13,6 @@ class ReferralLetterOfficer {
       defaultReferralLetterOfficer() {
         this.id = 123;
         this.caseOfficerId = 55;
-        this.referralLetterId = 99;
         this.numHistoricalHighAllegations = 3;
         this.numHistoricalMedAllegations = 2;
         this.numHistoricalLowAllegations = 1;
@@ -29,11 +27,6 @@ class ReferralLetterOfficer {
 
       withCaseOfficerId(caseOfficerId) {
         this.caseOfficerId = caseOfficerId;
-        return this;
-      }
-
-      withReferralLetterId(referralLetterId) {
-        this.referralLetterId = referralLetterId;
         return this;
       }
 
