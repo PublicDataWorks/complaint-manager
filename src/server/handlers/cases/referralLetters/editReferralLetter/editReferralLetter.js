@@ -1,6 +1,7 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
 import Boom from "boom";
+import getLetterDataForResponse from "../getLetterDataForResponse";
 
 const editReferralLetter = asyncMiddleware(async (request, response, next) => {
   if (request.body.referralLetterOfficers) {
@@ -12,7 +13,10 @@ const editReferralLetter = asyncMiddleware(async (request, response, next) => {
       );
     });
   }
-  return response.status(201).send();
+  const letterDataForResponse = await getLetterDataForResponse(
+    request.params.caseId
+  );
+  return response.status(201).send(letterDataForResponse);
 });
 
 const createOrUpdateReferralLetterOfficers = async (
