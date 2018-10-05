@@ -68,8 +68,7 @@ describe("edit referral letter", () => {
               numHistoricalMedAllegations: 3,
               numHistoricalLowAllegations: 4,
               historicalBehaviorNotes: "<p>notes here</p>",
-              referralLetterOfficerHistoryNotes: [],
-              referralLetterId: referralLetter.id //REMOVE THIS ****************
+              referralLetterOfficerHistoryNotes: []
             }
           ]
         };
@@ -131,8 +130,7 @@ describe("edit referral letter", () => {
                   pibCaseNumber: "CC20180222-CS",
                   details: "This case was also very similar"
                 }
-              ],
-              referralLetterId: referralLetter.id //REMOVE THIS ****************
+              ]
             }
           ]
         };
@@ -194,8 +192,7 @@ describe("edit referral letter", () => {
                   pibCaseNumber: "",
                   details: "   "
                 }
-              ],
-              referralLetterId: referralLetter.id //REMOVE THIS ****************
+              ]
             }
           ]
         };
@@ -237,8 +234,7 @@ describe("edit referral letter", () => {
               numHistoricalMedAllegations: 3,
               numHistoricalLowAllegations: 4,
               historicalBehaviorNotes: "<p>notes here</p>",
-              referralLetterOfficerHistoryNotes: [],
-              referralLetterId: referralLetter.id //REMOVE THIS ****************
+              referralLetterOfficerHistoryNotes: []
             }
           ]
         };
@@ -270,8 +266,7 @@ describe("edit referral letter", () => {
               numHistoricalMedAllegations: 3,
               numHistoricalLowAllegations: 4,
               historicalBehaviorNotes: "<p>notes here</p>",
-              referralLetterOfficerHistoryNotes: [],
-              referralLetterId: referralLetter.id //REMOVE THIS ****************
+              referralLetterOfficerHistoryNotes: []
             },
             {
               caseOfficerId: 99999,
@@ -280,8 +275,7 @@ describe("edit referral letter", () => {
               numHistoricalMedAllegations: 3,
               numHistoricalLowAllegations: 4,
               historicalBehaviorNotes: "<p>notes here</p>",
-              referralLetterOfficerHistoryNotes: [],
-              referralLetterId: referralLetter.id //REMOVE THIS ****************
+              referralLetterOfficerHistoryNotes: []
             }
           ]
         };
@@ -310,7 +304,6 @@ describe("edit referral letter", () => {
         const referralLetterOfficerAttributes = new ReferralLetterOfficer.Builder()
           .defaultReferralLetterOfficer()
           .withId(undefined)
-          .withReferralLetterId(referralLetter.id)
           .withCaseOfficerId(caseOfficer.id)
           .withnumHistoricalHighAllegations(2)
           .withnumHistoricalMedAllegations(3)
@@ -334,8 +327,7 @@ describe("edit referral letter", () => {
               numHistoricalMedAllegations: 8,
               numHistoricalLowAllegations: 0,
               historicalBehaviorNotes: "<p>updated notes</p>",
-              referralLetterOfficerHistoryNotes: [],
-              referralLetterId: referralLetter.id //REMOVE THIS ****************
+              referralLetterOfficerHistoryNotes: []
             }
           ]
         };
@@ -394,8 +386,7 @@ describe("edit referral letter", () => {
                   pibCaseNumber: "CC20180222-CS",
                   details: "This case was also very similar"
                 }
-              ],
-              referralLetterId: referralLetter.id //REMOVE THIS ****************
+              ]
             }
           ]
         };
@@ -455,8 +446,7 @@ describe("edit referral letter", () => {
                   pibCaseNumber: "",
                   details: "   "
                 }
-              ],
-              referralLetterId: referralLetter.id //REMOVE THIS ****************
+              ]
             }
           ]
         };
@@ -496,8 +486,7 @@ describe("edit referral letter", () => {
               numHistoricalMedAllegations: 8,
               numHistoricalLowAllegations: 0,
               historicalBehaviorNotes: "<p>updated notes</p>",
-              referralLetterOfficerHistoryNotes: [],
-              referralLetterId: referralLetter.id //REMOVE THIS ****************
+              referralLetterOfficerHistoryNotes: []
             }
           ]
         };
@@ -533,8 +522,7 @@ describe("edit referral letter", () => {
               numHistoricalMedAllegations: 8,
               numHistoricalLowAllegations: 0,
               historicalBehaviorNotes: "<p>updated notes</p>",
-              referralLetterOfficerHistoryNotes: [],
-              referralLetterId: referralLetter.id //REMOVE THIS ****************
+              referralLetterOfficerHistoryNotes: []
             }
           ]
         };
@@ -577,8 +565,7 @@ describe("edit referral letter", () => {
                   pibCaseNumber: "CC20180101-CS",
                   details: "This case was very similar"
                 }
-              ],
-              referralLetterId: referralLetter.id //REMOVE THIS ****************
+              ]
             }
           ]
         };
@@ -656,8 +643,7 @@ describe("edit referral letter", () => {
                     pibCaseNumber: "CC2018NOTE2edited",
                     details: "Note 2 edited details"
                   }
-                ],
-                referralLetterId: referralLetter.id //REMOVE THIS ****************
+                ]
               }
             ]
           };
@@ -721,8 +707,7 @@ describe("edit referral letter", () => {
                     pibCaseNumber: "CC2018NOTE2edited",
                     details: "Note 2 edited details"
                   }
-                ],
-                referralLetterId: referralLetter.id //REMOVE THIS ****************
+                ]
               }
             ]
           };
@@ -785,8 +770,7 @@ describe("edit referral letter", () => {
                     pibCaseNumber: "CC2018NOTE2edited",
                     details: "Note 2 edited details"
                   }
-                ],
-                referralLetterId: referralLetter.id //REMOVE THIS ****************
+                ]
               }
             ]
           };

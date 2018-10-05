@@ -66,7 +66,6 @@ describe("edit referral letter", () => {
             numHistoricalMedAllegations: 3,
             numHistoricalLowAllegations: 4,
             historicalBehaviorNotes: "<p>notes here</p>",
-            referralLetterId: referralLetter.id, //REMOVE THIS
             referralLetterOfficerHistoryNotes: []
           }
         ]
@@ -81,7 +80,7 @@ describe("edit referral letter", () => {
 
       const createdLetterOfficers = await models.referral_letter_officer.findAll(
         {
-          where: { referralLetterId: referralLetter.id }
+          where: { caseOfficerId: caseOfficer.id }
         }
       );
       expect(createdLetterOfficers.length).toEqual(1);
