@@ -10,6 +10,8 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import request from "supertest";
 import app from "../../../../server";
 
+jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
+
 describe("edit referral letter", () => {
   describe("officer histories (letter officers with history notes)", () => {
     afterEach(async () => {
@@ -76,7 +78,25 @@ describe("edit referral letter", () => {
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send(requestBody)
-        .expect(201);
+        .expect(201)
+        .then(response => {
+          expect(response.body).toEqual(
+            expect.objectContaining({
+              caseId: existingCase.id,
+              id: referralLetter.id,
+              referralLetterOfficers: expect.arrayContaining([
+                expect.objectContaining({
+                  caseOfficerId: caseOfficer.id,
+                  fullName: caseOfficer.fullName,
+                  historicalBehaviorNotes: "<p>notes here</p>",
+                  referralLetterOfficerHistoryNotes: expect.arrayContaining([
+                    expect.objectContaining({ tempId: "uniqueTempId" })
+                  ])
+                })
+              ])
+            })
+          );
+        });
 
       const createdLetterOfficers = await models.referral_letter_officer.findAll(
         {
