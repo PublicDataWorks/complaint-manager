@@ -1,12 +1,12 @@
-import models from "../../../models";
-import ReferralLetter from "../../../../client/testUtilities/ReferralLetter";
+import models from "../../../../models/index";
+import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import request from "supertest";
-import app from "../../../server";
-import Case from "../../../../client/testUtilities/case";
+import app from "../../../../server";
+import Case from "../../../../../client/testUtilities/case";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../../testHelpers/requestTestHelpers";
+} from "../../../../testHelpers/requestTestHelpers";
 
 describe("GET /cases/:id/referral-letter", function() {
   afterEach(async () => {

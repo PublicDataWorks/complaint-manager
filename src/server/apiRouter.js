@@ -35,7 +35,7 @@ const createOfficerAllegation = require("./handlers/officerAllegations/createOff
 const editOfficerAllegation = require("./handlers/officerAllegations/editOfficerAllegation/editOfficerAllegation");
 const removeOfficerAllegation = require("./handlers/officerAllegations/removeOfficerAllegation/removeOfficerAllegation");
 const exportCases = require("./handlers/cases/export/exportCases");
-const getReferralLetter = require("./handlers/cases/referralLetters/getReferralLetter");
+const getReferralLetter = require("./handlers/cases/referralLetters/getReferralLetter/getReferralLetter");
 const express = require("express");
 const router = express.Router();
 
