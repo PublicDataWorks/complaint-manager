@@ -1,5 +1,5 @@
-const asyncMiddleware = require("../../asyncMiddleware");
-const models = require("../../../models/");
+const asyncMiddleware = require("../../../asyncMiddleware");
+const models = require("../../../../models/index");
 const shortid = require("shortid");
 
 const getReferralLetter = asyncMiddleware(async (request, response) => {
