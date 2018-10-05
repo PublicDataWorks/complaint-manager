@@ -1,4 +1,4 @@
-var path = require("path");
+const path = require("path");
 const LOCAL_DEV_PORT = require("../../sharedUtilities/constants")
   .LOCAL_DEV_PORT;
 
