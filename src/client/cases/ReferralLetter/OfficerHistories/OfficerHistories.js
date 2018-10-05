@@ -15,12 +15,19 @@ import { FieldArray, reduxForm } from "redux-form";
 import WarningMessage from "../../../shared/components/WarningMessage";
 import RemoveOfficerHistoryNoteDialog from "./RemoveOfficerHistoryNoteDialog";
 import getReferralLetter from "../thunks/getReferralLetter";
+import { SecondaryButton } from "../../../shared/components/StyledButtons";
+import { push } from "react-router-redux";
 
 class OfficerHistories extends Component {
   constructor(props) {
     super(props);
     this.state = { selectedTab: 0 };
   }
+
+  submitForm = (values, dispatch) => {
+    const caseId = this.props.match.params.id;
+    dispatch(push(`/cases/${caseId}/letter/review`));
+  };
 
   referralLetterNotYetLoaded() {
     return (
@@ -77,7 +84,7 @@ class OfficerHistories extends Component {
 
   renderOfficerHistories = () => {
     return (
-      <Card>
+      <Card style={{ margin: "0 0 32px" }}>
         <CardContent style={{ backgroundColor: "white", padding: 0 }}>
           <AppBar
             position="static"
@@ -143,8 +150,20 @@ class OfficerHistories extends Component {
           {letterOfficers.length === 0
             ? this.renderNoOfficers()
             : this.renderOfficerHistories()}
+
+          <div>
+            <SecondaryButton
+              component={Link}
+              onClick={this.props.handleSubmit(this.submitForm)}
+              to={`/cases/${caseId}/letter/review`}
+            >
+              Back
+            </SecondaryButton>
+            <RemoveOfficerHistoryNoteDialog
+              removeNote={this.props.array.remove}
+            />
+          </div>
         </div>
-        <RemoveOfficerHistoryNoteDialog removeNote={this.props.array.remove} />
       </div>
     );
   }
