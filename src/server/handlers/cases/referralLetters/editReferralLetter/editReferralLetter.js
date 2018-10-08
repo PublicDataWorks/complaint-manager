@@ -16,7 +16,7 @@ const editReferralLetter = asyncMiddleware(async (request, response, next) => {
   const letterDataForResponse = await getLetterDataForResponse(
     request.params.caseId
   );
-  return response.status(201).send(letterDataForResponse);
+  return response.status(200).send(letterDataForResponse);
 });
 
 const createOrUpdateReferralLetterOfficers = async (
@@ -25,6 +25,7 @@ const createOrUpdateReferralLetterOfficers = async (
   transaction
 ) => {
   for (const referralLetterOfficerData of referralLetterOfficers) {
+    normalizeNumericValues(referralLetterOfficerData);
     if (referralLetterOfficerData.id) {
       await updateExistingReferralLetterOfficer(
         referralLetterOfficerData,
@@ -189,19 +190,16 @@ const createNewReferralLetterOfficer = async (
   if (!caseOfficer) {
     throw Boom.badRequest("Invalid case officer");
   }
-  const a = await models.referral_letter_officer.create(
-    referralLetterOfficerData,
-    {
-      include: [
-        {
-          model: models.referral_letter_officer_history_note,
-          as: "referralLetterOfficerHistoryNotes"
-        }
-      ],
-      auditUser: userNickname,
-      transaction
-    }
-  );
+  await models.referral_letter_officer.create(referralLetterOfficerData, {
+    include: [
+      {
+        model: models.referral_letter_officer_history_note,
+        as: "referralLetterOfficerHistoryNotes"
+      }
+    ],
+    auditUser: userNickname,
+    transaction
+  });
 };
 
 const removeEmptyNotesFromOfficerData = referralLetterOfficerData => {
@@ -214,13 +212,28 @@ const removeEmptyNotesFromOfficerData = referralLetterOfficerData => {
 const filterOutBlankNotes = notesData => {
   return notesData.filter(
     noteData =>
-      !isValueBlank(noteData.pibCaseNumber) && !isValueBlank(noteData.details)
+      !isValueBlank(noteData.pibCaseNumber) || !isValueBlank(noteData.details)
   );
+};
+
+const normalizeNumericValues = referralLetterOfficerData => {
+  if (isValueBlank(referralLetterOfficerData.numHistoricalHighAllegations)) {
+    referralLetterOfficerData.numHistoricalHighAllegations = null;
+  }
+  if (isValueBlank(referralLetterOfficerData.numHistoricalMedAllegations)) {
+    referralLetterOfficerData.numHistoricalMedAllegations = null;
+  }
+  if (isValueBlank(referralLetterOfficerData.numHistoricalLowAllegations)) {
+    referralLetterOfficerData.numHistoricalLowAllegations = null;
+  }
 };
 
 const isValueBlank = value => {
   if (typeof value === "string") {
     value = value.trim();
+  }
+  if (value === 0 || value === "0") {
+    return false;
   }
   return !value;
 };

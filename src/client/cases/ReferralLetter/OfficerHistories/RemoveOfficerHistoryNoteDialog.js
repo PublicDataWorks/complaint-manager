@@ -26,7 +26,7 @@ const RemoveOfficerHistoryNoteDialog = ({
     removeNote(fieldArrayName, noteIndex);
   };
 
-  const summaryMarkup = { __html: noteDetails.summary };
+  const detailsMarkup = { __html: noteDetails.details };
 
   return (
     <Dialog open={dialogOpen} fullWidth={true}>
@@ -52,7 +52,7 @@ const RemoveOfficerHistoryNoteDialog = ({
             Case Reference Number: {noteDetails.pibCaseNumber}
           </Typography>
           <Typography className="quill-editor-overrides">
-            Note Details: <span dangerouslySetInnerHTML={summaryMarkup} />
+            Note Details: <span dangerouslySetInnerHTML={detailsMarkup} />
           </Typography>
         </div>
         <Typography>Are you sure you want to continue?</Typography>

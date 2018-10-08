@@ -78,7 +78,7 @@ describe("edit referral letter", () => {
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send(requestBody)
-        .expect(201)
+        .expect(200)
         .then(response => {
           expect(response.body).toEqual(
             expect.objectContaining({

@@ -1,6 +1,12 @@
-import { GET_REFERRAL_LETTER_SUCCESS } from "../../../sharedUtilities/constants";
+import {
+  GET_REFERRAL_LETTER_SUCCESS,
+  EDIT_REFERRAL_LETTER_SUCCESS
+} from "../../../sharedUtilities/constants";
 import referralLetterReducer from "./referralLetterReducer";
-import { getReferralLetterSuccess } from "../../actionCreators/letterActionCreators";
+import {
+  getReferralLetterSuccess,
+  editReferralLetterSuccess
+} from "../../actionCreators/letterActionCreators";
 
 describe("referralLetterReducer", () => {
   describe("initial state", () => {
@@ -16,6 +22,17 @@ describe("referralLetterReducer", () => {
       const newState = referralLetterReducer(
         undefined,
         getReferralLetterSuccess(letterDetails)
+      );
+      expect(newState).toEqual({ letterDetails });
+    });
+  });
+
+  describe("EDIT_REFERRAL_LETTER_SUCCESS", () => {
+    test("sets the letter details in state", () => {
+      const letterDetails = { id: 6, referralLetterOfficers: [] };
+      const newState = referralLetterReducer(
+        undefined,
+        editReferralLetterSuccess(letterDetails)
       );
       expect(newState).toEqual({ letterDetails });
     });

@@ -23,11 +23,11 @@ const OfficerHistoryNote = props => {
     noteIndex,
     caseOfficerName,
     pibCaseNumber,
-    summary
+    details
   } = props;
 
   const openRemoveNoteDialog = () => {
-    const noteDetails = { caseOfficerName, pibCaseNumber, summary };
+    const noteDetails = { caseOfficerName, pibCaseNumber, details };
     openRemoveOfficerHistoryNoteDialog(fieldArrayName, noteIndex, noteDetails);
   };
 
@@ -68,7 +68,7 @@ const OfficerHistoryNote = props => {
             Summary or details
           </Typography>
           <Field
-            name={`${referralLetterOfficerHistoryNote}.summary`}
+            name={`${referralLetterOfficerHistoryNote}.details`}
             component={RichTextEditorComponent}
             label="Summary or details"
           />
@@ -84,7 +84,7 @@ const mapStateToProps = (state, props) => ({
     state,
     `${props.referralLetterOfficerHistoryNote}.pibCaseNumber`
   ),
-  summary: selector(state, `${props.referralLetterOfficerHistoryNote}.summary`)
+  details: selector(state, `${props.referralLetterOfficerHistoryNote}.details`)
 });
 
 const mapDispatchToProps = {

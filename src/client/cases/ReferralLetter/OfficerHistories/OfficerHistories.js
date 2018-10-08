@@ -16,7 +16,7 @@ import WarningMessage from "../../../shared/components/WarningMessage";
 import RemoveOfficerHistoryNoteDialog from "./RemoveOfficerHistoryNoteDialog";
 import getReferralLetter from "../thunks/getReferralLetter";
 import { SecondaryButton } from "../../../shared/components/StyledButtons";
-import { push } from "react-router-redux";
+import editReferralLetter from "../thunks/editReferralLetter";
 
 class OfficerHistories extends Component {
   constructor(props) {
@@ -26,7 +26,9 @@ class OfficerHistories extends Component {
 
   submitForm = (values, dispatch) => {
     const caseId = this.props.match.params.id;
-    dispatch(push(`/cases/${caseId}/letter/review`));
+    dispatch(
+      editReferralLetter(caseId, values, `/cases/${caseId}/letter/review`)
+    );
   };
 
   referralLetterNotYetLoaded() {
@@ -156,6 +158,7 @@ class OfficerHistories extends Component {
               component={Link}
               onClick={this.props.handleSubmit(this.submitForm)}
               to={`/cases/${caseId}/letter/review`}
+              data-test="back-button"
             >
               Back
             </SecondaryButton>

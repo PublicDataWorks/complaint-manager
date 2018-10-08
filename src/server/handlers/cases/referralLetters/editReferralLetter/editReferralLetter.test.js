@@ -83,7 +83,7 @@ describe("edit referral letter", () => {
         });
         await editReferralLetter(request, response, next);
 
-        expect(response.statusCode).toEqual(201);
+        expect(response.statusCode).toEqual(200);
         const createdLetterOfficers = await models.referral_letter_officer.findAll(
           {
             where: { caseOfficerId: caseOfficer.id },
@@ -109,7 +109,7 @@ describe("edit referral letter", () => {
         ).toEqual(0);
       });
 
-      test("adds two notes that are new on new letter officer", async () => {
+      test("adds notes that are new on new letter officer, allowing blank on either case num or details", async () => {
         const requestBody = {
           referralLetterOfficers: [
             {
@@ -128,7 +128,12 @@ describe("edit referral letter", () => {
                 {
                   tempId: "l9jwPODm8",
                   pibCaseNumber: "CC20180222-CS",
-                  details: "This case was also very similar"
+                  details: ""
+                },
+                {
+                  tempId: "aid9e8slj",
+                  pibCaseNumber: "",
+                  details: "We didn't know the case number on this one"
                 }
               ]
             }
@@ -145,7 +150,7 @@ describe("edit referral letter", () => {
         });
         await editReferralLetter(request, response, next);
 
-        expect(response.statusCode).toEqual(201);
+        expect(response.statusCode).toEqual(200);
         const createdLetterOfficer = await models.referral_letter_officer.findOne(
           {
             where: { caseOfficerId: caseOfficer.id },
@@ -159,7 +164,7 @@ describe("edit referral letter", () => {
         );
         expect(
           createdLetterOfficer.referralLetterOfficerHistoryNotes.length
-        ).toEqual(2);
+        ).toEqual(3);
         expect(createdLetterOfficer.referralLetterOfficerHistoryNotes).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
@@ -170,7 +175,12 @@ describe("edit referral letter", () => {
             expect.objectContaining({
               referralLetterOfficerId: createdLetterOfficer.id,
               pibCaseNumber: "CC20180222-CS",
-              details: "This case was also very similar"
+              details: ""
+            }),
+            expect.objectContaining({
+              referralLetterOfficerId: createdLetterOfficer.id,
+              pibCaseNumber: "",
+              details: "We didn't know the case number on this one"
             })
           ])
         );
@@ -207,7 +217,7 @@ describe("edit referral letter", () => {
         });
         await editReferralLetter(request, response, next);
 
-        expect(response.statusCode).toEqual(201);
+        expect(response.statusCode).toEqual(200);
         const createdLetterOfficer = await models.referral_letter_officer.findOne(
           {
             where: { caseOfficerId: caseOfficer.id },
@@ -342,7 +352,7 @@ describe("edit referral letter", () => {
         });
         await editReferralLetter(request, response, next);
 
-        expect(response.statusCode).toEqual(201);
+        expect(response.statusCode).toEqual(200);
 
         const updatedLetterOfficer = await referralLetterOfficer.reload({
           include: [
@@ -361,6 +371,56 @@ describe("edit referral letter", () => {
         );
         expect(
           updatedLetterOfficer.referralLetterOfficerHistoryNotes.length
+        ).toEqual(0);
+      });
+
+      test("updates the letter officers, handling undefined, null, or blank string numbers", async () => {
+        const requestBody = {
+          referralLetterOfficers: [
+            {
+              id: referralLetterOfficer.id,
+              caseOfficerId: caseOfficer.id,
+              fullName: caseOfficer.fullName,
+              numHistoricalHighAllegations: null,
+              numHistoricalMedAllegations: undefined,
+              numHistoricalLowAllegations: "",
+              historicalBehaviorNotes: "<p>updated notes</p>",
+              referralLetterOfficerHistoryNotes: []
+            }
+          ]
+        };
+        const request = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer token"
+          },
+          params: { caseId: existingCase.id },
+          body: requestBody,
+          nickname: "nickname"
+        });
+        await editReferralLetter(request, response, next);
+
+        expect(response.statusCode).toEqual(200);
+
+        await referralLetterOfficer.reload({
+          include: [
+            {
+              model: models.referral_letter_officer_history_note,
+              as: "referralLetterOfficerHistoryNotes"
+            }
+          ]
+        });
+        expect(referralLetterOfficer.caseOfficerId).toEqual(caseOfficer.id);
+        expect(referralLetterOfficer.numHistoricalHighAllegations).toEqual(
+          null
+        );
+        expect(referralLetterOfficer.numHistoricalMedAllegations).toEqual(null);
+        expect(referralLetterOfficer.numHistoricalLowAllegations).toEqual(null);
+        expect(referralLetterOfficer.historicalBehaviorNotes).toEqual(
+          "<p>updated notes</p>"
+        );
+        expect(
+          referralLetterOfficer.referralLetterOfficerHistoryNotes.length
         ).toEqual(0);
       });
 
@@ -401,7 +461,7 @@ describe("edit referral letter", () => {
         });
         await editReferralLetter(request, response, next);
 
-        expect(response.statusCode).toEqual(201);
+        expect(response.statusCode).toEqual(200);
         await referralLetterOfficer.reload({
           include: [
             {
@@ -461,7 +521,7 @@ describe("edit referral letter", () => {
         });
         await editReferralLetter(request, response, next);
 
-        expect(response.statusCode).toEqual(201);
+        expect(response.statusCode).toEqual(200);
         await referralLetterOfficer.reload({
           include: [
             {
@@ -658,7 +718,7 @@ describe("edit referral letter", () => {
           });
           await editReferralLetter(request, response, next);
 
-          expect(response.statusCode).toEqual(201);
+          expect(response.statusCode).toEqual(200);
           await referralLetterOfficer.reload({
             include: [
               {
@@ -722,7 +782,7 @@ describe("edit referral letter", () => {
           });
           await editReferralLetter(request, response, next);
 
-          expect(response.statusCode).toEqual(201);
+          expect(response.statusCode).toEqual(200);
           await referralLetterOfficer.reload({
             include: [
               {
@@ -785,7 +845,7 @@ describe("edit referral letter", () => {
           });
           await editReferralLetter(request, response, next);
 
-          expect(response.statusCode).toEqual(201);
+          expect(response.statusCode).toEqual(200);
           await referralLetterOfficer.reload({
             include: [
               {
