@@ -16,7 +16,7 @@
     "update:officers": "node -e \"require('./scripts/updateOfficerDataFromS3')\"",
     "test:all": "NODE_ENV=test yarn setup:test:db && react-scripts test --maxWorkers=1 --env=node --detectOpenHandles",
     "test:server": "NODE_ENV=test yarn setup:test:db && react-scripts test src/server --maxWorkers=1 --env=node --detectOpenHandles",
-    "test:server:ci": "NODE_ENV=test yarn setup:test:db && CI=true react-scripts test src/server --maxWorkers=1 --forceExit --env=node --detectOpenHandles",
+    "test:server:ci": "NODE_ENV=test yarn setup:test:db && CI=true react-scripts test src/server --runInBand --forceExit --env=node --detectOpenHandles",
     "test:client": "react-scripts test src/client --env=jsdom",
     "test:client:ci": "CI=true react-scripts test src/client --maxWorkers=1 --env=jsdom",
     "test:once": "NODE_ENV=test yarn test:client:ci && yarn test:server:ci",
