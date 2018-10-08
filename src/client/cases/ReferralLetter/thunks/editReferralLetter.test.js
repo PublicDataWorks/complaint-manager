@@ -1,6 +1,9 @@
 import getAccessToken from "../../../auth/getAccessToken";
 import nock from "nock";
-import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import {
+  snackbarError,
+  snackbarSuccess
+} from "../../../actionCreators/snackBarActionCreators";
 jest.mock("../../../auth/getAccessToken");
 import { push } from "react-router-redux";
 import editReferralLetter from "./editReferralLetter";
@@ -48,6 +51,9 @@ describe("editReferralLetter", () => {
     await editReferralLetter(caseId, requestBody, "redirectRoute")(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       editReferralLetterSuccess(responseBody)
+    );
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarSuccess("Officer complaint histories were successfully updated")
     );
   });
 

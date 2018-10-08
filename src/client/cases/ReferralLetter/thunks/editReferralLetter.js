@@ -3,7 +3,10 @@ import { push } from "react-router-redux";
 import config from "../../../config/config";
 import axios from "axios/index";
 import { editReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
-import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import {
+  snackbarError,
+  snackbarSuccess
+} from "../../../actionCreators/snackBarActionCreators";
 
 const editReferralLetter = (
   caseId,
@@ -28,6 +31,9 @@ const editReferralLetter = (
       }
     );
     dispatch(editReferralLetterSuccess(response.data));
+    dispatch(
+      snackbarSuccess("Officer complaint histories were successfully updated")
+    );
     return dispatch(push(successRedirectRoute));
   } catch (error) {
     return dispatch(

@@ -12,6 +12,7 @@ import {
   PrimaryButton
 } from "../../../shared/components/StyledButtons";
 import { closeRemoveOfficerHistoryNoteDialog } from "../../../actionCreators/letterActionCreators";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 
 const RemoveOfficerHistoryNoteDialog = ({
   dialogOpen,
@@ -19,11 +20,13 @@ const RemoveOfficerHistoryNoteDialog = ({
   removeNote,
   fieldArrayName,
   noteIndex,
-  noteDetails
+  noteDetails,
+  snackbarSuccess
 }) => {
   const removeOfficerHistoryNote = () => {
     closeRemoveOfficerHistoryNoteDialog();
     removeNote(fieldArrayName, noteIndex);
+    snackbarSuccess("Note successfully removed");
   };
 
   const detailsMarkup = { __html: noteDetails.details };
@@ -76,7 +79,8 @@ const RemoveOfficerHistoryNoteDialog = ({
 };
 
 const mapDispatchToProps = {
-  closeRemoveOfficerHistoryNoteDialog
+  closeRemoveOfficerHistoryNoteDialog,
+  snackbarSuccess
 };
 
 const mapStateToProps = state => ({
