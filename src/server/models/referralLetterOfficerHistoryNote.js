@@ -35,9 +35,13 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.DATE,
         field: "updated_at"
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+        field: "deleted_at"
       }
     },
-    { tableName: "referral_letter_officer_history_notes" }
+    { tableName: "referral_letter_officer_history_notes", paranoid: true }
   );
   return ReferralLetterOfficerHistoryNotes;
 };
