@@ -8,6 +8,7 @@ import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import getReferralLetter from "./getReferralLetter";
 import httpMocks from "node-mocks-http";
+import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 
 describe("getReferralLetter", () => {
@@ -22,6 +23,16 @@ describe("getReferralLetter", () => {
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "test"
     });
+
+    await existingCase.update(
+      { status: CASE_STATUS.ACTIVE },
+      { auditUser: "test" }
+    );
+
+    await existingCase.update(
+      { status: CASE_STATUS.LETTER_IN_PROGRESS },
+      { auditUser: "test" }
+    );
 
     const referralLetterAttributes = new ReferralLetter.Builder()
       .defaultReferralLetter()

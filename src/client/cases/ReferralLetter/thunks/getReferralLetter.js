@@ -26,6 +26,9 @@ const getReferralLetter = caseId => async dispatch => {
     );
     return dispatch(getReferralLetterSuccess(response.data));
   } catch (error) {
+    if (error.response.data.message === "Invalid case status.") {
+      return dispatch(push(`/cases/${caseId}`));
+    }
     dispatch(
       snackbarError(
         "Something went wrong and we could not retrieve the referral letter information"
