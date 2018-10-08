@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import NavBar from "../../../shared/components/NavBar/NavBar";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import LinkButton from "../../../shared/components/LinkButton";
@@ -21,25 +20,34 @@ import editReferralLetter from "../thunks/editReferralLetter";
 class OfficerHistories extends Component {
   constructor(props) {
     super(props);
-    this.state = { selectedTab: 0 };
+    this.state = { selectedTab: 0, caseId: this.props.match.params.id };
   }
 
-  submitForm = (values, dispatch) => {
-    const caseId = this.props.match.params.id;
-    dispatch(
-      editReferralLetter(caseId, values, `/cases/${caseId}/letter/review`)
+  saveAndReturnToCase = () => {
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}`)
     );
+  };
+
+  saveAndGoBackToReview = () => {
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}/letter/review`)
+    );
+  };
+
+  submitForm = redirectUrl => (values, dispatch) => {
+    dispatch(editReferralLetter(this.state.caseId, values, redirectUrl));
   };
 
   referralLetterNotYetLoaded() {
     return (
       _.isEmpty(this.props.letterDetails) ||
-      `${this.props.letterDetails.caseId}` !== this.props.match.params.id
+      `${this.props.letterDetails.caseId}` !== this.state.caseId
     );
   }
 
   componentDidMount() {
-    this.props.dispatch(getReferralLetter(this.props.match.params.id));
+    this.props.dispatch(getReferralLetter(this.state.caseId));
   }
 
   handleTabChange = (event, selectedTab) => {
@@ -104,20 +112,17 @@ class OfficerHistories extends Component {
               {this.renderTabHeaders()}
             </Tabs>
           </AppBar>
-          <form>
-            <FieldArray
-              name="referralLetterOfficers"
-              component={this.renderOfficerFields}
-              selectedTab={this.state.selectedTab}
-            />
-          </form>
+          <FieldArray
+            name="referralLetterOfficers"
+            component={this.renderOfficerFields}
+            selectedTab={this.state.selectedTab}
+          />
         </CardContent>
       </Card>
     );
   };
 
   render() {
-    const caseId = this.props.match.params.id;
     const letterOfficers = this.props.letterDetails.referralLetterOfficers;
 
     if (this.referralLetterNotYetLoaded()) {
@@ -128,45 +133,44 @@ class OfficerHistories extends Component {
       <div>
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${caseId}   : Letter Generation`}
+            {`Case #${this.state.caseId}   : Letter Generation`}
           </Typography>
         </NavBar>
 
-        <LinkButton
-          data-test="save-and-return-to-case-link"
-          component={Link}
-          to={`/cases/${caseId}`}
-          style={{ margin: "2% 0% 2% 4%" }}
-        >
-          Save and Return to Case
-        </LinkButton>
+        <form>
+          <LinkButton
+            data-test="save-and-return-to-case-link"
+            onClick={this.saveAndReturnToCase()}
+            style={{ margin: "2% 0% 2% 4%" }}
+          >
+            Save and Return to Case
+          </LinkButton>
 
-        <div style={{ margin: "0% 5% 3%", width: "60%" }}>
-          <LetterProgressStepper
-            currentLetterStatus={LETTER_PROGRESS.OFFICER_COMPLAINT_HISTORIES}
-          />
-          <div style={{ margin: "0 0 32px 0" }}>
-            <Typography variant="title">Officer Complaint History</Typography>
-          </div>
-
-          {letterOfficers.length === 0
-            ? this.renderNoOfficers()
-            : this.renderOfficerHistories()}
-
-          <div>
-            <SecondaryButton
-              component={Link}
-              onClick={this.props.handleSubmit(this.submitForm)}
-              to={`/cases/${caseId}/letter/review`}
-              data-test="back-button"
-            >
-              Back
-            </SecondaryButton>
-            <RemoveOfficerHistoryNoteDialog
-              removeNote={this.props.array.remove}
+          <div style={{ margin: "0% 5% 3%", width: "60%" }}>
+            <LetterProgressStepper
+              currentLetterStatus={LETTER_PROGRESS.OFFICER_COMPLAINT_HISTORIES}
             />
+            <div style={{ margin: "0 0 32px 0" }}>
+              <Typography variant="title">Officer Complaint History</Typography>
+            </div>
+
+            {letterOfficers.length === 0
+              ? this.renderNoOfficers()
+              : this.renderOfficerHistories()}
+
+            <div>
+              <SecondaryButton
+                onClick={this.saveAndGoBackToReview()}
+                data-test="back-button"
+              >
+                Back
+              </SecondaryButton>
+              <RemoveOfficerHistoryNoteDialog
+                removeNote={this.props.array.remove}
+              />
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     );
   }
