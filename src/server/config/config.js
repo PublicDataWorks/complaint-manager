@@ -214,7 +214,7 @@ module.exports = {
     }
   },
   s3config: {
-    region: "us-east-2",
+    region: "us-east-1",
     sslEnabled: true,
     signatureVersion: "v4"
   }

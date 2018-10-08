@@ -11,7 +11,7 @@
     "drop:db": "sequelize db:drop",
     "start:client": "react-scripts start",
     "start:server": "nodemon --watch src/server src/startServer.js --exec babel-node",
-    "start:worker": "nodemon src/startWorker.js --exec babel-node",
+    "start:worker": "nodemon --watch src/worker src/startWorker.js --exec babel-node",
     "e2e": "nightwatch -c e2e/nightwatch.local.json",
     "build": "react-scripts build",
     "update:officers": "node -e \"require('./scripts/updateOfficerDataFromS3')\"",
