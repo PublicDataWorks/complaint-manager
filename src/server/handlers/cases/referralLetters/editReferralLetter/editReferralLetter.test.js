@@ -9,6 +9,7 @@ import httpMocks from "node-mocks-http";
 import ReferralLetterOfficer from "../../../../../client/testUtilities/ReferralLetterOfficer";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
 import Boom from "boom";
+import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 
 describe("edit referral letter", () => {
   describe("officer histories (letter officers with history notes)", () => {
@@ -23,6 +24,14 @@ describe("edit referral letter", () => {
       existingCase = await models.cases.create(caseAttributes, {
         auditUser: "test"
       });
+      await existingCase.update(
+        { status: CASE_STATUS.ACTIVE },
+        { auditUser: "test" }
+      );
+      await existingCase.update(
+        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        { auditUser: "test" }
+      );
 
       const referralLetterAttributes = new ReferralLetter.Builder()
         .defaultReferralLetter()
