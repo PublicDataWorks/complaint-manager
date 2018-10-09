@@ -1,5 +1,5 @@
 import getAccessToken from "../../auth/getAccessToken";
-import FileSaver from "file-saver";
+import saveAs from "file-saver";
 import { push } from "react-router-redux";
 import { UTF8_BYTE_ORDER_MARK } from "../../../sharedUtilities/constants";
 import downloadFailed from "../../actionCreators/downloadActionCreators";
@@ -24,7 +24,7 @@ const downloader = (path, filename, fileIsCsv, callback) => async dispatch => {
       : response.data;
     const fileToDownload = new File([fileData], filename);
 
-    FileSaver.saveAs(fileToDownload, filename);
+    saveAs(fileToDownload, filename);
 
     if (callback) callback();
   } catch (e) {
