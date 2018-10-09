@@ -17,7 +17,11 @@ import {
 } from "./CaseDetailDataHelpers";
 import TextTruncate from "../../../shared/components/TextTruncate";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
-import { LETTER_PROGRESS } from "../../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  LETTER_PROGRESS
+} from "../../../../sharedUtilities/constants";
+import { push } from "react-router-redux";
 
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {
@@ -34,8 +38,15 @@ export class LetterReview extends Component {
   render() {
     const { caseDetail } = this.props;
     const caseId = this.props.match.params.id;
+    const validStatuses = [
+      CASE_STATUS.LETTER_IN_PROGRESS,
+      CASE_STATUS.READY_FOR_REVIEW
+    ];
 
     if (this.caseDetailsNotYetLoaded()) {
+      return null;
+    } else if (!validStatuses.includes(caseDetail.status)) {
+      this.props.dispatch(push(`/cases/${caseId}`));
       return null;
     }
 
