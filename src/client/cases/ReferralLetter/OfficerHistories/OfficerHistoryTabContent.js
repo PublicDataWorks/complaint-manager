@@ -10,7 +10,7 @@ import OfficerHistoryNote from "./OfficerHistoryNote";
 import LinkButton from "../../../shared/components/LinkButton";
 import calculateOfficerHistoryTotalAllegations from "./calculateOfficerHistoryTotalAllegations";
 import shortid from "shortid";
-import { trimWhitespace } from "../../../utilities/fieldFormatters";
+import { numbersOnly } from "../../../utilities/fieldFormatters";
 
 const RichTextEditorComponent = props => (
   <RichTextEditor
@@ -96,7 +96,7 @@ const OfficerHistoryTabContent = props => {
           label="High Level"
           data-test={`${referralLetterOfficer}-numHistoricalHighAllegations`}
           validate={[isIntegerString]}
-          format={trimWhitespace}
+          format={numbersOnly}
         />
         <Field
           style={{ margin: "8px 24px 0 0", flex: 1 }}
@@ -105,7 +105,7 @@ const OfficerHistoryTabContent = props => {
           label="Medium Level"
           data-test={`${referralLetterOfficer}-numHistoricalMedAllegations`}
           validate={[isIntegerString]}
-          format={trimWhitespace}
+          format={numbersOnly}
         />
         <Field
           style={{ margin: "8px 24px 0 0", flex: 1 }}
@@ -114,7 +114,7 @@ const OfficerHistoryTabContent = props => {
           label="Low Level"
           data-test={`${referralLetterOfficer}-numHistoricalLowAllegations`}
           validate={[isIntegerString]}
-          format={trimWhitespace}
+          format={numbersOnly}
         />
         <Typography
           style={{ flex: 1, marginTop: "32px" }}
