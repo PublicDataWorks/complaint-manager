@@ -139,6 +139,15 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: "cases_officers",
       paranoid: true,
+      hooks: {
+        beforeDestroy: async (instance, options) => {
+          await instance.sequelize.models.officer_allegation.destroy({
+            where: { caseOfficerId: instance.dataValues.id },
+            auditUser: options.auditUser,
+            transaction: options.transaction
+          });
+        }
+      },
       getterMethods: {
         fullName() {
           if (this.officerId) {

@@ -3,7 +3,9 @@ import models from "../index";
 import Officer from "../../../client/testUtilities/Officer";
 import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { CASE_STATUS } from "../../../sharedUtilities/constants";
+import { ACCUSED, CASE_STATUS } from "../../../sharedUtilities/constants";
+import Allegation from "../../../client/testUtilities/Allegation";
+import OfficerAllegation from "../../../client/testUtilities/OfficerAllegation";
 
 describe("caseOfficer", () => {
   describe("isUnknownOfficer", () => {
@@ -99,6 +101,64 @@ describe("caseOfficer", () => {
 
       await initialCase.reload();
       expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
+    });
+  });
+
+  describe("deleting officer allegations", function() {
+    test("it should delete associated officer allegations when case officer deleted", async () => {
+      const initialCase = await createCaseWithoutCivilian();
+
+      const caseOfficerToCreate = new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withCaseId(initialCase.id)
+        .withRoleOnCase(ACCUSED)
+        .withUnknownOfficer()
+        .build();
+
+      const caseOfficer = await models.case_officer.create(
+        caseOfficerToCreate,
+        { auditUser: "someone" }
+      );
+
+      const allegationAttributes = new Allegation.Builder()
+        .withId(undefined)
+        .defaultAllegation()
+        .build();
+
+      const allegation = await models.allegation.create(allegationAttributes, {
+        auditUser: "someone"
+      });
+
+      const officerAllegationAttributes = new OfficerAllegation.Builder()
+        .defaultOfficerAllegation()
+        .withId(undefined)
+        .withAllegationId(allegation.id)
+        .withCaseOfficerId(caseOfficer.id)
+        .build();
+
+      const officerAllegation = await models.officer_allegation.create(
+        officerAllegationAttributes,
+        { auditUser: "someone" }
+      );
+
+      expect(officerAllegation.deletedAt).toEqual(null);
+
+      await models.sequelize.transaction(
+        async transaction =>
+          await models.case_officer.destroy({
+            where: { id: caseOfficer.id },
+            auditUser: "someone",
+            transaction
+          })
+      );
+
+      const retrievedOfficerAllegation = await models.officer_allegation.findById(
+        officerAllegation.id,
+        { paranoid: false }
+      );
+
+      expect(retrievedOfficerAllegation.deletedAt).not.toEqual(null);
     });
   });
 });
