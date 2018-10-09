@@ -6,6 +6,7 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { ACCUSED, CASE_STATUS } from "../../../sharedUtilities/constants";
 import Allegation from "../../../client/testUtilities/Allegation";
 import OfficerAllegation from "../../../client/testUtilities/OfficerAllegation";
+import ReferralLetterOfficer from "../../../client/testUtilities/ReferralLetterOfficer";
 
 describe("caseOfficer", () => {
   describe("isUnknownOfficer", () => {
@@ -159,6 +160,44 @@ describe("caseOfficer", () => {
       );
 
       expect(retrievedOfficerAllegation.deletedAt).not.toEqual(null);
+    });
+
+    test("it should delete associated referral letter officers when case officer deleted", async () => {
+      const initialCase = await createCaseWithoutCivilian();
+
+      const caseOfficerToCreate = new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withCaseId(initialCase.id)
+        .withRoleOnCase(ACCUSED)
+        .withUnknownOfficer()
+        .build();
+      const caseOfficer = await models.case_officer.create(
+        caseOfficerToCreate,
+        { auditUser: "someone" }
+      );
+      const referralLetterOfficerAttributes = new ReferralLetterOfficer.Builder()
+        .defaultReferralLetterOfficer()
+        .withId(undefined)
+        .withCaseOfficerId(caseOfficer.id);
+      const referralLetterOfficer = await models.referral_letter_officer.create(
+        referralLetterOfficerAttributes,
+        { auditUser: "test" }
+      );
+
+      expect(referralLetterOfficer.deletedAt).toEqual(null);
+
+      await models.sequelize.transaction(
+        async transaction =>
+          await models.case_officer.destroy({
+            where: { id: caseOfficer.id },
+            auditUser: "someone",
+            transaction
+          })
+      );
+
+      await referralLetterOfficer.reload({ paranoid: false });
+      expect(referralLetterOfficer.deletedAt).not.toEqual(null);
     });
   });
 });

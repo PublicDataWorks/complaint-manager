@@ -146,6 +146,12 @@ module.exports = (sequelize, DataTypes) => {
             auditUser: options.auditUser,
             transaction: options.transaction
           });
+
+          await instance.sequelize.models.referral_letter_officer.destroy({
+            where: { caseOfficerId: instance.dataValues.id },
+            auditUser: options.auditUser,
+            transaction: options.transaction
+          });
         }
       },
       getterMethods: {
