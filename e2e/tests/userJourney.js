@@ -18,8 +18,8 @@ if (!HOST) {
 }
 
 if (TEST_PASS && TEST_USER && HOST) {
-  const roundTripWait = 20000;
-  const rerenderWait = 1000;
+  const roundTripWait = 25000;
+  const rerenderWait = 2000;
 
   module.exports = {
     "should see sign-in title": browser => {
@@ -110,7 +110,7 @@ if (TEST_PASS && TEST_USER && HOST) {
     "should set race or ethnicity": browser => {
       browser
         .click('[data-test="raceDropdown"] > div > div > div')
-        .pause(500) //TODO it takes longer to render the long list of races/ethnicities.  Need to wait so that click isn't dragged in animation
+        .pause(1000) //TODO it takes longer to render the long list of races/ethnicities.  Need to wait so that click isn't dragged in animation
         .waitForElementVisible('[id="menu-raceEthnicity"]', rerenderWait)
         .click("li[data-value=Cuban]")
         .waitForElementNotPresent('[id="menu-raceEthnicity"]', rerenderWait);
@@ -176,7 +176,7 @@ if (TEST_PASS && TEST_USER && HOST) {
           '[data-test="sharedSnackbarBannerText"]',
           "Complainant & Witnesses successfully updated"
         )
-        .pause(500);
+        .pause(1000);
     },
 
     "should display the address in the Complainant & Witnesses section of the Case Detail": browser => {
@@ -191,12 +191,12 @@ if (TEST_PASS && TEST_USER && HOST) {
         .click("[data-test=editComplainantLink]")
         .waitForElementVisible("[data-test=editDialogTitle]", rerenderWait)
         .clearValue('[data-test="addressSuggestionField"] > input')
-        .pause(500)
+        .pause(1000)
         .setValue('[data-test="addressSuggestionField"] > input', [
           " ",
           browser.Keys.BACK_SPACE
         ])
-        .pause(500);
+        .pause(1000);
 
       browser.expect
         .element('[data-test="addressSuggestionField"] > input')
@@ -219,13 +219,13 @@ if (TEST_PASS && TEST_USER && HOST) {
           '[data-test="sharedSnackbarBannerText"]',
           "Complainant & Witnesses successfully updated"
         )
-        .pause(500);
+        .pause(1000);
     },
 
     "should not show address in Complainant & Witnesses section of Case Detail": browser => {
       browser
         .waitForElementPresent('p[data-test="civilianAddress"]', roundTripWait)
-        .pause(500);
+        .pause(1000);
 
       const expansionPanel = '[data-test="complainantWitnessesPanel"] > div';
       browser.getAttribute(expansionPanel, "aria-expanded", expanded => {
@@ -274,7 +274,7 @@ if (TEST_PASS && TEST_USER && HOST) {
     },
 
     "should display the incident location in the Incident Details section of the Case Detail": browser => {
-      browser.pause(500);
+      browser.pause(1000);
       browser.expect
         .element('[data-test="incidentLocation"]')
         .text.to.not.equal("No address specified");
@@ -374,13 +374,13 @@ if (TEST_PASS && TEST_USER && HOST) {
         .waitForElementVisible('[data-test="ruleDropdown"]', rerenderWait)
         .click('[data-test="ruleDropdown"]')
         .waitForElementVisible('[role="listbox"]', 3000)
-        .pause(500)
+        .pause(1000)
         .click('[role="listbox"] > li:last-child')
         .waitForElementVisible(
           '[data-test="allegationSearchSubmitButton"]',
           1500
         )
-        .pause(500)
+        .pause(1000)
         .click('[data-test="allegationSearchSubmitButton"]')
         .waitForElementVisible('[data-test="selectAllegationButton"]', 5000)
         .click('[data-test="selectAllegationButton"]')
@@ -399,7 +399,7 @@ if (TEST_PASS && TEST_USER && HOST) {
           '[data-test="addAllegationButton"]',
           rerenderWait
         )
-        .pause(500)
+        .pause(1000)
         .click('[data-test="addAllegationButton"]')
         .waitForElementVisible('[data-test="officerAllegation0"]', rerenderWait)
         .click('[data-test="back-to-case-link"]');
