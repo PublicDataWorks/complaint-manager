@@ -2,7 +2,6 @@ import React from "react";
 import { Field } from "redux-form";
 import { TextField } from "redux-form-material-ui";
 import { isPhoneNumber } from "../../formFieldLevelValidations";
-import formatPhoneNumberField from "../../utilities/formatPhoneNumberField";
 
 const PhoneNumberField = props => (
   <Field
@@ -19,7 +18,6 @@ const PhoneNumberField = props => (
       shrink: true
     }}
     placeholder="Ex. 1231231234"
-    format={formatPhoneNumberField}
   />
 );
 

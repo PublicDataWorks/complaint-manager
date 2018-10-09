@@ -18,12 +18,7 @@ const notBlank = text => value =>
   value.trim() === "" ? `Please enter ${text}` : undefined;
 
 export const isPhoneNumber = value => {
-  if (!value) {
-    return undefined;
-  }
-  const formattedVal = value.replace(/[() -]/g, "");
-  const missingOrValid =
-    !Boolean(formattedVal) || /^[0-9]{10}$/.test(formattedVal);
+  const missingOrValid = !Boolean(value) || /^[0-9]{10}$/.test(value);
   return missingOrValid ? undefined : "Please enter a numeric 10 digit value";
 };
 
