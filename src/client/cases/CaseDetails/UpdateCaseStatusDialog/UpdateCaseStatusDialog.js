@@ -2,8 +2,8 @@ import React from "react";
 import {
   Dialog,
   DialogActions,
-  DialogTitle,
   DialogContent,
+  DialogTitle,
   Typography
 } from "@material-ui/core";
 import {
@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import setCaseStatus from "../../thunks/setCaseStatus";
 import { closeCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
-import history from "../../../history";
+import { push } from "react-router-redux";
 
 const STATUS_DESCRIPTION = {
   [CASE_STATUS.LETTER_IN_PROGRESS]:
@@ -47,6 +47,20 @@ const UpdateCaseStatusDialog = ({
       ? "Choosing to Generate a Letter"
       : "This action";
 
+  const updateCaseStatus = () => {
+    if (nextStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
+      dispatch(
+        setCaseStatus(caseId, nextStatus, letterInProgressStatusChangeCallback)
+      );
+    } else {
+      dispatch(setCaseStatus(caseId, nextStatus));
+    }
+  };
+
+  const letterInProgressStatusChangeCallback = () => {
+    dispatch(push(`/cases/${caseId}/letter/review`));
+  };
+
   return (
     <Dialog open={open}>
       <DialogTitle>Update Case Status</DialogTitle>
@@ -74,15 +88,7 @@ const UpdateCaseStatusDialog = ({
         >
           Cancel
         </SecondaryButton>
-        <PrimaryButton
-          data-test="updateCaseStatus"
-          onClick={() => {
-            dispatch(setCaseStatus(caseId, nextStatus));
-            if (nextStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
-              history.push(`/cases/${caseId}/letter/review`);
-            }
-          }}
-        >
+        <PrimaryButton data-test="updateCaseStatus" onClick={updateCaseStatus}>
           {nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
             ? `Generate Letter`
             : `Mark as ${nextStatus}`}

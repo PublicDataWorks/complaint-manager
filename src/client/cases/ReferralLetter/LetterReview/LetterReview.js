@@ -35,18 +35,25 @@ export class LetterReview extends Component {
     this.props.dispatch(getCaseDetails(this.props.match.params.id));
   }
 
-  render() {
-    const { caseDetail } = this.props;
-    const caseId = this.props.match.params.id;
+  componentDidUpdate() {
+    if (!this.caseDetailsNotYetLoaded() && !this.statusIsAllowed()) {
+      this.props.dispatch(push(`/cases/${this.props.caseDetail.id}`));
+    }
+  }
+
+  statusIsAllowed = () => {
     const validStatuses = [
       CASE_STATUS.LETTER_IN_PROGRESS,
       CASE_STATUS.READY_FOR_REVIEW
     ];
+    return validStatuses.includes(this.props.caseDetail.status);
+  };
 
-    if (this.caseDetailsNotYetLoaded()) {
-      return null;
-    } else if (!validStatuses.includes(caseDetail.status)) {
-      this.props.dispatch(push(`/cases/${caseId}`));
+  render() {
+    const { caseDetail } = this.props;
+    const caseId = this.props.match.params.id;
+
+    if (this.caseDetailsNotYetLoaded() || !this.statusIsAllowed()) {
       return null;
     }
 

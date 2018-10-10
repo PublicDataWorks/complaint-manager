@@ -26,7 +26,10 @@ describe("LetterReview", () => {
 
   test("redirects to case detail page if case is prior to letter generation status", () => {
     store.dispatch(
-      getCaseDetailsSuccess({ id: caseId, status: CASE_STATUS.ACTIVE })
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.ACTIVE
+      })
     );
     wrapper.update();
     expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
