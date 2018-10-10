@@ -1,11 +1,12 @@
 const asyncMiddleware = require("../../asyncMiddleware");
 const kue = require("kue");
 const generateExportDownloadUrl = require("./generateExportDownloadUrl");
+const Boom = require("boom");
 
 const exportJob = asyncMiddleware(async (request, response, next) => {
-  kue.Job.get(request.params.id, async function(err, job) {
+  kue.Job.get(request.params.id, async (err, job) => {
     if (err) {
-      response.sendStatus(500, err);
+      throw Boom.badRequest(`Could not find Job Id: ${request.params.id}`);
     }
     if (job.result && job.state() === "complete") {
       job.result.downLoadUrl = await generateExportDownloadUrl(

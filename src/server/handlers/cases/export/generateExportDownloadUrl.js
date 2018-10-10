@@ -1,5 +1,5 @@
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
-const config = require("../../../config/config");
+const config = require("../../../config/config")[process.env.NODE_ENV];
 
 const {
   AUDIT_TYPE,
@@ -25,7 +25,7 @@ const generateExportDownloadUrl = async (fileName, userName) => {
     );
 
     return s3.getSignedUrl(S3_GET_OBJECT, {
-      Bucket: config[process.env.NODE_ENV].exportsBucket,
+      Bucket: config.exportsBucket,
       Key: `${fileName}`,
       Expires: S3_URL_EXPIRATION
     });

@@ -92,7 +92,7 @@ const queue = kue.createQueue({
 
 kue.app.set("title", "Background Worker");
 
-kue.app.listen(5000);
+kue.app.listen(config.queue.jobUIPort);
 
 queue.process(JOB_OPERATION.CASE_EXPORT.key, 1, (job, done) => {
   csvCaseExport(job, done);
