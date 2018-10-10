@@ -14,7 +14,10 @@ import { FieldArray, reduxForm } from "redux-form";
 import WarningMessage from "../../../shared/components/WarningMessage";
 import RemoveOfficerHistoryNoteDialog from "./RemoveOfficerHistoryNoteDialog";
 import getReferralLetter from "../thunks/getReferralLetter";
-import { SecondaryButton } from "../../../shared/components/StyledButtons";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../../../shared/components/StyledButtons";
 import editReferralLetter from "../thunks/editReferralLetter";
 import { push } from "react-router-redux";
 
@@ -33,6 +36,12 @@ class OfficerHistories extends Component {
   saveAndGoBackToReview = () => {
     return this.props.handleSubmit(
       this.submitForm(`/cases/${this.state.caseId}/letter/review`)
+    );
+  };
+
+  saveAndGoToNextPage = () => {
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}/letter/iapro-corrections`)
     );
   };
 
@@ -177,6 +186,14 @@ class OfficerHistories extends Component {
               <RemoveOfficerHistoryNoteDialog
                 removeNote={this.props.array.remove}
               />
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <PrimaryButton
+                data-test="next-button"
+                onClick={this.saveAndGoToNextPage()}
+              >
+                Next
+              </PrimaryButton>
             </div>
           </div>
         </form>

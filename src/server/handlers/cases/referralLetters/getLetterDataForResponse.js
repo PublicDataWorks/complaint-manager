@@ -17,10 +17,17 @@ const getLetterDataForResponse = async caseId => {
   const transformedLetterData = {
     id: letterData.id,
     caseId: letterData.caseId,
-    referralLetterOfficers: transformedLetterOfficerData
+    referralLetterOfficers: transformedLetterOfficerData,
+    referralLetterIAProCorrections: getIAProCorrections(letterData)
   };
 
   return transformedLetterData;
+};
+
+const getIAProCorrections = letterData => {
+  return letterData.referralLetterIAProCorrections.length === 0
+    ? buildEmptyIAProCorrections()
+    : letterData.referralLetterIAProCorrections;
 };
 
 const letterOfficerAttributesWithNotes = caseOfficer => {
@@ -34,8 +41,14 @@ const letterOfficerAttributesWithNotes = caseOfficer => {
   return letterOfficerAttributes;
 };
 
+const emptyObject = { tempId: shortid.generate() };
+
 const buildEmptyNotes = () => {
-  return [{ tempId: shortid.generate() }];
+  return [emptyObject];
+};
+
+const buildEmptyIAProCorrections = () => {
+  return [emptyObject, emptyObject, emptyObject];
 };
 
 const getLetterData = async caseId => {
@@ -43,6 +56,11 @@ const getLetterData = async caseId => {
     where: { caseId: caseId },
     attributes: ["id", "caseId"],
     include: [
+      {
+        model: models.referral_letter_iapro_correction,
+        as: "referralLetterIAProCorrections",
+        attributes: ["id", "details"]
+      },
       {
         model: models.case_officer,
         as: "caseOfficers",

@@ -271,6 +271,34 @@ describe("OfficerHistories page", function() {
       );
     });
 
+    test("it dispatches edit to referral letter when click next when values valid", () => {
+      editReferralLetter.mockClear();
+      changeInput(
+        wrapper,
+        "[name='referralLetterOfficers[0].numHistoricalHighAllegations']",
+        "9"
+      );
+      const backButton = wrapper.find('[data-test="next-button"]').first();
+      backButton.simulate("click");
+      const expectedFormValues = {
+        referralLetterOfficers: [
+          {
+            fullName: "Officer 1",
+            id: 0,
+            caseOfficerId: 10,
+            numHistoricalHighAllegations: "9"
+          },
+          { fullName: "Officer 2", id: 1, caseOfficerId: 11 },
+          { fullName: "Officer 3", id: 2, caseOfficerId: 12 }
+        ]
+      };
+      expect(editReferralLetter).toHaveBeenCalledWith(
+        caseId,
+        expectedFormValues,
+        `/cases/${caseId}/letter/iapro-corrections`
+      );
+    });
+
     test("it does not dispatch edit to referral letter when click save and return to cases button when values not valid", () => {
       editReferralLetter.mockClear();
       changeInput(

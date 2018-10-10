@@ -9,6 +9,7 @@ import {
   suppressWinstonLogs
 } from "../../../../testHelpers/requestTestHelpers";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 
 describe("GET /cases/:id/referral-letter", function() {
   afterEach(async () => {
@@ -49,7 +50,12 @@ describe("GET /cases/:id/referral-letter", function() {
       const expectedResponse = {
         id: referralLetter.id,
         caseId: newCase.id,
-        referralLetterOfficers: []
+        referralLetterOfficers: [],
+        referralLetterIAProCorrections: [
+          { tempId: "uniqueTempId" },
+          { tempId: "uniqueTempId" },
+          { tempId: "uniqueTempId" }
+        ]
       };
 
       await request(app)
