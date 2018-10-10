@@ -39,4 +39,25 @@ describe("IAProCorrections", function() {
     const iaproCorrectionCards = wrapper.find("[data-test='iapro-correction']");
     expect(iaproCorrectionCards.length).toEqual(2);
   });
+
+  test("it should add an iapro correction when click add iapro correction button", () => {
+    const referralLetterWithIAProCorrections = {
+      id: caseId,
+      caseId: caseId,
+      referralLetterOfficers: [],
+      referralLetterIAProCorrections: [
+        { id: "1", details: "details1" },
+        { id: "2", details: "details2" }
+      ]
+    };
+    store.dispatch(
+      getReferralLetterSuccess(referralLetterWithIAProCorrections)
+    );
+    wrapper.update();
+    const addIAProCorrectionButton = wrapper
+      .find('[data-test="addIAProCorrectionButton"]')
+      .first();
+    addIAProCorrectionButton.simulate("click");
+    expect(wrapper.find("[data-test='iapro-correction']").length).toEqual(3);
+  });
 });

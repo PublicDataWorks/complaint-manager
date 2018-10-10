@@ -41,14 +41,14 @@ const letterOfficerAttributesWithNotes = caseOfficer => {
   return letterOfficerAttributes;
 };
 
-const emptyObject = { tempId: shortid.generate() };
+const emptyObject = () => ({ tempId: shortid.generate() });
 
 const buildEmptyNotes = () => {
-  return [emptyObject];
+  return [emptyObject()];
 };
 
 const buildEmptyIAProCorrections = () => {
-  return [emptyObject, emptyObject, emptyObject];
+  return [emptyObject(), emptyObject(), emptyObject()];
 };
 
 const getLetterData = async caseId => {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import getReferralLetter from "../thunks/getReferralLetter";
 import { LETTER_PROGRESS } from "../../../../sharedUtilities/constants";
 import NavBar from "../../../shared/components/NavBar/NavBar";
@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { TextField } from "redux-form-material-ui";
 
 import _ from "lodash";
+import shortid from "shortid";
 
 class IAProCorrections extends Component {
   constructor(props) {
@@ -30,7 +31,7 @@ class IAProCorrections extends Component {
     );
   };
 
-  renderIAProCorrectionsFields = ({ fields }) => {
+  renderIAProCorrectionsFields = fields => {
     return fields.map((iaProCorrectionsField, index) => {
       const iaproCorrectionInstance = fields.get(index);
       const uniqueKey =
@@ -60,6 +61,25 @@ class IAProCorrections extends Component {
         </Card>
       );
     });
+  };
+
+  addNewIAProCorrection = fields => () => {
+    const newIAProCorrection = { tempId: shortid.generate() };
+    fields.push(newIAProCorrection);
+  };
+
+  renderIAProCorrections = ({ fields }) => {
+    return (
+      <Fragment>
+        {this.renderIAProCorrectionsFields(fields)}
+        <LinkButton
+          onClick={this.addNewIAProCorrection(fields)}
+          data-test="addIAProCorrectionButton"
+        >
+          + Add A Note
+        </LinkButton>
+      </Fragment>
+    );
   };
 
   render() {
@@ -93,7 +113,7 @@ class IAProCorrections extends Component {
             </div>
             <FieldArray
               name="iaProCorrections"
-              component={this.renderIAProCorrectionsFields}
+              component={this.renderIAProCorrections}
             />
           </div>
         </form>
