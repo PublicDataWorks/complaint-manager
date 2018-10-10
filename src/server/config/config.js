@@ -36,7 +36,7 @@ module.exports = {
     queue: {
       host: "redis",
       port: 6379,
-      failedJobAttempts: 3,
+      failedJobAttempts: 1,
       exponentialDelay: 60 * 1000,
       jobTimeToLive: 120 * 1000
     }

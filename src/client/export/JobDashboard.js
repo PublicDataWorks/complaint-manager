@@ -3,7 +3,7 @@ import NavBar from "../shared/components/NavBar/NavBar";
 import { Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { closeSnackbar } from "../actionCreators/snackBarActionCreators";
-import ExportAllCases from "./exportAllCases";
+import ExportAllCases from "./ExportAllCases";
 
 class JobDashboard extends Component {
   componentDidMount() {

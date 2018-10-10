@@ -1,3 +1,5 @@
+import { BG_JOB_FAILED } from "../../sharedUtilities/constants";
+
 export const getExportJobsSuccess = data => ({
   type: "GET_EXPORT_JOBS_SUCCESS",
   exportJobs: data
@@ -11,4 +13,8 @@ export const getExportJobSuccess = data => ({
 export const generateExportSuccess = jobId => ({
   type: "GENERATE_EXPORT_SUCCESS",
   jobId
+});
+
+export const addBackgroundJobFailure = () => ({
+  type: BG_JOB_FAILED
 });

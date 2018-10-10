@@ -7,19 +7,24 @@ import {
 } from "../actionCreators/navBarActionCreators";
 import ExportConfirmationDialog from "../shared/components/NavBar/ExportConfirmationDialog";
 import connect from "react-redux/es/connect/connect";
-import JobDetails from "./jobDetails";
-
+import JobDetails from "./JobDetails";
 import { bindActionCreators } from "redux";
+
+
+const margin = {
+  marginLeft: "36px",
+  marginTop: "36px",
+  marginBottom: "16px"
+};
 
 class ExportAllCases extends Component {
   componentDidMount() {}
 
   render() {
-    console.log("job id: ", this.props.jobId);
     return (
       <div>
-        <div style={{ margin: "0px 24px" }}>
-          <div style={{ display: "flex" }}>
+        <div style={margin} >
+          <div style={margin}>
             <Typography
               variant={"title"}
               style={{
@@ -32,7 +37,7 @@ class ExportAllCases extends Component {
           </div>
           <div
             data-test="ExportAllCasesContainer"
-            style={{ paddingBottom: "16px" }}
+            style={margin}
           >
             <LinkButton
               onClick={() => {
@@ -43,7 +48,7 @@ class ExportAllCases extends Component {
             </LinkButton>
           </div>
         </div>
-        <div>
+        <div style={margin} >
           {this.props.jobId ? <JobDetails jobId={this.props.jobId} /> : null}
         </div>
         <ExportConfirmationDialog />

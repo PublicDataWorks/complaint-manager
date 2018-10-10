@@ -319,3 +319,5 @@ export const JOB_OPERATION = {
 };
 
 export const QUEUE_PREFIX = "noimp_q";
+
+export const BG_JOB_FAILED = "background job failed.";
