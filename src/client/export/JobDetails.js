@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import connect from "react-redux/es/connect/connect";
+import { connect } from "react-redux";
 import getExportJob from "./thunks/getExportJob";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ReactDOM from "react-dom";
@@ -11,7 +11,7 @@ const REFRESH_MS = 1000;
 class JobDetails extends Component {
   componentDidMount() {
     this.classes = this.props;
-    this.props.getExportJob(this.props.jobId);
+    getExportJob(this.props.jobId);
     setTimeout(this.refreshJob, REFRESH_MS);
   }
 
@@ -32,7 +32,7 @@ class JobDetails extends Component {
       this.props.addBackgroundJobFailure();
     } else {
       if (!this.jobCompleted()) {
-        this.props.getExportJob(this.props.jobId);
+        getExportJob(this.props.jobId);
         setTimeout(this.refreshJob, REFRESH_MS);
       }
     }
@@ -41,6 +41,7 @@ class JobDetails extends Component {
   render() {
     return this.jobCompleted() ? (
       <a
+        data-test="downloadUrl"
         href={
           this.props.exportJob.result
             ? this.props.exportJob.result.downLoadUrl
@@ -49,6 +50,7 @@ class JobDetails extends Component {
       />
     ) : (
       <div
+        data-test="waitingForJob"
         style={{
           textAlign: "center",
           alignItems: "center",
@@ -72,7 +74,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      getExportJob,
       addBackgroundJobFailure
     },
     dispatch
