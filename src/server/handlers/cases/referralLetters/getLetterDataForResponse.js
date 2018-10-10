@@ -55,6 +55,17 @@ const getLetterData = async caseId => {
   return await models.referral_letter.findOne({
     where: { caseId: caseId },
     attributes: ["id", "caseId"],
+    order: [
+      [{ model: models.case_officer, as: "caseOfficers" }, "created_at", "ASC"],
+      [
+        {
+          model: models.referral_letter_iapro_correction,
+          as: "referralLetterIAProCorrections"
+        },
+        "created_at",
+        "ASC"
+      ]
+    ],
     include: [
       {
         model: models.referral_letter_iapro_correction,
