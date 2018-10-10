@@ -31,6 +31,7 @@ import addressInputReducer from "./reducers/ui/addressInputReducer";
 import classificationReducer from "./reducers/ui/classificationReducer";
 import officerHistoryNoteDialogReducer from "./reducers/ui/officerHistoryNoteDialogReducer";
 import referralLetterReducer from "./reducers/cases/referralLetterReducer";
+import iaProCorrectionsReducer from "./reducers/ui/iaProCorrectionDialogReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -66,7 +67,8 @@ const rootReducer = combineReducers({
     removeOfficerAllegationDialog: removeOfficerAllegationDialogReducer,
     accusedOfficerPanels: accusedOfficerPanelsReducer,
     addressInput: addressInputReducer,
-    officerHistoryNoteDialog: officerHistoryNoteDialogReducer
+    officerHistoryNoteDialog: officerHistoryNoteDialogReducer,
+    iaProCorrectionsDialog: iaProCorrectionsReducer
   }),
   officers: searchOfficersReducer,
   featureToggles: featureTogglesReducer

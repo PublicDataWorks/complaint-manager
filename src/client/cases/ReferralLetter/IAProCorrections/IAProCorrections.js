@@ -8,9 +8,11 @@ import LinkButton from "../../../shared/components/LinkButton";
 import { Field, FieldArray, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { TextField } from "redux-form-material-ui";
+import { openRemoveIAProCorrectionDialog } from "../../../actionCreators/letterActionCreators";
 
 import _ from "lodash";
 import shortid from "shortid";
+import RemoveIAProCorrectionDialog from "./RemoveIAProCorrectionDialog";
 
 class IAProCorrections extends Component {
   constructor(props) {
@@ -45,9 +47,12 @@ class IAProCorrections extends Component {
           }}
         >
           <CardContent style={{ backgroundColor: "white" }}>
-            <div data-test="iapro-correction">
+            <div
+              data-test="iapro-correction"
+              style={{ display: "flex", width: "100%" }}
+            >
               <Field
-                style={{ width: "80%" }}
+                style={{ flex: 4 }}
                 name={`${iaProCorrectionsField}.details`}
                 component={TextField}
                 label="Correction Description"
@@ -56,6 +61,20 @@ class IAProCorrections extends Component {
                 multiline
                 rowsMax={10}
               />
+              <div style={{ textAlign: "right", flex: 1, paddingTop: "16px" }}>
+                <LinkButton
+                  data-test="open-remove-iapro-correction-dialog-button"
+                  style={{ textAlign: "right" }}
+                  onClick={() => {
+                    this.props.openRemoveIAProCorrectionDialog(
+                      "iaProCorrections",
+                      index
+                    );
+                  }}
+                >
+                  Remove
+                </LinkButton>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -117,10 +136,15 @@ class IAProCorrections extends Component {
             />
           </div>
         </form>
+        <RemoveIAProCorrectionDialog removeFunction={this.props.array.remove} />
       </div>
     );
   }
 }
+
+const mapDispatchToProps = {
+  openRemoveIAProCorrectionDialog
+};
 
 const mapStateToProps = state => ({
   letterDetails: state.referralLetter.letterDetails,
@@ -130,7 +154,10 @@ const mapStateToProps = state => ({
   }
 });
 
-export default connect(mapStateToProps)(
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
   reduxForm({ form: "IAProCorrections", enableReinitialize: true })(
     IAProCorrections
   )
