@@ -2,6 +2,7 @@ import checkForValidStatus from "../checkForValidStatus";
 import models from "../../../../models/index";
 import asyncMiddleware from "../../../asyncMiddleware";
 import Boom from "boom";
+import getLetterDataForResponse from "../getLetterDataForResponse";
 
 const editIAProCorrections = asyncMiddleware(
   async (request, response, next) => {
@@ -20,6 +21,10 @@ const editIAProCorrections = asyncMiddleware(
         );
       }
     });
+    const letterDataForResponse = await getLetterDataForResponse(
+      request.params.caseId
+    );
+    return response.status(200).send(letterDataForResponse);
   }
 );
 

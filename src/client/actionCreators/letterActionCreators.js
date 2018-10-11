@@ -4,7 +4,8 @@ import {
   REMOVE_OFFICER_HISTORY_NOTE_DIALOG_CLOSED,
   REMOVE_OFFICER_HISTORY_NOTE_DIALOG_OPENED,
   REMOVE_IAPRO_CORRECTION_DIALOG_OPENED,
-  REMOVE_IAPRO_CORRECTION_DIALOG_CLOSED
+  REMOVE_IAPRO_CORRECTION_DIALOG_CLOSED,
+  EDIT_IAPRO_CORRECTION_SUCCESS
 } from "../../sharedUtilities/constants";
 
 export const openRemoveOfficerHistoryNoteDialog = (
@@ -42,5 +43,10 @@ export const getReferralLetterSuccess = letterDetails => ({
 
 export const editReferralLetterSuccess = letterDetails => ({
   type: EDIT_REFERRAL_LETTER_SUCCESS,
+  letterDetails
+});
+
+export const editIAProCorrectionsSuccess = letterDetails => ({
+  type: EDIT_IAPRO_CORRECTION_SUCCESS,
   letterDetails
 });

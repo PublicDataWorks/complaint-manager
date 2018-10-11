@@ -13,6 +13,8 @@ import { openRemoveIAProCorrectionDialog } from "../../../actionCreators/letterA
 import _ from "lodash";
 import shortid from "shortid";
 import RemoveIAProCorrectionDialog from "./RemoveIAProCorrectionDialog";
+import editIAProCorrections from "../thunks/editIAProCorrections";
+import { SecondaryButton } from "../../../shared/components/StyledButtons";
 
 class IAProCorrections extends Component {
   constructor(props) {
@@ -24,7 +26,21 @@ class IAProCorrections extends Component {
     this.props.dispatch(getReferralLetter(this.state.caseId));
   }
 
-  saveAndReturnToCase = () => {};
+  saveAndReturnToCase = () => {
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}`)
+    );
+  };
+
+  saveAndGoBackToReview = () => {
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}/letter/officer-history`)
+    );
+  };
+
+  submitForm = redirectUrl => (values, dispatch) => {
+    dispatch(editIAProCorrections(this.state.caseId, values, redirectUrl));
+  };
 
   referralLetterNotYetLoaded = () => {
     return (
@@ -67,7 +83,7 @@ class IAProCorrections extends Component {
                   style={{ textAlign: "right" }}
                   onClick={() => {
                     this.props.openRemoveIAProCorrectionDialog(
-                      "iaProCorrections",
+                      "referralLetterIAProCorrections",
                       index
                     );
                   }}
@@ -95,7 +111,7 @@ class IAProCorrections extends Component {
           onClick={this.addNewIAProCorrection(fields)}
           data-test="addIAProCorrectionButton"
         >
-          + Add A Note
+          + Add A Correction
         </LinkButton>
       </Fragment>
     );
@@ -130,10 +146,20 @@ class IAProCorrections extends Component {
             <div style={{ margin: "0 0 32px 0" }}>
               <Typography variant="title">IAPro Corrections</Typography>
             </div>
-            <FieldArray
-              name="iaProCorrections"
-              component={this.renderIAProCorrections}
-            />
+            <div style={{ marginBottom: "32px" }}>
+              <FieldArray
+                name="referralLetterIAProCorrections"
+                component={this.renderIAProCorrections}
+              />
+            </div>
+            <div>
+              <SecondaryButton
+                onClick={this.saveAndGoBackToReview()}
+                data-test="back-button"
+              >
+                Back
+              </SecondaryButton>
+            </div>
           </div>
         </form>
         <RemoveIAProCorrectionDialog removeFunction={this.props.array.remove} />
@@ -149,7 +175,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   letterDetails: state.referralLetter.letterDetails,
   initialValues: {
-    iaProCorrections:
+    referralLetterIAProCorrections:
       state.referralLetter.letterDetails.referralLetterIAProCorrections
   }
 });
