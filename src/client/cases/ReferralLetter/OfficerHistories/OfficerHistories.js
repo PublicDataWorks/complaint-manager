@@ -14,8 +14,12 @@ import { FieldArray, reduxForm } from "redux-form";
 import WarningMessage from "../../../shared/components/WarningMessage";
 import RemoveOfficerHistoryNoteDialog from "./RemoveOfficerHistoryNoteDialog";
 import getReferralLetter from "../thunks/getReferralLetter";
-import { SecondaryButton } from "../../../shared/components/StyledButtons";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../../../shared/components/StyledButtons";
 import editReferralLetter from "../thunks/editReferralLetter";
+import { push } from "react-router-redux";
 
 class OfficerHistories extends Component {
   constructor(props) {
@@ -35,8 +39,18 @@ class OfficerHistories extends Component {
     );
   };
 
+  saveAndGoToNextPage = () => {
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}/letter/iapro-corrections`)
+    );
+  };
+
   submitForm = redirectUrl => (values, dispatch) => {
-    dispatch(editReferralLetter(this.state.caseId, values, redirectUrl));
+    if (values.referralLetterOfficers.length === 0) {
+      dispatch(push(redirectUrl));
+    } else {
+      dispatch(editReferralLetter(this.state.caseId, values, redirectUrl));
+    }
   };
 
   referralLetterNotYetLoaded() {
@@ -86,7 +100,11 @@ class OfficerHistories extends Component {
 
   renderNoOfficers = () => {
     return (
-      <WarningMessage variant="grayText" data-test="no-officers-message">
+      <WarningMessage
+        variant="grayText"
+        data-test="no-officers-message"
+        style={{ margin: "0 0 32px" }}
+      >
         There are no officers on this case
       </WarningMessage>
     );
@@ -168,6 +186,14 @@ class OfficerHistories extends Component {
               <RemoveOfficerHistoryNoteDialog
                 removeNote={this.props.array.remove}
               />
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <PrimaryButton
+                data-test="next-button"
+                onClick={this.saveAndGoToNextPage()}
+              >
+                Next
+              </PrimaryButton>
             </div>
           </div>
         </form>

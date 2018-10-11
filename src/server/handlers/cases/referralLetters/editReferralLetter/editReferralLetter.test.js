@@ -9,30 +9,43 @@ import httpMocks from "node-mocks-http";
 import ReferralLetterOfficer from "../../../../../client/testUtilities/ReferralLetterOfficer";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
 import Boom from "boom";
+import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 
 describe("edit referral letter", () => {
-  describe("officer histories (letter officers with history notes)", () => {
-    afterEach(async () => {
-      await cleanupDatabase();
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
+  let existingCase, referralLetter, caseOfficer, response, next;
+
+  beforeEach(async () => {
+    response = httpMocks.createResponse();
+    next = jest.fn();
+
+    const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
+    existingCase = await models.cases.create(caseAttributes, {
+      auditUser: "test"
     });
+    await existingCase.update(
+      { status: CASE_STATUS.ACTIVE },
+      { auditUser: "test" }
+    );
+    await existingCase.update(
+      { status: CASE_STATUS.LETTER_IN_PROGRESS },
+      { auditUser: "test" }
+    );
 
-    let existingCase, referralLetter, caseOfficer, response, next;
+    const referralLetterAttributes = new ReferralLetter.Builder()
+      .defaultReferralLetter()
+      .withId(undefined)
+      .withCaseId(existingCase.id);
+    referralLetter = await models.referral_letter.create(
+      referralLetterAttributes,
+      { auditUser: "test" }
+    );
+  });
 
+  describe("officer histories (letter officers with history notes)", () => {
     beforeEach(async () => {
-      const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
-      existingCase = await models.cases.create(caseAttributes, {
-        auditUser: "test"
-      });
-
-      const referralLetterAttributes = new ReferralLetter.Builder()
-        .defaultReferralLetter()
-        .withId(undefined)
-        .withCaseId(existingCase.id);
-      referralLetter = await models.referral_letter.create(
-        referralLetterAttributes,
-        { auditUser: "test" }
-      );
-
       const officerAttributes = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined);
@@ -52,9 +65,6 @@ describe("edit referral letter", () => {
       caseOfficer = await models.case_officer.create(caseOfficerAttributes, {
         auditUser: "test"
       });
-
-      response = httpMocks.createResponse();
-      next = jest.fn();
     });
 
     describe("no existing letter officer yet", () => {

@@ -44,9 +44,27 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.DATE,
         field: "updated_at"
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+        field: "deleted_at"
       }
     },
-    { tableName: "referral_letter_officers" }
+    {
+      tableName: "referral_letter_officers",
+      paranoid: true,
+      hooks: {
+        beforeDestroy: async (instance, options) => {
+          await instance.sequelize.models.referral_letter_officer_history_note.destroy(
+            {
+              where: { referralLetterOfficerId: instance.dataValues.id },
+              auditUser: options.auditUser,
+              transaction: options.transaction
+            }
+          );
+        }
+      }
+    }
   );
   ReferralLetterOfficer.associate = function(models) {
     ReferralLetterOfficer.hasMany(models.referral_letter_officer_history_note, {

@@ -53,7 +53,7 @@ describe("editReferralLetter", () => {
       editReferralLetterSuccess(responseBody)
     );
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Officer complaint histories were successfully updated")
+      snackbarSuccess("Officer Complaint History was successfully updated")
     );
   });
 

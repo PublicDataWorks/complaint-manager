@@ -50,7 +50,7 @@ const OfficerHistoryNote = props => {
           <Field
             name={`${referralLetterOfficerHistoryNote}.pibCaseNumber`}
             component={TextField}
-            label="Case Reference Number (optional)"
+            label="Case Reference Number"
             style={{ width: "40%", marginBottom: "32px" }}
             inputProps={{ "data-test": "note-pib-case-number" }}
           />

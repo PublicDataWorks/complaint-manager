@@ -1,6 +1,7 @@
 import {
   buildTokenWithPermissions,
-  cleanupDatabase
+  cleanupDatabase,
+  suppressWinstonLogs
 } from "../../../../testHelpers/requestTestHelpers";
 import models from "../../../../models";
 import Case from "../../../../../client/testUtilities/case";
@@ -9,6 +10,7 @@ import Officer from "../../../../../client/testUtilities/Officer";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import request from "supertest";
 import app from "../../../../server";
+import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 
@@ -18,6 +20,7 @@ describe("edit referral letter", () => {
       await cleanupDatabase();
     });
 
+    const token = buildTokenWithPermissions("", "some_nickname");
     let existingCase, referralLetter, caseOfficer;
 
     beforeEach(async () => {
@@ -25,6 +28,11 @@ describe("edit referral letter", () => {
       existingCase = await models.cases.create(caseAttributes, {
         auditUser: "test"
       });
+
+      await existingCase.update(
+        { status: CASE_STATUS.ACTIVE },
+        { auditUser: "test" }
+      );
 
       const referralLetterAttributes = new ReferralLetter.Builder()
         .defaultReferralLetter()
@@ -57,7 +65,10 @@ describe("edit referral letter", () => {
     });
 
     test("saves the letter officers if they do not exist yet", async () => {
-      const token = buildTokenWithPermissions("", "some_nickname");
+      await existingCase.update(
+        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        { auditUser: "test" }
+      );
 
       const requestBody = {
         referralLetterOfficers: [
@@ -113,5 +124,66 @@ describe("edit referral letter", () => {
         "<p>notes here</p>"
       );
     });
+
+    test("it returns 200 if case status is ready for review", async () => {
+      await existingCase.update(
+        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        { auditUser: "test" }
+      );
+      await existingCase.update(
+        { status: CASE_STATUS.READY_FOR_REVIEW },
+        { auditUser: "test" }
+      );
+      const requestBody = {
+        referralLetterOfficers: []
+      };
+
+      await request(app)
+        .put(`/api/cases/${existingCase.id}/referral-letter`)
+        .set("Content-Header", "application/json")
+        .set("Authorization", `Bearer ${token}`)
+        .send(requestBody)
+        .expect(200);
+    });
+
+    test(
+      "it returns 400 invalid case status message if case status is prior to letter in progress",
+      suppressWinstonLogs(async () => {
+        await request(app)
+          .put(`/api/cases/${existingCase.id}/referral-letter`)
+          .set("Content-Header", "application/json")
+          .set("Authorization", `Bearer ${token}`)
+          .expect(400)
+          .then(response => {
+            expect(response.body.message).toEqual("Invalid case status.");
+          });
+      })
+    );
+
+    test(
+      "it returns 400 invalid case status message if case status is after ready for review",
+      suppressWinstonLogs(async () => {
+        await existingCase.update(
+          { status: CASE_STATUS.LETTER_IN_PROGRESS },
+          { auditUser: "test" }
+        );
+        await existingCase.update(
+          { status: CASE_STATUS.READY_FOR_REVIEW },
+          { auditUser: "test" }
+        );
+        await existingCase.update(
+          { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+          { auditUser: "test" }
+        );
+        await request(app)
+          .put(`/api/cases/${existingCase.id}/referral-letter`)
+          .set("Content-Header", "application/json")
+          .set("Authorization", `Bearer ${token}`)
+          .expect(400)
+          .then(response => {
+            expect(response.body.message).toEqual("Invalid case status.");
+          });
+      })
+    );
   });
 });

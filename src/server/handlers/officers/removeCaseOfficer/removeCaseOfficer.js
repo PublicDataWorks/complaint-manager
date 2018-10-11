@@ -15,12 +15,6 @@ const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
   }
 
   await models.sequelize.transaction(async transaction => {
-    await models.officer_allegation.destroy({
-      where: { caseOfficerId: officerToRemove.id },
-      auditUser: request.nickname,
-      transaction
-    });
-
     await officerToRemove.destroy({
       auditUser: request.nickname,
       transaction

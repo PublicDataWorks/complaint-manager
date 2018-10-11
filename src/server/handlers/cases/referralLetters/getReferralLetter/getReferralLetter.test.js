@@ -8,20 +8,33 @@ import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import getReferralLetter from "./getReferralLetter";
 import httpMocks from "node-mocks-http";
+import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/ReferralLetterIAProCorrection";
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 
 describe("getReferralLetter", () => {
-  let existingCase, referralLetter, request, response, next;
+  let existingCase, referralLetter, request, response, next, emptyObject;
 
   afterEach(async () => {
     await cleanupDatabase();
   });
 
   beforeEach(async () => {
+    emptyObject = { tempId: "uniqueTempId" };
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "test"
     });
+
+    await existingCase.update(
+      { status: CASE_STATUS.ACTIVE },
+      { auditUser: "test" }
+    );
+
+    await existingCase.update(
+      { status: CASE_STATUS.LETTER_IN_PROGRESS },
+      { auditUser: "test" }
+    );
 
     const referralLetterAttributes = new ReferralLetter.Builder()
       .defaultReferralLetter()
@@ -74,13 +87,10 @@ describe("getReferralLetter", () => {
         {
           caseOfficerId: caseOfficer.id,
           fullName: caseOfficer.fullName,
-          referralLetterOfficerHistoryNotes: [
-            {
-              tempId: "uniqueTempId"
-            }
-          ]
+          referralLetterOfficerHistoryNotes: [emptyObject]
         }
-      ]
+      ],
+      referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
     };
 
     await getReferralLetter(request, response, next);
@@ -139,13 +149,10 @@ describe("getReferralLetter", () => {
             referralLetterOfficer.numHistoricalLowAllegations,
           historicalBehaviorNotes:
             referralLetterOfficer.historicalBehaviorNotes,
-          referralLetterOfficerHistoryNotes: [
-            {
-              tempId: "uniqueTempId"
-            }
-          ]
+          referralLetterOfficerHistoryNotes: [emptyObject]
         }
-      ]
+      ],
+      referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
     };
 
     await getReferralLetter(request, response, next);
@@ -225,6 +232,47 @@ describe("getReferralLetter", () => {
             }
           ]
         }
+      ],
+      referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
+    };
+
+    await getReferralLetter(request, response, next);
+    expect(response._getData()).toEqual(expectedResponseBody);
+  });
+
+  test("returns iapro corrections when they exist", async () => {
+    const iaproCorrectionAttributes = new ReferralLetterIAProCorrection.Builder()
+      .defaultReferralLetterIAProCorrection()
+      .withId(undefined)
+      .withReferralLetterId(referralLetter.id)
+      .withDetails("Stuff was wrong!!!");
+    const iaproCorrection = await models.referral_letter_iapro_correction.create(
+      iaproCorrectionAttributes,
+      { auditUser: "test" }
+    );
+
+    const expectedResponseBody = {
+      id: referralLetter.id,
+      caseId: existingCase.id,
+      referralLetterOfficers: [],
+      referralLetterIAProCorrections: [
+        { id: iaproCorrection.id, details: iaproCorrection.details }
+      ]
+    };
+
+    await getReferralLetter(request, response, next);
+    expect(response._getData()).toEqual(expectedResponseBody);
+  });
+
+  test("returns 3 empty iapro corrections when they do not exist", async () => {
+    const expectedResponseBody = {
+      id: referralLetter.id,
+      caseId: existingCase.id,
+      referralLetterOfficers: [],
+      referralLetterIAProCorrections: [
+        { tempId: "uniqueTempId" },
+        { tempId: "uniqueTempId" },
+        { tempId: "uniqueTempId" }
       ]
     };
 

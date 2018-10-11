@@ -21,7 +21,10 @@ describe("getReferralLetter", () => {
 
   test("dispatches success with letter details on success", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
-    const responseBody = { id: 9, referralLetterOfficers: [] };
+    const responseBody = {
+      id: 9,
+      referralLetterOfficers: []
+    };
     nock("http://localhost", {})
       .get(`/api/cases/${caseId}/referral-letter`)
       .reply(200, responseBody);
@@ -43,6 +46,36 @@ describe("getReferralLetter", () => {
       snackbarError(
         "Something went wrong and we could not retrieve the referral letter information"
       )
+    );
+  });
+
+  test("redirects to case page if case is in invalid status for letter generation", async () => {
+    getAccessToken.mockImplementation(() => "TEST_TOKEN");
+    const responseBody = {
+      message: "Invalid case status."
+    };
+    nock("http://localhost", {})
+      .get(`/api/cases/${caseId}/referral-letter`)
+      .reply(400, responseBody);
+
+    await getReferralLetter(caseId)(dispatch);
+    expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+  });
+
+  test("does not redirect to case page if case is in a valid status for letter generation", async () => {
+    getAccessToken.mockImplementation(() => "TEST_TOKEN");
+    const responseBody = {
+      id: 9,
+      referralLetterOfficers: []
+    };
+    nock("http://localhost", {})
+      .get(`/api/cases/${caseId}/referral-letter`)
+      .reply(200, responseBody);
+
+    await getReferralLetter(caseId)(dispatch);
+    expect(dispatch).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    expect(dispatch).toHaveBeenCalledWith(
+      getReferralLetterSuccess(responseBody)
     );
   });
 });

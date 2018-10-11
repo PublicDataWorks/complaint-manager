@@ -5,7 +5,7 @@ import { LETTER_PROGRESS_MAP } from "../../../sharedUtilities/constants";
 const generateSteps = map => {
   return Object.keys(map).map(key => {
     return (
-      <Step key={key}>
+      <Step key={key} completed={false}>
         <StepLabel>{key}</StepLabel>
       </Step>
     );

@@ -1,10 +1,12 @@
 import getLetterDataForResponse from "../getLetterDataForResponse";
 import asyncMiddleware from "../../../asyncMiddleware";
+import checkForValidStatus from "../checkForValidStatus";
 
 const getReferralLetter = asyncMiddleware(async (request, response) => {
-  const transformedLetterData = await getLetterDataForResponse(
-    request.params.caseId
-  );
+  const caseId = request.params.caseId;
+  await checkForValidStatus(caseId);
+
+  const transformedLetterData = await getLetterDataForResponse(caseId);
   response.send(transformedLetterData);
 });
 

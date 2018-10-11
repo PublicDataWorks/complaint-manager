@@ -2,17 +2,20 @@ import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
 import Boom from "boom";
 import getLetterDataForResponse from "../getLetterDataForResponse";
+import checkForValidStatus from "../checkForValidStatus";
 
 const editReferralLetter = asyncMiddleware(async (request, response, next) => {
-  if (request.body.referralLetterOfficers) {
-    await models.sequelize.transaction(async transaction => {
+  await checkForValidStatus(request.params.caseId);
+
+  await models.sequelize.transaction(async transaction => {
+    if (request.body.referralLetterOfficers) {
       await createOrUpdateReferralLetterOfficers(
         request.body.referralLetterOfficers,
         request.nickname,
         transaction
       );
-    });
-  }
+    }
+  });
   const letterDataForResponse = await getLetterDataForResponse(
     request.params.caseId
   );

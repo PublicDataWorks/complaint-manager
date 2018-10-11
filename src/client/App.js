@@ -27,6 +27,7 @@ import SharedSnackbarContainer from "./shared/components/SharedSnackbarContainer
 import getFeatureToggles from "./featureToggles/thunks/getFeatureToggles";
 import LetterReview from "./cases/ReferralLetter/LetterReview/LetterReview";
 import OfficerHistories from "./cases/ReferralLetter/OfficerHistories/OfficerHistories";
+import IAProCorrections from "./cases/ReferralLetter/IAProCorrections/IAProCorrections";
 
 class App extends Component {
   componentDidMount() {
@@ -81,8 +82,13 @@ class App extends Component {
               />
               <Route
                 exact
-                path="/cases/:id/letter/histories"
+                path="/cases/:id/letter/officer-history"
                 component={OfficerHistories}
+              />
+              <Route
+                exact
+                path="/cases/:id/letter/iapro-corrections"
+                component={IAProCorrections}
               />
               <Route exact path="/styleguide" component={StyleGuide} />
               <Route exact path="/admin" component={UserDashboard} />

@@ -29,8 +29,6 @@ const RemoveOfficerHistoryNoteDialog = ({
     snackbarSuccess("Note successfully removed");
   };
 
-  const detailsMarkup = { __html: noteDetails.details };
-
   return (
     <Dialog open={dialogOpen} fullWidth={true}>
       <DialogTitle>Remove Note</DialogTitle>
@@ -53,9 +51,6 @@ const RemoveOfficerHistoryNoteDialog = ({
         >
           <Typography>
             Case Reference Number: {noteDetails.pibCaseNumber}
-          </Typography>
-          <Typography className="quill-editor-overrides">
-            Note Details: <span dangerouslySetInnerHTML={detailsMarkup} />
           </Typography>
         </div>
         <Typography>Are you sure you want to continue?</Typography>

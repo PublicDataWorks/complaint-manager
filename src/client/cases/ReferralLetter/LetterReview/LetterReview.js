@@ -17,7 +17,11 @@ import {
 } from "./CaseDetailDataHelpers";
 import TextTruncate from "../../../shared/components/TextTruncate";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
-import { LETTER_PROGRESS } from "../../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  LETTER_PROGRESS
+} from "../../../../sharedUtilities/constants";
+import { push } from "react-router-redux";
 
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {
@@ -31,11 +35,25 @@ export class LetterReview extends Component {
     this.props.dispatch(getCaseDetails(this.props.match.params.id));
   }
 
+  componentDidUpdate() {
+    if (!this.caseDetailsNotYetLoaded() && !this.statusIsAllowed()) {
+      this.props.dispatch(push(`/cases/${this.props.caseDetail.id}`));
+    }
+  }
+
+  statusIsAllowed = () => {
+    const validStatuses = [
+      CASE_STATUS.LETTER_IN_PROGRESS,
+      CASE_STATUS.READY_FOR_REVIEW
+    ];
+    return validStatuses.includes(this.props.caseDetail.status);
+  };
+
   render() {
     const { caseDetail } = this.props;
     const caseId = this.props.match.params.id;
 
-    if (this.caseDetailsNotYetLoaded()) {
+    if (this.caseDetailsNotYetLoaded() || !this.statusIsAllowed()) {
       return null;
     }
 
@@ -123,7 +141,7 @@ export class LetterReview extends Component {
           <div style={{ textAlign: "right" }}>
             <PrimaryButton
               component={Link}
-              to={`/cases/${caseId}/letter/histories`}
+              to={`/cases/${caseId}/letter/officer-history`}
             >
               Next
             </PrimaryButton>

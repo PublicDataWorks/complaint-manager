@@ -72,4 +72,29 @@ describe("setCaseStatus", () => {
     );
     expect(dispatch).toHaveBeenCalledWith(closeCaseStatusUpdateDialog());
   });
+
+  test("should call callback if given on success", async () => {
+    const updateDetails = {
+      id: 1,
+      status: CASE_STATUS.ACTIVE
+    };
+    const responseBody = { id: 1 };
+    const callback = jest.fn();
+
+    nock("http://localhost", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer TEST_TOKEN"
+      }
+    })
+      .put(`/api/cases/${updateDetails.id}/status`, {
+        status: updateDetails.status
+      })
+      .reply(200, responseBody);
+
+    await setCaseStatus(updateDetails.id, updateDetails.status, callback)(
+      dispatch
+    );
+    expect(callback).toHaveBeenCalled();
+  });
 });
