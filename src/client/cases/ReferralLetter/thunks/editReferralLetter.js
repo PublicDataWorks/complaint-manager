@@ -32,7 +32,7 @@ const editReferralLetter = (
     );
     dispatch(editReferralLetterSuccess(response.data));
     dispatch(
-      snackbarSuccess("Officer Complaint Histories were successfully updated")
+      snackbarSuccess("Officer Complaint History was successfully updated")
     );
     return dispatch(push(successRedirectRoute));
   } catch (error) {

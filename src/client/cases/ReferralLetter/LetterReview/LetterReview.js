@@ -141,7 +141,7 @@ export class LetterReview extends Component {
           <div style={{ textAlign: "right" }}>
             <PrimaryButton
               component={Link}
-              to={`/cases/${caseId}/letter/histories`}
+              to={`/cases/${caseId}/letter/officer-history`}
             >
               Next
             </PrimaryButton>
