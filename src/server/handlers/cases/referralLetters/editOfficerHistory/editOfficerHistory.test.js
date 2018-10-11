@@ -4,7 +4,7 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import Case from "../../../../../client/testUtilities/case";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import Officer from "../../../../../client/testUtilities/Officer";
-import editReferralLetter from "./editReferralLetter";
+import editOfficerHistory from "./editOfficerHistory";
 import httpMocks from "node-mocks-http";
 import ReferralLetterOfficer from "../../../../../client/testUtilities/ReferralLetterOfficer";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
@@ -91,7 +91,7 @@ describe("edit referral letter", () => {
           body: requestBody,
           nickname: "nickname"
         });
-        await editReferralLetter(request, response, next);
+        await editOfficerHistory(request, response, next);
 
         expect(response.statusCode).toEqual(200);
         const createdLetterOfficers = await models.referral_letter_officer.findAll(
@@ -158,7 +158,7 @@ describe("edit referral letter", () => {
           body: requestBody,
           nickname: "nickname"
         });
-        await editReferralLetter(request, response, next);
+        await editOfficerHistory(request, response, next);
 
         expect(response.statusCode).toEqual(200);
         const createdLetterOfficer = await models.referral_letter_officer.findOne(
@@ -225,7 +225,7 @@ describe("edit referral letter", () => {
           body: requestBody,
           nickname: "nickname"
         });
-        await editReferralLetter(request, response, next);
+        await editOfficerHistory(request, response, next);
 
         expect(response.statusCode).toEqual(200);
         const createdLetterOfficer = await models.referral_letter_officer.findOne(
@@ -267,7 +267,7 @@ describe("edit referral letter", () => {
           body: requestBody,
           nickname: "nickname"
         });
-        await editReferralLetter(request, response, next);
+        await editOfficerHistory(request, response, next);
         expect(next).toHaveBeenCalledWith(
           Boom.badRequest("Invalid case officer")
         );
@@ -308,7 +308,7 @@ describe("edit referral letter", () => {
           body: requestBody,
           nickname: "nickname"
         });
-        await editReferralLetter(request, response, next);
+        await editOfficerHistory(request, response, next);
         expect(next).toHaveBeenCalledWith(
           Boom.badRequest("Invalid case officer")
         );
@@ -360,7 +360,7 @@ describe("edit referral letter", () => {
           body: requestBody,
           nickname: "nickname"
         });
-        await editReferralLetter(request, response, next);
+        await editOfficerHistory(request, response, next);
 
         expect(response.statusCode).toEqual(200);
 
@@ -408,7 +408,7 @@ describe("edit referral letter", () => {
           body: requestBody,
           nickname: "nickname"
         });
-        await editReferralLetter(request, response, next);
+        await editOfficerHistory(request, response, next);
 
         expect(response.statusCode).toEqual(200);
 
@@ -469,7 +469,7 @@ describe("edit referral letter", () => {
           body: requestBody,
           nickname: "nickname"
         });
-        await editReferralLetter(request, response, next);
+        await editOfficerHistory(request, response, next);
 
         expect(response.statusCode).toEqual(200);
         await referralLetterOfficer.reload({
@@ -529,7 +529,7 @@ describe("edit referral letter", () => {
           body: requestBody,
           nickname: "nickname"
         });
-        await editReferralLetter(request, response, next);
+        await editOfficerHistory(request, response, next);
 
         expect(response.statusCode).toEqual(200);
         await referralLetterOfficer.reload({
@@ -570,7 +570,7 @@ describe("edit referral letter", () => {
           nickname: "nickname"
         });
 
-        await editReferralLetter(request, response, next);
+        await editOfficerHistory(request, response, next);
         expect(next).toHaveBeenCalledWith(
           Boom.badRequest("Invalid letter officer")
         );
@@ -606,7 +606,7 @@ describe("edit referral letter", () => {
           nickname: "nickname"
         });
 
-        await editReferralLetter(request, response, next);
+        await editOfficerHistory(request, response, next);
         expect(next).toHaveBeenCalledWith(
           Boom.badRequest("Invalid letter officer case officer combination")
         );
@@ -648,7 +648,7 @@ describe("edit referral letter", () => {
           body: requestBody,
           nickname: "nickname"
         });
-        await editReferralLetter(request, response, next);
+        await editOfficerHistory(request, response, next);
         expect(next).toHaveBeenCalledWith(
           Boom.badRequest("Invalid officer history note")
         );
@@ -726,7 +726,7 @@ describe("edit referral letter", () => {
             body: requestBody,
             nickname: "nickname"
           });
-          await editReferralLetter(request, response, next);
+          await editOfficerHistory(request, response, next);
 
           expect(response.statusCode).toEqual(200);
           await referralLetterOfficer.reload({
@@ -790,7 +790,7 @@ describe("edit referral letter", () => {
             body: requestBody,
             nickname: "nickname"
           });
-          await editReferralLetter(request, response, next);
+          await editOfficerHistory(request, response, next);
 
           expect(response.statusCode).toEqual(200);
           await referralLetterOfficer.reload({
@@ -853,7 +853,7 @@ describe("edit referral letter", () => {
             body: requestBody,
             nickname: "nickname"
           });
-          await editReferralLetter(request, response, next);
+          await editOfficerHistory(request, response, next);
 
           expect(response.statusCode).toEqual(200);
           await referralLetterOfficer.reload({

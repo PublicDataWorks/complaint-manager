@@ -4,7 +4,7 @@ import Boom from "boom";
 import getLetterDataForResponse from "../getLetterDataForResponse";
 import checkForValidStatus from "../checkForValidStatus";
 
-const editReferralLetter = asyncMiddleware(async (request, response, next) => {
+const editOfficerHistory = asyncMiddleware(async (request, response, next) => {
   await checkForValidStatus(request.params.caseId);
 
   await models.sequelize.transaction(async transaction => {
@@ -241,4 +241,4 @@ const isValueBlank = value => {
   return !value;
 };
 
-export default editReferralLetter;
+export default editOfficerHistory;

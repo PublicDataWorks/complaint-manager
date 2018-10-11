@@ -18,7 +18,7 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
-import editReferralLetter from "../thunks/editReferralLetter";
+import editOfficerHistory from "../thunks/editOfficerHistory";
 import { push } from "react-router-redux";
 
 class OfficerHistories extends Component {
@@ -49,7 +49,7 @@ class OfficerHistories extends Component {
     if (values.referralLetterOfficers.length === 0) {
       dispatch(push(redirectUrl));
     } else {
-      dispatch(editReferralLetter(this.state.caseId, values, redirectUrl));
+      dispatch(editOfficerHistory(this.state.caseId, values, redirectUrl));
     }
   };
 

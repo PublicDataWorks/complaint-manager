@@ -85,7 +85,7 @@ describe("edit referral letter", () => {
       };
 
       await request(app)
-        .put(`/api/cases/${existingCase.id}/referral-letter`)
+        .put(`/api/cases/${existingCase.id}/referral-letter/officer-history`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send(requestBody)
@@ -139,7 +139,7 @@ describe("edit referral letter", () => {
       };
 
       await request(app)
-        .put(`/api/cases/${existingCase.id}/referral-letter`)
+        .put(`/api/cases/${existingCase.id}/referral-letter/officer-history`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send(requestBody)
@@ -150,7 +150,7 @@ describe("edit referral letter", () => {
       "it returns 400 invalid case status message if case status is prior to letter in progress",
       suppressWinstonLogs(async () => {
         await request(app)
-          .put(`/api/cases/${existingCase.id}/referral-letter`)
+          .put(`/api/cases/${existingCase.id}/referral-letter/officer-history`)
           .set("Content-Header", "application/json")
           .set("Authorization", `Bearer ${token}`)
           .expect(400)
@@ -176,7 +176,7 @@ describe("edit referral letter", () => {
           { auditUser: "test" }
         );
         await request(app)
-          .put(`/api/cases/${existingCase.id}/referral-letter`)
+          .put(`/api/cases/${existingCase.id}/referral-letter/officer-history`)
           .set("Content-Header", "application/json")
           .set("Authorization", `Bearer ${token}`)
           .expect(400)

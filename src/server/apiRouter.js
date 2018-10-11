@@ -1,4 +1,4 @@
-import editReferralLetter from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetter";
+import editOfficerHistory from "./handlers/cases/referralLetters/editOfficerHistory/editOfficerHistory";
 import editIAProCorrections from "./handlers/cases/referralLetters/editIAProCorrections/editIAProCorrections";
 const { USER_PERMISSIONS } = require("../sharedUtilities/constants");
 const createCase = require("./handlers/cases/createCase");
@@ -78,7 +78,10 @@ router.delete(
 
 router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
 router.get("/cases/:caseId/referral-letter", getReferralLetter);
-router.put("/cases/:caseId/referral-letter", editReferralLetter);
+router.put(
+  "/cases/:caseId/referral-letter/officer-history",
+  editOfficerHistory
+);
 router.put(
   "/cases/:caseId/referral-letter/iapro-corrections",
   editIAProCorrections

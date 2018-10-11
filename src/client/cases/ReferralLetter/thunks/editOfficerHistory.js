@@ -8,7 +8,7 @@ import {
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
 
-const editReferralLetter = (
+const editOfficerHistory = (
   caseId,
   letterValues,
   successRedirectRoute
@@ -20,7 +20,7 @@ const editReferralLetter = (
   try {
     const hostname = config[process.env.NODE_ENV].hostname;
     const response = await axios(
-      `${hostname}/api/cases/${caseId}/referral-letter`,
+      `${hostname}/api/cases/${caseId}/referral-letter/officer-history`,
       {
         method: "PUT",
         headers: {
@@ -44,4 +44,4 @@ const editReferralLetter = (
   }
 };
 
-export default editReferralLetter;
+export default editOfficerHistory;
