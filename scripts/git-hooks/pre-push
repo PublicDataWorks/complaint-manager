@@ -14,7 +14,6 @@ then
 fi
 
 sh ./scripts/security-checks.sh
-git pull --rebase
 
 docker-compose down
 docker-compose build
