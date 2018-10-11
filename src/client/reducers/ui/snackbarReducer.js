@@ -22,7 +22,8 @@ import {
   REMOVE_CASE_NOTE_SUCCEEDED,
   SNACKBAR_ERROR,
   SNACKBAR_SUCCESS,
-  GET_ALLEGATIONS_FAILED
+  GET_ALLEGATIONS_FAILED,
+  BG_JOB_FAILED
 } from "../../../sharedUtilities/constants";
 
 //TODO Discuss separation of concerns.
@@ -266,6 +267,12 @@ const snackbarReducer = (state = initialState, action) => {
         open: true,
         message:
           "There was a problem loading this page. Please refresh and try again."
+      };
+    case BG_JOB_FAILED:
+      return {
+        success: false,
+        open: true,
+        message: "Export background job failed, please try again later."
       };
     default:
       return state;

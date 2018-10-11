@@ -6,8 +6,8 @@ const {
   TIMEZONE
 } = require("../../../sharedUtilities/constants");
 
-const asyncMiddleware = require("../asyncMiddleware");
-const models = require("../../models/index");
+const asyncMiddleware = require("../../../server/handlers/asyncMiddleware");
+const models = require("../../../server/models/index");
 const stringify = require("csv-stringify");
 const moment = require("moment");
 const _ = require("lodash");

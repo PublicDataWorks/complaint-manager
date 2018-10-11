@@ -1,25 +1,21 @@
 import React from "react";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
-import downloader from "../../../cases/thunks/downloader";
 import createConfiguredStore from "../../../createConfiguredStore";
 import ExportAuditLogConfirmationDialog from "./ExportConfirmationDialog";
-import {openExportAuditLogConfirmationDialog} from "../../../actionCreators/navBarActionCreators";
+import { openExportAuditLogConfirmationDialog } from "../../../actionCreators/navBarActionCreators";
+import generateExport from "../../../export/thunks/generateExport";
+import { closeExportConfirmationDialog } from "../../../actionCreators/navBarActionCreators";
 
-jest.mock(
-  "../../../cases/thunks/downloader",
-  () => (path, fileName, fileNeedsUtfEncoding) => ({
-    type: "MOCK_THUNK",
-    path,
-    fileName,
-    fileNeedsUtfEncoding
-  })
-);
+jest.mock("../../../export/thunks/generateExport", () => path => ({
+  type: "MOCK_THUNK",
+  path
+}));
 
 describe("ExportAuditLogConfirmationDialog", () => {
   test("should include date,time in file name & set fileNeedsUtfEncoding flag to true", () => {
     const store = createConfiguredStore();
-    store.dispatch(openExportAuditLogConfirmationDialog())
+    store.dispatch(openExportAuditLogConfirmationDialog());
     const dispatchSpy = jest.spyOn(store, "dispatch");
 
     const wrapper = mount(
@@ -33,11 +29,16 @@ describe("ExportAuditLogConfirmationDialog", () => {
       .last();
     submitButton.simulate("click");
 
-    const fileNameRegex = /^Complaint_Manager_Audit_Log_\d\d\d\d-\d\d-\d\d_\d\d\.\d\d\.\d\d\.C[D|S]T\.csv/;
-    const fileNameMatcher = expect.stringMatching(fileNameRegex);
+    expect(dispatchSpy.mock.calls).toEqual([
+      [generateExport("/api/export-audit-log")],
+      [closeExportConfirmationDialog()]
+    ]);
 
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      downloader("/api/export-audit-log", fileNameMatcher, true)
-    );
+    // expect(dispatchSpy).toHaveBeenNthCalledWith(1,
+    //   generateExport("/api/export-audit-log")
+    // );
+    // expect(dispatchSpy).toHaveBeenNthCalledWith(2,
+    //   closeExportConfirmationDialog()
+    // );
   });
 });

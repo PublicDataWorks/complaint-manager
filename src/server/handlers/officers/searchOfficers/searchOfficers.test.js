@@ -65,13 +65,13 @@ describe("searchOfficers", function() {
     for (let x = 1; x <= totalOfficers; x++) {
       officers.push(
         new Officer.Builder()
-        .withOfficerNumber(x)
-        .withFirstName('Sal')
-        .withLastName('Foo')
-        .build()
+          .withOfficerNumber(x)
+          .withFirstName("Sal")
+          .withLastName("Foo")
+          .build()
       );
     }
-    officers[officers.length -1].lastName = "LAST";
+    officers[officers.length - 1].lastName = "LAST";
 
     await models.officer.bulkCreate(officers);
     const request = httpMocks.createRequest({
@@ -81,7 +81,7 @@ describe("searchOfficers", function() {
       },
       query: {
         caseId: existingCase.id,
-        firstName: 'Sal',
+        firstName: "Sal",
         page: 2
       },
       nickname: "nickname"

@@ -31,6 +31,8 @@ import addressInputReducer from "./reducers/ui/addressInputReducer";
 import classificationReducer from "./reducers/ui/classificationReducer";
 import officerHistoryNoteDialogReducer from "./reducers/ui/officerHistoryNoteDialogReducer";
 import referralLetterReducer from "./reducers/cases/referralLetterReducer";
+import allJobsReducer from "./reducers/export/allJobsReducer";
+import generateJobReducer from "./reducers/export/generateJobReducer";
 import iaProCorrectionsReducer from "./reducers/ui/iaProCorrectionDialogReducer";
 
 const rootReducer = combineReducers({
@@ -71,7 +73,11 @@ const rootReducer = combineReducers({
     iaProCorrectionsDialog: iaProCorrectionsReducer
   }),
   officers: searchOfficersReducer,
-  featureToggles: featureTogglesReducer
+  featureToggles: featureTogglesReducer,
+  export: combineReducers({
+    exportJobs: allJobsReducer,
+    generateJob: generateJobReducer
+  })
 });
 
 const routingMiddleware = routerMiddleware(history);

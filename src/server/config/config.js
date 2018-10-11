@@ -1,4 +1,4 @@
-var path = require("path");
+const path = require("path");
 const LOCAL_DEV_PORT = require("../../sharedUtilities/constants")
   .LOCAL_DEV_PORT;
 
@@ -7,6 +7,7 @@ module.exports = {
     host: "db",
     s3Bucket: "noipm-local",
     officerBucket: "nopd-officers-local",
+    exportsBucket: "noipm-exports-local",
     email: {
       secureConnection: false,
       host: "email",
@@ -31,11 +32,20 @@ module.exports = {
     winston: {
       logLevel: "info",
       json: true
+    },
+    queue: {
+      host: "redis",
+      port: 6379,
+      failedJobAttempts: 1,
+      exponentialDelay: 60 * 1000,
+      jobTimeToLive: 120 * 1000,
+      jobUIPort: 5000
     }
   },
   test: {
     host: process.env.CIRCLECI ? "localhost" : "db",
     port: 5432,
+    exportsBucket: "noipm-exports-test",
     email: {
       secureConnection: false,
       secure: false,
@@ -63,6 +73,14 @@ module.exports = {
     winston: {
       logLevel: "error",
       json: true
+    },
+    queue: {
+      host: "redis",
+      port: 6379,
+      failedJobAttempts: 1,
+      exponentialDelay: 60 * 1000,
+      jobTimeToLive: 120 * 1000,
+      jobUIPort: 5000
     }
   },
   ci: {
@@ -70,6 +88,7 @@ module.exports = {
     host: process.env.DATABASE_HOST,
     s3Bucket: "noipm-ci",
     officerBucket: "nopd-officers-ci",
+    exportsBucket: "noipm-exports-ci",
     email: {
       host: "smtp-mail.outlook.com",
       port: 587,
@@ -99,6 +118,14 @@ module.exports = {
     winston: {
       logLevel: "info",
       json: false
+    },
+    queue: {
+      host: "redis",
+      port: 6379,
+      failedJobAttempts: 1,
+      exponentialDelay: 60 * 1000,
+      jobTimeToLive: 120 * 1000,
+      jobUIPort: 5000
     }
   },
   staging: {
@@ -106,6 +133,7 @@ module.exports = {
     host: process.env.DATABASE_HOST,
     s3Bucket: "noipm-staging",
     officerBucket: "nopd-officers-staging",
+    exportsBucket: "noipm-exports-staging",
     email: {
       host: "smtp-mail.outlook.com",
       port: 587,
@@ -135,6 +163,14 @@ module.exports = {
     winston: {
       logLevel: "info",
       json: false
+    },
+    queue: {
+      host: "redis",
+      port: 6379,
+      failedJobAttempts: 1,
+      exponentialDelay: 60 * 1000,
+      jobTimeToLive: 120 * 1000,
+      jobUIPort: 5000
     }
   },
   production: {
@@ -142,6 +178,7 @@ module.exports = {
     host: process.env.DATABASE_HOST,
     s3Bucket: "noipm-production",
     officerBucket: "nopd-officers-production",
+    exportsBucket: "noipm-exports-production",
     email: {
       host: "smtp-mail.outlook.com",
       port: 587,
@@ -171,10 +208,18 @@ module.exports = {
     winston: {
       logLevel: "info",
       json: false
+    },
+    queue: {
+      host: "redis",
+      port: 6379,
+      failedJobAttempts: 1,
+      exponentialDelay: 60 * 1000,
+      jobTimeToLive: 120 * 1000,
+      jobUIPort: 5000
     }
   },
   s3config: {
-    region: "us-east-2",
+    region: "us-east-1",
     sslEnabled: true,
     signatureVersion: "v4"
   }

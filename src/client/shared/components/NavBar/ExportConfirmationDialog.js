@@ -7,22 +7,11 @@ import {
   Typography
 } from "@material-ui/core";
 import { SecondaryButton, PrimaryButton } from "../StyledButtons";
-import timezone from "moment-timezone";
-import { TIMEZONE } from "../../../../sharedUtilities/constants";
-import downloader from "../../../cases/thunks/downloader";
 import { connect } from "react-redux";
 import { closeExportConfirmationDialog } from "../../../actionCreators/navBarActionCreators";
+import generateExport from "../../../export/thunks/generateExport";
 
 const ExportConfirmationDialog = props => {
-  const generateFileName = () => {
-    const date = timezone()
-      .tz(TIMEZONE)
-      .format("YYYY-MM-DD_HH.mm.ss.zz");
-    const titleForFileName = props.title.replace(" ", "_");
-    const fileName = `Complaint_Manager_${titleForFileName}_${date}.csv`;
-    return fileName;
-  };
-
   const closeDialog = () => {
     props.dispatch(closeExportConfirmationDialog());
   };
@@ -47,11 +36,10 @@ const ExportConfirmationDialog = props => {
         <SecondaryButton onClick={closeDialog}>Cancel</SecondaryButton>
         <PrimaryButton
           data-test="exportAuditLogButton"
-          onClick={() =>
-            props.dispatch(
-              downloader(props.path, generateFileName(), true, closeDialog)
-            )
-          }
+          onClick={() => {
+            props.dispatch(generateExport(props.path));
+            closeDialog();
+          }}
         >
           Export
         </PrimaryButton>

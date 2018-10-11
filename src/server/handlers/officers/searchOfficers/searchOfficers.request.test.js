@@ -63,9 +63,15 @@ describe("GET /officers/search", () => {
         .expect(200)
         .then(response => {
           expect(response.body["rows"].length).toEqual(1);
-          expect(response.body["rows"][0].firstName).toEqual(bobOfficer.firstName);
-          expect(response.body["rows"][0].middleName).toEqual(bobOfficer.middleName);
-          expect(response.body["rows"][0].lastName).toEqual(bobOfficer.lastName);
+          expect(response.body["rows"][0].firstName).toEqual(
+            bobOfficer.firstName
+          );
+          expect(response.body["rows"][0].middleName).toEqual(
+            bobOfficer.middleName
+          );
+          expect(response.body["rows"][0].lastName).toEqual(
+            bobOfficer.lastName
+          );
           expect(response.body["rows"][0].fullName).toEqual(
             `${bobOfficer.firstName} ${bobOfficer.middleName} ${
               bobOfficer.lastName

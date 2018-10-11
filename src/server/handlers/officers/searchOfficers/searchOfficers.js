@@ -1,5 +1,8 @@
 const models = require("../../../models/index");
-const { AUDIT_SUBJECT, DEFAULT_PAGINATION_LIMIT } = require("../../../../sharedUtilities/constants");
+const {
+  AUDIT_SUBJECT,
+  DEFAULT_PAGINATION_LIMIT
+} = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const Op = require("sequelize").Op;
 const auditDataAccess = require("../../auditDataAccess");

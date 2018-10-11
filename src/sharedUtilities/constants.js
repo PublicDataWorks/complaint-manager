@@ -307,3 +307,23 @@ export const GET_FEATURES_SUCCEEDED = "GET_FEATURES_SUCCEEDED";
 // ------------------------------------------
 export const S3_GET_OBJECT = "getObject";
 export const S3_URL_EXPIRATION = 60;
+
+// ------------------------------------------
+//           Background Job Operations
+// ------------------------------------------
+export const JOB_OPERATION = {
+  AUDIT_LOG_EXPORT: {
+    key: "audit_log_export",
+    title: "Export Audit Log",
+    filename: "Audit_Log"
+  },
+  CASE_EXPORT: {
+    key: "case_export",
+    title: "Export All Case Information",
+    filename: "All_Case_Information"
+  }
+};
+
+export const QUEUE_PREFIX = "noimp_q";
+
+export const BG_JOB_FAILED = "background job failed.";
