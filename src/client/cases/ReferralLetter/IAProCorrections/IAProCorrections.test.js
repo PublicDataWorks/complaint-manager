@@ -6,8 +6,14 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import { mount } from "enzyme";
 import editIAProCorrections from "../thunks/editIAProCorrections";
-jest.mock("../thunks/editIAProCorrections", () =>
-  jest.fn(() => () => (caseId, values, redirectUrl) => ({ type: "SOMETHING" }))
+jest.mock(
+  "../thunks/editIAProCorrections",
+  () => (caseId, values, redirectUrl) => ({
+    type: "SOMETHING",
+    caseId,
+    values,
+    redirectUrl
+  })
 );
 
 describe("IAProCorrections", function() {
@@ -65,6 +71,8 @@ describe("IAProCorrections", function() {
   });
 
   test("calls editIAProCorrections with case id, form values, and redirect url when click save and return to case", () => {
+    dispatchSpy.mockClear();
+
     const button = wrapper
       .find("[data-test='save-and-return-to-case-link']")
       .first();
@@ -75,10 +83,8 @@ describe("IAProCorrections", function() {
         { id: "2", details: "details2" }
       ]
     };
-    expect(editIAProCorrections).toHaveBeenCalledWith(
-      caseId,
-      expectedFormValues,
-      `/cases/${caseId}`
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editIAProCorrections(caseId, expectedFormValues, `/cases/${caseId}`)
     );
   });
 
@@ -91,10 +97,30 @@ describe("IAProCorrections", function() {
         { id: "2", details: "details2" }
       ]
     };
-    expect(editIAProCorrections).toHaveBeenCalledWith(
-      caseId,
-      expectedFormValues,
-      `/cases/${caseId}`
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editIAProCorrections(
+        caseId,
+        expectedFormValues,
+        `/cases/${caseId}/letter/officer-history`
+      )
+    );
+  });
+
+  test("calls editIAProCorrections with case id, form values, and redirect url when click next button", () => {
+    const nextButton = wrapper.find("[data-test='next-button']").first();
+    nextButton.simulate("click");
+    const expectedFormValues = {
+      referralLetterIAProCorrections: [
+        { id: "1", details: "details1" },
+        { id: "2", details: "details2" }
+      ]
+    };
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editIAProCorrections(
+        caseId,
+        expectedFormValues,
+        `/cases/${caseId}/letter/recommended-actions`
+      )
     );
   });
 });

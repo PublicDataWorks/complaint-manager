@@ -14,7 +14,10 @@ import _ from "lodash";
 import shortid from "shortid";
 import RemoveIAProCorrectionDialog from "./RemoveIAProCorrectionDialog";
 import editIAProCorrections from "../thunks/editIAProCorrections";
-import { SecondaryButton } from "../../../shared/components/StyledButtons";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../../../shared/components/StyledButtons";
 
 class IAProCorrections extends Component {
   constructor(props) {
@@ -35,6 +38,12 @@ class IAProCorrections extends Component {
   saveAndGoBackToReview = () => {
     return this.props.handleSubmit(
       this.submitForm(`/cases/${this.state.caseId}/letter/officer-history`)
+    );
+  };
+
+  saveAndGoToNextPage = () => {
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}/letter/recommended-actions`)
     );
   };
 
@@ -152,13 +161,23 @@ class IAProCorrections extends Component {
                 component={this.renderIAProCorrections}
               />
             </div>
-            <div>
-              <SecondaryButton
-                onClick={this.saveAndGoBackToReview()}
-                data-test="back-button"
-              >
-                Back
-              </SecondaryButton>
+            <div style={{ display: "flex" }}>
+              <span style={{ flex: 1 }}>
+                <SecondaryButton
+                  onClick={this.saveAndGoBackToReview()}
+                  data-test="back-button"
+                >
+                  Back
+                </SecondaryButton>
+              </span>
+              <span style={{ flex: 1, textAlign: "right" }}>
+                <PrimaryButton
+                  onClick={this.saveAndGoToNextPage()}
+                  data-test="next-button"
+                >
+                  Next
+                </PrimaryButton>
+              </span>
             </div>
           </div>
         </form>
