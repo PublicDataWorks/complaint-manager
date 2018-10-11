@@ -8,6 +8,7 @@ import Civilian from "../../../../client/testUtilities/civilian";
 import Case from "../../../../client/testUtilities/case";
 import moment from "moment";
 import timezone from "moment-timezone";
+import Classification from "../../../../client/testUtilities/Classification";
 import csvCaseExport from "./csvCaseExport";
 import uploadFileToS3 from "../../fileUpload/uploadFileToS3";
 jest.mock("../../fileUpload/uploadFileToS3", () => jest.fn());
@@ -33,7 +34,8 @@ describe("csvCaseExport request", function() {
     officer,
     caseOfficer,
     allegation,
-    officerAllegation;
+    officerAllegation,
+    bwcClassification;
 
   let records = [];
 
@@ -52,11 +54,21 @@ describe("csvCaseExport request", function() {
       auditUser: "tuser"
     });
 
+    const bwcClassificationAttributes = new Classification.Builder()
+      .defaultClassification()
+      .withId(null)
+      .withInitialism("BWC")
+      .withName("Body Worn Camera");
+    bwcClassification = await models.classification.create(
+      bwcClassificationAttributes
+    );
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
       .withNarrativeSummary("A summary of the narrative.")
-      .withNarrativeDetails("Some details about the narrative.");
+      .withNarrativeDetails("Some details about the narrative.")
+      .withClassificationId(bwcClassification.id);
 
     caseToExport = await models.cases.create(caseAttributes, {
       auditUser: "tuser",
@@ -151,6 +163,7 @@ describe("csvCaseExport request", function() {
           "Incident Longitude," +
           "Incident District," +
           "Additional Incident Location Info," +
+          "Classification," +
           "Complaint Type," +
           "Complainant," +
           "Civilian Complainant Name," +
@@ -271,12 +284,25 @@ describe("csvCaseExport request", function() {
     expect(records[0]["Additional Incident Location Info"]).toEqual(
       caseToExport.incidentLocation.streetAddress2
     );
+    expect(records[0]["Classification"]).toEqual(bwcClassification.initialism);
     expect(records[0]["Narrative Summary"]).toEqual(
       caseToExport.narrativeSummary
     );
     expect(records[0]["Narrative Details"]).toEqual(
       caseToExport.narrativeDetails
     );
+    done();
+  });
+
+  test("it handles cases no classification", async done => {
+    await caseToExport.update(
+      { classificationId: null },
+      { auditUser: "someone" }
+    );
+
+    await csvCaseExport(job, jobDone);
+
+    expect(records[0]["Classification"]).toEqual("");
     done();
   });
 

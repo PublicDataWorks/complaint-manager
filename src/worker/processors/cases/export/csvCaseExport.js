@@ -27,11 +27,18 @@ const csvCaseExport = async (job, done) => {
     });
 
     await stringify(caseData, csvOptions, (err, csvOutput) => {
-      uploadFileToS3(job.id, csvOutput, JOB_OPERATION.CASE_EXPORT.filename).then(data => {
-        done(null, data);
-      }, err => {
-        done(err);
-      });
+      uploadFileToS3(
+        job.id,
+        csvOutput,
+        JOB_OPERATION.CASE_EXPORT.filename
+      ).then(
+        data => {
+          done(null, data);
+        },
+        err => {
+          done(err);
+        }
+      );
     });
   });
 };
@@ -53,6 +60,7 @@ const columns = {
   "incidentLocation.lng": "Incident Longitude",
   district: "Incident District",
   "incidentLocation.street_address2": "Additional Incident Location Info",
+  classification_initialism: "Classification",
   complaint_type: "Complaint Type",
   "complainants.complainant": "Complainant",
   "complainants.civilian_full_name": "Civilian Complainant Name",
