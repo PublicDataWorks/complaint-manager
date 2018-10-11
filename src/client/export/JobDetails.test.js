@@ -15,7 +15,8 @@ describe("Job Detail", () => {
   let jobDetails, dispatchSpy, store;
 
   beforeEach(() => {
-    getExportJob.mockImplementation(id => {});
+    getExportJob.mockImplementation(id => getExportJobSuccess({}));
+
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
 

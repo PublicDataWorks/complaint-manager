@@ -11,7 +11,7 @@ const REFRESH_MS = 1000;
 class JobDetails extends Component {
   componentDidMount() {
     this.classes = this.props;
-    getExportJob(this.props.jobId);
+    this.props.getExportJob(this.props.jobId);
     setTimeout(this.refreshJob, REFRESH_MS);
   }
 
@@ -32,7 +32,7 @@ class JobDetails extends Component {
       this.props.addBackgroundJobFailure();
     } else {
       if (!this.jobCompleted()) {
-        getExportJob(this.props.jobId);
+        this.props.getExportJob(this.props.jobId);
         setTimeout(this.refreshJob, REFRESH_MS);
       }
     }
@@ -74,6 +74,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
+      getExportJob,
       addBackgroundJobFailure
     },
     dispatch
