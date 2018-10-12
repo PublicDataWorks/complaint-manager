@@ -30,7 +30,8 @@ const csvCaseExport = async (job, done) => {
       uploadFileToS3(
         job.id,
         csvOutput,
-        JOB_OPERATION.CASE_EXPORT.filename
+        JOB_OPERATION.CASE_EXPORT.filename,
+        JOB_OPERATION.CASE_EXPORT.key
       ).then(
         data => {
           done(null, data);

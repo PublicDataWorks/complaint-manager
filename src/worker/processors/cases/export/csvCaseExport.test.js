@@ -42,10 +42,12 @@ describe("csvCaseExport request", function() {
   beforeEach(async done => {
     await cleanupDatabase();
     records = [];
-    uploadFileToS3.mockImplementation((jobId, dataToUpload, filename) => {
-      records = parse(dataToUpload, { columns: true });
-      return { then: jest.fn() };
-    });
+    uploadFileToS3.mockImplementation(
+      (jobId, dataToUpload, filename, fileType) => {
+        records = parse(dataToUpload, { columns: true });
+        return { then: jest.fn() };
+      }
+    );
 
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()

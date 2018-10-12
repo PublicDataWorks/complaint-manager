@@ -2,13 +2,16 @@ import React, { Component } from "react";
 import { Typography } from "@material-ui/core";
 import LinkButton from "../shared/components/LinkButton";
 import {
+  openExportAuditLogConfirmationDialog,
   openExportAllCasesConfirmationDialog,
-  closeExportConfirmationDialog
+  closeExportConfirmationDialog,
+  clearCurrentExportJob
 } from "../actionCreators/navBarActionCreators";
 import ExportConfirmationDialog from "../shared/components/NavBar/ExportConfirmationDialog";
 import { connect } from "react-redux";
 import JobDetails from "./JobDetails";
 import { bindActionCreators } from "redux";
+import { USER_PERMISSIONS } from "../../sharedUtilities/constants";
 
 const margin = {
   marginLeft: "36px",
@@ -18,6 +21,26 @@ const margin = {
 
 class ExportAllCases extends Component {
   componentDidMount() {}
+
+  renderExportAuditLogOption = () => {
+    if (
+      !this.props.permissions ||
+      !this.props.permissions.includes(USER_PERMISSIONS.EXPORT_AUDIT_LOG)
+    ) {
+      return null;
+    }
+    return (
+      <LinkButton
+        data-test="exportAuditLog"
+        onClick={() => {
+          this.props.openExportAuditLogConfirmationDialog();
+          this.props.clearCurrentExportJob();
+        }}
+      >
+        Export Audit Log
+      </LinkButton>
+    );
+  };
 
   render() {
     return (
@@ -39,10 +62,12 @@ class ExportAllCases extends Component {
               data-test="openExportConfirmationDialog"
               onClick={() => {
                 this.props.openExportAllCasesConfirmationDialog();
+                this.props.clearCurrentExportJob();
               }}
             >
               Export All Cases
             </LinkButton>
+            {this.renderExportAuditLogOption()}
           </div>
         </div>
         <div style={margin}>
@@ -55,14 +80,17 @@ class ExportAllCases extends Component {
 }
 
 const mapStateToProps = state => ({
-  jobId: state.export.generateJob.jobId
+  jobId: state.export.generateJob.jobId,
+  permissions: state.users.current.userInfo.permissions
 });
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
+      openExportAuditLogConfirmationDialog,
       openExportAllCasesConfirmationDialog,
-      closeExportConfirmationDialog
+      closeExportConfirmationDialog,
+      clearCurrentExportJob
     },
     dispatch
   );

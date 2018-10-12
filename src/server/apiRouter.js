@@ -1,5 +1,4 @@
 import editReferralLetter from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetter";
-const { USER_PERMISSIONS } = require("../sharedUtilities/constants");
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
 const editCase = require("./handlers/cases/editCase");
@@ -15,10 +14,8 @@ const createUser = require("./handlers/users/createUser");
 const getUsers = require("./handlers/users/getUsers");
 const audit = require("./handlers/auditLogs/audit");
 const jwtCheck = require("./handlers/jtwCheck");
-const jwtAuthz = require("express-jwt-authz");
 const verifyUserInfo = require("./handlers/verifyUserNickname");
 const authErrorHandler = require("./handlers/authErrorHandler");
-const exportAuditLog = require("./handlers/auditLogs/export");
 const searchOfficers = require("./handlers/officers/searchOfficers/searchOfficers");
 const addCaseOfficer = require("./handlers/officers/addCaseOfficer/addCaseOfficer");
 const removeCaseOfficer = require("./handlers/officers/removeCaseOfficer/removeCaseOfficer");
@@ -35,7 +32,7 @@ const createOfficerAllegation = require("./handlers/officerAllegations/createOff
 const editOfficerAllegation = require("./handlers/officerAllegations/editOfficerAllegation/editOfficerAllegation");
 const removeOfficerAllegation = require("./handlers/officerAllegations/removeOfficerAllegation/removeOfficerAllegation");
 const getReferralLetter = require("./handlers/cases/referralLetters/getReferralLetter/getReferralLetter");
-const { exportCases } = require("./handlers/cases/export/exportCases");
+const scheduleExport = require("./handlers/cases/export/scheduleExport");
 const exportJobs = require("./handlers/cases/export/exportJobs");
 const exportJob = require("./handlers/cases/export/exportJob");
 
@@ -50,7 +47,8 @@ router.use(authErrorHandler);
 router.get("/export/jobs", exportJobs);
 router.get("/export/job/:id", exportJob);
 
-router.get("/cases/export", exportCases);
+router.get("/export/schedule/:operation", scheduleExport);
+
 router.post("/cases", createCase);
 router.get("/cases", getCases);
 router.get("/cases/:id", getCase);
@@ -96,11 +94,6 @@ router.put("/civilian/:id", editCivilian);
 router.post("/audit", audit);
 router.post("/users", createUser);
 router.get("/users", getUsers);
-router.get(
-  "/export-audit-log",
-  jwtAuthz([USER_PERMISSIONS.EXPORT_AUDIT_LOG]),
-  exportAuditLog
-);
 
 router.get("/officers/search", searchOfficers);
 router.get("/allegations/search", searchAllegations);

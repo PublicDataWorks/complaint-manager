@@ -1,7 +1,8 @@
 import {
   EXPORT_AUDIT_LOG_CONFIRMATION_OPENED,
   EXPORT_CONFIRMATION_CLOSED,
-  EXPORT_ALL_CASES_CONFIRMATION_OPENED
+  EXPORT_ALL_CASES_CONFIRMATION_OPENED,
+  JOB_OPERATION
 } from "../../../sharedUtilities/constants";
 
 const initialState = {
@@ -16,14 +17,14 @@ const exportDialogReducer = (state = initialState, action) => {
     case EXPORT_AUDIT_LOG_CONFIRMATION_OPENED:
       return {
         open: true,
-        path: "/api/export-audit-log",
+        path: `/api/export/schedule/${JOB_OPERATION.AUDIT_LOG_EXPORT.name}`,
         title: "Audit Log",
         warningText: "a log of all actions taken within"
       };
     case EXPORT_ALL_CASES_CONFIRMATION_OPENED:
       return {
         open: true,
-        path: "/api/cases/export",
+        path: `/api/export/schedule/${JOB_OPERATION.CASE_EXPORT.name}`,
         title: "All Case Information",
         warningText: "all cases in"
       };

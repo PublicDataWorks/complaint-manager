@@ -9,14 +9,15 @@ describe("Upload files to S3", () => {
     const jobId = "123";
     const csvOutput = "text content to be uploaded";
     const exportFileName = "test file name";
+    const fileType = "case_export";
 
     const date = new Date("Jan 01 2018 00:00:00 GMT-0600");
     timeKeeper.freeze(date);
 
-    uploadFileToS3(jobId, csvOutput, exportFileName, s3);
+    uploadFileToS3(jobId, csvOutput, exportFileName, fileType, s3);
     expect(s3.upload).toHaveBeenCalledWith({
       Bucket: "noipm-exports-test",
-      Key: `cases/${jobId}/Complaint_Manager_${exportFileName}_2018-01-01_00.00.00.CST.csv`,
+      Key: `${fileType}/${jobId}/Complaint_Manager_${exportFileName}_2018-01-01_00.00.00.CST.csv`,
       Body: csvOutput,
       ServerSideEncryption: "AES256"
     });

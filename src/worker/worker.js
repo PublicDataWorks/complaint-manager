@@ -14,6 +14,7 @@ const { JOB_OPERATION, QUEUE_PREFIX } = require("../sharedUtilities/constants");
 
 const kue = require("kue");
 const csvCaseExport = require("./processors/cases/export/csvCaseExport");
+const auditExport = require("./processors/auditLogs/export");
 
 winston.configure({
   transports: [
@@ -96,6 +97,10 @@ kue.app.listen(config.queue.jobUIPort);
 
 queue.process(JOB_OPERATION.CASE_EXPORT.key, 1, (job, done) => {
   csvCaseExport(job, done);
+});
+
+queue.process(JOB_OPERATION.AUDIT_LOG_EXPORT.key, 1, (job, done) => {
+  auditExport(job, done);
 });
 
 module.exports = app;

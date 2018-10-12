@@ -1,20 +1,20 @@
 const {
-  UTF8_BYTE_ORDER_MARK,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   AUDIT_ACTION,
-  TIMEZONE
+  TIMEZONE,
+  JOB_OPERATION
 } = require("../../../sharedUtilities/constants");
 
-const asyncMiddleware = require("../../../server/handlers/asyncMiddleware");
 const models = require("../../../server/models/index");
 const stringify = require("csv-stringify");
 const moment = require("moment");
 const _ = require("lodash");
 const transformDataChangeAuditForExport = require("./transformDataChangeAuditForExport");
 const transformActionAuditForExport = require("./transformActionAuditForExport");
+const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 
-const exportAuditLog = asyncMiddleware(async (request, response) => {
+const exportAuditLog = async (job, done) => {
   const dateFormatter = {
     date: formatDateForCSV
   };
@@ -39,7 +39,7 @@ const exportAuditLog = asyncMiddleware(async (request, response) => {
         action: AUDIT_ACTION.EXPORTED,
         subject: AUDIT_SUBJECT.AUDIT_LOG,
         caseId: null,
-        user: request.nickname
+        user: job.data.user
       },
       {
         transaction: t
@@ -90,10 +90,22 @@ const exportAuditLog = asyncMiddleware(async (request, response) => {
     );
 
     stringify(sortedAuditLogs, csvOptions, (err, csvOutput) => {
-      response.send(UTF8_BYTE_ORDER_MARK + csvOutput);
+      uploadFileToS3(
+        job.id,
+        csvOutput,
+        JOB_OPERATION.AUDIT_LOG_EXPORT.filename,
+        JOB_OPERATION.AUDIT_LOG_EXPORT.key
+      ).then(
+        data => {
+          done(null, data);
+        },
+        err => {
+          done(err);
+        }
+      );
     });
   });
-});
+};
 
 const formatDateForCSV = date => {
   if (!date) {

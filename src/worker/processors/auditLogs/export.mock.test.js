@@ -1,31 +1,27 @@
 //Had to use separate file for this test to mock import
-import app from "../../../server/server";
 import stringify from "csv-stringify/lib/index";
 import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   AUDIT_ACTION,
-  USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
-import request from "supertest";
 import models from "../../../server/models";
 import {
-  buildTokenWithPermissions,
   cleanupDatabase,
   suppressWinstonLogs
 } from "../../../server/testHelpers/requestTestHelpers";
+import uploadFileToS3 from "../fileUpload/uploadFileToS3";
 jest.mock("csv-stringify/lib/index");
+jest.mock("../fileUpload/uploadFileToS3");
 
-xdescribe("GET /api/export-audit-log", () => {
-  let nickname, tokenWithExportPermission;
+import exportAudit from "./export";
+
+describe("GET /api/export-audit-log", () => {
 
   beforeEach(async () => {
-    nickname = "nickName";
-    tokenWithExportPermission = buildTokenWithPermissions(
-      USER_PERMISSIONS.EXPORT_AUDIT_LOG,
-      nickname
-    );
+
   });
+
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -36,18 +32,24 @@ xdescribe("GET /api/export-audit-log", () => {
       stringify.mockImplementation(() => {
         throw "error";
       });
-      await request(app)
-        .get("/api/export-audit-log")
-        .set("Authorization", `Bearer ${tokenWithExportPermission}`)
-        .expect(500);
 
+      uploadFileToS3.mockImplementation(jest.fn);
+
+      try {
+        const job = {data: {user: "some user"}};
+        await exportAudit(job, async () => {
+          done();
+        });
+      } catch (e) {
+        // forced an error from stringfy()
+      }
       const exportActionAudit = await models.action_audit.find({
         where: {
           auditType: AUDIT_TYPE.EXPORT,
           action: AUDIT_ACTION.EXPORTED,
           subject: AUDIT_SUBJECT.AUDIT_LOG,
           caseId: null,
-          user: nickname
+          user: "some user"
         }
       });
       expect(exportActionAudit).toBeNull();

@@ -30,15 +30,8 @@ describe("ExportAuditLogConfirmationDialog", () => {
     submitButton.simulate("click");
 
     expect(dispatchSpy.mock.calls).toEqual([
-      [generateExport("/api/export-audit-log")],
+      [generateExport("/api/export/schedule/AUDIT_LOG_EXPORT")],
       [closeExportConfirmationDialog()]
     ]);
-
-    // expect(dispatchSpy).toHaveBeenNthCalledWith(1,
-    //   generateExport("/api/export-audit-log")
-    // );
-    // expect(dispatchSpy).toHaveBeenNthCalledWith(2,
-    //   closeExportConfirmationDialog()
-    // );
   });
 });

@@ -15,8 +15,13 @@ class JobDetails extends Component {
     setTimeout(this.refreshJob, REFRESH_MS);
   }
 
-  componentDidUpdate() {
-    ReactDOM.findDOMNode(this).click();
+  componentDidUpdate(prevProps) {
+    if (prevProps.jobId !== this.props.jobId) {
+      setTimeout(this.refreshJob, REFRESH_MS);
+    } else {
+      ReactDOM.findDOMNode(this).click();
+      ReactDOM.findDOMNode(this).href = "";
+    }
   }
 
   jobCompleted() {

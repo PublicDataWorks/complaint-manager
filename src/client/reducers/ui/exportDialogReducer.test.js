@@ -21,7 +21,7 @@ describe("export dialog reducer", () => {
 
     const expectedState = {
       open: true,
-      path: "/api/export-audit-log",
+      path: "/api/export/schedule/AUDIT_LOG_EXPORT",
       title: "Audit Log",
       warningText: "a log of all actions taken within"
     };
@@ -32,7 +32,7 @@ describe("export dialog reducer", () => {
   test("should close dialog and leave other state as is", () => {
     const initialState = {
       open: true,
-      path: "/api/export-audit-log",
+      path: "/api/export/schedule/AUDIT_LOG_EXPORT",
       title: "Audit Log",
       warningText: "a log of all actions taken within"
     };
@@ -55,7 +55,7 @@ describe("export dialog reducer", () => {
 
     const expectedState = {
       open: true,
-      path: "/api/cases/export",
+      path: "/api/export/schedule/CASE_EXPORT",
       title: "All Case Information",
       warningText: "all cases in"
     };

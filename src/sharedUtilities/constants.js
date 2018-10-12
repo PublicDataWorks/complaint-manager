@@ -76,6 +76,8 @@ export const EXPORT_ALL_CASES_CONFIRMATION_OPENED =
   "EXPORT_ALL_CASES_CONFIRMATION_OPENED";
 export const EXPORT_CONFIRMATION_CLOSED = "EXPORT_CONFIRMATION_CLOSED";
 
+export const CLEAR_CURRENT_EXPORT_JOB = "CLEAR_CURRENT_EXPORT_JOB";
+
 // ----------------------------------------
 //          Attachment Errors
 // ----------------------------------------
@@ -313,11 +315,13 @@ export const S3_URL_EXPIRATION = 60;
 // ------------------------------------------
 export const JOB_OPERATION = {
   AUDIT_LOG_EXPORT: {
+    name: "AUDIT_LOG_EXPORT",
     key: "audit_log_export",
     title: "Export Audit Log",
     filename: "Audit_Log"
   },
   CASE_EXPORT: {
+    name: "CASE_EXPORT",
     key: "case_export",
     title: "Export All Case Information",
     filename: "All_Case_Information"

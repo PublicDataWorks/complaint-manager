@@ -1,6 +1,6 @@
 const { JOB_OPERATION } = require("../../../../sharedUtilities/constants");
-
-const { exportCases, kueJobQueue } = require("./exportCases");
+const kueJobQueue = require("./jobQueue");
+const scheduleExport = require("./scheduleExport");
 
 describe("exportCases request", function() {
   beforeEach(() => {
@@ -16,10 +16,10 @@ describe("exportCases request", function() {
   });
 
   test("create a job in the job Queue", async done => {
-    const request = { nickname: "someUser" };
+    const request = { nickname: "someUser" , params: { operation: JOB_OPERATION.CASE_EXPORT.name}};
     const response = { json: jest.fn() };
 
-    await exportCases(request, response, () => {});
+    await scheduleExport(request, response, () => {});
 
     expect(kueJobQueue.testMode.jobs.length).toEqual(1);
     expect(kueJobQueue.testMode.jobs[0].type).toEqual(
@@ -27,7 +27,6 @@ describe("exportCases request", function() {
     );
     expect(kueJobQueue.testMode.jobs[0].data).toEqual({
       title: JOB_OPERATION.CASE_EXPORT.title,
-      fileName: "case_export.csv",
       user: request.nickname
     });
 

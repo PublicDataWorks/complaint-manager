@@ -1,7 +1,8 @@
 import {
   EXPORT_AUDIT_LOG_CONFIRMATION_OPENED,
   EXPORT_CONFIRMATION_CLOSED,
-  EXPORT_ALL_CASES_CONFIRMATION_OPENED
+  EXPORT_ALL_CASES_CONFIRMATION_OPENED,
+  CLEAR_CURRENT_EXPORT_JOB
 } from "../../sharedUtilities/constants";
 
 export const openExportAuditLogConfirmationDialog = () => ({
@@ -14,4 +15,8 @@ export const closeExportConfirmationDialog = () => ({
 
 export const openExportAllCasesConfirmationDialog = () => ({
   type: EXPORT_ALL_CASES_CONFIRMATION_OPENED
+});
+
+export const clearCurrentExportJob = () => ({
+  type: CLEAR_CURRENT_EXPORT_JOB
 });
