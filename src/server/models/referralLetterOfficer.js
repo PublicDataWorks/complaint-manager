@@ -35,6 +35,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         field: "historical_behavior_notes"
       },
+      recommendedActionNotes: {
+        type: DataTypes.TEXT,
+        field: "recommended_action_notes"
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
@@ -83,6 +87,17 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     });
+    ReferralLetterOfficer.hasMany(
+      models.referral_letter_officer_recommended_action,
+      {
+        as: "referralLetterOfficerRecommendedActions",
+        foreignKey: {
+          name: "referralLetterOfficerId",
+          field: "referral_letter_officer_id",
+          allowNull: false
+        }
+      }
+    );
   };
   return ReferralLetterOfficer;
 };

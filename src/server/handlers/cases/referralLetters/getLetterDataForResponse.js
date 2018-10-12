@@ -10,13 +10,14 @@ const getLetterDataForResponse = async caseId => {
       return {
         caseOfficerId: caseOfficer.id,
         fullName: caseOfficer.fullName,
-        ...letterOfficerAttributesWithNotes(caseOfficer)
+        ...letterOfficerAttributes(caseOfficer)
       };
     }
   );
   const transformedLetterData = {
     id: letterData.id,
     caseId: letterData.caseId,
+    includeRetaliationConcerns: letterData.includeRetaliationConcerns,
     referralLetterOfficers: transformedLetterOfficerData,
     referralLetterIAProCorrections: getIAProCorrections(letterData)
   };
@@ -30,7 +31,7 @@ const getIAProCorrections = letterData => {
     : letterData.referralLetterIAProCorrections;
 };
 
-const letterOfficerAttributesWithNotes = caseOfficer => {
+const letterOfficerAttributes = caseOfficer => {
   const letterOfficerAttributes = caseOfficer.referralLetterOfficer || {};
   if (
     !letterOfficerAttributes.referralLetterOfficerHistoryNotes ||
@@ -38,7 +39,18 @@ const letterOfficerAttributesWithNotes = caseOfficer => {
   ) {
     letterOfficerAttributes.referralLetterOfficerHistoryNotes = buildEmptyNotes();
   }
+  letterOfficerAttributes.referralLetterOfficerRecommendedActions = buildRecommendedActions(
+    letterOfficerAttributes.referralLetterOfficerRecommendedActions
+  );
+
   return letterOfficerAttributes;
+};
+
+const buildRecommendedActions = recommendedActions => {
+  if (!recommendedActions) {
+    return [];
+  }
+  return recommendedActions.map(action => action.id);
 };
 
 const emptyObject = () => ({ tempId: shortid.generate() });
@@ -54,7 +66,7 @@ const buildEmptyIAProCorrections = () => {
 const getLetterData = async caseId => {
   return await models.referral_letter.findOne({
     where: { caseId: caseId },
-    attributes: ["id", "caseId"],
+    attributes: ["id", "caseId", "includeRetaliationConcerns"],
     order: [
       [{ model: models.case_officer, as: "caseOfficers" }, "created_at", "ASC"],
       [
@@ -86,9 +98,16 @@ const getLetterData = async caseId => {
               "historicalBehaviorNotes",
               "numHistoricalHighAllegations",
               "numHistoricalMedAllegations",
-              "numHistoricalLowAllegations"
+              "numHistoricalLowAllegations",
+              "recommendedActionNotes"
             ],
             include: [
+              {
+                model: models.referral_letter_officer_recommended_action,
+                as: "referralLetterOfficerRecommendedActions",
+                attributes: ["id", "referralLetterOfficerId"],
+                separate: true
+              },
               {
                 model: models.referral_letter_officer_history_note,
                 as: "referralLetterOfficerHistoryNotes",
