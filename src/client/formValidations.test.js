@@ -1,15 +1,14 @@
 import { addressMustBeValid, atLeastOneRequired } from "./formValidations";
 
 describe("synchronous validations", () => {
-  test("test phone number or email validation when flat object", () => {
+  test("test phone number error to show up when phone number and email blank", () => {
     const testValues = {
       phoneNumber: "",
       email: ""
     };
 
     const expectedErrors = {
-      phoneNumber: "Please enter phone number or email address",
-      email: "Please enter phone number or email address"
+      phoneNumber: "Please enter phone number or email address"
     };
 
     const errors = atLeastOneRequired(
@@ -31,8 +30,7 @@ describe("synchronous validations", () => {
 
     const expectedErrors = {
       civilian: {
-        phoneNumber: "Please enter phone number or email address",
-        email: "Please enter phone number or email address"
+        phoneNumber: "Please enter phone number or email address"
       }
     };
 
@@ -84,12 +82,10 @@ describe("synchronous validations", () => {
       email: "   "
     };
     const errors = atLeastOneRequired(testValues, "Please enter at least one", [
-      "phoneNumber",
-      "email"
+      "phoneNumber"
     ]);
     expect(errors).toEqual({
-      phoneNumber: "Please enter at least one",
-      email: "Please enter at least one"
+      phoneNumber: "Please enter at least one"
     });
   });
 
