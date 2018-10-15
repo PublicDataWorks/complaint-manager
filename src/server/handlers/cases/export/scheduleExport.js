@@ -18,10 +18,12 @@ const scheduleExport = asyncMiddleware(async (request, response, next) => {
     }
   }
 
-  const job = kueJobQueue.create(JOB_OPERATION[request.params.operation].key, {
-    title: JOB_OPERATION[request.params.operation].title,
-    user: request.nickname
-  });
+  const job = kueJobQueue
+    .createQueue()
+    .create(JOB_OPERATION[request.params.operation].key, {
+      title: JOB_OPERATION[request.params.operation].title,
+      user: request.nickname
+    });
   job.attempts(config.queue.failedJobAttempts);
   job.backoff({ delay: config.queue.exponentialDelay, type: "exponential" });
   job.ttl(config.queue.jobTimeToLive);

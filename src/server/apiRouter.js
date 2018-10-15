@@ -34,7 +34,6 @@ const editOfficerAllegation = require("./handlers/officerAllegations/editOfficer
 const removeOfficerAllegation = require("./handlers/officerAllegations/removeOfficerAllegation/removeOfficerAllegation");
 const getReferralLetter = require("./handlers/cases/referralLetters/getReferralLetter/getReferralLetter");
 const scheduleExport = require("./handlers/cases/export/scheduleExport");
-const exportJobs = require("./handlers/cases/export/exportJobs");
 const exportJob = require("./handlers/cases/export/exportJob");
 
 const express = require("express");
@@ -45,7 +44,6 @@ router.use(verifyUserInfo);
 router.use(authErrorHandler);
 
 //Any routes defined below this point will require authentication
-router.get("/export/jobs", exportJobs);
 router.get("/export/job/:id", exportJob);
 
 router.get("/export/schedule/:operation", scheduleExport);

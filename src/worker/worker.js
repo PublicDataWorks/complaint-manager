@@ -10,11 +10,12 @@ const apiRouter = require("./apiRouter");
 const expressWinston = require("express-winston");
 const winston = require("winston");
 const cookieParser = require("cookie-parser");
-const { JOB_OPERATION, QUEUE_PREFIX } = require("../sharedUtilities/constants");
+const { JOB_OPERATION } = require("../sharedUtilities/constants");
 
 const kue = require("kue");
 const csvCaseExport = require("./processors/cases/export/csvCaseExport");
 const auditExport = require("./processors/auditLogs/export");
+const jobQueue = require("../server/handlers/cases/export/jobQueue");
 
 winston.configure({
   transports: [
@@ -86,10 +87,7 @@ app.use(
 
 app.use(errorHandler);
 
-const queue = kue.createQueue({
-  prefix: QUEUE_PREFIX,
-  redis: `redis://${config.queue.host}:${config.queue.port}`
-});
+const queue = jobQueue.createQueue();
 
 kue.app.set("title", "Background Worker");
 
