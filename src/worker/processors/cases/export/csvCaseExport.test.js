@@ -224,7 +224,8 @@ describe("csvCaseExport request", function() {
           "Allegation Severity," +
           "Types of Attachments\n"
       ),
-      JOB_OPERATION.CASE_EXPORT.filename
+      JOB_OPERATION.CASE_EXPORT.filename,
+      JOB_OPERATION.CASE_EXPORT.key
     );
     done();
   });

@@ -5,7 +5,8 @@ import {
 import referralLetterReducer from "./referralLetterReducer";
 import {
   getReferralLetterSuccess,
-  editReferralLetterSuccess
+  editReferralLetterSuccess,
+  editIAProCorrectionsSuccess
 } from "../../actionCreators/letterActionCreators";
 
 describe("referralLetterReducer", () => {
@@ -33,6 +34,20 @@ describe("referralLetterReducer", () => {
       const newState = referralLetterReducer(
         undefined,
         editReferralLetterSuccess(letterDetails)
+      );
+      expect(newState).toEqual({ letterDetails });
+    });
+  });
+
+  describe("EDIT_IAPRO_CORRECTIONS_SUCCESS", function() {
+    test("sets the iapro corrections details in state", () => {
+      const letterDetails = {
+        id: 12,
+        referralLetterIAProCorrections: [{ id: 4, details: "some details" }]
+      };
+      const newState = referralLetterReducer(
+        undefined,
+        editIAProCorrectionsSuccess(letterDetails)
       );
       expect(newState).toEqual({ letterDetails });
     });

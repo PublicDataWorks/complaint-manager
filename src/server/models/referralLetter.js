@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
           key: "id"
         }
       },
+      includeRetaliationConcerns: {
+        type: DataTypes.BOOLEAN,
+        field: "include_retaliation_concerns"
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

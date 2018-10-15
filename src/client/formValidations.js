@@ -8,9 +8,12 @@ export function atLeastOneRequired(values, errorMessage, keys) {
 
   const errors = {};
   if (allAbsent) {
-    keys.forEach(key => _.set(errors, key, errorMessage));
+    keys.forEach(key => {
+      if (!key.includes("email")) {
+        _.set(errors, key, errorMessage);
+      }
+    });
   }
-
   return errors;
 }
 

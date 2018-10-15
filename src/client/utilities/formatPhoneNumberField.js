@@ -3,6 +3,9 @@ const formatPhoneNumberField = value => {
     return "";
   }
   const onlyNums = value.replace(/[^\d]/g, "");
+  if (onlyNums.length === 0) {
+    return "";
+  }
   if (onlyNums.length <= 3) {
     return "(" + onlyNums;
   }

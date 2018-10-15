@@ -153,18 +153,62 @@ describe("civilian dialog", () => {
   });
 
   describe("email and phone number", () => {
-    test("should display phone and email errors when phone and email marked as touched on form submit", () => {
-      save.simulate("click");
+    test("should display phone error when phone and email marked as touched on form submit", () => {
+      let civilianToSubmit = new Civilian.Builder()
+        .defaultCivilian()
+        .withFirstName("test first name")
+        .withLastName("test last name")
+        .withRaceEthnicity("Filipino")
+        .withGenderIdentity("Unknown")
+        .withEmail("")
+        .withPhoneNumber("")
+        .build();
 
+      changeInput(
+        civilianDialog,
+        '[data-test="firstNameInput"]',
+        civilianToSubmit.firstName
+      );
+      changeInput(
+        civilianDialog,
+        '[data-test="lastNameInput"]',
+        civilianToSubmit.lastName
+      );
+      changeInput(
+        civilianDialog,
+        '[data-test="birthDateInput"]',
+        civilianToSubmit.birthDate
+      );
+      changeInput(
+        civilianDialog,
+        '[data-test="phoneNumberInput"]',
+        civilianToSubmit.phoneNumber
+      );
+      changeInput(
+        civilianDialog,
+        '[data-test="emailInput"]',
+        civilianToSubmit.email
+      );
+      selectDropdownOption(
+        civilianDialog,
+        '[data-test="genderDropdown"]',
+        civilianToSubmit.genderIdentity
+      );
+      selectDropdownOption(
+        civilianDialog,
+        '[data-test="raceDropdown"]',
+        civilianToSubmit.raceEthnicity
+      );
       const phoneNumberField = civilianDialog.find(
         'div[data-test="phoneNumberField"]'
       );
-      const emailField = civilianDialog.find('div[data-test="emailField"]');
-
-      expect(phoneNumberField.text()).toContain(
-        "Please enter phone number or email address"
+      const phoneNumberInput = civilianDialog.find(
+        'input[data-test="phoneNumberInput"]'
       );
-      expect(emailField.text()).toContain(
+      phoneNumberInput.simulate("focus");
+      phoneNumberInput.simulate("blur");
+      save.simulate("click");
+      expect(phoneNumberField.text()).toContain(
         "Please enter phone number or email address"
       );
     });

@@ -5,6 +5,16 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import { mount } from "enzyme";
+import editIAProCorrections from "../thunks/editIAProCorrections";
+jest.mock(
+  "../thunks/editIAProCorrections",
+  () => (caseId, values, redirectUrl) => ({
+    type: "SOMETHING",
+    caseId,
+    values,
+    redirectUrl
+  })
+);
 
 describe("IAProCorrections", function() {
   let caseId, store, dispatchSpy, wrapper;
@@ -58,5 +68,59 @@ describe("IAProCorrections", function() {
       .first();
     removeIAProCorrectionButton.simulate("click");
     expect(wrapper.find("[data-test='iapro-correction']").length).toEqual(1);
+  });
+
+  test("calls editIAProCorrections with case id, form values, and redirect url when click save and return to case", () => {
+    dispatchSpy.mockClear();
+
+    const button = wrapper
+      .find("[data-test='save-and-return-to-case-link']")
+      .first();
+    button.simulate("click");
+    const expectedFormValues = {
+      referralLetterIAProCorrections: [
+        { id: "1", details: "details1" },
+        { id: "2", details: "details2" }
+      ]
+    };
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editIAProCorrections(caseId, expectedFormValues, `/cases/${caseId}`)
+    );
+  });
+
+  test("calls editIAProCorrections with case id, form values, and redirect url when click back button", () => {
+    const backButton = wrapper.find("[data-test='back-button']").first();
+    backButton.simulate("click");
+    const expectedFormValues = {
+      referralLetterIAProCorrections: [
+        { id: "1", details: "details1" },
+        { id: "2", details: "details2" }
+      ]
+    };
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editIAProCorrections(
+        caseId,
+        expectedFormValues,
+        `/cases/${caseId}/letter/officer-history`
+      )
+    );
+  });
+
+  test("calls editIAProCorrections with case id, form values, and redirect url when click next button", () => {
+    const nextButton = wrapper.find("[data-test='next-button']").first();
+    nextButton.simulate("click");
+    const expectedFormValues = {
+      referralLetterIAProCorrections: [
+        { id: "1", details: "details1" },
+        { id: "2", details: "details2" }
+      ]
+    };
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editIAProCorrections(
+        caseId,
+        expectedFormValues,
+        `/cases/${caseId}/letter/recommended-actions`
+      )
+    );
   });
 });

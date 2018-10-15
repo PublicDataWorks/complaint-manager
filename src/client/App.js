@@ -29,6 +29,7 @@ import LetterReview from "./cases/ReferralLetter/LetterReview/LetterReview";
 import OfficerHistories from "./cases/ReferralLetter/OfficerHistories/OfficerHistories";
 import IAProCorrections from "./cases/ReferralLetter/IAProCorrections/IAProCorrections";
 import JobDashboard from "./export/JobDashboard";
+import RecommendedActions from "./cases/ReferralLetter/RecommendedActions";
 
 class App extends Component {
   componentDidMount() {
@@ -92,6 +93,11 @@ class App extends Component {
                 component={IAProCorrections}
               />
               <Route exact path="/export/all" component={JobDashboard} />
+              <Route
+                exact
+                path="/cases/:id/letter/recommended-actions"
+                component={RecommendedActions}
+              />
               <Route exact path="/styleguide" component={StyleGuide} />
               <Route exact path="/admin" component={UserDashboard} />
               <Route

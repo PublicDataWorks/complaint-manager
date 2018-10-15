@@ -28,6 +28,8 @@ import {
   openCreateCaseDialog
 } from "../../actionCreators/casesActionCreators";
 import { CIVILIAN_INITIATED } from "../../../sharedUtilities/constants";
+import { SubmissionError } from "redux-form";
+import _ from "lodash";
 
 const margin = {
   marginLeft: "5%",
@@ -69,7 +71,7 @@ class CreateCaseDialog extends React.Component {
       },
       redirect: true
     };
-
+    this.validate_at_least_one(values);
     dispatch(createCase(creationDetails));
   };
 
@@ -81,7 +83,7 @@ class CreateCaseDialog extends React.Component {
       },
       redirect: false
     };
-
+    this.validate_at_least_one(values);
     dispatch(createCase(creationDetails));
   };
 
@@ -92,8 +94,15 @@ class CreateCaseDialog extends React.Component {
       },
       redirect: true
     };
-
+    this.validate_at_least_one(values);
     dispatch(createCase(creationDetails));
+  };
+
+  validate_at_least_one = values => {
+    const phoneNumErrors = "civilian" in values && validate(values);
+    if (!_.isEmpty(phoneNumErrors)) {
+      throw new SubmissionError(phoneNumErrors);
+    }
   };
 
   prepareCaseValues = values => ({
@@ -221,6 +230,5 @@ export default reduxForm({
       complaintType: CIVILIAN_INITIATED,
       firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
     }
-  },
-  validate
+  }
 })(ConnectedDialog);

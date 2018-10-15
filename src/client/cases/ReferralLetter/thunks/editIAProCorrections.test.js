@@ -6,24 +6,19 @@ import {
 } from "../../../actionCreators/snackBarActionCreators";
 jest.mock("../../../auth/getAccessToken");
 import { push } from "react-router-redux";
-import editReferralLetter from "./editReferralLetter";
-import { editReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
+import editIAProCorrections from "./editIAProCorrections";
+import { editIAProCorrectionsSuccess } from "../../../actionCreators/letterActionCreators";
 
-describe("editReferralLetter", () => {
+describe("editIAProCorrections", () => {
   let caseId, dispatch, requestBody;
   beforeEach(() => {
     caseId = 5;
     dispatch = jest.fn();
     requestBody = {
-      referralLetterOfficers: [
+      referralLetterIAProCorrections: [
         {
-          caseOfficerId: 99,
-          fullName: "Elenor Wrell",
-          numHistoricalHighAllegations: 2,
-          numHistoricalMedAllegations: 3,
-          numHistoricalLowAllegations: 4,
-          historicalBehaviorNotes: "<p>notes here</p>",
-          referralLetterOfficerHistoryNotes: []
+          id: 99,
+          details: "Please fix xxx in IAPro."
         }
       ]
     };
@@ -31,46 +26,60 @@ describe("editReferralLetter", () => {
 
   test("redirects to login if no token", async () => {
     getAccessToken.mockImplementation(() => false);
-    await editReferralLetter(caseId, requestBody, "redirectRoute")(dispatch);
+    await editIAProCorrections(caseId, requestBody, "redirectRoute")(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
-  test("dispatches success with letter details on success", async () => {
+  test("dispatches success with iapro corrections on success", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
 
-    const responseBody = { id: 9, referralLetterOfficers: [] };
+    const responseBody = {
+      id: 9,
+      referralLetterIAProCorrections: [
+        {
+          id: 99,
+          details: "This was saved."
+        }
+      ]
+    };
     nock("http://localhost", {
       reqheaders: {
         "Content-Type": "application/json",
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .put(`/api/cases/${caseId}/referral-letter`, requestBody)
+      .put(
+        `/api/cases/${caseId}/referral-letter/iapro-corrections`,
+        requestBody
+      )
       .reply(200, responseBody);
 
-    await editReferralLetter(caseId, requestBody, "redirectRoute")(dispatch);
+    await editIAProCorrections(caseId, requestBody, "redirectRoute")(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
-      editReferralLetterSuccess(responseBody)
+      editIAProCorrectionsSuccess(responseBody)
     );
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Officer Complaint History was successfully updated")
+      snackbarSuccess("IAPro Corrections were successfully updated")
     );
   });
 
   test("routes to given redirect url on success", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
 
-    const responseBody = { id: 9, referralLetterOfficers: [] };
+    const responseBody = { id: 9, referralLetterIAProCorrections: [] };
     nock("http://localhost", {
       reqheaders: {
         "Content-Type": "application/json",
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .put(`/api/cases/${caseId}/referral-letter`, requestBody)
+      .put(
+        `/api/cases/${caseId}/referral-letter/iapro-corrections`,
+        requestBody
+      )
       .reply(200, responseBody);
 
-    await editReferralLetter(caseId, requestBody, "redirectRoute")(dispatch);
+    await editIAProCorrections(caseId, requestBody, "redirectRoute")(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("redirectRoute"));
   });
 
@@ -82,13 +91,16 @@ describe("editReferralLetter", () => {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .put(`/api/cases/${caseId}/referral-letter`, requestBody)
+      .put(
+        `/api/cases/${caseId}/referral-letter/iapro-corrections`,
+        requestBody
+      )
       .reply(500);
 
-    await editReferralLetter(caseId, requestBody, "redirectRoute")(dispatch);
+    await editIAProCorrections(caseId, requestBody, "redirectRoute")(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
-        "Something went wrong and we could not update the referral letter information"
+        "Something went wrong and we could not update the IAPro Correction information"
       )
     );
   });

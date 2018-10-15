@@ -6,6 +6,7 @@ class ReferralLetterOfficer {
     this.numHistoricalMedAllegations = build.numHistoricalMedAllegations;
     this.numHistoricalLowAllegations = build.numHistoricalLowAllegations;
     this.historicalBehaviorNotes = build.historicalBehaviorNotes;
+    this.recommendedActionNotes = build.recommendedActionNotes;
   }
 
   static get Builder() {
@@ -17,6 +18,7 @@ class ReferralLetterOfficer {
         this.numHistoricalMedAllegations = 2;
         this.numHistoricalLowAllegations = 1;
         this.historicalBehaviorNotes = "This is a pattern";
+        this.recommendedActionNotes = "This person should be watched.";
         return this;
       }
 
@@ -47,6 +49,11 @@ class ReferralLetterOfficer {
 
       withHistoricalBehaviorNotes(historicalBehaviorNotes) {
         this.historicalBehaviorNotes = historicalBehaviorNotes;
+        return this;
+      }
+
+      withRecommendedActionNotes(notes) {
+        this.recommendedActionNotes = notes;
         return this;
       }
     }

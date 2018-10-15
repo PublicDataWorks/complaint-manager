@@ -232,17 +232,19 @@ describe("CreateCaseDialog component", () => {
 
     describe("when email and phone number are undefined", () => {
       test("should display phone number error", () => {
-        submitButton.simulate("click");
-
+        changeInput(dialog, '[data-test="lastNameInput"]', "test");
+        changeInput(dialog, '[data-test="firstNameInput"]', "test");
         const phoneNumberField = dialog.find(
           'div[data-test="phoneNumberField"]'
         );
-        const emailField = dialog.find('div[data-test="emailField"]');
+        const phoneNumberInput = dialog.find(
+          'input[data-test="phoneNumberInput"]'
+        );
+        phoneNumberInput.simulate("focus");
+        phoneNumberInput.simulate("blur");
+        submitButton.simulate("click");
 
         expect(phoneNumberField.text()).toContain(
-          "Please enter phone number or email address"
-        );
-        expect(emailField.text()).toContain(
           "Please enter phone number or email address"
         );
       });

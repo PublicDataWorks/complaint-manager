@@ -51,6 +51,7 @@ import {
 import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
 import { addressMustBeValid } from "../../../formValidations";
 import AdditionalAddressInfoField from "../../sharedFormComponents/AdditionalAddressInfoField";
+import _ from "lodash";
 
 class CivilianDialog extends Component {
   handleCivilian = (values, dispatch) => {
@@ -58,6 +59,10 @@ class CivilianDialog extends Component {
 
     if (errors.autoSuggestValue) {
       throw new SubmissionError(errors);
+    }
+    const phoneNumErrors = validate(values);
+    if (!_.isEmpty(phoneNumErrors)) {
+      throw new SubmissionError(phoneNumErrors);
     }
 
     dispatch(
@@ -159,12 +164,23 @@ class CivilianDialog extends Component {
             >
               {raceEthnicityMenu}
             </Field>
-
             <Typography variant="body2" style={{ marginBottom: "8px" }}>
               Contact Information
             </Typography>
-            <PhoneNumberField name="phoneNumber" />
-            <EmailField name="email" />
+            <div style={{ display: "flex" }}>
+              <PhoneNumberField name="phoneNumber" />
+              <Typography
+                variant="button"
+                style={{
+                  alignSelf: "flex-end",
+                  marginBottom: "22px",
+                  marginRight: "24px"
+                }}
+              >
+                OR
+              </Typography>
+              <EmailField name="email" />
+            </div>
             <div style={{ marginBottom: "16px" }}>
               <AddressInput
                 formName={CIVILIAN_FORM_NAME}
@@ -229,8 +245,7 @@ class CivilianDialog extends Component {
 const DialogWithTheme = withTheme()(CivilianDialog);
 
 const connectedForm = reduxForm({
-  form: CIVILIAN_FORM_NAME,
-  validate
+  form: CIVILIAN_FORM_NAME
 })(DialogWithTheme);
 
 const mapStateToProps = state => {

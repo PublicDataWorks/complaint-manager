@@ -25,11 +25,6 @@ const kueJobQueue = kue.createQueue({
           no_ready_check: true
         });
       }
-      winston.info(
-        `Connecting to Redis using ${redisConnection.host}:${
-          redisConnection.port
-        }`
-      );
       const client = redis.createClient(redisConnection);
       if (config.queue.password) {
         client.auth(config.queue.password);

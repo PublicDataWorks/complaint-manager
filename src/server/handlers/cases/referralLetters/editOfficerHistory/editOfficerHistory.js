@@ -2,36 +2,25 @@ import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
 import Boom from "boom";
 import getLetterDataForResponse from "../getLetterDataForResponse";
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+import checkForValidStatus from "../checkForValidStatus";
 
-const VALID_STATUSES = [
-  CASE_STATUS.LETTER_IN_PROGRESS,
-  CASE_STATUS.READY_FOR_REVIEW
-];
+const editOfficerHistory = asyncMiddleware(async (request, response, next) => {
+  await checkForValidStatus(request.params.caseId);
 
-const editReferralLetter = asyncMiddleware(async (request, response, next) => {
-  await checkForValidCaseStatus(request.params.caseId);
-  if (request.body.referralLetterOfficers) {
-    await models.sequelize.transaction(async transaction => {
+  await models.sequelize.transaction(async transaction => {
+    if (request.body.referralLetterOfficers) {
       await createOrUpdateReferralLetterOfficers(
         request.body.referralLetterOfficers,
         request.nickname,
         transaction
       );
-    });
-  }
+    }
+  });
   const letterDataForResponse = await getLetterDataForResponse(
     request.params.caseId
   );
   return response.status(200).send(letterDataForResponse);
 });
-
-const checkForValidCaseStatus = async caseId => {
-  const existingCase = await models.cases.findById(caseId);
-  if (!VALID_STATUSES.includes(existingCase.status)) {
-    throw Boom.badRequest("Invalid case status.");
-  }
-};
 
 const createOrUpdateReferralLetterOfficers = async (
   referralLetterOfficers,
@@ -252,4 +241,4 @@ const isValueBlank = value => {
   return !value;
 };
 
-export default editReferralLetter;
+export default editOfficerHistory;

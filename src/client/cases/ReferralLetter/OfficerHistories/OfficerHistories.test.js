@@ -7,13 +7,13 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { changeInput, containsText } from "../../../testHelpers";
 import OfficerHistoryNote from "./OfficerHistoryNote";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
-import editReferralLetter from "../thunks/editReferralLetter";
+import editOfficerHistory from "../thunks/editOfficerHistory";
 import { push } from "react-router-redux";
 jest.mock("../../../shared/components/RichTextEditor/RichTextEditor");
 jest.mock("../thunks/getReferralLetter", () => () => ({ type: "" }));
-jest.mock("../thunks/editReferralLetter", () =>
+jest.mock("../thunks/editOfficerHistory", () =>
   jest.fn(() => () => ({
-    type: "MOCK_EDIT_REFERRAL_LETTER_THUNK"
+    type: "MOCK_EDIT_OFFICER_HISTORY_THUNK"
   }))
 );
 
@@ -202,7 +202,7 @@ describe("OfficerHistories page", function() {
     });
 
     test("it dispatches edit to referral letter when click back to review button when values valid", () => {
-      editReferralLetter.mockClear();
+      editOfficerHistory.mockClear();
       changeInput(
         wrapper,
         "[name='referralLetterOfficers[0].numHistoricalHighAllegations']",
@@ -222,7 +222,7 @@ describe("OfficerHistories page", function() {
           { fullName: "Officer 3", id: 2, caseOfficerId: 12 }
         ]
       };
-      expect(editReferralLetter).toHaveBeenCalledWith(
+      expect(editOfficerHistory).toHaveBeenCalledWith(
         caseId,
         expectedFormValues,
         `/cases/${caseId}/letter/review`
@@ -230,7 +230,7 @@ describe("OfficerHistories page", function() {
     });
 
     test("it does not dispatch edit to referral letter when click back to review button when values not valid", () => {
-      editReferralLetter.mockClear();
+      editOfficerHistory.mockClear();
       changeInput(
         wrapper,
         "[name='referralLetterOfficers[0].numHistoricalHighAllegations']",
@@ -238,11 +238,11 @@ describe("OfficerHistories page", function() {
       );
       const backButton = wrapper.find('[data-test="back-button"]').first();
       backButton.simulate("click");
-      expect(editReferralLetter).not.toHaveBeenCalled();
+      expect(editOfficerHistory).not.toHaveBeenCalled();
     });
 
     test("it dispatches edit to referral letter when click save and return to cases button when values valid", () => {
-      editReferralLetter.mockClear();
+      editOfficerHistory.mockClear();
       changeInput(
         wrapper,
         "[name='referralLetterOfficers[0].numHistoricalHighAllegations']",
@@ -264,7 +264,7 @@ describe("OfficerHistories page", function() {
           { fullName: "Officer 3", id: 2, caseOfficerId: 12 }
         ]
       };
-      expect(editReferralLetter).toHaveBeenCalledWith(
+      expect(editOfficerHistory).toHaveBeenCalledWith(
         caseId,
         expectedFormValues,
         `/cases/${caseId}`
@@ -272,7 +272,7 @@ describe("OfficerHistories page", function() {
     });
 
     test("it dispatches edit to referral letter when click next when values valid", () => {
-      editReferralLetter.mockClear();
+      editOfficerHistory.mockClear();
       changeInput(
         wrapper,
         "[name='referralLetterOfficers[0].numHistoricalHighAllegations']",
@@ -292,7 +292,7 @@ describe("OfficerHistories page", function() {
           { fullName: "Officer 3", id: 2, caseOfficerId: 12 }
         ]
       };
-      expect(editReferralLetter).toHaveBeenCalledWith(
+      expect(editOfficerHistory).toHaveBeenCalledWith(
         caseId,
         expectedFormValues,
         `/cases/${caseId}/letter/iapro-corrections`
@@ -300,7 +300,7 @@ describe("OfficerHistories page", function() {
     });
 
     test("it does not dispatch edit to referral letter when click save and return to cases button when values not valid", () => {
-      editReferralLetter.mockClear();
+      editOfficerHistory.mockClear();
       changeInput(
         wrapper,
         "[name='referralLetterOfficers[0].numHistoricalHighAllegations']",
@@ -310,7 +310,7 @@ describe("OfficerHistories page", function() {
         .find('[data-test="save-and-return-to-case-link"]')
         .first();
       backButton.simulate("click");
-      expect(editReferralLetter).not.toHaveBeenCalled();
+      expect(editOfficerHistory).not.toHaveBeenCalled();
     });
   });
 
@@ -341,7 +341,7 @@ describe("OfficerHistories page", function() {
     test("it does not submit the form but does redirect when no officers on the case when click back button", () => {
       const backButton = wrapper.find('[data-test="back-button"]').first();
       backButton.simulate("click");
-      expect(editReferralLetter).not.toHaveBeenCalled();
+      expect(editOfficerHistory).not.toHaveBeenCalled();
       expect(dispatchSpy).toHaveBeenCalledWith(
         push(`/cases/${caseId}/letter/review`)
       );
@@ -352,7 +352,7 @@ describe("OfficerHistories page", function() {
         .find('[data-test="save-and-return-to-case-link"]')
         .first();
       backButton.simulate("click");
-      expect(editReferralLetter).not.toHaveBeenCalled();
+      expect(editOfficerHistory).not.toHaveBeenCalled();
       expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
     });
   });
