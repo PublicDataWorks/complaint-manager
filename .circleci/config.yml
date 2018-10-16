@@ -45,6 +45,7 @@ jobs:
           - run: docker build -f Dockerfile.web --build-arg REACT_ENV=ci --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/complaint-manager-ci:$CIRCLE_SHA1 .
           - run: docker build -f Dockerfile.worker --build-arg REACT_ENV=ci --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/complaint-manager-ci-w:$CIRCLE_SHA1 .
           - run: docker push noipm/complaint-manager-ci:$CIRCLE_SHA1
+          - run: docker push noipm/complaint-manager-ci-w:$CIRCLE_SHA1
 
     build-and-publish-release:
         docker:
