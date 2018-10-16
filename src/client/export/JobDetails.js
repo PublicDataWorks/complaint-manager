@@ -7,20 +7,32 @@ import { addBackgroundJobFailure } from "../actionCreators/exportActionCreators"
 import { bindActionCreators } from "redux";
 
 const REFRESH_MS = 1000;
+const MAX_REFRESH = 180;
+
+let refreshes = 0;
 
 class JobDetails extends Component {
   componentDidMount() {
+    refreshes = 1;
     this.classes = this.props;
     this.props.getExportJob(this.props.jobId);
     setTimeout(this.refreshJob, REFRESH_MS);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.jobId !== this.props.jobId) {
+      refreshes = 1;
       setTimeout(this.refreshJob, REFRESH_MS);
     } else {
-      ReactDOM.findDOMNode(this).click();
-      ReactDOM.findDOMNode(this).href = "";
+      if (
+        prevProps.exportJob &&
+        prevProps.exportJob.state !== "complete" &&
+        this.jobCompleted()
+      ) {
+        const anchorNode = ReactDOM.findDOMNode(this);
+        anchorNode.click();
+        anchorNode.href = "";
+      }
     }
   }
 
@@ -33,7 +45,8 @@ class JobDetails extends Component {
   }
 
   refreshJob = () => {
-    if (this.jobFailed()) {
+    refreshes = refreshes + 1;
+    if (this.jobFailed() || refreshes > MAX_REFRESH) {
       this.props.addBackgroundJobFailure();
     } else {
       if (!this.jobCompleted()) {
@@ -47,6 +60,7 @@ class JobDetails extends Component {
     return this.jobCompleted() ? (
       <a
         data-test="downloadUrl"
+        type="application/octet-stream"
         href={
           this.props.exportJob.result
             ? this.props.exportJob.result.downLoadUrl
