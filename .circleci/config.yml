@@ -94,7 +94,7 @@ jobs:
               - run: docker tag noipm/complaint-manager-ci:$CIRCLE_SHA1 registry.heroku.com/noipm-ci/web
               - run: docker push registry.heroku.com/noipm-ci/web
               - run: heroku container:release web --app noipm-ci
-              - run: heroku container:release worker --app noipm-ci
+              - run: heroku container:release web yarn worker:start --app noipm-ci
 
     ensure-ci-deploy-succeeded:
           docker:
