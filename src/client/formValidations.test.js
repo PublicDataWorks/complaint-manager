@@ -1,4 +1,4 @@
-import { addressMustBeValid, atLeastOneRequired } from "./formValidations";
+import { addressMustBeValid, atLeastOneRequired, timeMustBeValid } from "./formValidations";
 
 describe("synchronous validations", () => {
   test("test phone number error to show up when phone number and email blank", () => {
@@ -105,5 +105,10 @@ describe("synchronous validations", () => {
     const expectedErrors = {};
 
     expect(errors).toEqual(expectedErrors);
+  });
+
+  test("should produce errors when time is not valid", () => {
+    const error = timeMustBeValid(null);
+    expect(error).toEqual("Please enter a time in the form of 12:34 AM");
   });
 });
