@@ -4,10 +4,10 @@ import {
   snackbarError,
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
-jest.mock("../../../auth/getAccessToken");
 import { push } from "react-router-redux";
 import editIAProCorrections from "./editIAProCorrections";
 import { editIAProCorrectionsSuccess } from "../../../actionCreators/letterActionCreators";
+jest.mock("../../../auth/getAccessToken");
 
 describe("editIAProCorrections", () => {
   let caseId, dispatch, requestBody;

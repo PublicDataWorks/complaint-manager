@@ -29,7 +29,7 @@ import LetterReview from "./cases/ReferralLetter/LetterReview/LetterReview";
 import OfficerHistories from "./cases/ReferralLetter/OfficerHistories/OfficerHistories";
 import IAProCorrections from "./cases/ReferralLetter/IAProCorrections/IAProCorrections";
 import JobDashboard from "./export/JobDashboard";
-import RecommendedActions from "./cases/ReferralLetter/RecommendedActions";
+import RecommendedActions from "./cases/ReferralLetter/RecommendedActions/RecommendedActions";
 
 class App extends Component {
   componentDidMount() {

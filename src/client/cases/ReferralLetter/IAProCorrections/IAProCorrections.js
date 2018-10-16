@@ -35,7 +35,7 @@ class IAProCorrections extends Component {
     );
   };
 
-  saveAndGoBackToReview = () => {
+  saveAndGoBackToOfficerHistories = () => {
     return this.props.handleSubmit(
       this.submitForm(`/cases/${this.state.caseId}/letter/officer-history`)
     );
@@ -164,7 +164,7 @@ class IAProCorrections extends Component {
             <div style={{ display: "flex" }}>
               <span style={{ flex: 1 }}>
                 <SecondaryButton
-                  onClick={this.saveAndGoBackToReview()}
+                  onClick={this.saveAndGoBackToOfficerHistories()}
                   data-test="back-button"
                 >
                   Back

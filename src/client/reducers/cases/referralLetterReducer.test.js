@@ -1,12 +1,13 @@
 import {
-  GET_REFERRAL_LETTER_SUCCESS,
-  EDIT_REFERRAL_LETTER_SUCCESS
+  EDIT_REFERRAL_LETTER_SUCCESS,
+  GET_REFERRAL_LETTER_SUCCESS
 } from "../../../sharedUtilities/constants";
 import referralLetterReducer from "./referralLetterReducer";
 import {
-  getReferralLetterSuccess,
+  editIAProCorrectionsSuccess,
+  editRecommendedActionsSuccess,
   editReferralLetterSuccess,
-  editIAProCorrectionsSuccess
+  getReferralLetterSuccess
 } from "../../actionCreators/letterActionCreators";
 
 describe("referralLetterReducer", () => {
@@ -48,6 +49,27 @@ describe("referralLetterReducer", () => {
       const newState = referralLetterReducer(
         undefined,
         editIAProCorrectionsSuccess(letterDetails)
+      );
+      expect(newState).toEqual({ letterDetails });
+    });
+  });
+
+  describe("EDIT_RECOMMENDED_ACTIONS_SUCCESS", function() {
+    test("sets the recommended action details in state", () => {
+      const letterDetails = {
+        id: 15,
+        includeRetaliationConcerns: true,
+        referralLetterOfficers: [
+          {
+            id: 1,
+            referralLetterOfficerRecommendedActions: [1, 3],
+            recommendedActionNotes: "notes"
+          }
+        ]
+      };
+      const newState = referralLetterReducer(
+        undefined,
+        editRecommendedActionsSuccess(letterDetails)
       );
       expect(newState).toEqual({ letterDetails });
     });

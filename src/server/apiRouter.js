@@ -1,5 +1,6 @@
 import editOfficerHistory from "./handlers/cases/referralLetters/editOfficerHistory/editOfficerHistory";
 import editIAProCorrections from "./handlers/cases/referralLetters/editIAProCorrections/editIAProCorrections";
+import editRecommendedActions from "./handlers/cases/referralLetters/editRecommendedActions/editRecommendedActions";
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
 const editCase = require("./handlers/cases/editCase");
@@ -86,6 +87,10 @@ router.put(
 router.put(
   "/cases/:caseId/referral-letter/iapro-corrections",
   editIAProCorrections
+);
+router.put(
+  "/cases/:caseId/referral-letter/recommended-actions",
+  editRecommendedActions
 );
 
 router.use("/cases/:id/attachments", attachmentRouter);

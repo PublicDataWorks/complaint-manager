@@ -15,7 +15,7 @@ const editRecommendedActions = asyncMiddleware(
           transaction
         );
       }
-      if (request.body.includeRetaliationConcerns) {
+      if (request.body.includeRetaliationConcerns !== undefined) {
         const referralLetter = await models.referral_letter.findById(
           request.body.id
         );

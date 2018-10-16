@@ -1,23 +1,24 @@
-import getReferralLetter from "./thunks/getReferralLetter";
+import getReferralLetter from "../thunks/getReferralLetter";
 import _ from "lodash";
-import { LETTER_PROGRESS } from "../../../sharedUtilities/constants";
-import NavBar from "../../shared/components/NavBar/NavBar";
+import { LETTER_PROGRESS } from "../../../../sharedUtilities/constants";
+import NavBar from "../../../shared/components/NavBar/NavBar";
 import { Card, CardContent, Typography } from "@material-ui/core";
-import LinkButton from "../../shared/components/LinkButton";
-import LetterProgressStepper from "./LetterProgressStepper";
+import LinkButton from "../../../shared/components/LinkButton";
+import LetterProgressStepper from "../LetterProgressStepper";
 import React, { Component, Fragment } from "react";
 import { Field, FieldArray, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import Checkbox from "@material-ui/core/es/Checkbox/Checkbox";
-import styles from "../../globalStyling/styles";
-import TextField from "@material-ui/core/es/TextField/TextField";
+import styles from "../../../globalStyling/styles";
+import { TextField, Checkbox } from "redux-form-material-ui";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
+import { SecondaryButton } from "../../../shared/components/StyledButtons";
+import editRecommendedActions from "../thunks/editRecommendedActions";
 
 class RecommendedActions extends Component {
   constructor(props) {
     super(props);
-    this.state = { caseId: this.props.match.params.id, checked: false };
+    this.state = { caseId: this.props.match.params.id };
   }
 
   componentDidMount() {
@@ -31,8 +32,21 @@ class RecommendedActions extends Component {
     );
   };
 
-  selectIncludeRetaliationConcerns = (event, checked) => {
-    this.setState({ checked: event.target.checked });
+  saveAndReturnToCase = () => {
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}`)
+    );
+  };
+
+  saveAndGoBackToIAProCorrections = () => {
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}/letter/iapro-corrections`)
+    );
+  };
+
+  submitForm = redirectUrl => (values, dispatch) => {
+    console.log(values);
+    dispatch(editRecommendedActions(this.state.caseId, values, redirectUrl));
   };
 
   renderOfficerCards = ({ fields }) => {
@@ -131,10 +145,10 @@ class RecommendedActions extends Component {
         </FormGroup>
         <div>
           <Field
-            name={`${referralLetterOfficerField}.notes`}
+            name={`${referralLetterOfficerField}.recommendedActionNotes`}
             style={{ width: "50%" }}
             component={TextField}
-            data-test={`${referralLetterOfficerField}-notes`}
+            data-test={`${referralLetterOfficerField}-recommendedActionNotes`}
             placeholder={"Additional notes or concerns"}
           />
         </div>
@@ -158,7 +172,7 @@ class RecommendedActions extends Component {
         <form>
           <LinkButton
             data-test="save-and-return-to-case-link"
-            onClick={() => {}}
+            onClick={this.saveAndReturnToCase()}
             style={{ margin: "2% 0% 2% 4%" }}
           >
             Save and Return to Case
@@ -189,19 +203,16 @@ class RecommendedActions extends Component {
                   <FormControlLabel
                     control={
                       <Field
-                        name="includeRetaliationConcernsField"
+                        name="includeRetaliationConcerns"
                         component={Checkbox}
                         data-test="include-retaliation-concerns-field"
-                        inputProps={{
-                          onChange: this.selectIncludeRetaliationConcerns
-                        }}
-                        checked={this.state.checked}
                       />
                     }
                     label={
                       "Include Retaliation Concerns and Request for Notice to Officer(s)"
                     }
                   />
+
                   <Typography style={{ marginLeft: "40px" }}>
                     Based on the information provided by the complainant, the
                     OIPM is concerned about retaliation against the complainant.
@@ -216,8 +227,13 @@ class RecommendedActions extends Component {
                 name="referralLetterOfficers"
                 component={this.renderOfficerCards}
               />
+              <SecondaryButton
+                onClick={this.saveAndGoBackToIAProCorrections()}
+                data-test="back-button"
+              >
+                Back
+              </SecondaryButton>
             </div>
-            <div style={{ marginBottom: "32px" }} />
           </div>
         </form>
       </div>
@@ -228,6 +244,7 @@ class RecommendedActions extends Component {
 const mapStateToProps = state => ({
   letterDetails: state.referralLetter.letterDetails,
   initialValues: {
+    id: state.referralLetter.letterDetails.id,
     includeRetaliationConcerns:
       state.referralLetter.letterDetails.includeRetaliationConcerns,
     referralLetterOfficers:
