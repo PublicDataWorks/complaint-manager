@@ -131,6 +131,11 @@ docker build -t noipm/e2e e2e
 docker push noipm/e2e
 ```
 
+### Worker Container
+The application is  using a worker process to rub background jobs (exports).  The worker process processes jobs added to a queue (redis).  
+When running locally, worker and server connect to a local Redis Container.  On other environments they connect to RedisCloud instance.  To connect to a redis cloud instance you must set the `REDISCLOUD_URL` environment variable.
+When using RedisCloud plugin in Heroku, the `REDISCLOUD_URL` is automatically set.
+
 ### Update the docker-heroku image:
 
 First update the Docker file in the docker-heroku directory to set the heroku npm version you want to use.
