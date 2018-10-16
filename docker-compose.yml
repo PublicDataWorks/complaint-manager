@@ -4,6 +4,7 @@ services:
   app:
     build:
       context: .
+      dockerfile: Dockerfile.web
       args:
         - REACT_ENV=static_development
     environment:
@@ -27,6 +28,7 @@ services:
   worker:
     build:
       context: .
+      dockerfile: Dockerfile.worker
     environment:
       - NODE_ENV=development
       - REACT_APP_ENV=development
