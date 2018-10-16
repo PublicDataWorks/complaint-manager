@@ -172,9 +172,9 @@ class CivilianDialog extends Component {
               <Typography
                 variant="button"
                 style={{
-                  alignSelf: "flex-end",
-                  marginBottom: "22px",
-                  marginRight: "24px"
+                  marginLeft: "22px",
+                  marginTop: "22px",
+                  marginRight: "22px"
                 }}
               >
                 OR

@@ -19,7 +19,7 @@ const PhoneNumberField = props => (
     data-test="phoneNumberField"
     validate={[isPhoneNumber]}
     normalize={strip_nondigits}
-    style={{ marginRight: "5%", marginBottom: "3%" }}
+    style={{ width: "35%", marginRight: "0%", marginBottom: "3%" }}
     InputLabelProps={{
       shrink: true
     }}
