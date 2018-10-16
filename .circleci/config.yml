@@ -65,6 +65,7 @@ jobs:
               - setup_remote_docker
               - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
               - run: docker pull noipm/complaint-manager-ci:$CIRCLE_SHA1
+              - run: docker pull noipm/complaint-manager-ci-w:$CIRCLE_SHA1
               - run:
                   name: Migrate and Seed DB
                   command: |
