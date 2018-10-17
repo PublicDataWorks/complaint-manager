@@ -35,6 +35,7 @@ import exportJobDownloadUrlReducer from "./reducers/export/exportJobDownloadUrlR
 import generateJobReducer from "./reducers/export/generateJobReducer";
 import iaProCorrectionsReducer from "./reducers/ui/iaProCorrectionDialogReducer";
 import allExportsReducer from "./reducers/ui/allExportsReducer";
+import recommendedActionsReducer from "./reducers/cases/recommendedActionsReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -48,6 +49,7 @@ const rootReducer = combineReducers({
     caseHistory: caseHistoryReducer
   }),
   referralLetter: referralLetterReducer,
+  recommendedActions: recommendedActionsReducer,
   users: combineReducers({
     all: allUsersReducer,
     current: userInfoReducer

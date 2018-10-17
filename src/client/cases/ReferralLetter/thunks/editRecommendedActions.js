@@ -30,7 +30,6 @@ const editRecommendedActions = (
         data: recommendedActionValues
       }
     );
-    console.log("!!!!!", response.data);
     dispatch(editRecommendedActionsSuccess(response.data));
     dispatch(snackbarSuccess("Recommended Actions were successfully updated"));
     return dispatch(push(successRedirectRoute));

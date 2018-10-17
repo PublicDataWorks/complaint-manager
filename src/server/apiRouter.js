@@ -36,6 +36,7 @@ const removeOfficerAllegation = require("./handlers/officerAllegations/removeOff
 const getReferralLetter = require("./handlers/cases/referralLetters/getReferralLetter/getReferralLetter");
 const scheduleExport = require("./handlers/cases/export/scheduleExport");
 const exportJob = require("./handlers/cases/export/exportJob");
+const getRecommendedActions = require("./handlers/cases/referralLetters/getRecommendedActions/getRecommendedActions");
 
 const express = require("express");
 const router = express.Router();
@@ -110,5 +111,6 @@ router.get("/officers/search", searchOfficers);
 router.get("/allegations/search", searchAllegations);
 router.get("/allegations", getAllegations);
 router.get("/classifications", getClassifications);
+router.get("/recommended-actions", getRecommendedActions);
 
 module.exports = router;

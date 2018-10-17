@@ -63,6 +63,8 @@ export const buildTokenWithPermissions = (permissions, nickname) => {
 
 export const cleanupDatabase = async () => {
   const truncationQuery =
+    "TRUNCATE referral_letters CASCADE;" +
+    "TRUNCATE recommended_actions CASCADE;" +
     "TRUNCATE addresses CASCADE;" +
     "TRUNCATE cases_officers CASCADE;" +
     "TRUNCATE officers_allegations CASCADE;" +
