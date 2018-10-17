@@ -1,4 +1,4 @@
-import { nullifyFieldUnlessValid, trimWhiteSpace } from "./fieldNormalizers";
+import { nullifyFieldUnlessValid, trimWhiteSpace, validateTimeField } from "./fieldNormalizers";
 
 describe("fieldNormalizers", () => {
   describe("trimWhiteSpace", () => {
