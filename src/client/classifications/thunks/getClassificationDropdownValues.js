@@ -24,7 +24,7 @@ const getClassficationDropdownValues = () => async dispatch => {
   } catch (error) {
     return dispatch(
       snackbarError(
-        "Something went wrong and we could not fetch the classification options."
+        "Something went wrong and the classifications were not loaded. Please try again."
       )
     );
   }

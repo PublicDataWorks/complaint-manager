@@ -26,7 +26,7 @@ const RemoveOfficerHistoryNoteDialog = ({
   const removeOfficerHistoryNote = () => {
     closeRemoveOfficerHistoryNoteDialog();
     removeNote(fieldArrayName, noteIndex);
-    snackbarSuccess("Note successfully removed");
+    snackbarSuccess("Note was successfully removed");
   };
 
   return (

@@ -59,7 +59,7 @@ describe("editIAProCorrections", () => {
       editIAProCorrectionsSuccess(responseBody)
     );
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("IAPro Corrections were successfully updated")
+      snackbarSuccess("IAPro corrections were successfully updated")
     );
   });
 
@@ -100,7 +100,7 @@ describe("editIAProCorrections", () => {
     await editIAProCorrections(caseId, requestBody, "redirectRoute")(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
-        "Something went wrong and we could not update the IAPro Correction information"
+        "Something went wrong and the IAPro corrections were not updated. Please try again."
       )
     );
   });

@@ -32,13 +32,13 @@ const editOfficerHistory = (
     );
     dispatch(editReferralLetterSuccess(response.data));
     dispatch(
-      snackbarSuccess("Officer Complaint History was successfully updated")
+      snackbarSuccess("Officer complaint history was successfully updated")
     );
     return dispatch(push(successRedirectRoute));
   } catch (error) {
     return dispatch(
       snackbarError(
-        "Something went wrong and we could not update the referral letter information"
+        "Something went wrong and the officer history was not updated. Please try again."
       )
     );
   }

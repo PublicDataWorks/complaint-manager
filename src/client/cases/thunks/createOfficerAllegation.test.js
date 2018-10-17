@@ -55,7 +55,7 @@ describe("create officer allegation", function() {
     )(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
-        "Something went wrong on our end and your allegation was not added. Please try again."
+        "Something went wrong and the allegation was not added. Please try again."
       )
     );
   });
@@ -101,7 +101,7 @@ describe("create officer allegation", function() {
     )(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Allegation successfully added to officer.")
+      snackbarSuccess("Allegation was successfully added")
     );
     expect(callBackFunction).toHaveBeenCalled();
     expect(dispatch).toHaveBeenCalledWith(

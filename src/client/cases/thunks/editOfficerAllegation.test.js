@@ -40,7 +40,7 @@ describe("editOfficerAllegation thunk", () => {
     await editOfficerAllegation(allegationChanges)(mockDispatch);
 
     expect(mockDispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Allegation successfully updated")
+      snackbarSuccess("Allegation was successfully updated")
     );
     expect(mockDispatch).toHaveBeenCalledWith(
       updateAllegationDetailsSuccess(allegationChanges.id, updatedCase)
@@ -65,7 +65,7 @@ describe("editOfficerAllegation thunk", () => {
 
     expect(mockDispatch).toHaveBeenCalledWith(
       snackbarError(
-        "Something went wrong on our end and the allegation was not updated."
+        "Something went wrong and the allegation was not updated. Please try again."
       )
     );
   });
@@ -88,7 +88,7 @@ describe("editOfficerAllegation thunk", () => {
 
     expect(mockDispatch).toHaveBeenCalledWith(
       snackbarError(
-        "Something went wrong on our end and the allegation was not updated."
+        "Something went wrong and the allegation was not updated. Please try again."
       )
     );
   });

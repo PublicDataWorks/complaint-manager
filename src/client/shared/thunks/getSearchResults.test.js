@@ -41,7 +41,7 @@ describe("getSearchResults", () => {
     await getSearchResults(searchCriteria, resourceToSearch)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
-        "Something went wrong on our end and we could not complete your search."
+        "Something went wrong and the search was not completed. Please try again."
       )
     );
   });

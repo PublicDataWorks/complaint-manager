@@ -17,8 +17,8 @@ const createOfficerAllegation = (
   addAllegationSuccessCallback
 ) => async dispatch => {
   const errorMessage =
-    "Something went wrong on our end and your allegation was not added. Please try again.";
-  const successMessage = "Allegation successfully added to officer.";
+    "Something went wrong and the allegation was not added. Please try again.";
+  const successMessage = "Allegation was successfully added";
 
   try {
     const token = getAccessToken();

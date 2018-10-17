@@ -25,7 +25,7 @@ const RemoveIAProCorrectionDialog = ({
   const removeIAProCorrection = () => {
     closeRemoveIAProCorrectionDialog();
     removeFunction(fieldArrayName, correctionIndex);
-    snackbarSuccess("IAPro Correction successfully removed");
+    snackbarSuccess("IAPro correction was successfully removed");
   };
 
   return (

@@ -241,7 +241,7 @@ export const closeRemovePersonDialog = () => ({
 
 export const removePersonFailure = personType => ({
   type: REMOVE_PERSON_FAILED,
-  message: `Something went wrong on our end and your ${_.lowerCase(
+  message: `Something went wrong and the ${_.lowerCase(
     personType
   )} was not removed. Please try again.`
 });
@@ -249,7 +249,7 @@ export const removePersonFailure = personType => ({
 export const removePersonSuccess = (caseDetails, personType) => ({
   type: REMOVE_PERSON_SUCCEEDED,
   caseDetails,
-  message: `${_.startCase(personType)} has been successfully removed.`
+  message: `${_.startCase(personType)} was successfully removed`
 });
 
 export const openCaseStatusUpdateDialog = () => ({

@@ -32,11 +32,11 @@ const editOfficerAllegation = allegation => async dispatch => {
     );
 
     dispatch(updateAllegationDetailsSuccess(allegation.id, response.data));
-    return dispatch(snackbarSuccess("Allegation successfully updated"));
+    return dispatch(snackbarSuccess("Allegation was successfully updated"));
   } catch (error) {
     return dispatch(
       snackbarError(
-        "Something went wrong on our end and the allegation was not updated."
+        "Something went wrong and the allegation was not updated. Please try again."
       )
     );
   }

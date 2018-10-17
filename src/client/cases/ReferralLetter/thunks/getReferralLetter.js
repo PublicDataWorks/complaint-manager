@@ -31,7 +31,7 @@ const getReferralLetter = caseId => async dispatch => {
     }
     dispatch(
       snackbarError(
-        "Something went wrong and we could not retrieve the referral letter information"
+        "Something went wrong and the page could not be loaded. Please try again."
       )
     );
   }

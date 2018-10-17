@@ -35,11 +35,13 @@ const setCaseStatus = (caseId, status, callback) => async dispatch => {
     if (callback) {
       callback();
     }
-    dispatch(snackbarSuccess("Status successfully updated"));
+    dispatch(snackbarSuccess("Status was successfully updated"));
     return dispatch(closeCaseStatusUpdateDialog());
   } catch (err) {
     return dispatch(
-      snackbarError("Something went wrong and the case status was not updated.")
+      snackbarError(
+        "Something went wrong and the case status was not updated. Please try again."
+      )
     );
   }
 };

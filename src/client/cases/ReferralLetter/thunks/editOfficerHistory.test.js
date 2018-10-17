@@ -53,7 +53,7 @@ describe("editReferralLetter", () => {
       editReferralLetterSuccess(responseBody)
     );
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Officer Complaint History was successfully updated")
+      snackbarSuccess("Officer complaint history was successfully updated")
     );
   });
 
@@ -88,7 +88,7 @@ describe("editReferralLetter", () => {
     await editOfficerHistory(caseId, requestBody, "redirectRoute")(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
-        "Something went wrong and we could not update the referral letter information"
+        "Something went wrong and the officer history was not updated. Please try again."
       )
     );
   });

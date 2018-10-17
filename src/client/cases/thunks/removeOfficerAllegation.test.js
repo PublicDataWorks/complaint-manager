@@ -41,7 +41,7 @@ describe("removeOfficerAllegation thunk", () => {
     expect(dispatch).toHaveBeenCalledWith(removeOfficerAllegationFailure());
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
-        "Something went wrong on our end and the allegation was not removed. Please try again."
+        "Something went wrong and the allegation was not removed. Please try again."
       )
     );
   });
@@ -62,7 +62,7 @@ describe("removeOfficerAllegation thunk", () => {
       removeOfficerAllegationSuccess(response)
     );
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Allegation successfully removed")
+      snackbarSuccess("Allegation was successfully removed")
     );
   });
 });

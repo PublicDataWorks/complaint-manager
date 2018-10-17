@@ -28,7 +28,7 @@ const getCaseHistory = caseId => async dispatch => {
   } catch (error) {
     return dispatch(
       snackbarError(
-        "Something went wrong and we could not fetch the case history."
+        "Something went wrong and the case history was not loaded. Please try again."
       )
     );
   }

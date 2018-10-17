@@ -31,12 +31,12 @@ const removeOfficerAllegation = allegationId => async dispatch => {
       }
     );
 
-    dispatch(snackbarSuccess("Allegation successfully removed"));
+    dispatch(snackbarSuccess("Allegation was successfully removed"));
     return dispatch(removeOfficerAllegationSuccess(response.data));
   } catch (e) {
     dispatch(
       snackbarError(
-        "Something went wrong on our end and the allegation was not removed. Please try again."
+        "Something went wrong and the allegation was not removed. Please try again."
       )
     );
     return dispatch(removeOfficerAllegationFailure());

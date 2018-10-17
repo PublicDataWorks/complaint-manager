@@ -31,12 +31,12 @@ const editIAProCorrections = (
       }
     );
     dispatch(editIAProCorrectionsSuccess(response.data));
-    dispatch(snackbarSuccess("IAPro Corrections were successfully updated"));
+    dispatch(snackbarSuccess("IAPro corrections were successfully updated"));
     return dispatch(push(successRedirectRoute));
   } catch (error) {
     return dispatch(
       snackbarError(
-        "Something went wrong and we could not update the IAPro Correction information"
+        "Something went wrong and the IAPro corrections were not updated. Please try again."
       )
     );
   }

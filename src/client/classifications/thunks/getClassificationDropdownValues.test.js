@@ -46,7 +46,7 @@ describe("getClassificationDropdownValues", () => {
     await getClassficationDropdownValues()(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
-        "Something went wrong and we could not fetch the classification options."
+        "Something went wrong and the classifications were not loaded. Please try again."
       )
     );
   });

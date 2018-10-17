@@ -121,7 +121,7 @@ describe("snackbarReducer", () => {
       expect(newState.open).toBe(true);
       expect(newState.success).toBeFalsy();
       expect(newState.message).toBe(
-        "Something went wrong on our end and your user was not created. Please try again."
+        "Something went wrong and the user was not created. Please try again."
       );
     });
   });
@@ -159,7 +159,7 @@ describe("snackbarReducer", () => {
       expect(newState.open).toBe(true);
       expect(newState.success).toBe(false);
       expect(newState.message).toEqual(
-        "Something went wrong on our end and your case was not created. Please try again."
+        "Something went wrong and the case was not created. Please try again."
       );
     });
   });
@@ -173,9 +173,7 @@ describe("snackbarReducer", () => {
         );
         expect(newState.open).toEqual(true);
         expect(newState.success).toEqual(true);
-        expect(newState.message).toEqual(
-          "Your narrative was successfully updated"
-        );
+        expect(newState.message).toEqual("Narrative was successfully updated");
       });
     });
 
@@ -193,7 +191,7 @@ describe("snackbarReducer", () => {
 
         expect(newState.success).toEqual(false);
         expect(newState.message).toEqual(
-          "Something went wrong on our end and your case was not updated. Please try again."
+          "Something went wrong and the case was not updated. Please try again."
         );
         expect(newState.open).toBeTruthy();
       });
@@ -207,9 +205,7 @@ describe("snackbarReducer", () => {
 
       expect(newState.open).toBeTruthy();
       expect(newState.success).toBeTruthy();
-      expect(newState.message).toEqual(
-        "Complainant & Witnesses successfully updated"
-      );
+      expect(newState.message).toEqual("Civilian was successfully updated");
     });
     test("EDIT_CIVILIAN_FAILED", () => {
       const initialState = { open: true };
@@ -218,7 +214,7 @@ describe("snackbarReducer", () => {
       expect(newState.open).toBeTruthy();
       expect(newState.success).toBeFalsy();
       expect(newState.message).toEqual(
-        "Something went wrong on our end and the civilian was not updated. Please try again."
+        "Something went wrong and the civilian was not updated. Please try again."
       );
     });
   });
@@ -233,7 +229,7 @@ describe("snackbarReducer", () => {
 
       expect(newState.open).toEqual(true);
       expect(newState.success).toEqual(true);
-      expect(newState.message).toEqual("Your file was successfully attached");
+      expect(newState.message).toEqual("File was successfully attached");
     });
 
     test("ATTACHMENT_UPLOAD_FAILED", () => {
@@ -243,7 +239,8 @@ describe("snackbarReducer", () => {
       const expectedState = {
         open: true,
         success: false,
-        message: "We could not attach your file. Please try again."
+        message:
+          "Something went wrong and the file was not attached. Please try again."
       };
 
       expect(newState).toEqual(expectedState);
@@ -259,7 +256,7 @@ describe("snackbarReducer", () => {
       const expectedState = {
         open: true,
         success: true,
-        message: "Your attachment was successfully removed"
+        message: "File was successfully removed"
       };
 
       expect(newState).toEqual(expectedState);
@@ -272,7 +269,8 @@ describe("snackbarReducer", () => {
       const expectedState = {
         open: true,
         success: false,
-        message: "We could not remove your attachment. Please try again."
+        message:
+          "Something went wrong and the file was not removed. Please try again."
       };
       expect(newState).toEqual(expectedState);
     });
@@ -286,7 +284,7 @@ describe("snackbarReducer", () => {
       const expectedState = {
         success: true,
         open: true,
-        message: "Your action was successfully logged"
+        message: "Case note was successfully created"
       };
       expect(newState).toEqual(expectedState);
     });
@@ -297,7 +295,8 @@ describe("snackbarReducer", () => {
       const expectedState = {
         success: false,
         open: true,
-        message: "We could not log your action. Please try again."
+        message:
+          "Something went wrong and the case note was not created. Please try again."
       };
       expect(newState).toEqual(expectedState);
     });
@@ -320,7 +319,7 @@ describe("snackbarReducer", () => {
         success: false,
         open: true,
         message:
-          "Something went wrong on our end and the case note was not updated. Please try again."
+          "Something went wrong and the case note was not updated. Please try again."
       };
       expect(newState).toEqual(expectedState);
     });
@@ -334,7 +333,7 @@ describe("snackbarReducer", () => {
       const expectedState = {
         success: true,
         open: true,
-        message: "Case note successfully removed."
+        message: "Case note was successfully removed"
       };
       expect(newState).toEqual(expectedState);
     });
@@ -346,7 +345,7 @@ describe("snackbarReducer", () => {
         success: false,
         open: true,
         message:
-          "Something went wrong on our end and the case note was not removed. Please try again."
+          "Something went wrong and the case note was not removed. Please try again."
       };
       expect(newState).toEqual(expectedState);
     });
@@ -363,7 +362,7 @@ describe("snackbarReducer", () => {
       const expectedState = {
         open: true,
         success: true,
-        message: "Your Incident Details were successfully updated"
+        message: "Incident details were successfully updated"
       };
 
       expect(newState).toEqual(expectedState);
@@ -380,7 +379,7 @@ describe("snackbarReducer", () => {
         open: true,
         success: false,
         message:
-          "Something went wrong on our end and your case was not updated. Please try again."
+          "Something went wrong and the case was not updated. Please try again."
       };
 
       expect(newState).toEqual(expectedState);
@@ -399,7 +398,7 @@ describe("snackbarReducer", () => {
         open: true,
         success: false,
         message:
-          "Something went wrong on our end and your civilian was not removed. Please try again."
+          "Something went wrong and the civilian was not removed. Please try again."
       };
 
       expect(newState).toEqual(expectedState);
@@ -415,7 +414,7 @@ describe("snackbarReducer", () => {
       const expectedState = {
         open: true,
         success: true,
-        message: "Civilian has been successfully removed."
+        message: "Civilian was successfully removed"
       };
 
       expect(newState).toEqual(expectedState);
@@ -434,7 +433,7 @@ describe("snackbarReducer", () => {
       const expectedState = {
         open: true,
         success: true,
-        message: "Officer successfully updated"
+        message: "Officer was successfully updated"
       };
 
       expect(newState).toEqual(expectedState);
@@ -452,7 +451,7 @@ describe("snackbarReducer", () => {
         success: false,
         open: true,
         message:
-          "Something went wrong on our end and the officer was not updated. Please try again."
+          "Something went wrong and the officer was not updated. Please try again."
       };
 
       expect(newState).toEqual(expectedState);
@@ -464,7 +463,7 @@ describe("snackbarReducer", () => {
         success: false,
         open: true,
         message:
-          "There was a problem loading this page. Please refresh and try again."
+          "Something went wrong and the allegations were not loaded. Please try again."
       };
       expect(newState).toEqual(expectedState);
     });

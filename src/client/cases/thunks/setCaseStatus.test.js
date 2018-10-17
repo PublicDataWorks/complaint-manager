@@ -40,7 +40,9 @@ describe("setCaseStatus", () => {
     await setCaseStatus(4, "status")(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarError("Something went wrong and the case status was not updated.")
+      snackbarError(
+        "Something went wrong and the case status was not updated. Please try again."
+      )
     );
   });
 
@@ -68,7 +70,7 @@ describe("setCaseStatus", () => {
       updateCaseStatusSuccess(responseBody)
     );
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Status successfully updated")
+      snackbarSuccess("Status was successfully updated")
     );
     expect(dispatch).toHaveBeenCalledWith(closeCaseStatusUpdateDialog());
   });

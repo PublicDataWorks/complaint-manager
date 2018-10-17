@@ -44,7 +44,7 @@ describe("getCaseHistory", () => {
     await getCaseHistory(caseId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
-        "Something went wrong and we could not fetch the case history."
+        "Something went wrong and the case history was not loaded. Please try again."
       )
     );
   });

@@ -174,7 +174,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         )
         .assert.containsText(
           '[data-test="sharedSnackbarBannerText"]',
-          "Complainant & Witnesses successfully updated"
+          "Civilian was successfully updated"
         )
         .pause(1000);
     },
@@ -217,7 +217,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         )
         .assert.containsText(
           '[data-test="sharedSnackbarBannerText"]',
-          "Complainant & Witnesses successfully updated"
+          "Civilian was successfully updated"
         )
         .pause(1000);
     },
