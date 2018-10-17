@@ -3,7 +3,7 @@ import stringify from "csv-stringify/lib/index";
 import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  AUDIT_ACTION,
+  AUDIT_ACTION
 } from "../../../sharedUtilities/constants";
 import models from "../../../server/models";
 import {
@@ -17,10 +17,7 @@ jest.mock("../fileUpload/uploadFileToS3");
 import exportAudit from "./export";
 
 describe("GET /api/export-audit-log", () => {
-
-  beforeEach(async () => {
-
-  });
+  beforeEach(async () => {});
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -36,10 +33,8 @@ describe("GET /api/export-audit-log", () => {
       uploadFileToS3.mockImplementation(jest.fn);
 
       try {
-        const job = {data: {user: "some user"}};
-        await exportAudit(job, async () => {
-          done();
-        });
+        const job = { data: { user: "some user" } };
+        await exportAudit(job, async () => {});
       } catch (e) {
         // forced an error from stringfy()
       }

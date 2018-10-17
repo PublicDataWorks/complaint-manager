@@ -8,39 +8,46 @@ const models = require("../../../../server/models/index");
 const stringify = require("csv-stringify");
 const exportCasesQuery = require("./exportCasesQuery");
 const uploadFileToS3 = require("../../fileUpload/uploadFileToS3");
+const winston = require("winston");
 
 const csvCaseExport = async (job, done) => {
   await models.sequelize.transaction(async transaction => {
-    await models.action_audit.create(
-      {
-        auditType: AUDIT_TYPE.EXPORT,
-        action: AUDIT_ACTION.EXPORTED,
-        subject: AUDIT_SUBJECT.ALL_CASE_INFORMATION,
-        user: job.data.user
-      },
-      { transaction }
-    );
-
-    const caseData = await models.sequelize.query(exportCasesQuery(), {
-      type: models.sequelize.QueryTypes.SELECT,
-      transaction
-    });
-
-    await stringify(caseData, csvOptions, (err, csvOutput) => {
-      uploadFileToS3(
-        job.id,
-        csvOutput,
-        JOB_OPERATION.CASE_EXPORT.filename,
-        JOB_OPERATION.CASE_EXPORT.key
-      ).then(
-        data => {
-          done(null, data);
+    try {
+      await models.action_audit.create(
+        {
+          auditType: AUDIT_TYPE.EXPORT,
+          action: AUDIT_ACTION.EXPORTED,
+          subject: AUDIT_SUBJECT.ALL_CASE_INFORMATION,
+          user: job.data.user
         },
-        err => {
-          done(err);
-        }
+        { transaction }
       );
-    });
+
+      const caseData = await models.sequelize.query(exportCasesQuery(), {
+        type: models.sequelize.QueryTypes.SELECT,
+        transaction
+      });
+
+      await stringify(caseData, csvOptions, (err, csvOutput) => {
+        uploadFileToS3(
+          job.id,
+          csvOutput,
+          JOB_OPERATION.CASE_EXPORT.filename,
+          JOB_OPERATION.CASE_EXPORT.key
+        ).then(
+          data => {
+            done(null, data);
+          },
+          err => {
+            winston.error(err);
+            done(err);
+          }
+        );
+      });
+    } catch (err) {
+      winston.error(err);
+      done(err);
+    }
   });
 };
 
