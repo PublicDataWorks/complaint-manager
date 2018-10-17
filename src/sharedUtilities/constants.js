@@ -80,6 +80,10 @@ export const EXPORT_CONFIRMATION_CLOSED = "EXPORT_CONFIRMATION_CLOSED";
 
 export const CLEAR_CURRENT_EXPORT_JOB = "CLEAR_CURRENT_EXPORT_JOB";
 
+export const GENERATE_EXPORT_SUCCESS = "GENERATE_EXPORT_SUCCESS";
+
+export const GET_EXPORT_JOB_SUCCESS = "GET_EXPORT_JOB_SUCCESS";
+
 // ----------------------------------------
 //          Attachment Errors
 // ----------------------------------------

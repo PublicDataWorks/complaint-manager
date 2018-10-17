@@ -71,7 +71,9 @@ class ExportAllCases extends Component {
           </div>
         </div>
         <div style={margin}>
-          {this.props.jobId ? <JobDetails jobId={this.props.jobId} /> : null}
+          {this.props.jobId ? (
+            <JobDetails jobId={this.props.jobId} key={this.props.jobId} />
+          ) : null}
         </div>
         <ExportConfirmationDialog />
       </div>

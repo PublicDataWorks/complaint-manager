@@ -1,17 +1,16 @@
-import { BG_JOB_FAILED } from "../../sharedUtilities/constants";
-
-export const getExportJobsSuccess = data => ({
-  type: "GET_EXPORT_JOBS_SUCCESS",
-  exportJobs: data
-});
+import {
+  BG_JOB_FAILED,
+  GET_EXPORT_JOB_SUCCESS,
+  GENERATE_EXPORT_SUCCESS
+} from "../../sharedUtilities/constants";
 
 export const getExportJobSuccess = data => ({
-  type: "GET_EXPORT_JOB_SUCCESS",
+  type: GET_EXPORT_JOB_SUCCESS,
   exportJob: data
 });
 
 export const generateExportSuccess = jobId => ({
-  type: "GENERATE_EXPORT_SUCCESS",
+  type: GENERATE_EXPORT_SUCCESS,
   jobId
 });
 
