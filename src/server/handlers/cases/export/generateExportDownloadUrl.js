@@ -10,7 +10,7 @@ const {
 } = require("../../../../sharedUtilities/constants");
 const models = require("../../../models/index");
 
-const generateExportDownloadUrl = async (fileName, userName) => {
+const generateExportDownloadUrl = async (fileName, userName, audit_subject) => {
   const s3 = createConfiguredS3Instance();
 
   const signedUrl = await models.sequelize.transaction(async transaction => {
@@ -18,7 +18,7 @@ const generateExportDownloadUrl = async (fileName, userName) => {
       {
         auditType: AUDIT_TYPE.EXPORT,
         action: AUDIT_ACTION.EXPORTED,
-        subject: AUDIT_SUBJECT.ALL_CASE_INFORMATION,
+        subject: audit_subject,
         user: userName
       },
       { transaction }

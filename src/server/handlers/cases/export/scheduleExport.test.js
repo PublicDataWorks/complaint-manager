@@ -31,6 +31,7 @@ describe("exportCases request", function() {
     expect(queue.testMode.jobs[0].type).toEqual(JOB_OPERATION.CASE_EXPORT.key);
     expect(queue.testMode.jobs[0].data).toEqual({
       title: JOB_OPERATION.CASE_EXPORT.title,
+      name: JOB_OPERATION.CASE_EXPORT.name,
       user: request.nickname
     });
 

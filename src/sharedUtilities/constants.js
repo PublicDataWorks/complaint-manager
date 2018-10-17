@@ -324,13 +324,15 @@ export const JOB_OPERATION = {
     name: "AUDIT_LOG_EXPORT",
     key: "audit_log_export",
     title: "Export Audit Log",
-    filename: "Audit_Log"
+    filename: "Audit_Log",
+    auditSubject: AUDIT_SUBJECT.AUDIT_LOG
   },
   CASE_EXPORT: {
     name: "CASE_EXPORT",
     key: "case_export",
     title: "Export All Case Information",
-    filename: "All_Case_Information"
+    filename: "All_Case_Information",
+    auditSubject: AUDIT_SUBJECT.ALL_CASE_INFORMATION
   }
 };
 

@@ -22,6 +22,7 @@ const scheduleExport = asyncMiddleware(async (request, response, next) => {
     .createQueue()
     .create(JOB_OPERATION[request.params.operation].key, {
       title: JOB_OPERATION[request.params.operation].title,
+      name: JOB_OPERATION[request.params.operation].name,
       user: request.nickname
     });
   job.attempts(config.queue.failedJobAttempts);

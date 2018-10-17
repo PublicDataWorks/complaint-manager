@@ -33,13 +33,37 @@ describe("generate export download url", () => {
   test("create an audit for all cases export", async () => {
     let fileName = "fileInS3.csv";
 
-    await generateExportDownloadUrl(fileName, "someUser");
+    await generateExportDownloadUrl(
+      fileName,
+      "someUser",
+      AUDIT_SUBJECT.ALL_CASES
+    );
 
     const actionAudit = await models.action_audit.find({
       where: {
         auditType: AUDIT_TYPE.EXPORT,
         action: AUDIT_ACTION.EXPORTED,
-        subject: AUDIT_SUBJECT.ALL_CASE_INFORMATION
+        subject: AUDIT_SUBJECT.ALL_CASES
+      }
+    });
+
+    expect(actionAudit.user).toEqual("someUser");
+  });
+
+  test("create an audit for audit log export", async () => {
+    let fileName = "fileInS3.csv";
+
+    await generateExportDownloadUrl(
+      fileName,
+      "someUser",
+      AUDIT_SUBJECT.AUDIT_LOG
+    );
+
+    const actionAudit = await models.action_audit.find({
+      where: {
+        auditType: AUDIT_TYPE.EXPORT,
+        action: AUDIT_ACTION.EXPORTED,
+        subject: AUDIT_SUBJECT.AUDIT_LOG
       }
     });
 
