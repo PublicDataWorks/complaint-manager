@@ -3,11 +3,11 @@ const {
   AUDIT_TYPE,
   AUDIT_SUBJECT,
   JOB_OPERATION
-} = require("../../../../sharedUtilities/constants");
-const models = require("../../../../server/models/index");
+} = require("../../../sharedUtilities/constants");
+const models = require("../../../server/models/index");
 const stringify = require("csv-stringify");
 const exportCasesQuery = require("./exportCasesQuery");
-const uploadFileToS3 = require("../../fileUpload/uploadFileToS3");
+const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 const winston = require("winston");
 
 const csvCaseExport = async (job, done) => {

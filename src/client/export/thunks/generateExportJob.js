@@ -3,7 +3,7 @@ import { push } from "react-router-redux";
 import axios from "axios";
 import { generateExportSuccess } from "../../actionCreators/exportActionCreators";
 
-const generateExport = path => async dispatch => {
+const generateExportJob = path => async dispatch => {
   const token = getAccessToken();
   if (!token) {
     dispatch(push("/login"));
@@ -19,4 +19,4 @@ const generateExport = path => async dispatch => {
   dispatch(generateExportSuccess(response.data));
 };
 
-export default generateExport;
+export default generateExportJob;

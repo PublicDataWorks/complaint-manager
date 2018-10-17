@@ -8,7 +8,7 @@ const allJobsReducer = (state = {}, action) => {
     case GET_EXPORT_JOB_SUCCESS:
       return { exportJob: action.exportJob };
     case CLEAR_CURRENT_EXPORT_JOB:
-      return { exportJob: { result: { downloadUrl: "" } } };
+      return { exportJob: {} };
     default:
       return state;
   }

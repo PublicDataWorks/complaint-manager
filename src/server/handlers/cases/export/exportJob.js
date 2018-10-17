@@ -8,13 +8,14 @@ const exportJob = asyncMiddleware(async (request, response, next) => {
     if (err) {
       throw Boom.badRequest(`Could not find Job Id: ${request.params.id}`);
     }
+    let downLoadUrl;
     if (job.result && job.state() === "complete") {
-      job.result.downLoadUrl = await generateExportDownloadUrl(
+      downLoadUrl = await generateExportDownloadUrl(
         job.result.key,
         request.nickname
       );
     }
-    response.json(job);
+    response.json({ id: job.id, state: job.state(), downLoadUrl: downLoadUrl });
   });
 });
 

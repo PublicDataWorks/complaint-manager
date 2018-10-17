@@ -1,17 +1,17 @@
-import { cleanupDatabase } from "../../../../server/testHelpers/requestTestHelpers";
-import Officer from "../../../../client/testUtilities/Officer";
-import models from "../../../../server/models";
-import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
-import Allegation from "../../../../client/testUtilities/Allegation";
-import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
-import Civilian from "../../../../client/testUtilities/civilian";
-import Case from "../../../../client/testUtilities/case";
+import { cleanupDatabase } from "../../../server/testHelpers/requestTestHelpers";
+import Officer from "../../../client/testUtilities/Officer";
+import models from "../../../server/models";
+import CaseOfficer from "../../../client/testUtilities/caseOfficer";
+import Allegation from "../../../client/testUtilities/Allegation";
+import OfficerAllegation from "../../../client/testUtilities/OfficerAllegation";
+import Civilian from "../../../client/testUtilities/civilian";
+import Case from "../../../client/testUtilities/case";
 import moment from "moment";
 import timezone from "moment-timezone";
-import Classification from "../../../../client/testUtilities/Classification";
+import Classification from "../../../client/testUtilities/Classification";
 import csvCaseExport from "./csvCaseExport";
-import uploadFileToS3 from "../../fileUpload/uploadFileToS3";
-jest.mock("../../fileUpload/uploadFileToS3", () => jest.fn());
+import uploadFileToS3 from "../fileUpload/uploadFileToS3";
+jest.mock("../fileUpload/uploadFileToS3", () => jest.fn());
 
 import {
   ACCUSED,
@@ -23,10 +23,10 @@ import {
   TIMEZONE,
   WITNESS,
   JOB_OPERATION
-} from "../../../../sharedUtilities/constants";
+} from "../../../sharedUtilities/constants";
 import parse from "csv-parse/lib/sync";
-import Address from "../../../../client/testUtilities/Address";
-import Attachment from "../../../../client/testUtilities/attachment";
+import Address from "../../../client/testUtilities/Address";
+import Attachment from "../../../client/testUtilities/attachment";
 
 describe("csvCaseExport request", function() {
   let caseToExport,

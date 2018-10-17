@@ -6,10 +6,10 @@ import {
   DialogTitle,
   Typography
 } from "@material-ui/core";
-import { SecondaryButton, PrimaryButton } from "../StyledButtons";
+import { SecondaryButton, PrimaryButton } from "../shared/components/StyledButtons";
 import { connect } from "react-redux";
-import { closeExportConfirmationDialog } from "../../../actionCreators/navBarActionCreators";
-import generateExport from "../../../export/thunks/generateExport";
+import { closeExportConfirmationDialog } from "../actionCreators/navBarActionCreators";
+import generateExportJob from "./thunks/generateExportJob";
 
 const ExportConfirmationDialog = props => {
   const closeDialog = () => {
@@ -37,7 +37,7 @@ const ExportConfirmationDialog = props => {
         <PrimaryButton
           data-test="exportAuditLogButton"
           onClick={() => {
-            props.dispatch(generateExport(props.path));
+            props.dispatch(generateExportJob(props.path));
             closeDialog();
           }}
         >

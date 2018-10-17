@@ -13,7 +13,7 @@ const cookieParser = require("cookie-parser");
 const { JOB_OPERATION } = require("../sharedUtilities/constants");
 
 const kue = require("kue");
-const csvCaseExport = require("./processors/cases/export/csvCaseExport");
+const csvCaseExport = require("./processors/exportCases/csvCaseExport");
 const auditExport = require("./processors/auditLogs/export");
 const jobQueue = require("../server/handlers/cases/export/jobQueue");
 

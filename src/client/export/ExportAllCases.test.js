@@ -2,7 +2,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../createConfiguredStore";
 import { mount } from "enzyme";
-import ExportAllCases from "./ExportAllCases";
+import ExportAllCases from "./AllExports";
 import { openExportAllCasesConfirmationDialog } from "../actionCreators/navBarActionCreators";
 import { generateExportSuccess } from "../actionCreators/exportActionCreators";
 

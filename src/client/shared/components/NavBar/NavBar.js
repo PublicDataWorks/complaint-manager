@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import ExportConfirmationDialog from "./ExportConfirmationDialog";
+import ExportConfirmationDialog from "../../../export/ExportConfirmationDialog";
 import handleLogout from "../../../users/thunks/handleLogout";
 import { closeExportConfirmationDialog } from "../../../actionCreators/navBarActionCreators";
 

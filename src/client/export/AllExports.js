@@ -7,7 +7,7 @@ import {
   closeExportConfirmationDialog,
   clearCurrentExportJob
 } from "../actionCreators/navBarActionCreators";
-import ExportConfirmationDialog from "../shared/components/NavBar/ExportConfirmationDialog";
+import ExportConfirmationDialog from "./ExportConfirmationDialog";
 import { connect } from "react-redux";
 import JobDetails from "./JobDetails";
 import { bindActionCreators } from "redux";
@@ -19,7 +19,7 @@ const margin = {
   marginBottom: "16px"
 };
 
-class ExportAllCases extends Component {
+class AllExports extends Component {
   componentDidMount() {}
 
   renderExportAuditLogOption = () => {
@@ -101,4 +101,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ExportAllCases);
+)(AllExports);

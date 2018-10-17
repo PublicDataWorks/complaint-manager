@@ -2,7 +2,7 @@ const {
   COMPLAINANT,
   TIMEZONE,
   WITNESS
-} = require("../../../../sharedUtilities/constants");
+} = require("../../../sharedUtilities/constants");
 const timezone = require("moment-timezone");
 
 const exportCasesQuery = () => {

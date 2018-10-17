@@ -61,11 +61,7 @@ class JobDetails extends Component {
       <a
         data-test="downloadUrl"
         type="application/octet-stream"
-        href={
-          this.props.exportJob.result
-            ? this.props.exportJob.result.downLoadUrl
-            : ""
-        }
+        href={this.props.exportJob.downLoadUrl}
       />
     ) : (
       <div

@@ -19,7 +19,7 @@ describe("Get an export job", () => {
   });
 
   test("get an export job by id", async () => {
-    const job = { id: 123, result: {}, state: () => "" };
+    const job = { id: 123, result: {}, state: () => "current state" };
 
     kue.Job.get.mockImplementation((id, callBack) => {
       callBack(undefined, job);
@@ -27,7 +27,11 @@ describe("Get an export job", () => {
 
     await exportJob(request, response, jest.fn());
 
-    expect(response.json).toHaveBeenCalledWith(job);
+    expect(response.json).toHaveBeenCalledWith({
+      id: job.id,
+      state: job.state(),
+      downLoadUrl: undefined
+    });
   });
 
   test("set job download url when job is complete", async () => {
@@ -39,6 +43,10 @@ describe("Get an export job", () => {
 
     await exportJob(request, response, jest.fn());
 
-    expect(job.result.downLoadUrl).toEqual(AUTHENTICATED_URL);
+    expect(response.json).toHaveBeenCalledWith({
+      id: job.id,
+      state: job.state(),
+      downLoadUrl: AUTHENTICATED_URL
+    });
   });
 });

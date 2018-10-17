@@ -1,13 +1,13 @@
 import React from "react";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
-import createConfiguredStore from "../../../createConfiguredStore";
+import createConfiguredStore from "../createConfiguredStore";
 import ExportAuditLogConfirmationDialog from "./ExportConfirmationDialog";
-import { openExportAuditLogConfirmationDialog } from "../../../actionCreators/navBarActionCreators";
-import generateExport from "../../../export/thunks/generateExport";
-import { closeExportConfirmationDialog } from "../../../actionCreators/navBarActionCreators";
+import { openExportAuditLogConfirmationDialog } from "../actionCreators/navBarActionCreators";
+import generateExportJob from "./thunks/generateExportJob";
+import { closeExportConfirmationDialog } from "../actionCreators/navBarActionCreators";
 
-jest.mock("../../../export/thunks/generateExport", () => path => ({
+jest.mock("./thunks/generateExportJob", () => path => ({
   type: "MOCK_THUNK",
   path
 }));
@@ -30,7 +30,7 @@ describe("ExportAuditLogConfirmationDialog", () => {
     submitButton.simulate("click");
 
     expect(dispatchSpy.mock.calls).toEqual([
-      [generateExport("/api/export/schedule/AUDIT_LOG_EXPORT")],
+      [generateExportJob("/api/export/schedule/AUDIT_LOG_EXPORT")],
       [closeExportConfirmationDialog()]
     ]);
   });
