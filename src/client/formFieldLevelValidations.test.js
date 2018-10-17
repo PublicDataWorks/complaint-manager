@@ -8,7 +8,9 @@ import {
   lastNameRequired,
   notFutureDate,
   validDate,
-  isIntegerString
+  isIntegerString,
+  validTimeField
+
 } from "./formFieldLevelValidations";
 import moment from "moment";
 
@@ -117,4 +119,24 @@ describe("Form Validations", () => {
     expect(isIntegerString(null)).toBeUndefined();
     expect(isIntegerString(undefined)).toBeUndefined();
   });
+
+  describe("validTimeField", () => {
+    test("should return error if input is null", () => {
+      const validatedTime = validTimeField(null);
+
+      expect(validatedTime).toEqual("Please enter a time in the form of 12:34 AM");
+    });
+
+    test("should return error if input is empty string", () => {
+      const validatedTime = validTimeField("");
+
+      expect(validatedTime).toEqual("Please enter a time in the form of 12:34 AM");
+    });
+
+    test("does not return error if input has content", () => {
+      const validatedTime = validTimeField("foo");
+
+      expect(validatedTime).toBeUndefined();
+    });
+  })
 });

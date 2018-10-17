@@ -106,9 +106,4 @@ describe("synchronous validations", () => {
 
     expect(errors).toEqual(expectedErrors);
   });
-
-  test("should produce errors when time is not valid", () => {
-    const error = timeMustBeValid(null);
-    expect(error).toEqual("Please enter a time in the form of 12:34 AM");
-  });
 });
