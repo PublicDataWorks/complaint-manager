@@ -2,30 +2,30 @@ import React from "react";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../createConfiguredStore";
 import { mount } from "enzyme";
-import ExportAllCases from "./AllExports";
+import AllExports from "./AllExports";
 import { openExportAllCasesConfirmationDialog } from "../actionCreators/navBarActionCreators";
 import { generateExportSuccess } from "../actionCreators/exportActionCreators";
 
 describe("Export all cases", () => {
-  let exportAllCases, dispatchSpy, store;
+  let allExports, dispatchSpy, store;
 
   beforeEach(() => {
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
 
-    exportAllCases = mount(
+    allExports = mount(
       <Provider store={store}>
-        <ExportAllCases />
+        <AllExports />
       </Provider>
     );
   });
 
   test("open confirmation dialog when button clicked", () => {
-    const exportCasesButton = exportAllCases.find(
+    const exportCasesButton = allExports.find(
       'button[data-test="openExportConfirmationDialog"]'
     );
     exportCasesButton.simulate("click");
-    const dialog = exportAllCases.find(
+    const dialog = allExports.find(
       '[data-test="exportAuditLogConfirmationText"]'
     );
     expect(dialog).toBeDefined();
@@ -37,7 +37,7 @@ describe("Export all cases", () => {
   test("display job detail when job id is set", () => {
     store.dispatch(generateExportSuccess(19));
 
-    const jobDetail = exportAllCases.find('[data-test="waitingForJob"]');
+    const jobDetail = allExports.find('[data-test="waitingForJob"]');
     expect(jobDetail).toBeDefined();
   });
 });

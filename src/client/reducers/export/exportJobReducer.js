@@ -3,15 +3,15 @@ import {
   GET_EXPORT_JOB_SUCCESS
 } from "../../../sharedUtilities/constants";
 
-const allJobsReducer = (state = {}, action) => {
+const exportJobReducer = (state = {}, action) => {
   switch (action.type) {
     case GET_EXPORT_JOB_SUCCESS:
-      return { exportJob: action.exportJob };
+      return action.exportJob;
     case CLEAR_CURRENT_EXPORT_JOB:
-      return { exportJob: {} };
+      return {};
     default:
       return state;
   }
 };
 
-export default allJobsReducer;
+export default exportJobReducer;

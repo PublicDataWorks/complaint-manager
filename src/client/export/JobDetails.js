@@ -83,7 +83,7 @@ class JobDetails extends Component {
 }
 
 const mapStateToProps = state => ({
-  exportJob: state.export.exportJobs.exportJob
+  exportJob: state.export.exportJob
 });
 
 const mapDispatchToProps = dispatch => {
