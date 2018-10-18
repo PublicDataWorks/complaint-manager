@@ -4,7 +4,8 @@ import LinkButton from "../shared/components/LinkButton";
 import {
   openExportAuditLogConfirmationDialog,
   openExportAllCasesConfirmationDialog,
-  closeExportConfirmationDialog
+  closeExportConfirmationDialog,
+  clearCurrentExportJob
 } from "../actionCreators/exportActionCreators";
 import ExportConfirmationDialog from "./ExportConfirmationDialog";
 import { connect } from "react-redux";
@@ -19,6 +20,21 @@ const margin = {
 };
 
 class AllExports extends Component {
+  componentDidMount() {
+    // Need to clear the export job state, in case of leaving the page while still waiting for a job to complete
+    // the pulling of the job using setTimeout can still trigger and set a completed job download url after leaving the page
+    // need to clear before mounting to prevent the JobDetail component from mounting till we get a new JobId
+    this.props.clearCurrentExportJob();
+  }
+
+  componentWillUnmount() {
+    // Need to clear export state in case of leaving while still waiting for job to be completed
+    // setting jobId to null at the time of un-mounting, will prevent another call to getExportJob that will return an
+    // old completed job (with an old jobId) that will set the downloadUrl
+    // which prevent waiting spinner to show while another job is running.
+    this.props.clearCurrentExportJob();
+  }
+
   renderExportAuditLogOption = () => {
     if (
       !this.props.permissions ||
@@ -87,7 +103,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   openExportAuditLogConfirmationDialog,
   openExportAllCasesConfirmationDialog,
-  closeExportConfirmationDialog
+  closeExportConfirmationDialog,
+  clearCurrentExportJob
 };
 
 export default connect(

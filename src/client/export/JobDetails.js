@@ -14,10 +14,6 @@ export class JobDetails extends Component {
     this.props.getExportJob(this.props.jobId);
   }
 
-  componentWillUnmount() {
-    this.props.clearCurrentExportJob();
-  }
-
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.downloadUrl) {
       this.triggerDownload();
