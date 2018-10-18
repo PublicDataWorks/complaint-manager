@@ -3,66 +3,42 @@ import { connect } from "react-redux";
 import getExportJob from "./thunks/getExportJob";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ReactDOM from "react-dom";
-import { addBackgroundJobFailure } from "../actionCreators/exportActionCreators";
-import { bindActionCreators } from "redux";
+import {
+  addBackgroundJobFailure,
+  clearCurrentExportJob
+} from "../actionCreators/exportActionCreators";
 
-const REFRESH_MS = 1000;
-const MAX_REFRESH = 180;
-
-let refreshes = 0;
-
-class JobDetails extends Component {
+export class JobDetails extends Component {
   componentDidMount() {
-    refreshes = 1;
     this.classes = this.props;
     this.props.getExportJob(this.props.jobId);
-    setTimeout(this.refreshJob, REFRESH_MS);
+  }
+
+  componentWillUnmount() {
+    this.props.clearCurrentExportJob();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.jobId !== this.props.jobId) {
-      refreshes = 1;
-      setTimeout(this.refreshJob, REFRESH_MS);
-    } else {
-      if (
-        prevProps.exportJob &&
-        prevProps.exportJob.state !== "complete" &&
-        this.jobCompleted()
-      ) {
-        const anchorNode = ReactDOM.findDOMNode(this);
-        anchorNode.click();
-        anchorNode.href = "";
-      }
+    if (this.props.downloadUrl) {
+      this.triggerDownload();
+      this.props.clearCurrentExportJob();
     }
   }
 
-  jobCompleted() {
-    return this.props.exportJob && this.props.exportJob.state === "complete";
+  triggerDownload() {
+    const anchorNode = ReactDOM.findDOMNode(this);
+    anchorNode.click();
   }
-
-  jobFailed() {
-    return this.props.exportJob && this.props.exportJob.state === "failed";
-  }
-
-  refreshJob = () => {
-    refreshes = refreshes + 1;
-    if (this.jobFailed() || refreshes > MAX_REFRESH) {
-      this.props.addBackgroundJobFailure();
-    } else {
-      if (!this.jobCompleted()) {
-        this.props.getExportJob(this.props.jobId);
-        setTimeout(this.refreshJob, REFRESH_MS);
-      }
-    }
-  };
 
   render() {
-    return this.jobCompleted() ? (
+    return this.props.downloadUrl ? (
       <a
         data-test="downloadUrl"
         type="application/octet-stream"
-        href={this.props.exportJob.downLoadUrl}
-      />
+        href={this.props.downloadUrl}
+      >
+        {}
+      </a>
     ) : (
       <div
         data-test="waitingForJob"
@@ -75,7 +51,7 @@ class JobDetails extends Component {
       >
         <CircularProgress
           className={this.props.progress}
-          style={{ display: this.jobFailed() ? "none" : "" }}
+          style={{ display: this.props.showProgress ? "" : "none" }}
         />
       </div>
     );
@@ -83,17 +59,14 @@ class JobDetails extends Component {
 }
 
 const mapStateToProps = state => ({
-  exportJob: state.export.exportJob
+  downloadUrl: state.export.downloadUrl,
+  showProgress: state.ui.allExports.showProgress
 });
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    {
-      getExportJob,
-      addBackgroundJobFailure
-    },
-    dispatch
-  );
+const mapDispatchToProps = {
+  getExportJob,
+  addBackgroundJobFailure,
+  clearCurrentExportJob
 };
 
 export default connect(

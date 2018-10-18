@@ -3,8 +3,10 @@ import { Provider } from "react-redux";
 import createConfiguredStore from "../createConfiguredStore";
 import { mount } from "enzyme";
 import AllExports from "./AllExports";
-import { openExportAllCasesConfirmationDialog } from "../actionCreators/navBarActionCreators";
-import { generateExportSuccess } from "../actionCreators/exportActionCreators";
+import {
+  generateExportSuccess,
+  openExportAllCasesConfirmationDialog
+} from "../actionCreators/exportActionCreators";
 
 describe("Export all cases", () => {
   let allExports, dispatchSpy, store;

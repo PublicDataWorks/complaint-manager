@@ -231,7 +231,7 @@ const snackbarReducer = (state = initialState, action) => {
       return {
         success: true,
         open: true,
-        message: "Case note successfully updated."
+        message: "Case note was successfully updated."
       };
     case EDIT_CASE_NOTE_FAILED:
       return {

@@ -3,7 +3,7 @@ import {
   closeExportConfirmationDialog,
   openExportAllCasesConfirmationDialog,
   openExportAuditLogConfirmationDialog
-} from "../../actionCreators/navBarActionCreators";
+} from "../../actionCreators/exportActionCreators";
 
 describe("export dialog reducer", () => {
   test("should set default state", () => {

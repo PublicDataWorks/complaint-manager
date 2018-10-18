@@ -31,9 +31,10 @@ import addressInputReducer from "./reducers/ui/addressInputReducer";
 import classificationReducer from "./reducers/ui/classificationReducer";
 import officerHistoryNoteDialogReducer from "./reducers/ui/officerHistoryNoteDialogReducer";
 import referralLetterReducer from "./reducers/cases/referralLetterReducer";
-import exportJobReducer from "./reducers/export/exportJobReducer";
+import exportJobDownloadUrlReducer from "./reducers/export/exportJobDownloadUrlReducer";
 import generateJobReducer from "./reducers/export/generateJobReducer";
 import iaProCorrectionsReducer from "./reducers/ui/iaProCorrectionDialogReducer";
+import allExportsReducer from "./reducers/ui/allExportsReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -59,6 +60,7 @@ const rootReducer = combineReducers({
     civilianDialog: civilianDialogReducer,
     createCaseDialog: createCaseDialogReducer,
     exportDialog: exportDialogReducer,
+    allExports: allExportsReducer,
     removePersonDialog: removePersonDialogReducer,
     removeCaseNoteDialog: removeCaseNoteDialogReducer,
     attachments: attachmentsReducer,
@@ -75,7 +77,7 @@ const rootReducer = combineReducers({
   officers: searchOfficersReducer,
   featureToggles: featureTogglesReducer,
   export: combineReducers({
-    exportJob: exportJobReducer,
+    downloadUrl: exportJobDownloadUrlReducer,
     generateJob: generateJobReducer
   })
 });

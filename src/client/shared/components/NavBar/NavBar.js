@@ -13,7 +13,6 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ExportConfirmationDialog from "../../../export/ExportConfirmationDialog";
 import handleLogout from "../../../users/thunks/handleLogout";
-import { closeExportConfirmationDialog } from "../../../actionCreators/navBarActionCreators";
 
 const styles = {
   appBarStyle: {
@@ -28,10 +27,6 @@ class NavBar extends React.Component {
     anchorEl: null,
     exportDialogOpen: false
   };
-
-  componentWillUnmount() {
-    this.props.dispatch(closeExportConfirmationDialog());
-  }
 
   handleMenuOpen = event => {
     this.setState({

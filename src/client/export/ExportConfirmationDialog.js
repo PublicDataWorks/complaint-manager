@@ -6,14 +6,22 @@ import {
   DialogTitle,
   Typography
 } from "@material-ui/core";
-import { SecondaryButton, PrimaryButton } from "../shared/components/StyledButtons";
+import {
+  SecondaryButton,
+  PrimaryButton
+} from "../shared/components/StyledButtons";
 import { connect } from "react-redux";
-import { closeExportConfirmationDialog } from "../actionCreators/navBarActionCreators";
 import generateExportJob from "./thunks/generateExportJob";
+import {
+  exportJobStarted,
+  closeExportConfirmationDialog
+} from "../actionCreators/exportActionCreators";
 
 const ExportConfirmationDialog = props => {
-  const closeDialog = () => {
-    props.dispatch(closeExportConfirmationDialog());
+  const startExportJob = () => {
+    props.generateExportJob(props.path);
+    props.exportJobStarted();
+    props.closeExportConfirmationDialog();
   };
 
   return (
@@ -33,13 +41,12 @@ const ExportConfirmationDialog = props => {
         </Typography>
       </DialogContent>
       <DialogActions>
-        <SecondaryButton onClick={closeDialog}>Cancel</SecondaryButton>
+        <SecondaryButton onClick={props.closeExportConfirmationDialog}>
+          Cancel
+        </SecondaryButton>
         <PrimaryButton
           data-test="exportAuditLogButton"
-          onClick={() => {
-            props.dispatch(generateExportJob(props.path));
-            closeDialog();
-          }}
+          onClick={startExportJob}
         >
           Export
         </PrimaryButton>
@@ -48,10 +55,19 @@ const ExportConfirmationDialog = props => {
   );
 };
 
+const mapDispatchToProps = {
+  generateExportJob,
+  closeExportConfirmationDialog,
+  exportJobStarted
+};
+
 const mapStateToProps = state => ({
   open: state.ui.exportDialog.open,
   path: state.ui.exportDialog.path,
   title: state.ui.exportDialog.title,
   warningText: state.ui.exportDialog.warningText
 });
-export default connect(mapStateToProps)(ExportConfirmationDialog);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExportConfirmationDialog);

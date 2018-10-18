@@ -4,9 +4,8 @@ import LinkButton from "../shared/components/LinkButton";
 import {
   openExportAuditLogConfirmationDialog,
   openExportAllCasesConfirmationDialog,
-  closeExportConfirmationDialog,
-  clearCurrentExportJob
-} from "../actionCreators/navBarActionCreators";
+  closeExportConfirmationDialog
+} from "../actionCreators/exportActionCreators";
 import ExportConfirmationDialog from "./ExportConfirmationDialog";
 import { connect } from "react-redux";
 import JobDetails from "./JobDetails";
@@ -20,8 +19,6 @@ const margin = {
 };
 
 class AllExports extends Component {
-  componentDidMount() {}
-
   renderExportAuditLogOption = () => {
     if (
       !this.props.permissions ||
@@ -32,9 +29,9 @@ class AllExports extends Component {
     return (
       <LinkButton
         data-test="exportAuditLog"
+        disabled={this.props.buttonsDisabled}
         onClick={() => {
           this.props.openExportAuditLogConfirmationDialog();
-          this.props.clearCurrentExportJob();
         }}
       >
         Export Audit Log
@@ -60,9 +57,9 @@ class AllExports extends Component {
           <div data-test="ExportAllCasesContainer" style={margin}>
             <LinkButton
               data-test="openExportConfirmationDialog"
+              disabled={this.props.buttonsDisabled}
               onClick={() => {
                 this.props.openExportAllCasesConfirmationDialog();
-                this.props.clearCurrentExportJob();
               }}
             >
               Export All Cases
@@ -83,19 +80,14 @@ class AllExports extends Component {
 
 const mapStateToProps = state => ({
   jobId: state.export.generateJob.jobId,
+  buttonsDisabled: state.ui.allExports.buttonsDisabled,
   permissions: state.users.current.userInfo.permissions
 });
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    {
-      openExportAuditLogConfirmationDialog,
-      openExportAllCasesConfirmationDialog,
-      closeExportConfirmationDialog,
-      clearCurrentExportJob
-    },
-    dispatch
-  );
+const mapDispatchToProps = {
+  openExportAuditLogConfirmationDialog,
+  openExportAllCasesConfirmationDialog,
+  closeExportConfirmationDialog
 };
 
 export default connect(

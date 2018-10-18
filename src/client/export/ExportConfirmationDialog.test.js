@@ -3,9 +3,12 @@ import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../createConfiguredStore";
 import ExportAuditLogConfirmationDialog from "./ExportConfirmationDialog";
-import { openExportAuditLogConfirmationDialog } from "../actionCreators/navBarActionCreators";
 import generateExportJob from "./thunks/generateExportJob";
-import { closeExportConfirmationDialog } from "../actionCreators/navBarActionCreators";
+import {
+  exportJobStarted,
+  openExportAuditLogConfirmationDialog,
+  closeExportConfirmationDialog
+} from "../actionCreators/exportActionCreators";
 
 jest.mock("./thunks/generateExportJob", () => path => ({
   type: "MOCK_THUNK",
@@ -13,7 +16,7 @@ jest.mock("./thunks/generateExportJob", () => path => ({
 }));
 
 describe("ExportAuditLogConfirmationDialog", () => {
-  test("should include date,time in file name & set fileNeedsUtfEncoding flag to true", () => {
+  test("should trigger generateExportJob, exportJobStarted, and closeDialog when click export button", () => {
     const store = createConfiguredStore();
     store.dispatch(openExportAuditLogConfirmationDialog());
     const dispatchSpy = jest.spyOn(store, "dispatch");
@@ -24,13 +27,14 @@ describe("ExportAuditLogConfirmationDialog", () => {
       </Provider>
     );
 
-    const submitButton = wrapper
+    const exportButton = wrapper
       .find('[data-test="exportAuditLogButton"]')
       .last();
-    submitButton.simulate("click");
+    exportButton.simulate("click");
 
     expect(dispatchSpy.mock.calls).toEqual([
       [generateExportJob("/api/export/schedule/AUDIT_LOG_EXPORT")],
+      [exportJobStarted()],
       [closeExportConfirmationDialog()]
     ]);
   });
