@@ -85,7 +85,7 @@ describe("CaseStatusStepper", () => {
     expect(updateStatusButton.exists()).toBeFalsy();
   });
 
-  test("should show `Generate Letter` button when case is active", () => {
+  test("should show `Begin Letter` button when case is active", () => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
@@ -107,7 +107,7 @@ describe("CaseStatusStepper", () => {
       .first();
 
     expect(generateLetterButton.exists()).toBeTruthy();
-    expect(generateLetterButton.text()).toEqual(`Generate Letter`);
+    expect(generateLetterButton.text()).toEqual(`Begin Letter`);
   });
 
   test("should open update status dialog", () => {

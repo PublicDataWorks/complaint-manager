@@ -2,15 +2,14 @@ import React, { Component } from "react";
 import { Typography } from "@material-ui/core";
 import LinkButton from "../shared/components/LinkButton";
 import {
-  openExportAuditLogConfirmationDialog,
-  openExportAllCasesConfirmationDialog,
+  clearCurrentExportJob,
   closeExportConfirmationDialog,
-  clearCurrentExportJob
+  openExportAllCasesConfirmationDialog,
+  openExportAuditLogConfirmationDialog
 } from "../actionCreators/exportActionCreators";
 import ExportConfirmationDialog from "./ExportConfirmationDialog";
 import { connect } from "react-redux";
 import JobDetails from "./JobDetails";
-import { bindActionCreators } from "redux";
 import { USER_PERMISSIONS } from "../../sharedUtilities/constants";
 
 const margin = {

@@ -90,7 +90,7 @@ const UpdateCaseStatusDialog = ({
         </SecondaryButton>
         <PrimaryButton data-test="updateCaseStatus" onClick={updateCaseStatus}>
           {nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
-            ? `Generate Letter`
+            ? `Begin Letter`
             : `Mark as ${nextStatus}`}
         </PrimaryButton>
       </DialogActions>

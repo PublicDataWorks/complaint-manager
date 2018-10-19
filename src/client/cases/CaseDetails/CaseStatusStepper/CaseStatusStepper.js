@@ -58,7 +58,7 @@ const CaseStatusStepper = ({
             to={`/cases/${caseId}/letter/review`}
             component={Link}
           >
-            Edit Letter
+            Resume Letter
           </PrimaryButton>
         ) : (
           <PrimaryButton
@@ -72,7 +72,7 @@ const CaseStatusStepper = ({
             }}
           >
             {status === CASE_STATUS.ACTIVE
-              ? `Generate Letter`
+              ? `Begin Letter`
               : `Mark as ${nextStatus}`}
           </PrimaryButton>
         )}
