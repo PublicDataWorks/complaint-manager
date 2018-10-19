@@ -1,5 +1,8 @@
 import createConfiguredStore from "../../../createConfiguredStore";
-import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
+import {
+  getRecommendedActionsSuccess,
+  getReferralLetterSuccess
+} from "../../../actionCreators/letterActionCreators";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -34,9 +37,18 @@ describe("recommendedActions", function() {
       ]
     };
 
+    const recommendedActions = [
+      { id: 1, description: "action 1" },
+      { id: 2, description: "action 2" },
+      { id: 3, description: "action 3" },
+      { id: 4, description: "action 4" },
+      { id: 5, description: "action 5" }
+    ];
+
     store.dispatch(
       getReferralLetterSuccess(referralLetterWithRecommendedActions)
     );
+    store.dispatch(getRecommendedActionsSuccess(recommendedActions));
 
     wrapper = mount(
       <Provider store={store}>

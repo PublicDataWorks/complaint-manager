@@ -14,6 +14,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
 import { SecondaryButton } from "../../../shared/components/StyledButtons";
 import editRecommendedActions from "../thunks/editRecommendedActions";
+import getRecommendedActions from "../thunks/getRecommendedActions";
 
 class RecommendedActions extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class RecommendedActions extends Component {
 
   componentDidMount() {
     this.props.dispatch(getReferralLetter(this.state.caseId));
+    this.props.dispatch(getRecommendedActions());
   }
 
   referralLetterNotYetLoaded = () => {
@@ -45,8 +47,33 @@ class RecommendedActions extends Component {
   };
 
   submitForm = redirectUrl => (values, dispatch) => {
-    console.log(values);
+    values.referralLetterOfficers = values.referralLetterOfficers.map(
+      letterOfficer => {
+        this.transformReferralLetterOfficerRecommendedActions(letterOfficer);
+        return _.pick(letterOfficer, [
+          "id",
+          "referralLetterOfficerRecommendedActions"
+        ]);
+      }
+    );
+
     dispatch(editRecommendedActions(this.state.caseId, values, redirectUrl));
+  };
+
+  transformReferralLetterOfficerRecommendedActions = referralLetterOfficer => {
+    const selectedRecommendedActions = this.props.recommendedActions.map(
+      recommendedAction => {
+        if (referralLetterOfficer[`action-${recommendedAction.id}`] === true) {
+          return recommendedAction.id;
+        } else {
+          return null;
+        }
+      }
+    );
+
+    referralLetterOfficer.referralLetterOfficerRecommendedActions = selectedRecommendedActions.filter(
+      action => action !== null
+    );
   };
 
   renderOfficerCards = ({ fields }) => {
@@ -90,58 +117,25 @@ class RecommendedActions extends Component {
     return (
       <Fragment>
         <FormGroup style={{ marginBottom: "24px" }}>
-          <FormControlLabel
-            label={
-              "Be temporarily or permanently reassigned from his/her current assignment"
-            }
-            control={
-              <Field
-                name={`${referralLetterOfficerField}.reassigned`}
-                component={Checkbox}
-                data-test={`${referralLetterOfficerField}-reassigned`}
+          {this.props.recommendedActions.map(recommendedAction => {
+            return (
+              <FormControlLabel
+                key={recommendedAction.id}
+                label={recommendedAction.description}
+                control={
+                  <Field
+                    name={`${referralLetterOfficerField}.action-${
+                      recommendedAction.id
+                    }`}
+                    component={Checkbox}
+                    data-test={`${referralLetterOfficerField}-${
+                      recommendedAction.id
+                    }`}
+                  />
+                }
               />
-            }
-          />
-          <FormControlLabel
-            label={"Receive training regarding any issues noted"}
-            control={
-              <Field
-                name={`${referralLetterOfficerField}.training`}
-                component={Checkbox}
-                data-test={`${referralLetterOfficerField}-training`}
-              />
-            }
-          />
-          <FormControlLabel
-            label={"Receive supervisory interventions and monitoring - INSIGHT"}
-            control={
-              <Field
-                name={`${referralLetterOfficerField}.insight`}
-                component={Checkbox}
-                data-test={`${referralLetterOfficerField}-insight`}
-              />
-            }
-          />
-          <FormControlLabel
-            label={"Be subject to a Fitness for Duty Assessment"}
-            control={
-              <Field
-                name={`${referralLetterOfficerField}.fitness`}
-                component={Checkbox}
-                data-test={`${referralLetterOfficerField}-fitness`}
-              />
-            }
-          />
-          <FormControlLabel
-            label={"Be the subject of Integrity Checks"}
-            control={
-              <Field
-                name={`${referralLetterOfficerField}.integrity`}
-                component={Checkbox}
-                data-test={`${referralLetterOfficerField}-integrity`}
-              />
-            }
-          />
+            );
+          })}
         </FormGroup>
         <div>
           <Field
@@ -159,6 +153,13 @@ class RecommendedActions extends Component {
   render() {
     if (this.referralLetterNotYetLoaded()) {
       return null;
+    } else {
+      for (const letterOfficer of this.props.letterDetails
+        .referralLetterOfficers) {
+        for (const recommendedAction of letterOfficer.referralLetterOfficerRecommendedActions) {
+          letterOfficer[`action-${recommendedAction}`] = true;
+        }
+      }
     }
 
     return (
@@ -242,6 +243,7 @@ class RecommendedActions extends Component {
 }
 
 const mapStateToProps = state => ({
+  recommendedActions: state.recommendedActions,
   letterDetails: state.referralLetter.letterDetails,
   initialValues: {
     id: state.referralLetter.letterDetails.id,

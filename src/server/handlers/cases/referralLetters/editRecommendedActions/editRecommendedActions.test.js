@@ -8,6 +8,7 @@ import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import ReferralLetterOfficer from "../../../../../client/testUtilities/ReferralLetterOfficer";
 import editRecommendedActions from "./editRecommendedActions";
+import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 
 describe("editRecommendedActions", function() {
   afterEach(async () => {
@@ -41,6 +42,31 @@ describe("editRecommendedActions", function() {
     referralLetter = await models.referral_letter.create(
       referralLetterAttributes,
       { auditUser: "test" }
+    );
+  });
+
+  test("saves new includeRetaliationConcerns", async () => {
+    const includeRetaliationConcerns = true;
+    const requestBody = {
+      id: referralLetter.id,
+      includeRetaliationConcerns: includeRetaliationConcerns,
+      referralLetterOfficers: []
+    };
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      headers: {
+        authorization: "Bearer token"
+      },
+      params: { caseId: existingCase.id },
+      body: requestBody,
+      nickname: "nickname"
+    });
+    await editRecommendedActions(request, response, next);
+    expect(response.statusCode).toEqual(200);
+    await referralLetter.reload();
+
+    expect(referralLetter.includeRetaliationConcerns).toEqual(
+      includeRetaliationConcerns
     );
   });
 
@@ -124,31 +150,6 @@ describe("editRecommendedActions", function() {
       );
     });
 
-    test("saves new includeRetaliationConcerns", async () => {
-      const includeRetaliationConcerns = true;
-      const requestBody = {
-        id: referralLetter.id,
-        includeRetaliationConcerns: includeRetaliationConcerns,
-        referralLetterOfficers: []
-      };
-      const request = httpMocks.createRequest({
-        method: "PUT",
-        headers: {
-          authorization: "Bearer token"
-        },
-        params: { caseId: existingCase.id },
-        body: requestBody,
-        nickname: "nickname"
-      });
-      await editRecommendedActions(request, response, next);
-      expect(response.statusCode).toEqual(200);
-      await referralLetter.reload();
-
-      expect(referralLetter.includeRetaliationConcerns).toEqual(
-        includeRetaliationConcerns
-      );
-    });
-
     test("saves new recommendedActionNotes", async () => {
       const recommendedActionNotes = "some notes";
       const requestBody = {
@@ -172,6 +173,68 @@ describe("editRecommendedActions", function() {
       expect(referralLetterOfficer.recommendedActionNotes).toEqual(
         recommendedActionNotes
       );
+    });
+
+    describe("existing referral letter officer recommended actions", function() {
+      let recommendedAction, recommendedAction1;
+      beforeEach(async () => {
+        const recommendedActionAttributes = new ReferralLetterOfficerRecommendedAction.Builder()
+          .defaultReferralLetterOfficerRecommendedAction()
+          .withId(undefined)
+          .withReferralLetterOfficerId(referralLetterOfficer.id)
+          .withRecommendedActionId(1);
+        recommendedAction = await models.referral_letter_officer_recommended_action.create(
+          recommendedActionAttributes,
+          { auditUser: "test" }
+        );
+        const recommendedActionAttributes2 = new ReferralLetterOfficerRecommendedAction.Builder()
+          .defaultReferralLetterOfficerRecommendedAction()
+          .withId(undefined)
+          .withReferralLetterOfficerId(referralLetterOfficer.id)
+          .withRecommendedActionId(2);
+        recommendedAction1 = await models.referral_letter_officer_recommended_action.create(
+          recommendedActionAttributes2,
+          { auditUser: "test" }
+        );
+      });
+
+      test("removes existing referral letter officer recommended action", async () => {
+        const requestBody = {
+          referralLetterOfficers: [
+            {
+              id: referralLetterOfficer.id,
+              referralLetterOfficerRecommendedActions: [
+                recommendedAction1.recommendedActionId
+              ]
+            }
+          ]
+        };
+        const request = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer token"
+          },
+          params: { caseId: existingCase.id },
+          body: requestBody,
+          nickname: "nickname"
+        });
+        await editRecommendedActions(request, response, next);
+        expect(response.statusCode).toEqual(200);
+
+        const createdRecommendedActions = await models.referral_letter_officer_recommended_action.findAll(
+          { where: { referralLetterOfficerId: referralLetterOfficer.id } }
+        );
+
+        expect(createdRecommendedActions.length).toEqual(1);
+        expect(createdRecommendedActions).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              recommendedActionId: recommendedAction1.recommendedActionId,
+              referralLetterOfficerId: referralLetterOfficer.id
+            })
+          ])
+        );
+      });
     });
   });
 });

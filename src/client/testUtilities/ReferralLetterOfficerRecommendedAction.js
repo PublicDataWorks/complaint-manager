@@ -10,7 +10,7 @@ class ReferralLetterOfficerRecommendedAction {
       defaultReferralLetterOfficerRecommendedAction() {
         this.id = 4;
         this.referralLetterOfficerId = 47;
-        this.recommendedActionId = 6;
+        this.recommendedActionId = 2;
         return this;
       }
 

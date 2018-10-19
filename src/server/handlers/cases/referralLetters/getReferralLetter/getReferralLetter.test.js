@@ -234,8 +234,8 @@ describe("getReferralLetter", () => {
               referralLetterOfficer.recommendedActionNotes,
             referralLetterOfficerHistoryNotes: [emptyObject],
             referralLetterOfficerRecommendedActions: [
-              referralLetterOfficerRecommendedAction1.id,
-              referralLetterOfficerRecommendedAction2.id
+              referralLetterOfficerRecommendedAction1.recommendedActionId,
+              referralLetterOfficerRecommendedAction2.recommendedActionId
             ]
           }
         ],

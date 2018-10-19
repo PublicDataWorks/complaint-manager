@@ -50,7 +50,7 @@ const buildRecommendedActions = recommendedActions => {
   if (!recommendedActions) {
     return [];
   }
-  return recommendedActions.map(action => action.id);
+  return recommendedActions.map(action => action.recommendedActionId);
 };
 
 const emptyObject = () => ({ tempId: shortid.generate() });
@@ -105,7 +105,7 @@ const getLetterData = async caseId => {
               {
                 model: models.referral_letter_officer_recommended_action,
                 as: "referralLetterOfficerRecommendedActions",
-                attributes: ["id", "referralLetterOfficerId"],
+                attributes: ["recommendedActionId", "referralLetterOfficerId"],
                 separate: true
               },
               {
