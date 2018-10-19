@@ -20,6 +20,8 @@ import exportAudit from "./export";
 describe("GET /api/export-audit-log", () => {
   const nickname = "nickName";
   const job = { data: { user: nickname } };
+  const awsResult = "awsResult";
+  const jobDone = jest.fn();
 
   let records = [];
 
@@ -28,7 +30,7 @@ describe("GET /api/export-audit-log", () => {
     uploadFileToS3.mockImplementation(
       (jobId, dataToUpload, filename, fileType) => {
         records = parse(dataToUpload, { columns: true });
-        return { then: jest.fn() };
+        return awsResult;
       }
     );
   });
@@ -37,8 +39,8 @@ describe("GET /api/export-audit-log", () => {
     await cleanupDatabase();
   });
 
-  test("should return audit log csv", async () => {
-    await exportAudit(job, {});
+  test("should upload audit log csv and return s3 url to done", async () => {
+    await exportAudit(job, jobDone);
 
     expect(uploadFileToS3).toHaveBeenCalledWith(
       job.id,
@@ -48,34 +50,26 @@ describe("GET /api/export-audit-log", () => {
       JOB_OPERATION.AUDIT_LOG_EXPORT.filename,
       JOB_OPERATION.AUDIT_LOG_EXPORT.key
     );
-  });
-
-  test("inserts action audit into db when exporting", async () => {
-    await exportAudit(job, {});
-
-    const exportActionAudit = await models.action_audit.find({
-      where: {
-        auditType: AUDIT_TYPE.EXPORT,
-        action: AUDIT_ACTION.EXPORTED,
-        subject: AUDIT_SUBJECT.AUDIT_LOG,
-        caseId: null,
-        user: nickname
-      }
-    });
-    expect(exportActionAudit).not.toBeNull();
+    expect(jobDone).toHaveBeenCalledWith(null, awsResult);
   });
 
   test("it includes export audit type", async () => {
     const timeOfExport = new Date("2018-07-01 19:00:22 CDT");
     timekeeper.freeze(timeOfExport);
+    await models.action_audit.create({
+      auditType: AUDIT_TYPE.EXPORT,
+      action: AUDIT_ACTION.EXPORTED,
+      subject: AUDIT_SUBJECT.AUDIT_LOG,
+      caseId: null,
+      user: "someuser"
+    });
 
-    await exportAudit(job, {});
+    await exportAudit(job, jobDone);
 
     expect(records.length).toEqual(1);
-
     const record = records[0];
     expect(record["Audit Type"]).toEqual(AUDIT_TYPE.EXPORT);
-    expect(record["User"]).toEqual(nickname);
+    expect(record["User"]).toEqual("someuser");
     expect(record["Case ID"]).toEqual("");
     expect(record["Action"]).toEqual(AUDIT_ACTION.EXPORTED);
     expect(record["Audit Subject"]).toEqual(AUDIT_SUBJECT.AUDIT_LOG);
@@ -104,11 +98,11 @@ describe("GET /api/export-audit-log", () => {
     const timeOfExport = new Date("2018-07-01 19:00:22 CDT");
     timekeeper.freeze(timeOfExport);
 
-    await exportAudit(job, {});
+    await exportAudit(job, jobDone);
 
-    expect(records.length).toEqual(2);
+    expect(records.length).toEqual(1);
 
-    const loginRecord = records[1];
+    const loginRecord = records[0];
     expect(loginRecord["Audit Type"]).toEqual(AUDIT_TYPE.AUTHENTICATION);
     expect(loginRecord["User"]).toEqual(actionAuditAttributes.user);
     expect(loginRecord["Case ID"]).toEqual("");
@@ -134,11 +128,11 @@ describe("GET /api/export-audit-log", () => {
       where: { caseId: createdCase.id }
     });
 
-    await exportAudit(job, {});
+    await exportAudit(job, jobDone);
 
-    expect(records.length).toEqual(2);
+    expect(records.length).toEqual(1);
 
-    const dataChangeRecord = records[1];
+    const dataChangeRecord = records[0];
     expect(dataChangeRecord["Audit Type"]).toEqual(AUDIT_TYPE.DATA_CHANGE);
     expect(dataChangeRecord["User"]).toEqual("nickname");
     expect(dataChangeRecord["Case ID"]).toEqual(`${createdCase.id}`);
@@ -171,11 +165,11 @@ describe("GET /api/export-audit-log", () => {
       modelId: 20
     });
 
-    await exportAudit(job, {});
+    await exportAudit(job, jobDone);
 
-    expect(records.length).toEqual(2);
+    expect(records.length).toEqual(1);
 
-    const dataChangeRecord = records[1];
+    const dataChangeRecord = records[0];
     expect(dataChangeRecord["Audit Type"]).toEqual(AUDIT_TYPE.DATA_CHANGE);
     expect(dataChangeRecord["User"]).toEqual("smith");
     expect(dataChangeRecord["Action"]).toEqual(AUDIT_ACTION.DATA_UPDATED);

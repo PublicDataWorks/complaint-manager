@@ -58,17 +58,6 @@ class AllExports extends Component {
     return (
       <div>
         <div style={margin}>
-          <div style={margin}>
-            <Typography
-              variant={"title"}
-              style={{
-                marginBottom: "16px",
-                flex: 1
-              }}
-            >
-              Export
-            </Typography>
-          </div>
           <div data-test="ExportAllCasesContainer" style={margin}>
             <LinkButton
               data-test="openExportConfirmationDialog"

@@ -1,13 +1,12 @@
 const {
-  AUDIT_SUBJECT,
-  AUDIT_TYPE,
-  AUDIT_ACTION,
   TIMEZONE,
   JOB_OPERATION
 } = require("../../../sharedUtilities/constants");
 
 const models = require("../../../server/models/index");
 const stringify = require("csv-stringify");
+const util = require("util");
+const promisifiedStringify = util.promisify(stringify);
 const moment = require("moment");
 const _ = require("lodash");
 const transformDataChangeAuditForExport = require("./transformDataChangeAuditForExport");
@@ -35,19 +34,6 @@ const exportAuditLog = async (job, done) => {
     const csvOptions = { header: true, columns, formatters: dateFormatter };
 
     await models.sequelize.transaction(async t => {
-      await models.action_audit.create(
-        {
-          auditType: AUDIT_TYPE.EXPORT,
-          action: AUDIT_ACTION.EXPORTED,
-          subject: AUDIT_SUBJECT.AUDIT_LOG,
-          caseId: null,
-          user: job.data.user
-        },
-        {
-          transaction: t
-        }
-      );
-
       const actionAudits = await models.action_audit.findAll({
         attributes: [
           "created_at",
@@ -91,22 +77,14 @@ const exportAuditLog = async (job, done) => {
         "desc"
       );
 
-      stringify(sortedAuditLogs, csvOptions, (err, csvOutput) => {
-        uploadFileToS3(
-          job.id,
-          csvOutput,
-          JOB_OPERATION.AUDIT_LOG_EXPORT.filename,
-          JOB_OPERATION.AUDIT_LOG_EXPORT.key
-        ).then(
-          data => {
-            done(null, data);
-          },
-          err => {
-            winston.error(err);
-            done(err);
-          }
-        );
-      });
+      const csvOutput = await promisifiedStringify(sortedAuditLogs, csvOptions);
+      const s3Result = await uploadFileToS3(
+        job.id,
+        csvOutput,
+        JOB_OPERATION.AUDIT_LOG_EXPORT.filename,
+        JOB_OPERATION.AUDIT_LOG_EXPORT.key
+      );
+      done(null, s3Result);
     });
   } catch (err) {
     winston.error(err);

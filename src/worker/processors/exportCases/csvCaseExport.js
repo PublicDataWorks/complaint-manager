@@ -1,54 +1,30 @@
-const {
-  AUDIT_ACTION,
-  AUDIT_TYPE,
-  AUDIT_SUBJECT,
-  JOB_OPERATION
-} = require("../../../sharedUtilities/constants");
+const { JOB_OPERATION } = require("../../../sharedUtilities/constants");
 const models = require("../../../server/models/index");
 const stringify = require("csv-stringify");
+const util = require("util");
+const promisifiedStringify = util.promisify(stringify);
 const exportCasesQuery = require("./exportCasesQuery");
 const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 const winston = require("winston");
 
 const csvCaseExport = async (job, done) => {
-  await models.sequelize.transaction(async transaction => {
-    try {
-      await models.action_audit.create(
-        {
-          auditType: AUDIT_TYPE.EXPORT,
-          action: AUDIT_ACTION.EXPORTED,
-          subject: AUDIT_SUBJECT.ALL_CASE_INFORMATION,
-          user: job.data.user
-        },
-        { transaction }
-      );
+  try {
+    const caseData = await models.sequelize.query(exportCasesQuery(), {
+      type: models.sequelize.QueryTypes.SELECT
+    });
 
-      const caseData = await models.sequelize.query(exportCasesQuery(), {
-        type: models.sequelize.QueryTypes.SELECT,
-        transaction
-      });
-
-      await stringify(caseData, csvOptions, (err, csvOutput) => {
-        uploadFileToS3(
-          job.id,
-          csvOutput,
-          JOB_OPERATION.CASE_EXPORT.filename,
-          JOB_OPERATION.CASE_EXPORT.key
-        ).then(
-          data => {
-            done(null, data);
-          },
-          err => {
-            winston.error(err);
-            done(err);
-          }
-        );
-      });
-    } catch (err) {
-      winston.error(err);
-      done(err);
-    }
-  });
+    const csvOutput = await promisifiedStringify(caseData, csvOptions);
+    const s3Result = await uploadFileToS3(
+      job.id,
+      csvOutput,
+      JOB_OPERATION.CASE_EXPORT.filename,
+      JOB_OPERATION.CASE_EXPORT.key
+    );
+    done(null, s3Result);
+  } catch (err) {
+    winston.error(err);
+    done(err);
+  }
 };
 
 const columns = {

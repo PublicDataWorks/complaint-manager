@@ -15,7 +15,7 @@ class JobDashboard extends Component {
       <div>
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
-            Manage Export Jobs
+            Data Export
           </Typography>
         </NavBar>
         <AllExports />
