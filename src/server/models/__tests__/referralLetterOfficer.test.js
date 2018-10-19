@@ -5,13 +5,15 @@ import Case from "../../../client/testUtilities/case";
 import ReferralLetterOfficer from "../../../client/testUtilities/ReferralLetterOfficer";
 import ReferralLetterOfficerHistoryNote from "../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import ReferralLetterOfficerRecommendedAction from "../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 
 describe("referralLetterOfficer model", function() {
+  let referralLetterOfficer;
   afterEach(async () => {
     await cleanupDatabase();
   });
 
-  test("it deletes referral letter officer history notes when letter officer deleted", async () => {
+  beforeEach(async () => {
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     const existingCase = await models.cases.create(caseAttributes, {
       auditUser: "test"
@@ -43,11 +45,13 @@ describe("referralLetterOfficer model", function() {
       .withId(undefined)
       .withCaseOfficerId(caseOfficer.id);
 
-    const referralLetterOfficer = await models.referral_letter_officer.create(
+    referralLetterOfficer = await models.referral_letter_officer.create(
       referralLetterOfficerAttributes,
       { auditUser: "test" }
     );
+  });
 
+  test("it deletes referral letter officer history notes when letter officer deleted", async () => {
     const noteAttributes = new ReferralLetterOfficerHistoryNote.Builder()
       .defaultReferralLetterOfficerHistoryNote()
       .withReferralLetterOfficerId(referralLetterOfficer.id)
@@ -68,5 +72,34 @@ describe("referralLetterOfficer model", function() {
 
     await note.reload({ paranoid: false });
     expect(note.deletedAt).not.toEqual(null);
+  });
+
+  test("it deletes referral letter officer recommended actions when letter officer deleted", async () => {
+    const recommendedAction = await models.recommended_action.create(
+      { description: "some description" },
+      { auditUser: "someone" }
+    );
+
+    const referralLetterOfficerRecommendedActionAttributes = new ReferralLetterOfficerRecommendedAction.Builder()
+      .defaultReferralLetterOfficerRecommendedAction()
+      .withId(undefined)
+      .withRecommendedActionId(recommendedAction.id)
+      .withReferralLetterOfficerId(referralLetterOfficer.id);
+
+    const referralLetterOfficerRecommendedAction = await models.referral_letter_officer_recommended_action.create(
+      referralLetterOfficerRecommendedActionAttributes,
+      { auditUser: "someone" }
+    );
+
+    await models.sequelize.transaction(
+      async transaction =>
+        await referralLetterOfficer.destroy({
+          auditUser: "someone",
+          transaction
+        })
+    );
+
+    await referralLetterOfficerRecommendedAction.reload({ paranoid: false });
+    expect(referralLetterOfficerRecommendedAction.deletedAt).not.toEqual(null);
   });
 });
