@@ -41,12 +41,6 @@ export const notFutureDate = value => {
     : undefined;
 };
 
-export const validTimeField = input => {
-  if (input === null || input === "") {
-    return "Please enter a time in the form of 12:34 AM";
-  }
-};
-
 export const firstNameRequired = isRequired("First Name");
 export const lastNameRequired = isRequired("Last Name");
 export const firstNameNotBlank = notBlank("First Name");

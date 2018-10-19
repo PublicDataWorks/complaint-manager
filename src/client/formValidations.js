@@ -24,3 +24,9 @@ export function addressMustBeValid(addressValid) {
   }
   return errors;
 }
+
+export function timeMustBeValid(time) {
+  if (time === null) {
+    return "Please enter a time in the form of 12:34 AM";
+  }
+}

@@ -21,11 +21,10 @@ import {
 } from "../../../shared/components/StyledButtons";
 import editIncidentDetails from "../../thunks/editIncidentDetails";
 import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
-import { validTimeField } from "../../../formFieldLevelValidations";
 import AddressInput from "../CivilianDialog/AddressInput";
 import { connect } from "react-redux";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
-import { addressMustBeValid } from "../../../formValidations";
+import { addressMustBeValid, timeMustBeValid } from "../../../formValidations";
 import NoBlurTextField from "../CivilianDialog/FormSelect";
 import {
   generateMenu,
@@ -119,7 +118,7 @@ class IncidentDetailsDialog extends Component {
                   "data-test": "editIncidentTimeInput",
                   type: "time"
                 }}
-                validate={validTimeField}
+                validate={timeMustBeValid}
                 InputLabelProps={{
                   shrink: true
                 }}
