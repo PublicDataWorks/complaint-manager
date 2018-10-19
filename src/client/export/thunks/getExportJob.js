@@ -11,7 +11,6 @@ import {
   EXPORT_JOB_REFRESH_INTERVAL_MS,
   EXPORT_JOB_MAX_REFRESH_TIMES
 } from "../../../sharedUtilities/constants";
-import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -41,10 +40,11 @@ const getExportJob = (jobId, currentRefreshCount = 1) => async dispatch => {
       return dispatch(addBackgroundJobFailure());
     }
     setTimeout(() => {
-      dispatch(getExportJob(jobId, currentRefreshCount + 1));
+      return dispatch(getExportJob(jobId, currentRefreshCount + 1));
     }, EXPORT_JOB_REFRESH_INTERVAL_MS);
   } catch (e) {
-    dispatch(snackbarError("Export failed. Please try again."));
+    dispatch(clearCurrentExportJob());
+    dispatch(addBackgroundJobFailure());
   }
 };
 

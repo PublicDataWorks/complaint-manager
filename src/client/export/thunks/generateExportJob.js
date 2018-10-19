@@ -1,22 +1,30 @@
 import getAccessToken from "../../auth/getAccessToken";
 import { push } from "react-router-redux";
 import axios from "axios";
-import { generateExportSuccess } from "../../actionCreators/exportActionCreators";
+import {
+  addBackgroundJobFailure,
+  clearCurrentExportJob,
+  generateExportSuccess
+} from "../../actionCreators/exportActionCreators";
+import config from "../../config/config";
 
 const generateExportJob = path => async dispatch => {
+  const hostname = config[process.env.NODE_ENV].hostname;
   const token = getAccessToken();
   if (!token) {
-    dispatch(push("/login"));
-    throw new Error("No access token found");
+    return dispatch(push("/login"));
   }
-
-  const response = await axios.get(path, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
-
-  dispatch(generateExportSuccess(response.data));
+  try {
+    const response = await axios.get(`${hostname}${path}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    dispatch(generateExportSuccess(response.data));
+  } catch (error) {
+    dispatch(clearCurrentExportJob());
+    dispatch(addBackgroundJobFailure());
+  }
 };
 
 export default generateExportJob;

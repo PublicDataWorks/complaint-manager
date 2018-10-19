@@ -9,7 +9,8 @@ import {
   EXPORT_JOB_MAX_REFRESH_TIMES,
   EXPORT_JOB_REFRESH_INTERVAL_MS
 } from "../../../sharedUtilities/constants";
-import { snackbarError } from "../../actionCreators/snackBarActionCreators";
+import getAccessToken from "../../auth/getAccessToken";
+import { push } from "react-router-redux";
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 jest.useFakeTimers();
 
@@ -22,7 +23,6 @@ describe("Get Export Job by id", () => {
       .get(`/api/export/job/${jobId}`)
       .reply(200, { state: "complete", downLoadUrl: "some url" });
 
-    let mockedDispatch = jest.fn();
     await getExportJob(jobId, 1)(mockedDispatch);
 
     expect(mockedDispatch).toHaveBeenCalledWith(exportJobCompleted("some url"));
@@ -63,13 +63,18 @@ describe("Get Export Job by id", () => {
     );
   });
 
-  test("should dispatch snackbar error if call fails", async () => {
+  test("should dispatch failure message and clear out job if call fails", async () => {
     nock("http://localhost")
       .get(`/api/export/job/${jobId}`)
       .reply(500);
     await getExportJob(jobId, 1)(mockedDispatch);
-    expect(mockedDispatch).toHaveBeenCalledWith(
-      snackbarError("Export failed. Please try again.")
-    );
+    expect(mockedDispatch).toHaveBeenCalledWith(clearCurrentExportJob());
+    expect(mockedDispatch).toHaveBeenCalledWith(addBackgroundJobFailure());
+  });
+
+  test("redirects to login if missing token", async () => {
+    getAccessToken.mockImplementation(() => false);
+    await getExportJob(jobId, 1)(mockedDispatch);
+    expect(mockedDispatch).toHaveBeenCalledWith(push("/login"));
   });
 });
