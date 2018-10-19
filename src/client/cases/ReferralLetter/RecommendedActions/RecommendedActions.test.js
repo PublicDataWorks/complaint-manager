@@ -70,8 +70,20 @@ describe("recommendedActions", function() {
       id: referralLetterId,
       includeRetaliationConcerns: true,
       referralLetterOfficers: [
-        { id: "1", referralLetterOfficerRecommendedActions: [1, 2, 3] },
-        { id: "2", referralLetterOfficerRecommendedActions: [1, 3, 4] }
+        {
+          id: "1",
+          "action-1": true,
+          "action-2": true,
+          "action-3": true,
+          referralLetterOfficerRecommendedActions: [1, 2, 3]
+        },
+        {
+          id: "2",
+          "action-1": true,
+          "action-3": true,
+          "action-4": true,
+          referralLetterOfficerRecommendedActions: [1, 3, 4]
+        }
       ]
     };
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -86,8 +98,20 @@ describe("recommendedActions", function() {
       id: referralLetterId,
       includeRetaliationConcerns: true,
       referralLetterOfficers: [
-        { id: "1", referralLetterOfficerRecommendedActions: [1, 2, 3] },
-        { id: "2", referralLetterOfficerRecommendedActions: [1, 3, 4] }
+        {
+          id: "1",
+          "action-1": true,
+          "action-2": true,
+          "action-3": true,
+          referralLetterOfficerRecommendedActions: [1, 2, 3]
+        },
+        {
+          id: "2",
+          "action-1": true,
+          "action-3": true,
+          "action-4": true,
+          referralLetterOfficerRecommendedActions: [1, 3, 4]
+        }
       ]
     };
     expect(dispatchSpy).toHaveBeenCalledWith(

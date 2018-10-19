@@ -50,10 +50,7 @@ class RecommendedActions extends Component {
     values.referralLetterOfficers = values.referralLetterOfficers.map(
       letterOfficer => {
         this.transformReferralLetterOfficerRecommendedActions(letterOfficer);
-        return _.pick(letterOfficer, [
-          "id",
-          "referralLetterOfficerRecommendedActions"
-        ]);
+        return letterOfficer;
       }
     );
 
