@@ -62,14 +62,12 @@ class RecommendedActions extends Component {
       recommendedAction => {
         if (referralLetterOfficer[`action-${recommendedAction.id}`] === true) {
           return recommendedAction.id;
-        } else {
-          return null;
         }
       }
     );
 
     referralLetterOfficer.referralLetterOfficerRecommendedActions = selectedRecommendedActions.filter(
-      action => action !== null
+      action => action !== undefined
     );
   };
 
