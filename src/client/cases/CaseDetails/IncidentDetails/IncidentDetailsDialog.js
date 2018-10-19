@@ -24,7 +24,7 @@ import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
 import AddressInput from "../CivilianDialog/AddressInput";
 import { connect } from "react-redux";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
-import { addressMustBeValid, timeMustBeValid } from "../../../formValidations";
+import { addressMustBeValid } from "../../../formValidations";
 import NoBlurTextField from "../CivilianDialog/FormSelect";
 import {
   generateMenu,
@@ -118,7 +118,6 @@ class IncidentDetailsDialog extends Component {
                   "data-test": "editIncidentTimeInput",
                   type: "time"
                 }}
-                validate={timeMustBeValid}
                 InputLabelProps={{
                   shrink: true
                 }}
