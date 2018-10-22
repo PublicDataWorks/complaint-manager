@@ -11,6 +11,10 @@ import editRecommendedActions from "./editRecommendedActions";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 
 describe("editRecommendedActions", function() {
+  const recommendedActionId1 = 1;
+  const recommendedActionId2 = 2;
+  const recommendedActionId3 = 3;
+
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -74,6 +78,19 @@ describe("editRecommendedActions", function() {
     let referralLetterOfficer;
 
     beforeEach(async () => {
+      await models.recommended_action.create(
+        { id: recommendedActionId1, description: "action 1" },
+        { auditUser: "test" }
+      );
+      await models.recommended_action.create(
+        { id: recommendedActionId2, description: "action 2" },
+        { auditUser: "test" }
+      );
+      await models.recommended_action.create(
+        { id: recommendedActionId3, description: "action 3" },
+        { auditUser: "test" }
+      );
+
       const officerAttributes = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined);
@@ -106,8 +123,6 @@ describe("editRecommendedActions", function() {
     });
 
     test("saves new recommended actions when one officer", async () => {
-      const recommendedActionId1 = 1;
-      const recommendedActionId2 = 2;
       const requestBody = {
         referralLetterOfficers: [
           {
@@ -182,7 +197,8 @@ describe("editRecommendedActions", function() {
           .defaultReferralLetterOfficerRecommendedAction()
           .withId(undefined)
           .withReferralLetterOfficerId(referralLetterOfficer.id)
-          .withRecommendedActionId(1);
+          .withRecommendedActionId(recommendedActionId1);
+
         recommendedAction = await models.referral_letter_officer_recommended_action.create(
           recommendedActionAttributes,
           { auditUser: "test" }
@@ -191,7 +207,8 @@ describe("editRecommendedActions", function() {
           .defaultReferralLetterOfficerRecommendedAction()
           .withId(undefined)
           .withReferralLetterOfficerId(referralLetterOfficer.id)
-          .withRecommendedActionId(2);
+          .withRecommendedActionId(recommendedActionId2);
+
         recommendedAction1 = await models.referral_letter_officer_recommended_action.create(
           recommendedActionAttributes2,
           { auditUser: "test" }
@@ -204,7 +221,8 @@ describe("editRecommendedActions", function() {
             {
               id: referralLetterOfficer.id,
               referralLetterOfficerRecommendedActions: [
-                recommendedAction1.recommendedActionId
+                recommendedActionId1,
+                recommendedActionId3
               ]
             }
           ]
@@ -225,11 +243,20 @@ describe("editRecommendedActions", function() {
           { where: { referralLetterOfficerId: referralLetterOfficer.id } }
         );
 
-        expect(createdRecommendedActions.length).toEqual(1);
+        expect(createdRecommendedActions.length).toEqual(2);
+
         expect(createdRecommendedActions).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              recommendedActionId: recommendedAction1.recommendedActionId,
+              recommendedActionId: recommendedActionId1,
+              referralLetterOfficerId: referralLetterOfficer.id
+            })
+          ])
+        );
+        expect(createdRecommendedActions).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              recommendedActionId: recommendedActionId3,
               referralLetterOfficerId: referralLetterOfficer.id
             })
           ])
