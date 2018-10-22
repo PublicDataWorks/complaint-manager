@@ -31,12 +31,12 @@ const editRecommendedActions = (
       }
     );
     dispatch(editRecommendedActionsSuccess(response.data));
-    dispatch(snackbarSuccess("Recommended Actions were successfully updated"));
+    dispatch(snackbarSuccess("Recommended actions were successfully updated"));
     return dispatch(push(successRedirectRoute));
   } catch (error) {
     return dispatch(
       snackbarError(
-        "Something went wrong and we could not update the Recommended Actions information"
+        "Something went wrong and we could not update the recommended actions information"
       )
     );
   }

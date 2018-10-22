@@ -137,8 +137,10 @@ class RecommendedActions extends Component {
         <div>
           <Field
             name={`${referralLetterOfficerField}.recommendedActionNotes`}
-            style={{ width: "50%" }}
+            style={{ width: "70%" }}
             component={TextField}
+            multiline
+            rowsMax={5}
             data-test={`${referralLetterOfficerField}-recommendedActionNotes`}
             placeholder={"Additional notes or concerns"}
           />

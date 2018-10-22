@@ -69,7 +69,7 @@ describe("editRecommendedActions", function() {
       editRecommendedActionsSuccess(responseBody)
     );
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Recommended Actions were successfully updated")
+      snackbarSuccess("Recommended actions were successfully updated")
     );
   });
 
@@ -92,7 +92,7 @@ describe("editRecommendedActions", function() {
     );
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
-        "Something went wrong and we could not update the Recommended Actions information"
+        "Something went wrong and we could not update the recommended actions information"
       )
     );
   });
