@@ -9,12 +9,14 @@ import React, { Component, Fragment } from "react";
 import { Field, FieldArray, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import styles from "../../../globalStyling/styles";
-import { TextField, Checkbox } from "redux-form-material-ui";
+import { TextField } from "redux-form-material-ui";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
 import { SecondaryButton } from "../../../shared/components/StyledButtons";
 import editRecommendedActions from "../thunks/editRecommendedActions";
 import getRecommendedActions from "../thunks/getRecommendedActions";
+import BoldCheckBoxFormControlLabel from "../../../shared/components/BoldCheckBoxFormControlLabel";
+import PurpleCheckBox from "../../../shared/components/PurpleCheckBox";
 
 class RecommendedActions extends Component {
   constructor(props) {
@@ -122,7 +124,7 @@ class RecommendedActions extends Component {
                     name={`${referralLetterOfficerField}.action-${
                       recommendedAction.id
                     }`}
-                    component={Checkbox}
+                    component={PurpleCheckBox}
                     data-test={`${referralLetterOfficerField}-${
                       recommendedAction.id
                     }`}
@@ -196,17 +198,12 @@ class RecommendedActions extends Component {
                 <CardContent
                   style={{ backgroundColor: "white", marginBottom: "24px" }}
                 >
-                  <FormControlLabel
-                    control={
-                      <Field
-                        name="includeRetaliationConcerns"
-                        component={Checkbox}
-                        data-test="include-retaliation-concerns-field"
-                      />
-                    }
-                    label={
+                  <BoldCheckBoxFormControlLabel
+                    name="includeRetaliationConcerns"
+                    labelText={
                       "Include Retaliation Concerns and Request for Notice to Officer(s)"
                     }
+                    data-test="include-retaliation-concerns-field"
                   />
 
                   <Typography style={{ marginLeft: "40px" }}>
