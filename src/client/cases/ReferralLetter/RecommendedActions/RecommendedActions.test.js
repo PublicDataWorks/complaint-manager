@@ -59,7 +59,7 @@ describe("recommendedActions", function() {
     );
   });
 
-  test("calls editRecommendedActions with case id, form values, and redirect url when click save and return to case", () => {
+  test("calls editRecommendedActions with case id, form values, and redirect url when click back to case", () => {
     dispatchSpy.mockClear();
 
     const button = wrapper

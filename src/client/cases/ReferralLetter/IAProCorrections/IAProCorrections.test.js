@@ -70,7 +70,7 @@ describe("IAProCorrections", function() {
     expect(wrapper.find("[data-test='iapro-correction']").length).toEqual(1);
   });
 
-  test("calls editIAProCorrections with case id, form values, and redirect url when click save and return to case", () => {
+  test("calls editIAProCorrections with case id, form values, and redirect url when click back to case", () => {
     dispatchSpy.mockClear();
 
     const button = wrapper

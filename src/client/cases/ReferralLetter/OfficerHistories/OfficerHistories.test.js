@@ -241,7 +241,7 @@ describe("OfficerHistories page", function() {
       expect(editOfficerHistory).not.toHaveBeenCalled();
     });
 
-    test("it dispatches edit to referral letter when click save and return to cases button when values valid", () => {
+    test("it dispatches edit to referral letter when click back to cases button when values valid", () => {
       editOfficerHistory.mockClear();
       changeInput(
         wrapper,
@@ -299,7 +299,7 @@ describe("OfficerHistories page", function() {
       );
     });
 
-    test("it does not dispatch edit to referral letter when click save and return to cases button when values not valid", () => {
+    test("it does not dispatch edit to referral letter when click back to cases button when values not valid", () => {
       editOfficerHistory.mockClear();
       changeInput(
         wrapper,
@@ -347,7 +347,7 @@ describe("OfficerHistories page", function() {
       );
     });
 
-    test("it does not submit the form but does redirect when no officers on the case when click save and return to case button", () => {
+    test("it does not submit the form but does redirect when no officers on the case when click back to case button", () => {
       const backButton = wrapper
         .find('[data-test="save-and-return-to-case-link"]')
         .first();

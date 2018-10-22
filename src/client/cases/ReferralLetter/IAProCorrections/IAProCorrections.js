@@ -145,7 +145,7 @@ class IAProCorrections extends Component {
             onClick={this.saveAndReturnToCase()}
             style={{ margin: "2% 0% 2% 4%" }}
           >
-            Save and Return to Case
+            Back to Case
           </LinkButton>
 
           <div style={{ margin: "0% 5% 3%", width: "60%" }}>
