@@ -269,7 +269,7 @@ workflows:
             filters:
               branches:
                 only:
-                  - release_v1.5.0
+                  - release_v1.6.0
         - security-check:
             requires:
               - test
