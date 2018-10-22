@@ -336,4 +336,18 @@ describe("parseAddressFromGooglePlaceResult", () => {
     expect(parsedAddress.lat).toEqual(12.2);
     expect(parsedAddress.lng).toEqual(14.4);
   });
+
+  test("should parse blank address", () => {
+    const parsedAddress = parseAddressFromGooglePlaceResult({});
+
+    expect(parsedAddress.streetAddress).toEqual("");
+    expect(parsedAddress.intersection).toEqual("");
+    expect(parsedAddress.city).toEqual("");
+    expect(parsedAddress.state).toEqual("");
+    expect(parsedAddress.zipCode).toEqual("");
+    expect(parsedAddress.country).toEqual("");
+    expect(parsedAddress.lat).toEqual(null);
+    expect(parsedAddress.lng).toEqual(null);
+    expect(parsedAddress.placeId).toEqual(null);
+  });
 });
