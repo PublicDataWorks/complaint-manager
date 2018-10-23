@@ -122,4 +122,36 @@ describe("recommendedActions", function() {
       )
     );
   });
+
+  test("calls editRecommendedActions with case id, form values, and redirect url when click next button", () => {
+    const nextButton = wrapper.find("[data-test='next-button']").first();
+    nextButton.simulate("click");
+    const expectedFormValues = {
+      id: referralLetterId,
+      includeRetaliationConcerns: true,
+      referralLetterOfficers: [
+        {
+          id: "1",
+          "action-1": true,
+          "action-2": true,
+          "action-3": true,
+          referralLetterOfficerRecommendedActions: [1, 2, 3]
+        },
+        {
+          id: "2",
+          "action-1": true,
+          "action-3": true,
+          "action-4": true,
+          referralLetterOfficerRecommendedActions: [1, 3, 4]
+        }
+      ]
+    };
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editRecommendedActions(
+        caseId,
+        expectedFormValues,
+        `/cases/${caseId}/letter/letter-preview`
+      )
+    );
+  });
 });

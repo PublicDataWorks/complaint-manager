@@ -12,7 +12,10 @@ import styles from "../../../globalStyling/styles";
 import { TextField } from "redux-form-material-ui";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
-import { SecondaryButton } from "../../../shared/components/StyledButtons";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../../../shared/components/StyledButtons";
 import editRecommendedActions from "../thunks/editRecommendedActions";
 import getRecommendedActions from "../thunks/getRecommendedActions";
 import BoldCheckBoxFormControlLabel from "../../../shared/components/BoldCheckBoxFormControlLabel";
@@ -48,6 +51,12 @@ class RecommendedActions extends Component {
     );
   };
 
+  saveAndGoToLetterPreview = () => {
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}/letter/letter-preview`)
+    );
+  };
+
   submitForm = redirectUrl => (values, dispatch) => {
     values.referralLetterOfficers = values.referralLetterOfficers.map(
       letterOfficer => {
@@ -65,11 +74,12 @@ class RecommendedActions extends Component {
         if (referralLetterOfficer[`action-${recommendedAction.id}`] === true) {
           return recommendedAction.id;
         }
+        return null;
       }
     );
 
     referralLetterOfficer.referralLetterOfficerRecommendedActions = selectedRecommendedActions.filter(
-      action => action !== undefined
+      action => action !== null
     );
   };
 
@@ -222,12 +232,24 @@ class RecommendedActions extends Component {
                 name="referralLetterOfficers"
                 component={this.renderOfficerCards}
               />
-              <SecondaryButton
-                onClick={this.saveAndGoBackToIAProCorrections()}
-                data-test="back-button"
-              >
-                Back
-              </SecondaryButton>
+              <div style={{ display: "flex" }}>
+                <span style={{ flex: 1 }}>
+                  <SecondaryButton
+                    onClick={this.saveAndGoBackToIAProCorrections()}
+                    data-test="back-button"
+                  >
+                    Back
+                  </SecondaryButton>
+                </span>
+                <span style={{ flex: 1, textAlign: "right" }}>
+                  <PrimaryButton
+                    onClick={this.saveAndGoToLetterPreview()}
+                    data-test="next-button"
+                  >
+                    Next
+                  </PrimaryButton>
+                </span>
+              </div>
             </div>
           </div>
         </form>

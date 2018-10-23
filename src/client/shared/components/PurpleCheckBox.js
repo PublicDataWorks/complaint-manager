@@ -1,5 +1,4 @@
 import { withStyles } from "@material-ui/core/styles";
-import React from "react";
 import { Checkbox } from "redux-form-material-ui";
 import colors from "../../globalStyling/colors";
 
