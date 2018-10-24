@@ -39,4 +39,13 @@ describe("LetterPreview", function() {
 
     expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
+
+  test("redirects to recommended actions page when click back button", () => {
+    const backButton = wrapper.find("[data-test='back-button']").first();
+    backButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      push(`/cases/${caseId}/letter/recommended-actions`)
+    );
+  });
 });

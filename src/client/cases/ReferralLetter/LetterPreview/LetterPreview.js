@@ -8,6 +8,7 @@ import LinkButton from "../../../shared/components/LinkButton";
 import LetterProgressStepper from "../LetterProgressStepper";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
+import { SecondaryButton } from "../../../shared/components/StyledButtons";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -28,6 +29,12 @@ class LetterPreview extends Component {
 
   saveAndReturnToCase = () => {
     this.props.dispatch(push(`/cases/${this.state.caseId}`));
+  };
+
+  saveAndGoBackToRecommendedActions = () => {
+    this.props.dispatch(
+      push(`/cases/${this.state.caseId}/letter/recommended-actions`)
+    );
   };
 
   render() {
@@ -64,6 +71,12 @@ class LetterPreview extends Component {
             >
               Preview
             </Typography>
+            <SecondaryButton
+              onClick={this.saveAndGoBackToRecommendedActions}
+              data-test="back-button"
+            >
+              Back
+            </SecondaryButton>
           </div>
         </div>
       </div>
