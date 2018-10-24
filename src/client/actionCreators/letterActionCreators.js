@@ -7,7 +7,8 @@ import {
   REMOVE_IAPRO_CORRECTION_DIALOG_CLOSED,
   EDIT_IAPRO_CORRECTION_SUCCESS,
   EDIT_RECOMMENDED_ACTIONS_SUCCESS,
-  GET_RECOMMENDED_ACTIONS_SUCCESS
+  GET_RECOMMENDED_ACTIONS_SUCCESS,
+  GET_LETTER_PREVIEW_SUCCESS
 } from "../../sharedUtilities/constants";
 
 export const openRemoveOfficerHistoryNoteDialog = (
@@ -61,4 +62,9 @@ export const editRecommendedActionsSuccess = letterDetails => ({
 export const getRecommendedActionsSuccess = recommendedActions => ({
   type: GET_RECOMMENDED_ACTIONS_SUCCESS,
   recommendedActions
+});
+
+export const getLetterPreviewSuccess = letterHtml => ({
+  type: GET_LETTER_PREVIEW_SUCCESS,
+  letterHtml
 });

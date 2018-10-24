@@ -1,6 +1,7 @@
 import editOfficerHistory from "./handlers/cases/referralLetters/editOfficerHistory/editOfficerHistory";
 import editIAProCorrections from "./handlers/cases/referralLetters/editIAProCorrections/editIAProCorrections";
 import editRecommendedActions from "./handlers/cases/referralLetters/editRecommendedActions/editRecommendedActions";
+import getLetterPreview from "./handlers/cases/referralLetters/getLetterPreview/getLetterPreview";
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
 const editCase = require("./handlers/cases/editCase");
@@ -81,6 +82,7 @@ router.delete(
 
 router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
 router.get("/cases/:caseId/referral-letter", getReferralLetter);
+router.get("/cases/:caseId/referral-letter/preview", getLetterPreview);
 router.put(
   "/cases/:caseId/referral-letter/officer-history",
   editOfficerHistory

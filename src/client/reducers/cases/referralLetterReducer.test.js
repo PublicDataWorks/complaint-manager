@@ -7,6 +7,7 @@ import {
   editIAProCorrectionsSuccess,
   editRecommendedActionsSuccess,
   editReferralLetterSuccess,
+  getLetterPreviewSuccess,
   getReferralLetterSuccess
 } from "../../actionCreators/letterActionCreators";
 
@@ -14,7 +15,7 @@ describe("referralLetterReducer", () => {
   describe("initial state", () => {
     test("returns initial state", () => {
       const newState = referralLetterReducer(undefined, {});
-      expect(newState).toEqual({ letterDetails: {} });
+      expect(newState).toEqual({ letterDetails: {}, letterHtml: "" });
     });
   });
 
@@ -25,7 +26,7 @@ describe("referralLetterReducer", () => {
         undefined,
         getReferralLetterSuccess(letterDetails)
       );
-      expect(newState).toEqual({ letterDetails });
+      expect(newState).toEqual({ letterDetails, letterHtml: "" });
     });
   });
 
@@ -36,7 +37,7 @@ describe("referralLetterReducer", () => {
         undefined,
         editReferralLetterSuccess(letterDetails)
       );
-      expect(newState).toEqual({ letterDetails });
+      expect(newState).toEqual({ letterDetails, letterHtml: "" });
     });
   });
 
@@ -50,7 +51,7 @@ describe("referralLetterReducer", () => {
         undefined,
         editIAProCorrectionsSuccess(letterDetails)
       );
-      expect(newState).toEqual({ letterDetails });
+      expect(newState).toEqual({ letterDetails, letterHtml: "" });
     });
   });
 
@@ -71,7 +72,24 @@ describe("referralLetterReducer", () => {
         undefined,
         editRecommendedActionsSuccess(letterDetails)
       );
-      expect(newState).toEqual({ letterDetails });
+      expect(newState).toEqual({ letterDetails, letterHtml: "" });
+    });
+  });
+
+  describe("GET_LETTER_PREVIEW_SUCCESS", () => {
+    test("sets the letter html", () => {
+      const initialState = {
+        letterDetails: "something",
+        letterHtml: "something"
+      };
+      const newState = referralLetterReducer(
+        initialState,
+        getLetterPreviewSuccess("new letter html")
+      );
+      expect(newState).toEqual({
+        letterDetails: "something",
+        letterHtml: "new letter html"
+      });
     });
   });
 });

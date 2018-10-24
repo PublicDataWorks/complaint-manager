@@ -52,6 +52,7 @@
     "fflip": "^4.0.0",
     "fflip-express": "^1.0.2",
     "file-saver": "^2.0.0-rc.2",
+    "handlebars": "^4.0.12",
     "helmet": "^3.12.0",
     "history": "^4.7.2",
     "jsonwebtoken": "^8.2.0",
