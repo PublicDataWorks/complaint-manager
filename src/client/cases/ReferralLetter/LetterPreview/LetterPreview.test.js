@@ -5,22 +5,19 @@ import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
 import LetterPreview from "./LetterPreview";
 import { push } from "react-router-redux";
-import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
+import {
+  getLetterPreviewSuccess,
+  getReferralLetterSuccess
+} from "../../../actionCreators/letterActionCreators";
 
 describe("LetterPreview", function() {
-  let store, dispatchSpy, wrapper, caseId, referralLetterId;
+  let store, dispatchSpy, wrapper, caseId;
   beforeEach(() => {
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
     caseId = "102";
-    referralLetterId = "14";
 
-    const referralLetterData = {
-      id: referralLetterId,
-      caseId: caseId
-    };
-
-    store.dispatch(getReferralLetterSuccess(referralLetterData));
+    store.dispatch(getLetterPreviewSuccess("Letter Preview HTML"));
 
     wrapper = mount(
       <Provider store={store}>

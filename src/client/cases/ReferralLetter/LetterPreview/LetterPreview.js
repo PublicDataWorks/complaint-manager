@@ -1,14 +1,13 @@
 import React, { Component } from "react";
-import _ from "lodash";
-import getReferralLetter from "../thunks/getReferralLetter";
 import { LETTER_PROGRESS } from "../../../../sharedUtilities/constants";
 import NavBar from "../../../shared/components/NavBar/NavBar";
-import { Typography } from "@material-ui/core";
+import { Card, CardContent, Typography } from "@material-ui/core";
 import LinkButton from "../../../shared/components/LinkButton";
 import LetterProgressStepper from "../LetterProgressStepper";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import { SecondaryButton } from "../../../shared/components/StyledButtons";
+import getLetterPreview from "../thunks/getLetterPreview";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -17,14 +16,11 @@ class LetterPreview extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getReferralLetter(this.state.caseId));
+    this.props.dispatch(getLetterPreview(this.state.caseId));
   }
 
-  referralLetterNotYetLoaded = () => {
-    return (
-      _.isEmpty(this.props.letterDetails) ||
-      `${this.props.letterDetails.caseId}` !== this.state.caseId
-    );
+  letterPreviewNotYetLoaded = () => {
+    return this.props.letterHtml === "";
   };
 
   saveAndReturnToCase = () => {
@@ -37,8 +33,12 @@ class LetterPreview extends Component {
     );
   };
 
+  displayLetterPreview = () => {
+    return { __html: this.props.letterHtml };
+  };
+
   render() {
-    if (this.referralLetterNotYetLoaded()) {
+    if (this.letterPreviewNotYetLoaded()) {
       return null;
     }
 
@@ -71,6 +71,19 @@ class LetterPreview extends Component {
             >
               Preview
             </Typography>
+            <Card
+              style={{
+                marginBottom: "24px",
+                backgroundColor: "white"
+              }}
+            >
+              <CardContent>
+                <div
+                  dangerouslySetInnerHTML={this.displayLetterPreview()}
+                  className="letter-preview"
+                />
+              </CardContent>
+            </Card>
             <SecondaryButton
               onClick={this.saveAndGoBackToRecommendedActions}
               data-test="back-button"
@@ -85,7 +98,7 @@ class LetterPreview extends Component {
 }
 
 const mapStateToProps = state => ({
-  letterDetails: state.referralLetter.letterDetails
+  letterHtml: state.referralLetter.letterHtml
 });
 
 export default connect(mapStateToProps)(LetterPreview);

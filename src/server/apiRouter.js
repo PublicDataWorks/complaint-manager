@@ -48,9 +48,7 @@ router.use(authErrorHandler);
 
 //Any routes defined below this point will require authentication
 router.get("/export/job/:id", exportJob);
-
 router.get("/export/schedule/:operation", scheduleExport);
-
 router.post("/cases", createCase);
 router.get("/cases", getCases);
 router.get("/cases/:id", getCase);

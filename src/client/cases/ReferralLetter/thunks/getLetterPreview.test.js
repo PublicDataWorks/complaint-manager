@@ -4,7 +4,7 @@ import getLetterPreview from "./getLetterPreview";
 import nock from "nock";
 import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
-jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "token"));
+jest.mock("../../../auth/getAccessToken");
 
 describe("getLetterPreview", function() {
   let caseId, dispatch;
@@ -12,6 +12,7 @@ describe("getLetterPreview", function() {
     caseId = 7;
     dispatch = jest.fn();
   });
+
   test("redirects to login if invalid token", async () => {
     getAccessToken.mockImplementation(() => false);
     await getLetterPreview(caseId)(dispatch);
@@ -19,6 +20,7 @@ describe("getLetterPreview", function() {
   });
 
   test("dispatches getLetterPreviewSuccess with data", async () => {
+    getAccessToken.mockImplementation(() => "TOKEN");
     const responseBody = "html string";
     nock("http://localhost", {})
       .get(`/api/cases/${caseId}/referral-letter/preview`)
@@ -30,6 +32,7 @@ describe("getLetterPreview", function() {
   });
 
   test("dispatches snackbar when there is an error", async () => {
+    getAccessToken.mockImplementation(() => "TOKEN");
     const responseBody = "html string";
     nock("http://localhost", {})
       .get(`/api/cases/${caseId}/referral-letter/preview`)
