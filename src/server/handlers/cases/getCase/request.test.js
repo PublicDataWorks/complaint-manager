@@ -7,7 +7,7 @@ import Officer from "../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Case from "../../../../client/testUtilities/case";
 import Address from "../../../../client/testUtilities/Address";
-import { ACCUSED } from "../../../../sharedUtilities/constants";
+import { ACCUSED, WITNESS } from "../../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
@@ -53,6 +53,14 @@ describe("GET /cases/:id", () => {
       .withFirstName("Eleanor")
       .build();
 
+    let witness = new Civilian.Builder()
+      .defaultCivilian()
+      .withNoAddress()
+      .withId(undefined)
+      .withFirstName("John Witness")
+      .withRoleOnCase(WITNESS)
+      .build();
+
     expectedStreetAddress = "1234 flower ave";
     incidentLocation = new Address.Builder()
       .defaultAddress()
@@ -65,6 +73,7 @@ describe("GET /cases/:id", () => {
       .defaultCase()
       .withId(undefined)
       .withComplainantCivilians([civilian])
+      .withWitnessCivilians([witness])
       .withAttachments([attachment])
       .withIncidentLocation(incidentLocation)
       .withAccusedOfficers([accusedOfficer])
