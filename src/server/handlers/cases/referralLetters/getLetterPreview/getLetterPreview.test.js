@@ -7,7 +7,7 @@ import {
   WITNESS
 } from "../../../../../sharedUtilities/constants";
 import Case from "../../../../../client/testUtilities/case";
-import Address from "../../../../../client/testUtilities/address";
+import Address from "../../../../../client/testUtilities/Address";
 import models from "../../../../models";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Civilian from "../../../../../client/testUtilities/civilian";
