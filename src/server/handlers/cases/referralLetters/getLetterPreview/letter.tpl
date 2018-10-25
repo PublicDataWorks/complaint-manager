@@ -1,4 +1,4 @@
-<div>
+<each>
   <p><strong>RE: Complaint Referral; IPM Complaint {{caseId}}</strong></p>
   <p><br></p>
   <p>Dear Deputy Superintendent Westbrook:</p>
@@ -8,6 +8,7 @@
       Office of the Independent Police Monitor (IPM) has received a complaint of misconduct by an NOPD employee(s).
       The complainant related the following information to our office:
   </p>
+  <p><br></p>
   <p><br></p>
   <p class="ql-align-center"><strong><u>Complaint Information</u></strong></p>
   <p><br></p>
@@ -92,7 +93,8 @@
   {{#if (isPresent incidentTime)}}<p>Time: {{incidentTime}}</p>{{/if}}
 
   <p><br></p>
-  <p class="ql-align-center"><strong><u>Initial Allegations/Concerns/Issues:</u></strong></p>
+  <p><br></p>
+  <p class="ql-align-center"><strong><u>Initial Allegations/Concerns/Issues</u></strong></p>
   <p><br></p>
   {{#each accusedOfficers}}
     {{rank}} {{fullName}} is accused of the following violations:
@@ -109,7 +111,8 @@
   <p class="preserve-white-space"><strong><u>Detail:</u></strong> {{narrativeDetails}}</p>
 
   <p><br></p>
-  <p class="ql-align-center"><strong><u>Complaint History:</u></strong></p>
+  <p><br></p>
+  <p class="ql-align-center"><strong><u>Complaint History</u></strong></p>
   {{#each accusedOfficers}}
     {{#if (showOfficerHistory referralLetterOfficer)}}
       <p>
@@ -148,5 +151,50 @@
         {{/each}}
       </ul>
     {{/if}}
+    <p><br></p>
   {{/each}}
+  <p><br></p>
+  <p class="ql-align-center"><strong><u>Request for Review and Intervention</u></strong></p>
+  <p><br></p>
+  {{#each accusedOfficers}}
+    {{#if referralLetterOfficer.referralLetterOfficerRecommendedActions}}
+      <p>In light of the seriousness of the allegations and/or <strong>{{rank}} {{fullName~}}'s</strong> complaint history, the IPM requests that,
+      pending the completion of this investigation, PIB review this officer’s history to ascertain if the accused officer should:</p>
+      <ul>
+        {{#each referralLetterOfficer.referralLetterOfficerRecommendedActions}}
+          <li>{{recommendedAction.description}}</li>
+        {{/each}}
+      </ul>
+      <p class="preserve-white-space">{{referralLetterOfficer.recommendedActionNotes}}</p>
+    {{/if}}
+    <p><br></p>
+    <p><br></p>
+  {{/each}}
+
+  {{#if referralLetter.includeRetaliationConcerns}}
+    <p class="ql-align-center"><strong><u>Retaliation Concerns and Request for Notice to Officer(s)</u></strong></p>
+    <p><br></p>
+    <p>Based on the information provided by the complainant, the OIPM is concerned about retaliation against the complainant.
+      We request that once the accused officer(s) is made aware of this complaint that they be admonished in writing by their
+      commanding officer(s) about retaliating against the Complainant, or from having others do so.</p>
+  {{/if}}
+  <p><br></p>
+  <p><br></p>
+
+  {{#if referralLetter.referralLetterIAProCorrections}}
+    <p class="ql-align-center"><strong><u>IAPro Corrections</u></strong></p>
+    {{#each referralLetter.referralLetterIAProCorrections}}
+      <ul>
+        <li>
+          <p class="preserve-white-space">{{details}}</p>
+        </li>
+      </ul>
+    {{/each}}
+    <p><br></p>
+    <p><br></p>
+  {{/if}}
+
+  <p>I appreciate your prompt attention to this matter. Please contact me if you have any questions.</p>
+  <p><br></p>
+
 </div>

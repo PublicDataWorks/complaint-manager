@@ -185,6 +185,10 @@ module.exports = (sequelize, DataTypes) => {
       as: "actionAudits",
       foreignKey: { name: "caseId", field: "case_id" }
     });
+    Case.hasOne(models.referral_letter, {
+      as: "referralLetter",
+      foreignKey: { name: "caseId", field: "case_id" }
+    });
   };
 
   Case.auditDataChange();

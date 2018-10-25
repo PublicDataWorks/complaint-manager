@@ -20,6 +20,16 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
     ],
     include: [
       {
+        model: models.referral_letter,
+        as: "referralLetter",
+        include: [
+          {
+            model: models.referral_letter_iapro_correction,
+            as: "referralLetterIAProCorrections"
+          }
+        ]
+      },
+      {
         model: models.address,
         as: "incidentLocation"
       },
@@ -54,6 +64,14 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
                 model: models.referral_letter_officer_history_note,
                 as: "referralLetterOfficerHistoryNotes",
                 separate: true
+              },
+              {
+                model: models.referral_letter_officer_recommended_action,
+                as: "referralLetterOfficerRecommendedActions",
+                separate: true,
+                include: [
+                  { model: models.recommended_action, as: "recommendedAction" }
+                ]
               }
             ]
           }
