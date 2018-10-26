@@ -1,5 +1,6 @@
 import models from "../../../models/index";
 import shortid from "shortid";
+import { ACCUSED } from "../../../../sharedUtilities/constants";
 
 const getLetterDataForResponse = async caseId => {
   let letterData = await getLetterData(caseId);
@@ -87,6 +88,7 @@ const getLetterData = async caseId => {
       {
         model: models.case_officer,
         as: "caseOfficers",
+        where: { roleOnCase: ACCUSED },
         attributes: ["id", "officerId", "firstName", "middleName", "lastName"], //must include officerId or will be named unknown officer
         include: [
           {
