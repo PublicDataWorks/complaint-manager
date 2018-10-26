@@ -90,6 +90,7 @@ const getLetterData = async caseId => {
         as: "caseOfficers",
         where: { roleOnCase: ACCUSED },
         attributes: ["id", "officerId", "firstName", "middleName", "lastName"], //must include officerId or will be named unknown officer
+        required: false,
         include: [
           {
             model: models.referral_letter_officer,

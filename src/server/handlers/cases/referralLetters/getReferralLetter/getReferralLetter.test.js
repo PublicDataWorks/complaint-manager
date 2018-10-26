@@ -8,7 +8,10 @@ import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import getReferralLetter from "./getReferralLetter";
 import httpMocks from "node-mocks-http";
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  COMPLAINANT
+} from "../../../../../sharedUtilities/constants";
 import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
@@ -58,6 +61,43 @@ describe("getReferralLetter", () => {
 
     response = httpMocks.createResponse();
     next = jest.fn();
+  });
+
+  test("it returns letter data but does not include letter officers that are not accused officers", async () => {
+    const complainantOfficerAttributes = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined);
+
+    const complainantOfficer = await models.officer.create(
+      complainantOfficerAttributes,
+      {
+        auditUser: "test"
+      }
+    );
+
+    const complainantCaseOfficerAttributes = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withId(undefined)
+      .withOfficerId(complainantOfficer.id)
+      .withFirstName("Shelley")
+      .withLastName("Complainant")
+      .withCaseId(existingCase.id)
+      .withRoleOnCase(COMPLAINANT);
+
+    await models.case_officer.create(complainantCaseOfficerAttributes, {
+      auditUser: "test"
+    });
+
+    const expectedResponseBody = {
+      id: referralLetter.id,
+      caseId: existingCase.id,
+      includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
+      referralLetterOfficers: [],
+      referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
+    };
+
+    await getReferralLetter(request, response, next);
+    expect(response._getData()).toEqual(expectedResponseBody);
   });
 
   describe("there is a letter officer", function() {
