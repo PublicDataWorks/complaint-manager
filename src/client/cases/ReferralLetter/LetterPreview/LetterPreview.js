@@ -74,7 +74,9 @@ class LetterPreview extends Component {
             <Card
               style={{
                 marginBottom: "24px",
-                backgroundColor: "white"
+                backgroundColor: "white",
+                maxHeight: "875px",
+                overflow: "auto"
               }}
             >
               <CardContent>

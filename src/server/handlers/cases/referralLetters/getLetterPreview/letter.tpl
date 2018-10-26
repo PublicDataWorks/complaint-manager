@@ -114,6 +114,7 @@
     <p><br></p>
     <p><br></p>
     <p class="ql-align-center"><strong><u>Complaint History</u></strong></p>
+    <p><br></p>
   {{/if}}
   {{#each accusedOfficers}}
     {{#if (showOfficerHistory referralLetterOfficer)}}
