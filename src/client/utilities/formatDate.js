@@ -39,23 +39,21 @@ export const applyCentralTimeZoneOffset = dateString => {
 
 export const computeTimeZone = (date, time) => {
   if (!time) return time;
-  else {
-    let timeZone = "CT";
+  let timeZone = "CT";
 
-    if (date) {
-      timeZone = moment(date)
-        .tz(TIMEZONE)
-        .format("z");
-    }
-    return timeZone;
+  if (date) {
+    timeZone = moment(date)
+      .tz(TIMEZONE)
+      .format("z");
   }
+  return timeZone;
 };
 
 export function format12HourTime(time) {
   const timeParts = time.split(":");
   const hour = parseInt(timeParts[0], 10);
   const suffix = hour >= 12 ? "PM" : "AM";
-  const realHour = (hour + 11) % 12 + 1;
+  const realHour = ((hour + 11) % 12) + 1;
   const prefix = realHour < 10 ? "0" : "";
 
   return prefix + realHour + ":" + timeParts[1] + " " + suffix;

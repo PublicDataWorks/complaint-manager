@@ -1,4 +1,11 @@
 import Handlebars from "handlebars";
+import moment from "moment";
+import {
+  computeTimeZone,
+  format12HourTime
+} from "../client/utilities/formatDate";
+import formatDate from "../client/utilities/formatDate";
+import formatPhoneNumber from "../client/utilities/formatPhoneNumber";
 
 Handlebars.registerHelper("formatAddress", address => {
   if (!address) return "";
@@ -20,7 +27,7 @@ Handlebars.registerHelper("formatAddress", address => {
     : addressString;
 });
 
-const isPresent = value => value && value !== "";
+const isPresent = value => value && value !== "" && value !== "<p><br></p>";
 Handlebars.registerHelper("isPresent", isPresent);
 
 Handlebars.registerHelper("renderHtml", html => {
@@ -43,10 +50,33 @@ const sumAllegations = referralLetterOfficer => {
 };
 Handlebars.registerHelper("sumAllegations", sumAllegations);
 
-Handlebars.registerHelper("showOfficerHistory", referralLetterOfficer => {
+const showOfficerHistory = referralLetterOfficer => {
   return (
     sumAllegations(referralLetterOfficer) ||
     isPresent(referralLetterOfficer.historicalBehaviorNotes) ||
     referralLetterOfficer.referralLetterOfficerHistoryNotes.length > 0
   );
+};
+Handlebars.registerHelper("showOfficerHistory", showOfficerHistory);
+
+Handlebars.registerHelper("showOfficerHistoryHeader", accusedOfficers => {
+  const referralLetterOfficers = accusedOfficers.map(
+    officer => officer.referralLetterOfficer
+  );
+  return referralLetterOfficers.some(showOfficerHistory);
+});
+
+Handlebars.registerHelper("formatTime", (date, time) => {
+  if (!time) return time;
+  return format12HourTime(time) + " " + computeTimeZone(date, time);
+});
+
+Handlebars.registerHelper("formatDate", date => {
+  if (!date) return date;
+  return moment(date, "YYYY/MM/DD").format("MM/DD/YYYY");
+});
+
+Handlebars.registerHelper("formatPhoneNumber", phoneNumber => {
+  if (!phoneNumber) return phoneNumber;
+  return formatPhoneNumber(phoneNumber);
 });
