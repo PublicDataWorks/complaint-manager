@@ -79,7 +79,7 @@ class LetterPreview extends Component {
                 overflow: "auto"
               }}
             >
-              <CardContent>
+              <CardContent style={{ margin: "24px 48px 24px 48px" }}>
                 <div
                   dangerouslySetInnerHTML={this.displayLetterPreview()}
                   className="letter-preview"
