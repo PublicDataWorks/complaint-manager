@@ -8,9 +8,10 @@ import Civilian from "../../../client/testUtilities/civilian";
 import Case from "../../../client/testUtilities/case";
 import moment from "moment";
 import timezone from "moment-timezone";
-import Classification from "../../../client/testUtilities/Classification";
+import Classification from "../../../client/testUtilities/classification";
 import csvCaseExport from "./csvCaseExport";
 import uploadFileToS3 from "../fileUpload/uploadFileToS3";
+
 jest.mock("../fileUpload/uploadFileToS3");
 
 import {
