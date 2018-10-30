@@ -67,20 +67,33 @@ export const showOfficerHistoryHeader = accusedOfficers => {
 };
 Handlebars.registerHelper("showOfficerHistoryHeader", showOfficerHistoryHeader);
 
-const formatTime = (date, time) => {
+Handlebars.registerHelper("formatTime", (date, time) => {
   if (!time) return time;
   return format12HourTime(time) + " " + computeTimeZone(date, time);
-};
-Handlebars.registerHelper("formatTime", formatTime);
+});
 
-const formatDate = date => {
+Handlebars.registerHelper("formatDate", date => {
   if (!date) return date;
   return moment(date, "YYYY/MM/DD").format("MM/DD/YYYY");
-};
-Handlebars.registerHelper("formatDate", formatDate);
+});
 
-const formatPhone = phoneNumber => {
+Handlebars.registerHelper("formatPhoneNumber", phoneNumber => {
   if (!phoneNumber) return phoneNumber;
   return formatPhoneNumber(phoneNumber);
+});
+
+export const officerHasRecommendedActionsOrNotes = letterOfficer => {
+  return (
+    letterOfficer.recommendedActionNotes ||
+    letterOfficer.referralLetterOfficerRecommendedActions.length > 0
+  );
 };
-Handlebars.registerHelper("formatPhoneNumber", formatPhone);
+
+export const showRecommendedActions = accusedOfficers => {
+  return accusedOfficers
+    .map(officer => {
+      return officer.letterOfficer;
+    })
+    .some(officerHasRecommendedActionsOrNotes);
+};
+Handlebars.registerHelper("showRecommendedActions", showRecommendedActions);

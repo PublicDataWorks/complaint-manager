@@ -4,6 +4,7 @@ import {
   renderHtml,
   showOfficerHistory,
   showOfficerHistoryHeader,
+  showRecommendedActions,
   sumAllegations
 } from "./handlebarHelpers";
 
@@ -269,6 +270,88 @@ describe("handlebarHelpers", function() {
 
       const showHeader = showOfficerHistoryHeader(accusedOfficers);
       expect(showHeader).toBeTruthy();
+    });
+  });
+
+  describe("showRecommendedActions", function() {
+    test("should not show recommended actions section if no actions and notes are empty", () => {
+      const accusedOfficers = [
+        {
+          letterOfficer: {
+            recommendedActionNotes: "",
+            referralLetterOfficerRecommendedActions: []
+          }
+        },
+        {
+          letterOfficer: {
+            recommendedActionNotes: "",
+            referralLetterOfficerRecommendedActions: []
+          }
+        }
+      ];
+
+      const showRecActions = showRecommendedActions(accusedOfficers);
+      expect(showRecActions).toEqual(false);
+    });
+
+    test("should not show recommended actions section if no actions and notes are null or undefined", () => {
+      const accusedOfficers = [
+        {
+          letterOfficer: {
+            recommendedActionNotes: null,
+            referralLetterOfficerRecommendedActions: []
+          }
+        },
+        {
+          letterOfficer: {
+            recommendedActionNotes: undefined,
+            referralLetterOfficerRecommendedActions: []
+          }
+        }
+      ];
+
+      const showRecActions = showRecommendedActions(accusedOfficers);
+      expect(showRecActions).toEqual(false);
+    });
+
+    test("should show recommended actions section if there are actions", () => {
+      const accusedOfficers = [
+        {
+          letterOfficer: {
+            recommendedActionNotes: "",
+            referralLetterOfficerRecommendedActions: [1]
+          }
+        },
+        {
+          letterOfficer: {
+            recommendedActionNotes: "",
+            referralLetterOfficerRecommendedActions: []
+          }
+        }
+      ];
+
+      const showRecActions = showRecommendedActions(accusedOfficers);
+      expect(showRecActions).toEqual(true);
+    });
+
+    test("should show recommended actions section if there are notes", () => {
+      const accusedOfficers = [
+        {
+          letterOfficer: {
+            recommendedActionNotes: "",
+            referralLetterOfficerRecommendedActions: []
+          }
+        },
+        {
+          letterOfficer: {
+            recommendedActionNotes: "a note",
+            referralLetterOfficerRecommendedActions: []
+          }
+        }
+      ];
+
+      const showRecActions = showRecommendedActions(accusedOfficers);
+      expect(showRecActions).toEqual(true);
     });
   });
 });

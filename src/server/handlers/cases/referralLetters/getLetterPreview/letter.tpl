@@ -1,4 +1,4 @@
-<each>
+<div>
   <p><strong>RE: Complaint Referral; IPM Complaint {{caseId}}</strong></p>
   <p><br></p>
   <p>Dear Deputy Superintendent Westbrook:</p>
@@ -13,7 +13,7 @@
   <p class="ql-align-center"><strong><u>Complaint Information</u></strong></p>
   <p><br></p>
   <p><strong><u>IPM Complaint #:</u></strong> {{caseId}}</p>
-  <p>Date filed with IPM: {{{formatDate incidentDate}}}</p>
+  {{#if (isPresent firstContactDate)}}<p>Date filed with IPM: {{{formatDate firstContactDate}}}</p>{{/if}}
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
@@ -42,7 +42,6 @@
     {{#if (isPresent endDate)}}<p>End of Employment: {{{formatDate endDate}}}</p>{{/if}}
     <p><br></p>
   {{/each}}
-  <p><br></p>
 
   <p><strong><u>Subject NOPD Employee(s) Information</u></strong></p>
   {{#each accusedOfficers}}
@@ -86,7 +85,7 @@
     {{#if (isPresent endDate)}}<p>End of Employment: {{{formatDate endDate}}}</p>{{/if}}
     <p><br></p>
   {{/each}}
-  <p><br></p>
+
   <p><strong><u>Incident</u></strong></p>
   {{#if (isPresent incidentDate)}}<p>Date: {{{formatDate incidentDate}}}</p>{{/if}}
   {{#if (isPresent (formatAddress incidentLocation))}}<p>Location: {{{formatAddress incidentLocation}}}</p>{{/if}}
@@ -105,14 +104,14 @@
       </ul>
       <p><br></p>
   {{/each}}
-  <p><br></p>
   <p class="preserve-white-space"><strong><u>Summary:</u></strong> {{narrativeSummary}}</p>
   <p><br></p>
   <p class="preserve-white-space"><strong><u>Detail:</u></strong> {{narrativeDetails}}</p>
 
+  <p><br></p>
+  <p><br></p>
+
   {{#if (showOfficerHistoryHeader accusedOfficers)}}
-    <p><br></p>
-    <p><br></p>
     <p class="ql-align-center"><strong><u>Complaint History</u></strong></p>
     <p><br></p>
   {{/if}}
@@ -127,11 +126,11 @@
             {{{sumAllegations letterOfficer}}} total complaints including
             {{#if letterOfficer.numHistoricalHighAllegations}}
               {{letterOfficer.numHistoricalHighAllegations}} HIGH RISK allegations
-              {{~#if letterOfficer.numHistoricalMedAllegations}}, {{/if}}
+              {{~#if letterOfficer.numHistoricalMedAllegations}}, {{~/if~}}
             {{/if}}
             {{#if letterOfficer.numHistoricalMedAllegations}}
               {{letterOfficer.numHistoricalMedAllegations}} MEDIUM RISK allegations
-              {{~#if letterOfficer.numHistoricalLowAllegations}}, {{/if}}
+              {{~#if letterOfficer.numHistoricalLowAllegations}}, {{~/if~}}
             {{/if}}
             {{#if letterOfficer.numHistoricalLowAllegations}}
               {{letterOfficer.numHistoricalLowAllegations}} LOW RISK allegations
@@ -153,10 +152,11 @@
         </li>
         {{/each}}
       </ul>
-    {{/if}}
     <p><br></p>
+  {{/if}}
   {{/each}}
-  <p><br></p>
+
+  {{#if (showRecommendedActions accusedOfficers)}}
   <p class="ql-align-center"><strong><u>Request for Review and Intervention</u></strong></p>
   <p><br></p>
   {{#each accusedOfficers}}
@@ -168,11 +168,15 @@
           <li>{{recommendedAction.description}}</li>
         {{/each}}
       </ul>
-      <p class="preserve-white-space">{{letterOfficer.recommendedActionNotes}}</p>
     {{/if}}
-    <p><br></p>
-    <p><br></p>
+    {{#if (isPresent letterOfficer.recommendedActionNotes)}}
+      <p class="preserve-white-space">{{letterOfficer.recommendedActionNotes}}</p>
+      <p><br></p>
+  {{/if}}
   {{/each}}
+  <p><br></p>
+  {{/if}}
+
 
   {{#if referralLetter.includeRetaliationConcerns}}
     <p class="ql-align-center"><strong><u>Retaliation Concerns and Request for Notice to Officer(s)</u></strong></p>
@@ -180,9 +184,10 @@
     <p>Based on the information provided by the complainant, the OIPM is concerned about retaliation against the complainant.
       We request that once the accused officer(s) is made aware of this complaint that they be admonished in writing by their
       commanding officer(s) about retaliating against the Complainant, or from having others do so.</p>
+    <p><br></p>
+    <p><br></p>
   {{/if}}
-  <p><br></p>
-  <p><br></p>
+
 
   {{#if referralLetter.referralLetterIAProCorrections}}
     <p class="ql-align-center"><strong><u>IAPro Corrections</u></strong></p>
@@ -193,7 +198,6 @@
         </li>
       </ul>
     {{/each}}
-    <p><br></p>
     <p><br></p>
   {{/if}}
 

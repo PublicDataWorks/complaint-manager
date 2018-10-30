@@ -16,7 +16,8 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
       "incidentDate",
       "incidentTime",
       "narrativeSummary",
-      "narrativeDetails"
+      "narrativeDetails",
+      "firstContactDate"
     ],
     order: [
       [
