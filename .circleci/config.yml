@@ -15,11 +15,8 @@ jobs:
               name: Install Dependencies
               command: yarn install
           - run:
-              name: Run client tests
-              command: yarn test:client:ci
-          - run:
-              name: Run server tests
-              command: yarn test:server:ci
+              name: Run client, server and worker tests
+              command: yarn test:once
               environment:
                 NEW_RELIC_ENABLED: false
                 NEW_RELIC_NO_CONFIG_FILE: true
