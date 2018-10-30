@@ -102,6 +102,10 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
     ]
   })).toJSON();
 
+  caseData.accusedOfficers.sort((officerA, officerB) => {
+    return officerA.createdAt > officerB.createdAt;
+  });
+
   const html = compiledTemplate(caseData);
   response.send(html);
 });
