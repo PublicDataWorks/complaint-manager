@@ -1,5 +1,5 @@
 <div>
-  <p><strong>RE: Complaint Referral; IPM Complaint {{caseId}}</strong></p>
+  <p><strong>RE: Complaint Referral; IPM Complaint {{{determineComplaintTypeCode complaintType}}}-{{{parseIncidentYear incidentDate}}}-{{caseId}}</strong></p>
   <p><br></p>
   <p>Dear Deputy Superintendent Westbrook:</p>
   <p><br></p>
@@ -12,7 +12,7 @@
   <p><br></p>
   <p class="ql-align-center"><strong><u>Complaint Information</u></strong></p>
   <p><br></p>
-  <p><strong><u>IPM Complaint #:</u></strong> {{caseId}}</p>
+  <p><strong><u>IPM Complaint #:</u></strong> {{{determineComplaintTypeCode complaintType}}}-{{{parseIncidentYear incidentDate}}}-{{caseId}}</p>
   {{#if (isPresent firstContactDate)}}<p>Date filed with IPM: {{{formatDate firstContactDate}}}</p>{{/if}}
   <p><br></p>
 

@@ -5,6 +5,10 @@ import {
   format12HourTime
 } from "../client/utilities/formatDate";
 import formatPhoneNumber from "../client/utilities/formatPhoneNumber";
+import {
+  CIVILIAN_INITIATED,
+  RANK_INITIATED
+} from "../sharedUtilities/constants";
 
 export const formatAddress = address => {
   if (!address) return "";
@@ -97,3 +101,24 @@ export const showRecommendedActions = accusedOfficers => {
     .some(officerHasRecommendedActionsOrNotes);
 };
 Handlebars.registerHelper("showRecommendedActions", showRecommendedActions);
+
+export const determineComplaintTypeCode = complaintType => {
+  if (complaintType === CIVILIAN_INITIATED) {
+    return "CC";
+  }
+  if (complaintType === RANK_INITIATED) {
+    return "PO";
+  }
+};
+Handlebars.registerHelper(
+  "determineComplaintTypeCode",
+  determineComplaintTypeCode
+);
+
+export const parseIncidentYear = date => {
+  if (date) {
+    return date.substring(0, 4);
+  }
+  return "";
+};
+Handlebars.registerHelper("parseIncidentYear", parseIncidentYear);

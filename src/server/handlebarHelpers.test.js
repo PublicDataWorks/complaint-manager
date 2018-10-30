@@ -1,12 +1,18 @@
 import {
+  determineComplaintTypeCode,
   formatAddress,
   isPresent,
+  parseIncidentYear,
   renderHtml,
   showOfficerHistory,
   showOfficerHistoryHeader,
   showRecommendedActions,
   sumAllegations
 } from "./handlebarHelpers";
+import {
+  CIVILIAN_INITIATED,
+  RANK_INITIATED
+} from "../sharedUtilities/constants";
 
 describe("handlebarHelpers", function() {
   describe("formatAddress", function() {
@@ -352,6 +358,39 @@ describe("handlebarHelpers", function() {
 
       const showRecActions = showRecommendedActions(accusedOfficers);
       expect(showRecActions).toEqual(true);
+    });
+  });
+
+  describe("determineComplaintTypeCode", function() {
+    test("should show CC if civilian initiated", () => {
+      const complaintTypeCode = determineComplaintTypeCode(CIVILIAN_INITIATED);
+      expect(complaintTypeCode).toEqual("CC");
+    });
+    test("should show PO if officer initiated", () => {
+      const complaintTypeCode = determineComplaintTypeCode(RANK_INITIATED);
+      expect(complaintTypeCode).toEqual("PO");
+    });
+  });
+
+  describe.only("parseIndicentYear", function() {
+    test("should return 2018 if year is 2018", () => {
+      const incidentYear = parseIncidentYear("2018-10-03");
+      expect(incidentYear).toEqual("2018");
+    });
+
+    test("should return empty string if date is null", () => {
+      const incidentYear = parseIncidentYear(null);
+      expect(incidentYear).toEqual("");
+    });
+
+    test("should return empty string if date is undefined", () => {
+      const incidentYear = parseIncidentYear(undefined);
+      expect(incidentYear).toEqual("");
+    });
+
+    test("should return empty string if date is empty", () => {
+      const incidentYear = parseIncidentYear("");
+      expect(incidentYear).toEqual("");
     });
   });
 });
