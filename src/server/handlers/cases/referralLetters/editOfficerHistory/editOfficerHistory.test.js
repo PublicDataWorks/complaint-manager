@@ -319,9 +319,9 @@ describe("edit referral letter", () => {
           .defaultLetterOfficer()
           .withId(undefined)
           .withCaseOfficerId(caseOfficer.id)
-          .withnumHistoricalHighAllegations(2)
-          .withnumHistoricalMedAllegations(3)
-          .withnumHistoricalLowAllegations(1)
+          .withNumHistoricalHighAllegations(2)
+          .withNumHistoricalMedAllegations(3)
+          .withNumHistoricalLowAllegations(1)
           .withHistoricalBehaviorNotes("some historical behavior notes");
 
         letterOfficer = await models.letter_officer.create(

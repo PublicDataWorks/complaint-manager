@@ -127,9 +127,9 @@ describe("getReferralLetter", () => {
         .defaultLetterOfficer()
         .withId(undefined)
         .withCaseOfficerId(caseOfficer.id)
-        .withnumHistoricalHighAllegations(2)
-        .withnumHistoricalMedAllegations(3)
-        .withnumHistoricalLowAllegations(1)
+        .withNumHistoricalHighAllegations(2)
+        .withNumHistoricalMedAllegations(3)
+        .withNumHistoricalLowAllegations(1)
         .withRecommendedActionNotes("some recommendation notes")
         .withHistoricalBehaviorNotes("some historical behavior notes");
 

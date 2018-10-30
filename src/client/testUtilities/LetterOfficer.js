@@ -32,17 +32,17 @@ class LetterOfficer {
         return this;
       }
 
-      withnumHistoricalHighAllegations(numHistoricalHighAllegations) {
+      withNumHistoricalHighAllegations(numHistoricalHighAllegations) {
         this.numHistoricalHighAllegations = numHistoricalHighAllegations;
         return this;
       }
 
-      withnumHistoricalMedAllegations(numHistoricalMedAllegations) {
+      withNumHistoricalMedAllegations(numHistoricalMedAllegations) {
         this.numHistoricalMedAllegations = numHistoricalMedAllegations;
         return this;
       }
 
-      withnumHistoricalLowAllegations(numHistoricalLowAllegations) {
+      withNumHistoricalLowAllegations(numHistoricalLowAllegations) {
         this.numHistoricalLowAllegations = numHistoricalLowAllegations;
         return this;
       }
