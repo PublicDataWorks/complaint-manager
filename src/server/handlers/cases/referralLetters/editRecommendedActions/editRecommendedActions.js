@@ -63,17 +63,15 @@ const createOrUpdateReferralLetterOfficerRecommendedActions = async (
         }
       }
     }
-    if (letterOfficer.recommendedActionNotes) {
-      const existingLetterOfficer = await models.letter_officer.findById(
-        letterOfficer.id
-      );
-      await existingLetterOfficer.update(
-        {
-          recommendedActionNotes: letterOfficer.recommendedActionNotes
-        },
-        { auditUser: userNickname, transaction }
-      );
-    }
+    const existingLetterOfficer = await models.letter_officer.findById(
+      letterOfficer.id
+    );
+    await existingLetterOfficer.update(
+      {
+        recommendedActionNotes: letterOfficer.recommendedActionNotes
+      },
+      { auditUser: userNickname, transaction }
+    );
   }
 };
 

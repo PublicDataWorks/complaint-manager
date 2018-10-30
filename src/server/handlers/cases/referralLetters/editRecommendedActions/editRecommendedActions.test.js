@@ -260,6 +260,48 @@ describe("editRecommendedActions", function() {
           ])
         );
       });
+
+      test("removes existing recommendedAction notes", async () => {
+        let recommendedActionNotes = "some notes";
+        let requestBody = {
+          id: referralLetter.id,
+          letterOfficers: [{ id: letterOfficer.id, recommendedActionNotes }]
+        };
+        const request = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer token"
+          },
+          params: { caseId: existingCase.id },
+          body: requestBody,
+          nickname: "nickname"
+        });
+        await editRecommendedActions(request, response, next);
+
+        recommendedActionNotes = "";
+
+        requestBody = {
+          id: referralLetter.id,
+          letterOfficers: [{ id: letterOfficer.id, recommendedActionNotes }]
+        };
+
+        const request2 = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer token"
+          },
+          params: { caseId: existingCase.id },
+          body: requestBody,
+          nickname: "nickname"
+        });
+        await editRecommendedActions(request2, response, next);
+
+        expect(response.statusCode).toEqual(200);
+        await letterOfficer.reload();
+        expect(letterOfficer.recommendedActionNotes).toEqual(
+          recommendedActionNotes
+        );
+      });
     });
   });
 });
