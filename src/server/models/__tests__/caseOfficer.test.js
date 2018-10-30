@@ -6,7 +6,7 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { ACCUSED, CASE_STATUS } from "../../../sharedUtilities/constants";
 import Allegation from "../../../client/testUtilities/Allegation";
 import OfficerAllegation from "../../../client/testUtilities/OfficerAllegation";
-import ReferralLetterOfficer from "../../../client/testUtilities/ReferralLetterOfficer";
+import LetterOfficer from "../../../client/testUtilities/LetterOfficer";
 
 describe("caseOfficer", () => {
   describe("isUnknownOfficer", () => {
@@ -176,16 +176,16 @@ describe("caseOfficer", () => {
         caseOfficerToCreate,
         { auditUser: "someone" }
       );
-      const referralLetterOfficerAttributes = new ReferralLetterOfficer.Builder()
-        .defaultReferralLetterOfficer()
+      const letterOfficerAttributes = new LetterOfficer.Builder()
+        .defaultLetterOfficer()
         .withId(undefined)
         .withCaseOfficerId(caseOfficer.id);
-      const referralLetterOfficer = await models.referral_letter_officer.create(
-        referralLetterOfficerAttributes,
+      const letterOfficer = await models.letter_officer.create(
+        letterOfficerAttributes,
         { auditUser: "test" }
       );
 
-      expect(referralLetterOfficer.deletedAt).toEqual(null);
+      expect(letterOfficer.deletedAt).toEqual(null);
 
       await models.sequelize.transaction(
         async transaction =>
@@ -196,8 +196,8 @@ describe("caseOfficer", () => {
           })
       );
 
-      await referralLetterOfficer.reload({ paranoid: false });
-      expect(referralLetterOfficer.deletedAt).not.toEqual(null);
+      await letterOfficer.reload({ paranoid: false });
+      expect(letterOfficer.deletedAt).not.toEqual(null);
     });
   });
 });

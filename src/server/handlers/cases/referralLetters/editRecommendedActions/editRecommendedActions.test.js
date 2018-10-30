@@ -6,7 +6,7 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import httpMocks from "node-mocks-http";
 import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
-import ReferralLetterOfficer from "../../../../../client/testUtilities/ReferralLetterOfficer";
+import LetterOfficer from "../../../../../client/testUtilities/LetterOfficer";
 import editRecommendedActions from "./editRecommendedActions";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 
@@ -54,7 +54,7 @@ describe("editRecommendedActions", function() {
     const requestBody = {
       id: referralLetter.id,
       includeRetaliationConcerns: includeRetaliationConcerns,
-      referralLetterOfficers: []
+      letterOfficers: []
     };
     const request = httpMocks.createRequest({
       method: "PUT",
@@ -75,7 +75,7 @@ describe("editRecommendedActions", function() {
   });
 
   describe("there is an officer", function() {
-    let referralLetterOfficer;
+    let letterOfficer;
 
     beforeEach(async () => {
       await models.recommended_action.create(
@@ -110,23 +110,23 @@ describe("editRecommendedActions", function() {
         { auditUser: "someone" }
       );
 
-      const referralLetterOfficerAttributes = new ReferralLetterOfficer.Builder()
-        .defaultReferralLetterOfficer()
+      const letterOfficerAttributes = new LetterOfficer.Builder()
+        .defaultLetterOfficer()
         .withId(undefined)
         .withCaseOfficerId(caseOfficer.id)
         .withRecommendedActionNotes(undefined);
 
-      referralLetterOfficer = await models.referral_letter_officer.create(
-        referralLetterOfficerAttributes,
+      letterOfficer = await models.letter_officer.create(
+        letterOfficerAttributes,
         { auditUser: "someone" }
       );
     });
 
     test("saves new recommended actions when one officer", async () => {
       const requestBody = {
-        referralLetterOfficers: [
+        letterOfficers: [
           {
-            id: referralLetterOfficer.id,
+            id: letterOfficer.id,
             referralLetterOfficerRecommendedActions: [
               recommendedActionId1,
               recommendedActionId2
@@ -147,7 +147,7 @@ describe("editRecommendedActions", function() {
       expect(response.statusCode).toEqual(200);
 
       const createdRecommendedActions = await models.referral_letter_officer_recommended_action.findAll(
-        { where: { referralLetterOfficerId: referralLetterOfficer.id } }
+        { where: { referralLetterOfficerId: letterOfficer.id } }
       );
 
       expect(createdRecommendedActions.length).toEqual(2);
@@ -155,11 +155,11 @@ describe("editRecommendedActions", function() {
         expect.arrayContaining([
           expect.objectContaining({
             recommendedActionId: recommendedActionId1,
-            referralLetterOfficerId: referralLetterOfficer.id
+            referralLetterOfficerId: letterOfficer.id
           }),
           expect.objectContaining({
             recommendedActionId: recommendedActionId2,
-            referralLetterOfficerId: referralLetterOfficer.id
+            referralLetterOfficerId: letterOfficer.id
           })
         ])
       );
@@ -169,9 +169,7 @@ describe("editRecommendedActions", function() {
       const recommendedActionNotes = "some notes";
       const requestBody = {
         id: referralLetter.id,
-        referralLetterOfficers: [
-          { id: referralLetterOfficer.id, recommendedActionNotes }
-        ]
+        letterOfficers: [{ id: letterOfficer.id, recommendedActionNotes }]
       };
       const request = httpMocks.createRequest({
         method: "PUT",
@@ -184,8 +182,8 @@ describe("editRecommendedActions", function() {
       });
       await editRecommendedActions(request, response, next);
       expect(response.statusCode).toEqual(200);
-      await referralLetterOfficer.reload();
-      expect(referralLetterOfficer.recommendedActionNotes).toEqual(
+      await letterOfficer.reload();
+      expect(letterOfficer.recommendedActionNotes).toEqual(
         recommendedActionNotes
       );
     });
@@ -196,7 +194,7 @@ describe("editRecommendedActions", function() {
         const recommendedActionAttributes = new ReferralLetterOfficerRecommendedAction.Builder()
           .defaultReferralLetterOfficerRecommendedAction()
           .withId(undefined)
-          .withReferralLetterOfficerId(referralLetterOfficer.id)
+          .withReferralLetterOfficerId(letterOfficer.id)
           .withRecommendedActionId(recommendedActionId1);
 
         recommendedAction = await models.referral_letter_officer_recommended_action.create(
@@ -206,7 +204,7 @@ describe("editRecommendedActions", function() {
         const recommendedActionAttributes2 = new ReferralLetterOfficerRecommendedAction.Builder()
           .defaultReferralLetterOfficerRecommendedAction()
           .withId(undefined)
-          .withReferralLetterOfficerId(referralLetterOfficer.id)
+          .withReferralLetterOfficerId(letterOfficer.id)
           .withRecommendedActionId(recommendedActionId2);
 
         recommendedAction1 = await models.referral_letter_officer_recommended_action.create(
@@ -217,9 +215,9 @@ describe("editRecommendedActions", function() {
 
       test("removes existing referral letter officer recommended action", async () => {
         const requestBody = {
-          referralLetterOfficers: [
+          letterOfficers: [
             {
-              id: referralLetterOfficer.id,
+              id: letterOfficer.id,
               referralLetterOfficerRecommendedActions: [
                 recommendedActionId1,
                 recommendedActionId3
@@ -240,7 +238,7 @@ describe("editRecommendedActions", function() {
         expect(response.statusCode).toEqual(200);
 
         const createdRecommendedActions = await models.referral_letter_officer_recommended_action.findAll(
-          { where: { referralLetterOfficerId: referralLetterOfficer.id } }
+          { where: { referralLetterOfficerId: letterOfficer.id } }
         );
 
         expect(createdRecommendedActions.length).toEqual(2);
@@ -249,7 +247,7 @@ describe("editRecommendedActions", function() {
           expect.arrayContaining([
             expect.objectContaining({
               recommendedActionId: recommendedActionId1,
-              referralLetterOfficerId: referralLetterOfficer.id
+              referralLetterOfficerId: letterOfficer.id
             })
           ])
         );
@@ -257,7 +255,7 @@ describe("editRecommendedActions", function() {
           expect.arrayContaining([
             expect.objectContaining({
               recommendedActionId: recommendedActionId3,
-              referralLetterOfficerId: referralLetterOfficer.id
+              referralLetterOfficerId: letterOfficer.id
             })
           ])
         );

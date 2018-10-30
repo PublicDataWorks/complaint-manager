@@ -37,35 +37,33 @@ export const renderHtml = html => {
 };
 Handlebars.registerHelper("renderHtml", renderHtml);
 
-export const sumAllegations = referralLetterOfficer => {
+export const sumAllegations = letterOfficer => {
   let total = 0;
-  if (referralLetterOfficer.numHistoricalHighAllegations) {
-    total += referralLetterOfficer.numHistoricalHighAllegations;
+  if (letterOfficer.numHistoricalHighAllegations) {
+    total += letterOfficer.numHistoricalHighAllegations;
   }
-  if (referralLetterOfficer.numHistoricalMedAllegations) {
-    total += referralLetterOfficer.numHistoricalMedAllegations;
+  if (letterOfficer.numHistoricalMedAllegations) {
+    total += letterOfficer.numHistoricalMedAllegations;
   }
-  if (referralLetterOfficer.numHistoricalLowAllegations) {
-    total += referralLetterOfficer.numHistoricalLowAllegations;
+  if (letterOfficer.numHistoricalLowAllegations) {
+    total += letterOfficer.numHistoricalLowAllegations;
   }
   return total;
 };
 Handlebars.registerHelper("sumAllegations", sumAllegations);
 
-export const showOfficerHistory = referralLetterOfficer => {
+export const showOfficerHistory = letterOfficer => {
   return (
-    sumAllegations(referralLetterOfficer) ||
-    isPresent(referralLetterOfficer.historicalBehaviorNotes) ||
-    referralLetterOfficer.referralLetterOfficerHistoryNotes.length > 0
+    sumAllegations(letterOfficer) ||
+    isPresent(letterOfficer.historicalBehaviorNotes) ||
+    letterOfficer.referralLetterOfficerHistoryNotes.length > 0
   );
 };
 Handlebars.registerHelper("showOfficerHistory", showOfficerHistory);
 
 export const showOfficerHistoryHeader = accusedOfficers => {
-  const referralLetterOfficers = accusedOfficers.map(
-    officer => officer.referralLetterOfficer
-  );
-  return referralLetterOfficers.some(showOfficerHistory);
+  const letterOfficers = accusedOfficers.map(officer => officer.letterOfficer);
+  return letterOfficers.some(showOfficerHistory);
 };
 Handlebars.registerHelper("showOfficerHistoryHeader", showOfficerHistoryHeader);
 

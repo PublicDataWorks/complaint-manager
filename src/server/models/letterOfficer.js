@@ -1,8 +1,8 @@
 const models = require("./");
 
 module.exports = (sequelize, DataTypes) => {
-  const ReferralLetterOfficer = sequelize.define(
-    "referral_letter_officer",
+  const LetterOfficer = sequelize.define(
+    "letter_officer",
     {
       id: {
         allowNull: false,
@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
-      tableName: "referral_letter_officers",
+      tableName: "letter_officers",
       paranoid: true,
       hooks: {
         beforeDestroy: async (instance, options) => {
@@ -77,8 +77,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   );
-  ReferralLetterOfficer.associate = function(models) {
-    ReferralLetterOfficer.hasMany(models.referral_letter_officer_history_note, {
+  LetterOfficer.associate = function(models) {
+    LetterOfficer.hasMany(models.referral_letter_officer_history_note, {
       as: "referralLetterOfficerHistoryNotes",
       foreignKey: {
         name: "referralLetterOfficerId",
@@ -86,7 +86,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     });
-    ReferralLetterOfficer.belongsTo(models.case_officer, {
+    LetterOfficer.belongsTo(models.case_officer, {
       as: "caseOfficer",
       foreignKey: {
         name: "caseOfficerId",
@@ -94,7 +94,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     });
-    ReferralLetterOfficer.hasMany(
+    LetterOfficer.hasMany(
       models.referral_letter_officer_recommended_action,
       {
         as: "referralLetterOfficerRecommendedActions",
@@ -106,5 +106,5 @@ module.exports = (sequelize, DataTypes) => {
       }
     );
   };
-  return ReferralLetterOfficer;
+  return LetterOfficer;
 };

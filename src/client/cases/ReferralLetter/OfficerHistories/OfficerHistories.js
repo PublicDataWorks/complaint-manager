@@ -46,7 +46,7 @@ class OfficerHistories extends Component {
   };
 
   submitForm = redirectUrl => (values, dispatch) => {
-    if (values.referralLetterOfficers.length === 0) {
+    if (values.letterOfficers.length === 0) {
       dispatch(push(redirectUrl));
     } else {
       dispatch(editOfficerHistory(this.state.caseId, values, redirectUrl));
@@ -69,26 +69,24 @@ class OfficerHistories extends Component {
   };
 
   renderTabHeaders = () => {
-    return this.props.letterDetails.referralLetterOfficers.map(
-      letterOfficer => {
-        return (
-          <Tab
-            key={letterOfficer.caseOfficerId}
-            label={letterOfficer.fullName}
-            data-test={`tab-${letterOfficer.caseOfficerId}`}
-          />
-        );
-      }
-    );
+    return this.props.letterDetails.letterOfficers.map(letterOfficer => {
+      return (
+        <Tab
+          key={letterOfficer.caseOfficerId}
+          label={letterOfficer.fullName}
+          data-test={`tab-${letterOfficer.caseOfficerId}`}
+        />
+      );
+    });
   };
 
   renderOfficerFields = ({ fields, selectedTab }) => {
-    return fields.map((referralLetterOfficerField, index) => {
+    return fields.map((letterOfficerField, index) => {
       const isSelectedOfficer = index === selectedTab;
       const letterOfficerInstance = fields.get(index);
       return (
         <OfficerHistoryTabContent
-          referralLetterOfficer={referralLetterOfficerField}
+          letterOfficer={letterOfficerField}
           caseOfficerName={letterOfficerInstance.fullName}
           caseOfficerId={letterOfficerInstance.caseOfficerId}
           key={letterOfficerInstance.caseOfficerId}
@@ -131,7 +129,7 @@ class OfficerHistories extends Component {
             </Tabs>
           </AppBar>
           <FieldArray
-            name="referralLetterOfficers"
+            name="letterOfficers"
             component={this.renderOfficerFields}
             selectedTab={this.state.selectedTab}
           />
@@ -141,7 +139,7 @@ class OfficerHistories extends Component {
   };
 
   render() {
-    const letterOfficers = this.props.letterDetails.referralLetterOfficers;
+    const letterOfficers = this.props.letterDetails.letterOfficers;
 
     if (this.referralLetterNotYetLoaded()) {
       return null;
@@ -207,8 +205,7 @@ class OfficerHistories extends Component {
 const mapStateToProps = state => ({
   letterDetails: state.referralLetter.letterDetails,
   initialValues: {
-    referralLetterOfficers:
-      state.referralLetter.letterDetails.referralLetterOfficers
+    letterOfficers: state.referralLetter.letterDetails.letterOfficers
   }
 });
 

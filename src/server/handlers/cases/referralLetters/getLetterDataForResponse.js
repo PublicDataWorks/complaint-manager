@@ -19,7 +19,7 @@ const getLetterDataForResponse = async caseId => {
     id: letterData.id,
     caseId: letterData.caseId,
     includeRetaliationConcerns: letterData.includeRetaliationConcerns,
-    referralLetterOfficers: transformedLetterOfficerData,
+    letterOfficers: transformedLetterOfficerData,
     referralLetterIAProCorrections: getIAProCorrections(letterData)
   };
 
@@ -33,7 +33,7 @@ const getIAProCorrections = letterData => {
 };
 
 const letterOfficerAttributes = caseOfficer => {
-  const letterOfficerAttributes = caseOfficer.referralLetterOfficer || {};
+  const letterOfficerAttributes = caseOfficer.letterOfficer || {};
   if (
     !letterOfficerAttributes.referralLetterOfficerHistoryNotes ||
     letterOfficerAttributes.referralLetterOfficerHistoryNotes.length === 0
@@ -93,8 +93,8 @@ const getLetterData = async caseId => {
         required: false,
         include: [
           {
-            model: models.referral_letter_officer,
-            as: "referralLetterOfficer",
+            model: models.letter_officer,
+            as: "letterOfficer",
             attributes: [
               "id",
               "caseOfficerId",

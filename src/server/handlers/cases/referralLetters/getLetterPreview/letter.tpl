@@ -117,33 +117,33 @@
     <p><br></p>
   {{/if}}
   {{#each accusedOfficers}}
-    {{#if (showOfficerHistory referralLetterOfficer)}}
+    {{#if (showOfficerHistory letterOfficer)}}
       <p>
         The IPM has reviewed <strong>{{rank}} {{fullName~}}'s</strong> disciplinary history for the last five years and has determined that the
         subject employee has the following significant/noteworthy number of complaints:</p>
       <ul>
-        {{#if (sumAllegations referralLetterOfficer)}}
+        {{#if (sumAllegations letterOfficer)}}
           <li>
-            {{{sumAllegations referralLetterOfficer}}} total complaints including
-            {{#if referralLetterOfficer.numHistoricalHighAllegations}}
-              {{referralLetterOfficer.numHistoricalHighAllegations}} HIGH RISK allegations
-              {{~#if referralLetterOfficer.numHistoricalMedAllegations}}, {{/if}}
+            {{{sumAllegations letterOfficer}}} total complaints including
+            {{#if letterOfficer.numHistoricalHighAllegations}}
+              {{letterOfficer.numHistoricalHighAllegations}} HIGH RISK allegations
+              {{~#if letterOfficer.numHistoricalMedAllegations}}, {{/if}}
             {{/if}}
-            {{#if referralLetterOfficer.numHistoricalMedAllegations}}
-              {{referralLetterOfficer.numHistoricalMedAllegations}} MEDIUM RISK allegations
-              {{~#if referralLetterOfficer.numHistoricalLowAllegations}}, {{/if}}
+            {{#if letterOfficer.numHistoricalMedAllegations}}
+              {{letterOfficer.numHistoricalMedAllegations}} MEDIUM RISK allegations
+              {{~#if letterOfficer.numHistoricalLowAllegations}}, {{/if}}
             {{/if}}
-            {{#if referralLetterOfficer.numHistoricalLowAllegations}}
-              {{referralLetterOfficer.numHistoricalLowAllegations}} LOW RISK allegations
+            {{#if letterOfficer.numHistoricalLowAllegations}}
+              {{letterOfficer.numHistoricalLowAllegations}} LOW RISK allegations
             {{~/if~}}.
           </li>
         {{/if}}
-        {{#if (isPresent referralLetterOfficer.historicalBehaviorNotes)}}
+        {{#if (isPresent letterOfficer.historicalBehaviorNotes)}}
         <li>
-          {{{renderHtml referralLetterOfficer.historicalBehaviorNotes}}}
+          {{{renderHtml letterOfficer.historicalBehaviorNotes}}}
         </li>
         {{/if}}
-        {{#each referralLetterOfficer.referralLetterOfficerHistoryNotes}}
+        {{#each letterOfficer.referralLetterOfficerHistoryNotes}}
         <li>
           {{pibCaseNumber~}}
           {{#if pibCaseNumber~}}
@@ -160,15 +160,15 @@
   <p class="ql-align-center"><strong><u>Request for Review and Intervention</u></strong></p>
   <p><br></p>
   {{#each accusedOfficers}}
-    {{#if referralLetterOfficer.referralLetterOfficerRecommendedActions}}
+    {{#if letterOfficer.referralLetterOfficerRecommendedActions}}
       <p>In light of the seriousness of the allegations and/or <strong>{{rank}} {{fullName~}}'s</strong> complaint history, the IPM requests that,
       pending the completion of this investigation, PIB review this officer’s history to ascertain if the accused officer should:</p>
       <ul>
-        {{#each referralLetterOfficer.referralLetterOfficerRecommendedActions}}
+        {{#each letterOfficer.referralLetterOfficerRecommendedActions}}
           <li>{{recommendedAction.description}}</li>
         {{/each}}
       </ul>
-      <p class="preserve-white-space">{{referralLetterOfficer.recommendedActionNotes}}</p>
+      <p class="preserve-white-space">{{letterOfficer.recommendedActionNotes}}</p>
     {{/if}}
     <p><br></p>
     <p><br></p>

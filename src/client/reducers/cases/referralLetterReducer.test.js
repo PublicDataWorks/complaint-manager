@@ -21,7 +21,7 @@ describe("referralLetterReducer", () => {
 
   describe("GET_REFERRAL_LETTER_SUCCESS", () => {
     test("sets the letter details in state", () => {
-      const letterDetails = { id: 6, referralLetterOfficers: [] };
+      const letterDetails = { id: 6, letterOfficers: [] };
       const newState = referralLetterReducer(
         undefined,
         getReferralLetterSuccess(letterDetails)
@@ -32,7 +32,7 @@ describe("referralLetterReducer", () => {
 
   describe("EDIT_REFERRAL_LETTER_SUCCESS", () => {
     test("sets the letter details in state", () => {
-      const letterDetails = { id: 6, referralLetterOfficers: [] };
+      const letterDetails = { id: 6, letterOfficers: [] };
       const newState = referralLetterReducer(
         undefined,
         editReferralLetterSuccess(letterDetails)
@@ -60,7 +60,7 @@ describe("referralLetterReducer", () => {
       const letterDetails = {
         id: 15,
         includeRetaliationConcerns: true,
-        referralLetterOfficers: [
+        letterOfficers: [
           {
             id: 1,
             referralLetterOfficerRecommendedActions: [1, 3],

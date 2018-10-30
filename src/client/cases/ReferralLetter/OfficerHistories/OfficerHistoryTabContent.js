@@ -21,7 +21,7 @@ const RichTextEditorComponent = props => (
 
 const OfficerHistoryTabContent = props => {
   const {
-    referralLetterOfficer,
+    letterOfficer,
     caseOfficerName,
     caseOfficerId,
     isSelectedOfficer
@@ -59,7 +59,7 @@ const OfficerHistoryTabContent = props => {
             referralLetterOfficerHistoryNoteField
           }
           key={uniqueKey}
-          fieldArrayName={`${referralLetterOfficer}.referralLetterOfficerHistoryNotes`}
+          fieldArrayName={`${letterOfficer}.referralLetterOfficerHistoryNotes`}
           noteIndex={index}
           caseOfficerName={caseOfficerName}
         />
@@ -91,28 +91,28 @@ const OfficerHistoryTabContent = props => {
       <div style={{ display: "flex", marginBottom: "32px" }}>
         <Field
           style={{ margin: "8px 24px 0 0", flex: 1 }}
-          name={`${referralLetterOfficer}.numHistoricalHighAllegations`}
+          name={`${letterOfficer}.numHistoricalHighAllegations`}
           component={TextField}
           label="High Level"
-          data-test={`${referralLetterOfficer}-numHistoricalHighAllegations`}
+          data-test={`${letterOfficer}-numHistoricalHighAllegations`}
           validate={[isIntegerString]}
           format={numbersOnly}
         />
         <Field
           style={{ margin: "8px 24px 0 0", flex: 1 }}
-          name={`${referralLetterOfficer}.numHistoricalMedAllegations`}
+          name={`${letterOfficer}.numHistoricalMedAllegations`}
           component={TextField}
           label="Medium Level"
-          data-test={`${referralLetterOfficer}-numHistoricalMedAllegations`}
+          data-test={`${letterOfficer}-numHistoricalMedAllegations`}
           validate={[isIntegerString]}
           format={numbersOnly}
         />
         <Field
           style={{ margin: "8px 24px 0 0", flex: 1 }}
-          name={`${referralLetterOfficer}.numHistoricalLowAllegations`}
+          name={`${letterOfficer}.numHistoricalLowAllegations`}
           component={TextField}
           label="Low Level"
-          data-test={`${referralLetterOfficer}-numHistoricalLowAllegations`}
+          data-test={`${letterOfficer}-numHistoricalLowAllegations`}
           validate={[isIntegerString]}
           format={numbersOnly}
         />
@@ -129,17 +129,17 @@ const OfficerHistoryTabContent = props => {
       </Typography>
       <div style={{ width: "75%", marginBottom: "32px" }}>
         <Field
-          name={`${referralLetterOfficer}.historicalBehaviorNotes`}
+          name={`${letterOfficer}.historicalBehaviorNotes`}
           component={RichTextEditorComponent}
           label="Notes on any patterns of behavior"
-          data-test={`${referralLetterOfficer}-historicalBehaviorNotes`}
+          data-test={`${letterOfficer}-historicalBehaviorNotes`}
         />
       </div>
       <Typography style={{ paddingBottom: "16px", ...styles.section }}>
         Notes
       </Typography>
       <FieldArray
-        name={`${referralLetterOfficer}.referralLetterOfficerHistoryNotes`}
+        name={`${letterOfficer}.referralLetterOfficerHistoryNotes`}
         component={renderNoteFields}
       />
     </div>
@@ -150,15 +150,15 @@ const selector = formValueSelector("OfficerHistories");
 const mapStateToProps = (state, props) => ({
   numHistoricalHighAllegations: selector(
     state,
-    `${props.referralLetterOfficer}.numHistoricalHighAllegations`
+    `${props.letterOfficer}.numHistoricalHighAllegations`
   ),
   numHistoricalMedAllegations: selector(
     state,
-    `${props.referralLetterOfficer}.numHistoricalMedAllegations`
+    `${props.letterOfficer}.numHistoricalMedAllegations`
   ),
   numHistoricalLowAllegations: selector(
     state,
-    `${props.referralLetterOfficer}.numHistoricalLowAllegations`
+    `${props.letterOfficer}.numHistoricalLowAllegations`
   )
 });
 

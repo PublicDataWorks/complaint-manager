@@ -25,7 +25,7 @@ describe("IAProCorrections", function() {
     const referralLetterWithIAProCorrections = {
       id: caseId,
       caseId: caseId,
-      referralLetterOfficers: [],
+      letterOfficers: [],
       referralLetterIAProCorrections: [
         { id: "1", details: "details1" },
         { id: "2", details: "details2" }

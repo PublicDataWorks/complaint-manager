@@ -6,7 +6,7 @@ import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import Officer from "../../../../../client/testUtilities/Officer";
 import editOfficerHistory from "./editOfficerHistory";
 import httpMocks from "node-mocks-http";
-import ReferralLetterOfficer from "../../../../../client/testUtilities/ReferralLetterOfficer";
+import LetterOfficer from "../../../../../client/testUtilities/LetterOfficer";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
 import Boom from "boom";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
@@ -70,7 +70,7 @@ describe("edit referral letter", () => {
     describe("no existing letter officer yet", () => {
       test("saves the letter officers if they do not exist yet", async () => {
         const requestBody = {
-          referralLetterOfficers: [
+          letterOfficers: [
             {
               caseOfficerId: caseOfficer.id,
               fullName: caseOfficer.fullName,
@@ -94,17 +94,15 @@ describe("edit referral letter", () => {
         await editOfficerHistory(request, response, next);
 
         expect(response.statusCode).toEqual(200);
-        const createdLetterOfficers = await models.referral_letter_officer.findAll(
-          {
-            where: { caseOfficerId: caseOfficer.id },
-            include: [
-              {
-                model: models.referral_letter_officer_history_note,
-                as: "referralLetterOfficerHistoryNotes"
-              }
-            ]
-          }
-        );
+        const createdLetterOfficers = await models.letter_officer.findAll({
+          where: { caseOfficerId: caseOfficer.id },
+          include: [
+            {
+              model: models.referral_letter_officer_history_note,
+              as: "referralLetterOfficerHistoryNotes"
+            }
+          ]
+        });
         expect(createdLetterOfficers.length).toEqual(1);
         const createdLetterOfficer = createdLetterOfficers[0];
         expect(createdLetterOfficer.caseOfficerId).toEqual(caseOfficer.id);
@@ -121,7 +119,7 @@ describe("edit referral letter", () => {
 
       test("adds notes that are new on new letter officer, allowing blank on either case num or details", async () => {
         const requestBody = {
-          referralLetterOfficers: [
+          letterOfficers: [
             {
               caseOfficerId: caseOfficer.id,
               fullName: caseOfficer.fullName,
@@ -161,17 +159,15 @@ describe("edit referral letter", () => {
         await editOfficerHistory(request, response, next);
 
         expect(response.statusCode).toEqual(200);
-        const createdLetterOfficer = await models.referral_letter_officer.findOne(
-          {
-            where: { caseOfficerId: caseOfficer.id },
-            include: [
-              {
-                model: models.referral_letter_officer_history_note,
-                as: "referralLetterOfficerHistoryNotes"
-              }
-            ]
-          }
-        );
+        const createdLetterOfficer = await models.letter_officer.findOne({
+          where: { caseOfficerId: caseOfficer.id },
+          include: [
+            {
+              model: models.referral_letter_officer_history_note,
+              as: "referralLetterOfficerHistoryNotes"
+            }
+          ]
+        });
         expect(
           createdLetterOfficer.referralLetterOfficerHistoryNotes.length
         ).toEqual(3);
@@ -198,7 +194,7 @@ describe("edit referral letter", () => {
 
       test("doesn't save new empty notes", async () => {
         const requestBody = {
-          referralLetterOfficers: [
+          letterOfficers: [
             {
               caseOfficerId: caseOfficer.id,
               fullName: caseOfficer.fullName,
@@ -228,17 +224,15 @@ describe("edit referral letter", () => {
         await editOfficerHistory(request, response, next);
 
         expect(response.statusCode).toEqual(200);
-        const createdLetterOfficer = await models.referral_letter_officer.findOne(
-          {
-            where: { caseOfficerId: caseOfficer.id },
-            include: [
-              {
-                model: models.referral_letter_officer_history_note,
-                as: "referralLetterOfficerHistoryNotes"
-              }
-            ]
-          }
-        );
+        const createdLetterOfficer = await models.letter_officer.findOne({
+          where: { caseOfficerId: caseOfficer.id },
+          include: [
+            {
+              model: models.referral_letter_officer_history_note,
+              as: "referralLetterOfficerHistoryNotes"
+            }
+          ]
+        });
         expect(
           createdLetterOfficer.referralLetterOfficerHistoryNotes.length
         ).toEqual(0);
@@ -246,7 +240,7 @@ describe("edit referral letter", () => {
 
       test("throws error for new letter officers with case officers that do not exist", async () => {
         const requestBody = {
-          referralLetterOfficers: [
+          letterOfficers: [
             {
               caseOfficerId: 9999,
               fullName: caseOfficer.fullName,
@@ -272,13 +266,13 @@ describe("edit referral letter", () => {
           Boom.badRequest("Invalid case officer")
         );
 
-        const createdLetterOfficers = await models.referral_letter_officer.findAll();
+        const createdLetterOfficers = await models.letter_officer.findAll();
         expect(createdLetterOfficers.length).toEqual(0);
       });
 
       test("rolls back first officer if second officer fails", async () => {
         const requestBody = {
-          referralLetterOfficers: [
+          letterOfficers: [
             {
               caseOfficerId: caseOfficer.id,
               fullName: caseOfficer.fullName,
@@ -313,16 +307,16 @@ describe("edit referral letter", () => {
           Boom.badRequest("Invalid case officer")
         );
 
-        const createdLetterOfficers = await models.referral_letter_officer.findAll();
+        const createdLetterOfficers = await models.letter_officer.findAll();
         expect(createdLetterOfficers.length).toEqual(0);
       });
     });
 
     describe("existing letter officer", () => {
-      let referralLetterOfficer;
+      let letterOfficer;
       beforeEach(async () => {
-        const referralLetterOfficerAttributes = new ReferralLetterOfficer.Builder()
-          .defaultReferralLetterOfficer()
+        const letterOfficerAttributes = new LetterOfficer.Builder()
+          .defaultLetterOfficer()
           .withId(undefined)
           .withCaseOfficerId(caseOfficer.id)
           .withnumHistoricalHighAllegations(2)
@@ -330,17 +324,17 @@ describe("edit referral letter", () => {
           .withnumHistoricalLowAllegations(1)
           .withHistoricalBehaviorNotes("some historical behavior notes");
 
-        referralLetterOfficer = await models.referral_letter_officer.create(
-          referralLetterOfficerAttributes,
+        letterOfficer = await models.letter_officer.create(
+          letterOfficerAttributes,
           { auditUser: "test" }
         );
       });
 
       test("updates the letter officers if they exist", async () => {
         const requestBody = {
-          referralLetterOfficers: [
+          letterOfficers: [
             {
-              id: referralLetterOfficer.id,
+              id: letterOfficer.id,
               caseOfficerId: caseOfficer.id,
               fullName: caseOfficer.fullName,
               numHistoricalHighAllegations: 9,
@@ -364,7 +358,7 @@ describe("edit referral letter", () => {
 
         expect(response.statusCode).toEqual(200);
 
-        const updatedLetterOfficer = await referralLetterOfficer.reload({
+        const updatedLetterOfficer = await letterOfficer.reload({
           include: [
             {
               model: models.referral_letter_officer_history_note,
@@ -386,9 +380,9 @@ describe("edit referral letter", () => {
 
       test("updates the letter officers, handling undefined, null, or blank string numbers", async () => {
         const requestBody = {
-          referralLetterOfficers: [
+          letterOfficers: [
             {
-              id: referralLetterOfficer.id,
+              id: letterOfficer.id,
               caseOfficerId: caseOfficer.id,
               fullName: caseOfficer.fullName,
               numHistoricalHighAllegations: null,
@@ -412,7 +406,7 @@ describe("edit referral letter", () => {
 
         expect(response.statusCode).toEqual(200);
 
-        await referralLetterOfficer.reload({
+        await letterOfficer.reload({
           include: [
             {
               model: models.referral_letter_officer_history_note,
@@ -420,25 +414,23 @@ describe("edit referral letter", () => {
             }
           ]
         });
-        expect(referralLetterOfficer.caseOfficerId).toEqual(caseOfficer.id);
-        expect(referralLetterOfficer.numHistoricalHighAllegations).toEqual(
-          null
-        );
-        expect(referralLetterOfficer.numHistoricalMedAllegations).toEqual(null);
-        expect(referralLetterOfficer.numHistoricalLowAllegations).toEqual(null);
-        expect(referralLetterOfficer.historicalBehaviorNotes).toEqual(
+        expect(letterOfficer.caseOfficerId).toEqual(caseOfficer.id);
+        expect(letterOfficer.numHistoricalHighAllegations).toEqual(null);
+        expect(letterOfficer.numHistoricalMedAllegations).toEqual(null);
+        expect(letterOfficer.numHistoricalLowAllegations).toEqual(null);
+        expect(letterOfficer.historicalBehaviorNotes).toEqual(
           "<p>updated notes</p>"
         );
-        expect(
-          referralLetterOfficer.referralLetterOfficerHistoryNotes.length
-        ).toEqual(0);
+        expect(letterOfficer.referralLetterOfficerHistoryNotes.length).toEqual(
+          0
+        );
       });
 
       test("adds notes that are new on existing letter officer", async () => {
         const requestBody = {
-          referralLetterOfficers: [
+          letterOfficers: [
             {
-              id: referralLetterOfficer.id,
+              id: letterOfficer.id,
               caseOfficerId: caseOfficer.id,
               fullName: caseOfficer.fullName,
               numHistoricalHighAllegations: 2,
@@ -472,7 +464,7 @@ describe("edit referral letter", () => {
         await editOfficerHistory(request, response, next);
 
         expect(response.statusCode).toEqual(200);
-        await referralLetterOfficer.reload({
+        await letterOfficer.reload({
           include: [
             {
               model: models.referral_letter_officer_history_note,
@@ -480,18 +472,18 @@ describe("edit referral letter", () => {
             }
           ]
         });
-        expect(
-          referralLetterOfficer.referralLetterOfficerHistoryNotes.length
-        ).toEqual(2);
-        expect(referralLetterOfficer.referralLetterOfficerHistoryNotes).toEqual(
+        expect(letterOfficer.referralLetterOfficerHistoryNotes.length).toEqual(
+          2
+        );
+        expect(letterOfficer.referralLetterOfficerHistoryNotes).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              referralLetterOfficerId: referralLetterOfficer.id,
+              referralLetterOfficerId: letterOfficer.id,
               pibCaseNumber: "CC20180101-CS",
               details: "This case was very similar"
             }),
             expect.objectContaining({
-              referralLetterOfficerId: referralLetterOfficer.id,
+              referralLetterOfficerId: letterOfficer.id,
               pibCaseNumber: "CC20180222-CS",
               details: "This case was also very similar"
             })
@@ -501,9 +493,9 @@ describe("edit referral letter", () => {
 
       test("doesn't save new empty notes", async () => {
         const requestBody = {
-          referralLetterOfficers: [
+          letterOfficers: [
             {
-              id: referralLetterOfficer.id,
+              id: letterOfficer.id,
               caseOfficerId: caseOfficer.id,
               fullName: caseOfficer.fullName,
               numHistoricalHighAllegations: 2,
@@ -532,7 +524,7 @@ describe("edit referral letter", () => {
         await editOfficerHistory(request, response, next);
 
         expect(response.statusCode).toEqual(200);
-        await referralLetterOfficer.reload({
+        await letterOfficer.reload({
           include: [
             {
               model: models.referral_letter_officer_history_note,
@@ -540,14 +532,14 @@ describe("edit referral letter", () => {
             }
           ]
         });
-        expect(
-          referralLetterOfficer.referralLetterOfficerHistoryNotes.length
-        ).toEqual(0);
+        expect(letterOfficer.referralLetterOfficerHistoryNotes.length).toEqual(
+          0
+        );
       });
 
       test("throws error for letter officers with id that does not match existing one", async () => {
         const requestBody = {
-          referralLetterOfficers: [
+          letterOfficers: [
             {
               id: 555555555,
               caseOfficerId: caseOfficer.id,
@@ -575,7 +567,7 @@ describe("edit referral letter", () => {
           Boom.badRequest("Invalid letter officer")
         );
 
-        const updatedLetterOfficer = await models.referral_letter_officer.findById(
+        const updatedLetterOfficer = await models.letter_officer.findById(
           555555555
         );
         expect(updatedLetterOfficer).toBeNull();
@@ -583,9 +575,9 @@ describe("edit referral letter", () => {
 
       test("throws error if try to change case officer id on existing letter officer", async () => {
         const requestBody = {
-          referralLetterOfficers: [
+          letterOfficers: [
             {
-              id: referralLetterOfficer.id,
+              id: letterOfficer.id,
               caseOfficerId: 888888,
               fullName: caseOfficer.fullName,
               numHistoricalHighAllegations: 9,
@@ -611,7 +603,7 @@ describe("edit referral letter", () => {
           Boom.badRequest("Invalid letter officer case officer combination")
         );
 
-        const updatedLetterOfficer = await referralLetterOfficer.reload();
+        const updatedLetterOfficer = await letterOfficer.reload();
         expect(updatedLetterOfficer.caseOfficerId).toEqual(caseOfficer.id);
         expect(updatedLetterOfficer.historicalBehaviorNotes).toEqual(
           "some historical behavior notes"
@@ -620,9 +612,9 @@ describe("edit referral letter", () => {
 
       test("throws error for notes that do not exist", async () => {
         const requestBody = {
-          referralLetterOfficers: [
+          letterOfficers: [
             {
-              id: referralLetterOfficer.id,
+              id: letterOfficer.id,
               caseOfficerId: caseOfficer.id,
               fullName: caseOfficer.fullName,
               numHistoricalHighAllegations: 2,
@@ -653,7 +645,7 @@ describe("edit referral letter", () => {
           Boom.badRequest("Invalid officer history note")
         );
 
-        await referralLetterOfficer.reload({
+        await letterOfficer.reload({
           include: [
             {
               model: models.referral_letter_officer_history_note,
@@ -661,9 +653,9 @@ describe("edit referral letter", () => {
             }
           ]
         });
-        expect(
-          referralLetterOfficer.referralLetterOfficerHistoryNotes.length
-        ).toEqual(0);
+        expect(letterOfficer.referralLetterOfficerHistoryNotes.length).toEqual(
+          0
+        );
       });
 
       describe("existing notes", () => {
@@ -674,7 +666,7 @@ describe("edit referral letter", () => {
             .withId(undefined)
             .withPibCaseNumber("CC2018NOTE1")
             .withDetails("first note original details")
-            .withReferralLetterOfficerId(referralLetterOfficer.id);
+            .withReferralLetterOfficerId(letterOfficer.id);
           note1 = await models.referral_letter_officer_history_note.create(
             note1Attributes,
             { auditUser: "someone" }
@@ -684,7 +676,7 @@ describe("edit referral letter", () => {
             .withId(undefined)
             .withPibCaseNumber("CC2018NOTE2")
             .withDetails("second note original details")
-            .withReferralLetterOfficerId(referralLetterOfficer.id);
+            .withReferralLetterOfficerId(letterOfficer.id);
           note2 = await models.referral_letter_officer_history_note.create(
             note2Attributes,
             { auditUser: "someone" }
@@ -693,9 +685,9 @@ describe("edit referral letter", () => {
 
         test("edits notes that already exist on existing letter officer", async () => {
           const requestBody = {
-            referralLetterOfficers: [
+            letterOfficers: [
               {
-                id: referralLetterOfficer.id,
+                id: letterOfficer.id,
                 caseOfficerId: caseOfficer.id,
                 fullName: caseOfficer.fullName,
                 numHistoricalHighAllegations: 2,
@@ -729,7 +721,7 @@ describe("edit referral letter", () => {
           await editOfficerHistory(request, response, next);
 
           expect(response.statusCode).toEqual(200);
-          await referralLetterOfficer.reload({
+          await letterOfficer.reload({
             include: [
               {
                 model: models.referral_letter_officer_history_note,
@@ -738,21 +730,19 @@ describe("edit referral letter", () => {
             ]
           });
           expect(
-            referralLetterOfficer.referralLetterOfficerHistoryNotes.length
+            letterOfficer.referralLetterOfficerHistoryNotes.length
           ).toEqual(2);
-          expect(
-            referralLetterOfficer.referralLetterOfficerHistoryNotes
-          ).toEqual(
+          expect(letterOfficer.referralLetterOfficerHistoryNotes).toEqual(
             expect.arrayContaining([
               expect.objectContaining({
                 id: note1.id,
-                referralLetterOfficerId: referralLetterOfficer.id,
+                referralLetterOfficerId: letterOfficer.id,
                 pibCaseNumber: "CC2018NOTE1edited",
                 details: "Note 1 edited details"
               }),
               expect.objectContaining({
                 id: note2.id,
-                referralLetterOfficerId: referralLetterOfficer.id,
+                referralLetterOfficerId: letterOfficer.id,
                 pibCaseNumber: "CC2018NOTE2edited",
                 details: "Note 2 edited details"
               })
@@ -762,9 +752,9 @@ describe("edit referral letter", () => {
 
         test("deletes existing notes that aren't submitted in request", async () => {
           const requestBody = {
-            referralLetterOfficers: [
+            letterOfficers: [
               {
-                id: referralLetterOfficer.id,
+                id: letterOfficer.id,
                 caseOfficerId: caseOfficer.id,
                 fullName: caseOfficer.fullName,
                 numHistoricalHighAllegations: 2,
@@ -793,7 +783,7 @@ describe("edit referral letter", () => {
           await editOfficerHistory(request, response, next);
 
           expect(response.statusCode).toEqual(200);
-          await referralLetterOfficer.reload({
+          await letterOfficer.reload({
             include: [
               {
                 model: models.referral_letter_officer_history_note,
@@ -802,15 +792,13 @@ describe("edit referral letter", () => {
             ]
           });
           expect(
-            referralLetterOfficer.referralLetterOfficerHistoryNotes.length
+            letterOfficer.referralLetterOfficerHistoryNotes.length
           ).toEqual(1);
-          expect(
-            referralLetterOfficer.referralLetterOfficerHistoryNotes
-          ).toEqual(
+          expect(letterOfficer.referralLetterOfficerHistoryNotes).toEqual(
             expect.arrayContaining([
               expect.objectContaining({
                 id: note2.id,
-                referralLetterOfficerId: referralLetterOfficer.id,
+                referralLetterOfficerId: letterOfficer.id,
                 pibCaseNumber: "CC2018NOTE2edited",
                 details: "Note 2 edited details"
               })
@@ -820,9 +808,9 @@ describe("edit referral letter", () => {
 
         test("deletes existing notes that come in blank", async () => {
           const requestBody = {
-            referralLetterOfficers: [
+            letterOfficers: [
               {
-                id: referralLetterOfficer.id,
+                id: letterOfficer.id,
                 caseOfficerId: caseOfficer.id,
                 fullName: caseOfficer.fullName,
                 numHistoricalHighAllegations: 2,
@@ -856,7 +844,7 @@ describe("edit referral letter", () => {
           await editOfficerHistory(request, response, next);
 
           expect(response.statusCode).toEqual(200);
-          await referralLetterOfficer.reload({
+          await letterOfficer.reload({
             include: [
               {
                 model: models.referral_letter_officer_history_note,
@@ -865,15 +853,13 @@ describe("edit referral letter", () => {
             ]
           });
           expect(
-            referralLetterOfficer.referralLetterOfficerHistoryNotes.length
+            letterOfficer.referralLetterOfficerHistoryNotes.length
           ).toEqual(1);
-          expect(
-            referralLetterOfficer.referralLetterOfficerHistoryNotes
-          ).toEqual(
+          expect(letterOfficer.referralLetterOfficerHistoryNotes).toEqual(
             expect.arrayContaining([
               expect.objectContaining({
                 id: note2.id,
-                referralLetterOfficerId: referralLetterOfficer.id,
+                referralLetterOfficerId: letterOfficer.id,
                 pibCaseNumber: "CC2018NOTE2edited",
                 details: "Note 2 edited details"
               })

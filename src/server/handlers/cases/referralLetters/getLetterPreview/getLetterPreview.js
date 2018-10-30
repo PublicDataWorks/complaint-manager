@@ -18,6 +18,24 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
       "narrativeSummary",
       "narrativeDetails"
     ],
+    order: [
+      [
+        { model: models.case_officer, as: "complainantOfficers" },
+        "createdAt",
+        "ASC"
+      ],
+      [
+        { model: models.civilian, as: "complainantCivilians" },
+        "createdAt",
+        "ASC"
+      ],
+      [{ model: models.civilian, as: "witnessCivilians" }, "createdAt", "ASC"],
+      [
+        { model: models.case_officer, as: "witnessOfficers" },
+        "createdAt",
+        "ASC"
+      ]
+    ],
     include: [
       {
         model: models.referral_letter,
@@ -57,8 +75,8 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
             include: [{ model: models.allegation }]
           },
           {
-            model: models.referral_letter_officer,
-            as: "referralLetterOfficer",
+            model: models.letter_officer,
+            as: "letterOfficer",
             include: [
               {
                 model: models.referral_letter_officer_history_note,

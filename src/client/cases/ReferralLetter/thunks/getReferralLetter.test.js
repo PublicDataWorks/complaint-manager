@@ -23,7 +23,7 @@ describe("getReferralLetter", () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
     const responseBody = {
       id: 9,
-      referralLetterOfficers: []
+      letterOfficers: []
     };
     nock("http://localhost", {})
       .get(`/api/cases/${caseId}/referral-letter`)
@@ -66,7 +66,7 @@ describe("getReferralLetter", () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
     const responseBody = {
       id: 9,
-      referralLetterOfficers: []
+      letterOfficers: []
     };
     nock("http://localhost", {})
       .get(`/api/cases/${caseId}/referral-letter`)

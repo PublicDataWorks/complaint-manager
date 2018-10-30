@@ -66,7 +66,7 @@ export const cleanupDatabase = async () => {
     "TRUNCATE referral_letter_officer_recommended_actions CASCADE;" +
     "TRUNCATE referral_letter_iapro_corrections CASCADE;" +
     "TRUNCATE referral_letter_officer_history_notes CASCADE;" +
-    "TRUNCATE referral_letter_officers CASCADE;" +
+    "TRUNCATE letter_officers CASCADE;" +
     "TRUNCATE referral_letters CASCADE;" +
     "TRUNCATE recommended_actions CASCADE;" +
     "TRUNCATE addresses CASCADE;" +

@@ -31,7 +31,7 @@ describe("recommendedActions", function() {
       id: referralLetterId,
       caseId: caseId,
       includeRetaliationConcerns: true,
-      referralLetterOfficers: [
+      letterOfficers: [
         { id: "1", referralLetterOfficerRecommendedActions: [1, 2, 3] },
         { id: "2", referralLetterOfficerRecommendedActions: [1, 3, 4] }
       ]
@@ -69,7 +69,7 @@ describe("recommendedActions", function() {
     const expectedFormValues = {
       id: referralLetterId,
       includeRetaliationConcerns: true,
-      referralLetterOfficers: [
+      letterOfficers: [
         {
           id: "1",
           "action-1": true,
@@ -97,7 +97,7 @@ describe("recommendedActions", function() {
     const expectedFormValues = {
       id: referralLetterId,
       includeRetaliationConcerns: true,
-      referralLetterOfficers: [
+      letterOfficers: [
         {
           id: "1",
           "action-1": true,
@@ -129,7 +129,7 @@ describe("recommendedActions", function() {
     const expectedFormValues = {
       id: referralLetterId,
       includeRetaliationConcerns: true,
-      referralLetterOfficers: [
+      letterOfficers: [
         {
           id: "1",
           "action-1": true,

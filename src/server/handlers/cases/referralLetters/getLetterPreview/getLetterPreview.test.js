@@ -13,7 +13,7 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Civilian from "../../../../../client/testUtilities/civilian";
 import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
-import ReferralLetterOfficer from "../../../../../client/testUtilities/ReferralLetterOfficer";
+import LetterOfficer from "../../../../../client/testUtilities/LetterOfficer";
 
 describe("getLetterPreview", function() {
   let existingCase, request, response, next;
@@ -173,25 +173,23 @@ describe("getLetterPreview", function() {
       { auditUser: "someone" }
     );
 
-    const knownReferralLetterOfficerAttributes = new ReferralLetterOfficer.Builder()
-      .defaultReferralLetterOfficer()
+    const knownLetterOfficerAttributes = new LetterOfficer.Builder()
+      .defaultLetterOfficer()
       .withId(undefined)
       .withCaseOfficerId(knownCaseOfficer.id);
 
-    await models.referral_letter_officer.create(
-      knownReferralLetterOfficerAttributes,
-      { auditUser: "someone" }
-    );
+    await models.letter_officer.create(knownLetterOfficerAttributes, {
+      auditUser: "someone"
+    });
 
-    const unknownReferralLetterOfficerAttributes = new ReferralLetterOfficer.Builder()
-      .defaultReferralLetterOfficer()
+    const unknownLetterOfficerAttributes = new LetterOfficer.Builder()
+      .defaultLetterOfficer()
       .withId(undefined)
       .withCaseOfficerId(unknownCaseOfficer.id);
 
-    await models.referral_letter_officer.create(
-      unknownReferralLetterOfficerAttributes,
-      { auditUser: "someone" }
-    );
+    await models.letter_officer.create(unknownLetterOfficerAttributes, {
+      auditUser: "someone"
+    });
 
     await getLetterPreview(request, response, next);
 

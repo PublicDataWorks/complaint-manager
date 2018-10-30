@@ -2,13 +2,13 @@ import models from "../index";
 import CaseOfficer from "../../../client/testUtilities/caseOfficer";
 import Officer from "../../../client/testUtilities/Officer";
 import Case from "../../../client/testUtilities/case";
-import ReferralLetterOfficer from "../../../client/testUtilities/ReferralLetterOfficer";
+import LetterOfficer from "../../../client/testUtilities/LetterOfficer";
 import ReferralLetterOfficerHistoryNote from "../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import ReferralLetterOfficerRecommendedAction from "../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 
-describe("referralLetterOfficer model", function() {
-  let referralLetterOfficer;
+describe("letterOfficer model", function() {
+  let letterOfficer;
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -40,13 +40,13 @@ describe("referralLetterOfficer model", function() {
       }
     );
 
-    const referralLetterOfficerAttributes = new ReferralLetterOfficer.Builder()
-      .defaultReferralLetterOfficer()
+    const letterOfficerAttributes = new LetterOfficer.Builder()
+      .defaultLetterOfficer()
       .withId(undefined)
       .withCaseOfficerId(caseOfficer.id);
 
-    referralLetterOfficer = await models.referral_letter_officer.create(
-      referralLetterOfficerAttributes,
+    letterOfficer = await models.letter_officer.create(
+      letterOfficerAttributes,
       { auditUser: "test" }
     );
   });
@@ -54,7 +54,7 @@ describe("referralLetterOfficer model", function() {
   test("it deletes referral letter officer history notes when letter officer deleted", async () => {
     const noteAttributes = new ReferralLetterOfficerHistoryNote.Builder()
       .defaultReferralLetterOfficerHistoryNote()
-      .withReferralLetterOfficerId(referralLetterOfficer.id)
+      .withReferralLetterOfficerId(letterOfficer.id)
       .withId(undefined);
 
     const note = await models.referral_letter_officer_history_note.create(
@@ -64,7 +64,7 @@ describe("referralLetterOfficer model", function() {
 
     await models.sequelize.transaction(
       async transaction =>
-        await referralLetterOfficer.destroy({
+        await letterOfficer.destroy({
           auditUser: "someone",
           transaction
         })
@@ -84,7 +84,7 @@ describe("referralLetterOfficer model", function() {
       .defaultReferralLetterOfficerRecommendedAction()
       .withId(undefined)
       .withRecommendedActionId(recommendedAction.id)
-      .withReferralLetterOfficerId(referralLetterOfficer.id);
+      .withReferralLetterOfficerId(letterOfficer.id);
 
     const referralLetterOfficerRecommendedAction = await models.referral_letter_officer_recommended_action.create(
       referralLetterOfficerRecommendedActionAttributes,
@@ -93,7 +93,7 @@ describe("referralLetterOfficer model", function() {
 
     await models.sequelize.transaction(
       async transaction =>
-        await referralLetterOfficer.destroy({
+        await letterOfficer.destroy({
           auditUser: "someone",
           transaction
         })

@@ -2,7 +2,7 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../client/testUtilities/case";
 import models from "../../../../models/index";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
-import ReferralLetterOfficer from "../../../../../client/testUtilities/ReferralLetterOfficer";
+import LetterOfficer from "../../../../../client/testUtilities/LetterOfficer";
 import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
@@ -92,7 +92,7 @@ describe("getReferralLetter", () => {
       id: referralLetter.id,
       caseId: existingCase.id,
       includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
-      referralLetterOfficers: [],
+      letterOfficers: [],
       referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
     };
 
@@ -101,7 +101,7 @@ describe("getReferralLetter", () => {
   });
 
   describe("there is a letter officer", function() {
-    let referralLetterOfficer, caseOfficer;
+    let letterOfficer, caseOfficer;
 
     beforeEach(async () => {
       const officerAttributes = new Officer.Builder()
@@ -123,8 +123,8 @@ describe("getReferralLetter", () => {
       caseOfficer = await models.case_officer.create(caseOfficerAttributes, {
         auditUser: "test"
       });
-      const referralLetterOfficerAttributes = new ReferralLetterOfficer.Builder()
-        .defaultReferralLetterOfficer()
+      const letterOfficerAttributes = new LetterOfficer.Builder()
+        .defaultLetterOfficer()
         .withId(undefined)
         .withCaseOfficerId(caseOfficer.id)
         .withnumHistoricalHighAllegations(2)
@@ -133,8 +133,8 @@ describe("getReferralLetter", () => {
         .withRecommendedActionNotes("some recommendation notes")
         .withHistoricalBehaviorNotes("some historical behavior notes");
 
-      referralLetterOfficer = await models.referral_letter_officer.create(
-        referralLetterOfficerAttributes,
+      letterOfficer = await models.letter_officer.create(
+        letterOfficerAttributes,
         { auditUser: "test" }
       );
     });
@@ -144,22 +144,20 @@ describe("getReferralLetter", () => {
         id: referralLetter.id,
         caseId: existingCase.id,
         includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
-        referralLetterOfficers: [
+        letterOfficers: [
           {
-            id: referralLetterOfficer.id,
+            id: letterOfficer.id,
             caseOfficerId: caseOfficer.id,
             fullName: caseOfficer.fullName,
             numHistoricalHighAllegations:
-              referralLetterOfficer.numHistoricalHighAllegations,
+              letterOfficer.numHistoricalHighAllegations,
             numHistoricalMedAllegations:
-              referralLetterOfficer.numHistoricalMedAllegations,
+              letterOfficer.numHistoricalMedAllegations,
             numHistoricalLowAllegations:
-              referralLetterOfficer.numHistoricalLowAllegations,
-            historicalBehaviorNotes:
-              referralLetterOfficer.historicalBehaviorNotes,
+              letterOfficer.numHistoricalLowAllegations,
+            historicalBehaviorNotes: letterOfficer.historicalBehaviorNotes,
             referralLetterOfficerHistoryNotes: [emptyObject],
-            recommendedActionNotes:
-              referralLetterOfficer.recommendedActionNotes,
+            recommendedActionNotes: letterOfficer.recommendedActionNotes,
             referralLetterOfficerRecommendedActions: []
           }
         ],
@@ -174,7 +172,7 @@ describe("getReferralLetter", () => {
       const referralLetterOfficerHistoryNoteAttributes = new ReferralLetterOfficerHistoryNote.Builder()
         .defaultReferralLetterOfficerHistoryNote()
         .withId(undefined)
-        .withReferralLetterOfficerId(referralLetterOfficer.id)
+        .withReferralLetterOfficerId(letterOfficer.id)
         .withPibCaseNumber("#123")
         .withDetails("some officer history note details");
 
@@ -187,28 +185,26 @@ describe("getReferralLetter", () => {
         id: referralLetter.id,
         caseId: existingCase.id,
         includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
-        referralLetterOfficers: [
+        letterOfficers: [
           {
-            id: referralLetterOfficer.id,
-            caseOfficerId: referralLetterOfficer.caseOfficerId,
+            id: letterOfficer.id,
+            caseOfficerId: letterOfficer.caseOfficerId,
             fullName: caseOfficer.fullName,
             numHistoricalHighAllegations:
-              referralLetterOfficer.numHistoricalHighAllegations,
+              letterOfficer.numHistoricalHighAllegations,
             numHistoricalMedAllegations:
-              referralLetterOfficer.numHistoricalMedAllegations,
+              letterOfficer.numHistoricalMedAllegations,
             numHistoricalLowAllegations:
-              referralLetterOfficer.numHistoricalLowAllegations,
-            historicalBehaviorNotes:
-              referralLetterOfficer.historicalBehaviorNotes,
-            recommendedActionNotes:
-              referralLetterOfficer.recommendedActionNotes,
+              letterOfficer.numHistoricalLowAllegations,
+            historicalBehaviorNotes: letterOfficer.historicalBehaviorNotes,
+            recommendedActionNotes: letterOfficer.recommendedActionNotes,
             referralLetterOfficerRecommendedActions: [],
             referralLetterOfficerHistoryNotes: [
               {
                 id: referralLetterOfficerHistoryNote.id,
                 pibCaseNumber: referralLetterOfficerHistoryNote.pibCaseNumber,
                 details: referralLetterOfficerHistoryNote.details,
-                referralLetterOfficerId: referralLetterOfficer.id
+                referralLetterOfficerId: letterOfficer.id
               }
             ]
           }
@@ -234,13 +230,13 @@ describe("getReferralLetter", () => {
       const referralLetterOfficerRecommendedActionAttributes1 = new ReferralLetterOfficerRecommendedAction.Builder()
         .defaultReferralLetterOfficerRecommendedAction()
         .withId(undefined)
-        .withReferralLetterOfficerId(referralLetterOfficer.id)
+        .withReferralLetterOfficerId(letterOfficer.id)
         .withRecommendedActionId(recommendedAction1.id);
 
       const referralLetterOfficerRecommendedActionAttributes2 = new ReferralLetterOfficerRecommendedAction.Builder()
         .defaultReferralLetterOfficerRecommendedAction()
         .withId(undefined)
-        .withReferralLetterOfficerId(referralLetterOfficer.id)
+        .withReferralLetterOfficerId(letterOfficer.id)
         .withRecommendedActionId(recommendedAction2.id);
 
       const referralLetterOfficerRecommendedAction1 = await models.referral_letter_officer_recommended_action.create(
@@ -257,21 +253,19 @@ describe("getReferralLetter", () => {
         id: referralLetter.id,
         caseId: existingCase.id,
         includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
-        referralLetterOfficers: [
+        letterOfficers: [
           {
-            id: referralLetterOfficer.id,
-            caseOfficerId: referralLetterOfficer.caseOfficerId,
+            id: letterOfficer.id,
+            caseOfficerId: letterOfficer.caseOfficerId,
             fullName: caseOfficer.fullName,
             numHistoricalHighAllegations:
-              referralLetterOfficer.numHistoricalHighAllegations,
+              letterOfficer.numHistoricalHighAllegations,
             numHistoricalMedAllegations:
-              referralLetterOfficer.numHistoricalMedAllegations,
+              letterOfficer.numHistoricalMedAllegations,
             numHistoricalLowAllegations:
-              referralLetterOfficer.numHistoricalLowAllegations,
-            historicalBehaviorNotes:
-              referralLetterOfficer.historicalBehaviorNotes,
-            recommendedActionNotes:
-              referralLetterOfficer.recommendedActionNotes,
+              letterOfficer.numHistoricalLowAllegations,
+            historicalBehaviorNotes: letterOfficer.historicalBehaviorNotes,
+            recommendedActionNotes: letterOfficer.recommendedActionNotes,
             referralLetterOfficerHistoryNotes: [emptyObject],
             referralLetterOfficerRecommendedActions: [
               referralLetterOfficerRecommendedAction1.recommendedActionId,
@@ -301,7 +295,7 @@ describe("getReferralLetter", () => {
       id: referralLetter.id,
       caseId: existingCase.id,
       includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
-      referralLetterOfficers: [],
+      letterOfficers: [],
       referralLetterIAProCorrections: [
         { id: iaproCorrection.id, details: iaproCorrection.details }
       ]
@@ -316,7 +310,7 @@ describe("getReferralLetter", () => {
       id: referralLetter.id,
       caseId: existingCase.id,
       includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
-      referralLetterOfficers: [],
+      letterOfficers: [],
       referralLetterIAProCorrections: [
         { tempId: "uniqueTempId" },
         { tempId: "uniqueTempId" },
@@ -356,7 +350,7 @@ describe("getReferralLetter", () => {
       id: referralLetter.id,
       caseId: existingCase.id,
       includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
-      referralLetterOfficers: [
+      letterOfficers: [
         {
           caseOfficerId: caseOfficer.id,
           fullName: caseOfficer.fullName,

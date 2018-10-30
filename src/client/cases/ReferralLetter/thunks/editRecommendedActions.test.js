@@ -18,7 +18,7 @@ describe("editRecommendedActions", function() {
     requestBody = {
       id: 7,
       includeRetaliationConcerns: true,
-      referralLetterOfficers: [
+      letterOfficers: [
         {
           id: 99,
           referralLetterOfficerRecommendedActions: [1, 3, 4],
@@ -42,7 +42,7 @@ describe("editRecommendedActions", function() {
     const responseBody = {
       id: 7,
       includeRetaliationConcerns: true,
-      referralLetterOfficers: [
+      letterOfficers: [
         {
           id: 99,
           referralLetterOfficerRecommendedActions: [1, 3, 4],
@@ -103,7 +103,7 @@ describe("editRecommendedActions", function() {
     const responseBody = {
       id: 7,
       includeRetaliationConcerns: null,
-      referralLetterOfficers: []
+      letterOfficers: []
     };
     nock("http://localhost", {
       reqheaders: {

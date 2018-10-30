@@ -71,7 +71,7 @@ describe("edit referral letter", () => {
       );
 
       const requestBody = {
-        referralLetterOfficers: [
+        letterOfficers: [
           {
             caseOfficerId: caseOfficer.id,
             fullName: caseOfficer.fullName,
@@ -95,7 +95,7 @@ describe("edit referral letter", () => {
             expect.objectContaining({
               caseId: existingCase.id,
               id: referralLetter.id,
-              referralLetterOfficers: expect.arrayContaining([
+              letterOfficers: expect.arrayContaining([
                 expect.objectContaining({
                   caseOfficerId: caseOfficer.id,
                   fullName: caseOfficer.fullName,
@@ -109,11 +109,9 @@ describe("edit referral letter", () => {
           );
         });
 
-      const createdLetterOfficers = await models.referral_letter_officer.findAll(
-        {
-          where: { caseOfficerId: caseOfficer.id }
-        }
-      );
+      const createdLetterOfficers = await models.letter_officer.findAll({
+        where: { caseOfficerId: caseOfficer.id }
+      });
       expect(createdLetterOfficers.length).toEqual(1);
       const createdLetterOfficer = createdLetterOfficers[0];
       expect(createdLetterOfficer.caseOfficerId).toEqual(caseOfficer.id);
@@ -135,7 +133,7 @@ describe("edit referral letter", () => {
         { auditUser: "test" }
       );
       const requestBody = {
-        referralLetterOfficers: []
+        letterOfficers: []
       };
 
       await request(app)

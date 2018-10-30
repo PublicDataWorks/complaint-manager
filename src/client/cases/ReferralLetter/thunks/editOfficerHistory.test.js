@@ -15,7 +15,7 @@ describe("editReferralLetter", () => {
     caseId = 5;
     dispatch = jest.fn();
     requestBody = {
-      referralLetterOfficers: [
+      letterOfficers: [
         {
           caseOfficerId: 99,
           fullName: "Elenor Wrell",
@@ -38,7 +38,7 @@ describe("editReferralLetter", () => {
   test("dispatches success with letter details on success", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
 
-    const responseBody = { id: 9, referralLetterOfficers: [] };
+    const responseBody = { id: 9, letterOfficers: [] };
     nock("http://localhost", {
       reqheaders: {
         "Content-Type": "application/json",
@@ -60,7 +60,7 @@ describe("editReferralLetter", () => {
   test("routes to given redirect url on success", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
 
-    const responseBody = { id: 9, referralLetterOfficers: [] };
+    const responseBody = { id: 9, letterOfficers: [] };
     nock("http://localhost", {
       reqheaders: {
         "Content-Type": "application/json",

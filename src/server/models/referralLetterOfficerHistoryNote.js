@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         field: "referral_letter_officer_id",
         references: {
-          model: models.referral_letter_officers,
+          model: models.letter_officers,
           key: "id"
         }
       },
