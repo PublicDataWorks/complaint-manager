@@ -313,7 +313,7 @@ describe("getLetterPreview", function() {
       const complainantAddressAttributes = new Address.Builder()
         .defaultAddress()
         .withId(undefined)
-        .withAddressableType("civilian")
+        .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
         .withAddressableId(civilianComplainant.id);
 
       await models.address.create(complainantAddressAttributes, {
@@ -323,7 +323,7 @@ describe("getLetterPreview", function() {
       const incidentLocationAttributes = new Address.Builder()
         .defaultAddress()
         .withId(undefined)
-        .withAddressableType("cases")
+        .withAddressableType(ADDRESSABLE_TYPE.CASES)
         .withAddressableId(existingCase.id);
 
       await models.address.create(incidentLocationAttributes, {
