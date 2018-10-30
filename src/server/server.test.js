@@ -11,7 +11,8 @@ import Address from "../client/testUtilities/Address";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
-  AUDIT_ACTION
+  AUDIT_ACTION,
+  ADDRESSABLE_TYPE
 } from "../sharedUtilities/constants";
 import AWS from "aws-sdk";
 import {
@@ -179,7 +180,7 @@ describe("server", () => {
           .defaultAddress()
           .withId(undefined)
           .withAddressableId(undefined)
-          .withAddressableType("cases")
+          .withAddressableType(ADDRESSABLE_TYPE.CASES)
           .withStreetAddress("123 fleet street")
           .build()
       };
@@ -198,7 +199,7 @@ describe("server", () => {
               incidentLocation: expect.objectContaining({
                 streetAddress: "123 fleet street",
                 addressableId: createdCaseId,
-                addressableType: "cases"
+                addressableType: ADDRESSABLE_TYPE.CASES
               }),
               complainantCivilians: expect.arrayContaining([
                 expect.objectContaining(requestBody.civilian)
@@ -243,7 +244,7 @@ describe("server", () => {
         .defaultAddress()
         .withId(undefined)
         .withAddressableId(existingCivilian.id)
-        .withAddressableType("civilian")
+        .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
         .withCity("post city")
         .build();
       await existingCivilian.createAddress(existingCivilianAddress, {
@@ -290,7 +291,7 @@ describe("server", () => {
                   caseId: existingCase.id,
                   address: expect.objectContaining({
                     city: "post city",
-                    addressableType: "civilian"
+                    addressableType: ADDRESSABLE_TYPE.CIVILIAN
                   })
                 })
               ])
@@ -330,7 +331,7 @@ describe("server", () => {
         .defaultAddress()
         .withId(undefined)
         .withAddressableId(seededCivilian.id)
-        .withAddressableType("civilian")
+        .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
         .build();
       await seededCivilian.createAddress(address, { auditUser: "someone" });
     });
@@ -384,7 +385,7 @@ describe("server", () => {
                 expect.objectContaining({
                   address: expect.objectContaining({
                     state: updatedCivilian.address.state,
-                    addressableType: "civilian"
+                    addressableType: ADDRESSABLE_TYPE.CIVILIAN
                   })
                 })
               ])
@@ -415,7 +416,7 @@ describe("server", () => {
       const address = new Address.Builder()
         .defaultAddress()
         .withId(undefined)
-        .withAddressableType("civilian")
+        .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
         .withAddressableId(civilianToUpdate.id)
         .build();
 

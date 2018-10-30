@@ -8,7 +8,8 @@ import {
   CASE_STATUS,
   COMPLAINANT,
   WITNESS,
-  CIVILIAN_INITIATED
+  CIVILIAN_INITIATED,
+  ADDRESSABLE_TYPE
 } from "../../sharedUtilities/constants";
 
 class Case {
@@ -95,7 +96,7 @@ class Case {
           .build();
         const incidentLocation = new Address.Builder()
           .defaultAddress()
-          .withAddressableType("cases")
+          .withAddressableType(ADDRESSABLE_TYPE.CASES)
           .withAddressableId(id)
           .build();
 

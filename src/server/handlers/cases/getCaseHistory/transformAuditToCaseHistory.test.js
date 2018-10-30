@@ -2,7 +2,8 @@ import {
   CASE_STATUS,
   AUDIT_ACTION,
   CIVILIAN_INITIATED,
-  RANK_INITIATED
+  RANK_INITIATED,
+  ADDRESSABLE_TYPE
 } from "../../../../sharedUtilities/constants";
 import DataChangeAudit from "../../../../client/testUtilities/dataChangeAudit";
 import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
@@ -113,7 +114,7 @@ describe("transformAuditToCaseHistory", () => {
     const auditChanges = {
       id: { previous: null, new: 6 },
       city: { previous: null, new: "Chicago" },
-      addressableType: { previous: null, new: "cases" }
+      addressableType: { previous: null, new: ADDRESSABLE_TYPE.CASES }
     };
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()

@@ -1,6 +1,6 @@
 //TODO Should we use a Civilian class in our app code?
 import Address from "./Address";
-import { COMPLAINANT } from "../../sharedUtilities/constants";
+import { ADDRESSABLE_TYPE, COMPLAINANT } from "../../sharedUtilities/constants";
 
 class Civilian {
   constructor(build) {
@@ -30,7 +30,7 @@ class Civilian {
         const address = new Address.Builder()
           .defaultAddress()
           .withAddressableId(id)
-          .withAddressableType("civilian")
+          .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
           .build();
 
         this.id = id;

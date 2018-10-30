@@ -259,6 +259,11 @@ export const TOGGLE_CASE_STATUS_MAP = {
   [TOGGLE_CASE_STATUS.CLOSED]: 4
 };
 
+export const ADDRESSABLE_TYPE = {
+  CASES: "cases",
+  CIVILIAN: "civilian"
+};
+
 // ----------------------------------------
 //          Letter Progress Map
 // ----------------------------------------

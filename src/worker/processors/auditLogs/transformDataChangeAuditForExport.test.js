@@ -1,4 +1,7 @@
-import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
+import {
+  ADDRESSABLE_TYPE,
+  AUDIT_ACTION
+} from "../../../sharedUtilities/constants";
 
 const AUDIT_TYPE = require("../../../sharedUtilities/constants").AUDIT_TYPE;
 
@@ -63,7 +66,10 @@ describe("transformDataChangeAuditForExport", () => {
       changes: {
         id: { new: 5 },
         caseId: { new: 6, previous: 5 },
-        addressableType: { new: "Case", previous: "Civilian" }
+        addressableType: {
+          new: ADDRESSABLE_TYPE.CASES,
+          previous: ADDRESSABLE_TYPE.CIVILIAN
+        }
       }
     };
     const transformedAudit = transformDataChangeAuditForExport([audit]);
@@ -169,7 +175,7 @@ describe("transformDataChangeAuditForExport", () => {
       snapshot: {
         id: 392,
         addressableId: 5,
-        addressableType: "Civilian",
+        addressableType: ADDRESSABLE_TYPE.CIVILIAN,
         civilian: { name: "John" },
         createdAt: "2018-01-01 12:12:00",
         updatedAt: "2018-01-01 12:12:00",

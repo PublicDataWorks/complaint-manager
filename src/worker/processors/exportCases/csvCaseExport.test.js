@@ -20,7 +20,8 @@ import {
   COMPLAINANT,
   TIMEZONE,
   WITNESS,
-  JOB_OPERATION
+  JOB_OPERATION,
+  ADDRESSABLE_TYPE
 } from "../../../sharedUtilities/constants";
 import parse from "csv-parse/lib/sync";
 import Address from "../../../client/testUtilities/Address";
@@ -175,7 +176,7 @@ describe("csvCaseExport request", () => {
 
       const addressAttributes = new Address.Builder()
         .defaultAddress()
-        .withAddressableType("civilian")
+        .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
         .withId(undefined);
       const civilianAttributes = new Civilian.Builder()
         .defaultCivilian()

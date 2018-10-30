@@ -7,7 +7,8 @@ import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import {
   AUDIT_TYPE,
   AUDIT_SUBJECT,
-  AUDIT_ACTION
+  AUDIT_ACTION,
+  ADDRESSABLE_TYPE
 } from "../../../sharedUtilities/constants";
 
 describe("createCivilian handler", () => {
@@ -86,7 +87,7 @@ describe("createCivilian handler", () => {
     const civilianAddress = await models.address.find({
       where: {
         addressableId: createdCivilian.id,
-        addressableType: "civilian"
+        addressableType: ADDRESSABLE_TYPE.CIVILIAN
       }
     });
 

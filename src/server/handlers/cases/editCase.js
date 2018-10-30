@@ -1,9 +1,13 @@
+import {
+  ADDRESSABLE_TYPE,
+  AUDIT_SUBJECT
+} from "../../../sharedUtilities/constants";
+
 const moment = require("moment");
 const models = require("../../models");
 const asyncMiddleware = require("../asyncMiddleware");
 const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
 const _ = require("lodash");
-const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 const auditDataAccess = require("../auditDataAccess");
 const Boom = require("boom");
 
@@ -12,7 +16,7 @@ async function upsertAddress(caseId, incidentLocation, transaction, nickname) {
     await models.address.create(
       {
         ...incidentLocation,
-        addressableType: "cases",
+        addressableType: ADDRESSABLE_TYPE.CASES,
         addressableId: caseId
       },
       {

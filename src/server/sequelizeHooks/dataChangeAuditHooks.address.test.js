@@ -1,5 +1,8 @@
 import models from "../models";
-import { AUDIT_ACTION } from "../../sharedUtilities/constants";
+import {
+  ADDRESSABLE_TYPE,
+  AUDIT_ACTION
+} from "../../sharedUtilities/constants";
 import Case from "../../client/testUtilities/case";
 import Address from "../../client/testUtilities/Address";
 import Civilian from "../../client/testUtilities/civilian";
@@ -16,7 +19,7 @@ describe("dataChangeAuditHooks address", () => {
       const anIncidentLocation = new Address.Builder()
         .defaultAddress()
         .withId(undefined)
-        .withAddressableType("cases")
+        .withAddressableType(ADDRESSABLE_TYPE.CASES)
         .withAddressableId(undefined)
         .build();
 
@@ -104,7 +107,7 @@ describe("dataChangeAuditHooks address", () => {
         .defaultAddress()
         .withId(undefined)
         .withAddressableId(undefined)
-        .withAddressableType("civilian")
+        .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
         .build();
       const civilian = new Civilian.Builder()
         .defaultCivilian()

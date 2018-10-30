@@ -7,7 +7,11 @@ import Officer from "../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Case from "../../../../client/testUtilities/case";
 import Address from "../../../../client/testUtilities/Address";
-import { ACCUSED, WITNESS } from "../../../../sharedUtilities/constants";
+import {
+  ACCUSED,
+  ADDRESSABLE_TYPE,
+  WITNESS
+} from "../../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
@@ -67,7 +71,7 @@ describe("GET /cases/:id", () => {
       .withStreetAddress(expectedStreetAddress)
       .withId(undefined)
       .withAddressableId(undefined)
-      .withAddressableType("cases")
+      .withAddressableType(ADDRESSABLE_TYPE.CASES)
       .build();
     let caseToCreate = new Case.Builder()
       .defaultCase()

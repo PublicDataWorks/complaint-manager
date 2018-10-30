@@ -2,6 +2,7 @@ import getLetterPreview from "./getLetterPreview";
 import httpMocks from "node-mocks-http";
 import {
   ACCUSED,
+  ADDRESSABLE_TYPE,
   CASE_STATUS,
   COMPLAINANT,
   WITNESS
@@ -83,7 +84,7 @@ describe("getLetterPreview", function() {
       .withZipCode("60601")
       .withCountry("USA")
       .withAddressableId(civilianComplainant1.id)
-      .withAddressableType("civilian")
+      .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
       .withIntersection(undefined);
     await models.address.create(address1Attributes, { auditUser: "testuser" });
 
@@ -96,7 +97,7 @@ describe("getLetterPreview", function() {
       .withZipCode("60661")
       .withCountry("USA")
       .withAddressableId(civilianComplainant2.id)
-      .withAddressableType("civilian")
+      .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
       .withStreetAddress(undefined);
     await models.address.create(address2Attributes, { auditUser: "testuser" });
 

@@ -6,7 +6,8 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   CASE_STATUS,
-  AUDIT_ACTION
+  AUDIT_ACTION,
+  ADDRESSABLE_TYPE
 } from "../../../sharedUtilities/constants";
 import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 
@@ -74,7 +75,7 @@ describe("Edit Case", () => {
       const incidentLocation = new Address.Builder()
         .defaultAddress()
         .withCity(initialCityValue)
-        .withAddressableType("cases")
+        .withAddressableType(ADDRESSABLE_TYPE.CASES)
         .withAddressableId(undefined)
         .withId(undefined)
         .build();
@@ -113,7 +114,7 @@ describe("Edit Case", () => {
       addressAttributes = new Address.Builder()
         .defaultAddress()
         .withAddressableId(sharedId)
-        .withAddressableType("civilian")
+        .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
         .withId(undefined)
         .build();
 
