@@ -30,7 +30,7 @@ describe("editIAProCorrections", () => {
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
-  test("dispatches success with iapro corrections on success", async () => {
+  test("dispatches success with iapro corrections on success, doesn't redirect to case details page", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
 
     const responseBody = {
@@ -61,6 +61,7 @@ describe("editIAProCorrections", () => {
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("IAPro corrections were successfully updated")
     );
+    expect(dispatch).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
 
   test("routes to given redirect url on success", async () => {
@@ -83,7 +84,7 @@ describe("editIAProCorrections", () => {
     expect(dispatch).toHaveBeenCalledWith(push("redirectRoute"));
   });
 
-  test("dispatches failure on error response", async () => {
+  test("dispatches failure on 500 error response", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
     nock("http://localhost", {
       reqheaders: {
@@ -103,5 +104,26 @@ describe("editIAProCorrections", () => {
         "Something went wrong and the IAPro corrections were not updated. Please try again."
       )
     );
+  });
+
+  test("redirects to case details page 400 error response (invalid letter generation case status)", async () => {
+    const responseBody = {
+      message: "Invalid case status."
+    };
+    getAccessToken.mockImplementation(() => "TEST_TOKEN");
+    nock("http://localhost", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer TEST_TOKEN`
+      }
+    })
+      .put(
+        `/api/cases/${caseId}/referral-letter/iapro-corrections`,
+        requestBody
+      )
+      .reply(400, responseBody);
+
+    await editIAProCorrections(caseId, requestBody, "redirectRoute")(dispatch);
+    expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
 });
