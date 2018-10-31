@@ -192,4 +192,34 @@ describe("editIAProCorrections", () => {
       Boom.badRequest("Invalid iapro correction id")
     );
   });
+
+  test("invalid case status returns 400", async () => {
+    await existingCase.update(
+      { status: CASE_STATUS.READY_FOR_REVIEW },
+      { auditUser: "test" }
+    );
+
+    await existingCase.update(
+      { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+      { auditUser: "test" }
+    );
+
+    const requestBody = {
+      referralLetterIAProCorrections: [{ id: "123", details: "new details" }]
+    };
+
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      headers: {
+        authorization: "Bearer token"
+      },
+      params: { caseId: existingCase.id },
+      body: requestBody,
+      nickname: "nickname"
+    });
+
+    await editIAProCorrections(request, response, next);
+
+    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status."));
+  });
 });

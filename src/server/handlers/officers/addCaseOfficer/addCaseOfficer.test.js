@@ -278,8 +278,6 @@ describe("addCaseOfficer", () => {
       { auditUser: "someone" }
     );
 
-    await createdCase.reload();
-
     const referralLetterAttributes = new ReferralLetter.Builder()
       .defaultReferralLetter()
       .withId(undefined)
@@ -293,8 +291,6 @@ describe("addCaseOfficer", () => {
       { status: CASE_STATUS.LETTER_IN_PROGRESS },
       { auditUser: "someone" }
     );
-
-    await createdCase.reload();
 
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()

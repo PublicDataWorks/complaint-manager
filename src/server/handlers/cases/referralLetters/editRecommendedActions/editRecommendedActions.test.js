@@ -9,6 +9,7 @@ import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import LetterOfficer from "../../../../../client/testUtilities/LetterOfficer";
 import editRecommendedActions from "./editRecommendedActions";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
+import Boom from "boom";
 
 describe("editRecommendedActions", function() {
   const recommendedActionId1 = 1;
@@ -47,6 +48,39 @@ describe("editRecommendedActions", function() {
       referralLetterAttributes,
       { auditUser: "test" }
     );
+  });
+
+  test("invalid case status returns 400", async () => {
+    await existingCase.update(
+      { status: CASE_STATUS.READY_FOR_REVIEW },
+      { auditUser: "test" }
+    );
+
+    await existingCase.update(
+      { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+      { auditUser: "test" }
+    );
+
+    const includeRetaliationConcerns = true;
+    const requestBody = {
+      id: referralLetter.id,
+      includeRetaliationConcerns: includeRetaliationConcerns,
+      letterOfficers: []
+    };
+
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      headers: {
+        authorization: "Bearer token"
+      },
+      params: { caseId: existingCase.id },
+      body: requestBody,
+      nickname: "nickname"
+    });
+
+    await editRecommendedActions(request, response, next);
+
+    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status."));
   });
 
   test("saves new includeRetaliationConcerns", async () => {

@@ -1,5 +1,6 @@
 import getLetterPreview from "./getLetterPreview";
 import httpMocks from "node-mocks-http";
+import Boom from "boom";
 import {
   ACCUSED,
   ADDRESSABLE_TYPE,
@@ -275,6 +276,22 @@ describe("getLetterPreview", function() {
     const letterHtml = response._getData().letterHtml;
     expect(letterHtml).toMatch(caseOfficer.fullName);
     expect(letterHtml).toMatch(civilianWitness.fullName);
+  });
+
+  test("invalid case status returns 400", async () => {
+    await existingCase.update(
+      { status: CASE_STATUS.READY_FOR_REVIEW },
+      { auditUser: "test" }
+    );
+
+    await existingCase.update(
+      { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+      { auditUser: "test" }
+    );
+
+    await getLetterPreview(request, response, next);
+
+    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status."));
   });
 
   describe("snapshotTests", function() {

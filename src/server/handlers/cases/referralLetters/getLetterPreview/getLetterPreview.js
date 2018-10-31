@@ -2,9 +2,11 @@ import asyncMiddleware from "../../../asyncMiddleware";
 import fs from "fs";
 import Handlebars from "handlebars";
 import models from "../../../../models";
+import checkForValidStatus from "../checkForValidStatus";
 require("../../../../handlebarHelpers");
 
 const getLetterPreview = asyncMiddleware(async (request, response, next) => {
+  await checkForValidStatus(request.params.caseId);
   const rawTemplate = fs.readFileSync(
     "src/server/handlers/cases/referralLetters/getLetterPreview/letter.tpl"
   );
