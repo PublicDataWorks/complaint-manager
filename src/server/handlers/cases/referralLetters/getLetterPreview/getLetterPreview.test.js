@@ -278,6 +278,7 @@ describe("getLetterPreview", function() {
   });
 
   describe("snapshotTests", function() {
+    let letterOfficer;
 
     beforeEach(async () => {
       const civilianComplainantAttributes = new Civilian.Builder()
@@ -366,7 +367,7 @@ describe("getLetterPreview", function() {
           "We recommend this officer is disciplined."
         );
 
-      const letterOfficer = await models.letter_officer.create(
+      letterOfficer = await models.letter_officer.create(
         letterOfficerAttributes,
         { auditUser: "test" }
       );
@@ -374,7 +375,7 @@ describe("getLetterPreview", function() {
 
     test("renders correctly with minimum required letter data", async () => {
       await getLetterPreview(request, response, next);
-      expect(response._getData()).toMatchSnapshot();
+      expect(response._getData().letterHtml).toMatchSnapshot();
     });
 
     test("renders correctly with a civilian witness", async () => {
@@ -388,7 +389,7 @@ describe("getLetterPreview", function() {
       });
 
       await getLetterPreview(request, response, next);
-      expect(response._getData()).toMatchSnapshot();
+      expect(response._getData().letterHtml).toMatchSnapshot();
     });
 
     test("renders correctly with an officer complainant", async () => {
@@ -412,7 +413,7 @@ describe("getLetterPreview", function() {
       });
 
       await getLetterPreview(request, response, next);
-      expect(response._getData()).toMatchSnapshot();
+      expect(response._getData().letterHtml).toMatchSnapshot();
     });
 
     test("renders correctly with recommended action", async () => {
@@ -433,7 +434,7 @@ describe("getLetterPreview", function() {
       );
 
       await getLetterPreview(request, response, next);
-      expect(response._getData()).toMatchSnapshot();
+      expect(response._getData().letterHtml).toMatchSnapshot();
     });
 
     test("it renders correctly with iapro corrections", async () => {
@@ -450,7 +451,7 @@ describe("getLetterPreview", function() {
       );
 
       await getLetterPreview(request, response, next);
-      expect(response._getData()).toMatchSnapshot();
+      expect(response._getData().letterHtml).toMatchSnapshot();
     });
 
     test("renders correctly with history notes", async () => {
@@ -465,7 +466,7 @@ describe("getLetterPreview", function() {
       );
 
       await getLetterPreview(request, response, next);
-      expect(response._getData()).toMatchSnapshot();
+      expect(response._getData().letterHtml).toMatchSnapshot();
     });
 
     test("renders correctly with all details", async () => {
@@ -534,13 +535,6 @@ describe("getLetterPreview", function() {
         referralLetterOfficerHistoryNoteAttributes,
         { auditUser: "test" }
       );
-    });
-
-    test("the snapshot is unchanged", async () => {
-      await getLetterPreview(request, response, next);
-
-      const letterHtml = response._getData().letterHtml;
-      expect(letterHtml).toMatchSnapshot();
     });
   });
 });
