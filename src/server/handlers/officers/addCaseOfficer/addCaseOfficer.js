@@ -13,6 +13,9 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const { officerId, notes, roleOnCase } = request.body;
 
   const retrievedCase = await models.cases.findById(request.params.caseId);
+  const referralLetter = await models.referral_letter.findOne({
+    where: { caseId: request.params.caseId }
+  });
 
   let caseOfficerAttributes = {};
   if (!officerId) {
@@ -24,13 +27,20 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
   }
 
   const updatedCase = await models.sequelize.transaction(async transaction => {
-    await retrievedCase.createAccusedOfficer(
+    const createdCaseOfficer = await retrievedCase.createAccusedOfficer(
       { notes, roleOnCase, ...caseOfficerAttributes },
       {
         transaction,
         auditUser: request.nickname
       }
     );
+
+    if (referralLetter) {
+      await models.letter_officer.create(
+        { caseOfficerId: createdCaseOfficer.id },
+        { transaction, auditUser: request.nickname }
+      );
+    }
 
     await auditDataAccess(
       request.nickname,
