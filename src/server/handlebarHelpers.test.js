@@ -372,7 +372,7 @@ describe("handlebarHelpers", function() {
     });
   });
 
-  describe.only("parseIndicentYear", function() {
+  describe("parseIndicentYear", function() {
     test("should return 2018 if year is 2018", () => {
       const incidentYear = parseIncidentYear("2018-10-03");
       expect(incidentYear).toEqual("2018");
