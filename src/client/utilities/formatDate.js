@@ -4,23 +4,22 @@ import { TIMEZONE } from "../../sharedUtilities/constants";
 
 const formatDate = dateString => {
   if (dateString) {
-    const date = moment(
-      moment.utc(new Date(dateString)).format("YYYY-MM-DDTHH:mm")
-    ).toDate();
-
-    dateString = date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric"
-    });
+    dateString = timezone.tz(dateString, TIMEZONE).format("MMM D, YYYY");
   }
 
   return dateString;
 };
 
+export const formatShortDate = date => {
+  if (!date) {
+    return date;
+  }
+  return timezone.tz(date, TIMEZONE).format("MM/DD/YYYY");
+};
+
 export const dateTimeFromString = dateTimeString => {
   return dateTimeString
-    ? timezone.tz(dateTimeString, TIMEZONE).format("MMM DD, YYYY h:mm:ss A z")
+    ? timezone.tz(dateTimeString, TIMEZONE).format("MMM D, YYYY h:mm:ss A z")
     : null;
 };
 

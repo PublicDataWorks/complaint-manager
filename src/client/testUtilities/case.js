@@ -104,8 +104,8 @@ class Case {
         this.complainantCivilians = [complainantCivilian];
         this.witnessCivilians = [witnessCivilian];
         this.status = CASE_STATUS.INITIAL;
-        this.createdAt = new Date(2015, 8, 13).toISOString();
-        this.firstContactDate = "2017-12-25T00:00:00.000Z";
+        this.createdAt = "2015-09-13T05:00:00.000Z";
+        this.firstContactDate = "2017-12-24";
         this.incidentDate = "2017-01-01";
         this.incidentTime = "16:00:00";
         this.incidentLocation = incidentLocation;

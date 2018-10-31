@@ -109,7 +109,13 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
   });
 
   const html = compiledTemplate(caseData);
-  response.send(html);
+  let referralLetter = caseData.referralLetter;
+  let letterAddresses = {
+    recipient: referralLetter.recipient,
+    sender: referralLetter.sender,
+    transcribedBy: referralLetter.transcribedBy
+  };
+  response.send({ letterHtml: html, addresses: letterAddresses });
 });
 
 export default getLetterPreview;

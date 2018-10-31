@@ -1,3 +1,8 @@
+import {
+  SENDER,
+  RECIPIENT
+} from "../../server/handlers/cases/referralLetters/letterDefaults";
+
 const models = "./";
 
 module.exports = (sequelize, DataTypes) => {
@@ -22,6 +27,18 @@ module.exports = (sequelize, DataTypes) => {
       includeRetaliationConcerns: {
         type: DataTypes.BOOLEAN,
         field: "include_retaliation_concerns"
+      },
+      recipient: {
+        type: DataTypes.TEXT,
+        defaultValue: RECIPIENT
+      },
+      sender: {
+        type: DataTypes.TEXT,
+        defaultValue: SENDER
+      },
+      transcribedBy: {
+        type: DataTypes.STRING,
+        field: "transcribed_by"
       },
       createdAt: {
         allowNull: false,

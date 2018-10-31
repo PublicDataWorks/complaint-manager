@@ -23,14 +23,17 @@ import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/R
 import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
 
 describe("getLetterPreview", function() {
-  let existingCase, request, response, next;
+  let existingCase, request, response, next, referralLetter;
 
   afterEach(async () => {
     await cleanupDatabase();
   });
 
   beforeEach(async () => {
-    const caseAttributes = new Case.Builder().defaultCase().withId(12070);
+    const caseAttributes = new Case.Builder()
+      .defaultCase()
+      .withId(12070)
+      .withFirstContactDate("2017-12-25");
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "test"
     });
@@ -52,8 +55,34 @@ describe("getLetterPreview", function() {
       nickname: "nickname"
     });
 
+    const referralLetterAttributes = new ReferralLetter.Builder()
+      .defaultReferralLetter()
+      .withId(undefined)
+      .withCaseId(existingCase.id)
+      .withRecipient("recipient address")
+      .withSender("sender address")
+      .withTranscribedBy("transcriber")
+      .withIncludeRetaliationConcerns(true);
+
+    referralLetter = await models.referral_letter.create(
+      referralLetterAttributes,
+      {
+        auditUser: "test"
+      }
+    );
+
     response = httpMocks.createResponse();
     next = jest.fn();
+  });
+
+  test("returns letter address info", async () => {
+    await getLetterPreview(request, response, next);
+    const responseBody = response._getData();
+    expect(responseBody.addresses).toEqual({
+      recipient: "recipient address",
+      sender: "sender address",
+      transcribedBy: "transcriber"
+    });
   });
 
   test("renders civilian info", async () => {
@@ -109,13 +138,12 @@ describe("getLetterPreview", function() {
 
     await getLetterPreview(request, response, next);
 
-    expect(response._getData()).toMatch(civilianComplainant1.fullName);
-    expect(response._getData()).toMatch(civilianComplainant2.fullName);
+    const letterHtml = response._getData().letterHtml;
+    expect(letterHtml).toMatch(civilianComplainant1.fullName);
+    expect(letterHtml).toMatch(civilianComplainant2.fullName);
 
-    expect(response._getData()).toMatch("123 Main St, Chicago, IL 60601");
-    expect(response._getData()).toMatch(
-      "Canal St & Bourbon St, Chicago, IL 60661"
-    );
+    expect(letterHtml).toMatch("123 Main St, Chicago, IL 60601");
+    expect(letterHtml).toMatch("Canal St & Bourbon St, Chicago, IL 60661");
   });
 
   test("it renders officer complainants", async () => {
@@ -143,7 +171,8 @@ describe("getLetterPreview", function() {
 
     await getLetterPreview(request, response, next);
 
-    expect(response._getData()).toMatch(caseOfficer.fullName);
+    const letterHtml = response._getData().letterHtml;
+    expect(letterHtml).toMatch(caseOfficer.fullName);
   });
 
   test("it renders the accused officers", async () => {
@@ -200,8 +229,9 @@ describe("getLetterPreview", function() {
 
     await getLetterPreview(request, response, next);
 
-    expect(response._getData()).toMatch(knownCaseOfficer.fullName);
-    expect(response._getData()).toMatch(unknownCaseOfficer.fullName);
+    const letterHtml = response._getData().letterHtml;
+    expect(letterHtml).toMatch(knownCaseOfficer.fullName);
+    expect(letterHtml).toMatch(unknownCaseOfficer.fullName);
   });
 
   test("it renders the witnesses", async () => {
@@ -242,12 +272,12 @@ describe("getLetterPreview", function() {
 
     await getLetterPreview(request, response, next);
 
-    expect(response._getData()).toMatch(caseOfficer.fullName);
-    expect(response._getData()).toMatch(civilianWitness.fullName);
+    const letterHtml = response._getData().letterHtml;
+    expect(letterHtml).toMatch(caseOfficer.fullName);
+    expect(letterHtml).toMatch(civilianWitness.fullName);
   });
 
   describe("snapshotTests", function() {
-    let letterOfficer, referralLetter;
 
     beforeEach(async () => {
       const civilianComplainantAttributes = new Civilian.Builder()
@@ -324,19 +354,6 @@ describe("getLetterPreview", function() {
         auditUser: "test"
       });
 
-      const referralLetterAttributes = new ReferralLetter.Builder()
-        .defaultReferralLetter()
-        .withId(undefined)
-        .withCaseId(existingCase.id)
-        .withIncludeRetaliationConcerns(true);
-
-      referralLetter = await models.referral_letter.create(
-        referralLetterAttributes,
-        {
-          auditUser: "test"
-        }
-      );
-
       const letterOfficerAttributes = new LetterOfficer.Builder()
         .defaultLetterOfficer()
         .withId(undefined)
@@ -349,7 +366,7 @@ describe("getLetterPreview", function() {
           "We recommend this officer is disciplined."
         );
 
-      letterOfficer = await models.letter_officer.create(
+      const letterOfficer = await models.letter_officer.create(
         letterOfficerAttributes,
         { auditUser: "test" }
       );
@@ -517,9 +534,13 @@ describe("getLetterPreview", function() {
         referralLetterOfficerHistoryNoteAttributes,
         { auditUser: "test" }
       );
+    });
 
+    test("the snapshot is unchanged", async () => {
       await getLetterPreview(request, response, next);
-      expect(response._getData()).toMatchSnapshot();
+
+      const letterHtml = response._getData().letterHtml;
+      expect(letterHtml).toMatchSnapshot();
     });
   });
 });

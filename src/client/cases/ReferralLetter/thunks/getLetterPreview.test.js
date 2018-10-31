@@ -21,22 +21,21 @@ describe("getLetterPreview", function() {
 
   test("dispatches getLetterPreviewSuccess with data", async () => {
     getAccessToken.mockImplementation(() => "TOKEN");
-    const responseBody = "html string";
+    const responseBody = { letterHtml: "html string" };
     nock("http://localhost", {})
       .get(`/api/cases/${caseId}/referral-letter/preview`)
       .reply(200, responseBody);
     await getLetterPreview(caseId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
-      getLetterPreviewSuccess(responseBody)
+      getLetterPreviewSuccess(responseBody.letterHtml)
     );
   });
 
   test("dispatches snackbar when there is an error", async () => {
     getAccessToken.mockImplementation(() => "TOKEN");
-    const responseBody = "html string";
     nock("http://localhost", {})
       .get(`/api/cases/${caseId}/referral-letter/preview`)
-      .reply(500, responseBody);
+      .reply(500);
     await getLetterPreview(caseId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
