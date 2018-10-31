@@ -156,7 +156,6 @@ exports[`getLetterPreview snapshotTests renders correctly with a civilian witnes
     <p>End of Employment: 05/31/2018</p>
     <p><br></p>
 
-    <p><br></p>
     <p><strong><u>Witnesses</u></strong></p>
     <p>Name: Chuck E. Berry XVI</p>
     <p>Phone: (123) 456-7890</p>
@@ -280,7 +279,6 @@ exports[`getLetterPreview snapshotTests renders correctly with all details 1`] =
     <p>End of Employment: 05/31/2018</p>
     <p><br></p>
 
-    <p><br></p>
     <p><strong><u>Witnesses</u></strong></p>
     <p>Name: Chuck E. Berry XVI</p>
     <p>Phone: (123) 456-7890</p>

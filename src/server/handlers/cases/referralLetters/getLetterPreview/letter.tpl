@@ -61,7 +61,6 @@
   {{/each}}
 
   {{#if witnessCivilians}}
-    <p><br></p>
     <p><strong><u>Witnesses</u></strong></p>
   {{/if}}
   {{#each witnessCivilians}}
