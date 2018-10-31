@@ -21,13 +21,16 @@ describe("getLetterPreview", function() {
 
   test("dispatches getLetterPreviewSuccess with data", async () => {
     getAccessToken.mockImplementation(() => "TOKEN");
-    const responseBody = { letterHtml: "html string" };
+    const responseBody = {
+      letterHtml: "html string",
+      addresses: { recipient: "recipient" }
+    };
     nock("http://localhost", {})
       .get(`/api/cases/${caseId}/referral-letter/preview`)
       .reply(200, responseBody);
     await getLetterPreview(caseId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
-      getLetterPreviewSuccess(responseBody.letterHtml)
+      getLetterPreviewSuccess(responseBody.letterHtml, responseBody.addresses)
     );
   });
 

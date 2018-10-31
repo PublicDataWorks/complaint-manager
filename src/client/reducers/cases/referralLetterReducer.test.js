@@ -15,7 +15,11 @@ describe("referralLetterReducer", () => {
   describe("initial state", () => {
     test("returns initial state", () => {
       const newState = referralLetterReducer(undefined, {});
-      expect(newState).toEqual({ letterDetails: {}, letterHtml: "" });
+      expect(newState).toEqual({
+        letterDetails: {},
+        letterHtml: "",
+        addresses: {}
+      });
     });
   });
 
@@ -26,7 +30,11 @@ describe("referralLetterReducer", () => {
         undefined,
         getReferralLetterSuccess(letterDetails)
       );
-      expect(newState).toEqual({ letterDetails, letterHtml: "" });
+      expect(newState).toEqual({
+        letterDetails,
+        letterHtml: "",
+        addresses: {}
+      });
     });
   });
 
@@ -37,7 +45,11 @@ describe("referralLetterReducer", () => {
         undefined,
         editReferralLetterSuccess(letterDetails)
       );
-      expect(newState).toEqual({ letterDetails, letterHtml: "" });
+      expect(newState).toEqual({
+        letterDetails,
+        letterHtml: "",
+        addresses: {}
+      });
     });
   });
 
@@ -51,7 +63,11 @@ describe("referralLetterReducer", () => {
         undefined,
         editIAProCorrectionsSuccess(letterDetails)
       );
-      expect(newState).toEqual({ letterDetails, letterHtml: "" });
+      expect(newState).toEqual({
+        letterDetails,
+        letterHtml: "",
+        addresses: {}
+      });
     });
   });
 
@@ -72,7 +88,11 @@ describe("referralLetterReducer", () => {
         undefined,
         editRecommendedActionsSuccess(letterDetails)
       );
-      expect(newState).toEqual({ letterDetails, letterHtml: "" });
+      expect(newState).toEqual({
+        letterDetails,
+        letterHtml: "",
+        addresses: {}
+      });
     });
   });
 
@@ -80,15 +100,22 @@ describe("referralLetterReducer", () => {
     test("sets the letter html", () => {
       const initialState = {
         letterDetails: "something",
-        letterHtml: "something"
+        letterHtml: "something",
+        addresses: {}
+      };
+      let referralLetterAddresses = {
+        recipient: "recipient",
+        sender: "some sender",
+        transcribedBy: "transcriber"
       };
       const newState = referralLetterReducer(
         initialState,
-        getLetterPreviewSuccess("new letter html")
+        getLetterPreviewSuccess("new letter html", referralLetterAddresses)
       );
       expect(newState).toEqual({
         letterDetails: "something",
-        letterHtml: "new letter html"
+        letterHtml: "new letter html",
+        addresses: referralLetterAddresses
       });
     });
   });

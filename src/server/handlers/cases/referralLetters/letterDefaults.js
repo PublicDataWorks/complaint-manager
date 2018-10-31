@@ -1,4 +1,5 @@
-export const RECIPIENT = `Deputy Superintendent Arlinda Westbrook
+export const RECIPIENT = `Arlinda Westbrook
+Deputy Superintendent
 Public Integrity Bureau
 New Orleans Police Department
 1340 Poydras St Suite 1900

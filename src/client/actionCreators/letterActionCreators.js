@@ -64,7 +64,8 @@ export const getRecommendedActionsSuccess = recommendedActions => ({
   recommendedActions
 });
 
-export const getLetterPreviewSuccess = letterHtml => ({
+export const getLetterPreviewSuccess = (letterHtml, addresses) => ({
   type: GET_LETTER_PREVIEW_SUCCESS,
-  letterHtml
+  letterHtml,
+  addresses
 });

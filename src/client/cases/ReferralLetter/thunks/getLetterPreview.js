@@ -22,7 +22,9 @@ const getLetterPreview = caseId => async dispatch => {
         }
       }
     );
-    return dispatch(getLetterPreviewSuccess(response.data.letterHtml));
+    return dispatch(
+      getLetterPreviewSuccess(response.data.letterHtml, response.data.addresses)
+    );
   } catch (error) {
     dispatch(
       snackbarError(
