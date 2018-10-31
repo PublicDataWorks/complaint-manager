@@ -247,6 +247,8 @@ describe("getLetterPreview", function() {
   });
 
   describe("snapshotTests", function() {
+    let letterOfficer, referralLetter;
+
     beforeEach(async () => {
       const civilianComplainantAttributes = new Civilian.Builder()
         .defaultCivilian()
@@ -260,18 +262,10 @@ describe("getLetterPreview", function() {
         }
       );
 
-      const civilianWitnessAttributes = new Civilian.Builder()
-        .defaultCivilian()
-        .withCaseId(existingCase.id)
-        .withRoleOnCase(WITNESS)
-        .withId(undefined);
-      await models.civilian.create(civilianWitnessAttributes, {
-        auditUser: "test"
-      });
-
       const accusedOfficerAttributes = new Officer.Builder()
         .defaultOfficer()
-        .withId(undefined);
+        .withId(undefined)
+        .withOfficerNumber(2);
       const accusedOfficer = await models.officer.create(
         accusedOfficerAttributes,
         {
@@ -336,7 +330,7 @@ describe("getLetterPreview", function() {
         .withCaseId(existingCase.id)
         .withIncludeRetaliationConcerns(true);
 
-      const referralLetter = await models.referral_letter.create(
+      referralLetter = await models.referral_letter.create(
         referralLetterAttributes,
         {
           auditUser: "test"
@@ -355,10 +349,136 @@ describe("getLetterPreview", function() {
           "We recommend this officer is disciplined."
         );
 
-      const letterOfficer = await models.letter_officer.create(
+      letterOfficer = await models.letter_officer.create(
         letterOfficerAttributes,
         { auditUser: "test" }
       );
+    });
+
+    test("renders correctly with minimum required letter data", async () => {
+      await getLetterPreview(request, response, next);
+      expect(response._getData()).toMatchSnapshot();
+    });
+
+    test("renders correctly with a civilian witness", async () => {
+      const civilianWitnessAttributes = new Civilian.Builder()
+        .defaultCivilian()
+        .withCaseId(existingCase.id)
+        .withRoleOnCase(WITNESS)
+        .withId(undefined);
+      await models.civilian.create(civilianWitnessAttributes, {
+        auditUser: "test"
+      });
+
+      await getLetterPreview(request, response, next);
+      expect(response._getData()).toMatchSnapshot();
+    });
+
+    test("renders correctly with an officer complainant", async () => {
+      const officerComplainantAttributes = new Officer.Builder()
+        .defaultOfficer()
+        .withOfficerNumber(159)
+        .withId(undefined);
+      const officerComplainant = await models.officer.create(
+        officerComplainantAttributes,
+        { auditUser: "test" }
+      );
+
+      const caseOfficerComplainantAttributes = new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withCaseId(existingCase.id)
+        .withOfficerId(officerComplainant.id)
+        .withRoleOnCase(COMPLAINANT);
+      await models.case_officer.create(caseOfficerComplainantAttributes, {
+        auditUser: "test"
+      });
+
+      await getLetterPreview(request, response, next);
+      expect(response._getData()).toMatchSnapshot();
+    });
+
+    test("renders correctly with recommended action", async () => {
+      const recommendedAction = await models.recommended_action.create({
+        description: "This is a description of the recommended action"
+      });
+
+      const referralLetterOfficerRecommendedActionAttributes = new ReferralLetterOfficerRecommendedAction.Builder()
+        .withId(undefined)
+        .withReferralLetterOfficerId(letterOfficer.id)
+        .withRecommendedActionId(recommendedAction.id);
+
+      await models.referral_letter_officer_recommended_action.create(
+        referralLetterOfficerRecommendedActionAttributes,
+        {
+          auditUser: "test"
+        }
+      );
+
+      await getLetterPreview(request, response, next);
+      expect(response._getData()).toMatchSnapshot();
+    });
+
+    test("it renders correctly with iapro corrections", async () => {
+      const referralLetterIAProCorrectionAttributes = new ReferralLetterIAProCorrection.Builder()
+        .defaultReferralLetterIAProCorrection()
+        .withId(undefined)
+        .withReferralLetterId(referralLetter.id);
+
+      await models.referral_letter_iapro_correction.create(
+        referralLetterIAProCorrectionAttributes,
+        {
+          auditUser: "test"
+        }
+      );
+
+      await getLetterPreview(request, response, next);
+      expect(response._getData()).toMatchSnapshot();
+    });
+
+    test("renders correctly with history notes", async () => {
+      const referralLetterOfficerHistoryNoteAttributes = new ReferralLetterOfficerHistoryNote.Builder()
+        .defaultReferralLetterOfficerHistoryNote()
+        .withId(undefined)
+        .withReferralLetterOfficerId(letterOfficer.id);
+
+      await models.referral_letter_officer_history_note.create(
+        referralLetterOfficerHistoryNoteAttributes,
+        { auditUser: "test" }
+      );
+
+      await getLetterPreview(request, response, next);
+      expect(response._getData()).toMatchSnapshot();
+    });
+
+    test("renders correctly with all details", async () => {
+      const civilianWitnessAttributes = new Civilian.Builder()
+        .defaultCivilian()
+        .withCaseId(existingCase.id)
+        .withRoleOnCase(WITNESS)
+        .withId(undefined);
+      await models.civilian.create(civilianWitnessAttributes, {
+        auditUser: "test"
+      });
+
+      const officerComplainantAttributes = new Officer.Builder()
+        .defaultOfficer()
+        .withId(undefined)
+        .withOfficerNumber(132);
+      const officerComplainant = await models.officer.create(
+        officerComplainantAttributes,
+        { auditUser: "test" }
+      );
+
+      const caseOfficerComplainantAttributes = new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withCaseId(existingCase.id)
+        .withOfficerId(officerComplainant.id)
+        .withRoleOnCase(COMPLAINANT);
+      await models.case_officer.create(caseOfficerComplainantAttributes, {
+        auditUser: "test"
+      });
 
       const recommendedAction = await models.recommended_action.create({
         description: "This is a description of the recommended action"
@@ -397,11 +517,8 @@ describe("getLetterPreview", function() {
         referralLetterOfficerHistoryNoteAttributes,
         { auditUser: "test" }
       );
-    });
 
-    test("the snapshot is unchanged", async () => {
       await getLetterPreview(request, response, next);
-
       expect(response._getData()).toMatchSnapshot();
     });
   });
