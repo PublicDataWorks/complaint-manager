@@ -12,18 +12,20 @@ import {
   SecondaryButton,
   PrimaryButton
 } from "../../../shared/components/StyledButtons";
-import { closeCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
+import {
+  closeCaseNoteDialog,
+  addCaseNoteRequest,
+  editCaseNoteRequest
+} from "../../../actionCreators/casesActionCreators";
 import { Field, reduxForm, reset } from "redux-form";
 import DateField from "../../sharedFormComponents/DateField";
 import NoBlurTextField from "../CivilianDialog/FormSelect";
 import { caseNotes } from "../../../utilities/generateMenus";
-import addCaseNote from "../../thunks/addCaseNote";
 import { actionIsRequired } from "../../../formFieldLevelValidations";
 import timezone from "moment-timezone";
 import moment from "moment";
 import _ from "lodash";
 import { TIMEZONE } from "../../../../sharedUtilities/constants";
-import editCaseNote from "../../thunks/editCaseNote";
 
 const CaseNoteDialog = props => {
   const {
@@ -48,10 +50,10 @@ const CaseNoteDialog = props => {
 
     switch (dialogType) {
       case "Add":
-        dispatch(addCaseNote(valuesToSubmit));
+        dispatch(addCaseNoteRequest(valuesToSubmit));
         break;
       case "Edit":
-        dispatch(editCaseNote(valuesToSubmit));
+        dispatch(editCaseNoteRequest(valuesToSubmit));
         break;
       default:
         break;

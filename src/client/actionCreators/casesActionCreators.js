@@ -12,6 +12,7 @@ import {
   GET_CASE_NOTES_SUCCEEDED,
   CASE_NOTE_DIALOG_OPENED,
   CASE_NOTE_DIALOG_CLOSED,
+  ADD_CASE_NOTE_REQUEST,
   ADD_CASE_NOTE_FAILED,
   ADD_CASE_NOTE_SUCCEEDED,
   REMOVE_PERSON_DIALOG_OPENED,
@@ -20,8 +21,10 @@ import {
   REMOVE_PERSON_SUCCEEDED,
   REMOVE_CASE_NOTE_DIALOG_OPENED,
   REMOVE_CASE_NOTE_DIALOG_CLOSED,
+  REMOVE_CASE_NOTE_REQUEST,
   REMOVE_CASE_NOTE_SUCCEEDED,
   REMOVE_CASE_NOTE_FAILED,
+  EDIT_CASE_NOTE_REQUEST,
   EDIT_CASE_NOTE_FAILED,
   EDIT_CASE_NOTE_SUCCEEDED,
   UPDATE_CASE_STATUS_SUCCESS,
@@ -180,6 +183,11 @@ export const updateIncidentDetailsFailure = () => ({
   type: INCIDENT_DETAILS_UPDATE_FAILED
 });
 
+export const addCaseNoteRequest = values => ({
+  type: ADD_CASE_NOTE_REQUEST,
+  values
+});
+
 export const addCaseNoteFailure = () => ({
   type: ADD_CASE_NOTE_FAILED
 });
@@ -190,6 +198,11 @@ export const addCaseNoteSuccess = (caseDetails, caseNotes) => ({
   caseNotes
 });
 
+export const editCaseNoteRequest = values => ({
+  type: EDIT_CASE_NOTE_REQUEST,
+  values
+});
+
 export const editCaseNoteFailure = () => ({
   type: EDIT_CASE_NOTE_FAILED
 });
@@ -197,6 +210,12 @@ export const editCaseNoteFailure = () => ({
 export const editCaseNoteSuccess = caseNotes => ({
   type: EDIT_CASE_NOTE_SUCCEEDED,
   caseNotes
+});
+
+export const removeCaseNoteRequest = (caseId, caseNoteId) => ({
+  type: REMOVE_CASE_NOTE_REQUEST,
+  caseId,
+  caseNoteId
 });
 
 export const removeCaseNoteSuccess = currentCase => ({

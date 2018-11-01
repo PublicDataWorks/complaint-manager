@@ -11,8 +11,10 @@ import {
   SecondaryButton,
   PrimaryButton
 } from "../../../shared/components/StyledButtons";
-import removeCaseNote from "../../thunks/removeCaseNote";
-import { closeRemoveCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
+import {
+  closeRemoveCaseNoteDialog,
+  removeCaseNoteRequest
+} from "../../../actionCreators/casesActionCreators";
 import moment from "moment";
 
 const RemoveCaseNoteDialog = ({ dialogOpen, activity, dispatch }) => {
@@ -60,7 +62,7 @@ const RemoveCaseNoteDialog = ({ dialogOpen, activity, dispatch }) => {
         <PrimaryButton
           data-test="removeCaseNote"
           onClick={() =>
-            dispatch(removeCaseNote(activity.caseId, activity.id))
+            dispatch(removeCaseNoteRequest(activity.caseId, activity.id))
           }
         >
           Remove

@@ -28,8 +28,8 @@ const removeCaseNote = (caseId, caseNoteId) => async dispatch => {
       }
     );
 
-    dispatch(closeRemoveCaseNoteDialog());
-    return dispatch(removeCaseNoteSuccess(response.data));
+    dispatch(removeCaseNoteSuccess(response.data));
+    return dispatch(closeRemoveCaseNoteDialog());
   } catch (error) {
     return dispatch(removeCaseNoteFailure());
   }

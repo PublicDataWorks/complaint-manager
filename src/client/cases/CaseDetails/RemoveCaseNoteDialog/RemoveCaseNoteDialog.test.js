@@ -2,12 +2,12 @@ import RemoveCaseNoteDialog from "./RemoveCaseNoteDialog";
 import createConfiguredStore from "../../../createConfiguredStore";
 import {
   closeRemoveCaseNoteDialog,
-  openRemoveCaseNoteDialog
+  openRemoveCaseNoteDialog,
+  removeCaseNoteRequest
 } from "../../../actionCreators/casesActionCreators";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import React from "react";
-import removeCaseNote from "../../thunks/removeCaseNote";
 
 jest.mock("../../thunks/removeCaseNote", () => (caseId, caseNoteId) => ({
   type: "MOCK_ACTION",
@@ -38,7 +38,7 @@ describe("RemoveCaseNoteDialog", function() {
     removeCaseNoteButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
-      removeCaseNote(activity.caseId, activity.id)
+      removeCaseNoteRequest(activity.caseId, activity.id)
     );
   });
 

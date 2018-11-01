@@ -6,7 +6,9 @@ import { Provider } from "react-redux";
 import {
   closeCaseNoteDialog,
   getCaseDetailsSuccess,
-  openCaseNoteDialog
+  openCaseNoteDialog,
+  editCaseNoteRequest,
+  addCaseNoteRequest
 } from "../../../actionCreators/casesActionCreators";
 import { changeInput, selectDropdownOption } from "../../../testHelpers";
 import addCaseNote from "../../thunks/addCaseNote";
@@ -83,8 +85,9 @@ describe("CaseNoteDialog", () => {
       submittedValues.action
     );
     submitButton.simulate("click");
-
-    expect(dispatchSpy).toHaveBeenCalledWith(editCaseNote(submittedValues));
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editCaseNoteRequest(submittedValues)
+    );
   });
 
   test("should not submit form when Edit Case Note is clicked and no action is selected", () => {
@@ -150,8 +153,9 @@ describe("CaseNoteDialog", () => {
 
     const submitButton = wrapper.find('[data-test="submitButton"]').first();
     submitButton.simulate("click");
-
-    expect(dispatchSpy).toHaveBeenCalledWith(addCaseNote(submittedValues));
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      addCaseNoteRequest(submittedValues)
+    );
   });
 
   test("should not submit form when Add Case Note is clicked and no action is selected", () => {
@@ -217,6 +221,8 @@ describe("CaseNoteDialog", () => {
       action: "some action"
     };
 
-    expect(dispatchSpy).toHaveBeenCalledWith(editCaseNote(valuesToSubmit));
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editCaseNoteRequest(valuesToSubmit)
+    );
   });
 });

@@ -21,10 +21,13 @@ export const ADDRESS_DISPLAY_VALUE_UPDATED = "ADDRESS_DISPLAY_VALUE_UPDATED";
 export const ADDRESS_ERROR_MESSAGE_UPDATED = "ADDRESS_ERROR_MESSAGE_UPDATED";
 export const GET_CASE_NOTES_SUCCEEDED = "GET_CASE_NOTES_SUCCEEDED";
 
+export const ADD_CASE_NOTE_REQUEST = "ADD_CASE_NOTE_REQUEST";
 export const ADD_CASE_NOTE_FAILED = "ADD_CASE_NOTE_FAILED";
 export const ADD_CASE_NOTE_SUCCEEDED = "ADD_CASE_NOTE_SUCCEEDED";
+export const EDIT_CASE_NOTE_REQUEST = "EDIT_CASE_NOTE_REQUEST";
 export const EDIT_CASE_NOTE_FAILED = "EDIT_CASE_NOTE_FAILED";
 export const EDIT_CASE_NOTE_SUCCEEDED = "EDIT_CASE_NOTE_SUCCEEDED";
+export const REMOVE_CASE_NOTE_REQUEST = "REMOVE_CASE_NOTE_REQUEST";
 export const REMOVE_CASE_NOTE_SUCCEEDED = "REMOVE_CASE_NOTE_SUCCEEDED";
 export const REMOVE_CASE_NOTE_FAILED = "REMOVE_CASE_NOTE_FAILED";
 export const CASE_NOTE_DIALOG_OPENED = "CASE_NOTE_DIALOG_OPENED";
@@ -123,6 +126,7 @@ export const SNACKBAR_SUCCESS = "SNACKBAR_SUCCESS";
 export const CIVILIAN_FORM_NAME = "Civilian form";
 export const ALLEGATION_SEARCH_FORM_NAME = "AllegationSearchForm";
 export const OFFICER_SEARCH_FORM_NAME = "OfficerSearchForm";
+export const CASE_NOTES_FORM_NAME = "CaseNotes";
 
 // ----------------------------------------
 //          Auth0 Scopes / Permissions
@@ -304,6 +308,7 @@ export const DEFAULT_PAGINATION_LIMIT = 20;
 
 // ------------------------------------------
 //           UI
+// ------------------------------------------
 export const OFFICER_PANEL_DATA_CLEARED = "OFFICER_PANEL_DATA_CLEARED";
 export const ACCUSED_OFFICER_PANEL_COLLAPSED =
   "ACCUSED_OFFICER_PANEL_COLLAPSED";
@@ -320,6 +325,7 @@ export const REMOVE_OFFICER_ALLEGATION_FAILED =
   "REMOVE_OFFICER_ALLEGATION_FAILED";
 export const REMOVE_OFFICER_ALLEGATION_SUCCEEDED =
   "REMOVE_OFFICER_ALLEGATION_SUCCEEDED";
+export const DEBOUNCE_DELAY = 500;
 
 // ------------------------------------------
 //           Feature Toggles

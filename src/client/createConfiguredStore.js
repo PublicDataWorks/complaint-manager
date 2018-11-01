@@ -2,6 +2,8 @@ import { applyMiddleware, combineReducers, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { reducer as formReducer } from "redux-form";
 import thunk from "redux-thunk";
+import createSagaMiddleware from "redux-saga";
+import { all } from "redux-saga/effects";
 import history from "./history";
 import { routerMiddleware, routerReducer } from "react-router-redux";
 import allCasesReducer from "./reducers/cases/allCasesReducer";
@@ -37,6 +39,7 @@ import iaProCorrectionsReducer from "./reducers/ui/iaProCorrectionDialogReducer"
 import allExportsReducer from "./reducers/ui/allExportsReducer";
 import recommendedActionsReducer from "./reducers/cases/recommendedActionsReducer";
 import editReferralLetterReducer from "./reducers/ui/editReferralLetterReducer";
+import { caseNoteDialogSaga } from "./sagas/ui/caseNoteDialogSaga";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -86,12 +89,22 @@ const rootReducer = combineReducers({
   })
 });
 
-const routingMiddleware = routerMiddleware(history);
+function* rootSaga() {
+  yield all([caseNoteDialogSaga()]);
+}
 
-const createConfiguredStore = () =>
-  createStore(
+const routingMiddleware = routerMiddleware(history);
+const sagaMiddleware = createSagaMiddleware();
+
+const createConfiguredStore = () => {
+  const store = createStore(
     rootReducer,
-    composeWithDevTools(applyMiddleware(thunk, routingMiddleware))
+    composeWithDevTools(
+      applyMiddleware(thunk, routingMiddleware, sagaMiddleware)
+    )
   );
+  sagaMiddleware.run(rootSaga);
+  return store;
+};
 
 export default createConfiguredStore;
