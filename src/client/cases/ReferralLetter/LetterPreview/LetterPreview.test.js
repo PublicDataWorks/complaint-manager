@@ -4,11 +4,18 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
 import LetterPreview from "./LetterPreview";
-import { push } from "react-router-redux";
-import {
-  getLetterPreviewSuccess,
-  getReferralLetterSuccess
-} from "../../../actionCreators/letterActionCreators";
+import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";
+import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
+import { changeInput } from "../../../testHelpers";
+jest.mock(
+  "../thunks/editReferralLetterAddresses",
+  () => (caseId, values, redirectUrl) => ({
+    type: "SOMETHING",
+    caseId,
+    values,
+    redirectUrl
+  })
+);
 
 describe("LetterPreview", function() {
   let store, dispatchSpy, wrapper, caseId;
@@ -17,7 +24,13 @@ describe("LetterPreview", function() {
     dispatchSpy = jest.spyOn(store, "dispatch");
     caseId = "102";
 
-    store.dispatch(getLetterPreviewSuccess("Letter Preview HTML"));
+    store.dispatch(
+      getLetterPreviewSuccess("Letter Preview HTML", {
+        sender: "bob",
+        recipient: "jane",
+        transcribedBy: "joe"
+      })
+    );
 
     wrapper = mount(
       <Provider store={store}>
@@ -28,21 +41,42 @@ describe("LetterPreview", function() {
     );
   });
 
-  test("redirects to case details page when click back to case", () => {
+  test("dispatches editReferralLetterAddresses with correct values for return to case button", () => {
+    dispatchSpy.mockClear();
     const button = wrapper
       .find("[data-test='save-and-return-to-case-link']")
       .first();
     button.simulate("click");
-
-    expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    const expectedFormValues = {
+      sender: "bob",
+      recipient: "jane",
+      transcribedBy: "joe"
+    };
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editReferralLetterAddresses(
+        caseId,
+        expectedFormValues,
+        `/cases/${caseId}`
+      )
+    );
   });
 
-  test("redirects to recommended actions page when click back button", () => {
+  test("dispatches editReferralLetterAddresses with correct values for back button", () => {
+    changeInput(wrapper, "[data-test='transcribed-by-field']", "transcriber");
+    dispatchSpy.mockClear();
     const backButton = wrapper.find("[data-test='back-button']").first();
     backButton.simulate("click");
-
+    const expectedFormValues = {
+      sender: "bob",
+      recipient: "jane",
+      transcribedBy: "transcriber"
+    };
     expect(dispatchSpy).toHaveBeenCalledWith(
-      push(`/cases/${caseId}/letter/recommended-actions`)
+      editReferralLetterAddresses(
+        caseId,
+        expectedFormValues,
+        `/cases/${caseId}/letter/recommended-actions`
+      )
     );
   });
 });

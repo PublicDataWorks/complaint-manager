@@ -100,7 +100,7 @@ describe("editRecommendedActions", function() {
 
   test("redirects to case details page 400 error response (invalid letter generation case status)", async () => {
     const responseBody = {
-      message: "Invalid case status."
+      message: "Invalid case status"
     };
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
     nock("http://localhost", {

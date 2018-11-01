@@ -10,7 +10,7 @@ const VALID_STATUSES = [
 const checkForValidStatus = async caseId => {
   const existingCase = await models.cases.findById(caseId);
   if (!VALID_STATUSES.includes(existingCase.status)) {
-    throw Boom.badRequest("Invalid case status.");
+    throw Boom.badRequest("Invalid case status");
   }
 };
 

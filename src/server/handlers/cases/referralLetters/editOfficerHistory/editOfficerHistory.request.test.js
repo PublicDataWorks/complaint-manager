@@ -153,7 +153,7 @@ describe("edit referral letter", () => {
           .set("Authorization", `Bearer ${token}`)
           .expect(400)
           .then(response => {
-            expect(response.body.message).toEqual("Invalid case status.");
+            expect(response.body.message).toEqual("Invalid case status");
           });
       })
     );
@@ -179,7 +179,7 @@ describe("edit referral letter", () => {
           .set("Authorization", `Bearer ${token}`)
           .expect(400)
           .then(response => {
-            expect(response.body.message).toEqual("Invalid case status.");
+            expect(response.body.message).toEqual("Invalid case status");
           });
       })
     );

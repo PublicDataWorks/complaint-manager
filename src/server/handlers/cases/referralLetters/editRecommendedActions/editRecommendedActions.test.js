@@ -80,7 +80,7 @@ describe("editRecommendedActions", function() {
 
     await editRecommendedActions(request, response, next);
 
-    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status."));
+    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
   });
 
   test("saves new includeRetaliationConcerns", async () => {

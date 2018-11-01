@@ -26,7 +26,7 @@ const getLetterPreview = caseId => async dispatch => {
       getLetterPreviewSuccess(response.data.letterHtml, response.data.addresses)
     );
   } catch (error) {
-    if (error.response.data.message === "Invalid case status.") {
+    if (error.response.data.message === "Invalid case status") {
       return dispatch(push(`/cases/${caseId}`));
     }
     dispatch(

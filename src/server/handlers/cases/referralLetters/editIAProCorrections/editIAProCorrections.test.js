@@ -220,6 +220,6 @@ describe("editIAProCorrections", () => {
 
     await editIAProCorrections(request, response, next);
 
-    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status."));
+    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
   });
 });

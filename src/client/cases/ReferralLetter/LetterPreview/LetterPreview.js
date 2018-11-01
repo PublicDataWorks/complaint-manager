@@ -5,11 +5,11 @@ import { Card, CardContent, Typography } from "@material-ui/core";
 import LinkButton from "../../../shared/components/LinkButton";
 import LetterProgressStepper from "../LetterProgressStepper";
 import { connect } from "react-redux";
-import { push } from "react-router-redux";
 import { SecondaryButton } from "../../../shared/components/StyledButtons";
 import getLetterPreview from "../thunks/getLetterPreview";
 import { Field, reduxForm } from "redux-form";
 import { TextField } from "redux-form-material-ui";
+import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -26,12 +26,20 @@ class LetterPreview extends Component {
   };
 
   saveAndReturnToCase = () => {
-    this.props.dispatch(push(`/cases/${this.state.caseId}`));
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}`)
+    );
   };
 
   saveAndGoBackToRecommendedActions = () => {
-    this.props.dispatch(
-      push(`/cases/${this.state.caseId}/letter/recommended-actions`)
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}/letter/recommended-actions`)
+    );
+  };
+
+  submitForm = redirectUrl => (values, dispatch) => {
+    dispatch(
+      editReferralLetterAddresses(this.state.caseId, values, redirectUrl)
     );
   };
 
@@ -55,7 +63,7 @@ class LetterPreview extends Component {
         <form>
           <LinkButton
             data-test="save-and-return-to-case-link"
-            onClick={this.saveAndReturnToCase}
+            onClick={this.saveAndReturnToCase()}
             style={{ margin: "2% 0% 2% 4%" }}
           >
             Back to Case
@@ -91,7 +99,7 @@ class LetterPreview extends Component {
                     label="Address To"
                     fullWidth
                     multiline
-                    rowsMax={10}
+                    rowsMax={5}
                   />
                 </CardContent>
               </Card>
@@ -134,11 +142,12 @@ class LetterPreview extends Component {
                     component={TextField}
                     label="Transcribed By"
                     fullWidth
+                    inputProps={{ "data-test": "transcribed-by-field" }}
                   />
                 </CardContent>
               </Card>
               <SecondaryButton
-                onClick={this.saveAndGoBackToRecommendedActions}
+                onClick={this.saveAndGoBackToRecommendedActions()}
                 data-test="back-button"
               >
                 Back

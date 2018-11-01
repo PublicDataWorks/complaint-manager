@@ -52,7 +52,7 @@ describe("getReferralLetter", () => {
   test("redirects to case page if case is in invalid status for letter generation", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
     const responseBody = {
-      message: "Invalid case status."
+      message: "Invalid case status"
     };
     nock("http://localhost", {})
       .get(`/api/cases/${caseId}/referral-letter`)
