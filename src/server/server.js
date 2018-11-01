@@ -1,6 +1,4 @@
 import refuseNewConnectionDuringShutdown from "../sharedUtilities/refuseNewConnectionDuringShutdown";
-import gracefulExit from "../sharedUtilities/gracefulExit";
-import http from "http";
 
 const newRelic = require("newrelic");
 const express = require("express");
@@ -101,14 +99,4 @@ app.use(
 
 app.use(errorHandler);
 
-const server = http.createServer(app);
-process.on("SIGTERM", handleSigterm);
-
-function handleSigterm() {
-  if (shuttingDown) return;
-  shuttingDown = true;
-
-  gracefulExit(server);
-}
-
-module.exports = server;
+module.exports = app;

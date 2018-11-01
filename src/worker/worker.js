@@ -1,6 +1,4 @@
 import refuseNewConnectionDuringShutdown from "../sharedUtilities/refuseNewConnectionDuringShutdown";
-import gracefulExit from "../sharedUtilities/gracefulExit";
-import http from "http";
 const newRelic = require("newrelic");
 const express = require("express");
 const path = require("path");
@@ -107,13 +105,4 @@ queue.process(JOB_OPERATION.AUDIT_LOG_EXPORT.key, 1, (job, done) => {
   auditExport(job, done);
 });
 
-const server = http.createServer(app);
-process.on("SIGTERM", handleSigterm);
-
-function handleSigterm() {
-  if (shuttingDown) return;
-  shuttingDown = true;
-  gracefulExit(server);
-}
-
-module.exports = server;
+module.exports = app;
