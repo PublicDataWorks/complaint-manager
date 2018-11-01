@@ -22,7 +22,8 @@
     "test:worker:ci": "NODE_ENV=test yarn setup:test:db && CI=true react-scripts test src/worker --maxWorkers=1 --forceExit --env=node",
     "test:client": "react-scripts test src/client --env=jsdom",
     "test:client:ci": "CI=true react-scripts test src/client --maxWorkers=1 --env=jsdom",
-    "test:once": "NODE_ENV=test yarn test:client:ci && yarn test:server:ci && yarn test:worker:ci",
+    "test:server:worker:ci": "NODE_ENV=test yarn test:server:ci && yarn test:worker:ci",
+    "test:once": "run-p -c test:server:worker:ci test:client:ci",
     "eject": "react-scripts eject",
     "transformOfficerCsvData": "node -e \"require('./scripts/transformOfficerCsvData')\""
   },
@@ -110,6 +111,7 @@
     "promise-retry": "^1.1.1",
     "redux-devtools-extension": "^2.13.2",
     "smtp-tester": "^1.2.0",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "yarn-run-all": "^3.1.1"
   }
 }
