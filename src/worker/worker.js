@@ -1,3 +1,6 @@
+import refuseNewConnectionDuringShutdown from "../sharedUtilities/refuseNewConnectionDuringShutdown";
+import gracefulExit from "../sharedUtilities/gracefulExit";
+import http from "http";
 const newRelic = require("newrelic");
 const express = require("express");
 const path = require("path");
@@ -30,6 +33,9 @@ winston.configure({
 
 const app = express();
 const twoYearsInSeconds = 63113852;
+let shuttingDown = false;
+app.use(refuseNewConnectionDuringShutdown(shuttingDown));
+
 app.use(
   helmet.hsts({
     maxAge: twoYearsInSeconds
@@ -101,4 +107,13 @@ queue.process(JOB_OPERATION.AUDIT_LOG_EXPORT.key, 1, (job, done) => {
   auditExport(job, done);
 });
 
-module.exports = app;
+const server = http.createServer(app);
+process.on("SIGTERM", handleSigterm);
+
+function handleSigterm() {
+  if (shuttingDown) return;
+  shuttingDown = true;
+  gracefulExit(server);
+}
+
+module.exports = server;
