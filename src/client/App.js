@@ -31,6 +31,7 @@ import IAProCorrections from "./cases/ReferralLetter/IAProCorrections/IAProCorre
 import JobDashboard from "./export/JobDashboard";
 import RecommendedActions from "./cases/ReferralLetter/RecommendedActions/RecommendedActions";
 import LetterPreview from "./cases/ReferralLetter/LetterPreview/LetterPreview";
+import EditLetter from "./cases/ReferralLetter/EditLetter/EditLetter";
 
 class App extends Component {
   componentDidMount() {
@@ -102,6 +103,11 @@ class App extends Component {
                 exact
                 path="/cases/:id/letter/letter-preview"
                 component={LetterPreview}
+              />
+              <Route
+                exact
+                path="/cases/:id/letter/edit-letter"
+                component={EditLetter}
               />
               <Route exact path="/export/all" component={JobDashboard} />
               <Route exact path="/styleguide" component={StyleGuide} />

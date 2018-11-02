@@ -4,7 +4,10 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
 import LetterPreview from "./LetterPreview";
-import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";
+import {
+  getLetterPreviewSuccess,
+  openEditLetterConfirmationDialog
+} from "../../../actionCreators/letterActionCreators";
 import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 import { changeInput } from "../../../testHelpers";
 jest.mock(
@@ -77,6 +80,15 @@ describe("LetterPreview", function() {
         expectedFormValues,
         `/cases/${caseId}/letter/recommended-actions`
       )
+    );
+  });
+
+  test("dispatch openEditLetterConfirmationDialog when clicking edit button", () => {
+    dispatchSpy.mockClear();
+    const editButton = wrapper.find("[data-test='edit-button']").first();
+    editButton.simulate("click");
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openEditLetterConfirmationDialog()
     );
   });
 });

@@ -8,7 +8,9 @@ import {
   EDIT_IAPRO_CORRECTION_SUCCESS,
   EDIT_RECOMMENDED_ACTIONS_SUCCESS,
   GET_RECOMMENDED_ACTIONS_SUCCESS,
-  GET_LETTER_PREVIEW_SUCCESS
+  GET_LETTER_PREVIEW_SUCCESS,
+  OPEN_EDIT_LETTER_CONFIRMATION_DIALOG,
+  CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG
 } from "../../sharedUtilities/constants";
 
 export const openRemoveOfficerHistoryNoteDialog = (
@@ -68,4 +70,12 @@ export const getLetterPreviewSuccess = (letterHtml, addresses) => ({
   type: GET_LETTER_PREVIEW_SUCCESS,
   letterHtml,
   addresses
+});
+
+export const openEditLetterConfirmationDialog = () => ({
+  type: OPEN_EDIT_LETTER_CONFIRMATION_DIALOG
+});
+
+export const closeEditLetterConfirmationDialog = () => ({
+  type: CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG
 });

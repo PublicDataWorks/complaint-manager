@@ -10,6 +10,8 @@ import getLetterPreview from "../thunks/getLetterPreview";
 import { Field, reduxForm } from "redux-form";
 import { TextField } from "redux-form-material-ui";
 import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
+import { openEditLetterConfirmationDialog } from "../../../actionCreators/letterActionCreators";
+import EditLetterConfirmationDialog from "./EditLetterConfirmationDialog";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -41,6 +43,10 @@ class LetterPreview extends Component {
     dispatch(
       editReferralLetterAddresses(this.state.caseId, values, redirectUrl)
     );
+  };
+
+  openEditLetterConfirmationDialog = () => {
+    this.props.dispatch(openEditLetterConfirmationDialog());
   };
 
   displayLetterPreview = () => {
@@ -146,12 +152,25 @@ class LetterPreview extends Component {
                   />
                 </CardContent>
               </Card>
-              <SecondaryButton
-                onClick={this.saveAndGoBackToRecommendedActions()}
-                data-test="back-button"
-              >
-                Back
-              </SecondaryButton>
+              <EditLetterConfirmationDialog />
+              <div style={{ display: "flex" }}>
+                <span style={{ flex: 1 }}>
+                  <SecondaryButton
+                    onClick={this.saveAndGoBackToRecommendedActions()}
+                    data-test="back-button"
+                  >
+                    Back
+                  </SecondaryButton>
+                </span>
+                <span style={{ flex: 1, textAlign: "right" }}>
+                  <SecondaryButton
+                    data-test="edit-button"
+                    onClick={this.openEditLetterConfirmationDialog}
+                  >
+                    Edit
+                  </SecondaryButton>
+                </span>
+              </div>
             </div>
           </div>
         </form>
