@@ -1,3 +1,5 @@
+import { SENDER, RECIPIENT } from "../referralLetters/letterDefaults";
+
 const { CASE_STATUS } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models/index");
@@ -21,7 +23,11 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
 
     if (newStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
       await models.referral_letter.create(
-        { caseId: caseToUpdate.id },
+        {
+          caseId: caseToUpdate.id,
+          recipient: RECIPIENT,
+          sender: SENDER
+        },
         { auditUser: request.nickname, transaction }
       );
     }

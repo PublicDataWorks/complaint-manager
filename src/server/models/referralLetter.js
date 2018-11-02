@@ -1,8 +1,3 @@
-import {
-  SENDER,
-  RECIPIENT
-} from "../../server/handlers/cases/referralLetters/letterDefaults";
-
 const models = "./";
 
 module.exports = (sequelize, DataTypes) => {
@@ -29,12 +24,10 @@ module.exports = (sequelize, DataTypes) => {
         field: "include_retaliation_concerns"
       },
       recipient: {
-        type: DataTypes.TEXT,
-        defaultValue: RECIPIENT
+        type: DataTypes.TEXT
       },
       sender: {
-        type: DataTypes.TEXT,
-        defaultValue: SENDER
+        type: DataTypes.TEXT
       },
       transcribedBy: {
         type: DataTypes.STRING,
@@ -72,5 +65,15 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
   };
+
+  ReferralLetter.prototype.getCaseId = async function(transaction) {
+    return this.caseId;
+  };
+
+  ReferralLetter.prototype.modelDescription = async function(transaction) {
+    return [];
+  };
+
+  ReferralLetter.auditDataChange();
   return ReferralLetter;
 };
