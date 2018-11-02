@@ -56,10 +56,11 @@ describe("transformAuditToCaseHistory", () => {
     expect(caseHistories[0].details).toEqual(expectedDetails);
   });
 
-  test("it transforms null values in changes field to empty string", () => {
+  test("it transforms null values or blank string in changes field to single space for readability", () => {
     const auditChanges = {
       complaintType: { previous: null, new: RANK_INITIATED },
-      status: { previous: CASE_STATUS.INITIAL, new: null }
+      status: { previous: CASE_STATUS.INITIAL, new: null },
+      other: { previous: "", new: "something" }
     };
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
@@ -68,8 +69,25 @@ describe("transformAuditToCaseHistory", () => {
 
     const expectedDetails = {
       "Complaint Type": { previous: " ", new: RANK_INITIATED },
-      Status: { previous: CASE_STATUS.INITIAL, new: " " }
+      Status: { previous: CASE_STATUS.INITIAL, new: " " },
+      Other: { previous: " ", new: "something" }
     };
+    expect(caseHistories[0].details).toEqual(expectedDetails);
+  });
+
+  test("it transtorms true values to true string", () => {
+    const auditChanges = {
+      includeRetaliationConcerns: { new: true, previous: null }
+    };
+    const audit = new DataChangeAudit.Builder()
+      .defaultDataChangeAudit()
+      .withChanges(auditChanges);
+    const caseHistories = transformAuditToCaseHistory([audit]);
+
+    const expectedDetails = {
+      "Include Retaliation Concerns": { previous: " ", new: "true" }
+    };
+
     expect(caseHistories[0].details).toEqual(expectedDetails);
   });
 

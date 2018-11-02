@@ -94,17 +94,30 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     });
-    LetterOfficer.hasMany(
-      models.referral_letter_officer_recommended_action,
-      {
-        as: "referralLetterOfficerRecommendedActions",
-        foreignKey: {
-          name: "referralLetterOfficerId",
-          field: "referral_letter_officer_id",
-          allowNull: false
-        }
+    LetterOfficer.hasMany(models.referral_letter_officer_recommended_action, {
+      as: "referralLetterOfficerRecommendedActions",
+      foreignKey: {
+        name: "referralLetterOfficerId",
+        field: "referral_letter_officer_id",
+        allowNull: false
       }
-    );
+    });
   };
+
+  LetterOfficer.prototype.getCaseId = async function(transaction) {
+    const caseOfficer = await sequelize
+      .model("case_officer")
+      .findById(this.caseOfficerId, { transaction: transaction });
+    return caseOfficer.caseId;
+  };
+
+  LetterOfficer.prototype.modelDescription = async function(transaction) {
+    const caseOfficer = await sequelize
+      .model("case_officer")
+      .findById(this.caseOfficerId, { transaction: transaction });
+    return [{ "Officer Name": caseOfficer.fullName }];
+  };
+
+  LetterOfficer.auditDataChange();
   return LetterOfficer;
 };

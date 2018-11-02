@@ -8,7 +8,7 @@ import {
   SENDER
 } from "../handlers/cases/referralLetters/letterDefaults";
 
-describe("dataChangeAuditHooks for referral ldatetter", () => {
+describe("dataChangeAuditHooks for referral letter", () => {
   let existingCase, referralLetter;
 
   beforeEach(async () => {
@@ -22,6 +22,7 @@ describe("dataChangeAuditHooks for referral ldatetter", () => {
       .withId(undefined)
       .withCaseId(existingCase.id)
       .withRecipient(RECIPIENT)
+      .withIncludeRetaliationConcerns(true)
       .withSender(SENDER);
     referralLetter = await models.referral_letter.create(
       referralLetterAttributes,
@@ -46,5 +47,34 @@ describe("dataChangeAuditHooks for referral ldatetter", () => {
     expect(audit.user).toEqual("someone");
     expect("recipient" in audit.changes).toBeTruthy();
     expect("sender" in audit.changes).toBeTruthy();
+  });
+
+  test("creates an audit for letter updates on model class", async () => {
+    await models.referral_letter.update(
+      { includeRetaliationConcerns: false },
+      { where: { id: referralLetter.id }, auditUser: "someone" }
+    );
+    const audit = await models.data_change_audit.find({
+      where: { modelName: "Referral Letter", action: AUDIT_ACTION.DATA_UPDATED }
+    });
+
+    expect(audit.changes).toEqual({
+      includeRetaliationConcerns: { previous: true, new: false }
+    });
+  });
+
+  test("creates an audit for letter updates on instance", async () => {
+    await referralLetter.update(
+      { includeRetaliationConcerns: false },
+      { auditUser: "someone" }
+    );
+
+    const audit = await models.data_change_audit.find({
+      where: { modelName: "Referral Letter", action: AUDIT_ACTION.DATA_UPDATED }
+    });
+
+    expect(audit.changes).toEqual({
+      includeRetaliationConcerns: { previous: true, new: false }
+    });
   });
 });

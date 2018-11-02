@@ -34,8 +34,8 @@ const transformDetails = audit => {
     (details, value, key) => {
       if (key.match(AUDIT_FIELDS_TO_EXCLUDE)) return details;
       details[_.startCase(key)] = {
-        previous: transformNull(value.previous),
-        new: transformNull(value.new)
+        previous: transformValue(value.previous),
+        new: transformValue(value.new)
       };
       return details;
     },
@@ -43,8 +43,8 @@ const transformDetails = audit => {
   );
 };
 
-const transformNull = value => {
-  return value == null ? " " : value;
+const transformValue = value => {
+  return !value ? " " : value.toString();
 };
 
 module.exports = transformAuditToCaseHistory;
