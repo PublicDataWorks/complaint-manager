@@ -125,12 +125,11 @@ const deleteUnsubmittedExistingOfficerHistoryNotes = async (
   const noteIdsToBeDeleted = existingNotesIds.filter(
     existingNoteId => !submittedNotesIds.includes(existingNoteId)
   );
-  await models.referral_letter_officer_history_note.destroy(
-    {
-      where: { id: noteIdsToBeDeleted }
-    },
-    { auditUser: userNickname, transaction }
-  );
+  await models.referral_letter_officer_history_note.destroy({
+    where: { id: noteIdsToBeDeleted },
+    auditUser: userNickname,
+    transaction
+  });
 };
 
 const getExistingOfficerHistoryNoteIdsForReferralOfficer = async referralLetterOfficerId => {
@@ -192,7 +191,9 @@ const createNewLetterOfficer = async (
     include: [
       {
         model: models.referral_letter_officer_history_note,
-        as: "referralLetterOfficerHistoryNotes"
+        as: "referralLetterOfficerHistoryNotes",
+        auditUser: userNickname,
+        transaction
       }
     ],
     auditUser: userNickname,

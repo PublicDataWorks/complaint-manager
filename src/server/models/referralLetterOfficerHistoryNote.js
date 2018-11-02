@@ -43,5 +43,28 @@ module.exports = (sequelize, DataTypes) => {
     },
     { tableName: "referral_letter_officer_history_notes", paranoid: true }
   );
+
+  ReferralLetterOfficerHistoryNotes.prototype.getCaseId = async function(
+    transaction
+  ) {
+    const referralLetter = await sequelize
+      .model("letter_officer")
+      .findById(this.referralLetterOfficerId, {
+        include: [
+          {
+            model: sequelize.model("case_officer"),
+            as: "caseOfficer"
+          }
+        ],
+        transaction
+      });
+    return referralLetter.caseOfficer.caseId;
+  };
+
+  ReferralLetterOfficerHistoryNotes.prototype.modelDescription = async function() {
+    return [];
+  };
+
+  ReferralLetterOfficerHistoryNotes.auditDataChange();
   return ReferralLetterOfficerHistoryNotes;
 };

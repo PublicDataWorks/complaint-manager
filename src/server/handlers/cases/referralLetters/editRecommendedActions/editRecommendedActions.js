@@ -102,12 +102,11 @@ const deleteRemovedReferralOfficerRecommendedActions = async (
     existingRecommendedAction =>
       !submittedRecommendedActions.includes(existingRecommendedAction)
   );
-  await models.referral_letter_officer_recommended_action.destroy(
-    {
-      where: { recommendedActionId: recommendedActionsToBeDeleted }
-    },
-    { auditUser: userNickname, transaction }
-  );
+  await models.referral_letter_officer_recommended_action.destroy({
+    where: { recommendedActionId: recommendedActionsToBeDeleted },
+    auditUser: userNickname,
+    transaction
+  });
 };
 
 const getExistingReferralLetterOfficerRecommendedActions = async referralLetterOfficerId => {

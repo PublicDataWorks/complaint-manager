@@ -86,12 +86,11 @@ const deleteUnsubmittedExistingIAProCorrections = async (
     existingIAProCorrectionId =>
       !submittedIAProCorrectionIds.includes(existingIAProCorrectionId)
   );
-  await models.referral_letter_iapro_correction.destroy(
-    {
-      where: { id: iaProCorrectionIdsToBeDeleted }
-    },
-    { auditUser: userNickname, transaction }
-  );
+  await models.referral_letter_iapro_correction.destroy({
+    where: { id: iaProCorrectionIdsToBeDeleted },
+    auditUser: userNickname,
+    transaction
+  });
 };
 
 const getExistingIAProCorrectionIdsForReferralLetter = async referralLetterId => {
