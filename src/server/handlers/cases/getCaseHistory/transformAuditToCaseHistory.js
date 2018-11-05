@@ -32,7 +32,9 @@ const transformDetails = audit => {
   return _.reduce(
     audit.changes,
     (details, value, key) => {
-      if (key.match(AUDIT_FIELDS_TO_EXCLUDE)) return details;
+      if (key.match(AUDIT_FIELDS_TO_EXCLUDE)) {
+        return details;
+      }
       details[_.startCase(key)] = {
         previous: transformValue(value.previous),
         new: transformValue(value.new)

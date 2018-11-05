@@ -3,12 +3,12 @@ import models from "../models";
 import Officer from "../../client/testUtilities/Officer";
 import CaseOfficer from "../../client/testUtilities/caseOfficer";
 import LetterOfficer from "../../client/testUtilities/LetterOfficer";
+import ReferralLetterOfficerRecommendedAction from "../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import ReferralLetterOfficerHistoryNote from "../../client/testUtilities/ReferralLetterOfficerHistoryNote";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 
-describe("data change audit hooks for referral letter officer history note", () => {
-  let officerHistoryNote, existingCase, caseOfficer;
+describe("dataChangeAuditHooks for referral letter officer recommended action", () => {
+  let existingCase, officerRecommendedAction, caseOfficer, recommendedAction;
 
   beforeEach(async () => {
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
@@ -43,13 +43,20 @@ describe("data change audit hooks for referral letter officer history note", () 
       }
     );
 
-    const officerHistoryNoteAttributes = new ReferralLetterOfficerHistoryNote.Builder()
-      .defaultReferralLetterOfficerHistoryNote()
-      .withReferralLetterOfficerId(letterOfficer.id)
-      .withId(undefined);
+    recommendedAction = await models.recommended_action.create(
+      {
+        description: "Recommended Action Description"
+      },
+      { auditUser: "someone" }
+    );
 
-    officerHistoryNote = await models.referral_letter_officer_history_note.create(
-      officerHistoryNoteAttributes,
+    const officerRecommendedActionAttributes = new ReferralLetterOfficerRecommendedAction.Builder()
+      .defaultReferralLetterOfficerRecommendedAction()
+      .withId(undefined)
+      .withReferralLetterOfficerId(letterOfficer.id)
+      .withRecommendedActionId(recommendedAction.id);
+    officerRecommendedAction = await models.referral_letter_officer_recommended_action.create(
+      officerRecommendedActionAttributes,
       { auditUser: "someone" }
     );
   });
@@ -58,19 +65,22 @@ describe("data change audit hooks for referral letter officer history note", () 
     await cleanupDatabase();
   });
 
-  test("it creates an audit for creating an officer history note", async () => {
+  test.only("it creates an audit for creating an officer recommended action", async () => {
     const audit = await models.data_change_audit.find({
       where: {
-        modelName: "Referral Letter Officer History Note",
+        modelName: "Referral Letter Officer Recommended Action",
         action: AUDIT_ACTION.DATA_CREATED
       }
     });
 
     expect(audit.caseId).toEqual(existingCase.id);
-    expect(audit.modelId).toEqual(officerHistoryNote.id);
+    expect(audit.modelId).toEqual(officerRecommendedAction.id);
     expect(audit.modelDescription).toEqual([
       { "Officer Name": caseOfficer.fullName }
     ]);
+    expect(audit.changes.recommendedAction).toEqual({
+      new: recommendedAction.description
+    });
     expect(audit.user).toEqual("someone");
   });
 });

@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
   ReferralLetterOfficerHistoryNotes.prototype.getCaseId = async function(
     transaction
   ) {
-    const referralLetter = await sequelize
+    const letterOfficer = await sequelize
       .model("letter_officer")
       .findById(this.referralLetterOfficerId, {
         include: [
@@ -58,11 +58,24 @@ module.exports = (sequelize, DataTypes) => {
         ],
         transaction
       });
-    return referralLetter.caseOfficer.caseId;
+    return letterOfficer.caseOfficer.caseId;
   };
 
-  ReferralLetterOfficerHistoryNotes.prototype.modelDescription = async function() {
-    return [];
+  ReferralLetterOfficerHistoryNotes.prototype.modelDescription = async function(
+    transaction
+  ) {
+    const letterOfficer = await sequelize
+      .model("letter_officer")
+      .findById(this.referralLetterOfficerId, {
+        include: [
+          {
+            model: sequelize.model("case_officer"),
+            as: "caseOfficer"
+          }
+        ],
+        transaction
+      });
+    return [{ "Officer Name": letterOfficer.caseOfficer.fullName }];
   };
 
   ReferralLetterOfficerHistoryNotes.auditDataChange();

@@ -16,6 +16,7 @@ const csvCaseExport = async (job, done) => {
     const caseData = await models.sequelize.query(exportCasesQuery(), {
       type: models.sequelize.QueryTypes.SELECT
     });
+
     fixTimeZones(caseData);
 
     const csvOutput = await promisifiedStringify(caseData, csvOptions);

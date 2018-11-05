@@ -55,5 +55,41 @@ module.exports = (sequelize, DataTypes) => {
       }
     );
   };
+
+  ReferralLetterOfficerRecommendedAction.prototype.getCaseId = async function(
+    transaction
+  ) {
+    const letterOfficer = await sequelize
+      .model("letter_officer")
+      .findById(this.referralLetterOfficerId, {
+        include: [
+          {
+            model: sequelize.model("case_officer"),
+            as: "caseOfficer"
+          }
+        ],
+        transaction
+      });
+    return letterOfficer.caseOfficer.caseId;
+  };
+
+  ReferralLetterOfficerRecommendedAction.prototype.modelDescription = async function(
+    transaction
+  ) {
+    const letterOfficer = await sequelize
+      .model("letter_officer")
+      .findById(this.referralLetterOfficerId, {
+        include: [
+          {
+            model: sequelize.model("case_officer"),
+            as: "caseOfficer"
+          }
+        ],
+        transaction
+      });
+    return [{ "Officer Name": letterOfficer.caseOfficer.fullName }];
+  };
+
+  ReferralLetterOfficerRecommendedAction.auditDataChange();
   return ReferralLetterOfficerRecommendedAction;
 };
