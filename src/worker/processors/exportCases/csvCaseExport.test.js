@@ -243,8 +243,8 @@ describe("csvCaseExport request", () => {
       expect(records[0]["Case Status"]).toEqual(caseToExport.status);
       expect(records[0]["Created by"]).toEqual(caseToExport.createdBy);
       expect(records[0]["Created on"]).toEqual(
-        moment(caseToExport.createdAt)
-          .tz(TIMEZONE)
+        timezone
+          .tz(caseToExport.createdAt, TIMEZONE)
           .format("MM/DD/YYYY HH:mm:ss zz")
       );
       expect(records[0]["First Contact Date"]).toEqual(

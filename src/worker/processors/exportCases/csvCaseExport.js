@@ -1,3 +1,5 @@
+import { TIMEZONE } from "../../../sharedUtilities/constants";
+import timezone from "moment-timezone";
 const { JOB_OPERATION } = require("../../../sharedUtilities/constants");
 const models = require("../../../server/models/index");
 const stringify = require("csv-stringify");
@@ -7,11 +9,14 @@ const exportCasesQuery = require("./exportCasesQuery");
 const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 const winston = require("winston");
 
+const TIMESTAMP_FORMAT = "MM/DD/YYYY HH:mm:ss z";
+
 const csvCaseExport = async (job, done) => {
   try {
     const caseData = await models.sequelize.query(exportCasesQuery(), {
       type: models.sequelize.QueryTypes.SELECT
     });
+    fixTimeZones(caseData);
 
     const csvOutput = await promisifiedStringify(caseData, csvOptions);
     const s3Result = await uploadFileToS3(
@@ -24,6 +29,14 @@ const csvCaseExport = async (job, done) => {
   } catch (err) {
     winston.error(err);
     done(err);
+  }
+};
+
+const fixTimeZones = casesData => {
+  for (let caseData of casesData) {
+    caseData.created_at = timezone
+      .tz(caseData.created_at, TIMEZONE)
+      .format(TIMESTAMP_FORMAT);
   }
 };
 
