@@ -94,7 +94,7 @@ class LetterPreview extends Component {
                   marginBottom: "24px",
                   backgroundColor: "white",
                   overflow: "auto",
-                  width: "35%"
+                  width: "22rem"
                 }}
               >
                 <CardContent>
@@ -129,7 +129,7 @@ class LetterPreview extends Component {
                   marginBottom: "24px",
                   backgroundColor: "white",
                   overflow: "auto",
-                  width: "35%"
+                  width: "22rem"
                 }}
               >
                 <CardContent>
