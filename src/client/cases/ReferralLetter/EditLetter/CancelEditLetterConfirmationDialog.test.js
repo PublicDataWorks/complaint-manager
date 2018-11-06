@@ -1,30 +1,30 @@
 import createConfiguredStore from "../../../createConfiguredStore";
 import {
-  closeEditLetterConfirmationDialog,
-  openEditLetterConfirmationDialog
+  closeCancelEditLetterConfirmationDialog,
+  openCancelEditLetterConfirmationDialog
 } from "../../../actionCreators/letterActionCreators";
 import { mount } from "enzyme/build";
 import { Provider } from "react-redux";
-import { push } from "react-router-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
-import EditLetterConfirmationDialog from "./EditLetterConfirmationDialog";
+import CancelEditLetterConfirmationDialog from "./CancelEditLetterConfirmationDialog";
+import { push } from "react-router-redux";
 
-describe("Edit Confirmation Dialog", () => {
+describe("Cancel Edit Confirmation Dialog", () => {
   let store, dispatchSpy, wrapper;
 
   const caseId = 123;
 
   beforeEach(() => {
     store = createConfiguredStore();
-    store.dispatch(openEditLetterConfirmationDialog());
+    store.dispatch(openCancelEditLetterConfirmationDialog());
 
     dispatchSpy = jest.spyOn(store, "dispatch");
 
     wrapper = mount(
       <Provider store={store}>
         <Router>
-          <EditLetterConfirmationDialog caseId={caseId} />
+          <CancelEditLetterConfirmationDialog caseId={caseId} />
         </Router>
       </Provider>
     );
@@ -35,27 +35,27 @@ describe("Edit Confirmation Dialog", () => {
   });
 
   test("close the dialog when cancel is clicked", () => {
-    const button = wrapper.find("[data-test='cancelButton']").first();
+    const button = wrapper.find("[data-test='continueEditingButton']").first();
     button.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
-      closeEditLetterConfirmationDialog()
+      closeCancelEditLetterConfirmationDialog()
     );
   });
 
-  test("open edit letter page and close the dialog when edit letter is clicked", () => {
-    const editLetterButton = wrapper
-      .find("[data-test='editLetterButton']")
+  test("open letter preview page and close the dialog when discard edits is clicked", () => {
+    const discardEditsButton = wrapper
+      .find("[data-test='discardEditsButton']")
       .first();
-    editLetterButton.simulate("click");
+    discardEditsButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenNthCalledWith(
       1,
-      push(`/cases/${caseId}/letter/edit-letter`)
+      push(`/cases/${caseId}/letter/letter-preview`)
     );
     expect(dispatchSpy).toHaveBeenNthCalledWith(
       2,
-      closeEditLetterConfirmationDialog()
+      closeCancelEditLetterConfirmationDialog()
     );
   });
 });

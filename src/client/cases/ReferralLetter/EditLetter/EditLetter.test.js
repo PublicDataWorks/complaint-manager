@@ -3,7 +3,10 @@ import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
-import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";
+import {
+  getLetterPreviewSuccess,
+  openCancelEditLetterConfirmationDialog
+} from "../../../actionCreators/letterActionCreators";
 import getLetterPreview from "../thunks/getLetterPreview";
 require("../../../testUtilities/MockMutationObserver");
 
@@ -38,10 +41,33 @@ describe("Edit Letter Html", () => {
     );
   });
 
+  afterEach(() => {
+    dispatchSpy.mockClear();
+  });
+
   test("load letter preview html and set it on the rtf editor when page is loaded", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(getLetterPreview(caseId));
 
-    const field = wrapper.find("Quill").first();
-    expect(field.props().value).toEqual(initialLetterHtml);
+    const rtfEditor = wrapper.find("Quill").first();
+    expect(rtfEditor.props().value).toEqual(initialLetterHtml);
+  });
+
+  test("dispatch openCancelEditLetterConfirmationDialog when clicking cancel button", () => {
+    const cancelButton = wrapper.find("[data-test='cancel-button']").first();
+    cancelButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openCancelEditLetterConfirmationDialog()
+    );
+  });
+
+  test("open Cancel Edit Letter Confirmation Dialog", () => {
+    const cancelButton = wrapper.find("[data-test='cancel-button']").first();
+    cancelButton.simulate("click");
+
+    const cancelEditLetterDialog = wrapper
+      .find("[data-test='cancel-edit-letter-dialog']")
+      .first();
+    expect(cancelEditLetterDialog.length).toEqual(1);
   });
 });

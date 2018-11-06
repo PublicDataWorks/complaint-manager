@@ -41,6 +41,7 @@ const EditLetterConfirmationDialog = ({ open, dispatch, caseId }) => {
           data-test="editLetterButton"
           onClick={() => {
             dispatch(push(`/cases/${caseId}/letter/edit-letter`));
+            dispatch(closeEditLetterConfirmationDialog());
           }}
         >
           Edit Letter

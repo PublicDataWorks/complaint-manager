@@ -7,7 +7,9 @@ import {
   GET_RECOMMENDED_ACTIONS_SUCCESS,
   GET_LETTER_PREVIEW_SUCCESS,
   OPEN_EDIT_LETTER_CONFIRMATION_DIALOG,
-  CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG
+  CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG,
+  CLOSE_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG,
+  OPEN_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG
 } from "../../sharedUtilities/constants";
 
 export const openRemoveOfficerHistoryNoteDialog = (
@@ -60,4 +62,12 @@ export const openEditLetterConfirmationDialog = () => ({
 
 export const closeEditLetterConfirmationDialog = () => ({
   type: CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG
+});
+
+export const openCancelEditLetterConfirmationDialog = () => ({
+  type: OPEN_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG
+});
+
+export const closeCancelEditLetterConfirmationDialog = () => ({
+  type: CLOSE_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG
 });

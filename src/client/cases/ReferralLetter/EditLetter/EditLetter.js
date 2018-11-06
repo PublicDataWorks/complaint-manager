@@ -9,6 +9,8 @@ import { LETTER_PROGRESS } from "../../../../sharedUtilities/constants";
 import getLetterPreview from "../thunks/getLetterPreview";
 import { Field, reduxForm } from "redux-form";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
+import { openCancelEditLetterConfirmationDialog } from "../../../actionCreators/letterActionCreators";
+import CancelEditLetterConfirmationDialog from "./CancelEditLetterConfirmationDialog";
 
 const RichTextEditorComponent = props => {
   return (
@@ -66,13 +68,11 @@ export class EditLetter extends Component {
             >
               Edit Letter
             </Typography>
-
+            <CancelEditLetterConfirmationDialog caseId={this.state.caseId} />
             <Card
               style={{
                 marginBottom: "24px",
-                backgroundColor: "white",
-                maxHeight: "875px",
-                overflow: "auto"
+                backgroundColor: "white"
               }}
             >
               <CardContent>
@@ -91,7 +91,14 @@ export class EditLetter extends Component {
 
             <div style={{ display: "flex" }}>
               <span style={{ flex: 1 }}>
-                <SecondaryButton data-test="back-button">
+                <SecondaryButton
+                  data-test="cancel-button"
+                  onClick={() => {
+                    this.props.dispatch(
+                      openCancelEditLetterConfirmationDialog()
+                    );
+                  }}
+                >
                   Cancel
                 </SecondaryButton>
               </span>
