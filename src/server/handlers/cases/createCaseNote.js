@@ -46,7 +46,7 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
     return { caseNotes, caseDetails };
   });
 
-  response.status(201).send(currentCase);
+  setTimeout(response.status(201).send(currentCase), 1000);
 });
 
 module.exports = createCaseNote;

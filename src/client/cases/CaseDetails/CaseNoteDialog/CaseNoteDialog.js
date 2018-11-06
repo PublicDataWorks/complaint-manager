@@ -32,8 +32,10 @@ const CaseNoteDialog = props => {
     handleSubmit,
     dialogType,
     dispatch,
-    initialCaseNote
+    initialCaseNote,
+    submitting
   } = props;
+  console.log("submitting", submitting);
 
   const submit = (values, dispatch, props) => {
     let valuesToSubmit = moment(values.actionTakenAt).isSame(
@@ -48,11 +50,13 @@ const CaseNoteDialog = props => {
 
     switch (dialogType) {
       case "Add":
-        dispatch(addCaseNote(valuesToSubmit));
-        break;
+        return new Promise(resolve => {
+          return dispatch(addCaseNote(valuesToSubmit, resolve));
+        });
       case "Edit":
-        dispatch(editCaseNote(valuesToSubmit));
-        break;
+        return new Promise(resolve => {
+          return dispatch(editCaseNote(valuesToSubmit, resolve));
+        });
       default:
         break;
     }
@@ -149,7 +153,11 @@ const CaseNoteDialog = props => {
         >
           Cancel
         </SecondaryButton>
-        <PrimaryButton data-test="submitButton" onClick={handleSubmit(submit)}>
+        <PrimaryButton
+          data-test="submitButton"
+          onClick={handleSubmit(submit)}
+          disabled={submitting}
+        >
           {dialogType === "Add" ? "Add Case Note" : "Save"}
         </PrimaryButton>
       </DialogActions>

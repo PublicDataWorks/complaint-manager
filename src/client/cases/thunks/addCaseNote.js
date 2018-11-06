@@ -10,7 +10,7 @@ import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
-const addCaseNote = values => async dispatch => {
+const addCaseNote = (values, resolve) => async dispatch => {
   try {
     const token = getAccessToken();
 
@@ -33,9 +33,11 @@ const addCaseNote = values => async dispatch => {
     dispatch(
       addCaseNoteSuccess(response.data.caseDetails, response.data.caseNotes)
     );
-    return dispatch(closeCaseNoteDialog());
+    dispatch(closeCaseNoteDialog());
+    return resolve();
   } catch (error) {
-    return dispatch(addCaseNoteFailure());
+    dispatch(addCaseNoteFailure());
+    return resolve();
   }
 };
 
