@@ -5,10 +5,10 @@ import {
 } from "../../../actionCreators/letterActionCreators";
 import { mount } from "enzyme/build";
 import { Provider } from "react-redux";
+import { push } from "react-router-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
 import EditLetterConfirmationDialog from "./EditLetterConfirmationDialog";
-import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 
 describe("Edit Confirmation Dialog", () => {
   let store, dispatchSpy, wrapper;
@@ -24,7 +24,7 @@ describe("Edit Confirmation Dialog", () => {
     wrapper = mount(
       <Provider store={store}>
         <Router>
-          <EditLetterConfirmationDialog />
+          <EditLetterConfirmationDialog caseId={caseId} />
         </Router>
       </Provider>
     );
@@ -40,23 +40,15 @@ describe("Edit Confirmation Dialog", () => {
     );
   });
 
-  // test('open edit letter page when edit letter is clicked', () => {
-  //   dispatchSpy.mockClear();
-  //   const editLetterButton = wrapper.find("[data-test='editLetterButton']").first();
-  //   editLetterButton.simulate("click");
-  //
-  //   const expectedFormValues = {
-  //     sender: "bob",
-  //     recipient: "jane",
-  //     transcribedBy: "transcriber"
-  //   };
-  //
-  //   expect(dispatchSpy).toHaveBeenCalledWith(
-  //     editReferralLetterAddresses(
-  //       caseId,
-  //       expectedFormValues,
-  //       `/cases/${caseId}/letter/edit-letter`
-  //     )
-  //   );
-  // });
+  test("open edit letter page when edit letter is clicked", () => {
+    dispatchSpy.mockClear();
+    const editLetterButton = wrapper
+      .find("[data-test='editLetterButton']")
+      .first();
+    editLetterButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      push(`/cases/${caseId}/letter/edit-letter`)
+    );
+  });
 });

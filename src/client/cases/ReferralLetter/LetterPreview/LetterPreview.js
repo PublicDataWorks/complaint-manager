@@ -152,7 +152,7 @@ class LetterPreview extends Component {
                   />
                 </CardContent>
               </Card>
-              <EditLetterConfirmationDialog />
+              <EditLetterConfirmationDialog caseId={this.state.caseId} />
               <div style={{ display: "flex" }}>
                 <span style={{ flex: 1 }}>
                   <SecondaryButton

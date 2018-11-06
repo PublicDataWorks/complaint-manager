@@ -13,6 +13,11 @@ class RichTextEditor extends React.Component {
     this.props.onChange(value);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ text: nextProps.initialValue });
+    this.props.onChange(nextProps.initialValue);
+  }
+
   render() {
     const modules = {
       toolbar: [
