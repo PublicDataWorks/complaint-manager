@@ -1,7 +1,6 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
 import Boom from "boom";
-import getLetterDataForResponse from "../getLetterDataForResponse";
 import checkForValidStatus from "../checkForValidStatus";
 
 const editOfficerHistory = asyncMiddleware(async (request, response, next) => {
@@ -16,10 +15,7 @@ const editOfficerHistory = asyncMiddleware(async (request, response, next) => {
       );
     }
   });
-  const letterDataForResponse = await getLetterDataForResponse(
-    request.params.caseId
-  );
-  return response.status(200).send(letterDataForResponse);
+  return response.status(200).send();
 });
 
 const createOrUpdateLetterOfficers = async (

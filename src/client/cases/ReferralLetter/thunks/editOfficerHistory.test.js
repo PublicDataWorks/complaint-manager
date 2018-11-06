@@ -7,7 +7,6 @@ import {
 jest.mock("../../../auth/getAccessToken");
 import { push } from "react-router-redux";
 import editOfficerHistory from "./editOfficerHistory";
-import { editReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 
 describe("editReferralLetter", () => {
   let caseId, dispatch, requestBody;
@@ -35,10 +34,9 @@ describe("editReferralLetter", () => {
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
-  test("dispatches success with letter details on success, doesn't redirect to case details page", async () => {
+  test("dispatches snackbar success on success, doesn't redirect to case details page", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
 
-    const responseBody = { id: 9, letterOfficers: [] };
     nock("http://localhost", {
       reqheaders: {
         "Content-Type": "application/json",
@@ -46,12 +44,9 @@ describe("editReferralLetter", () => {
       }
     })
       .put(`/api/cases/${caseId}/referral-letter/officer-history`, requestBody)
-      .reply(200, responseBody);
+      .reply(200, {});
 
     await editOfficerHistory(caseId, requestBody, "redirectRoute")(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(
-      editReferralLetterSuccess(responseBody)
-    );
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Officer complaint history was successfully updated")
     );
@@ -61,7 +56,6 @@ describe("editReferralLetter", () => {
   test("routes to given redirect url on success", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
 
-    const responseBody = { id: 9, letterOfficers: [] };
     nock("http://localhost", {
       reqheaders: {
         "Content-Type": "application/json",
@@ -69,7 +63,7 @@ describe("editReferralLetter", () => {
       }
     })
       .put(`/api/cases/${caseId}/referral-letter/officer-history`, requestBody)
-      .reply(200, responseBody);
+      .reply(200, {});
 
     await editOfficerHistory(caseId, requestBody, "redirectRoute")(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("redirectRoute"));

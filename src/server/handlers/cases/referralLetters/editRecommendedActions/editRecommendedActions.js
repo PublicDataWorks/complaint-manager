@@ -1,7 +1,6 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import checkForValidStatus from "../checkForValidStatus";
 import models from "../../../../models";
-import getLetterDataForResponse from "../getLetterDataForResponse";
 
 const editRecommendedActions = asyncMiddleware(
   async (request, response, next) => {
@@ -27,10 +26,8 @@ const editRecommendedActions = asyncMiddleware(
         );
       }
     });
-    const letterDataForResponse = await getLetterDataForResponse(
-      request.params.caseId
-    );
-    return response.status(200).send(letterDataForResponse);
+
+    return response.status(200).send();
   }
 );
 

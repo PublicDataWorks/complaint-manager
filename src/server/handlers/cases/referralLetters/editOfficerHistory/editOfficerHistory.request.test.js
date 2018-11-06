@@ -91,22 +91,7 @@ describe("edit referral letter", () => {
         .send(requestBody)
         .expect(200)
         .then(response => {
-          expect(response.body).toEqual(
-            expect.objectContaining({
-              caseId: existingCase.id,
-              id: referralLetter.id,
-              letterOfficers: expect.arrayContaining([
-                expect.objectContaining({
-                  caseOfficerId: caseOfficer.id,
-                  fullName: caseOfficer.fullName,
-                  historicalBehaviorNotes: "<p>notes here</p>",
-                  referralLetterOfficerHistoryNotes: expect.arrayContaining([
-                    expect.objectContaining({ tempId: "uniqueTempId" })
-                  ])
-                })
-              ])
-            })
-          );
+          expect(response.body).toEqual({});
         });
 
       const createdLetterOfficers = await models.letter_officer.findAll({

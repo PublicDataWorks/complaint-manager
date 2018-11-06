@@ -2,7 +2,6 @@ import getAccessToken from "../../../auth/getAccessToken";
 import { push } from "react-router-redux";
 import config from "../../../config/config";
 import axios from "axios/index";
-import { editReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import {
   snackbarError,
   snackbarSuccess
@@ -19,7 +18,7 @@ const editOfficerHistory = (
   }
   try {
     const hostname = config[process.env.NODE_ENV].hostname;
-    const response = await axios(
+    await axios(
       `${hostname}/api/cases/${caseId}/referral-letter/officer-history`,
       {
         method: "PUT",
@@ -30,7 +29,6 @@ const editOfficerHistory = (
         data: letterValues
       }
     );
-    dispatch(editReferralLetterSuccess(response.data));
     dispatch(
       snackbarSuccess("Officer complaint history was successfully updated")
     );

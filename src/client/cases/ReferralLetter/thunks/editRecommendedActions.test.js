@@ -6,7 +6,6 @@ import {
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
 import nock from "nock";
-import { editRecommendedActionsSuccess } from "../../../actionCreators/letterActionCreators";
 
 jest.mock("../../../auth/getAccessToken");
 
@@ -36,20 +35,9 @@ describe("editRecommendedActions", function() {
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
-  test("dispatches success with recommended actions on success, doesn't redirect to case details page", async () => {
+  test("dispatches snackbar success on success, doesn't redirect to case details page", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
 
-    const responseBody = {
-      id: 7,
-      includeRetaliationConcerns: true,
-      letterOfficers: [
-        {
-          id: 99,
-          referralLetterOfficerRecommendedActions: [1, 3, 4],
-          recommendedActionNotes: "This was saved"
-        }
-      ]
-    };
     nock("http://localhost", {
       reqheaders: {
         "Content-Type": "application/json",
@@ -60,13 +48,10 @@ describe("editRecommendedActions", function() {
         `/api/cases/${caseId}/referral-letter/recommended-actions`,
         requestBody
       )
-      .reply(200, responseBody);
+      .reply(200, {});
 
     await editRecommendedActions(caseId, requestBody, "redirectRoute")(
       dispatch
-    );
-    expect(dispatch).toHaveBeenCalledWith(
-      editRecommendedActionsSuccess(responseBody)
     );
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Recommended actions were successfully updated")
