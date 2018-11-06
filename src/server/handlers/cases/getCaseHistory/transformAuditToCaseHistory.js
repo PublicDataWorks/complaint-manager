@@ -1,3 +1,5 @@
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+
 const _ = require("lodash");
 const {
   AUDIT_FIELDS_TO_EXCLUDE
@@ -8,7 +10,8 @@ const transformAuditToCaseHistory = dataChangeAudits => {
   let auditId = 0;
   dataChangeAudits.forEach(audit => {
     const details = transformDetails(audit);
-    if (_.isEmpty(details)) return;
+    if (audit.action === AUDIT_ACTION.DATA_UPDATED && _.isEmpty(details))
+      return;
 
     caseHistory.push({
       id: auditId,

@@ -145,15 +145,44 @@ describe("transformAuditToCaseHistory", () => {
     expect(caseHistories[0].details).toEqual(expectedDetails);
   });
 
-  test("filters out audits that are empty after filtering *Id fields", () => {
+  test("filters out update audits that are empty after filtering *Id fields", () => {
+    const auditChanges = {
+      someReferenceId: { previous: 4, new: 5 }
+    };
+    const audit = new DataChangeAudit.Builder()
+      .defaultDataChangeAudit()
+      .withAction(AUDIT_ACTION.DATA_UPDATED)
+      .withChanges(auditChanges);
+    const caseHistories = transformAuditToCaseHistory([audit], []);
+
+    expect(caseHistories).toHaveLength(0);
+  });
+
+  test("does not filter out create audits that are empty after filtering *Id fields", () => {
     const auditChanges = {
       incidentLocationId: { previous: null, new: 5 }
     };
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
+      .withAction(AUDIT_ACTION.DATA_CREATED)
       .withChanges(auditChanges);
     const caseHistories = transformAuditToCaseHistory([audit], []);
 
-    expect(caseHistories).toHaveLength(0);
+    expect(caseHistories).toHaveLength(1);
+    expect(caseHistories[0].details).toEqual({});
+  });
+
+  test("does not filter out delete audits that are empty after filtering *Id fields", () => {
+    const auditChanges = {
+      incidentLocationId: { previous: 5, new: null }
+    };
+    const audit = new DataChangeAudit.Builder()
+      .defaultDataChangeAudit()
+      .withAction(AUDIT_ACTION.DATA_DELETED)
+      .withChanges(auditChanges);
+    const caseHistories = transformAuditToCaseHistory([audit], []);
+
+    expect(caseHistories).toHaveLength(1);
+    expect(caseHistories[0].details).toEqual({});
   });
 });
