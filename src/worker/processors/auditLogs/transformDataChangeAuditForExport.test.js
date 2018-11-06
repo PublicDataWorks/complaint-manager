@@ -125,6 +125,40 @@ describe("transformDataChangeAuditForExport", () => {
     );
   });
 
+  test("strips html tags from changes field", () => {
+    const audit = {
+      action: AUDIT_ACTION.DATA_UPDATED,
+      changes: {
+        details: {
+          previous: "<p>text <b>nested</b></p>",
+          new: "<div>notes <ul><li>one</li><li>two</li></ul> more</div>"
+        }
+      }
+    };
+    const transformedAudit = transformDataChangeAuditForExport([audit]);
+    expect(transformedAudit[0].changes).toEqual(
+      "Details changed from 'text nested' to 'notes onetwo more'"
+    );
+  });
+
+  test("preserves boolean values in changes and snapshot", () => {
+    const audit = {
+      action: AUDIT_ACTION.DATA_UPDATED,
+      changes: {
+        details: { previous: true, new: false },
+        otherDetails: { previous: undefined, new: "" },
+        moreDetails: { previous: null, new: "" }
+      },
+      snapshot: { one: true, two: false }
+    };
+    const transformedAudit = transformDataChangeAuditForExport([audit]);
+
+    expect(transformedAudit[0].changes).toEqual(
+      "Details changed from 'true' to 'false'\nOther Details changed from '' to ''\nMore Details changed from '' to ''"
+    );
+    expect(transformedAudit[0].snapshot).toEqual("One: true\nTwo: false");
+  });
+
   test("transforms snapshot field when there is a model description", () => {
     const audit = {
       snapshot: {
@@ -145,6 +179,20 @@ describe("transformDataChangeAuditForExport", () => {
             "Tis: a\nModel: description\n\n\nName: Bob Smith\nAge: 50\nCase Id: 392"
         })
       ])
+    );
+  });
+
+  test("strips html tags from snapshot field", () => {
+    const audit = {
+      snapshot: {
+        note: "<p>Bob Smith <b>really</b> is interesting</b>"
+      },
+      subject: "Case",
+      modelDescription: []
+    };
+    const transformedAudit = transformDataChangeAuditForExport([audit]);
+    expect(transformedAudit[0].snapshot).toEqual(
+      "Note: Bob Smith really is interesting"
     );
   });
 

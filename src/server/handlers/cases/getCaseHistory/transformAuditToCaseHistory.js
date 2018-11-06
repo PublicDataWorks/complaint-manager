@@ -1,4 +1,5 @@
 import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+import striptags from "striptags";
 
 const _ = require("lodash");
 const {
@@ -49,7 +50,8 @@ const transformDetails = audit => {
 };
 
 const transformValue = value => {
-  return !value ? " " : value.toString();
+  if (value !== false && !value) return " ";
+  return striptags(value.toString());
 };
 
 module.exports = transformAuditToCaseHistory;

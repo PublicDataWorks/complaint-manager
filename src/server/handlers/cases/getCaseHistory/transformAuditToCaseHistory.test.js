@@ -75,9 +75,9 @@ describe("transformAuditToCaseHistory", () => {
     expect(caseHistories[0].details).toEqual(expectedDetails);
   });
 
-  test("it transtorms true values to true string", () => {
+  test("it transforms true and false values to true or false strings", () => {
     const auditChanges = {
-      includeRetaliationConcerns: { new: true, previous: null }
+      includeRetaliationConcerns: { new: true, previous: false }
     };
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
@@ -85,7 +85,7 @@ describe("transformAuditToCaseHistory", () => {
     const caseHistories = transformAuditToCaseHistory([audit]);
 
     const expectedDetails = {
-      "Include Retaliation Concerns": { previous: " ", new: "true" }
+      "Include Retaliation Concerns": { previous: "false", new: "true" }
     };
 
     expect(caseHistories[0].details).toEqual(expectedDetails);
@@ -184,5 +184,30 @@ describe("transformAuditToCaseHistory", () => {
 
     expect(caseHistories).toHaveLength(1);
     expect(caseHistories[0].details).toEqual({});
+  });
+
+  test("strips html tags from results", () => {
+    const auditChanges = {
+      note: {
+        previous: "<p>something <b>nested</b></p> <div>more</div>",
+        new:
+          "<b>bold stuff</b> <em>italic stuff</em> This uses the < symbol that shouldn't be deleted. >"
+      }
+    };
+    const audit = new DataChangeAudit.Builder()
+      .defaultDataChangeAudit()
+      .withAction(AUDIT_ACTION.DATA_UPDATED)
+      .withChanges(auditChanges);
+    const caseHistories = transformAuditToCaseHistory([audit], []);
+
+    const expectedDetails = {
+      Note: {
+        previous: "something nested more",
+        new:
+          "bold stuff italic stuff This uses the < symbol that shouldn't be deleted. >"
+      }
+    };
+    expect(caseHistories).toHaveLength(1);
+    expect(caseHistories[0].details).toEqual(expectedDetails);
   });
 });

@@ -1,10 +1,11 @@
-const {
+import {
   AUDIT_ACTION,
   AUDIT_FIELDS_TO_EXCLUDE,
   AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE,
   AUDIT_TYPE
-} = require("../../../sharedUtilities/constants");
-const _ = require("lodash");
+} from "../../../sharedUtilities/constants";
+import _ from "lodash";
+import striptags from "striptags";
 
 const transformDataChangeAuditForExport = audits => {
   return audits.map(audit => {
@@ -25,11 +26,16 @@ const transformChangeList = (action, changes) => {
     .map(fieldName => {
       return (
         `${_.startCase(fieldName)} changed from ` +
-        `'${changes[fieldName]["previous"] || ""}' to ` +
-        `'${changes[fieldName]["new"]}'`
+        `'${transformValue(changes[fieldName]["previous"])}' to ` +
+        `'${transformValue(changes[fieldName]["new"])}'`
       );
     })
     .join("\n");
+};
+
+const transformValue = value => {
+  if (value !== false && !value) return "";
+  return striptags(value.toString());
 };
 
 const fieldNamesValidForChangeList = changes => {
@@ -54,7 +60,7 @@ const transformSnapshot = ({ snapshot, subject, modelDescription }) => {
   let snapshotArray = fieldNamesValidForSnapshot(snapshot).map(fieldName => {
     const formattedFieldName =
       fieldName === "id" ? `${subject} Id` : `${_.startCase(fieldName)}`;
-    return `${formattedFieldName}: ${snapshot[fieldName]}`;
+    return `${formattedFieldName}: ${transformValue(snapshot[fieldName])}`;
   });
 
   if (modelDescription && modelDescription.length !== 0) {
