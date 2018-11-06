@@ -19,7 +19,7 @@ const AttachmentsRow = ({ attachment, onRemoveAttachment, dispatch }) => {
         data-test="attachmentRow"
       >
         <div style={{ flex: 1, textAlign: "left", marginRight: "32px" }}>
-          <a> </a>
+          <a href="#dynamicLink"> </a>
           <Typography
             data-test="attachmentName"
             style={{
