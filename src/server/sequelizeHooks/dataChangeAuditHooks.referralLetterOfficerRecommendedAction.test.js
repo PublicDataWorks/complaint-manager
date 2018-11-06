@@ -65,7 +65,7 @@ describe("dataChangeAuditHooks for referral letter officer recommended action", 
     await cleanupDatabase();
   });
 
-  test.only("it creates an audit for creating an officer recommended action", async () => {
+  test("it creates an audit for creating an officer recommended action", async () => {
     const audit = await models.data_change_audit.find({
       where: {
         modelName: "Referral Letter Officer Recommended Action",

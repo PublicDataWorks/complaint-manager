@@ -4,6 +4,9 @@ import Boom from "boom";
 import {
   ACCUSED,
   ADDRESSABLE_TYPE,
+  AUDIT_SUBJECT,
+  AUDIT_ACTION,
+  AUDIT_TYPE,
   CASE_STATUS,
   COMPLAINANT,
   WITNESS
@@ -53,7 +56,7 @@ describe("getLetterPreview", function() {
         authorization: "Bearer token"
       },
       params: { caseId: existingCase.id },
-      nickname: "nickname"
+      nickname: "bobjo"
     });
 
     const referralLetterAttributes = new ReferralLetter.Builder()
@@ -74,6 +77,22 @@ describe("getLetterPreview", function() {
 
     response = httpMocks.createResponse();
     next = jest.fn();
+  });
+
+  test("audits the data access", async () => {
+    await getLetterPreview(request, response, next);
+
+    const dataAccessAudit = await models.action_audit.find();
+    expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
+    expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
+    expect(dataAccessAudit.user).toEqual("bobjo");
+    expect(dataAccessAudit.caseId).toEqual(existingCase.id);
+    expect(dataAccessAudit.subject).toEqual(AUDIT_SUBJECT.REFERRAL_LETTER);
+    expect(dataAccessAudit.subjectDetails).toEqual([
+      "Case Data",
+      "Referral Letter Data"
+    ]);
+    expect(dataAccessAudit.subjectId).toEqual(null);
   });
 
   test("returns letter address info", async () => {

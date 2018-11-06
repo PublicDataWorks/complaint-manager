@@ -9,8 +9,11 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import getReferralLetter from "./getReferralLetter";
 import httpMocks from "node-mocks-http";
 import {
+  AUDIT_TYPE,
+  AUDIT_SUBJECT,
   CASE_STATUS,
-  COMPLAINANT
+  COMPLAINANT,
+  AUDIT_ACTION
 } from "../../../../../sharedUtilities/constants";
 import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
@@ -56,11 +59,24 @@ describe("getReferralLetter", () => {
         authorization: "Bearer token"
       },
       params: { caseId: existingCase.id },
-      nickname: "nickname"
+      nickname: "bobjo"
     });
 
     response = httpMocks.createResponse();
     next = jest.fn();
+  });
+
+  test("audits the data access", async () => {
+    await getReferralLetter(request, response, next);
+
+    const dataAccessAudit = await models.action_audit.find();
+    expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
+    expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
+    expect(dataAccessAudit.user).toEqual("bobjo");
+    expect(dataAccessAudit.caseId).toEqual(existingCase.id);
+    expect(dataAccessAudit.subject).toEqual(AUDIT_SUBJECT.REFERRAL_LETTER_DATA);
+    expect(dataAccessAudit.subjectDetails).toEqual(["Referral Letter Data"]);
+    expect(dataAccessAudit.subjectId).toEqual(null);
   });
 
   test("it returns letter data but does not include letter officers that are not accused officers", async () => {

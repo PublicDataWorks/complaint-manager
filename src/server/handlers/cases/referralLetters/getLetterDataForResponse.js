@@ -2,8 +2,8 @@ import models from "../../../models/index";
 import shortid from "shortid";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
 
-const getLetterDataForResponse = async caseId => {
-  let letterData = await getLetterData(caseId);
+const getLetterDataForResponse = async (caseId, transaction) => {
+  let letterData = await getLetterData(caseId, transaction);
   letterData = letterData.toJSON();
 
   const transformedLetterOfficerData = letterData.caseOfficers.map(
@@ -64,7 +64,7 @@ const buildEmptyIAProCorrections = () => {
   return [emptyObject(), emptyObject(), emptyObject()];
 };
 
-const getLetterData = async caseId => {
+const getLetterData = async (caseId, transaction) => {
   return await models.referral_letter.findOne({
     where: { caseId: caseId },
     attributes: ["id", "caseId", "includeRetaliationConcerns"],
@@ -126,7 +126,8 @@ const getLetterData = async caseId => {
           }
         ]
       }
-    ]
+    ],
+    transaction
   });
 };
 
