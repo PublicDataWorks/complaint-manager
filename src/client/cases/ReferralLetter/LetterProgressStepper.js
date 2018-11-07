@@ -4,22 +4,20 @@ import {
   LETTER_PROGRESS,
   LETTER_PROGRESS_MAP
 } from "../../../sharedUtilities/constants";
-import { push } from "react-router-redux";
-
-const LETTER_REDIRECT_URL_MAP = {
-  [LETTER_PROGRESS.REVIEW_CASE_DETAILS]: `/cases/${caseId}/letter/review`,
-  [LETTER_PROGRESS.OFFICER_COMPLAINT_HISTORIES]: `/cases/${caseId}/letter/officer-history`,
-  [LETTER_PROGRESS.IAPRO_CORRECTIONS]: `/cases/${caseId}/letter/iapro-corrections`,
-  [LETTER_PROGRESS.RECOMMENDED_ACTIONS]: `/cases/${caseId}/letter/recommended-actions`,
-  [LETTER_PROGRESS.PREVIEW]: `/cases/${caseId}/letter/letter-preview`
-};
 
 const LetterProgressStepper = ({
   currentLetterStatus,
   pageChangeCallback,
-  caseId,
-  dispatch
+  caseId
 }) => {
+  const LETTER_REDIRECT_URL_MAP = {
+    [LETTER_PROGRESS.REVIEW_CASE_DETAILS]: `/cases/${caseId}/letter/review`,
+    [LETTER_PROGRESS.OFFICER_COMPLAINT_HISTORIES]: `/cases/${caseId}/letter/officer-history`,
+    [LETTER_PROGRESS.IAPRO_CORRECTIONS]: `/cases/${caseId}/letter/iapro-corrections`,
+    [LETTER_PROGRESS.RECOMMENDED_ACTIONS]: `/cases/${caseId}/letter/recommended-actions`,
+    [LETTER_PROGRESS.PREVIEW]: `/cases/${caseId}/letter/letter-preview`
+  };
+
   const generateSteps = map => {
     return Object.keys(map).map(key => {
       return (
@@ -36,10 +34,7 @@ const LetterProgressStepper = ({
   };
 
   const handlePageChange = key => {
-    if (pageChangeCallback) {
-      return pageChangeCallback(LETTER_REDIRECT_URL_MAP[key]);
-    }
-    return dispatch(push(LETTER_REDIRECT_URL_MAP[key]));
+    return pageChangeCallback(LETTER_REDIRECT_URL_MAP[key]);
   };
 
   return (

@@ -49,6 +49,10 @@ export class LetterReview extends Component {
     return validStatuses.includes(this.props.caseDetail.status);
   };
 
+  pageChangeCallback = redirectUrl => () => {
+    this.props.dispatch(push(redirectUrl));
+  };
+
   render() {
     const { caseDetail } = this.props;
     const caseId = this.props.match.params.id;
@@ -96,7 +100,7 @@ export class LetterReview extends Component {
         <div style={{ margin: "0% 5% 3%", width: "60%" }}>
           <LetterProgressStepper
             currentLetterStatus={LETTER_PROGRESS.REVIEW_CASE_DETAILS}
-            dispatch={this.props.dispatch}
+            pageChangeCallback={this.pageChangeCallback}
             caseId={caseId}
           />
 
