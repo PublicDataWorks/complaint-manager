@@ -15,6 +15,7 @@ const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 const winston = require("winston");
 
 const exportAuditLog = async (job, done) => {
+  winston.info(`About to run Audit Log Export Job with id ${job.id}`);
   try {
     const dateFormatter = {
       date: formatDateForCSV
@@ -84,10 +85,15 @@ const exportAuditLog = async (job, done) => {
         JOB_OPERATION.AUDIT_LOG_EXPORT.filename,
         JOB_OPERATION.AUDIT_LOG_EXPORT.key
       );
+      winston.info(`Done running Audit Log Export Job with id ${job.id}`);
       done(null, s3Result);
     });
   } catch (err) {
-    winston.error(err);
+    winston.error(
+      `Error running Audit Log Export Job with id ${job.id}: `,
+      err
+    );
+    console.dir(err);
     done(err);
   }
 };
