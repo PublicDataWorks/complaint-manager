@@ -89,4 +89,76 @@ describe("Edit Letter Html", () => {
       )
     );
   });
+
+  describe("Saves and Redirects when click Stepper Buttons", function() {
+    test("it dispatches edit and redirects to review letter when click review case details stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Review Case Details"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editReferralLetterContent(
+          caseId,
+          initialLetterHtml,
+          `/cases/${caseId}/letter/review`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to officer history when click officer history stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Officer Complaint Histories"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editReferralLetterContent(
+          caseId,
+          initialLetterHtml,
+          `/cases/${caseId}/letter/officer-history`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to iapro corrections when click iapro corrections stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-IAPro Corrections"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editReferralLetterContent(
+          caseId,
+          initialLetterHtml,
+          `/cases/${caseId}/letter/iapro-corrections`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Recommended Actions"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editReferralLetterContent(
+          caseId,
+          initialLetterHtml,
+          `/cases/${caseId}/letter/recommended-actions`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to preview when click preview stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Preview"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editReferralLetterContent(
+          caseId,
+          initialLetterHtml,
+          `/cases/${caseId}/letter/letter-preview`
+        )
+      );
+    });
+  });
 });
