@@ -47,6 +47,10 @@ class IAProCorrections extends Component {
     );
   };
 
+  pageChangeCallback = redirectUrl => {
+    return this.props.handleSubmit(this.submitForm(redirectUrl));
+  };
+
   submitForm = redirectUrl => (values, dispatch) => {
     dispatch(editIAProCorrections(this.state.caseId, values, redirectUrl));
   };
@@ -151,6 +155,8 @@ class IAProCorrections extends Component {
           <div style={{ margin: "0% 5% 3%", width: "60%" }}>
             <LetterProgressStepper
               currentLetterStatus={LETTER_PROGRESS.IAPRO_CORRECTIONS}
+              pageChangeCallback={this.pageChangeCallback}
+              caseId={this.state.caseId}
             />
             <div style={{ margin: "0 0 32px 0" }}>
               <Typography variant="title">IAPro Corrections</Typography>
