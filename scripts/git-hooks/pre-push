@@ -15,7 +15,6 @@ fi
 
 sh ./scripts/security-checks.sh
 
-docker-compose down
 docker-compose build
 
 # Run Unit
