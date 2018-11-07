@@ -32,12 +32,9 @@ describe("GET /api/export-audit-log", () => {
 
       uploadFileToS3.mockImplementation(jest.fn);
 
-      try {
-        const job = { data: { user: "some user" } };
-        await exportAudit(job, async () => {});
-      } catch (e) {
-        // forced an error from stringfy()
-      }
+      const job = { data: { user: "some user" } };
+      await exportAudit(job, async () => {});
+
       const exportActionAudit = await models.action_audit.find({
         where: {
           auditType: AUDIT_TYPE.EXPORT,

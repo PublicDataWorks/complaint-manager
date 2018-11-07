@@ -31,7 +31,7 @@ const csvCaseExport = async (job, done) => {
     done(null, s3Result);
   } catch (err) {
     winston.error(`Error running Case Export Job with id ${job.id}: `, err);
-    console.dir(err);
+    winston.error(util.inspect(err));
     done(err);
   }
 };
