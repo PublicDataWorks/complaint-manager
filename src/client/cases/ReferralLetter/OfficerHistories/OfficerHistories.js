@@ -51,7 +51,6 @@ class OfficerHistories extends Component {
 
   submitForm = redirectUrl => (values, dispatch) => {
     if (values.letterOfficers.length === 0) {
-      console.log("no officers");
       dispatch(push(redirectUrl));
     } else {
       dispatch(editOfficerHistory(this.state.caseId, values, redirectUrl));
