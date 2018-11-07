@@ -1,21 +1,53 @@
 import React, { Fragment } from "react";
-import { Step, StepLabel, Stepper } from "@material-ui/core";
+import { Step, StepLabel, Stepper, StepButton } from "@material-ui/core";
 import { LETTER_PROGRESS_MAP } from "../../../sharedUtilities/constants";
 
-const generateSteps = map => {
-  return Object.keys(map).map(key => {
-    return (
-      <Step key={key} completed={false}>
-        <StepLabel>{key}</StepLabel>
-      </Step>
-    );
-  });
-};
+const LetterProgressStepper = ({
+  currentLetterStatus,
+  pageChangeCallback,
+  caseId
+}) => {
+  const generateSteps = map => {
+    return Object.keys(map).map(key => {
+      const redirectUrl = determineRedirectUrl(key);
+      return (
+        <Step key={key} completed={false}>
+          <StepButton
+            onClick={handlePageChange(redirectUrl)}
+            data-test={`step-button-${key}`}
+          >
+            <StepLabel>{key}</StepLabel>
+          </StepButton>
+        </Step>
+      );
+    });
+  };
 
-const LetterProgressStepper = ({ currentLetterStatus }) => {
+  const handlePageChange = redirectUrl => {
+    if (pageChangeCallback) {
+      return pageChangeCallback(redirectUrl);
+    }
+  };
+
+  const determineRedirectUrl = key => {
+    switch (key) {
+      case "Review Case Details":
+        return `/cases/${caseId}/letter/review`;
+      case "Officer Complaint Histories":
+        return `/cases/${caseId}/letter/officer-history`;
+      case "IAPro Corrections":
+        return `/cases/${caseId}/letter/iapro-corrections`;
+      case "Recommended Actions":
+        return `/cases/${caseId}/letter/recommended-actions`;
+      case "Preview":
+        return `/cases/${caseId}/letter/letter-preview`;
+    }
+  };
+
   return (
     <Fragment>
       <Stepper
+        nonLinear
         data-test="statusStepper"
         activeStep={LETTER_PROGRESS_MAP[currentLetterStatus]}
         alternativeLabel
