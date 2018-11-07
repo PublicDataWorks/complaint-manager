@@ -96,6 +96,8 @@ export class LetterReview extends Component {
         <div style={{ margin: "0% 5% 3%", width: "60%" }}>
           <LetterProgressStepper
             currentLetterStatus={LETTER_PROGRESS.REVIEW_CASE_DETAILS}
+            dispatch={this.props.dispatch}
+            caseId={caseId}
           />
 
           <div style={{ margin: "0 0 32px 0" }}>

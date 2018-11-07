@@ -1,11 +1,13 @@
 import React, { Fragment } from "react";
 import { Step, StepLabel, Stepper, StepButton } from "@material-ui/core";
 import { LETTER_PROGRESS_MAP } from "../../../sharedUtilities/constants";
+import { push } from "react-router-redux";
 
 const LetterProgressStepper = ({
   currentLetterStatus,
   pageChangeCallback,
-  caseId
+  caseId,
+  dispatch
 }) => {
   const generateSteps = map => {
     return Object.keys(map).map(key => {
@@ -27,6 +29,7 @@ const LetterProgressStepper = ({
     if (pageChangeCallback) {
       return pageChangeCallback(redirectUrl);
     }
+    return dispatch(push(redirectUrl));
   };
 
   const determineRedirectUrl = key => {
