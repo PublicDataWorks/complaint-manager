@@ -1,7 +1,18 @@
 import React, { Fragment } from "react";
 import { Step, StepLabel, Stepper, StepButton } from "@material-ui/core";
-import { LETTER_PROGRESS_MAP } from "../../../sharedUtilities/constants";
+import {
+  LETTER_PROGRESS,
+  LETTER_PROGRESS_MAP
+} from "../../../sharedUtilities/constants";
 import { push } from "react-router-redux";
+
+const LETTER_REDIRECT_URL_MAP = {
+  [LETTER_PROGRESS.REVIEW_CASE_DETAILS]: `/cases/${caseId}/letter/review`,
+  [LETTER_PROGRESS.OFFICER_COMPLAINT_HISTORIES]: `/cases/${caseId}/letter/officer-history`,
+  [LETTER_PROGRESS.IAPRO_CORRECTIONS]: `/cases/${caseId}/letter/iapro-corrections`,
+  [LETTER_PROGRESS.RECOMMENDED_ACTIONS]: `/cases/${caseId}/letter/recommended-actions`,
+  [LETTER_PROGRESS.PREVIEW]: `/cases/${caseId}/letter/letter-preview`
+};
 
 const LetterProgressStepper = ({
   currentLetterStatus,
@@ -11,11 +22,10 @@ const LetterProgressStepper = ({
 }) => {
   const generateSteps = map => {
     return Object.keys(map).map(key => {
-      const redirectUrl = determineRedirectUrl(key);
       return (
         <Step key={key} completed={false}>
           <StepButton
-            onClick={handlePageChange(redirectUrl)}
+            onClick={handlePageChange(key)}
             data-test={`step-button-${key}`}
           >
             <StepLabel>{key}</StepLabel>
@@ -25,26 +35,11 @@ const LetterProgressStepper = ({
     });
   };
 
-  const handlePageChange = redirectUrl => {
+  const handlePageChange = key => {
     if (pageChangeCallback) {
-      return pageChangeCallback(redirectUrl);
+      return pageChangeCallback(LETTER_REDIRECT_URL_MAP[key]);
     }
-    return dispatch(push(redirectUrl));
-  };
-
-  const determineRedirectUrl = key => {
-    switch (key) {
-      case "Review Case Details":
-        return `/cases/${caseId}/letter/review`;
-      case "Officer Complaint Histories":
-        return `/cases/${caseId}/letter/officer-history`;
-      case "IAPro Corrections":
-        return `/cases/${caseId}/letter/iapro-corrections`;
-      case "Recommended Actions":
-        return `/cases/${caseId}/letter/recommended-actions`;
-      case "Preview":
-        return `/cases/${caseId}/letter/letter-preview`;
-    }
+    return dispatch(push(LETTER_REDIRECT_URL_MAP[key]));
   };
 
   return (
