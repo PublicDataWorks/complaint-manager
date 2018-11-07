@@ -11,6 +11,7 @@ import { Field, reduxForm } from "redux-form";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 import { openCancelEditLetterConfirmationDialog } from "../../../actionCreators/letterActionCreators";
 import CancelEditLetterConfirmationDialog from "./CancelEditLetterConfirmationDialog";
+import editReferralLetterContent from "../thunks/editReferralLetterContent";
 
 const RichTextEditorComponent = props => {
   return (
@@ -33,6 +34,16 @@ export class EditLetter extends Component {
 
   letterPreviewNotYetLoaded = () => {
     return this.props.letterHtml === "";
+  };
+
+  saveAndGoBackToPreview = () => {
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}/letter/letter-preview`)
+    );
+  };
+
+  submitForm = redirectUrl => (values, dispatch) => {
+    dispatch(editReferralLetterContent(this.state.caseId, values, redirectUrl));
   };
 
   render() {
@@ -78,7 +89,7 @@ export class EditLetter extends Component {
               <CardContent>
                 <form>
                   <Field
-                    name="letterHtml"
+                    name="editedLetterHtml"
                     data-test="editLetterHtml"
                     component={RichTextEditorComponent}
                     fullWidth
@@ -103,7 +114,12 @@ export class EditLetter extends Component {
                 </SecondaryButton>
               </span>
               <span style={{ flex: 1, textAlign: "right" }}>
-                <SecondaryButton data-test="edit-button">Save</SecondaryButton>
+                <SecondaryButton
+                  data-test="save-button"
+                  onClick={this.saveAndGoBackToPreview()}
+                >
+                  Save
+                </SecondaryButton>
               </span>
             </div>
           </div>
@@ -114,7 +130,7 @@ export class EditLetter extends Component {
 }
 
 const mapStateToProps = state => ({
-  initialValues: { letterHtml: state.referralLetter.letterHtml }
+  initialValues: { editedLetterHtml: state.referralLetter.letterHtml }
 });
 
 export default connect(mapStateToProps)(

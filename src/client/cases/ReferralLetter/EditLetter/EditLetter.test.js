@@ -8,11 +8,17 @@ import {
   openCancelEditLetterConfirmationDialog
 } from "../../../actionCreators/letterActionCreators";
 import getLetterPreview from "../thunks/getLetterPreview";
+import EditLetter from "./EditLetter";
+import editReferralLetterContent from "../thunks/editReferralLetterContent";
+
 require("../../../testUtilities/MockMutationObserver");
 
 jest.mock("../thunks/getLetterPreview", () => () => ({ type: "" }));
 
-import EditLetter from "./EditLetter";
+jest.mock(
+  "../thunks/editReferralLetterContent",
+  (caseId, referralLetterHtml, url) => () => ({ type: "" })
+);
 
 describe("Edit Letter Html", () => {
   let store, dispatchSpy, wrapper;
@@ -69,5 +75,18 @@ describe("Edit Letter Html", () => {
       .find("[data-test='cancel-edit-letter-dialog']")
       .first();
     expect(cancelEditLetterDialog.length).toEqual(1);
+  });
+
+  test("dispatch to editReferralLetterContent when clicking save button", () => {
+    const saveButton = wrapper.find("[data-test='save-button']").first();
+    saveButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editReferralLetterContent(
+        caseId,
+        initialLetterHtml,
+        `/cases/${caseId}/letter/letter-preview`
+      )
+    );
   });
 });

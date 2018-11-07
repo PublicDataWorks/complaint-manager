@@ -21,8 +21,8 @@ const EditLetterConfirmationDialog = ({ open, dispatch, caseId }) => {
       <DialogContent>
         <Typography data-test="warningText">
           This action will allow you to make edits to the system generated
-          letter. Your custom edited letter will replace your current version.{" "}
-          <strong>You cannot undo this action.</strong>
+          letter. Once saved, your custom edited letter will replace the current
+          version. <strong>You cannot undo this action.</strong>
           <br />
           <br />
           Would you like to continue?

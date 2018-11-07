@@ -12,6 +12,7 @@ require("../../../../handlebarHelpers");
 
 const getLetterPreview = asyncMiddleware(async (request, response, next) => {
   await checkForValidStatus(request.params.caseId);
+
   await models.sequelize.transaction(async transaction => {
     await auditDataAccess(
       request.nickname,
@@ -20,26 +21,31 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
       transaction,
       AUDIT_ACTION.DATA_ACCESSED
     );
-    const caseData = (await getCaseData(
-      request.params.caseId,
-      transaction
-    )).toJSON();
-    caseData.accusedOfficers.sort((officerA, officerB) => {
-      return officerA.createdAt > officerB.createdAt;
-    });
 
-    const rawTemplate = fs.readFileSync(
-      "src/server/handlers/cases/referralLetters/getLetterPreview/letter.tpl"
+    const referralLetter = await models.referral_letter.findOne(
+      { where: { caseId: request.params.caseId } },
+      transaction
     );
-    const compiledTemplate = Handlebars.compile(rawTemplate.toString());
-    const html = compiledTemplate(caseData);
-    let referralLetter = caseData.referralLetter;
+
     let letterAddresses = {
       recipient: referralLetter.recipient,
       sender: referralLetter.sender,
       transcribedBy: referralLetter.transcribedBy
     };
-    response.send({ letterHtml: html, addresses: letterAddresses });
+
+    let html;
+    const edited = referralLetter.editedLetterHtml != null;
+    if (edited) {
+      html = referralLetter.editedLetterHtml;
+    } else {
+      html = await generateReferralLetterFromCaseData(request, transaction);
+    }
+
+    response.send({
+      letterHtml: html,
+      addresses: letterAddresses,
+      edited: edited
+    });
   });
 });
 
@@ -142,5 +148,21 @@ const getCaseData = async (caseId, transaction) => {
     transaction
   });
 };
+
+async function generateReferralLetterFromCaseData(request, transaction) {
+  const caseData = (await getCaseData(
+    request.params.caseId,
+    transaction
+  )).toJSON();
+  caseData.accusedOfficers.sort((officerA, officerB) => {
+    return officerA.createdAt > officerB.createdAt;
+  });
+
+  const rawTemplate = fs.readFileSync(
+    "src/server/handlers/cases/referralLetters/getLetterPreview/letter.tpl"
+  );
+  const compiledTemplate = Handlebars.compile(rawTemplate.toString());
+  return compiledTemplate(caseData);
+}
 
 export default getLetterPreview;

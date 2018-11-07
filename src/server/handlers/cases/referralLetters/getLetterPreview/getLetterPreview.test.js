@@ -313,6 +313,20 @@ describe("getLetterPreview", function() {
     expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
   });
 
+  test("return saved letter content when editedLetterHtml is not null", async () => {
+    const editedLetterHtml = "<p> letter html content</p>";
+    await referralLetter.update(
+      { editedLetterHtml: editedLetterHtml },
+      { auditUser: "someone" }
+    );
+
+    await getLetterPreview(request, response, next);
+
+    const letterHtml = response._getData().letterHtml;
+    expect(letterHtml).toEqual(editedLetterHtml);
+    expect(response._getData().edited).toBeTruthy();
+  });
+
   describe("snapshotTests", function() {
     let letterOfficer;
 

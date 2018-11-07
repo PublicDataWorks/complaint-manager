@@ -3,6 +3,7 @@ import editIAProCorrections from "./handlers/cases/referralLetters/editIAProCorr
 import editRecommendedActions from "./handlers/cases/referralLetters/editRecommendedActions/editRecommendedActions";
 import getLetterPreview from "./handlers/cases/referralLetters/getLetterPreview/getLetterPreview";
 import editReferralLetterAddresses from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetterAddresses";
+import editReferralLetterContent from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetterContent";
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
 const editCase = require("./handlers/cases/editCase");
@@ -98,6 +99,7 @@ router.put(
   "/cases/:caseId/referral-letter/addresses",
   editReferralLetterAddresses
 );
+router.put("/cases/:caseId/referral-letter/content", editReferralLetterContent);
 
 router.use("/cases/:id/attachments", attachmentRouter);
 router.use(

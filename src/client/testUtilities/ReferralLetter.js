@@ -6,6 +6,7 @@ class ReferralLetter {
     this.recipient = build.recipient;
     this.sender = build.sender;
     this.transcribedBy = build.transcribedBy;
+    this.editedLetterHtml = build.editedLetterHtml;
   }
 
   static get Builder() {
@@ -14,6 +15,7 @@ class ReferralLetter {
         this.id = 4;
         this.caseId = 40;
         this.includeRetaliationConcerns = true;
+        this.editedLetterHtml = null;
         return this;
       }
 
@@ -44,6 +46,11 @@ class ReferralLetter {
 
       withTranscribedBy(transcribedBy) {
         this.transcribedBy = transcribedBy;
+        return this;
+      }
+
+      withEditedLetterHtml(editedLetterHtml) {
+        this.editedLetterHtml = editedLetterHtml;
         return this;
       }
     }
