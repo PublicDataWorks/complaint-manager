@@ -10,7 +10,7 @@ const getComponentOnType = (address, desired_types) => {
 };
 
 const getLatLng = address => {
-  let lat,
+  let lat = null,
     lng = null;
   if (address.geometry) {
     lat = address.geometry.location.lat();
@@ -47,10 +47,9 @@ const parseAddressFromGooglePlaceResult = address => {
     ? intersectionComponent.short_name
     : "";
 
-  const placeId = address.place_id ? address.place_id : "";
+  const placeId = address.place_id ? address.place_id : null;
   const lat = getLatLng(address).lat;
   const lng = getLatLng(address).lng;
-
   return {
     streetAddress,
     intersection,

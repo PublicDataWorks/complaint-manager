@@ -36,6 +36,8 @@ import generateJobReducer from "./reducers/export/generateJobReducer";
 import iaProCorrectionsReducer from "./reducers/ui/iaProCorrectionDialogReducer";
 import allExportsReducer from "./reducers/ui/allExportsReducer";
 import recommendedActionsReducer from "./reducers/cases/recommendedActionsReducer";
+import editReferralLetterReducer from "./reducers/ui/editReferralLetterReducer";
+import cancelEditLetterConfirmationDialogReducer from "./reducers/ui/cancelEditlLetterConfirmationDialogReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -65,6 +67,8 @@ const rootReducer = combineReducers({
     allExports: allExportsReducer,
     removePersonDialog: removePersonDialogReducer,
     removeCaseNoteDialog: removeCaseNoteDialogReducer,
+    editLetterConfirmationDialog: editReferralLetterReducer,
+    cancelEditLetterConfirmationDialog: cancelEditLetterConfirmationDialogReducer,
     attachments: attachmentsReducer,
     search: searchReducer,
     allegations: allegationMenuDisplay,

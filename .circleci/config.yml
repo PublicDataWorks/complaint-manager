@@ -15,11 +15,8 @@ jobs:
               name: Install Dependencies
               command: yarn install
           - run:
-              name: Run client tests
-              command: yarn test:client:ci
-          - run:
-              name: Run server tests
-              command: yarn test:server:ci
+              name: Run client, server and worker tests
+              command: yarn test:once
               environment:
                 NEW_RELIC_ENABLED: false
                 NEW_RELIC_NO_CONFIG_FILE: true
@@ -226,7 +223,7 @@ jobs:
                 noipm/complaint-manager-production:$CIRCLE_SHA1 yarn setup:task:migrate
           - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
           - run: docker tag noipm/complaint-manager-production:$CIRCLE_SHA1 registry.heroku.com/noipm-production/web
-          - run: docker tag noipm/complaint-manager-woeker:$CIRCLE_SHA1 registry.heroku.com/noipm-production/worker
+          - run: docker tag noipm/complaint-manager-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-production/worker
           - run: docker push registry.heroku.com/noipm-production/web
           - run: docker push registry.heroku.com/noipm-production/worker
           - run: heroku container:release web worker --app noipm-production
@@ -269,7 +266,7 @@ workflows:
             filters:
               branches:
                 only:
-                  - release_v1.6.0
+                  - release_v1.8.0
         - security-check:
             requires:
               - test

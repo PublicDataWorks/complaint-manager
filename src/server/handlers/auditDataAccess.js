@@ -6,6 +6,8 @@ const {
 } = require("../../sharedUtilities/constants");
 
 const SUBJECT_DETAILS = {
+  [AUDIT_SUBJECT.REFERRAL_LETTER_DATA]: ["Referral Letter Data"],
+  [AUDIT_SUBJECT.REFERRAL_LETTER]: ["Case Data", "Referral Letter Data"],
   [AUDIT_SUBJECT.CASE_DETAILS]: [
     "Case Information",
     "Incident Location",

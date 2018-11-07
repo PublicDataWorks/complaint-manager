@@ -7,7 +7,6 @@ import {
 jest.mock("../../../auth/getAccessToken");
 import { push } from "react-router-redux";
 import editOfficerHistory from "./editOfficerHistory";
-import { editReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 
 describe("editReferralLetter", () => {
   let caseId, dispatch, requestBody;
@@ -15,7 +14,7 @@ describe("editReferralLetter", () => {
     caseId = 5;
     dispatch = jest.fn();
     requestBody = {
-      referralLetterOfficers: [
+      letterOfficers: [
         {
           caseOfficerId: 99,
           fullName: "Elenor Wrell",
@@ -35,10 +34,9 @@ describe("editReferralLetter", () => {
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
-  test("dispatches success with letter details on success", async () => {
+  test("dispatches snackbar success on success, doesn't redirect to case details page", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
 
-    const responseBody = { id: 9, referralLetterOfficers: [] };
     nock("http://localhost", {
       reqheaders: {
         "Content-Type": "application/json",
@@ -46,21 +44,18 @@ describe("editReferralLetter", () => {
       }
     })
       .put(`/api/cases/${caseId}/referral-letter/officer-history`, requestBody)
-      .reply(200, responseBody);
+      .reply(200, {});
 
     await editOfficerHistory(caseId, requestBody, "redirectRoute")(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
-      editReferralLetterSuccess(responseBody)
-    );
-    expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Officer complaint history was successfully updated")
     );
+    expect(dispatch).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
 
   test("routes to given redirect url on success", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
 
-    const responseBody = { id: 9, referralLetterOfficers: [] };
     nock("http://localhost", {
       reqheaders: {
         "Content-Type": "application/json",
@@ -68,13 +63,13 @@ describe("editReferralLetter", () => {
       }
     })
       .put(`/api/cases/${caseId}/referral-letter/officer-history`, requestBody)
-      .reply(200, responseBody);
+      .reply(200, {});
 
     await editOfficerHistory(caseId, requestBody, "redirectRoute")(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("redirectRoute"));
   });
 
-  test("dispatches failure on error response", async () => {
+  test("dispatches failure on 500 error response", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
     nock("http://localhost", {
       reqheaders: {
@@ -91,5 +86,23 @@ describe("editReferralLetter", () => {
         "Something went wrong and the officer history was not updated. Please try again."
       )
     );
+  });
+
+  test("redirects to case details page if 400 error response (invalid letter generation case status)", async () => {
+    const responseBody = {
+      message: "Invalid case status"
+    };
+    getAccessToken.mockImplementation(() => "TEST_TOKEN");
+    nock("http://localhost", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer TEST_TOKEN`
+      }
+    })
+      .put(`/api/cases/${caseId}/referral-letter/officer-history`, requestBody)
+      .reply(400, responseBody);
+
+    await editOfficerHistory(caseId, requestBody, "redirectRoute")(dispatch);
+    expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
 });

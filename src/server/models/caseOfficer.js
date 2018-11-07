@@ -147,7 +147,7 @@ module.exports = (sequelize, DataTypes) => {
             transaction: options.transaction
           });
 
-          await instance.sequelize.models.referral_letter_officer.destroy({
+          await instance.sequelize.models.letter_officer.destroy({
             where: { caseOfficerId: instance.dataValues.id },
             auditUser: options.auditUser,
             transaction: options.transaction
@@ -242,8 +242,8 @@ module.exports = (sequelize, DataTypes) => {
         field: "case_id"
       }
     });
-    CaseOfficer.hasOne(models.referral_letter_officer, {
-      as: "referralLetterOfficer",
+    CaseOfficer.hasOne(models.letter_officer, {
+      as: "letterOfficer",
       foreignKey: {
         name: "caseOfficerId",
         field: "case_officer_id"

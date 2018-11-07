@@ -90,7 +90,7 @@ export class LetterReview extends Component {
           to={`/cases/${caseId}`}
           style={{ margin: "2% 0% 2% 4%" }}
         >
-          Return to Case
+          Back to Case
         </LinkButton>
 
         <div style={{ margin: "0% 5% 3%", width: "60%" }}>

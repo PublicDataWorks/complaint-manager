@@ -1,16 +1,15 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import checkForValidStatus from "../checkForValidStatus";
 import models from "../../../../models";
-import getLetterDataForResponse from "../getLetterDataForResponse";
 
 const editRecommendedActions = asyncMiddleware(
   async (request, response, next) => {
     await checkForValidStatus(request.params.caseId);
 
     await models.sequelize.transaction(async transaction => {
-      if (request.body.referralLetterOfficers) {
+      if (request.body.letterOfficers) {
         await createOrUpdateReferralLetterOfficerRecommendedActions(
-          request.body.referralLetterOfficers,
+          request.body.letterOfficers,
           request.nickname,
           transaction
         );
@@ -27,35 +26,33 @@ const editRecommendedActions = asyncMiddleware(
         );
       }
     });
-    const letterDataForResponse = await getLetterDataForResponse(
-      request.params.caseId
-    );
-    return response.status(200).send(letterDataForResponse);
+
+    return response.status(200).send();
   }
 );
 
 const createOrUpdateReferralLetterOfficerRecommendedActions = async (
-  referralLetterOfficers,
+  letterOfficers,
   userNickname,
   transaction
 ) => {
-  for (const referralLetterOfficer of referralLetterOfficers) {
-    if (referralLetterOfficer.referralLetterOfficerRecommendedActions) {
+  for (const letterOfficer of letterOfficers) {
+    if (letterOfficer.referralLetterOfficerRecommendedActions) {
       const existingRecommendedActions = await getExistingReferralLetterOfficerRecommendedActions(
-        referralLetterOfficer.id
+        letterOfficer.id
       );
 
       await deleteRemovedReferralOfficerRecommendedActions(
         existingRecommendedActions,
-        referralLetterOfficer,
+        letterOfficer,
         userNickname,
         transaction
       );
 
-      for (const recommendedAction of referralLetterOfficer.referralLetterOfficerRecommendedActions) {
+      for (const recommendedAction of letterOfficer.referralLetterOfficerRecommendedActions) {
         if (!existingRecommendedActions.includes(recommendedAction)) {
           await createNewRecommendedAction(
-            referralLetterOfficer.id,
+            letterOfficer.id,
             recommendedAction,
             userNickname,
             transaction
@@ -63,17 +60,15 @@ const createOrUpdateReferralLetterOfficerRecommendedActions = async (
         }
       }
     }
-    if (referralLetterOfficer.recommendedActionNotes) {
-      const existingReferralLetterOfficer = await models.referral_letter_officer.findById(
-        referralLetterOfficer.id
-      );
-      await existingReferralLetterOfficer.update(
-        {
-          recommendedActionNotes: referralLetterOfficer.recommendedActionNotes
-        },
-        { auditUser: userNickname, transaction }
-      );
-    }
+    const existingLetterOfficer = await models.letter_officer.findById(
+      letterOfficer.id
+    );
+    await existingLetterOfficer.update(
+      {
+        recommendedActionNotes: letterOfficer.recommendedActionNotes
+      },
+      { auditUser: userNickname, transaction }
+    );
   }
 };
 
@@ -91,7 +86,7 @@ const createNewRecommendedAction = async (
 
 const deleteRemovedReferralOfficerRecommendedActions = async (
   existingRecommendedActions,
-  referralLetterOfficer,
+  letterOfficer,
   userNickname,
   transaction
 ) => {
@@ -99,17 +94,16 @@ const deleteRemovedReferralOfficerRecommendedActions = async (
     return;
   }
   const submittedRecommendedActions =
-    referralLetterOfficer.referralLetterOfficerRecommendedActions;
+    letterOfficer.referralLetterOfficerRecommendedActions;
   const recommendedActionsToBeDeleted = existingRecommendedActions.filter(
     existingRecommendedAction =>
       !submittedRecommendedActions.includes(existingRecommendedAction)
   );
-  await models.referral_letter_officer_recommended_action.destroy(
-    {
-      where: { recommendedActionId: recommendedActionsToBeDeleted }
-    },
-    { auditUser: userNickname, transaction }
-  );
+  await models.referral_letter_officer_recommended_action.destroy({
+    where: { recommendedActionId: recommendedActionsToBeDeleted },
+    auditUser: userNickname,
+    transaction
+  });
 };
 
 const getExistingReferralLetterOfficerRecommendedActions = async referralLetterOfficerId => {

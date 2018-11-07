@@ -25,7 +25,7 @@ describe("OfficerHistories page", function() {
       const referralLetterDetails = {
         id: caseId,
         caseId: caseId,
-        referralLetterOfficers: [
+        letterOfficers: [
           { fullName: "Officer 1", id: 0, caseOfficerId: 10 },
           { fullName: "Officer 2", id: 1, caseOfficerId: 11 },
           { fullName: "Officer 3", id: 2, caseOfficerId: 12 }
@@ -83,17 +83,17 @@ describe("OfficerHistories page", function() {
     test("it calculates the number of total historical allegations entered", () => {
       changeInput(
         wrapper,
-        "[name='referralLetterOfficers[0].numHistoricalHighAllegations']",
+        "[name='letterOfficers[0].numHistoricalHighAllegations']",
         "1"
       );
       changeInput(
         wrapper,
-        "[name='referralLetterOfficers[0].numHistoricalMedAllegations']",
+        "[name='letterOfficers[0].numHistoricalMedAllegations']",
         "2"
       );
       changeInput(
         wrapper,
-        "[name='referralLetterOfficers[0].numHistoricalLowAllegations']",
+        "[name='letterOfficers[0].numHistoricalLowAllegations']",
         "3"
       );
       containsText(
@@ -106,17 +106,17 @@ describe("OfficerHistories page", function() {
     test("it ignores invalid values when calculating the number of total historical allegations entered", () => {
       changeInput(
         wrapper,
-        "[name='referralLetterOfficers[0].numHistoricalHighAllegations']",
+        "[name='letterOfficers[0].numHistoricalHighAllegations']",
         "abc"
       );
       changeInput(
         wrapper,
-        "[name='referralLetterOfficers[0].numHistoricalMedAllegations']",
+        "[name='letterOfficers[0].numHistoricalMedAllegations']",
         " "
       );
       changeInput(
         wrapper,
-        "[name='referralLetterOfficers[0].numHistoricalLowAllegations']",
+        "[name='letterOfficers[0].numHistoricalLowAllegations']",
         2
       );
       containsText(
@@ -130,7 +130,7 @@ describe("OfficerHistories page", function() {
       const referralLetterDetailsWithoutOfficers = {
         id: caseId,
         caseId: caseId,
-        referralLetterOfficers: []
+        letterOfficers: []
       };
       store.dispatch(
         getReferralLetterSuccess(referralLetterDetailsWithoutOfficers)
@@ -205,13 +205,13 @@ describe("OfficerHistories page", function() {
       editOfficerHistory.mockClear();
       changeInput(
         wrapper,
-        "[name='referralLetterOfficers[0].numHistoricalHighAllegations']",
+        "[name='letterOfficers[0].numHistoricalHighAllegations']",
         "9"
       );
       const backButton = wrapper.find('[data-test="back-button"]').first();
       backButton.simulate("click");
       const expectedFormValues = {
-        referralLetterOfficers: [
+        letterOfficers: [
           {
             fullName: "Officer 1",
             id: 0,
@@ -233,7 +233,7 @@ describe("OfficerHistories page", function() {
       editOfficerHistory.mockClear();
       changeInput(
         wrapper,
-        "[name='referralLetterOfficers[0].numHistoricalHighAllegations']",
+        "[name='letterOfficers[0].numHistoricalHighAllegations']",
         "abc"
       );
       const backButton = wrapper.find('[data-test="back-button"]').first();
@@ -241,11 +241,11 @@ describe("OfficerHistories page", function() {
       expect(editOfficerHistory).not.toHaveBeenCalled();
     });
 
-    test("it dispatches edit to referral letter when click save and return to cases button when values valid", () => {
+    test("it dispatches edit to referral letter when click back to cases button when values valid", () => {
       editOfficerHistory.mockClear();
       changeInput(
         wrapper,
-        "[name='referralLetterOfficers[0].numHistoricalHighAllegations']",
+        "[name='letterOfficers[0].numHistoricalHighAllegations']",
         "9"
       );
       const backButton = wrapper
@@ -253,7 +253,7 @@ describe("OfficerHistories page", function() {
         .first();
       backButton.simulate("click");
       const expectedFormValues = {
-        referralLetterOfficers: [
+        letterOfficers: [
           {
             fullName: "Officer 1",
             id: 0,
@@ -275,13 +275,13 @@ describe("OfficerHistories page", function() {
       editOfficerHistory.mockClear();
       changeInput(
         wrapper,
-        "[name='referralLetterOfficers[0].numHistoricalHighAllegations']",
+        "[name='letterOfficers[0].numHistoricalHighAllegations']",
         "9"
       );
       const backButton = wrapper.find('[data-test="next-button"]').first();
       backButton.simulate("click");
       const expectedFormValues = {
-        referralLetterOfficers: [
+        letterOfficers: [
           {
             fullName: "Officer 1",
             id: 0,
@@ -299,11 +299,11 @@ describe("OfficerHistories page", function() {
       );
     });
 
-    test("it does not dispatch edit to referral letter when click save and return to cases button when values not valid", () => {
+    test("it does not dispatch edit to referral letter when click back to cases button when values not valid", () => {
       editOfficerHistory.mockClear();
       changeInput(
         wrapper,
-        "[name='referralLetterOfficers[0].numHistoricalHighAllegations']",
+        "[name='letterOfficers[0].numHistoricalHighAllegations']",
         "abc"
       );
       const backButton = wrapper
@@ -322,7 +322,7 @@ describe("OfficerHistories page", function() {
       const referralLetterDetails = {
         id: letterId,
         caseId: caseId,
-        referralLetterOfficers: []
+        letterOfficers: []
       };
 
       store = createConfiguredStore();
@@ -347,7 +347,7 @@ describe("OfficerHistories page", function() {
       );
     });
 
-    test("it does not submit the form but does redirect when no officers on the case when click save and return to case button", () => {
+    test("it does not submit the form but does redirect when no officers on the case when click back to case button", () => {
       const backButton = wrapper
         .find('[data-test="save-and-return-to-case-link"]')
         .first();

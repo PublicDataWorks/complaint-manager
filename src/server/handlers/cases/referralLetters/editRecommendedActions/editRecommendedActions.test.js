@@ -6,11 +6,16 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import httpMocks from "node-mocks-http";
 import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
-import ReferralLetterOfficer from "../../../../../client/testUtilities/ReferralLetterOfficer";
+import LetterOfficer from "../../../../../client/testUtilities/LetterOfficer";
 import editRecommendedActions from "./editRecommendedActions";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
+import Boom from "boom";
 
 describe("editRecommendedActions", function() {
+  const recommendedActionId1 = 1;
+  const recommendedActionId2 = 2;
+  const recommendedActionId3 = 3;
+
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -45,12 +50,45 @@ describe("editRecommendedActions", function() {
     );
   });
 
+  test("invalid case status returns 400", async () => {
+    await existingCase.update(
+      { status: CASE_STATUS.READY_FOR_REVIEW },
+      { auditUser: "test" }
+    );
+
+    await existingCase.update(
+      { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+      { auditUser: "test" }
+    );
+
+    const includeRetaliationConcerns = true;
+    const requestBody = {
+      id: referralLetter.id,
+      includeRetaliationConcerns: includeRetaliationConcerns,
+      letterOfficers: []
+    };
+
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      headers: {
+        authorization: "Bearer token"
+      },
+      params: { caseId: existingCase.id },
+      body: requestBody,
+      nickname: "nickname"
+    });
+
+    await editRecommendedActions(request, response, next);
+
+    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
+  });
+
   test("saves new includeRetaliationConcerns", async () => {
     const includeRetaliationConcerns = true;
     const requestBody = {
       id: referralLetter.id,
       includeRetaliationConcerns: includeRetaliationConcerns,
-      referralLetterOfficers: []
+      letterOfficers: []
     };
     const request = httpMocks.createRequest({
       method: "PUT",
@@ -71,9 +109,22 @@ describe("editRecommendedActions", function() {
   });
 
   describe("there is an officer", function() {
-    let referralLetterOfficer;
+    let letterOfficer;
 
     beforeEach(async () => {
+      await models.recommended_action.create(
+        { id: recommendedActionId1, description: "action 1" },
+        { auditUser: "test" }
+      );
+      await models.recommended_action.create(
+        { id: recommendedActionId2, description: "action 2" },
+        { auditUser: "test" }
+      );
+      await models.recommended_action.create(
+        { id: recommendedActionId3, description: "action 3" },
+        { auditUser: "test" }
+      );
+
       const officerAttributes = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined);
@@ -93,25 +144,23 @@ describe("editRecommendedActions", function() {
         { auditUser: "someone" }
       );
 
-      const referralLetterOfficerAttributes = new ReferralLetterOfficer.Builder()
-        .defaultReferralLetterOfficer()
+      const letterOfficerAttributes = new LetterOfficer.Builder()
+        .defaultLetterOfficer()
         .withId(undefined)
         .withCaseOfficerId(caseOfficer.id)
         .withRecommendedActionNotes(undefined);
 
-      referralLetterOfficer = await models.referral_letter_officer.create(
-        referralLetterOfficerAttributes,
+      letterOfficer = await models.letter_officer.create(
+        letterOfficerAttributes,
         { auditUser: "someone" }
       );
     });
 
     test("saves new recommended actions when one officer", async () => {
-      const recommendedActionId1 = 1;
-      const recommendedActionId2 = 2;
       const requestBody = {
-        referralLetterOfficers: [
+        letterOfficers: [
           {
-            id: referralLetterOfficer.id,
+            id: letterOfficer.id,
             referralLetterOfficerRecommendedActions: [
               recommendedActionId1,
               recommendedActionId2
@@ -132,7 +181,7 @@ describe("editRecommendedActions", function() {
       expect(response.statusCode).toEqual(200);
 
       const createdRecommendedActions = await models.referral_letter_officer_recommended_action.findAll(
-        { where: { referralLetterOfficerId: referralLetterOfficer.id } }
+        { where: { referralLetterOfficerId: letterOfficer.id } }
       );
 
       expect(createdRecommendedActions.length).toEqual(2);
@@ -140,11 +189,11 @@ describe("editRecommendedActions", function() {
         expect.arrayContaining([
           expect.objectContaining({
             recommendedActionId: recommendedActionId1,
-            referralLetterOfficerId: referralLetterOfficer.id
+            referralLetterOfficerId: letterOfficer.id
           }),
           expect.objectContaining({
             recommendedActionId: recommendedActionId2,
-            referralLetterOfficerId: referralLetterOfficer.id
+            referralLetterOfficerId: letterOfficer.id
           })
         ])
       );
@@ -154,9 +203,7 @@ describe("editRecommendedActions", function() {
       const recommendedActionNotes = "some notes";
       const requestBody = {
         id: referralLetter.id,
-        referralLetterOfficers: [
-          { id: referralLetterOfficer.id, recommendedActionNotes }
-        ]
+        letterOfficers: [{ id: letterOfficer.id, recommendedActionNotes }]
       };
       const request = httpMocks.createRequest({
         method: "PUT",
@@ -169,8 +216,8 @@ describe("editRecommendedActions", function() {
       });
       await editRecommendedActions(request, response, next);
       expect(response.statusCode).toEqual(200);
-      await referralLetterOfficer.reload();
-      expect(referralLetterOfficer.recommendedActionNotes).toEqual(
+      await letterOfficer.reload();
+      expect(letterOfficer.recommendedActionNotes).toEqual(
         recommendedActionNotes
       );
     });
@@ -181,8 +228,9 @@ describe("editRecommendedActions", function() {
         const recommendedActionAttributes = new ReferralLetterOfficerRecommendedAction.Builder()
           .defaultReferralLetterOfficerRecommendedAction()
           .withId(undefined)
-          .withReferralLetterOfficerId(referralLetterOfficer.id)
-          .withRecommendedActionId(1);
+          .withReferralLetterOfficerId(letterOfficer.id)
+          .withRecommendedActionId(recommendedActionId1);
+
         recommendedAction = await models.referral_letter_officer_recommended_action.create(
           recommendedActionAttributes,
           { auditUser: "test" }
@@ -190,8 +238,9 @@ describe("editRecommendedActions", function() {
         const recommendedActionAttributes2 = new ReferralLetterOfficerRecommendedAction.Builder()
           .defaultReferralLetterOfficerRecommendedAction()
           .withId(undefined)
-          .withReferralLetterOfficerId(referralLetterOfficer.id)
-          .withRecommendedActionId(2);
+          .withReferralLetterOfficerId(letterOfficer.id)
+          .withRecommendedActionId(recommendedActionId2);
+
         recommendedAction1 = await models.referral_letter_officer_recommended_action.create(
           recommendedActionAttributes2,
           { auditUser: "test" }
@@ -200,11 +249,12 @@ describe("editRecommendedActions", function() {
 
       test("removes existing referral letter officer recommended action", async () => {
         const requestBody = {
-          referralLetterOfficers: [
+          letterOfficers: [
             {
-              id: referralLetterOfficer.id,
+              id: letterOfficer.id,
               referralLetterOfficerRecommendedActions: [
-                recommendedAction1.recommendedActionId
+                recommendedActionId1,
+                recommendedActionId3
               ]
             }
           ]
@@ -222,17 +272,68 @@ describe("editRecommendedActions", function() {
         expect(response.statusCode).toEqual(200);
 
         const createdRecommendedActions = await models.referral_letter_officer_recommended_action.findAll(
-          { where: { referralLetterOfficerId: referralLetterOfficer.id } }
+          { where: { referralLetterOfficerId: letterOfficer.id } }
         );
 
-        expect(createdRecommendedActions.length).toEqual(1);
+        expect(createdRecommendedActions.length).toEqual(2);
+
         expect(createdRecommendedActions).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              recommendedActionId: recommendedAction1.recommendedActionId,
-              referralLetterOfficerId: referralLetterOfficer.id
+              recommendedActionId: recommendedActionId1,
+              referralLetterOfficerId: letterOfficer.id
             })
           ])
+        );
+        expect(createdRecommendedActions).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              recommendedActionId: recommendedActionId3,
+              referralLetterOfficerId: letterOfficer.id
+            })
+          ])
+        );
+      });
+
+      test("removes existing recommendedAction notes", async () => {
+        let recommendedActionNotes = "some notes";
+        let requestBody = {
+          id: referralLetter.id,
+          letterOfficers: [{ id: letterOfficer.id, recommendedActionNotes }]
+        };
+        const request = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer token"
+          },
+          params: { caseId: existingCase.id },
+          body: requestBody,
+          nickname: "nickname"
+        });
+        await editRecommendedActions(request, response, next);
+
+        recommendedActionNotes = "";
+
+        requestBody = {
+          id: referralLetter.id,
+          letterOfficers: [{ id: letterOfficer.id, recommendedActionNotes }]
+        };
+
+        const request2 = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer token"
+          },
+          params: { caseId: existingCase.id },
+          body: requestBody,
+          nickname: "nickname"
+        });
+        await editRecommendedActions(request2, response, next);
+
+        expect(response.statusCode).toEqual(200);
+        await letterOfficer.reload();
+        expect(letterOfficer.recommendedActionNotes).toEqual(
+          recommendedActionNotes
         );
       });
     });

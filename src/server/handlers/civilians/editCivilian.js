@@ -1,7 +1,11 @@
+import {
+  ADDRESSABLE_TYPE,
+  AUDIT_SUBJECT
+} from "../../../sharedUtilities/constants";
+
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models/index");
 const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
-const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 const auditDataAccess = require("../auditDataAccess");
 
 async function upsertAddress(civilianId, address, transaction, nickname) {
@@ -10,7 +14,7 @@ async function upsertAddress(civilianId, address, transaction, nickname) {
       {
         ...address,
         addressableId: civilianId,
-        addressableType: "civilian"
+        addressableType: ADDRESSABLE_TYPE.CIVILIAN
       },
       {
         transaction,

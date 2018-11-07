@@ -19,7 +19,7 @@ describe("users table", () => {
       firstName: "Fachtna",
       lastName: "Bogdan",
       email: "fbogdan@gmail.com",
-      createdAt: new Date(2015, 7, 25).toISOString()
+      createdAt: "2015-08-25T05:00:00.000Z"
     };
 
     anotherUser = {
@@ -27,7 +27,7 @@ describe("users table", () => {
       firstName: "Mauritius",
       lastName: "Stanko",
       email: "mstanko@gmail.com",
-      createdAt: new Date(2015, 7, 25).toISOString()
+      createdAt: "2015-08-25T05:00:00.000Z"
     };
 
     store = createConfiguredStore();

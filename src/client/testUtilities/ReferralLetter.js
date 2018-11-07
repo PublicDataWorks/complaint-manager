@@ -3,6 +3,9 @@ class ReferralLetter {
     this.id = build.id;
     this.caseId = build.caseId;
     this.includeRetaliationConcerns = build.includeRetaliationConcerns;
+    this.recipient = build.recipient;
+    this.sender = build.sender;
+    this.transcribedBy = build.transcribedBy;
   }
 
   static get Builder() {
@@ -26,6 +29,21 @@ class ReferralLetter {
 
       withIncludeRetaliationConcerns(include) {
         this.includeRetaliationConcerns = include;
+        return this;
+      }
+
+      withRecipient(recipient) {
+        this.recipient = recipient;
+        return this;
+      }
+
+      withSender(sender) {
+        this.sender = sender;
+        return this;
+      }
+
+      withTranscribedBy(transcribedBy) {
+        this.transcribedBy = transcribedBy;
         return this;
       }
     }

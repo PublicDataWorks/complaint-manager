@@ -1,8 +1,9 @@
 import models from "../../../models/index";
 import shortid from "shortid";
+import { ACCUSED } from "../../../../sharedUtilities/constants";
 
-const getLetterDataForResponse = async caseId => {
-  let letterData = await getLetterData(caseId);
+const getLetterDataForResponse = async (caseId, transaction) => {
+  let letterData = await getLetterData(caseId, transaction);
   letterData = letterData.toJSON();
 
   const transformedLetterOfficerData = letterData.caseOfficers.map(
@@ -18,7 +19,7 @@ const getLetterDataForResponse = async caseId => {
     id: letterData.id,
     caseId: letterData.caseId,
     includeRetaliationConcerns: letterData.includeRetaliationConcerns,
-    referralLetterOfficers: transformedLetterOfficerData,
+    letterOfficers: transformedLetterOfficerData,
     referralLetterIAProCorrections: getIAProCorrections(letterData)
   };
 
@@ -32,7 +33,7 @@ const getIAProCorrections = letterData => {
 };
 
 const letterOfficerAttributes = caseOfficer => {
-  const letterOfficerAttributes = caseOfficer.referralLetterOfficer || {};
+  const letterOfficerAttributes = caseOfficer.letterOfficer || {};
   if (
     !letterOfficerAttributes.referralLetterOfficerHistoryNotes ||
     letterOfficerAttributes.referralLetterOfficerHistoryNotes.length === 0
@@ -63,7 +64,7 @@ const buildEmptyIAProCorrections = () => {
   return [emptyObject(), emptyObject(), emptyObject()];
 };
 
-const getLetterData = async caseId => {
+const getLetterData = async (caseId, transaction) => {
   return await models.referral_letter.findOne({
     where: { caseId: caseId },
     attributes: ["id", "caseId", "includeRetaliationConcerns"],
@@ -87,11 +88,13 @@ const getLetterData = async caseId => {
       {
         model: models.case_officer,
         as: "caseOfficers",
+        where: { roleOnCase: ACCUSED },
         attributes: ["id", "officerId", "firstName", "middleName", "lastName"], //must include officerId or will be named unknown officer
+        required: false,
         include: [
           {
-            model: models.referral_letter_officer,
-            as: "referralLetterOfficer",
+            model: models.letter_officer,
+            as: "letterOfficer",
             attributes: [
               "id",
               "caseOfficerId",
@@ -123,7 +126,8 @@ const getLetterData = async caseId => {
           }
         ]
       }
-    ]
+    ],
+    transaction
   });
 };
 

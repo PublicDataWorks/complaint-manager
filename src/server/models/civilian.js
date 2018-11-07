@@ -1,5 +1,9 @@
 "use strict";
-const { COMPLAINANT, WITNESS } = require("../../sharedUtilities/constants");
+import {
+  ADDRESSABLE_TYPE,
+  COMPLAINANT,
+  WITNESS
+} from "../../sharedUtilities/constants";
 
 module.exports = (sequelize, DataTypes) => {
   const Civilian = sequelize.define(
@@ -115,7 +119,7 @@ module.exports = (sequelize, DataTypes) => {
     Civilian.hasOne(models.address, {
       foreignKey: { name: "addressableId", field: "addressable_id" },
       scope: {
-        addressable_type: "civilian"
+        addressable_type: ADDRESSABLE_TYPE.CIVILIAN
       }
     });
   };

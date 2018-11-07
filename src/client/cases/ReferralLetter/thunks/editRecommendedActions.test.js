@@ -6,7 +6,6 @@ import {
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
 import nock from "nock";
-import { editRecommendedActionsSuccess } from "../../../actionCreators/letterActionCreators";
 
 jest.mock("../../../auth/getAccessToken");
 
@@ -18,7 +17,7 @@ describe("editRecommendedActions", function() {
     requestBody = {
       id: 7,
       includeRetaliationConcerns: true,
-      referralLetterOfficers: [
+      letterOfficers: [
         {
           id: 99,
           referralLetterOfficerRecommendedActions: [1, 3, 4],
@@ -36,20 +35,9 @@ describe("editRecommendedActions", function() {
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
-  test("dispatches success with recommended actions on success", async () => {
+  test("dispatches snackbar success on success, doesn't redirect to case details page", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
 
-    const responseBody = {
-      id: 7,
-      includeRetaliationConcerns: true,
-      referralLetterOfficers: [
-        {
-          id: 99,
-          referralLetterOfficerRecommendedActions: [1, 3, 4],
-          recommendedActionNotes: "This was saved"
-        }
-      ]
-    };
     nock("http://localhost", {
       reqheaders: {
         "Content-Type": "application/json",
@@ -60,20 +48,18 @@ describe("editRecommendedActions", function() {
         `/api/cases/${caseId}/referral-letter/recommended-actions`,
         requestBody
       )
-      .reply(200, responseBody);
+      .reply(200, {});
 
     await editRecommendedActions(caseId, requestBody, "redirectRoute")(
       dispatch
     );
     expect(dispatch).toHaveBeenCalledWith(
-      editRecommendedActionsSuccess(responseBody)
+      snackbarSuccess("Recommended actions were successfully updated")
     );
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Recommended Actions were successfully updated")
-    );
+    expect(dispatch).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
 
-  test("dispatches failure on error response", async () => {
+  test("dispatches failure on 500 error response", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
     nock("http://localhost", {
       reqheaders: {
@@ -92,9 +78,32 @@ describe("editRecommendedActions", function() {
     );
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
-        "Something went wrong and we could not update the Recommended Actions information"
+        "Something went wrong and we could not update the recommended actions information"
       )
     );
+  });
+
+  test("redirects to case details page 400 error response (invalid letter generation case status)", async () => {
+    const responseBody = {
+      message: "Invalid case status"
+    };
+    getAccessToken.mockImplementation(() => "TEST_TOKEN");
+    nock("http://localhost", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer TEST_TOKEN`
+      }
+    })
+      .put(
+        `/api/cases/${caseId}/referral-letter/recommended-actions`,
+        requestBody
+      )
+      .reply(400, responseBody);
+
+    await editRecommendedActions(caseId, requestBody, "redirectRoute")(
+      dispatch
+    );
+    expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
 
   test("routes to given redirect url on success", async () => {
@@ -103,7 +112,7 @@ describe("editRecommendedActions", function() {
     const responseBody = {
       id: 7,
       includeRetaliationConcerns: null,
-      referralLetterOfficers: []
+      letterOfficers: []
     };
     nock("http://localhost", {
       reqheaders: {

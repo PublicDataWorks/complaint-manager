@@ -1,43 +1,39 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
 import Boom from "boom";
-import getLetterDataForResponse from "../getLetterDataForResponse";
 import checkForValidStatus from "../checkForValidStatus";
 
 const editOfficerHistory = asyncMiddleware(async (request, response, next) => {
   await checkForValidStatus(request.params.caseId);
 
   await models.sequelize.transaction(async transaction => {
-    if (request.body.referralLetterOfficers) {
-      await createOrUpdateReferralLetterOfficers(
-        request.body.referralLetterOfficers,
+    if (request.body.letterOfficers) {
+      await createOrUpdateLetterOfficers(
+        request.body.letterOfficers,
         request.nickname,
         transaction
       );
     }
   });
-  const letterDataForResponse = await getLetterDataForResponse(
-    request.params.caseId
-  );
-  return response.status(200).send(letterDataForResponse);
+  return response.status(200).send();
 });
 
-const createOrUpdateReferralLetterOfficers = async (
-  referralLetterOfficers,
+const createOrUpdateLetterOfficers = async (
+  letterOfficers,
   userNickname,
   transaction
 ) => {
-  for (const referralLetterOfficerData of referralLetterOfficers) {
-    normalizeNumericValues(referralLetterOfficerData);
-    if (referralLetterOfficerData.id) {
-      await updateExistingReferralLetterOfficer(
-        referralLetterOfficerData,
+  for (const letterOfficerData of letterOfficers) {
+    normalizeNumericValues(letterOfficerData);
+    if (letterOfficerData.id) {
+      await updateExistingLetterOfficer(
+        letterOfficerData,
         userNickname,
         transaction
       );
     } else {
-      await createNewReferralLetterOfficer(
-        referralLetterOfficerData,
+      await createNewLetterOfficer(
+        letterOfficerData,
         userNickname,
         transaction
       );
@@ -45,30 +41,27 @@ const createOrUpdateReferralLetterOfficers = async (
   }
 };
 
-const updateExistingReferralLetterOfficer = async (
-  referralLetterOfficerData,
+const updateExistingLetterOfficer = async (
+  letterOfficerData,
   userNickname,
   transaction
 ) => {
-  const referralLetterOfficer = await models.referral_letter_officer.findById(
-    referralLetterOfficerData.id
+  const letterOfficer = await models.letter_officer.findById(
+    letterOfficerData.id
   );
-  if (!referralLetterOfficer) {
+  if (!letterOfficer) {
     throw Boom.badRequest("Invalid letter officer");
   }
-  if (
-    referralLetterOfficer.caseOfficerId !==
-    referralLetterOfficerData.caseOfficerId
-  ) {
+  if (letterOfficer.caseOfficerId !== letterOfficerData.caseOfficerId) {
     throw Boom.badRequest("Invalid letter officer case officer combination");
   }
-  await referralLetterOfficer.update(referralLetterOfficerData, {
+  await letterOfficer.update(letterOfficerData, {
     auditUser: userNickname,
     transaction
   });
   await createUpdateOrDeleteOfficerHistoryNotes(
-    referralLetterOfficerData.referralLetterOfficerHistoryNotes,
-    referralLetterOfficer,
+    letterOfficerData.referralLetterOfficerHistoryNotes,
+    letterOfficer,
     userNickname,
     transaction
   );
@@ -76,14 +69,14 @@ const updateExistingReferralLetterOfficer = async (
 
 const createUpdateOrDeleteOfficerHistoryNotes = async (
   notesData,
-  referralLetterOfficer,
+  letterOfficer,
   userNickname,
   transaction
 ) => {
   notesData = filterOutBlankNotes(notesData);
   await deleteUnsubmittedExistingOfficerHistoryNotes(
     notesData,
-    referralLetterOfficer.id,
+    letterOfficer.id,
     userNickname,
     transaction
   );
@@ -102,7 +95,7 @@ const createUpdateOrDeleteOfficerHistoryNotes = async (
     } else {
       await createNewOfficerHistoryNote(
         noteData,
-        referralLetterOfficer.id,
+        letterOfficer.id,
         userNickname,
         transaction
       );
@@ -128,12 +121,11 @@ const deleteUnsubmittedExistingOfficerHistoryNotes = async (
   const noteIdsToBeDeleted = existingNotesIds.filter(
     existingNoteId => !submittedNotesIds.includes(existingNoteId)
   );
-  await models.referral_letter_officer_history_note.destroy(
-    {
-      where: { id: noteIdsToBeDeleted }
-    },
-    { auditUser: userNickname, transaction }
-  );
+  await models.referral_letter_officer_history_note.destroy({
+    where: { id: noteIdsToBeDeleted },
+    auditUser: userNickname,
+    transaction
+  });
 };
 
 const getExistingOfficerHistoryNoteIdsForReferralOfficer = async referralLetterOfficerId => {
@@ -179,25 +171,25 @@ const createNewOfficerHistoryNote = async (
   );
 };
 
-const createNewReferralLetterOfficer = async (
-  referralLetterOfficerData,
+const createNewLetterOfficer = async (
+  letterOfficerData,
   userNickname,
   transaction
 ) => {
-  referralLetterOfficerData = removeEmptyNotesFromOfficerData(
-    referralLetterOfficerData
-  );
+  letterOfficerData = removeEmptyNotesFromOfficerData(letterOfficerData);
   const caseOfficer = await models.case_officer.findById(
-    referralLetterOfficerData.caseOfficerId
+    letterOfficerData.caseOfficerId
   );
   if (!caseOfficer) {
     throw Boom.badRequest("Invalid case officer");
   }
-  await models.referral_letter_officer.create(referralLetterOfficerData, {
+  await models.letter_officer.create(letterOfficerData, {
     include: [
       {
         model: models.referral_letter_officer_history_note,
-        as: "referralLetterOfficerHistoryNotes"
+        as: "referralLetterOfficerHistoryNotes",
+        auditUser: userNickname,
+        transaction
       }
     ],
     auditUser: userNickname,
@@ -205,11 +197,11 @@ const createNewReferralLetterOfficer = async (
   });
 };
 
-const removeEmptyNotesFromOfficerData = referralLetterOfficerData => {
-  referralLetterOfficerData.referralLetterOfficerHistoryNotes = filterOutBlankNotes(
-    referralLetterOfficerData.referralLetterOfficerHistoryNotes
+const removeEmptyNotesFromOfficerData = letterOfficerData => {
+  letterOfficerData.referralLetterOfficerHistoryNotes = filterOutBlankNotes(
+    letterOfficerData.referralLetterOfficerHistoryNotes
   );
-  return referralLetterOfficerData;
+  return letterOfficerData;
 };
 
 const filterOutBlankNotes = notesData => {
@@ -219,15 +211,15 @@ const filterOutBlankNotes = notesData => {
   );
 };
 
-const normalizeNumericValues = referralLetterOfficerData => {
-  if (isValueBlank(referralLetterOfficerData.numHistoricalHighAllegations)) {
-    referralLetterOfficerData.numHistoricalHighAllegations = null;
+const normalizeNumericValues = letterOfficerData => {
+  if (isValueBlank(letterOfficerData.numHistoricalHighAllegations)) {
+    letterOfficerData.numHistoricalHighAllegations = null;
   }
-  if (isValueBlank(referralLetterOfficerData.numHistoricalMedAllegations)) {
-    referralLetterOfficerData.numHistoricalMedAllegations = null;
+  if (isValueBlank(letterOfficerData.numHistoricalMedAllegations)) {
+    letterOfficerData.numHistoricalMedAllegations = null;
   }
-  if (isValueBlank(referralLetterOfficerData.numHistoricalLowAllegations)) {
-    referralLetterOfficerData.numHistoricalLowAllegations = null;
+  if (isValueBlank(letterOfficerData.numHistoricalLowAllegations)) {
+    letterOfficerData.numHistoricalLowAllegations = null;
   }
 };
 

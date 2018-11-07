@@ -7,6 +7,11 @@ const MODEL_ASSOCIATIONS_TO_LOOKUP = [
     foreignKey: "classificationId",
     modelName: "classification",
     identifyingAttribute: "initialism"
+  },
+  {
+    foreignKey: "recommendedActionId",
+    modelName: "recommended_action",
+    identifyingAttribute: "description"
   }
 ];
 
@@ -222,17 +227,18 @@ exports.init = sequelize => {
     association,
     newOrPrevious
   ) => {
+    const modelNameCamelCase = _.camelCase(association.modelName);
     if (Object.keys(objectChanges).includes(association.foreignKey)) {
-      if (!objectChanges[association.modelName])
-        objectChanges[association.modelName] = {};
+      if (!objectChanges[modelNameCamelCase])
+        objectChanges[modelNameCamelCase] = {};
       if (objectChanges[association.foreignKey][newOrPrevious]) {
         const associationInstance = await instance.sequelize.models[
           association.modelName
         ].findById(objectChanges[association.foreignKey][newOrPrevious]);
-        objectChanges[association.modelName][newOrPrevious] =
+        objectChanges[modelNameCamelCase][newOrPrevious] =
           associationInstance[association.identifyingAttribute];
       } else {
-        objectChanges[association.modelName][newOrPrevious] =
+        objectChanges[modelNameCamelCase][newOrPrevious] =
           objectChanges[association.foreignKey][newOrPrevious];
       }
     }

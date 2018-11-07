@@ -3,44 +3,51 @@ import formatDate, {
   computeTimeZone,
   format12HourTime,
   timeFromDateString,
-  dateTimeFromString
+  dateTimeFromString,
+  formatShortDate
 } from "./formatDate";
 
-const expectedFormattedDate = "Jan 31, 2018";
+describe("format date", () => {
+  test("should format date appropriately when in YYYY-MM-DD format", () => {
+    const formattedDate = formatDate("2018-01-30");
 
-test("should format date appropriately when in YYYY-MM-DD format", () => {
-  const dateString = "2018-01-31";
-  const formattedDate = formatDate(dateString);
+    expect(formattedDate).toEqual("Jan 30, 2018");
+  });
 
-  expect(formattedDate).toEqual(expectedFormattedDate);
+  test("time in utc that converts to same day in central time", () => {
+    const dateString = new Date("2018-10-31 16:20:01.913000Z");
+    const formattedDate = formatDate(dateString);
+
+    expect(formattedDate).toEqual("Oct 31, 2018");
+  });
+
+  test("time in utc that converts to previous day central time", () => {
+    const dateString = new Date("2017-01-31 01:20:01.913000Z");
+    const formattedDate = formatDate(dateString);
+
+    expect(formattedDate).toEqual("Jan 30, 2017");
+  });
 });
 
-describe("format date", () => {
-  test("should format date appropriately when in ISO format", () => {
-    const dateString = new Date("2018-01-31").toISOString();
-    const formattedDate = formatDate(dateString);
+describe("format short date", () => {
+  test("should format date appropriately when in YYYY-MM-DD format", () => {
+    const formattedDate = formatShortDate("2018-01-30");
 
-    expect(formattedDate).toEqual(expectedFormattedDate);
+    expect(formattedDate).toEqual("01/30/2018");
   });
 
-  test("should format date appropriately when in UTC format", () => {
-    const dateString = new Date("2018-01-31").toUTCString();
-    const formattedDate = formatDate(dateString);
+  test("time in utc that converts to same day in central time", () => {
+    const dateString = new Date("2018-10-31 16:20:01.913000Z");
+    const formattedDate = formatShortDate(dateString);
 
-    expect(formattedDate).toEqual(expectedFormattedDate);
+    expect(formattedDate).toEqual("10/31/2018");
   });
 
-  test("should format date appropriately as a Locale Date String", () => {
-    const dateString = new Date("2018-01-31").toLocaleDateString();
-    const formattedDate = formatDate(dateString);
+  test("time in utc that converts to previous day central time", () => {
+    const dateString = new Date("2017-01-31 01:20:01.913000Z");
+    const formattedDate = formatShortDate(dateString);
 
-    expect(formattedDate).toEqual(expectedFormattedDate);
-  });
-  test("should format date appropriately when in a different format", () => {
-    const dateString = new Date("2018-01-31").toDateString();
-    const formattedDate = formatDate(dateString);
-
-    expect(formattedDate).toEqual(expectedFormattedDate);
+    expect(formattedDate).toEqual("01/30/2017");
   });
 });
 

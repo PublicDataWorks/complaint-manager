@@ -1,3 +1,4 @@
+import refuseNewConnectionDuringShutdown from "../sharedUtilities/refuseNewConnectionDuringShutdown";
 const newRelic = require("newrelic");
 const express = require("express");
 const path = require("path");
@@ -30,6 +31,9 @@ winston.configure({
 
 const app = express();
 const twoYearsInSeconds = 63113852;
+let shuttingDown = false;
+app.use(refuseNewConnectionDuringShutdown(shuttingDown));
+
 app.use(
   helmet.hsts({
     maxAge: twoYearsInSeconds

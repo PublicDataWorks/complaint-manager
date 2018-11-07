@@ -50,7 +50,7 @@ describe("GET /cases/:id/referral-letter", function() {
       const expectedResponse = {
         id: referralLetter.id,
         caseId: newCase.id,
-        referralLetterOfficers: [],
+        letterOfficers: [],
         includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
         referralLetterIAProCorrections: [
           { tempId: "uniqueTempId" },
@@ -91,7 +91,7 @@ describe("GET /cases/:id/referral-letter", function() {
         .set("Authorization", `Bearer ${token}`)
         .expect(400)
         .then(response => {
-          expect(response.body.message).toEqual("Invalid case status.");
+          expect(response.body.message).toEqual("Invalid case status");
         });
     })
   );
@@ -117,7 +117,7 @@ describe("GET /cases/:id/referral-letter", function() {
         .set("Authorization", `Bearer ${token}`)
         .expect(400)
         .then(response => {
-          expect(response.body.message).toEqual("Invalid case status.");
+          expect(response.body.message).toEqual("Invalid case status");
         });
     })
   );

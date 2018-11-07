@@ -7,10 +7,6 @@ const timezone = require("moment-timezone");
 
 const exportCasesQuery = () => {
   const DATE_ONLY_FORMAT = "MM/DD/YYYY";
-  const TIMESTAMP_FORMAT = "MM/DD/YYYY HH24:MI:SS";
-  const TIMEZONE_DISPLAY = timezone()
-    .tz(TIMEZONE)
-    .format("zz");
   const TIME_ONLY_FORMAT = "HH24:MI:SS";
   const FILE_EXTENSION_PATTERN = "([^.]+)$";
 
@@ -21,8 +17,7 @@ const exportCasesQuery = () => {
     "cases.created_by, " +
     "concat_ws(" +
     " ' ', " +
-    `to_char(cases.created_at at time zone \'${TIMEZONE}\', \'${TIMESTAMP_FORMAT}\'), ` +
-    ` \'${TIMEZONE_DISPLAY}\'` +
+    "cases.created_at" +
     ") AS created_at, " +
     `to_char(cases.first_contact_date, \'${DATE_ONLY_FORMAT}\') AS first_contact_date, ` +
     `to_char(cases.incident_date, \'${DATE_ONLY_FORMAT}\') AS incident_date, ` +

@@ -6,7 +6,8 @@ import {
   CASE_STATUS,
   AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_TYPE
+  AUDIT_TYPE,
+  ADDRESSABLE_TYPE
 } from "../../../sharedUtilities/constants";
 import Boom from "boom";
 import { createCaseWithCivilian } from "../../testHelpers/modelMothers";
@@ -154,7 +155,7 @@ describe("editCivilian handler editing civilian with an address", () => {
     const address = new Address.Builder()
       .defaultAddress()
       .withAddressableId(existingCivilian.id)
-      .withAddressableType("civilian")
+      .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
       .withCity(initalCity)
       .withId(undefined)
       .build();

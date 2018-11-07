@@ -33,7 +33,7 @@ describe("dataChangeAuditHooks", () => {
         .withIncidentLocation(undefined)
         .withComplaintType(RANK_INITIATED)
         .withDistrict(null)
-        .withFirstContactDate("2017-12-25T00:00:00.000Z")
+        .withFirstContactDate("2017-12-24")
         .withIncidentDate(null)
         .withIncidentTime(null)
         .withNarrativeSummary("original narrative summary")
@@ -74,7 +74,7 @@ describe("dataChangeAuditHooks", () => {
         narrativeDetails: { new: null },
         incidentTime: { new: null },
         incidentDate: { new: null },
-        firstContactDate: { new: "2017-12-25" },
+        firstContactDate: { new: "2017-12-24" },
         district: { new: null },
         complaintType: { new: RANK_INITIATED },
         assignedTo: { new: "originalAssignedToPerson" },
@@ -99,7 +99,7 @@ describe("dataChangeAuditHooks", () => {
         narrativeDetails: { new: null },
         incidentTime: { new: null },
         incidentDate: { new: null },
-        firstContactDate: { new: "2017-12-25" },
+        firstContactDate: { new: "2017-12-24" },
         district: { new: null },
         complaintType: { new: RANK_INITIATED },
         assignedTo: { new: "originalAssignedToPerson" },
@@ -121,7 +121,7 @@ describe("dataChangeAuditHooks", () => {
         narrativeDetails: null,
         incidentTime: null,
         incidentDate: null,
-        firstContactDate: "2017-12-25",
+        firstContactDate: "2017-12-24",
         district: null,
         complaintType: RANK_INITIATED,
         assignedTo: "originalAssignedToPerson",
@@ -148,7 +148,7 @@ describe("dataChangeAuditHooks", () => {
         narrativeDetails: null,
         incidentTime: null,
         incidentDate: null,
-        firstContactDate: "2017-12-25",
+        firstContactDate: "2017-12-24",
         district: null,
         complaintType: RANK_INITIATED,
         assignedTo: "originalAssignedToPerson",
@@ -192,7 +192,7 @@ describe("dataChangeAuditHooks", () => {
         testInstance.modelDescription = undefined;
         try {
           await testInstance.update(
-            { firstContactDate: new Date() },
+            { firstContactDate: "2018-01-01" },
             { auditUser: "test user" }
           );
           const audit = await models.data_change_audit.find({
@@ -214,7 +214,7 @@ describe("dataChangeAuditHooks", () => {
         testInstance.getCaseId = undefined;
         try {
           await testInstance.update(
-            { firstContactDate: new Date() },
+            { firstContactDate: "2018-01-01" },
             { auditUser: "test user" }
           );
           const audit = await models.data_change_audit.find({
@@ -286,7 +286,7 @@ describe("dataChangeAuditHooks", () => {
         .withIncidentLocation(undefined)
         .withComplaintType(RANK_INITIATED)
         .withDistrict("1st District")
-        .withFirstContactDate("2017-12-25T00:00:00.000Z")
+        .withFirstContactDate("2017-12-24")
         .withIncidentDate("2017-12-01")
         .withIncidentTime("01:01:01")
         .withNarrativeSummary("original narrative summary")
@@ -399,7 +399,7 @@ describe("dataChangeAuditHooks", () => {
         {
           complaintType: CIVILIAN_INITIATED,
           district: "2nd District",
-          firstContactDate: "2018-01-01T00:00:00.000Z",
+          firstContactDate: "2018-01-01",
           incidentDate: "2017-12-05",
           incidentTime: "12:59:59",
           narrativeSummary: "updated narrative summary",
@@ -416,7 +416,7 @@ describe("dataChangeAuditHooks", () => {
         status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE },
         complaintType: { previous: RANK_INITIATED, new: CIVILIAN_INITIATED },
         district: { previous: "1st District", new: "2nd District" },
-        firstContactDate: { previous: "2017-12-25", new: "2018-01-01" },
+        firstContactDate: { previous: "2017-12-24", new: "2018-01-01" },
         incidentDate: { previous: "2017-12-01", new: "2017-12-05" },
         incidentTime: { previous: "01:01:01", new: "12:59:59" },
         narrativeSummary: {
@@ -440,7 +440,7 @@ describe("dataChangeAuditHooks", () => {
         {
           complaintType: CIVILIAN_INITIATED,
           district: "2nd District",
-          firstContactDate: "2018-01-01T00:00:00.000Z",
+          firstContactDate: "2018-01-01",
           incidentDate: "2017-12-05",
           incidentTime: "12:59:59",
           narrativeSummary: "updated narrative summary",
@@ -529,7 +529,7 @@ describe("dataChangeAuditHooks", () => {
           classificationId: { previous: utdClassification.id },
           complaintType: { previous: "Civilian Initiated" },
           district: { previous: "First District" },
-          firstContactDate: { previous: "2017-12-25" },
+          firstContactDate: { previous: "2017-12-24" },
           id: { previous: existingCase.id },
           incidentDate: { previous: "2017-01-01" },
           incidentTime: { previous: "16:00:00" },

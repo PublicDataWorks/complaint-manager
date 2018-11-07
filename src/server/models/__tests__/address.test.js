@@ -4,7 +4,10 @@ import {
   createCaseWithoutCivilian
 } from "../../testHelpers/modelMothers";
 import Address from "../../../client/testUtilities/Address";
-import { CASE_STATUS } from "../../../sharedUtilities/constants";
+import {
+  ADDRESSABLE_TYPE,
+  CASE_STATUS
+} from "../../../sharedUtilities/constants";
 import models from "../../models";
 
 describe("address", () => {
@@ -19,7 +22,7 @@ describe("address", () => {
       .defaultAddress()
       .withId(undefined)
       .withAddressableId(initialCase.id)
-      .withAddressableType("cases")
+      .withAddressableType(ADDRESSABLE_TYPE.CASES)
       .withStreetAddress("very legit street. i mean it")
       .build();
 
@@ -46,7 +49,7 @@ describe("address", () => {
       .defaultAddress()
       .withId(undefined)
       .withAddressableId(civilian.id)
-      .withAddressableType("civilian")
+      .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
       .withStreetAddress("very legit street. i mean it")
       .build();
 

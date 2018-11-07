@@ -1,5 +1,6 @@
 import Civilian from "./civilian";
 import Address from "./Address";
+import { ADDRESSABLE_TYPE } from "../../sharedUtilities/constants";
 
 export const civilianWithoutAddress = new Civilian.Builder()
   .defaultCivilian()
@@ -15,7 +16,7 @@ export const civilianWithAddress = new Civilian.Builder()
       .defaultAddress()
       .withId(undefined)
       .withAddressableId(undefined)
-      .withAddressableType("civilian")
+      .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
       .build()
   )
   .withId(undefined)

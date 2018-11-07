@@ -1,5 +1,7 @@
 "use strict";
 
+import { ADDRESSABLE_TYPE } from "../../sharedUtilities/constants";
+
 module.exports = (sequelize, DataTypes) => {
   var Address = sequelize.define(
     "address",
@@ -15,7 +17,10 @@ module.exports = (sequelize, DataTypes) => {
         field: "addressable_id"
       },
       addressableType: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM([
+          ADDRESSABLE_TYPE.CASES,
+          ADDRESSABLE_TYPE.CIVILIAN
+        ]),
         field: "addressable_type"
       },
       streetAddress: {
@@ -79,7 +84,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Address.prototype.modelDescription = async function(transaction) {
-    if (this.addressableType === "cases") {
+    if (this.addressableType === ADDRESSABLE_TYPE.CASES) {
       return [{ "Address Type": "Incident Location" }];
     }
 
@@ -94,7 +99,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Address.prototype.getCaseId = async function(transaction) {
-    if (this.addressableType === "cases") {
+    if (this.addressableType === ADDRESSABLE_TYPE.CASES) {
       return this.addressableId;
     }
     const civilian = await sequelize

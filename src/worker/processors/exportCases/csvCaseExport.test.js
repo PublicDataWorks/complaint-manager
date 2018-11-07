@@ -8,9 +8,10 @@ import Civilian from "../../../client/testUtilities/civilian";
 import Case from "../../../client/testUtilities/case";
 import moment from "moment";
 import timezone from "moment-timezone";
-import Classification from "../../../client/testUtilities/Classification";
+import Classification from "../../../client/testUtilities/classification";
 import csvCaseExport from "./csvCaseExport";
 import uploadFileToS3 from "../fileUpload/uploadFileToS3";
+
 jest.mock("../fileUpload/uploadFileToS3");
 
 import {
@@ -19,7 +20,8 @@ import {
   COMPLAINANT,
   TIMEZONE,
   WITNESS,
-  JOB_OPERATION
+  JOB_OPERATION,
+  ADDRESSABLE_TYPE
 } from "../../../sharedUtilities/constants";
 import parse from "csv-parse/lib/sync";
 import Address from "../../../client/testUtilities/Address";
@@ -174,7 +176,7 @@ describe("csvCaseExport request", () => {
 
       const addressAttributes = new Address.Builder()
         .defaultAddress()
-        .withAddressableType("civilian")
+        .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
         .withId(undefined);
       const civilianAttributes = new Civilian.Builder()
         .defaultCivilian()
@@ -241,8 +243,8 @@ describe("csvCaseExport request", () => {
       expect(records[0]["Case Status"]).toEqual(caseToExport.status);
       expect(records[0]["Created by"]).toEqual(caseToExport.createdBy);
       expect(records[0]["Created on"]).toEqual(
-        moment(caseToExport.createdAt)
-          .tz(TIMEZONE)
+        timezone
+          .tz(caseToExport.createdAt, TIMEZONE)
           .format("MM/DD/YYYY HH:mm:ss zz")
       );
       expect(records[0]["First Contact Date"]).toEqual(

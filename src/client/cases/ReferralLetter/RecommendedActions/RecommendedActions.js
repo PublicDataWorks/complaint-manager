@@ -9,12 +9,17 @@ import React, { Component, Fragment } from "react";
 import { Field, FieldArray, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import styles from "../../../globalStyling/styles";
-import { TextField, Checkbox } from "redux-form-material-ui";
+import { TextField } from "redux-form-material-ui";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
-import { SecondaryButton } from "../../../shared/components/StyledButtons";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../../../shared/components/StyledButtons";
 import editRecommendedActions from "../thunks/editRecommendedActions";
 import getRecommendedActions from "../thunks/getRecommendedActions";
+import BoldCheckBoxFormControlLabel from "../../../shared/components/BoldCheckBoxFormControlLabel";
+import PurpleCheckBox from "../../../shared/components/PurpleCheckBox";
 
 class RecommendedActions extends Component {
   constructor(props) {
@@ -46,33 +51,38 @@ class RecommendedActions extends Component {
     );
   };
 
-  submitForm = redirectUrl => (values, dispatch) => {
-    values.referralLetterOfficers = values.referralLetterOfficers.map(
-      letterOfficer => {
-        this.transformReferralLetterOfficerRecommendedActions(letterOfficer);
-        return letterOfficer;
-      }
+  saveAndGoToLetterPreview = () => {
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}/letter/letter-preview`)
     );
+  };
+
+  submitForm = redirectUrl => (values, dispatch) => {
+    values.letterOfficers = values.letterOfficers.map(letterOfficer => {
+      this.transformReferralLetterOfficerRecommendedActions(letterOfficer);
+      return letterOfficer;
+    });
 
     dispatch(editRecommendedActions(this.state.caseId, values, redirectUrl));
   };
 
-  transformReferralLetterOfficerRecommendedActions = referralLetterOfficer => {
+  transformReferralLetterOfficerRecommendedActions = letterOfficer => {
     const selectedRecommendedActions = this.props.recommendedActions.map(
       recommendedAction => {
-        if (referralLetterOfficer[`action-${recommendedAction.id}`] === true) {
+        if (letterOfficer[`action-${recommendedAction.id}`] === true) {
           return recommendedAction.id;
         }
+        return null;
       }
     );
 
-    referralLetterOfficer.referralLetterOfficerRecommendedActions = selectedRecommendedActions.filter(
-      action => action !== undefined
+    letterOfficer.referralLetterOfficerRecommendedActions = selectedRecommendedActions.filter(
+      action => action !== null
     );
   };
 
   renderOfficerCards = ({ fields }) => {
-    return fields.map((referralLetterOfficerField, index) => {
+    return fields.map((letterOfficerField, index) => {
       const letterOfficerInstance = fields.get(index);
       return (
         <Fragment key={letterOfficerInstance.id}>
@@ -100,7 +110,7 @@ class RecommendedActions extends Component {
                 pending the completion of this investigation, PIB review this
                 officer’s history to ascertain if the accused officer should:
               </Typography>
-              {this.renderOfficerFields(referralLetterOfficerField)}
+              {this.renderOfficerFields(letterOfficerField)}
             </CardContent>
           </Card>
         </Fragment>
@@ -108,7 +118,7 @@ class RecommendedActions extends Component {
     });
   };
 
-  renderOfficerFields = referralLetterOfficerField => {
+  renderOfficerFields = letterOfficerField => {
     return (
       <Fragment>
         <FormGroup style={{ marginBottom: "24px" }}>
@@ -119,13 +129,11 @@ class RecommendedActions extends Component {
                 label={recommendedAction.description}
                 control={
                   <Field
-                    name={`${referralLetterOfficerField}.action-${
+                    name={`${letterOfficerField}.action-${
                       recommendedAction.id
                     }`}
-                    component={Checkbox}
-                    data-test={`${referralLetterOfficerField}-${
-                      recommendedAction.id
-                    }`}
+                    component={PurpleCheckBox}
+                    data-test={`${letterOfficerField}-${recommendedAction.id}`}
                   />
                 }
               />
@@ -134,10 +142,12 @@ class RecommendedActions extends Component {
         </FormGroup>
         <div>
           <Field
-            name={`${referralLetterOfficerField}.recommendedActionNotes`}
-            style={{ width: "50%" }}
+            name={`${letterOfficerField}.recommendedActionNotes`}
+            style={{ width: "70%" }}
             component={TextField}
-            data-test={`${referralLetterOfficerField}-recommendedActionNotes`}
+            multiline
+            rowsMax={5}
+            data-test={`${letterOfficerField}-recommendedActionNotes`}
             placeholder={"Additional notes or concerns"}
           />
         </div>
@@ -149,8 +159,7 @@ class RecommendedActions extends Component {
     if (this.referralLetterNotYetLoaded()) {
       return null;
     } else {
-      for (const letterOfficer of this.props.letterDetails
-        .referralLetterOfficers) {
+      for (const letterOfficer of this.props.letterDetails.letterOfficers) {
         for (const recommendedAction of letterOfficer.referralLetterOfficerRecommendedActions) {
           letterOfficer[`action-${recommendedAction}`] = true;
         }
@@ -171,7 +180,7 @@ class RecommendedActions extends Component {
             onClick={this.saveAndReturnToCase()}
             style={{ margin: "2% 0% 2% 4%" }}
           >
-            Save and Return to Case
+            Back to Case
           </LinkButton>
 
           <div style={{ margin: "0% 5% 3%", width: "60%" }}>
@@ -196,17 +205,12 @@ class RecommendedActions extends Component {
                 <CardContent
                   style={{ backgroundColor: "white", marginBottom: "24px" }}
                 >
-                  <FormControlLabel
-                    control={
-                      <Field
-                        name="includeRetaliationConcerns"
-                        component={Checkbox}
-                        data-test="include-retaliation-concerns-field"
-                      />
-                    }
-                    label={
+                  <BoldCheckBoxFormControlLabel
+                    name="includeRetaliationConcerns"
+                    labelText={
                       "Include Retaliation Concerns and Request for Notice to Officer(s)"
                     }
+                    data-test="include-retaliation-concerns-field"
                   />
 
                   <Typography style={{ marginLeft: "40px" }}>
@@ -220,15 +224,27 @@ class RecommendedActions extends Component {
                 </CardContent>
               </Card>
               <FieldArray
-                name="referralLetterOfficers"
+                name="letterOfficers"
                 component={this.renderOfficerCards}
               />
-              <SecondaryButton
-                onClick={this.saveAndGoBackToIAProCorrections()}
-                data-test="back-button"
-              >
-                Back
-              </SecondaryButton>
+              <div style={{ display: "flex" }}>
+                <span style={{ flex: 1 }}>
+                  <SecondaryButton
+                    onClick={this.saveAndGoBackToIAProCorrections()}
+                    data-test="back-button"
+                  >
+                    Back
+                  </SecondaryButton>
+                </span>
+                <span style={{ flex: 1, textAlign: "right" }}>
+                  <PrimaryButton
+                    onClick={this.saveAndGoToLetterPreview()}
+                    data-test="next-button"
+                  >
+                    Next
+                  </PrimaryButton>
+                </span>
+              </div>
             </div>
           </div>
         </form>
@@ -244,8 +260,7 @@ const mapStateToProps = state => ({
     id: state.referralLetter.letterDetails.id,
     includeRetaliationConcerns:
       state.referralLetter.letterDetails.includeRetaliationConcerns,
-    referralLetterOfficers:
-      state.referralLetter.letterDetails.referralLetterOfficers
+    letterOfficers: state.referralLetter.letterDetails.letterOfficers
   }
 });
 

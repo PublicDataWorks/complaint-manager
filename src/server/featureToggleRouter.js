@@ -6,9 +6,16 @@ const router = express.Router();
 const asyncMiddleware = require("./handlers/asyncMiddleware");
 
 const features = require("./config/features");
+const criteria = [
+  {
+    id: "isPreProd",
+    check: user => process.env.NODE_ENV !== "production"
+  }
+];
+
 fflip.config({
   features,
-  criteria: []
+  criteria
 });
 
 router.use(fflipExpress.middleware);

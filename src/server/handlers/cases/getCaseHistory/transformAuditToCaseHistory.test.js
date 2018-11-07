@@ -2,7 +2,8 @@ import {
   CASE_STATUS,
   AUDIT_ACTION,
   CIVILIAN_INITIATED,
-  RANK_INITIATED
+  RANK_INITIATED,
+  ADDRESSABLE_TYPE
 } from "../../../../sharedUtilities/constants";
 import DataChangeAudit from "../../../../client/testUtilities/dataChangeAudit";
 import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
@@ -55,10 +56,11 @@ describe("transformAuditToCaseHistory", () => {
     expect(caseHistories[0].details).toEqual(expectedDetails);
   });
 
-  test("it transforms null values in changes field to empty string", () => {
+  test("it transforms null values or blank string in changes field to single space for readability", () => {
     const auditChanges = {
       complaintType: { previous: null, new: RANK_INITIATED },
-      status: { previous: CASE_STATUS.INITIAL, new: null }
+      status: { previous: CASE_STATUS.INITIAL, new: null },
+      other: { previous: "", new: "something" }
     };
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
@@ -67,8 +69,25 @@ describe("transformAuditToCaseHistory", () => {
 
     const expectedDetails = {
       "Complaint Type": { previous: " ", new: RANK_INITIATED },
-      Status: { previous: CASE_STATUS.INITIAL, new: " " }
+      Status: { previous: CASE_STATUS.INITIAL, new: " " },
+      Other: { previous: " ", new: "something" }
     };
+    expect(caseHistories[0].details).toEqual(expectedDetails);
+  });
+
+  test("it transforms true and false values to true or false strings", () => {
+    const auditChanges = {
+      includeRetaliationConcerns: { new: true, previous: false }
+    };
+    const audit = new DataChangeAudit.Builder()
+      .defaultDataChangeAudit()
+      .withChanges(auditChanges);
+    const caseHistories = transformAuditToCaseHistory([audit]);
+
+    const expectedDetails = {
+      "Include Retaliation Concerns": { previous: "false", new: "true" }
+    };
+
     expect(caseHistories[0].details).toEqual(expectedDetails);
   });
 
@@ -113,7 +132,7 @@ describe("transformAuditToCaseHistory", () => {
     const auditChanges = {
       id: { previous: null, new: 6 },
       city: { previous: null, new: "Chicago" },
-      addressableType: { previous: null, new: "cases" }
+      addressableType: { previous: null, new: ADDRESSABLE_TYPE.CASES }
     };
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
@@ -126,15 +145,69 @@ describe("transformAuditToCaseHistory", () => {
     expect(caseHistories[0].details).toEqual(expectedDetails);
   });
 
-  test("filters out audits that are empty after filtering *Id fields", () => {
+  test("filters out update audits that are empty after filtering *Id fields", () => {
+    const auditChanges = {
+      someReferenceId: { previous: 4, new: 5 }
+    };
+    const audit = new DataChangeAudit.Builder()
+      .defaultDataChangeAudit()
+      .withAction(AUDIT_ACTION.DATA_UPDATED)
+      .withChanges(auditChanges);
+    const caseHistories = transformAuditToCaseHistory([audit], []);
+
+    expect(caseHistories).toHaveLength(0);
+  });
+
+  test("does not filter out create audits that are empty after filtering *Id fields", () => {
     const auditChanges = {
       incidentLocationId: { previous: null, new: 5 }
     };
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
+      .withAction(AUDIT_ACTION.DATA_CREATED)
       .withChanges(auditChanges);
     const caseHistories = transformAuditToCaseHistory([audit], []);
 
-    expect(caseHistories).toHaveLength(0);
+    expect(caseHistories).toHaveLength(1);
+    expect(caseHistories[0].details).toEqual({});
+  });
+
+  test("does not filter out delete audits that are empty after filtering *Id fields", () => {
+    const auditChanges = {
+      incidentLocationId: { previous: 5, new: null }
+    };
+    const audit = new DataChangeAudit.Builder()
+      .defaultDataChangeAudit()
+      .withAction(AUDIT_ACTION.DATA_DELETED)
+      .withChanges(auditChanges);
+    const caseHistories = transformAuditToCaseHistory([audit], []);
+
+    expect(caseHistories).toHaveLength(1);
+    expect(caseHistories[0].details).toEqual({});
+  });
+
+  test("strips html tags from results", () => {
+    const auditChanges = {
+      note: {
+        previous: "<p>something <b>nested</b></p> <div>more</div>",
+        new:
+          "<b>bold stuff</b> <em>italic stuff</em> This uses the < symbol that shouldn't be deleted. >"
+      }
+    };
+    const audit = new DataChangeAudit.Builder()
+      .defaultDataChangeAudit()
+      .withAction(AUDIT_ACTION.DATA_UPDATED)
+      .withChanges(auditChanges);
+    const caseHistories = transformAuditToCaseHistory([audit], []);
+
+    const expectedDetails = {
+      Note: {
+        previous: "something nested more",
+        new:
+          "bold stuff italic stuff This uses the < symbol that shouldn't be deleted. >"
+      }
+    };
+    expect(caseHistories).toHaveLength(1);
+    expect(caseHistories[0].details).toEqual(expectedDetails);
   });
 });

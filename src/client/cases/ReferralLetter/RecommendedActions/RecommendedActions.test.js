@@ -31,7 +31,7 @@ describe("recommendedActions", function() {
       id: referralLetterId,
       caseId: caseId,
       includeRetaliationConcerns: true,
-      referralLetterOfficers: [
+      letterOfficers: [
         { id: "1", referralLetterOfficerRecommendedActions: [1, 2, 3] },
         { id: "2", referralLetterOfficerRecommendedActions: [1, 3, 4] }
       ]
@@ -59,7 +59,7 @@ describe("recommendedActions", function() {
     );
   });
 
-  test("calls editRecommendedActions with case id, form values, and redirect url when click save and return to case", () => {
+  test("calls editRecommendedActions with case id, form values, and redirect url when click back to case", () => {
     dispatchSpy.mockClear();
 
     const button = wrapper
@@ -69,7 +69,7 @@ describe("recommendedActions", function() {
     const expectedFormValues = {
       id: referralLetterId,
       includeRetaliationConcerns: true,
-      referralLetterOfficers: [
+      letterOfficers: [
         {
           id: "1",
           "action-1": true,
@@ -97,7 +97,7 @@ describe("recommendedActions", function() {
     const expectedFormValues = {
       id: referralLetterId,
       includeRetaliationConcerns: true,
-      referralLetterOfficers: [
+      letterOfficers: [
         {
           id: "1",
           "action-1": true,
@@ -119,6 +119,38 @@ describe("recommendedActions", function() {
         caseId,
         expectedFormValues,
         `/cases/${caseId}/letter/iapro-corrections`
+      )
+    );
+  });
+
+  test("calls editRecommendedActions with case id, form values, and redirect url when click next button", () => {
+    const nextButton = wrapper.find("[data-test='next-button']").first();
+    nextButton.simulate("click");
+    const expectedFormValues = {
+      id: referralLetterId,
+      includeRetaliationConcerns: true,
+      letterOfficers: [
+        {
+          id: "1",
+          "action-1": true,
+          "action-2": true,
+          "action-3": true,
+          referralLetterOfficerRecommendedActions: [1, 2, 3]
+        },
+        {
+          id: "2",
+          "action-1": true,
+          "action-3": true,
+          "action-4": true,
+          referralLetterOfficerRecommendedActions: [1, 3, 4]
+        }
+      ]
+    };
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editRecommendedActions(
+        caseId,
+        expectedFormValues,
+        `/cases/${caseId}/letter/letter-preview`
       )
     );
   });

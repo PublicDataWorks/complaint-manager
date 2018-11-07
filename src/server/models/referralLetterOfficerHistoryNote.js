@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         field: "referral_letter_officer_id",
         references: {
-          model: models.referral_letter_officers,
+          model: models.letter_officers,
           key: "id"
         }
       },
@@ -43,5 +43,41 @@ module.exports = (sequelize, DataTypes) => {
     },
     { tableName: "referral_letter_officer_history_notes", paranoid: true }
   );
+
+  ReferralLetterOfficerHistoryNotes.prototype.getCaseId = async function(
+    transaction
+  ) {
+    const letterOfficer = await sequelize
+      .model("letter_officer")
+      .findById(this.referralLetterOfficerId, {
+        include: [
+          {
+            model: sequelize.model("case_officer"),
+            as: "caseOfficer"
+          }
+        ],
+        transaction
+      });
+    return letterOfficer.caseOfficer.caseId;
+  };
+
+  ReferralLetterOfficerHistoryNotes.prototype.modelDescription = async function(
+    transaction
+  ) {
+    const letterOfficer = await sequelize
+      .model("letter_officer")
+      .findById(this.referralLetterOfficerId, {
+        include: [
+          {
+            model: sequelize.model("case_officer"),
+            as: "caseOfficer"
+          }
+        ],
+        transaction
+      });
+    return [{ "Officer Name": letterOfficer.caseOfficer.fullName }];
+  };
+
+  ReferralLetterOfficerHistoryNotes.auditDataChange();
   return ReferralLetterOfficerHistoryNotes;
 };

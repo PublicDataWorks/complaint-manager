@@ -31,7 +31,6 @@ const getCaseHistory = asyncMiddleware(async (request, response) => {
       return dataChangeAudits;
     }
   );
-
   const caseHistory = transformAuditToCaseHistory(dataChangeAudits);
   response.status(200).send(caseHistory);
 });

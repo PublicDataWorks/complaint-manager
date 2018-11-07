@@ -22,7 +22,8 @@
     "test:worker:ci": "NODE_ENV=test yarn setup:test:db && CI=true react-scripts test src/worker --maxWorkers=1 --forceExit --env=node",
     "test:client": "react-scripts test src/client --env=jsdom",
     "test:client:ci": "CI=true react-scripts test src/client --maxWorkers=1 --env=jsdom",
-    "test:once": "NODE_ENV=test yarn test:client:ci && yarn test:server:ci && yarn test:worker:ci",
+    "test:server:worker:ci": "NODE_ENV=test yarn test:server:ci && yarn test:worker:ci",
+    "test:once": "run-p -c test:server:worker:ci test:client:ci",
     "eject": "react-scripts eject",
     "transformOfficerCsvData": "node -e \"require('./scripts/transformOfficerCsvData')\""
   },
@@ -52,6 +53,7 @@
     "fflip": "^4.0.0",
     "fflip-express": "^1.0.2",
     "file-saver": "^2.0.0-rc.2",
+    "handlebars": "^4.0.12",
     "helmet": "^3.12.0",
     "history": "^4.7.2",
     "jsonwebtoken": "^8.2.0",
@@ -78,8 +80,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
-    "react-scripts": "2.0.5",
-    "react-text-mask": "^5.4.3",
+    "react-scripts": "^2.1.0",
     "redux": "^4.0.0",
     "redux-form": "^7.4.0",
     "redux-form-material-ui": "^5.0.0-beta.3",
@@ -87,6 +88,7 @@
     "sequelize": "^4.39.0",
     "sequelize-cli": "^5.1.0",
     "shortid": "^2.2.13",
+    "striptags": "^3.1.1",
     "timekeeper": "^2.1.2",
     "umzug": "^2.1.0",
     "validator": "^10.0.0",
@@ -112,6 +114,7 @@
     "promise-retry": "^1.1.1",
     "redux-devtools-extension": "^2.13.2",
     "smtp-tester": "^1.2.0",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "yarn-run-all": "^3.1.1"
   }
 }

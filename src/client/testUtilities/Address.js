@@ -1,3 +1,5 @@
+import { ADDRESSABLE_TYPE } from "../../sharedUtilities/constants";
+
 class Address {
   constructor(build) {
     this.id = build.id;
@@ -20,7 +22,7 @@ class Address {
       defaultAddress() {
         this.id = 11111;
         this.addressableId = 17;
-        this.addressableType = "cases";
+        this.addressableType = ADDRESSABLE_TYPE.CASES;
         this.streetAddress = "123 Main St";
         this.streetAddress2 = "Fl 2";
         this.lat = 20.976;

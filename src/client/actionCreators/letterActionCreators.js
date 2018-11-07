@@ -1,13 +1,15 @@
 import {
   GET_REFERRAL_LETTER_SUCCESS,
-  EDIT_REFERRAL_LETTER_SUCCESS,
   REMOVE_OFFICER_HISTORY_NOTE_DIALOG_CLOSED,
   REMOVE_OFFICER_HISTORY_NOTE_DIALOG_OPENED,
   REMOVE_IAPRO_CORRECTION_DIALOG_OPENED,
   REMOVE_IAPRO_CORRECTION_DIALOG_CLOSED,
-  EDIT_IAPRO_CORRECTION_SUCCESS,
-  EDIT_RECOMMENDED_ACTIONS_SUCCESS,
-  GET_RECOMMENDED_ACTIONS_SUCCESS
+  GET_RECOMMENDED_ACTIONS_SUCCESS,
+  GET_LETTER_PREVIEW_SUCCESS,
+  OPEN_EDIT_LETTER_CONFIRMATION_DIALOG,
+  CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG,
+  CLOSE_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG,
+  OPEN_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG
 } from "../../sharedUtilities/constants";
 
 export const openRemoveOfficerHistoryNoteDialog = (
@@ -43,22 +45,29 @@ export const getReferralLetterSuccess = letterDetails => ({
   letterDetails
 });
 
-export const editReferralLetterSuccess = letterDetails => ({
-  type: EDIT_REFERRAL_LETTER_SUCCESS,
-  letterDetails
-});
-
-export const editIAProCorrectionsSuccess = letterDetails => ({
-  type: EDIT_IAPRO_CORRECTION_SUCCESS,
-  letterDetails
-});
-
-export const editRecommendedActionsSuccess = letterDetails => ({
-  type: EDIT_RECOMMENDED_ACTIONS_SUCCESS,
-  letterDetails
-});
-
 export const getRecommendedActionsSuccess = recommendedActions => ({
   type: GET_RECOMMENDED_ACTIONS_SUCCESS,
   recommendedActions
+});
+
+export const getLetterPreviewSuccess = (letterHtml, addresses) => ({
+  type: GET_LETTER_PREVIEW_SUCCESS,
+  letterHtml,
+  addresses
+});
+
+export const openEditLetterConfirmationDialog = () => ({
+  type: OPEN_EDIT_LETTER_CONFIRMATION_DIALOG
+});
+
+export const closeEditLetterConfirmationDialog = () => ({
+  type: CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG
+});
+
+export const openCancelEditLetterConfirmationDialog = () => ({
+  type: OPEN_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG
+});
+
+export const closeCancelEditLetterConfirmationDialog = () => ({
+  type: CLOSE_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG
 });

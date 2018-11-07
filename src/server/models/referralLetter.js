@@ -23,6 +23,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         field: "include_retaliation_concerns"
       },
+      recipient: {
+        type: DataTypes.TEXT
+      },
+      sender: {
+        type: DataTypes.TEXT
+      },
+      transcribedBy: {
+        type: DataTypes.STRING,
+        field: "transcribed_by"
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
@@ -55,5 +65,15 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
   };
+
+  ReferralLetter.prototype.getCaseId = async function(transaction) {
+    return this.caseId;
+  };
+
+  ReferralLetter.prototype.modelDescription = async function(transaction) {
+    return [];
+  };
+
+  ReferralLetter.auditDataChange();
   return ReferralLetter;
 };

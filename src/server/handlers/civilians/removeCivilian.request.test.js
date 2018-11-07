@@ -8,7 +8,10 @@ import {
   buildTokenWithPermissions,
   cleanupDatabase
 } from "../../testHelpers/requestTestHelpers";
-import { CASE_STATUS } from "../../../sharedUtilities/constants";
+import {
+  ADDRESSABLE_TYPE,
+  CASE_STATUS
+} from "../../../sharedUtilities/constants";
 
 describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
   let token;
@@ -93,7 +96,7 @@ describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
     const address = new Address.Builder()
       .defaultAddress()
       .withId(undefined)
-      .withAddressableType("civilian")
+      .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
       .withAddressableId(createdCivilian.id)
       .build();
     await createdCivilian.createAddress(address, { auditUser: "someone" });

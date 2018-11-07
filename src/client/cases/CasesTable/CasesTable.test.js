@@ -67,7 +67,7 @@ describe("cases table", () => {
       .withCreatedAt(new Date(2015, 8, 13).toISOString())
       .withAssignedTo("tuser")
       .withAccusedOfficers([accusedOfficer])
-      .withFirstContactDate("2017-12-25T00:00:00.000Z")
+      .withFirstContactDate("2017-12-25")
       .build();
     const caseTwo = new Case.Builder()
       .defaultCase()
@@ -77,7 +77,7 @@ describe("cases table", () => {
       .withStatus(CASE_STATUS.READY_FOR_REVIEW)
       .withCreatedAt(new Date().toISOString())
       .withAssignedTo("tuser")
-      .withFirstContactDate("2017-12-25T00:00:00.000Z")
+      .withFirstContactDate("2017-12-25")
       .build();
 
     cases = [caseOne, caseTwo];
@@ -237,7 +237,7 @@ describe("cases table", () => {
         .withComplaintType(CIVILIAN_INITIATED)
         .withCreatedAt(new Date(2015, 8, 15).toISOString())
         .withAssignedTo("tuser")
-        .withFirstContactDate("2017-12-25T00:00:00.000Z")
+        .withFirstContactDate("2017-12-25")
         .build();
 
       store.dispatch(createCaseSuccess(yetAnotherCase));

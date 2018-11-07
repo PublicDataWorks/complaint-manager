@@ -4,23 +4,22 @@ import { TIMEZONE } from "../../sharedUtilities/constants";
 
 const formatDate = dateString => {
   if (dateString) {
-    const date = moment(
-      moment.utc(new Date(dateString)).format("YYYY-MM-DDTHH:mm")
-    ).toDate();
-
-    dateString = date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric"
-    });
+    dateString = timezone.tz(dateString, TIMEZONE).format("MMM D, YYYY");
   }
 
   return dateString;
 };
 
+export const formatShortDate = date => {
+  if (!date) {
+    return date;
+  }
+  return timezone.tz(date, TIMEZONE).format("MM/DD/YYYY");
+};
+
 export const dateTimeFromString = dateTimeString => {
   return dateTimeString
-    ? timezone.tz(dateTimeString, TIMEZONE).format("MMM DD, YYYY h:mm:ss A z")
+    ? timezone.tz(dateTimeString, TIMEZONE).format("MMM D, YYYY h:mm:ss A z")
     : null;
 };
 
@@ -39,23 +38,21 @@ export const applyCentralTimeZoneOffset = dateString => {
 
 export const computeTimeZone = (date, time) => {
   if (!time) return time;
-  else {
-    let timeZone = "CT";
+  let timeZone = "CT";
 
-    if (date) {
-      timeZone = moment(date)
-        .tz(TIMEZONE)
-        .format("z");
-    }
-    return timeZone;
+  if (date) {
+    timeZone = moment(date)
+      .tz(TIMEZONE)
+      .format("z");
   }
+  return timeZone;
 };
 
 export function format12HourTime(time) {
   const timeParts = time.split(":");
   const hour = parseInt(timeParts[0], 10);
   const suffix = hour >= 12 ? "PM" : "AM";
-  const realHour = (hour + 11) % 12 + 1;
+  const realHour = ((hour + 11) % 12) + 1;
   const prefix = realHour < 10 ? "0" : "";
 
   return prefix + realHour + ":" + timeParts[1] + " " + suffix;

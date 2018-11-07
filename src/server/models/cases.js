@@ -1,3 +1,5 @@
+import { ADDRESSABLE_TYPE } from "../../sharedUtilities/constants";
+
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
 const CASE_STATUS = require("../../sharedUtilities/constants").CASE_STATUS;
@@ -152,7 +154,7 @@ module.exports = (sequelize, DataTypes) => {
         field: "addressable_id"
       },
       scope: {
-        addressable_type: "cases"
+        addressable_type: ADDRESSABLE_TYPE.CASES
       }
     });
     Case.hasMany(models.case_officer, {
@@ -183,6 +185,10 @@ module.exports = (sequelize, DataTypes) => {
     });
     Case.hasMany(models.action_audit, {
       as: "actionAudits",
+      foreignKey: { name: "caseId", field: "case_id" }
+    });
+    Case.hasOne(models.referral_letter, {
+      as: "referralLetter",
       foreignKey: { name: "caseId", field: "case_id" }
     });
   };

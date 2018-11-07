@@ -42,5 +42,22 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true
     }
   );
+
+  ReferralLetterIaproCorrection.prototype.getCaseId = async function(
+    transaction
+  ) {
+    const referralLetter = await sequelize
+      .model("referral_letter")
+      .findById(this.referralLetterId, { transaction });
+    return referralLetter.caseId;
+  };
+
+  ReferralLetterIaproCorrection.prototype.modelDescription = async function(
+    transaction
+  ) {
+    return [];
+  };
+
+  ReferralLetterIaproCorrection.auditDataChange();
   return ReferralLetterIaproCorrection;
 };

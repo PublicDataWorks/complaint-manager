@@ -1,7 +1,11 @@
+import {
+  ADDRESSABLE_TYPE,
+  AUDIT_SUBJECT
+} from "../../../sharedUtilities/constants";
+
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
 const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
-const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 const auditDataAccess = require("../auditDataAccess");
 
 const createCivilian = asyncMiddleware(async (req, res) => {
@@ -11,7 +15,7 @@ const createCivilian = asyncMiddleware(async (req, res) => {
     if (req.body.address) {
       values.address = {
         ...req.body.address,
-        addressableType: "civilian"
+        addressableType: ADDRESSABLE_TYPE.CIVILIAN
       };
     }
 
