@@ -10,32 +10,29 @@ import {
 } from "../../../actionCreators/casesActionCreators";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import setCaseStatus from "../../thunks/setCaseStatus";
-import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
-import { push } from "react-router-redux";
 
-jest.mock("../../thunks/setCaseStatus", () => (caseId, status, callback) => {
-  if (callback) {
-    callback();
-  }
+jest.mock("../../thunks/setCaseStatus", () => (caseId, status, redirectUrl) => {
   return {
     type: "MOCK_ACTION",
     status,
-    caseId
+    caseId,
+    redirectUrl
   };
 });
 
 describe("UpdateCaseStatusDialog", () => {
-  let wrapper, caseId, nextStatus, dispatchSpy, store;
+  let wrapper, caseId, nextStatus, dispatchSpy, store, redirectUrl;
   beforeEach(() => {
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
     caseId = 1;
     nextStatus = CASE_STATUS.READY_FOR_REVIEW;
+    redirectUrl = "url";
 
     store.dispatch(
       getCaseDetailsSuccess({ id: caseId, nextStatus: nextStatus })
     );
-    store.dispatch(openCaseStatusUpdateDialog());
+    store.dispatch(openCaseStatusUpdateDialog(redirectUrl));
     wrapper = mount(
       <Provider store={store}>
         <UpdateCaseStatusDialog />
@@ -52,38 +49,15 @@ describe("UpdateCaseStatusDialog", () => {
     expect(updateCaseStatusButton.text()).toEqual(`Mark as ${nextStatus}`);
   });
 
-  test("should dispatch thunk without callback if submit is clicked and next status not LETTER_IN_PROGRESS", () => {
+  test("should dispatch thunk with given redirect url if submit is clicked", () => {
     const updateCaseStatusButton = wrapper
       .find('[data-test="updateCaseStatus"]')
       .first();
 
     expect(updateCaseStatusButton.exists()).toBeDefined();
     updateCaseStatusButton.simulate("click");
-    expect(dispatchSpy).toHaveBeenCalledWith(setCaseStatus(caseId, nextStatus));
-  });
-
-  test("should redirect to letter review after successful status change to LETTER_IN_PROGRESS", () => {
-    const nextStatus = CASE_STATUS.LETTER_IN_PROGRESS;
-    store.dispatch(
-      getCaseDetailsSuccess({
-        id: caseId,
-        nextStatus
-      })
-    );
-    wrapper.update();
-    store.dispatch(getFeaturesSuccess({ letterGenerationFeature: true }));
-    dispatchSpy.mockClear();
-    const mockDispatch = jest.fn();
-    store.dispatch = mockDispatch;
-
-    const updateCaseStatusButton = wrapper
-      .find('[data-test="updateCaseStatus"]')
-      .first();
-
-    updateCaseStatusButton.simulate("click");
-
     expect(dispatchSpy).toHaveBeenCalledWith(
-      push(`/cases/${caseId}/letter/review`)
+      setCaseStatus(caseId, nextStatus, redirectUrl)
     );
   });
 

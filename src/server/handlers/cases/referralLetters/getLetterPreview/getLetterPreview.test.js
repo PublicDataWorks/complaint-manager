@@ -105,6 +105,17 @@ describe("getLetterPreview", function() {
     });
   });
 
+  test("returns case data so we can populate modal for status transition", async () => {
+    await getLetterPreview(request, response, next);
+    const responseBody = response._getData();
+    expect(responseBody.caseDetails).toEqual(
+      expect.objectContaining({
+        id: existingCase.id,
+        status: CASE_STATUS.LETTER_IN_PROGRESS
+      })
+    );
+  });
+
   test("renders civilian info", async () => {
     const civilianComplainantAttributes1 = new Civilian.Builder()
       .defaultCivilian()

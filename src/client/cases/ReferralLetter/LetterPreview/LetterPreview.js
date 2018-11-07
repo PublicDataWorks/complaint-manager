@@ -5,13 +5,18 @@ import { Card, CardContent, Typography } from "@material-ui/core";
 import LinkButton from "../../../shared/components/LinkButton";
 import LetterProgressStepper from "../LetterProgressStepper";
 import { connect } from "react-redux";
-import { SecondaryButton } from "../../../shared/components/StyledButtons";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../../../shared/components/StyledButtons";
 import getLetterPreview from "../thunks/getLetterPreview";
 import { Field, reduxForm } from "redux-form";
 import { TextField } from "redux-form-material-ui";
 import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 import { openEditLetterConfirmationDialog } from "../../../actionCreators/letterActionCreators";
 import EditLetterConfirmationDialog from "./EditLetterConfirmationDialog";
+import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
+import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -47,6 +52,11 @@ class LetterPreview extends Component {
     dispatch(
       editReferralLetterAddresses(this.state.caseId, values, redirectUrl)
     );
+  };
+
+  confirmSubmitForApproval = values => {
+    values.preventDefault();
+    this.props.openCaseStatusUpdateDialog(`/cases/${this.state.caseId}`);
   };
 
   openEditLetterConfirmationDialog = () => {
@@ -175,11 +185,19 @@ class LetterPreview extends Component {
                   >
                     Edit
                   </SecondaryButton>
+                  <PrimaryButton
+                    style={{ marginLeft: "16px" }}
+                    data-test="submit-for-approval-button"
+                    onClick={this.confirmSubmitForApproval}
+                  >
+                    Submit for Approval
+                  </PrimaryButton>
                 </span>
               </div>
             </div>
           </div>
         </form>
+        <UpdateCaseStatusDialog />
       </div>
     );
   }
@@ -190,7 +208,14 @@ const mapStateToProps = state => ({
   initialValues: state.referralLetter.addresses
 });
 
-export default connect(mapStateToProps)(
+const mapDispatchToProps = {
+  openCaseStatusUpdateDialog
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
   reduxForm({ form: "LetterAddresses", enableReinitialize: true })(
     LetterPreview
   )

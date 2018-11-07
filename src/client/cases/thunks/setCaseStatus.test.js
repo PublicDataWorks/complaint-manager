@@ -75,13 +75,13 @@ describe("setCaseStatus", () => {
     expect(dispatch).toHaveBeenCalledWith(closeCaseStatusUpdateDialog());
   });
 
-  test("should call callback if given on success", async () => {
+  test("should redirect to redirect url on success if given", async () => {
     const updateDetails = {
       id: 1,
       status: CASE_STATUS.ACTIVE
     };
     const responseBody = { id: 1 };
-    const callback = jest.fn();
+    const redirectUrl = "url";
 
     nock("http://localhost", {
       reqheaders: {
@@ -94,9 +94,9 @@ describe("setCaseStatus", () => {
       })
       .reply(200, responseBody);
 
-    await setCaseStatus(updateDetails.id, updateDetails.status, callback)(
+    await setCaseStatus(updateDetails.id, updateDetails.status, redirectUrl)(
       dispatch
     );
-    expect(callback).toHaveBeenCalled();
+    expect(dispatch).toHaveBeenCalledWith(push(redirectUrl));
   });
 });

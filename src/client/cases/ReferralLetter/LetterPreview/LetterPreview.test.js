@@ -10,6 +10,7 @@ import {
 } from "../../../actionCreators/letterActionCreators";
 import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 import { changeInput } from "../../../testHelpers";
+import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 jest.mock(
   "../thunks/editReferralLetterAddresses",
   () => (caseId, values, redirectUrl) => ({
@@ -89,6 +90,17 @@ describe("LetterPreview", function() {
     editButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(
       openEditLetterConfirmationDialog()
+    );
+  });
+
+  test("dispatch open case status dialog on click of submit for approval button", () => {
+    dispatchSpy.mockClear();
+    const submitForApprovalButton = wrapper
+      .find("[data-test='submit-for-approval-button']")
+      .first();
+    submitForApprovalButton.simulate("click");
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openCaseStatusUpdateDialog(`/cases/${caseId}`)
     );
   });
 

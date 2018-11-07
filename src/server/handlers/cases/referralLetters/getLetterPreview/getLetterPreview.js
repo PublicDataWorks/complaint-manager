@@ -9,21 +9,23 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../auditDataAccess";
 require("../../../../handlebarHelpers");
+import getCaseWithAllAssociations from "../../../getCaseWithAllAssociations";
 
 const getLetterPreview = asyncMiddleware(async (request, response, next) => {
-  await checkForValidStatus(request.params.caseId);
+  const caseId = request.params.caseId;
+  await checkForValidStatus(caseId);
 
   await models.sequelize.transaction(async transaction => {
     await auditDataAccess(
       request.nickname,
-      request.params.caseId,
+      caseId,
       AUDIT_SUBJECT.REFERRAL_LETTER,
       transaction,
       AUDIT_ACTION.DATA_ACCESSED
     );
 
     const referralLetter = await models.referral_letter.findOne(
-      { where: { caseId: request.params.caseId } },
+      { where: { caseId } },
       transaction
     );
 
@@ -38,13 +40,14 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
     if (edited) {
       html = referralLetter.editedLetterHtml;
     } else {
-      html = await generateReferralLetterFromCaseData(request, transaction);
+      html = await generateReferralLetterFromCaseData(caseId, transaction);
     }
-
+    const caseDetails = await getCaseWithAllAssociations(caseId, transaction);
     response.send({
       letterHtml: html,
       addresses: letterAddresses,
-      edited: edited
+      edited: edited,
+      caseDetails: caseDetails
     });
   });
 });
@@ -149,9 +152,9 @@ const getCaseData = async (caseId, transaction) => {
   });
 };
 
-async function generateReferralLetterFromCaseData(request, transaction) {
+async function generateReferralLetterFromCaseData(caseId, transaction) {
   const caseData = (await getCaseData(
-    request.params.caseId,
+    caseId,
     transaction
   )).toJSON();
   caseData.accusedOfficers.sort((officerA, officerB) => {

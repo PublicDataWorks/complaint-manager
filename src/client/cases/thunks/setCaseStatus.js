@@ -13,7 +13,7 @@ import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
-const setCaseStatus = (caseId, status, callback) => async dispatch => {
+const setCaseStatus = (caseId, status, redirectUrl) => async dispatch => {
   const token = getAccessToken();
   if (!token) {
     return dispatch(push("/login"));
@@ -32,10 +32,10 @@ const setCaseStatus = (caseId, status, callback) => async dispatch => {
     });
 
     dispatch(updateCaseStatusSuccess(response.data));
-    if (callback) {
-      callback();
-    }
     dispatch(snackbarSuccess("Status was successfully updated"));
+    if (redirectUrl) {
+      dispatch(push(redirectUrl));
+    }
     return dispatch(closeCaseStatusUpdateDialog());
   } catch (err) {
     return dispatch(

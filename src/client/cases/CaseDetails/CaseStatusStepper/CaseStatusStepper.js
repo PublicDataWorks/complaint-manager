@@ -40,6 +40,14 @@ const CaseStatusStepper = ({
   nextStatus,
   dispatch
 }) => {
+  const openUpdateCaseStatusDialog = () => {
+    let redirectUrl;
+    if (nextStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
+      redirectUrl = `/cases/${caseId}/letter/review`;
+    }
+    dispatch(openCaseStatusUpdateDialog(redirectUrl));
+  };
+
   const renderTransitionButton = () => {
     return (
       <div
@@ -62,14 +70,8 @@ const CaseStatusStepper = ({
           </PrimaryButton>
         ) : (
           <PrimaryButton
-            data-test={
-              status === CASE_STATUS.ACTIVE
-                ? "generateLetterButton"
-                : "updateStatusButton"
-            }
-            onClick={() => {
-              dispatch(openCaseStatusUpdateDialog());
-            }}
+            data-test="update-status-button"
+            onClick={openUpdateCaseStatusDialog}
           >
             {status === CASE_STATUS.ACTIVE
               ? `Begin Letter`

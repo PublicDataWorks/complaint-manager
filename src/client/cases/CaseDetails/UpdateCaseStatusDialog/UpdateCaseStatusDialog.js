@@ -33,7 +33,8 @@ const UpdateCaseStatusDialog = ({
   open,
   caseId,
   nextStatus,
-  featureToggles
+  featureToggles,
+  redirectUrl
 }) => {
   if (
     !featureToggles.letterGenerationFeature &&
@@ -48,17 +49,7 @@ const UpdateCaseStatusDialog = ({
       : "This action";
 
   const updateCaseStatus = () => {
-    if (nextStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
-      dispatch(
-        setCaseStatus(caseId, nextStatus, letterInProgressStatusChangeCallback)
-      );
-    } else {
-      dispatch(setCaseStatus(caseId, nextStatus));
-    }
-  };
-
-  const letterInProgressStatusChangeCallback = () => {
-    dispatch(push(`/cases/${caseId}/letter/review`));
+    dispatch(setCaseStatus(caseId, nextStatus, redirectUrl));
   };
 
   return (
@@ -100,6 +91,7 @@ const UpdateCaseStatusDialog = ({
 
 const mapStateToProps = state => ({
   open: state.ui.updateCaseStatusDialog.open,
+  redirectUrl: state.ui.updateCaseStatusDialog.redirectUrl,
   nextStatus: state.currentCase.details.nextStatus,
   caseId: state.currentCase.details.id,
   featureToggles: state.featureToggles

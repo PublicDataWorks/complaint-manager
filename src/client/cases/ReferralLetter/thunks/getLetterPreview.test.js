@@ -4,6 +4,7 @@ import getLetterPreview from "./getLetterPreview";
 import nock from "nock";
 import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 jest.mock("../../../auth/getAccessToken");
 
 describe("getLetterPreview", function() {
@@ -19,11 +20,12 @@ describe("getLetterPreview", function() {
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
-  test("dispatches getLetterPreviewSuccess with data, doesn't redirect to case details page", async () => {
+  test("dispatches getLetterPreviewSuccess and getCaseDetailsSuccess with data, doesn't redirect to case details page", async () => {
     getAccessToken.mockImplementation(() => "TOKEN");
     const responseBody = {
       letterHtml: "html string",
-      addresses: { recipient: "recipient" }
+      addresses: { recipient: "recipient" },
+      caseDetails: { status: "Letter in Progress", id: 5 }
     };
     nock("http://localhost", {})
       .get(`/api/cases/${caseId}/referral-letter/preview`)
@@ -31,6 +33,9 @@ describe("getLetterPreview", function() {
     await getLetterPreview(caseId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       getLetterPreviewSuccess(responseBody.letterHtml, responseBody.addresses)
+    );
+    expect(dispatch).toHaveBeenCalledWith(
+      getCaseDetailsSuccess(responseBody.caseDetails)
     );
     expect(dispatch).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
