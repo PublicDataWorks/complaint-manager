@@ -47,7 +47,7 @@ describe("Phone number field", () => {
     containsValue(
       phoneNumberFieldComponent,
       '[data-test="phoneNumberInput"]',
-      "(12"
+      "(12 )    -    "
     );
   });
 
@@ -60,7 +60,7 @@ describe("Phone number field", () => {
     containsValue(
       phoneNumberFieldComponent,
       '[data-test="phoneNumberInput"]',
-      "(123"
+      "(123)    -    "
     );
   });
 
@@ -73,20 +73,7 @@ describe("Phone number field", () => {
     containsValue(
       phoneNumberFieldComponent,
       '[data-test="phoneNumberInput"]',
-      "(123) 4"
-    );
-  });
-
-  test("should display number with parentheses, space, and hyphen with length > 6", () => {
-    changeInput(
-      phoneNumberFieldComponent,
-      '[data-test="phoneNumberInput"]',
-      "1234567"
-    );
-    containsValue(
-      phoneNumberFieldComponent,
-      '[data-test="phoneNumberInput"]',
-      "(123) 456-7"
+      "(123) 4  -    "
     );
   });
 
@@ -96,10 +83,9 @@ describe("Phone number field", () => {
       '[data-test="phoneNumberInput"]',
       "abc"
     );
-    containsValue(
-      phoneNumberFieldComponent,
-      '[data-test="phoneNumberInput"]',
-      ""
-    );
+      const phoneNumberField = phoneNumberFieldComponent.find(
+          '[data-test="phoneNumberInput"]').last();
+
+      expect(phoneNumberField.instance().value.replace(/\s+/g, '')).toEqual("()-")
   });
 });
