@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { LETTER_PROGRESS } from "../../../../sharedUtilities/constants";
+import {
+  LETTER_PROGRESS,
+  CASE_STATUS
+} from "../../../../sharedUtilities/constants";
 import NavBar from "../../../shared/components/NavBar/NavBar";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import LinkButton from "../../../shared/components/LinkButton";
@@ -87,6 +90,20 @@ class LetterPreview extends Component {
 
   displayLetterPreview = () => {
     return { __html: this.props.letterHtml };
+  };
+
+  renderSubmitForApprovalButton = () => {
+    if (this.props.caseDetail.status === CASE_STATUS.LETTER_IN_PROGRESS) {
+      return (
+        <PrimaryButton
+          style={{ marginLeft: "16px" }}
+          data-test="submit-for-approval-button"
+          onClick={this.confirmSubmitForApproval}
+        >
+          Submit for Approval
+        </PrimaryButton>
+      );
+    }
   };
 
   render() {
@@ -210,13 +227,7 @@ class LetterPreview extends Component {
                   >
                     Edit
                   </SecondaryButton>
-                  <PrimaryButton
-                    style={{ marginLeft: "16px" }}
-                    data-test="submit-for-approval-button"
-                    onClick={this.confirmSubmitForApproval}
-                  >
-                    Submit for Approval
-                  </PrimaryButton>
+                  {this.renderSubmitForApprovalButton()}
                 </span>
               </div>
             </div>
@@ -233,7 +244,8 @@ class LetterPreview extends Component {
 const mapStateToProps = state => ({
   letterHtml: state.referralLetter.letterHtml,
   initialValues: state.referralLetter.addresses,
-  edited: state.referralLetter.edited
+  edited: state.referralLetter.edited,
+  caseDetail: state.currentCase.details
 });
 
 const mapDispatchToProps = {

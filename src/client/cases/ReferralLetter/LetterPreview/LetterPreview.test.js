@@ -10,8 +10,12 @@ import {
 } from "../../../actionCreators/letterActionCreators";
 import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 import { changeInput } from "../../../testHelpers";
-import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
+import {
+  getCaseDetailsSuccess,
+  openCaseStatusUpdateDialog
+} from "../../../actionCreators/casesActionCreators";
 import setCaseStatus from "../../thunks/setCaseStatus";
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 
 jest.mock(
   "../thunks/editReferralLetterAddresses",
@@ -49,6 +53,12 @@ describe("LetterPreview", function() {
         },
         false
       )
+    );
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.LETTER_IN_PROGRESS
+      })
     );
 
     wrapper = mount(
@@ -107,6 +117,21 @@ describe("LetterPreview", function() {
     expect(dispatchSpy).toHaveBeenCalledWith(
       openEditLetterConfirmationDialog()
     );
+  });
+
+  test("does not render submit for approval button when case is not in letter in progress status", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.READY_FOR_REVIEW
+      })
+    );
+    wrapper.update();
+
+    const openSubmitForApprovalButton = wrapper
+      .find("[data-test='submit-for-approval-button']")
+      .first();
+    expect(openSubmitForApprovalButton.exists()).toBeFalsy();
   });
 
   test("dispatch open case status dialog on click of submit for approval button", () => {
