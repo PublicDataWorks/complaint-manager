@@ -119,7 +119,7 @@ describe("LetterPreview", function() {
     );
   });
 
-  test("does not render submit for approval button when case is not in letter in progress status", () => {
+  test("does not render submit for review button when case is not in letter in progress status", () => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId,
@@ -128,32 +128,32 @@ describe("LetterPreview", function() {
     );
     wrapper.update();
 
-    const openSubmitForApprovalButton = wrapper
-      .find("[data-test='submit-for-approval-button']")
+    const openSubmitForReviewButton = wrapper
+      .find("[data-test='submit-for-review-button']")
       .first();
-    expect(openSubmitForApprovalButton.exists()).toBeFalsy();
+    expect(openSubmitForReviewButton.exists()).toBeFalsy();
   });
 
-  test("dispatch open case status dialog on click of submit for approval button", () => {
+  test("dispatch open case status dialog on click of submit for review button", () => {
     dispatchSpy.mockClear();
-    const openSubmitForApprovalButton = wrapper
-      .find("[data-test='submit-for-approval-button']")
+    const openSubmitForReviewButton = wrapper
+      .find("[data-test='submit-for-review-button']")
       .first();
-    openSubmitForApprovalButton.simulate("click");
+    openSubmitForReviewButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(
       openCaseStatusUpdateDialog(`/cases/${caseId}`)
     );
   });
 
-  test("editReferralLetterAddresses and setCaseStatus are called when click on confirmation of submit for approval dialog", () => {
-    const openSubmitForApprovalButton = wrapper
-      .find("[data-test='submit-for-approval-button']")
+  test("editReferralLetterAddresses and setCaseStatus are called when click on confirmation of submit for review dialog", () => {
+    const openSubmitForReviewButton = wrapper
+      .find("[data-test='submit-for-review-button']")
       .first();
-    openSubmitForApprovalButton.simulate("click");
-    const submitForApprovalButton = wrapper
+    openSubmitForReviewButton.simulate("click");
+    const submitForReviewButton = wrapper
       .find("[data-test='update-case-status-button']")
       .first();
-    submitForApprovalButton.simulate("click");
+    submitForReviewButton.simulate("click");
     const expectedFormValues = {
       sender: "bob",
       recipient: "jane",

@@ -56,7 +56,7 @@ class LetterPreview extends Component {
     );
   };
 
-  saveAndSubmitForApproval = updateCaseStatusCallback => {
+  saveAndSubmitForReview = updateCaseStatusCallback => {
     return this.props.handleSubmit(
       this.submitForm(null, updateCaseStatusCallback)
     );
@@ -73,7 +73,7 @@ class LetterPreview extends Component {
     );
   };
 
-  confirmSubmitForApproval = values => {
+  confirmSubmitForReview = values => {
     values.preventDefault();
     this.props.openCaseStatusUpdateDialog(`/cases/${this.state.caseId}`);
   };
@@ -92,15 +92,15 @@ class LetterPreview extends Component {
     return { __html: this.props.letterHtml };
   };
 
-  renderSubmitForApprovalButton = () => {
+  renderSubmitForReviewButton = () => {
     if (this.props.caseDetail.status === CASE_STATUS.LETTER_IN_PROGRESS) {
       return (
         <PrimaryButton
           style={{ marginLeft: "16px" }}
-          data-test="submit-for-approval-button"
-          onClick={this.confirmSubmitForApproval}
+          data-test="submit-for-review-button"
+          onClick={this.confirmSubmitForReview}
         >
-          Submit for Approval
+          Submit for Review
         </PrimaryButton>
       );
     }
@@ -227,14 +227,14 @@ class LetterPreview extends Component {
                   >
                     Edit
                   </SecondaryButton>
-                  {this.renderSubmitForApprovalButton()}
+                  {this.renderSubmitForReviewButton()}
                 </span>
               </div>
             </div>
           </div>
         </form>
         <UpdateCaseStatusDialog
-          alternativeAction={this.saveAndSubmitForApproval}
+          alternativeAction={this.saveAndSubmitForReview}
         />
       </div>
     );
