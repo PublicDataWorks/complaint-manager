@@ -18,7 +18,7 @@ import {
 import TextTruncate from "../../../shared/components/TextTruncate";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import {
-  CASE_STATUS,
+  CASE_STATUSES_ALLOWED_TO_EDIT_LETTER,
   LETTER_PROGRESS
 } from "../../../../sharedUtilities/constants";
 import { push } from "react-router-redux";
@@ -42,11 +42,9 @@ export class LetterReview extends Component {
   }
 
   statusIsAllowed = () => {
-    const validStatuses = [
-      CASE_STATUS.LETTER_IN_PROGRESS,
-      CASE_STATUS.READY_FOR_REVIEW
-    ];
-    return validStatuses.includes(this.props.caseDetail.status);
+    return CASE_STATUSES_ALLOWED_TO_EDIT_LETTER.includes(
+      this.props.caseDetail.status
+    );
   };
 
   pageChangeCallback = redirectUrl => () => {

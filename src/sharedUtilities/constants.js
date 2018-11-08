@@ -238,6 +238,11 @@ export const CASE_STATUS = {
   CLOSED: "Closed"
 };
 
+export const CASE_STATUSES_ALLOWED_TO_EDIT_LETTER = [
+  CASE_STATUS.LETTER_IN_PROGRESS,
+  CASE_STATUS.READY_FOR_REVIEW
+];
+
 export const TOGGLE_CASE_STATUS = {
   INITIAL: "Initial",
   ACTIVE: "Active",

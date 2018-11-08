@@ -3,7 +3,8 @@ import { Step, StepLabel, Stepper } from "@material-ui/core";
 import {
   CASE_STATUS,
   CASE_STATUS_MAP,
-  USER_PERMISSIONS
+  USER_PERMISSIONS,
+  CASE_STATUSES_ALLOWED_TO_EDIT_LETTER
 } from "../../../../sharedUtilities/constants";
 import { connect } from "react-redux";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
@@ -60,9 +61,9 @@ const CaseStatusStepper = ({
           justifyContent: "flex-end"
         }}
       >
-        {status === CASE_STATUS.LETTER_IN_PROGRESS ? (
+        {CASE_STATUSES_ALLOWED_TO_EDIT_LETTER.includes(status) ? (
           <PrimaryButton
-            data-test={status === "editLetterButton"}
+            data-test={"edit-letter-button"}
             to={`/cases/${caseId}/letter/review`}
             component={Link}
           >
