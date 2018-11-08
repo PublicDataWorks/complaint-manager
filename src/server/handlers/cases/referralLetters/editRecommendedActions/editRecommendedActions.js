@@ -36,7 +36,14 @@ const createOrUpdateReferralLetterOfficerRecommendedActions = async (
   userNickname,
   transaction
 ) => {
-  for (const letterOfficer of letterOfficers) {
+  for (let letterOfficer of letterOfficers) {
+    if (!letterOfficer.id) {
+      letterOfficer = await models.letter_officer.create(letterOfficer, {
+        auditUser: userNickname,
+        transaction
+      });
+    }
+
     if (letterOfficer.referralLetterOfficerRecommendedActions) {
       const existingRecommendedActions = await getExistingReferralLetterOfficerRecommendedActions(
         letterOfficer.id
@@ -60,9 +67,12 @@ const createOrUpdateReferralLetterOfficerRecommendedActions = async (
         }
       }
     }
+
     const existingLetterOfficer = await models.letter_officer.findById(
-      letterOfficer.id
+      letterOfficer.id,
+      { transaction }
     );
+
     await existingLetterOfficer.update(
       {
         recommendedActionNotes: letterOfficer.recommendedActionNotes

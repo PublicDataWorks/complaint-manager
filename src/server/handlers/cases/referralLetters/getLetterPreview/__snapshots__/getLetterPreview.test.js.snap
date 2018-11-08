@@ -68,24 +68,24 @@ exports[`getLetterPreview snapshotTests it renders correctly with iapro correcti
 
     <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
     <p><br></p>
-      <p>
-        The IPM has reviewed <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> disciplinary history for the last five years and has determined that the
-        subject employee has the following significant/noteworthy number of complaints:</p>
-      <ul>
+        <p>
+          The IPM has reviewed <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> disciplinary history for the last five years and has determined that the
+          subject employee has the following significant/noteworthy number of complaints:</p>
+        <ul>
+            <li>
+              6 total complaints including
+                1 HIGH RISK allegations,                2 MEDIUM RISK allegations,                3 LOW RISK allegations.
+            </li>
           <li>
-            6 total complaints including
-              1 HIGH RISK allegations,              2 MEDIUM RISK allegations,              3 LOW RISK allegations.
+            This officer has done this before
           </li>
-        <li>
-          This officer has done this before
-        </li>
-      </ul>
-    <p><br></p>
+        </ul>
+      <p><br></p>
 
   <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
   <p><br></p>
-      <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
-      <p><br></p>
+        <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+        <p><br></p>
   <p><br></p>
 
 
@@ -185,24 +185,24 @@ exports[`getLetterPreview snapshotTests renders correctly with a civilian witnes
 
     <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
     <p><br></p>
-      <p>
-        The IPM has reviewed <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> disciplinary history for the last five years and has determined that the
-        subject employee has the following significant/noteworthy number of complaints:</p>
-      <ul>
+        <p>
+          The IPM has reviewed <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> disciplinary history for the last five years and has determined that the
+          subject employee has the following significant/noteworthy number of complaints:</p>
+        <ul>
+            <li>
+              6 total complaints including
+                1 HIGH RISK allegations,                2 MEDIUM RISK allegations,                3 LOW RISK allegations.
+            </li>
           <li>
-            6 total complaints including
-              1 HIGH RISK allegations,              2 MEDIUM RISK allegations,              3 LOW RISK allegations.
+            This officer has done this before
           </li>
-        <li>
-          This officer has done this before
-        </li>
-      </ul>
-    <p><br></p>
+        </ul>
+      <p><br></p>
 
   <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
   <p><br></p>
-      <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
-      <p><br></p>
+        <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+        <p><br></p>
   <p><br></p>
 
 
@@ -303,24 +303,24 @@ exports[`getLetterPreview snapshotTests renders correctly with an officer compla
 
     <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
     <p><br></p>
-      <p>
-        The IPM has reviewed <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> disciplinary history for the last five years and has determined that the
-        subject employee has the following significant/noteworthy number of complaints:</p>
-      <ul>
+        <p>
+          The IPM has reviewed <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> disciplinary history for the last five years and has determined that the
+          subject employee has the following significant/noteworthy number of complaints:</p>
+        <ul>
+            <li>
+              6 total complaints including
+                1 HIGH RISK allegations,                2 MEDIUM RISK allegations,                3 LOW RISK allegations.
+            </li>
           <li>
-            6 total complaints including
-              1 HIGH RISK allegations,              2 MEDIUM RISK allegations,              3 LOW RISK allegations.
+            This officer has done this before
           </li>
-        <li>
-          This officer has done this before
-        </li>
-      </ul>
-    <p><br></p>
+        </ul>
+      <p><br></p>
 
   <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
   <p><br></p>
-      <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
-      <p><br></p>
+        <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+        <p><br></p>
   <p><br></p>
 
 
@@ -408,28 +408,28 @@ exports[`getLetterPreview snapshotTests renders correctly with history notes 1`]
 
     <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
     <p><br></p>
-      <p>
-        The IPM has reviewed <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> disciplinary history for the last five years and has determined that the
-        subject employee has the following significant/noteworthy number of complaints:</p>
-      <ul>
+        <p>
+          The IPM has reviewed <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> disciplinary history for the last five years and has determined that the
+          subject employee has the following significant/noteworthy number of complaints:</p>
+        <ul>
+            <li>
+              6 total complaints including
+                1 HIGH RISK allegations,                2 MEDIUM RISK allegations,                3 LOW RISK allegations.
+            </li>
           <li>
-            6 total complaints including
-              1 HIGH RISK allegations,              2 MEDIUM RISK allegations,              3 LOW RISK allegations.
+            This officer has done this before
           </li>
-        <li>
-          This officer has done this before
-        </li>
-        <li>
-          CC2209-9870: 
-          This case was very similar.
-        </li>
-      </ul>
-    <p><br></p>
+          <li>
+            CC2209-9870: 
+            This case was very similar.
+          </li>
+        </ul>
+      <p><br></p>
 
   <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
   <p><br></p>
-      <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
-      <p><br></p>
+        <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+        <p><br></p>
   <p><br></p>
 
 
@@ -517,24 +517,24 @@ exports[`getLetterPreview snapshotTests renders correctly with minimum required 
 
     <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
     <p><br></p>
-      <p>
-        The IPM has reviewed <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> disciplinary history for the last five years and has determined that the
-        subject employee has the following significant/noteworthy number of complaints:</p>
-      <ul>
+        <p>
+          The IPM has reviewed <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> disciplinary history for the last five years and has determined that the
+          subject employee has the following significant/noteworthy number of complaints:</p>
+        <ul>
+            <li>
+              6 total complaints including
+                1 HIGH RISK allegations,                2 MEDIUM RISK allegations,                3 LOW RISK allegations.
+            </li>
           <li>
-            6 total complaints including
-              1 HIGH RISK allegations,              2 MEDIUM RISK allegations,              3 LOW RISK allegations.
+            This officer has done this before
           </li>
-        <li>
-          This officer has done this before
-        </li>
-      </ul>
-    <p><br></p>
+        </ul>
+      <p><br></p>
 
   <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
   <p><br></p>
-      <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
-      <p><br></p>
+        <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+        <p><br></p>
   <p><br></p>
 
 
@@ -622,29 +622,29 @@ exports[`getLetterPreview snapshotTests renders correctly with recommended actio
 
     <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
     <p><br></p>
-      <p>
-        The IPM has reviewed <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> disciplinary history for the last five years and has determined that the
-        subject employee has the following significant/noteworthy number of complaints:</p>
-      <ul>
+        <p>
+          The IPM has reviewed <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> disciplinary history for the last five years and has determined that the
+          subject employee has the following significant/noteworthy number of complaints:</p>
+        <ul>
+            <li>
+              6 total complaints including
+                1 HIGH RISK allegations,                2 MEDIUM RISK allegations,                3 LOW RISK allegations.
+            </li>
           <li>
-            6 total complaints including
-              1 HIGH RISK allegations,              2 MEDIUM RISK allegations,              3 LOW RISK allegations.
+            This officer has done this before
           </li>
-        <li>
-          This officer has done this before
-        </li>
-      </ul>
-    <p><br></p>
+        </ul>
+      <p><br></p>
 
   <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
   <p><br></p>
-      <p>In light of the seriousness of the allegations and/or <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> complaint history, the IPM requests that,
-      pending the completion of this investigation, PIB review this officer’s history to ascertain if the accused officer should:</p>
-      <ul>
-          <li>This is a description of the recommended action</li>
-      </ul>
-      <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
-      <p><br></p>
+        <p>In light of the seriousness of the allegations and/or <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> complaint history, the IPM requests that,
+        pending the completion of this investigation, PIB review this officer’s history to ascertain if the accused officer should:</p>
+        <ul>
+            <li>This is a description of the recommended action</li>
+        </ul>
+        <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+        <p><br></p>
   <p><br></p>
 
 
