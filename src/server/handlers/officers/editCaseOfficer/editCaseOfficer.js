@@ -27,6 +27,11 @@ const editCaseOfficer = asyncMiddleware(async (request, response) => {
         auditUser: request.nickname,
         transaction
       });
+      await models.letter_officer.destroy({
+        where: { caseOfficerId: caseOfficerToUpdate.id },
+        auditUser: request.nickname,
+        transaction
+      });
     }
 
     let officerAttributes = {};

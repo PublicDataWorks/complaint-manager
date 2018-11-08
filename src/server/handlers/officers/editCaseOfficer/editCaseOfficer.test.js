@@ -16,6 +16,7 @@ import Boom from "boom";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
 import Allegation from "../../../../client/testUtilities/Allegation";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import LetterOfficer from "../../../../client/testUtilities/LetterOfficer";
 
 describe("editCaseOfficer", () => {
   afterEach(async () => {
@@ -564,6 +565,41 @@ describe("editCaseOfficer", () => {
       expect(existingCaseOfficer.allegations).toEqual([]);
     });
 
+    test("should remove letter officer when changing officer role from accused to complainant", async () => {
+      const letterOfficerAttributes = new LetterOfficer.Builder()
+        .defaultLetterOfficer()
+        .withId(undefined)
+        .withCaseOfficerId(existingCaseOfficer.id);
+
+      await models.letter_officer.create(letterOfficerAttributes, {
+        auditUser: "someone"
+      });
+
+      const fieldsToUpdate = {
+        roleOnCase: COMPLAINANT
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "test user"
+      });
+
+      await editCaseOfficer(request, response, next);
+      const updatedLetterOfficer = await models.letter_officer.findOne({
+        where: { caseOfficerId: existingCaseOfficer.id }
+      });
+
+      expect(updatedLetterOfficer).toBeNull();
+    });
+
     test("should remove allegations when changing officer role from accused to witness", async () => {
       const fieldsToUpdate = {
         roleOnCase: WITNESS
@@ -586,6 +622,41 @@ describe("editCaseOfficer", () => {
       await existingCaseOfficer.reload();
 
       expect(existingCaseOfficer.allegations).toEqual([]);
+    });
+
+    test("should remove letter officer when changing officer role from accused to witness", async () => {
+      const letterOfficerAttributes = new LetterOfficer.Builder()
+        .defaultLetterOfficer()
+        .withId(undefined)
+        .withCaseOfficerId(existingCaseOfficer.id);
+
+      await models.letter_officer.create(letterOfficerAttributes, {
+        auditUser: "someone"
+      });
+
+      const fieldsToUpdate = {
+        roleOnCase: WITNESS
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "test user"
+      });
+
+      await editCaseOfficer(request, response, next);
+      const updatedLetterOfficer = await models.letter_officer.findOne({
+        where: { caseOfficerId: existingCaseOfficer.id }
+      });
+
+      expect(updatedLetterOfficer).toBeNull();
     });
 
     test("should not remove allegations when not changing officer role from accused", async () => {
@@ -615,6 +686,41 @@ describe("editCaseOfficer", () => {
       ]);
     });
 
+    test("should not remove letter officer when not changing officer role from accused", async () => {
+      const letterOfficerAttributes = new LetterOfficer.Builder()
+        .defaultLetterOfficer()
+        .withId(undefined)
+        .withCaseOfficerId(existingCaseOfficer.id);
+
+      const letterOfficer = await models.letter_officer.create(
+        letterOfficerAttributes,
+        { auditUser: "someone" }
+      );
+
+      const fieldsToUpdate = {
+        roleOnCase: ACCUSED,
+        notes: "some new notes"
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "test user"
+      });
+
+      await editCaseOfficer(request, response, next);
+      await letterOfficer.reload();
+
+      expect(letterOfficer).not.toBeNull();
+    });
+
     test("should not remove allegations when editing officer fails", async () => {
       const fieldsToUpdate = {
         roleOnCase: "invalid role",
@@ -640,6 +746,41 @@ describe("editCaseOfficer", () => {
       expect(existingCaseOfficer.allegations).toEqual([
         expect.objectContaining(officerAllegationAttributes)
       ]);
+    });
+
+    test("should not remove letter officer when editing officer fails", async () => {
+      const letterOfficerAttributes = new LetterOfficer.Builder()
+        .defaultLetterOfficer()
+        .withId(undefined)
+        .withCaseOfficerId(existingCaseOfficer.id);
+
+      const letterOfficer = await models.letter_officer.create(
+        letterOfficerAttributes,
+        { auditUser: "someone" }
+      );
+
+      const fieldsToUpdate = {
+        roleOnCase: "invalid role",
+        notes: "some new notes"
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "test user"
+      });
+
+      await editCaseOfficer(request, response, next);
+      await letterOfficer.reload();
+
+      expect(letterOfficer).not.toBeNull();
     });
   });
 });
