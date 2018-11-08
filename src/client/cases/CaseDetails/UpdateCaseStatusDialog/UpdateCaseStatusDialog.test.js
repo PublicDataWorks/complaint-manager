@@ -42,16 +42,16 @@ describe("UpdateCaseStatusDialog", () => {
 
   test("submit button should display Mark as NEXT CASE STATUS", () => {
     const updateCaseStatusButton = wrapper
-      .find('[data-test="updateCaseStatus"]')
+      .find('[data-test="update-case-status-button"]')
       .first();
 
     expect(updateCaseStatusButton.exists()).toBeDefined();
     expect(updateCaseStatusButton.text()).toEqual(`Mark as ${nextStatus}`);
   });
 
-  test("should dispatch thunk with given redirect url if submit is clicked", () => {
+  test("should dispatch thunk with given redirect url if submit is clicked and no alt action given", () => {
     const updateCaseStatusButton = wrapper
-      .find('[data-test="updateCaseStatus"]')
+      .find('[data-test="update-case-status-button"]')
       .first();
 
     expect(updateCaseStatusButton.exists()).toBeDefined();
@@ -59,6 +59,21 @@ describe("UpdateCaseStatusDialog", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(
       setCaseStatus(caseId, nextStatus, redirectUrl)
     );
+  });
+
+  test("should call alternative action if given when primary button clicked", () => {
+    const alternativeAction = jest.fn(() => () => {});
+    wrapper = mount(
+      <Provider store={store}>
+        <UpdateCaseStatusDialog alternativeAction={alternativeAction} />
+      </Provider>
+    );
+
+    const updateCaseStatusButton = wrapper
+      .find('[data-test="update-case-status-button"]')
+      .first();
+    updateCaseStatusButton.simulate("click");
+    expect(alternativeAction).toHaveBeenCalled();
   });
 
   test("should dispatch close if cancelled is clicked", () => {

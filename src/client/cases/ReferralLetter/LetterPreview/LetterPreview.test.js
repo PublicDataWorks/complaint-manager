@@ -11,16 +11,25 @@ import {
 import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 import { changeInput } from "../../../testHelpers";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
-import { push } from "react-router-redux";
+import setCaseStatus from "../../thunks/setCaseStatus";
 
 jest.mock(
   "../thunks/editReferralLetterAddresses",
-  () => (caseId, values, redirectUrl) => ({
-    type: "SOMETHING",
-    caseId,
-    values,
-    redirectUrl
-  })
+  () => (caseId, values, redirectUrl, alternativeCallback) => {
+    if (alternativeCallback) {
+      alternativeCallback();
+    }
+    return {
+      type: "SOMETHING",
+      caseId,
+      values,
+      redirectUrl
+    };
+  }
+);
+
+jest.mock("../../thunks/setCaseStatus", () =>
+  jest.fn(() => (caseId, status, redirectUrl) => {})
 );
 
 describe("LetterPreview", function() {
@@ -102,13 +111,33 @@ describe("LetterPreview", function() {
 
   test("dispatch open case status dialog on click of submit for approval button", () => {
     dispatchSpy.mockClear();
-    const submitForApprovalButton = wrapper
+    const openSubmitForApprovalButton = wrapper
       .find("[data-test='submit-for-approval-button']")
       .first();
-    submitForApprovalButton.simulate("click");
+    openSubmitForApprovalButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(
       openCaseStatusUpdateDialog(`/cases/${caseId}`)
     );
+  });
+
+  test("editReferralLetterAddresses and setCaseStatus are called when click on confirmation of submit for approval dialog", () => {
+    const openSubmitForApprovalButton = wrapper
+      .find("[data-test='submit-for-approval-button']")
+      .first();
+    openSubmitForApprovalButton.simulate("click");
+    const submitForApprovalButton = wrapper
+      .find("[data-test='update-case-status-button']")
+      .first();
+    submitForApprovalButton.simulate("click");
+    const expectedFormValues = {
+      sender: "bob",
+      recipient: "jane",
+      transcribedBy: "joe"
+    };
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editReferralLetterAddresses(caseId, expectedFormValues, null, () => {})
+    );
+    expect(setCaseStatus).toHaveBeenCalled();
   });
 
   describe("Saves and Redirects when click Stepper Buttons", function() {

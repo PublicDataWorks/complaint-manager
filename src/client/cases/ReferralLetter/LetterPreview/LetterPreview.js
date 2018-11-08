@@ -53,9 +53,20 @@ class LetterPreview extends Component {
     );
   };
 
-  submitForm = redirectUrl => (values, dispatch) => {
+  saveAndSubmitForApproval = updateCaseStatusCallback => {
+    return this.props.handleSubmit(
+      this.submitForm(null, updateCaseStatusCallback)
+    );
+  };
+
+  submitForm = (redirectUrl, alternativeCallback) => (values, dispatch) => {
     dispatch(
-      editReferralLetterAddresses(this.state.caseId, values, redirectUrl)
+      editReferralLetterAddresses(
+        this.state.caseId,
+        values,
+        redirectUrl,
+        alternativeCallback
+      )
     );
   };
 
@@ -211,7 +222,9 @@ class LetterPreview extends Component {
             </div>
           </div>
         </form>
-        <UpdateCaseStatusDialog />
+        <UpdateCaseStatusDialog
+          alternativeAction={this.saveAndSubmitForApproval}
+        />
       </div>
     );
   }

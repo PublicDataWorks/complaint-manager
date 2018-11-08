@@ -34,7 +34,8 @@ const UpdateCaseStatusDialog = ({
   caseId,
   nextStatus,
   featureToggles,
-  redirectUrl
+  redirectUrl,
+  alternativeAction
 }) => {
   if (
     !featureToggles.letterGenerationFeature &&
@@ -49,6 +50,14 @@ const UpdateCaseStatusDialog = ({
       : "This action";
 
   const updateCaseStatus = () => {
+    if (alternativeAction) {
+      alternativeAction(dispatchSetCaseStatus)();
+    } else {
+      dispatchSetCaseStatus();
+    }
+  };
+
+  const dispatchSetCaseStatus = () => {
     dispatch(setCaseStatus(caseId, nextStatus, redirectUrl));
   };
 
@@ -79,7 +88,10 @@ const UpdateCaseStatusDialog = ({
         >
           Cancel
         </SecondaryButton>
-        <PrimaryButton data-test="updateCaseStatus" onClick={updateCaseStatus}>
+        <PrimaryButton
+          data-test="update-case-status-button"
+          onClick={updateCaseStatus}
+        >
           {nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
             ? `Begin Letter`
             : `Mark as ${nextStatus}`}

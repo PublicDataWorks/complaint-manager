@@ -46,6 +46,30 @@ describe("editReferralLetterAddresses", () => {
     );
   });
 
+  test("calls alternative callback if given and shows success on success", async () => {
+    getAccessToken.mockImplementation(() => "token");
+    const alternativeCallback = jest.fn();
+    nock("http://localhost", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer token`
+      }
+    })
+      .put(`/api/cases/${caseId}/referral-letter/addresses`, addressData)
+      .reply(200);
+    await editReferralLetterAddresses(
+      caseId,
+      addressData,
+      null,
+      alternativeCallback
+    )(dispatch);
+
+    expect(alternativeCallback).toHaveBeenCalled();
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarSuccess("Letter was successfully updated")
+    );
+  });
+
   test("dispatches error if error", async () => {
     getAccessToken.mockImplementation(() => "token");
     nock("http://localhost", {

@@ -10,7 +10,8 @@ import {
 const editReferralLetterAddresses = (
   caseId,
   addressData,
-  redirectUrl
+  redirectUrl,
+  alternativeCallback
 ) => async dispatch => {
   const token = getAccessToken();
   if (!token) {
@@ -26,7 +27,11 @@ const editReferralLetterAddresses = (
       },
       data: addressData
     });
-    dispatch(push(redirectUrl));
+    if (alternativeCallback) {
+      alternativeCallback();
+    } else {
+      dispatch(push(redirectUrl));
+    }
     dispatch(snackbarSuccess("Letter was successfully updated"));
   } catch (error) {
     dispatch(
