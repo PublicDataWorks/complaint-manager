@@ -50,10 +50,11 @@ export const getRecommendedActionsSuccess = recommendedActions => ({
   recommendedActions
 });
 
-export const getLetterPreviewSuccess = (letterHtml, addresses) => ({
+export const getLetterPreviewSuccess = (letterHtml, addresses, edited) => ({
   type: GET_LETTER_PREVIEW_SUCCESS,
   letterHtml,
-  addresses
+  addresses,
+  edited
 });
 
 export const openEditLetterConfirmationDialog = () => ({

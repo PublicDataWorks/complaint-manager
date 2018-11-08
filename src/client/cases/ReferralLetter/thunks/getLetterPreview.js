@@ -25,7 +25,11 @@ const getLetterPreview = caseId => async dispatch => {
     );
     dispatch(getCaseDetailsSuccess(response.data.caseDetails));
     return dispatch(
-      getLetterPreviewSuccess(response.data.letterHtml, response.data.addresses)
+      getLetterPreviewSuccess(
+        response.data.letterHtml,
+        response.data.addresses,
+        response.data.edited
+      )
     );
   } catch (error) {
     if (error.response.data.message === "Invalid case status") {

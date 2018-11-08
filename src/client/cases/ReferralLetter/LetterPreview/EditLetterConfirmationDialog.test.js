@@ -5,7 +5,6 @@ import {
 } from "../../../actionCreators/letterActionCreators";
 import { mount } from "enzyme/build";
 import { Provider } from "react-redux";
-import { push } from "react-router-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
 import EditLetterConfirmationDialog from "./EditLetterConfirmationDialog";
@@ -14,6 +13,7 @@ describe("Edit Confirmation Dialog", () => {
   let store, dispatchSpy, wrapper;
 
   const caseId = 123;
+  const mockCallbackFunction = jest.fn();
 
   beforeEach(() => {
     store = createConfiguredStore();
@@ -24,7 +24,10 @@ describe("Edit Confirmation Dialog", () => {
     wrapper = mount(
       <Provider store={store}>
         <Router>
-          <EditLetterConfirmationDialog caseId={caseId} />
+          <EditLetterConfirmationDialog
+            caseId={caseId}
+            saveAndGoToEditLetterCallback={mockCallbackFunction}
+          />
         </Router>
       </Provider>
     );
@@ -49,12 +52,9 @@ describe("Edit Confirmation Dialog", () => {
       .first();
     editLetterButton.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenNthCalledWith(
-      1,
-      push(`/cases/${caseId}/letter/edit-letter`)
-    );
-    expect(dispatchSpy).toHaveBeenNthCalledWith(
-      2,
+    expect(mockCallbackFunction).toHaveBeenCalled();
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
       closeEditLetterConfirmationDialog()
     );
   });

@@ -47,6 +47,11 @@ class LetterPreview extends Component {
   pageChangeCallback = redirectUrl => {
     return this.props.handleSubmit(this.submitForm(redirectUrl));
   };
+  saveAndGoToEditLetter = () => {
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}/letter/edit-letter`)
+    );
+  };
 
   submitForm = redirectUrl => (values, dispatch) => {
     dispatch(
@@ -59,8 +64,14 @@ class LetterPreview extends Component {
     this.props.openCaseStatusUpdateDialog(`/cases/${this.state.caseId}`);
   };
 
-  openEditLetterConfirmationDialog = () => {
-    this.props.dispatch(openEditLetterConfirmationDialog());
+  editLetterWithPossibleConfirmationDialog = () => {
+    if (this.props.edited) {
+      return this.saveAndGoToEditLetter();
+    } else {
+      return () => {
+        this.props.dispatch(openEditLetterConfirmationDialog());
+      };
+    }
   };
 
   displayLetterPreview = () => {
@@ -168,7 +179,10 @@ class LetterPreview extends Component {
                   />
                 </CardContent>
               </Card>
-              <EditLetterConfirmationDialog caseId={this.state.caseId} />
+              <EditLetterConfirmationDialog
+                caseId={this.state.caseId}
+                saveAndGoToEditLetterCallback={this.saveAndGoToEditLetter()}
+              />
               <div style={{ display: "flex" }}>
                 <span style={{ flex: 1 }}>
                   <SecondaryButton
@@ -181,7 +195,7 @@ class LetterPreview extends Component {
                 <span style={{ flex: 1, textAlign: "right" }}>
                   <SecondaryButton
                     data-test="edit-button"
-                    onClick={this.openEditLetterConfirmationDialog}
+                    onClick={this.editLetterWithPossibleConfirmationDialog()}
                   >
                     Edit
                   </SecondaryButton>
@@ -205,7 +219,8 @@ class LetterPreview extends Component {
 
 const mapStateToProps = state => ({
   letterHtml: state.referralLetter.letterHtml,
-  initialValues: state.referralLetter.addresses
+  initialValues: state.referralLetter.addresses,
+  edited: state.referralLetter.edited
 });
 
 const mapDispatchToProps = {

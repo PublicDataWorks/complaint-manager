@@ -11,6 +11,8 @@ import {
 import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 import { changeInput } from "../../../testHelpers";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
+import { push } from "react-router-redux";
+
 jest.mock(
   "../thunks/editReferralLetterAddresses",
   () => (caseId, values, redirectUrl) => ({
@@ -29,11 +31,15 @@ describe("LetterPreview", function() {
     caseId = "102";
 
     store.dispatch(
-      getLetterPreviewSuccess("Letter Preview HTML", {
-        sender: "bob",
-        recipient: "jane",
-        transcribedBy: "joe"
-      })
+      getLetterPreviewSuccess(
+        "Letter Preview HTML",
+        {
+          sender: "bob",
+          recipient: "jane",
+          transcribedBy: "joe"
+        },
+        false
+      )
     );
 
     wrapper = mount(
@@ -45,8 +51,11 @@ describe("LetterPreview", function() {
     );
   });
 
-  test("dispatches editReferralLetterAddresses with correct values for return to case button", () => {
+  afterEach(() => {
     dispatchSpy.mockClear();
+  });
+
+  test("dispatches editReferralLetterAddresses with correct values for return to case button", () => {
     const button = wrapper
       .find("[data-test='save-and-return-to-case-link']")
       .first();
@@ -67,7 +76,6 @@ describe("LetterPreview", function() {
 
   test("dispatches editReferralLetterAddresses with correct values for back button", () => {
     changeInput(wrapper, "[data-test='transcribed-by-field']", "transcriber");
-    dispatchSpy.mockClear();
     const backButton = wrapper.find("[data-test='back-button']").first();
     backButton.simulate("click");
     const expectedFormValues = {
@@ -84,8 +92,7 @@ describe("LetterPreview", function() {
     );
   });
 
-  test("dispatch openEditLetterConfirmationDialog when clicking edit button", () => {
-    dispatchSpy.mockClear();
+  test("dispatch openEditLetterConfirmationDialog when clicking edit button if the letter was not edited", () => {
     const editButton = wrapper.find("[data-test='edit-button']").first();
     editButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -183,5 +190,37 @@ describe("LetterPreview", function() {
         )
       );
     });
+  });
+  test("do not dispatch openEditLetterConfirmationDialog when clicking edit button if the letter was edited", () => {
+    store.dispatch(
+      getLetterPreviewSuccess(
+        "Letter Preview HTML Edited",
+        {
+          sender: "bob",
+          recipient: "jane",
+          transcribedBy: "joe"
+        },
+        true
+      )
+    );
+
+    dispatchSpy.mockClear();
+    const editButton = wrapper.find("[data-test='edit-button']").first();
+    editButton.simulate("click");
+
+    expect(dispatchSpy).not.toHaveBeenCalledWith(
+      openEditLetterConfirmationDialog()
+    );
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editReferralLetterAddresses(
+        caseId,
+        {
+          sender: "bob",
+          recipient: "jane",
+          transcribedBy: "joe"
+        },
+        `/cases/${caseId}/letter/edit-letter`
+      )
+    );
   });
 });

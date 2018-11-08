@@ -12,7 +12,8 @@ describe("referralLetterReducer", () => {
       expect(newState).toEqual({
         letterDetails: {},
         letterHtml: "",
-        addresses: {}
+        addresses: {},
+        edited: false
       });
     });
   });
@@ -27,7 +28,8 @@ describe("referralLetterReducer", () => {
       expect(newState).toEqual({
         letterDetails,
         letterHtml: "",
-        addresses: {}
+        addresses: {},
+        edited: false
       });
     });
   });
@@ -37,7 +39,8 @@ describe("referralLetterReducer", () => {
       const initialState = {
         letterDetails: "something",
         letterHtml: "something",
-        addresses: {}
+        addresses: {},
+        edited: false
       };
       let referralLetterAddresses = {
         recipient: "recipient",
@@ -46,12 +49,17 @@ describe("referralLetterReducer", () => {
       };
       const newState = referralLetterReducer(
         initialState,
-        getLetterPreviewSuccess("new letter html", referralLetterAddresses)
+        getLetterPreviewSuccess(
+          "new letter html",
+          referralLetterAddresses,
+          true
+        )
       );
       expect(newState).toEqual({
         letterDetails: "something",
         letterHtml: "new letter html",
-        addresses: referralLetterAddresses
+        addresses: referralLetterAddresses,
+        edited: true
       });
     });
   });

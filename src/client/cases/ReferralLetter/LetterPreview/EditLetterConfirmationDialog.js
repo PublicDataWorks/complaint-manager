@@ -7,14 +7,17 @@ import {
   Typography
 } from "@material-ui/core";
 import { connect } from "react-redux";
-import { push } from "react-router-redux";
 import {
   SecondaryButton,
   PrimaryButton
 } from "../../../shared/components/StyledButtons";
 import { closeEditLetterConfirmationDialog } from "../../../actionCreators/letterActionCreators";
 
-const EditLetterConfirmationDialog = ({ open, dispatch, caseId }) => {
+const EditLetterConfirmationDialog = ({
+  open,
+  dispatch,
+  saveAndGoToEditLetterCallback
+}) => {
   return (
     <Dialog open={open}>
       <DialogTitle>Edit Letter</DialogTitle>
@@ -40,7 +43,7 @@ const EditLetterConfirmationDialog = ({ open, dispatch, caseId }) => {
         <PrimaryButton
           data-test="editLetterButton"
           onClick={() => {
-            dispatch(push(`/cases/${caseId}/letter/edit-letter`));
+            saveAndGoToEditLetterCallback();
             dispatch(closeEditLetterConfirmationDialog());
           }}
         >
