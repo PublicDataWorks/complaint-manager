@@ -51,7 +51,9 @@ describe("LetterPreview", function() {
           recipient: "jane",
           transcribedBy: "joe"
         },
-        false
+        {
+          edited: false
+        }
       )
     );
     store.dispatch(
@@ -254,7 +256,7 @@ describe("LetterPreview", function() {
           recipient: "jane",
           transcribedBy: "joe"
         },
-        true
+        { edited: true }
       )
     );
 

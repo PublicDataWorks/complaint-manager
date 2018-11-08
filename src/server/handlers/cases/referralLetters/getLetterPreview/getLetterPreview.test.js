@@ -4,8 +4,8 @@ import Boom from "boom";
 import {
   ACCUSED,
   ADDRESSABLE_TYPE,
-  AUDIT_SUBJECT,
   AUDIT_ACTION,
+  AUDIT_SUBJECT,
   AUDIT_TYPE,
   CASE_STATUS,
   COMPLAINANT,
@@ -335,7 +335,8 @@ describe("getLetterPreview", function() {
 
     const letterHtml = response._getData().letterHtml;
     expect(letterHtml).toEqual(editedLetterHtml);
-    expect(response._getData().edited).toBeTruthy();
+    expect(response._getData().editHistory.edited).toBeTruthy();
+    expect(response._getData().editHistory.lastEdited).toBeTruthy();
   });
 
   describe("snapshotTests", function() {

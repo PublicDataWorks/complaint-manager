@@ -8,8 +8,9 @@ import {
   AUDIT_SUBJECT
 } from "../../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../auditDataAccess";
-require("../../../../handlebarHelpers");
 import getCaseWithAllAssociations from "../../../getCaseWithAllAssociations";
+
+require("../../../../handlebarHelpers");
 
 const getLetterPreview = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
@@ -42,11 +43,16 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
     } else {
       html = await generateReferralLetterFromCaseData(caseId, transaction);
     }
+
+    let editHistory = { edited: edited };
+    if (edited) {
+      editHistory.lastEdited = referralLetter.updatedAt;
+    }
     const caseDetails = await getCaseWithAllAssociations(caseId, transaction);
     response.send({
       letterHtml: html,
       addresses: letterAddresses,
-      edited: edited,
+      editHistory: editHistory,
       caseDetails: caseDetails
     });
   });
@@ -153,10 +159,7 @@ const getCaseData = async (caseId, transaction) => {
 };
 
 async function generateReferralLetterFromCaseData(caseId, transaction) {
-  const caseData = (await getCaseData(
-    caseId,
-    transaction
-  )).toJSON();
+  const caseData = (await getCaseData(caseId, transaction)).toJSON();
   caseData.accusedOfficers.sort((officerA, officerB) => {
     return officerA.createdAt > officerB.createdAt;
   });

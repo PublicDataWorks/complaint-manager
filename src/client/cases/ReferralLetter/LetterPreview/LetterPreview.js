@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
-  LETTER_PROGRESS,
-  CASE_STATUS
+  CASE_STATUS,
+  LETTER_PROGRESS
 } from "../../../../sharedUtilities/constants";
 import NavBar from "../../../shared/components/NavBar/NavBar";
 import { Card, CardContent, Typography } from "@material-ui/core";
@@ -20,6 +20,7 @@ import { openEditLetterConfirmationDialog } from "../../../actionCreators/letter
 import EditLetterConfirmationDialog from "./EditLetterConfirmationDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
+import { dateTimeFromString } from "../../../utilities/formatDate";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -91,7 +92,7 @@ class LetterPreview extends Component {
   };
 
   editLetterWithPossibleConfirmationDialog = () => {
-    if (this.props.edited) {
+    if (this.props.editHistory.edited) {
       return this.saveAndGoToEditLetter();
     } else {
       return () => {
@@ -117,6 +118,17 @@ class LetterPreview extends Component {
       );
     }
   };
+
+  timestampIfEdited() {
+    if (this.props.editHistory.edited) {
+      return (
+        <i style={{ fontSize: "0.9rem" }}>
+          (Last edited {dateTimeFromString(this.props.editHistory.lastEdited)})
+        </i>
+      );
+    }
+    return null;
+  }
 
   render() {
     if (this.letterPreviewNotYetLoaded()) {
@@ -153,7 +165,7 @@ class LetterPreview extends Component {
                 }}
                 variant="title"
               >
-                Preview
+                Preview {this.timestampIfEdited()}
               </Typography>
 
               <Card
@@ -256,7 +268,7 @@ class LetterPreview extends Component {
 const mapStateToProps = state => ({
   letterHtml: state.referralLetter.letterHtml,
   initialValues: state.referralLetter.addresses,
-  edited: state.referralLetter.edited,
+  editHistory: state.referralLetter.editHistory,
   caseDetail: state.currentCase.details
 });
 

@@ -28,7 +28,7 @@ const getLetterPreview = caseId => async dispatch => {
       getLetterPreviewSuccess(
         response.data.letterHtml,
         response.data.addresses,
-        response.data.edited
+        response.data.editHistory
       )
     );
   } catch (error) {

@@ -3,9 +3,9 @@ import nock from "nock";
 import { push } from "react-router-redux";
 import editCaseNote from "./editCaseNote";
 import {
+  closeCaseNoteDialog,
   editCaseNoteFailure,
-  editCaseNoteSuccess,
-  closeCaseNoteDialog
+  editCaseNoteSuccess
 } from "../../actionCreators/casesActionCreators";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));

@@ -7,7 +7,7 @@ const initialState = {
   letterDetails: {},
   letterHtml: "",
   addresses: {},
-  edited: false
+  editHistory: { edited: false }
 };
 const referralLetterReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -18,7 +18,7 @@ const referralLetterReducer = (state = initialState, action) => {
         ...state,
         letterHtml: action.letterHtml,
         addresses: action.addresses,
-        edited: action.edited
+        editHistory: action.editHistory
       };
     default:
       return state;
