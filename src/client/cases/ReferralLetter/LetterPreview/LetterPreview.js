@@ -56,19 +56,31 @@ class LetterPreview extends Component {
     );
   };
 
-  saveAndSubmitForReview = updateCaseStatusCallback => {
+  saveAndSubmitForReview = (
+    updateCaseStatusSuccessCallback,
+    updateCaseStatusFailureCallback
+  ) => {
     return this.props.handleSubmit(
-      this.submitForm(null, updateCaseStatusCallback)
+      this.submitForm(
+        null,
+        updateCaseStatusSuccessCallback,
+        updateCaseStatusFailureCallback
+      )
     );
   };
 
-  submitForm = (redirectUrl, alternativeCallback) => (values, dispatch) => {
+  submitForm = (
+    redirectUrl,
+    alternativeSuccessCallback,
+    alternativeFailureCallback
+  ) => (values, dispatch) => {
     dispatch(
       editReferralLetterAddresses(
         this.state.caseId,
         values,
         redirectUrl,
-        alternativeCallback
+        alternativeSuccessCallback,
+        alternativeFailureCallback
       )
     );
   };

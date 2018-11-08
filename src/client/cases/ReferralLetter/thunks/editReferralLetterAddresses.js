@@ -11,7 +11,8 @@ const editReferralLetterAddresses = (
   caseId,
   addressData,
   redirectUrl,
-  alternativeCallback
+  alternativeCallback,
+  alternativeFailureCallback
 ) => async dispatch => {
   const token = getAccessToken();
   if (!token) {
@@ -34,6 +35,9 @@ const editReferralLetterAddresses = (
     }
     dispatch(snackbarSuccess("Letter was successfully updated"));
   } catch (error) {
+    if (alternativeFailureCallback) {
+      alternativeFailureCallback();
+    }
     dispatch(
       snackbarError(
         "Something went wrong and the letter was not updated. Please try again."

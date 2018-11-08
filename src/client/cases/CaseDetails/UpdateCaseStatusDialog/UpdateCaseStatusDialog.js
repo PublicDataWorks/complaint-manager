@@ -25,17 +25,17 @@ const STATUS_DESCRIPTION = {
     "This status signifies that the case has been sent to the investigation agency.",
   [CASE_STATUS.CLOSED]:
     "This status signifies that an outcome has been reached and this case is available for public records."
-  // [CASE_STATUS.CLOSED]: "Marking this case as closed will signify that an outcome has been reached and this case is available for public records. "
 };
 
 const UpdateCaseStatusDialog = ({
-  dispatch,
   open,
   caseId,
   nextStatus,
   featureToggles,
   redirectUrl,
-  alternativeAction
+  alternativeAction,
+  setCaseStatus,
+  closeCaseStatusUpdateDialog
 }) => {
   if (
     !featureToggles.letterGenerationFeature &&
@@ -49,16 +49,16 @@ const UpdateCaseStatusDialog = ({
       ? "Choosing to Generate a Letter"
       : "This action";
 
-  const updateCaseStatus = () => {
+  const updateCaseStatusAction = () => {
     if (alternativeAction) {
-      alternativeAction(dispatchSetCaseStatus)();
+      alternativeAction(updateCaseStatus, closeCaseStatusUpdateDialog)();
     } else {
-      dispatchSetCaseStatus();
+      updateCaseStatus();
     }
   };
 
-  const dispatchSetCaseStatus = () => {
-    dispatch(setCaseStatus(caseId, nextStatus, redirectUrl));
+  const updateCaseStatus = () => {
+    setCaseStatus(caseId, nextStatus, redirectUrl);
   };
 
   return (
@@ -83,14 +83,14 @@ const UpdateCaseStatusDialog = ({
         <SecondaryButton
           data-test="closeDialog"
           onClick={() => {
-            dispatch(closeCaseStatusUpdateDialog());
+            closeCaseStatusUpdateDialog();
           }}
         >
           Cancel
         </SecondaryButton>
         <PrimaryButton
           data-test="update-case-status-button"
-          onClick={updateCaseStatus}
+          onClick={updateCaseStatusAction}
         >
           {nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
             ? `Begin Letter`
@@ -101,6 +101,11 @@ const UpdateCaseStatusDialog = ({
   );
 };
 
+const mapDispatchToProps = {
+  closeCaseStatusUpdateDialog,
+  setCaseStatus
+};
+
 const mapStateToProps = state => ({
   open: state.ui.updateCaseStatusDialog.open,
   redirectUrl: state.ui.updateCaseStatusDialog.redirectUrl,
@@ -109,4 +114,7 @@ const mapStateToProps = state => ({
   featureToggles: state.featureToggles
 });
 
-export default connect(mapStateToProps)(UpdateCaseStatusDialog);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UpdateCaseStatusDialog);
