@@ -5,7 +5,6 @@ import thunk from "redux-thunk";
 import history from "./history";
 import { routerMiddleware, routerReducer } from "react-router-redux";
 import allCasesReducer from "./reducers/cases/allCasesReducer";
-import allUsersReducer from "./reducers/users/allUsersReducer";
 import snackbarReducer from "./reducers/ui/snackbarReducer";
 import caseDetailsReducer from "./reducers/cases/caseDetailsReducer";
 import caseHistoryReducer from "./reducers/cases/caseHistoryReducer";
@@ -53,7 +52,6 @@ const rootReducer = combineReducers({
   referralLetter: referralLetterReducer,
   recommendedActions: recommendedActionsReducer,
   users: combineReducers({
-    all: allUsersReducer,
     current: userInfoReducer
   }),
   ui: combineReducers({

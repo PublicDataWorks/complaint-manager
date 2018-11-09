@@ -1,10 +1,5 @@
 import snackbarReducer from "./snackbarReducer";
 import {
-  createUserFailure,
-  createUserSuccess,
-  requestUserCreation
-} from "../../actionCreators/usersActionCreators";
-import {
   addCaseNoteFailure,
   addCaseNoteSuccess,
   createCaseFailure,
@@ -92,37 +87,6 @@ describe("snackbarReducer", () => {
       expect(state.open).toBe(false);
       expect(state.success).toBe(false);
       expect(state.message).toBe("You failed");
-    });
-  });
-
-  describe("USER_CREATION", () => {
-    test("USER_CREATION_REQUESTED", () => {
-      const initialState = { open: true, success: true, message: "blah" };
-      const newState = snackbarReducer(initialState, requestUserCreation());
-
-      expect(newState.open).toBe(false);
-      expect(newState.success).toBe(false);
-      expect(newState.message).toBe("");
-    });
-
-    test("USER_CREATED_SUCCESS", () => {
-      const initialState = { open: false, success: false, message: "blah" };
-      const newState = snackbarReducer(initialState, createUserSuccess());
-
-      expect(newState.open).toBe(true);
-      expect(newState.success).toBe(true);
-      expect(newState.message).toBe("User was successfully created.");
-    });
-
-    test("USER_CREATION_FAILED", () => {
-      const initialState = { open: false, success: true, message: "blah" };
-      const newState = snackbarReducer(initialState, createUserFailure());
-
-      expect(newState.open).toBe(true);
-      expect(newState.success).toBeFalsy();
-      expect(newState.message).toBe(
-        "Something went wrong and the user was not created. Please try again."
-      );
     });
   });
 

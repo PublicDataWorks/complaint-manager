@@ -31,30 +31,12 @@ describe("NavBar", () => {
     expect(homeButton.prop("href")).toEqual("/");
   });
 
-  test("should contain a link named admin", () => {
-    const gearButton = wrapper.find('button[data-test="gearButton"]');
-    gearButton.simulate("click");
-
-    const link = wrapper.find('a[data-test="adminButton"]');
-
-    expect(link.prop("href")).toEqual("/admin");
-  });
-
   test("should display default nickname", () => {
     const nickname = wrapper.find('[data-test="userNickName"]').last();
     expect(nickname.text()).toEqual("");
   });
 
   describe("gear menu", () => {
-    test("should see admin button", () => {
-      const gearButton = wrapper.find('button[data-test="gearButton"]');
-      gearButton.simulate("click");
-
-      const adminButton = wrapper.find('[data-test="adminButton"]');
-
-      expect(adminButton.exists()).toBeTruthy();
-    });
-
     test("should see log out button", () => {
       const gearButton = wrapper.find('button[data-test="gearButton"]');
       gearButton.simulate("click");

@@ -6,7 +6,6 @@ import StyleGuide from "./globalStyling/StyleGuide";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import customTheme from "./globalStyling/muiTheme";
 import CaseDashboard from "./cases/CaseDashboard";
-import UserDashboard from "./users/UserDashboard";
 import { Paper } from "@material-ui/core";
 import Login from "./Login";
 import Callback from "./Callback";
@@ -111,7 +110,6 @@ class App extends Component {
               />
               <Route exact path="/export/all" component={JobDashboard} />
               <Route exact path="/styleguide" component={StyleGuide} />
-              <Route exact path="/admin" component={UserDashboard} />
               <Route
                 exact
                 path="/cases/:id/cases-officers/:caseOfficerId/allegations/search"

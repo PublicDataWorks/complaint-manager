@@ -15,8 +15,6 @@ const updateCaseNarrative = require("./handlers/cases/updateCaseNarrative");
 const editCivilian = require("./handlers/civilians/editCivilian");
 const createCivilian = require("./handlers/civilians/createCivilian");
 const removeCivilian = require("./handlers/civilians/removeCivilian");
-const createUser = require("./handlers/users/createUser");
-const getUsers = require("./handlers/users/getUsers");
 const audit = require("./handlers/auditLogs/audit");
 const jwtCheck = require("./handlers/jtwCheck");
 const verifyUserInfo = require("./handlers/verifyUserNickname");
@@ -111,8 +109,6 @@ router.post("/civilian", createCivilian);
 router.put("/civilian/:id", editCivilian);
 
 router.post("/audit", audit);
-router.post("/users", createUser);
-router.get("/users", getUsers);
 
 router.get("/officers/search", searchOfficers);
 router.get("/allegations/search", searchAllegations);
