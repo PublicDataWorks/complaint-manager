@@ -78,7 +78,7 @@ describe("Edit Letter Html", () => {
   });
 
   test("dispatch to editReferralLetterContent when clicking save button", () => {
-    const saveButton = wrapper.find("[data-test='save-button']").first();
+    const saveButton = wrapper.find("[data-test='saveButton']").first();
     saveButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(

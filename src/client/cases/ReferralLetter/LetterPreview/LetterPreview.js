@@ -249,7 +249,7 @@ class LetterPreview extends Component {
                     data-test="edit-button"
                     onClick={this.editLetterWithPossibleConfirmationDialog()}
                   >
-                    Edit
+                    Edit Letter
                   </SecondaryButton>
                   {this.renderSubmitForReviewButton()}
                 </span>

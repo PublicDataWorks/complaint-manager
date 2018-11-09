@@ -18,6 +18,7 @@ const RichTextEditorComponent = props => {
     <RichTextEditor
       initialValue={props.input.value}
       onChange={newValue => props.input.onChange(newValue)}
+      data-test={"editLetterInput"}
     />
   );
 };
@@ -42,16 +43,18 @@ export class EditLetter extends Component {
     );
   };
 
+  saveAndReturnToCase = () => {
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}`)
+    );
+  };
+
   pageChangeCallback = redirectUrl => {
     return this.props.handleSubmit(this.submitForm(redirectUrl));
   };
 
   submitForm = redirectUrl => (values, dispatch) => {
     dispatch(editReferralLetterContent(this.state.caseId, values, redirectUrl));
-  };
-
-  savedTextAndCurrentTextAreEqual = () => {
-    return this.props.pristine;
   };
 
   render() {
@@ -69,6 +72,7 @@ export class EditLetter extends Component {
 
         <LinkButton
           data-test="save-and-return-to-case-link"
+          onClick={this.saveAndReturnToCase()}
           style={{ margin: "2% 0% 2% 4%" }}
         >
           Back to Case
@@ -125,11 +129,11 @@ export class EditLetter extends Component {
               </span>
               <span style={{ flex: 1, textAlign: "right" }}>
                 <SecondaryButton
-                  data-test="save-button"
+                  data-test="saveButton"
                   onClick={this.saveAndGoBackToPreview()}
-                  disabled={this.savedTextAndCurrentTextAreEqual()}
+                  disabled={this.props.pristine}
                 >
-                  Save
+                  Save Edited Letter
                 </SecondaryButton>
               </span>
             </div>

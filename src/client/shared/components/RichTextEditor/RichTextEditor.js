@@ -40,6 +40,7 @@ class RichTextEditor extends React.Component {
         modules={modules}
         formats={formats}
         style={this.props.style}
+        data-test={"editLetterQuill"}
       />
     );
   }
