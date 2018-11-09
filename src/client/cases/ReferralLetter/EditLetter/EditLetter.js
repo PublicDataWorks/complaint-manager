@@ -39,21 +39,30 @@ export class EditLetter extends Component {
 
   saveAndGoBackToPreview = () => {
     return this.props.handleSubmit(
-      this.submitForm(`/cases/${this.state.caseId}/letter/letter-preview`)
+      this.submitEditedLetterForm(
+        `/cases/${this.state.caseId}/letter/letter-preview`
+      )
     );
   };
 
   saveAndReturnToCase = () => {
     return this.props.handleSubmit(
-      this.submitForm(`/cases/${this.state.caseId}`)
+      this.submitEditedLetterForm(`/cases/${this.state.caseId}`)
     );
   };
 
   pageChangeCallback = redirectUrl => {
-    return this.props.handleSubmit(this.submitForm(redirectUrl));
+    return this.props.handleSubmit(this.submitEditedLetterForm(redirectUrl));
   };
 
-  submitForm = redirectUrl => (values, dispatch) => {
+  stripWhitespaceBeforeLastParagraphElement = htmlString => {
+    return htmlString.substring(0, htmlString.length - 4).trim() + "</p>";
+  };
+
+  submitEditedLetterForm = redirectUrl => (values, dispatch) => {
+    values.editedLetterHtml = this.stripWhitespaceBeforeLastParagraphElement(
+      values.editedLetterHtml
+    );
     dispatch(editReferralLetterContent(this.state.caseId, values, redirectUrl));
   };
 
