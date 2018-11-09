@@ -47,7 +47,9 @@ if (TEST_PASS && TEST_USER && HOST) {
         .waitForElementVisible("[data-test=firstNameInput]", rerenderWait)
         .setValue("[data-test=firstNameInput]", "Night")
         .setValue("[data-test=lastNameInput]", "Watch")
-        .setValue("[data-test=phoneNumberInput]", "1234567890")
+        .click("[data-test=phoneNumberInput]")
+        .keys("\uE012") //left arrow key
+        .keys("1234567890")
         .click("button[data-test=createAndView]")
         .waitForElementVisible("[data-test=case-number]", roundTripWait)
         .assert.urlContains("cases");
