@@ -22,4 +22,5 @@ docker-compose build
 docker-compose run app yarn test:once
 
 ## Run E2E tests
-#yarn e2e
+#docker-compose up app &
+yarn e2e
