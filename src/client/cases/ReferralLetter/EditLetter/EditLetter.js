@@ -50,6 +50,10 @@ export class EditLetter extends Component {
     dispatch(editReferralLetterContent(this.state.caseId, values, redirectUrl));
   };
 
+  savedTextAndCurrentTextAreEqual = () => {
+    return this.props.pristine;
+  };
+
   render() {
     if (this.letterPreviewNotYetLoaded()) {
       return null;
@@ -123,6 +127,7 @@ export class EditLetter extends Component {
                 <SecondaryButton
                   data-test="save-button"
                   onClick={this.saveAndGoBackToPreview()}
+                  disabled={this.savedTextAndCurrentTextAreEqual()}
                 >
                   Save
                 </SecondaryButton>
