@@ -34,6 +34,13 @@ const editCaseOfficer = asyncMiddleware(async (request, response) => {
       });
     }
 
+    if (oldRoleOnCase !== ACCUSED && roleOnCase === ACCUSED) {
+      await models.letter_officer.create(
+        { caseOfficerId: caseOfficerToUpdate.id },
+        { auditUser: request.nickname, transaction }
+      );
+    }
+
     let officerAttributes = {};
     if (!officerId) {
       officerAttributes = buildOfficerAttributesForUnknownOfficer();

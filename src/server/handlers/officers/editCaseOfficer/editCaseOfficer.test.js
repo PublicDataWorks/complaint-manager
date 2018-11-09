@@ -488,7 +488,9 @@ describe("editCaseOfficer", () => {
     let existingCaseOfficerAttributes,
       existingCaseOfficer,
       existingOfficer,
-      officerAllegationAttributes;
+      officerAllegationAttributes,
+      existingComplainantCaseOfficer,
+      existingWitnessCaseOfficer;
 
     beforeEach(async () => {
       const existingOfficerAttributes = new Officer.Builder()
@@ -500,6 +502,26 @@ describe("editCaseOfficer", () => {
         .build();
 
       existingOfficer = await models.officer.create(existingOfficerAttributes);
+
+      const existingComplainantOfficerAttributes = new Officer.Builder()
+        .defaultOfficer()
+        .withId(undefined)
+        .withOfficerNumber(900);
+
+      const existingComplainantOfficer = await models.officer.create(
+        existingComplainantOfficerAttributes,
+        { auditUser: "someone" }
+      );
+
+      const existingWitnessOfficerAttributes = new Officer.Builder()
+        .defaultOfficer()
+        .withId(undefined)
+        .withOfficerNumber(500);
+
+      const existingWitnessOfficer = await models.officer.create(
+        existingWitnessOfficerAttributes,
+        { auditUser: "someone" }
+      );
 
       const caseOfficerId = 2;
       const allegationAttributes = new Allegation.Builder()
@@ -538,6 +560,30 @@ describe("editCaseOfficer", () => {
             }
           ]
         }
+      );
+
+      const existingComplainantCaseOfficerAttributes = new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withOfficerId(existingComplainantOfficer.id)
+        .withCaseId(existingCase.id)
+        .withRoleOnCase(COMPLAINANT);
+
+      existingComplainantCaseOfficer = await models.case_officer.create(
+        existingComplainantCaseOfficerAttributes,
+        { auditUser: "someone" }
+      );
+
+      const existingWitnessCaseOfficerAttributes = new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withOfficerId(existingWitnessOfficer.id)
+        .withCaseId(existingCase.id)
+        .withRoleOnCase(WITNESS);
+
+      existingWitnessCaseOfficer = await models.case_officer.create(
+        existingWitnessCaseOfficerAttributes,
+        { auditUser: "someone" }
       );
     });
 
@@ -781,6 +827,139 @@ describe("editCaseOfficer", () => {
       await letterOfficer.reload();
 
       expect(letterOfficer).not.toBeNull();
+    });
+
+    test("should create letter officer when changing case officer role to accused from complainant", async () => {
+      const fieldsToUpdate = {
+        roleOnCase: ACCUSED
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingComplainantCaseOfficer.id
+        },
+        nickname: "test user"
+      });
+
+      await editCaseOfficer(request, response, next);
+      const letterOfficer = await models.letter_officer.findOne({
+        where: { caseOfficerId: existingComplainantCaseOfficer.id }
+      });
+
+      expect(letterOfficer).not.toBeNull();
+    });
+
+    test("should create letter officer when changing case officer role to accused from witness", async () => {
+      const fieldsToUpdate = {
+        roleOnCase: ACCUSED
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingWitnessCaseOfficer.id
+        },
+        nickname: "test user"
+      });
+
+      await editCaseOfficer(request, response, next);
+      const letterOfficer = await models.letter_officer.findOne({
+        where: { caseOfficerId: existingWitnessCaseOfficer.id }
+      });
+
+      expect(letterOfficer).not.toBeNull();
+    });
+
+    test("should not create letter officer when changing officer role to complainant", async () => {
+      const fieldsToUpdate = {
+        roleOnCase: COMPLAINANT,
+        notes: "some new notes"
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingWitnessCaseOfficer.id
+        },
+        nickname: "test user"
+      });
+
+      await editCaseOfficer(request, response, next);
+      const letterOfficer = await models.letter_officer.findOne({
+        where: { caseOfficerId: existingWitnessCaseOfficer.id }
+      });
+
+      expect(letterOfficer).toBeNull();
+    });
+
+    test("should not create letter officer when changing officer role to witness", async () => {
+      const fieldsToUpdate = {
+        roleOnCase: WITNESS,
+        notes: "some new notes"
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingComplainantCaseOfficer.id
+        },
+        nickname: "test user"
+      });
+
+      await editCaseOfficer(request, response, next);
+      const letterOfficer = await models.letter_officer.findOne({
+        where: { caseOfficerId: existingComplainantCaseOfficer.id }
+      });
+
+      expect(letterOfficer).toBeNull();
+    });
+
+    test("should not create letter officer when editing officer fails", async () => {
+      const fieldsToUpdate = {
+        roleOnCase: "invalid role",
+        notes: "some new notes"
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingComplainantCaseOfficer.id
+        },
+        nickname: "test user"
+      });
+
+      await editCaseOfficer(request, response, next);
+      const letterOfficer = await models.letter_officer.findOne({
+        where: { caseOfficerId: existingComplainantCaseOfficer.id }
+      });
+
+      expect(letterOfficer).toBeNull();
     });
   });
 });
