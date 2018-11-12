@@ -159,7 +159,7 @@ const getCaseData = async (caseId, transaction) => {
   });
 };
 
-async function generateReferralLetterFromCaseData(caseId, transaction) {
+export async function generateReferralLetterFromCaseData(caseId, transaction) {
   const caseData = (await getCaseData(caseId, transaction)).toJSON();
   caseData.accusedOfficers.sort((officerA, officerB) => {
     return officerA.createdAt > officerB.createdAt;
