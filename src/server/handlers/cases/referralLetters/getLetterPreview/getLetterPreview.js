@@ -98,6 +98,7 @@ const getCaseData = async (caseId, transaction) => {
           }
         ]
       },
+      { model: models.classification },
       {
         model: models.address,
         as: "incidentLocation"

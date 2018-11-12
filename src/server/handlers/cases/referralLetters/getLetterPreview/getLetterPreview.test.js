@@ -25,6 +25,7 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
+import Classification from "../../../../../client/testUtilities/classification";
 
 describe("getLetterPreview", function() {
   let existingCase, request, response, next, referralLetter;
@@ -532,6 +533,19 @@ describe("getLetterPreview", function() {
     });
 
     test("renders correctly with all details", async () => {
+      const classificationBwcAttributes = new Classification.Builder()
+        .defaultClassification()
+        .withId(undefined)
+        .withName("Body Worn Camera")
+        .withInitialism("BWC");
+      const classificationBWC = await models.classification.create(
+        classificationBwcAttributes,
+        { auditUser: "someone" }
+      );
+      await existingCase.update(
+        { classificationId: classificationBWC.id },
+        { auditUser: "someone" }
+      );
       const civilianWitnessAttributes = new Civilian.Builder()
         .defaultCivilian()
         .withCaseId(existingCase.id)
@@ -597,6 +611,9 @@ describe("getLetterPreview", function() {
         referralLetterOfficerHistoryNoteAttributes,
         { auditUser: "test" }
       );
+
+      await getLetterPreview(request, response, next);
+      expect(response._getData().letterHtml).toMatchSnapshot();
     });
   });
 });

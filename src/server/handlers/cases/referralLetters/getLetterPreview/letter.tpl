@@ -204,6 +204,14 @@
     <p><br></p>
   {{/if}}
 
+  {{#if classification}}
+    <p class="ql-align-center"><strong><u>Classification Recommendation</u></strong></p>
+    <p><br></p>
+    <p>The IPM recommends that this complaint be classified as {{classification.initialism}}.</p>
+    <p><br></p>
+    <p><br></p>
+  {{/if}}
+
   <p>I appreciate your prompt attention to this matter. Please contact me if you have any questions.</p>
   <p><br></p>
 

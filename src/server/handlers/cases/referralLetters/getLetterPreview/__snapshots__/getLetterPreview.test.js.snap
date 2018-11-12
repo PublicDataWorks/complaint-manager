@@ -106,6 +106,7 @@ exports[`getLetterPreview snapshotTests it renders correctly with iapro correcti
       </ul>
     <p><br></p>
 
+
   <p>I appreciate your prompt attention to this matter. Please contact me if you have any questions.</p>
   <p><br></p>
 
@@ -215,6 +216,152 @@ exports[`getLetterPreview snapshotTests renders correctly with a civilian witnes
     <p><br></p>
 
 
+
+
+  <p>I appreciate your prompt attention to this matter. Please contact me if you have any questions.</p>
+  <p><br></p>
+
+</div>"
+`;
+
+exports[`getLetterPreview snapshotTests renders correctly with all details 1`] = `
+"<div>
+  <p><strong>RE: Complaint Referral; IPM Complaint CC-2017-12070</strong></p>
+  <p><br></p>
+  <p>Dear Deputy Superintendent Westbrook:</p>
+  <p><br></p>
+  <p>
+      This is to inform you pursuant to New Orleans City Code Section 2-1121 (the Police Monitors Ordinance) that the
+      Office of the Independent Police Monitor (IPM) has received a complaint of misconduct by an NOPD employee(s).
+      The complainant related the following information to our office:
+  </p>
+  <p><br></p>
+  <p><br></p>
+  <p class=\\"ql-align-center\\"><strong><u>Complaint Information</u></strong></p>
+  <p><br></p>
+  <p><strong><u>IPM Complaint #:</u></strong> CC-2017-12070</p>
+  <p>Date filed with IPM: 12/25/2017</p>
+  <p><br></p>
+
+  <p><strong><u>Complainant Information</u></strong></p>
+    <p>Name: Chuck E. Berry XVI</p>
+    <p>Race: Korean</p>
+    <p>Sex: Female</p>
+    <p>Date of Birth: 04/24/1994</p>
+    <p>Address: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+    <p>Phone: (123) 456-7890</p>
+    <p>Email: cberry@cberry.com</p>
+    <p><br></p>
+    <p>Name: Grant M Young</p>
+    <p>Rank: ADMIN SUPPORT SPECIALIST II</p>
+    <p>Employee ID: #12</p>
+    <p>Race: Black</p>
+    <p>Sex: M</p>
+    <p>Date of Birth: 02/23/1986</p>
+    <p>Supervisor (Employee ID): Belly G Walsh (#14)</p>
+    <p>Employee Type: Commissioned</p>
+    <p>District: First District</p>
+    <p>Bureau: MSB - Management Service Bureau</p>
+    <p>Status: Retired</p>
+    <p>End of Employment: 05/31/2018</p>
+    <p><br></p>
+
+  <p><strong><u>Subject NOPD Employee(s) Information</u></strong></p>
+    <p>Name: Grant M Young</p>
+    <p>Rank: ADMIN SUPPORT SPECIALIST II</p>
+    <p>Employee ID: #12</p>
+    <p>Race: Black</p>
+    <p>Sex: M</p>
+    <p>Date of Birth: 02/23/1986</p>
+    <p>Supervisor (Employee ID): Belly G Walsh (#14)</p>
+    <p>Employee Type: Commissioned</p>
+    <p>District: First District</p>
+    <p>Bureau: MSB - Management Service Bureau</p>
+    <p>Status: Retired</p>
+    <p>End of Employment: 05/31/2018</p>
+    <p><br></p>
+
+    <p><strong><u>Witnesses</u></strong></p>
+    <p>Name: Chuck E. Berry XVI</p>
+    <p>Phone: (123) 456-7890</p>
+    <p>Email: cberry@cberry.com</p>
+    <p><br></p>
+
+  <p><strong><u>Incident</u></strong></p>
+  <p>Date: 01/01/2017</p>
+  <p>Location: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+  <p>Time: 04:00 PM CST</p>
+
+  <p><br></p>
+  <p><br></p>
+  <p class=\\"ql-align-center\\"><strong><u>Initial Allegations/Concerns/Issues</u></strong></p>
+  <p><br></p>
+    ADMIN SUPPORT SPECIALIST II Grant M Young is accused of the following violations:
+      <ul>
+          <li>RULE 2: MORAL CONDUCT: PARAGRAPH 01 - ADHERENCE TO LAW: Title 18 of the United Stated Code Section 1001: Statements or Entries Generally</li>
+      </ul>
+      <p><br></p>
+  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> </p>
+  <p><br></p>
+  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> </p>
+
+  <p><br></p>
+  <p><br></p>
+
+    <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
+    <p><br></p>
+        <p>
+          The IPM has reviewed <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> disciplinary history for the last five years and has determined that the
+          subject employee has the following significant/noteworthy number of complaints:</p>
+        <ul>
+            <li>
+              6 total complaints including
+                1 HIGH RISK allegations,                2 MEDIUM RISK allegations,                3 LOW RISK allegations.
+            </li>
+          <li>
+            This officer has done this before
+          </li>
+          <li>
+            CC2209-9870: 
+            This case was very similar.
+          </li>
+        </ul>
+      <p><br></p>
+
+  <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
+  <p><br></p>
+        <p>In light of the seriousness of the allegations and/or <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> complaint history, the IPM requests that,
+        pending the completion of this investigation, PIB review this officer’s history to ascertain if the accused officer should:</p>
+        <ul>
+            <li>This is a description of the recommended action</li>
+        </ul>
+        <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+        <p><br></p>
+  <p><br></p>
+
+
+    <p class=\\"ql-align-center\\"><strong><u>Retaliation Concerns and Request for Notice to Officer(s)</u></strong></p>
+    <p><br></p>
+    <p>Based on the information provided by the complainant, the OIPM is concerned about retaliation against the complainant.
+      We request that once the accused officer(s) is made aware of this complaint that they be admonished in writing by their
+      commanding officer(s) about retaliating against the Complainant, or from having others do so.</p>
+    <p><br></p>
+    <p><br></p>
+
+
+    <p class=\\"ql-align-center\\"><strong><u>IAPro Corrections</u></strong></p>
+      <ul>
+        <li>
+          <p class=\\"preserve-white-space\\">The IAPro entry for case 555 was wrong.</p>
+        </li>
+      </ul>
+    <p><br></p>
+
+    <p class=\\"ql-align-center\\"><strong><u>Classification Recommendation</u></strong></p>
+    <p><br></p>
+    <p>The IPM recommends that this complaint be classified as BWC.</p>
+    <p><br></p>
+    <p><br></p>
 
   <p>I appreciate your prompt attention to this matter. Please contact me if you have any questions.</p>
   <p><br></p>
@@ -334,6 +481,7 @@ exports[`getLetterPreview snapshotTests renders correctly with an officer compla
 
 
 
+
   <p>I appreciate your prompt attention to this matter. Please contact me if you have any questions.</p>
   <p><br></p>
 
@@ -443,6 +591,7 @@ exports[`getLetterPreview snapshotTests renders correctly with history notes 1`]
 
 
 
+
   <p>I appreciate your prompt attention to this matter. Please contact me if you have any questions.</p>
   <p><br></p>
 
@@ -545,6 +694,7 @@ exports[`getLetterPreview snapshotTests renders correctly with minimum required 
       commanding officer(s) about retaliating against the Complainant, or from having others do so.</p>
     <p><br></p>
     <p><br></p>
+
 
 
 
@@ -655,6 +805,7 @@ exports[`getLetterPreview snapshotTests renders correctly with recommended actio
       commanding officer(s) about retaliating against the Complainant, or from having others do so.</p>
     <p><br></p>
     <p><br></p>
+
 
 
 
