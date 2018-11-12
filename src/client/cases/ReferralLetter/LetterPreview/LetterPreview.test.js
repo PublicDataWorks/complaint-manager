@@ -16,6 +16,7 @@ import {
 } from "../../../actionCreators/casesActionCreators";
 import setCaseStatus from "../../thunks/setCaseStatus";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import generatePdf from "../thunks/generatePdf";
 
 jest.mock(
   "../thunks/editReferralLetterAddresses",
@@ -35,6 +36,14 @@ jest.mock(
 jest.mock("../../thunks/setCaseStatus", () =>
   jest.fn(() => (caseId, status, redirectUrl) => {})
 );
+
+jest.mock("../thunks/generatePdf", () => (caseId, fileName) => {
+  return {
+    type: "SOMETHING",
+    caseId,
+    fileName
+  };
+});
 
 describe("LetterPreview", function() {
   let store, dispatchSpy, wrapper, caseId;
@@ -278,5 +287,14 @@ describe("LetterPreview", function() {
         `/cases/${caseId}/letter/edit-letter`
       )
     );
+  });
+
+  test("dispatches generatePdf when download button is clicked", () => {
+    const downloadButton = wrapper
+      .find('[data-test="download-letter-as-pdf"]')
+      .first();
+    downloadButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(generatePdf(caseId));
   });
 });

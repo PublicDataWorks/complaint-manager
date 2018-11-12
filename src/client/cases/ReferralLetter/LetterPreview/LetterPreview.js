@@ -21,6 +21,7 @@ import EditLetterConfirmationDialog from "./EditLetterConfirmationDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import { dateTimeFromString } from "../../../utilities/formatDate";
+import generatePdf from "../thunks/generatePdf";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -40,6 +41,10 @@ class LetterPreview extends Component {
     return this.props.handleSubmit(
       this.submitForm(`/cases/${this.state.caseId}`)
     );
+  };
+
+  downloadLetterAsPdfFile = () => {
+    this.props.dispatch(generatePdf(this.state.caseId));
   };
 
   saveAndGoBackToRecommendedActions = () => {
@@ -235,8 +240,15 @@ class LetterPreview extends Component {
                 caseId={this.state.caseId}
                 saveAndGoToEditLetterCallback={this.saveAndGoToEditLetter()}
               />
+              <LinkButton
+                data-test="download-letter-as-pdf"
+                onClick={this.downloadLetterAsPdfFile}
+                style={{ marginBottom: "16px" }}
+              >
+                Download Generated Letter as PDF File
+              </LinkButton>
               <div style={{ display: "flex" }}>
-                <span style={{ flex: 1 }}>
+                <span style={{ flex: "auto" }}>
                   <SecondaryButton
                     onClick={this.saveAndGoBackToRecommendedActions()}
                     data-test="back-button"
@@ -244,7 +256,7 @@ class LetterPreview extends Component {
                     Back
                   </SecondaryButton>
                 </span>
-                <span style={{ flex: 1, textAlign: "right" }}>
+                <span style={{ flex: "auto", textAlign: "right" }}>
                   <SecondaryButton
                     data-test="edit-button"
                     onClick={this.editLetterWithPossibleConfirmationDialog()}
