@@ -4,7 +4,10 @@ import NavBar from "../../../shared/components/NavBar/NavBar";
 import { connect } from "react-redux";
 import LinkButton from "../../../shared/components/LinkButton";
 import LetterProgressStepper from "../LetterProgressStepper";
-import { SecondaryButton } from "../../../shared/components/StyledButtons";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../../../shared/components/StyledButtons";
 import { LETTER_PROGRESS } from "../../../../sharedUtilities/constants";
 import getLetterPreview from "../thunks/getLetterPreview";
 import { Field, reduxForm } from "redux-form";
@@ -137,13 +140,13 @@ export class EditLetter extends Component {
                 </SecondaryButton>
               </span>
               <span style={{ flex: 1, textAlign: "right" }}>
-                <SecondaryButton
+                <PrimaryButton
                   data-test="saveButton"
                   onClick={this.saveAndGoBackToPreview()}
                   disabled={this.props.pristine}
                 >
                   Save Edited Letter
-                </SecondaryButton>
+                </PrimaryButton>
               </span>
             </div>
           </div>
