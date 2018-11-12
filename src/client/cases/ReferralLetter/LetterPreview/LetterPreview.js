@@ -122,7 +122,7 @@ class LetterPreview extends Component {
   timestampIfEdited() {
     if (this.props.editHistory.edited) {
       return (
-        <i style={{ fontSize: "0.9rem" }}>
+        <i style={{ fontSize: "0.9rem", color: "black" }}>
           (Last edited {dateTimeFromString(this.props.editHistory.lastEdited)})
         </i>
       );
