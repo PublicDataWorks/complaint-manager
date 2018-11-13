@@ -4,6 +4,7 @@ import models from "../../../../models";
 import generateReferralLetterFromCaseData from "../generateReferralLetterFromCaseData";
 import fs from "fs";
 import Handlebars from "handlebars";
+import moment from "moment";
 
 const generatePdf = asyncMiddleware(async (request, response) => {
   const caseId = request.params.caseId;
@@ -12,6 +13,8 @@ const generatePdf = asyncMiddleware(async (request, response) => {
       caseId,
       transaction
     );
+
+    const addresses = await getAddresses(caseId, transaction);
 
     const pdfOptions = {
       format: "Letter",
@@ -25,7 +28,7 @@ const generatePdf = asyncMiddleware(async (request, response) => {
         "file:///app/src/server/handlers/cases/referralLetters/generatePdf/assets/"
     };
 
-    const letterHtml = await generateLetterPdfHtml(letterBody);
+    const letterHtml = await generateLetterPdfHtml(letterBody, addresses);
 
     pdf.create(letterHtml, pdfOptions).toBuffer((error, buffer) => {
       response.send(buffer);
@@ -33,8 +36,23 @@ const generatePdf = asyncMiddleware(async (request, response) => {
   });
 });
 
-const generateLetterPdfHtml = letterBody => {
-  const letterPdfData = { letterBody: letterBody };
+const getAddresses = async (caseId, transaction) => {
+  return await models.referral_letter.find({
+    where: { caseId: caseId },
+    attributes: ["recipient", "sender"],
+    transaction
+  });
+};
+
+const generateLetterPdfHtml = (letterBody, addresses) => {
+  const currentDate = moment(Date.now()).format("MMMM DD, YYYY");
+
+  const letterPdfData = {
+    letterBody: letterBody,
+    recipient: addresses.recipient,
+    sender: addresses.sender,
+    currentDate
+  };
 
   const rawTemplate = fs.readFileSync(
     "src/server/handlers/cases/referralLetters/generatePdf/letterPdf.tpl"

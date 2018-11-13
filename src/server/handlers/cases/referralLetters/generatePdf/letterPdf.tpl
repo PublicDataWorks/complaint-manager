@@ -13,10 +13,10 @@
     </div>
 
     <div id="pageHeader" style="font-size:8.5pt;">
-      Deputy Superintendent Westbrook<br/>
-      Director, Public Integrity Bureau<br/>
-      September 11, 2018<br/>
-      Page {{page}}
+      Arlinda Westbrook<br/>
+      Deputy Superintendent<br/>
+      {{currentDate}}<br/>
+      Page \{{page}}
     </div>
 
     <div id="pageFooter" style="text-align: center; margin-top: 16px">
@@ -30,6 +30,22 @@
             </span>
       <span  style="display:inline-block; width: 46px">&nbsp;</span>
     </div>
+    <p style="color: #7F7F7F;">
+      SUSAN HUTSON
+      <br>
+      INDEPENDENT POLICE MONITOR
+    </p>
+    <p><br></p>
+    {{currentDate}}
+    <p><br></p>
+    {{{renderHtml (newLineToLineBreak recipient)}}}
+    <p><br></p>
     {{{renderHtml letterBody}}}
+    <p><br></p>
+    Sincerely,
+    <p><br></p>
+    <p><br></p>
+    <p><br></p>
+    {{{renderHtml (newLineToLineBreak sender)}}}
   </body>
 </html>

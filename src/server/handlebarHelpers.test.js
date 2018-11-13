@@ -1,6 +1,7 @@
 import {
   determineComplaintTypeCode,
   formatAddress,
+  newLineToLineBreak,
   isPresent,
   parseIncidentYear,
   renderHtml,
@@ -391,6 +392,17 @@ describe("handlebarHelpers", function() {
     test("should return empty string if date is empty", () => {
       const incidentYear = parseIncidentYear("");
       expect(incidentYear).toEqual("");
+    });
+  });
+
+  describe("newLineToLineBreak", function() {
+    test("should replace new line with html break tag", () => {
+      const stringWithNewLine = "string\nnew line";
+
+      const expectedHtmlWithBreaks = "string<br>new line";
+      const htmlWithBreaks = newLineToLineBreak(stringWithNewLine);
+
+      expect(htmlWithBreaks).toEqual(expectedHtmlWithBreaks);
     });
   });
 });

@@ -125,3 +125,10 @@ export const parseIncidentYear = date => {
   return "";
 };
 Handlebars.registerHelper("parseIncidentYear", parseIncidentYear);
+
+export const newLineToLineBreak = text => {
+  text = Handlebars.Utils.escapeExpression(text);
+  text = text.replace(/(\r\n|\n|\r)/gm, "<br>");
+  return text;
+};
+Handlebars.registerHelper("newLineToLineBreak", newLineToLineBreak);
