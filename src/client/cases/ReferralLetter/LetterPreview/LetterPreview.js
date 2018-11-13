@@ -151,6 +151,7 @@ class LetterPreview extends Component {
         <form>
           <LinkButton
             data-test="save-and-return-to-case-link"
+            data-test="save-and-return-to-case-link"
             onClick={this.saveAndReturnToCase()}
             style={{ margin: "2% 0% 2% 4%" }}
           >
@@ -245,7 +246,9 @@ class LetterPreview extends Component {
                 onClick={this.downloadLetterAsPdfFile}
                 style={{ marginBottom: "16px" }}
               >
-                Download Generated Letter as PDF File
+                {this.props.editHistory.edited
+                  ? "Download Edited Letter as PDF File"
+                  : "Download Generated Letter as PDF File"}
               </LinkButton>
               <div style={{ display: "flex" }}>
                 <span style={{ flex: "auto" }}>

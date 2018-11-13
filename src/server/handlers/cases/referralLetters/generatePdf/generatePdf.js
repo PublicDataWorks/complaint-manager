@@ -9,10 +9,20 @@ import moment from "moment";
 const generatePdf = asyncMiddleware(async (request, response) => {
   const caseId = request.params.caseId;
   await models.sequelize.transaction(async transaction => {
-    const letterBody = await generateReferralLetterFromCaseData(
-      caseId,
+    let letterData = await models.referral_letter.find({
+      where: { caseId: caseId },
+      attributes: ["editedLetterHtml"],
       transaction
-    );
+    });
+
+    let letterBody = letterData.editedLetterHtml;
+
+    if (!letterBody) {
+      letterBody = await generateReferralLetterFromCaseData(
+        caseId,
+        transaction
+      );
+    }
 
     const addresses = await getAddresses(caseId, transaction);
 
