@@ -6,13 +6,13 @@ import { push } from "react-router-redux";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 
 jest.mock("file-saver", () => jest.fn());
-jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
+jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("generatePdf thunk", function() {
   const dispatch = jest.fn();
   const caseId = 2;
   const token = "token";
-  const fileName = "downloaded_letter.pdf";
+  const fileName = "Preview_Letter.pdf";
 
   test("redirects to login if no token", async () => {
     getAccessToken.mockImplementation(() => null);
