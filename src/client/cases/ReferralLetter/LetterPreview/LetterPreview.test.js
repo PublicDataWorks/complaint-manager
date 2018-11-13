@@ -297,4 +297,25 @@ describe("LetterPreview", function() {
 
     expect(dispatchSpy).toHaveBeenCalledWith(generatePdf(caseId));
   });
+
+  test("test that download button has correct text based on edit history", () => {
+    const downloadButton = wrapper
+      .find('[data-test="download-letter-as-pdf"]')
+      .first();
+    let expectedText = "Download Generated Letter as PDF File";
+    expect(downloadButton.text()).toEqual(expectedText);
+    expectedText = "Download Edited Letter as PDF File";
+    store.dispatch(
+      getLetterPreviewSuccess(
+        "Letter Preview HTML Edited",
+        {
+          sender: "bob",
+          recipient: "jane",
+          transcribedBy: "joe"
+        },
+        { edited: true }
+      )
+    );
+    expect(downloadButton.text()).toEqual(expectedText);
+  });
 });
