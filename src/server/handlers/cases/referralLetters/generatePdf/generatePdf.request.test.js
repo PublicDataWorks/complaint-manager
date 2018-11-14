@@ -82,7 +82,7 @@ describe("Generate referral letter pdf", () => {
     );
   });
 
-  test("returns letter pdf blob", async done => {
+  test("returns letter pdf blob", async () => {
     await request(app)
       .get(`/api/cases/${existingCase.id}/referral-letter/generate-pdf`)
       .set("Content-Header", "application/json")
@@ -91,6 +91,5 @@ describe("Generate referral letter pdf", () => {
       .then(response => {
         expect(response.body.length > 0).toBeTruthy();
       });
-    done();
   });
 });
