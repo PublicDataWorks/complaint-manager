@@ -50,7 +50,7 @@ const generatePdf = asyncMiddleware(async (request, response, next) => {
 const getAddresses = async (caseId, transaction) => {
   return await models.referral_letter.find({
     where: { caseId: caseId },
-    attributes: ["recipient", "sender"],
+    attributes: ["recipient", "sender", "transcribedBy"],
     transaction
   });
 };
@@ -62,6 +62,7 @@ export const generateLetterPdfHtml = (letterBody, addresses) => {
     letterBody: letterBody,
     recipient: addresses.recipient,
     sender: addresses.sender,
+    transcribedBy: addresses.transcribedBy,
     currentDate
   };
 

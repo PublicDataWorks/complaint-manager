@@ -132,3 +132,11 @@ export const newLineToLineBreak = text => {
   return text;
 };
 Handlebars.registerHelper("newLineToLineBreak", newLineToLineBreak);
+
+export const extractFirstLine = text => {
+  if (!text) {
+    return "";
+  }
+  return text.split("\n")[0];
+};
+Handlebars.registerHelper("extractFirstLine", extractFirstLine);
