@@ -5,8 +5,9 @@ import generateReferralLetterFromCaseData from "../generateReferralLetterFromCas
 import fs from "fs";
 import Handlebars from "handlebars";
 import moment from "moment";
+require("../../../../handlebarHelpers");
 
-const generatePdf = asyncMiddleware(async (request, response) => {
+const generatePdf = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
   await models.sequelize.transaction(async transaction => {
     let letterData = await models.referral_letter.find({
@@ -54,7 +55,7 @@ const getAddresses = async (caseId, transaction) => {
   });
 };
 
-const generateLetterPdfHtml = (letterBody, addresses) => {
+export const generateLetterPdfHtml = (letterBody, addresses) => {
   const currentDate = moment(Date.now()).format("MMMM DD, YYYY");
 
   const letterPdfData = {
