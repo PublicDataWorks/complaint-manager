@@ -37,11 +37,10 @@ jest.mock("../../thunks/setCaseStatus", () =>
   jest.fn(() => (caseId, status, redirectUrl) => {})
 );
 
-jest.mock("../thunks/generatePdf", () => (caseId, fileName) => {
+jest.mock("../thunks/generatePdf", () => caseId => {
   return {
     type: "SOMETHING",
-    caseId,
-    fileName
+    caseId
   };
 });
 
@@ -79,9 +78,6 @@ describe("LetterPreview", function() {
         </Router>
       </Provider>
     );
-  });
-
-  afterEach(() => {
     dispatchSpy.mockClear();
   });
 
@@ -101,6 +97,19 @@ describe("LetterPreview", function() {
         expectedFormValues,
         `/cases/${caseId}`
       )
+    );
+  });
+
+  test("dispatches editReferralLetterAddresses with correct values for download button", () => {
+    const button = wrapper.find("[data-test='download-letter-as-pdf']").first();
+    button.simulate("click");
+    const expectedFormValues = {
+      sender: "bob",
+      recipient: "jane",
+      transcribedBy: "joe"
+    };
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editReferralLetterAddresses(caseId, expectedFormValues, null, jest.fn())
     );
   });
 

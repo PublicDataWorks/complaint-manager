@@ -44,7 +44,13 @@ class LetterPreview extends Component {
   };
 
   downloadLetterAsPdfFile = () => {
-    this.props.dispatch(generatePdf(this.state.caseId));
+    return this.props.dispatch(generatePdf(this.state.caseId));
+  };
+
+  saveAndDownloadPdf = () => {
+    this.props.handleSubmit(
+      this.submitForm(null, this.downloadLetterAsPdfFile)
+    )();
   };
 
   saveAndGoBackToRecommendedActions = () => {
@@ -56,6 +62,7 @@ class LetterPreview extends Component {
   pageChangeCallback = redirectUrl => {
     return this.props.handleSubmit(this.submitForm(redirectUrl));
   };
+
   saveAndGoToEditLetter = () => {
     return this.props.handleSubmit(
       this.submitForm(`/cases/${this.state.caseId}/letter/edit-letter`)
@@ -243,7 +250,7 @@ class LetterPreview extends Component {
               />
               <LinkButton
                 data-test="download-letter-as-pdf"
-                onClick={this.downloadLetterAsPdfFile}
+                onClick={this.saveAndDownloadPdf}
                 style={{ marginBottom: "16px" }}
               >
                 {this.props.editHistory.edited

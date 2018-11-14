@@ -74,7 +74,8 @@ describe("Generate referral letter pdf", () => {
     const letterBody = "<p> Letter Body </p>";
     const addresses = {
       recipient: "Recipient Address",
-      sender: "Sender Address\n S"
+      sender: "Sender Address\n Sender Address Second Line",
+      transcribedBy: "Transcriber"
     };
 
     const letterPdfHtml = await generateLetterPdfHtml(letterBody, addresses);

@@ -45,8 +45,8 @@
     <p><br></p>
     <p><br></p>
     {{{renderHtml (newLineToLineBreak sender)}}}
-    <p><br></p>
     {{#if transcribedBy}}
+    <p><br></p>
     Transcribed by: {{transcribedBy}}
     {{/if}}
   </body>
