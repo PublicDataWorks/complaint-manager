@@ -1,8 +1,4 @@
 <div>
-  <p><strong>RE: Complaint Referral; IPM Complaint {{{determineComplaintTypeCode complaintType}}}-{{{parseIncidentYear incidentDate}}}-{{caseId}}</strong></p>
-  <p><br></p>
-  <p>Dear Deputy Superintendent Westbrook:</p>
-  <p><br></p>
   <p>
       This is to inform you pursuant to New Orleans City Code Section 2-1121 (the Police Monitors Ordinance) that the
       Office of the Independent Police Monitor (IPM) has received a complaint of misconduct by an NOPD employee(s).

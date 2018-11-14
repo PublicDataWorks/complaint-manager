@@ -72,13 +72,21 @@ describe("Generate referral letter pdf", () => {
     const timeOfDownload = new Date("2018-07-01 19:00:22 CDT");
     timekeeper.freeze(timeOfDownload);
     const letterBody = "<p> Letter Body </p>";
-    const addresses = {
-      recipient: "Recipient Address",
-      sender: "Sender Address\n Sender Address Second Line",
-      transcribedBy: "Transcriber"
+    const pdfData = {
+      referralLetter: {
+        recipient: "Recipient Address",
+        sender: "Sender Address\n Sender Address Second Line",
+        transcribedBy: "Transcriber"
+      },
+      complaintType: "person",
+      incidentDate: "2011-04-09"
     };
 
-    const letterPdfHtml = await generateLetterPdfHtml(letterBody, addresses);
+    const letterPdfHtml = await generateLetterPdfHtml(
+      letterBody,
+      pdfData,
+      existingCase.id
+    );
     expect(letterPdfHtml).toMatchSnapshot();
   });
 

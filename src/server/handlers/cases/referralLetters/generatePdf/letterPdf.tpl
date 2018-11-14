@@ -38,6 +38,10 @@
     <p><br></p>
     {{{renderHtml (newLineToLineBreak recipient)}}}
     <p><br></p>
+    <p><strong>RE: Complaint Referral; IPM Complaint {{{determineComplaintTypeCode complaintType}}}-{{{parseIncidentYear incidentDate}}}-{{caseId}}</strong></p>
+    <p><br></p>
+    <p>Dear {{{extractFirstLine recipient}}}:</p>
+    <p><br></p>
     {{{renderHtml letterBody}}}
     <p><br></p>
     Sincerely,

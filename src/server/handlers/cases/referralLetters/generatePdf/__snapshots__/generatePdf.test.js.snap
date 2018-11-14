@@ -41,6 +41,10 @@ exports[`Generate referral letter pdf generates letter pdf html correctly 1`] = 
     <p><br></p>
     Recipient Address
     <p><br></p>
+    <p><strong>RE: Complaint Referral; IPM Complaint -2011-12070</strong></p>
+    <p><br></p>
+    <p>Dear Recipient Address:</p>
+    <p><br></p>
     <p> Letter Body </p>
     <p><br></p>
     Sincerely,
