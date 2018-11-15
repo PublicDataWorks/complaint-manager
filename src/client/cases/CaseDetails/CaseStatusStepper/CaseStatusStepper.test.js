@@ -134,7 +134,7 @@ describe("CaseStatusStepper", () => {
     expect(updateStatusButton.text()).toEqual(`Resume Letter`);
   });
 
-  test("should show resume letter button when case is in ready for review status", () => {
+  test("should show edit letter button when case is in ready for review status", () => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
@@ -155,7 +155,33 @@ describe("CaseStatusStepper", () => {
       .find('[data-test="edit-letter-button"]')
       .first();
 
-    expect(updateStatusButton.text()).toEqual(`Resume Letter`);
+    expect(updateStatusButton.text()).toEqual(`Edit Letter`);
+  });
+
+  test("should show review and approve letter button when case is in ready for review status", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <CaseStatusStepper />
+        </Router>
+      </Provider>
+    );
+
+    const reviewAndApproveLetterButton = wrapper
+      .find('[data-test="review-and-approve-letter-button"]')
+      .first();
+
+    expect(reviewAndApproveLetterButton.text()).toEqual(
+      `Review and Approve Letter`
+    );
   });
 
   test("should open update status dialog without redirect url if next status not letter in progress", () => {

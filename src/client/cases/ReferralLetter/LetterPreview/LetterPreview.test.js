@@ -17,8 +17,12 @@ import {
   openCaseStatusUpdateDialog
 } from "../../../actionCreators/casesActionCreators";
 import setCaseStatus from "../../thunks/setCaseStatus";
-import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  USER_PERMISSIONS
+} from "../../../../sharedUtilities/constants";
 import generatePdf from "../thunks/generatePdf";
+import { userAuthSuccess } from "../../../auth/actionCreators";
 
 jest.mock("../thunks/editReferralLetterAddresses", () =>
   jest.fn((caseId, values, redirectUrl, successCallback, failureCallback) => {
@@ -187,6 +191,98 @@ describe("LetterPreview", function() {
       editReferralLetterAddresses(caseId, expectedFormValues, null, () => {})
     );
     expect(setCaseStatus).toHaveBeenCalled();
+  });
+
+  test("should not render Review and Approve Letter button if not authorized to approve letter and in Ready for Review", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+
+    store.dispatch(
+      userAuthSuccess({
+        permissions: []
+      })
+    );
+
+    wrapper.update();
+    const reviewAndApproveLetterButton = wrapper
+      .find('[data-test="review-and-approve-letter-button"]')
+      .first();
+
+    expect(reviewAndApproveLetterButton.exists()).toEqual(false);
+  });
+
+  test("should not render Review and Approve Letter button if not in Ready For Review status", () => {
+      store.dispatch(
+          getCaseDetailsSuccess({
+              id: 1,
+              status: CASE_STATUS.LETTER_IN_PROGRESS,
+              nextStatus: CASE_STATUS.READY_FOR_REVIEW
+          })
+      );
+
+      wrapper.update();
+      const reviewAndApproveLetterButton = wrapper
+          .find('[data-test="review-and-approve-letter-button"]')
+          .first();
+
+      expect(reviewAndApproveLetterButton.exists()).toEqual(false);
+  });
+
+  test("should render Review and Approve letter button if authorized and in Ready for Review", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+    store.dispatch(
+      userAuthSuccess({ permissions: [USER_PERMISSIONS.CAN_REVIEW_CASE] })
+    );
+    wrapper.update();
+    const reviewAndApproveLetterButton = wrapper
+      .find('[data-test="review-and-approve-letter-button"]')
+      .first();
+
+    expect(reviewAndApproveLetterButton.exists()).toEqual(true);
+  });
+
+  test("dispatches editReferralLetterAddresses with correct values for back button", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+    store.dispatch(
+      userAuthSuccess({
+        permissions: [USER_PERMISSIONS.CAN_REVIEW_CASE]
+      })
+    );
+    changeInput(wrapper, "[data-test='transcribed-by-field']", "transcriber");
+    const reviewAndApproveButton = wrapper
+      .find("[data-test='review-and-approve-letter-button']")
+      .first();
+    dispatchSpy.mockClear();
+    reviewAndApproveButton.simulate("click");
+    const expectedFormValues = {
+      sender: "bob",
+      recipient: "jane",
+      transcribedBy: "transcriber"
+    };
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editReferralLetterAddresses(
+        caseId,
+        expectedFormValues,
+        `/cases/${caseId}/letter/review-and-approve`
+      )
+    );
   });
 
   describe("Saves and Redirects when click Stepper Buttons", function() {

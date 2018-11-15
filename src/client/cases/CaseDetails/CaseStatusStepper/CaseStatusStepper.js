@@ -62,13 +62,23 @@ const CaseStatusStepper = ({
       );
     } else if (status === CASE_STATUS.READY_FOR_REVIEW) {
       return (
-        <LinkButton
-          data-test={"edit-letter-button"}
-          to={`/cases/${caseId}/letter/review`}
-          component={Link}
-        >
-          Resume Letter
-        </LinkButton>
+        <span>
+          <LinkButton
+            data-test={"edit-letter-button"}
+            to={`/cases/${caseId}/letter/review`}
+            component={Link}
+          >
+            Edit Letter
+          </LinkButton>
+          <PrimaryButton
+            data-test={"review-and-approve-letter-button"}
+            to={`/cases/${caseId}/letter/review-and-approve`}
+            component={Link}
+            style={{"marginLeft": "16px"}}
+          >
+            Review and Approve Letter
+          </PrimaryButton>
+        </span>
       );
     } else {
       return (

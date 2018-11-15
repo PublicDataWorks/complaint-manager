@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import {
   CASE_STATUS,
-  LETTER_PROGRESS
+  LETTER_PROGRESS,
+  USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import NavBar from "../../../shared/components/NavBar/NavBar";
 import { Card, CardContent, Typography } from "@material-ui/core";
@@ -81,6 +82,12 @@ class LetterPreview extends Component {
     );
   };
 
+  saveAndGoToReviewAndApproveLetter = () => {
+    return this.props.handleSubmit(
+        this.submitForm(`/cases/${this.state.caseId}/letter/review-and-approve`)
+    );
+  };
+
   saveAndSubmitForReview = (
     updateCaseStatusSuccessCallback,
     updateCaseStatusFailureCallback
@@ -138,6 +145,24 @@ class LetterPreview extends Component {
           onClick={this.confirmSubmitForReview}
         >
           Submit for Review
+        </PrimaryButton>
+      );
+    }
+  };
+
+  renderReviewAndApproveButton = () => {
+    if (
+      this.props.caseDetail.status === CASE_STATUS.READY_FOR_REVIEW &&
+      this.props.userInfo &&
+      this.props.userInfo.permissions.includes(USER_PERMISSIONS.CAN_REVIEW_CASE)
+    ) {
+      return (
+        <PrimaryButton
+          style={{ marginLeft: "16px" }}
+          data-test="review-and-approve-letter-button"
+          onClick={this.saveAndGoToReviewAndApproveLetter()}
+        >
+          Review and Approve Letter
         </PrimaryButton>
       );
     }
@@ -292,6 +317,7 @@ class LetterPreview extends Component {
                   >
                     Edit Letter
                   </SecondaryButton>
+                  {this.renderReviewAndApproveButton()}
                   {this.renderSubmitForReviewButton()}
                 </span>
               </div>
@@ -311,7 +337,8 @@ const mapStateToProps = state => ({
   initialValues: state.referralLetter.addresses,
   editHistory: state.referralLetter.editHistory,
   caseDetail: state.currentCase.details,
-  downloadInProgress: state.ui.letterDownload.downloadInProgress
+  downloadInProgress: state.ui.letterDownload.downloadInProgress,
+  userInfo: state.users.current.userInfo
 });
 
 const mapDispatchToProps = {
