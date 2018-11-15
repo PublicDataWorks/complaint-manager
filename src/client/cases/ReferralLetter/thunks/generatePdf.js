@@ -4,6 +4,7 @@ import { push } from "react-router-redux";
 import axios from "axios";
 import config from "../../../config/config";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import { stopLetterDownload } from "../../../actionCreators/letterActionCreators";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -26,6 +27,7 @@ const generatePdf = (caseId, edited) => async dispatch => {
 
     const fileToDownload = new File([response.data], filename);
 
+    dispatch(stopLetterDownload());
     saveAs(fileToDownload, filename);
   } catch (e) {
     return dispatch(

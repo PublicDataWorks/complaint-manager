@@ -16,7 +16,11 @@ import getLetterPreview from "../thunks/getLetterPreview";
 import { Field, reduxForm } from "redux-form";
 import { TextField } from "redux-form-material-ui";
 import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
-import { openEditLetterConfirmationDialog } from "../../../actionCreators/letterActionCreators";
+import {
+  openEditLetterConfirmationDialog,
+  startLetterDownload,
+  stopLetterDownload
+} from "../../../actionCreators/letterActionCreators";
 import EditLetterConfirmationDialog from "./EditLetterConfirmationDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
@@ -50,8 +54,13 @@ class LetterPreview extends Component {
   };
 
   saveAndDownloadPdf = () => {
+    this.props.startLetterDownload();
     this.props.handleSubmit(
-      this.submitForm(null, this.downloadLetterAsPdfFile)
+      this.submitForm(
+        null,
+        this.downloadLetterAsPdfFile,
+        this.props.stopLetterDownload
+      )
     )();
   };
 
@@ -160,7 +169,6 @@ class LetterPreview extends Component {
         <form>
           <LinkButton
             data-test="save-and-return-to-case-link"
-            data-test="save-and-return-to-case-link"
             onClick={this.saveAndReturnToCase()}
             style={{ margin: "2% 0% 2% 4%" }}
           >
@@ -254,6 +262,7 @@ class LetterPreview extends Component {
                 data-test="download-letter-as-pdf"
                 onClick={this.saveAndDownloadPdf}
                 style={{ marginBottom: "16px" }}
+                disabled={this.props.downloadInProgress}
               >
                 {this.props.editHistory.edited
                   ? "Download Edited Letter as PDF File"
@@ -293,11 +302,14 @@ const mapStateToProps = state => ({
   letterHtml: state.referralLetter.letterHtml,
   initialValues: state.referralLetter.addresses,
   editHistory: state.referralLetter.editHistory,
-  caseDetail: state.currentCase.details
+  caseDetail: state.currentCase.details,
+  downloadInProgress: state.ui.letterDownload.downloadInProgress
 });
 
 const mapDispatchToProps = {
-  openCaseStatusUpdateDialog
+  openCaseStatusUpdateDialog,
+  startLetterDownload,
+  stopLetterDownload
 };
 
 export default connect(
