@@ -37,10 +37,11 @@ jest.mock("../../thunks/setCaseStatus", () =>
   jest.fn(() => (caseId, status, redirectUrl) => {})
 );
 
-jest.mock("../thunks/generatePdf", () => caseId => {
+jest.mock("../thunks/generatePdf", () => (caseId, edited) => {
   return {
     type: "SOMETHING",
-    caseId
+    caseId,
+    edited
   };
 });
 
@@ -298,13 +299,36 @@ describe("LetterPreview", function() {
     );
   });
 
-  test("dispatches generatePdf when download button is clicked", () => {
+  test("dispatches generatePdf with edit info when download button is clicked and pdf has been edited", () => {
+    store.dispatch(
+      getLetterPreviewSuccess(
+        "Letter Preview HTML",
+        {
+          sender: "bob",
+          recipient: "jane",
+          transcribedBy: "joe"
+        },
+        {
+          edited: true
+        }
+      )
+    );
+
     const downloadButton = wrapper
       .find('[data-test="download-letter-as-pdf"]')
       .first();
     downloadButton.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(generatePdf(caseId));
+    expect(dispatchSpy).toHaveBeenCalledWith(generatePdf(caseId, true));
+  });
+
+  test("dispatches generatePdf with edit info when download button is clicked and pdf is unedited", () => {
+    const downloadButton = wrapper
+      .find('[data-test="download-letter-as-pdf"]')
+      .first();
+    downloadButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(generatePdf(caseId, false));
   });
 
   test("test that download button has correct text based on edit history", () => {

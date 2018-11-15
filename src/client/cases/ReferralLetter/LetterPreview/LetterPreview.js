@@ -44,7 +44,9 @@ class LetterPreview extends Component {
   };
 
   downloadLetterAsPdfFile = () => {
-    return this.props.dispatch(generatePdf(this.state.caseId));
+    return this.props.dispatch(
+      generatePdf(this.state.caseId, this.props.editHistory.edited)
+    );
   };
 
   saveAndDownloadPdf = () => {

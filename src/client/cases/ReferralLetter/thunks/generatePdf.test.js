@@ -12,11 +12,17 @@ describe("generatePdf thunk", function() {
   const dispatch = jest.fn();
   const caseId = 2;
   const token = "token";
-  const fileName = "Preview_Letter.pdf";
+  let edited;
+  const uneditedFileName = `${caseId} - Generated Preview Letter.pdf`;
+  const editedFileName = `${caseId} - Edited Preview Letter.pdf`;
+
+  beforeEach(() => {
+    edited = false;
+  });
 
   test("redirects to login if no token", async () => {
     getAccessToken.mockImplementation(() => null);
-    await generatePdf(caseId, fileName)(dispatch);
+    await generatePdf(caseId, edited)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
@@ -31,10 +37,28 @@ describe("generatePdf thunk", function() {
       .get(`/api/cases/${caseId}/referral-letter/generate-pdf`)
       .reply(200, response);
 
-    await generatePdf(caseId, fileName)(dispatch);
-    const expectFile = new File([response], fileName);
+    await generatePdf(caseId, edited)(dispatch);
+    const expectFile = new File([response], uneditedFileName);
 
-    expect(saveAs).toHaveBeenCalledWith(expectFile, fileName);
+    expect(saveAs).toHaveBeenCalledWith(expectFile, uneditedFileName);
+  });
+
+  test("should call saveAs with edited filename when downloading edited letter pdf", async () => {
+    getAccessToken.mockImplementation(() => token);
+    const response = "some response";
+    edited = true;
+    nock("http://localhost", {
+      reqheaders: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .get(`/api/cases/${caseId}/referral-letter/generate-pdf`)
+      .reply(200, response);
+
+    await generatePdf(caseId, edited)(dispatch);
+    const expectFile = new File([response], editedFileName);
+
+    expect(saveAs).toHaveBeenCalledWith(expectFile, editedFileName);
   });
 
   test("dispatches snackbar error when 500 response code", async () => {
@@ -47,7 +71,7 @@ describe("generatePdf thunk", function() {
       .get(`/api/cases/${caseId}/referral-letter/generate-pdf`)
       .reply(500);
 
-    await generatePdf(caseId, fileName)(dispatch);
+    await generatePdf(caseId, edited)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
         "Something went wrong and the letter was not downloaded. Please try again."

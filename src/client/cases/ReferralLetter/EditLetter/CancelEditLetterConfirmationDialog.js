@@ -16,16 +16,13 @@ import { connect } from "react-redux";
 
 const CancelEditLetterConfirmationDialog = ({ open, dispatch, caseId }) => {
   return (
-    <Dialog open={open}>
+    <Dialog open={open} fullWidth={true}>
       <DialogTitle data-test="cancel-edit-letter-dialog">
         Cancel Editing Letter
       </DialogTitle>
       <DialogContent>
         <Typography data-test="warningText">
-          This action will not save your edits to the letter.
-          <br />
-          <br />
-          Would you like to continue?
+          This action will discard any edits made to the letter.
         </Typography>
       </DialogContent>
       <DialogActions>

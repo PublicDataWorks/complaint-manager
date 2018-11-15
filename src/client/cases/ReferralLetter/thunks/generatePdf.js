@@ -7,8 +7,9 @@ import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
-const generatePdf = caseId => async dispatch => {
-  const filename = "Preview_Letter.pdf";
+const generatePdf = (caseId, edited) => async dispatch => {
+  const editPrefix = edited ? "Edited" : "Generated";
+  const filename = `${caseId} - ${editPrefix} Preview Letter.pdf`;
   if (!getAccessToken()) {
     return dispatch(push("/login"));
   }
