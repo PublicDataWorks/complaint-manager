@@ -26,6 +26,7 @@ import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionC
 import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import { dateTimeFromString } from "../../../utilities/formatDate";
 import generatePdf from "../thunks/generatePdf";
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -268,6 +269,12 @@ class LetterPreview extends Component {
                   ? "Download Edited Letter as PDF File"
                   : "Download Generated Letter as PDF File"}
               </LinkButton>
+
+              <CircularProgress
+                data-test={"download-letter-progress"}
+                size={25}
+                style={{ display: this.props.downloadInProgress ? "" : "none" }}
+              />
               <div style={{ display: "flex" }}>
                 <span style={{ flex: "auto" }}>
                   <SecondaryButton

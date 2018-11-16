@@ -30,6 +30,7 @@ const generatePdf = (caseId, edited) => async dispatch => {
     dispatch(stopLetterDownload());
     saveAs(fileToDownload, filename);
   } catch (e) {
+    dispatch(stopLetterDownload());
     return dispatch(
       snackbarError(
         "Something went wrong and the letter was not downloaded. Please try again."

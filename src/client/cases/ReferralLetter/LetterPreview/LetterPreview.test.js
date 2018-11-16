@@ -6,7 +6,9 @@ import React from "react";
 import LetterPreview from "./LetterPreview";
 import {
   getLetterPreviewSuccess,
-  openEditLetterConfirmationDialog
+  openEditLetterConfirmationDialog,
+  startLetterDownload,
+  stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
 import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 import { changeInput } from "../../../testHelpers";
@@ -18,11 +20,10 @@ import setCaseStatus from "../../thunks/setCaseStatus";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import generatePdf from "../thunks/generatePdf";
 
-jest.mock(
-  "../thunks/editReferralLetterAddresses",
-  () => (caseId, values, redirectUrl, alternativeCallback) => {
-    if (alternativeCallback) {
-      alternativeCallback();
+jest.mock("../thunks/editReferralLetterAddresses", () =>
+  jest.fn((caseId, values, redirectUrl, successCallback, failureCallback) => {
+    if (successCallback) {
+      successCallback();
     }
     return {
       type: "SOMETHING",
@@ -30,7 +31,7 @@ jest.mock(
       values,
       redirectUrl
     };
-  }
+  })
 );
 
 jest.mock("../../thunks/setCaseStatus", () =>
@@ -299,7 +300,7 @@ describe("LetterPreview", function() {
     );
   });
 
-  test("dispatches generatePdf with edit info when download button is clicked and pdf has been edited", () => {
+  test("dispatches startLetterDownload and generatePdf with edit info when download button is clicked and pdf has been edited", () => {
     store.dispatch(
       getLetterPreviewSuccess(
         "Letter Preview HTML",
@@ -319,16 +320,38 @@ describe("LetterPreview", function() {
       .first();
     downloadButton.simulate("click");
 
+    expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
     expect(dispatchSpy).toHaveBeenCalledWith(generatePdf(caseId, true));
   });
 
-  test("dispatches generatePdf with edit info when download button is clicked and pdf is unedited", () => {
+  test("dispatches startLetterDownload and generatePdf with edit info when download button is clicked and pdf is unedited", () => {
     const downloadButton = wrapper
       .find('[data-test="download-letter-as-pdf"]')
       .first();
     downloadButton.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(generatePdf(caseId, false));
+    expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
+    expect(dispatchSpy).toHaveBeenNthCalledWith(3, generatePdf(caseId, false));
+  });
+
+  test("dispatches stopLetterDownload on failure of download letter", () => {
+    editReferralLetterAddresses.mockImplementationOnce(
+      (caseId, values, redirectUrl, successCallback, failureCallback) => {
+        failureCallback();
+        return {
+          type: "SOMETHING",
+          caseId,
+          values,
+          redirectUrl
+        };
+      }
+    );
+
+    const downloadButton = wrapper
+      .find('[data-test="download-letter-as-pdf"]')
+      .first();
+    downloadButton.simulate("click");
+    expect(dispatchSpy).toHaveBeenCalledWith(stopLetterDownload());
   });
 
   test("test that download button has correct text based on edit history", () => {
@@ -350,5 +373,34 @@ describe("LetterPreview", function() {
       )
     );
     expect(downloadButton.text()).toEqual(expectedText);
+  });
+
+  test("test that download button is disabled and progress indicator is visible when download is in progress", () => {
+    let downloadButton = wrapper
+      .find('[data-test="download-letter-as-pdf"]')
+      .first();
+    downloadButton.simulate("click");
+
+    wrapper.update();
+    const progressIndicator = wrapper
+      .find('[data-test="download-letter-progress"]')
+      .first();
+    downloadButton = wrapper
+      .find('[data-test="download-letter-as-pdf"]')
+      .first();
+    expect(downloadButton.props().disabled).toBeTruthy();
+    expect(progressIndicator.props().style.display).toEqual("");
+  });
+
+  test("test that download button is enabled and progress indicator is not visible by default", () => {
+    const downloadButton = wrapper
+      .find('[data-test="download-letter-as-pdf"]')
+      .first();
+
+    const progressIndicator = wrapper
+      .find('[data-test="download-letter-progress"]')
+      .first();
+    expect(downloadButton.props().disabled).toBeFalsy();
+    expect(progressIndicator.props().style.display).toEqual("none");
   });
 });

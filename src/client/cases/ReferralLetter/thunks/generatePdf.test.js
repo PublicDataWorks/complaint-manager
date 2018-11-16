@@ -4,6 +4,7 @@ import nock from "nock";
 import getAccessToken from "../../../auth/getAccessToken";
 import { push } from "react-router-redux";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import { stopLetterDownload } from "../../../actionCreators/letterActionCreators";
 
 jest.mock("file-saver", () => jest.fn());
 jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
@@ -18,6 +19,7 @@ describe("generatePdf thunk", function() {
 
   beforeEach(() => {
     edited = false;
+    dispatch.mockClear();
   });
 
   test("redirects to login if no token", async () => {
@@ -41,6 +43,7 @@ describe("generatePdf thunk", function() {
     const expectFile = new File([response], uneditedFileName);
 
     expect(saveAs).toHaveBeenCalledWith(expectFile, uneditedFileName);
+    expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
   });
 
   test("should call saveAs with edited filename when downloading edited letter pdf", async () => {
@@ -59,6 +62,7 @@ describe("generatePdf thunk", function() {
     const expectFile = new File([response], editedFileName);
 
     expect(saveAs).toHaveBeenCalledWith(expectFile, editedFileName);
+    expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
   });
 
   test("dispatches snackbar error when 500 response code", async () => {
@@ -77,5 +81,6 @@ describe("generatePdf thunk", function() {
         "Something went wrong and the letter was not downloaded. Please try again."
       )
     );
+    expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
   });
 });
