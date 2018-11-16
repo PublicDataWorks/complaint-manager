@@ -63,7 +63,9 @@ const UpdateCaseStatusDialog = ({
 
   return (
     <Dialog open={open}>
-      <DialogTitle>Update Case Status</DialogTitle>
+      <DialogTitle data-test="updateStatusDialogTitle">
+        Update Case Status
+      </DialogTitle>
       <DialogContent>
         <Typography
           style={{

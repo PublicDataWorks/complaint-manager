@@ -188,6 +188,7 @@ class LetterPreview extends Component {
                   marginBottom: "24px"
                 }}
                 variant="title"
+                data-test="preview-page-header"
               >
                 Preview {this.timestampIfEdited()}
               </Typography>
@@ -286,7 +287,7 @@ class LetterPreview extends Component {
                 </span>
                 <span style={{ flex: "auto", textAlign: "right" }}>
                   <SecondaryButton
-                    data-test="edit-button"
+                    data-test="edit-confirmation-dialog-button"
                     onClick={this.editLetterWithPossibleConfirmationDialog()}
                   >
                     Edit Letter

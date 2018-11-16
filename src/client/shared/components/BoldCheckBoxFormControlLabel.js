@@ -8,10 +8,17 @@ const styles = {
   label: { fontWeight: "bold" }
 };
 
-const BoldCheckBoxFormControlLabel = ({ classes, name, labelText }) => (
+const BoldCheckBoxFormControlLabel = ({
+  classes,
+  name,
+  labelText,
+  dataTest
+}) => (
   <FormControlLabel
     classes={classes}
-    control={<Field name={name} component={PurpleCheckBox} />}
+    control={
+      <Field name={name} component={PurpleCheckBox} data-test={dataTest} />
+    }
     label={labelText}
   />
 );

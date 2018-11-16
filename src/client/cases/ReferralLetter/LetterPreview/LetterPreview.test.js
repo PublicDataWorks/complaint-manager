@@ -134,7 +134,9 @@ describe("LetterPreview", function() {
   });
 
   test("dispatch openEditLetterConfirmationDialog when clicking edit button if the letter was not edited", () => {
-    const editButton = wrapper.find("[data-test='edit-button']").first();
+    const editButton = wrapper
+      .find("[data-test='edit-confirmation-dialog-button']")
+      .first();
     editButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(
       openEditLetterConfirmationDialog()
@@ -281,7 +283,9 @@ describe("LetterPreview", function() {
     );
 
     dispatchSpy.mockClear();
-    const editButton = wrapper.find("[data-test='edit-button']").first();
+    const editButton = wrapper
+      .find("[data-test='edit-confirmation-dialog-button']")
+      .first();
     editButton.simulate("click");
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(

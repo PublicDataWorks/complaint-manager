@@ -199,6 +199,7 @@ class RecommendedActions extends Component {
                   marginBottom: "24px"
                 }}
                 variant="title"
+                data-test="recommended-actions-page-header"
               >
                 Recommended Actions
               </Typography>
@@ -216,7 +217,7 @@ class RecommendedActions extends Component {
                     labelText={
                       "Include Retaliation Concerns and Request for Notice to Officer(s)"
                     }
-                    data-test="include-retaliation-concerns-field"
+                    dataTest="include-retaliation-concerns-field"
                   />
 
                   <Typography style={{ marginLeft: "40px" }}>

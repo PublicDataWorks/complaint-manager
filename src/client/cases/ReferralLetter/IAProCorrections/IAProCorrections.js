@@ -92,7 +92,7 @@ class IAProCorrections extends Component {
               />
               <div style={{ textAlign: "right", flex: 1, paddingTop: "16px" }}>
                 <LinkButton
-                  data-test="open-remove-iapro-correction-dialog-button"
+                  data-test={`${iaProCorrectionsField}-open-remove-dialog-button`}
                   style={{ textAlign: "right" }}
                   onClick={() => {
                     this.props.openRemoveIAProCorrectionDialog(
@@ -159,7 +159,12 @@ class IAProCorrections extends Component {
               caseId={this.state.caseId}
             />
             <div style={{ margin: "0 0 32px 0" }}>
-              <Typography variant="title">IAPro Corrections</Typography>
+              <Typography
+                variant="title"
+                data-test="iapro-corrections-page-header"
+              >
+                IAPro Corrections
+              </Typography>
             </div>
             <div style={{ marginBottom: "32px" }}>
               <FieldArray

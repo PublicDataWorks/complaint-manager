@@ -103,7 +103,9 @@ export class LetterReview extends Component {
           />
 
           <div style={{ margin: "0 0 32px 0" }}>
-            <Typography variant="title">Review Case Details</Typography>
+            <Typography variant="title" data-test="letter-review-page-header">
+              Review Case Details
+            </Typography>
           </div>
 
           <CaseDetailCard
@@ -144,6 +146,7 @@ export class LetterReview extends Component {
           })}
           <div style={{ textAlign: "right" }}>
             <PrimaryButton
+              data-test="next-button"
               component={Link}
               to={`/cases/${caseId}/letter/officer-history`}
             >

@@ -61,7 +61,9 @@ describe("IAProCorrections", function() {
 
   test("it should open the remove iapro correction dialog when click remove iapro correction button", () => {
     const openRemoveIAProCorrectionDialogButton = wrapper
-      .find("[data-test='open-remove-iapro-correction-dialog-button']")
+      .find(
+        "[data-test='referralLetterIAProCorrections[0]-open-remove-dialog-button']"
+      )
       .first();
     openRemoveIAProCorrectionDialogButton.simulate("click");
     const removeIAProCorrectionButton = wrapper

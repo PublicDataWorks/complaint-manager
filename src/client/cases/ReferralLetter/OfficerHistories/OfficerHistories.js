@@ -173,7 +173,12 @@ class OfficerHistories extends Component {
               caseId={this.state.caseId}
             />
             <div style={{ margin: "0 0 32px 0" }}>
-              <Typography variant="title">Officer Complaint History</Typography>
+              <Typography
+                variant="title"
+                data-test="complaint-history-page-header"
+              >
+                Officer Complaint History
+              </Typography>
             </div>
 
             {letterOfficers.length === 0

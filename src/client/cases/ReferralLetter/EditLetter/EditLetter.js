@@ -102,6 +102,7 @@ export class EditLetter extends Component {
                 marginBottom: "24px"
               }}
               variant="title"
+              data-test="edit-letter-page-header"
             >
               Edit Letter
             </Typography>

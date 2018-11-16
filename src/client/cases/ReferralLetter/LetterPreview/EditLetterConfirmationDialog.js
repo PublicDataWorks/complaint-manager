@@ -41,7 +41,7 @@ const EditLetterConfirmationDialog = ({
           Cancel
         </SecondaryButton>
         <PrimaryButton
-          data-test="editLetterButton"
+          data-test="edit-letter-button"
           onClick={() => {
             saveAndGoToEditLetterCallback();
             dispatch(closeEditLetterConfirmationDialog());

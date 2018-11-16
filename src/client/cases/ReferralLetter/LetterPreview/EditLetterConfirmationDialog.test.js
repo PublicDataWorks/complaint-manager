@@ -48,7 +48,7 @@ describe("Edit Confirmation Dialog", () => {
 
   test("open edit letter page and close the dialog when edit letter is clicked", () => {
     const editLetterButton = wrapper
-      .find("[data-test='editLetterButton']")
+      .find("[data-test='edit-letter-button']")
       .first();
     editLetterButton.simulate("click");
 
