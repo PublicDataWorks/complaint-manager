@@ -11,6 +11,7 @@ import LinkButton from "../../../shared/components/LinkButton";
 import calculateOfficerHistoryTotalAllegations from "./calculateOfficerHistoryTotalAllegations";
 import shortid from "shortid";
 import { numbersOnly } from "../../../utilities/fieldFormatters";
+import { OFFICER_HISTORY_MESSAGE } from "../../../../server/handlers/cases/referralLetters/letterDefaults";
 
 const RichTextEditorComponent = props => (
   <RichTextEditor
@@ -80,9 +81,7 @@ const OfficerHistoryTabContent = props => {
         {caseOfficerName}
       </Typography>
       <Typography style={{ paddingBottom: "16px" }}>
-        The IPM has reviewed this officer’s disciplinary history for the last
-        five years and has determined that the subject employee has the
-        following significant/noteworthy number of complaints.
+        {OFFICER_HISTORY_MESSAGE}
       </Typography>
       <Typography>
         Please enter the number of allegations this officer has received over

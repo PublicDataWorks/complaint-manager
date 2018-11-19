@@ -20,6 +20,11 @@ import editRecommendedActions from "../thunks/editRecommendedActions";
 import getRecommendedActions from "../thunks/getRecommendedActions";
 import BoldCheckBoxFormControlLabel from "../../../shared/components/BoldCheckBoxFormControlLabel";
 import PurpleCheckBox from "../../../shared/components/PurpleCheckBox";
+import {
+  RECOMMENDED_ACTIONS_TEXT,
+  RETALIATION_CONCERNS_LABEL,
+  RETALIATION_CONCERNS_TEXT
+} from "../../../../server/handlers/cases/referralLetters/letterDefaults";
 
 class RecommendedActions extends Component {
   constructor(props) {
@@ -109,10 +114,7 @@ class RecommendedActions extends Component {
                 Request for Review and Intervention
               </Typography>
               <Typography style={{ marginBottom: "16px" }}>
-                In light of the seriousness of the allegations and/or the
-                subject officer’s complaint history, the IPM requests that,
-                pending the completion of this investigation, PIB review this
-                officer’s history to ascertain if the accused officer should:
+                {RECOMMENDED_ACTIONS_TEXT}
               </Typography>
               {this.renderOfficerFields(letterOfficerField)}
             </CardContent>
@@ -214,19 +216,12 @@ class RecommendedActions extends Component {
                 >
                   <BoldCheckBoxFormControlLabel
                     name="includeRetaliationConcerns"
-                    labelText={
-                      "Include Retaliation Concerns and Request for Notice to Officer(s)"
-                    }
+                    labelText={RETALIATION_CONCERNS_LABEL}
                     dataTest="include-retaliation-concerns-field"
                   />
 
                   <Typography style={{ marginLeft: "40px" }}>
-                    Based on the information provided by the complainant, the
-                    OIPM is concerned about retaliation against the complainant.
-                    We request that once the accused officer is made aware of
-                    this complaint that he/she be admonished in writing by
-                    his/her commanding officer about retaliating against the
-                    Complainant, or from having others do so.
+                    {RETALIATION_CONCERNS_TEXT}
                   </Typography>
                 </CardContent>
               </Card>
