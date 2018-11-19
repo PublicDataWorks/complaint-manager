@@ -46,7 +46,6 @@ export class JobDetails extends Component {
         }}
       >
         <CircularProgress
-          className={this.props.progress}
           style={{ display: this.props.showProgress ? "" : "none" }}
         />
       </div>

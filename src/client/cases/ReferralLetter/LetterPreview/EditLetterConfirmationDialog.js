@@ -7,22 +7,25 @@ import {
   Typography
 } from "@material-ui/core";
 import { connect } from "react-redux";
-import { push } from "react-router-redux";
 import {
   SecondaryButton,
   PrimaryButton
 } from "../../../shared/components/StyledButtons";
 import { closeEditLetterConfirmationDialog } from "../../../actionCreators/letterActionCreators";
 
-const EditLetterConfirmationDialog = ({ open, dispatch, caseId }) => {
+const EditLetterConfirmationDialog = ({
+  open,
+  dispatch,
+  saveAndGoToEditLetterCallback
+}) => {
   return (
     <Dialog open={open}>
       <DialogTitle>Edit Letter</DialogTitle>
       <DialogContent>
         <Typography data-test="warningText">
           This action will allow you to make edits to the system generated
-          letter. Your custom edited letter will replace your current version.{" "}
-          <strong>You cannot undo this action.</strong>
+          letter. Once saved, your custom edited letter will replace the current
+          version. <strong>You cannot undo this action.</strong>
           <br />
           <br />
           Would you like to continue?
@@ -38,9 +41,10 @@ const EditLetterConfirmationDialog = ({ open, dispatch, caseId }) => {
           Cancel
         </SecondaryButton>
         <PrimaryButton
-          data-test="editLetterButton"
+          data-test="edit-letter-button"
           onClick={() => {
-            dispatch(push(`/cases/${caseId}/letter/edit-letter`));
+            saveAndGoToEditLetterCallback();
+            dispatch(closeEditLetterConfirmationDialog());
           }}
         >
           Edit Letter

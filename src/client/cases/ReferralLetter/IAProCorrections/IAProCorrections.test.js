@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import { mount } from "enzyme";
 import editIAProCorrections from "../thunks/editIAProCorrections";
+
 jest.mock(
   "../thunks/editIAProCorrections",
   () => (caseId, values, redirectUrl) => ({
@@ -60,7 +61,9 @@ describe("IAProCorrections", function() {
 
   test("it should open the remove iapro correction dialog when click remove iapro correction button", () => {
     const openRemoveIAProCorrectionDialogButton = wrapper
-      .find("[data-test='open-remove-iapro-correction-dialog-button']")
+      .find(
+        "[data-test='referralLetterIAProCorrections[0]-open-remove-dialog-button']"
+      )
       .first();
     openRemoveIAProCorrectionDialogButton.simulate("click");
     const removeIAProCorrectionButton = wrapper
@@ -122,5 +125,87 @@ describe("IAProCorrections", function() {
         `/cases/${caseId}/letter/recommended-actions`
       )
     );
+  });
+
+  describe("Saves and Redirects when click Stepper Buttons", function() {
+    let expectedFormValues;
+    beforeEach(function() {
+      expectedFormValues = {
+        referralLetterIAProCorrections: [
+          { id: "1", details: "details1" },
+          { id: "2", details: "details2" }
+        ]
+      };
+    });
+
+    test("it dispatches edit and redirects to review letter when click review case details stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Review Case Details"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editIAProCorrections(
+          caseId,
+          expectedFormValues,
+          `/cases/${caseId}/letter/review`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to officer history when click officer history stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Officer Complaint Histories"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editIAProCorrections(
+          caseId,
+          expectedFormValues,
+          `/cases/${caseId}/letter/officer-history`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to iapro corrections when click iapro corrections stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-IAPro Corrections"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editIAProCorrections(
+          caseId,
+          expectedFormValues,
+          `/cases/${caseId}/letter/iapro-corrections`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Recommended Actions"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editIAProCorrections(
+          caseId,
+          expectedFormValues,
+          `/cases/${caseId}/letter/recommended-actions`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to preview when click preview stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Preview"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editIAProCorrections(
+          caseId,
+          expectedFormValues,
+          `/cases/${caseId}/letter/letter-preview`
+        )
+      );
+    });
   });
 });

@@ -11,8 +11,8 @@ import {
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import { userAuthSuccess } from "../../../auth/actionCreators";
-import { MemoryRouter } from "react-router-dom";
 import CaseStatusStepper from "./CaseStatusStepper";
+import { BrowserRouter as Router } from "react-router-dom";
 
 describe("CaseStatusStepper", () => {
   let store;
@@ -79,7 +79,7 @@ describe("CaseStatusStepper", () => {
     );
 
     const updateStatusButton = wrapper
-      .find('[data-test="updateStatusButton"]')
+      .find('[data-test="update-status-button"]')
       .first();
 
     expect(updateStatusButton.exists()).toBeFalsy();
@@ -95,23 +95,46 @@ describe("CaseStatusStepper", () => {
     );
 
     const wrapper = mount(
-      <MemoryRouter>
-        <Provider store={store}>
+      <Provider store={store}>
+        <Router>
           <CaseStatusStepper />
-        </Provider>
-      </MemoryRouter>
+        </Router>
+      </Provider>
     );
 
-    const generateLetterButton = wrapper
-      .find('[data-test="generateLetterButton"]')
+    const updateStatusButton = wrapper
+      .find('[data-test="update-status-button"]')
       .first();
 
-    expect(generateLetterButton.exists()).toBeTruthy();
-    expect(generateLetterButton.text()).toEqual(`Begin Letter`);
+    expect(updateStatusButton.exists()).toBeTruthy();
+    expect(updateStatusButton.text()).toEqual(`Begin Letter`);
   });
 
-  test("should open update status dialog", () => {
-    const dispatchSpy = jest.spyOn(store, "dispatch");
+  test("should show resume letter button when case is in letter in progress status", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.LETTER_IN_PROGRESS,
+        nextStatus: CASE_STATUS.READY_FOR_REVIEW
+      })
+    );
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <CaseStatusStepper />
+        </Router>
+      </Provider>
+    );
+
+    const updateStatusButton = wrapper
+      .find('[data-test="edit-letter-button"]')
+      .first();
+
+    expect(updateStatusButton.text()).toEqual(`Resume Letter`);
+  });
+
+  test("should show resume letter button when case is in ready for review status", () => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
@@ -122,12 +145,39 @@ describe("CaseStatusStepper", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <CaseStatusStepper />
+        <Router>
+          <CaseStatusStepper />
+        </Router>
       </Provider>
     );
 
     const updateStatusButton = wrapper
-      .find('[data-test="updateStatusButton"]')
+      .find('[data-test="edit-letter-button"]')
+      .first();
+
+    expect(updateStatusButton.text()).toEqual(`Resume Letter`);
+  });
+
+  test("should open update status dialog without redirect url if next status not letter in progress", () => {
+    const dispatchSpy = jest.spyOn(store, "dispatch");
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.FORWARDED_TO_AGENCY,
+        nextStatus: CASE_STATUS.CLOSED
+      })
+    );
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <CaseStatusStepper />
+        </Router>
+      </Provider>
+    );
+
+    const updateStatusButton = wrapper
+      .find('[data-test="update-status-button"]')
       .first();
 
     updateStatusButton.simulate("click");
@@ -135,12 +185,13 @@ describe("CaseStatusStepper", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(openCaseStatusUpdateDialog());
   });
 
-  test("should render Forward to Agency if authorized to do so and currently in Ready for Review", () => {
+  test("should open update status dialog with redirect url if next status is letter in progress", () => {
+    const dispatchSpy = jest.spyOn(store, "dispatch");
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
-        status: CASE_STATUS.READY_FOR_REVIEW,
-        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+        status: CASE_STATUS.ACTIVE,
+        nextStatus: CASE_STATUS.LETTER_IN_PROGRESS
       })
     );
 
@@ -151,7 +202,36 @@ describe("CaseStatusStepper", () => {
     );
 
     const updateStatusButton = wrapper
-      .find('[data-test="updateStatusButton"]')
+      .find('[data-test="update-status-button"]')
+      .first();
+
+    updateStatusButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openCaseStatusUpdateDialog(`/cases/1/letter/review`)
+    );
+  });
+
+  //put this back in once we play the card to allow approval again from letter generation flow
+  test.skip("should render Forward to Agency if authorized to do so and currently in Ready for Review", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <CaseStatusStepper />
+        </Router>
+      </Provider>
+    );
+
+    const updateStatusButton = wrapper
+      .find('[data-test="update-status-button"]')
       .first();
 
     expect(updateStatusButton.exists()).toEqual(true);
@@ -179,7 +259,7 @@ describe("CaseStatusStepper", () => {
     );
 
     const updateStatusButton = wrapper
-      .find('[data-test="updateStatusButton"]')
+      .find('[data-test="update-status-button"]')
       .first();
 
     expect(updateStatusButton.exists()).toEqual(false);
@@ -200,7 +280,7 @@ describe("CaseStatusStepper", () => {
     );
 
     const updateStatusButton = wrapper
-      .find('[data-test="updateStatusButton"]')
+      .find('[data-test="update-status-button"]')
       .first();
 
     expect(updateStatusButton.exists()).toBeFalsy();

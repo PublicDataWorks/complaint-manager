@@ -312,11 +312,96 @@ describe("OfficerHistories page", function() {
       backButton.simulate("click");
       expect(editOfficerHistory).not.toHaveBeenCalled();
     });
+
+    describe("Saves and Redirects when click Stepper Buttons", function() {
+      let expectedFormValues;
+      beforeEach(function() {
+        editOfficerHistory.mockClear();
+        changeInput(
+          wrapper,
+          "[name='letterOfficers[0].numHistoricalHighAllegations']",
+          "9"
+        );
+        expectedFormValues = {
+          letterOfficers: [
+            {
+              fullName: "Officer 1",
+              id: 0,
+              caseOfficerId: 10,
+              numHistoricalHighAllegations: "9"
+            },
+            { fullName: "Officer 2", id: 1, caseOfficerId: 11 },
+            { fullName: "Officer 3", id: 2, caseOfficerId: 12 }
+          ]
+        };
+      });
+
+      test("it dispatches edit and redirects to review letter when click review case details stepper button", () => {
+        const reviewCaseDetailsButton = wrapper
+          .find('[data-test="step-button-Review Case Details"]')
+          .first();
+        reviewCaseDetailsButton.simulate("click");
+        expect(editOfficerHistory).toHaveBeenCalledWith(
+          caseId,
+          expectedFormValues,
+          `/cases/${caseId}/letter/review`
+        );
+      });
+
+      test("it dispatches edit and redirects to officer history when click officer history stepper button", () => {
+        const reviewCaseDetailsButton = wrapper
+          .find('[data-test="step-button-Officer Complaint Histories"]')
+          .first();
+        reviewCaseDetailsButton.simulate("click");
+        expect(editOfficerHistory).toHaveBeenCalledWith(
+          caseId,
+          expectedFormValues,
+          `/cases/${caseId}/letter/officer-history`
+        );
+      });
+
+      test("it dispatches edit and redirects to iapro corrections when click iapro corrections stepper button", () => {
+        const reviewCaseDetailsButton = wrapper
+          .find('[data-test="step-button-IAPro Corrections"]')
+          .first();
+        reviewCaseDetailsButton.simulate("click");
+        expect(editOfficerHistory).toHaveBeenCalledWith(
+          caseId,
+          expectedFormValues,
+          `/cases/${caseId}/letter/iapro-corrections`
+        );
+      });
+
+      test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
+        const reviewCaseDetailsButton = wrapper
+          .find('[data-test="step-button-Recommended Actions"]')
+          .first();
+        reviewCaseDetailsButton.simulate("click");
+        expect(editOfficerHistory).toHaveBeenCalledWith(
+          caseId,
+          expectedFormValues,
+          `/cases/${caseId}/letter/recommended-actions`
+        );
+      });
+
+      test("it dispatches edit and redirects to preview when click preview stepper button", () => {
+        const reviewCaseDetailsButton = wrapper
+          .find('[data-test="step-button-Preview"]')
+          .first();
+        reviewCaseDetailsButton.simulate("click");
+        expect(editOfficerHistory).toHaveBeenCalledWith(
+          caseId,
+          expectedFormValues,
+          `/cases/${caseId}/letter/letter-preview`
+        );
+      });
+    });
   });
 
   describe("no officers on the case", function() {
     let wrapper, store, caseId, dispatchSpy;
     beforeEach(() => {
+      editOfficerHistory.mockClear();
       caseId = "12";
       const letterId = "15";
       const referralLetterDetails = {

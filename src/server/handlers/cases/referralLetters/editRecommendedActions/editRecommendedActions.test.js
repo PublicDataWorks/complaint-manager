@@ -108,6 +108,72 @@ describe("editRecommendedActions", function() {
     );
   });
 
+  describe("there is an officer but not a letter officer", () => {
+    let caseOfficer;
+
+    beforeEach(async () => {
+      await models.recommended_action.create(
+        { id: recommendedActionId1, description: "action 1" },
+        { auditUser: "test" }
+      );
+
+      const officerAttributes = new Officer.Builder()
+        .defaultOfficer()
+        .withId(undefined);
+
+      const officer = await models.officer.create(officerAttributes, {
+        auditUser: "someone"
+      });
+
+      const caseOfficerAttributes = new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withOfficerId(officer.id)
+        .withCaseId(existingCase.id);
+
+      caseOfficer = await models.case_officer.create(caseOfficerAttributes, {
+        auditUser: "someone"
+      });
+    });
+
+    test("the letter officer gets created if there is a case officer but no letter officer", async () => {
+      const recommendedActionNotes = "letter officer does not exist";
+
+      let requestBody = {
+        id: referralLetter.id,
+        letterOfficers: [
+          {
+            caseOfficerId: caseOfficer.id,
+            recommendedActionNotes: recommendedActionNotes
+          }
+        ]
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer token"
+        },
+        params: { caseId: existingCase.id },
+        body: requestBody,
+        nickname: "nickname"
+      });
+
+      await editRecommendedActions(request, response, next);
+      expect(response.statusCode).toEqual(200);
+
+      let letterOfficer = await models.letter_officer.findOne({
+        where: {
+          caseOfficerId: caseOfficer.id
+        }
+      });
+
+      expect(letterOfficer.recommendedActionNotes).toEqual(
+        recommendedActionNotes
+      );
+    });
+  });
+
   describe("there is an officer", function() {
     let letterOfficer;
 

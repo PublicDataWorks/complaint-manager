@@ -4,6 +4,7 @@ import axios from "axios/index";
 import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";
 import config from "../../../config/config";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 
 const getLetterPreview = caseId => async dispatch => {
   const token = getAccessToken();
@@ -22,8 +23,13 @@ const getLetterPreview = caseId => async dispatch => {
         }
       }
     );
+    dispatch(getCaseDetailsSuccess(response.data.caseDetails));
     return dispatch(
-      getLetterPreviewSuccess(response.data.letterHtml, response.data.addresses)
+      getLetterPreviewSuccess(
+        response.data.letterHtml,
+        response.data.addresses,
+        response.data.editHistory
+      )
     );
   } catch (error) {
     if (error.response.data.message === "Invalid case status") {

@@ -1,6 +1,6 @@
-FROM node:8.11-alpine
+FROM noipm/docker-node-ubuntu:1.0.0
 
-RUN apk update && apk add bash
+RUN apt-get update && apt-get install bash
 
 WORKDIR /app
 COPY package.json yarn.lock /app/

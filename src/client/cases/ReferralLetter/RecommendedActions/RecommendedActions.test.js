@@ -154,4 +154,100 @@ describe("recommendedActions", function() {
       )
     );
   });
+
+  describe("Saves and Redirects when click Stepper Buttons", function() {
+    let expectedFormValues;
+    beforeEach(function() {
+      expectedFormValues = {
+        id: referralLetterId,
+        includeRetaliationConcerns: true,
+        letterOfficers: [
+          {
+            id: "1",
+            "action-1": true,
+            "action-2": true,
+            "action-3": true,
+            referralLetterOfficerRecommendedActions: [1, 2, 3]
+          },
+          {
+            id: "2",
+            "action-1": true,
+            "action-3": true,
+            "action-4": true,
+            referralLetterOfficerRecommendedActions: [1, 3, 4]
+          }
+        ]
+      };
+    });
+
+    test("it dispatches edit and redirects to review letter when click review case details stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Review Case Details"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editRecommendedActions(
+          caseId,
+          expectedFormValues,
+          `/cases/${caseId}/letter/review`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to officer history when click officer history stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Officer Complaint Histories"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editRecommendedActions(
+          caseId,
+          expectedFormValues,
+          `/cases/${caseId}/letter/officer-history`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to iapro corrections when click iapro corrections stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-IAPro Corrections"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editRecommendedActions(
+          caseId,
+          expectedFormValues,
+          `/cases/${caseId}/letter/iapro-corrections`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Recommended Actions"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editRecommendedActions(
+          caseId,
+          expectedFormValues,
+          `/cases/${caseId}/letter/recommended-actions`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to preview when click preview stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Preview"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editRecommendedActions(
+          caseId,
+          expectedFormValues,
+          `/cases/${caseId}/letter/letter-preview`
+        )
+      );
+    });
+  });
 });

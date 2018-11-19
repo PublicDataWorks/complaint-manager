@@ -3,6 +3,8 @@ import editIAProCorrections from "./handlers/cases/referralLetters/editIAProCorr
 import editRecommendedActions from "./handlers/cases/referralLetters/editRecommendedActions/editRecommendedActions";
 import getLetterPreview from "./handlers/cases/referralLetters/getLetterPreview/getLetterPreview";
 import editReferralLetterAddresses from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetterAddresses";
+import editReferralLetterContent from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetterContent";
+import generatePdf from "./handlers/cases/referralLetters/generatePdf/generatePdf";
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
 const editCase = require("./handlers/cases/editCase");
@@ -14,8 +16,6 @@ const updateCaseNarrative = require("./handlers/cases/updateCaseNarrative");
 const editCivilian = require("./handlers/civilians/editCivilian");
 const createCivilian = require("./handlers/civilians/createCivilian");
 const removeCivilian = require("./handlers/civilians/removeCivilian");
-const createUser = require("./handlers/users/createUser");
-const getUsers = require("./handlers/users/getUsers");
 const audit = require("./handlers/auditLogs/audit");
 const jwtCheck = require("./handlers/jtwCheck");
 const verifyUserInfo = require("./handlers/verifyUserNickname");
@@ -98,6 +98,7 @@ router.put(
   "/cases/:caseId/referral-letter/addresses",
   editReferralLetterAddresses
 );
+router.put("/cases/:caseId/referral-letter/content", editReferralLetterContent);
 
 router.use("/cases/:id/attachments", attachmentRouter);
 router.use(
@@ -109,13 +110,13 @@ router.post("/civilian", createCivilian);
 router.put("/civilian/:id", editCivilian);
 
 router.post("/audit", audit);
-router.post("/users", createUser);
-router.get("/users", getUsers);
 
 router.get("/officers/search", searchOfficers);
 router.get("/allegations/search", searchAllegations);
 router.get("/allegations", getAllegations);
 router.get("/classifications", getClassifications);
 router.get("/recommended-actions", getRecommendedActions);
+
+router.get("/cases/:caseId/referral-letter/generate-pdf", generatePdf);
 
 module.exports = router;

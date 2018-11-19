@@ -1,5 +1,4 @@
 import updateCaseStatusDialogReducer from "./updateCaseStatusDialogReducer";
-import { CASE_STATUS } from "../../../sharedUtilities/constants";
 import {
   closeCaseStatusUpdateDialog,
   openCaseStatusUpdateDialog
@@ -8,7 +7,8 @@ import {
 describe("updateCaseStatusDialogReducer", () => {
   test("should set the default state", () => {
     const expectedState = {
-      open: false
+      open: false,
+      redirectUrl: null
     };
 
     const actualState = updateCaseStatusDialogReducer(undefined, {
@@ -18,18 +18,20 @@ describe("updateCaseStatusDialogReducer", () => {
     expect(actualState).toEqual(expectedState);
   });
 
-  test("should set dialog to open when dispatching action to open dialog", () => {
+  test("should set dialog to open and set redirect url when dispatching action to open dialog", () => {
     const oldState = {
-      open: false
+      open: false,
+      redirectUrl: null
     };
 
     const expectedState = {
-      open: true
+      open: true,
+      redirectUrl: "url"
     };
 
     const actualState = updateCaseStatusDialogReducer(
       oldState,
-      openCaseStatusUpdateDialog(CASE_STATUS.ACTIVE)
+      openCaseStatusUpdateDialog("url")
     );
 
     expect(actualState).toEqual(expectedState);
@@ -37,11 +39,13 @@ describe("updateCaseStatusDialogReducer", () => {
 
   test("should set dialog to closed when dispatching action to close dialog", () => {
     const oldState = {
-      open: true
+      open: true,
+      redirectUrl: "something"
     };
 
     const expectedState = {
-      open: false
+      open: false,
+      redirectUrl: null
     };
 
     const actualState = updateCaseStatusDialogReducer(

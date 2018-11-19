@@ -1,13 +1,15 @@
 import {
   determineComplaintTypeCode,
   formatAddress,
+  newLineToLineBreak,
   isPresent,
   parseIncidentYear,
   renderHtml,
   showOfficerHistory,
   showOfficerHistoryHeader,
   showRecommendedActions,
-  sumAllegations
+  sumAllegations,
+  extractFirstLine
 } from "./handlebarHelpers";
 import {
   CIVILIAN_INITIATED,
@@ -391,6 +393,60 @@ describe("handlebarHelpers", function() {
     test("should return empty string if date is empty", () => {
       const incidentYear = parseIncidentYear("");
       expect(incidentYear).toEqual("");
+    });
+  });
+
+  describe("newLineToLineBreak", function() {
+    test("should return empty string when given null", () => {
+      expect(newLineToLineBreak(null)).toEqual("");
+    });
+    test("should return empty string when given undefined", () => {
+      expect(newLineToLineBreak(undefined)).toEqual("");
+    });
+
+    test("should replace new line with html break tag", () => {
+      const stringWithNewLine = "string\nnew line";
+
+      const expectedHtmlWithBreaks = "string<br>new line";
+      const htmlWithBreaks = newLineToLineBreak(stringWithNewLine);
+
+      expect(htmlWithBreaks).toEqual(expectedHtmlWithBreaks);
+    });
+
+    test("should return given string if no new line characters", () => {
+      const stringWithoutNewLine = "no new lines here!";
+      const expectedHtml = "no new lines here!";
+      const resultString = newLineToLineBreak(stringWithoutNewLine);
+      expect(resultString).toEqual(expectedHtml);
+    });
+    test("should replace multiple new lines with html break tag", () => {
+      const stringWithMultipleNewLines = "many\nnew\nlines\nhere!!";
+      const expectedHtml = "many<br>new<br>lines<br>here!!";
+      const resultString = newLineToLineBreak(stringWithMultipleNewLines);
+      expect(resultString).toEqual(expectedHtml);
+    });
+  });
+
+  describe("extractFirstLine", function() {
+    test("should return an empty string when given an empty string", () => {
+      const emptyString = "";
+      const expectedResult = "";
+      expect(extractFirstLine(emptyString)).toEqual(expectedResult);
+    });
+
+    test("should return an empty string when given null", () => {
+      expect(extractFirstLine(null)).toEqual("");
+    });
+
+    test("should return an empty string when given undefined", () => {
+      expect(extractFirstLine(undefined)).toEqual("");
+    });
+
+    test("should extract first line of text", () => {
+      const stringWithMultipleLines = "first line\nsecond line\nthird line";
+      const expectedFirstLine = "first line";
+      const extractedFirstLine = extractFirstLine(stringWithMultipleLines);
+      expect(extractedFirstLine).toEqual(expectedFirstLine);
     });
   });
 });

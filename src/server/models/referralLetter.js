@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         field: "transcribed_by"
       },
+      editedLetterHtml: {
+        type: DataTypes.TEXT,
+        field: "edited_letter_html"
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

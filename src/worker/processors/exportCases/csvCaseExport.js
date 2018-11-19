@@ -12,6 +12,7 @@ const winston = require("winston");
 const TIMESTAMP_FORMAT = "MM/DD/YYYY HH:mm:ss z";
 
 const csvCaseExport = async (job, done) => {
+  winston.info(`About to run Case Export Job with id ${job.id}`);
   try {
     const caseData = await models.sequelize.query(exportCasesQuery(), {
       type: models.sequelize.QueryTypes.SELECT
@@ -26,9 +27,11 @@ const csvCaseExport = async (job, done) => {
       JOB_OPERATION.CASE_EXPORT.filename,
       JOB_OPERATION.CASE_EXPORT.key
     );
+    winston.info(`Done running Case Export Job with id ${job.id}`);
     done(null, s3Result);
   } catch (err) {
-    winston.error(err);
+    winston.error(`Error running Case Export Job with id ${job.id}: `, err);
+    winston.error(util.inspect(err));
     done(err);
   }
 };

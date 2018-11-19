@@ -3,13 +3,22 @@ import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
-import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";
+import {
+  getLetterPreviewSuccess,
+  openCancelEditLetterConfirmationDialog
+} from "../../../actionCreators/letterActionCreators";
 import getLetterPreview from "../thunks/getLetterPreview";
+import EditLetter from "./EditLetter";
+import editReferralLetterContent from "../thunks/editReferralLetterContent";
+
 require("../../../testUtilities/MockMutationObserver");
 
 jest.mock("../thunks/getLetterPreview", () => () => ({ type: "" }));
 
-import EditLetter from "./EditLetter";
+jest.mock(
+  "../thunks/editReferralLetterContent",
+  (caseId, referralLetterHtml, url) => () => ({ type: "" })
+);
 
 describe("Edit Letter Html", () => {
   let store, dispatchSpy, wrapper;
@@ -38,10 +47,118 @@ describe("Edit Letter Html", () => {
     );
   });
 
+  afterEach(() => {
+    dispatchSpy.mockClear();
+  });
+
   test("load letter preview html and set it on the rtf editor when page is loaded", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(getLetterPreview(caseId));
 
-    const field = wrapper.find("Quill").first();
-    expect(field.props().value).toEqual(initialLetterHtml);
+    const rtfEditor = wrapper.find("Quill").first();
+    expect(rtfEditor.props().value).toEqual(initialLetterHtml);
+  });
+
+  test("dispatch openCancelEditLetterConfirmationDialog when clicking cancel button", () => {
+    const cancelButton = wrapper.find("[data-test='cancel-button']").first();
+    cancelButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openCancelEditLetterConfirmationDialog()
+    );
+  });
+
+  test("open Cancel Edit Letter Confirmation Dialog", () => {
+    const cancelButton = wrapper.find("[data-test='cancel-button']").first();
+    cancelButton.simulate("click");
+
+    const cancelEditLetterDialog = wrapper
+      .find("[data-test='cancel-edit-letter-dialog']")
+      .first();
+    expect(cancelEditLetterDialog.length).toEqual(1);
+  });
+
+  test("dispatch to editReferralLetterContent when clicking save button", () => {
+    const saveButton = wrapper.find("[data-test='saveButton']").first();
+    saveButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editReferralLetterContent(
+        caseId,
+        initialLetterHtml,
+        `/cases/${caseId}/letter/letter-preview`
+      )
+    );
+  });
+
+  describe("Saves and Redirects when click Stepper Buttons", function() {
+    test("it dispatches edit and redirects to review letter when click review case details stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Review Case Details"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editReferralLetterContent(
+          caseId,
+          initialLetterHtml,
+          `/cases/${caseId}/letter/review`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to officer history when click officer history stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Officer Complaint Histories"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editReferralLetterContent(
+          caseId,
+          initialLetterHtml,
+          `/cases/${caseId}/letter/officer-history`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to iapro corrections when click iapro corrections stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-IAPro Corrections"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editReferralLetterContent(
+          caseId,
+          initialLetterHtml,
+          `/cases/${caseId}/letter/iapro-corrections`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Recommended Actions"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editReferralLetterContent(
+          caseId,
+          initialLetterHtml,
+          `/cases/${caseId}/letter/recommended-actions`
+        )
+      );
+    });
+
+    test("it dispatches edit and redirects to preview when click preview stepper button", () => {
+      const reviewCaseDetailsButton = wrapper
+        .find('[data-test="step-button-Preview"]')
+        .first();
+      reviewCaseDetailsButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editReferralLetterContent(
+          caseId,
+          initialLetterHtml,
+          `/cases/${caseId}/letter/letter-preview`
+        )
+      );
+    });
   });
 });

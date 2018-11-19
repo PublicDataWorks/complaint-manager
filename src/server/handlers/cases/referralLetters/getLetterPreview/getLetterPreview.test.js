@@ -4,8 +4,8 @@ import Boom from "boom";
 import {
   ACCUSED,
   ADDRESSABLE_TYPE,
-  AUDIT_SUBJECT,
   AUDIT_ACTION,
+  AUDIT_SUBJECT,
   AUDIT_TYPE,
   CASE_STATUS,
   COMPLAINANT,
@@ -25,6 +25,7 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
+import Classification from "../../../../../client/testUtilities/classification";
 
 describe("getLetterPreview", function() {
   let existingCase, request, response, next, referralLetter;
@@ -103,6 +104,17 @@ describe("getLetterPreview", function() {
       sender: "sender address",
       transcribedBy: "transcriber"
     });
+  });
+
+  test("returns case data so we can populate modal for status transition", async () => {
+    await getLetterPreview(request, response, next);
+    const responseBody = response._getData();
+    expect(responseBody.caseDetails).toEqual(
+      expect.objectContaining({
+        id: existingCase.id,
+        status: CASE_STATUS.LETTER_IN_PROGRESS
+      })
+    );
   });
 
   test("renders civilian info", async () => {
@@ -313,6 +325,21 @@ describe("getLetterPreview", function() {
     expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
   });
 
+  test("return saved letter content when editedLetterHtml is not null", async () => {
+    const editedLetterHtml = "<p> letter html content</p>";
+    await referralLetter.update(
+      { editedLetterHtml: editedLetterHtml },
+      { auditUser: "someone" }
+    );
+
+    await getLetterPreview(request, response, next);
+
+    const letterHtml = response._getData().letterHtml;
+    expect(letterHtml).toEqual(editedLetterHtml);
+    expect(response._getData().editHistory.edited).toBeTruthy();
+    expect(response._getData().editHistory.lastEdited).toBeTruthy();
+  });
+
   describe("snapshotTests", function() {
     let letterOfficer;
 
@@ -506,6 +533,19 @@ describe("getLetterPreview", function() {
     });
 
     test("renders correctly with all details", async () => {
+      const classificationBwcAttributes = new Classification.Builder()
+        .defaultClassification()
+        .withId(undefined)
+        .withName("Body Worn Camera")
+        .withInitialism("BWC");
+      const classificationBWC = await models.classification.create(
+        classificationBwcAttributes,
+        { auditUser: "someone" }
+      );
+      await existingCase.update(
+        { classificationId: classificationBWC.id },
+        { auditUser: "someone" }
+      );
       const civilianWitnessAttributes = new Civilian.Builder()
         .defaultCivilian()
         .withCaseId(existingCase.id)
@@ -571,6 +611,9 @@ describe("getLetterPreview", function() {
         referralLetterOfficerHistoryNoteAttributes,
         { auditUser: "test" }
       );
+
+      await getLetterPreview(request, response, next);
+      expect(response._getData().letterHtml).toMatchSnapshot();
     });
   });
 });

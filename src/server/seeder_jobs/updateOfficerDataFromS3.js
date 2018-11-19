@@ -49,6 +49,7 @@ const updateOfficerDataFromS3 = async (
                   error.name,
                   error.message
                 );
+                console.dir(error);
               });
           })
           .then(async () => {
@@ -60,6 +61,7 @@ const updateOfficerDataFromS3 = async (
     });
   } catch (error) {
     winston.error(`Officer Update Error: ${error}`);
+    console.dir(error);
   } finally {
     if (shouldCloseConnections) models.sequelize.close();
   }

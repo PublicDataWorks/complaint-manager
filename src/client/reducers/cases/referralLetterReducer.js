@@ -3,7 +3,12 @@ import {
   GET_LETTER_PREVIEW_SUCCESS
 } from "../../../sharedUtilities/constants";
 
-const initialState = { letterDetails: {}, letterHtml: "", addresses: {} };
+const initialState = {
+  letterDetails: {},
+  letterHtml: "",
+  addresses: {},
+  editHistory: { edited: false }
+};
 const referralLetterReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_REFERRAL_LETTER_SUCCESS:
@@ -12,7 +17,8 @@ const referralLetterReducer = (state = initialState, action) => {
       return {
         ...state,
         letterHtml: action.letterHtml,
-        addresses: action.addresses
+        addresses: action.addresses,
+        editHistory: action.editHistory
       };
     default:
       return state;

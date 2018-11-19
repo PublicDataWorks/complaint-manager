@@ -4,17 +4,21 @@ import {
 } from "../../../sharedUtilities/constants";
 
 const initialState = {
-  open: false
+  open: false,
+  redirectUrl: null
 };
+
 const updateCaseStatusDialogReducer = (state = initialState, action) => {
   switch (action.type) {
     case CASE_STATUS_UPDATE_DIALOG_OPENED:
       return {
-        open: true
+        open: true,
+        redirectUrl: action.redirectUrl
       };
     case CASE_STATUS_UPDATE_DIALOG_CLOSED:
       return {
-        open: false
+        open: false,
+        redirectUrl: null
       };
     default:
       return state;

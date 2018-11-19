@@ -47,7 +47,9 @@ if (TEST_PASS && TEST_USER && HOST) {
         .waitForElementVisible("[data-test=firstNameInput]", rerenderWait)
         .setValue("[data-test=firstNameInput]", "Night")
         .setValue("[data-test=lastNameInput]", "Watch")
-        .setValue("[data-test=phoneNumberInput]", "1234567890")
+        .click("[data-test=phoneNumberInput]")
+        .keys("\uE012") //left arrow key
+        .keys("1234567890")
         .click("button[data-test=createAndView]")
         .waitForElementVisible("[data-test=case-number]", roundTripWait)
         .assert.urlContains("cases");
@@ -405,9 +407,57 @@ if (TEST_PASS && TEST_USER && HOST) {
         .click('[data-test="back-to-case-link"]');
     },
 
+    "should navigate to Add Case Officer Page to add second officer": browser => {
+      browser
+        .waitForElementVisible('[data-test="closeSnackbar"]', roundTripWait)
+        .click('[data-test="closeSnackbar"]')
+        .waitForElementVisible(
+          '[data-test="addAccusedOfficerButton"]',
+          rerenderWait
+        )
+        .pause(1000)
+        .click('[data-test="addAccusedOfficerButton"]')
+        .waitForElementVisible(
+          '[data-test="selectUnknownOfficerLink"]',
+          rerenderWait
+        );
+    },
+
+    "should navigate to add officer form for unknown second officer": browser => {
+      browser
+        .click('[data-test="selectUnknownOfficerLink"]')
+        .waitForElementVisible(
+          '[data-test="roleOnCaseDropdown"] > div > div > div',
+          rerenderWait
+        )
+        .click('[data-test="roleOnCaseDropdown"] > div > div > div')
+        .waitForElementVisible('[id="menu-roleOnCase"]', rerenderWait)
+        .click("li[data-value=Accused]")
+        .waitForElementNotPresent('[id="menu-roleOnCase"]', rerenderWait)
+        .waitForElementVisible(
+          '[data-test="officerSubmitButton"]',
+          rerenderWait
+        );
+    },
+
+    "should see Unknown Second Officer in Accused section when added": browser => {
+      browser
+        .click('[data-test="officerSubmitButton"]')
+        .waitForElementVisible(
+          '[data-test="unknownOfficerPanel"]',
+          roundTripWait
+        )
+        .assert.containsText(
+          '[data-test="unknownOfficerPanel"]',
+          "Unknown Officer"
+        );
+    },
+
     "should not see officer on case when removed": browser => {
       browser
-        .click('[data-test="manageCaseOfficer"]')
+        .click(
+          '[data-test="unknownOfficerPanel"] [data-test="manageCaseOfficer"]'
+        )
         .waitForElementVisible('[data-test="removeCaseOfficer"]', rerenderWait)
         .click('[data-test="removeCaseOfficer"]')
         .waitForElementVisible(
@@ -415,14 +465,268 @@ if (TEST_PASS && TEST_USER && HOST) {
           rerenderWait
         )
         .click('[data-test="removeButton"]')
-        .waitForElementVisible(
-          '[data-test="noAccusedOfficersMessage"]',
+        .waitForElementPresent(
+          '[data-test="sharedSnackbarBannerText"]',
           roundTripWait
         )
         .assert.containsText(
-          '[data-test="noAccusedOfficersMessage"]',
-          "No accused officers have been added"
+          '[data-test="sharedSnackbarBannerText"]',
+          "Officer was successfully removed"
+        )
+        .pause(1000)
+        .expect.element('[data-test="unknownOfficerPanel"]').to.not.be.present;
+    },
+
+    "should open begin letter in progress dialog to begin letter": browser => {
+      browser
+        .waitForElementVisible(
+          '[data-test="update-status-button"]',
+          roundTripWait
+        )
+        .assert.containsText(
+          '[data-test="update-status-button"]',
+          "BEGIN LETTER"
+        )
+        .click('[data-test="update-status-button"]')
+        .waitForElementVisible(
+          '[data-test="updateStatusDialogTitle"]',
+          roundTripWait
+        )
+        .waitForElementVisible(
+          '[data-test="update-case-status-button"]',
+          roundTripWait
+        )
+        .click('[data-test="update-case-status-button"]')
+        .waitForElementPresent(
+          '[data-test="letter-review-page-header"]',
+          rerenderWait
+        )
+        .assert.containsText(
+          '[data-test="letter-review-page-header"]',
+          "Review Case Details"
+        )
+        .waitForElementPresent(
+          '[data-test="sharedSnackbarBannerText"]',
+          roundTripWait
+        )
+        // .pause(1000)
+        .assert.containsText(
+          '[data-test="sharedSnackbarBannerText"]',
+          "Status was successfully updated"
+        )
+        .click('[data-test="closeSnackbar"]')
+        .waitForElementNotPresent(
+          '[data-test="sharedSnackbarBannerText"]',
+          rerenderWait
+        )
+        .assert.urlContains("letter/review");
+    },
+
+    "should advance to officer complaint history": browser => {
+      browser
+        .click('[data-test="next-button"]')
+        .waitForElementPresent(
+          '[data-test="complaint-history-page-header"]',
+          rerenderWait
+        )
+        .assert.containsText(
+          '[data-test="complaint-history-page-header"]',
+          "Officer Complaint History"
+        )
+        .assert.urlContains("letter/officer-history");
+    },
+
+    "should add number of allegations to officer": browser => {
+      browser
+        .setValue(
+          '[data-test="letterOfficers[0]-numHistoricalHighAllegations"] input',
+          ["2"]
+        )
+        .setValue(
+          '[data-test="letterOfficers[0]-numHistoricalMedAllegations"] input',
+          ["3"]
+        )
+        .setValue(
+          '[data-test="letterOfficers[0]-numHistoricalLowAllegations"] input',
+          ["5"]
+        )
+        .click('[data-test="next-button"]')
+        .waitForElementPresent(
+          '[data-test="iapro-corrections-page-header"]',
+          rerenderWait
+        )
+        .assert.containsText(
+          '[data-test="iapro-corrections-page-header"]',
+          "IAPro Corrections"
         );
+    },
+
+    "should remove iapro correction": browser => {
+      browser
+        .setValue('[name="referralLetterIAProCorrections[0].details"]', [
+          "IAPro Correction Details"
+        ])
+        .setValue('[name="referralLetterIAProCorrections[1].details"]', [
+          "Details to delete"
+        ])
+        .click(
+          '[data-test="referralLetterIAProCorrections[1]-open-remove-dialog-button"]'
+        )
+        .waitForElementPresent(
+          '[data-test="remove-iapro-correction-button"]',
+          rerenderWait
+        )
+        .click('[data-test="remove-iapro-correction-button"]')
+        .waitForElementNotPresent(
+          '[data-test="remove-iapro-correction-button"]',
+          rerenderWait
+        );
+      browser.expect
+        .element('[name="referralLetterIAProCorrections[0].details"]')
+        .text.to.equal("IAPro Correction Details");
+      browser.expect
+        .element('[name="referralLetterIAProCorrections[1].details"]')
+        .text.to.equal("");
+    },
+
+    "should add iapro correction": browser => {
+      browser
+        .click("[data-test='addIAProCorrectionButton']")
+        .waitForElementPresent(
+          '[name="referralLetterIAProCorrections[2].details"]',
+          rerenderWait
+        );
+    },
+
+    "should advance to recommended actions and check retaliation concerns and recommended action": browser => {
+      browser
+        .pause(2000)
+        .click("[data-test='next-button']")
+
+        .waitForElementPresent(
+          '[data-test="recommended-actions-page-header"]',
+          rerenderWait
+        )
+        .assert.containsText(
+          '[data-test="recommended-actions-page-header"]',
+          "Recommended Actions"
+        )
+        .waitForElementPresent(
+          '[data-test="sharedSnackbarBannerText"]',
+          roundTripWait
+        )
+        .assert.containsText(
+          '[data-test="sharedSnackbarBannerText"]',
+          "IAPro corrections were successfully updated"
+        )
+        .click('[data-test="closeSnackbar"]')
+        .waitForElementNotPresent(
+          '[data-test="sharedSnackbarBannerText"]',
+          rerenderWait
+        )
+        .click('[data-test="include-retaliation-concerns-field"] input')
+        .click('[data-test="letterOfficers[0]-1"] input');
+    },
+
+    "should advance to letter preview and check letter contents": browser => {
+      browser
+        .click("[data-test='next-button']")
+        .waitForElementPresent(
+          '[data-test="preview-page-header"]',
+          rerenderWait
+        )
+        .assert.containsText('[data-test="preview-page-header"]', "Preview")
+        .waitForElementPresent(
+          '[data-test="sharedSnackbarBannerText"]',
+          roundTripWait
+        )
+        .assert.containsText(
+          '[data-test="sharedSnackbarBannerText"]',
+          "Recommended actions were successfully updated"
+        )
+        .assert.containsText(".letter-preview", "Name: Night Watch")
+        .assert.containsText(".letter-preview", "Name: Ansel W Rice")
+        .assert.containsText(
+          ".letter-preview",
+          "Location: Bourbon St & Canal St, New Orleans, LA 70112"
+        )
+        .assert.containsText(
+          ".letter-preview",
+          "10 total complaints including 2 HIGH RISK allegations, 3 MEDIUM RISK allegations, 5 LOW RISK allegations"
+        )
+        .assert.containsText(".letter-preview", "IAPro Correction Details")
+        .assert.containsText(
+          ".letter-preview",
+          "Retaliation Concerns and Request for Notice to Officer(s)"
+        )
+        .assert.containsText(
+          ".letter-preview",
+          "Be temporarily or permanently reassigned from his/her current assignment"
+        );
+    },
+
+    "should edit letter": browser => {
+      browser
+        .click('[data-test="closeSnackbar"]')
+        .waitForElementNotPresent(
+          '[data-test="sharedSnackbarBannerText"]',
+          rerenderWait
+        )
+        .click('[data-test="edit-confirmation-dialog-button"]')
+        .waitForElementPresent('[data-test="edit-letter-button"]', rerenderWait)
+        .click('[data-test="edit-letter-button"]')
+        .waitForElementPresent(
+          '[data-test="sharedSnackbarBannerText"]',
+          rerenderWait
+        )
+        .assert.containsText(
+          '[data-test="sharedSnackbarBannerText"]',
+          "Letter was successfully updated"
+        )
+        .waitForElementVisible('[data-test="closeSnackbar"]', rerenderWait)
+        .click('[data-test="closeSnackbar"]')
+        .waitForElementVisible(
+          '[data-test="edit-letter-page-header"]',
+          rerenderWait
+        )
+        .click(".ql-editor")
+        .keys("Susie and Sarah and Phoebe are the G.O.A.T.s")
+        .click("[data-test='saveButton'")
+        .waitForElementPresent(
+          '[data-test="preview-page-header"]',
+          rerenderWait
+        )
+        .assert.containsText('[data-test="preview-page-header"]', "Preview")
+        .waitForElementPresent(
+          '[data-test="sharedSnackbarBannerText"]',
+          rerenderWait
+        )
+        .assert.containsText(
+          '[data-test="sharedSnackbarBannerText"]',
+          "Letter was successfully updated"
+        )
+
+        .assert.containsText(
+          ".letter-preview",
+          "Susie and Sarah and Phoebe are the G.O.A.T.s"
+        )
+        .waitForElementVisible('[data-test="closeSnackbar"]', rerenderWait)
+        .click('[data-test="closeSnackbar"]')
+        .waitForElementNotPresent(
+          '[data-test="sharedSnackbarBannerText"]',
+          rerenderWait
+        );
+    },
+
+    "should submit for review": browser => {
+      browser
+        .click("[data-test='submit-for-review-button']")
+        .waitForElementVisible(
+          '[data-test="update-case-status-button"]',
+          rerenderWait
+        )
+        .click('[data-test="update-case-status-button"]')
+        .waitForElementVisible("[data-test='case-details-page']", rerenderWait);
     },
 
     "should log out of the system": browser => {

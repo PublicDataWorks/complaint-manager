@@ -6,7 +6,6 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import getSearchResults from "../../../shared/thunks/getSearchResults";
 import { Provider } from "react-redux";
 import { changeInput, selectDropdownOption } from "../../../testHelpers";
-import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 
 jest.mock(
   "../../../shared/thunks/getSearchResults",

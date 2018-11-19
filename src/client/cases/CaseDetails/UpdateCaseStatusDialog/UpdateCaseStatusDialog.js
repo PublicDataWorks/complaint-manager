@@ -25,15 +25,17 @@ const STATUS_DESCRIPTION = {
     "This status signifies that the case has been sent to the investigation agency.",
   [CASE_STATUS.CLOSED]:
     "This status signifies that an outcome has been reached and this case is available for public records."
-  // [CASE_STATUS.CLOSED]: "Marking this case as closed will signify that an outcome has been reached and this case is available for public records. "
 };
 
 const UpdateCaseStatusDialog = ({
-  dispatch,
   open,
   caseId,
   nextStatus,
-  featureToggles
+  featureToggles,
+  redirectUrl,
+  alternativeAction,
+  setCaseStatus,
+  closeCaseStatusUpdateDialog
 }) => {
   if (
     !featureToggles.letterGenerationFeature &&
@@ -47,23 +49,23 @@ const UpdateCaseStatusDialog = ({
       ? "Choosing to Generate a Letter"
       : "This action";
 
-  const updateCaseStatus = () => {
-    if (nextStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
-      dispatch(
-        setCaseStatus(caseId, nextStatus, letterInProgressStatusChangeCallback)
-      );
+  const updateCaseStatusAction = () => {
+    if (alternativeAction) {
+      alternativeAction(updateCaseStatus, closeCaseStatusUpdateDialog)();
     } else {
-      dispatch(setCaseStatus(caseId, nextStatus));
+      updateCaseStatus();
     }
   };
 
-  const letterInProgressStatusChangeCallback = () => {
-    dispatch(push(`/cases/${caseId}/letter/review`));
+  const updateCaseStatus = () => {
+    setCaseStatus(caseId, nextStatus, redirectUrl);
   };
 
   return (
     <Dialog open={open}>
-      <DialogTitle>Update Case Status</DialogTitle>
+      <DialogTitle data-test="updateStatusDialogTitle">
+        Update Case Status
+      </DialogTitle>
       <DialogContent>
         <Typography
           style={{
@@ -83,12 +85,15 @@ const UpdateCaseStatusDialog = ({
         <SecondaryButton
           data-test="closeDialog"
           onClick={() => {
-            dispatch(closeCaseStatusUpdateDialog());
+            closeCaseStatusUpdateDialog();
           }}
         >
           Cancel
         </SecondaryButton>
-        <PrimaryButton data-test="updateCaseStatus" onClick={updateCaseStatus}>
+        <PrimaryButton
+          data-test="update-case-status-button"
+          onClick={updateCaseStatusAction}
+        >
           {nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
             ? `Begin Letter`
             : `Mark as ${nextStatus}`}
@@ -98,11 +103,20 @@ const UpdateCaseStatusDialog = ({
   );
 };
 
+const mapDispatchToProps = {
+  closeCaseStatusUpdateDialog,
+  setCaseStatus
+};
+
 const mapStateToProps = state => ({
   open: state.ui.updateCaseStatusDialog.open,
+  redirectUrl: state.ui.updateCaseStatusDialog.redirectUrl,
   nextStatus: state.currentCase.details.nextStatus,
   caseId: state.currentCase.details.id,
   featureToggles: state.featureToggles
 });
 
-export default connect(mapStateToProps)(UpdateCaseStatusDialog);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UpdateCaseStatusDialog);

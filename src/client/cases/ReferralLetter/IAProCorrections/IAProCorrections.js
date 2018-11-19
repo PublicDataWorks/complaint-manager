@@ -47,6 +47,10 @@ class IAProCorrections extends Component {
     );
   };
 
+  pageChangeCallback = redirectUrl => {
+    return this.props.handleSubmit(this.submitForm(redirectUrl));
+  };
+
   submitForm = redirectUrl => (values, dispatch) => {
     dispatch(editIAProCorrections(this.state.caseId, values, redirectUrl));
   };
@@ -88,7 +92,7 @@ class IAProCorrections extends Component {
               />
               <div style={{ textAlign: "right", flex: 1, paddingTop: "16px" }}>
                 <LinkButton
-                  data-test="open-remove-iapro-correction-dialog-button"
+                  data-test={`${iaProCorrectionsField}-open-remove-dialog-button`}
                   style={{ textAlign: "right" }}
                   onClick={() => {
                     this.props.openRemoveIAProCorrectionDialog(
@@ -151,9 +155,16 @@ class IAProCorrections extends Component {
           <div style={{ margin: "0% 5% 3%", width: "60%" }}>
             <LetterProgressStepper
               currentLetterStatus={LETTER_PROGRESS.IAPRO_CORRECTIONS}
+              pageChangeCallback={this.pageChangeCallback}
+              caseId={this.state.caseId}
             />
             <div style={{ margin: "0 0 32px 0" }}>
-              <Typography variant="title">IAPro Corrections</Typography>
+              <Typography
+                variant="title"
+                data-test="iapro-corrections-page-header"
+              >
+                IAPro Corrections
+              </Typography>
             </div>
             <div style={{ marginBottom: "32px" }}>
               <FieldArray

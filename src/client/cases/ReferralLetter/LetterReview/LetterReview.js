@@ -18,7 +18,7 @@ import {
 import TextTruncate from "../../../shared/components/TextTruncate";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import {
-  CASE_STATUS,
+  CASE_STATUSES_ALLOWED_TO_EDIT_LETTER,
   LETTER_PROGRESS
 } from "../../../../sharedUtilities/constants";
 import { push } from "react-router-redux";
@@ -42,11 +42,13 @@ export class LetterReview extends Component {
   }
 
   statusIsAllowed = () => {
-    const validStatuses = [
-      CASE_STATUS.LETTER_IN_PROGRESS,
-      CASE_STATUS.READY_FOR_REVIEW
-    ];
-    return validStatuses.includes(this.props.caseDetail.status);
+    return CASE_STATUSES_ALLOWED_TO_EDIT_LETTER.includes(
+      this.props.caseDetail.status
+    );
+  };
+
+  pageChangeCallback = redirectUrl => () => {
+    this.props.dispatch(push(redirectUrl));
   };
 
   render() {
@@ -96,10 +98,14 @@ export class LetterReview extends Component {
         <div style={{ margin: "0% 5% 3%", width: "60%" }}>
           <LetterProgressStepper
             currentLetterStatus={LETTER_PROGRESS.REVIEW_CASE_DETAILS}
+            pageChangeCallback={this.pageChangeCallback}
+            caseId={caseId}
           />
 
           <div style={{ margin: "0 0 32px 0" }}>
-            <Typography variant="title">Review Case Details</Typography>
+            <Typography variant="title" data-test="letter-review-page-header">
+              Review Case Details
+            </Typography>
           </div>
 
           <CaseDetailCard
@@ -140,6 +146,7 @@ export class LetterReview extends Component {
           })}
           <div style={{ textAlign: "right" }}>
             <PrimaryButton
+              data-test="next-button"
               component={Link}
               to={`/cases/${caseId}/letter/officer-history`}
             >

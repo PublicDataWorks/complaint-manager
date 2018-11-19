@@ -8,12 +8,6 @@ module.exports = {
     s3Bucket: "noipm-local",
     officerBucket: "nopd-officers-local",
     exportsBucket: "noipm-exports-local",
-    email: {
-      secureConnection: false,
-      host: "email",
-      port: 587,
-      fromEmailAddress: "dev_env_email@example.com"
-    },
     authentication: {
       domain: "noipm-ci.auth0.com",
       publicKeyURL: "https://noipm-ci.auth0.com/.well-known/jwks.json",
@@ -46,14 +40,6 @@ module.exports = {
     host: process.env.CIRCLECI ? "localhost" : "db",
     port: 5432,
     exportsBucket: "noipm-exports-test",
-    email: {
-      secureConnection: false,
-      secure: false,
-      ignoreTLS: true,
-      host: "localhost",
-      port: 2525,
-      fromEmailAddress: "test_env_email@example.com"
-    },
     authentication: {
       domain: "noipm-ci.auth0.com",
       publicKeyPath: path.join(__dirname, "..", "config", "test", "public.pem"),
@@ -89,21 +75,6 @@ module.exports = {
     s3Bucket: "noipm-ci",
     officerBucket: "nopd-officers-ci",
     exportsBucket: "noipm-exports-ci",
-    email: {
-      host: "smtp-mail.outlook.com",
-      port: 587,
-      secureConnection: false,
-      //Apparently, TLS requires this to be false.
-      //https://stackoverflow.com/questions/19509357/not-able-to-connect-to-outlook-com-smtp-using-nodemailer
-      tls: {
-        ciphers: "SSLv3"
-      },
-      auth: {
-        user: process.env.EMAIL_ADDRESS,
-        pass: process.env.EMAIL_PASSWORD
-      },
-      fromEmailAddress: process.env.EMAIL_ADDRESS
-    },
     authentication: {
       domain: "noipm-ci.auth0.com",
       publicKeyURL: "https://noipm-ci.auth0.com/.well-known/jwks.json",
@@ -132,21 +103,6 @@ module.exports = {
     s3Bucket: "noipm-staging",
     officerBucket: "nopd-officers-staging",
     exportsBucket: "noipm-exports-staging",
-    email: {
-      host: "smtp-mail.outlook.com",
-      port: 587,
-      secureConnection: false,
-      //Apparently, TLS requires this to be false.
-      //https://stackoverflow.com/questions/19509357/not-able-to-connect-to-outlook-com-smtp-using-nodemailer
-      tls: {
-        ciphers: "SSLv3"
-      },
-      auth: {
-        user: process.env.EMAIL_ADDRESS,
-        pass: process.env.EMAIL_PASSWORD
-      },
-      fromEmailAddress: process.env.EMAIL_ADDRESS
-    },
     authentication: {
       domain: "noipm-staging.auth0.com",
       publicKeyURL: "https://noipm-staging.auth0.com/.well-known/jwks.json",
@@ -175,21 +131,6 @@ module.exports = {
     s3Bucket: "noipm-production",
     officerBucket: "nopd-officers-production",
     exportsBucket: "noipm-exports-production",
-    email: {
-      host: "smtp-mail.outlook.com",
-      port: 587,
-      //Apparently, TLS requires this to be false.
-      //https://stackoverflow.com/questions/19509357/not-able-to-connect-to-outlook-com-smtp-using-nodemailer
-      secureConnection: false,
-      tls: {
-        ciphers: "SSLv3"
-      },
-      auth: {
-        user: process.env.EMAIL_ADDRESS,
-        pass: process.env.EMAIL_PASSWORD
-      },
-      fromEmailAddress: process.env.EMAIL_ADDRESS
-    },
     authentication: {
       domain: "noipm-production.auth0.com",
       publicKeyURL: "https://noipm-production.auth0.com/.well-known/jwks.json",

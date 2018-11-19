@@ -1,13 +1,17 @@
 import {
+  CLOSE_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG,
+  CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG,
+  GET_LETTER_PREVIEW_SUCCESS,
+  GET_RECOMMENDED_ACTIONS_SUCCESS,
   GET_REFERRAL_LETTER_SUCCESS,
+  OPEN_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG,
+  OPEN_EDIT_LETTER_CONFIRMATION_DIALOG,
+  REMOVE_IAPRO_CORRECTION_DIALOG_CLOSED,
+  REMOVE_IAPRO_CORRECTION_DIALOG_OPENED,
   REMOVE_OFFICER_HISTORY_NOTE_DIALOG_CLOSED,
   REMOVE_OFFICER_HISTORY_NOTE_DIALOG_OPENED,
-  REMOVE_IAPRO_CORRECTION_DIALOG_OPENED,
-  REMOVE_IAPRO_CORRECTION_DIALOG_CLOSED,
-  GET_RECOMMENDED_ACTIONS_SUCCESS,
-  GET_LETTER_PREVIEW_SUCCESS,
-  OPEN_EDIT_LETTER_CONFIRMATION_DIALOG,
-  CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG
+  START_LETTER_DOWNLOAD,
+  STOP_LETTER_DOWNLOAD
 } from "../../sharedUtilities/constants";
 
 export const openRemoveOfficerHistoryNoteDialog = (
@@ -48,10 +52,15 @@ export const getRecommendedActionsSuccess = recommendedActions => ({
   recommendedActions
 });
 
-export const getLetterPreviewSuccess = (letterHtml, addresses) => ({
+export const getLetterPreviewSuccess = (
+  letterHtml,
+  addresses,
+  editHistory
+) => ({
   type: GET_LETTER_PREVIEW_SUCCESS,
   letterHtml,
-  addresses
+  addresses,
+  editHistory
 });
 
 export const openEditLetterConfirmationDialog = () => ({
@@ -60,4 +69,20 @@ export const openEditLetterConfirmationDialog = () => ({
 
 export const closeEditLetterConfirmationDialog = () => ({
   type: CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG
+});
+
+export const openCancelEditLetterConfirmationDialog = () => ({
+  type: OPEN_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG
+});
+
+export const closeCancelEditLetterConfirmationDialog = () => ({
+  type: CLOSE_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG
+});
+
+export const startLetterDownload = () => ({
+  type: START_LETTER_DOWNLOAD
+});
+
+export const stopLetterDownload = () => ({
+  type: STOP_LETTER_DOWNLOAD
 });

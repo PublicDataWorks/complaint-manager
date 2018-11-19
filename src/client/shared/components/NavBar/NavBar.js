@@ -90,9 +90,6 @@ class NavBar extends React.Component {
             >
               Export
             </MenuItem>
-            <MenuItem data-test="adminButton" component={Link} to="/admin">
-              Manage Users
-            </MenuItem>
             <MenuItem
               data-test="logOutButton"
               onClick={() => {

@@ -79,7 +79,7 @@ describe("OldCaseStatusStepper", () => {
     );
 
     const updateStatusButton = wrapper
-      .find('[data-test="updateStatusButton"]')
+      .find('[data-test="update-status-button"]')
       .first();
 
     expect(updateStatusButton.exists()).toBeFalsy();
@@ -103,7 +103,7 @@ describe("OldCaseStatusStepper", () => {
     );
 
     const updateStatusButton = wrapper
-      .find('[data-test="updateStatusButton"]')
+      .find('[data-test="update-status-button"]')
       .first();
 
     expect(updateStatusButton.exists()).toBeTruthy();
@@ -127,14 +127,12 @@ describe("OldCaseStatusStepper", () => {
     );
 
     const updateStatusButton = wrapper
-      .find('[data-test="updateStatusButton"]')
+      .find('[data-test="update-status-button"]')
       .first();
 
     updateStatusButton.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      openCaseStatusUpdateDialog(CASE_STATUS.FORWARDED_TO_AGENCY)
-    );
+    expect(dispatchSpy).toHaveBeenCalledWith(openCaseStatusUpdateDialog());
   });
 
   test("should render Forward to Agency if authorized to do so and currently in Ready for Review", () => {
@@ -153,7 +151,7 @@ describe("OldCaseStatusStepper", () => {
     );
 
     const updateStatusButton = wrapper
-      .find('[data-test="updateStatusButton"]')
+      .find('[data-test="update-status-button"]')
       .first();
 
     expect(updateStatusButton.exists()).toEqual(true);
@@ -181,7 +179,7 @@ describe("OldCaseStatusStepper", () => {
     );
 
     const updateStatusButton = wrapper
-      .find('[data-test="updateStatusButton"]')
+      .find('[data-test="update-status-button"]')
       .first();
 
     expect(updateStatusButton.exists()).toEqual(false);
@@ -202,7 +200,7 @@ describe("OldCaseStatusStepper", () => {
     );
 
     const updateStatusButton = wrapper
-      .find('[data-test="updateStatusButton"]')
+      .find('[data-test="update-status-button"]')
       .first();
 
     expect(updateStatusButton.exists()).toBeFalsy();

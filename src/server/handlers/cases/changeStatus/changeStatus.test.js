@@ -5,11 +5,14 @@ import {
   CASE_STATUS,
   AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_TYPE
+  AUDIT_TYPE,
+  ACCUSED
 } from "../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
 import Boom from "boom";
 import models from "../../../models/index";
+import Officer from "../../../../client/testUtilities/Officer";
+import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 
 describe("changeStatus", async () => {
   let initialCase, response, next;
@@ -184,5 +187,115 @@ describe("changeStatus", async () => {
         caseId: initialCase.id
       })
     );
+  });
+
+  describe("Accused Officers on the Case", function() {
+    let accusedCaseOfficer1, accusedCaseOfficer2;
+
+    beforeEach(async function() {
+      const officerAttributes1 = new Officer.Builder()
+        .defaultOfficer()
+        .withId(undefined)
+        .withOfficerNumber(123);
+
+      const officerAttributes2 = new Officer.Builder()
+        .defaultOfficer()
+        .withId(undefined)
+        .withOfficerNumber(321);
+
+      const officer1 = await models.officer.create(officerAttributes1, {
+        auditUser: "someone"
+      });
+
+      const officer2 = await models.officer.create(officerAttributes2, {
+        auditUser: "someone"
+      });
+
+      const accusedCaseOfficerAttributes1 = new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withCaseId(initialCase.id)
+        .withOfficerId(officer1.id)
+        .withRoleOnCase(ACCUSED);
+
+      const accusedCaseOfficerAttributes2 = new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withCaseId(initialCase.id)
+        .withOfficerId(officer2.id)
+        .withRoleOnCase(ACCUSED);
+
+      accusedCaseOfficer1 = await models.case_officer.create(
+        accusedCaseOfficerAttributes1,
+        { auditUser: "someone" }
+      );
+
+      accusedCaseOfficer2 = await models.case_officer.create(
+        accusedCaseOfficerAttributes2,
+        { auditUser: "someone" }
+      );
+    });
+
+    test("creates a letter officer for each accused officer if changes to LETTER_IN_PROGRESS", async () => {
+      await initialCase.update(
+        { status: CASE_STATUS.ACTIVE },
+        { auditUser: "someone" }
+      );
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        params: {
+          id: initialCase.id
+        },
+        body: {
+          status: CASE_STATUS.LETTER_IN_PROGRESS
+        },
+        nickname: "someone"
+      });
+
+      await changeStatus(request, response, next);
+
+      const letterOfficer1 = await models.letter_officer.find({
+        where: { caseOfficerId: accusedCaseOfficer1.id }
+      });
+
+      const letterOfficer2 = await models.letter_officer.find({
+        where: { caseOfficerId: accusedCaseOfficer2.id }
+      });
+
+      expect(letterOfficer1).not.toBeNull();
+      expect(letterOfficer2).not.toBeNull();
+
+      await initialCase.reload();
+      expect(initialCase.status).toEqual(CASE_STATUS.LETTER_IN_PROGRESS);
+    });
+
+    test("does not create letter officers if status changing to something other than LETTER_IN_PROGRESS", async () => {
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        params: {
+          id: initialCase.id
+        },
+        body: {
+          status: CASE_STATUS.ACTIVE
+        },
+        nickname: "someone"
+      });
+
+      await changeStatus(request, response, next);
+
+      const letterOfficer1 = await models.letter_officer.find({
+        where: { caseOfficerId: accusedCaseOfficer1.id }
+      });
+
+      const letterOfficer2 = await models.letter_officer.find({
+        where: { caseOfficerId: accusedCaseOfficer2.id }
+      });
+
+      expect(letterOfficer1).toBeNull();
+      expect(letterOfficer2).toBeNull();
+
+      await initialCase.reload();
+      expect(initialCase.status).toEqual(CASE_STATUS.ACTIVE);
+    });
   });
 });

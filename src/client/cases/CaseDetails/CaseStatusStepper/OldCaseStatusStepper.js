@@ -46,6 +46,10 @@ const OldCaseStatusStepper = ({
     nextStatus = CASE_STATUS.READY_FOR_REVIEW;
   }
 
+  const openUpdateCaseStatusDialog = () => {
+    dispatch(openCaseStatusUpdateDialog());
+  };
+
   return (
     <Fragment>
       <Stepper
@@ -68,10 +72,8 @@ const OldCaseStatusStepper = ({
           }}
         >
           <PrimaryButton
-            data-test="updateStatusButton"
-            onClick={() => {
-              dispatch(openCaseStatusUpdateDialog());
-            }}
+            data-test="update-status-button"
+            onClick={openUpdateCaseStatusDialog}
           >
             {`Mark as ${nextStatus}`}
           </PrimaryButton>

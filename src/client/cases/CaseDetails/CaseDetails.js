@@ -96,7 +96,7 @@ class CaseDetails extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.root}>
+      <div className={classes.root} data-test="case-details-page">
         <div className={classes.appFrame}>
           <NavBar isHome={false} customStyle={appBar}>
             <Typography

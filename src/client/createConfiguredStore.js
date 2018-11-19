@@ -5,7 +5,6 @@ import thunk from "redux-thunk";
 import history from "./history";
 import { routerMiddleware, routerReducer } from "react-router-redux";
 import allCasesReducer from "./reducers/cases/allCasesReducer";
-import allUsersReducer from "./reducers/users/allUsersReducer";
 import snackbarReducer from "./reducers/ui/snackbarReducer";
 import caseDetailsReducer from "./reducers/cases/caseDetailsReducer";
 import caseHistoryReducer from "./reducers/cases/caseHistoryReducer";
@@ -37,6 +36,8 @@ import iaProCorrectionsReducer from "./reducers/ui/iaProCorrectionDialogReducer"
 import allExportsReducer from "./reducers/ui/allExportsReducer";
 import recommendedActionsReducer from "./reducers/cases/recommendedActionsReducer";
 import editReferralLetterReducer from "./reducers/ui/editReferralLetterReducer";
+import cancelEditLetterConfirmationDialogReducer from "./reducers/ui/cancelEditlLetterConfirmationDialogReducer";
+import letterDownloadReducer from "./reducers/ui/letterDownloadReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -52,7 +53,6 @@ const rootReducer = combineReducers({
   referralLetter: referralLetterReducer,
   recommendedActions: recommendedActionsReducer,
   users: combineReducers({
-    all: allUsersReducer,
     current: userInfoReducer
   }),
   ui: combineReducers({
@@ -67,6 +67,7 @@ const rootReducer = combineReducers({
     removePersonDialog: removePersonDialogReducer,
     removeCaseNoteDialog: removeCaseNoteDialogReducer,
     editLetterConfirmationDialog: editReferralLetterReducer,
+    cancelEditLetterConfirmationDialog: cancelEditLetterConfirmationDialogReducer,
     attachments: attachmentsReducer,
     search: searchReducer,
     allegations: allegationMenuDisplay,
@@ -76,7 +77,8 @@ const rootReducer = combineReducers({
     accusedOfficerPanels: accusedOfficerPanelsReducer,
     addressInput: addressInputReducer,
     officerHistoryNoteDialog: officerHistoryNoteDialogReducer,
-    iaProCorrectionsDialog: iaProCorrectionsReducer
+    iaProCorrectionsDialog: iaProCorrectionsReducer,
+    letterDownload: letterDownloadReducer
   }),
   officers: searchOfficersReducer,
   featureToggles: featureTogglesReducer,

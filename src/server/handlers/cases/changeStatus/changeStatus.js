@@ -1,4 +1,5 @@
 import { SENDER, RECIPIENT } from "../referralLetters/letterDefaults";
+import { ACCUSED } from "../../../../sharedUtilities/constants";
 
 const { CASE_STATUS } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -30,6 +31,19 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
         },
         { auditUser: request.nickname, transaction }
       );
+
+      const accusedOfficers = await models.case_officer.findAll({
+        where: { caseId: caseToUpdate.id, roleOnCase: ACCUSED }
+      });
+
+      for (const accusedOfficer of accusedOfficers) {
+        await models.letter_officer.create(
+          {
+            caseOfficerId: accusedOfficer.id
+          },
+          { auditUser: request.nickname, transaction }
+        );
+      }
     }
 
     await auditDataAccess(

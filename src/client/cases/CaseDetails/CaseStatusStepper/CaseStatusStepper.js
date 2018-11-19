@@ -10,6 +10,7 @@ import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import UpdateCaseStatusDialog from "../UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import { Link } from "react-router-dom";
+import LinkButton from "../../../shared/components/LinkButton";
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -40,7 +41,50 @@ const CaseStatusStepper = ({
   nextStatus,
   dispatch
 }) => {
-  const renderTransitionButton = () => {
+  const openUpdateCaseStatusDialog = () => {
+    let redirectUrl;
+    if (nextStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
+      redirectUrl = `/cases/${caseId}/letter/review`;
+    }
+    dispatch(openCaseStatusUpdateDialog(redirectUrl));
+  };
+
+  const renderLetterOrStatusButton = () => {
+    if (status === CASE_STATUS.LETTER_IN_PROGRESS) {
+      return (
+        <PrimaryButton
+          data-test={"edit-letter-button"}
+          to={`/cases/${caseId}/letter/review`}
+          component={Link}
+        >
+          Resume Letter
+        </PrimaryButton>
+      );
+    } else if (status === CASE_STATUS.READY_FOR_REVIEW) {
+      return (
+        <LinkButton
+          data-test={"edit-letter-button"}
+          to={`/cases/${caseId}/letter/review`}
+          component={Link}
+        >
+          Resume Letter
+        </LinkButton>
+      );
+    } else {
+      return (
+        <PrimaryButton
+          data-test="update-status-button"
+          onClick={openUpdateCaseStatusDialog}
+        >
+          {status === CASE_STATUS.ACTIVE
+            ? `Begin Letter`
+            : `Mark as ${nextStatus}`}
+        </PrimaryButton>
+      );
+    }
+  };
+
+  const renderLetterOrStatusButtonSection = () => {
     return (
       <div
         style={{
@@ -52,30 +96,7 @@ const CaseStatusStepper = ({
           justifyContent: "flex-end"
         }}
       >
-        {status === CASE_STATUS.LETTER_IN_PROGRESS ? (
-          <PrimaryButton
-            data-test={status === "editLetterButton"}
-            to={`/cases/${caseId}/letter/review`}
-            component={Link}
-          >
-            Resume Letter
-          </PrimaryButton>
-        ) : (
-          <PrimaryButton
-            data-test={
-              status === CASE_STATUS.ACTIVE
-                ? "generateLetterButton"
-                : "updateStatusButton"
-            }
-            onClick={() => {
-              dispatch(openCaseStatusUpdateDialog());
-            }}
-          >
-            {status === CASE_STATUS.ACTIVE
-              ? `Begin Letter`
-              : `Mark as ${nextStatus}`}
-          </PrimaryButton>
-        )}
+        {renderLetterOrStatusButton()}
       </div>
     );
   };
@@ -91,7 +112,7 @@ const CaseStatusStepper = ({
         {generateSteps(CASE_STATUS_MAP)}
       </Stepper>
       {shouldRenderStatusTransitionButton(status, userInfo)
-        ? renderTransitionButton()
+        ? renderLetterOrStatusButtonSection()
         : null}
       <UpdateCaseStatusDialog />
     </Fragment>

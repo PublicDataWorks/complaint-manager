@@ -67,7 +67,9 @@ export const showOfficerHistory = letterOfficer => {
 Handlebars.registerHelper("showOfficerHistory", showOfficerHistory);
 
 export const showOfficerHistoryHeader = accusedOfficers => {
-  const letterOfficers = accusedOfficers.map(officer => officer.letterOfficer);
+  const letterOfficers = accusedOfficers
+    .map(officer => officer.letterOfficer)
+    .filter(letterOfficer => letterOfficer != null);
   return letterOfficers.some(showOfficerHistory);
 };
 Handlebars.registerHelper("showOfficerHistoryHeader", showOfficerHistoryHeader);
@@ -88,8 +90,9 @@ Handlebars.registerHelper("formatPhoneNumber", phoneNumber => {
 
 export const officerHasRecommendedActionsOrNotes = letterOfficer => {
   return (
-    letterOfficer.recommendedActionNotes ||
-    letterOfficer.referralLetterOfficerRecommendedActions.length > 0
+    letterOfficer &&
+    (letterOfficer.recommendedActionNotes ||
+      letterOfficer.referralLetterOfficerRecommendedActions.length > 0)
   );
 };
 
@@ -122,3 +125,18 @@ export const parseIncidentYear = date => {
   return "";
 };
 Handlebars.registerHelper("parseIncidentYear", parseIncidentYear);
+
+export const newLineToLineBreak = text => {
+  text = Handlebars.Utils.escapeExpression(text);
+  text = text.replace(/(\r\n|\n|\r)/gm, "<br>");
+  return text;
+};
+Handlebars.registerHelper("newLineToLineBreak", newLineToLineBreak);
+
+export const extractFirstLine = text => {
+  if (!text) {
+    return "";
+  }
+  return text.split("\n")[0];
+};
+Handlebars.registerHelper("extractFirstLine", extractFirstLine);

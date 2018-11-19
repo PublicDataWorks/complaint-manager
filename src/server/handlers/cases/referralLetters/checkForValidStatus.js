@@ -1,15 +1,10 @@
 import Boom from "boom";
 import models from "../../../models";
-import { CASE_STATUS } from "../../../../sharedUtilities/constants";
-
-const VALID_STATUSES = [
-  CASE_STATUS.LETTER_IN_PROGRESS,
-  CASE_STATUS.READY_FOR_REVIEW
-];
+import { CASE_STATUSES_ALLOWED_TO_EDIT_LETTER } from "../../../../sharedUtilities/constants";
 
 const checkForValidStatus = async caseId => {
   const existingCase = await models.cases.findById(caseId);
-  if (!VALID_STATUSES.includes(existingCase.status)) {
+  if (!CASE_STATUSES_ALLOWED_TO_EDIT_LETTER.includes(existingCase.status)) {
     throw Boom.badRequest("Invalid case status");
   }
 };
