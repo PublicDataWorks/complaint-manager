@@ -6,7 +6,6 @@ const formatDate = dateString => {
   if (dateString) {
     dateString = timezone.tz(dateString, TIMEZONE).format("MMM D, YYYY");
   }
-
   return dateString;
 };
 

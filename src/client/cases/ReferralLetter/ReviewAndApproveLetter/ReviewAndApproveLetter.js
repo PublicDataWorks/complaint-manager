@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import NavBar from "../../../shared/components/NavBar/NavBar";
 import LinkButton from "../../../shared/components/LinkButton";
-import { dateTimeFromString } from "../../../utilities/formatDate";
 import getLetterPreview from "../thunks/getLetterPreview";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import moment from "moment";
 
 class ReviewAndApproveLetter extends Component {
   constructor(props) {
@@ -20,15 +21,17 @@ class ReviewAndApproveLetter extends Component {
     return this.props.letterHtml === "";
   };
 
-  timestampIfEdited() {
-    if (this.props.editHistory.edited) {
-      return (
-        <i style={{ fontSize: "0.9rem", color: "black" }}>
-          (Last edited {dateTimeFromString(this.props.editHistory.lastEdited)})
-        </i>
-      );
+  getTimestamp() {
+    let timestamp;
+    // TODO: fix deprecated date format message
+    if (this.props.editHistory && this.props.editHistory.lastEdited) {
+      const generatedDate = moment(this.props.editHistory.lastEdited, "MMM DD, YYYY");
+      timestamp = `This letter was last edited on ${generatedDate}`;
+    } else {
+      const today = moment(Date.now(), "MMM DD, YYYY");
+      timestamp = `This letter was generated on ${today}`;
     }
-    return null;
+    return <i style={{ fontSize: "0.9rem", color: "black" }}>{timestamp}</i>;
   }
 
   render() {
@@ -46,7 +49,8 @@ class ReviewAndApproveLetter extends Component {
 
         <LinkButton
           data-test="save-and-return-to-case-link"
-          //onClick={this.saveAndReturnToCase()}
+          to={`/cases/${this.state.caseId}`}
+          component={Link}
           style={{ margin: "2% 0% 2% 4%" }}
         >
           Back to Case
@@ -58,7 +62,14 @@ class ReviewAndApproveLetter extends Component {
             }}
             variant="title"
           >
-            Review and Approve Letter {this.timestampIfEdited()}
+            Review and Approve Letter
+          </Typography>
+          <Typography
+            data-test="edit-history"
+            variant="body1"
+            style={{ marginBottom: "24px" }}
+          >
+            {this.getTimestamp()}
           </Typography>
           <Card
             style={{
@@ -77,6 +88,6 @@ class ReviewAndApproveLetter extends Component {
 }
 
 const mapStateToProps = state => ({
-    editHistory: state.referralLetter.editHistory,
+  editHistory: state.referralLetter.editHistory
 });
 export default connect(mapStateToProps)(ReviewAndApproveLetter);
