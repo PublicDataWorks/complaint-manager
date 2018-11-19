@@ -12,13 +12,13 @@ const caseDashboardCommands = {
       .click("@newCaseButton")
       .waitForElementVisible("@caseDialog", e2e.rerenderWait);
   },
-  withFirstName: function(firstName) {
+  setFirstName: function(firstName) {
     return this.setValue("@firstName", firstName);
   },
-  withLastName: function(lastName) {
+  setLastName: function(lastName) {
     return this.setValue("@lastName", lastName);
   },
-  withPhoneNumber: function(phoneNumber, browser) {
+  setPhoneNumber: function(phoneNumber, browser) {
     this.click("@phoneNumber");
     browser
       .keys("\uE012") // left arrow key

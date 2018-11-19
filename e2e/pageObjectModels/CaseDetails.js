@@ -11,7 +11,7 @@ const caseDetailsCommands = {
       path.resolve(__dirname, "../tests/images/", fileName)
     );
   },
-  withDescription: function(description) {
+  setDescription: function(description) {
     return this.setValue("@attachmentDescription", description);
   },
 
@@ -40,6 +40,9 @@ const caseDetailsCommands = {
       "@removeAttachmentButton",
       e2e.rerenderWait
     ).click("@removeAttachmentButton");
+  },
+  editComplainant: function() {
+    return this.click("@editComplainantLink");
   }
 };
 
@@ -69,6 +72,9 @@ module.exports = {
     },
     attachment: {
       selector: "[data-test='attachmentRow']"
+    },
+    editComplainantLink: {
+      selector: "[data-test='editComplainantLink']"
     }
   }
 };

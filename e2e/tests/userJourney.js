@@ -38,9 +38,9 @@ if (TEST_PASS && TEST_USER && HOST) {
       caseDashboardPage
         .isOnPage()
         .createNewCase()
-        .withFirstName("Night")
-        .withLastName("Watch")
-        .withPhoneNumber("1234567890", browser)
+        .setFirstName("Night")
+        .setLastName("Watch")
+        .setPhoneNumber("1234567890", browser)
         .submitCase();
       snackbar.presentWithMessage("successfully created").close();
     },
@@ -54,7 +54,7 @@ if (TEST_PASS && TEST_USER && HOST) {
       caseDetailsPage
         .isOnPage()
         .attachFileWithName(fileName)
-        .withDescription("a description")
+        .setDescription("a description")
         .uploadFile();
       snackbar.presentWithMessage("File was successfully attached").close();
       caseDetailsPage.removeFile().confirmRemoveAttachmentInDialog();
@@ -62,18 +62,13 @@ if (TEST_PASS && TEST_USER && HOST) {
       caseDetailsPage.thereAreNoAttachments();
     },
 
-    "should open edit civilian form": browser => {
-      browser
-        .click("[data-test=editComplainantLink]")
-        .waitForElementVisible("[data-test=editDialogTitle]", rerenderWait);
-    },
+    "should open edit civilian form and set gender and race/ethnicity": browser => {
+      const caseDetailsPage = browser.page.CaseDetails();
+      const civilianDialog = browser.page.CivilianDialog();
 
-    "should set gender identity ": browser => {
-      browser
-        .click('[data-test="genderDropdown"] > div > div > div')
-        .waitForElementVisible('[id="menu-genderIdentity"]', rerenderWait)
-        .click("li[data-value=Female]")
-        .waitForElementNotPresent('[id="menu-genderIdentity"]', rerenderWait);
+      caseDetailsPage.editComplainant();
+      civilianDialog.dialogIsOpen().setGenderIdentity("Female");
+      // .setRaceEthnicity("Cuban");
     },
 
     "should set race or ethnicity": browser => {
