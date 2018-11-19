@@ -67,27 +67,15 @@ if (TEST_PASS && TEST_USER && HOST) {
       const civilianDialog = browser.page.CivilianDialog();
 
       caseDetailsPage.editComplainant();
-      civilianDialog.dialogIsOpen().setGenderIdentity("Female");
-      // .setRaceEthnicity("Cuban");
-    },
-
-    "should set race or ethnicity": browser => {
-      browser
-        .click('[data-test="raceDropdown"] > div > div > div')
-        .pause(1000) //TODO it takes longer to render the long list of races/ethnicities.  Need to wait so that click isn't dragged in animation
-        .waitForElementVisible('[id="menu-raceEthnicity"]', rerenderWait)
-        .click("li[data-value=Cuban]")
-        .waitForElementNotPresent('[id="menu-raceEthnicity"]', rerenderWait);
+      civilianDialog
+        .dialogIsOpen()
+        .setGenderIdentity("Female")
+        .setRaceEthnicity("Cuban");
     },
 
     "should display suggestions when text is entered": browser => {
-      browser
-        .setValue('[data-test="addressSuggestionField"] > input', ["6500"])
-        .waitForElementPresent(
-          '[data-test="suggestion-container"] > ul',
-          rerenderWait
-        )
-        .pause(1000); //Need to wait for suggestions to finish updating (Network call)
+      const civilianDialog = browser.page.CivilianDialog();
+      civilianDialog.typeInAddress("6500").thereAreSuggestions();
     },
 
     "should not select suggestion when navigating through them": browser => {
@@ -378,6 +366,7 @@ if (TEST_PASS && TEST_USER && HOST) {
           rerenderWait
         )
         .pause(1000)
+
         .click('[data-test="addAccusedOfficerButton"]')
         .waitForElementVisible(
           '[data-test="selectUnknownOfficerLink"]',
@@ -484,211 +473,102 @@ if (TEST_PASS && TEST_USER && HOST) {
         .assert.urlContains("letter/review");
     },
 
-    "should advance to officer complaint history": browser => {
-      browser
-        .click('[data-test="next-button"]')
-        .waitForElementPresent(
-          '[data-test="complaint-history-page-header"]',
-          rerenderWait
+    "should advance to officer complaint history and add allegations": browser => {
+      const caseReview = browser.page.CaseReview();
+      caseReview.clickNext();
+      const snackbar = browser.page.SnackbarPOM();
+      const complaintHistory = browser.page.ComplaintHistory();
+      complaintHistory
+        .isOnPage()
+        .setHighAllegations(2)
+        .setMedAllegations(3)
+        .setLowAllegations(5)
+        .clickNext();
+      snackbar
+        .presentWithMessage(
+          "Officer complaint history was successfully updated"
         )
-        .assert.containsText(
-          '[data-test="complaint-history-page-header"]',
-          "Officer Complaint History"
-        )
-        .assert.urlContains("letter/officer-history");
+        .close();
     },
 
-    "should add number of allegations to officer": browser => {
-      browser
-        .setValue(
-          '[data-test="letterOfficers[0]-numHistoricalHighAllegations"] input',
-          ["2"]
-        )
-        .setValue(
-          '[data-test="letterOfficers[0]-numHistoricalMedAllegations"] input',
-          ["3"]
-        )
-        .setValue(
-          '[data-test="letterOfficers[0]-numHistoricalLowAllegations"] input',
-          ["5"]
-        )
-        .click('[data-test="next-button"]')
-        .waitForElementPresent(
-          '[data-test="iapro-corrections-page-header"]',
-          rerenderWait
-        )
-        .assert.containsText(
-          '[data-test="iapro-corrections-page-header"]',
-          "IAPro Corrections"
-        );
-    },
+    "should remove and add iapro correction": browser => {
+      const iaproCorrections = browser.page.IAProCorrections();
 
-    "should remove iapro correction": browser => {
-      browser
-        .setValue('[name="referralLetterIAProCorrections[0].details"]', [
-          "IAPro Correction Details"
-        ])
-        .setValue('[name="referralLetterIAProCorrections[1].details"]', [
-          "Details to delete"
-        ])
-        .click(
-          '[data-test="referralLetterIAProCorrections[1]-open-remove-dialog-button"]'
-        )
-        .waitForElementPresent(
-          '[data-test="remove-iapro-correction-button"]',
-          rerenderWait
-        )
-        .click('[data-test="remove-iapro-correction-button"]')
-        .waitForElementNotPresent(
-          '[data-test="remove-iapro-correction-button"]',
-          rerenderWait
-        );
-      browser.expect
-        .element('[name="referralLetterIAProCorrections[0].details"]')
-        .text.to.equal("IAPro Correction Details");
-      browser.expect
-        .element('[name="referralLetterIAProCorrections[1].details"]')
-        .text.to.equal("");
-    },
-
-    "should add iapro correction": browser => {
-      browser
-        .click("[data-test='addIAProCorrectionButton']")
+      iaproCorrections
+        .isOnPage()
+        .setNthDetails(0, "IAPro Correction Details")
+        .setNthDetails(1, "Details to delete")
+        .removeNthCorrection(1)
+        .expectNthCorrectionValue(0, "IAPro Correction Details")
+        .expectNthCorrectionValue(1, "")
+        .addCorrection()
         .waitForElementPresent(
           '[name="referralLetterIAProCorrections[2].details"]',
           rerenderWait
         );
+      browser.pause(2000);
+      iaproCorrections.clickNext();
     },
 
-    "should advance to recommended actions and check retaliation concerns and recommended action": browser => {
-      browser
-        .pause(2000)
-        .click("[data-test='next-button']")
+    "should check retaliation concerns and recommended action": browser => {
+      const recommendedActions = browser.page.RecommendedActions();
+      const snackbar = browser.page.SnackbarPOM();
 
-        .waitForElementPresent(
-          '[data-test="recommended-actions-page-header"]',
-          rerenderWait
-        )
-        .assert.containsText(
-          '[data-test="recommended-actions-page-header"]',
-          "Recommended Actions"
-        )
-        .waitForElementPresent(
-          '[data-test="sharedSnackbarBannerText"]',
-          roundTripWait
-        )
-        .assert.containsText(
-          '[data-test="sharedSnackbarBannerText"]',
-          "IAPro corrections were successfully updated"
-        )
-        .click('[data-test="closeSnackbar"]')
-        .waitForElementNotPresent(
-          '[data-test="sharedSnackbarBannerText"]',
-          rerenderWait
-        )
-        .click('[data-test="include-retaliation-concerns-field"] input')
-        .click('[data-test="letterOfficers[0]-1"] input');
+      recommendedActions.isOnPage();
+      snackbar
+        .presentWithMessage("IAPro corrections were successfully updated")
+        .close();
+      recommendedActions
+        .toggleRetaliationConcerns()
+        .toggleNthOfficersNthRecommendedAction(0, 1)
+        .clickNext();
     },
 
     "should advance to letter preview and check letter contents": browser => {
-      browser
-        .click("[data-test='next-button']")
-        .waitForElementPresent(
-          '[data-test="preview-page-header"]',
-          rerenderWait
-        )
-        .assert.containsText('[data-test="preview-page-header"]', "Preview")
-        .waitForElementPresent(
-          '[data-test="sharedSnackbarBannerText"]',
-          roundTripWait
-        )
-        .assert.containsText(
-          '[data-test="sharedSnackbarBannerText"]',
-          "Recommended actions were successfully updated"
-        )
-        .assert.containsText(".letter-preview", "Name: Night Watch")
-        .assert.containsText(".letter-preview", "Name: Ansel W Rice")
-        .assert.containsText(
-          ".letter-preview",
+      const letterPreview = browser.page.LetterPreview();
+      const snackbar = browser.page.SnackbarPOM();
+      snackbar
+        .presentWithMessage("Recommended actions were successfully updated")
+        .close();
+      letterPreview
+        .isOnPage()
+        .letterContains("Name: Night Watch")
+        .letterContains("Name: Ansel W Rice")
+        .letterContains(
           "Location: Bourbon St & Canal St, New Orleans, LA 70112"
         )
-        .assert.containsText(
-          ".letter-preview",
+        .letterContains(
           "10 total complaints including 2 HIGH RISK allegations, 3 MEDIUM RISK allegations, 5 LOW RISK allegations"
         )
-        .assert.containsText(".letter-preview", "IAPro Correction Details")
-        .assert.containsText(
-          ".letter-preview",
+        .letterContains(
           "Retaliation Concerns and Request for Notice to Officer(s)"
         )
-        .assert.containsText(
-          ".letter-preview",
+        .letterContains(
           "Be temporarily or permanently reassigned from his/her current assignment"
         );
     },
 
     "should edit letter": browser => {
-      browser
-        .click('[data-test="closeSnackbar"]')
-        .waitForElementNotPresent(
-          '[data-test="sharedSnackbarBannerText"]',
-          rerenderWait
-        )
-        .click('[data-test="edit-confirmation-dialog-button"]')
-        .waitForElementPresent('[data-test="edit-letter-button"]', rerenderWait)
-        .click('[data-test="edit-letter-button"]')
-        .waitForElementPresent(
-          '[data-test="sharedSnackbarBannerText"]',
-          rerenderWait
-        )
-        .assert.containsText(
-          '[data-test="sharedSnackbarBannerText"]',
-          "Letter was successfully updated"
-        )
-        .waitForElementVisible('[data-test="closeSnackbar"]', rerenderWait)
-        .click('[data-test="closeSnackbar"]')
-        .waitForElementVisible(
-          '[data-test="edit-letter-page-header"]',
-          rerenderWait
-        )
-        .click(".ql-editor")
-        .keys("Susie and Sarah and Phoebe are the G.O.A.T.s")
-        .click("[data-test='saveButton'")
-        .waitForElementPresent(
-          '[data-test="preview-page-header"]',
-          rerenderWait
-        )
-        .assert.containsText('[data-test="preview-page-header"]', "Preview")
-        .waitForElementPresent(
-          '[data-test="sharedSnackbarBannerText"]',
-          rerenderWait
-        )
-        .assert.containsText(
-          '[data-test="sharedSnackbarBannerText"]',
-          "Letter was successfully updated"
-        )
+      const letterPreview = browser.page.LetterPreview();
+      const editLetter = browser.page.EditLetter();
+      const snackbar = browser.page.SnackbarPOM();
 
-        .assert.containsText(
-          ".letter-preview",
-          "Susie and Sarah and Phoebe are the G.O.A.T.s"
-        )
-        .waitForElementVisible('[data-test="closeSnackbar"]', rerenderWait)
-        .click('[data-test="closeSnackbar"]')
-        .waitForElementNotPresent(
-          '[data-test="sharedSnackbarBannerText"]',
-          rerenderWait
-        );
+      letterPreview.clickEditLetter().confirmEditLetterOnDialog();
+      editLetter.isOnPage();
+      snackbar.presentWithMessage("Letter was successfully updated").close();
+
+      browser.click(".ql-editor").keys("This text is edited");
+
+      editLetter.saveEdits();
+      letterPreview.isOnPage().letterContains("This text is edited");
+      snackbar.presentWithMessage("Letter was successfully updated").close();
     },
 
     "should submit for review": browser => {
-      browser
-        .click("[data-test='submit-for-review-button']")
-        .waitForElementVisible(
-          '[data-test="update-case-status-button"]',
-          rerenderWait
-        )
-        .click('[data-test="update-case-status-button"]')
-        .waitForElementVisible("[data-test='case-details-page']", rerenderWait);
+      const letterPreview = browser.page.LetterPreview();
+      letterPreview.clickSubmit().confirmSubmit();
+      const caseDetails = browser.page.CaseDetails();
+      caseDetails.isOnPage();
     },
 
     "should log out of the system": browser => {

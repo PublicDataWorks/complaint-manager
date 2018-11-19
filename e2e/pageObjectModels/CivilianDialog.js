@@ -12,20 +12,19 @@ const civilianDialogCommands = {
   },
   setRaceEthnicity: function(raceEthnicity) {
     return this.click("@raceEthnicityDropdown")
-      .waitForElementVisible("@raceEthnicityMenu", e2e.rerenderWait)
       .api.pause(e2e.pause)
+      .waitForElementPresent('[id="menu-raceEthnicity"]', e2e.rerenderWait)
       .click(`li[data-value=${raceEthnicity}`)
-      .waitForElementNotPresent("@raceEthnicityMenu", e2e.rerenderWait);
+      .waitForElementNotPresent('[id="menu-raceEthnicity"]', e2e.rerenderWait);
   },
   typeInAddress: function(addressInput) {
-    return this.setValue("@addressField", [addressInput]);
+    return this.setValue("@addressSuggestionField", [addressInput]);
   },
   thereAreSuggestions: function() {
-    return this.waitForElementPresent("@suggestionContainer", e2e.rerenderWait)
-      .api.pause(e2e.pause)
-      .getValue("@addressField", result => {
-        this.assert.ok(result.value.length > 4);
-      });
+    return this.waitForElementPresent(
+      '[data-test="suggestion-container"] > ul',
+      e2e.rerenderWait
+    ).api.pause(e2e.pause);
   }
 };
 
@@ -47,7 +46,7 @@ module.exports = {
     raceEthnicityMenu: {
       selector: '[id="menu-raceEthnicity"]'
     },
-    addressField: {
+    addressSuggestionField: {
       selector: '[data-test="addressSuggestionField"] > input'
     },
     suggestionContainer: {
