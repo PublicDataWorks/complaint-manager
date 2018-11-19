@@ -2,13 +2,12 @@
 
 set +e
 
-ALPINE_VERSION=3.4
 ISSUES_REPORT_FILE=hawkeye_report.json
 TO_EXCLUDE="^src/(server/config/(.)*|server/(server.test.js|(models|handlers/users)/(.)*.test.js))$"
 
 function run_hawkeye_on_container_code() {
   docker rm -f /hawkeye
-  docker run -v $(pwd):/target --name hawkeye --entrypoint /bin/bash stono/hawkeye:latest -c "hawkeye scan -t /target --exclude \"$TO_EXCLUDE\" --json $ISSUES_REPORT_FILE && npm install -g npm-check-updates && ncu -e 2 --packageFile /target/package.json -x winston"
+  docker run -v $(pwd):/target --name hawkeye --entrypoint /bin/bash stono/hawkeye:latest -c "hawkeye scan -t /target --exclude \"$TO_EXCLUDE\" --json $ISSUES_REPORT_FILE && npm install -g npm-check-updates && ncu -e 2 --packageFile /target/package.json -x winston,csv-parse"
   hawkeye_return=$?
 }
 
