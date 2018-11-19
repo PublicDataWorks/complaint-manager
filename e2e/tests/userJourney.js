@@ -23,76 +23,43 @@ if (TEST_PASS && TEST_USER && HOST) {
 
   module.exports = {
     "should see sign-in title": browser => {
-      browser
-        .url(HOST)
-        .resizeWindow(1366, 768)
-        .waitForElementVisible("body", rerenderWait)
-        .assert.title("Sign In with Auth0");
+      browser.url(HOST).resizeWindow(1366, 768);
     },
 
     "should authenticate": browser => {
-      browser
-        .waitForElementVisible("[name=email]", rerenderWait)
-        .setValue("[name=email]", TEST_USER)
-        .setValue("[name=password]", TEST_PASS)
-        .click("button[type=submit]")
-        .waitForElementVisible("[data-test=createCaseButton]", roundTripWait)
-        .assert.title("Complaint Manager")
-        .assert.urlEquals(HOST);
+      const loginPage = browser.page.Login();
+      loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
     },
 
     "should create case": browser => {
-      browser
-        .click("button[data-test=createCaseButton]")
-        .waitForElementVisible("[data-test=firstNameInput]", rerenderWait)
-        .setValue("[data-test=firstNameInput]", "Night")
-        .setValue("[data-test=lastNameInput]", "Watch")
-        .click("[data-test=phoneNumberInput]")
-        .keys("\uE012") //left arrow key
-        .keys("1234567890")
-        .click("button[data-test=createAndView]")
-        .waitForElementVisible("[data-test=case-number]", roundTripWait)
-        .assert.urlContains("cases");
+      const caseDashboardPage = browser.page.CaseDashboard();
+      const snackbar = browser.page.SnackbarPOM();
+
+      caseDashboardPage
+        .isOnPage()
+        .createNewCase()
+        .withFirstName("Night")
+        .withLastName("Watch")
+        .withPhoneNumber("1234567890", browser)
+        .submitCase();
+      snackbar.presentWithMessage("successfully created").close();
     },
 
     "should add and remove an attachment": browser => {
+      const caseDetailsPage = browser.page.CaseDetails();
+      const snackbar = browser.page.SnackbarPOM();
       const imagesDir = "images/";
       const fileName = "dog_nose.jpg";
 
-      browser
-        .setValue(
-          'input[type="file"]',
-          path.resolve(__dirname, imagesDir, fileName)
-        )
-        .waitForElementVisible(
-          "[data-test='attachmentDescriptionInput']",
-          roundTripWait
-        )
-        .setValue('[data-test="attachmentDescriptionInput"]', "a description")
-        .waitForElementVisible(
-          "[data-test=attachmentUploadButton]",
-          rerenderWait
-        )
-        .click("[data-test=attachmentUploadButton]")
-        .pause(2000)
-
-        .waitForElementVisible("[data-test=attachmentRow]", roundTripWait)
-        .assert.containsText("[data-test=attachmentRow]", fileName)
-        .waitForElementVisible(
-          "[data-test=removeAttachmentButton]",
-          roundTripWait
-        )
-        .click("[data-test=removeAttachmentButton]")
-        .pause(2000)
-        .click("[data-test=confirmRemoveAttachmentButton]")
-        .pause(2000)
-
-        .waitForElementVisible("[data-test=noAttachmentsText]", roundTripWait)
-        .assert.containsText(
-          "[data-test=noAttachmentsText]",
-          "No files are attached"
-        )
-        .pause(2000);
+      caseDetailsPage
+        .isOnPage()
+        .attachFileWithName(fileName)
+        .withDescription("a description")
+        .uploadFile();
+      snackbar.presentWithMessage("File was successfully attached").close();
+      caseDetailsPage.removeFile().confirmRemoveAttachmentInDialog();
+      snackbar.presentWithMessage("File was successfully removed").close();
+      caseDetailsPage.thereAreNoAttachments();
     },
 
     "should open edit civilian form": browser => {
