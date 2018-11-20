@@ -23,12 +23,14 @@ class ReviewAndApproveLetter extends Component {
 
   getTimestamp() {
     let timestamp;
-    // TODO: fix deprecated date format message
     if (this.props.editHistory && this.props.editHistory.lastEdited) {
-      const generatedDate = moment(this.props.editHistory.lastEdited, "MMM DD, YYYY");
+      const generatedDate = moment(
+        this.props.editHistory.lastEdited,
+        "MMM DD, YYYY"
+      );
       timestamp = `This letter was last edited on ${generatedDate}`;
     } else {
-      const today = moment(Date.now(), "MMM DD, YYYY");
+      const today = moment(Date.now()).format("MMM DD, YYYY");
       timestamp = `This letter was generated on ${today}`;
     }
     return <i style={{ fontSize: "0.9rem", color: "black" }}>{timestamp}</i>;

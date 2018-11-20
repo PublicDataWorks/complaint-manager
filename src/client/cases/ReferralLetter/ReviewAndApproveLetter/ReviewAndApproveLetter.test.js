@@ -44,7 +44,7 @@ describe("ReviewAndApproveLetter", () => {
 
   test("should display automatically generated correct time of date", () => {
     const displayDate = wrapper.find('[data-test="edit-history"]').first();
-    const today = moment(Date.now(), "MMM D, YYYY");
+    const today = moment(Date.now()).format("MMM D, YYYY");
     expect(displayDate.text()).toEqual(`This letter was generated on ${today}`);
   });
 
