@@ -28,6 +28,7 @@ import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/Upd
 import { dateTimeFromString } from "../../../utilities/formatDate";
 import generatePdf from "../thunks/generatePdf";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
+import styles from "../../../globalStyling/styles";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -171,7 +172,7 @@ class LetterPreview extends Component {
   timestampIfEdited() {
     if (this.props.editHistory.edited) {
       return (
-        <i style={{ fontSize: "0.9rem", color: "black" }}>
+        <i style={styles.body1}>
           (Last edited {dateTimeFromString(this.props.editHistory.lastEdited)})
         </i>
       );

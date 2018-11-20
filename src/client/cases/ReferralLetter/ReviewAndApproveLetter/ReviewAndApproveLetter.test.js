@@ -10,15 +10,22 @@ import { Provider } from "react-redux";
 import ReviewAndApproveLetter from "./ReviewAndApproveLetter";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { BrowserRouter as Router } from "react-router-dom";
-import moment from "moment";
 import {
   getLetterPdfSuccess,
-  getLetterPreviewSuccess
+  getLetterPreviewSuccess,
+  stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
+import timekeeper from "timekeeper";
+import { dateTimeFromString } from "../../../utilities/formatDate";
+
+jest.mock("react-pdf/dist/entry.noworker", () => ({
+  Document: () => <div>document</div>,
+  Page: () => <div>page</div>
+}));
 
 describe("ReviewAndApproveLetter", () => {
   const caseId = 100;
-  let store, wrapper, dispatchSpy;
+  let store, wrapper, dispatchSpy, nowTimestamp;
   beforeEach(() => {
     store = createConfiguredStore();
     store.dispatch(
@@ -35,6 +42,8 @@ describe("ReviewAndApproveLetter", () => {
       })
     );
     store.dispatch(getLetterPdfSuccess("letter pdf"));
+    nowTimestamp = new Date("2018-07-01 19:00:22 UTC");
+    timekeeper.freeze(nowTimestamp);
     wrapper = mount(
       <Provider store={store}>
         <Router>
@@ -42,30 +51,50 @@ describe("ReviewAndApproveLetter", () => {
         </Router>
       </Provider>
     );
-
     dispatchSpy = jest.spyOn(store, "dispatch");
+  });
+
+  afterEach(() => {
+    timekeeper.reset();
   });
 
   test("should display automatically generated correct time of date", () => {
     const displayDate = wrapper.find('[data-test="edit-history"]').first();
-    const today = moment(Date.now()).format("MMM D, YYYY");
-    expect(displayDate.text()).toEqual(`This letter was generated on ${today}`);
+    expect(displayDate.text()).toEqual(
+      `This letter was generated on ${dateTimeFromString(nowTimestamp)}`
+    );
   });
 
-  test("should display last edit history date", () => {
-    const lastEditedTimestamp = moment(Date.now(), "MMM D, YYYY");
+  test("should display last edit history date", async () => {
     const letterHtml = "<p>html</p>";
     const addresses = "<p>addresses</p>";
+    const inputDate = "2018-11-20T21:59:40.707Z";
     store.dispatch(
       getLetterPreviewSuccess(letterHtml, addresses, {
         edited: true,
-        lastEdited: lastEditedTimestamp
+        lastEdited: inputDate
       })
     );
     wrapper.update();
     const displayDate = wrapper.find('[data-test="edit-history"]').first();
     expect(displayDate.text()).toEqual(
-      `This letter was last edited on ${lastEditedTimestamp}`
+      `This letter was last edited on ${dateTimeFromString(inputDate)}`
     );
+  });
+
+  test("displays progress indicator while downloading letter", () => {
+    const progressIndicator = wrapper
+      .find('[data-test="download-letter-progress"]')
+      .first();
+    expect(progressIndicator.props().style.display).toEqual("");
+  });
+
+  test("hides progress indicator while not downloading letter", () => {
+    dispatchSpy(stopLetterDownload());
+    wrapper.update();
+    const progressIndicator = wrapper
+      .find('[data-test="download-letter-progress"]')
+      .first();
+    expect(progressIndicator.props().style.display).toEqual("none");
   });
 });

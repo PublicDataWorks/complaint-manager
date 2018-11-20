@@ -54,13 +54,13 @@ describe("format short date", () => {
 describe("dateTimeFromString", () => {
   test("should format date time in cst", () => {
     const givenDateTime = "2018-09-17T19:56:06.401Z";
-    const expectedTime = "Sep 17, 2018 2:56:06 PM CDT";
+    const expectedTime = "Sep 17, 2018 2:56 PM CDT";
     expect(dateTimeFromString(givenDateTime)).toEqual(expectedTime);
   });
 
   test("should format date time in cdt", () => {
     const givenDateTime = "2018-01-17T19:56:06.401Z";
-    const expectedTime = "Jan 17, 2018 1:56:06 PM CST";
+    const expectedTime = "Jan 17, 2018 1:56 PM CST";
     expect(dateTimeFromString(givenDateTime)).toEqual(expectedTime);
   });
 });

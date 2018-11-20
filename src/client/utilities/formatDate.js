@@ -18,7 +18,7 @@ export const formatShortDate = date => {
 
 export const dateTimeFromString = dateTimeString => {
   return dateTimeString
-    ? timezone.tz(dateTimeString, TIMEZONE).format("MMM D, YYYY h:mm:ss A z")
+    ? timezone.tz(dateTimeString, TIMEZONE).format("MMM D, YYYY h:mm A z")
     : null;
 };
 

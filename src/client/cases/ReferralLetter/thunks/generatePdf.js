@@ -34,11 +34,11 @@ const generatePdf = (
       const editPrefix = edited ? "Edited" : "Generated";
       const filename = `${caseId} - ${editPrefix} Preview Letter.pdf`;
       const fileToDownload = new File([response.data], filename);
-      dispatch(stopLetterDownload());
       saveAs(fileToDownload, filename);
     } else {
       dispatch(getLetterPdfSuccess(response.data));
     }
+    dispatch(stopLetterDownload());
   } catch (e) {
     dispatch(stopLetterDownload());
     return dispatch(

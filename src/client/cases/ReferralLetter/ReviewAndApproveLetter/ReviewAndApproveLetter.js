@@ -5,10 +5,12 @@ import LinkButton from "../../../shared/components/LinkButton";
 import getLetterPreview from "../thunks/getLetterPreview";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import moment from "moment";
 import { Document, Page } from "react-pdf/dist/entry.noworker";
 import generatePdf from "../thunks/generatePdf";
 import { withStyles } from "@material-ui/core/styles";
+import { startLetterDownload } from "../../../actionCreators/letterActionCreators";
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
+import { dateTimeFromString } from "../../../utilities/formatDate";
 
 const styles = theme => ({
   pageStyling: {
@@ -23,27 +25,27 @@ class ReviewAndApproveLetter extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getLetterPreview(this.state.caseId));
-    this.props.dispatch(generatePdf(this.state.caseId));
+    this.props.getLetterPreview(this.state.caseId);
+    this.props.startLetterDownload();
+    this.props.generatePdf(this.state.caseId);
   }
 
   letterPreviewNotYetLoaded = () => {
-    return this.props.editHistory === "" || this.props.letterPdf === null;
+    return this.props.editHistory === "";
   };
 
   getTimestamp() {
-    let timestamp;
+    let message;
     if (this.props.editHistory && this.props.editHistory.lastEdited) {
-      const generatedDate = moment(
-        this.props.editHistory.lastEdited,
-        "MMM DD, YYYY"
+      const generatedDate = dateTimeFromString(
+        this.props.editHistory.lastEdited
       );
-      timestamp = `This letter was last edited on ${generatedDate}`;
+      message = `This letter was last edited on ${generatedDate}`;
     } else {
-      const today = moment(Date.now()).format("MMM DD, YYYY");
-      timestamp = `This letter was generated on ${today}`;
+      const now = dateTimeFromString(new Date());
+      message = `This letter was generated on ${now}`;
     }
-    return <i style={{ fontSize: "0.9rem", color: "black" }}>{timestamp}</i>;
+    return <i>{message}</i>;
   }
 
   onDocumentLoadSuccess = ({ numPages }) => {
@@ -103,6 +105,7 @@ class ReviewAndApproveLetter extends Component {
               <Document
                 file={this.props.letterPdf}
                 onLoadSuccess={this.onDocumentLoadSuccess}
+                noData=""
               >
                 {Array.from(new Array(this.state.numPages), (el, index) => (
                   <Page
@@ -113,6 +116,15 @@ class ReviewAndApproveLetter extends Component {
                   />
                 ))}
               </Document>
+              <div style={{ textAlign: "center", marginTop: "8px" }}>
+                <CircularProgress
+                  data-test={"download-letter-progress"}
+                  size={25}
+                  style={{
+                    display: this.props.downloadInProgress ? "" : "none"
+                  }}
+                />
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -123,9 +135,19 @@ class ReviewAndApproveLetter extends Component {
 
 const mapStateToProps = state => ({
   editHistory: state.referralLetter.editHistory,
-  letterPdf: state.referralLetter.letterPdf
+  letterPdf: state.referralLetter.letterPdf,
+  downloadInProgress: state.ui.letterDownload.downloadInProgress
 });
 
+const mapDispatchToProps = {
+  getLetterPreview,
+  generatePdf,
+  startLetterDownload
+};
+
 export default withStyles(styles, { withTheme: true })(
-  connect(mapStateToProps)(ReviewAndApproveLetter)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ReviewAndApproveLetter)
 );
