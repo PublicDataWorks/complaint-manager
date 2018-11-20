@@ -25,6 +25,10 @@ const letterPreviewCommands = {
   },
   confirmSubmit: function() {
     return this.click("@confirmSubmitButton");
+  },
+  waitForData: function() {
+    this.api.pause(e2e.pause);
+    return this;
   }
 };
 

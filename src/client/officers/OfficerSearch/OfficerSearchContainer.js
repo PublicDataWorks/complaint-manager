@@ -18,7 +18,11 @@ export class OfficerSearchContainer extends Component {
     return (
       <div>
         <NavBar>
-          <Typography data-test="pageTitle" variant="title" color="inherit">
+          <Typography
+            data-test="officer-search-header"
+            variant="title"
+            color="inherit"
+          >
             {`Case #${caseId}   : ${titleAction} Officer`}
           </Typography>
         </NavBar>

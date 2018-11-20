@@ -56,9 +56,13 @@ if (TEST_PASS && TEST_USER && HOST) {
         .attachFileWithName(fileName)
         .setDescription("a description")
         .uploadFile();
+
       snackbar.presentWithMessage("File was successfully attached").close();
+
       caseDetailsPage.removeFile().confirmRemoveAttachmentInDialog();
+
       snackbar.presentWithMessage("File was successfully removed").close();
+
       caseDetailsPage.thereAreNoAttachments();
     },
 
@@ -75,6 +79,7 @@ if (TEST_PASS && TEST_USER && HOST) {
 
     "should display suggestions when text is entered": browser => {
       const civilianDialog = browser.page.CivilianDialog();
+
       civilianDialog.typeInAddress("6500").thereAreSuggestions();
     },
 
@@ -241,49 +246,35 @@ if (TEST_PASS && TEST_USER && HOST) {
           rerenderWait
         )
         .pause(1000)
-        .click('[data-test="addAccusedOfficerButton"]')
-        .waitForElementVisible(
-          '[data-test="selectUnknownOfficerLink"]',
-          rerenderWait
-        );
+        .click('[data-test="addAccusedOfficerButton"]');
     },
 
     "should navigate to add officer form for unknown officer": browser => {
-      browser
-        .click('[data-test="selectUnknownOfficerLink"]')
-        .waitForElementVisible(
-          '[data-test="roleOnCaseDropdown"] > div > div > div',
-          rerenderWait
-        )
-        .click('[data-test="roleOnCaseDropdown"] > div > div > div')
-        .waitForElementVisible('[id="menu-roleOnCase"]', rerenderWait)
-        .click("li[data-value=Accused]")
-        .waitForElementNotPresent('[id="menu-roleOnCase"]', rerenderWait)
-        .waitForElementVisible(
-          '[data-test="officerSubmitButton"]',
-          rerenderWait
-        );
+      const addOfficerSearchPage = browser.page.AddOfficerSearch();
+      const addOfficerDetailsPage = browser.page.AddOfficerDetails();
+
+      addOfficerSearchPage.isOnPage().clickUnknownOfficerLink();
+      addOfficerDetailsPage
+        .isOnPageForUnknownOfficer()
+        .selectRole("Accused")
+        .submitOfficer();
     },
 
     "should see Unknown Officer in Accused section when added": browser => {
-      browser
-        .click('[data-test="officerSubmitButton"]')
-        .waitForElementVisible(
-          '[data-test="unknownOfficerPanel"]',
-          roundTripWait
-        )
-        .assert.containsText(
-          '[data-test="unknownOfficerPanel"]',
-          "Unknown Officer"
-        );
+      const caseDetailsPage = browser.page.CaseDetails();
+      const snackbar = browser.page.SnackbarPOM();
+
+      caseDetailsPage.isOnPage().thereIsAnUnknownOfficer();
+      snackbar.presentWithMessage("Officer was successfully added").close();
     },
 
     "should see Edit Officer page when Edit Officer clicked": browser => {
-      browser
-        .click('[data-test="manageCaseOfficer"]')
-        .waitForElementVisible('[data-test="editCaseOfficer"]', rerenderWait)
-        .click('[data-test="editCaseOfficer"]')
-        .waitForElementVisible('[data-test="changeOfficerLink"]', rerenderWait);
+      const caseDetailsPage = browser.page.CaseDetails();
+      caseDetailsPage.clickManageOfficer().clickEditOfficer();
+      browser.waitForElementVisible(
+        '[data-test="changeOfficerLink"]',
+        rerenderWait
+      );
     },
 
     "should see Edit Officer search page when change officer clicked": browser => {
@@ -429,61 +420,31 @@ if (TEST_PASS && TEST_USER && HOST) {
     },
 
     "should open begin letter in progress dialog to begin letter": browser => {
-      browser
-        .waitForElementVisible(
-          '[data-test="update-status-button"]',
-          roundTripWait
-        )
-        .assert.containsText(
-          '[data-test="update-status-button"]',
-          "BEGIN LETTER"
-        )
-        .click('[data-test="update-status-button"]')
-        .waitForElementVisible(
-          '[data-test="updateStatusDialogTitle"]',
-          roundTripWait
-        )
-        .waitForElementVisible(
-          '[data-test="update-case-status-button"]',
-          roundTripWait
-        )
-        .click('[data-test="update-case-status-button"]')
-        .waitForElementPresent(
-          '[data-test="letter-review-page-header"]',
-          rerenderWait
-        )
-        .assert.containsText(
-          '[data-test="letter-review-page-header"]',
-          "Review Case Details"
-        )
-        .waitForElementPresent(
-          '[data-test="sharedSnackbarBannerText"]',
-          roundTripWait
-        )
-        // .pause(1000)
-        .assert.containsText(
-          '[data-test="sharedSnackbarBannerText"]',
-          "Status was successfully updated"
-        )
-        .click('[data-test="closeSnackbar"]')
-        .waitForElementNotPresent(
-          '[data-test="sharedSnackbarBannerText"]',
-          rerenderWait
-        )
-        .assert.urlContains("letter/review");
+      const caseDetails = browser.page.CaseDetails();
+      const caseReview = browser.page.CaseReview();
+      const snackbar = browser.page.SnackbarPOM();
+
+      caseDetails.beginLetter().confirmBeginLetterInDialog();
+
+      caseReview.isOnPage();
+
+      snackbar.presentWithMessage("Status was successfully updated").close();
+
+      caseReview.clickNext();
     },
 
     "should advance to officer complaint history and add allegations": browser => {
       const caseReview = browser.page.CaseReview();
-      caseReview.clickNext();
       const snackbar = browser.page.SnackbarPOM();
       const complaintHistory = browser.page.ComplaintHistory();
+
       complaintHistory
         .isOnPage()
         .setHighAllegations(2)
         .setMedAllegations(3)
         .setLowAllegations(5)
         .clickNext();
+
       snackbar
         .presentWithMessage(
           "Officer complaint history was successfully updated"
@@ -506,7 +467,9 @@ if (TEST_PASS && TEST_USER && HOST) {
           '[name="referralLetterIAProCorrections[2].details"]',
           rerenderWait
         );
+
       browser.pause(2000);
+
       iaproCorrections.clickNext();
     },
 
@@ -515,9 +478,11 @@ if (TEST_PASS && TEST_USER && HOST) {
       const snackbar = browser.page.SnackbarPOM();
 
       recommendedActions.isOnPage();
+
       snackbar
         .presentWithMessage("IAPro corrections were successfully updated")
         .close();
+
       recommendedActions
         .toggleRetaliationConcerns()
         .toggleNthOfficersNthRecommendedAction(0, 1)
@@ -527,9 +492,11 @@ if (TEST_PASS && TEST_USER && HOST) {
     "should advance to letter preview and check letter contents": browser => {
       const letterPreview = browser.page.LetterPreview();
       const snackbar = browser.page.SnackbarPOM();
+
       snackbar
         .presentWithMessage("Recommended actions were successfully updated")
         .close();
+
       letterPreview
         .isOnPage()
         .letterContains("Name: Night Watch")
@@ -560,7 +527,12 @@ if (TEST_PASS && TEST_USER && HOST) {
       browser.click(".ql-editor").keys("This text is edited");
 
       editLetter.saveEdits();
-      letterPreview.isOnPage().letterContains("This text is edited");
+
+      letterPreview
+        .isOnPage()
+        .waitForData()
+        .letterContains("This text is edited");
+
       snackbar.presentWithMessage("Letter was successfully updated").close();
     },
 
