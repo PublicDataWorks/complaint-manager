@@ -22,10 +22,11 @@ const AllegationsCommands = {
     return this.click("@allegationSearchSubmitButton");
   },
   selectAllegation: function() {
-    return this.waitForElementVisible(
+    this.waitForElementVisible(
       "@selectAllegationButton",
       e2e.rerenderWait
-    ).click("@selectAllegationButton");
+    ).api.pause(e2e.pause);
+    return this.click("@selectAllegationButton");
   },
   setAllegationDetails: function(details) {
     return this.setValue("@allegationDetails", details);
