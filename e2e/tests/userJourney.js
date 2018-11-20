@@ -272,7 +272,7 @@ if (TEST_PASS && TEST_USER && HOST) {
       const caseDetailsPage = browser.page.CaseDetails();
       const editOfficerDetailsPage = browser.page.EditOfficerDetails();
 
-      caseDetailsPage.clickManageOfficer().clickEditOfficer();
+      caseDetailsPage.clickManageUnknownOfficer().clickEditOfficer();
 
       editOfficerDetailsPage.isOnPageForUnknownOfficer().changeOfficer();
     },
@@ -308,7 +308,7 @@ if (TEST_PASS && TEST_USER && HOST) {
       const allegationPage = browser.page.Allegations();
       const snackbar = browser.page.SnackbarPOM();
 
-      caseDetailsPage.clickManageOfficer().clickManageAllegations();
+      caseDetailsPage.clickManageKnownOfficer().clickManageAllegations();
 
       allegationPage
         .isOnPage()
@@ -326,72 +326,42 @@ if (TEST_PASS && TEST_USER && HOST) {
     },
 
     "should navigate to Add Case Officer Page to add second officer": browser => {
-      browser
-        .waitForElementVisible(
-          '[data-test="addAccusedOfficerButton"]',
-          rerenderWait
-        )
-        .pause(1000)
+      const caseDetailsPage = browser.page.CaseDetails();
+      const addOfficerSearchPage = browser.page.AddOfficerSearch();
 
-        .click('[data-test="addAccusedOfficerButton"]')
-        .waitForElementVisible(
-          '[data-test="selectUnknownOfficerLink"]',
-          rerenderWait
-        );
+      caseDetailsPage.isOnPage().addAccusedOfficer();
+      addOfficerSearchPage.isOnPage().clickUnknownOfficerLink();
     },
 
     "should navigate to add officer form for unknown second officer": browser => {
-      browser
-        .click('[data-test="selectUnknownOfficerLink"]')
-        .waitForElementVisible(
-          '[data-test="roleOnCaseDropdown"] > div > div > div',
-          rerenderWait
-        )
-        .click('[data-test="roleOnCaseDropdown"] > div > div > div')
-        .waitForElementVisible('[id="menu-roleOnCase"]', rerenderWait)
-        .click("li[data-value=Accused]")
-        .waitForElementNotPresent('[id="menu-roleOnCase"]', rerenderWait)
-        .waitForElementVisible(
-          '[data-test="officerSubmitButton"]',
-          rerenderWait
-        );
+      const addOfficerDetailsPage = browser.page.AddOfficerDetails();
+
+      addOfficerDetailsPage
+        .isOnPageForUnknownOfficer()
+        .selectRole("Accused")
+        .submitOfficer();
     },
 
     "should see Unknown Second Officer in Accused section when added": browser => {
-      browser
-        .click('[data-test="officerSubmitButton"]')
-        .waitForElementVisible(
-          '[data-test="unknownOfficerPanel"]',
-          roundTripWait
-        )
-        .assert.containsText(
-          '[data-test="unknownOfficerPanel"]',
-          "Unknown Officer"
-        );
+      const caseDetailsPage = browser.page.CaseDetails();
+      const snackbar = browser.page.SnackbarPOM();
+
+      caseDetailsPage.isOnPage().thereIsAnUnknownOfficer();
+      snackbar.presentWithMessage("Officer was successfully added").close();
     },
 
     "should not see officer on case when removed": browser => {
-      browser
-        .click(
-          '[data-test="unknownOfficerPanel"] [data-test="manageCaseOfficer"]'
-        )
-        .waitForElementVisible('[data-test="removeCaseOfficer"]', rerenderWait)
-        .click('[data-test="removeCaseOfficer"]')
-        .waitForElementVisible(
-          '[data-test="removePersonDialogTitle"]',
-          rerenderWait
-        )
-        .click('[data-test="removeButton"]')
-        .waitForElementPresent(
-          '[data-test="sharedSnackbarBannerText"]',
-          roundTripWait
-        )
-        .assert.containsText(
-          '[data-test="sharedSnackbarBannerText"]',
-          "Officer was successfully removed"
-        )
-        .pause(1000)
-        .expect.element('[data-test="unknownOfficerPanel"]').to.not.be.present;
+      const caseDetailsPage = browser.page.CaseDetails();
+      const snackbar = browser.page.SnackbarPOM();
+
+      caseDetailsPage
+        .clickManageUnknownOfficer()
+        .clickRemoveOfficer()
+        .confirmRemoveOfficerInDialog();
+
+      snackbar.presentWithMessage("Officer was successfully removed").close();
+
+      caseDetailsPage.thereIsNoUnknownOfficer();
     },
 
     "should open begin letter in progress dialog to begin letter": browser => {

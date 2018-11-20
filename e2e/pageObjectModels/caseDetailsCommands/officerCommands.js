@@ -8,11 +8,17 @@ const officerCommands = {
     ).assert.containsText("@unknownOfficerPanel", "Unknown Officer");
     return this;
   },
-  clickManageOfficer: function() {
+  clickManageUnknownOfficer: function() {
     return this.waitForElementVisible(
-      "@manageOfficerButton",
+      "@manageUnknownOfficerButton",
       e2e.rerenderWait
-    ).click("@manageOfficerButton");
+    ).click("@manageUnknownOfficerButton");
+  },
+  clickManageKnownOfficer: function() {
+    return this.waitForElementVisible(
+      "@manageKnownOfficerButton",
+      e2e.rerenderWait
+    ).click("@manageKnownOfficerButton");
   },
   clickEditOfficer: function() {
     return this.waitForElementVisible(
@@ -27,11 +33,37 @@ const officerCommands = {
     ).assert.containsText("@knownOfficerPanel", officerName);
     return this;
   },
+  thereIsNoUnknownOfficer: function() {
+    return this.waitForElementNotPresent(
+      "@unknownOfficerPanel",
+      e2e.rerenderWait
+    );
+    // this.api.pause(e2e.pause);
+    // this.expect.element("@unknownOfficerPanel").to.not.be.present;
+  },
   clickManageAllegations: function() {
     return this.waitForElementVisible(
       "@manageAllegationsButton",
       e2e.rerenderWait
     ).click("@manageAllegationsButton");
+  },
+  addAccusedOfficer: function() {
+    return this.waitForElementVisible(
+      "@addAccusedOfficerButton",
+      e2e.rerenderWait
+    ).click("@addAccusedOfficerButton");
+  },
+  clickRemoveOfficer: function() {
+    return this.waitForElementVisible(
+      "@removeOfficerButton",
+      e2e.rerenderWait
+    ).click("@removeOfficerButton");
+  },
+  confirmRemoveOfficerInDialog: function() {
+    return this.waitForElementVisible(
+      "@removeOfficerDialogButton",
+      e2e.rerenderWait
+    ).click("@removeOfficerDialogButton");
   }
 };
 
@@ -42,8 +74,12 @@ const officerElements = {
   unknownOfficerPanel: {
     selector: "[data-test='unknownOfficerPanel']"
   },
-  manageOfficerButton: {
-    selector: "[data-test='manageCaseOfficer']"
+  manageKnownOfficerButton: {
+    selector: "[data-test='officerPanel'] [data-test='manageCaseOfficer']"
+  },
+  manageUnknownOfficerButton: {
+    selector:
+      "[data-test='unknownOfficerPanel'] [data-test='manageCaseOfficer']"
   },
   manageAllegationsButton: {
     selector: '[data-test="addAllegation"]'
@@ -53,6 +89,15 @@ const officerElements = {
   },
   knownOfficerPanel: {
     selector: '[data-test="officerPanel"]'
+  },
+  addAccusedOfficerButton: {
+    selector: '[data-test="addAccusedOfficerButton"]'
+  },
+  removeOfficerButton: {
+    selector: '[data-test="removeCaseOfficer"]'
+  },
+  removeOfficerDialogButton: {
+    selector: '[data-test="removeButton"]'
   }
 };
 
