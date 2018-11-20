@@ -1,6 +1,10 @@
-import { GET_REFERRAL_LETTER_SUCCESS } from "../../../sharedUtilities/constants";
+import {
+  GET_LETTER_PDF_SUCCESS,
+  GET_REFERRAL_LETTER_SUCCESS
+} from "../../../sharedUtilities/constants";
 import referralLetterReducer from "./referralLetterReducer";
 import {
+  getLetterPdfSuccess,
   getLetterPreviewSuccess,
   getReferralLetterSuccess
 } from "../../actionCreators/letterActionCreators";
@@ -13,7 +17,8 @@ describe("referralLetterReducer", () => {
         letterDetails: {},
         letterHtml: "",
         addresses: {},
-        editHistory: { edited: false }
+        editHistory: { edited: false },
+        letterPdf: null
       });
     });
   });
@@ -29,7 +34,8 @@ describe("referralLetterReducer", () => {
         letterDetails,
         letterHtml: "",
         addresses: {},
-        editHistory: { edited: false }
+        editHistory: { edited: false },
+        letterPdf: null
       });
     });
   });
@@ -40,7 +46,8 @@ describe("referralLetterReducer", () => {
         letterDetails: "something",
         letterHtml: "something",
         addresses: {},
-        editHistory: { edited: false }
+        editHistory: { edited: false },
+        letterPdf: null
       };
       let referralLetterAddresses = {
         recipient: "recipient",
@@ -57,8 +64,33 @@ describe("referralLetterReducer", () => {
         letterDetails: "something",
         letterHtml: "new letter html",
         addresses: referralLetterAddresses,
-        editHistory: { edited: true }
+        editHistory: { edited: true },
+        letterPdf: null
       });
+    });
+  });
+
+  describe("GET_LETTER_PDF_SUCCESS", () => {
+    test("saves the letter pdf in state", () => {
+      const initialState = {
+        letterDetails: "something",
+        letterHtml: "something",
+        addresses: {},
+        editHistory: { edited: false },
+        letterPdf: null
+      };
+      const newState = referralLetterReducer(
+        initialState,
+        getLetterPdfSuccess("letter pdf")
+      );
+      const expectedState = {
+        letterDetails: "something",
+        letterHtml: "something",
+        addresses: {},
+        editHistory: { edited: false },
+        letterPdf: "letter pdf"
+      };
+      expect(newState).toEqual(expectedState);
     });
   });
 });

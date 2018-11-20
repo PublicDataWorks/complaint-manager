@@ -1,6 +1,7 @@
 import {
   CLOSE_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG,
   CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG,
+  GET_LETTER_PDF_SUCCESS,
   GET_LETTER_PREVIEW_SUCCESS,
   GET_RECOMMENDED_ACTIONS_SUCCESS,
   GET_REFERRAL_LETTER_SUCCESS,
@@ -85,4 +86,9 @@ export const startLetterDownload = () => ({
 
 export const stopLetterDownload = () => ({
   type: STOP_LETTER_DOWNLOAD
+});
+
+export const getLetterPdfSuccess = letterPdf => ({
+  type: GET_LETTER_PDF_SUCCESS,
+  letterPdf
 });

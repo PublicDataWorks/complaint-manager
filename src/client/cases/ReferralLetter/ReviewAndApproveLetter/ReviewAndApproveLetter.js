@@ -6,19 +6,29 @@ import getLetterPreview from "../thunks/getLetterPreview";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { Document, Page } from "react-pdf/dist/entry.noworker";
+import generatePdf from "../thunks/generatePdf";
+import { withStyles } from "@material-ui/core/styles";
 
+const styles = theme => ({
+  pageStyling: {
+    borderBottom: `${theme.palette.secondary.main} 1px dotted`,
+    "&:last-child": { borderBottom: "none" }
+  }
+});
 class ReviewAndApproveLetter extends Component {
   constructor(props) {
     super(props);
-    this.state = { caseId: this.props.match.params.id };
+    this.state = { caseId: this.props.match.params.id, numPages: null };
   }
 
   componentDidMount() {
     this.props.dispatch(getLetterPreview(this.state.caseId));
+    this.props.dispatch(generatePdf(this.state.caseId));
   }
 
   letterPreviewNotYetLoaded = () => {
-    return this.props.letterHtml === "";
+    return this.props.editHistory === "" || this.props.letterPdf === null;
   };
 
   getTimestamp() {
@@ -35,6 +45,12 @@ class ReviewAndApproveLetter extends Component {
     }
     return <i style={{ fontSize: "0.9rem", color: "black" }}>{timestamp}</i>;
   }
+
+  onDocumentLoadSuccess = ({ numPages }) => {
+    this.setState({
+      numPages
+    });
+  };
 
   render() {
     if (this.letterPreviewNotYetLoaded()) {
@@ -78,10 +94,26 @@ class ReviewAndApproveLetter extends Component {
               marginBottom: "24px",
               backgroundColor: "white",
               overflow: "auto",
-              width: "22rem"
+              width: "54rem",
+              maxHeight: "55rem",
+              overflow: "auto"
             }}
           >
-            <CardContent />
+            <CardContent>
+              <Document
+                file={this.props.letterPdf}
+                onLoadSuccess={this.onDocumentLoadSuccess}
+              >
+                {Array.from(new Array(this.state.numPages), (el, index) => (
+                  <Page
+                    key={`page_${index + 1}`}
+                    pageNumber={index + 1}
+                    scale={1.3}
+                    className={this.props.classes.pageStyling}
+                  />
+                ))}
+              </Document>
+            </CardContent>
           </Card>
         </div>
       </div>
@@ -90,6 +122,10 @@ class ReviewAndApproveLetter extends Component {
 }
 
 const mapStateToProps = state => ({
-  editHistory: state.referralLetter.editHistory
+  editHistory: state.referralLetter.editHistory,
+  letterPdf: state.referralLetter.letterPdf
 });
-export default connect(mapStateToProps)(ReviewAndApproveLetter);
+
+export default withStyles(styles, { withTheme: true })(
+  connect(mapStateToProps)(ReviewAndApproveLetter)
+);

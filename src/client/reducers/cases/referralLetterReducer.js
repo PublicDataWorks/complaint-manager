@@ -1,9 +1,11 @@
 import {
   GET_REFERRAL_LETTER_SUCCESS,
-  GET_LETTER_PREVIEW_SUCCESS
+  GET_LETTER_PREVIEW_SUCCESS,
+  GET_LETTER_PDF_SUCCESS
 } from "../../../sharedUtilities/constants";
 
 const initialState = {
+  letterPdf: null,
   letterDetails: {},
   letterHtml: "",
   addresses: {},
@@ -20,6 +22,8 @@ const referralLetterReducer = (state = initialState, action) => {
         addresses: action.addresses,
         editHistory: action.editHistory
       };
+    case GET_LETTER_PDF_SUCCESS:
+      return { ...state, letterPdf: action.letterPdf };
     default:
       return state;
   }

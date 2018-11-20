@@ -11,7 +11,10 @@ import ReviewAndApproveLetter from "./ReviewAndApproveLetter";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { BrowserRouter as Router } from "react-router-dom";
 import moment from "moment";
-import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";
+import {
+  getLetterPdfSuccess,
+  getLetterPreviewSuccess
+} from "../../../actionCreators/letterActionCreators";
 
 describe("ReviewAndApproveLetter", () => {
   const caseId = 100;
@@ -31,6 +34,7 @@ describe("ReviewAndApproveLetter", () => {
         nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
       })
     );
+    store.dispatch(getLetterPdfSuccess("letter pdf"));
     wrapper = mount(
       <Provider store={store}>
         <Router>

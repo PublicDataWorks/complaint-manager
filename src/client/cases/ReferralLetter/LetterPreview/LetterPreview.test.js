@@ -42,11 +42,12 @@ jest.mock("../../thunks/setCaseStatus", () =>
   jest.fn(() => (caseId, status, redirectUrl) => {})
 );
 
-jest.mock("../thunks/generatePdf", () => (caseId, edited) => {
+jest.mock("../thunks/generatePdf", () => (caseId, edited, saveFileForUser) => {
   return {
     type: "SOMETHING",
     caseId,
-    edited
+    edited,
+    saveFileForUser
   };
 });
 
@@ -217,20 +218,20 @@ describe("LetterPreview", function() {
   });
 
   test("should not render Review and Approve Letter button if not in Ready For Review status", () => {
-      store.dispatch(
-          getCaseDetailsSuccess({
-              id: 1,
-              status: CASE_STATUS.LETTER_IN_PROGRESS,
-              nextStatus: CASE_STATUS.READY_FOR_REVIEW
-          })
-      );
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.LETTER_IN_PROGRESS,
+        nextStatus: CASE_STATUS.READY_FOR_REVIEW
+      })
+    );
 
-      wrapper.update();
-      const reviewAndApproveLetterButton = wrapper
-          .find('[data-test="review-and-approve-letter-button"]')
-          .first();
+    wrapper.update();
+    const reviewAndApproveLetterButton = wrapper
+      .find('[data-test="review-and-approve-letter-button"]')
+      .first();
 
-      expect(reviewAndApproveLetterButton.exists()).toEqual(false);
+    expect(reviewAndApproveLetterButton.exists()).toEqual(false);
   });
 
   test("should render Review and Approve letter button if authorized and in Ready for Review", () => {
@@ -421,7 +422,7 @@ describe("LetterPreview", function() {
     downloadButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
-    expect(dispatchSpy).toHaveBeenCalledWith(generatePdf(caseId, true));
+    expect(dispatchSpy).toHaveBeenCalledWith(generatePdf(caseId, true, true));
   });
 
   test("dispatches startLetterDownload and generatePdf with edit info when download button is clicked and pdf is unedited", () => {
@@ -431,7 +432,10 @@ describe("LetterPreview", function() {
     downloadButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
-    expect(dispatchSpy).toHaveBeenNthCalledWith(3, generatePdf(caseId, false));
+    expect(dispatchSpy).toHaveBeenNthCalledWith(
+      3,
+      generatePdf(caseId, false, true)
+    );
   });
 
   test("dispatches stopLetterDownload on failure of download letter", () => {

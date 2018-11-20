@@ -4,13 +4,18 @@ import { push } from "react-router-redux";
 import axios from "axios";
 import config from "../../../config/config";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
-import { stopLetterDownload } from "../../../actionCreators/letterActionCreators";
+import {
+  getLetterPdfSuccess,
+  stopLetterDownload
+} from "../../../actionCreators/letterActionCreators";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
-const generatePdf = (caseId, edited) => async dispatch => {
-  const editPrefix = edited ? "Edited" : "Generated";
-  const filename = `${caseId} - ${editPrefix} Preview Letter.pdf`;
+const generatePdf = (
+  caseId,
+  edited,
+  saveFileForUser = false
+) => async dispatch => {
   if (!getAccessToken()) {
     return dispatch(push("/login"));
   }
@@ -21,14 +26,19 @@ const generatePdf = (caseId, edited) => async dispatch => {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`
         },
-        responseType: "blob"
+        responseType: "arraybuffer"
       }
     );
 
-    const fileToDownload = new File([response.data], filename);
-
-    dispatch(stopLetterDownload());
-    saveAs(fileToDownload, filename);
+    if (saveFileForUser) {
+      const editPrefix = edited ? "Edited" : "Generated";
+      const filename = `${caseId} - ${editPrefix} Preview Letter.pdf`;
+      const fileToDownload = new File([response.data], filename);
+      dispatch(stopLetterDownload());
+      saveAs(fileToDownload, filename);
+    } else {
+      dispatch(getLetterPdfSuccess(response.data));
+    }
   } catch (e) {
     dispatch(stopLetterDownload());
     return dispatch(

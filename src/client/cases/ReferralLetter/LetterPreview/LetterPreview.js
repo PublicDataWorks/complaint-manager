@@ -51,7 +51,7 @@ class LetterPreview extends Component {
 
   downloadLetterAsPdfFile = () => {
     return this.props.dispatch(
-      generatePdf(this.state.caseId, this.props.editHistory.edited)
+      generatePdf(this.state.caseId, this.props.editHistory.edited, true)
     );
   };
 
@@ -84,7 +84,7 @@ class LetterPreview extends Component {
 
   saveAndGoToReviewAndApproveLetter = () => {
     return this.props.handleSubmit(
-        this.submitForm(`/cases/${this.state.caseId}/letter/review-and-approve`)
+      this.submitForm(`/cases/${this.state.caseId}/letter/review-and-approve`)
     );
   };
 
@@ -242,7 +242,7 @@ class LetterPreview extends Component {
                 style={{
                   marginBottom: "24px",
                   backgroundColor: "white",
-                  maxHeight: "875px",
+                  maxHeight: "55rem",
                   overflow: "auto"
                 }}
               >
