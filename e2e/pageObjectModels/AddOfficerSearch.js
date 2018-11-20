@@ -20,7 +20,7 @@ module.exports = {
   commands: [addOfficerCommands],
   elements: {
     pageHeader: {
-      selector: '[data-test="officer-search-header"]'
+      selector: '[data-test="officer-search-title"]'
     },
     unknownOfficerLink: {
       selector: '[data-test="selectUnknownOfficerLink"]'

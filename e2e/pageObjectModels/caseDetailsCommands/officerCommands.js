@@ -19,6 +19,19 @@ const officerCommands = {
       "@editOfficerButton",
       e2e.rerenderWait
     ).click("@editOfficerButton");
+  },
+  thereIsAKnownOfficer: function(officerName) {
+    this.waitForElementVisible(
+      "@knownOfficerPanel",
+      e2e.roundtripWait
+    ).assert.containsText("@knownOfficerPanel", officerName);
+    return this;
+  },
+  clickManageAllegations: function() {
+    return this.waitForElementVisible(
+      "@manageAllegationsButton",
+      e2e.rerenderWait
+    ).click("@manageAllegationsButton");
   }
 };
 
@@ -32,8 +45,14 @@ const officerElements = {
   manageOfficerButton: {
     selector: "[data-test='manageCaseOfficer']"
   },
+  manageAllegationsButton: {
+    selector: '[data-test="addAllegation"]'
+  },
   editOfficerButton: {
     selector: "[data-test='editCaseOfficer']"
+  },
+  knownOfficerPanel: {
+    selector: '[data-test="officerPanel"]'
   }
 };
 

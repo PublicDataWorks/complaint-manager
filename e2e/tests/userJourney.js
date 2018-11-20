@@ -270,88 +270,63 @@ if (TEST_PASS && TEST_USER && HOST) {
 
     "should see Edit Officer page when Edit Officer clicked": browser => {
       const caseDetailsPage = browser.page.CaseDetails();
+      const editOfficerDetailsPage = browser.page.EditOfficerDetails();
+
       caseDetailsPage.clickManageOfficer().clickEditOfficer();
-      browser.waitForElementVisible(
-        '[data-test="changeOfficerLink"]',
-        rerenderWait
-      );
+
+      editOfficerDetailsPage.isOnPageForUnknownOfficer().changeOfficer();
     },
 
-    "should see Edit Officer search page when change officer clicked": browser => {
-      browser
-        .click('[data-test="changeOfficerLink"]')
-        .waitForElementVisible(
-          '[data-test="officerSearchSubmitButton"]',
-          rerenderWait
-        );
-    },
+    "should see Edit Officer search and search for officer to replace unknown": browser => {
+      const editOfficerSearchPage = browser.page.EditOfficerSearch();
 
-    "should search for officer to replace unknown": browser => {
-      browser
-        .setValue('[data-test="lastNameField"]', "Ri")
-        .click('[data-test="officerSearchSubmitButton"]')
-        .waitForElementVisible(
-          '[data-test="selectNewOfficerButton"]',
-          roundTripWait
-        );
+      editOfficerSearchPage
+        .isOnPage()
+        .setLastName("Ri")
+        .searchForOfficer()
+        .selectNewOfficer();
     },
 
     "should return to Edit Officer when new officer selected": browser => {
-      browser
-        .click('[data-test="selectNewOfficerButton"]')
-        .waitForElementVisible('[data-test="changeOfficerLink"]', rerenderWait);
+      const editOfficerDetailsPage = browser.page.EditOfficerDetails();
+
+      editOfficerDetailsPage.isOnPageForKnownOfficer().saveOfficer();
     },
 
     "should see that officer is no longer unknown in accused officers": browser => {
-      browser
-        .click('[data-test="officerSubmitButton"]')
-        .waitForElementVisible('[data-test="officerPanel"]', roundTripWait)
-        .assert.containsText('[data-test="officerPanel"]', "Ri");
+      const caseDetailsPage = browser.page.CaseDetails();
+      const snackbar = browser.page.SnackbarPOM();
+
+      caseDetailsPage.isOnPage();
+      snackbar.presentWithMessage("Officer was successfully updated").close();
+
+      caseDetailsPage.thereIsAKnownOfficer("Ri");
     },
 
     "should add an allegation to the officer": browser => {
-      browser
-        .click('[data-test="manageCaseOfficer"]')
-        .waitForElementVisible('[data-test="addAllegation"]', rerenderWait)
-        .click('[data-test="addAllegation"]')
-        .waitForElementVisible('[data-test="ruleDropdown"]', rerenderWait)
-        .click('[data-test="ruleDropdown"]')
-        .waitForElementVisible('[role="listbox"]', 3000)
-        .pause(1000)
-        .click('[role="listbox"] > li:last-child')
-        .waitForElementVisible(
-          '[data-test="allegationSearchSubmitButton"]',
-          1500
-        )
-        .pause(1000)
-        .click('[data-test="allegationSearchSubmitButton"]')
-        .waitForElementVisible('[data-test="selectAllegationButton"]', 5000)
-        .click('[data-test="selectAllegationButton"]')
-        .setValue(
-          '[data-test="allegationDetailsInput"]',
-          "Used department property."
-        )
-        .waitForElementVisible(
-          '[data-test="allegationSeverityField"]',
-          rerenderWait
-        )
-        .click('[data-test="allegationSeverityField"]')
-        .waitForElementVisible('[role="listbox"]', 3000)
-        .click('[role="listbox"] > li:last-child')
-        .waitForElementVisible(
-          '[data-test="addAllegationButton"]',
-          rerenderWait
-        )
-        .pause(1000)
-        .click('[data-test="addAllegationButton"]')
-        .waitForElementVisible('[data-test="officerAllegation0"]', rerenderWait)
-        .click('[data-test="back-to-case-link"]');
+      const caseDetailsPage = browser.page.CaseDetails();
+      const allegationPage = browser.page.Allegations();
+      const snackbar = browser.page.SnackbarPOM();
+
+      caseDetailsPage.clickManageOfficer().clickManageAllegations();
+
+      allegationPage
+        .isOnPage()
+        .setRule()
+        .searchForAllegations()
+        .selectAllegation()
+        .setAllegationDetails("Used department property.")
+        .setAllegationSeverity()
+        .addAllegation()
+        .newAllegationExists();
+
+      snackbar.presentWithMessage("Allegation was successfully added").close();
+
+      allegationPage.returnToCase();
     },
 
     "should navigate to Add Case Officer Page to add second officer": browser => {
       browser
-        .waitForElementVisible('[data-test="closeSnackbar"]', roundTripWait)
-        .click('[data-test="closeSnackbar"]')
         .waitForElementVisible(
           '[data-test="addAccusedOfficerButton"]',
           rerenderWait

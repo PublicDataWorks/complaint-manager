@@ -19,7 +19,7 @@ export class OfficerSearchContainer extends Component {
       <div>
         <NavBar>
           <Typography
-            data-test="officer-search-header"
+            data-test="officer-search-title"
             variant="title"
             color="inherit"
           >

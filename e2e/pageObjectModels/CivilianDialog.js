@@ -11,9 +11,11 @@ const civilianDialogCommands = {
       .waitForElementNotPresent("@genderMenu", e2e.rerenderWait);
   },
   setRaceEthnicity: function(raceEthnicity) {
-    return this.click("@raceEthnicityDropdown")
-      .api.pause(e2e.pause)
-      .waitForElementPresent('[id="menu-raceEthnicity"]', e2e.rerenderWait)
+    this.click("@raceEthnicityDropdown").api.pause(e2e.pause);
+    return this.waitForElementPresent(
+      '[id="menu-raceEthnicity"]',
+      e2e.rerenderWait
+    )
       .click(`li[data-value=${raceEthnicity}`)
       .waitForElementNotPresent('[id="menu-raceEthnicity"]', e2e.rerenderWait);
   },
@@ -21,10 +23,11 @@ const civilianDialogCommands = {
     return this.setValue("@addressSuggestionField", [addressInput]);
   },
   thereAreSuggestions: function() {
-    return this.waitForElementPresent(
+    this.waitForElementPresent(
       '[data-test="suggestion-container"] > ul',
       e2e.rerenderWait
     ).api.pause(e2e.pause);
+    return this;
   }
 };
 
