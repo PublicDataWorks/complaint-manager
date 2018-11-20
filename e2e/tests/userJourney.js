@@ -489,12 +489,10 @@ if (TEST_PASS && TEST_USER && HOST) {
     },
 
     "should log out of the system": browser => {
-      browser
-        .click('[data-test="gearButton"]')
-        .waitForElementVisible('[data-test="logOutButton"]', rerenderWait)
-        .click('[data-test="logOutButton"]')
-        .waitForElementVisible("body", rerenderWait)
-        .assert.title("Sign In with Auth0");
+      const logoutPage = browser.page.Logout();
+      const loginPage = browser.page.Login();
+      logoutPage.clickGearButton().clickLogout();
+      loginPage.isOnPage();
     },
 
     "end user journey ;)": browser => {
