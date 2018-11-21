@@ -79,7 +79,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         .setRaceEthnicity("Cuban");
     },
 
-    "should display suggestions when text is entered": browser => {
+    "should display address suggestions when text is entered": browser => {
       const civilianDialog = browser.page.CivilianDialog();
 
       civilianDialog.typeInAddress("6500").thereAreSuggestions();
@@ -145,6 +145,7 @@ if (TEST_PASS && TEST_USER && HOST) {
 
     "should enter and fill intersection address into incident location": browser => {
       const incidentDetailsDialog = browser.page.IncidentDetailsDialog();
+      const snackbar = browser.page.SnackbarPOM();
 
       incidentDetailsDialog
         .dialogIsOpen()
@@ -152,20 +153,19 @@ if (TEST_PASS && TEST_USER && HOST) {
         .saveIncidentDetails()
         .fillAddress()
         .saveIncidentDetails();
-    },
-
-    "should display the incident location in the Incident Details section of the Case Detail": browser => {
-      const caseDetailsPage = browser.page.CaseDetails();
-      const snackbar = browser.page.SnackbarPOM();
 
       snackbar
         .presentWithMessage("Incident details were successfully updated")
         .close();
+    },
+
+    "should display the incident location in the Incident Details section of the Case Detail": browser => {
+      const caseDetailsPage = browser.page.CaseDetails();
 
       caseDetailsPage.incidentAddressIsSpecified().addAccusedOfficer();
     },
 
-    "should navigate to add officer form for unknown officer": browser => {
+    "should navigate to add officer form for unknown officer and add unknown officer": browser => {
       const addOfficerSearchPage = browser.page.AddOfficerSearch();
       const addOfficerDetailsPage = browser.page.AddOfficerDetails();
 
@@ -205,7 +205,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         .selectNewOfficer();
     },
 
-    "should return to Edit Officer when new officer selected": browser => {
+    "should return to Edit Officer Details when new officer selected and save Officer": browser => {
       const editOfficerDetailsPage = browser.page.EditOfficerDetails();
 
       editOfficerDetailsPage.isOnPageForKnownOfficer().saveOfficer();
@@ -285,7 +285,7 @@ if (TEST_PASS && TEST_USER && HOST) {
       caseDetailsPage.thereIsNoUnknownOfficer();
     },
 
-    "should open begin letter in progress dialog to begin letter": browser => {
+    "should begin letter and navigate to case details review page": browser => {
       const caseDetails = browser.page.CaseDetails();
       const caseReview = browser.page.CaseReview();
       const snackbar = browser.page.SnackbarPOM();
@@ -299,7 +299,7 @@ if (TEST_PASS && TEST_USER && HOST) {
       caseReview.clickNext();
     },
 
-    "should advance to officer complaint history and add allegations": browser => {
+    "should add allegations to officer complaint history": browser => {
       const snackbar = browser.page.SnackbarPOM();
       const complaintHistory = browser.page.ComplaintHistory();
 
@@ -347,7 +347,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         .clickNext();
     },
 
-    "should advance to letter preview and check letter contents": browser => {
+    "should check letter preview contents": browser => {
       const letterPreview = browser.page.LetterPreview();
       const snackbar = browser.page.SnackbarPOM();
 
