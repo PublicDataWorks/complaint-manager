@@ -18,11 +18,6 @@ import {
 import timekeeper from "timekeeper";
 import { dateTimeFromString } from "../../../utilities/formatDate";
 
-jest.mock("react-pdf/dist/entry.noworker", () => ({
-  Document: () => <div>document</div>,
-  Page: () => <div>page</div>
-}));
-
 describe("ReviewAndApproveLetter", () => {
   const caseId = 100;
   let store, wrapper, dispatchSpy, nowTimestamp;

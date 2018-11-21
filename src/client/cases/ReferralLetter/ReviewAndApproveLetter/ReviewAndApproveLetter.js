@@ -5,12 +5,14 @@ import LinkButton from "../../../shared/components/LinkButton";
 import getLetterPreview from "../thunks/getLetterPreview";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Document, Page } from "react-pdf/dist/entry.noworker";
+import { Document, Page } from "react-pdf";
 import generatePdf from "../thunks/generatePdf";
 import { withStyles } from "@material-ui/core/styles";
 import { startLetterDownload } from "../../../actionCreators/letterActionCreators";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import { dateTimeFromString } from "../../../utilities/formatDate";
+import { pdfjs } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.js";
 
 const styles = theme => ({
   pageStyling: {
@@ -97,8 +99,7 @@ class ReviewAndApproveLetter extends Component {
               backgroundColor: "white",
               overflow: "auto",
               width: "54rem",
-              maxHeight: "55rem",
-              overflow: "auto"
+              maxHeight: "55rem"
             }}
           >
             <CardContent>

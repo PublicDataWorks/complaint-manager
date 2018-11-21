@@ -168,3 +168,15 @@ CPUs: 6,
 Memory: 8.0 GB
 Swap: 1.0 GB
 ```
+
+### Known Warnings
+
+We currently see the following warnings from pdfjs. This is a known issue where pdfjs is not compatible with webpack 4.2 
+We use a workaround that copies the pdf.worker.js file to our build directory in a postbuild script.
+Hopefully this will be fixed in a future release of pdfjs. 
+More info here: https://github.com/wojtekmaj/react-pdf/wiki/Known-issues
+
+```Critical dependency: require function is used in a way in which dependencies cannot be statically extracted```
+
+There is a warning about duplicate props on the PhoneNumberField. These are actually two different props that have 
+the same name, but different capitalization. inputProps and InputProps. They are needed.
