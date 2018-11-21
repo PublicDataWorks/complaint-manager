@@ -74,7 +74,7 @@ if (TEST_PASS && TEST_USER && HOST) {
       civilianDialog
         .dialogIsOpen()
         .setGenderIdentity("Female")
-        .setRaceEthnicity("Cuban");
+        .setRaceEthnicity("Cuban"); //TODO: may need pause
     },
 
     "should display suggestions when text is entered": browser => {
@@ -83,57 +83,26 @@ if (TEST_PASS && TEST_USER && HOST) {
       civilianDialog.typeInAddress("6500").thereAreSuggestions();
     },
 
-    "should not select suggestion when navigating through them": browser => {
-      browser
-        .setValue('[data-test="addressSuggestionField"] > input', [
-          browser.Keys.ARROW_DOWN
-        ])
-        .pause(1000)
-        .getValue('[data-test="addressSuggestionField"] > input', result => {
-          browser.assert.ok(result.value.length > 4);
-          this.address = result.value;
-        });
-
-      browser.expect
-        .element('[data-test="streetAddressInput"]')
-        .value.to.equal("");
-      browser.expect.element('[data-test="cityInput"]').value.to.equal("");
-      browser.expect.element('[data-test="stateInput"]').value.to.equal("");
-      browser.expect.element('[data-test="zipCodeInput"]').value.to.equal("");
-      browser.expect.element('[data-test="countryInput"]').value.to.equal("");
+    "should complete suggestion but not select address when navigating through them": browser => {
+      const civilianDialog = browser.page.CivilianDialog();
+      civilianDialog
+        .arrowDown()
+        .addressSuggestionFieldPopulated()
+        .addressFieldsAreEmpty();
     },
-    "should select suggestion on enter/click": browser => {
-      browser
-        .setValue('[data-test="addressSuggestionField"] > input', [
-          browser.Keys.ENTER
-        ])
-        .pause(2000);
 
-      browser.expect
-        .element('[data-test="streetAddressInput"]')
-        .value.to.not.equal("");
-      browser.expect.element('[data-test="cityInput"]').value.to.not.equal("");
-      browser.expect.element('[data-test="stateInput"]').value.to.not.equal("");
-      browser.expect
-        .element('[data-test="zipCodeInput"]')
-        .value.to.not.equal("");
-      browser.expect
-        .element('[data-test="countryInput"]')
-        .value.to.not.equal("");
+    "should select suggestion on enter/click": browser => {
+      const civilianDialog = browser.page.CivilianDialog();
+
+      civilianDialog.selectSuggestion().addressFieldsAreNotEmpty();
     },
 
     "should submit address": browser => {
-      browser
-        .click('button[data-test="submitEditCivilian"]')
-        .waitForElementPresent(
-          '[data-test="sharedSnackbarBannerText"]',
-          roundTripWait
-        )
-        .assert.containsText(
-          '[data-test="sharedSnackbarBannerText"]',
-          "Civilian was successfully updated"
-        )
-        .pause(1000);
+      const civilianDialog = browser.page.CivilianDialog();
+      const snackbar = browser.page.SnackbarPOM();
+
+      civilianDialog.submitCivilianDialog();
+      snackbar.presentWithMessage("Civilian was successfully updated").close();
     },
 
     "should display the address in the Complainant & Witnesses section of the Case Detail": browser => {
