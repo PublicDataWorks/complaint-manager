@@ -22,6 +22,12 @@ const civilianDialogCommands = {
   typeInAddress: function(addressInput) {
     return this.setValue("@addressSuggestionField", [addressInput]);
   },
+  setAddressSuggestionFieldToEmpty: function() {
+    this.clearValue("@addressSuggestionField").setValue(
+      "@addressSuggestionField",
+      [" ", this.api.Keys.BACK_SPACE]
+    );
+  },
   thereAreSuggestions: function() {
     this.waitForElementPresent(
       '[data-test="suggestion-container"] > ul',

@@ -106,23 +106,16 @@ if (TEST_PASS && TEST_USER && HOST) {
     },
 
     "should display the address in the Complainant & Witnesses section of the Case Detail": browser => {
-      browser.expect
-        .element('p[data-test="civilianAddress"]')
-        .text.to.not.equal("No address specified");
+      const caseDetailsPage = browser.page.CaseDetails();
+      caseDetailsPage.civilianAddressIsSpecified();
     },
 
     "should submit blank address when cleared and submitted": browser => {
-      browser
-        .waitForElementPresent("[data-test=editComplainantLink]", rerenderWait)
-        .click("[data-test=editComplainantLink]")
-        .waitForElementVisible("[data-test=editDialogTitle]", rerenderWait)
-        .clearValue('[data-test="addressSuggestionField"] > input')
-        .pause(1000)
-        .setValue('[data-test="addressSuggestionField"] > input', [
-          " ",
-          browser.Keys.BACK_SPACE
-        ])
-        .pause(1000);
+      const caseDetailsPage = browser.page.CaseDetails();
+      const civilianDialog = browser.page.CivilianDialog();
+
+      caseDetailsPage.editComplainant();
+      civilianDialog.dialogIsOpen().setAddressSuggestionFieldToEmpty();
 
       browser.expect
         .element('[data-test="addressSuggestionField"] > input')

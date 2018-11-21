@@ -7,15 +7,16 @@ const {
   officerCommands,
   officerElements
 } = require("./caseDetailsCommands/officerCommands.js");
+const {
+  civilianCommands,
+  civilianElements
+} = require("./caseDetailsCommands/civilianCommands.js");
 
 const caseDetailsCommands = {
   isOnPage: function() {
     return this.waitForElementVisible("@caseDetailsPage", e2e.roundtripWait);
   },
 
-  editComplainant: function() {
-    return this.click("@editComplainantLink");
-  },
   beginLetter: function() {
     return this.waitForElementVisible("@updateStatusButton", e2e.rerenderWait)
       .assert.containsText("@updateStatusButton", "BEGIN LETTER")
@@ -30,7 +31,12 @@ const caseDetailsCommands = {
 };
 
 module.exports = {
-  commands: [caseDetailsCommands, officerCommands, attachmentCommands],
+  commands: [
+    caseDetailsCommands,
+    officerCommands,
+    civilianCommands,
+    attachmentCommands
+  ],
   elements: Object.assign(
     {
       caseDetailsPage: {
@@ -44,6 +50,7 @@ module.exports = {
       }
     },
     attachmentElements,
-    officerElements
+    officerElements,
+    civilianElements
   )
 };

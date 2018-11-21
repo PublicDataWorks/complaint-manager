@@ -38,8 +38,6 @@ const officerCommands = {
       "@unknownOfficerPanel",
       e2e.rerenderWait
     );
-    // this.api.pause(e2e.pause);
-    // this.expect.element("@unknownOfficerPanel").to.not.be.present;
   },
   clickManageAllegations: function() {
     return this.waitForElementVisible(
@@ -68,9 +66,6 @@ const officerCommands = {
 };
 
 const officerElements = {
-  editComplainantLink: {
-    selector: "[data-test='editComplainantLink']"
-  },
   unknownOfficerPanel: {
     selector: "[data-test='unknownOfficerPanel']"
   },
