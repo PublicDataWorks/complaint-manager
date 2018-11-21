@@ -483,9 +483,12 @@ if (TEST_PASS && TEST_USER && HOST) {
 
     "should submit for review": browser => {
       const letterPreview = browser.page.LetterPreview();
-      letterPreview.clickSubmit().confirmSubmit();
       const caseDetails = browser.page.CaseDetails();
+      const snackbar = browser.page.SnackbarPOM();
+
+      letterPreview.clickSubmit().confirmSubmit();
       caseDetails.isOnPage();
+      snackbar.presentWithMessage("Status was successfully updated").close();
     },
 
     "should log out of the system": browser => {

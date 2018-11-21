@@ -9,10 +9,11 @@ const AllegationsCommands = {
     return this;
   },
   setRule: function() {
-    return this.waitForElementVisible("@ruleDropdown", e2e.rerenderWait)
+    this.waitForElementVisible("@ruleDropdown", e2e.rerenderWait)
       .click("@ruleDropdown")
       .waitForElementVisible("@ruleList", e2e.rerenderWait)
-      .click("@lastRule");
+      .api.pause(e2e.dataLoadWait);
+    return this.click("@lastRule");
   },
   searchForAllegations: function() {
     this.waitForElementVisible(
@@ -25,7 +26,7 @@ const AllegationsCommands = {
     this.waitForElementVisible(
       "@selectAllegationButton",
       e2e.rerenderWait
-    ).api.pause(e2e.pause);
+    ).api.pause(e2e.dataLoadWait);
     return this.click("@selectAllegationButton");
   },
   setAllegationDetails: function(details) {

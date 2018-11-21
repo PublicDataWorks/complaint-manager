@@ -27,7 +27,7 @@ const letterPreviewCommands = {
     return this.click("@confirmSubmitButton");
   },
   waitForData: function() {
-    this.api.pause(e2e.pause);
+    this.api.pause(e2e.dataLoadWait);
     return this;
   }
 };
