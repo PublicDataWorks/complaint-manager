@@ -47,7 +47,7 @@ export class OfficerDetailsContainer extends Component {
         >
           Back to Case
         </LinkButton>
-        <div style={{ margin: "0% 5% 3%" }}>
+        <div style={{ margin: "0% 5% 3%", maxWidth: "60rem" }}>
           <OfficerDetails
             officerSearchUrl={officerSearchUrl}
             submitAction={submitAction(selectedOfficerId)}

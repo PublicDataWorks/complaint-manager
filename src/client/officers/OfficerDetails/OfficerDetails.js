@@ -82,7 +82,7 @@ const OfficerDetails = props => {
                 required
                 validate={[officerRoleRequired]}
                 label="Role on Case"
-                style={{ width: "12%" }}
+                style={{ width: "9rem" }}
               >
                 {roleOnCaseMenu}
               </Field>

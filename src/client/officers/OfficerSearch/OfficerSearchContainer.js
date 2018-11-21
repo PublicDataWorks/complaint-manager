@@ -35,7 +35,7 @@ export class OfficerSearchContainer extends Component {
         >
           Back to Case
         </LinkButton>
-        <div style={{ margin: "0% 5% 3%" }}>
+        <div style={{ margin: "0% 5% 3%", maxWidth: "60rem" }}>
           <OfficerSearch
             initialize={this.props.initialize}
             dispatch={this.props.dispatch}
