@@ -152,7 +152,7 @@ class IAProCorrections extends Component {
             Back to Case
           </LinkButton>
 
-          <div style={{ margin: "0% 5% 3%", width: "60%" }}>
+          <div style={{ margin: "0% 5% 3%", maxWidth: "60rem" }}>
             <LetterProgressStepper
               currentLetterStatus={LETTER_PROGRESS.IAPRO_CORRECTIONS}
               pageChangeCallback={this.pageChangeCallback}
