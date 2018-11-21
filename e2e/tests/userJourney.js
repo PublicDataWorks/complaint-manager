@@ -28,6 +28,7 @@ if (TEST_PASS && TEST_USER && HOST) {
 
     "should authenticate": browser => {
       const loginPage = browser.page.Login();
+
       loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
     },
 
@@ -42,13 +43,13 @@ if (TEST_PASS && TEST_USER && HOST) {
         .setLastName("Watch")
         .setPhoneNumber("1234567890", browser)
         .submitCase();
+
       snackbar.presentWithMessage("successfully created").close();
     },
 
     "should add and remove an attachment": browser => {
       const caseDetailsPage = browser.page.CaseDetails();
       const snackbar = browser.page.SnackbarPOM();
-      const imagesDir = "images/";
       const fileName = "dog_nose.jpg";
 
       caseDetailsPage
@@ -71,10 +72,11 @@ if (TEST_PASS && TEST_USER && HOST) {
       const civilianDialog = browser.page.CivilianDialog();
 
       caseDetailsPage.editComplainant();
+
       civilianDialog
         .dialogIsOpen()
         .setGenderIdentity("Female")
-        .setRaceEthnicity("Cuban"); //TODO: may need pause
+        .setRaceEthnicity("Cuban");
     },
 
     "should display suggestions when text is entered": browser => {
@@ -85,6 +87,7 @@ if (TEST_PASS && TEST_USER && HOST) {
 
     "should complete suggestion but not select address when navigating through them": browser => {
       const civilianDialog = browser.page.CivilianDialog();
+
       civilianDialog
         .arrowDown()
         .addressSuggestionFieldPopulated()
@@ -102,113 +105,64 @@ if (TEST_PASS && TEST_USER && HOST) {
       const snackbar = browser.page.SnackbarPOM();
 
       civilianDialog.submitCivilianDialog();
+
       snackbar.presentWithMessage("Civilian was successfully updated").close();
     },
 
     "should display the address in the Complainant & Witnesses section of the Case Detail": browser => {
       const caseDetailsPage = browser.page.CaseDetails();
-      caseDetailsPage.civilianAddressIsSpecified();
+
+      caseDetailsPage.expandCivilianDetails().civilianAddressIsSpecified();
     },
 
     "should submit blank address when cleared and submitted": browser => {
       const caseDetailsPage = browser.page.CaseDetails();
       const civilianDialog = browser.page.CivilianDialog();
+      const snackbar = browser.page.SnackbarPOM();
 
       caseDetailsPage.editComplainant();
-      civilianDialog.dialogIsOpen().setAddressSuggestionFieldToEmpty();
 
-      browser.expect
-        .element('[data-test="addressSuggestionField"] > input')
-        .text.to.equal("");
-      browser.expect
-        .element('[data-test="streetAddressInput"]')
-        .value.to.equal("");
-      browser.expect.element('[data-test="cityInput"]').value.to.equal("");
-      browser.expect.element('[data-test="stateInput"]').value.to.equal("");
-      browser.expect.element('[data-test="zipCodeInput"]').value.to.equal("");
-      browser.expect.element('[data-test="countryInput"]').value.to.equal("");
+      civilianDialog
+        .dialogIsOpen()
+        .setAddressSuggestionFieldToEmpty()
+        .addressFieldsAreEmpty()
+        .submitCivilianDialog();
 
-      browser
-        .click('button[data-test="submitEditCivilian"]')
-        .waitForElementPresent(
-          '[data-test="sharedSnackbarBannerText"]',
-          roundTripWait
-        )
-        .assert.containsText(
-          '[data-test="sharedSnackbarBannerText"]',
-          "Civilian was successfully updated"
-        )
-        .pause(1000);
+      snackbar.presentWithMessage("Civilian was successfully updated").close();
     },
 
     "should not show address in Complainant & Witnesses section of Case Detail": browser => {
-      browser
-        .waitForElementPresent('p[data-test="civilianAddress"]', roundTripWait)
-        .pause(1000);
+      const caseDetailsPage = browser.page.CaseDetails();
 
-      const expansionPanel = '[data-test="complainantWitnessesPanel"] > div';
-      browser.getAttribute(expansionPanel, "aria-expanded", expanded => {
-        if (!expanded) {
-          browser.click(expansionPanel).pause(1000);
-        }
-      });
-
-      browser.getText('p[data-test="civilianAddress"]', result => {
-        browser.assert.containsText(
-          'p[data-test="civilianAddress"]',
-          result.value
-        );
-      });
+      caseDetailsPage.expandCivilianDetails().civilianAddressIsNotSpecified();
     },
 
     "should open incident details": browser => {
-      browser
-        .waitForElementPresent(
-          '[data-test="editIncidentDetailsButton"]',
-          rerenderWait
-        )
-        .click('[data-test="editIncidentDetailsButton"]');
+      const caseDetailsPage = browser.page.CaseDetails();
+
+      caseDetailsPage.openIncidentDetails();
     },
 
     "should enter and fill intersection address into incident location": browser => {
-      browser
-        .setValue('[data-test="addressSuggestionField"] > input', [
-          "canal st & bourbon st"
-        ])
-        .waitForElementPresent(
-          '[data-test="saveIncidentDetailsButton"]',
-          rerenderWait
-        )
-        .click('[data-test="saveIncidentDetailsButton"]')
-        .waitForElementPresent(
-          '[data-test="fillAddressToConfirm"]',
-          rerenderWait
-        )
-        .click('[data-test="fillAddressToConfirm"]')
-        .waitForElementPresent(
-          '[data-test="saveIncidentDetailsButton"]',
-          rerenderWait
-        )
-        .click('[data-test="saveIncidentDetailsButton"]');
+      const incidentDetailsDialog = browser.page.IncidentDetailsDialog();
+
+      incidentDetailsDialog
+        .dialogIsOpen()
+        .typeInAddress("canal st & bourbon st")
+        .saveIncidentDetails()
+        .fillAddress()
+        .saveIncidentDetails();
     },
 
     "should display the incident location in the Incident Details section of the Case Detail": browser => {
-      browser.pause(1000);
-      browser.expect
-        .element('[data-test="incidentLocation"]')
-        .text.to.not.equal("No address specified");
-    },
+      const caseDetailsPage = browser.page.CaseDetails();
+      const snackbar = browser.page.SnackbarPOM();
 
-    "should navigate to Add Case Officer Page": browser => {
-      browser
-        .waitForElementVisible('[data-test="closeSnackbar"]', roundTripWait)
-        .click('[data-test="closeSnackbar"]')
-        .waitForElementVisible(
-          '[data-test="addAccusedOfficerButton"]',
-          rerenderWait
-        )
-        .pause(1000)
-        .click('[data-test="addAccusedOfficerButton"]');
+      snackbar
+        .presentWithMessage("Incident details were successfully updated")
+        .close();
+
+      caseDetailsPage.incidentAddressIsSpecified().addAccusedOfficer();
     },
 
     "should navigate to add officer form for unknown officer": browser => {
@@ -216,6 +170,7 @@ if (TEST_PASS && TEST_USER && HOST) {
       const addOfficerDetailsPage = browser.page.AddOfficerDetails();
 
       addOfficerSearchPage.isOnPage().clickUnknownOfficerLink();
+
       addOfficerDetailsPage
         .isOnPageForUnknownOfficer()
         .selectRole("Accused")
@@ -227,6 +182,7 @@ if (TEST_PASS && TEST_USER && HOST) {
       const snackbar = browser.page.SnackbarPOM();
 
       caseDetailsPage.isOnPage().thereIsAnUnknownOfficer();
+
       snackbar.presentWithMessage("Officer was successfully added").close();
     },
 
@@ -260,6 +216,7 @@ if (TEST_PASS && TEST_USER && HOST) {
       const snackbar = browser.page.SnackbarPOM();
 
       caseDetailsPage.isOnPage();
+
       snackbar.presentWithMessage("Officer was successfully updated").close();
 
       caseDetailsPage.thereIsAKnownOfficer("Ri");
@@ -292,6 +249,7 @@ if (TEST_PASS && TEST_USER && HOST) {
       const addOfficerSearchPage = browser.page.AddOfficerSearch();
 
       caseDetailsPage.isOnPage().addAccusedOfficer();
+
       addOfficerSearchPage.isOnPage().clickUnknownOfficerLink();
     },
 
@@ -309,6 +267,7 @@ if (TEST_PASS && TEST_USER && HOST) {
       const snackbar = browser.page.SnackbarPOM();
 
       caseDetailsPage.isOnPage().thereIsAnUnknownOfficer();
+
       snackbar.presentWithMessage("Officer was successfully added").close();
     },
 
@@ -341,7 +300,6 @@ if (TEST_PASS && TEST_USER && HOST) {
     },
 
     "should advance to officer complaint history and add allegations": browser => {
-      const caseReview = browser.page.CaseReview();
       const snackbar = browser.page.SnackbarPOM();
       const complaintHistory = browser.page.ComplaintHistory();
 
@@ -370,14 +328,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         .expectNthCorrectionValue(0, "IAPro Correction Details")
         .expectNthCorrectionValue(1, "")
         .addCorrection()
-        .waitForElementPresent(
-          '[name="referralLetterIAProCorrections[2].details"]',
-          rerenderWait
-        );
-
-      browser.pause(2000);
-
-      iaproCorrections.clickNext();
+        .clickNext();
     },
 
     "should check retaliation concerns and recommended action": browser => {
@@ -431,14 +382,14 @@ if (TEST_PASS && TEST_USER && HOST) {
       editLetter.isOnPage();
       snackbar.presentWithMessage("Letter was successfully updated").close();
 
-      browser.click(".ql-editor").keys("This text is edited");
-
-      editLetter.saveEdits();
+      editLetter
+        .makeEditsWithText("Susie and Phoebe and Sarah are the G.O.A.T.s")
+        .saveEdits();
 
       letterPreview
         .isOnPage()
         .waitForData()
-        .letterContains("This text is edited");
+        .letterContains("Susie and Phoebe and Sarah are the G.O.A.T.s");
 
       snackbar.presentWithMessage("Letter was successfully updated").close();
     },
@@ -449,14 +400,18 @@ if (TEST_PASS && TEST_USER && HOST) {
       const snackbar = browser.page.SnackbarPOM();
 
       letterPreview.clickSubmit().confirmSubmit();
+
       caseDetails.isOnPage();
+
       snackbar.presentWithMessage("Status was successfully updated").close();
     },
 
     "should log out of the system": browser => {
       const logoutPage = browser.page.Logout();
       const loginPage = browser.page.Login();
+
       logoutPage.clickGearButton().clickLogout();
+
       loginPage.isOnPage();
     },
 

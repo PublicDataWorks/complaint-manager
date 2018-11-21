@@ -8,6 +8,10 @@ const editLetterCommands = {
     ).assert.containsText("@pageHeader", "Edit Letter");
     return this;
   },
+  makeEditsWithText: function(text) {
+    this.click("@editor").api.keys(text);
+    return this;
+  },
   saveEdits: function() {
     return this.waitForElementPresent("@saveButton", e2e.rerenderWait).click(
       "@saveButton"
@@ -23,6 +27,9 @@ module.exports = {
     },
     saveButton: {
       selector: "[data-test='saveButton'"
+    },
+    editor: {
+      selector: ".ql-editor"
     }
   }
 };

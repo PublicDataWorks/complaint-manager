@@ -11,6 +11,10 @@ const {
   civilianCommands,
   civilianElements
 } = require("./caseDetailsCommands/civilianCommands.js");
+const {
+  incidentCommands,
+  incidentElements
+} = require("./caseDetailsCommands/incidentCommands.js");
 
 const caseDetailsCommands = {
   isOnPage: function() {
@@ -35,7 +39,8 @@ module.exports = {
     caseDetailsCommands,
     officerCommands,
     civilianCommands,
-    attachmentCommands
+    attachmentCommands,
+    incidentCommands
   ],
   elements: Object.assign(
     {
@@ -51,6 +56,7 @@ module.exports = {
     },
     attachmentElements,
     officerElements,
-    civilianElements
+    civilianElements,
+    incidentElements
   )
 };

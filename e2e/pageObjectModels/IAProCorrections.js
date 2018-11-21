@@ -14,6 +14,7 @@ const iaproAllegationsCommands = {
     );
   },
   clickNext: function() {
+    this.api.pause(e2e.pause);
     return this.waitForElementPresent("@nextButton", e2e.rerenderWait).click(
       "@nextButton"
     );
