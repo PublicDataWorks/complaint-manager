@@ -18,7 +18,7 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
 
 const validateCaseStatus = existingCase => {
   if (existingCase.status !== CASE_STATUS.READY_FOR_REVIEW) {
-    throw Boom.badRequest("Invalid case status for approval");
+    throw Boom.badRequest("Invalid case status");
   }
 };
 

@@ -12,6 +12,10 @@ import { startLetterDownload } from "../../../actionCreators/letterActionCreator
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import { dateTimeFromString } from "../../../utilities/formatDate";
 import { pdfjs } from "react-pdf";
+import { PrimaryButton } from "../../../shared/components/StyledButtons";
+import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
+import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
+import approveReferralLetter from "../thunks/approveReferralLetter";
 pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.js";
 
 const styles = theme => ({
@@ -54,6 +58,10 @@ class ReviewAndApproveLetter extends Component {
     this.setState({
       numPages
     });
+  };
+
+  openUpdateCaseDialog = () => {
+    this.props.openCaseStatusUpdateDialog();
   };
 
   render() {
@@ -128,6 +136,16 @@ class ReviewAndApproveLetter extends Component {
               </div>
             </CardContent>
           </Card>
+          <PrimaryButton
+            onClick={this.openUpdateCaseDialog}
+            data-test="approve-letter-button"
+          >
+            Approve Letter
+          </PrimaryButton>
+          <UpdateCaseStatusDialog
+            alternativeAction={this.props.approveReferralLetter}
+            doNotCallUpdateStatusCallback={true}
+          />
         </div>
       </div>
     );
@@ -143,7 +161,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   getLetterPreview,
   generatePdf,
-  startLetterDownload
+  startLetterDownload,
+  openCaseStatusUpdateDialog,
+  approveReferralLetter
 };
 
 export default withStyles(styles, { withTheme: true })(

@@ -17,6 +17,10 @@ import {
 } from "../../../actionCreators/letterActionCreators";
 import timekeeper from "timekeeper";
 import { dateTimeFromString } from "../../../utilities/formatDate";
+import approveReferralLetter from "../thunks/approveReferralLetter";
+jest.mock("../thunks/approveReferralLetter", () =>
+  jest.fn((caseId, callback) => ({ type: "SOMETHING", caseId, callback }))
+);
 
 describe("ReviewAndApproveLetter", () => {
   const caseId = 100;
@@ -91,5 +95,34 @@ describe("ReviewAndApproveLetter", () => {
       .find('[data-test="download-letter-progress"]')
       .first();
     expect(progressIndicator.props().style.display).toEqual("none");
+  });
+
+  test("displays modal when approve letter button clicked", () => {
+    const approveLetterButton = wrapper
+      .find('[data-test="approve-letter-button"]')
+      .first();
+    approveLetterButton.simulate("click");
+    const approveLetterDialog = wrapper
+      .find('[data-test="dialogText"]')
+      .first();
+    expect(approveLetterDialog.text()).toContain(
+      `This action will mark the case as ${CASE_STATUS.FORWARDED_TO_AGENCY}`
+    );
+  });
+
+  test("dispatches the approve letter thunk when update case status dialog button clicked", () => {
+    const approveLetterButton = wrapper
+      .find('[data-test="approve-letter-button"]')
+      .first();
+    approveLetterButton.simulate("click");
+
+    const dialogSubmitButton = wrapper
+      .find('[data-test="update-case-status-button"]')
+      .first();
+    dialogSubmitButton.simulate("click");
+    expect(approveReferralLetter).toHaveBeenCalledWith(
+      caseId,
+      expect.any(Function)
+    );
   });
 });

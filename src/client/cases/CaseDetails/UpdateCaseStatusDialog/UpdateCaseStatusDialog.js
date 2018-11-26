@@ -34,7 +34,8 @@ const UpdateCaseStatusDialog = ({
   redirectUrl,
   alternativeAction,
   setCaseStatus,
-  closeCaseStatusUpdateDialog
+  closeCaseStatusUpdateDialog,
+  doNotCallUpdateStatusCallback = false
 }) => {
   if (
     !featureToggles.letterGenerationFeature &&
@@ -49,7 +50,9 @@ const UpdateCaseStatusDialog = ({
       : "This action";
 
   const updateCaseStatusAction = () => {
-    if (alternativeAction) {
+    if (alternativeAction && doNotCallUpdateStatusCallback) {
+      alternativeAction(caseId, closeCaseStatusUpdateDialog);
+    } else if (alternativeAction) {
       alternativeAction(updateCaseStatus, closeCaseStatusUpdateDialog)();
     } else {
       updateCaseStatus();
@@ -70,6 +73,7 @@ const UpdateCaseStatusDialog = ({
           style={{
             marginBottom: "24px"
           }}
+          data-test="dialogText"
         >
           {actionText} will mark the case as <strong>{nextStatus}</strong>
           .&nbsp;{STATUS_DESCRIPTION[nextStatus]}

@@ -6,6 +6,7 @@ import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import uploadLetterToS3 from "./uploadLetterToS3";
+import Boom from "boom";
 
 jest.mock("./uploadLetterToS3", () => jest.fn());
 jest.mock(
@@ -61,6 +62,7 @@ describe("approveLetter", () => {
     await existingCase.reload();
     expect(existingCase.status).toEqual(CASE_STATUS.INITIAL);
     expect(uploadLetterToS3).not.toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
   });
 
   test("uploads generated file to S3 if letter should be generated", async () => {
