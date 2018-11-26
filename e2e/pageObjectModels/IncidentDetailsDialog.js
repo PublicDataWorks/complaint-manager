@@ -18,6 +18,12 @@ const incidentDetailsDialogCommands = {
       "@fillAddressLink",
       e2e.rerenderWait
     ).click("@fillAddressLink");
+  },
+  setIncidentDate: function() {
+    return this.waitForElementVisible(
+      "@incidentDate",
+      e2e.rerenderWait
+    ).setValue("@incidentDate", "12/20/2017");
   }
 };
 
@@ -35,6 +41,9 @@ module.exports = {
     },
     fillAddressLink: {
       selector: '[data-test="fillAddressToConfirm"]'
+    },
+    incidentDate: {
+      selector: '[data-test="editIncidentDateInput"]'
     }
   }
 };

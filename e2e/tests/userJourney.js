@@ -152,6 +152,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         .typeInAddress("canal st & bourbon st")
         .saveIncidentDetails()
         .fillAddress()
+        .setIncidentDate()
         .saveIncidentDetails();
 
       snackbar
