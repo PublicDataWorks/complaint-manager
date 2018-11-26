@@ -9,7 +9,8 @@ import {
   showOfficerHistoryHeader,
   showRecommendedActions,
   sumAllegations,
-  extractFirstLine
+  extractFirstLine,
+  padCaseNumber
 } from "./handlebarHelpers";
 import {
   CIVILIAN_INITIATED,
@@ -424,6 +425,20 @@ describe("handlebarHelpers", function() {
       const expectedHtml = "many<br>new<br>lines<br>here!!";
       const resultString = newLineToLineBreak(stringWithMultipleNewLines);
       expect(resultString).toEqual(expectedHtml);
+    });
+  });
+
+  describe("padCaseNumber", function() {
+    test("should pad with 3 zeros when given a one digit case number", () => {
+      const caseNumber = 4;
+      const paddedNumber = "0004";
+      expect(padCaseNumber(caseNumber)).toEqual(paddedNumber);
+    });
+
+    test("should not pad when given a four digit case number", () => {
+      const caseNumber = 1234;
+      const paddedNumber = "1234";
+      expect(padCaseNumber(caseNumber)).toEqual(paddedNumber);
     });
   });
 
