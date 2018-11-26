@@ -127,7 +127,12 @@ export const parseIncidentYear = date => {
 Handlebars.registerHelper("parseIncidentYear", parseIncidentYear);
 
 export const padCaseNumber = caseNumber => {
-  return caseNumber.toString().padStart(4, "0");
+  let paddedNumber = "";
+  for (let i = 0; i < 4 - caseNumber.toString().length; i++) {
+    paddedNumber += "0";
+  }
+  paddedNumber += caseNumber.toString();
+  return paddedNumber;
 };
 Handlebars.registerHelper("padCaseNumber", padCaseNumber);
 

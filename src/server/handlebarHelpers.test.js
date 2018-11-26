@@ -439,6 +439,11 @@ describe("handlebarHelpers", function() {
       const paddedNumber = "1234";
       expect(padCaseNumber(caseNumber)).toEqual(paddedNumber);
     });
+    test("should not pad when given a case number greater than four", () => {
+      const caseNumber = 12345;
+      const paddedNumber = "12345";
+      expect(padCaseNumber(caseNumber)).toEqual(paddedNumber);
+    });
   });
 
   describe("extractFirstLine", function() {
