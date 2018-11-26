@@ -133,11 +133,6 @@ export const newLineToLineBreak = text => {
 };
 Handlebars.registerHelper("newLineToLineBreak", newLineToLineBreak);
 
-export const padCaseNumber = caseNumber => {
-  return caseNumber.toString().padStart(4, "0");
-};
-Handlebars.registerHelper("padCaseNumber", padCaseNumber);
-
 export const extractFirstLine = text => {
   if (!text) {
     return "";
