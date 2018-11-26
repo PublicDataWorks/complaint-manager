@@ -10,6 +10,10 @@ import {
   CIVILIAN_INITIATED,
   RANK_INITIATED
 } from "../sharedUtilities/constants";
+import formatDate from "../client/utilities/formatDate";
+
+
+const caseNumberLength = 4;
 
 export const formatAddress = address => {
   if (!address) return "";
@@ -131,12 +135,11 @@ export const parseIncidentYear = date => {
 Handlebars.registerHelper("parseIncidentYear", parseIncidentYear);
 
 export const padCaseNumber = caseNumber => {
-  let paddedNumber = "";
-  for (let i = 0; i < 4 - caseNumber.toString().length; i++) {
-    paddedNumber += "0";
-  }
-  paddedNumber += caseNumber.toString();
-  return paddedNumber;
+    const paddingLength =
+        caseNumberLength - caseNumber.toString().length < 0
+            ? 0
+            : caseNumberLength - caseNumber.toString().length;
+    return "0".repeat(paddingLength) + caseNumber.toString();
 };
 Handlebars.registerHelper("padCaseNumber", padCaseNumber);
 
