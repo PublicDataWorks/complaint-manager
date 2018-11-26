@@ -7,7 +7,7 @@ TO_EXCLUDE="^src/(server/config/(.)*|server/(server.test.js|(models|handlers/use
 
 function run_hawkeye_on_container_code() {
   docker rm -f /hawkeye
-  docker run -v $(pwd):/target --name hawkeye --entrypoint /bin/bash stono/hawkeye:latest -c "hawkeye scan -t /target --exclude \"$TO_EXCLUDE\" --json $ISSUES_REPORT_FILE && npm install -g npm-check-updates && ncu -e 2 --packageFile /target/package.json -x winston,csv-parse"
+  docker run -v $(pwd):/target --name hawkeye --entrypoint /bin/bash stono/hawkeye:latest -c "hawkeye scan -t /target --exclude \"$TO_EXCLUDE\" --json $ISSUES_REPORT_FILE && npm install -g npm-check-updates && ncu -e 2 --packageFile /target/package.json -x winston,csv-parse,react-pdf,csv-stringify"
   hawkeye_return=$?
 }
 
