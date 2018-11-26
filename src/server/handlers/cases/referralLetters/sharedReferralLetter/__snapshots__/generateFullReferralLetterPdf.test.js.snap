@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Generate referral letter pdf generates letter pdf html correctly 1`] = `
+exports[`generateFullReferralLetterPdf generates letter pdf html correctly 1`] = `
 "<html>
   <head>
       <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"generatePdf.css\\">
@@ -16,7 +16,7 @@ exports[`Generate referral letter pdf generates letter pdf html correctly 1`] = 
     </div>
     <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
       Recipient Address<br/>
-      July 02, 2018<br/>
+      July 01, 2018<br/>
       Page {{page}}
     </div>
 
@@ -37,7 +37,7 @@ exports[`Generate referral letter pdf generates letter pdf html correctly 1`] = 
       INDEPENDENT POLICE MONITOR
     </p>
     <p><br></p>
-    July 02, 2018
+    July 01, 2018
     <p><br></p>
     Recipient Address
     <p><br></p>

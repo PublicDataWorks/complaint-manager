@@ -3,23 +3,19 @@ import Case from "../../../../../client/testUtilities/case";
 import models from "../../../../models";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
-import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
-import generatePdf, { generateLetterPdfHtml } from "./generatePdf";
-import timekeeper from "timekeeper";
-import pdf from "html-pdf";
+import generatePdf from "./generatePdf";
+import Boom from "boom";
 
-jest.mock("html-pdf");
-jest.mock("../generateReferralLetterFromCaseData");
-
-import generateReferralLetterFromCaseData from "../generateReferralLetterFromCaseData";
+jest.mock(
+  "../sharedReferralLetter/generateFullReferralLetterPdf",
+  () => caseId => `pdf for case ${caseId}`
+);
 
 describe("Generate referral letter pdf", () => {
-  const mockStore = { generateReferralLetterFromCaseData: jest.fn() };
-  let existingCase, request, response, next, referralLetter;
+  let existingCase, request, response, next;
 
   afterEach(async () => {
     await cleanupDatabase();
-    generateReferralLetterFromCaseData.mockReset();
   });
 
   beforeEach(async () => {
@@ -34,10 +30,6 @@ describe("Generate referral letter pdf", () => {
       { status: CASE_STATUS.ACTIVE },
       { auditUser: "test" }
     );
-    await existingCase.update(
-      { status: CASE_STATUS.LETTER_IN_PROGRESS },
-      { auditUser: "test" }
-    );
 
     request = httpMocks.createRequest({
       method: "GET",
@@ -48,69 +40,21 @@ describe("Generate referral letter pdf", () => {
       nickname: "bobjo"
     });
 
-    const referralLetterAttributes = new ReferralLetter.Builder()
-      .defaultReferralLetter()
-      .withId(undefined)
-      .withCaseId(existingCase.id)
-      .withRecipient("recipient address")
-      .withSender("sender address")
-      .withTranscribedBy("transcriber")
-      .withIncludeRetaliationConcerns(true);
-
-    referralLetter = await models.referral_letter.create(
-      referralLetterAttributes,
-      {
-        auditUser: "test"
-      }
-    );
-
     response = httpMocks.createResponse();
     next = jest.fn();
   });
 
-  test("generates letter pdf html correctly", async () => {
-    const timeOfDownload = new Date("2018-07-01 19:00:22 CDT");
-    timekeeper.freeze(timeOfDownload);
-    const letterBody = "<p> Letter Body </p>";
-    const pdfData = {
-      referralLetter: {
-        recipient: "Recipient Address",
-        sender: "Sender Address\n Sender Address Second Line",
-        transcribedBy: "Transcriber"
-      },
-      complaintType: "person",
-      incidentDate: "2011-04-09"
-    };
-
-    const letterPdfHtml = await generateLetterPdfHtml(
-      letterBody,
-      pdfData,
-      existingCase.id
-    );
-    expect(letterPdfHtml).toMatchSnapshot();
-  });
-
-  test("pdf create function called when letter pdf generated", async () => {
-    pdf.create.mockImplementation((letterHtml, addresses) => {
-      return "";
-    });
-    await generatePdf(request, response, next);
-    expect(pdf.create).toHaveBeenCalled();
-  });
-
-  test("unedited letter generates pdf from case data", async () => {
-    await generatePdf(request, response, next);
-    expect(generateReferralLetterFromCaseData).toHaveBeenCalled();
-  });
-
-  test("edited letter generates pdf from saved data", async () => {
-    await referralLetter.update(
-      {
-        editedLetterHtml: "<p> edited </p>"
-      },
+  test("returns results full generated pdf response", async () => {
+    await existingCase.update(
+      { status: CASE_STATUS.LETTER_IN_PROGRESS },
       { auditUser: "test" }
     );
     await generatePdf(request, response, next);
-    expect(generateReferralLetterFromCaseData).not.toHaveBeenCalled();
+    expect(response._getData()).toEqual(`pdf for case ${existingCase.id}`);
+  });
+
+  test("expects boom to have error when case is in invalid status", async () => {
+    await generatePdf(request, response, next);
+    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
   });
 });

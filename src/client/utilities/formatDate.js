@@ -16,6 +16,13 @@ export const formatShortDate = date => {
   return timezone.tz(date, TIMEZONE).format("MM/DD/YYYY");
 };
 
+export const formatLongDate = dateString => {
+  if (dateString) {
+    dateString = timezone.tz(dateString, TIMEZONE).format("MMMM DD, YYYY");
+  }
+  return dateString;
+};
+
 export const dateTimeFromString = dateTimeString => {
   return dateTimeString
     ? timezone.tz(dateTimeString, TIMEZONE).format("MMM D, YYYY h:mm A z")

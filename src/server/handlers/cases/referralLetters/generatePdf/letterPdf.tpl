@@ -13,7 +13,7 @@
     </div>
     <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">
       {{{extractFirstLine recipient}}}<br/>
-      {{currentDate}}<br/>
+      {{{formatLongDate currentDate}}}<br/>
       Page \{{page}}
     </div>
 
@@ -34,7 +34,7 @@
       INDEPENDENT POLICE MONITOR
     </p>
     <p><br></p>
-    {{currentDate}}
+    {{{formatLongDate currentDate}}}
     <p><br></p>
     {{{renderHtml (newLineToLineBreak recipient)}}}
     <p><br></p>

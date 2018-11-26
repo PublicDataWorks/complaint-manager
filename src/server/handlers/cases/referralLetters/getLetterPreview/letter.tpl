@@ -9,7 +9,7 @@
   <p class="ql-align-center"><strong><u>Complaint Information</u></strong></p>
   <p><br></p>
   <p><strong><u>IPM Complaint #:</u></strong> {{{determineComplaintTypeCode complaintType}}}-{{{parseIncidentYear incidentDate}}}-{{{padCaseNumber caseId}}}</p>
-  {{#if (isPresent firstContactDate)}}<p>Date filed with IPM: {{{formatDate firstContactDate}}}</p>{{/if}}
+  {{#if (isPresent firstContactDate)}}<p>Date filed with IPM: {{{formatShortDate firstContactDate}}}</p>{{/if}}
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
@@ -17,7 +17,7 @@
     {{#if (isPresent fullName)}}<p>Name: {{fullName}}</p>{{/if}}
     {{#if (isPresent raceEthnicity)}}<p>Race: {{raceEthnicity}}</p>{{/if}}
     {{#if (isPresent genderIdentity)}}<p>Sex: {{genderIdentity}}</p>{{/if}}
-    {{#if (isPresent birthDate)}}<p>Date of Birth: {{{formatDate birthDate}}}</p>{{/if}}
+    {{#if (isPresent birthDate)}}<p>Date of Birth: {{{formatShortDate birthDate}}}</p>{{/if}}
     {{#if (isPresent (formatAddress address))}}<p>Address: {{{formatAddress address}}}</p>{{/if}}
     {{#if (isPresent phoneNumber)}}<p>Phone: {{{formatPhoneNumber phoneNumber}}}</p>{{/if}}
     {{#if (isPresent email)}}<p>Email: {{email}}</p>{{/if}}
@@ -29,13 +29,13 @@
     {{#if (isPresent windowsUsername)}}<p>Employee ID: #{{windowsUsername}}</p>{{/if}}
     {{#if (isPresent race)}}<p>Race: {{race}}</p>{{/if}}
     {{#if (isPresent sex)}}<p>Sex: {{sex}}</p>{{/if}}
-    {{#if (isPresent dob)}}<p>Date of Birth: {{{formatDate dob}}}</p>{{/if}}
+    {{#if (isPresent dob)}}<p>Date of Birth: {{{formatShortDate dob}}}</p>{{/if}}
     {{#if (isPresent supervisorFullName)}}<p>Supervisor (Employee ID): {{supervisorFullName}} (#{{supervisorWindowsUsername}})</p>{{/if}}
     {{#if (isPresent employeeType)}}<p>Employee Type: {{employeeType}}</p>{{/if}}
     {{#if (isPresent district)}}<p>District: {{district}}</p>{{/if}}
     {{#if (isPresent bureau)}}<p>Bureau: {{bureau}}</p>{{/if}}
     {{#if (isPresent workStatus)}}<p>Status: {{workStatus}}</p>{{/if}}
-    {{#if (isPresent endDate)}}<p>End of Employment: {{{formatDate endDate}}}</p>{{/if}}
+    {{#if (isPresent endDate)}}<p>End of Employment: {{{formatShortDate endDate}}}</p>{{/if}}
     <p><br></p>
   {{/each}}
 
@@ -46,13 +46,13 @@
     {{#if (isPresent windowsUsername)}}<p>Employee ID: #{{windowsUsername}}</p>{{/if}}
     {{#if (isPresent race)}}<p>Race: {{race}}</p>{{/if}}
     {{#if (isPresent sex)}}<p>Sex: {{sex}}</p>{{/if}}
-    {{#if (isPresent dob)}}<p>Date of Birth: {{{formatDate dob}}}</p>{{/if}}
+    {{#if (isPresent dob)}}<p>Date of Birth: {{{formatShortDate dob}}}</p>{{/if}}
     {{#if (isPresent supervisorFullName)}}<p>Supervisor (Employee ID): {{supervisorFullName}} (#{{supervisorWindowsUsername}})</p>{{/if}}
     {{#if (isPresent employeeType)}}<p>Employee Type: {{employeeType}}</p>{{/if}}
     {{#if (isPresent district)}}<p>District: {{district}}</p>{{/if}}
     {{#if (isPresent bureau)}}<p>Bureau: {{bureau}}</p>{{/if}}
     {{#if (isPresent workStatus)}}<p>Status: {{workStatus}}</p>{{/if}}
-    {{#if (isPresent endDate)}}<p>End of Employment: {{{formatDate endDate}}}</p>{{/if}}
+    {{#if (isPresent endDate)}}<p>End of Employment: {{{formatShortDate endDate}}}</p>{{/if}}
     <p><br></p>
   {{/each}}
 
@@ -71,18 +71,18 @@
     {{#if (isPresent windowsUsername)}}<p>Employee ID: #{{windowsUsername}}</p>{{/if}}
     {{#if (isPresent race)}}<p>Race: {{race}}</p>{{/if}}
     {{#if (isPresent sex)}}<p>Sex: {{sex}}</p>{{/if}}
-    {{#if (isPresent dob)}}<p>Date of Birth: {{{formatDate dob}}}</p>{{/if}}
+    {{#if (isPresent dob)}}<p>Date of Birth: {{{formatShortDate dob}}}</p>{{/if}}
     {{#if (isPresent supervisorFullName)}}<p>Supervisor (Employee ID): {{supervisorFullName}} (#{{supervisorWindowsUsername}})</p>{{/if}}
     {{#if (isPresent employeeType)}}<p>Employee Type: {{employeeType}}</p>{{/if}}
     {{#if (isPresent district)}}<p>District: {{district}}</p>{{/if}}
     {{#if (isPresent bureau)}}<p>Bureau: {{bureau}}</p>{{/if}}
     {{#if (isPresent workStatus)}}<p>Status: {{workStatus}}</p>{{/if}}
-    {{#if (isPresent endDate)}}<p>End of Employment: {{{formatDate endDate}}}</p>{{/if}}
+    {{#if (isPresent endDate)}}<p>End of Employment: {{{formatShortDate endDate}}}</p>{{/if}}
     <p><br></p>
   {{/each}}
 
   <p><strong><u>Incident</u></strong></p>
-  {{#if (isPresent incidentDate)}}<p>Date: {{{formatDate incidentDate}}}</p>{{/if}}
+  {{#if (isPresent incidentDate)}}<p>Date: {{{formatShortDate incidentDate}}}</p>{{/if}}
   {{#if (isPresent (formatAddress incidentLocation))}}<p>Location: {{{formatAddress incidentLocation}}}</p>{{/if}}
   {{#if (isPresent incidentTime)}}<p>Time: {{{formatTime incidentDate incidentTime}}}</p>{{/if}}
 

@@ -5,6 +5,7 @@ import getLetterPreview from "./handlers/cases/referralLetters/getLetterPreview/
 import editReferralLetterAddresses from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetterAddresses";
 import editReferralLetterContent from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetterContent";
 import generatePdf from "./handlers/cases/referralLetters/generatePdf/generatePdf";
+import approveLetter from "./handlers/cases/referralLetters/approveLetter/approveLetter";
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
 const editCase = require("./handlers/cases/editCase");
@@ -118,5 +119,7 @@ router.get("/classifications", getClassifications);
 router.get("/recommended-actions", getRecommendedActions);
 
 router.get("/cases/:caseId/referral-letter/generate-pdf", generatePdf);
+
+router.put("/cases/:caseId/referral-letter/approve-letter", approveLetter);
 
 module.exports = router;

@@ -2,14 +2,14 @@ import Handlebars from "handlebars";
 import {
   computeTimeZone,
   format12HourTime,
-  formatShortDate
+  formatShortDate,
+  formatLongDate
 } from "../client/utilities/formatDate";
 import formatPhoneNumber from "../client/utilities/formatPhoneNumber";
 import {
   CIVILIAN_INITIATED,
   RANK_INITIATED
 } from "../sharedUtilities/constants";
-import formatDate from "../client/utilities/formatDate";
 
 export const formatAddress = address => {
   if (!address) return "";
@@ -79,8 +79,12 @@ Handlebars.registerHelper("formatTime", (date, time) => {
   return format12HourTime(time) + " " + computeTimeZone(date, time);
 });
 
-Handlebars.registerHelper("formatDate", date => {
+Handlebars.registerHelper("formatShortDate", date => {
   return formatShortDate(date);
+});
+
+Handlebars.registerHelper("formatLongDate", date => {
+  return formatLongDate(date);
 });
 
 Handlebars.registerHelper("formatPhoneNumber", phoneNumber => {

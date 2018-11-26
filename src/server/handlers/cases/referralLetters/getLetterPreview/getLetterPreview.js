@@ -1,6 +1,4 @@
 import asyncMiddleware from "../../../asyncMiddleware";
-import fs from "fs";
-import Handlebars from "handlebars";
 import models from "../../../../models";
 import checkForValidStatus from "../checkForValidStatus";
 import {
