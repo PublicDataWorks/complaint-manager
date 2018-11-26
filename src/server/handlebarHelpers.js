@@ -126,6 +126,11 @@ export const parseIncidentYear = date => {
 };
 Handlebars.registerHelper("parseIncidentYear", parseIncidentYear);
 
+export const padCaseNumber = caseNumber => {
+  return caseNumber.toString().padStart(4, "0");
+};
+Handlebars.registerHelper("padCaseNumber", padCaseNumber);
+
 export const newLineToLineBreak = text => {
   text = Handlebars.Utils.escapeExpression(text);
   text = text.replace(/(\r\n|\n|\r)/gm, "<br>");
