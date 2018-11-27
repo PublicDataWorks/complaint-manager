@@ -20,7 +20,7 @@ describe("OldCaseStatusStepper", () => {
     store = createConfiguredStore();
     store.dispatch(
       userAuthSuccess({
-        permissions: [USER_PERMISSIONS.CAN_REVIEW_CASE]
+        permissions: [USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES]
       })
     );
   });

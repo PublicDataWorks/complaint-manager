@@ -29,8 +29,8 @@ const CaseRow = ({ classes, caseDetails, currentUser, featureToggles }) => {
   const toggleStatus = featureToggles.letterGenerationFeature
     ? caseDetails.status
     : caseDetails.status === CASE_STATUS.LETTER_IN_PROGRESS
-      ? CASE_STATUS.ACTIVE
-      : caseDetails.status;
+    ? CASE_STATUS.ACTIVE
+    : caseDetails.status;
 
   return (
     <TableRow data-test={`caseRow${caseDetails.id}`} className={classes.row}>
@@ -38,7 +38,9 @@ const CaseRow = ({ classes, caseDetails, currentUser, featureToggles }) => {
         <div>{caseDetails.id}</div>
       </TableCell>
       <TableCell data-test="caseStatus" className={classes.cell}>
-        {currentUser.permissions.includes(USER_PERMISSIONS.CAN_REVIEW_CASE)
+        {currentUser.permissions.includes(
+          USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
+        )
           ? formatCaseStatusForDPM(toggleStatus)
           : toggleStatus}
       </TableCell>

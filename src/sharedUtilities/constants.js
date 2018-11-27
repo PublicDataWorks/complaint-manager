@@ -132,7 +132,7 @@ export const OFFICER_SEARCH_FORM_NAME = "OfficerSearchForm";
 
 export const USER_PERMISSIONS = {
   EXPORT_AUDIT_LOG: "export:audit-log",
-  CAN_REVIEW_CASE: "update:case-status"
+  UPDATE_ALL_CASE_STATUSES: "update:case-status"
 };
 export const OPENID = "openid";
 export const PROFILE = "profile";

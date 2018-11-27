@@ -155,7 +155,9 @@ class LetterPreview extends Component {
     if (
       this.props.caseDetail.status === CASE_STATUS.READY_FOR_REVIEW &&
       this.props.userInfo &&
-      this.props.userInfo.permissions.includes(USER_PERMISSIONS.CAN_REVIEW_CASE)
+      this.props.userInfo.permissions.includes(
+        USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
+      )
     ) {
       return (
         <PrimaryButton

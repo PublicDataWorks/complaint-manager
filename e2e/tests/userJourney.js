@@ -18,9 +18,6 @@ if (!HOST) {
 }
 
 if (TEST_PASS && TEST_USER && HOST) {
-  const roundTripWait = 25000;
-  const rerenderWait = 2000;
-
   module.exports = {
     "should see sign-in title": browser => {
       browser.url(HOST).resizeWindow(1366, 768);

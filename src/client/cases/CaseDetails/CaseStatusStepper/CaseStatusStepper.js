@@ -48,7 +48,9 @@ const CaseStatusStepper = ({
         status
       ) &&
       (!userInfo ||
-        !userInfo.permissions.includes(USER_PERMISSIONS.CAN_REVIEW_CASE))
+        !userInfo.permissions.includes(
+          USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
+        ))
     );
   };
 
