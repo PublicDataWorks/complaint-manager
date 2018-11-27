@@ -85,7 +85,7 @@ class ReviewAndApproveLetter extends Component {
         >
           Back to Case
         </LinkButton>
-        <div style={{ margin: "0% 5% 3%", maxWidth: "60rem" }}>
+        <div style={{ margin: "0% 5% 3%", maxWidth: "54rem" }}>
           <Typography
             style={{
               marginBottom: "24px"
@@ -106,6 +106,7 @@ class ReviewAndApproveLetter extends Component {
               marginBottom: "24px",
               backgroundColor: "white",
               overflow: "auto",
+              overflowX: "hidden",
               width: "54rem",
               maxHeight: "55rem"
             }}
@@ -136,12 +137,14 @@ class ReviewAndApproveLetter extends Component {
               </div>
             </CardContent>
           </Card>
-          <PrimaryButton
-            onClick={this.openUpdateCaseDialog}
-            data-test="approve-letter-button"
-          >
-            Approve Letter
-          </PrimaryButton>
+          <div style={{ textAlign: "right" }}>
+            <PrimaryButton
+              onClick={this.openUpdateCaseDialog}
+              data-test="approve-letter-button"
+            >
+              Approve Letter
+            </PrimaryButton>
+          </div>
           <UpdateCaseStatusDialog
             alternativeAction={this.props.approveReferralLetter}
             doNotCallUpdateStatusCallback={true}
