@@ -43,7 +43,6 @@ const exportAuditLog = async (job, done) => {
           "user",
           ["audit_type", "auditType"],
           "subject",
-          "subject_id",
           ["subject_details", "subjectDetails"]
         ],
         raw: true,

@@ -93,7 +93,6 @@ describe("getLetterPreview", function() {
       "Case Data",
       "Referral Letter Data"
     ]);
-    expect(dataAccessAudit.subjectId).toEqual(null);
   });
 
   test("returns letter address info", async () => {

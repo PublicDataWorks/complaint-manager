@@ -1,10 +1,16 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../client/testUtilities/case";
 import models from "../../../../models";
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+import {
+  AUDIT_ACTION,
+  AUDIT_SUBJECT,
+  AUDIT_TYPE,
+  CASE_STATUS
+} from "../../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
 import generatePdf from "./generatePdf";
 import Boom from "boom";
+import getLetterPreview from "../getLetterPreview/getLetterPreview";
 
 jest.mock(
   "../sharedReferralLetter/generateFullReferralLetterPdf",
@@ -44,17 +50,38 @@ describe("Generate referral letter pdf", () => {
     next = jest.fn();
   });
 
-  test("returns results full generated pdf response", async () => {
-    await existingCase.update(
-      { status: CASE_STATUS.LETTER_IN_PROGRESS },
-      { auditUser: "test" }
-    );
-    await generatePdf(request, response, next);
-    expect(response._getData()).toEqual(`pdf for case ${existingCase.id}`);
+  describe("case in valid status", async () => {
+    beforeEach(async () => {
+      await existingCase.update(
+        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        { auditUser: "test" }
+      );
+    });
+    test("audits the data access", async () => {
+      await generatePdf(request, response, next);
+
+      const dataAccessAudit = await models.action_audit.find();
+      expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
+      expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
+      expect(dataAccessAudit.user).toEqual("bobjo");
+      expect(dataAccessAudit.caseId).toEqual(existingCase.id);
+      expect(dataAccessAudit.subject).toEqual(AUDIT_SUBJECT.REFERRAL_LETTER);
+      expect(dataAccessAudit.subjectDetails).toEqual([
+        "Case Data",
+        "Referral Letter Data"
+      ]);
+    });
+
+    test("returns results full generated pdf response", async () => {
+      await generatePdf(request, response, next);
+      expect(response._getData()).toEqual(`pdf for case ${existingCase.id}`);
+    });
   });
 
-  test("expects boom to have error when case is in invalid status", async () => {
-    await generatePdf(request, response, next);
-    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
+  describe("case in invalid status", () => {
+    test("expects boom to have error when case is in invalid status", async () => {
+      await generatePdf(request, response, next);
+      expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
+    });
   });
 });

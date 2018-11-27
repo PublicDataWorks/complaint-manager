@@ -76,7 +76,6 @@ describe("getReferralLetter", () => {
     expect(dataAccessAudit.caseId).toEqual(existingCase.id);
     expect(dataAccessAudit.subject).toEqual(AUDIT_SUBJECT.REFERRAL_LETTER_DATA);
     expect(dataAccessAudit.subjectDetails).toEqual(["Referral Letter Data"]);
-    expect(dataAccessAudit.subjectId).toEqual(null);
   });
 
   test("it returns letter data but does not include letter officers that are not accused officers", async () => {
