@@ -11,7 +11,7 @@ import {
   RANK_INITIATED
 } from "../sharedUtilities/constants";
 import formatDate from "../client/utilities/formatDate";
-
+import path from "path";
 
 const caseNumberLength = 4;
 
@@ -135,11 +135,11 @@ export const parseIncidentYear = date => {
 Handlebars.registerHelper("parseIncidentYear", parseIncidentYear);
 
 export const padCaseNumber = caseNumber => {
-    const paddingLength =
-        caseNumberLength - caseNumber.toString().length < 0
-            ? 0
-            : caseNumberLength - caseNumber.toString().length;
-    return "0".repeat(paddingLength) + caseNumber.toString();
+  const paddingLength =
+    caseNumberLength - caseNumber.toString().length < 0
+      ? 0
+      : caseNumberLength - caseNumber.toString().length;
+  return "0".repeat(paddingLength) + caseNumber.toString();
 };
 Handlebars.registerHelper("padCaseNumber", padCaseNumber);
 
@@ -157,3 +157,10 @@ export const extractFirstLine = text => {
   return text.split("\n")[0];
 };
 Handlebars.registerHelper("extractFirstLine", extractFirstLine);
+
+export const getImagePath = relativePath => {
+  var imgSrc = "file://" + __dirname + relativePath;
+  imgSrc = path.normalize(imgSrc);
+  return imgSrc;
+};
+Handlebars.registerHelper("getImagePath", getImagePath);

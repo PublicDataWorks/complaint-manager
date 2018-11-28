@@ -2,6 +2,7 @@ import {
   determineComplaintTypeCode,
   extractFirstLine,
   formatAddress,
+  getImagePath,
   isPresent,
   newLineToLineBreak,
   padCaseNumber,
@@ -466,6 +467,20 @@ describe("handlebarHelpers", function() {
       const expectedFirstLine = "first line";
       const extractedFirstLine = extractFirstLine(stringWithMultipleLines);
       expect(extractedFirstLine).toEqual(expectedFirstLine);
+    });
+  });
+
+  describe("getImagePath", () => {
+    test("gets absolute path", () => {
+      const absolutePath = getImagePath(
+        "/handlers/cases/referralLetters/generatePdf/assets/dog_nose.jpg"
+      );
+
+      expect(
+        absolutePath.match(
+          /file:\/.*\/src\/server\/handlers\/cases\/referralLetters\/generatePdf\/assets\/dog_nose.jpg/
+        )
+      ).toBeTruthy();
     });
   });
 });

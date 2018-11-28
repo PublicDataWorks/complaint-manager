@@ -52,7 +52,7 @@ app.use(
       connectSrc: config.contentSecurityPolicy.connectSrc,
       fontSrc: ["https://fonts.googleapis.com", "https://fonts.gstatic.com"],
       objectSrc: ["'none'"],
-      imgSrc: ["'self'", "data:"],
+      imgSrc: ["'self'"],
       scriptSrc: ["'self'", "https://maps.googleapis.com"],
       styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"]
     }
