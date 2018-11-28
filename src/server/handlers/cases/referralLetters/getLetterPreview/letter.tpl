@@ -8,7 +8,7 @@
   <p><br></p>
   <p class="ql-align-center"><strong><u>Complaint Information</u></strong></p>
   <p><br></p>
-  <p><strong><u>IPM Complaint #:</u></strong> {{{determineComplaintTypeCode complaintType}}}-{{{parseIncidentYear incidentDate}}}-{{{padCaseNumber caseId}}}</p>
+  <p><strong><u>IPM Complaint #:</u></strong> {{caseNumber}}</p>
   {{#if (isPresent firstContactDate)}}<p>Date filed with IPM: {{{formatShortDate firstContactDate}}}</p>{{/if}}
   <p><br></p>
 

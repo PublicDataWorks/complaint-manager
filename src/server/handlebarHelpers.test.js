@@ -1,22 +1,15 @@
 import {
-  determineComplaintTypeCode,
   extractFirstLine,
   formatAddress,
   getImagePath,
   isPresent,
   newLineToLineBreak,
-  padCaseNumber,
-  parseIncidentYear,
   renderHtml,
   showOfficerHistory,
   showOfficerHistoryHeader,
   showRecommendedActions,
   sumAllegations
 } from "./handlebarHelpers";
-import {
-  CIVILIAN_INITIATED,
-  RANK_INITIATED
-} from "../sharedUtilities/constants";
 
 describe("handlebarHelpers", function() {
   describe("formatAddress", function() {
@@ -365,39 +358,6 @@ describe("handlebarHelpers", function() {
     });
   });
 
-  describe("determineComplaintTypeCode", function() {
-    test("should show CC if civilian initiated", () => {
-      const complaintTypeCode = determineComplaintTypeCode(CIVILIAN_INITIATED);
-      expect(complaintTypeCode).toEqual("CC");
-    });
-    test("should show PO if officer initiated", () => {
-      const complaintTypeCode = determineComplaintTypeCode(RANK_INITIATED);
-      expect(complaintTypeCode).toEqual("PO");
-    });
-  });
-
-  describe("parseIndicentYear", function() {
-    test("should return 2018 if year is 2018", () => {
-      const incidentYear = parseIncidentYear("2018-10-03");
-      expect(incidentYear).toEqual("2018");
-    });
-
-    test("should return empty string if date is null", () => {
-      const incidentYear = parseIncidentYear(null);
-      expect(incidentYear).toEqual("");
-    });
-
-    test("should return empty string if date is undefined", () => {
-      const incidentYear = parseIncidentYear(undefined);
-      expect(incidentYear).toEqual("");
-    });
-
-    test("should return empty string if date is empty", () => {
-      const incidentYear = parseIncidentYear("");
-      expect(incidentYear).toEqual("");
-    });
-  });
-
   describe("newLineToLineBreak", function() {
     test("should return empty string when given null", () => {
       expect(newLineToLineBreak(null)).toEqual("");
@@ -426,24 +386,6 @@ describe("handlebarHelpers", function() {
       const expectedHtml = "many<br>new<br>lines<br>here!!";
       const resultString = newLineToLineBreak(stringWithMultipleNewLines);
       expect(resultString).toEqual(expectedHtml);
-    });
-  });
-
-  describe("padCaseNumber", function() {
-    test("should pad with 3 zeros when given a one digit case number", () => {
-      const caseNumber = 4;
-      const paddedNumber = "0004";
-      expect(padCaseNumber(caseNumber)).toEqual(paddedNumber);
-    });
-    test("should not pad when given a four digit case number", () => {
-      const caseNumber = 1234;
-      const paddedNumber = "1234";
-      expect(padCaseNumber(caseNumber)).toEqual(paddedNumber);
-    });
-    test("should not pad when given a case number greater than four", () => {
-      const caseNumber = 12345;
-      const paddedNumber = "12345";
-      expect(padCaseNumber(caseNumber)).toEqual(paddedNumber);
     });
   });
 

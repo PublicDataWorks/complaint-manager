@@ -113,36 +113,6 @@ export const showRecommendedActions = accusedOfficers => {
 };
 Handlebars.registerHelper("showRecommendedActions", showRecommendedActions);
 
-export const determineComplaintTypeCode = complaintType => {
-  if (complaintType === CIVILIAN_INITIATED) {
-    return "CC";
-  }
-  if (complaintType === RANK_INITIATED) {
-    return "PO";
-  }
-};
-Handlebars.registerHelper(
-  "determineComplaintTypeCode",
-  determineComplaintTypeCode
-);
-
-export const parseIncidentYear = date => {
-  if (date) {
-    return date.substring(0, 4);
-  }
-  return "";
-};
-Handlebars.registerHelper("parseIncidentYear", parseIncidentYear);
-
-export const padCaseNumber = caseNumber => {
-  const paddingLength =
-    caseNumberLength - caseNumber.toString().length < 0
-      ? 0
-      : caseNumberLength - caseNumber.toString().length;
-  return "0".repeat(paddingLength) + caseNumber.toString();
-};
-Handlebars.registerHelper("padCaseNumber", padCaseNumber);
-
 export const newLineToLineBreak = text => {
   text = Handlebars.Utils.escapeExpression(text);
   text = text.replace(/(\r\n|\n|\r)/gm, "<br>");

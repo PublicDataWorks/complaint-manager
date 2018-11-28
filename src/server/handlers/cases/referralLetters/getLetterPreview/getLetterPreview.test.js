@@ -8,6 +8,7 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   CASE_STATUS,
+  CIVILIAN_INITIATED,
   COMPLAINANT,
   WITNESS
 } from "../../../../../sharedUtilities/constants";
@@ -38,7 +39,8 @@ describe("getLetterPreview", function() {
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(12070)
-      .withFirstContactDate("2017-12-25");
+      .withFirstContactDate("2017-12-25")
+      .withComplaintType(CIVILIAN_INITIATED);
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "test"
     });

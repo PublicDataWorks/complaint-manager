@@ -32,11 +32,7 @@ const generateFullReferralLetterPdf = async (caseId, transaction) => {
       "file:///app/src/server/handlers/cases/referralLetters/generatePdf/assets/"
   };
 
-  const fullLetterHtml = await generateLetterPdfHtml(
-    letterBody,
-    pdfData,
-    caseId
-  );
+  const fullLetterHtml = await generateLetterPdfHtml(letterBody, pdfData);
 
   let pdfCreator = pdf.create(fullLetterHtml, pdfOptions);
   let pdfToBuffer = util.promisify(pdfCreator.toBuffer.bind(pdfCreator));
@@ -46,7 +42,7 @@ const generateFullReferralLetterPdf = async (caseId, transaction) => {
 
 const getPdfData = async (caseId, transaction) => {
   return await models.cases.findById(caseId, {
-    attributes: ["incidentDate", "complaintType"],
+    attributes: ["incidentDate", "complaintType", "id"],
     include: [
       {
         model: models.referral_letter,
@@ -58,7 +54,7 @@ const getPdfData = async (caseId, transaction) => {
   });
 };
 
-export const generateLetterPdfHtml = (letterBody, pdfData, caseId) => {
+export const generateLetterPdfHtml = (letterBody, pdfData) => {
   const currentDate = Date.now();
 
   const letterPdfData = {
@@ -66,9 +62,7 @@ export const generateLetterPdfHtml = (letterBody, pdfData, caseId) => {
     recipient: pdfData.referralLetter.recipient,
     sender: pdfData.referralLetter.sender,
     transcribedBy: pdfData.referralLetter.transcribedBy,
-    complaintType: pdfData.complaintType,
-    incidentDate: pdfData.incidentDate,
-    caseId,
+    caseNumber: pdfData.caseNumber,
     currentDate
   };
 
