@@ -1,6 +1,7 @@
 import {
   extractFirstLine,
   formatAddress,
+  generateSignature,
   getImagePath,
   isPresent,
   newLineToLineBreak,
@@ -10,6 +11,7 @@ import {
   showRecommendedActions,
   sumAllegations
 } from "./handlebarHelpers";
+import { SIGNATURE_URLS } from "../sharedUtilities/constants";
 
 describe("handlebarHelpers", function() {
   describe("formatAddress", function() {
@@ -409,6 +411,21 @@ describe("handlebarHelpers", function() {
       const expectedFirstLine = "first line";
       const extractedFirstLine = extractFirstLine(stringWithMultipleLines);
       expect(extractedFirstLine).toEqual(expectedFirstLine);
+    });
+  });
+
+  describe("generateSignature", function() {
+    test("should return an empty space when no signature for given name", () => {
+      const emptyString = "";
+      const blankLine = "<p><br></p>";
+      expect(generateSignature(emptyString)).toEqual(blankLine);
+    });
+    test("should return stellas signature when stella is sender", () => {
+      const sender = "Stella Cziment\nDPM";
+      const signaturePath = `<img style="max-height: 40px" src=${
+        SIGNATURE_URLS.STELLA_PATH
+      } />`;
+      expect(generateSignature(sender)).toEqual(signaturePath);
     });
   });
 });

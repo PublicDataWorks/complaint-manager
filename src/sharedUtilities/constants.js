@@ -307,6 +307,15 @@ export const ALLEGATION_SEVERITY = {
 };
 
 // ----------------------------------------
+//               Image URLs
+// ----------------------------------------
+
+export const SIGNATURE_URLS = {
+  STELLA_PATH:
+    "file:/app/src/server/handlers/cases/referralLetters/generatePdf/assets/signatures/signature.png"
+};
+
+// ----------------------------------------
 //          Pagination
 // ----------------------------------------
 export const DEFAULT_PAGINATION_LIMIT = 20;

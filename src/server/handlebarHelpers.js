@@ -8,10 +8,9 @@ import {
 import formatPhoneNumber from "../client/utilities/formatPhoneNumber";
 import {
   CIVILIAN_INITIATED,
-  RANK_INITIATED
+  RANK_INITIATED,
+  SIGNATURE_URLS
 } from "../sharedUtilities/constants";
-import formatDate from "../client/utilities/formatDate";
-import path from "path";
 
 const caseNumberLength = 4;
 
@@ -127,3 +126,11 @@ export const extractFirstLine = text => {
   return text.split("\n")[0];
 };
 Handlebars.registerHelper("extractFirstLine", extractFirstLine);
+
+export const generateSignature = sender => {
+  if (sender.includes("Stella Cziment")) {
+    return `<img style="max-height: 40px" src=${SIGNATURE_URLS.STELLA_PATH} />`;
+  }
+  return "<p><br></p>";
+};
+Handlebars.registerHelper("generateSignature", generateSignature);
