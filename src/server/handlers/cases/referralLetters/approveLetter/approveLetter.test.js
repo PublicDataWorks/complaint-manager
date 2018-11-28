@@ -2,7 +2,10 @@ import httpMocks from "node-mocks-http";
 import models from "../../../../models";
 import Case from "../../../../../client/testUtilities/case";
 import approveLetter from "./approveLetter";
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  CIVILIAN_INITIATED
+} from "../../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import uploadLetterToS3 from "./uploadLetterToS3";
@@ -20,7 +23,11 @@ describe("approveLetter", () => {
   beforeEach(async () => {
     response = httpMocks.createResponse();
 
-    const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
+    const caseAttributes = new Case.Builder()
+      .defaultCase()
+      .withId(undefined)
+      .withComplaintType(CIVILIAN_INITIATED)
+      .withIncidentDate("2003-01-01");
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "test"
     });
@@ -71,6 +78,7 @@ describe("approveLetter", () => {
     await approveLetter(request, response, next);
     expect(uploadLetterToS3).toHaveBeenCalledWith(
       existingCase.id,
+      existingCase.caseNumber,
       `Generated pdf for ${existingCase.id}`
     );
   });

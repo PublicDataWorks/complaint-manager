@@ -11,12 +11,13 @@ describe("uploadLetterToS3", async () => {
     }));
 
     const caseId = 5;
+    const caseNumber = "CC-2018-0005";
     const pdfOutput = "Pdf for case 5";
-    uploadLetterToS3(caseId, pdfOutput);
+    uploadLetterToS3(caseId, caseNumber, pdfOutput);
 
     expect(uploadMock).toHaveBeenCalledWith({
       Bucket: config[process.env.NODE_ENV].referralLettersBucket,
-      Key: `${caseId}/ReferralLetter_Case${caseId}.pdf`,
+      Key: `${caseId}/ReferralLetter_${caseNumber}.pdf`,
       Body: pdfOutput,
       ServerSideEncryption: "AES256"
     });

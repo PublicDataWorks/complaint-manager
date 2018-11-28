@@ -10,7 +10,11 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
   await models.sequelize.transaction(async transaction => {
     const existingCase = await models.cases.findById(request.params.caseId);
     validateCaseStatus(existingCase);
-    await generateLetterAndUploadToS3(caseId, transaction);
+    await generateLetterAndUploadToS3(
+      caseId,
+      existingCase.caseNumber,
+      transaction
+    );
     await transitionCaseToForwardedToAgency(existingCase, request, transaction);
   });
   response.status(200).send();
@@ -22,12 +26,12 @@ const validateCaseStatus = existingCase => {
   }
 };
 
-const generateLetterAndUploadToS3 = async (caseId, transaction) => {
+const generateLetterAndUploadToS3 = async (caseId, caseNumber, transaction) => {
   const generatedReferralLetterPdf = await generateFullReferralLetterPdf(
     caseId,
     transaction
   );
-  await uploadLetterToS3(caseId, generatedReferralLetterPdf);
+  await uploadLetterToS3(caseId, caseNumber, generatedReferralLetterPdf);
 };
 
 const transitionCaseToForwardedToAgency = async (
