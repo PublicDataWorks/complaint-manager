@@ -1,7 +1,7 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
-import generateFullReferralLetterPdf from "../sharedReferralLetter/generateFullReferralLetterPdf";
+import generateLetterPdfBuffer from "../sharedReferralLetterUtilities/generateLetterPdfBuffer";
 import uploadLetterToS3 from "./uploadLetterToS3";
 import Boom from "boom";
 
@@ -27,7 +27,7 @@ const validateCaseStatus = existingCase => {
 };
 
 const generateLetterAndUploadToS3 = async (caseId, caseNumber, transaction) => {
-  const generatedReferralLetterPdf = await generateFullReferralLetterPdf(
+  const generatedReferralLetterPdf = await generateLetterPdfBuffer(
     caseId,
     transaction
   );

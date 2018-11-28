@@ -103,17 +103,17 @@ const getCaseData = async (caseId, transaction) => {
   });
 };
 
-async function generateReferralLetterFromCaseData(caseId, transaction) {
+async function generateLetterBody(caseId, transaction) {
   const caseData = (await getCaseData(caseId, transaction)).toJSON();
   caseData.accusedOfficers.sort((officerA, officerB) => {
     return officerA.createdAt > officerB.createdAt;
   });
 
   const rawTemplate = fs.readFileSync(
-    "src/server/handlers/cases/referralLetters/getLetterPreview/letter.tpl"
+    "src/server/handlers/cases/referralLetters/getLetterPreview/letterBody.tpl"
   );
   const compiledTemplate = Handlebars.compile(rawTemplate.toString());
   return compiledTemplate(caseData);
 }
 
-export default generateReferralLetterFromCaseData;
+export default generateLetterBody;

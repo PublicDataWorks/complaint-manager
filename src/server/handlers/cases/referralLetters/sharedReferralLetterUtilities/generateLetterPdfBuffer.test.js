@@ -1,15 +1,15 @@
-import { generateLetterPdfHtml } from "./generateFullReferralLetterPdf";
+import { generateLetterPdfHtml } from "./generateLetterPdfBuffer";
 import timekeeper from "timekeeper";
 import Case from "../../../../../client/testUtilities/case";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
-import generateReferralLetterFromCaseData from "../generateReferralLetterFromCaseData";
+import generateLetterBody from "../generateLetterBody";
 import models from "../../../../models";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED
 } from "../../../../../sharedUtilities/constants";
-import generateFullReferralLetterPdf from "./generateFullReferralLetterPdf";
+import generateLetterPdfBuffer from "./generateLetterPdfBuffer";
 
 jest.mock("html-pdf", () => ({
   create: (html, pdfOptions) => ({
@@ -19,14 +19,14 @@ jest.mock("html-pdf", () => ({
   })
 }));
 
-jest.mock("../generateReferralLetterFromCaseData");
+jest.mock("../generateLetterBody");
 
-describe("generateFullReferralLetterPdf", () => {
+describe("generateLetterPdfBuffer", () => {
   let existingCase, referralLetter, timeOfDownload;
 
   afterEach(async () => {
     await cleanupDatabase();
-    generateReferralLetterFromCaseData.mockReset();
+    generateLetterBody.mockReset();
   });
 
   beforeEach(async () => {
@@ -88,7 +88,7 @@ describe("generateFullReferralLetterPdf", () => {
 
   test("pdf create gets called with expected letter html when letter is generated", async () => {
     await models.sequelize.transaction(async transaction => {
-      const pdfResults = await generateFullReferralLetterPdf(
+      const pdfResults = await generateLetterPdfBuffer(
         existingCase.id,
         transaction
       );
@@ -102,7 +102,7 @@ describe("generateFullReferralLetterPdf", () => {
       { auditUser: "someone" }
     );
     await models.sequelize.transaction(async transaction => {
-      const pdfResults = await generateFullReferralLetterPdf(
+      const pdfResults = await generateLetterPdfBuffer(
         existingCase.id,
         transaction
       );
@@ -112,8 +112,8 @@ describe("generateFullReferralLetterPdf", () => {
 
   test("unedited letter generates pdf from case data", async () => {
     await models.sequelize.transaction(async transaction => {
-      await generateFullReferralLetterPdf(existingCase.id, transaction);
-      expect(generateReferralLetterFromCaseData).toHaveBeenCalledWith(
+      await generateLetterPdfBuffer(existingCase.id, transaction);
+      expect(generateLetterBody).toHaveBeenCalledWith(
         existingCase.id,
         transaction
       );
@@ -128,8 +128,8 @@ describe("generateFullReferralLetterPdf", () => {
       { auditUser: "test" }
     );
     await models.sequelize.transaction(async transaction => {
-      await generateFullReferralLetterPdf(existingCase.id, transaction);
+      await generateLetterPdfBuffer(existingCase.id, transaction);
     });
-    expect(generateReferralLetterFromCaseData).not.toHaveBeenCalled();
+    expect(generateLetterBody).not.toHaveBeenCalled();
   });
 });

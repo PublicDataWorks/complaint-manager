@@ -1,14 +1,14 @@
 <html>
   <head>
-      <link rel="stylesheet" type="text/css" href="generatePdf.css">
+      <link rel="stylesheet" type="text/css" href="getPdf.css">
   </head>
   <body>
     <div id="pageHeader-first">
       <div style="text-align: center;">
-        <img style="max-width: 223px" src="file:/app/src/server/handlers/cases/referralLetters/generatePdf/assets/header_text.png" />
+        <img style="max-width: 223px" src="file:/app/src/server/handlers/cases/referralLetters/getPdf/assets/header_text.png" />
       </div>
       <div style="text-align: center; margin-top: 8px">
-        <img style="max-width: 42px" src="file:/app/src/server/handlers/cases/referralLetters/generatePdf/assets/icon.ico" />
+        <img style="max-width: 42px" src="file:/app/src/server/handlers/cases/referralLetters/getPdf/assets/icon.ico" />
       </div>
     </div>
     <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">
@@ -19,7 +19,7 @@
 
     <div id="pageFooter" style="text-align: center; margin-top: 16px">
             <span  style="display:inline-block; margin: 6px 16px 0 0">
-                <img style="max-width: 30px" src="file:/app/src/server/handlers/cases/referralLetters/generatePdf/assets/icon.ico" />
+                <img style="max-width: 30px" src="file:/app/src/server/handlers/cases/referralLetters/getPdf/assets/icon.ico" />
             </span>
       <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">
                 INDEPENDENT POLICE MONITOR <br />

@@ -312,7 +312,7 @@ export const ALLEGATION_SEVERITY = {
 
 export const SIGNATURE_URLS = {
   STELLA_PATH:
-    "file:/app/src/server/handlers/cases/referralLetters/generatePdf/assets/signatures/signature.png"
+    "file:/app/src/server/handlers/cases/referralLetters/getPdf/assets/signatures/signature.png"
 };
 
 // ----------------------------------------

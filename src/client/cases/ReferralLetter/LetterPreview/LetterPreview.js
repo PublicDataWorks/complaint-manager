@@ -26,7 +26,7 @@ import EditLetterConfirmationDialog from "./EditLetterConfirmationDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import { dateTimeFromString } from "../../../utilities/formatDate";
-import generatePdf from "../thunks/generatePdf";
+import downloadPdf from "../thunks/downloadPdf";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import styles from "../../../globalStyling/styles";
 
@@ -52,7 +52,7 @@ class LetterPreview extends Component {
 
   downloadLetterAsPdfFile = () => {
     return this.props.dispatch(
-      generatePdf(this.state.caseId, this.props.editHistory.edited, true)
+      downloadPdf(this.state.caseId, this.props.editHistory.edited, true)
     );
   };
 

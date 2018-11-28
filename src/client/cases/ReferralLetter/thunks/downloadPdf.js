@@ -11,7 +11,7 @@ import {
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
-const generatePdf = (
+const downloadPdf = (
   caseId,
   edited,
   saveFileForUser = false
@@ -49,4 +49,4 @@ const generatePdf = (
   }
 };
 
-export default generatePdf;
+export default downloadPdf;

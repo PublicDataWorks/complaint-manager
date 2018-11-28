@@ -8,12 +8,12 @@ import {
   CASE_STATUS
 } from "../../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
-import generatePdf from "./generatePdf";
+import getPdf from "./getPdf";
 import Boom from "boom";
 import getLetterPreview from "../getLetterPreview/getLetterPreview";
 
 jest.mock(
-  "../sharedReferralLetter/generateFullReferralLetterPdf",
+  "../sharedReferralLetterUtilities/generateLetterPdfBuffer",
   () => caseId => `pdf for case ${caseId}`
 );
 
@@ -58,7 +58,7 @@ describe("Generate referral letter pdf", () => {
       );
     });
     test("audits the data access", async () => {
-      await generatePdf(request, response, next);
+      await getPdf(request, response, next);
 
       const dataAccessAudit = await models.action_audit.find();
       expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
@@ -73,14 +73,14 @@ describe("Generate referral letter pdf", () => {
     });
 
     test("returns results full generated pdf response", async () => {
-      await generatePdf(request, response, next);
+      await getPdf(request, response, next);
       expect(response._getData()).toEqual(`pdf for case ${existingCase.id}`);
     });
   });
 
   describe("case in invalid status", () => {
     test("expects boom to have error when case is in invalid status", async () => {
-      await generatePdf(request, response, next);
+      await getPdf(request, response, next);
       expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
     });
   });

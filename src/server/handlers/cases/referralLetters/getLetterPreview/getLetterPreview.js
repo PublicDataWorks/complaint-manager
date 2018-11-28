@@ -7,7 +7,7 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../auditDataAccess";
 import getCaseWithAllAssociations from "../../../getCaseWithAllAssociations";
-import generateReferralLetterFromCaseData from "../generateReferralLetterFromCaseData";
+import generateLetterBody from "../generateLetterBody";
 
 require("../../../../handlebarHelpers");
 
@@ -40,7 +40,7 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
     if (edited) {
       html = referralLetter.editedLetterHtml;
     } else {
-      html = await generateReferralLetterFromCaseData(caseId, transaction);
+      html = await generateLetterBody(caseId, transaction);
     }
 
     let editHistory = { edited: edited };

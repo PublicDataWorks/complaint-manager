@@ -13,7 +13,7 @@ import Boom from "boom";
 
 jest.mock("./uploadLetterToS3", () => jest.fn());
 jest.mock(
-  "../sharedReferralLetter/generateFullReferralLetterPdf",
+  "../sharedReferralLetterUtilities/generateLetterPdfBuffer",
   () => (caseId, transaction) => `Generated pdf for ${caseId}`
 );
 

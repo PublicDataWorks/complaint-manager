@@ -1,12 +1,12 @@
 import models from "../../../../models/index";
-import generateReferralLetterFromCaseData from "../generateReferralLetterFromCaseData";
+import generateLetterBody from "../generateLetterBody";
 import pdf from "html-pdf";
 import util from "util";
 import Handlebars from "handlebars";
 require("../../../../handlebarHelpers");
 import fs from "fs";
 
-const generateFullReferralLetterPdf = async (caseId, transaction) => {
+const generateLetterPdfBuffer = async (caseId, transaction) => {
   let letterData = await models.referral_letter.find({
     where: { caseId: caseId },
     attributes: ["editedLetterHtml"],
@@ -15,7 +15,7 @@ const generateFullReferralLetterPdf = async (caseId, transaction) => {
   let letterBody = letterData.editedLetterHtml;
 
   if (!letterBody) {
-    letterBody = await generateReferralLetterFromCaseData(caseId, transaction);
+    letterBody = await generateLetterBody(caseId, transaction);
   }
 
   const pdfData = await getPdfData(caseId, transaction);
@@ -29,7 +29,7 @@ const generateFullReferralLetterPdf = async (caseId, transaction) => {
     header: { height: "1.3 in" },
     footer: { height: "0.7 in" },
     base:
-      "file:///app/src/server/handlers/cases/referralLetters/generatePdf/assets/"
+      "file:///app/src/server/handlers/cases/referralLetters/getPdf/assets/"
   };
 
   const fullLetterHtml = await generateLetterPdfHtml(letterBody, pdfData);
@@ -67,10 +67,10 @@ export const generateLetterPdfHtml = (letterBody, pdfData) => {
   };
 
   const rawTemplate = fs.readFileSync(
-    "src/server/handlers/cases/referralLetters/generatePdf/letterPdf.tpl"
+    "src/server/handlers/cases/referralLetters/getPdf/letterPdf.tpl"
   );
   const compiledTemplate = Handlebars.compile(rawTemplate.toString());
   return compiledTemplate(letterPdfData);
 };
 
-export default generateFullReferralLetterPdf;
+export default generateLetterPdfBuffer;

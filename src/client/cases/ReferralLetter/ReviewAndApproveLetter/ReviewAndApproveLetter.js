@@ -6,7 +6,7 @@ import getLetterPreview from "../thunks/getLetterPreview";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Document, Page } from "react-pdf";
-import generatePdf from "../thunks/generatePdf";
+import downloadPdf from "../thunks/downloadPdf";
 import { withStyles } from "@material-ui/core/styles";
 import { startLetterDownload } from "../../../actionCreators/letterActionCreators";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
@@ -33,7 +33,7 @@ class ReviewAndApproveLetter extends Component {
   componentDidMount() {
     this.props.getLetterPreview(this.state.caseId);
     this.props.startLetterDownload();
-    this.props.generatePdf(this.state.caseId);
+    this.props.downloadPdf(this.state.caseId);
   }
 
   letterPreviewNotYetLoaded = () => {
@@ -163,7 +163,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getLetterPreview,
-  generatePdf,
+  downloadPdf: downloadPdf,
   startLetterDownload,
   openCaseStatusUpdateDialog,
   approveReferralLetter

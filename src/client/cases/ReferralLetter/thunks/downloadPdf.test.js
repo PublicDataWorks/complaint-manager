@@ -1,5 +1,5 @@
 import saveAs from "file-saver";
-import generatePdf from "./generatePdf";
+import downloadPdf from "./downloadPdf";
 import nock from "nock";
 import getAccessToken from "../../../auth/getAccessToken";
 import { push } from "react-router-redux";
@@ -12,7 +12,7 @@ import {
 jest.mock("file-saver", () => jest.fn());
 jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
-describe("generatePdf thunk", function() {
+describe("downloadPdf thunk", function() {
   const dispatch = jest.fn();
   const caseId = 2;
   const token = "token";
@@ -27,7 +27,7 @@ describe("generatePdf thunk", function() {
 
   test("redirects to login if no token", async () => {
     getAccessToken.mockImplementation(() => null);
-    await generatePdf(caseId, edited)(dispatch);
+    await downloadPdf(caseId, edited)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
@@ -43,7 +43,7 @@ describe("generatePdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/generate-pdf`)
         .reply(200, response);
 
-      await generatePdf(caseId, edited, true)(dispatch);
+      await downloadPdf(caseId, edited, true)(dispatch);
       const expectFile = new File([response], uneditedFileName);
 
       expect(saveAs).toHaveBeenCalledWith(expectFile, uneditedFileName);
@@ -62,7 +62,7 @@ describe("generatePdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/generate-pdf`)
         .reply(200, response);
 
-      await generatePdf(caseId, edited, true)(dispatch);
+      await downloadPdf(caseId, edited, true)(dispatch);
       const expectFile = new File([response], editedFileName);
 
       expect(saveAs).toHaveBeenCalledWith(expectFile, editedFileName);
@@ -79,7 +79,7 @@ describe("generatePdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/generate-pdf`)
         .reply(500);
 
-      await generatePdf(caseId, edited, true)(dispatch);
+      await downloadPdf(caseId, edited, true)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(
         snackbarError(
           "Something went wrong and the letter was not downloaded. Please try again."
@@ -102,7 +102,7 @@ describe("generatePdf thunk", function() {
         .reply(200, "hello world");
 
       let arrayBuffer = new ArrayBuffer("hello world");
-      await generatePdf(caseId)(dispatch);
+      await downloadPdf(caseId)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(getLetterPdfSuccess(arrayBuffer));
       expect(saveAs).not.toHaveBeenCalled();
       expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
@@ -118,7 +118,7 @@ describe("generatePdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/generate-pdf`)
         .reply(500);
 
-      await generatePdf(caseId)(dispatch);
+      await downloadPdf(caseId)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(
         snackbarError(
           "Something went wrong and the letter was not downloaded. Please try again."
