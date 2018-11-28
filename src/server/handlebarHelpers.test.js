@@ -469,18 +469,4 @@ describe("handlebarHelpers", function() {
       expect(extractedFirstLine).toEqual(expectedFirstLine);
     });
   });
-
-  describe("getImagePath", () => {
-    test("gets absolute path", () => {
-      const absolutePath = getImagePath(
-        "/handlers/cases/referralLetters/generatePdf/assets/dog_nose.jpg"
-      );
-
-      expect(
-        absolutePath.match(
-          /file:\/.*\/src\/server\/handlers\/cases\/referralLetters\/generatePdf\/assets\/dog_nose.jpg/
-        )
-      ).toBeTruthy();
-    });
-  });
 });
