@@ -54,6 +54,12 @@ const CaseStatusStepper = ({
     );
   };
 
+  const getActiveStep = () => {
+    return CASE_STATUS_MAP[status] === 5
+      ? 6 // marks closed status with a checkmark
+      : CASE_STATUS_MAP[status];
+  };
+
   const renderStatusButton = () => {
     if (
       currentStatusDoesNotNeedButton() ||
@@ -121,11 +127,12 @@ const CaseStatusStepper = ({
       </div>
     );
   };
+
   return (
     <Fragment>
       <Stepper
         data-test="statusStepper"
-        activeStep={CASE_STATUS_MAP[status]}
+        activeStep={getActiveStep()}
         alternativeLabel
         style={{ marginLeft: "5%", maxWidth: "850px", padding: "24px 0px" }}
       >
