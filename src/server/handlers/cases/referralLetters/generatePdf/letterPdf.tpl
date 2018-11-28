@@ -20,7 +20,6 @@
     <div id="pageFooter" style="text-align: center; margin-top: 16px">
             <span  style="display:inline-block; margin: 6px 16px 0 0">
                 <img style="max-width: 30px" src="file:/app/src/server/handlers/cases/referralLetters/generatePdf/assets/icon.ico" />
-
             </span>
       <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">
                 INDEPENDENT POLICE MONITOR <br />
