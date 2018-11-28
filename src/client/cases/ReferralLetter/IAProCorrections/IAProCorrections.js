@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import getReferralLetter from "../thunks/getReferralLetter";
+import getReferralLetterData from "../thunks/getReferralLetterData";
 import { LETTER_PROGRESS } from "../../../../sharedUtilities/constants";
 import NavBar from "../../../shared/components/NavBar/NavBar";
 import { Card, CardContent, Typography } from "@material-ui/core";
@@ -26,7 +26,7 @@ class IAProCorrections extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getReferralLetter(this.state.caseId));
+    this.props.dispatch(getReferralLetterData(this.state.caseId));
   }
 
   saveAndReturnToCase = () => {

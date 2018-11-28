@@ -8,7 +8,7 @@ import {
 import auditDataAccess from "../../../auditDataAccess";
 import models from "../../../../models";
 
-const getReferralLetter = asyncMiddleware(async (request, response) => {
+const getReferralLetterData = asyncMiddleware(async (request, response) => {
   const caseId = request.params.caseId;
   await checkForValidStatus(caseId);
   await models.sequelize.transaction(async transaction => {
@@ -27,4 +27,4 @@ const getReferralLetter = asyncMiddleware(async (request, response) => {
   });
 });
 
-module.exports = getReferralLetter;
+module.exports = getReferralLetterData;

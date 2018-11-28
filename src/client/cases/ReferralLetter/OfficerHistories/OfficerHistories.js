@@ -13,7 +13,7 @@ import OfficerHistoryTabContent from "./OfficerHistoryTabContent";
 import { FieldArray, reduxForm } from "redux-form";
 import WarningMessage from "../../../shared/components/WarningMessage";
 import RemoveOfficerHistoryNoteDialog from "./RemoveOfficerHistoryNoteDialog";
-import getReferralLetter from "../thunks/getReferralLetter";
+import getReferralLetterData from "../thunks/getReferralLetterData";
 import {
   PrimaryButton,
   SecondaryButton
@@ -65,7 +65,7 @@ class OfficerHistories extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getReferralLetter(this.state.caseId));
+    this.props.dispatch(getReferralLetterData(this.state.caseId));
   }
 
   handleTabChange = (event, selectedTab) => {

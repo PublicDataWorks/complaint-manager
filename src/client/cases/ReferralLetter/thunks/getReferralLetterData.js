@@ -5,7 +5,7 @@ import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCr
 import config from "../../../config/config";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 
-const getReferralLetter = caseId => async dispatch => {
+const getReferralLetterData = caseId => async dispatch => {
   const token = getAccessToken();
 
   if (!token) {
@@ -40,4 +40,4 @@ const getReferralLetter = caseId => async dispatch => {
   }
 };
 
-export default getReferralLetter;
+export default getReferralLetterData;

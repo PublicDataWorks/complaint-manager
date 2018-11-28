@@ -36,7 +36,7 @@ const generateAttachmentDownloadUrl = require("./handlers/cases/attachments/gene
 const createOfficerAllegation = require("./handlers/officerAllegations/createOfficerAllegation/createOfficerAllegation");
 const editOfficerAllegation = require("./handlers/officerAllegations/editOfficerAllegation/editOfficerAllegation");
 const removeOfficerAllegation = require("./handlers/officerAllegations/removeOfficerAllegation/removeOfficerAllegation");
-const getReferralLetter = require("./handlers/cases/referralLetters/getReferralLetter/getReferralLetter");
+const getReferralLetterData = require("./handlers/cases/referralLetters/getReferralLetterData/getReferralLetterData");
 const scheduleExport = require("./handlers/cases/export/scheduleExport");
 const exportJob = require("./handlers/cases/export/exportJob");
 const getRecommendedActions = require("./handlers/cases/referralLetters/getRecommendedActions/getRecommendedActions");
@@ -81,7 +81,7 @@ router.delete(
 );
 
 router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
-router.get("/cases/:caseId/referral-letter", getReferralLetter);
+router.get("/cases/:caseId/referral-letter", getReferralLetterData);
 router.get("/cases/:caseId/referral-letter/preview", getLetterPreview);
 router.put(
   "/cases/:caseId/referral-letter/officer-history",

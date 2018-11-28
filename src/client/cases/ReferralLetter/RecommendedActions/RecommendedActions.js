@@ -1,4 +1,4 @@
-import getReferralLetter from "../thunks/getReferralLetter";
+import getReferralLetterData from "../thunks/getReferralLetterData";
 import _ from "lodash";
 import { LETTER_PROGRESS } from "../../../../sharedUtilities/constants";
 import NavBar from "../../../shared/components/NavBar/NavBar";
@@ -33,7 +33,7 @@ class RecommendedActions extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getReferralLetter(this.state.caseId));
+    this.props.dispatch(getReferralLetterData(this.state.caseId));
     this.props.dispatch(getRecommendedActions());
   }
 

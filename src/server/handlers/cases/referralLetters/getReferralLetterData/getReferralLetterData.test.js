@@ -6,7 +6,7 @@ import LetterOfficer from "../../../../../client/testUtilities/LetterOfficer";
 import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
-import getReferralLetter from "./getReferralLetter";
+import getReferralLetterData from "./getReferralLetterData";
 import httpMocks from "node-mocks-http";
 import {
   AUDIT_TYPE,
@@ -19,7 +19,7 @@ import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/R
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 
-describe("getReferralLetter", () => {
+describe("getReferralLetterData", () => {
   let existingCase, referralLetter, request, response, next, emptyObject;
 
   afterEach(async () => {
@@ -67,7 +67,7 @@ describe("getReferralLetter", () => {
   });
 
   test("audits the data access", async () => {
-    await getReferralLetter(request, response, next);
+    await getReferralLetterData(request, response, next);
 
     const dataAccessAudit = await models.action_audit.find();
     expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
@@ -111,7 +111,7 @@ describe("getReferralLetter", () => {
       referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
     };
 
-    await getReferralLetter(request, response, next);
+    await getReferralLetterData(request, response, next);
     expect(response._getData()).toEqual(expectedResponseBody);
   });
 
@@ -179,7 +179,7 @@ describe("getReferralLetter", () => {
         referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
       };
 
-      await getReferralLetter(request, response, next);
+      await getReferralLetterData(request, response, next);
       expect(response._getData()).toEqual(expectedResponseBody);
     });
 
@@ -227,7 +227,7 @@ describe("getReferralLetter", () => {
         referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
       };
 
-      await getReferralLetter(request, response, next);
+      await getReferralLetterData(request, response, next);
       expect(response._getData()).toEqual(expectedResponseBody);
     });
 
@@ -290,7 +290,7 @@ describe("getReferralLetter", () => {
         ],
         referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
       };
-      await getReferralLetter(request, response, next);
+      await getReferralLetterData(request, response, next);
       expect(response._getData()).toEqual(expectedResponseBody);
     });
   });
@@ -316,7 +316,7 @@ describe("getReferralLetter", () => {
       ]
     };
 
-    await getReferralLetter(request, response, next);
+    await getReferralLetterData(request, response, next);
     expect(response._getData()).toEqual(expectedResponseBody);
   });
 
@@ -333,7 +333,7 @@ describe("getReferralLetter", () => {
       ]
     };
 
-    await getReferralLetter(request, response, next);
+    await getReferralLetterData(request, response, next);
     expect(response._getData()).toEqual(expectedResponseBody);
   });
 
@@ -376,7 +376,7 @@ describe("getReferralLetter", () => {
       referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
     };
 
-    await getReferralLetter(request, response, next);
+    await getReferralLetterData(request, response, next);
     expect(response._getData()).toEqual(expectedResponseBody);
   });
 });

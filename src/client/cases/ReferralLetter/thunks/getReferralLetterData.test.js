@@ -3,10 +3,10 @@ import nock from "nock";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 jest.mock("../../../auth/getAccessToken");
 import { push } from "react-router-redux";
-import getReferralLetter from "./getReferralLetter";
+import getReferralLetterData from "./getReferralLetterData";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 
-describe("getReferralLetter", () => {
+describe("getReferralLetterData", () => {
   let caseId, dispatch;
   beforeEach(() => {
     caseId = 5;
@@ -15,7 +15,7 @@ describe("getReferralLetter", () => {
 
   test("redirects to login if no token", async () => {
     getAccessToken.mockImplementation(() => false);
-    await getReferralLetter(caseId)(dispatch);
+    await getReferralLetterData(caseId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
@@ -29,7 +29,7 @@ describe("getReferralLetter", () => {
       .get(`/api/cases/${caseId}/referral-letter`)
       .reply(200, responseBody);
 
-    await getReferralLetter(caseId)(dispatch);
+    await getReferralLetterData(caseId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       getReferralLetterSuccess(responseBody)
     );
@@ -41,7 +41,7 @@ describe("getReferralLetter", () => {
       .get(`/api/cases/${caseId}/referral-letter`)
       .reply(500);
 
-    await getReferralLetter(caseId)(dispatch);
+    await getReferralLetterData(caseId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
         "Something went wrong and the page could not be loaded. Please try again."
@@ -58,7 +58,7 @@ describe("getReferralLetter", () => {
       .get(`/api/cases/${caseId}/referral-letter`)
       .reply(400, responseBody);
 
-    await getReferralLetter(caseId)(dispatch);
+    await getReferralLetterData(caseId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
 
@@ -72,7 +72,7 @@ describe("getReferralLetter", () => {
       .get(`/api/cases/${caseId}/referral-letter`)
       .reply(200, responseBody);
 
-    await getReferralLetter(caseId)(dispatch);
+    await getReferralLetterData(caseId)(dispatch);
     expect(dispatch).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
     expect(dispatch).toHaveBeenCalledWith(
       getReferralLetterSuccess(responseBody)
