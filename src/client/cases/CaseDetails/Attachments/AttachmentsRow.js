@@ -6,6 +6,14 @@ import inBrowserDownload from "../../thunks/inBrowserDownload";
 import { connect } from "react-redux";
 
 const AttachmentsRow = ({ attachment, onRemoveAttachment, dispatch }) => {
+  const onDownloadClick = () =>
+    dispatch(
+      inBrowserDownload(
+        `/api/cases/${attachment.caseId}/attachmentUrls/${attachment.fileName}`,
+        `attachment-${attachment.id}-DownloadLink`
+      )
+    );
+
   return (
     <div>
       <div
@@ -19,23 +27,19 @@ const AttachmentsRow = ({ attachment, onRemoveAttachment, dispatch }) => {
         data-test="attachmentRow"
       >
         <div style={{ flex: 1, textAlign: "left", marginRight: "32px" }}>
-          <a href="#dynamicLink"> </a>
+          <a
+            href="#dynamicLink"
+            id={`attachment-${attachment.id}-DownloadLink`}
+          >
+            {" "}
+          </a>
           <Typography
             data-test="attachmentName"
             style={{
               ...styles.link,
               cursor: "pointer"
             }}
-            onClick={e =>
-              dispatch(
-                inBrowserDownload(
-                  `/api/cases/${attachment.caseId}/attachmentUrls/${
-                    attachment.fileName
-                  }`,
-                  e.target.parentElement.getElementsByTagName("a")[0]
-                )
-              )
-            }
+            onClick={onDownloadClick}
           >
             {attachment.fileName}
           </Typography>

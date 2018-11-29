@@ -8,6 +8,10 @@ EventEmitter.defaultMaxListeners = 67;
 Enzyme.configure({ adapter: new Adapter() });
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
+import { JSDOM } from "jsdom";
+const dom = new JSDOM();
+global.document = dom.window.document;
+
 winston.configure({
   transports: [
     new winston.transports.Console({

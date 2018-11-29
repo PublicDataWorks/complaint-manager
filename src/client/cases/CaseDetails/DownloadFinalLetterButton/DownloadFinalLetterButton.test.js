@@ -5,12 +5,16 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import { mount } from "enzyme";
-import getFinalPdfUrl from "../../ReferralLetter/thunks/getFinalPdfUrl";
+import config from "../../../config/config";
+import inBrowserDownload from "../../thunks/inBrowserDownload";
 
-jest.mock("../../ReferralLetter/thunks/getFinalPdfUrl", () => caseId => ({
-  type: "SUCCESS",
-  caseId
-}));
+jest.mock("../../thunks/inBrowserDownload", () => (apiRoute, linkAnchorId) => {
+  return {
+    type: "SUCCESS",
+    apiRoute,
+    anchorId: linkAnchorId
+  };
+});
 
 describe("DownloadFinalLetterButton", () => {
   let wrapper, store, dispatchSpy, caseId;
@@ -52,12 +56,17 @@ describe("DownloadFinalLetterButton", () => {
     expect(button.exists()).toBeTruthy();
   });
 
-  test("should dispatch actions to start download and get download url on button click", () => {
+  test("should dispatch inBrowserDownload with correct params on button click", () => {
     const button = wrapper
       .find("[data-test='download-final-letter-button']")
       .first();
     button.simulate("click");
-    expect(dispatchSpy).toHaveBeenCalledWith(getFinalPdfUrl(caseId));
-    //start download spinner
+
+    const apiRoute = `${
+      config[process.env.NODE_ENV].hostname
+    }/api/cases/${caseId}/referral-letter/final-pdf-url`;
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      inBrowserDownload(apiRoute, "dynamicLetterDownloadLink")
+    );
   });
 });

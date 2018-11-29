@@ -3,7 +3,7 @@ import { push } from "react-router-redux";
 import downloadFailed from "../../actionCreators/downloadActionCreators";
 import axios from "axios";
 
-const inBrowserDownload = (path, htmlAnchor) => async dispatch => {
+const inBrowserDownload = (path, htmlAnchorId) => async dispatch => {
   if (!getAccessToken()) {
     return dispatch(push("/login"));
   }
@@ -14,6 +14,7 @@ const inBrowserDownload = (path, htmlAnchor) => async dispatch => {
       }
     });
 
+    const htmlAnchor = document.getElementById(htmlAnchorId);
     htmlAnchor.href = response.data;
     htmlAnchor.click();
   } catch (e) {
