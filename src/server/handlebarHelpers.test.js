@@ -11,7 +11,7 @@ import {
   showRecommendedActions,
   sumAllegations
 } from "./handlebarHelpers";
-import { SIGNATURE_URLS } from "../sharedUtilities/constants";
+import { CASE_STATUS, SIGNATURE_URLS } from "../sharedUtilities/constants";
 
 describe("handlebarHelpers", function() {
   describe("formatAddress", function() {
@@ -415,17 +415,42 @@ describe("handlebarHelpers", function() {
   });
 
   describe("generateSignature", function() {
-    test("should return an empty space when no signature for given name", () => {
+    const blankLine = "<p><br></p>";
+    const signaturePath = `<img style="max-height: 40px" src=${
+      SIGNATURE_URLS.STELLA_PATH
+    } />`;
+
+    test("should return an empty space when no signature for given name and case status is FORWARDED_TO_AGENCY", () => {
       const emptyString = "";
-      const blankLine = "<p><br></p>";
-      expect(generateSignature(emptyString)).toEqual(blankLine);
+      expect(
+        generateSignature(emptyString, CASE_STATUS.FORWARDED_TO_AGENCY)
+      ).toEqual(blankLine);
     });
-    test("should return stellas signature when stella is sender", () => {
+    test("should return stellas signature when stella is sender and case status is FORWARDED_TO_AGENCY", () => {
       const sender = "Stella Cziment\nDPM";
-      const signaturePath = `<img style="max-height: 40px" src=${
-        SIGNATURE_URLS.STELLA_PATH
-      } />`;
-      expect(generateSignature(sender)).toEqual(signaturePath);
+
+      expect(
+        generateSignature(sender, CASE_STATUS.FORWARDED_TO_AGENCY)
+      ).toEqual(signaturePath);
+    });
+    test("should return stellas signature when stella is sender and case status is CLOSED", () => {
+      const sender = "Stella Cziment\nDPM";
+
+      expect(generateSignature(sender, CASE_STATUS.CLOSED)).toEqual(
+        signaturePath
+      );
+    });
+    test("should not return signature case status is READY_FOR_REVIEW", () => {
+      const sender = "Stella Cziment\nDPM";
+      expect(generateSignature(sender, CASE_STATUS.READY_FOR_REVIEW)).toEqual(
+        blankLine
+      );
+    });
+    test("should not return signature case status is LETTER_IN_PROGRESS", () => {
+      const sender = "Stella Cziment\nDPM";
+      expect(generateSignature(sender, CASE_STATUS.LETTER_IN_PROGRESS)).toEqual(
+        blankLine
+      );
     });
   });
 });

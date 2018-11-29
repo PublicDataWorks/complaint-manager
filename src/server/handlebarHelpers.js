@@ -7,6 +7,7 @@ import {
 } from "../client/utilities/formatDate";
 import formatPhoneNumber from "../client/utilities/formatPhoneNumber";
 import {
+  CASE_STATUS,
   CIVILIAN_INITIATED,
   RANK_INITIATED,
   SIGNATURE_URLS
@@ -127,7 +128,10 @@ export const extractFirstLine = text => {
 };
 Handlebars.registerHelper("extractFirstLine", extractFirstLine);
 
-export const generateSignature = sender => {
+export const generateSignature = (sender, status) => {
+  if (![CASE_STATUS.CLOSED, CASE_STATUS.FORWARDED_TO_AGENCY].includes(status)) {
+    return "<p><br></p>";
+  }
   if (sender.includes("Stella Cziment")) {
     return `<img style="max-height: 40px" src=${SIGNATURE_URLS.STELLA_PATH} />`;
   }
