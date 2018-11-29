@@ -5,20 +5,32 @@ import nock from "nock";
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("in browser download thunk", function() {
-  const testPath = "/some-path";
-  const dispatch = jest.fn();
+  let testPath,
+    dispatch,
+    htmlAnchorId,
+    getElementSpy,
+    linkClickSpy,
+    htmlAnchor,
+    responseData,
+    mockCallback;
 
-  test("should add an anchor html tag with the file to download", async () => {
-    const htmlAnchorId = "id";
-    const getElementSpy = jest.spyOn(document, "getElementById");
-    const linkClickSpy = jest.fn();
-    const htmlAnchor = {
+  beforeEach(() => {
+    testPath = "/some-path";
+    dispatch = jest.fn();
+    htmlAnchorId = "id";
+    getElementSpy = jest.spyOn(document, "getElementById");
+    linkClickSpy = jest.fn();
+    htmlAnchor = {
       href: "",
       click: linkClickSpy
     };
+    responseData = "https://url of the file to download";
+    mockCallback = jest.fn();
+  });
+
+  test("should add an anchor html tag with the file to download", async () => {
     getElementSpy.mockImplementationOnce(id => htmlAnchor);
 
-    const responseData = "https://url of the file to download";
     nock("http://localhost", {
       reqheaders: {
         Authorization: `Bearer TEST_TOKEN`
@@ -34,8 +46,22 @@ describe("in browser download thunk", function() {
     expect(linkClickSpy).toHaveBeenCalled();
   });
 
+  test("calls callback on success if given", async () => {
+    getElementSpy.mockImplementationOnce(id => htmlAnchor);
+
+    nock("http://localhost", {
+      reqheaders: {
+        Authorization: `Bearer TEST_TOKEN`
+      }
+    })
+      .get(testPath)
+      .reply(200, responseData);
+
+    await inBrowserDownload(testPath, htmlAnchorId, mockCallback)(dispatch);
+    expect(mockCallback).toHaveBeenCalled();
+  });
+
   test("should display error snackbar when download fails", async () => {
-    const htmlAnchorId = "id";
     nock("http://localhost", {
       reqheaders: {
         Authorization: `Bearer TEST_TOKEN`
@@ -45,5 +71,17 @@ describe("in browser download thunk", function() {
       .reply(500);
     await inBrowserDownload(testPath, htmlAnchorId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(downloadFailed());
+  });
+
+  test("should execute callback if given when download fails", async () => {
+    nock("http://localhost", {
+      reqheaders: {
+        Authorization: `Bearer TEST_TOKEN`
+      }
+    })
+      .get(testPath)
+      .reply(500);
+    await inBrowserDownload(testPath, htmlAnchorId, mockCallback)(dispatch);
+    expect(mockCallback).toHaveBeenCalled();
   });
 });

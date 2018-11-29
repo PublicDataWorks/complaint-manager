@@ -7,14 +7,19 @@ import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import { mount } from "enzyme";
 import config from "../../../config/config";
 import inBrowserDownload from "../../thunks/inBrowserDownload";
+import { startLetterDownload } from "../../../actionCreators/letterActionCreators";
 
-jest.mock("../../thunks/inBrowserDownload", () => (apiRoute, linkAnchorId) => {
-  return {
-    type: "SUCCESS",
-    apiRoute,
-    anchorId: linkAnchorId
-  };
-});
+jest.mock(
+  "../../thunks/inBrowserDownload",
+  () => (apiRoute, anchorId, callback) => {
+    return {
+      type: "SUCCESS",
+      apiRoute,
+      anchorId,
+      callback
+    };
+  }
+);
 
 describe("DownloadFinalLetterButton", () => {
   let wrapper, store, dispatchSpy, caseId;
@@ -66,7 +71,38 @@ describe("DownloadFinalLetterButton", () => {
       config[process.env.NODE_ENV].hostname
     }/api/cases/${caseId}/referral-letter/final-pdf-url`;
     expect(dispatchSpy).toHaveBeenCalledWith(
-      inBrowserDownload(apiRoute, "dynamicLetterDownloadLink")
+      inBrowserDownload(
+        apiRoute,
+        "dynamicLetterDownloadLink",
+        expect.any(Function)
+      )
     );
+  });
+
+  test("should start download progress indicator on click button", () => {
+    const button = wrapper
+      .find("[data-test='download-final-letter-button']")
+      .first();
+    button.simulate("click");
+    expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
+  });
+
+  test("should display progress indicator while downloading file", () => {
+    const button = wrapper
+      .find("[data-test='download-final-letter-button']")
+      .first();
+    button.simulate("click");
+    wrapper.update();
+    const progressIndicator = wrapper
+      .find('[data-test="download-letter-progress-indicator"]')
+      .first();
+    expect(progressIndicator.props().style.display).toEqual("");
+  });
+
+  test("should not display progress indicator while not downloading file", () => {
+    const progressIndicator = wrapper
+      .find('[data-test="download-letter-progress-indicator"]')
+      .first();
+    expect(progressIndicator.props().style.display).toEqual("none");
   });
 });

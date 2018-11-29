@@ -4,15 +4,23 @@ import { connect } from "react-redux";
 import LinkButton from "../../../shared/components/LinkButton";
 import config from "../../../config/config";
 import inBrowserDownload from "../../thunks/inBrowserDownload";
+import {
+  startLetterDownload,
+  stopLetterDownload
+} from "../../../actionCreators/letterActionCreators";
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 class DownloadFinalLetterButton extends React.Component {
   startLetterDownload = () => {
+    const { startLetterDownload, stopLetterDownload, caseId } = this.props;
     const hostname = config[process.env.NODE_ENV].hostname;
-    const apiRouteForSignedS3Link = `${hostname}/api/cases/${
-      this.props.caseId
-    }/referral-letter/final-pdf-url`;
-    this.props.dispatch(
-      inBrowserDownload(apiRouteForSignedS3Link, "dynamicLetterDownloadLink")
+    const apiRouteForSignedS3Link = `${hostname}/api/cases/${caseId}/referral-letter/final-pdf-url`;
+
+    startLetterDownload();
+    this.props.inBrowserDownload(
+      apiRouteForSignedS3Link,
+      "dynamicLetterDownloadLink",
+      stopLetterDownload
     );
   };
 
@@ -35,6 +43,11 @@ class DownloadFinalLetterButton extends React.Component {
         >
           Download Letter
         </LinkButton>
+        <CircularProgress
+          data-test={"download-letter-progress-indicator"}
+          size={25}
+          style={{ display: this.props.downloadInProgress ? "" : "none" }}
+        />
         <a id="dynamicLetterDownloadLink" href="#dynamicLetterDownloadLink">
           {" "}
         </a>
@@ -43,9 +56,19 @@ class DownloadFinalLetterButton extends React.Component {
   }
 }
 
+const mapDispatchToProps = {
+  startLetterDownload,
+  inBrowserDownload,
+  stopLetterDownload
+};
+
 const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
-  status: state.currentCase.details.status
+  status: state.currentCase.details.status,
+  downloadInProgress: state.ui.letterDownload.downloadInProgress
 });
 
-export default connect(mapStateToProps)(DownloadFinalLetterButton);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DownloadFinalLetterButton);
