@@ -10,7 +10,7 @@ const initialState = {
   letterDetails: {},
   letterHtml: "",
   addresses: {},
-  editHistory: { edited: false },
+  editHistory: {},
   finalPdfUrl: null
 };
 const referralLetterReducer = (state = initialState, action) => {

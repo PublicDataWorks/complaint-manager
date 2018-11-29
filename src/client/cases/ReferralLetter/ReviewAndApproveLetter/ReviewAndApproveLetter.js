@@ -8,7 +8,10 @@ import { Link } from "react-router-dom";
 import { Document, Page } from "react-pdf";
 import getPdf from "../thunks/getPdf";
 import { withStyles } from "@material-ui/core/styles";
-import { startLetterDownload } from "../../../actionCreators/letterActionCreators";
+import {
+  getLetterPdfSuccess,
+  startLetterDownload
+} from "../../../actionCreators/letterActionCreators";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import { dateTimeFromString } from "../../../utilities/formatDate";
 import { pdfjs } from "react-pdf";
@@ -27,7 +30,14 @@ const styles = theme => ({
 class ReviewAndApproveLetter extends Component {
   constructor(props) {
     super(props);
-    this.state = { caseId: this.props.match.params.id, numPages: null };
+    this.state = {
+      caseId: this.props.match.params.id,
+      numPages: null
+    };
+  }
+
+  componentWillUnmount() {
+    this.props.getLetterPdfSuccess(null);
   }
 
   componentDidMount() {
@@ -37,11 +47,14 @@ class ReviewAndApproveLetter extends Component {
   }
 
   letterPreviewNotYetLoaded = () => {
-    return this.props.editHistory === "";
+    return this.props.letterPdf === null;
   };
 
   getTimestamp() {
     let message;
+    if (this.props.editHistory.edited === undefined) {
+      return;
+    }
     if (this.props.editHistory && this.props.editHistory.lastEdited) {
       const generatedDate = dateTimeFromString(
         this.props.editHistory.lastEdited
@@ -62,6 +75,17 @@ class ReviewAndApproveLetter extends Component {
 
   openUpdateCaseDialog = () => {
     this.props.openCaseStatusUpdateDialog();
+  };
+
+  renderPages = () => {
+    return Array.from(new Array(this.state.numPages), (el, index) => (
+      <Page
+        key={`page_${index + 1}`}
+        pageNumber={index + 1}
+        scale={1.3}
+        className={this.props.classes.pageStyling}
+      />
+    ));
   };
 
   render() {
@@ -118,14 +142,7 @@ class ReviewAndApproveLetter extends Component {
                 onLoadSuccess={this.onDocumentLoadSuccess}
                 noData=""
               >
-                {Array.from(new Array(this.state.numPages), (el, index) => (
-                  <Page
-                    key={`page_${index + 1}`}
-                    pageNumber={index + 1}
-                    scale={1.3}
-                    className={this.props.classes.pageStyling}
-                  />
-                ))}
+                {this.renderPages()}
               </Document>
               <div style={{ textAlign: "center", marginTop: "8px" }}>
                 <CircularProgress
@@ -164,10 +181,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getLetterPreview,
-  getPdf: getPdf,
+  getPdf,
   startLetterDownload,
   openCaseStatusUpdateDialog,
-  approveReferralLetter
+  approveReferralLetter,
+  getLetterPdfSuccess
 };
 
 export default withStyles(styles, { withTheme: true })(

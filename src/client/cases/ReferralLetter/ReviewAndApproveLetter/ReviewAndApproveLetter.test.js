@@ -57,14 +57,27 @@ describe("ReviewAndApproveLetter", () => {
     timekeeper.reset();
   });
 
-  test("should display automatically generated correct time of date", () => {
+  test("should not display anything when editHistory is empty", () => {
     const displayDate = wrapper.find('[data-test="edit-history"]').first();
+    expect(displayDate.text()).toEqual("");
+  });
+
+  test("should display today's date when edited is false and lastEdited is null", () => {
+    const displayDate = wrapper.find('[data-test="edit-history"]').first();
+    const letterHtml = "<p>html</p>";
+    const addresses = "<p>addresses</p>";
+    store.dispatch(
+      getLetterPreviewSuccess(letterHtml, addresses, {
+        edited: false,
+        lastEdited: null
+      })
+    );
     expect(displayDate.text()).toEqual(
       `This letter was generated on ${dateTimeFromString(nowTimestamp)}`
     );
   });
 
-  test("should display last edit history date", async () => {
+  test("shoulrysplay last edit history date", async () => {
     const letterHtml = "<p>html</p>";
     const addresses = "<p>addresses</p>";
     const inputDate = "2018-11-20T21:59:40.707Z";

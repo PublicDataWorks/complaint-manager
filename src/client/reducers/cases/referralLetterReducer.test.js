@@ -19,7 +19,7 @@ describe("referralLetterReducer", () => {
         letterDetails: {},
         letterHtml: "",
         addresses: {},
-        editHistory: { edited: false },
+        editHistory: {},
         letterPdf: null,
         finalPdfUrl: null
       });
@@ -37,7 +37,7 @@ describe("referralLetterReducer", () => {
         letterDetails,
         letterHtml: "",
         addresses: {},
-        editHistory: { edited: false },
+        editHistory: {},
         letterPdf: null,
         finalPdfUrl: null
       });
@@ -45,12 +45,12 @@ describe("referralLetterReducer", () => {
   });
 
   describe("GET_LETTER_PREVIEW_SUCCESS", () => {
-    test("sets the letter html", () => {
+    test("sets the letter html and edit history", () => {
       const initialState = {
         letterDetails: "something",
         letterHtml: "something",
         addresses: {},
-        editHistory: { edited: false },
+        editHistory: {},
         letterPdf: null,
         finalPdfUrl: "url"
       };
@@ -82,7 +82,7 @@ describe("referralLetterReducer", () => {
         letterDetails: "something",
         letterHtml: "something",
         addresses: {},
-        editHistory: { edited: false },
+        editHistory: {},
         letterPdf: null,
         finalPdfUrl: "url"
       };
@@ -94,7 +94,7 @@ describe("referralLetterReducer", () => {
         letterDetails: "something",
         letterHtml: "something",
         addresses: {},
-        editHistory: { edited: false },
+        editHistory: {},
         letterPdf: "letter pdf",
         finalPdfUrl: "url"
       };
@@ -108,7 +108,7 @@ describe("referralLetterReducer", () => {
         letterDetails: "something",
         letterHtml: "something",
         addresses: {},
-        editHistory: { edited: false },
+        editHistory: {},
         letterPdf: null,
         finalPdfUrl: null
       };
@@ -120,7 +120,7 @@ describe("referralLetterReducer", () => {
         letterDetails: "something",
         letterHtml: "something",
         addresses: {},
-        editHistory: { edited: false },
+        editHistory: {},
         letterPdf: null,
         finalPdfUrl: "url"
       };
