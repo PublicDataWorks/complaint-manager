@@ -6,6 +6,7 @@ import editReferralLetterAddresses from "./handlers/cases/referralLetters/editRe
 import editReferralLetterContent from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetterContent";
 import getPdf from "./handlers/cases/referralLetters/getPdf/getPdf";
 import approveLetter from "./handlers/cases/referralLetters/approveLetter/approveLetter";
+import getFinalPdfUrl from "./handlers/cases/referralLetters/getFinalPdfUrl/getFinalPdfUrl";
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
 const editCase = require("./handlers/cases/editCase");
@@ -119,6 +120,7 @@ router.get("/classifications", getClassifications);
 router.get("/recommended-actions", getRecommendedActions);
 
 router.get("/cases/:caseId/referral-letter/generate-pdf", getPdf);
+router.get("/cases/:caseId/referral-letter/final-pdf-url", getFinalPdfUrl);
 
 router.put("/cases/:caseId/referral-letter/approve-letter", approveLetter);
 

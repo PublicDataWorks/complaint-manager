@@ -12,6 +12,7 @@ import UpdateCaseStatusDialog from "../UpdateCaseStatusDialog/UpdateCaseStatusDi
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import { Link } from "react-router-dom";
 import LinkButton from "../../../shared/components/LinkButton";
+import DownloadFinalLetterButton from "../DownloadFinalLetterButton/DownloadFinalLetterButton";
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -114,16 +115,21 @@ const CaseStatusStepper = ({
     return (
       <div
         style={{
-          marginLeft: "5%",
           marginRight: "5%",
+          marginLeft: "5%",
           maxWidth: "850px",
           paddingBottom: "24px",
           display: "flex",
-          justifyContent: "flex-end"
+          justifyContent: "space-between"
         }}
       >
-        {renderEditLetterButton()}
-        {renderStatusButton()}
+        <div>
+          <DownloadFinalLetterButton />
+        </div>
+        <div>
+          {renderEditLetterButton()}
+          {renderStatusButton()}
+        </div>
       </div>
     );
   };

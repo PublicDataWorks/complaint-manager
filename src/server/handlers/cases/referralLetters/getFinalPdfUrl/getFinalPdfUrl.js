@@ -13,7 +13,7 @@ import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import Boom from "boom";
 
 const getFinalPdfUrl = asyncMiddleware(async (request, response, next) => {
-  const caseId = request.params.id;
+  const caseId = request.params.caseId;
   const existingCase = await models.cases.findById(caseId);
 
   validateCaseStatus(existingCase.status);
@@ -35,7 +35,7 @@ const getSignedS3Url = existingCase => {
   const s3 = createConfiguredS3Instance();
   return s3.getSignedUrl(S3_GET_OBJECT, {
     Bucket: config[process.env.NODE_ENV].referralLettersBucket,
-    Key: `${existingCase.id}/ReferralLetter_${existingCase.caseNumber}`,
+    Key: `${existingCase.id}/ReferralLetter_${existingCase.caseNumber}.pdf`,
     Expires: S3_URL_EXPIRATION
   });
 };

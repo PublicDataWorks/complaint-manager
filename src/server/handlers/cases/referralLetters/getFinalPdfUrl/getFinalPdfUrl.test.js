@@ -55,7 +55,7 @@ describe("getFinalPdfUrl", () => {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       params: {
-        id: existingCase.id
+        caseId: existingCase.id
       },
       nickname: "TEST_USER_NICKNAME"
     });
@@ -100,7 +100,7 @@ describe("getFinalPdfUrl", () => {
 
     expect(getSignedUrlMock).toHaveBeenCalledWith(S3_GET_OBJECT, {
       Bucket: config[process.env.NODE_ENV].referralLettersBucket,
-      Key: `${request.params.id}/ReferralLetter_${existingCase.caseNumber}`,
+      Key: `${existingCase.id}/ReferralLetter_${existingCase.caseNumber}.pdf`,
       Expires: S3_URL_EXPIRATION
     });
     expect(response._getData()).toEqual("url");

@@ -1,9 +1,11 @@
 import {
+  GET_FINAL_PDF_URL_SUCCESS,
   GET_LETTER_PDF_SUCCESS,
   GET_REFERRAL_LETTER_SUCCESS
 } from "../../../sharedUtilities/constants";
 import referralLetterReducer from "./referralLetterReducer";
 import {
+  getFinalPdfUrlSuccess,
   getLetterPdfSuccess,
   getLetterPreviewSuccess,
   getReferralLetterSuccess
@@ -18,7 +20,8 @@ describe("referralLetterReducer", () => {
         letterHtml: "",
         addresses: {},
         editHistory: { edited: false },
-        letterPdf: null
+        letterPdf: null,
+        finalPdfUrl: null
       });
     });
   });
@@ -35,7 +38,8 @@ describe("referralLetterReducer", () => {
         letterHtml: "",
         addresses: {},
         editHistory: { edited: false },
-        letterPdf: null
+        letterPdf: null,
+        finalPdfUrl: null
       });
     });
   });
@@ -47,7 +51,8 @@ describe("referralLetterReducer", () => {
         letterHtml: "something",
         addresses: {},
         editHistory: { edited: false },
-        letterPdf: null
+        letterPdf: null,
+        finalPdfUrl: "url"
       };
       let referralLetterAddresses = {
         recipient: "recipient",
@@ -65,7 +70,8 @@ describe("referralLetterReducer", () => {
         letterHtml: "new letter html",
         addresses: referralLetterAddresses,
         editHistory: { edited: true },
-        letterPdf: null
+        letterPdf: null,
+        finalPdfUrl: "url"
       });
     });
   });
@@ -77,7 +83,8 @@ describe("referralLetterReducer", () => {
         letterHtml: "something",
         addresses: {},
         editHistory: { edited: false },
-        letterPdf: null
+        letterPdf: null,
+        finalPdfUrl: "url"
       };
       const newState = referralLetterReducer(
         initialState,
@@ -88,7 +95,34 @@ describe("referralLetterReducer", () => {
         letterHtml: "something",
         addresses: {},
         editHistory: { edited: false },
-        letterPdf: "letter pdf"
+        letterPdf: "letter pdf",
+        finalPdfUrl: "url"
+      };
+      expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe("GET_FINAL_PDF_URL_SUCCESS", () => {
+    test("sets the pdf url", () => {
+      const initialState = {
+        letterDetails: "something",
+        letterHtml: "something",
+        addresses: {},
+        editHistory: { edited: false },
+        letterPdf: null,
+        finalPdfUrl: null
+      };
+      const newState = referralLetterReducer(
+        initialState,
+        getFinalPdfUrlSuccess("url")
+      );
+      const expectedState = {
+        letterDetails: "something",
+        letterHtml: "something",
+        addresses: {},
+        editHistory: { edited: false },
+        letterPdf: null,
+        finalPdfUrl: "url"
       };
       expect(newState).toEqual(expectedState);
     });
