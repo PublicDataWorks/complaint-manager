@@ -26,11 +26,19 @@ const caseDetailsCommands = {
       .assert.containsText("@updateStatusButton", "BEGIN LETTER")
       .click("@updateStatusButton");
   },
-  confirmBeginLetterInDialog: function() {
+  confirmUpdateStatusInDialog: function() {
     return this.waitForElementVisible(
       "@updateStatusDialogButton",
       e2e.rerenderWait
     ).click("@updateStatusDialogButton");
+  },
+  clickReviewAndApproveButton: function() {
+    return this.click("@reviewAndApproveButton");
+  },
+  closeCase: function() {
+    return this.waitForElementVisible("@updateStatusButton", e2e.rerenderWait)
+      .assert.containsText("@updateStatusButton", "MARK AS CLOSED")
+      .click("@updateStatusButton");
   }
 };
 
@@ -49,6 +57,9 @@ module.exports = {
       },
       updateStatusButton: {
         selector: "[data-test='update-status-button']"
+      },
+      reviewAndApproveButton: {
+        selector: "[data-test='review-and-approve-letter-button']"
       },
       updateStatusDialogButton: {
         selector: "[data-test='update-case-status-button']"

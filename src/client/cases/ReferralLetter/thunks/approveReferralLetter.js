@@ -25,7 +25,7 @@ const approveReferralLetter = (caseId, callback) => async dispatch => {
         }
       }
     );
-    dispatch(snackbarSuccess("Case status was successfully updated"));
+    dispatch(snackbarSuccess("Status was successfully updated"));
     dispatch(push(`/cases/${caseId}`));
   } catch (error) {
     if (

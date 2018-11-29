@@ -288,7 +288,7 @@ if (TEST_PASS && TEST_USER && HOST) {
       const caseReview = browser.page.CaseReview();
       const snackbar = browser.page.SnackbarPOM();
 
-      caseDetails.beginLetter().confirmBeginLetterInDialog();
+      caseDetails.beginLetter().confirmUpdateStatusInDialog();
 
       caseReview.isOnPage();
 
@@ -400,6 +400,32 @@ if (TEST_PASS && TEST_USER && HOST) {
       letterPreview.clickSubmit().confirmSubmit();
 
       caseDetails.isOnPage();
+
+      snackbar.presentWithMessage("Status was successfully updated").close();
+    },
+
+    "should redirect to review-and-approve page and approve letter": browser => {
+      const caseDetails = browser.page.CaseDetails();
+      const reviewAndApprove = browser.page.ReviewAndApprove();
+      const snackbar = browser.page.SnackbarPOM();
+
+      caseDetails.clickReviewAndApproveButton();
+
+      reviewAndApprove
+        .isOnPage()
+        .clickApproveLetter()
+        .clickApproveLetterOnDialog();
+
+      caseDetails.isOnPage();
+
+      snackbar.presentWithMessage("Status was successfully updated").close();
+    },
+
+    "should update status to closed": browser => {
+      const caseDetails = browser.page.CaseDetails();
+      const snackbar = browser.page.SnackbarPOM();
+
+      caseDetails.closeCase().confirmUpdateStatusInDialog();
 
       snackbar.presentWithMessage("Status was successfully updated").close();
     },

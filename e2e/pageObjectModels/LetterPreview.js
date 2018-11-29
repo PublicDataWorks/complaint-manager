@@ -9,13 +9,13 @@ const letterPreviewCommands = {
     return this;
   },
   clickEditLetter: function() {
-    return this.click("@editButton").waitForElementPresent(
-      "@dialogEditButton",
-      e2e.rerenderWait
-    );
+    return this.click("@editButton");
   },
   confirmEditLetterOnDialog: function() {
-    return this.click("@dialogEditButton");
+    return this.waitForElementPresent(
+      "@dialogEditButton",
+      e2e.rerenderWait
+    ).click("@dialogEditButton");
   },
   clickSubmit: function() {
     return this.click("@submitButton").waitForElementPresent(

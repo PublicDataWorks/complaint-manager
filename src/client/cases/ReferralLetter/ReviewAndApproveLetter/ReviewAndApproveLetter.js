@@ -91,6 +91,7 @@ class ReviewAndApproveLetter extends Component {
               marginBottom: "24px"
             }}
             variant="title"
+            data-test="review-and-approve-page-header"
           >
             Review and Approve Letter
           </Typography>

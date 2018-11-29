@@ -36,7 +36,7 @@ describe("approve referral letter", () => {
       .reply(200, {});
     await approveReferralLetter(caseId, mockCallback)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Case status was successfully updated")
+      snackbarSuccess("Status was successfully updated")
     );
     expect(mockCallback).toHaveBeenCalled();
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
