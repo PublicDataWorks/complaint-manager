@@ -84,7 +84,7 @@ describe("Generate referral letter pdf", () => {
 
   test("returns letter pdf blob", async () => {
     await request(app)
-      .get(`/api/cases/${existingCase.id}/referral-letter/generate-pdf`)
+      .get(`/api/cases/${existingCase.id}/referral-letter/get-pdf`)
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .expect(200)

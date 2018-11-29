@@ -28,8 +28,7 @@ const generateLetterPdfBuffer = async (caseId, transaction) => {
     border: "0.5in",
     header: { height: "1.3 in" },
     footer: { height: "0.7 in" },
-    base:
-      "file:///app/src/server/handlers/cases/referralLetters/getPdf/assets/"
+    base: "file:///app/src/server/handlers/cases/referralLetters/getPdf/assets/"
   };
 
   const fullLetterHtml = await generateLetterPdfHtml(letterBody, pdfData);
@@ -42,7 +41,7 @@ const generateLetterPdfBuffer = async (caseId, transaction) => {
 
 const getPdfData = async (caseId, transaction) => {
   return await models.cases.findById(caseId, {
-    attributes: ["incidentDate", "complaintType", "id"],
+    attributes: ["incidentDate", "complaintType", "id", "status"],
     include: [
       {
         model: models.referral_letter,
@@ -63,6 +62,7 @@ export const generateLetterPdfHtml = (letterBody, pdfData) => {
     sender: pdfData.referralLetter.sender,
     transcribedBy: pdfData.referralLetter.transcribedBy,
     caseNumber: pdfData.caseNumber,
+    caseStatus: pdfData.status,
     currentDate
   };
 

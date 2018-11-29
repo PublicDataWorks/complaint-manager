@@ -119,8 +119,8 @@ router.get("/allegations", getAllegations);
 router.get("/classifications", getClassifications);
 router.get("/recommended-actions", getRecommendedActions);
 
-router.get("/cases/:caseId/referral-letter/generate-pdf", getPdf);
 router.get("/cases/:caseId/referral-letter/final-pdf-url", getFinalPdfUrl);
+router.get("/cases/:caseId/referral-letter/get-pdf", getPdf);
 
 router.put("/cases/:caseId/referral-letter/approve-letter", approveLetter);
 

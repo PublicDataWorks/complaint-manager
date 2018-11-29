@@ -11,7 +11,7 @@ import {
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
-const downloadPdf = (
+const getPdf = (
   caseId,
   edited,
   saveFileForUser = false
@@ -22,7 +22,7 @@ const downloadPdf = (
   }
   try {
     const response = await axios.get(
-      `${hostname}/api/cases/${caseId}/referral-letter/generate-pdf`,
+      `${hostname}/api/cases/${caseId}/referral-letter/get-pdf`,
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -50,4 +50,4 @@ const downloadPdf = (
   }
 };
 
-export default downloadPdf;
+export default getPdf;

@@ -1,5 +1,5 @@
 import saveAs from "file-saver";
-import downloadPdf from "./downloadPdf";
+import getPdf from "./getPdf";
 import nock from "nock";
 import getAccessToken from "../../../auth/getAccessToken";
 import { push } from "react-router-redux";
@@ -12,7 +12,7 @@ import {
 jest.mock("file-saver", () => jest.fn());
 jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
-describe("downloadPdf thunk", function() {
+describe("getPdf thunk", function() {
   const dispatch = jest.fn();
   const caseId = 2;
   const token = "token";
@@ -27,7 +27,7 @@ describe("downloadPdf thunk", function() {
 
   test("redirects to login if no token", async () => {
     getAccessToken.mockImplementation(() => null);
-    await downloadPdf(caseId, edited)(dispatch);
+    await getPdf(caseId, edited)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
@@ -40,10 +40,10 @@ describe("downloadPdf thunk", function() {
           Authorization: `Bearer ${token}`
         }
       })
-        .get(`/api/cases/${caseId}/referral-letter/generate-pdf`)
+        .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(200, response);
 
-      await downloadPdf(caseId, edited, true)(dispatch);
+      await getPdf(caseId, edited, true)(dispatch);
       const expectFile = new File([response], uneditedFileName);
 
       expect(saveAs).toHaveBeenCalledWith(expectFile, uneditedFileName);
@@ -59,10 +59,10 @@ describe("downloadPdf thunk", function() {
           Authorization: `Bearer ${token}`
         }
       })
-        .get(`/api/cases/${caseId}/referral-letter/generate-pdf`)
+        .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(200, response);
 
-      await downloadPdf(caseId, edited, true)(dispatch);
+      await getPdf(caseId, edited, true)(dispatch);
       const expectFile = new File([response], editedFileName);
 
       expect(saveAs).toHaveBeenCalledWith(expectFile, editedFileName);
@@ -76,10 +76,10 @@ describe("downloadPdf thunk", function() {
           Authorization: `Bearer ${token}`
         }
       })
-        .get(`/api/cases/${caseId}/referral-letter/generate-pdf`)
+        .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(500);
 
-      await downloadPdf(caseId, edited, true)(dispatch);
+      await getPdf(caseId, edited, true)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(
         snackbarError(
           "Something went wrong and the letter was not downloaded. Please try again."
@@ -98,11 +98,11 @@ describe("downloadPdf thunk", function() {
           Authorization: `Bearer ${token}`
         }
       })
-        .get(`/api/cases/${caseId}/referral-letter/generate-pdf`)
+        .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(200, "hello world");
 
       let arrayBuffer = new ArrayBuffer("hello world");
-      await downloadPdf(caseId)(dispatch);
+      await getPdf(caseId)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(getLetterPdfSuccess(arrayBuffer));
       expect(saveAs).not.toHaveBeenCalled();
       expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
@@ -115,10 +115,10 @@ describe("downloadPdf thunk", function() {
           Authorization: `Bearer ${token}`
         }
       })
-        .get(`/api/cases/${caseId}/referral-letter/generate-pdf`)
+        .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(500);
 
-      await downloadPdf(caseId)(dispatch);
+      await getPdf(caseId)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(
         snackbarError(
           "Something went wrong and the letter was not downloaded. Please try again."

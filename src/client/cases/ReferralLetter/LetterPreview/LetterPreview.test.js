@@ -21,7 +21,7 @@ import {
   CASE_STATUS,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
-import downloadPdf from "../thunks/downloadPdf";
+import getPdf from "../thunks/getPdf";
 import { userAuthSuccess } from "../../../auth/actionCreators";
 
 jest.mock("../thunks/editReferralLetterAddresses", () =>
@@ -42,7 +42,7 @@ jest.mock("../../thunks/setCaseStatus", () =>
   jest.fn(() => (caseId, status, redirectUrl) => {})
 );
 
-jest.mock("../thunks/downloadPdf", () => (caseId, edited, saveFileForUser) => {
+jest.mock("../thunks/getPdf", () => (caseId, edited, saveFileForUser) => {
   return {
     type: "SOMETHING",
     caseId,
@@ -403,7 +403,7 @@ describe("LetterPreview", function() {
     );
   });
 
-  test("dispatches startLetterDownload and downloadPdf with edit info when download button is clicked and pdf has been edited", () => {
+  test("dispatches startLetterDownload and getPdf with edit info when download button is clicked and pdf has been edited", () => {
     store.dispatch(
       getLetterPreviewSuccess(
         "Letter Preview HTML",
@@ -424,20 +424,17 @@ describe("LetterPreview", function() {
     downloadButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
-    expect(dispatchSpy).toHaveBeenCalledWith(downloadPdf(caseId, true, true));
+    expect(dispatchSpy).toHaveBeenCalledWith(getPdf(caseId, true, true));
   });
 
-  test("dispatches startLetterDownload and downloadPdf with edit info when download button is clicked and pdf is unedited", () => {
+  test("dispatches startLetterDownload and getPdf with edit info when download button is clicked and pdf is unedited", () => {
     const downloadButton = wrapper
       .find('[data-test="download-letter-as-pdf"]')
       .first();
     downloadButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
-    expect(dispatchSpy).toHaveBeenNthCalledWith(
-      3,
-      downloadPdf(caseId, false, true)
-    );
+    expect(dispatchSpy).toHaveBeenNthCalledWith(3, getPdf(caseId, false, true));
   });
 
   test("dispatches stopLetterDownload on failure of download letter", () => {
