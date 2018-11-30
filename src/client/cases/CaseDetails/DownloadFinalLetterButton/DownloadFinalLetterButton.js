@@ -8,7 +8,6 @@ import {
   startLetterDownload,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
-import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 class DownloadFinalLetterButton extends React.Component {
   startLetterDownload = () => {
@@ -40,14 +39,10 @@ class DownloadFinalLetterButton extends React.Component {
           data-test={"download-final-letter-button"}
           style={{ textAlign: "left" }}
           onClick={this.startLetterDownload}
+          disabled={this.props.downloadInProgress}
         >
           Download Letter
         </LinkButton>
-        <CircularProgress
-          data-test={"download-letter-progress-indicator"}
-          size={25}
-          style={{ display: this.props.downloadInProgress ? "" : "none" }}
-        />
         <a id="dynamicLetterDownloadLink" href="#dynamicLetterDownloadLink">
           {" "}
         </a>

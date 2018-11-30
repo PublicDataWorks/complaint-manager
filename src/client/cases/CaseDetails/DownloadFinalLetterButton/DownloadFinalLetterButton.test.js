@@ -87,22 +87,22 @@ describe("DownloadFinalLetterButton", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
   });
 
-  test("should display progress indicator while downloading file", () => {
-    const button = wrapper
+  test("download letter button disabled when download in progress", () => {
+    const buttonBeforeClick = wrapper
       .find("[data-test='download-final-letter-button']")
       .first();
-    button.simulate("click");
+    buttonBeforeClick.simulate("click");
     wrapper.update();
-    const progressIndicator = wrapper
-      .find('[data-test="download-letter-progress-indicator"]')
+    const buttonAfterClick = wrapper
+      .find("[data-test='download-final-letter-button']")
       .first();
-    expect(progressIndicator.props().style.display).toEqual("");
+    expect(buttonAfterClick.props().disabled).toEqual(true);
   });
 
-  test("should not display progress indicator while not downloading file", () => {
-    const progressIndicator = wrapper
-      .find('[data-test="download-letter-progress-indicator"]')
+  test("download letter button enabled when no download in progress", () => {
+    const buttonBeforeClick = wrapper
+      .find("[data-test='download-final-letter-button']")
       .first();
-    expect(progressIndicator.props().style.display).toEqual("none");
+    expect(buttonBeforeClick.props().disabled).toEqual(false);
   });
 });
