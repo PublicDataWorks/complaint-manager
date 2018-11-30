@@ -52,13 +52,11 @@ class ReviewAndApproveLetter extends Component {
 
   getTimestamp() {
     let message;
-    if (this.props.editHistory.edited === undefined) {
+    if (this.props.letterType === null) {
       return;
     }
-    if (this.props.editHistory && this.props.editHistory.lastEdited) {
-      const generatedDate = dateTimeFromString(
-        this.props.editHistory.lastEdited
-      );
+    if (this.props.lastEdited) {
+      const generatedDate = dateTimeFromString(this.props.lastEdited);
       message = `This letter was last edited on ${generatedDate}`;
     } else {
       const now = dateTimeFromString(new Date());
@@ -174,7 +172,8 @@ class ReviewAndApproveLetter extends Component {
 }
 
 const mapStateToProps = state => ({
-  editHistory: state.referralLetter.editHistory,
+  letterType: state.referralLetter.letterType,
+  lastEdited: state.referralLetter.lastEdited,
   letterPdf: state.referralLetter.letterPdf,
   downloadInProgress: state.ui.letterDownload.downloadInProgress
 });

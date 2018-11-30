@@ -8,12 +8,13 @@ import {
   getLetterPdfSuccess,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
+import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
 const getPdf = (
   caseId,
-  edited,
+  letterType,
   saveFileForUser = false
 ) => async dispatch => {
   const token = getAccessToken();
@@ -32,7 +33,8 @@ const getPdf = (
     );
 
     if (saveFileForUser) {
-      const editPrefix = edited ? "Edited" : "Generated";
+      const editPrefix =
+        letterType === LETTER_TYPE.EDITED ? "Edited" : "Generated";
       const filename = `${caseId} - ${editPrefix} Preview Letter.pdf`;
       const fileToDownload = new File([response.data], filename);
       saveAs(fileToDownload, filename);

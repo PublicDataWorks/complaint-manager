@@ -1,4 +1,5 @@
 import createConfiguredStore from "../../../createConfiguredStore";
+import timeKeeper from "timekeeper";
 import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -19,6 +20,7 @@ import {
 import setCaseStatus from "../../thunks/setCaseStatus";
 import {
   CASE_STATUS,
+  LETTER_TYPE,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import getPdf from "../thunks/getPdf";
@@ -42,17 +44,17 @@ jest.mock("../../thunks/setCaseStatus", () =>
   jest.fn(() => (caseId, status, redirectUrl) => {})
 );
 
-jest.mock("../thunks/getPdf", () => (caseId, edited, saveFileForUser) => {
+jest.mock("../thunks/getPdf", () => (caseId, letterType, saveFileForUser) => {
   return {
     type: "SOMETHING",
     caseId,
-    edited,
+    letterType,
     saveFileForUser
   };
 });
 
 describe("LetterPreview", function() {
-  let store, dispatchSpy, wrapper, caseId;
+  let store, dispatchSpy, wrapper, caseId, date;
   beforeEach(() => {
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
@@ -66,9 +68,7 @@ describe("LetterPreview", function() {
           recipient: "jane",
           transcribedBy: "joe"
         },
-        {
-          edited: false
-        }
+        LETTER_TYPE.GENERATED
       )
     );
     store.dispatch(
@@ -377,7 +377,7 @@ describe("LetterPreview", function() {
           recipient: "jane",
           transcribedBy: "joe"
         },
-        { edited: true }
+        LETTER_TYPE.EDITED
       )
     );
 
@@ -412,9 +412,7 @@ describe("LetterPreview", function() {
           recipient: "jane",
           transcribedBy: "joe"
         },
-        {
-          edited: true
-        }
+        LETTER_TYPE.EDITED
       )
     );
 
@@ -424,7 +422,9 @@ describe("LetterPreview", function() {
     downloadButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
-    expect(dispatchSpy).toHaveBeenCalledWith(getPdf(caseId, true, true));
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      getPdf(caseId, LETTER_TYPE.EDITED, true)
+    );
   });
 
   test("dispatches startLetterDownload and getPdf with edit info when download button is clicked and pdf is unedited", () => {
@@ -434,7 +434,10 @@ describe("LetterPreview", function() {
     downloadButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
-    expect(dispatchSpy).toHaveBeenNthCalledWith(3, getPdf(caseId, false, true));
+    expect(dispatchSpy).toHaveBeenNthCalledWith(
+      3,
+      getPdf(caseId, LETTER_TYPE.GENERATED, true)
+    );
   });
 
   test("dispatches stopLetterDownload on failure of download letter", () => {
@@ -472,7 +475,7 @@ describe("LetterPreview", function() {
           recipient: "jane",
           transcribedBy: "joe"
         },
-        { edited: true }
+        LETTER_TYPE.EDITED
       )
     );
     expect(downloadButton.text()).toEqual(expectedText);

@@ -3,6 +3,7 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import { userAuthSuccess } from "../../../auth/actionCreators";
 import {
   CASE_STATUS,
+  LETTER_TYPE,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import { mount } from "enzyme";
@@ -57,20 +58,22 @@ describe("ReviewAndApproveLetter", () => {
     timekeeper.reset();
   });
 
-  test("should not display anything when editHistory is empty", () => {
+  test("should not display anything when lettertype is null", () => {
     const displayDate = wrapper.find('[data-test="edit-history"]').first();
     expect(displayDate.text()).toEqual("");
   });
 
-  test("should display today's date when edited is false and lastEdited is null", () => {
+  test("should display today's date when letter is generated", () => {
     const displayDate = wrapper.find('[data-test="edit-history"]').first();
     const letterHtml = "<p>html</p>";
     const addresses = "<p>addresses</p>";
     store.dispatch(
-      getLetterPreviewSuccess(letterHtml, addresses, {
-        edited: false,
-        lastEdited: null
-      })
+      getLetterPreviewSuccess(
+        letterHtml,
+        addresses,
+        LETTER_TYPE.GENERATED,
+        null
+      )
     );
     expect(displayDate.text()).toEqual(
       `This letter was generated on ${dateTimeFromString(nowTimestamp)}`
@@ -82,10 +85,12 @@ describe("ReviewAndApproveLetter", () => {
     const addresses = "<p>addresses</p>";
     const inputDate = "2018-11-20T21:59:40.707Z";
     store.dispatch(
-      getLetterPreviewSuccess(letterHtml, addresses, {
-        edited: true,
-        lastEdited: inputDate
-      })
+      getLetterPreviewSuccess(
+        letterHtml,
+        addresses,
+        LETTER_TYPE.EDITED,
+        inputDate
+      )
     );
     wrapper.update();
     const displayDate = wrapper.find('[data-test="edit-history"]').first();

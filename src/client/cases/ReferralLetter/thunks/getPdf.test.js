@@ -8,6 +8,7 @@ import {
   getLetterPdfSuccess,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
+import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
 
 jest.mock("file-saver", () => jest.fn());
 jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
@@ -16,18 +17,18 @@ describe("getPdf thunk", function() {
   const dispatch = jest.fn();
   const caseId = 2;
   const token = "token";
-  let edited;
+  let letterType;
   const uneditedFileName = `${caseId} - Generated Preview Letter.pdf`;
   const editedFileName = `${caseId} - Edited Preview Letter.pdf`;
 
   beforeEach(() => {
-    edited = false;
+    letterType = LETTER_TYPE.GENERATED;
     dispatch.mockClear();
   });
 
   test("redirects to login if no token", async () => {
     getAccessToken.mockImplementation(() => null);
-    await getPdf(caseId, edited)(dispatch);
+    await getPdf(caseId, letterType)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
@@ -43,7 +44,7 @@ describe("getPdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(200, response);
 
-      await getPdf(caseId, edited, true)(dispatch);
+      await getPdf(caseId, letterType, true)(dispatch);
       const expectFile = new File([response], uneditedFileName);
 
       expect(saveAs).toHaveBeenCalledWith(expectFile, uneditedFileName);
@@ -53,7 +54,7 @@ describe("getPdf thunk", function() {
     test("should call saveAs with edited filename when downloading edited letter pdf", async () => {
       getAccessToken.mockImplementation(() => token);
       const response = "some response";
-      edited = true;
+      letterType = LETTER_TYPE.EDITED;
       nock("http://localhost", {
         reqheaders: {
           Authorization: `Bearer ${token}`
@@ -62,7 +63,7 @@ describe("getPdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(200, response);
 
-      await getPdf(caseId, edited, true)(dispatch);
+      await getPdf(caseId, letterType, true)(dispatch);
       const expectFile = new File([response], editedFileName);
 
       expect(saveAs).toHaveBeenCalledWith(expectFile, editedFileName);
@@ -79,7 +80,7 @@ describe("getPdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(500);
 
-      await getPdf(caseId, edited, true)(dispatch);
+      await getPdf(caseId, letterType, true)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(
         snackbarError(
           "Something went wrong and the letter was not downloaded. Please try again."

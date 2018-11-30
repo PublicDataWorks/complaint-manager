@@ -3,7 +3,8 @@ import models from "../../../../models";
 import checkForValidStatus from "../checkForValidStatus";
 import {
   AUDIT_ACTION,
-  AUDIT_SUBJECT
+  AUDIT_SUBJECT,
+  LETTER_TYPE
 } from "../../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../auditDataAccess";
 import getCaseWithAllAssociations from "../../../getCaseWithAllAssociations";
@@ -35,23 +36,23 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
       transcribedBy: referralLetter.transcribedBy
     };
 
-    let html;
+    let html, letterType;
     const edited = referralLetter.editedLetterHtml != null;
     if (edited) {
       html = referralLetter.editedLetterHtml;
+      letterType = LETTER_TYPE.EDITED;
     } else {
       html = await generateLetterBody(caseId, transaction);
+      letterType = LETTER_TYPE.GENERATED;
     }
+    let lastEdited = referralLetter.updatedAt;
 
-    let editHistory = { edited: edited };
-    if (edited) {
-      editHistory.lastEdited = referralLetter.updatedAt;
-    }
     const caseDetails = await getCaseWithAllAssociations(caseId, transaction);
     response.send({
       letterHtml: html,
       addresses: letterAddresses,
-      editHistory: editHistory,
+      letterType: letterType,
+      lastEdited: lastEdited,
       caseDetails: caseDetails
     });
   });

@@ -10,6 +10,7 @@ import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
   COMPLAINANT,
+  LETTER_TYPE,
   WITNESS
 } from "../../../../../sharedUtilities/constants";
 import Case from "../../../../../client/testUtilities/case";
@@ -326,6 +327,19 @@ describe("getLetterPreview", function() {
     expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
   });
 
+  test("return empty letter when letter type is generated", async () => {
+    await referralLetter.update(
+      { editedLetterHtml: null },
+      { auditUser: "someone" }
+    );
+
+    await getLetterPreview(request, response, next);
+
+    const responseData = response._getData();
+    expect(responseData.letterType).toEqual(LETTER_TYPE.GENERATED);
+    expect(responseData.lastEdited).toBeTruthy();
+  });
+
   test("return saved letter content when editedLetterHtml is not null", async () => {
     const editedLetterHtml = "<p> letter html content</p>";
     await referralLetter.update(
@@ -335,10 +349,10 @@ describe("getLetterPreview", function() {
 
     await getLetterPreview(request, response, next);
 
-    const letterHtml = response._getData().letterHtml;
-    expect(letterHtml).toEqual(editedLetterHtml);
-    expect(response._getData().editHistory.edited).toBeTruthy();
-    expect(response._getData().editHistory.lastEdited).toBeTruthy();
+    const responseData = response._getData();
+    expect(responseData.letterHtml).toEqual(editedLetterHtml);
+    expect(responseData.letterType).toEqual(LETTER_TYPE.EDITED);
+    expect(responseData.lastEdited).toBeTruthy();
   });
 
   describe("snapshotTests", function() {

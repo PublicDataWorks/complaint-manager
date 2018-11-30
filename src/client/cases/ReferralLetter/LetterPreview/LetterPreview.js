@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   CASE_STATUS,
   LETTER_PROGRESS,
+  LETTER_TYPE,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import NavBar from "../../../shared/components/NavBar/NavBar";
@@ -52,7 +53,7 @@ class LetterPreview extends Component {
 
   downloadLetterAsPdfFile = () => {
     return this.props.dispatch(
-      getPdf(this.state.caseId, this.props.editHistory.edited, true)
+      getPdf(this.state.caseId, this.props.letterType, true)
     );
   };
 
@@ -124,7 +125,7 @@ class LetterPreview extends Component {
   };
 
   editLetterWithPossibleConfirmationDialog = () => {
-    if (this.props.editHistory.edited) {
+    if (this.props.letterType === LETTER_TYPE.EDITED) {
       return this.saveAndGoToEditLetter();
     } else {
       return () => {
@@ -172,10 +173,10 @@ class LetterPreview extends Component {
   };
 
   timestampIfEdited() {
-    if (this.props.editHistory.edited) {
+    if (this.props.letterType === LETTER_TYPE.EDITED) {
       return (
         <i style={styles.body1}>
-          (Last edited {dateTimeFromString(this.props.editHistory.lastEdited)})
+          (Last edited {dateTimeFromString(this.props.lastEdited)})
         </i>
       );
     }
@@ -294,7 +295,7 @@ class LetterPreview extends Component {
                 style={{ marginBottom: "16px" }}
                 disabled={this.props.downloadInProgress}
               >
-                {this.props.editHistory.edited
+                {this.props.letterType === LETTER_TYPE.EDITED
                   ? "Download Edited Letter as PDF File"
                   : "Download Generated Letter as PDF File"}
               </LinkButton>
@@ -338,7 +339,8 @@ class LetterPreview extends Component {
 const mapStateToProps = state => ({
   letterHtml: state.referralLetter.letterHtml,
   initialValues: state.referralLetter.addresses,
-  editHistory: state.referralLetter.editHistory,
+  letterType: state.referralLetter.letterType,
+  lastEdited: state.referralLetter.lastEdited,
   caseDetail: state.currentCase.details,
   downloadInProgress: state.ui.letterDownload.downloadInProgress,
   userInfo: state.users.current.userInfo

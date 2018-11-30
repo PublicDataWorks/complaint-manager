@@ -232,6 +232,14 @@ export const CIVILIAN_INITIATED = "Civilian Initiated";
 export const RANK_INITIATED = "Rank Initiated";
 
 // ----------------------------------------
+//          Complaint Type Options
+// ----------------------------------------
+export const LETTER_TYPE = {
+  GENERATED: "Generated",
+  EDITED: "Edited"
+};
+
+// ----------------------------------------
 //          Case Status Map
 // ----------------------------------------
 export const CASE_STATUS = {

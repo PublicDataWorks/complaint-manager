@@ -10,7 +10,8 @@ const initialState = {
   letterDetails: {},
   letterHtml: "",
   addresses: {},
-  editHistory: {},
+  letterType: null,
+  lastEdited: null,
   finalPdfUrl: null
 };
 const referralLetterReducer = (state = initialState, action) => {
@@ -22,7 +23,8 @@ const referralLetterReducer = (state = initialState, action) => {
         ...state,
         letterHtml: action.letterHtml,
         addresses: action.addresses,
-        editHistory: action.editHistory
+        letterType: action.letterType,
+        lastEdited: action.lastEdited
       };
     case GET_LETTER_PDF_SUCCESS:
       return { ...state, letterPdf: action.letterPdf };

@@ -5,6 +5,7 @@ const reviewAndApproveCommands = {
     return this.waitForElementPresent("@pageHeader", e2e.rerenderWait);
   },
   clickApproveLetter: function() {
+    this.api.pause(e2e.dataLoadWait);
     return this.click("@reviewAndApproveButton");
   },
   clickApproveLetterOnDialog: function() {

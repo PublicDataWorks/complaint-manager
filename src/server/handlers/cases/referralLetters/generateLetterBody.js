@@ -112,7 +112,9 @@ async function generateLetterBody(caseId, transaction) {
   const rawTemplate = fs.readFileSync(
     "src/server/handlers/cases/referralLetters/getLetterPreview/letterBody.tpl"
   );
+
   const compiledTemplate = Handlebars.compile(rawTemplate.toString());
+
   return compiledTemplate(caseData);
 }
 
