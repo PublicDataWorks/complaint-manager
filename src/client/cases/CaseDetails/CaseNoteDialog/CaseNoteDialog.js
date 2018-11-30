@@ -35,9 +35,8 @@ const CaseNoteDialog = props => {
     initialCaseNote,
     submitting
   } = props;
-  console.log("submitting", submitting);
 
-  const submit = (values, dispatch, props) => {
+  const submit = (values, dispatch) => {
     let valuesToSubmit = moment(values.actionTakenAt).isSame(
       initialCaseNote.actionTakenAt
     )

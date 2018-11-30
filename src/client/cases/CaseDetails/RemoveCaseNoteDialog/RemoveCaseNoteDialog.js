@@ -15,7 +15,12 @@ import removeCaseNote from "../../thunks/removeCaseNote";
 import { closeRemoveCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
 import moment from "moment";
 
-const RemoveCaseNoteDialog = ({ dialogOpen, activity, dispatch }) => {
+const RemoveCaseNoteDialog = ({
+  dialogOpen,
+  activity,
+  dispatch,
+  removeCaseButtonDisabled
+}) => {
   return (
     <Dialog open={dialogOpen} fullWidth={true}>
       <DialogTitle>Remove Case Note</DialogTitle>
@@ -59,9 +64,8 @@ const RemoveCaseNoteDialog = ({ dialogOpen, activity, dispatch }) => {
         </SecondaryButton>
         <PrimaryButton
           data-test="removeCaseNote"
-          onClick={() =>
-            dispatch(removeCaseNote(activity.caseId, activity.id))
-          }
+          onClick={() => dispatch(removeCaseNote(activity.caseId, activity.id))}
+          disabled={removeCaseButtonDisabled}
         >
           Remove
         </PrimaryButton>
@@ -72,7 +76,9 @@ const RemoveCaseNoteDialog = ({ dialogOpen, activity, dispatch }) => {
 
 const mapStateToProps = state => ({
   dialogOpen: state.ui.removeCaseNoteDialog.dialogOpen,
-  activity: state.ui.removeCaseNoteDialog.activity
+  activity: state.ui.removeCaseNoteDialog.activity,
+  removeCaseButtonDisabled:
+    state.ui.removeCaseNoteDialog.removeCaseButtonDisabled
 });
 
 export default connect(mapStateToProps)(RemoveCaseNoteDialog);

@@ -16,6 +16,7 @@ import {
   ADD_CASE_NOTE_SUCCEEDED,
   REMOVE_PERSON_DIALOG_OPENED,
   REMOVE_PERSON_DIALOG_CLOSED,
+  REMOVE_CASE_NOTE_BUTTON_DISABLED,
   REMOVE_PERSON_FAILED,
   REMOVE_PERSON_SUCCEEDED,
   REMOVE_CASE_NOTE_DIALOG_OPENED,
@@ -93,6 +94,10 @@ export const openRemoveCaseNoteDialog = (activity = {}) => ({
 
 export const closeRemoveCaseNoteDialog = () => ({
   type: REMOVE_CASE_NOTE_DIALOG_CLOSED
+});
+
+export const toggleRemoveCaseNoteButtonDisabled = () => ({
+  type: REMOVE_CASE_NOTE_BUTTON_DISABLED
 });
 
 export const openCreateCaseDialog = () => ({

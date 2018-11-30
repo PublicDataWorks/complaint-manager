@@ -7,6 +7,7 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import config from "../../config/config";
 import axios from "axios";
+import { duration } from "@material-ui/core/styles/transitions";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -33,11 +34,11 @@ const addCaseNote = (values, resolve) => async dispatch => {
     dispatch(
       addCaseNoteSuccess(response.data.caseDetails, response.data.caseNotes)
     );
-    dispatch(closeCaseNoteDialog());
-    return resolve();
+    return dispatch(closeCaseNoteDialog());
   } catch (error) {
     dispatch(addCaseNoteFailure());
-    return resolve();
+  } finally {
+    setTimeout(resolve, duration.leavingScreen);
   }
 };
 
