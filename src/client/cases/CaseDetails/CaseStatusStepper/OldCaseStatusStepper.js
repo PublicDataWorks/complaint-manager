@@ -50,11 +50,17 @@ const OldCaseStatusStepper = ({
     dispatch(openCaseStatusUpdateDialog());
   };
 
+  const getActiveStep = () => {
+    return TOGGLE_CASE_STATUS_MAP[status] === 4
+      ? 5
+      : TOGGLE_CASE_STATUS_MAP[status];
+  };
+
   return (
     <Fragment>
       <Stepper
         data-test="statusStepper"
-        activeStep={TOGGLE_CASE_STATUS_MAP[status]}
+        activeStep={getActiveStep()}
         alternativeLabel
         style={{ marginLeft: "5%", maxWidth: "850px", padding: "24px 0px" }}
       >
