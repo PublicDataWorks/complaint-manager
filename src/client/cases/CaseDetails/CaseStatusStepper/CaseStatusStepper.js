@@ -1,17 +1,11 @@
 import React, { Fragment } from "react";
 import { Step, StepLabel, Stepper } from "@material-ui/core";
-import {
-  CASE_STATUS,
-  CASE_STATUS_MAP,
-  USER_PERMISSIONS
-} from "../../../../sharedUtilities/constants";
+import { CASE_STATUS_MAP } from "../../../../sharedUtilities/constants";
 import { connect } from "react-redux";
-import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import UpdateCaseStatusDialog from "../UpdateCaseStatusDialog/UpdateCaseStatusDialog";
-import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
-import { Link } from "react-router-dom";
 import DownloadFinalLetterButton from "../DownloadFinalLetterButton/DownloadFinalLetterButton";
 import EditLetterButton from "../EditLetterButton/EditLetterButton";
+import StatusButton from "../StatusButton/StatusButton";
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -30,68 +24,10 @@ const CaseStatusStepper = ({
   nextStatus,
   dispatch
 }) => {
-  const openUpdateCaseStatusDialog = () => {
-    let redirectUrl;
-    if (nextStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
-      redirectUrl = `/cases/${caseId}/letter/review`;
-    }
-    dispatch(openCaseStatusUpdateDialog(redirectUrl));
-  };
-
-  const currentStatusDoesNotNeedButton = () => {
-    return [CASE_STATUS.INITIAL, CASE_STATUS.CLOSED].includes(status);
-  };
-
-  const userDoesNotHavePermissionToChangeStatus = () => {
-    return (
-      [CASE_STATUS.READY_FOR_REVIEW, CASE_STATUS.FORWARDED_TO_AGENCY].includes(
-        status
-      ) &&
-      (!userInfo ||
-        !userInfo.permissions.includes(
-          USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
-        ))
-    );
-  };
-
   const getActiveStep = () => {
     return CASE_STATUS_MAP[status] === 5
       ? 6 // marks closed status with a checkmark
       : CASE_STATUS_MAP[status];
-  };
-
-  const renderStatusButton = () => {
-    if (
-      currentStatusDoesNotNeedButton() ||
-      userDoesNotHavePermissionToChangeStatus()
-    ) {
-      return;
-    }
-
-    if (status === CASE_STATUS.READY_FOR_REVIEW) {
-      return (
-        <PrimaryButton
-          data-test={"review-and-approve-letter-button"}
-          to={`/cases/${caseId}/letter/review-and-approve`}
-          component={Link}
-          style={{ marginLeft: "16px" }}
-        >
-          Review and Approve Letter
-        </PrimaryButton>
-      );
-    } else {
-      return (
-        <PrimaryButton
-          data-test="update-status-button"
-          onClick={openUpdateCaseStatusDialog}
-          style={{ marginLeft: "16px" }}
-        >
-          {status === CASE_STATUS.ACTIVE
-            ? `Begin Letter`
-            : `Mark as ${nextStatus}`}
-        </PrimaryButton>
-      );
-    }
   };
 
   const renderButtons = () => {
@@ -111,7 +47,7 @@ const CaseStatusStepper = ({
         </div>
         <div>
           <EditLetterButton status={status} caseId={caseId} />
-          {renderStatusButton()}
+          <StatusButton />
         </div>
       </div>
     );
