@@ -3,7 +3,6 @@ import { Step, StepLabel, Stepper } from "@material-ui/core";
 import {
   CASE_STATUS,
   CASE_STATUS_MAP,
-  CASE_STATUSES_ALLOWED_TO_EDIT_LETTER,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import { connect } from "react-redux";
@@ -11,8 +10,8 @@ import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import UpdateCaseStatusDialog from "../UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import { Link } from "react-router-dom";
-import LinkButton from "../../../shared/components/LinkButton";
 import DownloadFinalLetterButton from "../DownloadFinalLetterButton/DownloadFinalLetterButton";
+import EditLetterButton from "../EditLetterButton/EditLetterButton";
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -95,22 +94,6 @@ const CaseStatusStepper = ({
     }
   };
 
-  const renderEditLetterButton = () => {
-    if (CASE_STATUSES_ALLOWED_TO_EDIT_LETTER.includes(status)) {
-      return (
-        <LinkButton
-          data-test={"edit-letter-button"}
-          to={`/cases/${caseId}/letter/review`}
-          component={Link}
-        >
-          {status === CASE_STATUS.LETTER_IN_PROGRESS
-            ? "Resume Letter"
-            : "Edit Letter"}
-        </LinkButton>
-      );
-    }
-  };
-
   const renderButtons = () => {
     return (
       <div
@@ -127,7 +110,7 @@ const CaseStatusStepper = ({
           <DownloadFinalLetterButton />
         </div>
         <div>
-          {renderEditLetterButton()}
+          <EditLetterButton status={status} caseId={caseId} />
           {renderStatusButton()}
         </div>
       </div>
