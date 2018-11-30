@@ -34,6 +34,7 @@ class Case {
     this.accusedOfficers = build.accusedOfficers;
     this.complainantOfficers = build.complainantOfficers;
     this.witnessOfficers = build.witnessOfficers;
+    this.caseNumber = build.caseNumber;
   }
 
   static get Builder() {
@@ -120,6 +121,7 @@ class Case {
         this.accusedOfficers = [accusedOfficer];
         this.complainantOfficers = [complainantOfficer];
         this.witnessOfficers = [witnessOfficer];
+        this.caseNumber = "CC-2002-0055";
         return this;
       }
 

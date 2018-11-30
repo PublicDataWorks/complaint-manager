@@ -80,7 +80,7 @@ describe("Case Details Component", () => {
   describe("nav bar", () => {
     test("should display with Case number", () => {
       const navBar = caseDetails.find(NavBar);
-      const expectedFormattedName = `Case #612`;
+      const expectedFormattedName = `Case #${expectedCase.caseNumber}`;
 
       containsText(navBar, '[data-test="pageTitle"]', expectedFormattedName);
     });
@@ -101,7 +101,11 @@ describe("Case Details Component", () => {
     });
 
     test("should display Case # as a default section title", () => {
-      containsText(caseDetails, '[data-test="case-number"]', `Case #612`);
+      containsText(
+        caseDetails,
+        '[data-test="case-number"]',
+        `Case #${expectedCase.caseNumber}`
+      );
     });
 
     test("should display created on date", () => {

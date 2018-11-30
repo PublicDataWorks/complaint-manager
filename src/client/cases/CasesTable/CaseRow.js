@@ -29,13 +29,13 @@ const CaseRow = ({ classes, caseDetails, currentUser, featureToggles }) => {
   const toggleStatus = featureToggles.letterGenerationFeature
     ? caseDetails.status
     : caseDetails.status === CASE_STATUS.LETTER_IN_PROGRESS
-    ? CASE_STATUS.ACTIVE
-    : caseDetails.status;
+      ? CASE_STATUS.ACTIVE
+      : caseDetails.status;
 
   return (
     <TableRow data-test={`caseRow${caseDetails.id}`} className={classes.row}>
       <TableCell data-test="caseNumber" className={classes.cell}>
-        <div>{caseDetails.id}</div>
+        <div>{caseDetails.caseNumber}</div>
       </TableCell>
       <TableCell data-test="caseStatus" className={classes.cell}>
         {currentUser.permissions.includes(

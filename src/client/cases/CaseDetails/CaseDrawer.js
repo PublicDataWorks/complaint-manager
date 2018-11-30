@@ -28,7 +28,7 @@ const CaseDrawer = ({ classes, caseDetail }) => (
         style={{ marginLeft: "24px", marginTop: "4px" }}
         gutterBottom
       >
-        {`Case #${caseDetail.id}`}
+        {`Case #${caseDetail.caseNumber}`}
       </Typography>
       <div className={classes.drawerRow}>
         <div className={classes.drawerRowItem}>
