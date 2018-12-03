@@ -20,7 +20,7 @@ const getPdf = asyncMiddleware(async (request, response, next) => {
       AUDIT_ACTION.DATA_ACCESSED
     );
 
-    const pdfBuffer = await generateLetterPdfBuffer(caseId, transaction);
+    const pdfBuffer = await generateLetterPdfBuffer(caseId, false, transaction);
     response.send(pdfBuffer);
   });
 });

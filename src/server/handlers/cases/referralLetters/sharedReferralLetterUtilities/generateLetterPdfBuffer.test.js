@@ -24,9 +24,12 @@ jest.mock("../generateLetterBody");
 describe("generateLetterPdfBuffer", () => {
   let existingCase, referralLetter, timeOfDownload;
 
+  let includeSignature;
+
   afterEach(async () => {
     await cleanupDatabase();
     generateLetterBody.mockReset();
+    timekeeper.reset();
   });
 
   beforeEach(async () => {
@@ -49,87 +52,143 @@ describe("generateLetterPdfBuffer", () => {
       { status: CASE_STATUS.LETTER_IN_PROGRESS },
       { auditUser: "test" }
     );
-
-    const referralLetterAttributes = new ReferralLetter.Builder()
-      .defaultReferralLetter()
-      .withId(undefined)
-      .withCaseId(existingCase.id)
-      .withRecipient("recipient address")
-      .withSender("sender address")
-      .withTranscribedBy("transcriber")
-      .withIncludeRetaliationConcerns(true);
-
-    referralLetter = await models.referral_letter.create(
-      referralLetterAttributes,
-      {
-        auditUser: "test"
-      }
-    );
   });
 
-  afterEach(() => {
-    timekeeper.reset();
-  });
+  describe("sender is 'sender address'", async () => {
+    beforeEach(async () => {
+      const referralLetterAttributes = new ReferralLetter.Builder()
+        .defaultReferralLetter()
+        .withId(undefined)
+        .withCaseId(existingCase.id)
+        .withRecipient("recipient address")
+        .withSender("sender address")
+        .withTranscribedBy("transcriber")
+        .withIncludeRetaliationConcerns(true);
 
-  test("generates letter pdf html correctly", async () => {
-    const letterBody = "<p> Letter Body </p>";
-    const pdfData = {
-      referralLetter: {
-        recipient: "Recipient Address",
-        sender: "Sender Address\n Sender Address Second Line",
-        transcribedBy: "Transcriber"
-      },
-      caseNumber: "CC-2011-0099"
-    };
-
-    const letterPdfHtml = await generateLetterPdfHtml(letterBody, pdfData);
-    expect(letterPdfHtml).toMatchSnapshot();
-  });
-
-  test("pdf create gets called with expected letter html when letter is generated", async () => {
-    await models.sequelize.transaction(async transaction => {
-      const pdfResults = await generateLetterPdfBuffer(
-        existingCase.id,
-        transaction
-      );
-      expect(pdfResults).toMatchSnapshot();
-    });
-  });
-
-  test("pdf create gets called with expected letter html when letter is edited", async () => {
-    await referralLetter.update(
-      { editedLetterHtml: "Custom Letter HTML" },
-      { auditUser: "someone" }
-    );
-    await models.sequelize.transaction(async transaction => {
-      const pdfResults = await generateLetterPdfBuffer(
-        existingCase.id,
-        transaction
-      );
-      expect(pdfResults).toMatchSnapshot();
-    });
-  });
-
-  test("unedited letter generates pdf from case data", async () => {
-    await models.sequelize.transaction(async transaction => {
-      await generateLetterPdfBuffer(existingCase.id, transaction);
-      expect(generateLetterBody).toHaveBeenCalledWith(
-        existingCase.id,
-        transaction
+      referralLetter = await models.referral_letter.create(
+        referralLetterAttributes,
+        {
+          auditUser: "test"
+        }
       );
     });
+    test("generates letter pdf html correctly", async () => {
+      const letterBody = "<p> Letter Body </p>";
+      const pdfData = {
+        referralLetter: {
+          recipient: "Recipient Address",
+          sender: "Sender Address\n Sender Address Second Line",
+          transcribedBy: "Transcriber"
+        },
+        caseNumber: "CC-2011-0099"
+      };
+
+      const letterPdfHtml = await generateLetterPdfHtml(letterBody, pdfData);
+      expect(letterPdfHtml).toMatchSnapshot();
+    });
+
+    test("pdf create gets called with expected letter html when letter is generated", async () => {
+      includeSignature = false;
+
+      await models.sequelize.transaction(async transaction => {
+        const pdfResults = await generateLetterPdfBuffer(
+          existingCase.id,
+          includeSignature,
+          transaction
+        );
+        expect(pdfResults).toMatchSnapshot();
+      });
+    });
+
+    test("pdf create gets called with expected letter html when letter is edited", async () => {
+      includeSignature = false;
+
+      await referralLetter.update(
+        { editedLetterHtml: "Custom Letter HTML" },
+        { auditUser: "someone" }
+      );
+
+      await models.sequelize.transaction(async transaction => {
+        const pdfResults = await generateLetterPdfBuffer(
+          existingCase.id,
+          includeSignature,
+          transaction
+        );
+        expect(pdfResults).toMatchSnapshot();
+      });
+    });
+
+    test("expect signature not to be included when includeSignature flag true and sender is not stella", async () => {
+      includeSignature = true;
+
+      await referralLetter.update(
+        { editedLetterHtml: "Custom Letter HTML" },
+        { auditUser: "someone" }
+      );
+      await models.sequelize.transaction(async transaction => {
+        const pdfResults = await generateLetterPdfBuffer(
+          existingCase.id,
+          includeSignature,
+          transaction
+        );
+        expect(pdfResults).toMatchSnapshot();
+      });
+    });
+
+    test("unedited letter generates pdf from case data", async () => {
+      await models.sequelize.transaction(async transaction => {
+        await generateLetterPdfBuffer(existingCase.id, false, transaction);
+        expect(generateLetterBody).toHaveBeenCalledWith(
+          existingCase.id,
+          transaction
+        );
+      });
+    });
+
+    test("edited letter generates pdf from saved data", async () => {
+      await referralLetter.update(
+        {
+          editedLetterHtml: "<p> edited </p>"
+        },
+        { auditUser: "test" }
+      );
+      await models.sequelize.transaction(async transaction => {
+        await generateLetterPdfBuffer(existingCase.id, false, transaction);
+      });
+      expect(generateLetterBody).not.toHaveBeenCalled();
+    });
   });
 
-  test("edited letter generates pdf from saved data", async () => {
-    await referralLetter.update(
-      {
-        editedLetterHtml: "<p> edited </p>"
-      },
-      { auditUser: "test" }
-    );
-    await models.sequelize.transaction(async transaction => {
-      await generateLetterPdfBuffer(existingCase.id, transaction);
+  describe("sender is stella", async () => {
+    beforeEach(async () => {
+      const referralLetterAttributes = new ReferralLetter.Builder()
+        .defaultReferralLetter()
+        .withId(undefined)
+        .withCaseId(existingCase.id)
+        .withRecipient("recipient address")
+        .withSender("Stella Cziment")
+        .withTranscribedBy("transcriber")
+        .withIncludeRetaliationConcerns(true);
+
+      referralLetter = await models.referral_letter.create(
+        referralLetterAttributes,
+        {
+          auditUser: "test"
+        }
+      );
     });
-    expect(generateLetterBody).not.toHaveBeenCalled();
+
+    test("expect signature to be included when includeSignature flag true and sender is stella", async () => {
+      includeSignature = true;
+
+      await models.sequelize.transaction(async transaction => {
+        const pdfResults = await generateLetterPdfBuffer(
+          existingCase.id,
+          includeSignature,
+          transaction
+        );
+        expect(pdfResults).toMatchSnapshot();
+      });
+    });
   });
 });

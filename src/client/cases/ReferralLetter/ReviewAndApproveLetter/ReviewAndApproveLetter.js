@@ -76,6 +76,10 @@ class ReviewAndApproveLetter extends Component {
   };
 
   renderPages = () => {
+    if (this.letterPreviewNotYetLoaded()) {
+      return null;
+    }
+
     return Array.from(new Array(this.state.numPages), (el, index) => (
       <Page
         key={`page_${index + 1}`}
@@ -87,10 +91,6 @@ class ReviewAndApproveLetter extends Component {
   };
 
   render() {
-    if (this.letterPreviewNotYetLoaded()) {
-      return null;
-    }
-
     return (
       <div>
         <NavBar>

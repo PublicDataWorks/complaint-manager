@@ -128,8 +128,8 @@ export const extractFirstLine = text => {
 };
 Handlebars.registerHelper("extractFirstLine", extractFirstLine);
 
-export const generateSignature = (sender, status) => {
-  if (![CASE_STATUS.CLOSED, CASE_STATUS.FORWARDED_TO_AGENCY].includes(status)) {
+export const generateSignature = (sender, includeSignature) => {
+  if (!includeSignature) {
     return "<p><br></p>";
   }
   if (sender.includes("Stella Cziment")) {

@@ -420,37 +420,18 @@ describe("handlebarHelpers", function() {
       SIGNATURE_URLS.STELLA_PATH
     } />`;
 
-    test("should return an empty space when no signature for given name and case status is FORWARDED_TO_AGENCY", () => {
+    test("should return an empty space when no signature for given name and includeSignature is true", () => {
       const emptyString = "";
-      expect(
-        generateSignature(emptyString, CASE_STATUS.FORWARDED_TO_AGENCY)
-      ).toEqual(blankLine);
+      expect(generateSignature(emptyString, true)).toEqual(blankLine);
     });
-    test("should return stellas signature when stella is sender and case status is FORWARDED_TO_AGENCY", () => {
+    test("should return stellas signature when stella is sender and includeSignature is true", () => {
       const sender = "Stella Cziment\nDPM";
 
-      expect(
-        generateSignature(sender, CASE_STATUS.FORWARDED_TO_AGENCY)
-      ).toEqual(signaturePath);
+      expect(generateSignature(sender, true)).toEqual(signaturePath);
     });
-    test("should return stellas signature when stella is sender and case status is CLOSED", () => {
+    test("should not return signature when includeSignature is false", () => {
       const sender = "Stella Cziment\nDPM";
-
-      expect(generateSignature(sender, CASE_STATUS.CLOSED)).toEqual(
-        signaturePath
-      );
-    });
-    test("should not return signature case status is READY_FOR_REVIEW", () => {
-      const sender = "Stella Cziment\nDPM";
-      expect(generateSignature(sender, CASE_STATUS.READY_FOR_REVIEW)).toEqual(
-        blankLine
-      );
-    });
-    test("should not return signature case status is LETTER_IN_PROGRESS", () => {
-      const sender = "Stella Cziment\nDPM";
-      expect(generateSignature(sender, CASE_STATUS.LETTER_IN_PROGRESS)).toEqual(
-        blankLine
-      );
+      expect(generateSignature(sender, false)).toEqual(blankLine);
     });
   });
 });
