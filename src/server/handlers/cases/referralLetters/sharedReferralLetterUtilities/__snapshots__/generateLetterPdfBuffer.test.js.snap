@@ -157,7 +157,7 @@ exports[`generateLetterPdfBuffer sender is 'sender address' pdf create gets call
     <p><br></p>
     recipient address
     <p><br></p>
-    <p><strong>RE: Complaint Referral; IPM Complaint CC-2017-12070</strong></p>
+    <p><strong>RE: Complaint Referral; IPM Complaint CC2017-12070</strong></p>
     <p><br></p>
     <p>Dear recipient address:</p>
     <p><br></p>
@@ -215,7 +215,7 @@ exports[`generateLetterPdfBuffer sender is 'sender address' pdf create gets call
     <p><br></p>
     recipient address
     <p><br></p>
-    <p><strong>RE: Complaint Referral; IPM Complaint CC-2017-12070</strong></p>
+    <p><strong>RE: Complaint Referral; IPM Complaint CC2017-12070</strong></p>
     <p><br></p>
     <p>Dear recipient address:</p>
     <p><br></p>

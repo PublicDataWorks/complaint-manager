@@ -128,7 +128,7 @@ module.exports = (sequelize, DataTypes) => {
             ? moment(this.firstContactDate).format("YYYY")
             : "";
           const paddedCaseId = `${this.id}`.padStart(4, "0");
-          return `${prefix}-${firstContactYear}-${paddedCaseId}`;
+          return `${prefix}${firstContactYear}-${paddedCaseId}`;
         }
       }
     }
