@@ -23,9 +23,10 @@ describe("cases", function() {
         .defaultCase()
         .withComplaintType(CIVILIAN_INITIATED)
         .withIncidentDate("2017-01-01")
+        .withFirstContactDate("2018-04-20")
         .withId(555);
       const civilianCase = models.cases.build(civilianCaseAttributes);
-      expect(civilianCase.caseNumber).toEqual("CC-2017-0555");
+      expect(civilianCase.caseNumber).toEqual("CC-2018-0555");
     });
 
     test("returns a case number starting with PO for officer complainant", () => {
@@ -33,9 +34,10 @@ describe("cases", function() {
         .defaultCase()
         .withComplaintType(RANK_INITIATED)
         .withIncidentDate("2000-05-26")
+        .withFirstContactDate("2002-05-17")
         .withId(12);
       const officerCase = models.cases.build(officerCaseAttributes);
-      expect(officerCase.caseNumber).toEqual("PO-2000-0012");
+      expect(officerCase.caseNumber).toEqual("PO-2002-0012");
     });
   });
 

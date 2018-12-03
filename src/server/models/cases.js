@@ -124,11 +124,11 @@ module.exports = (sequelize, DataTypes) => {
         caseNumber() {
           const prefix =
             this.complaintType === CIVILIAN_INITIATED ? "CC" : "PO";
-          const incidentYear = this.incidentDate
-            ? moment(this.incidentDate).format("YYYY")
+          const firstContactYear = this.firstContactDate
+            ? moment(this.firstContactDate).format("YYYY")
             : "";
           const paddedCaseId = `${this.id}`.padStart(4, "0");
-          return `${prefix}-${incidentYear}-${paddedCaseId}`;
+          return `${prefix}-${firstContactYear}-${paddedCaseId}`;
         }
       }
     }
