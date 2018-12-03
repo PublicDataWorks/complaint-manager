@@ -61,7 +61,7 @@ describe("UpdateCaseStatusDialog", () => {
     );
   });
 
-  test("should call alternative action if given when primary button clicked", () => {
+  test("should call alternative action with update status callback and close dialog callback if alternative callback given when primary button clicked", () => {
     const alternativeAction = jest.fn(() => () => {});
     wrapper = mount(
       <Provider store={store}>
@@ -73,7 +73,31 @@ describe("UpdateCaseStatusDialog", () => {
       .find('[data-test="update-case-status-button"]')
       .first();
     updateCaseStatusButton.simulate("click");
-    expect(alternativeAction).toHaveBeenCalled();
+    expect(alternativeAction).toHaveBeenCalledWith(
+      expect.any(Function),
+      expect.any(Function)
+    );
+  });
+
+  test("should call alternative action close dialog callback (and not update status callback) if alternative callback and doNotCallUpdateStatusCallback is true given when primary button clicked", () => {
+    const alternativeAction = jest.fn(() => () => {});
+    wrapper = mount(
+      <Provider store={store}>
+        <UpdateCaseStatusDialog
+          alternativeAction={alternativeAction}
+          doNotCallUpdateStatusCallback={true}
+        />
+      </Provider>
+    );
+
+    const updateCaseStatusButton = wrapper
+      .find('[data-test="update-case-status-button"]')
+      .first();
+    updateCaseStatusButton.simulate("click");
+    expect(alternativeAction).toHaveBeenCalledWith(
+      caseId,
+      expect.any(Function)
+    );
   });
 
   test("should dispatch close if cancelled is clicked", () => {

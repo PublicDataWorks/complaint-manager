@@ -1,5 +1,5 @@
 import { ADDRESSABLE_TYPE } from "../../sharedUtilities/constants";
-
+import moment from "moment";
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
 const CASE_STATUS = require("../../sharedUtilities/constants").CASE_STATUS;
@@ -120,6 +120,15 @@ module.exports = (sequelize, DataTypes) => {
       getterMethods: {
         nextStatus() {
           return determineNextCaseStatus(this.status);
+        },
+        caseNumber() {
+          const prefix =
+            this.complaintType === CIVILIAN_INITIATED ? "CC" : "PO";
+          const incidentYear = this.incidentDate
+            ? moment(this.incidentDate).format("YYYY")
+            : "";
+          const paddedCaseId = `${this.id}`.padStart(4, "0");
+          return `${prefix}-${incidentYear}-${paddedCaseId}`;
         }
       }
     }

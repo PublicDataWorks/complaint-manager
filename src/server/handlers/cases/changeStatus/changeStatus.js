@@ -1,5 +1,8 @@
 import { SENDER, RECIPIENT } from "../referralLetters/letterDefaults";
-import { ACCUSED } from "../../../../sharedUtilities/constants";
+import {
+  ACCUSED,
+  USER_PERMISSIONS
+} from "../../../../sharedUtilities/constants";
 
 const { CASE_STATUS } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -9,12 +12,24 @@ const Boom = require("boom");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const auditDataAccess = require("../../auditDataAccess");
 
+const canUpdateCaseToNewStatus = (newStatus, permissions) => {
+  return (
+    ![CASE_STATUS.CLOSED, CASE_STATUS.FORWARDED_TO_AGENCY].includes(
+      newStatus
+    ) || permissions.includes(USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES)
+  );
+};
+
 const changeStatus = asyncMiddleware(async (request, response, next) => {
   const newStatus = request.body.status;
   const currentCase = await models.sequelize.transaction(async transaction => {
     const caseToUpdate = await models.cases.findById(request.params.id);
     if (!caseToUpdate) {
       throw Boom.badRequest(`Case #${request.params.id} doesn't exist`);
+    }
+
+    if (!canUpdateCaseToNewStatus(newStatus, request.permissions)) {
+      throw Boom.badRequest("Missing permissions to update case status");
     }
 
     await caseToUpdate.update(

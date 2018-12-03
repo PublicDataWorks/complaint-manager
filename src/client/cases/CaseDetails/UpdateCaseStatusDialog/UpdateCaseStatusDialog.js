@@ -14,7 +14,6 @@ import { connect } from "react-redux";
 import setCaseStatus from "../../thunks/setCaseStatus";
 import { closeCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
-import { push } from "react-router-redux";
 
 const STATUS_DESCRIPTION = {
   [CASE_STATUS.LETTER_IN_PROGRESS]:
@@ -35,7 +34,8 @@ const UpdateCaseStatusDialog = ({
   redirectUrl,
   alternativeAction,
   setCaseStatus,
-  closeCaseStatusUpdateDialog
+  closeCaseStatusUpdateDialog,
+  doNotCallUpdateStatusCallback = false
 }) => {
   if (
     !featureToggles.letterGenerationFeature &&
@@ -50,7 +50,9 @@ const UpdateCaseStatusDialog = ({
       : "This action";
 
   const updateCaseStatusAction = () => {
-    if (alternativeAction) {
+    if (alternativeAction && doNotCallUpdateStatusCallback) {
+      alternativeAction(caseId, closeCaseStatusUpdateDialog);
+    } else if (alternativeAction) {
       alternativeAction(updateCaseStatus, closeCaseStatusUpdateDialog)();
     } else {
       updateCaseStatus();
@@ -71,10 +73,10 @@ const UpdateCaseStatusDialog = ({
           style={{
             marginBottom: "24px"
           }}
+          data-test="dialogText"
         >
-          {actionText} will mark the case as <strong>{nextStatus}</strong>.&nbsp;{
-            STATUS_DESCRIPTION[nextStatus]
-          }
+          {actionText} will mark the case as <strong>{nextStatus}</strong>
+          .&nbsp;{STATUS_DESCRIPTION[nextStatus]}
         </Typography>
         <Typography>
           Are you sure you want to mark this case as{" "}

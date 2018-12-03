@@ -32,7 +32,10 @@ const editIAProCorrections = (
     dispatch(snackbarSuccess("IAPro corrections were successfully updated"));
     return dispatch(push(successRedirectRoute));
   } catch (error) {
-    if (error.response.data.message === "Invalid case status") {
+    if (
+      error.response &&
+      error.response.data.message === "Invalid case status"
+    ) {
       return dispatch(push(`/cases/${caseId}`));
     }
     dispatch(

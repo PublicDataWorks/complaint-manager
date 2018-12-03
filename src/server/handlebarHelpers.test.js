@@ -1,20 +1,17 @@
 import {
-  determineComplaintTypeCode,
+  extractFirstLine,
   formatAddress,
-  newLineToLineBreak,
+  generateSignature,
+  getImagePath,
   isPresent,
-  parseIncidentYear,
+  newLineToLineBreak,
   renderHtml,
   showOfficerHistory,
   showOfficerHistoryHeader,
   showRecommendedActions,
-  sumAllegations,
-  extractFirstLine
+  sumAllegations
 } from "./handlebarHelpers";
-import {
-  CIVILIAN_INITIATED,
-  RANK_INITIATED
-} from "../sharedUtilities/constants";
+import { CASE_STATUS, SIGNATURE_URLS } from "../sharedUtilities/constants";
 
 describe("handlebarHelpers", function() {
   describe("formatAddress", function() {
@@ -363,39 +360,6 @@ describe("handlebarHelpers", function() {
     });
   });
 
-  describe("determineComplaintTypeCode", function() {
-    test("should show CC if civilian initiated", () => {
-      const complaintTypeCode = determineComplaintTypeCode(CIVILIAN_INITIATED);
-      expect(complaintTypeCode).toEqual("CC");
-    });
-    test("should show PO if officer initiated", () => {
-      const complaintTypeCode = determineComplaintTypeCode(RANK_INITIATED);
-      expect(complaintTypeCode).toEqual("PO");
-    });
-  });
-
-  describe("parseIndicentYear", function() {
-    test("should return 2018 if year is 2018", () => {
-      const incidentYear = parseIncidentYear("2018-10-03");
-      expect(incidentYear).toEqual("2018");
-    });
-
-    test("should return empty string if date is null", () => {
-      const incidentYear = parseIncidentYear(null);
-      expect(incidentYear).toEqual("");
-    });
-
-    test("should return empty string if date is undefined", () => {
-      const incidentYear = parseIncidentYear(undefined);
-      expect(incidentYear).toEqual("");
-    });
-
-    test("should return empty string if date is empty", () => {
-      const incidentYear = parseIncidentYear("");
-      expect(incidentYear).toEqual("");
-    });
-  });
-
   describe("newLineToLineBreak", function() {
     test("should return empty string when given null", () => {
       expect(newLineToLineBreak(null)).toEqual("");
@@ -447,6 +411,46 @@ describe("handlebarHelpers", function() {
       const expectedFirstLine = "first line";
       const extractedFirstLine = extractFirstLine(stringWithMultipleLines);
       expect(extractedFirstLine).toEqual(expectedFirstLine);
+    });
+  });
+
+  describe("generateSignature", function() {
+    const blankLine = "<p><br></p>";
+    const signaturePath = `<img style="max-height: 40px" src=${
+      SIGNATURE_URLS.STELLA_PATH
+    } />`;
+
+    test("should return an empty space when no signature for given name and case status is FORWARDED_TO_AGENCY", () => {
+      const emptyString = "";
+      expect(
+        generateSignature(emptyString, CASE_STATUS.FORWARDED_TO_AGENCY)
+      ).toEqual(blankLine);
+    });
+    test("should return stellas signature when stella is sender and case status is FORWARDED_TO_AGENCY", () => {
+      const sender = "Stella Cziment\nDPM";
+
+      expect(
+        generateSignature(sender, CASE_STATUS.FORWARDED_TO_AGENCY)
+      ).toEqual(signaturePath);
+    });
+    test("should return stellas signature when stella is sender and case status is CLOSED", () => {
+      const sender = "Stella Cziment\nDPM";
+
+      expect(generateSignature(sender, CASE_STATUS.CLOSED)).toEqual(
+        signaturePath
+      );
+    });
+    test("should not return signature case status is READY_FOR_REVIEW", () => {
+      const sender = "Stella Cziment\nDPM";
+      expect(generateSignature(sender, CASE_STATUS.READY_FOR_REVIEW)).toEqual(
+        blankLine
+      );
+    });
+    test("should not return signature case status is LETTER_IN_PROGRESS", () => {
+      const sender = "Stella Cziment\nDPM";
+      expect(generateSignature(sender, CASE_STATUS.LETTER_IN_PROGRESS)).toEqual(
+        blankLine
+      );
     });
   });
 });

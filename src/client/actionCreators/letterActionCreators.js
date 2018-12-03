@@ -1,6 +1,8 @@
 import {
   CLOSE_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG,
   CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG,
+  GET_FINAL_PDF_URL_SUCCESS,
+  GET_LETTER_PDF_SUCCESS,
   GET_LETTER_PREVIEW_SUCCESS,
   GET_RECOMMENDED_ACTIONS_SUCCESS,
   GET_REFERRAL_LETTER_SUCCESS,
@@ -55,12 +57,14 @@ export const getRecommendedActionsSuccess = recommendedActions => ({
 export const getLetterPreviewSuccess = (
   letterHtml,
   addresses,
-  editHistory
+  letterType,
+  lastEdited
 ) => ({
   type: GET_LETTER_PREVIEW_SUCCESS,
   letterHtml,
   addresses,
-  editHistory
+  letterType,
+  lastEdited
 });
 
 export const openEditLetterConfirmationDialog = () => ({
@@ -85,4 +89,14 @@ export const startLetterDownload = () => ({
 
 export const stopLetterDownload = () => ({
   type: STOP_LETTER_DOWNLOAD
+});
+
+export const getLetterPdfSuccess = letterPdf => ({
+  type: GET_LETTER_PDF_SUCCESS,
+  letterPdf
+});
+
+export const getFinalPdfUrlSuccess = finalPdfUrl => ({
+  type: GET_FINAL_PDF_URL_SUCCESS,
+  finalPdfUrl
 });

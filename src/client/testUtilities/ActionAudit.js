@@ -10,7 +10,6 @@ class ActionAudit {
     this.caseId = build.caseId;
     this.user = build.user;
     this.subject = build.subject;
-    this.subjectId = build.subjectId;
     this.subjectDetails = build.subjectDetails;
     this.auditType = build.auditType;
     this.action = build.action;
@@ -25,7 +24,6 @@ class ActionAudit {
         this.caseId = 17;
         this.user = "Bobby";
         this.subject = AUDIT_SUBJECT.CASE_DETAILS;
-        this.subjectId = null;
         this.subjectDetails = null;
         this.action = AUDIT_ACTION.DATA_ACCESSED;
         this.auditType = AUDIT_TYPE.DATA_ACCESS;
@@ -56,10 +54,6 @@ class ActionAudit {
 
       withSubject(subject) {
         this.subject = subject;
-        return this;
-      }
-      withSubjectId(subjectId) {
-        this.subjectId = subjectId;
         return this;
       }
 

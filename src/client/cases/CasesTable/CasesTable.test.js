@@ -15,10 +15,9 @@ import CaseOfficer from "../../testUtilities/caseOfficer";
 import Officer from "../../testUtilities/Officer";
 import {
   CASE_STATUS,
-  COMPLAINANT,
-  CIVILIAN_INITIATED
+  CIVILIAN_INITIATED,
+  COMPLAINANT
 } from "../../../sharedUtilities/constants";
-import { userAuthSuccess } from "../../auth/actionCreators";
 
 jest.mock("../thunks/getCases", () => () => ({
   type: "MOCK_GET_CASES_THUNK"
@@ -31,7 +30,8 @@ describe("cases table", () => {
     dispatchSpy,
     civilianChuck,
     civilianAriel,
-    officer;
+    officer,
+    caseOne;
 
   beforeEach(() => {
     civilianChuck = new Civilian.Builder()
@@ -58,7 +58,7 @@ describe("cases table", () => {
       .withOfficerAttributes(officer)
       .build();
 
-    const caseOne = new Case.Builder()
+    caseOne = new Case.Builder()
       .defaultCase()
       .withId(17)
       .withComplainantCivilians([civilianChuck])
@@ -181,9 +181,9 @@ describe("cases table", () => {
       caseRow = tableWrapper.find('tr[data-test="caseRow17"]');
     });
 
-    test("should display id", () => {
+    test("should display case number", () => {
       const number = caseRow.find('td[data-test="caseNumber"]');
-      expect(number.text()).toEqual("17");
+      expect(number.text()).toEqual(caseOne.caseNumber);
     });
 
     test("should display status", () => {
@@ -251,7 +251,7 @@ describe("cases table", () => {
           .find("TableCell")
           .at(0)
           .text()
-      ).toEqual(`${yetAnotherCase.id}`);
+      ).toEqual(`${yetAnotherCase.caseNumber}`);
     });
   });
 });

@@ -27,7 +27,7 @@ function shouldRenderStatusTransitionButton(status, userInfo) {
   return (
     status === CASE_STATUS.ACTIVE ||
     (userInfo &&
-      userInfo.permissions.includes(USER_PERMISSIONS.CAN_REVIEW_CASE))
+      userInfo.permissions.includes(USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES))
   );
 }
 
@@ -50,11 +50,17 @@ const OldCaseStatusStepper = ({
     dispatch(openCaseStatusUpdateDialog());
   };
 
+  const getActiveStep = () => {
+    return TOGGLE_CASE_STATUS_MAP[status] === 4
+      ? 5
+      : TOGGLE_CASE_STATUS_MAP[status];
+  };
+
   return (
     <Fragment>
       <Stepper
         data-test="statusStepper"
-        activeStep={TOGGLE_CASE_STATUS_MAP[status]}
+        activeStep={getActiveStep()}
         alternativeLabel
         style={{ marginLeft: "5%", maxWidth: "850px", padding: "24px 0px" }}
       >

@@ -10,7 +10,7 @@ import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCr
 import editOfficerHistory from "../thunks/editOfficerHistory";
 import { push } from "react-router-redux";
 jest.mock("../../../shared/components/RichTextEditor/RichTextEditor");
-jest.mock("../thunks/getReferralLetter", () => () => ({ type: "" }));
+jest.mock("../thunks/getReferralLetterData", () => () => ({ type: "" }));
 jest.mock("../thunks/editOfficerHistory", () =>
   jest.fn(() => () => ({
     type: "MOCK_EDIT_OFFICER_HISTORY_THUNK"

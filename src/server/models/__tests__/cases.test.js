@@ -1,22 +1,49 @@
 import models from "../index";
 import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import Civilian from "../../../client/testUtilities/civilian";
-import { CASE_STATUS } from "../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  CIVILIAN_INITIATED,
+  RANK_INITIATED
+} from "../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
+import Case from "../../../client/testUtilities/case";
 
 describe("cases", function() {
   let createdCase;
-
-  beforeEach(async () => {
-    createdCase = await createCaseWithoutCivilian();
-  });
 
   afterEach(async () => {
     await cleanupDatabase();
   });
 
+  describe("caseNumber", () => {
+    test("returns a case number starting with CC for civilian complainant", () => {
+      const civilianCaseAttributes = new Case.Builder()
+        .defaultCase()
+        .withComplaintType(CIVILIAN_INITIATED)
+        .withIncidentDate("2017-01-01")
+        .withId(555);
+      const civilianCase = models.cases.build(civilianCaseAttributes);
+      expect(civilianCase.caseNumber).toEqual("CC-2017-0555");
+    });
+
+    test("returns a case number starting with PO for officer complainant", () => {
+      const officerCaseAttributes = new Case.Builder()
+        .defaultCase()
+        .withComplaintType(RANK_INITIATED)
+        .withIncidentDate("2000-05-26")
+        .withId(12);
+      const officerCase = models.cases.build(officerCaseAttributes);
+      expect(officerCase.caseNumber).toEqual("PO-2000-0012");
+    });
+  });
+
   describe("setStatus", async () => {
+    beforeEach(async () => {
+      createdCase = await createCaseWithoutCivilian();
+    });
+
     test("sets status to given status when allowed", async () => {
       await createdCase.update(
         { status: CASE_STATUS.ACTIVE },
@@ -124,6 +151,10 @@ describe("cases", function() {
   });
 
   describe("status beforeUpdate hook", async () => {
+    beforeEach(async () => {
+      createdCase = await createCaseWithoutCivilian();
+    });
+
     test("should not change status when updating nothing", async () => {
       await createdCase.update({}, { auditUser: "Someone" });
 

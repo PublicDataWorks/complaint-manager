@@ -35,10 +35,12 @@ const CaseRow = ({ classes, caseDetails, currentUser, featureToggles }) => {
   return (
     <TableRow data-test={`caseRow${caseDetails.id}`} className={classes.row}>
       <TableCell data-test="caseNumber" className={classes.cell}>
-        <div>{caseDetails.id}</div>
+        <div>{caseDetails.caseNumber}</div>
       </TableCell>
       <TableCell data-test="caseStatus" className={classes.cell}>
-        {currentUser.permissions.includes(USER_PERMISSIONS.CAN_REVIEW_CASE)
+        {currentUser.permissions.includes(
+          USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
+        )
           ? formatCaseStatusForDPM(toggleStatus)
           : toggleStatus}
       </TableCell>

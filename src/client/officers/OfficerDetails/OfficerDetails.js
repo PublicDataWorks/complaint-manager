@@ -48,7 +48,11 @@ const OfficerDetails = props => {
             alignItems: "start"
           }}
         >
-          <Typography style={{ marginBottom: "32px" }} variant="body1">
+          <Typography
+            data-test="unknown-officer-message"
+            style={{ marginBottom: "32px" }}
+            variant="body1"
+          >
             You have selected Unknown Officer. Change this officer to a known
             officer by selecting Search for Officer.
           </Typography>
@@ -78,7 +82,7 @@ const OfficerDetails = props => {
                 required
                 validate={[officerRoleRequired]}
                 label="Role on Case"
-                style={{ width: "12%" }}
+                style={{ width: "9rem" }}
               >
                 {roleOnCaseMenu}
               </Field>

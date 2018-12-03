@@ -27,10 +27,6 @@ module.exports = (sequelize, DataTypes) => {
       field: "subject_details",
       type: DataTypes.JSONB
     },
-    subjectId: {
-      field: "subject_id",
-      type: DataTypes.INTEGER
-    },
     createdAt: {
       field: "created_at",
       type: DataTypes.DATE

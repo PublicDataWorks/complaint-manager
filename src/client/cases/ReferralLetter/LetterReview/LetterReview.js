@@ -95,7 +95,7 @@ export class LetterReview extends Component {
           Back to Case
         </LinkButton>
 
-        <div style={{ margin: "0% 5% 3%", width: "60%" }}>
+        <div style={{ margin: "0% 5% 3%", maxWidth: "60rem" }}>
           <LetterProgressStepper
             currentLetterStatus={LETTER_PROGRESS.REVIEW_CASE_DETAILS}
             pageChangeCallback={this.pageChangeCallback}

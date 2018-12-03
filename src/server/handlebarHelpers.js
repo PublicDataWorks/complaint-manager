@@ -2,14 +2,18 @@ import Handlebars from "handlebars";
 import {
   computeTimeZone,
   format12HourTime,
-  formatShortDate
+  formatShortDate,
+  formatLongDate
 } from "../client/utilities/formatDate";
 import formatPhoneNumber from "../client/utilities/formatPhoneNumber";
 import {
+  CASE_STATUS,
   CIVILIAN_INITIATED,
-  RANK_INITIATED
+  RANK_INITIATED,
+  SIGNATURE_URLS
 } from "../sharedUtilities/constants";
-import formatDate from "../client/utilities/formatDate";
+
+const caseNumberLength = 4;
 
 export const formatAddress = address => {
   if (!address) return "";
@@ -79,8 +83,12 @@ Handlebars.registerHelper("formatTime", (date, time) => {
   return format12HourTime(time) + " " + computeTimeZone(date, time);
 });
 
-Handlebars.registerHelper("formatDate", date => {
+Handlebars.registerHelper("formatShortDate", date => {
   return formatShortDate(date);
+});
+
+Handlebars.registerHelper("formatLongDate", date => {
+  return formatLongDate(date);
 });
 
 Handlebars.registerHelper("formatPhoneNumber", phoneNumber => {
@@ -105,27 +113,6 @@ export const showRecommendedActions = accusedOfficers => {
 };
 Handlebars.registerHelper("showRecommendedActions", showRecommendedActions);
 
-export const determineComplaintTypeCode = complaintType => {
-  if (complaintType === CIVILIAN_INITIATED) {
-    return "CC";
-  }
-  if (complaintType === RANK_INITIATED) {
-    return "PO";
-  }
-};
-Handlebars.registerHelper(
-  "determineComplaintTypeCode",
-  determineComplaintTypeCode
-);
-
-export const parseIncidentYear = date => {
-  if (date) {
-    return date.substring(0, 4);
-  }
-  return "";
-};
-Handlebars.registerHelper("parseIncidentYear", parseIncidentYear);
-
 export const newLineToLineBreak = text => {
   text = Handlebars.Utils.escapeExpression(text);
   text = text.replace(/(\r\n|\n|\r)/gm, "<br>");
@@ -140,3 +127,14 @@ export const extractFirstLine = text => {
   return text.split("\n")[0];
 };
 Handlebars.registerHelper("extractFirstLine", extractFirstLine);
+
+export const generateSignature = (sender, status) => {
+  if (![CASE_STATUS.CLOSED, CASE_STATUS.FORWARDED_TO_AGENCY].includes(status)) {
+    return "<p><br></p>";
+  }
+  if (sender.includes("Stella Cziment")) {
+    return `<img style="max-height: 40px" src=${SIGNATURE_URLS.STELLA_PATH} />`;
+  }
+  return "<p><br></p>";
+};
+Handlebars.registerHelper("generateSignature", generateSignature);

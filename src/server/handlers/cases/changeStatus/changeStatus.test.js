@@ -6,7 +6,8 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  ACCUSED
+  ACCUSED,
+  USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
 import Boom from "boom";
@@ -296,6 +297,151 @@ describe("changeStatus", async () => {
 
       await initialCase.reload();
       expect(initialCase.status).toEqual(CASE_STATUS.ACTIVE);
+    });
+  });
+
+  describe("user has permission to update case status", async () => {
+    test("should update case status from letter in progress to ready for review to forwarded to agency", async () => {
+      await initialCase.update(
+        { status: CASE_STATUS.ACTIVE },
+        { auditUser: "someone" }
+      );
+      await initialCase.update(
+        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        { auditUser: "someone" }
+      );
+      await initialCase.update(
+        { status: CASE_STATUS.READY_FOR_REVIEW },
+        { auditUser: "someone" }
+      );
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        params: {
+          id: initialCase.id
+        },
+        body: {
+          status: CASE_STATUS.FORWARDED_TO_AGENCY
+        },
+        nickname: "someone",
+        permissions: [`${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES}`]
+      });
+
+      await changeStatus(request, response, next);
+
+      await initialCase.reload();
+
+      expect(initialCase.status).toEqual(CASE_STATUS.FORWARDED_TO_AGENCY);
+    });
+
+    test("should update case status from forwarded to agency to closed", async () => {
+      await initialCase.update(
+        { status: CASE_STATUS.ACTIVE },
+        { auditUser: "someone" }
+      );
+      await initialCase.update(
+        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        { auditUser: "someone" }
+      );
+      await initialCase.update(
+        { status: CASE_STATUS.READY_FOR_REVIEW },
+        { auditUser: "someone" }
+      );
+      await initialCase.update(
+        { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+        { auditUser: "someone" }
+      );
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        params: {
+          id: initialCase.id
+        },
+        body: {
+          status: CASE_STATUS.CLOSED
+        },
+        nickname: "someone",
+        permissions: [`${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES}`]
+      });
+
+      await changeStatus(request, response, next);
+      await initialCase.reload();
+      expect(initialCase.status).toEqual(CASE_STATUS.CLOSED);
+    });
+  });
+
+  describe("User does not have permissions", async () => {
+    test("should not update case status and should call error when only update_case_status permission is not present", async () => {
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        params: {
+          id: initialCase.id
+        },
+        body: {
+          status: CASE_STATUS.FORWARDED_TO_AGENCY
+        },
+        nickname: "someone",
+        permissions: []
+      });
+
+      await initialCase.update(
+        { status: CASE_STATUS.ACTIVE },
+        { auditUser: "someone" }
+      );
+      await initialCase.update(
+        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        { auditUser: "someone" }
+      );
+      await initialCase.update(
+        { status: CASE_STATUS.READY_FOR_REVIEW },
+        { auditUser: "someone" }
+      );
+
+      await changeStatus(request, response, next);
+
+      await initialCase.reload();
+
+      expect(next).toBeCalledWith(
+        Boom.badRequest("Missing permissions to update case status")
+      );
+    });
+
+    test("should not update case status for closed status and should call error when only update_case_status permission is not present", async () => {
+      await initialCase.update(
+        { status: CASE_STATUS.ACTIVE },
+        { auditUser: "someone" }
+      );
+      await initialCase.update(
+        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        { auditUser: "someone" }
+      );
+      await initialCase.update(
+        { status: CASE_STATUS.READY_FOR_REVIEW },
+        { auditUser: "someone" }
+      );
+      await initialCase.update(
+        { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+        { auditUser: "someone" }
+      );
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        params: {
+          id: initialCase.id
+        },
+        body: {
+          status: CASE_STATUS.CLOSED
+        },
+        nickname: "someone",
+        permissions: []
+      });
+
+      await changeStatus(request, response, next);
+      await initialCase.reload();
+
+      expect(next).toBeCalledWith(
+        Boom.badRequest("Missing permissions to update case status")
+      );
     });
   });
 });

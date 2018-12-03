@@ -1,4 +1,5 @@
 import createConfiguredStore from "../../../createConfiguredStore";
+import timeKeeper from "timekeeper";
 import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -17,8 +18,13 @@ import {
   openCaseStatusUpdateDialog
 } from "../../../actionCreators/casesActionCreators";
 import setCaseStatus from "../../thunks/setCaseStatus";
-import { CASE_STATUS } from "../../../../sharedUtilities/constants";
-import generatePdf from "../thunks/generatePdf";
+import {
+  CASE_STATUS,
+  LETTER_TYPE,
+  USER_PERMISSIONS
+} from "../../../../sharedUtilities/constants";
+import getPdf from "../thunks/getPdf";
+import { userAuthSuccess } from "../../../auth/actionCreators";
 
 jest.mock("../thunks/editReferralLetterAddresses", () =>
   jest.fn((caseId, values, redirectUrl, successCallback, failureCallback) => {
@@ -38,16 +44,17 @@ jest.mock("../../thunks/setCaseStatus", () =>
   jest.fn(() => (caseId, status, redirectUrl) => {})
 );
 
-jest.mock("../thunks/generatePdf", () => (caseId, edited) => {
+jest.mock("../thunks/getPdf", () => (caseId, letterType, saveFileForUser) => {
   return {
     type: "SOMETHING",
     caseId,
-    edited
+    letterType,
+    saveFileForUser
   };
 });
 
 describe("LetterPreview", function() {
-  let store, dispatchSpy, wrapper, caseId;
+  let store, dispatchSpy, wrapper, caseId, date;
   beforeEach(() => {
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
@@ -61,9 +68,7 @@ describe("LetterPreview", function() {
           recipient: "jane",
           transcribedBy: "joe"
         },
-        {
-          edited: false
-        }
+        LETTER_TYPE.GENERATED
       )
     );
     store.dispatch(
@@ -189,6 +194,100 @@ describe("LetterPreview", function() {
     expect(setCaseStatus).toHaveBeenCalled();
   });
 
+  test("should not render Review and Approve Letter button if not authorized to approve letter and in Ready for Review", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+
+    store.dispatch(
+      userAuthSuccess({
+        permissions: []
+      })
+    );
+
+    wrapper.update();
+    const reviewAndApproveLetterButton = wrapper
+      .find('[data-test="review-and-approve-letter-button"]')
+      .first();
+
+    expect(reviewAndApproveLetterButton.exists()).toEqual(false);
+  });
+
+  test("should not render Review and Approve Letter button if not in Ready For Review status", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.LETTER_IN_PROGRESS,
+        nextStatus: CASE_STATUS.READY_FOR_REVIEW
+      })
+    );
+
+    wrapper.update();
+    const reviewAndApproveLetterButton = wrapper
+      .find('[data-test="review-and-approve-letter-button"]')
+      .first();
+
+    expect(reviewAndApproveLetterButton.exists()).toEqual(false);
+  });
+
+  test("should render Review and Approve letter button if authorized and in Ready for Review", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+    store.dispatch(
+      userAuthSuccess({
+        permissions: [USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES]
+      })
+    );
+    wrapper.update();
+    const reviewAndApproveLetterButton = wrapper
+      .find('[data-test="review-and-approve-letter-button"]')
+      .first();
+
+    expect(reviewAndApproveLetterButton.exists()).toEqual(true);
+  });
+
+  test("dispatches editReferralLetterAddresses with correct values for back button", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+    store.dispatch(
+      userAuthSuccess({
+        permissions: [USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES]
+      })
+    );
+    changeInput(wrapper, "[data-test='transcribed-by-field']", "transcriber");
+    const reviewAndApproveButton = wrapper
+      .find("[data-test='review-and-approve-letter-button']")
+      .first();
+    dispatchSpy.mockClear();
+    reviewAndApproveButton.simulate("click");
+    const expectedFormValues = {
+      sender: "bob",
+      recipient: "jane",
+      transcribedBy: "transcriber"
+    };
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editReferralLetterAddresses(
+        caseId,
+        expectedFormValues,
+        `/cases/${caseId}/letter/review-and-approve`
+      )
+    );
+  });
+
   describe("Saves and Redirects when click Stepper Buttons", function() {
     let expectedFormValues;
     beforeEach(function() {
@@ -278,7 +377,7 @@ describe("LetterPreview", function() {
           recipient: "jane",
           transcribedBy: "joe"
         },
-        { edited: true }
+        LETTER_TYPE.EDITED
       )
     );
 
@@ -304,7 +403,7 @@ describe("LetterPreview", function() {
     );
   });
 
-  test("dispatches startLetterDownload and generatePdf with edit info when download button is clicked and pdf has been edited", () => {
+  test("dispatches startLetterDownload and getPdf with edit info when download button is clicked and pdf has been edited", () => {
     store.dispatch(
       getLetterPreviewSuccess(
         "Letter Preview HTML",
@@ -313,9 +412,7 @@ describe("LetterPreview", function() {
           recipient: "jane",
           transcribedBy: "joe"
         },
-        {
-          edited: true
-        }
+        LETTER_TYPE.EDITED
       )
     );
 
@@ -325,17 +422,22 @@ describe("LetterPreview", function() {
     downloadButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
-    expect(dispatchSpy).toHaveBeenCalledWith(generatePdf(caseId, true));
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      getPdf(caseId, LETTER_TYPE.EDITED, true)
+    );
   });
 
-  test("dispatches startLetterDownload and generatePdf with edit info when download button is clicked and pdf is unedited", () => {
+  test("dispatches startLetterDownload and getPdf with edit info when download button is clicked and pdf is unedited", () => {
     const downloadButton = wrapper
       .find('[data-test="download-letter-as-pdf"]')
       .first();
     downloadButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
-    expect(dispatchSpy).toHaveBeenNthCalledWith(3, generatePdf(caseId, false));
+    expect(dispatchSpy).toHaveBeenNthCalledWith(
+      3,
+      getPdf(caseId, LETTER_TYPE.GENERATED, true)
+    );
   });
 
   test("dispatches stopLetterDownload on failure of download letter", () => {
@@ -373,7 +475,7 @@ describe("LetterPreview", function() {
           recipient: "jane",
           transcribedBy: "joe"
         },
-        { edited: true }
+        LETTER_TYPE.EDITED
       )
     );
     expect(downloadButton.text()).toEqual(expectedText);

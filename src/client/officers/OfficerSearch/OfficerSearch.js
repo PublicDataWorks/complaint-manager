@@ -11,7 +11,11 @@ const OfficerSearch = props => {
   return (
     <div>
       <div style={{ margin: "0 0 32px 0" }}>
-        <Typography variant="title" className="officerSearchHeader">
+        <Typography
+          data-test="search-page-header"
+          variant="title"
+          className="officerSearchHeader"
+        >
           Search for an Officer
         </Typography>
         <Typography variant="body1">
@@ -28,7 +32,6 @@ const OfficerSearch = props => {
       <Card
         style={{
           backgroundColor: "white",
-          width: "60%",
           margin: "0 0 32px 0"
         }}
       >

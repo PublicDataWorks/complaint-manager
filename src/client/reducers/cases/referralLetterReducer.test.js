@@ -1,9 +1,17 @@
-import { GET_REFERRAL_LETTER_SUCCESS } from "../../../sharedUtilities/constants";
+import {
+  GET_FINAL_PDF_URL_SUCCESS,
+  GET_LETTER_PDF_SUCCESS,
+  GET_REFERRAL_LETTER_SUCCESS,
+  LETTER_TYPE
+} from "../../../sharedUtilities/constants";
 import referralLetterReducer from "./referralLetterReducer";
 import {
+  getFinalPdfUrlSuccess,
+  getLetterPdfSuccess,
   getLetterPreviewSuccess,
   getReferralLetterSuccess
 } from "../../actionCreators/letterActionCreators";
+import timekeeper from "timekeeper";
 
 describe("referralLetterReducer", () => {
   describe("initial state", () => {
@@ -13,7 +21,10 @@ describe("referralLetterReducer", () => {
         letterDetails: {},
         letterHtml: "",
         addresses: {},
-        editHistory: { edited: false }
+        letterType: null,
+        lastEdited: null,
+        letterPdf: null,
+        finalPdfUrl: null
       });
     });
   });
@@ -29,18 +40,26 @@ describe("referralLetterReducer", () => {
         letterDetails,
         letterHtml: "",
         addresses: {},
-        editHistory: { edited: false }
+        letterType: null,
+        lastEdited: null,
+        letterPdf: null,
+        finalPdfUrl: null
       });
     });
   });
 
   describe("GET_LETTER_PREVIEW_SUCCESS", () => {
-    test("sets the letter html", () => {
+    test("sets the letter html and edit history", () => {
+      const timeOfEdit = new Date("2018-07-01 19:00:22 CDT");
+      timekeeper.freeze(timeOfEdit);
       const initialState = {
         letterDetails: "something",
         letterHtml: "something",
         addresses: {},
-        editHistory: { edited: false }
+        letterType: null,
+        lastEdited: null,
+        letterPdf: null,
+        finalPdfUrl: "url"
       };
       let referralLetterAddresses = {
         recipient: "recipient",
@@ -49,16 +68,78 @@ describe("referralLetterReducer", () => {
       };
       const newState = referralLetterReducer(
         initialState,
-        getLetterPreviewSuccess("new letter html", referralLetterAddresses, {
-          edited: true
-        })
+        getLetterPreviewSuccess(
+          "new letter html",
+          referralLetterAddresses,
+          LETTER_TYPE.EDITED,
+          timeOfEdit
+        )
       );
       expect(newState).toEqual({
         letterDetails: "something",
         letterHtml: "new letter html",
         addresses: referralLetterAddresses,
-        editHistory: { edited: true }
+        letterType: LETTER_TYPE.EDITED,
+        lastEdited: timeOfEdit,
+        letterPdf: null,
+        finalPdfUrl: "url"
       });
+    });
+  });
+
+  describe("GET_LETTER_PDF_SUCCESS", () => {
+    test("saves the letter pdf in state", () => {
+      const initialState = {
+        letterDetails: "something",
+        letterHtml: "something",
+        addresses: {},
+        letterType: null,
+        lastEdited: null,
+        letterPdf: null,
+        finalPdfUrl: "url"
+      };
+      const newState = referralLetterReducer(
+        initialState,
+        getLetterPdfSuccess("letter pdf")
+      );
+      const expectedState = {
+        letterDetails: "something",
+        letterHtml: "something",
+        addresses: {},
+        letterType: null,
+        lastEdited: null,
+        letterPdf: "letter pdf",
+        finalPdfUrl: "url"
+      };
+      expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe("GET_FINAL_PDF_URL_SUCCESS", () => {
+    test("sets the pdf url", () => {
+      const initialState = {
+        letterDetails: "something",
+        letterHtml: "something",
+        addresses: {},
+        letterType: null,
+        lastEdited: null,
+        letterPdf: null,
+        finalPdfUrl: null
+      };
+      const newState = referralLetterReducer(
+        initialState,
+        getFinalPdfUrlSuccess("url")
+      );
+      const expectedState = {
+        letterDetails: "something",
+        letterHtml: "something",
+        addresses: {},
+        letterType: null,
+        lastEdited: null,
+        letterPdf: null,
+        finalPdfUrl: "url"
+      };
+      expect(newState).toEqual(expectedState);
     });
   });
 });

@@ -4,7 +4,9 @@ import editRecommendedActions from "./handlers/cases/referralLetters/editRecomme
 import getLetterPreview from "./handlers/cases/referralLetters/getLetterPreview/getLetterPreview";
 import editReferralLetterAddresses from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetterAddresses";
 import editReferralLetterContent from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetterContent";
-import generatePdf from "./handlers/cases/referralLetters/generatePdf/generatePdf";
+import getPdf from "./handlers/cases/referralLetters/getPdf/getPdf";
+import approveLetter from "./handlers/cases/referralLetters/approveLetter/approveLetter";
+import getFinalPdfUrl from "./handlers/cases/referralLetters/getFinalPdfUrl/getFinalPdfUrl";
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
 const editCase = require("./handlers/cases/editCase");
@@ -35,7 +37,7 @@ const generateAttachmentDownloadUrl = require("./handlers/cases/attachments/gene
 const createOfficerAllegation = require("./handlers/officerAllegations/createOfficerAllegation/createOfficerAllegation");
 const editOfficerAllegation = require("./handlers/officerAllegations/editOfficerAllegation/editOfficerAllegation");
 const removeOfficerAllegation = require("./handlers/officerAllegations/removeOfficerAllegation/removeOfficerAllegation");
-const getReferralLetter = require("./handlers/cases/referralLetters/getReferralLetter/getReferralLetter");
+const getReferralLetterData = require("./handlers/cases/referralLetters/getReferralLetterData/getReferralLetterData");
 const scheduleExport = require("./handlers/cases/export/scheduleExport");
 const exportJob = require("./handlers/cases/export/exportJob");
 const getRecommendedActions = require("./handlers/cases/referralLetters/getRecommendedActions/getRecommendedActions");
@@ -80,7 +82,7 @@ router.delete(
 );
 
 router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
-router.get("/cases/:caseId/referral-letter", getReferralLetter);
+router.get("/cases/:caseId/referral-letter", getReferralLetterData);
 router.get("/cases/:caseId/referral-letter/preview", getLetterPreview);
 router.put(
   "/cases/:caseId/referral-letter/officer-history",
@@ -117,6 +119,9 @@ router.get("/allegations", getAllegations);
 router.get("/classifications", getClassifications);
 router.get("/recommended-actions", getRecommendedActions);
 
-router.get("/cases/:caseId/referral-letter/generate-pdf", generatePdf);
+router.get("/cases/:caseId/referral-letter/final-pdf-url", getFinalPdfUrl);
+router.get("/cases/:caseId/referral-letter/get-pdf", getPdf);
+
+router.put("/cases/:caseId/referral-letter/approve-letter", approveLetter);
 
 module.exports = router;

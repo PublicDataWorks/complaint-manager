@@ -50,6 +50,7 @@ const updateOfficerDataFromS3 = async (
                   error.message
                 );
                 console.dir(error);
+                throw error; // do not continue if there is an error.
               });
           })
           .then(async () => {

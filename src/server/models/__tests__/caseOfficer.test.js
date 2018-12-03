@@ -106,6 +106,9 @@ describe("caseOfficer", () => {
   });
 
   describe("deleting officer allegations", function() {
+    afterEach(async () => {
+      await cleanupDatabase();
+    });
     test("it should delete associated officer allegations when case officer deleted", async () => {
       const initialCase = await createCaseWithoutCivilian();
 

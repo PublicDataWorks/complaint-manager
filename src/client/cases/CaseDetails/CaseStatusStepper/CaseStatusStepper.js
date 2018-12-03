@@ -1,16 +1,11 @@
 import React, { Fragment } from "react";
 import { Step, StepLabel, Stepper } from "@material-ui/core";
-import {
-  CASE_STATUS,
-  CASE_STATUS_MAP,
-  USER_PERMISSIONS
-} from "../../../../sharedUtilities/constants";
+import { CASE_STATUS_MAP } from "../../../../sharedUtilities/constants";
 import { connect } from "react-redux";
-import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import UpdateCaseStatusDialog from "../UpdateCaseStatusDialog/UpdateCaseStatusDialog";
-import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
-import { Link } from "react-router-dom";
-import LinkButton from "../../../shared/components/LinkButton";
+import DownloadFinalLetterButton from "../DownloadFinalLetterButton/DownloadFinalLetterButton";
+import EditLetterButton from "../EditLetterButton/EditLetterButton";
+import StatusButton from "../StatusButton/StatusButton";
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -22,18 +17,6 @@ const generateSteps = map => {
   });
 };
 
-function shouldRenderStatusTransitionButton(status, userInfo) {
-  if (status === CASE_STATUS.INITIAL || status === CASE_STATUS.CLOSED)
-    return false;
-
-  return (
-    status === CASE_STATUS.ACTIVE ||
-    status === CASE_STATUS.LETTER_IN_PROGRESS ||
-    (userInfo &&
-      userInfo.permissions.includes(USER_PERMISSIONS.CAN_REVIEW_CASE))
-  );
-}
-
 const CaseStatusStepper = ({
   caseId,
   status,
@@ -41,62 +24,31 @@ const CaseStatusStepper = ({
   nextStatus,
   dispatch
 }) => {
-  const openUpdateCaseStatusDialog = () => {
-    let redirectUrl;
-    if (nextStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
-      redirectUrl = `/cases/${caseId}/letter/review`;
-    }
-    dispatch(openCaseStatusUpdateDialog(redirectUrl));
+  const getActiveStep = () => {
+    return CASE_STATUS_MAP[status] === 5
+      ? 6 // marks closed status with a checkmark
+      : CASE_STATUS_MAP[status];
   };
 
-  const renderLetterOrStatusButton = () => {
-    if (status === CASE_STATUS.LETTER_IN_PROGRESS) {
-      return (
-        <PrimaryButton
-          data-test={"edit-letter-button"}
-          to={`/cases/${caseId}/letter/review`}
-          component={Link}
-        >
-          Resume Letter
-        </PrimaryButton>
-      );
-    } else if (status === CASE_STATUS.READY_FOR_REVIEW) {
-      return (
-        <LinkButton
-          data-test={"edit-letter-button"}
-          to={`/cases/${caseId}/letter/review`}
-          component={Link}
-        >
-          Resume Letter
-        </LinkButton>
-      );
-    } else {
-      return (
-        <PrimaryButton
-          data-test="update-status-button"
-          onClick={openUpdateCaseStatusDialog}
-        >
-          {status === CASE_STATUS.ACTIVE
-            ? `Begin Letter`
-            : `Mark as ${nextStatus}`}
-        </PrimaryButton>
-      );
-    }
-  };
-
-  const renderLetterOrStatusButtonSection = () => {
+  const renderButtons = () => {
     return (
       <div
         style={{
-          marginLeft: "5%",
           marginRight: "5%",
+          marginLeft: "5%",
           maxWidth: "850px",
           paddingBottom: "24px",
           display: "flex",
-          justifyContent: "flex-end"
+          justifyContent: "space-between"
         }}
       >
-        {renderLetterOrStatusButton()}
+        <div>
+          <DownloadFinalLetterButton />
+        </div>
+        <div>
+          <EditLetterButton status={status} caseId={caseId} />
+          <StatusButton />
+        </div>
       </div>
     );
   };
@@ -105,15 +57,13 @@ const CaseStatusStepper = ({
     <Fragment>
       <Stepper
         data-test="statusStepper"
-        activeStep={CASE_STATUS_MAP[status]}
+        activeStep={getActiveStep()}
         alternativeLabel
         style={{ marginLeft: "5%", maxWidth: "850px", padding: "24px 0px" }}
       >
         {generateSteps(CASE_STATUS_MAP)}
       </Stepper>
-      {shouldRenderStatusTransitionButton(status, userInfo)
-        ? renderLetterOrStatusButtonSection()
-        : null}
+      {renderButtons()}
       <UpdateCaseStatusDialog />
     </Fragment>
   );

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import {
   CASE_STATUS,
-  LETTER_PROGRESS
+  LETTER_PROGRESS,
+  LETTER_TYPE,
+  USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import NavBar from "../../../shared/components/NavBar/NavBar";
 import { Card, CardContent, Typography } from "@material-ui/core";
@@ -25,8 +27,9 @@ import EditLetterConfirmationDialog from "./EditLetterConfirmationDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import { dateTimeFromString } from "../../../utilities/formatDate";
-import generatePdf from "../thunks/generatePdf";
+import getPdf from "../thunks/getPdf";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
+import styles from "../../../globalStyling/styles";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -50,7 +53,7 @@ class LetterPreview extends Component {
 
   downloadLetterAsPdfFile = () => {
     return this.props.dispatch(
-      generatePdf(this.state.caseId, this.props.editHistory.edited)
+      getPdf(this.state.caseId, this.props.letterType, true)
     );
   };
 
@@ -78,6 +81,12 @@ class LetterPreview extends Component {
   saveAndGoToEditLetter = () => {
     return this.props.handleSubmit(
       this.submitForm(`/cases/${this.state.caseId}/letter/edit-letter`)
+    );
+  };
+
+  saveAndGoToReviewAndApproveLetter = () => {
+    return this.props.handleSubmit(
+      this.submitForm(`/cases/${this.state.caseId}/letter/review-and-approve`)
     );
   };
 
@@ -116,7 +125,7 @@ class LetterPreview extends Component {
   };
 
   editLetterWithPossibleConfirmationDialog = () => {
-    if (this.props.editHistory.edited) {
+    if (this.props.letterType === LETTER_TYPE.EDITED) {
       return this.saveAndGoToEditLetter();
     } else {
       return () => {
@@ -143,11 +152,31 @@ class LetterPreview extends Component {
     }
   };
 
-  timestampIfEdited() {
-    if (this.props.editHistory.edited) {
+  renderReviewAndApproveButton = () => {
+    if (
+      this.props.caseDetail.status === CASE_STATUS.READY_FOR_REVIEW &&
+      this.props.userInfo &&
+      this.props.userInfo.permissions.includes(
+        USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
+      )
+    ) {
       return (
-        <i style={{ fontSize: "0.9rem", color: "black" }}>
-          (Last edited {dateTimeFromString(this.props.editHistory.lastEdited)})
+        <PrimaryButton
+          style={{ marginLeft: "16px" }}
+          data-test="review-and-approve-letter-button"
+          onClick={this.saveAndGoToReviewAndApproveLetter()}
+        >
+          Review and Approve Letter
+        </PrimaryButton>
+      );
+    }
+  };
+
+  timestampIfEdited() {
+    if (this.props.letterType === LETTER_TYPE.EDITED) {
+      return (
+        <i style={styles.body1}>
+          (Last edited {dateTimeFromString(this.props.lastEdited)})
         </i>
       );
     }
@@ -176,7 +205,7 @@ class LetterPreview extends Component {
             Back to Case
           </LinkButton>
 
-          <div style={{ margin: "0% 5% 3%", width: "60%" }}>
+          <div style={{ margin: "0% 5% 3%", maxWidth: "60rem" }}>
             <LetterProgressStepper
               currentLetterStatus={LETTER_PROGRESS.PREVIEW}
               pageChangeCallback={this.pageChangeCallback}
@@ -217,7 +246,7 @@ class LetterPreview extends Component {
                 style={{
                   marginBottom: "24px",
                   backgroundColor: "white",
-                  maxHeight: "875px",
+                  maxHeight: "55rem",
                   overflow: "auto"
                 }}
               >
@@ -266,7 +295,7 @@ class LetterPreview extends Component {
                 style={{ marginBottom: "16px" }}
                 disabled={this.props.downloadInProgress}
               >
-                {this.props.editHistory.edited
+                {this.props.letterType === LETTER_TYPE.EDITED
                   ? "Download Edited Letter as PDF File"
                   : "Download Generated Letter as PDF File"}
               </LinkButton>
@@ -292,6 +321,7 @@ class LetterPreview extends Component {
                   >
                     Edit Letter
                   </SecondaryButton>
+                  {this.renderReviewAndApproveButton()}
                   {this.renderSubmitForReviewButton()}
                 </span>
               </div>
@@ -309,9 +339,11 @@ class LetterPreview extends Component {
 const mapStateToProps = state => ({
   letterHtml: state.referralLetter.letterHtml,
   initialValues: state.referralLetter.addresses,
-  editHistory: state.referralLetter.editHistory,
+  letterType: state.referralLetter.letterType,
+  lastEdited: state.referralLetter.lastEdited,
   caseDetail: state.currentCase.details,
-  downloadInProgress: state.ui.letterDownload.downloadInProgress
+  downloadInProgress: state.ui.letterDownload.downloadInProgress,
+  userInfo: state.users.current.userInfo
 });
 
 const mapDispatchToProps = {

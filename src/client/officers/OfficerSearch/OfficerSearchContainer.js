@@ -18,7 +18,11 @@ export class OfficerSearchContainer extends Component {
     return (
       <div>
         <NavBar>
-          <Typography data-test="pageTitle" variant="title" color="inherit">
+          <Typography
+            data-test="officer-search-title"
+            variant="title"
+            color="inherit"
+          >
             {`Case #${caseId}   : ${titleAction} Officer`}
           </Typography>
         </NavBar>
@@ -31,7 +35,7 @@ export class OfficerSearchContainer extends Component {
         >
           Back to Case
         </LinkButton>
-        <div style={{ margin: "0% 5% 3%" }}>
+        <div style={{ margin: "0% 5% 3%", maxWidth: "60rem" }}>
           <OfficerSearch
             initialize={this.props.initialize}
             dispatch={this.props.dispatch}

@@ -63,6 +63,8 @@ export const GET_RECOMMENDED_ACTIONS_SUCCESS =
   "GET_RECOMMENDED_ACTIONS_SUCCESS";
 export const GET_REFERRAL_LETTER_SUCCESS = "GET_REFERRAL_LETTER_SUCCESS";
 export const GET_LETTER_PREVIEW_SUCCESS = "GET_LETTER_PREVIEW_SUCCESS";
+export const GET_LETTER_PDF_SUCCESS = "GET_LETTER_PDF_SUCCESS";
+export const GET_FINAL_PDF_URL_SUCCESS = "GET_FINAL_PDF_URL_SUCCESS";
 export const OPEN_EDIT_LETTER_CONFIRMATION_DIALOG =
   "OPEN_EDIT_LETTER_CONFIRMATION_DIALOG";
 export const CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG =
@@ -133,7 +135,7 @@ export const OFFICER_SEARCH_FORM_NAME = "OfficerSearchForm";
 
 export const USER_PERMISSIONS = {
   EXPORT_AUDIT_LOG: "export:audit-log",
-  CAN_REVIEW_CASE: "update:case-status"
+  UPDATE_ALL_CASE_STATUSES: "update:case-status"
 };
 export const OPENID = "openid";
 export const PROFILE = "profile";
@@ -232,6 +234,14 @@ export const CIVILIAN_INITIATED = "Civilian Initiated";
 export const RANK_INITIATED = "Rank Initiated";
 
 // ----------------------------------------
+//          Complaint Type Options
+// ----------------------------------------
+export const LETTER_TYPE = {
+  GENERATED: "Generated",
+  EDITED: "Edited"
+};
+
+// ----------------------------------------
 //          Case Status Map
 // ----------------------------------------
 export const CASE_STATUS = {
@@ -305,6 +315,15 @@ export const ALLEGATION_SEVERITY = {
   MEDIUM: "Medium",
   HIGH: "High",
   ALL: ["Low", "Medium", "High"]
+};
+
+// ----------------------------------------
+//               Image URLs
+// ----------------------------------------
+
+export const SIGNATURE_URLS = {
+  STELLA_PATH:
+    "file:/app/src/server/handlers/cases/referralLetters/getPdf/assets/signatures/signature.png"
 };
 
 // ----------------------------------------
