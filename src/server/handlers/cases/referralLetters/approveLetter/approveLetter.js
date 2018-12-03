@@ -2,7 +2,8 @@ import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
 import {
   AUDIT_SUBJECT,
-  CASE_STATUS
+  CASE_STATUS,
+  CIVILIAN_INITIATED
 } from "../../../../../sharedUtilities/constants";
 import generateLetterPdfBuffer from "../sharedReferralLetterUtilities/generateLetterPdfBuffer";
 import uploadLetterToS3 from "./uploadLetterToS3";
@@ -19,11 +20,32 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
   );
 
   await models.sequelize.transaction(async transaction => {
-    const existingCase = await models.cases.findById(request.params.caseId);
+    const existingCase = await models.cases.findById(request.params.caseId, {
+      include: [
+        {
+          model: models.case_officer,
+          as: "complainantOfficers",
+          auditUser: "test"
+        },
+        {
+          model: models.civilian,
+          as: "complainantCivilians",
+          auditUser: "test"
+        }
+      ]
+    });
+
     validateCaseStatus(existingCase);
+    const firstComplainant =
+      existingCase.complaintType === CIVILIAN_INITIATED
+        ? existingCase.complainantCivilians[0]
+        : existingCase.complainantOfficers[0];
+
     await generateLetterAndUploadToS3(
       caseId,
       existingCase.caseNumber,
+      existingCase.firstContactDate,
+      firstComplainant.lastName,
       includeSignature,
       transaction
     );
@@ -48,6 +70,8 @@ const validateCaseStatus = existingCase => {
 const generateLetterAndUploadToS3 = async (
   caseId,
   caseNumber,
+  firstContactDate,
+  firstComplainantLastName,
   includeSignature,
   transaction
 ) => {
@@ -56,7 +80,13 @@ const generateLetterAndUploadToS3 = async (
     includeSignature,
     transaction
   );
-  await uploadLetterToS3(caseId, caseNumber, generatedReferralLetterPdf);
+  await uploadLetterToS3(
+    caseId,
+    caseNumber,
+    firstContactDate,
+    firstComplainantLastName,
+    generatedReferralLetterPdf
+  );
 };
 
 const transitionCaseToForwardedToAgency = async (

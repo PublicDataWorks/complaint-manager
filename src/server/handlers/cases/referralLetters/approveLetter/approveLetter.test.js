@@ -5,13 +5,17 @@ import approveLetter from "./approveLetter";
 import {
   AUDIT_SUBJECT,
   CASE_STATUS,
-  CIVILIAN_INITIATED
+  CIVILIAN_INITIATED,
+  COMPLAINANT
 } from "../../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import uploadLetterToS3 from "./uploadLetterToS3";
 import Boom from "boom";
 import auditUpload from "./auditUpload";
+import Civilian from "../../../../../client/testUtilities/civilian";
+import Officer from "../../../../../client/testUtilities/Officer";
+import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 
 jest.mock("./uploadLetterToS3", () => jest.fn());
 jest.mock(
@@ -30,12 +34,48 @@ describe("approveLetter", () => {
   beforeEach(async () => {
     response = httpMocks.createResponse();
 
+    const complainantCivilianAttributes = new Civilian.Builder()
+      .defaultCivilian()
+      .withId(undefined)
+      .withRoleOnCase(COMPLAINANT);
+
+    const complainantOfficerAttributes = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined);
+
+    const complainantOfficer = await models.officer.create(
+      complainantOfficerAttributes,
+      { auditUser: "test" }
+    );
+
+    const complainantCaseOfficerAttributes = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withId(undefined)
+      .withOfficerId(complainantOfficer.id)
+      .withRoleOnCase(COMPLAINANT);
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
       .withComplaintType(CIVILIAN_INITIATED)
-      .withIncidentDate("2003-01-01");
+      .withIncidentDate("2003-01-01")
+      .withFirstContactDate("2004-01-01")
+      .withComplainantCivilians([complainantCivilianAttributes])
+      .withComplainantOfficers([complainantCaseOfficerAttributes]);
+
     existingCase = await models.cases.create(caseAttributes, {
+      include: [
+        {
+          model: models.case_officer,
+          as: "complainantOfficers",
+          auditUser: "test"
+        },
+        {
+          model: models.civilian,
+          as: "complainantCivilians",
+          auditUser: "test"
+        }
+      ],
       auditUser: "test"
     });
 
@@ -86,6 +126,8 @@ describe("approveLetter", () => {
     expect(uploadLetterToS3).toHaveBeenCalledWith(
       existingCase.id,
       existingCase.caseNumber,
+      existingCase.firstContactDate,
+      existingCase.complainantCivilians[0].lastName,
       `Generated pdf for ${existingCase.id}`
     );
     expect(auditUpload).toHaveBeenCalledWith(

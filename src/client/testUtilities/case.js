@@ -121,7 +121,7 @@ class Case {
         this.accusedOfficers = [accusedOfficer];
         this.complainantOfficers = [complainantOfficer];
         this.witnessOfficers = [witnessOfficer];
-        this.caseNumber = "CC-2002-0055";
+        this.caseNumber = "CC2017-0055";
         return this;
       }
 
