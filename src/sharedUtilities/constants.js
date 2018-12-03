@@ -186,7 +186,8 @@ export const AUDIT_TYPE = {
   DATA_CHANGE: "Data Change",
   EXPORT: "Export",
   AUTHENTICATION: "Log in/out",
-  DATA_ACCESS: "Data Access"
+  DATA_ACCESS: "Data Access",
+  UPLOAD: "Upload"
 };
 
 export const AUDIT_SUBJECT = {
@@ -199,7 +200,8 @@ export const AUDIT_SUBJECT = {
   CASE_NOTES: "Case Notes",
   ATTACHMENTS: "Attachments",
   REFERRAL_LETTER_DATA: "Referral Letter Data", //this refers to letter data only (not case data)
-  REFERRAL_LETTER: "Referral Letter" //this refers to the full compiled letter including all case data
+  REFERRAL_LETTER: "Referral Letter", //this refers to the full compiled letter including all case data,
+  REFERRAL_LETTER_PDF: "Referral Letter PDF"
 };
 
 export const AUDIT_ACTION = {
@@ -210,7 +212,8 @@ export const AUDIT_ACTION = {
   LOGGED_IN: "Logged in",
   LOGGED_OUT: "Logged out",
   EXPORTED: "Exported",
-  DOWNLOADED: "Downloaded"
+  DOWNLOADED: "Downloaded",
+  UPLOADED: "Uploaded"
 };
 
 export const AUDIT_FIELDS_TO_EXCLUDE =

@@ -1,10 +1,14 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  CASE_STATUS
+} from "../../../../../sharedUtilities/constants";
 import generateLetterPdfBuffer from "../sharedReferralLetterUtilities/generateLetterPdfBuffer";
 import uploadLetterToS3 from "./uploadLetterToS3";
 import Boom from "boom";
 import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
+import auditUpload from "./auditUpload";
 
 const approveLetter = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
@@ -21,8 +25,10 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
       caseId,
       existingCase.caseNumber,
       includeSignature,
+      request.nickname,
       transaction
     );
+
     await transitionCaseToForwardedToAgency(existingCase, request, transaction);
   });
   response.status(200).send();
@@ -38,6 +44,7 @@ const generateLetterAndUploadToS3 = async (
   caseId,
   caseNumber,
   includeSignature,
+  user,
   transaction
 ) => {
   const generatedReferralLetterPdf = await generateLetterPdfBuffer(
@@ -46,6 +53,12 @@ const generateLetterAndUploadToS3 = async (
     transaction
   );
   await uploadLetterToS3(caseId, caseNumber, generatedReferralLetterPdf);
+  await auditUpload(
+    user,
+    caseId,
+    AUDIT_SUBJECT.REFERRAL_LETTER_PDF,
+    transaction
+  );
 };
 
 const transitionCaseToForwardedToAgency = async (

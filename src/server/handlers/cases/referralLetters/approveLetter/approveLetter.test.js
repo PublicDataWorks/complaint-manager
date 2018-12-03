@@ -20,6 +20,7 @@ jest.mock(
   "../../../../checkFeatureToggleEnabled",
   () => (request, featureName) => true
 );
+jest.mock("./auditUpload", () => jest.fn());
 
 describe("approveLetter", () => {
   let existingCase, request, response, next;
@@ -85,6 +86,11 @@ describe("approveLetter", () => {
       existingCase.caseNumber,
       `Generated pdf for ${existingCase.id}`
     );
+    // expect(auditUpload).toHaveBeenCalledWith(
+    //   "test",
+    //   existingCase.id,
+    //   AUDIT_SUBJECT.REFERRAL_LETTER_PDF
+    // );
   });
 
   const elevateCaseStatusToReadyForReview = async existingCase => {
