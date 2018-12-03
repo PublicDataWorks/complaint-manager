@@ -3,6 +3,12 @@
     "id": "letterGenerationFeature",
     "name": "letterGenerationFeature",
     "description": "Toggle for letter generation features",
-    "criteria": {"isPreProd": true}
+    "criteria": { "isPreProd": true }
+  },
+  {
+    "id": "letterSignatureFeature",
+    "name": "letterSignatureFeature",
+    "description": "Toggle to include signature in letter",
+    "criteria": { "isPreProd": true }
   }
 ]

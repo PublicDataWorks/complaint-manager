@@ -4,15 +4,23 @@ import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import generateLetterPdfBuffer from "../sharedReferralLetterUtilities/generateLetterPdfBuffer";
 import uploadLetterToS3 from "./uploadLetterToS3";
 import Boom from "boom";
+import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
 
 const approveLetter = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
+
+  const includeSignature = checkFeatureToggleEnabled(
+    request,
+    "letterSignatureFeature"
+  );
+
   await models.sequelize.transaction(async transaction => {
     const existingCase = await models.cases.findById(request.params.caseId);
     validateCaseStatus(existingCase);
     await generateLetterAndUploadToS3(
       caseId,
       existingCase.caseNumber,
+      includeSignature,
       transaction
     );
     await transitionCaseToForwardedToAgency(existingCase, request, transaction);
@@ -26,10 +34,15 @@ const validateCaseStatus = existingCase => {
   }
 };
 
-const generateLetterAndUploadToS3 = async (caseId, caseNumber, transaction) => {
+const generateLetterAndUploadToS3 = async (
+  caseId,
+  caseNumber,
+  includeSignature,
+  transaction
+) => {
   const generatedReferralLetterPdf = await generateLetterPdfBuffer(
     caseId,
-    true,
+    includeSignature,
     transaction
   );
   await uploadLetterToS3(caseId, caseNumber, generatedReferralLetterPdf);

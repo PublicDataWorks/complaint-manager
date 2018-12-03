@@ -73,7 +73,7 @@ app.use(express.static(buildDirectory));
 
 app.get("/health-check", healthCheck);
 
-app.use("/features", featureToggleRouter);
+app.use(featureToggleRouter);
 
 app.use(
   expressWinston.logger({

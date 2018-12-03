@@ -16,6 +16,10 @@ jest.mock(
   "../sharedReferralLetterUtilities/generateLetterPdfBuffer",
   () => (caseId, transaction) => `Generated pdf for ${caseId}`
 );
+jest.mock(
+  "../../../../checkFeatureToggleEnabled",
+  () => (request, featureName) => true
+);
 
 describe("approveLetter", () => {
   let existingCase, request, response, next;

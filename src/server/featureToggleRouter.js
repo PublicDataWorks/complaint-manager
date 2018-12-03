@@ -21,7 +21,7 @@ fflip.config({
 router.use(fflipExpress.middleware);
 
 if (process.env.NODE_ENV !== "production") {
-  router.get("/:name/:action", fflipExpress.manualRoute);
+  router.get("/features/:name/:action", fflipExpress.manualRoute);
 }
 
 router.use((request, response, next) => {
@@ -30,7 +30,7 @@ router.use((request, response, next) => {
 });
 
 router.get(
-  "/",
+  "/features/",
   asyncMiddleware((request, response) => {
     response.status(200).send(request.fflip.features);
   })
