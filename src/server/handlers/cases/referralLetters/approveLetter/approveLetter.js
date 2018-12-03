@@ -41,11 +41,15 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
         ? existingCase.complainantCivilians[0]
         : existingCase.complainantOfficers[0];
 
+    const complainantLastName = firstComplainant
+      ? firstComplainant.lastName
+      : "";
+
     await generateLetterAndUploadToS3(
       caseId,
       existingCase.caseNumber,
       existingCase.firstContactDate,
-      firstComplainant.lastName,
+      complainantLastName,
       includeSignature,
       transaction
     );

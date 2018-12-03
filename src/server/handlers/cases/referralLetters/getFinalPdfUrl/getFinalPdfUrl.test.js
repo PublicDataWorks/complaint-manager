@@ -7,13 +7,18 @@ import {
   CIVILIAN_INITIATED,
   S3_GET_OBJECT,
   S3_URL_EXPIRATION,
-  CASE_STATUS
+  CASE_STATUS,
+  COMPLAINANT
 } from "../../../../../sharedUtilities/constants";
 import getFinalPdfUrl from "./getFinalPdfUrl";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import config from "../../../../config/config";
 import Boom from "boom";
+import Civilian from "../../../../../client/testUtilities/civilian";
+import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
+import moment from "moment";
+import Officer from "../../../../../client/testUtilities/Officer";
 
 const httpMocks = require("node-mocks-http");
 
@@ -27,13 +32,48 @@ describe("getFinalPdfUrl", () => {
       getSignedUrl: getSignedUrlMock
     }));
 
+    const complainantCivilianAttributes = new Civilian.Builder()
+      .defaultCivilian()
+      .withId(undefined)
+      .withRoleOnCase(COMPLAINANT);
+
+    const complainantOfficerAttributes = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined);
+
+    const complainantOfficer = await models.officer.create(
+      complainantOfficerAttributes,
+      { auditUser: "test" }
+    );
+
+    const complainantCaseOfficerAttributes = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withId(undefined)
+      .withRoleOnCase(COMPLAINANT)
+      .withOfficerId(complainantOfficer.id);
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(12070)
       .withFirstContactDate("2017-12-25")
       .withIncidentDate("2016-01-01")
-      .withComplaintType(CIVILIAN_INITIATED);
+      .withComplaintType(CIVILIAN_INITIATED)
+      .withComplainantCivilians([complainantCivilianAttributes])
+      .withComplainantOfficers([complainantCaseOfficerAttributes]);
+
     existingCase = await models.cases.create(caseAttributes, {
+      include: [
+        {
+          model: models.case_officer,
+          as: "complainantOfficers",
+          auditUser: "test"
+        },
+        {
+          model: models.civilian,
+          as: "complainantCivilians",
+          auditUser: "test"
+        }
+      ],
       auditUser: "test"
     });
     await existingCase.update(
@@ -87,6 +127,14 @@ describe("getFinalPdfUrl", () => {
   });
 
   test("should retrieve download url for pdf", async () => {
+    const formattedFirstContactDate = moment(
+      existingCase.firstContactDate
+    ).format("MM-DD-YYYY");
+    const formattedComplainantLastName = existingCase.complainantCivilians[0].lastName.replace(
+      /[^a-zA-Z]/g,
+      ""
+    );
+
     await existingCase.update(
       { status: CASE_STATUS.FORWARDED_TO_AGENCY },
       { auditUser: "someone" }
@@ -100,7 +148,9 @@ describe("getFinalPdfUrl", () => {
 
     expect(getSignedUrlMock).toHaveBeenCalledWith(S3_GET_OBJECT, {
       Bucket: config[process.env.NODE_ENV].referralLettersBucket,
-      Key: `${existingCase.id}/ReferralLetter_${existingCase.caseNumber}.pdf`,
+      Key: `${existingCase.id}/${formattedFirstContactDate}_${
+        existingCase.caseNumber
+      }_PIB_Referral_${formattedComplainantLastName}.pdf`,
       Expires: S3_URL_EXPIRATION
     });
     expect(response._getData()).toEqual("url");

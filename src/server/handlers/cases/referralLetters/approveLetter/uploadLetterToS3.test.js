@@ -25,7 +25,7 @@ describe("uploadLetterToS3", async () => {
 
     expect(uploadMock).toHaveBeenCalledWith({
       Bucket: config[process.env.NODE_ENV].referralLettersBucket,
-      Key: `${caseId}/12/24/2018_${caseNumber}_PIB_Referral_Wilson.pdf`,
+      Key: `${caseId}/12-24-2018_${caseNumber}_PIB_Referral_Wilson.pdf`,
       Body: pdfOutput,
       ServerSideEncryption: "AES256"
     });

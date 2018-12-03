@@ -11,9 +11,8 @@ const uploadLetterToS3 = (
 ) => {
   const s3 = createConfiguredS3Instance();
   const formattedFirstContactDate = moment(firstContactDate).format(
-    "MM/DD/YYYY"
+    "MM-DD-YYYY"
   );
-  const strippedLastName = firstComplainantLastName.replace(/[^a-zA-Z]/g, "");
   return s3
     .upload({
       Bucket: config[process.env.NODE_ENV].referralLettersBucket,
@@ -21,7 +20,7 @@ const uploadLetterToS3 = (
         caseId,
         caseNumber,
         formattedFirstContactDate,
-        strippedLastName
+        firstComplainantLastName
       ),
       Body: pdfOutput,
       ServerSideEncryption: "AES256"
@@ -35,7 +34,10 @@ const constructFilename = (
   firstContactDate,
   complainantLastName
 ) => {
-  return `${caseId}/${firstContactDate}_${caseNumber}_PIB_Referral_${complainantLastName}.pdf`;
+  const strippedLastName = complainantLastName
+    ? `_${complainantLastName.replace(/[^a-zA-Z]/g, "")}`
+    : "";
+  return `${caseId}/${firstContactDate}_${caseNumber}_PIB_Referral${strippedLastName}.pdf`;
 };
 
 export default uploadLetterToS3;

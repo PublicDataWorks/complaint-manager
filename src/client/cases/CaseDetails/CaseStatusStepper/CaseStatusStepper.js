@@ -17,13 +17,7 @@ const generateSteps = map => {
   });
 };
 
-const CaseStatusStepper = ({
-  caseId,
-  status,
-  userInfo,
-  nextStatus,
-  dispatch
-}) => {
+const CaseStatusStepper = ({ caseId, status }) => {
   const getActiveStep = () => {
     return CASE_STATUS_MAP[status] === 5
       ? 6 // marks closed status with a checkmark
