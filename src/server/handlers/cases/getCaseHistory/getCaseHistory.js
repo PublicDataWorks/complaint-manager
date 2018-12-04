@@ -1,3 +1,5 @@
+import { AUDIT_TYPE } from "../../../../sharedUtilities/constants";
+
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const transformAuditToCaseHistory = require("./transformAuditToCaseHistory");
@@ -6,7 +8,7 @@ const auditDataAccess = require("../../auditDataAccess");
 
 const getCaseHistory = asyncMiddleware(async (request, response) => {
   const caseId = request.params.id;
-  const dataChangeAudits = await models.sequelize.transaction(
+  const caseHistoryAudits = await models.sequelize.transaction(
     async transaction => {
       const dataChangeAudits = await models.data_change_audit.findAll({
         where: { caseId: caseId },
@@ -21,6 +23,12 @@ const getCaseHistory = asyncMiddleware(async (request, response) => {
         raw: true
       });
 
+      const uploadAudits = await models.action_audit.findAll({
+        where: { auditType: AUDIT_TYPE.UPLOAD, caseId: caseId },
+        attributes: ["action", "user", "createdAt", "subject"],
+        raw: true
+      });
+
       await auditDataAccess(
         request.nickname,
         caseId,
@@ -28,10 +36,10 @@ const getCaseHistory = asyncMiddleware(async (request, response) => {
         transaction
       );
 
-      return dataChangeAudits;
+      return dataChangeAudits.concat(uploadAudits);
     }
   );
-  const caseHistory = transformAuditToCaseHistory(dataChangeAudits);
+  const caseHistory = transformAuditToCaseHistory(caseHistoryAudits);
   response.status(200).send(caseHistory);
 });
 

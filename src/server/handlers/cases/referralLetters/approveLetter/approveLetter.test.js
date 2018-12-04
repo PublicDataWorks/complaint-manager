@@ -3,6 +3,7 @@ import models from "../../../../models";
 import Case from "../../../../../client/testUtilities/case";
 import approveLetter from "./approveLetter";
 import {
+  AUDIT_SUBJECT,
   CASE_STATUS,
   CIVILIAN_INITIATED
 } from "../../../../../sharedUtilities/constants";
@@ -10,6 +11,7 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import uploadLetterToS3 from "./uploadLetterToS3";
 import Boom from "boom";
+import auditUpload from "./auditUpload";
 
 jest.mock("./uploadLetterToS3", () => jest.fn());
 jest.mock(
@@ -86,11 +88,12 @@ describe("approveLetter", () => {
       existingCase.caseNumber,
       `Generated pdf for ${existingCase.id}`
     );
-    // expect(auditUpload).toHaveBeenCalledWith(
-    //   "test",
-    //   existingCase.id,
-    //   AUDIT_SUBJECT.REFERRAL_LETTER_PDF
-    // );
+    expect(auditUpload).toHaveBeenCalledWith(
+      "nickname",
+      existingCase.id,
+      AUDIT_SUBJECT.REFERRAL_LETTER_PDF,
+      expect.any(Object)
+    );
   });
 
   const elevateCaseStatusToReadyForReview = async existingCase => {

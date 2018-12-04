@@ -1,4 +1,7 @@
-import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+import {
+  AUDIT_ACTION,
+  AUDIT_UPLOAD_DETAILS
+} from "../../../../sharedUtilities/constants";
 import striptags from "striptags";
 
 const _ = require("lodash");
@@ -6,10 +9,10 @@ const {
   AUDIT_FIELDS_TO_EXCLUDE
 } = require("../../../../sharedUtilities/constants");
 
-const transformAuditToCaseHistory = dataChangeAudits => {
+const transformAuditToCaseHistory = caseHistoryAudits => {
   const caseHistory = [];
   let auditId = 0;
-  dataChangeAudits.forEach(audit => {
+  caseHistoryAudits.forEach(audit => {
     const details = transformDetails(audit);
     if (audit.action === AUDIT_ACTION.DATA_UPDATED && _.isEmpty(details))
       return;
@@ -18,7 +21,7 @@ const transformAuditToCaseHistory = dataChangeAudits => {
       id: auditId,
       user: audit.user,
       action: transformAction(audit),
-      modelDescription: audit.modelDescription,
+      modelDescription: transformDescription(audit),
       details: details,
       timestamp: audit.createdAt
     });
@@ -29,10 +32,23 @@ const transformAuditToCaseHistory = dataChangeAudits => {
 };
 
 const transformAction = audit => {
+  if (audit.action === AUDIT_ACTION.UPLOADED) {
+    return `${audit.subject} ${audit.action}`;
+  }
   return `${audit.modelName} ${audit.action}`;
 };
 
+const transformDescription = audit => {
+  if (audit.action === AUDIT_ACTION.UPLOADED) {
+    return "";
+  }
+  return audit.modelDescription;
+};
+
 const transformDetails = audit => {
+  if (audit.action === AUDIT_ACTION.UPLOADED) {
+    return AUDIT_UPLOAD_DETAILS.REFERRAL_LETTER_PDF;
+  }
   return _.reduce(
     audit.changes,
     (details, value, key) => {

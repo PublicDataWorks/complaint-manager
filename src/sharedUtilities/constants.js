@@ -216,6 +216,10 @@ export const AUDIT_ACTION = {
   UPLOADED: "Uploaded"
 };
 
+export const AUDIT_UPLOAD_DETAILS = {
+  REFERRAL_LETTER_PDF: "Referral letter finalized and PDF uploaded to S3"
+};
+
 export const AUDIT_FIELDS_TO_EXCLUDE =
   "(.*Id$|^id$|^addressableType$|^lat$|^lng$)";
 export const AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE =

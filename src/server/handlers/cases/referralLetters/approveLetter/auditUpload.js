@@ -5,7 +5,6 @@ import {
 import models from "../../../../models";
 
 const auditUpload = async (user, caseId, subject, transaction) => {
-  console.log("params ", user, caseId, subject);
   await models.action_audit.create(
     {
       user,
@@ -16,7 +15,6 @@ const auditUpload = async (user, caseId, subject, transaction) => {
     },
     { transaction }
   );
-  console.log("done");
 };
 
 export default auditUpload;

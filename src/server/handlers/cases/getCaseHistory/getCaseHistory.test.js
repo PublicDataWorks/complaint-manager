@@ -2,7 +2,8 @@ import DataChangeAudit from "../../../../client/testUtilities/dataChangeAudit";
 import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  AUDIT_ACTION
+  AUDIT_ACTION,
+  AUDIT_UPLOAD_DETAILS
 } from "../../../../sharedUtilities/constants";
 import models from "../../../models";
 import httpMocks from "node-mocks-http";
@@ -10,6 +11,7 @@ import getCaseHistory from "./getCaseHistory";
 import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
+import ActionAudit from "../../../../client/testUtilities/ActionAudit";
 
 describe("getCaseHistory", () => {
   let request, response, next, createdCase, caseId;
@@ -101,6 +103,68 @@ describe("getCaseHistory", () => {
       ])
     );
   });
+
+  test("should return audit case uploads", async () => {
+    await createUploadAudit(caseId, "2017-01-31T13:00Z");
+
+    await getCaseHistory(request, response, next);
+    expect(response.statusCode).toEqual(200);
+    expect(response._getData()).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          action: `${AUDIT_SUBJECT.REFERRAL_LETTER_PDF} ${
+            AUDIT_ACTION.UPLOADED
+          }`,
+          details: AUDIT_UPLOAD_DETAILS.REFERRAL_LETTER_PDF,
+          modelDescription: "",
+          user: "nickname",
+          id: expect.anything()
+        })
+      ])
+    );
+  });
+
+  test("should not return data access audit other than upload", async () => {
+    const isDataAccessAudit = caseHistoryAudit => {
+      return caseHistoryAudit.action === AUDIT_ACTION.DATA_ACCESSED;
+    };
+    const dataAccessAttributes = new ActionAudit.Builder()
+      .defaultActionAudit()
+      .withId(undefined)
+      .withCaseId(caseId);
+    await models.action_audit.create(dataAccessAttributes);
+
+    await getCaseHistory(request, response, next);
+
+    expect(response.statusCode).toEqual(200);
+    expect(response._getData().filter(isDataAccessAudit).length).toEqual(0);
+  });
+
+  test("should not return audit upload for other cases", async () => {
+    const actionIsUploaded = caseHistoryEntry => {
+      return caseHistoryEntry.action.includes(`${AUDIT_ACTION.UPLOADED}`);
+    };
+    const otherCase = await createCaseWithoutCivilian();
+    await createUploadAudit(caseId);
+    await createUploadAudit(otherCase.id);
+
+    await getCaseHistory(request, response, next);
+
+    expect(response.statusCode).toEqual(200);
+    expect(response._getData().filter(actionIsUploaded).length).toEqual(1);
+  });
+
+  const createUploadAudit = async caseId => {
+    const auditUploadAttributes = new ActionAudit.Builder()
+      .defaultActionAudit()
+      .withCaseId(caseId)
+      .withId(undefined)
+      .withAction(AUDIT_ACTION.UPLOADED)
+      .withSubject(AUDIT_SUBJECT.REFERRAL_LETTER_PDF)
+      .withAuditType(AUDIT_TYPE.UPLOAD)
+      .withUser("nickname");
+    return await models.action_audit.create(auditUploadAttributes);
+  };
 
   const createDataChangeAudit = async (
     caseId,
