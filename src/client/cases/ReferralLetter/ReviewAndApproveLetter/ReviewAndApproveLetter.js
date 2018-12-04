@@ -44,7 +44,7 @@ class ReviewAndApproveLetter extends Component {
   componentDidMount() {
     this.props.getLetterPreview(this.state.caseId);
     this.props.startLetterDownload();
-    this.props.getPdf(this.state.caseId);
+    this.props.getPdf({ id: this.state.caseId });
   }
 
   letterPreviewNotYetLoaded = () => {

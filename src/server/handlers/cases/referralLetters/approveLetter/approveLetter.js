@@ -32,13 +32,11 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
       include: [
         {
           model: models.case_officer,
-          as: "complainantOfficers",
-          auditUser: "test"
+          as: "complainantOfficers"
         },
         {
           model: models.civilian,
-          as: "complainantCivilians",
-          auditUser: "test"
+          as: "complainantCivilians"
         }
       ]
     });

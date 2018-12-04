@@ -53,7 +53,7 @@ class LetterPreview extends Component {
 
   downloadLetterAsPdfFile = () => {
     return this.props.dispatch(
-      getPdf(this.state.caseId, this.props.letterType, true)
+      getPdf(this.props.caseDetail, this.props.letterType, true)
     );
   };
 

@@ -1,4 +1,5 @@
 const _ = require("lodash");
+import Boom from "boom";
 
 exports.init = sequelize => {
   _.extend(sequelize.Model, {

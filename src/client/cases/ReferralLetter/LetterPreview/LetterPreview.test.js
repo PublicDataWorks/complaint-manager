@@ -1,5 +1,4 @@
 import createConfiguredStore from "../../../createConfiguredStore";
-import timeKeeper from "timekeeper";
 import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -20,6 +19,7 @@ import {
 import setCaseStatus from "../../thunks/setCaseStatus";
 import {
   CASE_STATUS,
+  CIVILIAN_INITIATED,
   LETTER_TYPE,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
@@ -54,11 +54,19 @@ jest.mock("../thunks/getPdf", () => (caseId, letterType, saveFileForUser) => {
 });
 
 describe("LetterPreview", function() {
-  let store, dispatchSpy, wrapper, caseId, date;
+  let store, dispatchSpy, wrapper, caseId, caseDetail;
   beforeEach(() => {
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
     caseId = "102";
+
+    caseDetail = {
+      id: caseId,
+      caseNumber: "CC2012-0102",
+      firstContactDate: "2012-05-05",
+      complaintType: CIVILIAN_INITIATED,
+      complainantCivilians: [{ lastName: "Brown" }]
+    };
 
     store.dispatch(
       getLetterPreviewSuccess(
@@ -416,6 +424,9 @@ describe("LetterPreview", function() {
       )
     );
 
+    store.dispatch(getCaseDetailsSuccess(caseDetail));
+    dispatchSpy.mockClear();
+
     const downloadButton = wrapper
       .find('[data-test="download-letter-as-pdf"]')
       .first();
@@ -423,11 +434,13 @@ describe("LetterPreview", function() {
 
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
     expect(dispatchSpy).toHaveBeenCalledWith(
-      getPdf(caseId, LETTER_TYPE.EDITED, true)
+      getPdf(caseDetail, LETTER_TYPE.EDITED, true)
     );
   });
 
   test("dispatches startLetterDownload and getPdf with edit info when download button is clicked and pdf is unedited", () => {
+    store.dispatch(getCaseDetailsSuccess(caseDetail));
+    dispatchSpy.mockClear();
     const downloadButton = wrapper
       .find('[data-test="download-letter-as-pdf"]')
       .first();
@@ -436,7 +449,7 @@ describe("LetterPreview", function() {
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
     expect(dispatchSpy).toHaveBeenNthCalledWith(
       3,
-      getPdf(caseId, LETTER_TYPE.GENERATED, true)
+      getPdf(caseDetail, LETTER_TYPE.GENERATED, true)
     );
   });
 
