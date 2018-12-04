@@ -104,6 +104,8 @@ describe("approveLetter", () => {
     await cleanupDatabase();
   });
 
+  test("does not approve letter or upload file if user does not have permissions", async () => {});
+
   test("changes status to forwarded to agency", async () => {
     await elevateCaseStatusToReadyForReview(existingCase);
     await approveLetter(request, response, next);

@@ -2,7 +2,7 @@ import { AUDIT_TYPE } from "../../../../sharedUtilities/constants";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
-const transformAuditToCaseHistory = require("./transformAuditToCaseHistory");
+import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
 const models = require("../../../models");
 const auditDataAccess = require("../../auditDataAccess");
 
@@ -35,8 +35,7 @@ const getCaseHistory = asyncMiddleware(async (request, response) => {
         AUDIT_SUBJECT.CASE_HISTORY,
         transaction
       );
-
-      return dataChangeAudits.concat(uploadAudits);
+      return { dataChangeAudits: dataChangeAudits, uploadAudits: uploadAudits };
     }
   );
   const caseHistory = transformAuditToCaseHistory(caseHistoryAudits);

@@ -64,10 +64,18 @@ describe("getCaseHistory", () => {
 
     expect(response.statusCode).toEqual(200);
     expect(response._getData()).toEqual([
-      expect.objectContaining({ action: expect.stringContaining("Case") }),
-      expect.objectContaining({ action: expect.stringContaining("Address") }),
-      expect.objectContaining({ action: expect.stringContaining("Civilian") }),
-      expect.objectContaining({ action: expect.stringContaining("Case") })
+      expect.objectContaining({
+        action: expect.stringContaining("Case")
+      }),
+      expect.objectContaining({
+        action: expect.stringContaining("Address")
+      }),
+      expect.objectContaining({
+        action: expect.stringContaining("Civilian")
+      }),
+      expect.objectContaining({
+        action: expect.stringContaining("Case")
+      })
     ]);
   });
 

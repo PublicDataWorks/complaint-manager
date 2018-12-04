@@ -3,10 +3,17 @@ import {
   AUDIT_ACTION,
   CIVILIAN_INITIATED,
   RANK_INITIATED,
-  ADDRESSABLE_TYPE
+  ADDRESSABLE_TYPE,
+  AUDIT_SUBJECT,
+  AUDIT_TYPE,
+  AUDIT_UPLOAD_DETAILS
 } from "../../../../sharedUtilities/constants";
 import DataChangeAudit from "../../../../client/testUtilities/dataChangeAudit";
-import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
+import transformAuditToCaseHistory, {
+  transformDataChangeAuditToCaseHistory,
+  transformUploadAuditToCaseHistory
+} from "./transformAuditToCaseHistory";
+import ActionAudit from "../../../../client/testUtilities/ActionAudit";
 
 describe("transformAuditToCaseHistory", () => {
   test("it returns case history for given audits", () => {
@@ -23,7 +30,9 @@ describe("transformAuditToCaseHistory", () => {
       .withUser("bob")
       .withCreatedAt(new Date("2018-06-12"));
 
-    const caseHistories = transformAuditToCaseHistory([dataChangeAudit]);
+    const caseHistories = transformAuditToCaseHistory({
+      dataChangeAudits: [dataChangeAudit]
+    });
 
     expect(caseHistories).toEqual([
       expect.objectContaining({
@@ -47,7 +56,10 @@ describe("transformAuditToCaseHistory", () => {
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
       .withChanges(auditChanges);
-    const caseHistories = transformAuditToCaseHistory([audit], []);
+    const caseHistories = transformAuditToCaseHistory({
+      dataChangeAudits: [audit],
+      uploadAudits: []
+    });
 
     const expectedDetails = {
       "Complaint Type": { previous: CIVILIAN_INITIATED, new: RANK_INITIATED },
@@ -65,7 +77,10 @@ describe("transformAuditToCaseHistory", () => {
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
       .withChanges(auditChanges);
-    const caseHistories = transformAuditToCaseHistory([audit], []);
+    const caseHistories = transformAuditToCaseHistory({
+      dataChangeAudits: [audit],
+      uploadAudits: []
+    });
 
     const expectedDetails = {
       "Complaint Type": { previous: " ", new: RANK_INITIATED },
@@ -82,7 +97,9 @@ describe("transformAuditToCaseHistory", () => {
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
       .withChanges(auditChanges);
-    const caseHistories = transformAuditToCaseHistory([audit]);
+    const caseHistories = transformAuditToCaseHistory({
+      dataChangeAudits: [audit]
+    });
 
     const expectedDetails = {
       "Include Retaliation Concerns": { previous: "false", new: "true" }
@@ -100,7 +117,10 @@ describe("transformAuditToCaseHistory", () => {
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
       .withChanges(auditChanges);
-    const caseHistories = transformAuditToCaseHistory([audit], []);
+    const caseHistories = transformAuditToCaseHistory({
+      dataChangeAudits: [audit],
+      uploadAudits: []
+    });
 
     const expectedDetails = {
       Incident: { previous: " ", new: "something" }
@@ -119,7 +139,10 @@ describe("transformAuditToCaseHistory", () => {
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
       .withChanges(auditChanges);
-    const caseHistories = transformAuditToCaseHistory([audit], []);
+    const caseHistories = transformAuditToCaseHistory({
+      dataChangeAudits: [audit],
+      uploadAudits: []
+    });
 
     const expectedDetails = {
       Latch: { previous: "door", new: "window" },
@@ -137,7 +160,9 @@ describe("transformAuditToCaseHistory", () => {
     const audit = new DataChangeAudit.Builder()
       .defaultDataChangeAudit()
       .withChanges(auditChanges);
-    const caseHistories = transformAuditToCaseHistory([audit]);
+    const caseHistories = transformAuditToCaseHistory({
+      dataChangeAudits: [audit]
+    });
 
     const expectedDetails = {
       City: { previous: " ", new: "Chicago" }
@@ -153,7 +178,10 @@ describe("transformAuditToCaseHistory", () => {
       .defaultDataChangeAudit()
       .withAction(AUDIT_ACTION.DATA_UPDATED)
       .withChanges(auditChanges);
-    const caseHistories = transformAuditToCaseHistory([audit], []);
+    const caseHistories = transformAuditToCaseHistory({
+      dataChangeAudits: [audit],
+      uploadAudits: []
+    });
 
     expect(caseHistories).toHaveLength(0);
   });
@@ -166,7 +194,10 @@ describe("transformAuditToCaseHistory", () => {
       .defaultDataChangeAudit()
       .withAction(AUDIT_ACTION.DATA_CREATED)
       .withChanges(auditChanges);
-    const caseHistories = transformAuditToCaseHistory([audit], []);
+    const caseHistories = transformAuditToCaseHistory({
+      dataChangeAudits: [audit],
+      uploadAudits: []
+    });
 
     expect(caseHistories).toHaveLength(1);
     expect(caseHistories[0].details).toEqual({});
@@ -180,7 +211,10 @@ describe("transformAuditToCaseHistory", () => {
       .defaultDataChangeAudit()
       .withAction(AUDIT_ACTION.DATA_DELETED)
       .withChanges(auditChanges);
-    const caseHistories = transformAuditToCaseHistory([audit], []);
+    const caseHistories = transformAuditToCaseHistory({
+      dataChangeAudits: [audit],
+      uploadAudits: []
+    });
 
     expect(caseHistories).toHaveLength(1);
     expect(caseHistories[0].details).toEqual({});
@@ -198,7 +232,10 @@ describe("transformAuditToCaseHistory", () => {
       .defaultDataChangeAudit()
       .withAction(AUDIT_ACTION.DATA_UPDATED)
       .withChanges(auditChanges);
-    const caseHistories = transformAuditToCaseHistory([audit], []);
+    const caseHistories = transformAuditToCaseHistory({
+      dataChangeAudits: [audit],
+      uploadAudits: []
+    });
 
     const expectedDetails = {
       Note: {
@@ -209,5 +246,71 @@ describe("transformAuditToCaseHistory", () => {
     };
     expect(caseHistories).toHaveLength(1);
     expect(caseHistories[0].details).toEqual(expectedDetails);
+  });
+  describe("transformDataChangeAuditToCaseHistory", async () => {
+    test("it returns case history for given dataChange audit", async () => {
+      const auditId = 123;
+      const dataChangeAudit = new DataChangeAudit.Builder()
+        .defaultDataChangeAudit()
+        .withModelName("Case Officer")
+        .withModelDescription("Jasmine Rodda")
+        .withModelId(5)
+        .withCaseId(5)
+        .withAction(AUDIT_ACTION.DATA_UPDATED)
+        .withChanges({
+          firstName: { previous: "Emily", new: "Jasmine" }
+        })
+        .withUser("bob")
+        .withCreatedAt(new Date("2018-06-12"));
+
+      const caseHistoryEntry = transformDataChangeAuditToCaseHistory(
+        dataChangeAudit,
+        auditId
+      );
+
+      expect(caseHistoryEntry).toEqual(
+        expect.objectContaining({
+          user: dataChangeAudit.user,
+          action: "Case Officer Updated",
+          details: {
+            "First Name": { previous: "Emily", new: "Jasmine" }
+          },
+          modelDescription: "Jasmine Rodda",
+          timestamp: dataChangeAudit.createdAt,
+          id: auditId
+        })
+      );
+    });
+  });
+
+  describe("transformUploadAuditToCaseHistory", async () => {
+    test("it returns case history for given upload audit", async () => {
+      const auditId = 123;
+      const uploadAudit = new ActionAudit.Builder()
+        .defaultActionAudit()
+        .withAction(AUDIT_ACTION.UPLOADED)
+        .withSubject(AUDIT_SUBJECT.REFERRAL_LETTER_PDF)
+        .withAuditType(AUDIT_TYPE.UPLOAD)
+        .withUser("nickname")
+        .withCreatedAt(new Date("2018-06-12"));
+
+      const caseHistoryEntry = transformUploadAuditToCaseHistory(
+        uploadAudit,
+        auditId
+      );
+
+      expect(caseHistoryEntry).toEqual(
+        expect.objectContaining({
+          user: uploadAudit.user,
+          action: `${AUDIT_SUBJECT.REFERRAL_LETTER_PDF} ${
+            AUDIT_ACTION.UPLOADED
+          }`,
+          details: AUDIT_UPLOAD_DETAILS.REFERRAL_LETTER_PDF,
+          modelDescription: "",
+          timestamp: uploadAudit.createdAt,
+          id: auditId
+        })
+      );
+    });
   });
 });
