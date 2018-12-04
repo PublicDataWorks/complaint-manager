@@ -6,6 +6,7 @@ import UpdateCaseStatusDialog from "../UpdateCaseStatusDialog/UpdateCaseStatusDi
 import DownloadFinalLetterButton from "../DownloadFinalLetterButton/DownloadFinalLetterButton";
 import EditLetterButton from "../EditLetterButton/EditLetterButton";
 import StatusButton from "../StatusButton/StatusButton";
+import getActiveStep from "./getActiveStep";
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -18,12 +19,6 @@ const generateSteps = map => {
 };
 
 const CaseStatusStepper = ({ caseId, status }) => {
-  const getActiveStep = () => {
-    return CASE_STATUS_MAP[status] === 5
-      ? 6 // marks closed status with a checkmark
-      : CASE_STATUS_MAP[status];
-  };
-
   const renderButtons = () => {
     return (
       <div
@@ -51,7 +46,7 @@ const CaseStatusStepper = ({ caseId, status }) => {
     <Fragment>
       <Stepper
         data-test="statusStepper"
-        activeStep={getActiveStep()}
+        activeStep={getActiveStep(CASE_STATUS_MAP, status)}
         alternativeLabel
         style={{ marginLeft: "5%", maxWidth: "850px", padding: "24px 0px" }}
       >
@@ -65,9 +60,7 @@ const CaseStatusStepper = ({ caseId, status }) => {
 
 const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
-  status: state.currentCase.details.status,
-  nextStatus: state.currentCase.details.nextStatus,
-  userInfo: state.users.current.userInfo
+  status: state.currentCase.details.status
 });
 
 export default connect(mapStateToProps)(CaseStatusStepper);

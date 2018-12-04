@@ -27,7 +27,7 @@ const transformAuditToCaseHistory = caseHistoryAudits => {
 
   if (caseHistoryAudits.uploadAudits) {
     caseHistoryAudits.uploadAudits.forEach(audit => {
-      caseHistory.push(transformUploadAuditToCaseHistory(audit, caseId));
+      caseHistory.push(transformUploadAuditToCaseHistory(audit, auditId));
       auditId++;
     });
   }
@@ -58,7 +58,7 @@ export const transformDataChangeAuditToCaseHistory = (
 
 export const transformUploadAuditToCaseHistory = (uploadAudit, auditId) => {
   const details = transformUploadDetails(uploadAudit);
-  return {
+  const caseHistoryEntry = {
     id: auditId,
     user: uploadAudit.user,
     action: transformAuditAction(uploadAudit),
@@ -66,6 +66,7 @@ export const transformUploadAuditToCaseHistory = (uploadAudit, auditId) => {
     details: details,
     timestamp: uploadAudit.createdAt
   };
+  return caseHistoryEntry;
 };
 
 const transformDataChangeAction = audit => {

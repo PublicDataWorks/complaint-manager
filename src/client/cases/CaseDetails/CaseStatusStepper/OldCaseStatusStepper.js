@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import UpdateCaseStatusDialog from "../UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
+import getActiveStep from "./getActiveStep";
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -50,17 +51,11 @@ const OldCaseStatusStepper = ({
     dispatch(openCaseStatusUpdateDialog());
   };
 
-  const getActiveStep = () => {
-    return TOGGLE_CASE_STATUS_MAP[status] === 4
-      ? 5
-      : TOGGLE_CASE_STATUS_MAP[status];
-  };
-
   return (
     <Fragment>
       <Stepper
         data-test="statusStepper"
-        activeStep={getActiveStep()}
+        activeStep={getActiveStep(TOGGLE_CASE_STATUS_MAP, status)}
         alternativeLabel
         style={{ marginLeft: "5%", maxWidth: "850px", padding: "24px 0px" }}
       >

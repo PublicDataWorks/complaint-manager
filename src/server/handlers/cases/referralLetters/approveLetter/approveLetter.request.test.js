@@ -4,11 +4,16 @@ import Case from "../../../../../client/testUtilities/case";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
-  COMPLAINANT
+  COMPLAINANT,
+  USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
 import models from "../../../../models";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
-import { buildTokenWithPermissions } from "../../../../testHelpers/requestTestHelpers";
+import {
+  buildTokenWithPermissions,
+  cleanupDatabase,
+  suppressWinstonLogs
+} from "../../../../testHelpers/requestTestHelpers";
 import Civilian from "../../../../../client/testUtilities/civilian";
 import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
@@ -18,13 +23,12 @@ jest.mock("./uploadLetterToS3", () => jest.fn());
 describe("Approve referral letter", () => {
   let existingCase, token;
 
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
+
   beforeEach(async () => {
     token = buildTokenWithPermissions("", "some_nickname");
-    const complainantCivilianAttributes = new Civilian.Builder()
-      .defaultCivilian()
-      .withId(undefined)
-      .withRoleOnCase(COMPLAINANT);
-
     const complainantOfficerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined);
@@ -33,6 +37,11 @@ describe("Approve referral letter", () => {
       complainantOfficerAttributes,
       { auditUser: "test" }
     );
+
+    const complainantCivilianAttributes = new Civilian.Builder()
+      .defaultCivilian()
+      .withId(undefined)
+      .withRoleOnCase(COMPLAINANT);
 
     const complainantCaseOfficerAttributes = new CaseOfficer.Builder()
       .defaultCaseOfficer()
@@ -46,8 +55,8 @@ describe("Approve referral letter", () => {
       .withComplaintType(CIVILIAN_INITIATED)
       .withIncidentDate("2003-01-01")
       .withFirstContactDate("2004-01-01")
-      .withComplainantCivilians([complainantCivilianAttributes])
-      .withComplainantOfficers([complainantCaseOfficerAttributes]);
+    .withComplainantCivilians([complainantCivilianAttributes])
+    .withComplainantOfficers([complainantCaseOfficerAttributes]);
 
     existingCase = await models.cases.create(caseAttributes, {
       include: [
@@ -80,13 +89,36 @@ describe("Approve referral letter", () => {
       auditUser: "test"
     });
   });
-
-  test("returns 200 when api endpoint hit", async () => {
-    await request(app)
-      .put(`/api/cases/${existingCase.id}/referral-letter/approve-letter`)
-      .set("Content-Header", "application/json")
-      .set("Authorization", `Bearer ${token}`)
+  describe("user has permissions", () => {
+    beforeEach(() => {
+      token = buildTokenWithPermissions(
+        `${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES}`,
+        "some_nickname"
+      );
+    });
+    test("returns 200 when api endpoint hit", async () => {
+      await request(app)
+        .put(`/api/cases/${existingCase.id}/referral-letter/approve-letter`)
+        .set("Content-Header", "application/json")
+        .set("Authorization", `Bearer ${token}`)
       .expect(200);
+    });
+  });
+
+  describe("user does not have permissions", () => {
+    beforeEach(() => {
+      token = buildTokenWithPermissions("", "some_nickname");
+    });
+    test(
+      "returns 400 when api endpoint hit without permissions",
+      suppressWinstonLogs(async () => {
+        await request(app)
+          .put(`/api/cases/${existingCase.id}/referral-letter/approve-letter`)
+          .set("Content-Header", "application/json")
+          .set("Authorization", `Bearer ${token}`)
+          .expect(400);
+      })
+    );
   });
 
   const elevateCaseStatusToReadyForReview = async existingCase => {

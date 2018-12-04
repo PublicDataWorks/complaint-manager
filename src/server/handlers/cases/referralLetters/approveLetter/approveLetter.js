@@ -3,7 +3,8 @@ import models from "../../../../models";
 import {
   AUDIT_SUBJECT,
   CASE_STATUS,
-  CIVILIAN_INITIATED
+  CIVILIAN_INITIATED,
+  USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
 import generateLetterPdfBuffer from "../sharedReferralLetterUtilities/generateLetterPdfBuffer";
 import uploadLetterToS3 from "./uploadLetterToS3";
@@ -14,6 +15,12 @@ import constructFilename from "../constructFilename";
 
 const approveLetter = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
+
+  if (
+    !request.permissions.includes(USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES)
+  ) {
+    throw Boom.badRequest("Missing permissions to approve letter");
+  }
 
   const includeSignature = checkFeatureToggleEnabled(
     request,
