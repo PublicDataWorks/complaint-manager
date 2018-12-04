@@ -10,7 +10,7 @@ import uploadLetterToS3 from "./uploadLetterToS3";
 import Boom from "boom";
 import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
 import auditUpload from "./auditUpload";
-import constructFilename from "./constructFilename";
+import constructFilename from "../constructFilename";
 
 const approveLetter = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
@@ -52,9 +52,15 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
       existingCase.firstContactDate,
       complainantLastName,
       includeSignature,
-      transaction,
-      request.nickname
+      transaction
     );
+    const filename = constructFilename(
+      caseId,
+      existingCase.caseNumber,
+      existingCase.firstContactDate,
+      complainantLastName
+    );
+    await saveFilename(filename, caseId, request.nickname, transaction);
     await auditUpload(
       request.nickname,
       caseId,
@@ -79,20 +85,12 @@ const generateLetterAndUploadToS3 = async (
   firstContactDate,
   firstComplainantLastName,
   includeSignature,
-  transaction,
-  auditUser
+  transaction
 ) => {
   const generatedReferralLetterPdf = await generateLetterPdfBuffer(
     caseId,
     includeSignature,
     transaction
-  );
-
-  const filename = constructFilename(
-    caseId,
-    caseNumber,
-    firstContactDate,
-    firstComplainantLastName
   );
 
   await uploadLetterToS3(
@@ -102,8 +100,6 @@ const generateLetterAndUploadToS3 = async (
     firstComplainantLastName,
     generatedReferralLetterPdf
   );
-
-  await saveFilename(filename, caseId, auditUser, transaction);
 };
 
 const transitionCaseToForwardedToAgency = async (

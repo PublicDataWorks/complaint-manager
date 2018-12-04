@@ -1,6 +1,6 @@
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import config from "../../../../config/config";
-import constructFilename from "./constructFilename";
+import constructFilename from "../constructFilename";
 
 const uploadLetterToS3 = (
   caseId,

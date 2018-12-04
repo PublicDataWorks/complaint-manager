@@ -4,7 +4,6 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT,
   CASE_STATUS,
-  CIVILIAN_INITIATED,
   S3_GET_OBJECT,
   S3_URL_EXPIRATION
 } from "../../../../../sharedUtilities/constants";
@@ -12,7 +11,6 @@ import models from "../../../../models";
 import config from "../../../../config/config";
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import Boom from "boom";
-import moment from "moment";
 
 const getFinalPdfUrl = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
@@ -41,39 +39,22 @@ const getFinalPdfUrl = asyncMiddleware(async (request, response, next) => {
       transaction,
       AUDIT_ACTION.DATA_ACCESSED
     );
-    const signedUrl = getSignedS3Url(existingCase);
+    const signedUrl = await getSignedS3Url(existingCase);
     response.send(signedUrl);
   });
 });
 
-const getSignedS3Url = existingCase => {
+const getSignedS3Url = async existingCase => {
   const s3 = createConfiguredS3Instance();
-
-  const formattedFirstContactDate = moment(
-    existingCase.firstContactDate
-  ).format("MM-DD-YYYY");
-
-  const formattedLastName = determineLastName(existingCase);
-  const keyLastName = formattedLastName ? `_${formattedLastName}` : "";
+  const referralLetter = await models.referral_letter.find({
+    where: { caseId: existingCase.id }
+  });
 
   return s3.getSignedUrl(S3_GET_OBJECT, {
     Bucket: config[process.env.NODE_ENV].referralLettersBucket,
-    Key: `${existingCase.id}/${formattedFirstContactDate}_${
-      existingCase.caseNumber
-    }_PIB_Referral${keyLastName}.pdf`,
+    Key: referralLetter.finalPdfFilename,
     Expires: S3_URL_EXPIRATION
   });
-};
-
-const determineLastName = existingCase => {
-  const complainant =
-    existingCase.complaintType === CIVILIAN_INITIATED
-      ? existingCase.complainantCivilians[0]
-      : existingCase.complainantOfficers[0];
-  const complainantLastName = complainant ? complainant.lastName : "";
-  return complainantLastName
-    ? complainantLastName.replace(/[^a-zA-Z]/g, "")
-    : "";
 };
 
 const validateCaseStatus = caseStatus => {

@@ -17,7 +17,7 @@ import auditUpload from "./auditUpload";
 import Civilian from "../../../../../client/testUtilities/civilian";
 import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
-import constructFilename from "./constructFilename";
+import constructFilename from "../constructFilename";
 
 jest.mock("./uploadLetterToS3", () => jest.fn());
 jest.mock(

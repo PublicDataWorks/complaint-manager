@@ -2,13 +2,13 @@ import Case from "../../../../../client/testUtilities/case";
 import models from "../../../../models";
 import {
   AUDIT_ACTION,
-  AUDIT_TYPE,
   AUDIT_SUBJECT,
-  CIVILIAN_INITIATED,
-  S3_GET_OBJECT,
-  S3_URL_EXPIRATION,
+  AUDIT_TYPE,
   CASE_STATUS,
-  COMPLAINANT
+  CIVILIAN_INITIATED,
+  COMPLAINANT,
+  S3_GET_OBJECT,
+  S3_URL_EXPIRATION
 } from "../../../../../sharedUtilities/constants";
 import getFinalPdfUrl from "./getFinalPdfUrl";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
@@ -17,15 +17,16 @@ import config from "../../../../config/config";
 import Boom from "boom";
 import Civilian from "../../../../../client/testUtilities/civilian";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
-import moment from "moment";
 import Officer from "../../../../../client/testUtilities/Officer";
+import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
+import constructFilename from "../constructFilename";
 
 const httpMocks = require("node-mocks-http");
 
 jest.mock("../../../../createConfiguredS3Instance");
 
 describe("getFinalPdfUrl", () => {
-  let request, response, next, existingCase, getSignedUrlMock;
+  let request, response, next, existingCase, getSignedUrlMock, referralLetter;
   beforeEach(async () => {
     getSignedUrlMock = jest.fn(() => "url");
     createConfiguredS3Instance.mockImplementation(() => ({
@@ -89,6 +90,24 @@ describe("getFinalPdfUrl", () => {
       { auditUser: "someone" }
     );
 
+    const pdfFilename = constructFilename(
+      existingCase.id,
+      existingCase.caseNumber,
+      existingCase.firstContactDate,
+      existingCase.complainantCivilians[0].lastName
+    );
+
+    const referralLetterAttributes = new ReferralLetter.Builder()
+      .defaultReferralLetter()
+      .withId(undefined)
+      .withCaseId(existingCase.id)
+      .withFinalPdfFilename(pdfFilename);
+
+    referralLetter = await models.referral_letter.create(
+      referralLetterAttributes,
+      { auditUser: "test" }
+    );
+
     request = httpMocks.createRequest({
       method: "GET",
       headers: {
@@ -127,14 +146,6 @@ describe("getFinalPdfUrl", () => {
   });
 
   test("should retrieve download url for pdf", async () => {
-    const formattedFirstContactDate = moment(
-      existingCase.firstContactDate
-    ).format("MM-DD-YYYY");
-    const formattedComplainantLastName = existingCase.complainantCivilians[0].lastName.replace(
-      /[^a-zA-Z]/g,
-      ""
-    );
-
     await existingCase.update(
       { status: CASE_STATUS.FORWARDED_TO_AGENCY },
       { auditUser: "someone" }
@@ -148,9 +159,7 @@ describe("getFinalPdfUrl", () => {
 
     expect(getSignedUrlMock).toHaveBeenCalledWith(S3_GET_OBJECT, {
       Bucket: config[process.env.NODE_ENV].referralLettersBucket,
-      Key: `${existingCase.id}/${formattedFirstContactDate}_${
-        existingCase.caseNumber
-      }_PIB_Referral_${formattedComplainantLastName}.pdf`,
+      Key: referralLetter.finalPdfFilename,
       Expires: S3_URL_EXPIRATION
     });
     expect(response._getData()).toEqual("url");
