@@ -37,6 +37,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         field: "edited_letter_html"
       },
+      finalPdfFilename: {
+        type: DataTypes.STRING,
+        field: "final_pdf_filename"
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

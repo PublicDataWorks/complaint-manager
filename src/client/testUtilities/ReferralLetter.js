@@ -7,6 +7,7 @@ class ReferralLetter {
     this.sender = build.sender;
     this.transcribedBy = build.transcribedBy;
     this.editedLetterHtml = build.editedLetterHtml;
+    this.finalPdfFilename = build.finalPdfFilename;
   }
 
   static get Builder() {
@@ -16,6 +17,7 @@ class ReferralLetter {
         this.caseId = 40;
         this.includeRetaliationConcerns = true;
         this.editedLetterHtml = null;
+        this.finalPdfFilename = null;
         return this;
       }
 
@@ -51,6 +53,11 @@ class ReferralLetter {
 
       withEditedLetterHtml(editedLetterHtml) {
         this.editedLetterHtml = editedLetterHtml;
+        return this;
+      }
+
+      withFinalPdfFilename(finalPdfFilename) {
+        this.finalPdfFilename = finalPdfFilename;
         return this;
       }
     }
