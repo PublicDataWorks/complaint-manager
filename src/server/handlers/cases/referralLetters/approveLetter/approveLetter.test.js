@@ -1,5 +1,6 @@
 import httpMocks from "node-mocks-http";
 import models from "../../../../models";
+import moment from "moment";
 import Case from "../../../../../client/testUtilities/case";
 import approveLetter from "./approveLetter";
 import {
@@ -16,6 +17,7 @@ import auditUpload from "./auditUpload";
 import Civilian from "../../../../../client/testUtilities/civilian";
 import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
+import constructFilename from "./constructFilename";
 
 jest.mock("./uploadLetterToS3", () => jest.fn());
 jest.mock(
@@ -29,7 +31,7 @@ jest.mock(
 jest.mock("./auditUpload", () => jest.fn());
 
 describe("approveLetter", () => {
-  let existingCase, request, response, next;
+  let existingCase, request, response, next, referralLetter;
 
   beforeEach(async () => {
     response = httpMocks.createResponse();
@@ -83,7 +85,7 @@ describe("approveLetter", () => {
       .defaultReferralLetter()
       .withId(undefined)
       .withCaseId(existingCase.id);
-    await models.referral_letter.create(letterAttributes, {
+    referralLetter = await models.referral_letter.create(letterAttributes, {
       auditUser: "test"
     });
 
@@ -136,6 +138,22 @@ describe("approveLetter", () => {
       AUDIT_SUBJECT.REFERRAL_LETTER_PDF,
       expect.any(Object)
     );
+  });
+
+  test("saves filename in database after uploading file to s3", async () => {
+    uploadLetterToS3.mockClear();
+    await elevateCaseStatusToReadyForReview(existingCase);
+    await approveLetter(request, response, next);
+    await referralLetter.reload();
+
+    const filename = constructFilename(
+      existingCase.id,
+      existingCase.caseNumber,
+      existingCase.firstContactDate,
+      existingCase.complainantCivilians[0].lastName
+    );
+
+    expect(referralLetter.finalPdfFilename).toEqual(filename);
   });
 
   const elevateCaseStatusToReadyForReview = async existingCase => {
