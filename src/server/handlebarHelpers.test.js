@@ -11,7 +11,7 @@ import {
   showRecommendedActions,
   sumAllegations
 } from "./handlebarHelpers";
-import { CASE_STATUS, SIGNATURE_URLS } from "../sharedUtilities/constants";
+import { SIGNATURE_URLS } from "../sharedUtilities/constants";
 
 describe("handlebarHelpers", function() {
   describe("formatAddress", function() {
@@ -383,6 +383,7 @@ describe("handlebarHelpers", function() {
       const resultString = newLineToLineBreak(stringWithoutNewLine);
       expect(resultString).toEqual(expectedHtml);
     });
+
     test("should replace multiple new lines with html break tag", () => {
       const stringWithMultipleNewLines = "many\nnew\nlines\nhere!!";
       const expectedHtml = "many<br>new<br>lines<br>here!!";
@@ -424,11 +425,12 @@ describe("handlebarHelpers", function() {
       const emptyString = "";
       expect(generateSignature(emptyString, true)).toEqual(blankLine);
     });
+
     test("should return stellas signature when stella is sender and includeSignature is true", () => {
       const sender = "Stella Cziment\nDPM";
-
       expect(generateSignature(sender, true)).toEqual(signaturePath);
     });
+
     test("should not return signature when includeSignature is false", () => {
       const sender = "Stella Cziment\nDPM";
       expect(generateSignature(sender, false)).toEqual(blankLine);

@@ -129,10 +129,7 @@ export const extractFirstLine = text => {
 Handlebars.registerHelper("extractFirstLine", extractFirstLine);
 
 export const generateSignature = (sender, includeSignature) => {
-  if (!includeSignature) {
-    return "<p><br></p>";
-  }
-  if (sender.includes("Stella Cziment")) {
+  if (includeSignature && sender.includes("Stella Cziment")) {
     return `<img style="max-height: 40px" src=${SIGNATURE_URLS.STELLA_PATH} />`;
   }
   return "<p><br></p>";

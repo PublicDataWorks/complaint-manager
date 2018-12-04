@@ -25,7 +25,12 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
       caseId,
       existingCase.caseNumber,
       includeSignature,
+      transaction
+    );
+    await auditUpload(
       request.nickname,
+      caseId,
+      AUDIT_SUBJECT.REFERRAL_LETTER_PDF,
       transaction
     );
 
@@ -44,7 +49,6 @@ const generateLetterAndUploadToS3 = async (
   caseId,
   caseNumber,
   includeSignature,
-  user,
   transaction
 ) => {
   const generatedReferralLetterPdf = await generateLetterPdfBuffer(
@@ -53,12 +57,6 @@ const generateLetterAndUploadToS3 = async (
     transaction
   );
   await uploadLetterToS3(caseId, caseNumber, generatedReferralLetterPdf);
-  await auditUpload(
-    user,
-    caseId,
-    AUDIT_SUBJECT.REFERRAL_LETTER_PDF,
-    transaction
-  );
 };
 
 const transitionCaseToForwardedToAgency = async (
