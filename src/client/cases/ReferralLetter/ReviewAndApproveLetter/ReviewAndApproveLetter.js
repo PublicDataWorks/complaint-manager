@@ -19,6 +19,7 @@ import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import approveReferralLetter from "../thunks/approveReferralLetter";
+import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
 pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.js";
 
 const styles = theme => ({
@@ -55,9 +56,9 @@ class ReviewAndApproveLetter extends Component {
     if (this.props.letterType === null) {
       return;
     }
-    if (this.props.lastEdited) {
-      const generatedDate = dateTimeFromString(this.props.lastEdited);
-      message = `This letter was last edited on ${generatedDate}`;
+    if (this.props.letterType === LETTER_TYPE.EDITED) {
+      const editedDate = dateTimeFromString(this.props.lastEdited);
+      message = `This letter was last edited on ${editedDate}`;
     } else {
       const now = dateTimeFromString(new Date());
       message = `This letter was generated on ${now}`;
