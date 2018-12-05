@@ -7,6 +7,7 @@ import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
   COMPLAINANT,
+  REFERRAL_LETTER_VERSION,
   S3_GET_OBJECT,
   S3_URL_EXPIRATION
 } from "../../../../../sharedUtilities/constants";
@@ -94,7 +95,8 @@ describe("getFinalPdfUrl", () => {
       existingCase.id,
       existingCase.caseNumber,
       existingCase.firstContactDate,
-      existingCase.complainantCivilians[0].lastName
+      existingCase.complainantCivilians[0].lastName,
+      REFERRAL_LETTER_VERSION.FINAL
     );
 
     const referralLetterAttributes = new ReferralLetter.Builder()

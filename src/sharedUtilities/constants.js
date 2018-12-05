@@ -247,6 +247,14 @@ export const LETTER_TYPE = {
 };
 
 // ----------------------------------------
+//         Referral Letter Type Options
+// ----------------------------------------
+export const REFERRAL_LETTER_VERSION = {
+  FINAL: "Final",
+  DRAFT: "Draft"
+};
+
+// ----------------------------------------
 //          Case Status Map
 // ----------------------------------------
 export const CASE_STATUS = {

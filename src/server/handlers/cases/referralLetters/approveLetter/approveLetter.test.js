@@ -8,6 +8,7 @@ import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
   COMPLAINANT,
+  REFERRAL_LETTER_VERSION,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
@@ -156,7 +157,8 @@ describe("approveLetter", () => {
         existingCase.id,
         existingCase.caseNumber,
         existingCase.firstContactDate,
-        existingCase.complainantCivilians[0].lastName
+        existingCase.complainantCivilians[0].lastName,
+        REFERRAL_LETTER_VERSION.FINAL
       );
 
       expect(referralLetter.finalPdfFilename).toEqual(filename);

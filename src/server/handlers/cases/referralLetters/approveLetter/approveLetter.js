@@ -4,6 +4,7 @@ import {
   AUDIT_SUBJECT,
   CASE_STATUS,
   CIVILIAN_INITIATED,
+  REFERRAL_LETTER_VERSION,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
 import generateLetterPdfBuffer from "../sharedReferralLetterUtilities/generateLetterPdfBuffer";
@@ -63,7 +64,8 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
       caseId,
       existingCase.caseNumber,
       existingCase.firstContactDate,
-      complainantLastName
+      complainantLastName,
+      REFERRAL_LETTER_VERSION.FINAL
     );
     await saveFilename(filename, caseId, request.nickname, transaction);
     await auditUpload(
