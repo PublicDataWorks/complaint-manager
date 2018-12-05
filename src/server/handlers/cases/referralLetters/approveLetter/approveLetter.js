@@ -52,14 +52,6 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
       ? firstComplainant.lastName
       : "";
 
-    await generateLetterAndUploadToS3(
-      caseId,
-      existingCase.caseNumber,
-      existingCase.firstContactDate,
-      complainantLastName,
-      includeSignature,
-      transaction
-    );
     const filename = constructFilename(
       caseId,
       existingCase.caseNumber,
@@ -67,6 +59,14 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
       complainantLastName,
       REFERRAL_LETTER_VERSION.FINAL
     );
+
+    await generateLetterAndUploadToS3(
+      caseId,
+      filename,
+      includeSignature,
+      transaction
+    );
+
     await saveFilename(filename, caseId, request.nickname, transaction);
     await auditUpload(
       request.nickname,
@@ -88,9 +88,7 @@ const validateCaseStatus = existingCase => {
 
 const generateLetterAndUploadToS3 = async (
   caseId,
-  caseNumber,
-  firstContactDate,
-  firstComplainantLastName,
+  filename,
   includeSignature,
   transaction
 ) => {
@@ -100,13 +98,7 @@ const generateLetterAndUploadToS3 = async (
     transaction
   );
 
-  await uploadLetterToS3(
-    caseId,
-    caseNumber,
-    firstContactDate,
-    firstComplainantLastName,
-    generatedReferralLetterPdf
-  );
+  await uploadLetterToS3(filename, generatedReferralLetterPdf);
 };
 
 const transitionCaseToForwardedToAgency = async (

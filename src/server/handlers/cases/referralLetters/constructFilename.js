@@ -6,7 +6,7 @@ const constructFilename = (
   caseNumber,
   firstContactDate,
   complainantLastName,
-  pdfFileType,
+  pdfFileVersion,
   editStatus
 ) => {
   const formattedFirstContactDate = moment(firstContactDate).format("M-D-YYYY");
@@ -15,7 +15,7 @@ const constructFilename = (
     ? `_${complainantLastName.replace(/[^a-zA-Z]/g, "")}`
     : "";
 
-  if (pdfFileType === REFERRAL_LETTER_VERSION.FINAL) {
+  if (pdfFileVersion === REFERRAL_LETTER_VERSION.FINAL) {
     return `${caseId}/${formattedFirstContactDate}_${caseNumber}_PIB_Referral${strippedLastName}.pdf`;
   } else {
     return `${formattedFirstContactDate}_${caseNumber}_${editStatus}_Referral_Draft${strippedLastName}.pdf`;

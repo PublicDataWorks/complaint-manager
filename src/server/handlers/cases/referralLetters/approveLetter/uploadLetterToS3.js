@@ -1,26 +1,12 @@
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import config from "../../../../config/config";
-import constructFilename from "../constructFilename";
-import { REFERRAL_LETTER_VERSION } from "../../../../../sharedUtilities/constants";
 
-const uploadLetterToS3 = (
-  caseId,
-  caseNumber,
-  firstContactDate,
-  firstComplainantLastName,
-  pdfOutput
-) => {
+const uploadLetterToS3 = (filename, pdfOutput) => {
   const s3 = createConfiguredS3Instance();
   return s3
     .upload({
       Bucket: config[process.env.NODE_ENV].referralLettersBucket,
-      Key: constructFilename(
-        caseId,
-        caseNumber,
-        firstContactDate,
-        firstComplainantLastName,
-        REFERRAL_LETTER_VERSION.FINAL
-      ),
+      Key: filename,
       Body: pdfOutput,
       ServerSideEncryption: "AES256"
     })

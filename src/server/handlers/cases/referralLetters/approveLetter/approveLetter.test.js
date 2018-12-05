@@ -130,13 +130,18 @@ describe("approveLetter", () => {
 
     test("uploads generated file to S3 if letter should be generated", async () => {
       uploadLetterToS3.mockClear();
-      await elevateCaseStatusToReadyForReview(existingCase);
-      await approveLetter(request, response, next);
-      expect(uploadLetterToS3).toHaveBeenCalledWith(
+      const filename = constructFilename(
         existingCase.id,
         existingCase.caseNumber,
         existingCase.firstContactDate,
         existingCase.complainantCivilians[0].lastName,
+        REFERRAL_LETTER_VERSION.FINAL
+      );
+
+      await elevateCaseStatusToReadyForReview(existingCase);
+      await approveLetter(request, response, next);
+      expect(uploadLetterToS3).toHaveBeenCalledWith(
+        filename,
         `Generated pdf for ${existingCase.id}`
       );
       expect(auditUpload).toHaveBeenCalledWith(
