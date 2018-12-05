@@ -3,6 +3,7 @@ const path = require("path");
 const Promise = require("bluebird");
 const child_process = require("" + "child_process");
 const db = require("./db");
+require("@babel/register");
 
 const umzug = new Umzug({
   storage: "sequelize",

@@ -55,8 +55,8 @@ describe("Approve referral letter", () => {
       .withComplaintType(CIVILIAN_INITIATED)
       .withIncidentDate("2003-01-01")
       .withFirstContactDate("2004-01-01")
-    .withComplainantCivilians([complainantCivilianAttributes])
-    .withComplainantOfficers([complainantCaseOfficerAttributes]);
+      .withComplainantCivilians([complainantCivilianAttributes])
+      .withComplainantOfficers([complainantCaseOfficerAttributes]);
 
     existingCase = await models.cases.create(caseAttributes, {
       include: [
@@ -101,7 +101,7 @@ describe("Approve referral letter", () => {
         .put(`/api/cases/${existingCase.id}/referral-letter/approve-letter`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
-      .expect(200);
+        .expect(200);
     });
   });
 
