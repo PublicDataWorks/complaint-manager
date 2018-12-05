@@ -23,6 +23,8 @@ describe("referralLetterReducer", () => {
         addresses: {},
         letterType: null,
         lastEdited: null,
+        finalFilename: null,
+        draftFilename: null,
         letterPdf: null,
         finalPdfUrl: null
       });
@@ -42,6 +44,8 @@ describe("referralLetterReducer", () => {
         addresses: {},
         letterType: null,
         lastEdited: null,
+        finalFilename: null,
+        draftFilename: null,
         letterPdf: null,
         finalPdfUrl: null
       });
@@ -58,6 +62,8 @@ describe("referralLetterReducer", () => {
         addresses: {},
         letterType: null,
         lastEdited: null,
+        finalFilename: null,
+        draftFilename: null,
         letterPdf: null,
         finalPdfUrl: "url"
       };
@@ -72,7 +78,9 @@ describe("referralLetterReducer", () => {
           "new letter html",
           referralLetterAddresses,
           LETTER_TYPE.EDITED,
-          timeOfEdit
+          timeOfEdit,
+          "final_filename.pdf",
+          "draft_filename.pdf"
         )
       );
       expect(newState).toEqual({
@@ -81,6 +89,8 @@ describe("referralLetterReducer", () => {
         addresses: referralLetterAddresses,
         letterType: LETTER_TYPE.EDITED,
         lastEdited: timeOfEdit,
+        finalFilename: "final_filename.pdf",
+        draftFilename: "draft_filename.pdf",
         letterPdf: null,
         finalPdfUrl: "url"
       });
@@ -95,6 +105,8 @@ describe("referralLetterReducer", () => {
         addresses: {},
         letterType: null,
         lastEdited: null,
+        finalFilename: null,
+        draftFilename: null,
         letterPdf: null,
         finalPdfUrl: "url"
       };
@@ -108,6 +120,8 @@ describe("referralLetterReducer", () => {
         addresses: {},
         letterType: null,
         lastEdited: null,
+        finalFilename: null,
+        draftFilename: null,
         letterPdf: "letter pdf",
         finalPdfUrl: "url"
       };
@@ -123,6 +137,8 @@ describe("referralLetterReducer", () => {
         addresses: {},
         letterType: null,
         lastEdited: null,
+        finalFilename: null,
+        draftFilename: null,
         letterPdf: null,
         finalPdfUrl: null
       };
@@ -136,6 +152,8 @@ describe("referralLetterReducer", () => {
         addresses: {},
         letterType: null,
         lastEdited: null,
+        finalFilename: null,
+        draftFilename: null,
         letterPdf: null,
         finalPdfUrl: "url"
       };

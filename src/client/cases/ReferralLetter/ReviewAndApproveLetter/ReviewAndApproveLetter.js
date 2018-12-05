@@ -44,7 +44,7 @@ class ReviewAndApproveLetter extends Component {
   componentDidMount() {
     this.props.getLetterPreview(this.state.caseId);
     this.props.startLetterDownload();
-    this.props.getPdf({ id: this.state.caseId });
+    this.props.getPdf(this.state.caseId, this.props.finalFilename);
   }
 
   letterPreviewNotYetLoaded = () => {
@@ -175,6 +175,7 @@ class ReviewAndApproveLetter extends Component {
 const mapStateToProps = state => ({
   letterType: state.referralLetter.letterType,
   lastEdited: state.referralLetter.lastEdited,
+  finalFilename: state.referralLetter.finalFilename,
   letterPdf: state.referralLetter.letterPdf,
   downloadInProgress: state.ui.letterDownload.downloadInProgress
 });

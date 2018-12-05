@@ -8,10 +8,7 @@ import {
   getLetterPdfSuccess,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
-import {
-  CIVILIAN_INITIATED,
-  LETTER_TYPE
-} from "../../../../sharedUtilities/constants";
+import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
 
 jest.mock("file-saver", () => jest.fn());
 jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
@@ -19,21 +16,13 @@ jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 describe("getPdf thunk", function() {
   const dispatch = jest.fn();
   const caseId = 2;
-  const firstContactDate = "2012-12-12";
-  const caseNumber = "CC2012-0002";
-  const complainantLastName = "Buster";
-  const caseDetail = {
-    id: caseId,
-    firstContactDate: firstContactDate,
-    caseNumber: caseNumber,
-    complainantCivilians: [{ lastName: complainantLastName }],
-    complaintType: CIVILIAN_INITIATED
-  };
-  const formattedFirstContactDate = "12-12-2012";
   const token = "token";
   let letterType;
-  const uneditedFileName = `${formattedFirstContactDate}_${caseNumber}_Generated_Referral_Draft_${complainantLastName}.pdf`;
-  const editedFileName = `${formattedFirstContactDate}_${caseNumber}_Edited_Referral_Draft_${complainantLastName}.pdf`;
+  const uneditedFilename =
+    "12-12-2012_CC2012-0002_Generated_Referral_Draft_Buster.pdf";
+  const editedFilename =
+    "12-12-2012_CC2012-0002_Edited_Referral_Draft_Buster.pdf";
+  const finalFilename = `${caseId}/12-12-2012_CC2012-0002_PIB_Referral_Buster.pdf`;
 
   beforeEach(() => {
     letterType = LETTER_TYPE.GENERATED;
@@ -42,7 +31,7 @@ describe("getPdf thunk", function() {
 
   test("redirects to login if no token", async () => {
     getAccessToken.mockImplementation(() => null);
-    await getPdf(caseDetail, letterType)(dispatch);
+    await getPdf(caseId, uneditedFilename, letterType)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
@@ -58,10 +47,10 @@ describe("getPdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(200, response);
 
-      await getPdf(caseDetail, letterType, true)(dispatch);
-      const expectFile = new File([response], uneditedFileName);
+      await getPdf(caseId, uneditedFilename, letterType, true)(dispatch);
+      const expectFile = new File([response], uneditedFilename);
 
-      expect(saveAs).toHaveBeenCalledWith(expectFile, uneditedFileName);
+      expect(saveAs).toHaveBeenCalledWith(expectFile, uneditedFilename);
       expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
     });
 
@@ -77,10 +66,10 @@ describe("getPdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(200, response);
 
-      await getPdf(caseDetail, letterType, true)(dispatch);
-      const expectFile = new File([response], editedFileName);
+      await getPdf(caseId, editedFilename, letterType, true)(dispatch);
+      const expectFile = new File([response], editedFilename);
 
-      expect(saveAs).toHaveBeenCalledWith(expectFile, editedFileName);
+      expect(saveAs).toHaveBeenCalledWith(expectFile, editedFilename);
       expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
     });
 
@@ -94,7 +83,7 @@ describe("getPdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(500);
 
-      await getPdf(caseDetail, letterType, true)(dispatch);
+      await getPdf(caseId, null, letterType, true)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(
         snackbarError(
           "Something went wrong and the letter was not downloaded. Please try again."
@@ -117,7 +106,7 @@ describe("getPdf thunk", function() {
         .reply(200, "hello world");
 
       let arrayBuffer = new ArrayBuffer("hello world");
-      await getPdf(caseDetail)(dispatch);
+      await getPdf(caseId, finalFilename)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(getLetterPdfSuccess(arrayBuffer));
       expect(saveAs).not.toHaveBeenCalled();
       expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
@@ -133,7 +122,7 @@ describe("getPdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(500);
 
-      await getPdf(caseDetail)(dispatch);
+      await getPdf(caseId, null)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(
         snackbarError(
           "Something went wrong and the letter was not downloaded. Please try again."

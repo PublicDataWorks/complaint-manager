@@ -25,6 +25,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import getPdf from "../thunks/getPdf";
 import { userAuthSuccess } from "../../../auth/actionCreators";
+import timekeeper from "timekeeper";
 
 jest.mock("../thunks/editReferralLetterAddresses", () =>
   jest.fn((caseId, values, redirectUrl, successCallback, failureCallback) => {
@@ -44,16 +45,25 @@ jest.mock("../../thunks/setCaseStatus", () =>
   jest.fn(() => (caseId, status, redirectUrl) => {})
 );
 
-jest.mock("../thunks/getPdf", () => (caseId, letterType, saveFileForUser) => {
-  return {
-    type: "SOMETHING",
-    caseId,
-    letterType,
-    saveFileForUser
-  };
-});
+jest.mock(
+  "../thunks/getPdf",
+  () => (caseId, filename, letterType, saveFileForUser) => {
+    return {
+      type: "SOMETHING",
+      caseId,
+      filename,
+      letterType,
+      saveFileForUser
+    };
+  }
+);
 
 describe("LetterPreview", function() {
+  const finalFilename = "final_filename.pdf";
+  const draftFilename = "draft_filename.pdf";
+  const date = new Date("Jan 01 2018 00:00:00 GMT-0600");
+  timekeeper.freeze(date);
+
   let store, dispatchSpy, wrapper, caseId, caseDetail;
   beforeEach(() => {
     store = createConfiguredStore();
@@ -76,7 +86,10 @@ describe("LetterPreview", function() {
           recipient: "jane",
           transcribedBy: "joe"
         },
-        LETTER_TYPE.GENERATED
+        LETTER_TYPE.GENERATED,
+        null,
+        finalFilename,
+        draftFilename
       )
     );
     store.dispatch(
@@ -385,7 +398,10 @@ describe("LetterPreview", function() {
           recipient: "jane",
           transcribedBy: "joe"
         },
-        LETTER_TYPE.EDITED
+        LETTER_TYPE.EDITED,
+        date,
+        finalFilename,
+        draftFilename
       )
     );
 
@@ -420,7 +436,10 @@ describe("LetterPreview", function() {
           recipient: "jane",
           transcribedBy: "joe"
         },
-        LETTER_TYPE.EDITED
+        LETTER_TYPE.EDITED,
+        date,
+        finalFilename,
+        draftFilename
       )
     );
 
@@ -434,7 +453,7 @@ describe("LetterPreview", function() {
 
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
     expect(dispatchSpy).toHaveBeenCalledWith(
-      getPdf(caseDetail, LETTER_TYPE.EDITED, true)
+      getPdf(caseId, draftFilename, LETTER_TYPE.EDITED, true)
     );
   });
 
@@ -449,7 +468,7 @@ describe("LetterPreview", function() {
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
     expect(dispatchSpy).toHaveBeenNthCalledWith(
       3,
-      getPdf(caseDetail, LETTER_TYPE.GENERATED, true)
+      getPdf(caseId, draftFilename, LETTER_TYPE.GENERATED, true)
     );
   });
 
@@ -488,7 +507,10 @@ describe("LetterPreview", function() {
           recipient: "jane",
           transcribedBy: "joe"
         },
-        LETTER_TYPE.EDITED
+        LETTER_TYPE.EDITED,
+        date,
+        finalFilename,
+        draftFilename
       )
     );
     expect(downloadButton.text()).toEqual(expectedText);

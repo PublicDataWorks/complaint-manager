@@ -1,7 +1,4 @@
-import {
-  CASE_STATUS,
-  CASE_STATUS_MAP
-} from "../../../../sharedUtilities/constants";
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 
 const getActiveStep = (caseStatusMap, caseStatus) => {
   if (caseStatusMap[caseStatus] === caseStatusMap[CASE_STATUS.CLOSED]) {

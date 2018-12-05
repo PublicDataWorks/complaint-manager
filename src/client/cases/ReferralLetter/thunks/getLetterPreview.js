@@ -29,7 +29,9 @@ const getLetterPreview = caseId => async dispatch => {
         response.data.letterHtml,
         response.data.addresses,
         response.data.letterType,
-        response.data.lastEdited
+        response.data.lastEdited,
+        response.data.finalFilename,
+        response.data.draftFilename
       )
     );
   } catch (error) {

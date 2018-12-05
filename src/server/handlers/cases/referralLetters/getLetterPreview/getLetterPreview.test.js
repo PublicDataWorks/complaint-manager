@@ -11,6 +11,7 @@ import {
   CIVILIAN_INITIATED,
   COMPLAINANT,
   LETTER_TYPE,
+  REFERRAL_LETTER_VERSION,
   WITNESS
 } from "../../../../../sharedUtilities/constants";
 import Case from "../../../../../client/testUtilities/case";
@@ -28,6 +29,7 @@ import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUt
 import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
 import Classification from "../../../../../client/testUtilities/classification";
+import constructFilename from "../constructFilename";
 
 describe("getLetterPreview", function() {
   let existingCase, request, response, next, referralLetter;
@@ -41,8 +43,16 @@ describe("getLetterPreview", function() {
       .defaultCase()
       .withId(12070)
       .withFirstContactDate("2017-12-25")
-      .withComplaintType(CIVILIAN_INITIATED);
+      .withComplaintType(CIVILIAN_INITIATED)
+      .withComplainantCivilians([]);
     existingCase = await models.cases.create(caseAttributes, {
+      include: [
+        {
+          model: models.civilian,
+          as: "complainantCivilians",
+          auditUser: "test"
+        }
+      ],
       auditUser: "test"
     });
     await existingCase.update(
@@ -115,6 +125,48 @@ describe("getLetterPreview", function() {
       expect.objectContaining({
         id: existingCase.id,
         status: CASE_STATUS.LETTER_IN_PROGRESS
+      })
+    );
+  });
+
+  test("it returns the correct final and draft filenames", async () => {
+    const complainantCivilianAttributes = new Civilian.Builder()
+      .defaultCivilian()
+      .withId(undefined)
+      .withCaseId(existingCase.id)
+      .withRoleOnCase(COMPLAINANT);
+    await models.civilian.create(complainantCivilianAttributes, {
+      auditUser: "test"
+    });
+    await existingCase.reload();
+
+    const finalFilename = constructFilename(
+      existingCase.id,
+      existingCase.caseNumber,
+      existingCase.firstContactDate,
+      existingCase.complainantCivilians[0].lastName,
+      REFERRAL_LETTER_VERSION.FINAL
+    );
+
+    const editStatus =
+      referralLetter.editedLetterHtml === null
+        ? LETTER_TYPE.GENERATED
+        : LETTER_TYPE.EDITED;
+
+    const draftFilename = constructFilename(
+      existingCase.id,
+      existingCase.caseNumber,
+      existingCase.firstContactDate,
+      existingCase.complainantCivilians[0].lastName,
+      REFERRAL_LETTER_VERSION.DRAFT,
+      editStatus
+    );
+    await getLetterPreview(request, response, next);
+    const responseBody = response._getData();
+    expect(responseBody).toEqual(
+      expect.objectContaining({
+        finalFilename: finalFilename,
+        draftFilename: draftFilename
       })
     );
   });

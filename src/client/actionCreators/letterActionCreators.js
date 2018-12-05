@@ -58,13 +58,17 @@ export const getLetterPreviewSuccess = (
   letterHtml,
   addresses,
   letterType,
-  lastEdited
+  lastEdited,
+  finalFilename,
+  draftFilename
 ) => ({
   type: GET_LETTER_PREVIEW_SUCCESS,
   letterHtml,
   addresses,
   letterType,
-  lastEdited
+  lastEdited,
+  finalFilename,
+  draftFilename
 });
 
 export const openEditLetterConfirmationDialog = () => ({

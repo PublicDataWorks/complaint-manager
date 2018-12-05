@@ -53,7 +53,12 @@ class LetterPreview extends Component {
 
   downloadLetterAsPdfFile = () => {
     return this.props.dispatch(
-      getPdf(this.props.caseDetail, this.props.letterType, true)
+      getPdf(
+        this.state.caseId,
+        this.props.draftFilename,
+        this.props.letterType,
+        true
+      )
     );
   };
 
@@ -341,6 +346,7 @@ const mapStateToProps = state => ({
   initialValues: state.referralLetter.addresses,
   letterType: state.referralLetter.letterType,
   lastEdited: state.referralLetter.lastEdited,
+  draftFilename: state.referralLetter.draftFilename,
   caseDetail: state.currentCase.details,
   downloadInProgress: state.ui.letterDownload.downloadInProgress,
   userInfo: state.users.current.userInfo
