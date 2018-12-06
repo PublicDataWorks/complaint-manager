@@ -8,6 +8,7 @@ import { mount } from "enzyme";
 import config from "../../../config/config";
 import inBrowserDownload from "../../thunks/inBrowserDownload";
 import { startLetterDownload } from "../../../actionCreators/letterActionCreators";
+import { containsText } from "../../../testHelpers";
 
 jest.mock(
   "../../thunks/inBrowserDownload",
@@ -30,7 +31,8 @@ describe("DownloadFinalLetterButton", () => {
       getCaseDetailsSuccess({
         id: caseId,
         status: CASE_STATUS.FORWARDED_TO_AGENCY,
-        nextStatus: CASE_STATUS.CLOSED
+        nextStatus: CASE_STATUS.CLOSED,
+        pdfAvailable: true
       })
     );
     dispatchSpy = jest.spyOn(store, "dispatch");
@@ -104,5 +106,34 @@ describe("DownloadFinalLetterButton", () => {
       .find("[data-test='download-final-letter-button']")
       .first();
     expect(buttonBeforeClick.props().disabled).toEqual(false);
+  });
+
+  test("does not display no file for download message if there is a file available", () => {
+    const noFileForDownloadMessage = wrapper.find(
+      "[data-test='no-file-for-download-message']"
+    );
+    expect(noFileForDownloadMessage.length).toEqual(0);
+  });
+
+  test("download letter button is disabled and shows message when there is no file for download", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.FORWARDED_TO_AGENCY,
+        nextStatus: CASE_STATUS.CLOSED,
+        pdfAvailable: false
+      })
+    );
+    wrapper.update();
+    const downloadButton = wrapper
+      .find("[data-test='download-final-letter-button']")
+      .first();
+    expect(downloadButton.props().disabled).toEqual(true);
+
+    containsText(
+      wrapper,
+      "[data-test='no-file-for-download-message']",
+      "This case does not have a letter for download"
+    );
   });
 });

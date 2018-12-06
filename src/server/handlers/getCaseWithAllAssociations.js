@@ -1,6 +1,12 @@
 const models = require("../models");
 
 const getCaseWithAllAssociations = async (caseId, transaction = null) => {
+  let caseDetails = await getCaseData(caseId, transaction);
+  caseDetails = addPdfIsAvailable(caseDetails);
+  return caseDetails;
+};
+
+const getCaseData = async (caseId, transaction) => {
   return await models.cases.findById(caseId, {
     include: [
       {
@@ -41,6 +47,11 @@ const getCaseWithAllAssociations = async (caseId, transaction = null) => {
       {
         model: models.case_officer,
         as: "witnessOfficers"
+      },
+      {
+        model: models.referral_letter,
+        as: "referralLetter",
+        attributes: ["finalPdfFilename"]
       }
     ],
     transaction: transaction,
@@ -59,6 +70,20 @@ const getCaseWithAllAssociations = async (caseId, transaction = null) => {
       ]
     ]
   });
+};
+
+const addPdfIsAvailable = caseDetails => {
+  caseDetails = caseDetails.toJSON();
+  caseDetails.pdfAvailable = pdfIsAvailable(caseDetails.referralLetter);
+  delete caseDetails.referralLetter;
+  return caseDetails;
+};
+
+const pdfIsAvailable = referralLetter => {
+  if (!referralLetter) {
+    return false;
+  }
+  return referralLetter.finalPdfFilename !== null;
 };
 
 module.exports = getCaseWithAllAssociations;

@@ -197,7 +197,7 @@ describe("addCaseOfficer", () => {
 
     await addCaseOfficer(request, response, jest.fn());
 
-    const caseOfficerId = response._getData().dataValues.accusedOfficers[0].id;
+    const caseOfficerId = response._getData().accusedOfficers[0].id;
 
     await officer.update(
       { firstName: "Wilbert" },
@@ -322,7 +322,7 @@ describe("addCaseOfficer", () => {
 
     await addCaseOfficer(request, response, jest.fn());
 
-    const caseOfficerId = response._getData().dataValues.accusedOfficers[0].id;
+    const caseOfficerId = response._getData().accusedOfficers[0].id;
 
     const letterOfficer = await models.letter_officer.findOne({
       where: { caseOfficerId: caseOfficerId }
@@ -372,7 +372,7 @@ describe("addCaseOfficer", () => {
 
     await addCaseOfficer(request, response, jest.fn());
 
-    const caseOfficerId = response._getData().dataValues.accusedOfficers[0].id;
+    const caseOfficerId = response._getData().accusedOfficers[0].id;
 
     const letterOfficer = await models.letter_officer.findOne({
       where: { caseOfficerId: caseOfficerId }

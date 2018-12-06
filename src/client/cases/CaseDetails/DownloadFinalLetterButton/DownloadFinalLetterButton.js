@@ -8,6 +8,7 @@ import {
   startLetterDownload,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
+import styles from "../../../globalStyling/styles";
 
 class DownloadFinalLetterButton extends React.Component {
   startLetterDownload = () => {
@@ -29,6 +30,21 @@ class DownloadFinalLetterButton extends React.Component {
     );
   };
 
+  noFileAvailableMessage = () => {
+    if (!this.props.pdfAvailable) {
+      return (
+        <div
+          data-test="no-file-for-download-message"
+          style={{ marginLeft: "16px" }}
+        >
+          <i style={styles.caption}>
+            This case does not have a letter for download
+          </i>
+        </div>
+      );
+    }
+  };
+
   render() {
     if (!this.caseStatusAllowsDownloadFinalLetter()) {
       return "";
@@ -39,10 +55,11 @@ class DownloadFinalLetterButton extends React.Component {
           data-test={"download-final-letter-button"}
           style={{ textAlign: "left" }}
           onClick={this.startLetterDownload}
-          disabled={this.props.downloadInProgress}
+          disabled={this.props.downloadInProgress || !this.props.pdfAvailable}
         >
           Download Letter
         </LinkButton>
+        {this.noFileAvailableMessage()}
         <a id="dynamicLetterDownloadLink" href="#dynamicLetterDownloadLink">
           {" "}
         </a>
@@ -60,6 +77,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
   status: state.currentCase.details.status,
+  pdfAvailable: state.currentCase.details.pdfAvailable,
   downloadInProgress: state.ui.letterDownload.downloadInProgress
 });
 
