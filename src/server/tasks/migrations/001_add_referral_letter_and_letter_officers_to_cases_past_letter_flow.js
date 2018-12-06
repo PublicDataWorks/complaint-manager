@@ -1,8 +1,3 @@
-import constructFilename from "../../handlers/cases/referralLetters/constructFilename";
-import {
-  CIVILIAN_INITIATED,
-  REFERRAL_LETTER_VERSION
-} from "../../../sharedUtilities/constants";
 import {
   RECIPIENT,
   SENDER
@@ -16,16 +11,18 @@ const {
 const path = require("path");
 
 const getMigrationUser = migrationDirection => {
-  return `migrate ${migrationDirection}: ${path.basename(__filename)}`;
+  return `system migration ${migrationDirection}: ${path.basename(__filename)}`;
 };
 
 module.exports = {
   up: async () => {
-    const cases = await getCases();
+    await models.sequelize.transaction(async transaction => {
+      const cases = await getCasesToUpdate(transaction);
 
-    for (let i = 0; i < cases.length; i++) {
-      await migrateCase(cases[i]);
-    }
+      for await (let oneCase of cases) {
+        await migrateCase(oneCase, transaction);
+      }
+    });
   },
 
   down: async () => {
@@ -38,12 +35,12 @@ module.exports = {
 };
 
 const destroyCreatedRecords = async audits => {
-  for (let i = 0; i < audits.length; i++) {
-    const transformedModelName = transformModelName(audits[i].modelName);
-    if (audits[i].action === AUDIT_ACTION.DATA_CREATED) {
+  for await (let audit of audits) {
+    const transformedModelName = transformModelName(audit.modelName);
+    if (audit.action === AUDIT_ACTION.DATA_CREATED) {
       await models[transformedModelName].destroy({
         where: {
-          id: audits[i].modelId
+          id: audit.modelId
         },
         auditUser: getMigrationUser("down")
       });
@@ -56,64 +53,51 @@ const transformModelName = modelName => {
   return transformedModelName.replace(" ", "_");
 };
 
-async function getCases() {
+async function getCasesToUpdate(transaction) {
   return await models.cases.findAll({
-    attributes: ["id", "status", "firstContactDate", "complaintType"],
+    where: {
+      status: [
+        CASE_STATUS.LETTER_IN_PROGRESS,
+        CASE_STATUS.READY_FOR_REVIEW,
+        CASE_STATUS.FORWARDED_TO_AGENCY,
+        CASE_STATUS.CLOSED
+      ],
+      "$referralLetter.id$": null
+    },
+    attributes: ["id", "status"],
     include: [
       {
         model: models.case_officer,
         as: "accusedOfficers",
-        auditUser: `${getMigrationUser("up")}`,
         attributes: ["id"],
         include: [
           {
             model: models.letter_officer,
             as: "letterOfficer",
-            auditUser: `${getMigrationUser("up")}`,
             attributes: ["caseOfficerId"]
           }
         ]
       },
       {
         model: models.referral_letter,
-        as: "referralLetter",
-        auditUser: `${getMigrationUser("up")}`
-      },
-      {
-        model: models.case_officer,
-        as: "complainantOfficers",
-        auditUser: `${getMigrationUser("up")}`,
-        attributes: ["lastName"]
-      },
-      {
-        model: models.civilian,
-        as: "complainantCivilians",
-        auditUser: `${getMigrationUser("up")}`,
-        attributes: ["lastName"]
+        as: "referralLetter"
       }
-    ]
+    ],
+    transaction
   });
 }
 
-const migrateCase = async oneCase => {
+const migrateCase = async (oneCase, transaction) => {
   const jsonCase = oneCase.toJSON();
 
-  if (
-    [
-      CASE_STATUS.INITIAL,
-      CASE_STATUS.ACTIVE,
-      CASE_STATUS.LETTER_IN_PROGRESS
-    ].includes(jsonCase.status)
-  ) {
-    return;
-  }
-  await createReferralLetterIfNull(jsonCase);
-  for (let i = 0; i < jsonCase.accusedOfficers.length; i++) {
-    await createLetterOfficerIfNull(jsonCase.accusedOfficers[i]);
+  await createReferralLetter(jsonCase, transaction);
+
+  for await (let accusedOfficer of jsonCase.accusedOfficers) {
+    await createLetterOfficerIfNull(accusedOfficer, transaction);
   }
 };
 
-const createLetterOfficerIfNull = async accusedOfficer => {
+const createLetterOfficerIfNull = async (accusedOfficer, transaction) => {
   if (accusedOfficer.letterOfficer) {
     return;
   }
@@ -121,53 +105,24 @@ const createLetterOfficerIfNull = async accusedOfficer => {
     caseOfficerId: accusedOfficer.id
   };
 
-  const createdLetterOfficer = await models.letter_officer.create(
+  await models.letter_officer.create(
     letterOfficerAttributes,
     {
       auditUser: `${getMigrationUser("up")}`
-    }
+    },
+    transaction
   );
 };
 
-const createReferralLetterIfNull = async jsonCase => {
-  if (jsonCase.referralLetter) {
-    return;
-  }
+const createReferralLetter = async (jsonCase, transaction) => {
   const referralLetterAttributes = {
     caseId: jsonCase.id,
-    finalPdfFilename: constructFinalPdfFilename(jsonCase),
     sender: SENDER,
     recipient: RECIPIENT
   };
 
   await models.referral_letter.create(referralLetterAttributes, {
-    auditUser: `${getMigrationUser("up")}`
+    auditUser: `${getMigrationUser("up")}`,
+    transaction
   });
-};
-
-const constructFinalPdfFilename = jsonCase => {
-  if (
-    ![CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED].includes(
-      jsonCase.status
-    )
-  ) {
-    return null;
-  }
-
-  return constructFilename(
-    jsonCase.id,
-    jsonCase.caseNumber,
-    jsonCase.firstContactDate,
-    getFirstComplainantLastName(jsonCase),
-    REFERRAL_LETTER_VERSION.FINAL
-  );
-};
-
-const getFirstComplainantLastName = jsonCase => {
-  const firstComplainant =
-    jsonCase.complaintType === CIVILIAN_INITIATED
-      ? jsonCase.complainantCivilians[0]
-      : jsonCase.complainantOfficers[0];
-
-  return firstComplainant ? firstComplainant.lastName : "";
 };
