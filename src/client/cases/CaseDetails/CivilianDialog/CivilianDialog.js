@@ -50,7 +50,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
 import { addressMustBeValid } from "../../../formValidations";
-import AdditionalAddressInfoField from "../../sharedFormComponents/AdditionalAddressInfoField";
+import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import _ from "lodash";
 
 class CivilianDialog extends Component {
@@ -189,7 +189,7 @@ class CivilianDialog extends Component {
                 formattedAddress={this.props.formattedAddress}
               />
             </div>
-            <AdditionalAddressInfoField
+            <AddressSecondLine
               label={"Additional Address Information"}
               fieldName={`address`}
               style={{

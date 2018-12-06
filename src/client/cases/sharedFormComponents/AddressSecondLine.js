@@ -2,7 +2,7 @@ import React from "react";
 import { Field } from "redux-form";
 import { TextField } from "redux-form-material-ui";
 
-const AdditionalAddressInfoField = ({ label, fieldName, style }) => {
+const AddressSecondLine = ({ label, fieldName, style }) => {
   return (
     <Field
       label={label}
@@ -17,9 +17,9 @@ const AdditionalAddressInfoField = ({ label, fieldName, style }) => {
         shrink: true
       }}
       data-test="streetAddress2Field"
-      placeholder={"Ex. Apt #, Unit, etc"}
+      placeholder={"Ex: Apt #, Unit, etc"}
     />
   );
 };
 
-export default AdditionalAddressInfoField;
+export default AddressSecondLine;

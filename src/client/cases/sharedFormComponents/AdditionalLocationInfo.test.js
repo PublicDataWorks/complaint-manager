@@ -1,15 +1,16 @@
-import AdditionalAddressInfoField from "./AdditionalAddressInfoField";
 import React from "react";
-import { mount } from "enzyme";
 import { reduxForm } from "redux-form";
-import { Provider } from "react-redux";
 import createConfiguredStore from "../../createConfiguredStore";
 import { containsText } from "../../testHelpers";
+import { mount } from "enzyme";
+import { Provider } from "react-redux";
+import AdditionalLocationInfo from "./AdditionalLocationInfo";
 
-describe("AdditionalAddressInfoField", () => {
+describe("AdditionalLocationInfo", function() {
   test("should render a custom label", () => {
+    const addressLabel = "TEST ADDITIONAL LOCATION INFO LABEL";
     const AddressForm = reduxForm({ form: "testAddressForm" })(() => {
-      return <AdditionalAddressInfoField fieldName="test" label="TEST LABEL" />;
+      return <AdditionalLocationInfo fieldName="test" label={addressLabel} />;
     });
 
     const store = createConfiguredStore();
@@ -19,6 +20,6 @@ describe("AdditionalAddressInfoField", () => {
       </Provider>
     );
 
-    containsText(wrapper, '[data-test="streetAddress2Field"]', "TEST LABEL");
+    containsText(wrapper, '[data-test="additionalLocationInfo"]', addressLabel);
   });
 });

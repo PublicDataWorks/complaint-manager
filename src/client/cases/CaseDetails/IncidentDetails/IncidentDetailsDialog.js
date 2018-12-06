@@ -30,8 +30,9 @@ import {
   generateMenu,
   inputDistrictMenu
 } from "../../../utilities/generateMenus";
-import AdditionalAddressInfoField from "../../sharedFormComponents/AdditionalAddressInfoField";
+import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import getClassificationDropDownOptions from "../../../classifications/thunks/getClassificationDropdownValues";
+import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocationInfo";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -132,8 +133,8 @@ class IncidentDetailsDialog extends Component {
               />
             </div>
             <div style={{ display: "flex", marginBottom: "16px" }}>
-              <AdditionalAddressInfoField
-                label={"Additional Location Info"}
+              <AddressSecondLine
+                label={"Address Line 2"}
                 fieldName={`incidentLocation`}
                 style={{
                   marginRight: "5%",
@@ -153,6 +154,17 @@ class IncidentDetailsDialog extends Component {
               >
                 {inputDistrictMenu}
               </Field>
+            </div>
+            <div style={{ display: "flex" }}>
+              <AdditionalLocationInfo
+                label={"Additional Location Info"}
+                fieldName={`incidentLocation`}
+                style={{
+                  marginRight: "5%",
+                  flex: "2"
+                }}
+              />
+              <div style={{ flex: 1 }} />
             </div>
             <div style={{ display: "flex" }}>
               <Field
