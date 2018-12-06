@@ -1,4 +1,7 @@
-import { TIMEZONE } from "../../../sharedUtilities/constants";
+import {
+  CIVILIAN_INITIATED,
+  TIMEZONE
+} from "../../../sharedUtilities/constants";
 import timezone from "moment-timezone";
 const { JOB_OPERATION } = require("../../../sharedUtilities/constants");
 const models = require("../../../server/models/index");
@@ -8,6 +11,7 @@ const promisifiedStringify = util.promisify(stringify);
 const exportCasesQuery = require("./exportCasesQuery");
 const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 const winston = require("winston");
+import moment from "moment";
 
 const TIMESTAMP_FORMAT = "MM/DD/YYYY HH:mm:ss z";
 
@@ -18,7 +22,7 @@ const csvCaseExport = async (job, done) => {
       type: models.sequelize.QueryTypes.SELECT
     });
 
-    fixTimeZones(caseData);
+    transformCaseData(caseData);
 
     const csvOutput = await promisifiedStringify(caseData, csvOptions);
     const s3Result = await uploadFileToS3(
@@ -36,11 +40,17 @@ const csvCaseExport = async (job, done) => {
   }
 };
 
-const fixTimeZones = casesData => {
+const transformCaseData = casesData => {
   for (let caseData of casesData) {
     caseData.created_at = timezone
       .tz(caseData.created_at, TIMEZONE)
       .format(TIMESTAMP_FORMAT);
+
+    const prefix = caseData.complaint_type === CIVILIAN_INITIATED ? "CC" : "PO";
+    const year = moment(caseData.first_contact_date, "D-M-YYYY").format("YYYY");
+    const paddedId = `${caseData.id}`.padStart(4, "0");
+    const caseNumber = `${prefix}${year}-${paddedId}`;
+    caseData.id = caseNumber;
   }
 };
 
