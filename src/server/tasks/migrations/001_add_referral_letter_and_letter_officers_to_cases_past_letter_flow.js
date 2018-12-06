@@ -10,9 +10,7 @@ const {
 } = require("../../../sharedUtilities/constants");
 const path = require("path");
 
-const getMigrationUser = migrationDirection => {
-  return `system migration ${migrationDirection}: ${path.basename(__filename)}`;
-};
+const MIGRATION_USER = "System Migration: 001";
 
 module.exports = {
   up: async () => {
@@ -27,7 +25,7 @@ module.exports = {
 
   down: async () => {
     const audits = await models.data_change_audit.findAll({
-      where: { user: `${getMigrationUser("up")}` }
+      where: { user: MIGRATION_USER }
     });
 
     await destroyCreatedRecords(audits);
@@ -42,7 +40,7 @@ const destroyCreatedRecords = async audits => {
         where: {
           id: audit.modelId
         },
-        auditUser: getMigrationUser("down")
+        auditUser: MIGRATION_USER
       });
     }
   }
@@ -108,7 +106,7 @@ const createLetterOfficerIfNull = async (accusedOfficer, transaction) => {
   await models.letter_officer.create(
     letterOfficerAttributes,
     {
-      auditUser: `${getMigrationUser("up")}`
+      auditUser: MIGRATION_USER
     },
     transaction
   );
@@ -122,7 +120,7 @@ const createReferralLetter = async (jsonCase, transaction) => {
   };
 
   await models.referral_letter.create(referralLetterAttributes, {
-    auditUser: `${getMigrationUser("up")}`,
+    auditUser: MIGRATION_USER,
     transaction
   });
 };
