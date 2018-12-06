@@ -47,7 +47,7 @@ const transformCaseData = casesData => {
       .format(TIMESTAMP_FORMAT);
 
     const prefix = caseData.complaint_type === CIVILIAN_INITIATED ? "CC" : "PO";
-    const year = moment(caseData.first_contact_date, "D-M-YYYY").format("YYYY");
+    const year = moment(caseData.first_contact_date, "M-D-YYYY").format("YYYY");
     const paddedId = `${caseData.id}`.padStart(4, "0");
     const caseNumber = `${prefix}${year}-${paddedId}`;
     caseData.id = caseNumber;
