@@ -65,6 +65,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         field: "place_id"
       },
+      additionalLocationInfo: {
+        type: DataTypes.STRING,
+        field: "additional_location_info"
+      },
       createdAt: {
         field: "created_at",
         type: DataTypes.DATE

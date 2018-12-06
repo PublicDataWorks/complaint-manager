@@ -7,6 +7,7 @@ class Address {
     this.addressableType = build.addressableType;
     this.streetAddress = build.streetAddress;
     this.streetAddress2 = build.streetAddress2;
+    this.additionalLocationInfo = build.additionalLocationInfo;
     this.lat = build.lat;
     this.lng = build.lng;
     this.placeId = build.placeId;
@@ -25,6 +26,7 @@ class Address {
         this.addressableType = ADDRESSABLE_TYPE.CASES;
         this.streetAddress = "123 Main St";
         this.streetAddress2 = "Fl 2";
+        this.additionalLocationInfo = "In front of Wal-Mart";
         this.lat = 20.976;
         this.lng = 90.655;
         this.placeId = "IC9382LXIAJ";
@@ -65,6 +67,11 @@ class Address {
 
       withStreetAddress2(streetAddress2) {
         this.streetAddress2 = streetAddress2;
+        return this;
+      }
+
+      withAdditionalLocationInfo(additionalLocationInfo) {
+        this.additionalLocationInfo = additionalLocationInfo;
         return this;
       }
 

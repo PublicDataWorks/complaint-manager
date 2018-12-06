@@ -133,9 +133,11 @@ describe("format address", () => {
 
       const expectedResult = (
         <span>
-          Canal & Washington<span>
+          Canal & Washington
+          <span>
             <br />
-          </span>Chicago, IL 60601 USA
+          </span>
+          Chicago, IL 60601 USA
         </span>
       );
       expect(shallow(formatAddressWithLineBreak(address, true)).html()).toEqual(
@@ -154,6 +156,62 @@ describe("format address", () => {
       };
 
       const expectedResult = <span>Chicago, IL 60601 USA</span>;
+      expect(shallow(formatAddressWithLineBreak(address, true)).html()).toEqual(
+        shallow(expectedResult).html()
+      );
+    });
+
+    test("should put addressLine2 when it exists before the city", () => {
+      const address = {
+        streetAddress: "100 Peach Street",
+        streetAddress2: "Unit 123",
+        intersection: "",
+        city: "Chicago",
+        state: "IL",
+        country: "USA",
+        zipCode: "60601"
+      };
+
+      const expectedResult = (
+        <span>
+          100 Peach Street
+          <span>
+            <br />
+          </span>
+          Unit 123
+          <span>
+            <br />
+          </span>
+          Chicago, IL 60601 USA
+        </span>
+      );
+
+      expect(shallow(formatAddressWithLineBreak(address, true)).html()).toEqual(
+        shallow(expectedResult).html()
+      );
+    });
+
+    test("should not display addressLine2 if not present", () => {
+      const address = {
+        streetAddress: "100 Peach Street",
+        streetAddress2: "",
+        intersection: "",
+        city: "Chicago",
+        state: "IL",
+        country: "USA",
+        zipCode: "60601"
+      };
+
+      const expectedResult = (
+        <span>
+          100 Peach Street
+          <span>
+            <br />
+          </span>
+          Chicago, IL 60601 USA
+        </span>
+      );
+
       expect(shallow(formatAddressWithLineBreak(address, true)).html()).toEqual(
         shallow(expectedResult).html()
       );

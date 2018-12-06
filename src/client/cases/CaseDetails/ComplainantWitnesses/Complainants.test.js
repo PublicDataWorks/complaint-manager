@@ -242,16 +242,12 @@ describe("Complainants", () => {
       complainantPanel = complainantWitnesses
         .find('[data-test="complainantWitnessesPanel"]')
         .first();
-      containsText(
-        complainantPanel,
-        '[data-test="civilianAddressAdditionalInfo"]',
-        ""
-      );
+      containsText(complainantPanel, '[data-test="civilianAddress"]', "");
     });
     test("should display additional address info when present", () => {
       containsText(
         complainantPanel,
-        '[data-test="civilianAddressAdditionalInfo"]',
+        '[data-test="civilianAddress"]',
         caseDetail.complainantCivilians[0].address.streetAddress2
       );
     });

@@ -23,8 +23,13 @@ const AddresesInfoDisplay = ({
       <Typography variant="body1" data-test={testLabel}>
         {formattedAddress}
       </Typography>
-      <Typography variant="body1" data-test={`${testLabel}AdditionalInfo`}>
-        {address && address.streetAddress2 ? address.streetAddress2 : ""}
+      <Typography
+        variant="body1"
+        data-test={`${testLabel}AdditionalLocationInfo`}
+      >
+        {address && address.additionalLocationInfo
+          ? address.additionalLocationInfo
+          : ""}
       </Typography>
     </div>
   );

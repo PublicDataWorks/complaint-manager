@@ -244,16 +244,12 @@ describe("Witnesses", () => {
       witnessPanel = witnesses
         .find('[data-test="complainantWitnessesPanel"]')
         .first();
-      containsText(
-        witnessPanel,
-        '[data-test="civilianAddressAdditionalInfo"]',
-        ""
-      );
+      containsText(witnessPanel, '[data-test="civilianAddress"]', "");
     });
     test("should display additional address info when present", () => {
       containsText(
         witnessPanel,
-        '[data-test="civilianAddressAdditionalInfo"]',
+        '[data-test="civilianAddress"]',
         caseDetail.witnessCivilians[0].address.streetAddress2
       );
     });

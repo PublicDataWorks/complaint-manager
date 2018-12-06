@@ -10,7 +10,9 @@ describe("AddressInfoDisplay", () => {
       .defaultAddress()
       .withStreetAddress("200 E Randolph")
       .withStreetAddress2("APT 2")
+      .withAdditionalLocationInfo("In the parking lot")
       .build();
+
     const addressInfoWrapper = mount(
       <AddressInfoDisplay
         address={address}
@@ -20,10 +22,11 @@ describe("AddressInfoDisplay", () => {
     );
 
     containsText(addressInfoWrapper, '[data-test="test"]', "200 E Randolph");
+    containsText(addressInfoWrapper, '[data-test="test"]', "APT 2");
     containsText(
       addressInfoWrapper,
-      '[data-test="testAdditionalInfo"]',
-      "APT 2"
+      '[data-test="testAdditionalLocationInfo"]',
+      "In the parking lot"
     );
   });
 
@@ -44,6 +47,7 @@ describe("AddressInfoDisplay", () => {
       .defaultAddress()
       .withStreetAddress("200 E Randolph")
       .withIntersection("")
+      .withStreetAddress2("")
       .withCity("Chicago")
       .build();
     const addressInfoWrapper = mount(
@@ -60,6 +64,31 @@ describe("AddressInfoDisplay", () => {
       .html();
     expect(renderedAddressHTML).toContain(
       "200 E Randolph<span><br></span>Chicago, IL 63456 Merica"
+    );
+  });
+
+  test("should include line break when param is true and there is a street address 2", () => {
+    const address = new Address.Builder()
+      .defaultAddress()
+      .withStreetAddress("200 E Randolph")
+      .withIntersection("")
+      .withStreetAddress2("Fl 2")
+      .withCity("Chicago")
+      .build();
+    const addressInfoWrapper = mount(
+      <AddressInfoDisplay
+        address={address}
+        testLabel={"test"}
+        label={"TEST LABEL"}
+        useLineBreaks={true}
+      />
+    );
+    const renderedAddressHTML = addressInfoWrapper
+      .find('[data-test="test"]')
+      .last()
+      .html();
+    expect(renderedAddressHTML).toContain(
+      "200 E Randolph<span><br></span>Fl 2<span><br></span>Chicago, IL 63456 Merica"
     );
   });
 });

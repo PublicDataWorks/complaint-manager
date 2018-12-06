@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 const formatAddressAsString = address => {
   let formattedAddress = "";
@@ -21,6 +21,7 @@ const formatAddressWithLineBreak = address => {
           {addressParts.streetAddress}
           {addressParts.intersection}
           {lineBreak(addressParts)}
+          {renderStreetAddress2(addressParts)}
           {addressParts.city}, {addressParts.addressState}{" "}
           {addressParts.zipCode} {addressParts.country}
         </span>
@@ -39,6 +40,19 @@ const lineBreak = addressParts => {
     );
 };
 
+const renderStreetAddress2 = addressParts => {
+  if (addressParts.streetAddress2) {
+    return (
+      <Fragment>
+        {addressParts.streetAddress2}
+        <span>
+          <br />
+        </span>
+      </Fragment>
+    );
+  }
+};
+
 const getAddressArray = addressParts => {
   return Object.values(addressParts).filter(part => part !== "");
 };
@@ -46,6 +60,7 @@ const getAddressArray = addressParts => {
 const getAddressParts = address => {
   const streetAddress = `${address.streetAddress || ""}`;
   const intersection = `${address.intersection || ""}`;
+  const streetAddress2 = `${address.streetAddress2 || ""}`;
   const city = `${address.city || ""}`;
   const addressState = `${address.state || ""}`;
   const zipCode = `${address.zipCode || ""}`;
@@ -54,6 +69,7 @@ const getAddressParts = address => {
   return {
     streetAddress,
     intersection,
+    streetAddress2,
     city,
     addressState,
     zipCode,
