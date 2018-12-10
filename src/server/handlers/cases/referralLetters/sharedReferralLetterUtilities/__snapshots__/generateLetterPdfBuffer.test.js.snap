@@ -281,7 +281,7 @@ exports[`generateLetterPdfBuffer sender is stella expect signature to be include
     <p><br></p>
     Sincerely,
     <p><br></p>
-    <img style=\\"max-height: 40px\\" src=file:/app/src/server/handlers/cases/referralLetters/getPdf/assets/signatures/signature.png />
+    <img style=\\"max-height: 55px\\" src=file:/app/src/server/handlers/cases/referralLetters/getPdf/assets/signatures/signature.png />
     <p><br></p>
     Stella Cziment
     <p><br></p>

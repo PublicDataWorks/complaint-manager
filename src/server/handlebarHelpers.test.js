@@ -433,8 +433,8 @@ describe("handlebarHelpers", function() {
 
   describe("generateSignature", function() {
     const blankLine = "<p><br></p>";
-    const signaturePath = `<img style="max-height: 40px" src=${
-      SIGNATURE_URLS.STELLA_PATH
+    const signaturePath = `<img style="max-height: 55px" src=${
+      SIGNATURE_URLS.STELLA
     } />`;
 
     test("should return an empty space when no signature for given name and includeSignature is true", () => {
