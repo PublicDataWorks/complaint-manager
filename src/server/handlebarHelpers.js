@@ -19,20 +19,27 @@ export const formatAddress = address => {
   if (!address) return "";
   const addressArray = [
     address.streetAddress,
+    address.streetAddress2,
     address.intersection,
     address.city,
     address.state
   ];
 
-  const addressString = addressArray
+  let addressString = addressArray
     .filter(addressPart => {
       return addressPart && addressPart !== "";
     })
     .join(", ");
 
-  return addressString !== ""
-    ? addressString + ` ${address.zipCode}`
-    : addressString;
+  if (addressString !== "") {
+    addressString += ` ${address.zipCode}`;
+  }
+
+  if (address.additionalLocationInfo) {
+    addressString += ` (${address.additionalLocationInfo})`;
+  }
+
+  return addressString;
 };
 Handlebars.registerHelper("formatAddress", formatAddress);
 

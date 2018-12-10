@@ -200,6 +200,7 @@ describe("getLetterPreview", function() {
       .defaultAddress()
       .withId(undefined)
       .withStreetAddress("123 Main St")
+      .withStreetAddress2("")
       .withCity("Chicago")
       .withState("IL")
       .withZipCode("60601")

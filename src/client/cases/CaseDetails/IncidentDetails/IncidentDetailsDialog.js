@@ -33,6 +33,7 @@ import {
 import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import getClassificationDropDownOptions from "../../../classifications/thunks/getClassificationDropdownValues";
 import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocationInfo";
+import normalizeAddress from "../../../utilities/normalizeAddress";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -42,6 +43,7 @@ const submitIncidentDetails = (values, dispatch, props) => {
 
   const normalizedValuesWithId = {
     ...values,
+    incidentLocation: normalizeAddress(values.incidentLocation),
     incidentDate: nullifyFieldUnlessValid(values.incidentDate),
     incidentTime: nullifyFieldUnlessValid(values.incidentTime),
     classificationId: nullifyFieldUnlessValid(values.classificationId),

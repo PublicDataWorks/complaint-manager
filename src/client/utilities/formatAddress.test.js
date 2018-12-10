@@ -83,7 +83,7 @@ describe("format address", () => {
       const expectedText = "200 East Randolph Street, IL, 60601, USA";
       expect(formatAddressAsString(address)).toEqual(expectedText);
     });
-    test("should take into account missing city in between", () => {
+    test("should take into account missing street address in between", () => {
       const address = {
         city: "Chicago",
         state: "IL",
@@ -92,6 +92,21 @@ describe("format address", () => {
       };
 
       const expectedText = "Chicago, IL, 60601, USA";
+      expect(formatAddressAsString(address)).toEqual(expectedText);
+    });
+
+    test("should display additional location info", () => {
+      const address = {
+        streetAddress: "200 East Randolph Street",
+        city: "Chicago",
+        state: "IL",
+        zipCode: "60601",
+        country: "US",
+        additionalLocationInfo: "somewhere out there"
+      };
+
+      const expectedText =
+        "200 East Randolph Street, Chicago, IL, 60601, US (somewhere out there)";
       expect(formatAddressAsString(address)).toEqual(expectedText);
     });
   });

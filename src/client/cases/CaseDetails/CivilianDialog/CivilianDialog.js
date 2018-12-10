@@ -52,6 +52,7 @@ import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
 import { addressMustBeValid } from "../../../formValidations";
 import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import _ from "lodash";
+import normalizeAddress from "../../../utilities/normalizeAddress";
 
 class CivilianDialog extends Component {
   handleCivilian = (values, dispatch) => {
@@ -68,7 +69,8 @@ class CivilianDialog extends Component {
     dispatch(
       this.props.submitAction({
         ...values,
-        birthDate: nullifyFieldUnlessValid(values.birthDate)
+        birthDate: nullifyFieldUnlessValid(values.birthDate),
+        address: normalizeAddress(values.address)
       })
     );
   };
@@ -190,8 +192,8 @@ class CivilianDialog extends Component {
               />
             </div>
             <AddressSecondLine
-              label={"Additional Address Information"}
-              fieldName={`address`}
+              label={"Address Line 2"}
+              fieldName={"address"}
               style={{
                 marginRight: "5%",
                 marginBottom: "24px",

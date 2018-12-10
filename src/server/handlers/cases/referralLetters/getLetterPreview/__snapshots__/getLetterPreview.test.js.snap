@@ -20,7 +20,7 @@ exports[`getLetterPreview snapshotTests it renders correctly with iapro correcti
     <p>Race: Korean</p>
     <p>Sex: Female</p>
     <p>Date of Birth: 04/24/1994</p>
-    <p>Address: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
     <p>Phone: (123) 456-7890</p>
     <p>Email: cberry@cberry.com</p>
     <p><br></p>
@@ -43,7 +43,7 @@ exports[`getLetterPreview snapshotTests it renders correctly with iapro correcti
 
   <p><strong><u>Incident</u></strong></p>
   <p>Date: 01/01/2017</p>
-  <p>Location: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+  <p>Location: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
   <p>Time: 04:00 PM CST</p>
 
   <p><br></p>
@@ -129,7 +129,7 @@ exports[`getLetterPreview snapshotTests renders correctly with a civilian witnes
     <p>Race: Korean</p>
     <p>Sex: Female</p>
     <p>Date of Birth: 04/24/1994</p>
-    <p>Address: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
     <p>Phone: (123) 456-7890</p>
     <p>Email: cberry@cberry.com</p>
     <p><br></p>
@@ -157,7 +157,7 @@ exports[`getLetterPreview snapshotTests renders correctly with a civilian witnes
 
   <p><strong><u>Incident</u></strong></p>
   <p>Date: 01/01/2017</p>
-  <p>Location: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+  <p>Location: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
   <p>Time: 04:00 PM CST</p>
 
   <p><br></p>
@@ -236,7 +236,7 @@ exports[`getLetterPreview snapshotTests renders correctly with all details 1`] =
     <p>Race: Korean</p>
     <p>Sex: Female</p>
     <p>Date of Birth: 04/24/1994</p>
-    <p>Address: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
     <p>Phone: (123) 456-7890</p>
     <p>Email: cberry@cberry.com</p>
     <p><br></p>
@@ -277,7 +277,7 @@ exports[`getLetterPreview snapshotTests renders correctly with all details 1`] =
 
   <p><strong><u>Incident</u></strong></p>
   <p>Date: 01/01/2017</p>
-  <p>Location: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+  <p>Location: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
   <p>Time: 04:00 PM CST</p>
 
   <p><br></p>
@@ -377,7 +377,7 @@ exports[`getLetterPreview snapshotTests renders correctly with an officer compla
     <p>Race: Korean</p>
     <p>Sex: Female</p>
     <p>Date of Birth: 04/24/1994</p>
-    <p>Address: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
     <p>Phone: (123) 456-7890</p>
     <p>Email: cberry@cberry.com</p>
     <p><br></p>
@@ -413,7 +413,7 @@ exports[`getLetterPreview snapshotTests renders correctly with an officer compla
 
   <p><strong><u>Incident</u></strong></p>
   <p>Date: 01/01/2017</p>
-  <p>Location: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+  <p>Location: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
   <p>Time: 04:00 PM CST</p>
 
   <p><br></p>
@@ -492,7 +492,7 @@ exports[`getLetterPreview snapshotTests renders correctly with history notes 1`]
     <p>Race: Korean</p>
     <p>Sex: Female</p>
     <p>Date of Birth: 04/24/1994</p>
-    <p>Address: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
     <p>Phone: (123) 456-7890</p>
     <p>Email: cberry@cberry.com</p>
     <p><br></p>
@@ -515,7 +515,7 @@ exports[`getLetterPreview snapshotTests renders correctly with history notes 1`]
 
   <p><strong><u>Incident</u></strong></p>
   <p>Date: 01/01/2017</p>
-  <p>Location: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+  <p>Location: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
   <p>Time: 04:00 PM CST</p>
 
   <p><br></p>
@@ -598,7 +598,7 @@ exports[`getLetterPreview snapshotTests renders correctly with minimum required 
     <p>Race: Korean</p>
     <p>Sex: Female</p>
     <p>Date of Birth: 04/24/1994</p>
-    <p>Address: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
     <p>Phone: (123) 456-7890</p>
     <p>Email: cberry@cberry.com</p>
     <p><br></p>
@@ -621,7 +621,7 @@ exports[`getLetterPreview snapshotTests renders correctly with minimum required 
 
   <p><strong><u>Incident</u></strong></p>
   <p>Date: 01/01/2017</p>
-  <p>Location: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+  <p>Location: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
   <p>Time: 04:00 PM CST</p>
 
   <p><br></p>
@@ -700,7 +700,7 @@ exports[`getLetterPreview snapshotTests renders correctly with recommended actio
     <p>Race: Korean</p>
     <p>Sex: Female</p>
     <p>Date of Birth: 04/24/1994</p>
-    <p>Address: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
     <p>Phone: (123) 456-7890</p>
     <p>Email: cberry@cberry.com</p>
     <p><br></p>
@@ -723,7 +723,7 @@ exports[`getLetterPreview snapshotTests renders correctly with recommended actio
 
   <p><strong><u>Incident</u></strong></p>
   <p>Date: 01/01/2017</p>
-  <p>Location: 123 Main St, Mayo St & Mustard Ave, Sandwich, IL 63456</p>
+  <p>Location: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
   <p>Time: 04:00 PM CST</p>
 
   <p><br></p>

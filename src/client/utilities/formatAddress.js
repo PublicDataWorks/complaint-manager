@@ -4,7 +4,13 @@ const formatAddressAsString = address => {
   let formattedAddress = "";
   if (address) {
     const addressArray = getAddressArray(getAddressParts(address));
-    if (addressArray.length !== 0) return addressArray.join(", ").trim();
+    if (addressArray.length === 0) {
+      return formattedAddress;
+    }
+    formattedAddress = addressArray.join(", ").trim();
+    if (address.additionalLocationInfo) {
+      formattedAddress += ` (${address.additionalLocationInfo})`;
+    }
   }
   return formattedAddress;
 };

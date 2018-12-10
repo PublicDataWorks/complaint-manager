@@ -59,6 +59,22 @@ describe("handlebarHelpers", function() {
       const expectedAddress = "101 N Main St, 1st and 2nd St, Chicago 11111";
       expect(formattedAddress).toEqual(expectedAddress);
     });
+
+    test("address has additional location info", () => {
+      const address = {
+        streetAddress: "101 N Main St",
+        city: "Chicago",
+        state: "",
+        zipCode: "11111",
+        intersection: "1st and 2nd St",
+        additionalLocationInfo: "outside my car"
+      };
+
+      const formattedAddress = formatAddress(address);
+      const expectedAddress =
+        "101 N Main St, 1st and 2nd St, Chicago 11111 (outside my car)";
+      expect(formattedAddress).toEqual(expectedAddress);
+    });
   });
 
   describe("isPresent", function() {
