@@ -82,7 +82,7 @@ export class LetterReview extends Component {
       <div>
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${caseId}   : Letter Generation`}
+            {`Case #${this.props.caseDetail.caseNumber}   : Letter Generation`}
           </Typography>
         </NavBar>
 

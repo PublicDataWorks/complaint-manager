@@ -23,7 +23,7 @@ export class OfficerSearchContainer extends Component {
             variant="title"
             color="inherit"
           >
-            {`Case #${caseId}   : ${titleAction} Officer`}
+            {`Case #${this.props.caseNumber}   : ${titleAction} Officer`}
           </Typography>
         </NavBar>
         <LinkButton
@@ -47,4 +47,8 @@ export class OfficerSearchContainer extends Component {
   }
 }
 
-export default connect()(OfficerSearchContainer);
+const mapStateToProps = state => ({
+  caseNumber: state.currentCase.details.caseNumber
+});
+
+export default connect(mapStateToProps)(OfficerSearchContainer);
