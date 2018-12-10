@@ -3,7 +3,7 @@
     "id": "letterGenerationFeature",
     "name": "letterGenerationFeature",
     "description": "Toggle for letter generation features",
-    "criteria": { "isPreProd": true }
+    "enabled": true
   },
   {
     "id": "letterSignatureFeature",
