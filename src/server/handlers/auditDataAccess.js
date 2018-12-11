@@ -40,7 +40,8 @@ const SUBJECT_DETAILS = {
     "Case Notes"
   ],
   [AUDIT_SUBJECT.CASE_NOTES]: ["Case Notes"],
-  [AUDIT_SUBJECT.OFFICER_DATA]: ["Officers"]
+  [AUDIT_SUBJECT.OFFICER_DATA]: ["Officers"],
+  [AUDIT_SUBJECT.CASE_NUMBER]: ["Case Number"]
 };
 
 const auditDataAccess = async (

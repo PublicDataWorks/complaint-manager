@@ -205,7 +205,8 @@ export const AUDIT_SUBJECT = {
   ATTACHMENTS: "Attachments",
   REFERRAL_LETTER_DATA: "Referral Letter Data", //this refers to letter data only (not case data)
   REFERRAL_LETTER: "Referral Letter", //this refers to the full compiled letter including all case data,
-  REFERRAL_LETTER_PDF: "Referral Letter PDF"
+  REFERRAL_LETTER_PDF: "Referral Letter PDF",
+  CASE_NUMBER: "Case Number"
 };
 
 export const AUDIT_ACTION = {
