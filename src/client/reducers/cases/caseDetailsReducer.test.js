@@ -8,7 +8,8 @@ import {
   removeCaseNoteSuccess,
   updateIncidentDetailsSuccess,
   updateNarrativeSuccess,
-  uploadAttachmentSuccess
+  uploadAttachmentSuccess,
+  getCaseNumberSuccess
 } from "../../actionCreators/casesActionCreators";
 import { removeAttachmentSuccess } from "../../actionCreators/attachmentsActionCreators";
 import {
@@ -33,6 +34,17 @@ describe("caseDetailsReducers", () => {
       const caseDetails = { caseDetailProp: "case detail value" };
       const action = getCaseDetailsSuccess(caseDetails);
 
+      const newState = caseDetailsReducer(oldState, action);
+
+      expect(newState).toEqual(caseDetails);
+    });
+  });
+
+  describe("GET_CASE_NUMBER_SUCCESS", () => {
+    test("should assign the case number to the new state", () => {
+      const oldState = { aProp: "a value", bProp: "b value" };
+      const caseDetails = { caseNumber: "CC2018-0034" };
+      const action = getCaseNumberSuccess(caseDetails);
       const newState = caseDetailsReducer(oldState, action);
 
       expect(newState).toEqual(caseDetails);

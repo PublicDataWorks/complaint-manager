@@ -197,7 +197,7 @@ class LetterPreview extends Component {
       <div>
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${this.state.caseId}   : Letter Generation`}
+            {`Case #${this.props.caseDetail.caseNumber}   : Letter Generation`}
           </Typography>
         </NavBar>
 

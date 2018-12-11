@@ -5,6 +5,7 @@ jest.mock("../../../auth/getAccessToken");
 import { push } from "react-router-redux";
 import getReferralLetterData from "./getReferralLetterData";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
+import { getCaseNumberSuccess } from "../../../actionCreators/casesActionCreators";
 
 describe("getReferralLetterData", () => {
   let caseId, dispatch;
@@ -29,9 +30,19 @@ describe("getReferralLetterData", () => {
       .get(`/api/cases/${caseId}/referral-letter`)
       .reply(200, responseBody);
 
+    const caseNumberResponse = [{ caseNumber: "CC2017-0005" }];
+
+    nock("http://localhost", {})
+      .get(`/api/cases/${caseId}/case-number`)
+      .reply(200, caseNumberResponse);
+
     await getReferralLetterData(caseId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       getReferralLetterSuccess(responseBody)
+    );
+
+    expect(dispatch).toHaveBeenCalledWith(
+      getCaseNumberSuccess(caseNumberResponse)
     );
   });
 
@@ -71,6 +82,12 @@ describe("getReferralLetterData", () => {
     nock("http://localhost", {})
       .get(`/api/cases/${caseId}/referral-letter`)
       .reply(200, responseBody);
+
+    const caseNumberResponse = [{ caseNumber: "CC2017-0005" }];
+
+    nock("http://localhost", {})
+      .get(`/api/cases/${caseId}/case-number`)
+      .reply(200, caseNumberResponse);
 
     await getReferralLetterData(caseId)(dispatch);
     expect(dispatch).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));

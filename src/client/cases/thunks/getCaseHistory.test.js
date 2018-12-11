@@ -5,6 +5,7 @@ import getCaseHistory from "./getCaseHistory";
 import { push } from "react-router-redux";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
+import { getCaseNumberSuccess } from "../../actionCreators/casesActionCreators";
 
 jest.mock("../../auth/getAccessToken");
 
@@ -27,7 +28,17 @@ describe("getCaseHistory", () => {
       .get(`/api/cases/${caseId}/case-history`)
       .reply(200, responseBody);
 
+    const caseNumberResponse = [{ caseNumber: "CC2017-0234" }];
+
+    nock("http://localhost/")
+      .get(`/api/cases/${caseId}/case-number`)
+      .reply(200, caseNumberResponse);
+
     await getCaseHistory(caseId)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(
+      getCaseNumberSuccess(caseNumberResponse)
+    );
     expect(dispatch).toHaveBeenCalledWith(getCaseHistorySuccess(responseBody));
   });
 

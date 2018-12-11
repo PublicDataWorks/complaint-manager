@@ -33,7 +33,8 @@ import {
   ADDRESS_TO_CONFIRM_UPDATED,
   ADDRESS_DISPLAY_VALUE_UPDATED,
   ADDRESS_ERROR_MESSAGE_UPDATED,
-  GET_CASE_DETAILS_SUCCESS
+  GET_CASE_DETAILS_SUCCESS,
+  GET_CASE_NUMBER_SUCCESS
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = caseDetails => ({
@@ -56,6 +57,11 @@ export const getCasesSuccess = cases => ({
 
 export const getCaseDetailsSuccess = caseDetails => ({
   type: GET_CASE_DETAILS_SUCCESS,
+  caseDetails
+});
+
+export const getCaseNumberSuccess = caseDetails => ({
+  type: GET_CASE_NUMBER_SUCCESS,
   caseDetails
 });
 

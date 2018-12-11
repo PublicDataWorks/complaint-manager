@@ -4,6 +4,7 @@ import axios from "axios/index";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import config from "../../../config/config";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import { getCaseNumberSuccess } from "../../../actionCreators/casesActionCreators";
 
 const getReferralLetterData = caseId => async dispatch => {
   const token = getAccessToken();
@@ -24,6 +25,20 @@ const getReferralLetterData = caseId => async dispatch => {
         }
       }
     );
+
+    const caseNumberResponse = await axios(
+      `${hostname}/api/cases/${caseId}/case-number`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    dispatch(getCaseNumberSuccess(caseNumberResponse.data));
+
     return dispatch(getReferralLetterSuccess(response.data));
   } catch (error) {
     if (
