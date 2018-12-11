@@ -5,15 +5,9 @@ import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import LetterOfficer from "../../client/testUtilities/LetterOfficer";
 import Officer from "../../client/testUtilities/Officer";
 import CaseOfficer from "../../client/testUtilities/caseOfficer";
-const gc = require("expose-gc/function");
 
 describe("dataChangeAuditHooks for letter officer", () => {
   let existingCase, letterOfficer;
-
-  //temp fix for memory until we find the problem
-  beforeAll(() => {
-    gc();
-  });
 
   beforeEach(async () => {
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);

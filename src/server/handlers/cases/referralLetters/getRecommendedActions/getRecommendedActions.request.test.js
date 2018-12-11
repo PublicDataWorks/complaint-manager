@@ -5,14 +5,8 @@ import {
 import request from "supertest";
 import app from "../../../../server";
 import models from "../../../../models";
-const gc = require("expose-gc/function");
 
 describe("getRecommendedActions", function() {
-  //temp fix for memory until we find the problem
-  beforeAll(() => {
-    gc();
-  });
-
   afterEach(async () => {
     await cleanupDatabase();
   });

@@ -4102,10 +4102,6 @@ expect@^23.6.0:
     jest-message-util "^23.4.0"
     jest-regex-util "^23.3.0"
 
-expose-gc@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/expose-gc/-/expose-gc-1.0.0.tgz#ba0e825b390cc3e7ab38fc5b945cd2b4018584b3"
-
 express-jwt-authz@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/express-jwt-authz/-/express-jwt-authz-1.0.0.tgz#26155700fa2485bd3e9ace3e6bb14573d45be5a4"
