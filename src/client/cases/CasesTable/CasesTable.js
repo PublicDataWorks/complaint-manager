@@ -136,7 +136,6 @@ class CasesTable extends React.Component {
                   key={caseDetails.id}
                   caseDetails={caseDetails}
                   currentUser={this.props.currentUser}
-                  featureToggles={this.props.featureToggles}
                 />
               ))}
             </TableBody>
@@ -152,8 +151,7 @@ const mapStateToProps = state => ({
   currentUser: state.users.current.userInfo,
   caseCreationSuccess: state.ui.snackbar.success,
   sortBy: state.ui.casesTable.sortBy,
-  sortDirection: state.ui.casesTable.sortDirection,
-  featureToggles: state.featureToggles
+  sortDirection: state.ui.casesTable.sortDirection
 });
 
 export default withStyles(styles, { withTheme: true })(

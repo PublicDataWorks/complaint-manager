@@ -1,11 +1,5 @@
 [
   {
-    "id": "letterGenerationFeature",
-    "name": "letterGenerationFeature",
-    "description": "Toggle for letter generation features",
-    "enabled": true
-  },
-  {
     "id": "letterSignatureFeature",
     "name": "letterSignatureFeature",
     "description": "Toggle to include signature in letter",

@@ -30,20 +30,12 @@ const UpdateCaseStatusDialog = ({
   open,
   caseId,
   nextStatus,
-  featureToggles,
   redirectUrl,
   alternativeAction,
   setCaseStatus,
   closeCaseStatusUpdateDialog,
   doNotCallUpdateStatusCallback = false
 }) => {
-  if (
-    !featureToggles.letterGenerationFeature &&
-    nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
-  ) {
-    nextStatus = CASE_STATUS.READY_FOR_REVIEW;
-  }
-
   const actionText =
     nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
       ? "Choosing to Generate a Letter"
@@ -114,8 +106,7 @@ const mapStateToProps = state => ({
   open: state.ui.updateCaseStatusDialog.open,
   redirectUrl: state.ui.updateCaseStatusDialog.redirectUrl,
   nextStatus: state.currentCase.details.nextStatus,
-  caseId: state.currentCase.details.id,
-  featureToggles: state.featureToggles
+  caseId: state.currentCase.details.id
 });
 
 export default connect(

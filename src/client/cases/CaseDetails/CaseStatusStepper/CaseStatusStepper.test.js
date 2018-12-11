@@ -9,7 +9,6 @@ import {
 import {
   CASE_STATUS,
   CASE_STATUS_MAP,
-  TOGGLE_CASE_STATUS_MAP,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import { userAuthSuccess } from "../../../auth/actionCreators";
@@ -377,11 +376,7 @@ describe("CaseStatusStepper", () => {
     test("increments last step value by 1 for map with letter in progress", () => {
       expect(getActiveStep(CASE_STATUS_MAP, CASE_STATUS.CLOSED)).toEqual(6);
     });
-    test("increments last step value by 1 for map without letter in progress", () => {
-      expect(getActiveStep(TOGGLE_CASE_STATUS_MAP, CASE_STATUS.CLOSED)).toEqual(
-        5
-      );
-    });
+
     test("does not increment for statuses other than closed", () => {
       expect(
         getActiveStep(CASE_STATUS_MAP, CASE_STATUS.READY_FOR_REVIEW)

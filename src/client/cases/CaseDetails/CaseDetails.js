@@ -24,7 +24,6 @@ import { CASE_STATUS } from "../../../sharedUtilities/constants";
 import AccusedOfficers from "./Officers/AccusedOfficers";
 import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
 import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";
-import OldCaseStatusStepper from "./CaseStatusStepper/OldCaseStatusStepper";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 import Witnesses from "./ComplainantWitnesses/Witnesses";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
@@ -87,11 +86,7 @@ class CaseDetails extends React.Component {
     }
 
     const statusIsClosed = this.props.caseDetail.status === CASE_STATUS.CLOSED;
-    const status = this.props.featureToggles.letterGenerationFeature
-      ? this.props.caseDetail.status
-      : this.props.caseDetail.status === CASE_STATUS.LETTER_IN_PROGRESS
-        ? CASE_STATUS.ACTIVE
-        : this.props.caseDetail.status;
+    const status = this.props.caseDetail.status;
 
     const { classes } = this.props;
 
@@ -120,12 +115,7 @@ class CaseDetails extends React.Component {
           </NavBar>
           <CaseDrawer classes={classes} caseDetail={this.props.caseDetail} />
           <main className={classes.content}>
-            {this.props.featureToggles.letterGenerationFeature ? (
-              <CaseStatusStepper />
-            ) : (
-              <OldCaseStatusStepper />
-            )}
-
+            <CaseStatusStepper />
             <IncidentDetailsContainer />
             <Complainants
               caseDetail={this.props.caseDetail}
@@ -173,8 +163,7 @@ CaseDetails.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  caseDetail: state.currentCase.details,
-  featureToggles: state.featureToggles
+  caseDetail: state.currentCase.details
 });
 
 export default withStyles(styles, { withTheme: true })(
