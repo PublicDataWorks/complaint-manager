@@ -19,6 +19,8 @@
     "test:all": "NODE_ENV=test yarn setup:test:db && react-scripts test --logHeapUsage --maxWorkers=1 --env=node",
     "test:server": "NODE_ENV=test yarn setup:test:db && react-scripts test src/server --logHeapUsage --maxWorkers=1 --env=node",
     "test:server:ci": "NODE_ENV=test yarn setup:test:db && CI=true react-scripts test src/server --logHeapUsage --maxWorkers=1 --forceExit --env=node",
+    "test:server-handlers:ci": "NODE_ENV=test yarn setup:test:db && CI=true react-scripts test src\/server\/handlers.* --logHeapUsage --maxWorkers=1 --forceExit --env=node",
+    "test:server-worker-non-handlers:ci": "NODE_ENV=test yarn setup:test:db && CI=true react-scripts test \"(?!.*handlers.*)src\/(server|worker).*\" --logHeapUsage --maxWorkers=1 --forceExit --env=node",
     "test:worker": "NODE_ENV=test yarn setup:test:db && react-scripts test src/worker --logHeapUsage --maxWorkers=1 --env=node",
     "test:worker:ci": "NODE_ENV=test yarn setup:test:db && CI=true react-scripts test src/worker --logHeapUsage --maxWorkers=1 --forceExit --env=node",
     "test:client": "react-scripts test src/client --logHeapUsage --env=jsdom",

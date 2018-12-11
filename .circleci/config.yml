@@ -16,26 +16,46 @@ jobs:
               environment:
                 NEW_RELIC_ENABLED: false
                 NEW_RELIC_NO_CONFIG_FILE: true
-    test-server:
-        docker:
-          - image: noipm/docker-node-ubuntu:1.0.0
-            environment:
-              NODE_ENV: test
-          - image: postgres:10.1-alpine
-            environment:
-              POSTGRES_PASSWORD: password
-              POSTGRES_DB: complaint-manager-test
-        steps:
-          - checkout
-          - run:
-              name: Install Dependencies
-              command: yarn install
-          - run:
-              name: Run server and worker unit tests
-              command: yarn test:server:worker:ci
-              environment:
-                NEW_RELIC_ENABLED: false
-                NEW_RELIC_NO_CONFIG_FILE: true
+    test-server-handlers:
+            docker:
+              - image: noipm/docker-node-ubuntu:1.0.0
+                environment:
+                  NODE_ENV: test
+              - image: postgres:10.1-alpine
+                environment:
+                  POSTGRES_PASSWORD: password
+                  POSTGRES_DB: complaint-manager-test
+            steps:
+              - checkout
+              - run:
+                  name: Install Dependencies
+                  command: yarn install
+              - run:
+                  name: Run server handler unit tests
+                  command: yarn test:server-handlers:ci
+                  environment:
+                    NEW_RELIC_ENABLED: false
+                    NEW_RELIC_NO_CONFIG_FILE: true
+    test-server-worker-non-handlers:
+            docker:
+              - image: noipm/docker-node-ubuntu:1.0.0
+                environment:
+                  NODE_ENV: test
+              - image: postgres:10.1-alpine
+                environment:
+                  POSTGRES_PASSWORD: password
+                  POSTGRES_DB: complaint-manager-test
+            steps:
+              - checkout
+              - run:
+                  name: Install Dependencies
+                  command: yarn install
+              - run:
+                  name: Run server and worker unit tests, excluding handlers
+                  command: yarn test:server-worker-non-handlers:ci
+                  environment:
+                    NEW_RELIC_ENABLED: false
+                    NEW_RELIC_NO_CONFIG_FILE: true
 
     security-check:
         docker:
@@ -260,12 +280,15 @@ workflows:
             branches:
               only:
                 - master
-      - test-server:
+      - test-server-handlers:
           requires:
             - test-client
+      - test-server-worker-non-handlers:
+          requires:
+            - test-server-handlers
       - security-check:
           requires:
-            - test-server
+            - test-server-worker-non-handlers
       - build-and-publish-master:
           requires:
             - security-check
