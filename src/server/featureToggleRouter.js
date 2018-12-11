@@ -19,21 +19,19 @@ fflip.config({
 });
 
 router.use(fflipExpress.middleware);
-
-if (process.env.NODE_ENV !== "production") {
-  router.get("/features/:name/:action", fflipExpress.manualRoute);
-}
-
 router.use((request, response, next) => {
   request.fflip.setForUser();
   next();
 });
 
-router.get(
-  "/features/",
-  asyncMiddleware((request, response) => {
-    response.status(200).send(request.fflip.features);
-  })
-);
+if (process.env.NODE_ENV !== "production") {
+  router.get("/features/:name/:action", fflipExpress.manualRoute);
+  router.get(
+    "/features/",
+    asyncMiddleware((request, response) => {
+      response.status(200).send(request.fflip.features);
+    })
+  );
+}
 
 module.exports = router;
