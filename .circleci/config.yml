@@ -1,6 +1,22 @@
 version: 2
 jobs:
-    test:
+    test-client:
+        docker:
+          - image: noipm/docker-node-ubuntu:1.0.0
+            environment:
+              NODE_ENV: test
+        steps:
+          - checkout
+          - run:
+              name: Install Dependencies
+              command: yarn install
+          - run:
+              name: Run client unit tests
+              command: yarn test:client:ci
+              environment:
+                NEW_RELIC_ENABLED: false
+                NEW_RELIC_NO_CONFIG_FILE: true
+    test-server:
         docker:
           - image: noipm/docker-node-ubuntu:1.0.0
             environment:
@@ -15,12 +31,11 @@ jobs:
               name: Install Dependencies
               command: yarn install
           - run:
-              name: Run client, server and worker tests
-              command: yarn test:once
+              name: Run server and worker unit tests
+              command: yarn test:server:worker:ci
               environment:
                 NEW_RELIC_ENABLED: false
                 NEW_RELIC_NO_CONFIG_FILE: true
-
 
     security-check:
         docker:
@@ -240,14 +255,17 @@ workflows:
   version: 2
   build_and_deploy_master:
     jobs:
-      - test:
+      - test-client:
           filters:
             branches:
               only:
                 - master
+      - test-server:
+          requires:
+            - test-client
       - security-check:
           requires:
-            - test
+            - test-server
       - build-and-publish-master:
           requires:
             - security-check
