@@ -14,7 +14,7 @@ const {
   WITNESS
 } = require("../../sharedUtilities/constants");
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   const Op = sequelize.Op;
 
   const Case = sequelize.define(
@@ -56,7 +56,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       firstContactDate: {
         field: "first_contact_date",
-        type: DataTypes.DATEONLY
+        type: DataTypes.DATEONLY,
+        allowNull: false
       },
       incidentDate: {
         field: "incident_date",
@@ -116,9 +117,50 @@ module.exports = (sequelize, DataTypes) => {
           const paddedCaseId = `${this.id}`.padStart(4, "0");
           return `${prefix}${firstContactYear}-${paddedCaseId}`;
         }
+      },
+      validate: {
+        validateIncidentDate() {
+          this.isNotNullInWhenLetterInProgress(
+            "Incident Date",
+            this.incidentDate
+          );
+        },
+        validateIncidentTime() {
+          this.isNotNullInWhenLetterInProgress(
+            "Incident Time",
+            this.incidentTime
+          );
+        },
+        validateDistrict() {
+          this.isNotNullInWhenLetterInProgress("District", this.district);
+        },
+        validateLocation() {
+          if (this.incidentLocation === undefined) {
+            return;
+          }
+          this.isNotNullInWhenLetterInProgress(
+            "Incident Location",
+            this.incidentLocation
+          );
+        }
       }
     }
   );
+
+  Case.prototype.isNotNullInWhenLetterInProgress = function(field, value) {
+    if (
+      [
+        CASE_STATUS.LETTER_IN_PROGRESS,
+        CASE_STATUS.READY_FOR_REVIEW,
+        CASE_STATUS.FORWARDED_TO_AGENCY,
+        CASE_STATUS.CLOSED
+      ].includes(this.status)
+    ) {
+      if (value === null) {
+        throw new Error(`${field} is required`);
+      }
+    }
+  };
 
   Case.prototype.modelDescription = async function(transaction) {
     return [];

@@ -1,5 +1,4 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
-import Case from "../../../../../client/testUtilities/case";
 import models from "../../../../models/index";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
 import LetterOfficer from "../../../../../client/testUtilities/LetterOfficer";
@@ -9,14 +8,16 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import getReferralLetterData from "./getReferralLetterData";
 import httpMocks from "node-mocks-http";
 import {
-  AUDIT_TYPE,
+  AUDIT_ACTION,
   AUDIT_SUBJECT,
+  AUDIT_TYPE,
   CASE_STATUS,
-  COMPLAINANT,
-  AUDIT_ACTION
+  COMPLAINANT
 } from "../../../../../sharedUtilities/constants";
 import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
+import Case from "../../../../../client/testUtilities/case";
+
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 
 describe("getReferralLetterData", () => {

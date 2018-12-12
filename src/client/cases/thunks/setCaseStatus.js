@@ -7,6 +7,7 @@ import {
 } from "../../actionCreators/snackBarActionCreators";
 import {
   closeCaseStatusUpdateDialog,
+  openCaseValidationDialog,
   updateCaseStatusSuccess
 } from "../../actionCreators/casesActionCreators";
 import axios from "axios";
@@ -38,6 +39,10 @@ const setCaseStatus = (caseId, status, redirectUrl) => async dispatch => {
     }
     return dispatch(closeCaseStatusUpdateDialog());
   } catch (err) {
+    if (err.response && err.response.status === 400) {
+      dispatch(closeCaseStatusUpdateDialog());
+      return dispatch(openCaseValidationDialog(err.response.data.details));
+    }
     return dispatch(
       snackbarError(
         "Something went wrong and the case status was not updated. Please try again."

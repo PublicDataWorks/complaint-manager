@@ -2,18 +2,20 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import changeStatus from "./changeStatus";
 import {
-  CASE_STATUS,
+  ACCUSED,
   AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  ACCUSED,
-  USER_PERMISSIONS
+  CASE_STATUS,
+  USER_PERMISSIONS,
+  VALIDATION_ERROR_HEADER
 } from "../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
 import Boom from "boom";
 import models from "../../../models/index";
 import Officer from "../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
+import Case from "../../../../client/testUtilities/case";
 
 describe("changeStatus", async () => {
   let initialCase, response, next;
@@ -188,6 +190,47 @@ describe("changeStatus", async () => {
         caseId: initialCase.id
       })
     );
+  });
+
+  describe("Invalid Case", () => {
+    describe("incident date only is invalid", () => {
+      test("should get back one error", async () => {
+        const existingCaseAttributes = new Case.Builder()
+          .defaultCase()
+          .withIncidentDate(null);
+
+        const existingCase = await models.cases.create(existingCaseAttributes, {
+          auditUser: "someone"
+        });
+
+        await existingCase.update(
+          { status: CASE_STATUS.ACTIVE },
+          { auditUser: "someone" }
+        );
+
+        const request = httpMocks.createRequest({
+          method: "PUT",
+          params: {
+            id: existingCase.id
+          },
+          body: {
+            status: CASE_STATUS.LETTER_IN_PROGRESS
+          },
+          nickname: "someone"
+        });
+
+        await changeStatus(request, response, next);
+
+        expect(next).toBeCalledWith(
+          Boom.badRequest(VALIDATION_ERROR_HEADER, [
+            {
+              field: "incidentDate",
+              message: "Incident Date is required"
+            }
+          ])
+        );
+      });
+    });
   });
 
   describe("Accused Officers on the Case", function() {

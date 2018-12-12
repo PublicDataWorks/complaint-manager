@@ -46,4 +46,23 @@ describe("changeStatus request", () => {
         .expect(400);
     })
   );
+
+  test(
+    "should return a bad request error code when incidentDate is null",
+    suppressWinstonLogs(async () => {
+      await initialCase.update(
+        {
+          incidentDate: null
+        },
+        { auditUser: "test" }
+      );
+
+      await request(app)
+        .put(`/api/cases/${initialCase.id}/status`)
+        .set("Content-Header", "application/json")
+        .set("Authorization", `Bearer ${token}`)
+        .send({ status: CASE_STATUS.LETTER_IN_PROGRESS })
+        .expect(400);
+    })
+  );
 });

@@ -1,5 +1,8 @@
 import models from "../index";
-import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
+import {
+  createCase,
+  createCaseWithoutCivilian
+} from "../../testHelpers/modelMothers";
 import Civilian from "../../../client/testUtilities/civilian";
 import {
   CASE_STATUS,
@@ -227,4 +230,168 @@ describe("cases", function() {
       expect(createdCase.status).toEqual(CASE_STATUS.INITIAL);
     });
   });
+
+  describe("validations", () => {
+    describe("incident date", () => {
+      test("is not valid if null in letter in progress state", async () => {
+        const caseAttributes = new Case.Builder()
+          .defaultCase()
+          .withIncidentDate(null);
+        const caseToValidate = models.cases.build(caseAttributes);
+        caseToValidate.status = CASE_STATUS.ACTIVE;
+        caseToValidate.status = CASE_STATUS.LETTER_IN_PROGRESS;
+
+        await expectSequelizeValidationError(
+          caseToValidate,
+          "Incident Date is required"
+        );
+      });
+    });
+
+    describe("district", () => {
+      test("is valid if null before letter in progress status", async () => {
+        const caseAttributes = new Case.Builder()
+          .defaultCase()
+          .withDistrict(null);
+        const caseToValidate = models.cases.build(caseAttributes);
+
+        await expectCaseToBeValid(caseToValidate);
+      });
+
+      test("is invalid if null in letter in progress or later status", async () => {
+        const caseAttributes = new Case.Builder()
+          .defaultCase()
+          .withDistrict(null);
+        const caseToValidate = models.cases.build(caseAttributes);
+        caseToValidate.status = CASE_STATUS.ACTIVE;
+        caseToValidate.status = CASE_STATUS.LETTER_IN_PROGRESS;
+
+        await expectSequelizeValidationError(
+          caseToValidate,
+          "District is required"
+        );
+        caseToValidate.status = CASE_STATUS.READY_FOR_REVIEW;
+        await expectSequelizeValidationError(
+          caseToValidate,
+          "District is required"
+        );
+        caseToValidate.status = CASE_STATUS.FORWARDED_TO_AGENCY;
+        await expectSequelizeValidationError(
+          caseToValidate,
+          "District is required"
+        );
+      });
+    });
+
+    describe("incident location", () => {
+      test("is valid if exists in letter in progress or later status", async () => {
+        const actualCase = await createCase();
+
+        await actualCase.update(
+          { status: CASE_STATUS.ACTIVE },
+          { auditUser: "test" }
+        );
+
+        expect(
+          actualCase.update(
+            { status: CASE_STATUS.LETTER_IN_PROGRESS },
+            { auditUser: "test" }
+          )
+        ).resolves.not.toBeNull();
+      });
+
+      test("is invalid if null in letter in progress or later status", async () => {
+        const actualCase = await createCase({
+          incidentLocation: null
+        });
+
+        await actualCase.update(
+          { status: CASE_STATUS.ACTIVE },
+          { auditUser: "test" }
+        );
+
+        expect(
+          actualCase.update(
+            { status: CASE_STATUS.LETTER_IN_PROGRESS },
+            { auditUser: "test" }
+          )
+        ).rejects.toEqual(
+          newSequelizeValidationError("Incident Location is required")
+        );
+      });
+    });
+
+    describe("incident time", () => {
+      let caseToValidate;
+      beforeEach(async () => {
+        const caseAttributes = new Case.Builder()
+          .defaultCase()
+          .withIncidentTime(null);
+
+        caseToValidate = await createCase({
+          incidentTime: null
+        });
+      });
+
+      test("is valid if missing before letter in progress", async () => {
+        await expectCaseToBeValid(caseToValidate);
+      });
+
+      test("is invalid if missing when in letter in progress or later status", async () => {
+        await caseToValidate.update(
+          {
+            status: CASE_STATUS.ACTIVE
+          },
+          { auditUser: "test" }
+        );
+        expect(
+          caseToValidate.update(
+            {
+              status: CASE_STATUS.LETTER_IN_PROGRESS
+            },
+            { auditUser: "test" }
+          )
+        ).rejects.toEqual(
+          newSequelizeValidationError("Incident Time is required")
+        );
+      });
+    });
+    describe("first contacted date", () => {
+      test("is not valid if missing", async () => {
+        const caseAttributes = new Case.Builder()
+          .defaultCase()
+          .withFirstContactDate(null);
+
+        const caseToValidate = await models.cases.build(caseAttributes);
+
+        await expect(caseToValidate.validate()).rejects.toEqual(
+          newSequelizeValidationError("cases.firstContactDate cannot be null")
+        );
+      });
+    });
+  });
 });
+
+const expectSequelizeValidationError = async (caseToValidate, message) => {
+  await expect(caseToValidate.validate()).rejects.toEqual(
+    expect.objectContaining({
+      name: "SequelizeValidationError",
+      errors: expect.arrayContaining([
+        expect.objectContaining({ message: message })
+      ])
+    })
+  );
+};
+
+export const newSequelizeValidationError = message => {
+  return expect.objectContaining({
+    name: "SequelizeValidationError",
+    errors: expect.arrayContaining([
+      expect.objectContaining({ message: message })
+    ])
+  });
+};
+
+const expectCaseToBeValid = async caseToValidate => {
+  await expect(caseToValidate.validate()).resolves.not.toBeNull();
+};

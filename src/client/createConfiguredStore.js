@@ -38,6 +38,7 @@ import recommendedActionsReducer from "./reducers/cases/recommendedActionsReduce
 import editReferralLetterReducer from "./reducers/ui/editReferralLetterReducer";
 import cancelEditLetterConfirmationDialogReducer from "./reducers/ui/cancelEditlLetterConfirmationDialogReducer";
 import letterDownloadReducer from "./reducers/ui/letterDownloadReducer";
+import caseValidationDialogReducer from "./reducers/ui/caseValidationDialogReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -78,7 +79,8 @@ const rootReducer = combineReducers({
     addressInput: addressInputReducer,
     officerHistoryNoteDialog: officerHistoryNoteDialogReducer,
     iaProCorrectionsDialog: iaProCorrectionsReducer,
-    letterDownload: letterDownloadReducer
+    letterDownload: letterDownloadReducer,
+    caseValidationDialog: caseValidationDialogReducer
   }),
   officers: searchOfficersReducer,
   featureToggles: featureTogglesReducer,

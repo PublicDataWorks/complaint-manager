@@ -95,6 +95,9 @@ export const EXPORT_ALL_CASES_CONFIRMATION_OPENED =
   "EXPORT_ALL_CASES_CONFIRMATION_OPENED";
 export const EXPORT_CONFIRMATION_CLOSED = "EXPORT_CONFIRMATION_CLOSED";
 
+export const CASE_VALIDATION_DIALOG_OPENED = "CASE_VALIDATION_DIALOG_OPENED";
+export const CASE_VALIDATION_DIALOG_CLOSED = "CASE_VALIDATION_DIALOG_CLOSED";
+
 export const GENERATE_EXPORT_SUCCESS = "GENERATE_EXPORT_SUCCESS";
 export const EXPORT_JOB_COMPLETED = "EXPORT_JOB_COMPLETED";
 export const EXPORT_JOB_STARTED = "EXPORT_JOB_STARTED";
@@ -108,6 +111,12 @@ export const EXPORT_JOB_MAX_REFRESH_TIMES = 180;
 export const FILE_TYPE_INVALID = "File type invalid";
 export const DUPLICATE_FILE_NAME = "Duplicate file name";
 export const UPLOAD_CANCELED = "Upload canceled.";
+
+// ----------------------------------------
+//          Response Errors
+// ----------------------------------------
+export const VALIDATION_ERROR_HEADER = "Validation error";
+export const SEQUELIZE_VALIDATION_ERROR = "SequelizeValidationError";
 
 // ----------------------------------------
 //          Attachment Removal

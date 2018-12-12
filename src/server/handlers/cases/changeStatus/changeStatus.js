@@ -1,7 +1,9 @@
-import { SENDER, RECIPIENT } from "../referralLetters/letterDefaults";
+import { RECIPIENT, SENDER } from "../referralLetters/letterDefaults";
 import {
   ACCUSED,
-  USER_PERMISSIONS
+  SEQUELIZE_VALIDATION_ERROR,
+  USER_PERMISSIONS,
+  VALIDATION_ERROR_HEADER
 } from "../../../../sharedUtilities/constants";
 
 const { CASE_STATUS } = require("../../../../sharedUtilities/constants");
@@ -32,10 +34,23 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
       throw Boom.badRequest("Missing permissions to update case status");
     }
 
-    await caseToUpdate.update(
-      { status: newStatus },
-      { auditUser: request.nickname, transaction }
-    );
+    try {
+      await caseToUpdate.update(
+        { status: newStatus },
+        { auditUser: request.nickname, transaction }
+      );
+    } catch (e) {
+      if (e.name === SEQUELIZE_VALIDATION_ERROR) {
+        let error = Boom.badRequest(VALIDATION_ERROR_HEADER);
+
+        error.output.payload.details = e.errors.map(error => {
+          return error.message;
+        });
+
+        throw error;
+      }
+      throw e;
+    }
 
     if (newStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
       await models.referral_letter.create(
