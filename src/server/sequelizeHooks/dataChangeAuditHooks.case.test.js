@@ -533,8 +533,8 @@ describe("dataChangeAuditHooks", () => {
           id: { previous: existingCase.id },
           incidentDate: { previous: "2017-01-01" },
           incidentTime: { previous: "16:00:00" },
-          narrativeDetails: { previous: null },
-          narrativeSummary: { previous: null },
+          narrativeDetails: { previous: "test details" },
+          narrativeSummary: { previous: "test summary" },
           status: { previous: "Initial" }
         };
         expect(audit.changes).toEqual(expectedChanges);

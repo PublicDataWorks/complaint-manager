@@ -6,6 +6,9 @@ import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions/DialogActions";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import { closeCaseValidationDialog } from "../../../actionCreators/casesActionCreators";
+import ListItem from "@material-ui/core/ListItem/ListItem";
+import List from "@material-ui/core/List/List";
+import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 
 const CaseValidationDialog = ({
   open,
@@ -14,7 +17,13 @@ const CaseValidationDialog = ({
 }) => {
   const renderValidationErrors = () => {
     return validationErrors.map((error, index) => {
-      return <div key={index}>{error}</div>;
+      return (
+        <ListItem key={index}>
+          <ListItemText
+            primary={`${error.message.model}: ${error.message.errorMessage}`}
+          />
+        </ListItem>
+      );
     });
   };
 
@@ -32,7 +41,7 @@ const CaseValidationDialog = ({
         >
           Please make sure that you complete the following:
         </Typography>
-        {renderValidationErrors()}
+        <List dense={true}>{renderValidationErrors()}</List>
       </DialogContent>
       <DialogActions>
         <PrimaryButton

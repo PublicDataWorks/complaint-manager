@@ -115,8 +115,8 @@ class Case {
         this.complaintType = CIVILIAN_INITIATED;
         this.createdBy = "tuser";
         this.assignedTo = "tuser";
-        this.narrativeDetails = null;
-        this.narrativeSummary = null;
+        this.narrativeDetails = "test details";
+        this.narrativeSummary = "test summary";
         this.attachments = [attachment];
         this.accusedOfficers = [accusedOfficer];
         this.complainantOfficers = [complainantOfficer];

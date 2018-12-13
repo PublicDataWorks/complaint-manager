@@ -4,5 +4,11 @@
     "name": "letterSignatureFeature",
     "description": "Toggle to include signature in letter",
     "criteria": { "isPreProd": true }
+  },
+  {
+    "id": "caseValidationFeature",
+    "name": "caseValidationFeature",
+    "description": "Toggle to validate case",
+    "criteria": { "isPreProd": true }
   }
 ]

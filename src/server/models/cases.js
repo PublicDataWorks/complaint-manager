@@ -1,5 +1,6 @@
 import { ADDRESSABLE_TYPE } from "../../sharedUtilities/constants";
 import moment from "moment";
+import _ from "lodash";
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
 const CASE_STATUS = require("../../sharedUtilities/constants").CASE_STATUS;
@@ -120,34 +121,31 @@ export default (sequelize, DataTypes) => {
       },
       validate: {
         validateIncidentDate() {
-          this.isNotNullInWhenLetterInProgress(
-            "Incident Date",
-            this.incidentDate
-          );
+          this.hasValueWhenLetterInProgress("Incident Date", this.incidentDate);
         },
         validateIncidentTime() {
-          this.isNotNullInWhenLetterInProgress(
-            "Incident Time",
-            this.incidentTime
-          );
+          this.hasValueWhenLetterInProgress("Incident Time", this.incidentTime);
         },
         validateDistrict() {
-          this.isNotNullInWhenLetterInProgress("District", this.district);
+          this.hasValueWhenLetterInProgress("District", this.district);
         },
-        validateLocation() {
-          if (this.incidentLocation === undefined) {
-            return;
-          }
-          this.isNotNullInWhenLetterInProgress(
-            "Incident Location",
-            this.incidentLocation
+        validateNarrativeSummary() {
+          this.hasValueWhenLetterInProgress(
+            "Narrative Summary",
+            this.narrativeSummary
+          );
+        },
+        validateNarrativeDetails() {
+          this.hasValueWhenLetterInProgress(
+            "Narrative Details",
+            this.narrativeDetails
           );
         }
       }
     }
   );
 
-  Case.prototype.isNotNullInWhenLetterInProgress = function(field, value) {
+  Case.prototype.hasValueWhenLetterInProgress = function(field, value) {
     if (
       [
         CASE_STATUS.LETTER_IN_PROGRESS,
@@ -156,8 +154,8 @@ export default (sequelize, DataTypes) => {
         CASE_STATUS.CLOSED
       ].includes(this.status)
     ) {
-      if (value === null) {
-        throw new Error(`${field} is required`);
+      if (value === null || _.isEmpty(value)) {
+        throw { model: "Case", errorMessage: `${field} is required` };
       }
     }
   };

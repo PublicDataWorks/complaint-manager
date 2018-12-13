@@ -2,6 +2,7 @@ import {
   ADDRESSABLE_TYPE,
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
+import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 
 const moment = require("moment");
 const models = require("../../models");
@@ -40,6 +41,11 @@ const editCase = asyncMiddleware(async (request, response, next) => {
   ) {
     throw Boom.badRequest("Valid first contact date is required");
   } else {
+    const caseValidationToggle = checkFeatureToggleEnabled(
+      request,
+      "caseValidationFeature"
+    );
+
     const updatedCase = await models.sequelize.transaction(
       async transaction => {
         const valuesToUpdate = _.omit(request.body, [
@@ -56,11 +62,12 @@ const editCase = asyncMiddleware(async (request, response, next) => {
           );
         }
 
-        await models.cases.update(valuesToUpdate, {
-          where: { id: request.params.id },
+        const caseToUpdate = await models.cases.findById(request.params.id);
+        await caseToUpdate.update(valuesToUpdate, {
           individualHooks: true,
           transaction,
-          auditUser: request.nickname
+          auditUser: request.nickname,
+          validate: caseValidationToggle
         });
 
         await auditDataAccess(

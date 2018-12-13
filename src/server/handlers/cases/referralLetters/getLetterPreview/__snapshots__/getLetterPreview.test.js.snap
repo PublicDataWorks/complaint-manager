@@ -55,9 +55,9 @@ exports[`getLetterPreview snapshotTests it renders correctly with iapro correcti
           <li>RULE 2: MORAL CONDUCT: PARAGRAPH 01 - ADHERENCE TO LAW: Title 18 of the United Stated Code Section 1001: Statements or Entries Generally</li>
       </ul>
       <p><br></p>
-  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> </p>
+  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> test summary</p>
   <p><br></p>
-  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> </p>
+  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> test details</p>
 
   <p><br></p>
   <p><br></p>
@@ -169,9 +169,9 @@ exports[`getLetterPreview snapshotTests renders correctly with a civilian witnes
           <li>RULE 2: MORAL CONDUCT: PARAGRAPH 01 - ADHERENCE TO LAW: Title 18 of the United Stated Code Section 1001: Statements or Entries Generally</li>
       </ul>
       <p><br></p>
-  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> </p>
+  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> test summary</p>
   <p><br></p>
-  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> </p>
+  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> test details</p>
 
   <p><br></p>
   <p><br></p>
@@ -289,9 +289,9 @@ exports[`getLetterPreview snapshotTests renders correctly with all details 1`] =
           <li>RULE 2: MORAL CONDUCT: PARAGRAPH 01 - ADHERENCE TO LAW: Title 18 of the United Stated Code Section 1001: Statements or Entries Generally</li>
       </ul>
       <p><br></p>
-  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> </p>
+  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> test summary</p>
   <p><br></p>
-  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> </p>
+  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> test details</p>
 
   <p><br></p>
   <p><br></p>
@@ -425,9 +425,9 @@ exports[`getLetterPreview snapshotTests renders correctly with an officer compla
           <li>RULE 2: MORAL CONDUCT: PARAGRAPH 01 - ADHERENCE TO LAW: Title 18 of the United Stated Code Section 1001: Statements or Entries Generally</li>
       </ul>
       <p><br></p>
-  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> </p>
+  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> test summary</p>
   <p><br></p>
-  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> </p>
+  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> test details</p>
 
   <p><br></p>
   <p><br></p>
@@ -527,9 +527,9 @@ exports[`getLetterPreview snapshotTests renders correctly with history notes 1`]
           <li>RULE 2: MORAL CONDUCT: PARAGRAPH 01 - ADHERENCE TO LAW: Title 18 of the United Stated Code Section 1001: Statements or Entries Generally</li>
       </ul>
       <p><br></p>
-  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> </p>
+  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> test summary</p>
   <p><br></p>
-  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> </p>
+  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> test details</p>
 
   <p><br></p>
   <p><br></p>
@@ -633,9 +633,9 @@ exports[`getLetterPreview snapshotTests renders correctly with minimum required 
           <li>RULE 2: MORAL CONDUCT: PARAGRAPH 01 - ADHERENCE TO LAW: Title 18 of the United Stated Code Section 1001: Statements or Entries Generally</li>
       </ul>
       <p><br></p>
-  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> </p>
+  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> test summary</p>
   <p><br></p>
-  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> </p>
+  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> test details</p>
 
   <p><br></p>
   <p><br></p>
@@ -735,9 +735,9 @@ exports[`getLetterPreview snapshotTests renders correctly with recommended actio
           <li>RULE 2: MORAL CONDUCT: PARAGRAPH 01 - ADHERENCE TO LAW: Title 18 of the United Stated Code Section 1001: Statements or Entries Generally</li>
       </ul>
       <p><br></p>
-  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> </p>
+  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> test summary</p>
   <p><br></p>
-  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> </p>
+  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> test details</p>
 
   <p><br></p>
   <p><br></p>
