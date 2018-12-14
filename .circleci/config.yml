@@ -303,14 +303,20 @@ workflows:
             - ensure-ci-deploy-succeeded
   build_and_deploy_release:
       jobs:
-        - test:
+        - test-client:
             filters:
               branches:
                 only:
-                  - release_v1.10.0
+                  - release_v2.1.0
+        - test-server-handlers:
+            requires:
+              - test-client
+        - test-server-worker-non-handlers:
+            requires:
+              - test-server-handlers
         - security-check:
             requires:
-              - test
+              - test-server-worker-non-handlers
         - build-and-publish-release:
             requires:
               - security-check
