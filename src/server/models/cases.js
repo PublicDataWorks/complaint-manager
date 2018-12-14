@@ -120,21 +120,6 @@ export default (sequelize, DataTypes) => {
         }
       },
       validate: {
-        validateIncidentDate() {
-          this.hasValueWhenLetterInProgress("Incident Date", this.incidentDate);
-        },
-        validateIncidentTime() {
-          this.hasValueWhenLetterInProgress("Incident Time", this.incidentTime);
-        },
-        validateDistrict() {
-          this.hasValueWhenLetterInProgress("District", this.district);
-        },
-        validateNarrativeSummary() {
-          this.hasValueWhenLetterInProgress(
-            "Narrative Summary",
-            this.narrativeSummary
-          );
-        },
         validateNarrativeDetails() {
           this.hasValueWhenLetterInProgress(
             "Narrative Details",

@@ -9,6 +9,6 @@
     "id": "caseValidationFeature",
     "name": "caseValidationFeature",
     "description": "Toggle to validate case",
-    "criteria": { "isPreProd": true }
+    "enabled": false
   }
 ]
