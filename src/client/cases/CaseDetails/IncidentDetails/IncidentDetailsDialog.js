@@ -148,11 +148,12 @@ class IncidentDetailsDialog extends Component {
                 name="district"
                 component={NoBlurTextField}
                 inputProps={{
-                  "data-test": "districtDropdown"
+                  "data-test": "districtInput"
                 }}
                 style={{
                   flex: "1"
                 }}
+                data-test="districtDropdown"
               >
                 {inputDistrictMenu}
               </Field>

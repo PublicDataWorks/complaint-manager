@@ -35,7 +35,7 @@ const Narrative = props => {
             InputLabelProps={{
               shrink: true
             }}
-            data-test="narrativeSummaryInput"
+            data-test="narrativeSummaryField"
             style={{ marginBottom: "24px" }}
           />
           <Field

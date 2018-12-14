@@ -194,7 +194,7 @@ describe("incident details container", () => {
     changeInput(wrapper, 'input[data-test="editIncidentTimeInput"]', "13:00");
     selectDropdownOption(
       wrapper,
-      '[data-test="districtDropdown"]',
+      '[data-test="districtInput"]',
       "1st District"
     );
 

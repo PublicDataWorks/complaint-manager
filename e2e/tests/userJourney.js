@@ -134,13 +134,18 @@ if (TEST_PASS && TEST_USER && HOST) {
       caseDetailsPage.expandCivilianDetails().civilianAddressIsNotSpecified();
     },
 
-    "should open incident details": browser => {
+    "should open incident details and add": browser => {
       const caseDetailsPage = browser.page.CaseDetails();
 
-      caseDetailsPage.openIncidentDetails();
+      caseDetailsPage
+        .isOnPage()
+        .setNarrativeSummary()
+        .setNarrativeDetails()
+        .saveNarrative()
+        .openIncidentDetails();
     },
 
-    "should enter and fill intersection address into incident location": browser => {
+    "should enter and fill incident details into incident dialog": browser => {
       const incidentDetailsDialog = browser.page.IncidentDetailsDialog();
       const snackbar = browser.page.SnackbarPOM();
 
@@ -150,6 +155,8 @@ if (TEST_PASS && TEST_USER && HOST) {
         .saveIncidentDetails()
         .fillAddress()
         .setIncidentDate()
+        .setIncidentTime()
+        .setDistrict()
         .saveIncidentDetails();
 
       snackbar

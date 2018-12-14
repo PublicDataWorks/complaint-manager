@@ -7,7 +7,7 @@ const civilianDialogCommands = {
   setGenderIdentity: function(gender) {
     return this.click("@genderDropdown")
       .waitForElementVisible("@genderMenu", e2e.rerenderWait)
-      .click(`li[data-value=${gender}`)
+      .click(`li[data-value=${gender}]`)
       .waitForElementNotPresent("@genderMenu", e2e.rerenderWait);
   },
   setRaceEthnicity: function(raceEthnicity) {

@@ -24,6 +24,19 @@ const incidentDetailsDialogCommands = {
       "@incidentDate",
       e2e.rerenderWait
     ).setValue("@incidentDate", "12/20/2017");
+  },
+  setIncidentTime: function() {
+    return this.waitForElementVisible(
+      "@incidentTime",
+      e2e.rerenderWait
+    ).setValue("@incidentTime", "23:111");
+  },
+  setDistrict: function() {
+    return this.waitForElementVisible("@districtDropdown", e2e.rerenderWait)
+      .click("@districtDropdown")
+      .waitForElementVisible("@districtMenu", e2e.rerenderWait)
+      .click(`li[data-value="Second District"]`)
+      .waitForElementNotPresent("@districtMenu", e2e.rerenderWait);
   }
 };
 
@@ -44,6 +57,15 @@ module.exports = {
     },
     incidentDate: {
       selector: '[data-test="editIncidentDateInput"]'
+    },
+    incidentTime: {
+      selector: '[data-test="editIncidentTimeInput"]'
+    },
+    districtDropdown: {
+      selector: '[data-test="districtDropdown"]'
+    },
+    districtMenu: {
+      selector: '[id="menu-district"]'
     }
   }
 };
