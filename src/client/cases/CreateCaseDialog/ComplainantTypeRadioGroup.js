@@ -11,9 +11,8 @@ import {
   CIVILIAN_INITIATED,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
-import * as _ from "lodash";
 
-const ComplainantTypeRadioGroup = props => (
+export default props =>
   <FormControl>
     <Typography variant="body2" style={{ marginBottom: "8px" }}>
       Complainant Information
@@ -21,10 +20,7 @@ const ComplainantTypeRadioGroup = props => (
     <FormLabel>The complainant is a...</FormLabel>
     <RadioGroup
       style={{ flexDirection: "row" }}
-      {..._.omit(props, [
-        "setCivilianComplainantType",
-        "setOfficerComplainantType"
-      ])}
+      {...props}
     >
       <FormControlLabel
         style={{ marginRight: "48px" }}
@@ -32,17 +28,14 @@ const ComplainantTypeRadioGroup = props => (
         value={CIVILIAN_INITIATED}
         control={<Radio color="primary" />}
         label="Civilian"
-        onClick={props.setCivilianComplainantType}
+        onClick={() => props.input.onChange(CIVILIAN_INITIATED)}
       />
       <FormControlLabel
         data-test="officerRadioButton"
         value={RANK_INITIATED}
         control={<Radio color="primary" />}
         label="Police Officer"
-        onClick={props.setOfficerComplainantType}
+        onClick={() => props.input.onChange(RANK_INITIATED)}
       />
     </RadioGroup>
   </FormControl>
-);
-
-export default ComplainantTypeRadioGroup;

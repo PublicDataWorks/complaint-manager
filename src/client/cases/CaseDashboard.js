@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import CasesTable from "./CasesTable/CasesTable";
-import CreateCaseDialog from "./CreateCaseDialog/CreateCaseDialog";
+import CreateCaseButton from "./CreateCaseButton";
 import NavBar from "../shared/components/NavBar/NavBar";
 import { Typography } from "@material-ui/core";
 import { connect } from "react-redux";
@@ -21,7 +21,7 @@ class CaseDashboard extends Component {
             View All Cases
           </Typography>
         </NavBar>
-        <CreateCaseDialog />
+        <CreateCaseButton />
         <CasesTable />
       </div>
     );
