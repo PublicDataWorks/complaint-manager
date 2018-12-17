@@ -1,6 +1,5 @@
 import app from "./server";
 import request from "supertest";
-import ms from "smtp-tester";
 import models from "./models";
 import { AuthenticationClient } from "auth0";
 import Civilian from "../client/testUtilities/civilian";
