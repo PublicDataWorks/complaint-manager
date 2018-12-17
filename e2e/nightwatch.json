@@ -5,14 +5,20 @@
   "custom_assertions_path": "",
   "page_objects_path": "./pageObjectModels",
   "globals_path": "",
-  "webdriver": {
-    "default_path_prefix": "/wd/hub"
+  "selenium": {
+    "start_process": true,
+    "server_path": "/opt/selenium/selenium-server-standalone.jar",
+    "log_path": "",
+    "port": 4444,
+    "cli_args": {
+      "webdriver.chrome.driver": "/usr/bin/chromedriver"
+    }
   },
   "test_settings": {
     "default": {
       "launch_url": "",
-      "webdriver.port": 4444,
-      "webdriver.host": "localhost",
+      "selenium_port": 4444,
+      "selenium_host": "localhost",
       "silent": true,
       "screenshots": {
         "enabled": true,
