@@ -294,6 +294,45 @@ describe("getReferralLetterData", () => {
       await getReferralLetterData(request, response, next);
       expect(response._getData()).toEqual(expectedResponseBody);
     });
+
+    test("it returns letter data when status is after approved", async () => {
+      await existingCase.update(
+        { status: CASE_STATUS.READY_FOR_REVIEW },
+        { auditUser: "test" }
+      );
+
+      await existingCase.update(
+        { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+        { auditUser: "test" }
+      );
+
+      const expectedResponseBody = {
+        id: referralLetter.id,
+        caseId: existingCase.id,
+        includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
+        letterOfficers: [
+          {
+            id: letterOfficer.id,
+            caseOfficerId: letterOfficer.caseOfficerId,
+            fullName: caseOfficer.fullName,
+            numHistoricalHighAllegations:
+              letterOfficer.numHistoricalHighAllegations,
+            numHistoricalMedAllegations:
+              letterOfficer.numHistoricalMedAllegations,
+            numHistoricalLowAllegations:
+              letterOfficer.numHistoricalLowAllegations,
+            historicalBehaviorNotes: letterOfficer.historicalBehaviorNotes,
+            recommendedActionNotes: letterOfficer.recommendedActionNotes,
+            referralLetterOfficerHistoryNotes: [emptyObject],
+            referralLetterOfficerRecommendedActions: []
+          }
+        ],
+        referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
+      };
+
+      await getReferralLetterData(request, response, next);
+      expect(response._getData()).toEqual(expectedResponseBody);
+    });
   });
 
   test("returns iapro corrections when they exist", async () => {

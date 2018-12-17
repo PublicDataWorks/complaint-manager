@@ -80,25 +80,8 @@ describe("GET /cases/:id/referral-letter", function() {
         .set("Authorization", `Bearer ${token}`)
         .expect(200);
     });
-  });
 
-  test(
-    "it returns 400 invalid case status message if case status is prior to letter in progress",
-    suppressWinstonLogs(async () => {
-      await request(app)
-        .get(`/api/cases/${newCase.id}/referral-letter`)
-        .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
-        .expect(400)
-        .then(response => {
-          expect(response.body.message).toEqual("Invalid case status");
-        });
-    })
-  );
-
-  test(
-    "it returns 400 invalid case status message if case status is after ready for review",
-    suppressWinstonLogs(async () => {
+    test("it returns 200 if case status is forwarded to agency", async () => {
       await newCase.update(
         { status: CASE_STATUS.LETTER_IN_PROGRESS },
         { auditUser: "test" }
@@ -111,6 +94,43 @@ describe("GET /cases/:id/referral-letter", function() {
         { status: CASE_STATUS.FORWARDED_TO_AGENCY },
         { auditUser: "test" }
       );
+
+      await request(app)
+        .get(`/api/cases/${newCase.id}/referral-letter`)
+        .set("Content-Header", "application/json")
+        .set("Authorization", `Bearer ${token}`)
+        .expect(200);
+    });
+
+    test("it returns 200 if case status is forwarded to agency", async () => {
+      await newCase.update(
+        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        { auditUser: "test" }
+      );
+      await newCase.update(
+        { status: CASE_STATUS.READY_FOR_REVIEW },
+        { auditUser: "test" }
+      );
+      await newCase.update(
+        { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+        { auditUser: "test" }
+      );
+      await newCase.update(
+        { status: CASE_STATUS.CLOSED },
+        { auditUser: "test" }
+      );
+
+      await request(app)
+        .get(`/api/cases/${newCase.id}/referral-letter`)
+        .set("Content-Header", "application/json")
+        .set("Authorization", `Bearer ${token}`)
+        .expect(200);
+    });
+  });
+
+  test(
+    "it returns 400 invalid case status message if case status is prior to letter in progress",
+    suppressWinstonLogs(async () => {
       await request(app)
         .get(`/api/cases/${newCase.id}/referral-letter`)
         .set("Content-Header", "application/json")
