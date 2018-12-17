@@ -29,7 +29,8 @@ const PhoneNumberField = (props) => {
             component={TextField}
             label="Phone Number"
             inputProps={{
-                "data-test": "phoneNumberInput"
+                "data-test": "phoneNumberInput",
+                autoComplete: "disabled"
             }}
             data-test="phoneNumberField"
             validate={[isPhoneNumber]}
