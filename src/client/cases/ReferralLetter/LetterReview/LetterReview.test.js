@@ -36,17 +36,6 @@ describe("LetterReview", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
 
-  test("redirects to case detail page if case is after letter generation status", () => {
-    store.dispatch(
-      getCaseDetailsSuccess({
-        id: caseId,
-        status: CASE_STATUS.FORWARDED_TO_AGENCY
-      })
-    );
-    wrapper.update();
-    expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
-  });
-
   test("does not redirect if case is in letter in progress status", () => {
     store.dispatch(
       getCaseDetailsSuccess({
@@ -68,6 +57,37 @@ describe("LetterReview", () => {
       getCaseDetailsSuccess({
         id: caseId,
         status: CASE_STATUS.READY_FOR_REVIEW,
+        complainantCivilians: [],
+        complainantOfficers: [],
+        witnessCivilians: [],
+        witnessOfficers: [],
+        accusedOfficers: []
+      })
+    );
+    wrapper.update();
+    expect(dispatchSpy).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
+  });
+
+  test("does not redirect if case is in forwarded to agency status", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.FORWARDED_TO_AGENCY,
+        complainantCivilians: [],
+        complainantOfficers: [],
+        witnessCivilians: [],
+        witnessOfficers: [],
+        accusedOfficers: []
+      })
+    );
+    wrapper.update();
+    expect(dispatchSpy).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
+  });
+  test("does not redirect if case is in closed status", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.CLOSED,
         complainantCivilians: [],
         complainantOfficers: [],
         witnessCivilians: [],

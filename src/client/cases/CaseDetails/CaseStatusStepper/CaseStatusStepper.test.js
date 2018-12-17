@@ -52,7 +52,9 @@ describe("CaseStatusStepper", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <CaseStatusStepper />
+        <Router>
+          <CaseStatusStepper />
+        </Router>
       </Provider>
     );
     const statusStepper = wrapper.find('[data-test="statusStepper"]').first();
@@ -190,6 +192,30 @@ describe("CaseStatusStepper", () => {
       expect(updateStatusButton.text()).toEqual(`Edit Letter`);
     });
 
+    test("should show edit letter button when case is in forwarded to agency status", () => {
+      store.dispatch(
+        getCaseDetailsSuccess({
+          id: 1,
+          status: CASE_STATUS.FORWARDED_TO_AGENCY,
+          nextStatus: CASE_STATUS.CLOSED
+        })
+      );
+
+      const wrapper = mount(
+        <Provider store={store}>
+          <Router>
+            <CaseStatusStepper />
+          </Router>
+        </Provider>
+      );
+
+      const updateStatusButton = wrapper
+        .find('[data-test="edit-letter-button"]')
+        .first();
+
+      expect(updateStatusButton.text()).toEqual(`Edit Letter Details`);
+    });
+
     test("should show review and approve letter button when case is in ready for review status", () => {
       store.dispatch(
         getCaseDetailsSuccess({
@@ -242,6 +268,29 @@ describe("CaseStatusStepper", () => {
 
       expect(dispatchSpy).toHaveBeenCalledWith(openCaseStatusUpdateDialog());
     });
+
+    test("should show edit letter button when status is closed", () => {
+      store.dispatch(
+        getCaseDetailsSuccess({
+          id: 1,
+          status: CASE_STATUS.CLOSED
+        })
+      );
+
+      const wrapper = mount(
+        <Provider store={store}>
+          <Router>
+            <CaseStatusStepper />
+          </Router>
+        </Provider>
+      );
+
+      const updateStatusButton = wrapper
+        .find('[data-test="edit-letter-button"]')
+        .first();
+
+      expect(updateStatusButton.text()).toEqual(`Edit Letter Details`);
+    });
     test("should not render Closed if already closed", () => {
       store.dispatch(
         getCaseDetailsSuccess({
@@ -252,7 +301,9 @@ describe("CaseStatusStepper", () => {
 
       const wrapper = mount(
         <Provider store={store}>
-          <CaseStatusStepper />
+          <Router>
+            <CaseStatusStepper />
+          </Router>
         </Provider>
       );
 

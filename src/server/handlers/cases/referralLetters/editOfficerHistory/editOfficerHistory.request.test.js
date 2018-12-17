@@ -144,7 +144,7 @@ describe("edit referral letter", () => {
     );
 
     test(
-      "it returns 400 invalid case status message if case status is after ready for review",
+      "it returns 200 if case status is is after ready for review",
       suppressWinstonLogs(async () => {
         await existingCase.update(
           { status: CASE_STATUS.LETTER_IN_PROGRESS },
@@ -162,10 +162,7 @@ describe("edit referral letter", () => {
           .put(`/api/cases/${existingCase.id}/referral-letter/officer-history`)
           .set("Content-Header", "application/json")
           .set("Authorization", `Bearer ${token}`)
-          .expect(400)
-          .then(response => {
-            expect(response.body.message).toEqual("Invalid case status");
-          });
+          .expect(200);
       })
     );
   });

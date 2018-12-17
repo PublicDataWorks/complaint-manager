@@ -26,10 +26,6 @@ describe("editIAProCorrections", () => {
       { status: CASE_STATUS.ACTIVE },
       { auditUser: "test" }
     );
-    await existingCase.update(
-      { status: CASE_STATUS.LETTER_IN_PROGRESS },
-      { auditUser: "test" }
-    );
 
     const referralLetterAttributes = new ReferralLetter.Builder()
       .defaultReferralLetter()
@@ -41,169 +37,7 @@ describe("editIAProCorrections", () => {
     );
   });
 
-  test("saves new iapro correction", async () => {
-    const requestBody = {
-      referralLetterIAProCorrections: [
-        { tempId: "abcd1234", details: "some stuff" },
-        { tempId: "poiu8765", details: "some more stuff" }
-      ]
-    };
-    const request = httpMocks.createRequest({
-      method: "PUT",
-      headers: {
-        authorization: "Bearer token"
-      },
-      params: { caseId: existingCase.id },
-      body: requestBody,
-      nickname: "nickname"
-    });
-    await editIAProCorrections(request, response, next);
-
-    expect(response.statusCode).toEqual(200);
-    const createdIAProCorrections = await models.referral_letter_iapro_correction.findAll(
-      { where: { referralLetterId: referralLetter.id } }
-    );
-    expect(createdIAProCorrections.length).toEqual(2);
-    expect(createdIAProCorrections).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          referralLetterId: referralLetter.id,
-          details: "some stuff"
-        }),
-        expect.objectContaining({
-          referralLetterId: referralLetter.id,
-          details: "some more stuff"
-        })
-      ])
-    );
-  });
-
-  test("doesn't add empty iapro corrections", async () => {
-    const requestBody = {
-      referralLetterIAProCorrections: [
-        { tempId: "abcd1234", details: "" },
-        { tempId: "poiu8765" }
-      ]
-    };
-    const request = httpMocks.createRequest({
-      method: "PUT",
-      headers: {
-        authorization: "Bearer token"
-      },
-      params: { caseId: existingCase.id },
-      body: requestBody,
-      nickname: "nickname"
-    });
-    await editIAProCorrections(request, response, next);
-    expect(response.statusCode).toEqual(200);
-    const foundIAProCorrections = await models.referral_letter_iapro_correction.findAll();
-    expect(foundIAProCorrections.length).toEqual(0);
-  });
-
-  describe("existing iapro correction", () => {
-    let iaproCorrection;
-    beforeEach(async () => {
-      const iaproCorrectionAttributes = new ReferralLetterIAProCorrection.Builder()
-        .defaultReferralLetterIAProCorrection()
-        .withId(undefined)
-        .withReferralLetterId(referralLetter.id)
-        .withDetails("Stuff was wrong!!!");
-      iaproCorrection = await models.referral_letter_iapro_correction.create(
-        iaproCorrectionAttributes,
-        { auditUser: "test" }
-      );
-    });
-    test("updates existing iapro correction", async () => {
-      const newDetails = "some new details";
-      const requestBody = {
-        referralLetterIAProCorrections: [
-          { id: iaproCorrection.id, details: newDetails }
-        ]
-      };
-      const request = httpMocks.createRequest({
-        method: "PUT",
-        headers: {
-          authorization: "Bearer token"
-        },
-        params: { caseId: existingCase.id },
-        body: requestBody,
-        nickname: "nickname"
-      });
-      await editIAProCorrections(request, response, next);
-      expect(response.statusCode).toEqual(200);
-      await iaproCorrection.reload();
-      expect(iaproCorrection.details).toEqual(newDetails);
-    });
-
-    test("deletes existing iapro correction", async () => {
-      const requestBody = {
-        referralLetterIAProCorrections: []
-      };
-      const request = httpMocks.createRequest({
-        method: "PUT",
-        headers: {
-          authorization: "Bearer token"
-        },
-        params: { caseId: existingCase.id },
-        body: requestBody,
-        nickname: "nickname"
-      });
-      await editIAProCorrections(request, response, next);
-      expect(response.statusCode).toEqual(200);
-      const foundIAProCorrections = await models.referral_letter_iapro_correction.findAll();
-      expect(foundIAProCorrections.length).toEqual(0);
-    });
-    test("deletes empty updates to existing iapro corrections", async () => {
-      const requestBody = {
-        referralLetterIAProCorrections: [
-          { id: iaproCorrection.id, details: "" }
-        ]
-      };
-      const request = httpMocks.createRequest({
-        method: "PUT",
-        headers: {
-          authorization: "Bearer token"
-        },
-        params: { caseId: existingCase.id },
-        body: requestBody,
-        nickname: "nickname"
-      });
-      await editIAProCorrections(request, response, next);
-      const foundCorrections = await models.referral_letter_iapro_correction.findAll();
-      expect(foundCorrections.length).toEqual(0);
-    });
-  });
-
-  test("throws error when given non-existing iapro correction id", async () => {
-    const requestBody = {
-      referralLetterIAProCorrections: [{ id: "123", details: "new details" }]
-    };
-    const request = httpMocks.createRequest({
-      method: "PUT",
-      headers: {
-        authorization: "Bearer token"
-      },
-      params: { caseId: existingCase.id },
-      body: requestBody,
-      nickname: "nickname"
-    });
-    await editIAProCorrections(request, response, next);
-    expect(next).toHaveBeenCalledWith(
-      Boom.badRequest("Invalid iapro correction id")
-    );
-  });
-
   test("invalid case status returns 400", async () => {
-    await existingCase.update(
-      { status: CASE_STATUS.READY_FOR_REVIEW },
-      { auditUser: "test" }
-    );
-
-    await existingCase.update(
-      { status: CASE_STATUS.FORWARDED_TO_AGENCY },
-      { auditUser: "test" }
-    );
-
     const requestBody = {
       referralLetterIAProCorrections: [{ id: "123", details: "new details" }]
     };
@@ -221,5 +55,163 @@ describe("editIAProCorrections", () => {
     await editIAProCorrections(request, response, next);
 
     expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
+  });
+
+  describe("letter in progress", () => {
+    beforeEach(async () => {
+      await existingCase.update(
+        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        { auditUser: "test" }
+      );
+    });
+    test("saves new iapro correction", async () => {
+      const requestBody = {
+        referralLetterIAProCorrections: [
+          { tempId: "abcd1234", details: "some stuff" },
+          { tempId: "poiu8765", details: "some more stuff" }
+        ]
+      };
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer token"
+        },
+        params: { caseId: existingCase.id },
+        body: requestBody,
+        nickname: "nickname"
+      });
+      await editIAProCorrections(request, response, next);
+
+      expect(response.statusCode).toEqual(200);
+      const createdIAProCorrections = await models.referral_letter_iapro_correction.findAll(
+        { where: { referralLetterId: referralLetter.id } }
+      );
+      expect(createdIAProCorrections.length).toEqual(2);
+      expect(createdIAProCorrections).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            referralLetterId: referralLetter.id,
+            details: "some stuff"
+          }),
+          expect.objectContaining({
+            referralLetterId: referralLetter.id,
+            details: "some more stuff"
+          })
+        ])
+      );
+    });
+
+    test("doesn't add empty iapro corrections", async () => {
+      const requestBody = {
+        referralLetterIAProCorrections: [
+          { tempId: "abcd1234", details: "" },
+          { tempId: "poiu8765" }
+        ]
+      };
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer token"
+        },
+        params: { caseId: existingCase.id },
+        body: requestBody,
+        nickname: "nickname"
+      });
+      await editIAProCorrections(request, response, next);
+      expect(response.statusCode).toEqual(200);
+      const foundIAProCorrections = await models.referral_letter_iapro_correction.findAll();
+      expect(foundIAProCorrections.length).toEqual(0);
+    });
+
+    describe("existing iapro correction", () => {
+      let iaproCorrection;
+      beforeEach(async () => {
+        const iaproCorrectionAttributes = new ReferralLetterIAProCorrection.Builder()
+          .defaultReferralLetterIAProCorrection()
+          .withId(undefined)
+          .withReferralLetterId(referralLetter.id)
+          .withDetails("Stuff was wrong!!!");
+        iaproCorrection = await models.referral_letter_iapro_correction.create(
+          iaproCorrectionAttributes,
+          { auditUser: "test" }
+        );
+      });
+      test("updates existing iapro correction", async () => {
+        const newDetails = "some new details";
+        const requestBody = {
+          referralLetterIAProCorrections: [
+            { id: iaproCorrection.id, details: newDetails }
+          ]
+        };
+        const request = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer token"
+          },
+          params: { caseId: existingCase.id },
+          body: requestBody,
+          nickname: "nickname"
+        });
+        await editIAProCorrections(request, response, next);
+        expect(response.statusCode).toEqual(200);
+        await iaproCorrection.reload();
+        expect(iaproCorrection.details).toEqual(newDetails);
+      });
+
+      test("deletes existing iapro correction", async () => {
+        const requestBody = { referralLetterIAProCorrections: [] };
+        const request = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer token"
+          },
+          params: { caseId: existingCase.id },
+          body: requestBody,
+          nickname: "nickname"
+        });
+        await editIAProCorrections(request, response, next);
+        expect(response.statusCode).toEqual(200);
+        const foundIAProCorrections = await models.referral_letter_iapro_correction.findAll();
+        expect(foundIAProCorrections.length).toEqual(0);
+      });
+      test("deletes empty updates to existing iapro corrections", async () => {
+        const requestBody = {
+          referralLetterIAProCorrections: [
+            { id: iaproCorrection.id, details: "" }
+          ]
+        };
+        const request = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer token"
+          },
+          params: { caseId: existingCase.id },
+          body: requestBody,
+          nickname: "nickname"
+        });
+        await editIAProCorrections(request, response, next);
+        const foundCorrections = await models.referral_letter_iapro_correction.findAll();
+        expect(foundCorrections.length).toEqual(0);
+      });
+    });
+
+    test("throws error when given non-existing iapro correction id", async () => {
+      const requestBody = {
+        referralLetterIAProCorrections: [{ id: "123", details: "new details" }]
+      };
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer token"
+        },
+        params: { caseId: existingCase.id },
+        body: requestBody,
+        nickname: "nickname"
+      });
+      await editIAProCorrections(request, response, next);
+      expect(next).toHaveBeenCalledWith(
+        Boom.badRequest("Invalid iapro correction id")
+      );
+    });
   });
 });
