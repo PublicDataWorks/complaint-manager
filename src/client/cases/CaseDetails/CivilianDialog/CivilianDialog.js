@@ -181,7 +181,7 @@ class CivilianDialog extends Component {
               >
                 OR
               </Typography>
-              <EmailField name="email" />
+              <EmailField name="email" autoComplete="disabled" />
             </div>
             <div style={{ marginBottom: "16px" }}>
               <AddressInput
