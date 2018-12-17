@@ -25,7 +25,8 @@ import {
 import { closeEditDialog } from "../../../actionCreators/casesActionCreators";
 import {
   genderIdentityIsRequired,
-  raceEthnicityIsRequired
+  raceEthnicityIsRequired,
+  titleIsRequired
 } from "../../../formFieldLevelValidations";
 import NoBlurTextField from "./FormSelect";
 import { withTheme } from "@material-ui/core/styles";
@@ -38,7 +39,8 @@ import { formatAddressAsString } from "../../../utilities/formatAddress";
 import moment from "moment";
 import {
   genderIdentityMenu,
-  raceEthnicityMenu
+  raceEthnicityMenu,
+  titleMenu
 } from "../../../utilities/generateMenus";
 import validate from "./helpers/validateCivilianFields";
 import AddressInput from "./AddressInput";
@@ -109,14 +111,28 @@ class CivilianDialog extends Component {
             <Typography variant="body2" style={{ marginBottom: "8px" }}>
               Personal Information
             </Typography>
-            <FirstNameField name="firstName" />
-            <MiddleInitialField
-              name="middleInitial"
-              style={{
-                width: "40px",
-                marginRight: "5%"
-              }}
-            />
+            <div style={{ display: "flex" }}>
+              <Field
+                required
+                name="title"
+                component={NoBlurTextField}
+                label="Title"
+                hinttext="Title"
+                data-test="titleDropdown"
+                style={{ width: "25%", marginRight: "35px" }}
+                validate={[titleIsRequired]}
+              >
+                {titleMenu}
+              </Field>
+              <FirstNameField name="firstName" />
+              <MiddleInitialField
+                name="middleInitial"
+                style={{
+                  width: "40px",
+                  marginRight: "5%"
+                }}
+              />
+            </div>
             <LastNameField name="lastName" />
             <SuffixField
               name="suffix"

@@ -64,7 +64,7 @@ if (TEST_PASS && TEST_USER && HOST) {
       caseDetailsPage.thereAreNoAttachments();
     },
 
-    "should open edit civilian form and set gender and race/ethnicity": browser => {
+    "should open edit civilian form and set gender, race/ethnicity, and title": browser => {
       const caseDetailsPage = browser.page.CaseDetails();
       const civilianDialog = browser.page.CivilianDialog();
 
@@ -73,7 +73,8 @@ if (TEST_PASS && TEST_USER && HOST) {
       civilianDialog
         .dialogIsOpen()
         .setGenderIdentity("Female")
-        .setRaceEthnicity("Cuban");
+        .setRaceEthnicity("Cuban")
+        .setTitle("Miss");
     },
 
     "should display address suggestions when text is entered": browser => {

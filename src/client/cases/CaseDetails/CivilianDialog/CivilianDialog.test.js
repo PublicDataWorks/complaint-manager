@@ -77,6 +77,7 @@ describe("civilian dialog", () => {
       .withGenderIdentity(undefined)
       .withRaceEthnicity(undefined)
       .withBirthDate(undefined)
+      .withTitle(undefined)
       .build();
 
     store.dispatch(initialize(CIVILIAN_FORM_NAME, caseCivilian));
@@ -152,6 +153,22 @@ describe("civilian dialog", () => {
     });
   });
 
+  describe("title", () => {
+    let titleDropdown;
+    beforeEach(() => {
+      titleDropdown = civilianDialog.find('[data-test="titleDropdown"]').last();
+    });
+    //
+    // test("should have a label title", () => {
+    //   expect(titleDropdown.find("label").text()).toContain("Title *");
+    // });
+
+    test("should show error if not set on save", () => {
+      save.simulate("click");
+      expect(titleDropdown.text()).toContain("Please enter Title");
+    });
+  });
+
   describe("email and phone number", () => {
     test("should display phone error when phone and email marked as touched on form submit", () => {
       let civilianToSubmit = new Civilian.Builder()
@@ -162,6 +179,7 @@ describe("civilian dialog", () => {
         .withGenderIdentity("Unknown")
         .withEmail("")
         .withPhoneNumber("")
+        .withTitle("Miss")
         .build();
 
       changeInput(
@@ -198,6 +216,11 @@ describe("civilian dialog", () => {
         civilianDialog,
         '[data-test="raceDropdown"]',
         civilianToSubmit.raceEthnicity
+      );
+      selectDropdownOption(
+        civilianDialog,
+        '[data-test="titleDropdown"]',
+        civilianToSubmit.title
       );
       const phoneNumberField = civilianDialog.find(
         'div[data-test="phoneNumberField"]'
@@ -245,6 +268,7 @@ describe("civilian dialog", () => {
         .withPhoneNumber("1234567890")
         .withEmail("example@test.com")
         .withAddress(caseCivilian.address)
+        .withTitle("Mr.")
         .withId(undefined)
         .build();
 
@@ -292,6 +316,11 @@ describe("civilian dialog", () => {
         civilianDialog,
         '[data-test="raceDropdown"]',
         civilianToSubmit.raceEthnicity
+      );
+      selectDropdownOption(
+        civilianDialog,
+        '[data-test="titleDropdown"]',
+        civilianToSubmit.title
       );
 
       save.simulate("click");

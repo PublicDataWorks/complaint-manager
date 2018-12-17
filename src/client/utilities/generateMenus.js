@@ -58,6 +58,15 @@ export const raceEthnicityMenu = generateMenu([
   "Other"
 ]);
 
+export const titleMenu = generateMenu([
+  "N/A",
+  "Dr.",
+  "Miss",
+  "Mr.",
+  "Mrs.",
+  "Ms."
+]);
+
 export const searchDistrictMenu = generateMenu([
   ["Any District", ""],
   ["1st District", "First District"],

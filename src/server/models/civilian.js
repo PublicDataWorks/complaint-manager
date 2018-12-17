@@ -61,6 +61,10 @@ module.exports = (sequelize, DataTypes) => {
         field: "additional_info",
         type: DataTypes.TEXT
       },
+      title: {
+        field: "title",
+        type: DataTypes.ENUM(["N/A", "Dr.", "Miss", "Mr.", "Mrs.", "Ms."])
+      },
       createdAt: {
         field: "created_at",
         type: DataTypes.DATE

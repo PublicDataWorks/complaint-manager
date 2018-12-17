@@ -53,3 +53,4 @@ export const allegationDetailsRequired = isRequired("Allegation Details");
 export const allegationDetailsNotBlank = notBlank("Allegation Details");
 export const allegationSeverityRequired = selectRequired("Allegation Severity");
 export const officerRoleRequired = selectRequired("Role on Case");
+export const titleIsRequired = isRequired("Title");

@@ -19,6 +19,12 @@ const civilianDialogCommands = {
       .click(`li[data-value=${raceEthnicity}`)
       .waitForElementNotPresent('[id="menu-raceEthnicity"]', e2e.rerenderWait);
   },
+  setTitle: function(title) {
+    return this.click("@titleDropdown")
+      .waitForElementVisible("@titleMenu", e2e.rerenderWait)
+      .click(`li[data-value=${title}]`)
+      .waitForElementNotPresent("@titleMenu", e2e.rerenderWait);
+  },
   typeInAddress: function(addressInput) {
     return this.setValue("@addressSuggestionField", [addressInput]);
   },
@@ -87,6 +93,12 @@ module.exports = {
     },
     raceEthnicityMenu: {
       selector: '[id="menu-raceEthnicity"]'
+    },
+    titleDropdown: {
+      selector: "[data-test='titleDropdown'] > div > div > div"
+    },
+    titleMenu: {
+      selector: "[id='menu-title']"
     },
     addressSuggestionField: {
       selector: '[data-test="addressSuggestionField"] > input'
