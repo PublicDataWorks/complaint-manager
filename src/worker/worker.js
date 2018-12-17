@@ -1,5 +1,5 @@
-import refuseNewConnectionDuringShutdown from "../sharedUtilities/refuseNewConnectionDuringShutdown";
 const newRelic = require("newrelic");
+import refuseNewConnectionDuringShutdown from "../sharedUtilities/refuseNewConnectionDuringShutdown";
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
