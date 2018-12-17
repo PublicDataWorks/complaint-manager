@@ -103,7 +103,8 @@ class AddressAutoSuggest extends Component {
             input: classes.input
           },
           "data-test": dataTest,
-          ...other
+          ...other,
+          autoComplete: 'disabled', // "off" does not work on chrome
         }}
         error={shouldRenderError}
         helperText={reduxFormMeta.error}
