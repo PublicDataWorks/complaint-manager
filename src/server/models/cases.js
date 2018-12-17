@@ -57,8 +57,7 @@ export default (sequelize, DataTypes) => {
       },
       firstContactDate: {
         field: "first_contact_date",
-        type: DataTypes.DATEONLY,
-        allowNull: false
+        type: DataTypes.DATEONLY
       },
       incidentDate: {
         field: "incident_date",
@@ -117,14 +116,6 @@ export default (sequelize, DataTypes) => {
             : "";
           const paddedCaseId = `${this.id}`.padStart(4, "0");
           return `${prefix}${firstContactYear}-${paddedCaseId}`;
-        }
-      },
-      validate: {
-        validateNarrativeDetails() {
-          this.hasValueWhenLetterInProgress(
-            "Narrative Details",
-            this.narrativeDetails
-          );
         }
       }
     }

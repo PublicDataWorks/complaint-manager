@@ -230,59 +230,6 @@ describe("cases", function() {
       expect(createdCase.status).toEqual(CASE_STATUS.INITIAL);
     });
   });
-
-  describe("validations", () => {
-    describe("first contacted date", () => {
-      test("is not valid if missing", async () => {
-        const caseAttributes = new Case.Builder()
-          .defaultCase()
-          .withFirstContactDate(null);
-
-        const caseToValidate = await models.cases.build(caseAttributes);
-
-        await expect(caseToValidate.validate()).rejects.toEqual(
-          newSequelizeValidationError("cases.firstContactDate cannot be null")
-        );
-      });
-    });
-
-    describe("narrative details", () => {
-      test("is not valid if missing", async () => {
-        const caseAttributes = new Case.Builder()
-          .defaultCase()
-          .withNarrativeDetails(null);
-
-        const caseToValidate = await models.cases.build(caseAttributes);
-        caseToValidate.status = CASE_STATUS.ACTIVE;
-        caseToValidate.status = CASE_STATUS.LETTER_IN_PROGRESS;
-
-        await expect(caseToValidate.validate()).rejects.toEqual(
-          newSequelizeValidationError({
-            model: "Case",
-            errorMessage: "Narrative Details is required"
-          })
-        );
-      });
-
-      test("is not valid if empty", async () => {
-        const caseAttributes = new Case.Builder()
-          .defaultCase()
-          .withNarrativeDetails("");
-
-        const caseToValidate = await models.cases.build(caseAttributes);
-
-        caseToValidate.status = CASE_STATUS.ACTIVE;
-        caseToValidate.status = CASE_STATUS.LETTER_IN_PROGRESS;
-
-        await expect(caseToValidate.validate()).rejects.toEqual(
-          newSequelizeValidationError({
-            model: "Case",
-            errorMessage: "Narrative Details is required"
-          })
-        );
-      });
-    });
-  });
 });
 
 export const newSequelizeValidationError = message => {
