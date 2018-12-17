@@ -3,7 +3,7 @@
     "id": "letterSignatureFeature",
     "name": "letterSignatureFeature",
     "description": "Toggle to include signature in letter",
-    "criteria": { "isPreProd": true }
+    "enabled": true
   },
   {
     "id": "caseValidationFeature",
