@@ -74,7 +74,7 @@ jobs:
           - checkout
           - setup_remote_docker
           - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-          - run: docker build -f Dockerfile.web --build-arg REACT_ENV=ci --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/complaint-manager-ci:$CIRCLE_SHA1 .
+          - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=ci --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/complaint-manager-ci:$CIRCLE_SHA1 .
           - run: docker build -f Dockerfile.worker -t noipm/complaint-manager-ci-worker:$CIRCLE_SHA1 .
           - run: docker push noipm/complaint-manager-ci:$CIRCLE_SHA1
           - run: docker push noipm/complaint-manager-ci-worker:$CIRCLE_SHA1
@@ -86,8 +86,8 @@ jobs:
           - checkout
           - setup_remote_docker
           - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-          - run: docker build -f Dockerfile.web --build-arg REACT_ENV=staging --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/complaint-manager-staging:$CIRCLE_SHA1 .
-          - run: docker build -f Dockerfile.web --build-arg REACT_ENV=production --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PRODUCTION -t noipm/complaint-manager-production:$CIRCLE_SHA1 .
+          - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=staging --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/complaint-manager-staging:$CIRCLE_SHA1 .
+          - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=production --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PRODUCTION -t noipm/complaint-manager-production:$CIRCLE_SHA1 .
           - run: docker build -f Dockerfile.worker -t noipm/complaint-manager-worker:$CIRCLE_SHA1 .
           - run: docker push noipm/complaint-manager-staging:$CIRCLE_SHA1
           - run: docker push noipm/complaint-manager-production:$CIRCLE_SHA1
