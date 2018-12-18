@@ -19,6 +19,8 @@ import {
 import timekeeper from "timekeeper";
 import { dateTimeFromString } from "../../../utilities/formatDate";
 import approveReferralLetter from "../thunks/approveReferralLetter";
+import { push } from "react-router-redux";
+
 jest.mock("../thunks/approveReferralLetter", () =>
   jest.fn((caseId, callback) => ({ type: "SOMETHING", caseId, callback }))
 );
@@ -56,6 +58,17 @@ describe("ReviewAndApproveLetter", () => {
 
   afterEach(() => {
     timekeeper.reset();
+  });
+
+  test("redirects to case detail page if case is approved status or later", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+    wrapper.update();
+    expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
 
   test("should not display anything when lettertype is null", () => {
