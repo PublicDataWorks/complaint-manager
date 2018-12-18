@@ -25,6 +25,7 @@ import {
   LETTER_TYPE
 } from "../../../../sharedUtilities/constants";
 import PageLoading from "../../../shared/components/PageLoading";
+import redirectToCaseDetails from "../../thunks/redirectToCaseDetails";
 
 pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.js";
 
@@ -53,9 +54,9 @@ class ReviewAndApproveLetter extends Component {
     this.props.getPdf(this.state.caseId, this.props.finalFilename);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     if (!this.letterPreviewNotYetLoaded() && !this.statusIsAllowed()) {
-      this.props.redirect(this.state.caseId);
+      this.props.redirectToCaseDetails(this.state.caseId);
     }
   }
 
@@ -221,8 +222,7 @@ const mapDispatchToProps = {
   openCaseStatusUpdateDialog,
   approveReferralLetter,
   getLetterPdfSuccess,
-  redirect: (caseId, callback) => async dispatch =>
-    dispatch(push(`/cases/${caseId}`))
+  redirectToCaseDetails
 };
 
 export default withStyles(styles, { withTheme: true })(

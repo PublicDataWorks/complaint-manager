@@ -30,6 +30,7 @@ import { dateTimeFromString } from "../../../utilities/formatDate";
 import getPdf from "../thunks/getPdf";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import styles from "../../../globalStyling/styles";
+import PageLoading from "../../../shared/components/PageLoading";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -39,6 +40,9 @@ class LetterPreview extends Component {
 
   componentDidMount() {
     this.props.dispatch(getLetterPreview(this.state.caseId));
+    this.setState = {
+      loaded: true
+    };
   }
 
   letterPreviewNotYetLoaded = () => {
@@ -157,6 +161,133 @@ class LetterPreview extends Component {
     }
   };
 
+  letterAlreadyApproved = () => {
+    return ![
+      CASE_STATUS.LETTER_IN_PROGRESS,
+      CASE_STATUS.READY_FOR_REVIEW
+    ].includes(this.props.caseDetail.status);
+  };
+
+  renderLetterPreview = () => {
+    if (!this.props.caseDetail.status) {
+      return null;
+    }
+    if (this.letterAlreadyApproved()) {
+      return (
+        <div data-test="letter-preview-approved-message">
+          <i>This letter has already been approved.</i>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <Card
+          style={{
+            marginBottom: "24px",
+            backgroundColor: "white",
+            overflow: "auto",
+            width: "22rem"
+          }}
+        >
+          <CardContent>
+            <Field
+              style={{ flex: 4 }}
+              name="recipient"
+              component={TextField}
+              label="Address To"
+              fullWidth
+              multiline
+              rowsMax={5}
+            />
+          </CardContent>
+        </Card>
+        <Card
+          style={{
+            marginBottom: "24px",
+            backgroundColor: "white",
+            maxHeight: "55rem",
+            overflow: "auto"
+          }}
+        >
+          <CardContent style={{ margin: "24px 48px 24px 48px" }}>
+            <div
+              dangerouslySetInnerHTML={this.displayLetterPreview()}
+              className="letter-preview"
+            />
+          </CardContent>
+        </Card>
+        <Card
+          style={{
+            marginBottom: "24px",
+            backgroundColor: "white",
+            overflow: "auto",
+            width: "22rem"
+          }}
+        >
+          <CardContent>
+            <Field
+              name="sender"
+              component={TextField}
+              label="Sincerely"
+              fullWidth
+              multiline
+              rowsMax={5}
+              style={{ marginBottom: "16px" }}
+            />
+
+            <Field
+              name="transcribedBy"
+              component={TextField}
+              label="Transcribed By"
+              fullWidth
+              inputProps={{ "data-test": "transcribed-by-field" }}
+            />
+          </CardContent>
+        </Card>
+        <EditLetterConfirmationDialog
+          caseId={this.state.caseId}
+          saveAndGoToEditLetterCallback={this.saveAndGoToEditLetter()}
+        />
+        <LinkButton
+          data-test="download-letter-as-pdf"
+          onClick={this.saveAndDownloadPdf}
+          style={{ marginBottom: "16px" }}
+          disabled={this.props.downloadInProgress}
+        >
+          {this.props.letterType === LETTER_TYPE.EDITED
+            ? "Download Edited Letter as PDF File"
+            : "Download Generated Letter as PDF File"}
+        </LinkButton>
+
+        <CircularProgress
+          data-test={"download-letter-progress"}
+          size={25}
+          style={{ display: this.props.downloadInProgress ? "" : "none" }}
+        />
+        <div style={{ display: "flex" }}>
+          <span style={{ flex: "auto" }}>
+            <SecondaryButton
+              onClick={this.saveAndGoBackToRecommendedActions()}
+              data-test="back-button"
+            >
+              Back
+            </SecondaryButton>
+          </span>
+          <span style={{ flex: "auto", textAlign: "right" }}>
+            <SecondaryButton
+              data-test="edit-confirmation-dialog-button"
+              onClick={this.editLetterWithPossibleConfirmationDialog()}
+            >
+              Edit Letter
+            </SecondaryButton>
+            {this.renderReviewAndApproveButton()}
+            {this.renderSubmitForReviewButton()}
+          </span>
+        </div>
+      </div>
+    );
+  };
+
   renderReviewAndApproveButton = () => {
     if (
       this.props.caseDetail.status === CASE_STATUS.READY_FOR_REVIEW &&
@@ -190,7 +321,7 @@ class LetterPreview extends Component {
 
   render() {
     if (this.letterPreviewNotYetLoaded()) {
-      return null;
+      return <PageLoading />;
     }
 
     return (
@@ -226,110 +357,7 @@ class LetterPreview extends Component {
               >
                 Preview {this.timestampIfEdited()}
               </Typography>
-
-              <Card
-                style={{
-                  marginBottom: "24px",
-                  backgroundColor: "white",
-                  overflow: "auto",
-                  width: "22rem"
-                }}
-              >
-                <CardContent>
-                  <Field
-                    style={{ flex: 4 }}
-                    name="recipient"
-                    component={TextField}
-                    label="Address To"
-                    fullWidth
-                    multiline
-                    rowsMax={5}
-                  />
-                </CardContent>
-              </Card>
-              <Card
-                style={{
-                  marginBottom: "24px",
-                  backgroundColor: "white",
-                  maxHeight: "55rem",
-                  overflow: "auto"
-                }}
-              >
-                <CardContent style={{ margin: "24px 48px 24px 48px" }}>
-                  <div
-                    dangerouslySetInnerHTML={this.displayLetterPreview()}
-                    className="letter-preview"
-                  />
-                </CardContent>
-              </Card>
-              <Card
-                style={{
-                  marginBottom: "24px",
-                  backgroundColor: "white",
-                  overflow: "auto",
-                  width: "22rem"
-                }}
-              >
-                <CardContent>
-                  <Field
-                    name="sender"
-                    component={TextField}
-                    label="Sincerely"
-                    fullWidth
-                    multiline
-                    rowsMax={5}
-                    style={{ marginBottom: "16px" }}
-                  />
-
-                  <Field
-                    name="transcribedBy"
-                    component={TextField}
-                    label="Transcribed By"
-                    fullWidth
-                    inputProps={{ "data-test": "transcribed-by-field" }}
-                  />
-                </CardContent>
-              </Card>
-              <EditLetterConfirmationDialog
-                caseId={this.state.caseId}
-                saveAndGoToEditLetterCallback={this.saveAndGoToEditLetter()}
-              />
-              <LinkButton
-                data-test="download-letter-as-pdf"
-                onClick={this.saveAndDownloadPdf}
-                style={{ marginBottom: "16px" }}
-                disabled={this.props.downloadInProgress}
-              >
-                {this.props.letterType === LETTER_TYPE.EDITED
-                  ? "Download Edited Letter as PDF File"
-                  : "Download Generated Letter as PDF File"}
-              </LinkButton>
-
-              <CircularProgress
-                data-test={"download-letter-progress"}
-                size={25}
-                style={{ display: this.props.downloadInProgress ? "" : "none" }}
-              />
-              <div style={{ display: "flex" }}>
-                <span style={{ flex: "auto" }}>
-                  <SecondaryButton
-                    onClick={this.saveAndGoBackToRecommendedActions()}
-                    data-test="back-button"
-                  >
-                    Back
-                  </SecondaryButton>
-                </span>
-                <span style={{ flex: "auto", textAlign: "right" }}>
-                  <SecondaryButton
-                    data-test="edit-confirmation-dialog-button"
-                    onClick={this.editLetterWithPossibleConfirmationDialog()}
-                  >
-                    Edit Letter
-                  </SecondaryButton>
-                  {this.renderReviewAndApproveButton()}
-                  {this.renderSubmitForReviewButton()}
-                </span>
-              </div>
+              {this.renderLetterPreview()}
             </div>
           </div>
         </form>

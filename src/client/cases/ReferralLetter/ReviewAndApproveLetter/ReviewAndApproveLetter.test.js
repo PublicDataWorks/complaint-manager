@@ -19,11 +19,12 @@ import {
 import timekeeper from "timekeeper";
 import { dateTimeFromString } from "../../../utilities/formatDate";
 import approveReferralLetter from "../thunks/approveReferralLetter";
-import { push } from "react-router-redux";
+import redirectToCaseDetails from "../../thunks/redirectToCaseDetails";
 
 jest.mock("../thunks/approveReferralLetter", () =>
   jest.fn((caseId, callback) => ({ type: "SOMETHING", caseId, callback }))
 );
+jest.mock("../../thunks/redirectToCaseDetails");
 
 describe("ReviewAndApproveLetter", () => {
   const caseId = 100;
@@ -44,6 +45,8 @@ describe("ReviewAndApproveLetter", () => {
       })
     );
     store.dispatch(getLetterPdfSuccess("letter pdf"));
+    dispatchSpy = jest.spyOn(store, "dispatch");
+
     nowTimestamp = new Date("2018-07-01 19:00:22 UTC");
     timekeeper.freeze(nowTimestamp);
     wrapper = mount(
@@ -53,22 +56,10 @@ describe("ReviewAndApproveLetter", () => {
         </Router>
       </Provider>
     );
-    dispatchSpy = jest.spyOn(store, "dispatch");
   });
 
   afterEach(() => {
     timekeeper.reset();
-  });
-
-  test("redirects to case detail page if case is approved status or later", () => {
-    store.dispatch(
-      getCaseDetailsSuccess({
-        id: caseId,
-        status: CASE_STATUS.FORWARDED_TO_AGENCY
-      })
-    );
-    wrapper.update();
-    expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
 
   test("should not display anything when lettertype is null", () => {
@@ -91,33 +82,6 @@ describe("ReviewAndApproveLetter", () => {
     expect(displayDate.text()).toEqual(
       `This letter was generated on ${dateTimeFromString(nowTimestamp)}`
     );
-  });
-
-  test("should not show approve button after approved", async () => {
-    const letterHtml = "<p>html</p>";
-    const addresses = "<p>addresses</p>";
-    const inputDate = "2018-11-20T21:59:40.707Z";
-    store.dispatch(
-      getCaseDetailsSuccess({
-        id: caseId,
-        status: CASE_STATUS.FORWARDED_TO_AGENCY,
-        nextStatus: CASE_STATUS.CLOSED
-      })
-    );
-
-    store.dispatch(
-      getLetterPreviewSuccess(
-        letterHtml,
-        addresses,
-        LETTER_TYPE.EDITED,
-        inputDate
-      )
-    );
-    wrapper.update();
-    const approveButton = wrapper
-      .find('[data-test="approve-letter-button"]')
-      .first();
-    expect(approveButton.exists()).toEqual(false);
   });
 
   test("should show approve button when in ready for review status", async () => {
@@ -171,33 +135,6 @@ describe("ReviewAndApproveLetter", () => {
     const displayDate = wrapper.find('[data-test="edit-history"]').first();
     expect(displayDate.text()).toEqual(
       `This letter was last edited on ${dateTimeFromString(inputDate)}`
-    );
-  });
-
-  test("should display already approved message when past ready for review status", async () => {
-    const letterHtml = "<p>html</p>";
-    const addresses = "<p>addresses</p>";
-    const inputDate = "2018-11-20T21:59:40.707Z";
-    store.dispatch(
-      getCaseDetailsSuccess({
-        id: caseId,
-        status: CASE_STATUS.FORWARDED_TO_AGENCY,
-        nextStatus: CASE_STATUS.CLOSED
-      })
-    );
-
-    store.dispatch(
-      getLetterPreviewSuccess(
-        letterHtml,
-        addresses,
-        LETTER_TYPE.EDITED,
-        inputDate
-      )
-    );
-    wrapper.update();
-    const displayDate = wrapper.find('[data-test="edit-history"]').first();
-    expect(displayDate.text()).toEqual(
-      `This letter has already been approved. This preview may not reflect the approved version.`
     );
   });
 

@@ -276,6 +276,27 @@ describe("LetterPreview", function() {
     expect(reviewAndApproveLetterButton.exists()).toEqual(true);
   });
 
+  test("should render letter approved message if in approved or closed status", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.FORWARDED_TO_AGENCY,
+        nextStatus: CASE_STATUS.CLOSED
+      })
+    );
+    store.dispatch(
+      userAuthSuccess({
+        permissions: [USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES]
+      })
+    );
+    wrapper.update();
+    const message = wrapper
+      .find('[data-test="letter-preview-approved-message"]')
+      .first();
+
+    expect(message.exists()).toEqual(true);
+  });
+
   test("dispatches editReferralLetterAddresses with correct values for back button", () => {
     store.dispatch(
       getCaseDetailsSuccess({
