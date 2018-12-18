@@ -19,7 +19,10 @@ import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import approveReferralLetter from "../thunks/approveReferralLetter";
-import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  LETTER_TYPE
+} from "../../../../sharedUtilities/constants";
 pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.js";
 
 const styles = theme => ({
@@ -50,6 +53,37 @@ class ReviewAndApproveLetter extends Component {
   letterPreviewNotYetLoaded = () => {
     return this.props.letterPdf === null;
   };
+
+  renderApproveButton = () => {
+    if (this.props.status === CASE_STATUS.READY_FOR_REVIEW) {
+      return (
+        <PrimaryButton
+          onClick={this.openUpdateCaseDialog}
+          data-test="approve-letter-button"
+        >
+          Approve Letter
+        </PrimaryButton>
+      );
+    }
+  };
+
+  letterHistoryMessage() {
+    if (this.props.status === CASE_STATUS.READY_FOR_REVIEW) {
+      return this.getTimestamp();
+    }
+    if (
+      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED].includes(
+        this.props.status
+      )
+    ) {
+      return (
+        <i>
+          This letter has already been approved. This preview may not reflect
+          the approved version.
+        </i>
+      );
+    }
+  }
 
   getTimestamp() {
     let message;
@@ -123,7 +157,7 @@ class ReviewAndApproveLetter extends Component {
             variant="body1"
             style={{ marginBottom: "24px" }}
           >
-            {this.getTimestamp()}
+            {this.letterHistoryMessage()}
           </Typography>
           <Card
             style={{
@@ -154,14 +188,7 @@ class ReviewAndApproveLetter extends Component {
               </div>
             </CardContent>
           </Card>
-          <div style={{ textAlign: "right" }}>
-            <PrimaryButton
-              onClick={this.openUpdateCaseDialog}
-              data-test="approve-letter-button"
-            >
-              Approve Letter
-            </PrimaryButton>
-          </div>
+          <div style={{ textAlign: "right" }}>{this.renderApproveButton()}</div>
           <UpdateCaseStatusDialog
             alternativeAction={this.props.approveReferralLetter}
             doNotCallUpdateStatusCallback={true}
@@ -178,7 +205,8 @@ const mapStateToProps = state => ({
   finalFilename: state.referralLetter.finalFilename,
   letterPdf: state.referralLetter.letterPdf,
   downloadInProgress: state.ui.letterDownload.downloadInProgress,
-  caseNumber: state.currentCase.details.caseNumber
+  caseNumber: state.currentCase.details.caseNumber,
+  status: state.currentCase.details.status
 });
 
 const mapDispatchToProps = {

@@ -80,10 +80,72 @@ describe("ReviewAndApproveLetter", () => {
     );
   });
 
-  test("shoulrysplay last edit history date", async () => {
+  test("should not show approve button after approved", async () => {
     const letterHtml = "<p>html</p>";
     const addresses = "<p>addresses</p>";
     const inputDate = "2018-11-20T21:59:40.707Z";
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.FORWARDED_TO_AGENCY,
+        nextStatus: CASE_STATUS.CLOSED
+      })
+    );
+
+    store.dispatch(
+      getLetterPreviewSuccess(
+        letterHtml,
+        addresses,
+        LETTER_TYPE.EDITED,
+        inputDate
+      )
+    );
+    wrapper.update();
+    const approveButton = wrapper
+      .find('[data-test="approve-letter-button"]')
+      .first();
+    expect(approveButton.exists()).toEqual(false);
+  });
+
+  test("should show approve button when in ready for review status", async () => {
+    const letterHtml = "<p>html</p>";
+    const addresses = "<p>addresses</p>";
+    const inputDate = "2018-11-20T21:59:40.707Z";
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+
+    store.dispatch(
+      getLetterPreviewSuccess(
+        letterHtml,
+        addresses,
+        LETTER_TYPE.EDITED,
+        inputDate
+      )
+    );
+    wrapper.update();
+    const approveButton = wrapper
+      .find('[data-test="approve-letter-button"]')
+      .first();
+    expect(approveButton.exists()).toEqual(true);
+  });
+
+  test("should display last edit history date when in ready for review status", async () => {
+    const letterHtml = "<p>html</p>";
+    const addresses = "<p>addresses</p>";
+    const inputDate = "2018-11-20T21:59:40.707Z";
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+
     store.dispatch(
       getLetterPreviewSuccess(
         letterHtml,
@@ -96,6 +158,33 @@ describe("ReviewAndApproveLetter", () => {
     const displayDate = wrapper.find('[data-test="edit-history"]').first();
     expect(displayDate.text()).toEqual(
       `This letter was last edited on ${dateTimeFromString(inputDate)}`
+    );
+  });
+
+  test("should display already approved message when past ready for review status", async () => {
+    const letterHtml = "<p>html</p>";
+    const addresses = "<p>addresses</p>";
+    const inputDate = "2018-11-20T21:59:40.707Z";
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.FORWARDED_TO_AGENCY,
+        nextStatus: CASE_STATUS.CLOSED
+      })
+    );
+
+    store.dispatch(
+      getLetterPreviewSuccess(
+        letterHtml,
+        addresses,
+        LETTER_TYPE.EDITED,
+        inputDate
+      )
+    );
+    wrapper.update();
+    const displayDate = wrapper.find('[data-test="edit-history"]').first();
+    expect(displayDate.text()).toEqual(
+      `This letter has already been approved. This preview may not reflect the approved version.`
     );
   });
 
