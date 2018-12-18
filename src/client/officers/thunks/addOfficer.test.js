@@ -1,6 +1,5 @@
 import addOfficer from "./addOfficer";
 import nock from "nock";
-import getAccessToken from "../../auth/getAccessToken";
 import { push } from "react-router-redux";
 import Officer from "../../testUtilities/Officer";
 import Case from "../../testUtilities/case";
@@ -10,15 +9,15 @@ import {
   clearSelectedOfficer
 } from "../../actionCreators/officersActionCreators";
 import { ACCUSED } from "../../../sharedUtilities/constants";
-
+import configureInterceptors from "../../interceptors";
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("addOfficer", () => {
   const dispatch = jest.fn();
 
   beforeEach(() => {
-    getAccessToken.mockClear();
     dispatch.mockClear();
+    configureInterceptors({dispatch})
   });
 
   test("should dispatch success, clear selected officer, and redirect to caseDetails when successful", async () => {
@@ -75,13 +74,5 @@ describe("addOfficer", () => {
     await addOfficer(defaultCase.id, officer.id, formValues)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(addOfficerToCaseFailure());
-  });
-
-  test("should redirect immediately if token missing", async () => {
-    getAccessToken.mockImplementation(() => false);
-
-    await addOfficer()(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 });

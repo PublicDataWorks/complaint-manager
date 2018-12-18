@@ -1,6 +1,4 @@
-import getAccessToken from "../../../auth/getAccessToken";
 import saveAs from "file-saver";
-import { push } from "react-router-redux";
 import axios from "axios";
 import config from "../../../config/config";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
@@ -17,19 +15,10 @@ const getPdf = (
   letterType,
   saveFileForUser = false
 ) => async dispatch => {
-  const token = getAccessToken();
-  if (!token) {
-    return dispatch(push("/login"));
-  }
   try {
     const response = await axios.get(
       `${hostname}/api/cases/${caseId}/referral-letter/get-pdf`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-        responseType: "arraybuffer"
-      }
+      {responseType: "arraybuffer"}
     );
 
     if (saveFileForUser) {

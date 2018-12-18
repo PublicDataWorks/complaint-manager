@@ -1,4 +1,5 @@
 import getAccessToken from "../../auth/getAccessToken";
+import configureInterceptors from "../../interceptors";
 import { push } from "react-router-redux";
 import editCaseOfficer from "./editCaseOfficer";
 import nock from "nock";
@@ -14,6 +15,7 @@ describe("editCaseOfficer thunk", () => {
   let dispatch;
   beforeEach(() => {
     dispatch = jest.fn();
+    configureInterceptors({dispatch});
   });
 
   test("should redirect immediately if token missing", async () => {

@@ -1,5 +1,3 @@
-import getAccessToken from "../../auth/getAccessToken";
-import { push } from "react-router-redux";
 import {
   addCaseNoteFailure,
   addCaseNoteSuccess,
@@ -12,24 +10,10 @@ const hostname = config[process.env.NODE_ENV].hostname;
 
 const addCaseNote = values => async dispatch => {
   try {
-    const token = getAccessToken();
-
-    if (!token) {
-      return dispatch(push("/login"));
-    }
-
-    const response = await axios(
+    const response = await axios.post(
       `${hostname}/api/cases/${values.caseId}/case-notes`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        data: JSON.stringify(values)
-      }
+      JSON.stringify(values)
     );
-
     dispatch(
       addCaseNoteSuccess(response.data.caseDetails, response.data.caseNotes)
     );

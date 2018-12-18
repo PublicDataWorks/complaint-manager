@@ -6,6 +6,7 @@ import {
   snackbarError,
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
+import configureInterceptors from "../../../interceptors";
 
 jest.mock("../../../auth/getAccessToken");
 
@@ -15,13 +16,8 @@ describe("approve referral letter", () => {
   beforeEach(() => {
     caseId = 1;
     dispatch = jest.fn();
+    configureInterceptors({dispatch});
     mockCallback = jest.fn();
-  });
-
-  test("redirects to login if no token", async () => {
-    getAccessToken.mockImplementation(() => false);
-    await approveReferralLetter(caseId, null)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
   test("expect display success snackbar, redirect to cases page, and callback ran", async () => {

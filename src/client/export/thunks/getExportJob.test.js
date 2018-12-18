@@ -11,12 +11,14 @@ import {
 } from "../../../sharedUtilities/constants";
 import getAccessToken from "../../auth/getAccessToken";
 import { push } from "react-router-redux";
+import configureInterceptors from "../../interceptors";
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 jest.useFakeTimers();
 
 describe("Get Export Job by id", () => {
   const jobId = 19;
   const mockedDispatch = jest.fn();
+  configureInterceptors({dispatch: mockedDispatch})
 
   test("job Complete should trigger job complete action", async () => {
     nock("http://localhost")
@@ -70,11 +72,5 @@ describe("Get Export Job by id", () => {
     await getExportJob(jobId, 1)(mockedDispatch);
     expect(mockedDispatch).toHaveBeenCalledWith(clearCurrentExportJob());
     expect(mockedDispatch).toHaveBeenCalledWith(addBackgroundJobFailure());
-  });
-
-  test("redirects to login if missing token", async () => {
-    getAccessToken.mockImplementation(() => false);
-    await getExportJob(jobId, 1)(mockedDispatch);
-    expect(mockedDispatch).toHaveBeenCalledWith(push("/login"));
   });
 });

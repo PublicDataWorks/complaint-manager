@@ -1,4 +1,3 @@
-import getAccessToken from "../../../auth/getAccessToken";
 import { push } from "react-router-redux";
 import axios from "axios/index";
 import config from "../../../config/config";
@@ -12,20 +11,12 @@ const editReferralLetterContent = (
   editedLetterHtml,
   redirectUrl
 ) => async dispatch => {
-  const token = getAccessToken();
-  if (!token) {
-    return dispatch(push("/login"));
-  }
   try {
     const hostname = config[process.env.NODE_ENV].hostname;
-    await axios(`${hostname}/api/cases/${caseId}/referral-letter/content`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      data: editedLetterHtml
-    });
+    await axios.put(
+      `${hostname}/api/cases/${caseId}/referral-letter/content`,
+      editedLetterHtml
+    );
     dispatch(push(redirectUrl));
     dispatch(snackbarSuccess("Letter was successfully updated"));
   } catch (error) {

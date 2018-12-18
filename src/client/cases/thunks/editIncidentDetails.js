@@ -1,5 +1,3 @@
-import getAccessToken from "../../auth/getAccessToken";
-import { push } from "react-router-redux";
 import config from "../../config/config";
 import {
   updateIncidentDetailsFailure,
@@ -15,24 +13,10 @@ const editIncidentDetails = (
   closeDialogCallback
 ) => async dispatch => {
   try {
-    const token = getAccessToken();
-
-    if (!token) {
-      return dispatch(push("/login"));
-    }
-
-    const response = await axios(
+    const response = await axios.put(
       `${hostname}/api/cases/${incidentDetails.id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        data: JSON.stringify(incidentDetails)
-      }
+      JSON.stringify(incidentDetails)
     );
-
     closeDialogCallback();
     dispatch(updateIncidentDetailsSuccess(response.data));
     return await dispatch(getCaseNotes(response.data.id));

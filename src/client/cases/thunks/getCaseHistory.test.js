@@ -6,19 +6,15 @@ import { push } from "react-router-redux";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 import { getCaseNumberSuccess } from "../../actionCreators/casesActionCreators";
+import configureInterceptors from "../../interceptors";
 
 jest.mock("../../auth/getAccessToken");
 
 describe("getCaseHistory", () => {
   const caseId = 2;
   const dispatch = jest.fn();
+  configureInterceptors({dispatch});
   const token = "token";
-
-  test("redirects to login if no token", async () => {
-    getAccessToken.mockImplementation(() => null);
-    await getCaseHistory(caseId)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
-  });
 
   test("should dispatch success when receive case history with 200", async () => {
     const responseBody = [{ action: AUDIT_ACTION.DATA_UPDATED, changes: {} }];

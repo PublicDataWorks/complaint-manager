@@ -1,5 +1,3 @@
-import getAccessToken from "../../auth/getAccessToken";
-import { push } from "react-router-redux";
 import config from "../../config/config";
 import {
   closeRemovePersonDialog,
@@ -14,22 +12,9 @@ const removePerson = ({ personType, id, caseId }) => async dispatch => {
   const personTypeForDisplay =
     personType === "civilians" ? "civilian" : "officer";
   try {
-    const token = getAccessToken();
-    if (!token) {
-      return dispatch(push("/login"));
-    }
-
-    const response = await axios(
-      `${hostname}/api/cases/${caseId}/${personType}/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
-      }
+    const response = await axios.delete(
+      `${hostname}/api/cases/${caseId}/${personType}/${id}`
     );
-
     dispatch(closeRemovePersonDialog());
     return dispatch(removePersonSuccess(response.data, personTypeForDisplay));
   } catch (error) {

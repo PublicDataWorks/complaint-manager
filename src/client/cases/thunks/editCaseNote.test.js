@@ -7,6 +7,8 @@ import {
   editCaseNoteFailure,
   editCaseNoteSuccess
 } from "../../actionCreators/casesActionCreators";
+import configureInterceptors from "../../interceptors";
+
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -14,14 +16,8 @@ describe("editCaseNote", () => {
   const dispatch = jest.fn();
 
   beforeEach(() => {
+    configureInterceptors({dispatch});
     dispatch.mockClear();
-  });
-
-  test("should redirect immediately if token missing", async () => {
-    getAccessToken.mockImplementationOnce(() => false);
-    await editCaseNote()(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
   test("should dispatch failure when edit case note fails", async () => {

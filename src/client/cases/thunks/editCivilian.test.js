@@ -9,6 +9,7 @@ import {
   editCivilianSuccess
 } from "../../actionCreators/casesActionCreators";
 import getAccessToken from "../../auth/getAccessToken";
+import configureInterceptors from "../../interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 jest.mock("../../actionCreators/casesActionCreators", () => ({
@@ -27,15 +28,8 @@ describe("edit civilian thunk", () => {
   const responseBody = {};
 
   beforeEach(() => {
+    configureInterceptors({dispatch});
     dispatch.mockClear();
-  });
-
-  test("should redirect immediately if token missing", async () => {
-    getAccessToken.mockImplementationOnce(() => false);
-    await editCivilian()(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(editCivilianFailed());
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
   test("should dispatch error action if we get an unrecognized response", async () => {

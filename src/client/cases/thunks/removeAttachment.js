@@ -1,5 +1,3 @@
-import { push } from "react-router-redux";
-import getAccessToken from "../../auth/getAccessToken";
 import {
   removeAttachmentFailed,
   removeAttachmentSuccess
@@ -16,23 +14,9 @@ const removeAttachment = (
   shouldCloseDialog
 ) => async dispatch => {
   try {
-    const token = getAccessToken();
-
-    if (!token) {
-      dispatch(push(`/login`));
-      return dispatch(removeAttachmentFailed());
-    }
-    const response = await axios(
-      `${hostname}/api/cases/${caseId}/attachments/${fileName}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
-      }
+    const response = await axios.delete(
+      `${hostname}/api/cases/${caseId}/attachments/${fileName}`
     );
-
     shouldCloseDialog();
     dispatch(removeAttachmentSuccess(response.data));
     return await dispatch(getCaseNotes(response.data.id));

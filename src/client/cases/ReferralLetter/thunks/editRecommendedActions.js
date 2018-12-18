@@ -1,4 +1,3 @@
-import getAccessToken from "../../../auth/getAccessToken";
 import { push } from "react-router-redux";
 import config from "../../../config/config";
 import {
@@ -12,22 +11,11 @@ const editRecommendedActions = (
   recommendedActionValues,
   successRedirectRoute
 ) => async dispatch => {
-  const token = getAccessToken();
-  if (!token) {
-    return dispatch(push("/login"));
-  }
   try {
     const hostname = config[process.env.NODE_ENV].hostname;
-    await axios(
+    await axios.put(
       `${hostname}/api/cases/${caseId}/referral-letter/recommended-actions`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        data: recommendedActionValues
-      }
+      recommendedActionValues
     );
     dispatch(snackbarSuccess("Recommended actions were successfully updated"));
     return dispatch(push(successRedirectRoute));

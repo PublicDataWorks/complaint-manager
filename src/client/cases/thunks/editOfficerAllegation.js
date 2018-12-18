@@ -1,5 +1,3 @@
-import getAccessToken from "../../auth/getAccessToken";
-import { push } from "react-router-redux";
 import config from "../../config/config";
 import {
   snackbarError,
@@ -11,26 +9,11 @@ import axios from "axios";
 const hostname = config[process.env.NODE_ENV].hostname;
 
 const editOfficerAllegation = allegation => async dispatch => {
-  const token = getAccessToken();
-
-  if (!token) {
-    dispatch(push("/login"));
-    return;
-  }
-
   try {
-    const response = await axios(
+    const response = await axios.put(
       `${hostname}/api/officers-allegations/${allegation.id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        data: JSON.stringify(allegation)
-      }
+      JSON.stringify(allegation)
     );
-
     dispatch(updateAllegationDetailsSuccess(allegation.id, response.data));
     return dispatch(snackbarSuccess("Allegation was successfully updated"));
   } catch (error) {

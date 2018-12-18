@@ -7,6 +7,7 @@ import {
   snackbarSuccess
 } from "../../actionCreators/snackBarActionCreators";
 import { createOfficerAllegationSuccess } from "../../actionCreators/allegationsActionCreators";
+import configureInterceptors from "../../interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -18,18 +19,8 @@ describe("create officer allegation", function() {
   const callBackFunction = jest.fn();
 
   beforeEach(() => {
+    configureInterceptors({dispatch})
     dispatch.mockClear();
-  });
-
-  test("should redirect to login if token missing", async () => {
-    getAccessToken.mockImplementationOnce(() => false);
-    await createOfficerAllegation(
-      formValues,
-      caseId,
-      caseOfficerId,
-      callBackFunction
-    )(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
   test("should dispatch failure when create officer allegation fails", async () => {

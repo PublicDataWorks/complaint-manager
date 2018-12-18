@@ -4,17 +4,13 @@ import getRecommendedActions from "./getRecommendedActions";
 import nock from "nock";
 import { getRecommendedActionsSuccess } from "../../../actionCreators/letterActionCreators";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import configureInterceptors from "../../../interceptors";
 
 jest.mock("../../../auth/getAccessToken");
 
 describe("getRecommendedActions", function() {
   const dispatch = jest.fn();
-
-  test("it redirects to login if no token", async () => {
-    getAccessToken.mockImplementation(() => false);
-    await getRecommendedActions()(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
-  });
+  configureInterceptors({dispatch})
 
   test("it fetches recommended action values and dispatches them", async () => {
     getAccessToken.mockImplementation(() => "token");

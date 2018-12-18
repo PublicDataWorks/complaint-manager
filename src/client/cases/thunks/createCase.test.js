@@ -13,13 +13,14 @@ import {
   CIVILIAN_INITIATED,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
-
+import configureInterceptors from "../../interceptors";
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("createCase", () => {
   const dispatch = jest.fn();
 
   beforeEach(() => {
+    configureInterceptors({dispatch})
     dispatch.mockClear();
   });
 
@@ -82,18 +83,6 @@ describe("createCase", () => {
     await createCase(creationDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(createCaseFailure());
-  });
-
-  test("should redirect immediately if token missing", async () => {
-    const responseBody = { cases: [] };
-    getAccessToken.mockImplementationOnce(() => false);
-    await createCase()(dispatch);
-
-    expect(dispatch).not.toHaveBeenCalledWith(
-      createCaseSuccess(responseBody.cases)
-    );
-    expect(dispatch).toHaveBeenCalledWith(createCaseFailure());
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
   test("should redirect to add officer if complainant is officer", async () => {

@@ -6,6 +6,7 @@ import {
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
 import nock from "nock";
+import configureInterceptors from "../../../interceptors";
 
 jest.mock("../../../auth/getAccessToken");
 
@@ -14,6 +15,7 @@ describe("editRecommendedActions", function() {
   beforeEach(() => {
     caseId = 5;
     dispatch = jest.fn();
+    configureInterceptors({dispatch})
     requestBody = {
       id: 7,
       includeRetaliationConcerns: true,
@@ -25,14 +27,6 @@ describe("editRecommendedActions", function() {
         }
       ]
     };
-  });
-
-  test("redirects to login if no token", async () => {
-    getAccessToken.mockImplementation(() => false);
-    await editRecommendedActions(caseId, requestBody, "redirectRoute")(
-      dispatch
-    );
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
   test("dispatches snackbar success on success, doesn't redirect to case details page", async () => {

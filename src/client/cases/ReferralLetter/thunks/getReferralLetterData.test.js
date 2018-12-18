@@ -14,12 +14,6 @@ describe("getReferralLetterData", () => {
     dispatch = jest.fn();
   });
 
-  test("redirects to login if no token", async () => {
-    getAccessToken.mockImplementation(() => false);
-    await getReferralLetterData(caseId)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
-  });
-
   test("dispatches success with letter details on success", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
     const responseBody = {

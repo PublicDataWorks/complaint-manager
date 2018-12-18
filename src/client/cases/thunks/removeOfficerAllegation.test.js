@@ -10,6 +10,7 @@ import {
   snackbarSuccess,
   snackbarError
 } from "../../actionCreators/snackBarActionCreators";
+import configureInterceptors from "../../interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -18,14 +19,7 @@ describe("removeOfficerAllegation thunk", () => {
   const officerAllegationId = 15;
   beforeEach(() => {
     dispatch = jest.fn();
-  });
-
-  test("should redirect to login when no token present", async () => {
-    getAccessToken.mockImplementationOnce(() => false);
-
-    await removeOfficerAllegation()(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
+    configureInterceptors({dispatch});
   });
 
   test("should dispatch error and snackbar failure if 500 response", async () => {

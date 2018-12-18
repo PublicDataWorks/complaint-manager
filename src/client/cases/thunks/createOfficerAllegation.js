@@ -1,5 +1,3 @@
-import { push } from "react-router-redux";
-import getAccessToken from "../../auth/getAccessToken";
 import config from "../../config/config";
 import {
   snackbarError,
@@ -16,34 +14,18 @@ const createOfficerAllegation = (
   caseOfficerId,
   addAllegationSuccessCallback
 ) => async dispatch => {
-  const errorMessage =
-    "Something went wrong and the allegation was not added. Please try again.";
-  const successMessage = "Allegation was successfully added";
-
   try {
-    const token = getAccessToken();
-
-    if (!token) {
-      return dispatch(push("/login"));
-    }
-
-    const response = await axios(
+    const response = await axios.post(
       `${hostname}/api/cases/${caseId}/cases-officers/${caseOfficerId}/officers-allegations`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        data: JSON.stringify(formValues)
-      }
+      JSON.stringify(formValues)
     );
-
     addAllegationSuccessCallback();
     dispatch(createOfficerAllegationSuccess(response.data));
-    return dispatch(snackbarSuccess(successMessage));
+    return dispatch(snackbarSuccess("Allegation was successfully added"));
   } catch (error) {
-    return dispatch(snackbarError(errorMessage));
+    return dispatch(snackbarError(
+      "Something went wrong and the allegation was not added. Please try again."
+    ));
   }
 };
 

@@ -6,6 +6,7 @@ import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCre
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
+import configureInterceptors from "../../../interceptors";
 jest.mock("../../../auth/getAccessToken");
 
 describe("getLetterPreview", function() {
@@ -13,12 +14,7 @@ describe("getLetterPreview", function() {
   beforeEach(() => {
     caseId = 7;
     dispatch = jest.fn();
-  });
-
-  test("redirects to login if invalid token", async () => {
-    getAccessToken.mockImplementation(() => false);
-    await getLetterPreview(caseId)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
+    configureInterceptors({dispatch})
   });
 
   test("dispatches getLetterPreviewSuccess and getCaseDetailsSuccess with data, doesn't redirect to case details page", async () => {

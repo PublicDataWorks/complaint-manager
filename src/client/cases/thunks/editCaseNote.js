@@ -1,5 +1,3 @@
-import { push } from "react-router-redux";
-import getAccessToken from "../../auth/getAccessToken";
 import {
   closeCaseNoteDialog,
   editCaseNoteFailure,
@@ -12,23 +10,10 @@ const hostname = config[process.env.NODE_ENV].hostname;
 
 const editCaseNote = values => async dispatch => {
   try {
-    const token = getAccessToken();
-    if (!token) {
-      return dispatch(push("/login"));
-    }
-
-    const response = await axios(
+    const response = await axios.put(
       `${hostname}/api/cases/${values.caseId}/case-notes/${values.id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        data: JSON.stringify(values)
-      }
+      JSON.stringify(values)
     );
-
     dispatch(editCaseNoteSuccess(response.data));
     return dispatch(closeCaseNoteDialog());
   } catch (error) {

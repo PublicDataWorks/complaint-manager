@@ -8,6 +8,7 @@ import {
   getLetterPdfSuccess,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
+import configureInterceptors from "../../../interceptors";
 import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
 
 jest.mock("file-saver", () => jest.fn());
@@ -15,6 +16,7 @@ jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("getPdf thunk", function() {
   const dispatch = jest.fn();
+  configureInterceptors({dispatch})
   const caseId = 2;
   const token = "token";
   let letterType;
@@ -27,12 +29,6 @@ describe("getPdf thunk", function() {
   beforeEach(() => {
     letterType = LETTER_TYPE.GENERATED;
     dispatch.mockClear();
-  });
-
-  test("redirects to login if no token", async () => {
-    getAccessToken.mockImplementation(() => null);
-    await getPdf(caseId, uneditedFilename, letterType)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
   describe("saveFileForUser is true", () => {
