@@ -414,7 +414,7 @@ if (TEST_PASS && TEST_USER && HOST) {
 
     "should redirect to review-and-approve page and approve letter": browser => {
       const caseDetails = browser.page.CaseDetails();
-      const reviewAndApprove = browser.page.ReviewAndApprove();
+      const reviewAndApprove = browser.page.ReviewAndApproveLetter();
       const snackbar = browser.page.SnackbarPOM();
 
       caseDetails.clickReviewAndApproveButton();
