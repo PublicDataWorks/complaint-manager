@@ -1,4 +1,3 @@
-import getAccessToken from "../../../auth/getAccessToken";
 import { push } from "react-router-redux";
 import axios from "axios/index";
 import config from "../../../config/config";
@@ -8,22 +7,10 @@ import {
 } from "../../../actionCreators/snackBarActionCreators";
 
 const approveReferralLetter = (caseId, callback) => async dispatch => {
-  const token = getAccessToken();
-  if (!token) {
-    return dispatch(push("/login"));
-  }
   try {
     const hostname = config[process.env.NODE_ENV].hostname;
-
-    await axios(
+    await axios.put(
       `${hostname}/api/cases/${caseId}/referral-letter/approve-letter`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
-      }
     );
     dispatch(snackbarSuccess("Status was successfully updated"));
     dispatch(push(`/cases/${caseId}`));

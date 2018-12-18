@@ -1,4 +1,3 @@
-import getAccessToken from "../../auth/getAccessToken";
 import config from "../../config/config";
 import { push } from "react-router-redux";
 import {
@@ -15,24 +14,10 @@ const addOfficer = (caseId, officerId, values) => async dispatch => {
   const payload = { officerId, ...values };
 
   try {
-    const token = getAccessToken();
-
-    if (!token) {
-      dispatch(push("/login"));
-      throw new Error("No access token found");
-    }
-    const response = await axios(
+    const response = await axios.post(
       `${hostname}/api/cases/${caseId}/cases-officers`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        data: JSON.stringify(payload)
-      }
-    );
-
+      JSON.stringify(payload)
+    )
     dispatch(addOfficerToCaseSuccess(response.data));
     dispatch(clearSelectedOfficer());
     dispatch(snackbarSuccess(`Officer was successfully added`));

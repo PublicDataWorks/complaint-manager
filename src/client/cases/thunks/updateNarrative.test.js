@@ -6,11 +6,13 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import getAccessToken from "../../auth/getAccessToken";
 import { push } from "react-router-redux";
+import configureInterceptors from "../../interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("updateNarrative", () => {
   const dispatch = jest.fn();
+  configureInterceptors({dispatch})
   const updateDetails = {
     id: 1,
     narrativeDetails: "Some case narrative details",
@@ -58,26 +60,5 @@ describe("updateNarrative", () => {
     await updateNarrative(updateDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(updateNarrativeFailure());
-  });
-
-  test("should redirect immediately if token missing", async () => {
-    getAccessToken.mockImplementation(() => false);
-
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer false"
-      }
-    })
-      .put(`/api/cases/${updateDetails.id}/narrative`, {
-        narrativeDetails: updateDetails.narrativeDetails,
-        narrativeSummary: updateDetails.narrativeSummary
-      })
-      .reply(200);
-
-    await updateNarrative(updateDetails)(dispatch);
-
-    expect(dispatch).not.toHaveBeenCalledWith(updateNarrative(updateDetails));
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 });

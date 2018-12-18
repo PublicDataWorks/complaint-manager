@@ -4,6 +4,7 @@ import {
   snackbarError,
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
+import configureInterceptors from "../../../interceptors";
 jest.mock("../../../auth/getAccessToken");
 import { push } from "react-router-redux";
 import editOfficerHistory from "./editOfficerHistory";
@@ -13,6 +14,7 @@ describe("editReferralLetter", () => {
   beforeEach(() => {
     caseId = 5;
     dispatch = jest.fn();
+    configureInterceptors({dispatch})
     requestBody = {
       letterOfficers: [
         {
@@ -26,12 +28,6 @@ describe("editReferralLetter", () => {
         }
       ]
     };
-  });
-
-  test("redirects to login if no token", async () => {
-    getAccessToken.mockImplementation(() => false);
-    await editOfficerHistory(caseId, requestBody, "redirectRoute")(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
   test("dispatches snackbar success on success, doesn't redirect to case details page", async () => {

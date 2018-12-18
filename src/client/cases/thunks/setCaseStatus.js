@@ -1,4 +1,3 @@
-import getAccessToken from "../../auth/getAccessToken";
 import { push } from "react-router-redux";
 import config from "../../config/config";
 import {
@@ -15,23 +14,11 @@ import axios from "axios";
 const hostname = config[process.env.NODE_ENV].hostname;
 
 const setCaseStatus = (caseId, status, redirectUrl) => async dispatch => {
-  const token = getAccessToken();
-  if (!token) {
-    return dispatch(push("/login"));
-  }
-
   try {
-    const response = await axios(`${hostname}/api/cases/${caseId}/status`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      data: JSON.stringify({
-        status
-      })
-    });
-
+    const response = await axios.put(
+      `${hostname}/api/cases/${caseId}/status`,
+      JSON.stringify({status})
+    );
     dispatch(updateCaseStatusSuccess(response.data));
     dispatch(snackbarSuccess("Status was successfully updated"));
     if (redirectUrl) {

@@ -6,6 +6,7 @@ import {
   updateIncidentDetailsFailure,
   updateIncidentDetailsSuccess
 } from "../../actionCreators/casesActionCreators";
+import configureInterceptors from "../../interceptors";
 
 jest.mock("../../auth/getAccessToken");
 
@@ -14,14 +15,8 @@ describe("editIncidentDetails", () => {
   const closeDialogCallback = jest.fn();
 
   beforeEach(() => {
+    configureInterceptors({dispatch})
     dispatch.mockClear();
-  });
-
-  test("should redirect immediately if token missing", async () => {
-    getAccessToken.mockImplementationOnce(() => false);
-    await editIncidentDetails()(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
   test("should dispatch success and close dialog when incident is successfully edited", async () => {

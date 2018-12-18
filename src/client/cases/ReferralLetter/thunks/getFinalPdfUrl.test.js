@@ -1,22 +1,17 @@
 import getAccessToken from "../../../auth/getAccessToken";
 import getFinalPdfUrl from "./getFinalPdfUrl";
-import { push } from "react-router-redux";
 import nock from "nock";
 import { getFinalPdfUrlSuccess } from "../../../actionCreators/letterActionCreators";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import configureInterceptors from "../../../interceptors";
 jest.mock("../../../auth/getAccessToken");
 
 describe("getFinalPdfUrl", () => {
   let dispatch, caseId;
   beforeEach(() => {
     dispatch = jest.fn();
+    configureInterceptors({dispatch})
     caseId = 5;
-  });
-
-  test("redirects to login if missing token", async () => {
-    getAccessToken.mockImplementationOnce(() => false);
-    await getFinalPdfUrl(caseId)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
   test("retreives pdf url on success", async () => {

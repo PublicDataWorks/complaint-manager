@@ -1,5 +1,3 @@
-import { push } from "react-router-redux";
-import getAccessToken from "../../auth/getAccessToken";
 import {
   closeEditDialog,
   createCivilianFailure,
@@ -13,22 +11,10 @@ const hostname = config[process.env.NODE_ENV].hostname;
 
 const createCivilian = civilian => async dispatch => {
   try {
-    const token = getAccessToken();
-
-    if (!token) {
-      dispatch(push(`/login`));
-      return dispatch(createCivilianFailure());
-    }
-
-    const response = await axios(`${hostname}/api/civilian`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      data: JSON.stringify(civilian)
-    });
-
+    const response = await axios.post(
+      `${hostname}/api/civilian`,
+      JSON.stringify(civilian)
+    );
     dispatch(createCivilianSuccess(response.data));
     dispatch(closeEditDialog());
     return await dispatch(getCaseNotes(response.data.id));

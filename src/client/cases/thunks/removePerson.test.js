@@ -7,6 +7,7 @@ import {
   removePersonFailure,
   removePersonSuccess
 } from "../../actionCreators/casesActionCreators";
+import configureInterceptors from "../../interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -23,14 +24,8 @@ describe("removePerson", () => {
   };
 
   beforeEach(() => {
+    configureInterceptors({dispatch});
     dispatch.mockClear();
-  });
-
-  test("should redirect immediately if token missing", async () => {
-    getAccessToken.mockImplementationOnce(() => false);
-    await removePerson(personDetails)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
   test("should dispatch error action if we get an unrecognized response", async () => {

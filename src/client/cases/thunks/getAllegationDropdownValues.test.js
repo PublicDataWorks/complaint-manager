@@ -6,18 +6,13 @@ import {
   getAllegationsFailed,
   getAllegationsSuccess
 } from "../../actionCreators/allegationsActionCreators";
+import configureInterceptors from "../../interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("getAllegationDropdownValues", function() {
   const dispatch = jest.fn();
-  test("should redirect to login if no access token", async () => {
-    getAccessToken.mockImplementationOnce(() => false);
-
-    await getAllegationDropdownValues()(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
-  });
+  configureInterceptors({dispatch});
 
   test("should redirect dispatch success on 200 response", async () => {
     dispatch.mockClear();

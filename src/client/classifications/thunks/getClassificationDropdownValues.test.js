@@ -4,16 +4,12 @@ import nock from "nock";
 import { getClassificationsSuccess } from "../../actionCreators/classificationActionCreators";
 import getClassficationDropdownValues from "./getClassificationDropdownValues";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
+import configureInterceptors from "../../interceptors";
 jest.mock("../../auth/getAccessToken");
 
 describe("getClassificationDropdownValues", () => {
   const dispatch = jest.fn();
-
-  test("it redirects to login if no token", async () => {
-    getAccessToken.mockImplementation(() => false);
-    await getClassficationDropdownValues()(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
-  });
+  configureInterceptors({dispatch});
 
   test("it fetches classification values and dispatches them", async () => {
     getAccessToken.mockImplementation(() => "token");

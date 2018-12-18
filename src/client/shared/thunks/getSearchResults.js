@@ -1,5 +1,3 @@
-import getAccessToken from "../../auth/getAccessToken";
-import { push } from "react-router-redux";
 import config from "../../config/config";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import encodeUriWithParams from "../../utilities/encodeUriWithParams";
@@ -19,21 +17,13 @@ const getSearchResults = (
   newPage = undefined
 ) => async dispatch => {
   try {
-    const token = getAccessToken();
-    if (!token) {
-      return dispatch(push("/login"));
-    }
     if (paginatingSearch) {
       searchCriteria = { ...searchCriteria, page: newPage };
     } else {
       dispatch(searchInitiated());
     }
 
-    const response = await fetchSearchResults(
-      token,
-      searchCriteria,
-      resourceToSearch
-    );
+    const response = await fetchSearchResults(searchCriteria, resourceToSearch);
     return dispatch(searchSuccess(response.data, newPage));
   } catch (error) {
     dispatch(searchFailed());
@@ -45,17 +35,10 @@ const getSearchResults = (
   }
 };
 
-const fetchSearchResults = async (token, searchCriteria, resourceToSearch) => {
+const fetchSearchResults = async (searchCriteria, resourceToSearch) => {
   const url = `${hostname}/api/${resourceToSearch}/search`;
   const encodedUri = encodeUriWithParams(url, searchCriteria);
-
-  return await axios(encodedUri, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
-    }
-  });
+  return await axios.get(encodedUri);
 };
 
 export default getSearchResults;

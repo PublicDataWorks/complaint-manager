@@ -3,31 +3,60 @@ import nock from "nock";
 import { getCasesSuccess } from "./actionCreators/casesActionCreators";
 import getAccessToken from "./auth/getAccessToken";
 import { push } from "react-router-redux";
-import configureInterceptors from "./interceptors";
+import configureInterceptors, { ensureToken } from "./interceptors";
 jest.mock("./auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("interceptors", () => {
-  const mockStore = { dispatch: jest.fn() };
-  const responseBody = { users: ["some user"] };
+  const dispatch = jest.fn()
+  const responseBody = { cases: ["some case"] };
 
   beforeEach(() => {
-    configureInterceptors(mockStore);
+    configureInterceptors({dispatch});
     getAccessToken.mockClear();
-    mockStore.dispatch.mockClear();
+    dispatch.mockClear();
   });
 
   test("should redirect to login on 401", async () => {
-    getAccessToken.mockImplementation(() => true);
-
     nock("http://localhost")
       .get("/api/cases")
       .reply(401, { error: "Unauthorized" });
 
-    await getCases()(mockStore.dispatch);
+    await getCases()(dispatch);
 
-    expect(mockStore.dispatch).not.toHaveBeenCalledWith(
-      getCasesSuccess(responseBody.users)
+    expect(dispatch).not.toHaveBeenCalledWith(
+      getCasesSuccess(responseBody.cases)
     );
-    expect(mockStore.dispatch).toHaveBeenCalledWith(push("/login"));
+    expect(dispatch).toHaveBeenCalledWith(push("/login"));
+  });
+
+  test("adds access token to request headers", async () => {
+    nock("http://localhost")
+      .get("/api/cases")
+      .reply(function() {
+        if (this.req.headers.authorization == `Bearer ${getAccessToken()}`)
+          return [200, responseBody];
+        return [401];
+      });
+
+    await getCases()(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(
+      getCasesSuccess(responseBody.cases));
+    expect(dispatch).not.toHaveBeenCalledWith(push("/login"));
+  });
+
+  test("should redirect to login when missing access token", async () => {
+    getAccessToken.mockImplementation(() => false);
+
+    nock("http://localhost")
+      .get("/api/cases")
+      .reply(200);
+
+    await getCases()(dispatch);
+
+    expect(dispatch).not.toHaveBeenCalledWith(
+      getCasesSuccess(responseBody.cases)
+    );
+    expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 });

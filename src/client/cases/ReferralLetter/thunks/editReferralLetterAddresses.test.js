@@ -6,25 +6,19 @@ import {
 } from "../../../actionCreators/snackBarActionCreators";
 import nock from "nock";
 import getAccessToken from "../../../auth/getAccessToken";
+import configureInterceptors from "../../../interceptors";
 jest.mock("../../../auth/getAccessToken");
 
 describe("editReferralLetterAddresses", () => {
   const redirectUrl = "url";
   const caseId = 9;
   const dispatch = jest.fn();
+  configureInterceptors({dispatch})
   const addressData = {
     recipient: "bob",
     sender: "jane",
     transcribedBy: "smith"
   };
-
-  test("redirect to login if missing token", async () => {
-    getAccessToken.mockImplementation(() => false);
-    await editReferralLetterAddresses(caseId, addressData, redirectUrl)(
-      dispatch
-    );
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
-  });
 
   test("redirects to redirect page and shows success on success", async () => {
     getAccessToken.mockImplementation(() => "token");

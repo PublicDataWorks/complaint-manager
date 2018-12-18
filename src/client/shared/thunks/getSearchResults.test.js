@@ -4,6 +4,7 @@ import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import { searchSuccess } from "../../actionCreators/searchActionCreators";
+import configureInterceptors from "../../interceptors";
 
 jest.mock("../../auth/getAccessToken");
 
@@ -14,6 +15,7 @@ describe("getSearchResults", () => {
     district: "1st District"
   };
   const dispatch = jest.fn();
+  configureInterceptors({dispatch})
   const token = "token";
   const resourceToSearch = "resources";
   const page = 5;
@@ -21,11 +23,6 @@ describe("getSearchResults", () => {
 
   beforeEach(() => {
     dispatch.mockClear();
-  });
-  test("redirects to login if no token", async () => {
-    getAccessToken.mockImplementation(() => null);
-    await getSearchResults(searchCriteria, resourceToSearch)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
   test("dispatches failure when error response", async () => {

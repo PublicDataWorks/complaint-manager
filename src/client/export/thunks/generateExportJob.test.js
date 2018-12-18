@@ -6,11 +6,13 @@ import {
   generateExportSuccess
 } from "../../actionCreators/exportActionCreators";
 import getAccessToken from "../../auth/getAccessToken";
+import configureInterceptors from "../../interceptors";
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "token"));
 import { push } from "react-router-redux";
 
 describe("generateExportJob", () => {
   const mockedDispatch = jest.fn();
+  configureInterceptors({dispatch: mockedDispatch});
   const url = "/url";
 
   test("dispatches success when response returns successfully", async () => {
@@ -35,11 +37,5 @@ describe("generateExportJob", () => {
 
     expect(mockedDispatch).toHaveBeenCalledWith(addBackgroundJobFailure());
     expect(mockedDispatch).toHaveBeenCalledWith(clearCurrentExportJob());
-  });
-
-  test("redirects to login if missing token", async () => {
-    getAccessToken.mockImplementation(() => false);
-    await generateExport(url)(mockedDispatch);
-    expect(mockedDispatch).toHaveBeenCalledWith(push("/login"));
   });
 });

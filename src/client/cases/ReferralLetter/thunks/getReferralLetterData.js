@@ -1,4 +1,3 @@
-import getAccessToken from "../../../auth/getAccessToken";
 import { push } from "react-router-redux";
 import axios from "axios/index";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
@@ -7,34 +6,13 @@ import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import { getCaseNumberSuccess } from "../../../actionCreators/casesActionCreators";
 
 const getReferralLetterData = caseId => async dispatch => {
-  const token = getAccessToken();
-
-  if (!token) {
-    return dispatch(push("/login"));
-  }
-
   try {
     const hostname = config[process.env.NODE_ENV].hostname;
-    const response = await axios(
-      `${hostname}/api/cases/${caseId}/referral-letter`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
-      }
+    const response = await axios.get(
+      `${hostname}/api/cases/${caseId}/referral-letter`
     );
-
-    const caseNumberResponse = await axios(
-      `${hostname}/api/cases/${caseId}/case-number`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
-      }
+    const caseNumberResponse = await axios.get(
+      `${hostname}/api/cases/${caseId}/case-number`
     );
 
     dispatch(getCaseNumberSuccess(caseNumberResponse.data));

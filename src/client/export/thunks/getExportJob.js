@@ -1,5 +1,3 @@
-import getAccessToken from "../../auth/getAccessToken";
-import { push } from "react-router-redux";
 import axios from "axios";
 import {
   exportJobCompleted,
@@ -16,18 +14,7 @@ const hostname = config[process.env.NODE_ENV].hostname;
 
 const getExportJob = (jobId, currentRefreshCount = 1) => async dispatch => {
   try {
-    const token = getAccessToken();
-    if (!token) {
-      return dispatch(push("/login"));
-    }
-
-    const response = await axios.get(`${hostname}/api/export/job/${jobId}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getAccessToken()}`
-      }
-    });
-
+    const response = await axios.get(`${hostname}/api/export/job/${jobId}`);
     const job = response.data;
     if (job && job.state === "complete") {
       return dispatch(exportJobCompleted(job.downLoadUrl));

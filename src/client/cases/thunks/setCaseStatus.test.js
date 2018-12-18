@@ -16,20 +16,15 @@ import {
   updateCaseStatusSuccess
 } from "../../actionCreators/casesActionCreators";
 import Boom from "boom";
+import configureInterceptors from "../../interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("setCaseStatus", () => {
   const dispatch = jest.fn();
   beforeEach(() => {
+    configureInterceptors({dispatch})
     dispatch.mockClear();
-  });
-
-  test("should redirect to login when token missing", async () => {
-    getAccessToken.mockImplementationOnce(() => false);
-
-    await setCaseStatus()(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
   test("should dispatch snackbar failure when non-200 code", async () => {
