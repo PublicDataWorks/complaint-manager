@@ -4,7 +4,7 @@ import {
   snackbarError,
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import editIAProCorrections from "./editIAProCorrections";
 import configureInterceptors from "../../../interceptors";
 jest.mock("../../../auth/getAccessToken");

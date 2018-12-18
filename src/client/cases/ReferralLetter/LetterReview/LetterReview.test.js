@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import LetterReview from "./LetterReview";
 import { mount } from "enzyme";
 import React from "react";

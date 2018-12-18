@@ -6,7 +6,7 @@ import {
 } from "../../../actionCreators/snackBarActionCreators";
 import configureInterceptors from "../../../interceptors";
 jest.mock("../../../auth/getAccessToken");
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import editOfficerHistory from "./editOfficerHistory";
 
 describe("editReferralLetter", () => {

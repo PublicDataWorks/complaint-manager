@@ -2,8 +2,8 @@ import getCases from "./cases/thunks/getCases";
 import nock from "nock";
 import { getCasesSuccess } from "./actionCreators/casesActionCreators";
 import getAccessToken from "./auth/getAccessToken";
-import { push } from "react-router-redux";
-import configureInterceptors, { ensureToken } from "./interceptors";
+import { push } from "connected-react-router";
+import configureInterceptors from "./interceptors";
 jest.mock("./auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("interceptors", () => {

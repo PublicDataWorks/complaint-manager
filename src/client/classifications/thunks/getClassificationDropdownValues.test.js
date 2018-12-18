@@ -1,5 +1,5 @@
 import getAccessToken from "../../auth/getAccessToken";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import nock from "nock";
 import { getClassificationsSuccess } from "../../actionCreators/classificationActionCreators";
 import getClassficationDropdownValues from "./getClassificationDropdownValues";

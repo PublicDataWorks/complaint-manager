@@ -8,7 +8,7 @@ import { changeInput, containsText } from "../../../testHelpers";
 import OfficerHistoryNote from "./OfficerHistoryNote";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import editOfficerHistory from "../thunks/editOfficerHistory";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 jest.mock("../../../shared/components/RichTextEditor/RichTextEditor");
 jest.mock("../thunks/getReferralLetterData", () => () => ({ type: "" }));
 jest.mock("../thunks/editOfficerHistory", () =>

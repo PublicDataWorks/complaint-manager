@@ -1,6 +1,6 @@
 //TODO can we extract token management, failure dispatch, etc into something common?
 import nock from "nock";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import editCivilian from "./editCivilian";
 import Civilian from "../../testUtilities/civilian";
 import {

@@ -1,5 +1,5 @@
 import { CIVILIAN_FORM_NAME } from "../../../sharedUtilities/constants";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import createCivilian from "../thunks/createCivilian";
 import { initialize } from "redux-form";
 import { openCivilianDialog } from "../../actionCreators/casesActionCreators";

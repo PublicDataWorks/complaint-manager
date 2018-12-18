@@ -1,6 +1,5 @@
 import getAccessToken from "../../auth/getAccessToken";
-import configureInterceptors from "../../interceptors";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import editCaseOfficer from "./editCaseOfficer";
 import nock from "nock";
 import {
@@ -8,7 +7,7 @@ import {
   editCaseOfficerFailure,
   editCaseOfficerSuccess
 } from "../../actionCreators/officersActionCreators";
-
+import configureInterceptors from "../../interceptors";
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("editCaseOfficer thunk", () => {

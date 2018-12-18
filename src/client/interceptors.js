@@ -1,5 +1,5 @@
 import axios from "axios";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import getAccessToken from "./auth/getAccessToken";
 
 export default function(store) {

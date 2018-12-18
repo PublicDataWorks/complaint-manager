@@ -153,6 +153,12 @@ docker push noipm/docker-heroku:[heroku-cli-version]
 docker-compose exec db psql -U postgres -d complaint-manager
 ```
 
+### Run security checks
+```
+./scripts/security-checks.sh
+```
+
+
 ### One off tasks
 
 #### Adding migration

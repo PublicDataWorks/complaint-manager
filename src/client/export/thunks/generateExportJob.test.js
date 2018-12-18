@@ -8,7 +8,7 @@ import {
 import getAccessToken from "../../auth/getAccessToken";
 import configureInterceptors from "../../interceptors";
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "token"));
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 
 describe("generateExportJob", () => {
   const mockedDispatch = jest.fn();

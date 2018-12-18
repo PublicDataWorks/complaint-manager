@@ -1,6 +1,6 @@
 import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import addCaseNote from "./addCaseNote";
 import {
   addCaseNoteFailure,

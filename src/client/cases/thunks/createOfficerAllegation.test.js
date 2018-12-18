@@ -1,4 +1,4 @@
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import getAccessToken from "../../auth/getAccessToken";
 import createOfficerAllegation from "./createOfficerAllegation";
 import nock from "nock";

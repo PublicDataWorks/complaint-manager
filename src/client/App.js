@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
-import { ConnectedRouter } from "react-router-redux";
+import { ConnectedRouter } from "connected-react-router";
 import history from "./history";
 import StyleGuide from "./globalStyling/StyleGuide";
 import { MuiThemeProvider } from "@material-ui/core/styles";
