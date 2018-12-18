@@ -28,7 +28,8 @@ class IncidentDetails extends React.Component {
       incidentTime: this.props.incidentTime,
       incidentLocation: this.props.incidentLocation,
       district: this.props.district,
-      classificationId: this.props.classificationId
+      classificationId: this.props.classificationId,
+      intakeSource: this.props.intakeSource
     };
 
     this.props.dispatch(initialize("IncidentDetails", formValues));
@@ -48,7 +49,8 @@ class IncidentDetails extends React.Component {
       caseId,
       incidentLocation,
       district,
-      classification
+      classification,
+      intakeSource
     } = this.props;
     const classificationInitialism = classification
       ? classification.initialism
@@ -89,7 +91,14 @@ class IncidentDetails extends React.Component {
               </LinkButton>
             </div>
           </div>
-          <div style={{ display: "flex", width: "100%", paddingRight: 0 }}>
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              paddingRight: 0,
+              marginBottom: "26px"
+            }}
+          >
             <AddressInfoDisplay
               testLabel="incidentLocation"
               displayLabel="Incident Location"
@@ -108,6 +117,13 @@ class IncidentDetails extends React.Component {
               testLabel="classification"
             />
             <div style={{ width: "69.5px" }} />
+          </div>
+          <div style={{ display: "flex", width: "100%" }}>
+            <CivilianInfoDisplay
+              displayLabel="Intake Source"
+              value={intakeSource}
+              testLabel="intakeSource"
+            />
           </div>
         </CardContent>
         <IncidentDetailsDialog

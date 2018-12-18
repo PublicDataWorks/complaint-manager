@@ -158,10 +158,6 @@ describe("civilian dialog", () => {
     beforeEach(() => {
       titleDropdown = civilianDialog.find('[data-test="titleDropdown"]').last();
     });
-    //
-    // test("should have a label title", () => {
-    //   expect(titleDropdown.find("label").text()).toContain("Title *");
-    // });
 
     test("should show error if not set on save", () => {
       save.simulate("click");

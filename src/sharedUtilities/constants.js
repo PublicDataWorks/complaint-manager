@@ -191,6 +191,7 @@ export const UPDATE_CASE_STATUS_SUCCESS = "UPDATE_CASE_STATUS_SUCCESS";
 
 export const TIMEZONE = "America/Chicago";
 export const UTF8_BYTE_ORDER_MARK = "\ufeff";
+export const DEFAULT_INTAKE_SOURCE = "Other";
 
 // ----------------------------------------
 //          Audit

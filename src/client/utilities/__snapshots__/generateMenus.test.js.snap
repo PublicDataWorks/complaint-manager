@@ -35,3 +35,29 @@ Array [
   "Other",
 ]
 `;
+
+exports[`civilian info dropdown menus title menu should contain all required values 1`] = `
+Array [
+  "N/A",
+  "Dr.",
+  "Miss",
+  "Mr.",
+  "Mrs.",
+  "Ms.",
+]
+`;
+
+exports[`incident details menus intake source menu should contain all required values 1`] = `
+Array [
+  "Email",
+  "Facebook",
+  "In Person",
+  "Instagram",
+  "NOIPM Website",
+  "Other",
+  "Outreach Event",
+  "Phone",
+  "Remote Complaint Intake Site",
+  "Twitter",
+]
+`;

@@ -27,9 +27,15 @@ import {
   closeCreateCaseDialog,
   openCreateCaseDialog
 } from "../../actionCreators/casesActionCreators";
-import { CIVILIAN_INITIATED } from "../../../sharedUtilities/constants";
+import {
+  CIVILIAN_INITIATED,
+  DEFAULT_INTAKE_SOURCE
+} from "../../../sharedUtilities/constants";
 import { SubmissionError } from "redux-form";
 import _ from "lodash";
+import { intakeSourceMenu } from "../../utilities/generateMenus";
+import NoBlurTextField from "../CaseDetails/CivilianDialog/FormSelect";
+import { intakeSourceIsRequired } from "../../formFieldLevelValidations";
 
 const margin = {
   marginLeft: "5%",
@@ -177,6 +183,20 @@ class CreateCaseDialog extends React.Component {
               {this.state.civilianComplainant ? (
                 <CivilianComplainantFields />
               ) : null}
+              <div>
+                <Field
+                  required
+                  name="case.intakeSource"
+                  component={NoBlurTextField}
+                  label="Intake Source"
+                  hinttext="Intake Source"
+                  data-test="intakeSourceDropdown"
+                  style={{ width: "50%" }}
+                  validate={[intakeSourceIsRequired]}
+                >
+                  {intakeSourceMenu}
+                </Field>
+              </div>
             </form>
           </DialogContent>
           <DialogActions
@@ -228,7 +248,8 @@ export default reduxForm({
   initialValues: {
     case: {
       complaintType: CIVILIAN_INITIATED,
-      firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
+      firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
+      intakeSource: DEFAULT_INTAKE_SOURCE
     }
   }
 })(ConnectedDialog);

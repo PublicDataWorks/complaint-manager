@@ -67,6 +67,19 @@ export const titleMenu = generateMenu([
   "Ms."
 ]);
 
+export const intakeSourceMenu = generateMenu([
+  "Email",
+  "Facebook",
+  "In Person",
+  "Instagram",
+  "NOIPM Website",
+  "Other",
+  "Outreach Event",
+  "Phone",
+  "Remote Complaint Intake Site",
+  "Twitter"
+]);
+
 export const searchDistrictMenu = generateMenu([
   ["Any District", ""],
   ["1st District", "First District"],

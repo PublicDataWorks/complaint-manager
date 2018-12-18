@@ -16,6 +16,7 @@ import {
 import { DialogContent } from "@material-ui/core";
 import { getClassificationsSuccess } from "../../../actionCreators/classificationActionCreators";
 import getClassificationDropdownValues from "../../../classifications/thunks/getClassificationDropdownValues";
+import { DEFAULT_INTAKE_SOURCE } from "../../../../sharedUtilities/constants";
 
 jest.mock("../../thunks/editIncidentDetails", () =>
   jest.fn(values => ({
@@ -142,6 +143,15 @@ describe("incident details container", () => {
     ).toEqual("Second District");
   });
 
+  test("should display intake source", () => {
+    expect(
+      wrapper
+        .find('[data-test="intakeSource"]')
+        .first()
+        .text()
+    ).toEqual("N/A");
+  });
+
   test("should fetch classifications when open dialog", () => {
     const editButton = wrapper.find(
       'button[data-test="editIncidentDetailsButton"]'
@@ -197,6 +207,11 @@ describe("incident details container", () => {
       '[data-test="districtInput"]',
       "1st District"
     );
+    selectDropdownOption(
+      wrapper,
+      '[data-test="intakeSourceDropdown"]',
+      "Email"
+    );
 
     const saveButton = wrapper.find(
       'button[data-test="saveIncidentDetailsButton"]'
@@ -210,7 +225,8 @@ describe("incident details container", () => {
         incidentDate: "1994-05-02",
         incidentTime: "13:00",
         district: "First District",
-        classificationId: 12
+        classificationId: 12,
+        intakeSource: "Email"
       })
     );
   });

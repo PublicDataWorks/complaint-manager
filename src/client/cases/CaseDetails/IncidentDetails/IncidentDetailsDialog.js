@@ -28,12 +28,14 @@ import { addressMustBeValid } from "../../../formValidations";
 import NoBlurTextField from "../CivilianDialog/FormSelect";
 import {
   generateMenu,
-  inputDistrictMenu
+  inputDistrictMenu,
+  intakeSourceMenu
 } from "../../../utilities/generateMenus";
 import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import getClassificationDropDownOptions from "../../../classifications/thunks/getClassificationDropdownValues";
 import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocationInfo";
 import normalizeAddress from "../../../utilities/normalizeAddress";
+import { intakeSourceIsRequired } from "../../../formFieldLevelValidations";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -183,6 +185,20 @@ class IncidentDetailsDialog extends Component {
                 {generateMenu(props.classifications)}
               </Field>
               <div style={{ flex: 1 }} />
+            </div>
+            <div style={{ marginTop: "16px" }}>
+              <Field
+                required
+                name="intakeSource"
+                component={NoBlurTextField}
+                label="Intake Source"
+                hinttext="Intake Source"
+                data-test="intakeSourceDropdown"
+                style={{ width: "60%" }}
+                validate={[intakeSourceIsRequired]}
+              >
+                {intakeSourceMenu}
+              </Field>
             </div>
           </form>
         </DialogContent>

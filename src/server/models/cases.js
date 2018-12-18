@@ -75,6 +75,10 @@ export default (sequelize, DataTypes) => {
         field: "narrative_details",
         type: DataTypes.TEXT
       },
+      intakeSource: {
+        field: "intake_source",
+        type: DataTypes.STRING(50)
+      },
       createdBy: {
         field: "created_by",
         type: DataTypes.STRING,

@@ -9,7 +9,8 @@ const mapStateToProps = state => ({
   district: state.currentCase.details.district,
   caseId: state.currentCase.details.id,
   classificationId: state.currentCase.details.classificationId,
-  classification: state.currentCase.details.classification
+  classification: state.currentCase.details.classification,
+  intakeSource: state.currentCase.details.intakeSource
 });
 
 export default connect(mapStateToProps)(IncidentDetails);

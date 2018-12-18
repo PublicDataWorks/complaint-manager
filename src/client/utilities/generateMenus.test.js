@@ -2,9 +2,11 @@ import React from "react";
 import {
   genderIdentityMenu,
   generateMenu,
+  intakeSourceMenu,
   raceEthnicityMenu,
   searchParagraphMenu,
-  searchRuleMenu
+  searchRuleMenu,
+  titleMenu
 } from "./generateMenus";
 import { mount } from "enzyme";
 import { Select } from "@material-ui/core";
@@ -38,6 +40,20 @@ describe("civilian info dropdown menus", () => {
     expect(options).toMatchSnapshot();
   });
 
+  test("title menu should contain all required values", () => {
+    const titleMenuComponent = mount(
+      <Select open={true} value="">
+        {titleMenu}
+      </Select>
+    );
+
+    const options = getMenuOptions(titleMenuComponent);
+
+    expect(options).toMatchSnapshot();
+  });
+});
+
+describe("incident details menus", () => {
   test("should allow optional values for menu items", () => {
     const districts = [["Any district", ""], "1st district"];
     const districtsMenuComponent = mount(
@@ -55,6 +71,18 @@ describe("civilian info dropdown menus", () => {
     const firstDistrictOption = options.last();
     expect(firstDistrictOption.text()).toEqual("1st district");
     expect(firstDistrictOption.props()["data-value"]).toEqual("1st district");
+  });
+
+  test("intake source menu should contain all required values", () => {
+    const intakeSourceMenuComponent = mount(
+      <Select open={true} value="">
+        {intakeSourceMenu}
+      </Select>
+    );
+
+    const options = getMenuOptions(intakeSourceMenuComponent);
+
+    expect(options).toMatchSnapshot();
   });
 });
 

@@ -131,7 +131,8 @@ describe("dataChangeAuditHooks", () => {
         updatedAt: createdCase.updatedAt.toJSON(),
         id: createdCase.id,
         classificationId: null,
-        classification: null
+        classification: null,
+        intakeSource: null
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -158,7 +159,8 @@ describe("dataChangeAuditHooks", () => {
         updatedAt: createdCase.updatedAt.toJSON(),
         id: createdCase.id,
         classificationId: utdClassification.id,
-        classification: utdClassification.initialism
+        classification: utdClassification.initialism,
+        intakeSource: null
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -445,7 +447,8 @@ describe("dataChangeAuditHooks", () => {
           incidentTime: "12:59:59",
           narrativeSummary: "updated narrative summary",
           narrativeDetails: "updated narrative details",
-          assignedTo: "updatedAssignedPerson"
+          assignedTo: "updatedAssignedPerson",
+          intakeSource: "Email"
         },
         { auditUser: "someoneWhoUpdated" }
       );
@@ -468,7 +471,8 @@ describe("dataChangeAuditHooks", () => {
         updatedAt: existingCase.updatedAt.toJSON(),
         id: existingCase.id,
         classificationId: existingCase.classificationId,
-        classification: utdClassification.initialism
+        classification: utdClassification.initialism,
+        intakeSource: "Email"
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -535,7 +539,8 @@ describe("dataChangeAuditHooks", () => {
           incidentTime: { previous: "16:00:00" },
           narrativeDetails: { previous: "test details" },
           narrativeSummary: { previous: "test summary" },
-          status: { previous: "Initial" }
+          status: { previous: "Initial" },
+          intakeSource: { previous: null }
         };
         expect(audit.changes).toEqual(expectedChanges);
       });

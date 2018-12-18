@@ -3,12 +3,19 @@ import { Provider } from "react-redux";
 import createConfiguredStore from "../../createConfiguredStore";
 import { mount } from "enzyme/build/index";
 import CreateCaseDialog from "./CreateCaseDialog";
-import { changeInput, expectEventuallyNotToExist } from "../../testHelpers";
+import {
+  changeInput,
+  expectEventuallyNotToExist,
+  selectDropdownOption
+} from "../../testHelpers";
 import createCase from "../thunks/createCase";
 import { openSnackbar } from "../../actionCreators/snackBarActionCreators";
 import moment from "moment";
 import { applyCentralTimeZoneOffset } from "../../utilities/formatDate";
-import { CIVILIAN_INITIATED } from "../../../sharedUtilities/constants";
+import {
+  CIVILIAN_INITIATED,
+  DEFAULT_INTAKE_SOURCE
+} from "../../../sharedUtilities/constants";
 
 jest.mock("../thunks/createCase", () => creationDetails => ({
   type: "MOCK_CREATE_CASE_THUNK",
@@ -61,7 +68,8 @@ describe("CreateCaseDialog component", () => {
       caseDetails = {
         case: {
           complaintType: CIVILIAN_INITIATED,
-          firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
+          firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
+          intakeSource: "Email"
         },
         civilian: {
           firstName: "Fats",
@@ -90,6 +98,11 @@ describe("CreateCaseDialog component", () => {
         dialog,
         '[data-test="emailInput"]',
         caseDetails.civilian.email
+      );
+      selectDropdownOption(
+        dialog,
+        '[data-test="intakeSourceDropdown"]',
+        caseDetails.case.intakeSource
       );
     });
 
@@ -256,7 +269,8 @@ describe("CreateCaseDialog component", () => {
       const caseDetails = {
         case: {
           complaintType: CIVILIAN_INITIATED,
-          firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
+          firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
+          intakeSource: DEFAULT_INTAKE_SOURCE
         },
         civilian: {
           firstName: "Hello",
