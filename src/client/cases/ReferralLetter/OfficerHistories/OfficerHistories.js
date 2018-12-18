@@ -19,7 +19,7 @@ import {
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
 import editOfficerHistory from "../thunks/editOfficerHistory";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 
 class OfficerHistories extends Component {
   constructor(props) {

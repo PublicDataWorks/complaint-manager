@@ -1,5 +1,5 @@
 import getAccessToken from "../../auth/getAccessToken";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import config from "../../config/config";
 import { getCaseHistorySuccess } from "../../actionCreators/caseHistoryActionCreators";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";

@@ -1,5 +1,5 @@
 import getAccessToken from "../../../auth/getAccessToken";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import axios from "axios/index";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import config from "../../../config/config";

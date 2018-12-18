@@ -1,5 +1,5 @@
 import getAccessToken from "../../auth/getAccessToken";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import editCaseOfficer from "./editCaseOfficer";
 import nock from "nock";
 import {

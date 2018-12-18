@@ -2,7 +2,7 @@ import getCaseNotes from "./getCaseNotes";
 import nock from "nock";
 import getAccessToken from "../../auth/getAccessToken";
 import { getCaseNotesSuccess } from "../../actionCreators/casesActionCreators";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 

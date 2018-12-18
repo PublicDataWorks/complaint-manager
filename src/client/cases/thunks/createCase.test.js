@@ -6,7 +6,7 @@ import {
   requestCaseCreation
 } from "../../actionCreators/casesActionCreators";
 import createCase from "./createCase";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import getAccessToken from "../../auth/getAccessToken";
 import {
   CASE_STATUS,

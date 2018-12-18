@@ -21,7 +21,7 @@ import {
   CASE_STATUSES_ALLOWED_TO_EDIT_LETTER,
   LETTER_PROGRESS
 } from "../../../../sharedUtilities/constants";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {

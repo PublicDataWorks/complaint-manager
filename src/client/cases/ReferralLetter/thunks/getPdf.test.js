@@ -2,7 +2,7 @@ import saveAs from "file-saver";
 import getPdf from "./getPdf";
 import nock from "nock";
 import getAccessToken from "../../../auth/getAccessToken";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import {
   getLetterPdfSuccess,

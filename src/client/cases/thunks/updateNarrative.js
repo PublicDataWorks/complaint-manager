@@ -3,7 +3,7 @@ import {
   updateNarrativeSuccess
 } from "../../actionCreators/casesActionCreators";
 import getAccessToken from "../../auth/getAccessToken";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import config from "../../config/config";
 import getCaseNotes from "./getCaseNotes";
 import axios from "axios";

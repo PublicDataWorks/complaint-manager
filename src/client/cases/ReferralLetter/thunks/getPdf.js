@@ -1,6 +1,6 @@
 import getAccessToken from "../../../auth/getAccessToken";
 import saveAs from "file-saver";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import axios from "axios";
 import config from "../../../config/config";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";

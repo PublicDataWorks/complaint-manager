@@ -1,6 +1,6 @@
 import getAccessToken from "../../auth/getAccessToken";
 import getAllegationDropdownValues from "./getAllegationDropdownValues";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import nock from "nock";
 import {
   getAllegationsFailed,

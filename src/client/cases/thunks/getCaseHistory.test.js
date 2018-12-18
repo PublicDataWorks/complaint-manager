@@ -2,7 +2,7 @@ import { getCaseHistorySuccess } from "../../actionCreators/caseHistoryActionCre
 import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
 import getCaseHistory from "./getCaseHistory";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 import { getCaseNumberSuccess } from "../../actionCreators/casesActionCreators";

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 
 export default function(store) {
   axios.interceptors.response.use(

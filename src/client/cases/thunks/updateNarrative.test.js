@@ -5,7 +5,7 @@ import {
   updateNarrativeSuccess
 } from "../../actionCreators/casesActionCreators";
 import getAccessToken from "../../auth/getAccessToken";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 

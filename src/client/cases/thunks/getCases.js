@@ -1,5 +1,5 @@
 import { getCasesSuccess } from "../../actionCreators/casesActionCreators";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import getAccessToken from "../../auth/getAccessToken";
 import config from "../../config/config";
 import axios from "axios";

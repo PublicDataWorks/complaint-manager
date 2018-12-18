@@ -1,6 +1,6 @@
 import getAccessToken from "../../auth/getAccessToken";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import config from "../../config/config";
 import axios from "axios";
 

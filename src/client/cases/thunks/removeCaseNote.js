@@ -5,7 +5,7 @@ import {
   removeCaseNoteSuccess
 } from "../../actionCreators/casesActionCreators";
 import config from "../../config/config";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import axios from "axios";
 
 const hostname = config[process.env.NODE_ENV].hostname;
