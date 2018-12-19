@@ -345,6 +345,56 @@ describe("LetterPreview", function() {
     expect(preview.exists()).toEqual(false);
   });
 
+  test("should not see edit letter button when letter has been approved", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.CLOSED,
+        nextStatus: null
+      })
+    );
+
+    wrapper.update();
+
+    const editLetterButton = wrapper
+      .find('[data-test="edit-confirmation-dialog-button"]')
+      .first();
+
+    expect(editLetterButton.exists()).toEqual(false);
+  });
+
+  test("should see edit letter button when letter is in progress", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.LETTER_IN_PROGRESS,
+        nextStatus: null
+      })
+    );
+
+    wrapper.update();
+
+    const editLetterButton = wrapper
+      .find('[data-test="edit-confirmation-dialog-button"]')
+      .first();
+
+    expect(editLetterButton.exists()).toEqual(true);
+  });
+
+  test("should render back button when letter has been approved", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.CLOSED,
+        nextStatus: null
+      })
+    );
+
+    wrapper.update();
+    const backButton = wrapper.find('[data-test="back-button"]').first();
+    expect(backButton.exists()).toEqual(true);
+  });
+
   test("should render letter approved message if in closed status", () => {
     store.dispatch(
       getCaseDetailsSuccess({

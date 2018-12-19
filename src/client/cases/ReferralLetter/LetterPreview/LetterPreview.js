@@ -143,6 +143,20 @@ class LetterPreview extends Component {
     }
   };
 
+  renderEditLetterButton = () => {
+    if (this.letterAlreadyApproved()) {
+      return null;
+    }
+    return (
+      <SecondaryButton
+        data-test="edit-confirmation-dialog-button"
+        onClick={this.editLetterWithPossibleConfirmationDialog()}
+      >
+        Edit Letter
+      </SecondaryButton>
+    );
+  };
+
   displayLetterPreview = () => {
     return { __html: this.props.letterHtml };
   };
@@ -174,7 +188,10 @@ class LetterPreview extends Component {
     }
     if (this.letterAlreadyApproved()) {
       return (
-        <div data-test="letter-preview-approved-message">
+        <div
+          style={{ marginBottom: "24px" }}
+          data-test="letter-preview-approved-message"
+        >
           <i>This letter has already been approved.</i>
         </div>
       );
@@ -264,26 +281,6 @@ class LetterPreview extends Component {
           size={25}
           style={{ display: this.props.downloadInProgress ? "" : "none" }}
         />
-        <div style={{ display: "flex" }}>
-          <span style={{ flex: "auto" }}>
-            <SecondaryButton
-              onClick={this.saveAndGoBackToRecommendedActions()}
-              data-test="back-button"
-            >
-              Back
-            </SecondaryButton>
-          </span>
-          <span style={{ flex: "auto", textAlign: "right" }}>
-            <SecondaryButton
-              data-test="edit-confirmation-dialog-button"
-              onClick={this.editLetterWithPossibleConfirmationDialog()}
-            >
-              Edit Letter
-            </SecondaryButton>
-            {this.renderReviewAndApproveButton()}
-            {this.renderSubmitForReviewButton()}
-          </span>
-        </div>
       </div>
     );
   };
@@ -358,6 +355,23 @@ class LetterPreview extends Component {
                 Preview {this.timestampIfEdited()}
               </Typography>
               {this.renderLetterPreview()}
+              {!this.props.caseDetail.status ? null : (
+                <div style={{ display: "flex" }}>
+                  <span style={{ flex: "auto" }}>
+                    <SecondaryButton
+                      onClick={this.saveAndGoBackToRecommendedActions()}
+                      data-test="back-button"
+                    >
+                      Back
+                    </SecondaryButton>
+                  </span>
+                  <span style={{ flex: "auto", textAlign: "right" }}>
+                    {this.renderEditLetterButton()}
+                    {this.renderReviewAndApproveButton()}
+                    {this.renderSubmitForReviewButton()}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </form>
