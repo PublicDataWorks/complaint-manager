@@ -3,6 +3,8 @@ import getCaseWithAllAssociations from "./getCaseWithAllAssociations";
 import models from "../models";
 import ReferralLetter from "../../client/testUtilities/ReferralLetter";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
+import CaseOfficer from "../../client/testUtilities/caseOfficer";
+import Officer from "../../client/testUtilities/Officer";
 
 describe("getCaseWithAllAssocations", () => {
   let existingCase, referralLetter;
@@ -57,4 +59,51 @@ describe("getCaseWithAllAssocations", () => {
     expect(caseWithAllAssociations.pdfAvailable).toEqual(false);
     expect(caseWithAllAssociations.referralLetter).toBeUndefined();
   });
+  test("returns accusedOfficers in ascending order of their createdAt date", async () => {
+    await createUnknownCaseOfficer(existingCase);
+    await createKnownCaseOfficer(existingCase);
+
+    let caseWithAllAssociations;
+    await models.sequelize.transaction(async transaction => {
+      caseWithAllAssociations = await getCaseWithAllAssociations(
+        existingCase.id,
+        transaction
+      );
+    });
+    expect(
+      caseWithAllAssociations.accusedOfficers[0].createdAt <
+        caseWithAllAssociations.accusedOfficers[1].createdAt
+    ).toEqual(true);
+  });
 });
+
+async function createKnownCaseOfficer(existingCase) {
+  const officerAttributes = new Officer.Builder()
+    .defaultOfficer()
+    .withId(undefined);
+
+  const officer = await models.officer.create(officerAttributes, {
+    auditUser: "someone"
+  });
+
+  const caseOfficerAttributes = new CaseOfficer.Builder()
+    .defaultCaseOfficer()
+    .withId(undefined)
+    .withOfficerId(officer.id)
+    .withCaseId(existingCase.id);
+
+  await models.case_officer.create(caseOfficerAttributes, {
+    auditUser: "someone"
+  });
+}
+
+async function createUnknownCaseOfficer(existingCase) {
+  const unknownCaseOfficerAttributes = new CaseOfficer.Builder()
+    .defaultCaseOfficer()
+    .withUnknownOfficer()
+    .withCaseId(existingCase.id);
+
+  await models.case_officer.create(unknownCaseOfficerAttributes, {
+    auditUser: "someone"
+  });
+}
