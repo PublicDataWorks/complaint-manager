@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import { Document, Page, pdfjs } from "react-pdf";
 import getPdf from "../thunks/getPdf";
 import { withStyles } from "@material-ui/core/styles";
-import { push } from "react-router-redux";
 
 import {
   finishLoadingPdfPreview,

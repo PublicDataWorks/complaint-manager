@@ -3,9 +3,7 @@ import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 
 const redirectToCaseDetails = caseId => async dispatch => {
   dispatch(push(`/cases/${caseId}`));
-  dispatch(
-    snackbarError("This case is in an invalid status to view this page")
-  );
+  return dispatch(snackbarError("This case has already been approved"));
 };
 
 export default redirectToCaseDetails;

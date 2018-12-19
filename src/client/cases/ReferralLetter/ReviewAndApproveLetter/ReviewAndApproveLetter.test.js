@@ -20,11 +20,15 @@ import {
 import timekeeper from "timekeeper";
 import { dateTimeFromString } from "../../../utilities/formatDate";
 import approveReferralLetter from "../thunks/approveReferralLetter";
+import redirectToCaseDetails from "../../thunks/redirectToCaseDetails";
 
 jest.mock("../thunks/approveReferralLetter", () =>
   jest.fn((caseId, callback) => ({ type: "SOMETHING", caseId, callback }))
 );
-jest.mock("../../thunks/redirectToCaseDetails");
+
+jest.mock("../../thunks/redirectToCaseDetails", () =>
+  jest.fn(() => (caseId, status, redirectUrl) => {})
+);
 
 describe("ReviewAndApproveLetter", () => {
   const caseId = 100;
@@ -182,5 +186,31 @@ describe("ReviewAndApproveLetter", () => {
       caseId,
       expect.any(Function)
     );
+  });
+
+  test("redirects to case details page when letter is approved", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.FORWARDED_TO_AGENCY,
+        nextStatus: CASE_STATUS.CLOSED
+      })
+    );
+    wrapper.update();
+
+    expect(redirectToCaseDetails).toHaveBeenCalledWith(caseId);
+  });
+
+  test("redirects to case details page when letter is closed", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.CLOSED,
+        nextStatus: null
+      })
+    );
+    wrapper.update();
+
+    expect(redirectToCaseDetails).toHaveBeenCalledWith(caseId);
   });
 });
