@@ -12,14 +12,14 @@ import ReviewAndApproveLetter from "./ReviewAndApproveLetter";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { BrowserRouter as Router } from "react-router-dom";
 import {
+  finishLoadingPdfPreview,
   getLetterPdfSuccess,
   getLetterPreviewSuccess,
-  stopLetterDownload
+  startLoadingPdfPreview
 } from "../../../actionCreators/letterActionCreators";
 import timekeeper from "timekeeper";
 import { dateTimeFromString } from "../../../utilities/formatDate";
 import approveReferralLetter from "../thunks/approveReferralLetter";
-import redirectToCaseDetails from "../../thunks/redirectToCaseDetails";
 
 jest.mock("../thunks/approveReferralLetter", () =>
   jest.fn((caseId, callback) => ({ type: "SOMETHING", caseId, callback }))
@@ -138,7 +138,8 @@ describe("ReviewAndApproveLetter", () => {
     );
   });
 
-  test("displays progress indicator while downloading letter", () => {
+  test("displays progress indicator while loading pdf", () => {
+    store.dispatch(startLoadingPdfPreview());
     const progressIndicator = wrapper
       .find('[data-test="download-letter-progress"]')
       .first();
@@ -146,7 +147,7 @@ describe("ReviewAndApproveLetter", () => {
   });
 
   test("hides progress indicator while not downloading letter", () => {
-    dispatchSpy(stopLetterDownload());
+    store.dispatch(finishLoadingPdfPreview());
     wrapper.update();
     const progressIndicator = wrapper
       .find('[data-test="download-letter-progress"]')

@@ -180,7 +180,7 @@ class LetterPreview extends Component {
       );
     }
     return (
-      <div>
+      <div data-test="letter-preview">
         <Card
           style={{
             marginBottom: "24px",

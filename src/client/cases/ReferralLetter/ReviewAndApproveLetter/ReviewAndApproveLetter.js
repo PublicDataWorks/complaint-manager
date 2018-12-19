@@ -11,8 +11,10 @@ import { withStyles } from "@material-ui/core/styles";
 import { push } from "react-router-redux";
 
 import {
+  finishLoadingPdfPreview,
   getLetterPdfSuccess,
-  startLetterDownload
+  startLetterDownload,
+  startLoadingPdfPreview
 } from "../../../actionCreators/letterActionCreators";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import { dateTimeFromString } from "../../../utilities/formatDate";
@@ -51,12 +53,19 @@ class ReviewAndApproveLetter extends Component {
   componentDidMount() {
     this.props.getLetterPreview(this.state.caseId);
     this.props.startLetterDownload();
+    this.props.startLoadingPdfPreview();
     this.props.getPdf(this.state.caseId, this.props.finalFilename);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (!this.letterPreviewNotYetLoaded() && !this.statusIsAllowed()) {
       this.props.redirectToCaseDetails(this.state.caseId);
+    }
+    if (
+      this.state.loadedPages === this.state.numPages &&
+      this.props.loadingPdfPreview
+    ) {
+      this.props.finishLoadingPdfPreview();
     }
   }
 
@@ -116,7 +125,7 @@ class ReviewAndApproveLetter extends Component {
     }
 
     return (
-      <div>
+      <div data-test="review-and-approve-letter">
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
             {`Case #${this.props.caseNumber}   : Letter Generation`}
@@ -161,8 +170,7 @@ class ReviewAndApproveLetter extends Component {
             <CardContent>
               <div
                 style={{
-                  display:
-                    this.state.numPages === this.state.loadedPages ? "" : "none"
+                  display: this.props.loadingPdfPreview ? "none" : ""
                 }}
               >
                 <Document
@@ -178,10 +186,7 @@ class ReviewAndApproveLetter extends Component {
                   data-test={"download-letter-progress"}
                   size={25}
                   style={{
-                    display:
-                      this.state.loadedPages !== this.state.numPages
-                        ? ""
-                        : "none"
+                    display: this.props.loadingPdfPreview ? "" : "none"
                   }}
                 />
               </div>
@@ -212,13 +217,16 @@ const mapStateToProps = state => ({
   letterPdf: state.referralLetter.letterPdf,
   downloadInProgress: state.ui.letterDownload.downloadInProgress,
   caseNumber: state.currentCase.details.caseNumber,
-  status: state.currentCase.details.status
+  status: state.currentCase.details.status,
+  loadingPdfPreview: state.ui.pdfPreview.loadingPdfPreview
 });
 
 const mapDispatchToProps = {
   getLetterPreview,
   getPdf,
   startLetterDownload,
+  startLoadingPdfPreview,
+  finishLoadingPdfPreview,
   openCaseStatusUpdateDialog,
   approveReferralLetter,
   getLetterPdfSuccess,

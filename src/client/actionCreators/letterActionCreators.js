@@ -1,6 +1,7 @@
 import {
   CLOSE_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG,
   CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG,
+  FINISH_LOADING_PDF_PREVIEW,
   GET_FINAL_PDF_URL_SUCCESS,
   GET_LETTER_PDF_SUCCESS,
   GET_LETTER_PREVIEW_SUCCESS,
@@ -13,6 +14,7 @@ import {
   REMOVE_OFFICER_HISTORY_NOTE_DIALOG_CLOSED,
   REMOVE_OFFICER_HISTORY_NOTE_DIALOG_OPENED,
   START_LETTER_DOWNLOAD,
+  START_LOADING_PDF_PREVIEW,
   STOP_LETTER_DOWNLOAD
 } from "../../sharedUtilities/constants";
 
@@ -93,6 +95,14 @@ export const startLetterDownload = () => ({
 
 export const stopLetterDownload = () => ({
   type: STOP_LETTER_DOWNLOAD
+});
+
+export const startLoadingPdfPreview = () => ({
+  type: START_LOADING_PDF_PREVIEW
+});
+
+export const finishLoadingPdfPreview = () => ({
+  type: FINISH_LOADING_PDF_PREVIEW
 });
 
 export const getLetterPdfSuccess = letterPdf => ({
