@@ -27,6 +27,18 @@ const getCases = asyncMiddleware(async (req, res) => {
             model: models.case_officer,
             as: "complainantOfficers"
           }
+        ],
+        order: [
+          [
+            { model: models.civilian, as: "complainantCivilians" },
+            "createdAt",
+            "ASC"
+          ],
+          [
+            { model: models.case_officer, as: "complainantOfficers" },
+            "createdAt",
+            "ASC"
+          ]
         ]
       },
       { transaction }
