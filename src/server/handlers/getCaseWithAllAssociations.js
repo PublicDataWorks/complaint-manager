@@ -74,6 +74,12 @@ const getCaseData = async (caseId, transaction) => {
         { model: models.case_officer, as: "complainantOfficers" },
         "createdAt",
         "ASC"
+      ],
+      [{ model: models.civilian, as: "witnessCivilians" }, "createdAt", "ASC"],
+      [
+        { model: models.case_officer, as: "witnessOfficers" },
+        "createdAt",
+        "ASC"
       ]
     ]
   });
