@@ -38,6 +38,11 @@ const getCases = asyncMiddleware(async (req, res) => {
             { model: models.case_officer, as: "complainantOfficers" },
             "createdAt",
             "ASC"
+          ],
+          [
+            { model: models.case_officer, as: "accusedOfficers" },
+            "createdAt",
+            "ASC"
           ]
         ]
       },
