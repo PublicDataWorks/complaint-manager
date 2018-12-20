@@ -165,5 +165,80 @@ describe("getCases", () => {
           );
         });
     });
+    test("should return complainants sorted by createdAt ascending", async () => {
+      let complainantOfficers = [
+        await createCaseOfficer(COMPLAINANT, 234),
+        await createCaseOfficer(COMPLAINANT, 124)
+      ];
+      let civilians = [
+        createComplainantCivilian(),
+        createComplainantCivilian()
+      ];
+
+      const defaultCase = new Case.Builder()
+        .defaultCase()
+        .withId(undefined)
+        .withComplainantCivilians(civilians)
+        .withComplainantOfficers(complainantOfficers)
+        .build();
+
+      await models.cases.create(defaultCase, {
+        include: [
+          {
+            model: models.civilian,
+            as: "complainantCivilians",
+            auditUser: "someone"
+          },
+          {
+            model: models.case_officer,
+            as: "complainantOfficers",
+            auditUser: "someone"
+          }
+        ],
+        auditUser: "someone"
+      });
+
+      await request(app)
+        .get("/api/cases")
+        .set("Content-Header", "application/json")
+        .set("Authorization", `Bearer ${token}`)
+        .expect(200)
+        .then(response => {
+          expect(
+            response.body.cases[0].complainantOfficers[0].createdAt <
+              response.body.cases[0].complainantOfficers[1].createdAt
+          ).toEqual(true);
+          expect(
+            response.body.cases[0].complainantCivilians[0].createdAt <
+              response.body.cases[0].complainantCivilians[1].createdAt
+          ).toEqual(true);
+        });
+    });
   });
 });
+
+async function createComplainantCivilian() {
+  return new Civilian.Builder()
+    .defaultCivilian()
+    .withId(undefined)
+    .withRoleOnCase(COMPLAINANT)
+    .build();
+}
+
+async function createCaseOfficer(role, officerNumber) {
+  const officerAttributes = new Officer.Builder()
+    .defaultOfficer()
+    .withOfficerNumber(officerNumber)
+    .withId(undefined);
+
+  const officer = await models.officer.create(officerAttributes, {
+    auditUser: "someone"
+  });
+
+  return new CaseOfficer.Builder()
+    .defaultCaseOfficer()
+    .withId(undefined)
+    .withOfficerId(officer.id)
+    .withRoleOnCase(role)
+    .build();
+}
