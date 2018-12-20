@@ -11,7 +11,8 @@ import {
   COMPLAINANT,
   AUDIT_TYPE,
   AUDIT_SUBJECT,
-  AUDIT_ACTION
+  AUDIT_ACTION,
+  ACCUSED
 } from "../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
@@ -165,14 +166,18 @@ describe("getCases", () => {
           );
         });
     });
-    test("should return complainants sorted by createdAt ascending", async () => {
-      let complainantOfficers = [
+    test("should return complainants and accusedOfficers sorted by createdAt ascending", async () => {
+      const complainantOfficers = [
         await createCaseOfficer(COMPLAINANT, 234),
         await createCaseOfficer(COMPLAINANT, 124)
       ];
-      let civilians = [
+      const civilians = [
         createComplainantCivilian(),
         createComplainantCivilian()
+      ];
+      const accusedOfficers = [
+        await createCaseOfficer(ACCUSED, 235),
+        await createCaseOfficer(ACCUSED, 125)
       ];
 
       const defaultCase = new Case.Builder()
@@ -180,6 +185,7 @@ describe("getCases", () => {
         .withId(undefined)
         .withComplainantCivilians(civilians)
         .withComplainantOfficers(complainantOfficers)
+        .withAccusedOfficers(accusedOfficers)
         .build();
 
       await models.cases.create(defaultCase, {
@@ -192,6 +198,11 @@ describe("getCases", () => {
           {
             model: models.case_officer,
             as: "complainantOfficers",
+            auditUser: "someone"
+          },
+          {
+            model: models.case_officer,
+            as: "accusedOfficers",
             auditUser: "someone"
           }
         ],
@@ -211,6 +222,10 @@ describe("getCases", () => {
           expect(
             response.body.cases[0].complainantCivilians[0].createdAt <
               response.body.cases[0].complainantCivilians[1].createdAt
+          ).toEqual(true);
+          expect(
+            response.body.cases[0].accusedOfficers[0].createdAt <
+              response.body.cases[0].accusedOfficers[1].createdAt
           ).toEqual(true);
         });
     });
