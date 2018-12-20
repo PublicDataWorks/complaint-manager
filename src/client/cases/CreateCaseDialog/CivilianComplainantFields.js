@@ -37,7 +37,7 @@ const CivilianComplainantFields = () => (
       >
           OR
       </Typography>
-      <EmailField name={"civilian.email"} />
+      <EmailField name={"civilian.email"} autoComplete="disabled" />
       </div>
   </div>
 );

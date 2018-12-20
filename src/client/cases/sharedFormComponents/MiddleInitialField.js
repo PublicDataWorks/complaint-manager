@@ -9,6 +9,7 @@ const MiddleInitialField = props => (
     label="M.I."
     inputProps={{
       "data-test": "middleInitialInput",
+      autoComplete: "disabled",
       maxLength: 1
     }}
     normalize={(value, previousValue) =>

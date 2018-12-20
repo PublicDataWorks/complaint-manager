@@ -5,16 +5,18 @@ import LinkButton from "../../../shared/components/LinkButton";
 import getLetterPreview from "../thunks/getLetterPreview";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Document, Page } from "react-pdf";
+import { Document, Page, pdfjs } from "react-pdf";
 import getPdf from "../thunks/getPdf";
 import { withStyles } from "@material-ui/core/styles";
+
 import {
+  finishLoadingPdfPreview,
   getLetterPdfSuccess,
-  startLetterDownload
+  startLetterDownload,
+  startLoadingPdfPreview
 } from "../../../actionCreators/letterActionCreators";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import { dateTimeFromString } from "../../../utilities/formatDate";
-import { pdfjs } from "react-pdf";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
@@ -23,6 +25,9 @@ import {
   CASE_STATUS,
   LETTER_TYPE
 } from "../../../../sharedUtilities/constants";
+import PageLoading from "../../../shared/components/PageLoading";
+import redirectToCaseDetails from "../../thunks/redirectToCaseDetails";
+
 pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.js";
 
 const styles = theme => ({
@@ -47,43 +52,29 @@ class ReviewAndApproveLetter extends Component {
   componentDidMount() {
     this.props.getLetterPreview(this.state.caseId);
     this.props.startLetterDownload();
+    this.props.startLoadingPdfPreview();
     this.props.getPdf(this.state.caseId, this.props.finalFilename);
   }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (!this.letterPreviewNotYetLoaded() && !this.statusIsAllowed()) {
+      this.props.redirectToCaseDetails(this.state.caseId);
+    }
+    if (
+      this.state.loadedPages === this.state.numPages &&
+      this.props.loadingPdfPreview
+    ) {
+      this.props.finishLoadingPdfPreview();
+    }
+  }
+
+  statusIsAllowed = () => {
+    return this.props.status === CASE_STATUS.READY_FOR_REVIEW;
+  };
 
   letterPreviewNotYetLoaded = () => {
     return this.props.letterPdf === null;
   };
-
-  renderApproveButton = () => {
-    if (this.props.status === CASE_STATUS.READY_FOR_REVIEW) {
-      return (
-        <PrimaryButton
-          onClick={this.openUpdateCaseDialog}
-          data-test="approve-letter-button"
-        >
-          Approve Letter
-        </PrimaryButton>
-      );
-    }
-  };
-
-  letterHistoryMessage() {
-    if (this.props.status === CASE_STATUS.READY_FOR_REVIEW) {
-      return this.getTimestamp();
-    }
-    if (
-      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED].includes(
-        this.props.status
-      )
-    ) {
-      return (
-        <i>
-          This letter has already been approved. This preview may not reflect
-          the approved version.
-        </i>
-      );
-    }
-  }
 
   getTimestamp() {
     let message;
@@ -102,7 +93,8 @@ class ReviewAndApproveLetter extends Component {
 
   onDocumentLoadSuccess = ({ numPages }) => {
     this.setState({
-      numPages
+      numPages,
+      loadedPages: 0
     });
   };
 
@@ -111,23 +103,28 @@ class ReviewAndApproveLetter extends Component {
   };
 
   renderPages = () => {
-    if (this.letterPreviewNotYetLoaded()) {
-      return null;
-    }
-
     return Array.from(new Array(this.state.numPages), (el, index) => (
       <Page
         key={`page_${index + 1}`}
         pageNumber={index + 1}
         scale={1.3}
+        onLoadSuccess={() => {
+          this.setState({
+            loadedPages: this.state.loadedPages + 1
+          });
+        }}
         className={this.props.classes.pageStyling}
       />
     ));
   };
 
   render() {
+    if (this.letterPreviewNotYetLoaded()) {
+      return <PageLoading />;
+    }
+
     return (
-      <div>
+      <div data-test="review-and-approve-letter">
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
             {`Case #${this.props.caseNumber}   : Letter Generation`}
@@ -157,7 +154,7 @@ class ReviewAndApproveLetter extends Component {
             variant="body1"
             style={{ marginBottom: "24px" }}
           >
-            {this.letterHistoryMessage()}
+            {this.getTimestamp()}
           </Typography>
           <Card
             style={{
@@ -170,25 +167,38 @@ class ReviewAndApproveLetter extends Component {
             }}
           >
             <CardContent>
-              <Document
-                file={this.props.letterPdf}
-                onLoadSuccess={this.onDocumentLoadSuccess}
-                noData=""
+              <div
+                style={{
+                  display: this.props.loadingPdfPreview ? "none" : ""
+                }}
               >
-                {this.renderPages()}
-              </Document>
+                <Document
+                  file={this.props.letterPdf}
+                  onLoadSuccess={this.onDocumentLoadSuccess}
+                  noData=""
+                >
+                  {this.renderPages()}
+                </Document>
+              </div>
               <div style={{ textAlign: "center", marginTop: "8px" }}>
                 <CircularProgress
                   data-test={"download-letter-progress"}
                   size={25}
                   style={{
-                    display: this.props.downloadInProgress ? "" : "none"
+                    display: this.props.loadingPdfPreview ? "" : "none"
                   }}
                 />
               </div>
             </CardContent>
           </Card>
-          <div style={{ textAlign: "right" }}>{this.renderApproveButton()}</div>
+          <div style={{ textAlign: "right" }}>
+            <PrimaryButton
+              onClick={this.openUpdateCaseDialog}
+              data-test="approve-letter-button"
+            >
+              Approve Letter
+            </PrimaryButton>
+          </div>
           <UpdateCaseStatusDialog
             alternativeAction={this.props.approveReferralLetter}
             doNotCallUpdateStatusCallback={true}
@@ -206,16 +216,20 @@ const mapStateToProps = state => ({
   letterPdf: state.referralLetter.letterPdf,
   downloadInProgress: state.ui.letterDownload.downloadInProgress,
   caseNumber: state.currentCase.details.caseNumber,
-  status: state.currentCase.details.status
+  status: state.currentCase.details.status,
+  loadingPdfPreview: state.ui.pdfPreview.loadingPdfPreview
 });
 
 const mapDispatchToProps = {
   getLetterPreview,
   getPdf,
   startLetterDownload,
+  startLoadingPdfPreview,
+  finishLoadingPdfPreview,
   openCaseStatusUpdateDialog,
   approveReferralLetter,
-  getLetterPdfSuccess
+  getLetterPdfSuccess,
+  redirectToCaseDetails
 };
 
 export default withStyles(styles, { withTheme: true })(

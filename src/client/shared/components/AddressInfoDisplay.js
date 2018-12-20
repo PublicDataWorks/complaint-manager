@@ -5,7 +5,7 @@ import {
 } from "../../utilities/formatAddress";
 import { Typography } from "@material-ui/core";
 
-const AddresesInfoDisplay = ({
+const AddressInfoDisplay = ({
   testLabel,
   displayLabel,
   address,
@@ -35,4 +35,4 @@ const AddresesInfoDisplay = ({
   );
 };
 
-export default AddresesInfoDisplay;
+export default AddressInfoDisplay;

@@ -12,15 +12,22 @@ import ReviewAndApproveLetter from "./ReviewAndApproveLetter";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { BrowserRouter as Router } from "react-router-dom";
 import {
+  finishLoadingPdfPreview,
   getLetterPdfSuccess,
   getLetterPreviewSuccess,
-  stopLetterDownload
+  startLoadingPdfPreview
 } from "../../../actionCreators/letterActionCreators";
 import timekeeper from "timekeeper";
 import { dateTimeFromString } from "../../../utilities/formatDate";
 import approveReferralLetter from "../thunks/approveReferralLetter";
+import redirectToCaseDetails from "../../thunks/redirectToCaseDetails";
+
 jest.mock("../thunks/approveReferralLetter", () =>
   jest.fn((caseId, callback) => ({ type: "SOMETHING", caseId, callback }))
+);
+
+jest.mock("../../thunks/redirectToCaseDetails", () =>
+  jest.fn(() => (caseId, status, redirectUrl) => {})
 );
 
 describe("ReviewAndApproveLetter", () => {
@@ -42,6 +49,8 @@ describe("ReviewAndApproveLetter", () => {
       })
     );
     store.dispatch(getLetterPdfSuccess("letter pdf"));
+    dispatchSpy = jest.spyOn(store, "dispatch");
+
     nowTimestamp = new Date("2018-07-01 19:00:22 UTC");
     timekeeper.freeze(nowTimestamp);
     wrapper = mount(
@@ -51,7 +60,6 @@ describe("ReviewAndApproveLetter", () => {
         </Router>
       </Provider>
     );
-    dispatchSpy = jest.spyOn(store, "dispatch");
   });
 
   afterEach(() => {
@@ -78,33 +86,6 @@ describe("ReviewAndApproveLetter", () => {
     expect(displayDate.text()).toEqual(
       `This letter was generated on ${dateTimeFromString(nowTimestamp)}`
     );
-  });
-
-  test("should not show approve button after approved", async () => {
-    const letterHtml = "<p>html</p>";
-    const addresses = "<p>addresses</p>";
-    const inputDate = "2018-11-20T21:59:40.707Z";
-    store.dispatch(
-      getCaseDetailsSuccess({
-        id: caseId,
-        status: CASE_STATUS.FORWARDED_TO_AGENCY,
-        nextStatus: CASE_STATUS.CLOSED
-      })
-    );
-
-    store.dispatch(
-      getLetterPreviewSuccess(
-        letterHtml,
-        addresses,
-        LETTER_TYPE.EDITED,
-        inputDate
-      )
-    );
-    wrapper.update();
-    const approveButton = wrapper
-      .find('[data-test="approve-letter-button"]')
-      .first();
-    expect(approveButton.exists()).toEqual(false);
   });
 
   test("should show approve button when in ready for review status", async () => {
@@ -161,34 +142,8 @@ describe("ReviewAndApproveLetter", () => {
     );
   });
 
-  test("should display already approved message when past ready for review status", async () => {
-    const letterHtml = "<p>html</p>";
-    const addresses = "<p>addresses</p>";
-    const inputDate = "2018-11-20T21:59:40.707Z";
-    store.dispatch(
-      getCaseDetailsSuccess({
-        id: caseId,
-        status: CASE_STATUS.FORWARDED_TO_AGENCY,
-        nextStatus: CASE_STATUS.CLOSED
-      })
-    );
-
-    store.dispatch(
-      getLetterPreviewSuccess(
-        letterHtml,
-        addresses,
-        LETTER_TYPE.EDITED,
-        inputDate
-      )
-    );
-    wrapper.update();
-    const displayDate = wrapper.find('[data-test="edit-history"]').first();
-    expect(displayDate.text()).toEqual(
-      `This letter has already been approved. This preview may not reflect the approved version.`
-    );
-  });
-
-  test("displays progress indicator while downloading letter", () => {
+  test("displays progress indicator while loading pdf", () => {
+    store.dispatch(startLoadingPdfPreview());
     const progressIndicator = wrapper
       .find('[data-test="download-letter-progress"]')
       .first();
@@ -196,7 +151,7 @@ describe("ReviewAndApproveLetter", () => {
   });
 
   test("hides progress indicator while not downloading letter", () => {
-    dispatchSpy(stopLetterDownload());
+    store.dispatch(finishLoadingPdfPreview());
     wrapper.update();
     const progressIndicator = wrapper
       .find('[data-test="download-letter-progress"]')
@@ -231,5 +186,31 @@ describe("ReviewAndApproveLetter", () => {
       caseId,
       expect.any(Function)
     );
+  });
+
+  test("redirects to case details page when letter is approved", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.FORWARDED_TO_AGENCY,
+        nextStatus: CASE_STATUS.CLOSED
+      })
+    );
+    wrapper.update();
+
+    expect(redirectToCaseDetails).toHaveBeenCalledWith(caseId);
+  });
+
+  test("redirects to case details page when letter is closed", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.CLOSED,
+        nextStatus: null
+      })
+    );
+    wrapper.update();
+
+    expect(redirectToCaseDetails).toHaveBeenCalledWith(caseId);
   });
 });

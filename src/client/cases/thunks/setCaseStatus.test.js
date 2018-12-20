@@ -1,4 +1,3 @@
-import getAccessToken from "../../auth/getAccessToken";
 import { push } from "connected-react-router";
 import setCaseStatus from "./setCaseStatus";
 import nock from "nock";
@@ -23,7 +22,7 @@ jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 describe("setCaseStatus", () => {
   const dispatch = jest.fn();
   beforeEach(() => {
-    configureInterceptors({dispatch})
+    configureInterceptors({ dispatch });
     dispatch.mockClear();
   });
 

@@ -75,7 +75,8 @@ describe("LetterPreview", function() {
       caseNumber: "CC2012-0102",
       firstContactDate: "2012-05-05",
       complaintType: CIVILIAN_INITIATED,
-      complainantCivilians: [{ lastName: "Brown" }]
+      complainantCivilians: [{ lastName: "Brown" }],
+      status: CASE_STATUS.LETTER_IN_PROGRESS
     };
 
     store.dispatch(
@@ -274,6 +275,147 @@ describe("LetterPreview", function() {
       .first();
 
     expect(reviewAndApproveLetterButton.exists()).toEqual(true);
+  });
+
+  test("should not render letter approved message if in letter in progress", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.LETTER_IN_PROGRESS,
+        nextStatus: CASE_STATUS.READY_FOR_REVIEW
+      })
+    );
+    store.dispatch(
+      userAuthSuccess({
+        permissions: [USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES]
+      })
+    );
+    wrapper.update();
+    const message = wrapper
+      .find('[data-test="letter-preview-approved-message"]')
+      .first();
+    const preview = wrapper.find('[data-test="letter-preview"]').first();
+
+    expect(message.exists()).toEqual(false);
+    expect(preview.exists()).toEqual(true);
+  });
+
+  test("should not render letter approved message if in ready for review", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+    store.dispatch(
+      userAuthSuccess({
+        permissions: [USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES]
+      })
+    );
+    wrapper.update();
+    const message = wrapper
+      .find('[data-test="letter-preview-approved-message"]')
+      .first();
+    const preview = wrapper.find('[data-test="letter-preview"]').first();
+
+    expect(message.exists()).toEqual(false);
+    expect(preview.exists()).toEqual(true);
+  });
+  test("should render letter approved message if in forwarded to agency status", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.FORWARDED_TO_AGENCY,
+        nextStatus: CASE_STATUS.CLOSED
+      })
+    );
+    store.dispatch(
+      userAuthSuccess({
+        permissions: [USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES]
+      })
+    );
+    wrapper.update();
+    const message = wrapper
+      .find('[data-test="letter-preview-approved-message"]')
+      .first();
+    const preview = wrapper.find('[data-test="letter-preview"]').first();
+
+    expect(message.exists()).toEqual(true);
+    expect(preview.exists()).toEqual(false);
+  });
+
+  test("should not see edit letter button when letter has been approved", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.CLOSED,
+        nextStatus: null
+      })
+    );
+
+    wrapper.update();
+
+    const editLetterButton = wrapper
+      .find('[data-test="edit-confirmation-dialog-button"]')
+      .first();
+
+    expect(editLetterButton.exists()).toEqual(false);
+  });
+
+  test("should see edit letter button when letter is in progress", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.LETTER_IN_PROGRESS,
+        nextStatus: null
+      })
+    );
+
+    wrapper.update();
+
+    const editLetterButton = wrapper
+      .find('[data-test="edit-confirmation-dialog-button"]')
+      .first();
+
+    expect(editLetterButton.exists()).toEqual(true);
+  });
+
+  test("should render back button when letter has been approved", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.CLOSED,
+        nextStatus: null
+      })
+    );
+
+    wrapper.update();
+    const backButton = wrapper.find('[data-test="back-button"]').first();
+    expect(backButton.exists()).toEqual(true);
+  });
+
+  test("should render letter approved message if in closed status", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.CLOSED,
+        nextStatus: null
+      })
+    );
+    store.dispatch(
+      userAuthSuccess({
+        permissions: [USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES]
+      })
+    );
+    wrapper.update();
+    const message = wrapper
+      .find('[data-test="letter-preview-approved-message"]')
+      .first();
+    const preview = wrapper.find('[data-test="letter-preview"]').first();
+
+    expect(message.exists()).toEqual(true);
+    expect(preview.exists()).toEqual(false);
   });
 
   test("dispatches editReferralLetterAddresses with correct values for back button", () => {

@@ -39,6 +39,7 @@ import editReferralLetterReducer from "./reducers/ui/editReferralLetterReducer";
 import cancelEditLetterConfirmationDialogReducer from "./reducers/ui/cancelEditlLetterConfirmationDialogReducer";
 import letterDownloadReducer from "./reducers/ui/letterDownloadReducer";
 import caseValidationDialogReducer from "./reducers/ui/caseValidationDialogReducer";
+import loadPdfPreviewReducer from "./reducers/ui/loadPdfPreviewReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -80,6 +81,7 @@ const rootReducer = combineReducers({
     officerHistoryNoteDialog: officerHistoryNoteDialogReducer,
     iaProCorrectionsDialog: iaProCorrectionsReducer,
     letterDownload: letterDownloadReducer,
+    pdfPreview: loadPdfPreviewReducer,
     caseValidationDialog: caseValidationDialogReducer
   }),
   officers: searchOfficersReducer,
