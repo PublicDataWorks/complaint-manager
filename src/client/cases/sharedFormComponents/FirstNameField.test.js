@@ -47,6 +47,6 @@ describe("First name field", () => {
 
   test("first name should not use autoComplete", () => {
     const firstName = firstNameField.find('input[data-test="firstNameInput"]');
-    expect(firstName.props().autoComplete).toEqual("off");
+    expect(firstName.props().autoComplete).toEqual("disabled");
   });
 });
