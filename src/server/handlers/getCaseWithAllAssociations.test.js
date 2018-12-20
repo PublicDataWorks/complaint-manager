@@ -99,6 +99,28 @@ describe("getCaseWithAllAssocations", () => {
         caseWithAllAssociations.complainantCivilians[1].createdAt
     ).toEqual(true);
   });
+  test("returns witnesses in ascending order of their createdAt date", async () => {
+    await createCaseOfficer(existingCase, WITNESS, 234);
+    await createCaseOfficer(existingCase, WITNESS, 123);
+    await createCivilian(existingCase, WITNESS);
+    await createCivilian(existingCase, WITNESS);
+
+    let caseWithAllAssociations;
+    await models.sequelize.transaction(async transaction => {
+      caseWithAllAssociations = await getCaseWithAllAssociations(
+        existingCase.id,
+        transaction
+      );
+    });
+    expect(
+      caseWithAllAssociations.witnessOfficers[0].createdAt <
+        caseWithAllAssociations.witnessOfficers[1].createdAt
+    ).toEqual(true);
+    expect(
+      caseWithAllAssociations.witnessCivilians[0].createdAt <
+        caseWithAllAssociations.witnessCivilians[1].createdAt
+    ).toEqual(true);
+  });
 });
 
 async function createCaseOfficer(existingCase, role, officerNumber) {
