@@ -1,6 +1,7 @@
 import getAccessToken from "../../../auth/getAccessToken";
 import nock from "nock";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import configureInterceptors from "../../../interceptors";
 jest.mock("../../../auth/getAccessToken");
 import { push } from "react-router-redux";
 import getReferralLetterData from "./getReferralLetterData";
@@ -12,6 +13,7 @@ describe("getReferralLetterData", () => {
   beforeEach(() => {
     caseId = 5;
     dispatch = jest.fn();
+    configureInterceptors({dispatch});
   });
 
   test("dispatches success with letter details on success", async () => {

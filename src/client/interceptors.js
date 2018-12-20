@@ -1,6 +1,9 @@
 import axios from "axios";
 import { push } from "react-router-redux";
 import getAccessToken from "./auth/getAccessToken";
+import config from "./config/config";
+
+axios.defaults.baseURL = `${config[process.env.NODE_ENV].hostname}`;
 
 export default function(store) {
   axios.interceptors.response.use(

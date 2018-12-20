@@ -9,12 +9,8 @@ describe("getFeatureToggles thunk", function() {
     const mockDispatch = jest.fn();
     configureInterceptors({dispatch: mockDispatch});
     const features = { testFeature: true };
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .get(`/features`)
+    nock("http://localhost")
+      .get(`/api/features`)
       .reply(200, features);
 
     await getFeatureToggles()(mockDispatch);

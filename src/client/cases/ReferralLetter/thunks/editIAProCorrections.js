@@ -1,5 +1,4 @@
 import { push } from "react-router-redux";
-import config from "../../../config/config";
 import axios from "axios/index";
 import {
   snackbarError,
@@ -12,9 +11,8 @@ const editIAProCorrections = (
   successRedirectRoute
 ) => async dispatch => {
   try {
-    const hostname = config[process.env.NODE_ENV].hostname;
     await axios.put(
-      `${hostname}/api/cases/${caseId}/referral-letter/iapro-corrections`,
+      `api/cases/${caseId}/referral-letter/iapro-corrections`,
         iaProCorrectionValues
     );
     dispatch(snackbarSuccess("IAPro corrections were successfully updated"));

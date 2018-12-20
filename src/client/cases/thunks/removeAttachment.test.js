@@ -5,7 +5,7 @@ import {
   removeAttachmentFailed,
   removeAttachmentSuccess
 } from "../../actionCreators/attachmentsActionCreators";
-
+import configureInterceptors from "../../interceptors";
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("remove attachment", () => {
@@ -15,6 +15,7 @@ describe("remove attachment", () => {
     mockFileName = "sample.text";
     caseDetails = { fileName: "sample.text" };
     dispatch = jest.fn();
+    configureInterceptors({dispatch})
     mockLocalStorage();
   });
 
