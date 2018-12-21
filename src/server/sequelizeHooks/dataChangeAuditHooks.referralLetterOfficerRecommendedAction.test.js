@@ -81,6 +81,10 @@ describe("dataChangeAuditHooks for referral letter officer recommended action", 
     expect(audit.changes.recommendedAction).toEqual({
       new: recommendedAction.description
     });
+    expect(audit.snapshot.recommended_action).toEqual(
+      recommendedAction.description
+    );
+    expect(audit.snapshot.recommendedActionId).toEqual(recommendedAction.id);
     expect(audit.user).toEqual("someone");
   });
 });

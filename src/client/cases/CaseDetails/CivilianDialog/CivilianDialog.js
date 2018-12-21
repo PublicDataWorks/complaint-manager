@@ -111,7 +111,7 @@ class CivilianDialog extends Component {
             <Typography variant="body2" style={{ marginBottom: "8px" }}>
               Personal Information
             </Typography>
-            <div style={{ display: "flex" }}>
+            <div>
               <Field
                 required
                 name="title"
@@ -119,11 +119,16 @@ class CivilianDialog extends Component {
                 label="Title"
                 hinttext="Title"
                 data-test="titleDropdown"
-                style={{ width: "25%", marginRight: "35px" }}
+                style={{
+                  width: "95px",
+                  marginBottom: "3%"
+                }}
                 validate={[titleIsRequired]}
               >
                 {titleMenu}
               </Field>
+            </div>
+            <div>
               <FirstNameField name="firstName" />
               <MiddleInitialField
                 name="middleInitial"
@@ -132,14 +137,14 @@ class CivilianDialog extends Component {
                   marginRight: "5%"
                 }}
               />
+              <LastNameField name="lastName" />
+              <SuffixField
+                name="suffix"
+                style={{
+                  width: "120px"
+                }}
+              />
             </div>
-            <LastNameField name="lastName" />
-            <SuffixField
-              name="suffix"
-              style={{
-                width: "120px"
-              }}
-            />
             <div style={{ display: "flex" }}>
               <DateField
                 name="birthDate"
