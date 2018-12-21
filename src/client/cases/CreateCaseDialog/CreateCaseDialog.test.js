@@ -310,8 +310,7 @@ describe("CreateCaseDialog component", () => {
         'LinkButton[data-test="createCaseOnly"]'
       );
       submitButton.simulate("click");
-      dispatchSpy.mock.calls.forEach(someCall => {});
-
+      
       expect(dispatchSpy).toHaveBeenCalledWith(
         createCase({ caseDetails: caseDetails, redirect: false })
       );

@@ -8,13 +8,17 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
-import { LETTER_PROGRESS } from "../../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  LETTER_PROGRESS
+} from "../../../../sharedUtilities/constants";
 import getLetterPreview from "../thunks/getLetterPreview";
 import { Field, reduxForm } from "redux-form";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 import { openCancelEditLetterConfirmationDialog } from "../../../actionCreators/letterActionCreators";
 import CancelEditLetterConfirmationDialog from "./CancelEditLetterConfirmationDialog";
 import editReferralLetterContent from "../thunks/editReferralLetterContent";
+import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
 const RichTextEditorComponent = props => {
   return (
@@ -36,8 +40,22 @@ export class EditLetter extends Component {
     this.props.dispatch(getLetterPreview(this.state.caseId));
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (!this.letterPreviewNotYetLoaded() && this.invalidCaseStatus()) {
+      this.props.invalidCaseStatusRedirect(this.state.caseId);
+    }
+  }
+
+  invalidCaseStatus = () => {
+    const allowed_statuses_for_edit_letter = [
+      CASE_STATUS.LETTER_IN_PROGRESS,
+      CASE_STATUS.READY_FOR_REVIEW
+    ];
+    return !allowed_statuses_for_edit_letter.includes(this.props.caseStatus);
+  };
+
   letterPreviewNotYetLoaded = () => {
-    return this.props.letterHtml === "";
+    return this.props.letterHtml === "" || !this.props.caseStatus;
   };
 
   saveAndGoBackToPreview = () => {
@@ -70,7 +88,7 @@ export class EditLetter extends Component {
   };
 
   render() {
-    if (this.letterPreviewNotYetLoaded()) {
+    if (this.letterPreviewNotYetLoaded() || this.invalidCaseStatus()) {
       return null;
     }
 
@@ -159,10 +177,18 @@ export class EditLetter extends Component {
 
 const mapStateToProps = state => ({
   initialValues: { editedLetterHtml: state.referralLetter.letterHtml },
-  caseNumber: state.currentCase.details.caseNumber
+  caseNumber: state.currentCase.details.caseNumber,
+  caseStatus: state.currentCase.details.status
 });
 
-export default connect(mapStateToProps)(
+const mapDispatchToProps = {
+  invalidCaseStatusRedirect: invalidCaseStatusRedirect
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
   reduxForm({ form: "editLetterHtmlForm", enableReinitialize: true })(
     EditLetter
   )

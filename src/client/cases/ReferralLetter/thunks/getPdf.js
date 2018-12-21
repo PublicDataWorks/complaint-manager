@@ -6,6 +6,7 @@ import {
   getLetterPdfSuccess,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
+import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
 const hostname = config[process.env.NODE_ENV].hostname;
 
@@ -18,7 +19,7 @@ const getPdf = (
   try {
     const response = await axios.get(
       `${hostname}/api/cases/${caseId}/referral-letter/get-pdf`,
-      {responseType: "arraybuffer"}
+      { responseType: "arraybuffer" }
     );
 
     if (saveFileForUser) {
@@ -28,8 +29,14 @@ const getPdf = (
       dispatch(getLetterPdfSuccess(response.data));
     }
     dispatch(stopLetterDownload());
-  } catch (e) {
+  } catch (error) {
     dispatch(stopLetterDownload());
+    if (
+      error.response &&
+      error.response.data.message === "Invalid case status"
+    ) {
+      return dispatch(invalidCaseStatusRedirect(caseId));
+    }
     return dispatch(
       snackbarError(
         "Something went wrong and the letter was not downloaded. Please try again."

@@ -7,14 +7,20 @@ import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
 import configureInterceptors from "../../../interceptors";
+import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
+
 jest.mock("../../../auth/getAccessToken");
+jest.mock("../../thunks/invalidCaseStatusRedirect", () => caseId => ({
+  type: "something",
+  caseId
+}));
 
 describe("getLetterPreview", function() {
   let caseId, dispatch;
   beforeEach(() => {
     caseId = 7;
     dispatch = jest.fn();
-    configureInterceptors({dispatch})
+    configureInterceptors({ dispatch });
   });
 
   test("dispatches getLetterPreviewSuccess and getCaseDetailsSuccess with data, doesn't redirect to case details page", async () => {
@@ -70,6 +76,6 @@ describe("getLetterPreview", function() {
       .get(`/api/cases/${caseId}/referral-letter/preview`)
       .reply(400, responseBody);
     await getLetterPreview(caseId)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    expect(dispatch).toHaveBeenCalledWith(invalidCaseStatusRedirect(caseId));
   });
 });

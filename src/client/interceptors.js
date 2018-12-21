@@ -12,9 +12,7 @@ export default function(store) {
       return Promise.reject(error);
     }
   );
-  axios.interceptors.request.use(
-    ensureToken(store.dispatch)
-  )
+  axios.interceptors.request.use(ensureToken(store.dispatch));
 }
 
 export const ensureToken = dispatch => config => {
@@ -29,5 +27,5 @@ export const ensureToken = dispatch => config => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
     }
-  }
-}
+  };
+};
