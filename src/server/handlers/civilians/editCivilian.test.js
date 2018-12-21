@@ -250,4 +250,28 @@ describe("editCivilian handler editing civilian with an address", () => {
 
     expect(existingCivilian.address.city).toEqual(initalCity);
   });
+
+  test("should trim extra whitespace from fields: firstName, lastName", async () => {
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        id: existingCivilian.id
+      },
+      body: {
+        firstName: "      Test White-space ",
+        lastName: "  O'Hare  "
+      },
+      nickname: "TEST_USER_NICKNAME"
+    });
+    const response = httpMocks.createResponse();
+
+    await editCivilian(request, response, jest.fn());
+
+    await existingCivilian.reload();
+    expect(existingCivilian.firstName).toEqual("Test White-space");
+    expect(existingCivilian.lastName).toEqual("O'Hare");
+  });
 });

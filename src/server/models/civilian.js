@@ -104,6 +104,12 @@ module.exports = (sequelize, DataTypes) => {
             ""
           );
         }
+      },
+      hooks: {
+        beforeSave: (civilian, options) => {
+          civilian.firstName = civilian.firstName.trim();
+          civilian.lastName = civilian.lastName.trim();
+        }
       }
     }
   );
