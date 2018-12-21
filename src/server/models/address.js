@@ -83,7 +83,19 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
-      paranoid: true
+      paranoid: true,
+      hooks: {
+        beforeSave: (address, options) => {
+          if (address.streetAddress)
+            address.streetAddress = address.streetAddress.trim();
+          
+          if (address.streetAddress2)
+            address.streetAddress2 = address.streetAddress2.trim();
+          
+          if (address.additionalLocationInfo)
+            address.additionalLocationInfo = address.additionalLocationInfo.trim();
+        }
+      }
     }
   );
 
