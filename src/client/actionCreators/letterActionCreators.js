@@ -2,7 +2,6 @@ import {
   CLOSE_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG,
   CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG,
   FINISH_LOADING_PDF_PREVIEW,
-  GET_FINAL_PDF_URL_SUCCESS,
   GET_LETTER_PDF_SUCCESS,
   GET_LETTER_PREVIEW_SUCCESS,
   GET_RECOMMENDED_ACTIONS_SUCCESS,
@@ -108,9 +107,4 @@ export const finishLoadingPdfPreview = () => ({
 export const getLetterPdfSuccess = letterPdf => ({
   type: GET_LETTER_PDF_SUCCESS,
   letterPdf
-});
-
-export const getFinalPdfUrlSuccess = finalPdfUrl => ({
-  type: GET_FINAL_PDF_URL_SUCCESS,
-  finalPdfUrl
 });

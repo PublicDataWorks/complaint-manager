@@ -1,12 +1,10 @@
 import {
-  GET_FINAL_PDF_URL_SUCCESS,
   GET_LETTER_PDF_SUCCESS,
   GET_REFERRAL_LETTER_SUCCESS,
   LETTER_TYPE
 } from "../../../sharedUtilities/constants";
 import referralLetterReducer from "./referralLetterReducer";
 import {
-  getFinalPdfUrlSuccess,
   getLetterPdfSuccess,
   getLetterPreviewSuccess,
   getReferralLetterSuccess
@@ -25,8 +23,7 @@ describe("referralLetterReducer", () => {
         lastEdited: null,
         finalFilename: null,
         draftFilename: null,
-        letterPdf: null,
-        finalPdfUrl: null
+        letterPdf: null
       });
     });
   });
@@ -46,8 +43,7 @@ describe("referralLetterReducer", () => {
         lastEdited: null,
         finalFilename: null,
         draftFilename: null,
-        letterPdf: null,
-        finalPdfUrl: null
+        letterPdf: null
       });
     });
   });
@@ -64,8 +60,7 @@ describe("referralLetterReducer", () => {
         lastEdited: null,
         finalFilename: null,
         draftFilename: null,
-        letterPdf: null,
-        finalPdfUrl: "url"
+        letterPdf: null
       };
       let referralLetterAddresses = {
         recipient: "recipient",
@@ -91,8 +86,7 @@ describe("referralLetterReducer", () => {
         lastEdited: timeOfEdit,
         finalFilename: "final_filename.pdf",
         draftFilename: "draft_filename.pdf",
-        letterPdf: null,
-        finalPdfUrl: "url"
+        letterPdf: null
       });
     });
   });
@@ -107,8 +101,7 @@ describe("referralLetterReducer", () => {
         lastEdited: null,
         finalFilename: null,
         draftFilename: null,
-        letterPdf: null,
-        finalPdfUrl: "url"
+        letterPdf: null
       };
       const newState = referralLetterReducer(
         initialState,
@@ -122,40 +115,7 @@ describe("referralLetterReducer", () => {
         lastEdited: null,
         finalFilename: null,
         draftFilename: null,
-        letterPdf: "letter pdf",
-        finalPdfUrl: "url"
-      };
-      expect(newState).toEqual(expectedState);
-    });
-  });
-
-  describe("GET_FINAL_PDF_URL_SUCCESS", () => {
-    test("sets the pdf url", () => {
-      const initialState = {
-        letterDetails: "something",
-        letterHtml: "something",
-        addresses: {},
-        letterType: null,
-        lastEdited: null,
-        finalFilename: null,
-        draftFilename: null,
-        letterPdf: null,
-        finalPdfUrl: null
-      };
-      const newState = referralLetterReducer(
-        initialState,
-        getFinalPdfUrlSuccess("url")
-      );
-      const expectedState = {
-        letterDetails: "something",
-        letterHtml: "something",
-        addresses: {},
-        letterType: null,
-        lastEdited: null,
-        finalFilename: null,
-        draftFilename: null,
-        letterPdf: null,
-        finalPdfUrl: "url"
+        letterPdf: "letter pdf"
       };
       expect(newState).toEqual(expectedState);
     });
