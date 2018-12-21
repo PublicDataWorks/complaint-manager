@@ -8,8 +8,8 @@ import {
   Typography
 } from "@material-ui/core";
 import {
-  SecondaryButton,
-  PrimaryButton
+  PrimaryButton,
+  SecondaryButton
 } from "../../../shared/components/StyledButtons";
 import removeCaseNote from "../../thunks/removeCaseNote";
 import { closeRemoveCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
@@ -59,9 +59,7 @@ const RemoveCaseNoteDialog = ({ dialogOpen, activity, dispatch }) => {
         </SecondaryButton>
         <PrimaryButton
           data-test="removeCaseNote"
-          onClick={() =>
-            dispatch(removeCaseNote(activity.caseId, activity.id))
-          }
+          onClick={() => dispatch(removeCaseNote(activity.caseId, activity.id))}
         >
           Remove
         </PrimaryButton>

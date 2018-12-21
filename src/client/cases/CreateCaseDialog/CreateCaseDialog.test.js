@@ -310,7 +310,7 @@ describe("CreateCaseDialog component", () => {
         'LinkButton[data-test="createCaseOnly"]'
       );
       submitButton.simulate("click");
-      
+
       expect(dispatchSpy).toHaveBeenCalledWith(
         createCase({ caseDetails: caseDetails, redirect: false })
       );

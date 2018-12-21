@@ -6,7 +6,7 @@ import {
   snackbarError,
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
-import configureInterceptors from "../../../interceptors";
+import configureInterceptors from "../../../axiosInterceptors/interceptors";
 
 jest.mock("../../../auth/getAccessToken");
 
@@ -16,7 +16,7 @@ describe("approve referral letter", () => {
   beforeEach(() => {
     caseId = 1;
     dispatch = jest.fn();
-    configureInterceptors({dispatch});
+    configureInterceptors({ dispatch });
     mockCallback = jest.fn();
   });
 

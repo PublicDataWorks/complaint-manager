@@ -2,18 +2,17 @@ import { getCaseHistorySuccess } from "../../actionCreators/caseHistoryActionCre
 import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
 import getCaseHistory from "./getCaseHistory";
-import { push } from "react-router-redux";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 import { getCaseNumberSuccess } from "../../actionCreators/casesActionCreators";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken");
 
 describe("getCaseHistory", () => {
   const caseId = 2;
   const dispatch = jest.fn();
-  configureInterceptors({dispatch});
+  configureInterceptors({ dispatch });
   const token = "token";
 
   test("should dispatch success when receive case history with 200", async () => {

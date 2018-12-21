@@ -2,16 +2,11 @@ import Handlebars from "handlebars";
 import {
   computeTimeZone,
   format12HourTime,
-  formatShortDate,
-  formatLongDate
+  formatLongDate,
+  formatShortDate
 } from "../client/utilities/formatDate";
 import formatPhoneNumber from "../client/utilities/formatPhoneNumber";
-import {
-  CASE_STATUS,
-  CIVILIAN_INITIATED,
-  RANK_INITIATED,
-  SIGNATURE_URLS
-} from "../sharedUtilities/constants";
+import { SIGNATURE_URLS } from "../sharedUtilities/constants";
 
 const caseNumberLength = 4;
 

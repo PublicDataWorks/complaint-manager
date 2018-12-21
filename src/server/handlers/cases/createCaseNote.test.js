@@ -2,10 +2,10 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Case from "../../../client/testUtilities/case";
 import models from "../../models";
 import {
+  AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  CASE_STATUS,
-  AUDIT_ACTION
+  CASE_STATUS
 } from "../../../sharedUtilities/constants";
 import createCaseNote from "./createCaseNote";
 import * as httpMocks from "node-mocks-http";

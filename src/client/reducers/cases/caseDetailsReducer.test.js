@@ -4,12 +4,12 @@ import {
   createCivilianSuccess,
   editCivilianSuccess,
   getCaseDetailsSuccess,
-  removePersonSuccess,
+  getCaseNumberSuccess,
   removeCaseNoteSuccess,
+  removePersonSuccess,
   updateIncidentDetailsSuccess,
   updateNarrativeSuccess,
-  uploadAttachmentSuccess,
-  getCaseNumberSuccess
+  uploadAttachmentSuccess
 } from "../../actionCreators/casesActionCreators";
 import { removeAttachmentSuccess } from "../../actionCreators/attachmentsActionCreators";
 import {

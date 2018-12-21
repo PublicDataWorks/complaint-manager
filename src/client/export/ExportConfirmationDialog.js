@@ -7,14 +7,14 @@ import {
   Typography
 } from "@material-ui/core";
 import {
-  SecondaryButton,
-  PrimaryButton
+  PrimaryButton,
+  SecondaryButton
 } from "../shared/components/StyledButtons";
 import { connect } from "react-redux";
 import generateExportJob from "./thunks/generateExportJob";
 import {
-  exportJobStarted,
-  closeExportConfirmationDialog
+  closeExportConfirmationDialog,
+  exportJobStarted
 } from "../actionCreators/exportActionCreators";
 
 const ExportConfirmationDialog = props => {

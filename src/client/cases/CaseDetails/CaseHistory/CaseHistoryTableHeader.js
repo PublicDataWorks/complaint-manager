@@ -1,10 +1,5 @@
 import tableStyleGenerator from "../../../tableStyles";
-import {
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography
-} from "@material-ui/core";
+import { TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import React from "react";
 

@@ -1,4 +1,5 @@
 import db from "../server/models";
+
 const queue = require("../server/handlers/cases/export/jobQueue").createQueue();
 
 const gracefulExit = server => {

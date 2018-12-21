@@ -1,5 +1,3 @@
-import getAccessToken from "../../auth/getAccessToken";
-import { push } from "react-router-redux";
 import removeOfficerAllegation from "./removeOfficerAllegation";
 import nock from "nock";
 import {
@@ -7,10 +5,10 @@ import {
   removeOfficerAllegationSuccess
 } from "../../actionCreators/allegationsActionCreators";
 import {
-  snackbarSuccess,
-  snackbarError
+  snackbarError,
+  snackbarSuccess
 } from "../../actionCreators/snackBarActionCreators";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -19,7 +17,7 @@ describe("removeOfficerAllegation thunk", () => {
   const officerAllegationId = 15;
   beforeEach(() => {
     dispatch = jest.fn();
-    configureInterceptors({dispatch});
+    configureInterceptors({ dispatch });
   });
 
   test("should dispatch error and snackbar failure if 500 response", async () => {

@@ -11,4 +11,7 @@ const mapDispatchToProps = {
   removeAttachment
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AttachmentsList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AttachmentsList);

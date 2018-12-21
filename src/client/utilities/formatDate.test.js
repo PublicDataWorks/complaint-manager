@@ -1,10 +1,10 @@
 import formatDate, {
   applyCentralTimeZoneOffset,
   computeTimeZone,
-  format12HourTime,
-  timeFromDateString,
   dateTimeFromString,
-  formatShortDate
+  format12HourTime,
+  formatShortDate,
+  timeFromDateString
 } from "./formatDate";
 
 describe("format date", () => {

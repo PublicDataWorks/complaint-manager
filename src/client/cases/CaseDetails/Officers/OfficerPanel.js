@@ -124,33 +124,32 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => (
           testLabel="notes"
         />
       </StyledExpansionPanelDetails>
-      {caseOfficer &&
-        caseOfficer.roleOnCase === ACCUSED && (
-          <div
+      {caseOfficer && caseOfficer.roleOnCase === ACCUSED && (
+        <div
+          style={{
+            marginLeft: "64px"
+          }}
+        >
+          <Typography
             style={{
-              marginLeft: "64px"
+              ...styles.section,
+              margin: "8px 24px"
             }}
           >
-            <Typography
-              style={{
-                ...styles.section,
-                margin: "8px 24px"
-              }}
-            >
-              Allegations
+            Allegations
+          </Typography>
+          {caseOfficer.allegations.length > 0 ? (
+            <OfficerAllegationsDisplay
+              officerId={caseOfficer.id}
+              officerAllegations={caseOfficer.allegations}
+            />
+          ) : (
+            <Typography style={{ marginLeft: "24px", fontStyle: "italic" }}>
+              No allegations have been added.
             </Typography>
-            {caseOfficer.allegations.length > 0 ? (
-              <OfficerAllegationsDisplay
-                officerId={caseOfficer.id}
-                officerAllegations={caseOfficer.allegations}
-              />
-            ) : (
-              <Typography style={{ marginLeft: "24px", fontStyle: "italic" }}>
-                No allegations have been added.
-              </Typography>
-            )}
-          </div>
-        )}
+          )}
+        </div>
+      )}
     </ExpansionPanel>
     <Divider />
   </div>

@@ -43,4 +43,7 @@ const mapDispatchToProps = {
   getFeatureToggles
 };
 
-export default connect(undefined, mapDispatchToProps)(Callback);
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(Callback);

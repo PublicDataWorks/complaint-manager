@@ -2,10 +2,10 @@ import models from "../models/index";
 import Case from "../../client/testUtilities/case";
 import Classification from "../../client/testUtilities/classification";
 import {
-  CASE_STATUS,
   AUDIT_ACTION,
-  RANK_INITIATED,
-  CIVILIAN_INITIATED
+  CASE_STATUS,
+  CIVILIAN_INITIATED,
+  RANK_INITIATED
 } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import IntakeSource from "../../client/testUtilities/intakeSource";

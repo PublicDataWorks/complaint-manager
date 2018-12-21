@@ -3,11 +3,11 @@ import formatStringToTitleCase from "../../../utilities/formatStringToTitleCase"
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
 import {
+  CardContent,
   ExpansionPanel,
   ExpansionPanelSummary,
-  CardContent,
-  IconButton,
-  Icon
+  Icon,
+  IconButton
 } from "@material-ui/core";
 import { connect } from "react-redux";
 

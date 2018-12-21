@@ -1,13 +1,14 @@
 import Case from "../../../client/testUtilities/case";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import {
+  AUDIT_ACTION,
+  AUDIT_SUBJECT,
+  AUDIT_TYPE
+} from "../../../sharedUtilities/constants";
+
 const httpMocks = require("node-mocks-http");
 const models = require("../../models/index");
 const updateCaseNarrative = require("./updateCaseNarrative");
-import {
-  AUDIT_ACTION,
-  AUDIT_TYPE,
-  AUDIT_SUBJECT
-} from "../../../sharedUtilities/constants";
 
 describe("updateCaseNarrative handler", () => {
   let request, response, existingCase, userNickname;

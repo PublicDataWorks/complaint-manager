@@ -1,7 +1,7 @@
 import downloadFailed from "../../actionCreators/downloadActionCreators";
 import inBrowserDownload from "./inBrowserDownload";
 import nock from "nock";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -18,7 +18,7 @@ describe("in browser download thunk", function() {
   beforeEach(() => {
     testPath = "/some-path";
     dispatch = jest.fn();
-    configureInterceptors({dispatch})
+    configureInterceptors({ dispatch });
     htmlAnchorId = "id";
     getElementSpy = jest.spyOn(document, "getElementById");
     linkClickSpy = jest.fn();

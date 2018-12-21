@@ -1,6 +1,6 @@
 import {
-  OPEN_EDIT_LETTER_CONFIRMATION_DIALOG,
-  CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG
+  CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG,
+  OPEN_EDIT_LETTER_CONFIRMATION_DIALOG
 } from "../../../sharedUtilities/constants";
 
 const initialState = { open: false };

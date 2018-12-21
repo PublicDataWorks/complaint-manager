@@ -7,14 +7,14 @@ import {
   removeCaseNoteFailure,
   removeCaseNoteSuccess
 } from "../../actionCreators/casesActionCreators";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("removeCaseNote", () => {
   test("should dispatch success when case note removed successfully", async () => {
     const dispatch = jest.fn();
-    configureInterceptors({dispatch})
+    configureInterceptors({ dispatch });
 
     const caseId = 1;
     const caseNoteId = 2;
@@ -37,7 +37,7 @@ describe("removeCaseNote", () => {
 
   test("should dispatch failure when remove case note fails", async () => {
     const dispatch = jest.fn();
-    configureInterceptors({dispatch})
+    configureInterceptors({ dispatch });
 
     const caseId = 1;
     const caseNoteId = 2;
@@ -57,7 +57,7 @@ describe("removeCaseNote", () => {
 
   test("should redirect immediately if token missing", async () => {
     const dispatch = jest.fn();
-    configureInterceptors({dispatch})
+    configureInterceptors({ dispatch });
 
     const caseId = 1;
     const caseNoteId = 2;

@@ -13,8 +13,8 @@ import {
   Divider,
   ExpansionPanel,
   ExpansionPanelSummary,
-  IconButton,
-  Icon
+  Icon,
+  IconButton
 } from "@material-ui/core";
 import formatDate from "../../../utilities/formatDate";
 import formatPhoneNumber from "../../../utilities/formatPhoneNumber";

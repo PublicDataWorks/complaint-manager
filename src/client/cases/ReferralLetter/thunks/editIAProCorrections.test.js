@@ -6,7 +6,8 @@ import {
 } from "../../../actionCreators/snackBarActionCreators";
 import { push } from "react-router-redux";
 import editIAProCorrections from "./editIAProCorrections";
-import configureInterceptors from "../../../interceptors";
+import configureInterceptors from "../../../axiosInterceptors/interceptors";
+
 jest.mock("../../../auth/getAccessToken");
 
 describe("editIAProCorrections", () => {
@@ -14,7 +15,7 @@ describe("editIAProCorrections", () => {
   beforeEach(() => {
     caseId = 5;
     dispatch = jest.fn();
-    configureInterceptors({dispatch})
+    configureInterceptors({ dispatch });
     requestBody = {
       referralLetterIAProCorrections: [
         {

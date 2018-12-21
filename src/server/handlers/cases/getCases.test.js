@@ -7,11 +7,11 @@ import Civilian from "../../../client/testUtilities/civilian";
 import Officer from "../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../client/testUtilities/caseOfficer";
 import {
-  CASE_STATUS,
-  COMPLAINANT,
-  AUDIT_TYPE,
+  AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_ACTION
+  AUDIT_TYPE,
+  CASE_STATUS,
+  COMPLAINANT
 } from "../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,

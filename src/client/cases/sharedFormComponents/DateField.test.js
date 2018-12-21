@@ -60,5 +60,4 @@ describe("DateField", () => {
 
     expect(datePicker.instance().value).toEqual(yesterday);
   });
-
 });

@@ -3,7 +3,7 @@ import { mount } from "enzyme";
 import React from "react";
 import OfficerAllegationDisplay from "./OfficerAllegationDisplay";
 import createConfiguredStore from "../../../createConfiguredStore";
-import {Provider} from "react-redux";
+import { Provider } from "react-redux";
 
 describe("OfficerAllegationsDisplay", function() {
   test("should render accused officer's allegations", () => {

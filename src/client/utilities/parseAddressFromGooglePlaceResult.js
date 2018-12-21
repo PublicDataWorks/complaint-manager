@@ -1,4 +1,5 @@
 import _ from "lodash";
+
 const getComponentOnType = (address, desired_types) => {
   const addressComponents = address.address_components;
 

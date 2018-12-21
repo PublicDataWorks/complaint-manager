@@ -9,6 +9,7 @@ import OfficerHistoryNote from "./OfficerHistoryNote";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import editOfficerHistory from "../thunks/editOfficerHistory";
 import { push } from "react-router-redux";
+
 jest.mock("../../../shared/components/RichTextEditor/RichTextEditor");
 jest.mock("../thunks/getReferralLetterData", () => () => ({ type: "" }));
 jest.mock("../thunks/editOfficerHistory", () =>

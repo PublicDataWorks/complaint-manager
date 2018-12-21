@@ -6,7 +6,7 @@ import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCre
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
-import configureInterceptors from "../../../interceptors";
+import configureInterceptors from "../../../axiosInterceptors/interceptors";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
 jest.mock("../../../auth/getAccessToken");

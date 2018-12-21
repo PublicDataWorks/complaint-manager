@@ -1,7 +1,7 @@
 import React from "react";
 import {
-  formatAddressWithLineBreak,
-  formatAddressAsString
+  formatAddressAsString,
+  formatAddressWithLineBreak
 } from "../../utilities/formatAddress";
 import { Typography } from "@material-ui/core";
 

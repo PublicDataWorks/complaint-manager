@@ -4,8 +4,8 @@ import ActivityMenu from "./ActivityMenu";
 import { Backdrop, Menu } from "@material-ui/core";
 import createConfiguredStore from "../../../createConfiguredStore";
 import {
-  openRemoveCaseNoteDialog,
-  openCaseNoteDialog
+  openCaseNoteDialog,
+  openRemoveCaseNoteDialog
 } from "../../../actionCreators/casesActionCreators";
 import { Provider } from "react-redux";
 import moment from "moment";

@@ -5,9 +5,9 @@ import { TextField } from "redux-form-material-ui";
 import { PrimaryButton } from "../shared/components/StyledButtons";
 import createOfficerAllegation from "../cases/thunks/createOfficerAllegation";
 import {
-  allegationSeverityRequired,
   allegationDetailsNotBlank,
-  allegationDetailsRequired
+  allegationDetailsRequired,
+  allegationSeverityRequired
 } from "../formFieldLevelValidations";
 import NoBlurTextField from "../cases/CaseDetails/CivilianDialog/FormSelect";
 import { allegationSeverityMenu } from "../utilities/generateMenus";

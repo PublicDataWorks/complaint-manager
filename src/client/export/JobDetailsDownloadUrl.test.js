@@ -1,8 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { JobDetails } from "./JobDetails";
-jest.mock("react-dom");
 import ReactDOM from "react-dom";
+
+jest.mock("react-dom");
 
 const JOB_ID = 19;
 

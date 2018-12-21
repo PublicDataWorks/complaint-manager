@@ -25,20 +25,20 @@ const CivilianComplainantFields = () => (
       }}
     />
     <br />
-      <div style={{display: "flex"}}>
-    <PhoneNumberField name={"civilian.phoneNumber"} />
+    <div style={{ display: "flex" }}>
+      <PhoneNumberField name={"civilian.phoneNumber"} />
       <Typography
-          variant="button"
-          style={{
-              marginLeft: "22px",
-              marginTop: "22px",
-              marginRight: "22px"
-          }}
+        variant="button"
+        style={{
+          marginLeft: "22px",
+          marginTop: "22px",
+          marginRight: "22px"
+        }}
       >
-          OR
+        OR
       </Typography>
       <EmailField name={"civilian.email"} autoComplete="disabled" />
-      </div>
+    </div>
   </div>
 );
 

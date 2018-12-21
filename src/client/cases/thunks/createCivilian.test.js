@@ -9,7 +9,7 @@ import {
 import createCivilian from "./createCivilian";
 import config from "../../config/config";
 import nock from "nock";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 const hostname = config["test"].hostname;
 
@@ -34,7 +34,7 @@ describe("civilian creation", function() {
     .build();
 
   beforeEach(() => {
-    configureInterceptors({dispatch});
+    configureInterceptors({ dispatch });
     dispatch.mockClear();
   });
 

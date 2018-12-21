@@ -3,6 +3,8 @@ import {
   TIMEZONE
 } from "../../../sharedUtilities/constants";
 import timezone from "moment-timezone";
+import moment from "moment";
+
 const { JOB_OPERATION } = require("../../../sharedUtilities/constants");
 const models = require("../../../server/models/index");
 const stringify = require("csv-stringify");
@@ -11,7 +13,6 @@ const promisifiedStringify = util.promisify(stringify);
 const exportCasesQuery = require("./exportCasesQuery");
 const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 const winston = require("winston");
-import moment from "moment";
 
 const TIMESTAMP_FORMAT = "MM/DD/YYYY HH:mm:ss z";
 

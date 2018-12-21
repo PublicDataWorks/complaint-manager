@@ -1,10 +1,9 @@
 import getSearchResults from "./getSearchResults";
-import { push } from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import { searchSuccess } from "../../actionCreators/searchActionCreators";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken");
 
@@ -15,7 +14,7 @@ describe("getSearchResults", () => {
     district: "1st District"
   };
   const dispatch = jest.fn();
-  configureInterceptors({dispatch})
+  configureInterceptors({ dispatch });
   const token = "token";
   const resourceToSearch = "resources";
   const page = 5;

@@ -8,10 +8,10 @@ import Attachment from "../client/testUtilities/attachment";
 import { civilianWithAddress } from "../client/testUtilities/ObjectMothers";
 import Address from "../client/testUtilities/Address";
 import {
-  CASE_STATUS,
-  CIVILIAN_INITIATED,
+  ADDRESSABLE_TYPE,
   AUDIT_ACTION,
-  ADDRESSABLE_TYPE
+  CASE_STATUS,
+  CIVILIAN_INITIATED
 } from "../sharedUtilities/constants";
 import AWS from "aws-sdk";
 import {

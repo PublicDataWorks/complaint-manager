@@ -1,12 +1,13 @@
 import {
+  AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_TYPE,
-  AUDIT_ACTION
+  AUDIT_TYPE
 } from "../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { createCaseWithCivilian } from "../../testHelpers/modelMothers";
 import getCaseNotes from "./getCaseNotes";
 import CaseNote from "../../../client/testUtilities/caseNote";
+
 const models = require("../../models");
 const httpMocks = require("node-mocks-http");
 

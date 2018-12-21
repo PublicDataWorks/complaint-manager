@@ -1,11 +1,12 @@
 import getAccessToken from "../../../auth/getAccessToken";
 import nock from "nock";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
-jest.mock("../../../auth/getAccessToken");
 import { push } from "react-router-redux";
 import getReferralLetterData from "./getReferralLetterData";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import { getCaseNumberSuccess } from "../../../actionCreators/casesActionCreators";
+
+jest.mock("../../../auth/getAccessToken");
 
 describe("getReferralLetterData", () => {
   let caseId, dispatch;

@@ -15,7 +15,7 @@ const editIAProCorrections = (
     const hostname = config[process.env.NODE_ENV].hostname;
     await axios.put(
       `${hostname}/api/cases/${caseId}/referral-letter/iapro-corrections`,
-        iaProCorrectionValues
+      iaProCorrectionValues
     );
     dispatch(snackbarSuccess("IAPro corrections were successfully updated"));
     return dispatch(push(successRedirectRoute));

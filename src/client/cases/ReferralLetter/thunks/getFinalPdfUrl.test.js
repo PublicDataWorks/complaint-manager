@@ -3,14 +3,15 @@ import getFinalPdfUrl from "./getFinalPdfUrl";
 import nock from "nock";
 import { getFinalPdfUrlSuccess } from "../../../actionCreators/letterActionCreators";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
-import configureInterceptors from "../../../interceptors";
+import configureInterceptors from "../../../axiosInterceptors/interceptors";
+
 jest.mock("../../../auth/getAccessToken");
 
 describe("getFinalPdfUrl", () => {
   let dispatch, caseId;
   beforeEach(() => {
     dispatch = jest.fn();
-    configureInterceptors({dispatch})
+    configureInterceptors({ dispatch });
     caseId = 5;
   });
 

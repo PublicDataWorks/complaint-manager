@@ -2,13 +2,12 @@ import saveAs from "file-saver";
 import getPdf from "./getPdf";
 import nock from "nock";
 import getAccessToken from "../../../auth/getAccessToken";
-import { push } from "react-router-redux";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import {
   getLetterPdfSuccess,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
-import configureInterceptors from "../../../interceptors";
+import configureInterceptors from "../../../axiosInterceptors/interceptors";
 import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
 
 jest.mock("file-saver", () => jest.fn());
@@ -16,7 +15,7 @@ jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("getPdf thunk", function() {
   const dispatch = jest.fn();
-  configureInterceptors({dispatch})
+  configureInterceptors({ dispatch });
   const caseId = 2;
   const token = "token";
   let letterType;

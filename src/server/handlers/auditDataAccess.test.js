@@ -1,5 +1,5 @@
 import models from "../models";
-import { AUDIT_SUBJECT, AUDIT_ACTION } from "../../sharedUtilities/constants";
+import { AUDIT_ACTION, AUDIT_SUBJECT } from "../../sharedUtilities/constants";
 import auditDataAccess from "./auditDataAccess";
 import { createCaseWithoutCivilian } from "../testHelpers/modelMothers";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";

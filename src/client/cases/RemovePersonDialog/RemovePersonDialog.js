@@ -8,8 +8,8 @@ import {
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import {
-  SecondaryButton,
-  PrimaryButton
+  PrimaryButton,
+  SecondaryButton
 } from "../../shared/components/StyledButtons";
 import { closeRemovePersonDialog } from "../../actionCreators/casesActionCreators";
 import removePerson from "../thunks/removePerson";
