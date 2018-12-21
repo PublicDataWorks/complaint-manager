@@ -40,9 +40,6 @@ class LetterPreview extends Component {
 
   componentDidMount() {
     this.props.dispatch(getLetterPreview(this.state.caseId));
-    this.setState = {
-      loaded: true
-    };
   }
 
   letterPreviewNotYetLoaded = () => {

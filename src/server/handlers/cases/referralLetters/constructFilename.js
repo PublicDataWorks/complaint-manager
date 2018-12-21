@@ -1,4 +1,5 @@
 import moment from "moment";
+import _ from "lodash";
 import {
   CIVILIAN_INITIATED,
   REFERRAL_LETTER_VERSION
@@ -32,8 +33,12 @@ const sanitizeName = name => {
 
 const getFirstComplainant = existingCase => {
   return existingCase.complaintType === CIVILIAN_INITIATED
-    ? existingCase.complainantCivilians[0]
-    : existingCase.complainantOfficers[0];
+    ? firstCreated(existingCase.complainantCivilians)
+    : firstCreated(existingCase.complainantOfficers);
+};
+
+const firstCreated = list => {
+  return _.sortBy(list, ["createdAt"])[0];
 };
 
 export default constructFilename;
