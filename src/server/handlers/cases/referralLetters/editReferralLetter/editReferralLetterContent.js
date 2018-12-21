@@ -2,10 +2,16 @@ import models from "../../../../models/index";
 import asyncMiddleware from "../../../asyncMiddleware";
 import checkForValidStatus from "../checkForValidStatus";
 import Boom from "boom";
+import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+
+const ALLOWED_STATUSES = [
+  CASE_STATUS.LETTER_IN_PROGRESS,
+  CASE_STATUS.READY_FOR_REVIEW
+];
 
 const editReferralLetterContent = asyncMiddleware(
   async (request, response, next) => {
-    await checkForValidStatus(request.params.caseId);
+    await checkForValidStatus(request.params.caseId, ALLOWED_STATUSES);
 
     const referralLetter = await models.referral_letter.findOne({
       where: { caseId: request.params.caseId }

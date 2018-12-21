@@ -1,25 +1,39 @@
 import moment from "moment";
-import { REFERRAL_LETTER_VERSION } from "../../../../sharedUtilities/constants";
+import {
+  CIVILIAN_INITIATED,
+  REFERRAL_LETTER_VERSION
+} from "../../../../sharedUtilities/constants";
 
-const constructFilename = (
-  caseId,
-  caseNumber,
-  firstContactDate,
-  complainantLastName,
-  pdfFileVersion,
-  editStatus
-) => {
-  const formattedFirstContactDate = moment(firstContactDate).format("M-D-YYYY");
-
-  const strippedLastName = complainantLastName
-    ? `_${complainantLastName.replace(/[^a-zA-Z]/g, "")}`
-    : "";
+const constructFilename = (existingCase, pdfFileVersion, editStatus) => {
+  const formattedFirstContactDate = moment(
+    existingCase.firstContactDate
+  ).format("M-D-YYYY");
+  const firstComplainantLastName = getFirstComplainantLastName(existingCase);
 
   if (pdfFileVersion === REFERRAL_LETTER_VERSION.FINAL) {
-    return `${caseId}/${formattedFirstContactDate}_${caseNumber}_PIB_Referral${strippedLastName}.pdf`;
+    return `${existingCase.id}/${formattedFirstContactDate}_${
+      existingCase.caseNumber
+    }_PIB_Referral${firstComplainantLastName}.pdf`;
   } else {
-    return `${formattedFirstContactDate}_${caseNumber}_${editStatus}_Referral_Draft${strippedLastName}.pdf`;
+    return `${formattedFirstContactDate}_${
+      existingCase.caseNumber
+    }_${editStatus}_Referral_Draft${firstComplainantLastName}.pdf`;
   }
+};
+
+const getFirstComplainantLastName = existingCase => {
+  const firstComplainant = getFirstComplainant(existingCase);
+  return firstComplainant ? sanitizeName(firstComplainant.lastName) : "";
+};
+
+const sanitizeName = name => {
+  return `_${name.replace(/[^a-zA-Z]/g, "")}`;
+};
+
+const getFirstComplainant = existingCase => {
+  return existingCase.complaintType === CIVILIAN_INITIATED
+    ? existingCase.complainantCivilians[0]
+    : existingCase.complainantOfficers[0];
 };
 
 export default constructFilename;

@@ -1,11 +1,5 @@
 [
   {
-    "id": "letterSignatureFeature",
-    "name": "letterSignatureFeature",
-    "description": "Toggle to include signature in letter",
-    "enabled": true
-  },
-  {
     "id": "caseValidationFeature",
     "name": "caseValidationFeature",
     "description": "Toggle to validate case",

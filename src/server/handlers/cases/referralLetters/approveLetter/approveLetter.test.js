@@ -1,6 +1,5 @@
 import httpMocks from "node-mocks-http";
 import models from "../../../../models";
-import moment from "moment";
 import Case from "../../../../../client/testUtilities/case";
 import approveLetter from "./approveLetter";
 import {
@@ -131,10 +130,7 @@ describe("approveLetter", () => {
     test("uploads generated file to S3 if letter should be generated", async () => {
       uploadLetterToS3.mockClear();
       const filename = constructFilename(
-        existingCase.id,
-        existingCase.caseNumber,
-        existingCase.firstContactDate,
-        existingCase.complainantCivilians[0].lastName,
+        existingCase,
         REFERRAL_LETTER_VERSION.FINAL
       );
 
@@ -159,10 +155,7 @@ describe("approveLetter", () => {
       await referralLetter.reload();
 
       const filename = constructFilename(
-        existingCase.id,
-        existingCase.caseNumber,
-        existingCase.firstContactDate,
-        existingCase.complainantCivilians[0].lastName,
+        existingCase,
         REFERRAL_LETTER_VERSION.FINAL
       );
 

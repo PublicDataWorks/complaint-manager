@@ -52,21 +52,13 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
 
     const caseDetails = await getCaseWithAllAssociations(caseId, transaction);
 
-    const complainantLastName = getLastName(caseDetails);
-
     const finalFilename = constructFilename(
-      caseId,
-      caseDetails.caseNumber,
-      caseDetails.firstContactDate,
-      complainantLastName,
+      caseDetails,
       REFERRAL_LETTER_VERSION.FINAL
     );
 
     const draftFilename = constructFilename(
-      caseId,
-      caseDetails.caseNumber,
-      caseDetails.firstContactDate,
-      complainantLastName,
+      caseDetails,
       REFERRAL_LETTER_VERSION.DRAFT,
       letterType
     );
@@ -82,13 +74,5 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
     });
   });
 });
-
-const getLastName = caseDetails => {
-  const firstComplainant =
-    caseDetails.complaintType === CIVILIAN_INITIATED
-      ? caseDetails.complainantCivilians[0]
-      : caseDetails.complainantOfficers[0];
-  return firstComplainant ? firstComplainant.lastName : "";
-};
 
 export default getLetterPreview;

@@ -437,19 +437,14 @@ describe("handlebarHelpers", function() {
       SIGNATURE_URLS.STELLA
     } />`;
 
-    test("should return an empty space when no signature for given name and includeSignature is true", () => {
+    test("should return an empty space when no signature for given name", () => {
       const emptyString = "";
-      expect(generateSignature(emptyString, true)).toEqual(blankLine);
+      expect(generateSignature(emptyString)).toEqual(blankLine);
     });
 
-    test("should return stellas signature when stella is sender and includeSignature is true", () => {
+    test("should return stellas signature when stella is sender", () => {
       const sender = "Stella Cziment\nDPM";
-      expect(generateSignature(sender, true)).toEqual(signaturePath);
-    });
-
-    test("should not return signature when includeSignature is false", () => {
-      const sender = "Stella Cziment\nDPM";
-      expect(generateSignature(sender, false)).toEqual(blankLine);
+      expect(generateSignature(sender)).toEqual(signaturePath);
     });
   });
 });

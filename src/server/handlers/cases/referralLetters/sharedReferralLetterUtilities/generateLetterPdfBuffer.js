@@ -6,11 +6,7 @@ import Handlebars from "handlebars";
 require("../../../../handlebarHelpers");
 import fs from "fs";
 
-const generateLetterPdfBuffer = async (
-  caseId,
-  includeSignature,
-  transaction
-) => {
+const generateLetterPdfBuffer = async (caseId, transaction) => {
   let letterData = await models.referral_letter.find({
     where: { caseId: caseId },
     attributes: ["editedLetterHtml"],
@@ -35,11 +31,7 @@ const generateLetterPdfBuffer = async (
     base: "file:///app/src/server/handlers/cases/referralLetters/getPdf/assets/"
   };
 
-  const fullLetterHtml = await generateLetterPdfHtml(
-    letterBody,
-    pdfData,
-    includeSignature
-  );
+  const fullLetterHtml = await generateLetterPdfHtml(letterBody, pdfData);
 
   let pdfCreator = pdf.create(fullLetterHtml, pdfOptions);
   let pdfToBuffer = util.promisify(pdfCreator.toBuffer.bind(pdfCreator));
@@ -61,11 +53,7 @@ const getPdfData = async (caseId, transaction) => {
   });
 };
 
-export const generateLetterPdfHtml = (
-  letterBody,
-  pdfData,
-  includeSignature
-) => {
+export const generateLetterPdfHtml = (letterBody, pdfData) => {
   const currentDate = Date.now();
 
   const letterPdfData = {
@@ -74,7 +62,6 @@ export const generateLetterPdfHtml = (
     sender: pdfData.referralLetter.sender,
     transcribedBy: pdfData.referralLetter.transcribedBy,
     caseNumber: pdfData.caseNumber,
-    includeSignature: includeSignature,
     currentDate
   };
 

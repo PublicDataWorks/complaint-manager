@@ -3,7 +3,6 @@ import models from "../../../../models/index";
 import httpMocks from "node-mocks-http";
 import Case from "../../../../../client/testUtilities/case";
 import editReferralLetterContent from "./editReferralLetterContent";
-
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import Boom from "boom";
@@ -29,6 +28,10 @@ describe("Edit referral letter addresses", () => {
       existingCase = await models.cases.create(caseAttributes, {
         auditUser: "test"
       });
+      await existingCase.update(
+        { status: CASE_STATUS.ACTIVE },
+        { auditUser: "test" }
+      );
       const referralLetterAttributes = new ReferralLetter.Builder()
         .defaultReferralLetter()
         .withId(undefined)
@@ -40,10 +43,6 @@ describe("Edit referral letter addresses", () => {
     });
 
     test("save edited letter html content", async () => {
-      await existingCase.update(
-        { status: CASE_STATUS.ACTIVE },
-        { auditUser: "test" }
-      );
       await existingCase.update(
         { status: CASE_STATUS.LETTER_IN_PROGRESS },
         { auditUser: "test" }
@@ -57,7 +56,26 @@ describe("Edit referral letter addresses", () => {
       expect(referralLetter.editedLetterHtml).toEqual(newEditedLetterHtml);
     });
 
-    test("throws exception when case status is invalid", async () => {
+    test("throws exception when case status is invalid (prior to letter)", async () => {
+      const request = requestWithUpdatedLetterContent();
+      await editReferralLetterContent(request, response, next);
+
+      expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
+    });
+
+    test("throws exception when case status is invalid (after ready for review)", async () => {
+      await existingCase.update(
+        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        { auditUser: "test" }
+      );
+      await existingCase.update(
+        { status: CASE_STATUS.READY_FOR_REVIEW },
+        { auditUser: "test" }
+      );
+      await existingCase.update(
+        { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+        { auditUser: "test" }
+      );
       const request = requestWithUpdatedLetterContent();
       await editReferralLetterContent(request, response, next);
 

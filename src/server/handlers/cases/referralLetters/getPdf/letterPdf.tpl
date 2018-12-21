@@ -46,7 +46,7 @@
     <p><br></p>
     Sincerely,
     <p><br></p>
-    {{{generateSignature sender includeSignature}}}
+    {{{generateSignature sender}}}
     <p><br></p>
     {{{renderHtml (newLineToLineBreak sender)}}}
     {{#if transcribedBy}}
