@@ -75,10 +75,6 @@ export default (sequelize, DataTypes) => {
         field: "narrative_details",
         type: DataTypes.TEXT
       },
-      intakeSource: {
-        field: "intake_source",
-        type: DataTypes.STRING(50)
-      },
       createdBy: {
         field: "created_by",
         type: DataTypes.STRING,
@@ -191,6 +187,14 @@ export default (sequelize, DataTypes) => {
       foreignKey: {
         name: "classificationId",
         field: "classification_id",
+        allowNull: true
+      }
+    });
+    Case.belongsTo(models.intake_source, {
+      as: "intakeSource",
+      foreignKey: {
+        name: "intakeSourceId",
+        field: "intake_source_id",
         allowNull: true
       }
     });

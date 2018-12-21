@@ -80,6 +80,7 @@ export const cleanupDatabase = async () => {
     "TRUNCATE case_notes CASCADE;" +
     "TRUNCATE action_audits CASCADE;" +
     "TRUNCATE data_change_audits CASCADE;" +
+    "TRUNCATE intake_sources CASCADE;" +
     "TRUNCATE cases CASCADE;";
   await models.sequelize.query(truncationQuery, {
     type: models.sequelize.QueryTypes.RAW

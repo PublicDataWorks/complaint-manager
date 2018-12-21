@@ -40,6 +40,7 @@ import cancelEditLetterConfirmationDialogReducer from "./reducers/ui/cancelEditl
 import letterDownloadReducer from "./reducers/ui/letterDownloadReducer";
 import caseValidationDialogReducer from "./reducers/ui/caseValidationDialogReducer";
 import loadPdfPreviewReducer from "./reducers/ui/loadPdfPreviewReducer";
+import intakeSourceReducer from "./reducers/ui/intakeSourceReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -74,6 +75,7 @@ const rootReducer = combineReducers({
     search: searchReducer,
     allegations: allegationMenuDisplay,
     classifications: classificationReducer,
+    intakeSources: intakeSourceReducer,
     editAllegationForms: editAllegationFormsReducer,
     removeOfficerAllegationDialog: removeOfficerAllegationDialogReducer,
     accusedOfficerPanels: accusedOfficerPanelsReducer,

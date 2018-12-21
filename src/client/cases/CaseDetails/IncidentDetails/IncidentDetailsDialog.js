@@ -28,11 +28,11 @@ import { addressMustBeValid } from "../../../formValidations";
 import NoBlurTextField from "../CivilianDialog/FormSelect";
 import {
   generateMenu,
-  inputDistrictMenu,
-  intakeSourceMenu
+  inputDistrictMenu
 } from "../../../utilities/generateMenus";
 import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import getClassificationDropDownOptions from "../../../classifications/thunks/getClassificationDropdownValues";
+import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocationInfo";
 import normalizeAddress from "../../../utilities/normalizeAddress";
 import { intakeSourceIsRequired } from "../../../formFieldLevelValidations";
@@ -49,6 +49,7 @@ const submitIncidentDetails = (values, dispatch, props) => {
     incidentDate: nullifyFieldUnlessValid(values.incidentDate),
     incidentTime: nullifyFieldUnlessValid(values.incidentTime),
     classificationId: nullifyFieldUnlessValid(values.classificationId),
+    intakeSourceId: nullifyFieldUnlessValid(values.intakeSourceId),
     id: props.caseId
   };
 
@@ -66,6 +67,7 @@ const styles = {
 class IncidentDetailsDialog extends Component {
   componentDidMount() {
     this.props.getClassificationDropDownOptions();
+    this.props.getIntakeSourceDropdownValues();
   }
 
   render() {
@@ -189,7 +191,7 @@ class IncidentDetailsDialog extends Component {
             <div style={{ marginTop: "16px" }}>
               <Field
                 required
-                name="intakeSource"
+                name="intakeSourceId"
                 component={NoBlurTextField}
                 label="Intake Source"
                 hinttext="Intake Source"
@@ -197,7 +199,7 @@ class IncidentDetailsDialog extends Component {
                 style={{ width: "60%" }}
                 validate={[intakeSourceIsRequired]}
               >
-                {intakeSourceMenu}
+                {generateMenu(props.intakeSources)}
               </Field>
             </div>
           </form>
@@ -245,11 +247,15 @@ const mapStateToProps = state => {
   return {
     formattedAddress: formatAddressAsString(values.incidentLocation),
     addressValid: state.ui.addressInput.addressValid,
-    classifications: state.ui.classifications
+    classifications: state.ui.classifications,
+    intakeSources: state.ui.intakeSources
   };
 };
 
-const mapDispatchToProps = { getClassificationDropDownOptions };
+const mapDispatchToProps = {
+  getClassificationDropDownOptions,
+  getIntakeSourceDropdownValues
+};
 
 export default withStyles(styles)(
   connect(

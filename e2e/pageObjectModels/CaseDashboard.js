@@ -25,6 +25,12 @@ const caseDashboardCommands = {
       .keys(phoneNumber);
     return this;
   },
+  setIntakeSource: function(intakeSource) {
+    return this.click("@intakeSourceDropdown")
+      .waitForElementVisible("@intakeSourceMenu", e2e.rerenderWait)
+      .click(`li[data-value="${intakeSource}"`)
+      .waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait);
+  },
   submitCase: function() {
     this.click("@createAndViewButton");
   }
@@ -51,6 +57,12 @@ module.exports = {
     },
     createAndViewButton: {
       selector: "button[data-test=createAndView]"
+    },
+    intakeSourceDropdown: {
+      selector: "[data-test='intakeSourceDropdown'] > div > div"
+    },
+    intakeSourceMenu: {
+      selector: "[id='menu-case.intakeSourceId']"
     }
   }
 };

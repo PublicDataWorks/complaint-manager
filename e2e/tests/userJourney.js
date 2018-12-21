@@ -39,6 +39,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         .setFirstName("Night")
         .setLastName("Watch")
         .setPhoneNumber("1234567890", browser)
+        .setIntakeSource("2")
         .submitCase();
 
       snackbar.presentWithMessage("successfully created").close();

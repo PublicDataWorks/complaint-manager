@@ -9,7 +9,7 @@ jest.mock("../../auth/getAccessToken");
 
 describe("getClassificationDropdownValues", () => {
   const dispatch = jest.fn();
-  configureInterceptors({dispatch});
+  configureInterceptors({ dispatch });
 
   test("it fetches classification values and dispatches them", async () => {
     getAccessToken.mockImplementation(() => "token");
@@ -30,10 +30,6 @@ describe("getClassificationDropdownValues", () => {
 
   test("it dispatches failure when api call fails", async () => {
     getAccessToken.mockImplementation(() => "token");
-    const responseBody = [
-      [1, "BWC – Body Worn Camera"],
-      [2, "FDI – Formal Disciplinary Investigation"]
-    ];
 
     nock("http://localhost")
       .get("/api/classifications")

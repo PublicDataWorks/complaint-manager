@@ -27,15 +27,13 @@ import {
   closeCreateCaseDialog,
   openCreateCaseDialog
 } from "../../actionCreators/casesActionCreators";
-import {
-  CIVILIAN_INITIATED,
-  DEFAULT_INTAKE_SOURCE
-} from "../../../sharedUtilities/constants";
+import { CIVILIAN_INITIATED } from "../../../sharedUtilities/constants";
 import { SubmissionError } from "redux-form";
 import _ from "lodash";
-import { intakeSourceMenu } from "../../utilities/generateMenus";
+import { generateMenu } from "../../utilities/generateMenus";
 import NoBlurTextField from "../CaseDetails/CivilianDialog/FormSelect";
 import { intakeSourceIsRequired } from "../../formFieldLevelValidations";
+import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
 
 const margin = {
   marginLeft: "5%",
@@ -49,6 +47,10 @@ class CreateCaseDialog extends React.Component {
   state = {
     civilianComplainant: true
   };
+
+  componentDidMount() {
+    this.props.dispatch(getIntakeSourceDropdownValues());
+  }
 
   openDialog = () => {
     this.props.dispatch(openCreateCaseDialog());
@@ -186,7 +188,7 @@ class CreateCaseDialog extends React.Component {
               <div>
                 <Field
                   required
-                  name="case.intakeSource"
+                  name="case.intakeSourceId"
                   component={NoBlurTextField}
                   label="Intake Source"
                   hinttext="Intake Source"
@@ -194,7 +196,7 @@ class CreateCaseDialog extends React.Component {
                   style={{ width: "50%" }}
                   validate={[intakeSourceIsRequired]}
                 >
-                  {intakeSourceMenu}
+                  {generateMenu(this.props.intakeSources)}
                 </Field>
               </div>
             </form>
@@ -230,7 +232,8 @@ class CreateCaseDialog extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    open: state.ui.createCaseDialog.open
+    open: state.ui.createCaseDialog.open,
+    intakeSources: state.ui.intakeSources
   };
 };
 
@@ -248,8 +251,7 @@ export default reduxForm({
   initialValues: {
     case: {
       complaintType: CIVILIAN_INITIATED,
-      firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
-      intakeSource: DEFAULT_INTAKE_SOURCE
+      firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
     }
   }
 })(ConnectedDialog);

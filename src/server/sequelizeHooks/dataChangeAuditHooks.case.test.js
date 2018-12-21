@@ -8,6 +8,7 @@ import {
   CIVILIAN_INITIATED
 } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
+import IntakeSource from "../../client/testUtilities/intakeSource";
 
 describe("dataChangeAuditHooks", () => {
   afterEach(async () => {
@@ -25,6 +26,7 @@ describe("dataChangeAuditHooks", () => {
   describe("create case", () => {
     let initialCaseAttributes = {};
     let utdClassification;
+    let emailIntakeSource;
 
     beforeEach(async () => {
       initialCaseAttributes = new Case.Builder()
@@ -46,6 +48,12 @@ describe("dataChangeAuditHooks", () => {
         .withName("Unable to Determine");
       utdClassification = await models.classification.create(
         utdClassificationAttributes
+      );
+      const emailIntakeSourceAttributes = new IntakeSource.Builder()
+        .defaultIntakeSource()
+        .withName("Email");
+      emailIntakeSource = await models.intake_source.create(
+        emailIntakeSourceAttributes
       );
     });
 
@@ -85,6 +93,32 @@ describe("dataChangeAuditHooks", () => {
       expect(audit.changes).toEqual(expectedChanges);
     });
 
+    test("it saves the changes of the new values of intake source", async () => {
+      Object.assign(initialCaseAttributes, {
+        intakeSourceId: emailIntakeSource.id
+      });
+      const createdCase = await models.cases.create(initialCaseAttributes, {
+        auditUser: "someone"
+      });
+      const audit = (await createdCase.getDataChangeAudits())[0];
+
+      const expectedChanges = {
+        narrativeSummary: { new: "original narrative summary" },
+        narrativeDetails: { new: null },
+        incidentTime: { new: null },
+        incidentDate: { new: null },
+        firstContactDate: { new: "2017-12-24" },
+        district: { new: null },
+        complaintType: { new: RANK_INITIATED },
+        assignedTo: { new: "originalAssignedToPerson" },
+        status: { new: CASE_STATUS.INITIAL },
+        classificationId: { new: null },
+        classification: { new: null },
+        intakeSourceId: { new: emailIntakeSource.id },
+        intakeSource: { new: emailIntakeSource.name }
+      };
+      expect(audit.changes).toEqual(expectedChanges);
+    });
     test("it saves the changes of the new values including the initialism of the classification", async () => {
       Object.assign(initialCaseAttributes, {
         classificationId: utdClassification.id
@@ -132,7 +166,8 @@ describe("dataChangeAuditHooks", () => {
         id: createdCase.id,
         classificationId: null,
         classification: null,
-        intakeSource: null
+        intakeSourceId: null,
+        intake_source: null
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -160,7 +195,8 @@ describe("dataChangeAuditHooks", () => {
         id: createdCase.id,
         classificationId: utdClassification.id,
         classification: utdClassification.initialism,
-        intakeSource: null
+        intakeSourceId: null,
+        intake_source: null
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -264,6 +300,7 @@ describe("dataChangeAuditHooks", () => {
     let initialCaseAttributes = {};
     let utdClassification = null;
     let bwcClassification = null;
+    let emailIntakeSource = null;
 
     beforeEach(async () => {
       const utdClassificationAttributes = new Classification.Builder()
@@ -273,6 +310,12 @@ describe("dataChangeAuditHooks", () => {
         .withName("Unable to Determine");
       utdClassification = await models.classification.create(
         utdClassificationAttributes
+      );
+      const emailIntakeSourceAttributes = new IntakeSource.Builder()
+        .defaultIntakeSource()
+        .withName("Email");
+      emailIntakeSource = await models.intake_source.create(
+        emailIntakeSourceAttributes
       );
       const bwcClassificationAttributes = new Classification.Builder()
         .defaultClassification()
@@ -295,6 +338,7 @@ describe("dataChangeAuditHooks", () => {
         .withNarrativeDetails("original narrative details")
         .withAssignedTo("originalAssignedToPerson")
         .withClassificationId(utdClassification.id)
+        .withIntakeSourceId(emailIntakeSource.id)
         .withCreatedBy("createdByPerson");
       existingCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
@@ -447,8 +491,7 @@ describe("dataChangeAuditHooks", () => {
           incidentTime: "12:59:59",
           narrativeSummary: "updated narrative summary",
           narrativeDetails: "updated narrative details",
-          assignedTo: "updatedAssignedPerson",
-          intakeSource: "Email"
+          assignedTo: "updatedAssignedPerson"
         },
         { auditUser: "someoneWhoUpdated" }
       );
@@ -472,7 +515,8 @@ describe("dataChangeAuditHooks", () => {
         id: existingCase.id,
         classificationId: existingCase.classificationId,
         classification: utdClassification.initialism,
-        intakeSource: "Email"
+        intakeSourceId: existingCase.intakeSourceId,
+        intake_source: emailIntakeSource.name
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -522,11 +566,11 @@ describe("dataChangeAuditHooks", () => {
 
       test("should audit destroy including changes including classification association value", async () => {
         await existingCase.destroy({ auditUser: "someone" });
-
         const audit = await models.data_change_audit.find({
           where: { modelName: "Case", action: AUDIT_ACTION.DATA_DELETED }
         });
 
+        // console.log("existing ", existingCase)
         const expectedChanges = {
           assignedTo: { previous: "tuser" },
           classification: { previous: utdClassification.initialism },
@@ -540,7 +584,9 @@ describe("dataChangeAuditHooks", () => {
           narrativeDetails: { previous: "test details" },
           narrativeSummary: { previous: "test summary" },
           status: { previous: "Initial" },
-          intakeSource: { previous: null }
+          intakeSourceId: { previous: null },
+          intakeSource: { previous: null },
+          intake_source: {}
         };
         expect(audit.changes).toEqual(expectedChanges);
       });

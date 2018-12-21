@@ -12,15 +12,20 @@ import createCase from "../thunks/createCase";
 import { openSnackbar } from "../../actionCreators/snackBarActionCreators";
 import moment from "moment";
 import { applyCentralTimeZoneOffset } from "../../utilities/formatDate";
-import {
-  CIVILIAN_INITIATED,
-  DEFAULT_INTAKE_SOURCE
-} from "../../../sharedUtilities/constants";
+import { CIVILIAN_INITIATED } from "../../../sharedUtilities/constants";
+import { getIntakeSourcesSuccess } from "../../actionCreators/intakeSourceActionCreators";
 
 jest.mock("../thunks/createCase", () => creationDetails => ({
   type: "MOCK_CREATE_CASE_THUNK",
   creationDetails
 }));
+
+jest.mock("../../intakeSources/thunks/getIntakeSourceDropdownValues", () =>
+  jest.fn(values => ({
+    type: "MOCK_THUNK",
+    values
+  }))
+);
 
 describe("CreateCaseDialog component", () => {
   let store,
@@ -48,6 +53,9 @@ describe("CreateCaseDialog component", () => {
       'button[data-test="createCaseButton"]'
     );
     createCaseButton.simulate("click");
+    store.dispatch(
+      getIntakeSourcesSuccess([[0, "Email"], [1, "NOIPM Website"]])
+    );
   });
 
   test("should dismiss visible snackbars when dialog opened", () => {
@@ -69,7 +77,7 @@ describe("CreateCaseDialog component", () => {
         case: {
           complaintType: CIVILIAN_INITIATED,
           firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
-          intakeSource: "Email"
+          intakeSourceId: "Email"
         },
         civilian: {
           firstName: "Fats",
@@ -99,11 +107,7 @@ describe("CreateCaseDialog component", () => {
         '[data-test="emailInput"]',
         caseDetails.civilian.email
       );
-      selectDropdownOption(
-        dialog,
-        '[data-test="intakeSourceDropdown"]',
-        caseDetails.case.intakeSource
-      );
+      selectDropdownOption(dialog, '[data-test="intakeSourceDropdown"]', "0");
     });
 
     test("should plan to redirect when clicking Create-And-View", () => {
@@ -243,10 +247,26 @@ describe("CreateCaseDialog component", () => {
       });
     });
 
+    describe("intake source", () => {
+      test("should display error when not set on save", () => {
+        const submitButton = dialog.find(
+          'LinkButton[data-test="createCaseOnly"]'
+        );
+        submitButton.simulate("click");
+        expect(
+          dialog
+            .find('[data-test="intakeSourceDropdown"]')
+            .last()
+            .text()
+        ).toContain("Please enter Intake Source");
+      });
+    });
+
     describe("when email and phone number are undefined", () => {
       test("should display phone number error", () => {
         changeInput(dialog, '[data-test="lastNameInput"]', "test");
         changeInput(dialog, '[data-test="firstNameInput"]', "test");
+        selectDropdownOption(dialog, '[data-test="intakeSourceDropdown"]', "0");
         const phoneNumberField = dialog.find(
           'div[data-test="phoneNumberField"]'
         );
@@ -270,7 +290,8 @@ describe("CreateCaseDialog component", () => {
         case: {
           complaintType: CIVILIAN_INITIATED,
           firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
-          intakeSource: DEFAULT_INTAKE_SOURCE
+          intakeSourceId: "Email",
+          incidentDate: undefined
         },
         civilian: {
           firstName: "Hello",
@@ -283,10 +304,17 @@ describe("CreateCaseDialog component", () => {
       changeInput(dialog, 'input[data-test="lastNameInput"]', "   Kitty   ");
       changeInput(dialog, 'input[data-test="phoneNumberInput"]', "1234567890");
 
+      selectDropdownOption(dialog, '[data-test="intakeSourceDropdown"]', "0");
+
       const submitButton = dialog.find(
         'LinkButton[data-test="createCaseOnly"]'
       );
       submitButton.simulate("click");
+      dispatchSpy.mock.calls.forEach(someCall => {
+        if (someCall[0].creationDetails) {
+          console.log("call ", someCall[0].creationDetails);
+        }
+      });
 
       expect(dispatchSpy).toHaveBeenCalledWith(
         createCase({ caseDetails: caseDetails, redirect: false })
@@ -306,6 +334,9 @@ describe("CreateCaseDialog component", () => {
       expect(dialog.find('[data-test="firstNameField"]').exists()).toBeFalsy();
       expect(dialog.find('[data-test="createAndView"]').exists()).toBeFalsy();
       expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeFalsy();
+      expect(
+        dialog.find('[data-test="intakeSourceDropdown"]').exists()
+      ).toBeTruthy();
     });
 
     test("should default to civilian complainant whenever dialog opened", () => {
@@ -338,6 +369,7 @@ describe("CreateCaseDialog component", () => {
     });
 
     test("should dispatch createCase with redirect to add officer when create & search clicked", () => {
+      selectDropdownOption(dialog, '[data-test="intakeSourceDropdown"]', "0");
       const createAndSearch = dialog
         .find('[data-test="createAndSearch"]')
         .last();

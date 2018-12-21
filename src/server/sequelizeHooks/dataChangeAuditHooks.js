@@ -12,6 +12,12 @@ const MODEL_ASSOCIATIONS_TO_LOOKUP = [
     foreignKey: "recommendedActionId",
     modelName: "recommended_action",
     identifyingAttribute: "description"
+  },
+  {
+    foreignKey: "intakeSourceId",
+    modelName: "intake_source",
+    identifyingAttribute: "name",
+    as: "intakeSource"
   }
 ];
 

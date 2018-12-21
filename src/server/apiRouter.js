@@ -8,6 +8,7 @@ import getPdf from "./handlers/cases/referralLetters/getPdf/getPdf";
 import approveLetter from "./handlers/cases/referralLetters/approveLetter/approveLetter";
 import getFinalPdfUrl from "./handlers/cases/referralLetters/getFinalPdfUrl/getFinalPdfUrl";
 import getCaseNumber from "./handlers/cases/getCaseNumber/getCaseNumber";
+import getIntakeSources from "./handlers/intake_sources/getIntakeSources";
 
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
@@ -120,6 +121,7 @@ router.get("/officers/search", searchOfficers);
 router.get("/allegations/search", searchAllegations);
 router.get("/allegations", getAllegations);
 router.get("/classifications", getClassifications);
+router.get("/intake-sources", getIntakeSources);
 router.get("/recommended-actions", getRecommendedActions);
 
 router.get("/cases/:caseId/referral-letter/final-pdf-url", getFinalPdfUrl);

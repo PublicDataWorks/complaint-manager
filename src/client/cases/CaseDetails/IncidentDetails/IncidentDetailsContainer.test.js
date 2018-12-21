@@ -16,7 +16,7 @@ import {
 import { DialogContent } from "@material-ui/core";
 import { getClassificationsSuccess } from "../../../actionCreators/classificationActionCreators";
 import getClassificationDropdownValues from "../../../classifications/thunks/getClassificationDropdownValues";
-import { DEFAULT_INTAKE_SOURCE } from "../../../../sharedUtilities/constants";
+import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
 
 jest.mock("../../thunks/editIncidentDetails", () =>
   jest.fn(values => ({
@@ -32,6 +32,10 @@ jest.mock(
       type: "MOCK_THUNK",
       values
     }))
+);
+
+jest.mock("../../../intakeSources/thunks/getIntakeSourceDropdownValues", () =>
+  jest.fn(values => ({ type: "MOCK_THUNK", values }))
 );
 
 jest.mock("../CivilianDialog/MapServices/MapService", () => {
@@ -85,6 +89,7 @@ describe("incident details container", () => {
       .withIncidentLocation(undefined)
       .withClassificationId(12)
       .withDistrict("Second District")
+      .withIntakeSourceId(2)
       .build();
 
     dispatchSpy = jest.spyOn(store, "dispatch");
@@ -160,6 +165,14 @@ describe("incident details container", () => {
     expect(getClassificationDropdownValues).toHaveBeenCalled();
   });
 
+  test("should fetch intake sources when open dialog", () => {
+    const editButton = wrapper.find(
+      'button[data-test="editIncidentDetailsButton"]'
+    );
+    editButton.simulate("click");
+    expect(getIntakeSourceDropdownValues).toHaveBeenCalled();
+  });
+
   test("should open dialog and prepopulate fields", () => {
     const editButton = wrapper.find(
       'button[data-test="editIncidentDetailsButton"]'
@@ -207,11 +220,6 @@ describe("incident details container", () => {
       '[data-test="districtInput"]',
       "1st District"
     );
-    selectDropdownOption(
-      wrapper,
-      '[data-test="intakeSourceDropdown"]',
-      "Email"
-    );
 
     const saveButton = wrapper.find(
       'button[data-test="saveIncidentDetailsButton"]'
@@ -226,7 +234,7 @@ describe("incident details container", () => {
         incidentTime: "13:00",
         district: "First District",
         classificationId: 12,
-        intakeSource: "Email"
+        intakeSourceId: 2
       })
     );
   });

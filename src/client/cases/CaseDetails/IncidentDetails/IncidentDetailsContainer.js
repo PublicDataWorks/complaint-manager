@@ -10,6 +10,7 @@ const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
   classificationId: state.currentCase.details.classificationId,
   classification: state.currentCase.details.classification,
+  intakeSourceId: state.currentCase.details.intakeSourceId,
   intakeSource: state.currentCase.details.intakeSource
 });
 
