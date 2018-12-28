@@ -94,8 +94,8 @@ const OfficerHistoryTabContent = props => {
           component={TextField}
           label="High Level"
           data-test={`${letterOfficer}-numHistoricalHighAllegations`}
-          validate={[isIntegerString]}
-          format={numbersOnly}
+          normalize={numbersOnly}
+          inputProps={{maxLength: 5}}
         />
         <Field
           style={{ margin: "8px 24px 0 0", flex: 1 }}
@@ -103,8 +103,8 @@ const OfficerHistoryTabContent = props => {
           component={TextField}
           label="Medium Level"
           data-test={`${letterOfficer}-numHistoricalMedAllegations`}
-          validate={[isIntegerString]}
-          format={numbersOnly}
+          normalize={numbersOnly}
+          inputProps={{maxLength: 5}}
         />
         <Field
           style={{ margin: "8px 24px 0 0", flex: 1 }}
@@ -112,8 +112,8 @@ const OfficerHistoryTabContent = props => {
           component={TextField}
           label="Low Level"
           data-test={`${letterOfficer}-numHistoricalLowAllegations`}
-          validate={[isIntegerString]}
-          format={numbersOnly}
+          normalize={numbersOnly}
+          inputProps={{maxLength: 5}}
         />
         <Typography
           style={{ flex: 1, marginTop: "32px" }}

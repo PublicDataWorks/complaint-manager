@@ -52,7 +52,9 @@ const OfficerHistoryNote = props => {
             component={TextField}
             label="Case Reference Number"
             style={{ width: "40%", marginBottom: "32px" }}
-            inputProps={{ "data-test": "note-pib-case-number" }}
+            inputProps={{
+              "data-test": "note-pib-case-number",
+              maxLength: 255}}
           />
           <div style={{ marginTop: "16px" }}>
             <LinkButton
