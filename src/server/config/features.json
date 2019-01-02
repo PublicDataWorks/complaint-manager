@@ -6,8 +6,8 @@
     "enabled": false
   },
   {
-    "id": "canEditLetterMessageFeature",
-    "name": "canEditLetterMessageFeature",
+    "id": "editLetterStatusMessageFeature",
+    "name": "editLetterStatusMessageFeature",
     "description": "Toggle to show message when detail changes will not edit letter",
     "criteria": { "isPreProd": true }
   }

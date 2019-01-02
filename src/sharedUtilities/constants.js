@@ -67,6 +67,7 @@ export const GET_RECOMMENDED_ACTIONS_SUCCESS =
 export const GET_REFERRAL_LETTER_SUCCESS = "GET_REFERRAL_LETTER_SUCCESS";
 export const GET_LETTER_PREVIEW_SUCCESS = "GET_LETTER_PREVIEW_SUCCESS";
 export const GET_LETTER_PDF_SUCCESS = "GET_LETTER_PDF_SUCCESS";
+export const GET_LETTER_TYPE_SUCCESS = "GET_LETTER_TYPE_SUCCESS";
 export const OPEN_EDIT_LETTER_CONFIRMATION_DIALOG =
   "OPEN_EDIT_LETTER_CONFIRMATION_DIALOG";
 export const CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG =
@@ -219,7 +220,8 @@ export const AUDIT_SUBJECT = {
   REFERRAL_LETTER_DATA: "Referral Letter Data", //this refers to letter data only (not case data)
   REFERRAL_LETTER: "Referral Letter", //this refers to the full compiled letter including all case data,
   REFERRAL_LETTER_PDF: "Referral Letter PDF",
-  CASE_NUMBER: "Case Number"
+  CASE_NUMBER: "Case Number",
+  LETTER_TYPE: "Letter Type"
 };
 
 export const AUDIT_ACTION = {
@@ -291,13 +293,10 @@ export const CASE_STATUSES_ALLOWED_TO_EDIT_LETTER = [
   CASE_STATUS.CLOSED
 ];
 
-export const TOGGLE_CASE_STATUS = {
-  INITIAL: "Initial",
-  ACTIVE: "Active",
-  READY_FOR_REVIEW: "Ready for Review",
-  FORWARDED_TO_AGENCY: "Forwarded to Agency",
-  CLOSED: "Closed"
-};
+export const CASE_STATUSES_WHERE_LETTER_IS_FINALIZED = [
+  CASE_STATUS.FORWARDED_TO_AGENCY,
+  CASE_STATUS.CLOSED
+];
 
 export const CASE_STATUS_MAP = {
   [CASE_STATUS.INITIAL]: 0,

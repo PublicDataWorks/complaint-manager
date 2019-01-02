@@ -20,14 +20,14 @@ import {
   closeRemoveCaseNoteDialog,
   closeRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
-import { CASE_STATUS } from "../../../sharedUtilities/constants";
+import { CASE_STATUS, LETTER_TYPE } from "../../../sharedUtilities/constants";
 import AccusedOfficers from "./Officers/AccusedOfficers";
 import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
 import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 import Witnesses from "./ComplainantWitnesses/Witnesses";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
-import checkFeatureToggleEnabled from "../../../server/checkFeatureToggleEnabled";
+import EditLetterStatusMessage from "./EditLetterStatusMessage/EditLetterStatusMessage";
 
 const drawerWidthPercentage = "30%";
 
@@ -81,11 +81,6 @@ class CaseDetails extends React.Component {
     );
   }
 
-  renderEditStatusMessage = () => {
-    // if(fflip.)
-    return null;
-  };
-
   render() {
     if (this.caseDetailsNotYetLoaded()) {
       return null;
@@ -122,8 +117,8 @@ class CaseDetails extends React.Component {
           <CaseDrawer classes={classes} caseDetail={this.props.caseDetail} />
           <main className={classes.content}>
             <CaseStatusStepper />
+            <EditLetterStatusMessage />
             <IncidentDetailsContainer />
-            {this.renderEditStatusMessage()}
             <Complainants
               caseDetail={this.props.caseDetail}
               dispatch={this.props.dispatch}
@@ -170,7 +165,9 @@ CaseDetails.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  caseDetail: state.currentCase.details
+  caseDetail: state.currentCase.details,
+  featureToggles: state.featureToggles,
+  letterType: state.referralLetter.letterType
 });
 
 export default withStyles(styles, { withTheme: true })(

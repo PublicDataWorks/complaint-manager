@@ -7,6 +7,7 @@ import referralLetterReducer from "./referralLetterReducer";
 import {
   getLetterPdfSuccess,
   getLetterPreviewSuccess,
+  getLetterTypeSuccess,
   getReferralLetterSuccess
 } from "../../actionCreators/letterActionCreators";
 import timekeeper from "timekeeper";
@@ -107,6 +108,7 @@ describe("referralLetterReducer", () => {
         initialState,
         getLetterPdfSuccess("letter pdf")
       );
+
       const expectedState = {
         letterDetails: "something",
         letterHtml: "something",
@@ -117,6 +119,37 @@ describe("referralLetterReducer", () => {
         draftFilename: null,
         letterPdf: "letter pdf"
       };
+      expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe("GET_LETTER_TYPE_SUCCESS", () => {
+    test("sets the letter type", () => {
+      const initialState = {
+        letterDetails: "something",
+        letterHtml: "something",
+        addresses: {},
+        letterType: null,
+        lastEdited: null,
+        finalFilename: null,
+        draftFilename: null,
+        letterPdf: null
+      };
+      const newState = referralLetterReducer(
+        initialState,
+        getLetterTypeSuccess(LETTER_TYPE.GENERATED)
+      );
+      const expectedState = {
+        letterDetails: "something",
+        letterHtml: "something",
+        addresses: {},
+        letterType: LETTER_TYPE.GENERATED,
+        lastEdited: null,
+        finalFilename: null,
+        draftFilename: null,
+        letterPdf: null
+      };
+
       expect(newState).toEqual(expectedState);
     });
   });

@@ -9,6 +9,7 @@ import approveLetter from "./handlers/cases/referralLetters/approveLetter/approv
 import getFinalPdfUrl from "./handlers/cases/referralLetters/getFinalPdfUrl/getFinalPdfUrl";
 import getCaseNumber from "./handlers/cases/getCaseNumber/getCaseNumber";
 import getIntakeSources from "./handlers/intake_sources/getIntakeSources";
+import getLetterType from "./handlers/cases/referralLetters/getLetterType/getLetterType";
 
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
@@ -88,6 +89,7 @@ router.delete(
 router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
 router.get("/cases/:caseId/referral-letter", getReferralLetterData);
 router.get("/cases/:caseId/referral-letter/preview", getLetterPreview);
+router.get("/cases/:caseId/referral-letter/letter-type", getLetterType);
 router.put(
   "/cases/:caseId/referral-letter/officer-history",
   editOfficerHistory

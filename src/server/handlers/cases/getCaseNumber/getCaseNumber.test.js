@@ -36,9 +36,6 @@ describe("getCaseNumber", () => {
       auditUser: "test"
     });
 
-    response = httpMocks.createResponse();
-    next = jest.fn();
-
     request = httpMocks.createRequest({
       method: "GET",
       headers: {
@@ -49,6 +46,8 @@ describe("getCaseNumber", () => {
       },
       nickname: "nickname"
     });
+    response = httpMocks.createResponse();
+    next = jest.fn();
   });
 
   test("gets case number", async () => {

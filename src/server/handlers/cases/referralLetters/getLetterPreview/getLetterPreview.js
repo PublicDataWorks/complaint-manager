@@ -12,6 +12,7 @@ import auditDataAccess from "../../../auditDataAccess";
 import getCaseWithAllAssociations from "../../../getCaseWithAllAssociations";
 import generateLetterBody from "../generateLetterBody";
 import constructFilename from "../constructFilename";
+import { letterTypeFromHtml } from "../getLetterType/getLetterType";
 
 require("../../../../handlebarHelpers");
 
@@ -39,14 +40,12 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
       transcribedBy: referralLetter.transcribedBy
     };
 
-    let html, letterType;
-    const edited = referralLetter.editedLetterHtml != null;
-    if (edited) {
+    let html;
+    const letterType = letterTypeFromHtml(referralLetter.editedLetterHtml);
+    if (letterType === LETTER_TYPE.EDITED) {
       html = referralLetter.editedLetterHtml;
-      letterType = LETTER_TYPE.EDITED;
     } else {
       html = await generateLetterBody(caseId, transaction);
-      letterType = LETTER_TYPE.GENERATED;
     }
     let lastEdited = referralLetter.updatedAt;
 
