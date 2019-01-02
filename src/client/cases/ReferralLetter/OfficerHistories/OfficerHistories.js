@@ -143,11 +143,10 @@ class OfficerHistories extends Component {
   };
 
   render() {
-    const letterOfficers = this.props.letterDetails.letterOfficers;
-
     if (this.referralLetterNotYetLoaded()) {
       return null;
     }
+    const letterOfficers = this.props.letterDetails.letterOfficers;
 
     return (
       <div>

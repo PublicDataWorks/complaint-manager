@@ -2,7 +2,6 @@ import {
   extractFirstLine,
   formatAddress,
   generateSignature,
-  getImagePath,
   isPresent,
   newLineToLineBreak,
   renderHtml,
@@ -436,15 +435,18 @@ describe("handlebarHelpers", function() {
     const signaturePath = `<img style="max-height: 55px" src=${
       SIGNATURE_URLS.STELLA
     } />`;
+    const stellaSender = "Stella Cziment\nDPM";
 
-    test("should return an empty space when no signature for given name", () => {
-      const emptyString = "";
-      expect(generateSignature(emptyString)).toEqual(blankLine);
+    test("returns an blank line without signature when includeSignature is false", () => {
+      expect(generateSignature(stellaSender, false)).toEqual(blankLine);
     });
 
-    test("should return stellas signature when stella is sender", () => {
-      const sender = "Stella Cziment\nDPM";
-      expect(generateSignature(sender)).toEqual(signaturePath);
+    test("returns an blank line without signature when no signature for given name", () => {
+      expect(generateSignature("someone not stella", true)).toEqual(blankLine);
+    });
+
+    test("returns stellas signature when stella is sender", () => {
+      expect(generateSignature(stellaSender, true)).toEqual(signaturePath);
     });
   });
 });

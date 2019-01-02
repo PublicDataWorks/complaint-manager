@@ -46,8 +46,10 @@ const validateCaseStatus = existingCase => {
 };
 
 const generateLetterAndUploadToS3 = async (caseId, filename, transaction) => {
+  const includeSignature = true;
   const generatedReferralLetterPdf = await generateLetterPdfBuffer(
     caseId,
+    includeSignature,
     transaction
   );
 

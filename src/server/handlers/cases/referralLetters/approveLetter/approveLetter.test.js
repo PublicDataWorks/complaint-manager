@@ -23,7 +23,7 @@ import constructFilename from "../constructFilename";
 jest.mock("./uploadLetterToS3", () => jest.fn());
 jest.mock(
   "../sharedReferralLetterUtilities/generateLetterPdfBuffer",
-  () => (caseId, transaction) => `Generated pdf for ${caseId}`
+  () => (caseId, includeSignature, transaction) => `Generated pdf for ${caseId}`
 );
 jest.mock(
   "../../../../checkFeatureToggleEnabled",
