@@ -24,7 +24,7 @@ import {
   EDIT_CASE_NOTE_SUCCEEDED,
   GET_CASE_DETAILS_SUCCESS,
   GET_CASE_NOTES_SUCCEEDED,
-  GET_CASE_NUMBER_SUCCESS,
+  GET_MINIMUM_CASE_DETAILS_SUCCESS,
   INCIDENT_DETAILS_UPDATE_FAILED,
   INCIDENT_DETAILS_UPDATE_SUCCEEDED,
   REMOVE_CASE_NOTE_DIALOG_CLOSED,
@@ -62,8 +62,8 @@ export const getCaseDetailsSuccess = caseDetails => ({
   caseDetails
 });
 
-export const getCaseNumberSuccess = caseDetails => ({
-  type: GET_CASE_NUMBER_SUCCESS,
+export const getMinimumCaseDetailsSuccess = caseDetails => ({
+  type: GET_MINIMUM_CASE_DETAILS_SUCCESS,
   caseDetails
 });
 

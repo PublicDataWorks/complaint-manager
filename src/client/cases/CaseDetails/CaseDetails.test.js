@@ -21,9 +21,14 @@ import {
   openCivilianDialog,
   openRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
-import { TIMEZONE } from "../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  LETTER_TYPE,
+  TIMEZONE
+} from "../../../sharedUtilities/constants";
 import timezone from "moment-timezone";
 import { initialize } from "redux-form";
+import { getLetterTypeSuccess } from "../../actionCreators/letterActionCreators";
 
 jest.mock("../thunks/getCaseDetails", () => () => ({
   type: "MOCK_GET_CASE_DETAILS"
@@ -182,6 +187,23 @@ describe("Case Details Component", () => {
         })
       );
       expect(dispatchSpy).toHaveBeenCalledWith(openCaseNoteDialog("Add", {}));
+    });
+
+    test.skip("edit letter status message should have correct value", () => {
+      store.dispatch(getLetterTypeSuccess(LETTER_TYPE.EDITED));
+      store.dispatch(
+        getCaseDetailsSuccess({
+          ...expectedCase,
+          status: CASE_STATUS.LETTER_IN_PROGRESS
+        })
+      );
+
+      caseDetails.update();
+      containsText(
+        caseDetails,
+        '[data-test="editLetterStatusMessage"]',
+        "Any changes made to the case details will not be reflected in the letter."
+      );
     });
   });
 });

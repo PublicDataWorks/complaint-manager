@@ -9,6 +9,16 @@ import { withStyles } from "@material-ui/core/styles";
 import styles from "../caseDetailsStyles";
 import { connect } from "react-redux";
 
+export const PAGE_TYPE = {
+  CASE_DETAILS: "case details",
+  LETTER_DATA: "letter details"
+};
+
+export const EDIT_LETTER_STATUS = {
+  EDITED: "edited",
+  APPROVED: "approved"
+};
+
 class EditLetterStatusMessage extends React.Component {
   shouldNotShowMessage = () => {
     if (!this.props.featureToggles.editLetterStatusMessageFeature) {
@@ -20,32 +30,46 @@ class EditLetterStatusMessage extends React.Component {
     return this.props.letterType === LETTER_TYPE.GENERATED;
   };
 
-  render() {
-    if (this.shouldNotShowMessage()) {
-      return null;
-    }
-
-    let editLetterStatus = "edited";
+  getEditLetterStatus = () => {
     if (
       CASE_STATUSES_WHERE_LETTER_IS_FINALIZED.includes(this.props.caseStatus)
     ) {
-      editLetterStatus = "approved";
+      return EDIT_LETTER_STATUS.APPROVED;
+    }
+    return EDIT_LETTER_STATUS.EDITED;
+  };
+
+  getMessage = () => {
+    let message = `The referral letter has been ${this.getEditLetterStatus()}. `;
+    message = message.concat(
+      `Any changes made to the ${this.getPageType()} will not be reflected in the letter.`
+    );
+    return message;
+  };
+
+  getPageType = () => {
+    if (this.props.pageType === PAGE_TYPE.CASE_DETAILS) {
+      return PAGE_TYPE.CASE_DETAILS;
+    } else {
+      return PAGE_TYPE.LETTER_DATA;
+    }
+  };
+
+  render() {
+    if (this.shouldNotShowMessage()) {
+      return null;
     }
 
     return (
       <div
         data-test="editLetterStatusMessage"
         style={{
-          marginRight: "5%",
-          marginLeft: "5%",
           maxWidth: "850px",
           paddingBottom: "24px",
           display: "flex"
         }}
       >
-        <WarningMessage>
-          {`The referral letter has been ${editLetterStatus}. Any changes made to the ${"case details"} will not be reflected in the letter.`}
-        </WarningMessage>
+        <WarningMessage>{this.getMessage()}</WarningMessage>
       </div>
     );
   }

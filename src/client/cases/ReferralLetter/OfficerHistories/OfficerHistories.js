@@ -20,6 +20,9 @@ import {
 } from "../../../shared/components/StyledButtons";
 import editOfficerHistory from "../thunks/editOfficerHistory";
 import { push } from "react-router-redux";
+import EditLetterStatusMessage, {
+  PAGE_TYPE
+} from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
 
 class OfficerHistories extends Component {
   constructor(props) {
@@ -179,6 +182,7 @@ class OfficerHistories extends Component {
                 Officer Complaint History
               </Typography>
             </div>
+            <EditLetterStatusMessage />
 
             {letterOfficers.length === 0
               ? this.renderNoOfficers()

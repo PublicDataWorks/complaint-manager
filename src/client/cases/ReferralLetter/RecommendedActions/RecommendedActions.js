@@ -25,6 +25,9 @@ import {
   RETALIATION_CONCERNS_LABEL,
   RETALIATION_CONCERNS_TEXT
 } from "../../../../server/handlers/cases/referralLetters/letterDefaults";
+import EditLetterStatusMessage, {
+  PAGE_TYPE
+} from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
 
 class RecommendedActions extends Component {
   constructor(props) {
@@ -205,6 +208,8 @@ class RecommendedActions extends Component {
               >
                 Recommended Actions
               </Typography>
+              <EditLetterStatusMessage />
+
               <Card
                 style={{
                   marginBottom: "24px",

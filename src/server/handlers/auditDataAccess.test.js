@@ -120,7 +120,7 @@ describe("auditDataAccess", () => {
         await auditDataAccess(
           "user",
           caseForAudit.id,
-          AUDIT_SUBJECT.CASE_NUMBER,
+          AUDIT_SUBJECT.MINIMUM_CASE_DETAILS,
           transaction
         );
       });
@@ -130,7 +130,10 @@ describe("auditDataAccess", () => {
       });
       expect(createdAudits.length).toEqual(1);
 
-      expect(createdAudits[0].subjectDetails).toEqual(["Case Number"]);
+      expect(createdAudits[0].subjectDetails).toEqual([
+        "Case Number",
+        "Case Status"
+      ]);
     });
 
     test("it should populate details correctly for letter type subject", async () => {

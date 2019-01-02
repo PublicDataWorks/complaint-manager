@@ -9,7 +9,8 @@ export const DROPZONE_FILE_REMOVED = "DROPZONE_FILE_REMOVED";
 
 export const CASE_CREATED_SUCCESS = "CASE_CREATED_SUCCESS";
 export const GET_CASE_DETAILS_SUCCESS = "GET_CASE_DETAILS_SUCCESS";
-export const GET_CASE_NUMBER_SUCCESS = "GET_CASE_NUMBER_SUCCESS";
+export const GET_MINIMUM_CASE_DETAILS_SUCCESS =
+  "GET_MINIMUM_CASE_DETAILS_SUCCESS";
 export const ATTACHMENT_UPLOAD_SUCCEEDED = "ATTACHMENT_UPLOAD_SUCCEEDED";
 export const ATTACHMENT_UPLOAD_FAILED = "ATTACHMENT_UPLOAD_FAILED";
 export const INCIDENT_DETAILS_UPDATE_SUCCEEDED =
@@ -220,7 +221,7 @@ export const AUDIT_SUBJECT = {
   REFERRAL_LETTER_DATA: "Referral Letter Data", //this refers to letter data only (not case data)
   REFERRAL_LETTER: "Referral Letter", //this refers to the full compiled letter including all case data,
   REFERRAL_LETTER_PDF: "Referral Letter PDF",
-  CASE_NUMBER: "Case Number",
+  MINIMUM_CASE_DETAILS: "Minimum Case Details",
   LETTER_TYPE: "Letter Type"
 };
 

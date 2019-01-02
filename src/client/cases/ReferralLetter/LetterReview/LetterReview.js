@@ -23,6 +23,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { push } from "react-router-redux";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
+import EditLetterStatusMessage from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
 
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {
@@ -109,6 +110,7 @@ export class LetterReview extends Component {
               Review Case Details
             </Typography>
           </div>
+          <EditLetterStatusMessage />
 
           <CaseDetailCard
             cardTitle={"Incident Info"}

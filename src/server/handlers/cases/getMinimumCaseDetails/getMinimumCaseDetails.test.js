@@ -8,9 +8,9 @@ import {
 } from "../../../../sharedUtilities/constants";
 import models from "../../../models";
 import httpMocks from "node-mocks-http";
-import getCaseNumber from "./getCaseNumber";
+import getMinimumCaseDetails from "./getMinimumCaseDetails";
 
-describe("getCaseNumber", () => {
+describe("getMinimumCaseDetails", () => {
   let response, next, request, existingCase;
 
   afterEach(async () => {
@@ -51,20 +51,20 @@ describe("getCaseNumber", () => {
   });
 
   test("gets case number", async () => {
-    await getCaseNumber(request, response, next);
+    await getMinimumCaseDetails(request, response, next);
     const responseBody = response._getData();
     expect(responseBody.caseNumber).toEqual("CC2017-0205");
   });
 
   test("audits the data access", async () => {
-    await getCaseNumber(request, response, next);
+    await getMinimumCaseDetails(request, response, next);
 
     const dataAccessAudit = await models.action_audit.find();
     expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
     expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
     expect(dataAccessAudit.user).toEqual("nickname");
     expect(dataAccessAudit.caseId).toEqual(existingCase.id);
-    expect(dataAccessAudit.subject).toEqual(AUDIT_SUBJECT.CASE_NUMBER);
-    expect(dataAccessAudit.subjectDetails).toEqual(["Case Number"]);
+    expect(dataAccessAudit.subject).toEqual(AUDIT_SUBJECT.MINIMUM_CASE_DETAILS);
+    expect(dataAccessAudit.subjectDetails).toEqual(["Case Number", "Case Status"]);
   });
 });

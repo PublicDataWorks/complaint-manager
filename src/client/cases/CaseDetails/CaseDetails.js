@@ -27,7 +27,9 @@ import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 import Witnesses from "./ComplainantWitnesses/Witnesses";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
-import EditLetterStatusMessage from "./EditLetterStatusMessage/EditLetterStatusMessage";
+import EditLetterStatusMessage, {
+  PAGE_TYPE
+} from "./EditLetterStatusMessage/EditLetterStatusMessage";
 
 const drawerWidthPercentage = "30%";
 
@@ -117,7 +119,9 @@ class CaseDetails extends React.Component {
           <CaseDrawer classes={classes} caseDetail={this.props.caseDetail} />
           <main className={classes.content}>
             <CaseStatusStepper />
-            <EditLetterStatusMessage />
+            <div style={{ marginLeft: "5%", marginRight: "5%" }}>
+              <EditLetterStatusMessage pageType={PAGE_TYPE.CASE_DETAILS} />
+            </div>
             <IncidentDetailsContainer />
             <Complainants
               caseDetail={this.props.caseDetail}

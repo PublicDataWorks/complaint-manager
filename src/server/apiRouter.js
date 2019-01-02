@@ -7,7 +7,7 @@ import editReferralLetterContent from "./handlers/cases/referralLetters/editRefe
 import getPdf from "./handlers/cases/referralLetters/getPdf/getPdf";
 import approveLetter from "./handlers/cases/referralLetters/approveLetter/approveLetter";
 import getFinalPdfUrl from "./handlers/cases/referralLetters/getFinalPdfUrl/getFinalPdfUrl";
-import getCaseNumber from "./handlers/cases/getCaseNumber/getCaseNumber";
+import getMinimumCaseDetails from "./handlers/cases/getMinimumCaseDetails/getMinimumCaseDetails";
 import getIntakeSources from "./handlers/intake_sources/getIntakeSources";
 import getLetterType from "./handlers/cases/referralLetters/getLetterType/getLetterType";
 
@@ -58,7 +58,7 @@ router.get("/export/job/:id", exportJob);
 router.get("/export/schedule/:operation", scheduleExport);
 router.post("/cases", createCase);
 router.get("/cases", getCases);
-router.get("/cases/:id/case-number", getCaseNumber);
+router.get("/cases/:id/minimum-case-details", getMinimumCaseDetails);
 router.get("/cases/:id", getCase);
 router.get("/cases/:id/case-notes", getCaseNotes);
 router.post("/cases/:id/case-notes", createCaseNote);

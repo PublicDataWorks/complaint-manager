@@ -4,7 +4,7 @@ import {
   createCivilianSuccess,
   editCivilianSuccess,
   getCaseDetailsSuccess,
-  getCaseNumberSuccess,
+  getMinimumCaseDetailsSuccess,
   removeCaseNoteSuccess,
   removePersonSuccess,
   updateIncidentDetailsSuccess,
@@ -40,11 +40,11 @@ describe("caseDetailsReducers", () => {
     });
   });
 
-  describe("GET_CASE_NUMBER_SUCCESS", () => {
+  describe("GET_MINIMUM_CASE_DETAILS_SUCCESS", () => {
     test("should assign the case number to the new state", () => {
       const oldState = { aProp: "a value", bProp: "b value" };
       const caseDetails = { caseNumber: "CC2018-0034" };
-      const action = getCaseNumberSuccess(caseDetails);
+      const action = getMinimumCaseDetailsSuccess(caseDetails);
       const newState = caseDetailsReducer(oldState, action);
 
       expect(newState).toEqual(caseDetails);
