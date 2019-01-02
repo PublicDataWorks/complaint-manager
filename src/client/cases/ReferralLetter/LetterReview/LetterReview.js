@@ -22,6 +22,7 @@ import {
   LETTER_PROGRESS
 } from "../../../../sharedUtilities/constants";
 import { push } from "react-router-redux";
+import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {
@@ -37,7 +38,8 @@ export class LetterReview extends Component {
 
   componentDidUpdate() {
     if (!this.caseDetailsNotYetLoaded() && !this.statusIsAllowed()) {
-      this.props.dispatch(push(`/cases/${this.props.caseDetail.id}`));
+      const caseId = this.props.caseDetail.id;
+      this.props.dispatch(invalidCaseStatusRedirect(caseId));
     }
   }
 

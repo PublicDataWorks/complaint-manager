@@ -7,8 +7,15 @@ import { push } from "react-router-redux";
 import LetterReview from "./LetterReview";
 import { mount } from "enzyme";
 import React from "react";
+import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
-jest.mock("../../thunks/getCaseDetails", () => () => ({ type: "SOMETHING" }));
+jest.mock("../../thunks/getCaseDetails", () => () => ({
+  type: "GetCaseDetails"
+}));
+jest.mock("../../thunks/invalidCaseStatusRedirect", () => caseId => ({
+  type: "InvalidCaseRedirect",
+  caseId
+}));
 
 describe("LetterReview", () => {
   let caseId, dispatchSpy, store, wrapper;
@@ -33,7 +40,7 @@ describe("LetterReview", () => {
       })
     );
     wrapper.update();
-    expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    expect(dispatchSpy).toHaveBeenCalledWith(invalidCaseStatusRedirect(caseId));
   });
 
   test("does not redirect if case is in letter in progress status", () => {
@@ -49,7 +56,9 @@ describe("LetterReview", () => {
       })
     );
     wrapper.update();
-    expect(dispatchSpy).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    expect(dispatchSpy).not.toHaveBeenCalledWith(
+      invalidCaseStatusRedirect(caseId)
+    );
   });
 
   test("does not redirect if case is in ready for review status", () => {
@@ -65,7 +74,9 @@ describe("LetterReview", () => {
       })
     );
     wrapper.update();
-    expect(dispatchSpy).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    expect(dispatchSpy).not.toHaveBeenCalledWith(
+      invalidCaseStatusRedirect(caseId)
+    );
   });
 
   test("does not redirect if case is in forwarded to agency status", () => {
@@ -81,8 +92,11 @@ describe("LetterReview", () => {
       })
     );
     wrapper.update();
-    expect(dispatchSpy).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    expect(dispatchSpy).not.toHaveBeenCalledWith(
+      invalidCaseStatusRedirect(caseId)
+    );
   });
+
   test("does not redirect if case is in closed status", () => {
     store.dispatch(
       getCaseDetailsSuccess({
@@ -96,7 +110,9 @@ describe("LetterReview", () => {
       })
     );
     wrapper.update();
-    expect(dispatchSpy).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    expect(dispatchSpy).not.toHaveBeenCalledWith(
+      invalidCaseStatusRedirect(caseId)
+    );
   });
 
   describe("Redirects when click Stepper Buttons", function() {
