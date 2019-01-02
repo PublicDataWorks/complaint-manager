@@ -1,12 +1,16 @@
 import getAccessToken from "../../../auth/getAccessToken";
 import nock from "nock";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
-import { push } from "react-router-redux";
 import getReferralLetterData from "./getReferralLetterData";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import { getCaseNumberSuccess } from "../../../actionCreators/casesActionCreators";
+import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
 jest.mock("../../../auth/getAccessToken");
+jest.mock("../../thunks/invalidCaseStatusRedirect", () => caseId => ({
+  type: "InvalidCaseStatusRedirect",
+  caseId
+}));
 
 describe("getReferralLetterData", () => {
   let caseId, dispatch;
@@ -65,7 +69,7 @@ describe("getReferralLetterData", () => {
       .reply(400, responseBody);
 
     await getReferralLetterData(caseId)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    expect(dispatch).toHaveBeenCalledWith(invalidCaseStatusRedirect(caseId));
   });
 
   test("does not redirect to case page if case is in a valid status for letter generation", async () => {
@@ -85,7 +89,9 @@ describe("getReferralLetterData", () => {
       .reply(200, caseNumberResponse);
 
     await getReferralLetterData(caseId)(dispatch);
-    expect(dispatch).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    expect(dispatch).not.toHaveBeenCalledWith(
+      invalidCaseStatusRedirect(caseId)
+    );
     expect(dispatch).toHaveBeenCalledWith(
       getReferralLetterSuccess(responseBody)
     );

@@ -1,9 +1,9 @@
-import { push } from "react-router-redux";
 import axios from "axios/index";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import config from "../../../config/config";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import { getCaseNumberSuccess } from "../../../actionCreators/casesActionCreators";
+import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
 const getReferralLetterData = caseId => async dispatch => {
   try {
@@ -23,7 +23,7 @@ const getReferralLetterData = caseId => async dispatch => {
       error.response &&
       error.response.data.message === "Invalid case status"
     ) {
-      return dispatch(push(`/cases/${caseId}`));
+      return dispatch(invalidCaseStatusRedirect(caseId));
     }
     dispatch(
       snackbarError(
