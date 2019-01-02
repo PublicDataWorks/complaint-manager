@@ -4,5 +4,11 @@
     "name": "caseValidationFeature",
     "description": "Toggle to validate case",
     "enabled": false
+  },
+  {
+    "id": "canEditLetterMessageFeature",
+    "name": "canEditLetterMessageFeature",
+    "description": "Toggle to show message when detail changes will not edit letter",
+    "criteria": { "isPreProd": true }
   }
 ]

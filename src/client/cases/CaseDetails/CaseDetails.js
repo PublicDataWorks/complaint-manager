@@ -27,6 +27,7 @@ import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 import Witnesses from "./ComplainantWitnesses/Witnesses";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
+import checkFeatureToggleEnabled from "../../../server/checkFeatureToggleEnabled";
 
 const drawerWidthPercentage = "30%";
 
@@ -80,6 +81,11 @@ class CaseDetails extends React.Component {
     );
   }
 
+  renderEditStatusMessage = () => {
+    // if(fflip.)
+    return null;
+  };
+
   render() {
     if (this.caseDetailsNotYetLoaded()) {
       return null;
@@ -117,6 +123,7 @@ class CaseDetails extends React.Component {
           <main className={classes.content}>
             <CaseStatusStepper />
             <IncidentDetailsContainer />
+            {this.renderEditStatusMessage()}
             <Complainants
               caseDetail={this.props.caseDetail}
               dispatch={this.props.dispatch}
