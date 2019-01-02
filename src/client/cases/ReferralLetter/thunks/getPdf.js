@@ -31,18 +31,36 @@ const getPdf = (
     dispatch(stopLetterDownload());
   } catch (error) {
     dispatch(stopLetterDownload());
-    if (
-      error.response &&
-      error.response.data.message === "Invalid case status"
-    ) {
+
+    if (errorIsInvalidCaseStatus(error)) {
       return dispatch(invalidCaseStatusRedirect(caseId));
     }
+
     return dispatch(
       snackbarError(
         "Something went wrong and the letter was not downloaded. Please try again."
       )
     );
   }
+};
+
+const errorIsInvalidCaseStatus = error => {
+  if (!error.response) {
+    return false;
+  }
+  const errorMessage = getJsonMessageFromArrayBufferResponse(
+    error.response.data
+  );
+  return errorMessage === "Invalid case status";
+};
+
+const getJsonMessageFromArrayBufferResponse = arrayBuffer => {
+  const decodedString = String.fromCharCode.apply(
+    null,
+    new Uint8Array(arrayBuffer)
+  );
+  const jsonResponse = JSON.parse(decodedString);
+  return jsonResponse.message;
 };
 
 export default getPdf;
