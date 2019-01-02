@@ -2,11 +2,13 @@ import app from "../../server";
 import models from "../../models/index";
 import moment from "moment/moment";
 import Case from "../../../client/testUtilities/case";
+import { mockCase } from './mock';
 import request from "supertest";
 import Civilian from "../../../client/testUtilities/civilian";
 import Officer from "../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../client/testUtilities/caseOfficer";
 import {
+  ACCUSED,
   AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
@@ -17,6 +19,8 @@ import {
   buildTokenWithPermissions,
   cleanupDatabase
 } from "../../testHelpers/requestTestHelpers";
+import { map } from 'lodash';
+const { INITIAL, ACTIVE } = CASE_STATUS;
 
 describe("getCases", () => {
   let token;
@@ -27,6 +31,82 @@ describe("getCases", () => {
 
   afterEach(async () => {
     await cleanupDatabase();
+  });
+
+  describe('should sort cases', () => {
+    const p1 = {caseId: 1, lastName: "Grant"};
+    const p2 = {caseId: 2, lastName: "Zeta"};
+    const cases = [{
+      id: 1,
+      status: INITIAL,
+      assignedTo: 'test1',
+      firstContactDate: "2018-01-01",
+      accusedOfficers: [{...p1, roleOnCase: ACCUSED}],
+      complainantCivilians: [p1],
+      complainantOfficers: [{...p1, roleOnCase: COMPLAINANT}]
+    }, {
+      id: 2,
+      status: ACTIVE,
+      assignedTo: 'test2',
+      firstContactDate: "2019-01-01",
+      accusedOfficers: [{...p2, roleOnCase: ACCUSED}],
+      complainantCivilians: [p2],
+      complainantOfficers: [{...p2, roleOnCase: COMPLAINANT}]
+    }].map(mockCase);
+    const casesReverse = cases.slice().reverse();
+    const auditUser = "someone";
+
+    beforeEach(async () => {
+      await Promise.all(
+        cases.map(Case => models.cases.create(Case, {
+          include: [
+            {
+              model: models.civilian,
+              as: "complainantCivilians",
+              auditUser
+            },
+            {
+              model: models.case_officer,
+              as: "accusedOfficers",
+              auditUser
+            },
+            {
+              model: models.case_officer,
+              as: "complainantOfficers",
+              auditUser
+            }
+          ],
+          auditUser
+        }))
+      );
+    });
+
+    test.each`
+      sortBy                   | sortDirection | expected
+      ${'id'}                  | ${'asc'}      | ${cases}
+      ${'id'}                  | ${'desc'}     | ${casesReverse}
+      ${'status'}              | ${'asc'}      | ${cases}
+      ${'status'}              | ${'desc'}     | ${casesReverse}
+      ${'assignedTo'}          | ${'asc'}      | ${cases}
+      ${'assignedTo'}          | ${'desc'}     | ${casesReverse}
+      ${'firstContactDate'}    | ${'asc'}      | ${cases}
+      ${'firstContactDate'}    | ${'desc'}     | ${casesReverse}
+      ${'accusedOfficer'}      | ${'asc'}      | ${cases}
+      ${'accusedOfficer'}      | ${'desc'}     | ${casesReverse}
+      ${'complainant'}         | ${'asc'}      | ${cases}
+      ${'complainant'}         | ${'desc'}     | ${casesReverse}
+    `('sorts by $sortBy with direction $sortDirection'
+      , async ({sortBy, sortDirection, expected}) => {
+        await request(app)
+          .get("/api/cases")
+          .query({sortBy, sortDirection})
+          .set("Authorization", `Bearer ${token}`)
+          .expect(200)
+          .then(resp => {
+            expect(map(resp.body.cases, 'id'))
+              .toEqual(map(expected, 'id'))
+          });
+      });
   });
 
   describe("GET /cases", () => {
@@ -52,6 +132,7 @@ describe("getCases", () => {
     });
 
     test("should get all cases", async () => {
+
       const civilian = new Civilian.Builder()
         .defaultCivilian()
         .withId(undefined)
@@ -163,7 +244,7 @@ describe("getCases", () => {
               })
             ])
           );
-        });
+        })
     });
   });
 });
