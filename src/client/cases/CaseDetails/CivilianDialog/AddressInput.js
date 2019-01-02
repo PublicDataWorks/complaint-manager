@@ -175,7 +175,7 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.intersection`}
           component={TextField}
           inputProps={{
-            "data-test": "streetAddressInput"
+            "data-test": "intersectionInput"
           }}
           style={{ display: "none" }}
         />
