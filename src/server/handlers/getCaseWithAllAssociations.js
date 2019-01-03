@@ -61,16 +61,25 @@ const getCaseData = async (caseId, transaction) => {
     transaction: transaction,
     order: [
       [
-        {
-          model: models.case_officer,
-          as: "accusedOfficers"
-        },
-        {
-          model: models.officer_allegation,
-          as: "allegations",
-          include: [models.allegation]
-        },
-        "createdAt"
+        { model: models.case_officer, as: "accusedOfficers" },
+        "createdAt",
+        "ASC"
+      ],
+      [
+        { model: models.civilian, as: "complainantCivilians" },
+        "createdAt",
+        "ASC"
+      ],
+      [
+        { model: models.case_officer, as: "complainantOfficers" },
+        "createdAt",
+        "ASC"
+      ],
+      [{ model: models.civilian, as: "witnessCivilians" }, "createdAt", "ASC"],
+      [
+        { model: models.case_officer, as: "witnessOfficers" },
+        "createdAt",
+        "ASC"
       ]
     ]
   });
