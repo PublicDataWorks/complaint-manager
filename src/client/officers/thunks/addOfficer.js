@@ -1,8 +1,8 @@
 import config from "../../config/config";
 import { push } from "react-router-redux";
 import {
-  addOfficerToCaseSuccess,
   addOfficerToCaseFailure,
+  addOfficerToCaseSuccess,
   clearSelectedOfficer
 } from "../../actionCreators/officersActionCreators";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
@@ -17,7 +17,7 @@ const addOfficer = (caseId, officerId, values) => async dispatch => {
     const response = await axios.post(
       `${hostname}/api/cases/${caseId}/cases-officers`,
       JSON.stringify(payload)
-    )
+    );
     dispatch(addOfficerToCaseSuccess(response.data));
     dispatch(clearSelectedOfficer());
     dispatch(snackbarSuccess(`Officer was successfully added`));

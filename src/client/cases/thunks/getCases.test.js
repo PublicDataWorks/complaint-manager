@@ -3,7 +3,8 @@ import { getCasesSuccess } from "../../actionCreators/casesActionCreators";
 import getCases from "./getCases";
 import getAccessToken from "../../auth/getAccessToken";
 import { push } from "react-router-redux";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
+
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("getCases", () => {
@@ -11,7 +12,7 @@ describe("getCases", () => {
   const responseBody = { cases: ["a case"] };
 
   beforeEach(() => {
-    configureInterceptors({dispatch});
+    configureInterceptors({ dispatch });
     getAccessToken.mockClear();
     dispatch.mockClear();
   });

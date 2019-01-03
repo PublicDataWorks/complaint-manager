@@ -1,7 +1,7 @@
 import ReferralLetter from "../../client/testUtilities/ReferralLetter";
 import Case from "../../client/testUtilities/case";
 import models from "../models";
-import { AUDIT_ACTION, CASE_STATUS } from "../../sharedUtilities/constants";
+import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import {
   RECIPIENT,

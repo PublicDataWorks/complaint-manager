@@ -2,23 +2,22 @@ import nock from "nock";
 import getExportJob from "./getExportJob";
 import {
   addBackgroundJobFailure,
-  exportJobCompleted,
-  clearCurrentExportJob
+  clearCurrentExportJob,
+  exportJobCompleted
 } from "../../actionCreators/exportActionCreators";
 import {
   EXPORT_JOB_MAX_REFRESH_TIMES,
   EXPORT_JOB_REFRESH_INTERVAL_MS
 } from "../../../sharedUtilities/constants";
-import getAccessToken from "../../auth/getAccessToken";
-import { push } from "react-router-redux";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
+
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 jest.useFakeTimers();
 
 describe("Get Export Job by id", () => {
   const jobId = 19;
   const mockedDispatch = jest.fn();
-  configureInterceptors({dispatch: mockedDispatch})
+  configureInterceptors({ dispatch: mockedDispatch });
 
   test("job Complete should trigger job complete action", async () => {
     nock("http://localhost")

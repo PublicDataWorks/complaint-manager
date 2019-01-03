@@ -1,9 +1,9 @@
 import {
+  AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  AUDIT_ACTION,
-  TIMEZONE,
-  JOB_OPERATION
+  JOB_OPERATION,
+  TIMEZONE
 } from "../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../server/testHelpers/requestTestHelpers";
 import parse from "csv-parse/lib/sync";
@@ -13,9 +13,9 @@ import ActionAudit from "../../../client/testUtilities/ActionAudit";
 import models from "../../../server/models/index";
 import { createCaseWithoutCivilian } from "../../../server/testHelpers/modelMothers";
 import uploadFileToS3 from "../fileUpload/uploadFileToS3";
-jest.mock("../fileUpload/uploadFileToS3", () => jest.fn());
-
 import exportAudit from "./export";
+
+jest.mock("../fileUpload/uploadFileToS3", () => jest.fn());
 
 describe("GET /api/export-audit-log", () => {
   const nickname = "nickName";

@@ -1,7 +1,7 @@
 import removePersonDialogReducer from "./removePersonDialogReducer";
 import {
-  openRemovePersonDialog,
-  closeRemovePersonDialog
+  closeRemovePersonDialog,
+  openRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
 
 describe("removePersonDialogReducer", () => {

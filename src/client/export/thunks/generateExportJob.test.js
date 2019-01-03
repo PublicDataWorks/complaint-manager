@@ -5,14 +5,13 @@ import {
   clearCurrentExportJob,
   generateExportSuccess
 } from "../../actionCreators/exportActionCreators";
-import getAccessToken from "../../auth/getAccessToken";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
+
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "token"));
-import { push } from "react-router-redux";
 
 describe("generateExportJob", () => {
   const mockedDispatch = jest.fn();
-  configureInterceptors({dispatch: mockedDispatch});
+  configureInterceptors({ dispatch: mockedDispatch });
   const url = "/url";
 
   test("dispatches success when response returns successfully", async () => {

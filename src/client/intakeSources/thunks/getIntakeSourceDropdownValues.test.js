@@ -1,9 +1,10 @@
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
 import getIntakeSourceDropdownValues from "./getIntakeSourceDropdownValues";
 import { getIntakeSourcesSuccess } from "../../actionCreators/intakeSourceActionCreators";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
+
 jest.mock("../../auth/getAccessToken");
 
 describe("getIntakeSourcesDropdownValues", () => {

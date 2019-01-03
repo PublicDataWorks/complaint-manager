@@ -11,17 +11,21 @@ import Case from "../../testUtilities/case";
 import getCaseDetails from "../thunks/getCaseDetails";
 import createCivilian from "../thunks/createCivilian";
 import {
-  openCivilianDialog,
-  openRemovePersonDialog,
-  closeEditDialog,
   closeCaseNoteDialog,
-  openCaseNoteDialog,
-  closeRemovePersonDialog,
+  closeCaseStatusUpdateDialog,
+  closeEditDialog,
   closeRemoveCaseNoteDialog,
-  closeCaseStatusUpdateDialog
+  closeRemovePersonDialog,
+  getCaseDetailsSuccess,
+  openCaseNoteDialog,
+  openCivilianDialog,
+  openRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
-import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
-import { TIMEZONE } from "../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  LETTER_TYPE,
+  TIMEZONE
+} from "../../../sharedUtilities/constants";
 import timezone from "moment-timezone";
 import { initialize } from "redux-form";
 

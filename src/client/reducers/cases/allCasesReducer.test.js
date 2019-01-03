@@ -1,8 +1,7 @@
 import allCasesReducer from "./allCasesReducer";
 import {
   createCaseSuccess,
-  getCasesSuccess,
-  updateNarrativeSuccess
+  getCasesSuccess
 } from "../../actionCreators/casesActionCreators";
 
 describe("allCasesReducer", () => {

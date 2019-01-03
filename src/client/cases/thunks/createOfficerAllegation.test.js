@@ -1,5 +1,3 @@
-import { push } from "react-router-redux";
-import getAccessToken from "../../auth/getAccessToken";
 import createOfficerAllegation from "./createOfficerAllegation";
 import nock from "nock";
 import {
@@ -7,7 +5,7 @@ import {
   snackbarSuccess
 } from "../../actionCreators/snackBarActionCreators";
 import { createOfficerAllegationSuccess } from "../../actionCreators/allegationsActionCreators";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -19,7 +17,7 @@ describe("create officer allegation", function() {
   const callBackFunction = jest.fn();
 
   beforeEach(() => {
-    configureInterceptors({dispatch})
+    configureInterceptors({ dispatch });
     dispatch.mockClear();
   });
 

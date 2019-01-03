@@ -9,8 +9,8 @@ import {
 import { TextField } from "redux-form-material-ui";
 import { connect } from "react-redux";
 import {
-  SecondaryButton,
-  PrimaryButton
+  PrimaryButton,
+  SecondaryButton
 } from "../../../shared/components/StyledButtons";
 import { closeCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
 import { Field, reduxForm, reset } from "redux-form";

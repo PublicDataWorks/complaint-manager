@@ -12,6 +12,7 @@ import auditDataAccess from "../../../auditDataAccess";
 import getCaseWithAllAssociations from "../../../getCaseWithAllAssociations";
 import generateLetterBody from "../generateLetterBody";
 import constructFilename from "../constructFilename";
+import { letterTypeFromHtml } from "../getLetterType/getLetterType";
 
 require("../../../../handlebarHelpers");
 
@@ -39,34 +40,24 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
       transcribedBy: referralLetter.transcribedBy
     };
 
-    let html, letterType;
-    const edited = referralLetter.editedLetterHtml != null;
-    if (edited) {
+    let html;
+    const letterType = letterTypeFromHtml(referralLetter.editedLetterHtml);
+    if (letterType === LETTER_TYPE.EDITED) {
       html = referralLetter.editedLetterHtml;
-      letterType = LETTER_TYPE.EDITED;
     } else {
       html = await generateLetterBody(caseId, transaction);
-      letterType = LETTER_TYPE.GENERATED;
     }
     let lastEdited = referralLetter.updatedAt;
 
     const caseDetails = await getCaseWithAllAssociations(caseId, transaction);
 
-    const complainantLastName = getLastName(caseDetails);
-
     const finalFilename = constructFilename(
-      caseId,
-      caseDetails.caseNumber,
-      caseDetails.firstContactDate,
-      complainantLastName,
+      caseDetails,
       REFERRAL_LETTER_VERSION.FINAL
     );
 
     const draftFilename = constructFilename(
-      caseId,
-      caseDetails.caseNumber,
-      caseDetails.firstContactDate,
-      complainantLastName,
+      caseDetails,
       REFERRAL_LETTER_VERSION.DRAFT,
       letterType
     );
@@ -82,13 +73,5 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
     });
   });
 });
-
-const getLastName = caseDetails => {
-  const firstComplainant =
-    caseDetails.complaintType === CIVILIAN_INITIATED
-      ? caseDetails.complainantCivilians[0]
-      : caseDetails.complainantOfficers[0];
-  return firstComplainant ? firstComplainant.lastName : "";
-};
 
 export default getLetterPreview;

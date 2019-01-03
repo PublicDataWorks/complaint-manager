@@ -4,8 +4,8 @@ import OfficerAllegations from "./OfficerAllegations";
 import createConfiguredStore from "../createConfiguredStore";
 import { Provider } from "react-redux";
 import {
-  EDIT_ALLEGATION_FORM_CLOSED,
-  ALLEGATION_SEVERITY
+  ALLEGATION_SEVERITY,
+  EDIT_ALLEGATION_FORM_CLOSED
 } from "../../sharedUtilities/constants";
 import editOfficerAllegation from "../cases/thunks/editOfficerAllegation";
 import { changeInput } from "../testHelpers";

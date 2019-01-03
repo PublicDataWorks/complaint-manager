@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../../../globalStyling/styles";
-import { Typography, Divider } from "@material-ui/core";
+import { Divider, Typography } from "@material-ui/core";
 import OfficerActions from "./OfficerActions";
 import UnknownOfficerPanel from "../Officers/UnknownOfficerPanel";
 import OfficerPanel from "../Officers/OfficerPanel";

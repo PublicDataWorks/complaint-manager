@@ -7,20 +7,20 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import createCase from "./createCase";
 import { push } from "react-router-redux";
-import getAccessToken from "../../auth/getAccessToken";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
+
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("createCase", () => {
   const dispatch = jest.fn();
 
   beforeEach(() => {
-    configureInterceptors({dispatch})
+    configureInterceptors({ dispatch });
     dispatch.mockClear();
   });
 

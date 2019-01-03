@@ -1,6 +1,6 @@
 import {
-  exportJobStarted,
-  clearCurrentExportJob
+  clearCurrentExportJob,
+  exportJobStarted
 } from "../../actionCreators/exportActionCreators";
 import allExportsReducer from "./allExportsReducer";
 

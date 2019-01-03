@@ -11,21 +11,20 @@ import timezone from "moment-timezone";
 import Classification from "../../../client/testUtilities/classification";
 import csvCaseExport from "./csvCaseExport";
 import uploadFileToS3 from "../fileUpload/uploadFileToS3";
-
-jest.mock("../fileUpload/uploadFileToS3");
-
 import {
   ACCUSED,
+  ADDRESSABLE_TYPE,
   ALLEGATION_SEVERITY,
   COMPLAINANT,
-  TIMEZONE,
-  WITNESS,
   JOB_OPERATION,
-  ADDRESSABLE_TYPE
+  TIMEZONE,
+  WITNESS
 } from "../../../sharedUtilities/constants";
 import parse from "csv-parse/lib/sync";
 import Address from "../../../client/testUtilities/Address";
 import Attachment from "../../../client/testUtilities/attachment";
+
+jest.mock("../fileUpload/uploadFileToS3");
 
 describe("csvCaseExport request", () => {
   let records = [];

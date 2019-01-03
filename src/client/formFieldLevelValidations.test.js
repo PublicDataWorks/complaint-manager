@@ -3,12 +3,12 @@ import {
   firstNameNotBlank,
   firstNameRequired,
   isEmail,
+  isIntegerString,
   isPhoneNumber,
   lastNameNotBlank,
   lastNameRequired,
   notFutureDate,
-  validDate,
-  isIntegerString
+  validDate
 } from "./formFieldLevelValidations";
 import moment from "moment";
 

@@ -1,10 +1,10 @@
 import {
-  Typography,
   Divider,
   ExpansionPanel,
   ExpansionPanelSummary,
+  Icon,
   IconButton,
-  Icon
+  Typography
 } from "@material-ui/core";
 import React from "react";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
@@ -16,7 +16,7 @@ import {
   accusedOfficerPanelCollapsed,
   accusedOfficerPanelExpanded
 } from "../../../actionCreators/accusedOfficerPanelsActionCreators";
-import {connect} from "react-redux"
+import { connect } from "react-redux";
 
 const UnknownOfficerPanel = ({ dispatch, caseOfficer, children }) => {
   return (
@@ -54,34 +54,33 @@ const UnknownOfficerPanel = ({ dispatch, caseOfficer, children }) => {
             value={caseOfficer.notes}
             testLabel="notes"
           />
-        </StyledExpansionPanelDetails
-        >
-        {caseOfficer &&
-          caseOfficer.roleOnCase === ACCUSED && (
-            <div
+        </StyledExpansionPanelDetails>
+        {caseOfficer && caseOfficer.roleOnCase === ACCUSED && (
+          <div
+            style={{
+              marginLeft: "64px"
+            }}
+          >
+            <Typography
               style={{
-                marginLeft: '64px'
-              }}>
-              <Typography
-                style={{
-                  ...styles.section,
-                  margin: "8px 24px"
-                }}
-              >
-                Allegations
+                ...styles.section,
+                margin: "8px 24px"
+              }}
+            >
+              Allegations
+            </Typography>
+            {caseOfficer.allegations.length > 0 ? (
+              <OfficerAllegationsDisplay
+                officerId={caseOfficer.id}
+                officerAllegations={caseOfficer.allegations}
+              />
+            ) : (
+              <Typography style={{ marginLeft: "24px", fontStyle: "italic" }}>
+                No allegations have been added.
               </Typography>
-              {caseOfficer.allegations.length > 0 ? (
-                <OfficerAllegationsDisplay
-                  officerId={caseOfficer.id}
-                  officerAllegations={caseOfficer.allegations}
-                />
-              ) : (
-                <Typography style={{ marginLeft: "24px", fontStyle: "italic" }}>
-                  No allegations have been added.
-                </Typography>
-              )}
-            </div>
-          )}
+            )}
+          </div>
+        )}
       </ExpansionPanel>
       <Divider />
     </div>

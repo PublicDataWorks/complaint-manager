@@ -1,13 +1,11 @@
-import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
-import { push } from "react-router-redux";
 import addCaseNote from "./addCaseNote";
 import {
   addCaseNoteFailure,
   addCaseNoteSuccess,
   closeCaseNoteDialog
 } from "../../actionCreators/casesActionCreators";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -15,7 +13,7 @@ describe("addCaseNote", () => {
   const dispatch = jest.fn();
 
   beforeEach(() => {
-    configureInterceptors({dispatch});
+    configureInterceptors({ dispatch });
     dispatch.mockClear();
   });
 

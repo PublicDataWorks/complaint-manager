@@ -3,9 +3,9 @@ import {
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
-  Typography,
+  Icon,
   IconButton,
-  Icon
+  Typography
 } from "@material-ui/core";
 import OfficerInfoDisplay from "../../cases/CaseDetails/Officers/OfficerInfoDisplay";
 import { withStyles } from "@material-ui/core/styles/index";

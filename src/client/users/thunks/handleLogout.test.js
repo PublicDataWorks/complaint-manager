@@ -1,9 +1,10 @@
 import nock from "nock";
 import handleLogout from "./handleLogout";
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
+
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
-configureInterceptors({dispatch: jest.fn()});
+configureInterceptors({ dispatch: jest.fn() });
 
 const mockLogout = jest.fn();
 jest.mock("../../auth/Auth", () => {

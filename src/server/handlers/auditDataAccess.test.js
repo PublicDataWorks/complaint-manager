@@ -1,5 +1,5 @@
 import models from "../models";
-import { AUDIT_SUBJECT, AUDIT_ACTION } from "../../sharedUtilities/constants";
+import { AUDIT_ACTION, AUDIT_SUBJECT } from "../../sharedUtilities/constants";
 import auditDataAccess from "./auditDataAccess";
 import { createCaseWithoutCivilian } from "../testHelpers/modelMothers";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
@@ -113,6 +113,45 @@ describe("auditDataAccess", () => {
       expect(createdAudits.length).toEqual(1);
 
       expect(createdAudits[0].subjectDetails).toEqual(["Case Notes"]);
+    });
+
+    test("it should populate details correctly for case number subject", async () => {
+      await models.sequelize.transaction(async transaction => {
+        await auditDataAccess(
+          "user",
+          caseForAudit.id,
+          AUDIT_SUBJECT.MINIMUM_CASE_DETAILS,
+          transaction
+        );
+      });
+
+      const createdAudits = await models.action_audit.findAll({
+        where: { caseId: caseForAudit.id }
+      });
+      expect(createdAudits.length).toEqual(1);
+
+      expect(createdAudits[0].subjectDetails).toEqual([
+        "Case Number",
+        "Case Status"
+      ]);
+    });
+
+    test("it should populate details correctly for letter type subject", async () => {
+      await models.sequelize.transaction(async transaction => {
+        await auditDataAccess(
+          "user",
+          caseForAudit.id,
+          AUDIT_SUBJECT.LETTER_TYPE,
+          transaction
+        );
+      });
+
+      const createdAudits = await models.action_audit.findAll({
+        where: { caseId: caseForAudit.id }
+      });
+      expect(createdAudits.length).toEqual(1);
+
+      expect(createdAudits[0].subjectDetails).toEqual(["Letter Type"]);
     });
 
     test("it should populate details correctly for officer data subject", async () => {

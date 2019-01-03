@@ -16,8 +16,7 @@ const MODEL_ASSOCIATIONS_TO_LOOKUP = [
   {
     foreignKey: "intakeSourceId",
     modelName: "intake_source",
-    identifyingAttribute: "name",
-    as: "intakeSource"
+    identifyingAttribute: "name"
   }
 ];
 

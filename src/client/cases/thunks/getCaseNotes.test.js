@@ -1,9 +1,7 @@
 import getCaseNotes from "./getCaseNotes";
 import nock from "nock";
-import getAccessToken from "../../auth/getAccessToken";
 import { getCaseNotesSuccess } from "../../actionCreators/casesActionCreators";
-import { push } from "react-router-redux";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -19,7 +17,7 @@ describe("getCaseNotes", () => {
     }
   ];
   beforeEach(() => {
-    configureInterceptors({dispatch});
+    configureInterceptors({ dispatch });
     dispatch.mockClear();
   });
 
@@ -30,8 +28,6 @@ describe("getCaseNotes", () => {
 
     await getCaseNotes(caseId)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(
-      getCaseNotesSuccess(responseBody)
-    );
+    expect(dispatch).toHaveBeenCalledWith(getCaseNotesSuccess(responseBody));
   });
 });

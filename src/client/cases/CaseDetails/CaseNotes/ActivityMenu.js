@@ -1,11 +1,10 @@
 import React, { Fragment } from "react";
-import { IconButton, MenuItem } from "@material-ui/core";
+import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { Menu } from "@material-ui/core";
 import { connect } from "react-redux";
 import {
-  openRemoveCaseNoteDialog,
-  openCaseNoteDialog
+  openCaseNoteDialog,
+  openRemoveCaseNoteDialog
 } from "../../../actionCreators/casesActionCreators";
 import { initialize } from "redux-form";
 import moment from "moment";

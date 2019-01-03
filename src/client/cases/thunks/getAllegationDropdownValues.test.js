@@ -1,18 +1,16 @@
-import getAccessToken from "../../auth/getAccessToken";
 import getAllegationDropdownValues from "./getAllegationDropdownValues";
-import { push } from "react-router-redux";
 import nock from "nock";
 import {
   getAllegationsFailed,
   getAllegationsSuccess
 } from "../../actionCreators/allegationsActionCreators";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("getAllegationDropdownValues", function() {
   const dispatch = jest.fn();
-  configureInterceptors({dispatch});
+  configureInterceptors({ dispatch });
 
   test("should redirect dispatch success on 200 response", async () => {
     dispatch.mockClear();

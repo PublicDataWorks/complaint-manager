@@ -4,15 +4,13 @@ import {
   updateNarrativeFailure,
   updateNarrativeSuccess
 } from "../../actionCreators/casesActionCreators";
-import getAccessToken from "../../auth/getAccessToken";
-import { push } from "react-router-redux";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("updateNarrative", () => {
   const dispatch = jest.fn();
-  configureInterceptors({dispatch})
+  configureInterceptors({ dispatch });
   const updateDetails = {
     id: 1,
     narrativeDetails: "Some case narrative details",

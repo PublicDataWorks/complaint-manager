@@ -14,7 +14,7 @@ const hostname = config[process.env.NODE_ENV].hostname;
 const removeOfficerAllegation = allegationId => async dispatch => {
   try {
     const response = await axios.delete(
-      `${hostname}/api/officers-allegations/${allegationId}`,
+      `${hostname}/api/officers-allegations/${allegationId}`
     );
     dispatch(snackbarSuccess("Allegation was successfully removed"));
     return dispatch(removeOfficerAllegationSuccess(response.data));

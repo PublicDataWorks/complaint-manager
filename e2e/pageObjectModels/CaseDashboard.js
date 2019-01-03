@@ -20,14 +20,12 @@ const caseDashboardCommands = {
   },
   setPhoneNumber: function(phoneNumber, browser) {
     this.click("@phoneNumber");
-    browser
-      .keys("\uE012") // left arrow key
-      .keys(phoneNumber);
+    browser.keys(phoneNumber);
     return this;
   },
   setIntakeSource: function(intakeSource) {
     return this.click("@intakeSourceDropdown")
-      .waitForElementVisible("@intakeSourceMenu", e2e.rerenderWait)
+      .waitForElementVisible("@intakeSourceMenu", e2e.roundtripWait)
       .click(`li[data-value="${intakeSource}"`)
       .waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait);
   },

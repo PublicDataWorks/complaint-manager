@@ -4,15 +4,9 @@ import updatePastCasesMigration from "../migrations/001_add_referral_letter_and_
 import models from "../../models";
 import CaseOfficer from "../../../client/testUtilities/caseOfficer";
 import Officer from "../../../client/testUtilities/Officer";
-import {
-  ACCUSED,
-  CASE_STATUS,
-  REFERRAL_LETTER_VERSION
-} from "../../../sharedUtilities/constants";
+import { ACCUSED, CASE_STATUS } from "../../../sharedUtilities/constants";
 import ReferralLetter from "../../../client/testUtilities/ReferralLetter";
 import LetterOfficer from "../../../client/testUtilities/LetterOfficer";
-import constructFilename from "../../handlers/cases/referralLetters/constructFilename";
-import Civilian from "../../../client/testUtilities/civilian";
 
 describe("migration to add referral letter and letter officer", async () => {
   afterEach(async () => {

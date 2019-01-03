@@ -2,18 +2,17 @@ import { getCaseHistorySuccess } from "../../actionCreators/caseHistoryActionCre
 import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
 import getCaseHistory from "./getCaseHistory";
-import { push } from "react-router-redux";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
-import { getCaseNumberSuccess } from "../../actionCreators/casesActionCreators";
-import configureInterceptors from "../../interceptors";
+import { getMinimumCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken");
 
 describe("getCaseHistory", () => {
   const caseId = 2;
   const dispatch = jest.fn();
-  configureInterceptors({dispatch});
+  configureInterceptors({ dispatch });
   const token = "token";
 
   test("should dispatch success when receive case history with 200", async () => {
@@ -24,16 +23,18 @@ describe("getCaseHistory", () => {
       .get(`/api/cases/${caseId}/case-history`)
       .reply(200, responseBody);
 
-    const caseNumberResponse = [{ caseNumber: "CC2017-0234" }];
+    const minimumCaseDetailsResponse = [
+      { caseNumber: "CC2017-0234", status: "status" }
+    ];
 
     nock("http://localhost/")
-      .get(`/api/cases/${caseId}/case-number`)
-      .reply(200, caseNumberResponse);
+      .get(`/api/cases/${caseId}/minimum-case-details`)
+      .reply(200, minimumCaseDetailsResponse);
 
     await getCaseHistory(caseId)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
-      getCaseNumberSuccess(caseNumberResponse)
+      getMinimumCaseDetailsSuccess(minimumCaseDetailsResponse)
     );
     expect(dispatch).toHaveBeenCalledWith(getCaseHistorySuccess(responseBody));
   });

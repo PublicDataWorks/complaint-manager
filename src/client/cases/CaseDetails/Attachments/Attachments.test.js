@@ -1,7 +1,6 @@
 import React from "react";
 import Attachments from "./Attachments";
 import { mount } from "enzyme";
-import Dropzone from "./Dropzone";
 import Case from "../../../testUtilities/case";
 import { containsText } from "../../../testHelpers";
 import createConfiguredStore from "../../../createConfiguredStore";

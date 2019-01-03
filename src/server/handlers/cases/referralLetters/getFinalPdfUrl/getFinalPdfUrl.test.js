@@ -7,7 +7,6 @@ import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
   COMPLAINANT,
-  REFERRAL_LETTER_VERSION,
   S3_GET_OBJECT,
   S3_URL_EXPIRATION
 } from "../../../../../sharedUtilities/constants";
@@ -20,7 +19,6 @@ import Civilian from "../../../../../client/testUtilities/civilian";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import Officer from "../../../../../client/testUtilities/Officer";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
-import constructFilename from "../constructFilename";
 
 const httpMocks = require("node-mocks-http");
 
@@ -91,19 +89,11 @@ describe("getFinalPdfUrl", () => {
       { auditUser: "someone" }
     );
 
-    const pdfFilename = constructFilename(
-      existingCase.id,
-      existingCase.caseNumber,
-      existingCase.firstContactDate,
-      existingCase.complainantCivilians[0].lastName,
-      REFERRAL_LETTER_VERSION.FINAL
-    );
-
     const referralLetterAttributes = new ReferralLetter.Builder()
       .defaultReferralLetter()
       .withId(undefined)
       .withCaseId(existingCase.id)
-      .withFinalPdfFilename(pdfFilename);
+      .withFinalPdfFilename("filename");
 
     referralLetter = await models.referral_letter.create(
       referralLetterAttributes,

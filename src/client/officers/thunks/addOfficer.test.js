@@ -9,7 +9,8 @@ import {
   clearSelectedOfficer
 } from "../../actionCreators/officersActionCreators";
 import { ACCUSED } from "../../../sharedUtilities/constants";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
+
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("addOfficer", () => {
@@ -17,7 +18,7 @@ describe("addOfficer", () => {
 
   beforeEach(() => {
     dispatch.mockClear();
-    configureInterceptors({dispatch})
+    configureInterceptors({ dispatch });
   });
 
   test("should dispatch success, clear selected officer, and redirect to caseDetails when successful", async () => {

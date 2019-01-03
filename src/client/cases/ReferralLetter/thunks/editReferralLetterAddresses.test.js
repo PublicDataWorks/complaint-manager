@@ -6,14 +6,15 @@ import {
 } from "../../../actionCreators/snackBarActionCreators";
 import nock from "nock";
 import getAccessToken from "../../../auth/getAccessToken";
-import configureInterceptors from "../../../interceptors";
+import configureInterceptors from "../../../axiosInterceptors/interceptors";
+
 jest.mock("../../../auth/getAccessToken");
 
 describe("editReferralLetterAddresses", () => {
   const redirectUrl = "url";
   const caseId = 9;
   const dispatch = jest.fn();
-  configureInterceptors({dispatch})
+  configureInterceptors({ dispatch });
   const addressData = {
     recipient: "bob",
     sender: "jane",

@@ -1,11 +1,11 @@
 import React from "react";
 import {
   Card,
-  Typography,
+  CardContent,
   GridList,
   GridListTile,
   GridListTileBar,
-  CardContent,
+  Typography,
   withTheme
 } from "@material-ui/core";
 import NavBar from "../shared/components/NavBar/NavBar";

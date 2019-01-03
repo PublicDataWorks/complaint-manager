@@ -1,6 +1,5 @@
 import getLetterPreview from "./getLetterPreview";
 import httpMocks from "node-mocks-http";
-import Boom from "boom";
 import {
   ACCUSED,
   ADDRESSABLE_TYPE,
@@ -76,7 +75,8 @@ describe("getLetterPreview", function() {
       .withRecipient("recipient address")
       .withSender("sender address")
       .withTranscribedBy("transcriber")
-      .withIncludeRetaliationConcerns(true);
+      .withIncludeRetaliationConcerns(true)
+      .withEditedLetterHtml(null);
 
     referralLetter = await models.referral_letter.create(
       referralLetterAttributes,
@@ -146,28 +146,26 @@ describe("getLetterPreview", function() {
       await models.civilian.create(complainantCivilianAttributes, {
         auditUser: "test"
       });
-      await existingCase.reload();
+
+      await existingCase.reload({
+        include: [
+          {
+            model: models.civilian,
+            as: "complainantCivilians",
+            auditUser: "test"
+          }
+        ]
+      });
 
       const finalFilename = constructFilename(
-        existingCase.id,
-        existingCase.caseNumber,
-        existingCase.firstContactDate,
-        existingCase.complainantCivilians[0].lastName,
+        existingCase,
         REFERRAL_LETTER_VERSION.FINAL
       );
 
-      const editStatus =
-        referralLetter.editedLetterHtml === null
-          ? LETTER_TYPE.GENERATED
-          : LETTER_TYPE.EDITED;
-
       const draftFilename = constructFilename(
-        existingCase.id,
-        existingCase.caseNumber,
-        existingCase.firstContactDate,
-        existingCase.complainantCivilians[0].lastName,
+        existingCase,
         REFERRAL_LETTER_VERSION.DRAFT,
-        editStatus
+        LETTER_TYPE.GENERATED
       );
       await getLetterPreview(request, response, next);
       const responseBody = response._getData();

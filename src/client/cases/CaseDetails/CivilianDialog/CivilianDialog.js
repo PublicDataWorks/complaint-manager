@@ -6,21 +6,21 @@ import {
   reduxForm,
   SubmissionError
 } from "redux-form";
-import { RadioGroup } from "redux-form-material-ui";
+import { RadioGroup, TextField } from "redux-form-material-ui";
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Typography,
   FormControlLabel,
-  Radio
+  Radio,
+  Typography
 } from "@material-ui/core";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";
 import LastNameField from "../../sharedFormComponents/LastNameField";
 import {
-  SecondaryButton,
-  PrimaryButton
+  PrimaryButton,
+  SecondaryButton
 } from "../../../shared/components/StyledButtons";
 import { closeEditDialog } from "../../../actionCreators/casesActionCreators";
 import {
@@ -44,7 +44,6 @@ import {
 } from "../../../utilities/generateMenus";
 import validate from "./helpers/validateCivilianFields";
 import AddressInput from "./AddressInput";
-import { TextField } from "redux-form-material-ui";
 import {
   CIVILIAN_FORM_NAME,
   COMPLAINANT,

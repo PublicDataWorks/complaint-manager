@@ -1,5 +1,6 @@
 import ActionAudit from "../../../client/testUtilities/ActionAudit";
 import { AUDIT_TYPE } from "../../../sharedUtilities/constants";
+
 const transformActionAuditForExport = require("./transformActionAuditForExport");
 
 describe("transformActionAuditForExport", () => {

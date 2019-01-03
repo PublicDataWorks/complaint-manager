@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { TextField } from "redux-form-material-ui";
 import AddressAutoSuggest from "./AddressAutoSuggest";
-import { change, Field, clearSubmitErrors } from "redux-form";
+import { change, clearSubmitErrors, Field } from "redux-form";
 import { connect } from "react-redux";
 import colors from "../../../globalStyling/colors";
 import MapService from "./MapServices/MapService";
@@ -175,7 +175,7 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.intersection`}
           component={TextField}
           inputProps={{
-            "data-test": "streetAddressInput"
+            "data-test": "intersectionInput"
           }}
           style={{ display: "none" }}
         />

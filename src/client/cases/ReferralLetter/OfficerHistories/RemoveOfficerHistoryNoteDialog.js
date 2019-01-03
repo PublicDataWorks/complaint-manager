@@ -8,8 +8,8 @@ import {
   Typography
 } from "@material-ui/core";
 import {
-  SecondaryButton,
-  PrimaryButton
+  PrimaryButton,
+  SecondaryButton
 } from "../../../shared/components/StyledButtons";
 import { closeRemoveOfficerHistoryNoteDialog } from "../../../actionCreators/letterActionCreators";
 import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";

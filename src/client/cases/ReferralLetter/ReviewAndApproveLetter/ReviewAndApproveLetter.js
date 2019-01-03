@@ -12,7 +12,6 @@ import { withStyles } from "@material-ui/core/styles";
 import {
   finishLoadingPdfPreview,
   getLetterPdfSuccess,
-  startLetterDownload,
   startLoadingPdfPreview
 } from "../../../actionCreators/letterActionCreators";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
@@ -26,7 +25,7 @@ import {
   LETTER_TYPE
 } from "../../../../sharedUtilities/constants";
 import PageLoading from "../../../shared/components/PageLoading";
-import redirectToCaseDetails from "../../thunks/redirectToCaseDetails";
+import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
 pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.js";
 
@@ -51,14 +50,13 @@ class ReviewAndApproveLetter extends Component {
 
   componentDidMount() {
     this.props.getLetterPreview(this.state.caseId);
-    this.props.startLetterDownload();
     this.props.startLoadingPdfPreview();
     this.props.getPdf(this.state.caseId, this.props.finalFilename);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (!this.letterPreviewNotYetLoaded() && !this.statusIsAllowed()) {
-      this.props.redirectToCaseDetails(this.state.caseId);
+      this.props.invalidCaseStatusRedirect(this.state.caseId);
     }
     if (
       this.state.loadedPages === this.state.numPages &&
@@ -223,13 +221,12 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   getLetterPreview,
   getPdf,
-  startLetterDownload,
   startLoadingPdfPreview,
   finishLoadingPdfPreview,
   openCaseStatusUpdateDialog,
   approveReferralLetter,
   getLetterPdfSuccess,
-  redirectToCaseDetails
+  invalidCaseStatusRedirect
 };
 
 export default withStyles(styles, { withTheme: true })(

@@ -7,6 +7,7 @@ import fs from "fs";
 import path from "path";
 import updateOfficerDataFromS3 from "./updateOfficerDataFromS3";
 import loadCsv from "./loadCsv";
+
 const AWS = require("aws-sdk");
 
 const testOfficerCsvPath = path.join(__dirname, "testOfficers2.csv");

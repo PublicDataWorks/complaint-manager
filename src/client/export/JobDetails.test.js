@@ -3,14 +3,13 @@ import { Provider } from "react-redux";
 import createConfiguredStore from "../createConfiguredStore";
 import { mount } from "enzyme";
 import getExportJob from "./thunks/getExportJob";
-
-jest.mock("./thunks/getExportJob");
-
 import {
   clearCurrentExportJob,
   exportJobStarted
 } from "../actionCreators/exportActionCreators";
 import JobDetails from "./JobDetails";
+
+jest.mock("./thunks/getExportJob");
 
 const JOB_ID = 19;
 

@@ -1,13 +1,13 @@
 import axios from "axios";
 import {
-  exportJobCompleted,
   addBackgroundJobFailure,
-  clearCurrentExportJob
+  clearCurrentExportJob,
+  exportJobCompleted
 } from "../../actionCreators/exportActionCreators";
 import config from "../../config/config";
 import {
-  EXPORT_JOB_REFRESH_INTERVAL_MS,
-  EXPORT_JOB_MAX_REFRESH_TIMES
+  EXPORT_JOB_MAX_REFRESH_TIMES,
+  EXPORT_JOB_REFRESH_INTERVAL_MS
 } from "../../../sharedUtilities/constants";
 
 const hostname = config[process.env.NODE_ENV].hostname;
