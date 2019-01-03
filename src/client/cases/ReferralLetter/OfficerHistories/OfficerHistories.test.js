@@ -19,10 +19,23 @@ jest.mock("../thunks/editOfficerHistory", () =>
 );
 
 describe("OfficerHistories page", function() {
+  let store, wrapper, caseId;
+
+  beforeEach(() => {
+    caseId = "12";
+    store = createConfiguredStore();
+
+    wrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <OfficerHistories match={{ params: { id: caseId } }} />
+        </Router>
+      </Provider>
+    );
+  });
+
   describe("officers on the case", function() {
-    let wrapper, store, caseId;
     beforeEach(() => {
-      caseId = "4";
       const referralLetterDetails = {
         id: caseId,
         caseId: caseId,
@@ -33,16 +46,8 @@ describe("OfficerHistories page", function() {
         ]
       };
 
-      store = createConfiguredStore();
       store.dispatch(getReferralLetterSuccess(referralLetterDetails));
-
-      wrapper = mount(
-        <Provider store={store}>
-          <Router>
-            <OfficerHistories match={{ params: { id: caseId } }} />
-          </Router>
-        </Provider>
-      );
+      wrapper.update();
     });
 
     test("it renders a tab header for each officer", () => {
@@ -400,10 +405,9 @@ describe("OfficerHistories page", function() {
   });
 
   describe("no officers on the case", function() {
-    let wrapper, store, caseId, dispatchSpy;
+    let dispatchSpy;
     beforeEach(() => {
       editOfficerHistory.mockClear();
-      caseId = "12";
       const letterId = "15";
       const referralLetterDetails = {
         id: letterId,
@@ -411,7 +415,6 @@ describe("OfficerHistories page", function() {
         letterOfficers: []
       };
 
-      store = createConfiguredStore();
       store.dispatch(getReferralLetterSuccess(referralLetterDetails));
       dispatchSpy = jest.spyOn(store, "dispatch");
 

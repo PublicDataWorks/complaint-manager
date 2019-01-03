@@ -6,13 +6,14 @@ import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreato
 import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import CaseDetails from "../CaseDetails";
 import React from "react";
 import {
   CASE_STATUS,
   LETTER_TYPE
 } from "../../../../sharedUtilities/constants";
 import { getLetterTypeSuccess } from "../../../actionCreators/letterActionCreators";
+import EditLetterStatusMessage, { PAGE_TYPE } from "./EditLetterStatusMessage";
+import { containsText } from "../../../testHelpers";
 
 describe("letter edit status message", () => {
   let wrapper, existingCase, dispatchSpy, store;
@@ -37,7 +38,7 @@ describe("letter edit status message", () => {
     wrapper = mount(
       <Provider store={store}>
         <Router>
-          <CaseDetails match={{ params: { id: existingCase.id.toString() } }} />
+          <EditLetterStatusMessage />
         </Router>
       </Provider>
     );
@@ -71,45 +72,84 @@ describe("letter edit status message", () => {
     expect(editLetterStatusMessage.exists()).toEqual(false);
   });
 
-  test("should see correct message when letter has been edited and before approval", () => {
-    store.dispatch(getLetterTypeSuccess(LETTER_TYPE.EDITED));
-    store.dispatch(
-      getCaseDetailsSuccess({
-        ...existingCase,
-        status: CASE_STATUS.LETTER_IN_PROGRESS
-      })
-    );
+  describe("approval / edited message", () => {
+    test("should see correct message when letter has been edited and before approval", () => {
+      store.dispatch(getLetterTypeSuccess(LETTER_TYPE.EDITED));
+      store.dispatch(
+        getCaseDetailsSuccess({
+          ...existingCase,
+          status: CASE_STATUS.LETTER_IN_PROGRESS
+        })
+      );
 
-    wrapper.update();
+      wrapper.update();
 
-    const editLetterStatusMessage = wrapper
-      .find('[data-test="editLetterStatusMessage"]')
-      .first();
+      const editLetterStatusMessage = wrapper
+        .find('[data-test="editLetterStatusMessage"]')
+        .first();
 
-    expect(editLetterStatusMessage.exists()).toEqual(true);
-    expect(editLetterStatusMessage.text()).toContain(
-      "The referral letter has been edited."
-    );
+      expect(editLetterStatusMessage.exists()).toEqual(true);
+      expect(editLetterStatusMessage.text()).toContain(
+        "The referral letter has been edited."
+      );
+    });
+
+    test("should see correct message when letter has been approved", () => {
+      store.dispatch(getLetterTypeSuccess(LETTER_TYPE.EDITED));
+      store.dispatch(
+        getCaseDetailsSuccess({
+          ...existingCase,
+          status: CASE_STATUS.FORWARDED_TO_AGENCY
+        })
+      );
+
+      wrapper.update();
+
+      const editLetterStatusMessage = wrapper
+        .find('[data-test="editLetterStatusMessage"]')
+        .first();
+
+      expect(editLetterStatusMessage.exists()).toEqual(true);
+      expect(editLetterStatusMessage.text()).toContain(
+        "The referral letter has been approved."
+      );
+    });
   });
 
-  test("should see correct message when letter has been approved", () => {
-    store.dispatch(getLetterTypeSuccess(LETTER_TYPE.EDITED));
-    store.dispatch(
-      getCaseDetailsSuccess({
-        ...existingCase,
-        status: CASE_STATUS.FORWARDED_TO_AGENCY
-      })
-    );
+  describe("page appropriate message", () => {
+    beforeEach(() => {
+      store.dispatch(getLetterTypeSuccess(LETTER_TYPE.EDITED));
+      store.dispatch(
+        getCaseDetailsSuccess({
+          ...existingCase,
+          status: CASE_STATUS.FORWARDED_TO_AGENCY
+        })
+      );
+    });
 
-    wrapper.update();
+    test("should see correct message on letter details page", () => {
+      wrapper.update();
 
-    const editLetterStatusMessage = wrapper
-      .find('[data-test="editLetterStatusMessage"]')
-      .first();
+      containsText(
+        wrapper,
+        '[data-test="editLetterStatusMessage"]',
+        "Any changes made to the letter details will not be reflected in the letter"
+      );
+    });
+    test("should see correct message on case details page", () => {
+      wrapper = mount(
+        <Provider store={store}>
+          <Router>
+            <EditLetterStatusMessage pageType={PAGE_TYPE.CASE_DETAILS} />
+          </Router>
+        </Provider>
+      );
 
-    expect(editLetterStatusMessage.exists()).toEqual(true);
-    expect(editLetterStatusMessage.text()).toContain(
-      "The referral letter has been approved."
-    );
+      containsText(
+        wrapper,
+        '[data-test="editLetterStatusMessage"]',
+        "Any changes made to the case details will not be reflected in the letter"
+      );
+    });
   });
 });
