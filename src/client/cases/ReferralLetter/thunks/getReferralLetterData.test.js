@@ -1,11 +1,16 @@
 import getAccessToken from "../../../auth/getAccessToken";
 import nock from "nock";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
-jest.mock("../../../auth/getAccessToken");
-import { push } from "react-router-redux";
 import getReferralLetterData from "./getReferralLetterData";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
-import { getCaseNumberSuccess } from "../../../actionCreators/casesActionCreators";
+import { getMinimumCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
+import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
+
+jest.mock("../../../auth/getAccessToken");
+jest.mock("../../thunks/invalidCaseStatusRedirect", () => caseId => ({
+  type: "InvalidCaseStatusRedirect",
+  caseId
+}));
 
 describe("getReferralLetterData", () => {
   let caseId, dispatch;
@@ -24,11 +29,13 @@ describe("getReferralLetterData", () => {
       .get(`/api/cases/${caseId}/referral-letter`)
       .reply(200, responseBody);
 
-    const caseNumberResponse = [{ caseNumber: "CC2017-0005" }];
+    const minimumCaseDetailsResponse = [
+      { caseNumber: "CC2017-0005", status: "status" }
+    ];
 
     nock("http://localhost", {})
-      .get(`/api/cases/${caseId}/case-number`)
-      .reply(200, caseNumberResponse);
+      .get(`/api/cases/${caseId}/minimum-case-details`)
+      .reply(200, minimumCaseDetailsResponse);
 
     await getReferralLetterData(caseId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
@@ -36,7 +43,7 @@ describe("getReferralLetterData", () => {
     );
 
     expect(dispatch).toHaveBeenCalledWith(
-      getCaseNumberSuccess(caseNumberResponse)
+      getMinimumCaseDetailsSuccess(minimumCaseDetailsResponse)
     );
   });
 
@@ -64,7 +71,7 @@ describe("getReferralLetterData", () => {
       .reply(400, responseBody);
 
     await getReferralLetterData(caseId)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    expect(dispatch).toHaveBeenCalledWith(invalidCaseStatusRedirect(caseId));
   });
 
   test("does not redirect to case page if case is in a valid status for letter generation", async () => {
@@ -77,14 +84,18 @@ describe("getReferralLetterData", () => {
       .get(`/api/cases/${caseId}/referral-letter`)
       .reply(200, responseBody);
 
-    const caseNumberResponse = [{ caseNumber: "CC2017-0005" }];
+    const minimumCaseDetailsResponse = [
+      { caseNumber: "CC2017-0005", status: "test-status" }
+    ];
 
     nock("http://localhost", {})
-      .get(`/api/cases/${caseId}/case-number`)
-      .reply(200, caseNumberResponse);
+      .get(`/api/cases/${caseId}/minimum-case-details`)
+      .reply(200, minimumCaseDetailsResponse);
 
     await getReferralLetterData(caseId)(dispatch);
-    expect(dispatch).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    expect(dispatch).not.toHaveBeenCalledWith(
+      invalidCaseStatusRedirect(caseId)
+    );
     expect(dispatch).toHaveBeenCalledWith(
       getReferralLetterSuccess(responseBody)
     );

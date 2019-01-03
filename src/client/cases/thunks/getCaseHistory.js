@@ -2,7 +2,7 @@ import config from "../../config/config";
 import { getCaseHistorySuccess } from "../../actionCreators/caseHistoryActionCreators";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import axios from "axios";
-import { getCaseNumberSuccess } from "../../actionCreators/casesActionCreators";
+import { getMinimumCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 
 const getCaseHistory = caseId => async dispatch => {
   const hostname = config[process.env.NODE_ENV].hostname;
@@ -10,10 +10,10 @@ const getCaseHistory = caseId => async dispatch => {
     const caseHistoryResponse = await axios.get(
       `${hostname}/api/cases/${caseId}/case-history`
     );
-    const caseNumberResponse = await axios.get(
-      `${hostname}/api/cases/${caseId}/case-number`
+    const minimumCaseDetailsResponse = await axios.get(
+      `${hostname}/api/cases/${caseId}/minimum-case-details`
     );
-    dispatch(getCaseNumberSuccess(caseNumberResponse.data));
+    dispatch(getMinimumCaseDetailsSuccess(minimumCaseDetailsResponse.data));
     return dispatch(getCaseHistorySuccess(caseHistoryResponse.data));
   } catch (error) {
     return dispatch(

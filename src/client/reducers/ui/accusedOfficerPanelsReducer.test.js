@@ -1,7 +1,8 @@
 import accusedOfficerPanelsReducer from "./accusedOfficerPanelsReducer";
 import {
   accusedOfficerPanelCollapsed,
-  accusedOfficerPanelExpanded, clearOfficerPanelData
+  accusedOfficerPanelExpanded,
+  clearOfficerPanelData
 } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 
 describe("accusedOfficerPanelsReducer", () => {
@@ -50,14 +51,17 @@ describe("accusedOfficerPanelsReducer", () => {
 
   test("should clear state when officer panel data is cleared out", () => {
     const initialState = {
-      1: {expanded: true},
-      2: {expanded: false},
-      3: {expanded: true},
-    }
+      1: { expanded: true },
+      2: { expanded: false },
+      3: { expanded: true }
+    };
 
-    const expectedState = {}
-    const actualState = accusedOfficerPanelsReducer(initialState, clearOfficerPanelData())
+    const expectedState = {};
+    const actualState = accusedOfficerPanelsReducer(
+      initialState,
+      clearOfficerPanelData()
+    );
 
-    expect(actualState).toEqual(expectedState)
-  })
+    expect(actualState).toEqual(expectedState);
+  });
 });

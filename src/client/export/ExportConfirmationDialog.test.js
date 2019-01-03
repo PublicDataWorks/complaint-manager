@@ -5,9 +5,9 @@ import createConfiguredStore from "../createConfiguredStore";
 import ExportAuditLogConfirmationDialog from "./ExportConfirmationDialog";
 import generateExportJob from "./thunks/generateExportJob";
 import {
+  closeExportConfirmationDialog,
   exportJobStarted,
-  openExportAuditLogConfirmationDialog,
-  closeExportConfirmationDialog
+  openExportAuditLogConfirmationDialog
 } from "../actionCreators/exportActionCreators";
 
 jest.mock("./thunks/generateExportJob", () => path => ({

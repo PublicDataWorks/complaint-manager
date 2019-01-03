@@ -11,7 +11,7 @@ const AddressSecondLine = ({ label, fieldName, style }) => {
       style={style}
       inputProps={{
         "data-test": "streetAddress2Input",
-        autoComplete: 'disabled', // "off" does not work on chrome
+        autoComplete: "disabled", // "off" does not work on chrome
         maxLength: 25
       }}
       InputLabelProps={{

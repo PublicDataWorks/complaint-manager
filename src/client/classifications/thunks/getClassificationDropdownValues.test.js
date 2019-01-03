@@ -1,10 +1,10 @@
 import getAccessToken from "../../auth/getAccessToken";
-import { push } from "react-router-redux";
 import nock from "nock";
 import { getClassificationsSuccess } from "../../actionCreators/classificationActionCreators";
 import getClassficationDropdownValues from "./getClassificationDropdownValues";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
+
 jest.mock("../../auth/getAccessToken");
 
 describe("getClassificationDropdownValues", () => {

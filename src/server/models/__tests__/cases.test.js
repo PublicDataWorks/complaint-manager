@@ -1,8 +1,5 @@
 import models from "../index";
-import {
-  createCase,
-  createCaseWithoutCivilian
-} from "../../testHelpers/modelMothers";
+import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import Civilian from "../../../client/testUtilities/civilian";
 import {
   CASE_STATUS,
@@ -231,14 +228,3 @@ describe("cases", function() {
     });
   });
 });
-
-export const newSequelizeValidationError = message => {
-  return expect.objectContaining({
-    name: "SequelizeValidationError",
-    errors: expect.arrayContaining([
-      expect.objectContaining({
-        message: message
-      })
-    ])
-  });
-};

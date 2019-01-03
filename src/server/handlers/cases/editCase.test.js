@@ -3,11 +3,11 @@ import Address from "../../../client/testUtilities/Address";
 import Civilian from "../../../client/testUtilities/civilian";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
+  ADDRESSABLE_TYPE,
+  AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  CASE_STATUS,
-  AUDIT_ACTION,
-  ADDRESSABLE_TYPE
+  CASE_STATUS
 } from "../../../sharedUtilities/constants";
 import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 

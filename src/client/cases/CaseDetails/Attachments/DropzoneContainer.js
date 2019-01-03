@@ -23,4 +23,7 @@ const mapDispatchToProps = {
   getCaseNotes
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dropzone);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dropzone);

@@ -4,17 +4,18 @@ import {
   snackbarError,
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
-import configureInterceptors from "../../../interceptors";
-jest.mock("../../../auth/getAccessToken");
+import configureInterceptors from "../../../axiosInterceptors/interceptors";
 import { push } from "react-router-redux";
 import editOfficerHistory from "./editOfficerHistory";
+
+jest.mock("../../../auth/getAccessToken");
 
 describe("editReferralLetter", () => {
   let caseId, dispatch, requestBody;
   beforeEach(() => {
     caseId = 5;
     dispatch = jest.fn();
-    configureInterceptors({dispatch})
+    configureInterceptors({ dispatch });
     requestBody = {
       letterOfficers: [
         {

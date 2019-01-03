@@ -1,7 +1,7 @@
 import {
+  AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_TYPE,
-  AUDIT_ACTION
+  AUDIT_TYPE
 } from "../../sharedUtilities/constants";
 
 class ActionAudit {

@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { CardContent, Typography, Divider } from "@material-ui/core";
+import { CardContent, Divider, Typography } from "@material-ui/core";
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import AccusedOfficerPanel from "./OfficerPanel";
 import UnknownOfficerPanel from "./UnknownOfficerPanel";
@@ -22,27 +22,26 @@ const AccusedOfficers = ({
       <CardContent style={{ padding: "0" }}>
         {!accusedOfficers || accusedOfficers.length === 0
           ? renderNoOfficers()
-          : accusedOfficers.map(
-              caseOfficer =>
-                caseOfficer.isUnknownOfficer ? (
-                  <UnknownOfficerPanel
-                    key={caseOfficer.id}
-                    caseOfficer={caseOfficer}
-                  >
-                    <ManageOfficerMenu caseOfficer={caseOfficer} />
-                  </UnknownOfficerPanel>
-                ) : (
-                  <AccusedOfficerPanel
-                    key={caseOfficer.id}
-                    caseOfficer={caseOfficer}
-                    officerAge={calculateAgeBasedOnIncidentDate(
-                      caseOfficer,
-                      incidentDate
-                    )}
-                  >
-                    <ManageOfficerMenu caseOfficer={caseOfficer} />
-                  </AccusedOfficerPanel>
-                )
+          : accusedOfficers.map(caseOfficer =>
+              caseOfficer.isUnknownOfficer ? (
+                <UnknownOfficerPanel
+                  key={caseOfficer.id}
+                  caseOfficer={caseOfficer}
+                >
+                  <ManageOfficerMenu caseOfficer={caseOfficer} />
+                </UnknownOfficerPanel>
+              ) : (
+                <AccusedOfficerPanel
+                  key={caseOfficer.id}
+                  caseOfficer={caseOfficer}
+                  officerAge={calculateAgeBasedOnIncidentDate(
+                    caseOfficer,
+                    incidentDate
+                  )}
+                >
+                  <ManageOfficerMenu caseOfficer={caseOfficer} />
+                </AccusedOfficerPanel>
+              )
             )}
         <LinkButton
           style={{

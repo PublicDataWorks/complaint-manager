@@ -1,6 +1,6 @@
 import React from "react";
 import { TextField } from "redux-form-material-ui";
-import { reduxForm, Field } from "redux-form";
+import { Field, reduxForm } from "redux-form";
 import NoBlurTextField from "../../../cases/CaseDetails/CivilianDialog/FormSelect";
 import { searchDistrictMenu } from "../../../utilities/generateMenus";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";

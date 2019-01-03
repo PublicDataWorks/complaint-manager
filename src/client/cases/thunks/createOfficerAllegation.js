@@ -23,9 +23,11 @@ const createOfficerAllegation = (
     dispatch(createOfficerAllegationSuccess(response.data));
     return dispatch(snackbarSuccess("Allegation was successfully added"));
   } catch (error) {
-    return dispatch(snackbarError(
-      "Something went wrong and the allegation was not added. Please try again."
-    ));
+    return dispatch(
+      snackbarError(
+        "Something went wrong and the allegation was not added. Please try again."
+      )
+    );
   }
 };
 

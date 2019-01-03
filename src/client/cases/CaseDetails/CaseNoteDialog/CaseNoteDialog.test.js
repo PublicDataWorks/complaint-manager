@@ -10,7 +10,7 @@ import {
 } from "../../../actionCreators/casesActionCreators";
 import { changeInput, selectDropdownOption } from "../../../testHelpers";
 import addCaseNote from "../../thunks/addCaseNote";
-import { reset, initialize } from "redux-form";
+import { initialize, reset } from "redux-form";
 import editCaseNote from "../../thunks/editCaseNote";
 import moment from "moment";
 

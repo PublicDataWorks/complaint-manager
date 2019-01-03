@@ -17,7 +17,7 @@ const setCaseStatus = (caseId, status, redirectUrl) => async dispatch => {
   try {
     const response = await axios.put(
       `${hostname}/api/cases/${caseId}/status`,
-      JSON.stringify({status})
+      JSON.stringify({ status })
     );
     dispatch(updateCaseStatusSuccess(response.data));
     dispatch(snackbarSuccess("Status was successfully updated"));

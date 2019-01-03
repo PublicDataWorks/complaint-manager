@@ -1,5 +1,3 @@
-import { push } from "react-router-redux";
-import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
 import removePerson from "./removePerson";
 import {
@@ -7,7 +5,7 @@ import {
   removePersonFailure,
   removePersonSuccess
 } from "../../actionCreators/casesActionCreators";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -24,7 +22,7 @@ describe("removePerson", () => {
   };
 
   beforeEach(() => {
-    configureInterceptors({dispatch});
+    configureInterceptors({ dispatch });
     dispatch.mockClear();
   });
 

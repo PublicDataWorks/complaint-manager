@@ -8,8 +8,8 @@ import {
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import {
-  SecondaryButton,
-  PrimaryButton
+  PrimaryButton,
+  SecondaryButton
 } from "../../../shared/components/StyledButtons";
 import { closeEditLetterConfirmationDialog } from "../../../actionCreators/letterActionCreators";
 

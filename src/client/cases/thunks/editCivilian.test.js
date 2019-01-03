@@ -1,6 +1,5 @@
 //TODO can we extract token management, failure dispatch, etc into something common?
 import nock from "nock";
-import { push } from "react-router-redux";
 import editCivilian from "./editCivilian";
 import Civilian from "../../testUtilities/civilian";
 import {
@@ -8,8 +7,7 @@ import {
   editCivilianFailed,
   editCivilianSuccess
 } from "../../actionCreators/casesActionCreators";
-import getAccessToken from "../../auth/getAccessToken";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 jest.mock("../../actionCreators/casesActionCreators", () => ({
@@ -28,7 +26,7 @@ describe("edit civilian thunk", () => {
   const responseBody = {};
 
   beforeEach(() => {
-    configureInterceptors({dispatch});
+    configureInterceptors({ dispatch });
     dispatch.mockClear();
   });
 

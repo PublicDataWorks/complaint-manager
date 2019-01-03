@@ -1,13 +1,11 @@
 import editOfficerAllegation from "./editOfficerAllegation";
 import nock from "nock";
-import { push } from "react-router-redux";
-import getAccessToken from "../../auth/getAccessToken";
 import {
   snackbarError,
   snackbarSuccess
 } from "../../actionCreators/snackBarActionCreators";
 import { updateAllegationDetailsSuccess } from "../../actionCreators/casesActionCreators";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -15,7 +13,7 @@ describe("editOfficerAllegation thunk", () => {
   test("should dispatch success when officer allegation edit is successful", async () => {
     const allegationChanges = { id: 1, details: "new details" };
     const mockDispatch = jest.fn();
-    configureInterceptors({dispatch: mockDispatch})
+    configureInterceptors({ dispatch: mockDispatch });
 
     const updatedCase = { details: "foo" };
 
@@ -42,7 +40,7 @@ describe("editOfficerAllegation thunk", () => {
   test("should dispatch failure when officer allegation does not exist", async () => {
     const allegationChanges = { id: 1, details: "new details" };
     const mockDispatch = jest.fn();
-    configureInterceptors({dispatch: mockDispatch})
+    configureInterceptors({ dispatch: mockDispatch });
 
     nock("http://localhost", {
       "Content-Type": "application/json",
@@ -66,7 +64,7 @@ describe("editOfficerAllegation thunk", () => {
   test("should dispatch failure when the server returns 500", async () => {
     const allegationChanges = { id: 1, details: "new details" };
     const mockDispatch = jest.fn();
-    configureInterceptors({dispatch: mockDispatch})
+    configureInterceptors({ dispatch: mockDispatch });
 
     nock("http://localhost", {
       "Content-Type": "application/json",

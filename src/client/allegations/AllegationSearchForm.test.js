@@ -8,7 +8,6 @@ import { change } from "redux-form";
 import { ALLEGATION_SEARCH_FORM_NAME } from "../../sharedUtilities/constants";
 import getAllegationDropdownValues from "../cases/thunks/getAllegationDropdownValues";
 import getSearchResults from "../shared/thunks/getSearchResults";
-import { getCaseDetailsSuccess } from "../actionCreators/casesActionCreators";
 
 jest.mock("../cases/thunks/getAllegationDropdownValues", () => () => ({
   type: "GET_ALLEGATIONS_SUCCEEDED",

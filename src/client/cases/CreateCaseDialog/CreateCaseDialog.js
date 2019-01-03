@@ -1,5 +1,5 @@
 import React from "react";
-import { Field, reduxForm, reset } from "redux-form";
+import { Field, reduxForm, reset, SubmissionError } from "redux-form";
 import { connect } from "react-redux";
 import {
   Dialog,
@@ -28,7 +28,6 @@ import {
   openCreateCaseDialog
 } from "../../actionCreators/casesActionCreators";
 import { CIVILIAN_INITIATED } from "../../../sharedUtilities/constants";
-import { SubmissionError } from "redux-form";
 import _ from "lodash";
 import { generateMenu } from "../../utilities/generateMenus";
 import NoBlurTextField from "../CaseDetails/CivilianDialog/FormSelect";

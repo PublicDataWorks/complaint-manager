@@ -5,11 +5,11 @@ import CaseOfficer from "./caseOfficer";
 import Officer from "./Officer";
 import {
   ACCUSED,
+  ADDRESSABLE_TYPE,
   CASE_STATUS,
-  COMPLAINANT,
-  WITNESS,
   CIVILIAN_INITIATED,
-  ADDRESSABLE_TYPE
+  COMPLAINANT,
+  WITNESS
 } from "../../sharedUtilities/constants";
 
 class Case {

@@ -1,16 +1,16 @@
 import {
   AUDIT_ACTION,
-  AUDIT_TYPE,
   AUDIT_SUBJECT,
+  AUDIT_TYPE,
   CIVILIAN_INITIATED,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import Boom from "boom";
 
 const httpMocks = require("node-mocks-http");
 const createCase = require("./createCase");
 const models = require("../../models");
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import Boom from "boom";
 
 describe("createCase handler", () => {
   let request, response, next, caseAttributes, civilianAttributes, user;

@@ -1,4 +1,3 @@
-import { push } from "react-router-redux";
 import getAccessToken from "../../auth/getAccessToken";
 import editIncidentDetails from "./editIncidentDetails";
 import nock from "nock";
@@ -6,7 +5,7 @@ import {
   updateIncidentDetailsFailure,
   updateIncidentDetailsSuccess
 } from "../../actionCreators/casesActionCreators";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken");
 
@@ -15,7 +14,7 @@ describe("editIncidentDetails", () => {
   const closeDialogCallback = jest.fn();
 
   beforeEach(() => {
-    configureInterceptors({dispatch})
+    configureInterceptors({ dispatch });
     dispatch.mockClear();
   });
 

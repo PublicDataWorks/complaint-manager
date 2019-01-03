@@ -24,8 +24,6 @@ jest.mock("../generateLetterBody");
 describe("generateLetterPdfBuffer", () => {
   let existingCase, referralLetter, timeOfDownload;
 
-  let includeSignature;
-
   afterEach(async () => {
     await cleanupDatabase();
     generateLetterBody.mockReset();
@@ -83,17 +81,19 @@ describe("generateLetterPdfBuffer", () => {
         caseNumber: "CC-2011-0099"
       };
 
-      const letterPdfHtml = await generateLetterPdfHtml(letterBody, pdfData);
+      const letterPdfHtml = await generateLetterPdfHtml(
+        letterBody,
+        pdfData,
+        false
+      );
       expect(letterPdfHtml).toMatchSnapshot();
     });
 
     test("pdf create gets called with expected letter html when letter is generated", async () => {
-      includeSignature = false;
-
       await models.sequelize.transaction(async transaction => {
         const pdfResults = await generateLetterPdfBuffer(
           existingCase.id,
-          includeSignature,
+          true,
           transaction
         );
         expect(pdfResults).toMatchSnapshot();
@@ -101,8 +101,6 @@ describe("generateLetterPdfBuffer", () => {
     });
 
     test("pdf create gets called with expected letter html when letter is edited", async () => {
-      includeSignature = false;
-
       await referralLetter.update(
         { editedLetterHtml: "Custom Letter HTML" },
         { auditUser: "someone" }
@@ -111,16 +109,14 @@ describe("generateLetterPdfBuffer", () => {
       await models.sequelize.transaction(async transaction => {
         const pdfResults = await generateLetterPdfBuffer(
           existingCase.id,
-          includeSignature,
+          true,
           transaction
         );
         expect(pdfResults).toMatchSnapshot();
       });
     });
 
-    test("expect signature not to be included when includeSignature flag true and sender is not stella", async () => {
-      includeSignature = true;
-
+    test("signature is not included when sender is not stella even if includeSignature is true", async () => {
       await referralLetter.update(
         { editedLetterHtml: "Custom Letter HTML" },
         { auditUser: "someone" }
@@ -128,7 +124,7 @@ describe("generateLetterPdfBuffer", () => {
       await models.sequelize.transaction(async transaction => {
         const pdfResults = await generateLetterPdfBuffer(
           existingCase.id,
-          includeSignature,
+          true,
           transaction
         );
         expect(pdfResults).toMatchSnapshot();
@@ -178,13 +174,22 @@ describe("generateLetterPdfBuffer", () => {
       );
     });
 
-    test("expect signature to be included when includeSignature flag true and sender is stella", async () => {
-      includeSignature = true;
-
+    test("signature is included when sender is stella and includeSignature is true", async () => {
       await models.sequelize.transaction(async transaction => {
         const pdfResults = await generateLetterPdfBuffer(
           existingCase.id,
-          includeSignature,
+          true,
+          transaction
+        );
+        expect(pdfResults).toMatchSnapshot();
+      });
+    });
+
+    test("signature is not included when includeSignature is false", async () => {
+      await models.sequelize.transaction(async transaction => {
+        const pdfResults = await generateLetterPdfBuffer(
+          existingCase.id,
+          false,
           transaction
         );
         expect(pdfResults).toMatchSnapshot();

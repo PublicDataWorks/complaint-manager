@@ -4,9 +4,9 @@ import * as _ from "lodash";
 import formatStringToTitleCase from "./formatStringToTitleCase";
 import {
   ACCUSED,
+  ALLEGATION_SEVERITY,
   COMPLAINANT,
-  WITNESS,
-  ALLEGATION_SEVERITY
+  WITNESS
 } from "../../sharedUtilities/constants";
 
 export const generateMenu = contents => {

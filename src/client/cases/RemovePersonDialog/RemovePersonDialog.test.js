@@ -4,8 +4,8 @@ import { Provider } from "react-redux";
 import { mount } from "enzyme";
 import createConfiguredStore from "../../createConfiguredStore";
 import {
-  openRemovePersonDialog,
-  closeRemovePersonDialog
+  closeRemovePersonDialog,
+  openRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
 import removePerson from "../thunks/removePerson";
 

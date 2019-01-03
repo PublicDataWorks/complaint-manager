@@ -1,15 +1,16 @@
 import models from "../../models";
-const httpMocks = require("node-mocks-http");
 import createCivilian from "./createCivilian";
 import Case from "../../../client/testUtilities/case";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import {
-  AUDIT_TYPE,
-  AUDIT_SUBJECT,
+  ADDRESSABLE_TYPE,
   AUDIT_ACTION,
-  ADDRESSABLE_TYPE
+  AUDIT_SUBJECT,
+  AUDIT_TYPE
 } from "../../../sharedUtilities/constants";
+
+const httpMocks = require("node-mocks-http");
 
 describe("createCivilian handler", () => {
   afterEach(async () => {

@@ -1,4 +1,4 @@
-import { trimWhitespace, numbersOnly } from "./fieldFormatters";
+import { numbersOnly, trimWhitespace } from "./fieldFormatters";
 
 describe("fieldFormatters", () => {
   describe("trimWhitespace", () => {

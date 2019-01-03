@@ -8,7 +8,7 @@ const SuffixField = props => (
     inputProps={{
       "data-test": "suffixInput",
       maxLength: 25,
-      autoComplete: "disabled",
+      autoComplete: "disabled"
     }}
     data-test="suffixField"
     label="Suffix"

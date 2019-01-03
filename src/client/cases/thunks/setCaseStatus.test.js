@@ -15,7 +15,7 @@ import {
   updateCaseStatusSuccess
 } from "../../actionCreators/casesActionCreators";
 import Boom from "boom";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 

@@ -165,7 +165,7 @@ You'll be able to run the one off task locally if you have the application runni
 If Docker is killing your jest tests Exit 137, you might need to increase memory that Docker is using under “Advanced” in Docker preferences. Here are the defaults we have:
 ```
 CPUs: 4,
-Memory: 4.0 GB
+Memory: 5.0 GB
 Swap: 1.0 GB
 ```
 

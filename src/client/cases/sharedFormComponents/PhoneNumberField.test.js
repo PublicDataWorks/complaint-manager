@@ -83,9 +83,11 @@ describe("Phone number field", () => {
       '[data-test="phoneNumberInput"]',
       "abc"
     );
-      const phoneNumberField = phoneNumberFieldComponent.find(
-          '[data-test="phoneNumberInput"]').last();
+    const phoneNumberField = phoneNumberFieldComponent
+      .find('[data-test="phoneNumberInput"]')
+      .last();
 
-      expect(phoneNumberField.instance().value.replace(/\s+/g, '')).toEqual("()-")
+    expect(phoneNumberField.instance().value.replace(/\s+/g, ""))
+      .toEqual("");
   });
 });

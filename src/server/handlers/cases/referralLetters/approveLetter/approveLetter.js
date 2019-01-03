@@ -3,69 +3,29 @@ import models from "../../../../models";
 import {
   AUDIT_SUBJECT,
   CASE_STATUS,
-  CIVILIAN_INITIATED,
   REFERRAL_LETTER_VERSION,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
 import generateLetterPdfBuffer from "../sharedReferralLetterUtilities/generateLetterPdfBuffer";
 import uploadLetterToS3 from "./uploadLetterToS3";
 import Boom from "boom";
-import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
 import auditUpload from "./auditUpload";
 import constructFilename from "../constructFilename";
 
 const approveLetter = asyncMiddleware(async (request, response, next) => {
+  validateUserPermissions(request);
+
   const caseId = request.params.caseId;
+  const existingCase = await getCase(caseId);
+  validateCaseStatus(existingCase);
 
-  if (
-    !request.permissions.includes(USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES)
-  ) {
-    throw Boom.badRequest("Missing permissions to approve letter");
-  }
-
-  const includeSignature = checkFeatureToggleEnabled(
-    request,
-    "letterSignatureFeature"
+  const filename = constructFilename(
+    existingCase,
+    REFERRAL_LETTER_VERSION.FINAL
   );
 
   await models.sequelize.transaction(async transaction => {
-    const existingCase = await models.cases.findById(request.params.caseId, {
-      include: [
-        {
-          model: models.case_officer,
-          as: "complainantOfficers"
-        },
-        {
-          model: models.civilian,
-          as: "complainantCivilians"
-        }
-      ]
-    });
-
-    validateCaseStatus(existingCase);
-    const firstComplainant =
-      existingCase.complaintType === CIVILIAN_INITIATED
-        ? existingCase.complainantCivilians[0]
-        : existingCase.complainantOfficers[0];
-
-    const complainantLastName = firstComplainant
-      ? firstComplainant.lastName
-      : "";
-
-    const filename = constructFilename(
-      caseId,
-      existingCase.caseNumber,
-      existingCase.firstContactDate,
-      complainantLastName,
-      REFERRAL_LETTER_VERSION.FINAL
-    );
-
-    await generateLetterAndUploadToS3(
-      caseId,
-      filename,
-      includeSignature,
-      transaction
-    );
+    await generateLetterAndUploadToS3(caseId, filename, transaction);
 
     await saveFilename(filename, caseId, request.nickname, transaction);
     await auditUpload(
@@ -74,7 +34,6 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
       AUDIT_SUBJECT.REFERRAL_LETTER_PDF,
       transaction
     );
-
     await transitionCaseToForwardedToAgency(existingCase, request, transaction);
   });
   response.status(200).send();
@@ -86,12 +45,8 @@ const validateCaseStatus = existingCase => {
   }
 };
 
-const generateLetterAndUploadToS3 = async (
-  caseId,
-  filename,
-  includeSignature,
-  transaction
-) => {
+const generateLetterAndUploadToS3 = async (caseId, filename, transaction) => {
+  const includeSignature = true;
   const generatedReferralLetterPdf = await generateLetterPdfBuffer(
     caseId,
     includeSignature,
@@ -120,6 +75,29 @@ const saveFilename = async (filename, caseId, auditUser, transaction) => {
     { finalPdfFilename: filename },
     { auditUser: auditUser, transaction }
   );
+};
+
+const validateUserPermissions = request => {
+  if (
+    !request.permissions.includes(USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES)
+  ) {
+    throw Boom.badRequest("Missing permissions to approve letter");
+  }
+};
+
+const getCase = async caseId => {
+  return await models.cases.findById(caseId, {
+    include: [
+      {
+        model: models.case_officer,
+        as: "complainantOfficers"
+      },
+      {
+        model: models.civilian,
+        as: "complainantCivilians"
+      }
+    ]
+  });
 };
 
 export default approveLetter;

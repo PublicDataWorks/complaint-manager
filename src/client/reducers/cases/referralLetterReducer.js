@@ -1,8 +1,8 @@
 import {
-  GET_REFERRAL_LETTER_SUCCESS,
-  GET_LETTER_PREVIEW_SUCCESS,
   GET_LETTER_PDF_SUCCESS,
-  GET_FINAL_PDF_URL_SUCCESS
+  GET_LETTER_PREVIEW_SUCCESS,
+  GET_LETTER_TYPE_SUCCESS,
+  GET_REFERRAL_LETTER_SUCCESS
 } from "../../../sharedUtilities/constants";
 
 const initialState = {
@@ -13,8 +13,7 @@ const initialState = {
   letterType: null,
   lastEdited: null,
   finalFilename: null,
-  draftFilename: null,
-  finalPdfUrl: null
+  draftFilename: null
 };
 const referralLetterReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -32,11 +31,8 @@ const referralLetterReducer = (state = initialState, action) => {
       };
     case GET_LETTER_PDF_SUCCESS:
       return { ...state, letterPdf: action.letterPdf };
-    case GET_FINAL_PDF_URL_SUCCESS:
-      return {
-        ...state,
-        finalPdfUrl: action.finalPdfUrl
-      };
+    case GET_LETTER_TYPE_SUCCESS:
+      return { ...state, letterType: action.letterType };
     default:
       return state;
   }

@@ -1,16 +1,15 @@
 import getAccessToken from "../../../auth/getAccessToken";
-import { push } from "react-router-redux";
 import getRecommendedActions from "./getRecommendedActions";
 import nock from "nock";
 import { getRecommendedActionsSuccess } from "../../../actionCreators/letterActionCreators";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
-import configureInterceptors from "../../../interceptors";
+import configureInterceptors from "../../../axiosInterceptors/interceptors";
 
 jest.mock("../../../auth/getAccessToken");
 
 describe("getRecommendedActions", function() {
   const dispatch = jest.fn();
-  configureInterceptors({dispatch})
+  configureInterceptors({ dispatch });
 
   test("it fetches recommended action values and dispatches them", async () => {
     getAccessToken.mockImplementation(() => "token");

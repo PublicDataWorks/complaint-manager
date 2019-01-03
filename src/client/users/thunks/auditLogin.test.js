@@ -1,7 +1,8 @@
 import nock from "nock";
 import auditLogin from "./auditLogin";
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
-import configureInterceptors from "../../interceptors";
+import configureInterceptors from "../../axiosInterceptors/interceptors";
+
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("auditLogin", () => {

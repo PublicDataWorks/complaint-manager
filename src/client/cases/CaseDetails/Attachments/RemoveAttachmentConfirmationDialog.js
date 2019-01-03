@@ -7,8 +7,8 @@ import {
   Typography
 } from "@material-ui/core";
 import {
-  SecondaryButton,
-  PrimaryButton
+  PrimaryButton,
+  SecondaryButton
 } from "../../../shared/components/StyledButtons";
 
 class RemoveAttachmentConfirmationDialog extends React.Component {

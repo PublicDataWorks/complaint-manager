@@ -2,9 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import {
   Dialog,
-  DialogTitle,
-  DialogContent,
   DialogActions,
+  DialogContent,
+  DialogTitle,
   Typography
 } from "@material-ui/core";
 import {

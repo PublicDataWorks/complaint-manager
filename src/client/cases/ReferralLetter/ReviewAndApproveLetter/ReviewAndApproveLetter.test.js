@@ -20,13 +20,13 @@ import {
 import timekeeper from "timekeeper";
 import { dateTimeFromString } from "../../../utilities/formatDate";
 import approveReferralLetter from "../thunks/approveReferralLetter";
-import redirectToCaseDetails from "../../thunks/redirectToCaseDetails";
+import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
 jest.mock("../thunks/approveReferralLetter", () =>
   jest.fn((caseId, callback) => ({ type: "SOMETHING", caseId, callback }))
 );
 
-jest.mock("../../thunks/redirectToCaseDetails", () =>
+jest.mock("../../thunks/invalidCaseStatusRedirect", () =>
   jest.fn(() => (caseId, status, redirectUrl) => {})
 );
 
@@ -198,7 +198,7 @@ describe("ReviewAndApproveLetter", () => {
     );
     wrapper.update();
 
-    expect(redirectToCaseDetails).toHaveBeenCalledWith(caseId);
+    expect(invalidCaseStatusRedirect).toHaveBeenCalledWith(caseId);
   });
 
   test("redirects to case details page when letter is closed", () => {
@@ -211,6 +211,6 @@ describe("ReviewAndApproveLetter", () => {
     );
     wrapper.update();
 
-    expect(redirectToCaseDetails).toHaveBeenCalledWith(caseId);
+    expect(invalidCaseStatusRedirect).toHaveBeenCalledWith(caseId);
   });
 });

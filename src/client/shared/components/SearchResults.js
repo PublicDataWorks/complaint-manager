@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import {
+  LinearProgress,
   Paper,
   Table,
   TableBody,
-  Typography,
-  LinearProgress
+  Typography
 } from "@material-ui/core";
 import { searchCleared } from "../../actionCreators/searchActionCreators";
 import { DEFAULT_PAGINATION_LIMIT } from "../../../sharedUtilities/constants";

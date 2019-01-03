@@ -3,9 +3,10 @@ import { createCaseWithCivilian } from "../../testHelpers/modelMothers";
 import removeCivilian from "./removeCivilian";
 import {
   AUDIT_ACTION,
-  AUDIT_TYPE,
-  AUDIT_SUBJECT
+  AUDIT_SUBJECT,
+  AUDIT_TYPE
 } from "../../../sharedUtilities/constants";
+
 const models = require("../../models/index");
 const httpMocks = require("node-mocks-http");
 

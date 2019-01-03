@@ -18,6 +18,9 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
+import EditLetterStatusMessage, {
+  PAGE_TYPE
+} from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
 
 class IAProCorrections extends Component {
   constructor(props) {
@@ -166,6 +169,8 @@ class IAProCorrections extends Component {
                 IAPro Corrections
               </Typography>
             </div>
+            <EditLetterStatusMessage />
+
             <div style={{ marginBottom: "32px" }}>
               <FieldArray
                 name="referralLetterIAProCorrections"

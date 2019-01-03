@@ -1,21 +1,24 @@
-import {CREATE_CASE_DIALOG_OPENED, CREATE_CASE_DIALOG_CLOSED} from "../../../sharedUtilities/constants";
+import {
+  CREATE_CASE_DIALOG_CLOSED,
+  CREATE_CASE_DIALOG_OPENED
+} from "../../../sharedUtilities/constants";
 
 const initialState = {
   open: false
-}
+};
 const createCaseDialogReducer = (state = initialState, action) => {
-  switch (action.type){
+  switch (action.type) {
     case CREATE_CASE_DIALOG_OPENED:
       return {
         open: true
-      }
+      };
     case CREATE_CASE_DIALOG_CLOSED:
       return {
         open: false
-      }
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default createCaseDialogReducer
+export default createCaseDialogReducer;

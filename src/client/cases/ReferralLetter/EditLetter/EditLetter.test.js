@@ -10,14 +10,29 @@ import {
 import getLetterPreview from "../thunks/getLetterPreview";
 import EditLetter from "./EditLetter";
 import editReferralLetterContent from "../thunks/editReferralLetterContent";
+import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
 require("../../../testUtilities/MockMutationObserver");
 
-jest.mock("../thunks/getLetterPreview", () => () => ({ type: "" }));
+jest.mock("../thunks/getLetterPreview", () => () => ({
+  type: "getLetterPreview"
+}));
+
+jest.mock("../../thunks/invalidCaseStatusRedirect", () => caseId => ({
+  type: "invalidCaseStatusRedirect",
+  caseId
+}));
 
 jest.mock(
   "../thunks/editReferralLetterContent",
-  (caseId, referralLetterHtml, url) => () => ({ type: "" })
+  () => (caseId, referralLetterHtml, url) => ({
+    type: "editReferralLetterContent",
+    caseId,
+    referralLetterHtml,
+    url
+  })
 );
 
 describe("Edit Letter Html", () => {
@@ -36,6 +51,9 @@ describe("Edit Letter Html", () => {
         recipient: "jane",
         transcribedBy: "joe"
       })
+    );
+    store.dispatch(
+      getCaseDetailsSuccess({ status: CASE_STATUS.LETTER_IN_PROGRESS })
     );
 
     wrapper = mount(
@@ -77,87 +95,105 @@ describe("Edit Letter Html", () => {
     expect(cancelEditLetterDialog.length).toEqual(1);
   });
 
-  test("dispatch to editReferralLetterContent when clicking save button", () => {
-    const saveButton = wrapper.find("[data-test='saveButton']").first();
-    saveButton.simulate("click");
-
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      editReferralLetterContent(
-        caseId,
-        initialLetterHtml,
-        `/cases/${caseId}/letter/letter-preview`
-      )
-    );
-  });
-
   describe("Saves and Redirects when click Stepper Buttons", function() {
     test("it dispatches edit and redirects to review letter when click review case details stepper button", () => {
+      dispatchSpy.mockClear();
       const reviewCaseDetailsButton = wrapper
         .find('[data-test="step-button-Review Case Details"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
+
+      const expectedFormValues = { editedLetterHtml: initialLetterHtml };
       expect(dispatchSpy).toHaveBeenCalledWith(
         editReferralLetterContent(
           caseId,
-          initialLetterHtml,
+          expectedFormValues,
           `/cases/${caseId}/letter/review`
         )
       );
     });
 
     test("it dispatches edit and redirects to officer history when click officer history stepper button", () => {
+      dispatchSpy.mockClear();
       const reviewCaseDetailsButton = wrapper
         .find('[data-test="step-button-Officer Complaint Histories"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
+
+      const expectedFormValues = { editedLetterHtml: initialLetterHtml };
       expect(dispatchSpy).toHaveBeenCalledWith(
         editReferralLetterContent(
           caseId,
-          initialLetterHtml,
+          expectedFormValues,
           `/cases/${caseId}/letter/officer-history`
         )
       );
     });
 
     test("it dispatches edit and redirects to iapro corrections when click iapro corrections stepper button", () => {
+      dispatchSpy.mockClear();
       const reviewCaseDetailsButton = wrapper
         .find('[data-test="step-button-IAPro Corrections"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
+
+      const expectedFormValues = { editedLetterHtml: initialLetterHtml };
       expect(dispatchSpy).toHaveBeenCalledWith(
         editReferralLetterContent(
           caseId,
-          initialLetterHtml,
+          expectedFormValues,
           `/cases/${caseId}/letter/iapro-corrections`
         )
       );
     });
 
     test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
+      dispatchSpy.mockClear();
       const reviewCaseDetailsButton = wrapper
         .find('[data-test="step-button-Recommended Actions"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
+
+      const expectedFormValues = { editedLetterHtml: initialLetterHtml };
       expect(dispatchSpy).toHaveBeenCalledWith(
         editReferralLetterContent(
           caseId,
-          initialLetterHtml,
+          expectedFormValues,
           `/cases/${caseId}/letter/recommended-actions`
         )
       );
     });
 
     test("it dispatches edit and redirects to preview when click preview stepper button", () => {
+      dispatchSpy.mockClear();
       const reviewCaseDetailsButton = wrapper
         .find('[data-test="step-button-Preview"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
+
+      const expectedFormValues = { editedLetterHtml: initialLetterHtml };
       expect(dispatchSpy).toHaveBeenCalledWith(
         editReferralLetterContent(
           caseId,
-          initialLetterHtml,
+          expectedFormValues,
           `/cases/${caseId}/letter/letter-preview`
         )
+      );
+    });
+
+    test("redirects to case details page if not in a valid status", () => {
+      store.dispatch(
+        getCaseDetailsSuccess({ status: CASE_STATUS.FORWARDED_TO_AGENCY })
+      );
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        invalidCaseStatusRedirect(caseId)
+      );
+    });
+
+    test("does not redirect on invalid status if haven't fetched status yet", () => {
+      store.dispatch(getCaseDetailsSuccess({ status: null }));
+      expect(dispatchSpy).not.toHaveBeenCalledWith(
+        invalidCaseStatusRedirect(caseId)
       );
     });
   });

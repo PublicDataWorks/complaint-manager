@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Step, StepLabel, Stepper, StepButton } from "@material-ui/core";
+import { Step, StepButton, StepLabel, Stepper } from "@material-ui/core";
 import {
   LETTER_PROGRESS,
   LETTER_PROGRESS_MAP

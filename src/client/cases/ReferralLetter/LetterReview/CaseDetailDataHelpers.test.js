@@ -1,10 +1,10 @@
 import {
-  getIncidentInfoData,
-  getFormattedDate,
-  getComplainantData,
-  getWitnessData,
   getAccusedOfficerData,
-  getAllegationData
+  getAllegationData,
+  getComplainantData,
+  getFormattedDate,
+  getIncidentInfoData,
+  getWitnessData
 } from "./CaseDetailDataHelpers";
 
 describe("caseDetailDataHelpers", function() {

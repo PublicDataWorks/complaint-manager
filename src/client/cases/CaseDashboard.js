@@ -33,4 +33,7 @@ const mapDispatchToProps = {
   closeSnackbar
 };
 
-export default connect(undefined, mapDispatchToProps)(CaseDashboard);
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(CaseDashboard);

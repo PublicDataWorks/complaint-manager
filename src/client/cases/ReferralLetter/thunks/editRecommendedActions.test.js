@@ -6,7 +6,7 @@ import {
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
 import nock from "nock";
-import configureInterceptors from "../../../interceptors";
+import configureInterceptors from "../../../axiosInterceptors/interceptors";
 
 jest.mock("../../../auth/getAccessToken");
 
@@ -15,7 +15,7 @@ describe("editRecommendedActions", function() {
   beforeEach(() => {
     caseId = 5;
     dispatch = jest.fn();
-    configureInterceptors({dispatch})
+    configureInterceptors({ dispatch });
     requestBody = {
       id: 7,
       includeRetaliationConcerns: true,
