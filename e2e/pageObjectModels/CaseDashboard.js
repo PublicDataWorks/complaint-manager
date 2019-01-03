@@ -27,7 +27,7 @@ const caseDashboardCommands = {
   },
   setIntakeSource: function(intakeSource) {
     return this.click("@intakeSourceDropdown")
-      .waitForElementVisible("@intakeSourceMenu", e2e.rerenderWait)
+      .waitForElementVisible("@intakeSourceMenu", e2e.roundtripWait)
       .click(`li[data-value="${intakeSource}"`)
       .waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait);
   },
