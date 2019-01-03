@@ -87,8 +87,7 @@ describe("Phone number field", () => {
       .find('[data-test="phoneNumberInput"]')
       .last();
 
-    expect(phoneNumberField.instance().value.replace(/\s+/g, "")).toEqual(
-      "()-"
-    );
+    expect(phoneNumberField.instance().value.replace(/\s+/g, ""))
+      .toEqual("");
   });
 });
