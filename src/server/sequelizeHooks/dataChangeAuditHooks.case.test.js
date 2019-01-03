@@ -570,7 +570,6 @@ describe("dataChangeAuditHooks", () => {
           where: { modelName: "Case", action: AUDIT_ACTION.DATA_DELETED }
         });
 
-        // console.log("existing ", existingCase)
         const expectedChanges = {
           assignedTo: { previous: "tuser" },
           classification: { previous: utdClassification.initialism },

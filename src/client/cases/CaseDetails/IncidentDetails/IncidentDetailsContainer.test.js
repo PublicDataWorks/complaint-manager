@@ -157,19 +157,11 @@ describe("incident details container", () => {
     ).toEqual("N/A");
   });
 
-  test("should fetch classifications when open dialog", () => {
-    const editButton = wrapper.find(
-      'button[data-test="editIncidentDetailsButton"]'
-    );
-    editButton.simulate("click");
+  test("should fetch classifications on mount", () => {
     expect(getClassificationDropdownValues).toHaveBeenCalled();
   });
 
-  test("should fetch intake sources when open dialog", () => {
-    const editButton = wrapper.find(
-      'button[data-test="editIncidentDetailsButton"]'
-    );
-    editButton.simulate("click");
+  test("should fetch intake sources on mount", () => {
     expect(getIntakeSourceDropdownValues).toHaveBeenCalled();
   });
 
