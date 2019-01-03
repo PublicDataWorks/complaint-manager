@@ -36,3 +36,8 @@ reports/
 reports/*
 bin/reports/*
 selenium-debug.log
+
+.vscode/
+.vscode/*
+
+chromedriver.log*
