@@ -29,10 +29,11 @@ const civilianDialogCommands = {
     return this.setValue("@addressSuggestionField", [addressInput]);
   },
   setAddressSuggestionFieldToEmpty: function() {
-    return this.clearValue("@addressSuggestionField").setValue(
-      "@addressSuggestionField",
-      [" ", this.api.Keys.BACK_SPACE]
-    );
+    return this.getValue("@addressSuggestionField", function(result) {
+      for (c in result.value){
+        this.setValue("@addressSuggestionField", this.api.Keys.BACK_SPACE);
+      }
+    }.bind(this));
   },
   thereAreSuggestions: function() {
     this.waitForElementPresent(
