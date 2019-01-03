@@ -20,9 +20,7 @@ const caseDashboardCommands = {
   },
   setPhoneNumber: function(phoneNumber, browser) {
     this.click("@phoneNumber");
-    browser
-      .keys("\uE012") // left arrow key
-      .keys(phoneNumber);
+    browser.keys(phoneNumber);
     return this;
   },
   setIntakeSource: function(intakeSource) {

@@ -31,7 +31,6 @@ const TextMaskCustom = props => {
         /\d/
       ]}
       placeholderChar={"\u2000"}
-      showMask
     />
   );
 };
