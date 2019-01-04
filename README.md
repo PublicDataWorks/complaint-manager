@@ -180,3 +180,23 @@ More info here: https://github.com/wojtekmaj/react-pdf/wiki/Known-issues
 
 There is a warning about duplicate props on the PhoneNumberField. These are actually two different props that have 
 the same name, but different capitalization. inputProps and InputProps. They are needed.
+
+## Windows Developers Setup
+
+For windows developers, take the following steps:
+- Install Windows Subsystem for Linux ([WSL Setup](https://docs.microsoft.com/en-us/windows/wsl/install-win10)). I prefer Debian, but there's also Ubuntu and CentOS flavors if preferred.
+- Install Docker for Windows ([Docker for Windows](https://docs.docker.com/docker-for-windows/install/))
+- Expose Docker for Windows through WSL ([link](https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly)). Also make sure to install *docker-compose* through WSL as well. It is documented in that link.
+- Due to a bug with Windows host file events, the Docker containers sometimes don't get file-changed events through mounted volumes. There's a python script located [here](https://github.com/merofeev/docker-windows-volume-watcher) that provides a workaround for this. For example, this is needed for **nodemon** and **react-scripts watch**. 
+- Add a file to `/etc` called `wsl.conf` with the following lines. This changes the root path to be `/c/.../` rather than `/mnt/c/.../`. This is needed for having a source directory in windows (e.g. `/c/src/dir`) and mount-accessible through Docker. You will need to restart your terminal after this.
+``` bash
+[automount]
+root = /
+options = "metadata"
+```
+- Download chromium. This is used by the e2e tests as your browser host.
+``` bash
+apt-get update
+apt-get install chromium
+```
+

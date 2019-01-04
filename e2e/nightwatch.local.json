@@ -16,7 +16,7 @@
       "desiredCapabilities": {
         "browserName": "chrome",
         "chromeOptions": {
-          "args": [ "--no-sandbox", "--disable-gpu" ],
+          "args": [ "headless", "--no-sandbox", "--disable-gpu" ],
           "binary": "/usr/bin/chromium"
         }
       }

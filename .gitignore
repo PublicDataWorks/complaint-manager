@@ -41,3 +41,4 @@ selenium-debug.log
 .vscode/*
 
 chromedriver.log*
+selenium-server.log*
