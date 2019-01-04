@@ -25,7 +25,7 @@ const caseDashboardCommands = {
   },
   setIntakeSource: function(intakeSource) {
     return this.click("@intakeSourceDropdown")
-      .waitForElementVisible("@intakeSourceMenu", e2e.roundtripWait)
+      .waitForElementVisible("@intakeSourceOption", e2e.roundtripWait)
       .click(`li[data-value="${intakeSource}"`)
       .waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait);
   },
@@ -61,6 +61,9 @@ module.exports = {
     },
     intakeSourceMenu: {
       selector: "[id='menu-case.intakeSourceId']"
+    },
+    intakeSourceOption: {
+      selector: "[role='option']"
     }
   }
 };
