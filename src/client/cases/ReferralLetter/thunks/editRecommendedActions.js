@@ -1,5 +1,4 @@
 import { push } from "react-router-redux";
-import config from "../../../config/config";
 import {
   snackbarError,
   snackbarSuccess
@@ -12,9 +11,8 @@ const editRecommendedActions = (
   successRedirectRoute
 ) => async dispatch => {
   try {
-    const hostname = config[process.env.NODE_ENV].hostname;
     await axios.put(
-      `${hostname}/api/cases/${caseId}/referral-letter/recommended-actions`,
+      `api/cases/${caseId}/referral-letter/recommended-actions`,
       recommendedActionValues
     );
     dispatch(snackbarSuccess("Recommended actions were successfully updated"));

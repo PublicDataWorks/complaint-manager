@@ -1,6 +1,5 @@
 import { push } from "react-router-redux";
 import axios from "axios/index";
-import config from "../../../config/config";
 import {
   snackbarError,
   snackbarSuccess
@@ -8,10 +7,7 @@ import {
 
 const approveReferralLetter = (caseId, callback) => async dispatch => {
   try {
-    const hostname = config[process.env.NODE_ENV].hostname;
-    await axios.put(
-      `${hostname}/api/cases/${caseId}/referral-letter/approve-letter`
-    );
+    await axios.put(`api/cases/${caseId}/referral-letter/approve-letter`);
     dispatch(snackbarSuccess("Status was successfully updated"));
     dispatch(push(`/cases/${caseId}`));
   } catch (error) {

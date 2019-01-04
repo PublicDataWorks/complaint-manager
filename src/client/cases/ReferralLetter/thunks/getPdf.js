@@ -1,14 +1,11 @@
 import saveAs from "file-saver";
 import axios from "axios";
-import config from "../../../config/config";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import {
   getLetterPdfSuccess,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
-
-const hostname = config[process.env.NODE_ENV].hostname;
 
 const getPdf = (
   caseId,
@@ -18,7 +15,7 @@ const getPdf = (
 ) => async dispatch => {
   try {
     const response = await axios.get(
-      `${hostname}/api/cases/${caseId}/referral-letter/get-pdf`,
+      `api/cases/${caseId}/referral-letter/get-pdf`,
       { responseType: "arraybuffer" }
     );
 
