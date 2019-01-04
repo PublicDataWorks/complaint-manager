@@ -1,4 +1,3 @@
-import config from "../../config/config";
 import {
   closeRemovePersonDialog,
   removePersonFailure,
@@ -6,14 +5,12 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import axios from "axios";
 
-const hostname = config[process.env.NODE_ENV].hostname;
-
 const removePerson = ({ personType, id, caseId }) => async dispatch => {
   const personTypeForDisplay =
     personType === "civilians" ? "civilian" : "officer";
   try {
     const response = await axios.delete(
-      `${hostname}/api/cases/${caseId}/${personType}/${id}`
+      `api/cases/${caseId}/${personType}/${id}`
     );
     dispatch(closeRemovePersonDialog());
     return dispatch(removePersonSuccess(response.data, personTypeForDisplay));

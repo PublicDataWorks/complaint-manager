@@ -1,6 +1,7 @@
 import getAccessToken from "../../../auth/getAccessToken";
 import nock from "nock";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import configureInterceptors from "../../../axiosInterceptors/interceptors";
 import getReferralLetterData from "./getReferralLetterData";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import { getMinimumCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
@@ -17,6 +18,7 @@ describe("getReferralLetterData", () => {
   beforeEach(() => {
     caseId = 5;
     dispatch = jest.fn();
+    configureInterceptors({ dispatch });
   });
 
   test("dispatches success with letter details on success", async () => {

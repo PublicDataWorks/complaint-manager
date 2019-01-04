@@ -1,12 +1,10 @@
-import config from "../../config/config";
 import axios from "axios";
 import { getClassificationsSuccess } from "../../actionCreators/classificationActionCreators";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 
 const getClassficationDropdownValues = () => async dispatch => {
-  const hostname = config[process.env.NODE_ENV].hostname;
   try {
-    const response = await axios.get(`${hostname}/api/classifications`);
+    const response = await axios.get(`api/classifications`);
     return dispatch(getClassificationsSuccess(response.data));
   } catch (error) {
     return dispatch(

@@ -1,15 +1,13 @@
 import axios from "axios/index";
 import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";
-import config from "../../../config/config";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
 const getLetterPreview = caseId => async dispatch => {
   try {
-    const hostname = config[process.env.NODE_ENV].hostname;
     const response = await axios.get(
-      `${hostname}/api/cases/${caseId}/referral-letter/preview`
+      `api/cases/${caseId}/referral-letter/preview`
     );
     dispatch(getCaseDetailsSuccess(response.data.caseDetails));
     return dispatch(

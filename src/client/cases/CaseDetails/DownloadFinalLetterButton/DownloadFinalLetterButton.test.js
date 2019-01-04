@@ -5,7 +5,6 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import { mount } from "enzyme";
-import config from "../../../config/config";
 import inBrowserDownload from "../../thunks/inBrowserDownload";
 import { startLetterDownload } from "../../../actionCreators/letterActionCreators";
 import { containsText } from "../../../testHelpers";
@@ -69,9 +68,7 @@ describe("DownloadFinalLetterButton", () => {
       .first();
     button.simulate("click");
 
-    const apiRoute = `${
-      config[process.env.NODE_ENV].hostname
-    }/api/cases/${caseId}/referral-letter/final-pdf-url`;
+    const apiRoute = `api/cases/${caseId}/referral-letter/final-pdf-url`;
     expect(dispatchSpy).toHaveBeenCalledWith(
       inBrowserDownload(
         apiRoute,

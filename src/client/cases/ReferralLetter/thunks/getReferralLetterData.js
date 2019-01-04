@@ -1,18 +1,14 @@
 import axios from "axios/index";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
-import config from "../../../config/config";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import { getMinimumCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
 const getReferralLetterData = caseId => async dispatch => {
   try {
-    const hostname = config[process.env.NODE_ENV].hostname;
-    const response = await axios.get(
-      `${hostname}/api/cases/${caseId}/referral-letter`
-    );
+    const response = await axios.get(`api/cases/${caseId}/referral-letter`);
     const minimumCaseDetails = await axios.get(
-      `${hostname}/api/cases/${caseId}/minimum-case-details`
+      `api/cases/${caseId}/minimum-case-details`
     );
 
     dispatch(getMinimumCaseDetailsSuccess(minimumCaseDetails.data));

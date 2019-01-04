@@ -2,7 +2,6 @@ import React from "react";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import { connect } from "react-redux";
 import LinkButton from "../../../shared/components/LinkButton";
-import config from "../../../config/config";
 import inBrowserDownload from "../../thunks/inBrowserDownload";
 import {
   startLetterDownload,
@@ -13,8 +12,7 @@ import styles from "../../../globalStyling/styles";
 class DownloadFinalLetterButton extends React.Component {
   startLetterDownload = () => {
     const { startLetterDownload, stopLetterDownload, caseId } = this.props;
-    const hostname = config[process.env.NODE_ENV].hostname;
-    const apiRouteForSignedS3Link = `${hostname}/api/cases/${caseId}/referral-letter/final-pdf-url`;
+    const apiRouteForSignedS3Link = `api/cases/${caseId}/referral-letter/final-pdf-url`;
 
     startLetterDownload();
     this.props.inBrowserDownload(
