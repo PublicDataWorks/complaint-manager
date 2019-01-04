@@ -62,8 +62,8 @@ describe("getCaseWithAllAssocations", () => {
     expect(caseWithAllAssociations.referralLetter).toBeUndefined();
   });
   test("returns accusedOfficers in ascending order of their createdAt date", async () => {
-    await createUnknownAccusedCaseOfficer(existingCase);
-    await createCaseOfficer(existingCase, ACCUSED, 912);
+    await createUnknownAccusedCaseOfficer(existingCase, new Date("2018-08-01"));
+    await createCaseOfficer(existingCase, ACCUSED, 912, new Date("2018-01-01"));
 
     let caseWithAllAssociations;
     await models.sequelize.transaction(async transaction => {
@@ -78,10 +78,20 @@ describe("getCaseWithAllAssocations", () => {
     ).toEqual(true);
   });
   test("returns complainants in ascending order of their createdAt date", async () => {
-    await createCaseOfficer(existingCase, COMPLAINANT, 234);
-    await createCaseOfficer(existingCase, COMPLAINANT, 123);
-    await createCivilian(existingCase, COMPLAINANT);
-    await createCivilian(existingCase, COMPLAINANT);
+    await createCaseOfficer(
+      existingCase,
+      COMPLAINANT,
+      234,
+      new Date("2018-08-01")
+    );
+    await createCaseOfficer(
+      existingCase,
+      COMPLAINANT,
+      123,
+      new Date("2018-01-01")
+    );
+    await createCivilian(existingCase, COMPLAINANT, new Date("2018-08-01"));
+    await createCivilian(existingCase, COMPLAINANT, new Date("2018-01-01"));
 
     let caseWithAllAssociations;
     await models.sequelize.transaction(async transaction => {
@@ -99,11 +109,12 @@ describe("getCaseWithAllAssocations", () => {
         caseWithAllAssociations.complainantCivilians[1].createdAt
     ).toEqual(true);
   });
+
   test("returns witnesses in ascending order of their createdAt date", async () => {
-    await createCaseOfficer(existingCase, WITNESS, 234);
-    await createCaseOfficer(existingCase, WITNESS, 123);
-    await createCivilian(existingCase, WITNESS);
-    await createCivilian(existingCase, WITNESS);
+    await createCaseOfficer(existingCase, WITNESS, 234, new Date("2018-08-01"));
+    await createCaseOfficer(existingCase, WITNESS, 123, new Date("2018-01-01"));
+    await createCivilian(existingCase, WITNESS, new Date("2018-01-01"));
+    await createCivilian(existingCase, WITNESS, new Date("2018-08-01"));
 
     let caseWithAllAssociations;
     await models.sequelize.transaction(async transaction => {
@@ -123,7 +134,12 @@ describe("getCaseWithAllAssocations", () => {
   });
 });
 
-async function createCaseOfficer(existingCase, role, officerNumber) {
+async function createCaseOfficer(
+  existingCase,
+  role,
+  officerNumber,
+  dateCreated
+) {
   const officerAttributes = new Officer.Builder()
     .defaultOfficer()
     .withOfficerNumber(officerNumber)
@@ -138,32 +154,35 @@ async function createCaseOfficer(existingCase, role, officerNumber) {
     .withId(undefined)
     .withOfficerId(officer.id)
     .withCaseId(existingCase.id)
-    .withRoleOnCase(role);
+    .withRoleOnCase(role)
+    .withCreatedAt(dateCreated);
 
   await models.case_officer.create(caseOfficerAttributes, {
     auditUser: "someone"
   });
 }
 
-async function createUnknownAccusedCaseOfficer(existingCase) {
+const createUnknownAccusedCaseOfficer = async (existingCase, dateCreated) => {
   const unknownCaseOfficerAttributes = new CaseOfficer.Builder()
     .defaultCaseOfficer()
     .withUnknownOfficer()
-    .withCaseId(existingCase.id);
+    .withCaseId(existingCase.id)
+    .withCreatedAt(dateCreated);
 
   await models.case_officer.create(unknownCaseOfficerAttributes, {
     auditUser: "someone"
   });
-}
+};
 
-async function createCivilian(existingCase, role) {
+const createCivilian = async (existingCase, role, dateCreated) => {
   const civilianAttributes = new Civilian.Builder()
     .defaultCivilian()
     .withCaseId(existingCase.id)
     .withId(undefined)
-    .withRoleOnCase(role);
+    .withRoleOnCase(role)
+    .withCreatedAt(dateCreated);
 
   await models.civilian.create(civilianAttributes, {
     auditUser: "someone"
   });
-}
+};
