@@ -1,4 +1,3 @@
-import config from "../../config/config";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import encodeUriWithParams from "../../utilities/encodeUriWithParams";
 import {
@@ -7,8 +6,6 @@ import {
   searchSuccess
 } from "../../actionCreators/searchActionCreators";
 import axios from "axios";
-
-const hostname = config[process.env.NODE_ENV].hostname;
 
 const getSearchResults = (
   searchCriteria,
@@ -36,7 +33,7 @@ const getSearchResults = (
 };
 
 const fetchSearchResults = async (searchCriteria, resourceToSearch) => {
-  const url = `${hostname}/api/${resourceToSearch}/search`;
+  const url = `api/${resourceToSearch}/search`;
   const encodedUri = encodeUriWithParams(url, searchCriteria);
   return await axios.get(encodedUri);
 };

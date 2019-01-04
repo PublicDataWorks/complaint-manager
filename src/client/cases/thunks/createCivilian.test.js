@@ -7,9 +7,9 @@ import {
   createCivilianSuccess
 } from "../../actionCreators/casesActionCreators";
 import createCivilian from "./createCivilian";
-import config from "../../config/config";
 import nock from "nock";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
+import config from "../../config/config";
 
 const hostname = config["test"].hostname;
 

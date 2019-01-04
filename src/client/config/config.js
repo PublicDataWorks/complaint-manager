@@ -11,7 +11,7 @@ export default {
       scope: "openid profile",
       nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
-    hostname: ""
+    hostname: `http://localhost:${LOCAL_DEV_PORT}`
   },
   static_development: {
     auth: {
@@ -23,7 +23,7 @@ export default {
       scope: "openid profile",
       nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
-    hostname: ""
+    hostname: `http://localhost:${PORT}`
   },
   test: {
     auth: {
@@ -47,7 +47,7 @@ export default {
       scope: "openid profile",
       nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
-    hostname: ""
+    hostname: "https://noipm-ci.herokuapp.com"
   },
   staging: {
     auth: {
@@ -59,7 +59,7 @@ export default {
       scope: "openid profile",
       nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
     },
-    hostname: ""
+    hostname: "https://noipm-staging.herokuapp.com"
   },
   production: {
     auth: {
@@ -71,6 +71,6 @@ export default {
       scope: "openid profile",
       nicknameKey: "https://noipm-production.herokuapp.com/nickname"
     },
-    hostname: ""
+    hostname: "https://noipm-production.herokuapp.com"
   }
 };
