@@ -1,4 +1,3 @@
-import config from "../../config/config";
 import {
   snackbarError,
   snackbarSuccess
@@ -6,12 +5,10 @@ import {
 import { updateAllegationDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import axios from "axios";
 
-const hostname = config[process.env.NODE_ENV].hostname;
-
 const editOfficerAllegation = allegation => async dispatch => {
   try {
     const response = await axios.put(
-      `${hostname}/api/officers-allegations/${allegation.id}`,
+      `api/officers-allegations/${allegation.id}`,
       JSON.stringify(allegation)
     );
     dispatch(updateAllegationDetailsSuccess(allegation.id, response.data));

@@ -1,6 +1,5 @@
 import { push } from "react-router-redux";
 import axios from "axios/index";
-import config from "../../../config/config";
 import {
   snackbarError,
   snackbarSuccess
@@ -12,9 +11,8 @@ const editReferralLetterContent = (
   redirectUrl
 ) => async dispatch => {
   try {
-    const hostname = config[process.env.NODE_ENV].hostname;
     await axios.put(
-      `${hostname}/api/cases/${caseId}/referral-letter/content`,
+      `api/cases/${caseId}/referral-letter/content`,
       editedLetterHtml
     );
     dispatch(push(redirectUrl));

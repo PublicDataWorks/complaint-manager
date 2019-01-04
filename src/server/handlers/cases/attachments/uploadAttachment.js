@@ -42,6 +42,7 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
       managedUpload = s3.upload({
         Bucket: config[process.env.NODE_ENV].s3Bucket,
         Key: `${caseId}/${fileName}`,
+
         Body: file,
         ServerSideEncryption: "AES256"
       });

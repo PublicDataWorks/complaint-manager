@@ -7,20 +7,16 @@ import {
 import { reset } from "redux-form";
 import { push } from "react-router-redux";
 import axios from "axios";
-import config from "../../config/config";
 import {
   CIVILIAN_INITIATED,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
 
-const hostname = config[process.env.NODE_ENV].hostname;
-
 const createCase = creationDetails => async dispatch => {
   dispatch(requestCaseCreation());
-
   try {
     const response = await axios.post(
-      `${hostname}/api/cases`,
+      `api/cases`,
       JSON.stringify(creationDetails.caseDetails)
     );
     dispatch(createCaseSuccess(response.data));

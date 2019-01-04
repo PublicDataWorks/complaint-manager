@@ -1,13 +1,10 @@
 import { push } from "react-router-redux";
-import config from "../../config/config";
 import {
   clearSelectedOfficer,
   editCaseOfficerFailure,
   editCaseOfficerSuccess
 } from "../../actionCreators/officersActionCreators";
 import axios from "axios";
-
-const hostname = config[process.env.NODE_ENV].hostname;
 
 const editCaseOfficer = (
   caseId,
@@ -18,10 +15,9 @@ const editCaseOfficer = (
   try {
     const payload = { ...values, officerId };
     const response = await axios.put(
-      `${hostname}/api/cases/${caseId}/cases-officers/${caseOfficerId}`,
+      `api/cases/${caseId}/cases-officers/${caseOfficerId}`,
       JSON.stringify(payload)
     );
-
     dispatch(editCaseOfficerSuccess(response.data));
     dispatch(clearSelectedOfficer());
     return dispatch(push(`/cases/${caseId}`));
