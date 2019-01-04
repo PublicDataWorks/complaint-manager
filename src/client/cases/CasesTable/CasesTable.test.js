@@ -84,7 +84,7 @@ describe("cases table", () => {
 
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
-    store.dispatch(getCasesSuccess(cases));
+    store.dispatch(getCasesSuccess({cases, count: cases.length}));
     tableWrapper = mount(
       <Provider store={store}>
         <Router>

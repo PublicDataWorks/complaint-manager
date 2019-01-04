@@ -1,11 +1,17 @@
 import casesTableReducer from "./casesTableReducer";
 import { updateSort } from "../../actionCreators/casesActionCreators";
+import { DEFAULT_PAGINATION_LIMIT } from "../../../sharedUtilities/constants";
 
 describe("casesTableReducer", () => {
   test("should set default state", () => {
     const newState = casesTableReducer(undefined, { type: "any action" });
 
-    expect(newState).toEqual({ sortBy: "id", sortDirection: "desc" });
+    expect(newState).toEqual({
+      sortBy: "id",
+      sortDirection: "desc",
+      page: 0,
+      pageSize: DEFAULT_PAGINATION_LIMIT
+    });
   });
 
   describe("SORT_UPDATED", () => {

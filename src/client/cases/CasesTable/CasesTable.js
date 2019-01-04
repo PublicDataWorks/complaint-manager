@@ -10,17 +10,14 @@ import {
   TableSortLabel,
   Typography
 } from "@material-ui/core";
+import Pagination from "rc-pagination";
+import localeInfo from "rc-pagination/lib/locale/en_US";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import CaseRow from "./CaseRow";
 import tableStyleGenerator from "../../tableStyles";
-import { updateSort } from "../../actionCreators/casesActionCreators";
+import { updateSort, updatePage } from "../../actionCreators/casesActionCreators";
 import getCases from "../thunks/getCases";
-
-const styles = theme => ({
-  ...tableStyleGenerator(theme).header,
-  ...tableStyleGenerator(theme).table
-});
 
 class CasesTable extends React.Component {
 
@@ -35,7 +32,9 @@ class CasesTable extends React.Component {
 
   render() {
     const {
-      classes, updateSort, casesTable: { sortBy, sortDirection }
+      cases, count,
+      classes, updateSort, updatePage,
+      casesTable: { sortBy, sortDirection, page, pageSize }
     } = this.props;
     return (
       <div>
@@ -134,7 +133,7 @@ class CasesTable extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.props.cases.map(caseDetails =>
+              {cases.map(caseDetails =>
                 <CaseRow
                   key={caseDetails.id}
                   caseDetails={caseDetails}
@@ -143,19 +142,34 @@ class CasesTable extends React.Component {
               )}
             </TableBody>
           </Table>
+          <Pagination
+            total={count}
+            showTotal={() => `${count} total cases`}
+            pageSize={pageSize}
+            current={page + 1}
+            onChange={page => updatePage(page - 1)}
+            locale={localeInfo}
+          />
         </Paper>
       </div>
     );
   }
 }
 
+const styles = theme => ({
+  ...tableStyleGenerator(theme).header,
+  ...tableStyleGenerator(theme).table
+});
+
 const mapStateToProps = state => ({
-  cases: state.cases.all,
+  cases: state.cases.all.cases,
+  count: state.cases.all.count,
   currentUser: state.users.current.userInfo,
   casesTable: state.ui.casesTable
 });
 
+
 export default compose(
   withStyles(styles, { withTheme: true }),
-  connect(mapStateToProps, { getCases, updateSort })
+  connect(mapStateToProps, { getCases, updateSort, updatePage })
 )(CasesTable);

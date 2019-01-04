@@ -1,11 +1,14 @@
 import { CASE_CREATED_SUCCESS } from "../../../sharedUtilities/constants";
 
-const allCasesReducer = (state = [], action) => {
+const allCasesReducer = (state = {cases: [], count: 0}, action) => {
   switch (action.type) {
     case "GET_CASES_SUCCESS":
-      return action.cases;
+      return action.data;
     case CASE_CREATED_SUCCESS:
-      return state.concat(action.caseDetails);
+    return {
+      cases: state.cases.concat(action.caseDetails),
+      count: state.count + 1
+    }
     default:
       return state;
   }

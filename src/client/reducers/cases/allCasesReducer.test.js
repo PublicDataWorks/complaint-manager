@@ -7,7 +7,7 @@ import {
 describe("allCasesReducer", () => {
   test("should default to empty array", () => {
     const newState = allCasesReducer(undefined, { type: "SOME_ACTION" });
-    expect(newState).toEqual([]);
+    expect(newState.cases).toEqual([]);
   });
 
   describe("GET_CASES_SUCCESS", () => {
@@ -17,7 +17,7 @@ describe("allCasesReducer", () => {
 
       const newState = allCasesReducer(oldState, action);
 
-      expect(newState).toEqual(action.cases);
+      expect(newState.cases).toEqual(action.cases);
     });
   });
 
@@ -25,9 +25,9 @@ describe("allCasesReducer", () => {
     test("should add new case to state", () => {
       const action = createCaseSuccess("case details");
 
-      const newState = allCasesReducer([], action);
+      const newState = allCasesReducer({cases: []}, action);
 
-      expect(newState).toEqual(["case details"]);
+      expect(newState.cases).toEqual(["case details"]);
     });
   });
 });

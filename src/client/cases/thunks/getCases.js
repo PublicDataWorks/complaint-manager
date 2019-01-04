@@ -7,7 +7,7 @@ const hostname = config[process.env.NODE_ENV].hostname;
 const getCases = params => async dispatch => {
   try {
     const response = await axios.get(`${hostname}/api/cases`, { params });
-    return dispatch(getCasesSuccess(response.data.cases));
+    return dispatch(getCasesSuccess(response.data));
   }
   catch (e) {}
 };

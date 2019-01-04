@@ -29,7 +29,7 @@ describe("ensureTokenOnRequestInterceptor", () => {
 
     await getCases()(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(getCasesSuccess(responseBody.cases));
+    expect(dispatch).toHaveBeenCalledWith(getCasesSuccess(responseBody));
     expect(dispatch).not.toHaveBeenCalledWith(push("/login"));
   });
 

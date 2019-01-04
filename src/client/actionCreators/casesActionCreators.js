@@ -52,9 +52,9 @@ export const createCaseFailure = () => ({
   type: "CASE_CREATION_FAILED"
 });
 
-export const getCasesSuccess = cases => ({
+export const getCasesSuccess = data => ({
   type: "GET_CASES_SUCCESS",
-  cases
+  data
 });
 
 export const getCaseDetailsSuccess = caseDetails => ({
@@ -83,6 +83,11 @@ export const updateNarrativeFailure = () => ({
 export const updateSort = sortBy => ({
   type: "SORT_UPDATED",
   sortBy
+});
+
+export const updatePage = page => ({
+  type: "PAGE_UPDATED",
+  page
 });
 
 export const openCaseNoteDialog = (dialogType, initialCaseNote) => ({

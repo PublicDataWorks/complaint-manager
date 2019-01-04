@@ -29,7 +29,7 @@ describe("CaseDashboard", () => {
     cases = [newCase, newCase2];
 
     store = createConfiguredStore();
-    store.dispatch(getCasesSuccess(cases));
+    store.dispatch(getCasesSuccess({cases}));
     store.dispatch(openSnackbar());
 
     dispatchSpy = jest.spyOn(store, "dispatch");

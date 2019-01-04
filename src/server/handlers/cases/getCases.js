@@ -1,21 +1,27 @@
 import models from "../../models/index";
 import asyncMiddleware from "../asyncMiddleware";
-import { AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  DEFAULT_PAGINATION_LIMIT as PAGE_SIZE
+} from "../../../sharedUtilities/constants";
 import auditDataAccess from "../auditDataAccess";
 
 const getCases = asyncMiddleware(async (req, res) => {
-  const cases = await models.sequelize.transaction(async transaction => {
+  const result = await models.sequelize.transaction(async transaction => {
     await audit(req.nickname, transaction)
-    return await models.cases.findAll(
+    const { pageSize = PAGE_SIZE, page = 0 } = req.query;
+    return await models.cases.findAndCountAll(
       {
+        include: [...includes, ...orderIncludes],
         order: getOrder(req.query),
-        include: [...includes, ...orderIncludes]
+        limit: pageSize,
+        offset: pageSize * page
       },
       { transaction }
     );
   });
 
-  res.status(200).send({ cases });
+  res.status(200).send({ cases: result.rows, count: result.count });
 });
 
 const audit = (nickname, transaction) =>

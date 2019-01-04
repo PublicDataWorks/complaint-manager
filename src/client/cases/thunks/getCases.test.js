@@ -24,7 +24,7 @@ describe("getCases", () => {
 
     await getCases()(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(getCasesSuccess(responseBody.cases));
+    expect(dispatch).toHaveBeenCalledWith(getCasesSuccess(responseBody));
   });
 
   test("should redirect immediately if token missing", async () => {
@@ -42,7 +42,7 @@ describe("getCases", () => {
     await getCases()(dispatch);
 
     expect(dispatch).not.toHaveBeenCalledWith(
-      getCasesSuccess(responseBody.cases)
+      getCasesSuccess(responseBody)
     );
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
