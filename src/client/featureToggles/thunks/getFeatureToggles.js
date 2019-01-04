@@ -3,7 +3,7 @@ import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCre
 
 const getFeatureToggles = () => async dispatch => {
   try {
-    const response = await axios.get(`api/features`);
+    const response = await axios.get(`features`);
     return dispatch(getFeaturesSuccess(response.data));
   } catch (error) {}
 };
