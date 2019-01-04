@@ -29,7 +29,7 @@ class Dropzone extends Component {
   };
 
   dropZoneComponentConfig = {
-    postUrl: `${config[process.env.NODE_ENV].hostname}/api/cases/${
+    postUrl: `${config[process.env.REACT_APP_ENV].hostname}/api/cases/${
       this.props.caseId
     }/attachments`
   };
