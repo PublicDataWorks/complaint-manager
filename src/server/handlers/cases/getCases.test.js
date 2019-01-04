@@ -166,18 +166,19 @@ describe("getCases", () => {
           );
         });
     });
+
     test("should return complainants and accusedOfficers sorted by createdAt ascending", async () => {
       const complainantOfficers = [
-        await createCaseOfficer(COMPLAINANT, 234),
-        await createCaseOfficer(COMPLAINANT, 124)
+        await createCaseOfficer(COMPLAINANT, 234, new Date("2018-08-01")),
+        await createCaseOfficer(COMPLAINANT, 124, new Date("2018-01-01"))
       ];
       const civilians = [
-        createComplainantCivilian(),
-        createComplainantCivilian()
+        createComplainantCivilian(new Date("2018-08-01")),
+        createComplainantCivilian(new Date("2018-01-01"))
       ];
       const accusedOfficers = [
-        await createCaseOfficer(ACCUSED, 235),
-        await createCaseOfficer(ACCUSED, 125)
+        await createCaseOfficer(ACCUSED, 235, new Date("2018-08-01")),
+        await createCaseOfficer(ACCUSED, 125, new Date("2018-01-01"))
       ];
 
       const defaultCase = new Case.Builder()
@@ -232,15 +233,15 @@ describe("getCases", () => {
   });
 });
 
-async function createComplainantCivilian() {
+const createComplainantCivilian = dateCreated => {
   return new Civilian.Builder()
     .defaultCivilian()
     .withId(undefined)
     .withRoleOnCase(COMPLAINANT)
-    .build();
-}
+    .withCreatedAt(dateCreated);
+};
 
-async function createCaseOfficer(role, officerNumber) {
+const createCaseOfficer = async (role, officerNumber, dateCreated) => {
   const officerAttributes = new Officer.Builder()
     .defaultOfficer()
     .withOfficerNumber(officerNumber)
@@ -255,5 +256,5 @@ async function createCaseOfficer(role, officerNumber) {
     .withId(undefined)
     .withOfficerId(officer.id)
     .withRoleOnCase(role)
-    .build();
-}
+    .withCreatedAt(dateCreated);
+};
