@@ -11,7 +11,7 @@ describe("getFeatureToggles thunk", function() {
     configureInterceptors({ dispatch: mockDispatch });
     const features = { testFeature: true };
     nock("http://localhost")
-      .get(`/api/features`)
+      .get(`/features`)
       .reply(200, features);
 
     await getFeatureToggles()(mockDispatch);
