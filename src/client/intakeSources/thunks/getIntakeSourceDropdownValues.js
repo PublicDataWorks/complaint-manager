@@ -4,9 +4,8 @@ import { getIntakeSourcesSuccess } from "../../actionCreators/intakeSourceAction
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 
 const getIntakeSourceDropdownValues = () => async dispatch => {
-  const hostname = config[process.env.NODE_ENV].hostname;
   try {
-    const response = await axios.get(`${hostname}/api/intake-sources`);
+    const response = await axios.get(`api/intake-sources`);
     return dispatch(getIntakeSourcesSuccess(response.data));
   } catch (error) {
     return dispatch(
