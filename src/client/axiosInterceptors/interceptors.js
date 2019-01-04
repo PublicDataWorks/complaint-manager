@@ -3,7 +3,7 @@ import ensureTokenOnRequestInterceptor from "./ensureTokenOnRequestInterceptor";
 import unauthorizedResponseInterceptor from "./unauthorizedResponseInterceptor";
 import config from "../config/config";
 
-axios.defaults.baseURL = `${config[process.env.NODE_ENV].hostname}`;
+axios.defaults.baseURL = `${config[process.env.REACT_APP_ENV].hostname}`;
 
 export default function(store) {
   axios.interceptors.request.use(
