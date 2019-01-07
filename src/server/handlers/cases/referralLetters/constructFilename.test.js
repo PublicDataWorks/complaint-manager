@@ -97,19 +97,25 @@ const createCase = async complaintType => {
   const civilianComplainants =
     complaintType === CIVILIAN_INITIATED
       ? [
-          { lastName: "Second Civ Complainant", createdAt: "2018-02-01" },
-          { lastName: "Smith", createdAt: "2018-01-01" }
+          {
+            firstName: "First",
+            lastName: "Second Civ Complainant",
+            createdAt: "2018-02-01"
+          },
+          { firstName: "First", lastName: "Smith", createdAt: "2018-01-01" }
         ]
       : [];
   const officerComplainants =
     complaintType === RANK_INITIATED
       ? [
           {
+            firstName: "First",
             lastName: "2nd Off Complainant",
             roleOnCase: COMPLAINANT,
             createdAt: "2018-02-01"
           },
           {
+            firstName: "First",
             lastName: "Jones",
             roleOnCase: COMPLAINANT,
             createdAt: "2018-01-01"
