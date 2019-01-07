@@ -49,7 +49,7 @@ export const getComplainantData = caseDetail => {
 
       return {
         "Civilian Name": complainant.fullName,
-        Race: complainant.raceEthnicity.name,
+        Race: complainant.raceEthnicity && complainant.raceEthnicity.name,
         "Gender Identity": complainant.genderIdentity,
         DOB: complainantBirthDate,
         Address: complainantAddress ? complainantAddress : null,
