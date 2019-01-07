@@ -17,6 +17,7 @@ import { initialize } from "redux-form";
 import Address from "../../../testUtilities/Address";
 import Civilian from "../../../testUtilities/civilian";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
+import { getRaceEthnicitiesSuccess } from "../../../actionCreators/raceEthnicityActionCreators";
 
 jest.mock("../../thunks/editCivilian", () =>
   jest.fn(() => ({ type: "MOCK_CIVILIAN_REQUESTED" }))
@@ -48,6 +49,15 @@ jest.mock("./MapServices/MapService", () => {
   }));
 });
 
+jest.mock(
+  "../../../raceEthnicities/thunks/getRaceEthnicityDropdownValues",
+  () =>
+    jest.fn(values => ({
+      type: "MOCK_GET_RACE_ETHNICITY_THUNK",
+      values
+    }))
+);
+
 describe("civilian dialog", () => {
   let civilianDialog, store, dispatchSpy, caseCivilian, save, submitAction;
   beforeEach(() => {
@@ -75,13 +85,15 @@ describe("civilian dialog", () => {
       .withEmail(undefined)
       .withPhoneNumber(undefined)
       .withGenderIdentity(undefined)
-      .withRaceEthnicity(undefined)
+      .withRaceEthnicityId(undefined)
       .withBirthDate(undefined)
       .withTitle(undefined)
       .build();
 
     store.dispatch(initialize(CIVILIAN_FORM_NAME, caseCivilian));
-
+    store.dispatch(
+      getRaceEthnicitiesSuccess([["Japanese", 1], ["unknown2", 2]])
+    );
     dispatchSpy = jest.spyOn(store, "dispatch");
     submitAction = jest.fn(() => ({ type: "MOCK_CIVILIAN_THUNK" }));
 
@@ -171,7 +183,7 @@ describe("civilian dialog", () => {
         .defaultCivilian()
         .withFirstName("test first name")
         .withLastName("test last name")
-        .withRaceEthnicity("Filipino")
+        .withRaceEthnicityId(1)
         .withGenderIdentity("Unknown")
         .withEmail("")
         .withPhoneNumber("")
@@ -211,7 +223,7 @@ describe("civilian dialog", () => {
       selectDropdownOption(
         civilianDialog,
         '[data-test="raceDropdown"]',
-        civilianToSubmit.raceEthnicity
+        "Japanese"
       );
       selectDropdownOption(
         civilianDialog,
@@ -260,7 +272,7 @@ describe("civilian dialog", () => {
         .withSuffix("updated test suffix")
         .withBirthDate("2012-02-13")
         .withGenderIdentity("Other")
-        .withRaceEthnicity("Other")
+        .withRaceEthnicityId(1)
         .withPhoneNumber("1234567890")
         .withEmail("example@test.com")
         .withAddress(caseCivilian.address)
@@ -311,7 +323,7 @@ describe("civilian dialog", () => {
       selectDropdownOption(
         civilianDialog,
         '[data-test="raceDropdown"]',
-        civilianToSubmit.raceEthnicity
+        "Japanese"
       );
       selectDropdownOption(
         civilianDialog,

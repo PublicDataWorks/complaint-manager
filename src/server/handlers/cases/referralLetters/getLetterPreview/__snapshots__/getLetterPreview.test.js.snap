@@ -17,7 +17,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests it renders 
 
   <p><strong><u>Complainant Information</u></strong></p>
     <p>Name: Chuck E. Berry XVI</p>
-    <p>Race: Korean</p>
+    <p>Race: Filipino</p>
     <p>Sex: Female</p>
     <p>Date of Birth: 04/24/1994</p>
     <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
@@ -126,7 +126,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
 
   <p><strong><u>Complainant Information</u></strong></p>
     <p>Name: Chuck E. Berry XVI</p>
-    <p>Race: Korean</p>
+    <p>Race: Filipino</p>
     <p>Sex: Female</p>
     <p>Date of Birth: 04/24/1994</p>
     <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
@@ -233,7 +233,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
 
   <p><strong><u>Complainant Information</u></strong></p>
     <p>Name: Chuck E. Berry XVI</p>
-    <p>Race: Korean</p>
+    <p>Race: Filipino</p>
     <p>Sex: Female</p>
     <p>Date of Birth: 04/24/1994</p>
     <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
@@ -374,7 +374,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
 
   <p><strong><u>Complainant Information</u></strong></p>
     <p>Name: Chuck E. Berry XVI</p>
-    <p>Race: Korean</p>
+    <p>Race: Filipino</p>
     <p>Sex: Female</p>
     <p>Date of Birth: 04/24/1994</p>
     <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
@@ -489,7 +489,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
 
   <p><strong><u>Complainant Information</u></strong></p>
     <p>Name: Chuck E. Berry XVI</p>
-    <p>Race: Korean</p>
+    <p>Race: Filipino</p>
     <p>Sex: Female</p>
     <p>Date of Birth: 04/24/1994</p>
     <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
@@ -595,7 +595,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
 
   <p><strong><u>Complainant Information</u></strong></p>
     <p>Name: Chuck E. Berry XVI</p>
-    <p>Race: Korean</p>
+    <p>Race: Filipino</p>
     <p>Sex: Female</p>
     <p>Date of Birth: 04/24/1994</p>
     <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
@@ -697,7 +697,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
 
   <p><strong><u>Complainant Information</u></strong></p>
     <p>Name: Chuck E. Berry XVI</p>
-    <p>Race: Korean</p>
+    <p>Race: Filipino</p>
     <p>Sex: Female</p>
     <p>Date of Birth: 04/24/1994</p>
     <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>

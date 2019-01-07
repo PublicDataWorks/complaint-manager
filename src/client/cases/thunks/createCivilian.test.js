@@ -10,6 +10,7 @@ import createCivilian from "./createCivilian";
 import nock from "nock";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 import config from "../../config/config";
+import RaceEthnicity from "../../testUtilities/raceEthnicity";
 
 const hostname = config["test"].hostname;
 
@@ -19,7 +20,7 @@ jest.mock("../../actionCreators/casesActionCreators", () => ({
     type: "MOCK_EDIT_SUCCESS"
   })),
   createCivilianFailure: jest.fn(() => ({
-    type: "MOCK_EDIT_FAILDED"
+    type: "MOCK_EDIT_FAILED"
   })),
   closeEditDialog: jest.fn(() => ({
     type: "MOCK_CLOSE"
@@ -28,12 +29,19 @@ jest.mock("../../actionCreators/casesActionCreators", () => ({
 
 describe("civilian creation", function() {
   const dispatch = jest.fn();
-  const civilian = new Civilian.Builder()
-    .defaultCivilian()
-    .withCreatedAt("sometime")
-    .build();
+  let civilian;
 
   beforeEach(() => {
+    const raceEthnicity = new RaceEthnicity.Builder()
+      .defaultRaceEthnicity()
+      .build();
+    civilian = {
+      ...new Civilian.Builder()
+        .defaultCivilian()
+        .withCreatedAt("sometime")
+        .build(),
+      raceEthnicityId: raceEthnicity.id
+    };
     configureInterceptors({ dispatch });
     dispatch.mockClear();
   });

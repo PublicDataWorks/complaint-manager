@@ -29,11 +29,22 @@ jest.mock("aws-sdk", () => ({
 }));
 
 describe("server", () => {
-  let token, user;
+  let token, user, raceEthnicity;
 
   beforeEach(async () => {
     user = "some_nickname";
     token = buildTokenWithPermissions("", user);
+
+    const raceEthnicityAttributes = {
+      name: "Samoan",
+      id: undefined
+    };
+    raceEthnicity = await models.race_ethnicity.create(
+      raceEthnicityAttributes,
+      {
+        auditUser: "test"
+      }
+    );
   });
 
   afterEach(async () => {
@@ -264,7 +275,7 @@ describe("server", () => {
         .withId(undefined)
         .withCaseId(existingCase.id)
         .withFirstName("New Civilian")
-        .build();
+        .withRaceEthnicityId(raceEthnicity.id);
 
       await request(app)
         .post(`/api/civilian`)

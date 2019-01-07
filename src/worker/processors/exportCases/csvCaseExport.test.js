@@ -23,6 +23,7 @@ import {
 import parse from "csv-parse/lib/sync";
 import Address from "../../../client/testUtilities/Address";
 import Attachment from "../../../client/testUtilities/attachment";
+import RaceEthnicity from "../../../client/testUtilities/raceEthnicity";
 
 jest.mock("../fileUpload/uploadFileToS3");
 
@@ -141,7 +142,8 @@ describe("csvCaseExport request", () => {
       allegation,
       officerAllegation,
       bwcClassification,
-      caseNumber;
+      caseNumber,
+      raceEthnicity;
 
     beforeEach(async done => {
       const officerAttributes = new Officer.Builder()
@@ -182,16 +184,29 @@ describe("csvCaseExport request", () => {
         .defaultAddress()
         .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
         .withId(undefined);
+      const raceAndEthnicityAttributes = new RaceEthnicity.Builder().defaultRaceEthnicity();
+      raceEthnicity = await models.race_ethnicity.create(
+        raceAndEthnicityAttributes,
+        { auditUser: "tuser" }
+      );
       const civilianAttributes = new Civilian.Builder()
         .defaultCivilian()
         .withId(undefined)
         .withPhoneNumber("1234567890")
         .withRoleOnCase(COMPLAINANT)
         .withCaseId(caseToExport.id)
+        .withRaceEthnicityId(raceEthnicity.id)
         .withAddress(addressAttributes);
       civilian = await models.civilian.create(civilianAttributes, {
         auditUser: "tuser",
-        include: [{ model: models.address, auditUser: "tuser" }]
+        include: [
+          { model: models.address, auditUser: "tuser" },
+          {
+            model: models.race_ethnicity,
+            as: "raceEthnicity",
+            auditUser: "tuser"
+          }
+        ]
       });
 
       const caseOfficerAttributes = new CaseOfficer.Builder()
@@ -340,7 +355,7 @@ describe("csvCaseExport request", () => {
         civilian.genderIdentity
       );
       expect(records[0]["Civilian Complainant Race/Ethnicity"]).toEqual(
-        civilian.raceEthnicity
+        civilian.dataValues.race_ethnicity
       );
       const expectedAge = `${moment(caseToExport.incidentDate).diff(
         civilian.birthDate,

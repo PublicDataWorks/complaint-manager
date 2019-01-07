@@ -41,6 +41,7 @@ import letterDownloadReducer from "./reducers/ui/letterDownloadReducer";
 import caseValidationDialogReducer from "./reducers/ui/caseValidationDialogReducer";
 import loadPdfPreviewReducer from "./reducers/ui/loadPdfPreviewReducer";
 import intakeSourceReducer from "./reducers/ui/intakeSourceReducer";
+import raceEthnicityReducer from "./reducers/ui/raceEthnicityReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -76,6 +77,7 @@ const rootReducer = combineReducers({
     allegations: allegationMenuDisplay,
     classifications: classificationReducer,
     intakeSources: intakeSourceReducer,
+    raceEthnicities: raceEthnicityReducer,
     editAllegationForms: editAllegationFormsReducer,
     removeOfficerAllegationDialog: removeOfficerAllegationDialogReducer,
     accusedOfficerPanels: accusedOfficerPanelsReducer,

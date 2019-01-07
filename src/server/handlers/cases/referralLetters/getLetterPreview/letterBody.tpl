@@ -15,7 +15,7 @@
   <p><strong><u>Complainant Information</u></strong></p>
   {{#each complainantCivilians}}
     {{#if (isPresent fullName)}}<p>Name: {{fullName}}</p>{{/if}}
-    {{#if (isPresent raceEthnicity)}}<p>Race: {{raceEthnicity}}</p>{{/if}}
+    {{#if (isPresent raceEthnicity)}}<p>Race: {{raceEthnicity.name}}</p>{{/if}}
     {{#if (isPresent genderIdentity)}}<p>Sex: {{genderIdentity}}</p>{{/if}}
     {{#if (isPresent birthDate)}}<p>Date of Birth: {{{formatShortDate birthDate}}}</p>{{/if}}
     {{#if (isPresent (formatAddress address))}}<p>Address: {{{formatAddress address}}}</p>{{/if}}

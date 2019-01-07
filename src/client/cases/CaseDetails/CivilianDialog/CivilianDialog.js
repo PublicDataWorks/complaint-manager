@@ -39,7 +39,7 @@ import { formatAddressAsString } from "../../../utilities/formatAddress";
 import moment from "moment";
 import {
   genderIdentityMenu,
-  raceEthnicityMenu,
+  generateMenu,
   titleMenu
 } from "../../../utilities/generateMenus";
 import validate from "./helpers/validateCivilianFields";
@@ -54,8 +54,16 @@ import { addressMustBeValid } from "../../../formValidations";
 import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import _ from "lodash";
 import normalizeAddress from "../../../utilities/normalizeAddress";
+import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getRaceEthnicityDropdownValues";
 
 class CivilianDialog extends Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    this.props.getRaceEthnicityDropdownValues();
+  }
+
   handleCivilian = (values, dispatch) => {
     const errors = addressMustBeValid(this.props.addressValid);
 
@@ -176,7 +184,7 @@ class CivilianDialog extends Component {
             </div>
             <Field
               required
-              name="raceEthnicity"
+              name="raceEthnicityId"
               component={NoBlurTextField}
               label="Race/Ethnicity"
               hinttext="Race/Ethnicity"
@@ -184,7 +192,7 @@ class CivilianDialog extends Component {
               style={{ width: "75%", marginBottom: "24px" }}
               validate={[raceEthnicityIsRequired]}
             >
-              {raceEthnicityMenu}
+              {generateMenu(this.props.raceEthnicities)}
             </Field>
             <Typography variant="body2" style={{ marginBottom: "8px" }}>
               Contact Information
@@ -291,8 +299,16 @@ const mapStateToProps = state => {
     submitAction: state.ui.civilianDialog.submitAction,
     title: state.ui.civilianDialog.title,
     submitButtonText: state.ui.civilianDialog.submitButtonText,
-    addressValid: state.ui.addressInput.addressValid
+    addressValid: state.ui.addressInput.addressValid,
+    raceEthnicities: state.ui.raceEthnicities
   };
 };
 
-export default connect(mapStateToProps)(connectedForm);
+const mapDispatchToProps = {
+  getRaceEthnicityDropdownValues
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(connectedForm);

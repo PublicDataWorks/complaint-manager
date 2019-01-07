@@ -8,6 +8,8 @@ import {
   editCivilianSuccess
 } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
+import getAccessToken from "../../auth/getAccessToken";
+import RaceEthnicity from "../../testUtilities/raceEthnicity";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 jest.mock("../../actionCreators/casesActionCreators", () => ({
@@ -18,16 +20,21 @@ jest.mock("../../actionCreators/casesActionCreators", () => ({
 
 describe("edit civilian thunk", () => {
   const dispatch = jest.fn();
-  const civilian = new Civilian.Builder()
+  const responseBody = {};
+  let civilian = new Civilian.Builder()
     .defaultCivilian()
     .withCreatedAt("some time")
     .build();
-  const responseCivilians = [civilian];
-  const responseBody = {};
+  let responseCivilians;
 
   beforeEach(() => {
     configureInterceptors({ dispatch });
     dispatch.mockClear();
+    const raceEthnicity = new RaceEthnicity.Builder()
+      .defaultRaceEthnicity()
+      .build();
+    civilian = { ...civilian, raceEthnicityId: raceEthnicity.id };
+    responseCivilians = [civilian];
   });
 
   test("should dispatch error action if we get an unrecognized response", async () => {

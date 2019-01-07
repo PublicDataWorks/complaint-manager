@@ -17,6 +17,7 @@ import _ from "lodash";
 import CaseOfficer from "../../../testUtilities/caseOfficer";
 import Officer from "../../../testUtilities/Officer";
 import { Provider } from "react-redux";
+import RaceEthnicity from "../../../testUtilities/raceEthnicity";
 
 jest.mock("redux-form", () => ({
   reducer: { mockReducer: "mockReducerState" },
@@ -27,6 +28,9 @@ jest.mock("redux-form", () => ({
 
 describe("Complainants", () => {
   const menuOpen = true;
+  const raceEthnicity = new RaceEthnicity.Builder()
+    .defaultRaceEthnicity()
+    .build();
   let complainantWitnessesSection,
     complainantWitnesses,
     complainantPanel,
@@ -35,12 +39,15 @@ describe("Complainants", () => {
     complainant,
     store;
   beforeEach(() => {
-    complainant = new Civilian.Builder()
-      .defaultCivilian()
-      .withBirthDate("")
-      .withRaceEthnicity(undefined)
-      .withGenderIdentity(undefined)
-      .build();
+    complainant = {
+      ...new Civilian.Builder()
+        .defaultCivilian()
+        .withBirthDate("")
+        .withRaceEthnicityId(undefined)
+        .withGenderIdentity(undefined)
+        .build(),
+      raceEthnicity: raceEthnicity
+    };
 
     caseDetail = new Case.Builder()
       .defaultCase()
@@ -81,36 +88,45 @@ describe("Complainants", () => {
   describe("Sort order", () => {
     test("People should be sorted by createdAt ascending", () => {
       const menuOpen = true;
-      const civilian1 = new Civilian.Builder()
-        .defaultCivilian()
-        .withFirstName("Blake")
-        .withLastName("Anderson")
-        .withFullName("Blake Anderson")
-        .withMiddleInitial("")
-        .withSuffix("")
-        .withCreatedAt("2018-04-26")
-        .withId(1)
-        .build();
-      const civilian2 = new Civilian.Builder()
-        .defaultCivilian()
-        .withFirstName("Amy")
-        .withLastName("Smith")
-        .withFullName("Amy Smith")
-        .withCreatedAt("2018-04-30")
-        .withMiddleInitial("")
-        .withSuffix("")
-        .withId(2)
-        .build();
-      const civilian3 = new Civilian.Builder()
-        .defaultCivilian()
-        .withFirstName("Amy")
-        .withLastName("Anderson")
-        .withFullName("Amy Anderson")
-        .withMiddleInitial("")
-        .withSuffix("")
-        .withCreatedAt("2018-05-01")
-        .withId(3)
-        .build();
+      const civilian1 = {
+        ...new Civilian.Builder()
+          .defaultCivilian()
+          .withFirstName("Blake")
+          .withLastName("Anderson")
+          .withFullName("Blake Anderson")
+          .withMiddleInitial("")
+          .withSuffix("")
+          .withCreatedAt("2018-04-26")
+          .withId(1)
+          .build(),
+        raceEthnicity
+      };
+      const civilian2 = {
+        ...new Civilian.Builder()
+          .defaultCivilian()
+          .withFirstName("Amy")
+          .withLastName("Smith")
+          .withFullName("Amy Smith")
+          .withCreatedAt("2018-04-30")
+          .withMiddleInitial("")
+          .withSuffix("")
+          .withId(2)
+          .build(),
+        raceEthnicity
+      };
+      const civilian3 = {
+        ...new Civilian.Builder()
+          .defaultCivilian()
+          .withFirstName("Amy")
+          .withLastName("Anderson")
+          .withFullName("Amy Anderson")
+          .withMiddleInitial("")
+          .withSuffix("")
+          .withCreatedAt("2018-05-01")
+          .withId(3)
+          .build(),
+        raceEthnicity
+      };
 
       caseDetail = new Case.Builder()
         .defaultCase()
@@ -181,10 +197,13 @@ describe("Complainants", () => {
   describe("address", () => {
     test("should display N/A when no address", () => {
       const menuOpen = true;
-      const civilianWithNoAddress = new Civilian.Builder()
-        .defaultCivilian()
-        .withClearedOutAddress()
-        .build();
+      const civilianWithNoAddress = {
+        ...new Civilian.Builder()
+          .defaultCivilian()
+          .withClearedOutAddress()
+          .build(),
+        raceEthnicity
+      };
 
       const caseWithNoAddress = new Case.Builder()
         .defaultCase()
@@ -223,10 +242,13 @@ describe("Complainants", () => {
   describe("additional address info", () => {
     test("should be empty when no address", () => {
       const menuOpen = true;
-      const civilianWithNoAddress = new Civilian.Builder()
-        .defaultCivilian()
-        .withClearedOutAddress()
-        .build();
+      const civilianWithNoAddress = {
+        ...new Civilian.Builder()
+          .defaultCivilian()
+          .withClearedOutAddress()
+          .build(),
+        raceEthnicity
+      };
 
       const caseWithNoAddress = new Case.Builder()
         .defaultCase()
@@ -320,10 +342,13 @@ describe("Complainants", () => {
 
   test("should display officer and civilian complainants", () => {
     const menuOpen = true;
-    const civilianComplainant = new Civilian.Builder()
-      .defaultCivilian()
-      .withFullName("First Alpha")
-      .build();
+    const civilianComplainant = {
+      ...new Civilian.Builder()
+        .defaultCivilian()
+        .withFullName("First Alpha")
+        .build(),
+      raceEthnicity
+    };
 
     const officerComplainant = new Officer.Builder()
       .defaultOfficer()

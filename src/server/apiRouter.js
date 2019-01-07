@@ -10,6 +10,7 @@ import getFinalPdfUrl from "./handlers/cases/referralLetters/getFinalPdfUrl/getF
 import getMinimumCaseDetails from "./handlers/cases/getMinimumCaseDetails/getMinimumCaseDetails";
 import getIntakeSources from "./handlers/intake_sources/getIntakeSources";
 import getLetterType from "./handlers/cases/referralLetters/getLetterType/getLetterType";
+import getRaceEthnicities from "./handlers/race_ethnicities/getRaceEthnicities";
 
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
@@ -124,6 +125,7 @@ router.get("/allegations/search", searchAllegations);
 router.get("/allegations", getAllegations);
 router.get("/classifications", getClassifications);
 router.get("/intake-sources", getIntakeSources);
+router.get("/race-ethnicities", getRaceEthnicities);
 router.get("/recommended-actions", getRecommendedActions);
 
 router.get("/cases/:caseId/referral-letter/final-pdf-url", getFinalPdfUrl);
