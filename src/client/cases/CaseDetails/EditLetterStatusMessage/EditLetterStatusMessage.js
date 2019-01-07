@@ -24,6 +24,11 @@ class EditLetterStatusMessage extends React.Component {
     if (!this.props.featureToggles.editLetterStatusMessageFeature) {
       return true;
     }
+    if (
+      CASE_STATUSES_WHERE_LETTER_IS_FINALIZED.includes(this.props.caseStatus)
+    ) {
+      return false;
+    }
     if (!CASE_STATUSES_ALLOWED_TO_EDIT_LETTER.includes(this.props.caseStatus)) {
       return true;
     }
