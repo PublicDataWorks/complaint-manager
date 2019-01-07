@@ -2,12 +2,12 @@ import React from "react";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../createConfiguredStore";
 import { mount } from "enzyme/build/index";
-import CreateCaseDialog from "./CreateCaseDialog";
 import {
   changeInput,
   expectEventuallyNotToExist,
   selectDropdownOption
 } from "../../testHelpers";
+import CreateCaseButton from "../CreateCaseButton";
 import createCase from "../thunks/createCase";
 import { openSnackbar } from "../../actionCreators/snackBarActionCreators";
 import moment from "moment";
@@ -43,7 +43,7 @@ describe("CreateCaseDialog component", () => {
 
     dialog = mount(
       <Provider store={store}>
-        <CreateCaseDialog />
+        <CreateCaseButton />
       </Provider>
     );
 
