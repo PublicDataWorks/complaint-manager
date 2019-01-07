@@ -114,6 +114,26 @@ describe("letter edit status message", () => {
         "The referral letter has been approved."
       );
     });
+    test("should see correct message when letter has been approved", () => {
+      store.dispatch(getLetterTypeSuccess(LETTER_TYPE.GENERATED));
+      store.dispatch(
+        getCaseDetailsSuccess({
+          ...existingCase,
+          status: CASE_STATUS.FORWARDED_TO_AGENCY
+        })
+      );
+
+      wrapper.update();
+
+      const editLetterStatusMessage = wrapper
+        .find('[data-test="editLetterStatusMessage"]')
+        .first();
+
+      expect(editLetterStatusMessage.exists()).toEqual(true);
+      expect(editLetterStatusMessage.text()).toContain(
+        "The referral letter has been approved."
+      );
+    });
   });
 
   describe("page appropriate message", () => {
