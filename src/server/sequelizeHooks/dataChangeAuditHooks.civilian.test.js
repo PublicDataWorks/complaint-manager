@@ -3,9 +3,10 @@ import Case from "../../client/testUtilities/case";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import Civilian from "../../client/testUtilities/civilian";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
+import RaceEthnicity from "../../client/testUtilities/raceEthnicity";
 
 describe("dataChangeAuditHooks for civilian", () => {
-  let existingCase, civilian;
+  let existingCase, civilian, raceEthnicity, civilianAttributes;
 
   beforeEach(async () => {
     const caseAttributes = new Case.Builder()
@@ -15,11 +16,20 @@ describe("dataChangeAuditHooks for civilian", () => {
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "someone"
     });
-    const civilianAttributes = new Civilian.Builder()
+
+    const filipinoRaceEthnicityAttributes = new RaceEthnicity.Builder()
+      .defaultRaceEthnicity()
+      .withName("Filipino");
+    raceEthnicity = await models.race_ethnicity.create(
+      filipinoRaceEthnicityAttributes
+    );
+    civilianAttributes = new Civilian.Builder()
       .defaultCivilian()
       .withId(undefined)
       .withCaseId(existingCase.id)
+      .withRaceEthnicityId(raceEthnicity.id)
       .withNoAddress();
+
     civilian = await models.civilian.create(civilianAttributes, {
       auditUser: "someone"
     });
@@ -60,8 +70,14 @@ describe("dataChangeAuditHooks for civilian", () => {
   });
 
   test("creates audit on civilian update", async () => {
+    const samoanRaceEthnicityAttributes = new RaceEthnicity.Builder()
+      .withId(20)
+      .withName("Samoan");
+    raceEthnicity = await models.race_ethnicity.create(
+      samoanRaceEthnicityAttributes
+    );
     await models.civilian.update(
-      { firstName: "Updated Name" },
+      { firstName: "Updated Name", raceEthnicityId: raceEthnicity.id },
       { where: { id: civilian.id }, auditUser: "someone" }
     );
     const audit = await models.data_change_audit.find({
@@ -71,5 +87,6 @@ describe("dataChangeAuditHooks for civilian", () => {
     expect(audit.caseId).toEqual(existingCase.id);
     expect(audit.modelId).toEqual(civilian.id);
     expect(audit.user).toEqual("someone");
+    expect(audit.changes.raceEthnicityId.new).toEqual(raceEthnicity.id);
   });
 });

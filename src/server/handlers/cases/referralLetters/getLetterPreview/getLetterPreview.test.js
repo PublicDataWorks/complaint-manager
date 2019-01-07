@@ -29,6 +29,7 @@ import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/R
 import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
 import Classification from "../../../../../client/testUtilities/classification";
 import constructFilename from "../constructFilename";
+import RaceEthnicity from "../../../../../client/testUtilities/raceEthnicity";
 
 describe("getLetterPreview", function() {
   let existingCase, request, response, next, referralLetter;
@@ -406,10 +407,22 @@ describe("getLetterPreview", function() {
       let letterOfficer;
 
       beforeEach(async () => {
+        const raceEthnicityAttributes = new RaceEthnicity.Builder()
+          .defaultRaceEthnicity()
+          .withId(undefined);
+
+        const raceEthnicity = await models.race_ethnicity.create(
+          raceEthnicityAttributes,
+          {
+            auditUser: "test"
+          }
+        );
+
         const civilianComplainantAttributes = new Civilian.Builder()
           .defaultCivilian()
           .withCaseId(existingCase.id)
           .withRoleOnCase(COMPLAINANT)
+          .withRaceEthnicityId(raceEthnicity.id)
           .withId(undefined);
         const civilianComplainant = await models.civilian.create(
           civilianComplainantAttributes,

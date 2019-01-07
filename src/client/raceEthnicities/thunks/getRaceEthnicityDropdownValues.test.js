@@ -1,32 +1,32 @@
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
-import getIntakeSourceDropdownValues from "./getIntakeSourceDropdownValues";
-import { getIntakeSourcesSuccess } from "../../actionCreators/intakeSourceActionCreators";
+import getRaceEthnicityDropdownValues from "./getRaceEthnicityDropdownValues";
+import { getRaceEthnicitiesSuccess } from "../../actionCreators/raceEthnicityActionCreators";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 
 jest.mock("../../auth/getAccessToken");
 
-describe("getIntakeSourceDropdownValues", () => {
+describe("getRaceEthnicityDropdownValues", () => {
   const dispatch = jest.fn();
   configureInterceptors({ dispatch });
   const hostname = "http://localhost";
-  const apiRoute = "/api/intake-sources";
+  const apiRoute = "/api/race-ethnicities";
 
   beforeEach(async () => {
     getAccessToken.mockImplementation(() => "token");
   });
 
-  test("it fetches intake source and dispatches them", async () => {
-    const responseBody = [[1, "Email"], [2, "Facebook"], [3, "NOIPM Website"]];
+  test("it fetches race ethnicity and dispatches them", async () => {
+    const responseBody = [[1, "Filipino"], [2, "Samoan"], [3, "Unknown"]];
 
     nock(hostname)
       .get(apiRoute)
       .reply(200, responseBody);
 
-    await getIntakeSourceDropdownValues()(dispatch);
+    await getRaceEthnicityDropdownValues()(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
-      getIntakeSourcesSuccess(responseBody)
+      getRaceEthnicitiesSuccess(responseBody)
     );
   });
 
@@ -34,10 +34,12 @@ describe("getIntakeSourceDropdownValues", () => {
     nock(hostname)
       .get(apiRoute)
       .reply(500);
-    await getIntakeSourceDropdownValues()(dispatch);
+
+    await getRaceEthnicityDropdownValues()(dispatch);
+
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
-        "Something went wrong and the intake sources were not loaded. Please try again."
+        "Something went wrong and the race & ethnicities were not loaded. Please try again."
       )
     );
   });

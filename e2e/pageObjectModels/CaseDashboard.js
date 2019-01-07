@@ -23,11 +23,13 @@ const caseDashboardCommands = {
     browser.keys(phoneNumber);
     return this;
   },
-  setIntakeSource: function(intakeSource) {
-    return this.click("@intakeSourceDropdown")
+  setIntakeSourceId: function(intakeSource) {
+    this.click("@intakeSourceDropdown")
       .waitForElementVisible("@intakeSourceOption", e2e.roundtripWait)
-      .click(`li[data-value="${intakeSource}"`)
-      .waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait);
+      .api.pause(e2e.animationPause);
+    return this.click(
+      `li[data-value="${intakeSource}"`
+    ).waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait);
   },
   submitCase: function() {
     this.click("@createAndViewButton");

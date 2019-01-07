@@ -53,7 +53,7 @@ const CivilianPanel = ({ civilian, civilianAge, dispatch }) => {
             />
             <CivilianInfoDisplay
               displayLabel="Race/Ethnicity"
-              value={civilian.raceEthnicity}
+              value={civilian.raceEthnicity && civilian.raceEthnicity.name}
               testLabel="raceEthnicity"
             />
             <div>

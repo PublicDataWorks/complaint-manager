@@ -45,10 +45,6 @@ module.exports = (sequelize, DataTypes) => {
           "Unknown"
         ])
       },
-      raceEthnicity: {
-        field: "race_ethnicity",
-        type: DataTypes.STRING
-      },
       phoneNumber: {
         field: "phone_number",
         type: DataTypes.STRING(10)
@@ -124,6 +120,14 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: { name: "addressableId", field: "addressable_id" },
       scope: {
         addressable_type: ADDRESSABLE_TYPE.CIVILIAN
+      }
+    });
+    Civilian.belongsTo(models.race_ethnicity, {
+      as: "raceEthnicity",
+      foreignKey: {
+        name: "raceEthnicityId",
+        field: "race_ethnicity_id",
+        allowNull: true
       }
     });
   };

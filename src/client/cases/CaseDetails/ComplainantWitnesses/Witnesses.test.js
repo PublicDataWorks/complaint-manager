@@ -17,6 +17,7 @@ import { openCivilianDialog } from "../../../actionCreators/casesActionCreators"
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 import CaseOfficer from "../../../testUtilities/caseOfficer";
 import Officer from "../../../testUtilities/Officer";
+import RaceEthnicity from "../../../testUtilities/raceEthnicity";
 
 jest.mock("redux-form", () => ({
   reducer: { mockReducer: "mockReducerState" },
@@ -33,22 +34,25 @@ describe("Witnesses", () => {
     caseDetail,
     dispatchSpy,
     witness,
-    store;
+    store,
+    raceEthnicity;
   beforeEach(() => {
+    raceEthnicity = new RaceEthnicity.Builder().defaultRaceEthnicity().build();
     witness = new Civilian.Builder()
       .defaultCivilian()
       .withBirthDate("")
-      .withRaceEthnicity(undefined)
+      .withRaceEthnicityId(raceEthnicity.id)
       .withGenderIdentity(undefined)
       .withRoleOnCase(WITNESS)
       .build();
-
+    witness = { ...witness, raceEthnicity: raceEthnicity };
     caseDetail = new Case.Builder()
       .defaultCase()
       .withWitnessCivilians([witness])
       .build();
 
     store = createConfiguredStore();
+
     dispatchSpy = jest.spyOn(store, "dispatch");
 
     witnesses = mount(
@@ -78,9 +82,9 @@ describe("Witnesses", () => {
   });
 
   describe("Sort order", () => {
-    test("People should be sorted by createdAt ascending", () => {
+    test("People should be sorted by createdAt ascending", async () => {
       const menuOpen = true;
-      const civilian1 = new Civilian.Builder()
+      let civilian1 = new Civilian.Builder()
         .defaultCivilian()
         .withFirstName("Blake")
         .withLastName("Anderson")
@@ -91,7 +95,8 @@ describe("Witnesses", () => {
         .withId(1)
         .withRoleOnCase(WITNESS)
         .build();
-      const civilian2 = new Civilian.Builder()
+      civilian1 = { ...civilian1, raceEthnicity: raceEthnicity };
+      let civilian2 = new Civilian.Builder()
         .defaultCivilian()
         .withFirstName("Amy")
         .withLastName("Smith")
@@ -102,7 +107,8 @@ describe("Witnesses", () => {
         .withId(2)
         .withRoleOnCase(WITNESS)
         .build();
-      const civilian3 = new Civilian.Builder()
+      civilian2 = { ...civilian2, raceEthnicity: raceEthnicity };
+      let civilian3 = new Civilian.Builder()
         .defaultCivilian()
         .withFirstName("Amy")
         .withLastName("Anderson")
@@ -113,7 +119,7 @@ describe("Witnesses", () => {
         .withId(3)
         .withRoleOnCase(WITNESS)
         .build();
-
+      civilian3 = { ...civilian3, raceEthnicity: raceEthnicity };
       caseDetail = new Case.Builder()
         .defaultCase()
         .withWitnessCivilians([civilian1, civilian2, civilian3])
@@ -181,11 +187,14 @@ describe("Witnesses", () => {
   describe("address", () => {
     test("should display N/A when no address", () => {
       const menuOpen = true;
-      const civilianWithNoAddress = new Civilian.Builder()
-        .defaultCivilian()
-        .withClearedOutAddress()
-        .withRoleOnCase(WITNESS)
-        .build();
+      const civilianWithNoAddress = {
+        ...new Civilian.Builder()
+          .defaultCivilian()
+          .withClearedOutAddress()
+          .withRoleOnCase(WITNESS)
+          .build(),
+        raceEthnicity: raceEthnicity
+      };
 
       const caseWithNoAddress = new Case.Builder()
         .defaultCase()
@@ -224,11 +233,14 @@ describe("Witnesses", () => {
   describe("additional address info", () => {
     test("should be empty when no address", () => {
       const menuOpen = true;
-      const civilianWithNoAddress = new Civilian.Builder()
-        .defaultCivilian()
-        .withClearedOutAddress()
-        .withRoleOnCase(WITNESS)
-        .build();
+      const civilianWithNoAddress = {
+        ...new Civilian.Builder()
+          .defaultCivilian()
+          .withClearedOutAddress()
+          .withRoleOnCase(WITNESS)
+          .build(),
+        raceEthnicity: raceEthnicity
+      };
 
       const caseWithNoAddress = new Case.Builder()
         .defaultCase()
@@ -267,11 +279,14 @@ describe("Witnesses", () => {
 
   test("should display officer and civilian witnesses", () => {
     const menuOpen = true;
-    const civilianWitness = new Civilian.Builder()
-      .defaultCivilian()
-      .withFullName("First Alpha")
-      .withRoleOnCase(WITNESS)
-      .build();
+    const civilianWitness = {
+      ...new Civilian.Builder()
+        .defaultCivilian()
+        .withFullName("First Alpha")
+        .withRoleOnCase(WITNESS)
+        .build(),
+      raceEthnicity: raceEthnicity
+    };
 
     const officerWitness = new Officer.Builder()
       .defaultOfficer()

@@ -11,6 +11,7 @@ import {
   COMPLAINANT,
   WITNESS
 } from "../../sharedUtilities/constants";
+import RaceEthnicity from "./raceEthnicity";
 
 class Case {
   constructor(build) {
@@ -39,20 +40,31 @@ class Case {
   }
 
   static get Builder() {
+    const raceEthnicity = new RaceEthnicity.Builder()
+      .defaultRaceEthnicity()
+      .build();
     class Builder {
       defaultCase() {
         const id = 17;
-        const complainantCivilian = new Civilian.Builder()
-          .defaultCivilian()
-          .withId(23)
-          .withRoleOnCase(COMPLAINANT)
-          .build();
-        const witnessCivilian = new Civilian.Builder()
-          .defaultCivilian()
-          .withId(32)
-          .withNoAddress()
-          .withRoleOnCase(WITNESS)
-          .build();
+        const complainantCivilian = {
+          ...new Civilian.Builder()
+            .defaultCivilian()
+            .withId(23)
+            .withRaceEthnicityId(raceEthnicity.id)
+            .withRoleOnCase(COMPLAINANT)
+            .build(),
+          raceEthnicity
+        };
+        const witnessCivilian = {
+          ...new Civilian.Builder()
+            .defaultCivilian()
+            .withId(32)
+            .withNoAddress()
+            .withRoleOnCase(WITNESS)
+            .withRaceEthnicityId(raceEthnicity.id)
+            .build(),
+          raceEthnicity
+        };
         const accusedOfficer = new CaseOfficer.Builder()
           .defaultCaseOfficer()
           .withId(456)

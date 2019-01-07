@@ -15,7 +15,7 @@ class Civilian {
     this.phoneNumber = build.phoneNumber;
     this.birthDate = build.birthDate;
     this.email = build.email;
-    this.raceEthnicity = build.raceEthnicity;
+    this.raceEthnicityId = build.raceEthnicityId;
     this.genderIdentity = build.genderIdentity;
     this.address = build.address;
     this.additionalInfo = build.additionalInfo;
@@ -45,7 +45,7 @@ class Civilian {
         this.email = "cberry@cberry.com";
         this.birthDate = "1994-04-24";
         this.genderIdentity = "Female";
-        this.raceEthnicity = "Korean";
+        this.raceEthnicityId = undefined;
         this.address = address;
         this.additionalInfo =
           "Some additional information about this civilian.";
@@ -132,11 +132,6 @@ class Civilian {
         return this;
       }
 
-      withRaceEthnicity(raceEthnicity) {
-        this.raceEthnicity = raceEthnicity;
-        return this;
-      }
-
       withGenderIdentity(genderIdentity) {
         this.genderIdentity = genderIdentity;
         return this;
@@ -154,6 +149,11 @@ class Civilian {
 
       withTitle(title) {
         this.title = title;
+        return this;
+      }
+
+      withRaceEthnicityId(raceEthnicityId) {
+        this.raceEthnicityId = raceEthnicityId;
         return this;
       }
 

@@ -10,18 +10,19 @@ const civilianDialogCommands = {
       .click(`li[data-value=${gender}]`)
       .waitForElementNotPresent("@genderMenu", e2e.rerenderWait);
   },
-  setRaceEthnicity: function(raceEthnicity) {
-    this.click("@raceEthnicityDropdown").api.pause(e2e.dataLoadWait);
-    return this.waitForElementPresent(
-      '[id="menu-raceEthnicity"]',
-      e2e.rerenderWait
-    )
-      .click(`li[data-value=${raceEthnicity}`)
-      .waitForElementNotPresent('[id="menu-raceEthnicity"]', e2e.rerenderWait);
+  setRaceEthnicityId: function(raceEthnicity) {
+    this.click("@raceEthnicityDropdown")
+      .waitForElementVisible("@raceEthnicityMenu", e2e.roundtripWait)
+      .waitForElementVisible("@menuOption", e2e.roundtripWait)
+      .api.pause(e2e.animationPause);
+    return this.click(
+      `li[data-value="${raceEthnicity}"]`
+    ).waitForElementNotPresent("@raceEthnicityMenu", e2e.rerenderWait);
   },
   setTitle: function(title) {
     return this.click("@titleDropdown")
       .waitForElementVisible("@titleMenu", e2e.rerenderWait)
+      .waitForElementVisible("@menuOption", e2e.roundtripWait)
       .click(`li[data-value=${title}]`)
       .waitForElementNotPresent("@titleMenu", e2e.rerenderWait);
   },
@@ -92,7 +93,7 @@ module.exports = {
       selector: "[data-test='raceDropdown'] > div > div > div"
     },
     raceEthnicityMenu: {
-      selector: '[id="menu-raceEthnicity"]'
+      selector: '[id="menu-raceEthnicityId"]'
     },
     titleDropdown: {
       selector: "[data-test='titleDropdown'] > div > div > div"
@@ -123,6 +124,9 @@ module.exports = {
     },
     submitEditCivilianButton: {
       selector: 'button[data-test="submitEditCivilian"]'
+    },
+    menuOption: {
+      selector: "[role='option']"
     }
   }
 };

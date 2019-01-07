@@ -19,7 +19,10 @@ const getCaseData = async (caseId, transaction) => {
       {
         model: models.civilian,
         as: "complainantCivilians",
-        include: [models.address]
+        include: [
+          models.address,
+          { model: models.race_ethnicity, as: "raceEthnicity" }
+        ]
       },
       {
         model: models.civilian,
