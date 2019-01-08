@@ -20,9 +20,8 @@ import {
 } from "../../../shared/components/StyledButtons";
 import editOfficerHistory from "../thunks/editOfficerHistory";
 import { push } from "react-router-redux";
-import EditLetterStatusMessage, {
-  PAGE_TYPE
-} from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
+import EditLetterStatusMessage from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
+import getLetterType from "../thunks/getLetterType";
 
 class OfficerHistories extends Component {
   constructor(props) {
@@ -69,6 +68,7 @@ class OfficerHistories extends Component {
 
   componentDidMount() {
     this.props.dispatch(getReferralLetterData(this.state.caseId));
+    this.props.dispatch(getLetterType(this.state.caseId));
   }
 
   handleTabChange = (event, selectedTab) => {

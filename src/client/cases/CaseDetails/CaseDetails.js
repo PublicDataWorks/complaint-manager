@@ -20,7 +20,7 @@ import {
   closeRemoveCaseNoteDialog,
   closeRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
-import { CASE_STATUS, LETTER_TYPE } from "../../../sharedUtilities/constants";
+import { CASE_STATUS } from "../../../sharedUtilities/constants";
 import AccusedOfficers from "./Officers/AccusedOfficers";
 import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
 import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";

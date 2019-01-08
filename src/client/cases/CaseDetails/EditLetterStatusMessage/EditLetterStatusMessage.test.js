@@ -1,5 +1,4 @@
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
-import { mockLocalStorage } from "../../../../mockLocalStorage";
 import createConfiguredStore from "../../../createConfiguredStore";
 import Case from "../../../testUtilities/case";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
@@ -18,9 +17,6 @@ import { containsText } from "../../../testHelpers";
 describe("letter edit status message", () => {
   let wrapper, existingCase, dispatchSpy, store;
   beforeEach(() => {
-    const incidentDateInUTC = "2017-12-25T06:00Z";
-    mockLocalStorage();
-
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
 
@@ -30,7 +26,6 @@ describe("letter edit status message", () => {
       .withStatus(CASE_STATUS.INITIAL)
       .build();
 
-    store.dispatch(getCaseDetailsSuccess(existingCase));
     store.dispatch(
       getFeaturesSuccess({ editLetterStatusMessageFeature: true })
     );
@@ -44,7 +39,21 @@ describe("letter edit status message", () => {
     );
   });
 
-  test("should not see message when status is before letter in progress", () => {
+  test("does not display message when status data is not loaded yet", () => {
+    store.dispatch(getLetterTypeSuccess(LETTER_TYPE.EDITED));
+    wrapper.update();
+    const editLetterStatusMessage = wrapper
+      .find('[data-test="editLetterStatusMessage"]')
+      .first();
+
+    expect(editLetterStatusMessage.exists()).toEqual(false);
+  });
+
+  test("does not display message when letter type data is not loaded yet", () => {
+    getCaseDetailsSuccess({
+      ...existingCase,
+      status: CASE_STATUS.LETTER_IN_PROGRESS
+    });
     wrapper.update();
 
     const editLetterStatusMessage = wrapper
@@ -54,7 +63,17 @@ describe("letter edit status message", () => {
     expect(editLetterStatusMessage.exists()).toEqual(false);
   });
 
-  test("should not see message when status is letter in progress and letter is unedited", () => {
+  test("does not display message when status is before letter in progress", () => {
+    store.dispatch(getCaseDetailsSuccess(existingCase));
+    wrapper.update();
+
+    const editLetterStatusMessage = wrapper
+      .find('[data-test="editLetterStatusMessage"]')
+      .first();
+    expect(editLetterStatusMessage.exists()).toEqual(false);
+  });
+
+  test("does not display message when status is letter in progress and letter is unedited", () => {
     store.dispatch(getLetterTypeSuccess(LETTER_TYPE.GENERATED));
     store.dispatch(
       getCaseDetailsSuccess({
@@ -62,18 +81,16 @@ describe("letter edit status message", () => {
         status: CASE_STATUS.LETTER_IN_PROGRESS
       })
     );
-
     wrapper.update();
 
     const editLetterStatusMessage = wrapper
       .find('[data-test="editLetterStatusMessage"]')
       .first();
-
     expect(editLetterStatusMessage.exists()).toEqual(false);
   });
 
   describe("approval / edited message", () => {
-    test("should see correct message when letter has been edited and before approval", () => {
+    test("displays correct message when letter has been edited and status is before approval", () => {
       store.dispatch(getLetterTypeSuccess(LETTER_TYPE.EDITED));
       store.dispatch(
         getCaseDetailsSuccess({
@@ -81,7 +98,25 @@ describe("letter edit status message", () => {
           status: CASE_STATUS.LETTER_IN_PROGRESS
         })
       );
+      wrapper.update();
 
+      const editLetterStatusMessage = wrapper
+        .find('[data-test="editLetterStatusMessage"]')
+        .first();
+      expect(editLetterStatusMessage.exists()).toEqual(true);
+      expect(editLetterStatusMessage.text()).toContain(
+        "The referral letter has been edited."
+      );
+    });
+
+    test("displays correct message when letter has been approved and letter is edited", () => {
+      store.dispatch(getLetterTypeSuccess(LETTER_TYPE.EDITED));
+      store.dispatch(
+        getCaseDetailsSuccess({
+          ...existingCase,
+          status: CASE_STATUS.FORWARDED_TO_AGENCY
+        })
+      );
       wrapper.update();
 
       const editLetterStatusMessage = wrapper
@@ -90,19 +125,18 @@ describe("letter edit status message", () => {
 
       expect(editLetterStatusMessage.exists()).toEqual(true);
       expect(editLetterStatusMessage.text()).toContain(
-        "The referral letter has been edited."
+        "The referral letter has been approved."
       );
     });
 
-    test("should see correct message when letter has been approved", () => {
-      store.dispatch(getLetterTypeSuccess(LETTER_TYPE.EDITED));
+    test("displays correct message when letter is approved and not edited", () => {
+      store.dispatch(getLetterTypeSuccess(LETTER_TYPE.GENERATED));
       store.dispatch(
         getCaseDetailsSuccess({
           ...existingCase,
           status: CASE_STATUS.FORWARDED_TO_AGENCY
         })
       );
-
       wrapper.update();
 
       const editLetterStatusMessage = wrapper
@@ -147,7 +181,7 @@ describe("letter edit status message", () => {
       );
     });
 
-    test("should see correct message on letter details page", () => {
+    test("displays correct message on letter details page", () => {
       wrapper.update();
 
       containsText(
@@ -156,7 +190,8 @@ describe("letter edit status message", () => {
         "Any changes made to the letter details will not be reflected in the letter"
       );
     });
-    test("should see correct message on case details page", () => {
+
+    test("displays correct message on case details page", () => {
       wrapper = mount(
         <Provider store={store}>
           <Router>

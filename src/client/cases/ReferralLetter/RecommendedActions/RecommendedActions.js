@@ -25,9 +25,8 @@ import {
   RETALIATION_CONCERNS_LABEL,
   RETALIATION_CONCERNS_TEXT
 } from "../../../../server/handlers/cases/referralLetters/letterDefaults";
-import EditLetterStatusMessage, {
-  PAGE_TYPE
-} from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
+import EditLetterStatusMessage from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
+import getLetterType from "../thunks/getLetterType";
 
 class RecommendedActions extends Component {
   constructor(props) {
@@ -37,6 +36,7 @@ class RecommendedActions extends Component {
 
   componentDidMount() {
     this.props.dispatch(getReferralLetterData(this.state.caseId));
+    this.props.dispatch(getLetterType(this.state.caseId));
     this.props.dispatch(getRecommendedActions());
   }
 

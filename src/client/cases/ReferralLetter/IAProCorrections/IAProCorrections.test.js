@@ -6,11 +6,21 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import { mount } from "enzyme";
 import editIAProCorrections from "../thunks/editIAProCorrections";
+import getReferralLetterData from "../thunks/getReferralLetterData";
+import getLetterType from "../thunks/getLetterType";
 
+jest.mock("../thunks/getReferralLetterData", () => caseId => ({
+  type: "getReferralLetterData",
+  caseId
+}));
+jest.mock("../thunks/getLetterType", () => caseId => ({
+  type: "getLetterType",
+  caseId
+}));
 jest.mock(
   "../thunks/editIAProCorrections",
   () => (caseId, values, redirectUrl) => ({
-    type: "SOMETHING",
+    type: "editIAProCorrections",
     caseId,
     values,
     redirectUrl
@@ -44,6 +54,14 @@ describe("IAProCorrections", function() {
         </Router>
       </Provider>
     );
+  });
+
+  test("loads referral letter data on mount", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith(getReferralLetterData(caseId));
+  });
+
+  test("loads letter type on mount so message can be displayed", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith(getLetterType(caseId));
   });
 
   test("there is a card for each iapro correction", () => {
