@@ -1,6 +1,6 @@
 import {
-  CASE_STATUSES_ALLOWED_TO_EDIT_LETTER,
-  CASE_STATUSES_WHERE_LETTER_IS_FINALIZED,
+  CASE_STATUSES_WITH_ACTIVE_LETTER,
+  CASE_STATUSES_AFTER_LETTER_APPROVAL,
   LETTER_TYPE
 } from "../../../../sharedUtilities/constants";
 import WarningMessage from "../../../shared/components/WarningMessage";
@@ -20,25 +20,28 @@ export const EDIT_LETTER_STATUS = {
 };
 
 class EditLetterStatusMessage extends React.Component {
-  shouldNotShowMessage = () => {
+  shouldShowMessage = () => {
     if (!this.props.featureToggles.editLetterStatusMessageFeature) {
-      return true;
-    }
-    if (
-      CASE_STATUSES_WHERE_LETTER_IS_FINALIZED.includes(this.props.caseStatus)
-    ) {
       return false;
     }
-    if (!CASE_STATUSES_ALLOWED_TO_EDIT_LETTER.includes(this.props.caseStatus)) {
+    if (this.letterIsApproved() || this.letterIsActiveAndEdited()) {
       return true;
     }
-    return this.props.letterType === LETTER_TYPE.GENERATED;
+  };
+
+  letterIsApproved = () => {
+    return CASE_STATUSES_AFTER_LETTER_APPROVAL.includes(this.props.caseStatus);
+  };
+
+  letterIsActiveAndEdited = () => {
+    return (
+      CASE_STATUSES_WITH_ACTIVE_LETTER.includes(this.props.caseStatus) &&
+      this.props.letterType === LETTER_TYPE.EDITED
+    );
   };
 
   getEditLetterStatus = () => {
-    if (
-      CASE_STATUSES_WHERE_LETTER_IS_FINALIZED.includes(this.props.caseStatus)
-    ) {
+    if (CASE_STATUSES_AFTER_LETTER_APPROVAL.includes(this.props.caseStatus)) {
       return EDIT_LETTER_STATUS.APPROVED;
     }
     return EDIT_LETTER_STATUS.EDITED;
@@ -61,7 +64,7 @@ class EditLetterStatusMessage extends React.Component {
   };
 
   render() {
-    if (this.shouldNotShowMessage()) {
+    if (!this.shouldShowMessage()) {
       return null;
     }
 

@@ -9,9 +9,18 @@ import OfficerHistoryNote from "./OfficerHistoryNote";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import editOfficerHistory from "../thunks/editOfficerHistory";
 import { push } from "react-router-redux";
+import getLetterType from "../thunks/getLetterType";
+import getReferralLetterData from "../thunks/getReferralLetterData";
 
 jest.mock("../../../shared/components/RichTextEditor/RichTextEditor");
-jest.mock("../thunks/getReferralLetterData", () => () => ({ type: "" }));
+jest.mock("../thunks/getReferralLetterData", () => caseId => ({
+  type: "getReferralLetterData",
+  caseId
+}));
+jest.mock("../thunks/getLetterType", () => caseId => ({
+  type: "getLetterType",
+  caseId
+}));
 jest.mock("../thunks/editOfficerHistory", () =>
   jest.fn(() => () => ({
     type: "MOCK_EDIT_OFFICER_HISTORY_THUNK"
@@ -19,11 +28,12 @@ jest.mock("../thunks/editOfficerHistory", () =>
 );
 
 describe("OfficerHistories page", function() {
-  let store, wrapper, caseId;
+  let store, wrapper, caseId, dispatchSpy;
 
   beforeEach(() => {
     caseId = "12";
     store = createConfiguredStore();
+    dispatchSpy = jest.spyOn(store, "dispatch");
 
     wrapper = mount(
       <Provider store={store}>
@@ -48,6 +58,14 @@ describe("OfficerHistories page", function() {
 
       store.dispatch(getReferralLetterSuccess(referralLetterDetails));
       wrapper.update();
+    });
+
+    test("loads referral letter data on mount", () => {
+      expect(dispatchSpy).toHaveBeenCalledWith(getReferralLetterData(caseId));
+    });
+
+    test("loads letter type on mount so message can be displayed", () => {
+      expect(dispatchSpy).toHaveBeenCalledWith(getLetterType(caseId));
     });
 
     test("it renders a tab header for each officer", () => {
