@@ -88,7 +88,8 @@ describe("dataChangeAuditHooks", () => {
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
         classificationId: { new: null },
-        classification: { new: null }
+        classification: { new: null },
+        isArchived: { new: false }
       };
       expect(audit.changes).toEqual(expectedChanges);
     });
@@ -115,7 +116,8 @@ describe("dataChangeAuditHooks", () => {
         classificationId: { new: null },
         classification: { new: null },
         intakeSourceId: { new: emailIntakeSource.id },
-        intakeSource: { new: emailIntakeSource.name }
+        intakeSource: { new: emailIntakeSource.name },
+        isArchived: { new: false }
       };
       expect(audit.changes).toEqual(expectedChanges);
     });
@@ -139,7 +141,8 @@ describe("dataChangeAuditHooks", () => {
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
         classificationId: { new: utdClassification.id },
-        classification: { new: utdClassification.initialism }
+        classification: { new: utdClassification.initialism },
+        isArchived: { new: false }
       };
       expect(audit.changes).toEqual(expectedChanges);
     });
@@ -167,7 +170,8 @@ describe("dataChangeAuditHooks", () => {
         classificationId: null,
         classification: null,
         intakeSourceId: null,
-        intake_source: null
+        intake_source: null,
+        isArchived: false
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -196,7 +200,8 @@ describe("dataChangeAuditHooks", () => {
         classificationId: utdClassification.id,
         classification: utdClassification.initialism,
         intakeSourceId: null,
-        intake_source: null
+        intake_source: null,
+        isArchived: false
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -516,7 +521,8 @@ describe("dataChangeAuditHooks", () => {
         classificationId: existingCase.classificationId,
         classification: utdClassification.initialism,
         intakeSourceId: existingCase.intakeSourceId,
-        intake_source: emailIntakeSource.name
+        intake_source: emailIntakeSource.name,
+        isArchived: false
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -585,7 +591,8 @@ describe("dataChangeAuditHooks", () => {
           status: { previous: "Initial" },
           intakeSourceId: { previous: null },
           intakeSource: { previous: null },
-          intake_source: {}
+          intake_source: {},
+          isArchived: { previous: false }
         };
         expect(audit.changes).toEqual(expectedChanges);
       });

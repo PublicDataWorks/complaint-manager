@@ -76,6 +76,12 @@ export default (sequelize, DataTypes) => {
         field: "narrative_details",
         type: DataTypes.TEXT
       },
+      isArchived: {
+        field: "is_archived",
+        defaultValue: false,
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+      },
       createdBy: {
         field: "created_by",
         type: DataTypes.STRING,
