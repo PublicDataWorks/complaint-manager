@@ -1,9 +1,9 @@
 import { getCasesSuccess } from "../../actionCreators/casesActionCreators";
 import axios from "axios";
 
-const getCases = params => async dispatch => {
+const getCases = () => async dispatch => {
   try {
-    const response = await axios.get(`/api/cases`, { params });
+    const response = await axios.get(`api/cases`);
     return dispatch(getCasesSuccess(response.data.cases));
   } catch (e) {}
 };

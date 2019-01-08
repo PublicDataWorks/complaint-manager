@@ -16,7 +16,7 @@ const casesTableReducer = (state = initialState, action) => {
         sortDirection: "asc"
       };
     default:
-      return state;
+      return initialState;
   }
 };
 

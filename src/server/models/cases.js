@@ -46,11 +46,7 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         set(newStatus) {
           const nextStatus = determineNextCaseStatus(this.status);
-          if (
-            !this.status ||
-            newStatus === nextStatus ||
-            newStatus === this.status
-          ) {
+          if (newStatus === nextStatus || newStatus === this.status) {
             this.setDataValue("status", newStatus);
           } else {
             throw Boom.badRequest("Invalid case status");
