@@ -1,5 +1,9 @@
 import Civilian from "../../testUtilities/civilian";
 import { push } from "react-router-redux";
+import {
+    startSubmit,
+    stopSubmit,
+} from "redux-form";
 import getAccessToken from "../../auth/getAccessToken";
 import {
   closeEditDialog,
@@ -11,6 +15,7 @@ import nock from "nock";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 import config from "../../config/config";
 import RaceEthnicity from "../../testUtilities/raceEthnicity";
+import { CIVILIAN_FORM_NAME } from "../../../sharedUtilities/constants";
 
 const hostname = config["test"].hostname;
 
@@ -54,7 +59,7 @@ describe("civilian creation", function() {
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
-  test("should dispatch success & close dialog when civilian created successfully", async () => {
+  test("should dispatch success, close dialog and stop submit when civilian created successfully", async () => {
     nock(hostname, {
       reqheaders: {
         "Content-Type": "application/json",
@@ -66,11 +71,13 @@ describe("civilian creation", function() {
 
     await createCivilian(civilian)(dispatch);
 
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(CIVILIAN_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(createCivilianSuccess([civilian]));
     expect(dispatch).toHaveBeenCalledWith(closeEditDialog());
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(CIVILIAN_FORM_NAME));
   });
 
-  test("should dispatch failure when civilian creation fails", async () => {
+  test("should dispatch failure and stop submit when civilian creation fails", async () => {
     nock(hostname, {
       reqheaders: {
         "Content-Type": "application/json",
@@ -82,6 +89,8 @@ describe("civilian creation", function() {
 
     await createCivilian(civilian)(dispatch);
 
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(CIVILIAN_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(createCivilianFailure());
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(CIVILIAN_FORM_NAME));
   });
 });
