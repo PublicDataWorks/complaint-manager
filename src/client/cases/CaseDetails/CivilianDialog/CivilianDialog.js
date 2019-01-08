@@ -263,6 +263,7 @@ class CivilianDialog extends Component {
           <PrimaryButton
             data-test="submitEditCivilian"
             onClick={this.props.handleSubmit(this.handleCivilian)}
+            disabled={this.props.submitting}
           >
             {this.props.submitButtonText}
           </PrimaryButton>
