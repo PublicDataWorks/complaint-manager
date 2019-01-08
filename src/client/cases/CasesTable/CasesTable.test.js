@@ -119,7 +119,7 @@ describe("cases table", () => {
         .last();
       caseNumberLabel.simulate("click");
 
-      expect(dispatchSpy).toHaveBeenCalledWith(updateSort("lastName"));
+      expect(dispatchSpy).toHaveBeenCalledWith(updateSort("complainant"));
     });
 
     test("should update sort by when date clicked", () => {
