@@ -21,9 +21,6 @@ export const EDIT_LETTER_STATUS = {
 
 class EditLetterStatusMessage extends React.Component {
   shouldShowMessage = () => {
-    if (!this.props.featureToggles.editLetterStatusMessageFeature) {
-      return false;
-    }
     if (this.letterIsApproved() || this.letterIsActiveAndEdited()) {
       return true;
     }

@@ -26,10 +26,6 @@ describe("letter edit status message", () => {
       .withStatus(CASE_STATUS.INITIAL)
       .build();
 
-    store.dispatch(
-      getFeaturesSuccess({ editLetterStatusMessageFeature: true })
-    );
-
     wrapper = mount(
       <Provider store={store}>
         <Router>
