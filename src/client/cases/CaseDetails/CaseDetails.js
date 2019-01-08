@@ -30,6 +30,7 @@ import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
 import EditLetterStatusMessage, {
   PAGE_TYPE
 } from "./EditLetterStatusMessage/EditLetterStatusMessage";
+import getLetterType from "../ReferralLetter/thunks/getLetterType";
 
 const drawerWidthPercentage = "30%";
 
@@ -64,7 +65,9 @@ class CaseDetails extends React.Component {
   };
 
   componentDidMount() {
-    this.props.dispatch(getCaseDetails(this.props.match.params.id));
+    const caseId = this.props.match.params.id;
+    this.props.dispatch(getCaseDetails(caseId));
+    this.props.dispatch(getLetterType(caseId));
   }
 
   componentWillUnmount() {

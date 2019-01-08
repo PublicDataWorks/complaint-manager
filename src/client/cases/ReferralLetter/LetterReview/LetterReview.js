@@ -24,6 +24,7 @@ import {
 import { push } from "react-router-redux";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import EditLetterStatusMessage from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
+import getLetterType from "../thunks/getLetterType";
 
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {
@@ -34,13 +35,15 @@ export class LetterReview extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getCaseDetails(this.props.match.params.id));
+    const caseId = this.props.match.params.id;
+    this.props.getCaseDetails(caseId);
+    this.props.getLetterType(caseId);
   }
 
   componentDidUpdate() {
     if (!this.caseDetailsNotYetLoaded() && !this.statusIsAllowed()) {
       const caseId = this.props.caseDetail.id;
-      this.props.dispatch(invalidCaseStatusRedirect(caseId));
+      this.props.invalidCaseStatusRedirect(caseId);
     }
   }
 
@@ -51,7 +54,7 @@ export class LetterReview extends Component {
   };
 
   pageChangeCallback = redirectUrl => () => {
-    this.props.dispatch(push(redirectUrl));
+    this.props.push(redirectUrl);
   };
 
   render() {
@@ -163,8 +166,18 @@ export class LetterReview extends Component {
   }
 }
 
+const mapDispatchToProps = {
+  getCaseDetails,
+  invalidCaseStatusRedirect,
+  getLetterType,
+  push
+};
+
 const mapStateToProps = state => ({
   caseDetail: state.currentCase.details
 });
 
-export default connect(mapStateToProps)(LetterReview);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LetterReview);
