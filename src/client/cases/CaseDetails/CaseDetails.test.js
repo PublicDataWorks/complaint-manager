@@ -21,16 +21,18 @@ import {
   openCivilianDialog,
   openRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
-import {
-  CASE_STATUS,
-  LETTER_TYPE,
-  TIMEZONE
-} from "../../../sharedUtilities/constants";
+import { TIMEZONE } from "../../../sharedUtilities/constants";
 import timezone from "moment-timezone";
 import { initialize } from "redux-form";
+import getLetterType from "../ReferralLetter/thunks/getLetterType";
 
-jest.mock("../thunks/getCaseDetails", () => () => ({
-  type: "MOCK_GET_CASE_DETAILS"
+jest.mock("../thunks/getCaseDetails", () => caseId => ({
+  type: "MOCK_GET_CASE_DETAILS",
+  caseId
+}));
+jest.mock("../ReferralLetter/thunks/getLetterType", () => caseId => ({
+  type: "MOCK_GET_LETTER_TYPE",
+  caseId
 }));
 
 jest.mock("../thunks/updateNarrative", () => () => ({
@@ -69,6 +71,12 @@ describe("Case Details Component", () => {
   test("should dispatch get case details action on mount", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(
       getCaseDetails(expectedCase.id.toString())
+    );
+  });
+
+  test("loads letter type on mount so message can be displayed", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      getLetterType(expectedCase.id.toString())
     );
   });
 
