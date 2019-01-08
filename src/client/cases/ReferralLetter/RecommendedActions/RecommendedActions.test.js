@@ -9,7 +9,17 @@ import { BrowserRouter as Router } from "react-router-dom";
 import RecommendedActions from "./RecommendedActions";
 import React from "react";
 import editRecommendedActions from "../thunks/editRecommendedActions";
+import getLetterType from "../thunks/getLetterType";
+import getReferralLetterData from "../thunks/getReferralLetterData";
 
+jest.mock("../thunks/getReferralLetterData", () => caseId => ({
+  type: "getReferralLetterData",
+  caseId
+}));
+jest.mock("../thunks/getLetterType", () => caseId => ({
+  type: "getLetterType",
+  caseId
+}));
 jest.mock(
   "../thunks/editRecommendedActions",
   () => (caseId, values, redirectUrl) => ({
@@ -57,6 +67,14 @@ describe("recommendedActions", function() {
         </Router>
       </Provider>
     );
+  });
+
+  test("loads referral letter data on mount", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith(getReferralLetterData(caseId));
+  });
+
+  test("loads letter type on mount so message can be displayed", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith(getLetterType(caseId));
   });
 
   test("calls editRecommendedActions with case id, form values, and redirect url when click back to case", () => {

@@ -18,9 +18,8 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
-import EditLetterStatusMessage, {
-  PAGE_TYPE
-} from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
+import EditLetterStatusMessage from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
+import getLetterType from "../thunks/getLetterType";
 
 class IAProCorrections extends Component {
   constructor(props) {
@@ -29,7 +28,8 @@ class IAProCorrections extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getReferralLetterData(this.state.caseId));
+    this.props.getReferralLetterData(this.state.caseId);
+    this.props.getLetterType(this.state.caseId);
   }
 
   saveAndReturnToCase = () => {
@@ -204,7 +204,9 @@ class IAProCorrections extends Component {
 }
 
 const mapDispatchToProps = {
-  openRemoveIAProCorrectionDialog
+  openRemoveIAProCorrectionDialog,
+  getReferralLetterData,
+  getLetterType
 };
 
 const mapStateToProps = state => ({
