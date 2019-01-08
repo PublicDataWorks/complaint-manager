@@ -1,15 +1,50 @@
-import models from "../../models/index";
-import asyncMiddleware from "../asyncMiddleware";
-import { AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
-import auditDataAccess from "../auditDataAccess";
+const models = require("../../models/index");
+const asyncMiddleware = require("../asyncMiddleware");
+const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
+const auditDataAccess = require("../auditDataAccess");
 
 const getCases = asyncMiddleware(async (req, res) => {
   const cases = await models.sequelize.transaction(async transaction => {
-    await audit(req.nickname, transaction);
+    await auditDataAccess(
+      req.nickname,
+      undefined,
+      AUDIT_SUBJECT.ALL_CASES,
+      transaction
+    );
+
     return await models.cases.findAll(
       {
-        order: getOrder(req.query),
-        include: [...includes, ...orderIncludes]
+        include: [
+          {
+            model: models.civilian,
+            as: "complainantCivilians"
+          },
+          {
+            model: models.case_officer,
+            as: "accusedOfficers"
+          },
+          {
+            model: models.case_officer,
+            as: "complainantOfficers"
+          }
+        ],
+        order: [
+          [
+            { model: models.civilian, as: "complainantCivilians" },
+            "createdAt",
+            "ASC"
+          ],
+          [
+            { model: models.case_officer, as: "complainantOfficers" },
+            "createdAt",
+            "ASC"
+          ],
+          [
+            { model: models.case_officer, as: "accusedOfficers" },
+            "createdAt",
+            "ASC"
+          ]
+        ]
       },
       { transaction }
     );
@@ -17,31 +52,5 @@ const getCases = asyncMiddleware(async (req, res) => {
 
   res.status(200).send({ cases });
 });
-
-const audit = (nickname, transaction) =>
-  auditDataAccess(nickname, undefined, AUDIT_SUBJECT.ALL_CASES, transaction);
-
-const getOrder = ({ sortBy = "id", sortDirection = "desc" }) => {
-  const orderings = {
-    accusedOfficer: [["accusedOfficers", "lastName", sortDirection]],
-    complainant: [
-      ["complainantCivilians", "lastName", sortDirection],
-      ["complainantOfficers", "lastName", sortDirection]
-    ]
-  };
-  return orderings[sortBy] || [[sortBy, sortDirection]];
-};
-
-const includes = [
-  { model: models.civilian, as: "complainantCivilians" },
-  { model: models.case_officer, as: "complainantOfficers" },
-  { model: models.case_officer, as: "accusedOfficers" }
-];
-
-const orderIncludes = includes.map(include => ({
-  ...include,
-  separate: true,
-  order: [["createdAt", "asc"]]
-}));
 
 module.exports = getCases;

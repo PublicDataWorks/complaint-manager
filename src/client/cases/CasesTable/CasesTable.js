@@ -11,11 +11,10 @@ import {
   Typography
 } from "@material-ui/core";
 import { connect } from "react-redux";
-import { compose } from "redux";
 import CaseRow from "./CaseRow";
 import tableStyleGenerator from "../../tableStyles";
 import { updateSort } from "../../actionCreators/casesActionCreators";
-import getCases from "../thunks/getCases";
+import sortBy from "../../utilities/sortBy";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).header,
@@ -23,21 +22,8 @@ const styles = theme => ({
 });
 
 class CasesTable extends React.Component {
-  componentDidMount() {
-    this.props.getCases(this.props.casesTable);
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.casesTable !== prevProps.casesTable)
-      this.props.getCases(this.props.casesTable);
-  }
-
   render() {
-    const {
-      classes,
-      updateSort,
-      casesTable: { sortBy, sortDirection }
-    } = this.props;
+    const { classes } = this.props;
     return (
       <div>
         <Typography variant="title" className={classes.labelMargin}>
@@ -54,9 +40,9 @@ class CasesTable extends React.Component {
                 >
                   <TableSortLabel
                     data-test="caseNumberSortLabel"
-                    onClick={() => updateSort("id")}
-                    direction={sortDirection}
-                    active={sortBy === "id"}
+                    onClick={() => this.props.dispatch(updateSort("id"))}
+                    direction={this.props.sortDirection}
+                    active={this.props.sortBy === "id"}
                   >
                     <Typography variant="body2">Case #</Typography>
                   </TableSortLabel>
@@ -68,9 +54,9 @@ class CasesTable extends React.Component {
                 >
                   <TableSortLabel
                     data-test="statusSortLabel"
-                    onClick={() => updateSort("status")}
-                    direction={sortDirection}
-                    active={sortBy === "status"}
+                    onClick={() => this.props.dispatch(updateSort("status"))}
+                    direction={this.props.sortDirection}
+                    active={this.props.sortBy === "status"}
                   >
                     <Typography variant="body2">Status</Typography>
                   </TableSortLabel>
@@ -82,9 +68,9 @@ class CasesTable extends React.Component {
                 >
                   <TableSortLabel
                     data-test="complainantSortLabel"
-                    onClick={() => updateSort("complainant")}
-                    direction={sortDirection}
-                    active={sortBy === "complainant"}
+                    onClick={() => this.props.dispatch(updateSort("lastName"))}
+                    direction={this.props.sortDirection}
+                    active={this.props.sortBy === "lastName"}
                   >
                     <Typography variant="body2">Complainant</Typography>
                   </TableSortLabel>
@@ -96,9 +82,11 @@ class CasesTable extends React.Component {
                 >
                   <TableSortLabel
                     data-test="accusedOfficerSortLabel"
-                    onClick={() => updateSort("accusedOfficer")}
-                    direction={sortDirection}
-                    active={sortBy === "accusedOfficer"}
+                    onClick={() =>
+                      this.props.dispatch(updateSort("accusedOfficer"))
+                    }
+                    direction={this.props.sortDirection}
+                    active={this.props.sortBy === "accusedOfficer"}
                   >
                     <Typography variant="body2">Accused Officer</Typography>
                   </TableSortLabel>
@@ -110,9 +98,11 @@ class CasesTable extends React.Component {
                 >
                   <TableSortLabel
                     data-test="firstContactDateSortLabel"
-                    onClick={() => updateSort("firstContactDate")}
-                    direction={sortDirection}
-                    active={sortBy === "firstContactDate"}
+                    onClick={() =>
+                      this.props.dispatch(updateSort("firstContactDate"))
+                    }
+                    direction={this.props.sortDirection}
+                    active={this.props.sortBy === "firstContactDate"}
                   >
                     <Typography variant="body2">First Contact</Typography>
                   </TableSortLabel>
@@ -124,9 +114,11 @@ class CasesTable extends React.Component {
                 >
                   <TableSortLabel
                     data-test="casesAssignedToSortLabel"
-                    onClick={() => updateSort("assignedTo")}
-                    direction={sortDirection}
-                    active={sortBy === "assignedTo"}
+                    onClick={() =>
+                      this.props.dispatch(updateSort("assignedTo"))
+                    }
+                    direction={this.props.sortDirection}
+                    active={this.props.sortBy === "assignedTo"}
                   >
                     <Typography variant="body2">Assigned To</Typography>
                   </TableSortLabel>
@@ -135,7 +127,11 @@ class CasesTable extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.props.cases.map(caseDetails => (
+              {sortBy(
+                this.props.cases,
+                this.props.sortBy,
+                this.props.sortDirection
+              ).map(caseDetails => (
                 <CaseRow
                   key={caseDetails.id}
                   caseDetails={caseDetails}
@@ -153,13 +149,11 @@ class CasesTable extends React.Component {
 const mapStateToProps = state => ({
   cases: state.cases.all,
   currentUser: state.users.current.userInfo,
-  casesTable: state.ui.casesTable
+  caseCreationSuccess: state.ui.snackbar.success,
+  sortBy: state.ui.casesTable.sortBy,
+  sortDirection: state.ui.casesTable.sortDirection
 });
 
-export default compose(
-  withStyles(styles, { withTheme: true }),
-  connect(
-    mapStateToProps,
-    { getCases, updateSort }
-  )
-)(CasesTable);
+export default withStyles(styles, { withTheme: true })(
+  connect(mapStateToProps)(CasesTable)
+);
