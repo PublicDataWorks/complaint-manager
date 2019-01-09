@@ -63,7 +63,7 @@ describe("Get an export job", () => {
     const job = {
       id: 123,
       data: { name: JOB_OPERATION.CASE_EXPORT.name },
-      result: { key: "file.name" },
+      result: { Key: "file.name" },
       state: () => "complete"
     };
 
@@ -84,7 +84,7 @@ describe("Get an export job", () => {
     const job = {
       id: 123,
       data: { name: JOB_OPERATION.AUDIT_LOG_EXPORT.name },
-      result: { key: "file.name" },
+      result: { Key: "file.name" },
       state: () => "complete"
     };
 
