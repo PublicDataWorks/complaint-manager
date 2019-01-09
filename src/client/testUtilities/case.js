@@ -37,7 +37,7 @@ class Case {
     this.witnessOfficers = build.witnessOfficers;
     this.caseNumber = build.caseNumber;
     this.intakeSourceId = build.intakeSourceId;
-    this.isArchived = build.isArchived;
+    this.deletedAt = build.deletedAt;
   }
 
   static get Builder() {
@@ -136,7 +136,7 @@ class Case {
         this.complainantOfficers = [complainantOfficer];
         this.witnessOfficers = [witnessOfficer];
         this.caseNumber = "CC2017-0055";
-        this.isArchived = false;
+        this.deletedAt = null;
         return this;
       }
 
