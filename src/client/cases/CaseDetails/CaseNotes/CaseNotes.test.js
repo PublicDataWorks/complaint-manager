@@ -6,6 +6,7 @@ import { containsText } from "../../../testHelpers";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
+import { getCaseNotesSuccess } from "../../../actionCreators/casesActionCreators";
 
 describe("Case Notes", () => {
   test("should display placeholder text when no case notes", () => {
@@ -37,14 +38,13 @@ describe("Case Notes", () => {
       }
     ];
 
+    const store = createConfiguredStore();
+    store.dispatch(getCaseNotesSuccess(someCaseNotes));
+
     const wrapper = mount(
-      <Provider store={createConfiguredStore()}>
+      <Provider store={store}>
         <Router>
-          <CaseNotes
-            caseId={1}
-            dispatch={jest.fn()}
-            caseNotes={someCaseNotes}
-          />
+          <CaseNotes caseId={1} dispatch={jest.fn()} />
         </Router>
       </Provider>
     );
@@ -88,8 +88,11 @@ describe("Case Notes", () => {
       }
     ];
 
+    const store = createConfiguredStore();
+    store.dispatch(getCaseNotesSuccess(someCaseNotes));
+
     const wrapper = mount(
-      <Provider store={createConfiguredStore()}>
+      <Provider store={store}>
         <Router>
           <CaseNotes
             caseId={1}
