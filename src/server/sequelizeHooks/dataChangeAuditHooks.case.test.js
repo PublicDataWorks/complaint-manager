@@ -88,8 +88,7 @@ describe("dataChangeAuditHooks", () => {
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
         classificationId: { new: null },
-        classification: { new: null },
-        isArchived: { new: false }
+        classification: { new: null }
       };
       expect(audit.changes).toEqual(expectedChanges);
     });
@@ -116,8 +115,7 @@ describe("dataChangeAuditHooks", () => {
         classificationId: { new: null },
         classification: { new: null },
         intakeSourceId: { new: emailIntakeSource.id },
-        intakeSource: { new: emailIntakeSource.name },
-        isArchived: { new: false }
+        intakeSource: { new: emailIntakeSource.name }
       };
       expect(audit.changes).toEqual(expectedChanges);
     });
@@ -141,8 +139,7 @@ describe("dataChangeAuditHooks", () => {
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
         classificationId: { new: utdClassification.id },
-        classification: { new: utdClassification.initialism },
-        isArchived: { new: false }
+        classification: { new: utdClassification.initialism }
       };
       expect(audit.changes).toEqual(expectedChanges);
     });
@@ -171,7 +168,7 @@ describe("dataChangeAuditHooks", () => {
         classification: null,
         intakeSourceId: null,
         intake_source: null,
-        isArchived: false
+        deletedAt: null
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -201,7 +198,7 @@ describe("dataChangeAuditHooks", () => {
         classification: utdClassification.initialism,
         intakeSourceId: null,
         intake_source: null,
-        isArchived: false
+        deletedAt: null
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -522,7 +519,7 @@ describe("dataChangeAuditHooks", () => {
         classification: utdClassification.initialism,
         intakeSourceId: existingCase.intakeSourceId,
         intake_source: emailIntakeSource.name,
-        isArchived: false
+        deletedAt: null
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -591,8 +588,7 @@ describe("dataChangeAuditHooks", () => {
           status: { previous: "Initial" },
           intakeSourceId: { previous: null },
           intakeSource: { previous: null },
-          intake_source: {},
-          isArchived: { previous: false }
+          intake_source: {}
         };
         expect(audit.changes).toEqual(expectedChanges);
       });

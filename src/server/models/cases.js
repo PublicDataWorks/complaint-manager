@@ -76,12 +76,6 @@ export default (sequelize, DataTypes) => {
         field: "narrative_details",
         type: DataTypes.TEXT
       },
-      isArchived: {
-        field: "is_archived",
-        defaultValue: false,
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-      },
       createdBy: {
         field: "created_by",
         type: DataTypes.STRING,
@@ -99,9 +93,14 @@ export default (sequelize, DataTypes) => {
       updatedAt: {
         field: "updated_at",
         type: DataTypes.DATE
+      },
+      deletedAt: {
+        field: "deleted_at",
+        type: DataTypes.DATE
       }
     },
     {
+      paranoid: true,
       hooks: {
         beforeUpdate: (instance, options) => {
           if (!instance.changed() || instance.changed().includes("status"))

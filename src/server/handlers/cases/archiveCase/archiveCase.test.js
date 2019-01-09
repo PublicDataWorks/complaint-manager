@@ -39,10 +39,11 @@ describe("archiveCase handler", () => {
     await archiveCase(request, response, next);
 
     const archivedCase = await models.cases.findById(existingCase.id, {
-      auditUser: user
+      auditUser: user,
+      paranoid: false
     });
 
-    expect(archivedCase.isArchived).toEqual(true);
+    expect(archivedCase.deletedAt).toBeTruthy();
   });
 
   describe("request tests", function() {});

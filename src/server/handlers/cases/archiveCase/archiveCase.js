@@ -5,17 +5,12 @@ const archiveCase = asyncMiddleware(async (request, reponce, next) => {
   await models.sequelize.transaction(async transaction => {
     const caseId = request.body.case.id;
 
-    await models.cases.update(
-      {
-        isArchived: true
-      },
-      {
-        where: { id: caseId },
-        individualHooks: true,
-        auditUser: request.nickname
-      },
+    await models.cases.destroy({
+      where: { id: caseId },
+      individualHooks: true,
+      auditUser: request.nickname,
       transaction
-    );
+    });
   });
 });
 
