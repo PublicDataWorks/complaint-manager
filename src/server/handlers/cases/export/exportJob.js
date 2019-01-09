@@ -11,7 +11,10 @@ const exportJob = asyncMiddleware(async (request, response, next) => {
       throw Boom.badRequest(`Could not find Job Id: ${request.params.id}`);
     }
     let downLoadUrl;
-    console.log("job if doesn't have result:", !job.result && job);
+    console.log(
+      "job if doesn't have result otherwise result:",
+      job.result ? job.result : job
+    );
     console.log("job id:", job.id);
 
     if (job.result && job.state() === "complete") {
