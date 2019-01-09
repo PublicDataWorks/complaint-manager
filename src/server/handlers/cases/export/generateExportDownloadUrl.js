@@ -30,7 +30,6 @@ const generateExportDownloadUrl = async (fileName, userName, audit_subject) => {
       Expires: S3_URL_EXPIRATION
     });
   });
-  console.log("signed url:", signedUrl);
   return signedUrl;
 };
 
