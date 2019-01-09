@@ -8,6 +8,7 @@ import {
   ADDRESS_TO_CONFIRM_UPDATED,
   ADDRESS_VALIDITY_UPDATED,
   ATTACHMENT_UPLOAD_FAILED,
+  CASE_ARCHIVE_DIALOG_CLOSED,
   CASE_CREATED_SUCCESS,
   CASE_NOTE_DIALOG_CLOSED,
   CASE_NOTE_DIALOG_OPENED,
@@ -277,4 +278,8 @@ export const openCaseValidationDialog = errors => ({
 
 export const closeCaseValidationDialog = () => ({
   type: CASE_VALIDATION_DIALOG_CLOSED
+});
+
+export const closeArchiveCaseDialog = () => ({
+  type: CASE_ARCHIVE_DIALOG_CLOSED
 });

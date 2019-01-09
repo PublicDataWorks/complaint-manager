@@ -11,6 +11,7 @@ import getMinimumCaseDetails from "./handlers/cases/getMinimumCaseDetails/getMin
 import getIntakeSources from "./handlers/intake_sources/getIntakeSources";
 import getLetterType from "./handlers/cases/referralLetters/getLetterType/getLetterType";
 import getRaceEthnicities from "./handlers/race_ethnicities/getRaceEthnicities";
+import archiveCase from "./handlers/cases/archiveCase/archiveCase";
 
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
@@ -69,6 +70,7 @@ router.get("/cases/:id/case-history", getCaseHistory);
 router.put("/cases/:id", editCase);
 router.put("/cases/:id/status", changeStatus);
 router.put("/cases/:id/narrative", updateCaseNarrative);
+router.post("/cases/:id/archive", archiveCase);
 
 router.post("/cases/:caseId/cases-officers", addCaseOfficer);
 router.put("/cases/:caseId/cases-officers/:caseOfficerId", editCaseOfficer);
