@@ -34,6 +34,6 @@ const mapDispatchToProps = {
 };
 
 export default connect(
-  undefined,
+  null,
   mapDispatchToProps
 )(CaseDashboard);

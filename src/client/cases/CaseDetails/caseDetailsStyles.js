@@ -25,13 +25,11 @@ const styles = theme => ({
     backgroundColor: "white"
   },
   drawerRow: {
-    marginLeft: "24px",
     display: "flex",
     marginBottom: "8px",
     flexWrap: "wrap"
   },
   drawerRowEnd: {
-    marginLeft: "24px",
     display: "flex",
     marginBottom: "24px",
     flexWrap: "wrap"

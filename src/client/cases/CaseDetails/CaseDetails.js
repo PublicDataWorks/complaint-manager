@@ -173,7 +173,6 @@ CaseDetails.propTypes = {
 
 const mapStateToProps = state => ({
   caseDetail: state.currentCase.details,
-  featureToggles: state.featureToggles,
   letterType: state.referralLetter.letterType
 });
 
