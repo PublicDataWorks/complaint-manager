@@ -46,7 +46,7 @@
     "body-parser": "^1.18.2",
     "boom": "^7.2.0",
     "busboy": "^0.2.14",
-    "connected-react-router": "^6.0.0",
+    "connected-react-router": "^6.1.0",
     "cookie-parser": "^1.4.3",
     "csv-parse": "3.0.0",
     "csv-stringify": "^4.0.1",
