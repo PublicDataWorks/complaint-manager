@@ -875,6 +875,12 @@
   dependencies:
     nan "^2.10.0"
 
+"@newrelic/superagent@^1.0.0":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@newrelic/superagent/-/superagent-1.0.2.tgz#37f424d5390249792233ad1c2fccdb6952033236"
+  dependencies:
+    methods "^1.1.2"
+
 "@nodelib/fs.stat@^1.0.1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.2.tgz#54c5a964462be3d4d78af631363c18d6fa91ac26"
@@ -7428,11 +7434,12 @@ netmask@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/netmask/-/netmask-1.0.6.tgz#20297e89d86f6f6400f250d9f4f6b4c1945fcd35"
 
-newrelic@^4.2.0:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-4.5.1.tgz#3e9eb69d05d19936ce0eb0caf4d87e000fd0608d"
+newrelic@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-5.0.0.tgz#ee5fec07765aa0b2e08b78598fa21eb53812ed9d"
   dependencies:
     "@newrelic/koa" "^1.0.0"
+    "@newrelic/superagent" "^1.0.0"
     "@tyriar/fibonacci-heap" "^2.0.7"
     async "^2.1.4"
     concat-stream "^1.5.0"
