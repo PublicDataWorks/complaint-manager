@@ -10,6 +10,7 @@ import { openCaseNoteDialog } from "../../../actionCreators/casesActionCreators"
 import timezone from "moment-timezone";
 import { TIMEZONE } from "../../../../sharedUtilities/constants";
 import { initialize } from "redux-form";
+import { connect } from "react-redux";
 
 class CaseNotes extends Component {
   componentDidMount() {
@@ -81,4 +82,9 @@ class CaseNotes extends Component {
   }
 }
 
-export default CaseNotes;
+const mapStateToProps = state => ({
+  caseId: state.currentCase.details.id,
+  caseNotes: state.currentCase.caseNotes
+});
+
+export default connect(mapStateToProps)(CaseNotes);

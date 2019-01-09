@@ -4,5 +4,13 @@
     "name": "caseValidationFeature",
     "description": "Toggle to validate case",
     "enabled": false
+  },
+  {
+    "id": "archiveCaseFeature",
+    "name": "archiveCaseFeature",
+    "description": "Toggle to show archive case button",
+    "criteria": {
+      "isPreProd": true
+    }
   }
 ]
