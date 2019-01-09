@@ -6,10 +6,13 @@ import LinkButton from "../../../shared/components/LinkButton";
 import CaseHistoryTable from "./CaseHistoryTable";
 import getCaseHistory from "../../thunks/getCaseHistory";
 import { connect } from "react-redux";
+import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 
 export class CaseHistory extends Component {
   componentDidMount() {
-    this.props.getCaseHistory(this.props.match.params.id);
+    const caseId = this.props.match.params.id;
+    this.props.getCaseHistory(caseId);
+    this.props.getMinimumCaseDetails(caseId);
   }
 
   render() {
@@ -41,6 +44,7 @@ export class CaseHistory extends Component {
 }
 
 const mapDispatchToProps = {
+  getMinimumCaseDetails,
   getCaseHistory
 };
 

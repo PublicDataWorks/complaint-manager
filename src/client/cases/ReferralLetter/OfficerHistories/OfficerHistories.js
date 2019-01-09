@@ -22,11 +22,18 @@ import editOfficerHistory from "../thunks/editOfficerHistory";
 import { push } from "react-router-redux";
 import EditLetterStatusMessage from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
 import getLetterType from "../thunks/getLetterType";
+import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 
 class OfficerHistories extends Component {
   constructor(props) {
     super(props);
     this.state = { selectedTab: 0, caseId: this.props.match.params.id };
+  }
+
+  componentDidMount() {
+    this.props.getReferralLetterData(this.state.caseId);
+    this.props.getLetterType(this.state.caseId);
+    this.props.getMinimumCaseDetails(this.state.caseId);
   }
 
   saveAndReturnToCase = () => {
@@ -64,11 +71,6 @@ class OfficerHistories extends Component {
       _.isEmpty(this.props.letterDetails) ||
       `${this.props.letterDetails.caseId}` !== this.state.caseId
     );
-  }
-
-  componentDidMount() {
-    this.props.dispatch(getReferralLetterData(this.state.caseId));
-    this.props.dispatch(getLetterType(this.state.caseId));
   }
 
   handleTabChange = (event, selectedTab) => {
@@ -224,7 +226,16 @@ const mapStateToProps = state => ({
   caseNumber: state.currentCase.details.caseNumber
 });
 
-export default connect(mapStateToProps)(
+const mapDispatchToProps = {
+  getReferralLetterData,
+  getLetterType,
+  getMinimumCaseDetails
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
   reduxForm({ form: "OfficerHistories", enableReinitialize: true })(
     OfficerHistories
   )

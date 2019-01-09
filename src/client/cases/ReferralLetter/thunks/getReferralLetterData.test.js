@@ -4,7 +4,6 @@ import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
 import getReferralLetterData from "./getReferralLetterData";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
-import { getMinimumCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
 jest.mock("../../../auth/getAccessToken");
@@ -31,21 +30,9 @@ describe("getReferralLetterData", () => {
       .get(`/api/cases/${caseId}/referral-letter`)
       .reply(200, responseBody);
 
-    const minimumCaseDetailsResponse = [
-      { caseNumber: "CC2017-0005", status: "status" }
-    ];
-
-    nock("http://localhost", {})
-      .get(`/api/cases/${caseId}/minimum-case-details`)
-      .reply(200, minimumCaseDetailsResponse);
-
     await getReferralLetterData(caseId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       getReferralLetterSuccess(responseBody)
-    );
-
-    expect(dispatch).toHaveBeenCalledWith(
-      getMinimumCaseDetailsSuccess(minimumCaseDetailsResponse)
     );
   });
 
@@ -85,14 +72,6 @@ describe("getReferralLetterData", () => {
     nock("http://localhost", {})
       .get(`/api/cases/${caseId}/referral-letter`)
       .reply(200, responseBody);
-
-    const minimumCaseDetailsResponse = [
-      { caseNumber: "CC2017-0005", status: "test-status" }
-    ];
-
-    nock("http://localhost", {})
-      .get(`/api/cases/${caseId}/minimum-case-details`)
-      .reply(200, minimumCaseDetailsResponse);
 
     await getReferralLetterData(caseId)(dispatch);
     expect(dispatch).not.toHaveBeenCalledWith(

@@ -27,6 +27,7 @@ import {
 } from "../../../../server/handlers/cases/referralLetters/letterDefaults";
 import EditLetterStatusMessage from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
 import getLetterType from "../thunks/getLetterType";
+import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 
 class RecommendedActions extends Component {
   constructor(props) {
@@ -35,9 +36,10 @@ class RecommendedActions extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getReferralLetterData(this.state.caseId));
-    this.props.dispatch(getLetterType(this.state.caseId));
-    this.props.dispatch(getRecommendedActions());
+    this.props.getReferralLetterData(this.state.caseId);
+    this.props.getMinimumCaseDetails(this.state.caseId);
+    this.props.getLetterType(this.state.caseId);
+    this.props.getRecommendedActions();
   }
 
   referralLetterNotYetLoaded = () => {
@@ -272,7 +274,17 @@ const mapStateToProps = state => ({
   caseNumber: state.currentCase.details.caseNumber
 });
 
-export default connect(mapStateToProps)(
+const mapDispatchToProps = {
+  getReferralLetterData,
+  getMinimumCaseDetails,
+  getLetterType,
+  getRecommendedActions
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
   reduxForm({ form: "RecommendedActions", enableReinitialize: true })(
     RecommendedActions
   )

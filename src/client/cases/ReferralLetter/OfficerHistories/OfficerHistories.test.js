@@ -11,6 +11,7 @@ import editOfficerHistory from "../thunks/editOfficerHistory";
 import { push } from "react-router-redux";
 import getLetterType from "../thunks/getLetterType";
 import getReferralLetterData from "../thunks/getReferralLetterData";
+import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 
 jest.mock("../../../shared/components/RichTextEditor/RichTextEditor");
 jest.mock("../thunks/getReferralLetterData", () => caseId => ({
@@ -19,6 +20,10 @@ jest.mock("../thunks/getReferralLetterData", () => caseId => ({
 }));
 jest.mock("../thunks/getLetterType", () => caseId => ({
   type: "getLetterType",
+  caseId
+}));
+jest.mock("../../thunks/getMinimumCaseDetails", () => caseId => ({
+  type: "getMinimumCaseDetails",
   caseId
 }));
 jest.mock("../thunks/editOfficerHistory", () =>
@@ -66,6 +71,10 @@ describe("OfficerHistories page", function() {
 
     test("loads letter type on mount so message can be displayed", () => {
       expect(dispatchSpy).toHaveBeenCalledWith(getLetterType(caseId));
+    });
+
+    test("loads minimum case details on mount so case number can be displayed", () => {
+      expect(dispatchSpy).toHaveBeenCalledWith(getMinimumCaseDetails(caseId));
     });
 
     test("it renders a tab header for each officer", () => {

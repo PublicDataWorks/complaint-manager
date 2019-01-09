@@ -11,6 +11,7 @@ import React from "react";
 import editRecommendedActions from "../thunks/editRecommendedActions";
 import getLetterType from "../thunks/getLetterType";
 import getReferralLetterData from "../thunks/getReferralLetterData";
+import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 
 jest.mock("../thunks/getReferralLetterData", () => caseId => ({
   type: "getReferralLetterData",
@@ -18,6 +19,10 @@ jest.mock("../thunks/getReferralLetterData", () => caseId => ({
 }));
 jest.mock("../thunks/getLetterType", () => caseId => ({
   type: "getLetterType",
+  caseId
+}));
+jest.mock("../../thunks/getMinimumCaseDetails", () => caseId => ({
+  type: "getMinimumCaseDetails",
   caseId
 }));
 jest.mock(
@@ -75,6 +80,10 @@ describe("recommendedActions", function() {
 
   test("loads letter type on mount so message can be displayed", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(getLetterType(caseId));
+  });
+
+  test("loads minimum case detail on mount so case number can be displayed", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith(getMinimumCaseDetails(caseId));
   });
 
   test("calls editRecommendedActions with case id, form values, and redirect url when click back to case", () => {

@@ -4,7 +4,6 @@ import nock from "nock";
 import getCaseHistory from "./getCaseHistory";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
-import { getMinimumCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken");
@@ -23,19 +22,7 @@ describe("getCaseHistory", () => {
       .get(`/api/cases/${caseId}/case-history`)
       .reply(200, responseBody);
 
-    const minimumCaseDetailsResponse = [
-      { caseNumber: "CC2017-0234", status: "status" }
-    ];
-
-    nock("http://localhost/")
-      .get(`/api/cases/${caseId}/minimum-case-details`)
-      .reply(200, minimumCaseDetailsResponse);
-
     await getCaseHistory(caseId)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(
-      getMinimumCaseDetailsSuccess(minimumCaseDetailsResponse)
-    );
     expect(dispatch).toHaveBeenCalledWith(getCaseHistorySuccess(responseBody));
   });
 
