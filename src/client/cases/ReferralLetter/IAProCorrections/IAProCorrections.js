@@ -20,6 +20,7 @@ import {
 } from "../../../shared/components/StyledButtons";
 import EditLetterStatusMessage from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
 import getLetterType from "../thunks/getLetterType";
+import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 
 class IAProCorrections extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class IAProCorrections extends Component {
   componentDidMount() {
     this.props.getReferralLetterData(this.state.caseId);
     this.props.getLetterType(this.state.caseId);
+    this.props.getMinimumCaseDetails(this.state.caseId);
   }
 
   saveAndReturnToCase = () => {
@@ -206,7 +208,8 @@ class IAProCorrections extends Component {
 const mapDispatchToProps = {
   openRemoveIAProCorrectionDialog,
   getReferralLetterData,
-  getLetterType
+  getLetterType,
+  getMinimumCaseDetails
 };
 
 const mapStateToProps = state => ({
