@@ -57,9 +57,6 @@ import normalizeAddress from "../../../utilities/normalizeAddress";
 import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getRaceEthnicityDropdownValues";
 
 class CivilianDialog extends Component {
-  constructor(props) {
-    super(props);
-  }
   componentDidMount() {
     this.props.getRaceEthnicityDropdownValues();
   }
