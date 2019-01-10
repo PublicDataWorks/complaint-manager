@@ -10,7 +10,6 @@ import getCases from "./thunks/getCases";
 class CaseDashboard extends Component {
   componentDidMount() {
     this.props.getCases();
-    this.props.closeSnackbar();
   }
 
   render() {

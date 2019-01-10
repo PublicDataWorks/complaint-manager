@@ -1,9 +1,9 @@
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models/index");
 
-const archiveCase = asyncMiddleware(async (request, reponce, next) => {
+const archiveCase = asyncMiddleware(async (request, response, next) => {
   await models.sequelize.transaction(async transaction => {
-    const caseId = request.body.case.id;
+    const caseId = request.params.caseId;
 
     await models.cases.destroy({
       where: { id: caseId },
@@ -12,6 +12,8 @@ const archiveCase = asyncMiddleware(async (request, reponce, next) => {
       transaction
     });
   });
+
+  response.status(200).send();
 });
 
 export default archiveCase;

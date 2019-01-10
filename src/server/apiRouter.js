@@ -70,7 +70,7 @@ router.get("/cases/:id/case-history", getCaseHistory);
 router.put("/cases/:id", editCase);
 router.put("/cases/:id/status", changeStatus);
 router.put("/cases/:id/narrative", updateCaseNarrative);
-router.post("/cases/:id/archive", archiveCase);
+router.delete("/cases/:caseId/archive", archiveCase);
 
 router.post("/cases/:caseId/cases-officers", addCaseOfficer);
 router.put("/cases/:caseId/cases-officers/:caseOfficerId", editCaseOfficer);

@@ -110,7 +110,7 @@ describe("snackbarReducer", () => {
 
       expect(newState.open).toBe(true);
       expect(newState.success).toEqual(true);
-      expect(newState.message).toEqual(`Case ${id} was successfully created.`);
+      expect(newState.message).toEqual(`Case was successfully created.`);
     });
 
     test("CASE_CREATION_FAILED", () => {

@@ -17,7 +17,11 @@ const CreateCaseButton = ({ openCreateCaseDialog, open }) => (
   </div>
 );
 
+const mapDispatchToProps = {
+  openCreateCaseDialog
+};
+
 export default connect(
   null,
-  { openCreateCaseDialog }
+  mapDispatchToProps
 )(CreateCaseButton);

@@ -42,6 +42,7 @@ import caseValidationDialogReducer from "./reducers/ui/caseValidationDialogReduc
 import loadPdfPreviewReducer from "./reducers/ui/loadPdfPreviewReducer";
 import intakeSourceReducer from "./reducers/ui/intakeSourceReducer";
 import raceEthnicityReducer from "./reducers/ui/raceEthnicityReducer";
+import archiveCaseDialogReducer from "./reducers/ui/archiveCaseDialogReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -86,7 +87,8 @@ const rootReducer = combineReducers({
     iaProCorrectionsDialog: iaProCorrectionsReducer,
     letterDownload: letterDownloadReducer,
     pdfPreview: loadPdfPreviewReducer,
-    caseValidationDialog: caseValidationDialogReducer
+    caseValidationDialog: caseValidationDialogReducer,
+    archiveCaseDialog: archiveCaseDialogReducer
   }),
   officers: searchOfficersReducer,
   featureToggles: featureTogglesReducer,

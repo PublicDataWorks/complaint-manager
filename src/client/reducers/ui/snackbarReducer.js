@@ -101,7 +101,7 @@ const snackbarReducer = (state = initialState, action) => {
       return {
         open: true,
         success: true,
-        message: `Case ${action.caseDetails.id} was successfully created.`
+        message: `Case was successfully created.`
       };
     case "CASE_CREATION_FAILED":
       return {
