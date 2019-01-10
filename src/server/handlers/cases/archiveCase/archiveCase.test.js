@@ -21,8 +21,8 @@ describe("archiveCase handler", () => {
       headers: {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
-      body: {
-        case: existingCase
+      params: {
+        caseId: existingCase.id
       },
       nickname: user
     });

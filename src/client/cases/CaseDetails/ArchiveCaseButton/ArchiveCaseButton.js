@@ -1,6 +1,8 @@
-import LinkButton from "../../../shared/components/LinkButton";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { openArchiveCaseDialog } from "../../../actionCreators/casesActionCreators";
+import LinkButton from "../../../shared/components/LinkButton";
+import ArchiveCaseDialog from "../ArchiveCaseDialog/ArchiveCaseDialog";
 
 class ArchiveCaseButton extends Component {
   render() {
@@ -8,9 +10,15 @@ class ArchiveCaseButton extends Component {
       return null;
     }
     return (
-      <LinkButton style={{ textAlign: "right", marginBottom: "16px" }}>
-        Archive Case
-      </LinkButton>
+      <div>
+        <LinkButton
+          onClick={this.props.openArchiveCaseDialog}
+          style={{ textAlign: "right", marginBottom: "16px" }}
+        >
+          Archive Case
+        </LinkButton>
+        <ArchiveCaseDialog />
+      </div>
     );
   }
 }
@@ -19,4 +27,11 @@ const mapStateToProps = state => ({
   featureToggles: state.featureToggles
 });
 
-export default connect(mapStateToProps)(ArchiveCaseButton);
+const mapDispatchToProps = {
+  openArchiveCaseDialog
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ArchiveCaseButton);
