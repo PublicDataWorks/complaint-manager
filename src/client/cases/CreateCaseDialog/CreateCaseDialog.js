@@ -12,11 +12,8 @@ import ComplaintTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import moment from "moment";
 import DateField from "../sharedFormComponents/DateField";
 import CivilianComplainantFields from "./CivilianComplainantFields";
-import {
-  CIVILIAN_INITIATED,
-  DEFAULT_INTAKE_SOURCE
-} from "../../../sharedUtilities/constants";
-import { generateMenu, intakeSourceMenu } from "../../utilities/generateMenus";
+import { CIVILIAN_INITIATED } from "../../../sharedUtilities/constants";
+import { generateMenu } from "../../utilities/generateMenus";
 import NoBlurTextField from "../CaseDetails/CivilianDialog/FormSelect";
 import { intakeSourceIsRequired } from "../../formFieldLevelValidations";
 import CreateCaseActions from "./CreateCaseActions";

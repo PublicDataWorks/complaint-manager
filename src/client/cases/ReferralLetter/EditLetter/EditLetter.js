@@ -19,7 +19,6 @@ import { openCancelEditLetterConfirmationDialog } from "../../../actionCreators/
 import CancelEditLetterConfirmationDialog from "./CancelEditLetterConfirmationDialog";
 import editReferralLetterContent from "../thunks/editReferralLetterContent";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
-import EditLetterStatusMessage from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
 
 const RichTextEditorComponent = props => {
   return (
