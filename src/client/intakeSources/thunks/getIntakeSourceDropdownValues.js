@@ -1,5 +1,4 @@
 import axios from "axios";
-import config from "../../config/config";
 import { getIntakeSourcesSuccess } from "../../actionCreators/intakeSourceActionCreators";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 

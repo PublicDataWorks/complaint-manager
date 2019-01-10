@@ -14,10 +14,9 @@ import DateField from "../sharedFormComponents/DateField";
 import CivilianComplainantFields from "./CivilianComplainantFields";
 import {
   CIVILIAN_INITIATED,
-  CREATE_CASE_FORM_NAME,
-  DEFAULT_INTAKE_SOURCE
+  CREATE_CASE_FORM_NAME
 } from "../../../sharedUtilities/constants";
-import { generateMenu, intakeSourceMenu } from "../../utilities/generateMenus";
+import { generateMenu } from "../../utilities/generateMenus";
 import NoBlurTextField from "../CaseDetails/CivilianDialog/FormSelect";
 import { intakeSourceIsRequired } from "../../formFieldLevelValidations";
 import CreateCaseActions from "./CreateCaseActions";
