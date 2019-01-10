@@ -10,6 +10,11 @@ import {
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 import getAccessToken from "../../auth/getAccessToken";
 import RaceEthnicity from "../../testUtilities/raceEthnicity";
+import {
+  startSubmit,
+  stopSubmit,
+} from "redux-form";
+import { CIVILIAN_FORM_NAME } from "../../../sharedUtilities/constants";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 jest.mock("../../actionCreators/casesActionCreators", () => ({
@@ -44,7 +49,9 @@ describe("edit civilian thunk", () => {
 
     await editCivilian(civilian)(dispatch);
 
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(CIVILIAN_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(editCivilianFailed());
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(CIVILIAN_FORM_NAME));
   });
 
   test("should dispatch success when civilian edit was successful", async () => {
@@ -56,8 +63,11 @@ describe("edit civilian thunk", () => {
       .reply(200, responseCivilians);
 
     await editCivilian(civilian)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(CIVILIAN_FORM_NAME));
     expect(editCivilianSuccess).toHaveBeenCalledWith(responseCivilians);
     expect(dispatch).toHaveBeenCalledWith(editCivilianSuccess());
     expect(dispatch).toHaveBeenCalledWith(closeEditDialog());
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(CIVILIAN_FORM_NAME));
   });
 });
