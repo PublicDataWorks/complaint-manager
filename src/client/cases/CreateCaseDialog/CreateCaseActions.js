@@ -56,7 +56,7 @@ export class CreateCaseActions extends React.Component {
     return true;
   };
   render() {
-    const { theme, civilianComplainant, handleSubmit } = this.props;
+    const { theme, civilianComplainant, handleSubmit, disabled } = this.props;
     return (
       <DialogActions
         style={{
@@ -71,6 +71,7 @@ export class CreateCaseActions extends React.Component {
           <CivilianComplainantButtons
             createCaseOnly={handleSubmit(this.createOnly)}
             createAndView={handleSubmit(this.createAndView)}
+            disabled={disabled}
           />
         ) : (
           <OfficerComplainantButtons
@@ -88,16 +89,17 @@ const validate = civilian =>
     "email"
   ]);
 
-const CivilianComplainantButtons = ({ createCaseOnly, createAndView }) => (
+const CivilianComplainantButtons = ({ createCaseOnly, createAndView, disabled }) => (
   <div>
     <LinkButton
       data-test="createCaseOnly"
       onClick={createCaseOnly}
       style={{ marginRight: "10px" }}
+      disabled={disabled}
     >
       Create Only
     </LinkButton>
-    <PrimaryButton data-test="createAndView" onClick={createAndView}>
+    <PrimaryButton data-test="createAndView" onClick={createAndView} disabled={disabled}>
       Create And View
     </PrimaryButton>
   </div>
