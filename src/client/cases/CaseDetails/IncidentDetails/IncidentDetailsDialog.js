@@ -36,6 +36,7 @@ import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getInta
 import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocationInfo";
 import normalizeAddress from "../../../utilities/normalizeAddress";
 import { intakeSourceIsRequired } from "../../../formFieldLevelValidations";
+import {INCIDENT_DETAILS_FORM_NAME} from "../../../../sharedUtilities/constants";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -72,6 +73,7 @@ class IncidentDetailsDialog extends Component {
 
   render() {
     const props = this.props;
+
     return (
       <Dialog
         open={props.dialogOpen}
@@ -216,6 +218,7 @@ class IncidentDetailsDialog extends Component {
           <PrimaryButton
             data-test="saveIncidentDetailsButton"
             onClick={props.handleSubmit(submitIncidentDetails)}
+            disabled={this.props.submitting}
           >
             Save
           </PrimaryButton>
@@ -225,12 +228,12 @@ class IncidentDetailsDialog extends Component {
   }
 }
 
-const connectedForm = reduxForm({ form: "IncidentDetails" })(
+const connectedForm = reduxForm({ form: INCIDENT_DETAILS_FORM_NAME })(
   IncidentDetailsDialog
 );
 
 const mapStateToProps = state => {
-  const selector = formValueSelector("IncidentDetails");
+  const selector = formValueSelector(INCIDENT_DETAILS_FORM_NAME);
   const values = selector(
     state,
     "incidentLocation.streetAddress",
