@@ -11,5 +11,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     { tableName: "intake_sources" }
   );
+
   return IntakeSources;
 };

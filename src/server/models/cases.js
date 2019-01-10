@@ -1,6 +1,7 @@
 import { ADDRESSABLE_TYPE } from "../../sharedUtilities/constants";
 import moment from "moment";
 import _ from "lodash";
+import models from "./index";
 
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
@@ -64,6 +65,14 @@ export default (sequelize, DataTypes) => {
         field: "incident_date",
         type: DataTypes.DATEONLY
       },
+      intakeSourceId: {
+        type: DataTypes.INTEGER,
+        field: "intake_source_id",
+        references: {
+          model: models.intake_source,
+          key: "id"
+        }
+      },
       incidentTime: {
         field: "incident_time",
         type: DataTypes.TIME
@@ -96,7 +105,8 @@ export default (sequelize, DataTypes) => {
       },
       deletedAt: {
         field: "deleted_at",
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        as: "deletedAt"
       }
     },
     {

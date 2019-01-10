@@ -532,13 +532,12 @@ describe("dataChangeAuditHooks", () => {
       });
     });
 
-    //cases can't be deleted as of now, but I'm testing this anyway to make sure delete of associations is covered
-    // since case is the only model that has associations to track as of now.
     describe("delete/destroy", () => {
       let existingCase = null;
       let initialCaseAttributes = {};
       let utdClassification = null;
       let bwcClassification = null;
+      let intakeSource;
 
       beforeEach(async () => {
         const utdClassificationAttributes = new Classification.Builder()
@@ -557,11 +556,20 @@ describe("dataChangeAuditHooks", () => {
         bwcClassification = await models.classification.create(
           bwcClassificationAttributes
         );
+
+        const intakeSourceAttributes = new IntakeSource.Builder()
+          .defaultIntakeSource()
+          .withId(undefined);
+        intakeSource = await models.intake_source.create(
+          intakeSourceAttributes,
+          { auditUser: "test" }
+        );
         initialCaseAttributes = new Case.Builder()
           .defaultCase()
           .withId(undefined)
           .withIncidentLocation(undefined)
-          .withClassificationId(utdClassification.id);
+          .withClassificationId(utdClassification.id)
+          .withIntakeSourceId(intakeSource.id);
         existingCase = await models.cases.create(initialCaseAttributes, {
           auditUser: "someone"
         });
@@ -570,7 +578,10 @@ describe("dataChangeAuditHooks", () => {
       test("should audit destroy including changes including classification association value", async () => {
         await existingCase.destroy({ auditUser: "someone" });
         const audit = await models.data_change_audit.find({
-          where: { modelName: "Case", action: AUDIT_ACTION.DATA_DELETED }
+          where: {
+            modelName: "Case",
+            action: AUDIT_ACTION.DATA_ARCHIVED
+          }
         });
 
         const expectedChanges = {
@@ -586,8 +597,8 @@ describe("dataChangeAuditHooks", () => {
           narrativeDetails: { previous: "test details" },
           narrativeSummary: { previous: "test summary" },
           status: { previous: "Initial" },
-          intakeSourceId: { previous: null },
-          intakeSource: { previous: null },
+          intakeSourceId: { previous: intakeSource.id },
+          intakeSource: { previous: intakeSource.name },
           intake_source: {}
         };
         expect(audit.changes).toEqual(expectedChanges);
