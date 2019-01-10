@@ -249,6 +249,7 @@ const exportCasesQuery = () => {
     " GROUP BY case_id" +
     ") as attachments " +
     " ON attachments.case_id = cases.id " +
+    "where cases.deleted_at IS NULL " +
     "ORDER BY cases.created_at ASC, complainants.created_at ASC, accusedOfficers.created_at ASC, officerAllegations.created_at ASC;";
   return query;
 };

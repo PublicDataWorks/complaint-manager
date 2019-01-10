@@ -7,9 +7,8 @@ describe("exportCasesQuery", () => {
     const fromCount = queryString.match(/from/gi).length;
     const joinCount = queryString.match(/join/gi).length;
     const deletedAtCount = queryString.match(/deleted_at/g).length;
-    const expectedExtraJoinFromCount = 11;
+    const expectedExtraJoinFromCount = 10;
     // Expected from/join occurrences that don't have matching deleted_at occurrences:
-    // (1) cases are never deleted so they don't have deleted_at column
     // (1) attachments are hard deleted as of now, so they don't have deleted_at column
     // (1) allegations are not deleted so they don't have deleted_at column
     // (4) substring function uses the word from
