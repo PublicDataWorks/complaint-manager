@@ -132,7 +132,11 @@ exports.init = sequelize => {
   };
 
   const afterDestroyHook = async (instance, options) => {
-    await createDataChangeAudit(instance, options, AUDIT_ACTION.DATA_DELETED);
+    const auditAction =
+      instance._modelOptions.name.singular === "case"
+        ? AUDIT_ACTION.DATA_ARCHIVED
+        : AUDIT_ACTION.DATA_DELETED;
+    await createDataChangeAudit(instance, options, auditAction);
   };
   const raiseAuditException = (instance, options) => {
     throw Boom.notImplemented(`Audit is not implemented for this function.`);
@@ -265,7 +269,9 @@ exports.init = sequelize => {
   };
 
   const objectChanges = async (action, instance) => {
-    if (action === AUDIT_ACTION.DATA_DELETED)
+    if (
+      [AUDIT_ACTION.DATA_DELETED, AUDIT_ACTION.DATA_ARCHIVED].includes(action)
+    )
       return await deleteObjectChanges(instance);
     return await createOrUpdateObjectChanges(instance);
   };
