@@ -1,5 +1,4 @@
 import axios from "axios";
-import config from "../../config/config";
 import { getRaceEthnicitiesSuccess } from "../../actionCreators/raceEthnicityActionCreators";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 
