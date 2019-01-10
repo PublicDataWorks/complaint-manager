@@ -34,7 +34,7 @@ const ArchiveCaseDialog = ({
           accessible.
         </Typography>
         <Typography>
-          Are you sure you want to <strong>Archive Case</strong>
+          Are you sure you want to <strong>Archive Case</strong>?
         </Typography>
       </DialogContent>
       <DialogActions>
