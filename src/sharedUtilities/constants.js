@@ -143,6 +143,7 @@ export const SNACKBAR_SUCCESS = "SNACKBAR_SUCCESS";
 // ----------------------------------------
 
 export const CIVILIAN_FORM_NAME = "Civilian form";
+export const REMOVE_PERSON_FORM_NAME = "Civilian form";
 export const ALLEGATION_SEARCH_FORM_NAME = "AllegationSearchForm";
 export const OFFICER_SEARCH_FORM_NAME = "OfficerSearchForm";
 

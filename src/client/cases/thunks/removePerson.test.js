@@ -6,6 +6,8 @@ import {
   removePersonSuccess
 } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
+import { startSubmit, stopSubmit } from "redux-form";
+import { REMOVE_PERSON_FORM_NAME} from "../../../sharedUtilities/constants";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -33,9 +35,9 @@ describe("removePerson", () => {
 
     await removePerson(personDetails)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(
-      removePersonFailure(personTypeForDisplay)
-    );
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(REMOVE_PERSON_FORM_NAME));
+    expect(dispatch).toHaveBeenCalledWith(removePersonFailure(personTypeForDisplay));
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(REMOVE_PERSON_FORM_NAME));
   });
 
   test("should dispatch success when civilian removed successfully", async () => {
@@ -50,9 +52,10 @@ describe("removePerson", () => {
       .reply(200, response);
 
     await removePerson(personDetails)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(
-      removePersonSuccess(response, personTypeForDisplay)
-    );
+    
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(REMOVE_PERSON_FORM_NAME));
+    expect(dispatch).toHaveBeenCalledWith(removePersonSuccess(response, personTypeForDisplay));
     expect(dispatch).toHaveBeenCalledWith(closeRemovePersonDialog());
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(REMOVE_PERSON_FORM_NAME));
   });
 });
