@@ -439,6 +439,18 @@ if (TEST_PASS && TEST_USER && HOST) {
       snackbar.presentWithMessage("Status was successfully updated").close();
     },
 
+    "should archive case": browser => {
+      const caseDetails = browser.page.CaseDetails();
+      const snackbar = browser.page.SnackbarPOM();
+      const caseDashboard = browser.page.CaseDashboard();
+
+      caseDetails.archiveCase().confirmArchiveInDialog();
+
+      snackbar.presentWithMessage("Case was successfully archived").close();
+
+      caseDashboard.isOnPage();
+    },
+
     "should log out of the system": browser => {
       const logoutPage = browser.page.Logout();
       const loginPage = browser.page.Login();

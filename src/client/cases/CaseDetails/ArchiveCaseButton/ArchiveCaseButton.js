@@ -14,6 +14,7 @@ class ArchiveCaseButton extends Component {
         <LinkButton
           onClick={this.props.openArchiveCaseDialog}
           style={{ textAlign: "right", marginBottom: "16px" }}
+          data-test="archiveCaseButton"
         >
           Archive Case
         </LinkButton>
