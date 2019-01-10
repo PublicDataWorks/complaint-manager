@@ -39,6 +39,18 @@ const caseDetailsCommands = {
     return this.waitForElementVisible("@updateStatusButton", e2e.rerenderWait)
       .assert.containsText("@updateStatusButton", "MARK AS CLOSED")
       .click("@updateStatusButton");
+  },
+  archiveCase: function() {
+    return this.waitForElementVisible(
+      "@archiveCaseButton",
+      e2e.rerenderWait
+    ).click("@archiveCaseButton");
+  },
+  confirmArchiveInDialog: function() {
+    return this.waitForElementVisible(
+      "@archiveCaseButtonInDialog",
+      e2e.rerenderWait
+    ).click("@archiveCaseButtonInDialog");
   }
 };
 
@@ -63,6 +75,12 @@ module.exports = {
       },
       updateStatusDialogButton: {
         selector: "[data-test='update-case-status-button']"
+      },
+      archiveCaseButton: {
+        selector: "[data-test='archiveCaseButton']"
+      },
+      archiveCaseButtonInDialog: {
+        selector: "[data-test='confirmArchiveCase']"
       }
     },
     attachmentElements,
