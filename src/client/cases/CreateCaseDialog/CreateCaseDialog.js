@@ -14,6 +14,7 @@ import DateField from "../sharedFormComponents/DateField";
 import CivilianComplainantFields from "./CivilianComplainantFields";
 import {
   CIVILIAN_INITIATED,
+  CREATE_CASE_FORM_NAME,
   DEFAULT_INTAKE_SOURCE
 } from "../../../sharedUtilities/constants";
 import { generateMenu, intakeSourceMenu } from "../../utilities/generateMenus";
@@ -28,7 +29,7 @@ class CreateCaseDialog extends React.Component {
   }
 
   render() {
-    const { handleSubmit, complaintType, open } = this.props;
+    const { handleSubmit, complaintType, open, submitting } = this.props;
     const civilianComplainant = complaintType === CIVILIAN_INITIATED;
 
     return (
@@ -61,6 +62,7 @@ class CreateCaseDialog extends React.Component {
         <CreateCaseActions
           civilianComplainant={civilianComplainant}
           handleSubmit={handleSubmit}
+          disabled={submitting}
         />
       </Dialog>
     );
@@ -119,7 +121,7 @@ const mapStateToProps = state => ({
 const ConnectedDialog = connect(mapStateToProps)(CreateCaseDialog);
 
 export default reduxForm({
-  form: "CreateCase",
+  form: CREATE_CASE_FORM_NAME,
   initialValues: {
     case: {
       complaintType: CIVILIAN_INITIATED,
