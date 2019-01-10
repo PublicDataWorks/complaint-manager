@@ -13,13 +13,16 @@ import {
 } from "../../shared/components/StyledButtons";
 import { closeRemovePersonDialog } from "../../actionCreators/casesActionCreators";
 import removePerson from "../thunks/removePerson";
+import { reduxForm } from "redux-form";
+import { REMOVE_PERSON_FORM_NAME } from "../../../sharedUtilities/constants";
 
 const RemovePersonDialog = ({
   open,
   personDetails,
   dispatch,
   personTypeTitleDisplay,
-  optionalText
+  optionalText,
+  submitting
 }) => (
   <Dialog open={open}>
     <DialogTitle data-test="removePersonDialogTitle">
@@ -42,6 +45,7 @@ const RemovePersonDialog = ({
       <PrimaryButton
         data-test="removeButton"
         onClick={() => dispatch(removePerson(personDetails))}
+        disabled={submitting}
       >
         Remove
       </PrimaryButton>
@@ -55,4 +59,8 @@ const mapStateToProps = state => ({
   optionalText: state.ui.removePersonDialog.optionalText
 });
 
-export default connect(mapStateToProps)(RemovePersonDialog);
+const connectedForm = reduxForm({
+  form: REMOVE_PERSON_FORM_NAME
+})(RemovePersonDialog);
+
+export default connect(mapStateToProps)(connectedForm);
