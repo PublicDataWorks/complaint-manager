@@ -1,9 +1,14 @@
 import { push } from "react-router-redux";
 import axios from "axios/index";
 import {
+  startSubmit,
+  stopSubmit,
+} from 'redux-form';
+import {
   snackbarError,
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
+import { UPDATE_CASE_STATUS_FORM_NAME } from "../../../../sharedUtilities/constants";
 
 const editReferralLetterAddresses = (
   caseId,
@@ -13,6 +18,7 @@ const editReferralLetterAddresses = (
   alternativeFailureCallback
 ) => async dispatch => {
   try {
+    dispatch(startSubmit(UPDATE_CASE_STATUS_FORM_NAME));
     await axios.put(
       `api/cases/${caseId}/referral-letter/addresses`,
       addressData
@@ -23,7 +29,9 @@ const editReferralLetterAddresses = (
       dispatch(push(redirectUrl));
     }
     dispatch(snackbarSuccess("Letter was successfully updated"));
+    dispatch(stopSubmit(UPDATE_CASE_STATUS_FORM_NAME));
   } catch (error) {
+    dispatch(stopSubmit(UPDATE_CASE_STATUS_FORM_NAME));
     if (alternativeFailureCallback) {
       alternativeFailureCallback();
     }

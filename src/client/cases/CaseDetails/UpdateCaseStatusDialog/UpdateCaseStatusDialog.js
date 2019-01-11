@@ -13,7 +13,8 @@ import {
 import { connect } from "react-redux";
 import setCaseStatus from "../../thunks/setCaseStatus";
 import { closeCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
-import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import { CASE_STATUS, UPDATE_CASE_STATUS_FORM_NAME } from "../../../../sharedUtilities/constants";
+import { reduxForm } from "redux-form";
 
 const STATUS_DESCRIPTION = {
   [CASE_STATUS.LETTER_IN_PROGRESS]:
@@ -34,7 +35,8 @@ const UpdateCaseStatusDialog = ({
   alternativeAction,
   setCaseStatus,
   closeCaseStatusUpdateDialog,
-  doNotCallUpdateStatusCallback = false
+  doNotCallUpdateStatusCallback = false,
+  submitting,
 }) => {
   const actionText =
     nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
@@ -87,6 +89,7 @@ const UpdateCaseStatusDialog = ({
         <PrimaryButton
           data-test="update-case-status-button"
           onClick={updateCaseStatusAction}
+          disabled={submitting}
         >
           {nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
             ? `Begin Letter`
@@ -109,7 +112,11 @@ const mapStateToProps = state => ({
   caseId: state.currentCase.details.id
 });
 
+const connectedForm = reduxForm({
+  form: UPDATE_CASE_STATUS_FORM_NAME,
+})(UpdateCaseStatusDialog);
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UpdateCaseStatusDialog);
+)(connectedForm);

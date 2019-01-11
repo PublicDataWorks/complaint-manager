@@ -4,9 +4,14 @@ import {
   snackbarError,
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
+import {
+  startSubmit,
+  stopSubmit,
+} from 'redux-form';
 import nock from "nock";
 import getAccessToken from "../../../auth/getAccessToken";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
+import {UPDATE_CASE_STATUS_FORM_NAME} from "../../../../sharedUtilities/constants";
 
 jest.mock("../../../auth/getAccessToken");
 
@@ -35,10 +40,10 @@ describe("editReferralLetterAddresses", () => {
       dispatch
     );
 
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(UPDATE_CASE_STATUS_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(push(redirectUrl));
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Letter was successfully updated")
-    );
+    expect(dispatch).toHaveBeenCalledWith(snackbarSuccess("Letter was successfully updated"));
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(UPDATE_CASE_STATUS_FORM_NAME));
   });
 
   test("calls alternative callback if given and shows success on success", async () => {
@@ -59,10 +64,10 @@ describe("editReferralLetterAddresses", () => {
       alternativeSuccessCallback
     )(dispatch);
 
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(UPDATE_CASE_STATUS_FORM_NAME));
     expect(alternativeSuccessCallback).toHaveBeenCalled();
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Letter was successfully updated")
-    );
+    expect(dispatch).toHaveBeenCalledWith(snackbarSuccess("Letter was successfully updated"));
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(UPDATE_CASE_STATUS_FORM_NAME));
   });
 
   test("dispatches alternative error on error if given", async () => {
@@ -84,12 +89,15 @@ describe("editReferralLetterAddresses", () => {
       alternativeSuccessCallback,
       alternativeFailureCallback
     )(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(UPDATE_CASE_STATUS_FORM_NAME));
     expect(alternativeFailureCallback).toHaveBeenCalled();
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
         "Something went wrong and the letter was not updated. Please try again."
       )
     );
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(UPDATE_CASE_STATUS_FORM_NAME));
   });
 
   test("dispatches error if error", async () => {
@@ -106,10 +114,12 @@ describe("editReferralLetterAddresses", () => {
       dispatch
     );
 
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(UPDATE_CASE_STATUS_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
         "Something went wrong and the letter was not updated. Please try again."
       )
     );
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(UPDATE_CASE_STATUS_FORM_NAME));
   });
 });

@@ -3,6 +3,7 @@ import setCaseStatus from "./setCaseStatus";
 import nock from "nock";
 import {
   CASE_STATUS,
+  UPDATE_CASE_STATUS_FORM_NAME,
   VALIDATION_ERROR_HEADER
 } from "../../../sharedUtilities/constants";
 import {
@@ -16,6 +17,7 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import Boom from "boom";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
+import { startSubmit, stopSubmit } from "redux-form";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -38,11 +40,13 @@ describe("setCaseStatus", () => {
 
     await setCaseStatus(4, "status")(dispatch);
 
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(UPDATE_CASE_STATUS_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
         "Something went wrong and the case status was not updated. Please try again."
       )
     );
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(UPDATE_CASE_STATUS_FORM_NAME));
   });
 
   test("should dispatch open validation error modal when validation errors exist and when 400 code", async () => {
@@ -84,13 +88,11 @@ describe("setCaseStatus", () => {
 
     await setCaseStatus(updateDetails.id, updateDetails.status)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(
-      updateCaseStatusSuccess(responseBody)
-    );
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Status was successfully updated")
-    );
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(UPDATE_CASE_STATUS_FORM_NAME));
+    expect(dispatch).toHaveBeenCalledWith(updateCaseStatusSuccess(responseBody));
+    expect(dispatch).toHaveBeenCalledWith(snackbarSuccess("Status was successfully updated"));
     expect(dispatch).toHaveBeenCalledWith(closeCaseStatusUpdateDialog());
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(UPDATE_CASE_STATUS_FORM_NAME));
   });
 
   test("should redirect to redirect url on success if given", async () => {

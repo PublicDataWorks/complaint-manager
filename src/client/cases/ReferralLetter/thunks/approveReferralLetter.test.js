@@ -7,6 +7,8 @@ import {
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
+import { startSubmit, stopSubmit } from "redux-form";
+import { UPDATE_CASE_STATUS_FORM_NAME } from "../../../../sharedUtilities/constants";
 
 jest.mock("../../../auth/getAccessToken");
 
@@ -34,8 +36,11 @@ describe("approve referral letter", () => {
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Status was successfully updated")
     );
+
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(UPDATE_CASE_STATUS_FORM_NAME));
     expect(mockCallback).toHaveBeenCalled();
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(UPDATE_CASE_STATUS_FORM_NAME));
   });
 
   test("dispatches failure on 500 error response", async () => {
@@ -51,11 +56,13 @@ describe("approve referral letter", () => {
 
     await approveReferralLetter(caseId, mockCallback)(dispatch);
     expect(mockCallback).toHaveBeenCalled();
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(UPDATE_CASE_STATUS_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(
       snackbarError(
         "Something went wrong and the case status was not updated. Please try again."
       )
     );
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(UPDATE_CASE_STATUS_FORM_NAME));
   });
 
   test("dispatches failure on 400 error response", async () => {
@@ -70,9 +77,10 @@ describe("approve referral letter", () => {
       .reply(400, { message: "Invalid case status" });
 
     await approveReferralLetter(caseId, mockCallback)(dispatch);
+
     expect(mockCallback).toHaveBeenCalled();
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError("Case status could not be updated due to invalid status")
-    );
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(UPDATE_CASE_STATUS_FORM_NAME));
+    expect(dispatch).toHaveBeenCalledWith(snackbarError("Case status could not be updated due to invalid status"));
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(UPDATE_CASE_STATUS_FORM_NAME));
   });
 });
