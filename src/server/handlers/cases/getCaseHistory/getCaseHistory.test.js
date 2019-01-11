@@ -25,7 +25,7 @@ describe("getCaseHistory", () => {
       headers: {
         authorization: "Bearer token"
       },
-      params: { id: caseId },
+      params: { caseId: caseId },
       nickname: "nickname"
     });
     response = httpMocks.createResponse();

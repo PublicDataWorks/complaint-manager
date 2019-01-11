@@ -42,7 +42,7 @@ describe("createCaseNote", function() {
       },
       body: { action: "some action", actionTakenAt: moment() },
       params: {
-        id: createdCase.id
+        caseId: createdCase.id
       },
       nickname: "TEST_USER_NICKNAME"
     });
@@ -76,7 +76,7 @@ describe("createCaseNote", function() {
       },
       body: { action: "some action", actionTakenAt: moment() },
       params: {
-        id: createdCase.id
+        caseId: createdCase.id
       },
       nickname: "TEST_USER_NICKNAME"
     });

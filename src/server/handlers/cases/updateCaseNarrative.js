@@ -6,7 +6,7 @@ const auditDataAccess = require("../auditDataAccess");
 
 const updateCaseNarrative = asyncMiddleware(async (request, response) => {
   const updatedCase = await models.sequelize.transaction(async transaction => {
-    const caseId = request.params.id;
+    const caseId = request.params.caseId;
 
     await models.cases.update(
       {

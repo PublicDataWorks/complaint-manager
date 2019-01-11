@@ -35,7 +35,7 @@ describe("changeStatus", async () => {
     const request = httpMocks.createRequest({
       method: "PUT",
       params: {
-        id: initialCase.id
+        caseId: initialCase.id
       },
       body: {
         status: newStatus
@@ -53,7 +53,7 @@ describe("changeStatus", async () => {
     const request = httpMocks.createRequest({
       method: "PUT",
       params: {
-        id: initialCase.id
+        caseId: initialCase.id
       },
       body: {
         status: "BLAH"
@@ -76,7 +76,7 @@ describe("changeStatus", async () => {
     const request = httpMocks.createRequest({
       method: "PUT",
       params: {
-        id: initialCase.id
+        caseId: initialCase.id
       },
       body: {
         status: CASE_STATUS.LETTER_IN_PROGRESS
@@ -99,7 +99,7 @@ describe("changeStatus", async () => {
     const request = httpMocks.createRequest({
       method: "PUT",
       params: {
-        id: initialCase.id
+        caseId: initialCase.id
       },
       body: {
         status: CASE_STATUS.ACTIVE
@@ -122,7 +122,7 @@ describe("changeStatus", async () => {
     const request = httpMocks.createRequest({
       method: "PUT",
       params: {
-        id: initialCase.id
+        caseId: initialCase.id
       },
       body: {
         status: CASE_STATUS.LETTER_IN_PROGRESS
@@ -146,7 +146,7 @@ describe("changeStatus", async () => {
     const request = httpMocks.createRequest({
       method: "PUT",
       params: {
-        id: initialCase.id + 5
+        caseId: initialCase.id + 5
       },
       body: {
         status: CASE_STATUS.ACTIVE
@@ -167,7 +167,7 @@ describe("changeStatus", async () => {
     const request = httpMocks.createRequest({
       method: "PUT",
       params: {
-        id: initialCase.id
+        caseId: initialCase.id
       },
       body: {
         status: newStatus
@@ -247,7 +247,7 @@ describe("changeStatus", async () => {
       const request = httpMocks.createRequest({
         method: "PUT",
         params: {
-          id: initialCase.id
+          caseId: initialCase.id
         },
         body: {
           status: CASE_STATUS.LETTER_IN_PROGRESS
@@ -276,7 +276,7 @@ describe("changeStatus", async () => {
       const request = httpMocks.createRequest({
         method: "PUT",
         params: {
-          id: initialCase.id
+          caseId: initialCase.id
         },
         body: {
           status: CASE_STATUS.ACTIVE
@@ -320,7 +320,7 @@ describe("changeStatus", async () => {
       const request = httpMocks.createRequest({
         method: "PUT",
         params: {
-          id: initialCase.id
+          caseId: initialCase.id
         },
         body: {
           status: CASE_STATUS.FORWARDED_TO_AGENCY
@@ -357,7 +357,7 @@ describe("changeStatus", async () => {
       const request = httpMocks.createRequest({
         method: "PUT",
         params: {
-          id: initialCase.id
+          caseId: initialCase.id
         },
         body: {
           status: CASE_STATUS.CLOSED
@@ -377,7 +377,7 @@ describe("changeStatus", async () => {
       const request = httpMocks.createRequest({
         method: "PUT",
         params: {
-          id: initialCase.id
+          caseId: initialCase.id
         },
         body: {
           status: CASE_STATUS.FORWARDED_TO_AGENCY
@@ -429,7 +429,7 @@ describe("changeStatus", async () => {
       const request = httpMocks.createRequest({
         method: "PUT",
         params: {
-          id: initialCase.id
+          caseId: initialCase.id
         },
         body: {
           status: CASE_STATUS.CLOSED

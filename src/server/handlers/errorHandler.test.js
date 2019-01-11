@@ -1,3 +1,5 @@
+import ROUTES from "../../sharedUtilities/errorMessageConstants";
+
 const errorHandler = require("./errorHandler");
 const httpMocks = require("node-mocks-http");
 const Boom = require("boom");
@@ -23,7 +25,13 @@ describe("errorHandler", () => {
     );
   });
   test("should mask 500 error response", () => {
-    const request = httpMocks.createRequest();
+    const path = "/cases/:caseId";
+    const request = httpMocks.createRequest({
+      route: {
+        path: "/cases/:caseId",
+        methods: { get: true }
+      }
+    });
     const response = httpMocks.createResponse();
 
     errorHandler(
@@ -37,7 +45,7 @@ describe("errorHandler", () => {
       JSON.stringify({
         statusCode: 500,
         error: "Internal Server Error",
-        message: "Something went wrong!"
+        message: ROUTES[path]["get"]
       })
     );
   });

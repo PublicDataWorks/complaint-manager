@@ -55,14 +55,14 @@ const editCase = asyncMiddleware(async (request, response, next) => {
 
         if (request.body.incidentLocation) {
           await upsertAddress(
-            request.params.id,
+            request.params.caseId,
             request.body.incidentLocation,
             transaction,
             request.nickname
           );
         }
 
-        const caseToUpdate = await models.cases.findById(request.params.id);
+        const caseToUpdate = await models.cases.findById(request.params.caseId);
         await caseToUpdate.update(valuesToUpdate, {
           individualHooks: true,
           transaction,
@@ -72,12 +72,15 @@ const editCase = asyncMiddleware(async (request, response, next) => {
 
         await auditDataAccess(
           request.nickname,
-          request.params.id,
+          request.params.caseId,
           AUDIT_SUBJECT.CASE_DETAILS,
           transaction
         );
 
-        return await getCaseWithAllAssociations(request.params.id, transaction);
+        return await getCaseWithAllAssociations(
+          request.params.caseId,
+          transaction
+        );
       }
     );
     response.status(200).send(updatedCase);

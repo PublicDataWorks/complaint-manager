@@ -33,7 +33,7 @@ describe("updateCaseNarrative handler", () => {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       params: {
-        id: existingCase.id
+        caseId: existingCase.id
       },
       body: {
         narrativeSummary: "So much summary",

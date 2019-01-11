@@ -35,7 +35,7 @@ describe("getCase", () => {
       headers: {
         authorization: "Bearer token"
       },
-      params: { id: existingCase.id },
+      params: { caseId: existingCase.id },
       nickname: "nickname"
     });
 
@@ -66,7 +66,7 @@ describe("getCase", () => {
       headers: {
         authorization: "Bearer token"
       },
-      params: { id: existingCase.id },
+      params: { caseId: existingCase.id },
       nickname: "nickname"
     });
 
@@ -86,7 +86,7 @@ describe("getCase", () => {
       headers: {
         authorization: "Bearer token"
       },
-      params: { id: invalidId },
+      params: { caseId: invalidId },
       nickname: "nickname"
     });
 
