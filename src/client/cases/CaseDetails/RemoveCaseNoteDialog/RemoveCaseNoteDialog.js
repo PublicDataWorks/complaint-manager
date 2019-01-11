@@ -14,8 +14,15 @@ import {
 import removeCaseNote from "../../thunks/removeCaseNote";
 import { closeRemoveCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
 import moment from "moment";
+import { reduxForm } from "redux-form";
+import { REMOVE_CASE_NOTE_FORM_NAME } from "../../../../sharedUtilities/constants";
 
-const RemoveCaseNoteDialog = ({ dialogOpen, activity, dispatch }) => {
+const RemoveCaseNoteDialog = ({
+  dialogOpen,
+  activity,
+  dispatch,
+  submitting
+}) => {
   return (
     <Dialog open={dialogOpen} fullWidth={true}>
       <DialogTitle>Remove Case Note</DialogTitle>
@@ -60,6 +67,7 @@ const RemoveCaseNoteDialog = ({ dialogOpen, activity, dispatch }) => {
         <PrimaryButton
           data-test="removeCaseNote"
           onClick={() => dispatch(removeCaseNote(activity.caseId, activity.id))}
+          disabled={submitting}
         >
           Remove
         </PrimaryButton>
@@ -73,4 +81,8 @@ const mapStateToProps = state => ({
   activity: state.ui.removeCaseNoteDialog.activity
 });
 
-export default connect(mapStateToProps)(RemoveCaseNoteDialog);
+const connectedForm = reduxForm({
+  form: REMOVE_CASE_NOTE_FORM_NAME
+})(RemoveCaseNoteDialog);
+
+export default connect(mapStateToProps)(connectedForm);
