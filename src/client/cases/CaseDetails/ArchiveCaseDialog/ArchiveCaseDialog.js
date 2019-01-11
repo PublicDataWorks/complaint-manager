@@ -7,18 +7,21 @@ import {
   Typography
 } from "@material-ui/core";
 import { connect } from "react-redux";
+import { reduxForm } from "redux-form";
 import { closeArchiveCaseDialog } from "../../../actionCreators/casesActionCreators";
 import archiveCase from "../../thunks/archiveCase";
 import {
   PrimaryButton,
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
+import { ARCHIVE_CASE_FORM_NAME } from "../../../../sharedUtilities/constants";
 
 const ArchiveCaseDialog = ({
   dialogOpen,
   caseId,
   closeArchiveCaseDialog,
-  archiveCase
+  archiveCase,
+  submitting,
 }) => {
   return (
     <Dialog open={dialogOpen} fullWidth={true}>
@@ -49,6 +52,7 @@ const ArchiveCaseDialog = ({
           onClick={() => {
             archiveCase(caseId);
           }}
+          disabled={submitting}
         >
           Archive Case
         </PrimaryButton>
@@ -67,7 +71,11 @@ const mapDispatchToProps = {
   archiveCase
 };
 
+const connectedForm = reduxForm({
+  form: ARCHIVE_CASE_FORM_NAME
+})(ArchiveCaseDialog);
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ArchiveCaseDialog);
+)(connectedForm);
