@@ -8,13 +8,13 @@ const getCase = asyncMiddleware(async (req, res) => {
   const singleCase = await models.sequelize.transaction(async transaction => {
     await auditDataAccess(
       req.nickname,
-      req.params.id,
+      req.params.caseId,
       AUDIT_SUBJECT.CASE_DETAILS,
       transaction
     );
 
     const caseWithAssociations = await getCaseWithAllAssociations(
-      req.params.id,
+      req.params.caseId,
       transaction
     );
     return caseWithAssociations;

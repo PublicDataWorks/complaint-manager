@@ -42,7 +42,7 @@ describe("getMinimumCaseDetails", () => {
         authorization: "Bearer token"
       },
       params: {
-        id: existingCase.id
+        caseId: existingCase.id
       },
       nickname: "nickname"
     });

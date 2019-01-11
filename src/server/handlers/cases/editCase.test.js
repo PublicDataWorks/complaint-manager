@@ -46,7 +46,7 @@ describe("Edit Case", () => {
         headers: {
           authorization: "Bearer SOME_MOCK_TOKEN"
         },
-        params: { id: existingCase.id },
+        params: { caseId: existingCase.id },
         body: valuesToUpdate,
         nickname: "TEST_USER_NICKNAME"
       });
@@ -134,7 +134,7 @@ describe("Edit Case", () => {
         headers: {
           authorization: "Bearer SOME_MOCK_TOKEN"
         },
-        params: { id: existingCase.id },
+        params: { caseId: existingCase.id },
         body: valuesToUpdate,
         nickname: "TEST_USER_NICKNAME"
       });
@@ -199,7 +199,7 @@ describe("Edit Case", () => {
         headers: {
           authorization: "Bearer SOME_MOCK_TOKEN"
         },
-        params: { id: existingCase.id },
+        params: { caseId: existingCase.id },
         body: valuesToUpdate,
         nickname: "TEST_USER_NICKNAME"
       });
@@ -217,7 +217,7 @@ describe("Edit Case", () => {
         headers: {
           authorization: "Bearer SOME_MOCK_TOKEN"
         },
-        params: { id: existingCase.id },
+        params: { caseId: existingCase.id },
         body: {
           incidentLocation: { city: "New City" },
           incidentDateNew: "2018-03-16"
@@ -250,7 +250,7 @@ describe("Edit Case", () => {
         headers: {
           authorization: "Bearer SOME_MOCK_TOKEN"
         },
-        params: { id: existingCase.id },
+        params: { caseId: existingCase.id },
         body: {
           firstContactDate: "",
           incidentLocation: { city: "New City" },
@@ -288,7 +288,7 @@ describe("Edit Case", () => {
         headers: {
           authorization: "Bearer SOME_MOCK_TOKEN"
         },
-        params: { id: existingCase.id },
+        params: { caseId: existingCase.id },
         body: {
           firstContactDate: "2018-04-01",
           incidentTime: "17:42",
@@ -321,7 +321,7 @@ describe("Edit Case", () => {
         headers: {
           authorization: "Bearer SOME_MOCK_TOKEN"
         },
-        params: { id: existingCase.id },
+        params: { caseId: existingCase.id },
         body: valuesToUpdate,
         nickname: "TEST_USER_NICKNAME"
       });

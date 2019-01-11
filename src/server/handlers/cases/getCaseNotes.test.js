@@ -28,7 +28,7 @@ describe("getCaseNotes", function() {
       headers: {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
-      params: { id: existingCase.id },
+      params: { caseId: existingCase.id },
       nickname: "tuser"
     });
 

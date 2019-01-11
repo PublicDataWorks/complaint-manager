@@ -56,21 +56,21 @@ router.use(verifyUserInfo);
 router.use(authErrorHandler);
 
 //Any routes defined below this point will require authentication
-router.get("/export/job/:id", exportJob);
+router.get("/export/job/:jobId", exportJob);
 router.get("/export/schedule/:operation", scheduleExport);
 router.post("/cases", createCase);
 router.get("/cases", getCases);
-router.get("/cases/:id/minimum-case-details", getMinimumCaseDetails);
-router.get("/cases/:id", getCase);
-router.get("/cases/:id/case-notes", getCaseNotes);
-router.post("/cases/:id/case-notes", createCaseNote);
+router.get("/cases/:caseId/minimum-case-details", getMinimumCaseDetails);
+router.get("/cases/:caseId", getCase);
+router.delete("/cases/:caseId", archiveCase);
+router.get("/cases/:caseId/case-notes", getCaseNotes);
+router.post("/cases/:caseId/case-notes", createCaseNote);
 router.put("/cases/:caseId/case-notes/:caseNoteId", editCaseNote);
 router.delete("/cases/:caseId/case-notes/:caseNoteId", removeCaseNote);
-router.get("/cases/:id/case-history", getCaseHistory);
-router.put("/cases/:id", editCase);
-router.put("/cases/:id/status", changeStatus);
-router.put("/cases/:id/narrative", updateCaseNarrative);
-router.delete("/cases/:caseId/archive", archiveCase);
+router.get("/cases/:caseId/case-history", getCaseHistory);
+router.put("/cases/:caseId", editCase);
+router.put("/cases/:caseId/status", changeStatus);
+router.put("/cases/:caseId/narrative", updateCaseNarrative);
 
 router.post("/cases/:caseId/cases-officers", addCaseOfficer);
 router.put("/cases/:caseId/cases-officers/:caseOfficerId", editCaseOfficer);

@@ -8,7 +8,7 @@ import {
 
 const getMinimumCaseDetails = asyncMiddleware(
   async (request, response, next) => {
-    const caseId = request.params.id;
+    const caseId = request.params.caseId;
     const minimumCaseDetails = await models.sequelize.transaction(
       async transaction => {
         await auditDataAccess(

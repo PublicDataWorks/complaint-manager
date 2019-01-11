@@ -5,9 +5,9 @@ const Boom = require("boom");
 const { JOB_OPERATION } = require("../../../../sharedUtilities/constants");
 
 const exportJob = asyncMiddleware(async (request, response, next) => {
-  kue.Job.get(request.params.id, async (err, job) => {
+  kue.Job.get(request.params.jobId, async (err, job) => {
     if (err) {
-      throw Boom.badRequest(`Could not find Job Id: ${request.params.id}`);
+      throw Boom.badRequest(`Could not find Job Id: ${request.params.jobId}`);
     }
     let downLoadUrl;
 

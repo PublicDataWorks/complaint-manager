@@ -10,7 +10,7 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
       {
         ...request.body,
         user: request.nickname,
-        caseId: request.params.id
+        caseId: request.params.caseId
       },
       {
         transaction,
@@ -20,27 +20,27 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
 
     await auditDataAccess(
       request.nickname,
-      request.params.id,
+      request.params.caseId,
       AUDIT_SUBJECT.CASE_NOTES,
       transaction
     );
 
     await auditDataAccess(
       request.nickname,
-      request.params.id,
+      request.params.caseId,
       AUDIT_SUBJECT.CASE_DETAILS,
       transaction
     );
 
     const caseNotes = await models.case_note.findAll({
       where: {
-        caseId: request.params.id
+        caseId: request.params.caseId
       },
       transaction
     });
 
     const caseDetails = await getCaseWithAllAssociations(
-      request.params.id,
+      request.params.caseId,
       transaction
     );
     return { caseNotes, caseDetails };

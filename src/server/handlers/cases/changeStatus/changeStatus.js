@@ -41,9 +41,9 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
   const currentCase = await models.sequelize.transaction(async transaction => {
     let validationErrors = [];
 
-    const caseToUpdate = await models.cases.findById(request.params.id);
+    const caseToUpdate = await models.cases.findById(request.params.caseId);
     if (!caseToUpdate) {
-      throw Boom.badRequest(`Case #${request.params.id} doesn't exist`);
+      throw Boom.badRequest(`Case #${request.params.caseId} doesn't exist`);
     }
 
     if (!canUpdateCaseToNewStatus(newStatus, request.permissions)) {
@@ -69,7 +69,7 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
 
     await auditDataAccess(
       request.nickname,
-      request.params.id,
+      request.params.caseId,
       AUDIT_SUBJECT.CASE_DETAILS,
       transaction
     );
