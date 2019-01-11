@@ -151,6 +151,7 @@ export const INCIDENT_DETAILS_FORM_NAME = "IncidentDetails";
 export const REMOVE_PERSON_FORM_NAME = "Civilian form";
 export const ALLEGATION_SEARCH_FORM_NAME = "AllegationSearchForm";
 export const OFFICER_SEARCH_FORM_NAME = "OfficerSearchForm";
+export const CASE_NOTE_FORM_NAME = "CaseNotes";
 
 // ----------------------------------------
 //          Auth0 Scopes / Permissions
