@@ -1,6 +1,7 @@
 import removeCaseNote from "./removeCaseNote";
 import nock from "nock";
 import { push } from "react-router-redux";
+import { startSubmit, stopSubmit } from "redux-form";
 import getAccessToken from "../../auth/getAccessToken";
 import {
   closeRemoveCaseNoteDialog,
@@ -8,6 +9,7 @@ import {
   removeCaseNoteSuccess
 } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
+import { REMOVE_CASE_NOTE_FORM_NAME } from "../../../sharedUtilities/constants";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -31,8 +33,14 @@ describe("removeCaseNote", () => {
 
     await removeCaseNote(caseId, caseNoteId)(dispatch);
 
+    expect(dispatch).toHaveBeenCalledWith(
+      startSubmit(REMOVE_CASE_NOTE_FORM_NAME)
+    );
     expect(dispatch).toHaveBeenCalledWith(removeCaseNoteSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(closeRemoveCaseNoteDialog());
+    expect(dispatch).toHaveBeenCalledWith(
+      stopSubmit(REMOVE_CASE_NOTE_FORM_NAME)
+    );
   });
 
   test("should dispatch failure when remove case note fails", async () => {
@@ -52,7 +60,13 @@ describe("removeCaseNote", () => {
 
     await removeCaseNote(caseId, caseNoteId)(dispatch);
 
+    expect(dispatch).toHaveBeenCalledWith(
+      startSubmit(REMOVE_CASE_NOTE_FORM_NAME)
+    );
     expect(dispatch).toHaveBeenCalledWith(removeCaseNoteFailure());
+    expect(dispatch).toHaveBeenCalledWith(
+      stopSubmit(REMOVE_CASE_NOTE_FORM_NAME)
+    );
   });
 
   test("should redirect immediately if token missing", async () => {
