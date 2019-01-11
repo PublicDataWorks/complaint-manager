@@ -78,7 +78,8 @@ app.use(featureToggleRouter);
 app.use(
   expressWinston.logger({
     winstonInstance: winston,
-    requestWhitelist: ["url", "method", "body", "originalUrl", "query"], //hide request headers
+    requestWhitelist: ["url", "method", "body", "originalUrl", "query"], //hide request headers that have auth token
+    //all request whitelist options are ['url', 'headers', 'method', 'httpVersion', 'originalUrl', 'query', 'body']
     bodyBlacklist: ""
   })
 );
@@ -93,7 +94,7 @@ app.use(
   expressWinston.errorLogger({
     winstonInstance: winston,
     baseMeta: { trace: "See stack", memoryUsage: "" },
-    requestWhitelist: ["url", "method", "originalUrl", "query"] //hide request headers and body
+    requestWhitelist: ["url", "method", "originalUrl", "query"] //hide request headers and body for brevity
   })
 );
 
