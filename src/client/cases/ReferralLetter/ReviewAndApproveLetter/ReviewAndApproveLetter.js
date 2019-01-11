@@ -125,7 +125,7 @@ class ReviewAndApproveLetter extends Component {
       <div data-test="review-and-approve-letter">
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${this.props.caseNumber}   : Letter Generation`}
+            {`Case #${this.props.caseReference}   : Letter Generation`}
           </Typography>
         </NavBar>
 
@@ -213,7 +213,7 @@ const mapStateToProps = state => ({
   finalFilename: state.referralLetter.finalFilename,
   letterPdf: state.referralLetter.letterPdf,
   downloadInProgress: state.ui.letterDownload.downloadInProgress,
-  caseNumber: state.currentCase.details.caseNumber,
+  caseReference: state.currentCase.details.caseReference,
   status: state.currentCase.details.status,
   loadingPdfPreview: state.ui.pdfPreview.loadingPdfPreview
 });

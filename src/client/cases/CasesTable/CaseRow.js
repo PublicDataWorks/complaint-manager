@@ -28,8 +28,8 @@ const formatCaseStatusForDPM = status => {
 const CaseRow = ({ classes, caseDetails, currentUser }) => {
   return (
     <TableRow data-test={`caseRow${caseDetails.id}`} className={classes.row}>
-      <TableCell data-test="caseNumber" className={classes.cell}>
-        <div>{caseDetails.caseNumber}</div>
+      <TableCell data-test="caseReference" className={classes.cell}>
+        <div>{caseDetails.caseReference}</div>
       </TableCell>
       <TableCell data-test="caseStatus" className={classes.cell}>
         {currentUser.permissions.includes(

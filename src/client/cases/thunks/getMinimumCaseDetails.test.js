@@ -15,7 +15,7 @@ describe("getMinimumCaseDetails", () => {
 
   test("dispatches case details on success", async () => {
     const minimumCaseDetailsResponse = [
-      { caseNumber: "CC2017-0005", status: "status" }
+      { caseReference: "CC2017-0005", status: "status" }
     ];
 
     nock("http://localhost", {})

@@ -69,7 +69,7 @@ describe("IAProCorrections", function() {
     expect(dispatchSpy).toHaveBeenCalledWith(getLetterType(caseId));
   });
 
-  test("loads min case details on mount so case number can be displayed", () => {
+  test("loads min case details on mount so case reference can be displayed", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(getMinimumCaseDetails(caseId));
   });
 

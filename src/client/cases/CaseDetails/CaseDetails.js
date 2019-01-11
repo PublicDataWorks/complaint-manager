@@ -106,7 +106,7 @@ class CaseDetails extends React.Component {
               color="inherit"
               style={{ marginRight: "20px" }}
             >
-              {`Case #${this.props.caseDetail.caseNumber}`}
+              {`Case #${this.props.caseDetail.caseReference}`}
             </Typography>
             <Typography
               data-test="caseStatusBox"

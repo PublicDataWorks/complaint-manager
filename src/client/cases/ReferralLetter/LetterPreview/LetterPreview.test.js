@@ -72,7 +72,7 @@ describe("LetterPreview", function() {
 
     caseDetail = {
       id: caseId,
-      caseNumber: "CC2012-0102",
+      caseReference: "CC2012-0102",
       firstContactDate: "2012-05-05",
       complaintType: CIVILIAN_INITIATED,
       complainantCivilians: [{ lastName: "Brown" }],

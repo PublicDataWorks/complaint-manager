@@ -35,7 +35,7 @@ class Case {
     this.accusedOfficers = build.accusedOfficers;
     this.complainantOfficers = build.complainantOfficers;
     this.witnessOfficers = build.witnessOfficers;
-    this.caseNumber = build.caseNumber;
+    this.caseReference = build.caseReference;
     this.intakeSourceId = build.intakeSourceId;
     this.deletedAt = build.deletedAt;
   }
@@ -135,7 +135,7 @@ class Case {
         this.accusedOfficers = [accusedOfficer];
         this.complainantOfficers = [complainantOfficer];
         this.witnessOfficers = [witnessOfficer];
-        this.caseNumber = "CC2017-0055";
+        this.caseReference = "CC2017-0055";
         this.deletedAt = null;
         return this;
       }

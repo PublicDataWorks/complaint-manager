@@ -115,7 +115,7 @@ describe("auditDataAccess", () => {
       expect(createdAudits[0].subjectDetails).toEqual(["Case Notes"]);
     });
 
-    test("it should populate details correctly for case number subject", async () => {
+    test("it should populate details correctly for case reference subject", async () => {
       await models.sequelize.transaction(async transaction => {
         await auditDataAccess(
           "user",
@@ -131,7 +131,7 @@ describe("auditDataAccess", () => {
       expect(createdAudits.length).toEqual(1);
 
       expect(createdAudits[0].subjectDetails).toEqual([
-        "Case Number",
+        "Case Reference",
         "Case Status"
       ]);
     });

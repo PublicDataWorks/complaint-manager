@@ -9,9 +9,9 @@ import configureInterceptors from "../../axiosInterceptors/interceptors";
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("remove attachment", () => {
-  let mockCaseNumber, mockFileName, dispatch, caseDetails;
+  let mockCaseReference, mockFileName, dispatch, caseDetails;
   beforeEach(() => {
-    mockCaseNumber = 109;
+    mockCaseReference = 109;
     mockFileName = "sample.text";
     caseDetails = { fileName: "sample.text" };
     dispatch = jest.fn();
@@ -21,19 +21,23 @@ describe("remove attachment", () => {
 
   test("should dispatch error action if we get a 500 response", async () => {
     nock("http://localhost", {})
-      .delete(`/api/cases/${mockCaseNumber}/attachments/${mockFileName}`)
+      .delete(`/api/cases/${mockCaseReference}/attachments/${mockFileName}`)
       .reply(500, caseDetails);
 
-    await removeAttachment(mockCaseNumber, mockFileName, jest.fn())(dispatch);
+    await removeAttachment(mockCaseReference, mockFileName, jest.fn())(
+      dispatch
+    );
     expect(dispatch).toHaveBeenCalledWith(removeAttachmentFailed());
   });
 
   test("should dispatch error action if we get an unrecognized response", async () => {
     nock("http://localhost", {})
-      .delete(`/api/cases/${mockCaseNumber}/attachments/${mockFileName}`)
+      .delete(`/api/cases/${mockCaseReference}/attachments/${mockFileName}`)
       .reply(503, caseDetails);
 
-    await removeAttachment(mockCaseNumber, mockFileName, jest.fn())(dispatch);
+    await removeAttachment(mockCaseReference, mockFileName, jest.fn())(
+      dispatch
+    );
     expect(dispatch).toHaveBeenCalledWith(removeAttachmentFailed());
   });
 
@@ -42,10 +46,12 @@ describe("remove attachment", () => {
       "Content-Type": "application/json",
       Authorization: `Bearer TEST_TOKEN`
     })
-      .delete(`/api/cases/${mockCaseNumber}/attachments/${mockFileName}`)
+      .delete(`/api/cases/${mockCaseReference}/attachments/${mockFileName}`)
       .reply(200, caseDetails);
 
-    await removeAttachment(mockCaseNumber, mockFileName, jest.fn())(dispatch);
+    await removeAttachment(mockCaseReference, mockFileName, jest.fn())(
+      dispatch
+    );
     expect(dispatch).toHaveBeenCalledWith(removeAttachmentSuccess(caseDetails));
   });
 
@@ -54,11 +60,11 @@ describe("remove attachment", () => {
       "Content-Type": "application/json",
       Authorization: `Bearer TEST_TOKEN`
     })
-      .delete(`/api/cases/${mockCaseNumber}/attachments/${mockFileName}`)
+      .delete(`/api/cases/${mockCaseReference}/attachments/${mockFileName}`)
       .reply(200, caseDetails);
 
     const callback = jest.fn();
-    await removeAttachment(mockCaseNumber, mockFileName, callback)(dispatch);
+    await removeAttachment(mockCaseReference, mockFileName, callback)(dispatch);
     expect(callback).toHaveBeenCalled();
   });
 });

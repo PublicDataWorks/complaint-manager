@@ -124,7 +124,7 @@ export default (sequelize, DataTypes) => {
         nextStatus() {
           return determineNextCaseStatus(this.status);
         },
-        caseNumber() {
+        caseReference() {
           const prefix =
             this.complaintType === CIVILIAN_INITIATED ? "CC" : "PO";
           const firstContactYear = this.firstContactDate
