@@ -96,44 +96,44 @@ describe("cases table", () => {
 
   describe("table sorting", () => {
     test("should update sort by when case # number clicked", () => {
-      const caseNumberLabel = tableWrapper
-        .find('[data-test="caseNumberSortLabel"]')
+      const caseReferenceLabel = tableWrapper
+        .find('[data-test="caseReferenceSortLabel"]')
         .last();
-      caseNumberLabel.simulate("click");
+      caseReferenceLabel.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(updateSort("id"));
     });
 
     test("should update sort by when status clicked", () => {
-      const caseNumberLabel = tableWrapper
+      const caseReferenceLabel = tableWrapper
         .find('[data-test="statusSortLabel"]')
         .last();
-      caseNumberLabel.simulate("click");
+      caseReferenceLabel.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(updateSort("status"));
     });
 
     test("should update sort by when complainant clicked", () => {
-      const caseNumberLabel = tableWrapper
+      const caseReferenceLabel = tableWrapper
         .find('[data-test="complainantSortLabel"]')
         .last();
-      caseNumberLabel.simulate("click");
+      caseReferenceLabel.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(updateSort("lastName"));
     });
 
     test("should update sort by when date clicked", () => {
-      const caseNumberLabel = tableWrapper
+      const caseReferenceLabel = tableWrapper
         .find('[data-test="firstContactDateSortLabel"]')
         .last();
-      caseNumberLabel.simulate("click");
+      caseReferenceLabel.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(updateSort("firstContactDate"));
     });
   });
 
   describe("column headers", () => {
-    let caseNumber,
+    let caseReference,
       complaintType,
       status,
       complainant,
@@ -141,7 +141,7 @@ describe("cases table", () => {
       assignedTo;
 
     beforeEach(() => {
-      caseNumber = tableWrapper.find('th[data-test="casesNumberHeader"]');
+      caseReference = tableWrapper.find('th[data-test="casesNumberHeader"]');
       complaintType = tableWrapper.find(
         'th[data-test="casesComplaintTypeHeader"]'
       );
@@ -153,8 +153,8 @@ describe("cases table", () => {
       assignedTo = tableWrapper.find('th[data-test="casesAssignedToHeader"]');
     });
 
-    test("should display case number", () => {
-      expect(caseNumber.text()).toEqual("Case #");
+    test("should display case reference", () => {
+      expect(caseReference.text()).toEqual("Case #");
     });
 
     test("should display status", () => {
@@ -181,9 +181,9 @@ describe("cases table", () => {
       caseRow = tableWrapper.find('tr[data-test="caseRow17"]');
     });
 
-    test("should display case number", () => {
-      const number = caseRow.find('td[data-test="caseNumber"]');
-      expect(number.text()).toEqual(caseOne.caseNumber);
+    test("should display case reference", () => {
+      const number = caseRow.find('td[data-test="caseReference"]');
+      expect(number.text()).toEqual(caseOne.caseReference);
     });
 
     test("should display status", () => {
@@ -251,7 +251,7 @@ describe("cases table", () => {
           .find("TableCell")
           .at(0)
           .text()
-      ).toEqual(`${yetAnotherCase.caseNumber}`);
+      ).toEqual(`${yetAnotherCase.caseReference}`);
     });
   });
 });

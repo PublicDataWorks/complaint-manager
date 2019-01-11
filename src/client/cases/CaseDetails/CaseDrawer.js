@@ -26,7 +26,7 @@ const CaseDrawer = ({ classes, caseDetail }) => (
       <div style={{ margin: "0px 24px" }}>
         <div style={{ display: "flex" }}>
           <Typography
-            data-test="case-number"
+            data-test="case-reference"
             variant="title"
             style={{
               marginTop: "4px",
@@ -34,7 +34,7 @@ const CaseDrawer = ({ classes, caseDetail }) => (
             }}
             gutterBottom
           >
-            {`Case #${caseDetail.caseNumber}`}
+            {`Case #${caseDetail.caseReference}`}
           </Typography>
           <ArchiveCaseButton />
         </div>

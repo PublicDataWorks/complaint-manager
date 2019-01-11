@@ -13,11 +13,11 @@ const constructFilename = (existingCase, pdfFileVersion, editStatus) => {
 
   if (pdfFileVersion === REFERRAL_LETTER_VERSION.FINAL) {
     return `${existingCase.id}/${formattedFirstContactDate}_${
-      existingCase.caseNumber
+      existingCase.caseReference
     }_PIB_Referral${firstComplainantLastName}.pdf`;
   } else {
     return `${formattedFirstContactDate}_${
-      existingCase.caseNumber
+      existingCase.caseReference
     }_${editStatus}_Referral_Draft${firstComplainantLastName}.pdf`;
   }
 };

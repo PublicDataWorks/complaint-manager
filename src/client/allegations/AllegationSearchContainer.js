@@ -41,7 +41,7 @@ export class AllegationSearchContainer extends Component {
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
             {`Case #${
-              this.props.caseDetails.caseNumber
+              this.props.caseDetails.caseReference
             }   : Manage Allegations`}
           </Typography>
         </NavBar>

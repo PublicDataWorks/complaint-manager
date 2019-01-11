@@ -23,7 +23,10 @@ const getMinimumCaseDetails = asyncMiddleware(
           transaction: transaction
         });
 
-        return { caseNumber: singleCase.caseNumber, status: singleCase.status };
+        return {
+          caseReference: singleCase.caseReference,
+          status: singleCase.status
+        };
       }
     );
 

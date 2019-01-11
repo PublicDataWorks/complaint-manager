@@ -157,7 +157,7 @@ class OfficerHistories extends Component {
       <div>
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${this.props.caseNumber}   : Letter Generation`}
+            {`Case #${this.props.caseReference}   : Letter Generation`}
           </Typography>
         </NavBar>
 
@@ -223,7 +223,7 @@ const mapStateToProps = state => ({
   initialValues: {
     letterOfficers: state.referralLetter.letterDetails.letterOfficers
   },
-  caseNumber: state.currentCase.details.caseNumber
+  caseReference: state.currentCase.details.caseReference
 });
 
 const mapDispatchToProps = {

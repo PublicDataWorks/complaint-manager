@@ -141,7 +141,7 @@ describe("edit referral letter", () => {
                 {
                   tempId: "aid9e8slj",
                   pibCaseNumber: "",
-                  details: "We didn't know the case number on this one"
+                  details: "We didn't know the case reference on this one"
                 }
               ]
             }
@@ -186,7 +186,7 @@ describe("edit referral letter", () => {
             expect.objectContaining({
               referralLetterOfficerId: createdLetterOfficer.id,
               pibCaseNumber: "",
-              details: "We didn't know the case number on this one"
+              details: "We didn't know the case reference on this one"
             })
           ])
         );

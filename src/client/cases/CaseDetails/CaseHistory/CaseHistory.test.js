@@ -3,7 +3,7 @@ import { CaseHistory } from "./CaseHistory";
 import React from "react";
 
 describe("CaseHistory", () => {
-  test("it fetches the case history and case number on mount", () => {
+  test("it fetches the case history and case reference on mount", () => {
     const getCaseHistory = jest.fn();
     const getMinimumCaseDetails = jest.fn();
     shallow(

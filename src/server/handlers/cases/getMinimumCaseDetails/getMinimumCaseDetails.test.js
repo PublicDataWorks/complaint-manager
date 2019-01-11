@@ -50,10 +50,10 @@ describe("getMinimumCaseDetails", () => {
     next = jest.fn();
   });
 
-  test("gets case number", async () => {
+  test("gets case reference", async () => {
     await getMinimumCaseDetails(request, response, next);
     const responseBody = response._getData();
-    expect(responseBody.caseNumber).toEqual("CC2017-0205");
+    expect(responseBody.caseReference).toEqual("CC2017-0205");
   });
 
   test("audits the data access", async () => {
@@ -65,6 +65,9 @@ describe("getMinimumCaseDetails", () => {
     expect(dataAccessAudit.user).toEqual("nickname");
     expect(dataAccessAudit.caseId).toEqual(existingCase.id);
     expect(dataAccessAudit.subject).toEqual(AUDIT_SUBJECT.MINIMUM_CASE_DETAILS);
-    expect(dataAccessAudit.subjectDetails).toEqual(["Case Number", "Case Status"]);
+    expect(dataAccessAudit.subjectDetails).toEqual([
+      "Case Reference",
+      "Case Status"
+    ]);
   });
 });

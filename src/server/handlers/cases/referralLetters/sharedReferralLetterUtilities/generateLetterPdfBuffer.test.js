@@ -78,7 +78,7 @@ describe("generateLetterPdfBuffer", () => {
           sender: "Sender Address\n Sender Address Second Line",
           transcribedBy: "Transcriber"
         },
-        caseNumber: "CC-2011-0099"
+        caseReference: "CC-2011-0099"
       };
 
       const letterPdfHtml = await generateLetterPdfHtml(

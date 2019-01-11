@@ -23,7 +23,7 @@ export class OfficerSearchContainer extends Component {
             variant="title"
             color="inherit"
           >
-            {`Case #${this.props.caseNumber}   : ${titleAction} Officer`}
+            {`Case #${this.props.caseReference}   : ${titleAction} Officer`}
           </Typography>
         </NavBar>
         <LinkButton
@@ -48,7 +48,7 @@ export class OfficerSearchContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  caseNumber: state.currentCase.details.caseNumber
+  caseReference: state.currentCase.details.caseReference
 });
 
 export default connect(mapStateToProps)(OfficerSearchContainer);

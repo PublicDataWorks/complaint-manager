@@ -38,7 +38,7 @@
     <p><br></p>
     {{{renderHtml (newLineToLineBreak recipient)}}}
     <p><br></p>
-    <p><strong>RE: Complaint Referral; IPM Complaint {{caseNumber}}</strong></p>
+    <p><strong>RE: Complaint Referral; IPM Complaint {{caseReference}}</strong></p>
     <p><br></p>
     <p>Dear {{{extractFirstLine recipient}}}:</p>
     <p><br></p>

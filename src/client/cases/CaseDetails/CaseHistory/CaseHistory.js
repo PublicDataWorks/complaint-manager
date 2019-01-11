@@ -26,7 +26,7 @@ export class CaseHistory extends Component {
             color="inherit"
             style={{ marginRight: "20px" }}
           >
-            {`Case #${this.props.caseNumber} : Case History`}
+            {`Case #${this.props.caseReference} : Case History`}
           </Typography>
         </NavBar>
         <LinkButton
@@ -49,7 +49,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  caseNumber: state.currentCase.details.caseNumber
+  caseReference: state.currentCase.details.caseReference
 });
 
 export default connect(

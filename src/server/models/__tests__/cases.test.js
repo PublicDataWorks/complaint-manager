@@ -17,8 +17,8 @@ describe("cases", function() {
     await cleanupDatabase();
   });
 
-  describe("caseNumber", () => {
-    test("returns a case number starting with CC for civilian complainant", () => {
+  describe("caseReference", () => {
+    test("returns a case reference starting with CC for civilian complainant", () => {
       const civilianCaseAttributes = new Case.Builder()
         .defaultCase()
         .withComplaintType(CIVILIAN_INITIATED)
@@ -26,10 +26,10 @@ describe("cases", function() {
         .withFirstContactDate("2018-04-20")
         .withId(555);
       const civilianCase = models.cases.build(civilianCaseAttributes);
-      expect(civilianCase.caseNumber).toEqual("CC2018-0555");
+      expect(civilianCase.caseReference).toEqual("CC2018-0555");
     });
 
-    test("returns a case number starting with PO for officer complainant", () => {
+    test("returns a case reference starting with PO for officer complainant", () => {
       const officerCaseAttributes = new Case.Builder()
         .defaultCase()
         .withComplaintType(RANK_INITIATED)
@@ -37,7 +37,7 @@ describe("cases", function() {
         .withFirstContactDate("2002-05-17")
         .withId(12);
       const officerCase = models.cases.build(officerCaseAttributes);
-      expect(officerCase.caseNumber).toEqual("PO2002-0012");
+      expect(officerCase.caseReference).toEqual("PO2002-0012");
     });
   });
 

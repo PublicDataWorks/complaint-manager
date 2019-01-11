@@ -73,7 +73,7 @@ export const generateLetterPdfHtml = (
     recipient: pdfData.referralLetter.recipient,
     sender: pdfData.referralLetter.sender,
     transcribedBy: pdfData.referralLetter.transcribedBy,
-    caseNumber: pdfData.caseNumber,
+    caseReference: pdfData.caseReference,
     includeSignature,
     currentDate
   };

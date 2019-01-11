@@ -96,7 +96,7 @@ export class EditLetter extends Component {
       <div>
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${this.props.caseNumber}   : Letter Generation`}
+            {`Case #${this.props.caseReference}   : Letter Generation`}
           </Typography>
         </NavBar>
 
@@ -177,7 +177,7 @@ export class EditLetter extends Component {
 
 const mapStateToProps = state => ({
   initialValues: { editedLetterHtml: state.referralLetter.letterHtml },
-  caseNumber: state.currentCase.details.caseNumber,
+  caseReference: state.currentCase.details.caseReference,
   caseStatus: state.currentCase.details.status
 });
 

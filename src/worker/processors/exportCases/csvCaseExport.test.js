@@ -142,7 +142,7 @@ describe("csvCaseExport request", () => {
       allegation,
       officerAllegation,
       bwcClassification,
-      caseNumber,
+      caseReference,
       raceEthnicity;
 
     beforeEach(async done => {
@@ -178,7 +178,7 @@ describe("csvCaseExport request", () => {
       });
 
       const paddedId = `${caseToExport.id}`.padStart(4, "0");
-      caseNumber = `CC2018-${paddedId}`;
+      caseReference = `CC2018-${paddedId}`;
 
       const addressAttributes = new Address.Builder()
         .defaultAddress()
@@ -258,7 +258,7 @@ describe("csvCaseExport request", () => {
       await csvCaseExport(job, jobDone);
 
       expect(records.length).toEqual(1);
-      expect(records[0]["Case #"]).toEqual(caseNumber);
+      expect(records[0]["Case #"]).toEqual(caseReference);
       expect(records[0]["Case Status"]).toEqual(caseToExport.status);
       expect(records[0]["Created by"]).toEqual(caseToExport.createdBy);
       expect(records[0]["Created on"]).toEqual(
@@ -432,14 +432,14 @@ describe("csvCaseExport request", () => {
           civilian.suffix
         }`
       );
-      expect(firstRecord["Case #"]).toEqual(caseNumber);
+      expect(firstRecord["Case #"]).toEqual(caseReference);
 
       expect(secondRecord["Civilian Complainant Name"]).toEqual(
         `${civilian2.firstName} ${civilian2.middleInitial} ${
           civilian2.lastName
         } ${civilian2.suffix}`
       );
-      expect(secondRecord["Case #"]).toEqual(caseNumber);
+      expect(secondRecord["Case #"]).toEqual(caseReference);
       done();
     });
 
@@ -826,14 +826,14 @@ describe("csvCaseExport request", () => {
       expect(firstRecord["Accused Officer Windows Username"]).toEqual(
         caseOfficer.windowsUsername.toString()
       );
-      expect(firstRecord["Case #"]).toEqual(caseNumber);
+      expect(firstRecord["Case #"]).toEqual(caseReference);
       expect(secondRecord["Accused Officer Name"]).toEqual(
         caseOfficer2.fullName
       );
       expect(secondRecord["Accused Officer Windows Username"]).toEqual(
         caseOfficer2.windowsUsername.toString()
       );
-      expect(secondRecord["Case #"]).toEqual(caseNumber);
+      expect(secondRecord["Case #"]).toEqual(caseReference);
       done();
     });
 
@@ -879,15 +879,15 @@ describe("csvCaseExport request", () => {
       const secondRecord = records[1];
 
       const otherPaddedId = `${otherCase.id}`.padStart(4, "0");
-      const otherCaseNumber = `CC2012-${otherPaddedId}`;
+      const othercaseReference = `CC2012-${otherPaddedId}`;
 
-      expect(firstRecord["Case #"]).toEqual(caseNumber);
+      expect(firstRecord["Case #"]).toEqual(caseReference);
       expect(firstRecord["Accused Officer Name"]).toEqual(caseOfficer.fullName);
       expect(firstRecord["Accused Officer Windows Username"]).toEqual(
         caseOfficer.windowsUsername.toString()
       );
 
-      expect(secondRecord["Case #"]).toEqual(otherCaseNumber);
+      expect(secondRecord["Case #"]).toEqual(othercaseReference);
       expect(secondRecord["Accused Officer Name"]).toEqual(
         caseOfficer2.fullName
       );
@@ -942,7 +942,7 @@ describe("csvCaseExport request", () => {
       const thirdRecord = records[2];
       const fourthRecord = records[3];
 
-      expect(firstRecord["Case #"]).toEqual(caseNumber);
+      expect(firstRecord["Case #"]).toEqual(caseReference);
       expect(firstRecord["Civilian Complainant Name"]).toEqual(
         `${civilian.firstName} ${civilian.middleInitial} ${civilian.lastName} ${
           civilian.suffix
@@ -953,7 +953,7 @@ describe("csvCaseExport request", () => {
         caseOfficer.windowsUsername.toString()
       );
 
-      expect(secondRecord["Case #"]).toEqual(caseNumber);
+      expect(secondRecord["Case #"]).toEqual(caseReference);
       expect(secondRecord["Civilian Complainant Name"]).toEqual(
         `${civilian.firstName} ${civilian.middleInitial} ${civilian.lastName} ${
           civilian.suffix
@@ -966,7 +966,7 @@ describe("csvCaseExport request", () => {
         caseOfficer2.windowsUsername.toString()
       );
 
-      expect(thirdRecord["Case #"]).toEqual(caseNumber);
+      expect(thirdRecord["Case #"]).toEqual(caseReference);
       expect(thirdRecord["Civilian Complainant Name"]).toEqual(
         `${civilian2.firstName} ${civilian2.middleInitial} ${
           civilian2.lastName
@@ -977,7 +977,7 @@ describe("csvCaseExport request", () => {
         caseOfficer.windowsUsername.toString()
       );
 
-      expect(fourthRecord["Case #"]).toEqual(caseNumber);
+      expect(fourthRecord["Case #"]).toEqual(caseReference);
       expect(fourthRecord["Civilian Complainant Name"]).toEqual(
         `${civilian2.firstName} ${civilian2.middleInitial} ${
           civilian2.lastName

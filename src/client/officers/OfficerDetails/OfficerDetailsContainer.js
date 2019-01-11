@@ -35,7 +35,7 @@ export class OfficerDetailsContainer extends Component {
       <div>
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${this.props.caseNumber}   : ${titleAction} Officer`}
+            {`Case #${this.props.caseReference}   : ${titleAction} Officer`}
           </Typography>
         </NavBar>
         <LinkButton
@@ -62,7 +62,7 @@ export class OfficerDetailsContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  caseNumber: state.currentCase.details.caseNumber,
+  caseReference: state.currentCase.details.caseReference,
   selectedOfficerData: state.officers.selectedOfficerData,
   officerCurrentlySelected: state.officers.officerCurrentlySelected
 });

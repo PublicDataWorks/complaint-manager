@@ -8,7 +8,7 @@ import {
 import formatPhoneNumber from "../client/utilities/formatPhoneNumber";
 import { SIGNATURE_URLS } from "../sharedUtilities/constants";
 
-const caseNumberLength = 4;
+const caseReferenceLength = 4;
 
 export const formatAddress = address => {
   if (!address) return "";
