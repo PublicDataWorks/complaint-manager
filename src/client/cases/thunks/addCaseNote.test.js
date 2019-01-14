@@ -6,8 +6,6 @@ import {
   closeCaseNoteDialog
 } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
-import { CASE_NOTE_FORM_NAME } from "../../../sharedUtilities/constants";
-import { startSubmit, stopSubmit } from "redux-form";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -36,9 +34,7 @@ describe("addCaseNote", () => {
 
     await addCaseNote(caseNote)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(startSubmit(CASE_NOTE_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(addCaseNoteFailure());
-    expect(dispatch).toHaveBeenCalledWith(stopSubmit(CASE_NOTE_FORM_NAME));
   });
 
   test("should dispatch success when case note added successfully", async () => {
@@ -63,11 +59,9 @@ describe("addCaseNote", () => {
 
     await addCaseNote(caseNote)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(startSubmit(CASE_NOTE_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(
       addCaseNoteSuccess(responseBody.caseDetails, responseBody.caseNotes)
     );
     expect(dispatch).toHaveBeenCalledWith(closeCaseNoteDialog());
-    expect(dispatch).toHaveBeenCalledWith(stopSubmit(CASE_NOTE_FORM_NAME));
   });
 });

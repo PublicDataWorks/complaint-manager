@@ -21,7 +21,8 @@ const RemoveCaseNoteDialog = ({
   dialogOpen,
   activity,
   dispatch,
-  submitting
+  submitting,
+  handleSubmit,
 }) => {
   return (
     <Dialog open={dialogOpen} fullWidth={true}>
@@ -61,12 +62,13 @@ const RemoveCaseNoteDialog = ({
         <SecondaryButton
           data-test="cancelButton"
           onClick={() => dispatch(closeRemoveCaseNoteDialog())}
+          disabled={submitting}
         >
           Cancel
         </SecondaryButton>
         <PrimaryButton
           data-test="removeCaseNote"
-          onClick={() => dispatch(removeCaseNote(activity.caseId, activity.id))}
+          onClick={handleSubmit(() => dispatch(removeCaseNote(activity.caseId, activity.id)))}
           disabled={submitting}
         >
           Remove

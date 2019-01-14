@@ -49,10 +49,10 @@ const CaseNoteDialog = props => {
 
     switch (dialogType) {
       case "Add":
-        dispatch(addCaseNote(valuesToSubmit));
+        return dispatch(addCaseNote(valuesToSubmit));
         break;
       case "Edit":
-        dispatch(editCaseNote(valuesToSubmit));
+        return dispatch(editCaseNote(valuesToSubmit));
         break;
       default:
         break;
@@ -147,6 +147,7 @@ const CaseNoteDialog = props => {
             dispatch(reset("CaseNotes"));
             dispatch(closeCaseNoteDialog());
           }}
+          disabled={submitting}
         >
           Cancel
         </SecondaryButton>

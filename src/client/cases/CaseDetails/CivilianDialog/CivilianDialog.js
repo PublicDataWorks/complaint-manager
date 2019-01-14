@@ -72,7 +72,7 @@ class CivilianDialog extends Component {
       throw new SubmissionError(phoneNumErrors);
     }
 
-    dispatch(
+    return dispatch(
       this.props.submitAction({
         ...values,
         birthDate: nullifyFieldUnlessValid(values.birthDate),
@@ -254,6 +254,7 @@ class CivilianDialog extends Component {
           <SecondaryButton
             data-test="cancelEditCivilian"
             onClick={() => this.props.dispatch(closeEditDialog())}
+            disabled={this.props.submitting}
           >
             Cancel
           </SecondaryButton>

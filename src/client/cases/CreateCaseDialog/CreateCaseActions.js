@@ -64,7 +64,7 @@ export class CreateCaseActions extends React.Component {
           margin: `${theme.spacing.unit * 2}px`
         }}
       >
-        <SecondaryButton data-test="cancelCase" onClick={this.closeDialog}>
+        <SecondaryButton data-test="cancelCase" onClick={this.closeDialog} disabled={disabled}>
           Cancel
         </SecondaryButton>
         {civilianComplainant ? (

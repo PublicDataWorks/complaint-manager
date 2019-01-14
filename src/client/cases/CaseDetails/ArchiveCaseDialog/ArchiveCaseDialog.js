@@ -22,6 +22,8 @@ const ArchiveCaseDialog = ({
   closeArchiveCaseDialog,
   archiveCase,
   submitting,
+  handleSubmit,
+  dispatch,
 }) => {
   return (
     <Dialog open={dialogOpen} fullWidth={true}>
@@ -44,14 +46,13 @@ const ArchiveCaseDialog = ({
         <SecondaryButton
           data-test="cancelArchiveCaseButton"
           onClick={closeArchiveCaseDialog}
+          disabled={submitting}
         >
           Cancel
         </SecondaryButton>
         <PrimaryButton
           data-test="confirmArchiveCase"
-          onClick={() => {
-            archiveCase(caseId);
-          }}
+          onClick={handleSubmit(() => archiveCase(caseId))}
           disabled={submitting}
         >
           Archive Case

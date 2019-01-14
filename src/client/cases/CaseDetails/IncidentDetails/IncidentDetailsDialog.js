@@ -212,6 +212,7 @@ class IncidentDetailsDialog extends Component {
           <SecondaryButton
             data-test="cancelEditIncidentDetailsButton"
             onClick={props.handleDialogClose}
+            disabled={this.props.submitting}
           >
             Cancel
           </SecondaryButton>

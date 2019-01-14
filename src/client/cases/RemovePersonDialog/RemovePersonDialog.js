@@ -22,7 +22,8 @@ const RemovePersonDialog = ({
   dispatch,
   personTypeTitleDisplay,
   optionalText,
-  submitting
+  submitting,
+  handleSubmit,
 }) => (
   <Dialog open={open}>
     <DialogTitle data-test="removePersonDialogTitle">
@@ -39,12 +40,13 @@ const RemovePersonDialog = ({
       <SecondaryButton
         onClick={() => dispatch(closeRemovePersonDialog())}
         data-test="cancelButton"
+        disabled={submitting}
       >
         Cancel
       </SecondaryButton>
       <PrimaryButton
         data-test="removeButton"
-        onClick={() => dispatch(removePerson(personDetails))}
+        onClick={handleSubmit(() => dispatch(removePerson(personDetails)))}
         disabled={submitting}
       >
         Remove
