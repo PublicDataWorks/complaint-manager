@@ -94,7 +94,9 @@ app.use(
   expressWinston.errorLogger({
     winstonInstance: winston,
     baseMeta: { trace: "See stack", memoryUsage: "" },
-    requestWhitelist: ["url", "method", "originalUrl", "query"] //hide request headers and body for brevity
+    requestWhitelist: ["url", "method", "originalUrl"]
+    // hide request headers and body for brevity. keep in mind this line may be emailed to team in error alert,
+    // so don't log sensitive data from request body or query
   })
 );
 
