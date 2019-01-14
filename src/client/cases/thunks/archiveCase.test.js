@@ -30,7 +30,7 @@ describe("archiveCase", () => {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .delete(`/api/cases/${existingCase.id}/archive`)
+      .delete(`/api/cases/${existingCase.id}`)
       .reply(200, {});
 
     await archiveCase(existingCase.id)(dispatch);
@@ -44,7 +44,7 @@ describe("archiveCase", () => {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .delete(`/api/cases/${existingCase.id}/archive`)
+      .delete(`/api/cases/${existingCase.id}`)
       .reply(200, {});
 
     await archiveCase(existingCase.id)(dispatch);
@@ -60,7 +60,7 @@ describe("archiveCase", () => {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .delete(`/api/cases/${existingCase.id}/archive`)
+      .delete(`/api/cases/${existingCase.id}`)
       .reply(500, {});
 
     await archiveCase(existingCase.id)(dispatch);
