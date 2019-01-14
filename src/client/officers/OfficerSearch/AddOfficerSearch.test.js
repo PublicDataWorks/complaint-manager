@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { MemoryRouter as Router } from "react-router-dom";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
+import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 
 jest.mock("../../cases/thunks/getCaseDetails", () => caseId => ({
   type: "MOCK_ACTION",
@@ -29,5 +30,22 @@ describe("AddOfficerSearch", () => {
     );
 
     expect(mockDispatch).toHaveBeenCalledWith(getCaseDetails(newCaseId));
+  });
+
+  test("should clear selected officer on mount", () => {
+    const store = createConfiguredStore();
+    const mockDispatch = jest.spyOn(store, "dispatch");
+    store.dispatch(getCaseDetailsSuccess({ id: 2 }));
+
+    const newCaseId = "1";
+
+    mount(
+      <Provider store={store}>
+        <Router>
+          <AddOfficerSearch match={{ params: { id: newCaseId } }} />
+        </Router>
+      </Provider>
+    );
+    expect(mockDispatch).toHaveBeenCalledWith(clearSelectedOfficer());
   });
 });

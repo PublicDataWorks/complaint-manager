@@ -5,7 +5,6 @@ import {
   updateNarrativeSuccess
 } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
-
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("updateNarrative", () => {

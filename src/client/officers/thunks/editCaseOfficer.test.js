@@ -1,10 +1,9 @@
 import getAccessToken from "../../auth/getAccessToken";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import editCaseOfficer from "./editCaseOfficer";
 import nock from "nock";
 import {
-  clearSelectedOfficer,
   editCaseOfficerFailure,
   editCaseOfficerSuccess
 } from "../../actionCreators/officersActionCreators";
@@ -46,7 +45,6 @@ describe("editCaseOfficer thunk", () => {
     await editCaseOfficer(caseId, caseOfficerId, officerId, values)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(editCaseOfficerSuccess(responseBody));
-    expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer());
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
 

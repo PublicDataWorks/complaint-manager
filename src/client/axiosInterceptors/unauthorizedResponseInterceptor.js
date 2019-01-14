@@ -1,4 +1,4 @@
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 
 const unauthorizedResponseInterceptor = dispatch => error => {
   if (error.response.status === 401) {

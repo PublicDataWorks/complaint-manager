@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
 import CancelEditLetterConfirmationDialog from "./CancelEditLetterConfirmationDialog";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 
 describe("Cancel Edit Confirmation Dialog", () => {
   let store, dispatchSpy, wrapper;

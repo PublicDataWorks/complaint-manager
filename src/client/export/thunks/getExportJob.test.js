@@ -10,7 +10,6 @@ import {
   EXPORT_JOB_REFRESH_INTERVAL_MS
 } from "../../../sharedUtilities/constants";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
-
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 jest.useFakeTimers();
 
