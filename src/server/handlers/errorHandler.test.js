@@ -20,7 +20,7 @@ describe("errorHandler", () => {
       JSON.stringify({
         statusCode: 500,
         error: "Internal Server Error",
-        message: "Something went wrong!"
+        message: "Something went wrong. Please try again."
       })
     );
   });
