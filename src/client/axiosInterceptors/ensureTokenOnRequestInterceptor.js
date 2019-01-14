@@ -1,5 +1,5 @@
 import getAccessToken from "../auth/getAccessToken";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 
 const ensureTokenOnRequestInterceptor = dispatch => config => {
   const token = getAccessToken();

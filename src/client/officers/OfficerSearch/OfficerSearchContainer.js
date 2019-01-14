@@ -31,7 +31,6 @@ export class OfficerSearchContainer extends Component {
           component={Link}
           to={`/cases/${caseId}`}
           style={{ margin: "2% 0% 2% 4%" }}
-          onClick={() => this.props.dispatch(clearSelectedOfficer())}
         >
           Back to Case
         </LinkButton>
