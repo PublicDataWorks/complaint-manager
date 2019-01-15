@@ -376,7 +376,7 @@ describe("dataChangeAuditHooks", () => {
       expect(auditUpdate.action).toEqual(AUDIT_ACTION.DATA_UPDATED);
       expect(auditUpdate.user).toEqual("someoneWhoUpdated");
       expect(auditUpdate.modelDescription).toEqual([
-        { "Case Reference": `PO2017-${existingCase.id}` }
+        { "Case Reference": existingCase.caseReference }
       ]);
     });
 
