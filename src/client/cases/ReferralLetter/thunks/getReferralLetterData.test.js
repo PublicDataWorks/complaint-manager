@@ -5,6 +5,7 @@ import configureInterceptors from "../../../axiosInterceptors/interceptors";
 import getReferralLetterData from "./getReferralLetterData";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../../auth/getAccessToken");
 jest.mock("../../thunks/invalidCaseStatusRedirect", () => caseId => ({
@@ -53,7 +54,7 @@ describe("getReferralLetterData", () => {
   test("redirects to case page if case is in invalid status for letter generation", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
     const responseBody = {
-      message: "Invalid case status"
+      message: BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
     };
     nock("http://localhost", {})
       .get(`/api/cases/${caseId}/referral-letter`)

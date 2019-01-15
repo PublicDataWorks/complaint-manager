@@ -89,7 +89,6 @@ router.delete(
   removeOfficerAllegation
 );
 
-router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
 router.get("/cases/:caseId/referral-letter", getReferralLetterData);
 router.get("/cases/:caseId/referral-letter/preview", getLetterPreview);
 router.get("/cases/:caseId/referral-letter/letter-type", getLetterType);
@@ -111,14 +110,15 @@ router.put(
 );
 router.put("/cases/:caseId/referral-letter/content", editReferralLetterContent);
 
-router.use("/cases/:id/attachments", attachmentRouter);
+router.use("/cases/:caseId/attachments", attachmentRouter);
 router.use(
-  "/cases/:id/attachmentUrls/:fileName",
+  "/cases/:caseId/attachmentUrls/:fileName",
   generateAttachmentDownloadUrl
 );
 
 router.post("/civilian", createCivilian);
-router.put("/civilian/:id", editCivilian);
+router.put("/civilian/:civilianId", editCivilian);
+router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
 
 router.post("/audit", audit);
 

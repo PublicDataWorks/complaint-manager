@@ -1,3 +1,5 @@
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+
 const models = require("../../../models");
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -11,7 +13,7 @@ const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
   );
 
   if (officerToRemove === null) {
-    next(Boom.badRequest("Case Officer requested for removal does not exist."));
+    next(Boom.badRequest(BAD_REQUEST_ERRORS.REMOVE_CASE_OFFICER_ERROR));
   }
 
   await models.sequelize.transaction(async transaction => {

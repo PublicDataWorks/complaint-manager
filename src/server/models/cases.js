@@ -2,6 +2,7 @@ import { ADDRESSABLE_TYPE } from "../../sharedUtilities/constants";
 import moment from "moment";
 import _ from "lodash";
 import models from "./index";
+import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants";
 
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
@@ -50,7 +51,7 @@ export default (sequelize, DataTypes) => {
           if (newStatus === nextStatus || newStatus === this.status) {
             this.setDataValue("status", newStatus);
           } else {
-            throw Boom.badRequest("Invalid case status");
+            throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
           }
         }
       },

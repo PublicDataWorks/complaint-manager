@@ -1,9 +1,7 @@
 import { RECIPIENT, SENDER } from "../referralLetters/letterDefaults";
 import {
   ACCUSED,
-  SEQUELIZE_VALIDATION_ERROR,
-  USER_PERMISSIONS,
-  VALIDATION_ERROR_HEADER
+  USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 
@@ -15,6 +13,7 @@ const Boom = require("boom");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const auditDataAccess = require("../../auditDataAccess");
 import _ from "lodash";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const canUpdateCaseToNewStatus = (newStatus, permissions) => {
   return (
@@ -43,11 +42,13 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
 
     const caseToUpdate = await models.cases.findById(request.params.caseId);
     if (!caseToUpdate) {
-      throw Boom.badRequest(`Case #${request.params.caseId} doesn't exist`);
+      throw Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST);
     }
 
     if (!canUpdateCaseToNewStatus(newStatus, request.permissions)) {
-      throw Boom.badRequest("Missing permissions to update case status");
+      throw Boom.badRequest(
+        BAD_REQUEST_ERRORS.PERMISSIONS_MISSING_TO_UPDATE_STATUS
+      );
     }
 
     await updateCaseIfValid(
@@ -75,7 +76,10 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
     );
 
     if (!_.isEmpty(validationErrors)) {
-      throw Boom.badRequest(VALIDATION_ERROR_HEADER, validationErrors);
+      throw Boom.badRequest(
+        BAD_REQUEST_ERRORS.VALIDATION_ERROR_HEADER,
+        validationErrors
+      );
     }
 
     return await getCaseWithAllAssociations(caseToUpdate.id, transaction);
@@ -101,7 +105,7 @@ const updateCaseIfValid = async (
       }
     );
   } catch (e) {
-    if (e.name === SEQUELIZE_VALIDATION_ERROR) {
+    if (e.name === BAD_REQUEST_ERRORS.SEQUELIZE_VALIDATION_ERROR) {
       validationErrors.push(...catchValidationErrors(e));
     } else {
       throw e;

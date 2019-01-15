@@ -1,3 +1,5 @@
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+
 const {
   JOB_OPERATION,
   USER_PERMISSIONS
@@ -14,7 +16,7 @@ const scheduleExport = asyncMiddleware(async (request, response, next) => {
   ) {
     const scopes = request.user.scope.split(" ");
     if (scopes.indexOf(USER_PERMISSIONS.EXPORT_AUDIT_LOG) === -1) {
-      throw Boom.badRequest("Operation not permitted.");
+      throw Boom.badRequest(BAD_REQUEST_ERRORS.OPERATION_NOT_PERMITTED);
     }
   }
 

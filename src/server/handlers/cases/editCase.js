@@ -3,6 +3,7 @@ import {
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
+import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
 const moment = require("moment");
 const models = require("../../models");
@@ -39,7 +40,7 @@ const editCase = asyncMiddleware(async (request, response, next) => {
     !request.body.firstContactDate ||
     !moment(request.body.firstContactDate).isValid()
   ) {
-    throw Boom.badRequest("Valid first contact date is required");
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_FIRST_CONTACT_DATE);
   } else {
     const caseValidationToggle = checkFeatureToggleEnabled(
       request,

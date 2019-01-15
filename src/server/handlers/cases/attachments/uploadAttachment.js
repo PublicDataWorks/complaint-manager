@@ -14,7 +14,7 @@ const auditDataAccess = require("../../auditDataAccess");
 
 const uploadAttachment = asyncMiddleware((request, response, next) => {
   let managedUpload;
-  const caseId = request.params.id;
+  const caseId = request.params.caseId;
   const busboy = new Busboy({
     headers: request.headers
   });

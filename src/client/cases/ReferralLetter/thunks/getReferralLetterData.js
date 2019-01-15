@@ -2,6 +2,7 @@ import axios from "axios/index";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const getReferralLetterData = caseId => async dispatch => {
   try {
@@ -10,7 +11,7 @@ const getReferralLetterData = caseId => async dispatch => {
   } catch (error) {
     if (
       error.response &&
-      error.response.data.message === "Invalid case status"
+      error.response.data.message === BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
     ) {
       return dispatch(invalidCaseStatusRedirect(caseId));
     }

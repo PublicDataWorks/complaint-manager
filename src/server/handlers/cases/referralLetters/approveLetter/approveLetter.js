@@ -11,6 +11,7 @@ import uploadLetterToS3 from "./uploadLetterToS3";
 import Boom from "boom";
 import auditUpload from "./auditUpload";
 import constructFilename from "../constructFilename";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 const approveLetter = asyncMiddleware(async (request, response, next) => {
   validateUserPermissions(request);
@@ -41,7 +42,7 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
 
 const validateCaseStatus = existingCase => {
   if (existingCase.status !== CASE_STATUS.READY_FOR_REVIEW) {
-    throw Boom.badRequest("Invalid case status");
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
   }
 };
 
@@ -81,7 +82,9 @@ const validateUserPermissions = request => {
   if (
     !request.permissions.includes(USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES)
   ) {
-    throw Boom.badRequest("Missing permissions to approve letter");
+    throw Boom.badRequest(
+      BAD_REQUEST_ERRORS.PERMISSIONS_MISSING_TO_APPROVE_LETTER
+    );
   }
 };
 

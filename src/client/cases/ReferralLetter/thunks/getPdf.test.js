@@ -10,6 +10,7 @@ import {
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
 import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("file-saver", () => jest.fn());
 jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
@@ -37,7 +38,7 @@ describe("getPdf thunk", function() {
   const errorResponseFor400 = {
     statusCode: 400,
     error: "Bad Request",
-    message: "Invalid case status"
+    message: BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
   };
 
   beforeEach(() => {

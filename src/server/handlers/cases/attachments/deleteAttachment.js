@@ -12,7 +12,7 @@ const deleteAttachment = asyncMiddleware(async (request, response) => {
 
     const deleteRequest = s3.deleteObject({
       Bucket: config[process.env.NODE_ENV].s3Bucket,
-      Key: `${request.params.id}/${request.params.fileName}`
+      Key: `${request.params.caseId}/${request.params.fileName}`
     });
 
     await deleteRequest.promise();
@@ -20,7 +20,7 @@ const deleteAttachment = asyncMiddleware(async (request, response) => {
     await models.attachment.destroy({
       where: {
         fileName: request.params.fileName,
-        caseId: request.params.id
+        caseId: request.params.caseId
       },
       auditUser: request.nickname,
       transaction
@@ -28,12 +28,12 @@ const deleteAttachment = asyncMiddleware(async (request, response) => {
 
     await auditDataAccess(
       request.nickname,
-      request.params.id,
+      request.params.caseId,
       AUDIT_SUBJECT.CASE_DETAILS,
       transaction
     );
 
-    return await getCaseWithAllAssociations(request.params.id, transaction);
+    return await getCaseWithAllAssociations(request.params.caseId, transaction);
   });
 
   response.status(200).send(caseDetails);

@@ -17,7 +17,7 @@ const generateAttachmentDownloadUrl = asyncMiddleware(
     const signedUrl = await models.sequelize.transaction(async transaction => {
       await auditDataAccess(
         request.nickname,
-        request.params.id,
+        request.params.caseId,
         AUDIT_SUBJECT.ATTACHMENTS,
         transaction,
         AUDIT_ACTION.DOWNLOADED,
@@ -26,7 +26,7 @@ const generateAttachmentDownloadUrl = asyncMiddleware(
 
       return s3.getSignedUrl(S3_GET_OBJECT, {
         Bucket: config[process.env.NODE_ENV].s3Bucket,
-        Key: `${request.params.id}/${request.params.fileName}`,
+        Key: `${request.params.caseId}/${request.params.fileName}`,
         Expires: S3_URL_EXPIRATION
       });
     });

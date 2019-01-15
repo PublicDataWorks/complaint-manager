@@ -4,6 +4,7 @@ import {
   snackbarError,
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const approveReferralLetter = (caseId, callback) => async dispatch => {
   try {
@@ -13,7 +14,7 @@ const approveReferralLetter = (caseId, callback) => async dispatch => {
   } catch (error) {
     if (
       error.response &&
-      error.response.data.message === "Invalid case status"
+      error.response.data.message === BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
     ) {
       dispatch(
         snackbarError("Case status could not be updated due to invalid status")

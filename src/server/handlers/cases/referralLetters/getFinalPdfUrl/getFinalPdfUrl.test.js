@@ -19,6 +19,7 @@ import Civilian from "../../../../../client/testUtilities/civilian";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import Officer from "../../../../../client/testUtilities/Officer";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 const httpMocks = require("node-mocks-http");
 
@@ -159,6 +160,8 @@ describe("getFinalPdfUrl", () => {
 
   test("returns 400 bad request if case is in status before forwarded to agency", async () => {
     await getFinalPdfUrl(request, response, next);
-    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
+    expect(next).toHaveBeenCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+    );
   });
 });

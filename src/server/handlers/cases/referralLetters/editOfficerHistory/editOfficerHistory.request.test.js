@@ -11,6 +11,7 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import request from "supertest";
 import app from "../../../../server";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 
@@ -138,7 +139,9 @@ describe("edit referral letter", () => {
           .set("Authorization", `Bearer ${token}`)
           .expect(400)
           .then(response => {
-            expect(response.body.message).toEqual("Invalid case status");
+            expect(response.body.message).toEqual(
+              BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
+            );
           });
       })
     );

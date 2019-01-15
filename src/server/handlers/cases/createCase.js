@@ -1,3 +1,5 @@
+import {BAD_REQUEST_ERRORS} from "../../../sharedUtilities/errorMessageConstants";
+
 const {
   AUDIT_SUBJECT,
   RANK_INITIATED
@@ -27,7 +29,7 @@ const validateCivilianName = civilian => {
   const last = civilian.lastName;
 
   if (invalidName(first) || invalidName(last)) {
-    throw Boom.badRequest("Invalid civilian name");
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CIVILIAN_NAME);
   }
 };
 

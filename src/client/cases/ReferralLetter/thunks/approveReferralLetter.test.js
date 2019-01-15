@@ -7,6 +7,7 @@ import {
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../../auth/getAccessToken");
 
@@ -67,7 +68,7 @@ describe("approve referral letter", () => {
       }
     })
       .put(`/api/cases/${caseId}/referral-letter/approve-letter`)
-      .reply(400, { message: "Invalid case status" });
+      .reply(400, { message: BAD_REQUEST_ERRORS.INVALID_CASE_STATUS });
 
     await approveReferralLetter(caseId, mockCallback)(dispatch);
     expect(mockCallback).toHaveBeenCalled();
