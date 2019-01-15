@@ -183,7 +183,7 @@ export default (sequelize, DataTypes) => {
   };
 
   Case.prototype.modelDescription = async function(transaction) {
-    return [];
+    return [{ "Case Reference": this.caseReference }];
   };
 
   Case.prototype.getCaseId = async function(transaction) {

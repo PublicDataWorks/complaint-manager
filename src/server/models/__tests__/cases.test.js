@@ -152,6 +152,25 @@ describe("cases", function() {
     });
   });
 
+  describe("modelDescription", () => {
+    test("returns the case reference number", async () => {
+      const civilianCaseAttributes = new Case.Builder()
+        .defaultCase()
+        .withComplaintType(CIVILIAN_INITIATED)
+        .withIncidentDate("2017-01-01")
+        .withFirstContactDate("2018-04-20")
+        .withId(555);
+      const civilianCase = await models.cases.create(civilianCaseAttributes, {
+        auditUser: "someone"
+      });
+      expect(await civilianCase.modelDescription()).toEqual([
+        {
+          "Case Reference": "CC2018-0555"
+        }
+      ]);
+    });
+  });
+
   describe("caseReference", () => {
     test("returns a case reference starting with CC for civilian complainant", () => {
       const civilianCaseAttributes = new Case.Builder()
