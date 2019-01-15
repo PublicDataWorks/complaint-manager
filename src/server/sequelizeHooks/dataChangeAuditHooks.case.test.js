@@ -88,7 +88,9 @@ describe("dataChangeAuditHooks", () => {
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
         classificationId: { new: null },
-        classification: { new: null }
+        classification: { new: null },
+        caseNumber: { new: 1 },
+        year: { new: 2017 }
       };
       expect(audit.changes).toEqual(expectedChanges);
     });
@@ -115,7 +117,9 @@ describe("dataChangeAuditHooks", () => {
         classificationId: { new: null },
         classification: { new: null },
         intakeSourceId: { new: emailIntakeSource.id },
-        intakeSource: { new: emailIntakeSource.name }
+        intakeSource: { new: emailIntakeSource.name },
+        caseNumber: { new: 1 },
+        year: { new: 2017 }
       };
       expect(audit.changes).toEqual(expectedChanges);
     });
@@ -139,7 +143,9 @@ describe("dataChangeAuditHooks", () => {
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
         classificationId: { new: utdClassification.id },
-        classification: { new: utdClassification.initialism }
+        classification: { new: utdClassification.initialism },
+        year: { new: 2017 },
+        caseNumber: { new: 1 }
       };
       expect(audit.changes).toEqual(expectedChanges);
     });
@@ -168,7 +174,9 @@ describe("dataChangeAuditHooks", () => {
         classification: null,
         intakeSourceId: null,
         intake_source: null,
-        deletedAt: null
+        deletedAt: null,
+        caseNumber: 1,
+        year: 2017
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -198,7 +206,9 @@ describe("dataChangeAuditHooks", () => {
         classification: utdClassification.initialism,
         intakeSourceId: null,
         intake_source: null,
-        deletedAt: null
+        deletedAt: null,
+        year: 2017,
+        caseNumber: 1
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -519,7 +529,9 @@ describe("dataChangeAuditHooks", () => {
         classification: utdClassification.initialism,
         intakeSourceId: existingCase.intakeSourceId,
         intake_source: emailIntakeSource.name,
-        deletedAt: null
+        deletedAt: null,
+        caseNumber: 1,
+        year: 2017
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -529,79 +541,6 @@ describe("dataChangeAuditHooks", () => {
 
       await models.data_change_audit.count().then(num => {
         expect(num).toEqual(1);
-      });
-    });
-
-    describe("delete/destroy", () => {
-      let existingCase = null;
-      let initialCaseAttributes = {};
-      let utdClassification = null;
-      let bwcClassification = null;
-      let intakeSource;
-
-      beforeEach(async () => {
-        const utdClassificationAttributes = new Classification.Builder()
-          .defaultClassification()
-          .withId(null)
-          .withInitialism("UTD")
-          .withName("Unable to Determine");
-        utdClassification = await models.classification.create(
-          utdClassificationAttributes
-        );
-        const bwcClassificationAttributes = new Classification.Builder()
-          .defaultClassification()
-          .withId(null)
-          .withInitialism("BWC")
-          .withName("Body Worn Camera");
-        bwcClassification = await models.classification.create(
-          bwcClassificationAttributes
-        );
-
-        const intakeSourceAttributes = new IntakeSource.Builder()
-          .defaultIntakeSource()
-          .withId(undefined);
-        intakeSource = await models.intake_source.create(
-          intakeSourceAttributes,
-          { auditUser: "test" }
-        );
-        initialCaseAttributes = new Case.Builder()
-          .defaultCase()
-          .withId(undefined)
-          .withIncidentLocation(undefined)
-          .withClassificationId(utdClassification.id)
-          .withIntakeSourceId(intakeSource.id);
-        existingCase = await models.cases.create(initialCaseAttributes, {
-          auditUser: "someone"
-        });
-      });
-
-      test("should audit destroy including changes including classification association value", async () => {
-        await existingCase.destroy({ auditUser: "someone" });
-        const audit = await models.data_change_audit.find({
-          where: {
-            modelName: "Case",
-            action: AUDIT_ACTION.DATA_ARCHIVED
-          }
-        });
-
-        const expectedChanges = {
-          assignedTo: { previous: "tuser" },
-          classification: { previous: utdClassification.initialism },
-          classificationId: { previous: utdClassification.id },
-          complaintType: { previous: "Civilian Initiated" },
-          district: { previous: "First District" },
-          firstContactDate: { previous: "2017-12-24" },
-          id: { previous: existingCase.id },
-          incidentDate: { previous: "2017-01-01" },
-          incidentTime: { previous: "16:00:00" },
-          narrativeDetails: { previous: "test details" },
-          narrativeSummary: { previous: "test summary" },
-          status: { previous: "Initial" },
-          intakeSourceId: { previous: intakeSource.id },
-          intakeSource: { previous: intakeSource.name },
-          intake_source: {}
-        };
-        expect(audit.changes).toEqual(expectedChanges);
       });
     });
 
@@ -736,6 +675,80 @@ describe("dataChangeAuditHooks", () => {
           initialCaseAttributes.narrativeDetails
         );
       });
+    });
+  });
+
+  describe("delete/destroy", () => {
+    let existingCase = null;
+    let initialCaseAttributes = {};
+    let utdClassification = null;
+    let bwcClassification = null;
+    let intakeSource;
+
+    beforeEach(async () => {
+      const utdClassificationAttributes = new Classification.Builder()
+        .defaultClassification()
+        .withId(null)
+        .withInitialism("UTD")
+        .withName("Unable to Determine");
+      utdClassification = await models.classification.create(
+        utdClassificationAttributes
+      );
+      const bwcClassificationAttributes = new Classification.Builder()
+        .defaultClassification()
+        .withId(null)
+        .withInitialism("BWC")
+        .withName("Body Worn Camera");
+      bwcClassification = await models.classification.create(
+        bwcClassificationAttributes
+      );
+
+      const intakeSourceAttributes = new IntakeSource.Builder()
+        .defaultIntakeSource()
+        .withId(undefined);
+      intakeSource = await models.intake_source.create(intakeSourceAttributes, {
+        auditUser: "test"
+      });
+      initialCaseAttributes = new Case.Builder()
+        .defaultCase()
+        .withId(undefined)
+        .withIncidentLocation(undefined)
+        .withClassificationId(utdClassification.id)
+        .withIntakeSourceId(intakeSource.id);
+      existingCase = await models.cases.create(initialCaseAttributes, {
+        auditUser: "someone"
+      });
+    });
+
+    test("should audit destroy including changes including classification association value", async () => {
+      await existingCase.destroy({ auditUser: "someone" });
+      const audit = await models.data_change_audit.find({
+        where: {
+          modelName: "Case",
+          action: AUDIT_ACTION.DATA_ARCHIVED
+        }
+      });
+
+      const expectedChanges = {
+        assignedTo: { previous: "tuser" },
+        classification: { previous: utdClassification.initialism },
+        classificationId: { previous: utdClassification.id },
+        complaintType: { previous: "Civilian Initiated" },
+        district: { previous: "First District" },
+        firstContactDate: { previous: "2017-12-24" },
+        year: { previous: 2017 },
+        caseNumber: { previous: 1 },
+        id: { previous: existingCase.id },
+        incidentDate: { previous: "2017-01-01" },
+        incidentTime: { previous: "16:00:00" },
+        narrativeDetails: { previous: "test details" },
+        narrativeSummary: { previous: "test summary" },
+        status: { previous: "Initial" },
+        intakeSourceId: { previous: intakeSource.id },
+        intakeSource: { previous: intakeSource.name },
+        intake_source: {}
+      };
+      expect(audit.changes).toEqual(expectedChanges);
     });
   });
 });

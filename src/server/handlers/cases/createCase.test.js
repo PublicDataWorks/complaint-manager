@@ -7,6 +7,7 @@ import {
 } from "../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
+import Case from "../../../client/testUtilities/case";
 
 const httpMocks = require("node-mocks-http");
 const createCase = require("./createCase");
@@ -54,9 +55,10 @@ describe("createCase handler", () => {
       where: { complaintType: CIVILIAN_INITIATED },
       include: [{ model: models.civilian, as: "complainantCivilians" }]
     });
-
     expect(insertedCase).toEqual(
       expect.objectContaining({
+        year: 2018,
+        caseNumber: 1,
         complaintType: CIVILIAN_INITIATED,
         firstContactDate: "2018-02-08",
         incidentDate: "2018-03-16",
@@ -94,9 +96,10 @@ describe("createCase handler", () => {
       where: { complaintType: RANK_INITIATED },
       include: [{ model: models.civilian, as: "complainantCivilians" }]
     });
-
     expect(insertedCase).toEqual(
       expect.objectContaining({
+        year: 2018,
+        caseNumber: 1,
         complaintType: RANK_INITIATED,
         firstContactDate: "2018-02-08",
         incidentDate: "2018-03-16",
@@ -223,4 +226,78 @@ describe("createCase handler", () => {
       );
     });
   });
+
+  describe("case number and case year (case reference generation)", () => {
+    test("assigns the next case number for this year when other cases exist", async () => {
+      await createCaseForYear(2017); //case 2017-0001
+      await createCaseForYear(2018); //case 2018-0001
+      await createCaseForYear(2018); //case 2018-0002
+      await createCase(request, response, next); //case 2018-0003
+      const insertedCases = await models.cases.findAll({
+        order: [["created_at", "ASC"]]
+      });
+      expect(
+        insertedCases.map(insertedCase => [
+          insertedCase.year,
+          insertedCase.caseNumber
+        ])
+      ).toEqual([[2017, 1], [2018, 1], [2018, 2], [2018, 3]]);
+    });
+
+    test("assigns the case number of 1 for this year when no cases for this year exist yet", async () => {
+      await createCase(request, response, next);
+      const insertedCase = await models.cases.find();
+      expect(insertedCase.year).toEqual(2018);
+      expect(insertedCase.caseNumber).toEqual(1);
+    });
+
+    test("overrides any case number or year given as params", async () => {
+      request.body.case.year = 1900;
+      request.body.case.caseNumber = 5;
+      await createCase(request, response, next);
+      const insertedCase = await models.cases.find();
+      expect(insertedCase.year).toEqual(2018);
+      expect(insertedCase.caseNumber).toEqual(1);
+    });
+
+    test("throws error if error is other than unique case number error", async () => {
+      request.body.case.firstContactDate = null;
+      await createCase(request, response, next);
+      expect(next).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: "SequelizeValidationError",
+          errors: [expect.objectContaining({ type: "notNull Violation" })]
+        })
+      );
+    });
+
+    test("handles multiple cases trying to be created at once", async () => {
+      const promise1 = createCase(request, response, next);
+      const promise2 = createCase(request, response, next);
+      const promise3 = createCase(request, response, next);
+
+      await Promise.all([promise1, promise2, promise3]);
+
+      const insertedCases = await models.cases.findAll({
+        order: [["created_at", "ASC"]]
+      });
+      expect(
+        insertedCases.map(insertedCase => [
+          insertedCase.year,
+          insertedCase.caseNumber
+        ])
+      ).toEqual([[2018, 1], [2018, 2], [2018, 3]]);
+    });
+  });
+
+  const createCaseForYear = async year => {
+    const caseAttributes = new Case.Builder()
+      .defaultCase()
+      .withFirstContactDate(`${year}-01-02`)
+      .withId(null)
+      .build();
+    await models.cases.create(caseAttributes, {
+      auditUser: "someone"
+    });
+  };
 });
