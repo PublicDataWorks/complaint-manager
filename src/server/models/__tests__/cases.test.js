@@ -165,33 +165,54 @@ describe("cases", function() {
       });
       expect(await civilianCase.modelDescription()).toEqual([
         {
-          "Case Reference": "CC2018-0555"
+          "Case Reference": "CC2018-0001"
         }
       ]);
     });
   });
 
   describe("caseReference", () => {
-    test("returns a case reference starting with CC for civilian complainant", () => {
+    test("returns a case reference starting with CC for civilian initiated case", async () => {
       const civilianCaseAttributes = new Case.Builder()
         .defaultCase()
         .withComplaintType(CIVILIAN_INITIATED)
         .withIncidentDate("2017-01-01")
         .withFirstContactDate("2018-04-20")
         .withId(555);
-      const civilianCase = models.cases.build(civilianCaseAttributes);
-      expect(civilianCase.caseReference).toEqual("CC2018-0555");
+      const civilianCase = await models.cases.create(civilianCaseAttributes, {
+        auditUser: "someone"
+      });
+      expect(civilianCase.caseReference).toEqual("CC2018-0001");
     });
 
-    test("returns a case reference starting with PO for officer complainant", () => {
+    test("returns currenct case reference even if first contact year has changed", async () => {
+      const civilianCaseAttributes = new Case.Builder()
+        .defaultCase()
+        .withComplaintType(CIVILIAN_INITIATED)
+        .withIncidentDate("2017-01-01")
+        .withFirstContactDate("2016-04-20")
+        .withId(555);
+      const civilianCase = await models.cases.create(civilianCaseAttributes, {
+        auditUser: "someone"
+      });
+      await civilianCase.update(
+        { firstContactDate: "2018-01-01" },
+        { auditUser: "someone" }
+      );
+      expect(civilianCase.caseReference).toEqual("CC2016-0001");
+    });
+
+    test("returns a case reference starting with PO for rank initiated complainant", async () => {
       const officerCaseAttributes = new Case.Builder()
         .defaultCase()
         .withComplaintType(RANK_INITIATED)
         .withIncidentDate("2000-05-26")
         .withFirstContactDate("2002-05-17")
         .withId(12);
-      const officerCase = models.cases.build(officerCaseAttributes);
-      expect(officerCase.caseReference).toEqual("PO2002-0012");
+      const officerCase = await models.cases.create(officerCaseAttributes, {
+        auditUser: "someone"
+      });
+      expect(officerCase.caseReference).toEqual("PO2002-0001");
     });
   });
 

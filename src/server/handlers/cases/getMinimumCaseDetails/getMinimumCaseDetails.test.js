@@ -53,7 +53,7 @@ describe("getMinimumCaseDetails", () => {
   test("gets case reference", async () => {
     await getMinimumCaseDetails(request, response, next);
     const responseBody = response._getData();
-    expect(responseBody.caseReference).toEqual("CC2017-0205");
+    expect(responseBody.caseReference).toEqual("CC2017-0001");
   });
 
   test("audits the data access", async () => {

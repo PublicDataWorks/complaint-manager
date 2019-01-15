@@ -157,11 +157,8 @@ export default (sequelize, DataTypes) => {
         caseReference() {
           const prefix =
             this.complaintType === CIVILIAN_INITIATED ? "CC" : "PO";
-          const firstContactYear = this.firstContactDate
-            ? moment(this.firstContactDate).format("YYYY")
-            : "";
-          const paddedCaseId = `${this.id}`.padStart(4, "0");
-          return `${prefix}${firstContactYear}-${paddedCaseId}`;
+          const paddedCaseId = `${this.caseNumber}`.padStart(4, "0");
+          return `${prefix}${this.year}-${paddedCaseId}`;
         }
       }
     }
