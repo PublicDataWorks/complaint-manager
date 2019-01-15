@@ -54,6 +54,15 @@ export default (sequelize, DataTypes) => {
           }
         }
       },
+      year: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      caseNumber: {
+        field: "case_number",
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
       district: {
         type: DataTypes.STRING
       },
@@ -117,6 +126,27 @@ export default (sequelize, DataTypes) => {
             return;
           if (instance.status === CASE_STATUS.INITIAL) {
             instance.status = CASE_STATUS.ACTIVE;
+          }
+        },
+        beforeValidate: (instance, options) => {
+          // Generate case number if creating new record
+          // Note: We cannot use Postgres sequence b/c we need to reset each year and a cron to reset sequence once a year seems risky
+          // Note: We cannot lock table for update on aggregate function, so will retry on unique key violation
+          if (instance.isNewRecord) {
+            const caseReferenceYear =
+              instance.firstContactDate &&
+              moment(instance.firstContactDate).format("YYYY");
+            const subqueryForNextCaseNumberThisYear = instance.sequelize.literal(
+              `COALESCE((SELECT max(case_number) + 1 FROM cases where year = ${caseReferenceYear}), 1)`
+            ); //this won't execute until the create statement executes
+            instance.year = caseReferenceYear;
+            instance.caseNumber = subqueryForNextCaseNumberThisYear;
+          } else if (
+            instance.changed() &&
+            (instance.changed().includes("year") ||
+              instance.changed().includes("caseNumber"))
+          ) {
+            throw Boom.badData("Cannot override case reference information");
           }
         }
       },
