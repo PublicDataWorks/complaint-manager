@@ -4,7 +4,6 @@ import checkForValidStatus from "../checkForValidStatus";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT,
-  CIVILIAN_INITIATED,
   LETTER_TYPE,
   REFERRAL_LETTER_VERSION
 } from "../../../../../sharedUtilities/constants";
