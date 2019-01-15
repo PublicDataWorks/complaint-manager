@@ -13,10 +13,10 @@ const archiveCase = caseId => async dispatch => {
     dispatch(startSubmit(ARCHIVE_CASE_FORM_NAME));
     await axios.delete(`api/cases/${caseId}`);
 
+    dispatch(push("/"));
     dispatch(snackbarSuccess("Case was successfully archived"));
     dispatch(closeArchiveCaseDialog());
-    dispatch(stopSubmit(ARCHIVE_CASE_FORM_NAME));
-    return dispatch(push(`/`));
+    return dispatch(stopSubmit(ARCHIVE_CASE_FORM_NAME));
   } catch (error) {
     dispatch(stopSubmit(ARCHIVE_CASE_FORM_NAME));
     return dispatch(

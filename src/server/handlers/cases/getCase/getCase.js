@@ -13,11 +13,7 @@ const getCase = asyncMiddleware(async (req, res) => {
       transaction
     );
 
-    const caseWithAssociations = await getCaseWithAllAssociations(
-      req.params.caseId,
-      transaction
-    );
-    return caseWithAssociations;
+    return await getCaseWithAllAssociations(req.params.caseId, transaction);
   });
 
   res.send(singleCase);
