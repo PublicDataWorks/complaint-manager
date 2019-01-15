@@ -9,7 +9,10 @@ import {
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
 import Case from "../../../client/testUtilities/case";
-import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
+import {
+  BAD_DATA_ERRORS,
+  BAD_REQUEST_ERRORS
+} from "../../../sharedUtilities/errorMessageConstants";
 
 describe("cases", function() {
   let createdCase;
@@ -126,7 +129,7 @@ describe("cases", function() {
       expect(
         newCase.update({ caseNumber: 88, year: 1901 }, { auditUser: "someone" })
       ).rejects.toEqual(
-        Boom.badData("Cannot override case reference information")
+        Boom.badData(BAD_DATA_ERRORS.CANNOT_OVERRIDE_CASE_REFERENCE)
       );
 
       await newCase.reload();

@@ -2,7 +2,10 @@ import { ADDRESSABLE_TYPE } from "../../sharedUtilities/constants";
 import moment from "moment";
 import _ from "lodash";
 import models from "./index";
-import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants";
+import {
+  BAD_DATA_ERRORS,
+  BAD_REQUEST_ERRORS
+} from "../../sharedUtilities/errorMessageConstants";
 
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
@@ -147,7 +150,7 @@ export default (sequelize, DataTypes) => {
             (instance.changed().includes("year") ||
               instance.changed().includes("caseNumber"))
           ) {
-            throw Boom.badData("Cannot override case reference information");
+            throw Boom.badData(BAD_DATA_ERRORS.CANNOT_OVERRIDE_CASE_REFERENCE);
           }
         }
       },

@@ -1,4 +1,7 @@
-import { ROUTES } from "../../sharedUtilities/errorMessageConstants";
+import {
+  NOT_FOUND_ERRORS,
+  ROUTES
+} from "../../sharedUtilities/errorMessageConstants";
 
 const errorHandler = require("./errorHandler");
 const httpMocks = require("node-mocks-http");
@@ -53,14 +56,18 @@ describe("errorHandler", () => {
   test("should respond with boomified error message with its status code", () => {
     const request = httpMocks.createRequest();
     const response = httpMocks.createResponse();
-    errorHandler(Boom.notFound("Page was not found"), request, response);
+    errorHandler(
+      Boom.notFound(NOT_FOUND_ERRORS.PAGE_NOT_FOUND),
+      request,
+      response
+    );
 
     expect(response.statusCode).toEqual(404);
     expect(response._getData()).toEqual(
       JSON.stringify({
         statusCode: 404,
         error: "Not Found",
-        message: "Page was not found"
+        message: "Page was not found."
       })
     );
   });
