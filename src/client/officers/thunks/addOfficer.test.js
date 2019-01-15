@@ -1,11 +1,12 @@
 import addOfficer from "./addOfficer";
 import nock from "nock";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import Officer from "../../testUtilities/Officer";
 import Case from "../../testUtilities/case";
 import {
   addOfficerToCaseFailure,
-  addOfficerToCaseSuccess
+  addOfficerToCaseSuccess,
+  clearSelectedOfficer
 } from "../../actionCreators/officersActionCreators";
 import { ACCUSED } from "../../../sharedUtilities/constants";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
@@ -47,6 +48,7 @@ describe("addOfficer", () => {
     expect(dispatch).toHaveBeenCalledWith(
       addOfficerToCaseSuccess(responseBody)
     );
+    expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer());
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${defaultCase.id}`));
   });
 

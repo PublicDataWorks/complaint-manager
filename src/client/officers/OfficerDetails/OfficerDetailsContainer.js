@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
 import OfficerDetails from "./OfficerDetails";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 
 export class OfficerDetailsContainer extends Component {

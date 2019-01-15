@@ -4,7 +4,7 @@ import {
   snackbarError,
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import editIAProCorrections from "./editIAProCorrections";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
 

@@ -2,7 +2,6 @@ import getAccessToken from "../../../auth/getAccessToken";
 import nock from "nock";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
-jest.mock("../../../auth/getAccessToken");
 import getReferralLetterData from "./getReferralLetterData";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";

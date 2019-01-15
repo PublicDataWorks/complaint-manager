@@ -5,7 +5,7 @@ import {
   requestCaseCreation
 } from "../../actionCreators/casesActionCreators";
 import { reset } from "redux-form";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import axios from "axios";
 import {
   CIVILIAN_INITIATED,

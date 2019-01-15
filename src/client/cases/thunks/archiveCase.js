@@ -4,7 +4,7 @@ import {
   snackbarError,
   snackbarSuccess
 } from "../../actionCreators/snackBarActionCreators";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import { startSubmit, stopSubmit } from "redux-form";
 import { ARCHIVE_CASE_FORM_NAME } from "../../../sharedUtilities/constants";
 

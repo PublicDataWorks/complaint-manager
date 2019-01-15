@@ -5,8 +5,7 @@ import {
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
-jest.mock("../../../auth/getAccessToken");
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import editOfficerHistory from "./editOfficerHistory";
 
 jest.mock("../../../auth/getAccessToken");

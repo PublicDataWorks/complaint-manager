@@ -6,7 +6,7 @@ import {
   requestCaseCreation
 } from "../../actionCreators/casesActionCreators";
 import createCase from "./createCase";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
