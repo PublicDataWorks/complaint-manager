@@ -177,7 +177,7 @@ describe("csvCaseExport request", () => {
         ]
       });
 
-      const paddedId = `${caseToExport.id}`.padStart(4, "0");
+      const paddedId = `${caseToExport.caseNumber}`.padStart(4, "0");
       caseReference = `CC2018-${paddedId}`;
 
       const addressAttributes = new Address.Builder()
@@ -878,7 +878,7 @@ describe("csvCaseExport request", () => {
       const firstRecord = records[0];
       const secondRecord = records[1];
 
-      const otherPaddedId = `${otherCase.id}`.padStart(4, "0");
+      const otherPaddedId = `${otherCase.caseNumber}`.padStart(4, "0");
       const othercaseReference = `CC2012-${otherPaddedId}`;
 
       expect(firstRecord["Case #"]).toEqual(caseReference);
