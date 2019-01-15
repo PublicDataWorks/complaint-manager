@@ -1,6 +1,9 @@
 import Civilian from "../../testUtilities/civilian";
-import { startSubmit, stopSubmit } from "redux-form";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
+import {
+    startSubmit,
+    stopSubmit,
+} from "redux-form";
 import getAccessToken from "../../auth/getAccessToken";
 import {
   closeEditDialog,

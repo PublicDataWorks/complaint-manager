@@ -1,8 +1,8 @@
 import getCases from "../cases/thunks/getCases";
 import nock from "nock";
-import { getCasesSuccess } from "../actionCreators/casesActionCreators";
+import {getCasesSuccess} from "../actionCreators/casesActionCreators";
 import getAccessToken from "../auth/getAccessToken";
-import { push } from "connected-react-router";
+import {push} from "react-router-redux";
 import configureInterceptors from "./interceptors";
 
 jest.mock("../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
@@ -16,6 +16,7 @@ describe("ensureTokenOnRequestInterceptor", () => {
     dispatch.mockClear();
     getAccessToken.mockClear();
   });
+
 
   test("adds access token to request headers", async () => {
     nock("http://localhost")

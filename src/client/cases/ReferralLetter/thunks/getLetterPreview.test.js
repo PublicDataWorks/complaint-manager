@@ -1,5 +1,5 @@
 import getAccessToken from "../../../auth/getAccessToken";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import getLetterPreview from "./getLetterPreview";
 import nock from "nock";
 import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";

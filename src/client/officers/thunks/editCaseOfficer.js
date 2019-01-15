@@ -1,5 +1,6 @@
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import {
+  clearSelectedOfficer,
   editCaseOfficerFailure,
   editCaseOfficerSuccess
 } from "../../actionCreators/officersActionCreators";
@@ -18,6 +19,7 @@ const editCaseOfficer = (
       JSON.stringify(payload)
     );
     dispatch(editCaseOfficerSuccess(response.data));
+    dispatch(clearSelectedOfficer());
     return dispatch(push(`/cases/${caseId}`));
   } catch (error) {
     return dispatch(editCaseOfficerFailure());

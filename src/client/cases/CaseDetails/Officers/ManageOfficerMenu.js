@@ -1,5 +1,5 @@
 import React from "react";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import { Menu, MenuItem } from "@material-ui/core";
 import LinkButton from "../../../shared/components/LinkButton";
 import {

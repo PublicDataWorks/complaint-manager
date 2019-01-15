@@ -9,7 +9,7 @@ import { clearSelectedOfficer } from "../../actionCreators/officersActionCreator
 import createConfiguredStore from "../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import { ACCUSED } from "../../../sharedUtilities/constants";
 

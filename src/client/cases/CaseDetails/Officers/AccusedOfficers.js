@@ -7,7 +7,7 @@ import ManageOfficerMenu from "./ManageOfficerMenu";
 import WarningMessage from "../../../shared/components/WarningMessage";
 import calculateAgeBasedOnIncidentDate from "../../../utilities/calculateAgeBasedOnIncidentDate";
 import LinkButton from "../../../shared/components/LinkButton";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import { initialize } from "redux-form";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
 
