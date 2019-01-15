@@ -8,6 +8,7 @@ import {
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
 import Case from "../../../client/testUtilities/case";
+import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
 const httpMocks = require("node-mocks-http");
 const createCase = require("./createCase");
@@ -147,7 +148,9 @@ describe("createCase handler", () => {
     });
 
     await createCase(request, response, next);
-    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid civilian name"));
+    expect(next).toHaveBeenCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CIVILIAN_NAME)
+    );
   });
 
   test("should respond with 400 when name input is more than 25 characters", async () => {
@@ -167,7 +170,9 @@ describe("createCase handler", () => {
 
     await createCase(request, response, next);
 
-    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid civilian name"));
+    expect(next).toHaveBeenCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CIVILIAN_NAME)
+    );
   });
 
   describe("audit data access", () => {

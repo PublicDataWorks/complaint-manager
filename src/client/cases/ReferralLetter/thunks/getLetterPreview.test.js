@@ -8,6 +8,7 @@ import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreato
 import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../../auth/getAccessToken");
 jest.mock("../../thunks/invalidCaseStatusRedirect", () => caseId => ({
@@ -69,7 +70,7 @@ describe("getLetterPreview", function() {
 
   test("redirects to case details page if 400 error response (invalid letter generation case status)", async () => {
     const responseBody = {
-      message: "Invalid case status"
+      message: BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
     };
     getAccessToken.mockImplementation(() => "TOKEN");
     nock("http://localhost", {})

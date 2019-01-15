@@ -9,6 +9,7 @@ import {
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
 import Case from "../../../client/testUtilities/case";
+import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
 describe("cases", function() {
   let createdCase;
@@ -244,7 +245,9 @@ describe("cases", function() {
           { status: CASE_STATUS.INITIAL },
           { auditUser: "someone" }
         )
-      ).rejects.toEqual(Boom.badRequest("Invalid case status"));
+      ).rejects.toEqual(
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+      );
 
       await createdCase.reload();
 
@@ -272,7 +275,9 @@ describe("cases", function() {
           { status: CASE_STATUS.INITIAL },
           { auditUser: "someone" }
         )
-      ).rejects.toEqual(Boom.badRequest("Invalid case status"));
+      ).rejects.toEqual(
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+      );
       await createdCase.reload();
 
       expect(createdCase.status).toEqual(CASE_STATUS.READY_FOR_REVIEW);
@@ -284,7 +289,9 @@ describe("cases", function() {
           { status: CASE_STATUS.READY_FOR_REVIEW },
           { auditUser: "someone" }
         )
-      ).rejects.toEqual(Boom.badRequest("Invalid case status"));
+      ).rejects.toEqual(
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+      );
 
       await createdCase.reload();
       expect(createdCase.status).toEqual(CASE_STATUS.INITIAL);
@@ -311,7 +318,9 @@ describe("cases", function() {
           { status: CASE_STATUS.ACTIVE },
           { auditUser: "someone" }
         )
-      ).rejects.toEqual(Boom.badRequest("Invalid case status"));
+      ).rejects.toEqual(
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+      );
 
       await createdCase.reload();
       expect(createdCase.status).toEqual(CASE_STATUS.READY_FOR_REVIEW);

@@ -3,6 +3,7 @@ import asyncMiddleware from "../../../asyncMiddleware";
 import checkForValidStatus from "../checkForValidStatus";
 import Boom from "boom";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 const ALLOWED_STATUSES = [
   CASE_STATUS.LETTER_IN_PROGRESS,
@@ -18,7 +19,7 @@ const editReferralLetterContent = asyncMiddleware(
     });
 
     if (referralLetter == null) {
-      throw Boom.badRequest("No referral letter for given case id.");
+      throw Boom.badRequest(BAD_REQUEST_ERRORS.REFERRAL_LETTER_DOES_NOT_EXIST);
     }
     await referralLetter.update(
       {

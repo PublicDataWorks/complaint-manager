@@ -9,6 +9,7 @@ import {
   suppressWinstonLogs
 } from "../../../../testHelpers/requestTestHelpers";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 
 describe("GET /cases/:id/referral-letter", function() {
@@ -137,7 +138,9 @@ describe("GET /cases/:id/referral-letter", function() {
         .set("Authorization", `Bearer ${token}`)
         .expect(400)
         .then(response => {
-          expect(response.body.message).toEqual("Invalid case status");
+          expect(response.body.message).toEqual(
+            BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
+          );
         });
     })
   );

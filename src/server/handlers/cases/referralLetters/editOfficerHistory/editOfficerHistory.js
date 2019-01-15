@@ -2,6 +2,7 @@ import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
 import Boom from "boom";
 import checkForValidStatus from "../checkForValidStatus";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 const editOfficerHistory = asyncMiddleware(async (request, response, next) => {
   await checkForValidStatus(request.params.caseId);
@@ -50,10 +51,12 @@ const updateExistingLetterOfficer = async (
     letterOfficerData.id
   );
   if (!letterOfficer) {
-    throw Boom.badRequest("Invalid letter officer");
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_LETTER_OFFICER);
   }
   if (letterOfficer.caseOfficerId !== letterOfficerData.caseOfficerId) {
-    throw Boom.badRequest("Invalid letter officer case officer combination");
+    throw Boom.badRequest(
+      BAD_REQUEST_ERRORS.INVALID_LETTER_OFFICER_CASE_OFFICER_COMBINATION
+    );
   }
   await letterOfficer.update(letterOfficerData, {
     auditUser: userNickname,
@@ -151,7 +154,7 @@ const updateExistingOfficerHistoryNote = async (
     noteData.id
   );
   if (!note) {
-    throw Boom.badRequest("Invalid officer history note");
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_OFFICER_HISTORY_NOTE);
   }
   await note.update(noteData, { auditUser: userNickname, transaction });
 };
@@ -181,7 +184,7 @@ const createNewLetterOfficer = async (
     letterOfficerData.caseOfficerId
   );
   if (!caseOfficer) {
-    throw Boom.badRequest("Invalid case officer");
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_OFFICER);
   }
   await models.letter_officer.create(letterOfficerData, {
     include: [

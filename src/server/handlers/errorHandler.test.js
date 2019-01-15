@@ -1,4 +1,4 @@
-import ROUTES from "../../sharedUtilities/errorMessageConstants";
+import { ROUTES } from "../../sharedUtilities/errorMessageConstants";
 
 const errorHandler = require("./errorHandler");
 const httpMocks = require("node-mocks-http");

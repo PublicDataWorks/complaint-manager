@@ -6,6 +6,7 @@ import {
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const getPdf = (
   caseId,
@@ -48,7 +49,7 @@ const errorIsInvalidCaseStatus = error => {
   const errorMessage = getJsonMessageFromArrayBufferResponse(
     error.response.data
   );
-  return errorMessage === "Invalid case status";
+  return errorMessage === BAD_REQUEST_ERRORS.INVALID_CASE_STATUS;
 };
 
 const getJsonMessageFromArrayBufferResponse = arrayBuffer => {

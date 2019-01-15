@@ -10,6 +10,7 @@ import LetterOfficer from "../../../../../client/testUtilities/LetterOfficer";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
 import Boom from "boom";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 describe("edit referral letter", () => {
   afterEach(async () => {
@@ -263,7 +264,7 @@ describe("edit referral letter", () => {
         });
         await editOfficerHistory(request, response, next);
         expect(next).toHaveBeenCalledWith(
-          Boom.badRequest("Invalid case officer")
+          Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_OFFICER)
         );
 
         const createdLetterOfficers = await models.letter_officer.findAll();
@@ -304,7 +305,7 @@ describe("edit referral letter", () => {
         });
         await editOfficerHistory(request, response, next);
         expect(next).toHaveBeenCalledWith(
-          Boom.badRequest("Invalid case officer")
+          Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_OFFICER)
         );
 
         const createdLetterOfficers = await models.letter_officer.findAll();
@@ -564,7 +565,7 @@ describe("edit referral letter", () => {
 
         await editOfficerHistory(request, response, next);
         expect(next).toHaveBeenCalledWith(
-          Boom.badRequest("Invalid letter officer")
+          Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_LETTER_OFFICER)
         );
 
         const updatedLetterOfficer = await models.letter_officer.findById(
@@ -600,7 +601,9 @@ describe("edit referral letter", () => {
 
         await editOfficerHistory(request, response, next);
         expect(next).toHaveBeenCalledWith(
-          Boom.badRequest("Invalid letter officer case officer combination")
+          Boom.badRequest(
+            BAD_REQUEST_ERRORS.INVALID_LETTER_OFFICER_CASE_OFFICER_COMBINATION
+          )
         );
 
         const updatedLetterOfficer = await letterOfficer.reload();
@@ -642,7 +645,7 @@ describe("edit referral letter", () => {
         });
         await editOfficerHistory(request, response, next);
         expect(next).toHaveBeenCalledWith(
-          Boom.badRequest("Invalid officer history note")
+          Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_OFFICER_HISTORY_NOTE)
         );
 
         await letterOfficer.reload({

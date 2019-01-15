@@ -4,6 +4,7 @@ import {
   snackbarError,
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const editIAProCorrections = (
   caseId,
@@ -20,7 +21,7 @@ const editIAProCorrections = (
   } catch (error) {
     if (
       error.response &&
-      error.response.data.message === "Invalid case status"
+      error.response.data.message === BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
     ) {
       return dispatch(push(`/cases/${caseId}`));
     }

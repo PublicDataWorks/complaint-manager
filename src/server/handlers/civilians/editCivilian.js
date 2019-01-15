@@ -36,9 +36,14 @@ const editCivilian = asyncMiddleware(async (req, res) => {
   const updatedCaseDetails = await models.sequelize.transaction(
     async transaction => {
       if (address) {
-        await upsertAddress(req.params.id, address, transaction, req.nickname);
+        await upsertAddress(
+          req.params.civilianId,
+          address,
+          transaction,
+          req.nickname
+        );
       }
-      const civilian = await models.civilian.findById(req.params.id);
+      const civilian = await models.civilian.findById(req.params.civilianId);
       await civilian.update(civilianValues, {
         transaction,
         auditUser: req.nickname

@@ -7,6 +7,7 @@ import {
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
 import { push } from "react-router-redux";
 import editOfficerHistory from "./editOfficerHistory";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../../auth/getAccessToken");
 
@@ -87,7 +88,7 @@ describe("editReferralLetter", () => {
 
   test("redirects to case details page if 400 error response (invalid letter generation case status)", async () => {
     const responseBody = {
-      message: "Invalid case status"
+      message: BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
     };
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
     nock("http://localhost", {

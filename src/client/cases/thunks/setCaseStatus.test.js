@@ -1,10 +1,7 @@
 import { push } from "react-router-redux";
 import setCaseStatus from "./setCaseStatus";
 import nock from "nock";
-import {
-  CASE_STATUS,
-  VALIDATION_ERROR_HEADER
-} from "../../../sharedUtilities/constants";
+import { CASE_STATUS } from "../../../sharedUtilities/constants";
 import {
   snackbarError,
   snackbarSuccess
@@ -16,6 +13,7 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import Boom from "boom";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
+import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -48,7 +46,9 @@ describe("setCaseStatus", () => {
   test("should dispatch open validation error modal when validation errors exist and when 400 code", async () => {
     const mockCaseId = 1;
     const boomData = ["Incident Date is required"];
-    let boomResponse = Boom.badRequest(VALIDATION_ERROR_HEADER);
+    let boomResponse = Boom.badRequest(
+      BAD_REQUEST_ERRORS.VALIDATION_ERROR_HEADER
+    );
     boomResponse.details = boomData;
     nock("http://localhost", {
       reqheaders: {

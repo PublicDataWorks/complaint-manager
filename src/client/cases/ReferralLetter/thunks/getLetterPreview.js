@@ -3,6 +3,7 @@ import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCre
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const getLetterPreview = caseId => async dispatch => {
   try {
@@ -23,7 +24,7 @@ const getLetterPreview = caseId => async dispatch => {
   } catch (error) {
     if (
       error.response &&
-      error.response.data.message === "Invalid case status"
+      error.response.data.message === BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
     ) {
       return dispatch(invalidCaseStatusRedirect(caseId));
     }

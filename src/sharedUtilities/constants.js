@@ -122,12 +122,6 @@ export const DUPLICATE_FILE_NAME = "Duplicate file name";
 export const UPLOAD_CANCELED = "Upload canceled.";
 
 // ----------------------------------------
-//          Response Errors
-// ----------------------------------------
-export const VALIDATION_ERROR_HEADER = "Validation error";
-export const SEQUELIZE_VALIDATION_ERROR = "SequelizeValidationError";
-
-// ----------------------------------------
 //          Attachment Removal
 // ----------------------------------------
 

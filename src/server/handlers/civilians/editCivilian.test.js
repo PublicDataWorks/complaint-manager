@@ -37,7 +37,7 @@ describe("editCivilian handler editing civilian with no address", () => {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       params: {
-        id: existingCivilian.id
+        civilianId: existingCivilian.id
       },
       body: {
         address: {
@@ -77,7 +77,7 @@ describe("editCivilian handler editing civilian with no address", () => {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       params: {
-        id: existingCivilian.id
+        civilianId: existingCivilian.id
       },
       body: {
         address: {
@@ -171,7 +171,7 @@ describe("editCivilian handler editing civilian with an address", () => {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       params: {
-        id: existingCivilian.id
+        civilianId: existingCivilian.id
       },
       body: {
         address: {
@@ -210,7 +210,7 @@ describe("editCivilian handler editing civilian with an address", () => {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       params: {
-        id: existingCivilian.id
+        civilianId: existingCivilian.id
       },
       body: {
         firstName: "Bob"
@@ -236,7 +236,7 @@ describe("editCivilian handler editing civilian with an address", () => {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       params: {
-        id: existingCivilian.id
+        civilianId: existingCivilian.id
       },
       body: fieldsToUpdate,
       nickname: "TEST_USER_NICKNAME"
@@ -258,7 +258,7 @@ describe("editCivilian handler editing civilian with an address", () => {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       params: {
-        id: existingCivilian.id
+        civilianId: existingCivilian.id
       },
       body: {
         firstName: "      Test White-space ",
