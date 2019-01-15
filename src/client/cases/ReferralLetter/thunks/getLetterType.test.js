@@ -30,18 +30,4 @@ describe("getLetterType", () => {
       getLetterTypeSuccess(letterTypeResponseBody.letterType)
     );
   });
-
-  test("dispatches snackbar message on failure", async () => {
-    nock("http://localhost")
-      .get(`/api/cases/${caseId}/referral-letter/letter-type`)
-      .reply(500);
-
-    await getLetterType(caseId)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and the referral letter details were not loaded. Please try again."
-      )
-    );
-  });
 });

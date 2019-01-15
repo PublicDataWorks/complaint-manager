@@ -20,19 +20,7 @@ const editOfficerHistory = (
       snackbarSuccess("Officer complaint history was successfully updated")
     );
     return dispatch(push(successRedirectRoute));
-  } catch (error) {
-    if (
-      error.response &&
-      error.response.data.message === BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
-    ) {
-      return dispatch(push(`/cases/${caseId}`));
-    }
-    dispatch(
-      snackbarError(
-        "Something went wrong and the officer history was not updated. Please try again."
-      )
-    );
-  }
+  } catch (error) {}
 };
 
 export default editOfficerHistory;

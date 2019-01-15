@@ -36,25 +36,4 @@ describe("editReferralLetterContent" + "", () => {
       snackbarSuccess("Letter was successfully updated")
     );
   });
-
-  test("dispatches error if error", async () => {
-    getAccessToken.mockImplementation(() => "token");
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer token`
-      }
-    })
-      .put(`/api/cases/${caseId}/referral-letter/content`, referralLetterHtml)
-      .reply(500);
-    await editReferralLetterContent(caseId, referralLetterHtml, redirectUrl)(
-      dispatch
-    );
-
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and the letter was not updated. Please try again."
-      )
-    );
-  });
 });
