@@ -105,6 +105,9 @@ const updateCaseIfValid = async (
       }
     );
   } catch (e) {
+    if (e.message === BAD_REQUEST_ERRORS.INVALID_CASE_STATUS) {
+      throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE);
+    }
     if (e.name === BAD_REQUEST_ERRORS.SEQUELIZE_VALIDATION_ERROR) {
       validationErrors.push(...catchValidationErrors(e));
     } else {

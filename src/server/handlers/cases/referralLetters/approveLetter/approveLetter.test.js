@@ -126,7 +126,7 @@ describe("approveLetter", () => {
       expect(existingCase.status).toEqual(CASE_STATUS.INITIAL);
       expect(uploadLetterToS3).not.toHaveBeenCalled();
       expect(next).toHaveBeenCalledWith(
-        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE)
       );
     });
 

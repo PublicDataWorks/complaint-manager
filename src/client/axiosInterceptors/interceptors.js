@@ -1,6 +1,6 @@
 import axios from "axios";
 import ensureTokenOnRequestInterceptor from "./ensureTokenOnRequestInterceptor";
-import unauthorizedResponseInterceptor from "./unauthorizedResponseInterceptor";
+import responseErrorInterceptor from "./responseErrorInterceptor";
 import config from "../config/config";
 
 axios.defaults.baseURL = `${config[process.env.REACT_APP_ENV].hostname}`;
@@ -11,6 +11,6 @@ export default function(store) {
   );
   axios.interceptors.response.use(
     response => response,
-    unauthorizedResponseInterceptor(store.dispatch)
+    responseErrorInterceptor(store.dispatch)
   );
 }

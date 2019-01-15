@@ -65,7 +65,7 @@ describe("changeStatus", async () => {
     await initialCase.reload();
 
     expect(next).toBeCalledWith(
-      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE)
     );
     expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
   });
@@ -142,7 +142,7 @@ describe("changeStatus", async () => {
     await initialCase.reload();
     expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
     expect(next).toHaveBeenCalledWith(
-      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE)
     );
   });
 

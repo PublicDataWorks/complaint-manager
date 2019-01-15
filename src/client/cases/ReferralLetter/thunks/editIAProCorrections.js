@@ -1,10 +1,6 @@
 import { push } from "react-router-redux";
 import axios from "axios/index";
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../../../actionCreators/snackBarActionCreators";
-import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 
 const editIAProCorrections = (
   caseId,
@@ -18,19 +14,7 @@ const editIAProCorrections = (
     );
     dispatch(snackbarSuccess("IAPro corrections were successfully updated"));
     return dispatch(push(successRedirectRoute));
-  } catch (error) {
-    if (
-      error.response &&
-      error.response.data.message === BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
-    ) {
-      return dispatch(push(`/cases/${caseId}`));
-    }
-    dispatch(
-      snackbarError(
-        "Something went wrong and the IAPro corrections were not updated. Please try again."
-      )
-    );
-  }
+  } catch (error) {}
 };
 
 export default editIAProCorrections;

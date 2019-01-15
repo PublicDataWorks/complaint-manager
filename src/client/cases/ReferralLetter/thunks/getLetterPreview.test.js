@@ -3,12 +3,9 @@ import { push } from "react-router-redux";
 import getLetterPreview from "./getLetterPreview";
 import nock from "nock";
 import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";
-import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
-import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
-import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../../auth/getAccessToken");
 jest.mock("../../thunks/invalidCaseStatusRedirect", () => caseId => ({
@@ -53,30 +50,5 @@ describe("getLetterPreview", function() {
       getCaseDetailsSuccess(responseBody.caseDetails)
     );
     expect(dispatch).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
-  });
-
-  test("dispatches snackbar when there is a 500 error", async () => {
-    getAccessToken.mockImplementation(() => "TOKEN");
-    nock("http://localhost", {})
-      .get(`/api/cases/${caseId}/referral-letter/preview`)
-      .reply(500);
-    await getLetterPreview(caseId)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and the letter preview was not loaded. Please try again."
-      )
-    );
-  });
-
-  test("redirects to case details page if 400 error response (invalid letter generation case status)", async () => {
-    const responseBody = {
-      message: BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
-    };
-    getAccessToken.mockImplementation(() => "TOKEN");
-    nock("http://localhost", {})
-      .get(`/api/cases/${caseId}/referral-letter/preview`)
-      .reply(400, responseBody);
-    await getLetterPreview(caseId)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(invalidCaseStatusRedirect(caseId));
   });
 });

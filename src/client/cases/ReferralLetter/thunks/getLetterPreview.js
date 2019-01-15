@@ -21,19 +21,7 @@ const getLetterPreview = caseId => async dispatch => {
         response.data.draftFilename
       )
     );
-  } catch (error) {
-    if (
-      error.response &&
-      error.response.data.message === BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
-    ) {
-      return dispatch(invalidCaseStatusRedirect(caseId));
-    }
-    dispatch(
-      snackbarError(
-        "Something went wrong and the letter preview was not loaded. Please try again."
-      )
-    );
-  }
+  } catch (error) {}
 };
 
 export default getLetterPreview;

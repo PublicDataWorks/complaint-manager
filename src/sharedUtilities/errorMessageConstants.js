@@ -8,6 +8,8 @@ export const BAD_REQUEST_ERRORS = {
   VALIDATION_ERROR_HEADER: "Validation error",
   SEQUELIZE_VALIDATION_ERROR: "SequelizeValidationError",
   INVALID_CASE_STATUS: "Case status is invalid for this action.",
+  INVALID_CASE_STATUS_FOR_UPDATE:
+    "Case status could not be updated due to invalid status",
   INVALID_CIVILIAN_NAME: "Civilian name is invalid.",
   INVALID_FIRST_CONTACT_DATE: "Valid first contact date is required",
   REMOVE_CASE_OFFICER_ERROR:

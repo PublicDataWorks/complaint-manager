@@ -27,11 +27,6 @@ const editReferralLetterAddresses = (
     if (alternativeFailureCallback) {
       alternativeFailureCallback();
     }
-    dispatch(
-      snackbarError(
-        "Something went wrong and the letter was not updated. Please try again."
-      )
-    );
   }
 };
 

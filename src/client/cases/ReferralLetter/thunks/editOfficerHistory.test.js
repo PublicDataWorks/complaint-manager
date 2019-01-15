@@ -66,41 +66,4 @@ describe("editReferralLetter", () => {
     await editOfficerHistory(caseId, requestBody, "redirectRoute")(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("redirectRoute"));
   });
-
-  test("dispatches failure on 500 error response", async () => {
-    getAccessToken.mockImplementation(() => "TEST_TOKEN");
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .put(`/api/cases/${caseId}/referral-letter/officer-history`, requestBody)
-      .reply(500);
-
-    await editOfficerHistory(caseId, requestBody, "redirectRoute")(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and the officer history was not updated. Please try again."
-      )
-    );
-  });
-
-  test("redirects to case details page if 400 error response (invalid letter generation case status)", async () => {
-    const responseBody = {
-      message: BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
-    };
-    getAccessToken.mockImplementation(() => "TEST_TOKEN");
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .put(`/api/cases/${caseId}/referral-letter/officer-history`, requestBody)
-      .reply(400, responseBody);
-
-    await editOfficerHistory(caseId, requestBody, "redirectRoute")(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
-  });
 });

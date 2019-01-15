@@ -17,13 +17,7 @@ const editReferralLetterContent = (
     );
     dispatch(push(redirectUrl));
     dispatch(snackbarSuccess("Letter was successfully updated"));
-  } catch (error) {
-    dispatch(
-      snackbarError(
-        "Something went wrong and the letter was not updated. Please try again."
-      )
-    );
-  }
+  } catch (error) {}
 };
 
 export default editReferralLetterContent;
