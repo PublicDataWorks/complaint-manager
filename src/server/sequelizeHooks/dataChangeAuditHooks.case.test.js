@@ -375,7 +375,9 @@ describe("dataChangeAuditHooks", () => {
       expect(auditUpdate.modelId).toEqual(existingCase.id);
       expect(auditUpdate.action).toEqual(AUDIT_ACTION.DATA_UPDATED);
       expect(auditUpdate.user).toEqual("someoneWhoUpdated");
-      expect(auditUpdate.modelDescription).toEqual([]);
+      expect(auditUpdate.modelDescription).toEqual([
+        { "Case Reference": `PO2017-${existingCase.id}` }
+      ]);
     });
 
     test("it saves the changes when only one field has changed and status triggered", async () => {
