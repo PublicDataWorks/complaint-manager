@@ -35,7 +35,7 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
           expect(response.body).toEqual({
             statusCode: 404,
             error: "Not Found",
-            message: `Officer Allegation does not exist`
+            message: `Officer Allegation does not exist.`
           });
         });
     })

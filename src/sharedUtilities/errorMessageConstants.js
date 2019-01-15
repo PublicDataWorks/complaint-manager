@@ -23,6 +23,25 @@ export const BAD_REQUEST_ERRORS = {
   OPERATION_NOT_PERMITTED: "Operation not permitted."
 };
 
+export const BAD_DATA_ERRORS = {
+  CANNOT_OVERRIDE_CASE_REFERENCE: "Cannot override case reference information.",
+  UNEXPECTED_SEX_VALUE: "Unexpected value for gender.",
+  UNEXPECTED_RACE_VALUE: "Unexpected value for race.",
+  MISSING_REQUIRED_HEADER_FIELDS: "Missing required header fields."
+};
+
+export const NOT_FOUND_ERRORS = {
+  PAGE_NOT_FOUND: "Page was not found.",
+  OFFICER_ALLEGATION_NOT_FOUND: "Officer Allegation does not exist."
+};
+
+export const UNAUTHORIZED_ERRORS = {
+  UNAUTHORIZED_ERROR: "UnauthorizedError",
+  INVALID_TOKEN: "Invalid token",
+  USER_NICKNAME_MISSING: "User nickname missing",
+  USER_SCOPE_MISSING: "User scope missing"
+};
+
 export const ROUTES = {
   "/export/job/:jobId": {},
   "/export/schedule/:operation": {},
