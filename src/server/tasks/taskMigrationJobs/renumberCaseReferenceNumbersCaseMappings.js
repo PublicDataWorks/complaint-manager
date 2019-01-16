@@ -17,6 +17,8 @@ module.exports = {
   ],
   staging: [],
   production: [
+    { year: 2019, number: { old: 31, new: 4 } },
+    { year: 2019, number: { old: 30, new: 3 } },
     { year: 2019, number: { old: 29, new: 2 } },
     { year: 2019, number: { old: 28, new: 1 } },
     { year: 2018, number: { old: 11, new: 36 } },
