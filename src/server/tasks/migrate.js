@@ -3,7 +3,17 @@ const path = require("path");
 const Promise = require("bluebird");
 const child_process = require("" + "child_process");
 const db = require("./db");
+const winston = require("winston");
 require("@babel/register");
+
+winston.configure({
+  transports: [
+    new winston.transports.Console({
+      logLevel: "debug",
+      json: true
+    })
+  ]
+});
 
 const umzug = new Umzug({
   storage: "sequelize",
