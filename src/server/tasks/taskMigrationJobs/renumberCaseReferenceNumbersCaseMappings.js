@@ -1,10 +1,5 @@
 module.exports = {
-  development: [
-    { year: 2019, number: { old: 2, new: 3 } },
-    { year: 2019, number: { old: 1, new: 2 } },
-    { year: 2018, number: { old: 1, new: 3 } },
-    { year: 2018, number: { old: 2, new: 1 } }
-  ],
+  development: [],
   test: [
     { year: 2019, number: { old: 29, new: 2 } },
     { year: 2019, number: { old: 28, new: 1 } }
