@@ -1,10 +1,7 @@
 import { push } from "react-router-redux";
-import {
-  clearSelectedOfficer,
-  editCaseOfficerFailure,
-  editCaseOfficerSuccess
-} from "../../actionCreators/officersActionCreators";
+import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 import axios from "axios";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 const editCaseOfficer = (
   caseId,
@@ -18,12 +15,10 @@ const editCaseOfficer = (
       `api/cases/${caseId}/cases-officers/${caseOfficerId}`,
       JSON.stringify(payload)
     );
-    dispatch(editCaseOfficerSuccess(response.data));
+    dispatch(snackbarSuccess("Officer was successfully updated."));
     dispatch(clearSelectedOfficer());
     return dispatch(push(`/cases/${caseId}`));
-  } catch (error) {
-    return dispatch(editCaseOfficerFailure());
-  }
+  } catch (error) {}
 };
 
 export default editCaseOfficer;

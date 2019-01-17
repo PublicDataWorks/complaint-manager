@@ -3,11 +3,8 @@ import configureInterceptors from "../../axiosInterceptors/interceptors";
 import { push } from "react-router-redux";
 import editCaseOfficer from "./editCaseOfficer";
 import nock from "nock";
-import {
-  clearSelectedOfficer,
-  editCaseOfficerFailure,
-  editCaseOfficerSuccess
-} from "../../actionCreators/officersActionCreators";
+import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -45,32 +42,10 @@ describe("editCaseOfficer thunk", () => {
 
     await editCaseOfficer(caseId, caseOfficerId, officerId, values)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(editCaseOfficerSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer());
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarSuccess("Officer was successfully updated.")
+    );
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
-  });
-
-  test("should dispatch failure when 500 response", async () => {
-    const caseId = 100;
-    const caseOfficerId = 100;
-    const officerId = 200;
-
-    const values = { payload: "test edit" };
-    const payload = { ...values, officerId };
-
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .put(
-        `/api/cases/${caseId}/cases-officers/${caseOfficerId}`,
-        JSON.stringify(payload)
-      )
-      .reply(500, {});
-
-    await editCaseOfficer(caseId, caseOfficerId, officerId, values)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(editCaseOfficerFailure());
   });
 });

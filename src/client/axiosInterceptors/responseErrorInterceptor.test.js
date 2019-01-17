@@ -76,6 +76,32 @@ describe("response error interceptor", () => {
       expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
     });
 
+    test("throws given error and does no additional action for case does not exist", async () => {
+      nock("http://localhost")
+        .get(`/api/cases/${caseId}`)
+        .reply(400, {
+          message: BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST
+        });
+
+      await expect(axios.get(`/api/cases/${caseId}`)).rejects.toBeTruthy();
+      expect(dispatch).toHaveBeenCalledWith(
+        snackbarError(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST)
+      );
+    });
+
+    test("throws given error and no additional action for unexpected sex value", async () => {
+      nock("http://localhost")
+        .get(`/api/cases/${caseId}`)
+        .reply(400, {
+          message: BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST
+        });
+
+      await expect(axios.get(`/api/cases/${caseId}`)).rejects.toBeTruthy();
+      expect(dispatch).toHaveBeenCalledWith(
+        snackbarError(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST)
+      );
+    });
+
     test("converts array buffer to error", async () => {
       const errorResponseFor400 = {
         statusCode: 400,
@@ -100,6 +126,27 @@ describe("response error interceptor", () => {
       expect(dispatch).toHaveBeenCalledWith(
         snackbarError("Sorry, that page is not available.")
       );
+    });
+
+    test("dispatches snackbar error message when response is 500", async () => {
+      const errorResponseFor500 = {
+        statusCode: 500,
+        error: "Internal Server Error",
+        message: "500 error message"
+      };
+
+      nock("http://localhost", {
+        reqheaders: {
+          Authorization: `Bearer ${"token"}`
+        }
+      })
+        .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
+        .reply(500, errorResponseFor500);
+
+      await expect(
+        axios.get(`/api/cases/${caseId}/referral-letter/get-pdf`)
+      ).rejects.toBeTruthy();
+      expect(dispatch).toHaveBeenCalledWith(snackbarError("500 error message"));
     });
   });
 });

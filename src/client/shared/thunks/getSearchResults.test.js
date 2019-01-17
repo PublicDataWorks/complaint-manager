@@ -1,8 +1,10 @@
 import getSearchResults from "./getSearchResults";
 import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
-import { snackbarError } from "../../actionCreators/snackBarActionCreators";
-import { searchSuccess } from "../../actionCreators/searchActionCreators";
+import {
+  searchFailed,
+  searchSuccess
+} from "../../actionCreators/searchActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken");
@@ -35,11 +37,7 @@ describe("getSearchResults", () => {
       .reply(500);
     getAccessToken.mockImplementation(() => token);
     await getSearchResults(searchCriteria, resourceToSearch)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and the search was not completed. Please try again."
-      )
-    );
+    expect(dispatch).toHaveBeenCalledWith(searchFailed());
   });
 
   test("dispatches searchSuccess", async () => {

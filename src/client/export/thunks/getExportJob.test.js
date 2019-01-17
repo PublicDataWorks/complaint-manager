@@ -1,7 +1,6 @@
 import nock from "nock";
 import getExportJob from "./getExportJob";
 import {
-  addBackgroundJobFailure,
   clearCurrentExportJob,
   exportJobCompleted
 } from "../../actionCreators/exportActionCreators";
@@ -10,6 +9,7 @@ import {
   EXPORT_JOB_REFRESH_INTERVAL_MS
 } from "../../../sharedUtilities/constants";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
+import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 jest.useFakeTimers();
@@ -37,7 +37,11 @@ describe("Get Export Job by id", () => {
     await getExportJob(jobId, 1)(mockedDispatch);
 
     expect(mockedDispatch).toHaveBeenCalledWith(clearCurrentExportJob());
-    expect(mockedDispatch).toHaveBeenCalledWith(addBackgroundJobFailure());
+    expect(mockedDispatch).toHaveBeenCalledWith(
+      snackbarError(
+        "Something went wrong and your export failed. Please try again."
+      )
+    );
   });
 
   test("should trigger clear job and bg job failure if reach max retry", async () => {
@@ -48,7 +52,11 @@ describe("Get Export Job by id", () => {
     await getExportJob(jobId, EXPORT_JOB_MAX_REFRESH_TIMES + 1)(mockedDispatch);
 
     expect(mockedDispatch).toHaveBeenCalledWith(clearCurrentExportJob());
-    expect(mockedDispatch).toHaveBeenCalledWith(addBackgroundJobFailure());
+    expect(mockedDispatch).toHaveBeenCalledWith(
+      snackbarError(
+        "Something went wrong and your export failed. Please try again."
+      )
+    );
   });
 
   test("should trigger clear job and bg job failure if reach max retry", async () => {
@@ -70,6 +78,5 @@ describe("Get Export Job by id", () => {
       .reply(500);
     await getExportJob(jobId, 1)(mockedDispatch);
     expect(mockedDispatch).toHaveBeenCalledWith(clearCurrentExportJob());
-    expect(mockedDispatch).toHaveBeenCalledWith(addBackgroundJobFailure());
   });
 });

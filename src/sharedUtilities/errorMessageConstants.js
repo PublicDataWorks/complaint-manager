@@ -50,8 +50,12 @@ export const INTERNAL_ERRORS = {
 };
 
 export const ROUTES = {
-  "/export/job/:jobId": {},
-  "/export/schedule/:operation": {},
+  "/export/job/:jobId": {
+    get: "Something went wrong and your export failed. Please try again."
+  },
+  "/export/schedule/:operation": {
+    get: "Something went wrong and your export failed. Please try again."
+  },
   "/cases/:caseId": {
     get:
       "Something went wrong and the case details were not loaded. Please try again.",

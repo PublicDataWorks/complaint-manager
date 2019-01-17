@@ -3,7 +3,6 @@ import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
 import getRaceEthnicityDropdownValues from "./getRaceEthnicityDropdownValues";
 import { getRaceEthnicitiesSuccess } from "../../actionCreators/raceEthnicityActionCreators";
-import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 
 jest.mock("../../auth/getAccessToken");
 
@@ -27,20 +26,6 @@ describe("getRaceEthnicityDropdownValues", () => {
     await getRaceEthnicityDropdownValues()(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       getRaceEthnicitiesSuccess(responseBody)
-    );
-  });
-
-  test("it dispatches failure when api call fails", async () => {
-    nock(hostname)
-      .get(apiRoute)
-      .reply(500);
-
-    await getRaceEthnicityDropdownValues()(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and the race & ethnicities were not loaded. Please try again."
-      )
     );
   });
 });
