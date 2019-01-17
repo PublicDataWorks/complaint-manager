@@ -253,7 +253,7 @@ describe("transformIAProOfficerFile", () => {
       await expect(
         transformIAProOfficerData(iaProOfficerBufferedData)
       ).rejects.toEqual(
-        expect.objectContaining({ message: "Missing required header fields." })
+        expect.objectContaining({ message: "Missing required header fields" })
       );
     });
   });

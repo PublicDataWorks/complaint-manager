@@ -15,7 +15,7 @@ const editCaseOfficer = (
       `api/cases/${caseId}/cases-officers/${caseOfficerId}`,
       JSON.stringify(payload)
     );
-    dispatch(snackbarSuccess("Officer was successfully updated."));
+    dispatch(snackbarSuccess("Officer was successfully updated"));
     dispatch(clearSelectedOfficer());
     return dispatch(push(`/cases/${caseId}`));
   } catch (error) {}

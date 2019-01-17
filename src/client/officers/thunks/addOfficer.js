@@ -16,7 +16,7 @@ const addOfficer = (caseId, officerId, values) => async dispatch => {
     );
     dispatch(addOfficerToCaseSuccess(response.data));
     dispatch(clearSelectedOfficer());
-    dispatch(snackbarSuccess(`Officer was successfully added.`));
+    dispatch(snackbarSuccess(`Officer was successfully added`));
     dispatch(push(`/cases/${caseId}`));
   } catch (e) {}
 };

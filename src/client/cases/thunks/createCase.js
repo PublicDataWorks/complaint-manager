@@ -19,7 +19,7 @@ const createCase = creationDetails => async dispatch => {
       `api/cases`,
       JSON.stringify(creationDetails.caseDetails)
     );
-    dispatch(snackbarSuccess("Case was successfully created."));
+    dispatch(snackbarSuccess("Case was successfully created"));
     dispatch(createCaseSuccess(response.data));
     dispatch(closeCreateCaseDialog());
     if (creationDetails.redirect) {

@@ -38,7 +38,7 @@ describe("removeCaseNote", () => {
     );
     expect(dispatch).toHaveBeenCalledWith(removeCaseNoteSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Case note was successfully removed.")
+      snackbarSuccess("Case note was successfully removed")
     );
     expect(dispatch).toHaveBeenCalledWith(closeRemoveCaseNoteDialog());
     expect(dispatch).toHaveBeenCalledWith(

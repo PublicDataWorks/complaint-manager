@@ -44,7 +44,7 @@ describe("editCaseOfficer thunk", () => {
 
     expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer());
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Officer was successfully updated.")
+      snackbarSuccess("Officer was successfully updated")
     );
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });

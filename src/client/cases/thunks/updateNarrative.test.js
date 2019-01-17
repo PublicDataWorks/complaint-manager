@@ -39,7 +39,7 @@ describe("updateNarrative", () => {
 
     expect(dispatch).toHaveBeenCalledWith(updateNarrativeSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Narrative was successfully updated.")
+      snackbarSuccess("Narrative was successfully updated")
     );
   });
 });

@@ -58,7 +58,7 @@ describe("removePerson", () => {
     expect(dispatch).toHaveBeenCalledWith(removePersonSuccess(response));
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess(
-        `${_.startCase(personTypeForDisplay)} was successfully removed.`
+        `${_.startCase(personTypeForDisplay)} was successfully removed`
       )
     );
     expect(dispatch).toHaveBeenCalledWith(closeRemovePersonDialog());

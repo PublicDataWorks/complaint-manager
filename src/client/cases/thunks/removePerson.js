@@ -19,7 +19,7 @@ const removePerson = ({ personType, id, caseId }) => async dispatch => {
     dispatch(closeRemovePersonDialog());
     dispatch(
       snackbarSuccess(
-        `${_.startCase(personTypeForDisplay)} was successfully removed.`
+        `${_.startCase(personTypeForDisplay)} was successfully removed`
       )
     );
     const event = await dispatch(

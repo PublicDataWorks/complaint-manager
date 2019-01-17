@@ -17,7 +17,7 @@ const addCaseNote = values => async dispatch => {
     dispatch(
       addCaseNoteSuccess(response.data.caseDetails, response.data.caseNotes)
     );
-    dispatch(snackbarSuccess("Case note was successfully created."));
+    dispatch(snackbarSuccess("Case note was successfully created"));
     dispatch(stopSubmit(CASE_NOTE_FORM_NAME));
     return dispatch(closeCaseNoteDialog());
   } catch (error) {

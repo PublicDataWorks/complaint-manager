@@ -15,7 +15,7 @@ const removeCaseNote = (caseId, caseNoteId) => async dispatch => {
     );
     dispatch(closeRemoveCaseNoteDialog());
     dispatch(stopSubmit(REMOVE_CASE_NOTE_FORM_NAME));
-    dispatch(snackbarSuccess("Case note was successfully removed."));
+    dispatch(snackbarSuccess("Case note was successfully removed"));
     return dispatch(removeCaseNoteSuccess(response.data));
   } catch (error) {
     dispatch(stopSubmit(REMOVE_CASE_NOTE_FORM_NAME));

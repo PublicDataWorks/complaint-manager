@@ -14,6 +14,7 @@ import {
   ALLEGATION_SEVERITY
 } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 describe("PUT /officers-allegations/:officerAllegationId", function() {
   afterEach(async () => {
@@ -35,7 +36,7 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
           expect(response.body).toEqual({
             statusCode: 400,
             error: "Bad Request",
-            message: `Officer Allegation does not exist.`
+            message: BAD_REQUEST_ERRORS.OFFICER_ALLEGATION_NOT_FOUND
           });
         });
     })
