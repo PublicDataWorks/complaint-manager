@@ -1,4 +1,3 @@
-import downloadFailed from "../../actionCreators/downloadActionCreators";
 import axios from "axios";
 
 const inBrowserDownload = (path, htmlAnchorId, callback) => async dispatch => {
@@ -6,7 +5,6 @@ const inBrowserDownload = (path, htmlAnchorId, callback) => async dispatch => {
     const response = await axios.get(path);
     triggerDownload(htmlAnchorId, response);
   } catch (e) {
-    dispatch(downloadFailed());
   } finally {
     if (callback) {
       callback();

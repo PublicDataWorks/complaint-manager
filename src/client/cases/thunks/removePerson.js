@@ -1,11 +1,12 @@
 import {
   closeRemovePersonDialog,
-  removePersonFailure,
   removePersonSuccess
 } from "../../actionCreators/casesActionCreators";
 import axios from "axios";
 import { startSubmit, stopSubmit } from "redux-form";
 import { REMOVE_PERSON_FORM_NAME } from "../../../sharedUtilities/constants";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
+import _ from "lodash";
 
 const removePerson = ({ personType, id, caseId }) => async dispatch => {
   const personTypeForDisplay =
@@ -16,6 +17,11 @@ const removePerson = ({ personType, id, caseId }) => async dispatch => {
       `api/cases/${caseId}/${personType}/${id}`
     );
     dispatch(closeRemovePersonDialog());
+    dispatch(
+      snackbarSuccess(
+        `${_.startCase(personTypeForDisplay)} was successfully removed.`
+      )
+    );
     const event = await dispatch(
       removePersonSuccess(response.data, personTypeForDisplay)
     );
@@ -23,7 +29,6 @@ const removePerson = ({ personType, id, caseId }) => async dispatch => {
     return event;
   } catch (error) {
     dispatch(stopSubmit(REMOVE_PERSON_FORM_NAME));
-    return dispatch(removePersonFailure(personTypeForDisplay));
   }
 };
 

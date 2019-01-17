@@ -3,13 +3,8 @@ import nock from "nock";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
 import getReferralLetterData from "./getReferralLetterData";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
-import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
 jest.mock("../../../auth/getAccessToken");
-jest.mock("../../thunks/invalidCaseStatusRedirect", () => caseId => ({
-  type: "InvalidCaseStatusRedirect",
-  caseId
-}));
 
 describe("getReferralLetterData", () => {
   let caseId, dispatch;
@@ -46,9 +41,6 @@ describe("getReferralLetterData", () => {
       .reply(200, responseBody);
 
     await getReferralLetterData(caseId)(dispatch);
-    expect(dispatch).not.toHaveBeenCalledWith(
-      invalidCaseStatusRedirect(caseId)
-    );
     expect(dispatch).toHaveBeenCalledWith(
       getReferralLetterSuccess(responseBody)
     );

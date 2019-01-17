@@ -62,28 +62,4 @@ describe("in browser download thunk", function() {
     await inBrowserDownload(testPath, htmlAnchorId, mockCallback)(dispatch);
     expect(mockCallback).toHaveBeenCalled();
   });
-
-  test("should display error snackbar when download fails", async () => {
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .get(testPath)
-      .reply(500);
-    await inBrowserDownload(testPath, htmlAnchorId)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(downloadFailed());
-  });
-
-  test("should execute callback if given when download fails", async () => {
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .get(testPath)
-      .reply(500);
-    await inBrowserDownload(testPath, htmlAnchorId, mockCallback)(dispatch);
-    expect(mockCallback).toHaveBeenCalled();
-  });
 });

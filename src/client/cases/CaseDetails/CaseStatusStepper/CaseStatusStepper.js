@@ -7,7 +7,6 @@ import DownloadFinalLetterButton from "../DownloadFinalLetterButton/DownloadFina
 import EditLetterButton from "../EditLetterButton/EditLetterButton";
 import StatusButton from "../StatusButton/StatusButton";
 import getActiveStep from "./getActiveStep";
-import CaseValidationDialog from "../CaseValidationDialog/CaseValidationDialog";
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -55,7 +54,6 @@ const CaseStatusStepper = ({ caseId, status }) => {
       </Stepper>
       {renderButtons()}
       <UpdateCaseStatusDialog />
-      <CaseValidationDialog />
     </Fragment>
   );
 };

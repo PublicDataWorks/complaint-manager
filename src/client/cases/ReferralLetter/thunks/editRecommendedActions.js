@@ -1,10 +1,6 @@
 import { push } from "react-router-redux";
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../../../actionCreators/snackBarActionCreators";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 import axios from "axios/index";
-import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const editRecommendedActions = (
   caseId,

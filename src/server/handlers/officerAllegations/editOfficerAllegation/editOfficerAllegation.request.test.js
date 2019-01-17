@@ -21,7 +21,7 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
   });
 
   test(
-    "should reply a 404 if officer allegation doesnt exist ",
+    "should reply a 400 if officer allegation doesnt exist ",
     suppressWinstonLogs(async () => {
       const token = buildTokenWithPermissions("", "TEST_NICKNAME");
       const nonExistantAllegationId = 9;
@@ -30,11 +30,11 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send({})
-        .expect(404)
+        .expect(400)
         .then(response => {
           expect(response.body).toEqual({
-            statusCode: 404,
-            error: "Not Found",
+            statusCode: 400,
+            error: "Bad Request",
             message: `Officer Allegation does not exist.`
           });
         });

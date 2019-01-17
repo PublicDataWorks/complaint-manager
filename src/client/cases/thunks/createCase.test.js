@@ -13,6 +13,7 @@ import {
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -59,30 +60,11 @@ describe("createCase", () => {
 
     await createCase(creationDetails)(dispatch);
 
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarSuccess("Case was successfully created.")
+    );
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(closeCreateCaseDialog());
-  });
-
-  test("should dispatch failure when case creation fails", async () => {
-    const creationDetails = {
-      caseDetails: {
-        firstName: "Fats",
-        lastName: "Domino"
-      }
-    };
-
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .post("/api/cases", creationDetails.caseDetails)
-      .reply(500);
-
-    await createCase(creationDetails)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(createCaseFailure());
   });
 
   test("should redirect to add officer if complainant is officer", async () => {
@@ -117,6 +99,9 @@ describe("createCase", () => {
 
     await createCase(creationDetails)(dispatch);
 
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarSuccess("Case was successfully created.")
+    );
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(
       push(`/cases/${caseId}/officers/search`)
@@ -155,6 +140,9 @@ describe("createCase", () => {
 
     await createCase(creationDetails)(dispatch);
 
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarSuccess("Case was successfully created.")
+    );
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });

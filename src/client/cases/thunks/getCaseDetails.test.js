@@ -29,18 +29,4 @@ describe("getCase", () => {
       getCaseDetailsSuccess(caseDetailsResponseBody)
     );
   });
-
-  test("should show snackbar error on error", async () => {
-    nock("http://localhost")
-      .get(`/api/cases/${caseId}`)
-      .reply(500);
-
-    await getCaseDetail(caseId)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and the case details were not loaded. Please try again."
-      )
-    );
-  });
 });

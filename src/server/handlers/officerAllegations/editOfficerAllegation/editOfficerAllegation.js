@@ -1,4 +1,4 @@
-import { NOT_FOUND_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const models = require("../../../models");
 const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
@@ -16,7 +16,7 @@ const editOfficerAllegation = asyncMiddleware(async (request, response) => {
     );
 
     if (!officerAllegation) {
-      throw Boom.notFound(NOT_FOUND_ERRORS.OFFICER_ALLEGATION_NOT_FOUND);
+      throw Boom.badRequest(BAD_REQUEST_ERRORS.OFFICER_ALLEGATION_NOT_FOUND);
     }
 
     const allegationAttributes = _.pick(request.body, ["details", "severity"]);
