@@ -12,7 +12,7 @@ const createCivilian = civilian => async dispatch => {
   try {
     dispatch(startSubmit(CIVILIAN_FORM_NAME));
     const response = await axios.post(`api/civilian`, JSON.stringify(civilian));
-    dispatch(snackbarSuccess("Civilian was successfully created."));
+    dispatch(snackbarSuccess("Civilian was successfully created"));
     dispatch(createCivilianSuccess(response.data));
     dispatch(closeEditDialog());
     await dispatch(getCaseNotes(response.data.id));

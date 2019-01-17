@@ -55,7 +55,7 @@ describe("response error interceptor", () => {
         axios.get(`/api/cases/${caseId}/referral-letter`)
       ).rejects.toBeTruthy();
       expect(dispatch).toHaveBeenCalledWith(
-        snackbarError("Sorry, that page is not available.")
+        snackbarError("Sorry, that page is not available")
       );
       expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
     });
@@ -124,7 +124,7 @@ describe("response error interceptor", () => {
       ).rejects.toBeTruthy();
       expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
       expect(dispatch).toHaveBeenCalledWith(
-        snackbarError("Sorry, that page is not available.")
+        snackbarError("Sorry, that page is not available")
       );
     });
 

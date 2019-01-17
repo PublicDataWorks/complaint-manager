@@ -14,7 +14,7 @@ const updateNarrative = updateDetails => async dispatch => {
     );
 
     dispatch(updateNarrativeSuccess(response.data));
-    dispatch(snackbarSuccess("Narrative was successfully updated."));
+    dispatch(snackbarSuccess("Narrative was successfully updated"));
     return await dispatch(getCaseNotes(response.data.id));
   } catch (e) {}
 };

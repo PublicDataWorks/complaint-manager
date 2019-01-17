@@ -16,7 +16,7 @@ const editCaseNote = values => async dispatch => {
     );
     dispatch(editCaseNoteSuccess(response.data));
     dispatch(stopSubmit(CASE_NOTE_FORM_NAME));
-    dispatch(snackbarSuccess("Case note was successfully updated."));
+    dispatch(snackbarSuccess("Case note was successfully updated"));
     return dispatch(closeCaseNoteDialog());
   } catch (error) {
     dispatch(stopSubmit(CASE_NOTE_FORM_NAME));

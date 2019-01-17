@@ -61,7 +61,7 @@ describe("createCase", () => {
     await createCase(creationDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Case was successfully created.")
+      snackbarSuccess("Case was successfully created")
     );
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(closeCreateCaseDialog());
@@ -100,7 +100,7 @@ describe("createCase", () => {
     await createCase(creationDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Case was successfully created.")
+      snackbarSuccess("Case was successfully created")
     );
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(
@@ -141,7 +141,7 @@ describe("createCase", () => {
     await createCase(creationDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Case was successfully created.")
+      snackbarSuccess("Case was successfully created")
     );
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));

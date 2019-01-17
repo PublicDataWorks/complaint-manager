@@ -65,7 +65,7 @@ describe("edit civilian thunk", () => {
     expect(editCivilianSuccess).toHaveBeenCalledWith(responseCivilians);
     expect(dispatch).toHaveBeenCalledWith(editCivilianSuccess());
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Civilian was successfully updated.")
+      snackbarSuccess("Civilian was successfully updated")
     );
     expect(dispatch).toHaveBeenCalledWith(closeEditDialog());
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(CIVILIAN_FORM_NAME));

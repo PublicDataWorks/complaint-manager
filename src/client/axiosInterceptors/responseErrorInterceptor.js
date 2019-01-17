@@ -36,7 +36,7 @@ const get400ErrorMessage = (error, dispatch) => {
   switch (errorMessage) {
     case BAD_REQUEST_ERRORS.INVALID_CASE_STATUS:
       dispatch(push(`/cases/${caseId}`));
-      return "Sorry, that page is not available.";
+      return "Sorry, that page is not available";
     case BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE:
       dispatch(push(`/cases/${caseId}`));
   }

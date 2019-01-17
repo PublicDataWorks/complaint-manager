@@ -67,7 +67,7 @@ describe("errorHandler", () => {
       JSON.stringify({
         statusCode: 404,
         error: "Not Found",
-        message: "Page was not found."
+        message: "Page was not found"
       })
     );
   });

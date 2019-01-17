@@ -67,7 +67,7 @@ describe("civilian creation", function() {
     expect(dispatch).toHaveBeenCalledWith(startSubmit(CIVILIAN_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(createCivilianSuccess([civilian]));
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Civilian was successfully created.")
+      snackbarSuccess("Civilian was successfully created")
     );
     expect(dispatch).toHaveBeenCalledWith(closeEditDialog());
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(CIVILIAN_FORM_NAME));

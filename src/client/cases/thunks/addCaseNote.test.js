@@ -65,7 +65,7 @@ describe("addCaseNote", () => {
 
     expect(dispatch).toHaveBeenCalledWith(startSubmit(CASE_NOTE_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Case note was successfully created.")
+      snackbarSuccess("Case note was successfully created")
     );
     expect(dispatch).toHaveBeenCalledWith(
       addCaseNoteSuccess(responseBody.caseDetails, responseBody.caseNotes)

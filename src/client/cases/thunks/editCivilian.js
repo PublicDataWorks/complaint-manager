@@ -17,7 +17,7 @@ const editCivilian = civilian => async dispatch => {
     );
     dispatch(closeEditDialog());
     dispatch(editCivilianSuccess(response.data));
-    dispatch(snackbarSuccess("Civilian was successfully updated."));
+    dispatch(snackbarSuccess("Civilian was successfully updated"));
     const event = await dispatch(getCaseNotes(response.data.id));
     dispatch(stopSubmit(CIVILIAN_FORM_NAME));
     return event;

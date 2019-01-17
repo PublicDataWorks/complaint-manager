@@ -10,7 +10,7 @@ import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Case from "../../../../client/testUtilities/case";
 import Officer from "../../../../client/testUtilities/Officer";
 import { COMPLAINANT } from "../../../../sharedUtilities/constants";
-import winston from "winston";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 describe("DELETE /cases/:caseId/cases-officers/:caseOfficerId", () => {
   let token;
@@ -119,7 +119,7 @@ describe("DELETE /cases/:caseId/cases-officers/:caseOfficerId", () => {
         .then(response => {
           expect(response.body).toEqual(
             expect.objectContaining({
-              message: "Case Officer requested for removal does not exist."
+              message: BAD_REQUEST_ERRORS.REMOVE_CASE_OFFICER_ERROR
             })
           );
         });

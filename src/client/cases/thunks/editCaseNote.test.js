@@ -43,7 +43,7 @@ describe("editCaseNote", () => {
     expect(dispatch).toHaveBeenCalledWith(startSubmit(CASE_NOTE_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(editCaseNoteSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Case note was successfully updated.")
+      snackbarSuccess("Case note was successfully updated")
     );
     expect(dispatch).toHaveBeenCalledWith(closeCaseNoteDialog());
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(CASE_NOTE_FORM_NAME));
