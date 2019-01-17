@@ -1,6 +1,5 @@
 import { push } from "react-router-redux";
 import {
-  addOfficerToCaseFailure,
   addOfficerToCaseSuccess,
   clearSelectedOfficer
 } from "../../actionCreators/officersActionCreators";
@@ -17,10 +16,8 @@ const addOfficer = (caseId, officerId, values) => async dispatch => {
     );
     dispatch(addOfficerToCaseSuccess(response.data));
     dispatch(clearSelectedOfficer());
-    dispatch(snackbarSuccess(`Officer was successfully added`));
+    dispatch(snackbarSuccess(`Officer was successfully added.`));
     dispatch(push(`/cases/${caseId}`));
-  } catch (e) {
-    dispatch(addOfficerToCaseFailure());
-  }
+  } catch (e) {}
 };
 export default addOfficer;

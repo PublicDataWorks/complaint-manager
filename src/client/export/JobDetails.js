@@ -3,10 +3,7 @@ import { connect } from "react-redux";
 import getExportJob from "./thunks/getExportJob";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ReactDOM from "react-dom";
-import {
-  addBackgroundJobFailure,
-  clearCurrentExportJob
-} from "../actionCreators/exportActionCreators";
+import { clearCurrentExportJob } from "../actionCreators/exportActionCreators";
 
 export class JobDetails extends Component {
   componentDidMount() {
@@ -60,7 +57,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getExportJob,
-  addBackgroundJobFailure,
   clearCurrentExportJob
 };
 

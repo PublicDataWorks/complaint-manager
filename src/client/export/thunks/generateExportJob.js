@@ -1,6 +1,5 @@
 import axios from "axios";
 import {
-  addBackgroundJobFailure,
   clearCurrentExportJob,
   generateExportSuccess
 } from "../../actionCreators/exportActionCreators";
@@ -11,7 +10,6 @@ const generateExportJob = path => async dispatch => {
     dispatch(generateExportSuccess(response.data));
   } catch (error) {
     dispatch(clearCurrentExportJob());
-    dispatch(addBackgroundJobFailure());
   }
 };
 

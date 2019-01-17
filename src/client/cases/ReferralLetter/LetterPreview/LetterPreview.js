@@ -200,7 +200,7 @@ class LetterPreview extends Component {
             marginBottom: "24px",
             backgroundColor: "white",
             overflow: "auto",
-            width: "22rem"
+            width: "23rem"
           }}
         >
           <CardContent>

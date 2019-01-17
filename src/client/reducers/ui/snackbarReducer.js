@@ -1,11 +1,7 @@
 import {
-  ADD_OFFICER_TO_CASE_FAILED,
   ATTACHMENT_UPLOAD_FAILED,
   ATTACHMENT_UPLOAD_SUCCEEDED,
-  BG_JOB_FAILED,
   DOWNLOAD_FAILED,
-  EDIT_CASE_OFFICER_FAILED,
-  EDIT_CASE_OFFICER_SUCCEEDED,
   SNACKBAR_ERROR,
   SNACKBAR_SUCCESS
 } from "../../../sharedUtilities/constants";
@@ -100,33 +96,6 @@ const snackbarReducer = (state = initialState, action) => {
         success: false,
         message:
           "Something went wrong and the file was not downloaded. Please try again."
-      };
-    case ADD_OFFICER_TO_CASE_FAILED:
-      return {
-        open: true,
-        success: false,
-        message:
-          "Something went wrong and the officer was not added. Please try again."
-      };
-    case EDIT_CASE_OFFICER_SUCCEEDED:
-      return {
-        open: true,
-        success: true,
-        message: "Officer was successfully updated"
-      };
-    case EDIT_CASE_OFFICER_FAILED:
-      return {
-        success: false,
-        open: true,
-        message:
-          "Something went wrong and the officer was not updated. Please try again."
-      };
-    case BG_JOB_FAILED:
-      return {
-        success: false,
-        open: true,
-        message:
-          "Something went wrong and your export failed. Please try again."
       };
     default:
       return state;

@@ -24,11 +24,6 @@ const getSearchResults = (
     return dispatch(searchSuccess(response.data, newPage));
   } catch (error) {
     dispatch(searchFailed());
-    return dispatch(
-      snackbarError(
-        "Something went wrong and the search was not completed. Please try again."
-      )
-    );
   }
 };
 

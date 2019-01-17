@@ -2,6 +2,47 @@ import { push } from "react-router-redux";
 import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants";
 import { snackbarError } from "../actionCreators/snackBarActionCreators";
 
+const responseErrorInterceptor = dispatch => error => {
+  let snackbarErrorMessage = error.response.data.message;
+  if (errorIs400(error)) {
+    throwErrorIfUnauthorizedResponse(error, dispatch);
+    snackbarErrorMessage = get400ErrorMessage(error, dispatch);
+  }
+  if (!snackbarErrorMessage) {
+    snackbarErrorMessage =
+      "Something went wrong and the request could not be completed.";
+  }
+
+  dispatch(snackbarError(snackbarErrorMessage));
+
+  throw error;
+};
+
+const throwErrorIfUnauthorizedResponse = (error, dispatch) => {
+  if (error.response.status === 401) {
+    dispatch(push("/login"));
+    throw error;
+  }
+};
+
+const get400ErrorMessage = (error, dispatch) => {
+  let errorMessage = getErrorMessageFromResponse(error.response);
+
+  if (!errorMessage) {
+    return null;
+  }
+
+  const caseId = parseCaseIdFromError(error);
+  switch (errorMessage) {
+    case BAD_REQUEST_ERRORS.INVALID_CASE_STATUS:
+      dispatch(push(`/cases/${caseId}`));
+      return "Sorry, that page is not available.";
+    case BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE:
+      dispatch(push(`/cases/${caseId}`));
+  }
+  return errorMessage;
+};
+
 const parseCaseIdFromError = error => {
   if (!error.request.responseURL) {
     return null;
@@ -14,43 +55,11 @@ const parseCaseIdFromError = error => {
   return found[0];
 };
 
-const unauthorizedResponseInterceptor = (error, dispatch) => {
-  if (error.response.status === 401) {
-    dispatch(push("/login"));
-    throw error;
+const getErrorMessageFromResponse = response => {
+  if (response.config.responseType === "arraybuffer") {
+    return getJsonMessageFromArrayBufferResponse(response.data);
   }
-};
-
-const badRequestInterceptor = (error, dispatch) => {
-  let errorMessage;
-  if (error.response.config.responseType === "arraybuffer") {
-    errorMessage = getJsonMessageFromArrayBufferResponse(error.response.data);
-  } else {
-    errorMessage = error.response.data.message;
-  }
-  const caseId = parseCaseIdFromError(error);
-  let snackbarErrorMsg;
-  switch (errorMessage) {
-    case BAD_REQUEST_ERRORS.INVALID_CASE_STATUS:
-      snackbarErrorMsg = "Sorry, that page is not available.";
-      dispatch(push(`/cases/${caseId}`));
-      break;
-    case BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE:
-      dispatch(push(`/cases/${caseId}`));
-      snackbarErrorMsg = errorMessage;
-      break;
-  }
-  return snackbarErrorMsg;
-};
-
-const responseErrorInterceptor = dispatch => error => {
-  unauthorizedResponseInterceptor(error, dispatch);
-
-  if (error.response.status === 400) {
-    const snackbarErrorMsg = badRequestInterceptor(error, dispatch);
-    dispatch(snackbarError(snackbarErrorMsg));
-  }
-  throw error;
+  return response.data.message;
 };
 
 const getJsonMessageFromArrayBufferResponse = arrayBuffer => {
@@ -60,6 +69,10 @@ const getJsonMessageFromArrayBufferResponse = arrayBuffer => {
   );
   const jsonResponse = JSON.parse(decodedString);
   return jsonResponse.message;
+};
+
+const errorIs400 = error => {
+  return error.response.status >= 400 && error.response.status < 500;
 };
 
 export default responseErrorInterceptor;

@@ -1,4 +1,4 @@
-import { NOT_FOUND_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -17,7 +17,9 @@ const removeOfficerAllegation = asyncMiddleware(
         );
 
         if (!officerAllegation) {
-          next(Boom.notFound(NOT_FOUND_ERRORS.OFFICER_ALLEGATION_NOT_FOUND));
+          next(
+            Boom.badRequest(BAD_REQUEST_ERRORS.OFFICER_ALLEGATION_NOT_FOUND)
+          );
         }
 
         await officerAllegation.destroy({

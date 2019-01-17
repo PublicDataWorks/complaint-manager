@@ -1,7 +1,6 @@
 import generateExport from "./generateExportJob";
 import nock from "nock";
 import {
-  addBackgroundJobFailure,
   clearCurrentExportJob,
   generateExportSuccess
 } from "../../actionCreators/exportActionCreators";
@@ -34,7 +33,6 @@ describe("generateExportJob", () => {
 
     await generateExport(url)(mockedDispatch);
 
-    expect(mockedDispatch).toHaveBeenCalledWith(addBackgroundJobFailure());
     expect(mockedDispatch).toHaveBeenCalledWith(clearCurrentExportJob());
   });
 });

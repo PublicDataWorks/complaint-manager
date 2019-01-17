@@ -163,13 +163,10 @@ export const SEARCH_CLEARED = "SEARCH_CLEARED";
 // ----------------------------------------
 
 export const ADD_OFFICER_TO_CASE_SUCCEEDED = "ADD_OFFICER_TO_CASE_SUCCEEDED";
-export const ADD_OFFICER_TO_CASE_FAILED = "ADD_OFFICER_TO_CASE_FAILED";
 export const OFFICER_SELECTED = "OFFICER_SELECTED";
 export const CASE_OFFICER_SELECTED = "CASE_OFFICER_SELECTED";
 export const UNKNOWN_OFFICER_SELECTED = "UNKNOWN_OFFICER_SELECTED";
 export const CLEAR_SELECTED_OFFICER = "CLEAR_SELECTED_OFFICER";
-export const EDIT_CASE_OFFICER_SUCCEEDED = "EDIT_CASE_OFFICER_SUCCEEDED";
-export const EDIT_CASE_OFFICER_FAILED = "EDIT_CASE_OFFICER_FAILED";
 
 // ----------------------------------------
 //          Case History Actions
@@ -404,5 +401,3 @@ export const JOB_OPERATION = {
 };
 
 export const QUEUE_PREFIX = "noimp_q";
-
-export const BG_JOB_FAILED = "background job failed.";
