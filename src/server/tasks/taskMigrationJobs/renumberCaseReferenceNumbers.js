@@ -6,11 +6,12 @@ const NEW_CASE_NUMBER_MAPPINGS = require("./renumberCaseReferenceNumbersCaseMapp
 const MIGRATION_AUDIT_USER = "System Migration: 002";
 
 const renumberCaseReferenceNumbers = async revert => {
+  const beforeUpdateHooks = models.cases.options.hooks.beforeUpdate;
+  models.cases.options.hooks.beforeUpdate = [() => {}]; //temporarily disable hooks that would prevent us from changing case numbers
+
   await models.sequelize.transaction(async transaction => {
     for (let caseNumberMapping of orderedCaseNumberMappings(revert)) {
-      const matchingCases = await findCaseToUpdate(caseNumberMapping, revert);
-      validateFoundExactlyOneMatch(matchingCases, caseNumberMapping);
-      const caseToUpdate = matchingCases[0];
+      const caseToUpdate = await getCaseToUpdate(caseNumberMapping, revert);
       try {
         const result = await updateCase(
           caseToUpdate,
@@ -20,14 +21,18 @@ const renumberCaseReferenceNumbers = async revert => {
         );
         logResultMessage(result, caseNumberMapping);
       } catch (error) {
-        winston.error(
-          "Error reassigning case reference number. Aborting task.",
-          error
-        );
+        logErrorMessage(error);
         throw error;
       }
     }
   });
+  models.cases.options.hooks.beforeUpdate = beforeUpdateHooks;
+};
+
+const getCaseToUpdate = async (caseNumberMapping, revert) => {
+  const matchingCases = await findCaseToUpdate(caseNumberMapping, revert);
+  validateFoundExactlyOneMatch(matchingCases, caseNumberMapping);
+  return matchingCases[0];
 };
 
 const updateCase = async (
@@ -78,6 +83,13 @@ const logResultMessage = (result, caseNumberMapping) => {
     `Case Number Change: Case with id ${result.id} updated case number from ${
       caseNumberMapping.number.old
     } to ${result.caseNumber} with year ${result.year}.`
+  );
+};
+
+const logErrorMessage = error => {
+  winston.error(
+    "Error reassigning case reference number. Aborting task.",
+    error
   );
 };
 

@@ -100,6 +100,48 @@ describe("cases", function() {
       expect(newCase.caseNumber).toEqual(1);
     });
 
+    test("generates case number when validate is true", async () => {
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2018-04-20")
+        .withId(null);
+      caseAttributes.year = 1900;
+      caseAttributes.caseNumber = 99;
+      const newCase = await models.cases.create(caseAttributes, {
+        auditUser: "someone"
+      });
+      expect(newCase.year).toEqual(2018);
+      expect(newCase.caseNumber).toEqual(1);
+    });
+
+    test("generates case number even when validate false", async () => {
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2018-04-20")
+        .withId(null);
+      caseAttributes.year = 1900;
+      caseAttributes.caseNumber = 99;
+      const newCase = await models.cases.create(caseAttributes, {
+        auditUser: "someone",
+        validate: false
+      });
+      expect(newCase.year).toEqual(2018);
+      expect(newCase.caseNumber).toEqual(1);
+    });
+
+    test("does not allow bulk create for now", async () => {
+      //don't know requirements of what we'd want with a bulk create - generating case reference
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2018-04-20")
+        .withId(null);
+      await expect(
+        models.cases.bulkCreate([caseAttributes], {
+          auditUser: "someone"
+        })
+      ).rejects.toEqual(Boom.badRequest(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED));
+    });
+
     test("does not reset year or case number if case already exists in db", async () => {
       const caseAttributes = new Case.Builder()
         .defaultCase()
@@ -131,7 +173,50 @@ describe("cases", function() {
       ).rejects.toEqual(
         Boom.badData(BAD_DATA_ERRORS.CANNOT_OVERRIDE_CASE_REFERENCE)
       );
+      await newCase.reload();
+      expect(newCase.year).toEqual(2018);
+      expect(newCase.caseNumber).toEqual(1);
+    });
 
+    test("does not allow you to override year or case number on instance update, even with validate false", async () => {
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2018-04-20")
+        .withId(null);
+      const newCase = await models.cases.create(caseAttributes, {
+        auditUser: "someone"
+      });
+
+      expect(
+        newCase.update(
+          { caseNumber: 88, year: 1901 },
+          { validate: false, auditUser: "someone" }
+        )
+      ).rejects.toEqual(
+        Boom.badData(BAD_DATA_ERRORS.CANNOT_OVERRIDE_CASE_REFERENCE)
+      );
+      await newCase.reload();
+      expect(newCase.year).toEqual(2018);
+      expect(newCase.caseNumber).toEqual(1);
+    });
+
+    test("does not allow you to override reference number when doing bulk update", async () => {
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2018-04-20")
+        .withId(null);
+      const newCase = await models.cases.create(caseAttributes, {
+        auditUser: "someone"
+      });
+
+      expect(
+        models.cases.update(
+          { caseNumber: 88, year: 1901 },
+          { where: { id: newCase.id }, validate: false, auditUser: "someone" }
+        )
+      ).rejects.toEqual(
+        Boom.badData(BAD_DATA_ERRORS.CANNOT_OVERRIDE_CASE_REFERENCE)
+      );
       await newCase.reload();
       expect(newCase.year).toEqual(2018);
       expect(newCase.caseNumber).toEqual(1);

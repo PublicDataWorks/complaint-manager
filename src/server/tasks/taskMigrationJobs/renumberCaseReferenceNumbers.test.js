@@ -1,8 +1,5 @@
 import Case from "../../../client/testUtilities/case";
-import {
-  CASE_STATUS,
-  CIVILIAN_INITIATED
-} from "../../../sharedUtilities/constants";
+import { CIVILIAN_INITIATED } from "../../../sharedUtilities/constants";
 import models from "../../../server/models";
 import renumberCaseReferenceNumbers from "./renumberCaseReferenceNumbers";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
@@ -16,7 +13,10 @@ describe("migration 002 renumber case reference numbers", () => {
   });
 
   beforeEach(async () => {
+    const beforeCreateHooks = models.cases.options.hooks.beforeCreate;
+    models.cases.options.hooks.beforeCreate = [() => {}]; //temporarily disable hook that would prevent us from overriding case numbers
     await setupExistingCases();
+    models.cases.options.hooks.beforeCreate = beforeCreateHooks;
   });
 
   test("it renumbers cases according to specified list", async () => {
@@ -91,8 +91,7 @@ const expectAuditsToHaveBeenCreated = async () => {
       caseNumber: {
         new: caseNumberMapping.number.new,
         previous: caseNumberMapping.number.old
-      },
-      status: { new: CASE_STATUS.ACTIVE, previous: CASE_STATUS.INITIAL }
+      }
     });
     expect(auditForUpdateCase.snapshot).toEqual(
       expect.objectContaining({

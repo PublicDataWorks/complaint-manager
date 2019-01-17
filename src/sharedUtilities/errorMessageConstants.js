@@ -1,4 +1,5 @@
 export const BAD_REQUEST_ERRORS = {
+  ACTION_NOT_ALLOWED: `This action is not allowed`,
   CASE_DOES_NOT_EXIST: `This case does not exist.`,
   PERMISSIONS_MISSING_TO_UPDATE_STATUS:
     "Missing permissions to update case status.",
