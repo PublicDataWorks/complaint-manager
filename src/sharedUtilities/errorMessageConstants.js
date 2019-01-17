@@ -23,7 +23,8 @@ export const BAD_REQUEST_ERRORS = {
     "The letter officer does not match with the expected case officer.",
   INVALID_OFFICER_HISTORY_NOTE: "The officer's history note does not exist.",
   INVALID_JOB: "Could not find specified job.",
-  OPERATION_NOT_PERMITTED: "Operation not permitted."
+  OPERATION_NOT_PERMITTED: "Operation not permitted.",
+  OFFICER_ALLEGATION_NOT_FOUND: "Officer Allegation does not exist."
 };
 
 export const BAD_DATA_ERRORS = {
@@ -34,8 +35,7 @@ export const BAD_DATA_ERRORS = {
 };
 
 export const NOT_FOUND_ERRORS = {
-  PAGE_NOT_FOUND: "Page was not found.",
-  OFFICER_ALLEGATION_NOT_FOUND: "Officer Allegation does not exist."
+  PAGE_NOT_FOUND: "Page was not found."
 };
 
 export const UNAUTHORIZED_ERRORS = {

@@ -76,7 +76,7 @@ describe("response error interceptor", () => {
       expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
     });
 
-    test.only("converts array buffer to error", async () => {
+    test("converts array buffer to error", async () => {
       const errorResponseFor400 = {
         statusCode: 400,
         error: "Bad Request",

@@ -1,9 +1,7 @@
-import {
-  updateIncidentDetailsFailure,
-  updateIncidentDetailsSuccess
-} from "../../actionCreators/casesActionCreators";
+import { updateIncidentDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import getCaseNotes from "./getCaseNotes";
 import axios from "axios";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 const editIncidentDetails = (
   incidentDetails,
@@ -16,10 +14,9 @@ const editIncidentDetails = (
     );
     closeDialogCallback();
     dispatch(updateIncidentDetailsSuccess(response.data));
+    dispatch(snackbarSuccess("Incident details were successfully updated"));
     return await dispatch(getCaseNotes(response.data.id));
-  } catch (error) {
-    return dispatch(updateIncidentDetailsFailure());
-  }
+  } catch (error) {}
 };
 
 export default editIncidentDetails;

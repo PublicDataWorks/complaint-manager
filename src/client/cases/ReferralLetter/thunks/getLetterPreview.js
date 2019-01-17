@@ -1,9 +1,6 @@
 import axios from "axios/index";
 import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";
-import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
-import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
-import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const getLetterPreview = caseId => async dispatch => {
   try {

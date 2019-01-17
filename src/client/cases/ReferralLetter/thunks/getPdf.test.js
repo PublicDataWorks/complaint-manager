@@ -2,14 +2,12 @@ import saveAs from "file-saver";
 import getPdf from "./getPdf";
 import nock from "nock";
 import getAccessToken from "../../../auth/getAccessToken";
-import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import {
   getLetterPdfSuccess,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
 import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
-import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("file-saver", () => jest.fn());

@@ -37,6 +37,7 @@ const badRequestInterceptor = (error, dispatch) => {
       break;
     case BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE:
       dispatch(push(`/cases/${caseId}`));
+      snackbarErrorMsg = errorMessage;
       break;
   }
   return snackbarErrorMsg;

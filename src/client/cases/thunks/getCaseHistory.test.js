@@ -25,22 +25,4 @@ describe("getCaseHistory", () => {
     await getCaseHistory(caseId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(getCaseHistorySuccess(responseBody));
   });
-
-  test("dispatches snackbar error when 500 response code", async () => {
-    getAccessToken.mockImplementation(() => token);
-    nock("http://localhost/", {
-      reqheaders: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .get(`/api/cases/${caseId}/case-history`)
-      .reply(500);
-
-    await getCaseHistory(caseId)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and the case history was not loaded. Please try again."
-      )
-    );
-  });
 });

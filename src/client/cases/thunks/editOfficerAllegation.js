@@ -1,7 +1,4 @@
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../../actionCreators/snackBarActionCreators";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import { updateAllegationDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import axios from "axios";
 
@@ -13,13 +10,7 @@ const editOfficerAllegation = allegation => async dispatch => {
     );
     dispatch(updateAllegationDetailsSuccess(allegation.id, response.data));
     return dispatch(snackbarSuccess("Allegation was successfully updated"));
-  } catch (error) {
-    return dispatch(
-      snackbarError(
-        "Something went wrong and the allegation was not updated. Please try again."
-      )
-    );
-  }
+  } catch (error) {}
 };
 
 export default editOfficerAllegation;

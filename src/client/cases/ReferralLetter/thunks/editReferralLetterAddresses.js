@@ -1,9 +1,6 @@
 import { push } from "react-router-redux";
 import axios from "axios/index";
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../../../actionCreators/snackBarActionCreators";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 
 const editReferralLetterAddresses = (
   caseId,

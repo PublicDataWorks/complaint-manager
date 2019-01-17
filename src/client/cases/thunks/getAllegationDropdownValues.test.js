@@ -23,19 +23,4 @@ describe("getAllegationDropdownValues", function() {
     await getAllegationDropdownValues()(dispatch);
     expect(dispatch).toHaveBeenCalledWith(getAllegationsSuccess(responseBody));
   });
-
-  test("should redirect dispatch failure on 500 response", async () => {
-    dispatch.mockClear();
-
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .get(`/api/allegations`)
-      .reply(500);
-
-    await getAllegationDropdownValues()(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(getAllegationsFailed());
-  });
 });

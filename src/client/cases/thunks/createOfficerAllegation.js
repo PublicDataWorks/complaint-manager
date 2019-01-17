@@ -1,7 +1,4 @@
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../../actionCreators/snackBarActionCreators";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import { createOfficerAllegationSuccess } from "../../actionCreators/allegationsActionCreators";
 import axios from "axios";
 
@@ -19,13 +16,7 @@ const createOfficerAllegation = (
     addAllegationSuccessCallback();
     dispatch(createOfficerAllegationSuccess(response.data));
     return dispatch(snackbarSuccess("Allegation was successfully added"));
-  } catch (error) {
-    return dispatch(
-      snackbarError(
-        "Something went wrong and the allegation was not added. Please try again."
-      )
-    );
-  }
+  } catch (error) {}
 };
 
 export default createOfficerAllegation;

@@ -38,7 +38,6 @@ import recommendedActionsReducer from "./reducers/cases/recommendedActionsReduce
 import editReferralLetterReducer from "./reducers/ui/editReferralLetterReducer";
 import cancelEditLetterConfirmationDialogReducer from "./reducers/ui/cancelEditlLetterConfirmationDialogReducer";
 import letterDownloadReducer from "./reducers/ui/letterDownloadReducer";
-import caseValidationDialogReducer from "./reducers/ui/caseValidationDialogReducer";
 import loadPdfPreviewReducer from "./reducers/ui/loadPdfPreviewReducer";
 import intakeSourceReducer from "./reducers/ui/intakeSourceReducer";
 import raceEthnicityReducer from "./reducers/ui/raceEthnicityReducer";
@@ -87,7 +86,6 @@ const rootReducer = combineReducers({
     iaProCorrectionsDialog: iaProCorrectionsReducer,
     letterDownload: letterDownloadReducer,
     pdfPreview: loadPdfPreviewReducer,
-    caseValidationDialog: caseValidationDialogReducer,
     archiveCaseDialog: archiveCaseDialogReducer
   }),
   officers: searchOfficersReducer,

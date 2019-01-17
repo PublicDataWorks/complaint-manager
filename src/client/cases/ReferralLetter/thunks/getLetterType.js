@@ -1,5 +1,4 @@
 import axios from "axios/index";
-import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import { getLetterTypeSuccess } from "../../../actionCreators/letterActionCreators";
 
 const getLetterType = caseId => async dispatch => {

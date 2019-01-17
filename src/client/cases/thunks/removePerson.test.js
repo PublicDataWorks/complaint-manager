@@ -8,6 +8,8 @@ import {
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 import { startSubmit, stopSubmit } from "redux-form";
 import { REMOVE_PERSON_FORM_NAME } from "../../../sharedUtilities/constants";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
+import _ from "lodash";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -36,9 +38,6 @@ describe("removePerson", () => {
     await removePerson(personDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(startSubmit(REMOVE_PERSON_FORM_NAME));
-    expect(dispatch).toHaveBeenCalledWith(
-      removePersonFailure(personTypeForDisplay)
-    );
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(REMOVE_PERSON_FORM_NAME));
   });
 
@@ -56,8 +55,11 @@ describe("removePerson", () => {
     await removePerson(personDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(startSubmit(REMOVE_PERSON_FORM_NAME));
+    expect(dispatch).toHaveBeenCalledWith(removePersonSuccess(response));
     expect(dispatch).toHaveBeenCalledWith(
-      removePersonSuccess(response, personTypeForDisplay)
+      snackbarSuccess(
+        `${_.startCase(personTypeForDisplay)} was successfully removed.`
+      )
     );
     expect(dispatch).toHaveBeenCalledWith(closeRemovePersonDialog());
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(REMOVE_PERSON_FORM_NAME));

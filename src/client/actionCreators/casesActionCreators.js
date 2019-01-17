@@ -1,6 +1,4 @@
-import * as _ from "lodash";
 import {
-  ADD_CASE_NOTE_FAILED,
   ADD_CASE_NOTE_SUCCEEDED,
   ADDRESS_DISPLAY_VALUE_UPDATED,
   ADDRESS_ERROR_MESSAGE_UPDATED,
@@ -15,27 +13,20 @@ import {
   CASE_NOTE_DIALOG_OPENED,
   CASE_STATUS_UPDATE_DIALOG_CLOSED,
   CASE_STATUS_UPDATE_DIALOG_OPENED,
-  CASE_VALIDATION_DIALOG_CLOSED,
-  CASE_VALIDATION_DIALOG_OPENED,
-  CIVILIAN_CREATION_FAILED,
   CIVILIAN_CREATION_SUCCEEDED,
   CIVILIAN_DIALOG_OPENED,
   CREATE_CASE_DIALOG_CLOSED,
   CREATE_CASE_DIALOG_OPENED,
-  EDIT_CASE_NOTE_FAILED,
   EDIT_CASE_NOTE_SUCCEEDED,
   GET_CASE_DETAILS_SUCCESS,
   GET_CASE_NOTES_SUCCEEDED,
   GET_MINIMUM_CASE_DETAILS_SUCCESS,
-  INCIDENT_DETAILS_UPDATE_FAILED,
   INCIDENT_DETAILS_UPDATE_SUCCEEDED,
   REMOVE_CASE_NOTE_DIALOG_CLOSED,
   REMOVE_CASE_NOTE_DIALOG_OPENED,
-  REMOVE_CASE_NOTE_FAILED,
   REMOVE_CASE_NOTE_SUCCEEDED,
   REMOVE_PERSON_DIALOG_CLOSED,
   REMOVE_PERSON_DIALOG_OPENED,
-  REMOVE_PERSON_FAILED,
   REMOVE_PERSON_SUCCEEDED,
   UPDATE_ALLEGATION_DETAILS_SUCCEEDED,
   UPDATE_CASE_STATUS_SUCCESS
@@ -48,10 +39,6 @@ export const createCaseSuccess = caseDetails => ({
 
 export const requestCaseCreation = () => ({
   type: "CASE_CREATION_REQUESTED"
-});
-
-export const createCaseFailure = () => ({
-  type: "CASE_CREATION_FAILED"
 });
 
 export const getCasesSuccess = cases => ({
@@ -76,10 +63,6 @@ export const getCaseNotesSuccess = caseNotes => ({
 export const updateNarrativeSuccess = caseDetails => ({
   type: "NARRATIVE_UPDATE_SUCCEEDED",
   caseDetails
-});
-
-export const updateNarrativeFailure = () => ({
-  type: "NARRATIVE_UPDATE_FAILED"
 });
 
 export const updateSort = sortBy => ({
@@ -130,17 +113,9 @@ export const createCivilianSuccess = caseDetails => ({
   caseDetails
 });
 
-export const createCivilianFailure = () => ({
-  type: CIVILIAN_CREATION_FAILED
-});
-
 export const editCivilianSuccess = caseDetails => ({
   type: "EDIT_CIVILIAN_SUCCESS",
   caseDetails
-});
-
-export const editCivilianFailed = () => ({
-  type: "EDIT_CIVILIAN_FAILED"
 });
 
 export const uploadAttachmentSuccess = caseDetails => ({
@@ -187,22 +162,10 @@ export const updateAddressErrorMessage = addressErrorMessage => ({
   addressErrorMessage
 });
 
-export const updateIncidentDetailsFailure = () => ({
-  type: INCIDENT_DETAILS_UPDATE_FAILED
-});
-
-export const addCaseNoteFailure = () => ({
-  type: ADD_CASE_NOTE_FAILED
-});
-
 export const addCaseNoteSuccess = (caseDetails, caseNotes) => ({
   type: ADD_CASE_NOTE_SUCCEEDED,
   caseDetails,
   caseNotes
-});
-
-export const editCaseNoteFailure = () => ({
-  type: EDIT_CASE_NOTE_FAILED
 });
 
 export const editCaseNoteSuccess = caseNotes => ({
@@ -214,10 +177,6 @@ export const removeCaseNoteSuccess = currentCase => ({
   type: REMOVE_CASE_NOTE_SUCCEEDED,
   caseDetails: currentCase.caseDetails,
   caseNotes: currentCase.caseNotes
-});
-
-export const removeCaseNoteFailure = () => ({
-  type: REMOVE_CASE_NOTE_FAILED
 });
 
 export const updateAllegationDetailsSuccess = (allegationId, caseDetails) => ({
@@ -250,17 +209,9 @@ export const closeRemovePersonDialog = () => ({
   type: REMOVE_PERSON_DIALOG_CLOSED
 });
 
-export const removePersonFailure = personType => ({
-  type: REMOVE_PERSON_FAILED,
-  message: `Something went wrong and the ${_.lowerCase(
-    personType
-  )} was not removed. Please try again.`
-});
-
-export const removePersonSuccess = (caseDetails, personType) => ({
+export const removePersonSuccess = caseDetails => ({
   type: REMOVE_PERSON_SUCCEEDED,
-  caseDetails,
-  message: `${_.startCase(personType)} was successfully removed`
+  caseDetails
 });
 
 export const openCaseStatusUpdateDialog = redirectUrl => ({
@@ -270,15 +221,6 @@ export const openCaseStatusUpdateDialog = redirectUrl => ({
 
 export const closeCaseStatusUpdateDialog = () => ({
   type: CASE_STATUS_UPDATE_DIALOG_CLOSED
-});
-
-export const openCaseValidationDialog = errors => ({
-  type: CASE_VALIDATION_DIALOG_OPENED,
-  errors
-});
-
-export const closeCaseValidationDialog = () => ({
-  type: CASE_VALIDATION_DIALOG_CLOSED
 });
 
 export const openArchiveCaseDialog = () => ({

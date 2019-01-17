@@ -1,10 +1,6 @@
 import { push } from "react-router-redux";
 import axios from "axios/index";
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../../../actionCreators/snackBarActionCreators";
-import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 
 const approveReferralLetter = (caseId, callback) => async dispatch => {
   try {
