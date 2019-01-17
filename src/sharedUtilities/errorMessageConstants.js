@@ -43,6 +43,10 @@ export const UNAUTHORIZED_ERRORS = {
   USER_SCOPE_MISSING: "User scope missing"
 };
 
+export const INTERNAL_ERRORS = {
+  CASE_REFERENCE_GENERATION_FAILURE: `Could not obtain unique case reference number after multiple tries`
+};
+
 export const ROUTES = {
   "/export/job/:jobId": {},
   "/export/schedule/:operation": {},
