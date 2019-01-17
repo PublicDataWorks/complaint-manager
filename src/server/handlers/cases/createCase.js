@@ -1,4 +1,7 @@
-import {BAD_REQUEST_ERRORS} from "../../../sharedUtilities/errorMessageConstants";
+import {
+  BAD_REQUEST_ERRORS,
+  INTERNAL_ERRORS
+} from "../../../sharedUtilities/errorMessageConstants";
 
 const {
   AUDIT_SUBJECT,
@@ -81,9 +84,7 @@ const createCaseWithRetry = async (
   } catch (error) {
     if (failedToCreateUniqueCaseReferenceNumber(error)) {
       if (retryNumber === MAX_RETRIES) {
-        throw Boom.internal(
-          `Could not obtain unique case reference number after ${MAX_RETRIES} tries`
-        );
+        throw Boom.internal(INTERNAL_ERRORS.CASE_REFERENCE_GENERATION_FAILURE);
       }
       await createCaseWithRetry(
         newCaseAttributes,
