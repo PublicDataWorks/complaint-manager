@@ -6,7 +6,10 @@ import {
   CIVILIAN_INITIATED,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import {
+  cleanupDatabase,
+  suppressWinstonLogs
+} from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
 import Case from "../../../client/testUtilities/case";
 import {
@@ -129,18 +132,23 @@ describe("cases", function() {
       expect(newCase.caseNumber).toEqual(1);
     });
 
-    test("does not allow bulk create for now", async () => {
-      //don't know requirements of what we'd want with a bulk create - generating case reference
-      const caseAttributes = new Case.Builder()
-        .defaultCase()
-        .withFirstContactDate("2018-04-20")
-        .withId(null);
-      await expect(
-        models.cases.bulkCreate([caseAttributes], {
-          auditUser: "someone"
-        })
-      ).rejects.toEqual(Boom.badRequest(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED));
-    });
+    test(
+      "does not allow bulk create for now",
+      suppressWinstonLogs(async () => {
+        //don't know requirements of what we'd want with a bulk create - generating case reference
+        const caseAttributes = new Case.Builder()
+          .defaultCase()
+          .withFirstContactDate("2018-04-20")
+          .withId(null);
+        await expect(
+          models.cases.bulkCreate([caseAttributes], {
+            auditUser: "someone"
+          })
+        ).rejects.toEqual(
+          Boom.badRequest(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED)
+        );
+      })
+    );
 
     test("does not reset year or case number if case already exists in db", async () => {
       const caseAttributes = new Case.Builder()
