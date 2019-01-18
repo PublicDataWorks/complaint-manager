@@ -26,49 +26,37 @@ const throwErrorIfUnauthorizedResponse = (error, dispatch) => {
 };
 
 const get400ErrorMessage = (error, dispatch) => {
-  let errorMessage = getErrorMessageFromResponse(error.response);
+  let { errorMessage, redirectUrl } = getErrorMessageAndRedirectUrlFromResponse(
+    error.response
+  );
 
   if (!errorMessage) {
     return null;
   }
 
-  const caseId = parseCaseIdFromError(error);
-  switch (errorMessage) {
-    case BAD_REQUEST_ERRORS.INVALID_CASE_STATUS:
-      dispatch(push(`/cases/${caseId}`));
-      return "Sorry, that page is not available";
-    case BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE:
-      dispatch(push(`/cases/${caseId}`));
+  if (redirectUrl) {
+    dispatch(push(`${redirectUrl}`));
   }
   return errorMessage;
 };
 
-const parseCaseIdFromError = error => {
-  if (!error.request.responseURL) {
-    return null;
-  }
-  const regex = /(?<=cases\/)[0-9]+/g;
-  const found = error.request.responseURL.match(regex);
-  if (!found) {
-    return null;
-  }
-  return found[0];
-};
-
-const getErrorMessageFromResponse = response => {
+const getErrorMessageAndRedirectUrlFromResponse = response => {
+  let responseData = response.data;
   if (response.config.responseType === "arraybuffer") {
-    return getJsonMessageFromArrayBufferResponse(response.data);
+    responseData = getJsonDataFromArrayBufferResponse(response.data);
   }
-  return response.data.message;
+  return {
+    errorMessage: responseData.message,
+    redirectUrl: responseData.redirectUrl
+  };
 };
 
-const getJsonMessageFromArrayBufferResponse = arrayBuffer => {
+const getJsonDataFromArrayBufferResponse = arrayBuffer => {
   const decodedString = String.fromCharCode.apply(
     null,
     new Uint8Array(arrayBuffer)
   );
-  const jsonResponse = JSON.parse(decodedString);
-  return jsonResponse.message;
+  return JSON.parse(decodedString);
 };
 
 const errorIs400 = error => {

@@ -12,6 +12,7 @@ import getIntakeSources from "./handlers/intake_sources/getIntakeSources";
 import getLetterType from "./handlers/cases/referralLetters/getLetterType/getLetterType";
 import getRaceEthnicities from "./handlers/race_ethnicities/getRaceEthnicities";
 import archiveCase from "./handlers/cases/archiveCase/archiveCase";
+import { handleCaseIdParam } from "./handlers/paramHandler";
 
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
@@ -54,6 +55,8 @@ const router = express.Router();
 router.use(jwtCheck);
 router.use(verifyUserInfo);
 router.use(authErrorHandler);
+
+router.param("caseId", handleCaseIdParam);
 
 //Any routes defined below this point will require authentication
 router.get("/export/job/:jobId", exportJob);
