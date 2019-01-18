@@ -86,7 +86,7 @@ const createCaseWithRetry = async (
       if (retryNumber === MAX_RETRIES) {
         throw Boom.internal(INTERNAL_ERRORS.CASE_REFERENCE_GENERATION_FAILURE);
       }
-      await createCaseWithRetry(
+      return await createCaseWithRetry(
         newCaseAttributes,
         includeOptions,
         nickname,
