@@ -85,7 +85,7 @@ const createCaseWithRetry = async (
           `Could not obtain unique case reference number after ${MAX_RETRIES} tries`
         );
       }
-      await createCaseWithRetry(
+      return await createCaseWithRetry(
         newCaseAttributes,
         includeOptions,
         nickname,
