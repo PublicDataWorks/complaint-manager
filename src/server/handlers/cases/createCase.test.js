@@ -276,12 +276,47 @@ describe("createCase handler", () => {
       );
     });
 
-    test("handles multiple cases trying to be created at once", async () => {
+    test("handles multiple cases trying to be created at once, and returns data for all", async () => {
+      const request2 = httpMocks.createRequest({
+        method: "POST",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: {
+          case: caseAttributes,
+          civilian: civilianAttributes
+        },
+        nickname: user
+      });
+      const response2 = httpMocks.createResponse();
+      const next2 = jest.fn();
+
+      const request3 = httpMocks.createRequest({
+        method: "POST",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: {
+          case: caseAttributes,
+          civilian: civilianAttributes
+        },
+        nickname: user
+      });
+      const response3 = httpMocks.createResponse();
+      const next3 = jest.fn();
+
       const promise1 = createCase(request, response, next);
-      const promise2 = createCase(request, response, next);
-      const promise3 = createCase(request, response, next);
+      const promise2 = createCase(request2, response2, next2);
+      const promise3 = createCase(request3, response3, next3);
 
       await Promise.all([promise1, promise2, promise3]);
+
+      expect(response._getData().id).not.toBeUndefined();
+      expect(response._getData().caseNumber).not.toBeUndefined();
+      expect(response2._getData().id).not.toBeUndefined();
+      expect(response2._getData().caseNumber).not.toBeUndefined();
+      expect(response3._getData().id).not.toBeUndefined();
+      expect(response3._getData().caseNumber).not.toBeUndefined();
 
       const insertedCases = await models.cases.findAll({
         order: [["created_at", "ASC"]]
