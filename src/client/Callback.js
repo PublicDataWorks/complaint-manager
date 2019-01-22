@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import Auth from "./auth/Auth";
 import { userAuthSuccess } from "./auth/actionCreators";
 import getFeatureToggles from "./featureToggles/thunks/getFeatureToggles";
 
-class Callback extends Component {
+class Callback extends React.Component {
   componentDidMount() {
     const { location, userAuthSuccess, getFeatureToggles } = this.props;
     if (/access_token|id_token|error/.test(location.hash))

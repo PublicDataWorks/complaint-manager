@@ -1,4 +1,3 @@
-import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import encodeUriWithParams from "../../utilities/encodeUriWithParams";
 import {
   searchFailed,
