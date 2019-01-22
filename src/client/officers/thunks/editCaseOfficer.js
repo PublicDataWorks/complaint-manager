@@ -11,7 +11,7 @@ const editCaseOfficer = (
 ) => async dispatch => {
   try {
     const payload = { ...values, officerId };
-    const response = await axios.put(
+    await axios.put(
       `api/cases/${caseId}/cases-officers/${caseOfficerId}`,
       JSON.stringify(payload)
     );
