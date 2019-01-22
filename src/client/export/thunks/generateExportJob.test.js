@@ -5,7 +5,6 @@ import {
   generateExportSuccess
 } from "../../actionCreators/exportActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
-
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "token"));
 
 describe("generateExportJob", () => {

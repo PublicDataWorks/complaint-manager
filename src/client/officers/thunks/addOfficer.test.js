@@ -1,6 +1,6 @@
 import addOfficer from "./addOfficer";
 import nock from "nock";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import Officer from "../../testUtilities/Officer";
 import Case from "../../testUtilities/case";
 import {

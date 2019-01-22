@@ -1,7 +1,7 @@
 import axios from "axios";
 import { closeArchiveCaseDialog } from "../../actionCreators/casesActionCreators";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import { startSubmit, stopSubmit } from "redux-form";
 import { ARCHIVE_CASE_FORM_NAME } from "../../../sharedUtilities/constants";
 

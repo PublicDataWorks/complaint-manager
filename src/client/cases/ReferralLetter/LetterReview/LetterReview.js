@@ -21,7 +21,7 @@ import {
   CASE_STATUSES_ALLOWED_TO_EDIT_LETTER,
   LETTER_PROGRESS
 } from "../../../../sharedUtilities/constants";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import EditLetterStatusMessage from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
 import getLetterType from "../thunks/getLetterType";

@@ -11,7 +11,7 @@ import {
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
 import { closeCancelEditLetterConfirmationDialog } from "../../../actionCreators/letterActionCreators";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import { connect } from "react-redux";
 
 const CancelEditLetterConfirmationDialog = ({ open, dispatch, caseId }) => {
