@@ -1,5 +1,5 @@
 const initialState = {
-  sortBy: "id",
+  sortBy: "caseReference",
   sortDirection: "desc"
 };
 const casesTableReducer = (state = initialState, action) => {

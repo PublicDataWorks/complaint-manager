@@ -1,6 +1,6 @@
 import _ from "lodash";
 import getFirstComplainant from "./getFirstComplainant";
-import {CASE_STATUS_MAP} from "../../sharedUtilities/constants";
+import { CASE_STATUS_MAP } from "../../sharedUtilities/constants";
 
 const STATUS = Object.freeze(CASE_STATUS_MAP);
 
@@ -90,6 +90,14 @@ const sortBy = (collection, sortBy, sortDirection) => {
     if (sortDirection === "desc") {
       return sortedCases.reverse();
     } else return sortedCases;
+  }
+
+  if (sortBy === "caseReference") {
+    return _.orderBy(
+      collection,
+      ["year", "caseNumber"],
+      [sortDirection, sortDirection]
+    );
   }
 
   return _.orderBy(collection, sortBy, sortDirection);

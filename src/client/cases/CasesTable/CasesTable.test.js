@@ -101,7 +101,7 @@ describe("cases table", () => {
         .last();
       caseReferenceLabel.simulate("click");
 
-      expect(dispatchSpy).toHaveBeenCalledWith(updateSort("id"));
+      expect(dispatchSpy).toHaveBeenCalledWith(updateSort("caseReference"));
     });
 
     test("should update sort by when status clicked", () => {

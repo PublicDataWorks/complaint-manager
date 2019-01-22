@@ -5,14 +5,17 @@ describe("casesTableReducer", () => {
   test("should set default state", () => {
     const newState = casesTableReducer(undefined, { type: "any action" });
 
-    expect(newState).toEqual({ sortBy: "id", sortDirection: "desc" });
+    expect(newState).toEqual({
+      sortBy: "caseReference",
+      sortDirection: "desc"
+    });
   });
 
   describe("SORT_UPDATED", () => {
     test("should update sortBy when given new sortBy", () => {
       const newSortBy = "someKey";
       const oldState = {
-        sortBy: "id",
+        sortBy: "caseReference",
         sortDirection: "desc"
       };
 
@@ -45,7 +48,7 @@ describe("casesTableReducer", () => {
     test("should default to ascending order when updating sortBy", () => {
       const newSortBy = "someKey";
       const oldState = {
-        sortBy: "id",
+        sortBy: "caseReference",
         sortDirection: "desc"
       };
 

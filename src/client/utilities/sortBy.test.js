@@ -1,5 +1,9 @@
 import sortBy from "./sortBy";
-import {CASE_STATUS, COMPLAINANT, WITNESS} from "../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  COMPLAINANT,
+  WITNESS
+} from "../../sharedUtilities/constants";
 
 describe("sorting", () => {
   let unsortedCases;
@@ -319,7 +323,7 @@ describe("sorting", () => {
     expect(sortedCases).toEqual(expectedSortedCases);
   });
 
-  test("should sort accusedOfficer with unknown officers before known officers", () => {
+  test("should sort by year and caseNumber in ascending order", () => {
     const unsortedCases = [
       {
         id: 1,
@@ -329,6 +333,8 @@ describe("sorting", () => {
             isUnknownOfficer: true
           }
         ],
+        year: 2019,
+        caseNumber: 1,
         assignedTo: "adams"
       },
       {
@@ -340,17 +346,78 @@ describe("sorting", () => {
             lastName: "Brown"
           }
         ],
+        year: 2018,
+        caseNumber: 1,
         assignedTo: "abcUser"
       },
       {
         id: 3,
         status: CASE_STATUS.ACTIVE,
         accusedOfficers: [],
+        year: 2018,
+        caseNumber: 2,
         assignedTo: "Johnson"
+      },
+      {
+        id: 4,
+        status: CASE_STATUS.ACTIVE,
+        accusedOfficers: [],
+        year: 2019,
+        caseNumber: 2,
+        assignedTo: "Baby"
       }
     ];
-    const sortedCases = sortBy(unsortedCases, "accusedOfficer", "asc");
+    const sortedCases = sortBy(unsortedCases, "caseReference", "asc");
 
-    expect(sortedCases.map(sortedCase => sortedCase.id)).toEqual([3, 1, 2]);
+    expect(sortedCases.map(sortedCase => sortedCase.id)).toEqual([2, 3, 1, 4]);
+  });
+
+  test("should sort by year and caseNumber", () => {
+    const unsortedCases = [
+      {
+        id: 1,
+        status: CASE_STATUS.ACTIVE,
+        accusedOfficers: [
+          {
+            isUnknownOfficer: true
+          }
+        ],
+        year: 2019,
+        caseNumber: 1,
+        assignedTo: "adams"
+      },
+      {
+        id: 2,
+        status: CASE_STATUS.INITIAL,
+        accusedOfficers: [
+          {
+            isUnknownOfficer: false,
+            lastName: "Brown"
+          }
+        ],
+        year: 2018,
+        caseNumber: 1,
+        assignedTo: "abcUser"
+      },
+      {
+        id: 3,
+        status: CASE_STATUS.ACTIVE,
+        accusedOfficers: [],
+        year: 2018,
+        caseNumber: 2,
+        assignedTo: "Johnson"
+      },
+      {
+        id: 4,
+        status: CASE_STATUS.ACTIVE,
+        accusedOfficers: [],
+        year: 2019,
+        caseNumber: 2,
+        assignedTo: "Baby"
+      }
+    ];
+    const sortedCases = sortBy(unsortedCases, "caseReference", "desc");
+
+    expect(sortedCases.map(sortedCase => sortedCase.id)).toEqual([4, 1, 3, 2]);
   });
 });
