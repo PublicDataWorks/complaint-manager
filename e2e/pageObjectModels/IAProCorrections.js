@@ -8,15 +8,10 @@ const iaproAllegationsCommands = {
     ).assert.containsText("@pageHeader", "IAPro Corrections");
   },
   setNthDetails: function(n, details) {
-    return this.waitForElementVisible(
+    return this.setValue(
       `[name="referralLetterIAProCorrections[${n}].details"]`,
-      e2e.rerenderWait
-    )
-      .click(`[name="referralLetterIAProCorrections[${n}].details"]`)
-      .setValue(
-        `[name="referralLetterIAProCorrections[${n}].details"]`,
-        details
-      );
+      details
+    );
   },
   clickNext: function() {
     this.api.pause(e2e.pause);

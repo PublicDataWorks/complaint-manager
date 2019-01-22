@@ -1,10 +1,9 @@
 import nock from "nock";
 import updateNarrative from "./updateNarrative";
-import {
-  updateNarrativeFailure,
-  updateNarrativeSuccess
-} from "../../actionCreators/casesActionCreators";
+import { updateNarrativeSuccess } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
+
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("updateNarrative", () => {
@@ -39,23 +38,8 @@ describe("updateNarrative", () => {
     await updateNarrative(updateDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(updateNarrativeSuccess(responseBody));
-  });
-
-  test("should dispatch failure when narrative update fails", async () => {
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer TEST_TOKEN"
-      }
-    })
-      .put(`/api/cases/${updateDetails.id}/narrative`, {
-        narrativeDetails: updateDetails.narrativeDetails,
-        narrativeSummary: updateDetails.narrativeSummary
-      })
-      .reply(500);
-
-    await updateNarrative(updateDetails)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(updateNarrativeFailure());
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarSuccess("Narrative was successfully updated")
+    );
   });
 });

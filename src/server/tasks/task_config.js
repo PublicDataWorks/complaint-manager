@@ -14,6 +14,21 @@ module.exports = {
       acquire: 20000
     }
   },
+  test: {
+    host: process.env.CIRCLECI ? "localhost" : "db",
+    username: "postgres",
+    password: "password",
+    database: "complaint-manager-test",
+    dialect: "postgres",
+    operatorsAliases: false,
+    logging: false,
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 10000,
+      acquire: 20000
+    }
+  },
   ci: {
     host: process.env.DATABASE_HOST,
     username: process.env.DATABASE_USERNAME,

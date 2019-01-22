@@ -3,7 +3,6 @@ import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
 import getIntakeSourceDropdownValues from "./getIntakeSourceDropdownValues";
 import { getIntakeSourcesSuccess } from "../../actionCreators/intakeSourceActionCreators";
-import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 
 jest.mock("../../auth/getAccessToken");
 
@@ -27,18 +26,6 @@ describe("getIntakeSourceDropdownValues", () => {
     await getIntakeSourceDropdownValues()(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       getIntakeSourcesSuccess(responseBody)
-    );
-  });
-
-  test("it dispatches failure when api call fails", async () => {
-    nock(hostname)
-      .get(apiRoute)
-      .reply(500);
-    await getIntakeSourceDropdownValues()(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and the intake sources were not loaded. Please try again."
-      )
     );
   });
 });

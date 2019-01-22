@@ -6,9 +6,16 @@ import {
   CIVILIAN_INITIATED,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import {
+  cleanupDatabase,
+  suppressWinstonLogs
+} from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
 import Case from "../../../client/testUtilities/case";
+import {
+  BAD_DATA_ERRORS,
+  BAD_REQUEST_ERRORS
+} from "../../../sharedUtilities/errorMessageConstants";
 
 describe("cases", function() {
   let createdCase;
@@ -17,27 +24,292 @@ describe("cases", function() {
     await cleanupDatabase();
   });
 
-  describe("caseReference", () => {
-    test("returns a case reference starting with CC for civilian complainant", () => {
+  describe("beforeValidate hook (setup generation of case reference info)", () => {
+    test("sets the year from the first contact date on create of case", async () => {
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withIncidentDate("2017-01-01")
+        .withFirstContactDate("2018-04-20")
+        .withId(null);
+      const newCase = await models.cases.create(caseAttributes, {
+        auditUser: "someone"
+      });
+      expect(newCase.year).toEqual(2018);
+    });
+
+    test("sets the year and the next case number for the case year on create", async () => {
+      const caseAttributesFor2018 = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2018-04-20")
+        .withId(null);
+      const case1For2018 = await models.cases.create(caseAttributesFor2018, {
+        auditUser: "someone"
+      });
+      const caseAttributesFor2019 = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2019-04-20")
+        .withId(null);
+      const case1For2019 = await models.cases.create(caseAttributesFor2019, {
+        auditUser: "someone"
+      });
+      const case2For2019 = await models.cases.create(caseAttributesFor2019, {
+        auditUser: "someone"
+      });
+
+      expect(case1For2018.year).toEqual(2018);
+      expect(case1For2018.caseNumber).toEqual(1);
+      expect(case1For2019.year).toEqual(2019);
+      expect(case1For2019.caseNumber).toEqual(1);
+      expect(case2For2019.year).toEqual(2019);
+      expect(case2For2019.caseNumber).toEqual(2);
+    });
+
+    test("does not try to take case number of an archived (soft deleted) case", async () => {
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2019-04-20")
+        .withId(null);
+      const caseToArchive = await models.cases.create(caseAttributes, {
+        auditUser: "someone"
+      });
+      expect(caseToArchive.year).toEqual(2019);
+      expect(caseToArchive.caseNumber).toEqual(1);
+      await caseToArchive.destroy({ auditUser: "someone" });
+      expect(caseToArchive.reload()).rejects.toEqual(
+        expect.objectContaining({
+          message:
+            "Instance could not be reloaded because it does not exist anymore (find call returned null)"
+        })
+      );
+
+      const newCase = await models.cases.create(caseAttributes, {
+        auditUser: "someone"
+      });
+      expect(newCase.year).toEqual(2019);
+      expect(newCase.caseNumber).toEqual(2);
+    });
+
+    test("overrides year and case number if someone passes them in on create", async () => {
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2018-04-20")
+        .withId(null);
+      caseAttributes.year = 1900;
+      caseAttributes.caseNumber = 99;
+      const newCase = await models.cases.create(caseAttributes, {
+        auditUser: "someone"
+      });
+      expect(newCase.year).toEqual(2018);
+      expect(newCase.caseNumber).toEqual(1);
+    });
+
+    test("generates case number when validate is true", async () => {
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2018-04-20")
+        .withId(null);
+      caseAttributes.year = 1900;
+      caseAttributes.caseNumber = 99;
+      const newCase = await models.cases.create(caseAttributes, {
+        auditUser: "someone"
+      });
+      expect(newCase.year).toEqual(2018);
+      expect(newCase.caseNumber).toEqual(1);
+    });
+
+    test("generates case number even when validate false", async () => {
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2018-04-20")
+        .withId(null);
+      caseAttributes.year = 1900;
+      caseAttributes.caseNumber = 99;
+      const newCase = await models.cases.create(caseAttributes, {
+        auditUser: "someone",
+        validate: false
+      });
+      expect(newCase.year).toEqual(2018);
+      expect(newCase.caseNumber).toEqual(1);
+    });
+
+    test(
+      "does not allow bulk create for now",
+      suppressWinstonLogs(async () => {
+        //don't know requirements of what we'd want with a bulk create - generating case reference
+        const caseAttributes = new Case.Builder()
+          .defaultCase()
+          .withFirstContactDate("2018-04-20")
+          .withId(null);
+        await expect(
+          models.cases.bulkCreate([caseAttributes], {
+            auditUser: "someone"
+          })
+        ).rejects.toEqual(
+          Boom.badRequest(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED)
+        );
+      })
+    );
+
+    test("does not reset year or case number if case already exists in db", async () => {
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2018-04-20")
+        .withId(null);
+      const newCase = await models.cases.create(caseAttributes, {
+        auditUser: "someone"
+      });
+      const updatedCase = await newCase.update(
+        { firstContactDate: "2011-01-01" },
+        { auditUser: "someone" }
+      );
+      expect(updatedCase.year).toEqual(2018);
+      expect(updatedCase.caseNumber).toEqual(1);
+      expect(updatedCase.firstContactDate).toEqual("2011-01-01");
+    });
+
+    test("does not allow you to override year or case number on update", async () => {
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2018-04-20")
+        .withId(null);
+      const newCase = await models.cases.create(caseAttributes, {
+        auditUser: "someone"
+      });
+
+      expect(
+        newCase.update({ caseNumber: 88, year: 1901 }, { auditUser: "someone" })
+      ).rejects.toEqual(
+        Boom.badData(BAD_DATA_ERRORS.CANNOT_OVERRIDE_CASE_REFERENCE)
+      );
+      await newCase.reload();
+      expect(newCase.year).toEqual(2018);
+      expect(newCase.caseNumber).toEqual(1);
+    });
+
+    test("does not allow you to override year or case number on instance update, even with validate false", async () => {
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2018-04-20")
+        .withId(null);
+      const newCase = await models.cases.create(caseAttributes, {
+        auditUser: "someone"
+      });
+
+      expect(
+        newCase.update(
+          { caseNumber: 88, year: 1901 },
+          { validate: false, auditUser: "someone" }
+        )
+      ).rejects.toEqual(
+        Boom.badData(BAD_DATA_ERRORS.CANNOT_OVERRIDE_CASE_REFERENCE)
+      );
+      await newCase.reload();
+      expect(newCase.year).toEqual(2018);
+      expect(newCase.caseNumber).toEqual(1);
+    });
+
+    test("does not allow you to override reference number when doing bulk update", async () => {
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2018-04-20")
+        .withId(null);
+      const newCase = await models.cases.create(caseAttributes, {
+        auditUser: "someone"
+      });
+
+      expect(
+        models.cases.update(
+          { caseNumber: 88, year: 1901 },
+          { where: { id: newCase.id }, validate: false, auditUser: "someone" }
+        )
+      ).rejects.toEqual(
+        Boom.badData(BAD_DATA_ERRORS.CANNOT_OVERRIDE_CASE_REFERENCE)
+      );
+      await newCase.reload();
+      expect(newCase.year).toEqual(2018);
+      expect(newCase.caseNumber).toEqual(1);
+    });
+
+    test("does not change year or case number on delete", async () => {
+      const caseAttributes = new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2018-04-20")
+        .withId(null);
+      const newCase = await models.cases.create(caseAttributes, {
+        auditUser: "someone"
+      });
+      await newCase.destroy({ auditUser: "someone" });
+      const deletedCase = await models.cases.find({
+        where: { id: newCase.id },
+        paranoid: false
+      });
+      expect(deletedCase.year).toEqual(2018);
+      expect(deletedCase.caseNumber).toEqual(1);
+      expect(deletedCase.deletedAt).not.toBeNull();
+    });
+  });
+
+  describe("modelDescription", () => {
+    test("returns the case reference number", async () => {
       const civilianCaseAttributes = new Case.Builder()
         .defaultCase()
         .withComplaintType(CIVILIAN_INITIATED)
         .withIncidentDate("2017-01-01")
         .withFirstContactDate("2018-04-20")
         .withId(555);
-      const civilianCase = models.cases.build(civilianCaseAttributes);
-      expect(civilianCase.caseReference).toEqual("CC2018-0555");
+      const civilianCase = await models.cases.create(civilianCaseAttributes, {
+        auditUser: "someone"
+      });
+      expect(await civilianCase.modelDescription()).toEqual([
+        {
+          "Case Reference": "CC2018-0001"
+        }
+      ]);
+    });
+  });
+
+  describe("caseReference", () => {
+    test("returns a case reference starting with CC for civilian initiated case", async () => {
+      const civilianCaseAttributes = new Case.Builder()
+        .defaultCase()
+        .withComplaintType(CIVILIAN_INITIATED)
+        .withIncidentDate("2017-01-01")
+        .withFirstContactDate("2018-04-20")
+        .withId(555);
+      const civilianCase = await models.cases.create(civilianCaseAttributes, {
+        auditUser: "someone"
+      });
+      expect(civilianCase.caseReference).toEqual("CC2018-0001");
     });
 
-    test("returns a case reference starting with PO for officer complainant", () => {
+    test("returns currenct case reference even if first contact year has changed", async () => {
+      const civilianCaseAttributes = new Case.Builder()
+        .defaultCase()
+        .withComplaintType(CIVILIAN_INITIATED)
+        .withIncidentDate("2017-01-01")
+        .withFirstContactDate("2016-04-20")
+        .withId(555);
+      const civilianCase = await models.cases.create(civilianCaseAttributes, {
+        auditUser: "someone"
+      });
+      await civilianCase.update(
+        { firstContactDate: "2018-01-01" },
+        { auditUser: "someone" }
+      );
+      expect(civilianCase.caseReference).toEqual("CC2016-0001");
+    });
+
+    test("returns a case reference starting with PO for rank initiated complainant", async () => {
       const officerCaseAttributes = new Case.Builder()
         .defaultCase()
         .withComplaintType(RANK_INITIATED)
         .withIncidentDate("2000-05-26")
         .withFirstContactDate("2002-05-17")
         .withId(12);
-      const officerCase = models.cases.build(officerCaseAttributes);
-      expect(officerCase.caseReference).toEqual("PO2002-0012");
+      const officerCase = await models.cases.create(officerCaseAttributes, {
+        auditUser: "someone"
+      });
+      expect(officerCase.caseReference).toEqual("PO2002-0001");
     });
   });
 
@@ -69,7 +341,9 @@ describe("cases", function() {
           { status: CASE_STATUS.INITIAL },
           { auditUser: "someone" }
         )
-      ).rejects.toEqual(Boom.badRequest("Invalid case status"));
+      ).rejects.toEqual(
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+      );
 
       await createdCase.reload();
 
@@ -97,7 +371,9 @@ describe("cases", function() {
           { status: CASE_STATUS.INITIAL },
           { auditUser: "someone" }
         )
-      ).rejects.toEqual(Boom.badRequest("Invalid case status"));
+      ).rejects.toEqual(
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+      );
       await createdCase.reload();
 
       expect(createdCase.status).toEqual(CASE_STATUS.READY_FOR_REVIEW);
@@ -109,7 +385,9 @@ describe("cases", function() {
           { status: CASE_STATUS.READY_FOR_REVIEW },
           { auditUser: "someone" }
         )
-      ).rejects.toEqual(Boom.badRequest("Invalid case status"));
+      ).rejects.toEqual(
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+      );
 
       await createdCase.reload();
       expect(createdCase.status).toEqual(CASE_STATUS.INITIAL);
@@ -136,7 +414,9 @@ describe("cases", function() {
           { status: CASE_STATUS.ACTIVE },
           { auditUser: "someone" }
         )
-      ).rejects.toEqual(Boom.badRequest("Invalid case status"));
+      ).rejects.toEqual(
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+      );
 
       await createdCase.reload();
       expect(createdCase.status).toEqual(CASE_STATUS.READY_FOR_REVIEW);

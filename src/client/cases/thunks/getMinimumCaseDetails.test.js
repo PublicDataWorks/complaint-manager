@@ -2,7 +2,7 @@ import configureInterceptors from "../../axiosInterceptors/interceptors";
 import nock from "nock";
 import { getMinimumCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import getMinimumCaseDetails from "./getMinimumCaseDetails";
-import { snackbarError } from "../../actionCreators/snackBarActionCreators";
+
 jest.mock("../../auth/getAccessToken", () => () => true);
 
 describe("getMinimumCaseDetails", () => {
@@ -26,20 +26,6 @@ describe("getMinimumCaseDetails", () => {
 
     expect(dispatch).toHaveBeenCalledWith(
       getMinimumCaseDetailsSuccess(minimumCaseDetailsResponse)
-    );
-  });
-
-  test("dispatches snackbar message on failure", async () => {
-    nock("http://localhost", {})
-      .get(`/api/cases/${caseId}/minimum-case-details`)
-      .reply(500);
-
-    await getMinimumCaseDetails(caseId)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and the case details could not be loaded. Please try again."
-      )
     );
   });
 });

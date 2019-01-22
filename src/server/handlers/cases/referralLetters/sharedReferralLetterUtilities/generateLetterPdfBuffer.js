@@ -49,7 +49,13 @@ const generateLetterPdfBuffer = async (
 
 const getPdfData = async (caseId, transaction) => {
   return await models.cases.findById(caseId, {
-    attributes: ["firstContactDate", "complaintType", "id"],
+    attributes: [
+      "firstContactDate",
+      "complaintType",
+      "id",
+      "year",
+      "caseNumber"
+    ],
     include: [
       {
         model: models.referral_letter,

@@ -1,5 +1,4 @@
 import {
-  BG_JOB_FAILED,
   CLEAR_CURRENT_EXPORT_JOB,
   EXPORT_ALL_CASES_CONFIRMATION_OPENED,
   EXPORT_AUDIT_LOG_CONFIRMATION_OPENED,
@@ -17,10 +16,6 @@ export const exportJobCompleted = downloadUrl => ({
 export const generateExportSuccess = jobId => ({
   type: GENERATE_EXPORT_SUCCESS,
   jobId
-});
-
-export const addBackgroundJobFailure = () => ({
-  type: BG_JOB_FAILED
 });
 
 export const exportJobStarted = () => ({

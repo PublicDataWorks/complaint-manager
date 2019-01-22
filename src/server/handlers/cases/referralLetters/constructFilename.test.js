@@ -21,7 +21,7 @@ describe("constructFilename", function() {
       existingCase,
       REFERRAL_LETTER_VERSION.FINAL
     );
-    const expectedFilename = "88/5-5-2012_CC2012-0088_PIB_Referral_Smith.pdf";
+    const expectedFilename = "88/5-5-2012_CC2012-0001_PIB_Referral_Smith.pdf";
     expect(filename).toEqual(expectedFilename);
   });
 
@@ -31,7 +31,7 @@ describe("constructFilename", function() {
       existingCase,
       REFERRAL_LETTER_VERSION.FINAL
     );
-    const expectedFilename = "88/5-5-2012_PO2012-0088_PIB_Referral_Jones.pdf";
+    const expectedFilename = "88/5-5-2012_PO2012-0001_PIB_Referral_Jones.pdf";
     expect(filename).toEqual(expectedFilename);
   });
 
@@ -41,7 +41,7 @@ describe("constructFilename", function() {
       existingCase,
       REFERRAL_LETTER_VERSION.FINAL
     );
-    const expectedFilename = "88/5-5-2012_CC2012-0088_PIB_Referral.pdf";
+    const expectedFilename = "88/5-5-2012_CC2012-0001_PIB_Referral.pdf";
     expect(filename).toEqual(expectedFilename);
   });
 
@@ -53,7 +53,7 @@ describe("constructFilename", function() {
       LETTER_TYPE.GENERATED
     );
     const expectedFilename =
-      "5-5-2012_CC2012-0088_Generated_Referral_Draft_Smith.pdf";
+      "5-5-2012_CC2012-0001_Generated_Referral_Draft_Smith.pdf";
     expect(filename).toEqual(expectedFilename);
   });
 
@@ -65,7 +65,7 @@ describe("constructFilename", function() {
       LETTER_TYPE.GENERATED
     );
     const expectedFilename =
-      "5-5-2012_CC2012-0088_Generated_Referral_Draft.pdf";
+      "5-5-2012_CC2012-0001_Generated_Referral_Draft.pdf";
     expect(filename).toEqual(expectedFilename);
   });
 
@@ -77,7 +77,7 @@ describe("constructFilename", function() {
       LETTER_TYPE.EDITED
     );
     const expectedFilename =
-      "5-5-2012_CC2012-0088_Edited_Referral_Draft_Smith.pdf";
+      "5-5-2012_CC2012-0001_Edited_Referral_Draft_Smith.pdf";
     expect(filename).toEqual(expectedFilename);
   });
 
@@ -88,7 +88,7 @@ describe("constructFilename", function() {
       REFERRAL_LETTER_VERSION.DRAFT,
       LETTER_TYPE.EDITED
     );
-    const expectedFilename = "5-5-2012_CC2012-0088_Edited_Referral_Draft.pdf";
+    const expectedFilename = "5-5-2012_CC2012-0001_Edited_Referral_Draft.pdf";
     expect(filename).toEqual(expectedFilename);
   });
 });

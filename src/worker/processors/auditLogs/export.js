@@ -24,7 +24,7 @@ const exportAuditLog = async (job, done) => {
     const columns = {
       audit_type: "Audit Type",
       user: "User",
-      case_id: "Case ID",
+      case_id: "Case Database ID",
       action: "Action",
       subject: "Audit Subject",
       subject_id: "Subject Database ID",

@@ -12,6 +12,7 @@ import getIntakeSources from "./handlers/intake_sources/getIntakeSources";
 import getLetterType from "./handlers/cases/referralLetters/getLetterType/getLetterType";
 import getRaceEthnicities from "./handlers/race_ethnicities/getRaceEthnicities";
 import archiveCase from "./handlers/cases/archiveCase/archiveCase";
+import { handleCaseIdParam } from "./handlers/paramHandler";
 
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
@@ -55,6 +56,8 @@ router.use(jwtCheck);
 router.use(verifyUserInfo);
 router.use(authErrorHandler);
 
+router.param("caseId", handleCaseIdParam);
+
 //Any routes defined below this point will require authentication
 router.get("/export/job/:jobId", exportJob);
 router.get("/export/schedule/:operation", scheduleExport);
@@ -89,7 +92,6 @@ router.delete(
   removeOfficerAllegation
 );
 
-router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
 router.get("/cases/:caseId/referral-letter", getReferralLetterData);
 router.get("/cases/:caseId/referral-letter/preview", getLetterPreview);
 router.get("/cases/:caseId/referral-letter/letter-type", getLetterType);
@@ -111,14 +113,15 @@ router.put(
 );
 router.put("/cases/:caseId/referral-letter/content", editReferralLetterContent);
 
-router.use("/cases/:id/attachments", attachmentRouter);
+router.use("/cases/:caseId/attachments", attachmentRouter);
 router.use(
-  "/cases/:id/attachmentUrls/:fileName",
+  "/cases/:caseId/attachmentUrls/:fileName",
   generateAttachmentDownloadUrl
 );
 
 router.post("/civilian", createCivilian);
-router.put("/civilian/:id", editCivilian);
+router.put("/civilian/:civilianId", editCivilian);
+router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
 
 router.post("/audit", audit);
 

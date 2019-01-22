@@ -6,6 +6,7 @@ import editReferralLetterContent from "./editReferralLetterContent";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import Boom from "boom";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 describe("Edit referral letter addresses", () => {
   let response, next;
@@ -60,7 +61,9 @@ describe("Edit referral letter addresses", () => {
       const request = requestWithUpdatedLetterContent();
       await editReferralLetterContent(request, response, next);
 
-      expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
+      expect(next).toHaveBeenCalledWith(
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+      );
     });
 
     test("throws exception when case status is invalid (after ready for review)", async () => {
@@ -79,7 +82,9 @@ describe("Edit referral letter addresses", () => {
       const request = requestWithUpdatedLetterContent();
       await editReferralLetterContent(request, response, next);
 
-      expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
+      expect(next).toHaveBeenCalledWith(
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+      );
     });
 
     test("throws exception when there is no referral letter with the case id", async () => {
@@ -100,7 +105,7 @@ describe("Edit referral letter addresses", () => {
       await editReferralLetterContent(request, response, next);
 
       expect(next).toHaveBeenCalledWith(
-        Boom.badRequest("No referral letter for given case id.")
+        Boom.badRequest(BAD_REQUEST_ERRORS.REFERRAL_LETTER_DOES_NOT_EXIST)
       );
     });
 

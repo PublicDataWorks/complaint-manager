@@ -1,9 +1,7 @@
-import {
-  updateNarrativeFailure,
-  updateNarrativeSuccess
-} from "../../actionCreators/casesActionCreators";
+import { updateNarrativeSuccess } from "../../actionCreators/casesActionCreators";
 import getCaseNotes from "./getCaseNotes";
 import axios from "axios";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 const updateNarrative = updateDetails => async dispatch => {
   try {
@@ -16,10 +14,9 @@ const updateNarrative = updateDetails => async dispatch => {
     );
 
     dispatch(updateNarrativeSuccess(response.data));
+    dispatch(snackbarSuccess("Narrative was successfully updated"));
     return await dispatch(getCaseNotes(response.data.id));
-  } catch (e) {
-    return dispatch(updateNarrativeFailure());
-  }
+  } catch (e) {}
 };
 
 export default updateNarrative;

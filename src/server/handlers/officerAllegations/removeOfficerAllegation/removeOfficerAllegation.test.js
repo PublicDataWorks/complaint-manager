@@ -13,6 +13,7 @@ import httpMocks from "node-mocks-http";
 import models from "../../../models";
 import removeOfficerAllegation from "./removeOfficerAllegation";
 import Boom from "boom";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 describe("removeOfficerAllegation", () => {
   afterEach(async () => {
@@ -39,7 +40,7 @@ describe("removeOfficerAllegation", () => {
     await removeOfficerAllegation(request, response, next);
 
     expect(next).toHaveBeenCalledWith(
-      Boom.notFound("Officer Allegation does not exist")
+      Boom.notFound(BAD_REQUEST_ERRORS.OFFICER_ALLEGATION_NOT_FOUND)
     );
   });
 

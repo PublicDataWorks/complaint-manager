@@ -1,5 +1,5 @@
 import getAccessToken from "../../../auth/getAccessToken";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import editRecommendedActions from "./editRecommendedActions";
 import {
   snackbarError,
@@ -7,6 +7,7 @@ import {
 } from "../../../actionCreators/snackBarActionCreators";
 import nock from "nock";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../../auth/getAccessToken");
 
@@ -51,53 +52,6 @@ describe("editRecommendedActions", function() {
       snackbarSuccess("Recommended actions were successfully updated")
     );
     expect(dispatch).not.toHaveBeenCalledWith(push(`/cases/${caseId}`));
-  });
-
-  test("dispatches failure on 500 error response", async () => {
-    getAccessToken.mockImplementation(() => "TEST_TOKEN");
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .put(
-        `/api/cases/${caseId}/referral-letter/recommended-actions`,
-        requestBody
-      )
-      .reply(500);
-
-    await editRecommendedActions(caseId, requestBody, "redirectRoute")(
-      dispatch
-    );
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and we could not update the recommended actions information"
-      )
-    );
-  });
-
-  test("redirects to case details page 400 error response (invalid letter generation case status)", async () => {
-    const responseBody = {
-      message: "Invalid case status"
-    };
-    getAccessToken.mockImplementation(() => "TEST_TOKEN");
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .put(
-        `/api/cases/${caseId}/referral-letter/recommended-actions`,
-        requestBody
-      )
-      .reply(400, responseBody);
-
-    await editRecommendedActions(caseId, requestBody, "redirectRoute")(
-      dispatch
-    );
-    expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
 
   test("routes to given redirect url on success", async () => {

@@ -1,4 +1,9 @@
-import ROUTES from "../../sharedUtilities/errorMessageConstants";
+import {
+  BAD_REQUEST_ERRORS,
+  NOT_FOUND_ERRORS,
+  PAGE_NOT_AVAILABLE,
+  ROUTES
+} from "../../sharedUtilities/errorMessageConstants";
 
 const errorHandler = require("./errorHandler");
 const httpMocks = require("node-mocks-http");
@@ -53,7 +58,11 @@ describe("errorHandler", () => {
   test("should respond with boomified error message with its status code", () => {
     const request = httpMocks.createRequest();
     const response = httpMocks.createResponse();
-    errorHandler(Boom.notFound("Page was not found"), request, response);
+    errorHandler(
+      Boom.notFound(NOT_FOUND_ERRORS.PAGE_NOT_FOUND),
+      request,
+      response
+    );
 
     expect(response.statusCode).toEqual(404);
     expect(response._getData()).toEqual(
@@ -63,5 +72,83 @@ describe("errorHandler", () => {
         message: "Page was not found"
       })
     );
+  });
+  describe("400 errors", () => {
+    test("should return request with page not available message and redirect url when received case in wrong status error", () => {
+      const caseId = 2;
+      const request = httpMocks.createRequest({
+        method: "GET",
+        headers: {
+          authorization: "Bearer token"
+        },
+        params: { caseId: caseId },
+        caseId: caseId
+      });
+      const response = httpMocks.createResponse();
+
+      errorHandler(
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS),
+        request,
+        response
+      );
+
+      expect(response.statusCode).toEqual(400);
+      expect(response._getData()).toEqual(
+        JSON.stringify({
+          statusCode: 400,
+          error: "Bad Request",
+          message: PAGE_NOT_AVAILABLE,
+          redirectUrl: `/cases/${caseId}`
+        })
+      );
+    });
+
+    test("should return request with page not available message and redirect url when received case doesn't exist error", () => {
+      const caseId = 2;
+      const request = httpMocks.createRequest({
+        method: "GET",
+        headers: {
+          authorization: "Bearer token"
+        },
+        params: { caseId: caseId },
+        caseId: caseId
+      });
+      const response = httpMocks.createResponse();
+      errorHandler(
+        Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST),
+        request,
+        response
+      );
+
+      expect(response.statusCode).toEqual(400);
+      expect(response._getData()).toEqual(
+        JSON.stringify({
+          statusCode: 400,
+          error: "Bad Request",
+          message: PAGE_NOT_AVAILABLE,
+          redirectUrl: `/`
+        })
+      );
+    });
+    test("should return request with error message when received some other error", () => {
+      const errorMessage = "error message";
+      const request = httpMocks.createRequest({
+        method: "GET",
+        headers: {
+          authorization: "Bearer token"
+        }
+      });
+      const response = httpMocks.createResponse();
+      errorHandler(Boom.badRequest(errorMessage), request, response);
+
+      expect(response.statusCode).toEqual(400);
+      expect(response._getData()).toEqual(
+        JSON.stringify({
+          statusCode: 400,
+          error: "Bad Request",
+          message: errorMessage
+        })
+      );
+    });
   });
 });

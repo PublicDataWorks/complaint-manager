@@ -2,14 +2,13 @@ import saveAs from "file-saver";
 import getPdf from "./getPdf";
 import nock from "nock";
 import getAccessToken from "../../../auth/getAccessToken";
-import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import {
   getLetterPdfSuccess,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
 import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
-import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("file-saver", () => jest.fn());
 jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
@@ -37,7 +36,7 @@ describe("getPdf thunk", function() {
   const errorResponseFor400 = {
     statusCode: 400,
     error: "Bad Request",
-    message: "Invalid case status"
+    message: BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
   };
 
   beforeEach(() => {
@@ -83,7 +82,7 @@ describe("getPdf thunk", function() {
       expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
     });
 
-    test("dispatches snackbar error when 500 response code", async () => {
+    test("dispatches stopLetterDownload when 500 response code", async () => {
       getAccessToken.mockImplementation(() => token);
       nock("http://localhost", {
         reqheaders: {
@@ -94,15 +93,10 @@ describe("getPdf thunk", function() {
         .reply(500, errorResponseFor500);
 
       await getPdf(caseId, null, letterType, true)(dispatch);
-      expect(dispatch).toHaveBeenCalledWith(
-        snackbarError(
-          "Something went wrong and the letter was not downloaded. Please try again."
-        )
-      );
       expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
     });
 
-    test("calls invalidCaseStatusRedirect when 400 response code with invalid status message", async () => {
+    test("dispatches stopLetterDownload when 400 response code with invalid status message", async () => {
       getAccessToken.mockImplementation(() => token);
       nock("http://localhost", {
         reqheaders: {
@@ -113,7 +107,6 @@ describe("getPdf thunk", function() {
         .reply(400, errorResponseFor400);
 
       await getPdf(caseId, null, letterType, true)(dispatch);
-      expect(dispatch).toHaveBeenCalledWith(invalidCaseStatusRedirect(caseId));
       expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
     });
   });
@@ -134,25 +127,6 @@ describe("getPdf thunk", function() {
       await getPdf(caseId, finalFilename)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(getLetterPdfSuccess(arrayBuffer));
       expect(saveAs).not.toHaveBeenCalled();
-      expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
-    });
-
-    test("dispatches snackbar error when 500 response code", async () => {
-      getAccessToken.mockImplementation(() => token);
-      nock("http://localhost", {
-        reqheaders: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-        .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
-        .reply(500, errorResponseFor500);
-
-      await getPdf(caseId, null)(dispatch);
-      expect(dispatch).toHaveBeenCalledWith(
-        snackbarError(
-          "Something went wrong and the letter was not downloaded. Please try again."
-        )
-      );
       expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
     });
   });

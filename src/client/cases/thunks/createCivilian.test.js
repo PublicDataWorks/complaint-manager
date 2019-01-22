@@ -1,10 +1,9 @@
 import Civilian from "../../testUtilities/civilian";
+import { push } from "react-router-redux";
 import { startSubmit, stopSubmit } from "redux-form";
-import { push } from "connected-react-router";
 import getAccessToken from "../../auth/getAccessToken";
 import {
   closeEditDialog,
-  createCivilianFailure,
   createCivilianSuccess
 } from "../../actionCreators/casesActionCreators";
 import createCivilian from "./createCivilian";
@@ -13,6 +12,7 @@ import configureInterceptors from "../../axiosInterceptors/interceptors";
 import config from "../../config/config";
 import RaceEthnicity from "../../testUtilities/raceEthnicity";
 import { CIVILIAN_FORM_NAME } from "../../../sharedUtilities/constants";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 const hostname = config["test"].hostname;
 
@@ -20,9 +20,6 @@ jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 jest.mock("../../actionCreators/casesActionCreators", () => ({
   createCivilianSuccess: jest.fn(() => ({
     type: "MOCK_EDIT_SUCCESS"
-  })),
-  createCivilianFailure: jest.fn(() => ({
-    type: "MOCK_EDIT_FAILED"
   })),
   closeEditDialog: jest.fn(() => ({
     type: "MOCK_CLOSE"
@@ -52,7 +49,6 @@ describe("civilian creation", function() {
     getAccessToken.mockImplementationOnce(() => false);
     await createCivilian(civilian)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(createCivilianFailure());
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });
 
@@ -70,6 +66,9 @@ describe("civilian creation", function() {
 
     expect(dispatch).toHaveBeenCalledWith(startSubmit(CIVILIAN_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(createCivilianSuccess([civilian]));
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarSuccess("Civilian was successfully created")
+    );
     expect(dispatch).toHaveBeenCalledWith(closeEditDialog());
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(CIVILIAN_FORM_NAME));
   });
@@ -87,7 +86,6 @@ describe("civilian creation", function() {
     await createCivilian(civilian)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(startSubmit(CIVILIAN_FORM_NAME));
-    expect(dispatch).toHaveBeenCalledWith(createCivilianFailure());
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(CIVILIAN_FORM_NAME));
   });
 });

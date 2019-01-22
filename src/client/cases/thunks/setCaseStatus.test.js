@@ -1,20 +1,12 @@
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import setCaseStatus from "./setCaseStatus";
 import nock from "nock";
-import {
-  CASE_STATUS,
-  VALIDATION_ERROR_HEADER
-} from "../../../sharedUtilities/constants";
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../../actionCreators/snackBarActionCreators";
+import { CASE_STATUS } from "../../../sharedUtilities/constants";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import {
   closeCaseStatusUpdateDialog,
-  openCaseValidationDialog,
   updateCaseStatusSuccess
 } from "../../actionCreators/casesActionCreators";
-import Boom from "boom";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
@@ -24,44 +16,6 @@ describe("setCaseStatus", () => {
   beforeEach(() => {
     configureInterceptors({ dispatch });
     dispatch.mockClear();
-  });
-
-  test("should dispatch snackbar failure when non-200 code", async () => {
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer TEST_TOKEN"
-      }
-    })
-      .put("/api/cases/4/status")
-      .reply(500);
-
-    await setCaseStatus(4, "status")(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and the case status was not updated. Please try again."
-      )
-    );
-  });
-
-  test("should dispatch open validation error modal when validation errors exist and when 400 code", async () => {
-    const mockCaseId = 1;
-    const boomData = ["Incident Date is required"];
-    let boomResponse = Boom.badRequest(VALIDATION_ERROR_HEADER);
-    boomResponse.details = boomData;
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer TEST_TOKEN"
-      }
-    })
-      .put(`/api/cases/${mockCaseId}/status`)
-      .reply(400, boomResponse);
-
-    await setCaseStatus(mockCaseId, CASE_STATUS.LETTER_IN_PROGRESS)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(openCaseValidationDialog(boomData));
   });
 
   test("should reply a 200, dispatch a snackbar success message, and close the dialog on success", async () => {

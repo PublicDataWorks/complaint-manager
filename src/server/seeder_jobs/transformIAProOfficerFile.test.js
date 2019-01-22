@@ -1,3 +1,5 @@
+import { BAD_DATA_ERRORS } from "../../sharedUtilities/errorMessageConstants";
+
 const fs = require("fs");
 const path = require("path");
 const util = require("util");
@@ -159,7 +161,7 @@ describe("transformIAProOfficerFile", () => {
         .replace("Female", "ABC");
       await expect(
         transformIAProOfficerData(inputCsvWithUnexpectedSex)
-      ).rejects.toEqual(Boom.badData("Unexpected Sex Value: 'ABC'"));
+      ).rejects.toEqual(Boom.badData(BAD_DATA_ERRORS.UNEXPECTED_SEX_VALUE));
     });
 
     test("normalizes race values", async () => {
@@ -236,7 +238,7 @@ describe("transformIAProOfficerFile", () => {
         .replace("American Ind", "XYZ");
       await expect(
         transformIAProOfficerData(inputCsvWithUnexpectedRace)
-      ).rejects.toEqual(Boom.badData("Unexpected Race Value: 'XYZ'"));
+      ).rejects.toEqual(Boom.badData(BAD_DATA_ERRORS.UNEXPECTED_RACE_VALUE));
     });
   });
 
@@ -251,7 +253,7 @@ describe("transformIAProOfficerFile", () => {
       await expect(
         transformIAProOfficerData(iaProOfficerBufferedData)
       ).rejects.toEqual(
-        expect.objectContaining({ message: "Missing required header fields." })
+        expect.objectContaining({ message: "Missing required header fields" })
       );
     });
   });

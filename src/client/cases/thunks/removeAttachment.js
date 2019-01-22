@@ -1,9 +1,7 @@
-import {
-  removeAttachmentFailed,
-  removeAttachmentSuccess
-} from "../../actionCreators/attachmentsActionCreators";
+import { removeAttachmentSuccess } from "../../actionCreators/attachmentsActionCreators";
 import getCaseNotes from "./getCaseNotes";
 import axios from "axios";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 const removeAttachment = (
   caseId,
@@ -16,10 +14,9 @@ const removeAttachment = (
     );
     shouldCloseDialog();
     dispatch(removeAttachmentSuccess(response.data));
+    dispatch(snackbarSuccess("File was successfully removed"));
     return await dispatch(getCaseNotes(response.data.id));
-  } catch (error) {
-    return dispatch(removeAttachmentFailed());
-  }
+  } catch (error) {}
 };
 
 export default removeAttachment;

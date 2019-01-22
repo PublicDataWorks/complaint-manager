@@ -8,6 +8,7 @@ import {
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 import { CASE_NOTE_FORM_NAME } from "../../../sharedUtilities/constants";
 import { startSubmit, stopSubmit } from "redux-form";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -19,7 +20,7 @@ describe("addCaseNote", () => {
     dispatch.mockClear();
   });
 
-  test("should dispatch failure when add case note fails", async () => {
+  test("should dispatch start and stop submits when add case note fails", async () => {
     const caseNote = {
       caseId: 12,
       action: "Miscellaneous"
@@ -37,7 +38,6 @@ describe("addCaseNote", () => {
     await addCaseNote(caseNote)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(startSubmit(CASE_NOTE_FORM_NAME));
-    expect(dispatch).toHaveBeenCalledWith(addCaseNoteFailure());
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(CASE_NOTE_FORM_NAME));
   });
 
@@ -64,6 +64,9 @@ describe("addCaseNote", () => {
     await addCaseNote(caseNote)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(startSubmit(CASE_NOTE_FORM_NAME));
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarSuccess("Case note was successfully created")
+    );
     expect(dispatch).toHaveBeenCalledWith(
       addCaseNoteSuccess(responseBody.caseDetails, responseBody.caseNotes)
     );

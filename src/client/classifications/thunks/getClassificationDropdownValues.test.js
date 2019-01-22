@@ -2,7 +2,6 @@ import getAccessToken from "../../auth/getAccessToken";
 import nock from "nock";
 import { getClassificationsSuccess } from "../../actionCreators/classificationActionCreators";
 import getClassficationDropdownValues from "./getClassificationDropdownValues";
-import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken");
@@ -25,21 +24,6 @@ describe("getClassificationDropdownValues", () => {
     await getClassficationDropdownValues()(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       getClassificationsSuccess(responseBody)
-    );
-  });
-
-  test("it dispatches failure when api call fails", async () => {
-    getAccessToken.mockImplementation(() => "token");
-
-    nock("http://localhost")
-      .get("/api/classifications")
-      .reply(500);
-
-    await getClassficationDropdownValues()(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and the classifications were not loaded. Please try again."
-      )
     );
   });
 });
