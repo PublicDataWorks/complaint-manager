@@ -45,7 +45,7 @@ describe("GET /api/export-audit-log", () => {
     expect(uploadFileToS3).toHaveBeenCalledWith(
       job.id,
       expect.stringContaining(
-        "Audit Type,User,Case ID,Action,Audit Subject,Subject Database ID,Changes,Subject Details,Timestamp\n"
+        "Audit Type,User,Case Database ID,Action,Audit Subject,Subject Database ID,Changes,Subject Details,Timestamp\n"
       ),
       JOB_OPERATION.AUDIT_LOG_EXPORT.filename,
       JOB_OPERATION.AUDIT_LOG_EXPORT.key
@@ -70,7 +70,7 @@ describe("GET /api/export-audit-log", () => {
     const record = records[0];
     expect(record["Audit Type"]).toEqual(AUDIT_TYPE.EXPORT);
     expect(record["User"]).toEqual("someuser");
-    expect(record["Case ID"]).toEqual("");
+    expect(record["Case Database ID"]).toEqual("");
     expect(record["Action"]).toEqual(AUDIT_ACTION.EXPORTED);
     expect(record["Audit Subject"]).toEqual(AUDIT_SUBJECT.AUDIT_LOG);
     expect(record["Subject Database ID"]).toEqual("");
@@ -105,7 +105,7 @@ describe("GET /api/export-audit-log", () => {
     const loginRecord = records[0];
     expect(loginRecord["Audit Type"]).toEqual(AUDIT_TYPE.AUTHENTICATION);
     expect(loginRecord["User"]).toEqual(actionAuditAttributes.user);
-    expect(loginRecord["Case ID"]).toEqual("");
+    expect(loginRecord["Case Database ID"]).toEqual("");
     expect(loginRecord["Action"]).toEqual(AUDIT_ACTION.LOGGED_IN);
     expect(loginRecord["Audit Subject"]).toEqual("");
     expect(loginRecord["Subject Database ID"]).toEqual("");
@@ -135,7 +135,7 @@ describe("GET /api/export-audit-log", () => {
     const dataChangeRecord = records[0];
     expect(dataChangeRecord["Audit Type"]).toEqual(AUDIT_TYPE.DATA_CHANGE);
     expect(dataChangeRecord["User"]).toEqual("nickname");
-    expect(dataChangeRecord["Case ID"]).toEqual(`${createdCase.id}`);
+    expect(dataChangeRecord["Case Database ID"]).toEqual(`${createdCase.id}`);
     expect(dataChangeRecord["Action"]).toEqual("Created");
     expect(dataChangeRecord["Audit Subject"]).toEqual("Case");
     expect(dataChangeRecord["Subject Database ID"]).toEqual(

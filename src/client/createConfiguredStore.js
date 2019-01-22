@@ -3,7 +3,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { reducer as formReducer } from "redux-form";
 import thunk from "redux-thunk";
 import history from "./history";
-import { routerMiddleware, connectRouter } from "connected-react-router";
+import { routerMiddleware, routerReducer } from "react-router-redux";
 import allCasesReducer from "./reducers/cases/allCasesReducer";
 import snackbarReducer from "./reducers/ui/snackbarReducer";
 import caseDetailsReducer from "./reducers/cases/caseDetailsReducer";
@@ -38,7 +38,6 @@ import recommendedActionsReducer from "./reducers/cases/recommendedActionsReduce
 import editReferralLetterReducer from "./reducers/ui/editReferralLetterReducer";
 import cancelEditLetterConfirmationDialogReducer from "./reducers/ui/cancelEditlLetterConfirmationDialogReducer";
 import letterDownloadReducer from "./reducers/ui/letterDownloadReducer";
-import caseValidationDialogReducer from "./reducers/ui/caseValidationDialogReducer";
 import loadPdfPreviewReducer from "./reducers/ui/loadPdfPreviewReducer";
 import intakeSourceReducer from "./reducers/ui/intakeSourceReducer";
 import raceEthnicityReducer from "./reducers/ui/raceEthnicityReducer";
@@ -46,7 +45,7 @@ import archiveCaseDialogReducer from "./reducers/ui/archiveCaseDialogReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
-  router: connectRouter(history),
+  routing: routerReducer,
   cases: combineReducers({
     all: allCasesReducer
   }),
@@ -87,7 +86,6 @@ const rootReducer = combineReducers({
     iaProCorrectionsDialog: iaProCorrectionsReducer,
     letterDownload: letterDownloadReducer,
     pdfPreview: loadPdfPreviewReducer,
-    caseValidationDialog: caseValidationDialogReducer,
     archiveCaseDialog: archiveCaseDialogReducer
   }),
   officers: searchOfficersReducer,

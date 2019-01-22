@@ -46,7 +46,7 @@ describe("deleteAttachment", function() {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       params: {
-        id: attachment.caseId,
+        caseId: attachment.caseId,
         fileName: attachment.fileName
       },
       nickname: "TEST_USER_NICKNAME"

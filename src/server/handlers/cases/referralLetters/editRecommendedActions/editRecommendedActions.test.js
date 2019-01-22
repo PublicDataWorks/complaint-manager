@@ -10,6 +10,7 @@ import LetterOfficer from "../../../../../client/testUtilities/LetterOfficer";
 import editRecommendedActions from "./editRecommendedActions";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 import Boom from "boom";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 describe("editRecommendedActions", function() {
   const recommendedActionId1 = 1;
@@ -66,7 +67,9 @@ describe("editRecommendedActions", function() {
 
     await editRecommendedActions(request, response, next);
 
-    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
+    expect(next).toHaveBeenCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+    );
   });
 
   describe("letter in progress", () => {

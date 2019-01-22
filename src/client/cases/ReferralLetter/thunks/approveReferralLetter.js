@@ -1,9 +1,6 @@
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import axios from "axios/index";
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../../../actionCreators/snackBarActionCreators";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 
 const approveReferralLetter = (caseId, callback) => async dispatch => {
   try {
@@ -11,20 +8,6 @@ const approveReferralLetter = (caseId, callback) => async dispatch => {
     dispatch(snackbarSuccess("Status was successfully updated"));
     dispatch(push(`/cases/${caseId}`));
   } catch (error) {
-    if (
-      error.response &&
-      error.response.data.message === "Invalid case status"
-    ) {
-      dispatch(
-        snackbarError("Case status could not be updated due to invalid status")
-      );
-      return dispatch(push(`/cases/${caseId}`));
-    }
-    dispatch(
-      snackbarError(
-        "Something went wrong and the case status was not updated. Please try again."
-      )
-    );
   } finally {
     callback();
   }

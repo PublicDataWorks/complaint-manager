@@ -11,6 +11,7 @@ import httpMocks from "node-mocks-http";
 import getPdf from "./getPdf";
 import Boom from "boom";
 import getLetterPreview from "../getLetterPreview/getLetterPreview";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock(
   "../sharedReferralLetterUtilities/generateLetterPdfBuffer",
@@ -81,7 +82,9 @@ describe("Generate referral letter pdf", () => {
   describe("case in invalid status", () => {
     test("expects boom to have error when case is in invalid status", async () => {
       await getPdf(request, response, next);
-      expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
+      expect(next).toHaveBeenCalledWith(
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+      );
     });
   });
 });

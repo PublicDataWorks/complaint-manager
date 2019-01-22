@@ -7,8 +7,7 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   CASE_STATUS,
-  USER_PERMISSIONS,
-  VALIDATION_ERROR_HEADER
+  USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
 import Boom from "boom";
@@ -16,6 +15,7 @@ import models from "../../../models/index";
 import Officer from "../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Case from "../../../../client/testUtilities/case";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 describe("changeStatus", async () => {
   let initialCase, response, next;
@@ -64,7 +64,9 @@ describe("changeStatus", async () => {
     await changeStatus(request, response, next);
     await initialCase.reload();
 
-    expect(next).toBeCalledWith(Boom.badRequest("Invalid case status"));
+    expect(next).toBeCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE)
+    );
     expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
   });
 
@@ -139,7 +141,9 @@ describe("changeStatus", async () => {
 
     await initialCase.reload();
     expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
-    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
+    expect(next).toHaveBeenCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE)
+    );
   });
 
   test("should call next with error if case not found", async () => {
@@ -158,7 +162,7 @@ describe("changeStatus", async () => {
     await initialCase.reload();
 
     expect(next).toBeCalledWith(
-      Boom.badRequest(`Case #${initialCase.id + 5} doesn't exist`)
+      Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST)
     );
   });
 
@@ -404,7 +408,7 @@ describe("changeStatus", async () => {
       await initialCase.reload();
 
       expect(next).toBeCalledWith(
-        Boom.badRequest("Missing permissions to update case status")
+        Boom.badRequest(BAD_REQUEST_ERRORS.PERMISSIONS_MISSING_TO_UPDATE_STATUS)
       );
     });
 
@@ -442,7 +446,7 @@ describe("changeStatus", async () => {
       await initialCase.reload();
 
       expect(next).toBeCalledWith(
-        Boom.badRequest("Missing permissions to update case status")
+        Boom.badRequest(BAD_REQUEST_ERRORS.PERMISSIONS_MISSING_TO_UPDATE_STATUS)
       );
     });
   });

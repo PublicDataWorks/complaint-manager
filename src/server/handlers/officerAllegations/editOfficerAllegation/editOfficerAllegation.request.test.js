@@ -14,6 +14,7 @@ import {
   ALLEGATION_SEVERITY
 } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 describe("PUT /officers-allegations/:officerAllegationId", function() {
   afterEach(async () => {
@@ -21,7 +22,7 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
   });
 
   test(
-    "should reply a 404 if officer allegation doesnt exist ",
+    "should reply a 400 if officer allegation doesnt exist ",
     suppressWinstonLogs(async () => {
       const token = buildTokenWithPermissions("", "TEST_NICKNAME");
       const nonExistantAllegationId = 9;
@@ -30,12 +31,12 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send({})
-        .expect(404)
+        .expect(400)
         .then(response => {
           expect(response.body).toEqual({
-            statusCode: 404,
-            error: "Not Found",
-            message: `Officer Allegation does not exist`
+            statusCode: 400,
+            error: "Bad Request",
+            message: BAD_REQUEST_ERRORS.OFFICER_ALLEGATION_NOT_FOUND
           });
         });
     })

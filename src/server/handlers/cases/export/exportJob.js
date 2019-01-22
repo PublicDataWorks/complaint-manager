@@ -1,3 +1,5 @@
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+
 const asyncMiddleware = require("../../asyncMiddleware");
 const kue = require("kue");
 const generateExportDownloadUrl = require("./generateExportDownloadUrl");
@@ -7,7 +9,7 @@ const { JOB_OPERATION } = require("../../../../sharedUtilities/constants");
 const exportJob = asyncMiddleware(async (request, response, next) => {
   kue.Job.get(request.params.jobId, async (err, job) => {
     if (err) {
-      throw Boom.badRequest(`Could not find Job Id: ${request.params.jobId}`);
+      throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_JOB);
     }
     let downLoadUrl;
 

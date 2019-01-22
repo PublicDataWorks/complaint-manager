@@ -1,7 +1,7 @@
 import React from "react";
 import CaseOfficer from "../../../testUtilities/caseOfficer";
 import createConfiguredStore from "../../../createConfiguredStore";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import { Provider } from "react-redux";
 import { mount } from "enzyme";
 import { BrowserRouter as Router } from "react-router-dom";

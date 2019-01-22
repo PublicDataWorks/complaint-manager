@@ -1,4 +1,4 @@
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import editReferralLetterAddresses from "./editReferralLetterAddresses";
 import {
   snackbarError,
@@ -85,31 +85,5 @@ describe("editReferralLetterAddresses", () => {
       alternativeFailureCallback
     )(dispatch);
     expect(alternativeFailureCallback).toHaveBeenCalled();
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and the letter was not updated. Please try again."
-      )
-    );
-  });
-
-  test("dispatches error if error", async () => {
-    getAccessToken.mockImplementation(() => "token");
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer token`
-      }
-    })
-      .put(`/api/cases/${caseId}/referral-letter/addresses`, addressData)
-      .reply(500);
-    await editReferralLetterAddresses(caseId, addressData, redirectUrl)(
-      dispatch
-    );
-
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and the letter was not updated. Please try again."
-      )
-    );
   });
 });

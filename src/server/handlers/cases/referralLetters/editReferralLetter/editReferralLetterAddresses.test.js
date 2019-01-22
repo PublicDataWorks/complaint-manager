@@ -6,6 +6,7 @@ import Case from "../../../../../client/testUtilities/case";
 import Boom from "boom";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 describe("Edit referral letter addresses", () => {
   let response, next;
@@ -47,7 +48,9 @@ describe("Edit referral letter addresses", () => {
       });
 
       await editReferralLetterAddresses(request, response, next);
-      expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
+      expect(next).toHaveBeenCalledWith(
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+      );
     });
 
     test("update existing referral letter recipient, sender and transcribed by", async () => {

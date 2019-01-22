@@ -6,6 +6,7 @@ import {
   updateIncidentDetailsSuccess
 } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 jest.mock("../../auth/getAccessToken");
 
@@ -38,38 +39,9 @@ describe("editIncidentDetails", () => {
     expect(dispatch).toHaveBeenCalledWith(
       updateIncidentDetailsSuccess(response)
     );
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarSuccess("Incident details were successfully updated")
+    );
     expect(closeDialogCallback).toHaveBeenCalled();
-  });
-
-  test("should dispatch failure when edit case fails", async () => {
-    getAccessToken.mockImplementationOnce(() => "TEST_TOKEN");
-
-    const updateDetails = {
-      id: 17,
-      firstContactDate: "2018-04-01",
-      incidentDate: "2018-04-01",
-      incidentTime: "16:00:00"
-    };
-
-    nock("http://localhost", {
-      "Content-Type": "application/json",
-      Authorization: `Bearer TEST_TOKEN`
-    })
-      .put(`/api/cases/${updateDetails.id}`, JSON.stringify(updateDetails))
-      .reply(500);
-
-    await editIncidentDetails(updateDetails, closeDialogCallback)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(updateIncidentDetailsFailure());
-  });
-
-  test("should dispatch failure on error", async () => {
-    getAccessToken.mockImplementationOnce(() => {
-      throw new Error();
-    });
-
-    await editIncidentDetails()(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(updateIncidentDetailsFailure());
   });
 });

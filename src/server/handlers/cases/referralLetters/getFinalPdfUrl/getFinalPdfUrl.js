@@ -11,6 +11,7 @@ import models from "../../../../models";
 import config from "../../../../config/config";
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import Boom from "boom";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 const getFinalPdfUrl = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
@@ -62,7 +63,7 @@ const validateCaseStatus = caseStatus => {
     caseStatus !== CASE_STATUS.FORWARDED_TO_AGENCY &&
     caseStatus !== CASE_STATUS.CLOSED
   ) {
-    throw Boom.badRequest("Invalid case status");
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
   }
 };
 

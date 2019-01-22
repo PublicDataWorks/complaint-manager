@@ -1,3 +1,8 @@
+import {
+  BAD_REQUEST_ERRORS,
+  INTERNAL_ERRORS
+} from "../../../sharedUtilities/errorMessageConstants";
+
 const {
   AUDIT_SUBJECT,
   RANK_INITIATED
@@ -7,73 +12,123 @@ const auditDataAccess = require("../auditDataAccess");
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models/index");
 const Boom = require("boom");
+const MAX_RETRIES = 3;
+const FIRST_TRY = 1;
 
-const createCase = asyncMiddleware(async (req, res, next) => {
+const createCase = asyncMiddleware(async (request, response, next) => {
   let newCase = {};
+  if (request.body.case.complaintType === RANK_INITIATED) {
+    newCase = await createCaseWithoutCivilian(request);
+  } else {
+    validateCivilianName(request.body.civilian);
+    newCase = await createCaseWithCivilian(request);
+  }
 
-  await models.sequelize.transaction(async transaction => {
-    if (req.body.case.complaintType === RANK_INITIATED) {
-      newCase = await createCaseWithoutCivilian(req, transaction);
-    } else {
-      const first = req.body.civilian.firstName;
-      const last = req.body.civilian.lastName;
-
-      if (invalidName(first) || invalidName(last)) {
-        throw Boom.badRequest("Invalid civilian name");
-      } else {
-        newCase = await createCaseWithCivilian(req, transaction);
-      }
-    }
-
-    await auditDataAccess(
-      req.nickname,
-      newCase.id,
-      AUDIT_SUBJECT.CASE_DETAILS,
-      transaction
-    );
-  });
-
-  res.status(201).send(newCase);
+  response.status(201).send(newCase);
 });
+
+const validateCivilianName = civilian => {
+  const first = civilian.firstName;
+  const last = civilian.lastName;
+
+  if (invalidName(first) || invalidName(last)) {
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CIVILIAN_NAME);
+  }
+};
 
 const invalidName = input => {
   return !input || input.length === 0 || input.length > 25;
 };
 
-const createCaseWithoutCivilian = async (req, transaction) => {
-  return await models.cases.create(
-    {
-      ...req.body.case,
-      createdBy: req.nickname,
-      assignedTo: req.nickname
-    },
-    {
-      auditUser: req.nickname,
-      transaction
-    }
+const createCaseWithoutCivilian = async request => {
+  return await createCaseWithRetry(
+    request.body.case,
+    [],
+    request.nickname,
+    FIRST_TRY
   );
 };
 
-const createCaseWithCivilian = async (req, transaction) => {
-  return await models.cases.create(
+const createCaseWithCivilian = async request => {
+  const newCaseAttributes = {
+    ...request.body.case,
+    complainantCivilians: [request.body.civilian]
+  };
+  const includeOptions = [
     {
-      ...req.body.case,
-      createdBy: req.nickname,
-      assignedTo: req.nickname,
-      complainantCivilians: [req.body.civilian]
-    },
-    {
-      include: [
-        {
-          model: models.civilian,
-          as: "complainantCivilians",
-          auditUser: req.nickname
-        }
-      ],
-      auditUser: req.nickname,
-      transaction
+      model: models.civilian,
+      as: "complainantCivilians",
+      auditUser: request.nickname
     }
+  ];
+  return await createCaseWithRetry(
+    newCaseAttributes,
+    includeOptions,
+    request.nickname,
+    FIRST_TRY
   );
+};
+
+const createCaseWithRetry = async (
+  newCaseAttributes,
+  includeOptions,
+  nickname,
+  retryNumber
+) => {
+  const caseAttributes = addMetadataToCaseAttributes(
+    newCaseAttributes,
+    nickname
+  );
+  try {
+    return await attemptCreateCase(caseAttributes, includeOptions, nickname);
+  } catch (error) {
+    if (failedToCreateUniqueCaseReferenceNumber(error)) {
+      if (retryNumber === MAX_RETRIES) {
+        throw Boom.internal(INTERNAL_ERRORS.CASE_REFERENCE_GENERATION_FAILURE);
+      }
+      return await createCaseWithRetry(
+        newCaseAttributes,
+        includeOptions,
+        nickname,
+        retryNumber + 1
+      );
+    } else {
+      throw error;
+    }
+  }
+};
+
+const failedToCreateUniqueCaseReferenceNumber = error => {
+  return (
+    error.name === "SequelizeUniqueConstraintError" &&
+    Object.keys(error.fields).includes("case_number")
+  );
+};
+
+const attemptCreateCase = async (caseAttributes, includeOptions, nickname) => {
+  let createdCase;
+  await models.sequelize.transaction(async transaction => {
+    createdCase = await models.cases.create(caseAttributes, {
+      include: includeOptions,
+      auditUser: nickname,
+      transaction
+    });
+    await auditDataAccess(
+      nickname,
+      createdCase.id,
+      AUDIT_SUBJECT.CASE_DETAILS,
+      transaction
+    );
+  });
+  return createdCase;
+};
+
+const addMetadataToCaseAttributes = (caseAttributes, nickname) => {
+  const metadataAttributes = {
+    createdBy: nickname,
+    assignedTo: nickname
+  };
+  return { ...caseAttributes, ...metadataAttributes };
 };
 
 module.exports = createCase;

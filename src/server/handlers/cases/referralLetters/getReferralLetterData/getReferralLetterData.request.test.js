@@ -9,6 +9,8 @@ import {
   suppressWinstonLogs
 } from "../../../../testHelpers/requestTestHelpers";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+import { PAGE_NOT_AVAILABLE } from "../../../../../sharedUtilities/errorMessageConstants";
+
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 
 describe("GET /cases/:id/referral-letter", function() {
@@ -129,7 +131,7 @@ describe("GET /cases/:id/referral-letter", function() {
   });
 
   test(
-    "it returns 400 invalid case status message if case status is prior to letter in progress",
+    "it returns 400 page not available if case status is prior to letter in progress",
     suppressWinstonLogs(async () => {
       await request(app)
         .get(`/api/cases/${newCase.id}/referral-letter`)
@@ -137,7 +139,7 @@ describe("GET /cases/:id/referral-letter", function() {
         .set("Authorization", `Bearer ${token}`)
         .expect(400)
         .then(response => {
-          expect(response.body.message).toEqual("Invalid case status");
+          expect(response.body.message).toEqual(PAGE_NOT_AVAILABLE);
         });
     })
   );

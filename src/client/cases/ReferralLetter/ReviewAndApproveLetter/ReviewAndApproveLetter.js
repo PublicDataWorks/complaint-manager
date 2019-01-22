@@ -51,7 +51,7 @@ class ReviewAndApproveLetter extends Component {
   componentDidMount() {
     this.props.getLetterPreview(this.state.caseId);
     this.props.startLoadingPdfPreview();
-    this.props.getPdf(this.state.caseId, this.props.finalFilename);
+    this.props.getPdf(this.state.caseId);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -67,7 +67,9 @@ class ReviewAndApproveLetter extends Component {
   }
 
   statusIsAllowed = () => {
-    return this.props.status === CASE_STATUS.READY_FOR_REVIEW;
+    return (
+      !this.props.status || this.props.status === CASE_STATUS.READY_FOR_REVIEW
+    );
   };
 
   letterPreviewNotYetLoaded = () => {
@@ -210,7 +212,6 @@ class ReviewAndApproveLetter extends Component {
 const mapStateToProps = state => ({
   letterType: state.referralLetter.letterType,
   lastEdited: state.referralLetter.lastEdited,
-  finalFilename: state.referralLetter.finalFilename,
   letterPdf: state.referralLetter.letterPdf,
   downloadInProgress: state.ui.letterDownload.downloadInProgress,
   caseReference: state.currentCase.details.caseReference,

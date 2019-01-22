@@ -67,7 +67,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
-    "newrelic": "5.0.0",
+    "newrelic": "5.1.0",
     "nodemon": "^1.14.9",
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",

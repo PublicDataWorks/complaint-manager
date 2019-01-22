@@ -1,9 +1,4 @@
-const {
-  COMPLAINANT,
-  TIMEZONE,
-  WITNESS
-} = require("../../../sharedUtilities/constants");
-const timezone = require("moment-timezone");
+const { COMPLAINANT, WITNESS } = require("../../../sharedUtilities/constants");
 
 const exportCasesQuery = () => {
   const DATE_ONLY_FORMAT = "MM/DD/YYYY";
@@ -13,6 +8,8 @@ const exportCasesQuery = () => {
   const query =
     "SELECT " +
     "cases.id, " +
+    "cases.year, " +
+    "cases.case_number, " +
     "cases.status, " +
     "cases.created_by, " +
     "concat_ws(" +

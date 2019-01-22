@@ -1,16 +1,16 @@
 import {
   closeCreateCaseDialog,
-  createCaseFailure,
   createCaseSuccess,
   requestCaseCreation
 } from "../../actionCreators/casesActionCreators";
 import { reset } from "redux-form";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import axios from "axios";
 import {
   CIVILIAN_INITIATED,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 const createCase = creationDetails => async dispatch => {
   dispatch(requestCaseCreation());
@@ -19,6 +19,7 @@ const createCase = creationDetails => async dispatch => {
       `api/cases`,
       JSON.stringify(creationDetails.caseDetails)
     );
+    dispatch(snackbarSuccess("Case was successfully created"));
     dispatch(createCaseSuccess(response.data));
     dispatch(closeCreateCaseDialog());
     if (creationDetails.redirect) {
@@ -31,9 +32,7 @@ const createCase = creationDetails => async dispatch => {
       }
     }
     return dispatch(reset("CreateCase"));
-  } catch (e) {
-    return dispatch(createCaseFailure());
-  }
+  } catch (e) {}
 };
 
 export default createCase;

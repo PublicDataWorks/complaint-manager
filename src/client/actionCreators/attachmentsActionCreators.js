@@ -1,7 +1,6 @@
 import {
   DROPZONE_FILE_REMOVED,
   DUPLICATE_FILE_DROPPED,
-  REMOVE_ATTACHMENT_FAILED,
   REMOVE_ATTACHMENT_SUCCESS
 } from "../../sharedUtilities/constants";
 
@@ -16,8 +15,4 @@ export const removeDropzoneFile = () => ({
 export const removeAttachmentSuccess = caseDetails => ({
   type: REMOVE_ATTACHMENT_SUCCESS,
   caseDetails
-});
-
-export const removeAttachmentFailed = () => ({
-  type: REMOVE_ATTACHMENT_FAILED
 });

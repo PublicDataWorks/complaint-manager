@@ -10,6 +10,7 @@ import {
   CASE_STATUS
 } from "../../../sharedUtilities/constants";
 import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
+import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
 const httpMocks = require("node-mocks-http");
 const models = require("../../models");
@@ -228,7 +229,7 @@ describe("Edit Case", () => {
       await editCase(requestWithoutFirstContactDate, response, next);
 
       expect(next).toHaveBeenCalledWith(
-        Boom.badRequest("Valid first contact date is required")
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_FIRST_CONTACT_DATE)
       );
 
       await existingCase.reload({
@@ -262,7 +263,7 @@ describe("Edit Case", () => {
       await editCase(requestWithoutFirstContactDate, response, next);
 
       expect(next).toHaveBeenCalledWith(
-        Boom.badRequest("Valid first contact date is required")
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_FIRST_CONTACT_DATE)
       );
       await existingCase.reload({
         include: [

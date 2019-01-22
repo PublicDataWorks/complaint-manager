@@ -1,8 +1,6 @@
 import axios from "axios/index";
 import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";
-import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
-import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
 const getLetterPreview = caseId => async dispatch => {
   try {
@@ -20,19 +18,7 @@ const getLetterPreview = caseId => async dispatch => {
         response.data.draftFilename
       )
     );
-  } catch (error) {
-    if (
-      error.response &&
-      error.response.data.message === "Invalid case status"
-    ) {
-      return dispatch(invalidCaseStatusRedirect(caseId));
-    }
-    dispatch(
-      snackbarError(
-        "Something went wrong and the letter preview was not loaded. Please try again."
-      )
-    );
-  }
+  } catch (error) {}
 };
 
 export default getLetterPreview;

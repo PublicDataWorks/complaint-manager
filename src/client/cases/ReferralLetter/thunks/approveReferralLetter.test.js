@@ -1,12 +1,13 @@
 import getAccessToken from "../../../auth/getAccessToken";
 import approveReferralLetter from "./approveReferralLetter";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import nock from "nock";
 import {
   snackbarError,
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../../auth/getAccessToken");
 
@@ -36,43 +37,5 @@ describe("approve referral letter", () => {
     );
     expect(mockCallback).toHaveBeenCalled();
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
-  });
-
-  test("dispatches failure on 500 error response", async () => {
-    getAccessToken.mockImplementation(() => "TEST_TOKEN");
-
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .put(`/api/cases/${caseId}/referral-letter/approve-letter`)
-      .reply(500);
-
-    await approveReferralLetter(caseId, mockCallback)(dispatch);
-    expect(mockCallback).toHaveBeenCalled();
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError(
-        "Something went wrong and the case status was not updated. Please try again."
-      )
-    );
-  });
-
-  test("dispatches failure on 400 error response", async () => {
-    getAccessToken.mockImplementation(() => "TEST_TOKEN");
-
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .put(`/api/cases/${caseId}/referral-letter/approve-letter`)
-      .reply(400, { message: "Invalid case status" });
-
-    await approveReferralLetter(caseId, mockCallback)(dispatch);
-    expect(mockCallback).toHaveBeenCalled();
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarError("Case status could not be updated due to invalid status")
-    );
   });
 });

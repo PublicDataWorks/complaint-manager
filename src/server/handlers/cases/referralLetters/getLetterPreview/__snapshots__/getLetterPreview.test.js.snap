@@ -11,7 +11,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests it renders 
   <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Complaint Information</u></strong></p>
   <p><br></p>
-  <p><strong><u>IPM Complaint #:</u></strong> CC2017-12070</p>
+  <p><strong><u>IPM Complaint #:</u></strong> CC2017-0001</p>
   <p>Date filed with IPM: 12/25/2017</p>
   <p><br></p>
 
@@ -120,7 +120,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Complaint Information</u></strong></p>
   <p><br></p>
-  <p><strong><u>IPM Complaint #:</u></strong> CC2017-12070</p>
+  <p><strong><u>IPM Complaint #:</u></strong> CC2017-0001</p>
   <p>Date filed with IPM: 12/25/2017</p>
   <p><br></p>
 
@@ -227,7 +227,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Complaint Information</u></strong></p>
   <p><br></p>
-  <p><strong><u>IPM Complaint #:</u></strong> CC2017-12070</p>
+  <p><strong><u>IPM Complaint #:</u></strong> CC2017-0001</p>
   <p>Date filed with IPM: 12/25/2017</p>
   <p><br></p>
 
@@ -368,7 +368,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Complaint Information</u></strong></p>
   <p><br></p>
-  <p><strong><u>IPM Complaint #:</u></strong> CC2017-12070</p>
+  <p><strong><u>IPM Complaint #:</u></strong> CC2017-0001</p>
   <p>Date filed with IPM: 12/25/2017</p>
   <p><br></p>
 
@@ -483,7 +483,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Complaint Information</u></strong></p>
   <p><br></p>
-  <p><strong><u>IPM Complaint #:</u></strong> CC2017-12070</p>
+  <p><strong><u>IPM Complaint #:</u></strong> CC2017-0001</p>
   <p>Date filed with IPM: 12/25/2017</p>
   <p><br></p>
 
@@ -589,7 +589,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Complaint Information</u></strong></p>
   <p><br></p>
-  <p><strong><u>IPM Complaint #:</u></strong> CC2017-12070</p>
+  <p><strong><u>IPM Complaint #:</u></strong> CC2017-0001</p>
   <p>Date filed with IPM: 12/25/2017</p>
   <p><br></p>
 
@@ -691,7 +691,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Complaint Information</u></strong></p>
   <p><br></p>
-  <p><strong><u>IPM Complaint #:</u></strong> CC2017-12070</p>
+  <p><strong><u>IPM Complaint #:</u></strong> CC2017-0001</p>
   <p>Date filed with IPM: 12/25/2017</p>
   <p><br></p>
 

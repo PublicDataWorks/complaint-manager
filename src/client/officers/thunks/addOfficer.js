@@ -1,7 +1,7 @@
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import {
-  addOfficerToCaseFailure,
-  addOfficerToCaseSuccess
+  addOfficerToCaseSuccess,
+  clearSelectedOfficer
 } from "../../actionCreators/officersActionCreators";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import axios from "axios";
@@ -15,10 +15,9 @@ const addOfficer = (caseId, officerId, values) => async dispatch => {
       JSON.stringify(payload)
     );
     dispatch(addOfficerToCaseSuccess(response.data));
+    dispatch(clearSelectedOfficer());
     dispatch(snackbarSuccess(`Officer was successfully added`));
     dispatch(push(`/cases/${caseId}`));
-  } catch (e) {
-    dispatch(addOfficerToCaseFailure());
-  }
+  } catch (e) {}
 };
 export default addOfficer;

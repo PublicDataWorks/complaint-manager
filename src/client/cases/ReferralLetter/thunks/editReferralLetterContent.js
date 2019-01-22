@@ -1,9 +1,6 @@
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import axios from "axios/index";
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../../../actionCreators/snackBarActionCreators";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 
 const editReferralLetterContent = (
   caseId,
@@ -17,13 +14,7 @@ const editReferralLetterContent = (
     );
     dispatch(push(redirectUrl));
     dispatch(snackbarSuccess("Letter was successfully updated"));
-  } catch (error) {
-    dispatch(
-      snackbarError(
-        "Something went wrong and the letter was not updated. Please try again."
-      )
-    );
-  }
+  } catch (error) {}
 };
 
 export default editReferralLetterContent;

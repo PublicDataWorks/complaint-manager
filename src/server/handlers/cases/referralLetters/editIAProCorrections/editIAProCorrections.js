@@ -2,6 +2,7 @@ import checkForValidStatus from "../checkForValidStatus";
 import models from "../../../../models/index";
 import asyncMiddleware from "../../../asyncMiddleware";
 import Boom from "boom";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 const editIAProCorrections = asyncMiddleware(
   async (request, response, next) => {
@@ -121,7 +122,7 @@ const updateExistingIAProCorrection = async (
     iaproCorrectionData.id
   );
   if (!correction) {
-    throw Boom.badRequest("Invalid iapro correction id");
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_IAPRO_CORRECTION);
   }
   await correction.update(iaproCorrectionData, {
     auditUser: userNickname,

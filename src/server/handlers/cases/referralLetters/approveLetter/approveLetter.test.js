@@ -19,6 +19,7 @@ import Civilian from "../../../../../client/testUtilities/civilian";
 import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import constructFilename from "../constructFilename";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("./uploadLetterToS3", () => jest.fn());
 jest.mock(
@@ -124,7 +125,9 @@ describe("approveLetter", () => {
       await existingCase.reload();
       expect(existingCase.status).toEqual(CASE_STATUS.INITIAL);
       expect(uploadLetterToS3).not.toHaveBeenCalled();
-      expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
+      expect(next).toHaveBeenCalledWith(
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE)
+      );
     });
 
     test("uploads generated file to S3 if letter should be generated", async () => {
@@ -185,7 +188,9 @@ describe("approveLetter", () => {
       expect(existingCase.status).toEqual(CASE_STATUS.READY_FOR_REVIEW);
       expect(uploadLetterToS3).not.toHaveBeenCalled();
       expect(next).toHaveBeenCalledWith(
-        Boom.badRequest("Missing permissions to approve letter")
+        Boom.badRequest(
+          BAD_REQUEST_ERRORS.PERMISSIONS_MISSING_TO_APPROVE_LETTER
+        )
       );
     });
   });

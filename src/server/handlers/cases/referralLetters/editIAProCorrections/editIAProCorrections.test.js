@@ -7,6 +7,7 @@ import httpMocks from "node-mocks-http";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import editIAProCorrections from "./editIAProCorrections";
 import Boom from "boom";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 describe("editIAProCorrections", () => {
   afterEach(async () => {
@@ -54,7 +55,9 @@ describe("editIAProCorrections", () => {
 
     await editIAProCorrections(request, response, next);
 
-    expect(next).toHaveBeenCalledWith(Boom.badRequest("Invalid case status"));
+    expect(next).toHaveBeenCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
+    );
   });
 
   describe("letter in progress", () => {
@@ -210,7 +213,7 @@ describe("editIAProCorrections", () => {
       });
       await editIAProCorrections(request, response, next);
       expect(next).toHaveBeenCalledWith(
-        Boom.badRequest("Invalid iapro correction id")
+        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_IAPRO_CORRECTION)
       );
     });
   });

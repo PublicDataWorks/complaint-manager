@@ -48,15 +48,13 @@ const transformCaseData = casesData => {
       .format(TIMESTAMP_FORMAT);
 
     const prefix = caseData.complaint_type === CIVILIAN_INITIATED ? "CC" : "PO";
-    const year = moment(caseData.first_contact_date, "M-D-YYYY").format("YYYY");
-    const paddedId = `${caseData.id}`.padStart(4, "0");
-    const caseReference = `${prefix}${year}-${paddedId}`;
-    caseData.id = caseReference;
+    const paddedNumber = `${caseData.case_number}`.padStart(4, "0");
+    caseData.caseReference = `${prefix}${caseData.year}-${paddedNumber}`;
   }
 };
 
 const columns = {
-  id: "Case #",
+  caseReference: "Case #",
   status: "Case Status",
   created_by: "Created by",
   created_at: "Created on",

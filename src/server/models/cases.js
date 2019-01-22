@@ -2,6 +2,11 @@ import { ADDRESSABLE_TYPE } from "../../sharedUtilities/constants";
 import moment from "moment";
 import _ from "lodash";
 import models from "./index";
+import winston from "winston";
+import {
+  BAD_DATA_ERRORS,
+  BAD_REQUEST_ERRORS
+} from "../../sharedUtilities/errorMessageConstants";
 
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
@@ -50,9 +55,18 @@ export default (sequelize, DataTypes) => {
           if (newStatus === nextStatus || newStatus === this.status) {
             this.setDataValue("status", newStatus);
           } else {
-            throw Boom.badRequest("Invalid case status");
+            throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
           }
         }
+      },
+      year: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      caseNumber: {
+        field: "case_number",
+        type: DataTypes.INTEGER,
+        allowNull: false
       },
       district: {
         type: DataTypes.STRING
@@ -112,12 +126,27 @@ export default (sequelize, DataTypes) => {
     {
       paranoid: true,
       hooks: {
+        beforeBulkCreate: (instances, options) => {
+          restrictBulkCreate();
+        },
+        beforeBulkUpdate: options => {
+          restrictEditingOfCaseReferenceNumberBulkUpdate(options);
+        },
         beforeUpdate: (instance, options) => {
+          restrictEditingOfCaseReferenceNumber(instance, options);
           if (!instance.changed() || instance.changed().includes("status"))
             return;
           if (instance.status === CASE_STATUS.INITIAL) {
             instance.status = CASE_STATUS.ACTIVE;
           }
+        },
+        beforeCreate: (instance, options) => {
+          if (options.validate === false) {
+            instance.generateCaseReference(instance, options);
+          }
+        },
+        beforeValidate: (instance, options) => {
+          instance.generateCaseReference(instance, options);
         }
       },
       getterMethods: {
@@ -127,15 +156,54 @@ export default (sequelize, DataTypes) => {
         caseReference() {
           const prefix =
             this.complaintType === CIVILIAN_INITIATED ? "CC" : "PO";
-          const firstContactYear = this.firstContactDate
-            ? moment(this.firstContactDate).format("YYYY")
-            : "";
-          const paddedCaseId = `${this.id}`.padStart(4, "0");
-          return `${prefix}${firstContactYear}-${paddedCaseId}`;
+          const paddedCaseId = `${this.caseNumber}`.padStart(4, "0");
+          return `${prefix}${this.year}-${paddedCaseId}`;
         }
       }
     }
   );
+
+  Case.prototype.generateCaseReference = (instance, options) => {
+    // Generate case number if creating new record
+    // Note: We cannot use Postgres sequence b/c we need to reset each year and a cron to reset sequence once a year seems risky
+    // Note: We cannot lock table for update on aggregate function, so will retry on unique key violation
+    if (instance.isNewRecord) {
+      const caseReferenceYear =
+        instance.firstContactDate &&
+        moment(instance.firstContactDate).format("YYYY");
+      const subqueryForNextCaseNumberThisYear = instance.sequelize.literal(
+        `COALESCE((SELECT max(case_number) + 1 FROM cases where year = ${caseReferenceYear}), 1)`
+      ); //this won't execute until the create statement executes
+      instance.year = caseReferenceYear;
+      instance.caseNumber = subqueryForNextCaseNumberThisYear;
+    }
+  };
+
+  const restrictEditingOfCaseReferenceNumber = (instance, options) => {
+    if (
+      instance.changed() &&
+      (instance.changed().includes("year") ||
+        instance.changed().includes("caseNumber"))
+    ) {
+      throw Boom.badData(BAD_DATA_ERRORS.CANNOT_OVERRIDE_CASE_REFERENCE);
+    }
+  };
+
+  const restrictEditingOfCaseReferenceNumberBulkUpdate = options => {
+    if (
+      options.fields.includes("year") ||
+      options.fields.includes("caseNumber")
+    ) {
+      throw Boom.badData(BAD_DATA_ERRORS.CANNOT_OVERRIDE_CASE_REFERENCE);
+    }
+  };
+
+  const restrictBulkCreate = () => {
+    winston.error(
+      "We have not implemented bulk create. If you choose implement, be sure to handle case reference number generation."
+    );
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED);
+  };
 
   Case.prototype.hasValueWhenLetterInProgress = function(field, value) {
     if (
@@ -153,7 +221,7 @@ export default (sequelize, DataTypes) => {
   };
 
   Case.prototype.modelDescription = async function(transaction) {
-    return [];
+    return [{ "Case Reference": this.caseReference }];
   };
 
   Case.prototype.getCaseId = async function(transaction) {

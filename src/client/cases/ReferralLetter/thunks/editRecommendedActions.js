@@ -1,8 +1,5 @@
-import { push } from "connected-react-router";
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../../../actionCreators/snackBarActionCreators";
+import { push } from "react-router-redux";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 import axios from "axios/index";
 
 const editRecommendedActions = (
@@ -17,19 +14,7 @@ const editRecommendedActions = (
     );
     dispatch(snackbarSuccess("Recommended actions were successfully updated"));
     return dispatch(push(successRedirectRoute));
-  } catch (error) {
-    if (
-      error.response &&
-      error.response.data.message === "Invalid case status"
-    ) {
-      return dispatch(push(`/cases/${caseId}`));
-    }
-    dispatch(
-      snackbarError(
-        "Something went wrong and we could not update the recommended actions information"
-      )
-    );
-  }
+  } catch (error) {}
 };
 
 export default editRecommendedActions;

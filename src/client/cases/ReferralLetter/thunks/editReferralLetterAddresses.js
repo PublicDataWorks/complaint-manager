@@ -1,9 +1,6 @@
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import axios from "axios/index";
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../../../actionCreators/snackBarActionCreators";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 
 const editReferralLetterAddresses = (
   caseId,
@@ -27,11 +24,6 @@ const editReferralLetterAddresses = (
     if (alternativeFailureCallback) {
       alternativeFailureCallback();
     }
-    dispatch(
-      snackbarError(
-        "Something went wrong and the letter was not updated. Please try again."
-      )
-    );
   }
 };
 

@@ -8,7 +8,7 @@ import { changeInput, containsText } from "../../../testHelpers";
 import OfficerHistoryNote from "./OfficerHistoryNote";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import editOfficerHistory from "../thunks/editOfficerHistory";
-import { push } from "connected-react-router";
+import { push } from "react-router-redux";
 import getLetterType from "../thunks/getLetterType";
 import getReferralLetterData from "../thunks/getReferralLetterData";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
