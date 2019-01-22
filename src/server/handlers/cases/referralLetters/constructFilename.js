@@ -24,7 +24,13 @@ const constructFilename = (existingCase, pdfFileVersion, editStatus) => {
 
 const getFirstComplainantLastName = existingCase => {
   const firstComplainant = getFirstComplainant(existingCase);
-  return firstComplainant ? sanitizeName(firstComplainant.lastName) : "";
+  if (!firstComplainant) {
+    return "";
+  }
+  if (firstComplainant.isUnknownOfficer) {
+    return "_Unknown_Officer";
+  }
+  return sanitizeName(firstComplainant.lastName);
 };
 
 const sanitizeName = name => {
