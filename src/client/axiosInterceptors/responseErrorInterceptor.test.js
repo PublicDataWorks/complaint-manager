@@ -1,6 +1,6 @@
 import configureInterceptors from "./interceptors";
 import nock from "nock";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import axios from "axios/index";
 import {
   BAD_REQUEST_ERRORS,

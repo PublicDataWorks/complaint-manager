@@ -1,5 +1,4 @@
-import { push } from "react-router-redux";
-import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants";
+import { push } from "connected-react-router";
 import { snackbarError } from "../actionCreators/snackBarActionCreators";
 
 const responseErrorInterceptor = dispatch => error => {
