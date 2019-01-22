@@ -40,9 +40,11 @@ class CasesTable extends React.Component {
                 >
                   <TableSortLabel
                     data-test="caseReferenceSortLabel"
-                    onClick={() => this.props.dispatch(updateSort("id"))}
+                    onClick={() =>
+                      this.props.dispatch(updateSort("caseReference"))
+                    }
                     direction={this.props.sortDirection}
-                    active={this.props.sortBy === "id"}
+                    active={this.props.sortBy === "caseReference"}
                   >
                     <Typography variant="body2">Case #</Typography>
                   </TableSortLabel>
