@@ -2,6 +2,7 @@ import React from "react";
 import OfficerSearchContainer from "./OfficerSearchContainer";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
 import { connect } from "react-redux";
+import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 
 export class AddOfficerSearch extends React.Component {
   missingCaseDetails = () => {
@@ -11,6 +12,7 @@ export class AddOfficerSearch extends React.Component {
     );
   };
   componentDidMount() {
+    this.props.dispatch(clearSelectedOfficer());
     if (this.missingCaseDetails()) {
       this.props.dispatch(getCaseDetails(this.props.match.params.id));
     }

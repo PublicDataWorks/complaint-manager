@@ -87,5 +87,6 @@ const dispatchUpdateNarrative = (values, dispatch, props) => {
 
 export default reduxForm({
   form: "Narrative",
-  onSubmit: dispatchUpdateNarrative
+  onSubmit: dispatchUpdateNarrative,
+  enableReinitialize: true
 })(Narrative);

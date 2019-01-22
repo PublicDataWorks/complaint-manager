@@ -1,4 +1,4 @@
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import setCaseStatus from "./setCaseStatus";
 import nock from "nock";
 import { CASE_STATUS } from "../../../sharedUtilities/constants";

@@ -1,13 +1,9 @@
 import getAccessToken from "../../../auth/getAccessToken";
 import nock from "nock";
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../../../actionCreators/snackBarActionCreators";
-import { push } from "react-router-redux";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
+import { push } from "connected-react-router";
 import editIAProCorrections from "./editIAProCorrections";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
-import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../../auth/getAccessToken");
 

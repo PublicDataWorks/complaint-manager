@@ -1,6 +1,6 @@
 import getAccessToken from "../../auth/getAccessToken";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import editCaseOfficer from "./editCaseOfficer";
 import nock from "nock";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";

@@ -1,9 +1,6 @@
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import editReferralLetterContent from "./editReferralLetterContent";
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../../../actionCreators/snackBarActionCreators";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 import nock from "nock";
 import getAccessToken from "../../../auth/getAccessToken";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";

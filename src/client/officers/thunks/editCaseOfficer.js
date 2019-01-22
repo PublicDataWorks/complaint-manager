@@ -1,4 +1,4 @@
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 import axios from "axios";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";

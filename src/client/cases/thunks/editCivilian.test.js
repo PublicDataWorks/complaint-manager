@@ -8,7 +8,6 @@ import {
   editCivilianSuccess
 } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
-import getAccessToken from "../../auth/getAccessToken";
 import RaceEthnicity from "../../testUtilities/raceEthnicity";
 import { startSubmit, stopSubmit } from "redux-form";
 import { CIVILIAN_FORM_NAME } from "../../../sharedUtilities/constants";
