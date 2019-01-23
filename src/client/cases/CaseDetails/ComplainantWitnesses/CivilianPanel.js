@@ -21,7 +21,7 @@ import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
 import AddressInfoDisplay from "../../../shared/components/AddressInfoDisplay";
 import DateOfBirthAgeInfoDisplay from "../../../shared/components/DateOfBirthAgeInfoDisplay";
 
-const CivilianPanel = ({ civilian, civilianAge, dispatch }) => {
+const CivilianPanel = ({ civilian, civilianAge, dispatch, isArchived }) => {
   const phoneNumber = formatPhoneNumber(civilian.phoneNumber);
   const birthDate = formatDate(civilian.birthDate);
 
@@ -56,29 +56,31 @@ const CivilianPanel = ({ civilian, civilianAge, dispatch }) => {
               value={civilian.raceEthnicity && civilian.raceEthnicity.name}
               testLabel="raceEthnicity"
             />
-            <div>
-              <LinkButton
-                data-test="editComplainantLink"
-                onClick={event => {
-                  event.stopPropagation();
-                  dispatch(initialize(CIVILIAN_FORM_NAME, civilian));
-                  dispatch(
-                    openCivilianDialog("Edit Civilian", "Save", editCivilian)
-                  );
-                }}
-              >
-                Edit
-              </LinkButton>
-              <LinkButton
-                data-test="removeCivilianLink"
-                onClick={event => {
-                  event.stopPropagation();
-                  dispatch(openRemovePersonDialog(civilian, "civilians"));
-                }}
-              >
-                Remove
-              </LinkButton>
-            </div>
+            {isArchived ? null : (
+              <div>
+                <LinkButton
+                  data-test="editComplainantLink"
+                  onClick={event => {
+                    event.stopPropagation();
+                    dispatch(initialize(CIVILIAN_FORM_NAME, civilian));
+                    dispatch(
+                      openCivilianDialog("Edit Civilian", "Save", editCivilian)
+                    );
+                  }}
+                >
+                  Edit
+                </LinkButton>
+                <LinkButton
+                  data-test="removeCivilianLink"
+                  onClick={event => {
+                    event.stopPropagation();
+                    dispatch(openRemovePersonDialog(civilian, "civilians"));
+                  }}
+                >
+                  Remove
+                </LinkButton>
+              </div>
+            )}
           </div>
         </ExpansionPanelSummary>
         <StyledExpansionPanelDetails>

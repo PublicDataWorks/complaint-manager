@@ -33,6 +33,7 @@ describe("narrative", () => {
             narrativeDetails: expectedCase.narrativeDetails,
             narrativeSummary: expectedCase.narrativeSummary
           }}
+          isArchived={false}
         />
       </Provider>
     );

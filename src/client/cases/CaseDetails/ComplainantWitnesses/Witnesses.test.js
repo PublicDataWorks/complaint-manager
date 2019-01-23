@@ -31,7 +31,7 @@ describe("Witnesses", () => {
   let witnessSection,
     witnesses,
     witnessPanel,
-    caseDetail,
+    caseDetails,
     dispatchSpy,
     witness,
     store,
@@ -46,7 +46,7 @@ describe("Witnesses", () => {
       .withRoleOnCase(WITNESS)
       .build();
     witness = { ...witness, raceEthnicity: raceEthnicity };
-    caseDetail = new Case.Builder()
+    caseDetails = new Case.Builder()
       .defaultCase()
       .withWitnessCivilians([witness])
       .build();
@@ -58,7 +58,7 @@ describe("Witnesses", () => {
     witnesses = mount(
       <Provider store={store}>
         <Witnesses
-          caseDetail={caseDetail}
+          caseDetails={caseDetails}
           dispatch={dispatchSpy}
           menuOpen={menuOpen}
         />
@@ -120,7 +120,7 @@ describe("Witnesses", () => {
         .withRoleOnCase(WITNESS)
         .build();
       civilian3 = { ...civilian3, raceEthnicity: raceEthnicity };
-      caseDetail = new Case.Builder()
+      caseDetails = new Case.Builder()
         .defaultCase()
         .withWitnessCivilians([civilian1, civilian2, civilian3])
         .withComplainantOfficers([])
@@ -130,7 +130,7 @@ describe("Witnesses", () => {
 
       witnesses = mount(
         <Provider store={store}>
-          <Witnesses caseDetail={caseDetail} menuOpen={menuOpen} />
+          <Witnesses caseDetails={caseDetails} menuOpen={menuOpen} />
         </Provider>
       );
 
@@ -203,7 +203,7 @@ describe("Witnesses", () => {
 
       witnesses = mount(
         <Provider store={store}>
-          <Witnesses caseDetail={caseWithNoAddress} menuOpen={menuOpen} />
+          <Witnesses caseDetails={caseWithNoAddress} menuOpen={menuOpen} />
         </Provider>
       );
 
@@ -219,7 +219,7 @@ describe("Witnesses", () => {
 
     test("should display address when present", () => {
       const expectedAddress = formatAddressAsString(
-        caseDetail.witnessCivilians[0].address
+        caseDetails.witnessCivilians[0].address
       );
 
       containsText(
@@ -249,7 +249,7 @@ describe("Witnesses", () => {
 
       witnesses = mount(
         <Provider store={store}>
-          <Witnesses caseDetail={caseWithNoAddress} menuOpen={menuOpen} />
+          <Witnesses caseDetails={caseWithNoAddress} menuOpen={menuOpen} />
         </Provider>
       );
 
@@ -262,7 +262,7 @@ describe("Witnesses", () => {
       containsText(
         witnessPanel,
         '[data-test="civilianAddress"]',
-        caseDetail.witnessCivilians[0].address.streetAddress2
+        caseDetails.witnessCivilians[0].address.streetAddress2
       );
     });
   });
@@ -307,7 +307,10 @@ describe("Witnesses", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <Witnesses caseDetail={caseWithMixedComplainants} menuOpen={menuOpen} />
+        <Witnesses
+          caseDetails={caseWithMixedComplainants}
+          menuOpen={menuOpen}
+        />
       </Provider>
     );
 

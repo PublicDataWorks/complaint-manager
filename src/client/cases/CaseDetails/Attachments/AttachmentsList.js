@@ -29,7 +29,7 @@ class AttachmentsList extends Component {
     const { attachments } = this.props;
 
     return (
-      <div data-test="attachmentsField" style={{ marginBottom: "48px" }}>
+      <div data-test="attachmentsField">
         {attachments && attachments.length > 0 ? (
           _.sortBy(attachments, obj => obj.fileName.toUpperCase()).map(
             attachment => (

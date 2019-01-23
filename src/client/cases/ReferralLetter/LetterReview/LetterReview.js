@@ -29,8 +29,8 @@ import getLetterType from "../thunks/getLetterType";
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {
     return (
-      _.isEmpty(this.props.caseDetail) ||
-      `${this.props.caseDetail.id}` !== this.props.match.params.id
+      _.isEmpty(this.props.caseDetails) ||
+      `${this.props.caseDetails.id}` !== this.props.match.params.id
     );
   }
 
@@ -42,14 +42,16 @@ export class LetterReview extends Component {
 
   componentDidUpdate() {
     if (!this.caseDetailsNotYetLoaded() && !this.statusIsAllowed()) {
-      const caseId = this.props.caseDetail.id;
+      const caseId = this.props.caseDetails.id;
       this.props.invalidCaseStatusRedirect(caseId);
     }
   }
 
   statusIsAllowed = () => {
-    return CASE_STATUSES_ALLOWED_TO_EDIT_LETTER.includes(
-      this.props.caseDetail.status
+    return (
+      CASE_STATUSES_ALLOWED_TO_EDIT_LETTER.includes(
+        this.props.caseDetails.status
+      ) && !this.props.caseDetails.isArchived
     );
   };
 
@@ -58,25 +60,25 @@ export class LetterReview extends Component {
   };
 
   render() {
-    const { caseDetail } = this.props;
+    const { caseDetails } = this.props;
     const caseId = this.props.match.params.id;
 
     if (this.caseDetailsNotYetLoaded() || !this.statusIsAllowed()) {
       return null;
     }
 
-    const narrativeSummaryCardData = caseDetail.narrativeSummary ? (
-      <Typography>{caseDetail.narrativeSummary}</Typography>
+    const narrativeSummaryCardData = caseDetails.narrativeSummary ? (
+      <Typography>{caseDetails.narrativeSummary}</Typography>
     ) : (
       <Typography style={{ fontStyle: "italic", color: "grey" }}>
         Not specified
       </Typography>
     );
 
-    const narrativeDetailsCardData = caseDetail.narrativeDetails ? (
+    const narrativeDetailsCardData = caseDetails.narrativeDetails ? (
       <TextTruncate
         testLabel="letterReviewNarrativeDetails"
-        message={caseDetail.narrativeDetails}
+        message={caseDetails.narrativeDetails}
       />
     ) : (
       <Typography style={{ fontStyle: "italic", color: "grey" }}>
@@ -89,7 +91,7 @@ export class LetterReview extends Component {
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
             {`Case #${
-              this.props.caseDetail.caseReference
+              this.props.caseDetails.caseReference
             }   : Letter Generation`}
           </Typography>
         </NavBar>
@@ -119,7 +121,7 @@ export class LetterReview extends Component {
 
           <CaseDetailCard
             cardTitle={"Incident Info"}
-            cardData={getIncidentInfoData(caseDetail)}
+            cardData={getIncidentInfoData(caseDetails)}
           />
 
           <CaseDetailCard
@@ -134,15 +136,15 @@ export class LetterReview extends Component {
 
           <CaseDetailCard
             cardTitle={"Complainant Information"}
-            cardData={getComplainantData(caseDetail)}
+            cardData={getComplainantData(caseDetails)}
           />
 
           <CaseDetailCard
             cardTitle={"Witness Information"}
-            cardData={getWitnessData(caseDetail)}
+            cardData={getWitnessData(caseDetails)}
           />
 
-          {caseDetail.accusedOfficers.map(officer => {
+          {caseDetails.accusedOfficers.map(officer => {
             return (
               <CaseDetailCard
                 cardTitle={"Accused Officer"}
@@ -176,7 +178,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  caseDetail: state.currentCase.details
+  caseDetails: state.currentCase.details
 });
 
 export default connect(

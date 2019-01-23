@@ -5,7 +5,7 @@ import {
 
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
-const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
+import { getCaseWithAllAssociations } from "../getCaseHelpers";
 const auditDataAccess = require("../auditDataAccess");
 
 const createCivilian = asyncMiddleware(async (req, res) => {

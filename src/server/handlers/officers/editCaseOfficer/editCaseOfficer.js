@@ -1,6 +1,6 @@
 const models = require("../../../models");
 const asyncMiddleware = require("../../asyncMiddleware");
-const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
+import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const {
   buildOfficerAttributesForUnknownOfficer,
   buildOfficerAttributesForNewOfficer

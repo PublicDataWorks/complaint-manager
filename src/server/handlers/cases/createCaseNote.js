@@ -2,7 +2,7 @@ const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 const auditDataAccess = require("../auditDataAccess");
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
-const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
+import { getCaseWithAllAssociations } from "../getCaseHelpers";
 
 const createCaseNote = asyncMiddleware(async (request, response) => {
   const currentCase = await models.sequelize.transaction(async transaction => {

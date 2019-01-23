@@ -1,13 +1,33 @@
-const models = require("../models");
+import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants";
+import Boom from "boom";
+import models from "../models";
 
-const getCaseWithAllAssociations = async (caseId, transaction = null) => {
+export const getCaseWithAllAssociations = async (
+  caseId,
+  transaction = null
+) => {
   let caseDetails = await getCaseData(caseId, transaction);
-  caseDetails = addPdfIsAvailable(caseDetails);
-  return caseDetails;
+  return addFieldsToCaseDetails(caseDetails);
+};
+
+export const getCaseWithoutAssociations = async (
+  caseId,
+  transaction = null
+) => {
+  let caseData = await models.cases.findById(caseId, {
+    paranoid: false,
+    transaction
+  });
+  if (!caseData) {
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST);
+  }
+  return addFieldsToCaseDetails(caseData);
 };
 
 const getCaseData = async (caseId, transaction) => {
-  return await models.cases.findById(caseId, {
+  const caseData = await models.cases.findAll({
+    where: { id: caseId },
+    paranoid: false,
     include: [
       {
         model: models.classification
@@ -89,10 +109,25 @@ const getCaseData = async (caseId, transaction) => {
       ]
     ]
   });
+  if (caseData.length === 0) {
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST);
+  }
+  return caseData[0];
 };
 
+const addFieldsToCaseDetails = caseDetails => {
+  let newCaseDetails = caseDetails.toJSON();
+
+  newCaseDetails = addPdfIsAvailable(newCaseDetails);
+  return addIsArchived(newCaseDetails);
+};
+
+const addIsArchived = caseDetails => {
+  caseDetails.isArchived = caseDetails.deletedAt !== null;
+  delete caseDetails.deletedAt;
+  return caseDetails;
+};
 const addPdfIsAvailable = caseDetails => {
-  caseDetails = caseDetails.toJSON();
   caseDetails.pdfAvailable = pdfIsAvailable(caseDetails.referralLetter);
   delete caseDetails.referralLetter;
   return caseDetails;
@@ -104,5 +139,3 @@ const pdfIsAvailable = referralLetter => {
   }
   return referralLetter.finalPdfFilename !== null;
 };
-
-module.exports = getCaseWithAllAssociations;

@@ -1,6 +1,6 @@
 const models = require("../../models/index");
 const asyncMiddleware = require("../asyncMiddleware");
-const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
+import { getCaseWithAllAssociations } from "../getCaseHelpers";
 const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 const auditDataAccess = require("../auditDataAccess");
 

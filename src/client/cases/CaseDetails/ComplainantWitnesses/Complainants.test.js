@@ -34,7 +34,7 @@ describe("Complainants", () => {
   let complainantWitnessesSection,
     complainantWitnesses,
     complainantPanel,
-    caseDetail,
+    caseDetails,
     dispatchSpy,
     complainant,
     store;
@@ -49,7 +49,7 @@ describe("Complainants", () => {
       raceEthnicity: raceEthnicity
     };
 
-    caseDetail = new Case.Builder()
+    caseDetails = new Case.Builder()
       .defaultCase()
       .withComplainantCivilians([complainant])
       .build();
@@ -60,7 +60,7 @@ describe("Complainants", () => {
     complainantWitnesses = mount(
       <Provider store={store}>
         <Complainants
-          caseDetail={caseDetail}
+          caseDetails={caseDetails}
           dispatch={dispatchSpy}
           menuOpen={menuOpen}
         />
@@ -128,7 +128,7 @@ describe("Complainants", () => {
         raceEthnicity
       };
 
-      caseDetail = new Case.Builder()
+      caseDetails = new Case.Builder()
         .defaultCase()
         .withComplainantCivilians([civilian1, civilian2, civilian3])
         .withComplainantOfficers([])
@@ -138,7 +138,7 @@ describe("Complainants", () => {
 
       complainantWitnesses = mount(
         <Provider store={store}>
-          <Complainants caseDetail={caseDetail} menuOpen={menuOpen} />
+          <Complainants caseDetails={caseDetails} menuOpen={menuOpen} />
         </Provider>
       );
 
@@ -212,7 +212,7 @@ describe("Complainants", () => {
 
       complainantWitnesses = mount(
         <Provider store={store}>
-          <Complainants caseDetail={caseWithNoAddress} menuOpen={menuOpen} />
+          <Complainants caseDetails={caseWithNoAddress} menuOpen={menuOpen} />
         </Provider>
       );
 
@@ -228,7 +228,7 @@ describe("Complainants", () => {
 
     test("should display address when present", () => {
       const expectedAddress = formatAddressAsString(
-        caseDetail.complainantCivilians[0].address
+        caseDetails.complainantCivilians[0].address
       );
 
       containsText(
@@ -257,7 +257,7 @@ describe("Complainants", () => {
 
       complainantWitnesses = mount(
         <Provider store={store}>
-          <Complainants caseDetail={caseWithNoAddress} menuOpen={menuOpen} />
+          <Complainants caseDetails={caseWithNoAddress} menuOpen={menuOpen} />
         </Provider>
       );
 
@@ -270,7 +270,7 @@ describe("Complainants", () => {
       containsText(
         complainantPanel,
         '[data-test="civilianAddress"]',
-        caseDetail.complainantCivilians[0].address.streetAddress2
+        caseDetails.complainantCivilians[0].address.streetAddress2
       );
     });
   });
@@ -301,7 +301,10 @@ describe("Complainants", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <Complainants caseDetail={caseWithoutComplainant} menuOpen={menuOpen} />
+        <Complainants
+          caseDetails={caseWithoutComplainant}
+          menuOpen={menuOpen}
+        />
       </Provider>
     );
     const warn = wrapper.find("[data-test='warnIcon']");
@@ -332,7 +335,10 @@ describe("Complainants", () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <Complainants caseDetail={caseWithoutComplainant} menuOpen={menuOpen} />
+        <Complainants
+          caseDetails={caseWithoutComplainant}
+          menuOpen={menuOpen}
+        />
       </Provider>
     );
     const noCivilianMessage = wrapper.find("[data-test='noCivilianMessage']");
@@ -369,7 +375,7 @@ describe("Complainants", () => {
     const wrapper = mount(
       <Provider store={store}>
         <Complainants
-          caseDetail={caseWithMixedComplainants}
+          caseDetails={caseWithMixedComplainants}
           menuOpen={menuOpen}
         />
       </Provider>

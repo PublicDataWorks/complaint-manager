@@ -18,7 +18,7 @@ const generateSteps = map => {
   });
 };
 
-const CaseStatusStepper = ({ caseId, status }) => {
+const CaseStatusStepper = ({ caseId, status, isArchived }) => {
   const renderButtons = () => {
     return (
       <div
@@ -35,7 +35,9 @@ const CaseStatusStepper = ({ caseId, status }) => {
           <DownloadFinalLetterButton />
         </div>
         <div>
-          <EditLetterButton status={status} caseId={caseId} />
+          {isArchived ? null : (
+            <EditLetterButton status={status} caseId={caseId} />
+          )}
           <StatusButton />
         </div>
       </div>
@@ -60,7 +62,8 @@ const CaseStatusStepper = ({ caseId, status }) => {
 
 const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
-  status: state.currentCase.details.status
+  status: state.currentCase.details.status,
+  isArchived: state.currentCase.details.isArchived
 });
 
 export default connect(mapStateToProps)(CaseStatusStepper);

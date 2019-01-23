@@ -244,6 +244,11 @@ class Case {
         return this;
       }
 
+      withDeletedAt(deletedAt) {
+        this.deletedAt = deletedAt;
+        return this;
+      }
+
       build() {
         return new Case(this);
       }

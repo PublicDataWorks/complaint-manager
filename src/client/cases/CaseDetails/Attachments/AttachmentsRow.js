@@ -5,7 +5,12 @@ import LinkButton from "../../../shared/components/LinkButton";
 import inBrowserDownload from "../../thunks/inBrowserDownload";
 import { connect } from "react-redux";
 
-const AttachmentsRow = ({ attachment, onRemoveAttachment, dispatch }) => {
+const AttachmentsRow = ({
+  attachment,
+  onRemoveAttachment,
+  dispatch,
+  isArchived
+}) => {
   const onDownloadClick = () =>
     dispatch(
       inBrowserDownload(
@@ -50,14 +55,16 @@ const AttachmentsRow = ({ attachment, onRemoveAttachment, dispatch }) => {
           </Typography>
         </div>
         <div>
-          <LinkButton
-            data-test={"removeAttachmentButton"}
-            onClick={() => {
-              onRemoveAttachment(attachment.id, attachment.fileName);
-            }}
-          >
-            Remove
-          </LinkButton>
+          {isArchived ? null : (
+            <LinkButton
+              data-test={"removeAttachmentButton"}
+              onClick={() => {
+                onRemoveAttachment(attachment.id, attachment.fileName);
+              }}
+            >
+              Remove
+            </LinkButton>
+          )}
         </div>
       </div>
       <Divider style={{ marginBottom: "8px" }} />
@@ -65,4 +72,8 @@ const AttachmentsRow = ({ attachment, onRemoveAttachment, dispatch }) => {
   );
 };
 
-export default connect()(AttachmentsRow);
+const mapStateToProps = state => ({
+  isArchived: state.currentCase.details.isArchived
+});
+
+export default connect(mapStateToProps)(AttachmentsRow);

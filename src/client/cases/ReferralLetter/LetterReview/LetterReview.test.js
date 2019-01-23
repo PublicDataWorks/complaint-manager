@@ -58,6 +58,18 @@ describe("LetterReview", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(invalidCaseStatusRedirect(caseId));
   });
 
+  test("redirects to case detail page if case is archived", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId,
+        status: CASE_STATUS.LETTER_IN_PROGRESS,
+        isArchived: true
+      })
+    );
+    wrapper.update();
+    expect(dispatchSpy).toHaveBeenCalledWith(invalidCaseStatusRedirect(caseId));
+  });
+
   test("does not redirect if case is in letter in progress status", () => {
     store.dispatch(
       getCaseDetailsSuccess({

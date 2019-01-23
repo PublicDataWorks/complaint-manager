@@ -1,10 +1,10 @@
 import asyncMiddleware from "../../../asyncMiddleware";
-import checkForValidStatus from "../checkForValidStatus";
+import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import models from "../../../../models";
 
 const editRecommendedActions = asyncMiddleware(
   async (request, response, next) => {
-    await checkForValidStatus(request.params.caseId);
+    await throwErrorIfLetterFlowUnavailable(request.params.caseId);
 
     await models.sequelize.transaction(async transaction => {
       if (request.body.letterOfficers) {

@@ -8,7 +8,7 @@ const {
   DUPLICATE_FILE_NAME,
   AUDIT_SUBJECT
 } = require("../../../../sharedUtilities/constants");
-const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
+import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const Boom = require("boom");
 const auditDataAccess = require("../../auditDataAccess");
 

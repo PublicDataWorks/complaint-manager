@@ -1,12 +1,11 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
 import Boom from "boom";
-import checkForValidStatus from "../checkForValidStatus";
+import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 const editOfficerHistory = asyncMiddleware(async (request, response, next) => {
-  await checkForValidStatus(request.params.caseId);
-
+  await throwErrorIfLetterFlowUnavailable(request.params.caseId);
   await models.sequelize.transaction(async transaction => {
     if (request.body.letterOfficers) {
       await createOrUpdateLetterOfficers(

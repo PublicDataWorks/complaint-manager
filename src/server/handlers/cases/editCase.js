@@ -8,7 +8,7 @@ import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstan
 const moment = require("moment");
 const models = require("../../models");
 const asyncMiddleware = require("../asyncMiddleware");
-const getCaseWithAllAssociations = require("../getCaseWithAllAssociations");
+import { getCaseWithAllAssociations } from "../getCaseHelpers";
 const _ = require("lodash");
 const auditDataAccess = require("../auditDataAccess");
 const Boom = require("boom");

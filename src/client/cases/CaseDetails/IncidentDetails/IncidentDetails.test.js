@@ -1,7 +1,6 @@
 import React from "react";
-import IncidentDetailsContainer from "./IncidentDetailsContainer";
-import { mount } from "enzyme";
 import IncidentDetails from "./IncidentDetails";
+import { mount } from "enzyme";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
@@ -64,7 +63,7 @@ jest.mock("../CivilianDialog/MapServices/MapService", () => {
   }));
 });
 
-describe("incident details container", () => {
+describe("incident details", () => {
   let incidentDetails,
     currentCase,
     firstContactDate,
@@ -97,7 +96,7 @@ describe("incident details container", () => {
     store.dispatch(getClassificationsSuccess([[0, "UTD"], [12, "OTB"]]));
     wrapper = mount(
       <Provider store={store}>
-        <IncidentDetailsContainer />
+        <IncidentDetails />
       </Provider>
     );
     incidentDetails = wrapper.find(IncidentDetails);

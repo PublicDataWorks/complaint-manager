@@ -5,6 +5,7 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
+import { getCaseWithoutAssociations } from "../../getCaseHelpers";
 
 const getMinimumCaseDetails = asyncMiddleware(
   async (request, response, next) => {
@@ -19,9 +20,10 @@ const getMinimumCaseDetails = asyncMiddleware(
           AUDIT_ACTION.DATA_ACCESSED
         );
 
-        const singleCase = await models.cases.findById(caseId, {
-          transaction: transaction
-        });
+        const singleCase = await getCaseWithoutAssociations(
+          caseId,
+          transaction
+        );
 
         return {
           caseReference: singleCase.caseReference,

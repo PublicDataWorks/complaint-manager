@@ -11,7 +11,8 @@ const ComplainantWitnessDisplay = ({
   civiliansAndOfficers,
   emptyMessage,
   dispatch,
-  incidentDate
+  incidentDate,
+  isArchived
 }) => {
   return (
     <div>
@@ -55,7 +56,9 @@ const ComplainantWitnessDisplay = ({
                     incidentDate
                   )}
                 >
-                  <OfficerActions caseOfficer={civilianOrOfficer} />
+                  {isArchived ? null : (
+                    <OfficerActions caseOfficer={civilianOrOfficer} />
+                  )}
                 </OfficerPanel>
               );
             }
@@ -69,6 +72,7 @@ const ComplainantWitnessDisplay = ({
                   civilianOrOfficer,
                   incidentDate
                 )}
+                isArchived={isArchived}
               />
             );
           }

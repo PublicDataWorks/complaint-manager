@@ -7,8 +7,8 @@ import { WITNESS } from "../../../../sharedUtilities/constants";
 import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
 
 const Witnesses = props => {
-  const allWitnesses = props.caseDetail.witnessCivilians.concat(
-    props.caseDetail.witnessOfficers
+  const allWitnesses = props.caseDetails.witnessCivilians.concat(
+    props.caseDetails.witnessOfficers
   );
 
   const sortedWitnesses = _.orderBy(allWitnesses, [o => o.createdAt], ["asc"]);
@@ -20,17 +20,20 @@ const Witnesses = props => {
           emptyMessage={"No witnesses have been added"}
           civiliansAndOfficers={sortedWitnesses}
           dispatch={props.dispatch}
-          incidentDate={props.caseDetail.incidentDate}
+          incidentDate={props.caseDetails.incidentDate}
+          isArchived={props.caseDetails.isArchived}
         />
-        <ComplainantWitnessMenu
-          menuOpen={props.menuOpen}
-          handleMenuOpen={props.handleMenuOpen}
-          handleMenuClose={props.handleMenuClose}
-          anchorEl={props.anchorEl}
-          dispatch={props.dispatch}
-          caseDetail={props.caseDetail}
-          civilianType={WITNESS}
-        />
+        {props.caseDetails.isArchived ? null : (
+          <ComplainantWitnessMenu
+            menuOpen={props.menuOpen}
+            handleMenuOpen={props.handleMenuOpen}
+            handleMenuClose={props.handleMenuClose}
+            anchorEl={props.anchorEl}
+            dispatch={props.dispatch}
+            caseDetails={props.caseDetails}
+            civilianType={WITNESS}
+          />
+        )}
       </CardContent>
     </BaseCaseDetailsCard>
   );

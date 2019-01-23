@@ -61,22 +61,24 @@ class CaseNotes extends Component {
           </div>
           <RemoveCaseNoteDialog />
         </div>
-        <LinkButton
-          onClick={() => {
-            this.props.dispatch(
-              initialize("CaseNotes", {
-                actionTakenAt: timezone
-                  .tz(new Date(Date.now()), TIMEZONE)
-                  .format("YYYY-MM-DDTHH:mm")
-              })
-            );
-            this.props.dispatch(openCaseNoteDialog("Add", {}));
-          }}
-          style={{ margin: "0% 0% 5% 2%" }}
-          data-test="addCaseNoteButton"
-        >
-          + Add Case Note
-        </LinkButton>
+        {this.props.isArchived ? null : (
+          <LinkButton
+            onClick={() => {
+              this.props.dispatch(
+                initialize("CaseNotes", {
+                  actionTakenAt: timezone
+                    .tz(new Date(Date.now()), TIMEZONE)
+                    .format("YYYY-MM-DDTHH:mm")
+                })
+              );
+              this.props.dispatch(openCaseNoteDialog("Add", {}));
+            }}
+            style={{ margin: "0% 0% 5% 2%" }}
+            data-test="addCaseNoteButton"
+          >
+            + Add Case Note
+          </LinkButton>
+        )}
       </div>
     );
   }
@@ -84,7 +86,8 @@ class CaseNotes extends Component {
 
 const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
-  caseNotes: state.currentCase.caseNotes
+  caseNotes: state.currentCase.caseNotes,
+  isArchived: state.currentCase.details.isArchived
 });
 
 export default connect(mapStateToProps)(CaseNotes);
