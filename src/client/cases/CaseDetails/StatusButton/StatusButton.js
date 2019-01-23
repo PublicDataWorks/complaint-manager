@@ -54,6 +54,7 @@ class StatusButton extends Component {
           to={`/cases/${caseId}/letter/review-and-approve`}
           component={Link}
           style={{ marginLeft: "16px" }}
+          disabled={this.props.isArchived}
         >
           Review and Approve Letter
         </PrimaryButton>
@@ -64,6 +65,7 @@ class StatusButton extends Component {
           data-test="update-status-button"
           onClick={this.openUpdateCaseStatusDialog}
           style={{ marginLeft: "16px" }}
+          disabled={this.props.isArchived}
         >
           {status === CASE_STATUS.ACTIVE
             ? `Begin Letter`
@@ -78,6 +80,7 @@ const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
   status: state.currentCase.details.status,
   nextStatus: state.currentCase.details.nextStatus,
+  isArchived: state.currentCase.details.isArchived,
   userInfo: state.users.current.userInfo
 });
 

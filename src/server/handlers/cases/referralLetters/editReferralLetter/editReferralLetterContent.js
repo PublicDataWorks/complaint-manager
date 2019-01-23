@@ -1,6 +1,6 @@
 import models from "../../../../models/index";
 import asyncMiddleware from "../../../asyncMiddleware";
-import checkForValidStatus from "../checkForValidStatus";
+import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import Boom from "boom";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
@@ -12,7 +12,10 @@ const ALLOWED_STATUSES = [
 
 const editReferralLetterContent = asyncMiddleware(
   async (request, response, next) => {
-    await checkForValidStatus(request.params.caseId, ALLOWED_STATUSES);
+    await throwErrorIfLetterFlowUnavailable(
+      request.params.caseId,
+      ALLOWED_STATUSES
+    );
 
     const referralLetter = await models.referral_letter.findOne({
       where: { caseId: request.params.caseId }

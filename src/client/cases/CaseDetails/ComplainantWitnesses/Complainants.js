@@ -9,8 +9,8 @@ import { COMPLAINANT } from "../../../../sharedUtilities/constants";
 import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
 
 const Complainants = props => {
-  const allComplainants = props.caseDetail.complainantCivilians.concat(
-    props.caseDetail.complainantOfficers
+  const allComplainants = props.caseDetails.complainantCivilians.concat(
+    props.caseDetails.complainantOfficers
   );
 
   const sortedComplainants = _.orderBy(
@@ -30,17 +30,20 @@ const Complainants = props => {
           emptyMessage={"No complainants have been added"}
           civiliansAndOfficers={sortedComplainants}
           dispatch={props.dispatch}
-          incidentDate={props.caseDetail.incidentDate}
+          incidentDate={props.caseDetails.incidentDate}
+          isArchived={props.caseDetails.isArchived}
         />
-        <ComplainantWitnessMenu
-          menuOpen={props.menuOpen}
-          handleMenuClose={props.handleMenuClose}
-          handleMenuOpen={props.handleMenuOpen}
-          anchorEl={props.anchorEl}
-          dispatch={props.dispatch}
-          caseDetail={props.caseDetail}
-          civilianType={COMPLAINANT}
-        />
+        {props.caseDetails.isArchived ? null : (
+          <ComplainantWitnessMenu
+            menuOpen={props.menuOpen}
+            handleMenuClose={props.handleMenuClose}
+            handleMenuOpen={props.handleMenuOpen}
+            anchorEl={props.anchorEl}
+            dispatch={props.dispatch}
+            caseDetails={props.caseDetails}
+            civilianType={COMPLAINANT}
+          />
+        )}
       </CardContent>
     </BaseCaseDetailsCard>
   );

@@ -12,7 +12,7 @@ import * as _ from "lodash";
 import Attachments from "./Attachments/Attachments";
 import styles from "./caseDetailsStyles";
 import CaseDrawer from "./CaseDrawer";
-import IncidentDetailsContainer from "./IncidentDetails/IncidentDetailsContainer";
+import IncidentDetails from "./IncidentDetails/IncidentDetails";
 import {
   closeCaseNoteDialog,
   closeCaseStatusUpdateDialog,
@@ -81,8 +81,8 @@ class CaseDetails extends React.Component {
 
   caseDetailsNotYetLoaded() {
     return (
-      _.isEmpty(this.props.caseDetail) ||
-      `${this.props.caseDetail.id}` !== this.props.match.params.id
+      _.isEmpty(this.props.caseDetails) ||
+      `${this.props.caseDetails.id}` !== this.props.match.params.id
     );
   }
 
@@ -91,8 +91,8 @@ class CaseDetails extends React.Component {
       return null;
     }
 
-    const statusIsClosed = this.props.caseDetail.status === CASE_STATUS.CLOSED;
-    const status = this.props.caseDetail.status;
+    const statusIsClosed = this.props.caseDetails.status === CASE_STATUS.CLOSED;
+    const status = this.props.caseDetails.status;
 
     const { classes } = this.props;
 
@@ -106,7 +106,7 @@ class CaseDetails extends React.Component {
               color="inherit"
               style={{ marginRight: "20px" }}
             >
-              {`Case #${this.props.caseDetail.caseReference}`}
+              {`Case #${this.props.caseDetails.caseReference}`}
             </Typography>
             <Typography
               data-test="caseStatusBox"
@@ -119,15 +119,15 @@ class CaseDetails extends React.Component {
               {status}
             </Typography>
           </NavBar>
-          <CaseDrawer classes={classes} caseDetail={this.props.caseDetail} />
+          <CaseDrawer classes={classes} caseDetails={this.props.caseDetails} />
           <main className={classes.content}>
             <CaseStatusStepper />
             <div style={{ marginLeft: "5%", marginRight: "5%" }}>
               <EditLetterStatusMessage pageType={PAGE_TYPE.CASE_DETAILS} />
             </div>
-            <IncidentDetailsContainer />
+            <IncidentDetails />
             <Complainants
-              caseDetail={this.props.caseDetail}
+              caseDetails={this.props.caseDetails}
               dispatch={this.props.dispatch}
               handleMenuOpen={this.handleComplainantMenuOpen}
               menuOpen={this.state.complainantMenuOpen}
@@ -135,7 +135,7 @@ class CaseDetails extends React.Component {
               anchorEl={this.state.anchorEl}
             />
             <Witnesses
-              caseDetail={this.props.caseDetail}
+              caseDetails={this.props.caseDetails}
               dispatch={this.props.dispatch}
               handleMenuOpen={this.handleWitnessMenuOpen}
               menuOpen={this.state.witnessMenuOpen}
@@ -144,18 +144,20 @@ class CaseDetails extends React.Component {
             />
             <Narrative
               initialValues={{
-                narrativeDetails: this.props.caseDetail.narrativeDetails,
-                narrativeSummary: this.props.caseDetail.narrativeSummary
+                narrativeDetails: this.props.caseDetails.narrativeDetails,
+                narrativeSummary: this.props.caseDetails.narrativeSummary
               }}
-              caseId={this.props.caseDetail.id}
+              caseId={this.props.caseDetails.id}
+              isArchived={this.props.caseDetails.isArchived}
             />
             <AccusedOfficers
-              caseId={this.props.caseDetail.id}
-              incidentDate={this.props.caseDetail.incidentDate}
-              accusedOfficers={this.props.caseDetail.accusedOfficers}
+              caseId={this.props.caseDetails.id}
+              incidentDate={this.props.caseDetails.incidentDate}
+              accusedOfficers={this.props.caseDetails.accusedOfficers}
               dispatch={this.props.dispatch}
+              isArchived={this.props.caseDetails.isArchived}
             />
-            <Attachments />
+            <Attachments isArchived={this.props.caseDetails.isArchived} />
           </main>
           <CivilianDialog />
           <RemoveCivilianDialog data-test="removeCivilianDialog" />
@@ -172,7 +174,7 @@ CaseDetails.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  caseDetail: state.currentCase.details,
+  caseDetails: state.currentCase.details,
   letterType: state.referralLetter.letterType
 });
 

@@ -1,7 +1,7 @@
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
-const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
+import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const auditDataAccess = require("../../auditDataAccess");
 
 const removeCaseNote = asyncMiddleware(async (req, res) => {

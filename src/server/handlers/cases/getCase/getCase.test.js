@@ -5,12 +5,12 @@ const {
   AUDIT_TYPE,
   AUDIT_SUBJECT
 } = require("../../../../sharedUtilities/constants");
-const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
+import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const getCase = require("./getCase");
 const models = require("../../../models");
 const httpMocks = require("node-mocks-http");
 
-jest.mock("../../getCaseWithAllAssociations");
+jest.mock("../../getCaseHelpers");
 
 describe("getCase", () => {
   let existingCase;

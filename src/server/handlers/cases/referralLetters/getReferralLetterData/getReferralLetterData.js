@@ -1,6 +1,6 @@
 import getLetterDataForResponse from "../getLetterDataForResponse";
 import asyncMiddleware from "../../../asyncMiddleware";
-import checkForValidStatus from "../checkForValidStatus";
+import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
@@ -10,7 +10,7 @@ import models from "../../../../models";
 
 const getReferralLetterData = asyncMiddleware(async (request, response) => {
   const caseId = request.params.caseId;
-  await checkForValidStatus(caseId);
+  await throwErrorIfLetterFlowUnavailable(caseId);
   await models.sequelize.transaction(async transaction => {
     await auditDataAccess(
       request.nickname,

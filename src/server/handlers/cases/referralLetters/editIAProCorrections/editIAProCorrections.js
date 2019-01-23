@@ -1,4 +1,4 @@
-import checkForValidStatus from "../checkForValidStatus";
+import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import models from "../../../../models/index";
 import asyncMiddleware from "../../../asyncMiddleware";
 import Boom from "boom";
@@ -6,7 +6,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageC
 
 const editIAProCorrections = asyncMiddleware(
   async (request, response, next) => {
-    await checkForValidStatus(request.params.caseId);
+    await throwErrorIfLetterFlowUnavailable(request.params.caseId);
     const referralLetter = await models.referral_letter.findOne({
       where: { caseId: request.params.caseId }
     });

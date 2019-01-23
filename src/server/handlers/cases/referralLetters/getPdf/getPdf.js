@@ -1,7 +1,7 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
 import generateLetterPdfBuffer from "../sharedReferralLetterUtilities/generateLetterPdfBuffer";
-import checkForValidStatus from "../checkForValidStatus";
+import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import auditDataAccess from "../../../auditDataAccess";
 import {
   AUDIT_ACTION,
@@ -10,7 +10,7 @@ import {
 
 const getPdf = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
-  await checkForValidStatus(caseId);
+  await throwErrorIfLetterFlowUnavailable(caseId);
   await models.sequelize.transaction(async transaction => {
     await auditDataAccess(
       request.nickname,

@@ -34,7 +34,7 @@ const ComplainantWitnessMenu = props => {
             props.dispatch(
               initialize(CIVILIAN_FORM_NAME, {
                 roleOnCase: props.civilianType,
-                caseId: props.caseDetail.id
+                caseId: props.caseDetails.id
               })
             );
             props.dispatch(
@@ -53,7 +53,7 @@ const ComplainantWitnessMenu = props => {
               })
             );
             props.dispatch(
-              push(`/cases/${props.caseDetail.id}/officers/search`)
+              push(`/cases/${props.caseDetails.id}/officers/search`)
             );
           }}
         >

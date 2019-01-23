@@ -2,6 +2,7 @@ import archiveCase from "./archiveCase";
 import models from "../../../models";
 import Case from "../../../../client/testUtilities/case";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import { getCaseWithoutAssociations } from "../../getCaseHelpers";
 const httpMocks = require("node-mocks-http");
 
 describe("archiveCase handler", () => {
@@ -38,12 +39,9 @@ describe("archiveCase handler", () => {
   test("should archive case if not currently archived", async () => {
     await archiveCase(request, response, next);
 
-    const archivedCase = await models.cases.findById(existingCase.id, {
-      auditUser: user,
-      paranoid: false
-    });
+    const archivedCase = await getCaseWithoutAssociations(existingCase.id);
 
-    expect(archivedCase.deletedAt).toBeTruthy();
+    expect(archivedCase.isArchived).toBeTruthy();
   });
 
   describe("request tests", function() {});

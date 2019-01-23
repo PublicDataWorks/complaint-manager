@@ -15,7 +15,8 @@ const AccusedOfficers = ({
   dispatch,
   accusedOfficers,
   incidentDate,
-  caseId
+  caseId,
+  isArchived
 }) => {
   return (
     <BaseCaseDetailsCard data-test="officersSection" title="Accused Officers">
@@ -28,7 +29,7 @@ const AccusedOfficers = ({
                   key={caseOfficer.id}
                   caseOfficer={caseOfficer}
                 >
-                  <ManageOfficerMenu caseOfficer={caseOfficer} />
+                  {renderManageOfficerMenu(caseOfficer, isArchived)}
                 </UnknownOfficerPanel>
               ) : (
                 <AccusedOfficerPanel
@@ -39,28 +40,30 @@ const AccusedOfficers = ({
                     incidentDate
                   )}
                 >
-                  <ManageOfficerMenu caseOfficer={caseOfficer} />
+                  {renderManageOfficerMenu(caseOfficer, isArchived)}
                 </AccusedOfficerPanel>
               )
             )}
-        <LinkButton
-          style={{
-            marginLeft: "8px",
-            marginTop: "8px",
-            marginBottom: "8px"
-          }}
-          onClick={() => {
-            dispatch(
-              initialize("OfficerDetails", {
-                roleOnCase: ACCUSED
-              })
-            );
-            dispatch(push(`/cases/${caseId}/officers/search`));
-          }}
-          data-test="addAccusedOfficerButton"
-        >
-          + Add Officer
-        </LinkButton>
+        {isArchived ? null : (
+          <LinkButton
+            style={{
+              marginLeft: "8px",
+              marginTop: "8px",
+              marginBottom: "8px"
+            }}
+            onClick={() => {
+              dispatch(
+                initialize("OfficerDetails", {
+                  roleOnCase: ACCUSED
+                })
+              );
+              dispatch(push(`/cases/${caseId}/officers/search`));
+            }}
+            data-test="addAccusedOfficerButton"
+          >
+            + Add Officer
+          </LinkButton>
+        )}
       </CardContent>
     </BaseCaseDetailsCard>
   );
@@ -76,6 +79,12 @@ const renderNoOfficers = () => (
       </WarningMessage>
     </CardContent>
     <Divider />
+  </Fragment>
+);
+
+const renderManageOfficerMenu = (caseOfficer, isArchived) => (
+  <Fragment>
+    {isArchived ? null : <ManageOfficerMenu caseOfficer={caseOfficer} />}
   </Fragment>
 );
 

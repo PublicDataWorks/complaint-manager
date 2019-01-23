@@ -1,10 +1,10 @@
 import models from "../../../../models/index";
 import asyncMiddleware from "../../../asyncMiddleware";
-import checkForValidStatus from "../checkForValidStatus";
+import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 
 const editReferralLetterAddresses = asyncMiddleware(
   async (request, response, next) => {
-    await checkForValidStatus(request.params.caseId);
+    await throwErrorIfLetterFlowUnavailable(request.params.caseId);
 
     const referralLetter = await models.referral_letter.findOne({
       where: { caseId: request.params.caseId }

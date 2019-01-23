@@ -1,6 +1,4 @@
-import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants";
-import models from "../models";
-const Boom = require("boom");
+import { getCaseWithoutAssociations } from "./getCaseHelpers";
 
 export const handleCaseIdParam = async function(
   request,
@@ -8,14 +6,10 @@ export const handleCaseIdParam = async function(
   next,
   caseId
 ) {
-  const existingCase = await models.cases.findById(caseId);
   try {
-    if (!existingCase) {
-      next(Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST));
-    } else {
-      request.caseId = caseId;
-      next();
-    }
+    await getCaseWithoutAssociations(caseId);
+    request.caseId = caseId;
+    next();
   } catch (error) {
     next(error);
   }

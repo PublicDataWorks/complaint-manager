@@ -1,6 +1,6 @@
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
-const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
+import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const models = require("../../../models");
 const _ = require("lodash");
 const auditDataAccess = require("../../auditDataAccess");

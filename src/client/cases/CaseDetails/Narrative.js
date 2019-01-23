@@ -66,7 +66,7 @@ const Narrative = props => {
       >
         <PrimaryButton
           data-test="saveNarrative"
-          disabled={props.pristine}
+          disabled={props.pristine || props.isArchived}
           onClick={() => props.dispatch(submit("Narrative"))}
           style={{ margin: "0px" }}
         >

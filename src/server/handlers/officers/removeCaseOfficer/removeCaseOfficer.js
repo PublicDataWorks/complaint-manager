@@ -1,7 +1,7 @@
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const models = require("../../../models");
-const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
+import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const asyncMiddleware = require("../../asyncMiddleware");
 const Boom = require("boom");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");

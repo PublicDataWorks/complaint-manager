@@ -10,6 +10,7 @@ import IncidentDetailsDialog from "./IncidentDetailsDialog";
 import AddressInfoDisplay from "../../../shared/components/AddressInfoDisplay";
 import { initialize, reset } from "redux-form";
 import { CardContent } from "@material-ui/core";
+import { connect } from "react-redux";
 
 class IncidentDetails extends React.Component {
   state = {
@@ -84,12 +85,16 @@ class IncidentDetails extends React.Component {
               testLabel="incidentTime"
             />
             <div>
-              <LinkButton
-                data-test="editIncidentDetailsButton"
-                onClick={this.handleDialogOpen}
-              >
-                Edit
-              </LinkButton>
+              {this.props.isArchived ? (
+                <div style={{ width: "69.5px" }} />
+              ) : (
+                <LinkButton
+                  data-test="editIncidentDetailsButton"
+                  onClick={this.handleDialogOpen}
+                >
+                  Edit
+                </LinkButton>
+              )}
             </div>
           </div>
           <div
@@ -137,4 +142,18 @@ class IncidentDetails extends React.Component {
   }
 }
 
-export default IncidentDetails;
+const mapStateToProps = state => ({
+  firstContactDate: state.currentCase.details.firstContactDate,
+  incidentDate: state.currentCase.details.incidentDate,
+  incidentTime: state.currentCase.details.incidentTime,
+  incidentLocation: state.currentCase.details.incidentLocation,
+  district: state.currentCase.details.district,
+  caseId: state.currentCase.details.id,
+  classificationId: state.currentCase.details.classificationId,
+  classification: state.currentCase.details.classification,
+  intakeSourceId: state.currentCase.details.intakeSourceId,
+  intakeSource: state.currentCase.details.intakeSource,
+  isArchived: state.currentCase.details.isArchived
+});
+
+export default connect(mapStateToProps)(IncidentDetails);

@@ -159,7 +159,7 @@ class LetterPreview extends Component {
   };
 
   renderSubmitForReviewButton = () => {
-    if (this.props.caseDetail.status === CASE_STATUS.LETTER_IN_PROGRESS) {
+    if (this.props.caseDetails.status === CASE_STATUS.LETTER_IN_PROGRESS) {
       return (
         <PrimaryButton
           style={{ marginLeft: "16px" }}
@@ -176,11 +176,11 @@ class LetterPreview extends Component {
     return ![
       CASE_STATUS.LETTER_IN_PROGRESS,
       CASE_STATUS.READY_FOR_REVIEW
-    ].includes(this.props.caseDetail.status);
+    ].includes(this.props.caseDetails.status);
   };
 
   renderLetterPreview = () => {
-    if (!this.props.caseDetail.status) {
+    if (!this.props.caseDetails.status) {
       return null;
     }
     if (this.letterAlreadyApproved()) {
@@ -284,7 +284,7 @@ class LetterPreview extends Component {
 
   renderReviewAndApproveButton = () => {
     if (
-      this.props.caseDetail.status === CASE_STATUS.READY_FOR_REVIEW &&
+      this.props.caseDetails.status === CASE_STATUS.READY_FOR_REVIEW &&
       this.props.userInfo &&
       this.props.userInfo.permissions.includes(
         USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
@@ -323,7 +323,7 @@ class LetterPreview extends Component {
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
             {`Case #${
-              this.props.caseDetail.caseReference
+              this.props.caseDetails.caseReference
             }   : Letter Generation`}
           </Typography>
         </NavBar>
@@ -354,7 +354,7 @@ class LetterPreview extends Component {
                 Preview {this.timestampIfEdited()}
               </Typography>
               {this.renderLetterPreview()}
-              {!this.props.caseDetail.status ? null : (
+              {!this.props.caseDetails.status ? null : (
                 <div style={{ display: "flex" }}>
                   <span style={{ flex: "auto" }}>
                     <SecondaryButton
@@ -388,7 +388,7 @@ const mapStateToProps = state => ({
   letterType: state.referralLetter.letterType,
   lastEdited: state.referralLetter.lastEdited,
   draftFilename: state.referralLetter.draftFilename,
-  caseDetail: state.currentCase.details,
+  caseDetails: state.currentCase.details,
   downloadInProgress: state.ui.letterDownload.downloadInProgress,
   userInfo: state.users.current.userInfo
 });

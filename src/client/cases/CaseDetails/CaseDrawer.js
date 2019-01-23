@@ -6,7 +6,7 @@ import { Drawer, Typography } from "@material-ui/core";
 import CaseNotes from "./CaseNotes/CaseNotes";
 import ArchiveCaseButton from "./ArchiveCaseButton/ArchiveCaseButton";
 
-const CaseDrawer = ({ classes, caseDetail }) => (
+const CaseDrawer = ({ classes, caseDetails }) => (
   <Drawer
     variant="permanent"
     anchor="left"
@@ -34,27 +34,27 @@ const CaseDrawer = ({ classes, caseDetail }) => (
             }}
             gutterBottom
           >
-            {`Case #${caseDetail.caseReference}`}
+            {`Case #${caseDetails.caseReference}`}
           </Typography>
-          <ArchiveCaseButton />
+          {caseDetails.isArchived ? null : <ArchiveCaseButton />}
         </div>
         <div className={classes.drawerRow}>
           <div className={classes.drawerRowItem}>
             <Typography variant="caption">Created By</Typography>
             <Typography data-test="created-by" variant="body1">
-              {caseDetail.createdBy}
+              {caseDetails.createdBy}
             </Typography>
           </div>
           <div className={classes.drawerRowItem}>
             <Typography variant="caption">Created On</Typography>
             <Typography data-test="created-on" variant="body1">
-              {formatDate(caseDetail.createdAt)}
+              {formatDate(caseDetails.createdAt)}
             </Typography>
           </div>
           <div className={classes.drawerRowItem}>
             <Typography variant="caption">Complaint Type</Typography>
             <Typography data-test="complaint-type" variant="body1">
-              {caseDetail.complaintType}
+              {caseDetails.complaintType}
             </Typography>
           </div>
         </div>
@@ -62,7 +62,7 @@ const CaseDrawer = ({ classes, caseDetail }) => (
           <div className={classes.drawerRowItem}>
             <Typography variant="caption">Assigned To</Typography>
             <Typography data-test="assigned-to" variant="body1">
-              {caseDetail.assignedTo}
+              {caseDetails.assignedTo}
             </Typography>
           </div>
           <div className={classes.drawerRowItem} />

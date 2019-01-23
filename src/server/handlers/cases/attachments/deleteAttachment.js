@@ -1,7 +1,7 @@
 const asyncMiddleware = require("../../asyncMiddleware");
 const config = require("../../../config/config");
 const models = require("../../../models/index");
-const getCaseWithAllAssociations = require("../../getCaseWithAllAssociations");
+import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
 const auditDataAccess = require("../../auditDataAccess");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");

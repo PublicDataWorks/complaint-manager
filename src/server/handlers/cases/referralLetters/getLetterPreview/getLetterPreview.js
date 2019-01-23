@@ -1,6 +1,6 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
-import checkForValidStatus from "../checkForValidStatus";
+import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT,
@@ -8,7 +8,7 @@ import {
   REFERRAL_LETTER_VERSION
 } from "../../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../auditDataAccess";
-import getCaseWithAllAssociations from "../../../getCaseWithAllAssociations";
+import { getCaseWithAllAssociations } from "../../../getCaseHelpers";
 import generateLetterBody from "../generateLetterBody";
 import constructFilename from "../constructFilename";
 import { letterTypeFromHtml } from "../getLetterType/getLetterType";
@@ -17,7 +17,7 @@ require("../../../../handlebarHelpers");
 
 const getLetterPreview = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
-  await checkForValidStatus(caseId);
+  await throwErrorIfLetterFlowUnavailable(caseId);
 
   await models.sequelize.transaction(async transaction => {
     await auditDataAccess(

@@ -133,6 +133,31 @@ describe("edit referral letter", () => {
     test(
       "it returns 400 page not available message if case status is prior to letter in progress",
       suppressWinstonLogs(async () => {
+        await existingCase.update(
+          { status: CASE_STATUS.LETTER_IN_PROGRESS },
+          { auditUser: "test" }
+        );
+        await existingCase.update(
+          { status: CASE_STATUS.READY_FOR_REVIEW },
+          { auditUser: "test" }
+        );
+
+        await existingCase.destroy({ auditUser: "test" });
+
+        await request(app)
+          .put(`/api/cases/${existingCase.id}/referral-letter/officer-history`)
+          .set("Content-Header", "application/json")
+          .set("Authorization", `Bearer ${token}`)
+          .expect(400)
+          .then(response => {
+            expect(response.body.message).toEqual(PAGE_NOT_AVAILABLE);
+          });
+      })
+    );
+
+    test(
+      "it returns 400 page not available message if case is archived",
+      suppressWinstonLogs(async () => {
         await request(app)
           .put(`/api/cases/${existingCase.id}/referral-letter/officer-history`)
           .set("Content-Header", "application/json")
