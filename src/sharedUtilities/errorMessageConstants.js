@@ -164,7 +164,7 @@ export const ROUTES = {
       "Something went wrong and the attachment URL could not be found. Please try again."
   },
 
-  "/civilian": {
+  "/cases/:caseId/civilian": {
     POST:
       "Something went wrong and the civilian was not created. Please try again."
   },
