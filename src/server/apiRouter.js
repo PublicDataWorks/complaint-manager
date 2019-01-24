@@ -122,8 +122,8 @@ router.use(
   generateAttachmentDownloadUrl
 );
 
-router.post("/civilian", createCivilian);
-router.put("/civilian/:civilianId", editCivilian);
+router.post("/cases/:caseId/civilian", createCivilian);
+router.put("/cases/:caseId/civilian/:civilianId", editCivilian);
 router.delete("/cases/:caseId/civilians/:civilianId", removeCivilian);
 
 router.post("/audit", audit);

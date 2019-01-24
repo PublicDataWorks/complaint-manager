@@ -11,7 +11,10 @@ import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 const createCivilian = civilian => async dispatch => {
   try {
     dispatch(startSubmit(CIVILIAN_FORM_NAME));
-    const response = await axios.post(`api/civilian`, JSON.stringify(civilian));
+    const response = await axios.post(
+      `api/cases/${civilian.caseId}/civilian`,
+      JSON.stringify(civilian)
+    );
     dispatch(snackbarSuccess("Civilian was successfully created"));
     dispatch(createCivilianSuccess(response.data));
     dispatch(closeEditDialog());
