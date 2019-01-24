@@ -23,6 +23,7 @@ const Narrative = props => {
           <Field
             name="narrativeSummary"
             label="Narrative Summary"
+            disabled={props.isArchived}
             component={TextField}
             fullWidth
             multiline
@@ -30,9 +31,15 @@ const Narrative = props => {
             placeholder="Enter a brief, 2-3 sentence summary of the incident"
             inputProps={{
               "data-test": "narrativeSummaryInput",
-              maxLength: 500
+              maxLength: 500,
+              style: {
+                color: "black"
+              }
             }}
             InputLabelProps={{
+              style: {
+                color: "black"
+              },
               shrink: true
             }}
             data-test="narrativeSummaryField"
@@ -41,6 +48,7 @@ const Narrative = props => {
           <Field
             name="narrativeDetails"
             label="Narrative Details"
+            disabled={props.isArchived}
             component={TextField}
             fullWidth
             multiline
@@ -48,9 +56,15 @@ const Narrative = props => {
             rows={5}
             placeholder="Enter a transcript or details of the incident"
             inputProps={{
-              "data-test": "narrativeDetailsInput"
+              "data-test": "narrativeDetailsInput",
+              style: {
+                color: "black"
+              }
             }}
             InputLabelProps={{
+              style: {
+                color: "black"
+              },
               shrink: true
             }}
             data-test="narrativeDetailsField"
@@ -64,14 +78,16 @@ const Narrative = props => {
           padding: "0px 16px 16px 0px"
         }}
       >
-        <PrimaryButton
-          data-test="saveNarrative"
-          disabled={props.pristine || props.isArchived}
-          onClick={() => props.dispatch(submit("Narrative"))}
-          style={{ margin: "0px" }}
-        >
-          Save
-        </PrimaryButton>
+        {props.isArchived ? null : (
+          <PrimaryButton
+            data-test="saveNarrative"
+            disabled={props.pristine}
+            onClick={() => props.dispatch(submit("Narrative"))}
+            style={{ margin: "0px" }}
+          >
+            Save
+          </PrimaryButton>
+        )}
       </CardActions>
     </BaseCaseDetailsCard>
   );
