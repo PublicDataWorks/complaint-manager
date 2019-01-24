@@ -3,22 +3,30 @@ import OfficerSearchContainer from "./OfficerSearchContainer";
 import { connect } from "react-redux";
 import { initialize } from "redux-form";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
+import invalidCaseStatusRedirect from "../../cases/thunks/invalidCaseStatusRedirect";
 
 class EditOfficerSearch extends React.Component {
-  missingCaseDetails = () => {
+  caseDetailsNotYetLoaded = () => {
     return (
-      !this.props.currentCase ||
-      `${this.props.currentCase.id}` !== this.props.match.params.id
+      !this.props.caseDetails ||
+      `${this.props.caseDetails.id}` !== this.props.match.params.id
     );
   };
   componentDidMount() {
-    if (this.missingCaseDetails()) {
-      this.props.dispatch(getCaseDetails(this.props.match.params.id));
+    if (this.caseDetailsNotYetLoaded()) {
+      this.props.getCaseDetails(this.props.match.params.id);
+    }
+  }
+
+  componentDidUpdate() {
+    if (!this.caseDetailsNotYetLoaded() && this.props.caseDetails.isArchived) {
+      const caseId = this.props.caseDetails.id;
+      this.props.invalidCaseStatusRedirect(caseId);
     }
   }
 
   render() {
-    if (this.missingCaseDetails()) return null;
+    if (this.caseDetailsNotYetLoaded()) return null;
 
     const caseId = this.props.match.params.id;
     const caseOfficerId = this.props.match.params.caseOfficerId;
@@ -49,10 +57,18 @@ class EditOfficerSearch extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  currentCase: state.currentCase.details,
+  caseDetails: state.currentCase.details,
   accusedOfficers: state.currentCase.details.accusedOfficers,
   complainantOfficers: state.currentCase.details.complainantOfficers,
   witnessOfficers: state.currentCase.details.witnessOfficers
 });
 
-export default connect(mapStateToProps)(EditOfficerSearch);
+const mapDispatchToProps = {
+  invalidCaseStatusRedirect,
+  getCaseDetails
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditOfficerSearch);

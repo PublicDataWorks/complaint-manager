@@ -278,7 +278,7 @@ describe("server", () => {
         .withRaceEthnicityId(raceEthnicity.id);
 
       await request(app)
-        .post(`/api/civilian`)
+        .post(`/api/cases/${existingCase.id}/civilian`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send(newCivilian)
@@ -352,7 +352,7 @@ describe("server", () => {
         lastName: "FISHHERRR"
       };
       await request(app)
-        .put(`/api/civilian/${seededCivilian.id}`)
+        .put(`/api/cases/${seededCase.id}/civilian/${seededCivilian.id}`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send(updatedCivilian)
@@ -381,7 +381,7 @@ describe("server", () => {
         }
       };
       await request(app)
-        .put(`/api/civilian/${seededCivilian.id}`)
+        .put(`/api/cases/${seededCase.id}/civilian/${seededCivilian.id}`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send(updatedCivilian)
@@ -434,7 +434,11 @@ describe("server", () => {
       await civilianToUpdate.reload({ include: [models.address] });
 
       await request(app)
-        .put(`/api/civilian/${civilianToUpdate.id}`)
+        .put(
+          `/api/cases/${civilianToUpdate.caseId}/civilian/${
+            civilianToUpdate.id
+          }`
+        )
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send({
@@ -490,7 +494,7 @@ describe("server", () => {
       let civilianToUpdate = caseToUpdate.dataValues.complainantCivilians[0];
 
       await request(app)
-        .put(`/api/civilian/${civilianToUpdate.id}`)
+        .put(`/api/cases/${caseToUpdate.id}/civilian/${civilianToUpdate.id}`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send({
@@ -532,7 +536,7 @@ describe("server", () => {
         firstName: "BOBBY"
       };
       await request(app)
-        .put(`/api/civilian/${seededCivilian.id}`)
+        .put(`/api/cases/${seededCase.id}/civilian/${seededCivilian.id}`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send(updatedCivilian)
