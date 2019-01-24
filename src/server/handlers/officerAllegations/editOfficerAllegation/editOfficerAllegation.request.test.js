@@ -17,6 +17,12 @@ import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegatio
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 describe("PUT /officers-allegations/:officerAllegationId", function() {
+  let createdCase;
+
+  beforeEach(async () => {
+    createdCase = await createCaseWithoutCivilian();
+  });
+
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -27,7 +33,11 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
       const token = buildTokenWithPermissions("", "TEST_NICKNAME");
       const nonExistantAllegationId = 9;
       await request(app)
-        .put(`/api/officers-allegations/${nonExistantAllegationId}`)
+        .put(
+          `/api/cases/${
+            createdCase.id
+          }/officers-allegations/${nonExistantAllegationId}`
+        )
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send({})
@@ -45,7 +55,6 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
   test("should update officer allegation details", async () => {
     const token = buildTokenWithPermissions("", "TEST_NICKNAME");
 
-    const createdCase = await createCaseWithoutCivilian();
     const anAllegation = new Allegation.Builder()
       .defaultAllegation()
       .withId(undefined)
@@ -100,7 +109,11 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
     };
 
     await request(app)
-      .put(`/api/officers-allegations/${officerAllegationToUpdate.id}`)
+      .put(
+        `/api/cases/${createdCase.id}/officers-allegations/${
+          officerAllegationToUpdate.id
+        }`
+      )
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .send(data)

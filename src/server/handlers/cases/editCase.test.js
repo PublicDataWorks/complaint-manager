@@ -52,6 +52,7 @@ describe("Edit Case", () => {
         nickname: "TEST_USER_NICKNAME"
       });
       response = httpMocks.createResponse();
+
       next = jest.fn();
 
       await editCase(request, response, next);
@@ -130,238 +131,242 @@ describe("Edit Case", () => {
         incidentDate: "2018-03-16"
       };
 
-      request = httpMocks.createRequest({
-        method: "PUT",
-        headers: {
-          authorization: "Bearer SOME_MOCK_TOKEN"
-        },
-        params: { caseId: existingCase.id },
-        body: valuesToUpdate,
-        nickname: "TEST_USER_NICKNAME"
-      });
       response = httpMocks.createResponse();
       next = jest.fn();
     });
-
-    test("should update the case", async () => {
-      await editCase(request, response, next);
-      await existingCase.reload();
-      expect(existingCase.dataValues.firstContactDate).toEqual("2018-02-08");
-    });
-
-    test("should associate classification if given", async () => {
-      request.body["classificationId"] = classificationBWC.id;
-      await editCase(request, response, next);
-      await existingCase.reload({
-        include: [{ model: models.classification }]
-      });
-      expect(existingCase.dataValues.classificationId).toEqual(
-        classificationBWC.id
-      );
-      expect(existingCase.dataValues.classification.values).toEqual(
-        classificationBWC.values
-      );
-    });
-
-    test("should change classification if different one given", async () => {
-      await existingCase.update(
-        { classificationId: classificationBWC.id },
-        { auditUser: "someone" }
-      );
-      const classificationUTD = await models.classification.create({
-        name: "Unable to Determine",
-        initialism: "UTD"
-      });
-      request.body["classificationId"] = classificationUTD.id;
-      await editCase(request, response, next);
-      await existingCase.reload({
-        include: [{ model: models.classification }]
-      });
-      expect(existingCase.dataValues.classificationId).toEqual(
-        classificationUTD.id
-      );
-      expect(existingCase.dataValues.classification.values).toEqual(
-        classificationUTD.values
-      );
-    });
-
-    test("should send back case record on editing a case", async () => {
-      await editCase(request, response, next);
-      expect(response._getData()).toEqual(
-        expect.objectContaining(valuesToUpdate)
-      );
-    });
-
-    test("should not update address if the case fails to update", async () => {
-      valuesToUpdate.status = null;
-      valuesToUpdate.incidentLocation = { city: "New City" };
-      request = httpMocks.createRequest({
-        method: "PUT",
-        headers: {
-          authorization: "Bearer SOME_MOCK_TOKEN"
-        },
-        params: { caseId: existingCase.id },
-        body: valuesToUpdate,
-        nickname: "TEST_USER_NICKNAME"
-      });
-
-      await editCase(request, response, next);
-      const updatedCase = await models.cases.findById(existingCase.id, {
-        include: [{ model: models.address, as: "incidentLocation" }]
-      });
-      expect(updatedCase.incidentLocation.city).toEqual(initialCityValue);
-    });
-
-    test("should respond with 400 when required field (firstContactDate) is not provided", async () => {
-      const requestWithoutFirstContactDate = httpMocks.createRequest({
-        method: "PUT",
-        headers: {
-          authorization: "Bearer SOME_MOCK_TOKEN"
-        },
-        params: { caseId: existingCase.id },
-        body: {
-          incidentLocation: { city: "New City" },
-          incidentDateNew: "2018-03-16"
-        },
-        nickname: "TEST_USER_NICKNAME"
-      });
-
-      await editCase(requestWithoutFirstContactDate, response, next);
-
-      expect(next).toHaveBeenCalledWith(
-        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_FIRST_CONTACT_DATE)
-      );
-
-      await existingCase.reload({
-        include: [
-          {
-            model: models.civilian,
-            as: "complainantCivilians",
-            include: [models.address]
+    describe("a non archived case", () => {
+      beforeEach(() => {
+        request = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer SOME_MOCK_TOKEN"
           },
-          { model: models.address, as: "incidentLocation" }
-        ]
-      });
-      expect(existingCase.incidentLocation.city).toEqual(initialCityValue);
-    });
-
-    test("should respond with 400 when firstContactDate is invalid date", async () => {
-      const requestWithoutFirstContactDate = httpMocks.createRequest({
-        method: "PUT",
-        headers: {
-          authorization: "Bearer SOME_MOCK_TOKEN"
-        },
-        params: { caseId: existingCase.id },
-        body: {
-          firstContactDate: "",
-          incidentLocation: { city: "New City" },
-          incidentDateNew: "2018-03-16"
-        },
-        nickname: "TEST_USER_NICKNAME"
+          params: { caseId: existingCase.id },
+          body: valuesToUpdate,
+          nickname: "TEST_USER_NICKNAME"
+        });
       });
 
-      await editCase(requestWithoutFirstContactDate, response, next);
+      test("should update the case", async () => {
+        await editCase(request, response, next);
+        await existingCase.reload();
+        expect(existingCase.dataValues.firstContactDate).toEqual("2018-02-08");
+      });
 
-      expect(next).toHaveBeenCalledWith(
-        Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_FIRST_CONTACT_DATE)
-      );
-      await existingCase.reload({
-        include: [
-          {
-            model: models.civilian,
-            as: "complainantCivilians",
-            include: [models.address]
+      test("should associate classification if given", async () => {
+        request.body["classificationId"] = classificationBWC.id;
+        await editCase(request, response, next);
+        await existingCase.reload({
+          include: [{ model: models.classification }]
+        });
+        expect(existingCase.dataValues.classificationId).toEqual(
+          classificationBWC.id
+        );
+        expect(existingCase.dataValues.classification.values).toEqual(
+          classificationBWC.values
+        );
+      });
+
+      test("should change classification if different one given", async () => {
+        await existingCase.update(
+          { classificationId: classificationBWC.id },
+          { auditUser: "someone" }
+        );
+        const classificationUTD = await models.classification.create({
+          name: "Unable to Determine",
+          initialism: "UTD"
+        });
+        request.body["classificationId"] = classificationUTD.id;
+        await editCase(request, response, next);
+        await existingCase.reload({
+          include: [{ model: models.classification }]
+        });
+        expect(existingCase.dataValues.classificationId).toEqual(
+          classificationUTD.id
+        );
+        expect(existingCase.dataValues.classification.values).toEqual(
+          classificationUTD.values
+        );
+      });
+
+      test("should send back case record on editing a case", async () => {
+        await editCase(request, response, next);
+        expect(response._getData()).toEqual(
+          expect.objectContaining(valuesToUpdate)
+        );
+      });
+
+      test("should not update address if the case fails to update", async () => {
+        valuesToUpdate.status = null;
+        valuesToUpdate.incidentLocation = { city: "New City" };
+        request = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer SOME_MOCK_TOKEN"
           },
-          { model: models.address, as: "incidentLocation" }
-        ]
-      });
-      expect(existingCase.incidentLocation.city).toEqual(initialCityValue);
-    });
+          params: { caseId: existingCase.id },
+          body: valuesToUpdate,
+          nickname: "TEST_USER_NICKNAME"
+        });
 
-    test("should call next if error occurs on edit", async () => {
-      await editCase({}, response, next);
-      expect(next).toHaveBeenCalled();
-    });
-
-    test("should ignore included with createdBy or assignedTo", async () => {
-      const requestWithCreatedBy = httpMocks.createRequest({
-        method: "PUT",
-        headers: {
-          authorization: "Bearer SOME_MOCK_TOKEN"
-        },
-        params: { caseId: existingCase.id },
-        body: {
-          firstContactDate: "2018-04-01",
-          incidentTime: "17:42",
-          incidentDateNew: "2018-03-16",
-          createdBy: "Ihackedyou",
-          assignedTo: "Ihackedyou"
-        },
-        nickname: "TEST_USER_NICKNAME"
+        await editCase(request, response, next);
+        const updatedCase = await models.cases.findById(existingCase.id, {
+          include: [{ model: models.address, as: "incidentLocation" }]
+        });
+        expect(updatedCase.incidentLocation.city).toEqual(initialCityValue);
       });
 
-      await editCase(requestWithCreatedBy, response, next);
-
-      expect(response.statusCode).toEqual(200);
-      await existingCase.reload();
-
-      expect(existingCase.dataValues.createdBy).toEqual("ORIGINAL_USER");
-    });
-
-    test("should change incident location and not change civilian address when incident location edited", async () => {
-      valuesToUpdate = {
-        firstContactDate: new Date(),
-        incidentLocation: {
-          id: existingCase.incidentLocation.id,
-          city: "Durham"
-        }
-      };
-
-      const request = httpMocks.createRequest({
-        method: "PUT",
-        headers: {
-          authorization: "Bearer SOME_MOCK_TOKEN"
-        },
-        params: { caseId: existingCase.id },
-        body: valuesToUpdate,
-        nickname: "TEST_USER_NICKNAME"
-      });
-
-      await editCase(request, response, next);
-      await existingCase.reload({
-        include: [
-          {
-            model: models.civilian,
-            as: "complainantCivilians",
-            include: [models.address]
+      test("should respond with 400 when required field (firstContactDate) is not provided", async () => {
+        const requestWithoutFirstContactDate = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer SOME_MOCK_TOKEN"
           },
-          { model: models.address, as: "incidentLocation" }
-        ]
+          params: { caseId: existingCase.id },
+          body: {
+            incidentLocation: { city: "New City" },
+            incidentDateNew: "2018-03-16"
+          },
+          nickname: "TEST_USER_NICKNAME"
+        });
+
+        await editCase(requestWithoutFirstContactDate, response, next);
+
+        expect(next).toHaveBeenCalledWith(
+          Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_FIRST_CONTACT_DATE)
+        );
+
+        await existingCase.reload({
+          include: [
+            {
+              model: models.civilian,
+              as: "complainantCivilians",
+              include: [models.address]
+            },
+            { model: models.address, as: "incidentLocation" }
+          ]
+        });
+        expect(existingCase.incidentLocation.city).toEqual(initialCityValue);
       });
 
-      expect(existingCase.complainantCivilians[0].address.city).not.toEqual(
-        "Durham"
-      );
-      expect(existingCase.incidentLocation.city).toEqual("Durham");
-    });
+      test("should respond with 400 when firstContactDate is invalid date", async () => {
+        const requestWithoutFirstContactDate = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer SOME_MOCK_TOKEN"
+          },
+          params: { caseId: existingCase.id },
+          body: {
+            firstContactDate: "",
+            incidentLocation: { city: "New City" },
+            incidentDateNew: "2018-03-16"
+          },
+          nickname: "TEST_USER_NICKNAME"
+        });
 
-    test("should audit case details access when case updated", async () => {
-      await editCase(request, response, next);
+        await editCase(requestWithoutFirstContactDate, response, next);
 
-      const actionAudit = await models.action_audit.find({
-        where: { caseId: existingCase.id },
-        returning: true
+        expect(next).toHaveBeenCalledWith(
+          Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_FIRST_CONTACT_DATE)
+        );
+        await existingCase.reload({
+          include: [
+            {
+              model: models.civilian,
+              as: "complainantCivilians",
+              include: [models.address]
+            },
+            { model: models.address, as: "incidentLocation" }
+          ]
+        });
+        expect(existingCase.incidentLocation.city).toEqual(initialCityValue);
       });
 
-      expect(actionAudit).toEqual(
-        expect.objectContaining({
-          user: "TEST_USER_NICKNAME",
-          action: AUDIT_ACTION.DATA_ACCESSED,
-          subject: AUDIT_SUBJECT.CASE_DETAILS,
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          caseId: existingCase.id
-        })
-      );
+      test("should call next if error occurs on edit", async () => {
+        await editCase({}, response, next);
+        expect(next).toHaveBeenCalled();
+      });
+
+      test("should ignore included with createdBy or assignedTo", async () => {
+        const requestWithCreatedBy = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer SOME_MOCK_TOKEN"
+          },
+          params: { caseId: existingCase.id },
+          body: {
+            firstContactDate: "2018-04-01",
+            incidentTime: "17:42",
+            incidentDateNew: "2018-03-16",
+            createdBy: "Ihackedyou",
+            assignedTo: "Ihackedyou"
+          },
+          nickname: "TEST_USER_NICKNAME"
+        });
+
+        await editCase(requestWithCreatedBy, response, next);
+
+        await existingCase.reload();
+
+        expect(existingCase.dataValues.createdBy).toEqual("ORIGINAL_USER");
+        expect(existingCase.dataValues.firstContactDate).toEqual("2018-04-01");
+      });
+
+      test("should change incident location and not change civilian address when incident location edited", async () => {
+        valuesToUpdate = {
+          firstContactDate: new Date(),
+          incidentLocation: {
+            id: existingCase.incidentLocation.id,
+            city: "Durham"
+          }
+        };
+
+        const request = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer SOME_MOCK_TOKEN"
+          },
+          params: { caseId: existingCase.id },
+          body: valuesToUpdate,
+          nickname: "TEST_USER_NICKNAME"
+        });
+
+        await editCase(request, response, next);
+        await existingCase.reload({
+          include: [
+            {
+              model: models.civilian,
+              as: "complainantCivilians",
+              include: [models.address]
+            },
+            { model: models.address, as: "incidentLocation" }
+          ]
+        });
+
+        expect(existingCase.complainantCivilians[0].address.city).not.toEqual(
+          "Durham"
+        );
+        expect(existingCase.incidentLocation.city).toEqual("Durham");
+      });
+
+      test("should audit case details access when case updated", async () => {
+        await editCase(request, response, next);
+
+        const actionAudit = await models.action_audit.find({
+          where: { caseId: existingCase.id },
+          returning: true
+        });
+
+        expect(actionAudit).toEqual(
+          expect.objectContaining({
+            user: "TEST_USER_NICKNAME",
+            action: AUDIT_ACTION.DATA_ACCESSED,
+            subject: AUDIT_SUBJECT.CASE_DETAILS,
+            auditType: AUDIT_TYPE.DATA_ACCESS,
+            caseId: existingCase.id
+          })
+        );
+      });
     });
   });
 });

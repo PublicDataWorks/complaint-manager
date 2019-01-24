@@ -7,18 +7,16 @@ const newRelic = require("newrelic");
 const Boom = require("boom");
 
 const requestSpecifiesRouteMethod = request => {
-  return (
-    request.route && request.route.path && Object.keys(request.route.methods)[0]
-  );
+  return request.route && request.route.path && request.method;
 };
 
-const getErrorMessageForRouteAndMethod = route => {
-  return ROUTES[route.path][Object.keys(route.methods)[0]];
+const getErrorMessageForRouteAndMethod = request => {
+  return ROUTES[request.route.path][request.method];
 };
 
 const get500ErrorMessage = request => {
   if (requestSpecifiesRouteMethod(request)) {
-    return getErrorMessageForRouteAndMethod(request.route);
+    return getErrorMessageForRouteAndMethod(request);
   }
   return "Something went wrong. Please try again.";
 };

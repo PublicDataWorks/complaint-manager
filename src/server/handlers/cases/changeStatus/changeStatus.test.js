@@ -14,7 +14,6 @@ import Boom from "boom";
 import models from "../../../models/index";
 import Officer from "../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
-import Case from "../../../../client/testUtilities/case";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 describe("changeStatus", async () => {

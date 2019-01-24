@@ -4,10 +4,10 @@ import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
 import {
   ACCUSED,
+  ALLEGATION_SEVERITY,
   AUDIT_ACTION,
-  AUDIT_TYPE,
   AUDIT_SUBJECT,
-  ALLEGATION_SEVERITY
+  AUDIT_TYPE
 } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
 import httpMocks from "node-mocks-http";
@@ -15,7 +15,8 @@ import models from "../../../models";
 import editOfficerAllegation from "./editOfficerAllegation";
 
 describe("editOfficerAllegation", () => {
-  let officerAllegationToUpdate, caseOfficer;
+  let officerAllegationToUpdate, caseOfficer, response;
+  const next = jest.fn();
 
   beforeEach(async () => {
     const createdCase = await createCaseWithoutCivilian();
@@ -65,6 +66,7 @@ describe("editOfficerAllegation", () => {
 
     caseOfficer = createdCase.accusedOfficers[0];
     officerAllegationToUpdate = caseOfficer.allegations[0];
+    response = httpMocks.createResponse();
   });
 
   afterEach(async () => {
@@ -124,8 +126,6 @@ describe("editOfficerAllegation", () => {
       body: data,
       nickname: "TEST_USER_NICKNAME"
     });
-
-    const response = httpMocks.createResponse();
 
     await editOfficerAllegation(request, response, jest.fn());
 

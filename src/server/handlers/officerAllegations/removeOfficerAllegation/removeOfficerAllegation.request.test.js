@@ -67,7 +67,11 @@ describe("DELETE /officers-allegations/:officerAllegationId", () => {
       createdCase.accusedOfficers[0].allegations[0];
 
     await request(app)
-      .delete(`/api/officers-allegations/${officerAllegationToRemove.id}`)
+      .delete(
+        `/api/cases/${createdCase.id}/officers-allegations/${
+          officerAllegationToRemove.id
+        }`
+      )
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .expect(200)

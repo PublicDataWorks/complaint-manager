@@ -86,9 +86,12 @@ router.post(
   "/cases/:caseId/cases-officers/:caseOfficerId/officers-allegations",
   createOfficerAllegation
 );
-router.put("/officers-allegations/:officerAllegationId", editOfficerAllegation);
+router.put(
+  "/cases/:caseId/officers-allegations/:officerAllegationId",
+  editOfficerAllegation
+);
 router.delete(
-  "/officers-allegations/:officerAllegationId",
+  "/cases/:caseId/officers-allegations/:officerAllegationId",
   removeOfficerAllegation
 );
 

@@ -33,8 +33,7 @@ describe("errorHandler", () => {
     const path = "/cases/:caseId";
     const request = httpMocks.createRequest({
       route: {
-        path: "/cases/:caseId",
-        methods: { get: true }
+        path: "/cases/:caseId"
       }
     });
     const response = httpMocks.createResponse();
@@ -50,7 +49,7 @@ describe("errorHandler", () => {
       JSON.stringify({
         statusCode: 500,
         error: "Internal Server Error",
-        message: ROUTES[path]["get"]
+        message: ROUTES[path]["GET"]
       })
     );
   });
