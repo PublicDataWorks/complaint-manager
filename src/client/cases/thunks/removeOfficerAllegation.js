@@ -2,10 +2,10 @@ import { removeOfficerAllegationSuccess } from "../../actionCreators/allegations
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import axios from "axios/index";
 
-const removeOfficerAllegation = allegationId => async dispatch => {
+const removeOfficerAllegation = (allegationId, caseId) => async dispatch => {
   try {
     const response = await axios.delete(
-      `api/officers-allegations/${allegationId}`
+      `api/cases/${caseId}/officers-allegations/${allegationId}`
     );
     dispatch(snackbarSuccess("Allegation was successfully removed"));
     return dispatch(removeOfficerAllegationSuccess(response.data));

@@ -14,13 +14,20 @@ import {
 import { ExpansionPanelDetails } from "@material-ui/core";
 import { allegationSeverityMenu } from "../../utilities/generateMenus";
 import NoBlurTextField from "../../cases/CaseDetails/CivilianDialog/FormSelect";
+import { connect } from "react-redux";
 
-const onSubmit = (values, dispatch) => {
+const onSubmit = (values, dispatch, caseId) => {
   const { id, details, severity } = values;
-  dispatch(editOfficerAllegation({ id, details, severity }));
+  dispatch(editOfficerAllegation({ id, details, severity }, caseId));
 };
 
-const DetailsForm = ({ handleSubmit, onCancel, invalid, pristine }) => {
+const EditOfficerAllegationForm = ({
+  handleSubmit,
+  onCancel,
+  invalid,
+  pristine,
+  caseId
+}) => {
   return (
     <ExpansionPanelDetails>
       <div style={{ width: "100%", marginLeft: "64px" }}>
@@ -69,7 +76,9 @@ const DetailsForm = ({ handleSubmit, onCancel, invalid, pristine }) => {
           <PrimaryButton
             data-test="editAllegationSubmit"
             disabled={invalid || pristine}
-            onClick={handleSubmit(onSubmit)}
+            onClick={handleSubmit((values, dispatch) => {
+              onSubmit(values, dispatch, caseId);
+            })}
           >
             Save
           </PrimaryButton>
@@ -78,5 +87,6 @@ const DetailsForm = ({ handleSubmit, onCancel, invalid, pristine }) => {
     </ExpansionPanelDetails>
   );
 };
+const mapStateToProps = state => ({ caseId: state.currentCase.details.id });
 
-export default reduxForm()(DetailsForm);
+export default connect(mapStateToProps)(reduxForm()(EditOfficerAllegationForm));

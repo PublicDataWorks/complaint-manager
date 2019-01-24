@@ -19,7 +19,8 @@ const RemoveOfficerAllegationDialog = ({
   open,
   officerAllegation,
   officerName,
-  dispatch
+  dispatch,
+  caseId
 }) => {
   return (
     <Dialog open={open}>
@@ -69,7 +70,7 @@ const RemoveOfficerAllegationDialog = ({
         <PrimaryButton
           data-test="removeOfficerAllegationButton"
           onClick={() =>
-            dispatch(removeOfficerAllegation(officerAllegation.id))
+            dispatch(removeOfficerAllegation(officerAllegation.id, caseId))
           }
         >
           Remove
@@ -90,7 +91,8 @@ const mapStateToProps = state => {
   return {
     open: state.ui.removeOfficerAllegationDialog.open,
     officerAllegation: officerAllegation,
-    officerName: caseOfficer ? caseOfficer.fullName : ""
+    officerName: caseOfficer ? caseOfficer.fullName : "",
+    caseId: state.currentCase.details.id
   };
 };
 

@@ -15,14 +15,15 @@ import {
 } from "../../../../sharedUtilities/constants";
 
 describe("createOfficerAllegation", () => {
-  let newCase, allegation;
+  let newCase, allegation, response, next;
 
   beforeEach(async () => {
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined)
       .build();
-
+    response = httpMocks.createResponse();
+    next = jest.fn();
     const officer = await models.officer.create(officerAttributes);
 
     const caseOfficerAttributes = new CaseOfficer.Builder()
@@ -81,9 +82,6 @@ describe("createOfficerAllegation", () => {
       nickname: "TEST_USER_NICKNAME"
     });
 
-    const response = httpMocks.createResponse();
-    const next = jest.fn();
-
     await createOfficerAllegation(request, response, next);
 
     expect(next).toHaveBeenCalledWith(
@@ -113,9 +111,6 @@ describe("createOfficerAllegation", () => {
       },
       nickname: "TEST_USER_NICKNAME"
     });
-
-    const response = httpMocks.createResponse();
-    const next = jest.fn();
 
     await createOfficerAllegation(request, response, next);
 

@@ -1,9 +1,8 @@
 import nock from "nock";
 import getAccessToken from "../../auth/getAccessToken";
-import getCaseDetail from "./getCaseDetails";
+import getCaseDetails from "./getCaseDetails";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
-import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -23,7 +22,7 @@ describe("getCase", () => {
       .get(`/api/cases/${caseId}`)
       .reply(200, caseDetailsResponseBody);
 
-    await getCaseDetail(caseId)(dispatch);
+    await getCaseDetails(caseId)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
       getCaseDetailsSuccess(caseDetailsResponseBody)

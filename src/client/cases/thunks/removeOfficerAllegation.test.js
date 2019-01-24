@@ -17,14 +17,17 @@ describe("removeOfficerAllegation thunk", () => {
   test("should dispatch success & snackbar success on 200 response", async () => {
     const response = { some: "successfully updated case details" };
 
+    const caseId = 24;
     nock("http://localhost", {
       "Content-Type": "application/json",
       Authorization: `Bearer TEST_TOKEN`
     })
-      .delete(`/api/officers-allegations/${officerAllegationId}`)
+      .delete(
+        `/api/cases/${caseId}/officers-allegations/${officerAllegationId}`
+      )
       .reply(200, response);
 
-    await removeOfficerAllegation(officerAllegationId)(dispatch);
+    await removeOfficerAllegation(officerAllegationId, caseId)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
       removeOfficerAllegationSuccess(response)

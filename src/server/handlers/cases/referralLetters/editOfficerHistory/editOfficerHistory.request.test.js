@@ -11,7 +11,10 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import request from "supertest";
 import app from "../../../../server";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
-import { PAGE_NOT_AVAILABLE } from "../../../../../sharedUtilities/errorMessageConstants";
+import {
+  BAD_REQUEST_ERRORS,
+  PAGE_NOT_AVAILABLE
+} from "../../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 
@@ -131,7 +134,7 @@ describe("edit referral letter", () => {
     });
 
     test(
-      "it returns 400 page not available message if case status is prior to letter in progress",
+      "return 400 cannot edit archived case when updating officer history of archived case",
       suppressWinstonLogs(async () => {
         await existingCase.update(
           { status: CASE_STATUS.LETTER_IN_PROGRESS },
@@ -150,7 +153,9 @@ describe("edit referral letter", () => {
           .set("Authorization", `Bearer ${token}`)
           .expect(400)
           .then(response => {
-            expect(response.body.message).toEqual(PAGE_NOT_AVAILABLE);
+            expect(response.body.message).toEqual(
+              BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE
+            );
           });
       })
     );

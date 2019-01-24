@@ -4,9 +4,9 @@ import models from "../../../models";
 import Case from "../../../../client/testUtilities/case";
 import httpMocks from "node-mocks-http";
 import {
+  AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  AUDIT_ACTION,
   WITNESS
 } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";

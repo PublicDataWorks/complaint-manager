@@ -14,17 +14,18 @@ describe("editOfficerAllegation thunk", () => {
 
     const updatedCase = { details: "foo" };
 
+    const caseId = 23;
     nock("http://localhost", {
       "Content-Type": "application/json",
       Authorization: `Bearer TEST_TOKEN`
     })
       .put(
-        `/api/officers-allegations/${allegationChanges.id}`,
+        `/api/cases/${caseId}/officers-allegations/${allegationChanges.id}`,
         JSON.stringify(allegationChanges)
       )
       .reply(200, updatedCase);
 
-    await editOfficerAllegation(allegationChanges)(mockDispatch);
+    await editOfficerAllegation(allegationChanges, caseId)(mockDispatch);
 
     expect(mockDispatch).toHaveBeenCalledWith(
       snackbarSuccess("Allegation was successfully updated")

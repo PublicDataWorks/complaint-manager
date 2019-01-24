@@ -11,7 +11,7 @@ const models = require("../../models/index");
 const updateCaseNarrative = require("./updateCaseNarrative");
 
 describe("updateCaseNarrative handler", () => {
-  let request, response, existingCase, userNickname;
+  let request, response, existingCase, userNickname, next;
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -25,6 +25,9 @@ describe("updateCaseNarrative handler", () => {
     existingCase = await models.cases.create(caseToCreate, {
       auditUser: "someone"
     });
+
+    response = httpMocks.createResponse();
+    next = jest.fn();
 
     userNickname = "test_user";
     request = httpMocks.createRequest({
@@ -41,12 +44,10 @@ describe("updateCaseNarrative handler", () => {
       },
       nickname: userNickname
     });
-
-    response = httpMocks.createResponse();
   });
 
   test("should update case", async () => {
-    await updateCaseNarrative(request, response, jest.fn());
+    await updateCaseNarrative(request, response, next);
 
     await existingCase.reload();
     expect(existingCase.dataValues).toEqual(
@@ -58,7 +59,7 @@ describe("updateCaseNarrative handler", () => {
   });
 
   test("should send a 200 response and updated case", async () => {
-    await updateCaseNarrative(request, response, jest.fn());
+    await updateCaseNarrative(request, response, next);
 
     expect(response._getStatusCode()).toEqual(200);
     expect(response._getData()).toEqual(
@@ -71,7 +72,7 @@ describe("updateCaseNarrative handler", () => {
   });
 
   test("should audit case details access when case narrative updated", async () => {
-    await updateCaseNarrative(request, response, jest.fn());
+    await updateCaseNarrative(request, response, next);
 
     const actionAudit = await models.action_audit.find({
       where: { caseId: existingCase.id }

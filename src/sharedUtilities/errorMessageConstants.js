@@ -10,6 +10,8 @@ export const BAD_REQUEST_ERRORS = {
   VALIDATION_ERROR_HEADER: "Validation error",
   SEQUELIZE_VALIDATION_ERROR: "SequelizeValidationError",
   INVALID_CASE_STATUS: "Case status is invalid for this action",
+  CANNOT_UPDATE_ARCHIVED_CASE:
+    "Case could not be updated due to archived status",
   INVALID_CASE_STATUS_FOR_UPDATE:
     "Case status could not be updated due to invalid status",
   INVALID_CIVILIAN_NAME: "Civilian name is invalid",
@@ -53,167 +55,167 @@ export const INTERNAL_ERRORS = {
 
 export const ROUTES = {
   "/export/job/:jobId": {
-    get: "Something went wrong and your export failed. Please try again."
+    GET: "Something went wrong and your export failed. Please try again."
   },
   "/export/schedule/:operation": {
-    get: "Something went wrong and your export failed. Please try again."
+    GET: "Something went wrong and your export failed. Please try again."
   },
   "/cases/:caseId": {
-    get:
+    GET:
       "Something went wrong and the case details were not loaded. Please try again.",
-    put:
+    PUT:
       "Something went wrong and the case details were not updated. Please try again.",
-    delete:
+    DELETE:
       "Something went wrong and the case was not archived. Please try again."
   },
   "/cases/:caseId/minimum-case-details": {
-    get:
+    GET:
       "Something went wrong and the case details could not be loaded. Please try again."
   },
   "/cases": {
-    post: "Something went wrong and the case was not created. Please try again."
+    POST: "Something went wrong and the case was not created. Please try again."
   },
   "/cases/:caseId/case-notes": {
-    get:
+    GET:
       "Something went wrong and the case notes were not loaded. Please try again.",
-    post:
+    POST:
       "Something went wrong and the case note was not created. Please try again."
   },
   "/cases/:caseId/case-notes/:caseNoteId": {
-    put:
+    PUT:
       "Something went wrong and the case note was not updated. Please try again.",
-    delete:
+    DELETE:
       "Something went wrong and the case note was not removed. Please try again."
   },
   "/cases/:caseId/case-history": {
-    get:
+    GET:
       "Something went wrong and the case history was not loaded. Please try again."
   },
   "/cases/:caseId/status": {
-    put:
+    PUT:
       "Something went wrong and the case status was not updated. Please try again."
   },
   "/cases/:caseId/narrative": {
-    put:
+    PUT:
       "Something went wrong and the case narrative was not updated. Please try again."
   },
   "/cases/:caseId/cases-officers": {
-    post:
+    POST:
       "Something went wrong and the officer was not added. Please try again."
   },
   "/cases/:caseId/cases-officers/:caseOfficerId": {
-    put:
+    PUT:
       "Something went wrong and the officer was not updated. Please try again.",
-    delete:
+    DELETE:
       "Something went wrong and the officer was not removed. Please try again."
   },
   "/cases/:caseId/cases-officers/:caseOfficerId/officers-allegations": {
-    post:
+    POST:
       "Something went wrong and the allegation was not added. Please try again."
   },
-  "/officers-allegations/:officerAllegationId": {
-    put:
+  "/cases/:caseId/officers-allegations/:officerAllegationId": {
+    PUT:
       "Something went wrong and the allegation was not updated. Please try again.",
-    delete:
+    DELETE:
       "Something went wrong and the allegation was not removed. Please try again."
   },
   "/cases/:caseId/referral-letter": {
-    get:
+    GET:
       "Something went wrong and the referral letter details were not loaded. Please try again."
   },
   "/cases/:caseId/referral-letter/preview": {
-    get:
+    GET:
       "Something went wrong and the letter preview was not loaded. Please try again."
   },
   "/cases/:caseId/referral-letter/letter-type": {
-    get:
+    GET:
       "Something went wrong and the referral letter details were not loaded. Please try again."
   },
   "/cases/:caseId/referral-letter/officer-history": {
-    put:
+    PUT:
       "Something went wrong and the officer history was not updated. Please try again."
   },
   "/cases/:caseId/referral-letter/iapro-corrections": {
-    put:
+    PUT:
       "Something went wrong and the IAPro corrections were not updated. Please try again."
   },
   "/cases/:caseId/referral-letter/recommended-actions": {
-    put:
+    PUT:
       "Something went wrong and we could not update the recommended actions information"
   },
   "/cases/:caseId/referral-letter/addresses": {
-    put:
+    PUT:
       "Something went wrong and the letter was not updated. Please try again."
   },
   "/cases/:caseId/referral-letter/content": {
-    put:
+    PUT:
       "Something went wrong and the letter was not updated. Please try again."
   },
   "/cases/:caseId/attachments/": {
-    post:
+    POST:
       "Something went wrong and the attachment was not uploaded. Please try again."
   },
   "/cases/:caseId/attachments/:fileName": {
-    delete:
+    DELETE:
       "Something went wrong and the attachment was not removed. Please try again."
   },
   "/cases/:caseId/attachmentUrls/:fileName": {
-    get:
+    GET:
       "Something went wrong and the attachment URL could not be found. Please try again."
   },
 
   "/civilian": {
-    post:
+    POST:
       "Something went wrong and the civilian was not created. Please try again."
   },
   "/civilian/:civilianId": {
-    put:
+    PUT:
       "Something went wrong and the civilian was not updated. Please try again."
   },
   "/cases/:caseId/civilians/:civilianId": {
-    delete:
+    DELETE:
       "Something went wrong and the civilian was not removed from the case. Please try again."
   },
   "/audit": {
-    post:
+    POST:
       "Something went wrong and the login was not audited. Please try again."
   },
   "/officers/search": {
-    get:
+    GET:
       "Something went wrong and the search was not completed. Please try again."
   },
   "/allegations/search": {
-    get:
+    GET:
       "Something went wrong and the search was not completed. Please try again."
   },
   "/allegations": {
-    get:
+    GET:
       "Something went wrong and the allegation values could not be found. Please try again."
   },
   "/classifications": {
-    get:
+    GET:
       "Something went wrong and the classification values could not be found. Please try again."
   },
   "/intake-sources": {
-    get:
+    GET:
       "Something went wrong and the intake source values could not be found. Please try again."
   },
   "/race-ethnicities": {
-    get:
+    GET:
       "Something went wrong and the race/ethnicity values could not be found. Please try again."
   },
   "/recommended-actions": {
-    get:
+    GET:
       "Something went wrong and the recommended action values could not be found. Please try again."
   },
   "/cases/:caseId/referral-letter/final-pdf-url": {
-    get: "Something went wrong and the pdf URL was not found. Please try again."
+    GET: "Something went wrong and the pdf URL was not found. Please try again."
   },
   "/cases/:caseId/referral-letter/get-pdf": {
-    get: "Something went wrong and the pdf was not loaded. Please try again."
+    GET: "Something went wrong and the pdf was not loaded. Please try again."
   },
   "/cases/:caseId/referral-letter/approve-letter": {
-    put:
+    PUT:
       "Something went wrong and the case status was not updated. Please try again."
   }
 };
