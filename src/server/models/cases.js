@@ -1,6 +1,6 @@
 import { ADDRESSABLE_TYPE } from "../../sharedUtilities/constants";
 import moment from "moment";
-import _ from "lodash";
+import { isEmpty, head, sortBy } from "lodash";
 import models from "./index";
 import winston from "winston";
 import {
@@ -158,6 +158,15 @@ export default (sequelize, DataTypes) => {
             this.complaintType === CIVILIAN_INITIATED ? "CC" : "PO";
           const paddedCaseId = `${this.caseNumber}`.padStart(4, "0");
           return `${prefix}${this.year}-${paddedCaseId}`;
+        },
+        primaryComplainant() {
+          return head(
+            sortBy(
+              [...this.complainantCivilians || [],
+               ...this.complainantOfficers || []],
+              'createdAt'
+            )
+          );
         }
       }
     }
@@ -214,7 +223,7 @@ export default (sequelize, DataTypes) => {
         CASE_STATUS.CLOSED
       ].includes(this.status)
     ) {
-      if (value === null || _.isEmpty(value)) {
+      if (value === null || isEmpty(value)) {
         throw { model: "Case", errorMessage: `${field} is required` };
       }
     }
