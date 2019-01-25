@@ -49,20 +49,71 @@ describe("response error interceptor", () => {
 
   describe("bad request interceptor", () => {
     const caseId = 3;
-    test("redirects and shows snackbar error if redirect url exists", async () => {
-      nock("http://localhost")
-        .get(`/api/cases/${caseId}/referral-letter`)
-        .reply(400, {
-          message: PAGE_NOT_AVAILABLE,
-          redirectUrl: `/cases/${caseId}`
-        });
 
-      await expect(
-        axios.get(`/api/cases/${caseId}/referral-letter`)
-      ).rejects.toBeTruthy();
-      expect(dispatch).toHaveBeenCalledWith(snackbarError(PAGE_NOT_AVAILABLE));
-      expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    describe("cases with redirect", function() {
+      test("invalid case status should redirect and show page not available snackbar error", async () => {
+        nock("http://localhost")
+          .get(`/api/cases/${caseId}/referral-letter`)
+          .reply(400, {
+            caseId: caseId,
+            message: BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
+          });
+
+        await expect(
+          axios.get(`/api/cases/${caseId}/referral-letter`)
+        ).rejects.toBeTruthy();
+        expect(dispatch).toHaveBeenCalledWith(
+          snackbarError(PAGE_NOT_AVAILABLE)
+        );
+        expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+      });
+
+      test("cannot update archived case should redirect and show page not available snackbar error", async () => {
+        nock("http://localhost")
+          .get(`/api/cases/${caseId}`)
+          .reply(400, {
+            caseId: caseId,
+            message: BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE
+          });
+
+        await expect(axios.get(`/api/cases/${caseId}`)).rejects.toBeTruthy();
+        expect(dispatch).toHaveBeenCalledWith(
+          snackbarError(PAGE_NOT_AVAILABLE)
+        );
+        expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+      });
+
+      test("case does not exist should redirect and show page not available snackbar error", async () => {
+        nock("http://localhost")
+          .get(`/api/cases/${caseId}/`)
+          .reply(400, {
+            caseId: caseId,
+            message: BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST
+          });
+
+        await expect(axios.get(`/api/cases/${caseId}/`)).rejects.toBeTruthy();
+        expect(dispatch).toHaveBeenCalledWith(
+          snackbarError(PAGE_NOT_AVAILABLE)
+        );
+        expect(dispatch).toHaveBeenCalledWith(push(`/`));
+      });
+
+      test("invalid case status for update should redirect and show page not available snackbar error", async () => {
+        nock("http://localhost")
+          .get(`/api/cases/${caseId}`)
+          .reply(400, {
+            caseId: caseId,
+            message: BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
+          });
+
+        await expect(axios.get(`/api/cases/${caseId}`)).rejects.toBeTruthy();
+        expect(dispatch).toHaveBeenCalledWith(
+          snackbarError(PAGE_NOT_AVAILABLE)
+        );
+        expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+      });
     });
+
     test("throws given error and does no additional action for case does not exist", async () => {
       nock("http://localhost")
         .get(`/api/cases/${caseId}`)
@@ -71,14 +122,8 @@ describe("response error interceptor", () => {
         });
 
       await expect(axios.get(`/api/cases/${caseId}`)).rejects.toBeTruthy();
-      expect(dispatch).toHaveBeenCalledWith(
-        snackbarError(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST)
-      );
-      expect(dispatch).not.toHaveBeenCalledWith(
-        expect.objectContaining({
-          payload: expect.objectContaining({ method: "push" })
-        })
-      );
+      expect(dispatch).toHaveBeenCalledWith(snackbarError(PAGE_NOT_AVAILABLE));
+      expect(dispatch).toHaveBeenCalledWith(push("/"));
     });
 
     test("converts array buffer to error", async () => {
@@ -102,7 +147,6 @@ describe("response error interceptor", () => {
           responseType: "arraybuffer"
         })
       ).rejects.toBeTruthy();
-      expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
       expect(dispatch).toHaveBeenCalledWith(snackbarError(PAGE_NOT_AVAILABLE));
     });
 

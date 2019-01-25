@@ -13,7 +13,8 @@ import createCivilian from "../thunks/createCivilian";
 import {
   closeCaseNoteDialog,
   closeCaseStatusUpdateDialog,
-  closeEditDialog,
+  closeEditCivilianDialog,
+  closeEditIncidentDetailsDialog,
   closeRemoveCaseNoteDialog,
   closeRemovePersonDialog,
   getCaseDetailsSuccess,
@@ -82,11 +83,12 @@ describe("Case Details Component", () => {
 
   test("should dispatch close dialog actions on unmount", () => {
     caseDetails.unmount();
-    expect(dispatchSpy).toHaveBeenCalledWith(closeEditDialog());
+    expect(dispatchSpy).toHaveBeenCalledWith(closeEditCivilianDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(closeCaseNoteDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveCaseNoteDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(closeRemovePersonDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(closeCaseStatusUpdateDialog());
+    expect(dispatchSpy).toHaveBeenCalledWith(closeEditIncidentDetailsDialog());
   });
 
   describe("nav bar", () => {

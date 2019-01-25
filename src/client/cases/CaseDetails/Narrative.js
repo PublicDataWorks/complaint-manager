@@ -28,7 +28,11 @@ const Narrative = props => {
             fullWidth
             multiline
             rowsMax={5}
-            placeholder="Enter a brief, 2-3 sentence summary of the incident"
+            placeholder={
+              props.isArchived
+                ? ""
+                : "Enter a brief, 2-3 sentence summary of the incident"
+            }
             inputProps={{
               "data-test": "narrativeSummaryInput",
               maxLength: 500,
@@ -54,7 +58,11 @@ const Narrative = props => {
             multiline
             rowsMax={20}
             rows={5}
-            placeholder="Enter a transcript or details of the incident"
+            placeholder={
+              props.isArchived
+                ? ""
+                : "Enter a transcript or details of the incident"
+            }
             inputProps={{
               "data-test": "narrativeDetailsInput",
               style: {

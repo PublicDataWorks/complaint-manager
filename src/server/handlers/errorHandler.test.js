@@ -73,7 +73,7 @@ describe("errorHandler", () => {
     );
   });
   describe("400 errors", () => {
-    test("should return request with page not available message and redirect url when received case in wrong status error", () => {
+    test("should return request with caseId and invalid case status when received case in wrong status error", () => {
       const caseId = 2;
       const request = httpMocks.createRequest({
         method: "GET",
@@ -96,39 +96,12 @@ describe("errorHandler", () => {
         JSON.stringify({
           statusCode: 400,
           error: "Bad Request",
-          message: PAGE_NOT_AVAILABLE,
-          redirectUrl: `/cases/${caseId}`
+          message: BAD_REQUEST_ERRORS.INVALID_CASE_STATUS,
+          caseId: caseId
         })
       );
     });
 
-    test("should return request with page not available message and redirect url when received case doesn't exist error", () => {
-      const caseId = 2;
-      const request = httpMocks.createRequest({
-        method: "GET",
-        headers: {
-          authorization: "Bearer token"
-        },
-        params: { caseId: caseId },
-        caseId: caseId
-      });
-      const response = httpMocks.createResponse();
-      errorHandler(
-        Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST),
-        request,
-        response
-      );
-
-      expect(response.statusCode).toEqual(400);
-      expect(response._getData()).toEqual(
-        JSON.stringify({
-          statusCode: 400,
-          error: "Bad Request",
-          message: PAGE_NOT_AVAILABLE,
-          redirectUrl: `/`
-        })
-      );
-    });
     test("should return request with error message when received some other error", () => {
       const errorMessage = "error message";
       const request = httpMocks.createRequest({

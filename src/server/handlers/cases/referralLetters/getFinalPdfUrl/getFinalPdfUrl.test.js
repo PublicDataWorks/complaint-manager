@@ -158,6 +158,28 @@ describe("getFinalPdfUrl", () => {
     expect(response._getData()).toEqual("url");
   });
 
+  test("should retrieve download url for pdf when archived", async () => {
+    await existingCase.update(
+      { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+      { auditUser: "someone" }
+    );
+
+    await existingCase.destroy({ auditUser: "someone" });
+    const getSignedUrlMock = jest.fn(() => "url");
+    createConfiguredS3Instance.mockImplementation(() => ({
+      getSignedUrl: getSignedUrlMock
+    }));
+
+    await getFinalPdfUrl(request, response, next);
+
+    expect(getSignedUrlMock).toHaveBeenCalledWith(S3_GET_OBJECT, {
+      Bucket: config[process.env.NODE_ENV].referralLettersBucket,
+      Key: referralLetter.finalPdfFilename,
+      Expires: S3_URL_EXPIRATION
+    });
+    expect(response._getData()).toEqual("url");
+  });
+
   test("returns 400 bad request if case is in status before forwarded to agency", async () => {
     await getFinalPdfUrl(request, response, next);
     expect(next).toHaveBeenCalledWith(

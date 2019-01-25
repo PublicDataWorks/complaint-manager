@@ -1,5 +1,5 @@
 import {
-  closeEditDialog,
+  closeEditCivilianDialog,
   editCivilianSuccess
 } from "../../actionCreators/casesActionCreators";
 import getCaseNotes from "./getCaseNotes";
@@ -15,7 +15,7 @@ const editCivilian = civilian => async dispatch => {
       `api/cases/${civilian.caseId}/civilian/${civilian.id}`,
       JSON.stringify(civilian)
     );
-    dispatch(closeEditDialog());
+    dispatch(closeEditCivilianDialog());
     dispatch(editCivilianSuccess(response.data));
     dispatch(snackbarSuccess("Civilian was successfully updated"));
     const event = await dispatch(getCaseNotes(response.data.id));

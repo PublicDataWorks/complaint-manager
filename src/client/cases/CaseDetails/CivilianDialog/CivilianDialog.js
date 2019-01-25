@@ -22,7 +22,7 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
-import { closeEditDialog } from "../../../actionCreators/casesActionCreators";
+import { closeEditCivilianDialog } from "../../../actionCreators/casesActionCreators";
 import {
   genderIdentityIsRequired,
   raceEthnicityIsRequired,
@@ -253,7 +253,7 @@ class CivilianDialog extends Component {
         >
           <SecondaryButton
             data-test="cancelEditCivilian"
-            onClick={() => this.props.dispatch(closeEditDialog())}
+            onClick={() => this.props.dispatch(closeEditCivilianDialog())}
           >
             Cancel
           </SecondaryButton>

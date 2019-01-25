@@ -3,7 +3,7 @@ import { push } from "connected-react-router";
 import { startSubmit, stopSubmit } from "redux-form";
 import getAccessToken from "../../auth/getAccessToken";
 import {
-  closeEditDialog,
+  closeEditCivilianDialog,
   createCivilianSuccess
 } from "../../actionCreators/casesActionCreators";
 import createCivilian from "./createCivilian";
@@ -21,7 +21,7 @@ jest.mock("../../actionCreators/casesActionCreators", () => ({
   createCivilianSuccess: jest.fn(() => ({
     type: "MOCK_EDIT_SUCCESS"
   })),
-  closeEditDialog: jest.fn(() => ({
+  closeEditCivilianDialog: jest.fn(() => ({
     type: "MOCK_CLOSE"
   }))
 }));
@@ -69,7 +69,7 @@ describe("civilian creation", function() {
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Civilian was successfully created")
     );
-    expect(dispatch).toHaveBeenCalledWith(closeEditDialog());
+    expect(dispatch).toHaveBeenCalledWith(closeEditCivilianDialog());
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(CIVILIAN_FORM_NAME));
   });
 

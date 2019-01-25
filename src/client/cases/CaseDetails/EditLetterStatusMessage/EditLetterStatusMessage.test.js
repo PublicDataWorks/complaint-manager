@@ -85,6 +85,22 @@ describe("letter edit status message", () => {
     expect(editLetterStatusMessage.exists()).toEqual(false);
   });
 
+  test("does not display message when case is archived", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        ...existingCase,
+        isArchived: true
+      })
+    );
+
+    wrapper.update();
+
+    const editLetterStatusMessage = wrapper
+      .find('[data-test="editLetterStatusMessage"]')
+      .first();
+    expect(editLetterStatusMessage.exists()).toEqual(false);
+  });
+
   describe("approval / edited message", () => {
     test("displays correct message when letter has been edited and status is before approval", () => {
       store.dispatch(getLetterTypeSuccess(LETTER_TYPE.EDITED));

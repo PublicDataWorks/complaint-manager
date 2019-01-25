@@ -20,68 +20,78 @@ import { connect } from "react-redux";
 
 const UnknownOfficerPanel = ({ dispatch, caseOfficer, children }) => {
   return (
-    <div>
-      <ExpansionPanel
-        data-test="unknownOfficerPanel"
-        elevation={0}
-        onChange={(event, expanded) => {
-          expanded
-            ? dispatch(accusedOfficerPanelExpanded(caseOfficer.id))
-            : dispatch(accusedOfficerPanelCollapsed(caseOfficer.id));
-        }}
-        style={{ backgroundColor: "white" }}
-      >
-        <ExpansionPanelSummary style={{ padding: "0px 24px" }}>
-          <div style={{ display: "flex", width: "100%", paddingRight: 0 }}>
-            <IconButton
-              style={{ marginRight: 16 }}
-              color="secondary"
-              className="chevron-right"
-            >
-              <Icon>unfold_more</Icon>
-            </IconButton>
-            <OfficerInfoDisplay
-              displayLabel="Officer"
-              value={caseOfficer.fullName}
-              testLabel="officerName"
-            />
-            {children}
-          </div>
-        </ExpansionPanelSummary>
-        <StyledExpansionPanelDetails>
-          <OfficerInfoDisplay
-            displayLabel="Notes"
-            value={caseOfficer.notes}
-            testLabel="notes"
-          />
-        </StyledExpansionPanelDetails>
-        {caseOfficer && caseOfficer.roleOnCase === ACCUSED && (
-          <div
-            style={{
-              marginLeft: "64px"
-            }}
-          >
-            <Typography
+    <div data-test="unknownOfficerPanel">
+      <div style={{ display: "flex", width: "100%", paddingRight: 0 }}>
+        <ExpansionPanel
+          elevation={0}
+          onChange={(event, expanded) => {
+            expanded
+              ? dispatch(accusedOfficerPanelExpanded(caseOfficer.id))
+              : dispatch(accusedOfficerPanelCollapsed(caseOfficer.id));
+          }}
+          style={{ backgroundColor: "white", width: "100%" }}
+        >
+          <ExpansionPanelSummary style={{ padding: "0px 24px" }}>
+            <div
               style={{
-                ...styles.section,
-                margin: "8px 24px"
+                display: "flex",
+                width: "100%",
+                paddingRight: 0,
+                marginBottom: 4
               }}
             >
-              Allegations
-            </Typography>
-            {caseOfficer.allegations.length > 0 ? (
-              <OfficerAllegationsDisplay
-                officerId={caseOfficer.id}
-                officerAllegations={caseOfficer.allegations}
+              <div style={{ width: "36px", marginRight: 16 }}>
+                <IconButton
+                  style={{ height: "36px", width: "36px" }}
+                  color="secondary"
+                  className="chevron-right"
+                >
+                  <Icon>unfold_more</Icon>
+                </IconButton>
+              </div>
+              <OfficerInfoDisplay
+                displayLabel="Officer"
+                value={caseOfficer.fullName}
+                testLabel="officerName"
               />
-            ) : (
-              <Typography style={{ marginLeft: "24px", fontStyle: "italic" }}>
-                No allegations have been added.
+            </div>
+          </ExpansionPanelSummary>
+          <StyledExpansionPanelDetails>
+            <OfficerInfoDisplay
+              displayLabel="Notes"
+              value={caseOfficer.notes}
+              testLabel="notes"
+            />
+          </StyledExpansionPanelDetails>
+          {caseOfficer && caseOfficer.roleOnCase === ACCUSED && (
+            <div
+              style={{
+                marginLeft: "52px"
+              }}
+            >
+              <Typography
+                style={{
+                  ...styles.section,
+                  margin: "8px 24px"
+                }}
+              >
+                Allegations
               </Typography>
-            )}
-          </div>
-        )}
-      </ExpansionPanel>
+              {caseOfficer.allegations.length > 0 ? (
+                <OfficerAllegationsDisplay
+                  officerId={caseOfficer.id}
+                  officerAllegations={caseOfficer.allegations}
+                />
+              ) : (
+                <Typography style={{ marginLeft: "24px", fontStyle: "italic" }}>
+                  No allegations have been added.
+                </Typography>
+              )}
+            </div>
+          )}
+        </ExpansionPanel>
+        <div style={{ margin: "12px 24px" }}>{children}</div>
+      </div>
       <Divider />
     </div>
   );

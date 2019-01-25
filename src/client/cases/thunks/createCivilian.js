@@ -1,5 +1,5 @@
 import {
-  closeEditDialog,
+  closeEditCivilianDialog,
   createCivilianSuccess
 } from "../../actionCreators/casesActionCreators";
 import getCaseNotes from "./getCaseNotes";
@@ -17,7 +17,7 @@ const createCivilian = civilian => async dispatch => {
     );
     dispatch(snackbarSuccess("Civilian was successfully created"));
     dispatch(createCivilianSuccess(response.data));
-    dispatch(closeEditDialog());
+    dispatch(closeEditCivilianDialog());
     await dispatch(getCaseNotes(response.data.id));
     dispatch(stopSubmit(CIVILIAN_FORM_NAME));
   } catch (e) {

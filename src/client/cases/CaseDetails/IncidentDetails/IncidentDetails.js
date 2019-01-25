@@ -11,12 +11,12 @@ import AddressInfoDisplay from "../../../shared/components/AddressInfoDisplay";
 import { initialize, reset } from "redux-form";
 import { CardContent } from "@material-ui/core";
 import { connect } from "react-redux";
+import {
+  closeEditIncidentDetailsDialog,
+  openEditIncidentDetailsDialog
+} from "../../../actionCreators/casesActionCreators";
 
 class IncidentDetails extends React.Component {
-  state = {
-    dialogOpen: false
-  };
-
   formatTimeForDisplay = (date, time) => {
     if (!time) return time;
     return format12HourTime(time) + " " + computeTimeZone(date, time);
@@ -34,12 +34,12 @@ class IncidentDetails extends React.Component {
     };
 
     this.props.dispatch(initialize("IncidentDetails", formValues));
-    this.setState({ dialogOpen: true });
+    this.props.dispatch(openEditIncidentDetailsDialog());
   };
 
   handleDialogClose = () => {
     this.props.dispatch(reset("IncidentDetails"));
-    this.setState({ dialogOpen: false });
+    this.props.dispatch(closeEditIncidentDetailsDialog());
   };
 
   render() {
@@ -51,7 +51,8 @@ class IncidentDetails extends React.Component {
       incidentLocation,
       district,
       classification,
-      intakeSource
+      intakeSource,
+      classes
     } = this.props;
     const classificationInitialism = classification
       ? classification.initialism
@@ -65,28 +66,59 @@ class IncidentDetails extends React.Component {
             style={{
               display: "flex",
               width: "100%",
-              paddingRight: 0,
-              marginBottom: "26px"
+              paddingRight: 0
             }}
           >
-            <CivilianInfoDisplay
-              displayLabel="First Contacted IPM"
-              value={formatDate(firstContactDate)}
-              testLabel="firstContactDate"
-            />
-            <CivilianInfoDisplay
-              displayLabel="Incident Date"
-              value={formatDate(incidentDate)}
-              testLabel="incidentDate"
-            />
-            <CivilianInfoDisplay
-              displayLabel="Incident Time"
-              value={this.formatTimeForDisplay(incidentDate, incidentTime)}
-              testLabel="incidentTime"
-            />
-            <div>
+            <div style={{ width: "100%" }}>
+              <div className={classes.detailsRow}>
+                <CivilianInfoDisplay
+                  displayLabel="First Contacted IPM"
+                  value={formatDate(firstContactDate)}
+                  testLabel="firstContactDate"
+                />
+                <CivilianInfoDisplay
+                  displayLabel="Incident Date"
+                  value={formatDate(incidentDate)}
+                  testLabel="incidentDate"
+                />
+                <CivilianInfoDisplay
+                  displayLabel="Incident Time"
+                  value={this.formatTimeForDisplay(incidentDate, incidentTime)}
+                  testLabel="incidentTime"
+                />
+              </div>
+              <div className={classes.detailsRow}>
+                <AddressInfoDisplay
+                  testLabel="incidentLocation"
+                  displayLabel="Incident Location"
+                  address={incidentLocation}
+                  useLineBreaks={true}
+                  style={{ flex: 1 }}
+                />
+                <CivilianInfoDisplay
+                  displayLabel="District"
+                  value={district}
+                  testLabel="incidentDistrict"
+                />
+                <CivilianInfoDisplay
+                  displayLabel="Classification"
+                  value={classificationInitialism}
+                  testLabel="classification"
+                />
+              </div>
+              <div className={classes.detailsLastRow}>
+                <div style={{ display: "flex", width: "100%" }}>
+                  <CivilianInfoDisplay
+                    displayLabel="Intake Source"
+                    value={intakeSourceName}
+                    testLabel="intakeSource"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className={classes.detailsPaneButtons}>
               {this.props.isArchived ? (
-                <div style={{ width: "69.5px" }} />
+                <div />
               ) : (
                 <LinkButton
                   data-test="editIncidentDetailsButton"
@@ -97,43 +129,9 @@ class IncidentDetails extends React.Component {
               )}
             </div>
           </div>
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              paddingRight: 0,
-              marginBottom: "26px"
-            }}
-          >
-            <AddressInfoDisplay
-              testLabel="incidentLocation"
-              displayLabel="Incident Location"
-              address={incidentLocation}
-              useLineBreaks={true}
-              style={{ flex: 1 }}
-            />
-            <CivilianInfoDisplay
-              displayLabel="District"
-              value={district}
-              testLabel="incidentDistrict"
-            />
-            <CivilianInfoDisplay
-              displayLabel="Classification"
-              value={classificationInitialism}
-              testLabel="classification"
-            />
-            <div style={{ width: "69.5px" }} />
-          </div>
-          <div style={{ display: "flex", width: "100%" }}>
-            <CivilianInfoDisplay
-              displayLabel="Intake Source"
-              value={intakeSourceName}
-              testLabel="intakeSource"
-            />
-          </div>
         </CardContent>
         <IncidentDetailsDialog
-          dialogOpen={this.state.dialogOpen}
+          dialogOpen={this.props.open}
           handleDialogClose={this.handleDialogClose}
           caseId={caseId}
         />
@@ -153,7 +151,8 @@ const mapStateToProps = state => ({
   classification: state.currentCase.details.classification,
   intakeSourceId: state.currentCase.details.intakeSourceId,
   intakeSource: state.currentCase.details.intakeSource,
-  isArchived: state.currentCase.details.isArchived
+  isArchived: state.currentCase.details.isArchived,
+  open: state.ui.editIncidentDetailsDialog.open
 });
 
 export default connect(mapStateToProps)(IncidentDetails);

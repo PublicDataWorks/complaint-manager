@@ -161,20 +161,6 @@ describe("edit referral letter", () => {
     );
 
     test(
-      "it returns 400 page not available message if case is archived",
-      suppressWinstonLogs(async () => {
-        await request(app)
-          .put(`/api/cases/${existingCase.id}/referral-letter/officer-history`)
-          .set("Content-Header", "application/json")
-          .set("Authorization", `Bearer ${token}`)
-          .expect(400)
-          .then(response => {
-            expect(response.body.message).toEqual(PAGE_NOT_AVAILABLE);
-          });
-      })
-    );
-
-    test(
       "it returns 200 if case status is is after ready for review",
       suppressWinstonLogs(async () => {
         await existingCase.update(

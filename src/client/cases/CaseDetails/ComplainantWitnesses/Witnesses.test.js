@@ -61,6 +61,7 @@ describe("Witnesses", () => {
           caseDetails={caseDetails}
           dispatch={dispatchSpy}
           menuOpen={menuOpen}
+          classes={{}}
         />
       </Provider>
     );
@@ -130,7 +131,11 @@ describe("Witnesses", () => {
 
       witnesses = mount(
         <Provider store={store}>
-          <Witnesses caseDetails={caseDetails} menuOpen={menuOpen} />
+          <Witnesses
+            caseDetails={caseDetails}
+            menuOpen={menuOpen}
+            classes={{}}
+          />
         </Provider>
       );
 
@@ -203,7 +208,11 @@ describe("Witnesses", () => {
 
       witnesses = mount(
         <Provider store={store}>
-          <Witnesses caseDetails={caseWithNoAddress} menuOpen={menuOpen} />
+          <Witnesses
+            caseDetails={caseWithNoAddress}
+            menuOpen={menuOpen}
+            classes={{}}
+          />
         </Provider>
       );
 
@@ -249,7 +258,11 @@ describe("Witnesses", () => {
 
       witnesses = mount(
         <Provider store={store}>
-          <Witnesses caseDetails={caseWithNoAddress} menuOpen={menuOpen} />
+          <Witnesses
+            caseDetails={caseWithNoAddress}
+            menuOpen={menuOpen}
+            classes={{}}
+          />
         </Provider>
       );
 
@@ -310,6 +323,7 @@ describe("Witnesses", () => {
         <Witnesses
           caseDetails={caseWithMixedComplainants}
           menuOpen={menuOpen}
+          classes={{}}
         />
       </Provider>
     );

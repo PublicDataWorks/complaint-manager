@@ -1,4 +1,7 @@
-import { CIVILIAN_DIALOG_OPENED } from "../../../sharedUtilities/constants";
+import {
+  CIVILIAN_DIALOG_OPENED,
+  EDIT_CIVILIAN_DIALOG_CLOSED
+} from "../../../sharedUtilities/constants";
 
 const initialState = {
   open: false,
@@ -17,7 +20,7 @@ const civilianDialogReducer = (state = initialState, action) => {
         submitButtonText: action.submitButtonText,
         submitAction: action.submitAction
       };
-    case "EDIT_DIALOG_CLOSED":
+    case EDIT_CIVILIAN_DIALOG_CLOSED:
       return initialState;
     default:
       return state;

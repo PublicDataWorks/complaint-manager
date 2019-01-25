@@ -1,6 +1,6 @@
 import editDialogReducer from "./civilianDialogReducer";
 import {
-  closeEditDialog,
+  closeEditCivilianDialog,
   openCivilianDialog
 } from "../../actionCreators/casesActionCreators";
 
@@ -32,7 +32,10 @@ describe("civilianDialogReducer", () => {
   });
 
   test("should set state on dialog close", () => {
-    const newState = editDialogReducer({ open: true }, closeEditDialog());
+    const newState = editDialogReducer(
+      { open: true },
+      closeEditCivilianDialog()
+    );
 
     expect(newState).toEqual({
       open: false,

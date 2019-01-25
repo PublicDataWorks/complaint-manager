@@ -18,6 +18,9 @@ import {
   CREATE_CASE_DIALOG_CLOSED,
   CREATE_CASE_DIALOG_OPENED,
   EDIT_CASE_NOTE_SUCCEEDED,
+  EDIT_CIVILIAN_DIALOG_CLOSED,
+  EDIT_INCIDENT_DETAILS_DIALOG_CLOSED,
+  EDIT_INCIDENT_DETAILS_DIALOG_OPENED,
   GET_CASE_DETAILS_SUCCESS,
   GET_CASE_NOTES_SUCCEEDED,
   GET_MINIMUM_CASE_DETAILS_SUCCESS,
@@ -104,9 +107,11 @@ export const openCivilianDialog = (title, submitButtonText, submitAction) => ({
   submitAction
 });
 
-export const closeEditDialog = () => ({
-  type: "EDIT_DIALOG_CLOSED"
-});
+export const closeEditCivilianDialog = () => {
+  return {
+    type: EDIT_CIVILIAN_DIALOG_CLOSED
+  };
+};
 
 export const createCivilianSuccess = caseDetails => ({
   type: CIVILIAN_CREATION_SUCCEEDED,
@@ -229,4 +234,12 @@ export const openArchiveCaseDialog = () => ({
 
 export const closeArchiveCaseDialog = () => ({
   type: ARCHIVE_CASE_DIALOG_CLOSED
+});
+
+export const openEditIncidentDetailsDialog = () => ({
+  type: EDIT_INCIDENT_DETAILS_DIALOG_OPENED
+});
+
+export const closeEditIncidentDetailsDialog = () => ({
+  type: EDIT_INCIDENT_DETAILS_DIALOG_CLOSED
 });

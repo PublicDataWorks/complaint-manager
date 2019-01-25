@@ -16,7 +16,8 @@ import IncidentDetails from "./IncidentDetails/IncidentDetails";
 import {
   closeCaseNoteDialog,
   closeCaseStatusUpdateDialog,
-  closeEditDialog,
+  closeEditCivilianDialog,
+  closeEditIncidentDetailsDialog,
   closeRemoveCaseNoteDialog,
   closeRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
@@ -72,11 +73,12 @@ class CaseDetails extends React.Component {
 
   componentWillUnmount() {
     this.props.dispatch(clearOfficerPanelData());
-    this.props.dispatch(closeEditDialog());
+    this.props.dispatch(closeEditCivilianDialog());
     this.props.dispatch(closeCaseNoteDialog());
     this.props.dispatch(closeCaseStatusUpdateDialog());
     this.props.dispatch(closeRemoveCaseNoteDialog());
     this.props.dispatch(closeRemovePersonDialog());
+    this.props.dispatch(closeEditIncidentDetailsDialog());
   }
 
   caseDetailsNotYetLoaded() {
@@ -125,7 +127,7 @@ class CaseDetails extends React.Component {
             <div style={{ marginLeft: "5%", marginRight: "5%" }}>
               <EditLetterStatusMessage pageType={PAGE_TYPE.CASE_DETAILS} />
             </div>
-            <IncidentDetails />
+            <IncidentDetails classes={classes} />
             <Complainants
               caseDetails={this.props.caseDetails}
               dispatch={this.props.dispatch}
@@ -133,6 +135,7 @@ class CaseDetails extends React.Component {
               menuOpen={this.state.complainantMenuOpen}
               handleMenuClose={this.handleComplainantMenuClose}
               anchorEl={this.state.anchorEl}
+              classes={classes}
             />
             <Witnesses
               caseDetails={this.props.caseDetails}
@@ -141,6 +144,7 @@ class CaseDetails extends React.Component {
               menuOpen={this.state.witnessMenuOpen}
               handleMenuClose={this.handleWitnessMenuClose}
               anchorEl={this.state.anchorEl}
+              classes={classes}
             />
             <Narrative
               initialValues={{

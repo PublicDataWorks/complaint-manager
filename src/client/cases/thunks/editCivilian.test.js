@@ -3,8 +3,7 @@ import nock from "nock";
 import editCivilian from "./editCivilian";
 import Civilian from "../../testUtilities/civilian";
 import {
-  closeEditDialog,
-  editCivilianFailed,
+  closeEditCivilianDialog,
   editCivilianSuccess
 } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
@@ -16,8 +15,7 @@ import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 jest.mock("../../actionCreators/casesActionCreators", () => ({
   editCivilianSuccess: jest.fn(() => ({ type: "MOCK_EDIT_SUCCESS" })),
-  closeEditDialog: jest.fn(() => ({ type: "MOCK_CLOSE" })),
-  editCivilianFailed: jest.fn(() => ({ type: "MOCK_EDIT_FAILED" }))
+  closeEditCivilianDialog: jest.fn(() => ({ type: "MOCK_CLOSE" }))
 }));
 
 describe("edit civilian thunk", () => {
@@ -66,7 +64,7 @@ describe("edit civilian thunk", () => {
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Civilian was successfully updated")
     );
-    expect(dispatch).toHaveBeenCalledWith(closeEditDialog());
+    expect(dispatch).toHaveBeenCalledWith(closeEditCivilianDialog());
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(CIVILIAN_FORM_NAME));
   });
 });

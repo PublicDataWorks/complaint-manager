@@ -10,7 +10,7 @@ import { initialize } from "redux-form";
 import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
 
 const OfficerActions = ({ caseOfficer, dispatch }) => (
-  <div>
+  <div style={{ display: "flex" }}>
     <LinkButton
       data-test="editOfficerLink"
       onClick={event => {

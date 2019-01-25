@@ -3,15 +3,14 @@ import { ExpansionPanelDetails } from "@material-ui/core";
 
 const StyledExpansionPanelDetails = ({ children, style }) => (
   <ExpansionPanelDetails
-    style={{ padding: "8px 24px 24px 24px", marginLeft: "64px", ...style }}
+    style={{ padding: "8px 24px 24px 24px", marginLeft: "52px", ...style }}
   >
     <div
       style={{
         display: "flex",
         width: "100%",
         background: "white",
-        padding: "0",
-        marginRight: "170px"
+        padding: "0"
       }}
     >
       {children}

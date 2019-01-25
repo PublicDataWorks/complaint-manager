@@ -12,16 +12,11 @@ const ComplainantWitnessDisplay = ({
   emptyMessage,
   dispatch,
   incidentDate,
-  isArchived
+  isArchived,
+  classes
 }) => {
   return (
     <div>
-      <Typography
-        style={{
-          ...styles.section,
-          margin: "8px 24px"
-        }}
-      />
       {civiliansAndOfficers.length === 0 ? (
         <div>
           <Typography
@@ -43,7 +38,9 @@ const ComplainantWitnessDisplay = ({
                   key={index}
                   caseOfficer={civilianOrOfficer}
                 >
-                  <OfficerActions caseOfficer={civilianOrOfficer} />
+                  {isArchived ? null : (
+                    <OfficerActions caseOfficer={civilianOrOfficer} />
+                  )}
                 </UnknownOfficerPanel>
               );
             } else {
@@ -73,6 +70,7 @@ const ComplainantWitnessDisplay = ({
                   incidentDate
                 )}
                 isArchived={isArchived}
+                classes={classes}
               />
             );
           }
