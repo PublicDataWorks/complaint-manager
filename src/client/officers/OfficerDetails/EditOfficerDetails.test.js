@@ -1,14 +1,13 @@
+import createConfiguredStore from "../../createConfiguredStore";
+import CaseOfficer from "../../testUtilities/caseOfficer";
+import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import { push } from "connected-react-router";
-import { mount } from "enzyme";
-import React from "react";
-import createConfiguredStore from "../../createConfiguredStore";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
-import EditOfficerSearch from "./EditOfficerSearch";
 import { CASE_STATUS } from "../../../sharedUtilities/constants";
 import invalidCaseStatusRedirect from "../../cases/thunks/invalidCaseStatusRedirect";
-import CaseOfficer from "../../testUtilities/caseOfficer";
+import React from "react";
+import EditOfficerDetails from "./EditOfficerDetails";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
 
 jest.mock("../../cases/thunks/invalidCaseStatusRedirect", () => caseId => ({
@@ -21,17 +20,19 @@ jest.mock("../../cases/thunks/getCaseDetails", () => caseId => ({
   caseId
 }));
 
-describe("EditOfficerSearch", () => {
+describe("EditOfficerDetails", function() {
   let caseId, dispatchSpy, store, wrapper, caseOfficer;
+
   beforeEach(() => {
     caseOfficer = new CaseOfficer.Builder().defaultCaseOfficer().build();
-    caseId = "88";
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
+    caseId = "5";
+
     wrapper = mount(
       <Provider store={store}>
         <Router>
-          <EditOfficerSearch
+          <EditOfficerDetails
             match={{
               params: { id: caseId, caseOfficerId: `${caseOfficer.id}` }
             }}
