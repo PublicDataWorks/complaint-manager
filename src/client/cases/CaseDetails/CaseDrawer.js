@@ -45,6 +45,8 @@ const CaseDrawer = ({ classes, caseDetails }) => (
               {caseDetails.createdBy}
             </Typography>
           </div>
+        </div>
+        <div className={classes.drawerRow}>
           <div className={classes.drawerRowItem}>
             <Typography variant="caption">Created On</Typography>
             <Typography data-test="created-on" variant="body1">
