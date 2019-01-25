@@ -70,7 +70,7 @@ const officerElements = {
     selector: "[data-test='unknownOfficerPanel']"
   },
   manageKnownOfficerButton: {
-    selector: "[data-test='officerPanel'] [data-test='manageCaseOfficer']"
+    selector: "[data-test='knownOfficerPanel'] [data-test='manageCaseOfficer']"
   },
   manageUnknownOfficerButton: {
     selector:
@@ -83,7 +83,7 @@ const officerElements = {
     selector: "[data-test='editCaseOfficer']"
   },
   knownOfficerPanel: {
-    selector: '[data-test="officerPanel"]'
+    selector: '[data-test="knownOfficerPanel"]'
   },
   addAccusedOfficerButton: {
     selector: '[data-test="addAccusedOfficerButton"]'

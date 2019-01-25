@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import createConfiguredStore from "../../../createConfiguredStore";
 import CivilianDialog from "./CivilianDialog";
 import {
-  closeEditDialog,
+  closeEditCivilianDialog,
   openCivilianDialog
 } from "../../../actionCreators/casesActionCreators";
 import {
@@ -254,7 +254,7 @@ describe("civilian dialog", () => {
 
       civilianDialog.update();
 
-      expect(dispatchSpy).toHaveBeenCalledWith(closeEditDialog());
+      expect(dispatchSpy).toHaveBeenCalledWith(closeEditCivilianDialog());
       await expectEventuallyNotToExist(
         civilianDialog,
         '[data-test="editDialogTitle"]'

@@ -11,6 +11,8 @@ const Witnesses = props => {
     props.caseDetails.witnessOfficers
   );
 
+  const { classes } = props;
+
   const sortedWitnesses = _.orderBy(allWitnesses, [o => o.createdAt], ["asc"]);
 
   return (
@@ -22,6 +24,7 @@ const Witnesses = props => {
           dispatch={props.dispatch}
           incidentDate={props.caseDetails.incidentDate}
           isArchived={props.caseDetails.isArchived}
+          classes={classes}
         />
         {props.caseDetails.isArchived ? null : (
           <ComplainantWitnessMenu

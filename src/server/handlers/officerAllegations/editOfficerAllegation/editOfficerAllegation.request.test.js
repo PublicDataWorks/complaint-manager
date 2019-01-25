@@ -46,7 +46,8 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
           expect(response.body).toEqual({
             statusCode: 400,
             error: "Bad Request",
-            message: BAD_REQUEST_ERRORS.OFFICER_ALLEGATION_NOT_FOUND
+            message: BAD_REQUEST_ERRORS.OFFICER_ALLEGATION_NOT_FOUND,
+            caseId: `${createdCase.id}`
           });
         });
     })

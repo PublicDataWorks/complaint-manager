@@ -27,7 +27,8 @@ const getFinalPdfUrl = asyncMiddleware(async (request, response, next) => {
         as: "complainantCivilians",
         auditUser: "test"
       }
-    ]
+    ],
+    paranoid: false
   });
 
   validateCaseStatus(existingCase.status);

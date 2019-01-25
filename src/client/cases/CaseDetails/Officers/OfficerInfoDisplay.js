@@ -9,7 +9,7 @@ const OfficerInfoDisplay = ({
   displayLabel,
   style
 }) => (
-  <div style={{ flex: 1, textAlign: "left", marginRight: "16px", ...style }}>
+  <div style={{ flex: 1, textAlign: "left", marginRight: "10px", ...style }}>
     <Typography variant="caption" data-test={`${testLabel}Label`}>
       {displayLabel}
     </Typography>

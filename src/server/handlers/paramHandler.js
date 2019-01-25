@@ -9,11 +9,11 @@ export const handleCaseIdParam = async function(
   caseId
 ) {
   try {
+    request.caseId = caseId;
     const existingCase = await getCaseWithoutAssociations(caseId);
     if (caseCannotBeEdited(existingCase.isArchived, request)) {
       next(Boom.badRequest(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE));
     }
-    request.caseId = caseId;
     request.isArchived = existingCase.isArchived;
     next();
   } catch (error) {

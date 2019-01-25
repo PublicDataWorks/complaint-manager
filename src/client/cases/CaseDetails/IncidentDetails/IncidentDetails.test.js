@@ -19,7 +19,7 @@ import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getInta
 
 jest.mock("../../thunks/editIncidentDetails", () =>
   jest.fn(values => ({
-    type: "MOCK_THUNK",
+    type: "EDIT_INCIDENT_DETAILS_MOCK_THUNK",
     values
   }))
 );
@@ -28,13 +28,13 @@ jest.mock(
   "../../../classifications/thunks/getClassificationDropdownValues",
   () =>
     jest.fn(values => ({
-      type: "MOCK_THUNK",
+      type: "GET_CLASSIFICATION_MOCK",
       values
     }))
 );
 
 jest.mock("../../../intakeSources/thunks/getIntakeSourceDropdownValues", () =>
-  jest.fn(values => ({ type: "MOCK_THUNK", values }))
+  jest.fn(values => ({ type: "GET_INTAKE_SOURCE_MOCK_THUNK", values }))
 );
 
 jest.mock("../CivilianDialog/MapServices/MapService", () => {
@@ -96,7 +96,7 @@ describe("incident details", () => {
     store.dispatch(getClassificationsSuccess([[0, "UTD"], [12, "OTB"]]));
     wrapper = mount(
       <Provider store={store}>
-        <IncidentDetails />
+        <IncidentDetails classes={{}} />
       </Provider>
     );
     incidentDetails = wrapper.find(IncidentDetails);

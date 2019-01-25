@@ -21,7 +21,9 @@ export const EDIT_LETTER_STATUS = {
 
 class EditLetterStatusMessage extends React.Component {
   shouldShowMessage = () => {
-    if (this.letterIsApproved() || this.letterIsActiveAndEdited()) {
+    if (this.props.isArchived) {
+      return false;
+    } else if (this.letterIsApproved() || this.letterIsActiveAndEdited()) {
       return true;
     }
   };
@@ -83,7 +85,8 @@ class EditLetterStatusMessage extends React.Component {
 const mapStateToProps = state => ({
   featureToggles: state.featureToggles,
   caseStatus: state.currentCase.details.status,
-  letterType: state.referralLetter.letterType
+  letterType: state.referralLetter.letterType,
+  isArchived: state.currentCase.details.isArchived
 });
 
 export default withStyles(styles, { withTheme: true })(

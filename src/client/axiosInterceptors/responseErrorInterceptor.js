@@ -1,5 +1,15 @@
 import { push } from "connected-react-router";
 import { snackbarError } from "../actionCreators/snackBarActionCreators";
+import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants";
+import { clearOfficerPanelData } from "../actionCreators/accusedOfficerPanelsActionCreators";
+import {
+  closeCaseNoteDialog,
+  closeCaseStatusUpdateDialog,
+  closeEditCivilianDialog,
+  closeEditIncidentDetailsDialog,
+  closeRemoveCaseNoteDialog,
+  closeRemovePersonDialog
+} from "../actionCreators/casesActionCreators";
 
 const responseErrorInterceptor = dispatch => error => {
   let snackbarErrorMessage = error.response.data.message;
@@ -25,28 +35,62 @@ const throwErrorIfUnauthorizedResponse = (error, dispatch) => {
 };
 
 const get400ErrorMessage = (error, dispatch) => {
-  let { errorMessage, redirectUrl } = getErrorMessageAndRedirectUrlFromResponse(
-    error.response
-  );
+  let {
+    errorMessageFromResponse,
+    caseId
+  } = getErrorMessageAndCaseIdFromResponse(error.response);
 
-  if (!errorMessage) {
+  if (!errorMessageFromResponse) {
     return null;
   }
 
+  let { errorMessage, redirectUrl } = getErrorMessageToDisplayAndRedirectUrl(
+    errorMessageFromResponse,
+    caseId
+  );
+
   if (redirectUrl) {
+    resetCaseDetailsPage(dispatch);
     dispatch(push(`${redirectUrl}`));
   }
   return errorMessage;
 };
 
-const getErrorMessageAndRedirectUrlFromResponse = response => {
+const getErrorMessageToDisplayAndRedirectUrl = (boomErrorMessage, caseId) => {
+  switch (boomErrorMessage) {
+    case BAD_REQUEST_ERRORS.INVALID_CASE_STATUS:
+      return {
+        errorMessage: "Sorry, that page is not available",
+        redirectUrl: `/cases/${caseId}`
+      };
+    case BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE:
+      return {
+        errorMessage: "Sorry, that page is not available",
+        redirectUrl: `/cases/${caseId}`
+      };
+    case BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST:
+      return {
+        errorMessage: "Sorry, that page is not available",
+        redirectUrl: `/`
+      };
+    case BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE:
+      return {
+        errorMessage: boomErrorMessage,
+        redirectUrl: `/cases/${caseId}`
+      };
+    default:
+      return { errorMessage: boomErrorMessage };
+  }
+};
+
+const getErrorMessageAndCaseIdFromResponse = response => {
   let responseData = response.data;
   if (response.config.responseType === "arraybuffer") {
     responseData = getJsonDataFromArrayBufferResponse(response.data);
   }
   return {
-    errorMessage: responseData.message,
-    redirectUrl: responseData.redirectUrl
+    errorMessageFromResponse: responseData.message,
+    caseId: responseData.caseId
   };
 };
 
@@ -60,6 +104,16 @@ const getJsonDataFromArrayBufferResponse = arrayBuffer => {
 
 const errorIs400 = error => {
   return error.response.status >= 400 && error.response.status < 500;
+};
+
+const resetCaseDetailsPage = dispatch => {
+  dispatch(clearOfficerPanelData());
+  dispatch(closeEditCivilianDialog());
+  dispatch(closeCaseNoteDialog());
+  dispatch(closeCaseStatusUpdateDialog());
+  dispatch(closeRemoveCaseNoteDialog());
+  dispatch(closeRemovePersonDialog());
+  dispatch(closeEditIncidentDetailsDialog());
 };
 
 export default responseErrorInterceptor;

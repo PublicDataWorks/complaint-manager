@@ -12,6 +12,7 @@ const Complainants = props => {
   const allComplainants = props.caseDetails.complainantCivilians.concat(
     props.caseDetails.complainantOfficers
   );
+  const { classes } = props;
 
   const sortedComplainants = _.orderBy(
     allComplainants,
@@ -32,7 +33,9 @@ const Complainants = props => {
           dispatch={props.dispatch}
           incidentDate={props.caseDetails.incidentDate}
           isArchived={props.caseDetails.isArchived}
+          classes={classes}
         />
+
         {props.caseDetails.isArchived ? null : (
           <ComplainantWitnessMenu
             menuOpen={props.menuOpen}
