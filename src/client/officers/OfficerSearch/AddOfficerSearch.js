@@ -3,23 +3,30 @@ import OfficerSearchContainer from "./OfficerSearchContainer";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
 import { connect } from "react-redux";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
+import invalidCaseStatusRedirect from "../../cases/thunks/invalidCaseStatusRedirect";
 
 export class AddOfficerSearch extends React.Component {
-  missingCaseDetails = () => {
+  caseDetailsNotYetLoaded = () => {
     return (
-      !this.props.currentCase ||
-      `${this.props.currentCase.id}` !== this.props.match.params.id
+      !this.props.caseDetails ||
+      `${this.props.caseDetails.id}` !== this.props.match.params.id
     );
   };
   componentDidMount() {
-    this.props.dispatch(clearSelectedOfficer());
-    if (this.missingCaseDetails()) {
-      this.props.dispatch(getCaseDetails(this.props.match.params.id));
+    this.props.clearSelectedOfficer();
+    if (this.caseDetailsNotYetLoaded()) {
+      this.props.getCaseDetails(this.props.match.params.id);
+    }
+  }
+
+  componentDidUpdate() {
+    if (!this.caseDetailsNotYetLoaded() && this.props.caseDetails.isArchived) {
+      this.props.invalidCaseStatusRedirect(this.props.caseDetails.id);
     }
   }
 
   render() {
-    if (this.missingCaseDetails()) return null;
+    if (this.caseDetailsNotYetLoaded()) return null;
     const caseId = this.props.match.params.id;
 
     return (
@@ -33,6 +40,16 @@ export class AddOfficerSearch extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  currentCase: state.currentCase.details
+  caseDetails: state.currentCase.details
 });
-export default connect(mapStateToProps)(AddOfficerSearch);
+
+const mapDispatchToProps = {
+  invalidCaseStatusRedirect,
+  clearSelectedOfficer,
+  getCaseDetails
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddOfficerSearch);

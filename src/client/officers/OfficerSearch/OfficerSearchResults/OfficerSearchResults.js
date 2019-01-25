@@ -79,7 +79,7 @@ export class OfficerSearchResults extends Component {
 const mapStateToProps = state => {
   if (state.currentCase.details.accusedOfficers) {
     return {
-      currentCase: state.currentCase.details,
+      caseDetails: state.currentCase.details,
       searchResults: state.ui.search.searchResults.rows,
       spinnerVisible: state.ui.search.spinnerVisible,
       count: state.ui.search.searchResults.count,

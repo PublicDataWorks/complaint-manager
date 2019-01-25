@@ -71,7 +71,7 @@ export class AllegationSearchResults extends Component {
 
 const mapStateToProps = state => {
   return {
-    currentCase: state.currentCase.details,
+    caseDetails: state.currentCase.details,
     searchResults: state.ui.search.searchResults.rows,
     count: state.ui.search.searchResults.count,
     spinnerVisible: state.ui.search.spinnerVisible,
