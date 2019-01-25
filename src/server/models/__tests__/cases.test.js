@@ -4,7 +4,8 @@ import Civilian from "../../../client/testUtilities/civilian";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
-  RANK_INITIATED
+  RANK_INITIATED,
+  COMPLAINANT
 } from "../../../sharedUtilities/constants";
 import {
   cleanupDatabase,
@@ -16,6 +17,8 @@ import {
   BAD_DATA_ERRORS,
   BAD_REQUEST_ERRORS
 } from "../../../sharedUtilities/errorMessageConstants";
+
+import { range, shuffle } from 'lodash';
 
 describe("cases", function() {
   let createdCase;
@@ -505,5 +508,27 @@ describe("cases", function() {
       expect(createdCase.createdBy).not.toBeNull();
       expect(createdCase.status).toEqual(CASE_STATUS.INITIAL);
     });
+    it("has primaryComplainant, the first existing case complainant",
+       async () => {
+         const complainants = shuffle(
+           range(5).map(i => ({
+             lastName: `complainant${i}`, caseId: 1, roleOnCase: COMPLAINANT
+           }))
+         );
+         const auditUser = 'test';
+         const caseAttributes = new Case.Builder().defaultCase().withId(1);
+         let createdCase = await models.cases.create(caseAttributes, { auditUser })
+         for (const complainant of complainants) {
+           await createdCase.createComplainantOfficer(complainant, { auditUser })
+         }
+         createdCase = await models.cases.findById(1, { include: {
+           model: models.case_officer,
+           as: "complainantOfficers",
+           auditUser
+         }});
+         expect(createdCase.primaryComplainant.lastName)
+           .toEqual(complainants[0].lastName);
+       }
+      )
   });
 });
