@@ -109,9 +109,9 @@ class CasesTable extends React.Component {
                 >
                   <TableSortLabel
                     data-test="complainantSortLabel"
-                    onClick={() => this.props.dispatch(updateSort("lastName"))}
+                    onClick={() => this.props.dispatch(updateSort("primaryComplainant"))}
                     direction={this.props.sortDirection}
-                    active={this.props.sortBy === "lastName"}
+                    active={this.props.sortBy === "primaryComplainant"}
                   >
                     <Typography variant="body2">Complainant</Typography>
                   </TableSortLabel>

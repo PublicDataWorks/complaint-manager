@@ -130,91 +130,29 @@ describe("sorting", () => {
   });
 
   test("should sort by civilian last name ignoring case", () => {
-    const expectedSortedCases = [
-      {
-        id: 3,
-        status: CASE_STATUS.ACTIVE,
-        complainantCivilians: [
-          {
-            lastName: "Aaron",
-            roleOnCase: WITNESS
-          }
-        ],
-        assignedTo: "DceUser"
-      },
-      {
-        id: 2,
-        status: CASE_STATUS.INITIAL,
-        complainantCivilians: [
-          {
-            lastName: "austin",
-            roleOnCase: COMPLAINANT
-          }
-        ],
-        assignedTo: "abcUser"
-      },
-      {
-        id: 1,
-        status: CASE_STATUS.ACTIVE,
-        complainantCivilians: [
-          {
-            lastName: "Zeke",
-            roleOnCase: COMPLAINANT
-          }
-        ],
-        assignedTo: "DceUser"
-      }
+    const cases =[
+      { id: 2, primaryComplainant: { lastName: "austin" } },
+      { id: 1, primaryComplainant: { lastName: "Zeke" } },
+      { id: 3, primaryComplainant: { lastName: "Aaron" } }
     ];
-
-    const sortedCases = sortBy(unsortedCases, "lastName", "asc");
-
-    expect(sortedCases).toEqual(expectedSortedCases);
+    const sortedCases = [
+      { id: 3, primaryComplainant: { lastName: "Aaron" } },
+      { id: 2, primaryComplainant: { lastName: "austin" } },
+      { id: 1, primaryComplainant: { lastName: "Zeke" } }
+    ];
+    expect(sortBy(cases, "primaryComplainant", "asc")).toEqual(sortedCases);
   });
 
   test("should sort by last name and handle cases with no complainantCivilians", () => {
-    const unsorted = [
-      {
-        id: 1,
-        status: CASE_STATUS.ACTIVE,
-        complainantCivilians: [
-          {
-            lastName: "Zeke",
-            roleOnCase: COMPLAINANT
-          }
-        ],
-        assignedTo: "testUser"
-      },
-      {
-        id: 2,
-        status: CASE_STATUS.ACTIVE,
-        complainantCivilians: [],
-        assignedTo: "testUser"
-      }
+    const cases = [
+      { id: 2, primaryComplainant: null },
+      { id: 1, primaryComplainant: { lastName: "Zeke" } }
     ];
-
-    const expected = [
-      {
-        id: 2,
-        status: CASE_STATUS.ACTIVE,
-        complainantCivilians: [],
-        assignedTo: "testUser"
-      },
-      {
-        id: 1,
-        status: CASE_STATUS.ACTIVE,
-        complainantCivilians: [
-          {
-            lastName: "Zeke",
-            roleOnCase: COMPLAINANT
-          }
-        ],
-        assignedTo: "testUser"
-      }
+    const sortedCases = [
+      { id: 1, primaryComplainant: { lastName: "Zeke" } },
+      { id: 2, primaryComplainant: null }
     ];
-
-    const sortedCases = sortBy(unsorted, "lastName", "asc");
-
-    expect(sortedCases).toEqual(expected);
+    expect(sortBy(cases, "primaryComplainant", "asc")).toEqual(sortedCases);
   });
 
   test("should sort by assigned to ignoring case", () => {

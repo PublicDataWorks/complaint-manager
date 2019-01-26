@@ -4,22 +4,6 @@ import { CASE_STATUS_MAP } from "../../sharedUtilities/constants";
 
 const STATUS = Object.freeze(CASE_STATUS_MAP);
 
-const complainantExists = ({ complainantCivilians }) => {
-  const complainant = getFirstComplainant(complainantCivilians);
-
-  return Boolean(complainant);
-};
-
-const existingComplainantLastName = ({ complainantCivilians }) => {
-  const complainant = getFirstComplainant(complainantCivilians);
-
-  if (complainant) {
-    return complainant.lastName.toUpperCase();
-  } else {
-    return null;
-  }
-};
-
 const hasAccusedOfficers = ({ accusedOfficers }) => {
   return accusedOfficers.length > 0;
 };
@@ -57,10 +41,10 @@ const sortBy = (collection, sortBy, sortDirection) => {
     }
   }
 
-  if (sortBy === "lastName") {
+  if (sortBy === "primaryComplainant") {
     const sortedCases = _.sortBy(collection, [
-      complainantExists,
-      existingComplainantLastName
+      "primaryComplainant",
+      ({ primaryComplainant: c }) => c && c.lastName.toUpperCase()
     ]);
 
     if (sortDirection === "desc") {

@@ -38,6 +38,7 @@ class Case {
     this.caseReference = build.caseReference;
     this.intakeSourceId = build.intakeSourceId;
     this.deletedAt = build.deletedAt;
+    this.primaryComplainant = build.primaryComplainant;
   }
 
   static get Builder() {
@@ -246,6 +247,11 @@ class Case {
 
       withDeletedAt(deletedAt) {
         this.deletedAt = deletedAt;
+        return this;
+      }
+
+      withPrimaryComplainant(complainant) {
+        this.primaryComplainant = complainant
         return this;
       }
 
