@@ -61,7 +61,7 @@ describe("cases table", () => {
     caseOne = new Case.Builder()
       .defaultCase()
       .withId(17)
-      .withComplainantCivilians([civilianChuck])
+      .withPrimaryComplainant(civilianChuck)
       .withComplaintType(CIVILIAN_INITIATED)
       .withStatus(CASE_STATUS.INITIAL)
       .withCreatedAt(new Date(2015, 8, 13).toISOString())
@@ -72,7 +72,7 @@ describe("cases table", () => {
     const caseTwo = new Case.Builder()
       .defaultCase()
       .withId(24)
-      .withComplainantCivilians([civilianAriel])
+      .withPrimaryComplainant(civilianAriel)
       .withComplaintType(CIVILIAN_INITIATED)
       .withStatus(CASE_STATUS.READY_FOR_REVIEW)
       .withCreatedAt(new Date().toISOString())
@@ -119,7 +119,7 @@ describe("cases table", () => {
         .last();
       caseReferenceLabel.simulate("click");
 
-      expect(dispatchSpy).toHaveBeenCalledWith(updateSort("lastName"));
+      expect(dispatchSpy).toHaveBeenCalledWith(updateSort("primaryComplainant"));
     });
 
     test("should update sort by when date clicked", () => {
