@@ -18,7 +18,7 @@ const AddressInfoDisplay = ({
     formattedAddress = "No address specified";
   }
   return (
-    <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }}>
+    <div>
       <Typography variant="caption">{displayLabel}</Typography>
       <Typography variant="body1" data-test={testLabel}>
         {formattedAddress}

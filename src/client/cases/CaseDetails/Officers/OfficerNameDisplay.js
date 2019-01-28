@@ -3,7 +3,7 @@ import { Typography } from "@material-ui/core";
 
 const OfficerNameDisplay = props => {
   return (
-    <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }}>
+    <div>
       <Typography variant="caption">{props.displayLabel}</Typography>
       <Typography
         variant="body1"
