@@ -61,24 +61,22 @@ class CaseNotes extends Component {
           </div>
           <RemoveCaseNoteDialog />
         </div>
-        {this.props.isArchived ? null : (
-          <LinkButton
-            onClick={() => {
-              this.props.dispatch(
-                initialize("CaseNotes", {
-                  actionTakenAt: timezone
-                    .tz(new Date(Date.now()), TIMEZONE)
-                    .format("YYYY-MM-DDTHH:mm")
-                })
-              );
-              this.props.dispatch(openCaseNoteDialog("Add", {}));
-            }}
-            style={{ margin: "0% 0% 5% 2%" }}
-            data-test="addCaseNoteButton"
-          >
-            + Add Case Note
-          </LinkButton>
-        )}
+        <LinkButton
+          onClick={() => {
+            this.props.dispatch(
+              initialize("CaseNotes", {
+                actionTakenAt: timezone
+                  .tz(new Date(Date.now()), TIMEZONE)
+                  .format("YYYY-MM-DDTHH:mm")
+              })
+            );
+            this.props.dispatch(openCaseNoteDialog("Add", {}));
+          }}
+          style={{ margin: "0% 0% 5% 2%" }}
+          data-test="addCaseNoteButton"
+        >
+          + Add Case Note
+        </LinkButton>
       </div>
     );
   }
