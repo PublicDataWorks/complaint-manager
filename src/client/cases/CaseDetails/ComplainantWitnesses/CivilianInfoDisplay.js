@@ -3,7 +3,7 @@ import { Typography } from "@material-ui/core";
 import TextTruncate from "../../../shared/components/TextTruncate";
 
 const CivilianInfoDisplay = props => (
-  <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }}>
+  <div>
     <Typography variant="caption" data-test={`${props.testLabel}Label`}>
       {props.displayLabel}
     </Typography>

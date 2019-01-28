@@ -15,6 +15,7 @@ import {
   closeEditIncidentDetailsDialog,
   openEditIncidentDetailsDialog
 } from "../../../actionCreators/casesActionCreators";
+import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
 
 class IncidentDetails extends React.Component {
   formatTimeForDisplay = (date, time) => {
@@ -71,49 +72,63 @@ class IncidentDetails extends React.Component {
           >
             <div style={{ width: "100%" }}>
               <div className={classes.detailsRow}>
-                <CivilianInfoDisplay
-                  displayLabel="First Contacted IPM"
-                  value={formatDate(firstContactDate)}
-                  testLabel="firstContactDate"
-                />
-                <CivilianInfoDisplay
-                  displayLabel="Incident Date"
-                  value={formatDate(incidentDate)}
-                  testLabel="incidentDate"
-                />
-                <CivilianInfoDisplay
-                  displayLabel="Incident Time"
-                  value={this.formatTimeForDisplay(incidentDate, incidentTime)}
-                  testLabel="incidentTime"
-                />
+                <StyledInfoDisplay>
+                  <CivilianInfoDisplay
+                    displayLabel="First Contacted IPM"
+                    value={formatDate(firstContactDate)}
+                    testLabel="firstContactDate"
+                  />
+                </StyledInfoDisplay>
+                <StyledInfoDisplay>
+                  <CivilianInfoDisplay
+                    displayLabel="Incident Date"
+                    value={formatDate(incidentDate)}
+                    testLabel="incidentDate"
+                  />
+                </StyledInfoDisplay>
+                <StyledInfoDisplay>
+                  <CivilianInfoDisplay
+                    displayLabel="Incident Time"
+                    value={this.formatTimeForDisplay(
+                      incidentDate,
+                      incidentTime
+                    )}
+                    testLabel="incidentTime"
+                  />
+                </StyledInfoDisplay>
               </div>
               <div className={classes.detailsRow}>
-                <AddressInfoDisplay
-                  testLabel="incidentLocation"
-                  displayLabel="Incident Location"
-                  address={incidentLocation}
-                  useLineBreaks={true}
-                  style={{ flex: 1 }}
-                />
-                <CivilianInfoDisplay
-                  displayLabel="District"
-                  value={district}
-                  testLabel="incidentDistrict"
-                />
-                <CivilianInfoDisplay
-                  displayLabel="Classification"
-                  value={classificationInitialism}
-                  testLabel="classification"
-                />
+                <StyledInfoDisplay>
+                  <AddressInfoDisplay
+                    testLabel="incidentLocation"
+                    displayLabel="Incident Location"
+                    address={incidentLocation}
+                    useLineBreaks={true}
+                  />
+                </StyledInfoDisplay>
+                <StyledInfoDisplay>
+                  <CivilianInfoDisplay
+                    displayLabel="District"
+                    value={district}
+                    testLabel="incidentDistrict"
+                  />
+                </StyledInfoDisplay>
+                <StyledInfoDisplay>
+                  <CivilianInfoDisplay
+                    displayLabel="Classification"
+                    value={classificationInitialism}
+                    testLabel="classification"
+                  />
+                </StyledInfoDisplay>
               </div>
               <div className={classes.detailsLastRow}>
-                <div style={{ display: "flex", width: "100%" }}>
+                <StyledInfoDisplay>
                   <CivilianInfoDisplay
                     displayLabel="Intake Source"
                     value={intakeSourceName}
                     testLabel="intakeSource"
                   />
-                </div>
+                </StyledInfoDisplay>
               </div>
             </div>
             <div className={classes.detailsPaneButtons}>

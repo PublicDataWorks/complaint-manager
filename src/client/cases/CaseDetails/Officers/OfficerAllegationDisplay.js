@@ -10,6 +10,7 @@ import {
   IconButton
 } from "@material-ui/core";
 import { connect } from "react-redux";
+import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
 
 class OfficerAllegationDisplay extends Component {
   handleChange = (event, expanded) => {
@@ -58,13 +59,7 @@ class OfficerAllegationDisplay extends Component {
           }}
         >
           <ExpansionPanelSummary>
-            <IconButton
-              style={{ marginRight: 16 }}
-              color="secondary"
-              className="chevron-right"
-            >
-              <Icon>unfold_more</Icon>
-            </IconButton>
+            <ExpansionPanelIconButton />
             <OfficerInfoDisplay
               displayLabel="Rule"
               value={formatStringToTitleCase(rule)}

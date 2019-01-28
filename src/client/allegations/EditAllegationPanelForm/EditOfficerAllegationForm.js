@@ -11,10 +11,10 @@ import {
   allegationDetailsRequired,
   allegationSeverityRequired
 } from "../../formFieldLevelValidations";
-import { ExpansionPanelDetails } from "@material-ui/core";
 import { allegationSeverityMenu } from "../../utilities/generateMenus";
 import NoBlurTextField from "../../cases/CaseDetails/CivilianDialog/FormSelect";
 import { connect } from "react-redux";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 
 const onSubmit = (values, dispatch, caseId) => {
   const { id, details, severity } = values;

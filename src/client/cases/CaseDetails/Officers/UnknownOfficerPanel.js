@@ -2,8 +2,6 @@ import {
   Divider,
   ExpansionPanel,
   ExpansionPanelSummary,
-  Icon,
-  IconButton,
   Typography
 } from "@material-ui/core";
 import React from "react";
@@ -17,6 +15,8 @@ import {
   accusedOfficerPanelExpanded
 } from "../../../actionCreators/accusedOfficerPanelsActionCreators";
 import { connect } from "react-redux";
+import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
+import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
 
 const UnknownOfficerPanel = ({ dispatch, caseOfficer, children }) => {
   return (
@@ -40,28 +40,24 @@ const UnknownOfficerPanel = ({ dispatch, caseOfficer, children }) => {
                 marginBottom: 4
               }}
             >
-              <div style={{ width: "36px", marginRight: 16 }}>
-                <IconButton
-                  style={{ height: "36px", width: "36px" }}
-                  color="secondary"
-                  className="chevron-right"
-                >
-                  <Icon>unfold_more</Icon>
-                </IconButton>
-              </div>
-              <OfficerInfoDisplay
-                displayLabel="Officer"
-                value={caseOfficer.fullName}
-                testLabel="officerName"
-              />
+              <ExpansionPanelIconButton />
+              <StyledInfoDisplay>
+                <OfficerInfoDisplay
+                  displayLabel="Officer"
+                  value={caseOfficer.fullName}
+                  testLabel="officerName"
+                />
+              </StyledInfoDisplay>
             </div>
           </ExpansionPanelSummary>
           <StyledExpansionPanelDetails>
-            <OfficerInfoDisplay
-              displayLabel="Notes"
-              value={caseOfficer.notes}
-              testLabel="notes"
-            />
+            <StyledInfoDisplay>
+              <OfficerInfoDisplay
+                displayLabel="Notes"
+                value={caseOfficer.notes}
+                testLabel="notes"
+              />
+            </StyledInfoDisplay>
           </StyledExpansionPanelDetails>
           {caseOfficer && caseOfficer.roleOnCase === ACCUSED && (
             <div
