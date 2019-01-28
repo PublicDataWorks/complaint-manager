@@ -8,8 +8,14 @@ import {
 } from "../../sharedUtilities/errorMessageConstants";
 import { snackbarError } from "../actionCreators/snackBarActionCreators";
 import { SNACKBAR_ERROR } from "../../sharedUtilities/constants";
+import getCaseDetails from "../cases/thunks/getCaseDetails";
 
 jest.mock("../auth/getAccessToken", () => jest.fn(() => "token"));
+
+jest.mock("../cases/thunks/getCaseDetails", () => caseId => ({
+  type: "MOCK_GET_CASE_DETAILS",
+  caseId
+}));
 
 describe("response error interceptor", () => {
   const dispatch = jest.fn();
@@ -68,7 +74,7 @@ describe("response error interceptor", () => {
         expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
       });
 
-      test("cannot update archived case should redirect and show page not available snackbar error", async () => {
+      test("cannot update archived case should redirect, get case details, and show page not available snackbar error", async () => {
         nock("http://localhost")
           .get(`/api/cases/${caseId}`)
           .reply(400, {
@@ -81,6 +87,7 @@ describe("response error interceptor", () => {
           snackbarError(PAGE_NOT_AVAILABLE)
         );
         expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+        expect(dispatch).toHaveBeenCalledWith(getCaseDetails(caseId));
       });
 
       test("case does not exist should redirect and show page not available snackbar error", async () => {
