@@ -10,6 +10,7 @@ import {
   closeRemoveCaseNoteDialog,
   closeRemovePersonDialog
 } from "../actionCreators/casesActionCreators";
+import getCaseDetails from "../cases/thunks/getCaseDetails";
 
 const responseErrorInterceptor = dispatch => error => {
   let snackbarErrorMessage = error.response.data.message;
@@ -50,7 +51,7 @@ const get400ErrorMessage = (error, dispatch) => {
   );
 
   if (redirectUrl) {
-    resetCaseDetailsPage(dispatch);
+    resetCaseDetailsPage(dispatch, caseId);
     dispatch(push(`${redirectUrl}`));
   }
   return errorMessage;
@@ -106,7 +107,7 @@ const errorIs400 = error => {
   return error.response.status >= 400 && error.response.status < 500;
 };
 
-const resetCaseDetailsPage = dispatch => {
+const resetCaseDetailsPage = (dispatch, caseId) => {
   dispatch(clearOfficerPanelData());
   dispatch(closeEditCivilianDialog());
   dispatch(closeCaseNoteDialog());
@@ -114,6 +115,9 @@ const resetCaseDetailsPage = dispatch => {
   dispatch(closeRemoveCaseNoteDialog());
   dispatch(closeRemovePersonDialog());
   dispatch(closeEditIncidentDetailsDialog());
+  if (caseId) {
+    dispatch(getCaseDetails(caseId));
+  }
 };
 
 export default responseErrorInterceptor;
