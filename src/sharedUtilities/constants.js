@@ -143,6 +143,7 @@ export const CASE_NOTE_FORM_NAME = "CaseNotes";
 export const REMOVE_CASE_NOTE_FORM_NAME = "RemoveCaseNoteForm";
 export const ARCHIVE_CASE_FORM_NAME = "ArchiveCaseForm";
 export const NARRATIVE_FORM = "NarrativeForm";
+export const EDIT_LETTER_HTML_FORM = "EditLetterHtmlForm";
 
 // ----------------------------------------
 //          Auth0 Scopes / Permissions
