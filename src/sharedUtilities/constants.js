@@ -142,6 +142,7 @@ export const OFFICER_SEARCH_FORM_NAME = "OfficerSearchForm";
 export const CASE_NOTE_FORM_NAME = "CaseNotes";
 export const REMOVE_CASE_NOTE_FORM_NAME = "RemoveCaseNoteForm";
 export const ARCHIVE_CASE_FORM_NAME = "ArchiveCaseForm";
+export const NARRATIVE_FORM = "NarrativeForm";
 
 // ----------------------------------------
 //          Auth0 Scopes / Permissions

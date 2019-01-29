@@ -5,9 +5,7 @@ import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansion
 import {
   CardContent,
   ExpansionPanel,
-  ExpansionPanelSummary,
-  Icon,
-  IconButton
+  ExpansionPanelSummary
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
