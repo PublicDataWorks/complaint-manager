@@ -1,14 +1,37 @@
 import React from "react";
 import ReactQuill from "react-quill";
+import { connect } from "react-redux";
 
 class RichTextEditor extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { text: props.initialValue };
+    this.state = {
+      text: props.initialValue,
+      formInitializedToQuillFormat: false
+    };
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(value) {
+  initializeFormToQuillFormat(
+    initializeForm,
+    value,
+    formInitializedToQuillGeneratedValue
+  ) {
+    if (!formInitializedToQuillGeneratedValue) {
+      initializeForm(this.props.dispatch, value);
+      this.setState({ formInitializedToQuillFormat: true });
+    }
+  }
+
+  handleChange(value, formInitializedToQuillFormat) {
+    if (this.props.initializeForm) {
+      this.initializeFormToQuillFormat(
+        this.props.initializeForm,
+        value,
+        formInitializedToQuillFormat
+      );
+    }
+
     this.setState({ text: value });
     this.props.onChange(value);
   }
@@ -36,7 +59,9 @@ class RichTextEditor extends React.Component {
       <ReactQuill
         theme={"snow"}
         value={this.state.text}
-        onChange={this.handleChange}
+        onChange={value =>
+          this.handleChange(value, this.state.formInitializedToQuillFormat)
+        }
         modules={modules}
         formats={formats}
         style={this.props.style}
@@ -46,4 +71,4 @@ class RichTextEditor extends React.Component {
   }
 }
 
-export default RichTextEditor;
+export default connect()(RichTextEditor);

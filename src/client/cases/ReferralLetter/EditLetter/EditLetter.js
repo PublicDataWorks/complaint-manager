@@ -10,10 +10,11 @@ import {
 } from "../../../shared/components/StyledButtons";
 import {
   CASE_STATUS,
+  EDIT_LETTER_HTML_FORM,
   LETTER_PROGRESS
 } from "../../../../sharedUtilities/constants";
 import getLetterPreview from "../thunks/getLetterPreview";
-import { Field, reduxForm } from "redux-form";
+import { Field, initialize, reduxForm } from "redux-form";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 import { openCancelEditLetterConfirmationDialog } from "../../../actionCreators/letterActionCreators";
 import CancelEditLetterConfirmationDialog from "./CancelEditLetterConfirmationDialog";
@@ -26,6 +27,11 @@ const RichTextEditorComponent = props => {
       initialValue={props.input.value}
       onChange={newValue => props.input.onChange(newValue)}
       data-test={"editLetterInput"}
+      initializeForm={(dispatch, value) => {
+        dispatch(
+          initialize(EDIT_LETTER_HTML_FORM, { editedLetterHtml: value })
+        );
+      }}
     />
   );
 };
@@ -66,6 +72,17 @@ export class EditLetter extends Component {
     );
   };
 
+  renderSaveButton = () => {
+    return (
+      <PrimaryButton
+        data-test="saveButton"
+        onClick={this.saveAndGoBackToPreview()}
+        disabled={this.props.pristine}
+      >
+        Save Edited Letter
+      </PrimaryButton>
+    );
+  };
   saveAndReturnToCase = () => {
     return this.props.handleSubmit(
       this.submitEditedLetterForm(`/cases/${this.state.caseId}`)
@@ -159,13 +176,7 @@ export class EditLetter extends Component {
                 </SecondaryButton>
               </span>
               <span style={{ flex: 1, textAlign: "right" }}>
-                <PrimaryButton
-                  data-test="saveButton"
-                  onClick={this.saveAndGoBackToPreview()}
-                  disabled={this.props.pristine}
-                >
-                  Save Edited Letter
-                </PrimaryButton>
+                {this.renderSaveButton()}
               </span>
             </div>
           </div>
@@ -188,8 +199,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(
-  reduxForm({ form: "editLetterHtmlForm", enableReinitialize: true })(
-    EditLetter
-  )
-);
+)(reduxForm({ form: EDIT_LETTER_HTML_FORM })(EditLetter));
