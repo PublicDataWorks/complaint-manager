@@ -12,5 +12,13 @@
     "criteria": {
       "isPreProd": true
     }
+  },
+  {
+    "id": "pibCaseNumberFeature",
+    "name": "pibCaseNumberFeature",
+    "description": "Toggle to show PIB Case Number Field in Incident Details",
+    "criteria": {
+      "isPreProd": true
+    }
   }
 ]

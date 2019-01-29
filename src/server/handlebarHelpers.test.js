@@ -2,6 +2,7 @@ import {
   extractFirstLine,
   formatAddress,
   generateSignature,
+  generateSubjectLine,
   isPresent,
   newLineToLineBreak,
   renderHtml,
@@ -448,5 +449,25 @@ describe("handlebarHelpers", function() {
     test("returns stellas signature when stella is sender", () => {
       expect(generateSignature(stellaSender, true)).toEqual(signaturePath);
     });
+  });
+});
+
+describe("generate subject line", function() {
+  const caseReference = "CC2019-0027";
+  const pibCaseNumber = "2019-0027-R";
+  const supplementalSubjectLine =
+    "Supplemental Referral; IPM Complaint CC2019-0027; PIB Case 2019-0027-R";
+  const subjectLineWithoutPibCaseNumber =
+    "Complaint Referral; IPM Complaint CC2019-0027";
+
+  test("returns supplemental subject line whe pib case number present", () => {
+    expect(generateSubjectLine(caseReference, pibCaseNumber)).toEqual(
+      supplementalSubjectLine
+    );
+  });
+  test("returns subject line without pib case number when pib case number null", () => {
+    expect(generateSubjectLine(caseReference, null)).toEqual(
+      subjectLineWithoutPibCaseNumber
+    );
   });
 });

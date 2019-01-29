@@ -54,7 +54,8 @@ const getPdfData = async (caseId, transaction) => {
       "complaintType",
       "id",
       "year",
-      "caseNumber"
+      "caseNumber",
+      "pibCaseNumber"
     ],
     include: [
       {
@@ -80,6 +81,7 @@ export const generateLetterPdfHtml = (
     sender: pdfData.referralLetter.sender,
     transcribedBy: pdfData.referralLetter.transcribedBy,
     caseReference: pdfData.caseReference,
+    pibCaseNumber: pdfData.pibCaseNumber,
     includeSignature,
     currentDate
   };

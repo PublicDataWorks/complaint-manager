@@ -137,3 +137,11 @@ export const generateSignature = (sender, includeSignature) => {
   return "<p><br></p>";
 };
 Handlebars.registerHelper("generateSignature", generateSignature);
+
+export const generateSubjectLine = (caseReference, pibCaseNumber) => {
+  if (pibCaseNumber) {
+    return `Supplemental Referral; IPM Complaint ${caseReference}; PIB Case ${pibCaseNumber}`;
+  }
+  return `Complaint Referral; IPM Complaint ${caseReference}`;
+};
+Handlebars.registerHelper("generateSubjectLine", generateSubjectLine);

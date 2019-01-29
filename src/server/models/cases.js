@@ -99,6 +99,10 @@ export default (sequelize, DataTypes) => {
         field: "narrative_details",
         type: DataTypes.TEXT
       },
+      pibCaseNumber: {
+        field: "pib_case_number",
+        type: DataTypes.STRING(25)
+      },
       createdBy: {
         field: "created_by",
         type: DataTypes.STRING,

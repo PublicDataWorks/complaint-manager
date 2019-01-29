@@ -10,6 +10,7 @@
   <p><br></p>
   <p><strong><u>IPM Complaint #:</u></strong> {{caseReference}}</p>
   {{#if (isPresent firstContactDate)}}<p>Date filed with IPM: {{{formatShortDate firstContactDate}}}</p>{{/if}}
+  {{#if (isPresent pibCaseNumber)}}<p>PIB Case Number: {{pibCaseNumber}}</p>{{/if}}
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>

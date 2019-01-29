@@ -176,7 +176,8 @@ describe("dataChangeAuditHooks", () => {
         intake_source: null,
         deletedAt: null,
         caseNumber: 1,
-        year: 2017
+        year: 2017,
+        pibCaseNumber: null
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -208,7 +209,8 @@ describe("dataChangeAuditHooks", () => {
         intake_source: null,
         deletedAt: null,
         year: 2017,
-        caseNumber: 1
+        caseNumber: 1,
+        pibCaseNumber: null
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -533,7 +535,8 @@ describe("dataChangeAuditHooks", () => {
         intake_source: emailIntakeSource.name,
         deletedAt: null,
         caseNumber: 1,
-        year: 2017
+        year: 2017,
+        pibCaseNumber: null
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
     });
@@ -748,7 +751,10 @@ describe("dataChangeAuditHooks", () => {
         status: { previous: "Initial" },
         intakeSourceId: { previous: intakeSource.id },
         intakeSource: { previous: intakeSource.name },
-        intake_source: {}
+        intake_source: {},
+        pibCaseNumber: {
+          previous: null
+        }
       };
       expect(audit.changes).toEqual(expectedChanges);
     });

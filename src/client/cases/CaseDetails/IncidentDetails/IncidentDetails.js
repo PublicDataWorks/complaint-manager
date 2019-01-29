@@ -53,7 +53,9 @@ class IncidentDetails extends React.Component {
       district,
       classification,
       intakeSource,
-      classes
+      classes,
+      pibCaseNumber,
+      featureToggles
     } = this.props;
     const classificationInitialism = classification
       ? classification.initialism
@@ -121,7 +123,7 @@ class IncidentDetails extends React.Component {
                   />
                 </StyledInfoDisplay>
               </div>
-              <div className={classes.detailsLastRow}>
+              <div className={classes.detailsRow}>
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
                     displayLabel="Intake Source"
@@ -129,6 +131,17 @@ class IncidentDetails extends React.Component {
                     testLabel="intakeSource"
                   />
                 </StyledInfoDisplay>
+              </div>
+              <div className={classes.detailsLastRow}>
+                {!featureToggles.pibCaseNumberFeature ? null : (
+                  <StyledInfoDisplay>
+                    <CivilianInfoDisplay
+                      displayLabel="PIB Case Number"
+                      value={pibCaseNumber}
+                      testLabel="pibCaseNumber"
+                    />
+                  </StyledInfoDisplay>
+                )}
               </div>
             </div>
             <div className={classes.detailsPaneButtons}>
@@ -167,7 +180,9 @@ const mapStateToProps = state => ({
   intakeSourceId: state.currentCase.details.intakeSourceId,
   intakeSource: state.currentCase.details.intakeSource,
   isArchived: state.currentCase.details.isArchived,
-  open: state.ui.editIncidentDetailsDialog.open
+  open: state.ui.editIncidentDetailsDialog.open,
+  featureToggles: state.featureToggles,
+  pibCaseNumber: state.currentCase.details.pibCaseNumber
 });
 
 export default connect(mapStateToProps)(IncidentDetails);

@@ -36,7 +36,7 @@ import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getInta
 import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocationInfo";
 import normalizeAddress from "../../../utilities/normalizeAddress";
 import { intakeSourceIsRequired } from "../../../formFieldLevelValidations";
-import {INCIDENT_DETAILS_FORM_NAME} from "../../../../sharedUtilities/constants";
+import { INCIDENT_DETAILS_FORM_NAME } from "../../../../sharedUtilities/constants";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -204,6 +204,28 @@ class IncidentDetailsDialog extends Component {
                 {generateMenu(props.intakeSources)}
               </Field>
             </div>
+            {!props.featureToggles.pibCaseNumberFeature ? null : (
+              <div style={{ display: "flex", marginTop: "16px" }}>
+                <Field
+                  name="pibCaseNumber"
+                  component={TextField}
+                  label="PIB Case Number"
+                  data-test="pibCaseNumber"
+                  placeholder="Enter PIB Case Number"
+                  inputProps={{
+                    "data-test": "pibCaseNumberInput",
+                    maxLength: 25
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                  style={{
+                    marginRight: "5%",
+                    flex: "2"
+                  }}
+                  autoComplete="off"
+                />
+                <div style={{ flex: 1 }} />
+              </div>
+            )}
           </form>
         </DialogContent>
         <DialogActions
@@ -251,7 +273,8 @@ const mapStateToProps = state => {
     formattedAddress: formatAddressAsString(values.incidentLocation),
     addressValid: state.ui.addressInput.addressValid,
     classifications: state.ui.classifications,
-    intakeSources: state.ui.intakeSources
+    intakeSources: state.ui.intakeSources,
+    featureToggles: state.featureToggles
   };
 };
 
