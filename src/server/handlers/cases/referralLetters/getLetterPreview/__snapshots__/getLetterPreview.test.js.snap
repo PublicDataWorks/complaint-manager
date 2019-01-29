@@ -13,6 +13,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests it renders 
   <p><br></p>
   <p><strong><u>IPM Complaint #:</u></strong> CC2017-0001</p>
   <p>Date filed with IPM: 12/25/2017</p>
+  
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
@@ -122,6 +123,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
   <p><strong><u>IPM Complaint #:</u></strong> CC2017-0001</p>
   <p>Date filed with IPM: 12/25/2017</p>
+  
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
@@ -229,6 +231,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
   <p><strong><u>IPM Complaint #:</u></strong> CC2017-0001</p>
   <p>Date filed with IPM: 12/25/2017</p>
+  
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
@@ -370,6 +373,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
   <p><strong><u>IPM Complaint #:</u></strong> CC2017-0001</p>
   <p>Date filed with IPM: 12/25/2017</p>
+  
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
@@ -485,6 +489,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
   <p><strong><u>IPM Complaint #:</u></strong> CC2017-0001</p>
   <p>Date filed with IPM: 12/25/2017</p>
+  
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
@@ -591,6 +596,110 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
   <p><strong><u>IPM Complaint #:</u></strong> CC2017-0001</p>
   <p>Date filed with IPM: 12/25/2017</p>
+  
+  <p><br></p>
+
+  <p><strong><u>Complainant Information</u></strong></p>
+    <p>Name: Chuck E. Berry XVI</p>
+    <p>Race: Filipino</p>
+    <p>Sex: Female</p>
+    <p>Date of Birth: 04/24/1994</p>
+    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
+    <p>Phone: (123) 456-7890</p>
+    <p>Email: cberry@cberry.com</p>
+    <p><br></p>
+
+  <p><strong><u>Subject NOPD Employee(s) Information</u></strong></p>
+    <p>Name: Grant M Young</p>
+    <p>Rank: ADMIN SUPPORT SPECIALIST II</p>
+    <p>Employee ID: #12</p>
+    <p>Race: Black</p>
+    <p>Sex: M</p>
+    <p>Date of Birth: 02/23/1986</p>
+    <p>Supervisor (Employee ID): Belly G Walsh (#14)</p>
+    <p>Employee Type: Commissioned</p>
+    <p>District: First District</p>
+    <p>Bureau: MSB - Management Service Bureau</p>
+    <p>Status: Retired</p>
+    <p>End of Employment: 05/31/2018</p>
+    <p><br></p>
+
+
+  <p><strong><u>Incident</u></strong></p>
+  <p>Date: 01/01/2017</p>
+  <p>Location: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
+  <p>Time: 04:00 PM CST</p>
+
+  <p><br></p>
+  <p><br></p>
+  <p class=\\"ql-align-center\\"><strong><u>Initial Allegations/Concerns/Issues</u></strong></p>
+  <p><br></p>
+    ADMIN SUPPORT SPECIALIST II Grant M Young is accused of the following violations:
+      <ul>
+          <li>RULE 2: MORAL CONDUCT: PARAGRAPH 01 - ADHERENCE TO LAW: Title 18 of the United Stated Code Section 1001: Statements or Entries Generally</li>
+      </ul>
+      <p><br></p>
+  <p class=\\"preserve-white-space\\"><strong><u>Summary:</u></strong> test summary</p>
+  <p><br></p>
+  <p class=\\"preserve-white-space\\"><strong><u>Detail:</u></strong> test details</p>
+
+  <p><br></p>
+  <p><br></p>
+
+    <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
+    <p><br></p>
+        <p>
+          The IPM has reviewed <strong>ADMIN SUPPORT SPECIALIST II Grant M Young's</strong> disciplinary history for the last five years and has determined that the
+          subject employee has the following significant/noteworthy number of complaints:</p>
+        <ul>
+            <li>
+              6 total complaints including
+                1 HIGH RISK allegations,                2 MEDIUM RISK allegations,                3 LOW RISK allegations.
+            </li>
+          <li>
+            This officer has done this before
+          </li>
+        </ul>
+      <p><br></p>
+
+  <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
+  <p><br></p>
+        <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+        <p><br></p>
+  <p><br></p>
+
+
+    <p class=\\"ql-align-center\\"><strong><u>Retaliation Concerns and Request for Notice to Officer(s)</u></strong></p>
+    <p><br></p>
+    <p>Based on the information provided by the complainant, the OIPM is concerned about retaliation against the complainant.
+      We request that once the accused officer(s) is made aware of this complaint that they be admonished in writing by their
+      commanding officer(s) about retaliating against the Complainant, or from having others do so.</p>
+    <p><br></p>
+    <p><br></p>
+
+
+
+
+  <p>I appreciate your prompt attention to this matter. Please contact me if you have any questions.</p>
+  <p><br></p>
+
+</div>"
+`;
+
+exports[`getLetterPreview in letter in progress status snapshotTests renders correctly with pib case number 1`] = `
+"<div>
+  <p>
+      This is to inform you pursuant to New Orleans City Code Section 2-1121 (the Police Monitors Ordinance) that the
+      Office of the Independent Police Monitor (IPM) has received a complaint of misconduct by an NOPD employee(s).
+      The complainant related the following information to our office:
+  </p>
+  <p><br></p>
+  <p><br></p>
+  <p class=\\"ql-align-center\\"><strong><u>Complaint Information</u></strong></p>
+  <p><br></p>
+  <p><strong><u>IPM Complaint #:</u></strong> CC2017-0001</p>
+  <p>Date filed with IPM: 12/25/2017</p>
+  <p>PIB Case Number: 2019-0023-R</p>
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
@@ -693,6 +802,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
   <p><strong><u>IPM Complaint #:</u></strong> CC2017-0001</p>
   <p>Date filed with IPM: 12/25/2017</p>
+  
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>

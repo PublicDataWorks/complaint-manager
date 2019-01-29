@@ -13,7 +13,8 @@ const getCaseData = async (caseId, transaction) => {
       "firstContactDate",
       "complaintType",
       "year",
-      "caseNumber"
+      "caseNumber",
+      "pibCaseNumber"
     ],
     order: [
       [

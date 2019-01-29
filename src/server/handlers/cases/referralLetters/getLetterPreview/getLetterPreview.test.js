@@ -522,6 +522,15 @@ describe("getLetterPreview", function() {
         expect(response._getData().letterHtml).toMatchSnapshot();
       });
 
+      test("renders correctly with pib case number", async () => {
+        await existingCase.update(
+          { pibCaseNumber: "2019-0023-R" },
+          { auditUser: "test" }
+        );
+        await getLetterPreview(request, response, next);
+        expect(response._getData().letterHtml).toMatchSnapshot();
+      });
+
       test("renders correctly with a civilian witness", async () => {
         const civilianWitnessAttributes = new Civilian.Builder()
           .defaultCivilian()
