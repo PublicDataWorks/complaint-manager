@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "../../../globalStyling/styles";
 import { Divider, Typography } from "@material-ui/core";
 import OfficerActions from "./OfficerActions";
 import UnknownOfficerPanel from "../Officers/UnknownOfficerPanel";

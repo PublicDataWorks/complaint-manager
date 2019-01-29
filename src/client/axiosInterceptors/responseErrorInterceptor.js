@@ -2,6 +2,8 @@ import { push } from "connected-react-router";
 import { snackbarError } from "../actionCreators/snackBarActionCreators";
 import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants";
 import { clearOfficerPanelData } from "../actionCreators/accusedOfficerPanelsActionCreators";
+import { reset } from "redux-form";
+
 import {
   closeCaseNoteDialog,
   closeCaseStatusUpdateDialog,
@@ -11,6 +13,7 @@ import {
   closeRemovePersonDialog
 } from "../actionCreators/casesActionCreators";
 import getCaseDetails from "../cases/thunks/getCaseDetails";
+import { NARRATIVE_FORM } from "../../sharedUtilities/constants";
 
 const responseErrorInterceptor = dispatch => error => {
   let snackbarErrorMessage = error.response.data.message;
@@ -108,6 +111,7 @@ const errorIs400 = error => {
 };
 
 const resetCaseDetailsPage = (dispatch, caseId) => {
+  dispatch(reset(NARRATIVE_FORM));
   dispatch(clearOfficerPanelData());
   dispatch(closeEditCivilianDialog());
   dispatch(closeCaseNoteDialog());

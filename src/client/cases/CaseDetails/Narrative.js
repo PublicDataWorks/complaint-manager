@@ -5,6 +5,7 @@ import updateNarrative from "../thunks/updateNarrative";
 import { CardActions, CardContent, Typography } from "@material-ui/core";
 import { PrimaryButton } from "../../shared/components/StyledButtons";
 import BaseCaseDetailsCard from "./BaseCaseDetailsCard";
+import { NARRATIVE_FORM } from "../../../sharedUtilities/constants";
 
 const Narrative = props => {
   return (
@@ -90,7 +91,7 @@ const Narrative = props => {
           <PrimaryButton
             data-test="saveNarrative"
             disabled={props.pristine}
-            onClick={() => props.dispatch(submit("Narrative"))}
+            onClick={() => props.dispatch(submit(NARRATIVE_FORM))}
             style={{ margin: "0px" }}
           >
             Save
@@ -110,7 +111,7 @@ const dispatchUpdateNarrative = (values, dispatch, props) => {
 };
 
 export default reduxForm({
-  form: "Narrative",
+  form: NARRATIVE_FORM,
   onSubmit: dispatchUpdateNarrative,
   enableReinitialize: true
 })(Narrative);
