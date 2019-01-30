@@ -32,6 +32,8 @@ exports.init = sequelize => {
   const originalInstanceUpdate = sequelize.Model.prototype.update;
   const originalDestroy = sequelize.Model.destroy;
   const originalInstanceDestroy = sequelize.Model.prototype.destroy;
+  const originalRestore = sequelize.Model.restore;
+  const originalInstanceRestore = sequelize.Model.prototype.restore;
 
   const fieldsToIgnore = [
     "createdAt",
@@ -51,8 +53,16 @@ exports.init = sequelize => {
   };
 
   sequelize.Model.prototype.destroy = async function(options = {}) {
-    return await addTransactionToDestroy(
+    return await addTransactionToFunctionWithoutValues(
       originalInstanceDestroy,
+      options,
+      this
+    );
+  };
+
+  sequelize.Model.prototype.restore = async function(options = {}) {
+    return await addTransactionToFunctionWithoutValues(
+      originalInstanceRestore,
       options,
       this
     );
@@ -63,6 +73,7 @@ exports.init = sequelize => {
       this.addHook("afterCreate", afterCreateHook);
       this.addHook("afterUpdate", afterUpdateHook);
       this.addHook("afterDestroy", afterDestroyHook);
+      this.addHook("afterRestore", afterRestoreHook);
       this.addHook("beforeUpsert", raiseAuditException);
     },
     create: async function(values, options = {}) {
@@ -85,7 +96,19 @@ exports.init = sequelize => {
     },
     destroy: async function(options = {}) {
       options.individualHooks = true;
-      return await addTransactionToDestroy(originalDestroy, options, this);
+      return await addTransactionToFunctionWithoutValues(
+        originalDestroy,
+        options,
+        this
+      );
+    },
+    restore: async function(options = {}) {
+      options.individualHooks = true;
+      return await addTransactionToFunctionWithoutValues(
+        originalRestore,
+        options,
+        this
+      );
     }
   });
 
@@ -105,7 +128,7 @@ exports.init = sequelize => {
     });
   };
 
-  const addTransactionToDestroy = async function(
+  const addTransactionToFunctionWithoutValues = async function(
     originalFunction,
     options,
     thisReference
@@ -138,6 +161,11 @@ exports.init = sequelize => {
         : AUDIT_ACTION.DATA_DELETED;
     await createDataChangeAudit(instance, options, auditAction);
   };
+
+  const afterRestoreHook = async (instance, options) => {
+    await createDataChangeAudit(instance, options, AUDIT_ACTION.DATA_RESTORED);
+  };
+
   const raiseAuditException = (instance, options) => {
     throw Boom.notImplemented(`Audit is not implemented for this function.`);
   };
@@ -269,11 +297,28 @@ exports.init = sequelize => {
   };
 
   const objectChanges = async (action, instance) => {
+    if (action === AUDIT_ACTION.DATA_RESTORED) {
+      return await restoreObjectChanges(instance);
+    }
     if (
       [AUDIT_ACTION.DATA_DELETED, AUDIT_ACTION.DATA_ARCHIVED].includes(action)
     )
       return await deleteObjectChanges(instance);
     return await createOrUpdateObjectChanges(instance);
+  };
+
+  const restoreObjectChanges = async instance => {
+    const fieldsChanging = Object.keys(instance.dataValues).filter(
+      field => !fieldsToIgnore.includes(field)
+    );
+    const objectChanges = {};
+    _.forEach(fieldsChanging, field => {
+      objectChanges[field] = {
+        new: instance[field]
+      };
+    });
+    await addAssociationDatasToChanges(instance, objectChanges);
+    return objectChanges;
   };
 
   const createOrUpdateObjectChanges = async instance => {
