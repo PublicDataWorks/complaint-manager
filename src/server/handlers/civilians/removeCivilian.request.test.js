@@ -13,7 +13,7 @@ import {
   CASE_STATUS
 } from "../../../sharedUtilities/constants";
 
-describe("DELETE /cases/:caseId/civilian/:civilianId", () => {
+describe("DELETE /cases/:caseId/civilians/:civilianId", () => {
   let token;
 
   beforeEach(async () => {

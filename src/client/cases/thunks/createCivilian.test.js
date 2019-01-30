@@ -59,7 +59,7 @@ describe("civilian creation", function() {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .post(`/api/cases/${civilian.caseId}/civilian`, civilian)
+      .post(`/api/cases/${civilian.caseId}/civilians`, civilian)
       .reply(201, [civilian]);
 
     await createCivilian(civilian)(dispatch);
@@ -80,7 +80,7 @@ describe("civilian creation", function() {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .post(`/api/cases/${civilian.caseId}/civilian`, civilian)
+      .post(`/api/cases/${civilian.caseId}/civilians`, civilian)
       .reply(500);
 
     await createCivilian(civilian)(dispatch);
