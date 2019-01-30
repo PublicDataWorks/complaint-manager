@@ -1,7 +1,4 @@
-import {
-  BAD_REQUEST_ERRORS,
-  ROUTES
-} from "../../sharedUtilities/errorMessageConstants";
+import API_ROUTES from "../apiRoutes";
 
 const newRelic = require("newrelic");
 const Boom = require("boom");
@@ -11,7 +8,8 @@ const requestSpecifiesRouteMethod = request => {
 };
 
 const getErrorMessageForRouteAndMethod = request => {
-  return ROUTES[request.route.path][request.method];
+  return API_ROUTES[request.route.path][request.method.toLowerCase()]
+    .errorMessage;
 };
 
 const get500ErrorMessage = request => {

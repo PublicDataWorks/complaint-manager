@@ -1,9 +1,8 @@
 import {
   BAD_REQUEST_ERRORS,
-  NOT_FOUND_ERRORS,
-  PAGE_NOT_AVAILABLE,
-  ROUTES
+  NOT_FOUND_ERRORS
 } from "../../sharedUtilities/errorMessageConstants";
+import { API_ROUTES } from "../apiRoutes";
 
 const errorHandler = require("./errorHandler");
 const httpMocks = require("node-mocks-http");
@@ -49,7 +48,7 @@ describe("errorHandler", () => {
       JSON.stringify({
         statusCode: 500,
         error: "Internal Server Error",
-        message: ROUTES[path]["GET"]
+        message: API_ROUTES[path]["get"].errorMessage
       })
     );
   });

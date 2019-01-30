@@ -39,7 +39,7 @@ describe("edit civilian thunk", () => {
 
   test("should dispatch error action if we get an unrecognized response", async () => {
     nock("http://localhost", {})
-      .put(`/api/cases/${civilian.caseId}/civilian/${civilian.id}`, civilian)
+      .put(`/api/cases/${civilian.caseId}/civilians/${civilian.id}`, civilian)
       .reply(500, responseBody);
 
     await editCivilian(civilian)(dispatch);
@@ -53,7 +53,7 @@ describe("edit civilian thunk", () => {
       "Content-Type": "application/json",
       Authorization: `Bearer TEST_TOKEN`
     })
-      .put(`/api/cases/${civilian.caseId}/civilian/${civilian.id}`, civilian)
+      .put(`/api/cases/${civilian.caseId}/civilians/${civilian.id}`, civilian)
       .reply(200, responseCivilians);
 
     await editCivilian(civilian)(dispatch);

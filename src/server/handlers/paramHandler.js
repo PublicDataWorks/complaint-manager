@@ -1,6 +1,7 @@
 import { getCaseWithoutAssociations } from "./getCaseHelpers";
 import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
+import { ROUTES_ALLOWED_TO_MODIFY_ARCHIVED_CASE } from "../apiRoutes";
 
 export const handleCaseIdParam = async function(
   request,
@@ -26,8 +27,6 @@ const caseCannotBeEdited = (isArchived, request) => {
     isArchived &&
     request.method !== "GET" &&
     request.route &&
-    !["/cases/:caseId/case-notes", "/cases/:caseId/restore"].includes(
-      request.route.path
-    )
+    !ROUTES_ALLOWED_TO_MODIFY_ARCHIVED_CASE.includes(request.route.path)
   );
 };
