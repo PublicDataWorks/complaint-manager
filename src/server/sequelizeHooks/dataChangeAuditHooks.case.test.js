@@ -725,6 +725,43 @@ describe("dataChangeAuditHooks", () => {
       });
     });
 
+    test("should audit restore", async () => {
+      await existingCase.destroy({ auditUser: "someone" });
+      await existingCase.restore({ auditUser: "someone" });
+
+      const audit = await models.data_change_audit.find({
+        where: {
+          modelName: "Case",
+          action: AUDIT_ACTION.DATA_RESTORED
+        }
+      });
+
+      const expectedChanges = {
+        assignedTo: { new: "tuser" },
+        classification: { new: utdClassification.initialism },
+        classificationId: { new: utdClassification.id },
+        complaintType: { new: "Civilian Initiated" },
+        district: { new: "First District" },
+        firstContactDate: { new: "2017-12-24" },
+        year: { new: 2017 },
+        caseNumber: { new: 1 },
+        id: { new: existingCase.id },
+        incidentDate: { new: "2017-01-01" },
+        incidentTime: { new: "16:00:00" },
+        narrativeDetails: { new: "test details" },
+        narrativeSummary: { new: "test summary" },
+        status: { new: "Initial" },
+        intakeSourceId: { new: intakeSource.id },
+        intakeSource: { new: intakeSource.name },
+        intake_source: {},
+        pibCaseNumber: {
+          new: null
+        }
+      };
+
+      expect(audit.changes).toEqual(expectedChanges);
+    });
+
     test("should audit destroy including changes including classification association value", async () => {
       await existingCase.destroy({ auditUser: "someone" });
       const audit = await models.data_change_audit.find({

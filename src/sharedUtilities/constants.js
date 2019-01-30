@@ -233,7 +233,7 @@ export const AUDIT_ACTION = {
   DATA_CREATED: "Created",
   DATA_DELETED: "Deleted",
   DATA_ARCHIVED: "Archived",
-  DATA_RESTORED: "RESTORED",
+  DATA_RESTORED: "Restored",
   LOGGED_IN: "Logged in",
   LOGGED_OUT: "Logged out",
   EXPORTED: "Exported",
