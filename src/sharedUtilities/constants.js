@@ -42,6 +42,10 @@ export const UPDATE_ALLEGATION_DETAILS_SUCCEEDED =
 export const EDIT_CIVILIAN_SUCCESS = "EDIT_CIVILIAN_SUCCESS";
 export const NARRATIVE_UPDATE_SUCCEEDED = "NARRATIVE_UPDATE_SUCCEEDED";
 
+export const RESTORE_ARCHIVED_CASE_DIALOG_OPENED =
+  "RESTORE_ARCHIVED_CASE_DIALOG_OPENED";
+export const RESTORE_ARCHIVED_CASE_DIALOG_CLOSED =
+  "RESTORE_ARCHIVED_CASE_DIALOG_CLOSED";
 export const CREATE_CASE_DIALOG_OPENED = "CREATE_CASE_DIALOG_OPENED";
 export const CREATE_CASE_DIALOG_CLOSED = "CREATE_CASE_DIALOG_CLOSED";
 export const CASE_STATUS_UPDATE_DIALOG_OPENED =
@@ -144,6 +148,7 @@ export const REMOVE_CASE_NOTE_FORM_NAME = "RemoveCaseNoteForm";
 export const ARCHIVE_CASE_FORM_NAME = "ArchiveCaseForm";
 export const NARRATIVE_FORM = "NarrativeForm";
 export const EDIT_LETTER_HTML_FORM = "EditLetterHtmlForm";
+export const RESTORE_ARCHIVED_CASE_FORM = "RestoreArchivedCaseForm";
 
 // ----------------------------------------
 //          Auth0 Scopes / Permissions
@@ -228,6 +233,7 @@ export const AUDIT_ACTION = {
   DATA_CREATED: "Created",
   DATA_DELETED: "Deleted",
   DATA_ARCHIVED: "Archived",
+  DATA_RESTORED: "RESTORED",
   LOGGED_IN: "Logged in",
   LOGGED_OUT: "Logged out",
   EXPORTED: "Exported",

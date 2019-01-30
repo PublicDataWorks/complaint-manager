@@ -11,7 +11,7 @@ import timekeeper from "timekeeper";
 import moment from "moment";
 import ActionAudit from "../../../client/testUtilities/ActionAudit";
 import models from "../../../server/models/index";
-import { createCaseWithoutCivilian } from "../../../server/testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../../server/testHelpers/modelMothers";
 import uploadFileToS3 from "../fileUpload/uploadFileToS3";
 import exportAudit from "./export";
 
@@ -122,7 +122,7 @@ describe("GET /api/export-audit-log", () => {
     const timeOfExport = new Date("2018-07-01 19:00:22 CDT");
     timekeeper.freeze(timeOfExport);
 
-    const createdCase = await createCaseWithoutCivilian("nickname");
+    const createdCase = await createTestCaseWithoutCivilian("nickname");
 
     await models.data_change_audit.find({
       where: { caseId: createdCase.id }

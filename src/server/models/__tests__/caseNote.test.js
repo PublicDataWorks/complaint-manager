@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import CaseNote from "../../../client/testUtilities/caseNote";
 import { CASE_STATUS } from "../../../sharedUtilities/constants";
 import models from "../../models";
@@ -10,7 +10,7 @@ describe("caseNote", () => {
   });
 
   test("should update status when you create a case note", async () => {
-    const initialCase = await createCaseWithoutCivilian();
+    const initialCase = await createTestCaseWithoutCivilian();
 
     const caseNoteToCreate = new CaseNote.Builder()
       .defaultCaseNote()

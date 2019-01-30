@@ -9,7 +9,7 @@ import {
   AUDIT_TYPE,
   CASE_STATUS
 } from "../../../sharedUtilities/constants";
-import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
 const httpMocks = require("node-mocks-http");
@@ -41,7 +41,7 @@ describe("Edit Case", () => {
         narrativeSummary: "a summary"
       };
 
-      existingCase = await createCaseWithoutCivilian();
+      existingCase = await createTestCaseWithoutCivilian();
       request = httpMocks.createRequest({
         method: "PUT",
         headers: {

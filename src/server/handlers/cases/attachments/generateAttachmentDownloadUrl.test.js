@@ -5,7 +5,7 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } from "../../../../sharedUtilities/constants";
-import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import Attachment from "../../../../client/testUtilities/attachment";
 
 const httpMocks = require("node-mocks-http");
@@ -34,7 +34,7 @@ describe("generateAttachmentDownloadUrl", function() {
   });
 
   async function requestWithExistingCaseAttachment() {
-    const existingCase = await createCaseWithoutCivilian();
+    const existingCase = await createTestCaseWithoutCivilian();
     const attachmentAttributes = new Attachment.Builder()
       .defaultAttachment()
       .withId(undefined)

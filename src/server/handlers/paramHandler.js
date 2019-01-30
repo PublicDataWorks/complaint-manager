@@ -26,6 +26,8 @@ const caseCannotBeEdited = (isArchived, request) => {
     isArchived &&
     request.method !== "GET" &&
     request.route &&
-    !request.route.path.includes("case-notes")
+    !["/cases/:caseId/case-notes", "/cases/:caseId/restore"].includes(
+      request.route.path
+    )
   );
 };

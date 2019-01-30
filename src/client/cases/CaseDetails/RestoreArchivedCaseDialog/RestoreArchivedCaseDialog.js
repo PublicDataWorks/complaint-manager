@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Dialog,
   DialogActions,
@@ -6,21 +5,22 @@ import {
   DialogTitle,
   Typography
 } from "@material-ui/core";
-import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
-import { closeArchiveCaseDialog } from "../../../actionCreators/casesActionCreators";
-import archiveCase from "../../thunks/archiveCase";
 import {
   PrimaryButton,
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
-import { ARCHIVE_CASE_FORM_NAME } from "../../../../sharedUtilities/constants";
+import React from "react";
+import restoreArchivedCase from "../../thunks/restoreArchivedCase";
+import { reduxForm } from "redux-form";
+import { RESTORE_ARCHIVED_CASE_FORM } from "../../../../sharedUtilities/constants";
+import { connect } from "react-redux";
+import { closeRestoreArchivedCaseDialog } from "../../../actionCreators/casesActionCreators";
 
-const ArchiveCaseDialog = ({
+const RestoreArchivedCaseDialog = ({
   dialogOpen,
   caseId,
-  closeArchiveCaseDialog,
-  archiveCase,
+  closeRestoreArchivedCaseDialog,
+  restoreArchivedCase,
   submitting
 }) => {
   return (
@@ -32,30 +32,29 @@ const ArchiveCaseDialog = ({
             marginBottom: "24px"
           }}
         >
-          This action will mark the case as <strong>Archived</strong>. You will
-          be returned to the All Cases page and this case will no longer be
-          accessible.
+          This action will restore this case to the <strong>All Cases</strong>{" "}
+          page and it will no longer be archived.
         </Typography>
         <Typography>
-          Are you sure you want to <strong>Archive Case</strong>?
+          Are you sure you want to <strong>Restore Case</strong>?
         </Typography>
       </DialogContent>
       <DialogActions>
         <SecondaryButton
-          data-test="cancelArchiveCaseButton"
-          onClick={closeArchiveCaseDialog}
+          data-test="cancelRestoreArchivedCaseButton"
+          onClick={closeRestoreArchivedCaseDialog}
           disabled={submitting}
         >
           Cancel
         </SecondaryButton>
         <PrimaryButton
-          data-test="confirmArchiveCase"
+          data-test="confirmRestoreArchivedCase"
           onClick={() => {
-            archiveCase(caseId);
+            restoreArchivedCase(caseId);
           }}
           disabled={submitting}
         >
-          Archive Case
+          Restore Case
         </PrimaryButton>
       </DialogActions>
     </Dialog>
@@ -63,18 +62,18 @@ const ArchiveCaseDialog = ({
 };
 
 const mapStateToProps = state => ({
-  dialogOpen: state.ui.archiveCaseDialog.open,
+  dialogOpen: state.ui.restoreArchivedCaseDialog.open,
   caseId: state.currentCase.details.id
 });
 
 const mapDispatchToProps = {
-  closeArchiveCaseDialog,
-  archiveCase
+  closeRestoreArchivedCaseDialog,
+  restoreArchivedCase
 };
 
 const connectedForm = reduxForm({
-  form: ARCHIVE_CASE_FORM_NAME
-})(ArchiveCaseDialog);
+  form: RESTORE_ARCHIVED_CASE_FORM
+})(RestoreArchivedCaseDialog);
 
 export default connect(
   mapStateToProps,

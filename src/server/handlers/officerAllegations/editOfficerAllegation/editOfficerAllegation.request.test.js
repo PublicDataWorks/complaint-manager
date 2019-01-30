@@ -8,7 +8,7 @@ import {
   cleanupDatabase,
   suppressWinstonLogs
 } from "../../../testHelpers/requestTestHelpers";
-import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import {
   ACCUSED,
   ALLEGATION_SEVERITY
@@ -20,7 +20,7 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
   let createdCase;
 
   beforeEach(async () => {
-    createdCase = await createCaseWithoutCivilian();
+    createdCase = await createTestCaseWithoutCivilian();
   });
 
   afterEach(async () => {

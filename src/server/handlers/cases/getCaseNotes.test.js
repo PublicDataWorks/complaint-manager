@@ -4,7 +4,7 @@ import {
   AUDIT_TYPE
 } from "../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { createCaseWithCivilian } from "../../testHelpers/modelMothers";
+import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 import getCaseNotes from "./getCaseNotes";
 import CaseNote from "../../../client/testUtilities/caseNote";
 
@@ -17,7 +17,7 @@ describe("getCaseNotes", function() {
   });
 
   test("should audit accessing case notes", async () => {
-    const existingCase = await createCaseWithCivilian();
+    const existingCase = await createTestCaseWithCivilian();
     const caseNoteAttributes = new CaseNote.Builder()
       .defaultCaseNote()
       .withCaseId(existingCase.id);

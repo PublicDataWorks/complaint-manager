@@ -10,7 +10,7 @@ import ArchiveCaseDialog from "./ArchiveCaseDialog";
 import archiveCase from "../../thunks/archiveCase";
 
 jest.mock("../../thunks/archiveCase", () => caseId => ({
-  type: "MOCK_ACTION",
+  type: "MOCK_ARCHIVE_CASE",
   caseId
 }));
 

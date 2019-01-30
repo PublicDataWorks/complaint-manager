@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import Attachment from "../../../../client/testUtilities/attachment";
 import models from "../../../models/index";
 import deleteAttachment from "./deleteAttachment";
@@ -29,7 +29,7 @@ describe("deleteAttachment", function() {
   }));
 
   test("should audit data access when attachment deleted", async () => {
-    const existingCase = await createCaseWithoutCivilian();
+    const existingCase = await createTestCaseWithoutCivilian();
 
     const attachmentAttributes = new Attachment.Builder()
       .defaultAttachment()

@@ -1,4 +1,4 @@
-import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import Officer from "../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../client/testUtilities/caseOfficer";
 import Allegation from "../../../client/testUtilities/Allegation";
@@ -13,7 +13,7 @@ describe("officerAllegation", function() {
   });
 
   beforeEach(async () => {
-    createdCase = await createCaseWithoutCivilian();
+    createdCase = await createTestCaseWithoutCivilian();
 
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()

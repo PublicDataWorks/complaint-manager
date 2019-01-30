@@ -3,7 +3,7 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } from "../../../../../sharedUtilities/constants";
-import { createCaseWithoutCivilian } from "../../../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import models from "../../../../models";
 import auditUpload from "./auditUpload";
@@ -12,7 +12,7 @@ describe("auditUpload", async () => {
   let caseForAudit;
 
   beforeEach(async () => {
-    caseForAudit = await createCaseWithoutCivilian();
+    caseForAudit = await createTestCaseWithoutCivilian();
   });
 
   afterEach(async () => {

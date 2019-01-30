@@ -1,4 +1,4 @@
-import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
@@ -11,7 +11,7 @@ import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 describe("changeStatus request", () => {
   let initialCase, token;
   beforeEach(async () => {
-    initialCase = await createCaseWithoutCivilian();
+    initialCase = await createTestCaseWithoutCivilian();
     token = buildTokenWithPermissions("", "someone");
   });
 

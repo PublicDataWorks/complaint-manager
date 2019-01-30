@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { createCaseWithCivilian } from "../../testHelpers/modelMothers";
+import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 import removeCivilian from "./removeCivilian";
 import {
   AUDIT_ACTION,
@@ -18,7 +18,7 @@ describe("removeCivilian", function() {
   });
 
   beforeEach(async () => {
-    existingCase = await createCaseWithCivilian();
+    existingCase = await createTestCaseWithCivilian();
   });
 
   test("should audit case details access when civilian removed", async () => {

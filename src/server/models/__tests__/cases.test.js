@@ -1,5 +1,5 @@
 import models from "../index";
-import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import Civilian from "../../../client/testUtilities/civilian";
 import {
   CASE_STATUS,
@@ -315,7 +315,7 @@ describe("cases", function() {
 
   describe("setStatus", async () => {
     beforeEach(async () => {
-      createdCase = await createCaseWithoutCivilian();
+      createdCase = await createTestCaseWithoutCivilian();
     });
 
     test("sets status to given status when allowed", async () => {
@@ -434,7 +434,7 @@ describe("cases", function() {
 
   describe("status beforeUpdate hook", async () => {
     beforeEach(async () => {
-      createdCase = await createCaseWithoutCivilian();
+      createdCase = await createTestCaseWithoutCivilian();
     });
 
     test("should not change status when updating nothing", async () => {

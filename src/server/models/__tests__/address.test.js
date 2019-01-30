@@ -1,7 +1,7 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
-  createCaseWithCivilian,
-  createCaseWithoutCivilian
+  createTestCaseWithCivilian,
+  createTestCaseWithoutCivilian
 } from "../../testHelpers/modelMothers";
 import Address from "../../../client/testUtilities/Address";
 import {
@@ -16,7 +16,7 @@ describe("address", () => {
   });
 
   test("should update case status when adding an incident location", async () => {
-    const initialCase = await createCaseWithoutCivilian();
+    const initialCase = await createTestCaseWithoutCivilian();
 
     const addressToCreate = new Address.Builder()
       .defaultAddress()
@@ -41,7 +41,7 @@ describe("address", () => {
   });
 
   test("should update case status when adding an civilian address", async () => {
-    const initialCase = await createCaseWithCivilian();
+    const initialCase = await createTestCaseWithCivilian();
     const caseCivilians = await initialCase.getComplainantCivilians();
     const civilian = caseCivilians[0];
 
@@ -67,7 +67,7 @@ describe("address", () => {
   });
 
   test("should trim extra whitespace from fields on save: streetAddress, streetAddress2, additionalLocationInfo", async () => {
-    const initialCase = await createCaseWithoutCivilian();
+    const initialCase = await createTestCaseWithoutCivilian();
 
     const addressToCreate = new Address.Builder()
       .defaultAddress()
@@ -83,8 +83,12 @@ describe("address", () => {
     await initialCase.reload();
     const createdIncidentLocation = await initialCase.getIncidentLocation();
 
-    expect(createdIncidentLocation.streetAddress).toEqual("123 The mean streets");
+    expect(createdIncidentLocation.streetAddress).toEqual(
+      "123 The mean streets"
+    );
     expect(createdIncidentLocation.streetAddress2).toEqual("Apartment 1337");
-    expect(createdIncidentLocation.additionalLocationInfo).toEqual("3rd door down");
+    expect(createdIncidentLocation.additionalLocationInfo).toEqual(
+      "3rd door down"
+    );
   });
 });

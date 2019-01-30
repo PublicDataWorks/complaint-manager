@@ -4,7 +4,7 @@ import * as httpMocks from "node-mocks-http";
 import searchAllegations from "./searchAllegations";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { DEFAULT_PAGINATION_LIMIT } from "../../../sharedUtilities/constants";
-import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import CaseOfficer from "../../../client/testUtilities/caseOfficer";
 import Officer from "../../../client/testUtilities/Officer";
 
@@ -12,7 +12,7 @@ describe("searchAllegations handler", function() {
   let existingCase, caseOfficer;
 
   beforeEach(async () => {
-    existingCase = await createCaseWithoutCivilian();
+    existingCase = await createTestCaseWithoutCivilian();
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined);

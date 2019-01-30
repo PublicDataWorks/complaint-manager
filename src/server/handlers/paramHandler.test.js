@@ -74,7 +74,7 @@ describe("param handler", () => {
           authorization: "Bearer token"
         },
         params: { caseId: archivedCase.id },
-        route: { path: `/cases/${archivedCase.id}/case-notes` }
+        route: { path: `/cases/:caseId/case-notes` }
       });
 
       await handleCaseIdParam(request, response, next, archivedCase.id);
@@ -92,7 +92,7 @@ describe("param handler", () => {
           authorization: "Bearer token"
         },
         params: { caseId: archivedCase.id },
-        route: { path: `/cases/${archivedCase.id}` }
+        route: { path: `/cases/:caseId` }
       });
 
       await handleCaseIdParam(request, response, next, archivedCase.id);

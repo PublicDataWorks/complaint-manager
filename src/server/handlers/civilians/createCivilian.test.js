@@ -2,7 +2,7 @@ import models from "../../models";
 import createCivilian from "./createCivilian";
 import Case from "../../../client/testUtilities/case";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import {
   ADDRESSABLE_TYPE,
   AUDIT_ACTION,
@@ -18,7 +18,7 @@ describe("createCivilian handler", () => {
   });
 
   test("should audit case data access", async () => {
-    const createdCase = await createCaseWithoutCivilian();
+    const createdCase = await createTestCaseWithoutCivilian();
 
     const civilianValues = {
       firstName: "Test",
