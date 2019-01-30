@@ -1,7 +1,7 @@
 import CaseOfficer from "../../../client/testUtilities/caseOfficer";
 import models from "../index";
 import Officer from "../../../client/testUtilities/Officer";
-import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { ACCUSED, CASE_STATUS } from "../../../sharedUtilities/constants";
 import Allegation from "../../../client/testUtilities/Allegation";
@@ -64,7 +64,7 @@ describe("caseOfficer", () => {
     });
 
     test("should update case status when adding a case officer", async () => {
-      const initialCase = await createCaseWithoutCivilian();
+      const initialCase = await createTestCaseWithoutCivilian();
 
       const caseOfficerToCreate = new CaseOfficer.Builder()
         .defaultCaseOfficer()
@@ -83,7 +83,7 @@ describe("caseOfficer", () => {
     });
 
     test("should NOT update case status when adding a case officer is unsuccessful", async () => {
-      const initialCase = await createCaseWithoutCivilian();
+      const initialCase = await createTestCaseWithoutCivilian();
 
       const caseOfficerToCreate = new CaseOfficer.Builder()
         .defaultCaseOfficer()
@@ -110,7 +110,7 @@ describe("caseOfficer", () => {
       await cleanupDatabase();
     });
     test("it should delete associated officer allegations when case officer deleted", async () => {
-      const initialCase = await createCaseWithoutCivilian();
+      const initialCase = await createTestCaseWithoutCivilian();
 
       const caseOfficerToCreate = new CaseOfficer.Builder()
         .defaultCaseOfficer()
@@ -166,7 +166,7 @@ describe("caseOfficer", () => {
     });
 
     test("it should delete associated referral letter officers when case officer deleted", async () => {
-      const initialCase = await createCaseWithoutCivilian();
+      const initialCase = await createTestCaseWithoutCivilian();
 
       const caseOfficerToCreate = new CaseOfficer.Builder()
         .defaultCaseOfficer()

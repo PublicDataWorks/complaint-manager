@@ -1,14 +1,14 @@
 import models from "../models";
 import { AUDIT_ACTION, AUDIT_SUBJECT } from "../../sharedUtilities/constants";
 import auditDataAccess from "./auditDataAccess";
-import { createCaseWithoutCivilian } from "../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../testHelpers/modelMothers";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 describe("auditDataAccess", () => {
   describe("subject details", () => {
     let caseForAudit;
     beforeEach(async () => {
-      caseForAudit = await createCaseWithoutCivilian();
+      caseForAudit = await createTestCaseWithoutCivilian();
     });
 
     afterEach(async () => {

@@ -13,6 +13,7 @@ import getLetterType from "./handlers/cases/referralLetters/getLetterType/getLet
 import getRaceEthnicities from "./handlers/race_ethnicities/getRaceEthnicities";
 import archiveCase from "./handlers/cases/archiveCase/archiveCase";
 import { handleCaseIdParam } from "./handlers/paramHandler";
+import restoreArchivedCase from "./handlers/cases/restoreArchivedCase/restoreArchivedCase";
 
 const createCase = require("./handlers/cases/createCase");
 const changeStatus = require("./handlers/cases/changeStatus/changeStatus");
@@ -66,6 +67,7 @@ router.get("/cases", getCases);
 router.get("/cases/:caseId/minimum-case-details", getMinimumCaseDetails);
 router.get("/cases/:caseId", getCase);
 router.delete("/cases/:caseId", archiveCase);
+router.put("/cases/:caseId/restore", restoreArchivedCase);
 router.get("/cases/:caseId/case-notes", getCaseNotes);
 router.post("/cases/:caseId/case-notes", createCaseNote);
 router.put("/cases/:caseId/case-notes/:caseNoteId", editCaseNote);

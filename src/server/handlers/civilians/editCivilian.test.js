@@ -10,7 +10,7 @@ import {
   CASE_STATUS
 } from "../../../sharedUtilities/constants";
 import Boom from "boom";
-import { createCaseWithCivilian } from "../../testHelpers/modelMothers";
+import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 
 const editCivilian = require("./editCivilian");
 const models = require("../../models/index");
@@ -23,7 +23,7 @@ describe("editCivilian handler editing civilian with no address", () => {
     await cleanupDatabase();
   });
   beforeEach(async () => {
-    existingCase = await createCaseWithCivilian();
+    existingCase = await createTestCaseWithCivilian();
   });
 
   test("should audit case details access when civilian edited", async () => {

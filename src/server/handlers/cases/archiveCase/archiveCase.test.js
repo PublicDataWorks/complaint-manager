@@ -18,7 +18,7 @@ describe("archiveCase handler", () => {
     });
 
     request = httpMocks.createRequest({
-      method: "POST",
+      method: "DELETE",
       headers: {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },

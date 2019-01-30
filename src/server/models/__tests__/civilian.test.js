@@ -2,8 +2,8 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import models from "../../models";
 import { CASE_STATUS } from "../../../sharedUtilities/constants";
 import {
-  createCaseWithCivilian,
-  createCaseWithoutCivilian
+  createTestCaseWithCivilian,
+  createTestCaseWithoutCivilian
 } from "../../testHelpers/modelMothers";
 import Civilian from "../../../client/testUtilities/civilian";
 
@@ -13,7 +13,7 @@ describe("civilian", () => {
   });
 
   test("should NOT update case status when creating a civilian through a case association", async () => {
-    const initialCase = await createCaseWithCivilian();
+    const initialCase = await createTestCaseWithCivilian();
 
     const createdCivilians = await models.civilian.findAll();
     expect(createdCivilians.length).toEqual(1);
@@ -21,7 +21,7 @@ describe("civilian", () => {
   });
 
   test("should update case status when adding a new civilian to a case", async () => {
-    const initialCase = await createCaseWithoutCivilian();
+    const initialCase = await createTestCaseWithoutCivilian();
 
     expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
 
@@ -49,7 +49,7 @@ describe("civilian", () => {
   });
 
   test("should update case status when updating an existing civilian on a case", async () => {
-    const initialCase = await createCaseWithCivilian();
+    const initialCase = await createTestCaseWithCivilian();
 
     const caseCivilians = await initialCase.getComplainantCivilians();
     const civilianToUpdate = caseCivilians[0];
@@ -67,7 +67,7 @@ describe("civilian", () => {
   });
 
   test("should update case status when removing an existing civilian on a case", async () => {
-    const initialCase = await createCaseWithCivilian();
+    const initialCase = await createTestCaseWithCivilian();
 
     let caseCivilians = await initialCase.getComplainantCivilians();
     const civilianIdToRemove = caseCivilians[0].id;

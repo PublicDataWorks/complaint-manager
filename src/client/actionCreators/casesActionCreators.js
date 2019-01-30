@@ -31,6 +31,8 @@ import {
   REMOVE_PERSON_DIALOG_CLOSED,
   REMOVE_PERSON_DIALOG_OPENED,
   REMOVE_PERSON_SUCCEEDED,
+  RESTORE_ARCHIVED_CASE_DIALOG_CLOSED,
+  RESTORE_ARCHIVED_CASE_DIALOG_OPENED,
   UPDATE_ALLEGATION_DETAILS_SUCCEEDED,
   UPDATE_CASE_STATUS_SUCCESS
 } from "../../sharedUtilities/constants";
@@ -242,4 +244,12 @@ export const openEditIncidentDetailsDialog = () => ({
 
 export const closeEditIncidentDetailsDialog = () => ({
   type: EDIT_INCIDENT_DETAILS_DIALOG_CLOSED
+});
+
+export const openRestoreArchivedCaseDialog = () => ({
+  type: RESTORE_ARCHIVED_CASE_DIALOG_OPENED
+});
+
+export const closeRestoreArchivedCaseDialog = () => ({
+  type: RESTORE_ARCHIVED_CASE_DIALOG_CLOSED
 });

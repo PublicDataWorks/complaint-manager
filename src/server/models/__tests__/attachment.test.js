@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { createCaseWithoutCivilian } from "../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import models from "../../models";
 import { CASE_STATUS } from "../../../sharedUtilities/constants";
 
@@ -9,7 +9,7 @@ describe("attachment", () => {
   });
 
   test("should update status when adding an attachment to a case", async () => {
-    const initialCase = await createCaseWithoutCivilian();
+    const initialCase = await createTestCaseWithoutCivilian();
     const attachmentValues = {
       caseId: initialCase.id,
       fileName: "test.pdf",
@@ -28,7 +28,7 @@ describe("attachment", () => {
   });
 
   test("should NOT update status when adding an attachment to a case is unsuccessful", async () => {
-    const initialCase = await createCaseWithoutCivilian();
+    const initialCase = await createTestCaseWithoutCivilian();
     const attachmentValues = { caseId: initialCase.id, fileName: "test.pdf" };
 
     expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);

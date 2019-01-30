@@ -217,5 +217,8 @@ export const ROUTES = {
   "/cases/:caseId/referral-letter/approve-letter": {
     PUT:
       "Something went wrong and the case status was not updated. Please try again."
+  },
+  "/cases/:caseId/restore": {
+    PUT: "Something went wrong and the case was not restored. Please try again."
   }
 };

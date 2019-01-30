@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
 import {
@@ -19,7 +19,7 @@ describe("editOfficerAllegation", () => {
   const next = jest.fn();
 
   beforeEach(async () => {
-    const createdCase = await createCaseWithoutCivilian();
+    const createdCase = await createTestCaseWithoutCivilian();
     const anAllegation = new Allegation.Builder()
       .defaultAllegation()
       .withId(undefined)

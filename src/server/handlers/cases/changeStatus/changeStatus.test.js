@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import changeStatus from "./changeStatus";
 import {
   ACCUSED,
@@ -20,7 +20,7 @@ describe("changeStatus", async () => {
   let initialCase, response, next;
 
   beforeEach(async () => {
-    initialCase = await createCaseWithoutCivilian();
+    initialCase = await createTestCaseWithoutCivilian();
     next = jest.fn();
     response = httpMocks.createResponse();
   });

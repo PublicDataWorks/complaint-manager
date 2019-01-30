@@ -1,10 +1,6 @@
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 import nock from "nock";
-import {
-  archiveCaseFailure,
-  archiveCaseSuccess,
-  closeArchiveCaseDialog
-} from "../../actionCreators/casesActionCreators";
+import { closeArchiveCaseDialog } from "../../actionCreators/casesActionCreators";
 import archiveCase from "./archiveCase";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import { ARCHIVE_CASE_FORM_NAME } from "../../../sharedUtilities/constants";

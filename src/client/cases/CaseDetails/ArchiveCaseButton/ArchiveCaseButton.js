@@ -4,35 +4,26 @@ import { openArchiveCaseDialog } from "../../../actionCreators/casesActionCreato
 import LinkButton from "../../../shared/components/LinkButton";
 import ArchiveCaseDialog from "../ArchiveCaseDialog/ArchiveCaseDialog";
 
-class ArchiveCaseButton extends Component {
-  render() {
-    if (!this.props.featureToggles.archiveCaseFeature) {
-      return null;
-    }
-    return (
-      <div>
-        <LinkButton
-          onClick={this.props.openArchiveCaseDialog}
-          style={{ textAlign: "right", marginBottom: "16px" }}
-          data-test="archiveCaseButton"
-        >
-          Archive Case
-        </LinkButton>
-        <ArchiveCaseDialog />
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => ({
-  featureToggles: state.featureToggles
-});
+const ArchiveCaseButton = ({ openArchiveCaseDialog }) => {
+  return (
+    <div>
+      <LinkButton
+        onClick={openArchiveCaseDialog}
+        style={{ textAlign: "right", marginBottom: "16px" }}
+        data-test="archiveCaseButton"
+      >
+        Archive Case
+      </LinkButton>
+      <ArchiveCaseDialog />
+    </div>
+  );
+};
 
 const mapDispatchToProps = {
   openArchiveCaseDialog
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(ArchiveCaseButton);

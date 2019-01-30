@@ -10,14 +10,14 @@ import httpMocks from "node-mocks-http";
 import getCaseHistory from "./getCaseHistory";
 import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import { createCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
+import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import ActionAudit from "../../../../client/testUtilities/ActionAudit";
 
 describe("getCaseHistory", () => {
   let request, response, next, createdCase, caseId;
 
   beforeEach(async () => {
-    createdCase = await createCaseWithoutCivilian();
+    createdCase = await createTestCaseWithoutCivilian();
     caseId = createdCase.id;
 
     request = httpMocks.createRequest({
@@ -152,7 +152,7 @@ describe("getCaseHistory", () => {
     const actionIsUploaded = caseHistoryEntry => {
       return caseHistoryEntry.action.includes(`${AUDIT_ACTION.UPLOADED}`);
     };
-    const otherCase = await createCaseWithoutCivilian();
+    const otherCase = await createTestCaseWithoutCivilian();
     await createUploadAudit(caseId);
     await createUploadAudit(otherCase.id);
 

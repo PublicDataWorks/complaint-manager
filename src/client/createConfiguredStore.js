@@ -43,6 +43,7 @@ import intakeSourceReducer from "./reducers/ui/intakeSourceReducer";
 import raceEthnicityReducer from "./reducers/ui/raceEthnicityReducer";
 import archiveCaseDialogReducer from "./reducers/ui/archiveCaseDialogReducer";
 import editIncidentDetailsDialogReducer from "./reducers/ui/editIncidentDetailsDialogReducer";
+import restoreArchivedCaseDialogReducer from "./reducers/ui/restoreArchivedCaseDialogReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -88,6 +89,7 @@ const rootReducer = combineReducers({
     letterDownload: letterDownloadReducer,
     pdfPreview: loadPdfPreviewReducer,
     archiveCaseDialog: archiveCaseDialogReducer,
+    restoreArchivedCaseDialog: restoreArchivedCaseDialogReducer,
     editIncidentDetailsDialog: editIncidentDetailsDialogReducer
   }),
   officers: searchOfficersReducer,

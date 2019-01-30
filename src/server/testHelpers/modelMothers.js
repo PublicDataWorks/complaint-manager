@@ -6,19 +6,17 @@ import CaseOfficer from "../../client/testUtilities/caseOfficer";
 import Officer from "../../client/testUtilities/Officer";
 import RaceEthnicity from "../../client/testUtilities/raceEthnicity";
 
-export const createCaseWithoutCivilian = async (user = "someone") => {
-  const initialCase = await models.cases.create(
+export const createTestCaseWithoutCivilian = async (user = "someone") => {
+  return await models.cases.create(
     new Case.Builder()
       .defaultCase()
       .withId(undefined)
       .withComplainantCivilians([]),
     { auditUser: user }
   );
-
-  return initialCase;
 };
 
-export const createCaseWithCivilian = async () => {
+export const createTestCaseWithCivilian = async () => {
   await models.race_ethnicity.create(
     new RaceEthnicity.Builder().defaultRaceEthnicity(),
     {
