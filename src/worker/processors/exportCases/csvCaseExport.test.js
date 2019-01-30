@@ -71,6 +71,7 @@ describe("csvCaseExport request", () => {
           "Incident District," +
           "Additional Incident Location Info," +
           "Classification," +
+          "PIB Case Number," +
           "Complaint Type," +
           "Complainant," +
           "Civilian Complainant Name," +
@@ -1285,6 +1286,21 @@ describe("csvCaseExport request", () => {
 
       const record1 = records[0];
       expect(record1["Accused Officer Age on Incident Date"]).toEqual("N/A");
+      done();
+    });
+
+    test("should set pib case number when set", async done => {
+      const pibCaseNumber = "2019-0023-R";
+      await caseToExport.update(
+        { pibCaseNumber: pibCaseNumber },
+        { auditUser: "someone" }
+      );
+
+      await csvCaseExport(job, jobDone);
+
+      expect(records.length).toEqual(1);
+      const record1 = records[0];
+      expect(record1["PIB Case Number"]).toEqual(pibCaseNumber);
       done();
     });
   });

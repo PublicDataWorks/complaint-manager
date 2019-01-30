@@ -3,7 +3,6 @@ import {
   TIMEZONE
 } from "../../../sharedUtilities/constants";
 import timezone from "moment-timezone";
-import moment from "moment";
 
 const { JOB_OPERATION } = require("../../../sharedUtilities/constants");
 const models = require("../../../server/models/index");
@@ -71,6 +70,7 @@ const columns = {
   district: "Incident District",
   "incidentLocation.street_address2": "Additional Incident Location Info",
   classification_initialism: "Classification",
+  pib_case_number: "PIB Case Number",
   complaint_type: "Complaint Type",
   "complainants.complainant": "Complainant",
   "complainants.civilian_full_name": "Civilian Complainant Name",

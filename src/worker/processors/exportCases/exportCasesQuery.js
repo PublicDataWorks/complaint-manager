@@ -12,6 +12,7 @@ const exportCasesQuery = () => {
     "cases.case_number, " +
     "cases.status, " +
     "cases.created_by, " +
+    "cases.pib_case_number, " +
     "concat_ws(" +
     " ' ', " +
     "cases.created_at" +
