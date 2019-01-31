@@ -25,7 +25,7 @@ const RestoreArchivedCaseDialog = ({
 }) => {
   return (
     <Dialog open={dialogOpen} fullWidth={true}>
-      <DialogTitle>Archive Case</DialogTitle>
+      <DialogTitle>Restore Case</DialogTitle>
       <DialogContent>
         <Typography
           style={{
