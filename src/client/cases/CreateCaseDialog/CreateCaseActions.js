@@ -120,7 +120,13 @@ const OfficerComplainantButtons = ({ createAndSearch }) => (
 );
 
 export const ActionsWithTheme = withTheme()(CreateCaseActions);
+
+const mapDispatchToProps = {
+  createCase,
+  closeCreateCaseDialog,
+  reset
+};
 export default connect(
   null,
-  { createCase, closeCreateCaseDialog, reset }
+  mapDispatchToProps
 )(ActionsWithTheme);
