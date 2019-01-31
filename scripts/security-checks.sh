@@ -4,7 +4,7 @@ set +e
 
 ISSUES_REPORT_FILE=hawkeye_report.json
 TO_EXCLUDE="^src/(server/config/(.)*|server/(server.test.js|(models|handlers/users)/(.)*.test.js))$"
-LIBRARIES_TO_BE_UPGRADED="winston,csv-parse,react-pdf,csv-stringify,jest,jest-each"
+LIBRARIES_TO_BE_UPGRADED="winston,csv-parse,react-pdf,csv-stringify,busboy,jest,jest-each"
 # We tried upgrading to react-pdf 4.0.0, but it violates unsafe-eval CSP.
 # This issue tracks it: https://github.com/mozilla/pdf.js/issues/10229. It's closed but has not made it into a release yet.
 
