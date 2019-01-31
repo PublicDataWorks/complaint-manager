@@ -9,13 +9,13 @@
 
 FROM ubuntu:14.04
 
-LABEL version="1.0.0"
+LABEL version="1.1.0"
 
 RUN apt-get update
 RUN apt-get install --yes curl
 
 # Install Node.js
-RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs
 
 RUN apt-get install --yes build-essential

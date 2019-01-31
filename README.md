@@ -147,6 +147,18 @@ docker build -t noipm/docker-heroku:[heroku-cli-version] docker-heroku
 docker push noipm/docker-heroku:[heroku-cli-version]
 ```
 
+### Update the docker-node-ubuntu image:
+
+First, update the Docker file in the docker-node-ubuntu directory and increment the label version. 
+NOTE: You can set the node version here by changing the link we enable the NodeSource repository from.
+Update the circleci config AND the Dockerfile.web/worker files to point to new tag created.
+
+```bash
+docker login [enter your docker hub credentials]
+docker build -t noipm/docker-node-ubuntu:[label version] docker-node-ubuntu
+docker push noipm/docker-node-ubuntu:[label version]
+```
+
 ### Enter the running local db container with psql
 
 ```
