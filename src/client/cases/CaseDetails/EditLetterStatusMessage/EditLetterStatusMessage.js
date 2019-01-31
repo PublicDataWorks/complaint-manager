@@ -19,10 +19,13 @@ export const EDIT_LETTER_STATUS = {
   APPROVED: "approved"
 };
 
+export const ARCHIVED_MESSAGE =
+  "This case has been archived. Changes to case details and letter flow are not allowed while case is archived.";
+
 class EditLetterStatusMessage extends React.Component {
   shouldShowMessage = () => {
     if (this.props.isArchived) {
-      return false;
+      return true;
     } else if (this.letterIsApproved() || this.letterIsActiveAndEdited()) {
       return true;
     }
@@ -47,6 +50,9 @@ class EditLetterStatusMessage extends React.Component {
   };
 
   getMessage = () => {
+    if (this.props.isArchived) {
+      return ARCHIVED_MESSAGE;
+    }
     let message = `The referral letter has been ${this.getEditLetterStatus()}. `;
     message = message.concat(
       `Any changes made to the ${this.getPageType()} will not be reflected in the letter.`

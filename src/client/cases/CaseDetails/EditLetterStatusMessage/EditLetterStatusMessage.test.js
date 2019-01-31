@@ -1,4 +1,3 @@
-import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import createConfiguredStore from "../../../createConfiguredStore";
 import Case from "../../../testUtilities/case";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
@@ -11,7 +10,10 @@ import {
   LETTER_TYPE
 } from "../../../../sharedUtilities/constants";
 import { getLetterTypeSuccess } from "../../../actionCreators/letterActionCreators";
-import EditLetterStatusMessage, { PAGE_TYPE } from "./EditLetterStatusMessage";
+import EditLetterStatusMessage, {
+  ARCHIVED_MESSAGE,
+  PAGE_TYPE
+} from "./EditLetterStatusMessage";
 import { containsText } from "../../../testHelpers";
 
 describe("letter edit status message", () => {
@@ -69,7 +71,7 @@ describe("letter edit status message", () => {
     expect(editLetterStatusMessage.exists()).toEqual(false);
   });
 
-  test("does not display message when status is letter in progress and letter is unedited", () => {
+  test("does not display message when status is letter in progress and letter is unedited and unarchived", () => {
     store.dispatch(getLetterTypeSuccess(LETTER_TYPE.GENERATED));
     store.dispatch(
       getCaseDetailsSuccess({
@@ -85,7 +87,8 @@ describe("letter edit status message", () => {
     expect(editLetterStatusMessage.exists()).toEqual(false);
   });
 
-  test("does not display message when case is archived", () => {
+  test("displays archived message when case is archived", () => {
+    store.dispatch(getLetterTypeSuccess(LETTER_TYPE.GENERATED));
     store.dispatch(
       getCaseDetailsSuccess({
         ...existingCase,
@@ -98,7 +101,8 @@ describe("letter edit status message", () => {
     const editLetterStatusMessage = wrapper
       .find('[data-test="editLetterStatusMessage"]')
       .first();
-    expect(editLetterStatusMessage.exists()).toEqual(false);
+    expect(editLetterStatusMessage.exists()).toEqual(true);
+    expect(editLetterStatusMessage.text()).toEqual(ARCHIVED_MESSAGE);
   });
 
   describe("approval / edited message", () => {
