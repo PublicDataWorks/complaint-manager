@@ -9,11 +9,25 @@ import getCaseDetails from "../cases/thunks/getCaseDetails";
 import OfficerSearchTableHeader from "../officers/OfficerSearch/OfficerSearchTableHeader";
 import AllegationSearch from "./AllegationSearch";
 import OfficerAllegations from "./OfficerAllegations";
+import invalidCaseStatusRedirect from "../cases/thunks/invalidCaseStatusRedirect";
 
 export class AllegationSearchContainer extends Component {
+  caseDetailsNotYetLoaded = () => {
+    return (
+      !this.props.caseDetails ||
+      `${this.props.caseDetails.id}` !== this.props.match.params.id
+    );
+  };
+
   componentDidMount() {
     if (this.props.match.params.id !== `${this.props.caseDetails.id}`) {
-      this.props.dispatch(getCaseDetails(this.props.match.params.id));
+      this.props.getCaseDetails(this.props.match.params.id);
+    }
+  }
+
+  componentDidUpdate() {
+    if (!this.caseDetailsNotYetLoaded() && this.props.caseDetails.isArchived) {
+      this.props.invalidCaseStatusRedirect(this.props.caseDetails.id);
     }
   }
 
@@ -80,4 +94,12 @@ const mapStateToProps = state => ({
   caseDetails: state.currentCase.details
 });
 
-export default connect(mapStateToProps)(AllegationSearchContainer);
+const mapDispatchToProps = {
+  invalidCaseStatusRedirect,
+  getCaseDetails
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AllegationSearchContainer);

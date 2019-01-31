@@ -11,9 +11,15 @@ import { getCaseDetailsSuccess } from "../actionCreators/casesActionCreators";
 import { Table } from "@material-ui/core";
 import getCaseDetails from "../cases/thunks/getCaseDetails";
 import OfficerAllegations from "./OfficerAllegations";
+import invalidCaseStatusRedirect from "../cases/thunks/invalidCaseStatusRedirect";
 
 jest.mock("../cases/thunks/getCaseDetails", () => caseId => ({
-  type: "MOCK_ACTION",
+  type: "MOCK_GET_CASE_DETAILS",
+  caseId
+}));
+
+jest.mock("../cases/thunks/invalidCaseStatusRedirect", () => caseId => ({
+  type: "INVALID_CASE_REDIRECT",
   caseId
 }));
 
@@ -137,6 +143,35 @@ describe("AllegationSearchContainer", () => {
 
     expect(wrapper.find('[data-test="officerFullName"]').text()).toEqual(
       officer.fullName
+    );
+  });
+
+  test("should redirect to case details page for archived case", () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <AllegationSearchContainer
+            match={{
+              params: {
+                id: `${seededCase.id}`,
+                caseOfficerId: `${caseOfficer.id}`
+              }
+            }}
+          />
+        </Router>
+      </Provider>
+    );
+
+    store.dispatch(
+      getCaseDetailsSuccess({
+        ...seededCase,
+        isArchived: true
+      })
+    );
+
+    wrapper.update();
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      invalidCaseStatusRedirect(seededCase.id)
     );
   });
 
