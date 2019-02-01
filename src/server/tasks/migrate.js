@@ -180,8 +180,9 @@ executedCmd
     const errorStr = `${cmd.toUpperCase()} ERROR`;
     console.log(errorStr);
     console.log("=".repeat(errorStr.length));
-    console.log(err);
+    console.log(err.message);
     console.log("=".repeat(errorStr.length));
+    process.exit(1);
   })
   .then(() => {
     if (cmd !== "status" && cmd !== "reset-hard") {
