@@ -14,21 +14,27 @@ const MIGRATION_USER = "System Migration: 001";
 
 module.exports = {
   up: async () => {
-    await models.sequelize.transaction(async transaction => {
-      const cases = await getCasesToUpdate(transaction);
-
-      for await (let oneCase of cases) {
-        await migrateCase(oneCase, transaction);
-      }
-    });
+    /*
+    - Task ran in production for the first time on 1/22/2019 in version 1.9.0
+    - Task ran in all subsequent production deploys until and not including
+      version 2.6.0
+    - Commented out to keep from rerunning
+     */
+    // await models.sequelize.transaction(async transaction => {
+    //   const cases = await getCasesToUpdate(transaction);
+    //
+    //   for await (let oneCase of cases) {
+    //     await migrateCase(oneCase, transaction);
+    //   }
+    // });
   },
 
   down: async () => {
-    const audits = await models.data_change_audit.findAll({
-      where: { user: MIGRATION_USER }
-    });
-
-    await destroyCreatedRecords(audits);
+    // const audits = await models.data_change_audit.findAll({
+    //   where: { user: MIGRATION_USER }
+    // });
+    //
+    // await destroyCreatedRecords(audits);
   }
 };
 
