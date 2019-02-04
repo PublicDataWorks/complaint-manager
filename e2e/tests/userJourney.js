@@ -450,16 +450,36 @@ if (TEST_PASS && TEST_USER && HOST) {
 
       caseDashboard.isOnPage();
     },
+    "should go to archived cases page and open archived case": browser => {
+      const navBar = browser.page.NavBar();
+      const archivedCasesPage = browser.page.ArchivedCases();
 
+      navBar.goToArchivedCases();
+
+      archivedCasesPage.isOnPage().openArchivedCase();
+    },
+    "should restore archived case": browser => {
+      const caseDetailsPage = browser.page.CaseDetails();
+      const caseDashboardPage = browser.page.CaseDashboard();
+      const snackbar = browser.page.SnackbarPOM();
+
+      caseDetailsPage
+        .isOnPage()
+        .restoreCase()
+        .confirmRestoreInDialog();
+      snackbar.presentWithMessage("Case was successfully restored").close();
+      caseDetailsPage.goBackToAllCases();
+
+      caseDashboardPage.isOnPage();
+    },
     "should log out of the system": browser => {
-      const logoutPage = browser.page.Logout();
+      const navBar = browser.page.NavBar();
       const loginPage = browser.page.Login();
 
-      logoutPage.clickGearButton().clickLogout();
+      navBar.clickGearButton().clickLogout();
 
       loginPage.isOnPage();
     },
-
     "end user journey ;)": browser => {
       browser.end();
     }

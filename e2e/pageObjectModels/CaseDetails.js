@@ -51,6 +51,24 @@ const caseDetailsCommands = {
       "@archiveCaseButtonInDialog",
       e2e.rerenderWait
     ).click("@archiveCaseButtonInDialog");
+  },
+  restoreCase: function() {
+    return this.waitForElementVisible(
+      "@restoreCaseButton",
+      e2e.rerenderWait
+    ).click("@restoreCaseButton");
+  },
+  confirmRestoreInDialog: function() {
+    return this.waitForElementVisible(
+      "@restoreCaseButtonInDialog",
+      e2e.rerenderWait
+    ).click("@restoreCaseButtonInDialog");
+  },
+  goBackToAllCases: function() {
+    return this.waitForElementNotPresent(
+      "@restoreCaseButtonInDialog",
+      e2e.rerenderWait
+    ).click("@backToAllCasesButton");
   }
 };
 
@@ -81,6 +99,15 @@ module.exports = {
       },
       archiveCaseButtonInDialog: {
         selector: "[data-test='confirmArchiveCase']"
+      },
+      restoreCaseButton: {
+        selector: "[data-test='restoreCaseButton']"
+      },
+      restoreCaseButtonInDialog: {
+        selector: "[data-test='confirmRestoreArchivedCase']"
+      },
+      backToAllCasesButton: {
+        selector: "[data-test='all-cases-link']"
       }
     },
     attachmentElements,
