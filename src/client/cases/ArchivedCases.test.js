@@ -7,17 +7,18 @@ import { BrowserRouter as Router } from "react-router-dom";
 import createConfiguredStore from "../createConfiguredStore";
 import { openSnackbar } from "../actionCreators/snackBarActionCreators";
 import { mockLocalStorage } from "../../mockLocalStorage";
-import { getCasesSuccess } from "../actionCreators/casesActionCreators";
+import { getArchivedCasesSuccess } from "../actionCreators/casesActionCreators";
 import Case from "../testUtilities/case";
-import getCases from "./thunks/getCases";
+import ArchivedCases from "./ArchivedCases";
+import getArchivedCases from "./thunks/getArchivedCases";
 import { containsText } from "../testHelpers";
 
-jest.mock("./thunks/getCases", () => () => ({
-  type: "MOCK_GET_CASES_THUNK"
+jest.mock("./thunks/getArchivedCases", () => () => ({
+  type: "MOCK_GET_ARCHIVED_CASES_THUNK"
 }));
 
 describe("CaseDashboard", () => {
-  let caseDashboardWrapper, store, dispatchSpy, cases;
+  let archivedCasesWrapper, store, dispatchSpy, cases;
 
   beforeEach(() => {
     mockLocalStorage();
@@ -30,43 +31,38 @@ describe("CaseDashboard", () => {
     cases = [newCase, newCase2];
 
     store = createConfiguredStore();
-    store.dispatch(getCasesSuccess(cases));
+    store.dispatch(getArchivedCasesSuccess(cases));
     store.dispatch(openSnackbar());
 
     dispatchSpy = jest.spyOn(store, "dispatch");
 
-    caseDashboardWrapper = mount(
+    archivedCasesWrapper = mount(
       <Provider store={store}>
         <Router>
-          <CaseDashboard />
+          <ArchivedCases />
         </Router>
       </Provider>
     );
   });
 
-  test("should display no cases message", () => {
-    store.dispatch(getCasesSuccess([]));
-    caseDashboardWrapper.update();
-
+  test("should display message no archived cases", () => {
+    store.dispatch(getArchivedCasesSuccess([]));
+    archivedCasesWrapper.update();
     expect(
       containsText(
-        caseDashboardWrapper,
+        archivedCasesWrapper,
         '[data-test="no-cases-message"]',
-        "There are no cases to view"
+        "There are no archived cases to view"
       )
     );
   });
 
   test("should display navbar with title", () => {
-    const navBar = caseDashboardWrapper.find(NavBar);
-    expect(navBar.contains("View All Cases")).toEqual(true);
+    const navBar = archivedCasesWrapper.find(NavBar);
+    expect(navBar.contains("View Archived Cases")).toEqual(true);
   });
 
   test("should load all cases when mounted", () => {
-    expect(dispatchSpy).toHaveBeenCalledWith(getCases());
-  });
-
-  test("should close snackbar when mounted", () => {
-    expect(store.getState()).toHaveProperty("ui.snackbar.open", false);
+    expect(dispatchSpy).toHaveBeenCalledWith(getArchivedCases());
   });
 });

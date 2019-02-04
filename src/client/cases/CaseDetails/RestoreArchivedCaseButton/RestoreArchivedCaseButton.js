@@ -11,7 +11,7 @@ class RestoreArchivedCaseButton extends Component {
         <LinkButton
           onClick={this.props.openRestoreArchivedCaseDialog}
           style={{ textAlign: "right", marginBottom: "16px" }}
-          data-test="archiveCaseButton"
+          data-test="restoreCaseButton"
         >
           Restore Case
         </LinkButton>
