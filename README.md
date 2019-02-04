@@ -29,7 +29,7 @@ and run all tests before pushing.
 
 If you are a core team member:
 * Log into AWS with root user (credentials are in the team 1Password)
-* Create a new user for yourself in the development group
+* Create a new user for yourself in the development group in IAM
 
 If you are a contributor, ask a core team member to setup AWS credentials for you.
 
