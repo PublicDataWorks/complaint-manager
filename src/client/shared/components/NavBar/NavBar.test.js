@@ -75,7 +75,7 @@ describe("NavBar", () => {
       gearButton.simulate("click");
 
       const exportAuditLogMenuItem = wrapper
-        .find('[data-test="exportAllCases"]')
+        .find('[data-test="exports"]')
         .last();
       expect(exportAuditLogMenuItem.exists()).toBeTruthy();
     });

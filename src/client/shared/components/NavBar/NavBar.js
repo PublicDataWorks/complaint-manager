@@ -83,12 +83,15 @@ class NavBar extends React.Component {
             anchorEl={this.state.anchorEl}
             onClose={this.handleMenuClose}
           >
-            <MenuItem
-              data-test="exportAllCases"
-              component={Link}
-              to="/export/all"
-            >
+            <MenuItem data-test="exports" component={Link} to="/export/all">
               Export
+            </MenuItem>
+            <MenuItem
+              data-test="archivedCases"
+              component={Link}
+              to={"/archived-cases"}
+            >
+              Archived Cases
             </MenuItem>
             <MenuItem
               data-test="logOutButton"

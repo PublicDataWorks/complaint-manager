@@ -5,6 +5,7 @@ import Classification from "../../client/testUtilities/classification";
 import CaseOfficer from "../../client/testUtilities/caseOfficer";
 import Officer from "../../client/testUtilities/Officer";
 import RaceEthnicity from "../../client/testUtilities/raceEthnicity";
+import Civilian from "../../client/testUtilities/civilian";
 
 export const createTestCaseWithoutCivilian = async (user = "someone") => {
   return await models.cases.create(
@@ -23,8 +24,19 @@ export const createTestCaseWithCivilian = async () => {
       auditUser: "someone"
     }
   );
-  const initialCase = await models.cases.create(
-    new Case.Builder().defaultCase().withId(undefined),
+
+  const complainantCivilian = new Civilian.Builder()
+    .defaultCivilian()
+    .withRoleOnCase(COMPLAINANT)
+    .withNoAddress()
+    .withId(undefined)
+    .withCaseId(undefined);
+
+  return await models.cases.create(
+    new Case.Builder()
+      .defaultCase()
+      .withId(undefined)
+      .withComplainantCivilians([complainantCivilian]),
     {
       include: [
         {
@@ -36,8 +48,6 @@ export const createTestCaseWithCivilian = async () => {
       auditUser: "someone"
     }
   );
-
-  return initialCase;
 };
 
 export const createCase = async customCaseAttributes => {

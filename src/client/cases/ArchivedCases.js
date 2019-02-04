@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import CasesTable from "./CasesTable/CasesTable";
-import CreateCaseButton from "./CreateCaseButton";
 import NavBar from "../shared/components/NavBar/NavBar";
 import { Typography } from "@material-ui/core";
 import { connect } from "react-redux";
-import getCases from "./thunks/getCases";
-import { resetWorkingCasesLoaded } from "../actionCreators/casesActionCreators";
+import { closeSnackbar } from "../actionCreators/snackBarActionCreators";
+import getArchivedCases from "./thunks/getArchivedCases";
+import { resetArchivedCasesLoaded } from "../actionCreators/casesActionCreators";
 
-class CaseDashboard extends Component {
+class ArchivedCases extends Component {
   componentWillUnmount() {
-    this.props.resetWorkingCasesLoaded();
+    this.props.resetArchivedCasesLoaded();
   }
 
   componentDidMount() {
-    this.props.getCases();
+    this.props.getArchivedCases();
   }
 
   render() {
@@ -21,22 +21,22 @@ class CaseDashboard extends Component {
       <div>
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
-            View All Cases
+            View Archived Cases
           </Typography>
         </NavBar>
-        <CreateCaseButton />
-        <CasesTable archived={false} />
+        <CasesTable archived={true} />
       </div>
     );
   }
 }
 
 const mapDispatchToProps = {
-  getCases,
-  resetWorkingCasesLoaded
+  getArchivedCases,
+  closeSnackbar,
+  resetArchivedCasesLoaded
 };
 
 export default connect(
   null,
   mapDispatchToProps
-)(CaseDashboard);
+)(ArchivedCases);

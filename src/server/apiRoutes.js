@@ -1,5 +1,5 @@
 import getCase from "./handlers/cases/getCase/getCase";
-import getCases from "./handlers/cases/getCases";
+import getCases from "./handlers/cases/getCases/getCases";
 import createCase from "./handlers/cases/createCase";
 import editCase from "./handlers/cases/editCase";
 import archiveCase from "./handlers/cases/archiveCase/archiveCase";
@@ -45,6 +45,7 @@ import approveLetter from "./handlers/cases/referralLetters/approveLetter/approv
 import generateAttachmentDownloadUrl from "./handlers/cases/attachments/generateAttachmentDownloadUrl";
 import uploadAttachment from "./handlers/cases/attachments/uploadAttachment";
 import deleteAttachment from "./handlers/cases/attachments/deleteAttachment";
+import getArchivedCases from "./handlers/cases/getCases/getArchivedCases";
 
 export const ROUTES_ALLOWED_TO_MODIFY_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -76,6 +77,13 @@ export const API_ROUTES = {
       handler: createCase,
       errorMessage:
         "Something went wrong and the case was not created. Please try again."
+    }
+  },
+  "/cases/archived": {
+    get: {
+      handler: getArchivedCases,
+      errorMessage:
+        "Something went wrong and the archived cases were not loaded. Please try again."
     }
   },
   "/cases/:caseId": {

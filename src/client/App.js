@@ -32,6 +32,7 @@ import RecommendedActions from "./cases/ReferralLetter/RecommendedActions/Recomm
 import LetterPreview from "./cases/ReferralLetter/LetterPreview/LetterPreview";
 import EditLetter from "./cases/ReferralLetter/EditLetter/EditLetter";
 import ReviewAndApproveLetter from "./cases/ReferralLetter/ReviewAndApproveLetter/ReviewAndApproveLetter";
+import ArchivedCases from "./cases/ArchivedCases";
 
 class App extends Component {
   componentDidMount() {
@@ -55,6 +56,7 @@ class App extends Component {
               <Route path="/login" component={Login} />
               <Route path="/callback" component={Callback} />
               <Route exact path="/" component={CaseDashboard} />
+              <Route exact path="/archived-cases" component={ArchivedCases} />
               <Switch>
                 <Route
                   exact
@@ -115,7 +117,9 @@ class App extends Component {
                 component={ReviewAndApproveLetter}
               />
               <Route exact path="/export/all" component={JobDashboard} />
-              <Route exact path="/styleguide" component={StyleGuide} />
+              {renderInPreProduction(
+                <Route exact path="/styleguide" component={StyleGuide} />
+              )}
               <Route
                 exact
                 path="/cases/:id/cases-officers/:caseOfficerId/allegations/search"
@@ -129,6 +133,13 @@ class App extends Component {
     );
   }
 }
+
+const renderInPreProduction = component => {
+  if (process.env.REACT_APP_ENV !== "production") {
+    return component;
+  }
+  return null;
+};
 
 const mapDispatchToProps = {
   userAuthSuccess,
