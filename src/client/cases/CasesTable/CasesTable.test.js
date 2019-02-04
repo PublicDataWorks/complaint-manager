@@ -254,4 +254,18 @@ describe("cases table", () => {
       ).toEqual(`${yetAnotherCase.caseReference}`);
     });
   });
+
+  describe("there are no cases", () => {
+    test("should display no cases message", () => {
+      store.dispatch(getCasesSuccess([]));
+
+      tableWrapper.update();
+
+      const body = tableWrapper.find("TableBody");
+      const message = tableWrapper.find('[data-test="no-cases-message"]');
+
+      expect(body.exists()).toBeFalsy();
+      expect(message.exists()).toBeTruthy();
+    });
+  });
 });

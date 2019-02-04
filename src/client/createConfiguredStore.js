@@ -3,8 +3,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { reducer as formReducer } from "redux-form";
 import thunk from "redux-thunk";
 import history from "./history";
-import { routerMiddleware, connectRouter } from "connected-react-router";
-import allCasesReducer from "./reducers/cases/allCasesReducer";
+import { connectRouter, routerMiddleware } from "connected-react-router";
+import workingCasesReducer from "./reducers/cases/workingCasesReducer";
 import snackbarReducer from "./reducers/ui/snackbarReducer";
 import caseDetailsReducer from "./reducers/cases/caseDetailsReducer";
 import caseHistoryReducer from "./reducers/cases/caseHistoryReducer";
@@ -44,12 +44,14 @@ import raceEthnicityReducer from "./reducers/ui/raceEthnicityReducer";
 import archiveCaseDialogReducer from "./reducers/ui/archiveCaseDialogReducer";
 import editIncidentDetailsDialogReducer from "./reducers/ui/editIncidentDetailsDialogReducer";
 import restoreArchivedCaseDialogReducer from "./reducers/ui/restoreArchivedCaseDialogReducer";
+import archivedCasesReducer from "./reducers/cases/archivedCasesReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
   router: connectRouter(history),
   cases: combineReducers({
-    all: allCasesReducer
+    working: workingCasesReducer,
+    archived: archivedCasesReducer
   }),
   currentCase: combineReducers({
     details: caseDetailsReducer,

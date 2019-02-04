@@ -26,6 +26,12 @@ const SUBJECT_DETAILS = {
     "Officer Complainants",
     "Accused Officers"
   ],
+  [AUDIT_SUBJECT.ALL_ARCHIVED_CASES]: [
+    "Case Information",
+    "Civilian Complainants",
+    "Officer Complainants",
+    "Accused Officers"
+  ],
   [AUDIT_SUBJECT.CASE_HISTORY]: [
     "Case Information",
     "Incident Location",

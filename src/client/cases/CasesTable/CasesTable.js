@@ -15,6 +15,7 @@ import CaseRow from "./CaseRow";
 import tableStyleGenerator from "../../tableStyles";
 import { updateSort } from "../../actionCreators/casesActionCreators";
 import sortBy from "../../utilities/sortBy";
+import _ from "lodash";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).header,
@@ -22,10 +23,48 @@ const styles = theme => ({
 });
 
 class CasesTable extends React.Component {
+  renderNoCasesMessage() {
+    if (_.isEmpty(this.props.cases)) {
+      return (
+        <div style={{ marginTop: "24px" }} data-test="no-cases-message">
+          <i>{`There are no ${
+            this.props.archived ? "archived " : ""
+          }cases to view.`}</i>
+        </div>
+      );
+    }
+  }
+
+  renderCases(classes) {
+    if (_.isEmpty(this.props.cases)) {
+      return null;
+    }
+
+    return (
+      <TableBody>
+        {sortBy(
+          this.props.cases,
+          this.props.sortBy,
+          this.props.sortDirection
+        ).map(caseDetails => (
+          <CaseRow
+            key={caseDetails.id}
+            caseDetails={caseDetails}
+            currentUser={this.props.currentUser}
+          />
+        ))}
+      </TableBody>
+    );
+  }
+
   render() {
+    if (!this.props.loaded) {
+      return null;
+    }
+
     const { classes } = this.props;
     return (
-      <div>
+      <div style={{ marginTop: "24px" }}>
         <Typography variant="title" className={classes.labelMargin}>
           Results
         </Typography>
@@ -128,30 +167,24 @@ class CasesTable extends React.Component {
                 <TableCell style={{ width: "14%" }} className={classes.cell} />
               </TableRow>
             </TableHead>
-            <TableBody>
-              {sortBy(
-                this.props.cases,
-                this.props.sortBy,
-                this.props.sortDirection
-              ).map(caseDetails => (
-                <CaseRow
-                  key={caseDetails.id}
-                  caseDetails={caseDetails}
-                  currentUser={this.props.currentUser}
-                />
-              ))}
-            </TableBody>
+
+            {this.renderCases(classes)}
           </Table>
+          {this.renderNoCasesMessage()}
         </Paper>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  cases: state.cases.all,
+const mapStateToProps = (state, ownProps) => ({
+  cases: ownProps.archived
+    ? state.cases.archived.cases
+    : state.cases.working.cases,
+  loaded: ownProps.archived
+    ? state.cases.archived.loaded
+    : state.cases.working.loaded,
   currentUser: state.users.current.userInfo,
-  caseCreationSuccess: state.ui.snackbar.success,
   sortBy: state.ui.casesTable.sortBy,
   sortDirection: state.ui.casesTable.sortDirection
 });

@@ -21,8 +21,10 @@ import {
   EDIT_CIVILIAN_DIALOG_CLOSED,
   EDIT_INCIDENT_DETAILS_DIALOG_CLOSED,
   EDIT_INCIDENT_DETAILS_DIALOG_OPENED,
+  GET_ARCHIVED_CASES_SUCCESS,
   GET_CASE_DETAILS_SUCCESS,
   GET_CASE_NOTES_SUCCEEDED,
+  GET_WORKING_CASES_SUCCESS,
   GET_MINIMUM_CASE_DETAILS_SUCCESS,
   INCIDENT_DETAILS_UPDATE_SUCCEEDED,
   REMOVE_CASE_NOTE_DIALOG_CLOSED,
@@ -34,7 +36,9 @@ import {
   RESTORE_ARCHIVED_CASE_DIALOG_CLOSED,
   RESTORE_ARCHIVED_CASE_DIALOG_OPENED,
   UPDATE_ALLEGATION_DETAILS_SUCCEEDED,
-  UPDATE_CASE_STATUS_SUCCESS
+  UPDATE_CASE_STATUS_SUCCESS,
+  RESET_ARCHIVED_CASES_LOADED,
+  RESET_WORKING_CASES_LOADED
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = caseDetails => ({
@@ -47,8 +51,21 @@ export const requestCaseCreation = () => ({
 });
 
 export const getCasesSuccess = cases => ({
-  type: "GET_CASES_SUCCESS",
+  type: GET_WORKING_CASES_SUCCESS,
   cases
+});
+
+export const resetWorkingCasesLoaded = () => ({
+  type: RESET_WORKING_CASES_LOADED
+});
+
+export const getArchivedCasesSuccess = cases => ({
+  type: GET_ARCHIVED_CASES_SUCCESS,
+  cases
+});
+
+export const resetArchivedCasesLoaded = () => ({
+  type: RESET_ARCHIVED_CASES_LOADED
 });
 
 export const getCaseDetailsSuccess = caseDetails => ({

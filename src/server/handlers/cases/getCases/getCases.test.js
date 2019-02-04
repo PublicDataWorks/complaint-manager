@@ -1,11 +1,11 @@
-import app from "../../server";
-import models from "../../models/index";
+import app from "../../../server";
+import models from "../../../models";
 import moment from "moment/moment";
-import Case from "../../../client/testUtilities/case";
+import Case from "../../../../client/testUtilities/case";
 import request from "supertest";
-import Civilian from "../../../client/testUtilities/civilian";
-import Officer from "../../../client/testUtilities/Officer";
-import CaseOfficer from "../../../client/testUtilities/caseOfficer";
+import Civilian from "../../../../client/testUtilities/civilian";
+import Officer from "../../../../client/testUtilities/Officer";
+import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT,
@@ -13,11 +13,11 @@ import {
   AUDIT_TYPE,
   CASE_STATUS,
   COMPLAINANT
-} from "../../../sharedUtilities/constants";
+} from "../../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
   cleanupDatabase
-} from "../../testHelpers/requestTestHelpers";
+} from "../../../testHelpers/requestTestHelpers";
 
 describe("getCases", () => {
   let token;
