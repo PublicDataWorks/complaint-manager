@@ -26,6 +26,11 @@ import { TIMEZONE } from "../../../sharedUtilities/constants";
 import timezone from "moment-timezone";
 import { initialize } from "redux-form";
 import getLetterType from "../ReferralLetter/thunks/getLetterType";
+import { scrollToTop } from "../../ScrollToTop";
+
+jest.mock("../../ScrollToTop", () => ({
+  scrollToTop: jest.fn(() => "MOCK_SCROLL_TO_TOP")
+}));
 
 jest.mock("../thunks/getCaseDetails", () => caseId => ({
   type: "MOCK_GET_CASE_DETAILS",
@@ -79,6 +84,24 @@ describe("Case Details Component", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(
       getLetterType(expectedCase.id.toString())
     );
+  });
+
+  test("should scroll to top", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: expectedCase.id,
+        complainantCivilians: [],
+        complainantOfficers: [],
+        witnessCivilians: [],
+        witnessOfficers: [],
+        createdAt: null,
+        isArchived: true
+      })
+    );
+
+    caseDetails.update();
+
+    expect(scrollToTop).toHaveBeenCalled();
   });
 
   test("should dispatch close dialog actions on unmount", () => {

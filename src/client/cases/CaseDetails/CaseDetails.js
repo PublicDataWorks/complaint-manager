@@ -32,6 +32,7 @@ import EditLetterStatusMessage, {
   PAGE_TYPE
 } from "./EditLetterStatusMessage/EditLetterStatusMessage";
 import getLetterType from "../ReferralLetter/thunks/getLetterType";
+import { scrollToTop } from "../../ScrollToTop";
 
 const drawerWidthPercentage = "30%";
 
@@ -42,6 +43,15 @@ const appBar = {
 };
 
 class CaseDetails extends React.Component {
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (
+      !prevProps.caseDetails.isArchived &&
+      this.props.caseDetails.isArchived
+    ) {
+      scrollToTop();
+    }
+  }
+
   state = {
     mobileOpen: false,
     anchorEl: null,

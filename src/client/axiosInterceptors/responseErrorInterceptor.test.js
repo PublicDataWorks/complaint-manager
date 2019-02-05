@@ -84,7 +84,7 @@ describe("response error interceptor", () => {
 
         await expect(axios.get(`/api/cases/${caseId}`)).rejects.toBeTruthy();
         expect(dispatch).toHaveBeenCalledWith(
-          snackbarError(PAGE_NOT_AVAILABLE)
+          snackbarError(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE)
         );
         expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
         expect(dispatch).toHaveBeenCalledWith(getCaseDetails(caseId));
