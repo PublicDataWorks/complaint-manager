@@ -83,22 +83,27 @@ class NavBar extends React.Component {
             anchorEl={this.state.anchorEl}
             onClose={this.handleMenuClose}
           >
-            <MenuItem data-test="exports" component={Link} to="/export/all">
+            <MenuItem
+              data-test="exports"
+              onClick={() => {
+                this.handleMenuClose();
+              }}
+              component={Link}
+              to="/export/all"
+            >
               Export
             </MenuItem>
             <MenuItem
               data-test="archivedCases"
               component={Link}
+              onClick={() => {
+                this.handleMenuClose();
+              }}
               to={"/archived-cases"}
             >
               Archived Cases
             </MenuItem>
-            <MenuItem
-              data-test="logOutButton"
-              onClick={() => {
-                handleLogout();
-              }}
-            >
+            <MenuItem data-test="logOutButton" onClick={handleLogout}>
               Log Out
             </MenuItem>
           </Menu>
