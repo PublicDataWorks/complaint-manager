@@ -8,7 +8,10 @@ const archivedCasesCommands = {
     ).assert.containsText("@pageTitle", "View Archived Cases");
   },
   openArchivedCase: function() {
-    return this.click("@openCaseButton");
+    return this.waitForElementVisible(
+      "@openCaseButton",
+      e2e.roundtripWait
+    ).click("@openCaseButton");
   }
 };
 
