@@ -69,7 +69,7 @@ const getErrorMessageToDisplayAndRedirectUrl = (boomErrorMessage, caseId) => {
       };
     case BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE:
       return {
-        errorMessage: "Sorry, that page is not available",
+        errorMessage: boomErrorMessage,
         redirectUrl: `/cases/${caseId}`
       };
     case BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST:
