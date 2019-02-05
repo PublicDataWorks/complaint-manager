@@ -1,5 +1,5 @@
 import getCase from "./handlers/cases/getCase/getCase";
-import getCases from "./handlers/cases/getCases/getCases";
+import getCases from "./handlers/cases/getCases/getWorkingCases";
 import createCase from "./handlers/cases/createCase";
 import editCase from "./handlers/cases/editCase";
 import archiveCase from "./handlers/cases/archiveCase/archiveCase";

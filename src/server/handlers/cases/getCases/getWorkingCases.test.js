@@ -19,7 +19,7 @@ import {
   cleanupDatabase
 } from "../../../testHelpers/requestTestHelpers";
 
-describe("getCases", () => {
+describe("getWorkingCases", () => {
   let token;
 
   beforeEach(async () => {

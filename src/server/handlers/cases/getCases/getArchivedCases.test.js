@@ -8,6 +8,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import models from "../../../models";
 import Case from "../../../../client/testUtilities/case";
+
 const httpMocks = require("node-mocks-http");
 
 describe("getArchivedCases", () => {
@@ -33,10 +34,12 @@ describe("getArchivedCases", () => {
     await cleanupDatabase();
   });
 
-  test.skip("should audit data access", async () => {
-    getArchivedCases(request, response, next);
+  test("should audit data access", async () => {
+    await getArchivedCases(request, response, next);
 
-    const audit = await models.action_audit.findAll();
+    const audit = await models.action_audit.findOne({
+      where: { subject: AUDIT_SUBJECT.ALL_ARCHIVED_CASES }
+    });
 
     expect(audit).toEqual(
       expect.objectContaining({
@@ -53,7 +56,12 @@ describe("getArchivedCases", () => {
 
     expect(response._getData().cases).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ id: existingArchivedCase.id })
+        expect.objectContaining({
+          id: existingArchivedCase.id,
+          complainantCivilians: expect.arrayContaining([
+            expect.objectContaining({ firstName: "Chuck" })
+          ])
+        })
       ])
     );
 

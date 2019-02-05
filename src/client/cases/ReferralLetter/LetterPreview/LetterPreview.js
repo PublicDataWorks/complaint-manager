@@ -315,7 +315,7 @@ class LetterPreview extends Component {
 
   render() {
     if (this.letterPreviewNotYetLoaded()) {
-      return <PageLoading />;
+      return null;
     }
 
     return (

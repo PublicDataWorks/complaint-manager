@@ -1,56 +1,58 @@
 import models from "../../../models";
-import asyncMiddleware from "../../asyncMiddleware";
-import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
-import auditDataAccess from "../../auditDataAccess";
+import Sequelize from "sequelize";
+const Op = Sequelize.Op;
 
-const getCases = asyncMiddleware(async (req, res) => {
-  const cases = await models.sequelize.transaction(async transaction => {
-    await auditDataAccess(
-      req.nickname,
-      undefined,
-      AUDIT_SUBJECT.ALL_CASES,
-      transaction
-    );
-
-    return await models.cases.findAll(
-      {
-        ...getCasesOptions
-      },
-      { transaction }
-    );
-  });
-
-  res.status(200).send({ cases });
-});
-
-export const getCasesOptions = {
-  include: [
-    {
-      model: models.civilian,
-      as: "complainantCivilians"
-    },
-    {
-      model: models.case_officer,
-      as: "accusedOfficers"
-    },
-    {
-      model: models.case_officer,
-      as: "complainantOfficers"
-    }
-  ],
-  order: [
-    [
-      { model: models.civilian, as: "complainantCivilians" },
-      "createdAt",
-      "ASC"
-    ],
-    [
-      { model: models.case_officer, as: "complainantOfficers" },
-      "createdAt",
-      "ASC"
-    ],
-    [{ model: models.case_officer, as: "accusedOfficers" }, "createdAt", "ASC"]
-  ]
+export const CASES_TYPE = {
+  ARCHIVED: "ARCHIVED",
+  WORKING: "WORKING"
 };
 
-module.exports = getCases;
+const getCases = async (transaction, casesType) => {
+  const where =
+    casesType === CASES_TYPE.ARCHIVED
+      ? {
+          deletedAt: { [Op.ne]: null }
+        }
+      : {};
+
+  return await models.cases.findAll(
+    {
+      where: where,
+      paranoid: casesType === CASES_TYPE.WORKING,
+      include: [
+        {
+          model: models.civilian,
+          as: "complainantCivilians"
+        },
+        {
+          model: models.case_officer,
+          as: "accusedOfficers"
+        },
+        {
+          model: models.case_officer,
+          as: "complainantOfficers"
+        }
+      ],
+      order: [
+        [
+          { model: models.civilian, as: "complainantCivilians" },
+          "createdAt",
+          "ASC"
+        ],
+        [
+          { model: models.case_officer, as: "complainantOfficers" },
+          "createdAt",
+          "ASC"
+        ],
+        [
+          { model: models.case_officer, as: "accusedOfficers" },
+          "createdAt",
+          "ASC"
+        ]
+      ]
+    },
+    { transaction }
+  );
+};
+
+export default getCases;
