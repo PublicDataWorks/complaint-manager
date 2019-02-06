@@ -21,7 +21,7 @@ services:
       - "1234:1234"
       - "3000:3000"
       - "4000:4000"
-    entrypoint: ["./wait-for-it.sh","db:5432", "--"]
+    entrypoint: ["./wait-for-it.sh", "db:5432", "--"]
     command: ["yarn", "start"]
     volumes:
       - ./src:/app/src
@@ -39,7 +39,7 @@ services:
     ports:
       - "4567:4567"
       - "5000:5000"
-    entrypoint: ["./wait-for-it.sh","db:5432", "--"]
+    entrypoint: ["./wait-for-it.sh", "db:5432", "--"]
     command: ["yarn", "start:worker"]
     volumes:
       - ./src:/app/src
@@ -52,14 +52,20 @@ services:
 #    volumes:
 #      - ./postgres-data:/var/lib/postgresql/data
   e2e:
-    image: noipm/nightwatch-chrome
+    image: noipm/e2e
     depends_on:
       - app
     volumes:
       - "./e2e/tests:/tests"
-      - "./e2e/nightwatch.json:/nightwatch.json"
-    command: --env local
+      - "./e2e/pageObjectModels:/pageObjectModels"
+      - "./e2e/nightwatch.conf.js:/nightwatch.conf.js"
+    command:
+      --env local
+    environment:
+      - TEST_USER=${TEST_USER}
+      - TEST_PASS=${TEST_PASS}
+      - HOST=${HOST}
   redis:
     image: redis
     ports:
-    - "6379:6379"
+      - "6379:6379"
