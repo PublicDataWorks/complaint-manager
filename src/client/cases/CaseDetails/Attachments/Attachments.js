@@ -3,7 +3,7 @@ import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import { CardContent, Typography } from "@material-ui/core";
 import styles from "../../../globalStyling/styles";
 import DropzoneContainer from "./DropzoneContainer";
-import AttachmentsListContainer from "./AttachmentsListContainer";
+import AttachmentsList from "./AttachmentsList";
 
 const Attachments = props => {
   return (
@@ -24,7 +24,7 @@ const Attachments = props => {
             <Typography style={styles.section}>Description</Typography>
           </div>
         </div>
-        <AttachmentsListContainer />
+        <AttachmentsList />
         {props.isArchived ? null : (
           <div style={{ marginTop: "48px" }}>
             <div style={{ marginBottom: "8px" }}>

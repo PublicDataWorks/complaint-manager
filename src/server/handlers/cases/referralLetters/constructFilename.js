@@ -2,23 +2,28 @@ import moment from "moment";
 import _ from "lodash";
 import {
   CIVILIAN_INITIATED,
+  COMPLAINANT_LETTER,
   REFERRAL_LETTER_VERSION
 } from "../../../../sharedUtilities/constants";
 
-const constructFilename = (existingCase, pdfFileVersion, editStatus) => {
+const constructFilename = (existingCase, pdfLetterType, editStatus) => {
   const formattedFirstContactDate = moment(
     existingCase.firstContactDate
   ).format("M-D-YYYY");
   const firstComplainantLastName = getFirstComplainantLastName(existingCase);
 
-  if (pdfFileVersion === REFERRAL_LETTER_VERSION.FINAL) {
+  if (pdfLetterType === REFERRAL_LETTER_VERSION.FINAL) {
     return `${existingCase.id}/${formattedFirstContactDate}_${
       existingCase.caseReference
     }_PIB_Referral${firstComplainantLastName}.pdf`;
-  } else {
+  } else if (pdfLetterType === REFERRAL_LETTER_VERSION.DRAFT) {
     return `${formattedFirstContactDate}_${
       existingCase.caseReference
     }_${editStatus}_Referral_Draft${firstComplainantLastName}.pdf`;
+  } else if (pdfLetterType === COMPLAINANT_LETTER) {
+    return `${formattedFirstContactDate}_${
+      existingCase.caseReference
+    }_Letter_to_Complainant${firstComplainantLastName}.pdf`;
   }
 };
 
@@ -43,7 +48,7 @@ const getFirstComplainant = existingCase => {
     : firstCreated(existingCase.complainantOfficers);
 };
 
-const firstCreated = list => {
+export const firstCreated = list => {
   return _.sortBy(list, ["createdAt"])[0];
 };
 

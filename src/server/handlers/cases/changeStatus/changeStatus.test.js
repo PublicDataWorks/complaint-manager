@@ -145,26 +145,6 @@ describe("changeStatus", async () => {
     );
   });
 
-  test("should call next with error if case not found", async () => {
-    const request = httpMocks.createRequest({
-      method: "PUT",
-      params: {
-        caseId: initialCase.id + 5
-      },
-      body: {
-        status: CASE_STATUS.ACTIVE
-      },
-      nickname: "someone"
-    });
-
-    await changeStatus(request, response, next);
-    await initialCase.reload();
-
-    expect(next).toBeCalledWith(
-      Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST)
-    );
-  });
-
   test("should audit case details", async () => {
     const newStatus = CASE_STATUS.ACTIVE;
     const request = httpMocks.createRequest({

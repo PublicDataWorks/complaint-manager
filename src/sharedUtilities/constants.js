@@ -228,6 +228,7 @@ export const AUDIT_SUBJECT = {
   REFERRAL_LETTER_DATA: "Referral Letter Data", //this refers to letter data only (not case data)
   REFERRAL_LETTER: "Referral Letter", //this refers to the full compiled letter including all case data,
   REFERRAL_LETTER_PDF: "Referral Letter PDF",
+  LETTER_TO_COMPLAINANT_PDF: "Letter to Complainant PDF",
   MINIMUM_CASE_DETAILS: "Minimum Case Details",
   LETTER_TYPE: "Letter Type"
 };
@@ -283,6 +284,9 @@ export const REFERRAL_LETTER_VERSION = {
   FINAL: "Final",
   DRAFT: "Draft"
 };
+
+export const COMPLAINANT_LETTER = "COMPLAINANT_LETTER";
+export const OFFICER_COMPLAINANT_TITLE = "Officer";
 
 // ----------------------------------------
 //          Case Status Map

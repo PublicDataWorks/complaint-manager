@@ -7,6 +7,8 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import Attachment from "../../../../client/testUtilities/attachment";
+import ComplainantLetter from "../../../../client/testUtilities/complainantLetter";
+import Civilian from "../../../../client/testUtilities/civilian";
 
 const httpMocks = require("node-mocks-http");
 const AWS = require("aws-sdk");
@@ -20,8 +22,10 @@ describe("generateAttachmentDownloadUrl", function() {
   });
 
   const SIGNED_TEST_URL = "SIGNED_TEST_URL";
+  let existingCase;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    existingCase = await createTestCaseWithoutCivilian();
     AWS.S3.mockImplementation(() => ({
       getSignedUrl: () => {
         return SIGNED_TEST_URL;
@@ -34,7 +38,6 @@ describe("generateAttachmentDownloadUrl", function() {
   });
 
   async function requestWithExistingCaseAttachment() {
-    const existingCase = await createTestCaseWithoutCivilian();
     const attachmentAttributes = new Attachment.Builder()
       .defaultAttachment()
       .withId(undefined)
@@ -79,6 +82,51 @@ describe("generateAttachmentDownloadUrl", function() {
       })
     );
   });
+  test("should audit complainant letter data access", async () => {
+    const { attachment, request } = await requestWithExistingCaseAttachment();
+
+    const response = httpMocks.createResponse();
+    response.write = jest.fn();
+
+    const civilianAttributes = new Civilian.Builder()
+      .defaultCivilian()
+      .withId(undefined)
+      .withCaseId(existingCase.id);
+    const civilian = await models.civilian.create(civilianAttributes, {
+      auditUser: "tuser"
+    });
+    const complainantLetterAttributes = new ComplainantLetter.Builder()
+      .defaultComplainantLetter()
+      .withId(undefined)
+      .withCaseId(existingCase.id)
+      .withComplainantCivilianId(civilian.id)
+      .withFinalPdfFilename(attachment.fileName);
+    await models.complainant_letter.create(complainantLetterAttributes, {
+      auditUser: "tuser"
+    });
+
+    const signedUrl = await generateAttachmentDownloadUrl(
+      request,
+      response,
+      jest.fn()
+    );
+
+    const actionAudit = await models.action_audit.find({
+      where: { caseId: attachment.caseId }
+    });
+
+    expect(actionAudit).toEqual(
+      expect.objectContaining({
+        action: AUDIT_ACTION.DATA_ACCESSED,
+        subject: AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
+        caseId: existingCase.id,
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        user: "TEST_USER_NICKNAME"
+      })
+    );
+  });
+
+  test("should not get complainant letter when attachmnent is not complainant letter", () => {});
 
   test("should response with a singed download url for an attachment", async () => {
     const { attachment, request } = await requestWithExistingCaseAttachment();
