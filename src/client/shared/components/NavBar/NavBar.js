@@ -93,16 +93,18 @@ class NavBar extends React.Component {
             >
               Export
             </MenuItem>
-            <MenuItem
-              data-test="archivedCases"
-              component={Link}
-              onClick={() => {
-                this.handleMenuClose();
-              }}
-              to={"/archived-cases"}
-            >
-              Archived Cases
-            </MenuItem>
+            {this.props.featureToggles.archiveCaseFeature ? (
+              <MenuItem
+                data-test="archivedCases"
+                component={Link}
+                onClick={() => {
+                  this.handleMenuClose();
+                }}
+                to={"/archived-cases"}
+              >
+                Archived Cases
+              </MenuItem>
+            ) : null}
             <MenuItem data-test="logOutButton" onClick={handleLogout}>
               Log Out
             </MenuItem>
@@ -120,7 +122,8 @@ NavBar.defaultProps = {
 
 const mapStateToProps = state => ({
   nickname: state.users.current.userInfo.nickname,
-  permissions: state.users.current.userInfo.permissions
+  permissions: state.users.current.userInfo.permissions,
+  featureToggles: state.featureToggles
 });
 
 export default connect(mapStateToProps)(NavBar);
