@@ -209,7 +209,7 @@ jobs:
 
     e2e-testing-staging:
             docker:
-              - image: noipm/nightwatch-chrome:latest
+              - image: noipm/e2e:1.2.0
             steps:
               - checkout
               - run:
