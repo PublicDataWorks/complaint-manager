@@ -1,6 +1,5 @@
 const chromedriver = require("chromedriver");
 const selenium = require("selenium-server");
-console.log(selenium.path);
 
 const config = {
   src_folders: ["e2e/tests"],
