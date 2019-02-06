@@ -30,7 +30,6 @@ import { dateTimeFromString } from "../../../utilities/formatDate";
 import getPdf from "../thunks/getPdf";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import styles from "../../../globalStyling/styles";
-import PageLoading from "../../../shared/components/PageLoading";
 
 class LetterPreview extends Component {
   constructor(props) {
