@@ -1,4 +1,4 @@
-const e2e = require("../e2eUtilities.js");
+const e2e = require("./e2eUtilities.js");
 
 const reviewAndApproveCommands = {
   isOnPage: function() {
