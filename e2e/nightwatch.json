@@ -11,7 +11,7 @@
     "log_path": "",
     "port": 4444,
     "cli_args": {
-      "webdriver.chrome.driver": "/usr/node_modules/.bin/chromedriver"
+      "webdriver.chrome.driver": "/usr/bin/chromedriver"
     }
   },
   "test_settings": {
