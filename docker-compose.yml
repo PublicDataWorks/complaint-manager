@@ -57,7 +57,7 @@ services:
       - app
     volumes:
       - "./e2e/tests:/tests"
-      - "./e2e/nightwatch.conf.js:/nightwatch.conf.js"
+      - "./e2e/nightwatch.json:/nightwatch.json"
     command: --env local
   redis:
     image: redis

@@ -1,5 +1,5 @@
-const chromedriver = require("chromedriver");
 const selenium = require("selenium-server");
+const chromedriver = require("chromedriver");
 
 const config = {
   src_folders: ["tests"],
