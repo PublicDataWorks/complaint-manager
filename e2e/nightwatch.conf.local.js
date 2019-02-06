@@ -1,3 +1,6 @@
+const chromedriver = require("chromedriver");
+const selenium = require("selenium-server");
+
 const config = {
   src_folders: ["e2e/tests"],
   output_folder: "reports",
@@ -7,11 +10,11 @@ const config = {
   globals_path: "",
   selenium: {
     start_process: true,
-    server_path: "./bin/selenium-server-standalone-3.9.1.jar",
+    server_path: selenium.path,
     log_path: "",
     port: 4444,
     cli_args: {
-      "webdriver.chrome.driver": "node_modules/.bin/chromedriver"
+      "webdriver.chrome.driver": chromedriver.path
     }
   },
   test_settings: {

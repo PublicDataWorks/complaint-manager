@@ -88,6 +88,7 @@
     "redux-form": "^8.1.0",
     "redux-form-material-ui": "^5.0.0-beta.3",
     "redux-thunk": "^2.2.0",
+    "selenium-server": "^3.141.59",
     "sequelize": "^4.39.0",
     "sequelize-cli": "^5.1.0",
     "shortid": "^2.2.13",
