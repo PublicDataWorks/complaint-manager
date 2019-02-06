@@ -5,7 +5,7 @@ import util from "util";
 import Handlebars from "handlebars";
 require("../../../../handlebarHelpers");
 import fs from "fs";
-import {OFFICER_COMPLAINANT_TITLE} from "../../../../../sharedUtilities/constants";
+import { OFFICER_COMPLAINANT_TITLE } from "../../../../../sharedUtilities/constants";
 
 const generatePdfBuffer = async letterHtml => {
   const pdfOptions = {
@@ -79,6 +79,15 @@ export const generateReferralLetterPdfBuffer = async (
 const getComplainantLetterPdfData = (existingCase, complainant) => {
   const currentDate = Date.now();
 
+  let revisedTitle;
+  if (complainant.title && complainant.title !== "N/A") {
+    revisedTitle = complainant.title;
+  } else if (complainant.title && complainant.title === "N/A") {
+    revisedTitle = "";
+  } else {
+    revisedTitle = OFFICER_COMPLAINANT_TITLE;
+  }
+
   return {
     caseReference: existingCase.caseReference,
     recipient: complainant,
@@ -86,7 +95,7 @@ const getComplainantLetterPdfData = (existingCase, complainant) => {
     complainantAddress: complainant.address ? complainant.address : null,
     complainantEmail: complainant.email ? complainant.email : null,
     firstContactDate: existingCase.firstContactDate,
-    title: complainant.title ? complainant.title : OFFICER_COMPLAINANT_TITLE
+    title: revisedTitle
   };
 };
 
