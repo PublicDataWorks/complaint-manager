@@ -48,7 +48,8 @@ const SUBJECT_DETAILS = {
   [AUDIT_SUBJECT.CASE_NOTES]: ["Case Notes"],
   [AUDIT_SUBJECT.OFFICER_DATA]: ["Officers"],
   [AUDIT_SUBJECT.MINIMUM_CASE_DETAILS]: ["Case Reference", "Case Status"],
-  [AUDIT_SUBJECT.LETTER_TYPE]: ["Letter Type"]
+  [AUDIT_SUBJECT.LETTER_TYPE]: ["Letter Type"],
+  [AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF]: ["Complainant Letter"]
 };
 
 const auditDataAccess = async (

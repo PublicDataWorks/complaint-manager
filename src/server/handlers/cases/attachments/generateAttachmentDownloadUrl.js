@@ -15,6 +15,23 @@ const generateAttachmentDownloadUrl = asyncMiddleware(
     const s3 = createConfiguredS3Instance();
 
     const signedUrl = await models.sequelize.transaction(async transaction => {
+      const complainantLetter = await models.complainant_letter.findOne(
+        {
+          where: { finalPdfFilename: request.params.fileName }
+        },
+        { auditUser: request.nickname, transaction }
+      );
+      if (complainantLetter) {
+        await auditDataAccess(
+          request.nickname,
+          complainantLetter.caseId,
+          AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
+          transaction,
+          AUDIT_ACTION.DATA_ACCESSED
+        );
+        return getComplainantLetterS3Url(s3, complainantLetter);
+      }
+
       await auditDataAccess(
         request.nickname,
         request.params.caseId,
@@ -36,5 +53,13 @@ const generateAttachmentDownloadUrl = asyncMiddleware(
     response.end();
   }
 );
+
+const getComplainantLetterS3Url = (s3, complainantLetter) => {
+  return s3.getSignedUrl(S3_GET_OBJECT, {
+    Bucket: config[process.env.NODE_ENV].complainantLettersBucket,
+    Key: `${complainantLetter.caseId}/${complainantLetter.finalPdfFilename}`,
+    Expires: S3_URL_EXPIRATION
+  });
+};
 
 module.exports = generateAttachmentDownloadUrl;

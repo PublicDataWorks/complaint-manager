@@ -9,6 +9,7 @@ module.exports = {
     officerBucket: "nopd-officers-local",
     exportsBucket: "noipm-exports-local",
     referralLettersBucket: "noipm-referral-letters-local",
+    complainantLettersBucket: "noipm-complainant-letters-local",
     authentication: {
       domain: "noipm-ci.auth0.com",
       publicKeyURL: "https://noipm-ci.auth0.com/.well-known/jwks.json",
@@ -42,6 +43,7 @@ module.exports = {
     port: 5432,
     exportsBucket: "noipm-exports-test",
     referralLettersBucket: "noipm-referral-letters-test",
+    complainantLettersBucket: "noipm-complainant-letters-test",
     authentication: {
       domain: "noipm-ci.auth0.com",
       publicKeyPath: path.join(__dirname, "..", "config", "test", "public.pem"),
@@ -78,6 +80,7 @@ module.exports = {
     officerBucket: "nopd-officers-ci",
     exportsBucket: "noipm-exports-ci",
     referralLettersBucket: "noipm-referral-letters-ci",
+    complainantLettersBucket: "noipm-complainant-letters-ci",
     authentication: {
       domain: "noipm-ci.auth0.com",
       publicKeyURL: "https://noipm-ci.auth0.com/.well-known/jwks.json",
@@ -107,6 +110,7 @@ module.exports = {
     officerBucket: "nopd-officers-staging",
     exportsBucket: "noipm-exports-staging",
     referralLettersBucket: "noipm-referral-letters-staging",
+    complainantLettersBucket: "noipm-complainant-letters-staging",
     authentication: {
       domain: "noipm-staging.auth0.com",
       publicKeyURL: "https://noipm-staging.auth0.com/.well-known/jwks.json",
@@ -136,6 +140,7 @@ module.exports = {
     officerBucket: "nopd-officers-production",
     exportsBucket: "noipm-exports-production",
     referralLettersBucket: "noipm-referral-letters-production",
+    complainantLettersBucket: "noipm-complainant-letters-production",
     authentication: {
       domain: "noipm-production.auth0.com",
       publicKeyURL: "https://noipm-production.auth0.com/.well-known/jwks.json",

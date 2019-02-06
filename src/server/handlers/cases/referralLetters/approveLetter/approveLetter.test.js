@@ -7,6 +7,7 @@ import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
   COMPLAINANT,
+  COMPLAINANT_LETTER,
   REFERRAL_LETTER_VERSION,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
@@ -15,22 +16,33 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import uploadLetterToS3 from "./uploadLetterToS3";
 import Boom from "boom";
 import auditUpload from "./auditUpload";
+import auditDataAccess from "../../../auditDataAccess";
 import Civilian from "../../../../../client/testUtilities/civilian";
 import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import constructFilename from "../constructFilename";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
+const SAMPLE_FINAL_PDF_FILENAME = "some_filename.pdf";
+
 jest.mock("./uploadLetterToS3", () => jest.fn());
-jest.mock(
-  "../sharedReferralLetterUtilities/generateLetterPdfBuffer",
-  () => (caseId, includeSignature, transaction) => `Generated pdf for ${caseId}`
-);
+jest.mock("../sharedReferralLetterUtilities/generatePdfBuffer", () => ({
+  generateReferralLetterPdfBuffer: caseId => `Generated pdf for ${caseId}`
+}));
 jest.mock(
   "../../../../checkFeatureToggleEnabled",
   () => (request, featureName) => true
 );
 jest.mock("./auditUpload", () => jest.fn());
+jest.mock(
+  "./generateComplainantLetterAndUploadToS3",
+  () => (existingCase, nickname) => {
+    return {
+      finalPdfFilename: "some_filename.pdf"
+    };
+  }
+);
+jest.mock("../../../auditDataAccess", () => jest.fn());
 
 describe("approveLetter", () => {
   let existingCase, request, response, next, referralLetter;
@@ -141,7 +153,8 @@ describe("approveLetter", () => {
       await approveLetter(request, response, next);
       expect(uploadLetterToS3).toHaveBeenCalledWith(
         filename,
-        `Generated pdf for ${existingCase.id}`
+        `Generated pdf for ${existingCase.id}`,
+        "noipm-referral-letters-test"
       );
       expect(auditUpload).toHaveBeenCalledWith(
         "nickname",
@@ -163,6 +176,30 @@ describe("approveLetter", () => {
       );
 
       expect(referralLetter.finalPdfFilename).toEqual(filename);
+    });
+
+    describe("complainant letters", () => {
+      test("should create attachment with expected filename and caseId", async () => {
+        await elevateCaseStatusToReadyForReview(existingCase);
+        await approveLetter(request, response, next);
+        const newAttachment = await models.attachment.findOne({
+          where: { caseId: existingCase.id }
+        });
+        expect(newAttachment.fileName).toEqual(SAMPLE_FINAL_PDF_FILENAME);
+        expect(newAttachment.caseId).toEqual(existingCase.id);
+        expect(newAttachment.description).toEqual(COMPLAINANT_LETTER);
+      });
+
+      test("should audit data access when creating attachment", async () => {
+        await elevateCaseStatusToReadyForReview(existingCase);
+        await approveLetter(request, response, next);
+        expect(auditDataAccess).toHaveBeenCalledWith(
+          "nickname",
+          existingCase.id,
+          AUDIT_SUBJECT.CASE_DETAILS,
+          expect.any(Object)
+        );
+      });
     });
   });
 

@@ -10,13 +10,11 @@ import {
 import httpMocks from "node-mocks-http";
 import getPdf from "./getPdf";
 import Boom from "boom";
-import getLetterPreview from "../getLetterPreview/getLetterPreview";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
-jest.mock(
-  "../sharedReferralLetterUtilities/generateLetterPdfBuffer",
-  () => caseId => `pdf for case ${caseId}`
-);
+jest.mock("../sharedReferralLetterUtilities/generatePdfBuffer", () => ({
+  generateReferralLetterPdfBuffer: caseId => `pdf for case ${caseId}`
+}));
 
 describe("Generate referral letter pdf", () => {
   let existingCase, request, response, next;

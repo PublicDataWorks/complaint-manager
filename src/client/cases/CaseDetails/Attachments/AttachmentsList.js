@@ -3,6 +3,8 @@ import { Typography } from "@material-ui/core";
 import AttachmentsRow from "./AttachmentsRow";
 import _ from "lodash";
 import RemoveAttachmentConfirmationDialog from "./RemoveAttachmentConfirmationDialog";
+import removeAttachment from "../../thunks/removeAttachment";
+import { connect } from "react-redux";
 
 class AttachmentsList extends Component {
   constructor(props) {
@@ -65,4 +67,16 @@ class AttachmentsList extends Component {
   }
 }
 
-export default AttachmentsList;
+const mapStateToProps = state => ({
+  caseId: state.currentCase.details.id,
+  attachments: state.currentCase.details.attachments
+});
+
+const mapDispatchToProps = {
+  removeAttachment
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AttachmentsList);

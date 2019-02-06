@@ -12,7 +12,11 @@ describe("uploadLetterToS3", async () => {
 
     const filename = "filename";
     const pdfOutput = "Pdf for case 5";
-    uploadLetterToS3(filename, pdfOutput);
+    uploadLetterToS3(
+      filename,
+      pdfOutput,
+      config[process.env.NODE_ENV].referralLettersBucket
+    );
 
     expect(uploadMock).toHaveBeenCalledWith({
       Bucket: config[process.env.NODE_ENV].referralLettersBucket,

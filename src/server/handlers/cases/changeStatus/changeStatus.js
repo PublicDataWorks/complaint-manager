@@ -41,9 +41,6 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
     let validationErrors = [];
 
     const caseToUpdate = await models.cases.findById(request.params.caseId);
-    if (!caseToUpdate) {
-      throw Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST);
-    }
 
     if (!canUpdateCaseToNewStatus(newStatus, request.permissions)) {
       throw Boom.badRequest(

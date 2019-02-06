@@ -1,6 +1,6 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
-import generateLetterPdfBuffer from "../sharedReferralLetterUtilities/generateLetterPdfBuffer";
+import { generateReferralLetterPdfBuffer } from "../sharedReferralLetterUtilities/generatePdfBuffer";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import auditDataAccess from "../../../auditDataAccess";
 import {
@@ -19,8 +19,11 @@ const getPdf = asyncMiddleware(async (request, response, next) => {
       transaction,
       AUDIT_ACTION.DATA_ACCESSED
     );
-
-    const pdfBuffer = await generateLetterPdfBuffer(caseId, false, transaction);
+    const pdfBuffer = await generateReferralLetterPdfBuffer(
+      caseId,
+      false,
+      transaction
+    );
     response.send(pdfBuffer);
   });
 });

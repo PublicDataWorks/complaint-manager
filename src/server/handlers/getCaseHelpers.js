@@ -109,9 +109,6 @@ const getCaseData = async (caseId, transaction) => {
       ]
     ]
   });
-  if (caseData.length === 0) {
-    throw Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST);
-  }
   return caseData[0];
 };
 

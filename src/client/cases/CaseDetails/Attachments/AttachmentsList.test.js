@@ -4,24 +4,33 @@ import { mount } from "enzyme";
 import AttachmentsList from "./AttachmentsList";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
+import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 
 describe("AttachmentsList", () => {
+  const attachment1 = new Attachment.Builder()
+    .defaultAttachment()
+    .withFileName("Z_file.pdf")
+    .withId(18)
+    .build();
+
+  const attachment2 = new Attachment.Builder()
+    .defaultAttachment()
+    .withFileName("a_file.pdf")
+    .build();
+
+  let store;
+
+  beforeEach(() => {
+    store = createConfiguredStore();
+  });
+
   test("should display attachments in alphabetical order by fileName", () => {
-    const attachment1 = new Attachment.Builder()
-      .defaultAttachment()
-      .withFileName("Z_file.pdf")
-      .withId(18)
-      .build();
-
-    const attachment2 = new Attachment.Builder()
-      .defaultAttachment()
-      .withFileName("a_file.pdf")
-      .build();
-
     const attachmentsToDisplay = [attachment1, attachment2];
 
+    const caseDetail = { attachments: attachmentsToDisplay };
+    store.dispatch(getCaseDetailsSuccess(caseDetail));
     const wrapper = mount(
-      <Provider store={createConfiguredStore()}>
+      <Provider store={store}>
         <AttachmentsList attachments={attachmentsToDisplay} />
       </Provider>
     );
@@ -39,15 +48,12 @@ describe("AttachmentsList", () => {
   });
 
   test("should show remove attachment dialog with filename when remove button is clicked", () => {
-    const attachment1 = new Attachment.Builder()
-      .defaultAttachment()
-      .withFileName("Z_file.pdf")
-      .withId(18)
-      .build();
-
     const attachmentsToDisplay = [attachment1];
+    const caseDetail = { attachments: attachmentsToDisplay };
+    store.dispatch(getCaseDetailsSuccess(caseDetail));
+
     const wrapper = mount(
-      <Provider store={createConfiguredStore()}>
+      <Provider store={store}>
         <AttachmentsList attachments={attachmentsToDisplay} />
       </Provider>
     );
