@@ -285,7 +285,7 @@ export const REFERRAL_LETTER_VERSION = {
   DRAFT: "Draft"
 };
 
-export const COMPLAINANT_LETTER = "COMPLAINANT_LETTER";
+export const COMPLAINANT_LETTER = "Letter to Complainant";
 export const OFFICER_COMPLAINANT_TITLE = "Officer";
 
 // ----------------------------------------
