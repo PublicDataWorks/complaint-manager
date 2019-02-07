@@ -126,8 +126,6 @@ describe("generateAttachmentDownloadUrl", function() {
     );
   });
 
-  test("should not get complainant letter when attachmnent is not complainant letter", () => {});
-
   test("should response with a singed download url for an attachment", async () => {
     const { attachment, request } = await requestWithExistingCaseAttachment();
 
