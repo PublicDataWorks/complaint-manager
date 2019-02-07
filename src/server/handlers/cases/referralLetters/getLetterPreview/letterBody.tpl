@@ -92,7 +92,9 @@
   <p class="ql-align-center"><strong><u>Initial Allegations/Concerns/Issues</u></strong></p>
   <p><br></p>
   {{#each accusedOfficers}}
-    {{rank}} {{fullName}} is accused of the following violations:
+  Complainant alleges the following occurred
+  {{#if (isPresent ../incidentDate)}} on {{{formatShortDate ../incidentDate}}},{{/if}}
+  during the complainant’s interaction with {{rank}} {{fullName}}.  If proven, the accused officer may have violated NOPD policy, rules, or procedure when:
       <ol>
         {{#each allegations}}
         <li>{{this.details}}</li>
