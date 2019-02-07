@@ -20,7 +20,7 @@ const AWS = require("aws-sdk");
 
 jest.mock("aws-sdk");
 
-describe("deleteAttachment", function() {
+describe("upload attachment", function() {
   let token;
   beforeEach(() => {
     token = buildTokenWithPermissions("", "tuser");

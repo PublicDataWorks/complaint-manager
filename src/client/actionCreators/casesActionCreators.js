@@ -27,6 +27,9 @@ import {
   GET_MINIMUM_CASE_DETAILS_SUCCESS,
   GET_WORKING_CASES_SUCCESS,
   INCIDENT_DETAILS_UPDATE_SUCCEEDED,
+  REMOVE_ATTACHMENT_CONFIRMATION_DIALOG_CLOSED,
+  REMOVE_ATTACHMENT_CONFIRMATION_DIALOG_EXITED,
+  REMOVE_ATTACHMENT_CONFIRMATION_DIALOG_OPENED,
   REMOVE_CASE_NOTE_DIALOG_CLOSED,
   REMOVE_CASE_NOTE_DIALOG_OPENED,
   REMOVE_CASE_NOTE_SUCCEEDED,
@@ -109,6 +112,19 @@ export const openRemoveCaseNoteDialog = (activity = {}) => ({
 
 export const closeRemoveCaseNoteDialog = () => ({
   type: REMOVE_CASE_NOTE_DIALOG_CLOSED
+});
+
+export const openRemoveAttachmentConfirmationDialog = attachmentFileName => ({
+  type: REMOVE_ATTACHMENT_CONFIRMATION_DIALOG_OPENED,
+  attachmentFileName
+});
+
+export const closeRemoveAttachmentConfirmationDialog = () => ({
+  type: REMOVE_ATTACHMENT_CONFIRMATION_DIALOG_CLOSED
+});
+
+export const exitedRemoveAttachmentConfirmationDialog = () => ({
+  type: REMOVE_ATTACHMENT_CONFIRMATION_DIALOG_EXITED
 });
 
 export const openCreateCaseDialog = () => ({

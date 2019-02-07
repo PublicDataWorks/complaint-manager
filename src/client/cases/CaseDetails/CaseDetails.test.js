@@ -11,22 +11,26 @@ import Case from "../../testUtilities/case";
 import getCaseDetails from "../thunks/getCaseDetails";
 import createCivilian from "../thunks/createCivilian";
 import {
+  closeArchiveCaseDialog,
   closeCaseNoteDialog,
   closeCaseStatusUpdateDialog,
   closeEditCivilianDialog,
   closeEditIncidentDetailsDialog,
+  closeRemoveAttachmentConfirmationDialog,
   closeRemoveCaseNoteDialog,
   closeRemovePersonDialog,
+  closeRestoreArchivedCaseDialog,
   getCaseDetailsSuccess,
   openCaseNoteDialog,
   openCivilianDialog,
   openRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
-import { TIMEZONE } from "../../../sharedUtilities/constants";
+import { NARRATIVE_FORM, TIMEZONE } from "../../../sharedUtilities/constants";
 import timezone from "moment-timezone";
-import { initialize } from "redux-form";
+import { initialize, reset } from "redux-form";
 import getLetterType from "../ReferralLetter/thunks/getLetterType";
 import { scrollToTop } from "../../ScrollToTop";
+import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 
 jest.mock("../../ScrollToTop", () => ({
   scrollToTop: jest.fn(() => "MOCK_SCROLL_TO_TOP")
@@ -106,12 +110,19 @@ describe("Case Details Component", () => {
 
   test("should dispatch close dialog actions on unmount", () => {
     caseDetails.unmount();
+    expect(dispatchSpy).toHaveBeenCalledWith(reset(NARRATIVE_FORM));
+    expect(dispatchSpy).toHaveBeenCalledWith(clearOfficerPanelData());
     expect(dispatchSpy).toHaveBeenCalledWith(closeEditCivilianDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(closeCaseNoteDialog());
+    expect(dispatchSpy).toHaveBeenCalledWith(closeCaseStatusUpdateDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveCaseNoteDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(closeRemovePersonDialog());
-    expect(dispatchSpy).toHaveBeenCalledWith(closeCaseStatusUpdateDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(closeEditIncidentDetailsDialog());
+    expect(dispatchSpy).toHaveBeenCalledWith(closeRestoreArchivedCaseDialog());
+    expect(dispatchSpy).toHaveBeenCalledWith(closeArchiveCaseDialog());
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      closeRemoveAttachmentConfirmationDialog()
+    );
   });
 
   describe("nav bar", () => {

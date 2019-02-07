@@ -14,14 +14,20 @@ import styles from "./caseDetailsStyles";
 import CaseDrawer from "./CaseDrawer";
 import IncidentDetails from "./IncidentDetails/IncidentDetails";
 import {
+  closeArchiveCaseDialog,
   closeCaseNoteDialog,
   closeCaseStatusUpdateDialog,
   closeEditCivilianDialog,
   closeEditIncidentDetailsDialog,
+  closeRemoveAttachmentConfirmationDialog,
   closeRemoveCaseNoteDialog,
-  closeRemovePersonDialog
+  closeRemovePersonDialog,
+  closeRestoreArchivedCaseDialog
 } from "../../actionCreators/casesActionCreators";
-import { CASE_STATUS } from "../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  NARRATIVE_FORM
+} from "../../../sharedUtilities/constants";
 import AccusedOfficers from "./Officers/AccusedOfficers";
 import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
 import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";
@@ -33,6 +39,7 @@ import EditLetterStatusMessage, {
 } from "./EditLetterStatusMessage/EditLetterStatusMessage";
 import getLetterType from "../ReferralLetter/thunks/getLetterType";
 import { scrollToTop } from "../../ScrollToTop";
+import { reset } from "redux-form";
 
 const drawerWidthPercentage = "30%";
 
@@ -42,6 +49,19 @@ const appBar = {
   width: `calc(100% - ${drawerWidthPercentage})`
 };
 
+export const resetCaseDetailsPage = dispatch => {
+  dispatch(reset(NARRATIVE_FORM));
+  dispatch(clearOfficerPanelData());
+  dispatch(closeEditCivilianDialog());
+  dispatch(closeCaseNoteDialog());
+  dispatch(closeCaseStatusUpdateDialog());
+  dispatch(closeRemoveCaseNoteDialog());
+  dispatch(closeRemovePersonDialog());
+  dispatch(closeEditIncidentDetailsDialog());
+  dispatch(closeRestoreArchivedCaseDialog());
+  dispatch(closeArchiveCaseDialog());
+  dispatch(closeRemoveAttachmentConfirmationDialog());
+};
 class CaseDetails extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (
@@ -82,13 +102,7 @@ class CaseDetails extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.dispatch(clearOfficerPanelData());
-    this.props.dispatch(closeEditCivilianDialog());
-    this.props.dispatch(closeCaseNoteDialog());
-    this.props.dispatch(closeCaseStatusUpdateDialog());
-    this.props.dispatch(closeRemoveCaseNoteDialog());
-    this.props.dispatch(closeRemovePersonDialog());
-    this.props.dispatch(closeEditIncidentDetailsDialog());
+    resetCaseDetailsPage(this.props.dispatch);
   }
 
   caseDetailsNotYetLoaded() {

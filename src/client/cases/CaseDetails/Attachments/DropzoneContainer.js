@@ -10,20 +10,24 @@ import {
   snackbarError,
   snackbarSuccess
 } from "../../../actionCreators/snackBarActionCreators";
+import { transformAndHandleError } from "../../../axiosInterceptors/responseErrorInterceptor";
 
 const mapStateToProps = state => ({
   errorMessage: state.ui.attachments.errorMessage,
   caseId: state.currentCase.details.id
 });
 
-const mapDispatchToProps = {
-  snackbarSuccess,
-  snackbarError,
-  uploadAttachmentSuccess,
-  dropDuplicateFile,
-  removeDropzoneFile,
-  getCaseNotes
-};
+const mapDispatchToProps = dispatch => ({
+  snackbarSuccess: message => dispatch(snackbarSuccess(message)),
+  snackbarError: message => dispatch(snackbarError(message)),
+  uploadAttachmentSuccess: response =>
+    dispatch(uploadAttachmentSuccess(response)),
+  dropDuplicateFile: () => dispatch(dropDuplicateFile()),
+  removeDropzoneFile: () => dispatch(removeDropzoneFile()),
+  getCaseNotes: caseId => dispatch(getCaseNotes(caseId)),
+  transformAndHandleError: (errorMessage, caseId, statusCode) =>
+    transformAndHandleError(errorMessage, caseId, statusCode, dispatch)
+});
 
 export default connect(
   mapStateToProps,

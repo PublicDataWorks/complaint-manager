@@ -1,112 +1,116 @@
 import { push } from "connected-react-router";
 import { snackbarError } from "../actionCreators/snackBarActionCreators";
 import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants";
-import { clearOfficerPanelData } from "../actionCreators/accusedOfficerPanelsActionCreators";
-import { reset } from "redux-form";
-
-import {
-  closeCaseNoteDialog,
-  closeCaseStatusUpdateDialog,
-  closeEditCivilianDialog,
-  closeEditIncidentDetailsDialog,
-  closeRemoveCaseNoteDialog,
-  closeRemovePersonDialog
-} from "../actionCreators/casesActionCreators";
+import Boom from "boom";
 import getCaseDetails from "../cases/thunks/getCaseDetails";
-import { NARRATIVE_FORM } from "../../sharedUtilities/constants";
+import { resetCaseDetailsPage } from "../cases/CaseDetails/CaseDetails";
 
 const responseErrorInterceptor = dispatch => {
   return error => {
-    throw transformInterceptedError(error, dispatch);
+    interceptError(error, dispatch);
   };
 };
 
-export const transformInterceptedError = (error, dispatch) => {
-  let snackbarErrorMessage = error.response.data.message;
-  if (errorIs400(error)) {
-    const unauthorizedResponseError = errorIfUnauthorizedResponse(
-      error,
-      dispatch
-    );
-    if (unauthorizedResponseError) {
-      return unauthorizedResponseError;
-    }
-    snackbarErrorMessage = get400ErrorMessage(error, dispatch);
-  }
-  if (!snackbarErrorMessage) {
-    snackbarErrorMessage =
-      "Something went wrong and the request could not be completed.";
-  }
+const interceptError = (error, dispatch) => {
+  let { errorMessage, caseId } = getErrorMessageAndCaseIdFromErrorResponse(
+    error
+  );
 
-  dispatch(snackbarError(snackbarErrorMessage));
+  let statusCode = error.response.status;
 
-  return error;
+  errorMessage = transformAndHandleError(
+    errorMessage,
+    caseId,
+    statusCode,
+    dispatch
+  );
+
+  throw new Boom(errorMessage, { statusCode: statusCode });
 };
 
-const errorIfUnauthorizedResponse = (error, dispatch) => {
-  if (error.response.status === 401) {
-    dispatch(push("/login"));
-    return error;
-  }
-};
-
-const get400ErrorMessage = (error, dispatch) => {
-  let {
-    errorMessageFromResponse,
-    caseId
-  } = getErrorMessageAndCaseIdFromResponse(error.response);
-
-  if (!errorMessageFromResponse) {
-    return null;
-  }
-
-  let { errorMessage, redirectUrl } = getErrorMessageToDisplayAndRedirectUrl(
-    errorMessageFromResponse,
+export const transformAndHandleError = (
+  errorMessage,
+  caseId,
+  statusCode,
+  dispatch
+) => {
+  let { displayErrorMessage, redirectUrl } = transformErrorAndGetRedirect(
+    errorMessage,
+    statusCode,
     caseId
   );
 
   if (redirectUrl) {
-    resetCaseDetailsPage(dispatch, caseId);
-    dispatch(push(`${redirectUrl}`));
+    reloadCaseDetailsPage(dispatch, caseId);
+    dispatch(push(redirectUrl));
   }
-  return errorMessage;
+
+  if (statusCode !== 401) {
+    dispatch(snackbarError(displayErrorMessage));
+  }
+
+  return displayErrorMessage;
 };
 
-const getErrorMessageToDisplayAndRedirectUrl = (boomErrorMessage, caseId) => {
-  switch (boomErrorMessage) {
+const transformErrorAndGetRedirect = (errorMessage, statusCode, caseId) => {
+  if (statusIs400(statusCode)) {
+    if (statusCode === 401) {
+      return { displayErrorMessage: errorMessage, redirectUrl: "/login" };
+    }
+    return mapCustomErrorToDisplayAndRedirectUrl(errorMessage, caseId);
+  }
+  return { displayErrorMessage: errorMessage };
+};
+
+const mapCustomErrorToDisplayAndRedirectUrl = (errorMessage, caseId) => {
+  switch (errorMessage) {
     case BAD_REQUEST_ERRORS.INVALID_CASE_STATUS:
       return {
-        errorMessage: "Sorry, that page is not available",
+        displayErrorMessage: "Sorry, that page is not available",
         redirectUrl: `/cases/${caseId}`
       };
     case BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE:
       return {
-        errorMessage: boomErrorMessage,
+        displayErrorMessage: errorMessage,
         redirectUrl: `/cases/${caseId}`
       };
     case BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST:
       return {
-        errorMessage: "Sorry, that page is not available",
+        displayErrorMessage: "Sorry, that page is not available",
         redirectUrl: `/`
       };
     case BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE:
       return {
-        errorMessage: boomErrorMessage,
+        displayErrorMessage: errorMessage,
         redirectUrl: `/cases/${caseId}`
       };
     default:
-      return { errorMessage: boomErrorMessage };
+      return { displayErrorMessage: errorMessage };
   }
 };
 
-const getErrorMessageAndCaseIdFromResponse = response => {
-  let responseData = response.data;
-  if (response.config.responseType === "arraybuffer") {
-    responseData = getJsonDataFromArrayBufferResponse(response.data);
+const getErrorMessageAndCaseIdFromErrorResponse = error => {
+  let errorMessage = error.response.data.message;
+  let caseId = error.response.data.caseId;
+
+  if (error.response.status === 401) {
+    errorMessage = error.message;
   }
+
+  if (error.response.config.responseType === "arraybuffer") {
+    const jsonData = getJsonDataFromArrayBufferResponse(error.response.data);
+    errorMessage = jsonData.message;
+    caseId = jsonData.caseId;
+  }
+
+  if (!errorMessage) {
+    errorMessage =
+      "Something went wrong and the request could not be completed";
+  }
+
   return {
-    errorMessageFromResponse: responseData.message,
-    caseId: responseData.caseId
+    errorMessage: errorMessage,
+    caseId: caseId
   };
 };
 
@@ -118,22 +122,16 @@ const getJsonDataFromArrayBufferResponse = arrayBuffer => {
   return JSON.parse(decodedString);
 };
 
-const errorIs400 = error => {
-  return error.response.status >= 400 && error.response.status < 500;
-};
+const reloadCaseDetailsPage = (dispatch, caseId) => {
+  resetCaseDetailsPage(dispatch);
 
-const resetCaseDetailsPage = (dispatch, caseId) => {
-  dispatch(reset(NARRATIVE_FORM));
-  dispatch(clearOfficerPanelData());
-  dispatch(closeEditCivilianDialog());
-  dispatch(closeCaseNoteDialog());
-  dispatch(closeCaseStatusUpdateDialog());
-  dispatch(closeRemoveCaseNoteDialog());
-  dispatch(closeRemovePersonDialog());
-  dispatch(closeEditIncidentDetailsDialog());
   if (caseId) {
     dispatch(getCaseDetails(caseId));
   }
+};
+
+const statusIs400 = statusCode => {
+  return statusCode >= 400 && statusCode < 500;
 };
 
 export default responseErrorInterceptor;

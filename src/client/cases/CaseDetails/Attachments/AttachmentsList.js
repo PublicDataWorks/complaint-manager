@@ -3,28 +3,25 @@ import { Typography } from "@material-ui/core";
 import AttachmentsRow from "./AttachmentsRow";
 import _ from "lodash";
 import RemoveAttachmentConfirmationDialog from "./RemoveAttachmentConfirmationDialog";
-import removeAttachment from "../../thunks/removeAttachment";
 import { connect } from "react-redux";
+import {
+  closeRemoveAttachmentConfirmationDialog,
+  exitedRemoveAttachmentConfirmationDialog,
+  openRemoveAttachmentConfirmationDialog
+} from "../../../actionCreators/casesActionCreators";
+import removeAttachment from "../../thunks/removeAttachment";
 
 class AttachmentsList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      dialogOpen: false,
-      attachmentFileName: ""
-    };
-  }
-
   onRemoveAttachment = (attachmentId, attachmentFileName) => {
-    this.setState({ dialogOpen: true, attachmentFileName });
+    this.props.openRemoveAttachmentConfirmationDialog(attachmentFileName);
   };
 
   handleClose = () => {
-    this.setState({ dialogOpen: false });
+    this.props.closeRemoveAttachmentConfirmationDialog();
   };
 
   handleDialogExit = () => {
-    this.setState({ attachmentFileName: "" });
+    this.props.exitedRemoveAttachmentConfirmationDialog();
   };
 
   render() {
@@ -50,17 +47,17 @@ class AttachmentsList extends Component {
           </div>
         )}
         <RemoveAttachmentConfirmationDialog
-          dialogOpen={this.state.dialogOpen}
+          dialogOpen={this.props.open}
           handleDialogExit={this.handleDialogExit}
           handleClose={this.handleClose}
           removeAttachment={() => {
             this.props.removeAttachment(
               this.props.caseId,
-              this.state.attachmentFileName,
+              this.props.attachmentFileName,
               this.handleClose
             );
           }}
-          attachmentFileName={this.state.attachmentFileName}
+          attachmentFileName={this.props.attachmentFileName}
         />
       </div>
     );
@@ -69,11 +66,17 @@ class AttachmentsList extends Component {
 
 const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
-  attachments: state.currentCase.details.attachments
+  attachments: state.currentCase.details.attachments,
+  open: state.ui.removeAttachmentConfirmationDialog.dialogOpen,
+  attachmentFileName:
+    state.ui.removeAttachmentConfirmationDialog.attachmentFileName
 });
 
 const mapDispatchToProps = {
-  removeAttachment
+  removeAttachment,
+  openRemoveAttachmentConfirmationDialog,
+  closeRemoveAttachmentConfirmationDialog,
+  exitedRemoveAttachmentConfirmationDialog
 };
 
 export default connect(
