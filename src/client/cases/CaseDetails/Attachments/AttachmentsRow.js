@@ -4,6 +4,7 @@ import styles from "../../../globalStyling/styles";
 import LinkButton from "../../../shared/components/LinkButton";
 import inBrowserDownload from "../../thunks/inBrowserDownload";
 import { connect } from "react-redux";
+import { COMPLAINANT_LETTER } from "../../../../sharedUtilities/constants";
 
 const AttachmentsRow = ({
   attachment,
@@ -18,6 +19,7 @@ const AttachmentsRow = ({
         `attachment-${attachment.id}-DownloadLink`
       )
     );
+  const isComplainantLetter = attachment.description === COMPLAINANT_LETTER;
 
   return (
     <div>
@@ -55,7 +57,7 @@ const AttachmentsRow = ({
           </Typography>
         </div>
         <div>
-          {isArchived ? null : (
+          {isArchived || isComplainantLetter ? null : (
             <LinkButton
               data-test={"removeAttachmentButton"}
               onClick={() => {
