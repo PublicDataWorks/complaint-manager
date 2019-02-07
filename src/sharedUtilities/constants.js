@@ -423,3 +423,8 @@ export const JOB_OPERATION = {
 };
 
 export const QUEUE_PREFIX = "noimp_q";
+// ------------------------------------------
+//           Front-end Labels
+// ------------------------------------------
+export const ALLEGATION_DETAILS_LABEL =
+  "Enter narrative details pertaining to this allegation";

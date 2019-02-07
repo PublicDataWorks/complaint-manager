@@ -11,6 +11,7 @@ import {
 } from "../formFieldLevelValidations";
 import NoBlurTextField from "../cases/CaseDetails/CivilianDialog/FormSelect";
 import { allegationSeverityMenu } from "../utilities/generateMenus";
+import { ALLEGATION_DETAILS_LABEL } from "../../sharedUtilities/constants";
 
 const AllegationDetailsForm = props => {
   const onSubmit = (values, dispatch) => {
@@ -57,7 +58,7 @@ const AllegationDetailsForm = props => {
           }}
           multiline
           rowsMax={5}
-          label="Allegation Details"
+          label={ALLEGATION_DETAILS_LABEL}
         />
       </div>
       <div

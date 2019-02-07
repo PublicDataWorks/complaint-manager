@@ -145,3 +145,8 @@ export const generateSubjectLine = (caseReference, pibCaseNumber) => {
   return `Complaint Referral; IPM Complaint ${caseReference}`;
 };
 Handlebars.registerHelper("generateSubjectLine", generateSubjectLine);
+
+export const calculateIndex = index => {
+  return index + 1;
+};
+Handlebars.registerHelper("calculateIndex", calculateIndex);
