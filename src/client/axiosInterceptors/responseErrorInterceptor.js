@@ -15,10 +15,22 @@ import {
 import getCaseDetails from "../cases/thunks/getCaseDetails";
 import { NARRATIVE_FORM } from "../../sharedUtilities/constants";
 
-const responseErrorInterceptor = dispatch => error => {
+const responseErrorInterceptor = dispatch => {
+  return error => {
+    throw transformInterceptedError(error, dispatch);
+  };
+};
+
+export const transformInterceptedError = (error, dispatch) => {
   let snackbarErrorMessage = error.response.data.message;
   if (errorIs400(error)) {
-    throwErrorIfUnauthorizedResponse(error, dispatch);
+    const unauthorizedResponseError = errorIfUnauthorizedResponse(
+      error,
+      dispatch
+    );
+    if (unauthorizedResponseError) {
+      return unauthorizedResponseError;
+    }
     snackbarErrorMessage = get400ErrorMessage(error, dispatch);
   }
   if (!snackbarErrorMessage) {
@@ -28,13 +40,13 @@ const responseErrorInterceptor = dispatch => error => {
 
   dispatch(snackbarError(snackbarErrorMessage));
 
-  throw error;
+  return error;
 };
 
-const throwErrorIfUnauthorizedResponse = (error, dispatch) => {
+const errorIfUnauthorizedResponse = (error, dispatch) => {
   if (error.response.status === 401) {
     dispatch(push("/login"));
-    throw error;
+    return error;
   }
 };
 

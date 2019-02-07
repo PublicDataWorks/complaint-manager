@@ -2,9 +2,9 @@ import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants"
 
 const Boom = require("boom");
 
-const asyncMiddleware = fn => async (req, res, next) => {
+const asyncMiddleware = fn => async (request, response, next) => {
   try {
-    await fn(req, res, next);
+    await fn(request, response, next);
   } catch (err) {
     if (!err.isBoom) {
       return next(Boom.badImplementation(err));

@@ -3,22 +3,6 @@ import API_ROUTES from "../apiRoutes";
 const newRelic = require("newrelic");
 const Boom = require("boom");
 
-const requestSpecifiesRouteMethod = request => {
-  return request.route && request.route.path && request.method;
-};
-
-const getErrorMessageForRouteAndMethod = request => {
-  return API_ROUTES[request.route.path][request.method.toLowerCase()]
-    .errorMessage;
-};
-
-const get500ErrorMessage = request => {
-  if (requestSpecifiesRouteMethod(request)) {
-    return getErrorMessageForRouteAndMethod(request);
-  }
-  return "Something went wrong. Please try again.";
-};
-
 const errorHandler = (error, request, response, next) => {
   let boomError = error.isBoom ? error : Boom.badImplementation(error);
 
@@ -33,6 +17,22 @@ const errorHandler = (error, request, response, next) => {
     message: errorMessage,
     caseId: request.caseId
   });
+};
+
+const requestSpecifiesRouteMethod = request => {
+  return request.route && request.route.path && request.method;
+};
+
+const getErrorMessageForRouteAndMethod = request => {
+  return API_ROUTES[request.route.path][request.method.toLowerCase()]
+    .errorMessage;
+};
+
+const get500ErrorMessage = request => {
+  if (requestSpecifiesRouteMethod(request)) {
+    return getErrorMessageForRouteAndMethod(request);
+  }
+  return "Something went wrong. Please try again.";
 };
 
 const getErrorMessage = (boomError, request) => {

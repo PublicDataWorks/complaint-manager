@@ -17,7 +17,8 @@ describe("Dropzone", () => {
         errorMessage=""
         uploadAttachmentSuccess={jest.fn()}
         dropDuplicateFile={jest.fn()}
-        uploadAttachmentFailed={jest.fn()}
+        snackbarSuccess={jest.fn()}
+        snackbarError={jest.fn()}
         removeDropzoneFile={jest.fn()}
       />
     );

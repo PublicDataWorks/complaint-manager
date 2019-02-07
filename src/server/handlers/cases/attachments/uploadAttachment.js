@@ -1,16 +1,16 @@
-const Busboy = require("busboy");
-const asyncMiddleware = require("../../asyncMiddleware");
-const models = require("../../../models/index");
-const isDuplicateFileName = require("./isDuplicateFileName");
-const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
-const config = require("../../../config/config");
-const {
-  DUPLICATE_FILE_NAME,
-  AUDIT_SUBJECT
-} = require("../../../../sharedUtilities/constants");
+import Busboy from "busboy";
+import asyncMiddleware from "../../asyncMiddleware";
+import models from "../../../models/index";
+import isDuplicateFileName from "./isDuplicateFileName";
+import createConfiguredS3Instance from "../../../createConfiguredS3Instance";
+import config from "../../../config/config";
+import {
+  AUDIT_SUBJECT,
+  DUPLICATE_FILE_NAME
+} from "../../../../sharedUtilities/constants";
 import { getCaseWithAllAssociations } from "../../getCaseHelpers";
-const Boom = require("boom");
-const auditDataAccess = require("../../auditDataAccess");
+import Boom from "boom";
+import auditDataAccess from "../../auditDataAccess";
 
 const uploadAttachment = asyncMiddleware((request, response, next) => {
   let managedUpload;
@@ -92,4 +92,4 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
   request.pipe(busboy);
 });
 
-module.exports = uploadAttachment;
+export default uploadAttachment;
