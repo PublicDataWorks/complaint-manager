@@ -471,10 +471,4 @@ describe("generate subject line", function() {
       subjectLineWithoutPibCaseNumber
     );
   });
-
-  describe("calculate index", () => {
-    test("returns index plus one", () => {
-      expect(calculateIndex(0)).toEqual(1);
-    });
-  });
 });

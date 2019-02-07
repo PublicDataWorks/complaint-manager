@@ -93,12 +93,12 @@
   <p><br></p>
   {{#each accusedOfficers}}
     {{rank}} {{fullName}} is accused of the following violations:
-      <ul>
+      <ol>
         {{#each allegations}}
-        ({{{calculateIndex @index}}}) {{this.details}}
-          <li>{{allegation.rule}}: {{allegation.paragraph}}: {{allegation.directive}}</li>
+        <li>{{this.details}}</li>
+        <i>{{allegation.rule}}: {{allegation.paragraph}}: {{allegation.directive}}</i>
         {{/each}}
-      </ul>
+      </ol>
       <p><br></p>
   {{/each}}
   <p class="preserve-white-space"><strong><u>Summary:</u></strong> {{narrativeSummary}}</p>
