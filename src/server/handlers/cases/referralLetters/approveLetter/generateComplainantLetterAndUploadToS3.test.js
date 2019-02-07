@@ -127,7 +127,6 @@ describe("generateComplainantLetterAndUploadToS3", () => {
       { auditUser: "test" }
     );
 
-    // existingCase.reload();
     let complainantLetter;
     await models.sequelize.transaction(async transaction => {
       await generateComplainantLetterAndUploadToS3(

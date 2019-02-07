@@ -21,6 +21,7 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
   validateUserPermissions(request);
 
   const caseId = request.params.caseId;
+  const nickname = request.nickname;
   const existingCase = await getCase(caseId);
   validateCaseStatus(existingCase);
 
@@ -32,26 +33,26 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
   await models.sequelize.transaction(async transaction => {
     const complainantLetter = await generateComplainantLetterAndUploadToS3(
       existingCase,
-      request.nickname,
+      nickname,
       transaction
     );
     await createComplainantLetterAttachment(
       existingCase.id,
       complainantLetter.finalPdfFilename,
       transaction,
-      request.nickname
+      nickname
     );
     await auditDataAccess(
-      request.nickname,
+      nickname,
       caseId,
       AUDIT_SUBJECT.CASE_DETAILS,
       transaction
     );
     await generateLetterAndUploadToS3(caseId, filename, transaction);
 
-    await saveFilename(filename, caseId, request.nickname, transaction);
+    await saveFilename(filename, caseId, nickname, transaction);
     await auditUpload(
-      request.nickname,
+      nickname,
       caseId,
       AUDIT_SUBJECT.REFERRAL_LETTER_PDF,
       transaction
