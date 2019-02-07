@@ -4,6 +4,7 @@ import { mount } from "enzyme";
 import AttachmentsList from "./AttachmentsList";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
+import { openRemoveAttachmentConfirmationDialog } from "../../../actionCreators/casesActionCreators";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 
 describe("AttachmentsList", () => {
@@ -18,7 +19,7 @@ describe("AttachmentsList", () => {
     .withFileName("a_file.pdf")
     .build();
 
-  let store;
+  let store, dispatchSpy;
 
   beforeEach(() => {
     store = createConfiguredStore();
@@ -51,6 +52,7 @@ describe("AttachmentsList", () => {
     const attachmentsToDisplay = [attachment1];
     const caseDetail = { attachments: attachmentsToDisplay };
     store.dispatch(getCaseDetailsSuccess(caseDetail));
+    dispatchSpy = jest.spyOn(store, "dispatch");
 
     const wrapper = mount(
       <Provider store={store}>
@@ -64,6 +66,9 @@ describe("AttachmentsList", () => {
     removeAttachmentButton.simulate("click");
     wrapper.update();
 
+    // expect(dispatchSpy).toHaveBeenCalledWith(
+    //   openRemoveAttachmentConfirmationDialog("Z_file.pdf")
+    // );
     expect(
       wrapper
         .find('[data-test="removeAttachmentText"]')

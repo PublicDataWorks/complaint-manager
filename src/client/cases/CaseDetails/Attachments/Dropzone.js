@@ -48,9 +48,11 @@ class Dropzone extends Component {
       this.setState({ attachmentDescription: "", touched: false });
       await this.props.getCaseNotes(this.props.caseId);
     },
-    error: (file, errorMessage, xhr) => {
+    error: (file, error, xhr) => {
       this.setState({ attachmentValid: false });
       this.hideDropzoneErrorPopup();
+
+      const errorMessage = this.parseDropzoneError(error);
 
       switch (errorMessage) {
         case DUPLICATE_FILE_NAME:
@@ -59,8 +61,10 @@ class Dropzone extends Component {
         case UPLOAD_CANCELED:
           break;
         default:
-          this.props.snackbarError(
-            "Something went wrong and the file was not attached. Please try again."
+          this.props.transformAndHandleError(
+            errorMessage,
+            this.props.caseId,
+            xhr.status
           );
       }
     },
@@ -74,6 +78,13 @@ class Dropzone extends Component {
     sending: (file, xhr, formData) => {
       formData.append("description", this.state.attachmentDescription);
     }
+  };
+
+  parseDropzoneError = errorMessage => {
+    if (errorMessage.message) {
+      return errorMessage.message;
+    }
+    return errorMessage;
   };
 
   djsconfig = {

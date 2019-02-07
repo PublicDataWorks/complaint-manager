@@ -157,25 +157,52 @@ describe("response error interceptor", () => {
       expect(dispatch).toHaveBeenCalledWith(snackbarError(PAGE_NOT_AVAILABLE));
     });
 
-    test("dispatches snackbar error message when response is 500", async () => {
-      const errorResponseFor500 = {
-        statusCode: 500,
-        error: "Internal Server Error",
-        message: "500 error message"
-      };
+    describe("500 error message", () => {
+      test("dispatches snackbar error message when response is 500 with message", async () => {
+        const errorResponseFor500 = {
+          statusCode: 500,
+          error: "Internal Server Error",
+          message: "500 error message"
+        };
 
-      nock("http://localhost", {
-        reqheaders: {
-          Authorization: `Bearer ${"token"}`
-        }
-      })
-        .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
-        .reply(500, errorResponseFor500);
+        nock("http://localhost", {
+          reqheaders: {
+            Authorization: `Bearer ${"token"}`
+          }
+        })
+          .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
+          .reply(500, errorResponseFor500);
 
-      await expect(
-        axios.get(`/api/cases/${caseId}/referral-letter/get-pdf`)
-      ).rejects.toBeTruthy();
-      expect(dispatch).toHaveBeenCalledWith(snackbarError("500 error message"));
+        await expect(
+          axios.get(`/api/cases/${caseId}/referral-letter/get-pdf`)
+        ).rejects.toBeTruthy();
+        expect(dispatch).toHaveBeenCalledWith(
+          snackbarError("500 error message")
+        );
+      });
+      test("dispatches snackbar error message when response is 500 without message", async () => {
+        const errorResponseFor500 = {
+          statusCode: 500,
+          error: "Internal Server Error"
+        };
+
+        nock("http://localhost", {
+          reqheaders: {
+            Authorization: `Bearer ${"token"}`
+          }
+        })
+          .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
+          .reply(500, errorResponseFor500);
+
+        await expect(
+          axios.get(`/api/cases/${caseId}/referral-letter/get-pdf`)
+        ).rejects.toBeTruthy();
+        expect(dispatch).toHaveBeenCalledWith(
+          snackbarError(
+            "Something went wrong and the request could not be completed"
+          )
+        );
+      });
     });
   });
 });

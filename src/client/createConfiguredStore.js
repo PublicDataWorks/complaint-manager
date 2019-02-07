@@ -45,6 +45,7 @@ import archiveCaseDialogReducer from "./reducers/ui/archiveCaseDialogReducer";
 import editIncidentDetailsDialogReducer from "./reducers/ui/editIncidentDetailsDialogReducer";
 import restoreArchivedCaseDialogReducer from "./reducers/ui/restoreArchivedCaseDialogReducer";
 import archivedCasesReducer from "./reducers/cases/archivedCasesReducer";
+import removeAttachmentConfirmationDialogReducer from "./reducers/ui/removeAttachmentConfirmationDialogReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -92,7 +93,8 @@ const rootReducer = combineReducers({
     pdfPreview: loadPdfPreviewReducer,
     archiveCaseDialog: archiveCaseDialogReducer,
     restoreArchivedCaseDialog: restoreArchivedCaseDialogReducer,
-    editIncidentDetailsDialog: editIncidentDetailsDialogReducer
+    editIncidentDetailsDialog: editIncidentDetailsDialogReducer,
+    removeAttachmentConfirmationDialog: removeAttachmentConfirmationDialogReducer
   }),
   officers: searchOfficersReducer,
   featureToggles: featureTogglesReducer,
