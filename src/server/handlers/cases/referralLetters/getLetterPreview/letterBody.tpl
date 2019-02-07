@@ -95,6 +95,7 @@
     {{rank}} {{fullName}} is accused of the following violations:
       <ul>
         {{#each allegations}}
+        ({{{calculateIndex @index}}}) {{this.details}}
           <li>{{allegation.rule}}: {{allegation.paragraph}}: {{allegation.directive}}</li>
         {{/each}}
       </ul>

@@ -9,7 +9,8 @@ import {
   showOfficerHistory,
   showOfficerHistoryHeader,
   showRecommendedActions,
-  sumAllegations
+  sumAllegations,
+  calculateIndex
 } from "./handlebarHelpers";
 import { SIGNATURE_URLS } from "../sharedUtilities/constants";
 
@@ -469,5 +470,11 @@ describe("generate subject line", function() {
     expect(generateSubjectLine(caseReference, null)).toEqual(
       subjectLineWithoutPibCaseNumber
     );
+  });
+
+  describe("calculate index", () => {
+    test("returns index plus one", () => {
+      expect(calculateIndex(0)).toEqual(1);
+    });
   });
 });
