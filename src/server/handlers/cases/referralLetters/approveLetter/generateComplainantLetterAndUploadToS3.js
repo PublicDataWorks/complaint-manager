@@ -1,11 +1,9 @@
-import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import {
+  AUDIT_SUBJECT,
   CIVILIAN_INITIATED,
-  COMPLAINANT_LETTER,
-  AUDIT_SUBJECT
+  COMPLAINANT_LETTER
 } from "../../../../../sharedUtilities/constants";
-import { firstCreated } from "../constructFilename";
-import constructFilename from "../constructFilename";
+import constructFilename, { firstCreated } from "../constructFilename";
 import { generateComplainantLetterPdfBuffer } from "../sharedReferralLetterUtilities/generatePdfBuffer";
 import models from "../../../../models";
 import uploadLetterToS3 from "./uploadLetterToS3";
@@ -21,8 +19,6 @@ const generateComplainantLetterAndUploadToS3 = async (
   transaction
 ) => {
   const caseId = existingCase.id;
-
-  const s3 = createConfiguredS3Instance();
 
   const primaryComplainant = getFirstComplainant(existingCase);
 
