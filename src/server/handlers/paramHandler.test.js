@@ -33,6 +33,7 @@ describe("param handler", () => {
     expect(next).toHaveBeenCalledWith(
       Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST)
     );
+    expect(next).not.toHaveBeenCalledWith();
   });
 
   describe("archived cases", () => {
@@ -65,6 +66,7 @@ describe("param handler", () => {
       expect(next).toBeCalledWith(
         Boom.badRequest(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE)
       );
+      expect(next).not.toHaveBeenCalledWith();
     });
 
     test("calls next without error for archived case for case notes in route", async () => {

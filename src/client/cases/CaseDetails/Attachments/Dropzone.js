@@ -42,6 +42,7 @@ class Dropzone extends Component {
       this.setState({ attachmentValid: true });
     },
     success: async (file, response) => {
+      this.props.snackbarSuccess("File was successfully attached");
       this.props.uploadAttachmentSuccess(response);
       this.dropzone.removeFile(file);
       this.setState({ attachmentDescription: "", touched: false });
@@ -58,7 +59,9 @@ class Dropzone extends Component {
         case UPLOAD_CANCELED:
           break;
         default:
-          this.props.uploadAttachmentFailed();
+          this.props.snackbarError(
+            "Something went wrong and the file was not attached. Please try again."
+          );
       }
     },
     complete: file => {

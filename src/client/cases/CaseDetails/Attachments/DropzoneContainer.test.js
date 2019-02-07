@@ -7,7 +7,6 @@ import Dropzone from "./Dropzone";
 import { mockLocalStorage } from "../../../../mockLocalStorage";
 import {
   getCaseDetailsSuccess,
-  uploadAttachmentFailed,
   uploadAttachmentSuccess
 } from "../../../actionCreators/casesActionCreators";
 import {
@@ -46,8 +45,8 @@ describe("connected Dropzone", () => {
 
   test("should map the actions to props", () => {
     expect(dropzone.prop("uploadAttachmentSuccess")).toBeDefined();
+    expect(dropzone.prop("snackbarSuccess")).toBeDefined();
     expect(dropzone.prop("dropDuplicateFile")).toBeDefined();
-    expect(dropzone.prop("uploadAttachmentFailed")).toBeDefined();
     expect(dropzone.prop("removeDropzoneFile")).toBeDefined();
   });
 });

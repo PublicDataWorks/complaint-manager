@@ -1,6 +1,4 @@
 import {
-  ATTACHMENT_UPLOAD_FAILED,
-  ATTACHMENT_UPLOAD_SUCCEEDED,
   DOWNLOAD_FAILED,
   SNACKBAR_ERROR,
   SNACKBAR_SUCCESS
@@ -76,19 +74,6 @@ const snackbarReducer = (state = initialState, action) => {
         open: false,
         success: false,
         message: ""
-      };
-    case ATTACHMENT_UPLOAD_SUCCEEDED:
-      return {
-        open: true,
-        success: true,
-        message: "File was successfully attached"
-      };
-    case ATTACHMENT_UPLOAD_FAILED:
-      return {
-        open: true,
-        success: false,
-        message:
-          "Something went wrong and the file was not attached. Please try again."
       };
     case DOWNLOAD_FAILED:
       return {
