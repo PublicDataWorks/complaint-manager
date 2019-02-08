@@ -66,9 +66,9 @@ describe("AttachmentsList", () => {
     removeAttachmentButton.simulate("click");
     wrapper.update();
 
-    // expect(dispatchSpy).toHaveBeenCalledWith(
-    //   openRemoveAttachmentConfirmationDialog("Z_file.pdf")
-    // );
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openRemoveAttachmentConfirmationDialog("Z_file.pdf")
+    );
     expect(
       wrapper
         .find('[data-test="removeAttachmentText"]')
