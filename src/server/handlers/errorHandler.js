@@ -4,7 +4,6 @@ const newRelic = require("newrelic");
 const Boom = require("boom");
 
 const errorHandler = (error, request, response, next) => {
-  console.log("in error handler");
   let boomError = error.isBoom ? error : Boom.badImplementation(error);
 
   if (boomError.isServer) {
@@ -13,7 +12,6 @@ const errorHandler = (error, request, response, next) => {
 
   let errorMessage = getErrorMessage(boomError, request);
 
-  console.log("sending error response", response);
   response.status(boomError.output.statusCode).json({
     ...boomError.output.payload,
     message: errorMessage,

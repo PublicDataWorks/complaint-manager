@@ -49,7 +49,8 @@ import getArchivedCases from "./handlers/cases/getCases/getArchivedCases";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
-  "/cases/:caseId/restore"
+  "/cases/:caseId/restore",
+  "/cases/:caseId/attachments"
 ];
 
 export const API_ROUTES = {
@@ -200,7 +201,7 @@ export const API_ROUTES = {
         "Something went wrong and the allegation was not removed. Please try again."
     }
   },
-  "/cases/:caseId/attachments/": {
+  "/cases/:caseId/attachments": {
     post: {
       handler: uploadAttachment,
       errorMessage:

@@ -14,10 +14,8 @@ export const handleCaseIdParam = async function(
     request.caseId = caseId;
     request.isArchived = existingCase.isArchived;
 
-    if (request.route && request.route === "/cases/:caseId/attachments/") {
-      return next();
-    }
     if (caseCannotBeEdited(existingCase.isArchived, request)) {
+      console.log("NO, CASE SHOULD BE ABLE TO GO TO HANDLER");
       return next(
         Boom.badRequest(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE)
       );

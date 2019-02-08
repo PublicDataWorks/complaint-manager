@@ -38,9 +38,10 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
     const s3 = createConfiguredS3Instance();
 
     if (await isDuplicateFileName(caseId, fileName)) {
-      console.log(response);
+      console.log("sending duplicate file name");
       response.status(409).send(Boom.conflict(DUPLICATE_FILE_NAME));
     } else if (request.isArchived) {
+      console.log("sending cannot update archived case");
       response
         .status(400)
         .send(Boom.badRequest(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE));
