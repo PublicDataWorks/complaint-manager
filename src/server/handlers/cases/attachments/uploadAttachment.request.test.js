@@ -6,19 +6,14 @@ import {
   cleanupDatabase
 } from "../../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
-import Attachment from "../../../../client/testUtilities/attachment";
-import models from "../../../models/index";
-import deleteAttachment from "./deleteAttachment";
-const httpMocks = require("node-mocks-http");
-import {
-  AUDIT_ACTION,
-  AUDIT_TYPE,
-  AUDIT_SUBJECT
-} from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+
+const httpMocks = require("node-mocks-http");
 const AWS = require("aws-sdk");
 
-jest.mock("aws-sdk");
+jest.mock("aws-sdk", () => ({
+  S3: jest.fn()
+}));
 
 describe("upload attachment", function() {
   let token;
@@ -31,6 +26,18 @@ describe("upload attachment", function() {
   });
 
   test("should return archived error when case is archived", async () => {
+    AWS.S3.mockImplementation(() => {
+      return {
+        upload: (params, options) => ({
+          promise: () => Promise.resolve({ Key: mockKey })
+        }),
+        config: {
+          loadFromPath: jest.fn(),
+          update: jest.fn()
+        }
+      };
+    });
+
     const existingCase = await createTestCaseWithoutCivilian();
     await existingCase.destroy({ auditUser: "tuser" });
 
