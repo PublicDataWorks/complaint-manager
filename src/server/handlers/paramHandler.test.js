@@ -105,6 +105,24 @@ describe("param handler", () => {
       expect(request.isArchived).toEqual(true);
     });
 
+    test("calls next without an error when posting an attachment for an archived case", async () => {
+      const request = httpMocks.createRequest({
+        method: "POST",
+        headers: {
+          authorization: "Bearer token"
+        },
+        params: { caseId: archivedCase.id },
+        route: { path: "/cases/:caseId/attachments" }
+      });
+
+      await handleCaseIdParam(request, response, next, archivedCase.id);
+
+      expect(next).not.toHaveBeenCalledWith(expect.any(Error));
+      expect(next).toHaveBeenCalledWith();
+      expect(request.caseId).toEqual(archivedCase.id);
+      expect(request.isArchived).toEqual(true);
+    });
+
     test("calls next without an error for an archived case", async () => {
       const request = httpMocks.createRequest({
         method: "GET",

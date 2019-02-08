@@ -49,13 +49,16 @@ class Dropzone extends Component {
       await this.props.getCaseNotes(this.props.caseId);
     },
     error: (file, error, xhr) => {
-      console.log("Got An Error");
-      console.log("error:", error);
-      console.log("xhr:", xhr);
       this.setState({ attachmentValid: false });
       this.hideDropzoneErrorPopup();
 
       const errorMessage = this.parseDropzoneError(error);
+      console.log(
+        "dropzone got error: ",
+        errorMessage,
+        "with status",
+        xhr.status
+      );
 
       switch (errorMessage) {
         case DUPLICATE_FILE_NAME:
