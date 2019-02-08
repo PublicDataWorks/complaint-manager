@@ -47,7 +47,7 @@ import uploadAttachment from "./handlers/cases/attachments/uploadAttachment";
 import deleteAttachment from "./handlers/cases/attachments/deleteAttachment";
 import getArchivedCases from "./handlers/cases/getCases/getArchivedCases";
 
-export const ROUTES_ALLOWED_TO_MODIFY_ARCHIVED_CASE = [
+export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
   "/cases/:caseId/restore"
 ];
