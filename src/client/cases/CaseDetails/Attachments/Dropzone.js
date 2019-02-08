@@ -49,6 +49,9 @@ class Dropzone extends Component {
       await this.props.getCaseNotes(this.props.caseId);
     },
     error: (file, error, xhr) => {
+      console.log("Got An Error");
+      console.log("error:", error);
+      console.log("xhr:", xhr);
       this.setState({ attachmentValid: false });
       this.hideDropzoneErrorPopup();
 
