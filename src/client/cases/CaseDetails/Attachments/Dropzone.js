@@ -84,6 +84,9 @@ class Dropzone extends Component {
   };
 
   parseDropzoneError = errorMessage => {
+    if (errorMessage.isBoom) {
+      return errorMessage.output.payload.message;
+    }
     if (errorMessage.message) {
       return errorMessage.message;
     }

@@ -11,6 +11,7 @@ import {
 import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 import Boom from "boom";
 import auditDataAccess from "../../auditDataAccess";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const uploadAttachment = asyncMiddleware((request, response, next) => {
   let managedUpload;
@@ -37,7 +38,12 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
     const s3 = createConfiguredS3Instance();
 
     if (await isDuplicateFileName(caseId, fileName)) {
-      response.status(409).send(DUPLICATE_FILE_NAME);
+      console.log(response);
+      response.status(409).send(Boom.conflict(DUPLICATE_FILE_NAME));
+    } else if (request.isArchived) {
+      response
+        .status(400)
+        .send(Boom.badRequest(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE));
     } else {
       managedUpload = s3.upload({
         Bucket: config[process.env.NODE_ENV].s3Bucket,
