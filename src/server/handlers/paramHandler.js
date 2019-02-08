@@ -13,6 +13,7 @@ export const handleCaseIdParam = async function(
     const existingCase = await getCaseWithoutAssociations(caseId);
     request.caseId = caseId;
     if (caseCannotBeEdited(existingCase.isArchived, request)) {
+      console.log("in param handler: cannot edit case");
       return next(
         Boom.badRequest(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE)
       );
