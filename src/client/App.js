@@ -33,6 +33,7 @@ import LetterPreview from "./cases/ReferralLetter/LetterPreview/LetterPreview";
 import EditLetter from "./cases/ReferralLetter/EditLetter/EditLetter";
 import ReviewAndApproveLetter from "./cases/ReferralLetter/ReviewAndApproveLetter/ReviewAndApproveLetter";
 import ArchivedCases from "./cases/ArchivedCases";
+import RedirectToCaseDashboard from "./RedirectToCaseDashboard";
 
 class App extends Component {
   componentDidMount() {
@@ -53,11 +54,11 @@ class App extends Component {
             style={{ height: "100%", overflowY: "scroll", borderRadius: "0px" }}
           >
             <ScrollToTop>
-              <Route path="/login" component={Login} />
-              <Route path="/callback" component={Callback} />
-              <Route exact path="/" component={CaseDashboard} />
-              <Route exact path="/archived-cases" component={ArchivedCases} />
               <Switch>
+                <Route path="/login" component={Login} />
+                <Route path="/callback" component={Callback} />
+                <Route exact path="/archived-cases" component={ArchivedCases} />
+                <Route exact path="/" component={CaseDashboard} />
                 <Route
                   exact
                   path="/cases/:id/officers/search"
@@ -78,53 +79,62 @@ class App extends Component {
                   path="/cases/:id/officers/:caseOfficerId/search"
                   component={EditOfficerSearch}
                 />
+                <Route
+                  exact
+                  path="/cases/:id/history"
+                  component={CaseHistory}
+                />
+                <Route exact path="/cases/:id" component={CaseDetails} />
+                <Route
+                  exact
+                  path="/cases/:id/letter/review"
+                  component={LetterReview}
+                />
+                <Route
+                  exact
+                  path="/cases/:id/letter/officer-history"
+                  component={OfficerHistories}
+                />
+                <Route
+                  exact
+                  path="/cases/:id/letter/iapro-corrections"
+                  component={IAProCorrections}
+                />
+                <Route
+                  exact
+                  path="/cases/:id/letter/recommended-actions"
+                  component={RecommendedActions}
+                />
+                <Route
+                  exact
+                  path="/cases/:id/letter/letter-preview"
+                  component={LetterPreview}
+                />
+                <Route
+                  exact
+                  path="/cases/:id/letter/edit-letter"
+                  component={EditLetter}
+                />
+                <Route
+                  exact
+                  path="/cases/:id/letter/review-and-approve"
+                  component={ReviewAndApproveLetter}
+                />
+                <Route exact path="/export/all" component={JobDashboard} />
+                {renderInPreProduction(
+                  <Route exact path="/styleguide" component={StyleGuide} />
+                )}
+                <Route
+                  exact
+                  path="/cases/:id/cases-officers/:caseOfficerId/allegations/search"
+                  component={AllegationSearchContainer}
+                />
+                <Route path="/cases/:id" component={RedirectToCaseDashboard} />
+                <Route
+                  component={RedirectToCaseDashboard}
+                  something={"hello"}
+                />
               </Switch>
-              <Route exact path="/cases/:id/history" component={CaseHistory} />
-              <Route exact path="/cases/:id" component={CaseDetails} />
-              <Route
-                exact
-                path="/cases/:id/letter/review"
-                component={LetterReview}
-              />
-              <Route
-                exact
-                path="/cases/:id/letter/officer-history"
-                component={OfficerHistories}
-              />
-              <Route
-                exact
-                path="/cases/:id/letter/iapro-corrections"
-                component={IAProCorrections}
-              />
-              <Route
-                exact
-                path="/cases/:id/letter/recommended-actions"
-                component={RecommendedActions}
-              />
-              <Route
-                exact
-                path="/cases/:id/letter/letter-preview"
-                component={LetterPreview}
-              />
-              <Route
-                exact
-                path="/cases/:id/letter/edit-letter"
-                component={EditLetter}
-              />
-              <Route
-                exact
-                path="/cases/:id/letter/review-and-approve"
-                component={ReviewAndApproveLetter}
-              />
-              <Route exact path="/export/all" component={JobDashboard} />
-              {renderInPreProduction(
-                <Route exact path="/styleguide" component={StyleGuide} />
-              )}
-              <Route
-                exact
-                path="/cases/:id/cases-officers/:caseOfficerId/allegations/search"
-                component={AllegationSearchContainer}
-              />
               <SharedSnackbarContainer />
             </ScrollToTop>
           </Paper>
