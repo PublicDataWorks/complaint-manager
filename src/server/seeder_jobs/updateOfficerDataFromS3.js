@@ -19,7 +19,7 @@ const updateOfficerDataFromS3 = async (
     const officerBucketName = config[process.env.NODE_ENV].officerBucket;
 
     const parser = csvParse({
-      auto_parse: parseNullValues,
+      cast: parseNullValues,
       columns: true,
       trim: true
     });

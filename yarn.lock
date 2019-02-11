@@ -3132,13 +3132,15 @@ csstype@^2.0.0, csstype@^2.2.0, csstype@^2.5.2:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.5.6.tgz#2ae1db2319642d8b80a668d2d025c6196071e788"
 
-csv-parse@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-3.0.0.tgz#2d592cf4bf7f3b1606900812df298a5bcc9f66e5"
+csv-parse@^4.0.0:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-4.3.1.tgz#b2b92a4068106d6713952050593b2be06ec1a577"
+  integrity sha512-1V98UTtfefu8yKdYIGX1LFhfE2yMllveq2uCBay5y4ybfTzvW6I4M6r8Yc2YnKJdJBUig5ksEMh/bLqKg4vEMQ==
 
-csv-stringify@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/csv-stringify/-/csv-stringify-4.0.1.tgz#2cb3be20c7ca52e6cf8b8104e6d9faf79e3facf5"
+csv-stringify@^5.0.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/csv-stringify/-/csv-stringify-5.3.0.tgz#ff2dfafa6fcccd455ff5039be9c202475aa3bbe0"
+  integrity sha512-VMYPbE8zWz475smwqb9VbX9cj0y4J0PBl59UdcqzLkzXHZZ8dh4Rmbb0ZywsWEtUml4A96Hn7Q5MW9ppVghYzg==
   dependencies:
     lodash.get "~4.4.2"
 
