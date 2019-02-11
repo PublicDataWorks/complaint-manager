@@ -39,7 +39,7 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
 
     if (request.isArchived) {
       console.log("sending cannot update archived case");
-      response.status(400).send(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE);
+      response.status(409).send(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE);
     } else if (await isDuplicateFileName(caseId, fileName)) {
       console.log("sending duplicate file name");
       response.status(409).send(DUPLICATE_FILE_NAME);
