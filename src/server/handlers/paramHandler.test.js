@@ -36,6 +36,22 @@ describe("param handler", () => {
     expect(next).not.toHaveBeenCalledWith();
   });
 
+  test("throws an error when case id not an integer", async () => {
+    const caseId = "20aksjdljf";
+    const request = httpMocks.createRequest({
+      method: "GET",
+      headers: {
+        authorization: "Bearer token"
+      },
+      params: { caseId: caseId }
+    });
+    await handleCaseIdParam(request, response, next, caseId);
+    expect(next).toHaveBeenCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST)
+    );
+    expect(next).not.toHaveBeenCalledWith();
+  });
+
   describe("archived cases", () => {
     let archivedCase;
 

@@ -10,12 +10,15 @@ export const handleCaseIdParam = async function(
   caseId
 ) {
   try {
+    if (!Number(caseId)) {
+      return next(Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST));
+    }
+
     const existingCase = await getCaseWithoutAssociations(caseId);
     request.caseId = caseId;
     request.isArchived = existingCase.isArchived;
 
     if (caseCannotBeEdited(existingCase.isArchived, request)) {
-      console.log("NO, CASE SHOULD BE ABLE TO GO TO HANDLER");
       return next(
         Boom.badRequest(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE)
       );
