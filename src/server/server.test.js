@@ -797,6 +797,31 @@ describe("server", () => {
           });
       });
 
+      test("should get bad request when case is archived", async () => {
+        await defaultCase.destroy({ auditUser: "test" });
+        let mockKey = `${defaultCase.id}/mock_filename`;
+
+        AWS.S3.mockImplementation(() => {
+          return {
+            upload: (params, options) => ({
+              promise: () => Promise.resolve({ Key: mockKey })
+            }),
+            config: {
+              loadFromPath: jest.fn(),
+              update: jest.fn()
+            }
+          };
+        });
+
+        await request(app)
+          .post(`/api/cases/${defaultCase.id}/attachments`)
+          .set("Authorization", `Bearer ${token}`)
+          .set("Content-Type", "multipart/form-data")
+          .field("description", "this is a description")
+          .attach("avatar", __dirname + "/../../README.md")
+          .expect(400);
+      });
+
       test("should return 409 when file is a duplicate", async () => {
         let mockFileName = "test_file.pdf";
 

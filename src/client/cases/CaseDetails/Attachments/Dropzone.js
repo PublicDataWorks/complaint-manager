@@ -52,13 +52,7 @@ class Dropzone extends Component {
       this.setState({ attachmentValid: false });
       this.hideDropzoneErrorPopup();
 
-      const errorMessage = this.parseDropzoneError(error);
-      console.log(
-        "dropzone got error: ",
-        errorMessage,
-        "with status",
-        xhr.status
-      );
+      const errorMessage = this.parseDropzoneError(error, xhr.status);
 
       switch (errorMessage) {
         case DUPLICATE_FILE_NAME:
@@ -70,7 +64,8 @@ class Dropzone extends Component {
           this.props.transformAndHandleError(
             errorMessage,
             this.props.caseId,
-            xhr.status
+            xhr.status,
+            `/cases/${this.props.caseId}`
           );
       }
     },
@@ -86,7 +81,10 @@ class Dropzone extends Component {
     }
   };
 
-  parseDropzoneError = errorMessage => {
+  parseDropzoneError = (errorMessage, responseStatus) => {
+    if (responseStatus === 503) {
+      return "Something went wrong and the file was not attached";
+    }
     if (errorMessage.isBoom) {
       return errorMessage.output.payload.message;
     }

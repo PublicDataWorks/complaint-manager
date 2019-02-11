@@ -32,13 +32,18 @@ export const transformAndHandleError = (
   errorMessage,
   caseId,
   statusCode,
-  dispatch
+  dispatch,
+  defaultRedirectUrl = null
 ) => {
   let { displayErrorMessage, redirectUrl } = transformErrorAndGetRedirect(
     errorMessage,
     statusCode,
     caseId
   );
+
+  if (defaultRedirectUrl && !redirectUrl) {
+    redirectUrl = defaultRedirectUrl;
+  }
 
   if (redirectUrl) {
     reloadCaseDetailsPage(dispatch, caseId);

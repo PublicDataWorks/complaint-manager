@@ -25,8 +25,19 @@ const mapDispatchToProps = dispatch => ({
   dropDuplicateFile: () => dispatch(dropDuplicateFile()),
   removeDropzoneFile: () => dispatch(removeDropzoneFile()),
   getCaseNotes: caseId => dispatch(getCaseNotes(caseId)),
-  transformAndHandleError: (errorMessage, caseId, statusCode) =>
-    transformAndHandleError(errorMessage, caseId, statusCode, dispatch)
+  transformAndHandleError: (
+    errorMessage,
+    caseId,
+    statusCode,
+    defaultRedirectUrl = null
+  ) =>
+    transformAndHandleError(
+      errorMessage,
+      caseId,
+      statusCode,
+      dispatch,
+      defaultRedirectUrl
+    )
 });
 
 export default connect(
