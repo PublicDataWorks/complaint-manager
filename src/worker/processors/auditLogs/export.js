@@ -32,7 +32,7 @@ const exportAuditLog = async (job, done) => {
       snapshot: "Subject Details",
       created_at: "Timestamp"
     };
-    const csvOptions = { header: true, columns, formatters: dateFormatter };
+    const csvOptions = { header: true, columns, cast: dateFormatter };
 
     await models.sequelize.transaction(async t => {
       const actionAudits = await models.action_audit.findAll({
