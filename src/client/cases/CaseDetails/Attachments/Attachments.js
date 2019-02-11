@@ -9,20 +9,20 @@ const Attachments = props => {
   return (
     <BaseCaseDetailsCard title="Attachments">
       <CardContent style={{ paddingBottom: "24px" }}>
-        <div style={{ display: "flex", width: "100%" }}>
+        <div style={{ display: "flex" }}>
           <div
             style={{
-              flex: 1,
+              flex: 4,
               textAlign: "left",
-              marginRight: "32px",
               marginBottom: "8px"
             }}
           >
             <Typography style={styles.section}>File Name</Typography>
           </div>
-          <div style={{ flex: 1, textAlign: "left", marginRight: "112px" }}>
+          <div style={{ flex: 2, textAlign: "left" }}>
             <Typography style={styles.section}>Description</Typography>
           </div>
+          <div style={{ flex: 1 }} />
         </div>
         <AttachmentsList />
         {props.isArchived ? null : (

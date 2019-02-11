@@ -33,7 +33,7 @@ const AttachmentsRow = ({
         }}
         data-test="attachmentRow"
       >
-        <div style={{ flex: 1, textAlign: "left", marginRight: "32px" }}>
+        <div style={{ flex: 4, textAlign: "left" }}>
           <a
             href="#dynamicLink"
             id={`attachment-${attachment.id}-DownloadLink`}
@@ -51,15 +51,16 @@ const AttachmentsRow = ({
             {attachment.fileName}
           </Typography>
         </div>
-        <div style={{ flex: 1, textAlign: "left", marginRight: "16px" }}>
+        <div style={{ flex: 2, textAlign: "left" }}>
           <Typography variant="body1" data-test="attachmentDescription">
             {attachment.description}
           </Typography>
         </div>
-        <div>
+        <div style={{ flex: 1 }}>
           {isArchived || isComplainantLetter ? null : (
             <LinkButton
               data-test={"removeAttachmentButton"}
+              style={{ float: "right" }}
               onClick={() => {
                 onRemoveAttachment(attachment.id, attachment.fileName);
               }}
