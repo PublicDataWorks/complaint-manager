@@ -14,7 +14,6 @@ import auditDataAccess from "../../auditDataAccess";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const uploadAttachment = asyncMiddleware((request, response, next) => {
-  console.log(request);
   let managedUpload;
   const caseId = request.params.caseId;
   const busboy = new Busboy({
@@ -40,12 +39,10 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
 
     if (request.isArchived) {
       console.log("sending cannot update archived case");
-      response
-        .status(400)
-        .send(Boom.badRequest(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE));
+      response.status(400).send(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE);
     } else if (await isDuplicateFileName(caseId, fileName)) {
       console.log("sending duplicate file name");
-      response.status(409).send(Boom.conflict(DUPLICATE_FILE_NAME));
+      response.status(409).send(DUPLICATE_FILE_NAME);
     } else {
       managedUpload = s3.upload({
         Bucket: config[process.env.NODE_ENV].s3Bucket,
