@@ -11,8 +11,9 @@ const AdditionalLocationInfo = ({ label, fieldName, style }) => {
       style={style}
       inputProps={{
         "data-test": "additionalLocationInfoInput",
-        maxLength: 25
+        maxLength: 255
       }}
+      multiline
       InputLabelProps={{ shrink: true }}
       data-test="additionalLocationInfo"
       placeholder={"Ex: In front of building"}
