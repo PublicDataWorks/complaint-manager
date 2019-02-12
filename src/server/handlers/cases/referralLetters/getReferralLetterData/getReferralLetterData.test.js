@@ -70,7 +70,7 @@ describe("getReferralLetterData", () => {
   test("audits the data access", async () => {
     await getReferralLetterData(request, response, next);
 
-    const dataAccessAudit = await models.action_audit.find();
+    const dataAccessAudit = await models.action_audit.findOne();
     expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
     expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
     expect(dataAccessAudit.user).toEqual("bobjo");

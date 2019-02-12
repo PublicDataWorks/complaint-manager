@@ -162,7 +162,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         where: { id: attachment.id },
         auditUser: "someone else"
       });
-      const audit = await models.data_change_audit.find({
+      const audit = await models.data_change_audit.findOne({
         where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_DELETED }
       });
 
@@ -216,7 +216,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         .then(numAudits => {
           expect(numAudits).toEqual(0);
         });
-      const foundAttachment = await models.attachment.findById(attachment.id);
+      const foundAttachment = await models.attachment.findByPk(attachment.id);
       expect(foundAttachment).not.toBeNull();
     });
 
@@ -236,7 +236,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         .then(numAudits => {
           expect(numAudits).toEqual(0);
         });
-      const foundAttachment = await models.attachment.findById(attachment.id);
+      const foundAttachment = await models.attachment.findByPk(attachment.id);
       expect(foundAttachment).not.toBeNull();
     });
   });

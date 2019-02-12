@@ -67,7 +67,7 @@ describe("generateAttachmentDownloadUrl", function() {
 
     await generateAttachmentDownloadUrl(request, response, jest.fn());
 
-    const actionAudit = await models.action_audit.find({
+    const actionAudit = await models.action_audit.findOne({
       where: { caseId: attachment.caseId }
     });
 
@@ -111,7 +111,7 @@ describe("generateAttachmentDownloadUrl", function() {
       jest.fn()
     );
 
-    const actionAudit = await models.action_audit.find({
+    const actionAudit = await models.action_audit.findOne({
       where: { caseId: attachment.caseId }
     });
 
@@ -152,7 +152,7 @@ describe("generateAttachmentDownloadUrl", function() {
       jest.fn()
     );
 
-    const actionAudit = await models.action_audit.find({
+    const actionAudit = await models.action_audit.findOne({
       where: { caseId: attachment.caseId }
     });
 

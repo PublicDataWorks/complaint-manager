@@ -70,7 +70,7 @@ const updateOfficerDataFromS3 = async (
 
 const determineWhetherToCreateOrUpdateOfficer = async seedDataRow => {
   const officerNumber = seedDataRow.officerNumber;
-  const existingOfficer = await models.officer.find({
+  const existingOfficer = await models.officer.findOne({
     where: { officerNumber }
   });
 

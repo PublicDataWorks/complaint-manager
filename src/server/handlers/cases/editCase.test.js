@@ -210,7 +210,7 @@ describe("Edit Case", () => {
         });
 
         await editCase(request, response, next);
-        const updatedCase = await models.cases.findById(existingCase.id, {
+        const updatedCase = await models.cases.findByPk(existingCase.id, {
           include: [{ model: models.address, as: "incidentLocation" }]
         });
         expect(updatedCase.incidentLocation.city).toEqual(initialCityValue);
@@ -352,7 +352,7 @@ describe("Edit Case", () => {
       test("should audit case details access when case updated", async () => {
         await editCase(request, response, next);
 
-        const actionAudit = await models.action_audit.find({
+        const actionAudit = await models.action_audit.findOne({
           where: { caseId: existingCase.id },
           returning: true
         });

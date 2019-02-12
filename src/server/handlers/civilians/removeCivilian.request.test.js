@@ -118,17 +118,17 @@ describe("DELETE /cases/:caseId/civilians/:civilianId", () => {
       });
 
     //assert that address is not returned by find
-    const civilianAddress = await models.address.findById(
+    const civilianAddress = await models.address.findByPk(
       createdCivilian.address.id
     );
     expect(civilianAddress).toEqual(null);
 
     //assert that civilian is not returned by find
-    const civilianInTable = await models.civilian.findById(createdCivilian.id);
+    const civilianInTable = await models.civilian.findByPk(createdCivilian.id);
     expect(civilianInTable).toEqual(null);
 
     //assert that civilian is still in table
-    const softDeletedCivilianInTable = await models.civilian.findById(
+    const softDeletedCivilianInTable = await models.civilian.findByPk(
       createdCivilian.id,
       {
         paranoid: false

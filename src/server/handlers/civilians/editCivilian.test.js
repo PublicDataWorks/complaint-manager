@@ -50,7 +50,7 @@ describe("editCivilian handler editing civilian with no address", () => {
     const response = httpMocks.createResponse();
     await editCivilian(request, response, next);
 
-    const actionAudit = await models.action_audit.find({
+    const actionAudit = await models.action_audit.findOne({
       where: { caseId: existingCase.id }
     });
 
@@ -187,7 +187,7 @@ describe("editCivilian handler editing civilian with an address", () => {
     await editCivilian(request, response, jest.fn());
 
     const updatedAddressCount = await models.address.count();
-    const updatedAddress = await models.address.find({
+    const updatedAddress = await models.address.findOne({
       where: {
         id: existingCivilian.address.id
       }

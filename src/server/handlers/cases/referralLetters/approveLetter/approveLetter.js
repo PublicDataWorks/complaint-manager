@@ -119,7 +119,7 @@ const transitionCaseToForwardedToAgency = async (
 };
 
 const saveFilename = async (filename, caseId, auditUser, transaction) => {
-  const referralLetter = await models.referral_letter.find({
+  const referralLetter = await models.referral_letter.findOne({
     where: { caseId: caseId }
   });
   await referralLetter.update(
@@ -139,7 +139,7 @@ const validateUserPermissions = request => {
 };
 
 const getCase = async caseId => {
-  return await models.cases.findById(caseId, {
+  return await models.cases.findByPk(caseId, {
     include: [
       {
         model: models.case_officer,

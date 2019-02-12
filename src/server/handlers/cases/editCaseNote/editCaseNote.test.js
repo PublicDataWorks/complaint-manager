@@ -66,7 +66,7 @@ describe("editCaseNote", function() {
     const response = httpMocks.createResponse();
     await editCaseNote(request, response, jest.fn());
 
-    const updatedCase = await models.cases.find({
+    const updatedCase = await models.cases.findOne({
       where: { id: createdCase.id }
     });
 
@@ -109,7 +109,7 @@ describe("editCaseNote", function() {
     const next = jest.fn();
     await editCaseNote(request, response, next);
 
-    const actionAudit = await models.action_audit.find({
+    const actionAudit = await models.action_audit.findOne({
       where: { caseId: createdCase.id }
     });
 

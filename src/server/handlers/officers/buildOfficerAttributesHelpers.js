@@ -5,7 +5,7 @@ const buildOfficerAttributesForUnknownOfficer = () => {
 };
 
 const buildOfficerAttributesForNewOfficer = async officerId => {
-  const newOfficer = await models.officer.findById(officerId);
+  const newOfficer = await models.officer.findByPk(officerId);
 
   let initialAttributes = buildOfficerAttributesForUnknownOfficer();
   let supervisorAttributes = await buildSupervisorAttributes(newOfficer);

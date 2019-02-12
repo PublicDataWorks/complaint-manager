@@ -47,7 +47,7 @@ describe("searchOfficers", function() {
 
     await searchOfficers(request, response, next);
 
-    const actionAudit = await models.action_audit.find({
+    const actionAudit = await models.action_audit.findOne({
       where: { subject: AUDIT_SUBJECT.OFFICER_DATA },
       returning: true
     });

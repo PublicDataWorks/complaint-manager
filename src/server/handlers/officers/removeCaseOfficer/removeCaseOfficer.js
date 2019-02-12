@@ -8,7 +8,7 @@ const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const auditDataAccess = require("../../auditDataAccess");
 
 const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
-  const officerToRemove = await models.case_officer.findById(
+  const officerToRemove = await models.case_officer.findByPk(
     request.params.caseOfficerId
   );
 

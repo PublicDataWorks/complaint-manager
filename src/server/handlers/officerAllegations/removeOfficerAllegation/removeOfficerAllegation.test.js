@@ -126,7 +126,7 @@ describe("removeOfficerAllegation", () => {
 
       await removeOfficerAllegation(request, response, next);
 
-      const actionAudit = await models.action_audit.find({
+      const actionAudit = await models.action_audit.findOne({
         where: { caseId: createdAccusedOfficer.caseId }
       });
 

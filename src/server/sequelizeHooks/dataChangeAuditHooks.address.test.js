@@ -44,7 +44,7 @@ describe("dataChangeAuditHooks address", () => {
     });
 
     test("should audit incident location", async () => {
-      const audit = await models.data_change_audit.find({
+      const audit = await models.data_change_audit.findOne({
         where: { modelName: "Address", action: AUDIT_ACTION.DATA_CREATED }
       });
 
@@ -64,7 +64,7 @@ describe("dataChangeAuditHooks address", () => {
         { where: { id: incidentLocationCreated.id }, auditUser: "someone" }
       );
 
-      const audit = await models.data_change_audit.find({
+      const audit = await models.data_change_audit.findOne({
         where: { modelName: "Address", action: AUDIT_ACTION.DATA_UPDATED }
       });
 
@@ -84,7 +84,7 @@ describe("dataChangeAuditHooks address", () => {
         auditUser: "someone"
       });
 
-      const audit = await models.data_change_audit.find({
+      const audit = await models.data_change_audit.findOne({
         where: { modelName: "Address", action: AUDIT_ACTION.DATA_DELETED }
       });
 
@@ -138,7 +138,7 @@ describe("dataChangeAuditHooks address", () => {
     });
 
     test("should audit civilian address", async () => {
-      const audit = await models.data_change_audit.find({
+      const audit = await models.data_change_audit.findOne({
         where: { modelName: "Address", action: AUDIT_ACTION.DATA_CREATED }
       });
 
@@ -161,7 +161,7 @@ describe("dataChangeAuditHooks address", () => {
         { where: { id: createdAddress.id }, auditUser: "someone" }
       );
 
-      const audit = await models.data_change_audit.find({
+      const audit = await models.data_change_audit.findOne({
         where: { modelName: "Address", action: AUDIT_ACTION.DATA_UPDATED }
       });
 
@@ -184,7 +184,7 @@ describe("dataChangeAuditHooks address", () => {
         auditUser: "someone"
       });
 
-      const audit = await models.data_change_audit.find({
+      const audit = await models.data_change_audit.findOne({
         where: { modelName: "Address", action: AUDIT_ACTION.DATA_DELETED }
       });
 

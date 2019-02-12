@@ -87,7 +87,7 @@ describe("changeStatus", async () => {
 
     await changeStatus(request, response, next);
 
-    const letterCreated = await models.referral_letter.find({
+    const letterCreated = await models.referral_letter.findOne({
       where: { caseId: initialCase.id }
     });
     expect(letterCreated).not.toBeNull();
@@ -110,7 +110,7 @@ describe("changeStatus", async () => {
 
     await changeStatus(request, response, next);
 
-    const letterCreated = await models.referral_letter.find({
+    const letterCreated = await models.referral_letter.findOne({
       where: { caseId: initialCase.id }
     });
     expect(letterCreated).toBeNull();
@@ -133,7 +133,7 @@ describe("changeStatus", async () => {
 
     await changeStatus(request, response, next);
 
-    const letterCreated = await models.referral_letter.find({
+    const letterCreated = await models.referral_letter.findOne({
       where: { caseId: initialCase.id }
     });
     expect(letterCreated).toBeNull();
@@ -160,7 +160,7 @@ describe("changeStatus", async () => {
 
     await changeStatus(request, response, next);
 
-    const actionAudit = await models.action_audit.find({
+    const actionAudit = await models.action_audit.findOne({
       where: { caseId: initialCase.id }
     });
 
@@ -240,11 +240,11 @@ describe("changeStatus", async () => {
 
       await changeStatus(request, response, next);
 
-      const letterOfficer1 = await models.letter_officer.find({
+      const letterOfficer1 = await models.letter_officer.findOne({
         where: { caseOfficerId: accusedCaseOfficer1.id }
       });
 
-      const letterOfficer2 = await models.letter_officer.find({
+      const letterOfficer2 = await models.letter_officer.findOne({
         where: { caseOfficerId: accusedCaseOfficer2.id }
       });
 
@@ -269,11 +269,11 @@ describe("changeStatus", async () => {
 
       await changeStatus(request, response, next);
 
-      const letterOfficer1 = await models.letter_officer.find({
+      const letterOfficer1 = await models.letter_officer.findOne({
         where: { caseOfficerId: accusedCaseOfficer1.id }
       });
 
-      const letterOfficer2 = await models.letter_officer.find({
+      const letterOfficer2 = await models.letter_officer.findOne({
         where: { caseOfficerId: accusedCaseOfficer2.id }
       });
 

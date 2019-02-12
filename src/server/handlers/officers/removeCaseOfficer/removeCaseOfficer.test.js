@@ -68,7 +68,7 @@ describe("removeCaseOfficer", () => {
     });
 
     await removeCaseOfficer(request, response, next);
-    const removedCaseOfficer = await models.case_officer.findById(
+    const removedCaseOfficer = await models.case_officer.findByPk(
       existingCaseOfficer.id
     );
 
@@ -94,7 +94,7 @@ describe("removeCaseOfficer", () => {
       });
 
       await removeCaseOfficer(request, response, next);
-      const officerAllegation = await models.officer_allegation.find({
+      const officerAllegation = await models.officer_allegation.findOne({
         where: {
           caseOfficerId: existingCaseOfficer.id
         }
@@ -118,7 +118,7 @@ describe("removeCaseOfficer", () => {
 
       await removeCaseOfficer(request, response, next);
 
-      const audit = await models.action_audit.find({
+      const audit = await models.action_audit.findOne({
         where: { caseId: existingCase.id }
       });
 
@@ -148,7 +148,7 @@ describe("removeCaseOfficer", () => {
 
       await removeCaseOfficer(request, response, next);
 
-      const officerAllegation = await models.officer_allegation.find({
+      const officerAllegation = await models.officer_allegation.findOne({
         where: { caseOfficerId: existingCaseOfficer.id }
       });
 

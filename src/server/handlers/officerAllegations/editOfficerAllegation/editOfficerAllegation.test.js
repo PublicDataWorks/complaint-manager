@@ -94,7 +94,7 @@ describe("editOfficerAllegation", () => {
 
     await editOfficerAllegation(request, response, jest.fn());
 
-    const audit = await models.action_audit.find({
+    const audit = await models.action_audit.findOne({
       where: { caseId: caseOfficer.caseId }
     });
 

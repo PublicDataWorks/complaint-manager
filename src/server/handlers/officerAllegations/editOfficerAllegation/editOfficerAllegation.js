@@ -12,7 +12,7 @@ const editOfficerAllegation = asyncMiddleware(
   async (request, response, next) => {
     const updatedCase = await models.sequelize.transaction(
       async transaction => {
-        const officerAllegation = await models.officer_allegation.findById(
+        const officerAllegation = await models.officer_allegation.findByPk(
           request.params.officerAllegationId,
           { transaction }
         );

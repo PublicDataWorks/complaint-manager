@@ -40,13 +40,13 @@ describe("updating database using csv file in S3", () => {
     suppressWinstonLogs(async () => {
       await updateOfficerDataFromS3();
 
-      const newOfficerMaggie = await models.officer.find({
+      const newOfficerMaggie = await models.officer.findOne({
         where: { firstName: "Maggie" }
       });
-      const updatedOfficerChris = await models.officer.find({
+      const updatedOfficerChris = await models.officer.findOne({
         where: { firstName: "Chris" }
       });
-      const unchangedOfficerKristin = await models.officer.find({
+      const unchangedOfficerKristin = await models.officer.findOne({
         where: { firstName: "Kirstin" }
       });
 

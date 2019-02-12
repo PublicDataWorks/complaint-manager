@@ -63,7 +63,7 @@ const editCase = asyncMiddleware(async (request, response, next) => {
           );
         }
 
-        const caseToUpdate = await models.cases.findById(request.params.caseId);
+        const caseToUpdate = await models.cases.findByPk(request.params.caseId);
         await caseToUpdate.update(valuesToUpdate, {
           individualHooks: true,
           transaction,

@@ -59,7 +59,7 @@ describe("data change audit hooks for referral letter officer history note", () 
   });
 
   test("it creates an audit for creating an officer history note", async () => {
-    const audit = await models.data_change_audit.find({
+    const audit = await models.data_change_audit.findOne({
       where: {
         modelName: "Referral Letter Officer History Note",
         action: AUDIT_ACTION.DATA_CREATED

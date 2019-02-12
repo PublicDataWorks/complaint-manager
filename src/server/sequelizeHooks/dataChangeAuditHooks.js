@@ -237,7 +237,7 @@ exports.init = sequelize => {
       if (instance.dataValues[association.foreignKey]) {
         const associationInstance = await instance.sequelize.models[
           association.modelName
-        ].findById(instance.dataValues[association.foreignKey]);
+        ].findByPk(instance.dataValues[association.foreignKey]);
         snapshotValues[association.modelName] =
           associationInstance[association.identifyingAttribute];
       } else {
@@ -277,7 +277,7 @@ exports.init = sequelize => {
       if (objectChanges[association.foreignKey][newOrPrevious]) {
         const associationInstance = await instance.sequelize.models[
           association.modelName
-        ].findById(objectChanges[association.foreignKey][newOrPrevious]);
+        ].findByPk(objectChanges[association.foreignKey][newOrPrevious]);
         objectChanges[modelNameCamelCase][newOrPrevious] =
           associationInstance[association.identifyingAttribute];
       } else {

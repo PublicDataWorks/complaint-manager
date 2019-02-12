@@ -107,14 +107,14 @@ module.exports = (sequelize, DataTypes) => {
   LetterOfficer.prototype.getCaseId = async function(transaction) {
     const caseOfficer = await sequelize
       .model("case_officer")
-      .findById(this.caseOfficerId, { transaction: transaction });
+      .findByPk(this.caseOfficerId, { transaction: transaction });
     return caseOfficer.caseId;
   };
 
   LetterOfficer.prototype.modelDescription = async function(transaction) {
     const caseOfficer = await sequelize
       .model("case_officer")
-      .findById(this.caseOfficerId, { transaction: transaction });
+      .findByPk(this.caseOfficerId, { transaction: transaction });
     return [{ "Officer Name": caseOfficer.fullName }];
   };
 

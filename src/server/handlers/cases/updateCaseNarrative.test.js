@@ -74,7 +74,7 @@ describe("updateCaseNarrative handler", () => {
   test("should audit case details access when case narrative updated", async () => {
     await updateCaseNarrative(request, response, next);
 
-    const actionAudit = await models.action_audit.find({
+    const actionAudit = await models.action_audit.findOne({
       where: { caseId: existingCase.id }
     });
 

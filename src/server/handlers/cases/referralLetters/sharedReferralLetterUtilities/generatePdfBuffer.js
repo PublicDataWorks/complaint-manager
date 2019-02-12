@@ -54,7 +54,7 @@ export const generateReferralLetterPdfBuffer = async (
   includeSignature,
   transaction
 ) => {
-  let letterData = await models.referral_letter.find({
+  let letterData = await models.referral_letter.findOne({
     where: { caseId: caseId },
     attributes: ["editedLetterHtml"],
     transaction
@@ -100,7 +100,7 @@ const getComplainantLetterPdfData = (existingCase, complainant) => {
 };
 
 const getReferralLetterPdfData = async (caseId, transaction) => {
-  return await models.cases.findById(caseId, {
+  return await models.cases.findByPk(caseId, {
     attributes: [
       "firstContactDate",
       "complaintType",

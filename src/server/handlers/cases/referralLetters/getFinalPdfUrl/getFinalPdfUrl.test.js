@@ -126,7 +126,7 @@ describe("getFinalPdfUrl", () => {
     );
     await getFinalPdfUrl(request, response, next);
 
-    const createdAudit = await models.action_audit.find();
+    const createdAudit = await models.action_audit.findOne();
     expect(createdAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
     expect(createdAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
     expect(createdAudit.user).toEqual("TEST_USER_NICKNAME");

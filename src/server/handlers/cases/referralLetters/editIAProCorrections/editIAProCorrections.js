@@ -118,7 +118,7 @@ const updateExistingIAProCorrection = async (
   userNickname,
   transaction
 ) => {
-  const correction = await models.referral_letter_iapro_correction.findById(
+  const correction = await models.referral_letter_iapro_correction.findByPk(
     iaproCorrectionData.id
   );
   if (!correction) {

@@ -568,7 +568,7 @@ describe("edit referral letter", () => {
           Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_LETTER_OFFICER)
         );
 
-        const updatedLetterOfficer = await models.letter_officer.findById(
+        const updatedLetterOfficer = await models.letter_officer.findByPk(
           555555555
         );
         expect(updatedLetterOfficer).toBeNull();

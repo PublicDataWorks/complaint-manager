@@ -3,7 +3,7 @@ import fs from "fs";
 import Handlebars from "handlebars";
 
 const getCaseData = async (caseId, transaction) => {
-  return await models.cases.findById(caseId, {
+  return await models.cases.findByPk(caseId, {
     attributes: [
       ["id", "caseId"],
       "incidentDate",
@@ -110,7 +110,7 @@ const getCaseData = async (caseId, transaction) => {
 };
 
 const getComplainantLetterCaseData = async (caseId, transaction) => {
-  return await models.cases.findById(caseId, {
+  return await models.cases.findByPk(caseId, {
     attributes: [
       ["id", "caseId"],
       "firstContactDate",

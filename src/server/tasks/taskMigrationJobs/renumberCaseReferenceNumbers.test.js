@@ -64,7 +64,7 @@ const setupExistingCase = async caseNumberMapping => {
 
 const expectCasesHaveBeenRenumbered = async revert => {
   for (let caseNumberMapping of NEW_CASE_NUMBER_MAPPINGS) {
-    const updatedCase = await models.cases.findById(
+    const updatedCase = await models.cases.findByPk(
       caseNumberMapping.createdCaseId
     );
     expect(updatedCase.year).toEqual(caseNumberMapping.year);

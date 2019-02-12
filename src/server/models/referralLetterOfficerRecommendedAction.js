@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
   ) {
     const letterOfficer = await sequelize
       .model("letter_officer")
-      .findById(this.referralLetterOfficerId, {
+      .findByPk(this.referralLetterOfficerId, {
         include: [
           {
             model: sequelize.model("case_officer"),
@@ -78,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
   ) {
     const letterOfficer = await sequelize
       .model("letter_officer")
-      .findById(this.referralLetterOfficerId, {
+      .findByPk(this.referralLetterOfficerId, {
         include: [
           {
             model: sequelize.model("case_officer"),

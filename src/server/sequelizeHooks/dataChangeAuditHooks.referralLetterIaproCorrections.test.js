@@ -49,7 +49,7 @@ describe("dataChangeAuditHooks for referral letter iapro correction", () => {
   });
 
   test("creates audit on referral letter iapro corrections creation", async () => {
-    const audit = await models.data_change_audit.find({
+    const audit = await models.data_change_audit.findOne({
       where: {
         modelName: "Referral Letter Iapro Correction",
         action: AUDIT_ACTION.DATA_CREATED

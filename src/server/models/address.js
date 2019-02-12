@@ -88,10 +88,10 @@ module.exports = (sequelize, DataTypes) => {
         beforeSave: (address, options) => {
           if (address.streetAddress)
             address.streetAddress = address.streetAddress.trim();
-          
+
           if (address.streetAddress2)
             address.streetAddress2 = address.streetAddress2.trim();
-          
+
           if (address.additionalLocationInfo)
             address.additionalLocationInfo = address.additionalLocationInfo.trim();
         }
@@ -106,7 +106,7 @@ module.exports = (sequelize, DataTypes) => {
 
     const civilian = await sequelize
       .model("civilian")
-      .findById(this.addressableId, { transaction: transaction });
+      .findByPk(this.addressableId, { transaction: transaction });
 
     return [
       { "Address Type": "Civilian" },
@@ -120,7 +120,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     const civilian = await sequelize
       .model("civilian")
-      .findById(this.addressableId, {
+      .findByPk(this.addressableId, {
         transaction: transaction
       });
 
