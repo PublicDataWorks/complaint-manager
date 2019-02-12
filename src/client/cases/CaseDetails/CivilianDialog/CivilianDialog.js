@@ -55,6 +55,7 @@ import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import _ from "lodash";
 import normalizeAddress from "../../../utilities/normalizeAddress";
 import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getRaceEthnicityDropdownValues";
+import PrimaryCheckBox from "../../../shared/components/PrimaryCheckBox";
 
 class CivilianDialog extends Component {
   componentDidMount() {
@@ -186,12 +187,24 @@ class CivilianDialog extends Component {
               label="Race/Ethnicity"
               hinttext="Race/Ethnicity"
               data-test="raceDropdown"
-              style={{ width: "75%", marginBottom: "24px" }}
+              style={{ width: "75%" }}
               validate={[raceEthnicityIsRequired]}
             >
               {generateMenu(this.props.raceEthnicities)}
             </Field>
-            <Typography variant="body2" style={{ marginBottom: "8px" }}>
+            {!this.props.isAnonymousFeatureToggle ? null : (
+              <FormControlLabel
+                key="isAnonymous"
+                label="Anonymize complainant in referral letter"
+                control={
+                  <Field name="isAnonymous" component={PrimaryCheckBox} />
+                }
+              />
+            )}
+            <Typography
+              variant="body2"
+              style={{ marginTop: "24px", marginBottom: "8px" }}
+            >
               Contact Information
             </Typography>
             <div style={{ display: "flex" }}>
@@ -298,7 +311,8 @@ const mapStateToProps = state => {
     title: state.ui.civilianDialog.title,
     submitButtonText: state.ui.civilianDialog.submitButtonText,
     addressValid: state.ui.addressInput.addressValid,
-    raceEthnicities: state.ui.raceEthnicities
+    raceEthnicities: state.ui.raceEthnicities,
+    isAnonymousFeatureToggle: state.featureToggles.isAnonymousFeature
   };
 };
 

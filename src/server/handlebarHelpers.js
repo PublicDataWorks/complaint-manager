@@ -145,3 +145,13 @@ export const generateSubjectLine = (caseReference, pibCaseNumber) => {
   return `Complaint Referral; IPM Complaint ${caseReference}`;
 };
 Handlebars.registerHelper("generateSubjectLine", generateSubjectLine);
+
+export const addNumbers = (num1, num2) => {
+  return num1 + num2;
+};
+Handlebars.registerHelper("addNumbers", addNumbers);
+
+export const isGreaterThan = (num1, num2) => {
+  return num1 > num2;
+};
+Handlebars.registerHelper("isGreaterThan", isGreaterThan);
