@@ -3,7 +3,7 @@ import axios from "axios";
 
 const getArchivedCases = () => async dispatch => {
   try {
-    const response = await axios.get(`api/cases/archived`);
+    const response = await axios.get(`api/cases/archived-cases`);
     return dispatch(getArchivedCasesSuccess(response.data.cases));
   } catch (e) {}
 };
