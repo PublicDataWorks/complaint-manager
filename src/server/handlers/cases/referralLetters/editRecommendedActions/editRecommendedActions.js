@@ -15,7 +15,7 @@ const editRecommendedActions = asyncMiddleware(
         );
       }
       if (request.body.includeRetaliationConcerns !== undefined) {
-        const referralLetter = await models.referral_letter.findById(
+        const referralLetter = await models.referral_letter.findByPk(
           request.body.id
         );
         await updateIncludeRetaliationConcerns(
@@ -68,7 +68,7 @@ const createOrUpdateReferralLetterOfficerRecommendedActions = async (
       }
     }
 
-    const existingLetterOfficer = await models.letter_officer.findById(
+    const existingLetterOfficer = await models.letter_officer.findByPk(
       letterOfficer.id,
       { transaction }
     );

@@ -15,7 +15,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageC
 
 const getFinalPdfUrl = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
-  const existingCase = await models.cases.findById(caseId, {
+  const existingCase = await models.cases.findByPk(caseId, {
     include: [
       {
         model: models.case_officer,
@@ -48,7 +48,7 @@ const getFinalPdfUrl = asyncMiddleware(async (request, response, next) => {
 
 const getSignedS3Url = async existingCase => {
   const s3 = createConfiguredS3Instance();
-  const referralLetter = await models.referral_letter.find({
+  const referralLetter = await models.referral_letter.findOne({
     where: { caseId: existingCase.id }
   });
 

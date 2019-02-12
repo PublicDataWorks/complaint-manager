@@ -43,7 +43,7 @@ const editCivilian = asyncMiddleware(async (req, res) => {
           req.nickname
         );
       }
-      const civilian = await models.civilian.findById(req.params.civilianId);
+      const civilian = await models.civilian.findByPk(req.params.civilianId);
       await civilian.update(civilianValues, {
         transaction,
         auditUser: req.nickname

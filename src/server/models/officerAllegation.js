@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
   OfficerAllegation.prototype.getCaseId = async function(transaction) {
     const caseOfficer = await sequelize
       .model("case_officer")
-      .findById(this.caseOfficerId, {
+      .findByPk(this.caseOfficerId, {
         transaction: transaction
       });
 
@@ -59,13 +59,13 @@ module.exports = (sequelize, DataTypes) => {
   OfficerAllegation.prototype.modelDescription = async function(transaction) {
     const caseOfficer = await sequelize
       .model("case_officer")
-      .findById(this.caseOfficerId, {
+      .findByPk(this.caseOfficerId, {
         transaction: transaction
       });
 
     const allegation = await sequelize
       .model("allegation")
-      .findById(this.allegationId, {
+      .findByPk(this.allegationId, {
         transaction: transaction
       });
 

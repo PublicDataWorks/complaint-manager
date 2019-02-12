@@ -53,7 +53,7 @@ describe("addCaseOfficer", () => {
 
     await addCaseOfficer(request, response, jest.fn());
 
-    const caseOfInterest = await models.cases.findById(existingCase.id);
+    const caseOfInterest = await models.cases.findByPk(existingCase.id);
     expect(caseOfInterest).toEqual(
       expect.objectContaining({
         status: CASE_STATUS.ACTIVE
@@ -179,7 +179,7 @@ describe("addCaseOfficer", () => {
       { auditUser: request.nickname }
     );
 
-    const caseOfficer = await models.case_officer.findById(caseOfficerId);
+    const caseOfficer = await models.case_officer.findByPk(caseOfficerId);
 
     expect(caseOfficer.firstName).toEqual("Brandon");
   });
@@ -213,7 +213,7 @@ describe("addCaseOfficer", () => {
 
     await addCaseOfficer(request, response, jest.fn());
 
-    const actionAudit = await models.action_audit.find({
+    const actionAudit = await models.action_audit.findOne({
       where: { caseId: existingCase.id }
     });
 

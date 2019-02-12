@@ -57,7 +57,7 @@ describe("deleteAttachment", function() {
 
     await deleteAttachment(request, response, next);
 
-    const actionAudit = await models.action_audit.find({
+    const actionAudit = await models.action_audit.findOne({
       where: { caseId: existingCase.id }
     });
 

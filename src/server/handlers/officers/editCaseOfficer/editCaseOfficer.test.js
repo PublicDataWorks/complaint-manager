@@ -96,7 +96,7 @@ describe("editCaseOfficer", () => {
 
       await editCaseOfficer(request, response, next);
 
-      const updatedCaseOfficer = await models.case_officer.findById(
+      const updatedCaseOfficer = await models.case_officer.findByPk(
         existingCaseOfficer.id
       );
 
@@ -134,7 +134,7 @@ describe("editCaseOfficer", () => {
 
       await editCaseOfficer(request, response, next);
 
-      const updatedCaseOfficer = await models.case_officer.findById(
+      const updatedCaseOfficer = await models.case_officer.findByPk(
         existingCaseOfficerAttributes.id
       );
       expect(updatedCaseOfficer.notes).toEqual(fieldsToUpdate.notes);
@@ -168,7 +168,7 @@ describe("editCaseOfficer", () => {
         )
       );
 
-      const updatedCaseOfficer = await models.case_officer.findById(
+      const updatedCaseOfficer = await models.case_officer.findByPk(
         existingCaseOfficerAttributes.id
       );
       expect(updatedCaseOfficer.notes).toEqual(existingCaseOfficer.notes);
@@ -199,7 +199,7 @@ describe("editCaseOfficer", () => {
 
       await editCaseOfficer(request, response, next);
 
-      const updatedCaseOfficer = await models.case_officer.findById(
+      const updatedCaseOfficer = await models.case_officer.findByPk(
         existingCaseOfficerAttributes.id
       );
       expect(updatedCaseOfficer.id).toEqual(existingCaseOfficer.id);
@@ -287,7 +287,7 @@ describe("editCaseOfficer", () => {
 
       await editCaseOfficer(request, response, next);
 
-      const updatedCaseOfficer = await models.case_officer.findById(
+      const updatedCaseOfficer = await models.case_officer.findByPk(
         existingCaseOfficer.id
       );
 
@@ -348,7 +348,7 @@ describe("editCaseOfficer", () => {
 
       await editCaseOfficer(request, response, next);
 
-      const updatedCaseOfficer = await models.case_officer.findById(
+      const updatedCaseOfficer = await models.case_officer.findByPk(
         existingCaseOfficer.id
       );
 
@@ -418,7 +418,7 @@ describe("editCaseOfficer", () => {
 
       await editCaseOfficer(request, response, next);
 
-      const actionAudit = await models.action_audit.find({
+      const actionAudit = await models.action_audit.findOne({
         where: { caseId: existingCase.id }
       });
 

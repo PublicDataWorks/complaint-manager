@@ -647,7 +647,7 @@ describe("server", () => {
         }
       });
 
-      const updatedCase = await models.cases.findById(createdCase.id);
+      const updatedCase = await models.cases.findByPk(createdCase.id);
 
       expect(numberOfCaseNotesAfterRequest).toEqual(
         numberOfCaseNotesBeforeRequest + 1

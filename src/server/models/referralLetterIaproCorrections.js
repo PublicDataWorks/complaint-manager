@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
   ) {
     const referralLetter = await sequelize
       .model("referral_letter")
-      .findById(this.referralLetterId, { transaction });
+      .findByPk(this.referralLetterId, { transaction });
     return referralLetter.caseId;
   };
 

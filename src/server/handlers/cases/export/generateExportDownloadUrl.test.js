@@ -39,7 +39,7 @@ describe("generate export download url", () => {
       AUDIT_SUBJECT.ALL_CASES
     );
 
-    const actionAudit = await models.action_audit.find({
+    const actionAudit = await models.action_audit.findOne({
       where: {
         auditType: AUDIT_TYPE.EXPORT,
         action: AUDIT_ACTION.EXPORTED,
@@ -59,7 +59,7 @@ describe("generate export download url", () => {
       AUDIT_SUBJECT.AUDIT_LOG
     );
 
-    const actionAudit = await models.action_audit.find({
+    const actionAudit = await models.action_audit.findOne({
       where: {
         auditType: AUDIT_TYPE.EXPORT,
         action: AUDIT_ACTION.EXPORTED,

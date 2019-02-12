@@ -6,7 +6,7 @@ const auditDataAccess = require("../auditDataAccess");
 
 const removeCivilian = asyncMiddleware(async (request, response) => {
   const caseDetails = await models.sequelize.transaction(async t => {
-    const civilian = await models.civilian.findById(request.params.civilianId, {
+    const civilian = await models.civilian.findByPk(request.params.civilianId, {
       include: [
         {
           model: models.address

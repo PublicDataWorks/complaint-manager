@@ -239,8 +239,7 @@ describe("cases", function() {
         auditUser: "someone"
       });
       await newCase.destroy({ auditUser: "someone" });
-      const deletedCase = await models.cases.find({
-        where: { id: newCase.id },
+      const deletedCase = await models.cases.findByPk(newCase.id, {
         paranoid: false
       });
       expect(deletedCase.year).toEqual(2018);

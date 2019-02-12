@@ -14,7 +14,7 @@ export const getCaseWithoutAssociations = async (
   caseId,
   transaction = null
 ) => {
-  let caseData = await models.cases.findById(caseId, {
+  let caseData = await models.cases.findByPk(caseId, {
     paranoid: false,
     transaction
   });

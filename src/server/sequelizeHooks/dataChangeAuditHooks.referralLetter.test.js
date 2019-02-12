@@ -37,7 +37,7 @@ describe("dataChangeAuditHooks for referral letter", () => {
   });
 
   test("creates audit on referral letter creation", async () => {
-    const audit = await models.data_change_audit.find({
+    const audit = await models.data_change_audit.findOne({
       where: { modelName: "Referral Letter", action: AUDIT_ACTION.DATA_CREATED }
     });
 
@@ -54,7 +54,7 @@ describe("dataChangeAuditHooks for referral letter", () => {
       { includeRetaliationConcerns: false },
       { where: { id: referralLetter.id }, auditUser: "someone" }
     );
-    const audit = await models.data_change_audit.find({
+    const audit = await models.data_change_audit.findOne({
       where: { modelName: "Referral Letter", action: AUDIT_ACTION.DATA_UPDATED }
     });
 
@@ -69,7 +69,7 @@ describe("dataChangeAuditHooks for referral letter", () => {
       { auditUser: "someone" }
     );
 
-    const audit = await models.data_change_audit.find({
+    const audit = await models.data_change_audit.findOne({
       where: { modelName: "Referral Letter", action: AUDIT_ACTION.DATA_UPDATED }
     });
 

@@ -14,7 +14,7 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
 
   const caseWithAssociations = await models.sequelize.transaction(
     async transaction => {
-      const caseOfficer = await models.case_officer.findById(
+      const caseOfficer = await models.case_officer.findByPk(
         request.params.caseOfficerId,
         { transaction }
       );

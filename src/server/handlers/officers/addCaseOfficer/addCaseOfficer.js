@@ -12,7 +12,7 @@ const auditDataAccess = require("../../auditDataAccess");
 const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const { officerId, notes, roleOnCase } = request.body;
 
-  const retrievedCase = await models.cases.findById(request.params.caseId);
+  const retrievedCase = await models.cases.findByPk(request.params.caseId);
   const referralLetter = await models.referral_letter.findOne({
     where: { caseId: request.params.caseId }
   });

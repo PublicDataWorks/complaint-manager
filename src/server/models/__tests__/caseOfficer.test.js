@@ -148,18 +148,14 @@ describe("caseOfficer", () => {
 
       expect(officerAllegation.deletedAt).toEqual(null);
 
-      await models.sequelize.transaction(
-        async transaction =>
-          await models.case_officer.destroy({
-            where: { id: caseOfficer.id },
-            auditUser: "someone",
-            transaction
-          })
-      );
+      await models.case_officer.destroy({
+        where: { id: caseOfficer.id },
+        auditUser: "someone"
+      });
 
-      const retrievedOfficerAllegation = await models.officer_allegation.findById(
+      const retrievedOfficerAllegation = await models.officer_allegation.findByPk(
         officerAllegation.id,
-        { paranoid: false }
+        { transaction: null, paranoid: false }
       );
 
       expect(retrievedOfficerAllegation.deletedAt).not.toEqual(null);

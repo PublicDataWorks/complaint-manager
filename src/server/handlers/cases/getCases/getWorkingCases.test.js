@@ -38,7 +38,7 @@ describe("getWorkingCases", () => {
         .set("Authorization", `Bearer ${token}`)
         .expect(200);
 
-      const audit = await models.action_audit.find({
+      const audit = await models.action_audit.findOne({
         where: { subject: AUDIT_SUBJECT.ALL_CASES }
       });
 

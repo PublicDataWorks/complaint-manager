@@ -39,7 +39,7 @@ describe("createCivilian handler", () => {
 
     await createCivilian(request, response, jest.fn());
 
-    const audit = await models.action_audit.find({
+    const audit = await models.action_audit.findOne({
       where: {
         caseId: createdCase.id
       }
@@ -81,11 +81,11 @@ describe("createCivilian handler", () => {
 
     await createCivilian(request, response, jest.fn());
 
-    const createdCivilian = await models.civilian.find({
+    const createdCivilian = await models.civilian.findOne({
       where: { caseId: createdCase.id }
     });
 
-    const civilianAddress = await models.address.find({
+    const civilianAddress = await models.address.findOne({
       where: {
         addressableId: createdCivilian.id,
         addressableType: ADDRESSABLE_TYPE.CIVILIAN
@@ -120,7 +120,7 @@ describe("createCivilian handler", () => {
 
     await createCivilian(request, response, jest.fn());
 
-    const createdCivilian = await models.civilian.find({
+    const createdCivilian = await models.civilian.findOne({
       where: { caseId: createdCase.id }
     });
 

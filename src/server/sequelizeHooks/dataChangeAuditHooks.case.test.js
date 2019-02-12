@@ -247,7 +247,7 @@ describe("dataChangeAuditHooks", () => {
             { firstContactDate: "2018-01-01" },
             { auditUser: "test user" }
           );
-          const audit = await models.data_change_audit.find({
+          const audit = await models.data_change_audit.findOne({
             where: { modelName: "Case", action: AUDIT_ACTION.DATA_UPDATED }
           });
           expect(audit).toEqual(null);
@@ -269,7 +269,7 @@ describe("dataChangeAuditHooks", () => {
             { firstContactDate: "2018-01-01" },
             { auditUser: "test user" }
           );
-          const audit = await models.data_change_audit.find({
+          const audit = await models.data_change_audit.findOne({
             where: { modelName: "Case", action: AUDIT_ACTION.DATA_UPDATED }
           });
           expect(audit).toEqual(null);
@@ -587,7 +587,7 @@ describe("dataChangeAuditHooks", () => {
           );
         }
 
-        const refreshedCase = await models.cases.findById(existingCase.id);
+        const refreshedCase = await models.cases.findByPk(existingCase.id);
         expect(refreshedCase.narrativeDetails).toEqual(
           initialCaseAttributes.narrativeDetails
         );
@@ -611,7 +611,7 @@ describe("dataChangeAuditHooks", () => {
           );
         }
 
-        const refreshedCase = await models.cases.findById(existingCase.id);
+        const refreshedCase = await models.cases.findByPk(existingCase.id);
         expect(refreshedCase.narrativeDetails).toEqual(
           initialCaseAttributes.narrativeDetails
         );
@@ -631,7 +631,7 @@ describe("dataChangeAuditHooks", () => {
           );
         }
 
-        const refreshedCase = await models.cases.findById(existingCase.id);
+        const refreshedCase = await models.cases.findByPk(existingCase.id);
         expect(refreshedCase.narrativeDetails).toEqual(
           initialCaseAttributes.narrativeDetails
         );
@@ -675,7 +675,7 @@ describe("dataChangeAuditHooks", () => {
         await models.cases.count().then(numCases => {
           expect(numCases).toEqual(1);
         });
-        const refreshedCase = await models.cases.findById(existingCase.id);
+        const refreshedCase = await models.cases.findByPk(existingCase.id);
         expect(refreshedCase.narrativeDetails).toEqual(
           initialCaseAttributes.narrativeDetails
         );
@@ -729,7 +729,7 @@ describe("dataChangeAuditHooks", () => {
       await existingCase.destroy({ auditUser: "someone" });
       await existingCase.restore({ auditUser: "someone" });
 
-      const audit = await models.data_change_audit.find({
+      const audit = await models.data_change_audit.findOne({
         where: {
           modelName: "Case",
           action: AUDIT_ACTION.DATA_RESTORED
@@ -764,7 +764,7 @@ describe("dataChangeAuditHooks", () => {
 
     test("should audit destroy including changes including classification association value", async () => {
       await existingCase.destroy({ auditUser: "someone" });
-      const audit = await models.data_change_audit.find({
+      const audit = await models.data_change_audit.findOne({
         where: {
           modelName: "Case",
           action: AUDIT_ACTION.DATA_ARCHIVED

@@ -46,7 +46,7 @@ const updateExistingLetterOfficer = async (
   userNickname,
   transaction
 ) => {
-  const letterOfficer = await models.letter_officer.findById(
+  const letterOfficer = await models.letter_officer.findByPk(
     letterOfficerData.id
   );
   if (!letterOfficer) {
@@ -149,7 +149,7 @@ const updateExistingOfficerHistoryNote = async (
   userNickname,
   transaction
 ) => {
-  const note = await models.referral_letter_officer_history_note.findById(
+  const note = await models.referral_letter_officer_history_note.findByPk(
     noteData.id
   );
   if (!note) {
@@ -179,7 +179,7 @@ const createNewLetterOfficer = async (
   transaction
 ) => {
   letterOfficerData = removeEmptyNotesFromOfficerData(letterOfficerData);
-  const caseOfficer = await models.case_officer.findById(
+  const caseOfficer = await models.case_officer.findByPk(
     letterOfficerData.caseOfficerId
   );
   if (!caseOfficer) {
