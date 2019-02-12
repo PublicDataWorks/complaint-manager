@@ -19,7 +19,7 @@ describe("getArchivedCases", () => {
 
   test("should dispatch success when cases retrieved", async () => {
     nock("http://localhost")
-      .get("/api/cases/archived")
+      .get("/api/cases/archived-cases")
       .reply(200, responseBody);
 
     await getArchivedCases()(dispatch);
@@ -38,7 +38,7 @@ describe("getArchivedCases", () => {
         Authorization: `Bearer false`
       }
     })
-      .get("/api/cases/archived")
+      .get("/api/cases/archived-cases")
       .reply(200, responseBody);
 
     await getArchivedCases()(dispatch);

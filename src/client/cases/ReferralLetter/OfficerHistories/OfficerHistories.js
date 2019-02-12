@@ -131,7 +131,7 @@ class OfficerHistories extends Component {
               onChange={this.handleTabChange}
               indicatorColor="primary"
               textColor="primary"
-              scrollable
+              variant="scrollable"
               scrollButtons="auto"
             >
               {this.renderTabHeaders()}
