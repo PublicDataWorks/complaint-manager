@@ -17,14 +17,14 @@ exports[`getLetterPreview in letter in progress status snapshotTests it renders 
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
-    <p>Name: Chuck E. Berry XVI</p>
-    <p>Race: Filipino</p>
-    <p>Sex: Female</p>
-    <p>Date of Birth: 04/24/1994</p>
-    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
-    <p>Phone: (123) 456-7890</p>
-    <p>Email: cberry@cberry.com</p>
-    <p><br></p>
+      <p>Name: Chuck E. Berry XVI</p>
+      <p>Race: Filipino</p>
+      <p>Sex: Female</p>
+      <p>Date of Birth: 04/24/1994</p>
+      <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
+      <p>Phone: (123) 456-7890</p>
+      <p>Email: cberry@cberry.com</p>
+  <p><br></p>
 
   <p><strong><u>Subject NOPD Employee(s) Information</u></strong></p>
     <p>Name: Grant M Young</p>
@@ -130,14 +130,14 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
-    <p>Name: Chuck E. Berry XVI</p>
-    <p>Race: Filipino</p>
-    <p>Sex: Female</p>
-    <p>Date of Birth: 04/24/1994</p>
-    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
-    <p>Phone: (123) 456-7890</p>
-    <p>Email: cberry@cberry.com</p>
-    <p><br></p>
+      <p>Name: Chuck E. Berry XVI</p>
+      <p>Race: Filipino</p>
+      <p>Sex: Female</p>
+      <p>Date of Birth: 04/24/1994</p>
+      <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
+      <p>Phone: (123) 456-7890</p>
+      <p>Email: cberry@cberry.com</p>
+  <p><br></p>
 
   <p><strong><u>Subject NOPD Employee(s) Information</u></strong></p>
     <p>Name: Grant M Young</p>
@@ -155,9 +155,10 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
     <p><br></p>
 
     <p><strong><u>Witnesses</u></strong></p>
-    <p>Name: Chuck E. Berry XVI</p>
-    <p>Phone: (123) 456-7890</p>
-    <p>Email: cberry@cberry.com</p>
+      <p>Name: Chuck E. Berry XVI</p>
+      <p>Phone: (123) 456-7890</p>
+      <p>Email: cberry@cberry.com</p>
+      <p><br></p>
     <p><br></p>
 
   <p><strong><u>Incident</u></strong></p>
@@ -241,14 +242,18 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
-    <p>Name: Chuck E. Berry XVI</p>
-    <p>Race: Filipino</p>
-    <p>Sex: Female</p>
-    <p>Date of Birth: 04/24/1994</p>
-    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
-    <p>Phone: (123) 456-7890</p>
-    <p>Email: cberry@cberry.com</p>
-    <p><br></p>
+    Complainant #1
+    <br>
+      <p>Name: Chuck E. Berry XVI</p>
+      <p>Race: Filipino</p>
+      <p>Sex: Female</p>
+      <p>Date of Birth: 04/24/1994</p>
+      <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
+      <p>Phone: (123) 456-7890</p>
+      <p>Email: cberry@cberry.com</p>
+  <p><br></p>
+      Complainant #2
+      <br>
     <p>Name: Grant M Young</p>
     <p>Rank: ADMIN SUPPORT SPECIALIST II</p>
     <p>Employee ID: #12</p>
@@ -279,9 +284,10 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
     <p><br></p>
 
     <p><strong><u>Witnesses</u></strong></p>
-    <p>Name: Chuck E. Berry XVI</p>
-    <p>Phone: (123) 456-7890</p>
-    <p>Email: cberry@cberry.com</p>
+      <p>Name: Chuck E. Berry XVI</p>
+      <p>Phone: (123) 456-7890</p>
+      <p>Email: cberry@cberry.com</p>
+      <p><br></p>
     <p><br></p>
 
   <p><strong><u>Incident</u></strong></p>
@@ -386,14 +392,18 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
-    <p>Name: Chuck E. Berry XVI</p>
-    <p>Race: Filipino</p>
-    <p>Sex: Female</p>
-    <p>Date of Birth: 04/24/1994</p>
-    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
-    <p>Phone: (123) 456-7890</p>
-    <p>Email: cberry@cberry.com</p>
-    <p><br></p>
+    Complainant #1
+    <br>
+      <p>Name: Chuck E. Berry XVI</p>
+      <p>Race: Filipino</p>
+      <p>Sex: Female</p>
+      <p>Date of Birth: 04/24/1994</p>
+      <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
+      <p>Phone: (123) 456-7890</p>
+      <p>Email: cberry@cberry.com</p>
+  <p><br></p>
+      Complainant #2
+      <br>
     <p>Name: Grant M Young</p>
     <p>Rank: ADMIN SUPPORT SPECIALIST II</p>
     <p>Employee ID: #12</p>
@@ -505,14 +515,14 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
-    <p>Name: Chuck E. Berry XVI</p>
-    <p>Race: Filipino</p>
-    <p>Sex: Female</p>
-    <p>Date of Birth: 04/24/1994</p>
-    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
-    <p>Phone: (123) 456-7890</p>
-    <p>Email: cberry@cberry.com</p>
-    <p><br></p>
+      <p>Name: Chuck E. Berry XVI</p>
+      <p>Race: Filipino</p>
+      <p>Sex: Female</p>
+      <p>Date of Birth: 04/24/1994</p>
+      <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
+      <p>Phone: (123) 456-7890</p>
+      <p>Email: cberry@cberry.com</p>
+  <p><br></p>
 
   <p><strong><u>Subject NOPD Employee(s) Information</u></strong></p>
     <p>Name: Grant M Young</p>
@@ -615,14 +625,14 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
-    <p>Name: Chuck E. Berry XVI</p>
-    <p>Race: Filipino</p>
-    <p>Sex: Female</p>
-    <p>Date of Birth: 04/24/1994</p>
-    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
-    <p>Phone: (123) 456-7890</p>
-    <p>Email: cberry@cberry.com</p>
-    <p><br></p>
+      <p>Name: Chuck E. Berry XVI</p>
+      <p>Race: Filipino</p>
+      <p>Sex: Female</p>
+      <p>Date of Birth: 04/24/1994</p>
+      <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
+      <p>Phone: (123) 456-7890</p>
+      <p>Email: cberry@cberry.com</p>
+  <p><br></p>
 
   <p><strong><u>Subject NOPD Employee(s) Information</u></strong></p>
     <p>Name: Grant M Young</p>
@@ -721,14 +731,14 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
-    <p>Name: Chuck E. Berry XVI</p>
-    <p>Race: Filipino</p>
-    <p>Sex: Female</p>
-    <p>Date of Birth: 04/24/1994</p>
-    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
-    <p>Phone: (123) 456-7890</p>
-    <p>Email: cberry@cberry.com</p>
-    <p><br></p>
+      <p>Name: Chuck E. Berry XVI</p>
+      <p>Race: Filipino</p>
+      <p>Sex: Female</p>
+      <p>Date of Birth: 04/24/1994</p>
+      <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
+      <p>Phone: (123) 456-7890</p>
+      <p>Email: cberry@cberry.com</p>
+  <p><br></p>
 
   <p><strong><u>Subject NOPD Employee(s) Information</u></strong></p>
     <p>Name: Grant M Young</p>
@@ -827,14 +837,14 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
 
   <p><strong><u>Complainant Information</u></strong></p>
-    <p>Name: Chuck E. Berry XVI</p>
-    <p>Race: Filipino</p>
-    <p>Sex: Female</p>
-    <p>Date of Birth: 04/24/1994</p>
-    <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
-    <p>Phone: (123) 456-7890</p>
-    <p>Email: cberry@cberry.com</p>
-    <p><br></p>
+      <p>Name: Chuck E. Berry XVI</p>
+      <p>Race: Filipino</p>
+      <p>Sex: Female</p>
+      <p>Date of Birth: 04/24/1994</p>
+      <p>Address: 123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
+      <p>Phone: (123) 456-7890</p>
+      <p>Email: cberry@cberry.com</p>
+  <p><br></p>
 
   <p><strong><u>Subject NOPD Employee(s) Information</u></strong></p>
     <p>Name: Grant M Young</p>

@@ -19,7 +19,7 @@ import {
 import editRecommendedActions from "../thunks/editRecommendedActions";
 import getRecommendedActions from "../thunks/getRecommendedActions";
 import BoldCheckBoxFormControlLabel from "../../../shared/components/BoldCheckBoxFormControlLabel";
-import PurpleCheckBox from "../../../shared/components/PurpleCheckBox";
+import PrimaryCheckBox from "../../../shared/components/PrimaryCheckBox";
 import {
   RECOMMENDED_ACTIONS_TEXT,
   RETALIATION_CONCERNS_LABEL,
@@ -143,7 +143,7 @@ class RecommendedActions extends Component {
                     name={`${letterOfficerField}.action-${
                       recommendedAction.id
                     }`}
-                    component={PurpleCheckBox}
+                    component={PrimaryCheckBox}
                     data-test={`${letterOfficerField}-${recommendedAction.id}`}
                   />
                 }

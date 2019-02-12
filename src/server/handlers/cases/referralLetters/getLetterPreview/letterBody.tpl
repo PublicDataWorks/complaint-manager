@@ -15,16 +15,29 @@
 
   <p><strong><u>Complainant Information</u></strong></p>
   {{#each complainantCivilians}}
-    {{#if (isPresent fullName)}}<p>Name: {{fullName}}</p>{{/if}}
-    {{#if (isPresent raceEthnicity)}}<p>Race: {{raceEthnicity.name}}</p>{{/if}}
-    {{#if (isPresent genderIdentity)}}<p>Sex: {{genderIdentity}}</p>{{/if}}
-    {{#if (isPresent birthDate)}}<p>Date of Birth: {{{formatShortDate birthDate}}}</p>{{/if}}
-    {{#if (isPresent (formatAddress address))}}<p>Address: {{{formatAddress address}}}</p>{{/if}}
-    {{#if (isPresent phoneNumber)}}<p>Phone: {{{formatPhoneNumber phoneNumber}}}</p>{{/if}}
-    {{#if (isPresent email)}}<p>Email: {{email}}</p>{{/if}}
-    <p><br></p>
+    {{#if (isGreaterThan (addNumbers ../complainantCivilians.length ../complainantOfficers.length) 1)}}
+    Complainant #{{addNumbers @index 1}}
+    <br>
+    {{/if}}
+    {{#if isAnonymous}}
+      Anonymous Complainant
+      <br>
+    {{else}}
+      {{#if (isPresent fullName)}}<p>Name: {{fullName}}</p>{{/if}}
+      {{#if (isPresent raceEthnicity)}}<p>Race: {{raceEthnicity.name}}</p>{{/if}}
+      {{#if (isPresent genderIdentity)}}<p>Sex: {{genderIdentity}}</p>{{/if}}
+      {{#if (isPresent birthDate)}}<p>Date of Birth: {{{formatShortDate birthDate}}}</p>{{/if}}
+      {{#if (isPresent (formatAddress address))}}<p>Address: {{{formatAddress address}}}</p>{{/if}}
+      {{#if (isPresent phoneNumber)}}<p>Phone: {{{formatPhoneNumber phoneNumber}}}</p>{{/if}}
+      {{#if (isPresent email)}}<p>Email: {{email}}</p>{{/if}}
+    {{/if}}
+  <p><br></p>
   {{/each}}
   {{#each complainantOfficers}}
+    {{#if (isGreaterThan (addNumbers ../complainantCivilians.length ../complainantOfficers.length) 1)}}
+      Complainant #{{addNumbers (addNumbers @index 1) ../complainantCivilians.length}}
+      <br>
+    {{/if}}
     {{#if (isPresent fullName)}}<p>Name: {{fullName}}</p>{{/if}}
     {{#if (isPresent rank)}}<p>Rank: {{rank}}</p>{{/if}}
     {{#if (isPresent windowsUsername)}}<p>Employee ID: #{{windowsUsername}}</p>{{/if}}
@@ -61,9 +74,19 @@
     <p><strong><u>Witnesses</u></strong></p>
   {{/if}}
   {{#each witnessCivilians}}
-    {{#if (isPresent fullName)}}<p>Name: {{fullName}}</p>{{/if}}
-    {{#if (isPresent phoneNumber)}}<p>Phone: {{{formatPhoneNumber phoneNumber}}}</p>{{/if}}
-    {{#if (isPresent email)}}<p>Email: {{email}}</p>{{/if}}
+    {{#if (isGreaterThan (addNumbers ../witnessCivilians.length ../witnessOfficers.length) 1)}}
+    Witness #{{addNumbers @index 1}}
+    <br>
+    {{/if}}
+    {{#if isAnonymous}}
+      Anonymous Witness
+      <br>
+    {{else}}
+      {{#if (isPresent fullName)}}<p>Name: {{fullName}}</p>{{/if}}
+      {{#if (isPresent phoneNumber)}}<p>Phone: {{{formatPhoneNumber phoneNumber}}}</p>{{/if}}
+      {{#if (isPresent email)}}<p>Email: {{email}}</p>{{/if}}
+      <p><br></p>
+    {{/if}}
     <p><br></p>
   {{/each}}
   {{#each witnessOfficers}}

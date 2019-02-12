@@ -2,7 +2,7 @@ import { withStyles } from "@material-ui/core/styles";
 import React from "react";
 import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
 import { Field } from "redux-form";
-import PurpleCheckBox from "./PurpleCheckBox";
+import PrimaryCheckBox from "./PrimaryCheckBox";
 
 const styles = {
   label: { fontWeight: "bold" }
@@ -17,7 +17,7 @@ const BoldCheckBoxFormControlLabel = ({
   <FormControlLabel
     classes={classes}
     control={
-      <Field name={name} component={PurpleCheckBox} data-test={dataTest} />
+      <Field name={name} component={PrimaryCheckBox} data-test={dataTest} />
     }
     label={labelText}
   />

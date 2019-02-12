@@ -61,6 +61,11 @@ module.exports = (sequelize, DataTypes) => {
         field: "title",
         type: DataTypes.ENUM(["N/A", "Dr.", "Miss", "Mr.", "Mrs.", "Ms."])
       },
+      isAnonymous: {
+        field: "is_anonymous",
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
       createdAt: {
         field: "created_at",
         type: DataTypes.DATE

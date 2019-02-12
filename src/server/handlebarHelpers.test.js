@@ -10,7 +10,9 @@ import {
   showOfficerHistoryHeader,
   showRecommendedActions,
   sumAllegations,
-  calculateIndex
+  calculateIndex,
+  addNumbers,
+  isGreaterThan
 } from "./handlebarHelpers";
 import { SIGNATURE_URLS } from "../sharedUtilities/constants";
 
@@ -470,5 +472,17 @@ describe("generate subject line", function() {
     expect(generateSubjectLine(caseReference, null)).toEqual(
       subjectLineWithoutPibCaseNumber
     );
+  });
+});
+
+describe("index functions", function() {
+  test("returns index + 1", () => {
+    expect(addNumbers(1, 1)).toEqual(2);
+  });
+  test("returns true when index is greater than 1", () => {
+    expect(isGreaterThan(2, 1)).toBeTruthy();
+  });
+  test("returns false when index is 1", () => {
+    expect(isGreaterThan(1, 1)).toBeFalsy();
   });
 });
