@@ -37,4 +37,24 @@ describe("loadCsv", () => {
       "1.1 Law Enforcement Authority 1-10 Policy Statement"
     );
   });
+
+  test("properly loads allegation data", async () => {
+    await loadCsv("allegationSeedData.csv", models.allegation);
+    const allegations = await models.allegation.findAll({
+      where: {
+        paragraph: "PARAGRAPH 04(a) - Neglect of Duty - General",
+        directive:
+          '1.22 "ARREST OF A CITY OF NEW ORLEANS EMPLOYEE" None Purpose  '
+      }
+    });
+
+    expect(allegations.length).toEqual(1);
+    expect(allegations[0].rule).toEqual("Rule 4: Performance of Duty");
+    expect(allegations[0].paragraph).toEqual(
+      "PARAGRAPH 04(a) - Neglect of Duty - General"
+    );
+    expect(allegations[0].directive).toEqual(
+      '1.22 "ARREST OF A CITY OF NEW ORLEANS EMPLOYEE" None Purpose  '
+    );
+  });
 });
