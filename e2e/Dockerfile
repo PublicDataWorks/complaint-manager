@@ -1,7 +1,5 @@
 FROM ubuntu:16.04
 
-LABEL version="1.2.0"
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     apt-transport-https \
