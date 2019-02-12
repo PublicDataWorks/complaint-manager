@@ -143,7 +143,7 @@ jobs:
 
     e2e-testing-ci:
             docker:
-              - image: noipm/e2e:1.2.0
+              - image: noipm/e2e:latest
             steps:
               - checkout
               - run:
@@ -209,7 +209,7 @@ jobs:
 
     e2e-testing-staging:
             docker:
-              - image: noipm/e2e:1.2.0
+              - image: noipm/e2e:latest
             steps:
               - checkout
               - run:
