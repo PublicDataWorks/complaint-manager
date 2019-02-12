@@ -1,5 +1,5 @@
 import getCase from "./handlers/cases/getCase/getCase";
-import getCases from "./handlers/cases/getCases/getWorkingCases";
+import getWorkingCases from "./handlers/cases/getCases/getWorkingCases";
 import createCase from "./handlers/cases/createCase";
 import editCase from "./handlers/cases/editCase";
 import archiveCase from "./handlers/cases/archiveCase/archiveCase";
@@ -70,7 +70,7 @@ export const API_ROUTES = {
   },
   "/cases": {
     get: {
-      handler: getCases,
+      handler: getWorkingCases,
       errorMessage:
         "Something went wrong and the cases were not loaded. Please try again."
     },
@@ -80,7 +80,7 @@ export const API_ROUTES = {
         "Something went wrong and the case was not created. Please try again."
     }
   },
-  "/cases/archived": {
+  "/cases/archived-cases": {
     get: {
       handler: getArchivedCases,
       errorMessage:
