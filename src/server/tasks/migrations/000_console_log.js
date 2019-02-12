@@ -1,8 +1,10 @@
+"use strict";
+
 module.exports = {
-  up: () => {
-    console.log("DONT RUN THE SECOND TIME");
+  up: async () => {
+    return console.log("DONT RUN THE SECOND TIME");
   },
-  down: () => {
-    console.log("GOING BACK");
+  down: async () => {
+    return console.log("GOING BACK");
   }
 };
