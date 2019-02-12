@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import "rc-pagination/assets/index.css";
-import "./pagination.css";
+import "../globalStyling/pagination.css";
 import AllegationSearchTableHeader from "./AllegationSearchTableHeader";
 import AllegationSearchResultsRow from "./AllegationSearchResultsRow";
 import SearchResults from "../shared/components/SearchResults";
