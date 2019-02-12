@@ -1,12 +1,12 @@
 .rc-pagination-item-active {
-    background-color: #673ab7;
-    border-color: #673ab7;
+    background-color: #0d47a1;
+    border-color: #0d47a1;
 }
 .rc-pagination-item:hover {
-    border-color: #673ab7;
+    border-color: #0d47a1;
 }
 .rc-pagination-item:hover a {
-    color: #673ab7;
+    color: #0d47a1;
 }
 .rc-pagination-item-active:hover a {
     color: #fff;
