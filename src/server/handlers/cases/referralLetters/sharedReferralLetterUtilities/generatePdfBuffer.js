@@ -82,7 +82,10 @@ const getComplainantLetterPdfData = (existingCase, complainant) => {
   let revisedTitle;
   if (complainant.title && complainant.title !== "N/A") {
     revisedTitle = complainant.title;
-  } else if (complainant.title && complainant.title === "N/A") {
+  } else if (
+    !complainant.title ||
+    (complainant.title && complainant.title === "N/A")
+  ) {
     revisedTitle = "";
   } else {
     revisedTitle = OFFICER_COMPLAINANT_TITLE;
