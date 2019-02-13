@@ -10,10 +10,7 @@ export const handleCaseIdParam = async function(
   caseId
 ) {
   try {
-    if (!Number(caseId)) {
-      return next(Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST));
-    }
-
+    throwBadRequestErrorIfCaseIdInvalid(caseId, next);
     const existingCase = await getCaseWithoutAssociations(caseId);
     request.caseId = caseId;
     request.isArchived = existingCase.isArchived;
@@ -26,6 +23,13 @@ export const handleCaseIdParam = async function(
     next();
   } catch (error) {
     next(error);
+  }
+};
+
+const throwBadRequestErrorIfCaseIdInvalid = (caseId, next) => {
+  const regex = /^[^0][0-9]*/g;
+  if (!Number(caseId) || !regex.test(caseId)) {
+    return next(Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST));
   }
 };
 
