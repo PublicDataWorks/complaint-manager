@@ -150,7 +150,7 @@ class CivilianDialog extends Component {
                 }}
               />
             </div>
-            <div style={{ display: "flex" }}>
+            <div>
               <DateField
                 name="birthDate"
                 label="Date of Birth"
@@ -207,21 +207,25 @@ class CivilianDialog extends Component {
             >
               Contact Information
             </Typography>
-            <div style={{ display: "flex" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%"
+              }}
+            >
               <PhoneNumberField name="phoneNumber" />
               <Typography
                 variant="button"
                 style={{
-                  marginLeft: "22px",
-                  marginTop: "22px",
-                  marginRight: "22px"
+                  marginTop: "22px"
                 }}
               >
                 OR
               </Typography>
               <EmailField name="email" autoComplete="disabled" />
             </div>
-            <div style={{ marginBottom: "16px" }}>
+            <div style={{ marginBottom: "16px", width: "100%" }}>
               <AddressInput
                 formName={CIVILIAN_FORM_NAME}
                 fieldName={"address"}
@@ -233,7 +237,6 @@ class CivilianDialog extends Component {
               label={"Address Line 2"}
               fieldName={"address"}
               style={{
-                marginRight: "5%",
                 marginBottom: "24px",
                 width: "50%"
               }}

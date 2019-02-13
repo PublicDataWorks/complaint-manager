@@ -11,7 +11,7 @@ const EmailField = props => (
     inputProps={{ "data-test": "emailInput" }}
     data-test="emailField"
     validate={[isEmail]}
-    style={{ marginRight: "5%", marginBottom: "3%" }}
+    style={{ width: "50%" }}
     props={{ autoComplete: props.autoComplete }}
   />
 );
