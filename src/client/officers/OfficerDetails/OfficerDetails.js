@@ -125,7 +125,7 @@ class OfficerDetails extends React.Component {
                 {!this.shouldShowAnonymousCheckbox() ? null : (
                   <FormControlLabel
                     key="isAnonymous"
-                    label="Anonymize officer complainant in referral letter"
+                    label="Anonymize officer in referral letter"
                     control={
                       <Field name="isAnonymous" component={PrimaryCheckBox} />
                     }
