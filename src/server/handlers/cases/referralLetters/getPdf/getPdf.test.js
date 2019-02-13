@@ -12,9 +12,9 @@ import getPdf from "./getPdf";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
-jest.mock("../sharedReferralLetterUtilities/generatePdfBuffer", () => ({
-  generateReferralLetterPdfBuffer: caseId => `pdf for case ${caseId}`
-}));
+jest.mock("../generateReferralLetterPdfBuffer", () => caseId => {
+  return `pdf for case ${caseId}`;
+});
 
 describe("Generate referral letter pdf", () => {
   let existingCase, request, response, next;

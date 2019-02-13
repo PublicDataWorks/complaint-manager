@@ -1,6 +1,6 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
-import { generateReferralLetterPdfBuffer } from "../sharedReferralLetterUtilities/generatePdfBuffer";
+import generateReferralLetterPdfBuffer from "../generateReferralLetterPdfBuffer";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import auditDataAccess from "../../../auditDataAccess";
 import {
