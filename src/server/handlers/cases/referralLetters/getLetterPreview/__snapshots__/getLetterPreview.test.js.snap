@@ -254,18 +254,18 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
       Complainant #2
       <br>
-    <p>Name: Grant M Young</p>
-    <p>Rank: ADMIN SUPPORT SPECIALIST II</p>
-    <p>Employee ID: #12</p>
-    <p>Race: Black</p>
-    <p>Sex: M</p>
-    <p>Date of Birth: 02/23/1986</p>
-    <p>Supervisor (Employee ID): Belly G Walsh (#14)</p>
-    <p>Employee Type: Commissioned</p>
-    <p>District: First District</p>
-    <p>Bureau: MSB - Management Service Bureau</p>
-    <p>Status: Retired</p>
-    <p>End of Employment: 05/31/2018</p>
+      <p>Name: Grant M Young</p>
+      <p>Rank: ADMIN SUPPORT SPECIALIST II</p>
+      <p>Employee ID: #12</p>
+      <p>Race: Black</p>
+      <p>Sex: M</p>
+      <p>Date of Birth: 02/23/1986</p>
+      <p>Supervisor (Employee ID): Belly G Walsh (#14)</p>
+      <p>Employee Type: Commissioned</p>
+      <p>District: First District</p>
+      <p>Bureau: MSB - Management Service Bureau</p>
+      <p>Status: Retired</p>
+      <p>End of Employment: 05/31/2018</p>
     <p><br></p>
 
   <p><strong><u>Subject NOPD Employee(s) Information</u></strong></p>
@@ -404,18 +404,18 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
   <p><br></p>
       Complainant #2
       <br>
-    <p>Name: Grant M Young</p>
-    <p>Rank: ADMIN SUPPORT SPECIALIST II</p>
-    <p>Employee ID: #12</p>
-    <p>Race: Black</p>
-    <p>Sex: M</p>
-    <p>Date of Birth: 02/23/1986</p>
-    <p>Supervisor (Employee ID): Belly G Walsh (#14)</p>
-    <p>Employee Type: Commissioned</p>
-    <p>District: First District</p>
-    <p>Bureau: MSB - Management Service Bureau</p>
-    <p>Status: Retired</p>
-    <p>End of Employment: 05/31/2018</p>
+      <p>Name: Grant M Young</p>
+      <p>Rank: ADMIN SUPPORT SPECIALIST II</p>
+      <p>Employee ID: #12</p>
+      <p>Race: Black</p>
+      <p>Sex: M</p>
+      <p>Date of Birth: 02/23/1986</p>
+      <p>Supervisor (Employee ID): Belly G Walsh (#14)</p>
+      <p>Employee Type: Commissioned</p>
+      <p>District: First District</p>
+      <p>Bureau: MSB - Management Service Bureau</p>
+      <p>Status: Retired</p>
+      <p>End of Employment: 05/31/2018</p>
     <p><br></p>
 
   <p><strong><u>Subject NOPD Employee(s) Information</u></strong></p>

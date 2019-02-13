@@ -25,7 +25,8 @@ const OfficerActions = ({ caseOfficer, dispatch }) => (
           initialize("OfficerDetails", {
             notes: caseOfficer.notes,
             roleOnCase: caseOfficer.roleOnCase,
-            officerId: caseOfficer.officerId
+            officerId: caseOfficer.officerId,
+            isAnonymous: caseOfficer.isAnonymous
           })
         );
         dispatch(

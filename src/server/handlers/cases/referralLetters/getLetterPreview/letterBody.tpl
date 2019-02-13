@@ -38,18 +38,23 @@
       Complainant #{{addNumbers (addNumbers @index 1) ../complainantCivilians.length}}
       <br>
     {{/if}}
-    {{#if (isPresent fullName)}}<p>Name: {{fullName}}</p>{{/if}}
-    {{#if (isPresent rank)}}<p>Rank: {{rank}}</p>{{/if}}
-    {{#if (isPresent windowsUsername)}}<p>Employee ID: #{{windowsUsername}}</p>{{/if}}
-    {{#if (isPresent race)}}<p>Race: {{race}}</p>{{/if}}
-    {{#if (isPresent sex)}}<p>Sex: {{sex}}</p>{{/if}}
-    {{#if (isPresent dob)}}<p>Date of Birth: {{{formatShortDate dob}}}</p>{{/if}}
-    {{#if (isPresent supervisorFullName)}}<p>Supervisor (Employee ID): {{supervisorFullName}} (#{{supervisorWindowsUsername}})</p>{{/if}}
-    {{#if (isPresent employeeType)}}<p>Employee Type: {{employeeType}}</p>{{/if}}
-    {{#if (isPresent district)}}<p>District: {{district}}</p>{{/if}}
-    {{#if (isPresent bureau)}}<p>Bureau: {{bureau}}</p>{{/if}}
-    {{#if (isPresent workStatus)}}<p>Status: {{workStatus}}</p>{{/if}}
-    {{#if (isPresent endDate)}}<p>End of Employment: {{{formatShortDate endDate}}}</p>{{/if}}
+    {{#if isAnonymous}}
+      Anonymous Complainant
+      <br>
+    {{else}}
+      {{#if (isPresent fullName)}}<p>Name: {{fullName}}</p>{{/if}}
+      {{#if (isPresent rank)}}<p>Rank: {{rank}}</p>{{/if}}
+      {{#if (isPresent windowsUsername)}}<p>Employee ID: #{{windowsUsername}}</p>{{/if}}
+      {{#if (isPresent race)}}<p>Race: {{race}}</p>{{/if}}
+      {{#if (isPresent sex)}}<p>Sex: {{sex}}</p>{{/if}}
+      {{#if (isPresent dob)}}<p>Date of Birth: {{{formatShortDate dob}}}</p>{{/if}}
+      {{#if (isPresent supervisorFullName)}}<p>Supervisor (Employee ID): {{supervisorFullName}} (#{{supervisorWindowsUsername}})</p>{{/if}}
+      {{#if (isPresent employeeType)}}<p>Employee Type: {{employeeType}}</p>{{/if}}
+      {{#if (isPresent district)}}<p>District: {{district}}</p>{{/if}}
+      {{#if (isPresent bureau)}}<p>Bureau: {{bureau}}</p>{{/if}}
+      {{#if (isPresent workStatus)}}<p>Status: {{workStatus}}</p>{{/if}}
+      {{#if (isPresent endDate)}}<p>End of Employment: {{{formatShortDate endDate}}}</p>{{/if}}
+    {{/if}}
     <p><br></p>
   {{/each}}
 
@@ -75,8 +80,8 @@
   {{/if}}
   {{#each witnessCivilians}}
     {{#if (isGreaterThan (addNumbers ../witnessCivilians.length ../witnessOfficers.length) 1)}}
-    Witness #{{addNumbers @index 1}}
-    <br>
+      Witness #{{addNumbers @index 1}}
+      <br>
     {{/if}}
     {{#if isAnonymous}}
       Anonymous Witness
@@ -90,18 +95,27 @@
     <p><br></p>
   {{/each}}
   {{#each witnessOfficers}}
-    {{#if (isPresent fullName)}}<p>Name: {{fullName}}</p>{{/if}}
-    {{#if (isPresent rank)}}<p>Rank: {{rank}}</p>{{/if}}
-    {{#if (isPresent windowsUsername)}}<p>Employee ID: #{{windowsUsername}}</p>{{/if}}
-    {{#if (isPresent race)}}<p>Race: {{race}}</p>{{/if}}
-    {{#if (isPresent sex)}}<p>Sex: {{sex}}</p>{{/if}}
-    {{#if (isPresent dob)}}<p>Date of Birth: {{{formatShortDate dob}}}</p>{{/if}}
-    {{#if (isPresent supervisorFullName)}}<p>Supervisor (Employee ID): {{supervisorFullName}} (#{{supervisorWindowsUsername}})</p>{{/if}}
-    {{#if (isPresent employeeType)}}<p>Employee Type: {{employeeType}}</p>{{/if}}
-    {{#if (isPresent district)}}<p>District: {{district}}</p>{{/if}}
-    {{#if (isPresent bureau)}}<p>Bureau: {{bureau}}</p>{{/if}}
-    {{#if (isPresent workStatus)}}<p>Status: {{workStatus}}</p>{{/if}}
-    {{#if (isPresent endDate)}}<p>End of Employment: {{{formatShortDate endDate}}}</p>{{/if}}
+    {{#if (isGreaterThan (addNumbers ../witnessCivilians.length ../witnessOfficers.length) 1)}}
+      Witness Officer #{{addNumbers (addNumbers @index 1) ../witnessCivilians.length}}
+      <br>
+    {{/if}}
+    {{#if isAnonymous}}
+      Anonymous Witness
+      <br>
+    {{else}}
+      {{#if (isPresent fullName)}}<p>Name: {{fullName}}</p>{{/if}}
+      {{#if (isPresent rank)}}<p>Rank: {{rank}}</p>{{/if}}
+      {{#if (isPresent windowsUsername)}}<p>Employee ID: #{{windowsUsername}}</p>{{/if}}
+      {{#if (isPresent race)}}<p>Race: {{race}}</p>{{/if}}
+      {{#if (isPresent sex)}}<p>Sex: {{sex}}</p>{{/if}}
+      {{#if (isPresent dob)}}<p>Date of Birth: {{{formatShortDate dob}}}</p>{{/if}}
+      {{#if (isPresent supervisorFullName)}}<p>Supervisor (Employee ID): {{supervisorFullName}} (#{{supervisorWindowsUsername}})</p>{{/if}}
+      {{#if (isPresent employeeType)}}<p>Employee Type: {{employeeType}}</p>{{/if}}
+      {{#if (isPresent district)}}<p>District: {{district}}</p>{{/if}}
+      {{#if (isPresent bureau)}}<p>Bureau: {{bureau}}</p>{{/if}}
+      {{#if (isPresent workStatus)}}<p>Status: {{workStatus}}</p>{{/if}}
+      {{#if (isPresent endDate)}}<p>End of Employment: {{{formatShortDate endDate}}}</p>{{/if}}
+    {{/if}}
     <p><br></p>
   {{/each}}
 
