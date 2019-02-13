@@ -124,7 +124,7 @@ describe("GET /api/export-audit-log", () => {
 
     const createdCase = await createTestCaseWithoutCivilian("nickname");
 
-    await models.data_change_audit.find({
+    await models.data_change_audit.findOne({
       where: { caseId: createdCase.id }
     });
 
