@@ -50,7 +50,12 @@
         <p><br/></p>
         <p>Re: OIPM Complaint# {{caseReference}}</p>
         <p><br/></p>
-        <p>Dear {{title}} {{recipient.lastName}}:</p>
+        <p>Dear 
+            {{#if (isPresent title)}} {{title}} {{recipient.lastName}}:
+            {{else}}
+                {{recipient.firstName}} {{recipient.lastName}}:
+            {{/if}}
+        </p>
         <p><br/></p>
         <p>
             On {{{formatLongDate firstContactDate}}}, you contacted the Office of the Independent Police Monitor

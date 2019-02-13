@@ -49,7 +49,9 @@ exports[`generatePdfBuffer generateComplainantLetterPdfBuffer generates complain
         <p><br/></p>
         <p>Re: OIPM Complaint# CC2017-0001</p>
         <p><br/></p>
-        <p>Dear Miss Berry:</p>
+        <p>Dear 
+             Miss Berry:
+        </p>
         <p><br/></p>
         <p>
             On December 25, 2017, you contacted the Office of the Independent Police Monitor
@@ -144,7 +146,9 @@ exports[`generatePdfBuffer generateComplainantLetterPdfBuffer pdf buffer is crea
         <p><br/></p>
         <p>Re: OIPM Complaint# CC2017-0001</p>
         <p><br/></p>
-        <p>Dear Miss Berry:</p>
+        <p>Dear 
+             Miss Berry:
+        </p>
         <p><br/></p>
         <p>
             On December 25, 2017, you contacted the Office of the Independent Police Monitor
