@@ -1,4 +1,4 @@
-import getLetterDataForResponse from "../getLetterDataForResponse";
+import getReferralLetterDataForResponse from "./getReferralLetterDataForResponse";
 import asyncMiddleware from "../../../asyncMiddleware";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import {
@@ -19,7 +19,7 @@ const getReferralLetterData = asyncMiddleware(async (request, response) => {
       transaction,
       AUDIT_ACTION.DATA_ACCESSED
     );
-    const transformedLetterData = await getLetterDataForResponse(
+    const transformedLetterData = await getReferralLetterDataForResponse(
       caseId,
       transaction
     );

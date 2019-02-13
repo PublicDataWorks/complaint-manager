@@ -1,4 +1,4 @@
-import getLetterPreview from "./getLetterPreview";
+import getReferralLetterPreview from "./getReferralLetterPreview";
 import httpMocks from "node-mocks-http";
 import {
   ACCUSED,
@@ -9,7 +9,7 @@ import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
   COMPLAINANT,
-  LETTER_TYPE,
+  EDIT_STATUS,
   REFERRAL_LETTER_VERSION,
   WITNESS
 } from "../../../../../sharedUtilities/constants";
@@ -31,7 +31,7 @@ import Classification from "../../../../../client/testUtilities/classification";
 import constructFilename from "../constructFilename";
 import RaceEthnicity from "../../../../../client/testUtilities/raceEthnicity";
 
-describe("getLetterPreview", function() {
+describe("getReferralLetterPreview", function() {
   let existingCase, request, response, next, referralLetter;
 
   afterEach(async () => {
@@ -91,7 +91,7 @@ describe("getLetterPreview", function() {
   });
 
   test("should get 400 if in wrong status", async () => {
-    await getLetterPreview(request, response, next);
+    await getReferralLetterPreview(request, response, next);
   });
 
   describe("in letter in progress status", () => {
@@ -103,7 +103,7 @@ describe("getLetterPreview", function() {
     });
 
     test("audits the data access", async () => {
-      await getLetterPreview(request, response, next);
+      await getReferralLetterPreview(request, response, next);
 
       const dataAccessAudit = await models.action_audit.findOne();
       expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
@@ -118,7 +118,7 @@ describe("getLetterPreview", function() {
     });
 
     test("returns letter address info", async () => {
-      await getLetterPreview(request, response, next);
+      await getReferralLetterPreview(request, response, next);
       const responseBody = response._getData();
       expect(responseBody.addresses).toEqual({
         recipient: "recipient address",
@@ -128,7 +128,7 @@ describe("getLetterPreview", function() {
     });
 
     test("returns case data so we can populate modal for status transition", async () => {
-      await getLetterPreview(request, response, next);
+      await getReferralLetterPreview(request, response, next);
       const responseBody = response._getData();
       expect(responseBody.caseDetails).toEqual(
         expect.objectContaining({
@@ -166,9 +166,9 @@ describe("getLetterPreview", function() {
       const draftFilename = constructFilename(
         existingCase,
         REFERRAL_LETTER_VERSION.DRAFT,
-        LETTER_TYPE.GENERATED
+        EDIT_STATUS.GENERATED
       );
-      await getLetterPreview(request, response, next);
+      await getReferralLetterPreview(request, response, next);
       const responseBody = response._getData();
       expect(responseBody).toEqual(
         expect.objectContaining({
@@ -234,7 +234,7 @@ describe("getLetterPreview", function() {
         auditUser: "testuser"
       });
 
-      await getLetterPreview(request, response, next);
+      await getReferralLetterPreview(request, response, next);
 
       const letterHtml = response._getData().letterHtml;
       expect(letterHtml).toMatch(civilianComplainant1.fullName);
@@ -267,7 +267,7 @@ describe("getLetterPreview", function() {
         { auditUser: "someone" }
       );
 
-      await getLetterPreview(request, response, next);
+      await getReferralLetterPreview(request, response, next);
 
       const letterHtml = response._getData().letterHtml;
       expect(letterHtml).toMatch(caseOfficer.fullName);
@@ -325,7 +325,7 @@ describe("getLetterPreview", function() {
         auditUser: "someone"
       });
 
-      await getLetterPreview(request, response, next);
+      await getReferralLetterPreview(request, response, next);
 
       const letterHtml = response._getData().letterHtml;
       expect(letterHtml).toMatch(knownCaseOfficer.fullName);
@@ -368,7 +368,7 @@ describe("getLetterPreview", function() {
         { auditUser: "someone" }
       );
 
-      await getLetterPreview(request, response, next);
+      await getReferralLetterPreview(request, response, next);
 
       const letterHtml = response._getData().letterHtml;
       expect(letterHtml).toMatch(caseOfficer.fullName);
@@ -381,10 +381,10 @@ describe("getLetterPreview", function() {
         { auditUser: "someone" }
       );
 
-      await getLetterPreview(request, response, next);
+      await getReferralLetterPreview(request, response, next);
 
       const responseData = response._getData();
-      expect(responseData.letterType).toEqual(LETTER_TYPE.GENERATED);
+      expect(responseData.editStatus).toEqual(EDIT_STATUS.GENERATED);
       expect(responseData.lastEdited).toBeTruthy();
     });
 
@@ -395,11 +395,11 @@ describe("getLetterPreview", function() {
         { auditUser: "someone" }
       );
 
-      await getLetterPreview(request, response, next);
+      await getReferralLetterPreview(request, response, next);
 
       const responseData = response._getData();
       expect(responseData.letterHtml).toEqual(editedLetterHtml);
-      expect(responseData.letterType).toEqual(LETTER_TYPE.EDITED);
+      expect(responseData.editStatus).toEqual(EDIT_STATUS.EDITED);
       expect(responseData.lastEdited).toBeTruthy();
     });
 
@@ -518,7 +518,7 @@ describe("getLetterPreview", function() {
       });
 
       test("renders correctly with minimum required letter data", async () => {
-        await getLetterPreview(request, response, next);
+        await getReferralLetterPreview(request, response, next);
         expect(response._getData().letterHtml).toMatchSnapshot();
       });
 
@@ -527,7 +527,7 @@ describe("getLetterPreview", function() {
           { pibCaseNumber: "2019-0023-R" },
           { auditUser: "test" }
         );
-        await getLetterPreview(request, response, next);
+        await getReferralLetterPreview(request, response, next);
         expect(response._getData().letterHtml).toMatchSnapshot();
       });
 
@@ -541,7 +541,7 @@ describe("getLetterPreview", function() {
           auditUser: "test"
         });
 
-        await getLetterPreview(request, response, next);
+        await getReferralLetterPreview(request, response, next);
         expect(response._getData().letterHtml).toMatchSnapshot();
       });
 
@@ -565,7 +565,7 @@ describe("getLetterPreview", function() {
           auditUser: "test"
         });
 
-        await getLetterPreview(request, response, next);
+        await getReferralLetterPreview(request, response, next);
         expect(response._getData().letterHtml).toMatchSnapshot();
       });
 
@@ -586,7 +586,7 @@ describe("getLetterPreview", function() {
           }
         );
 
-        await getLetterPreview(request, response, next);
+        await getReferralLetterPreview(request, response, next);
         expect(response._getData().letterHtml).toMatchSnapshot();
       });
 
@@ -603,7 +603,7 @@ describe("getLetterPreview", function() {
           }
         );
 
-        await getLetterPreview(request, response, next);
+        await getReferralLetterPreview(request, response, next);
         expect(response._getData().letterHtml).toMatchSnapshot();
       });
 
@@ -618,7 +618,7 @@ describe("getLetterPreview", function() {
           { auditUser: "test" }
         );
 
-        await getLetterPreview(request, response, next);
+        await getReferralLetterPreview(request, response, next);
         expect(response._getData().letterHtml).toMatchSnapshot();
       });
 
@@ -702,7 +702,7 @@ describe("getLetterPreview", function() {
           { auditUser: "test" }
         );
 
-        await getLetterPreview(request, response, next);
+        await getReferralLetterPreview(request, response, next);
         expect(response._getData().letterHtml).toMatchSnapshot();
       });
     });

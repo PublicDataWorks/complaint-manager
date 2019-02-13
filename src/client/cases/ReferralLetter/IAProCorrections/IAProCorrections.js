@@ -18,8 +18,8 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
-import EditLetterStatusMessage from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
-import getLetterType from "../thunks/getLetterType";
+import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterStatusMessage";
+import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 
 class IAProCorrections extends Component {
@@ -30,7 +30,7 @@ class IAProCorrections extends Component {
 
   componentDidMount() {
     this.props.getReferralLetterData(this.state.caseId);
-    this.props.getLetterType(this.state.caseId);
+    this.props.getReferralLetterEditStatus(this.state.caseId);
     this.props.getMinimumCaseDetails(this.state.caseId);
   }
 
@@ -171,7 +171,7 @@ class IAProCorrections extends Component {
                 IAPro Corrections
               </Typography>
             </div>
-            <EditLetterStatusMessage />
+            <LetterStatusMessage />
 
             <div style={{ marginBottom: "32px" }}>
               <FieldArray
@@ -208,7 +208,7 @@ class IAProCorrections extends Component {
 const mapDispatchToProps = {
   openRemoveIAProCorrectionDialog,
   getReferralLetterData,
-  getLetterType,
+  getReferralLetterEditStatus,
   getMinimumCaseDetails
 };
 

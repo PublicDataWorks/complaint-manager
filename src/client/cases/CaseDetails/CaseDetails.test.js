@@ -28,7 +28,7 @@ import {
 import { NARRATIVE_FORM, TIMEZONE } from "../../../sharedUtilities/constants";
 import timezone from "moment-timezone";
 import { initialize, reset } from "redux-form";
-import getLetterType from "../ReferralLetter/thunks/getLetterType";
+import getReferralLetterEditStatus from "../ReferralLetter/thunks/getReferralLetterEditStatus";
 import { scrollToTop } from "../../ScrollToTop";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 
@@ -40,10 +40,13 @@ jest.mock("../thunks/getCaseDetails", () => caseId => ({
   type: "MOCK_GET_CASE_DETAILS",
   caseId
 }));
-jest.mock("../ReferralLetter/thunks/getLetterType", () => caseId => ({
-  type: "MOCK_GET_LETTER_TYPE",
-  caseId
-}));
+jest.mock(
+  "../ReferralLetter/thunks/getReferralLetterEditStatus",
+  () => caseId => ({
+    type: "MOCK_GET_LETTER_TYPE",
+    caseId
+  })
+);
 
 jest.mock("../thunks/updateNarrative", () => () => ({
   type: "MOCK_UPDATE_NARRATIVE_THUNK"
@@ -86,7 +89,7 @@ describe("Case Details Component", () => {
 
   test("loads letter type on mount so message can be displayed", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(
-      getLetterType(expectedCase.id.toString())
+      getReferralLetterEditStatus(expectedCase.id.toString())
     );
   });
 

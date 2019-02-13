@@ -1,16 +1,16 @@
-import ReferralLetter from "../../../../client/testUtilities/ReferralLetter";
-import models from "../../../models";
-import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
+import models from "../../../../models";
+import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import timekeeper from "timekeeper";
-import Case from "../../../../client/testUtilities/case";
+import Case from "../../../../../client/testUtilities/case";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED
-} from "../../../../sharedUtilities/constants";
+} from "../../../../../sharedUtilities/constants";
 import generateReferralLetterPdfBuffer, {
   generateLetterPdfHtml
 } from "./generateReferralLetterPdfBuffer";
-import generateLetterBody from "./generateLetterBody";
+import generateReferralLetterBody from "../generateReferralLetterBody";
 jest.mock("html-pdf", () => ({
   create: (html, pdfOptions) => ({
     toBuffer: callback => {
@@ -19,14 +19,14 @@ jest.mock("html-pdf", () => ({
   })
 }));
 
-jest.mock("./generateLetterBody");
+jest.mock("../generateReferralLetterBody");
 
 describe("generateReferralLetterPdfBuffer", function() {
   let existingCase, referralLetter, timeOfDownload;
 
   afterEach(async () => {
     await cleanupDatabase();
-    generateLetterBody.mockReset();
+    generateReferralLetterBody.mockReset();
     timekeeper.reset();
   });
 
@@ -138,7 +138,7 @@ describe("generateReferralLetterPdfBuffer", function() {
           false,
           transaction
         );
-        expect(generateLetterBody).toHaveBeenCalledWith(
+        expect(generateReferralLetterBody).toHaveBeenCalledWith(
           existingCase.id,
           transaction
         );
@@ -159,7 +159,7 @@ describe("generateReferralLetterPdfBuffer", function() {
           transaction
         );
       });
-      expect(generateLetterBody).not.toHaveBeenCalled();
+      expect(generateReferralLetterBody).not.toHaveBeenCalled();
     });
   });
 

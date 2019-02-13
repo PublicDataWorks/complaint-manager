@@ -1,8 +1,8 @@
-import models from "../../../models/index";
+import models from "../../../../models";
 import shortid from "shortid";
-import { ACCUSED } from "../../../../sharedUtilities/constants";
+import { ACCUSED } from "../../../../../sharedUtilities/constants";
 
-const getLetterDataForResponse = async (caseId, transaction) => {
+const getReferralLetterDataForResponse = async (caseId, transaction) => {
   let letterData = await getLetterData(caseId, transaction);
   letterData = letterData.toJSON();
 
@@ -15,15 +15,13 @@ const getLetterDataForResponse = async (caseId, transaction) => {
       };
     }
   );
-  const transformedLetterData = {
+  return {
     id: letterData.id,
     caseId: letterData.caseId,
     includeRetaliationConcerns: letterData.includeRetaliationConcerns,
     letterOfficers: transformedLetterOfficerData,
     referralLetterIAProCorrections: getIAProCorrections(letterData)
   };
-
-  return transformedLetterData;
 };
 
 const getIAProCorrections = letterData => {
@@ -131,4 +129,4 @@ const getLetterData = async (caseId, transaction) => {
   });
 };
 
-export default getLetterDataForResponse;
+export default getReferralLetterDataForResponse;

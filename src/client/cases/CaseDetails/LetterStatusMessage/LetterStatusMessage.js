@@ -1,7 +1,7 @@
 import {
   CASE_STATUSES_WITH_ACTIVE_LETTER,
   CASE_STATUSES_AFTER_LETTER_APPROVAL,
-  LETTER_TYPE
+  EDIT_STATUS
 } from "../../../../sharedUtilities/constants";
 import WarningMessage from "../../../shared/components/WarningMessage";
 import React from "react";
@@ -22,7 +22,7 @@ export const EDIT_LETTER_STATUS = {
 export const ARCHIVED_MESSAGE =
   "This case has been archived. Changes to case details and letter flow are not allowed while case is archived.";
 
-class EditLetterStatusMessage extends React.Component {
+class LetterStatusMessage extends React.Component {
   shouldShowMessage = () => {
     if (this.props.isArchived) {
       return true;
@@ -38,7 +38,7 @@ class EditLetterStatusMessage extends React.Component {
   letterIsActiveAndEdited = () => {
     return (
       CASE_STATUSES_WITH_ACTIVE_LETTER.includes(this.props.caseStatus) &&
-      this.props.letterType === LETTER_TYPE.EDITED
+      this.props.editStatus === EDIT_STATUS.EDITED
     );
   };
 
@@ -75,7 +75,7 @@ class EditLetterStatusMessage extends React.Component {
 
     return (
       <div
-        data-test="editLetterStatusMessage"
+        data-test="letterStatusMessage"
         style={{
           maxWidth: "850px",
           paddingBottom: "24px",
@@ -91,10 +91,10 @@ class EditLetterStatusMessage extends React.Component {
 const mapStateToProps = state => ({
   featureToggles: state.featureToggles,
   caseStatus: state.currentCase.details.status,
-  letterType: state.referralLetter.letterType,
+  editStatus: state.referralLetter.editStatus,
   isArchived: state.currentCase.details.isArchived
 });
 
 export default withStyles(styles, { withTheme: true })(
-  connect(mapStateToProps)(EditLetterStatusMessage)
+  connect(mapStateToProps)(LetterStatusMessage)
 );

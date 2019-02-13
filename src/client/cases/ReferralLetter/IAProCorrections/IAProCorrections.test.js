@@ -7,15 +7,15 @@ import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCr
 import { mount } from "enzyme";
 import editIAProCorrections from "../thunks/editIAProCorrections";
 import getReferralLetterData from "../thunks/getReferralLetterData";
-import getLetterType from "../thunks/getLetterType";
+import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 
 jest.mock("../thunks/getReferralLetterData", () => caseId => ({
   type: "getReferralLetterData",
   caseId
 }));
-jest.mock("../thunks/getLetterType", () => caseId => ({
-  type: "getLetterType",
+jest.mock("../thunks/getReferralLetterEditStatus", () => caseId => ({
+  type: "getReferralLetterEditStatus",
   caseId
 }));
 jest.mock("../../thunks/getMinimumCaseDetails", () => caseId => ({
@@ -66,7 +66,9 @@ describe("IAProCorrections", function() {
   });
 
   test("loads letter type on mount so message can be displayed", () => {
-    expect(dispatchSpy).toHaveBeenCalledWith(getLetterType(caseId));
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      getReferralLetterEditStatus(caseId)
+    );
   });
 
   test("loads min case details on mount so case reference can be displayed", () => {

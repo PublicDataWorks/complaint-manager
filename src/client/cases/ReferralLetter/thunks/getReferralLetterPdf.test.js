@@ -1,13 +1,13 @@
 import saveAs from "file-saver";
-import getPdf from "./getPdf";
+import getReferralLetterPdf from "./getReferralLetterPdf";
 import nock from "nock";
 import getAccessToken from "../../../auth/getAccessToken";
 import {
-  getLetterPdfSuccess,
+  getReferralLetterPdfSuccess,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
-import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
+import { EDIT_STATUS } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("file-saver", () => jest.fn());
@@ -17,12 +17,12 @@ jest.mock("../../thunks/invalidCaseStatusRedirect", () => caseId => ({
   caseId
 }));
 
-describe("getPdf thunk", function() {
+describe("getReferralLetterPdf thunk", function() {
   const dispatch = jest.fn();
   configureInterceptors({ dispatch });
   const caseId = 2;
   const token = "token";
-  let letterType;
+  let editStatus;
   const uneditedFilename =
     "12-12-2012_CC2012-0002_Generated_Referral_Draft_Buster.pdf";
   const editedFilename =
@@ -40,7 +40,7 @@ describe("getPdf thunk", function() {
   };
 
   beforeEach(() => {
-    letterType = LETTER_TYPE.GENERATED;
+    editStatus = EDIT_STATUS.GENERATED;
     dispatch.mockClear();
   });
 
@@ -56,7 +56,7 @@ describe("getPdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(200, response);
 
-      await getPdf(caseId, uneditedFilename, letterType, true)(dispatch);
+      await getReferralLetterPdf(caseId, uneditedFilename, true)(dispatch);
       const expectFile = new File([response], uneditedFilename);
 
       expect(saveAs).toHaveBeenCalledWith(expectFile, uneditedFilename);
@@ -66,7 +66,7 @@ describe("getPdf thunk", function() {
     test("should call saveAs with edited filename when downloading edited letter pdf", async () => {
       getAccessToken.mockImplementation(() => token);
       const response = "some response";
-      letterType = LETTER_TYPE.EDITED;
+      editStatus = EDIT_STATUS.EDITED;
       nock("http://localhost", {
         reqheaders: {
           Authorization: `Bearer ${token}`
@@ -75,7 +75,7 @@ describe("getPdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(200, response);
 
-      await getPdf(caseId, editedFilename, letterType, true)(dispatch);
+      await getReferralLetterPdf(caseId, editedFilename, true)(dispatch);
       const expectFile = new File([response], editedFilename);
 
       expect(saveAs).toHaveBeenCalledWith(expectFile, editedFilename);
@@ -92,7 +92,7 @@ describe("getPdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(500, errorResponseFor500);
 
-      await getPdf(caseId, null, letterType, true)(dispatch);
+      await getReferralLetterPdf(caseId, null, true)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
     });
 
@@ -106,7 +106,7 @@ describe("getPdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(400, errorResponseFor400);
 
-      await getPdf(caseId, null, letterType, true)(dispatch);
+      await getReferralLetterPdf(caseId, null, true)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
     });
   });
@@ -124,8 +124,8 @@ describe("getPdf thunk", function() {
         .reply(200, "hello world");
 
       let arrayBuffer = new ArrayBuffer("hello world");
-      await getPdf(caseId, finalFilename)(dispatch);
-      expect(dispatch).toHaveBeenCalledWith(getLetterPdfSuccess(arrayBuffer));
+      await getReferralLetterPdf(caseId, finalFilename)(dispatch);
+      expect(dispatch).toHaveBeenCalledWith(getReferralLetterPdfSuccess(arrayBuffer));
       expect(saveAs).not.toHaveBeenCalled();
       expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
     });

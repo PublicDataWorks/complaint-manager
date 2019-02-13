@@ -3,7 +3,7 @@
 exports[`generateReferralLetterPdfBuffer sender is 'sender address' generates letter pdf html correctly 1`] = `
 "<html>
   <head>
-      <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"getPdf.css\\">
+      <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"pdf.css\\">
   </head>
   <body>
     <div id=\\"pageHeader-first\\">
@@ -61,7 +61,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' generates le
 exports[`generateReferralLetterPdfBuffer sender is 'sender address' pdf create gets called with expected letter html when letter is edited 1`] = `
 "<html>
   <head>
-      <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"getPdf.css\\">
+      <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"pdf.css\\">
   </head>
   <body>
     <div id=\\"pageHeader-first\\">
@@ -119,7 +119,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' pdf create g
 exports[`generateReferralLetterPdfBuffer sender is 'sender address' pdf create gets called with expected letter html when letter is generated 1`] = `
 "<html>
   <head>
-      <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"getPdf.css\\">
+      <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"pdf.css\\">
   </head>
   <body>
     <div id=\\"pageHeader-first\\">
@@ -177,7 +177,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' pdf create g
 exports[`generateReferralLetterPdfBuffer sender is 'sender address' signature is not included when sender is not stella even if includeSignature is true 1`] = `
 "<html>
   <head>
-      <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"getPdf.css\\">
+      <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"pdf.css\\">
   </head>
   <body>
     <div id=\\"pageHeader-first\\">
@@ -235,7 +235,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' signature is
 exports[`generateReferralLetterPdfBuffer sender is stella signature is included when sender is stella and includeSignature is true 1`] = `
 "<html>
   <head>
-      <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"getPdf.css\\">
+      <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"pdf.css\\">
   </head>
   <body>
     <div id=\\"pageHeader-first\\">
@@ -293,7 +293,7 @@ exports[`generateReferralLetterPdfBuffer sender is stella signature is included 
 exports[`generateReferralLetterPdfBuffer sender is stella signature is not included when includeSignature is false 1`] = `
 "<html>
   <head>
-      <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"getPdf.css\\">
+      <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"pdf.css\\">
   </head>
   <body>
     <div id=\\"pageHeader-first\\">

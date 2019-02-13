@@ -1,10 +1,10 @@
 import getAccessToken from "../../../auth/getAccessToken";
 import { push } from "connected-react-router";
-import getLetterPreview from "./getLetterPreview";
+import getReferralLetterPreview from "./getReferralLetterPreview";
 import nock from "nock";
-import { getLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";
+import { getReferralLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
-import { LETTER_TYPE } from "../../../../sharedUtilities/constants";
+import { EDIT_STATUS } from "../../../../sharedUtilities/constants";
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
 
 jest.mock("../../../auth/getAccessToken");
@@ -13,7 +13,7 @@ jest.mock("../../thunks/invalidCaseStatusRedirect", () => caseId => ({
   caseId
 }));
 
-describe("getLetterPreview", function() {
+describe("getReferralLetterPreview", function() {
   let caseId, dispatch;
   beforeEach(() => {
     caseId = 7;
@@ -21,13 +21,13 @@ describe("getLetterPreview", function() {
     configureInterceptors({ dispatch });
   });
 
-  test("dispatches getLetterPreviewSuccess and getCaseDetailsSuccess with data, doesn't redirect to case details page", async () => {
+  test("dispatches getReferralLetterPreviewSuccess and getCaseDetailsSuccess with data, doesn't redirect to case details page", async () => {
     getAccessToken.mockImplementation(() => "TOKEN");
     const responseBody = {
       letterHtml: "html string",
       addresses: { recipient: "recipient" },
       caseDetails: { status: "Letter in Progress", id: 5 },
-      letterType: LETTER_TYPE.GENERATED,
+      editStatus: EDIT_STATUS.GENERATED,
       lastEdited: null,
       finalFilename: "some file name",
       draftFilename: "some draft name"
@@ -35,12 +35,12 @@ describe("getLetterPreview", function() {
     nock("http://localhost", {})
       .get(`/api/cases/${caseId}/referral-letter/preview`)
       .reply(200, responseBody);
-    await getLetterPreview(caseId)(dispatch);
+    await getReferralLetterPreview(caseId)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
-      getLetterPreviewSuccess(
+      getReferralLetterPreviewSuccess(
         responseBody.letterHtml,
         responseBody.addresses,
-        responseBody.letterType,
+        responseBody.editStatus,
         responseBody.lastEdited,
         responseBody.finalFilename,
         responseBody.draftFilename

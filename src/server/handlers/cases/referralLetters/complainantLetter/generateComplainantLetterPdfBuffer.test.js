@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
-import generateLetterBody from "../generateLetterBody";
+import generateReferralLetterBody from "../generateReferralLetterBody";
 import timekeeper from "timekeeper";
 import Case from "../../../../../client/testUtilities/case";
 import {
@@ -22,11 +22,11 @@ jest.mock("html-pdf", () => ({
   })
 }));
 
-jest.mock("../generateLetterBody");
+jest.mock("../generateReferralLetterBody");
 
 afterEach(async () => {
   await cleanupDatabase();
-  generateLetterBody.mockReset();
+  generateReferralLetterBody.mockReset();
   timekeeper.reset();
 });
 

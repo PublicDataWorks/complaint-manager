@@ -22,13 +22,15 @@ import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import constructFilename from "../constructFilename";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
-
 const SAMPLE_FINAL_PDF_FILENAME = "some_filename.pdf";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
-jest.mock("../generateReferralLetterPdfBuffer", () => caseId => {
-  return `Generated pdf for ${caseId}`;
-});
+jest.mock(
+  "../getReferralLetterPdf/generateReferralLetterPdfBuffer",
+  () => caseId => {
+    return `Generated pdf for ${caseId}`;
+  }
+);
 jest.mock(
   "../../../../checkFeatureToggleEnabled",
   () => (request, featureName) => true

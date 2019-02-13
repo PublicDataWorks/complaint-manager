@@ -159,9 +159,9 @@ const getComplainantLetterCaseData = async (caseId, transaction) => {
 };
 
 const defaultReferralLetterBodyPath =
-  "src/server/handlers/cases/referralLetters/getLetterPreview/letterBody.tpl";
+  "src/server/handlers/cases/referralLetters/getReferralLetterPreview/letterBody.tpl";
 
-async function generateLetterBody(
+async function generateReferralLetterBody(
   caseId,
   transaction,
   letterBodyPath = defaultReferralLetterBodyPath
@@ -184,4 +184,4 @@ async function generateLetterBody(
   return compiledTemplate(caseData);
 }
 
-export default generateLetterBody;
+export default generateReferralLetterBody;

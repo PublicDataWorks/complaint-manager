@@ -9,7 +9,7 @@ import OfficerHistoryNote from "./OfficerHistoryNote";
 import { getReferralLetterSuccess } from "../../../actionCreators/letterActionCreators";
 import editOfficerHistory from "../thunks/editOfficerHistory";
 import { push } from "connected-react-router";
-import getLetterType from "../thunks/getLetterType";
+import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getReferralLetterData from "../thunks/getReferralLetterData";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 
@@ -18,8 +18,8 @@ jest.mock("../thunks/getReferralLetterData", () => caseId => ({
   type: "getReferralLetterData",
   caseId
 }));
-jest.mock("../thunks/getLetterType", () => caseId => ({
-  type: "getLetterType",
+jest.mock("../thunks/getReferralLetterEditStatus", () => caseId => ({
+  type: "getReferralLetterEditStatus",
   caseId
 }));
 jest.mock("../../thunks/getMinimumCaseDetails", () => caseId => ({
@@ -70,7 +70,9 @@ describe("OfficerHistories page", function() {
     });
 
     test("loads letter type on mount so message can be displayed", () => {
-      expect(dispatchSpy).toHaveBeenCalledWith(getLetterType(caseId));
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        getReferralLetterEditStatus(caseId)
+      );
     });
 
     test("loads minimum case details on mount so case reference can be displayed", () => {

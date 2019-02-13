@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getLetterPreview in letter in progress status snapshotTests it renders correctly with iapro corrections 1`] = `
+exports[`getReferralLetterPreview in letter in progress status snapshotTests it renders correctly with iapro corrections 1`] = `
 "<div>
   <p>
       This is to inform you pursuant to New Orleans City Code Section 2-1121 (the Police Monitors Ordinance) that the
@@ -112,7 +112,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests it renders 
 </div>"
 `;
 
-exports[`getLetterPreview in letter in progress status snapshotTests renders correctly with a civilian witness 1`] = `
+exports[`getReferralLetterPreview in letter in progress status snapshotTests renders correctly with a civilian witness 1`] = `
 "<div>
   <p>
       This is to inform you pursuant to New Orleans City Code Section 2-1121 (the Police Monitors Ordinance) that the
@@ -223,7 +223,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
 </div>"
 `;
 
-exports[`getLetterPreview in letter in progress status snapshotTests renders correctly with all details 1`] = `
+exports[`getReferralLetterPreview in letter in progress status snapshotTests renders correctly with all details 1`] = `
 "<div>
   <p>
       This is to inform you pursuant to New Orleans City Code Section 2-1121 (the Police Monitors Ordinance) that the
@@ -372,7 +372,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
 </div>"
 `;
 
-exports[`getLetterPreview in letter in progress status snapshotTests renders correctly with an officer complainant 1`] = `
+exports[`getReferralLetterPreview in letter in progress status snapshotTests renders correctly with an officer complainant 1`] = `
 "<div>
   <p>
       This is to inform you pursuant to New Orleans City Code Section 2-1121 (the Police Monitors Ordinance) that the
@@ -494,7 +494,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
 </div>"
 `;
 
-exports[`getLetterPreview in letter in progress status snapshotTests renders correctly with history notes 1`] = `
+exports[`getReferralLetterPreview in letter in progress status snapshotTests renders correctly with history notes 1`] = `
 "<div>
   <p>
       This is to inform you pursuant to New Orleans City Code Section 2-1121 (the Police Monitors Ordinance) that the
@@ -603,7 +603,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
 </div>"
 `;
 
-exports[`getLetterPreview in letter in progress status snapshotTests renders correctly with minimum required letter data 1`] = `
+exports[`getReferralLetterPreview in letter in progress status snapshotTests renders correctly with minimum required letter data 1`] = `
 "<div>
   <p>
       This is to inform you pursuant to New Orleans City Code Section 2-1121 (the Police Monitors Ordinance) that the
@@ -708,7 +708,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
 </div>"
 `;
 
-exports[`getLetterPreview in letter in progress status snapshotTests renders correctly with pib case number 1`] = `
+exports[`getReferralLetterPreview in letter in progress status snapshotTests renders correctly with pib case number 1`] = `
 "<div>
   <p>
       This is to inform you pursuant to New Orleans City Code Section 2-1121 (the Police Monitors Ordinance) that the
@@ -813,7 +813,7 @@ exports[`getLetterPreview in letter in progress status snapshotTests renders cor
 </div>"
 `;
 
-exports[`getLetterPreview in letter in progress status snapshotTests renders correctly with recommended action 1`] = `
+exports[`getReferralLetterPreview in letter in progress status snapshotTests renders correctly with recommended action 1`] = `
 "<div>
   <p>
       This is to inform you pursuant to New Orleans City Code Section 2-1121 (the Police Monitors Ordinance) that the

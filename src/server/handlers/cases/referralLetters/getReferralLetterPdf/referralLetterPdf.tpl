@@ -1,6 +1,6 @@
 <html>
   <head>
-      <link rel="stylesheet" type="text/css" href="getPdf.css">
+      <link rel="stylesheet" type="text/css" href="pdf.css">
   </head>
   <body>
     <div id="pageHeader-first">

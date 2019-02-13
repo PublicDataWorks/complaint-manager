@@ -11,7 +11,7 @@ import LinkButton from "../../../shared/components/LinkButton";
 import calculateOfficerHistoryTotalAllegations from "./calculateOfficerHistoryTotalAllegations";
 import shortid from "shortid";
 import { numbersOnly } from "../../../utilities/fieldFormatters";
-import { OFFICER_HISTORY_MESSAGE } from "../../../../server/handlers/cases/referralLetters/letterDefaults";
+import { OFFICER_HISTORY_MESSAGE } from "../../../../server/handlers/cases/referralLetters/referralLetterDefaults";
 
 const RichTextEditorComponent = props => (
   <RichTextEditor

@@ -1,13 +1,13 @@
 import {
-  GET_LETTER_PDF_SUCCESS,
+  GET_REFERRAL_LETTER_PDF_SUCCESS,
   GET_REFERRAL_LETTER_SUCCESS,
-  LETTER_TYPE
+  EDIT_STATUS
 } from "../../../sharedUtilities/constants";
 import referralLetterReducer from "./referralLetterReducer";
 import {
-  getLetterPdfSuccess,
-  getLetterPreviewSuccess,
-  getLetterTypeSuccess,
+  getReferralLetterPdfSuccess,
+  getReferralLetterPreviewSuccess,
+  getReferralLetterEditStatusSuccess,
   getReferralLetterSuccess
 } from "../../actionCreators/letterActionCreators";
 import timekeeper from "timekeeper";
@@ -20,7 +20,7 @@ describe("referralLetterReducer", () => {
         letterDetails: {},
         letterHtml: "",
         addresses: {},
-        letterType: null,
+        editStatus: null,
         lastEdited: null,
         finalFilename: null,
         draftFilename: null,
@@ -40,7 +40,7 @@ describe("referralLetterReducer", () => {
         letterDetails,
         letterHtml: "",
         addresses: {},
-        letterType: null,
+        editStatus: null,
         lastEdited: null,
         finalFilename: null,
         draftFilename: null,
@@ -49,7 +49,7 @@ describe("referralLetterReducer", () => {
     });
   });
 
-  describe("GET_LETTER_PREVIEW_SUCCESS", () => {
+  describe("GET_REFERRAL_LETTER_PREVIEW_SUCCESS", () => {
     test("sets the letter html and edit history", () => {
       const timeOfEdit = new Date("2018-07-01 19:00:22 CDT");
       timekeeper.freeze(timeOfEdit);
@@ -57,7 +57,7 @@ describe("referralLetterReducer", () => {
         letterDetails: "something",
         letterHtml: "something",
         addresses: {},
-        letterType: null,
+        editStatus: null,
         lastEdited: null,
         finalFilename: null,
         draftFilename: null,
@@ -70,10 +70,10 @@ describe("referralLetterReducer", () => {
       };
       const newState = referralLetterReducer(
         initialState,
-        getLetterPreviewSuccess(
+        getReferralLetterPreviewSuccess(
           "new letter html",
           referralLetterAddresses,
-          LETTER_TYPE.EDITED,
+          EDIT_STATUS.EDITED,
           timeOfEdit,
           "final_filename.pdf",
           "draft_filename.pdf"
@@ -83,7 +83,7 @@ describe("referralLetterReducer", () => {
         letterDetails: "something",
         letterHtml: "new letter html",
         addresses: referralLetterAddresses,
-        letterType: LETTER_TYPE.EDITED,
+        editStatus: EDIT_STATUS.EDITED,
         lastEdited: timeOfEdit,
         finalFilename: "final_filename.pdf",
         draftFilename: "draft_filename.pdf",
@@ -92,13 +92,13 @@ describe("referralLetterReducer", () => {
     });
   });
 
-  describe("GET_LETTER_PDF_SUCCESS", () => {
+  describe("GET_REFERRAL_LETTER_PDF_SUCCESS", () => {
     test("saves the letter pdf in state", () => {
       const initialState = {
         letterDetails: "something",
         letterHtml: "something",
         addresses: {},
-        letterType: null,
+        editStatus: null,
         lastEdited: null,
         finalFilename: null,
         draftFilename: null,
@@ -106,14 +106,14 @@ describe("referralLetterReducer", () => {
       };
       const newState = referralLetterReducer(
         initialState,
-        getLetterPdfSuccess("letter pdf")
+        getReferralLetterPdfSuccess("letter pdf")
       );
 
       const expectedState = {
         letterDetails: "something",
         letterHtml: "something",
         addresses: {},
-        letterType: null,
+        editStatus: null,
         lastEdited: null,
         finalFilename: null,
         draftFilename: null,
@@ -123,13 +123,13 @@ describe("referralLetterReducer", () => {
     });
   });
 
-  describe("GET_LETTER_TYPE_SUCCESS", () => {
+  describe("GET_REFERRAL_LETTER_EDIT_STATUS_SUCCESS", () => {
     test("sets the letter type", () => {
       const initialState = {
         letterDetails: "something",
         letterHtml: "something",
         addresses: {},
-        letterType: null,
+        editStatus: null,
         lastEdited: null,
         finalFilename: null,
         draftFilename: null,
@@ -137,13 +137,13 @@ describe("referralLetterReducer", () => {
       };
       const newState = referralLetterReducer(
         initialState,
-        getLetterTypeSuccess(LETTER_TYPE.GENERATED)
+        getReferralLetterEditStatusSuccess(EDIT_STATUS.GENERATED)
       );
       const expectedState = {
         letterDetails: "something",
         letterHtml: "something",
         addresses: {},
-        letterType: LETTER_TYPE.GENERATED,
+        editStatus: EDIT_STATUS.GENERATED,
         lastEdited: null,
         finalFilename: null,
         draftFilename: null,

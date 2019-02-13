@@ -3,7 +3,7 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import { userAuthSuccess } from "../../../auth/actionCreators";
 import {
   CASE_STATUS,
-  LETTER_TYPE,
+  EDIT_STATUS,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import { mount } from "enzyme";
@@ -13,8 +13,8 @@ import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreato
 import { BrowserRouter as Router } from "react-router-dom";
 import {
   finishLoadingPdfPreview,
-  getLetterPdfSuccess,
-  getLetterPreviewSuccess,
+  getReferralLetterPdfSuccess,
+  getReferralLetterPreviewSuccess,
   startLoadingPdfPreview
 } from "../../../actionCreators/letterActionCreators";
 import timekeeper from "timekeeper";
@@ -48,7 +48,7 @@ describe("ReviewAndApproveLetter", () => {
         nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
       })
     );
-    store.dispatch(getLetterPdfSuccess("letter pdf"));
+    store.dispatch(getReferralLetterPdfSuccess("letter pdf"));
     dispatchSpy = jest.spyOn(store, "dispatch");
 
     nowTimestamp = new Date("2018-07-01 19:00:22 UTC");
@@ -76,10 +76,10 @@ describe("ReviewAndApproveLetter", () => {
     const letterHtml = "<p>html</p>";
     const addresses = "<p>addresses</p>";
     store.dispatch(
-      getLetterPreviewSuccess(
+      getReferralLetterPreviewSuccess(
         letterHtml,
         addresses,
-        LETTER_TYPE.GENERATED,
+        EDIT_STATUS.GENERATED,
         null
       )
     );
@@ -101,10 +101,10 @@ describe("ReviewAndApproveLetter", () => {
     );
 
     store.dispatch(
-      getLetterPreviewSuccess(
+      getReferralLetterPreviewSuccess(
         letterHtml,
         addresses,
-        LETTER_TYPE.EDITED,
+        EDIT_STATUS.EDITED,
         inputDate
       )
     );
@@ -128,10 +128,10 @@ describe("ReviewAndApproveLetter", () => {
     );
 
     store.dispatch(
-      getLetterPreviewSuccess(
+      getReferralLetterPreviewSuccess(
         letterHtml,
         addresses,
-        LETTER_TYPE.EDITED,
+        EDIT_STATUS.EDITED,
         inputDate
       )
     );

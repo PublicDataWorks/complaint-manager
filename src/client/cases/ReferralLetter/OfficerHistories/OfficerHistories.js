@@ -19,8 +19,8 @@ import {
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
 import editOfficerHistory from "../thunks/editOfficerHistory";
-import EditLetterStatusMessage from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
-import getLetterType from "../thunks/getLetterType";
+import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterStatusMessage";
+import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 import { push } from "connected-react-router";
 
@@ -32,7 +32,7 @@ class OfficerHistories extends Component {
 
   componentDidMount() {
     this.props.getReferralLetterData(this.state.caseId);
-    this.props.getLetterType(this.state.caseId);
+    this.props.getReferralLetterEditStatus(this.state.caseId);
     this.props.getMinimumCaseDetails(this.state.caseId);
   }
 
@@ -184,7 +184,7 @@ class OfficerHistories extends Component {
                 Officer Complaint History
               </Typography>
             </div>
-            <EditLetterStatusMessage />
+            <LetterStatusMessage />
 
             {letterOfficers.length === 0
               ? this.renderNoOfficers()
@@ -228,7 +228,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getReferralLetterData,
-  getLetterType,
+  getReferralLetterEditStatus,
   getMinimumCaseDetails
 };
 

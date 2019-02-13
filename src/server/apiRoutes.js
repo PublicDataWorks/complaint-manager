@@ -21,14 +21,14 @@ import createOfficerAllegation from "./handlers/officerAllegations/createOfficer
 import editOfficerAllegation from "./handlers/officerAllegations/editOfficerAllegation/editOfficerAllegation";
 import removeOfficerAllegation from "./handlers/officerAllegations/removeOfficerAllegation/removeOfficerAllegation";
 import getReferralLetterData from "./handlers/cases/referralLetters/getReferralLetterData/getReferralLetterData";
-import getLetterPreview from "./handlers/cases/referralLetters/getLetterPreview/getLetterPreview";
+import getReferralLetterPreview from "./handlers/cases/referralLetters/getReferralLetterPreview/getReferralLetterPreview";
 import editOfficerHistory from "./handlers/cases/referralLetters/editOfficerHistory/editOfficerHistory";
 import editIAProCorrections from "./handlers/cases/referralLetters/editIAProCorrections/editIAProCorrections";
 import editRecommendedActions from "./handlers/cases/referralLetters/editRecommendedActions/editRecommendedActions";
 import editReferralLetterAddresses from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetterAddresses";
 import editReferralLetterContent from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetterContent";
 import createCivilian from "./handlers/civilians/createCivilian";
-import getLetterType from "./handlers/cases/referralLetters/getLetterType/getLetterType";
+import getReferralLetterEditStatus from "./handlers/cases/referralLetters/getReferralLetterEditStatus/getReferralLetterEditStatus";
 import editCivilian from "./handlers/civilians/editCivilian";
 import removeCivilian from "./handlers/civilians/removeCivilian";
 import audit from "./handlers/auditLogs/audit";
@@ -40,7 +40,7 @@ import getIntakeSources from "./handlers/intake_sources/getIntakeSources";
 import getRaceEthnicities from "./handlers/race_ethnicities/getRaceEthnicities";
 import getRecommendedActions from "./handlers/cases/referralLetters/getRecommendedActions/getRecommendedActions";
 import getFinalPdfUrl from "./handlers/cases/referralLetters/getFinalPdfUrl/getFinalPdfUrl";
-import getPdf from "./handlers/cases/referralLetters/getPdf/getPdf";
+import getReferralLetterPdf from "./handlers/cases/referralLetters/getReferralLetterPdf/getReferralLetterPdf";
 import approveLetter from "./handlers/cases/referralLetters/approveLetter/approveLetter";
 import generateAttachmentDownloadUrl from "./handlers/cases/attachments/generateAttachmentDownloadUrl";
 import uploadAttachment from "./handlers/cases/attachments/uploadAttachment";
@@ -231,14 +231,14 @@ export const API_ROUTES = {
   },
   "/cases/:caseId/referral-letter/preview": {
     get: {
-      handler: getLetterPreview,
+      handler: getReferralLetterPreview,
       errorMessage:
         "Something went wrong and the letter preview was not loaded. Please try again."
     }
   },
-  "/cases/:caseId/referral-letter/letter-type": {
+  "/cases/:caseId/referral-letter/edit-status": {
     get: {
-      handler: getLetterType,
+      handler: getReferralLetterEditStatus,
       errorMessage:
         "Something went wrong and the referral letter details were not loaded. Please try again."
     }
@@ -287,7 +287,7 @@ export const API_ROUTES = {
   },
   "/cases/:caseId/referral-letter/get-pdf": {
     get: {
-      handler: getPdf,
+      handler: getReferralLetterPdf,
       errorMessage:
         "Something went wrong and the pdf was not loaded. Please try again."
     }

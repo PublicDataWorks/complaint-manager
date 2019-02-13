@@ -4,7 +4,7 @@ import {
   CIVILIAN_INITIATED,
   COMPLAINANT,
   COMPLAINANT_LETTER,
-  LETTER_TYPE,
+  EDIT_STATUS,
   RANK_INITIATED,
   REFERRAL_LETTER_VERSION
 } from "../../../../sharedUtilities/constants";
@@ -52,7 +52,7 @@ describe("constructFilename", function() {
     const filename = constructFilename(
       existingCase,
       REFERRAL_LETTER_VERSION.DRAFT,
-      LETTER_TYPE.GENERATED
+      EDIT_STATUS.GENERATED
     );
     const expectedFilename =
       "5-5-2012_CC2012-0001_Generated_Referral_Draft_Smith.pdf";
@@ -64,7 +64,7 @@ describe("constructFilename", function() {
     const filename = constructFilename(
       existingCase,
       REFERRAL_LETTER_VERSION.DRAFT,
-      LETTER_TYPE.GENERATED
+      EDIT_STATUS.GENERATED
     );
     const expectedFilename =
       "5-5-2012_CC2012-0001_Generated_Referral_Draft.pdf";
@@ -76,7 +76,7 @@ describe("constructFilename", function() {
     const filename = constructFilename(
       existingCase,
       REFERRAL_LETTER_VERSION.DRAFT,
-      LETTER_TYPE.EDITED
+      EDIT_STATUS.EDITED
     );
     const expectedFilename =
       "5-5-2012_CC2012-0001_Edited_Referral_Draft_Smith.pdf";
@@ -88,7 +88,7 @@ describe("constructFilename", function() {
     const filename = constructFilename(
       existingCase,
       REFERRAL_LETTER_VERSION.DRAFT,
-      LETTER_TYPE.EDITED
+      EDIT_STATUS.EDITED
     );
     const expectedFilename = "5-5-2012_CC2012-0001_Edited_Referral_Draft.pdf";
     expect(filename).toEqual(expectedFilename);
@@ -99,7 +99,7 @@ describe("constructFilename", function() {
     const filename = constructFilename(
       existingCase,
       REFERRAL_LETTER_VERSION.DRAFT,
-      LETTER_TYPE.EDITED
+      EDIT_STATUS.EDITED
     );
     const expectedFilename =
       "5-5-2012_PO2012-0001_Edited_Referral_Draft_Unknown_Officer.pdf";

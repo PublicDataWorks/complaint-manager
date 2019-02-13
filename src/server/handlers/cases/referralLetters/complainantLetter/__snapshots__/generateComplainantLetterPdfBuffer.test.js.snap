@@ -3,7 +3,7 @@
 exports[`generateComplainantLetterPdfBuffer generates complainant letter pdf html correctly 1`] = `
 "<html>
     <head>
-        <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"getPdf.css\\"/>
+        <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"pdf.css\\"/>
     </head>
     <body>
         <div id=\\"pageHeader-first\\">
@@ -49,7 +49,9 @@ exports[`generateComplainantLetterPdfBuffer generates complainant letter pdf htm
         <p><br/></p>
         <p>Re: OIPM Complaint# CC2017-0001</p>
         <p><br/></p>
-        <p>Dear Miss Berry:</p>
+        <p>Dear 
+             Miss Berry:
+        </p>
         <p><br/></p>
         <p>
             On December 25, 2017, you contacted the Office of the Independent Police Monitor
@@ -98,7 +100,7 @@ exports[`generateComplainantLetterPdfBuffer generates complainant letter pdf htm
 exports[`generateComplainantLetterPdfBuffer pdf buffer is created for complainant letter 1`] = `
 "<html>
     <head>
-        <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"getPdf.css\\"/>
+        <link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"pdf.css\\"/>
     </head>
     <body>
         <div id=\\"pageHeader-first\\">
@@ -144,7 +146,9 @@ exports[`generateComplainantLetterPdfBuffer pdf buffer is created for complainan
         <p><br/></p>
         <p>Re: OIPM Complaint# CC2017-0001</p>
         <p><br/></p>
-        <p>Dear Miss Berry:</p>
+        <p>Dear 
+             Miss Berry:
+        </p>
         <p><br/></p>
         <p>
             On December 25, 2017, you contacted the Office of the Independent Police Monitor
