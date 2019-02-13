@@ -373,7 +373,7 @@ export const ALLEGATION_SEVERITY = {
 
 export const SIGNATURE_URLS = {
   STELLA:
-    "file:/app/src/server/handlers/cases/referralLetters/getPdf/assets/signatures/signature.png"
+    "file:/app/src/server/handlers/cases/referralLetters/assets/signatures/signature.png"
 };
 
 // ----------------------------------------

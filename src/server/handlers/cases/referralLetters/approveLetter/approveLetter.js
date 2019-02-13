@@ -7,10 +7,10 @@ import {
   REFERRAL_LETTER_VERSION,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
-import { generateReferralLetterPdfBuffer } from "../sharedReferralLetterUtilities/generatePdfBuffer";
-import uploadLetterToS3 from "./uploadLetterToS3";
+import generateReferralLetterPdfBuffer from "../generateReferralLetterPdfBuffer";
+import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import Boom from "boom";
-import auditUpload from "./auditUpload";
+import auditUpload from "../sharedLetterUtilities/auditUpload";
 import constructFilename from "../constructFilename";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 import generateComplainantLetterAndUploadToS3 from "./generateComplainantLetterAndUploadToS3";
@@ -48,7 +48,7 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
       AUDIT_SUBJECT.CASE_DETAILS,
       transaction
     );
-    await generateLetterAndUploadToS3(caseId, filename, transaction);
+    await generateReferralLetterAndUploadToS3(caseId, filename, transaction);
 
     await saveFilename(filename, caseId, nickname, transaction);
     await auditUpload(
@@ -87,7 +87,7 @@ const validateCaseStatus = existingCase => {
   }
 };
 
-const generateLetterAndUploadToS3 = async (
+const generateReferralLetterAndUploadToS3 = async (
   caseId,
   filename,
   nickname,

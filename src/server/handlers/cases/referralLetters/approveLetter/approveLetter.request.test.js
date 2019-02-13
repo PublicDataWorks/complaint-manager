@@ -18,7 +18,7 @@ import Civilian from "../../../../../client/testUtilities/civilian";
 import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 
-jest.mock("./uploadLetterToS3", () => jest.fn());
+jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 
 describe("Approve referral letter", () => {
   let existingCase, token;

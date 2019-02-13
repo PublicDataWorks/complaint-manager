@@ -9,14 +9,16 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import Case from "../../../../../client/testUtilities/case";
 import models from "../../../../models";
-import uploadLetterToS3 from "./uploadLetterToS3";
+import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import constructFilename from "../constructFilename";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 
-jest.mock("./uploadLetterToS3", () => jest.fn());
-jest.mock("../sharedReferralLetterUtilities/generatePdfBuffer", () => ({
-  generateComplainantLetterPdfBuffer: () => "pdf buffer"
-}));
+jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
+jest.mock("../sharedLetterUtilities/generatePdfBuffer", () =>
+  jest.fn(() => {
+    return "pdf buffer";
+  })
+);
 
 describe("generateComplainantLetterAndUploadToS3", () => {
   let complainant, caseAttributes, existingCase;

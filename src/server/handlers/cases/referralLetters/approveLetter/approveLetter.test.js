@@ -13,9 +13,9 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
-import uploadLetterToS3 from "./uploadLetterToS3";
+import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import Boom from "boom";
-import auditUpload from "./auditUpload";
+import auditUpload from "../sharedLetterUtilities/auditUpload";
 import auditDataAccess from "../../../auditDataAccess";
 import Civilian from "../../../../../client/testUtilities/civilian";
 import Officer from "../../../../../client/testUtilities/Officer";
@@ -25,15 +25,15 @@ import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageC
 
 const SAMPLE_FINAL_PDF_FILENAME = "some_filename.pdf";
 
-jest.mock("./uploadLetterToS3", () => jest.fn());
-jest.mock("../sharedReferralLetterUtilities/generatePdfBuffer", () => ({
-  generateReferralLetterPdfBuffer: caseId => `Generated pdf for ${caseId}`
-}));
+jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
+jest.mock("../generateReferralLetterPdfBuffer", () => caseId => {
+  return `Generated pdf for ${caseId}`;
+});
 jest.mock(
   "../../../../checkFeatureToggleEnabled",
   () => (request, featureName) => true
 );
-jest.mock("./auditUpload", () => jest.fn());
+jest.mock("../sharedLetterUtilities/auditUpload", () => jest.fn());
 jest.mock(
   "./generateComplainantLetterAndUploadToS3",
   () => (existingCase, nickname) => {

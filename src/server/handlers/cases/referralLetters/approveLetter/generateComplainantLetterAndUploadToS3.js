@@ -4,10 +4,10 @@ import {
   COMPLAINANT_LETTER
 } from "../../../../../sharedUtilities/constants";
 import constructFilename, { firstCreated } from "../constructFilename";
-import { generateComplainantLetterPdfBuffer } from "../sharedReferralLetterUtilities/generatePdfBuffer";
+import generateComplainantLetterPdfBuffer from "../complainantLetter/generateComplainantLetterPdfBuffer";
 import models from "../../../../models";
-import uploadLetterToS3 from "./uploadLetterToS3";
-import auditUpload from "./auditUpload";
+import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
+import auditUpload from "../sharedLetterUtilities/auditUpload";
 import config from "../../../../config/config";
 
 const CIVILIAN = "CIVILIAN";
