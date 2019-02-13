@@ -1,17 +1,17 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../client/testUtilities/case";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
-import getLetterType from "./getLetterType";
+import getReferralLetterEditStatus from "./getReferralLetterEditStatus";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  LETTER_TYPE
+  EDIT_STATUS
 } from "../../../../../sharedUtilities/constants";
 import models from "../../../../models";
 import httpMocks from "node-mocks-http";
 
-describe("getLetterType", () => {
+describe("getReferralLetterEditStatus", () => {
   let response, next, request, existingCase, referralLetter;
 
   afterEach(async () => {
@@ -40,9 +40,9 @@ describe("getLetterType", () => {
   });
 
   test("returns null if no referral letter", async () => {
-    await getLetterType(request, response, next);
+    await getReferralLetterEditStatus(request, response, next);
     const responseBody = response._getData();
-    expect(responseBody.letterType).toEqual(null);
+    expect(responseBody.editStatus).toEqual(null);
   });
 
   describe("there is a referral letter", () => {
@@ -59,9 +59,9 @@ describe("getLetterType", () => {
     });
 
     test("gets letter type generated when edited letter html is null", async () => {
-      await getLetterType(request, response, next);
+      await getReferralLetterEditStatus(request, response, next);
       const responseBody = response._getData();
-      expect(responseBody.letterType).toEqual(LETTER_TYPE.GENERATED);
+      expect(responseBody.editStatus).toEqual(EDIT_STATUS.GENERATED);
     });
 
     test("gets letter type edited when edited letter html is not null", async () => {
@@ -74,13 +74,13 @@ describe("getLetterType", () => {
 
       await referralLetter.reload();
 
-      await getLetterType(request, response, next);
+      await getReferralLetterEditStatus(request, response, next);
       const responseBody = response._getData();
-      expect(responseBody.letterType).toEqual(LETTER_TYPE.EDITED);
+      expect(responseBody.editStatus).toEqual(EDIT_STATUS.EDITED);
     });
 
     test("audits the data access", async () => {
-      await getLetterType(request, response, next);
+      await getReferralLetterEditStatus(request, response, next);
 
       const dataAccessAudit = await models.action_audit.findOne();
       expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);

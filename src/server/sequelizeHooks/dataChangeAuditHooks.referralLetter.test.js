@@ -6,7 +6,7 @@ import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import {
   RECIPIENT,
   SENDER
-} from "../handlers/cases/referralLetters/letterDefaults";
+} from "../handlers/cases/referralLetters/referralLetterDefaults";
 
 describe("dataChangeAuditHooks for referral letter", () => {
   let existingCase, referralLetter;

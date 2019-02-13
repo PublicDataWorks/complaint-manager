@@ -1,14 +1,13 @@
 import saveAs from "file-saver";
 import axios from "axios";
 import {
-  getLetterPdfSuccess,
+  getReferralLetterPdfSuccess,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
 
-const getPdf = (
+const getReferralLetterPdf = (
   caseId,
   filename,
-  letterType,
   saveFileForUser = false
 ) => async dispatch => {
   try {
@@ -21,7 +20,7 @@ const getPdf = (
       const fileToDownload = new File([response.data], filename);
       saveAs(fileToDownload, filename);
     } else {
-      dispatch(getLetterPdfSuccess(response.data));
+      dispatch(getReferralLetterPdfSuccess(response.data));
     }
     dispatch(stopLetterDownload());
   } catch (error) {
@@ -29,4 +28,4 @@ const getPdf = (
   }
 };
 
-export default getPdf;
+export default getReferralLetterPdf;

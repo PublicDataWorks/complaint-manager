@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
 import LetterPreview from "./LetterPreview";
 import {
-  getLetterPreviewSuccess,
+  getReferralLetterPreviewSuccess,
   openEditLetterConfirmationDialog,
   startLetterDownload,
   stopLetterDownload
@@ -20,10 +20,10 @@ import setCaseStatus from "../../thunks/setCaseStatus";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
-  LETTER_TYPE,
+  EDIT_STATUS,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
-import getPdf from "../thunks/getPdf";
+import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
 import { userAuthSuccess } from "../../../auth/actionCreators";
 import timekeeper from "timekeeper";
 
@@ -46,13 +46,12 @@ jest.mock("../../thunks/setCaseStatus", () =>
 );
 
 jest.mock(
-  "../thunks/getPdf",
-  () => (caseId, filename, letterType, saveFileForUser) => {
+  "../thunks/getReferralLetterPdf",
+  () => (caseId, filename, saveFileForUser) => {
     return {
       type: "SOMETHING",
       caseId,
       filename,
-      letterType,
       saveFileForUser
     };
   }
@@ -80,14 +79,14 @@ describe("LetterPreview", function() {
     };
 
     store.dispatch(
-      getLetterPreviewSuccess(
+      getReferralLetterPreviewSuccess(
         "Letter Preview HTML",
         {
           sender: "bob",
           recipient: "jane",
           transcribedBy: "joe"
         },
-        LETTER_TYPE.GENERATED,
+        EDIT_STATUS.GENERATED,
         null,
         finalFilename,
         draftFilename
@@ -533,14 +532,14 @@ describe("LetterPreview", function() {
   });
   test("do not dispatch openEditLetterConfirmationDialog when clicking edit button if the letter was edited", () => {
     store.dispatch(
-      getLetterPreviewSuccess(
+      getReferralLetterPreviewSuccess(
         "Letter Preview HTML Edited",
         {
           sender: "bob",
           recipient: "jane",
           transcribedBy: "joe"
         },
-        LETTER_TYPE.EDITED,
+        EDIT_STATUS.EDITED,
         date,
         finalFilename,
         draftFilename
@@ -569,16 +568,16 @@ describe("LetterPreview", function() {
     );
   });
 
-  test("dispatches startLetterDownload and getPdf with edit info when download button is clicked and pdf has been edited", () => {
+  test("dispatches startLetterDownload and getReferralLetterPdf with edit info when download button is clicked and pdf has been edited", () => {
     store.dispatch(
-      getLetterPreviewSuccess(
+      getReferralLetterPreviewSuccess(
         "Letter Preview HTML",
         {
           sender: "bob",
           recipient: "jane",
           transcribedBy: "joe"
         },
-        LETTER_TYPE.EDITED,
+        EDIT_STATUS.EDITED,
         date,
         finalFilename,
         draftFilename
@@ -595,11 +594,11 @@ describe("LetterPreview", function() {
 
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
     expect(dispatchSpy).toHaveBeenCalledWith(
-      getPdf(caseId, draftFilename, LETTER_TYPE.EDITED, true)
+      getReferralLetterPdf(caseId, draftFilename, true)
     );
   });
 
-  test("dispatches startLetterDownload and getPdf with edit info when download button is clicked and pdf is unedited", () => {
+  test("dispatches startLetterDownload and getReferralLetterPdf with edit info when download button is clicked and pdf is unedited", () => {
     store.dispatch(getCaseDetailsSuccess(caseDetail));
     dispatchSpy.mockClear();
     const downloadButton = wrapper
@@ -610,7 +609,7 @@ describe("LetterPreview", function() {
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
     expect(dispatchSpy).toHaveBeenNthCalledWith(
       3,
-      getPdf(caseId, draftFilename, LETTER_TYPE.GENERATED, true)
+      getReferralLetterPdf(caseId, draftFilename, true)
     );
   });
 
@@ -642,14 +641,14 @@ describe("LetterPreview", function() {
     expect(downloadButton.text()).toEqual(expectedText);
     expectedText = "Download Edited Letter as PDF File";
     store.dispatch(
-      getLetterPreviewSuccess(
+      getReferralLetterPreviewSuccess(
         "Letter Preview HTML Edited",
         {
           sender: "bob",
           recipient: "jane",
           transcribedBy: "joe"
         },
-        LETTER_TYPE.EDITED,
+        EDIT_STATUS.EDITED,
         date,
         finalFilename,
         draftFilename

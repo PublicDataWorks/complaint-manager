@@ -2,16 +2,16 @@ import React, { Component } from "react";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import NavBar from "../../../shared/components/NavBar/NavBar";
 import LinkButton from "../../../shared/components/LinkButton";
-import getLetterPreview from "../thunks/getLetterPreview";
+import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Document, Page, pdfjs } from "react-pdf";
-import getPdf from "../thunks/getPdf";
+import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
 import { withStyles } from "@material-ui/core/styles";
 
 import {
   finishLoadingPdfPreview,
-  getLetterPdfSuccess,
+  getReferralLetterPdfSuccess,
   startLoadingPdfPreview
 } from "../../../actionCreators/letterActionCreators";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
@@ -22,7 +22,7 @@ import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/Upd
 import approveReferralLetter from "../thunks/approveReferralLetter";
 import {
   CASE_STATUS,
-  LETTER_TYPE
+  EDIT_STATUS
 } from "../../../../sharedUtilities/constants";
 import PageLoading from "../../../shared/components/PageLoading";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
@@ -45,13 +45,13 @@ class ReviewAndApproveLetter extends Component {
   }
 
   componentWillUnmount() {
-    this.props.getLetterPdfSuccess(null);
+    this.props.getReferralLetterPdfSuccess(null);
   }
 
   componentDidMount() {
-    this.props.getLetterPreview(this.state.caseId);
+    this.props.getReferralLetterPreview(this.state.caseId);
     this.props.startLoadingPdfPreview();
-    this.props.getPdf(this.state.caseId);
+    this.props.getReferralLetterPdf(this.state.caseId);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -78,10 +78,10 @@ class ReviewAndApproveLetter extends Component {
 
   getTimestamp() {
     let message;
-    if (this.props.letterType === null) {
+    if (this.props.editStatus === null) {
       return;
     }
-    if (this.props.letterType === LETTER_TYPE.EDITED) {
+    if (this.props.editStatus === EDIT_STATUS.EDITED) {
       const editedDate = dateTimeFromString(this.props.lastEdited);
       message = `This letter was last edited on ${editedDate}`;
     } else {
@@ -210,7 +210,7 @@ class ReviewAndApproveLetter extends Component {
 }
 
 const mapStateToProps = state => ({
-  letterType: state.referralLetter.letterType,
+  editStatus: state.referralLetter.editStatus,
   lastEdited: state.referralLetter.lastEdited,
   letterPdf: state.referralLetter.letterPdf,
   downloadInProgress: state.ui.letterDownload.downloadInProgress,
@@ -220,13 +220,13 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getLetterPreview,
-  getPdf,
+  getReferralLetterPreview,
+  getReferralLetterPdf,
   startLoadingPdfPreview,
   finishLoadingPdfPreview,
   openCaseStatusUpdateDialog,
   approveReferralLetter,
-  getLetterPdfSuccess,
+  getReferralLetterPdfSuccess,
   invalidCaseStatusRedirect
 };
 

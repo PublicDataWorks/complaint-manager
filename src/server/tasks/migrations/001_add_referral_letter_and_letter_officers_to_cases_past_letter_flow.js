@@ -1,7 +1,7 @@
 import {
   RECIPIENT,
   SENDER
-} from "../../handlers/cases/referralLetters/letterDefaults";
+} from "../../handlers/cases/referralLetters/referralLetterDefaults";
 
 const models = require("../../models");
 const {

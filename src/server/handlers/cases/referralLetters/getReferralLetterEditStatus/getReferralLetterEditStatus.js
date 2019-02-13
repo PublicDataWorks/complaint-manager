@@ -5,12 +5,12 @@ import auditDataAccess from "../../../auditDataAccess";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT,
-  LETTER_TYPE
+  EDIT_STATUS
 } from "../../../../../sharedUtilities/constants";
 
-const getLetterType = asyncMiddleware(async (request, response, next) => {
+const getReferralLetterEditStatus = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
-  const letterType = await models.sequelize.transaction(async transaction => {
+  const editStatus = await models.sequelize.transaction(async transaction => {
     await auditDataAccess(
       request.nickname,
       caseId,
@@ -25,19 +25,19 @@ const getLetterType = asyncMiddleware(async (request, response, next) => {
     );
 
     if (referralLetter) {
-      return letterTypeFromHtml(referralLetter.editedLetterHtml);
+      return editStatusFromHtml(referralLetter.editedLetterHtml);
     }
     return null;
   });
 
-  response.status(200).send({ letterType: letterType });
+  response.status(200).send({ editStatus: editStatus });
 });
 
-export const letterTypeFromHtml = editedLetterHtml => {
+export const editStatusFromHtml = editedLetterHtml => {
   if (editedLetterHtml != null) {
-    return LETTER_TYPE.EDITED;
+    return EDIT_STATUS.EDITED;
   }
-  return LETTER_TYPE.GENERATED;
+  return EDIT_STATUS.GENERATED;
 };
 
-export default getLetterType;
+export default getReferralLetterEditStatus;

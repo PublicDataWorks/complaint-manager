@@ -1,6 +1,6 @@
-import models from "../../../models";
-import generateLetterBody from "./generateLetterBody";
-import generatePdfBuffer from "./sharedLetterUtilities/generatePdfBuffer";
+import models from "../../../../models";
+import generateReferralLetterBody from "../generateReferralLetterBody";
+import generatePdfBuffer from "../sharedLetterUtilities/generatePdfBuffer";
 import fs from "fs";
 import Handlebars from "handlebars";
 
@@ -17,7 +17,7 @@ const generateReferralLetterPdfBuffer = async (
   let letterBody = letterData.editedLetterHtml;
 
   if (!letterBody) {
-    letterBody = await generateLetterBody(caseId, transaction);
+    letterBody = await generateReferralLetterBody(caseId, transaction);
   }
 
   const pdfData = await getReferralLetterPdfData(caseId, transaction);
@@ -71,7 +71,7 @@ export const generateLetterPdfHtml = (
   };
 
   const rawTemplate = fs.readFileSync(
-    "src/server/handlers/cases/referralLetters/getPdf/letterPdf.tpl"
+    "src/server/handlers/cases/referralLetters/getReferralLetterPdf/referralLetterPdf.tpl"
   );
   const compiledTemplate = Handlebars.compile(rawTemplate.toString());
   return compiledTemplate(letterPdfData);

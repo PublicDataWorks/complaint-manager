@@ -4,18 +4,18 @@ import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavaila
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT,
-  LETTER_TYPE,
+  EDIT_STATUS,
   REFERRAL_LETTER_VERSION
 } from "../../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../auditDataAccess";
 import { getCaseWithAllAssociations } from "../../../getCaseHelpers";
-import generateLetterBody from "../generateLetterBody";
+import generateReferralLetterBody from "../generateReferralLetterBody";
 import constructFilename from "../constructFilename";
-import { letterTypeFromHtml } from "../getLetterType/getLetterType";
+import { editStatusFromHtml } from "../getReferralLetterEditStatus/getReferralLetterEditStatus";
 
 require("../../../../handlebarHelpers");
 
-const getLetterPreview = asyncMiddleware(async (request, response, next) => {
+const getReferralLetterPreview = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
   await throwErrorIfLetterFlowUnavailable(caseId);
 
@@ -40,11 +40,11 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
     };
 
     let html;
-    const letterType = letterTypeFromHtml(referralLetter.editedLetterHtml);
-    if (letterType === LETTER_TYPE.EDITED) {
+    const editStatus = editStatusFromHtml(referralLetter.editedLetterHtml);
+    if (editStatus === EDIT_STATUS.EDITED) {
       html = referralLetter.editedLetterHtml;
     } else {
-      html = await generateLetterBody(caseId, transaction);
+      html = await generateReferralLetterBody(caseId, transaction);
     }
     let lastEdited = referralLetter.updatedAt;
 
@@ -58,13 +58,13 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
     const draftFilename = constructFilename(
       caseDetails,
       REFERRAL_LETTER_VERSION.DRAFT,
-      letterType
+      editStatus
     );
 
     response.send({
       letterHtml: html,
       addresses: letterAddresses,
-      letterType: letterType,
+      editStatus: editStatus,
       lastEdited: lastEdited,
       caseDetails: caseDetails,
       finalFilename: finalFilename,
@@ -73,4 +73,4 @@ const getLetterPreview = asyncMiddleware(async (request, response, next) => {
   });
 });
 
-export default getLetterPreview;
+export default getReferralLetterPreview;

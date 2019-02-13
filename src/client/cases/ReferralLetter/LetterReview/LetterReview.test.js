@@ -8,15 +8,15 @@ import LetterReview from "./LetterReview";
 import { mount } from "enzyme";
 import React from "react";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
-import getLetterType from "../thunks/getLetterType";
+import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getCaseDetails from "../../thunks/getCaseDetails";
 
 jest.mock("../../thunks/getCaseDetails", () => caseId => ({
   type: "GetCaseDetails",
   caseId
 }));
-jest.mock("../thunks/getLetterType", () => caseId => ({
-  type: "GetLetterType",
+jest.mock("../thunks/getReferralLetterEditStatus", () => caseId => ({
+  type: "GetReferralLetterEditStatus",
   caseId
 }));
 jest.mock("../../thunks/invalidCaseStatusRedirect", () => caseId => ({
@@ -44,7 +44,9 @@ describe("LetterReview", () => {
   });
 
   test("loads letter type on mount so message can be displayed", () => {
-    expect(dispatchSpy).toHaveBeenCalledWith(getLetterType(caseId.toString()));
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      getReferralLetterEditStatus(caseId.toString())
+    );
   });
 
   test("redirects to case detail page if case is prior to letter generation status", () => {

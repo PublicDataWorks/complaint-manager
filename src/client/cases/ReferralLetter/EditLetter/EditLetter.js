@@ -13,7 +13,7 @@ import {
   EDIT_LETTER_HTML_FORM,
   LETTER_PROGRESS
 } from "../../../../sharedUtilities/constants";
-import getLetterPreview from "../thunks/getLetterPreview";
+import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
 import { Field, initialize, reduxForm } from "redux-form";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 import { openCancelEditLetterConfirmationDialog } from "../../../actionCreators/letterActionCreators";
@@ -43,7 +43,7 @@ export class EditLetter extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getLetterPreview(this.state.caseId));
+    this.props.dispatch(getReferralLetterPreview(this.state.caseId));
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -193,7 +193,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  invalidCaseStatusRedirect: invalidCaseStatusRedirect
+  invalidCaseStatusRedirect
 };
 
 export default connect(

@@ -23,8 +23,8 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { push } from "connected-react-router";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
-import EditLetterStatusMessage from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
-import getLetterType from "../thunks/getLetterType";
+import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterStatusMessage";
+import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {
@@ -37,7 +37,7 @@ export class LetterReview extends Component {
   componentDidMount() {
     const caseId = this.props.match.params.id;
     this.props.getCaseDetails(caseId);
-    this.props.getLetterType(caseId);
+    this.props.getReferralLetterEditStatus(caseId);
   }
 
   componentDidUpdate() {
@@ -117,7 +117,7 @@ export class LetterReview extends Component {
               Review Case Details
             </Typography>
           </div>
-          <EditLetterStatusMessage />
+          <LetterStatusMessage />
 
           <CaseDetailCard
             cardTitle={"Incident Info"}
@@ -173,7 +173,7 @@ export class LetterReview extends Component {
 const mapDispatchToProps = {
   getCaseDetails,
   invalidCaseStatusRedirect,
-  getLetterType,
+  getReferralLetterEditStatus,
   push
 };
 

@@ -24,9 +24,9 @@ import {
   RECOMMENDED_ACTIONS_TEXT,
   RETALIATION_CONCERNS_LABEL,
   RETALIATION_CONCERNS_TEXT
-} from "../../../../server/handlers/cases/referralLetters/letterDefaults";
-import EditLetterStatusMessage from "../../CaseDetails/EditLetterStatusMessage/EditLetterStatusMessage";
-import getLetterType from "../thunks/getLetterType";
+} from "../../../../server/handlers/cases/referralLetters/referralLetterDefaults";
+import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterStatusMessage";
+import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 
 class RecommendedActions extends Component {
@@ -38,7 +38,7 @@ class RecommendedActions extends Component {
   componentDidMount() {
     this.props.getReferralLetterData(this.state.caseId);
     this.props.getMinimumCaseDetails(this.state.caseId);
-    this.props.getLetterType(this.state.caseId);
+    this.props.getReferralLetterEditStatus(this.state.caseId);
     this.props.getRecommendedActions();
   }
 
@@ -210,7 +210,7 @@ class RecommendedActions extends Component {
               >
                 Recommended Actions
               </Typography>
-              <EditLetterStatusMessage />
+              <LetterStatusMessage />
 
               <Card
                 style={{
@@ -277,7 +277,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   getReferralLetterData,
   getMinimumCaseDetails,
-  getLetterType,
+  getReferralLetterEditStatus,
   getRecommendedActions
 };
 

@@ -4,10 +4,10 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
 import {
-  getLetterPreviewSuccess,
+  getReferralLetterPreviewSuccess,
   openCancelEditLetterConfirmationDialog
 } from "../../../actionCreators/letterActionCreators";
-import getLetterPreview from "../thunks/getLetterPreview";
+import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
 import EditLetter from "./EditLetter";
 import editReferralLetterContent from "../thunks/editReferralLetterContent";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
@@ -16,8 +16,8 @@ import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 
 require("../../../testUtilities/MockMutationObserver");
 
-jest.mock("../thunks/getLetterPreview", () => () => ({
-  type: "getLetterPreview"
+jest.mock("../thunks/getReferralLetterPreview", () => () => ({
+  type: "getReferralLetterPreview"
 }));
 
 jest.mock("../../thunks/invalidCaseStatusRedirect", () => caseId => ({
@@ -46,7 +46,7 @@ describe("Edit Letter Html", () => {
     dispatchSpy = jest.spyOn(store, "dispatch");
 
     store.dispatch(
-      getLetterPreviewSuccess(initialLetterHtml, {
+      getReferralLetterPreviewSuccess(initialLetterHtml, {
         sender: "bob",
         recipient: "jane",
         transcribedBy: "joe"
@@ -70,7 +70,7 @@ describe("Edit Letter Html", () => {
   });
 
   test("load letter preview html and set it on the rtf editor when page is loaded", () => {
-    expect(dispatchSpy).toHaveBeenCalledWith(getLetterPreview(caseId));
+    expect(dispatchSpy).toHaveBeenCalledWith(getReferralLetterPreview(caseId));
 
     const rtfEditor = wrapper.find("Quill").first();
     expect(rtfEditor.props().value).toEqual(initialLetterHtml);

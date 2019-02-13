@@ -34,10 +34,10 @@ import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 import Witnesses from "./ComplainantWitnesses/Witnesses";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
-import EditLetterStatusMessage, {
+import LetterStatusMessage, {
   PAGE_TYPE
-} from "./EditLetterStatusMessage/EditLetterStatusMessage";
-import getLetterType from "../ReferralLetter/thunks/getLetterType";
+} from "./LetterStatusMessage/LetterStatusMessage";
+import getReferralLetterEditStatus from "../ReferralLetter/thunks/getReferralLetterEditStatus";
 import { scrollToTop } from "../../ScrollToTop";
 import { reset } from "redux-form";
 
@@ -98,7 +98,7 @@ class CaseDetails extends React.Component {
   componentDidMount() {
     const caseId = this.props.match.params.id;
     this.props.dispatch(getCaseDetails(caseId));
-    this.props.dispatch(getLetterType(caseId));
+    this.props.dispatch(getReferralLetterEditStatus(caseId));
   }
 
   componentWillUnmount() {
@@ -149,7 +149,7 @@ class CaseDetails extends React.Component {
           <main className={classes.content}>
             <CaseStatusStepper />
             <div style={{ marginLeft: "5%", marginRight: "5%" }}>
-              <EditLetterStatusMessage pageType={PAGE_TYPE.CASE_DETAILS} />
+              <LetterStatusMessage pageType={PAGE_TYPE.CASE_DETAILS} />
             </div>
             <IncidentDetails classes={classes} />
             <Complainants
@@ -202,8 +202,7 @@ CaseDetails.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  caseDetails: state.currentCase.details,
-  letterType: state.referralLetter.letterType
+  caseDetails: state.currentCase.details
 });
 
 export default withStyles(styles, { withTheme: true })(

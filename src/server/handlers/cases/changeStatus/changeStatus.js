@@ -1,4 +1,4 @@
-import { RECIPIENT, SENDER } from "../referralLetters/letterDefaults";
+import { RECIPIENT, SENDER } from "../referralLetters/referralLetterDefaults";
 import {
   ACCUSED,
   USER_PERMISSIONS

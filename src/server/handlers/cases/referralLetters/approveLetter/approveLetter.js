@@ -7,7 +7,7 @@ import {
   REFERRAL_LETTER_VERSION,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
-import generateReferralLetterPdfBuffer from "../generateReferralLetterPdfBuffer";
+import generateReferralLetterPdfBuffer from "../getReferralLetterPdf/generateReferralLetterPdfBuffer";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import Boom from "boom";
 import auditUpload from "../sharedLetterUtilities/auditUpload";

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {
   CASE_STATUS,
   LETTER_PROGRESS,
-  LETTER_TYPE,
+  EDIT_STATUS,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import NavBar from "../../../shared/components/NavBar/NavBar";
@@ -14,7 +14,7 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
-import getLetterPreview from "../thunks/getLetterPreview";
+import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
 import { Field, reduxForm } from "redux-form";
 import { TextField } from "redux-form-material-ui";
 import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
@@ -27,7 +27,7 @@ import EditLetterConfirmationDialog from "./EditLetterConfirmationDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import { dateTimeFromString } from "../../../utilities/formatDate";
-import getPdf from "../thunks/getPdf";
+import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import styles from "../../../globalStyling/styles";
 
@@ -38,7 +38,7 @@ class LetterPreview extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getLetterPreview(this.state.caseId));
+    this.props.dispatch(getReferralLetterPreview(this.state.caseId));
   }
 
   letterPreviewNotYetLoaded = () => {
@@ -53,12 +53,7 @@ class LetterPreview extends Component {
 
   downloadLetterAsPdfFile = () => {
     return this.props.dispatch(
-      getPdf(
-        this.state.caseId,
-        this.props.draftFilename,
-        this.props.letterType,
-        true
-      )
+      getReferralLetterPdf(this.state.caseId, this.props.draftFilename, true)
     );
   };
 
@@ -130,7 +125,7 @@ class LetterPreview extends Component {
   };
 
   editLetterWithPossibleConfirmationDialog = () => {
-    if (this.props.letterType === LETTER_TYPE.EDITED) {
+    if (this.props.editStatus === EDIT_STATUS.EDITED) {
       return this.saveAndGoToEditLetter();
     } else {
       return () => {
@@ -267,7 +262,7 @@ class LetterPreview extends Component {
           style={{ marginBottom: "16px" }}
           disabled={this.props.downloadInProgress}
         >
-          {this.props.letterType === LETTER_TYPE.EDITED
+          {this.props.editStatus === EDIT_STATUS.EDITED
             ? "Download Edited Letter as PDF File"
             : "Download Generated Letter as PDF File"}
         </LinkButton>
@@ -302,7 +297,7 @@ class LetterPreview extends Component {
   };
 
   timestampIfEdited() {
-    if (this.props.letterType === LETTER_TYPE.EDITED) {
+    if (this.props.editStatus === EDIT_STATUS.EDITED) {
       return (
         <i style={styles.body1}>
           (Last edited {dateTimeFromString(this.props.lastEdited)})
@@ -384,7 +379,7 @@ class LetterPreview extends Component {
 const mapStateToProps = state => ({
   letterHtml: state.referralLetter.letterHtml,
   initialValues: state.referralLetter.addresses,
-  letterType: state.referralLetter.letterType,
+  editStatus: state.referralLetter.editStatus,
   lastEdited: state.referralLetter.lastEdited,
   draftFilename: state.referralLetter.draftFilename,
   caseDetails: state.currentCase.details,

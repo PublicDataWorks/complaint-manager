@@ -1,6 +1,6 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
-import generateReferralLetterPdfBuffer from "../generateReferralLetterPdfBuffer";
+import generateReferralLetterPdfBuffer from "./generateReferralLetterPdfBuffer";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import auditDataAccess from "../../../auditDataAccess";
 import {
@@ -8,7 +8,7 @@ import {
   AUDIT_SUBJECT
 } from "../../../../../sharedUtilities/constants";
 
-const getPdf = asyncMiddleware(async (request, response, next) => {
+const getReferralLetterPdf = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
   await throwErrorIfLetterFlowUnavailable(caseId);
   await models.sequelize.transaction(async transaction => {
@@ -28,4 +28,4 @@ const getPdf = asyncMiddleware(async (request, response, next) => {
   });
 });
 
-export default getPdf;
+export default getReferralLetterPdf;

@@ -4,7 +4,7 @@ import ReferralLetter from "../../client/testUtilities/ReferralLetter";
 import {
   RECIPIENT,
   SENDER
-} from "../handlers/cases/referralLetters/letterDefaults";
+} from "../handlers/cases/referralLetters/referralLetterDefaults";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import ReferralLetterIAProCorrection from "../../client/testUtilities/ReferralLetterIAProCorrection";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
