@@ -12,7 +12,8 @@ import {
   sumAllegations,
   calculateIndex,
   addNumbers,
-  isGreaterThan
+  isGreaterThan,
+  atLeastOneInputDefined
 } from "./handlebarHelpers";
 import { SIGNATURE_URLS } from "../sharedUtilities/constants";
 
@@ -484,5 +485,19 @@ describe("index functions", function() {
   });
   test("returns false when index is 1", () => {
     expect(isGreaterThan(1, 1)).toBeFalsy();
+  });
+});
+
+describe("check if arrays are empty", function() {
+  test("returns true when at least one input is not empty", () => {
+    expect(atLeastOneInputDefined(null, [1])).toBeTruthy();
+  });
+
+  test("returns false when everything is not defined", () => {
+    expect(atLeastOneInputDefined(null, [])).toBeFalsy();
+  });
+
+  test("returns false when one input is undefined and one is null", () => {
+    expect(atLeastOneInputDefined(undefined, null)).toBeFalsy();
   });
 });

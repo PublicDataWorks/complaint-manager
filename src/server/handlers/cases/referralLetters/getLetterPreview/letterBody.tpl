@@ -75,7 +75,7 @@
     <p><br></p>
   {{/each}}
 
-  {{#if witnessCivilians}}
+  {{#if (atLeastOneInputDefined witnessCivilians witnessOfficers)}}
     <p><strong><u>Witnesses</u></strong></p>
   {{/if}}
   {{#each witnessCivilians}}
@@ -96,7 +96,7 @@
   {{/each}}
   {{#each witnessOfficers}}
     {{#if (isGreaterThan (addNumbers ../witnessCivilians.length ../witnessOfficers.length) 1)}}
-      Witness Officer #{{addNumbers (addNumbers @index 1) ../witnessCivilians.length}}
+      Witness #{{addNumbers (addNumbers @index 1) ../witnessCivilians.length}}
       <br>
     {{/if}}
     {{#if isAnonymous}}
