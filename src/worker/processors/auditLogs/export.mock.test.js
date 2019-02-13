@@ -35,7 +35,7 @@ describe("GET /api/export-audit-log", () => {
       const job = { data: { user: "some user" } };
       await exportAudit(job, async () => {});
 
-      const exportActionAudit = await models.action_audit.find({
+      const exportActionAudit = await models.action_audit.findOne({
         where: {
           auditType: AUDIT_TYPE.EXPORT,
           action: AUDIT_ACTION.EXPORTED,
