@@ -155,3 +155,10 @@ export const isGreaterThan = (num1, num2) => {
   return num1 > num2;
 };
 Handlebars.registerHelper("isGreaterThan", isGreaterThan);
+
+export const atLeastOneInputDefined = (input1, input2) => {
+  const boolInput1 = Array.isArray(input1) && input1.length > 0;
+  const boolInput2 = Array.isArray(input2) && input2.length > 0;
+  return (input1 !== null && boolInput1) || (input2 !== null && boolInput2);
+};
+Handlebars.registerHelper("atLeastOneInputDefined", atLeastOneInputDefined);
