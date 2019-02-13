@@ -140,8 +140,6 @@
       </ol>
       <p><br></p>
   {{/each}}
-  <p class="preserve-white-space"><strong><u>Summary:</u></strong> {{narrativeSummary}}</p>
-  <p><br></p>
   <p class="preserve-white-space"><strong><u>Detail:</u></strong> {{narrativeDetails}}</p>
 
   <p><br></p>
