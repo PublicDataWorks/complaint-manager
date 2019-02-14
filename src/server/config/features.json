@@ -6,18 +6,10 @@
     "enabled": false
   },
   {
-    "id": "archiveCaseFeature",
-    "name": "archiveCaseFeature",
-    "description": "Toggle to show archive case button",
-    "enabled": true
-  },
-  {
     "id": "pibCaseNumberFeature",
     "name": "pibCaseNumberFeature",
     "description": "Toggle to show PIB Case Number Field in Incident Details",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": true
   },
   {
     "id": "isAnonymousFeature",
