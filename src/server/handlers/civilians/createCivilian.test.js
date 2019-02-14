@@ -13,21 +13,23 @@ import {
 const httpMocks = require("node-mocks-http");
 
 describe("createCivilian handler", () => {
-  afterEach(async () => {
-    await cleanupDatabase();
-  });
+  let createdCase, civilianValues, request;
+  const response = httpMocks.createResponse();
 
-  test("should audit case data access", async () => {
-    const createdCase = await createTestCaseWithoutCivilian();
+  beforeEach(async () => {
+    const caseAttributes = new Case.Builder().defaultCase().build();
+    createdCase = await models.cases.create(caseAttributes, {
+      auditUser: "someone"
+    });
 
-    const civilianValues = {
+    civilianValues = {
       firstName: "Test",
       lastName: "Name",
       phoneNumber: "1234567890",
       caseId: createdCase.id
     };
 
-    const request = httpMocks.createRequest({
+    request = httpMocks.createRequest({
       method: "POST",
       headers: {
         authorization: "Bearer SOME_MOCK_TOKEN"
@@ -35,7 +37,15 @@ describe("createCivilian handler", () => {
       body: civilianValues,
       nickname: "TEST_USER_NICKNAME"
     });
-    const response = httpMocks.createResponse();
+  });
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
+
+  test("should audit case data access", async () => {
+    const createdCase = await createTestCaseWithoutCivilian();
+    civilianValues.caseId = createdCase.id;
+    request.body = civilianValues;
 
     await createCivilian(request, response, jest.fn());
 
@@ -57,28 +67,6 @@ describe("createCivilian handler", () => {
   });
 
   test("should not create an address when no address values given", async () => {
-    const caseAttributes = new Case.Builder().defaultCase().build();
-    const createdCase = await models.cases.create(caseAttributes, {
-      auditUser: "someone"
-    });
-
-    const civilianValues = {
-      firstName: "Test",
-      lastName: "Name",
-      phoneNumber: "1234567890",
-      caseId: createdCase.id
-    };
-
-    const request = httpMocks.createRequest({
-      method: "POST",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
-      body: civilianValues,
-      nickname: "TEST_USER_NICKNAME"
-    });
-    const response = httpMocks.createResponse();
-
     await createCivilian(request, response, jest.fn());
 
     const createdCivilian = await models.civilian.findOne({
@@ -96,11 +84,6 @@ describe("createCivilian handler", () => {
   });
 
   test("should trim extra whitespace from fields: firstName, lastName", async () => {
-    const caseAttributes = new Case.Builder().defaultCase().build();
-    const createdCase = await models.cases.create(caseAttributes, {
-      auditUser: "someone"
-    });
-
     const civilianValues = {
       firstName: "      Test White-space ",
       lastName: "  O'Hare  ",
@@ -108,15 +91,7 @@ describe("createCivilian handler", () => {
       caseId: createdCase.id
     };
 
-    const request = httpMocks.createRequest({
-      method: "POST",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
-      body: civilianValues,
-      nickname: "TEST_USER_NICKNAME"
-    });
-    const response = httpMocks.createResponse();
+    request.body = civilianValues;
 
     await createCivilian(request, response, jest.fn());
 
