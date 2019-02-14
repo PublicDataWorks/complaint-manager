@@ -22,7 +22,7 @@ services:
       - "3000:3000"
       - "4000:4000"
     entrypoint: ["./wait-for-it.sh", "db:5432", "--"]
-    command: ["yarn", "start"]
+    command: ["yarn", "start:dev"]
     volumes:
       - ./src:/app/src
   worker:
@@ -40,7 +40,7 @@ services:
       - "4567:4567"
       - "5000:5000"
     entrypoint: ["./wait-for-it.sh", "db:5432", "--"]
-    command: ["yarn", "start:worker"]
+    command: ["yarn", "start:worker:dev"]
     volumes:
       - ./src:/app/src
   db:
