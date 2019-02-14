@@ -134,15 +134,13 @@ class IncidentDetails extends React.Component {
                 </StyledInfoDisplay>
               </div>
               <div className={classes.detailsLastRow}>
-                {!featureToggles.pibCaseNumberFeature ? null : (
-                  <StyledInfoDisplay>
-                    <CivilianInfoDisplay
-                      displayLabel="PIB Case Number"
-                      value={pibCaseNumber}
-                      testLabel="pibCaseNumber"
-                    />
-                  </StyledInfoDisplay>
-                )}
+                <StyledInfoDisplay>
+                  <CivilianInfoDisplay
+                    displayLabel="PIB Case Number"
+                    value={pibCaseNumber}
+                    testLabel="pibCaseNumber"
+                  />
+                </StyledInfoDisplay>
               </div>
             </div>
             <div className={classes.detailsPaneButtons}>
