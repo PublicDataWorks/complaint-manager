@@ -5,13 +5,12 @@ import LinkButton from "../../shared/components/LinkButton";
 import { Drawer, Typography } from "@material-ui/core";
 import CaseNotes from "./CaseNotes/CaseNotes";
 import ArchiveCaseButton from "./ArchiveCaseButton/ArchiveCaseButton";
-import { connect } from "react-redux";
 import RestoreArchivedCaseButton from "./RestoreArchivedCaseButton/RestoreArchivedCaseButton";
 
 const renderArchiveOrRestoreButton = isArchived =>
   isArchived ? <RestoreArchivedCaseButton /> : <ArchiveCaseButton />;
 
-const CaseDrawer = ({ classes, caseDetails, featureToggles }) => (
+const CaseDrawer = ({ classes, caseDetails }) => (
   <Drawer
     variant="permanent"
     anchor="left"
@@ -41,9 +40,7 @@ const CaseDrawer = ({ classes, caseDetails, featureToggles }) => (
           >
             {`Case #${caseDetails.caseReference}`}
           </Typography>
-          {featureToggles.archiveCaseFeature
-            ? renderArchiveOrRestoreButton(caseDetails.isArchived)
-            : null}
+          {renderArchiveOrRestoreButton(caseDetails.isArchived)}
         </div>
         <div className={classes.drawerRow}>
           <div className={classes.drawerRowItem}>
@@ -83,8 +80,4 @@ const CaseDrawer = ({ classes, caseDetails, featureToggles }) => (
   </Drawer>
 );
 
-const mapStateToProps = state => ({
-  featureToggles: state.featureToggles
-});
-
-export default connect(mapStateToProps)(CaseDrawer);
+export default CaseDrawer;
