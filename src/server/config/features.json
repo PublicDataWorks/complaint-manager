@@ -6,12 +6,6 @@
     "enabled": false
   },
   {
-    "id": "pibCaseNumberFeature",
-    "name": "pibCaseNumberFeature",
-    "description": "Toggle to show PIB Case Number Field in Incident Details",
-    "enabled": true
-  },
-  {
     "id": "isAnonymousFeature",
     "name": "isAnonymousFeature",
     "description": "Toggle to show isAnonymous checkbox field in complainant and witness dialogs",
