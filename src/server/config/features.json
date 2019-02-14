@@ -9,9 +9,7 @@
     "id": "archiveCaseFeature",
     "name": "archiveCaseFeature",
     "description": "Toggle to show archive case button",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": true
   },
   {
     "id": "pibCaseNumberFeature",
