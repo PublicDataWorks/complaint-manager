@@ -39,6 +39,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         field: "recommended_action_notes"
       },
+      officerHistoryOptionId: {
+        type: DataTypes.INTEGER,
+        field: "officer_history_option_id",
+        references: {
+          model: models.officer_history_option,
+          key: "id"
+        }
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

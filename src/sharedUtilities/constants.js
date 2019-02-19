@@ -69,6 +69,8 @@ export const ADD_OFFICER_ALLEGATION_SUCCEEDED =
 export const GET_CLASSIFICATIONS_SUCCEEDED = "GET_CLASSIFICATIONS_SUCCEEDED";
 export const GET_INTAKE_SOURCES_SUCCEEDED = "GET_INTAKE_SOURCES_SUCCEEDED";
 export const GET_RACE_ETHNICITIES_SUCCEEDED = "GET_RACE_ETHNICITIES_SUCCEEDED";
+export const GET_OFFICER_HISTORY_OPTIONS_SUCCEEDED =
+  "GET_OFFICER_HISTORY_OPTIONS_SUCCEEDED";
 
 export const GET_RECOMMENDED_ACTIONS_SUCCESS =
   "GET_RECOMMENDED_ACTIONS_SUCCESS";
@@ -193,6 +195,7 @@ export const OFFICER_SELECTED = "OFFICER_SELECTED";
 export const CASE_OFFICER_SELECTED = "CASE_OFFICER_SELECTED";
 export const UNKNOWN_OFFICER_SELECTED = "UNKNOWN_OFFICER_SELECTED";
 export const CLEAR_SELECTED_OFFICER = "CLEAR_SELECTED_OFFICER";
+export const UNKNOWN_OFFICER_NAME = "Unknown Officer";
 
 // ----------------------------------------
 //          Case History Actions
@@ -358,6 +361,16 @@ export const LETTER_PROGRESS_MAP = {
   [LETTER_PROGRESS.IAPRO_CORRECTIONS]: 2,
   [LETTER_PROGRESS.RECOMMENDED_ACTIONS]: 3,
   [LETTER_PROGRESS.PREVIEW]: 4
+};
+
+// ----------------------------------------
+//       Officers Allegations Options
+// ----------------------------------------
+export const ALLEGATION_OPTIONS = {
+  NO_NOTEWORTHY_HISTORY: "No noteworthy officer history to include in letter",
+  RECRUIT: "Officer is a recruit so there is no history",
+  NO_IAPRO_HISTORY: "No officer history included in IAPro",
+  NOTEWORTHY_HISTORY: "Officer has signifcant/noteworthy history"
 };
 
 // ----------------------------------------

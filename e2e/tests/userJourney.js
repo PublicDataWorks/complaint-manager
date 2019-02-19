@@ -312,6 +312,7 @@ if (TEST_PASS && TEST_USER && HOST) {
 
       complaintHistory
         .isOnPage()
+        .clickFourthOption()
         .setHighAllegations(2)
         .setMedAllegations(3)
         .setLowAllegations(5)

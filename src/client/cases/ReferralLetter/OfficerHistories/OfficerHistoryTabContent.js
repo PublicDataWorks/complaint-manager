@@ -1,26 +1,44 @@
 import React, { Fragment } from "react";
-import { Typography } from "@material-ui/core";
+import {
+  Typography,
+  FormControlLabel,
+  Radio,
+  RadioGroup
+} from "@material-ui/core";
 import styles from "../../../globalStyling/styles";
-import { TextField } from "redux-form-material-ui";
-import { Field, FieldArray, formValueSelector } from "redux-form";
+import { Field, FieldArray, formValueSelector, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { isIntegerString } from "../../../formFieldLevelValidations";
-import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 import OfficerHistoryNote from "./OfficerHistoryNote";
 import LinkButton from "../../../shared/components/LinkButton";
-import calculateOfficerHistoryTotalAllegations from "./calculateOfficerHistoryTotalAllegations";
 import shortid from "shortid";
-import { numbersOnly } from "../../../utilities/fieldFormatters";
-import { OFFICER_HISTORY_MESSAGE } from "../../../../server/handlers/cases/referralLetters/referralLetterDefaults";
+import OfficerAllegationHistory from "./OfficerAllegationHistory";
+import getOfficerHistoryOptionsRadioButtonValues from "../thunks/getOfficerHistoryOptionsRadioButtonValues";
+import { UNKNOWN_OFFICER_NAME } from "../../../../sharedUtilities/constants";
 
-const RichTextEditorComponent = props => (
-  <RichTextEditor
-    initialValue={props.input.value}
-    onChange={newValue => props.input.onChange(newValue)}
+const renderRadioGroup = ({ input, ...rest }) => (
+  <RadioGroup
+    {...input}
+    {...rest}
+    onChange={(event, value) => {
+      input.onChange(value);
+    }}
   />
 );
 
 class OfficerHistoryTabContent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedOfficerHistoryOption: this.props.letterOfficers[
+        this.props.letterOfficerIndex
+      ].officerHistoryOptionId
+    };
+  }
+
+  componentDidMount() {
+    this.props.dispatch(getOfficerHistoryOptionsRadioButtonValues());
+  }
+
   addNewOfficerNote = fields => () =>
     fields.push({ tempId: shortid.generate() });
 
@@ -52,6 +70,66 @@ class OfficerHistoryTabContent extends React.Component {
       );
     });
 
+  renderAllegationRadioButtons = letterOfficer => {
+    return (
+      <Field
+        name={`${letterOfficer}.officerHistoryOptionId`}
+        component={renderRadioGroup}
+        style={{ flexDirection: "column", marginLeft: "24px" }}
+        data-test="officerHistoryOptionRadioGroup"
+        onChange={(event, value) =>
+          this.setState({
+            selectedOfficerHistoryOption: value
+          })
+        }
+      >
+        {this.props.officerHistoryOptions.map(historyOption => {
+          return (
+            <FormControlLabel
+              value={historyOption.id.toString()}
+              control={<Radio color="primary" />}
+              label={historyOption.name}
+              key={historyOption.id}
+              data-test={`${letterOfficer}-option-${historyOption.id}`}
+            />
+          );
+        })}
+      </Field>
+    );
+  };
+
+  renderKnownOfficerAllegationHistoryTabContent = (
+    selectedOfficerHistoryOption,
+    letterOfficer,
+    caseOfficerId,
+    caseOfficerName
+  ) => {
+    console.log(
+      `${caseOfficerName} is not equal to unknown officer `,
+      caseOfficerName !== UNKNOWN_OFFICER_NAME
+    );
+    return (
+      <div>
+        {caseOfficerName !== UNKNOWN_OFFICER_NAME ? (
+          <div>
+            {this.renderAllegationRadioButtons(letterOfficer)}
+            {this.state.selectedOfficerHistoryOption === "4" ? (
+              <OfficerAllegationHistory
+                letterOfficer={letterOfficer}
+                caseOfficerId={caseOfficerId}
+              />
+            ) : null}
+          </div>
+        ) : (
+          <p>
+            The IPM is unable to review this officer’s disciplinary history as
+            they are unable to be identified at this time.
+          </p>
+        )}
+      </div>
+    );
+  };
+
   render() {
     const {
       letterOfficer,
@@ -73,60 +151,21 @@ class OfficerHistoryTabContent extends React.Component {
         >
           {caseOfficerName}
         </Typography>
-        <Typography style={{ paddingBottom: "16px" }}>
-          {OFFICER_HISTORY_MESSAGE}
-        </Typography>
-        <Typography>
-          Please enter the number of allegations this officer has received over
-          the past 5 years
-        </Typography>
-        <div style={{ display: "flex", marginBottom: "32px" }}>
-          <Field
-            style={{ margin: "8px 24px 0 0", flex: 1 }}
-            name={`${letterOfficer}.numHistoricalHighAllegations`}
-            component={TextField}
-            label="High Level"
-            data-test={`${letterOfficer}-numHistoricalHighAllegations`}
-            validate={[isIntegerString]}
-            format={numbersOnly}
+        {this.props.officerHistoryFeatureToggle ? (
+          <div>
+            {this.renderKnownOfficerAllegationHistoryTabContent(
+              this.state.selectedOfficerHistoryOption,
+              letterOfficer,
+              caseOfficerId,
+              caseOfficerName
+            )}
+          </div>
+        ) : (
+          <OfficerAllegationHistory
+            letterOfficer={letterOfficer}
+            caseOfficerId={caseOfficerId}
           />
-          <Field
-            style={{ margin: "8px 24px 0 0", flex: 1 }}
-            name={`${letterOfficer}.numHistoricalMedAllegations`}
-            component={TextField}
-            label="Medium Level"
-            data-test={`${letterOfficer}-numHistoricalMedAllegations`}
-            validate={[isIntegerString]}
-            format={numbersOnly}
-          />
-          <Field
-            style={{ margin: "8px 24px 0 0", flex: 1 }}
-            name={`${letterOfficer}.numHistoricalLowAllegations`}
-            component={TextField}
-            label="Low Level"
-            data-test={`${letterOfficer}-numHistoricalLowAllegations`}
-            validate={[isIntegerString]}
-            format={numbersOnly}
-          />
-          <Typography
-            style={{ flex: 1, marginTop: "32px" }}
-            data-test={`officers-${caseOfficerId}-total-historical-allegations`}
-          >
-            <b>{calculateOfficerHistoryTotalAllegations(this.props)}</b> total
-            allegations
-          </Typography>
-        </div>
-        <Typography style={{ marginBottom: "8px", ...styles.inputLabel }}>
-          Notes on any patterns of behavior
-        </Typography>
-        <div style={{ width: "75%", marginBottom: "32px" }}>
-          <Field
-            name={`${letterOfficer}.historicalBehaviorNotes`}
-            component={RichTextEditorComponent}
-            label="Notes on any patterns of behavior"
-            data-test={`${letterOfficer}-historicalBehaviorNotes`}
-          />
-        </div>
+        )}
         <Typography style={{ paddingBottom: "16px", ...styles.section }}>
           Notes
         </Typography>
@@ -139,20 +178,14 @@ class OfficerHistoryTabContent extends React.Component {
   }
 }
 
-const selector = formValueSelector("OfficerHistories");
 const mapStateToProps = (state, props) => ({
-  numHistoricalHighAllegations: selector(
-    state,
-    `${props.letterOfficer}.numHistoricalHighAllegations`
-  ),
-  numHistoricalMedAllegations: selector(
-    state,
-    `${props.letterOfficer}.numHistoricalMedAllegations`
-  ),
-  numHistoricalLowAllegations: selector(
-    state,
-    `${props.letterOfficer}.numHistoricalLowAllegations`
-  )
+  officerHistoryFeatureToggle: state.featureToggles.noOfficerHistoryNoteFeature,
+  letterOfficers: state.referralLetter.letterDetails.letterOfficers,
+  officerHistoryOptions: state.ui.officerHistoryOptions
 });
 
-export default connect(mapStateToProps)(OfficerHistoryTabContent);
+const ConnectedForm = connect(mapStateToProps)(OfficerHistoryTabContent);
+
+export default reduxForm({
+  form: "OfficerHistories"
+})(ConnectedForm);
