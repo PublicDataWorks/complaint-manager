@@ -113,7 +113,10 @@ const IntakeSource = props => {
 
 const mapStateToProps = state => ({
   open: state.ui.createCaseDialog.open,
-  complaintType: formValueSelector("CreateCase")(state, "case.complaintType"),
+  complaintType: formValueSelector(CREATE_CASE_FORM_NAME)(
+    state,
+    "case.complaintType"
+  ),
   intakeSources: state.ui.intakeSources
 });
 

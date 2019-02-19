@@ -117,7 +117,7 @@ describe("getReferralLetterData", () => {
   });
 
   describe("there is a letter officer", function() {
-    let letterOfficer, caseOfficer;
+    let letterOfficer, caseOfficer, officerHistoryOption;
 
     beforeEach(async () => {
       const officerAttributes = new Officer.Builder()
@@ -139,6 +139,12 @@ describe("getReferralLetterData", () => {
       caseOfficer = await models.case_officer.create(caseOfficerAttributes, {
         auditUser: "test"
       });
+
+      officerHistoryOption = await models.officer_history_option.create(
+        { name: "No noteworthy history" },
+        { auditUser: "test" }
+      );
+
       const letterOfficerAttributes = new LetterOfficer.Builder()
         .defaultLetterOfficer()
         .withId(undefined)
@@ -147,7 +153,8 @@ describe("getReferralLetterData", () => {
         .withNumHistoricalMedAllegations(3)
         .withNumHistoricalLowAllegations(1)
         .withRecommendedActionNotes("some recommendation notes")
-        .withHistoricalBehaviorNotes("some historical behavior notes");
+        .withHistoricalBehaviorNotes("some historical behavior notes")
+        .withOfficerHistoryOptionId(officerHistoryOption.id);
 
       letterOfficer = await models.letter_officer.create(
         letterOfficerAttributes,
@@ -172,6 +179,7 @@ describe("getReferralLetterData", () => {
             numHistoricalLowAllegations:
               letterOfficer.numHistoricalLowAllegations,
             historicalBehaviorNotes: letterOfficer.historicalBehaviorNotes,
+            officerHistoryOptionId: officerHistoryOption.id.toString(),
             referralLetterOfficerHistoryNotes: [emptyObject],
             recommendedActionNotes: letterOfficer.recommendedActionNotes,
             referralLetterOfficerRecommendedActions: []
@@ -214,6 +222,7 @@ describe("getReferralLetterData", () => {
               letterOfficer.numHistoricalLowAllegations,
             historicalBehaviorNotes: letterOfficer.historicalBehaviorNotes,
             recommendedActionNotes: letterOfficer.recommendedActionNotes,
+            officerHistoryOptionId: officerHistoryOption.id.toString(),
             referralLetterOfficerRecommendedActions: [],
             referralLetterOfficerHistoryNotes: [
               {
@@ -283,6 +292,7 @@ describe("getReferralLetterData", () => {
             historicalBehaviorNotes: letterOfficer.historicalBehaviorNotes,
             recommendedActionNotes: letterOfficer.recommendedActionNotes,
             referralLetterOfficerHistoryNotes: [emptyObject],
+            officerHistoryOptionId: officerHistoryOption.id.toString(),
             referralLetterOfficerRecommendedActions: [
               referralLetterOfficerRecommendedAction1.recommendedActionId,
               referralLetterOfficerRecommendedAction2.recommendedActionId
@@ -323,6 +333,7 @@ describe("getReferralLetterData", () => {
               letterOfficer.numHistoricalLowAllegations,
             historicalBehaviorNotes: letterOfficer.historicalBehaviorNotes,
             recommendedActionNotes: letterOfficer.recommendedActionNotes,
+            officerHistoryOptionId: officerHistoryOption.id.toString(),
             referralLetterOfficerHistoryNotes: [emptyObject],
             referralLetterOfficerRecommendedActions: []
           }

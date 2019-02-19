@@ -380,6 +380,10 @@ describe("edit referral letter", () => {
       });
 
       test("updates the letter officers, handling undefined, null, or blank string numbers", async () => {
+        const officerHistoryOption = await models.officer_history_option.create(
+          { name: "New recruit" },
+          { auditUser: "test" }
+        );
         const requestBody = {
           letterOfficers: [
             {
@@ -390,7 +394,8 @@ describe("edit referral letter", () => {
               numHistoricalMedAllegations: undefined,
               numHistoricalLowAllegations: "",
               historicalBehaviorNotes: "<p>updated notes</p>",
-              referralLetterOfficerHistoryNotes: []
+              referralLetterOfficerHistoryNotes: [],
+              officerHistoryOption: `${officerHistoryOption.id}`
             }
           ]
         };
@@ -424,6 +429,9 @@ describe("edit referral letter", () => {
         );
         expect(letterOfficer.referralLetterOfficerHistoryNotes.length).toEqual(
           0
+        );
+        expect(letterOfficer.officerHistoryOptionId).toEqual(
+          officerHistoryOption.id
         );
       });
 

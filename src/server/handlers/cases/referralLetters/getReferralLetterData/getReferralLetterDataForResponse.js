@@ -41,6 +41,9 @@ const letterOfficerAttributes = caseOfficer => {
   letterOfficerAttributes.referralLetterOfficerRecommendedActions = buildRecommendedActions(
     letterOfficerAttributes.referralLetterOfficerRecommendedActions
   );
+  if (letterOfficerAttributes.officerHistoryOptionId) {
+    letterOfficerAttributes.officerHistoryOptionId = letterOfficerAttributes.officerHistoryOptionId.toString();
+  }
 
   return letterOfficerAttributes;
 };
@@ -100,7 +103,8 @@ const getLetterData = async (caseId, transaction) => {
               "numHistoricalHighAllegations",
               "numHistoricalMedAllegations",
               "numHistoricalLowAllegations",
-              "recommendedActionNotes"
+              "recommendedActionNotes",
+              "officerHistoryOptionId"
             ],
             include: [
               {

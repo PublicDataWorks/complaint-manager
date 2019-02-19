@@ -46,6 +46,7 @@ import generateAttachmentDownloadUrl from "./handlers/cases/attachments/generate
 import uploadAttachment from "./handlers/cases/attachments/uploadAttachment";
 import deleteAttachment from "./handlers/cases/attachments/deleteAttachment";
 import getArchivedCases from "./handlers/cases/getCases/getArchivedCases";
+import getOfficerHistoryOptions from "./handlers/cases/referralLetters/getOfficerHistoryOptions/getOfficerHistoryOptions";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -372,6 +373,13 @@ export const API_ROUTES = {
       handler: getRecommendedActions,
       errorMessage:
         "Something went wrong and the recommended action values could not be found. Please try again."
+    }
+  },
+  "/officer-history-options": {
+    get: {
+      handler: getOfficerHistoryOptions,
+      errorMessage:
+        "Something went wrong and the officer history options could not be found. Please try again."
     }
   }
 };

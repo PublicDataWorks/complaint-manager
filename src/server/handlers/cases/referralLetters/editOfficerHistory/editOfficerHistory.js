@@ -223,6 +223,11 @@ const normalizeNumericValues = letterOfficerData => {
   if (isValueBlank(letterOfficerData.numHistoricalLowAllegations)) {
     letterOfficerData.numHistoricalLowAllegations = null;
   }
+  if (typeof letterOfficerData.officerHistoryOption === "string") {
+    letterOfficerData.officerHistoryOptionId = parseInt(
+      letterOfficerData.officerHistoryOption
+    );
+  }
 };
 
 const isValueBlank = value => {

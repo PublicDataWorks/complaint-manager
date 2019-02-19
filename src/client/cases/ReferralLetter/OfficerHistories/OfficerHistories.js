@@ -96,6 +96,7 @@ class OfficerHistories extends Component {
       return (
         <OfficerHistoryTabContent
           letterOfficer={letterOfficerField}
+          letterOfficerIndex={index}
           caseOfficerName={letterOfficerInstance.fullName}
           caseOfficerId={letterOfficerInstance.caseOfficerId}
           key={letterOfficerInstance.caseOfficerId}
