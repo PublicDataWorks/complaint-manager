@@ -3,7 +3,8 @@ import {
   CASE_STATUS,
   LETTER_PROGRESS,
   EDIT_STATUS,
-  USER_PERMISSIONS
+  USER_PERMISSIONS,
+  UNKNOWN_OFFICER_NAME
 } from "../../../../sharedUtilities/constants";
 import NavBar from "../../../shared/components/NavBar/NavBar";
 import { Card, CardContent, Typography } from "@material-ui/core";
@@ -20,6 +21,7 @@ import { TextField } from "redux-form-material-ui";
 import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 import {
   openEditLetterConfirmationDialog,
+  openIncompleteOfficerHistoryDialog,
   startLetterDownload,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
@@ -30,6 +32,8 @@ import { dateTimeFromString } from "../../../utilities/formatDate";
 import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import styles from "../../../globalStyling/styles";
+import getReferralLetterData from "../thunks/getReferralLetterData";
+import IncompleteOfficerHistoryDialog from "../../sharedFormComponents/IncompleteOfficerHistoryDialog";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -38,7 +42,8 @@ class LetterPreview extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getReferralLetterPreview(this.state.caseId));
+    this.props.getReferralLetterPreview(this.state.caseId);
+    this.props.getReferralLetterData(this.state.caseId);
   }
 
   letterPreviewNotYetLoaded = () => {
@@ -121,6 +126,19 @@ class LetterPreview extends Component {
 
   confirmSubmitForReview = values => {
     values.preventDefault();
+    if (!this.props.letterOfficers) {
+      this.props.openIncompleteOfficerHistoryDialog();
+      return;
+    }
+    for (let i = 0; i < this.props.letterOfficers.length; i++) {
+      if (
+        this.props.letterOfficers[i].fullName !== UNKNOWN_OFFICER_NAME &&
+        !this.props.letterOfficers[i].officerHistoryOptionId
+      ) {
+        this.props.openIncompleteOfficerHistoryDialog(i);
+        return;
+      }
+    }
     this.props.openCaseStatusUpdateDialog(`/cases/${this.state.caseId}`);
   };
 
@@ -368,6 +386,7 @@ class LetterPreview extends Component {
             </div>
           </div>
         </form>
+        <IncompleteOfficerHistoryDialog caseId={this.state.caseId} />
         <UpdateCaseStatusDialog
           alternativeAction={this.saveAndSubmitForReview}
         />
@@ -384,13 +403,17 @@ const mapStateToProps = state => ({
   draftFilename: state.referralLetter.draftFilename,
   caseDetails: state.currentCase.details,
   downloadInProgress: state.ui.letterDownload.downloadInProgress,
-  userInfo: state.users.current.userInfo
+  userInfo: state.users.current.userInfo,
+  letterOfficers: state.referralLetter.letterDetails.letterOfficers
 });
 
 const mapDispatchToProps = {
   openCaseStatusUpdateDialog,
   startLetterDownload,
-  stopLetterDownload
+  stopLetterDownload,
+  getReferralLetterData,
+  getReferralLetterPreview,
+  openIncompleteOfficerHistoryDialog
 };
 
 export default connect(

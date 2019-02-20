@@ -104,10 +104,6 @@ class OfficerHistoryTabContent extends React.Component {
     caseOfficerId,
     caseOfficerName
   ) => {
-    console.log(
-      `${caseOfficerName} is not equal to unknown officer `,
-      caseOfficerName !== UNKNOWN_OFFICER_NAME
-    );
     return (
       <div>
         {caseOfficerName !== UNKNOWN_OFFICER_NAME ? (
