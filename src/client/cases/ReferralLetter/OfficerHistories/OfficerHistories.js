@@ -27,7 +27,20 @@ import { push } from "connected-react-router";
 class OfficerHistories extends Component {
   constructor(props) {
     super(props);
-    this.state = { selectedTab: 0, caseId: this.props.match.params.id };
+    let selectedTab;
+    if (
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.selectedTab
+    ) {
+      selectedTab = this.props.location.state.selectedTab;
+    } else {
+      selectedTab = 0;
+    }
+    this.state = {
+      selectedTab: selectedTab,
+      caseId: this.props.match.params.id
+    };
   }
 
   componentDidMount() {

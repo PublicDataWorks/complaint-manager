@@ -6,6 +6,7 @@ import React from "react";
 import LetterPreview from "./LetterPreview";
 import {
   getReferralLetterPreviewSuccess,
+  getReferralLetterSuccess,
   openEditLetterConfirmationDialog,
   startLetterDownload,
   stopLetterDownload
@@ -186,6 +187,16 @@ describe("LetterPreview", function() {
 
   test("dispatch open case status dialog on click of submit for review button", () => {
     dispatchSpy.mockClear();
+    store.dispatch(
+      getReferralLetterSuccess({
+        letterOfficers: [
+          {
+            fullName: "somebody",
+            officerHistoryOptionId: 1
+          }
+        ]
+      })
+    );
     const openSubmitForReviewButton = wrapper
       .find("[data-test='submit-for-review-button']")
       .first();
@@ -196,6 +207,16 @@ describe("LetterPreview", function() {
   });
 
   test("editReferralLetterAddresses and setCaseStatus are called when click on confirmation of submit for review dialog", () => {
+    store.dispatch(
+      getReferralLetterSuccess({
+        letterOfficers: [
+          {
+            fullName: "somebody",
+            officerHistoryOptionId: 1
+          }
+        ]
+      })
+    );
     const openSubmitForReviewButton = wrapper
       .find("[data-test='submit-for-review-button']")
       .first();

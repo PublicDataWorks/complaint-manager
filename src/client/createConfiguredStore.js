@@ -47,6 +47,7 @@ import restoreArchivedCaseDialogReducer from "./reducers/ui/restoreArchivedCaseD
 import archivedCasesReducer from "./reducers/cases/archivedCasesReducer";
 import removeAttachmentConfirmationDialogReducer from "./reducers/ui/removeAttachmentConfirmationDialogReducer";
 import officerHistoryOptionsReducer from "./reducers/ui/officerHistoryOptionsReducer";
+import incompleteOfficerHistoryDialogReducer from "./reducers/ui/incompleteOfficerHistoryDialogReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -85,6 +86,7 @@ const rootReducer = combineReducers({
     intakeSources: intakeSourceReducer,
     raceEthnicities: raceEthnicityReducer,
     officerHistoryOptions: officerHistoryOptionsReducer,
+    incompleteOfficerHistoryDialog: incompleteOfficerHistoryDialogReducer,
     editAllegationForms: editAllegationFormsReducer,
     removeOfficerAllegationDialog: removeOfficerAllegationDialogReducer,
     accusedOfficerPanels: accusedOfficerPanelsReducer,
