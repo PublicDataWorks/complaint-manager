@@ -7539,10 +7539,10 @@ netmask@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/netmask/-/netmask-1.0.6.tgz#20297e89d86f6f6400f250d9f4f6b4c1945fcd35"
 
-newrelic@5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-5.3.0.tgz#1f4c855774b902c5285923c581cbf0d537031cde"
-  integrity sha512-8Y891MgsFof1OJpln7qsKmCzZN5yglysFdNNfs/F9xX0CrxvCpubYkxs4uWvaukNoicPTbIoebJar2/0/tvW/Q==
+newrelic@5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-5.5.0.tgz#a11a78c60b37e144d3f6ff350d1f4afb1ad6a2c5"
+  integrity sha512-/grE+surOis796SHdDjQD+iWEcQ+r6p4eVRxEoQTvDg4wcmEklcvSTVyyyqdO2Nt8KCcM5CD+szBKg3RPuQIIg==
   dependencies:
     "@newrelic/koa" "^1.0.8"
     "@newrelic/superagent" "^1.0.2"
@@ -10433,9 +10433,10 @@ sequelize-cli@^5.1.0:
     umzug "^2.1.0"
     yargs "^12.0.2"
 
-sequelize@^4.39.0:
-  version "4.39.0"
-  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-4.39.0.tgz#0e070a4705367e4b0779183f812c72f478ff12b9"
+sequelize@^4.42.0:
+  version "4.42.0"
+  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-4.42.0.tgz#439467ba7bfe7d5afcc56d62b3e091860fbf18f3"
+  integrity sha512-qxAYnX4rcv7PbNtEidb56REpxNJCdbN0qyk1jb3+e6sE7OrmS0nYMU+MFVbNTJtZfSpOEEL1TX0TkMw+wzZBxg==
   dependencies:
     bluebird "^3.5.0"
     cls-bluebird "^2.1.0"
