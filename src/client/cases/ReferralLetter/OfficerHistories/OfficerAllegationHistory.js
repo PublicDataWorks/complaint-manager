@@ -18,6 +18,19 @@ const RichTextEditorComponent = props => (
 );
 
 class OfficerAllegationHistory extends React.Component {
+  componentWillUnmount() {
+    const letterOfficer = this.props.letterOfficer;
+    const letterOfficerHistoryNotes = `${letterOfficer}.referralLetterOfficerHistoryNotes`;
+
+    this.props.change(`${letterOfficer}.numHistoricalHighAllegations`, null);
+    this.props.change(`${letterOfficer}.numHistoricalMedAllegations`, null);
+    this.props.change(`${letterOfficer}.numHistoricalLowAllegations`, null);
+    this.props.change(`${letterOfficer}.historicalBehaviorNotes`, null);
+    for (let i = 0; i < letterOfficerHistoryNotes.length; i++) {
+      this.props.array.remove(letterOfficerHistoryNotes, i);
+    }
+  }
+
   render() {
     const { letterOfficer, caseOfficerId } = this.props;
     return (
@@ -100,5 +113,6 @@ const mapStateToProps = (state, props) => ({
 const ConnectedForm = connect(mapStateToProps)(OfficerAllegationHistory);
 
 export default reduxForm({
-  form: "OfficerHistories"
+  form: "OfficerHistories",
+  destroyOnUnmount: false
 })(ConnectedForm);

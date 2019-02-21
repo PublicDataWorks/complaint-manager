@@ -10,10 +10,10 @@ import {
   showOfficerHistoryHeader,
   showRecommendedActions,
   sumAllegations,
-  calculateIndex,
   addNumbers,
   isGreaterThan,
-  atLeastOneInputDefined
+  atLeastOneInputDefined,
+  isEqual
 } from "./handlebarHelpers";
 import { SIGNATURE_URLS } from "../sharedUtilities/constants";
 
@@ -499,5 +499,15 @@ describe("check if arrays are empty", function() {
 
   test("returns false when one input is undefined and one is null", () => {
     expect(atLeastOneInputDefined(undefined, null)).toBeFalsy();
+  });
+});
+
+describe("officer history helpers", function() {
+  test("returns true when inputs are equal to 1", () => {
+    expect(isEqual(1, 1)).toBeTruthy();
+  });
+
+  test("returns false when integer and string are same value", () => {
+    expect(isEqual("1", 1)).toBeFalsy();
   });
 });
