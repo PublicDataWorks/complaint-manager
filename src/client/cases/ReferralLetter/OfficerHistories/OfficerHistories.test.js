@@ -264,16 +264,19 @@ describe("OfficerHistories page", function() {
       );
     });
 
-    test("it does not dispatch edit to referral letter when click back to review button when values not valid", () => {
+    test("allegation fields don't accept bad input", () => {
       editOfficerHistory.mockClear();
       changeInput(
         wrapper,
         "[name='letterOfficers[0].numHistoricalHighAllegations']",
         "abc"
       );
-      const backButton = wrapper.find('[data-test="back-button"]').first();
-      backButton.simulate("click");
-      expect(editOfficerHistory).not.toHaveBeenCalled();
+      expect(
+        wrapper
+          .find("[name='letterOfficers[0].numHistoricalHighAllegations']")
+          .last()
+          .prop("value")
+      ).toBe("");
     });
 
     test("it dispatches edit to referral letter when click back to cases button when values valid", () => {
@@ -332,20 +335,6 @@ describe("OfficerHistories page", function() {
         expectedFormValues,
         `/cases/${caseId}/letter/iapro-corrections`
       );
-    });
-
-    test("it does not dispatch edit to referral letter when click back to cases button when values not valid", () => {
-      editOfficerHistory.mockClear();
-      changeInput(
-        wrapper,
-        "[name='letterOfficers[0].numHistoricalHighAllegations']",
-        "abc"
-      );
-      const backButton = wrapper
-        .find('[data-test="save-and-return-to-case-link"]')
-        .first();
-      backButton.simulate("click");
-      expect(editOfficerHistory).not.toHaveBeenCalled();
     });
 
     describe("Saves and Redirects when click Stepper Buttons", function() {

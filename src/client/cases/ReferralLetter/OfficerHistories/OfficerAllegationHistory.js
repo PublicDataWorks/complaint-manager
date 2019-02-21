@@ -4,7 +4,6 @@ import styles from "../../../globalStyling/styles";
 import { TextField } from "redux-form-material-ui";
 import { Field, formValueSelector, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { isIntegerString } from "../../../formFieldLevelValidations";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 import calculateOfficerHistoryTotalAllegations from "./calculateOfficerHistoryTotalAllegations";
 import { numbersOnly } from "../../../utilities/fieldFormatters";
@@ -48,8 +47,8 @@ class OfficerAllegationHistory extends React.Component {
             component={TextField}
             label="High Level"
             data-test={`${letterOfficer}-numHistoricalHighAllegations`}
-            validate={[isIntegerString]}
-            format={numbersOnly}
+            normalize={numbersOnly}
+            inputProps={{ maxLength: 5 }}
           />
           <Field
             style={{ margin: "8px 24px 0 0", flex: 1 }}
@@ -57,8 +56,8 @@ class OfficerAllegationHistory extends React.Component {
             component={TextField}
             label="Medium Level"
             data-test={`${letterOfficer}-numHistoricalMedAllegations`}
-            validate={[isIntegerString]}
-            format={numbersOnly}
+            normalize={numbersOnly}
+            inputProps={{ maxLength: 5 }}
           />
           <Field
             style={{ margin: "8px 24px 0 0", flex: 1 }}
@@ -66,8 +65,8 @@ class OfficerAllegationHistory extends React.Component {
             component={TextField}
             label="Low Level"
             data-test={`${letterOfficer}-numHistoricalLowAllegations`}
-            validate={[isIntegerString]}
-            format={numbersOnly}
+            normalize={numbersOnly}
+            inputProps={{ maxLength: 5 }}
           />
           <Typography
             style={{ flex: 1, marginTop: "32px" }}
