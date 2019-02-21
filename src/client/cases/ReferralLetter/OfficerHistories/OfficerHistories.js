@@ -250,7 +250,9 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(
-  reduxForm({ form: "OfficerHistories", enableReinitialize: true })(
-    OfficerHistories
-  )
+  reduxForm({
+    form: "OfficerHistories",
+    enableReinitialize: true,
+    destroyOnUnmount: false
+  })(OfficerHistories)
 );

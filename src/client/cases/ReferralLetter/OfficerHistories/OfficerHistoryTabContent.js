@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
 import {
-  Typography,
   FormControlLabel,
   Radio,
-  RadioGroup
+  RadioGroup,
+  Typography
 } from "@material-ui/core";
 import styles from "../../../globalStyling/styles";
-import { Field, FieldArray, formValueSelector, reduxForm } from "redux-form";
+import { Field, FieldArray, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import OfficerHistoryNote from "./OfficerHistoryNote";
 import LinkButton from "../../../shared/components/LinkButton";
@@ -99,7 +99,6 @@ class OfficerHistoryTabContent extends React.Component {
   };
 
   renderKnownOfficerAllegationHistoryTabContent = (
-    selectedOfficerHistoryOption,
     letterOfficer,
     caseOfficerId,
     caseOfficerName
@@ -150,25 +149,26 @@ class OfficerHistoryTabContent extends React.Component {
         {this.props.officerHistoryFeatureToggle ? (
           <div>
             {this.renderKnownOfficerAllegationHistoryTabContent(
-              this.state.selectedOfficerHistoryOption,
               letterOfficer,
               caseOfficerId,
               caseOfficerName
             )}
           </div>
         ) : (
-          <OfficerAllegationHistory
-            letterOfficer={letterOfficer}
-            caseOfficerId={caseOfficerId}
-          />
+          <Fragment>
+            <OfficerAllegationHistory
+              letterOfficer={letterOfficer}
+              caseOfficerId={caseOfficerId}
+            />
+            <Typography style={{ paddingBottom: "16px", ...styles.section }}>
+              Notes
+            </Typography>
+            <FieldArray
+              name={`${letterOfficer}.referralLetterOfficerHistoryNotes`}
+              component={this.renderNoteFields}
+            />
+          </Fragment>
         )}
-        <Typography style={{ paddingBottom: "16px", ...styles.section }}>
-          Notes
-        </Typography>
-        <FieldArray
-          name={`${letterOfficer}.referralLetterOfficerHistoryNotes`}
-          component={this.renderNoteFields}
-        />
       </div>
     );
   }
@@ -183,5 +183,6 @@ const mapStateToProps = (state, props) => ({
 const ConnectedForm = connect(mapStateToProps)(OfficerHistoryTabContent);
 
 export default reduxForm({
-  form: "OfficerHistories"
+  form: "OfficerHistories",
+  destroyOnUnmount: false
 })(ConnectedForm);

@@ -162,3 +162,8 @@ export const atLeastOneInputDefined = (input1, input2) => {
   return (input1 !== null && boolInput1) || (input2 !== null && boolInput2);
 };
 Handlebars.registerHelper("atLeastOneInputDefined", atLeastOneInputDefined);
+
+export const isEqual = (input1, input2) => {
+  return input1 === input2;
+};
+Handlebars.registerHelper("isEqual", isEqual);
