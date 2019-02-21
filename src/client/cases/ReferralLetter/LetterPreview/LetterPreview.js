@@ -266,7 +266,10 @@ class LetterPreview extends Component {
               component={TextField}
               label="Transcribed By"
               fullWidth
-              inputProps={{ "data-test": "transcribed-by-field" }}
+              inputProps={{
+                "data-test": "transcribed-by-field",
+                maxLength: 500
+              }}
             />
           </CardContent>
         </Card>
