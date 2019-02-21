@@ -20,15 +20,14 @@ const RichTextEditorComponent = props => (
 class OfficerAllegationHistory extends React.Component {
   componentWillUnmount() {
     const letterOfficer = this.props.letterOfficer;
-    const letterOfficerHistoryNotes = `${letterOfficer}.referralLetterOfficerHistoryNotes`;
 
     this.props.change(`${letterOfficer}.numHistoricalHighAllegations`, null);
     this.props.change(`${letterOfficer}.numHistoricalMedAllegations`, null);
     this.props.change(`${letterOfficer}.numHistoricalLowAllegations`, null);
     this.props.change(`${letterOfficer}.historicalBehaviorNotes`, null);
-    for (let i = 0; i < letterOfficerHistoryNotes.length; i++) {
-      this.props.array.remove(letterOfficerHistoryNotes, i);
-    }
+    this.props.array.removeAll(
+      `${letterOfficer}.referralLetterOfficerHistoryNotes`
+    );
   }
 
   render() {

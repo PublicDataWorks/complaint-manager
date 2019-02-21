@@ -64,8 +64,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   open: state.ui.incompleteOfficerHistoryDialog.open,
-  officerIndex: state.ui.incompleteOfficerHistoryDialog.state
-    ? state.ui.incompleteOfficerHistoryDialog.state.selectedTab
+  officerIndex: state.ui.incompleteOfficerHistoryDialog.selectedTab
+    ? state.ui.incompleteOfficerHistoryDialog.selectedTab
     : 0
 });
 
