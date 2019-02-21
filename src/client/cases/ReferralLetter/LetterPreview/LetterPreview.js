@@ -268,7 +268,7 @@ class LetterPreview extends Component {
               fullWidth
               inputProps={{
                 "data-test": "transcribed-by-field",
-                maxLength: 500
+                maxLength: 255
               }}
             />
           </CardContent>
