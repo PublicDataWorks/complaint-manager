@@ -109,10 +109,21 @@ class OfficerHistoryTabContent extends React.Component {
           <div>
             {this.renderAllegationRadioButtons(letterOfficer)}
             {this.state.selectedOfficerHistoryOption === "4" ? (
-              <OfficerAllegationHistory
-                letterOfficer={letterOfficer}
-                caseOfficerId={caseOfficerId}
-              />
+              <Fragment>
+                <OfficerAllegationHistory
+                  letterOfficer={letterOfficer}
+                  caseOfficerId={caseOfficerId}
+                />
+                <Typography
+                  style={{ paddingBottom: "16px", ...styles.section }}
+                >
+                  Notes
+                </Typography>
+                <FieldArray
+                  name={`${letterOfficer}.referralLetterOfficerHistoryNotes`}
+                  component={this.renderNoteFields}
+                />
+              </Fragment>
             ) : null}
           </div>
         ) : (
