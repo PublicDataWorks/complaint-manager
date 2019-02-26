@@ -1,13 +1,18 @@
 import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
 import models from "../models";
+import {
+  addToExistingAuditDetails,
+  removeFromExistingAuditDetails
+} from "./getQueryAuditAccessDetails";
 
 export const getCaseWithAllAssociations = async (
   caseId,
-  transaction = null
+  transaction = null,
+  auditDetails = null
 ) => {
-  let caseDetails = await getCaseData(caseId, transaction);
-  return addFieldsToCaseDetails(caseDetails);
+  let caseDetails = await getCaseData(caseId, transaction, auditDetails);
+  return addFieldsToCaseDetails(caseDetails, auditDetails);
 };
 
 export const getCaseWithoutAssociations = async (
@@ -24,9 +29,8 @@ export const getCaseWithoutAssociations = async (
   return addFieldsToCaseDetails(caseData);
 };
 
-const getCaseData = async (caseId, transaction) => {
-  const caseData = await models.cases.findAll({
-    where: { id: caseId },
+const getCaseData = async (caseId, transaction, auditDetails) => {
+  const queryOptions = {
     paranoid: false,
     include: [
       {
@@ -108,25 +112,42 @@ const getCaseData = async (caseId, transaction) => {
         "ASC"
       ]
     ]
-  });
-  return caseData[0];
+  };
+
+  const caseData = await models.cases.findByPk(caseId, queryOptions);
+
+  addToExistingAuditDetails(auditDetails, queryOptions, models.cases.name);
+  return caseData;
 };
 
-const addFieldsToCaseDetails = caseDetails => {
+const addFieldsToCaseDetails = (caseDetails, auditDetails) => {
   let newCaseDetails = caseDetails.toJSON();
 
-  newCaseDetails = addPdfIsAvailable(newCaseDetails);
-  return addIsArchived(newCaseDetails);
+  newCaseDetails = addPdfIsAvailable(newCaseDetails, auditDetails);
+  return addIsArchived(newCaseDetails, auditDetails);
 };
 
-const addIsArchived = caseDetails => {
+const addIsArchived = (caseDetails, auditDetails) => {
   caseDetails.isArchived = caseDetails.deletedAt !== null;
   delete caseDetails.deletedAt;
+
+  if (auditDetails) {
+    auditDetails.cases.attributes.push("isArchived");
+    removeFromExistingAuditDetails(auditDetails, { cases: ["deletedAt"] });
+  }
+
   return caseDetails;
 };
-const addPdfIsAvailable = caseDetails => {
+
+const addPdfIsAvailable = (caseDetails, auditDetails) => {
   caseDetails.pdfAvailable = pdfIsAvailable(caseDetails.referralLetter);
   delete caseDetails.referralLetter;
+
+  if (auditDetails) {
+    auditDetails.cases.attributes.push("pdfAvailable");
+    delete auditDetails.referralLetter;
+  }
+
   return caseDetails;
 };
 

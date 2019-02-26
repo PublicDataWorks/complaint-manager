@@ -54,7 +54,7 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
     await auditUpload(
       nickname,
       caseId,
-      AUDIT_SUBJECT.REFERRAL_LETTER_PDF,
+      AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
       transaction
     );
     await transitionCaseToForwardedToAgency(existingCase, request, transaction);

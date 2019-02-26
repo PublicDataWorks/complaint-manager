@@ -289,7 +289,7 @@ describe("transformAuditToCaseHistory", () => {
       const uploadAudit = new ActionAudit.Builder()
         .defaultActionAudit()
         .withAction(AUDIT_ACTION.UPLOADED)
-        .withSubject(AUDIT_SUBJECT.REFERRAL_LETTER_PDF)
+        .withSubject(AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF)
         .withAuditType(AUDIT_TYPE.UPLOAD)
         .withUser("nickname")
         .withCreatedAt(new Date("2018-06-12"));
@@ -302,7 +302,7 @@ describe("transformAuditToCaseHistory", () => {
       expect(caseHistoryEntry).toEqual(
         expect.objectContaining({
           user: uploadAudit.user,
-          action: `${AUDIT_SUBJECT.REFERRAL_LETTER_PDF} ${
+          action: `${AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF} ${
             AUDIT_ACTION.UPLOADED
           }`,
           details: AUDIT_UPLOAD_DETAILS.REFERRAL_LETTER_PDF,

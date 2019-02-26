@@ -6,7 +6,7 @@ import {
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models/index");
 import { getCaseWithAllAssociations } from "../getCaseHelpers";
-const auditDataAccess = require("../auditDataAccess");
+import auditDataAccess from "../auditDataAccess";
 
 async function upsertAddress(civilianId, address, transaction, nickname) {
   if (!address.id) {

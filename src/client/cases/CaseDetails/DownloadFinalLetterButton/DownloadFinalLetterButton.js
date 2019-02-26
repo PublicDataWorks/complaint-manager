@@ -12,7 +12,7 @@ import styles from "../../../globalStyling/styles";
 class DownloadFinalLetterButton extends React.Component {
   startLetterDownload = () => {
     const { startLetterDownload, stopLetterDownload, caseId } = this.props;
-    const apiRouteForSignedS3Link = `api/cases/${caseId}/referral-letter/final-pdf-url`;
+    const apiRouteForSignedS3Link = `api/cases/${caseId}/referral-letter/final-pdf-download-url`;
 
     startLetterDownload();
     this.props.inBrowserDownload(

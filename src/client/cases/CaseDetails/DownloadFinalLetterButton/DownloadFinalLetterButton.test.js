@@ -68,7 +68,7 @@ describe("DownloadFinalLetterButton", () => {
       .first();
     button.simulate("click");
 
-    const apiRoute = `api/cases/${caseId}/referral-letter/final-pdf-url`;
+    const apiRoute = `api/cases/${caseId}/referral-letter/final-pdf-download-url`;
     expect(dispatchSpy).toHaveBeenCalledWith(
       inBrowserDownload(
         apiRoute,

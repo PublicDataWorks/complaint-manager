@@ -39,10 +39,10 @@ import getClassifications from "./handlers/classifications/getClassifications";
 import getIntakeSources from "./handlers/intake_sources/getIntakeSources";
 import getRaceEthnicities from "./handlers/race_ethnicities/getRaceEthnicities";
 import getRecommendedActions from "./handlers/cases/referralLetters/getRecommendedActions/getRecommendedActions";
-import getFinalPdfUrl from "./handlers/cases/referralLetters/getFinalPdfUrl/getFinalPdfUrl";
+import getFinalPdfDownloadUrl from "./handlers/cases/referralLetters/getFinalPdfDownloadUrl/getFinalPdfDownloadUrl";
 import getReferralLetterPdf from "./handlers/cases/referralLetters/getReferralLetterPdf/getReferralLetterPdf";
 import approveLetter from "./handlers/cases/referralLetters/approveLetter/approveLetter";
-import generateAttachmentDownloadUrl from "./handlers/cases/attachments/generateAttachmentDownloadUrl";
+import getAttachmentDownloadUrl from "./handlers/cases/attachments/getAttachmentDownloadUrl";
 import uploadAttachment from "./handlers/cases/attachments/uploadAttachment";
 import deleteAttachment from "./handlers/cases/attachments/deleteAttachment";
 import getArchivedCases from "./handlers/cases/getCases/getArchivedCases";
@@ -116,7 +116,7 @@ export const API_ROUTES = {
     get: {
       handler: getMinimumCaseDetails,
       errorMessage:
-        "Something went wrong and the case details could not be loaded. Please try again."
+        "Something went wrong and the case details were not loaded. Please try again."
     }
   },
   "/cases/:caseId/status": {
@@ -218,9 +218,9 @@ export const API_ROUTES = {
   },
   "/cases/:caseId/attachmentUrls/:fileName": {
     get: {
-      handler: generateAttachmentDownloadUrl,
+      handler: getAttachmentDownloadUrl,
       errorMessage:
-        "Something went wrong and the attachment URL could not be found. Please try again."
+        "Something went wrong and the attachment URL was not found. Please try again."
     }
   },
   "/cases/:caseId/referral-letter": {
@@ -262,7 +262,7 @@ export const API_ROUTES = {
     put: {
       handler: editRecommendedActions,
       errorMessage:
-        "Something went wrong and we could not update the recommended actions information"
+        "Something went wrong and the recommended actions were not updated. Please try again."
     }
   },
   "/cases/:caseId/referral-letter/addresses": {
@@ -279,18 +279,18 @@ export const API_ROUTES = {
         "Something went wrong and the letter was not updated. Please try again."
     }
   },
-  "/cases/:caseId/referral-letter/final-pdf-url": {
+  "/cases/:caseId/referral-letter/final-pdf-download-url": {
     get: {
-      handler: getFinalPdfUrl,
+      handler: getFinalPdfDownloadUrl,
       errorMessage:
-        "Something went wrong and the pdf URL was not found. Please try again."
+        "Something went wrong and the PDF URL was not found. Please try again."
     }
   },
   "/cases/:caseId/referral-letter/get-pdf": {
     get: {
       handler: getReferralLetterPdf,
       errorMessage:
-        "Something went wrong and the pdf was not loaded. Please try again."
+        "Something went wrong and the PDF was not loaded. Please try again."
     }
   },
   "/cases/:caseId/referral-letter/approve-letter": {
@@ -344,35 +344,35 @@ export const API_ROUTES = {
     get: {
       handler: getAllegations,
       errorMessage:
-        "Something went wrong and the allegation values could not be found. Please try again."
+        "Something went wrong and the allegation values were not found. Please try again."
     }
   },
   "/classifications": {
     get: {
       handler: getClassifications,
       errorMessage:
-        "Something went wrong and the classification values could not be found. Please try again."
+        "Something went wrong and the classification values were not found. Please try again."
     }
   },
   "/intake-sources": {
     get: {
       handler: getIntakeSources,
       errorMessage:
-        "Something went wrong and the intake source values could not be found. Please try again."
+        "Something went wrong and the intake source values were not found. Please try again."
     }
   },
   "/race-ethnicities": {
     get: {
       handler: getRaceEthnicities,
       errorMessage:
-        "Something went wrong and the race/ethnicity values could not be found. Please try again."
+        "Something went wrong and the race/ethnicity values were not found. Please try again."
     }
   },
   "/recommended-actions": {
     get: {
       handler: getRecommendedActions,
       errorMessage:
-        "Something went wrong and the recommended action values could not be found. Please try again."
+        "Something went wrong and the recommended action values were not found. Please try again."
     }
   },
   "/officer-history-options": {

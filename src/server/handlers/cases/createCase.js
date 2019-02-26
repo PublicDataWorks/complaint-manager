@@ -7,7 +7,7 @@ const {
   AUDIT_SUBJECT,
   RANK_INITIATED
 } = require("../../../sharedUtilities/constants");
-const auditDataAccess = require("../auditDataAccess");
+import auditDataAccess from "../auditDataAccess";
 
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models/index");

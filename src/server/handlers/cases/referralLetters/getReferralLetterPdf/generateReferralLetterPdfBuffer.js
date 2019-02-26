@@ -3,24 +3,41 @@ import generateReferralLetterBody from "../generateReferralLetterBody";
 import generatePdfBuffer from "../sharedLetterUtilities/generatePdfBuffer";
 import fs from "fs";
 import Handlebars from "handlebars";
+import { addToExistingAuditDetails } from "../../../getQueryAuditAccessDetails";
 
 const generateReferralLetterPdfBuffer = async (
   caseId,
   includeSignature,
-  transaction
+  transaction,
+  auditDetails = null
 ) => {
-  let letterData = await models.referral_letter.findOne({
+  const queryOptions = {
     where: { caseId: caseId },
     attributes: ["editedLetterHtml"],
     transaction
-  });
+  };
+  let letterData = await models.referral_letter.findOne(queryOptions);
   let letterBody = letterData.editedLetterHtml;
 
   if (!letterBody) {
-    letterBody = await generateReferralLetterBody(caseId, transaction);
+    letterBody = await generateReferralLetterBody(
+      caseId,
+      transaction,
+      auditDetails
+    );
+  } else {
+    addToExistingAuditDetails(
+      auditDetails,
+      queryOptions,
+      models.referral_letter.name
+    );
   }
 
-  const pdfData = await getReferralLetterPdfData(caseId, transaction);
+  const pdfData = await getReferralLetterPdfData(
+    caseId,
+    transaction,
+    auditDetails
+  );
 
   const fullLetterHtml = await generateLetterPdfHtml(
     letterBody,
@@ -31,8 +48,8 @@ const generateReferralLetterPdfBuffer = async (
   return await generatePdfBuffer(fullLetterHtml);
 };
 
-const getReferralLetterPdfData = async (caseId, transaction) => {
-  return await models.cases.findByPk(caseId, {
+const getReferralLetterPdfData = async (caseId, transaction, auditDetails) => {
+  const queryOptions = {
     attributes: [
       "firstContactDate",
       "complaintType",
@@ -49,7 +66,12 @@ const getReferralLetterPdfData = async (caseId, transaction) => {
       }
     ],
     transaction
-  });
+  };
+  const caseData = await models.cases.findByPk(caseId, queryOptions);
+
+  addToExistingAuditDetails(auditDetails, queryOptions, models.cases.name);
+
+  return caseData;
 };
 
 export const generateLetterPdfHtml = (

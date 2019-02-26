@@ -3,7 +3,7 @@ const config = require("../../../config/config");
 const models = require("../../../models/index");
 import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
-const auditDataAccess = require("../../auditDataAccess");
+import auditDataAccess from "../../auditDataAccess";
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 
 const deleteAttachment = asyncMiddleware(async (request, response) => {

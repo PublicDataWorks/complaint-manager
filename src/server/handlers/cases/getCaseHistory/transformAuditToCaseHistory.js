@@ -1,6 +1,5 @@
 import {
   AUDIT_ACTION,
-  AUDIT_SUBJECT,
   AUDIT_UPLOAD_DETAILS
 } from "../../../../sharedUtilities/constants";
 import striptags from "striptags";
@@ -58,7 +57,7 @@ export const transformDataChangeAuditToCaseHistory = (
 
 export const transformUploadAuditToCaseHistory = (uploadAudit, auditId) => {
   const details = transformUploadDetails(uploadAudit);
-  const caseHistoryEntry = {
+  return {
     id: auditId,
     user: uploadAudit.user,
     action: transformAuditAction(uploadAudit),
@@ -66,7 +65,6 @@ export const transformUploadAuditToCaseHistory = (uploadAudit, auditId) => {
     details: details,
     timestamp: uploadAudit.createdAt
   };
-  return caseHistoryEntry;
 };
 
 const transformDataChangeAction = audit => {

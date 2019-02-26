@@ -231,19 +231,18 @@ export const AUDIT_TYPE = {
 export const AUDIT_SUBJECT = {
   AUDIT_LOG: "Audit Log",
   CASE_DETAILS: "Case Details",
-  ALL_CASES: "All Cases",
+  ALL_WORKING_CASES: "All Working Cases",
   ALL_ARCHIVED_CASES: "All Archived Cases",
   ALL_CASE_INFORMATION: "All Case Information",
   OFFICER_DATA: "Officer Data",
   CASE_HISTORY: "Case History",
   CASE_NOTES: "Case Notes",
-  ATTACHMENTS: "Attachments",
+  ATTACHMENT: "Attachment",
+  REFERRAL_LETTER_PREVIEW: "Referral Letter Preview",
   REFERRAL_LETTER_DATA: "Referral Letter Data", //this refers to letter data only (not case data)
-  REFERRAL_LETTER: "Referral Letter", //this refers to the full compiled letter including all case data,
-  REFERRAL_LETTER_PDF: "Referral Letter PDF",
-  LETTER_TO_COMPLAINANT_PDF: "Letter to Complainant PDF",
-  MINIMUM_CASE_DETAILS: "Minimum Case Details",
-  LETTER_TYPE: "Letter Type"
+  DRAFT_REFERRAL_LETTER_PDF: "Draft Referral Letter PDF",
+  FINAL_REFERRAL_LETTER_PDF: "Final Referral Letter PDF",
+  LETTER_TO_COMPLAINANT_PDF: "Letter to Complainant PDF"
 };
 
 export const AUDIT_ACTION = {

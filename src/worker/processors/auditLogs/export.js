@@ -10,7 +10,7 @@ const promisifiedStringify = util.promisify(stringify);
 const moment = require("moment");
 const _ = require("lodash");
 const transformDataChangeAuditForExport = require("./transformDataChangeAuditForExport");
-const transformActionAuditForExport = require("./transformActionAuditForExport");
+const transformActionAuditForExport = require("./transformActionAuditsForExport");
 const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 const winston = require("winston");
 

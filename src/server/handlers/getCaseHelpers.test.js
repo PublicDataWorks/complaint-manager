@@ -10,6 +10,7 @@ import CaseOfficer from "../../client/testUtilities/caseOfficer";
 import Officer from "../../client/testUtilities/Officer";
 import { ACCUSED, COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
 import Civilian from "../../client/testUtilities/civilian";
+
 describe("getCaseHelpers", () => {
   let existingCase, referralLetter;
   beforeEach(async () => {
@@ -35,6 +36,37 @@ describe("getCaseHelpers", () => {
   describe("getCaseWithAllAssocations", () => {
     afterEach(async () => {
       await cleanupDatabase();
+    });
+
+    test("adds pdfAvailable to audit", async () => {
+      let auditDetails = {};
+
+      let caseWithAllAssociations;
+      await models.sequelize.transaction(async transaction => {
+        caseWithAllAssociations = await getCaseWithAllAssociations(
+          existingCase.id,
+          transaction,
+          auditDetails
+        );
+      });
+      expect(
+        auditDetails.cases.attributes.includes("pdfAvailable")
+      ).toBeTruthy();
+    });
+
+    test("adds isArchived to audit and removes deletedAt", async () => {
+      let auditDetails = {};
+
+      let caseWithAllAssociations;
+      await models.sequelize.transaction(async transaction => {
+        caseWithAllAssociations = await getCaseWithAllAssociations(
+          existingCase.id,
+          transaction,
+          auditDetails
+        );
+      });
+      expect(auditDetails.cases.attributes.includes("isArchived")).toBeTruthy();
+      expect(auditDetails.cases.attributes.includes("deletedAt")).toBeFalsy();
     });
 
     test("adds pdfAvailable as true if there is a pdf file name on the referral letter", async () => {

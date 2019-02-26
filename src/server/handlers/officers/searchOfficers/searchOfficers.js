@@ -1,3 +1,6 @@
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+import { addToExistingAuditDetails } from "../../getQueryAuditAccessDetails";
+
 const models = require("../../../models/index");
 const {
   AUDIT_SUBJECT,
@@ -5,10 +8,11 @@ const {
 } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const Op = require("sequelize").Op;
-const auditDataAccess = require("../../auditDataAccess");
+import auditDataAccess from "../../auditDataAccess";
 
 const searchOfficers = asyncMiddleware(async (request, response) => {
   const whereClause = {};
+  let auditDetails = {};
 
   if (request.query.firstName) {
     whereClause.first_name = { [Op.iLike]: `${request.query.firstName}%` };
@@ -25,19 +29,24 @@ const searchOfficers = asyncMiddleware(async (request, response) => {
     : null;
 
   const officers = await models.sequelize.transaction(async transaction => {
-    const officers = await models.officer.findAndCountAll({
+    const queryOptions = {
       where: whereClause,
       order: [["last_name", "ASC"], ["first_name", "ASC"]],
       limit: DEFAULT_PAGINATION_LIMIT,
       offset: offset,
       transaction
-    });
+    };
+    const officers = await models.officer.findAndCountAll(queryOptions);
+
+    addToExistingAuditDetails(auditDetails, queryOptions, models.officer.name);
 
     await auditDataAccess(
       request.nickname,
       undefined,
       AUDIT_SUBJECT.OFFICER_DATA,
-      transaction
+      transaction,
+      AUDIT_ACTION.DATA_ACCESSED,
+      auditDetails
     );
 
     return officers;

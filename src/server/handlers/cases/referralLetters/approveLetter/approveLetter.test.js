@@ -161,7 +161,7 @@ describe("approveLetter", () => {
       expect(auditUpload).toHaveBeenCalledWith(
         "nickname",
         existingCase.id,
-        AUDIT_SUBJECT.REFERRAL_LETTER_PDF,
+        AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
         expect.any(Object)
       );
     });
