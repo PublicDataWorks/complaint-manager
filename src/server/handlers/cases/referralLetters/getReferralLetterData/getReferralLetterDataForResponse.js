@@ -1,20 +1,24 @@
 import models from "../../../../models";
 import shortid from "shortid";
 import { ACCUSED } from "../../../../../sharedUtilities/constants";
+import {
+  addToExistingAuditDetails,
+  removeFromExistingAuditDetails
+} from "../../../getQueryAuditAccessDetails";
 
-const getReferralLetterDataForResponse = async (caseId, transaction) => {
-  let letterData = await getLetterData(caseId, transaction);
+const getReferralLetterDataForResponse = async (
+  caseId,
+  transaction,
+  auditDetails = null
+) => {
+  let letterData = await getLetterData(caseId, transaction, auditDetails);
   letterData = letterData.toJSON();
 
-  const transformedLetterOfficerData = letterData.caseOfficers.map(
-    caseOfficer => {
-      return {
-        caseOfficerId: caseOfficer.id,
-        fullName: caseOfficer.fullName,
-        ...letterOfficerAttributes(caseOfficer)
-      };
-    }
+  const transformedLetterOfficerData = transformLetterOfficerDataAndAuditDetails(
+    letterData,
+    auditDetails
   );
+
   return {
     id: letterData.id,
     caseId: letterData.caseId,
@@ -48,6 +52,23 @@ const letterOfficerAttributes = caseOfficer => {
   return letterOfficerAttributes;
 };
 
+const transformLetterOfficerDataAndAuditDetails = (
+  letterData,
+  auditDetails
+) => {
+  if (auditDetails) {
+    removeFromExistingAuditDetails(auditDetails, { caseOfficers: "officerId" });
+  }
+
+  return letterData.caseOfficers.map(caseOfficer => {
+    return {
+      caseOfficerId: caseOfficer.id,
+      fullName: caseOfficer.fullName,
+      ...letterOfficerAttributes(caseOfficer)
+    };
+  });
+};
+
 const buildRecommendedActions = recommendedActions => {
   if (!recommendedActions) {
     return [];
@@ -65,8 +86,8 @@ const buildEmptyIAProCorrections = () => {
   return [emptyObject(), emptyObject(), emptyObject()];
 };
 
-const getLetterData = async (caseId, transaction) => {
-  return await models.referral_letter.findOne({
+const getLetterData = async (caseId, transaction, auditDetails) => {
+  const queryOptions = {
     where: { caseId: caseId },
     attributes: ["id", "caseId", "includeRetaliationConcerns"],
     order: [
@@ -130,7 +151,16 @@ const getLetterData = async (caseId, transaction) => {
       }
     ],
     transaction
-  });
+  };
+  const letterData = await models.referral_letter.findOne(queryOptions);
+
+  addToExistingAuditDetails(
+    auditDetails,
+    queryOptions,
+    models.referral_letter.name
+  );
+
+  return letterData;
 };
 
 export default getReferralLetterDataForResponse;

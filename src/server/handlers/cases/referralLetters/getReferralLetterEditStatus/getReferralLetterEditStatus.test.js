@@ -39,7 +39,7 @@ describe("getReferralLetterEditStatus", () => {
     next = jest.fn();
   });
 
-  test("returns null if no referral letter", async () => {
+  test("returns edit status is null if no referral letter", async () => {
     await getReferralLetterEditStatus(request, response, next);
     const responseBody = response._getData();
     expect(responseBody.editStatus).toEqual(null);
@@ -87,8 +87,12 @@ describe("getReferralLetterEditStatus", () => {
       expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
       expect(dataAccessAudit.user).toEqual("nickname");
       expect(dataAccessAudit.caseId).toEqual(existingCase.id);
-      expect(dataAccessAudit.subject).toEqual(AUDIT_SUBJECT.LETTER_TYPE);
-      expect(dataAccessAudit.subjectDetails).toEqual(["Letter Type"]);
+      expect(dataAccessAudit.subject).toEqual(
+        AUDIT_SUBJECT.REFERRAL_LETTER_DATA
+      );
+      expect(dataAccessAudit.subjectDetails).toEqual({
+        "Referral Letter": ["Edit Status"]
+      });
     });
   });
 });

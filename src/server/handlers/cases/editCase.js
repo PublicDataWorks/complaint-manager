@@ -10,7 +10,7 @@ const models = require("../../models");
 const asyncMiddleware = require("../asyncMiddleware");
 import { getCaseWithAllAssociations } from "../getCaseHelpers";
 const _ = require("lodash");
-const auditDataAccess = require("../auditDataAccess");
+import auditDataAccess from "../auditDataAccess";
 const Boom = require("boom");
 
 async function upsertAddress(caseId, incidentLocation, transaction, nickname) {

@@ -15,161 +15,122 @@ describe("auditDataAccess", () => {
       await cleanupDatabase();
     });
 
-    test("it should populate details correctly for case details subject", async () => {
+    test("should replace attributes if all fields are present", async () => {
+      const subjectDetails = {
+        cases: {
+          attributes: Object.keys(models.cases.rawAttributes)
+        },
+        complainantCivilians: {
+          attributes: Object.keys(models.civilian.rawAttributes),
+          model: "civilian"
+        }
+      };
+
       await models.sequelize.transaction(async transaction => {
         await auditDataAccess(
           "user",
           caseForAudit.id,
           AUDIT_SUBJECT.CASE_DETAILS,
-          transaction
+          transaction,
+          AUDIT_ACTION.DATA_ACCESSED,
+          subjectDetails
         );
       });
 
-      const createdAudits = await models.action_audit.findAll({
+      const createdAudit = await models.action_audit.findOne({
         where: { caseId: caseForAudit.id }
       });
-      expect(createdAudits.length).toEqual(1);
 
-      expect(createdAudits[0].subjectDetails).toEqual([
-        "Case Information",
-        "Incident Location",
-        "Civilian Complainants",
-        "Officer Complainants",
-        "Civilian Witnesses",
-        "Officer Witnesses",
-        "Civilian Address",
-        "Accused Officers",
-        "Allegations",
-        "Attachments"
-      ]);
+      expect(createdAudit.subjectDetails).toEqual({
+        Case: ["All Case Data"],
+        "Complainant Civilians": ["All Complainant Civilians Data"]
+      });
     });
 
-    test("it should populate details correctly for all cases subject", async () => {
+    test("should include edit status in subject details in addition to all case data", async () => {
+      const subjectDetails = {
+        cases: {
+          attributes: [
+            ...Object.keys(models.cases.rawAttributes),
+            "Edit Status"
+          ]
+        }
+      };
+
       await models.sequelize.transaction(async transaction => {
         await auditDataAccess(
           "user",
           caseForAudit.id,
-          AUDIT_SUBJECT.ALL_CASES,
-          transaction
+          AUDIT_SUBJECT.CASE_DETAILS,
+          transaction,
+          AUDIT_ACTION.DATA_ACCESSED,
+          subjectDetails
         );
       });
 
-      const createdAudits = await models.action_audit.findAll({
+      const createdAudit = await models.action_audit.findOne({
         where: { caseId: caseForAudit.id }
       });
-      expect(createdAudits.length).toEqual(1);
 
-      expect(createdAudits[0].subjectDetails).toEqual([
-        "Case Information",
-        "Civilian Complainants",
-        "Officer Complainants",
-        "Accused Officers"
-      ]);
+      expect(createdAudit.subjectDetails).toEqual({
+        Case: ["All Case Data", "Edit Status"]
+      });
     });
 
-    test("it should populate details correctly for case history subject", async () => {
+    test("should reformat subjectDetails when attributes exist", async () => {
+      const subjectDetails = {
+        cases: {
+          attributes: ["id", "status", "incidentDate"]
+        },
+        complainantCivilians: {
+          attributes: ["firstName", "lastName"],
+          model: "civilian"
+        }
+      };
+
       await models.sequelize.transaction(async transaction => {
         await auditDataAccess(
           "user",
           caseForAudit.id,
-          AUDIT_SUBJECT.CASE_HISTORY,
-          transaction
+          AUDIT_SUBJECT.CASE_DETAILS,
+          transaction,
+          AUDIT_ACTION.DATA_ACCESSED,
+          subjectDetails
         );
       });
 
-      const createdAudits = await models.action_audit.findAll({
+      const createdAudit = await models.action_audit.findOne({
         where: { caseId: caseForAudit.id }
       });
-      expect(createdAudits.length).toEqual(1);
 
-      expect(createdAudits[0].subjectDetails).toEqual([
-        "Case Information",
-        "Incident Location",
-        "Civilian Complainants",
-        "Officer Complainants",
-        "Civilian Witnesses",
-        "Officer Witnesses",
-        "Civilian Address",
-        "Accused Officers",
-        "Allegations",
-        "Attachments",
-        "Case Notes"
-      ]);
+      expect(createdAudit.subjectDetails).toEqual({
+        Case: ["Id", "Incident Date", "Status"],
+        "Complainant Civilians": ["First Name", "Last Name"]
+      });
     });
 
-    test("it should populate details correctly for case notes subject", async () => {
+    test("it should populate subjectDetails correctly", async () => {
+      const subjectDetails = {
+        fileName: ["cats.jpg"],
+        otherField: ["hello"]
+      };
+
       await models.sequelize.transaction(async transaction => {
         await auditDataAccess(
           "user",
           caseForAudit.id,
-          AUDIT_SUBJECT.CASE_NOTES,
-          transaction
+          AUDIT_SUBJECT.CASE_DETAILS,
+          transaction,
+          AUDIT_ACTION.DATA_ACCESSED,
+          subjectDetails
         );
       });
 
-      const createdAudits = await models.action_audit.findAll({
+      const createdAudit = await models.action_audit.findOne({
         where: { caseId: caseForAudit.id }
       });
-      expect(createdAudits.length).toEqual(1);
 
-      expect(createdAudits[0].subjectDetails).toEqual(["Case Notes"]);
-    });
-
-    test("it should populate details correctly for case reference subject", async () => {
-      await models.sequelize.transaction(async transaction => {
-        await auditDataAccess(
-          "user",
-          caseForAudit.id,
-          AUDIT_SUBJECT.MINIMUM_CASE_DETAILS,
-          transaction
-        );
-      });
-
-      const createdAudits = await models.action_audit.findAll({
-        where: { caseId: caseForAudit.id }
-      });
-      expect(createdAudits.length).toEqual(1);
-
-      expect(createdAudits[0].subjectDetails).toEqual([
-        "Case Reference",
-        "Case Status"
-      ]);
-    });
-
-    test("it should populate details correctly for letter type subject", async () => {
-      await models.sequelize.transaction(async transaction => {
-        await auditDataAccess(
-          "user",
-          caseForAudit.id,
-          AUDIT_SUBJECT.LETTER_TYPE,
-          transaction
-        );
-      });
-
-      const createdAudits = await models.action_audit.findAll({
-        where: { caseId: caseForAudit.id }
-      });
-      expect(createdAudits.length).toEqual(1);
-
-      expect(createdAudits[0].subjectDetails).toEqual(["Letter Type"]);
-    });
-
-    test("it should populate details correctly for officer data subject", async () => {
-      await models.sequelize.transaction(async transaction => {
-        await auditDataAccess(
-          "user",
-          undefined,
-          AUDIT_SUBJECT.OFFICER_DATA,
-          transaction
-        );
-      });
-
-      const createdAudits = await models.action_audit.findAll({
-        where: { subject: AUDIT_SUBJECT.OFFICER_DATA }
-      });
-      expect(createdAudits.length).toEqual(1);
-
-      expect(createdAudits[0].subjectDetails).toEqual(["Officers"]);
+      expect(createdAudit.subjectDetails).toEqual(subjectDetails);
     });
 
     test("it should populate details correctly for downloaded action with subject details given", async () => {
@@ -177,10 +138,10 @@ describe("auditDataAccess", () => {
         await auditDataAccess(
           "user",
           caseForAudit.id,
-          AUDIT_SUBJECT.ATTACHMENTS,
+          AUDIT_SUBJECT.ATTACHMENT,
           transaction,
           AUDIT_ACTION.DOWNLOADED,
-          { fileName: "cats.jpg" }
+          { fileName: ["cats.jpg"] }
         );
       });
 
@@ -188,7 +149,9 @@ describe("auditDataAccess", () => {
         where: { caseId: caseForAudit.id }
       });
       expect(createdAudits.length).toEqual(1);
-      expect(createdAudits[0].subjectDetails).toEqual({ fileName: "cats.jpg" });
+      expect(createdAudits[0].subjectDetails).toEqual({
+        fileName: ["cats.jpg"]
+      });
     });
   });
 });

@@ -5,30 +5,36 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
-import { getCaseWithoutAssociations } from "../../getCaseHelpers";
 
 const getMinimumCaseDetails = asyncMiddleware(
   async (request, response, next) => {
     const caseId = request.params.caseId;
     const minimumCaseDetails = await models.sequelize.transaction(
       async transaction => {
-        await auditDataAccess(
-          request.nickname,
-          caseId,
-          AUDIT_SUBJECT.MINIMUM_CASE_DETAILS,
-          transaction,
-          AUDIT_ACTION.DATA_ACCESSED
-        );
-
-        const singleCase = await getCaseWithoutAssociations(
-          caseId,
+        const singleCase = await models.cases.findByPk(caseId, {
+          attributes: ["year", "caseNumber", "complaintType", "status"],
           transaction
-        );
+        });
 
-        return {
+        const responseData = {
           caseReference: singleCase.caseReference,
           status: singleCase.status
         };
+
+        const auditDetails = {
+          [models.cases.name]: { attributes: ["caseReference", "status"] }
+        };
+
+        await auditDataAccess(
+          request.nickname,
+          caseId,
+          AUDIT_SUBJECT.CASE_DETAILS,
+          transaction,
+          AUDIT_ACTION.DATA_ACCESSED,
+          auditDetails
+        );
+
+        return responseData;
       }
     );
 

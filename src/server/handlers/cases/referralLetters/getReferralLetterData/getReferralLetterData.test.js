@@ -76,7 +76,31 @@ describe("getReferralLetterData", () => {
     expect(dataAccessAudit.user).toEqual("bobjo");
     expect(dataAccessAudit.caseId).toEqual(existingCase.id);
     expect(dataAccessAudit.subject).toEqual(AUDIT_SUBJECT.REFERRAL_LETTER_DATA);
-    expect(dataAccessAudit.subjectDetails).toEqual(["Referral Letter Data"]);
+    expect(dataAccessAudit.subjectDetails).toEqual({
+      "Case Officers": ["First Name", "Id", "Last Name", "Middle Name"],
+      "Letter Officer": [
+        "Case Officer Id",
+        "Historical Behavior Notes",
+        "Id",
+        "Num Historical High Allegations",
+        "Num Historical Low Allegations",
+        "Num Historical Med Allegations",
+        "Officer History Option Id",
+        "Recommended Action Notes"
+      ],
+      "Referral Letter": ["Case Id", "Id", "Include Retaliation Concerns"],
+      "Referral Letter IA Pro Corrections": ["Details", "Id"],
+      "Referral Letter Officer History Notes": [
+        "Details",
+        "Id",
+        "Pib Case Number",
+        "Referral Letter Officer Id"
+      ],
+      "Referral Letter Officer Recommended Actions": [
+        "Recommended Action Id",
+        "Referral Letter Officer Id"
+      ]
+    });
   });
 
   test("it returns letter data but does not include letter officers that are not accused officers", async () => {

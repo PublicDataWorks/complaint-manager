@@ -1,13 +1,21 @@
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import getArchivedCases from "./getArchivedCases";
+import auditDataAccess from "../../auditDataAccess";
 import {
   AUDIT_ACTION,
-  AUDIT_SUBJECT,
-  AUDIT_TYPE
+  AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
-import models from "../../../models";
-import Case from "../../../../client/testUtilities/case";
+import getCases from "./getCases";
+
+jest.mock("../../auditDataAccess");
+jest.mock("./getCases");
+
+getCases.mockImplementation((caseType, transaction, auditDetails) => {
+  auditDetails.mock = {
+    attributes: ["mockAttribute"]
+  };
+});
 
 const httpMocks = require("node-mocks-http");
 
@@ -37,60 +45,13 @@ describe("getArchivedCases", () => {
   test("should audit data access", async () => {
     await getArchivedCases(request, response, next);
 
-    const audit = await models.action_audit.findOne({
-      where: { subject: AUDIT_SUBJECT.ALL_ARCHIVED_CASES }
-    });
-
-    expect(audit).toEqual(
-      expect.objectContaining({
-        auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: AUDIT_ACTION.DATA_ACCESSED,
-        subject: AUDIT_SUBJECT.ALL_ARCHIVED_CASES,
-        user: auditUser
-      })
-    );
-  });
-
-  test("should get all archived cases", async () => {
-    await getArchivedCases(request, response, next);
-
-    expect(response._getData().cases).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          id: existingArchivedCase.id,
-          complainantCivilians: expect.arrayContaining([
-            expect.objectContaining({ firstName: "Chuck" })
-          ])
-        })
-      ])
-    );
-
-    expect(response._getData().cases).not.toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          deletedAt: null
-        })
-      ])
-    );
-  });
-
-  test("should not get unarchived case", async () => {
-    const existingUnarchivedCaseAttributes = new Case.Builder()
-      .defaultCase()
-      .withId(undefined);
-    const existingUnarchivedCase = await models.cases.create(
-      existingUnarchivedCaseAttributes,
-      {
-        auditUser: auditUser
-      }
-    );
-
-    await getArchivedCases(request, response, next);
-
-    expect(response._getData().cases).not.toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({ id: existingUnarchivedCase.id })
-      ])
+    expect(auditDataAccess).toHaveBeenCalledWith(
+      auditUser,
+      undefined,
+      AUDIT_SUBJECT.ALL_ARCHIVED_CASES,
+      expect.anything(),
+      AUDIT_ACTION.DATA_ACCESSED,
+      { mock: { attributes: ["mockAttribute"] } }
     );
   });
 });

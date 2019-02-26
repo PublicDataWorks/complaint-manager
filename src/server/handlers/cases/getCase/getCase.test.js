@@ -1,16 +1,26 @@
 import Case from "../../../../client/testUtilities/case";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+
 const {
   AUDIT_ACTION,
   AUDIT_TYPE,
   AUDIT_SUBJECT
 } = require("../../../../sharedUtilities/constants");
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const getCase = require("./getCase");
 const models = require("../../../models");
 const httpMocks = require("node-mocks-http");
 
-jest.mock("../../getCaseHelpers");
+jest.mock("../../getCaseHelpers", () => ({
+  getCaseWithAllAssociations: jest.fn((caseId, transaction, auditDetails) => {
+    if (auditDetails) {
+      auditDetails.cases = {
+        attributes: ["mockDetails"]
+      };
+    }
+    return { caseId: caseId };
+  })
+}));
 
 describe("getCase", () => {
   let existingCase;
@@ -54,6 +64,7 @@ describe("getCase", () => {
     expect(actionAudit.subject).toEqual(AUDIT_SUBJECT.CASE_DETAILS);
     expect(actionAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
     expect(actionAudit.caseId).toEqual(existingCase.id);
+    expect(actionAudit.subjectDetails).toEqual({ Case: ["Mock Details"] });
   });
 
   test("should not audit if an error occurs while retrieving case", async () => {

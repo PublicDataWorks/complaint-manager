@@ -12,9 +12,15 @@ import getReferralLetterPdf from "./getReferralLetterPdf";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
-jest.mock("./generateReferralLetterPdfBuffer", () => caseId => {
-  return `pdf for case ${caseId}`;
-});
+jest.mock(
+  "./generateReferralLetterPdfBuffer",
+  () => (caseId, includeSignature, transaction, auditDetails) => {
+    auditDetails.cases = {
+      attributes: ["status"]
+    };
+    return `pdf for case ${caseId}`;
+  }
+);
 
 describe("Generate referral letter pdf", () => {
   let existingCase, request, response, next;
@@ -64,11 +70,12 @@ describe("Generate referral letter pdf", () => {
       expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
       expect(dataAccessAudit.user).toEqual("bobjo");
       expect(dataAccessAudit.caseId).toEqual(existingCase.id);
-      expect(dataAccessAudit.subject).toEqual(AUDIT_SUBJECT.REFERRAL_LETTER);
-      expect(dataAccessAudit.subjectDetails).toEqual([
-        "Case Data",
-        "Referral Letter Data"
-      ]);
+      expect(dataAccessAudit.subject).toEqual(
+        AUDIT_SUBJECT.DRAFT_REFERRAL_LETTER_PDF
+      );
+      expect(dataAccessAudit.subjectDetails).toEqual({
+        Case: ["Status"]
+      });
     });
 
     test("returns results full generated pdf response", async () => {

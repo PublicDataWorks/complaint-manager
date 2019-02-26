@@ -10,7 +10,7 @@ import {
   S3_GET_OBJECT,
   S3_URL_EXPIRATION
 } from "../../../../../sharedUtilities/constants";
-import getFinalPdfUrl from "./getFinalPdfUrl";
+import getFinalPdfDownloadUrl from "./getFinalPdfDownloadUrl";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import config from "../../../../config/config";
@@ -25,7 +25,7 @@ const httpMocks = require("node-mocks-http");
 
 jest.mock("../../../../createConfiguredS3Instance");
 
-describe("getFinalPdfUrl", () => {
+describe("getFinalPdfDownloadUrl", () => {
   let request, response, next, existingCase, getSignedUrlMock, referralLetter;
   beforeEach(async () => {
     getSignedUrlMock = jest.fn(() => "url");
@@ -124,18 +124,14 @@ describe("getFinalPdfUrl", () => {
       { status: CASE_STATUS.FORWARDED_TO_AGENCY },
       { auditUser: "someone" }
     );
-    await getFinalPdfUrl(request, response, next);
+    await getFinalPdfDownloadUrl(request, response, next);
 
     const createdAudit = await models.action_audit.findOne();
     expect(createdAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
-    expect(createdAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
+    expect(createdAudit.action).toEqual(AUDIT_ACTION.DOWNLOADED);
     expect(createdAudit.user).toEqual("TEST_USER_NICKNAME");
     expect(createdAudit.caseId).toEqual(existingCase.id);
-    expect(createdAudit.subject).toEqual(AUDIT_SUBJECT.REFERRAL_LETTER);
-    expect(createdAudit.subjectDetails).toEqual([
-      "Case Data",
-      "Referral Letter Data"
-    ]);
+    expect(createdAudit.subject).toEqual(AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF);
   });
 
   test("should retrieve download url for pdf", async () => {
@@ -148,7 +144,7 @@ describe("getFinalPdfUrl", () => {
       getSignedUrl: getSignedUrlMock
     }));
 
-    await getFinalPdfUrl(request, response, next);
+    await getFinalPdfDownloadUrl(request, response, next);
 
     expect(getSignedUrlMock).toHaveBeenCalledWith(S3_GET_OBJECT, {
       Bucket: config[process.env.NODE_ENV].referralLettersBucket,
@@ -170,7 +166,7 @@ describe("getFinalPdfUrl", () => {
       getSignedUrl: getSignedUrlMock
     }));
 
-    await getFinalPdfUrl(request, response, next);
+    await getFinalPdfDownloadUrl(request, response, next);
 
     expect(getSignedUrlMock).toHaveBeenCalledWith(S3_GET_OBJECT, {
       Bucket: config[process.env.NODE_ENV].referralLettersBucket,
@@ -181,7 +177,7 @@ describe("getFinalPdfUrl", () => {
   });
 
   test("returns 400 bad request if case is in status before forwarded to agency", async () => {
-    await getFinalPdfUrl(request, response, next);
+    await getFinalPdfDownloadUrl(request, response, next);
     expect(next).toHaveBeenCalledWith(
       Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
     );

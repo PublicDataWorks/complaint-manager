@@ -11,6 +11,7 @@ import generateReferralLetterPdfBuffer, {
   generateLetterPdfHtml
 } from "./generateReferralLetterPdfBuffer";
 import generateReferralLetterBody from "../generateReferralLetterBody";
+
 jest.mock("html-pdf", () => ({
   create: (html, pdfOptions) => ({
     toBuffer: callback => {
@@ -140,7 +141,8 @@ describe("generateReferralLetterPdfBuffer", function() {
         );
         expect(generateReferralLetterBody).toHaveBeenCalledWith(
           existingCase.id,
-          transaction
+          transaction,
+          null
         );
       });
     });

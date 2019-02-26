@@ -13,7 +13,7 @@ import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
-const getFinalPdfUrl = asyncMiddleware(async (request, response, next) => {
+const getFinalPdfDownloadUrl = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
   const existingCase = await models.cases.findByPk(caseId, {
     include: [
@@ -37,9 +37,9 @@ const getFinalPdfUrl = asyncMiddleware(async (request, response, next) => {
     await auditDataAccess(
       request.nickname,
       caseId,
-      AUDIT_SUBJECT.REFERRAL_LETTER,
+      AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
       transaction,
-      AUDIT_ACTION.DATA_ACCESSED
+      AUDIT_ACTION.DOWNLOADED
     );
     const signedUrl = await getSignedS3Url(existingCase);
     response.send(signedUrl);
@@ -68,4 +68,4 @@ const validateCaseStatus = caseStatus => {
   }
 };
 
-export default getFinalPdfUrl;
+export default getFinalPdfDownloadUrl;

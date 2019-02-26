@@ -1,6 +1,7 @@
 import Case from "../../../../client/testUtilities/case";
 import Officer from "../../../../client/testUtilities/Officer";
 import models from "../../../models/index";
+
 const { cleanupDatabase } = require("../../../testHelpers/requestTestHelpers");
 const httpMocks = require("node-mocks-http");
 const searchOfficers = require("./searchOfficers");

@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import generateAttachmentDownloadUrl from "./generateAttachmentDownloadUrl";
+import getAttachmentDownloadUrl from "./getAttachmentDownloadUrl";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT,
@@ -16,7 +16,7 @@ const models = require("../../../models/index");
 
 jest.mock("aws-sdk");
 
-describe("generateAttachmentDownloadUrl", function() {
+describe("getAttachmentDownloadUrl", function() {
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -65,7 +65,7 @@ describe("generateAttachmentDownloadUrl", function() {
 
     const response = httpMocks.createResponse();
 
-    await generateAttachmentDownloadUrl(request, response, jest.fn());
+    await getAttachmentDownloadUrl(request, response, jest.fn());
 
     const actionAudit = await models.action_audit.findOne({
       where: { caseId: attachment.caseId }
@@ -77,8 +77,8 @@ describe("generateAttachmentDownloadUrl", function() {
         user: "TEST_USER_NICKNAME",
         auditType: AUDIT_TYPE.DATA_ACCESS,
         action: AUDIT_ACTION.DOWNLOADED,
-        subject: AUDIT_SUBJECT.ATTACHMENTS,
-        subjectDetails: { fileName: attachment.fileName }
+        subject: AUDIT_SUBJECT.ATTACHMENT,
+        subjectDetails: { fileName: [attachment.fileName] }
       })
     );
   });
@@ -105,7 +105,7 @@ describe("generateAttachmentDownloadUrl", function() {
       auditUser: "tuser"
     });
 
-    const signedUrl = await generateAttachmentDownloadUrl(
+    const signedUrl = await getAttachmentDownloadUrl(
       request,
       response,
       jest.fn()
@@ -117,11 +117,11 @@ describe("generateAttachmentDownloadUrl", function() {
 
     expect(actionAudit).toEqual(
       expect.objectContaining({
-        action: AUDIT_ACTION.DATA_ACCESSED,
+        action: AUDIT_ACTION.DOWNLOADED,
         subject: AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
         caseId: existingCase.id,
         auditType: AUDIT_TYPE.DATA_ACCESS,
-        user: "TEST_USER_NICKNAME"
+        user: "TEST_USER_NICKNAME",
       })
     );
   });
@@ -132,7 +132,7 @@ describe("generateAttachmentDownloadUrl", function() {
     const response = httpMocks.createResponse();
     response.write = jest.fn();
 
-    await generateAttachmentDownloadUrl(request, response, jest.fn());
+    await getAttachmentDownloadUrl(request, response, jest.fn());
 
     expect(response.write).toHaveBeenCalledWith(SIGNED_TEST_URL);
   });
@@ -146,7 +146,7 @@ describe("generateAttachmentDownloadUrl", function() {
 
     const { attachment, request } = await requestWithExistingCaseAttachment();
 
-    await generateAttachmentDownloadUrl(
+    await getAttachmentDownloadUrl(
       request,
       httpMocks.createResponse(),
       jest.fn()

@@ -1,55 +1,75 @@
-const models = require("../models");
-const {
-  AUDIT_ACTION,
-  AUDIT_TYPE,
-  AUDIT_SUBJECT
-} = require("../../sharedUtilities/constants");
+import models from "../models";
+import { AUDIT_ACTION, AUDIT_TYPE } from "../../sharedUtilities/constants";
+import _ from "lodash";
 
-const SUBJECT_DETAILS = {
-  [AUDIT_SUBJECT.REFERRAL_LETTER_DATA]: ["Referral Letter Data"],
-  [AUDIT_SUBJECT.REFERRAL_LETTER]: ["Case Data", "Referral Letter Data"],
-  [AUDIT_SUBJECT.CASE_DETAILS]: [
-    "Case Information",
-    "Incident Location",
-    "Civilian Complainants",
-    "Officer Complainants",
-    "Civilian Witnesses",
-    "Officer Witnesses",
-    "Civilian Address",
-    "Accused Officers",
-    "Allegations",
-    "Attachments"
-  ],
-  [AUDIT_SUBJECT.ALL_CASES]: [
-    "Case Information",
-    "Civilian Complainants",
-    "Officer Complainants",
-    "Accused Officers"
-  ],
-  [AUDIT_SUBJECT.ALL_ARCHIVED_CASES]: [
-    "Case Information",
-    "Civilian Complainants",
-    "Officer Complainants",
-    "Accused Officers"
-  ],
-  [AUDIT_SUBJECT.CASE_HISTORY]: [
-    "Case Information",
-    "Incident Location",
-    "Civilian Complainants",
-    "Officer Complainants",
-    "Civilian Witnesses",
-    "Officer Witnesses",
-    "Civilian Address",
-    "Accused Officers",
-    "Allegations",
-    "Attachments",
-    "Case Notes"
-  ],
-  [AUDIT_SUBJECT.CASE_NOTES]: ["Case Notes"],
-  [AUDIT_SUBJECT.OFFICER_DATA]: ["Officers"],
-  [AUDIT_SUBJECT.MINIMUM_CASE_DETAILS]: ["Case Reference", "Case Status"],
-  [AUDIT_SUBJECT.LETTER_TYPE]: ["Letter Type"],
-  [AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF]: ["Complainant Letter"]
+const getExtraAttributesIfAllAttributesPresent = (attributes, modelName) => {
+  const sortedAttributes = attributes;
+  const sortedModelAttributes = Object.keys(models[modelName].rawAttributes);
+
+  let extraAttributes = [];
+
+  sortedModelAttributes.sort();
+  sortedAttributes.sort();
+
+  let modelAttributesIndex = 0;
+  let attributesIndex = 0;
+  while (
+    modelAttributesIndex < sortedModelAttributes.length &&
+    attributesIndex < sortedAttributes.length
+  ) {
+    if (
+      sortedModelAttributes[modelAttributesIndex] ===
+      sortedAttributes[attributesIndex]
+    ) {
+      modelAttributesIndex++;
+      attributesIndex++;
+    } else if (
+      sortedModelAttributes[modelAttributesIndex] <
+      sortedAttributes[attributesIndex]
+    ) {
+      return false;
+    } else {
+      extraAttributes.push(_.startCase(sortedAttributes[attributesIndex]));
+      attributesIndex++;
+    }
+  }
+  return extraAttributes;
+};
+
+export const formatSubjectDetails = subjectDetails => {
+  let formattedSubjectDetails = {};
+
+  Object.keys(subjectDetails).forEach(subjectName => {
+    const subject = subjectDetails[subjectName];
+
+    if (!_.isArray(subject)) {
+      const modelName = subject.model ? subject.model : subjectName;
+      const prettySubjectName = models[subjectName]
+        ? _.startCase(models[subjectName].options.name.singular)
+        : _.startCase(subjectName);
+
+      let extraAttributes = getExtraAttributesIfAllAttributesPresent(
+        subject.attributes,
+        modelName
+      );
+
+      if (extraAttributes) {
+        formattedSubjectDetails[prettySubjectName] = [
+          `All ${prettySubjectName} Data`,
+          ...extraAttributes
+        ];
+      } else {
+        formattedSubjectDetails[prettySubjectName] = subject.attributes.map(
+          attribute => {
+            return _.startCase(attribute);
+          }
+        );
+      }
+    } else {
+      formattedSubjectDetails[subjectName] = subject;
+    }
+  });
+  return formattedSubjectDetails;
 };
 
 const auditDataAccess = async (
@@ -60,6 +80,11 @@ const auditDataAccess = async (
   action = AUDIT_ACTION.DATA_ACCESSED,
   subjectDetails
 ) => {
+  let formattedSubjectDetails = {};
+  if (subjectDetails) {
+    formattedSubjectDetails = formatSubjectDetails(subjectDetails);
+  }
+
   await models.action_audit.create(
     {
       user,
@@ -67,13 +92,10 @@ const auditDataAccess = async (
       action,
       auditType: AUDIT_TYPE.DATA_ACCESS,
       subject,
-      subjectDetails:
-        action === AUDIT_ACTION.DATA_ACCESSED
-          ? SUBJECT_DETAILS[subject]
-          : subjectDetails
+      subjectDetails: formattedSubjectDetails
     },
     { transaction }
   );
 };
 
-module.exports = auditDataAccess;
+export default auditDataAccess;

@@ -102,7 +102,7 @@ describe("getReferralLetterPreview", function() {
       );
     });
 
-    test("audits the data access", async () => {
+    test("audits the data access if letter is generated", async () => {
       await getReferralLetterPreview(request, response, next);
 
       const dataAccessAudit = await models.action_audit.findOne();
@@ -110,11 +110,125 @@ describe("getReferralLetterPreview", function() {
       expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
       expect(dataAccessAudit.user).toEqual("bobjo");
       expect(dataAccessAudit.caseId).toEqual(existingCase.id);
-      expect(dataAccessAudit.subject).toEqual(AUDIT_SUBJECT.REFERRAL_LETTER);
-      expect(dataAccessAudit.subjectDetails).toEqual([
-        "Case Data",
-        "Referral Letter Data"
-      ]);
+      expect(dataAccessAudit.subject).toEqual(
+        AUDIT_SUBJECT.REFERRAL_LETTER_PREVIEW
+      );
+      expect(dataAccessAudit.subjectDetails).toEqual({
+        "Accused Officers": ["All Accused Officers Data"],
+        Address: ["All Address Data"],
+        Allegation: ["All Allegation Data"],
+        Allegations: ["All Allegations Data"],
+        Attachment: ["All Attachment Data"],
+        Case: [
+          "Assigned To",
+          "Case Id",
+          "Case Number",
+          "Classification Id",
+          "Complaint Type",
+          "Created At",
+          "Created By",
+          "District",
+          "First Contact Date",
+          "Id",
+          "Incident Date",
+          "Incident Time",
+          "Intake Source Id",
+          "Is Archived",
+          "Narrative Details",
+          "Narrative Summary",
+          "Pdf Available",
+          "Pib Case Number",
+          "Status",
+          "Updated At",
+          "Year"
+        ],
+        Classification: ["All Classification Data"],
+        "Complainant Civilians": ["All Complainant Civilians Data"],
+        "Complainant Officers": ["All Complainant Officers Data"],
+        "Incident Location": ["All Incident Location Data"],
+        "Intake Source": ["All Intake Source Data"],
+        "Letter Officer": ["All Letter Officer Data"],
+        "Race Ethnicity": ["All Race Ethnicity Data"],
+        "Recommended Action": ["All Recommended Action Data"],
+        "Referral Letter": [
+          "All Referral Letter Data",
+          "Draft Filename",
+          "Edit Status",
+          "Last Edited"
+        ],
+        "Referral Letter IA Pro Corrections": [
+          "All Referral Letter IA Pro Corrections Data"
+        ],
+        "Referral Letter Officer History Notes": [
+          "All Referral Letter Officer History Notes Data"
+        ],
+        "Referral Letter Officer Recommended Actions": [
+          "All Referral Letter Officer Recommended Actions Data"
+        ],
+        "Witness Civilians": ["All Witness Civilians Data"],
+        "Witness Officers": ["All Witness Officers Data"]
+      });
+    });
+
+    test("audits the data if the letter is edited", async () => {
+      await referralLetter.update(
+        { editedLetterHtml: "<p>something</p>" },
+        { auditUser: "nickname" }
+      );
+
+      await getReferralLetterPreview(request, response, next);
+
+      const dataAccessAudit = await models.action_audit.findOne();
+      expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
+      expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
+      expect(dataAccessAudit.user).toEqual("bobjo");
+      expect(dataAccessAudit.caseId).toEqual(existingCase.id);
+      expect(dataAccessAudit.subject).toEqual(
+        AUDIT_SUBJECT.REFERRAL_LETTER_PREVIEW
+      );
+      expect(dataAccessAudit.subjectDetails).toEqual({
+        "Accused Officers": ["All Accused Officers Data"],
+        Address: ["All Address Data"],
+        Allegation: ["All Allegation Data"],
+        Allegations: ["All Allegations Data"],
+        Attachment: ["All Attachment Data"],
+        Case: [
+          "Assigned To",
+          "Case Number",
+          "Classification Id",
+          "Complaint Type",
+          "Created At",
+          "Created By",
+          "District",
+          "First Contact Date",
+          "Id",
+          "Incident Date",
+          "Incident Time",
+          "Intake Source Id",
+          "Is Archived",
+          "Narrative Details",
+          "Narrative Summary",
+          "Pdf Available",
+          "Pib Case Number",
+          "Status",
+          "Updated At",
+          "Year"
+        ],
+        Classification: ["All Classification Data"],
+        "Complainant Civilians": ["All Complainant Civilians Data"],
+        "Complainant Officers": ["All Complainant Officers Data"],
+        "Incident Location": ["All Incident Location Data"],
+        "Intake Source": ["All Intake Source Data"],
+        "Race Ethnicity": ["All Race Ethnicity Data"],
+        "Referral Letter": [
+          "All Referral Letter Data",
+          "Draft Filename",
+          "Edit Status",
+          "Last Edited"
+        ],
+        "Witness Civilians": ["All Witness Civilians Data"],
+        "Witness Officers": ["All Witness Officers Data"]
+      });
     });
 
     test("returns letter address info", async () => {

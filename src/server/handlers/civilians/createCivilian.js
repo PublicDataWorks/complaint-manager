@@ -6,7 +6,7 @@ import {
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
 import { getCaseWithAllAssociations } from "../getCaseHelpers";
-const auditDataAccess = require("../auditDataAccess");
+import auditDataAccess from "../auditDataAccess";
 
 const createCivilian = asyncMiddleware(async (req, res) => {
   const caseDetails = await models.sequelize.transaction(async transaction => {

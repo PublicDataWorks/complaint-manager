@@ -11,7 +11,7 @@ const models = require("../../../models/index");
 import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const Boom = require("boom");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
-const auditDataAccess = require("../../auditDataAccess");
+import auditDataAccess from "../../auditDataAccess";
 import _ from "lodash";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 

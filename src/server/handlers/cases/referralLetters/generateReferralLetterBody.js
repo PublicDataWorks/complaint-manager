@@ -1,14 +1,14 @@
 import models from "../../../models";
 import fs from "fs";
 import Handlebars from "handlebars";
+import { addToExistingAuditDetails } from "../../getQueryAuditAccessDetails";
 
-const getCaseData = async (caseId, transaction) => {
-  return await models.cases.findByPk(caseId, {
+const getReferralLetterCaseData = async (caseId, transaction, auditDetails) => {
+  const queryOptions = {
     attributes: [
       ["id", "caseId"],
       "incidentDate",
       "incidentTime",
-      "narrativeSummary",
       "narrativeDetails",
       "firstContactDate",
       "complaintType",
@@ -106,80 +106,34 @@ const getCaseData = async (caseId, transaction) => {
       }
     ],
     transaction
-  });
+  };
+  const caseData = await models.cases.findByPk(caseId, queryOptions);
+
+  addToExistingAuditDetails(auditDetails, queryOptions, models.cases.name);
+
+  return caseData;
 };
 
-const getComplainantLetterCaseData = async (caseId, transaction) => {
-  return await models.cases.findByPk(caseId, {
-    attributes: [
-      ["id", "caseId"],
-      "firstContactDate",
-      "complaintType",
-      "year",
-      "caseNumber"
-    ],
-    order: [
-      [
-        { model: models.case_officer, as: "complainantOfficers" },
-        "createdAt",
-        "ASC"
-      ],
-      [
-        { model: models.civilian, as: "complainantCivilians" },
-        "createdAt",
-        "ASC"
-      ]
-    ],
-    include: [
-      {
-        model: models.referral_letter,
-        as: "referralLetter",
-        include: [
-          {
-            model: models.referral_letter_iapro_correction,
-            as: "referralLetterIAProCorrections"
-          }
-        ]
-      },
-      {
-        model: models.civilian,
-        as: "complainantCivilians",
-        include: [
-          { model: models.address },
-          { model: models.race_ethnicity, as: "raceEthnicity" }
-        ]
-      },
-      {
-        model: models.case_officer,
-        as: "complainantOfficers"
-      }
-    ],
-    transaction
-  });
-};
-
-const defaultReferralLetterBodyPath =
+const referralLetterBodyPath =
   "src/server/handlers/cases/referralLetters/getReferralLetterPreview/letterBody.tpl";
 
 async function generateReferralLetterBody(
   caseId,
   transaction,
-  letterBodyPath = defaultReferralLetterBodyPath
+  auditDetails = null
 ) {
   let caseData;
-  if (letterBodyPath === defaultReferralLetterBodyPath) {
-    caseData = (await getCaseData(caseId, transaction)).toJSON();
-    caseData.accusedOfficers.sort((officerA, officerB) => {
-      return officerA.createdAt > officerB.createdAt;
-    });
-  } else {
-    caseData = (await getComplainantLetterCaseData(
-      caseId,
-      transaction
-    )).toJSON();
-  }
+  const caseDataInstance = await getReferralLetterCaseData(
+    caseId,
+    transaction,
+    auditDetails
+  );
+  caseData = caseDataInstance.toJSON();
+  caseData.accusedOfficers.sort((officerA, officerB) => {
+    return officerA.createdAt > officerB.createdAt;
+  });
 
-  const rawTemplate = fs.readFileSync(letterBodyPath);
+  const rawTemplate = fs.readFileSync(referralLetterBodyPath);
   const compiledTemplate = Handlebars.compile(rawTemplate.toString());
   return compiledTemplate(caseData);
 }

@@ -12,17 +12,23 @@ const getReferralLetterData = asyncMiddleware(async (request, response) => {
   const caseId = request.params.caseId;
   await throwErrorIfLetterFlowUnavailable(caseId);
   await models.sequelize.transaction(async transaction => {
+    let auditDetails = {};
+
+    const transformedLetterData = await getReferralLetterDataForResponse(
+      caseId,
+      transaction,
+      auditDetails
+    );
+
     await auditDataAccess(
       request.nickname,
       request.params.caseId,
       AUDIT_SUBJECT.REFERRAL_LETTER_DATA,
       transaction,
-      AUDIT_ACTION.DATA_ACCESSED
+      AUDIT_ACTION.DATA_ACCESSED,
+      auditDetails
     );
-    const transformedLetterData = await getReferralLetterDataForResponse(
-      caseId,
-      transaction
-    );
+
     response.send(transformedLetterData);
   });
 });

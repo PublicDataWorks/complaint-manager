@@ -50,7 +50,17 @@ describe("getCaseHistory", () => {
         action: AUDIT_ACTION.DATA_ACCESSED,
         subject: AUDIT_SUBJECT.CASE_HISTORY,
         auditType: AUDIT_TYPE.DATA_ACCESS,
-        caseId: createdCase.id
+        caseId: createdCase.id,
+        subjectDetails: expect.objectContaining({
+          "Data Change Audit": [
+            "Action",
+            "Model Name",
+            "Model Description",
+            "Changes",
+            "User",
+            "Created At"
+          ].sort()
+        })
       })
     );
   });
@@ -120,7 +130,7 @@ describe("getCaseHistory", () => {
     expect(response._getData()).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          action: `${AUDIT_SUBJECT.REFERRAL_LETTER_PDF} ${
+          action: `${AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF} ${
             AUDIT_ACTION.UPLOADED
           }`,
           details: AUDIT_UPLOAD_DETAILS.REFERRAL_LETTER_PDF,
@@ -168,7 +178,7 @@ describe("getCaseHistory", () => {
       .withCaseId(caseId)
       .withId(undefined)
       .withAction(AUDIT_ACTION.UPLOADED)
-      .withSubject(AUDIT_SUBJECT.REFERRAL_LETTER_PDF)
+      .withSubject(AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF)
       .withAuditType(AUDIT_TYPE.UPLOAD)
       .withUser("nickname");
     return await models.action_audit.create(auditUploadAttributes);

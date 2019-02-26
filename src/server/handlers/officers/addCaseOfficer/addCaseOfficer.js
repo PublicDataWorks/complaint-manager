@@ -7,7 +7,7 @@ const models = require("../../../models/index");
 const asyncMiddleware = require("../../asyncMiddleware");
 import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
-const auditDataAccess = require("../../auditDataAccess");
+import auditDataAccess from "../../auditDataAccess";
 
 const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const { officerId, notes, roleOnCase } = request.body;

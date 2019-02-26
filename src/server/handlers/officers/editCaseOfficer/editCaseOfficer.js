@@ -9,7 +9,7 @@ const {
   ACCUSED,
   AUDIT_SUBJECT
 } = require("../../../../sharedUtilities/constants");
-const auditDataAccess = require("../../auditDataAccess");
+import auditDataAccess from "../../auditDataAccess";
 
 const editCaseOfficer = asyncMiddleware(async (request, response) => {
   const { officerId, notes, roleOnCase } = request.body;

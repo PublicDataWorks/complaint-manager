@@ -2,7 +2,7 @@ const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
 import { getCaseWithAllAssociations } from "../../getCaseHelpers";
-const auditDataAccess = require("../../auditDataAccess");
+import auditDataAccess from "../../auditDataAccess";
 
 const removeCaseNote = asyncMiddleware(async (req, res) => {
   const caseId = req.params.caseId;
