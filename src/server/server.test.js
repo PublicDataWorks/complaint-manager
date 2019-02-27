@@ -900,4 +900,16 @@ describe("server", () => {
       });
     });
   });
+
+  test("should respond with 503 when app is shutting down", async () => {
+    app.locals.shuttingDown = true;
+
+    await request(app)
+      .get(`/api/cases/`)
+      .set("Authorization", `Bearer ${token}`)
+      .set("Content-Type", "multipart/form-data")
+      .expect(503);
+
+    app.locals.shuttingDown = false;
+  });
 });
