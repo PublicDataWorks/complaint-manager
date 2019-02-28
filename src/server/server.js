@@ -1,10 +1,5 @@
-import http from "http";
-import {
-  handleSigterm,
-  refuseNewConnectionDuringShutdown
-} from "./serverHelpers";
-
 const newRelic = require("newrelic");
+import refuseNewConnectionDuringShutdown from "../sharedUtilities/refuseNewConnectionDuringShutdown";
 
 const express = require("express");
 const path = require("path");
@@ -32,9 +27,9 @@ winston.configure({
 
 const app = express();
 const twoYearsInSeconds = 63113852;
-app.locals.shuttingDown = false;
+let shuttingDown = false;
 
-app.use(refuseNewConnectionDuringShutdown(app));
+app.use(refuseNewConnectionDuringShutdown(shuttingDown));
 
 app.use(
   helmet.hsts({
@@ -107,10 +102,4 @@ app.use(
 
 app.use(errorHandler);
 
-export const server = http.createServer(app);
-
-process.on("SIGTERM", () => {
-  handleSigterm(app);
-});
-
-export default app;
+module.exports = app;

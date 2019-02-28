@@ -1,10 +1,15 @@
-import { server } from "./worker/worker";
-import kue from "kue";
-const config = require("./server/config/config")[process.env.NODE_ENV];
+import http from "http";
+import gracefulExit from "./sharedUtilities/gracefulExit";
+import app from "./worker/worker";
 
-kue.app.set("title", "Background Worker");
+const server = http.createServer(app);
+process.on("SIGTERM", handleSigterm);
 
-kue.app.listen(config.queue.jobUIPort);
+function handleSigterm() {
+  if (shuttingDown) return;
+  shuttingDown = true;
+  gracefulExit(server);
+}
 
 server.listen(process.env.WORKER_PORT || 4567, () => {
   console.info("Application is listening on port 4567");

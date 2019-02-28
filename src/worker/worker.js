@@ -1,10 +1,5 @@
-import {
-  handleSigterm,
-  refuseNewConnectionDuringShutdown
-} from "./workerHelpers";
-import http from "http";
-
 const newRelic = require("newrelic");
+import refuseNewConnectionDuringShutdown from "../sharedUtilities/refuseNewConnectionDuringShutdown";
 
 const express = require("express");
 const path = require("path");
@@ -19,6 +14,7 @@ const winston = require("winston");
 const cookieParser = require("cookie-parser");
 const { JOB_OPERATION } = require("../sharedUtilities/constants");
 
+const kue = require("kue");
 const csvCaseExport = require("./processors/exportCases/csvCaseExport");
 const auditExport = require("./processors/auditLogs/export");
 const jobQueue = require("../server/handlers/cases/export/jobQueue");
@@ -36,8 +32,8 @@ winston.configure({
 
 const app = express();
 const twoYearsInSeconds = 63113852;
-app.locals.shuttingDown = false;
-app.use(refuseNewConnectionDuringShutdown(app));
+let shuttingDown = false;
+app.use(refuseNewConnectionDuringShutdown(shuttingDown));
 
 app.use(
   helmet.hsts({
@@ -98,6 +94,10 @@ app.use(errorHandler);
 
 const queue = jobQueue.createQueue();
 
+kue.app.set("title", "Background Worker");
+
+kue.app.listen(config.queue.jobUIPort);
+
 queue.process(JOB_OPERATION.CASE_EXPORT.key, 1, (job, done) => {
   csvCaseExport(job, done);
 });
@@ -106,10 +106,4 @@ queue.process(JOB_OPERATION.AUDIT_LOG_EXPORT.key, 1, (job, done) => {
   auditExport(job, done);
 });
 
-export const server = http.createServer(app);
-
-process.on("SIGTERM", () => {
-  handleSigterm(app);
-});
-
-export default app;
+module.exports = app;
