@@ -11,12 +11,11 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import request from "supertest";
 import app from "../../../../server";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
-import {
-  BAD_REQUEST_ERRORS,
-  PAGE_NOT_AVAILABLE
-} from "../../../../../sharedUtilities/errorMessageConstants";
+import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
+
+jest.mock("../../export/jobQueue");
 
 describe("edit referral letter", () => {
   describe("officer histories (letter officers with history notes)", () => {

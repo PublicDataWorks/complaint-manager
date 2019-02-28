@@ -6,6 +6,8 @@ import app from "../../server";
 import models from "../../models";
 import request from "supertest";
 
+jest.mock("../cases/export/jobQueue");
+
 describe("getRaceEthnicities", () => {
   afterEach(async () => {
     await cleanupDatabase();

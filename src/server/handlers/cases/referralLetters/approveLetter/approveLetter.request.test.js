@@ -20,6 +20,8 @@ import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 
+jest.mock("../../export/jobQueue");
+
 describe("Approve referral letter", () => {
   let existingCase, token;
 

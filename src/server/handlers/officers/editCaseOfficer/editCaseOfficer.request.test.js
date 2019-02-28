@@ -10,6 +10,8 @@ import {
   cleanupDatabase
 } from "../../../testHelpers/requestTestHelpers";
 
+jest.mock("../../cases/export/jobQueue");
+
 describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
   let token;
   beforeEach(() => {

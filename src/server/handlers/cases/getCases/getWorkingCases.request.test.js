@@ -19,6 +19,8 @@ import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import Case from "../../../../client/testUtilities/case";
 import moment from "moment";
 
+jest.mock("../export/jobQueue");
+
 describe("getWorkingCases", () => {
   let token;
 

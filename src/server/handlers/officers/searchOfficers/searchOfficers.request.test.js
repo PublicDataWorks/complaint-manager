@@ -7,6 +7,8 @@ import {
 } from "../../../testHelpers/requestTestHelpers";
 import Officer from "../../../../client/testUtilities/Officer";
 
+jest.mock("../../cases/export/jobQueue");
+
 describe("GET /officers/search", () => {
   let token;
   beforeEach(() => {

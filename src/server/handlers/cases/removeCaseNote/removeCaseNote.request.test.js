@@ -9,6 +9,8 @@ import {
 } from "../../../testHelpers/requestTestHelpers";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 
+jest.mock("../export/jobQueue");
+
 describe("removeCaseNote request", () => {
   afterEach(async () => {
     await cleanupDatabase();

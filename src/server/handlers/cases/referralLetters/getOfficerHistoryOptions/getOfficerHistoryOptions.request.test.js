@@ -6,6 +6,8 @@ import app from "../../../../server";
 import models from "../../../../models";
 import request from "supertest";
 
+jest.mock("../../export/jobQueue");
+
 describe("getOfficerHistoryOptions", function() {
   afterEach(async () => {
     await cleanupDatabase();
