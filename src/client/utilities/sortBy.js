@@ -45,7 +45,9 @@ const sortBy = (collection, sortBy, sortDirection) => {
     const sortedCases = _.sortBy(collection, [
       "primaryComplainant",
       ({ primaryComplainant: complainant }) => {
-        if (!complainant.isUnknownOfficer) {
+        if (!complainant) {
+          return null;
+        } else if (!complainant.isUnknownOfficer) {
           return complainant.lastName.toUpperCase();
         } else {
           return complainant.fullName;
