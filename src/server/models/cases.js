@@ -166,9 +166,11 @@ export default (sequelize, DataTypes) => {
         primaryComplainant() {
           return head(
             sortBy(
-              [...this.complainantCivilians || [],
-               ...this.complainantOfficers || []],
-              'createdAt'
+              [
+                ...(this.complainantCivilians || []),
+                ...(this.complainantOfficers || [])
+              ],
+              "createdAt"
             )
           );
         }
@@ -284,6 +286,14 @@ export default (sequelize, DataTypes) => {
       foreignKey: {
         name: "classificationId",
         field: "classification_id",
+        allowNull: true
+      }
+    });
+    Case.belongsTo(models.heard_about_source, {
+      as: "heardAboutSource",
+      foreignKey: {
+        name: "heardAboutSourceId",
+        field: "heard_about_source_id",
         allowNull: true
       }
     });

@@ -37,6 +37,7 @@ import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocatio
 import normalizeAddress from "../../../utilities/normalizeAddress";
 import { intakeSourceIsRequired } from "../../../formFieldLevelValidations";
 import { INCIDENT_DETAILS_FORM_NAME } from "../../../../sharedUtilities/constants";
+import getHeardAboutSourceDropdownValues from "../../../heardAboutSources/thunks/getHeardAboutSourceDropdownValues";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -69,6 +70,7 @@ class IncidentDetailsDialog extends Component {
   componentDidMount() {
     this.props.getClassificationDropDownOptions();
     this.props.getIntakeSourceDropdownValues();
+    this.props.getHeardAboutSourceDropdownValues();
   }
 
   render() {
@@ -204,6 +206,20 @@ class IncidentDetailsDialog extends Component {
                 {generateMenu(props.intakeSources)}
               </Field>
             </div>
+            {/*TODO: Surround in feature toggle*/}
+            <div style={{ marginTop: "16px" }}>
+              <Field
+                required
+                name="heardAboutSourceId"
+                component={NoBlurTextField}
+                label="How did you hear about us?"
+                hinttext="How did you hear about us?"
+                data-test="heardAboutSourceDropdown"
+                style={{ width: "60%" }}
+              >
+                {generateMenu(props.heardAboutSources)}
+              </Field>
+            </div>
             <div style={{ display: "flex", marginTop: "16px" }}>
               <Field
                 name="pibCaseNumber"
@@ -271,13 +287,15 @@ const mapStateToProps = state => {
     formattedAddress: formatAddressAsString(values.incidentLocation),
     addressValid: state.ui.addressInput.addressValid,
     classifications: state.ui.classifications,
-    intakeSources: state.ui.intakeSources
+    intakeSources: state.ui.intakeSources,
+    heardAboutSources: state.ui.heardAboutSources
   };
 };
 
 const mapDispatchToProps = {
   getClassificationDropDownOptions,
-  getIntakeSourceDropdownValues
+  getIntakeSourceDropdownValues,
+  getHeardAboutSourceDropdownValues
 };
 
 export default withStyles(styles)(

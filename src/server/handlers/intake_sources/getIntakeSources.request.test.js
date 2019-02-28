@@ -6,7 +6,9 @@ import app from "../../server";
 import models from "../../models";
 import request from "supertest";
 
-describe("getIntakeSources", () => {
+jest.mock("../cases/export/jobQueue");
+
+describe("getHeardAboutSources", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });

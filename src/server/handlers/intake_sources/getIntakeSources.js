@@ -10,12 +10,11 @@ const getIntakeSources = asyncMiddleware(async (request, response, next) => {
 });
 
 const getSortedIntakeSources = async () => {
-  const intakeSources = await models.intake_source.findAll({
+  return await models.intake_source.findAll({
     attributes: ["name", "id"],
     order: [["name", "ASC"]],
     raw: true
   });
-  return intakeSources;
 };
 
 export default getIntakeSources;

@@ -4,30 +4,7 @@ import {
   SNACKBAR_SUCCESS
 } from "../../../sharedUtilities/constants";
 
-//TODO Discuss separation of concerns.
-// Refactoring 1:  Use 1 global snackbar, don't worry about collisions.  Have thunk dispatch generic success/failure/pending with parameterized messages.  Puts presentation logic in thunk.  wah wah
-/*    case 'REQUESTED':
-            return {
-                open: false,
-                success: false,
-                message: <parameterized>
-            }
-        case 'SUCCESS':
-            return {
-                open: true,
-                success: true,
-                message: <parameterized>
-            }
-        case 'SERVER_ERROR':
-            return {
-                open: true,
-                success: false,
-                message: <parameterized>
-            }
-        default:
-            return state
-*/
-// Refactoring 2:  Instantiate different snackbars for each type of business event so that one success event can't dismiss another failure's red snackbar.
+//TODO Refactoring 2:  Instantiate different snackbars for each type of business event so that one success event can't dismiss another failure's red snackbar.
 
 const initialState = { open: false, success: false, message: "" };
 const snackbarReducer = (state = initialState, action) => {
