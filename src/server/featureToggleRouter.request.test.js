@@ -13,6 +13,8 @@ jest.mock("./config/features.json", () => [
   }
 ]);
 
+jest.mock("./handlers/cases/export/jobQueue");
+
 describe("featureToggleRouter", function() {
   let token;
   beforeEach(() => {

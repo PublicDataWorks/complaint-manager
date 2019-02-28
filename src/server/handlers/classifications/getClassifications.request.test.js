@@ -6,6 +6,8 @@ import app from "../../server";
 import request from "supertest";
 import models from "../../models";
 
+jest.mock("../cases/export/jobQueue");
+
 describe("getClassifications", () => {
   afterEach(async () => {
     await cleanupDatabase();

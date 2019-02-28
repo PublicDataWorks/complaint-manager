@@ -12,6 +12,8 @@ import Officer from "../../../../client/testUtilities/Officer";
 import { COMPLAINANT } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
+jest.mock("../../cases/export/jobQueue");
+
 describe("DELETE /cases/:caseId/cases-officers/:caseOfficerId", () => {
   let token;
   const nickname = "tuser";
