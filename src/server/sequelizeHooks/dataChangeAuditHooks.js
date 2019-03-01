@@ -11,7 +11,8 @@ const MODEL_ASSOCIATIONS_TO_LOOKUP = [
   {
     foreignKey: "recommendedActionId",
     modelName: "recommended_action",
-    identifyingAttribute: "description"
+    identifyingAttribute: "description",
+    as: "recommendedAction"
   },
   {
     foreignKey: "intakeSourceId",
@@ -22,12 +23,14 @@ const MODEL_ASSOCIATIONS_TO_LOOKUP = [
   {
     foreignKey: "raceEthnicityId",
     modelName: "race_ethnicity",
-    identifyingAttribute: "name"
+    identifyingAttribute: "name",
+    as: "raceEthnicity"
   },
   {
-    foreignKey: "heardAboutSourceId",
-    modelName: "heard_about_source",
-    identifyingAttribute: "name"
+    foreignKey: "initialDiscoverySourceId",
+    modelName: "initial_discovery_source",
+    identifyingAttribute: "name",
+    as: "initialDiscoverySource"
   }
 ];
 
@@ -238,15 +241,17 @@ exports.init = sequelize => {
     snapshotValues,
     association
   ) => {
+    const snapshotKey = association.as ? association.as : association.modelName;
+
     if (Object.keys(instance.dataValues).includes(association.foreignKey)) {
       if (instance.dataValues[association.foreignKey]) {
         const associationInstance = await instance.sequelize.models[
           association.modelName
         ].findByPk(instance.dataValues[association.foreignKey]);
-        snapshotValues[association.modelName] =
+        snapshotValues[snapshotKey] =
           associationInstance[association.identifyingAttribute];
       } else {
-        snapshotValues[association.modelName] =
+        snapshotValues[snapshotKey] =
           instance.dataValues[association.foreignKey];
       }
     }

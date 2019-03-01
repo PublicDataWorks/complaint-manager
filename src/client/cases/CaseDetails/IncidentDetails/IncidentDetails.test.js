@@ -16,7 +16,7 @@ import { DialogContent } from "@material-ui/core";
 import { getClassificationsSuccess } from "../../../actionCreators/classificationActionCreators";
 import getClassificationDropdownValues from "../../../classifications/thunks/getClassificationDropdownValues";
 import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
-import getHeardAboutSourceDropdownValues from "../../../heardAboutSources/thunks/getHeardAboutSourceDropdownValues";
+import getInitialDiscoverySourceDropdownValues from "../../../initialDiscoverySources/thunks/getInitialDiscoverySourceDropdownValues";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 
 jest.mock("../../thunks/editIncidentDetails", () =>
@@ -40,9 +40,12 @@ jest.mock("../../../intakeSources/thunks/getIntakeSourceDropdownValues", () =>
 );
 
 jest.mock(
-  "../../../heardAboutSources/thunks/getHeardAboutSourceDropdownValues",
+  "../../../initialDiscoverySources/thunks/getInitialDiscoverySourceDropdownValues",
   () =>
-    jest.fn(values => ({ type: "GET_HEARD_ABOUT_SOURCE_MOCK_THUNK", values }))
+    jest.fn(values => ({
+      type: "GET_INITIAL_DISCOVERY_SOURCE_MOCK_THUNK",
+      values
+    }))
 );
 
 jest.mock("../CivilianDialog/MapServices/MapService", () => {
@@ -102,7 +105,7 @@ describe("incident details", () => {
     dispatchSpy = jest.spyOn(store, "dispatch");
     store.dispatch(getCaseDetailsSuccess(currentCase));
     store.dispatch(getClassificationsSuccess([[0, "UTD"], [12, "OTB"]]));
-    store.dispatch(getFeaturesSuccess({ heardAboutFieldFeature: true }));
+    store.dispatch(getFeaturesSuccess({ initialDiscoveryFieldFeature: true }));
     wrapper = mount(
       <Provider store={store}>
         <IncidentDetails classes={{}} />
@@ -165,10 +168,10 @@ describe("incident details", () => {
     ).toEqual("N/A");
   });
 
-  test.only("should display heard about source", () => {
+  test.only("should display initial discovery source", () => {
     expect(
       wrapper
-        .find('[data-test="heardAboutSource"]')
+        .find('[data-test="initialDiscoverySource"]')
         .first()
         .text()
     ).toEqual("N/A");
@@ -183,7 +186,7 @@ describe("incident details", () => {
   });
 
   test("should fetch intake sources on mount", () => {
-    expect(getHeardAboutSourceDropdownValues).toHaveBeenCalled();
+    expect(getInitialDiscoverySourceDropdownValues).toHaveBeenCalled();
   });
 
   test("should open dialog and prepopulate fields", () => {
