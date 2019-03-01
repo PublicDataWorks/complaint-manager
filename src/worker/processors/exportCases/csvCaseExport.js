@@ -17,7 +17,8 @@ const TIMESTAMP_FORMAT = "MM/DD/YYYY HH:mm:ss z";
 
 const csvCaseExport = async (job, done) => {
   winston.info(`About to run Case Export Job with id ${job.id}`);
-  const toggleHeardAboutFeature = job.data.toggleIncludeHeardAboutFeature;
+  const toggleInitialDiscoveryFeature =
+    job.data.toggleIncludeInitialDiscoveryFeature;
   try {
     const caseData = await models.sequelize.query(exportCasesQuery(), {
       type: models.sequelize.QueryTypes.SELECT
@@ -25,8 +26,8 @@ const csvCaseExport = async (job, done) => {
 
     transformCaseData(caseData);
 
-    if (!toggleHeardAboutFeature) {
-      delete csvOptions.columns.heard_about_source;
+    if (!toggleInitialDiscoveryFeature) {
+      delete csvOptions.columns.initial_discovery_source;
     }
 
     const csvOutput = await promisifiedStringify(caseData, csvOptions);
@@ -76,7 +77,7 @@ const columns = {
   "incidentLocation.street_address2": "Additional Incident Location Info",
   classification_initialism: "Classification",
   intake_source: "Intake Source",
-  heard_about_source: "How did you hear about us?",
+  initial_discovery_source: "How did you hear about us?",
   pib_case_number: "PIB Case Number",
   complaint_type: "Complaint Type",
   "complainants.complainant": "Complainant",

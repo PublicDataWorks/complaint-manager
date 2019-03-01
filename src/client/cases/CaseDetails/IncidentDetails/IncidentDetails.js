@@ -32,7 +32,7 @@ class IncidentDetails extends React.Component {
       district: this.props.district,
       classificationId: this.props.classificationId,
       intakeSourceId: this.props.intakeSourceId,
-      heardAboutSourceId: this.props.heardAboutSourceId,
+      initialDiscoverySourceId: this.props.initialDiscoverySourceId,
       pibCaseNumber: this.props.pibCaseNumber
     };
 
@@ -55,7 +55,7 @@ class IncidentDetails extends React.Component {
       district,
       classification,
       intakeSource,
-      heardAboutSource,
+      initialDiscoverySource,
       classes,
       pibCaseNumber,
       featureToggles
@@ -64,8 +64,11 @@ class IncidentDetails extends React.Component {
       ? classification.initialism
       : "";
     const intakeSourceName = intakeSource ? intakeSource.name : "";
-    const heardAboutSourceName = heardAboutSource ? heardAboutSource.name : "";
-    const toggleHeardAboutSource = featureToggles.heardAboutFieldFeature;
+    const initialDiscoverySourceName = initialDiscoverySource
+      ? initialDiscoverySource.name
+      : "";
+    const toggleInitialDiscoverySource =
+      featureToggles.initialDiscoveryFieldFeature;
 
     return (
       <BaseCaseDetailsCard title="Incident Details">
@@ -136,12 +139,12 @@ class IncidentDetails extends React.Component {
                     testLabel="intakeSource"
                   />
                 </StyledInfoDisplay>
-                {toggleHeardAboutSource ? (
+                {toggleInitialDiscoverySource ? (
                   <StyledInfoDisplay>
                     <CivilianInfoDisplay
                       displayLabel="How did you hear about us?"
-                      value={heardAboutSourceName}
-                      testLabel="heardAboutSource"
+                      value={initialDiscoverySourceName}
+                      testLabel="initialDiscoverySource"
                     />
                   </StyledInfoDisplay>
                 ) : null}
@@ -177,7 +180,7 @@ class IncidentDetails extends React.Component {
           dialogOpen={this.props.open}
           handleDialogClose={this.handleDialogClose}
           caseId={caseId}
-          toggleHeardAboutSource={toggleHeardAboutSource}
+          toggleInitialDiscoverySource={toggleInitialDiscoverySource}
         />
       </BaseCaseDetailsCard>
     );
@@ -195,8 +198,8 @@ const mapStateToProps = state => ({
   classification: state.currentCase.details.classification,
   intakeSourceId: state.currentCase.details.intakeSourceId,
   intakeSource: state.currentCase.details.intakeSource,
-  heardAboutSourceId: state.currentCase.details.heardAboutSourceId,
-  heardAboutSource: state.currentCase.details.heardAboutSource,
+  initialDiscoverySourceId: state.currentCase.details.initialDiscoverySourceId,
+  initialDiscoverySource: state.currentCase.details.initialDiscoverySource,
   isArchived: state.currentCase.details.isArchived,
   open: state.ui.editIncidentDetailsDialog.open,
   featureToggles: state.featureToggles,

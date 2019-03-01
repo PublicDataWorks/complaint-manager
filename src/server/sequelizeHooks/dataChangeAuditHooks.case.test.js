@@ -9,7 +9,7 @@ import {
 } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import IntakeSource from "../../client/testUtilities/intakeSource";
-import HeardAboutSource from "../../client/testUtilities/HeardAboutSource";
+import InitialDiscoverySource from "../../client/testUtilities/InitialDiscoverySource";
 
 describe("dataChangeAuditHooks", () => {
   afterEach(async () => {
@@ -28,7 +28,7 @@ describe("dataChangeAuditHooks", () => {
     let initialCaseAttributes = {};
     let utdClassification;
     let emailIntakeSource;
-    let friendHeardAboutSource;
+    let friendInitialDiscoverySource;
 
     beforeEach(async () => {
       initialCaseAttributes = new Case.Builder()
@@ -57,11 +57,11 @@ describe("dataChangeAuditHooks", () => {
       emailIntakeSource = await models.intake_source.create(
         emailIntakeSourceAttributes
       );
-      const friendHeardAboutSourceAttributes = new HeardAboutSource.Builder()
-        .defaultHeardAboutSource()
+      const friendInitialDiscoverySourceAttributes = new InitialDiscoverySource.Builder()
+        .defaultInitialDiscoverySource()
         .withName("Friend");
-      friendHeardAboutSource = await models.heard_about_source.create(
-        friendHeardAboutSourceAttributes
+      friendInitialDiscoverySource = await models.initial_discovery_source.create(
+        friendInitialDiscoverySourceAttributes
       );
     });
 
@@ -132,9 +132,9 @@ describe("dataChangeAuditHooks", () => {
       expect(audit.changes).toEqual(expectedChanges);
     });
 
-    test("it saves the changes of the new values of heard about source", async () => {
+    test("it saves the changes of the new values of initial discovery source", async () => {
       Object.assign(initialCaseAttributes, {
-        heardAboutSourceId: friendHeardAboutSource.id
+        initialDiscoverySourceId: friendInitialDiscoverySource.id
       });
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
@@ -153,8 +153,8 @@ describe("dataChangeAuditHooks", () => {
         status: { new: CASE_STATUS.INITIAL },
         classificationId: { new: null },
         classification: { new: null },
-        heardAboutSourceId: { new: friendHeardAboutSource.id },
-        heardAboutSource: { new: friendHeardAboutSource.name },
+        initialDiscoverySourceId: { new: friendInitialDiscoverySource.id },
+        initialDiscoverySource: { new: friendInitialDiscoverySource.name },
         caseNumber: { new: 1 },
         year: { new: 2017 }
       };
@@ -199,7 +199,8 @@ describe("dataChangeAuditHooks", () => {
         incidentTime: null,
         incidentDate: null,
         firstContactDate: "2017-12-24",
-        heardAboutSourceId: null,
+        initialDiscoverySourceId: null,
+        initialDiscoverySource: null,
         district: null,
         complaintType: RANK_INITIATED,
         assignedTo: "originalAssignedToPerson",
@@ -211,7 +212,7 @@ describe("dataChangeAuditHooks", () => {
         classificationId: null,
         classification: null,
         intakeSourceId: null,
-        intake_source: null,
+        intakeSource: null,
         deletedAt: null,
         caseNumber: 1,
         year: 2017,
@@ -233,7 +234,8 @@ describe("dataChangeAuditHooks", () => {
         incidentTime: null,
         incidentDate: null,
         firstContactDate: "2017-12-24",
-        heardAboutSourceId: null,
+        initialDiscoverySourceId: null,
+        initialDiscoverySource: null,
         district: null,
         complaintType: RANK_INITIATED,
         assignedTo: "originalAssignedToPerson",
@@ -245,7 +247,7 @@ describe("dataChangeAuditHooks", () => {
         classificationId: utdClassification.id,
         classification: utdClassification.initialism,
         intakeSourceId: null,
-        intake_source: null,
+        intakeSource: null,
         deletedAt: null,
         year: 2017,
         caseNumber: 1,
@@ -560,7 +562,8 @@ describe("dataChangeAuditHooks", () => {
         incidentTime: "12:59:59",
         incidentDate: "2017-12-05",
         firstContactDate: "2018-01-01",
-        heardAboutSourceId: null,
+        initialDiscoverySourceId: null,
+        initialDiscoverySource: null,
         district: "2nd District",
         complaintType: CIVILIAN_INITIATED,
         assignedTo: "updatedAssignedPerson",
@@ -572,7 +575,7 @@ describe("dataChangeAuditHooks", () => {
         classificationId: existingCase.classificationId,
         classification: utdClassification.initialism,
         intakeSourceId: existingCase.intakeSourceId,
-        intake_source: emailIntakeSource.name,
+        intakeSource: emailIntakeSource.name,
         deletedAt: null,
         caseNumber: 1,
         year: 2017,
@@ -783,7 +786,8 @@ describe("dataChangeAuditHooks", () => {
         complaintType: { new: "Civilian Initiated" },
         district: { new: "First District" },
         firstContactDate: { new: "2017-12-24" },
-        heardAboutSourceId: { new: null },
+        initialDiscoverySourceId: { new: null },
+        initialDiscoverySource: { new: null },
         year: { new: 2017 },
         caseNumber: { new: 1 },
         id: { new: existingCase.id },
@@ -794,7 +798,6 @@ describe("dataChangeAuditHooks", () => {
         status: { new: "Initial" },
         intakeSourceId: { new: intakeSource.id },
         intakeSource: { new: intakeSource.name },
-        intake_source: {},
         pibCaseNumber: {
           new: null
         }
@@ -819,7 +822,8 @@ describe("dataChangeAuditHooks", () => {
         complaintType: { previous: "Civilian Initiated" },
         district: { previous: "First District" },
         firstContactDate: { previous: "2017-12-24" },
-        heardAboutSourceId: { previous: null },
+        initialDiscoverySourceId: { previous: null },
+        initialDiscoverySource: { previous: null },
         year: { previous: 2017 },
         caseNumber: { previous: 1 },
         id: { previous: existingCase.id },
@@ -830,7 +834,6 @@ describe("dataChangeAuditHooks", () => {
         status: { previous: "Initial" },
         intakeSourceId: { previous: intakeSource.id },
         intakeSource: { previous: intakeSource.name },
-        intake_source: {},
         pibCaseNumber: {
           previous: null
         }

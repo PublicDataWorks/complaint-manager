@@ -4,10 +4,10 @@ const models = require("../models/index");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await loadCsv("heardAboutSourceSeedData.csv", models.heard_about_source);
+    await loadCsv("initialDiscoverySourceSeedData.csv", models.initial_discovery_source);
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete("heard_about_sources");
+    await queryInterface.bulkDelete("initial_discovery_sources");
   }
 };

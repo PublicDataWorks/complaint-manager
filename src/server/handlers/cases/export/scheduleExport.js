@@ -11,9 +11,9 @@ const config = require("../../../config/config")[process.env.NODE_ENV];
 const Boom = require("boom");
 
 const scheduleExport = asyncMiddleware(async (request, response, next) => {
-  const toggleIncludeHeardAboutFeature = checkFeatureToggleEnabled(
+  const toggleIncludeInitialDiscoveryFeature = checkFeatureToggleEnabled(
     request,
-    "heardAboutFieldFeature"
+    "initialDiscoveryFieldFeature"
   );
 
   if (
@@ -32,7 +32,7 @@ const scheduleExport = asyncMiddleware(async (request, response, next) => {
       title: JOB_OPERATION[request.params.operation].title,
       name: JOB_OPERATION[request.params.operation].name,
       user: request.nickname,
-      toggleIncludeHeardAboutFeature: toggleIncludeHeardAboutFeature
+      toggleIncludeInitialDiscoveryFeature: toggleIncludeInitialDiscoveryFeature
     });
   job.attempts(config.queue.failedJobAttempts);
   job.backoff({ delay: config.queue.exponentialDelay, type: "exponential" });
