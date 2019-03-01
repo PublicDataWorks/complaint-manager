@@ -32,6 +32,7 @@ class IncidentDetails extends React.Component {
       district: this.props.district,
       classificationId: this.props.classificationId,
       intakeSourceId: this.props.intakeSourceId,
+      heardAboutSourceId: this.props.heardAboutSourceId,
       pibCaseNumber: this.props.pibCaseNumber
     };
 
@@ -54,6 +55,7 @@ class IncidentDetails extends React.Component {
       district,
       classification,
       intakeSource,
+      heardAboutSource,
       classes,
       pibCaseNumber,
       featureToggles
@@ -62,6 +64,8 @@ class IncidentDetails extends React.Component {
       ? classification.initialism
       : "";
     const intakeSourceName = intakeSource ? intakeSource.name : "";
+    const heardAboutSourceName = heardAboutSource ? heardAboutSource.name : "";
+    const toggleHeardAboutSource = featureToggles.heardAboutFieldFeature;
 
     return (
       <BaseCaseDetailsCard title="Incident Details">
@@ -132,6 +136,18 @@ class IncidentDetails extends React.Component {
                     testLabel="intakeSource"
                   />
                 </StyledInfoDisplay>
+                {toggleHeardAboutSource ? (
+                  <StyledInfoDisplay>
+                    <CivilianInfoDisplay
+                      displayLabel="How did you hear about us?"
+                      value={heardAboutSourceName}
+                      testLabel="heardAboutSource"
+                    />
+                  </StyledInfoDisplay>
+                ) : null}
+                <div
+                  style={{ flex: 1, textAlign: "left", marginRight: "10px" }}
+                />
               </div>
               <div className={classes.detailsLastRow}>
                 <StyledInfoDisplay>
@@ -161,6 +177,7 @@ class IncidentDetails extends React.Component {
           dialogOpen={this.props.open}
           handleDialogClose={this.handleDialogClose}
           caseId={caseId}
+          toggleHeardAboutSource={toggleHeardAboutSource}
         />
       </BaseCaseDetailsCard>
     );
@@ -178,6 +195,8 @@ const mapStateToProps = state => ({
   classification: state.currentCase.details.classification,
   intakeSourceId: state.currentCase.details.intakeSourceId,
   intakeSource: state.currentCase.details.intakeSource,
+  heardAboutSourceId: state.currentCase.details.heardAboutSourceId,
+  heardAboutSource: state.currentCase.details.heardAboutSource,
   isArchived: state.currentCase.details.isArchived,
   open: state.ui.editIncidentDetailsDialog.open,
   featureToggles: state.featureToggles,

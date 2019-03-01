@@ -206,20 +206,20 @@ class IncidentDetailsDialog extends Component {
                 {generateMenu(props.intakeSources)}
               </Field>
             </div>
-            {/*TODO: Surround in feature toggle*/}
-            <div style={{ marginTop: "16px" }}>
-              <Field
-                required
-                name="heardAboutSourceId"
-                component={NoBlurTextField}
-                label="How did you hear about us?"
-                hinttext="How did you hear about us?"
-                data-test="heardAboutSourceDropdown"
-                style={{ width: "60%" }}
-              >
-                {generateMenu(props.heardAboutSources)}
-              </Field>
-            </div>
+            {this.props.toggleHeardAboutSource ? (
+              <div style={{ marginTop: "16px" }}>
+                <Field
+                  name="heardAboutSourceId"
+                  component={NoBlurTextField}
+                  label="How did you hear about us?"
+                  hinttext="How did you hear about us?"
+                  data-test="heardAboutSourceDropdown"
+                  style={{ width: "60%" }}
+                >
+                  {generateMenu(props.heardAboutSources)}
+                </Field>
+              </div>
+            ) : null}
             <div style={{ display: "flex", marginTop: "16px" }}>
               <Field
                 name="pibCaseNumber"

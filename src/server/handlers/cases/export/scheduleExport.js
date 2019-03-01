@@ -1,4 +1,5 @@
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 
 const {
   JOB_OPERATION,
@@ -10,6 +11,11 @@ const config = require("../../../config/config")[process.env.NODE_ENV];
 const Boom = require("boom");
 
 const scheduleExport = asyncMiddleware(async (request, response, next) => {
+  const toggleIncludeHeardAboutFeature = checkFeatureToggleEnabled(
+    request,
+    "heardAboutFieldFeature"
+  );
+
   if (
     JOB_OPERATION.AUDIT_LOG_EXPORT.key ===
     JOB_OPERATION[request.params.operation].key
@@ -25,7 +31,8 @@ const scheduleExport = asyncMiddleware(async (request, response, next) => {
     .create(JOB_OPERATION[request.params.operation].key, {
       title: JOB_OPERATION[request.params.operation].title,
       name: JOB_OPERATION[request.params.operation].name,
-      user: request.nickname
+      user: request.nickname,
+      toggleIncludeHeardAboutFeature: toggleIncludeHeardAboutFeature
     });
   job.attempts(config.queue.failedJobAttempts);
   job.backoff({ delay: config.queue.exponentialDelay, type: "exponential" });

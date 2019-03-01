@@ -16,6 +16,8 @@ import { DialogContent } from "@material-ui/core";
 import { getClassificationsSuccess } from "../../../actionCreators/classificationActionCreators";
 import getClassificationDropdownValues from "../../../classifications/thunks/getClassificationDropdownValues";
 import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
+import getHeardAboutSourceDropdownValues from "../../../heardAboutSources/thunks/getHeardAboutSourceDropdownValues";
+import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 
 jest.mock("../../thunks/editIncidentDetails", () =>
   jest.fn(values => ({
@@ -35,6 +37,12 @@ jest.mock(
 
 jest.mock("../../../intakeSources/thunks/getIntakeSourceDropdownValues", () =>
   jest.fn(values => ({ type: "GET_INTAKE_SOURCE_MOCK_THUNK", values }))
+);
+
+jest.mock(
+  "../../../heardAboutSources/thunks/getHeardAboutSourceDropdownValues",
+  () =>
+    jest.fn(values => ({ type: "GET_HEARD_ABOUT_SOURCE_MOCK_THUNK", values }))
 );
 
 jest.mock("../CivilianDialog/MapServices/MapService", () => {
@@ -94,6 +102,7 @@ describe("incident details", () => {
     dispatchSpy = jest.spyOn(store, "dispatch");
     store.dispatch(getCaseDetailsSuccess(currentCase));
     store.dispatch(getClassificationsSuccess([[0, "UTD"], [12, "OTB"]]));
+    store.dispatch(getFeaturesSuccess({ heardAboutFieldFeature: true }));
     wrapper = mount(
       <Provider store={store}>
         <IncidentDetails classes={{}} />
@@ -156,12 +165,25 @@ describe("incident details", () => {
     ).toEqual("N/A");
   });
 
+  test.only("should display heard about source", () => {
+    expect(
+      wrapper
+        .find('[data-test="heardAboutSource"]')
+        .first()
+        .text()
+    ).toEqual("N/A");
+  });
+
   test("should fetch classifications on mount", () => {
     expect(getClassificationDropdownValues).toHaveBeenCalled();
   });
 
   test("should fetch intake sources on mount", () => {
     expect(getIntakeSourceDropdownValues).toHaveBeenCalled();
+  });
+
+  test("should fetch intake sources on mount", () => {
+    expect(getHeardAboutSourceDropdownValues).toHaveBeenCalled();
   });
 
   test("should open dialog and prepopulate fields", () => {
