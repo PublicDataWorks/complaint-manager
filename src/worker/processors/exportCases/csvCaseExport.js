@@ -17,12 +17,17 @@ const TIMESTAMP_FORMAT = "MM/DD/YYYY HH:mm:ss z";
 
 const csvCaseExport = async (job, done) => {
   winston.info(`About to run Case Export Job with id ${job.id}`);
+  const toggleHeardAboutFeature = job.data.toggleIncludeHeardAboutFeature;
   try {
     const caseData = await models.sequelize.query(exportCasesQuery(), {
       type: models.sequelize.QueryTypes.SELECT
     });
 
     transformCaseData(caseData);
+
+    if (!toggleHeardAboutFeature) {
+      delete csvOptions.columns.heard_about_source;
+    }
 
     const csvOutput = await promisifiedStringify(caseData, csvOptions);
     const s3Result = await uploadFileToS3(
@@ -70,6 +75,8 @@ const columns = {
   district: "Incident District",
   "incidentLocation.street_address2": "Additional Incident Location Info",
   classification_initialism: "Classification",
+  intake_source: "Intake Source",
+  heard_about_source: "How did you hear about us?",
   pib_case_number: "PIB Case Number",
   complaint_type: "Complaint Type",
   "complainants.complainant": "Complainant",

@@ -20,5 +20,13 @@
     "criteria": {
       "isPreProd": true
     }
+  },
+  {
+    "id": "heardAboutFieldFeature",
+    "name": "heardAboutFieldFeature",
+    "description": "Toggle to enable heard about field on incident details",
+    "criteria": {
+      "isPreProd": true
+    }
   }
 ]
