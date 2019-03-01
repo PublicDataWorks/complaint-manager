@@ -15,6 +15,7 @@ class LetterOfficer {
       defaultLetterOfficer() {
         this.id = 123;
         this.caseOfficerId = 55;
+        this.officerHistoryOptionId = null;
         this.numHistoricalHighAllegations = 3;
         this.numHistoricalMedAllegations = 2;
         this.numHistoricalLowAllegations = 1;

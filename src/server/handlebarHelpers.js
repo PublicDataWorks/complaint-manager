@@ -63,20 +63,16 @@ export const sumAllegations = letterOfficer => {
 };
 Handlebars.registerHelper("sumAllegations", sumAllegations);
 
-export const showOfficerHistory = letterOfficer => {
-  return (
-    sumAllegations(letterOfficer) ||
-    isPresent(letterOfficer.historicalBehaviorNotes) ||
-    letterOfficer.referralLetterOfficerHistoryNotes.length > 0
-  );
-};
-Handlebars.registerHelper("showOfficerHistory", showOfficerHistory);
-
 export const showOfficerHistoryHeader = accusedOfficers => {
-  const letterOfficers = accusedOfficers
-    .map(officer => officer.letterOfficer)
-    .filter(letterOfficer => letterOfficer != null);
-  return letterOfficers.some(showOfficerHistory);
+  const officersWithLetterOfficers = accusedOfficers.filter(
+    accusedOfficer => accusedOfficer.letterOfficer !== null
+  );
+  return officersWithLetterOfficers.some(accusedOfficer => {
+    return (
+      isPresent(accusedOfficer.letterOfficer.officerHistoryOptionId) ||
+      accusedOfficer.fullName === "Unknown Officer"
+    );
+  });
 };
 Handlebars.registerHelper("showOfficerHistoryHeader", showOfficerHistoryHeader);
 
