@@ -6,7 +6,6 @@ import {
   isPresent,
   newLineToLineBreak,
   renderHtml,
-  showOfficerHistory,
   showOfficerHistoryHeader,
   showRecommendedActions,
   sumAllegations,
@@ -168,76 +167,14 @@ describe("handlebarHelpers", function() {
     });
   });
 
-  describe("showOfficerHistory", function() {
-    test("there are no historical allegations, historical behavior notes, or officer history notes", () => {
-      const letterOfficer = {
-        numHistoricalHighAllegations: undefined,
-        numHistoricalMedAllegations: undefined,
-        numHistoricalLowAllegations: undefined,
-        historicalBehaviorNotes: "",
-        referralLetterOfficerHistoryNotes: []
-      };
-      const showHistory = showOfficerHistory(letterOfficer);
-      expect(showHistory).toBeFalsy();
-    });
-
-    test("there are only allegations", () => {
-      const letterOfficer = {
-        numHistoricalHighAllegations: 1,
-        numHistoricalMedAllegations: undefined,
-        numHistoricalLowAllegations: undefined,
-        historicalBehaviorNotes: "",
-        referralLetterOfficerHistoryNotes: []
-      };
-      const showHistory = showOfficerHistory(letterOfficer);
-      expect(showHistory).toBeTruthy();
-    });
-
-    test("there are only behavior notes", () => {
-      const letterOfficer = {
-        numHistoricalHighAllegations: undefined,
-        numHistoricalMedAllegations: undefined,
-        numHistoricalLowAllegations: undefined,
-        historicalBehaviorNotes: "a note",
-        referralLetterOfficerHistoryNotes: []
-      };
-      const showHistory = showOfficerHistory(letterOfficer);
-      expect(showHistory).toBeTruthy();
-    });
-
-    test("there are notes officer history notes", () => {
-      const letterOfficer = {
-        numHistoricalHighAllegations: undefined,
-        numHistoricalMedAllegations: undefined,
-        numHistoricalLowAllegations: undefined,
-        historicalBehaviorNotes: "",
-        referralLetterOfficerHistoryNotes: [{ a: "note" }]
-      };
-      const showHistory = showOfficerHistory(letterOfficer);
-      expect(showHistory).toBeTruthy();
-    });
-  });
-
   describe("showOfficerHistoryHeader", function() {
-    test("no officers have any officer history", () => {
+    test("no officers have history option id", () => {
       const accusedOfficers = [
         {
-          letterOfficer: {
-            numHistoricalHighAllegations: undefined,
-            numHistoricalMedAllegations: undefined,
-            numHistoricalLowAllegations: undefined,
-            historicalBehaviorNotes: "",
-            referralLetterOfficerHistoryNotes: []
-          }
+          letterOfficer: {}
         },
         {
-          letterOfficer: {
-            numHistoricalHighAllegations: undefined,
-            numHistoricalMedAllegations: undefined,
-            numHistoricalLowAllegations: undefined,
-            historicalBehaviorNotes: "",
-            referralLetterOfficerHistoryNotes: []
-          }
+          letterOfficer: {}
         }
       ];
 
@@ -245,25 +182,16 @@ describe("handlebarHelpers", function() {
       expect(showHeader).toBeFalsy();
     });
 
-    test("one officer has some history", () => {
+    test("one officer has history option id", () => {
       const accusedOfficers = [
         {
           letterOfficer: {
-            numHistoricalHighAllegations: 1,
-            numHistoricalMedAllegations: undefined,
-            numHistoricalLowAllegations: undefined,
-            historicalBehaviorNotes: "",
-            referralLetterOfficerHistoryNotes: []
+            officerHistoryOptionId: 4,
+            numHistoricalHighAllegations: 1
           }
         },
         {
-          letterOfficer: {
-            numHistoricalHighAllegations: undefined,
-            numHistoricalMedAllegations: undefined,
-            numHistoricalLowAllegations: undefined,
-            historicalBehaviorNotes: "",
-            referralLetterOfficerHistoryNotes: []
-          }
+          letterOfficer: {}
         }
       ];
 
@@ -271,15 +199,12 @@ describe("handlebarHelpers", function() {
       expect(showHeader).toBeTruthy();
     });
 
-    test("all officers have some history", () => {
+    test("all officers have history option id", () => {
       const accusedOfficers = [
         {
           letterOfficer: {
             numHistoricalHighAllegations: 1,
-            numHistoricalMedAllegations: undefined,
-            numHistoricalLowAllegations: undefined,
-            historicalBehaviorNotes: "",
-            referralLetterOfficerHistoryNotes: []
+            officerHistoryOptionId: 4
           }
         },
         {
@@ -288,7 +213,22 @@ describe("handlebarHelpers", function() {
             numHistoricalMedAllegations: 2,
             numHistoricalLowAllegations: 3,
             historicalBehaviorNotes: "notes",
-            referralLetterOfficerHistoryNotes: [{ a: "note" }]
+            referralLetterOfficerHistoryNotes: [{ a: "note" }],
+            officerHistoryOptionId: 4
+          }
+        }
+      ];
+
+      const showHeader = showOfficerHistoryHeader(accusedOfficers);
+      expect(showHeader).toBeTruthy();
+    });
+
+    test("Unknown officer shows header", () => {
+      const accusedOfficers = [
+        {
+          fullName: "Unknown Officer",
+          letterOfficer: {
+            officerHistoryOptionId: null
           }
         }
       ];

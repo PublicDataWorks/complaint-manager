@@ -421,10 +421,19 @@ describe("getReferralLetterPreview", function() {
         { auditUser: "someone" }
       );
 
+      const officerHistoryOption = await models.officer_history_option.create(
+        {
+          id: 1,
+          name: "No noteworthy history"
+        },
+        { auditUser: "audit user" }
+      );
+
       const knownLetterOfficerAttributes = new LetterOfficer.Builder()
         .defaultLetterOfficer()
         .withId(undefined)
-        .withCaseOfficerId(knownCaseOfficer.id);
+        .withCaseOfficerId(knownCaseOfficer.id)
+        .withOfficerHistoryOptionId(officerHistoryOption.id);
 
       await models.letter_officer.create(knownLetterOfficerAttributes, {
         auditUser: "someone"
@@ -781,6 +790,19 @@ describe("getReferralLetterPreview", function() {
         const recommendedAction = await models.recommended_action.create({
           description: "This is a description of the recommended action"
         });
+
+        const officerHistoryOption = await models.officer_history_option.create(
+          {
+            id: 1,
+            name: "No noteworthy history"
+          },
+          { auditUser: "audit user" }
+        );
+
+        await letterOfficer.update(
+          { officerHistoryOptionId: officerHistoryOption.id },
+          { auditUser: "someone" }
+        );
 
         const referralLetterOfficerRecommendedActionAttributes = new ReferralLetterOfficerRecommendedAction.Builder()
           .withId(undefined)
