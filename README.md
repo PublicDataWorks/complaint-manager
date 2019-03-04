@@ -83,6 +83,14 @@ Set up a test DB and run all tests in `src/server` sequentially:
 docker-compose run app yarn test:server
 ```
 
+#### Running worker tests in watch mode:
+
+Set up a test DB and run all tests in `src/worker` sequentially:
+
+```bash
+docker-compose run app yarn test:worker
+```
+
 #### Running all tests (no watch mode)
 
 ```bash
