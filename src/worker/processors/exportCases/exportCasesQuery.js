@@ -26,7 +26,7 @@ const exportCasesQuery = () => {
     "cases.narrative_details, " +
     "classifications.initialism AS classification_initialism, " +
     "intake_sources.name AS intake_source, " +
-    "initial_discovery_sources.name AS initial_discovery_source, " +
+    "how_did_you_hear_about_us_sources.name AS how_did_you_hear_about_us_source, " +
     `(SELECT COUNT(*) FROM cases_officers WHERE role_on_case='${WITNESS}' AND case_id=cases.id AND deleted_at IS NULL) +` +
     `(SELECT COUNT(*) FROM civilians WHERE role_on_case='${WITNESS}' AND case_id=cases.id AND deleted_at IS NULL) AS witness_count, ` +
     `incidentLocation.street_address AS "incidentLocation.street_address", ` +
@@ -130,8 +130,8 @@ const exportCasesQuery = () => {
     " ON cases.classification_id = classifications.id " +
     "LEFT OUTER JOIN intake_sources " +
     " ON cases.intake_source_id = intake_sources.id " +
-    "LEFT OUTER JOIN initial_discovery_sources " +
-    " ON cases.initial_discovery_source_id = initial_discovery_sources.id " +
+    "LEFT OUTER JOIN how_did_you_hear_about_us_sources " +
+    " ON cases.how_did_you_hear_about_us_source_id = how_did_you_hear_about_us_sources.id " +
     "LEFT OUTER JOIN addresses AS incidentLocation " +
     " ON cases.id = incidentLocation.addressable_id " +
     " AND incidentLocation.deleted_at IS NULL " +

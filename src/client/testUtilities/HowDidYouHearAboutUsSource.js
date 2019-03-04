@@ -1,4 +1,4 @@
-class InitialDiscoverySource {
+class HowDidYouHearAboutUsSource {
   constructor(build) {
     this.id = build.id;
     this.name = build.name;
@@ -6,7 +6,7 @@ class InitialDiscoverySource {
 
   static get Builder() {
     class Builder {
-      defaultInitialDiscoverySource() {
+      defaultHowDidYouHearAboutUsSource() {
         this.id = 18;
         this.name = "Email";
         return this;
@@ -23,11 +23,11 @@ class InitialDiscoverySource {
       }
 
       build() {
-        return new InitialDiscoverySource(this);
+        return new HowDidYouHearAboutUsSource(this);
       }
     }
     return Builder;
   }
 }
 
-export default InitialDiscoverySource;
+export default HowDidYouHearAboutUsSource;

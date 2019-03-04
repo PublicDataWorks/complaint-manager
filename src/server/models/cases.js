@@ -289,11 +289,11 @@ export default (sequelize, DataTypes) => {
         allowNull: true
       }
     });
-    Case.belongsTo(models.initial_discovery_source, {
-      as: "initialDiscoverySource",
+    Case.belongsTo(models.how_did_you_hear_about_us_source, {
+      as: "howDidYouHearAboutUsSource",
       foreignKey: {
-        name: "initialDiscoverySourceId",
-        field: "initial_discovery_source_id",
+        name: "howDidYouHearAboutUsSourceId",
+        field: "how_did_you_hear_about_us_source_id",
         allowNull: true
       }
     });

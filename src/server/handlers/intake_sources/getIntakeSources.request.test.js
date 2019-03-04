@@ -8,7 +8,7 @@ import request from "supertest";
 
 jest.mock("../cases/export/jobQueue");
 
-describe("getInitialDiscoverySources", () => {
+describe("getHowDidYouHearAboutUsSources", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });

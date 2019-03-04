@@ -81,7 +81,7 @@ export const cleanupDatabase = async () => {
     "TRUNCATE action_audits CASCADE;" +
     "TRUNCATE data_change_audits CASCADE;" +
     "TRUNCATE intake_sources CASCADE;" +
-    "TRUNCATE initial_discovery_sources CASCADE;" +
+    "TRUNCATE how_did_you_hear_about_us_sources CASCADE;" +
     "TRUNCATE race_ethnicities CASCADE;" +
     "TRUNCATE officer_history_options CASCADE;" +
     "TRUNCATE cases CASCADE;";

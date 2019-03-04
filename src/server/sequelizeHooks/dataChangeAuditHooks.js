@@ -27,10 +27,10 @@ const MODEL_ASSOCIATIONS_TO_LOOKUP = [
     as: "raceEthnicity"
   },
   {
-    foreignKey: "initialDiscoverySourceId",
-    modelName: "initial_discovery_source",
+    foreignKey: "howDidYouHearAboutUsSourceId",
+    modelName: "how_did_you_hear_about_us_source",
     identifyingAttribute: "name",
-    as: "initialDiscoverySource"
+    as: "howDidYouHearAboutUsSource"
   }
 ];
 

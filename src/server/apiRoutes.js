@@ -47,7 +47,7 @@ import uploadAttachment from "./handlers/cases/attachments/uploadAttachment";
 import deleteAttachment from "./handlers/cases/attachments/deleteAttachment";
 import getArchivedCases from "./handlers/cases/getCases/getArchivedCases";
 import getOfficerHistoryOptions from "./handlers/cases/referralLetters/getOfficerHistoryOptions/getOfficerHistoryOptions";
-import getInitialDiscoverySources from "./handlers/initialDiscoverySources/getInitialDiscoverySources";
+import getHowDidYouHearAboutUsSources from "./handlers/howDidYouHearAboutUsSources/getHowDidYouHearAboutUsSources";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -362,9 +362,9 @@ export const API_ROUTES = {
         "Something went wrong and the intake source values were not found. Please try again."
     }
   },
-  "/initial-discovery-sources": {
+  "/how-did-you-hear-about-us-sources": {
     get: {
-      handler: getInitialDiscoverySources,
+      handler: getHowDidYouHearAboutUsSources,
       errorMessage:
         "Something went wrong and the values for 'How did you hear about us?' were not found. Please try again."
     }

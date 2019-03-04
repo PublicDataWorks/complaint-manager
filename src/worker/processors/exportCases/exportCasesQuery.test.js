@@ -7,13 +7,16 @@ describe("exportCasesQuery", () => {
     const fromCount = queryString.match(/from/gi).length;
     const joinCount = queryString.match(/join/gi).length;
     const deletedAtCount = queryString.match(/deleted_at/g).length;
-    const expectedExtraJoinFromCount = 10;
+    const expectedExtraJoinFromCount = 12;
     // Expected from/join occurrences that don't have matching deleted_at occurrences:
     // (1) attachments are hard deleted as of now, so they don't have deleted_at column
     // (1) allegations are not deleted so they don't have deleted_at column
     // (4) substring function uses the word from
     // (2) there are two joins on sub queries that already check for deleted in the sub queries
+    // (1) classification does not have deleted_at column
     // (1) race_ethnicity does not have deleted_at column
+    // (1) intake_sources does not have a deleted at column
+    // (1) how_did_you_hear_about_us_sources does not have a deleted at column
     const fromJoinDeletedAtBalance =
       fromCount + joinCount - deletedAtCount - expectedExtraJoinFromCount;
     expect(fromJoinDeletedAtBalance).toEqual(0);

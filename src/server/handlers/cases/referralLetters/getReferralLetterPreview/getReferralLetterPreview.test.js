@@ -129,10 +129,10 @@ describe("getReferralLetterPreview", function() {
           "Created By",
           "District",
           "First Contact Date",
+          "How Did You Hear About Us Source Id",
           "Id",
           "Incident Date",
           "Incident Time",
-          "Initial Discovery Source Id",
           "Intake Source Id",
           "Is Archived",
           "Narrative Details",
@@ -146,9 +146,11 @@ describe("getReferralLetterPreview", function() {
         Classification: ["All Classification Data"],
         "Complainant Civilians": ["All Complainant Civilians Data"],
         "Complainant Officers": ["All Complainant Officers Data"],
+        "How Did You Hear About Us Source": [
+          "All How Did You Hear About Us Source Data"
+        ],
         "Incident Location": ["All Incident Location Data"],
         "Intake Source": ["All Intake Source Data"],
-        "Initial Discovery Source": ["All Initial Discovery Source Data"],
         "Letter Officer": ["All Letter Officer Data"],
         "Race Ethnicity": ["All Race Ethnicity Data"],
         "Recommended Action": ["All Recommended Action Data"],
@@ -203,10 +205,10 @@ describe("getReferralLetterPreview", function() {
           "Created By",
           "District",
           "First Contact Date",
+          "How Did You Hear About Us Source Id",
           "Id",
           "Incident Date",
           "Incident Time",
-          "Initial Discovery Source Id",
           "Intake Source Id",
           "Is Archived",
           "Narrative Details",
@@ -220,8 +222,10 @@ describe("getReferralLetterPreview", function() {
         Classification: ["All Classification Data"],
         "Complainant Civilians": ["All Complainant Civilians Data"],
         "Complainant Officers": ["All Complainant Officers Data"],
+        "How Did You Hear About Us Source": [
+          "All How Did You Hear About Us Source Data"
+        ],
         "Incident Location": ["All Incident Location Data"],
-        "Initial Discovery Source": ["All Initial Discovery Source Data"],
         "Intake Source": ["All Intake Source Data"],
         "Race Ethnicity": ["All Race Ethnicity Data"],
         "Referral Letter": [

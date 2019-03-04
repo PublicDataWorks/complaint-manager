@@ -9,7 +9,7 @@ import {
 } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import IntakeSource from "../../client/testUtilities/intakeSource";
-import InitialDiscoverySource from "../../client/testUtilities/InitialDiscoverySource";
+import HowDidYouHearAboutUsSource from "../../client/testUtilities/HowDidYouHearAboutUsSource";
 
 describe("dataChangeAuditHooks", () => {
   afterEach(async () => {
@@ -28,7 +28,7 @@ describe("dataChangeAuditHooks", () => {
     let initialCaseAttributes = {};
     let utdClassification;
     let emailIntakeSource;
-    let friendInitialDiscoverySource;
+    let friendHowDidYouHearAboutUsSource;
 
     beforeEach(async () => {
       initialCaseAttributes = new Case.Builder()
@@ -57,11 +57,11 @@ describe("dataChangeAuditHooks", () => {
       emailIntakeSource = await models.intake_source.create(
         emailIntakeSourceAttributes
       );
-      const friendInitialDiscoverySourceAttributes = new InitialDiscoverySource.Builder()
-        .defaultInitialDiscoverySource()
+      const friendHowDidYouHearAboutUsSourceAttributes = new HowDidYouHearAboutUsSource.Builder()
+        .defaultHowDidYouHearAboutUsSource()
         .withName("Friend");
-      friendInitialDiscoverySource = await models.initial_discovery_source.create(
-        friendInitialDiscoverySourceAttributes
+      friendHowDidYouHearAboutUsSource = await models.how_did_you_hear_about_us_source.create(
+        friendHowDidYouHearAboutUsSourceAttributes
       );
     });
 
@@ -132,9 +132,9 @@ describe("dataChangeAuditHooks", () => {
       expect(audit.changes).toEqual(expectedChanges);
     });
 
-    test("it saves the changes of the new values of initial discovery source", async () => {
+    test("it saves the changes of the new values of how did you hear about us source", async () => {
       Object.assign(initialCaseAttributes, {
-        initialDiscoverySourceId: friendInitialDiscoverySource.id
+        howDidYouHearAboutUsSourceId: friendHowDidYouHearAboutUsSource.id
       });
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
@@ -153,8 +153,12 @@ describe("dataChangeAuditHooks", () => {
         status: { new: CASE_STATUS.INITIAL },
         classificationId: { new: null },
         classification: { new: null },
-        initialDiscoverySourceId: { new: friendInitialDiscoverySource.id },
-        initialDiscoverySource: { new: friendInitialDiscoverySource.name },
+        howDidYouHearAboutUsSourceId: {
+          new: friendHowDidYouHearAboutUsSource.id
+        },
+        howDidYouHearAboutUsSource: {
+          new: friendHowDidYouHearAboutUsSource.name
+        },
         caseNumber: { new: 1 },
         year: { new: 2017 }
       };
@@ -199,8 +203,8 @@ describe("dataChangeAuditHooks", () => {
         incidentTime: null,
         incidentDate: null,
         firstContactDate: "2017-12-24",
-        initialDiscoverySourceId: null,
-        initialDiscoverySource: null,
+        howDidYouHearAboutUsSourceId: null,
+        howDidYouHearAboutUsSource: null,
         district: null,
         complaintType: RANK_INITIATED,
         assignedTo: "originalAssignedToPerson",
@@ -234,8 +238,8 @@ describe("dataChangeAuditHooks", () => {
         incidentTime: null,
         incidentDate: null,
         firstContactDate: "2017-12-24",
-        initialDiscoverySourceId: null,
-        initialDiscoverySource: null,
+        howDidYouHearAboutUsSourceId: null,
+        howDidYouHearAboutUsSource: null,
         district: null,
         complaintType: RANK_INITIATED,
         assignedTo: "originalAssignedToPerson",
@@ -562,8 +566,8 @@ describe("dataChangeAuditHooks", () => {
         incidentTime: "12:59:59",
         incidentDate: "2017-12-05",
         firstContactDate: "2018-01-01",
-        initialDiscoverySourceId: null,
-        initialDiscoverySource: null,
+        howDidYouHearAboutUsSourceId: null,
+        howDidYouHearAboutUsSource: null,
         district: "2nd District",
         complaintType: CIVILIAN_INITIATED,
         assignedTo: "updatedAssignedPerson",
@@ -786,8 +790,8 @@ describe("dataChangeAuditHooks", () => {
         complaintType: { new: "Civilian Initiated" },
         district: { new: "First District" },
         firstContactDate: { new: "2017-12-24" },
-        initialDiscoverySourceId: { new: null },
-        initialDiscoverySource: { new: null },
+        howDidYouHearAboutUsSourceId: { new: null },
+        howDidYouHearAboutUsSource: { new: null },
         year: { new: 2017 },
         caseNumber: { new: 1 },
         id: { new: existingCase.id },
@@ -822,8 +826,8 @@ describe("dataChangeAuditHooks", () => {
         complaintType: { previous: "Civilian Initiated" },
         district: { previous: "First District" },
         firstContactDate: { previous: "2017-12-24" },
-        initialDiscoverySourceId: { previous: null },
-        initialDiscoverySource: { previous: null },
+        howDidYouHearAboutUsSourceId: { previous: null },
+        howDidYouHearAboutUsSource: { previous: null },
         year: { previous: 2017 },
         caseNumber: { previous: 1 },
         id: { previous: existingCase.id },

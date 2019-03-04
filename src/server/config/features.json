@@ -22,9 +22,9 @@
     }
   },
   {
-    "id": "initialDiscoveryFieldFeature",
-    "name": "initialDiscoveryFieldFeature",
-    "description": "Toggle to enable initial discovery field on incident details",
+    "id": "HowDidYouHearAboutUsFeature",
+    "name": "HowDidYouHearAboutUsFeature",
+    "description": "Toggle to enable how did you hear about us field on incident details",
     "criteria": {
       "isPreProd": true
     }
