@@ -33,7 +33,8 @@ export const getIncidentInfoData = caseDetail => {
       District: caseDetail.district,
       Classification: caseDetail.classification
         ? caseDetail.classification.initialism
-        : null
+        : null,
+      "PIB Case Number": caseDetail.pibCaseNumber
     }
   ];
 };
