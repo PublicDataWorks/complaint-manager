@@ -65,8 +65,6 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests it 
   <p><br></p>
   <p><br></p>
 
-    <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
-    <p><br></p>
 
     <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
     <p><br></p>
@@ -172,8 +170,6 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
   <p><br></p>
   <p><br></p>
 
-    <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
-    <p><br></p>
 
     <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
     <p><br></p>
@@ -291,6 +287,11 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
 
     <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
     <p><br></p>
+        <p>
+          The OIPM reviewed <strong>ADMIN SUPPORT SPECIALIST II Grant M Young’s</strong> history for the last five years and has determined
+          there is no significant / noteworthy complaints.
+        </p>
+        <br />
 
     <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
     <p><br></p>
@@ -419,8 +420,6 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
   <p><br></p>
   <p><br></p>
 
-    <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
-    <p><br></p>
 
     <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
     <p><br></p>
@@ -513,8 +512,6 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
   <p><br></p>
   <p><br></p>
 
-    <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
-    <p><br></p>
 
     <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
     <p><br></p>
@@ -607,8 +604,6 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
   <p><br></p>
   <p><br></p>
 
-    <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
-    <p><br></p>
 
     <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
     <p><br></p>
@@ -702,8 +697,6 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
   <p><br></p>
   <p><br></p>
 
-    <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
-    <p><br></p>
 
     <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
     <p><br></p>
@@ -796,8 +789,6 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
   <p><br></p>
   <p><br></p>
 
-    <p class=\\"ql-align-center\\"><strong><u>Complaint History</u></strong></p>
-    <p><br></p>
 
     <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
     <p><br></p>

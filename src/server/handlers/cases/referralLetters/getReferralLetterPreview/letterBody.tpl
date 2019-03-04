@@ -286,45 +286,43 @@
         <br />
       {{/if}}
       {{#if (isEqual letterOfficer.officerHistoryOptionId 4)}}
-        {{#if (showOfficerHistory letterOfficer)}}
-          <p>
-            The IPM has reviewed <strong>{{rank}} {{fullName~}}'s</strong> disciplinary history for the last five years
-            and has determined that the
-            subject employee has the following significant/noteworthy number of complaints:</p>
-          <ul>
-            {{#if (sumAllegations letterOfficer)}}
-              <li>
-                {{{sumAllegations letterOfficer}}} total complaints including
-                {{#if letterOfficer.numHistoricalHighAllegations}}
-                  {{letterOfficer.numHistoricalHighAllegations}} HIGH RISK allegations
-                  {{~#if letterOfficer.numHistoricalMedAllegations}}, {{~/if~}}
-                {{/if}}
-                {{#if letterOfficer.numHistoricalMedAllegations}}
-                  {{letterOfficer.numHistoricalMedAllegations}} MEDIUM RISK allegations
-                  {{~#if letterOfficer.numHistoricalLowAllegations}}, {{~/if~}}
-                {{/if}}
-                {{#if letterOfficer.numHistoricalLowAllegations}}
-                  {{letterOfficer.numHistoricalLowAllegations}} LOW RISK allegations
-                  {{~/if~}}.
-              </li>
-            {{/if}}
-            {{#if (isPresent letterOfficer.historicalBehaviorNotes)}}
-              <li>
-                {{{renderHtml letterOfficer.historicalBehaviorNotes}}}
-              </li>
-            {{/if}}
-            {{#each letterOfficer.referralLetterOfficerHistoryNotes}}
-              <li>
-                {{pibCaseNumber~}}
-                {{#if pibCaseNumber~}}
-                  {{#if details~}}: {{/if}}
-                {{/if}}
-                {{{renderHtml details}}}
-              </li>
-            {{/each}}
-          </ul>
-          <p><br></p>
-        {{/if}}
+        <p>
+          The IPM has reviewed <strong>{{rank}} {{fullName~}}'s</strong> disciplinary history for the last five years
+          and has determined that the
+          subject employee has the following significant/noteworthy number of complaints:</p>
+        <ul>
+          {{#if (sumAllegations letterOfficer)}}
+            <li>
+              {{{sumAllegations letterOfficer}}} total complaints including
+              {{#if letterOfficer.numHistoricalHighAllegations}}
+                {{letterOfficer.numHistoricalHighAllegations}} HIGH RISK allegations
+                {{~#if letterOfficer.numHistoricalMedAllegations}}, {{~/if~}}
+              {{/if}}
+              {{#if letterOfficer.numHistoricalMedAllegations}}
+                {{letterOfficer.numHistoricalMedAllegations}} MEDIUM RISK allegations
+                {{~#if letterOfficer.numHistoricalLowAllegations}}, {{~/if~}}
+              {{/if}}
+              {{#if letterOfficer.numHistoricalLowAllegations}}
+                {{letterOfficer.numHistoricalLowAllegations}} LOW RISK allegations
+                {{~/if~}}.
+            </li>
+          {{/if}}
+          {{#if (isPresent letterOfficer.historicalBehaviorNotes)}}
+            <li>
+              {{{renderHtml letterOfficer.historicalBehaviorNotes}}}
+            </li>
+          {{/if}}
+          {{#each letterOfficer.referralLetterOfficerHistoryNotes}}
+            <li>
+              {{pibCaseNumber~}}
+              {{#if pibCaseNumber~}}
+                {{#if details~}}: {{/if}}
+              {{/if}}
+              {{{renderHtml details}}}
+            </li>
+          {{/each}}
+        </ul>
+        <p><br></p>
       {{/if}}
     {{/if}}
   {{/each}}
