@@ -4,7 +4,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     return await queryInterface.sequelize.transaction(async transaction => {
       await queryInterface.createTable(
-        "initial_discovery_sources",
+        "how_did_you_hear_about_us_sources",
         {
           id: {
             allowNull: false,
@@ -20,12 +20,12 @@ module.exports = {
       );
       await queryInterface.addColumn(
         "cases",
-        "initial_discovery_source_id",
+        "how_did_you_hear_about_us_source_id",
         {
           type: Sequelize.INTEGER,
           allowNull: true,
           references: {
-            model: "initial_discovery_sources",
+            model: "how_did_you_hear_about_us_sources",
             key: "id"
           }
         },
@@ -38,10 +38,10 @@ module.exports = {
     return await queryInterface.sequelize.transaction(async transaction => {
       await queryInterface.removeColumn(
         "cases",
-        "initial_discovery_source_id",
+        "how_did_you_hear_about_us_source_id",
         transaction
       );
-      await queryInterface.dropTable("initial_discovery_sources", transaction);
+      await queryInterface.dropTable("how_did_you_hear_about_us_sources", transaction);
     });
   }
 };

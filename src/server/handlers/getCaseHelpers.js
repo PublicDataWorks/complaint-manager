@@ -41,8 +41,8 @@ const getCaseData = async (caseId, transaction, auditDetails) => {
         as: "intakeSource"
       },
       {
-        model: models.initial_discovery_source,
-        as: "initialDiscoverySource"
+        model: models.how_did_you_hear_about_us_source,
+        as: "howDidYouHearAboutUsSource"
       },
       {
         model: models.civilian,

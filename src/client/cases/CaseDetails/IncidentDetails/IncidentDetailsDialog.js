@@ -37,7 +37,7 @@ import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocatio
 import normalizeAddress from "../../../utilities/normalizeAddress";
 import { intakeSourceIsRequired } from "../../../formFieldLevelValidations";
 import { INCIDENT_DETAILS_FORM_NAME } from "../../../../sharedUtilities/constants";
-import getInitialDiscoverySourceDropdownValues from "../../../initialDiscoverySources/thunks/getInitialDiscoverySourceDropdownValues";
+import getHowDidYouHearAboutUsSourceDropdownValues from "../../../howDidYouHearAboutUsSources/thunks/getHowDidYouHearAboutUsSourceDropdownValues";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -70,7 +70,7 @@ class IncidentDetailsDialog extends Component {
   componentDidMount() {
     this.props.getClassificationDropDownOptions();
     this.props.getIntakeSourceDropdownValues();
-    this.props.getInitialDiscoverySourceDropdownValues();
+    this.props.getHowDidYouHearAboutUsSourceDropdownValues();
   }
 
   render() {
@@ -206,17 +206,17 @@ class IncidentDetailsDialog extends Component {
                 {generateMenu(props.intakeSources)}
               </Field>
             </div>
-            {this.props.toggleInitialDiscoverySource ? (
+            {this.props.toggleHowDidYouHearAboutUsSource ? (
               <div style={{ marginTop: "16px" }}>
                 <Field
-                  name="initialDiscoverySourceId"
+                  name="howDidYouHearAboutUsSourceId"
                   component={NoBlurTextField}
                   label="How did you hear about us?"
                   hinttext="How did you hear about us?"
-                  data-test="initialDiscoverySourceDropdown"
+                  data-test="howDidYouHearAboutUsSourceDropdown"
                   style={{ width: "60%" }}
                 >
-                  {generateMenu(props.initialDiscoverySources)}
+                  {generateMenu(props.howDidYouHearAboutUsSources)}
                 </Field>
               </div>
             ) : null}
@@ -288,14 +288,14 @@ const mapStateToProps = state => {
     addressValid: state.ui.addressInput.addressValid,
     classifications: state.ui.classifications,
     intakeSources: state.ui.intakeSources,
-    initialDiscoverySources: state.ui.initialDiscoverySources
+    howDidYouHearAboutUsSources: state.ui.howDidYouHearAboutUsSources
   };
 };
 
 const mapDispatchToProps = {
   getClassificationDropDownOptions,
   getIntakeSourceDropdownValues,
-  getInitialDiscoverySourceDropdownValues
+  getHowDidYouHearAboutUsSourceDropdownValues
 };
 
 export default withStyles(styles)(

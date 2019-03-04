@@ -30,7 +30,10 @@ jest.mock("../fileUpload/uploadFileToS3");
 describe("csvCaseExport request", () => {
   let records = [];
   const awsResult = "awsResult";
-  const job = { data: { user: "some user" }, id: "123" };
+  const job = {
+    data: { user: "some user", toggleIncludeHowDidYouHearAboutUsFeature: true },
+    id: "123"
+  };
   const jobDone = jest.fn();
 
   beforeEach(() => {
@@ -71,6 +74,8 @@ describe("csvCaseExport request", () => {
           "Incident District," +
           "Additional Incident Location Info," +
           "Classification," +
+          "Intake Source," +
+          "How did you hear about us?," +
           "PIB Case Number," +
           "Complaint Type," +
           "Complainant," +
@@ -356,7 +361,7 @@ describe("csvCaseExport request", () => {
         civilian.genderIdentity
       );
       expect(records[0]["Civilian Complainant Race/Ethnicity"]).toEqual(
-        civilian.dataValues.race_ethnicity
+        civilian.dataValues.raceEthnicity
       );
       const expectedAge = `${moment(caseToExport.incidentDate).diff(
         civilian.birthDate,
