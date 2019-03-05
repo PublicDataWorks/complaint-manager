@@ -52,8 +52,7 @@ class OfficerAllegationDisplay extends Component {
           style={{
             width: "100%",
             background: "white",
-            padding: "0",
-            marginRight: "190px"
+            padding: "0"
           }}
         >
           <ExpansionPanelSummary>
