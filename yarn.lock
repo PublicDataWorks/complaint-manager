@@ -4138,9 +4138,10 @@ expect@^23.6.0:
     jest-message-util "^23.4.0"
     jest-regex-util "^23.3.0"
 
-express-jwt-authz@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/express-jwt-authz/-/express-jwt-authz-1.0.0.tgz#26155700fa2485bd3e9ace3e6bb14573d45be5a4"
+express-jwt-authz@^2.1.0:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/express-jwt-authz/-/express-jwt-authz-2.1.1.tgz#a0ab0ecd5d0fcc336822a66a13eb3c1035d6c772"
+  integrity sha512-e/G54dbPRvrmZl706eaS+LEcUdk2fErQcs2x2CDq8X0OMa0rgAOXily7mntSUclcFkM1Y1uCVxpfvC/3OPzYEg==
 
 express-jwt@^5.3.0:
   version "5.3.1"
@@ -7539,10 +7540,10 @@ netmask@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/netmask/-/netmask-1.0.6.tgz#20297e89d86f6f6400f250d9f4f6b4c1945fcd35"
 
-newrelic@5.5.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-5.5.0.tgz#a11a78c60b37e144d3f6ff350d1f4afb1ad6a2c5"
-  integrity sha512-/grE+surOis796SHdDjQD+iWEcQ+r6p4eVRxEoQTvDg4wcmEklcvSTVyyyqdO2Nt8KCcM5CD+szBKg3RPuQIIg==
+newrelic@5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-5.6.0.tgz#dd136e8aced8275605ae79138acd69fbdb11748b"
+  integrity sha512-vs7D63gJ5zRObcNo6D/gPJ3WkkqMuyxwv2vmrQ+fiyP8i+pCN8iiqGxLueEsPgODEBSWudGLsqqXcA7zl5JpCw==
   dependencies:
     "@newrelic/koa" "^1.0.8"
     "@newrelic/superagent" "^1.0.2"
