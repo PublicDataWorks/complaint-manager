@@ -386,7 +386,9 @@
     <p><br></p>
   {{/if}}
 
-  <p>I appreciate your prompt attention to this matter. Please contact me if you have any questions.</p>
+  <p>I appreciate your prompt attention to this matter.
+    Please acknowledge receipt of this complaint and provide the OIPM with a PIB #.
+    Please contact me if you have any questions.</p>
   <p><br></p>
 
 </div>
