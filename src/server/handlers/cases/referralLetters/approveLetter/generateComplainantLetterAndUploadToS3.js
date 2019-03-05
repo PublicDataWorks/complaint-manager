@@ -1,9 +1,8 @@
 import {
   AUDIT_SUBJECT,
-  CIVILIAN_INITIATED,
   COMPLAINANT_LETTER
 } from "../../../../../sharedUtilities/constants";
-import constructFilename, { firstCreated } from "../constructFilename";
+import constructFilename from "../constructFilename";
 import generateComplainantLetterPdfBuffer from "../complainantLetter/generateComplainantLetterPdfBuffer";
 import models from "../../../../models";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
@@ -59,15 +58,14 @@ const generateComplainantLetterAndUploadToS3 = async (
 };
 
 const getFirstComplainant = existingCase => {
-  return existingCase.complaintType === CIVILIAN_INITIATED
-    ? {
-        complainant: firstCreated(existingCase.complainantCivilians),
-        complainantType: CIVILIAN
-      }
-    : {
-        complainant: firstCreated(existingCase.complainantOfficers),
-        complainantType: OFFICER
-      };
+  const primaryComplainant = existingCase.primaryComplainant;
+  return {
+    complainant: primaryComplainant,
+    complainantType:
+      primaryComplainant.officerId ||
+      primaryComplainant.fullName === "Unknown Officer"
+        ? OFFICER
+        : CIVILIAN
+  };
 };
-
 export default generateComplainantLetterAndUploadToS3;
