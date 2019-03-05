@@ -59,7 +59,7 @@ class StatusButton extends Component {
         }
       }
     }
-    this.props.openCaseStatusUpdateDialog(redirectUrl);
+    this.props.openCaseStatusUpdateDialog(nextStatus, redirectUrl);
   };
 
   render() {

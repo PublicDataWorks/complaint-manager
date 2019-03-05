@@ -13,6 +13,7 @@ import {
   CASE_NOTE_DIALOG_OPENED,
   CASE_STATUS_UPDATE_DIALOG_CLOSED,
   CASE_STATUS_UPDATE_DIALOG_OPENED,
+  CASE_STATUS_UPDATE_DIALOG_SUBMITTING,
   CIVILIAN_CREATION_SUCCEEDED,
   CIVILIAN_DIALOG_OPENED,
   CREATE_CASE_DIALOG_CLOSED,
@@ -250,9 +251,14 @@ export const removePersonSuccess = caseDetails => ({
   caseDetails
 });
 
-export const openCaseStatusUpdateDialog = redirectUrl => ({
+export const openCaseStatusUpdateDialog = (nextStatus, redirectUrl = null) => ({
   type: CASE_STATUS_UPDATE_DIALOG_OPENED,
-  redirectUrl: redirectUrl
+  redirectUrl: redirectUrl,
+  nextStatus: nextStatus
+});
+
+export const submitCaseStatusUpdateDialog = () => ({
+  type: CASE_STATUS_UPDATE_DIALOG_SUBMITTING
 });
 
 export const closeCaseStatusUpdateDialog = () => ({

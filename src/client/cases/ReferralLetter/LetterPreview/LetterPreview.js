@@ -139,7 +139,10 @@ class LetterPreview extends Component {
         return;
       }
     }
-    this.props.openCaseStatusUpdateDialog(`/cases/${this.state.caseId}`);
+    this.props.openCaseStatusUpdateDialog(
+      this.props.caseDetails.nextStatus,
+      `/cases/${this.state.caseId}`
+    );
   };
 
   editLetterWithPossibleConfirmationDialog = () => {

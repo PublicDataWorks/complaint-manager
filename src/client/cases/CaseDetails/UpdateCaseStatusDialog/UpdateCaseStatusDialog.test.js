@@ -32,7 +32,7 @@ describe("UpdateCaseStatusDialog", () => {
     store.dispatch(
       getCaseDetailsSuccess({ id: caseId, nextStatus: nextStatus })
     );
-    store.dispatch(openCaseStatusUpdateDialog(redirectUrl));
+    store.dispatch(openCaseStatusUpdateDialog(nextStatus, redirectUrl));
     wrapper = mount(
       <Provider store={store}>
         <UpdateCaseStatusDialog />

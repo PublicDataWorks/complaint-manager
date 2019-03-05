@@ -12,12 +12,12 @@ const setCaseStatus = (caseId, status, redirectUrl) => async dispatch => {
       `api/cases/${caseId}/status`,
       JSON.stringify({ status })
     );
-    dispatch(closeCaseStatusUpdateDialog());
     dispatch(snackbarSuccess("Status was successfully updated"));
     if (redirectUrl) {
       dispatch(push(redirectUrl));
     }
-    return dispatch(updateCaseStatusSuccess(response.data));
+    dispatch(updateCaseStatusSuccess(response.data));
+    return dispatch(closeCaseStatusUpdateDialog());
   } catch (err) {}
 };
 
