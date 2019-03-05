@@ -96,7 +96,8 @@ describe("LetterPreview", function() {
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId,
-        status: CASE_STATUS.LETTER_IN_PROGRESS
+        status: CASE_STATUS.LETTER_IN_PROGRESS,
+        nextStatus: CASE_STATUS.READY_FOR_REVIEW
       })
     );
 
@@ -202,7 +203,10 @@ describe("LetterPreview", function() {
       .first();
     openSubmitForReviewButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(
-      openCaseStatusUpdateDialog(`/cases/${caseId}`)
+      openCaseStatusUpdateDialog(
+        CASE_STATUS.READY_FOR_REVIEW,
+        `/cases/${caseId}`
+      )
     );
   });
 

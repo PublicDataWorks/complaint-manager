@@ -85,7 +85,10 @@ describe("CaseStatusStepper", () => {
     updateStatusButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
-      openCaseStatusUpdateDialog(`/cases/1/letter/review`)
+      openCaseStatusUpdateDialog(
+        CASE_STATUS.LETTER_IN_PROGRESS,
+        `/cases/1/letter/review`
+      )
     );
   });
 
@@ -266,7 +269,9 @@ describe("CaseStatusStepper", () => {
 
       updateStatusButton.simulate("click");
 
-      expect(dispatchSpy).toHaveBeenCalledWith(openCaseStatusUpdateDialog());
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        openCaseStatusUpdateDialog(CASE_STATUS.CLOSED)
+      );
     });
 
     test("should show edit letter button when status is closed", () => {

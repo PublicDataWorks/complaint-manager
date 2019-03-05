@@ -99,7 +99,7 @@ class ReviewAndApproveLetter extends Component {
   };
 
   openUpdateCaseDialog = () => {
-    this.props.openCaseStatusUpdateDialog();
+    this.props.openCaseStatusUpdateDialog(this.props.nextStatus);
   };
 
   renderPages = () => {
@@ -216,6 +216,7 @@ const mapStateToProps = state => ({
   downloadInProgress: state.ui.letterDownload.downloadInProgress,
   caseReference: state.currentCase.details.caseReference,
   status: state.currentCase.details.status,
+  nextStatus: state.currentCase.details.nextStatus,
   loadingPdfPreview: state.ui.pdfPreview.loadingPdfPreview
 });
 

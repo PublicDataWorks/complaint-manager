@@ -12,8 +12,12 @@ import {
 } from "../../../shared/components/StyledButtons";
 import { connect } from "react-redux";
 import setCaseStatus from "../../thunks/setCaseStatus";
-import { closeCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
+import {
+  closeCaseStatusUpdateDialog,
+  submitCaseStatusUpdateDialog
+} from "../../../actionCreators/casesActionCreators";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 const STATUS_DESCRIPTION = {
   [CASE_STATUS.LETTER_IN_PROGRESS]:
@@ -33,7 +37,9 @@ const UpdateCaseStatusDialog = ({
   redirectUrl,
   alternativeAction,
   setCaseStatus,
+  submittable,
   closeCaseStatusUpdateDialog,
+  submitCaseStatusUpdateDialog,
   doNotCallUpdateStatusCallback = false
 }) => {
   const actionText =
@@ -42,6 +48,7 @@ const UpdateCaseStatusDialog = ({
       : "This action";
 
   const updateCaseStatusAction = () => {
+    submitCaseStatusUpdateDialog();
     if (alternativeAction && doNotCallUpdateStatusCallback) {
       alternativeAction(caseId, closeCaseStatusUpdateDialog);
     } else if (alternativeAction) {
@@ -76,17 +83,24 @@ const UpdateCaseStatusDialog = ({
         </Typography>
       </DialogContent>
       <DialogActions>
+        <CircularProgress
+          data-test={"update-status-progress"}
+          size={25}
+          style={{ display: !submittable ? "" : "none" }}
+        />
         <SecondaryButton
           data-test="closeDialog"
           onClick={() => {
             closeCaseStatusUpdateDialog();
           }}
+          disabled={!submittable}
         >
           Cancel
         </SecondaryButton>
         <PrimaryButton
           data-test="update-case-status-button"
           onClick={updateCaseStatusAction}
+          disabled={!submittable}
         >
           {nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
             ? `Begin Letter`
@@ -99,13 +113,15 @@ const UpdateCaseStatusDialog = ({
 
 const mapDispatchToProps = {
   closeCaseStatusUpdateDialog,
+  submitCaseStatusUpdateDialog,
   setCaseStatus
 };
 
 const mapStateToProps = state => ({
   open: state.ui.updateCaseStatusDialog.open,
+  submittable: state.ui.updateCaseStatusDialog.submittable,
   redirectUrl: state.ui.updateCaseStatusDialog.redirectUrl,
-  nextStatus: state.currentCase.details.nextStatus,
+  nextStatus: state.ui.updateCaseStatusDialog.nextStatus,
   caseId: state.currentCase.details.id
 });
 
