@@ -5,6 +5,7 @@ const Boom = require("boom");
 const asyncMiddleware = fn => async (request, response, next) => {
   try {
     await fn(request, response, next);
+    next();
   } catch (err) {
     if (!err.isBoom) {
       return next(Boom.badImplementation(err));

@@ -1,9 +1,13 @@
 import API_ROUTES from "../apiRoutes";
+import { removeFinishedSuccessfulRoute } from "../serverHelpers";
+import { GENERIC_5xx_ERROR } from "../../sharedUtilities/errorMessageConstants";
 
 const newRelic = require("newrelic");
 const Boom = require("boom");
 
-const errorHandler = (error, request, response, next) => {
+const tooManyRequestsStatusCode = 429;
+
+const errorHandler = app => (error, request, response, next) => {
   let boomError = error.isBoom ? error : Boom.badImplementation(error);
 
   if (boomError.isServer) {
@@ -17,6 +21,8 @@ const errorHandler = (error, request, response, next) => {
     message: errorMessage,
     caseId: request.caseId
   });
+
+  removeFinishedSuccessfulRouteIfNotDuplicateRequest(request, boomError, app);
 };
 
 const requestSpecifiesRouteMethod = request => {
@@ -32,7 +38,7 @@ const get500ErrorMessage = request => {
   if (requestSpecifiesRouteMethod(request)) {
     return getErrorMessageForRouteAndMethod(request);
   }
-  return "Something went wrong. Please try again.";
+  return GENERIC_5xx_ERROR;
 };
 
 const getErrorMessage = (boomError, request) => {
@@ -41,6 +47,16 @@ const getErrorMessage = (boomError, request) => {
   }
 
   return boomError.output.payload.message;
+};
+
+const removeFinishedSuccessfulRouteIfNotDuplicateRequest = (
+  request,
+  boomError,
+  app
+) => {
+  if (boomError.output.statusCode !== tooManyRequestsStatusCode) {
+    removeFinishedSuccessfulRoute(app)(request, null, null);
+  }
 };
 
 module.exports = errorHandler;
