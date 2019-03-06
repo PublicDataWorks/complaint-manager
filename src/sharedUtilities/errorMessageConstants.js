@@ -52,12 +52,3 @@ export const UNAUTHORIZED_ERRORS = {
 export const INTERNAL_ERRORS = {
   CASE_REFERENCE_GENERATION_FAILURE: `Could not obtain unique case reference number after multiple tries`
 };
-
-export const TOO_MANY_REQUESTS_ERRORS = {
-  DUPLICATE_REQUEST: "Request is already being handled"
-};
-
-export const GENERIC_5xx_ERROR = "Something went wrong. Please try again.";
-
-export const SERVER_UNAVAILABLE_ERROR =
-  "Server is in the process of restarting";

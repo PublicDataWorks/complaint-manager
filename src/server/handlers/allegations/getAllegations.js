@@ -1,7 +1,6 @@
 const models = require("../../models");
-import asyncMiddleware from "../asyncMiddleware";
 
-const getAllegations = asyncMiddleware(async (request, response, next) => {
+const getAllegations = async (request, response, next) => {
   const uniqueRules = await models.allegation.findAll({
     raw: true,
     attributes: ["rule"],
@@ -22,6 +21,6 @@ const getAllegations = asyncMiddleware(async (request, response, next) => {
   }));
 
   response.status(200).send(formattedRuleParagraphs);
-});
+};
 
 module.exports = getAllegations;

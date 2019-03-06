@@ -1,50 +1,30 @@
 import {
   BAD_REQUEST_ERRORS,
-  GENERIC_5xx_ERROR,
-  NOT_FOUND_ERRORS,
-  TOO_MANY_REQUESTS_ERRORS
+  NOT_FOUND_ERRORS
 } from "../../sharedUtilities/errorMessageConstants";
 import { API_ROUTES } from "../apiRoutes";
-import errorHandler from "./errorHandler";
-import Boom from "boom";
 
+const errorHandler = require("./errorHandler");
 const httpMocks = require("node-mocks-http");
-
-const mockRemoveRouteHandler = jest.fn();
-jest.mock("../serverHelpers", () => ({
-  removeFinishedSuccessfulRoute: () => {
-    return mockRemoveRouteHandler;
-  }
-}));
+const Boom = require("boom");
 
 describe("errorHandler", () => {
-  const app = {
-    locals: {
-      currentlyRunningApiRoutes: []
-    }
-  };
-
-  beforeEach(() => {
-    mockRemoveRouteHandler.mockClear();
-  });
-
   test("should wrap non-Boom error", () => {
     const request = httpMocks.createRequest();
     const response = httpMocks.createResponse();
 
-    errorHandler(app)(
+    errorHandler(
       new Error("very sensitive error information"),
       request,
       response
     );
 
-    expect(mockRemoveRouteHandler).toHaveBeenCalled();
     expect(response.statusCode).toEqual(500);
     expect(response._getData()).toEqual(
       JSON.stringify({
         statusCode: 500,
         error: "Internal Server Error",
-        message: GENERIC_5xx_ERROR
+        message: "Something went wrong. Please try again."
       })
     );
   });
@@ -57,13 +37,12 @@ describe("errorHandler", () => {
     });
     const response = httpMocks.createResponse();
 
-    errorHandler(app)(
+    errorHandler(
       Boom.badImplementation("very sensitive error information"),
       request,
       response
     );
 
-    expect(mockRemoveRouteHandler).toHaveBeenCalled();
     expect(response.statusCode).toEqual(500);
     expect(response._getData()).toEqual(
       JSON.stringify({
@@ -77,13 +56,12 @@ describe("errorHandler", () => {
   test("should respond with boomified error message with its status code", () => {
     const request = httpMocks.createRequest();
     const response = httpMocks.createResponse();
-    errorHandler(app)(
+    errorHandler(
       Boom.notFound(NOT_FOUND_ERRORS.PAGE_NOT_FOUND),
       request,
       response
     );
 
-    expect(mockRemoveRouteHandler).toHaveBeenCalled();
     expect(response.statusCode).toEqual(404);
     expect(response._getData()).toEqual(
       JSON.stringify({
@@ -106,13 +84,12 @@ describe("errorHandler", () => {
       });
       const response = httpMocks.createResponse();
 
-      errorHandler(app)(
+      errorHandler(
         Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS),
         request,
         response
       );
 
-      expect(mockRemoveRouteHandler).toHaveBeenCalled();
       expect(response.statusCode).toEqual(400);
       expect(response._getData()).toEqual(
         JSON.stringify({
@@ -133,36 +110,13 @@ describe("errorHandler", () => {
         }
       });
       const response = httpMocks.createResponse();
-      errorHandler(app)(Boom.badRequest(errorMessage), request, response);
+      errorHandler(Boom.badRequest(errorMessage), request, response);
 
-      expect(mockRemoveRouteHandler).toHaveBeenCalled();
       expect(response.statusCode).toEqual(400);
       expect(response._getData()).toEqual(
         JSON.stringify({
           statusCode: 400,
           error: "Bad Request",
-          message: errorMessage
-        })
-      );
-    });
-
-    test("should return request with error message when duplicate route received", () => {
-      const errorMessage = TOO_MANY_REQUESTS_ERRORS.DUPLICATE_REQUEST;
-      const request = httpMocks.createRequest({
-        method: "GET",
-        headers: {
-          authorization: "Bearer token"
-        }
-      });
-      const response = httpMocks.createResponse();
-      errorHandler(app)(Boom.tooManyRequests(errorMessage), request, response);
-
-      expect(mockRemoveRouteHandler).not.toHaveBeenCalled();
-      expect(response.statusCode).toEqual(429);
-      expect(response._getData()).toEqual(
-        JSON.stringify({
-          statusCode: 429,
-          error: "Too Many Requests",
           message: errorMessage
         })
       );
