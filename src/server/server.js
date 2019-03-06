@@ -1,7 +1,9 @@
 import http from "http";
 import {
   handleSigterm,
-  refuseNewConnectionDuringShutdown
+  refuseNewConnectionDuringShutdown,
+  refuseDuplicateApiRequest,
+  removeFinishedSuccessfulRoute
 } from "./serverHelpers";
 
 const newRelic = require("newrelic");
@@ -33,8 +35,11 @@ winston.configure({
 const app = express();
 const twoYearsInSeconds = 63113852;
 app.locals.shuttingDown = false;
+app.locals.currentlyRunningApiRoutes = {};
 
 app.use(refuseNewConnectionDuringShutdown(app));
+
+app.use(refuseDuplicateApiRequest(app));
 
 app.use(
   helmet.hsts({
@@ -91,6 +96,8 @@ app.use(
 
 app.use("/api", apiRouter);
 
+app.use(removeFinishedSuccessfulRoute(app));
+
 app.get("*", function(req, res) {
   res.sendFile(path.join(buildDirectory, "index.html"));
 });
@@ -105,12 +112,12 @@ app.use(
   })
 );
 
-app.use(errorHandler);
+app.use(errorHandler(app));
 
 export const server = http.createServer(app);
 
 process.on("SIGTERM", () => {
-  handleSigterm(app);
+  handleSigterm(app, server);
 });
 
 export default app;
