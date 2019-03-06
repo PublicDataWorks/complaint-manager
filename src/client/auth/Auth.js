@@ -24,7 +24,6 @@ export default class Auth {
           populateStoreWithUserInfoCallback
         );
         this.setSession(authResult);
-        console.log("auditing login");
         auditLogin();
         getFeatureTogglesCallback();
         history.replace("/");
