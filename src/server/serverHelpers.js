@@ -24,9 +24,14 @@ export const refuseNewConnectionDuringShutdown = app => (
 };
 
 export const refuseDuplicateApiRequest = app => (request, response, next) => {
+  console.log("original URL", request.originalUrl);
   cleanupExpiredApiRoutes(
     app.locals.currentlyRunningApiRoutes,
     new Date().getTime()
+  );
+  console.log(
+    "current routes at beginning",
+    app.locals.currentlyRunningApiRoutes
   );
 
   if (!requestIsAnApiCall(request.originalUrl)) {
@@ -69,4 +74,5 @@ export const removeFinishedSuccessfulRoute = app => (
   next
 ) => {
   delete app.locals.currentlyRunningApiRoutes[getRequestKey(request)];
+  console.log("removing to leave routes", app.locals.currentlyRunningApiRoutes);
 };
