@@ -113,7 +113,7 @@ docker-compose up app
 
 #### Then, set up environment variables for:
 
-(Use your credentials for auth0 staging and a host of http://localhost:3000/)
+(Use your credentials for auth0 ci and a host of http://localhost:3000/)
 
     TEST_USER
     TEST_PASS
