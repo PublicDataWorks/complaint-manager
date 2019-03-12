@@ -96,7 +96,7 @@ class IncidentDetailsDialog extends Component {
               <DateField
                 required={true}
                 name="firstContactDate"
-                label="First Contacted IPM"
+                label="First Contacted OIPM"
                 data-test="editFirstContactDateField"
                 inputProps={{
                   "data-test": "editFirstContactDateInput",

@@ -128,7 +128,7 @@ class OfficerHistoryTabContent extends React.Component {
           </div>
         ) : (
           <p>
-            The IPM is unable to review this officer’s disciplinary history as
+            The OIPM is unable to review this officer’s disciplinary history as
             they are unable to be identified at this time.
           </p>
         )}

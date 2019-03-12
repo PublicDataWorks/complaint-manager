@@ -76,7 +76,7 @@ const Timeline = () => (
     <DateField
       required
       name="case.firstContactDate"
-      label="First Contacted IPM"
+      label="First Contacted OIPM"
       data-test="firstContactDateField"
       inputProps={{
         "data-test": "firstContactDateInput",

@@ -136,9 +136,9 @@ Handlebars.registerHelper("generateSignature", generateSignature);
 
 export const generateSubjectLine = (caseReference, pibCaseNumber) => {
   if (pibCaseNumber) {
-    return `Supplemental Referral; IPM Complaint ${caseReference}; PIB Case ${pibCaseNumber}`;
+    return `Supplemental Referral; OIPM Complaint ${caseReference}; PIB Case ${pibCaseNumber}`;
   }
-  return `Complaint Referral; IPM Complaint ${caseReference}`;
+  return `Complaint Referral; OIPM Complaint ${caseReference}`;
 };
 Handlebars.registerHelper("generateSubjectLine", generateSubjectLine);
 

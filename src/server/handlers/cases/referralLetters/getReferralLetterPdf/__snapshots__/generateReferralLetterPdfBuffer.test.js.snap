@@ -41,7 +41,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' generates le
     <p><br></p>
     Recipient Address
     <p><br></p>
-    <p><strong>RE: Complaint Referral; IPM Complaint CC-2011-0099</strong></p>
+    <p><strong>RE: Complaint Referral; OIPM Complaint CC-2011-0099</strong></p>
     <p><br></p>
     <p>Dear Recipient Address:</p>
     <p><br></p>
@@ -99,7 +99,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' pdf create g
     <p><br></p>
     recipient address
     <p><br></p>
-    <p><strong>RE: Complaint Referral; IPM Complaint CC2017-0001</strong></p>
+    <p><strong>RE: Complaint Referral; OIPM Complaint CC2017-0001</strong></p>
     <p><br></p>
     <p>Dear recipient address:</p>
     <p><br></p>
@@ -157,7 +157,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' pdf create g
     <p><br></p>
     recipient address
     <p><br></p>
-    <p><strong>RE: Complaint Referral; IPM Complaint CC2017-0001</strong></p>
+    <p><strong>RE: Complaint Referral; OIPM Complaint CC2017-0001</strong></p>
     <p><br></p>
     <p>Dear recipient address:</p>
     <p><br></p>
@@ -215,7 +215,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' signature is
     <p><br></p>
     recipient address
     <p><br></p>
-    <p><strong>RE: Complaint Referral; IPM Complaint CC2017-0001</strong></p>
+    <p><strong>RE: Complaint Referral; OIPM Complaint CC2017-0001</strong></p>
     <p><br></p>
     <p>Dear recipient address:</p>
     <p><br></p>
@@ -273,7 +273,7 @@ exports[`generateReferralLetterPdfBuffer sender is stella signature is included 
     <p><br></p>
     recipient address
     <p><br></p>
-    <p><strong>RE: Complaint Referral; IPM Complaint CC2017-0001</strong></p>
+    <p><strong>RE: Complaint Referral; OIPM Complaint CC2017-0001</strong></p>
     <p><br></p>
     <p>Dear recipient address:</p>
     <p><br></p>
@@ -331,7 +331,7 @@ exports[`generateReferralLetterPdfBuffer sender is stella signature is not inclu
     <p><br></p>
     recipient address
     <p><br></p>
-    <p><strong>RE: Complaint Referral; IPM Complaint CC2017-0001</strong></p>
+    <p><strong>RE: Complaint Referral; OIPM Complaint CC2017-0001</strong></p>
     <p><br></p>
     <p>Dear recipient address:</p>
     <p><br></p>

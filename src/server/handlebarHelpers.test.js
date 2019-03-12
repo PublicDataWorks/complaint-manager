@@ -400,9 +400,9 @@ describe("generate subject line", function() {
   const caseReference = "CC2019-0027";
   const pibCaseNumber = "2019-0027-R";
   const supplementalSubjectLine =
-    "Supplemental Referral; IPM Complaint CC2019-0027; PIB Case 2019-0027-R";
+    "Supplemental Referral; OIPM Complaint CC2019-0027; PIB Case 2019-0027-R";
   const subjectLineWithoutPibCaseNumber =
-    "Complaint Referral; IPM Complaint CC2019-0027";
+    "Complaint Referral; OIPM Complaint CC2019-0027";
 
   test("returns supplemental subject line whe pib case number present", () => {
     expect(generateSubjectLine(caseReference, pibCaseNumber)).toEqual(
