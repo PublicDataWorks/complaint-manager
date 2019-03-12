@@ -35,7 +35,7 @@ describe("caseDetailDataHelpers", function() {
         expect.arrayContaining([
           expect.objectContaining({
             "Incident Date": formattedIncidentDate,
-            "First Contacted IPM": formattedFirstContactDate,
+            "First Contacted OIPM": formattedFirstContactDate,
             "Incident Time": "10:00 AM CST",
             "Incident Location": "100 Small Lake Road, Skokie, IL, 10000",
             District: "some district",
@@ -72,7 +72,7 @@ describe("caseDetailDataHelpers", function() {
         expect.arrayContaining([
           expect.objectContaining({
             "Incident Date": formattedIncidentDate,
-            "First Contacted IPM": formattedFirstContactDate,
+            "First Contacted OIPM": formattedFirstContactDate,
             "Incident Time": "10:00 AM CST",
             "Incident Location": null,
             District: "some district",

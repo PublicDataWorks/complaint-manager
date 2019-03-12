@@ -1,16 +1,16 @@
 <div>
   <p>
     This is to inform you pursuant to New Orleans City Code Section 2-1121 (the Police Monitors Ordinance) that the
-    Office of the Independent Police Monitor (IPM) has received a complaint of misconduct by an NOPD employee(s).
+    Office of the Independent Police Monitor (OIPM) has received a complaint of misconduct by an NOPD employee(s).
     The complainant related the following information to our office:
   </p>
   <p><br></p>
   <p><br></p>
   <p class="ql-align-center"><strong><u>Complaint Information</u></strong></p>
   <p><br></p>
-  <p><strong><u>IPM Complaint #:</u></strong> {{caseReference}}</p>
+  <p><strong><u>OIPM Complaint #:</u></strong> {{caseReference}}</p>
   {{#if (isPresent firstContactDate)}}
-    <p>Date filed with IPM: {{{formatShortDate firstContactDate}}}</p>
+    <p>Date filed with OIPM: {{{formatShortDate firstContactDate}}}</p>
   {{/if}}
   {{#if (isPresent pibCaseNumber)}}
     <p>PIB Case Number: {{pibCaseNumber}}</p>
@@ -257,7 +257,7 @@
     {{#if letterOfficer}}
       {{#if (isEqual fullName "Unknown Officer")}}
         <p>
-          The IPM is unable to review <strong>{{fullName~}}’s</strong> disciplinary history as they are unable to be
+          The OIPM is unable to review <strong>{{fullName~}}’s</strong> disciplinary history as they are unable to be
           identified at this time.
         </p>
         <br />
@@ -287,7 +287,7 @@
       {{/if}}
       {{#if (isEqual letterOfficer.officerHistoryOptionId 4)}}
         <p>
-          The IPM has reviewed <strong>{{rank}} {{fullName~}}'s</strong> disciplinary history for the last five years
+          The OIPM has reviewed <strong>{{rank}} {{fullName~}}'s</strong> disciplinary history for the last five years
           and has determined that the
           subject employee has the following significant/noteworthy number of complaints:</p>
         <ul>
@@ -334,7 +334,7 @@
       {{#if letterOfficer}}
         {{#if letterOfficer.referralLetterOfficerRecommendedActions}}
           <p>In light of the seriousness of the allegations and/or <strong>{{rank}} {{fullName~}}'s</strong> complaint
-            history, the IPM requests that,
+            history, the OIPM requests that,
             pending the completion of this investigation, PIB review this officer’s history to ascertain if the accused
             officer should:</p>
           <ul>
@@ -381,7 +381,7 @@
   {{#if classification}}
     <p class="ql-align-center"><strong><u>Classification Recommendation</u></strong></p>
     <p><br></p>
-    <p>The IPM recommends that this complaint be classified as {{classification.initialism}}.</p>
+    <p>The OIPM recommends that this complaint be classified as {{classification.initialism}}.</p>
     <p><br></p>
     <p><br></p>
   {{/if}}

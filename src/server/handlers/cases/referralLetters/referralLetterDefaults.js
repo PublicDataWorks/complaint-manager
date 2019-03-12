@@ -8,7 +8,7 @@ export const SENDER = `Stella Cziment
 Deputy Police Monitor
 504-309-9799`;
 
-export const OFFICER_HISTORY_MESSAGE = `The IPM has reviewed this officer’s disciplinary history for the last
+export const OFFICER_HISTORY_MESSAGE = `The OIPM has reviewed this officer’s disciplinary history for the last
 five years and has determined that the subject employee has the
 following significant/noteworthy number of complaints.`;
 
@@ -23,6 +23,6 @@ his/her commanding officer about retaliating against the
 Complainant, or from having others do so.`;
 
 export const RECOMMENDED_ACTIONS_TEXT = `In light of the seriousness of the allegations and/or the
-subject officer’s complaint history, the IPM requests that,
+subject officer’s complaint history, the OIPM requests that,
 pending the completion of this investigation, PIB review this
 officer’s history to ascertain if the accused officer should:`;

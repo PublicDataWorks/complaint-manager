@@ -26,7 +26,7 @@ export const getIncidentInfoData = caseDetail => {
 
   return [
     {
-      "First Contacted IPM": formatDate(caseDetail.firstContactDate),
+      "First Contacted OIPM": formatDate(caseDetail.firstContactDate),
       "Incident Date": incidentDate,
       "Incident Time": incidentTime,
       "Incident Location": incidentLocation ? incidentLocation : null,

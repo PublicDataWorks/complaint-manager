@@ -84,7 +84,7 @@ class IncidentDetails extends React.Component {
               <div className={classes.detailsRow}>
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
-                    displayLabel="First Contacted IPM"
+                    displayLabel="First Contacted OIPM"
                     value={formatDate(firstContactDate)}
                     testLabel="firstContactDate"
                   />
