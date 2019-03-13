@@ -1,4 +1,0 @@
-{
-  "modules": ["contents", "files", "node-nsp"],
-  "failOn": "medium"
-}
