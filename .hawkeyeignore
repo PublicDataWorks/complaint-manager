@@ -6,6 +6,7 @@
 # Packages we can't update right now
 node-yarnoutdated-jest-1
 node-yarnoutdated-jest-each-1
+node-yarnoutdated-sequelize-1
 
 # The below listed are password warning, however we are using a config file or local environment variables, so there are no passwords stored in the code.
 files-contents-.circleci/config.yml-1
