@@ -1,5 +1,23 @@
 # The line below is regex for files to ignore.
 ^src/(server/config/(.)*|server/(server.test.js|(models|handlers/users)/(.)*.test.js))$
-# Below are codes from hawkeye used here to ignore them so they don't fail.
-node\-yarnoutdated\-jest\-1
-node\-yarnoutdated\-jest\-each\-1
+
+# Below are codes from Hawkeye with warnings we wish to ignore.
+############################################################################
+# Packages we can't update right now
+node-yarnoutdated-jest-1
+node-yarnoutdated-jest-each-1
+
+# The below listed are password warning, however we are using a config file or local environment variables, so there are no passwords stored in the code.
+files-contents-.circleci/config.yml-1
+files-contents-.circleci/config.yml-13
+files-contents-.circleci/config.yml-14
+files-contents-e2e/pageObjectModels/Login.js-1
+files-contents-src/server/handlers/cases/export/jobQueue.js-1
+files-contents-src/server/migrations/20180105174019-create-users.js-1
+files-contents-src/server/migrations/20181109214913-drop-users-table.js-1
+
+# While there are are passwords here for dev and test, the production, staging, and CI passwords are not stored in code.
+files-contents-src/server/tasks/task_config.js-1
+
+# This is a warning about a dependency of react-scripts and jest, but neither are used in production so we can ignore this vulnerability warning.
+node-yarnaudit-braces-786

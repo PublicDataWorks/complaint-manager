@@ -8,7 +8,7 @@ ISSUES_REPORT_FILE=hawkeye_report.json
 
 function run_hawkeye_on_container_code() {
   docker rm -f /hawkeye
-  docker run -v $(pwd):/target --name hawkeye --entrypoint /bin/bash hawkeyesec/scanner-cli:latest -c "./scripts/hawkeye-security-checks.sh";
+  docker run -v $(pwd):/target --name hawkeye --entrypoint /bin/bash hawkeyesec/scanner-cli:latest -c "./scripts/hawkeye-container-script.sh";
   hawkeye_return=$?;
 }
 function create_artifacts_folder() {
