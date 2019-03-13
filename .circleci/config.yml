@@ -9,7 +9,7 @@ jobs:
           - checkout
           - run:
               name: Install Dependencies
-              command: yarn install
+              command: yarn install --frozen-lockfile
           - run:
               name: Run client unit tests
               command: yarn test:client:ci
