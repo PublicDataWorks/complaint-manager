@@ -1,0 +1,5 @@
+# The line below is regex for files to ignore.
+^src/(server/config/(.)*|server/(server.test.js|(models|handlers/users)/(.)*.test.js))$
+# Below are codes from hawkeye used here to ignore them so they don't fail.
+node\-yarnoutdated\-jest\-1
+node\-yarnoutdated\-jest\-each\-1
