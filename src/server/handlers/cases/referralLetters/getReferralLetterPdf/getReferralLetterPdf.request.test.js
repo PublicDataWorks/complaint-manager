@@ -1,6 +1,7 @@
 import {
   buildTokenWithPermissions,
-  cleanupDatabase
+  cleanupDatabase,
+  expectResponse
 } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../client/testUtilities/case";
 import models from "../../../../models";
@@ -85,13 +86,17 @@ describe("Generate referral letter pdf", () => {
   });
 
   test("returns letter pdf blob", async () => {
-    await request(app)
+    const responsePromise = request(app)
       .get(`/api/cases/${existingCase.id}/referral-letter/get-pdf`)
       .set("Content-Header", "application/json")
-      .set("Authorization", `Bearer ${token}`)
-      .expect(200)
-      .then(response => {
-        expect(response.body.length > 0).toBeTruthy();
-      });
+      .set("Authorization", `Bearer ${token}`);
+
+    const response = await expectResponse(
+      responsePromise,
+      200,
+      expect.any(Buffer)
+    );
+
+    expect(response.body.length > 0).toBeTruthy();
   });
 });

@@ -6,7 +6,8 @@ import Case from "../../../../../client/testUtilities/case";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
-  suppressWinstonLogs
+  suppressWinstonLogs,
+  expectResponse
 } from "../../../../testHelpers/requestTestHelpers";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
@@ -63,14 +64,12 @@ describe("GET /cases/:id/referral-letter", function() {
         ]
       };
 
-      await request(app)
+      const responsePromise = request(app)
         .get(`/api/cases/${newCase.id}/referral-letter`)
         .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
-        .expect(200)
-        .then(response => {
-          expect(response.body).toEqual(expectedResponse);
-        });
+        .set("Authorization", `Bearer ${token}`);
+
+      await expectResponse(responsePromise, 200, expectedResponse);
     });
 
     test("it returns 200 if case status is ready for review", async () => {
@@ -78,11 +77,12 @@ describe("GET /cases/:id/referral-letter", function() {
         { status: CASE_STATUS.READY_FOR_REVIEW },
         { auditUser: "test" }
       );
-      await request(app)
+      const responsePromise = request(app)
         .get(`/api/cases/${newCase.id}/referral-letter`)
         .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
-        .expect(200);
+        .set("Authorization", `Bearer ${token}`);
+
+      await expectResponse(responsePromise, 200);
     });
 
     test("it returns 200 if case status is forwarded to agency", async () => {
@@ -99,11 +99,12 @@ describe("GET /cases/:id/referral-letter", function() {
         { auditUser: "test" }
       );
 
-      await request(app)
+      const responsePromise = request(app)
         .get(`/api/cases/${newCase.id}/referral-letter`)
         .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
-        .expect(200);
+        .set("Authorization", `Bearer ${token}`);
+
+      await expectResponse(responsePromise, 200);
     });
 
     test("it returns 200 if case status is forwarded to agency", async () => {
@@ -124,27 +125,30 @@ describe("GET /cases/:id/referral-letter", function() {
         { auditUser: "test" }
       );
 
-      await request(app)
+      const responsePromise = request(app)
         .get(`/api/cases/${newCase.id}/referral-letter`)
         .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
-        .expect(200);
+        .set("Authorization", `Bearer ${token}`);
+
+      await expectResponse(responsePromise, 200);
     });
   });
 
   test(
     "it returns 400 invalid case status if case status is prior to letter in progress",
     suppressWinstonLogs(async () => {
-      await request(app)
+      const responsePromise = request(app)
         .get(`/api/cases/${newCase.id}/referral-letter`)
         .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
-        .expect(400)
-        .then(response => {
-          expect(response.body.message).toEqual(
-            BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
-          );
-        });
+        .set("Authorization", `Bearer ${token}`);
+
+      await expectResponse(
+        responsePromise,
+        400,
+        expect.objectContaining({
+          message: BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
+        })
+      );
     })
   );
 });

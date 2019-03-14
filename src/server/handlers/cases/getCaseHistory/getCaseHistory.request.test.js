@@ -4,7 +4,8 @@ import request from "supertest";
 import app from "../../../server";
 import {
   buildTokenWithPermissions,
-  cleanupDatabase
+  cleanupDatabase,
+  expectResponse
 } from "../../../testHelpers/requestTestHelpers";
 
 jest.mock("../export/jobQueue");
@@ -24,18 +25,16 @@ describe("GET /api/cases/:caseId/case-history", () => {
       auditUser: "someone"
     });
 
-    await request(app)
+    const responsePromise = request(app)
       .get(`/api/cases/${existingCase.id}/case-history`)
       .set("Authorization", `Bearer ${token}`)
-      .set("Content-Type", "application/json")
-      .expect(200)
-      .then(response => {
-        expect(response.body).toEqual([
-          expect.objectContaining({
-            action: "Case Created",
-            modelDescription: [{ "Case Reference": existingCase.caseReference }]
-          })
-        ]);
-      });
+      .set("Content-Type", "application/json");
+
+    await expectResponse(responsePromise, 200, [
+      expect.objectContaining({
+        action: "Case Created",
+        modelDescription: [{ "Case Reference": existingCase.caseReference }]
+      })
+    ]);
   });
 });

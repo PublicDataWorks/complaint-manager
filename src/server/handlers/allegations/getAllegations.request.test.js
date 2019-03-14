@@ -3,7 +3,8 @@ import request from "supertest";
 import app from "../../server";
 import {
   buildTokenWithPermissions,
-  cleanupDatabase
+  cleanupDatabase,
+  expectResponse
 } from "../../testHelpers/requestTestHelpers";
 
 jest.mock("../cases/export/jobQueue");
@@ -51,13 +52,15 @@ describe("GET /allegations", function() {
       allegation4
     ]);
 
-    await request(app)
+    const responsePromise = request(app)
       .get("/api/allegations")
-      .set("Authorization", `Bearer ${token}`)
-      .expect(200)
-      .then(response => {
-        expect(response.body).toEqual(expect.arrayContaining(expectedResponse));
-      });
+      .set("Authorization", `Bearer ${token}`);
+
+    await expectResponse(
+      responsePromise,
+      200,
+      expect.arrayContaining(expectedResponse)
+    );
   });
 
   test("rule should be sorted in ascending order", async () => {
@@ -81,13 +84,11 @@ describe("GET /allegations", function() {
 
     await models.allegation.bulkCreate([allegation1, allegation2, allegation3]);
 
-    await request(app)
+    const responsePromise = request(app)
       .get("/api/allegations")
-      .set("Authorization", `Bearer ${token}`)
-      .expect(200)
-      .then(response => {
-        expect(response.body).toEqual(expectedResponse);
-      });
+      .set("Authorization", `Bearer ${token}`);
+
+    await expectResponse(responsePromise, 200, expectedResponse);
   });
 
   test("rule and paragraph should be sorted in ascending order", async () => {
@@ -113,12 +114,10 @@ describe("GET /allegations", function() {
 
     await models.allegation.bulkCreate([allegation1, allegation2, allegation3]);
 
-    await request(app)
+    const responsePromise = request(app)
       .get("/api/allegations")
-      .set("Authorization", `Bearer ${token}`)
-      .expect(200)
-      .then(response => {
-        expect(response.body).toEqual(expectedResponse);
-      });
+      .set("Authorization", `Bearer ${token}`);
+
+    await expectResponse(responsePromise, 200, expectedResponse);
   });
 });
