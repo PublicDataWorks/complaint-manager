@@ -17,9 +17,7 @@
     "id": "noOfficerHistoryNoteFeature",
     "name": "noOfficerHistoryNoteFeature",
     "description": "Toggle to show radio buttons for officer allegation history and to hide officer history when none exists",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": true
   },
   {
     "id": "HowDidYouHearAboutUsFeature",
