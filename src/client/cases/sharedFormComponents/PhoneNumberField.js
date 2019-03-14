@@ -9,11 +9,13 @@ function strip_nondigits(value) {
 }
 
 const TextMaskCustom = props => {
-  const { inputRef, ...other } = props;
+  const passedProps = (({ inputRef, ...passedProps }) => ({
+    ...passedProps
+  }))(props);
+
   return (
     <MaskedInput
-      {...other}
-      ref={inputRef}
+      {...passedProps}
       mask={[
         "(",
         /[1-9]/,
