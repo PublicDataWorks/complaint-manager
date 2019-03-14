@@ -1,6 +1,7 @@
 import {
   buildTokenWithPermissions,
-  cleanupDatabase
+  cleanupDatabase,
+  expectResponse
 } from "../../../../testHelpers/requestTestHelpers";
 import app from "../../../../server";
 import models from "../../../../models";
@@ -36,13 +37,11 @@ describe("getOfficerHistoryOptions", function() {
       { id: historyOption.id, name: historyOption.name }
     ];
 
-    await request(app)
+    const responsePromise = request(app)
       .get("/api/officer-history-options")
       .set("Content-Header", "application/json")
-      .set("Authorization", `Bearer ${token}`)
-      .expect(200)
-      .then(response => {
-        expect(response.body).toEqual(expectedResponseBody);
-      });
+      .set("Authorization", `Bearer ${token}`);
+
+    await expectResponse(responsePromise, 200, expectedResponseBody);
   });
 });

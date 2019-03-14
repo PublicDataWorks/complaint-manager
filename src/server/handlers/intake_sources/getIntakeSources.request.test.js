@@ -1,6 +1,7 @@
 import {
   buildTokenWithPermissions,
-  cleanupDatabase
+  cleanupDatabase,
+  expectResponse
 } from "../../testHelpers/requestTestHelpers";
 import app from "../../server";
 import models from "../../models";
@@ -32,13 +33,15 @@ describe("getHowDidYouHearAboutUsSources", () => {
       [remoteComplaintIntakeSiteSource.name, remoteComplaintIntakeSiteSource.id]
     ];
 
-    await request(app)
+    const responsePromise = request(app)
       .get("/api/intake-sources")
       .set("Content-Header", "application/json")
-      .set("Authorization", `Bearer ${token}`)
-      .expect(200)
-      .then(response => {
-        expect(response.body).toEqual(expectedOrderedIntakeSourceValues);
-      });
+      .set("Authorization", `Bearer ${token}`);
+
+    await expectResponse(
+      responsePromise,
+      200,
+      expectedOrderedIntakeSourceValues
+    );
   });
 });

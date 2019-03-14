@@ -1,7 +1,8 @@
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
-  suppressWinstonLogs
+  suppressWinstonLogs,
+  expectResponse
 } from "../../../../testHelpers/requestTestHelpers";
 import models from "../../../../models";
 import Case from "../../../../../client/testUtilities/case";
@@ -87,15 +88,13 @@ describe("edit referral letter", () => {
         ]
       };
 
-      await request(app)
+      const responsePromise = request(app)
         .put(`/api/cases/${existingCase.id}/referral-letter/officer-history`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
-        .send(requestBody)
-        .expect(200)
-        .then(response => {
-          expect(response.body).toEqual({});
-        });
+        .send(requestBody);
+
+      await expectResponse(responsePromise, 200, {});
 
       const createdLetterOfficers = await models.letter_officer.findAll({
         where: { caseOfficerId: caseOfficer.id }
@@ -124,12 +123,13 @@ describe("edit referral letter", () => {
         letterOfficers: []
       };
 
-      await request(app)
+      const responsePromise = request(app)
         .put(`/api/cases/${existingCase.id}/referral-letter/officer-history`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
-        .send(requestBody)
-        .expect(200);
+        .send(requestBody);
+
+      await expectResponse(responsePromise, 200);
     });
 
     test(
@@ -146,16 +146,18 @@ describe("edit referral letter", () => {
 
         await existingCase.destroy({ auditUser: "test" });
 
-        await request(app)
+        const responsePromise = request(app)
           .put(`/api/cases/${existingCase.id}/referral-letter/officer-history`)
           .set("Content-Header", "application/json")
-          .set("Authorization", `Bearer ${token}`)
-          .expect(400)
-          .then(response => {
-            expect(response.body.message).toEqual(
-              BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE
-            );
-          });
+          .set("Authorization", `Bearer ${token}`);
+
+        await expectResponse(
+          responsePromise,
+          400,
+          expect.objectContaining({
+            message: BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE
+          })
+        );
       })
     );
 
@@ -174,11 +176,13 @@ describe("edit referral letter", () => {
           { status: CASE_STATUS.FORWARDED_TO_AGENCY },
           { auditUser: "test" }
         );
-        await request(app)
+
+        const responsePromise = request(app)
           .put(`/api/cases/${existingCase.id}/referral-letter/officer-history`)
           .set("Content-Header", "application/json")
-          .set("Authorization", `Bearer ${token}`)
-          .expect(200);
+          .set("Authorization", `Bearer ${token}`);
+
+        await expectResponse(responsePromise, 200);
       })
     );
   });

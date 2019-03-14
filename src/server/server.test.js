@@ -17,7 +17,8 @@ import AWS from "aws-sdk";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
-  suppressWinstonLogs
+  suppressWinstonLogs,
+  expectResponse
 } from "./testHelpers/requestTestHelpers";
 
 jest.mock("auth0", () => ({
@@ -53,9 +54,9 @@ describe("server", () => {
 
   describe("GET /health-check", () => {
     test("should show healthy if db connection works", async () => {
-      await request(app)
-        .get("/health-check")
-        .expect(200);
+      const responsePromise = request(app).get("/health-check");
+
+      await expectResponse(responsePromise, 200);
     });
   });
 
@@ -63,35 +64,31 @@ describe("server", () => {
     test(
       "should return 401 with invalid token",
       suppressWinstonLogs(async () => {
-        await request(app)
+        const responsePromise = request(app)
           .get("/api/cases")
           .set("Content-Header", "application/json")
-          .set("Authorization", `Bearer INVALID_KEY`)
-          .expect(401)
-          .then(response => {
-            expect(response.body).toEqual({
-              error: "Unauthorized",
-              message: "Invalid token",
-              statusCode: 401
-            });
-          });
+          .set("Authorization", `Bearer INVALID_KEY`);
+
+        await expectResponse(responsePromise, 401, {
+          error: "Unauthorized",
+          message: "Invalid token",
+          statusCode: 401
+        });
       })
     );
 
     test(
       "should return 401 without authorization header",
       suppressWinstonLogs(async () => {
-        await request(app)
+        const responsePromise = request(app)
           .get("/api/cases")
-          .set("Content-Header", "application/json")
-          .expect(401)
-          .then(response => {
-            expect(response.body).toEqual({
-              error: "Unauthorized",
-              message: "Invalid token",
-              statusCode: 401
-            });
-          });
+          .set("Content-Header", "application/json");
+
+        await expectResponse(responsePromise, 401, {
+          error: "Unauthorized",
+          message: "Invalid token",
+          statusCode: 401
+        });
       })
     );
 
@@ -100,19 +97,17 @@ describe("server", () => {
       suppressWinstonLogs(async () => {
         token = buildTokenWithPermissions();
 
-        await request(app)
+        const responsePromise = request(app)
           .post("/api/cases")
           .set("Content-Header", "application/json")
           .set("Authorization", `Bearer ${token}`)
-          .send({})
-          .expect(401)
-          .then(response => {
-            expect(response.body).toEqual({
-              error: "Unauthorized",
-              message: "User nickname missing",
-              statusCode: 401
-            });
-          });
+          .send({});
+
+        await expectResponse(responsePromise, 401, {
+          error: "Unauthorized",
+          message: "User nickname missing",
+          statusCode: 401
+        });
       })
     );
   });
@@ -120,12 +115,13 @@ describe("server", () => {
   describe("POST /audit", () => {
     const mockLog = AUDIT_ACTION.LOGGED_OUT;
     test("should audit log out", async () => {
-      await request(app)
+      const responsePromise = request(app)
         .post("/api/audit")
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
-        .send({ log: mockLog })
-        .expect(201);
+        .send({ log: mockLog });
+
+      await expectResponse(responsePromise, 201);
 
       const log = await models.action_audit.findAll({
         where: {
@@ -157,30 +153,28 @@ describe("server", () => {
     });
 
     test("should create and edit a case", async () => {
-      let createdCaseId;
       const caseRequest = request(app);
 
-      await caseRequest
+      const caseResponsePromise = caseRequest
         .post("/api/cases")
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
-        .send(requestBody)
-        .expect(201)
-        .then(response => {
-          responseBody = response.body;
-          createdCaseId = response.body.id;
+        .send(requestBody);
 
-          expect(response.body).toEqual(
-            expect.objectContaining({
-              ...requestBody.case,
-              createdBy: user,
-              assignedTo: user,
-              complainantCivilians: expect.arrayContaining([
-                expect.objectContaining(requestBody.civilian)
-              ])
-            })
-          );
-        });
+      const caseResponse = await expectResponse(
+        caseResponsePromise,
+        201,
+        expect.objectContaining({
+          ...requestBody.case,
+          createdBy: user,
+          assignedTo: user,
+          complainantCivilians: expect.arrayContaining([
+            expect.objectContaining(requestBody.civilian)
+          ])
+        })
+      );
+
+      const createdCaseId = caseResponse.body.id;
 
       const editBody = {
         firstContactDate: "2018-04-27",
@@ -195,28 +189,28 @@ describe("server", () => {
           .build()
       };
 
-      await caseRequest
+      const responsePromise = caseRequest
         .put(`/api/cases/${createdCaseId}`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
-        .send(editBody)
-        .expect(200)
-        .then(response => {
-          expect(response.body).toEqual(
-            expect.objectContaining({
-              id: createdCaseId,
-              ...editBody,
-              incidentLocation: expect.objectContaining({
-                streetAddress: "123 fleet street",
-                addressableId: createdCaseId,
-                addressableType: ADDRESSABLE_TYPE.CASES
-              }),
-              complainantCivilians: expect.arrayContaining([
-                expect.objectContaining(requestBody.civilian)
-              ])
-            })
-          );
-        });
+        .send(editBody);
+
+      await expectResponse(
+        responsePromise,
+        200,
+        expect.objectContaining({
+          id: createdCaseId,
+          ...editBody,
+          incidentLocation: expect.objectContaining({
+            streetAddress: "123 fleet street",
+            addressableId: createdCaseId,
+            addressableType: ADDRESSABLE_TYPE.CASES
+          }),
+          complainantCivilians: expect.arrayContaining([
+            expect.objectContaining(requestBody.civilian)
+          ])
+        })
+      );
     });
   });
 
@@ -277,37 +271,35 @@ describe("server", () => {
         .withFirstName("New Civilian")
         .withRaceEthnicityId(raceEthnicity.id);
 
-      await request(app)
+      const responsePromise = request(app)
         .post(`/api/cases/${existingCase.id}/civilians`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
-        .send(newCivilian)
-        .expect(201)
-        .then(response => {
-          const caseDetails = response.body;
+        .send(newCivilian);
 
-          expect(caseDetails).toEqual(
+      await expectResponse(
+        responsePromise,
+        201,
+        expect.objectContaining({
+          complainantCivilians: expect.arrayContaining([
             expect.objectContaining({
-              complainantCivilians: expect.arrayContaining([
-                expect.objectContaining({
-                  firstName: existingCivilian.firstName,
-                  caseId: existingCase.id,
-                  address: expect.objectContaining({
-                    city: "post city"
-                  })
-                }),
-                expect.objectContaining({
-                  firstName: newCivilian.firstName,
-                  caseId: existingCase.id,
-                  address: expect.objectContaining({
-                    city: "post city",
-                    addressableType: ADDRESSABLE_TYPE.CIVILIAN
-                  })
-                })
-              ])
+              firstName: existingCivilian.firstName,
+              caseId: existingCase.id,
+              address: expect.objectContaining({
+                city: "post city"
+              })
+            }),
+            expect.objectContaining({
+              firstName: newCivilian.firstName,
+              caseId: existingCase.id,
+              address: expect.objectContaining({
+                city: "post city",
+                addressableType: ADDRESSABLE_TYPE.CIVILIAN
+              })
             })
-          );
-        });
+          ])
+        })
+      );
     });
   });
 
@@ -336,6 +328,7 @@ describe("server", () => {
         ],
         auditUser: "someone"
       });
+
       seededCivilian = seededCase.complainantCivilians[0];
       const address = new Address.Builder()
         .defaultAddress()
@@ -351,26 +344,24 @@ describe("server", () => {
         firstName: "BOBBY",
         lastName: "FISHHERRR"
       };
-      await request(app)
+      const responsePromise = request(app)
         .put(`/api/cases/${seededCase.id}/civilians/${seededCivilian.id}`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
-        .send(updatedCivilian)
-        .expect(200)
-        .then(response => {
-          const caseDetails = response.body;
+        .send(updatedCivilian);
 
-          expect(caseDetails).toEqual(
+      await expectResponse(
+        responsePromise,
+        200,
+        expect.objectContaining({
+          complainantCivilians: expect.arrayContaining([
             expect.objectContaining({
-              complainantCivilians: expect.arrayContaining([
-                expect.objectContaining({
-                  firstName: updatedCivilian.firstName,
-                  lastName: updatedCivilian.lastName
-                })
-              ])
+              firstName: updatedCivilian.firstName,
+              lastName: updatedCivilian.lastName
             })
-          );
-        });
+          ])
+        })
+      );
     });
 
     test("should save new address if it doesnt exist yet", async () => {
@@ -380,29 +371,29 @@ describe("server", () => {
           state: "IL"
         }
       };
-      await request(app)
+
+      const responsePromise = request(app)
         .put(`/api/cases/${seededCase.id}/civilians/${seededCivilian.id}`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
-        .send(updatedCivilian)
-        .expect(200)
-        .then(response => {
-          const caseDetails = response.body;
+        .send(updatedCivilian);
 
-          expect(caseDetails).toEqual(
+      await expectResponse(
+        responsePromise,
+        200,
+        expect.objectContaining({
+          complainantCivilians: expect.arrayContaining([
             expect.objectContaining({
-              complainantCivilians: expect.arrayContaining([
-                expect.objectContaining({
-                  address: expect.objectContaining({
-                    state: updatedCivilian.address.state,
-                    addressableType: ADDRESSABLE_TYPE.CIVILIAN
-                  })
-                })
-              ])
+              address: expect.objectContaining({
+                state: updatedCivilian.address.state,
+                addressableType: ADDRESSABLE_TYPE.CIVILIAN
+              })
             })
-          );
-        });
+          ])
+        })
+      );
     });
+
     test("should update address if it exists", async () => {
       const caseDefault = new Case.Builder()
         .defaultCase()
@@ -433,7 +424,7 @@ describe("server", () => {
       await civilianToUpdate.createAddress(address, { auditUser: "someone" });
       await civilianToUpdate.reload({ include: [models.address] });
 
-      await request(app)
+      const responsePromise = request(app)
         .put(
           `/api/cases/${civilianToUpdate.caseId}/civilians/${
             civilianToUpdate.id
@@ -447,23 +438,21 @@ describe("server", () => {
             id: civilianToUpdate.address.id,
             city: "New Orleans"
           }
-        })
-        .expect(200)
-        .then(response => {
-          const caseDetails = response.body;
-
-          expect(caseDetails).toEqual(
-            expect.objectContaining({
-              complainantCivilians: expect.arrayContaining([
-                expect.objectContaining({
-                  address: expect.objectContaining({
-                    city: "New Orleans"
-                  })
-                })
-              ])
-            })
-          );
         });
+
+      await expectResponse(
+        responsePromise,
+        200,
+        expect.objectContaining({
+          complainantCivilians: expect.arrayContaining([
+            expect.objectContaining({
+              address: expect.objectContaining({
+                city: "New Orleans"
+              })
+            })
+          ])
+        })
+      );
     });
 
     test("should allow blank address", async () => {
@@ -493,7 +482,7 @@ describe("server", () => {
 
       let civilianToUpdate = caseToUpdate.dataValues.complainantCivilians[0];
 
-      await request(app)
+      const responsePromise = request(app)
         .put(`/api/cases/${caseToUpdate.id}/civilians/${civilianToUpdate.id}`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
@@ -508,42 +497,43 @@ describe("server", () => {
             zipCode: "",
             country: ""
           }
-        })
-        .then(response => {
-          const caseDetails = response.body;
-
-          expect(caseDetails).toEqual(
-            expect.objectContaining({
-              complainantCivilians: expect.arrayContaining([
-                expect.objectContaining({
-                  address: expect.objectContaining({
-                    streetAddress: "",
-                    streetAddress2: "",
-                    city: "",
-                    state: "",
-                    country: "",
-                    zipCode: ""
-                  })
-                })
-              ])
-            })
-          );
         });
+
+      await expectResponse(
+        responsePromise,
+        200,
+        expect.objectContaining({
+          complainantCivilians: expect.arrayContaining([
+            expect.objectContaining({
+              address: expect.objectContaining({
+                streetAddress: "",
+                streetAddress2: "",
+                city: "",
+                state: "",
+                country: "",
+                zipCode: ""
+              })
+            })
+          ])
+        })
+      );
     });
 
     test("should update the case status to active when an associated civilian has been updated ", async () => {
       const updatedCivilian = {
         firstName: "BOBBY"
       };
-      await request(app)
+      const responsePromise = request(app)
         .put(`/api/cases/${seededCase.id}/civilians/${seededCivilian.id}`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
-        .send(updatedCivilian)
-        .expect(200)
-        .then(response => {
-          expect(response.body.status).toEqual(CASE_STATUS.ACTIVE);
-        });
+        .send(updatedCivilian);
+
+      await expectResponse(
+        responsePromise,
+        200,
+        expect.objectContaining({ status: CASE_STATUS.ACTIVE })
+      );
     });
   });
 
@@ -572,23 +562,23 @@ describe("server", () => {
     });
 
     test("should display case notes for an existing case", async () => {
-      await request(app)
+      const responsePromise = request(app)
         .get(`/api/cases/${createdCase.dataValues.id}/case-notes`)
         .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
-        .expect(200)
-        .then(response => {
-          expect(response.body).toEqual(
-            expect.arrayContaining([
-              expect.objectContaining({
-                caseId: createdCase.id,
-                action: "Miscellaneous",
-                user: "tuser",
-                notes: "some notes"
-              })
-            ])
-          );
-        });
+        .set("Authorization", `Bearer ${token}`);
+
+      await expectResponse(
+        responsePromise,
+        200,
+        expect.arrayContaining([
+          expect.objectContaining({
+            caseId: createdCase.id,
+            action: "Miscellaneous",
+            user: "tuser",
+            notes: "some notes"
+          })
+        ])
+      );
     });
   });
 
@@ -616,30 +606,30 @@ describe("server", () => {
         }
       });
 
-      await request(app)
+      const responsePromise = request(app)
         .post(`/api/cases/${createdCase.dataValues.id}/case-notes`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
-        .send(caseNote)
-        .expect(201)
-        .then(response => {
-          expect(response.body).toEqual(
+        .send(caseNote);
+
+      await expectResponse(
+        responsePromise,
+        201,
+        expect.objectContaining({
+          caseDetails: expect.objectContaining({
+            status: CASE_STATUS.ACTIVE
+          }),
+          caseNotes: expect.arrayContaining([
             expect.objectContaining({
-              caseDetails: expect.objectContaining({
-                status: CASE_STATUS.ACTIVE
-              }),
-              caseNotes: expect.arrayContaining([
-                expect.objectContaining({
-                  caseId: caseNote.caseId,
-                  action: caseNote.action,
-                  notes: caseNote.notes,
-                  actionTakenAt: caseNote.actionTakenAt,
-                  id: expect.anything()
-                })
-              ])
+              caseId: caseNote.caseId,
+              action: caseNote.action,
+              notes: caseNote.notes,
+              actionTakenAt: caseNote.actionTakenAt,
+              id: expect.anything()
             })
-          );
-        });
+          ])
+        })
+      );
 
       const numberOfCaseNotesAfterRequest = await models.case_note.count({
         where: {
@@ -693,31 +683,29 @@ describe("server", () => {
         narrativeDetails: "A very updated case narrative."
       };
 
-      await request(app)
+      const responsePromise = request(app)
         .put(`/api/cases/${caseToUpdate.id}/narrative`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
-        .send(updatedNarrative)
-        .expect(200)
-        .then(response => {
-          expect(response.body.id).toEqual(caseToUpdate.id);
-          expect(response.body.complainantCivilians[0].firstName).toEqual(
-            caseToUpdate.complainantCivilians[0].firstName
-          );
-          expect(response.body.complainantCivilians[0].lastName).toEqual(
-            caseToUpdate.complainantCivilians[0].lastName
-          );
-          expect(response.body.complainantCivilians[0].email).toEqual(
-            caseToUpdate.complainantCivilians[0].email
-          );
-          expect(response.body.complaintType).toEqual(
-            caseToUpdate.complaintType
-          );
-          expect(response.body.narrativeDetails).toEqual(
-            updatedNarrative.narrativeDetails
-          );
-          expect(response.body.status).toEqual(CASE_STATUS.ACTIVE);
-        });
+        .send(updatedNarrative);
+
+      await expectResponse(
+        responsePromise,
+        200,
+        expect.objectContaining({
+          id: caseToUpdate.id,
+          complainantCivilians: [
+            expect.objectContaining({
+              firstName: caseToUpdate.complainantCivilians[0].firstName,
+              lastName: caseToUpdate.complainantCivilians[0].lastName,
+              email: caseToUpdate.complainantCivilians[0].email
+            })
+          ],
+          complaintType: caseToUpdate.complaintType,
+          narrativeDetails: updatedNarrative.narrativeDetails,
+          status: CASE_STATUS.ACTIVE
+        })
+      );
     });
   });
 
@@ -776,25 +764,29 @@ describe("server", () => {
           };
         });
 
-        await request(app)
+        const responsePromise = request(app)
           .post(`/api/cases/${defaultCase.id}/attachments`)
           .set("Authorization", `Bearer ${token}`)
           .set("Content-Type", "multipart/form-data")
           .field("description", "this is a description")
-          .attach("avatar", __dirname + "/../../README.md")
-          .expect(200)
-          .then(response => {
-            expect(response.body.id).toEqual(defaultCase.id);
-            expect(response.body.complainantCivilians[0].id).toEqual(
-              defaultCase.complainantCivilians[0].id
-            );
-            expect(response.body.attachments).toEqual(
-              expect.arrayContaining([
-                expect.objectContaining({ fileName: "README.md" })
-              ])
-            );
-            expect(response.body.status).toEqual(CASE_STATUS.ACTIVE);
-          });
+          .attach("avatar", __dirname + "/../../README.md");
+
+        await expectResponse(
+          responsePromise,
+          200,
+          expect.objectContaining({
+            id: defaultCase.id,
+            complainantCivilians: [
+              expect.objectContaining({
+                id: defaultCase.complainantCivilians[0].id
+              })
+            ],
+            attachments: expect.arrayContaining([
+              expect.objectContaining({ fileName: "README.md" })
+            ]),
+            status: CASE_STATUS.ACTIVE
+          })
+        );
       });
 
       test("should get bad request when case is archived", async () => {
@@ -813,13 +805,14 @@ describe("server", () => {
           };
         });
 
-        await request(app)
+        const responsePromise = request(app)
           .post(`/api/cases/${defaultCase.id}/attachments`)
           .set("Authorization", `Bearer ${token}`)
           .set("Content-Type", "multipart/form-data")
           .field("description", "this is a description")
-          .attach("avatar", __dirname + "/../../README.md")
-          .expect(400);
+          .attach("avatar", __dirname + "/../../README.md");
+
+        await expectResponse(responsePromise, 400);
       });
 
       test("should return 409 when file is a duplicate", async () => {
@@ -837,12 +830,13 @@ describe("server", () => {
           };
         });
 
-        await request(app)
+        const responsePromise = request(app)
           .post(`/api/cases/${defaultCase.id}/attachments`)
           .set("Authorization", `Bearer ${token}`)
           .set("Content-Type", "multipart/form-data")
-          .attach(mockFileName, __dirname + "/testFixtures/test_file.pdf")
-          .expect(409);
+          .attach(mockFileName, __dirname + "/testFixtures/test_file.pdf");
+
+        await expectResponse(responsePromise, 409);
       });
     });
 
@@ -874,21 +868,24 @@ describe("server", () => {
           };
         });
 
-        await request(app)
+        const responsePromise = request(app)
           .delete(
             `/api/cases/${defaultCase.id}/attachments/${
               attachmentToDelete.fileName
             }`
           )
           .set("Authorization", `Bearer ${token}`)
-          .set("Content-Type", "multipart/form-data")
-          .expect(200)
-          .then(response => {
-            expect(response.body.attachments.length).toEqual(1);
-            expect(response.body.attachments[0].fileName).toEqual(
-              defaultAttachment.fileName
-            );
-          });
+          .set("Content-Type", "multipart/form-data");
+
+        await expectResponse(
+          responsePromise,
+          200,
+          expect.objectContaining({
+            attachments: [
+              expect.objectContaining({ fileName: defaultAttachment.fileName })
+            ]
+          })
+        );
 
         const attachmentsFromUnmodifiedCase = await models.attachment.findAll({
           where: {
@@ -904,11 +901,12 @@ describe("server", () => {
   test("should respond with 503 when app is shutting down", async () => {
     app.locals.shuttingDown = true;
 
-    await request(app)
+    const responsePromise = request(app)
       .get(`/api/cases/`)
       .set("Authorization", `Bearer ${token}`)
-      .set("Content-Type", "multipart/form-data")
-      .expect(503);
+      .set("Content-Type", "multipart/form-data");
+
+    await expectResponse(responsePromise, 503);
 
     app.locals.shuttingDown = false;
   });

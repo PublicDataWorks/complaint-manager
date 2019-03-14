@@ -7,7 +7,8 @@ import app from "../../../server";
 import request from "supertest";
 import {
   buildTokenWithPermissions,
-  cleanupDatabase
+  cleanupDatabase,
+  expectResponse
 } from "../../../testHelpers/requestTestHelpers";
 import { ALLEGATION_SEVERITY } from "../../../../sharedUtilities/constants";
 
@@ -61,7 +62,7 @@ describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations
 
     const allegationDetails = "test details";
 
-    await request(app)
+    const responsePromise = request(app)
       .post(
         `/api/cases/${newCase.id}/cases-officers/${
           newCase.accusedOfficers[0].id
@@ -73,29 +74,29 @@ describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations
         allegationId: allegation.id,
         details: allegationDetails,
         severity: ALLEGATION_SEVERITY.LOW
-      })
-      .expect(201)
-      .then(response => {
-        expect(response.body).toEqual(
-          expect.objectContaining({
-            accusedOfficers: expect.arrayContaining([
-              expect.objectContaining({
-                id: expect.anything(),
-                allegations: [
-                  expect.objectContaining({
-                    details: allegationDetails,
-                    severity: ALLEGATION_SEVERITY.LOW,
-                    allegation: expect.objectContaining({
-                      rule: allegation.rule,
-                      paragraph: allegation.paragraph,
-                      directive: allegation.directive
-                    })
-                  })
-                ]
-              })
-            ])
-          })
-        );
       });
+
+    await expectResponse(
+      responsePromise,
+      201,
+      expect.objectContaining({
+        accusedOfficers: expect.arrayContaining([
+          expect.objectContaining({
+            id: expect.anything(),
+            allegations: [
+              expect.objectContaining({
+                details: allegationDetails,
+                severity: ALLEGATION_SEVERITY.LOW,
+                allegation: expect.objectContaining({
+                  rule: allegation.rule,
+                  paragraph: allegation.paragraph,
+                  directive: allegation.directive
+                })
+              })
+            ]
+          })
+        ])
+      })
+    );
   });
 });

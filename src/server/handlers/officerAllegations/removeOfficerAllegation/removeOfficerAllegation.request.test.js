@@ -5,7 +5,8 @@ import app from "../../../server";
 import request from "supertest";
 import {
   buildTokenWithPermissions,
-  cleanupDatabase
+  cleanupDatabase,
+  expectResponse
 } from "../../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
@@ -68,26 +69,26 @@ describe("DELETE /officers-allegations/:officerAllegationId", () => {
     const officerAllegationToRemove =
       createdCase.accusedOfficers[0].allegations[0];
 
-    await request(app)
+    const responsePromise = request(app)
       .delete(
         `/api/cases/${createdCase.id}/officers-allegations/${
           officerAllegationToRemove.id
         }`
       )
       .set("Content-Header", "application/json")
-      .set("Authorization", `Bearer ${token}`)
-      .expect(200)
-      .then(response => {
-        expect(response.body).toEqual(
+      .set("Authorization", `Bearer ${token}`);
+
+    await expectResponse(
+      responsePromise,
+      200,
+      expect.objectContaining({
+        accusedOfficers: expect.arrayContaining([
           expect.objectContaining({
-            accusedOfficers: expect.arrayContaining([
-              expect.objectContaining({
-                id: createdCase.accusedOfficers[0].id,
-                allegations: []
-              })
-            ])
+            id: createdCase.accusedOfficers[0].id,
+            allegations: []
           })
-        );
-      });
+        ])
+      })
+    );
   });
 });
