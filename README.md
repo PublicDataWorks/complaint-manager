@@ -56,7 +56,7 @@ circleci build --job <job name from .circleci/config.yml>
 ### Build the app:
 
 ```bash
-docker-compose build
+./scripts/docker-compose-build
 ```
 
 ### Run the app locally in watch mode:
