@@ -28,14 +28,16 @@ router.use((request, response, next) => {
   next();
 });
 
+// only allow browser to toggle features in non-prod environments
 if (process.env.NODE_ENV !== "production") {
   router.get("/features/:name/:action", fflipExpress.manualRoute);
-  router.get(
-    "/features/",
-    asyncMiddleware((request, response) => {
-      response.status(200).send(request.fflip.features);
-    })
-  );
 }
+
+router.get(
+  "/features/",
+  asyncMiddleware((request, response) => {
+    response.status(200).send(request.fflip.features);
+  })
+);
 
 module.exports = router;
