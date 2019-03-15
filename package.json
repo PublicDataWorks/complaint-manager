@@ -1,6 +1,6 @@
 {
   "name": "complaint-manager",
-  "version": "2.8.0",
+  "version": "2.10.1",
   "private": true,
   "proxy": "http://localhost:1234",
   "scripts": {
