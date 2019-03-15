@@ -85,7 +85,7 @@ app.use(
   expressWinston.logger({
     winstonInstance: winston,
     requestWhitelist: ["url", "method", "body", "originalUrl", "query"], //hide request headers that have auth token
-    //all request whitelist options are ['url', 'headers', 'method', 'httpVersion', 'originalUrl', 'query', 'body']
+    //all request whitelist options are: ['url', 'headers', 'method', 'httpVersion', 'originalUrl', 'query', 'body']
     bodyBlacklist: ""
   })
 );
