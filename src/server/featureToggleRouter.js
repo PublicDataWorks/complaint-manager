@@ -33,6 +33,7 @@ if (process.env.NODE_ENV !== "production") {
   router.get("/features/:name/:action", fflipExpress.manualRoute);
 }
 
+// allow production environment application to have access to feature toggle values
 router.get(
   "/features/",
   asyncMiddleware((request, response) => {
