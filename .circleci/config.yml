@@ -308,7 +308,7 @@ workflows:
             filters:
               branches:
                 only:
-                  - release_v2.10.0
+                  - release_v2.10.1
         - test-server-handlers:
             requires:
               - test-client
