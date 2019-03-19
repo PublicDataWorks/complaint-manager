@@ -4789,10 +4789,10 @@ expect@^23.6.0:
     jest-message-util "^23.4.0"
     jest-regex-util "^23.3.0"
 
-express-jwt-authz@~2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/express-jwt-authz/-/express-jwt-authz-2.1.1.tgz#a0ab0ecd5d0fcc336822a66a13eb3c1035d6c772"
-  integrity sha512-e/G54dbPRvrmZl706eaS+LEcUdk2fErQcs2x2CDq8X0OMa0rgAOXily7mntSUclcFkM1Y1uCVxpfvC/3OPzYEg==
+express-jwt-authz@~2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/express-jwt-authz/-/express-jwt-authz-2.2.0.tgz#19e90e31afd81a7db9433e897410b39428f785ea"
+  integrity sha512-l0ITXvBSleG+BBv/JOK1Aa8hnRPSy+O5/+Qzdh1Db19R5Dn11C8q6UFP8r7jLqE7AbxYM0pqR2wCPaDIYb9R3w==
 
 express-jwt@~5.3.1:
   version "5.3.1"
