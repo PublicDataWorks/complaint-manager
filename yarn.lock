@@ -1854,10 +1854,10 @@ auth0-js@~9.10.0:
     url-join "^4.0.0"
     winchan "^0.2.1"
 
-auth0@~2.15.0:
-  version "2.15.0"
-  resolved "https://registry.yarnpkg.com/auth0/-/auth0-2.15.0.tgz#ca4b024ae53203ca45e18e164ad21574e41658a5"
-  integrity sha512-SB9Vhpybl7EfPq0TjGaDePsJwe9QRtXQNRtu5buryjJYD06A84I0qVlPbz298WCYuVsatpEmdekxo52c9Frd7A==
+auth0@~2.16.0:
+  version "2.16.0"
+  resolved "https://registry.yarnpkg.com/auth0/-/auth0-2.16.0.tgz#c27014cea38b5ce07f0f468c59e3d8db85976732"
+  integrity sha512-64FswYANGTwMU3AdgljSBhnGR+J4+FAqhC0iaUrBYYKDcnv01I7uNnRtnSSGEm8jv1THOrsNBE55h2K7FYTycg==
   dependencies:
     bluebird "^2.10.2"
     jsonwebtoken "^8.3.0"
