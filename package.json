@@ -53,7 +53,7 @@
     "csv-stringify": "~5.3.0",
     "express": "~4.16.4",
     "express-jwt": "~5.3.1",
-    "express-jwt-authz": "~2.1.1",
+    "express-jwt-authz": "~2.2.0",
     "express-winston": "~3.1.0",
     "fflip": "~4.0.0",
     "fflip-express": "~1.0.2",
