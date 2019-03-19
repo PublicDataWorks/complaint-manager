@@ -280,13 +280,21 @@ export const WITNESS = "Witness";
 export const COMPLAINANT = "Complainant";
 
 // ----------------------------------------
+//          Complainant Type Options
+// ----------------------------------------
+export const COMPLAINANT_TYPE = {
+  CIVILIAN: "Civilian",
+  OFFICER: "Officer"
+};
+
+// ----------------------------------------
 //          Complaint Type Options
 // ----------------------------------------
 export const CIVILIAN_INITIATED = "Civilian Initiated";
 export const RANK_INITIATED = "Rank Initiated";
 
 // ----------------------------------------
-//          Complaint Type Options
+//          Edit Status Options
 // ----------------------------------------
 export const EDIT_STATUS = {
   GENERATED: "Generated",

@@ -1,6 +1,6 @@
 import { ADDRESSABLE_TYPE } from "../../sharedUtilities/constants";
 import moment from "moment";
-import { isEmpty, head, sortBy } from "lodash";
+import { head, isEmpty, sortBy } from "lodash";
 import models from "./index";
 import winston from "winston";
 import {
