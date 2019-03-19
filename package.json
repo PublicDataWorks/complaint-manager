@@ -70,7 +70,7 @@
     "moment-timezone": "~0.5.23",
     "newrelic": "~5.6.0",
     "nodemon": "~1.18.10",
-    "pg": "~7.8.2",
+    "pg": "~7.9.0",
     "pg-hstore": "~2.3.2",
     "rc-pagination": "~1.17.8",
     "react": "~16.8.4",
