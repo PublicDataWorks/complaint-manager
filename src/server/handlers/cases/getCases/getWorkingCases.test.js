@@ -8,7 +8,7 @@ import {
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../auditDataAccess";
-import getCases from "./getCases";
+import getCases, { CASES_TYPE } from "./getCases";
 
 const httpMocks = require("node-mocks-http");
 
@@ -16,11 +16,13 @@ jest.mock("../../auditDataAccess");
 
 jest.mock("./getCases");
 
-getCases.mockImplementation((caseType, transaction, auditDetails) => {
-  auditDetails.mock = {
-    attributes: ["mockAttribute"]
-  };
-});
+getCases.mockImplementation(
+  (caseType, sortBy, sortDirection, transaction, auditDetails) => {
+    auditDetails.mockModel = {
+      attributes: ["mockAttribute"]
+    };
+  }
+);
 
 describe("getWorkingCases", () => {
   let token;
@@ -31,6 +33,33 @@ describe("getWorkingCases", () => {
 
   afterEach(async () => {
     await cleanupDatabase();
+  });
+
+  test("should call getCases with sortBy and sortDirection params", async () => {
+    const request = httpMocks.createRequest({
+      method: "GET",
+      headers: {
+        authorization: "Bearer token"
+      },
+      params: {
+        sortBy: "by",
+        sortDirection: "direction"
+      },
+      nickname: "nickname"
+    });
+
+    const response = httpMocks.createResponse();
+    const next = jest.fn();
+
+    await getWorkingCases(request, response, next);
+
+    expect(getCases).toHaveBeenCalledWith(
+      CASES_TYPE.WORKING,
+      "by",
+      "direction",
+      expect.anything(),
+      expect.objectContaining({})
+    );
   });
 
   test("Should call auditDataAccess with auditDetails", async () => {
@@ -53,7 +82,7 @@ describe("getWorkingCases", () => {
       AUDIT_SUBJECT.ALL_WORKING_CASES,
       expect.anything(),
       AUDIT_ACTION.DATA_ACCESSED,
-      { mock: { attributes: ["mockAttribute"] } }
+      { mockModel: { attributes: ["mockAttribute"] } }
     );
   });
 });

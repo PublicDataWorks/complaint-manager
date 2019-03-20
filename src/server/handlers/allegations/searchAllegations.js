@@ -1,3 +1,5 @@
+import { ASCENDING } from "../../../sharedUtilities/constants";
+
 const {
   DEFAULT_PAGINATION_LIMIT
 } = require("../../../sharedUtilities/constants");
@@ -26,7 +28,11 @@ const searchAllegations = asyncMiddleware(async (request, response) => {
 
   const allegations = await models.allegation.findAndCountAll({
     where: whereClause,
-    order: [["rule", "ASC"], ["paragraph", "ASC"], ["directive", "ASC"]],
+    order: [
+      ["rule", ASCENDING],
+      ["paragraph", ASCENDING],
+      ["directive", ASCENDING]
+    ],
     limit: DEFAULT_PAGINATION_LIMIT,
     offset: offset
   });

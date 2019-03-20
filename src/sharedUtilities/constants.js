@@ -273,6 +273,22 @@ export const AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE =
   "(createdAt|updatedAt|deletedAt|addressableType)";
 
 // ----------------------------------------
+//          Sort Cases By Options
+// ----------------------------------------
+
+export const SORT_CASES_BY = {
+  CASE_REFERENCE: "caseReference",
+  STATUS: "status",
+  COMPLAINANT: "complainant",
+  ACCUSED_OFFICER: "accusedOfficer",
+  FIRST_CONTACT_DATE: "firstContactDate",
+  ASSIGNED_TO: "assignedTo"
+};
+
+export const DESCENDING = "desc";
+export const ASCENDING = "asc";
+
+// ----------------------------------------
 //          Role on Case Options
 // ----------------------------------------
 export const ACCUSED = "Accused";

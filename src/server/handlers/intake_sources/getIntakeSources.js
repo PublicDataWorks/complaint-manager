@@ -1,5 +1,6 @@
 import asyncMiddleware from "../asyncMiddleware";
 import models from "../../models";
+import { ASCENDING } from "../../../sharedUtilities/constants";
 
 const getIntakeSources = asyncMiddleware(async (request, response, next) => {
   const intakeSources = await getSortedIntakeSources();
@@ -12,7 +13,7 @@ const getIntakeSources = asyncMiddleware(async (request, response, next) => {
 const getSortedIntakeSources = async () => {
   return await models.intake_source.findAll({
     attributes: ["name", "id"],
-    order: [["name", "ASC"]],
+    order: [["name", ASCENDING]],
     raw: true
   });
 };

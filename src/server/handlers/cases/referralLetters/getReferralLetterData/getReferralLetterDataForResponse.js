@@ -1,6 +1,6 @@
 import models from "../../../../models";
 import shortid from "shortid";
-import { ACCUSED } from "../../../../../sharedUtilities/constants";
+import { ACCUSED, ASCENDING } from "../../../../../sharedUtilities/constants";
 import {
   addToExistingAuditDetails,
   removeFromExistingAuditDetails
@@ -91,14 +91,18 @@ const getLetterData = async (caseId, transaction, auditDetails) => {
     where: { caseId: caseId },
     attributes: ["id", "caseId", "includeRetaliationConcerns"],
     order: [
-      [{ model: models.case_officer, as: "caseOfficers" }, "created_at", "ASC"],
+      [
+        { model: models.case_officer, as: "caseOfficers" },
+        "created_at",
+        ASCENDING
+      ],
       [
         {
           model: models.referral_letter_iapro_correction,
           as: "referralLetterIAProCorrections"
         },
         "created_at",
-        "ASC"
+        ASCENDING
       ]
     ],
     include: [
