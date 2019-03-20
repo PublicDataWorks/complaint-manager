@@ -47,7 +47,7 @@ export const computeTimeZone = (date, time) => {
   let timeZone = "CT";
 
   if (date) {
-    timeZone = moment(date)
+    timeZone = timezone(date)
       .tz(TIMEZONE)
       .format("z");
   }
