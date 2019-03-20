@@ -72,7 +72,7 @@ describe("sortableCasesView", () => {
           accusedFirstName: accusedOfficer.firstName,
           accusedMiddleName: accusedOfficer.middleName,
           accusedLastName: accusedOfficer.lastName,
-          accusedOfficerId: existingCase.accusedOfficers[0].id,
+          accusedOfficerExists: true,
           id: existingCase.id
         })
       );
@@ -96,7 +96,7 @@ describe("sortableCasesView", () => {
 
       expect(sortedCase).toEqual(
         expect.objectContaining({
-          accusedOfficerId: null,
+          accusedOfficerExists: false,
           accusedFirstName: null,
           accusedMiddleName: null,
           accusedLastName: null,
@@ -128,7 +128,7 @@ describe("sortableCasesView", () => {
 
       expect(sortedCase).toEqual(
         expect.objectContaining({
-          accusedOfficerId: unknownOfficer.id,
+          accusedOfficerExists: true,
           accusedFirstName: null,
           accusedMiddleName: null,
           accusedLastName: null,

@@ -11,7 +11,12 @@ module.exports = {
                status,
                first_contact_date,
                assigned_to,
-               accused_officers.accused_officer_id,
+               deleted_at,
+               accused_officers.accused_case_officer_id IS NOT NULL 
+                 AS accused_officer_exists,
+               accused_officers.accused_officer_id IS NOT NULL 
+                 AND accused_officers.accused_case_officer_id IS NOT NULL 
+                 AS accused_officer_known,
                accused_officers.accused_first_name,
                accused_officers.accused_middle_name,
                accused_officers.accused_last_name,
@@ -22,7 +27,8 @@ module.exports = {
         FROM cases
         LEFT JOIN
           (SELECT case_id,
-                  id AS accused_officer_id,
+                  id AS accused_case_officer_id,
+                  officer_id AS accused_officer_id,
                   first_name AS accused_first_name,
                   middle_name AS accused_middle_name,
                   last_name AS accused_last_name

@@ -37,6 +37,10 @@ export default (sequelize, DataTypes) => {
         field: "first_contact_date",
         type: DataTypes.DATEONLY
       },
+      deletedAt: {
+        field: "deleted_at",
+        type: DataTypes.DATEONLY
+      },
       assignedTo: {
         field: "assigned_to",
         type: DataTypes.STRING
@@ -53,9 +57,13 @@ export default (sequelize, DataTypes) => {
         field: "accused_last_name",
         type: DataTypes.STRING
       },
-      accusedOfficerId: {
-        field: "accused_officer_id",
-        type: DataTypes.INTEGER
+      accusedOfficerExists: {
+        field: "accused_officer_exists",
+        type: DataTypes.BOOLEAN
+      },
+      accusedOfficerKnown: {
+        field: "accused_officer_known",
+        type: DataTypes.BOOLEAN
       },
       complainantType: {
         field: "complainant_type",
