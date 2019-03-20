@@ -4,8 +4,7 @@ import request from "supertest";
 import app from "../../server";
 import {
   buildTokenWithPermissions,
-  cleanupDatabase,
-  expectResponse
+  cleanupDatabase
 } from "../../testHelpers/requestTestHelpers";
 
 jest.mock("../cases/export/jobQueue");
@@ -24,18 +23,15 @@ test("should return an allegation", async () => {
 
   const token = buildTokenWithPermissions("", "TEST_NICKNAME");
 
-  const responsePromise = request(app)
+  await request(app)
     .get("/api/allegations/search")
     .set("Authorization", `Bearer ${token}`)
-    .query({ rule: createdAllegation.rule });
-
-  await expectResponse(
-    responsePromise,
-    200,
-    expect.objectContaining({
-      rows: [expect.objectContaining({ rule: createdAllegation.rule })]
-    })
-  );
+    .query({ rule: createdAllegation.rule })
+    .expect(200)
+    .then(response => {
+      expect(response.body.rows.length).toEqual(1);
+      expect(response.body.rows[0].rule).toEqual(createdAllegation.rule);
+    });
 });
 
 test("should include count in result", async () => {
@@ -53,14 +49,12 @@ test("should include count in result", async () => {
 
   const token = buildTokenWithPermissions("", "TEST_NICKNAME");
 
-  const responsePromise = request(app)
+  await request(app)
     .get("/api/allegations/search")
     .set("Authorization", `Bearer ${token}`)
-    .query({ limit: 1, offset: 1 });
-
-  await expectResponse(
-    responsePromise,
-    200,
-    expect.objectContaining({ count: 2 })
-  );
+    .query({ limit: 1, offset: 1 })
+    .expect(200)
+    .then(response => {
+      expect(response.body.count).toEqual(2);
+    });
 });

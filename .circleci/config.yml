@@ -9,7 +9,7 @@ jobs:
           - checkout
           - run:
               name: Install Dependencies
-              command: yarn install --frozen-lockfile
+              command: yarn install
           - run:
               name: Run client unit tests
               command: yarn test:client:ci
@@ -286,13 +286,12 @@ workflows:
       - test-server-worker-non-handlers:
           requires:
             - test-server-handlers
-#      - security-check:
-#          requires:
-#            - test-server-worker-non-handlers
+      - security-check:
+          requires:
+            - test-server-worker-non-handlers
       - build-and-publish-master:
           requires:
-#            - security-check
-            - test-server-worker-non-handlers # remove this when the security checks are passing
+            - security-check
       - deploy-ci:
           requires:
             - build-and-publish-master

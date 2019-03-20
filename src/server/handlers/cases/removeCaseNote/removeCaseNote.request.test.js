@@ -5,8 +5,7 @@ import Case from "../../../../client/testUtilities/case";
 import CaseNote from "../../../../client/testUtilities/caseNote";
 import {
   buildTokenWithPermissions,
-  cleanupDatabase,
-  expectResponse
+  cleanupDatabase
 } from "../../../testHelpers/requestTestHelpers";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 
@@ -42,21 +41,23 @@ describe("removeCaseNote request", () => {
       auditUser: "someone"
     });
 
-    const responsePromise = request(app)
+    await request(app)
       .delete(`/api/cases/${createdCase.id}/case-notes/${createdCaseNote.id}`)
       .set("Content-Header", "application/json")
-      .set("Authorization", `Bearer ${token}`);
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        const currentCase = response.body;
 
-    await expectResponse(
-      responsePromise,
-      200,
-      expect.objectContaining({
-        caseNotes: [],
-        caseDetails: expect.objectContaining({
-          id: createdCase.id,
-          status: CASE_STATUS.ACTIVE
-        })
-      })
-    );
+        expect(currentCase).toEqual(
+          expect.objectContaining({
+            caseNotes: [],
+            caseDetails: expect.objectContaining({
+              id: createdCase.id,
+              status: CASE_STATUS.ACTIVE
+            })
+          })
+        );
+      });
   });
 });

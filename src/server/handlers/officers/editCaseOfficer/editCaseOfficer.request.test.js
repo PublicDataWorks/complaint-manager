@@ -7,8 +7,7 @@ import Case from "../../../../client/testUtilities/case";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
-  cleanupDatabase,
-  expectResponse
+  cleanupDatabase
 } from "../../../testHelpers/requestTestHelpers";
 
 jest.mock("../../cases/export/jobQueue");
@@ -57,7 +56,7 @@ describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
       notes: "Some very updated notes",
       roleOnCase: ACCUSED
     };
-    const responsePromise = request(app)
+    await request(app)
       .put(
         `/api/cases/${createdCase.id}/cases-officers/${
           createdCase.accusedOfficers[0].id
@@ -65,18 +64,18 @@ describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
       )
       .set("Authorization", `Bearer ${token}`)
       .set("Content-Type", "application/json")
-      .send(fieldsToUpdate);
-
-    await expectResponse(
-      responsePromise,
-      200,
-      expect.objectContaining({
-        accusedOfficers: expect.arrayContaining([
+      .send(fieldsToUpdate)
+      .expect(200)
+      .then(response =>
+        expect(response.body).toEqual(
           expect.objectContaining({
-            notes: fieldsToUpdate.notes
+            accusedOfficers: expect.arrayContaining([
+              expect.objectContaining({
+                notes: fieldsToUpdate.notes
+              })
+            ])
           })
-        ])
-      })
-    );
+        )
+      );
   });
 });

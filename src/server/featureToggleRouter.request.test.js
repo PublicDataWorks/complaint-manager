@@ -1,7 +1,4 @@
-import {
-  buildTokenWithPermissions,
-  expectResponse
-} from "./testHelpers/requestTestHelpers";
+import { buildTokenWithPermissions } from "./testHelpers/requestTestHelpers";
 import request from "supertest";
 import app from "./server";
 
@@ -26,15 +23,17 @@ describe("featureToggleRouter", function() {
 
   describe("GET /features", function() {
     test("should return toggles", async () => {
-      const responsePromise = request(app)
+      await request(app)
         .get("/features")
         .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`);
-
-      await expectResponse(responsePromise, 200, {
-        TEST_FEATURE: true,
-        TEST_DISABLED_FEATURE: false
-      });
+        .set("Authorization", `Bearer ${token}`)
+        .expect(200)
+        .then(response => {
+          expect(response.body).toEqual({
+            TEST_FEATURE: true,
+            TEST_DISABLED_FEATURE: false
+          });
+        });
     });
   });
 });
