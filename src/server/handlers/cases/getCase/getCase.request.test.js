@@ -14,7 +14,8 @@ import {
 } from "../../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
-  cleanupDatabase
+  cleanupDatabase,
+  expectResponse
 } from "../../../testHelpers/requestTestHelpers";
 
 jest.mock("../export/jobQueue");
@@ -122,53 +123,53 @@ describe("GET /cases/:id", () => {
   });
 
   test("should get case", async () => {
-    await request(app)
+    const responsePromise = request(app)
       .get(`/api/cases/${caseToRetrieve.id}`)
       .set("Content-Header", "application/json")
-      .set("Authorization", `Bearer ${token}`)
-      .expect(200)
-      .then(response => {
-        expect(response.body).toEqual(
+      .set("Authorization", `Bearer ${token}`);
+
+    await expectResponse(
+      responsePromise,
+      200,
+      expect.objectContaining({
+        id: caseToRetrieve.id,
+        complaintType: caseToRetrieve.complaintType,
+        status: caseToRetrieve.status,
+        complainantCivilians: expect.arrayContaining([
           expect.objectContaining({
-            id: caseToRetrieve.id,
-            complaintType: caseToRetrieve.complaintType,
-            status: caseToRetrieve.status,
-            complainantCivilians: expect.arrayContaining([
-              expect.objectContaining({
-                firstName: caseToRetrieve.complainantCivilians[0].firstName,
-                lastName: caseToRetrieve.complainantCivilians[0].lastName,
-                email: caseToRetrieve.complainantCivilians[0].email
-              })
-            ]),
-            witnessCivilians: expect.arrayContaining([
-              expect.objectContaining({
-                firstName: caseToRetrieve.witnessCivilians[0].firstName,
-                lastName: caseToRetrieve.witnessCivilians[0].lastName,
-                email: caseToRetrieve.witnessCivilians[0].email
-              })
-            ]),
-            attachments: expect.arrayContaining([
-              expect.objectContaining({
-                id: caseToRetrieve.attachments[0].id,
-                caseId: caseToRetrieve.attachments[0].caseId,
-                fileName: caseToRetrieve.attachments[0].fileName
-              })
-            ]),
-            incidentLocation: expect.objectContaining({
-              streetAddress: expectedStreetAddress,
-              id: caseToRetrieve.incidentLocation.id
-            }),
-            accusedOfficers: expect.arrayContaining([
-              expect.objectContaining({
-                officerId: caseToRetrieve.accusedOfficers[0].officerId,
-                employeeType: caseToRetrieve.accusedOfficers[0].employeeType,
-                supervisorFullName:
-                  caseToRetrieve.accusedOfficers[0].supervisorFullName,
-                roleOnCase: ACCUSED
-              })
-            ])
+            firstName: caseToRetrieve.complainantCivilians[0].firstName,
+            lastName: caseToRetrieve.complainantCivilians[0].lastName,
+            email: caseToRetrieve.complainantCivilians[0].email
           })
-        );
-      });
+        ]),
+        witnessCivilians: expect.arrayContaining([
+          expect.objectContaining({
+            firstName: caseToRetrieve.witnessCivilians[0].firstName,
+            lastName: caseToRetrieve.witnessCivilians[0].lastName,
+            email: caseToRetrieve.witnessCivilians[0].email
+          })
+        ]),
+        attachments: expect.arrayContaining([
+          expect.objectContaining({
+            id: caseToRetrieve.attachments[0].id,
+            caseId: caseToRetrieve.attachments[0].caseId,
+            fileName: caseToRetrieve.attachments[0].fileName
+          })
+        ]),
+        incidentLocation: expect.objectContaining({
+          streetAddress: expectedStreetAddress,
+          id: caseToRetrieve.incidentLocation.id
+        }),
+        accusedOfficers: expect.arrayContaining([
+          expect.objectContaining({
+            officerId: caseToRetrieve.accusedOfficers[0].officerId,
+            employeeType: caseToRetrieve.accusedOfficers[0].employeeType,
+            supervisorFullName:
+              caseToRetrieve.accusedOfficers[0].supervisorFullName,
+            roleOnCase: ACCUSED
+          })
+        ])
+      })
+    );
   });
 });

@@ -12,7 +12,8 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
-  suppressWinstonLogs
+  suppressWinstonLogs,
+  expectResponse
 } from "../../../../testHelpers/requestTestHelpers";
 import Civilian from "../../../../../client/testUtilities/civilian";
 import Officer from "../../../../../client/testUtilities/Officer";
@@ -99,11 +100,12 @@ describe("Approve referral letter", () => {
       );
     });
     test("returns 200 when api endpoint hit", async () => {
-      await request(app)
+      const responsePromise = request(app)
         .put(`/api/cases/${existingCase.id}/referral-letter/approve-letter`)
         .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
-        .expect(200);
+        .set("Authorization", `Bearer ${token}`);
+
+      await expectResponse(responsePromise, 200);
     });
   });
 
@@ -114,11 +116,12 @@ describe("Approve referral letter", () => {
     test(
       "returns 400 when api endpoint hit without permissions",
       suppressWinstonLogs(async () => {
-        await request(app)
+        const responsePromise = request(app)
           .put(`/api/cases/${existingCase.id}/referral-letter/approve-letter`)
           .set("Content-Header", "application/json")
-          .set("Authorization", `Bearer ${token}`)
-          .expect(400);
+          .set("Authorization", `Bearer ${token}`);
+
+        await expectResponse(responsePromise, 400);
       })
     );
   });
