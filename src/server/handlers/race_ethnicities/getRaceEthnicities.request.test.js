@@ -1,7 +1,6 @@
 import {
   buildTokenWithPermissions,
-  cleanupDatabase,
-  expectResponse
+  cleanupDatabase
 } from "../../testHelpers/requestTestHelpers";
 import app from "../../server";
 import models from "../../models";
@@ -33,11 +32,13 @@ describe("getRaceEthnicities", () => {
       [unknownRaceEthnicity.name, unknownRaceEthnicity.id]
     ];
 
-    const responsePromise = request(app)
+    await request(app)
       .get("/api/race-ethnicities")
       .set("Content-Header", "application/json")
-      .set("Authorization", `Bearer ${token}`);
-
-    await expectResponse(responsePromise, 200, expectedOrderedRaceEthnicities);
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        expect(response.body).toEqual(expectedOrderedRaceEthnicities);
+      });
   });
 });

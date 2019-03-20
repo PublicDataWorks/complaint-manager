@@ -1,8 +1,7 @@
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
-  suppressWinstonLogs,
-  expectResponse
+  suppressWinstonLogs
 } from "../../../testHelpers/requestTestHelpers";
 import app from "../../../server";
 import request from "supertest";
@@ -76,26 +75,29 @@ describe("DELETE /cases/:caseId/cases-officers/:caseOfficerId", () => {
     const createdComplainantOfficer1 = createdCase.complainantOfficers[0];
     const createdComplainantOfficer2 = createdCase.complainantOfficers[1];
 
-    const responsePromise = request(app)
+    await request(app)
       .delete(
         `/api/cases/${createdCase.id}/cases-officers/${
           createdComplainantOfficer1.id
         }`
       )
       .set("Authorization", `Bearer ${token}`)
-      .set("Content-Type", "application/json");
-
-    await expectResponse(
-      responsePromise,
-      200,
-      expect.objectContaining({
-        complainantOfficers: [
+      .set("Content-Type", "application/json")
+      .expect(200)
+      .then(response => {
+        expect(response.body).toEqual(
           expect.objectContaining({
-            id: createdComplainantOfficer2.id
+            complainantOfficers: expect.arrayContaining([
+              expect.objectContaining({
+                id: createdComplainantOfficer2.id
+              })
+            ])
           })
-        ]
-      })
-    );
+        );
+
+        const complainantOfficers = response.body.complainantOfficers;
+        expect(complainantOfficers.length).toEqual(1);
+      });
   });
 
   test(
@@ -111,18 +113,18 @@ describe("DELETE /cases/:caseId/cases-officers/:caseOfficerId", () => {
       });
       const invalidId = 1;
 
-      const responsePromise = request(app)
+      await request(app)
         .delete(`/api/cases/${createdCase.id}/cases-officers/${invalidId}`)
         .set("Authorization", `Bearer ${token}`)
-        .set("Content-Type", "application/json");
-
-      await expectResponse(
-        responsePromise,
-        400,
-        expect.objectContaining({
-          message: BAD_REQUEST_ERRORS.REMOVE_CASE_OFFICER_ERROR
-        })
-      );
+        .set("Content-Type", "application/json")
+        .expect(400)
+        .then(response => {
+          expect(response.body).toEqual(
+            expect.objectContaining({
+              message: BAD_REQUEST_ERRORS.REMOVE_CASE_OFFICER_ERROR
+            })
+          );
+        });
     })
   );
 });

@@ -3,11 +3,10 @@ import Officer from "../../../../client/testUtilities/Officer";
 import models from "../../../models/index";
 import Case from "../../../../client/testUtilities/case";
 import app from "../../../server";
-import { ACCUSED, CASE_STATUS } from "../../../../sharedUtilities/constants";
+import { CASE_STATUS, ACCUSED } from "../../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
-  cleanupDatabase,
-  expectResponse
+  cleanupDatabase
 } from "../../../testHelpers/requestTestHelpers";
 
 jest.mock("../../cases/export/jobQueue");
@@ -41,7 +40,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
     const officerNotes = "some notes";
     const officerRole = ACCUSED;
 
-    const responsePromise = request(app)
+    await request(app)
       .post(`/api/cases/${seededCase.id}/cases-officers`)
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
@@ -49,32 +48,32 @@ describe("POST /cases/:caseId/cases_officers", () => {
         officerId: seededOfficer.id,
         notes: officerNotes,
         roleOnCase: officerRole
-      });
-
-    await expectResponse(
-      responsePromise,
-      200,
-      expect.objectContaining({
-        status: CASE_STATUS.ACTIVE,
-        accusedOfficers: expect.arrayContaining([
-          expect.objectContaining({
-            id: expect.anything(),
-            notes: officerNotes,
-            roleOnCase: officerRole,
-            firstName: seededOfficer.firstName,
-            middleName: seededOfficer.middleName,
-            lastName: seededOfficer.lastName,
-            fullName: "Ugochi Grant Smith",
-            supervisorFirstName: null,
-            supervisorMiddleName: null,
-            supervisorLastName: null,
-            supervisorFullName: "",
-            supervisorWindowsUsername: null,
-            supervisorOfficerNumber: null
-          })
-        ])
       })
-    );
+      .expect(200)
+      .then(response => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            status: CASE_STATUS.ACTIVE,
+            accusedOfficers: expect.arrayContaining([
+              expect.objectContaining({
+                id: expect.anything(),
+                notes: officerNotes,
+                roleOnCase: officerRole,
+                firstName: seededOfficer.firstName,
+                middleName: seededOfficer.middleName,
+                lastName: seededOfficer.lastName,
+                fullName: "Ugochi Grant Smith",
+                supervisorFirstName: null,
+                supervisorMiddleName: null,
+                supervisorLastName: null,
+                supervisorFullName: "",
+                supervisorWindowsUsername: null,
+                supervisorOfficerNumber: null
+              })
+            ])
+          })
+        );
+      });
   });
 
   test("should add officer that has supervisor to a case", async () => {
@@ -116,7 +115,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
     const officerNotes = "some notes";
     const officerRole = ACCUSED;
 
-    const responsePromise = request(app)
+    await request(app)
       .post(`/api/cases/${seededCase.id}/cases-officers`)
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
@@ -124,32 +123,32 @@ describe("POST /cases/:caseId/cases_officers", () => {
         officerId: seededOfficer.id,
         notes: officerNotes,
         roleOnCase: officerRole
-      });
-
-    await expectResponse(
-      responsePromise,
-      200,
-      expect.objectContaining({
-        status: CASE_STATUS.ACTIVE,
-        accusedOfficers: expect.arrayContaining([
-          expect.objectContaining({
-            id: expect.anything(),
-            notes: officerNotes,
-            roleOnCase: officerRole,
-            firstName: seededOfficer.firstName,
-            middleName: seededOfficer.middleName,
-            lastName: seededOfficer.lastName,
-            fullName: "Ugochi Grant Smith",
-            supervisorFirstName: seededSupervisor.firstName,
-            supervisorMiddleName: seededSupervisor.middleName,
-            supervisorLastName: seededSupervisor.lastName,
-            supervisorFullName: "Garret Bobby Ferguson",
-            supervisorWindowsUsername: seededSupervisor.windowsUsername,
-            supervisorOfficerNumber: seededSupervisor.officerNumber
-          })
-        ])
       })
-    );
+      .expect(200)
+      .then(response => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            status: CASE_STATUS.ACTIVE,
+            accusedOfficers: expect.arrayContaining([
+              expect.objectContaining({
+                id: expect.anything(),
+                notes: officerNotes,
+                roleOnCase: officerRole,
+                firstName: seededOfficer.firstName,
+                middleName: seededOfficer.middleName,
+                lastName: seededOfficer.lastName,
+                fullName: "Ugochi Grant Smith",
+                supervisorFirstName: seededSupervisor.firstName,
+                supervisorMiddleName: seededSupervisor.middleName,
+                supervisorLastName: seededSupervisor.lastName,
+                supervisorFullName: "Garret Bobby Ferguson",
+                supervisorWindowsUsername: seededSupervisor.windowsUsername,
+                supervisorOfficerNumber: seededSupervisor.officerNumber
+              })
+            ])
+          })
+        );
+      });
   });
 
   test("should add an unknown officer to a case", async () => {
@@ -170,24 +169,26 @@ describe("POST /cases/:caseId/cases_officers", () => {
     });
 
     const officerNotes = "some notes for an unknown officer";
-    const responsePromise = request(app)
+    const officerRole = ACCUSED;
+
+    await request(app)
       .post(`/api/cases/${seededCase.id}/cases-officers/`)
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
-      .send({ officerId: null, notes: officerNotes, roleOnCase: ACCUSED });
-
-    await expectResponse(
-      responsePromise,
-      200,
-      expect.objectContaining({
-        accusedOfficers: expect.arrayContaining([
+      .send({ officerId: null, notes: officerNotes, roleOnCase: officerRole })
+      .expect(200)
+      .then(response => {
+        expect(response.body).toEqual(
           expect.objectContaining({
-            id: expect.anything(),
-            notes: officerNotes,
-            fullName: "Unknown Officer"
+            accusedOfficers: expect.arrayContaining([
+              expect.objectContaining({
+                id: expect.anything(),
+                notes: officerNotes,
+                fullName: "Unknown Officer"
+              })
+            ])
           })
-        ])
-      })
-    );
+        );
+      });
   });
 });

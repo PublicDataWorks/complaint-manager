@@ -1,7 +1,6 @@
 import {
   buildTokenWithPermissions,
-  cleanupDatabase,
-  expectResponse
+  cleanupDatabase
 } from "../../testHelpers/requestTestHelpers";
 import app from "../../server";
 import request from "supertest";
@@ -35,15 +34,13 @@ describe("getClassifications", () => {
       [fdi.initialism, fdi.id]
     ];
 
-    const responsePromise = request(app)
+    await request(app)
       .get("/api/classifications")
       .set("Content-Header", "application/json")
-      .set("Authorization", `Bearer ${token}`);
-
-    await expectResponse(
-      responsePromise,
-      200,
-      expectedOrderedClassificationValues
-    );
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        expect(response.body).toEqual(expectedOrderedClassificationValues);
+      });
   });
 });

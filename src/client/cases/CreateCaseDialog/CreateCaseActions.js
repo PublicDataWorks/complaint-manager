@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { formValueSelector, reset, SubmissionError } from "redux-form";
+import { reset, SubmissionError } from "redux-form";
 import { DialogActions } from "@material-ui/core";
 import LinkButton from "../../shared/components/LinkButton";
 import {
@@ -13,7 +13,6 @@ import { atLeastOneRequired } from "../../formValidations";
 import { closeCreateCaseDialog } from "../../actionCreators/casesActionCreators";
 import { applyCentralTimeZoneOffset } from "../../utilities/formatDate";
 import { isEmpty } from "lodash";
-import { CREATE_CASE_FORM_NAME } from "../../../sharedUtilities/constants";
 
 export class CreateCaseActions extends React.Component {
   closeDialog = () => {
@@ -27,11 +26,7 @@ export class CreateCaseActions extends React.Component {
 
   createAndSearch = values => this.createNewCase(values, true);
 
-  createNewCase = ({ civilian, case: theCase }, redirect) => {
-    if (!this.props.civilianComplainant) {
-      this.props.change("civilian", null);
-      civilian = null;
-    }
+  createNewCase = ({ civilian, case: theCase }, redirect) =>
     this.props.createCase({
       caseDetails: {
         case: this.prepareCase(theCase),
@@ -41,7 +36,6 @@ export class CreateCaseActions extends React.Component {
       },
       redirect
     });
-  };
 
   prepareCase = theCase => ({
     ...theCase,
@@ -127,18 +121,12 @@ const OfficerComplainantButtons = ({ createAndSearch }) => (
 
 export const ActionsWithTheme = withTheme()(CreateCaseActions);
 
-const selector = formValueSelector(CREATE_CASE_FORM_NAME);
-
-const mapStateToProps = state => ({
-  civilian: selector(state, "civilian")
-});
-
 const mapDispatchToProps = {
   createCase,
   closeCreateCaseDialog,
   reset
 };
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(ActionsWithTheme);

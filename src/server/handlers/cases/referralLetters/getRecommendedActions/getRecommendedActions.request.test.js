@@ -1,7 +1,6 @@
 import {
   buildTokenWithPermissions,
-  cleanupDatabase,
-  expectResponse
+  cleanupDatabase
 } from "../../../../testHelpers/requestTestHelpers";
 import request from "supertest";
 import app from "../../../../server";
@@ -38,11 +37,13 @@ describe("getRecommendedActions", function() {
       { id: insight.id, description: insight.description }
     ];
 
-    const responsePromise = request(app)
+    await request(app)
       .get("/api/recommended-actions")
       .set("Content-Header", "application/json")
-      .set("Authorization", `Bearer ${token}`);
-
-    await expectResponse(responsePromise, 200, expectedResponseBody);
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then(response => {
+        expect(response.body).toEqual(expectedResponseBody);
+      });
   });
 });

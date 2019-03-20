@@ -61,27 +61,6 @@ export const buildTokenWithPermissions = (permissions, nickname) => {
   return jwt.sign(payload, cert, options);
 };
 
-export const expectResponse = async (
-  responsePromise,
-  statusCode,
-  responseBodyContents = null
-) => {
-  return await responsePromise.then(
-    response => {
-      expect(response.statusCode).toEqual(statusCode);
-      responseBodyContents &&
-        expect(response.body).toEqual(responseBodyContents);
-      return response;
-    },
-    error => {
-      expect(error.response.statusCode).toEqual(statusCode);
-      responseBodyContents &&
-        expect(error.response.body).toEqual(responseBodyContents);
-      return error;
-    }
-  );
-};
-
 export const cleanupDatabase = async () => {
   const truncationQuery =
     "TRUNCATE referral_letter_officer_recommended_actions CASCADE;" +
