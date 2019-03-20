@@ -2,6 +2,7 @@ import models from "../../../models";
 import fs from "fs";
 import Handlebars from "handlebars";
 import { addToExistingAuditDetails } from "../../getQueryAuditAccessDetails";
+import { ASCENDING } from "../../../../sharedUtilities/constants";
 
 const getReferralLetterCaseData = async (caseId, transaction, auditDetails) => {
   const queryOptions = {
@@ -20,18 +21,22 @@ const getReferralLetterCaseData = async (caseId, transaction, auditDetails) => {
       [
         { model: models.case_officer, as: "complainantOfficers" },
         "createdAt",
-        "ASC"
+        ASCENDING
       ],
       [
         { model: models.civilian, as: "complainantCivilians" },
         "createdAt",
-        "ASC"
+        ASCENDING
       ],
-      [{ model: models.civilian, as: "witnessCivilians" }, "createdAt", "ASC"],
+      [
+        { model: models.civilian, as: "witnessCivilians" },
+        "createdAt",
+        ASCENDING
+      ],
       [
         { model: models.case_officer, as: "witnessOfficers" },
         "createdAt",
-        "ASC"
+        ASCENDING
       ]
     ],
     include: [

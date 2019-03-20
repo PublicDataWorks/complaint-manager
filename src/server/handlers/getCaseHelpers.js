@@ -5,6 +5,7 @@ import {
   addToExistingAuditDetails,
   removeFromExistingAuditDetails
 } from "./getQueryAuditAccessDetails";
+import { ASCENDING } from "../../sharedUtilities/constants";
 
 export const getCaseWithAllAssociations = async (
   caseId,
@@ -97,23 +98,27 @@ const getCaseData = async (caseId, transaction, auditDetails) => {
       [
         { model: models.case_officer, as: "accusedOfficers" },
         "createdAt",
-        "ASC"
+        ASCENDING
       ],
       [
         { model: models.civilian, as: "complainantCivilians" },
         "createdAt",
-        "ASC"
+        ASCENDING
       ],
       [
         { model: models.case_officer, as: "complainantOfficers" },
         "createdAt",
-        "ASC"
+        ASCENDING
       ],
-      [{ model: models.civilian, as: "witnessCivilians" }, "createdAt", "ASC"],
+      [
+        { model: models.civilian, as: "witnessCivilians" },
+        "createdAt",
+        ASCENDING
+      ],
       [
         { model: models.case_officer, as: "witnessOfficers" },
         "createdAt",
-        "ASC"
+        ASCENDING
       ]
     ]
   };

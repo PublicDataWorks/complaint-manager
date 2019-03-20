@@ -1,4 +1,4 @@
-import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+import { ASCENDING, AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 import { addToExistingAuditDetails } from "../../getQueryAuditAccessDetails";
 
 const models = require("../../../models/index");
@@ -31,7 +31,7 @@ const searchOfficers = asyncMiddleware(async (request, response) => {
   const officers = await models.sequelize.transaction(async transaction => {
     const queryOptions = {
       where: whereClause,
-      order: [["last_name", "ASC"], ["first_name", "ASC"]],
+      order: [["last_name", ASCENDING], ["first_name", ASCENDING]],
       limit: DEFAULT_PAGINATION_LIMIT,
       offset: offset,
       transaction

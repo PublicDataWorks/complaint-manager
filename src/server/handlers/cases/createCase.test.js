@@ -1,4 +1,5 @@
 import {
+  ASCENDING,
   AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
@@ -239,7 +240,7 @@ describe("createCase handler", () => {
       await createCaseForYear(2018); //case 2018-0002
       await createCase(request, response, next); //case 2018-0003
       const insertedCases = await models.cases.findAll({
-        order: [["created_at", "ASC"]]
+        order: [["created_at", ASCENDING]]
       });
       expect(
         insertedCases.map(insertedCase => [
@@ -319,7 +320,7 @@ describe("createCase handler", () => {
       expect(response3._getData().caseNumber).not.toBeUndefined();
 
       const insertedCases = await models.cases.findAll({
-        order: [["created_at", "ASC"]]
+        order: [["created_at", ASCENDING]]
       });
       expect(
         insertedCases.map(insertedCase => [

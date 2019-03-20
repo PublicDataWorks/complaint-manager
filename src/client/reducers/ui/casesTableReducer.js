@@ -1,6 +1,12 @@
+import {
+  ASCENDING,
+  DESCENDING,
+  SORT_CASES_BY
+} from "../../../sharedUtilities/constants";
+
 const initialState = {
   sortBy: "caseReference",
-  sortDirection: "desc"
+  sortDirection: DESCENDING
 };
 const casesTableReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -13,7 +19,7 @@ const casesTableReducer = (state = initialState, action) => {
       }
       return {
         sortBy: action.sortBy,
-        sortDirection: "asc"
+        sortDirection: ASCENDING
       };
     default:
       return initialState;
@@ -21,11 +27,11 @@ const casesTableReducer = (state = initialState, action) => {
 };
 
 const toggleDirection = direction => {
-  if (direction === "desc") {
-    return "asc";
+  if (direction === DESCENDING) {
+    return ASCENDING;
   }
 
-  return "desc";
+  return DESCENDING;
 };
 
 export default casesTableReducer;
