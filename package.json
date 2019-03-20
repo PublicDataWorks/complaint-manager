@@ -14,7 +14,7 @@
     "start:server": "nodemon --watch src/server src/startServer.js --exec babel-node",
     "start:worker": "nodemon --watch src/worker src/startWorker.js --exec babel-node",
     "e2e": "nightwatch -c e2e/nightwatch.conf.local.js",
-    "build": "react-scripts build",
+    "build": "react-scripts --max_old_space_size=4096 build",
     "update:officers": "node -e \"require('./scripts/updateOfficerDataFromS3')\"",
     "test:all": "NODE_ENV=test yarn setup:test:db && react-scripts test --logHeapUsage --maxWorkers=1 --env=node",
     "test:server": "NODE_ENV=test yarn setup:test:db && react-scripts test src/server --logHeapUsage --maxWorkers=1 --env=node",
