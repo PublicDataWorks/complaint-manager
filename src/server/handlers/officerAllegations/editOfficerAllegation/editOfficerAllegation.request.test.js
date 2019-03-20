@@ -6,7 +6,8 @@ import request from "supertest";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
-  suppressWinstonLogs
+  suppressWinstonLogs,
+  expectResponse
 } from "../../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import {
@@ -34,7 +35,7 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
     suppressWinstonLogs(async () => {
       const token = buildTokenWithPermissions("", "TEST_NICKNAME");
       const nonExistantAllegationId = 9;
-      await request(app)
+      const responsePromise = request(app)
         .put(
           `/api/cases/${
             createdCase.id
@@ -42,16 +43,14 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
         )
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
-        .send({})
-        .expect(400)
-        .then(response => {
-          expect(response.body).toEqual({
-            statusCode: 400,
-            error: "Bad Request",
-            message: BAD_REQUEST_ERRORS.OFFICER_ALLEGATION_NOT_FOUND,
-            caseId: `${createdCase.id}`
-          });
-        });
+        .send({});
+
+      await expectResponse(responsePromise, 400, {
+        statusCode: 400,
+        error: "Bad Request",
+        message: BAD_REQUEST_ERRORS.OFFICER_ALLEGATION_NOT_FOUND,
+        caseId: `${createdCase.id}`
+      });
     })
   );
 
@@ -111,7 +110,7 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
       severity: ALLEGATION_SEVERITY.HIGH
     };
 
-    await request(app)
+    const responsePromise = request(app)
       .put(
         `/api/cases/${createdCase.id}/officers-allegations/${
           officerAllegationToUpdate.id
@@ -119,29 +118,29 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
       )
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
-      .send(data)
-      .expect(200)
-      .then(response => {
-        expect(response.body).toEqual(
+      .send(data);
+
+    await expectResponse(
+      responsePromise,
+      200,
+      expect.objectContaining({
+        accusedOfficers: expect.arrayContaining([
           expect.objectContaining({
-            accusedOfficers: expect.arrayContaining([
+            id: expect.anything(),
+            allegations: [
               expect.objectContaining({
-                id: expect.anything(),
-                allegations: [
-                  expect.objectContaining({
-                    details: newDetailsValue,
-                    severity: ALLEGATION_SEVERITY.HIGH,
-                    allegation: expect.objectContaining({
-                      rule: createdAllegation.rule,
-                      paragraph: createdAllegation.paragraph,
-                      directive: createdAllegation.directive
-                    })
-                  })
-                ]
+                details: newDetailsValue,
+                severity: ALLEGATION_SEVERITY.HIGH,
+                allegation: expect.objectContaining({
+                  rule: createdAllegation.rule,
+                  paragraph: createdAllegation.paragraph,
+                  directive: createdAllegation.directive
+                })
               })
-            ])
+            ]
           })
-        );
-      });
+        ])
+      })
+    );
   });
 });

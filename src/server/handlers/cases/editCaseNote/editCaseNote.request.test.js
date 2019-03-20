@@ -5,7 +5,8 @@ import request from "supertest";
 import app from "../../../server";
 import {
   buildTokenWithPermissions,
-  cleanupDatabase
+  cleanupDatabase,
+  expectResponse
 } from "../../../testHelpers/requestTestHelpers";
 
 jest.mock("../export/jobQueue");
@@ -46,22 +47,22 @@ describe("editCaseNote request", function() {
       notes: "updated notes"
     };
 
-    await request(app)
+    const responsePromise = request(app)
       .put(`/api/cases/${createdCase.id}/case-notes/${createdCaseNote.id}`)
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
-      .send(updatedCaseNote)
-      .expect(200)
-      .then(response => {
-        expect(response.body).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({
-              ...updatedCaseNote,
-              id: createdCaseNote.id,
-              user: "tuser"
-            })
-          ])
-        );
-      });
+      .send(updatedCaseNote);
+
+    await expectResponse(
+      responsePromise,
+      200,
+      expect.arrayContaining([
+        expect.objectContaining({
+          ...updatedCaseNote,
+          id: createdCaseNote.id,
+          user: "tuser"
+        })
+      ])
+    );
   });
 });

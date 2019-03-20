@@ -1,6 +1,7 @@
 import {
   buildTokenWithPermissions,
-  cleanupDatabase
+  cleanupDatabase,
+  expectResponse
 } from "../../../testHelpers/requestTestHelpers";
 import request from "supertest";
 import app from "../../../server";
@@ -34,11 +35,12 @@ describe("getWorkingCases", () => {
 
   describe("GET /cases", () => {
     test("should audit data access", async () => {
-      await request(app)
+      const responsePromise = request(app)
         .get("/api/cases")
         .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
-        .expect(200);
+        .set("Authorization", `Bearer ${token}`);
+
+      await expectResponse(responsePromise, 200);
 
       const audit = await models.action_audit.findOne({
         where: { subject: AUDIT_SUBJECT.ALL_WORKING_CASES }
@@ -128,43 +130,41 @@ describe("getWorkingCases", () => {
         auditUser: "someone"
       });
 
-      await request(app)
+      const responsePromise = request(app)
         .get("/api/cases")
         .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
-        .expect(200)
-        .then(response => {
-          expect(response.body.cases).toEqual(
-            expect.arrayContaining([
+        .set("Authorization", `Bearer ${token}`);
+
+      await expectResponse(responsePromise, 200, {
+        cases: expect.arrayContaining([
+          expect.objectContaining({
+            complainantCivilians: expect.arrayContaining([
               expect.objectContaining({
-                complainantCivilians: expect.arrayContaining([
-                  expect.objectContaining({
-                    firstName: seededCase.complainantCivilians[0].firstName,
-                    lastName: seededCase.complainantCivilians[0].lastName,
-                    phoneNumber: seededCase.complainantCivilians[0].phoneNumber,
-                    email: seededCase.complainantCivilians[0].email
-                  })
-                ]),
-                accusedOfficers: expect.arrayContaining([
-                  expect.objectContaining({
-                    firstName: officer.firstName
-                  })
-                ]),
-                complainantOfficers: expect.arrayContaining([
-                  expect.objectContaining({
-                    fullName: seededCase.complainantOfficers[0].fullName
-                  })
-                ]),
-                complaintType: seededCase.complaintType,
-                firstContactDate: moment(seededCase.firstContactDate).format(
-                  "YYYY-MM-DD"
-                ),
-                status: CASE_STATUS.INITIAL,
-                assignedTo: "tuser"
+                firstName: seededCase.complainantCivilians[0].firstName,
+                lastName: seededCase.complainantCivilians[0].lastName,
+                phoneNumber: seededCase.complainantCivilians[0].phoneNumber,
+                email: seededCase.complainantCivilians[0].email
               })
-            ])
-          );
-        });
+            ]),
+            accusedOfficers: expect.arrayContaining([
+              expect.objectContaining({
+                firstName: officer.firstName
+              })
+            ]),
+            complainantOfficers: expect.arrayContaining([
+              expect.objectContaining({
+                fullName: seededCase.complainantOfficers[0].fullName
+              })
+            ]),
+            complaintType: seededCase.complaintType,
+            firstContactDate: moment(seededCase.firstContactDate).format(
+              "YYYY-MM-DD"
+            ),
+            status: CASE_STATUS.INITIAL,
+            assignedTo: "tuser"
+          })
+        ])
+      });
     });
 
     test("should return complainants and accusedOfficers sorted by createdAt ascending", async () => {
@@ -210,25 +210,25 @@ describe("getWorkingCases", () => {
         auditUser: "someone"
       });
 
-      await request(app)
+      const responsePromise = request(app)
         .get("/api/cases")
         .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
-        .expect(200)
-        .then(response => {
-          expect(
-            response.body.cases[0].complainantOfficers[0].createdAt <
-              response.body.cases[0].complainantOfficers[1].createdAt
-          ).toEqual(true);
-          expect(
-            response.body.cases[0].complainantCivilians[0].createdAt <
-              response.body.cases[0].complainantCivilians[1].createdAt
-          ).toEqual(true);
-          expect(
-            response.body.cases[0].accusedOfficers[0].createdAt <
-              response.body.cases[0].accusedOfficers[1].createdAt
-          ).toEqual(true);
-        });
+        .set("Authorization", `Bearer ${token}`);
+
+      const response = await expectResponse(responsePromise, 200);
+
+      expect(
+        response.body.cases[0].complainantOfficers[0].createdAt <
+          response.body.cases[0].complainantOfficers[1].createdAt
+      ).toEqual(true);
+      expect(
+        response.body.cases[0].complainantCivilians[0].createdAt <
+          response.body.cases[0].complainantCivilians[1].createdAt
+      ).toEqual(true);
+      expect(
+        response.body.cases[0].accusedOfficers[0].createdAt <
+          response.body.cases[0].accusedOfficers[1].createdAt
+      ).toEqual(true);
     });
   });
 });

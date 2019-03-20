@@ -3,7 +3,8 @@ import app from "../../../server";
 import request from "supertest";
 import {
   buildTokenWithPermissions,
-  cleanupDatabase
+  cleanupDatabase,
+  expectResponse
 } from "../../../testHelpers/requestTestHelpers";
 import Officer from "../../../../client/testUtilities/Officer";
 
@@ -20,8 +21,7 @@ describe("GET /officers/search", () => {
   });
 
   describe("match single attribute", () => {
-    let bobOfficer, seededOfficers;
-
+    let bobOfficer, garretOfficer, grantOfficer;
     beforeEach(async () => {
       bobOfficer = new Officer.Builder()
         .defaultOfficer()
@@ -31,7 +31,7 @@ describe("GET /officers/search", () => {
         .withLastName("Ferguson")
         .build();
 
-      const garretOfficer = new Officer.Builder()
+      garretOfficer = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
         .withOfficerNumber(345)
@@ -40,7 +40,7 @@ describe("GET /officers/search", () => {
         .withDistrict("First District")
         .build();
 
-      const grantOfficer = new Officer.Builder()
+      grantOfficer = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
         .withOfficerNumber(567)
@@ -49,71 +49,83 @@ describe("GET /officers/search", () => {
         .withDistrict("Eighth District")
         .build();
 
-      seededOfficers = await models.officer.bulkCreate(
+      await models.officer.bulkCreate(
         [bobOfficer, garretOfficer, grantOfficer],
         {
           returning: true
         }
       );
     });
-
     test("returns officer that partially matches first name", async () => {
-      await request(app)
+      const responsePromise = request(app)
         .get("/api/officers/search")
         .set("Authorization", `Bearer ${token}`)
-        .query({ firstName: "bo" })
-        .expect(200)
-        .then(response => {
-          expect(response.body["rows"].length).toEqual(1);
-          expect(response.body["rows"][0].firstName).toEqual(
-            bobOfficer.firstName
-          );
-          expect(response.body["rows"][0].middleName).toEqual(
-            bobOfficer.middleName
-          );
-          expect(response.body["rows"][0].lastName).toEqual(
-            bobOfficer.lastName
-          );
-          expect(response.body["rows"][0].fullName).toEqual(
-            `${bobOfficer.firstName} ${bobOfficer.middleName} ${
-              bobOfficer.lastName
-            }`
-          );
-        });
+        .query({ firstName: "bo" });
+
+      await expectResponse(
+        responsePromise,
+        200,
+        expect.objectContaining({
+          rows: [
+            expect.objectContaining({
+              firstName: bobOfficer.firstName,
+              middleName: bobOfficer.middleName,
+              lastName: bobOfficer.lastName,
+              fullName: `${bobOfficer.firstName} ${bobOfficer.middleName} ${
+                bobOfficer.lastName
+              }`
+            })
+          ]
+        })
+      );
     });
 
     test("returns officer that partially matches last name", async () => {
-      await request(app)
+      const responsePromise = request(app)
         .get("/api/officers/search")
         .set("Authorization", `Bearer ${token}`)
-        .query({ lastName: "fi" })
-        .expect(200)
-        .then(response => {
-          expect(response.body["rows"].length).toEqual(1);
-          expect(response.body["rows"][0].firstName).toEqual("Garret");
-          expect(response.body["rows"][0].lastName).toEqual("Fisher");
-        });
+        .query({ lastName: "fi" });
+
+      await expectResponse(
+        responsePromise,
+        200,
+        expect.objectContaining({
+          rows: [
+            expect.objectContaining({
+              firstName: garretOfficer.firstName,
+              lastName: garretOfficer.lastName
+            })
+          ]
+        })
+      );
     });
 
     test("returns officer that matches district", async () => {
-      await request(app)
+      const responsePromise = request(app)
         .get("/api/officers/search")
         .set("Authorization", `Bearer ${token}`)
-        .query({ district: "Eighth District" })
-        .expect(200)
-        .then(response => {
-          expect(response.body["rows"].length).toEqual(1);
-          expect(response.body["rows"][0].firstName).toEqual("Grant");
-          expect(response.body["rows"][0].lastName).toEqual("Livingston");
-        });
+        .query({ district: "Eighth District" });
+
+      await expectResponse(
+        responsePromise,
+        200,
+        expect.objectContaining({
+          rows: [
+            expect.objectContaining({
+              firstName: grantOfficer.firstName,
+              lastName: grantOfficer.lastName
+            })
+          ]
+        })
+      );
     });
   });
 
   describe("match multiple attributes", () => {
-    let seededOfficers;
+    let garretOfficer, gaaOfficer, garyOfficer;
 
     beforeEach(async () => {
-      const garretOfficer = new Officer.Builder()
+      garretOfficer = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
         .withOfficerNumber(123)
@@ -122,7 +134,7 @@ describe("GET /officers/search", () => {
         .withDistrict("1st District")
         .build();
 
-      const garyOfficer = new Officer.Builder()
+      garyOfficer = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
         .withOfficerNumber(321)
@@ -131,7 +143,7 @@ describe("GET /officers/search", () => {
         .withDistrict("8th District")
         .build();
 
-      const gaaOfficer = new Officer.Builder()
+      gaaOfficer = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
         .withOfficerNumber(231)
@@ -140,7 +152,7 @@ describe("GET /officers/search", () => {
         .withDistrict("8th District")
         .build();
 
-      seededOfficers = await models.officer.bulkCreate(
+      await models.officer.bulkCreate(
         [garretOfficer, garyOfficer, gaaOfficer],
         {
           returning: true
@@ -149,33 +161,51 @@ describe("GET /officers/search", () => {
     });
 
     test("returns officer that matches first name, last name, and district", async () => {
-      await request(app)
+      const responsePromise = request(app)
         .get("/api/officers/search")
         .set("Authorization", `Bearer ${token}`)
-        .query({ firstName: "Gar", lastName: "fi", district: "1st District" })
-        .expect(200)
-        .then(response => {
-          expect(response.body["rows"].length).toEqual(1);
-          expect(response.body["rows"][0].firstName).toEqual("Garret");
-          expect(response.body["rows"][0].lastName).toEqual("Fisher");
-        });
+        .query({ firstName: "Gar", lastName: "fi", district: "1st District" });
+
+      await expectResponse(
+        responsePromise,
+        200,
+        expect.objectContaining({
+          rows: [
+            expect.objectContaining({
+              firstName: garretOfficer.firstName,
+              lastName: garretOfficer.lastName
+            })
+          ]
+        })
+      );
     });
 
     test("returns multiple officers that matches first name, last name, sorting by last name first name", async () => {
-      await request(app)
+      const responsePromise = request(app)
         .get("/api/officers/search")
         .set("Authorization", `Bearer ${token}`)
-        .query({ firstName: "Ga", lastName: "fi" })
-        .expect(200)
-        .then(response => {
-          expect(response.body["rows"].length).toEqual(3);
-          expect(response.body["rows"][0].firstName).toEqual("Gaaaa");
-          expect(response.body["rows"][0].lastName).toEqual("Fibbleton");
-          expect(response.body["rows"][1].firstName).toEqual("Gary");
-          expect(response.body["rows"][1].lastName).toEqual("Fibbleton");
-          expect(response.body["rows"][2].firstName).toEqual("Garret");
-          expect(response.body["rows"][2].lastName).toEqual("Fisher");
-        });
+        .query({ firstName: "Ga", lastName: "fi" });
+
+      await expectResponse(
+        responsePromise,
+        200,
+        expect.objectContaining({
+          rows: [
+            expect.objectContaining({
+              firstName: gaaOfficer.firstName,
+              lastName: gaaOfficer.lastName
+            }),
+            expect.objectContaining({
+              firstName: garyOfficer.firstName,
+              lastName: garyOfficer.lastName
+            }),
+            expect.objectContaining({
+              firstName: garretOfficer.firstName,
+              lastName: garretOfficer.lastName
+            })
+          ]
+        })
+      );
     });
   });
 });
