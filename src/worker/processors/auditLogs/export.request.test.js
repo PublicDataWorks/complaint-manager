@@ -8,12 +8,12 @@ import {
 import { cleanupDatabase } from "../../../server/testHelpers/requestTestHelpers";
 import parse from "csv-parse/lib/sync";
 import timekeeper from "timekeeper";
-import moment from "moment";
+import moment from "moment-timezone";
 import ActionAudit from "../../../client/testUtilities/ActionAudit";
 import models from "../../../server/models/index";
 import { createTestCaseWithoutCivilian } from "../../../server/testHelpers/modelMothers";
 import uploadFileToS3 from "../fileUpload/uploadFileToS3";
-import exportAudit from "./export";
+import exportAuditLog from "./export";
 
 jest.mock("../fileUpload/uploadFileToS3", () => jest.fn());
 
@@ -40,7 +40,7 @@ describe("GET /api/export-audit-log", () => {
   });
 
   test("should upload audit log csv and return s3 url to done", async () => {
-    await exportAudit(job, jobDone);
+    await exportAuditLog(job, jobDone);
 
     expect(uploadFileToS3).toHaveBeenCalledWith(
       job.id,
@@ -64,7 +64,7 @@ describe("GET /api/export-audit-log", () => {
       user: "someuser"
     });
 
-    await exportAudit(job, jobDone);
+    await exportAuditLog(job, jobDone);
 
     expect(records.length).toEqual(1);
     const record = records[0];
@@ -98,7 +98,7 @@ describe("GET /api/export-audit-log", () => {
     const timeOfExport = new Date("2018-07-01 19:00:22 CDT");
     timekeeper.freeze(timeOfExport);
 
-    await exportAudit(job, jobDone);
+    await exportAuditLog(job, jobDone);
 
     expect(records.length).toEqual(1);
 
@@ -128,7 +128,7 @@ describe("GET /api/export-audit-log", () => {
       where: { caseId: createdCase.id }
     });
 
-    await exportAudit(job, jobDone);
+    await exportAuditLog(job, jobDone);
 
     expect(records.length).toEqual(1);
 
@@ -165,7 +165,7 @@ describe("GET /api/export-audit-log", () => {
       modelId: 20
     });
 
-    await exportAudit(job, jobDone);
+    await exportAuditLog(job, jobDone);
 
     expect(records.length).toEqual(1);
 
