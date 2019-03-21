@@ -1,10 +1,12 @@
-import { getCasesSuccess } from "../../actionCreators/casesActionCreators";
+import { getWorkingCasesSuccess } from "../../actionCreators/casesActionCreators";
 import axios from "axios";
 
-const getCases = () => async dispatch => {
+const getCases = (sortBy, sortDirection) => async dispatch => {
   try {
-    const response = await axios.get(`api/cases`);
-    return dispatch(getCasesSuccess(response.data.cases));
+    const response = await axios.get(
+      `api/cases/all/${sortBy}/${sortDirection}`
+    );
+    return dispatch(getWorkingCasesSuccess(response.data.cases));
   } catch (e) {}
 };
 

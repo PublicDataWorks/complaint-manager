@@ -1,7 +1,7 @@
 import workingCasesReducer from "./workingCasesReducer";
 import {
   createCaseSuccess,
-  getCasesSuccess,
+  getWorkingCasesSuccess,
   resetWorkingCasesLoaded
 } from "../../actionCreators/casesActionCreators";
 
@@ -25,7 +25,7 @@ describe("workingCasesReducer", () => {
   describe("GET_WORKING_CASES_SUCCESS", () => {
     test("should replace all cases in state", () => {
       const oldState = { loaded: false, cases: ["case a", "case b"] };
-      const action = getCasesSuccess(["case 1", "case 2"]);
+      const action = getWorkingCasesSuccess(["case 1", "case 2"]);
 
       const newState = workingCasesReducer(oldState, action);
 

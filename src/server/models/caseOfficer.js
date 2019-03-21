@@ -1,5 +1,7 @@
 "use strict";
 
+import { getOfficerFullName } from "./modelUtilities/getFullName";
+
 const {
   ACCUSED,
   COMPLAINANT,
@@ -161,15 +163,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       getterMethods: {
         fullName() {
-          if (this.officerId) {
-            const firstName = this.firstName ? this.firstName : "";
-            const middleName = this.middleName ? this.middleName : "";
-            const lastName = this.lastName ? this.lastName : "";
-
-            return `${firstName} ${middleName} ${lastName}`.replace("  ", " ");
-          }
-
-          return "Unknown Officer";
+          return getOfficerFullName(
+            this.firstName,
+            this.middleName,
+            this.lastName,
+            this.isUnknownOfficer
+          );
         },
         isUnknownOfficer() {
           return !this.officerId;

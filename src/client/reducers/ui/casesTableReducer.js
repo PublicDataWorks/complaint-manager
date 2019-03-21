@@ -1,37 +1,23 @@
 import {
-  ASCENDING,
   DESCENDING,
-  SORT_CASES_BY
+  SORT_CASES_BY,
+  UPDATE_CASES_TABLE_SORTING
 } from "../../../sharedUtilities/constants";
 
 const initialState = {
-  sortBy: "caseReference",
+  sortBy: SORT_CASES_BY.CASE_REFERENCE,
   sortDirection: DESCENDING
 };
 const casesTableReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "SORT_UPDATED":
-      if (action.sortBy === state.sortBy) {
-        return {
-          sortBy: state.sortBy,
-          sortDirection: toggleDirection(state.sortDirection)
-        };
-      }
+    case UPDATE_CASES_TABLE_SORTING:
       return {
         sortBy: action.sortBy,
-        sortDirection: ASCENDING
+        sortDirection: action.sortDirection
       };
     default:
-      return initialState;
+      return state;
   }
-};
-
-const toggleDirection = direction => {
-  if (direction === DESCENDING) {
-    return ASCENDING;
-  }
-
-  return DESCENDING;
 };
 
 export default casesTableReducer;

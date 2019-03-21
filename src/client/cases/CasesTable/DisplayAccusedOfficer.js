@@ -1,11 +1,11 @@
 import React from "react";
 import WarningMessage from "../../shared/components/WarningMessage";
 
-const DisplayAccusedOfficer = ({ accusedOfficers }) => {
+const DisplayAccusedOfficer = ({ primaryAccusedOfficer }) => {
   return (
-    <div data-test="accusedOfficerName">
-      {accusedOfficers && accusedOfficers.length > 0 ? (
-        accusedOfficers[0].fullName
+    <div data-test="primaryAccusedOfficerName">
+      {primaryAccusedOfficer ? (
+        primaryAccusedOfficer.fullName
       ) : (
         <WarningMessage variant="grayText">No Accused Officers</WarningMessage>
       )}

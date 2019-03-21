@@ -12,6 +12,7 @@ import Case from "../testUtilities/case";
 import ArchivedCases from "./ArchivedCases";
 import getArchivedCases from "./thunks/getArchivedCases";
 import { containsText } from "../testHelpers";
+import { DESCENDING, SORT_CASES_BY } from "../../sharedUtilities/constants";
 
 jest.mock("./thunks/getArchivedCases", () => () => ({
   type: "MOCK_GET_ARCHIVED_CASES_THUNK"
@@ -63,6 +64,8 @@ describe("CaseDashboard", () => {
   });
 
   test("should load all cases when mounted", () => {
-    expect(dispatchSpy).toHaveBeenCalledWith(getArchivedCases());
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      getArchivedCases(SORT_CASES_BY.CASE_REFERENCE, DESCENDING)
+    );
   });
 });

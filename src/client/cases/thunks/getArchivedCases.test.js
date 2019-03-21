@@ -10,6 +10,8 @@ jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 describe("getArchivedCases", () => {
   const dispatch = jest.fn();
   const responseBody = { cases: ["a case"] };
+  const sortBy = "sortBy";
+  const sortDirection = "sortDirection";
 
   beforeEach(() => {
     configureInterceptors({ dispatch });
@@ -19,10 +21,10 @@ describe("getArchivedCases", () => {
 
   test("should dispatch success when cases retrieved", async () => {
     nock("http://localhost")
-      .get("/api/cases/archived-cases")
+      .get(`/api/cases/all/archived-cases/${sortBy}/${sortDirection}`)
       .reply(200, responseBody);
 
-    await getArchivedCases()(dispatch);
+    await getArchivedCases(sortBy, sortDirection)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
       getArchivedCasesSuccess(responseBody.cases)
@@ -38,10 +40,10 @@ describe("getArchivedCases", () => {
         Authorization: `Bearer false`
       }
     })
-      .get("/api/cases/archived-cases")
+      .get(`/api/cases/all/archived-cases/${sortBy}/${sortDirection}`)
       .reply(200, responseBody);
 
-    await getArchivedCases()(dispatch);
+    await getArchivedCases(sortBy, sortDirection)(dispatch);
 
     expect(dispatch).not.toHaveBeenCalledWith(
       getArchivedCasesSuccess(responseBody.cases)

@@ -4,6 +4,7 @@ import {
   COMPLAINANT,
   WITNESS
 } from "../../sharedUtilities/constants";
+import { getCivilianFullName } from "./modelUtilities/getFullName";
 
 module.exports = (sequelize, DataTypes) => {
   const Civilian = sequelize.define(
@@ -83,26 +84,11 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
       getterMethods: {
         fullName() {
-          let { firstName, middleInitial, lastName, suffix } = this;
-          middleInitial = middleInitial ? middleInitial + "." : "";
-
-          const allNames = [firstName, middleInitial, lastName, suffix];
-
-          const existingNames = allNames.filter(name => Boolean(name));
-
-          return existingNames.reduce(
-            (accumulator, currentName, currentIndex) => {
-              if (currentName) {
-                accumulator += currentName;
-              }
-
-              if (currentIndex !== existingNames.length - 1) {
-                accumulator += " ";
-              }
-
-              return accumulator;
-            },
-            ""
+          return getCivilianFullName(
+            this.firstName,
+            this.middleInitial,
+            this.lastName,
+            this.suffix
           );
         }
       },

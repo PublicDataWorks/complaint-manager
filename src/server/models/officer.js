@@ -1,4 +1,6 @@
 "use strict";
+import { getOfficerFullName } from "./modelUtilities/getFullName";
+
 const moment = require("moment/moment");
 
 module.exports = (sequelize, DataTypes) => {
@@ -103,11 +105,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       getterMethods: {
         fullName() {
-          const firstName = this.firstName ? this.firstName : "";
-          const middleName = this.middleName ? this.middleName : "";
-          const lastName = this.lastName ? this.lastName : "";
-
-          return `${firstName} ${middleName} ${lastName}`.replace("  ", " ");
+          return getOfficerFullName(
+            this.firstName,
+            this.middleName,
+            this.lastName
+          );
         },
         age() {
           return moment().diff(this.dob, "years", false);

@@ -1,24 +1,25 @@
 import DisplayAccusedOfficer from "./DisplayAccusedOfficer";
 import React from "react";
 import { mount } from "enzyme";
-import CaseOfficer from "../../testUtilities/caseOfficer";
 import { containsText } from "../../testHelpers";
+import { PERSON_TYPE } from "../../../sharedUtilities/constants";
 
 describe("DisplayAccusedOfficer", () => {
   const noAccusedDisplayText = "No Accused Officers";
 
   test("should display an accused officer", () => {
-    const accusedOfficer = new CaseOfficer.Builder()
-      .defaultCaseOfficer()
-      .build();
-    const accusedOfficers = [accusedOfficer];
+    const accusedOfficer = {
+      fullName: "fullName",
+      personType: PERSON_TYPE.KNOWN_OFFICER
+    };
+
     const wrapper = mount(
-      <DisplayAccusedOfficer accusedOfficers={accusedOfficers} />
+      <DisplayAccusedOfficer primaryAccusedOfficer={accusedOfficer} />
     );
 
     containsText(
       wrapper,
-      '[data-test="accusedOfficerName"]',
+      '[data-test="primaryAccusedOfficerName"]',
       accusedOfficer.fullName
     );
   });
@@ -26,14 +27,18 @@ describe("DisplayAccusedOfficer", () => {
   test("should be blank when no accused officers", () => {
     const wrapper = mount(<DisplayAccusedOfficer accusedOfficers={[]} />);
 
-    const nameDisplay = wrapper.find('div[data-test="accusedOfficerName"]');
+    const nameDisplay = wrapper.find(
+      'div[data-test="primaryAccusedOfficerName"]'
+    );
     expect(nameDisplay.text()).toEqual(noAccusedDisplayText);
   });
 
   test("should be blank when accused officers is null", () => {
     const wrapper = mount(<DisplayAccusedOfficer accusedOfficers={null} />);
 
-    const nameDisplay = wrapper.find('div[data-test="accusedOfficerName"]');
+    const nameDisplay = wrapper.find(
+      'div[data-test="primaryAccusedOfficerName"]'
+    );
     expect(nameDisplay.text()).toEqual(noAccusedDisplayText);
   });
 });

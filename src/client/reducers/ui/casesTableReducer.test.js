@@ -1,59 +1,32 @@
 import casesTableReducer from "./casesTableReducer";
 import { updateSort } from "../../actionCreators/casesActionCreators";
+import { DESCENDING, SORT_CASES_BY } from "../../../sharedUtilities/constants";
 
 describe("casesTableReducer", () => {
   test("should set default state", () => {
-    const newState = casesTableReducer(undefined, { type: "any action" });
+    const oldState = undefined;
+
+    const newState = casesTableReducer(oldState, { type: "ACTION" });
 
     expect(newState).toEqual({
-      sortBy: "caseReference",
-      sortDirection: "desc"
+      sortBy: SORT_CASES_BY.CASE_REFERENCE,
+      sortDirection: DESCENDING
     });
   });
 
   describe("SORT_UPDATED", () => {
-    test("should update sortBy when given new sortBy", () => {
-      const newSortBy = "someKey";
+    test("should update sortBy and sortDirection when given new sortBy", () => {
+      const expectedState = { sortBy: "someKey", sortDirection: "direction" };
       const oldState = {
         sortBy: "caseReference",
         sortDirection: "desc"
       };
 
-      const newState = casesTableReducer(oldState, updateSort(newSortBy));
-      expect(newState.sortBy).toEqual(newSortBy);
-    });
-
-    test("should toggle direction when sortBy is the same", () => {
-      const newSortBy = "someKey";
-      const oldState = {
-        sortBy: "someKey",
-        sortDirection: "asc"
-      };
-
-      const newState = casesTableReducer(oldState, updateSort(newSortBy));
-      expect(newState.sortDirection).toEqual("desc");
-    });
-
-    test("should toggle direction when sortBy is the same", () => {
-      const newSortBy = "someKey";
-      const oldState = {
-        sortBy: "someKey",
-        sortDirection: "desc"
-      };
-
-      const newState = casesTableReducer(oldState, updateSort(newSortBy));
-      expect(newState.sortDirection).toEqual("asc");
-    });
-
-    test("should default to ascending order when updating sortBy", () => {
-      const newSortBy = "someKey";
-      const oldState = {
-        sortBy: "caseReference",
-        sortDirection: "desc"
-      };
-
-      const newState = casesTableReducer(oldState, updateSort(newSortBy));
-      expect(newState.sortDirection).toEqual("asc");
+      const newState = casesTableReducer(
+        oldState,
+        updateSort("someKey", "direction")
+      );
+      expect(newState).toEqual(expectedState);
     });
   });
 });

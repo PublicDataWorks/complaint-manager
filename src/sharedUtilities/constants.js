@@ -11,6 +11,7 @@ export const GET_WORKING_CASES_SUCCESS = "GET_WORKING_CASES_SUCCESS";
 export const RESET_WORKING_CASES_LOADED = "RESET_WORKING_CASES_LOADED";
 export const GET_ARCHIVED_CASES_SUCCESS = "GET_ARCHIVED_CASES_SUCCESS";
 export const RESET_ARCHIVED_CASES_LOADED = "RESET_ARCHIVED_CASES_LOADED";
+export const UPDATE_CASES_TABLE_SORTING = "UPDATE_CASES_TABLE_SORTING";
 export const CASE_CREATED_SUCCESS = "CASE_CREATED_SUCCESS";
 export const GET_CASE_DETAILS_SUCCESS = "GET_CASE_DETAILS_SUCCESS";
 export const GET_MINIMUM_CASE_DETAILS_SUCCESS =
@@ -279,8 +280,8 @@ export const AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE =
 export const SORT_CASES_BY = {
   CASE_REFERENCE: "caseReference",
   STATUS: "status",
-  COMPLAINANT: "complainant",
-  ACCUSED_OFFICER: "accusedOfficer",
+  PRIMARY_COMPLAINANT: "primaryComplainant",
+  PRIMARY_ACCUSED_OFFICER: "primaryAccusedOfficer",
   FIRST_CONTACT_DATE: "firstContactDate",
   ASSIGNED_TO: "assignedTo"
 };
@@ -296,11 +297,12 @@ export const WITNESS = "Witness";
 export const COMPLAINANT = "Complainant";
 
 // ----------------------------------------
-//          Complainant Type Options
+//          Person Type Options
 // ----------------------------------------
-export const COMPLAINANT_TYPE = {
+export const PERSON_TYPE = {
   CIVILIAN: "Civilian",
-  OFFICER: "Officer"
+  KNOWN_OFFICER: "Known Officer",
+  UNKNOWN_OFFICER: "Unknown Officer"
 };
 
 // ----------------------------------------
