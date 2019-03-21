@@ -12,10 +12,6 @@ class ArchivedCases extends Component {
     this.props.resetArchivedCasesLoaded();
   }
 
-  componentDidMount() {
-    this.props.getArchivedCases();
-  }
-
   render() {
     return (
       <div>
@@ -31,7 +27,6 @@ class ArchivedCases extends Component {
 }
 
 const mapDispatchToProps = {
-  getArchivedCases,
   closeSnackbar,
   resetArchivedCasesLoaded
 };

@@ -1,6 +1,6 @@
 import getCases from "../cases/thunks/getCases";
 import nock from "nock";
-import { getCasesSuccess } from "../actionCreators/casesActionCreators";
+import { getWorkingCasesSuccess } from "../actionCreators/casesActionCreators";
 import getAccessToken from "../auth/getAccessToken";
 import { push } from "connected-react-router";
 import configureInterceptors from "./interceptors";
@@ -10,6 +10,8 @@ jest.mock("../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 describe("ensureTokenOnRequestInterceptor", () => {
   const dispatch = jest.fn();
   const responseBody = { cases: ["some case"] };
+  const sortBy = "sortBy";
+  const sortDirection = "sortDirection";
 
   beforeEach(() => {
     configureInterceptors({ dispatch });
@@ -19,16 +21,18 @@ describe("ensureTokenOnRequestInterceptor", () => {
 
   test("adds access token to request headers", async () => {
     nock("http://localhost")
-      .get("/api/cases")
+      .get(`/api/cases/all/${sortBy}/${sortDirection}`)
       .reply(function() {
-        if (this.req.headers.authorization == `Bearer ${getAccessToken()}`)
+        if (this.req.headers.authorization === `Bearer ${getAccessToken()}`)
           return [200, responseBody];
         return [401];
       });
 
-    await getCases()(dispatch);
+    await getCases(sortBy, sortDirection)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(getCasesSuccess(responseBody.cases));
+    expect(dispatch).toHaveBeenCalledWith(
+      getWorkingCasesSuccess(responseBody.cases)
+    );
     expect(dispatch).not.toHaveBeenCalledWith(push("/login"));
   });
 
@@ -36,13 +40,13 @@ describe("ensureTokenOnRequestInterceptor", () => {
     getAccessToken.mockImplementation(() => false);
 
     nock("http://localhost")
-      .get("/api/cases")
+      .get(`/api/cases/all/${sortBy}/${sortDirection}`)
       .reply(200);
 
-    await getCases()(dispatch);
+    await getCases(sortBy, sortDirection)(dispatch);
 
     expect(dispatch).not.toHaveBeenCalledWith(
-      getCasesSuccess(responseBody.cases)
+      getWorkingCasesSuccess(responseBody.cases)
     );
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });

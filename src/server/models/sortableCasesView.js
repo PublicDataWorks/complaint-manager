@@ -1,8 +1,14 @@
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
+  PERSON_TYPE,
   RANK_INITIATED
 } from "../../sharedUtilities/constants";
+import { getCaseReference } from "./modelUtilities/getCaseReference";
+import {
+  getOfficerFullName,
+  getPersonFullName
+} from "./modelUtilities/getFullName";
 
 export default (sequelize, DataTypes) => {
   const SortableCasesView = sequelize.define(
@@ -57,16 +63,12 @@ export default (sequelize, DataTypes) => {
         field: "accused_last_name",
         type: DataTypes.STRING
       },
-      accusedOfficerExists: {
-        field: "accused_officer_exists",
+      accusedPersonType: {
+        field: "accused_person_type",
         type: DataTypes.BOOLEAN
       },
-      accusedOfficerKnown: {
-        field: "accused_officer_known",
-        type: DataTypes.BOOLEAN
-      },
-      complainantType: {
-        field: "complainant_type",
+      complainantPersonType: {
+        field: "complainant_person_type",
         type: DataTypes.STRING
       },
       complainantFirstName: {
@@ -80,9 +82,55 @@ export default (sequelize, DataTypes) => {
       complainantLastName: {
         field: "complainant_last_name",
         type: DataTypes.STRING
+      },
+      complainantSuffix: {
+        field: "complainant_suffix",
+        type: DataTypes.STRING
       }
     },
-    { tableName: "sortable_cases_view", timestamps: false }
+    {
+      getterMethods: {
+        caseReference() {
+          return getCaseReference(
+            this.complaintType,
+            this.caseNumber,
+            this.year
+          );
+        },
+        primaryComplainant() {
+          if (this.complainantPersonType) {
+            return {
+              personType: this.complainantPersonType,
+              fullName: getPersonFullName(
+                this.complainantFirstName,
+                this.complainantMiddleName,
+                this.complainantLastName,
+                this.complainantSuffix,
+                this.complainantPersonType
+              )
+            };
+          } else {
+            return null;
+          }
+        },
+        primaryAccusedOfficer() {
+          if (this.accusedPersonType) {
+            return {
+              fullName: getOfficerFullName(
+                this.accusedFirstName,
+                this.accusedMiddleName,
+                this.accusedLastName,
+                this.accusedPersonType === PERSON_TYPE.UNKNOWN_OFFICER
+              )
+            };
+          } else {
+            return null;
+          }
+        }
+      },
+      tableName: "sortable_cases_view",
+      timestamps: false
+    }
   );
 
   return SortableCasesView;

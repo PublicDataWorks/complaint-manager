@@ -1,5 +1,6 @@
 import React from "react";
 import WarningMessage from "../../shared/components/WarningMessage";
+import { PERSON_TYPE } from "../../../sharedUtilities/constants";
 
 export default ({ complainant }) =>
   complainant ? (
@@ -8,5 +9,5 @@ export default ({ complainant }) =>
     <WarningMessage variant="grayText">No Complainants</WarningMessage>
   );
 
-const complainantName = ({ fullName, officerId, isUnknownOfficer }) =>
-  officerId && !isUnknownOfficer ? `Officer ${fullName}` : fullName;
+const complainantName = ({ fullName, personType }) =>
+  personType === PERSON_TYPE.KNOWN_OFFICER ? `Officer ${fullName}` : fullName;

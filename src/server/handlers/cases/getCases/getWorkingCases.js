@@ -7,14 +7,23 @@ import {
 import auditDataAccess from "../../auditDataAccess";
 import getCases, { CASES_TYPE } from "./getCases";
 
-const getWorkingCases = asyncMiddleware(async (req, res) => {
+const getWorkingCases = asyncMiddleware(async (request, response) => {
   const cases = await models.sequelize.transaction(async transaction => {
     let auditDetails = {};
 
-    const cases = await getCases(CASES_TYPE.WORKING, transaction, auditDetails);
+    const sortBy = request.params.sortBy;
+    const sortDirection = request.params.sortDirection;
+
+    const cases = await getCases(
+      CASES_TYPE.WORKING,
+      sortBy,
+      sortDirection,
+      transaction,
+      auditDetails
+    );
 
     await auditDataAccess(
-      req.nickname,
+      request.nickname,
       undefined,
       AUDIT_SUBJECT.ALL_WORKING_CASES,
       transaction,
@@ -25,7 +34,7 @@ const getWorkingCases = asyncMiddleware(async (req, res) => {
     return cases;
   });
 
-  res.status(200).send({ cases });
+  response.status(200).send({ cases });
 });
 
 export default getWorkingCases;

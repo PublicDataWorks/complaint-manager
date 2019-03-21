@@ -71,18 +71,20 @@ export const API_ROUTES = {
     }
   },
   "/cases": {
-    get: {
-      handler: getWorkingCases,
-      errorMessage:
-        "Something went wrong and the cases were not loaded. Please try again."
-    },
     post: {
       handler: createCase,
       errorMessage:
         "Something went wrong and the case was not created. Please try again."
     }
   },
-  "/cases/archived-cases": {
+  "/cases/all/:sortBy/:sortDirection": {
+    get: {
+      handler: getWorkingCases,
+      errorMessage:
+        "Something went wrong and the cases were not loaded. Please try again."
+    }
+  },
+  "/cases/all/archived-cases/:sortBy/:sortDirection": {
     get: {
       handler: getArchivedCases,
       errorMessage:

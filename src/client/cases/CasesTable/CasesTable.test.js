@@ -4,20 +4,21 @@ import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../createConfiguredStore";
 import {
-  createCaseSuccess,
-  getCasesSuccess,
+  getWorkingCasesSuccess,
   updateSort
 } from "../../actionCreators/casesActionCreators";
 import { BrowserRouter as Router } from "react-router-dom";
 import Civilian from "../../testUtilities/civilian";
-import Case from "../../testUtilities/case";
-import CaseOfficer from "../../testUtilities/caseOfficer";
-import Officer from "../../testUtilities/Officer";
 import {
+  ASCENDING,
   CASE_STATUS,
   CIVILIAN_INITIATED,
-  COMPLAINANT
+  COMPLAINANT,
+  DESCENDING,
+  PERSON_TYPE,
+  SORT_CASES_BY
 } from "../../../sharedUtilities/constants";
+import SortableCase from "../../testUtilities/SortableCase";
 
 jest.mock("../thunks/getCases", () => () => ({
   type: "MOCK_GET_CASES_THUNK"
@@ -30,52 +31,47 @@ describe("cases table", () => {
     dispatchSpy,
     civilianChuck,
     civilianAriel,
-    officer,
+    accusedOfficer,
     caseOne;
 
   beforeEach(() => {
-    civilianChuck = new Civilian.Builder()
-      .defaultCivilian()
-      .withFirstName("Chuck")
-      .withLastName("Berry")
-      .withFullName("Chuck Berry")
-      .withRoleOnCase(COMPLAINANT)
-      .build();
+    civilianChuck = {
+      firstName: "Chuck",
+      lastName: "Berry",
+      personType: "Civilian"
+    };
 
-    civilianAriel = new Civilian.Builder()
-      .withFirstName("Ariel")
-      .withLastName("Pink")
-      .withRoleOnCase(COMPLAINANT)
-      .build();
+    civilianAriel = {
+      firstName: "Ariel",
+      lastName: "Pink",
+      personType: "Civilian"
+    };
 
-    officer = new Officer.Builder()
-      .defaultOfficer()
-      .withFullName("Jeff Wallace")
-      .build();
+    accusedOfficer = {
+      firstName: "Jeff",
+      lastName: "Wallace",
+      personType: PERSON_TYPE.KNOWN_OFFICER
+    };
 
-    const accusedOfficer = new CaseOfficer.Builder()
-      .defaultCaseOfficer()
-      .withOfficerAttributes(officer)
-      .build();
-
-    caseOne = new Case.Builder()
-      .defaultCase()
+    caseOne = new SortableCase.Builder()
+      .defaultSortableCase()
       .withId(17)
+      .withCaseReference("CC2017-0001")
       .withPrimaryComplainant(civilianChuck)
       .withComplaintType(CIVILIAN_INITIATED)
       .withStatus(CASE_STATUS.INITIAL)
-      .withCreatedAt(new Date(2015, 8, 13).toISOString())
       .withAssignedTo("tuser")
-      .withAccusedOfficers([accusedOfficer])
+      .withPrimaryAccusedOfficer(accusedOfficer)
       .withFirstContactDate("2017-12-25")
       .build();
-    const caseTwo = new Case.Builder()
-      .defaultCase()
+
+    const caseTwo = new SortableCase.Builder()
+      .defaultSortableCase()
       .withId(24)
+      .withCaseReference("CC2017-0002")
       .withPrimaryComplainant(civilianAriel)
       .withComplaintType(CIVILIAN_INITIATED)
       .withStatus(CASE_STATUS.READY_FOR_REVIEW)
-      .withCreatedAt(new Date().toISOString())
       .withAssignedTo("tuser")
       .withFirstContactDate("2017-12-25")
       .build();
@@ -84,7 +80,7 @@ describe("cases table", () => {
 
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
-    store.dispatch(getCasesSuccess(cases));
+    store.dispatch(getWorkingCasesSuccess(cases));
     tableWrapper = mount(
       <Provider store={store}>
         <Router>
@@ -101,7 +97,15 @@ describe("cases table", () => {
         .last();
       caseReferenceLabel.simulate("click");
 
-      expect(dispatchSpy).toHaveBeenCalledWith(updateSort("caseReference"));
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        updateSort(SORT_CASES_BY.CASE_REFERENCE, ASCENDING)
+      );
+
+      caseReferenceLabel.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING)
+      );
     });
 
     test("should update sort by when status clicked", () => {
@@ -110,7 +114,15 @@ describe("cases table", () => {
         .last();
       caseReferenceLabel.simulate("click");
 
-      expect(dispatchSpy).toHaveBeenCalledWith(updateSort("status"));
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        updateSort(SORT_CASES_BY.STATUS, ASCENDING)
+      );
+
+      caseReferenceLabel.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        updateSort(SORT_CASES_BY.STATUS, DESCENDING)
+      );
     });
 
     test("should update sort by when complainant clicked", () => {
@@ -119,7 +131,15 @@ describe("cases table", () => {
         .last();
       caseReferenceLabel.simulate("click");
 
-      expect(dispatchSpy).toHaveBeenCalledWith(updateSort("primaryComplainant"));
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        updateSort(SORT_CASES_BY.PRIMARY_COMPLAINANT, ASCENDING)
+      );
+
+      caseReferenceLabel.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        updateSort(SORT_CASES_BY.PRIMARY_COMPLAINANT, DESCENDING)
+      );
     });
 
     test("should update sort by when date clicked", () => {
@@ -128,7 +148,15 @@ describe("cases table", () => {
         .last();
       caseReferenceLabel.simulate("click");
 
-      expect(dispatchSpy).toHaveBeenCalledWith(updateSort("firstContactDate"));
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        updateSort(SORT_CASES_BY.FIRST_CONTACT_DATE, ASCENDING)
+      );
+
+      caseReferenceLabel.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        updateSort(SORT_CASES_BY.FIRST_CONTACT_DATE, DESCENDING)
+      );
     });
   });
 
@@ -197,8 +225,10 @@ describe("cases table", () => {
     });
 
     test("should display accused officer", () => {
-      const accusedOfficerName = caseRow.find('td[data-test="accusedOfficer"]');
-      expect(accusedOfficerName.text()).toEqual(officer.fullName);
+      const accusedOfficerName = caseRow.find(
+        'td[data-test="primaryAccusedOfficer"]'
+      );
+      expect(accusedOfficerName.text()).toEqual("Jeff Wallace");
     });
 
     test("should display first contact date", () => {
@@ -227,37 +257,11 @@ describe("cases table", () => {
       const otherCaseRow = tableWrapper.find('tr[data-test="caseRow24"]');
       expect(otherCaseRow.exists()).toEqual(true);
     });
-
-    test("should remain in numeric descending order by case # after creation", () => {
-      const yetAnotherCase = new Case.Builder()
-        .defaultCase()
-        .withId(50)
-        .withComplainantCivilians([civilianChuck])
-        .withStatus(CASE_STATUS.INITIAL)
-        .withComplaintType(CIVILIAN_INITIATED)
-        .withCreatedAt(new Date(2015, 8, 15).toISOString())
-        .withAssignedTo("tuser")
-        .withFirstContactDate("2017-12-25")
-        .build();
-
-      store.dispatch(createCaseSuccess(yetAnotherCase));
-      tableWrapper.update();
-
-      const rows = tableWrapper.find("TableBody").find("TableRow");
-      const firstRow = rows.at(0);
-
-      expect(
-        firstRow
-          .find("TableCell")
-          .at(0)
-          .text()
-      ).toEqual(`${yetAnotherCase.caseReference}`);
-    });
   });
 
   describe("there are no cases", () => {
     test("should display no cases message", () => {
-      store.dispatch(getCasesSuccess([]));
+      store.dispatch(getWorkingCasesSuccess([]));
 
       tableWrapper.update();
 

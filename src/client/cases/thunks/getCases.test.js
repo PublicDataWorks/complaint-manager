@@ -1,5 +1,5 @@
 import nock from "nock";
-import { getCasesSuccess } from "../../actionCreators/casesActionCreators";
+import { getWorkingCasesSuccess } from "../../actionCreators/casesActionCreators";
 import getCases from "./getCases";
 import getAccessToken from "../../auth/getAccessToken";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
@@ -11,6 +11,8 @@ describe("getCases", () => {
   describe("GET /cases", () => {
     const dispatch = jest.fn();
     const responseBody = { cases: ["a case"] };
+    const sortBy = "sortBy";
+    const sortDirection = "sortDirection";
 
     beforeEach(() => {
       configureInterceptors({ dispatch });
@@ -20,13 +22,13 @@ describe("getCases", () => {
 
     test("should dispatch success when cases retrieved", async () => {
       nock("http://localhost")
-        .get("/api/cases")
+        .get(`/api/cases/all/${sortBy}/${sortDirection}`)
         .reply(200, responseBody);
 
-      await getCases()(dispatch);
+      await getCases(sortBy, sortDirection)(dispatch);
 
       expect(dispatch).toHaveBeenCalledWith(
-        getCasesSuccess(responseBody.cases)
+        getWorkingCasesSuccess(responseBody.cases)
       );
     });
 
@@ -39,13 +41,13 @@ describe("getCases", () => {
           Authorization: `Bearer false`
         }
       })
-        .get("/api/cases")
+        .get(`/api/cases/all/${sortBy}/${sortDirection}`)
         .reply(200, responseBody);
 
-      await getCases()(dispatch);
+      await getCases(sortBy, sortDirection)(dispatch);
 
       expect(dispatch).not.toHaveBeenCalledWith(
-        getCasesSuccess(responseBody.cases)
+        getWorkingCasesSuccess(responseBody.cases)
       );
       expect(dispatch).toHaveBeenCalledWith(push(`/login`));
     });

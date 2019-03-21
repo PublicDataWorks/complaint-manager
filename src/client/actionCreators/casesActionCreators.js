@@ -42,7 +42,8 @@ import {
   RESTORE_ARCHIVED_CASE_DIALOG_CLOSED,
   RESTORE_ARCHIVED_CASE_DIALOG_OPENED,
   UPDATE_ALLEGATION_DETAILS_SUCCEEDED,
-  UPDATE_CASE_STATUS_SUCCESS
+  UPDATE_CASE_STATUS_SUCCESS,
+  UPDATE_CASES_TABLE_SORTING
 } from "../../sharedUtilities/constants";
 
 export const createCaseSuccess = caseDetails => ({
@@ -54,7 +55,7 @@ export const requestCaseCreation = () => ({
   type: "CASE_CREATION_REQUESTED"
 });
 
-export const getCasesSuccess = cases => ({
+export const getWorkingCasesSuccess = cases => ({
   type: GET_WORKING_CASES_SUCCESS,
   cases
 });
@@ -91,10 +92,13 @@ export const updateNarrativeSuccess = caseDetails => ({
   caseDetails
 });
 
-export const updateSort = sortBy => ({
-  type: "SORT_UPDATED",
-  sortBy
-});
+export const updateSort = (sortBy, sortDirection) => {
+  return {
+    type: UPDATE_CASES_TABLE_SORTING,
+    sortBy,
+    sortDirection
+  };
+};
 
 export const openCaseNoteDialog = (dialogType, initialCaseNote) => ({
   type: CASE_NOTE_DIALOG_OPENED,

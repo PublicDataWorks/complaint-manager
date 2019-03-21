@@ -7,6 +7,7 @@ import {
   BAD_DATA_ERRORS,
   BAD_REQUEST_ERRORS
 } from "../../sharedUtilities/errorMessageConstants";
+import { getCaseReference } from "./modelUtilities/getCaseReference";
 
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
@@ -158,10 +159,11 @@ export default (sequelize, DataTypes) => {
           return determineNextCaseStatus(this.status);
         },
         caseReference() {
-          const prefix =
-            this.complaintType === CIVILIAN_INITIATED ? "CC" : "PO";
-          const paddedCaseId = `${this.caseNumber}`.padStart(4, "0");
-          return `${prefix}${this.year}-${paddedCaseId}`;
+          return getCaseReference(
+            this.complaintType,
+            this.caseNumber,
+            this.year
+          );
         },
         primaryComplainant() {
           return head(

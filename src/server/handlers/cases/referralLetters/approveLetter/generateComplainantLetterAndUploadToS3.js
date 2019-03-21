@@ -1,6 +1,7 @@
 import {
   AUDIT_SUBJECT,
-  COMPLAINANT_LETTER
+  COMPLAINANT_LETTER,
+  PERSON_TYPE
 } from "../../../../../sharedUtilities/constants";
 import constructFilename from "../constructFilename";
 import generateComplainantLetterPdfBuffer from "../complainantLetter/generateComplainantLetterPdfBuffer";
@@ -9,9 +10,6 @@ import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import auditUpload from "../sharedLetterUtilities/auditUpload";
 import config from "../../../../config/config";
 
-const CIVILIAN = "CIVILIAN";
-const OFFICER = "OFFICER";
-
 const generateComplainantLetterAndUploadToS3 = async (
   existingCase,
   nickname,
@@ -19,7 +17,9 @@ const generateComplainantLetterAndUploadToS3 = async (
 ) => {
   const caseId = existingCase.id;
 
-  const primaryComplainant = getFirstComplainant(existingCase);
+  const { primaryComplainant, primaryComplainantType } = getFirstComplainant(
+    existingCase
+  );
 
   const finalPdfFilename = constructFilename(existingCase, COMPLAINANT_LETTER);
   let createdComplainantLetter = await models.complainant_letter.create(
@@ -27,19 +27,20 @@ const generateComplainantLetterAndUploadToS3 = async (
       caseId: caseId,
       finalPdfFilename: finalPdfFilename,
       complainantCivilianId:
-        primaryComplainant.complainantType === CIVILIAN
-          ? primaryComplainant.complainant.id
+        primaryComplainantType === PERSON_TYPE.CIVILIAN
+          ? primaryComplainant.id
           : null,
       complainantOfficerId:
-        primaryComplainant.complainantType === OFFICER
-          ? primaryComplainant.complainant.id
+        primaryComplainantType === PERSON_TYPE.KNOWN_OFFICER
+          ? primaryComplainant.id
           : null
     },
     { auditUser: nickname, transaction }
   );
+
   const pdfBuffer = await generateComplainantLetterPdfBuffer(
     existingCase,
-    primaryComplainant.complainant
+    primaryComplainant
   );
 
   const fullFilenameWithKey = `${existingCase.id}/${finalPdfFilename}`;
@@ -59,13 +60,17 @@ const generateComplainantLetterAndUploadToS3 = async (
 
 const getFirstComplainant = existingCase => {
   const primaryComplainant = existingCase.primaryComplainant;
+  let complainantType;
+  if (primaryComplainant.officerId) {
+    complainantType = PERSON_TYPE.KNOWN_OFFICER;
+  } else if (primaryComplainant.fullName === "Unknown Officer") {
+    complainantType = PERSON_TYPE.UNKNOWN_OFFICER;
+  } else {
+    complainantType = PERSON_TYPE.CIVILIAN;
+  }
   return {
-    complainant: primaryComplainant,
-    complainantType:
-      primaryComplainant.officerId ||
-      primaryComplainant.fullName === "Unknown Officer"
-        ? OFFICER
-        : CIVILIAN
+    primaryComplainant: primaryComplainant,
+    primaryComplainantType: complainantType
   };
 };
 export default generateComplainantLetterAndUploadToS3;

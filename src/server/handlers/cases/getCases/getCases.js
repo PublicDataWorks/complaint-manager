@@ -1,39 +1,80 @@
 import models from "../../../models";
-import Sequelize from "sequelize";
+import sequelize from "sequelize";
 import { addToExistingAuditDetails } from "../../getQueryAuditAccessDetails";
 import {
   ASCENDING,
   DESCENDING,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
-
-const Op = Sequelize.Op;
+const Op = sequelize.Op;
 
 export const CASES_TYPE = {
   ARCHIVED: "ARCHIVED",
   WORKING: "WORKING"
 };
 
+const caseInsensitiveSort = attributeName => {
+  return sequelize.fn(
+    "lower",
+    sequelize.col(models.sortable_cases_view.rawAttributes[attributeName].field)
+  );
+};
+
 const getSortingOrderForQuery = (sortBy, sortDirection) => {
   switch (sortBy) {
-    case SORT_CASES_BY.COMPLAINANT:
+    case SORT_CASES_BY.PRIMARY_COMPLAINANT:
       if (sortDirection === ASCENDING) {
         return [
-          ["complainantType", DESCENDING],
-          ["complainantLastName", `${ASCENDING} NULLS FIRST`]
+          ["complainantPersonType", DESCENDING],
+          [
+            caseInsensitiveSort("complainantLastName"),
+            `${ASCENDING} NULLS FIRST`
+          ],
+          [
+            caseInsensitiveSort(
+              "complainantFirstName",
+              `${ASCENDING} NULLS FIRST`
+            )
+          ],
+          [
+            caseInsensitiveSort("complainantMiddleName"),
+            `${ASCENDING} NULLS FIRST`
+          ]
         ];
       } else {
         return [
-          ["complainantType", ASCENDING],
-          ["complainantLastName", `${DESCENDING} NULLS LAST`]
+          ["complainantPersonType", ASCENDING],
+          [
+            caseInsensitiveSort("complainantLastName"),
+            `${DESCENDING} NULLS LAST`
+          ],
+          [
+            caseInsensitiveSort("complainantFirstName"),
+            `${DESCENDING} NULLS LAST`
+          ],
+          [
+            caseInsensitiveSort("complainantMiddleName"),
+            `${DESCENDING} NULLS LAST`
+          ]
         ];
       }
-    case SORT_CASES_BY.ACCUSED_OFFICER:
-      return [
-        ["accusedOfficerExists", sortDirection],
-        ["accusedOfficerKnown", sortDirection],
-        ["accusedLastName", sortDirection]
-      ];
+    case SORT_CASES_BY.PRIMARY_ACCUSED_OFFICER:
+      if (sortDirection === ASCENDING) {
+        return [
+          ["accusedPersonType", DESCENDING],
+          [caseInsensitiveSort("accusedLastName"), `${ASCENDING} NULLS FIRST`],
+          [caseInsensitiveSort("accusedFirstName"), `${ASCENDING} NULLS FIRST`],
+          [caseInsensitiveSort("accusedMiddleName"), `${ASCENDING} NULLS FIRST`]
+        ];
+      } else {
+        return [
+          ["accusedPersonType", ASCENDING],
+          [caseInsensitiveSort("accusedLastName"), `${DESCENDING} NULLS LAST`],
+          [caseInsensitiveSort("accusedFirstName"), `${DESCENDING} NULLS LAST`],
+          [caseInsensitiveSort("accusedMiddleName"), `${DESCENDING} NULLS LAST`]
+        ];
+      }
+
     case SORT_CASES_BY.FIRST_CONTACT_DATE:
     case SORT_CASES_BY.STATUS:
     case SORT_CASES_BY.ASSIGNED_TO:
@@ -41,7 +82,7 @@ const getSortingOrderForQuery = (sortBy, sortDirection) => {
     case SORT_CASES_BY.CASE_REFERENCE:
       return [["year", sortDirection], ["caseNumber", sortDirection]];
     default:
-      return [["year", ASCENDING], ["caseNumber", ASCENDING]];
+      return [["year", DESCENDING], ["caseNumber", DESCENDING]];
   }
 };
 
@@ -52,18 +93,23 @@ const getCases = async (
   transaction = null,
   auditDetails = null
 ) => {
-  const order = getSortingOrderForQuery(sortBy, sortDirection);
+  const order = [
+    ...getSortingOrderForQuery(sortBy, sortDirection),
+    ["year", DESCENDING],
+    ["caseNumber", DESCENDING]
+  ];
 
   const where =
     casesType === CASES_TYPE.ARCHIVED
       ? {
           deletedAt: { [Op.ne]: null }
         }
-      : {};
+      : {
+          deletedAt: null
+        };
 
   const queryOptions = {
     where: where,
-    paranoid: casesType === CASES_TYPE.WORKING,
     transaction,
     order: order
   };

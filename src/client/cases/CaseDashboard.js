@@ -4,16 +4,14 @@ import CreateCaseButton from "./CreateCaseButton";
 import NavBar from "../shared/components/NavBar/NavBar";
 import { Typography } from "@material-ui/core";
 import { connect } from "react-redux";
-import getCases from "./thunks/getCases";
-import { resetWorkingCasesLoaded } from "../actionCreators/casesActionCreators";
+import {
+  resetWorkingCasesLoaded,
+  updateSort
+} from "../actionCreators/casesActionCreators";
 
 class CaseDashboard extends Component {
   componentWillUnmount() {
     this.props.resetWorkingCasesLoaded();
-  }
-
-  componentDidMount() {
-    this.props.getCases();
   }
 
   render() {
@@ -32,7 +30,7 @@ class CaseDashboard extends Component {
 }
 
 const mapDispatchToProps = {
-  getCases,
+  updateSort,
   resetWorkingCasesLoaded
 };
 
