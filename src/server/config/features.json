@@ -23,8 +23,6 @@
     "id": "HowDidYouHearAboutUsFeature",
     "name": "HowDidYouHearAboutUsFeature",
     "description": "Toggle to enable how did you hear about us field on incident details",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": true
   }
 ]
