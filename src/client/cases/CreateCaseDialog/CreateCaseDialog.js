@@ -62,6 +62,7 @@ class CreateCaseDialog extends React.Component {
           civilianComplainant={civilianComplainant}
           handleSubmit={handleSubmit}
           disabled={submitting}
+          change={this.props.change}
         />
       </Dialog>
     );
