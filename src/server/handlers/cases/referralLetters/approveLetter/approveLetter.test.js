@@ -8,6 +8,7 @@ import {
   CIVILIAN_INITIATED,
   COMPLAINANT,
   COMPLAINANT_LETTER,
+  REFERRAL_LETTER,
   REFERRAL_LETTER_VERSION,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
@@ -23,6 +24,7 @@ import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import constructFilename from "../constructFilename";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 const SAMPLE_FINAL_PDF_FILENAME = "some_filename.pdf";
+const SAMPLE_REFERRAL_PDF_FILENAME = "referral_letter_filename.pdf";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 jest.mock(
@@ -44,6 +46,9 @@ jest.mock(
     };
   }
 );
+jest.mock("../constructFilename", () => (existingCase, pdfLetterType) => {
+  return "referral_letter_filename.pdf";
+});
 jest.mock("../../../auditDataAccess", () => jest.fn());
 
 describe("approveLetter", () => {
@@ -144,40 +149,53 @@ describe("approveLetter", () => {
       );
     });
 
-    test("uploads generated file to S3 if letter should be generated", async () => {
-      uploadLetterToS3.mockClear();
-      const filename = constructFilename(
-        existingCase,
-        REFERRAL_LETTER_VERSION.FINAL
-      );
+    describe("referral letter", () => {
+      test("uploads generated file to S3 if letter should be generated", async () => {
+        uploadLetterToS3.mockClear();
+        const filename = constructFilename(
+          existingCase,
+          REFERRAL_LETTER_VERSION.FINAL
+        );
 
-      await elevateCaseStatusToReadyForReview(existingCase);
-      await approveLetter(request, response, next);
-      expect(uploadLetterToS3).toHaveBeenCalledWith(
-        filename,
-        `Generated pdf for ${existingCase.id}`,
-        "noipm-referral-letters-test"
-      );
-      expect(auditUpload).toHaveBeenCalledWith(
-        "nickname",
-        existingCase.id,
-        AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
-        expect.any(Object)
-      );
-    });
+        await elevateCaseStatusToReadyForReview(existingCase);
+        await approveLetter(request, response, next);
+        expect(uploadLetterToS3).toHaveBeenCalledWith(
+          filename,
+          `Generated pdf for ${existingCase.id}`,
+          "noipm-referral-letters-test"
+        );
+        expect(auditUpload).toHaveBeenCalledWith(
+          "nickname",
+          existingCase.id,
+          AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+          expect.any(Object)
+        );
+      });
 
-    test("saves filename in database after uploading file to s3", async () => {
-      uploadLetterToS3.mockClear();
-      await elevateCaseStatusToReadyForReview(existingCase);
-      await approveLetter(request, response, next);
-      await referralLetter.reload();
+      test("saves filename in database after uploading file to s3", async () => {
+        uploadLetterToS3.mockClear();
+        await elevateCaseStatusToReadyForReview(existingCase);
+        await approveLetter(request, response, next);
+        await referralLetter.reload();
 
-      const filename = constructFilename(
-        existingCase,
-        REFERRAL_LETTER_VERSION.FINAL
-      );
+        const filename = constructFilename(
+          existingCase,
+          REFERRAL_LETTER_VERSION.FINAL
+        );
 
-      expect(referralLetter.finalPdfFilename).toEqual(filename);
+        expect(referralLetter.finalPdfFilename).toEqual(filename);
+      });
+
+      test("should create attachment with expected filename and caseId", async () => {
+        await elevateCaseStatusToReadyForReview(existingCase);
+        await approveLetter(request, response, next);
+        const newAttachment = await models.attachment.findOne({
+          where: { caseId: existingCase.id, description: REFERRAL_LETTER }
+        });
+        expect(newAttachment.caseId).toEqual(existingCase.id);
+        expect(newAttachment.description).toEqual(REFERRAL_LETTER);
+        expect(newAttachment.fileName).toEqual(SAMPLE_REFERRAL_PDF_FILENAME);
+      });
     });
 
     describe("complainant letters", () => {
@@ -185,7 +203,7 @@ describe("approveLetter", () => {
         await elevateCaseStatusToReadyForReview(existingCase);
         await approveLetter(request, response, next);
         const newAttachment = await models.attachment.findOne({
-          where: { caseId: existingCase.id }
+          where: { caseId: existingCase.id, description: COMPLAINANT_LETTER }
         });
         expect(newAttachment.fileName).toEqual(SAMPLE_FINAL_PDF_FILENAME);
         expect(newAttachment.caseId).toEqual(existingCase.id);
