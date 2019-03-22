@@ -4,7 +4,10 @@ import styles from "../../../globalStyling/styles";
 import LinkButton from "../../../shared/components/LinkButton";
 import inBrowserDownload from "../../thunks/inBrowserDownload";
 import { connect } from "react-redux";
-import { COMPLAINANT_LETTER } from "../../../../sharedUtilities/constants";
+import {
+  COMPLAINANT_LETTER,
+  REFERRAL_LETTER
+} from "../../../../sharedUtilities/constants";
 
 const AttachmentsRow = ({
   attachment,
@@ -20,6 +23,8 @@ const AttachmentsRow = ({
       )
     );
   const isComplainantLetter = attachment.description === COMPLAINANT_LETTER;
+
+  const isReferralLetter = attachment.description === REFERRAL_LETTER;
 
   return (
     <div>
@@ -57,7 +62,7 @@ const AttachmentsRow = ({
           </Typography>
         </div>
         <div style={{ flex: 1 }}>
-          {isArchived || isComplainantLetter ? null : (
+          {isArchived || isComplainantLetter || isReferralLetter ? null : (
             <LinkButton
               data-test={"removeAttachmentButton"}
               style={{ float: "right" }}
