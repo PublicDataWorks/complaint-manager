@@ -24,5 +24,13 @@
     "name": "HowDidYouHearAboutUsFeature",
     "description": "Toggle to enable how did you hear about us field on incident details",
     "enabled": true
+  },
+  {
+    "id": "ReferralLetterAttachment",
+    "name": "ReferralLetterAttachment",
+    "description": "Toggle to enable attaching the referral letter to the case",
+    "criteria": {
+      "isPreProd": true
+    }
   }
 ]

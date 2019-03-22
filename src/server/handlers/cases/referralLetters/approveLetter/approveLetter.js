@@ -4,6 +4,7 @@ import {
   AUDIT_SUBJECT,
   CASE_STATUS,
   COMPLAINANT_LETTER,
+  REFERRAL_LETTER,
   REFERRAL_LETTER_VERSION,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
@@ -16,6 +17,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageC
 import generateComplainantLetterAndUploadToS3 from "./generateComplainantLetterAndUploadToS3";
 import auditDataAccess from "../../../auditDataAccess";
 import config from "../../../../config/config";
+import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
 
 const approveLetter = asyncMiddleware(async (request, response, next) => {
   validateUserPermissions(request);
@@ -36,9 +38,10 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
       nickname,
       transaction
     );
-    await createComplainantLetterAttachment(
+    await createLetterAttachment(
       existingCase.id,
       complainantLetter.finalPdfFilename,
+      COMPLAINANT_LETTER,
       transaction,
       nickname
     );
@@ -49,6 +52,19 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
       transaction
     );
     await generateReferralLetterAndUploadToS3(caseId, filename, transaction);
+    const toggleAttachReferralLetter = checkFeatureToggleEnabled(
+      request,
+      "ReferralLetterAttachment"
+    );
+    if (toggleAttachReferralLetter) {
+      await createLetterAttachment(
+        existingCase.id,
+        filename,
+        REFERRAL_LETTER,
+        transaction,
+        nickname
+      );
+    }
 
     await saveFilename(filename, caseId, nickname, transaction);
     await auditUpload(
@@ -62,16 +78,17 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
   response.status(200).send();
 });
 
-const createComplainantLetterAttachment = async (
+const createLetterAttachment = async (
   caseId,
   fileName,
+  description,
   transaction,
   nickname
 ) => {
   await models.attachment.create(
     {
       fileName: fileName,
-      description: COMPLAINANT_LETTER,
+      description: description,
       caseId: caseId
     },
     {
