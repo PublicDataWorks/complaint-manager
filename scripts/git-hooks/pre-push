@@ -13,7 +13,7 @@ then
     fi
 fi
 
-sh ./scripts/security-checks.sh
+docker-compose run security
 git pull --rebase
 
 docker-compose build

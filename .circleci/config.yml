@@ -1,275 +1,274 @@
 version: 2
 jobs:
-    test-client:
-        docker:
-          - image: noipm/docker-node-ubuntu:1.1.0
-            environment:
-              NODE_ENV: test
-        steps:
-          - checkout
-          - run:
-              name: Install Dependencies
-              command: yarn install --frozen-lockfile
-          - run:
-              name: Run client unit tests
-              command: yarn test:client:ci
-              environment:
-                NEW_RELIC_ENABLED: false
-                NEW_RELIC_NO_CONFIG_FILE: true
-    test-server-handlers:
-            docker:
-              - image: noipm/docker-node-ubuntu:1.1.0
-                environment:
-                  NODE_ENV: test
-              - image: postgres:10.1-alpine
-                environment:
-                  POSTGRES_PASSWORD: password
-                  POSTGRES_DB: complaint-manager-test
-            steps:
-              - checkout
-              - run:
-                  name: Install Dependencies
-                  command: yarn install
-              - run:
-                  name: Run server handler unit tests
-                  command: yarn test:server-handlers:ci
-                  environment:
-                    NEW_RELIC_ENABLED: false
-                    NEW_RELIC_NO_CONFIG_FILE: true
-    test-server-worker-non-handlers:
-            docker:
-              - image: noipm/docker-node-ubuntu:1.1.0
-                environment:
-                  NODE_ENV: test
-              - image: postgres:10.1-alpine
-                environment:
-                  POSTGRES_PASSWORD: password
-                  POSTGRES_DB: complaint-manager-test
-            steps:
-              - checkout
-              - run:
-                  name: Install Dependencies
-                  command: yarn install
-              - run:
-                  name: Run server and worker unit tests, excluding handlers
-                  command: yarn test:server-worker-non-handlers:ci
-                  environment:
-                    NEW_RELIC_ENABLED: false
-                    NEW_RELIC_NO_CONFIG_FILE: true
+  test-client:
+    docker:
+      - image: noipm/docker-node-ubuntu:1.1.0
+        environment:
+          NODE_ENV: test
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - run:
+          name: Run client unit tests
+          command: yarn test:client:ci
+          environment:
+            NEW_RELIC_ENABLED: false
+            NEW_RELIC_NO_CONFIG_FILE: true
+  test-server-handlers:
+    docker:
+      - image: noipm/docker-node-ubuntu:1.1.0
+        environment:
+          NODE_ENV: test
+      - image: postgres:10.1-alpine
+        environment:
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: complaint-manager-test
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - run:
+          name: Run server handler unit tests
+          command: yarn test:server-handlers:ci
+          environment:
+            NEW_RELIC_ENABLED: false
+            NEW_RELIC_NO_CONFIG_FILE: true
+  test-server-worker-non-handlers:
+    docker:
+      - image: noipm/docker-node-ubuntu:1.1.0
+        environment:
+          NODE_ENV: test
+      - image: postgres:10.1-alpine
+        environment:
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: complaint-manager-test
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - run:
+          name: Run server and worker unit tests, excluding handlers
+          command: yarn test:server-worker-non-handlers:ci
+          environment:
+            NEW_RELIC_ENABLED: false
+            NEW_RELIC_NO_CONFIG_FILE: true
 
-    security-check:
-        docker:
-          - image: docker:stable
-        steps:
-          - checkout
-          - setup_remote_docker
-          - run:
-              name: Run Security Checks
-              command: ./scripts/security-checks.sh
+  security-check:
+    docker:
+      - image: hawkeyesec/scanner-cli:latest
+    steps:
+      - checkout
+      - run: /bin/sh ./scripts/security-checks.sh
+      - store_artifacts:
+          path: hawkeye_report.json
 
-    build-and-publish-master:
-        docker:
-          - image: docker:stable
-        steps:
-          - checkout
-          - setup_remote_docker
-          - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-          - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=ci --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/complaint-manager-ci:$CIRCLE_SHA1 .
-          - run: docker build -f Dockerfile.worker -t noipm/complaint-manager-ci-worker:$CIRCLE_SHA1 .
-          - run: docker push noipm/complaint-manager-ci:$CIRCLE_SHA1
-          - run: docker push noipm/complaint-manager-ci-worker:$CIRCLE_SHA1
+  build-and-publish-master:
+    docker:
+      - image: docker:stable
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=ci --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/complaint-manager-ci:$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile.worker -t noipm/complaint-manager-ci-worker:$CIRCLE_SHA1 .
+      - run: docker push noipm/complaint-manager-ci:$CIRCLE_SHA1
+      - run: docker push noipm/complaint-manager-ci-worker:$CIRCLE_SHA1
 
-    build-and-publish-release:
-        docker:
-          - image: docker:stable
-        steps:
-          - checkout
-          - setup_remote_docker
-          - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-          - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=staging --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/complaint-manager-staging:$CIRCLE_SHA1 .
-          - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=production --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PRODUCTION -t noipm/complaint-manager-production:$CIRCLE_SHA1 .
-          - run: docker build -f Dockerfile.worker -t noipm/complaint-manager-worker:$CIRCLE_SHA1 .
-          - run: docker push noipm/complaint-manager-staging:$CIRCLE_SHA1
-          - run: docker push noipm/complaint-manager-production:$CIRCLE_SHA1
-          - run: docker push noipm/complaint-manager-worker:$CIRCLE_SHA1
+  build-and-publish-release:
+    docker:
+      - image: docker:stable
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=staging --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/complaint-manager-staging:$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=production --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PRODUCTION -t noipm/complaint-manager-production:$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile.worker -t noipm/complaint-manager-worker:$CIRCLE_SHA1 .
+      - run: docker push noipm/complaint-manager-staging:$CIRCLE_SHA1
+      - run: docker push noipm/complaint-manager-production:$CIRCLE_SHA1
+      - run: docker push noipm/complaint-manager-worker:$CIRCLE_SHA1
 
-    deploy-ci:
-            docker:
-              - image: noipm/docker-heroku:7.0.65
-            steps:
-              - setup_remote_docker
-              - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-              - run: docker pull noipm/complaint-manager-ci:$CIRCLE_SHA1
-              - run: docker pull noipm/complaint-manager-ci-worker:$CIRCLE_SHA1
-              - run:
-                  name: Migrate and Seed DB
-                  command: |
-                    docker run \
-                    -e NODE_ENV=ci \
-                    -e DATABASE_USERNAME=$CI_DATABASE_USERNAME \
-                    -e DATABASE_PASS=$CI_DATABASE_PASS \
-                    -e DATABASE_NAME=$CI_DATABASE_NAME \
-                    -e DATABASE_HOST=$CI_DATABASE_HOST \
-                    -e AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID \
-                    -e AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY \
-                    noipm/complaint-manager-ci:$CIRCLE_SHA1 yarn setup:db
+  deploy-ci:
+    docker:
+      - image: noipm/docker-heroku:7.0.65
+    steps:
+      - setup_remote_docker
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker pull noipm/complaint-manager-ci:$CIRCLE_SHA1
+      - run: docker pull noipm/complaint-manager-ci-worker:$CIRCLE_SHA1
+      - run:
+          name: Migrate and Seed DB
+          command: |
+            docker run \
+            -e NODE_ENV=ci \
+            -e DATABASE_USERNAME=$CI_DATABASE_USERNAME \
+            -e DATABASE_PASS=$CI_DATABASE_PASS \
+            -e DATABASE_NAME=$CI_DATABASE_NAME \
+            -e DATABASE_HOST=$CI_DATABASE_HOST \
+            -e AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID \
+            -e AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY \
+            noipm/complaint-manager-ci:$CIRCLE_SHA1 yarn setup:db
 
-              - run:
-                  name: Run task migrations
-                  command: |
-                    docker run \
-                    -e NODE_ENV=ci \
-                    -e DATABASE_USERNAME=$CI_DATABASE_USERNAME \
-                    -e DATABASE_PASS=$CI_DATABASE_PASS \
-                    -e DATABASE_NAME=$CI_DATABASE_NAME \
-                    -e DATABASE_HOST=$CI_DATABASE_HOST \
-                    -e AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID \
-                    -e AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY \
-                    noipm/complaint-manager-ci:$CIRCLE_SHA1 yarn setup:task:migrate
+      - run:
+          name: Run task migrations
+          command: |
+            docker run \
+            -e NODE_ENV=ci \
+            -e DATABASE_USERNAME=$CI_DATABASE_USERNAME \
+            -e DATABASE_PASS=$CI_DATABASE_PASS \
+            -e DATABASE_NAME=$CI_DATABASE_NAME \
+            -e DATABASE_HOST=$CI_DATABASE_HOST \
+            -e AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID \
+            -e AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY \
+            noipm/complaint-manager-ci:$CIRCLE_SHA1 yarn setup:task:migrate
 
-              - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
-              - run: docker tag noipm/complaint-manager-ci:$CIRCLE_SHA1 registry.heroku.com/noipm-ci/web
-              - run: docker push registry.heroku.com/noipm-ci/web
-              - run: docker tag noipm/complaint-manager-ci-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-ci/worker
-              - run: docker push registry.heroku.com/noipm-ci/worker
-              - run: heroku container:release web worker --app noipm-ci
+      - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
+      - run: docker tag noipm/complaint-manager-ci:$CIRCLE_SHA1 registry.heroku.com/noipm-ci/web
+      - run: docker push registry.heroku.com/noipm-ci/web
+      - run: docker tag noipm/complaint-manager-ci-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-ci/worker
+      - run: docker push registry.heroku.com/noipm-ci/worker
+      - run: heroku container:release web worker --app noipm-ci
 
-    ensure-ci-deploy-succeeded:
-          docker:
-            - image: alpine:latest
-          steps:
-            - checkout
-            - run: scripts/ensure-deploy-succeeded.sh https://noipm-ci.herokuapp.com/health-check
+  ensure-ci-deploy-succeeded:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
+      - run: scripts/ensure-deploy-succeeded.sh https://noipm-ci.herokuapp.com/health-check
 
-    e2e-testing-ci:
-            docker:
-              - image: noipm/e2e:latest
-            steps:
-              - checkout
-              - run:
-                  name: Run E2E tests
-                  command: |
-                    echo 'export HOST=$CI_HOST' >> $BASH_ENV
-                    echo 'export TEST_USER=$CI_TEST_USER' >> $BASH_ENV
-                    echo 'export TEST_PASS=$CI_TEST_PASS' >> $BASH_ENV
-                    source $BASH_ENV
-                    cd e2e && nightwatch --env $ENVIRONMENT
-              - store_artifacts:
-                  path: e2e/tests/userJourney
+  e2e-testing-ci:
+    docker:
+      - image: noipm/e2e:latest
+    steps:
+      - checkout
+      - run:
+          name: Run E2E tests
+          command: |
+            echo 'export HOST=$CI_HOST' >> $BASH_ENV
+            echo 'export TEST_USER=$CI_TEST_USER' >> $BASH_ENV
+            echo 'export TEST_PASS=$CI_TEST_PASS' >> $BASH_ENV
+            source $BASH_ENV
+            cd e2e && nightwatch --env $ENVIRONMENT
+      - store_artifacts:
+          path: e2e/tests/userJourney
 
-    deploy-staging:
-        docker:
-          - image: noipm/docker-heroku:7.0.65
-        steps:
-          - setup_remote_docker
-          - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-          - run: docker pull noipm/complaint-manager-staging:$CIRCLE_SHA1
-          - run: docker pull noipm/complaint-manager-worker:$CIRCLE_SHA1
-          - run: heroku maintenance:on --app noipm-staging
-          - run:
-              name: Migrate and Seed DB
-              command: |
-                docker run \
-                -e NODE_ENV=staging \
-                -e DATABASE_USERNAME=$STAGING_DATABASE_USERNAME \
-                -e DATABASE_PASS=$STAGING_DATABASE_PASS \
-                -e DATABASE_NAME=$STAGING_DATABASE_NAME \
-                -e DATABASE_HOST=$STAGING_DATABASE_HOST \
-                -e AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID \
-                -e AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY \
-                noipm/complaint-manager-staging:$CIRCLE_SHA1 yarn setup:db
+  deploy-staging:
+    docker:
+      - image: noipm/docker-heroku:7.0.65
+    steps:
+      - setup_remote_docker
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker pull noipm/complaint-manager-staging:$CIRCLE_SHA1
+      - run: docker pull noipm/complaint-manager-worker:$CIRCLE_SHA1
+      - run: heroku maintenance:on --app noipm-staging
+      - run:
+          name: Migrate and Seed DB
+          command: |
+            docker run \
+            -e NODE_ENV=staging \
+            -e DATABASE_USERNAME=$STAGING_DATABASE_USERNAME \
+            -e DATABASE_PASS=$STAGING_DATABASE_PASS \
+            -e DATABASE_NAME=$STAGING_DATABASE_NAME \
+            -e DATABASE_HOST=$STAGING_DATABASE_HOST \
+            -e AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID \
+            -e AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY \
+            noipm/complaint-manager-staging:$CIRCLE_SHA1 yarn setup:db
 
-          - run:
-              name: Run task migrations
-              command: |
-                docker run \
-                -e NODE_ENV=staging \
-                -e DATABASE_USERNAME=$STAGING_DATABASE_USERNAME \
-                -e DATABASE_PASS=$STAGING_DATABASE_PASS \
-                -e DATABASE_NAME=$STAGING_DATABASE_NAME \
-                -e DATABASE_HOST=$STAGING_DATABASE_HOST \
-                -e AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID \
-                -e AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY \
-                noipm/complaint-manager-staging:$CIRCLE_SHA1 yarn setup:task:migrate
+      - run:
+          name: Run task migrations
+          command: |
+            docker run \
+            -e NODE_ENV=staging \
+            -e DATABASE_USERNAME=$STAGING_DATABASE_USERNAME \
+            -e DATABASE_PASS=$STAGING_DATABASE_PASS \
+            -e DATABASE_NAME=$STAGING_DATABASE_NAME \
+            -e DATABASE_HOST=$STAGING_DATABASE_HOST \
+            -e AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID \
+            -e AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY \
+            noipm/complaint-manager-staging:$CIRCLE_SHA1 yarn setup:task:migrate
 
-          - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
-          - run: docker tag noipm/complaint-manager-staging:$CIRCLE_SHA1 registry.heroku.com/noipm-staging/web
-          - run: docker tag noipm/complaint-manager-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-staging/worker
-          - run: docker push registry.heroku.com/noipm-staging/web
-          - run: docker push registry.heroku.com/noipm-staging/worker
-          - run: heroku container:release web worker --app noipm-staging
-          - run: heroku maintenance:off --app noipm-staging
+      - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
+      - run: docker tag noipm/complaint-manager-staging:$CIRCLE_SHA1 registry.heroku.com/noipm-staging/web
+      - run: docker tag noipm/complaint-manager-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-staging/worker
+      - run: docker push registry.heroku.com/noipm-staging/web
+      - run: docker push registry.heroku.com/noipm-staging/worker
+      - run: heroku container:release web worker --app noipm-staging
+      - run: heroku maintenance:off --app noipm-staging
 
-    ensure-staging-deploy-succeeded:
-      docker:
-        - image: alpine:latest
-      steps:
-        - checkout
-        - run: scripts/ensure-deploy-succeeded.sh https://noipm-staging.herokuapp.com/health-check
+  ensure-staging-deploy-succeeded:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
+      - run: scripts/ensure-deploy-succeeded.sh https://noipm-staging.herokuapp.com/health-check
 
-    e2e-testing-staging:
-            docker:
-              - image: noipm/e2e:latest
-            steps:
-              - checkout
-              - run:
-                  name: Run E2E tests
-                  command: |
-                    echo 'export HOST=$STAGING_HOST' >> $BASH_ENV
-                    echo 'export TEST_USER=$STAGING_TEST_USER' >> $BASH_ENV
-                    echo 'export TEST_PASS=$STAGING_TEST_PASS' >> $BASH_ENV
-                    source $BASH_ENV
-                    cd e2e && nightwatch --env $ENVIRONMENT
-              - store_artifacts:
-                  path: e2e/tests/userJourney
+  e2e-testing-staging:
+    docker:
+      - image: noipm/e2e:latest
+    steps:
+      - checkout
+      - run:
+          name: Run E2E tests
+          command: |
+            echo 'export HOST=$STAGING_HOST' >> $BASH_ENV
+            echo 'export TEST_USER=$STAGING_TEST_USER' >> $BASH_ENV
+            echo 'export TEST_PASS=$STAGING_TEST_PASS' >> $BASH_ENV
+            source $BASH_ENV
+            cd e2e && nightwatch --env $ENVIRONMENT
+      - store_artifacts:
+          path: e2e/tests/userJourney
 
-    deploy-production:
-        docker:
-          - image: noipm/docker-heroku:7.0.65
-        steps:
-          - setup_remote_docker
-          - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-          - run: docker pull noipm/complaint-manager-production:$CIRCLE_SHA1
-          - run: docker pull noipm/complaint-manager-worker:$CIRCLE_SHA1
-          - run: heroku maintenance:on --app noipm-production
-          - run:
-              name: Migrate production database
-              command: |
-                docker run \
-                -e NODE_ENV=production \
-                -e DATABASE_USERNAME=$PRODUCTION_DATABASE_USERNAME \
-                -e DATABASE_PASS=$PRODUCTION_DATABASE_PASS \
-                -e DATABASE_NAME=$PRODUCTION_DATABASE_NAME \
-                -e DATABASE_HOST=$PRODUCTION_DATABASE_HOST \
-                -e AWS_ACCESS_KEY_ID=$PRODUCTION_AWS_ACCESS_KEY_ID \
-                -e AWS_SECRET_ACCESS_KEY=$PRODUCTION_AWS_SECRET_ACCESS_KEY \
-                noipm/complaint-manager-production:$CIRCLE_SHA1 yarn setup:db
-          - run:
-              name: Run task migrations
-              command: |
-                docker run \
-                -e NODE_ENV=production \
-                -e DATABASE_USERNAME=$PRODUCTION_DATABASE_USERNAME \
-                -e DATABASE_PASS=$PRODUCTION_DATABASE_PASS \
-                -e DATABASE_NAME=$PRODUCTION_DATABASE_NAME \
-                -e DATABASE_HOST=$PRODUCTION_DATABASE_HOST \
-                -e AWS_ACCESS_KEY_ID=$PRODUCTION_AWS_ACCESS_KEY_ID \
-                -e AWS_SECRET_ACCESS_KEY=$PRODUCTION_AWS_SECRET_ACCESS_KEY \
-                noipm/complaint-manager-production:$CIRCLE_SHA1 yarn setup:task:migrate
-          - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
-          - run: docker tag noipm/complaint-manager-production:$CIRCLE_SHA1 registry.heroku.com/noipm-production/web
-          - run: docker tag noipm/complaint-manager-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-production/worker
-          - run: docker push registry.heroku.com/noipm-production/web
-          - run: docker push registry.heroku.com/noipm-production/worker
-          - run: heroku container:release web worker --app noipm-production
-          - run: heroku maintenance:off --app noipm-production
+  deploy-production:
+    docker:
+      - image: noipm/docker-heroku:7.0.65
+    steps:
+      - setup_remote_docker
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker pull noipm/complaint-manager-production:$CIRCLE_SHA1
+      - run: docker pull noipm/complaint-manager-worker:$CIRCLE_SHA1
+      - run: heroku maintenance:on --app noipm-production
+      - run:
+          name: Migrate production database
+          command: |
+            docker run \
+            -e NODE_ENV=production \
+            -e DATABASE_USERNAME=$PRODUCTION_DATABASE_USERNAME \
+            -e DATABASE_PASS=$PRODUCTION_DATABASE_PASS \
+            -e DATABASE_NAME=$PRODUCTION_DATABASE_NAME \
+            -e DATABASE_HOST=$PRODUCTION_DATABASE_HOST \
+            -e AWS_ACCESS_KEY_ID=$PRODUCTION_AWS_ACCESS_KEY_ID \
+            -e AWS_SECRET_ACCESS_KEY=$PRODUCTION_AWS_SECRET_ACCESS_KEY \
+            noipm/complaint-manager-production:$CIRCLE_SHA1 yarn setup:db
+      - run:
+          name: Run task migrations
+          command: |
+            docker run \
+            -e NODE_ENV=production \
+            -e DATABASE_USERNAME=$PRODUCTION_DATABASE_USERNAME \
+            -e DATABASE_PASS=$PRODUCTION_DATABASE_PASS \
+            -e DATABASE_NAME=$PRODUCTION_DATABASE_NAME \
+            -e DATABASE_HOST=$PRODUCTION_DATABASE_HOST \
+            -e AWS_ACCESS_KEY_ID=$PRODUCTION_AWS_ACCESS_KEY_ID \
+            -e AWS_SECRET_ACCESS_KEY=$PRODUCTION_AWS_SECRET_ACCESS_KEY \
+            noipm/complaint-manager-production:$CIRCLE_SHA1 yarn setup:task:migrate
+      - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
+      - run: docker tag noipm/complaint-manager-production:$CIRCLE_SHA1 registry.heroku.com/noipm-production/web
+      - run: docker tag noipm/complaint-manager-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-production/worker
+      - run: docker push registry.heroku.com/noipm-production/web
+      - run: docker push registry.heroku.com/noipm-production/worker
+      - run: heroku container:release web worker --app noipm-production
+      - run: heroku maintenance:off --app noipm-production
 
-    ensure-production-deploy-succeeded:
-      docker:
-        - image: alpine:latest
-      steps:
-        - checkout
-        - run: scripts/ensure-deploy-succeeded.sh https://noipm-production.herokuapp.com/health-check
+  ensure-production-deploy-succeeded:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
+      - run: scripts/ensure-deploy-succeeded.sh https://noipm-production.herokuapp.com/health-check
 
 workflows:
   version: 2
@@ -286,13 +285,12 @@ workflows:
       - test-server-worker-non-handlers:
           requires:
             - test-server-handlers
-#      - security-check:
-#          requires:
-#            - test-server-worker-non-handlers
+      - security-check:
+          requires:
+            - test-server-worker-non-handlers
       - build-and-publish-master:
           requires:
-#            - security-check
-            - test-server-worker-non-handlers # remove this when the security checks are passing
+            - security-check
       - deploy-ci:
           requires:
             - build-and-publish-master
@@ -303,40 +301,40 @@ workflows:
           requires:
             - ensure-ci-deploy-succeeded
   build_and_deploy_release:
-      jobs:
-        - test-client:
-            filters:
-              branches:
-                only:
-                  - release_v2.10.1
-        - test-server-handlers:
-            requires:
-              - test-client
-        - test-server-worker-non-handlers:
-            requires:
-              - test-server-handlers
-        - security-check:
-            requires:
-              - test-server-worker-non-handlers
-        - build-and-publish-release:
-            requires:
-              - security-check
-        - deploy-staging:
-            requires:
-              - build-and-publish-release
-        - ensure-staging-deploy-succeeded:
-            requires:
-              - deploy-staging
-        - e2e-testing-staging:
-            requires:
-              - ensure-staging-deploy-succeeded
-        - hold-for-production:
-            type: approval
-            requires:
-              - e2e-testing-staging
-        - deploy-production:
-            requires:
-              - hold-for-production
-        - ensure-production-deploy-succeeded:
-            requires:
-              - deploy-production
+    jobs:
+      - test-client:
+          filters:
+            branches:
+              only:
+                - release_v2.11.0
+      - test-server-handlers:
+          requires:
+            - test-client
+      - test-server-worker-non-handlers:
+          requires:
+            - test-server-handlers
+      - security-check:
+          requires:
+            - test-server-worker-non-handlers
+      - build-and-publish-release:
+          requires:
+            - security-check
+      - deploy-staging:
+          requires:
+            - build-and-publish-release
+      - ensure-staging-deploy-succeeded:
+          requires:
+            - deploy-staging
+      - e2e-testing-staging:
+          requires:
+            - ensure-staging-deploy-succeeded
+      - hold-for-production:
+          type: approval
+          requires:
+            - e2e-testing-staging
+      - deploy-production:
+          requires:
+            - hold-for-production
+      - ensure-production-deploy-succeeded:
+          requires:
+            - deploy-production
