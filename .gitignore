@@ -9,6 +9,9 @@ awsConfig.json
 # testing
 /coverage
 
+# security
+hawkeye_report.json
+
 e2e/tests/userJourney/**/*.png
 selenium-server.log
 

@@ -8,6 +8,10 @@ node-yarnoutdated-jest-1
 node-yarnoutdated-jest-each-1
 node-yarnoutdated-sequelize-1
 
+# We tried upgrading to react-pdf 4.0.0, but it violates unsafe-eval CSP.
+# This issue tracks it: https://github.com/mozilla/pdf.js/issues/10229. It's closed but has not made it into a release yet.
+
+
 # The below listed are password warning, however we are using a config file or local environment variables, so there are no passwords stored in the code.
 files-contents-.circleci/config.yml-1
 files-contents-.circleci/config.yml-13
