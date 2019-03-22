@@ -8,14 +8,22 @@ import {
 import createCase from "./createCase";
 import { push } from "connected-react-router";
 import {
+  ASCENDING,
   CASE_STATUS,
   CIVILIAN_INITIATED,
-  RANK_INITIATED
+  RANK_INITIATED,
+  SORT_CASES_BY
 } from "../../../sharedUtilities/constants";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
+import getCases from "./getCases";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
+
+jest.mock("./getCases", () => caseId => ({
+  type: "MOCK_GET_WORKING_CASES",
+  caseId
+}));
 
 describe("createCase", () => {
   const dispatch = jest.fn();
@@ -32,7 +40,7 @@ describe("createCase", () => {
     expect(dispatch).toHaveBeenCalledWith(requestCaseCreation());
   });
 
-  test("should dispatch success and close the dialog when case created successfully", async () => {
+  test("should dispatch success and close the dialog when case created successfully and no redirect", async () => {
     const creationDetails = {
       caseDetails: {
         case: {
@@ -40,7 +48,11 @@ describe("createCase", () => {
           lastName: "Domino"
         }
       },
-      redirect: false
+      redirect: false,
+      sorting: {
+        sortBy: SORT_CASES_BY.CASE_REFERENCE,
+        sortDirection: ASCENDING
+      }
     };
 
     const responseBody = {
@@ -65,6 +77,9 @@ describe("createCase", () => {
     );
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(closeCreateCaseDialog());
+    expect(dispatch).toHaveBeenCalledWith(
+      getCases(SORT_CASES_BY.CASE_REFERENCE, ASCENDING)
+    );
   });
 
   test("should redirect to add officer if complainant is officer", async () => {

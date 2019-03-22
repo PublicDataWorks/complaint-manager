@@ -12,8 +12,13 @@ import createCase from "../thunks/createCase";
 import { openSnackbar } from "../../actionCreators/snackBarActionCreators";
 import moment from "moment";
 import { applyCentralTimeZoneOffset } from "../../utilities/formatDate";
-import { CIVILIAN_INITIATED } from "../../../sharedUtilities/constants";
+import {
+  CIVILIAN_INITIATED,
+  DESCENDING,
+  SORT_CASES_BY
+} from "../../../sharedUtilities/constants";
 import { getIntakeSourcesSuccess } from "../../actionCreators/intakeSourceActionCreators";
+import { updateSort } from "../../actionCreators/casesActionCreators";
 
 jest.mock("../thunks/createCase", () => creationDetails => ({
   type: "MOCK_CREATE_CASE_THUNK",
@@ -38,6 +43,7 @@ describe("CreateCaseDialog component", () => {
     store = createConfiguredStore();
     dateAndTimeToday = moment(Date.now()).format("YYYY-MM-DDTHH:mm");
     dateAndTimeTodayWithTimezone = applyCentralTimeZoneOffset(dateAndTimeToday);
+    store.dispatch(updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING));
 
     dispatchSpy = jest.spyOn(store, "dispatch");
 
@@ -117,7 +123,14 @@ describe("CreateCaseDialog component", () => {
       submitButton.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(
-        createCase({ caseDetails: caseDetails, redirect: true })
+        createCase({
+          caseDetails: caseDetails,
+          redirect: true,
+          sorting: {
+            sortBy: SORT_CASES_BY.CASE_REFERENCE,
+            sortDirection: DESCENDING
+          }
+        })
       );
     });
 
@@ -127,7 +140,14 @@ describe("CreateCaseDialog component", () => {
       );
       submitButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
-        createCase({ caseDetails: caseDetails, redirect: false })
+        createCase({
+          caseDetails: caseDetails,
+          redirect: false,
+          sorting: {
+            sortBy: SORT_CASES_BY.CASE_REFERENCE,
+            sortDirection: DESCENDING
+          }
+        })
       );
     });
   });
@@ -312,7 +332,14 @@ describe("CreateCaseDialog component", () => {
       submitButton.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(
-        createCase({ caseDetails: caseDetails, redirect: false })
+        createCase({
+          caseDetails: caseDetails,
+          redirect: false,
+          sorting: {
+            sortBy: SORT_CASES_BY.CASE_REFERENCE,
+            sortDirection: DESCENDING
+          }
+        })
       );
     });
   });
