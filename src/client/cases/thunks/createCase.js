@@ -11,6 +11,7 @@ import {
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
+import getCases from "./getCases";
 
 const createCase = creationDetails => async dispatch => {
   dispatch(requestCaseCreation());
@@ -30,6 +31,13 @@ const createCase = creationDetails => async dispatch => {
       ) {
         dispatch(push(`/cases/${response.data.id}`));
       }
+    } else {
+      dispatch(
+        getCases(
+          creationDetails.sorting.sortBy,
+          creationDetails.sorting.sortDirection
+        )
+      );
     }
     return dispatch(reset("CreateCase"));
   } catch (e) {}
