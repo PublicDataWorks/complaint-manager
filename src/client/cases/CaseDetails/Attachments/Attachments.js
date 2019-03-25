@@ -12,7 +12,7 @@ const Attachments = props => {
         <div style={{ display: "flex" }}>
           <div
             style={{
-              flex: 4,
+              flex: 5,
               textAlign: "left",
               marginBottom: "8px"
             }}
@@ -22,7 +22,7 @@ const Attachments = props => {
           <div style={{ flex: 2, textAlign: "left" }}>
             <Typography style={styles.section}>Description</Typography>
           </div>
-          <div style={{ flex: 1 }} />
+          <div style={{ flex: 2 }} />
         </div>
         <AttachmentsList />
         {props.isArchived ? null : (
