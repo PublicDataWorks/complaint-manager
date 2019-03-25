@@ -69,7 +69,7 @@ services:
     ports:
       - "6379:6379"
 
-  security:
+  security-checks:
     image: hawkeyesec/scanner-cli:latest
     volumes:
       - ".:/target"
