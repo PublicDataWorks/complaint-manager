@@ -26,3 +26,4 @@ files-contents-src/server/tasks/task_config.js-1
 
 # This is a warning about a dependency of react-scripts and jest, but neither are used in production so we can ignore this vulnerability warning.
 node-yarnaudit-braces-786
+node-yarnaudit-js-yaml-788
