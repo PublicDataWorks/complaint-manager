@@ -175,7 +175,7 @@ docker-compose exec db psql -U postgres -d complaint-manager
 
 ### Run security checks
 ```
-./scripts/security-checks.sh
+docker-compose run security-checks
 ```
 
 
