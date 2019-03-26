@@ -6,18 +6,14 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
-import getCases, { CASES_TYPE } from "./getCases";
+import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 
 jest.mock("../../auditDataAccess");
 jest.mock("./getCases");
 
-getCases.mockImplementation(
-  (caseType, sortBy, sortDirection, transaction, auditDetails) => {
-    auditDetails.mockModel = {
-      attributes: ["mockAttribute"]
-    };
-  }
-);
+getCases.mockImplementation((caseType, sortBy, sortDirection, transaction) => {
+  return "MOCK_GET_CASES";
+});
 
 const httpMocks = require("node-mocks-http");
 
@@ -44,8 +40,7 @@ describe("getArchivedCases", () => {
       CASES_TYPE.ARCHIVED,
       "by",
       "direction",
-      expect.anything(),
-      expect.objectContaining({})
+      expect.anything()
     );
   });
   describe("test audits", () => {
@@ -80,7 +75,7 @@ describe("getArchivedCases", () => {
         AUDIT_SUBJECT.ALL_ARCHIVED_CASES,
         expect.anything(),
         AUDIT_ACTION.DATA_ACCESSED,
-        { mockModel: { attributes: ["mockAttribute"] } }
+        GET_CASES_AUDIT_DETAILS
       );
     });
   });

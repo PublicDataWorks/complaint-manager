@@ -38,22 +38,24 @@ export const formatAuditDetails = auditDetails => {
       formattedAuditDetails[subjectName] = subject;
     } else {
       const modelName = subject.model ? subject.model : subjectName;
+
       const prettySubjectName = models[subjectName]
         ? _.startCase(models[subjectName].options.name.singular)
         : _.startCase(subjectName);
 
-      let {
-        allAttributesPresent,
-        extraAttributes
-      } = getExtraAttributesIfAllModelAttributesPresent(
-        subject.attributes,
-        modelName
-      );
+      let attributeData;
 
-      if (allAttributesPresent) {
+      if (models[modelName]) {
+        attributeData = getExtraAttributesIfAllModelAttributesPresent(
+          subject.attributes,
+          modelName
+        );
+      }
+
+      if (attributeData && attributeData.allAttributesPresent) {
         formattedAuditDetails[prettySubjectName] = [
           `All ${prettySubjectName} Data`,
-          ...extraAttributes
+          ...attributeData.extraAttributes
         ];
       } else {
         formattedAuditDetails[prettySubjectName] = subject.attributes.map(
@@ -71,11 +73,11 @@ const getExtraAttributesIfAllModelAttributesPresent = (
   attributes,
   modelName
 ) => {
-  const sortedAuditAttributes = attributes;
-  const sortedModelAttributes = Object.keys(models[modelName].rawAttributes);
-
   let extraAttributes = [];
   let allAttributesPresent = true;
+
+  const sortedAuditAttributes = attributes;
+  const sortedModelAttributes = Object.keys(models[modelName].rawAttributes);
 
   sortedModelAttributes.sort();
   sortedAuditAttributes.sort();

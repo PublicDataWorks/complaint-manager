@@ -5,7 +5,7 @@ import {
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../auditDataAccess";
-import getCases, { CASES_TYPE } from "./getCases";
+import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 
 const getArchivedCases = asyncMiddleware(async (request, response) => {
   const cases = await models.sequelize.transaction(async transaction => {
@@ -18,8 +18,7 @@ const getArchivedCases = asyncMiddleware(async (request, response) => {
       CASES_TYPE.ARCHIVED,
       sortBy,
       sortDirection,
-      transaction,
-      auditDetails
+      transaction
     );
 
     await auditDataAccess(
@@ -28,7 +27,7 @@ const getArchivedCases = asyncMiddleware(async (request, response) => {
       AUDIT_SUBJECT.ALL_ARCHIVED_CASES,
       transaction,
       AUDIT_ACTION.DATA_ACCESSED,
-      auditDetails
+      GET_CASES_AUDIT_DETAILS
     );
 
     return archivedCases;
