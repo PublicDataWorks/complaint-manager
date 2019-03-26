@@ -9,6 +9,7 @@ import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers
 import Attachment from "../../../../client/testUtilities/attachment";
 import ComplainantLetter from "../../../../client/testUtilities/complainantLetter";
 import Civilian from "../../../../client/testUtilities/civilian";
+import ReferralLetter from "../../../../client/testUtilities/ReferralLetter";
 
 const httpMocks = require("node-mocks-http");
 const AWS = require("aws-sdk");
@@ -121,12 +122,44 @@ describe("getAttachmentDownloadUrl", function() {
         subject: AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
         caseId: existingCase.id,
         auditType: AUDIT_TYPE.DATA_ACCESS,
-        user: "TEST_USER_NICKNAME",
+        user: "TEST_USER_NICKNAME"
       })
     );
   });
 
-  test("should response with a singed download url for an attachment", async () => {
+  test("should audit referral letter data access", async () => {
+    const { attachment, request } = await requestWithExistingCaseAttachment();
+
+    const response = httpMocks.createResponse();
+    response.write = jest.fn();
+
+    const referralLetterAttributes = new ReferralLetter.Builder()
+      .defaultReferralLetter()
+      .withId(undefined)
+      .withCaseId(existingCase.id)
+      .withFinalPdfFilename(attachment.fileName);
+    await models.referral_letter.create(referralLetterAttributes, {
+      auditUser: "test user"
+    });
+
+    await getAttachmentDownloadUrl(request, response, jest.fn());
+
+    const actionAudit = await models.action_audit.findOne({
+      where: { caseId: attachment.caseId }
+    });
+
+    expect(actionAudit).toEqual(
+      expect.objectContaining({
+        action: AUDIT_ACTION.DOWNLOADED,
+        subject: AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+        caseId: existingCase.id,
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        user: "TEST_USER_NICKNAME"
+      })
+    );
+  });
+
+  test("should response with a signed download url for an attachment", async () => {
     const { attachment, request } = await requestWithExistingCaseAttachment();
 
     const response = httpMocks.createResponse();
