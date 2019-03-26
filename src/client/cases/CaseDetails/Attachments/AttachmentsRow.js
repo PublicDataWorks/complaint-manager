@@ -23,7 +23,6 @@ const AttachmentsRow = ({
       )
     );
   const isComplainantLetter = attachment.description === COMPLAINANT_LETTER;
-
   const isReferralLetter = attachment.description === REFERRAL_LETTER;
 
   return (

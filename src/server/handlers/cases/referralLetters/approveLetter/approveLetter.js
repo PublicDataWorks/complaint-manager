@@ -117,8 +117,10 @@ const generateReferralLetterAndUploadToS3 = async (
     transaction
   );
 
+  const filenameWithCaseId = `${caseId}/${filename}`;
+
   await uploadLetterToS3(
-    filename,
+    filenameWithCaseId,
     generatedReferralLetterPdf,
     config[process.env.NODE_ENV].referralLettersBucket
   );

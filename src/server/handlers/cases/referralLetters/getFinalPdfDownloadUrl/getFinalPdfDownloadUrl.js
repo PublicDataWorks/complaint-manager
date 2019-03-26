@@ -13,38 +13,40 @@ import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
-const getFinalPdfDownloadUrl = asyncMiddleware(async (request, response, next) => {
-  const caseId = request.params.caseId;
-  const existingCase = await models.cases.findByPk(caseId, {
-    include: [
-      {
-        model: models.case_officer,
-        as: "complainantOfficers",
-        auditUser: "test"
-      },
-      {
-        model: models.civilian,
-        as: "complainantCivilians",
-        auditUser: "test"
-      }
-    ],
-    paranoid: false
-  });
+const getFinalPdfDownloadUrl = asyncMiddleware(
+  async (request, response, next) => {
+    const caseId = request.params.caseId;
+    const existingCase = await models.cases.findByPk(caseId, {
+      include: [
+        {
+          model: models.case_officer,
+          as: "complainantOfficers",
+          auditUser: "test"
+        },
+        {
+          model: models.civilian,
+          as: "complainantCivilians",
+          auditUser: "test"
+        }
+      ],
+      paranoid: false
+    });
 
-  validateCaseStatus(existingCase.status);
+    validateCaseStatus(existingCase.status);
 
-  await models.sequelize.transaction(async transaction => {
-    await auditDataAccess(
-      request.nickname,
-      caseId,
-      AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
-      transaction,
-      AUDIT_ACTION.DOWNLOADED
-    );
-    const signedUrl = await getSignedS3Url(existingCase);
-    response.send(signedUrl);
-  });
-});
+    await models.sequelize.transaction(async transaction => {
+      await auditDataAccess(
+        request.nickname,
+        caseId,
+        AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+        transaction,
+        AUDIT_ACTION.DOWNLOADED
+      );
+      const signedUrl = await getSignedS3Url(existingCase);
+      response.send(signedUrl);
+    });
+  }
+);
 
 const getSignedS3Url = async existingCase => {
   const s3 = createConfiguredS3Instance();
@@ -52,9 +54,13 @@ const getSignedS3Url = async existingCase => {
     where: { caseId: existingCase.id }
   });
 
+  const filenameWithCaseId = `${existingCase.id}/${
+    referralLetter.finalPdfFilename
+  }`;
+
   return s3.getSignedUrl(S3_GET_OBJECT, {
     Bucket: config[process.env.NODE_ENV].referralLettersBucket,
-    Key: referralLetter.finalPdfFilename,
+    Key: filenameWithCaseId,
     Expires: S3_URL_EXPIRATION
   });
 };
