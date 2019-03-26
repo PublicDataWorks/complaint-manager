@@ -73,4 +73,74 @@ describe("transformActionAuditsForExport", () => {
         "Complainant Civilians: First Name, Last Name"
     );
   });
+
+  describe("custom subject", () => {
+    let auditDetails = {
+      Case: ["Case Reference", "Status"],
+      "Earliest Added Complainant": ["First Name", "Middle Name", "Last Name"],
+      "Earliest Added Accused Officer": [
+        "First Name",
+        "Middle Name",
+        "Last Name"
+      ]
+    };
+
+    test("sets subject correctly for all archived cases audit", () => {
+      const actionAuditAttributes = new ActionAudit.Builder()
+        .defaultActionAudit()
+        .withAuditType(AUDIT_TYPE.DATA_ACCESS)
+        .withSubject(AUDIT_SUBJECT.ALL_ARCHIVED_CASES)
+        .withAuditDetails(auditDetails);
+
+      const transformedAudits = transformActionAuditsForExport([
+        actionAuditAttributes
+      ]);
+
+      expect(transformedAudits[0].subject).toEqual(
+        "Case, Accused Officers, Complainant Officers, Complainant Civilians"
+      );
+      expect(transformedAudits[0].auditDetails).toEqual({
+        Case: ["Case Reference", "Status"],
+        "Earliest Added Complainant": [
+          "First Name",
+          "Middle Name",
+          "Last Name"
+        ],
+        "Earliest Added Accused Officer": [
+          "First Name",
+          "Middle Name",
+          "Last Name"
+        ]
+      });
+    });
+
+    test("sets subject correctly for all working cases audit", () => {
+      const actionAuditAttributes = new ActionAudit.Builder()
+        .defaultActionAudit()
+        .withAuditType(AUDIT_TYPE.DATA_ACCESS)
+        .withSubject(AUDIT_SUBJECT.ALL_WORKING_CASES)
+        .withAuditDetails(auditDetails);
+
+      const transformedAudits = transformActionAuditsForExport([
+        actionAuditAttributes
+      ]);
+
+      expect(transformedAudits[0].subject).toEqual(
+        "Case, Accused Officers, Complainant Officers, Complainant Civilians"
+      );
+      expect(transformedAudits[0].auditDetails).toEqual({
+        Case: ["Case Reference", "Status"],
+        "Earliest Added Complainant": [
+          "First Name",
+          "Middle Name",
+          "Last Name"
+        ],
+        "Earliest Added Accused Officer": [
+          "First Name",
+          "Middle Name",
+          "Last Name"
+        ]
+      });
+    });
+  });
 });

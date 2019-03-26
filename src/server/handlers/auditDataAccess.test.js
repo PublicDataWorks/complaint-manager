@@ -47,6 +47,34 @@ describe("auditDataAccess", () => {
       });
     });
 
+    test("should replace attributes with All Complainant Civilian Data", async () => {
+      const auditDetails = {
+        complainantCivilians: {
+          attributes: Object.keys(models.civilian.rawAttributes),
+          model: models.civilian.name
+        }
+      };
+
+      await models.sequelize.transaction(async transaction => {
+        await auditDataAccess(
+          "user",
+          caseForAudit.id,
+          AUDIT_SUBJECT.CASE_DETAILS,
+          transaction,
+          AUDIT_ACTION.DATA_ACCESSED,
+          auditDetails
+        );
+      });
+
+      const createdAudit = await models.action_audit.findOne({
+        where: { caseId: caseForAudit.id }
+      });
+
+      expect(createdAudit.auditDetails).toEqual({
+        "Complainant Civilians": ["All Complainant Civilians Data"]
+      });
+    });
+
     test("should include edit status in audit details in addition to all case data", async () => {
       const auditDetails = {
         cases: {
@@ -74,6 +102,57 @@ describe("auditDataAccess", () => {
 
       expect(createdAudit.auditDetails).toEqual({
         Case: ["All Case Data", "Edit Status"]
+      });
+    });
+
+    test("formats audit details fields for subjects without models", async () => {
+      const auditDetails = {
+        cases: {
+          attributes: ["id", "status"]
+        },
+        earliestAddedAccusedOfficer: {
+          attributes: ["firstName", "middleName", "lastName", "personType"]
+        },
+        earliestAddedComplainant: {
+          attributes: [
+            "firstName",
+            "middleName",
+            "lastName",
+            "suffix",
+            "personType"
+          ]
+        }
+      };
+
+      await models.sequelize.transaction(async transaction => {
+        await auditDataAccess(
+          "user",
+          caseForAudit.id,
+          AUDIT_SUBJECT.CASE_DETAILS,
+          transaction,
+          AUDIT_ACTION.DATA_ACCESSED,
+          auditDetails
+        );
+      });
+
+      const createdAudit = await models.action_audit.findOne({
+        where: { caseId: caseForAudit.id }
+      });
+      expect(createdAudit.auditDetails).toEqual({
+        Case: ["Id", "Status"],
+        "Earliest Added Accused Officer": [
+          "First Name",
+          "Middle Name",
+          "Last Name",
+          "Person Type"
+        ],
+        "Earliest Added Complainant": [
+          "First Name",
+          "Middle Name",
+          "Last Name",
+          "Suffix",
+          "Person Type"
+        ]
       });
     });
 

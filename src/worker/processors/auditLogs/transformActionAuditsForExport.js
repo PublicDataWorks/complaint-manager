@@ -1,4 +1,4 @@
-import { AUDIT_TYPE } from "../../../sharedUtilities/constants";
+import { AUDIT_TYPE, AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
 
 const _ = require("lodash");
 
@@ -40,6 +40,13 @@ const transformActionAudit = audit => {
   ) {
     subject = Object.keys(audit.auditDetails).join(", ");
     auditDetailsHeader = audit.subject;
+    if (
+      audit.subject === AUDIT_SUBJECT.ALL_WORKING_CASES ||
+      audit.subject === AUDIT_SUBJECT.ALL_ARCHIVED_CASES
+    ) {
+      subject =
+        "Case, Accused Officers, Complainant Officers, Complainant Civilians";
+    }
   }
 
   return {

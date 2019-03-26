@@ -1,16 +1,68 @@
 import models from "../../../models";
 import sequelize from "sequelize";
-import { addToExistingAuditDetails } from "../../getQueryAuditAccessDetails";
 import {
   ASCENDING,
   DESCENDING,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
+
 const Op = sequelize.Op;
 
 export const CASES_TYPE = {
   ARCHIVED: "ARCHIVED",
   WORKING: "WORKING"
+};
+
+export const GET_CASES_AUDIT_DETAILS = {
+  cases: {
+    attributes: [
+      "id",
+      "complaintType",
+      "status",
+      "year",
+      "caseNumber",
+      "firstContactDate",
+      "deletedAt",
+      "assignedTo"
+    ]
+  },
+  earliestAddedAccusedOfficer: {
+    attributes: ["firstName", "middleName", "lastName", "personType"]
+  },
+  earliestAddedComplainant: {
+    attributes: ["firstName", "middleName", "lastName", "suffix", "personType"]
+  }
+};
+
+const getCases = async (
+  casesType,
+  sortBy,
+  sortDirection,
+  transaction = null,
+  auditDetails = null
+) => {
+  const order = [
+    ...getSortingOrderForQuery(sortBy, sortDirection),
+    ["year", DESCENDING],
+    ["caseNumber", DESCENDING]
+  ];
+
+  const where =
+    casesType === CASES_TYPE.ARCHIVED
+      ? {
+          deletedAt: { [Op.ne]: null }
+        }
+      : {
+          deletedAt: null
+        };
+
+  const queryOptions = {
+    where: where,
+    transaction,
+    order: order
+  };
+
+  return await models.sortable_cases_view.findAll(queryOptions);
 };
 
 const caseInsensitiveSort = attributeName => {
@@ -86,72 +138,4 @@ const getSortingOrderForQuery = (sortBy, sortDirection) => {
   }
 };
 
-const getCases = async (
-  casesType,
-  sortBy,
-  sortDirection,
-  transaction = null,
-  auditDetails = null
-) => {
-  const order = [
-    ...getSortingOrderForQuery(sortBy, sortDirection),
-    ["year", DESCENDING],
-    ["caseNumber", DESCENDING]
-  ];
-
-  const where =
-    casesType === CASES_TYPE.ARCHIVED
-      ? {
-          deletedAt: { [Op.ne]: null }
-        }
-      : {
-          deletedAt: null
-        };
-
-  const queryOptions = {
-    where: where,
-    transaction,
-    order: order
-  };
-
-  const sortedCases = await models.sortable_cases_view.findAll(queryOptions);
-
-  addAuditDetailsForSortedCases(auditDetails);
-
-  return sortedCases;
-};
-
-const addAuditDetailsForSortedCases = existingAuditDetails => {
-  const queryOptionsForAudit = {
-    attributes: [
-      "id",
-      "complaintType",
-      "caseNumber",
-      "year",
-      "status",
-      "firstContactDate",
-      "assignedTo"
-    ],
-    include: [
-      {
-        model: models.civilian,
-        as: "complainantCivilians"
-      },
-      {
-        model: models.case_officer,
-        as: "accusedOfficers"
-      },
-      {
-        model: models.case_officer,
-        as: "complainantOfficers"
-      }
-    ]
-  };
-
-  addToExistingAuditDetails(
-    existingAuditDetails,
-    queryOptionsForAudit,
-    models.cases.name
-  );
-};
 export default getCases;

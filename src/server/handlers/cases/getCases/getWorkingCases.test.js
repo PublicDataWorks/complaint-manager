@@ -8,7 +8,7 @@ import {
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../auditDataAccess";
-import getCases, { CASES_TYPE } from "./getCases";
+import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 
 const httpMocks = require("node-mocks-http");
 
@@ -16,13 +16,9 @@ jest.mock("../../auditDataAccess");
 
 jest.mock("./getCases");
 
-getCases.mockImplementation(
-  (caseType, sortBy, sortDirection, transaction, auditDetails) => {
-    auditDetails.mockModel = {
-      attributes: ["mockAttribute"]
-    };
-  }
-);
+getCases.mockImplementation((caseType, sortBy, sortDirection, transaction) => {
+  return "MOCK_GET_CASES";
+});
 
 describe("getWorkingCases", () => {
   let token;
@@ -57,8 +53,7 @@ describe("getWorkingCases", () => {
       CASES_TYPE.WORKING,
       "by",
       "direction",
-      expect.anything(),
-      expect.objectContaining({})
+      expect.anything()
     );
   });
 
@@ -82,7 +77,7 @@ describe("getWorkingCases", () => {
       AUDIT_SUBJECT.ALL_WORKING_CASES,
       expect.anything(),
       AUDIT_ACTION.DATA_ACCESSED,
-      { mockModel: { attributes: ["mockAttribute"] } }
+      GET_CASES_AUDIT_DETAILS
     );
   });
 });
