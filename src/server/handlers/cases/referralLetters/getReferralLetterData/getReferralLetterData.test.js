@@ -76,7 +76,7 @@ describe("getReferralLetterData", () => {
     expect(dataAccessAudit.user).toEqual("bobjo");
     expect(dataAccessAudit.caseId).toEqual(existingCase.id);
     expect(dataAccessAudit.subject).toEqual(AUDIT_SUBJECT.REFERRAL_LETTER_DATA);
-    expect(dataAccessAudit.subjectDetails).toEqual({
+    expect(dataAccessAudit.auditDetails).toEqual({
       "Case Officers": ["First Name", "Id", "Last Name", "Middle Name"],
       "Letter Officer": [
         "Case Officer Id",

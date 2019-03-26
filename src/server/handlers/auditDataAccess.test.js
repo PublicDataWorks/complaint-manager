@@ -5,7 +5,7 @@ import { createTestCaseWithoutCivilian } from "../testHelpers/modelMothers";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 describe("auditDataAccess", () => {
-  describe("subject details", () => {
+  describe("audit details", () => {
     let caseForAudit;
     beforeEach(async () => {
       caseForAudit = await createTestCaseWithoutCivilian();
@@ -16,7 +16,7 @@ describe("auditDataAccess", () => {
     });
 
     test("should replace attributes if all fields are present", async () => {
-      const subjectDetails = {
+      const auditDetails = {
         cases: {
           attributes: Object.keys(models.cases.rawAttributes)
         },
@@ -33,7 +33,7 @@ describe("auditDataAccess", () => {
           AUDIT_SUBJECT.CASE_DETAILS,
           transaction,
           AUDIT_ACTION.DATA_ACCESSED,
-          subjectDetails
+          auditDetails
         );
       });
 
@@ -41,14 +41,14 @@ describe("auditDataAccess", () => {
         where: { caseId: caseForAudit.id }
       });
 
-      expect(createdAudit.subjectDetails).toEqual({
+      expect(createdAudit.auditDetails).toEqual({
         Case: ["All Case Data"],
         "Complainant Civilians": ["All Complainant Civilians Data"]
       });
     });
 
-    test("should include edit status in subject details in addition to all case data", async () => {
-      const subjectDetails = {
+    test("should include edit status in audit details in addition to all case data", async () => {
+      const auditDetails = {
         cases: {
           attributes: [
             ...Object.keys(models.cases.rawAttributes),
@@ -64,7 +64,7 @@ describe("auditDataAccess", () => {
           AUDIT_SUBJECT.CASE_DETAILS,
           transaction,
           AUDIT_ACTION.DATA_ACCESSED,
-          subjectDetails
+          auditDetails
         );
       });
 
@@ -72,13 +72,13 @@ describe("auditDataAccess", () => {
         where: { caseId: caseForAudit.id }
       });
 
-      expect(createdAudit.subjectDetails).toEqual({
+      expect(createdAudit.auditDetails).toEqual({
         Case: ["All Case Data", "Edit Status"]
       });
     });
 
-    test("should reformat subjectDetails when attributes exist", async () => {
-      const subjectDetails = {
+    test("should reformat auditDetails when attributes exist", async () => {
+      const auditDetails = {
         cases: {
           attributes: ["id", "status", "incidentDate"]
         },
@@ -95,7 +95,7 @@ describe("auditDataAccess", () => {
           AUDIT_SUBJECT.CASE_DETAILS,
           transaction,
           AUDIT_ACTION.DATA_ACCESSED,
-          subjectDetails
+          auditDetails
         );
       });
 
@@ -103,14 +103,14 @@ describe("auditDataAccess", () => {
         where: { caseId: caseForAudit.id }
       });
 
-      expect(createdAudit.subjectDetails).toEqual({
+      expect(createdAudit.auditDetails).toEqual({
         Case: ["Id", "Incident Date", "Status"],
         "Complainant Civilians": ["First Name", "Last Name"]
       });
     });
 
-    test("it should populate subjectDetails correctly", async () => {
-      const subjectDetails = {
+    test("it should populate auditDetails correctly", async () => {
+      const auditDetails = {
         fileName: ["cats.jpg"],
         otherField: ["hello"]
       };
@@ -122,7 +122,7 @@ describe("auditDataAccess", () => {
           AUDIT_SUBJECT.CASE_DETAILS,
           transaction,
           AUDIT_ACTION.DATA_ACCESSED,
-          subjectDetails
+          auditDetails
         );
       });
 
@@ -130,10 +130,10 @@ describe("auditDataAccess", () => {
         where: { caseId: caseForAudit.id }
       });
 
-      expect(createdAudit.subjectDetails).toEqual(subjectDetails);
+      expect(createdAudit.auditDetails).toEqual(auditDetails);
     });
 
-    test("it should populate details correctly for downloaded action with subject details given", async () => {
+    test("it should populate details correctly for downloaded action with audit details given", async () => {
       await models.sequelize.transaction(async transaction => {
         await auditDataAccess(
           "user",
@@ -149,7 +149,7 @@ describe("auditDataAccess", () => {
         where: { caseId: caseForAudit.id }
       });
       expect(createdAudits.length).toEqual(1);
-      expect(createdAudits[0].subjectDetails).toEqual({
+      expect(createdAudits[0].auditDetails).toEqual({
         fileName: ["cats.jpg"]
       });
     });

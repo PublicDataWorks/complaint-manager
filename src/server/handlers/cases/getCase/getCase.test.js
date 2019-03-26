@@ -64,7 +64,7 @@ describe("getCase", () => {
     expect(actionAudit.subject).toEqual(AUDIT_SUBJECT.CASE_DETAILS);
     expect(actionAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
     expect(actionAudit.caseId).toEqual(existingCase.id);
-    expect(actionAudit.subjectDetails).toEqual({ Case: ["Mock Details"] });
+    expect(actionAudit.auditDetails).toEqual({ Case: ["Mock Details"] });
   });
 
   test("should not audit if an error occurs while retrieving case", async () => {

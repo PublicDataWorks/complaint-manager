@@ -113,7 +113,7 @@ describe("getReferralLetterPreview", function() {
       expect(dataAccessAudit.subject).toEqual(
         AUDIT_SUBJECT.REFERRAL_LETTER_PREVIEW
       );
-      expect(dataAccessAudit.subjectDetails).toEqual({
+      expect(dataAccessAudit.auditDetails).toEqual({
         "Accused Officers": ["All Accused Officers Data"],
         Address: ["All Address Data"],
         Allegation: ["All Allegation Data"],
@@ -190,7 +190,7 @@ describe("getReferralLetterPreview", function() {
       expect(dataAccessAudit.subject).toEqual(
         AUDIT_SUBJECT.REFERRAL_LETTER_PREVIEW
       );
-      expect(dataAccessAudit.subjectDetails).toEqual({
+      expect(dataAccessAudit.auditDetails).toEqual({
         "Accused Officers": ["All Accused Officers Data"],
         Address: ["All Address Data"],
         Allegation: ["All Allegation Data"],

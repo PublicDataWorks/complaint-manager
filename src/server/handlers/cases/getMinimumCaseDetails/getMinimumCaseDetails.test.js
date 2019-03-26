@@ -65,7 +65,7 @@ describe("getMinimumCaseDetails", () => {
     expect(dataAccessAudit.user).toEqual("nickname");
     expect(dataAccessAudit.caseId).toEqual(existingCase.id);
     expect(dataAccessAudit.subject).toEqual(AUDIT_SUBJECT.CASE_DETAILS);
-    expect(dataAccessAudit.subjectDetails).toEqual({
+    expect(dataAccessAudit.auditDetails).toEqual({
       Case: ["Case Reference", "Status"]
     });
   });

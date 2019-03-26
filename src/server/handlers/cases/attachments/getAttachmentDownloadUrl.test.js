@@ -79,7 +79,7 @@ describe("getAttachmentDownloadUrl", function() {
         auditType: AUDIT_TYPE.DATA_ACCESS,
         action: AUDIT_ACTION.DOWNLOADED,
         subject: AUDIT_SUBJECT.ATTACHMENT,
-        subjectDetails: { fileName: [attachment.fileName] }
+        auditDetails: { fileName: [attachment.fileName] }
       })
     );
   });

@@ -60,23 +60,23 @@ const combineAttributes = (existingDetails, detailsToAdd, subject) => {
 };
 
 const getQueryAuditAccessDetails = (queryOptions, topLevelModelName) => {
-  let subjectDetails = {};
+  let auditDetails = {};
 
   getQueryAuditAccessDetailsHelper(
     queryOptions,
     topLevelModelName,
     topLevelModelName,
-    subjectDetails
+    auditDetails
   );
 
-  return subjectDetails;
+  return auditDetails;
 };
 
 const getQueryAuditAccessDetailsHelper = (
   queryOptions,
   subject,
   modelName,
-  subjectDetails
+  auditDetails
 ) => {
   let attributes;
 
@@ -91,10 +91,10 @@ const getQueryAuditAccessDetailsHelper = (
     attributes = Object.keys(models[modelName].rawAttributes);
   }
 
-  subjectDetails[subject] = { attributes: attributes };
+  auditDetails[subject] = { attributes: attributes };
 
   if (!models[subject]) {
-    subjectDetails[subject].model = modelName;
+    auditDetails[subject].model = modelName;
   }
 
   if (queryOptions && queryOptions.include) {
@@ -104,14 +104,14 @@ const getQueryAuditAccessDetailsHelper = (
           null,
           queryInclude.name,
           queryInclude.name,
-          subjectDetails
+          auditDetails
         );
       } else {
         getQueryAuditAccessDetailsHelper(
           queryInclude,
           queryInclude.as ? queryInclude.as : queryInclude.model.name,
           queryInclude.model.name,
-          subjectDetails
+          auditDetails
         );
       }
     });

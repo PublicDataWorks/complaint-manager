@@ -23,8 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     subject: {
       type: DataTypes.STRING
     },
-    subjectDetails: {
-      field: "subject_details",
+    auditDetails: {
+      field: "audit_details",
       type: DataTypes.JSONB
     },
     createdAt: {

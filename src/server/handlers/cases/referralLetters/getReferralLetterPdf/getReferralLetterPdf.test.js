@@ -73,7 +73,7 @@ describe("Generate referral letter pdf", () => {
       expect(dataAccessAudit.subject).toEqual(
         AUDIT_SUBJECT.DRAFT_REFERRAL_LETTER_PDF
       );
-      expect(dataAccessAudit.subjectDetails).toEqual({
+      expect(dataAccessAudit.auditDetails).toEqual({
         Case: ["Status"]
       });
     });

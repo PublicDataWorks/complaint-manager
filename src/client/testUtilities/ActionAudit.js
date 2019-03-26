@@ -10,7 +10,7 @@ class ActionAudit {
     this.caseId = build.caseId;
     this.user = build.user;
     this.subject = build.subject;
-    this.subjectDetails = build.subjectDetails;
+    this.auditDetails = build.auditDetails;
     this.auditType = build.auditType;
     this.action = build.action;
     this.createdAt = build.createdAt;
@@ -24,7 +24,7 @@ class ActionAudit {
         this.caseId = 17;
         this.user = "Bobby";
         this.subject = AUDIT_SUBJECT.CASE_DETAILS;
-        this.subjectDetails = null;
+        this.auditDetails = null;
         this.action = AUDIT_ACTION.DATA_ACCESSED;
         this.auditType = AUDIT_TYPE.DATA_ACCESS;
         this.createdAt = new Date().toISOString();
@@ -57,8 +57,8 @@ class ActionAudit {
         return this;
       }
 
-      withSubjectDetails(subjectDetails) {
-        this.subjectDetails = subjectDetails;
+      withAuditDetails(auditDetails) {
+        this.auditDetails = auditDetails;
         return this;
       }
 
