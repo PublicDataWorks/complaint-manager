@@ -51,7 +51,7 @@ describe("getCaseHistory", () => {
         subject: AUDIT_SUBJECT.CASE_HISTORY,
         auditType: AUDIT_TYPE.DATA_ACCESS,
         caseId: createdCase.id,
-        subjectDetails: expect.objectContaining({
+        auditDetails: expect.objectContaining({
           "Data Change Audit": [
             "Action",
             "Model Name",

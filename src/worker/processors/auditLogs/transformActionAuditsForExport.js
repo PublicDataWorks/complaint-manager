@@ -2,19 +2,19 @@ import { AUDIT_TYPE } from "../../../sharedUtilities/constants";
 
 const _ = require("lodash");
 
-const generateSnapshot = (subjectDetails, subjectDetailsHeader) => {
-  if (_.isArray(subjectDetails)) {
-    return subjectDetails.join(", ");
+const generateSnapshot = (auditDetails, auditDetailsHeader) => {
+  if (_.isArray(auditDetails)) {
+    return auditDetails.join(", ");
   }
 
   let snapshotArray;
-  if (_.isObject(subjectDetails)) {
-    snapshotArray = Object.keys(subjectDetails).map(key => {
-      return `${_.startCase(key)}: ${generateSnapshot(subjectDetails[key])}`;
+  if (_.isObject(auditDetails)) {
+    snapshotArray = Object.keys(auditDetails).map(key => {
+      return `${_.startCase(key)}: ${generateSnapshot(auditDetails[key])}`;
     });
 
-    if (subjectDetailsHeader) {
-      snapshotArray.unshift([`${subjectDetailsHeader}\n`]);
+    if (auditDetailsHeader) {
+      snapshotArray.unshift([`${auditDetailsHeader}\n`]);
     }
 
     return snapshotArray.join("\n");
@@ -30,22 +30,23 @@ const transformActionAuditsForExport = audits => {
 };
 
 const transformActionAudit = audit => {
-  let subject, subjectDetailsHeader;
+  let subject, auditDetailsHeader;
+
   if (
     audit.auditType === AUDIT_TYPE.DATA_ACCESS &&
-    audit.subjectDetails &&
-    !_.isArray(audit.subjectDetails) &&
-    _.isObject(audit.subjectDetails)
+    audit.auditDetails &&
+    !_.isArray(audit.auditDetails) &&
+    _.isObject(audit.auditDetails)
   ) {
-    subject = Object.keys(audit.subjectDetails).join(", ");
-    subjectDetailsHeader = audit.subject;
+    subject = Object.keys(audit.auditDetails).join(", ");
+    auditDetailsHeader = audit.subject;
   }
 
   return {
     ...audit,
     audit_type: audit.auditType,
     subject: subject ? subject : audit.subject,
-    snapshot: generateSnapshot(audit.subjectDetails, subjectDetailsHeader)
+    snapshot: generateSnapshot(audit.auditDetails, auditDetailsHeader)
   };
 };
 

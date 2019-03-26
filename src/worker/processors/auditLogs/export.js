@@ -29,7 +29,7 @@ const exportAuditLog = async (job, done) => {
       subject: "Audit Subject",
       subject_id: "Subject Database ID",
       changes: "Changes",
-      snapshot: "Subject Details",
+      snapshot: "Audit Details",
       created_at: "Timestamp"
     };
     const csvOptions = { header: true, columns, cast: dateFormatter };
@@ -43,7 +43,7 @@ const exportAuditLog = async (job, done) => {
           "user",
           ["audit_type", "auditType"],
           "subject",
-          ["subject_details", "subjectDetails"]
+          ["audit_details", "auditDetails"]
         ],
         raw: true,
         transaction: t

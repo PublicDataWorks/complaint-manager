@@ -48,7 +48,7 @@ describe("getCaseNotes", function() {
         action: AUDIT_ACTION.DATA_ACCESSED,
         subject: AUDIT_SUBJECT.CASE_NOTES,
         caseId: existingCase.id,
-        subjectDetails: {
+        auditDetails: {
           "Case Note": ["All Case Note Data"]
         }
       })

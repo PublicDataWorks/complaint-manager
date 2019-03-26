@@ -45,7 +45,7 @@ describe("GET /api/export-audit-log", () => {
     expect(uploadFileToS3).toHaveBeenCalledWith(
       job.id,
       expect.stringContaining(
-        "Audit Type,User,Case Database ID,Action,Audit Subject,Subject Database ID,Changes,Subject Details,Timestamp\n"
+        "Audit Type,User,Case Database ID,Action,Audit Subject,Subject Database ID,Changes,Audit Details,Timestamp\n"
       ),
       JOB_OPERATION.AUDIT_LOG_EXPORT.filename,
       JOB_OPERATION.AUDIT_LOG_EXPORT.key
@@ -75,7 +75,7 @@ describe("GET /api/export-audit-log", () => {
     expect(record["Audit Subject"]).toEqual(AUDIT_SUBJECT.AUDIT_LOG);
     expect(record["Subject Database ID"]).toEqual("");
     expect(record["Changes"]).toEqual("");
-    expect(record["Subject Details"]).toEqual("");
+    expect(record["Audit Details"]).toEqual("");
     expect(record["Timestamp"]).toEqual(
       moment(timeOfExport)
         .tz(TIMEZONE)
@@ -110,7 +110,7 @@ describe("GET /api/export-audit-log", () => {
     expect(loginRecord["Audit Subject"]).toEqual("");
     expect(loginRecord["Subject Database ID"]).toEqual("");
     expect(loginRecord["Changes"]).toEqual("");
-    expect(loginRecord["Subject Details"]).toEqual("");
+    expect(loginRecord["Audit Details"]).toEqual("");
     expect(loginRecord["Timestamp"]).toEqual(
       moment(actionAuditAttributes.createdAt)
         .tz(TIMEZONE)
@@ -176,8 +176,6 @@ describe("GET /api/export-audit-log", () => {
     expect(dataChangeRecord["Changes"]).toEqual(
       "Name changed from 'greg II' to 'bob'"
     );
-    expect(dataChangeRecord["Subject Details"]).toEqual(
-      `Case Id: 5\nName: bob`
-    );
+    expect(dataChangeRecord["Audit Details"]).toEqual(`Case Id: 5\nName: bob`);
   });
 });

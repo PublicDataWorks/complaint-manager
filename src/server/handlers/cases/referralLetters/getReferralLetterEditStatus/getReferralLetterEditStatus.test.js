@@ -90,7 +90,7 @@ describe("getReferralLetterEditStatus", () => {
       expect(dataAccessAudit.subject).toEqual(
         AUDIT_SUBJECT.REFERRAL_LETTER_DATA
       );
-      expect(dataAccessAudit.subjectDetails).toEqual({
+      expect(dataAccessAudit.auditDetails).toEqual({
         "Referral Letter": ["Edit Status"]
       });
     });
