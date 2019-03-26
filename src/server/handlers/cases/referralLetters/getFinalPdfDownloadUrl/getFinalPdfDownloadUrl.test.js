@@ -131,7 +131,9 @@ describe("getFinalPdfDownloadUrl", () => {
     expect(createdAudit.action).toEqual(AUDIT_ACTION.DOWNLOADED);
     expect(createdAudit.user).toEqual("TEST_USER_NICKNAME");
     expect(createdAudit.caseId).toEqual(existingCase.id);
-    expect(createdAudit.subject).toEqual(AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF);
+    expect(createdAudit.subject).toEqual(
+      AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF
+    );
   });
 
   test("should retrieve download url for pdf", async () => {
@@ -146,9 +148,13 @@ describe("getFinalPdfDownloadUrl", () => {
 
     await getFinalPdfDownloadUrl(request, response, next);
 
+    const filenameWithCaseId = `${existingCase.id}/${
+      referralLetter.finalPdfFilename
+    }`;
+
     expect(getSignedUrlMock).toHaveBeenCalledWith(S3_GET_OBJECT, {
       Bucket: config[process.env.NODE_ENV].referralLettersBucket,
-      Key: referralLetter.finalPdfFilename,
+      Key: filenameWithCaseId,
       Expires: S3_URL_EXPIRATION
     });
     expect(response._getData()).toEqual("url");
@@ -168,9 +174,13 @@ describe("getFinalPdfDownloadUrl", () => {
 
     await getFinalPdfDownloadUrl(request, response, next);
 
+    const filenameWithCaseId = `${existingCase.id}/${
+      referralLetter.finalPdfFilename
+    }`;
+
     expect(getSignedUrlMock).toHaveBeenCalledWith(S3_GET_OBJECT, {
       Bucket: config[process.env.NODE_ENV].referralLettersBucket,
-      Key: referralLetter.finalPdfFilename,
+      Key: filenameWithCaseId,
       Expires: S3_URL_EXPIRATION
     });
     expect(response._getData()).toEqual("url");

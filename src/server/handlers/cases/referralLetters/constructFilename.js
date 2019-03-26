@@ -13,7 +13,7 @@ const constructFilename = (existingCase, pdfLetterType, editStatus) => {
   const firstComplainantLastName = getFirstComplainantLastName(existingCase);
 
   if (pdfLetterType === REFERRAL_LETTER_VERSION.FINAL) {
-    return `${existingCase.id}/${formattedFirstContactDate}_${
+    return `${formattedFirstContactDate}_${
       existingCase.caseReference
     }_PIB_Referral${firstComplainantLastName}.pdf`;
   } else if (pdfLetterType === REFERRAL_LETTER_VERSION.DRAFT) {

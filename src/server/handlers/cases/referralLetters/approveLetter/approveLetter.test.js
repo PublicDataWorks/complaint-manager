@@ -157,10 +157,13 @@ describe("approveLetter", () => {
           REFERRAL_LETTER_VERSION.FINAL
         );
 
+        const filenameWithCaseId = `${existingCase.id}/${filename}`;
+
         await elevateCaseStatusToReadyForReview(existingCase);
         await approveLetter(request, response, next);
+
         expect(uploadLetterToS3).toHaveBeenCalledWith(
-          filename,
+          filenameWithCaseId,
           `Generated pdf for ${existingCase.id}`,
           "noipm-referral-letters-test"
         );
