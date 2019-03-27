@@ -40,6 +40,7 @@ module.exports = {
   },
   test: {
     host: process.env.CIRCLECI ? "localhost" : "db",
+    s3Bucket: "noipm-local",
     port: 5432,
     exportsBucket: "noipm-exports-test",
     referralLettersBucket: "noipm-referral-letters-test",
