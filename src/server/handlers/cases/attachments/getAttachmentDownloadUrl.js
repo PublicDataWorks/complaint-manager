@@ -59,12 +59,14 @@ const getAttachmentDownloadUrl = asyncMiddleware(
         AUDIT_ACTION.DOWNLOADED,
         { fileName: [request.params.fileName] }
       );
-
-      return s3.getSignedUrl(S3_GET_OBJECT, {
-        Bucket: config[process.env.NODE_ENV].s3Bucket,
-        Key: `${request.params.caseId}/${request.params.fileName}`,
-        Expires: S3_URL_EXPIRATION
-      });
+      const filenameWithCaseId = `${request.params.caseId}/${
+        request.params.fileName
+      }`;
+      return getS3SignedUrl(
+        s3,
+        config[process.env.NODE_ENV].s3Bucket,
+        filenameWithCaseId
+      );
     });
 
     response.setHeader("Content-Type", "text/html");
@@ -73,16 +75,24 @@ const getAttachmentDownloadUrl = asyncMiddleware(
   }
 );
 
+const getS3SignedUrl = (s3, bucket, key) => {
+  return s3.getSignedUrl(S3_GET_OBJECT, {
+    Bucket: bucket,
+    Key: key,
+    Expires: S3_URL_EXPIRATION
+  });
+};
+
 const getComplainantLetterS3Url = (s3, complainantLetter) => {
   const filenameWithCaseId = `${complainantLetter.caseId}/${
     complainantLetter.finalPdfFilename
   }`;
 
-  return s3.getSignedUrl(S3_GET_OBJECT, {
-    Bucket: config[process.env.NODE_ENV].complainantLettersBucket,
-    Key: filenameWithCaseId,
-    Expires: S3_URL_EXPIRATION
-  });
+  return getS3SignedUrl(
+    s3,
+    config[process.env.NODE_ENV].complainantLettersBucket,
+    filenameWithCaseId
+  );
 };
 
 const getReferralLetterS3Url = (s3, referralLetter) => {
@@ -90,11 +100,11 @@ const getReferralLetterS3Url = (s3, referralLetter) => {
     referralLetter.finalPdfFilename
   }`;
 
-  return s3.getSignedUrl(S3_GET_OBJECT, {
-    Bucket: config[process.env.NODE_ENV].referralLettersBucket,
-    Key: filenameWithCaseId,
-    Expires: S3_URL_EXPIRATION
-  });
+  return getS3SignedUrl(
+    s3,
+    config[process.env.NODE_ENV].referralLettersBucket,
+    filenameWithCaseId
+  );
 };
 
 module.exports = getAttachmentDownloadUrl;
