@@ -10,6 +10,12 @@ import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 
 jest.mock("../../auditDataAccess");
 jest.mock("./getCases");
+jest.mock(
+  "../../../checkFeatureToggleEnabled",
+  () => (request, featureName) => {
+    return featureName === "caseDashboardPagination";
+  }
+);
 
 getCases.mockImplementation((caseType, sortBy, sortDirection, transaction) => {
   return "MOCK_GET_CASES";
@@ -26,7 +32,8 @@ describe("getArchivedCases", () => {
       },
       params: {
         sortBy: "by",
-        sortDirection: "direction"
+        sortDirection: "direction",
+        page: 2
       },
       nickname: "nickname"
     });
@@ -40,7 +47,8 @@ describe("getArchivedCases", () => {
       CASES_TYPE.ARCHIVED,
       "by",
       "direction",
-      expect.anything()
+      expect.anything(),
+      2
     );
   });
   describe("test audits", () => {

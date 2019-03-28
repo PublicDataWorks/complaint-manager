@@ -32,5 +32,13 @@
     "criteria": {
       "isPreProd": true
     }
+  },
+  {
+    "id": "caseDashboardPagination",
+    "name": "caseDashboardPagination",
+    "description": "Enables pagination of the cases on the dashboard",
+    "criteria": {
+      "isPreProd": true
+    }
   }
 ]
