@@ -16,6 +16,13 @@ jest.mock("../../auditDataAccess");
 
 jest.mock("./getCases");
 
+jest.mock(
+  "../../../checkFeatureToggleEnabled",
+  () => (request, featureName) => {
+    return featureName === "caseDashboardPagination";
+  }
+);
+
 getCases.mockImplementation((caseType, sortBy, sortDirection, transaction) => {
   return "MOCK_GET_CASES";
 });
@@ -39,7 +46,8 @@ describe("getWorkingCases", () => {
       },
       params: {
         sortBy: "by",
-        sortDirection: "direction"
+        sortDirection: "direction",
+        page: 2
       },
       nickname: "nickname"
     });
@@ -53,7 +61,8 @@ describe("getWorkingCases", () => {
       CASES_TYPE.WORKING,
       "by",
       "direction",
-      expect.anything()
+      expect.anything(),
+      2
     );
   });
 

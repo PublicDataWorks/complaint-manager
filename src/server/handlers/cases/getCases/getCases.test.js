@@ -38,7 +38,6 @@ describe("getCases", () => {
           transaction,
           ASCENDING,
           null,
-          null,
           1
         );
       });
@@ -55,7 +54,6 @@ describe("getCases", () => {
           CASES_TYPE.WORKING,
           transaction,
           ASCENDING,
-          null,
           null,
           2
         );

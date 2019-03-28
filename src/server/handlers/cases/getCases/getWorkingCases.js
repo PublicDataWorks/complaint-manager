@@ -6,19 +6,26 @@ import {
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../auditDataAccess";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
+import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 
 const getWorkingCases = asyncMiddleware(async (request, response) => {
   const cases = await models.sequelize.transaction(async transaction => {
     let auditDetails = {};
 
+    const toggleCaseDashboardPagination = checkFeatureToggleEnabled(
+      request,
+      "caseDashboardPagination"
+    );
     const sortBy = request.params.sortBy;
     const sortDirection = request.params.sortDirection;
+    const page = toggleCaseDashboardPagination ? request.params.page : null;
 
     const cases = await getCases(
       CASES_TYPE.WORKING,
       sortBy,
       sortDirection,
-      transaction
+      transaction,
+      page
     );
 
     await auditDataAccess(

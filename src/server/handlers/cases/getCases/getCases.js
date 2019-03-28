@@ -40,7 +40,6 @@ const getCases = async (
   sortBy,
   sortDirection,
   transaction = null,
-  auditDetails = null,
   page = null
 ) => {
   const order = [
