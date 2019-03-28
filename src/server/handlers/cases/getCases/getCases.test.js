@@ -1,4 +1,7 @@
-import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
+import {
+  createTestCaseWithCivilian,
+  createTestCaseWithoutCivilian
+} from "../../../testHelpers/modelMothers";
 import models from "../../../models";
 import getCases, { CASES_TYPE } from "./getCases";
 import Case from "../../../../client/testUtilities/case";
@@ -10,6 +13,7 @@ import {
   ASCENDING,
   CASE_STATUS,
   COMPLAINANT,
+  DEFAULT_PAGINATION_LIMIT,
   DESCENDING,
   PERSON_TYPE,
   SORT_CASES_BY
@@ -20,6 +24,54 @@ import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 describe("getCases", () => {
   afterEach(async () => {
     await cleanupDatabase();
+  });
+
+  describe("pagination", () => {
+    test("should get cases on requested page", async () => {
+      const numberOfResults = 25;
+      for (let i = 0; i < numberOfResults; i++) {
+        await createTestCaseWithoutCivilian();
+      }
+      const cases = await models.sequelize.transaction(async transaction => {
+        return await getCases(
+          CASES_TYPE.WORKING,
+          transaction,
+          ASCENDING,
+          null,
+          null,
+          1
+        );
+      });
+      expect(cases.length).toEqual(DEFAULT_PAGINATION_LIMIT);
+    });
+
+    test("should get page 2 of cases when more then 20 cases", async () => {
+      const numberOfResults = 25;
+      for (let i = 0; i < numberOfResults; i++) {
+        await createTestCaseWithoutCivilian();
+      }
+      const cases = await models.sequelize.transaction(async transaction => {
+        return await getCases(
+          CASES_TYPE.WORKING,
+          transaction,
+          ASCENDING,
+          null,
+          null,
+          2
+        );
+      });
+      expect(cases.length).toEqual(numberOfResults - DEFAULT_PAGINATION_LIMIT);
+    });
+    test("should provide all results when no page provided", async () => {
+      const numberOfResults = 25;
+      for (let i = 0; i < numberOfResults; i++) {
+        await createTestCaseWithoutCivilian();
+      }
+      const cases = await models.sequelize.transaction(async transaction => {
+        return await getCases(CASES_TYPE.WORKING, transaction, ASCENDING);
+      });
+      expect(cases.length).toEqual(numberOfResults);
+    });
   });
 
   describe("working cases", () => {
