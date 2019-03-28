@@ -2,6 +2,7 @@ import models from "../../../models";
 import sequelize from "sequelize";
 import {
   ASCENDING,
+  DEFAULT_PAGINATION_LIMIT,
   DESCENDING,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
@@ -39,7 +40,8 @@ const getCases = async (
   sortBy,
   sortDirection,
   transaction = null,
-  auditDetails = null
+  auditDetails = null,
+  page = null
 ) => {
   const order = [
     ...getSortingOrderForQuery(sortBy, sortDirection),
@@ -55,11 +57,18 @@ const getCases = async (
       : {
           deletedAt: null
         };
+  let limit, offset;
+  if (page) {
+    offset = (page - 1) * DEFAULT_PAGINATION_LIMIT;
+    limit = DEFAULT_PAGINATION_LIMIT;
+  }
 
   const queryOptions = {
     where: where,
     transaction,
-    order: order
+    order: order,
+    limit: limit,
+    offset: offset
   };
 
   return await models.sortable_cases_view.findAll(queryOptions);
