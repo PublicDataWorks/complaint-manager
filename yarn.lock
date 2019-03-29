@@ -2179,10 +2179,10 @@ autosuggest-highlight@~3.1.1:
   dependencies:
     diacritic "0.0.2"
 
-aws-sdk@~2.429.0:
-  version "2.429.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.429.0.tgz#27c32734f6473f69a39c29a694d54d15b5beb68a"
-  integrity sha512-8RmRyCXYjDC15BQlkkgT5Yqs8GAdPmjaLRP03Lc6kqaKuMMIi4EnNIlXDKi9kwj3zl2AXfm0GE5blcE0+ZfaxQ==
+aws-sdk@~2.431.0:
+  version "2.431.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.431.0.tgz#26863cf66087fcaefb852ed8d4aaa8d7422710cb"
+  integrity sha512-TcY5miRDCl4ZRFO90GVl85YlrJgVqiGxvT3ygdflw9LEflJt7S8t3MG5KBPGRIfF6xucZqaGj9DTXgmgTxHAkA==
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
