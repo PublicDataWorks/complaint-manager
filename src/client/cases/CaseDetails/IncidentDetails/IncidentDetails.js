@@ -57,8 +57,7 @@ class IncidentDetails extends React.Component {
       intakeSource,
       howDidYouHearAboutUsSource,
       classes,
-      pibCaseNumber,
-      featureToggles
+      pibCaseNumber
     } = this.props;
     const classificationInitialism = classification
       ? classification.initialism
@@ -67,8 +66,6 @@ class IncidentDetails extends React.Component {
     const howDidYouHearAboutUsSourceName = howDidYouHearAboutUsSource
       ? howDidYouHearAboutUsSource.name
       : "";
-    const toggleHowDidYouHearAboutUsSource =
-      featureToggles.HowDidYouHearAboutUsFeature;
 
     return (
       <BaseCaseDetailsCard title="Incident Details">
@@ -139,15 +136,13 @@ class IncidentDetails extends React.Component {
                     testLabel="intakeSource"
                   />
                 </StyledInfoDisplay>
-                {toggleHowDidYouHearAboutUsSource ? (
-                  <StyledInfoDisplay>
-                    <CivilianInfoDisplay
-                      displayLabel="How did you hear about us?"
-                      value={howDidYouHearAboutUsSourceName}
-                      testLabel="howDidYouHearAboutUsSource"
-                    />
-                  </StyledInfoDisplay>
-                ) : null}
+                <StyledInfoDisplay>
+                  <CivilianInfoDisplay
+                    displayLabel="How did you hear about us?"
+                    value={howDidYouHearAboutUsSourceName}
+                    testLabel="howDidYouHearAboutUsSource"
+                  />
+                </StyledInfoDisplay>
                 <div
                   style={{ flex: 1, textAlign: "left", marginRight: "10px" }}
                 />
@@ -180,7 +175,6 @@ class IncidentDetails extends React.Component {
           dialogOpen={this.props.open}
           handleDialogClose={this.handleDialogClose}
           caseId={caseId}
-          toggleHowDidYouHearAboutUsSource={toggleHowDidYouHearAboutUsSource}
         />
       </BaseCaseDetailsCard>
     );
@@ -204,7 +198,6 @@ const mapStateToProps = state => ({
     state.currentCase.details.howDidYouHearAboutUsSource,
   isArchived: state.currentCase.details.isArchived,
   open: state.ui.editIncidentDetailsDialog.open,
-  featureToggles: state.featureToggles,
   pibCaseNumber: state.currentCase.details.pibCaseNumber
 });
 

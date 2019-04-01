@@ -6,12 +6,6 @@
     "enabled": true
   },
   {
-    "id": "HowDidYouHearAboutUsFeature",
-    "name": "HowDidYouHearAboutUsFeature",
-    "description": "Toggle to enable how did you hear about us field on incident details",
-    "enabled": true
-  },
-  {
     "id": "dateRangeExportFeature",
     "name": "dateRangeExportFeature",
     "description": "Toggle to enable date range for exporting audit log and cases",
