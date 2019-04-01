@@ -41,7 +41,8 @@ describe("getCases", () => {
           1
         );
       });
-      expect(cases.length).toEqual(DEFAULT_PAGINATION_LIMIT);
+      expect(cases.rows.length).toEqual(DEFAULT_PAGINATION_LIMIT);
+      expect(cases.count).toEqual(numberOfResults);
     });
 
     test("should get page 2 of cases when more then 20 cases", async () => {
@@ -58,7 +59,10 @@ describe("getCases", () => {
           2
         );
       });
-      expect(cases.length).toEqual(numberOfResults - DEFAULT_PAGINATION_LIMIT);
+      expect(cases.rows.length).toEqual(
+        numberOfResults - DEFAULT_PAGINATION_LIMIT
+      );
+      expect(cases.count).toEqual(numberOfResults);
     });
     test("should provide all results when no page provided", async () => {
       const numberOfResults = 25;
@@ -68,7 +72,8 @@ describe("getCases", () => {
       const cases = await models.sequelize.transaction(async transaction => {
         return await getCases(CASES_TYPE.WORKING, transaction, ASCENDING);
       });
-      expect(cases.length).toEqual(numberOfResults);
+      expect(cases.rows.length).toEqual(numberOfResults);
+      expect(cases.count).toEqual(numberOfResults);
     });
   });
 
@@ -84,7 +89,7 @@ describe("getCases", () => {
       const cases = await models.sequelize.transaction(async transaction => {
         return await getCases(CASES_TYPE.WORKING, transaction);
       });
-      expect(cases).toEqual(
+      expect(cases.rows).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
             id: existingCase.id,
@@ -131,7 +136,7 @@ describe("getCases", () => {
         return await getCases(CASES_TYPE.ARCHIVED, transaction);
       });
 
-      expect(cases).toEqual(
+      expect(cases.rows).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
             id: existingArchivedCase.id,
@@ -140,7 +145,7 @@ describe("getCases", () => {
         ])
       );
 
-      expect(cases).not.toEqual(
+      expect(cases.rows).not.toEqual(
         expect.arrayContaining([
           expect.objectContaining({
             deletedAt: null
@@ -223,7 +228,7 @@ describe("getCases", () => {
           "asc"
         );
 
-        expect(sortedCases).toEqual([
+        expect(sortedCases.rows).toEqual([
           expect.objectContaining({
             id: initialCase.id,
             status: CASE_STATUS.INITIAL
@@ -258,7 +263,7 @@ describe("getCases", () => {
           DESCENDING
         );
 
-        expect(sortedCases).toEqual([
+        expect(sortedCases.rows).toEqual([
           expect.objectContaining({
             id: closedCase.id,
             status: CASE_STATUS.CLOSED
@@ -335,7 +340,7 @@ describe("getCases", () => {
       test("returns cases in order of descending case reference if no sort by or sort direction argument", async () => {
         const sortedCases = await getCases(CASES_TYPE.WORKING, null, null);
 
-        expect(sortedCases).toEqual([
+        expect(sortedCases.rows).toEqual([
           expect.objectContaining({
             id: fourthCase.id,
             year: fourthCase.year,
@@ -366,7 +371,7 @@ describe("getCases", () => {
           ASCENDING
         );
 
-        expect(sortedCases).toEqual([
+        expect(sortedCases.rows).toEqual([
           expect.objectContaining({
             id: secondCase.id,
             year: secondCase.year,
@@ -397,7 +402,7 @@ describe("getCases", () => {
           DESCENDING
         );
 
-        expect(sortedCases).toEqual([
+        expect(sortedCases.rows).toEqual([
           expect.objectContaining({
             id: fourthCase.id,
             year: fourthCase.year,
@@ -531,7 +536,7 @@ describe("getCases", () => {
           ASCENDING
         );
 
-        expect(sortedCases).toEqual([
+        expect(sortedCases.rows).toEqual([
           expect.objectContaining({
             id: caseWithNoAccused.id,
             accusedPersonType: null
@@ -559,7 +564,7 @@ describe("getCases", () => {
           DESCENDING
         );
 
-        expect(sortedCases).toEqual([
+        expect(sortedCases.rows).toEqual([
           expect.objectContaining({
             id: firstCaseWithKnownAccused.id,
             accusedLastName: "Bruce"
@@ -795,7 +800,7 @@ describe("getCases", () => {
           ASCENDING
         );
 
-        expect(cases).toEqual([
+        expect(cases.rows).toEqual([
           expect.objectContaining({
             complainantPersonType: null
           }),
@@ -830,7 +835,7 @@ describe("getCases", () => {
           DESCENDING
         );
 
-        expect(cases).toEqual([
+        expect(cases.rows).toEqual([
           expect.objectContaining({
             complainantLastName: "Shane"
           }),
@@ -892,7 +897,7 @@ describe("getCases", () => {
           ASCENDING
         );
 
-        expect(sortedCases).toEqual([
+        expect(sortedCases.rows).toEqual([
           expect.objectContaining({ id: earlierCase.id }),
           expect.objectContaining({ id: middleCase.id }),
           expect.objectContaining({ id: laterCase.id })
@@ -906,7 +911,7 @@ describe("getCases", () => {
           DESCENDING
         );
 
-        expect(sortedCases).toEqual([
+        expect(sortedCases.rows).toEqual([
           expect.objectContaining({ id: laterCase.id }),
           expect.objectContaining({ id: middleCase.id }),
           expect.objectContaining({ id: earlierCase.id })
@@ -948,7 +953,7 @@ describe("getCases", () => {
           ASCENDING
         );
 
-        expect(sortedCases).toEqual([
+        expect(sortedCases.rows).toEqual([
           expect.objectContaining({ id: secondCase.id, assignedTo: "bmail" }),
           expect.objectContaining({ id: thirdCase.id, assignedTo: "email" }),
           expect.objectContaining({ id: firstCase.id, assignedTo: "zmail" })
@@ -962,7 +967,7 @@ describe("getCases", () => {
           DESCENDING
         );
 
-        expect(sortedCases).toEqual([
+        expect(sortedCases.rows).toEqual([
           expect.objectContaining({ id: firstCase.id, assignedTo: "zmail" }),
           expect.objectContaining({ id: thirdCase.id, assignedTo: "email" }),
           expect.objectContaining({ id: secondCase.id, assignedTo: "bmail" })
