@@ -20,7 +20,7 @@ const cookieParser = require("cookie-parser");
 const { JOB_OPERATION } = require("../sharedUtilities/constants");
 
 const csvCaseExport = require("./processors/exportCases/csvCaseExport");
-const auditExport = require("./processors/auditLogs/export");
+const auditExport = require("./processors/auditLogs/exportAuditLog");
 const jobQueue = require("../server/handlers/cases/export/jobQueue");
 
 winston.configure({

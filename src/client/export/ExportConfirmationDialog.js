@@ -17,6 +17,14 @@ import {
   exportJobStarted
 } from "../actionCreators/exportActionCreators";
 
+const dateRangeText = dateRange => {
+  if (dateRange) {
+    return ` between ${dateRange.startDate} and ${dateRange.endDate} `;
+  } else {
+    return " ";
+  }
+};
+
 const ExportConfirmationDialog = props => {
   const startExportJob = () => {
     props.generateExportJob(props.path);
@@ -32,9 +40,9 @@ const ExportConfirmationDialog = props => {
           variant={"body1"}
           style={{ wordBreak: "break-word", marginBottom: "16px" }}
         >
-          This action will export {props.warningText} the system as a .csv file.
-          This file will download automatically and may take a few seconds to
-          generate.
+          This action will export {props.warningText} the system
+          {dateRangeText(props.dateRange)}as a .csv file. This file will
+          download automatically and may take a few seconds to generate.
         </Typography>
         <Typography variant={"body1"} style={{ wordBreak: "break-word" }}>
           Are you sure you wish to continue?
@@ -65,7 +73,8 @@ const mapStateToProps = state => ({
   open: state.ui.exportDialog.open,
   path: state.ui.exportDialog.path,
   title: state.ui.exportDialog.title,
-  warningText: state.ui.exportDialog.warningText
+  warningText: state.ui.exportDialog.warningText,
+  dateRange: state.ui.exportDialog.dateRange
 });
 export default connect(
   mapStateToProps,

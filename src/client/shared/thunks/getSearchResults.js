@@ -1,4 +1,4 @@
-import encodeUriWithParams from "../../utilities/encodeUriWithParams";
+import encodeUriWithQueryParams from "../../utilities/encodeUriWithQueryParams";
 import {
   searchFailed,
   searchInitiated,
@@ -28,7 +28,7 @@ const getSearchResults = (
 
 const fetchSearchResults = async (searchCriteria, resourceToSearch) => {
   const url = `api/${resourceToSearch}/search`;
-  const encodedUri = encodeUriWithParams(url, searchCriteria);
+  const encodedUri = encodeUriWithQueryParams(url, searchCriteria);
   return await axios.get(encodedUri);
 };
 

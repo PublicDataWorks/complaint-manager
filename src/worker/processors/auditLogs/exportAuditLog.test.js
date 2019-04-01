@@ -13,11 +13,11 @@ import ActionAudit from "../../../client/testUtilities/ActionAudit";
 import models from "../../../server/models/index";
 import { createTestCaseWithoutCivilian } from "../../../server/testHelpers/modelMothers";
 import uploadFileToS3 from "../fileUpload/uploadFileToS3";
-import exportAuditLog from "./export";
+import exportAuditLog from "./exportAuditLog";
 
 jest.mock("../fileUpload/uploadFileToS3", () => jest.fn());
 
-describe("GET /api/export-audit-log", () => {
+describe("exportAuditLog", () => {
   const nickname = "nickName";
   const job = { data: { user: nickname } };
   const awsResult = "awsResult";
@@ -177,5 +177,70 @@ describe("GET /api/export-audit-log", () => {
       "Name changed from 'greg II' to 'bob'"
     );
     expect(dataChangeRecord["Audit Details"]).toEqual(`Case Id: 5\nName: bob`);
+  });
+
+  test("only gets audits in date range", async () => {
+    const jobWithDateRange = {
+      data: {
+        user: nickname,
+        dateRange: { from: "2018-01-01", to: "2018-12-31" }
+      }
+    };
+    await models.data_change_audit.create({
+      auditType: AUDIT_TYPE.DATA_CHANGE,
+      user: "smith",
+      action: AUDIT_ACTION.DATA_UPDATED,
+      snapshot: {
+        id: 5,
+        name: "bob"
+      },
+      caseId: 1,
+      modelName: "Case",
+      changes: { name: { previous: "greg II", new: "bob" } },
+      modelId: 20,
+      createdAt: new Date("2017-12-21")
+    });
+
+    await models.data_change_audit.create({
+      auditType: AUDIT_TYPE.DATA_CHANGE,
+      user: "jones",
+      action: AUDIT_ACTION.DATA_UPDATED,
+      snapshot: {
+        id: 4,
+        name: "anne"
+      },
+      caseId: 1,
+      modelName: "Case",
+      changes: { name: { previous: "bob", new: "anne" } },
+      modelId: 20,
+      createdAt: new Date("2018-12-21")
+    });
+
+    await models.action_audit.create({
+      auditType: AUDIT_TYPE.EXPORT,
+      action: AUDIT_ACTION.EXPORTED,
+      subject: AUDIT_SUBJECT.AUDIT_LOG,
+      caseId: null,
+      user: "bruce",
+      createdAt: new Date("2018-12-02")
+    });
+
+    await models.action_audit.create({
+      auditType: AUDIT_TYPE.EXPORT,
+      action: AUDIT_ACTION.EXPORTED,
+      subject: AUDIT_SUBJECT.AUDIT_LOG,
+      caseId: null,
+      user: "riley",
+      createdAt: new Date("2000-03-02")
+    });
+
+    await exportAuditLog(jobWithDateRange, jobDone);
+
+    expect(records.length).toEqual(2);
+
+    expect(records).toEqual([
+      expect.objectContaining({ User: "jones" }),
+      expect.objectContaining({ User: "bruce" })
+    ]);
   });
 });

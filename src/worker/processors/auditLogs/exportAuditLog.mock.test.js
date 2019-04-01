@@ -11,7 +11,7 @@ import {
   suppressWinstonLogs
 } from "../../../server/testHelpers/requestTestHelpers";
 import uploadFileToS3 from "../fileUpload/uploadFileToS3";
-import exportAudit from "./export";
+import exportAuditLog from "./exportAuditLog";
 
 jest.mock("csv-stringify/lib/index");
 jest.mock("../fileUpload/uploadFileToS3");
@@ -33,7 +33,7 @@ describe("GET /api/export-audit-log", () => {
       uploadFileToS3.mockImplementation(jest.fn);
 
       const job = { data: { user: "some user" } };
-      await exportAudit(job, async () => {});
+      await exportAuditLog(job, async () => {});
 
       const exportActionAudit = await models.action_audit.findOne({
         where: {

@@ -24,8 +24,6 @@ const {
 } = require("../../sharedUtilities/constants");
 
 export default (sequelize, DataTypes) => {
-  const Op = sequelize.Op;
-
   const Case = sequelize.define(
     "cases",
     {
