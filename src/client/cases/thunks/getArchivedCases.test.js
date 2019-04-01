@@ -9,7 +9,7 @@ jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("getArchivedCases", () => {
   const dispatch = jest.fn();
-  const responseBody = { cases: ["a case"] };
+  const responseBody = { cases: { rows: ["a case"], count: 1 } };
   const sortBy = "sortBy";
   const sortDirection = "sortDirection";
 
@@ -27,7 +27,7 @@ describe("getArchivedCases", () => {
     await getArchivedCases(sortBy, sortDirection)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
-      getArchivedCasesSuccess(responseBody.cases)
+      getArchivedCasesSuccess(responseBody.cases.rows, responseBody.cases.count)
     );
   });
 
@@ -46,7 +46,7 @@ describe("getArchivedCases", () => {
     await getArchivedCases(sortBy, sortDirection)(dispatch);
 
     expect(dispatch).not.toHaveBeenCalledWith(
-      getArchivedCasesSuccess(responseBody.cases)
+      getArchivedCasesSuccess(responseBody.cases.rows, responseBody.cases.count)
     );
     expect(dispatch).toHaveBeenCalledWith(push(`/login`));
   });

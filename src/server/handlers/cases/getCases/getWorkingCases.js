@@ -12,12 +12,12 @@ const getWorkingCases = asyncMiddleware(async (request, response) => {
   const cases = await models.sequelize.transaction(async transaction => {
     let auditDetails = {};
 
+    const sortBy = request.params.sortBy;
+    const sortDirection = request.params.sortDirection;
     const toggleCaseDashboardPagination = checkFeatureToggleEnabled(
       request,
       "caseDashboardPagination"
     );
-    const sortBy = request.params.sortBy;
-    const sortDirection = request.params.sortDirection;
     const page = toggleCaseDashboardPagination ? request.params.page : null;
 
     const cases = await getCases(
