@@ -9,6 +9,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../auditDataAccess";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
+import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 
 const httpMocks = require("node-mocks-http");
 
@@ -16,15 +17,14 @@ jest.mock("../../auditDataAccess");
 
 jest.mock("./getCases");
 
-jest.mock(
-  "../../../checkFeatureToggleEnabled",
-  () => (request, featureName) => {
-    return featureName === "caseDashboardPagination";
-  }
-);
+jest.mock("../../../checkFeatureToggleEnabled");
 
 getCases.mockImplementation((caseType, sortBy, sortDirection, transaction) => {
   return "MOCK_GET_CASES";
+});
+
+checkFeatureToggleEnabled.mockImplementation((request, featureName) => {
+  return featureName === "caseDashboardPagination";
 });
 
 describe("getWorkingCases", () => {
@@ -63,6 +63,10 @@ describe("getWorkingCases", () => {
       "direction",
       expect.anything(),
       2
+    );
+    expect(checkFeatureToggleEnabled).toHaveBeenCalledWith(
+      request,
+      "caseDashboardPagination"
     );
   });
 
