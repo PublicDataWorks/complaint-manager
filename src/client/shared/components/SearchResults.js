@@ -38,7 +38,9 @@ export class SearchResults extends Component {
     const paginating = this.props.pagination != null;
     return (
       <div>
-        <Typography variant="title">Search Results</Typography>
+        <Typography variant="title" data-test={"searchHeader"}>
+          {this.renderHeader(this.props.header)}
+        </Typography>
         <Paper elevation={0}>
           {this.renderSearchResultsMessage(paginating)}
           {this.renderSearchResults()}
@@ -48,6 +50,10 @@ export class SearchResults extends Component {
       </div>
     );
   }
+
+  renderHeader = header => {
+    return header ? header : "Search Results";
+  };
 
   renderSpinner = () => {
     if (!this.props.spinnerVisible) {
@@ -72,14 +78,18 @@ export class SearchResults extends Component {
     const searchResultsLength =
       this.props.searchResults && this.props.searchResults.length;
     if (!this.props.searchResults || searchResultsLength === 0) {
-      message = "No results found";
-    } else if (searchResultsLength === 1) {
-      message = `1 result found`;
-    } else {
-      const amountOfResults = paginating
-        ? this.props.pagination.count
-        : searchResultsLength;
-      message = `${amountOfResults} results found`;
+      message = this.props.noResultsMessage
+        ? this.props.noResultsMessage
+        : "No results found";
+    } else if (this.props.subtitleResultCount) {
+      if (searchResultsLength === 1) {
+        message = `1 result found`;
+      } else {
+        const amountOfResults = paginating
+          ? this.props.pagination.count
+          : searchResultsLength;
+        message = `${amountOfResults} results found`;
+      }
     }
 
     return (
@@ -113,5 +123,9 @@ export class SearchResults extends Component {
     );
   }
 }
+//NOTE: This does work, if you take it out some of the other tests fail.
+SearchResults.defaultProps = {
+  subtitleResultCount: true
+};
 
 export default SearchResults;
