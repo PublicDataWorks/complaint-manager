@@ -19,7 +19,7 @@ const exportDialogReducer = (state = initialState, action) => {
         open: true,
         path: `/api/export/schedule/${JOB_OPERATION.AUDIT_LOG_EXPORT.name}`,
         title: "Audit Log",
-        warningText: "a log of all actions taken within"
+        warningText: "a log of all actions taken in"
       };
     case EXPORT_ALL_CASES_CONFIRMATION_OPENED:
       return {

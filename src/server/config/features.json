@@ -1,19 +1,5 @@
 [
   {
-    "id": "caseValidationFeature",
-    "name": "caseValidationFeature",
-    "description": "Toggle to validate case",
-    "enabled": false
-  },
-  {
-    "id": "isAnonymousFeature",
-    "name": "isAnonymousFeature",
-    "description": "Toggle to show isAnonymous checkbox field in complainant and witness dialogs",
-    "criteria": {
-      "isPreProd": true
-    }
-  },
-  {
     "id": "noOfficerHistoryNoteFeature",
     "name": "noOfficerHistoryNoteFeature",
     "description": "Toggle to show radio buttons for officer allegation history and to hide officer history when none exists",
@@ -24,6 +10,22 @@
     "name": "HowDidYouHearAboutUsFeature",
     "description": "Toggle to enable how did you hear about us field on incident details",
     "enabled": true
+  },
+  {
+    "id": "dateRangeExportFeature",
+    "name": "dateRangeExportFeature",
+    "description": "Toggle to enable date range for exporting audit log and cases",
+    "criteria": {
+      "isPreProd": true
+    }
+  },
+  {
+    "id": "isAnonymousFeature",
+    "name": "isAnonymousFeature",
+    "description": "Toggle to show isAnonymous checkbox field in complainant and witness dialogs",
+    "criteria": {
+      "isPreProd": true
+    }
   },
   {
     "id": "ReferralLetterAttachment",
@@ -40,5 +42,11 @@
     "criteria": {
       "isPreProd": true
     }
+  },
+  {
+    "id": "caseValidationFeature",
+    "name": "caseValidationFeature",
+    "description": "Toggle to validate case",
+    "enabled": false
   }
 ]

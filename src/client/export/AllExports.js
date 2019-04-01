@@ -10,6 +10,11 @@ import ExportConfirmationDialog from "./ExportConfirmationDialog";
 import { connect } from "react-redux";
 import JobDetails from "./JobDetails";
 import { USER_PERMISSIONS } from "../../sharedUtilities/constants";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../shared/components/StyledButtons";
+import { Typography } from "@material-ui/core";
 
 const margin = {
   marginLeft: "36px",
@@ -33,13 +38,7 @@ class AllExports extends Component {
     this.props.clearCurrentExportJob();
   }
 
-  renderExportAuditLogOption = () => {
-    if (
-      !this.props.permissions ||
-      !this.props.permissions.includes(USER_PERMISSIONS.EXPORT_AUDIT_LOG)
-    ) {
-      return null;
-    }
+  renderAuditLogOptionDateRangeExportFeatureOff = () => {
     return (
       <LinkButton
         data-test="exportAuditLog"
@@ -52,8 +51,46 @@ class AllExports extends Component {
       </LinkButton>
     );
   };
+  renderExportAuditLogOption = dateRangeExportFeature => {
+    if (
+      !this.props.permissions ||
+      !this.props.permissions.includes(USER_PERMISSIONS.EXPORT_AUDIT_LOG)
+    ) {
+      return null;
+    }
+    if (!dateRangeExportFeature) {
+      this.renderAuditLogOptionDateRangeExportFeatureOff();
+    } else {
+      return (
+        <div>
+          <div style={{ margin: "0 0 32px 0" }}>
+            <Typography variant="title" style={{ marginRight: "20px" }}>
+              Export Audit Log
+            </Typography>
+            <Typography variant="body1" color="inherit">
+              Select a date range to export an audit log of Complaint Manager
+              activities within that range or export a full audit log.
+            </Typography>
+          </div>
+          <PrimaryButton style={{ marginRight: "20px" }}>
+            Export Selected Audit Log
+          </PrimaryButton>
+          <SecondaryButton
+            data-test={"exportAuditLog"}
+            disabled={this.props.buttonsDisabled}
+            onClick={() => {
+              this.props.openExportAuditLogConfirmationDialog();
+            }}
+          >
+            Export Full Audit Log
+          </SecondaryButton>
+        </div>
+      );
+    }
+  };
 
   render() {
+    const dateRangeExportFeature = this.props.dateRangeExportFeature;
     return (
       <div>
         <div style={margin}>
@@ -67,7 +104,7 @@ class AllExports extends Component {
             >
               Export All Cases
             </LinkButton>
-            {this.renderExportAuditLogOption()}
+            {this.renderExportAuditLogOption(dateRangeExportFeature)}
           </div>
         </div>
         <div style={margin}>
@@ -84,7 +121,8 @@ class AllExports extends Component {
 const mapStateToProps = state => ({
   jobId: state.export.generateJob.jobId,
   buttonsDisabled: state.ui.allExports.buttonsDisabled,
-  permissions: state.users.current.userInfo.permissions
+  permissions: state.users.current.userInfo.permissions,
+  dateRangeExportFeature: state.featureToggles.dateRangeExportFeature
 });
 
 const mapDispatchToProps = {

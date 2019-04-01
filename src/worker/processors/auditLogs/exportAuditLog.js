@@ -1,3 +1,5 @@
+import sequelize from "sequelize";
+
 const {
   TIMEZONE,
   JOB_OPERATION
@@ -13,6 +15,8 @@ const transformDataChangeAuditForExport = require("./transformDataChangeAuditFor
 const transformActionAuditForExport = require("./transformActionAuditsForExport");
 const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 const winston = require("winston");
+
+const Op = sequelize.Op;
 
 const exportAuditLog = async (job, done) => {
   winston.info(`About to run Audit Log Export Job with id ${job.id}`);
@@ -32,10 +36,23 @@ const exportAuditLog = async (job, done) => {
       snapshot: "Audit Details",
       created_at: "Timestamp"
     };
+
+    const dateRangeCondition = job.data.dateRange
+      ? {
+          createdAt: {
+            [Op.between]: [
+              new Date(job.data.dateRange.from),
+              new Date(job.data.dateRange.to)
+            ]
+          }
+        }
+      : {};
+
     const csvOptions = { header: true, columns, cast: dateFormatter };
 
     await models.sequelize.transaction(async t => {
       const actionAudits = await models.action_audit.findAll({
+        where: dateRangeCondition,
         attributes: [
           "created_at",
           "case_id",
@@ -52,6 +69,7 @@ const exportAuditLog = async (job, done) => {
       const modifiedActionAudits = transformActionAuditForExport(actionAudits);
 
       const dataChangeAudits = await models.data_change_audit.findAll({
+        where: dateRangeCondition,
         attributes: [
           "created_at",
           "case_id",

@@ -23,7 +23,7 @@ describe("export dialog reducer", () => {
       open: true,
       path: "/api/export/schedule/AUDIT_LOG_EXPORT",
       title: "Audit Log",
-      warningText: "a log of all actions taken within"
+      warningText: "a log of all actions taken in"
     };
 
     expect(newState).toEqual(expectedState);
@@ -34,7 +34,7 @@ describe("export dialog reducer", () => {
       open: true,
       path: "/api/export/schedule/AUDIT_LOG_EXPORT",
       title: "Audit Log",
-      warningText: "a log of all actions taken within"
+      warningText: "a log of all actions taken in"
     };
 
     const newState = exportDialogReducer(

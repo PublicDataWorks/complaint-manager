@@ -1,4 +1,4 @@
-const encodeUriWithParams = (url, queryParamObject) => {
+const encodeUriWithQueryParams = (url, queryParamObject) => {
   const encodedUri = Object.keys(queryParamObject)
     .map(
       k => encodeURIComponent(k) + "=" + encodeURIComponent(queryParamObject[k])
@@ -8,4 +8,4 @@ const encodeUriWithParams = (url, queryParamObject) => {
   return `${url}?${encodedUri}`;
 };
 
-export default encodeUriWithParams;
+export default encodeUriWithQueryParams;
