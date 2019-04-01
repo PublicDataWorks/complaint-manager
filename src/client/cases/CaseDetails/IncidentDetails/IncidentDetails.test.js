@@ -105,7 +105,6 @@ describe("incident details", () => {
     dispatchSpy = jest.spyOn(store, "dispatch");
     store.dispatch(getCaseDetailsSuccess(currentCase));
     store.dispatch(getClassificationsSuccess([[0, "UTD"], [12, "OTB"]]));
-    store.dispatch(getFeaturesSuccess({ HowDidYouHearAboutUsFeature: true }));
     wrapper = mount(
       <Provider store={store}>
         <IncidentDetails classes={{}} />

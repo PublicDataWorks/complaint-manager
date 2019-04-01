@@ -11,11 +11,6 @@ const config = require("../../../config/config")[process.env.NODE_ENV];
 const Boom = require("boom");
 
 const scheduleExport = asyncMiddleware(async (request, response, next) => {
-  const toggleIncludeHowDidYouHearAboutUsFeature = checkFeatureToggleEnabled(
-    request,
-    "HowDidYouHearAboutUsFeature"
-  );
-
   if (
     JOB_OPERATION.AUDIT_LOG_EXPORT.key ===
     JOB_OPERATION[request.params.operation].key
@@ -40,7 +35,6 @@ const scheduleExport = asyncMiddleware(async (request, response, next) => {
       title: JOB_OPERATION[request.params.operation].title,
       name: JOB_OPERATION[request.params.operation].name,
       user: request.nickname,
-      toggleIncludeHowDidYouHearAboutUsFeature: toggleIncludeHowDidYouHearAboutUsFeature,
       ...dateRangeData
     });
   job.attempts(config.queue.failedJobAttempts);

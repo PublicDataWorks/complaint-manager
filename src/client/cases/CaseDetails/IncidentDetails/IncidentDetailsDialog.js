@@ -209,20 +209,18 @@ class IncidentDetailsDialog extends Component {
                 {generateMenu(props.intakeSources)}
               </Field>
             </div>
-            {this.props.toggleHowDidYouHearAboutUsSource ? (
-              <div style={{ marginTop: "16px" }}>
-                <Field
-                  name="howDidYouHearAboutUsSourceId"
-                  component={NoBlurTextField}
-                  label="How did you hear about us?"
-                  hinttext="How did you hear about us?"
-                  data-test="howDidYouHearAboutUsSourceDropdown"
-                  style={{ width: "60%" }}
-                >
-                  {generateMenu(props.howDidYouHearAboutUsSources)}
-                </Field>
-              </div>
-            ) : null}
+            <div style={{ marginTop: "16px" }}>
+              <Field
+                name="howDidYouHearAboutUsSourceId"
+                component={NoBlurTextField}
+                label="How did you hear about us?"
+                hinttext="How did you hear about us?"
+                data-test="howDidYouHearAboutUsSourceDropdown"
+                style={{ width: "60%" }}
+              >
+                {generateMenu(props.howDidYouHearAboutUsSources)}
+              </Field>
+            </div>
             <div style={{ display: "flex", marginTop: "16px" }}>
               <Field
                 name="pibCaseNumber"

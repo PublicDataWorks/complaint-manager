@@ -31,7 +31,7 @@ describe("csvCaseExport request", () => {
   let records = [];
   const awsResult = "awsResult";
   const job = {
-    data: { user: "some user", toggleIncludeHowDidYouHearAboutUsFeature: true },
+    data: { user: "some user" },
     id: "123"
   };
   const jobDone = jest.fn();
