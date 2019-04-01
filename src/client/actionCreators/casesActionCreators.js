@@ -55,18 +55,20 @@ export const requestCaseCreation = () => ({
   type: "CASE_CREATION_REQUESTED"
 });
 
-export const getWorkingCasesSuccess = cases => ({
+export const getWorkingCasesSuccess = (cases, totalCaseCount) => ({
   type: GET_WORKING_CASES_SUCCESS,
-  cases
+  cases,
+  totalCaseCount
 });
 
 export const resetWorkingCasesLoaded = () => ({
   type: RESET_WORKING_CASES_LOADED
 });
 
-export const getArchivedCasesSuccess = cases => ({
+export const getArchivedCasesSuccess = (cases, totalCaseCount) => ({
   type: GET_ARCHIVED_CASES_SUCCESS,
-  cases
+  cases,
+  totalCaseCount
 });
 
 export const resetArchivedCasesLoaded = () => ({

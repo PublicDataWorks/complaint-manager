@@ -33,7 +33,10 @@ describe("getCases", () => {
       await getCases(sortBy, sortDirection)(dispatch);
 
       expect(dispatch).toHaveBeenCalledWith(
-        getWorkingCasesSuccess(responseBody.cases.rows)
+        getWorkingCasesSuccess(
+          responseBody.cases.rows,
+          responseBody.cases.count
+        )
       );
     });
 
@@ -52,7 +55,10 @@ describe("getCases", () => {
       await getCases(sortBy, sortDirection)(dispatch);
 
       expect(dispatch).not.toHaveBeenCalledWith(
-        getWorkingCasesSuccess(responseBody.cases.rows)
+        getWorkingCasesSuccess(
+          responseBody.cases.rows,
+          responseBody.cases.count
+        )
       );
       expect(dispatch).toHaveBeenCalledWith(push(`/login`));
     });
