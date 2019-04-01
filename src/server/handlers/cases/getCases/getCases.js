@@ -70,7 +70,7 @@ const getCases = async (
     offset: offset
   };
 
-  return await models.sortable_cases_view.findAll(queryOptions);
+  return await models.sortable_cases_view.findAndCountAll(queryOptions);
 };
 
 const caseInsensitiveSort = attributeName => {

@@ -10,7 +10,12 @@ jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 describe("getCases", () => {
   describe("GET /cases", () => {
     const dispatch = jest.fn();
-    const responseBody = { cases: ["a case"] };
+    const responseBody = {
+      cases: {
+        rows: ["a case"],
+        count: 1
+      }
+    };
     const sortBy = "sortBy";
     const sortDirection = "sortDirection";
 
@@ -28,7 +33,7 @@ describe("getCases", () => {
       await getCases(sortBy, sortDirection)(dispatch);
 
       expect(dispatch).toHaveBeenCalledWith(
-        getWorkingCasesSuccess(responseBody.cases)
+        getWorkingCasesSuccess(responseBody.cases.rows)
       );
     });
 
@@ -47,7 +52,7 @@ describe("getCases", () => {
       await getCases(sortBy, sortDirection)(dispatch);
 
       expect(dispatch).not.toHaveBeenCalledWith(
-        getWorkingCasesSuccess(responseBody.cases)
+        getWorkingCasesSuccess(responseBody.cases.rows)
       );
       expect(dispatch).toHaveBeenCalledWith(push(`/login`));
     });
