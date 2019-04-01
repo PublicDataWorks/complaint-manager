@@ -6,7 +6,12 @@ const getCases = (sortBy, sortDirection) => async dispatch => {
     const response = await axios.get(
       `api/cases/all/${sortBy}/${sortDirection}`
     );
-    return dispatch(getWorkingCasesSuccess(response.data.cases.rows));
+    return dispatch(
+      getWorkingCasesSuccess(
+        response.data.cases.rows,
+        response.data.cases.count
+      )
+    );
   } catch (e) {}
 };
 

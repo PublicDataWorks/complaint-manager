@@ -145,20 +145,24 @@ describe("getWorkingCases", () => {
         responsePromise,
         200,
         expect.objectContaining({
-          cases: expect.arrayContaining([
-            expect.objectContaining({
-              complainantFirstName:
-                seededCase.complainantCivilians[0].firstName,
-              complainantLastName: seededCase.complainantCivilians[0].lastName,
-              accusedFirstName: officer.firstName,
-              complaintType: seededCase.complaintType,
-              firstContactDate: moment(seededCase.firstContactDate).format(
-                "YYYY-MM-DD"
-              ),
-              status: CASE_STATUS.INITIAL,
-              assignedTo: "tuser"
-            })
-          ])
+          cases: expect.objectContaining({
+            count: 1,
+            rows: expect.arrayContaining([
+              expect.objectContaining({
+                complainantFirstName:
+                  seededCase.complainantCivilians[0].firstName,
+                complainantLastName:
+                  seededCase.complainantCivilians[0].lastName,
+                accusedFirstName: officer.firstName,
+                complaintType: seededCase.complaintType,
+                firstContactDate: moment(seededCase.firstContactDate).format(
+                  "YYYY-MM-DD"
+                ),
+                status: CASE_STATUS.INITIAL,
+                assignedTo: "tuser"
+              })
+            ])
+          })
         })
       );
     });

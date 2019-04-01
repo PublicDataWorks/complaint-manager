@@ -6,16 +6,25 @@ import {
 
 const initialState = {
   loaded: false,
-  cases: []
+  cases: [],
+  totalCaseCount: 0
 };
 const workingCasesReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_WORKING_CASES_SUCCESS:
-      return { loaded: true, cases: action.cases };
+      return {
+        loaded: true,
+        cases: action.cases,
+        totalCaseCount: action.totalCaseCount
+      };
     case RESET_WORKING_CASES_LOADED:
       return { ...state, loaded: false };
     case CASE_CREATED_SUCCESS:
-      return { ...state, cases: state.cases.concat(action.caseDetails) };
+      return {
+        ...state,
+        cases: state.cases.concat(action.caseDetails),
+        totalCaseCount: ++state.totalCaseCount
+      };
     default:
       return state;
   }

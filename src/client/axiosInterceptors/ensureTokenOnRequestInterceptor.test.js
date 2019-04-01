@@ -9,7 +9,7 @@ jest.mock("../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("ensureTokenOnRequestInterceptor", () => {
   const dispatch = jest.fn();
-  const responseBody = { cases: ["some case"] };
+  const responseBody = { cases: { rows: ["some case"], count: 1 } };
   const sortBy = "sortBy";
   const sortDirection = "sortDirection";
 
@@ -31,7 +31,7 @@ describe("ensureTokenOnRequestInterceptor", () => {
     await getCases(sortBy, sortDirection)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
-      getWorkingCasesSuccess(responseBody.cases)
+      getWorkingCasesSuccess(responseBody.cases.rows, responseBody.cases.count)
     );
     expect(dispatch).not.toHaveBeenCalledWith(push("/login"));
   });
