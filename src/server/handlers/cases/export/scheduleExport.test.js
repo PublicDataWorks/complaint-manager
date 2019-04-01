@@ -40,4 +40,31 @@ describe("exportCases request", function() {
     });
     done();
   });
+
+  test("job should include date range", async done => {
+    const request = {
+      nickname: "user",
+      params: { operation: JOB_OPERATION.CASE_EXPORT.name },
+      query: {
+        exportFromDate: "2018-12-02",
+        exportToDate: "2019-01-14"
+      }
+    };
+
+    const response = { json: jest.fn() };
+
+    await scheduleExport(request, response, () => {});
+
+    expect(queue.testMode.jobs.length).toEqual(1);
+    expect(queue.testMode.jobs[0].data).toEqual({
+      title: JOB_OPERATION.CASE_EXPORT.title,
+      name: JOB_OPERATION.CASE_EXPORT.name,
+      user: request.nickname,
+      dateRange: {
+        from: "2018-12-02",
+        to: "2019-01-14"
+      }
+    });
+    done();
+  });
 });

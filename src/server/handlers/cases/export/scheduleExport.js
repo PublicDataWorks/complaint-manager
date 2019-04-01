@@ -26,13 +26,22 @@ const scheduleExport = asyncMiddleware(async (request, response, next) => {
     }
   }
 
+  const dateRangeData = {};
+  if (request.query.exportFromDate && request.query.exportToDate) {
+    dateRangeData.dateRange = {
+      from: request.query.exportFromDate,
+      to: request.query.exportToDate
+    };
+  }
+
   const job = kueJobQueue
     .createQueue()
     .create(JOB_OPERATION[request.params.operation].key, {
       title: JOB_OPERATION[request.params.operation].title,
       name: JOB_OPERATION[request.params.operation].name,
       user: request.nickname,
-      toggleIncludeHowDidYouHearAboutUsFeature: toggleIncludeHowDidYouHearAboutUsFeature
+      toggleIncludeHowDidYouHearAboutUsFeature: toggleIncludeHowDidYouHearAboutUsFeature,
+      ...dateRangeData
     });
   job.attempts(config.queue.failedJobAttempts);
   job.backoff({ delay: config.queue.exponentialDelay, type: "exponential" });
