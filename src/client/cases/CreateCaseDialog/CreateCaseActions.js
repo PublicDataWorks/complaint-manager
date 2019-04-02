@@ -14,7 +14,6 @@ import { closeCreateCaseDialog } from "../../actionCreators/casesActionCreators"
 import { applyCentralTimeZoneOffset } from "../../utilities/formatDate";
 import { isEmpty } from "lodash";
 import { CREATE_CASE_FORM_NAME } from "../../../sharedUtilities/constants";
-import getCases from "../thunks/getCases";
 
 export class CreateCaseActions extends React.Component {
   closeDialog = () => {

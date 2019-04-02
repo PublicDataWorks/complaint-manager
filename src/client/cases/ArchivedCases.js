@@ -4,7 +4,6 @@ import NavBar from "../shared/components/NavBar/NavBar";
 import { Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { closeSnackbar } from "../actionCreators/snackBarActionCreators";
-import getArchivedCases from "./thunks/getArchivedCases";
 import { resetArchivedCasesLoaded } from "../actionCreators/casesActionCreators";
 
 class ArchivedCases extends Component {

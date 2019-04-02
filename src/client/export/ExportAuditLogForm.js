@@ -1,5 +1,5 @@
 import React from "react";
-import { formValueSelector, reduxForm, SubmissionError } from "redux-form";
+import { reduxForm, SubmissionError } from "redux-form";
 import {
   EXPORT_AUDIT_LOG_FORM_NAME,
   USER_PERMISSIONS
