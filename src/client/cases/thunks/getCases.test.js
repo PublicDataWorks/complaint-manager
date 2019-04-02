@@ -9,6 +9,11 @@ jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("getCases", () => {
   describe("GET /cases", () => {
+    /*
+    NOTE: We should leave the order of these tests as they are. We basically need the missing token test which changes the getAccessToken mock implementation to be the last test which is run. This is because if we try to reset the mock, we lose the module level implementation needed by other tests
+
+    TODO: Look into ways to fix this
+     */
     const dispatch = jest.fn();
     const responseBody = {
       cases: {
@@ -40,6 +45,22 @@ describe("getCases", () => {
       );
     });
 
+    test("should dispatch with page when provided", async () => {
+      const scope = nock("http://localhost")
+        .get(`/api/cases/all/${sortBy}/${sortDirection}?page=2`)
+        .reply(200, responseBody);
+
+      await getCases(sortBy, sortDirection, 2)(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(
+        getWorkingCasesSuccess(
+          responseBody.cases.rows,
+          responseBody.cases.count
+        )
+      );
+      expect(scope.isDone()).toEqual(true);
+    });
+
     test("should redirect immediately if token missing", async () => {
       getAccessToken.mockImplementation(() => false);
 
@@ -61,6 +82,7 @@ describe("getCases", () => {
         )
       );
       expect(dispatch).toHaveBeenCalledWith(push(`/login`));
+      nock.cleanAll();
     });
   });
 });
