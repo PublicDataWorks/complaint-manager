@@ -76,14 +76,18 @@ describe("Get an export job", () => {
     expect(generateExportDownloadUrl).toHaveBeenCalledWith(
       "file.name",
       request.nickname,
-      JOB_OPERATION.CASE_EXPORT.auditSubject
+      JOB_OPERATION.CASE_EXPORT.auditSubject,
+      undefined
     );
   });
 
-  test("send audit audit log subject when job type is audit log", async () => {
+  test("send audit audit log subject and date range when job type is audit log", async () => {
     const job = {
       id: 123,
-      data: { name: JOB_OPERATION.AUDIT_LOG_EXPORT.name },
+      data: {
+        name: JOB_OPERATION.AUDIT_LOG_EXPORT.name,
+        dateRange: { exportStartDate: "date", exportEndDate: "date" }
+      },
       result: { Key: "file.name" },
       state: () => "complete"
     };
@@ -97,7 +101,8 @@ describe("Get an export job", () => {
     expect(generateExportDownloadUrl).toHaveBeenCalledWith(
       "file.name",
       request.nickname,
-      JOB_OPERATION.AUDIT_LOG_EXPORT.auditSubject
+      JOB_OPERATION.AUDIT_LOG_EXPORT.auditSubject,
+      job.data.dateRange
     );
   });
 });

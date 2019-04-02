@@ -17,9 +17,11 @@ const exportJob = asyncMiddleware(async (request, response, next) => {
       downLoadUrl = await generateExportDownloadUrl(
         job.result.Key,
         request.nickname,
-        JOB_OPERATION[job.data.name].auditSubject
+        JOB_OPERATION[job.data.name].auditSubject,
+        job.data.dateRange
       );
     }
+
     response.json({ id: job.id, state: job.state(), downLoadUrl: downLoadUrl });
   });
 });

@@ -170,6 +170,7 @@ export const ARCHIVE_CASE_FORM_NAME = "ArchiveCaseForm";
 export const NARRATIVE_FORM = "NarrativeForm";
 export const EDIT_LETTER_HTML_FORM = "EditLetterHtmlForm";
 export const RESTORE_ARCHIVED_CASE_FORM = "RestoreArchivedCaseForm";
+export const EXPORT_AUDIT_LOG_FORM_NAME = "ExportAuditLogForm";
 
 // ----------------------------------------
 //          Auth0 Scopes / Permissions

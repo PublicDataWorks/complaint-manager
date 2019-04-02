@@ -24,12 +24,10 @@ describe("Export all cases", () => {
 
   test("open confirmation dialog when button clicked", () => {
     const exportCasesButton = allExports.find(
-      'button[data-test="openExportConfirmationDialog"]'
+      'button[data-test="openExportAllCasesConfirmationDialog"]'
     );
     exportCasesButton.simulate("click");
-    const dialog = allExports.find(
-      '[data-test="exportAuditLogConfirmationText"]'
-    );
+    const dialog = allExports.find('[data-test="exportConfirmationText"]');
     expect(dialog).toBeDefined();
     expect(dispatchSpy).toHaveBeenCalledWith(
       openExportAllCasesConfirmationDialog()

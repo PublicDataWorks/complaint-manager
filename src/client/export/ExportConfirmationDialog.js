@@ -16,10 +16,13 @@ import {
   closeExportConfirmationDialog,
   exportJobStarted
 } from "../actionCreators/exportActionCreators";
+import formatDate from "../utilities/formatDate";
 
 const dateRangeText = dateRange => {
   if (dateRange) {
-    return ` between ${dateRange.startDate} and ${dateRange.endDate} `;
+    return ` between ${formatDate(dateRange.exportStartDate)} and ${formatDate(
+      dateRange.exportEndDate
+    )} `;
   } else {
     return " ";
   }
@@ -27,7 +30,7 @@ const dateRangeText = dateRange => {
 
 const ExportConfirmationDialog = props => {
   const startExportJob = () => {
-    props.generateExportJob(props.path);
+    props.generateExportJob(props.path, props.dateRange);
     props.exportJobStarted();
     props.closeExportConfirmationDialog();
   };
@@ -35,7 +38,7 @@ const ExportConfirmationDialog = props => {
   return (
     <Dialog maxWidth="sm" fullWidth={true} open={props.open}>
       <DialogTitle>Export {props.title}</DialogTitle>
-      <DialogContent data-test="exportAuditLogConfirmationText">
+      <DialogContent data-test="exportConfirmationText">
         <Typography
           variant={"body1"}
           style={{ wordBreak: "break-word", marginBottom: "16px" }}
