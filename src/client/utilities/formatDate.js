@@ -1,4 +1,3 @@
-import moment from "moment";
 import timezone from "moment-timezone";
 import { TIMEZONE } from "../../sharedUtilities/constants";
 
