@@ -1,5 +1,4 @@
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
-import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 
 const {
   JOB_OPERATION,
@@ -22,10 +21,14 @@ const scheduleExport = asyncMiddleware(async (request, response, next) => {
   }
 
   const dateRangeData = {};
-  if (request.query.exportFromDate && request.query.exportToDate) {
+  if (
+    request.query &&
+    request.query.exportStartDate &&
+    request.query.exportEndDate
+  ) {
     dateRangeData.dateRange = {
-      from: request.query.exportFromDate,
-      to: request.query.exportToDate
+      exportStartDate: request.query.exportStartDate,
+      exportEndDate: request.query.exportEndDate
     };
   }
 

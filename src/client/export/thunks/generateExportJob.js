@@ -3,10 +3,15 @@ import {
   clearCurrentExportJob,
   generateExportSuccess
 } from "../../actionCreators/exportActionCreators";
+import encodeUriWithQueryParams from "../../utilities/encodeUriWithQueryParams";
 
-const generateExportJob = path => async dispatch => {
+const generateExportJob = (path, dateRange) => async dispatch => {
   try {
-    const response = await axios.get(path);
+    let uri = path;
+    if (dateRange) {
+      uri = encodeUriWithQueryParams(path, dateRange);
+    }
+    const response = await axios.get(uri);
     dispatch(generateExportSuccess(response.data));
   } catch (error) {
     dispatch(clearCurrentExportJob());

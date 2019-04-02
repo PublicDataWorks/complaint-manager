@@ -22,9 +22,12 @@ export const exportJobStarted = () => ({
   type: EXPORT_JOB_STARTED
 });
 
-export const openExportAuditLogConfirmationDialog = () => ({
-  type: EXPORT_AUDIT_LOG_CONFIRMATION_OPENED
-});
+export const openExportAuditLogConfirmationDialog = (dateRange = null) => {
+  return {
+    type: EXPORT_AUDIT_LOG_CONFIRMATION_OPENED,
+    dateRange
+  };
+};
 
 export const closeExportConfirmationDialog = () => ({
   type: EXPORT_CONFIRMATION_CLOSED

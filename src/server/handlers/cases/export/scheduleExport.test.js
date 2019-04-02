@@ -46,8 +46,8 @@ describe("exportCases request", function() {
       nickname: "user",
       params: { operation: JOB_OPERATION.CASE_EXPORT.name },
       query: {
-        exportFromDate: "2018-12-02",
-        exportToDate: "2019-01-14"
+        exportStartDate: "2018-12-02",
+        exportEndDate: "2019-01-14"
       }
     };
 
@@ -61,8 +61,8 @@ describe("exportCases request", function() {
       name: JOB_OPERATION.CASE_EXPORT.name,
       user: request.nickname,
       dateRange: {
-        from: "2018-12-02",
-        to: "2019-01-14"
+        exportStartDate: "2018-12-02",
+        exportEndDate: "2019-01-14"
       }
     });
     done();

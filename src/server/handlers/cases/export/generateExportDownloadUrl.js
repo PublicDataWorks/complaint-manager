@@ -1,3 +1,5 @@
+import formatDate from "../../../../client/utilities/formatDate";
+
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
 const config = require("../../../config/config")[process.env.NODE_ENV];
 
@@ -10,16 +12,32 @@ const {
 } = require("../../../../sharedUtilities/constants");
 const models = require("../../../models/index");
 
-const generateExportDownloadUrl = async (fileName, userName, audit_subject) => {
+const generateExportDownloadUrl = async (
+  fileName,
+  userName,
+  auditSubject,
+  dateRange
+) => {
   const s3 = createConfiguredS3Instance();
 
   const signedUrl = await models.sequelize.transaction(async transaction => {
-    await models.action_audit.create(
+    const auditDetails = dateRange
+      ? {
+          ["Export Range"]: [
+            `${formatDate(dateRange.exportStartDate)} to ${formatDate(
+              dateRange.exportEndDate
+            )}`
+          ]
+        }
+      : null;
+
+    const audit = await models.action_audit.create(
       {
         auditType: AUDIT_TYPE.EXPORT,
         action: AUDIT_ACTION.EXPORTED,
-        subject: audit_subject,
-        user: userName
+        subject: auditSubject,
+        user: userName,
+        auditDetails: auditDetails
       },
       { transaction }
     );

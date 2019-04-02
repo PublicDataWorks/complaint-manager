@@ -183,7 +183,10 @@ describe("exportAuditLog", () => {
     const jobWithDateRange = {
       data: {
         user: nickname,
-        dateRange: { from: "2018-01-01", to: "2018-12-31" }
+        dateRange: {
+          exportStartDate: "2018-01-01",
+          exportEndDate: "2018-12-31"
+        }
       }
     };
     await models.data_change_audit.create({

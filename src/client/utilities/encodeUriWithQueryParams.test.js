@@ -10,4 +10,11 @@ describe("encodeUriWithQueryParams", () => {
     );
     expect(actualUri).toEqual(expectedUri);
   });
+
+  test("it keeps the uri unchanged if no query params", () => {
+    const queryParams = {};
+    const expectedUri = "http://www.google.com";
+    const actual = encodeUriWithQueryParams("http://www.google.com",queryParams)
+    expect(actual).toEqual(expectedUri)
+  })
 });

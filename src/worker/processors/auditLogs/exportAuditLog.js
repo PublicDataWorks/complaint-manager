@@ -41,8 +41,8 @@ const exportAuditLog = async (job, done) => {
       ? {
           createdAt: {
             [Op.between]: [
-              new Date(job.data.dateRange.from),
-              new Date(job.data.dateRange.to)
+              new Date(job.data.dateRange.exportStartDate),
+              new Date(job.data.dateRange.exportEndDate)
             ]
           }
         }

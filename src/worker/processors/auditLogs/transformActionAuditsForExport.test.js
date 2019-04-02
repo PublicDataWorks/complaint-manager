@@ -1,5 +1,9 @@
 import ActionAudit from "../../../client/testUtilities/ActionAudit";
-import { AUDIT_SUBJECT, AUDIT_TYPE } from "../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  AUDIT_TYPE,
+  JOB_OPERATION
+} from "../../../sharedUtilities/constants";
 
 const transformActionAuditsForExport = require("./transformActionAuditsForExport");
 
@@ -112,6 +116,24 @@ describe("transformActionAuditsForExport", () => {
           "Last Name"
         ]
       });
+    });
+
+    test("sets snapshot correctly for export date range", () => {
+      const actionAuditAttributes = new ActionAudit.Builder()
+        .defaultActionAudit()
+        .withAuditType(AUDIT_TYPE.EXPORT)
+        .withSubject(JOB_OPERATION.AUDIT_LOG_EXPORT.auditSubject)
+        .withAuditDetails({
+          "Export Range": ["Dec 21, 2011 to Dec 21, 2012"]
+        });
+
+      const transformedAudits = transformActionAuditsForExport([
+        actionAuditAttributes
+      ]);
+
+      expect(transformedAudits[0].snapshot).toEqual(
+        "Export Range: Dec 21, 2011 to Dec 21, 2012"
+      );
     });
 
     test("sets subject correctly for all working cases audit", () => {

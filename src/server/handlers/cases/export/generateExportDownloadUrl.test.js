@@ -1,4 +1,6 @@
 import models from "../../../models";
+import generateExportDownloadUrl from "./generateExportDownloadUrl";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 
 const {
   AUDIT_ACTION,
@@ -14,9 +16,10 @@ createConfiguredS3Instance.mockImplementation(() => ({
   getSignedUrl: jest.fn(() => "authenticated file url")
 }));
 
-const generateExportDownloadUrl = require("./generateExportDownloadUrl");
-
 describe("generate export download url", () => {
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
   test("create an authenticated download url", async done => {
     let fileName = "fileInS3.csv";
 
@@ -68,5 +71,29 @@ describe("generate export download url", () => {
     });
 
     expect(actionAudit.user).toEqual("someUser");
+  });
+
+  test("create an audit for audit log export with date range if included", async () => {
+    let fileName = "fileInS3.csv";
+
+    await generateExportDownloadUrl(
+      fileName,
+      "someUser",
+      AUDIT_SUBJECT.AUDIT_LOG,
+      { exportStartDate: "2011-12-21", exportEndDate: "2012-12-21" }
+    );
+
+    const actionAudit = await models.action_audit.findOne({
+      where: {
+        auditType: AUDIT_TYPE.EXPORT,
+        action: AUDIT_ACTION.EXPORTED,
+        subject: AUDIT_SUBJECT.AUDIT_LOG
+      }
+    });
+
+    expect(actionAudit.user).toEqual("someUser");
+    expect(actionAudit.auditDetails).toEqual({
+      "Export Range": ["Dec 21, 2011 to Dec 21, 2012"]
+    });
   });
 });
