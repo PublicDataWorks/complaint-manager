@@ -1,5 +1,5 @@
 import React from "react";
-import { reduxForm } from "redux-form";
+import { formValueSelector, reduxForm, SubmissionError } from "redux-form";
 import {
   EXPORT_AUDIT_LOG_FORM_NAME,
   USER_PERMISSIONS
@@ -14,20 +14,50 @@ import { openExportAuditLogConfirmationDialog } from "../actionCreators/exportAc
 import moment from "moment";
 import DateField from "../cases/sharedFormComponents/DateField";
 import LinkButton from "../shared/components/LinkButton";
+import _ from "lodash";
+
+const validateDateOrder = values => {
+  if (
+    values.exportAuditLogFrom &&
+    values.exportAuditLogTo &&
+    moment(values.exportAuditLogFrom).isAfter(moment(values.exportAuditLogTo))
+  ) {
+    return { exportAuditLogFrom: "From date cannot be after To date" };
+  }
+};
+
+const validateDateFields = values => {
+  let errors = {};
+
+  errors = { ...errors, ...validateDateOrder(values) };
+  if (!values.exportAuditLogFrom) {
+    errors.exportAuditLogFrom = "Please enter a date";
+  }
+  if (!values.exportAuditLogTo) {
+    errors.exportAuditLogTo = "Please enter a date";
+  }
+  if (!_.isEmpty(errors)) {
+    throw new SubmissionError(errors);
+  }
+};
+
+const openExportAuditLogConfirmationDialogForDateRange = (
+  values,
+  openExportAuditLogConfirmationDialog
+) => {
+  validateDateFields(values);
+  const dateRange =
+    values && values.exportAuditLogFrom && values.exportAuditLogTo
+      ? {
+          exportStartDate: values.exportAuditLogFrom,
+          exportEndDate: values.exportAuditLogTo
+        }
+      : null;
+
+  openExportAuditLogConfirmationDialog(dateRange);
+};
 
 const ExportAuditLogForm = props => {
-  const openExportAuditLogConfirmationDialogForDateRange = values => {
-    const dateRange =
-      values && values.exportAuditLogFrom && values.exportAuditLogTo
-        ? {
-            exportStartDate: values.exportAuditLogFrom,
-            exportEndDate: values.exportAuditLogTo
-          }
-        : null;
-
-    props.openExportAuditLogConfirmationDialog(dateRange);
-  };
-
   if (
     !props.permissions ||
     !props.permissions.includes(USER_PERMISSIONS.EXPORT_AUDIT_LOG)
@@ -98,8 +128,11 @@ const ExportAuditLogForm = props => {
         <PrimaryButton
           disabled={props.buttonsDisabled}
           data-test="exportRangedAudits"
-          onClick={handleSubmit(
-            openExportAuditLogConfirmationDialogForDateRange
+          onClick={handleSubmit(values =>
+            openExportAuditLogConfirmationDialogForDateRange(
+              values,
+              props.openExportAuditLogConfirmationDialog
+            )
           )}
           style={{ marginRight: "20px" }}
         >
