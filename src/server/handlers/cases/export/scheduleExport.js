@@ -1,4 +1,8 @@
-import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import {
+  BAD_DATA_ERRORS,
+  BAD_REQUEST_ERRORS
+} from "../../../../sharedUtilities/errorMessageConstants";
+import moment from "moment";
 
 const {
   JOB_OPERATION,
@@ -8,6 +12,23 @@ const asyncMiddleware = require("../../asyncMiddleware");
 const kueJobQueue = require("./jobQueue");
 const config = require("../../../config/config")[process.env.NODE_ENV];
 const Boom = require("boom");
+
+const getAndValidateDateRangeData = (exportStartDate, exportEndDate) => {
+  if (!exportStartDate && !exportEndDate) {
+    return null;
+  } else if (!exportStartDate) {
+    throw Boom.badData(BAD_DATA_ERRORS.MISSING_DATE_RANGE_START_DATE);
+  } else if (!exportEndDate) {
+    throw Boom.badData(BAD_DATA_ERRORS.MISSING_DATE_RANGE_END_DATE);
+  } else if (moment(exportStartDate).isAfter(moment(exportEndDate))) {
+    throw Boom.badData(BAD_DATA_ERRORS.DATE_RANGE_IN_INCORRECT_ORDER);
+  } else {
+    return {
+      exportStartDate,
+      exportEndDate
+    };
+  }
+};
 
 const scheduleExport = asyncMiddleware(async (request, response, next) => {
   if (
@@ -21,15 +42,11 @@ const scheduleExport = asyncMiddleware(async (request, response, next) => {
   }
 
   const dateRangeData = {};
-  if (
-    request.query &&
-    request.query.exportStartDate &&
-    request.query.exportEndDate
-  ) {
-    dateRangeData.dateRange = {
-      exportStartDate: request.query.exportStartDate,
-      exportEndDate: request.query.exportEndDate
-    };
+  if (request.query) {
+    dateRangeData.dateRange = getAndValidateDateRangeData(
+      request.query.exportStartDate,
+      request.query.exportEndDate
+    );
   }
 
   const job = kueJobQueue

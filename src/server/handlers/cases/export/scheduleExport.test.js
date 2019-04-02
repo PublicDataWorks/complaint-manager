@@ -1,6 +1,9 @@
+import { BAD_DATA_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+
 const { JOB_OPERATION } = require("../../../../sharedUtilities/constants");
 const kueJobQueue = require("./jobQueue");
 const scheduleExport = require("./scheduleExport");
+import Boom from "boom";
 
 describe("exportCases request", function() {
   let queue;
@@ -39,6 +42,69 @@ describe("exportCases request", function() {
       jobId: queue.testMode.jobs[0].id
     });
     done();
+  });
+
+  test("throws error if date range is out of order", async () => {
+    const request = {
+      nickname: "user",
+      params: { operation: JOB_OPERATION.CASE_EXPORT.name },
+      query: {
+        exportStartDate: "2019-01-14",
+        exportEndDate: "2018-12-02"
+      }
+    };
+    const next = jest.fn();
+
+    const response = { json: jest.fn() };
+
+    await scheduleExport(request, response, next);
+
+    expect(next).toHaveBeenCalledWith(
+      Boom.badData(BAD_DATA_ERRORS.DATE_RANGE_IN_INCORRECT_ORDER)
+    );
+    expect(queue.testMode.jobs.length).toEqual(0);
+  });
+
+  test("throws error if start date in date range is missing", async () => {
+    const request = {
+      nickname: "user",
+      params: { operation: JOB_OPERATION.CASE_EXPORT.name },
+      query: {
+        exportStartDate: null,
+        exportEndDate: "2018-12-02"
+      }
+    };
+    const next = jest.fn();
+
+    const response = { json: jest.fn() };
+
+    await scheduleExport(request, response, next);
+
+    expect(next).toHaveBeenCalledWith(
+      Boom.badData(BAD_DATA_ERRORS.MISSING_DATE_RANGE_START_DATE)
+    );
+    expect(queue.testMode.jobs.length).toEqual(0);
+  });
+
+  test("throws error if start date in date range is missing", async () => {
+    const request = {
+      nickname: "user",
+      params: { operation: JOB_OPERATION.CASE_EXPORT.name },
+      query: {
+        exportStartDate: "2018-12-02",
+        exportEndDate: null
+      }
+    };
+    const next = jest.fn();
+
+    const response = { json: jest.fn() };
+
+    await scheduleExport(request, response, next);
+
+    expect(next).toHaveBeenCalledWith(
+      Boom.badData(BAD_DATA_ERRORS.MISSING_DATE_RANGE_END_DATE)
+    );
+    expect(queue.testMode.jobs.length).toEqual(0);
   });
 
   test("job should include date range", async done => {

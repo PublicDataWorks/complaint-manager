@@ -35,7 +35,11 @@ export const BAD_DATA_ERRORS = {
   CANNOT_OVERRIDE_CASE_REFERENCE: "Cannot override case reference information",
   UNEXPECTED_SEX_VALUE: "Unexpected value for gender",
   UNEXPECTED_RACE_VALUE: "Unexpected value for race",
-  MISSING_REQUIRED_HEADER_FIELDS: "Missing required header fields"
+  MISSING_REQUIRED_HEADER_FIELDS: "Missing required header fields",
+  DATE_RANGE_IN_INCORRECT_ORDER:
+    "Start date in date range must before end date",
+  MISSING_DATE_RANGE_END_DATE: "Missing date range end date",
+  MISSING_DATE_RANGE_START_DATE: "Missing date range start date"
 };
 
 export const NOT_FOUND_ERRORS = {
