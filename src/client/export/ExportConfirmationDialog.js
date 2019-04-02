@@ -20,9 +20,12 @@ import formatDate from "../utilities/formatDate";
 
 const dateRangeText = dateRange => {
   if (dateRange) {
-    return ` between ${formatDate(dateRange.exportStartDate)} and ${formatDate(
-      dateRange.exportEndDate
-    )} `;
+    return (
+      <strong>
+        {` between ${formatDate(dateRange.exportStartDate)} and
+        ${formatDate(dateRange.exportEndDate)} `}
+      </strong>
+    );
   } else {
     return " ";
   }
