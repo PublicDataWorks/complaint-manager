@@ -1,11 +1,13 @@
 import { getWorkingCasesSuccess } from "../../actionCreators/casesActionCreators";
 import axios from "axios";
 
-const getCases = (sortBy, sortDirection) => async dispatch => {
+const getCases = (sortBy, sortDirection, page) => async dispatch => {
   try {
-    const response = await axios.get(
-      `api/cases/all/${sortBy}/${sortDirection}`
-    );
+    let url = `api/cases/all/${sortBy}/${sortDirection}`;
+    if (page) {
+      url += `?page=${page}`;
+    }
+    const response = await axios.get(url);
     return dispatch(
       getWorkingCasesSuccess(
         response.data.cases.rows,
