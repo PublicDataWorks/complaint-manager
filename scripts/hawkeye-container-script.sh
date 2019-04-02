@@ -7,9 +7,12 @@ yarn_outdated_return=$?;
 hawkeye scan --show-code -t $(pwd) --json $ISSUES_REPORT_FILE -m "files-contents" -m "node-crossenv" -m "node-yarnaudit" -f low | grep -v -P --line-buffered '^\[info\] (?!Checking|Running|Scan complete)';
 yarn_audit_return=${PIPESTATUS[0]};
 
-if [[ ${yarn_outdated_return} -ne 0  || ${yarn_audit_return} -ne 0 ]]
+if [[ ${yarn_audit_return} -ne 0 ]]
 then
     exit 1
+elif [[ ${yarn_outdated_return} -ne 0 ]]
+then
+    exit 2
 else
     exit 0
 fi
