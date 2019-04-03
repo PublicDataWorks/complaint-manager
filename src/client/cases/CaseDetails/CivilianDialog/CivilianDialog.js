@@ -192,15 +192,11 @@ class CivilianDialog extends Component {
             >
               {generateMenu(this.props.raceEthnicities)}
             </Field>
-            {!this.props.isAnonymousFeatureToggle ? null : (
-              <FormControlLabel
-                key="isAnonymous"
-                label="Anonymize complainant in referral letter"
-                control={
-                  <Field name="isAnonymous" component={PrimaryCheckBox} />
-                }
-              />
-            )}
+            <FormControlLabel
+              key="isAnonymous"
+              label="Anonymize complainant in referral letter"
+              control={<Field name="isAnonymous" component={PrimaryCheckBox} />}
+            />
             <Typography
               variant="body2"
               style={{ marginTop: "24px", marginBottom: "8px" }}
@@ -314,8 +310,7 @@ const mapStateToProps = state => {
     title: state.ui.civilianDialog.title,
     submitButtonText: state.ui.civilianDialog.submitButtonText,
     addressValid: state.ui.addressInput.addressValid,
-    raceEthnicities: state.ui.raceEthnicities,
-    isAnonymousFeatureToggle: state.featureToggles.isAnonymousFeature
+    raceEthnicities: state.ui.raceEthnicities
   };
 };
 
