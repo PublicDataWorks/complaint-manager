@@ -17,17 +17,13 @@
     "id": "isAnonymousFeature",
     "name": "isAnonymousFeature",
     "description": "Toggle to show isAnonymous checkbox field in complainant and witness dialogs",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": true
   },
   {
     "id": "ReferralLetterAttachment",
     "name": "ReferralLetterAttachment",
     "description": "Toggle to enable attaching the referral letter to the case",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": true
   },
   {
     "id": "caseDashboardPagination",
