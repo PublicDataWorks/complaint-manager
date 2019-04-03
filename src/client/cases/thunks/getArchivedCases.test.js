@@ -26,7 +26,9 @@ TODO: Look into ways to fix this
 
   test("should dispatch success when cases retrieved", async () => {
     nock("http://localhost")
-      .get(`/api/cases/all/archived-cases/${sortBy}/${sortDirection}`)
+      .get(
+        `/api/cases/archived-cases?sortBy=${sortBy}&sortDirection=${sortDirection}`
+      )
       .reply(200, responseBody);
 
     await getArchivedCases(sortBy, sortDirection)(dispatch);
@@ -38,7 +40,9 @@ TODO: Look into ways to fix this
 
   test("should dispatch with page when provided", async () => {
     const scope = nock("http://localhost")
-      .get(`/api/cases/all/archived-cases/${sortBy}/${sortDirection}?page=2`)
+      .get(
+        `/api/cases/archived-cases?sortBy=${sortBy}&sortDirection=${sortDirection}&page=2`
+      )
       .reply(200, responseBody);
 
     await getArchivedCases(sortBy, sortDirection, 2)(dispatch);
@@ -62,7 +66,9 @@ TODO: Look into ways to fix this
         Authorization: `Bearer false`
       }
     })
-      .get(`/api/cases/all/archived-cases/${sortBy}/${sortDirection}`)
+      .get(
+        `/api/cases/archived-cases?sortBy=${sortBy}&sortDirection=${sortDirection}`
+      )
       .reply(200, responseBody);
 
     await getArchivedCases(sortBy, sortDirection)(dispatch);

@@ -30,12 +30,10 @@ describe("getArchivedCases", () => {
       headers: {
         authorization: "Bearer token"
       },
-      params: {
+      query: {
+        page: 2,
         sortBy: "by",
         sortDirection: "direction"
-      },
-      query: {
-        page: 2
       },
       nickname: "nickname"
     });

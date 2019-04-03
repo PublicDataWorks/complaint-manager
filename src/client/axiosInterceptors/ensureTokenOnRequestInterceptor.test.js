@@ -21,7 +21,7 @@ describe("ensureTokenOnRequestInterceptor", () => {
 
   test("adds access token to request headers", async () => {
     nock("http://localhost")
-      .get(`/api/cases/all/${sortBy}/${sortDirection}`)
+      .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
       .reply(function() {
         if (this.req.headers.authorization === `Bearer ${getAccessToken()}`)
           return [200, responseBody];
@@ -40,7 +40,7 @@ describe("ensureTokenOnRequestInterceptor", () => {
     getAccessToken.mockImplementation(() => false);
 
     nock("http://localhost")
-      .get(`/api/cases/all/${sortBy}/${sortDirection}`)
+      .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
       .reply(200);
 
     await getCases(sortBy, sortDirection)(dispatch);
