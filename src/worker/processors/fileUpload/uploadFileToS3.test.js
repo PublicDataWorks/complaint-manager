@@ -17,7 +17,7 @@ describe("Upload files to S3", () => {
     uploadFileToS3(jobId, csvOutput, exportFileName, fileType, s3);
     expect(s3.upload).toHaveBeenCalledWith({
       Bucket: "noipm-exports-test",
-      Key: `${fileType}/${jobId}/Complaint_Manager_${exportFileName}_2018-01-01_00.00.00.CST.csv`,
+      Key: `${fileType}/${jobId}/Complaint_Manager_${exportFileName}_at_2018-01-01_00.00.00.CST.csv`,
       Body: csvOutput,
       ServerSideEncryption: "AES256"
     });

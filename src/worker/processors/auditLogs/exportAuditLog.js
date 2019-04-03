@@ -96,10 +96,15 @@ const exportAuditLog = async (job, done) => {
       );
 
       const csvOutput = await promisifiedStringify(sortedAuditLogs, csvOptions);
+      const filename = getFilename(
+        JOB_OPERATION.AUDIT_LOG_EXPORT,
+        job.data.dateRange
+      );
+
       const s3Result = await uploadFileToS3(
         job.id,
         csvOutput,
-        JOB_OPERATION.AUDIT_LOG_EXPORT.filename,
+        filename,
         JOB_OPERATION.AUDIT_LOG_EXPORT.key
       );
       winston.info(`Done running Audit Log Export Job with id ${job.id}`);
@@ -112,6 +117,20 @@ const exportAuditLog = async (job, done) => {
     );
     winston.error(util.inspect(err));
     done(err);
+  }
+};
+
+const getFilename = (jobOperation, dateRange) => {
+  return `${jobOperation.filename}${formatDateRangeForFilename(dateRange)}`;
+};
+
+const formatDateRangeForFilename = dateRange => {
+  if (dateRange && dateRange.exportStartDate && dateRange.exportEndDate) {
+    return `_${moment(dateRange.exportStartDate).format(
+      "YYYY-MM-DD"
+    )}_to_${moment(dateRange.exportEndDate).format("YYYY-MM-DD")}`;
+  } else {
+    return "";
   }
 };
 

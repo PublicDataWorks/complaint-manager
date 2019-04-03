@@ -22,6 +22,15 @@ describe("exportAuditLog", () => {
   const job = { data: { user: nickname } };
   const awsResult = "awsResult";
   const jobDone = jest.fn();
+  const jobWithDateRange = {
+    data: {
+      user: nickname,
+      dateRange: {
+        exportStartDate: "2018-01-01",
+        exportEndDate: "2018-12-31"
+      }
+    }
+  };
 
   let records = [];
 
@@ -39,7 +48,7 @@ describe("exportAuditLog", () => {
     await cleanupDatabase();
   });
 
-  test("should upload audit log csv and return s3 url to done", async () => {
+  test("should upload audit log csv and return s3 url to done with correct filename", async () => {
     await exportAuditLog(job, jobDone);
 
     expect(uploadFileToS3).toHaveBeenCalledWith(
@@ -48,6 +57,29 @@ describe("exportAuditLog", () => {
         "Audit Type,User,Case Database ID,Action,Audit Subject,Subject Database ID,Changes,Audit Details,Timestamp\n"
       ),
       JOB_OPERATION.AUDIT_LOG_EXPORT.filename,
+      JOB_OPERATION.AUDIT_LOG_EXPORT.key
+    );
+    expect(jobDone).toHaveBeenCalledWith(null, awsResult);
+  });
+
+  test("should upload audit log csv and return s3 url to done with filename with ranged dates", async () => {
+    await exportAuditLog(jobWithDateRange, jobDone);
+
+    const startDateString = moment(
+      jobWithDateRange.data.dateRange.exportStartDate
+    ).format("YYYY-MM-DD");
+    const endDateString = moment(
+      jobWithDateRange.data.dateRange.exportEndDate
+    ).format("YYYY-MM-DD");
+
+    expect(uploadFileToS3).toHaveBeenCalledWith(
+      job.id,
+      expect.stringContaining(
+        "Audit Type,User,Case Database ID,Action,Audit Subject,Subject Database ID,Changes,Audit Details,Timestamp\n"
+      ),
+      `${
+        JOB_OPERATION.AUDIT_LOG_EXPORT.filename
+      }_${startDateString}_to_${endDateString}`,
       JOB_OPERATION.AUDIT_LOG_EXPORT.key
     );
     expect(jobDone).toHaveBeenCalledWith(null, awsResult);
@@ -180,15 +212,6 @@ describe("exportAuditLog", () => {
   });
 
   test("only gets audits in date range", async () => {
-    const jobWithDateRange = {
-      data: {
-        user: nickname,
-        dateRange: {
-          exportStartDate: "2018-01-01",
-          exportEndDate: "2018-12-31"
-        }
-      }
-    };
     await models.data_change_audit.create({
       auditType: AUDIT_TYPE.DATA_CHANGE,
       user: "smith",
