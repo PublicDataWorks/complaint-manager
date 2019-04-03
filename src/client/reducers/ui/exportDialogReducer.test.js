@@ -80,7 +80,7 @@ describe("export dialog reducer", () => {
       warningText: "a log of all actions taken in",
       dateRange: {
         exportStartDate: "some date",
-        exportEndDAte: "some date"
+        exportEndDate: "some date"
       }
     };
 
