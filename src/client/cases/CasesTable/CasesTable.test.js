@@ -19,11 +19,11 @@ import {
   SORT_CASES_BY
 } from "../../../sharedUtilities/constants";
 import SortableCase from "../../testUtilities/SortableCase";
-import getCases from "../thunks/getCases";
+import getWorkingCases from "../thunks/getWorkingCases";
 
-jest.mock("../thunks/getCases");
+jest.mock("../thunks/getWorkingCases");
 
-getCases.mockImplementation((sortBy, sortDirection, page) => ({
+getWorkingCases.mockImplementation((sortBy, sortDirection, page) => ({
   type: "MOCK_GET_CASES_THUNK"
 }));
 
@@ -38,7 +38,7 @@ describe("cases table", () => {
     caseOne;
 
   beforeEach(() => {
-    getCases.mockClear();
+    getWorkingCases.mockClear();
 
     civilianChuck = {
       firstName: "Chuck",
@@ -102,7 +102,7 @@ describe("cases table", () => {
         .last();
       caseReferenceLabel.simulate("click");
 
-      expect(getCases).toHaveBeenCalledWith(
+      expect(getWorkingCases).toHaveBeenCalledWith(
         SORT_CASES_BY.CASE_REFERENCE,
         ASCENDING,
         1
@@ -125,7 +125,11 @@ describe("cases table", () => {
         .last();
       caseReferenceLabel.simulate("click");
 
-      expect(getCases).toHaveBeenCalledWith(SORT_CASES_BY.STATUS, ASCENDING, 1);
+      expect(getWorkingCases).toHaveBeenCalledWith(
+        SORT_CASES_BY.STATUS,
+        ASCENDING,
+        1
+      );
 
       expect(dispatchSpy).toHaveBeenCalledWith(
         updateSort(SORT_CASES_BY.STATUS, ASCENDING)
@@ -144,7 +148,7 @@ describe("cases table", () => {
         .last();
       caseReferenceLabel.simulate("click");
 
-      expect(getCases).toHaveBeenCalledWith(
+      expect(getWorkingCases).toHaveBeenCalledWith(
         SORT_CASES_BY.PRIMARY_COMPLAINANT,
         ASCENDING,
         1
@@ -167,7 +171,7 @@ describe("cases table", () => {
         .last();
       caseReferenceLabel.simulate("click");
 
-      expect(getCases).toHaveBeenCalledWith(
+      expect(getWorkingCases).toHaveBeenCalledWith(
         SORT_CASES_BY.FIRST_CONTACT_DATE,
         ASCENDING,
         1
@@ -289,14 +293,14 @@ describe("cases table", () => {
       const casesTable = tableWrapper.find("CasesTable").instance();
       casesTable.onChange(12);
 
-      expect(getCases).toHaveBeenCalledTimes(2);
-      expect(getCases.mock.calls[1][2]).toEqual(12);
+      expect(getWorkingCases).toHaveBeenCalledTimes(2);
+      expect(getWorkingCases.mock.calls[1][2]).toEqual(12);
     });
   });
 
   describe("component mounting", () => {
     test("should mount case table with page 1", () => {
-      expect(getCases).toHaveBeenCalledWith(
+      expect(getWorkingCases).toHaveBeenCalledWith(
         SORT_CASES_BY.CASE_REFERENCE,
         DESCENDING,
         1
