@@ -1,13 +1,13 @@
 import nock from "nock";
 import { getWorkingCasesSuccess } from "../../actionCreators/casesActionCreators";
-import getCases from "./getCases";
+import getWorkingCases from "./getWorkingCases";
 import getAccessToken from "../../auth/getAccessToken";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 import { push } from "connected-react-router";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
-describe("getCases", () => {
+describe("getWorkingCases", () => {
   describe("GET /cases", () => {
     /*
     NOTE: We should leave the order of these tests as they are. We basically need the missing token test which changes the getAccessToken mock implementation to be the last test which is run. This is because if we try to reset the mock, we lose the module level implementation needed by other tests
@@ -35,7 +35,7 @@ describe("getCases", () => {
         .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
         .reply(200, responseBody);
 
-      await getCases(sortBy, sortDirection)(dispatch);
+      await getWorkingCases(sortBy, sortDirection)(dispatch);
 
       expect(dispatch).toHaveBeenCalledWith(
         getWorkingCasesSuccess(
@@ -52,7 +52,7 @@ describe("getCases", () => {
         )
         .reply(200, responseBody);
 
-      await getCases(sortBy, sortDirection, 2)(dispatch);
+      await getWorkingCases(sortBy, sortDirection, 2)(dispatch);
 
       expect(dispatch).toHaveBeenCalledWith(
         getWorkingCasesSuccess(
@@ -76,7 +76,7 @@ describe("getCases", () => {
         .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
         .reply(200, responseBody);
 
-      await getCases(sortBy, sortDirection)(dispatch);
+      await getWorkingCases(sortBy, sortDirection)(dispatch);
 
       expect(dispatch).not.toHaveBeenCalledWith(
         getWorkingCasesSuccess(

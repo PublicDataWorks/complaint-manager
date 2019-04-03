@@ -2,7 +2,7 @@ import { getWorkingCasesSuccess } from "../../actionCreators/casesActionCreators
 import axios from "axios";
 import encodeUriWithQueryParams from "../../utilities/encodeUriWithQueryParams";
 
-const getCases = (sortBy, sortDirection, page) => async dispatch => {
+const getWorkingCases = (sortBy, sortDirection, page) => async dispatch => {
   const queryParams = {};
   if (sortBy) queryParams.sortBy = sortBy;
   if (sortDirection) queryParams.sortDirection = sortDirection;
@@ -23,4 +23,4 @@ const getCases = (sortBy, sortDirection, page) => async dispatch => {
   } catch (e) {}
 };
 
-export default getCases;
+export default getWorkingCases;

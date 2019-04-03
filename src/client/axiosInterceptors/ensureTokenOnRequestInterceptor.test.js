@@ -1,4 +1,4 @@
-import getCases from "../cases/thunks/getCases";
+import getWorkingCases from "../cases/thunks/getWorkingCases";
 import nock from "nock";
 import { getWorkingCasesSuccess } from "../actionCreators/casesActionCreators";
 import getAccessToken from "../auth/getAccessToken";
@@ -28,7 +28,7 @@ describe("ensureTokenOnRequestInterceptor", () => {
         return [401];
       });
 
-    await getCases(sortBy, sortDirection)(dispatch);
+    await getWorkingCases(sortBy, sortDirection)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
       getWorkingCasesSuccess(responseBody.cases.rows, responseBody.cases.count)
@@ -43,7 +43,7 @@ describe("ensureTokenOnRequestInterceptor", () => {
       .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
       .reply(200);
 
-    await getCases(sortBy, sortDirection)(dispatch);
+    await getWorkingCases(sortBy, sortDirection)(dispatch);
 
     expect(dispatch).not.toHaveBeenCalledWith(
       getWorkingCasesSuccess(responseBody.cases)

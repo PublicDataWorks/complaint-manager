@@ -16,11 +16,11 @@ import {
 } from "../../../sharedUtilities/constants";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
-import getCases from "./getCases";
+import getWorkingCases from "./getWorkingCases";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
-jest.mock("./getCases", () => caseId => ({
+jest.mock("./getWorkingCases", () => caseId => ({
   type: "MOCK_GET_WORKING_CASES",
   caseId
 }));
@@ -78,7 +78,7 @@ describe("createCase", () => {
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(closeCreateCaseDialog());
     expect(dispatch).toHaveBeenCalledWith(
-      getCases(SORT_CASES_BY.CASE_REFERENCE, ASCENDING)
+      getWorkingCases(SORT_CASES_BY.CASE_REFERENCE, ASCENDING)
     );
   });
 

@@ -11,7 +11,7 @@ import {
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
-import getCases from "./getCases";
+import getWorkingCases from "./getWorkingCases";
 
 const createCase = creationDetails => async dispatch => {
   dispatch(requestCaseCreation());
@@ -33,7 +33,7 @@ const createCase = creationDetails => async dispatch => {
       }
     } else {
       dispatch(
-        getCases(
+        getWorkingCases(
           creationDetails.sorting.sortBy,
           creationDetails.sorting.sortDirection
         )

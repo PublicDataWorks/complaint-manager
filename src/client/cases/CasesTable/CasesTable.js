@@ -14,7 +14,7 @@ import tableStyleGenerator from "../../tableStyles";
 import { updateSort } from "../../actionCreators/casesActionCreators";
 import _ from "lodash";
 import getArchivedCases from "../thunks/getArchivedCases";
-import getCases from "../thunks/getCases";
+import getWorkingCases from "../thunks/getWorkingCases";
 import {
   ASCENDING,
   DESCENDING,
@@ -46,7 +46,7 @@ class CasesTable extends React.Component {
   getCases(sortBy, sortDirection, page) {
     this.props.archived
       ? this.props.dispatch(getArchivedCases(sortBy, sortDirection, page))
-      : this.props.dispatch(getCases(sortBy, sortDirection, page));
+      : this.props.dispatch(getWorkingCases(sortBy, sortDirection, page));
   }
 
   renderNoCasesMessage() {
