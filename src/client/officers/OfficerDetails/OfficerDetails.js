@@ -45,7 +45,6 @@ class OfficerDetails extends React.Component {
 
   shouldShowAnonymousCheckbox = () => {
     if (
-      this.props.isAnonymousFeatureToggle &&
       this.state.officerRoleOnCase !== null &&
       (this.state.officerRoleOnCase === COMPLAINANT ||
         this.state.officerRoleOnCase === WITNESS)
@@ -166,7 +165,6 @@ const mapStateToProps = state => {
   }
   return {
     selectedOfficer: state.officers.selectedOfficerData,
-    isAnonymousFeatureToggle: state.featureToggles.isAnonymousFeature,
     roleOnCaseProp: roleOnCaseProp
   };
 };
