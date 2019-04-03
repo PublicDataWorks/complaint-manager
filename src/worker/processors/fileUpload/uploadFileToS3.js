@@ -9,7 +9,7 @@ const fileName = (jobId, exportFileName, fileType) => {
     .tz(TIMEZONE)
     .format("YYYY-MM-DD_HH.mm.ss.zz");
 
-  return `${fileType}/${jobId}/Complaint_Manager_${exportFileName}_${date}.csv`;
+  return `${fileType}/${jobId}/Complaint_Manager_${exportFileName}_at_${date}.csv`;
 };
 
 const uploadFileToS3 = (
