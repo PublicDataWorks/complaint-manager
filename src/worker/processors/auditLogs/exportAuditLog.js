@@ -1,4 +1,5 @@
 import sequelize from "sequelize";
+import getDateRangeForQuery from "../getDateRangeForQuery";
 
 const {
   TIMEZONE,
@@ -17,6 +18,22 @@ const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 const winston = require("winston");
 
 const Op = sequelize.Op;
+
+const getDateRangeCondition = dateRange => {
+  if (dateRange) {
+    const dateRangeForQuery = getDateRangeForQuery(dateRange);
+    return {
+      createdAt: {
+        [Op.between]: [
+          dateRangeForQuery.exportStartDateAndTime,
+          dateRangeForQuery.exportEndDateAndTime
+        ]
+      }
+    };
+  } else {
+    return null;
+  }
+};
 
 const exportAuditLog = async (job, done) => {
   winston.info(`About to run Audit Log Export Job with id ${job.id}`);
@@ -37,16 +54,7 @@ const exportAuditLog = async (job, done) => {
       created_at: "Timestamp"
     };
 
-    const dateRangeCondition = job.data.dateRange
-      ? {
-          createdAt: {
-            [Op.between]: [
-              new Date(job.data.dateRange.exportStartDate),
-              new Date(job.data.dateRange.exportEndDate)
-            ]
-          }
-        }
-      : {};
+    const dateRangeCondition = getDateRangeCondition(job.data.dateRange);
 
     const csvOptions = { header: true, columns, cast: dateFormatter };
 
