@@ -11,7 +11,8 @@ const getCases = (sortBy, sortDirection, page) => async dispatch => {
     return dispatch(
       getWorkingCasesSuccess(
         response.data.cases.rows,
-        response.data.cases.count
+        response.data.cases.count,
+        page
       )
     );
   } catch (e) {}

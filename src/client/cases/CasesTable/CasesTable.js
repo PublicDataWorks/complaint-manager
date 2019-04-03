@@ -1,8 +1,6 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import {
-  Paper,
-  Table,
   TableBody,
   TableCell,
   TableHead,
@@ -22,6 +20,7 @@ import {
   DESCENDING,
   SORT_CASES_BY
 } from "../../../sharedUtilities/constants";
+import SearchResults from "../../shared/components/SearchResults";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).header,
@@ -36,21 +35,29 @@ const toggleDirection = direction => {
 };
 
 class CasesTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  updateSort(sortBy, sortDirection) {
+    this.props.dispatch(updateSort(sortBy, sortDirection));
+  }
+  getCases(sortBy, sortDirection, page) {
+    this.props.archived
+      ? this.props.dispatch(getArchivedCases(sortBy, sortDirection, page))
+      : this.props.dispatch(getCases(sortBy, sortDirection, page));
+  }
+
   renderNoCasesMessage() {
-    if (_.isEmpty(this.props.cases)) {
-      return (
-        <div style={{ marginTop: "24px" }} data-test="no-cases-message">
-          <i>{`There are no ${
-            this.props.archived ? "archived " : ""
-          }cases to view.`}</i>
-        </div>
-      );
-    }
+    return `There are no ${
+      this.props.archived ? "archived " : ""
+    }cases to view.`;
   }
 
   componentDidMount() {
-    this.props.getCases(SORT_CASES_BY.CASE_REFERENCE, DESCENDING);
-    this.props.updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING);
+    this.getCases(SORT_CASES_BY.CASE_REFERENCE, DESCENDING, 1);
+    this.updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING);
   }
 
   renderCases(classes) {
@@ -78,8 +85,12 @@ class CasesTable extends React.Component {
     } else {
       newSortDirection = ASCENDING;
     }
-    this.props.getCases(newSortBy, newSortDirection);
-    this.props.updateSort(newSortBy, newSortDirection);
+    this.getCases(newSortBy, newSortDirection, 1);
+    this.updateSort(newSortBy, newSortDirection);
+  }
+
+  onChange(currentPage) {
+    this.getCases(this.props.sortBy, this.props.sortDirection, currentPage);
   }
 
   render() {
@@ -89,141 +100,158 @@ class CasesTable extends React.Component {
 
     const { classes } = this.props;
     return (
-      <div style={{ marginTop: "24px" }}>
-        <Typography variant="title" className={classes.labelMargin}>
-          Results
-        </Typography>
-        <Paper elevation={0} className={classes.tableMargin}>
-          <Table data-test="allCasesTable">
-            <TableHead>
-              <TableRow className={classes.row}>
-                <TableCell
-                  data-test="casesNumberHeader"
-                  style={{ width: "10%" }}
-                  className={classes.cell}
-                >
-                  <TableSortLabel
-                    data-test="caseReferenceSortLabel"
-                    onClick={() =>
-                      this.updateSorting(SORT_CASES_BY.CASE_REFERENCE)
-                    }
-                    direction={this.props.sortDirection}
-                    active={this.props.sortBy === SORT_CASES_BY.CASE_REFERENCE}
+      <div style={{ marginTop: "24px" }} className={classes.tableMargin}>
+        <SearchResults
+          pagination={{
+            onChange: this.onChange,
+            totalMessage: total => `${total} results found`,
+            count: this.props.totalCaseCount,
+            currentPage: this.props.currentPage
+          }}
+          header={"Results"}
+          subtitleResultCount={false}
+          searchResults={this.props.cases}
+          noResultsMessage={this.renderNoCasesMessage()}
+          spinnerVisible={!this.props.loaded}
+          tableHeaderComponent={
+            <Fragment>
+              <TableHead>
+                <TableRow className={classes.row}>
+                  <TableCell
+                    data-test="casesNumberHeader"
+                    style={{ width: "10%" }}
+                    className={classes.cell}
                   >
-                    <Typography variant="body2">Case #</Typography>
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell
-                  data-test="casesStatusHeader"
-                  style={{ width: "13%" }}
-                  className={classes.cell}
-                >
-                  <TableSortLabel
-                    data-test="statusSortLabel"
-                    onClick={() => this.updateSorting(SORT_CASES_BY.STATUS)}
-                    direction={this.props.sortDirection}
-                    active={this.props.sortBy === SORT_CASES_BY.STATUS}
+                    <TableSortLabel
+                      data-test="caseReferenceSortLabel"
+                      onClick={() =>
+                        this.updateSorting(SORT_CASES_BY.CASE_REFERENCE)
+                      }
+                      direction={this.props.sortDirection}
+                      active={
+                        this.props.sortBy === SORT_CASES_BY.CASE_REFERENCE
+                      }
+                    >
+                      <Typography variant="body2">Case #</Typography>
+                    </TableSortLabel>
+                  </TableCell>
+                  <TableCell
+                    data-test="casesStatusHeader"
+                    style={{ width: "13%" }}
+                    className={classes.cell}
                   >
-                    <Typography variant="body2">Status</Typography>
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell
-                  data-test="casesComplainantHeader"
-                  style={{ width: "16%" }}
-                  className={classes.cell}
-                >
-                  <TableSortLabel
-                    data-test="complainantSortLabel"
-                    onClick={() =>
-                      this.updateSorting(SORT_CASES_BY.PRIMARY_COMPLAINANT)
-                    }
-                    direction={this.props.sortDirection}
-                    active={
-                      this.props.sortBy === SORT_CASES_BY.PRIMARY_COMPLAINANT
-                    }
+                    <TableSortLabel
+                      data-test="statusSortLabel"
+                      onClick={() => this.updateSorting(SORT_CASES_BY.STATUS)}
+                      direction={this.props.sortDirection}
+                      active={this.props.sortBy === SORT_CASES_BY.STATUS}
+                    >
+                      <Typography variant="body2">Status</Typography>
+                    </TableSortLabel>
+                  </TableCell>
+                  <TableCell
+                    data-test="casesComplainantHeader"
+                    style={{ width: "16%" }}
+                    className={classes.cell}
                   >
-                    <Typography variant="body2">Complainant</Typography>
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell
-                  data-test="casesAccusedOfficerHeader"
-                  style={{ width: "16%" }}
-                  className={classes.cell}
-                >
-                  <TableSortLabel
-                    data-test="primaryAccusedOfficerSortLabel"
-                    onClick={() =>
-                      this.updateSorting(SORT_CASES_BY.PRIMARY_ACCUSED_OFFICER)
-                    }
-                    direction={this.props.sortDirection}
-                    active={
-                      this.props.sortBy ===
-                      SORT_CASES_BY.PRIMARY_ACCUSED_OFFICER
-                    }
+                    <TableSortLabel
+                      data-test="complainantSortLabel"
+                      onClick={() =>
+                        this.updateSorting(SORT_CASES_BY.PRIMARY_COMPLAINANT)
+                      }
+                      direction={this.props.sortDirection}
+                      active={
+                        this.props.sortBy === SORT_CASES_BY.PRIMARY_COMPLAINANT
+                      }
+                    >
+                      <Typography variant="body2">Complainant</Typography>
+                    </TableSortLabel>
+                  </TableCell>
+                  <TableCell
+                    data-test="casesAccusedOfficerHeader"
+                    style={{ width: "16%" }}
+                    className={classes.cell}
                   >
-                    <Typography variant="body2">Accused Officer</Typography>
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell
-                  data-test="casesFirstContactDateHeader"
-                  style={{ width: "15%" }}
-                  className={classes.cell}
-                >
-                  <TableSortLabel
-                    data-test="firstContactDateSortLabel"
-                    onClick={() =>
-                      this.updateSorting(SORT_CASES_BY.FIRST_CONTACT_DATE)
-                    }
-                    direction={this.props.sortDirection}
-                    active={
-                      this.props.sortBy === SORT_CASES_BY.FIRST_CONTACT_DATE
-                    }
+                    <TableSortLabel
+                      data-test="primaryAccusedOfficerSortLabel"
+                      onClick={() =>
+                        this.updateSorting(
+                          SORT_CASES_BY.PRIMARY_ACCUSED_OFFICER
+                        )
+                      }
+                      direction={this.props.sortDirection}
+                      active={
+                        this.props.sortBy ===
+                        SORT_CASES_BY.PRIMARY_ACCUSED_OFFICER
+                      }
+                    >
+                      <Typography variant="body2">Accused Officer</Typography>
+                    </TableSortLabel>
+                  </TableCell>
+                  <TableCell
+                    data-test="casesFirstContactDateHeader"
+                    style={{ width: "15%" }}
+                    className={classes.cell}
                   >
-                    <Typography variant="body2">First Contact</Typography>
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell
-                  data-test="casesAssignedToHeader"
-                  style={{ width: "14%" }}
-                  className={classes.cell}
-                >
-                  <TableSortLabel
-                    data-test="casesAssignedToSortLabel"
-                    onClick={() =>
-                      this.updateSorting(SORT_CASES_BY.ASSIGNED_TO)
-                    }
-                    direction={this.props.sortDirection}
-                    active={this.props.sortBy === SORT_CASES_BY.ASSIGNED_TO}
+                    <TableSortLabel
+                      data-test="firstContactDateSortLabel"
+                      onClick={() =>
+                        this.updateSorting(SORT_CASES_BY.FIRST_CONTACT_DATE)
+                      }
+                      direction={this.props.sortDirection}
+                      active={
+                        this.props.sortBy === SORT_CASES_BY.FIRST_CONTACT_DATE
+                      }
+                    >
+                      <Typography variant="body2">First Contact</Typography>
+                    </TableSortLabel>
+                  </TableCell>
+                  <TableCell
+                    data-test="casesAssignedToHeader"
+                    style={{ width: "14%" }}
+                    className={classes.cell}
                   >
-                    <Typography variant="body2">Assigned To</Typography>
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell style={{ width: "14%" }} className={classes.cell} />
-              </TableRow>
-            </TableHead>
-
-            {this.renderCases(classes)}
-          </Table>
-          {this.renderNoCasesMessage()}
-        </Paper>
+                    <TableSortLabel
+                      data-test="casesAssignedToSortLabel"
+                      onClick={() =>
+                        this.updateSorting(SORT_CASES_BY.ASSIGNED_TO)
+                      }
+                      direction={this.props.sortDirection}
+                      active={this.props.sortBy === SORT_CASES_BY.ASSIGNED_TO}
+                    >
+                      <Typography variant="body2">Assigned To</Typography>
+                    </TableSortLabel>
+                  </TableCell>
+                  <TableCell
+                    style={{ width: "14%" }}
+                    className={classes.cell}
+                  />
+                </TableRow>
+              </TableHead>
+            </Fragment>
+          }
+          dispatch={this.props.dispatch}
+          render={caseDetails => (
+            <CaseRow
+              key={caseDetails.id}
+              caseDetails={caseDetails}
+              currentUser={this.props.currentUser}
+              dispatch={this.props.dispatch}
+            />
+          )}
+        />
       </div>
     );
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  updateSort: (sortBy, sortDirection) =>
-    dispatch(updateSort(sortBy, sortDirection)),
-  getCases: (sortBy, sortDirection) =>
-    ownProps.archived
-      ? dispatch(getArchivedCases(sortBy, sortDirection))
-      : dispatch(getCases(sortBy, sortDirection))
-});
-
 const mapStateToProps = (state, ownProps) => ({
   cases: ownProps.archived
     ? state.cases.archived.cases
     : state.cases.working.cases,
+  totalCaseCount: ownProps.archived
+    ? state.cases.archived.totalCaseCount
+    : state.cases.working.totalCaseCount,
   loaded: ownProps.archived
     ? state.cases.archived.loaded
     : state.cases.working.loaded,
@@ -233,8 +261,5 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 export default withStyles(styles, { withTheme: true })(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(CasesTable)
+  connect(mapStateToProps)(CasesTable)
 );
