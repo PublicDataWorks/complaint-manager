@@ -17,7 +17,6 @@ import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageC
 import generateComplainantLetterAndUploadToS3 from "./generateComplainantLetterAndUploadToS3";
 import auditDataAccess from "../../../auditDataAccess";
 import config from "../../../../config/config";
-import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
 
 const approveLetter = asyncMiddleware(async (request, response, next) => {
   validateUserPermissions(request);
@@ -52,19 +51,14 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
       transaction
     );
     await generateReferralLetterAndUploadToS3(caseId, filename, transaction);
-    const toggleAttachReferralLetter = checkFeatureToggleEnabled(
-      request,
-      "ReferralLetterAttachment"
+
+    await createLetterAttachment(
+      existingCase.id,
+      filename,
+      REFERRAL_LETTER,
+      transaction,
+      nickname
     );
-    if (toggleAttachReferralLetter) {
-      await createLetterAttachment(
-        existingCase.id,
-        filename,
-        REFERRAL_LETTER,
-        transaction,
-        nickname
-      );
-    }
 
     await saveFilename(filename, caseId, nickname, transaction);
     await auditUpload(

@@ -8,12 +8,6 @@
     }
   },
   {
-    "id": "ReferralLetterAttachment",
-    "name": "ReferralLetterAttachment",
-    "description": "Toggle to enable attaching the referral letter to the case",
-    "enabled": true
-  },
-  {
     "id": "caseDashboardPagination",
     "name": "caseDashboardPagination",
     "description": "Enables pagination of the cases on the dashboard",
