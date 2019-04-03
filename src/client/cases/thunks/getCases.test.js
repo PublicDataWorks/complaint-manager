@@ -32,7 +32,7 @@ describe("getCases", () => {
 
     test("should dispatch success when cases retrieved", async () => {
       nock("http://localhost")
-        .get(`/api/cases/all/${sortBy}/${sortDirection}`)
+        .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
         .reply(200, responseBody);
 
       await getCases(sortBy, sortDirection)(dispatch);
@@ -47,7 +47,9 @@ describe("getCases", () => {
 
     test("should dispatch with page when provided", async () => {
       const scope = nock("http://localhost")
-        .get(`/api/cases/all/${sortBy}/${sortDirection}?page=2`)
+        .get(
+          `/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}&page=2`
+        )
         .reply(200, responseBody);
 
       await getCases(sortBy, sortDirection, 2)(dispatch);
@@ -71,7 +73,7 @@ describe("getCases", () => {
           Authorization: `Bearer false`
         }
       })
-        .get(`/api/cases/all/${sortBy}/${sortDirection}`)
+        .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
         .reply(200, responseBody);
 
       await getCases(sortBy, sortDirection)(dispatch);

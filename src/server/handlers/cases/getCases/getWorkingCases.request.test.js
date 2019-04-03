@@ -40,7 +40,7 @@ describe("getWorkingCases", () => {
   describe("GET /cases", () => {
     test("should audit data access", async () => {
       const responsePromise = request(app)
-        .get(`/api/cases/all/${sortBy}/${sortDirection}`)
+        .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`);
 
@@ -137,7 +137,7 @@ describe("getWorkingCases", () => {
       });
 
       const responsePromise = request(app)
-        .get(`/api/cases/all/${sortBy}/${sortDirection}`)
+        .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`);
 

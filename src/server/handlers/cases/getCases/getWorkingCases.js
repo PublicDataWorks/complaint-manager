@@ -12,8 +12,8 @@ const getWorkingCases = asyncMiddleware(async (request, response) => {
   const cases = await models.sequelize.transaction(async transaction => {
     let auditDetails = {};
 
-    const sortBy = request.params.sortBy;
-    const sortDirection = request.params.sortDirection;
+    const sortBy = request.query.sortBy;
+    const sortDirection = request.query.sortDirection;
     const toggleCaseDashboardPagination = checkFeatureToggleEnabled(
       request,
       "caseDashboardPagination"

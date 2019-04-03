@@ -44,11 +44,9 @@ describe("getWorkingCases", () => {
       headers: {
         authorization: "Bearer token"
       },
-      params: {
-        sortBy: "by",
-        sortDirection: "direction"
-      },
       query: {
+        sortBy: "by",
+        sortDirection: "direction",
         page: 2
       },
       nickname: "nickname"
