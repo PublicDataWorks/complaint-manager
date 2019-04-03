@@ -18,7 +18,7 @@ const getWorkingCases = asyncMiddleware(async (request, response) => {
       request,
       "caseDashboardPagination"
     );
-    const page = toggleCaseDashboardPagination ? request.params.page : null;
+    const page = toggleCaseDashboardPagination ? request.query.page : null;
 
     const cases = await getCases(
       CASES_TYPE.WORKING,

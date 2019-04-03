@@ -19,7 +19,7 @@ class ArchivedCases extends Component {
             View Archived Cases
           </Typography>
         </NavBar>
-        <CasesTable archived={true} />
+        <CasesTable archived={true} currentPage={this.props.currentPage} />
       </div>
     );
   }
@@ -30,7 +30,11 @@ const mapDispatchToProps = {
   resetArchivedCasesLoaded
 };
 
+const mapStateToProps = (state, ownProps) => ({
+  currentPage: state.cases.archived.currentPage
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(ArchivedCases);

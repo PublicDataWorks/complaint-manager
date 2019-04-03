@@ -18,7 +18,7 @@ const getArchivedCases = asyncMiddleware(async (request, response) => {
     );
     const sortBy = request.params.sortBy;
     const sortDirection = request.params.sortDirection;
-    const page = toggleCaseDashboardPagination ? request.params.page : null;
+    const page = toggleCaseDashboardPagination ? request.query.page : null;
 
     const archivedCases = await getCases(
       CASES_TYPE.ARCHIVED,

@@ -6,7 +6,8 @@ import {
 const initialState = {
   loaded: false,
   cases: [],
-  totalCaseCount: 0
+  totalCaseCount: 0,
+  currentPage: 1
 };
 
 const archivedCasesReducer = (state = initialState, action) => {
@@ -15,7 +16,8 @@ const archivedCasesReducer = (state = initialState, action) => {
       return {
         loaded: true,
         cases: action.cases,
-        totalCaseCount: action.totalCaseCount
+        totalCaseCount: action.totalCaseCount,
+        currentPage: action.page
       };
     case RESET_ARCHIVED_CASES_LOADED:
       return { ...state, loaded: false };

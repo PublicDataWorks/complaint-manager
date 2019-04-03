@@ -55,7 +55,8 @@ describe("getCases", () => {
       expect(dispatch).toHaveBeenCalledWith(
         getWorkingCasesSuccess(
           responseBody.cases.rows,
-          responseBody.cases.count
+          responseBody.cases.count,
+          2
         )
       );
       expect(scope.isDone()).toEqual(true);

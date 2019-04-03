@@ -8,7 +8,12 @@ import {
 describe("workingCasesReducer", () => {
   test("should default to empty array", () => {
     const newState = workingCasesReducer(undefined, { type: "SOME_ACTION" });
-    expect(newState).toEqual({ loaded: false, cases: [], totalCaseCount: 0 });
+    expect(newState).toStrictEqual({
+      loaded: false,
+      cases: [],
+      totalCaseCount: 0,
+      currentPage: 1
+    });
   });
 
   describe("RESET_WORKING_CASES_LOADED", () => {
@@ -16,7 +21,8 @@ describe("workingCasesReducer", () => {
       const oldState = {
         loaded: true,
         cases: ["case a", "case b"],
-        totalCaseCount: 5
+        totalCaseCount: 5,
+        currentPage: 1
       };
       const action = resetWorkingCasesLoaded();
 
@@ -25,7 +31,8 @@ describe("workingCasesReducer", () => {
       expect(newState).toEqual({
         loaded: false,
         cases: oldState.cases,
-        totalCaseCount: oldState.totalCaseCount
+        totalCaseCount: oldState.totalCaseCount,
+        currentPage: oldState.currentPage
       });
     });
   });
@@ -35,16 +42,18 @@ describe("workingCasesReducer", () => {
       const oldState = {
         loaded: false,
         cases: ["case a", "case b"],
-        totalCaseCount: 5
+        totalCaseCount: 5,
+        currentPage: 1
       };
-      const action = getWorkingCasesSuccess(["case 1", "case 2"], 10);
+      const action = getWorkingCasesSuccess(["case 1", "case 2"], 10, 2);
 
       const newState = workingCasesReducer(oldState, action);
 
       expect(newState).toStrictEqual({
         loaded: true,
         cases: action.cases,
-        totalCaseCount: action.totalCaseCount
+        totalCaseCount: action.totalCaseCount,
+        currentPage: 2
       });
     });
   });
@@ -52,7 +61,12 @@ describe("workingCasesReducer", () => {
   describe("CASE_CREATED_SUCCESS", () => {
     test("should add new case to state", () => {
       const action = createCaseSuccess("case details");
-      const oldState = { cases: [], loaded: true, totalCaseCount: 0 };
+      const oldState = {
+        cases: [],
+        loaded: true,
+        totalCaseCount: 0,
+        currentPage: 0
+      };
 
       const newState = workingCasesReducer(oldState, action);
 

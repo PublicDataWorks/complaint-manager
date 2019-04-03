@@ -7,7 +7,8 @@ import {
 const initialState = {
   loaded: false,
   cases: [],
-  totalCaseCount: 0
+  totalCaseCount: 0,
+  currentPage: 1
 };
 const workingCasesReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -15,7 +16,8 @@ const workingCasesReducer = (state = initialState, action) => {
       return {
         loaded: true,
         cases: action.cases,
-        totalCaseCount: action.totalCaseCount
+        totalCaseCount: action.totalCaseCount,
+        currentPage: action.page
       };
     case RESET_WORKING_CASES_LOADED:
       return { ...state, loaded: false };

@@ -19,8 +19,11 @@ import {
   SORT_CASES_BY
 } from "../../../sharedUtilities/constants";
 import SortableCase from "../../testUtilities/SortableCase";
+import getCases from "../thunks/getCases";
 
-jest.mock("../thunks/getCases", () => () => ({
+jest.mock("../thunks/getCases");
+
+getCases.mockImplementation((sortBy, sortDirection, page) => ({
   type: "MOCK_GET_CASES_THUNK"
 }));
 
@@ -35,6 +38,8 @@ describe("cases table", () => {
     caseOne;
 
   beforeEach(() => {
+    getCases.mockClear();
+
     civilianChuck = {
       firstName: "Chuck",
       lastName: "Berry",
@@ -97,6 +102,12 @@ describe("cases table", () => {
         .last();
       caseReferenceLabel.simulate("click");
 
+      expect(getCases).toHaveBeenCalledWith(
+        SORT_CASES_BY.CASE_REFERENCE,
+        ASCENDING,
+        1
+      );
+
       expect(dispatchSpy).toHaveBeenCalledWith(
         updateSort(SORT_CASES_BY.CASE_REFERENCE, ASCENDING)
       );
@@ -113,6 +124,8 @@ describe("cases table", () => {
         .find('[data-test="statusSortLabel"]')
         .last();
       caseReferenceLabel.simulate("click");
+
+      expect(getCases).toHaveBeenCalledWith(SORT_CASES_BY.STATUS, ASCENDING, 1);
 
       expect(dispatchSpy).toHaveBeenCalledWith(
         updateSort(SORT_CASES_BY.STATUS, ASCENDING)
@@ -131,6 +144,12 @@ describe("cases table", () => {
         .last();
       caseReferenceLabel.simulate("click");
 
+      expect(getCases).toHaveBeenCalledWith(
+        SORT_CASES_BY.PRIMARY_COMPLAINANT,
+        ASCENDING,
+        1
+      );
+
       expect(dispatchSpy).toHaveBeenCalledWith(
         updateSort(SORT_CASES_BY.PRIMARY_COMPLAINANT, ASCENDING)
       );
@@ -147,6 +166,12 @@ describe("cases table", () => {
         .find('[data-test="firstContactDateSortLabel"]')
         .last();
       caseReferenceLabel.simulate("click");
+
+      expect(getCases).toHaveBeenCalledWith(
+        SORT_CASES_BY.FIRST_CONTACT_DATE,
+        ASCENDING,
+        1
+      );
 
       expect(dispatchSpy).toHaveBeenCalledWith(
         updateSort(SORT_CASES_BY.FIRST_CONTACT_DATE, ASCENDING)
@@ -259,17 +284,23 @@ describe("cases table", () => {
     });
   });
 
-  describe("there are no cases", () => {
-    test("should display no cases message", () => {
-      store.dispatch(getWorkingCasesSuccess([]));
+  describe("table pagination", () => {
+    test("should make an api call to get cases", () => {
+      const casesTable = tableWrapper.find("CasesTable").instance();
+      casesTable.onChange(12);
 
-      tableWrapper.update();
+      expect(getCases).toHaveBeenCalledTimes(2);
+      expect(getCases.mock.calls[1][2]).toEqual(12);
+    });
+  });
 
-      const body = tableWrapper.find("TableBody");
-      const message = tableWrapper.find('[data-test="no-cases-message"]');
-
-      expect(body.exists()).toBeFalsy();
-      expect(message.exists()).toBeTruthy();
+  describe("component mounting", () => {
+    test("should mount case table with page 1", () => {
+      expect(getCases).toHaveBeenCalledWith(
+        SORT_CASES_BY.CASE_REFERENCE,
+        DESCENDING,
+        1
+      );
     });
   });
 });

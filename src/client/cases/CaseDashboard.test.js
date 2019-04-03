@@ -52,7 +52,7 @@ describe("CaseDashboard", () => {
     expect(
       containsText(
         caseDashboardWrapper,
-        '[data-test="no-cases-message"]',
+        '[data-test="searchResultsMessage"]',
         "There are no cases to view"
       )
     );

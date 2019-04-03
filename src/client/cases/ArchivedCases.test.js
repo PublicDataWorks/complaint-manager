@@ -14,7 +14,8 @@ import getArchivedCases from "./thunks/getArchivedCases";
 import { containsText } from "../testHelpers";
 import { DESCENDING, SORT_CASES_BY } from "../../sharedUtilities/constants";
 
-jest.mock("./thunks/getArchivedCases", () => () => ({
+jest.mock("./thunks/getArchivedCases");
+getArchivedCases.mockImplementation((sortBy, sortDirection, page) => ({
   type: "MOCK_GET_ARCHIVED_CASES_THUNK"
 }));
 
@@ -22,6 +23,7 @@ describe("CaseDashboard", () => {
   let archivedCasesWrapper, store, dispatchSpy, cases;
 
   beforeEach(() => {
+    getArchivedCases.mockClear();
     mockLocalStorage();
 
     const newCase = new Case.Builder().defaultCase().build();
@@ -52,7 +54,7 @@ describe("CaseDashboard", () => {
     expect(
       containsText(
         archivedCasesWrapper,
-        '[data-test="no-cases-message"]',
+        '[data-test="searchResultsMessage"]',
         "There are no archived cases to view"
       )
     );
@@ -67,5 +69,15 @@ describe("CaseDashboard", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(
       getArchivedCases(SORT_CASES_BY.CASE_REFERENCE, DESCENDING)
     );
+  });
+
+  describe("table pagination", () => {
+    test("should make an api call to get archived cases", () => {
+      const casesTable = archivedCasesWrapper.find("CasesTable").instance();
+      casesTable.onChange(12);
+
+      expect(getArchivedCases).toHaveBeenCalledTimes(2);
+      expect(getArchivedCases.mock.calls[1][2]).toEqual(12);
+    });
   });
 });

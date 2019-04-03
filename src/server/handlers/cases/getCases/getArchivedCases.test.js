@@ -32,7 +32,9 @@ describe("getArchivedCases", () => {
       },
       params: {
         sortBy: "by",
-        sortDirection: "direction",
+        sortDirection: "direction"
+      },
+      query: {
         page: 2
       },
       nickname: "nickname"

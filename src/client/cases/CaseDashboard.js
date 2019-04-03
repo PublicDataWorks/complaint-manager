@@ -23,7 +23,7 @@ class CaseDashboard extends Component {
           </Typography>
         </NavBar>
         <CreateCaseButton />
-        <CasesTable archived={false} />
+        <CasesTable currentPage={this.props.currentPage} archived={false} />
       </div>
     );
   }
@@ -34,7 +34,11 @@ const mapDispatchToProps = {
   resetWorkingCasesLoaded
 };
 
+const mapStateToProps = (state, ownProps) => ({
+  currentPage: state.cases.working.currentPage
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(CaseDashboard);
