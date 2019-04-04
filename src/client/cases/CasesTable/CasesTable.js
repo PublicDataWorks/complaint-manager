@@ -55,6 +55,17 @@ class CasesTable extends React.Component {
     }cases to view.`;
   }
 
+  getPagination() {
+    return this.props.caseDashboardPaginationFeature
+      ? {
+          onChange: this.onChange,
+          totalMessage: total => `${total} results found`,
+          count: this.props.totalCaseCount,
+          currentPage: this.props.currentPage
+        }
+      : {};
+  }
+
   componentDidMount() {
     this.getCases(SORT_CASES_BY.CASE_REFERENCE, DESCENDING, 1);
     this.updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING);
@@ -102,12 +113,7 @@ class CasesTable extends React.Component {
     return (
       <div style={{ marginTop: "24px" }} className={classes.tableMargin}>
         <SearchResults
-          pagination={{
-            onChange: this.onChange,
-            totalMessage: total => `${total} results found`,
-            count: this.props.totalCaseCount,
-            currentPage: this.props.currentPage
-          }}
+          pagination={this.getPagination()}
           header={"Results"}
           subtitleResultCount={false}
           searchResults={this.props.cases}
@@ -257,7 +263,9 @@ const mapStateToProps = (state, ownProps) => ({
     : state.cases.working.loaded,
   currentUser: state.users.current.userInfo,
   sortBy: state.ui.casesTable.sortBy,
-  sortDirection: state.ui.casesTable.sortDirection
+  sortDirection: state.ui.casesTable.sortDirection,
+  caseDashboardPaginationFeature:
+    state.featureToggles.caseDashboardPaginationFeature
 });
 
 export default withStyles(styles, { withTheme: true })(

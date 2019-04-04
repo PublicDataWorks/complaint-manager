@@ -20,6 +20,7 @@ import {
 } from "../../../sharedUtilities/constants";
 import SortableCase from "../../testUtilities/SortableCase";
 import getWorkingCases from "../thunks/getWorkingCases";
+import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
 
 jest.mock("../thunks/getWorkingCases");
 
@@ -85,6 +86,11 @@ describe("cases table", () => {
 
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
+    store.dispatch(
+      getFeaturesSuccess({
+        caseDashboardPaginationFeature: true
+      })
+    );
     store.dispatch(getWorkingCasesSuccess(cases));
     tableWrapper = mount(
       <Provider store={store}>
