@@ -13,7 +13,7 @@ jest.mock("./getCases");
 jest.mock(
   "../../../checkFeatureToggleEnabled",
   () => (request, featureName) => {
-    return featureName === "caseDashboardPagination";
+    return featureName === "caseDashboardPaginationFeature";
   }
 );
 

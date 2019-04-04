@@ -16,7 +16,7 @@ const getWorkingCases = asyncMiddleware(async (request, response) => {
     const sortDirection = request.query.sortDirection;
     const toggleCaseDashboardPagination = checkFeatureToggleEnabled(
       request,
-      "caseDashboardPagination"
+      "caseDashboardPaginationFeature"
     );
     const page = toggleCaseDashboardPagination ? request.query.page : null;
 
