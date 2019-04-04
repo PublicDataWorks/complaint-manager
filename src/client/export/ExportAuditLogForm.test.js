@@ -38,6 +38,45 @@ describe("Export audits", () => {
     dispatchSpy.mockClear();
   });
 
+  describe("dateRangeAuditLog feature off", () => {
+    beforeEach(() => {
+      store.dispatch(getFeaturesSuccess({ dataRangeExportFeature: false }));
+
+      exportAuditLogForm.update();
+    });
+
+    test("exports all audits with dataRangeExportFeature toggled off", () => {
+      const exportAllAuditsButton = exportAuditLogForm.find(
+        'button[data-test="exportAllAudits"]'
+      );
+
+      exportAllAuditsButton.simulate("click");
+      const dialog = exportAuditLogForm.find(
+        '[data-test="exportConfirmationText"]'
+      );
+      expect(dialog).toBeDefined();
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        openExportAuditLogConfirmationDialog()
+      );
+    });
+
+    test("cannot export ranged audits with dataRangeExportFeature toggled off", () => {
+      expect(
+        exportAuditLogForm
+          .find('button[data-test="exportRangedAudits"]')
+          .exists()
+      ).toBeFalsy();
+      expect(
+        exportAuditLogForm
+          .find('[data-test="exportAuditLogFromInput"]')
+          .exists()
+      ).toBeFalsy();
+      expect(
+        exportAuditLogForm.find('[data-test="exportAuditLogToInput"]').exists()
+      ).toBeFalsy();
+    });
+  });
+
   test("open confirmation dialog without date range when all button clicked", () => {
     const exportAllAuditsButton = exportAuditLogForm.find(
       'button[data-test="exportAllAudits"]'
@@ -142,40 +181,5 @@ describe("Export audits", () => {
     expect(dispatchSpy).not.toHaveBeenCalledWith(
       openExportAuditLogConfirmationDialog(dateRange)
     );
-  });
-
-  test("exports all audits with dataRangeExportFeature toggled off", () => {
-    store.dispatch(getFeaturesSuccess({ dataRangeExportFeature: false }));
-
-    exportAuditLogForm.update();
-
-    const exportAllAuditsButton = exportAuditLogForm.find(
-      'button[data-test="exportAllAudits"]'
-    );
-
-    exportAllAuditsButton.simulate("click");
-    const dialog = exportAuditLogForm.find(
-      '[data-test="exportConfirmationText"]'
-    );
-    expect(dialog).toBeDefined();
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      openExportAuditLogConfirmationDialog()
-    );
-  });
-
-  test("cannot export ranged audits with dataRangeExportFeature toggled off", () => {
-    store.dispatch(getFeaturesSuccess({ dateRangeExportFeature: false }));
-
-    exportAuditLogForm.update();
-
-    expect(
-      exportAuditLogForm.find('button[data-test="exportRangedAudits"]').exists()
-    ).toBeFalsy();
-    expect(
-      exportAuditLogForm.find('[data-test="exportAuditLogFromInput"]').exists()
-    ).toBeFalsy();
-    expect(
-      exportAuditLogForm.find('[data-test="exportAuditLogToInput"]').exists()
-    ).toBeFalsy();
   });
 });
