@@ -14,7 +14,7 @@ const getArchivedCases = asyncMiddleware(async (request, response) => {
 
     const toggleCaseDashboardPagination = checkFeatureToggleEnabled(
       request,
-      "caseDashboardPagination"
+      "caseDashboardPaginationFeature"
     );
     const sortBy = request.query.sortBy;
     const sortDirection = request.query.sortDirection;

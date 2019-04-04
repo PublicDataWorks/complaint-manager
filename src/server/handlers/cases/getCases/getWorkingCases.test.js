@@ -24,7 +24,7 @@ getCases.mockImplementation((caseType, sortBy, sortDirection, transaction) => {
 });
 
 checkFeatureToggleEnabled.mockImplementation((request, featureName) => {
-  return featureName === "caseDashboardPagination";
+  return featureName === "caseDashboardPaginationFeature";
 });
 
 describe("getWorkingCases", () => {
@@ -66,7 +66,7 @@ describe("getWorkingCases", () => {
     );
     expect(checkFeatureToggleEnabled).toHaveBeenCalledWith(
       request,
-      "caseDashboardPagination"
+      "caseDashboardPaginationFeature"
     );
   });
 
