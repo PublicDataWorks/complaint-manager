@@ -1,5 +1,5 @@
 import React from "react";
-import { reduxForm, SubmissionError } from "redux-form";
+import { reduxForm } from "redux-form";
 import {
   EXPORT_AUDIT_LOG_FORM_NAME,
   USER_PERMISSIONS
@@ -11,46 +11,21 @@ import {
 } from "../shared/components/StyledButtons";
 import { connect } from "react-redux";
 import { openExportAuditLogConfirmationDialog } from "../actionCreators/exportActionCreators";
-import moment from "moment";
-import DateField from "../cases/sharedFormComponents/DateField";
 import LinkButton from "../shared/components/LinkButton";
-import _ from "lodash";
+import ExportDateRange, { validateDateRangeFields } from "./ExportDateRange";
 
-const validateDateOrder = values => {
-  if (
-    values.exportAuditLogFrom &&
-    values.exportAuditLogTo &&
-    moment(values.exportAuditLogFrom).isAfter(moment(values.exportAuditLogTo))
-  ) {
-    return { exportAuditLogFrom: "From date cannot be after To date" };
-  }
-};
-
-const validateDateFields = values => {
-  let errors = {};
-
-  errors = { ...errors, ...validateDateOrder(values) };
-  if (!values.exportAuditLogFrom) {
-    errors.exportAuditLogFrom = "Please enter a date";
-  }
-  if (!values.exportAuditLogTo) {
-    errors.exportAuditLogTo = "Please enter a date";
-  }
-  if (!_.isEmpty(errors)) {
-    throw new SubmissionError(errors);
-  }
-};
+const formLabel = "exportAuditLog";
 
 const openExportAuditLogConfirmationDialogForDateRange = (
   values,
   openExportAuditLogConfirmationDialog
 ) => {
-  validateDateFields(values);
+  validateDateRangeFields(values, formLabel);
   const dateRange =
-    values && values.exportAuditLogFrom && values.exportAuditLogTo
+    values && values[`${formLabel}From`] && values[`${formLabel}To`]
       ? {
-          exportStartDate: values.exportAuditLogFrom,
-          exportEndDate: values.exportAuditLogTo
+          exportStartDate: values[`${formLabel}From`],
+          exportEndDate: values[`${formLabel}To`]
         }
       : null;
 
@@ -89,42 +64,7 @@ const ExportAuditLogForm = props => {
             activities within range or export a full audit log.
           </Typography>
         </div>
-        <div>
-          <DateField
-            required
-            name="exportAuditLogFrom"
-            label="From"
-            data-test="exportAuditLogFromField"
-            inputProps={{
-              "data-test": "exportAuditLogFromInput",
-              type: "date",
-              max: moment(Date.now()).format("YYYY-MM-DD")
-            }}
-            clearable={true}
-            style={{
-              minWidth: "140px",
-              marginRight: "5%",
-              marginBottom: "3%"
-            }}
-          />
-          <DateField
-            required
-            name="exportAuditLogTo"
-            label="To"
-            data-test="exportAuditLogToField"
-            inputProps={{
-              "data-test": "exportAuditLogToInput",
-              type: "date",
-              max: moment(Date.now()).format("YYYY-MM-DD")
-            }}
-            clearable={true}
-            style={{
-              minWidth: "140px",
-              marginRight: "5%",
-              marginBottom: "3%"
-            }}
-          />
-        </div>
+        <ExportDateRange formLabel={formLabel} />
         <PrimaryButton
           disabled={props.buttonsDisabled}
           data-test="exportRangedAudits"
