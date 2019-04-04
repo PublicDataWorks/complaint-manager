@@ -1,10 +1,10 @@
 import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+import auditDataAccess from "../../auditDataAccess";
 
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
-import auditDataAccess from "../../auditDataAccess";
 
 const getCase = asyncMiddleware(async (request, response) => {
   const singleCase = await models.sequelize.transaction(async transaction => {
