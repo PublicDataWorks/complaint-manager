@@ -35,7 +35,8 @@ const createCase = creationDetails => async dispatch => {
       dispatch(
         getWorkingCases(
           creationDetails.sorting.sortBy,
-          creationDetails.sorting.sortDirection
+          creationDetails.sorting.sortDirection,
+          creationDetails.pagination.currentPage
         )
       );
     }

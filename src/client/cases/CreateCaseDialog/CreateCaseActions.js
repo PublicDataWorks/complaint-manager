@@ -43,6 +43,9 @@ export class CreateCaseActions extends React.Component {
       sorting: {
         sortBy: this.props.sortBy,
         sortDirection: this.props.sortDirection
+      },
+      pagination: {
+        currentPage: this.props.currentPage
       }
     });
   };
@@ -136,7 +139,8 @@ const selector = formValueSelector(CREATE_CASE_FORM_NAME);
 const mapStateToProps = state => ({
   civilian: selector(state, "civilian"),
   sortBy: state.ui.casesTable.sortBy,
-  sortDirection: state.ui.casesTable.sortDirection
+  sortDirection: state.ui.casesTable.sortDirection,
+  currentPage: state.cases.working.currentPage
 });
 
 const mapDispatchToProps = {

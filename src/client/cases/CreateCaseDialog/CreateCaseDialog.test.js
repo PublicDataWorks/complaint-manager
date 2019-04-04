@@ -129,6 +129,9 @@ describe("CreateCaseDialog component", () => {
           sorting: {
             sortBy: SORT_CASES_BY.CASE_REFERENCE,
             sortDirection: DESCENDING
+          },
+          pagination: {
+            currentPage: 1
           }
         })
       );
@@ -146,6 +149,9 @@ describe("CreateCaseDialog component", () => {
           sorting: {
             sortBy: SORT_CASES_BY.CASE_REFERENCE,
             sortDirection: DESCENDING
+          },
+          pagination: {
+            currentPage: 1
           }
         })
       );
@@ -338,6 +344,9 @@ describe("CreateCaseDialog component", () => {
           sorting: {
             sortBy: SORT_CASES_BY.CASE_REFERENCE,
             sortDirection: DESCENDING
+          },
+          pagination: {
+            currentPage: 1
           }
         })
       );
