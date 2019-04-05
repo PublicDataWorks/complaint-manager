@@ -104,7 +104,7 @@ const exportAuditLog = async (job, done) => {
       );
 
       const csvOutput = await promisifiedStringify(sortedAuditLogs, csvOptions);
-      const filename = getFilename(
+      const filename = generateFilename(
         JOB_OPERATION.AUDIT_LOG_EXPORT,
         job.data.dateRange
       );
@@ -128,12 +128,12 @@ const exportAuditLog = async (job, done) => {
   }
 };
 
-const getFilename = (jobOperation, dateRange) => {
+const generateFilename = (jobOperation, dateRange) => {
   return `${jobOperation.filename}${formatDateRangeForFilename(dateRange)}`;
 };
 
 const formatDateRangeForFilename = dateRange => {
-  if (dateRange && dateRange.exportStartDate && dateRange.exportEndDate) {
+  if (dateRange) {
     return `_${moment(dateRange.exportStartDate).format(
       "YYYY-MM-DD"
     )}_to_${moment(dateRange.exportEndDate).format("YYYY-MM-DD")}`;

@@ -1,6 +1,24 @@
+import _ from "lodash";
+
 const { COMPLAINANT, WITNESS } = require("../../../sharedUtilities/constants");
 
-const exportCasesQuery = () => {
+const getDateRangeCondition = dateRange => {
+  if (dateRange) {
+    const postgresDateFormat = `YYYY-MM-DD`;
+
+    const casesField = _.snakeCase(dateRange.type);
+
+    return `AND cases.${casesField} BETWEEN to_date('${
+      dateRange.exportStartDate
+    }', '${postgresDateFormat}') and to_date('${
+      dateRange.exportEndDate
+    }', '${postgresDateFormat}')`;
+  } else {
+    return "";
+  }
+};
+
+const exportCasesQuery = (dateRange = null) => {
   const DATE_ONLY_FORMAT = "MM/DD/YYYY";
   const TIME_ONLY_FORMAT = "HH24:MI:SS";
   const FILE_EXTENSION_PATTERN = "([^.]+)$";
@@ -254,6 +272,7 @@ const exportCasesQuery = () => {
     ") as attachments " +
     " ON attachments.case_id = cases.id " +
     "where cases.deleted_at IS NULL " +
+    getDateRangeCondition(dateRange) +
     "ORDER BY cases.created_at ASC, complainants.created_at ASC, accusedOfficers.created_at ASC, officerAllegations.created_at ASC;";
   return query;
 };

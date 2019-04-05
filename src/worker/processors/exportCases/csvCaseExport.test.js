@@ -35,6 +35,28 @@ describe("csvCaseExport request", () => {
     id: "123"
   };
   const jobDone = jest.fn();
+  const jobWithDateRangeByFirstContactDate = {
+    data: {
+      user: "some user",
+      dateRange: {
+        type: "firstContactDate",
+        exportStartDate: "2018-01-01",
+        exportEndDate: "2018-12-31"
+      }
+    },
+    id: "123"
+  };
+  const jobWithDateRangeByIncidentDate = {
+    data: {
+      user: "some user",
+      dateRange: {
+        type: "incidentDate",
+        exportStartDate: "2018-01-01",
+        exportEndDate: "2018-12-31"
+      }
+    },
+    id: "123"
+  };
 
   beforeEach(() => {
     records = [];
@@ -46,12 +68,17 @@ describe("csvCaseExport request", () => {
     );
   });
 
+  afterEach(async done => {
+    await cleanupDatabase();
+    done();
+  });
+
   test("sends the resulting aws data to the job result", async () => {
     await csvCaseExport(job, jobDone);
     expect(jobDone).toHaveBeenCalledWith(null, awsResult);
   });
 
-  test("should retrieve correct headers", async () => {
+  test("should retrieve correct headers and filename without date range", async () => {
     await csvCaseExport(job, jobDone);
 
     expect(uploadFileToS3).toHaveBeenCalledWith(
@@ -136,6 +163,46 @@ describe("csvCaseExport request", () => {
           "Types of Attachments\n"
       ),
       JOB_OPERATION.CASE_EXPORT.filename,
+      JOB_OPERATION.CASE_EXPORT.key
+    );
+  });
+
+  test("should retrieve correct filename for ranged export by first contact date", async () => {
+    await csvCaseExport(jobWithDateRangeByFirstContactDate, jobDone);
+
+    const startDateString = moment(
+      jobWithDateRangeByFirstContactDate.data.dateRange.exportStartDate
+    ).format("YYYY-MM-DD");
+    const endDateString = moment(
+      jobWithDateRangeByFirstContactDate.data.dateRange.exportEndDate
+    ).format("YYYY-MM-DD");
+
+    expect(uploadFileToS3).toHaveBeenCalledWith(
+      job.id,
+      expect.any(String),
+      `${
+        JOB_OPERATION.CASE_EXPORT.filename
+      }_by_First_Contact_Date_${startDateString}_to_${endDateString}`,
+      JOB_OPERATION.CASE_EXPORT.key
+    );
+  });
+
+  test("should retrieve correct filename for ranged export by incident date", async () => {
+    await csvCaseExport(jobWithDateRangeByIncidentDate, jobDone);
+
+    const startDateString = moment(
+      jobWithDateRangeByIncidentDate.data.dateRange.exportStartDate
+    ).format("YYYY-MM-DD");
+    const endDateString = moment(
+      jobWithDateRangeByIncidentDate.data.dateRange.exportEndDate
+    ).format("YYYY-MM-DD");
+
+    expect(uploadFileToS3).toHaveBeenCalledWith(
+      job.id,
+      expect.any(String),
+      `${
+        JOB_OPERATION.CASE_EXPORT.filename
+      }_by_Incident_Date_${startDateString}_to_${endDateString}`,
       JOB_OPERATION.CASE_EXPORT.key
     );
   });
@@ -241,11 +308,6 @@ describe("csvCaseExport request", () => {
         officerAllegationAttributes,
         { auditUser: "tuser" }
       );
-      done();
-    });
-
-    afterEach(async done => {
-      await cleanupDatabase();
       done();
     });
 
@@ -1307,6 +1369,106 @@ describe("csvCaseExport request", () => {
       const record1 = records[0];
       expect(record1["PIB Case Number"]).toEqual(pibCaseNumber);
       done();
+    });
+  });
+
+  describe("date range case export", () => {
+    test("should export cases with first contact date within the date range", async () => {
+      const caseBeforeDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withFirstContactDate(moment("2017-03-12")),
+        { auditUser: "test" }
+      );
+      const caseAtBeginningOfDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withFirstContactDate(moment("2018-01-01")),
+        { auditUser: "test" }
+      );
+      const caseAtEndOfDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withFirstContactDate(moment("2018-12-31")),
+        { auditUser: "test" }
+      );
+
+      const caseAfterDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withFirstContactDate(moment("2019-01-12")),
+        { auditUser: "test" }
+      );
+
+      await csvCaseExport(jobWithDateRangeByFirstContactDate, jobDone);
+
+      expect(records.length).toEqual(2);
+
+      expect(records).toEqual([
+        expect.objectContaining({
+          "Case #": caseAtBeginningOfDateRange.caseReference
+        }),
+        expect.objectContaining({
+          "Case #": caseAtEndOfDateRange.caseReference
+        })
+      ]);
+    });
+
+    test("should export cases with incident date within the date range", async () => {
+      const caseRightBeforeDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withIncidentDate(moment("2017-12-31")),
+        { auditUser: "test" }
+      );
+      const caseAtBeginningOfDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withIncidentDate(moment("2018-01-01")),
+        { auditUser: "test" }
+      );
+      const caseAtEndOfDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withIncidentDate(moment("2018-12-31")),
+        { auditUser: "test" }
+      );
+
+      const caseAfterDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withIncidentDate(moment("2019-01-01")),
+        { auditUser: "test" }
+      );
+
+      await csvCaseExport(jobWithDateRangeByIncidentDate, jobDone);
+
+      //expect(records.length).toEqual(2);
+
+      expect(records).toEqual([
+        expect.objectContaining({
+          "Case #": caseAtBeginningOfDateRange.caseReference
+        }),
+        expect.objectContaining({
+          "Case #": caseAtEndOfDateRange.caseReference
+        })
+      ]);
     });
   });
 });
