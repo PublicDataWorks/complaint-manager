@@ -3,6 +3,7 @@ import {
   TIMEZONE
 } from "../../../sharedUtilities/constants";
 import timezone from "moment-timezone";
+import _ from "lodash";
 
 const { JOB_OPERATION } = require("../../../sharedUtilities/constants");
 const models = require("../../../server/models/index");
@@ -18,17 +19,21 @@ const TIMESTAMP_FORMAT = "MM/DD/YYYY HH:mm:ss z";
 const csvCaseExport = async (job, done) => {
   winston.info(`About to run Case Export Job with id ${job.id}`);
   try {
-    const caseData = await models.sequelize.query(exportCasesQuery(), {
-      type: models.sequelize.QueryTypes.SELECT
-    });
+    const caseData = await models.sequelize.query(
+      exportCasesQuery(job.data.dateRange),
+      {
+        type: models.sequelize.QueryTypes.SELECT
+      }
+    );
 
     transformCaseData(caseData);
+    const filename = generateFilename(job.data.dateRange);
 
     const csvOutput = await promisifiedStringify(caseData, csvOptions);
     const s3Result = await uploadFileToS3(
       job.id,
       csvOutput,
-      JOB_OPERATION.CASE_EXPORT.filename,
+      filename,
       JOB_OPERATION.CASE_EXPORT.key
     );
     winston.info(`Done running Case Export Job with id ${job.id}`);
@@ -37,6 +42,20 @@ const csvCaseExport = async (job, done) => {
     winston.error(`Error running Case Export Job with id ${job.id}: `, err);
     winston.error(util.inspect(err));
     done(err);
+  }
+};
+
+const generateFilename = dateRange => {
+  if (dateRange) {
+    const dateType = _.startCase(dateRange.type)
+      .split(" ")
+      .join("_");
+
+    return `${JOB_OPERATION.CASE_EXPORT.filename}_by_${dateType}_${
+      dateRange.exportStartDate
+    }_to_${dateRange.exportEndDate}`;
+  } else {
+    return JOB_OPERATION.CASE_EXPORT.filename;
   }
 };
 
