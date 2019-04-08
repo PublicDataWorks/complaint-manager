@@ -1,5 +1,5 @@
 import {
-  EXPORT_ALL_CASES_CONFIRMATION_OPENED,
+  EXPORT_CASES_CONFIRMATION_OPENED,
   EXPORT_AUDIT_LOG_CONFIRMATION_OPENED,
   EXPORT_CONFIRMATION_CLOSED,
   JOB_OPERATION
@@ -24,13 +24,14 @@ const exportDialogReducer = (state = initialState, action) => {
         warningText: "a log of all actions taken in",
         dateRange: action.dateRange
       };
-    case EXPORT_ALL_CASES_CONFIRMATION_OPENED:
+    case EXPORT_CASES_CONFIRMATION_OPENED:
       return {
         ...state,
         open: true,
         path: `/api/export/schedule/${JOB_OPERATION.CASE_EXPORT.name}`,
         title: "All Case Information",
-        warningText: "all cases in"
+        warningText: "all cases in",
+        dateRange: action.dateRange
       };
     case EXPORT_CONFIRMATION_CLOSED:
       return {

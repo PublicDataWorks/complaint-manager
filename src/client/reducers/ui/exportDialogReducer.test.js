@@ -1,9 +1,10 @@
 import exportDialogReducer from "./exportDialogReducer";
 import {
   closeExportConfirmationDialog,
-  openExportAllCasesConfirmationDialog,
+  openExportCasesConfirmationDialog,
   openExportAuditLogConfirmationDialog
 } from "../../actionCreators/exportActionCreators";
+import { CASE_EXPORT_TYPE } from "../../../sharedUtilities/constants";
 
 describe("export dialog reducer", () => {
   test("should set default state", () => {
@@ -103,7 +104,7 @@ describe("export dialog reducer", () => {
     };
     const newState = exportDialogReducer(
       initialState,
-      openExportAllCasesConfirmationDialog()
+      openExportCasesConfirmationDialog()
     );
 
     const expectedState = {
@@ -112,6 +113,38 @@ describe("export dialog reducer", () => {
       title: "All Case Information",
       warningText: "all cases in",
       dateRange: null
+    };
+
+    expect(newState).toEqual(expectedState);
+  });
+
+  test("should set state with date range and type for open export all cases confirmation", () => {
+    const initialState = {
+      open: false,
+      path: "",
+      title: "",
+      warningText: "",
+      dateRange: null
+    };
+    const newState = exportDialogReducer(
+      initialState,
+      openExportCasesConfirmationDialog({
+        exportStartDate: "2012-02-22",
+        exportEndDate: "2015-02-03",
+        type: CASE_EXPORT_TYPE.INCIDENT_DATE
+      })
+    );
+
+    const expectedState = {
+      open: true,
+      path: "/api/export/schedule/CASE_EXPORT",
+      title: "All Case Information",
+      warningText: "all cases in",
+      dateRange: {
+        exportStartDate: "2012-02-22",
+        exportEndDate: "2015-02-03",
+        type: CASE_EXPORT_TYPE.INCIDENT_DATE
+      }
     };
 
     expect(newState).toEqual(expectedState);

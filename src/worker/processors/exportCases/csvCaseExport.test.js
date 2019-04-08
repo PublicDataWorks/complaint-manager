@@ -15,6 +15,7 @@ import {
   ACCUSED,
   ADDRESSABLE_TYPE,
   ALLEGATION_SEVERITY,
+  CASE_EXPORT_TYPE,
   COMPLAINANT,
   JOB_OPERATION,
   TIMEZONE,
@@ -39,7 +40,7 @@ describe("csvCaseExport request", () => {
     data: {
       user: "some user",
       dateRange: {
-        type: "firstContactDate",
+        type: CASE_EXPORT_TYPE.FIRST_CONTACT_DATE,
         exportStartDate: "2018-01-01",
         exportEndDate: "2018-12-31"
       }
@@ -50,7 +51,7 @@ describe("csvCaseExport request", () => {
     data: {
       user: "some user",
       dateRange: {
-        type: "incidentDate",
+        type: CASE_EXPORT_TYPE.INCIDENT_DATE,
         exportStartDate: "2018-01-01",
         exportEndDate: "2018-12-31"
       }

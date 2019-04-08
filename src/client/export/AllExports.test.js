@@ -3,10 +3,7 @@ import { Provider } from "react-redux";
 import createConfiguredStore from "../createConfiguredStore";
 import { mount } from "enzyme";
 import AllExports from "./AllExports";
-import {
-  generateExportSuccess,
-  openExportAllCasesConfirmationDialog
-} from "../actionCreators/exportActionCreators";
+import { generateExportSuccess } from "../actionCreators/exportActionCreators";
 
 describe("Export all cases", () => {
   let allExports, dispatchSpy, store;
@@ -19,18 +16,6 @@ describe("Export all cases", () => {
       <Provider store={store}>
         <AllExports />
       </Provider>
-    );
-  });
-
-  test("open confirmation dialog when button clicked", () => {
-    const exportCasesButton = allExports.find(
-      'button[data-test="openExportAllCasesConfirmationDialog"]'
-    );
-    exportCasesButton.simulate("click");
-    const dialog = allExports.find('[data-test="exportConfirmationText"]');
-    expect(dialog).toBeDefined();
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      openExportAllCasesConfirmationDialog()
     );
   });
 
