@@ -8,6 +8,9 @@ import { changeInput } from "../testHelpers";
 import { getFeaturesSuccess } from "../actionCreators/featureTogglesActionCreators";
 import { userAuthSuccess } from "../auth/actionCreators";
 import { USER_PERMISSIONS } from "../../sharedUtilities/constants";
+import { validateDateRangeFields } from "./ExportDateRange/validateDateRangeFields";
+
+jest.mock("./ExportDateRange/validateDateRangeFields");
 
 describe("Export audits", () => {
   let exportAuditLogForm, dispatchSpy, store;
@@ -40,7 +43,7 @@ describe("Export audits", () => {
 
   describe("dateRangeAuditLog feature off", () => {
     beforeEach(() => {
-      store.dispatch(getFeaturesSuccess({ dataRangeExportFeature: false }));
+      store.dispatch(getFeaturesSuccess({ dateRangeExportFeature: false }));
 
       exportAuditLogForm.update();
     });
@@ -60,7 +63,7 @@ describe("Export audits", () => {
       );
     });
 
-    test("cannot export ranged audits with dataRangeExportFeature toggled off", () => {
+    test("cannot export ranged audits with dateRangeExportFeature toggled off", () => {
       expect(
         exportAuditLogForm
           .find('button[data-test="exportRangedAudits"]')
@@ -77,109 +80,80 @@ describe("Export audits", () => {
     });
   });
 
-  test("open confirmation dialog without date range when all button clicked", () => {
-    const exportAllAuditsButton = exportAuditLogForm.find(
-      'button[data-test="exportAllAudits"]'
-    );
+  describe("dateRangeAuditLog feature on", () => {
+    test("open confirmation dialog without date range when export all audits button clicked", () => {
+      const exportAllAuditsButton = exportAuditLogForm.find(
+        'button[data-test="exportAllAudits"]'
+      );
 
-    exportAllAuditsButton.simulate("click");
-    const dialog = exportAuditLogForm.find(
-      '[data-test="exportConfirmationText"]'
-    );
-    expect(dialog).toBeDefined();
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      openExportAuditLogConfirmationDialog()
-    );
-  });
+      exportAllAuditsButton.simulate("click");
+      const dialog = exportAuditLogForm.find(
+        '[data-test="exportConfirmationText"]'
+      );
+      expect(dialog).toBeDefined();
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        openExportAuditLogConfirmationDialog()
+      );
+    });
 
-  test("open confirmation dialog with date range when ranged button clicked", () => {
-    changeInput(
-      exportAuditLogForm,
-      '[data-test="exportAuditLogFromInput"]',
-      "2017-12-21"
-    );
-    changeInput(
-      exportAuditLogForm,
-      '[data-test="exportAuditLogToInput"]',
-      "2018-12-21"
-    );
+    test("open confirmation dialog with date range when ranged button clicked", () => {
+      changeInput(
+        exportAuditLogForm,
+        '[data-test="exportAuditLogFromInput"]',
+        "2017-12-21"
+      );
+      changeInput(
+        exportAuditLogForm,
+        '[data-test="exportAuditLogToInput"]',
+        "2018-12-21"
+      );
 
-    const exportRangedAuditsButton = exportAuditLogForm.find(
-      'button[data-test="exportRangedAudits"]'
-    );
-    exportRangedAuditsButton.simulate("click");
-    const dialog = exportAuditLogForm.find(
-      '[data-test="exportConfirmationText"]'
-    );
+      const exportRangedAuditsButton = exportAuditLogForm.find(
+        'button[data-test="exportRangedAudits"]'
+      );
+      exportRangedAuditsButton.simulate("click");
+      const dialog = exportAuditLogForm.find(
+        '[data-test="exportConfirmationText"]'
+      );
 
-    expect(dialog).toBeDefined();
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      openExportAuditLogConfirmationDialog({
-        exportStartDate: "2017-12-21",
-        exportEndDate: "2018-12-21"
-      })
-    );
-  });
+      expect(dialog).toBeDefined();
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        openExportAuditLogConfirmationDialog({
+          exportStartDate: "2017-12-21",
+          exportEndDate: "2018-12-21"
+        })
+      );
+    });
 
-  test("should display error for ranged export when dates are empty", () => {
-    const dateRange = {
-      exportStartDate: "",
-      exportEndDate: ""
-    };
-    changeInput(
-      exportAuditLogForm,
-      '[data-test="exportAuditLogFromInput"]',
-      dateRange.exportStartDate
-    );
-    changeInput(
-      exportAuditLogForm,
-      '[data-test="exportAuditLogToInput"]',
-      dateRange.exportEndDate
-    );
-    const exportRangedAuditsButton = exportAuditLogForm.find(
-      'button[data-test="exportRangedAudits"]'
-    );
-    exportRangedAuditsButton.simulate("click");
-    const exportAuditLogFromField = exportAuditLogForm.find(
-      'div[data-test="exportAuditLogFromField"]'
-    );
-    expect(exportAuditLogFromField.text()).toContain("Please enter a date");
-    const exportAuditLogToField = exportAuditLogForm.find(
-      'div[data-test="exportAuditLogToField"]'
-    );
-    expect(exportAuditLogToField.text()).toContain("Please enter a date");
-    expect(dispatchSpy).not.toHaveBeenCalledWith(
-      openExportAuditLogConfirmationDialog(dateRange)
-    );
-  });
+    test("should call validate on values when ranged export is clicked", () => {
+      const formLabel = "exportAuditLog";
 
-  test("should display error for ranged export when from date is after to date", () => {
-    const dateRange = {
-      exportStartDate: "2018-12-21",
-      exportEndDate: "2017-12-21"
-    };
-    changeInput(
-      exportAuditLogForm,
-      '[data-test="exportAuditLogFromInput"]',
-      dateRange.exportStartDate
-    );
-    changeInput(
-      exportAuditLogForm,
-      '[data-test="exportAuditLogToInput"]',
-      dateRange.exportEndDate
-    );
-    const exportRangedAuditsButton = exportAuditLogForm.find(
-      'button[data-test="exportRangedAudits"]'
-    );
-    exportRangedAuditsButton.simulate("click");
-    const exportAuditLogFromField = exportAuditLogForm.find(
-      'div[data-test="exportAuditLogFromField"]'
-    );
-    expect(exportAuditLogFromField.text()).toContain(
-      "From date cannot be after To date"
-    );
-    expect(dispatchSpy).not.toHaveBeenCalledWith(
-      openExportAuditLogConfirmationDialog(dateRange)
-    );
+      const values = {
+        [`${formLabel}From`]: "2012-01-01",
+        [`${formLabel}To`]: "2013-01-01"
+      };
+
+      const dateRange = {
+        exportStartDate: "2012-01-01",
+        exportEndDate: "2013-01-01"
+      };
+
+      changeInput(
+        exportAuditLogForm,
+        '[data-test="exportAuditLogFromInput"]',
+        dateRange.exportStartDate
+      );
+      changeInput(
+        exportAuditLogForm,
+        '[data-test="exportAuditLogToInput"]',
+        dateRange.exportEndDate
+      );
+      const exportRangedAuditsButton = exportAuditLogForm.find(
+        'button[data-test="exportRangedAudits"]'
+      );
+      exportRangedAuditsButton.simulate("click");
+
+      expect(validateDateRangeFields).toHaveBeenCalledWith(values, formLabel);
+    });
   });
 });

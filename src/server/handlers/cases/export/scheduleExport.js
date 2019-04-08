@@ -3,6 +3,7 @@ import {
   BAD_REQUEST_ERRORS
 } from "../../../../sharedUtilities/errorMessageConstants";
 import moment from "moment";
+import { CASE_EXPORT_TYPE } from "../../../../sharedUtilities/constants";
 
 const {
   JOB_OPERATION,
@@ -12,23 +13,6 @@ const asyncMiddleware = require("../../asyncMiddleware");
 const kueJobQueue = require("./jobQueue");
 const config = require("../../../config/config")[process.env.NODE_ENV];
 const Boom = require("boom");
-
-const getAndValidateDateRangeData = (exportStartDate, exportEndDate) => {
-  if (!exportStartDate && !exportEndDate) {
-    return null;
-  } else if (!exportStartDate) {
-    throw Boom.badData(BAD_DATA_ERRORS.MISSING_DATE_RANGE_START_DATE);
-  } else if (!exportEndDate) {
-    throw Boom.badData(BAD_DATA_ERRORS.MISSING_DATE_RANGE_END_DATE);
-  } else if (moment(exportStartDate).isAfter(moment(exportEndDate))) {
-    throw Boom.badData(BAD_DATA_ERRORS.DATE_RANGE_IN_INCORRECT_ORDER);
-  } else {
-    return {
-      exportStartDate,
-      exportEndDate
-    };
-  }
-};
 
 const scheduleExport = asyncMiddleware(async (request, response, next) => {
   if (
@@ -43,10 +27,7 @@ const scheduleExport = asyncMiddleware(async (request, response, next) => {
 
   const dateRangeData = {};
   if (request.query) {
-    dateRangeData.dateRange = getAndValidateDateRangeData(
-      request.query.exportStartDate,
-      request.query.exportEndDate
-    );
+    dateRangeData.dateRange = getAndValidateDateRangeData(request);
   }
 
   const job = kueJobQueue
@@ -66,4 +47,63 @@ const scheduleExport = asyncMiddleware(async (request, response, next) => {
   });
 });
 
-module.exports = scheduleExport;
+const throwErrorIfMissingDateRangeParameters = (query, operation) => {
+  let errors = [];
+
+  if (!query.exportStartDate) {
+    errors.push(BAD_DATA_ERRORS.MISSING_DATE_RANGE_START_DATE);
+  }
+  if (!query.exportEndDate) {
+    errors.push(BAD_DATA_ERRORS.MISSING_DATE_RANGE_END_DATE);
+  }
+  if (!query.type && operation === JOB_OPERATION.CASE_EXPORT.name) {
+    errors.push(BAD_DATA_ERRORS.MISSING_DATE_RANGE_TYPE);
+  }
+  if (errors.length > 1) {
+    throw Boom.badData(BAD_DATA_ERRORS.MISSING_DATE_RANGE_PARAMETERS);
+  } else if (errors.length === 1) {
+    throw Boom.badData(errors[0]);
+  }
+};
+
+const noDateRangeParametersGiven = (query, operation) => {
+  switch (operation) {
+    case JOB_OPERATION.CASE_EXPORT.name:
+      return !query.exportStartDate && !query.exportEndDate && !query.type;
+    case JOB_OPERATION.AUDIT_LOG_EXPORT.name:
+      return !query.exportStartDate && !query.exportEndDate;
+  }
+};
+
+const throwErrorIfDateParametersOutOfOrder = query => {
+  if (moment(query.exportStartDate).isAfter(moment(query.exportEndDate))) {
+    throw Boom.badData(BAD_DATA_ERRORS.DATE_RANGE_IN_INCORRECT_ORDER);
+  }
+};
+
+export const getAndValidateDateRangeData = request => {
+  const query = request.query;
+  const operation = request.params.operation;
+
+  if (noDateRangeParametersGiven(query, operation)) return null;
+
+  throwErrorIfMissingDateRangeParameters(query, operation);
+
+  throwErrorIfDateParametersOutOfOrder(query);
+
+  const dateRange = {
+    exportStartDate: query.exportStartDate,
+    exportEndDate: query.exportEndDate
+  };
+
+  if (
+    operation === JOB_OPERATION.CASE_EXPORT.name &&
+    Object.values(CASE_EXPORT_TYPE).includes(query.type)
+  ) {
+    dateRange.type = query.type;
+  }
+
+  return dateRange;
+};
+
+export default scheduleExport;

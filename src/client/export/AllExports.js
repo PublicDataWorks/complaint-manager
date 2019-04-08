@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-import LinkButton from "../shared/components/LinkButton";
 import {
   clearCurrentExportJob,
   closeExportConfirmationDialog,
-  openExportAllCasesConfirmationDialog,
   openExportAuditLogConfirmationDialog
 } from "../actionCreators/exportActionCreators";
 import ExportConfirmationDialog from "./ExportConfirmationDialog";
 import { connect } from "react-redux";
 import JobDetails from "./JobDetails";
 import ExportAuditLogForm from "./ExportAuditLogForm";
+import ExportCasesForm from "./ExportCasesForm";
 
 const margin = {
   marginLeft: "36px",
@@ -38,15 +37,7 @@ class AllExports extends Component {
       <div>
         <div style={margin}>
           <div data-test="ExportAllCasesContainer" style={margin}>
-            <LinkButton
-              data-test="openExportAllCasesConfirmationDialog"
-              disabled={this.props.buttonsDisabled}
-              onClick={() => {
-                this.props.openExportAllCasesConfirmationDialog();
-              }}
-            >
-              Export All Cases
-            </LinkButton>
+            <ExportCasesForm />
             <ExportAuditLogForm />
           </div>
         </div>
@@ -69,7 +60,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   openExportAuditLogConfirmationDialog,
-  openExportAllCasesConfirmationDialog,
   closeExportConfirmationDialog,
   clearCurrentExportJob
 };

@@ -39,7 +39,9 @@ export const BAD_DATA_ERRORS = {
   DATE_RANGE_IN_INCORRECT_ORDER:
     "Start date in date range must before end date",
   MISSING_DATE_RANGE_END_DATE: "Missing date range end date",
-  MISSING_DATE_RANGE_START_DATE: "Missing date range start date"
+  MISSING_DATE_RANGE_START_DATE: "Missing date range start date",
+  MISSING_DATE_RANGE_TYPE: "Missing date range type",
+  MISSING_DATE_RANGE_PARAMETERS: "Missing date range parameters"
 };
 
 export const NOT_FOUND_ERRORS = {

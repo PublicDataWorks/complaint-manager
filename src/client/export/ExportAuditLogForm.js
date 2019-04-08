@@ -12,7 +12,8 @@ import {
 import { connect } from "react-redux";
 import { openExportAuditLogConfirmationDialog } from "../actionCreators/exportActionCreators";
 import LinkButton from "../shared/components/LinkButton";
-import ExportDateRange, { validateDateRangeFields } from "./ExportDateRange";
+import ExportDateRange from "./ExportDateRange/ExportDateRange";
+import { validateDateRangeFields } from "./ExportDateRange/validateDateRangeFields";
 
 const formLabel = "exportAuditLog";
 

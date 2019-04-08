@@ -120,8 +120,8 @@ export const REMOVE_ATTACHMENT_CONFIRMATION_DIALOG_CLOSED =
 
 export const EXPORT_AUDIT_LOG_CONFIRMATION_OPENED =
   "EXPORT_AUDIT_LOG_CONFIRMATION_OPENED";
-export const EXPORT_ALL_CASES_CONFIRMATION_OPENED =
-  "EXPORT_ALL_CASES_CONFIRMATION_OPENED";
+export const EXPORT_CASES_CONFIRMATION_OPENED =
+  "EXPORT_CASES_CONFIRMATION_OPENED";
 export const EXPORT_CONFIRMATION_CLOSED = "EXPORT_CONFIRMATION_CLOSED";
 
 export const ARCHIVE_CASE_DIALOG_OPENED = "ARCHIVE_CASE_DIALOG_OPENED";
@@ -171,6 +171,7 @@ export const NARRATIVE_FORM = "NarrativeForm";
 export const EDIT_LETTER_HTML_FORM = "EditLetterHtmlForm";
 export const RESTORE_ARCHIVED_CASE_FORM = "RestoreArchivedCaseForm";
 export const EXPORT_AUDIT_LOG_FORM_NAME = "ExportAuditLogForm";
+export const EXPORT_CASES_FORM_NAME = "ExportCasesForm";
 
 // ----------------------------------------
 //          Auth0 Scopes / Permissions
@@ -479,6 +480,11 @@ export const JOB_OPERATION = {
     filename: "All_Case_Information",
     auditSubject: AUDIT_SUBJECT.ALL_CASE_INFORMATION
   }
+};
+
+export const CASE_EXPORT_TYPE = {
+  FIRST_CONTACT_DATE: "firstContactDate",
+  INCIDENT_DATE: "incidentDate"
 };
 
 export const QUEUE_PREFIX = "noimp_q";

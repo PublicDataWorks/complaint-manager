@@ -1,6 +1,6 @@
 import {
   CLEAR_CURRENT_EXPORT_JOB,
-  EXPORT_ALL_CASES_CONFIRMATION_OPENED,
+  EXPORT_CASES_CONFIRMATION_OPENED,
   EXPORT_AUDIT_LOG_CONFIRMATION_OPENED,
   EXPORT_CONFIRMATION_CLOSED,
   EXPORT_JOB_COMPLETED,
@@ -33,9 +33,12 @@ export const closeExportConfirmationDialog = () => ({
   type: EXPORT_CONFIRMATION_CLOSED
 });
 
-export const openExportAllCasesConfirmationDialog = () => ({
-  type: EXPORT_ALL_CASES_CONFIRMATION_OPENED
-});
+export const openExportCasesConfirmationDialog = (dateRange = null) => {
+  return {
+    type: EXPORT_CASES_CONFIRMATION_OPENED,
+    dateRange
+  };
+};
 
 export const clearCurrentExportJob = () => ({
   type: CLEAR_CURRENT_EXPORT_JOB
