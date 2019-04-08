@@ -14,7 +14,10 @@ import getReferralLetterData from "../../ReferralLetter/thunks/getReferralLetter
 
 class StatusButton extends Component {
   componentDidMount() {
-    if (this.props.status === CASE_STATUS.LETTER_IN_PROGRESS) {
+    if (
+      this.props.status === CASE_STATUS.LETTER_IN_PROGRESS &&
+      !this.props.isArchived
+    ) {
       this.props.getReferralLetterData(this.props.caseId);
     }
   }
