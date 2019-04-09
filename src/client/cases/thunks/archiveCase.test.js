@@ -1,6 +1,9 @@
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 import nock from "nock";
-import { closeArchiveCaseDialog } from "../../actionCreators/casesActionCreators";
+import {
+  closeArchiveCaseDialog,
+  getCaseDetailsSuccess
+} from "../../actionCreators/casesActionCreators";
 import archiveCase from "./archiveCase";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import { ARCHIVE_CASE_FORM_NAME } from "../../../sharedUtilities/constants";
@@ -31,6 +34,24 @@ describe("archiveCase", () => {
     await archiveCase(existingCase.id)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(closeArchiveCaseDialog());
+  });
+
+  test("should dispatch get case details success when case archived successfully", async () => {
+    const updatedCaseResponse = { caseId: existingCase.id, isArchived: false };
+
+    nock("http://localhost", {
+      reqheaders: {
+        Authorization: `Bearer TEST_TOKEN`
+      }
+    })
+      .delete(`/api/cases/${existingCase.id}`)
+      .reply(200, updatedCaseResponse);
+
+    await archiveCase(existingCase.id)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(
+      getCaseDetailsSuccess(updatedCaseResponse)
+    );
   });
 
   test("should dispatch success when case archived successfully", async () => {
