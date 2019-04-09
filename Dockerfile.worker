@@ -8,6 +8,8 @@ RUN yarn install --pure-lockfile
 
 COPY . /app/
 
+RUN yarn build
+
 EXPOSE 5000
 
 CMD ["yarn", "start:worker"]
