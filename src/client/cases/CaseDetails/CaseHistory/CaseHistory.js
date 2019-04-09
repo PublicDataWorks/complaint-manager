@@ -7,6 +7,7 @@ import CaseHistoryTable from "./CaseHistoryTable";
 import getCaseHistory from "../../thunks/getCaseHistory";
 import { connect } from "react-redux";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
+import _ from "lodash";
 
 export class CaseHistory extends Component {
   componentDidMount() {
@@ -15,7 +16,18 @@ export class CaseHistory extends Component {
     this.props.getMinimumCaseDetails(caseId);
   }
 
+  caseHistoryNotYetLoaded() {
+    return (
+      _.isEmpty(this.props.currentCase.caseHistory) ||
+      this.props.currentCase.details.caseReference === undefined
+    );
+  }
+
   render() {
+    if (this.caseHistoryNotYetLoaded()) {
+      return null;
+    }
+
     const caseId = this.props.match.params.id;
     return (
       <div>
@@ -26,7 +38,9 @@ export class CaseHistory extends Component {
             color="inherit"
             style={{ marginRight: "20px" }}
           >
-            {`Case #${this.props.caseReference} : Case History`}
+            {`Case #${
+              this.props.currentCase.details.caseReference
+            } : Case History`}
           </Typography>
         </NavBar>
         <LinkButton
@@ -49,7 +63,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  caseReference: state.currentCase.details.caseReference
+  currentCase: state.currentCase
 });
 
 export default connect(

@@ -56,6 +56,13 @@ describe("getMinimumCaseDetails", () => {
     expect(responseBody.caseReference).toEqual("CC2017-0001");
   });
 
+  test("gets minimum case details for archived case", async () => {
+    await existingCase.destroy({ auditUser: "test" });
+    await getMinimumCaseDetails(request, response, next);
+    const responseBody = response._getData();
+    expect(responseBody.caseReference).toEqual("CC2017-0001");
+  });
+
   test("audits the data access", async () => {
     await getMinimumCaseDetails(request, response, next);
 
