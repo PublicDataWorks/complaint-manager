@@ -44,5 +44,13 @@ describe("archiveCase handler", () => {
     expect(archivedCase.isArchived).toBeTruthy();
   });
 
-  describe("request tests", function() {});
+  test("should respond with updated case data when archiving", async () => {
+    await archiveCase(request, response, next);
+
+    expect(response._getData()).toEqual(
+      expect.objectContaining({
+        isArchived: true
+      })
+    );
+  });
 });
