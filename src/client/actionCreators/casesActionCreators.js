@@ -7,6 +7,7 @@ import {
   ADDRESS_VALIDITY_UPDATED,
   ARCHIVE_CASE_DIALOG_CLOSED,
   ARCHIVE_CASE_DIALOG_OPENED,
+  ARCHIVE_CASE_SUCCESS,
   ATTACHMENT_UPLOAD_SUCCEEDED,
   CASE_CREATED_SUCCESS,
   CASE_NOTE_DIALOG_CLOSED,
@@ -80,6 +81,10 @@ export const resetArchivedCasesLoaded = () => ({
 export const getCaseDetailsSuccess = caseDetails => ({
   type: GET_CASE_DETAILS_SUCCESS,
   caseDetails
+});
+
+export const archiveCaseSuccess = () => ({
+  type: ARCHIVE_CASE_SUCCESS
 });
 
 export const getMinimumCaseDetailsSuccess = caseDetails => ({

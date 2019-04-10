@@ -1,8 +1,8 @@
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 import nock from "nock";
 import {
-  closeArchiveCaseDialog,
-  getCaseDetailsSuccess
+  archiveCaseSuccess,
+  closeArchiveCaseDialog
 } from "../../actionCreators/casesActionCreators";
 import archiveCase from "./archiveCase";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
@@ -49,9 +49,7 @@ describe("archiveCase", () => {
 
     await archiveCase(existingCase.id)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(
-      getCaseDetailsSuccess(updatedCaseResponse)
-    );
+    expect(dispatch).toHaveBeenCalledWith(archiveCaseSuccess());
   });
 
   test("should dispatch success when case archived successfully", async () => {
