@@ -2,6 +2,7 @@ import {
   ADD_CASE_NOTE_SUCCEEDED,
   ADD_OFFICER_ALLEGATION_SUCCEEDED,
   ADD_OFFICER_TO_CASE_SUCCEEDED,
+  ARCHIVE_CASE_SUCCESS,
   ATTACHMENT_UPLOAD_SUCCEEDED,
   CIVILIAN_CREATION_SUCCEEDED,
   EDIT_CIVILIAN_SUCCESS,
@@ -21,6 +22,8 @@ const initialState = {};
 
 const caseDetailsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case ARCHIVE_CASE_SUCCESS:
+      return { ...state, isArchived: true };
     case GET_CASE_DETAILS_SUCCESS:
     case NARRATIVE_UPDATE_SUCCEEDED:
     case ATTACHMENT_UPLOAD_SUCCEEDED:

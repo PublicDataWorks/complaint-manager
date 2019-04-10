@@ -1,6 +1,7 @@
 import caseDetailsReducer from "./caseDetailsReducer";
 import {
   addCaseNoteSuccess,
+  archiveCaseSuccess,
   createCivilianSuccess,
   editCivilianSuccess,
   getCaseDetailsSuccess,
@@ -25,6 +26,18 @@ describe("caseDetailsReducers", () => {
   test("should default to empty object", () => {
     const newState = caseDetailsReducer(undefined, { type: "ACTION" });
     expect(newState).toEqual({});
+  });
+
+  describe("ARCHIVE_CASE_SUCCESS", () => {
+    test("should set isArchived to true", () => {
+      const oldState = { isArchived: false, prop: "value" };
+
+      const action = archiveCaseSuccess();
+
+      const newState = caseDetailsReducer(oldState, action);
+
+      expect(newState).toEqual({ isArchived: true, prop: "value" });
+    });
   });
 
   describe("GET_CASE_DETAILS_SUCCESS", () => {
