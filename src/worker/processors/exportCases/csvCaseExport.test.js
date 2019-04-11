@@ -59,7 +59,8 @@ describe("csvCaseExport request", () => {
     id: "123"
   };
 
-  beforeEach(() => {
+  beforeEach(async done => {
+    await cleanupDatabase();
     records = [];
     uploadFileToS3.mockImplementation(
       (jobId, dataToUpload, filename, fileType) => {
@@ -67,10 +68,6 @@ describe("csvCaseExport request", () => {
         return awsResult;
       }
     );
-  });
-
-  afterEach(async done => {
-    await cleanupDatabase();
     done();
   });
 
@@ -679,8 +676,8 @@ describe("csvCaseExport request", () => {
       await csvCaseExport(job, jobDone);
 
       expect(records.length).toEqual(2);
-      expect(records[0]["Number of Witnesses"]).toEqual("2");
-      expect(records[1]["Number of Witnesses"]).toEqual("1");
+      expect(records[0]["Number of Witnesses"]).toEqual("1");
+      expect(records[1]["Number of Witnesses"]).toEqual("2");
       done();
     });
 
@@ -944,8 +941,8 @@ describe("csvCaseExport request", () => {
 
       expect(records.length).toEqual(2);
 
-      const firstRecord = records[0];
-      const secondRecord = records[1];
+      const firstRecord = records[1];
+      const secondRecord = records[0];
 
       const otherPaddedId = `${otherCase.caseNumber}`.padStart(4, "0");
       const othercaseReference = `CC2012-${otherPaddedId}`;
@@ -1373,8 +1370,54 @@ describe("csvCaseExport request", () => {
     });
   });
 
-  describe("date range case export", () => {
+  describe("multiple cases export", () => {
+    test("should sort cases by case reference if no date range", async () => {
+      const thirdCase = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withFirstContactDate(new Date(2019, 8, 22)),
+        { auditUser: "test" }
+      );
+      const firstCase = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withFirstContactDate(new Date(2017, 1, 1)),
+        { auditUser: "test" }
+      );
+      const secondCase = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withFirstContactDate(new Date(2018, 6, 25)),
+        { auditUser: "test" }
+      );
+
+      await csvCaseExport(job, jobDone);
+
+      expect(records).toEqual([
+        expect.objectContaining({
+          "Case #": firstCase.caseReference
+        }),
+        expect.objectContaining({
+          "Case #": secondCase.caseReference
+        }),
+        expect.objectContaining({
+          "Case #": thirdCase.caseReference
+        })
+      ]);
+    });
+
     test("should export cases with first contact date within the date range", async () => {
+      const caseAtEndOfDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withFirstContactDate(moment("2018-12-31")),
+        { auditUser: "test" }
+      );
       const caseBeforeDateRange = await models.cases.create(
         new Case.Builder()
           .defaultCase()
@@ -1389,14 +1432,6 @@ describe("csvCaseExport request", () => {
           .withId(undefined)
           .withCreatedAt(moment.now())
           .withFirstContactDate(moment("2018-01-01")),
-        { auditUser: "test" }
-      );
-      const caseAtEndOfDateRange = await models.cases.create(
-        new Case.Builder()
-          .defaultCase()
-          .withId(undefined)
-          .withCreatedAt(moment.now())
-          .withFirstContactDate(moment("2018-12-31")),
         { auditUser: "test" }
       );
 
@@ -1424,6 +1459,14 @@ describe("csvCaseExport request", () => {
     });
 
     test("should export cases with incident date within the date range", async () => {
+      const caseAtEndOfDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withIncidentDate(moment("2018-12-31")),
+        { auditUser: "test" }
+      );
       const caseRightBeforeDateRange = await models.cases.create(
         new Case.Builder()
           .defaultCase()
@@ -1440,12 +1483,144 @@ describe("csvCaseExport request", () => {
           .withIncidentDate(moment("2018-01-01")),
         { auditUser: "test" }
       );
+
+      const caseAfterDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withIncidentDate(moment("2019-01-01")),
+        { auditUser: "test" }
+      );
+
+      await csvCaseExport(jobWithDateRangeByIncidentDate, jobDone);
+
+      expect(records.length).toEqual(2);
+
+      expect(records).toEqual([
+        expect.objectContaining({
+          "Case #": caseAtBeginningOfDateRange.caseReference
+        }),
+        expect.objectContaining({
+          "Case #": caseAtEndOfDateRange.caseReference
+        })
+      ]);
+    });
+  });
+
+  describe("multiple cases export", () => {
+    test("should sort cases by case reference if no date range", async done => {
+      const thirdCase = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withFirstContactDate(new Date(2019, 8, 22)),
+        { auditUser: "test" }
+      );
+      const firstCase = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withFirstContactDate(new Date(2017, 1, 1)),
+        { auditUser: "test" }
+      );
+      const secondCase = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withFirstContactDate(new Date(2018, 6, 25)),
+        { auditUser: "test" }
+      );
+
+      await csvCaseExport(job, jobDone);
+
+      expect(records).toEqual([
+        expect.objectContaining({
+          "Case #": firstCase.caseReference
+        }),
+        expect.objectContaining({
+          "Case #": secondCase.caseReference
+        }),
+        expect.objectContaining({
+          "Case #": thirdCase.caseReference
+        })
+      ]);
+      done();
+    });
+
+    test("should export cases with first contact date within the date range", async done => {
+      const caseAtEndOfDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withFirstContactDate(moment("2018-12-31")),
+        { auditUser: "test" }
+      );
+      const caseBeforeDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withFirstContactDate(moment("2017-03-12")),
+        { auditUser: "test" }
+      );
+      const caseAtBeginningOfDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withFirstContactDate(moment("2018-01-01")),
+        { auditUser: "test" }
+      );
+
+      const caseAfterDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withFirstContactDate(moment("2019-01-12")),
+        { auditUser: "test" }
+      );
+
+      await csvCaseExport(jobWithDateRangeByFirstContactDate, jobDone);
+
+      expect(records.length).toEqual(2);
+
+      expect(records).toEqual([
+        expect.objectContaining({
+          "Case #": caseAtBeginningOfDateRange.caseReference
+        }),
+        expect.objectContaining({
+          "Case #": caseAtEndOfDateRange.caseReference
+        })
+      ]);
+      done();
+    });
+
+    test("should export cases with incident date within the date range", async done => {
       const caseAtEndOfDateRange = await models.cases.create(
         new Case.Builder()
           .defaultCase()
           .withId(undefined)
           .withCreatedAt(moment.now())
           .withIncidentDate(moment("2018-12-31")),
+        { auditUser: "test" }
+      );
+      const caseRightBeforeDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withIncidentDate(moment("2017-12-31")),
+        { auditUser: "test" }
+      );
+      const caseAtBeginningOfDateRange = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withCreatedAt(moment.now())
+          .withIncidentDate(moment("2018-01-01")),
         { auditUser: "test" }
       );
 
@@ -1460,7 +1635,7 @@ describe("csvCaseExport request", () => {
 
       await csvCaseExport(jobWithDateRangeByIncidentDate, jobDone);
 
-      //expect(records.length).toEqual(2);
+      expect(records.length).toEqual(2);
 
       expect(records).toEqual([
         expect.objectContaining({
@@ -1470,6 +1645,7 @@ describe("csvCaseExport request", () => {
           "Case #": caseAtEndOfDateRange.caseReference
         })
       ]);
+      done();
     });
   });
 });
