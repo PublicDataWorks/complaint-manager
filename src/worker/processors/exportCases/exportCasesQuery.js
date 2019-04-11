@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { CASE_EXPORT_TYPE } from "../../../sharedUtilities/constants";
 
 const { COMPLAINANT, WITNESS } = require("../../../sharedUtilities/constants");
 
@@ -16,6 +17,18 @@ const getDateRangeCondition = dateRange => {
   } else {
     return "";
   }
+};
+
+const getOrderByClauseForCases = dateRange => {
+  let orderByClauseForCases = "";
+  if (dateRange && dateRange.type === CASE_EXPORT_TYPE.FIRST_CONTACT_DATE) {
+    orderByClauseForCases = "cases.first_contact_date ASC, ";
+  } else if (dateRange && dateRange.type === CASE_EXPORT_TYPE.INCIDENT_DATE) {
+    orderByClauseForCases = "cases.incident_date ASC, ";
+  } else {
+    orderByClauseForCases = "cases.year ASC, cases.case_number ASC, ";
+  }
+  return orderByClauseForCases;
 };
 
 const exportCasesQuery = (dateRange = null) => {
@@ -273,7 +286,9 @@ const exportCasesQuery = (dateRange = null) => {
     " ON attachments.case_id = cases.id " +
     "where cases.deleted_at IS NULL " +
     getDateRangeCondition(dateRange) +
-    "ORDER BY cases.created_at ASC, complainants.created_at ASC, accusedOfficers.created_at ASC, officerAllegations.created_at ASC;";
+    "ORDER BY " +
+    getOrderByClauseForCases(dateRange) +
+    "complainants.created_at ASC, accusedOfficers.created_at ASC, officerAllegations.created_at ASC;";
   return query;
 };
 

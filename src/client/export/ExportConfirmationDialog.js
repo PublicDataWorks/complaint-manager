@@ -17,13 +17,21 @@ import {
   exportJobStarted
 } from "../actionCreators/exportActionCreators";
 import formatDate from "../utilities/formatDate";
+import { CASE_EXPORT_TYPE } from "../../sharedUtilities/constants";
 
 const dateRangeText = dateRange => {
+  let dateRangeType = "";
   if (dateRange) {
+    if (dateRange.type === CASE_EXPORT_TYPE.INCIDENT_DATE) {
+      dateRangeType = " with an incident date";
+    } else if (dateRange.type === CASE_EXPORT_TYPE.FIRST_CONTACT_DATE) {
+      dateRangeType = " with a first contact date";
+    }
     return (
       <strong>
-        {` between ${formatDate(dateRange.exportStartDate)} and
-        ${formatDate(dateRange.exportEndDate)} `}
+        {`${dateRangeType} between ${formatDate(
+          dateRange.exportStartDate
+        )} and ${formatDate(dateRange.exportEndDate)} `}
       </strong>
     );
   } else {
