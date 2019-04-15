@@ -12,6 +12,8 @@ import { push } from "connected-react-router";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getReferralLetterData from "../thunks/getReferralLetterData";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
+import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
+import { getOfficerHistoryOptionsRadioButtonValuesSuccess } from "../../../actionCreators/officerHistoryOptionsActionCreator";
 
 jest.mock("../../../shared/components/RichTextEditor/RichTextEditor");
 jest.mock("../thunks/getReferralLetterData", () => caseId => ({
@@ -39,6 +41,46 @@ describe("OfficerHistories page", function() {
     caseId = "12";
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
+    store.dispatch(
+      getFeaturesSuccess({
+        noOfficerHistoryNoteFeature: true
+      })
+    );
+    const officerHistoryOptions = [
+      { id: 1, name: "No noteworthy officer history to include in letter" },
+      { id: 2, name: "Officer is a recruit so there is no history" },
+      { id: 3, name: "No officer history included in IAPro" },
+      { id: 4, name: "Officer has signifcant/noteworthy history" }
+    ];
+    store.dispatch(
+      getOfficerHistoryOptionsRadioButtonValuesSuccess(officerHistoryOptions)
+    );
+    const referralLetterDetails = {
+      id: caseId,
+      caseId: caseId,
+      letterOfficers: [
+        {
+          fullName: "Officer 1",
+          id: 0,
+          caseOfficerId: 10,
+          officerHistoryOptionId: "4"
+        },
+        {
+          fullName: "Officer 2",
+          id: 1,
+          caseOfficerId: 11,
+          officerHistoryOptionId: "4"
+        },
+        {
+          fullName: "Officer 3",
+          id: 2,
+          caseOfficerId: 12,
+          officerHistoryOptionId: "4"
+        }
+      ]
+    };
+
+    store.dispatch(getReferralLetterSuccess(referralLetterDetails));
 
     wrapper = mount(
       <Provider store={store}>
@@ -50,21 +92,6 @@ describe("OfficerHistories page", function() {
   });
 
   describe("officers on the case", function() {
-    beforeEach(() => {
-      const referralLetterDetails = {
-        id: caseId,
-        caseId: caseId,
-        letterOfficers: [
-          { fullName: "Officer 1", id: 0, caseOfficerId: 10 },
-          { fullName: "Officer 2", id: 1, caseOfficerId: 11 },
-          { fullName: "Officer 3", id: 2, caseOfficerId: 12 }
-        ]
-      };
-
-      store.dispatch(getReferralLetterSuccess(referralLetterDetails));
-      wrapper.update();
-    });
-
     test("loads referral letter data on mount", () => {
       expect(dispatchSpy).toHaveBeenCalledWith(getReferralLetterData(caseId));
     });
@@ -251,10 +278,21 @@ describe("OfficerHistories page", function() {
             fullName: "Officer 1",
             id: 0,
             caseOfficerId: 10,
-            numHistoricalHighAllegations: "9"
+            numHistoricalHighAllegations: "9",
+            officerHistoryOptionId: "4"
           },
-          { fullName: "Officer 2", id: 1, caseOfficerId: 11 },
-          { fullName: "Officer 3", id: 2, caseOfficerId: 12 }
+          {
+            fullName: "Officer 2",
+            id: 1,
+            caseOfficerId: 11,
+            officerHistoryOptionId: "4"
+          },
+          {
+            fullName: "Officer 3",
+            id: 2,
+            caseOfficerId: 12,
+            officerHistoryOptionId: "4"
+          }
         ]
       };
       expect(editOfficerHistory).toHaveBeenCalledWith(
@@ -296,10 +334,21 @@ describe("OfficerHistories page", function() {
             fullName: "Officer 1",
             id: 0,
             caseOfficerId: 10,
-            numHistoricalHighAllegations: "9"
+            numHistoricalHighAllegations: "9",
+            officerHistoryOptionId: "4"
           },
-          { fullName: "Officer 2", id: 1, caseOfficerId: 11 },
-          { fullName: "Officer 3", id: 2, caseOfficerId: 12 }
+          {
+            fullName: "Officer 2",
+            id: 1,
+            caseOfficerId: 11,
+            officerHistoryOptionId: "4"
+          },
+          {
+            fullName: "Officer 3",
+            id: 2,
+            caseOfficerId: 12,
+            officerHistoryOptionId: "4"
+          }
         ]
       };
       expect(editOfficerHistory).toHaveBeenCalledWith(
@@ -324,10 +373,21 @@ describe("OfficerHistories page", function() {
             fullName: "Officer 1",
             id: 0,
             caseOfficerId: 10,
-            numHistoricalHighAllegations: "9"
+            numHistoricalHighAllegations: "9",
+            officerHistoryOptionId: "4"
           },
-          { fullName: "Officer 2", id: 1, caseOfficerId: 11 },
-          { fullName: "Officer 3", id: 2, caseOfficerId: 12 }
+          {
+            fullName: "Officer 2",
+            id: 1,
+            caseOfficerId: 11,
+            officerHistoryOptionId: "4"
+          },
+          {
+            fullName: "Officer 3",
+            id: 2,
+            caseOfficerId: 12,
+            officerHistoryOptionId: "4"
+          }
         ]
       };
       expect(editOfficerHistory).toHaveBeenCalledWith(
@@ -352,10 +412,21 @@ describe("OfficerHistories page", function() {
               fullName: "Officer 1",
               id: 0,
               caseOfficerId: 10,
-              numHistoricalHighAllegations: "9"
+              numHistoricalHighAllegations: "9",
+              officerHistoryOptionId: "4"
             },
-            { fullName: "Officer 2", id: 1, caseOfficerId: 11 },
-            { fullName: "Officer 3", id: 2, caseOfficerId: 12 }
+            {
+              fullName: "Officer 2",
+              id: 1,
+              caseOfficerId: 11,
+              officerHistoryOptionId: "4"
+            },
+            {
+              fullName: "Officer 3",
+              id: 2,
+              caseOfficerId: 12,
+              officerHistoryOptionId: "4"
+            }
           ]
         };
       });
