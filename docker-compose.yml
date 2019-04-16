@@ -68,7 +68,13 @@ services:
     image: redis
     ports:
       - "6379:6379"
-
+  schemaspy:
+    image: schemaspy/schemaspy:latest
+    depends_on:
+      - db
+    volumes:
+      - "./schemaspy/output:/output"
+      - "./schemaspy/schemaspy.properties:/schemaspy.properties"
   security-checks:
     image: hawkeyesec/scanner-cli:latest
     volumes:

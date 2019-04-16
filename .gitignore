@@ -6,6 +6,9 @@
 # local development
 awsConfig.json
 
+# schemaspy data
+/schemaspy/output
+
 # testing
 /coverage
 
