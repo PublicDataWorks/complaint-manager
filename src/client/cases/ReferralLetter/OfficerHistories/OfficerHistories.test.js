@@ -12,7 +12,6 @@ import { push } from "connected-react-router";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getReferralLetterData from "../thunks/getReferralLetterData";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
-import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import { getOfficerHistoryOptionsRadioButtonValuesSuccess } from "../../../actionCreators/officerHistoryOptionsActionCreator";
 
 jest.mock("../../../shared/components/RichTextEditor/RichTextEditor");
@@ -41,11 +40,7 @@ describe("OfficerHistories page", function() {
     caseId = "12";
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
-    store.dispatch(
-      getFeaturesSuccess({
-        noOfficerHistoryNoteFeature: true
-      })
-    );
+
     const officerHistoryOptions = [
       { id: 1, name: "No noteworthy officer history to include in letter" },
       { id: 2, name: "Officer is a recruit so there is no history" },
