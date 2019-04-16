@@ -45,7 +45,7 @@ describe("OfficerHistories page", function() {
       { id: 1, name: "No noteworthy officer history to include in letter" },
       { id: 2, name: "Officer is a recruit so there is no history" },
       { id: 3, name: "No officer history included in IAPro" },
-      { id: 4, name: "Officer has signifcant/noteworthy history" }
+      { id: 4, name: "Officer has significant/noteworthy history" }
     ];
     store.dispatch(
       getOfficerHistoryOptionsRadioButtonValuesSuccess(officerHistoryOptions)

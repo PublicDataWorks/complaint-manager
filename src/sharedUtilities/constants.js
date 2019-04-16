@@ -404,7 +404,7 @@ export const ALLEGATION_OPTIONS = {
   NO_NOTEWORTHY_HISTORY: "No noteworthy officer history to include in letter",
   RECRUIT: "Officer is a recruit so there is no history",
   NO_IAPRO_HISTORY: "No officer history included in IAPro",
-  NOTEWORTHY_HISTORY: "Officer has signifcant/noteworthy history"
+  NOTEWORTHY_HISTORY: "Officer has significant/noteworthy history"
 };
 
 // ----------------------------------------
