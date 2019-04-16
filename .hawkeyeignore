@@ -27,3 +27,7 @@ files-contents-src/server/tasks/task_config.js-1
 # This is a warning about a dependency of react-scripts and jest, but neither are used in production so we can ignore this vulnerability warning.
 node-yarnaudit-braces-786
 node-yarnaudit-js-yaml-788
+node-yarnaudit-js-yaml-813
+
+# There is a version of handlebars that is used by jest, this version is subject to Prototype pollution because it is out of date. However, the version of handlebars used for the letters has been updated to the latest version that is recommended to remedy this issue, so we shouldn't face any issues in production.
+node-yarnaudit-handlebars-755
