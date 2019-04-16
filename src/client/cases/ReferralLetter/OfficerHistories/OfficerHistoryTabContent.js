@@ -157,36 +157,19 @@ class OfficerHistoryTabContent extends React.Component {
         >
           {caseOfficerName}
         </Typography>
-        {this.props.officerHistoryFeatureToggle ? (
-          <div>
-            {this.renderKnownOfficerAllegationHistoryTabContent(
-              letterOfficer,
-              caseOfficerId,
-              caseOfficerName
-            )}
-          </div>
-        ) : (
-          <Fragment>
-            <OfficerAllegationHistory
-              letterOfficer={letterOfficer}
-              caseOfficerId={caseOfficerId}
-            />
-            <Typography style={{ paddingBottom: "16px", ...styles.section }}>
-              Notes
-            </Typography>
-            <FieldArray
-              name={`${letterOfficer}.referralLetterOfficerHistoryNotes`}
-              component={this.renderNoteFields}
-            />
-          </Fragment>
-        )}
+        <div>
+          {this.renderKnownOfficerAllegationHistoryTabContent(
+            letterOfficer,
+            caseOfficerId,
+            caseOfficerName
+          )}
+        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state, props) => ({
-  officerHistoryFeatureToggle: state.featureToggles.noOfficerHistoryNoteFeature,
   letterOfficers: state.referralLetter.letterDetails.letterOfficers,
   officerHistoryOptions: state.ui.officerHistoryOptions
 });
