@@ -3,11 +3,14 @@ import NativeSelect from "@material-ui/core/NativeSelect";
 import { TextField } from "redux-form-material-ui";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const NoBlurTextField = ({ input, children, ...custom }) => {
 
   const printChildren = () => {
     console.log(children);
+    console.log(input);
+    console.log(custom);
   };
 
   const buildOptionsFromChildren = () => {
@@ -15,11 +18,9 @@ const NoBlurTextField = ({ input, children, ...custom }) => {
     //   console.log(child.props.value + ' ' + child.props.children);
     // }
     let options = [];
-    let dataValue = 1;
     options.push(<option value="" />);
     for(let child of children) {
-      options.push(<option value={dataValue}>{child.props.children}</option>);
-      dataValue++;
+      options.push(<option value={child.props.value}>{child.props.children}</option>);
     }
     console.log(options);
     return options;
@@ -45,9 +46,12 @@ const NoBlurTextField = ({ input, children, ...custom }) => {
   printChildren();
   const options = buildOptionsFromChildren();
 
+  const hasError = (custom.required && custom.meta.touched && custom.meta.invalid);
+
     return (
-      <div>
-        <InputLabel htmlFor={input.id}>{input.label}</InputLabel>
+        <div>
+      <FormControl required={custom.required} fullWidth={true} error={hasError}>
+        <InputLabel htmlFor={input.name}>{custom.label}</InputLabel>
         <NativeSelect
            {...input}
            value={input.value}
@@ -57,7 +61,9 @@ const NoBlurTextField = ({ input, children, ...custom }) => {
         >
             {options}
         </NativeSelect>
-      </div>
+        {hasError && <FormHelperText>{custom.meta.error}</FormHelperText>}
+      </FormControl>
+        </div>
     );
 
 
