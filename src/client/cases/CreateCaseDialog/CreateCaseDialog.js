@@ -21,6 +21,7 @@ import NoBlurTextField from "../CaseDetails/CivilianDialog/FormSelect";
 import { intakeSourceIsRequired } from "../../formFieldLevelValidations";
 import CreateCaseActions from "./CreateCaseActions";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
+import AutoCompleteFormSelect from "../CaseDetails/CivilianDialog/AutoCompleteFormSelect";
 
 class CreateCaseDialog extends React.Component {
   componentDidMount() {
