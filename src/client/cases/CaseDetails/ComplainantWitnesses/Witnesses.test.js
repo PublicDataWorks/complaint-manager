@@ -42,7 +42,6 @@ describe("Witnesses", () => {
       .defaultCivilian()
       .withBirthDate("")
       .withRaceEthnicityId(raceEthnicity.id)
-      .withGenderIdentity(undefined)
       .withRoleOnCase(WITNESS)
       .build();
     witness = { ...witness, raceEthnicity: raceEthnicity };

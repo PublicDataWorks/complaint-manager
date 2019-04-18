@@ -34,7 +34,7 @@
         <p>Race: {{raceEthnicity.name}}</p>
       {{/if}}
       {{#if (isPresent genderIdentity)}}
-        <p>Sex: {{genderIdentity}}</p>
+        <p>Sex: {{genderIdentity.name}}</p>
       {{/if}}
       {{#if (isPresent birthDate)}}
         <p>Date of Birth: {{{formatShortDate birthDate}}}</p>

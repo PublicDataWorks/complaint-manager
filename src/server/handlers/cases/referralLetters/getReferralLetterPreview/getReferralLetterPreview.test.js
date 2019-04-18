@@ -146,6 +146,7 @@ describe("getReferralLetterPreview", function() {
         Classification: ["All Classification Data"],
         "Complainant Civilians": ["All Complainant Civilians Data"],
         "Complainant Officers": ["All Complainant Officers Data"],
+        "Gender Identity": ["All Gender Identity Data"],
         "How Did You Hear About Us Source": [
           "All How Did You Hear About Us Source Data"
         ],
@@ -222,6 +223,7 @@ describe("getReferralLetterPreview", function() {
         Classification: ["All Classification Data"],
         "Complainant Civilians": ["All Complainant Civilians Data"],
         "Complainant Officers": ["All Complainant Officers Data"],
+        "Gender Identity": ["All Gender Identity Data"],
         "How Did You Hear About Us Source": [
           "All How Did You Hear About Us Source Data"
         ],
@@ -535,7 +537,7 @@ describe("getReferralLetterPreview", function() {
     });
 
     describe("snapshotTests", function() {
-      let letterOfficer;
+      let letterOfficer, genderIdentity;
 
       beforeEach(async () => {
         const raceEthnicityAttributes = new RaceEthnicity.Builder()
@@ -549,10 +551,16 @@ describe("getReferralLetterPreview", function() {
           }
         );
 
+        genderIdentity = await models.gender_identity.create(
+          { name: "Female" },
+          { auditUser: "test" }
+        );
+
         const civilianComplainantAttributes = new Civilian.Builder()
           .defaultCivilian()
           .withCaseId(existingCase.id)
           .withRoleOnCase(COMPLAINANT)
+          .withGenderIdentityId(genderIdentity.id)
           .withRaceEthnicityId(raceEthnicity.id)
           .withId(undefined);
         const civilianComplainant = await models.civilian.create(
@@ -769,6 +777,7 @@ describe("getReferralLetterPreview", function() {
         );
         const civilianWitnessAttributes = new Civilian.Builder()
           .defaultCivilian()
+          .withGenderIdentityId(genderIdentity.id)
           .withCaseId(existingCase.id)
           .withRoleOnCase(WITNESS)
           .withId(undefined);

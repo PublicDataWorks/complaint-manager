@@ -73,7 +73,7 @@ if (TEST_PASS && TEST_USER && HOST) {
 
       civilianDialog
         .dialogIsOpen()
-        .setGenderIdentity("Female")
+        .setGenderIdentityId("4")
         .setRaceEthnicityId("2")
         .setTitle("Miss");
     },

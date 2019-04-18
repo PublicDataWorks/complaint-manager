@@ -37,11 +37,7 @@ import PhoneNumberField from "../../sharedFormComponents/PhoneNumberField";
 import EmailField from "../../sharedFormComponents/EmailField";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 import moment from "moment";
-import {
-  genderIdentityMenu,
-  generateMenu,
-  titleMenu
-} from "../../../utilities/generateMenus";
+import { generateMenu, titleMenu } from "../../../utilities/generateMenus";
 import validate from "./helpers/validateCivilianFields";
 import AddressInput from "./AddressInput";
 import {
@@ -55,11 +51,13 @@ import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import _ from "lodash";
 import normalizeAddress from "../../../utilities/normalizeAddress";
 import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getRaceEthnicityDropdownValues";
+import getGenderIdentityDropdownValues from "../../../genderIdentities/thunks/getGenderIdentityDropdownValues";
 import PrimaryCheckBox from "../../../shared/components/PrimaryCheckBox";
 
 class CivilianDialog extends Component {
   componentDidMount() {
     this.props.getRaceEthnicityDropdownValues();
+    this.props.getGenderIdentityDropdownValues();
   }
 
   handleCivilian = (values, dispatch) => {
@@ -169,7 +167,7 @@ class CivilianDialog extends Component {
               />
               <Field
                 required
-                name="genderIdentity"
+                name="genderIdentityId"
                 component={NoBlurTextField}
                 label="Gender Identity"
                 hinttext="Gender Identity"
@@ -177,7 +175,7 @@ class CivilianDialog extends Component {
                 style={{ width: "30%" }}
                 validate={[genderIdentityIsRequired]}
               >
-                {genderIdentityMenu}
+                {generateMenu(this.props.genderIdentities)}
               </Field>
             </div>
             <Field
@@ -310,12 +308,14 @@ const mapStateToProps = state => {
     title: state.ui.civilianDialog.title,
     submitButtonText: state.ui.civilianDialog.submitButtonText,
     addressValid: state.ui.addressInput.addressValid,
-    raceEthnicities: state.ui.raceEthnicities
+    raceEthnicities: state.ui.raceEthnicities,
+    genderIdentities: state.ui.genderIdentities
   };
 };
 
 const mapDispatchToProps = {
-  getRaceEthnicityDropdownValues
+  getRaceEthnicityDropdownValues,
+  getGenderIdentityDropdownValues
 };
 
 export default connect(

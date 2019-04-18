@@ -4,11 +4,15 @@ const civilianDialogCommands = {
   dialogIsOpen: function() {
     return this.waitForElementVisible("@dialogTitle", e2e.rerenderWait);
   },
-  setGenderIdentity: function(gender) {
-    return this.click("@genderDropdown")
-      .waitForElementVisible("@genderMenu", e2e.rerenderWait)
-      .click(`li[data-value=${gender}]`)
-      .waitForElementNotPresent("@genderMenu", e2e.rerenderWait);
+  setGenderIdentityId: function(gender) {
+    this.click("@genderDropdown")
+      .waitForElementPresent("@genderMenu", e2e.roundtripWait)
+      .waitForElementVisible("@menuOption", e2e.roundtripWait)
+      .api.pause(e2e.animationPause);
+    return this.click(`li[data-value="${gender}"]`).waitForElementNotPresent(
+      "@genderMenu",
+      e2e.rerenderWait
+    );
   },
   setRaceEthnicityId: function(raceEthnicity) {
     this.click("@raceEthnicityDropdown")
@@ -89,7 +93,7 @@ module.exports = {
       selector: "[data-test='genderDropdown'] > div > div > div"
     },
     genderMenu: {
-      selector: "[id='menu-genderIdentity']"
+      selector: "[id='menu-genderIdentityId']"
     },
     raceEthnicityDropdown: {
       selector: "[data-test='raceDropdown'] > div > div > div"

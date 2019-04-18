@@ -179,7 +179,7 @@ const exportCasesQuery = (dateRange = null) => {
     "     last_name, " +
     "     suffix)" +
     '     AS "civilian_full_name", ' +
-    '   gender_identity AS "civilian_gender_identity", ' +
+    '   gender_identities.name AS "civilian_gender_identity", ' +
     '   race_ethnicities.name AS "civilian_race_ethnicity", ' +
     "   birth_date AS civilian_dob, " +
     `   CASE WHEN phone_number = '' OR phone_number IS NULL ` +
@@ -219,6 +219,8 @@ const exportCasesQuery = (dateRange = null) => {
     "   AND addresses.deleted_at IS NULL " +
     " LEFT OUTER JOIN race_ethnicities " +
     " ON race_ethnicities.id = civilians.race_ethnicity_id" +
+    " LEFT OUTER JOIN gender_identities " +
+    " ON gender_identities.id = civilians.gender_identity_id" +
     " WHERE civilians.deleted_at IS NULL " +
     ` AND civilians.role_on_case = \'${COMPLAINANT}\'` +
     " UNION ALL " +

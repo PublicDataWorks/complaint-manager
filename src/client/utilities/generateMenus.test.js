@@ -1,9 +1,6 @@
 import React from "react";
 import {
-  genderIdentityMenu,
   generateMenu,
-  intakeSourceMenu,
-  raceEthnicityMenu,
   searchParagraphMenu,
   searchRuleMenu,
   titleMenu
@@ -16,30 +13,6 @@ const getMenuOptions = mountedComponent => {
 };
 
 describe("civilian info dropdown menus", () => {
-  test("gender identity menu should contain all required values", () => {
-    const genderIdentityMenuComponent = mount(
-      <Select open={true} value="">
-        {genderIdentityMenu}
-      </Select>
-    );
-
-    const options = getMenuOptions(genderIdentityMenuComponent);
-
-    expect(options).toMatchSnapshot();
-  });
-
-  test("race ethnicity menu should contain all required values", () => {
-    const raceEthnicityMenuComponent = mount(
-      <Select open={true} value="">
-        {raceEthnicityMenu}
-      </Select>
-    );
-
-    const options = getMenuOptions(raceEthnicityMenuComponent);
-
-    expect(options).toMatchSnapshot();
-  });
-
   test("title menu should contain all required values", () => {
     const titleMenuComponent = mount(
       <Select open={true} value="">
@@ -50,6 +23,22 @@ describe("civilian info dropdown menus", () => {
     const options = getMenuOptions(titleMenuComponent);
 
     expect(options).toMatchSnapshot();
+  });
+});
+
+describe("generateMenu", () => {
+  test("generateMenu should generate menu with provided values", () => {
+    const values = [["Value1", 1], ["Value2", 2], ["SpecialValue3", 3]];
+
+    const generateMenuComponent = mount(
+      <Select open={true} value="">
+        {generateMenu(values)}
+      </Select>
+    );
+
+    const options = getMenuOptions(generateMenuComponent);
+
+    expect(options).toEqual(values.map(entry => entry[0]));
   });
 });
 
@@ -71,18 +60,6 @@ describe("incident details menus", () => {
     const firstDistrictOption = options.last();
     expect(firstDistrictOption.text()).toEqual("1st district");
     expect(firstDistrictOption.props()["data-value"]).toEqual("1st district");
-  });
-
-  test("intake source menu should contain all required values", () => {
-    const intakeSourceMenuComponent = mount(
-      <Select open={true} value="">
-        {intakeSourceMenu}
-      </Select>
-    );
-
-    const options = getMenuOptions(intakeSourceMenuComponent);
-
-    expect(options).toMatchSnapshot();
   });
 });
 
