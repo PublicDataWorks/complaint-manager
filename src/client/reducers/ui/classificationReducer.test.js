@@ -10,7 +10,7 @@ describe("classificationReducer", () => {
     });
 
     test("should set given classifications on state", () => {
-      const newClassifications = [[0, "UTD"], [1, "BWC"]];
+      const newClassifications = [["UTD", 0], ["BWC", 1]];
       const newState = classificationReducer(
         undefined,
         getClassificationsSuccess(newClassifications)

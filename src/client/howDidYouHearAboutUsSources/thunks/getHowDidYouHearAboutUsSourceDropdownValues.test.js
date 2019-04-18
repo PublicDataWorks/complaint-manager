@@ -17,7 +17,7 @@ describe("getIntakeSourceDropdownValues", () => {
   });
 
   test("it fetches how did you hear about us sources and dispatches them", async () => {
-    const responseBody = [[1, "Facebook"], [2, "Friend"], [3, "NOIPM Website"]];
+    const responseBody = [["Facebook", 1], ["Friend", 2], ["NOIPM Website", 3]];
 
     nock(hostname)
       .get(apiRoute)
