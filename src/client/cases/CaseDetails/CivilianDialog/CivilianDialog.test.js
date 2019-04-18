@@ -18,6 +18,10 @@ import Address from "../../../testUtilities/Address";
 import Civilian from "../../../testUtilities/civilian";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 import { getRaceEthnicitiesSuccess } from "../../../actionCreators/raceEthnicityActionCreators";
+import getGenderIdentityDropdownValues from "../../../genderIdentities/thunks/getGenderIdentityDropdownValues";
+import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getRaceEthnicityDropdownValues";
+import { getGenderIdentitiesSuccess } from "../../../actionCreators/genderIdentityActionCreators";
+import { getMenuOptions } from "../../../utilities/generateMenus.test";
 
 jest.mock("../../thunks/editCivilian", () =>
   jest.fn(() => ({ type: "MOCK_CIVILIAN_REQUESTED" }))
@@ -58,8 +62,19 @@ jest.mock(
     }))
 );
 
+jest.mock(
+  "../../../genderIdentities/thunks/getGenderIdentityDropdownValues",
+  () =>
+    jest.fn(() => ({
+      type: "MOCK_GET_GENDER_IDENTITIES_THUNK"
+    }))
+);
+
 describe("civilian dialog", () => {
   let civilianDialog, store, dispatchSpy, caseCivilian, save, submitAction;
+
+  const unknownGenderIdentity = ["Unknown", 2];
+  const otherGenderIdentity = ["Other", 1];
   beforeEach(() => {
     store = createConfiguredStore();
 
@@ -84,7 +99,6 @@ describe("civilian dialog", () => {
       .withId(undefined)
       .withEmail(undefined)
       .withPhoneNumber(undefined)
-      .withGenderIdentity(undefined)
       .withRaceEthnicityId(undefined)
       .withBirthDate(undefined)
       .withTitle(undefined)
@@ -93,6 +107,9 @@ describe("civilian dialog", () => {
     store.dispatch(initialize(CIVILIAN_FORM_NAME, caseCivilian));
     store.dispatch(
       getRaceEthnicitiesSuccess([["Japanese", 1], ["unknown2", 2]])
+    );
+    store.dispatch(
+      getGenderIdentitiesSuccess([unknownGenderIdentity, otherGenderIdentity])
     );
     dispatchSpy = jest.spyOn(store, "dispatch");
     submitAction = jest.fn(() => ({ type: "MOCK_CIVILIAN_THUNK" }));
@@ -109,6 +126,14 @@ describe("civilian dialog", () => {
 
     civilianDialog.update();
     save = civilianDialog.find('button[data-test="submitEditCivilian"]');
+  });
+
+  test("should call getGenderIdentityDropdownValues on mount", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith(getGenderIdentityDropdownValues());
+  });
+
+  test("should call getRaceEthnicityDropdownValues on mount", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith(getRaceEthnicityDropdownValues());
   });
 
   describe("address", () => {
@@ -183,8 +208,6 @@ describe("civilian dialog", () => {
         .defaultCivilian()
         .withFirstName("test first name")
         .withLastName("test last name")
-        .withRaceEthnicityId(1)
-        .withGenderIdentity("Unknown")
         .withEmail("")
         .withPhoneNumber("")
         .withTitle("Miss")
@@ -218,7 +241,7 @@ describe("civilian dialog", () => {
       selectDropdownOption(
         civilianDialog,
         '[data-test="genderDropdown"]',
-        civilianToSubmit.genderIdentity
+        "Other"
       );
       selectDropdownOption(
         civilianDialog,
@@ -271,7 +294,7 @@ describe("civilian dialog", () => {
         .withMiddleInitial("Y")
         .withSuffix("updated test suffix")
         .withBirthDate("2012-02-13")
-        .withGenderIdentity("Other")
+        .withGenderIdentityId(1)
         .withRaceEthnicityId(1)
         .withPhoneNumber("1234567890")
         .withEmail("example@test.com")
@@ -318,7 +341,7 @@ describe("civilian dialog", () => {
       selectDropdownOption(
         civilianDialog,
         '[data-test="genderDropdown"]',
-        civilianToSubmit.genderIdentity
+        unknownGenderIdentity[0]
       );
       selectDropdownOption(
         civilianDialog,
@@ -332,7 +355,10 @@ describe("civilian dialog", () => {
       );
 
       save.simulate("click");
-      expect(submitAction).toHaveBeenCalledWith(civilianToSubmit);
+      expect(submitAction).toHaveBeenCalledWith({
+        ...civilianToSubmit,
+        genderIdentityId: unknownGenderIdentity[1]
+      });
     });
   });
 });

@@ -16,7 +16,7 @@ class Civilian {
     this.birthDate = build.birthDate;
     this.email = build.email;
     this.raceEthnicityId = build.raceEthnicityId;
-    this.genderIdentity = build.genderIdentity;
+    this.genderIdentityId = build.genderIdentityId;
     this.address = build.address;
     this.additionalInfo = build.additionalInfo;
     this.fullName = build.fullName;
@@ -44,7 +44,7 @@ class Civilian {
         this.phoneNumber = "1234567890";
         this.email = "cberry@cberry.com";
         this.birthDate = "1994-04-24";
-        this.genderIdentity = "Female";
+        this.genderIdentityId = null;
         this.raceEthnicityId = undefined;
         this.address = address;
         this.additionalInfo =
@@ -132,8 +132,8 @@ class Civilian {
         return this;
       }
 
-      withGenderIdentity(genderIdentity) {
-        this.genderIdentity = genderIdentity;
+      withGenderIdentityId(genderIdentityId) {
+        this.genderIdentityId = genderIdentityId;
         return this;
       }
 

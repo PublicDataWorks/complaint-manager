@@ -50,7 +50,8 @@ const getCaseData = async (caseId, transaction, auditDetails) => {
         as: "complainantCivilians",
         include: [
           models.address,
-          { model: models.race_ethnicity, as: "raceEthnicity" }
+          { model: models.race_ethnicity, as: "raceEthnicity" },
+          { model: models.gender_identity, as: "genderIdentity" }
         ]
       },
       {

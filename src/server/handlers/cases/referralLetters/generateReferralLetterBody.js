@@ -60,7 +60,8 @@ const getReferralLetterCaseData = async (caseId, transaction, auditDetails) => {
         as: "complainantCivilians",
         include: [
           { model: models.address },
-          { model: models.race_ethnicity, as: "raceEthnicity" }
+          { model: models.race_ethnicity, as: "raceEthnicity" },
+          { model: models.gender_identity, as: "genderIdentity" }
         ]
       },
       {
@@ -133,6 +134,7 @@ async function generateReferralLetterBody(
     transaction,
     auditDetails
   );
+
   caseData = caseDataInstance.toJSON();
   caseData.accusedOfficers.sort((officerA, officerB) => {
     return officerA.createdAt > officerB.createdAt;

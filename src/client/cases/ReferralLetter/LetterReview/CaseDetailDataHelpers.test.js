@@ -93,7 +93,7 @@ describe("caseDetailDataHelpers", function() {
           {
             fullName: "Civilian Joe",
             raceEthnicity: { name: "some race" },
-            genderIdentity: "some gender",
+            genderIdentity: { name: "some gender" },
             birthDate: birthDate,
             address: {
               streetAddress: "",
@@ -134,7 +134,7 @@ describe("caseDetailDataHelpers", function() {
           {
             fullName: "Civilian Joe",
             raceEthnicity: { name: "some race" },
-            genderIdentity: "some gender",
+            genderIdentity: { name: "some gender" },
             birthDate: birthDate,
             address: {
               streetAddress: "123 some street drive",
@@ -177,7 +177,7 @@ describe("caseDetailDataHelpers", function() {
           {
             fullName: "Civilian Joe",
             raceEthnicity: { name: "some race" },
-            genderIdentity: "some gender",
+            genderIdentity: { name: "some gender" },
             birthDate: birthDate,
             address: {
               streetAddress: "123 some street drive",
@@ -191,7 +191,7 @@ describe("caseDetailDataHelpers", function() {
           {
             fullName: "Civilian Joe2",
             raceEthnicity: { name: "some race" },
-            genderIdentity: "some gender",
+            genderIdentity: { name: "some gender" },
             birthDate: birthDate2,
             address: {
               streetAddress: "123 some street road",
@@ -205,7 +205,7 @@ describe("caseDetailDataHelpers", function() {
           {
             fullName: "Civilian Joe3",
             raceEthnicity: { name: "some race" },
-            genderIdentity: "some gender",
+            genderIdentity: { name: "some gender" },
             birthDate: birthDate3,
             address: {
               streetAddress: "123 some street ave",
@@ -316,7 +316,7 @@ describe("caseDetailDataHelpers", function() {
           {
             fullName: "Civilian Joe",
             raceEthnicity: { name: "some race" },
-            genderIdentity: "some gender",
+            genderIdentity: { name: "some gender" },
             birthDate: birthDate,
             address: {
               streetAddress: "123 some street drive",
@@ -330,7 +330,7 @@ describe("caseDetailDataHelpers", function() {
           {
             fullName: "Civilian Joe2",
             raceEthnicity: { name: "some race" },
-            genderIdentity: "some gender",
+            genderIdentity: { name: "some gender" },
             birthDate: birthDate2,
             address: {
               streetAddress: "123 some street road",
@@ -344,7 +344,7 @@ describe("caseDetailDataHelpers", function() {
           {
             fullName: "Civilian Joe3",
             raceEthnicity: { name: "some race" },
-            genderIdentity: "some gender",
+            genderIdentity: { name: "some gender" },
             birthDate: birthDate3,
             address: {
               streetAddress: "123 some street ave",

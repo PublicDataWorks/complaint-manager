@@ -66,7 +66,9 @@ const CivilianPanel = ({
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
                     displayLabel="Gender Identity"
-                    value={civilian.genderIdentity}
+                    value={
+                      civilian.genderIdentity && civilian.genderIdentity.name
+                    }
                     testLabel="genderIdentity"
                   />
                 </StyledInfoDisplay>

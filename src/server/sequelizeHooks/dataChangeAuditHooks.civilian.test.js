@@ -89,4 +89,33 @@ describe("dataChangeAuditHooks for civilian", () => {
     expect(audit.user).toEqual("someone");
     expect(audit.changes.raceEthnicityId.new).toEqual(raceEthnicity.id);
   });
+
+  test("it saves the changes when gender identity association has changed", async () => {
+    const genderIdentity = await models.gender_identity.create({
+      name: "Nonbinary"
+    });
+
+    await civilian.update(
+      {
+        genderIdentityId: genderIdentity.id
+      },
+      { auditUser: "someoneWhoUpdated" }
+    );
+
+    const audit = await models.data_change_audit.findOne({
+      where: { modelName: "Civilian", action: AUDIT_ACTION.DATA_UPDATED }
+    });
+
+    const expectedChanges = {
+      genderIdentityId: {
+        previous: null,
+        new: genderIdentity.id
+      },
+      genderIdentity: {
+        previous: null,
+        new: genderIdentity.name
+      }
+    };
+    expect(audit.changes).toEqual(expectedChanges);
+  });
 });

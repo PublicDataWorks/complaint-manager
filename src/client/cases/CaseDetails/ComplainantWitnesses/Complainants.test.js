@@ -44,7 +44,6 @@ describe("Complainants", () => {
         .defaultCivilian()
         .withBirthDate("")
         .withRaceEthnicityId(undefined)
-        .withGenderIdentity(undefined)
         .build(),
       raceEthnicity: raceEthnicity
     };

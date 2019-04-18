@@ -49,6 +49,7 @@ import removeAttachmentConfirmationDialogReducer from "./reducers/ui/removeAttac
 import officerHistoryOptionsReducer from "./reducers/ui/officerHistoryOptionsReducer";
 import incompleteOfficerHistoryDialogReducer from "./reducers/ui/incompleteOfficerHistoryDialogReducer";
 import howDidYouHearAboutUsSourceReducer from "./reducers/ui/howDidYouHearAboutUsSourceReducer";
+import genderIdentityReducer from "./reducers/ui/genderIdentityReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -87,6 +88,7 @@ const rootReducer = combineReducers({
     intakeSources: intakeSourceReducer,
     howDidYouHearAboutUsSources: howDidYouHearAboutUsSourceReducer,
     raceEthnicities: raceEthnicityReducer,
+    genderIdentities: genderIdentityReducer,
     officerHistoryOptions: officerHistoryOptionsReducer,
     incompleteOfficerHistoryDialog: incompleteOfficerHistoryDialogReducer,
     editAllegationForms: editAllegationFormsReducer,

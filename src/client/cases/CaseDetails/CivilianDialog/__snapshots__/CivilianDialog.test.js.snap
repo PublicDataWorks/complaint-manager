@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`civilian info dropdown menus title menu should contain all required values 1`] = `
+Array [
+  "N/A",
+  "Dr.",
+  "Miss",
+  "Mr.",
+  "Mrs.",
+  "Ms.",
+]
+`;

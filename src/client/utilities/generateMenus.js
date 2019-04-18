@@ -26,38 +26,6 @@ export const generateMenu = contents => {
   });
 };
 
-export const genderIdentityMenu = generateMenu([
-  "Unknown",
-  "Female",
-  "Male",
-  "Trans Female",
-  "Trans Male",
-  "Other"
-]);
-
-export const raceEthnicityMenu = generateMenu([
-  "Unknown",
-  "American Indian or Alaska Native",
-  "Asian Indian",
-  "Black, African American",
-  "Chinese",
-  "Cuban",
-  "Filipino",
-  "Guamanian or Chamorro",
-  "Hispanic, Latino, or Spanish origin",
-  "Japanese",
-  "Korean",
-  "Mexican, Mexican American, Chicano",
-  "Native Hawaiian",
-  "Puerto Rican",
-  "Vietnamese",
-  "Samoan",
-  "White",
-  "Other Pacific Islander",
-  "Other Asian",
-  "Other"
-]);
-
 export const titleMenu = generateMenu([
   "N/A",
   "Dr.",
@@ -65,19 +33,6 @@ export const titleMenu = generateMenu([
   "Mr.",
   "Mrs.",
   "Ms."
-]);
-
-export const intakeSourceMenu = generateMenu([
-  "Email",
-  "Facebook",
-  "In Person",
-  "Instagram",
-  "NOIPM Website",
-  "Other",
-  "Outreach Event",
-  "Phone",
-  "Remote Complaint Intake Site",
-  "Twitter"
 ]);
 
 export const searchDistrictMenu = generateMenu([

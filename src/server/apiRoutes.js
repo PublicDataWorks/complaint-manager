@@ -48,6 +48,7 @@ import deleteAttachment from "./handlers/cases/attachments/deleteAttachment";
 import getArchivedCases from "./handlers/cases/getCases/getArchivedCases";
 import getOfficerHistoryOptions from "./handlers/cases/referralLetters/getOfficerHistoryOptions/getOfficerHistoryOptions";
 import getHowDidYouHearAboutUsSources from "./handlers/howDidYouHearAboutUsSources/getHowDidYouHearAboutUsSources";
+import getGenderIdentities from "./handlers/genderIdentities/getGenderIdentities";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -360,6 +361,13 @@ export const API_ROUTES = {
       handler: getIntakeSources,
       errorMessage:
         "Something went wrong and the intake source values were not found. Please try again."
+    }
+  },
+  "/gender-identities": {
+    get: {
+      handler: getGenderIdentities,
+      errorMessage:
+        "Something went wrong and the gender identity values were not found. Please try again."
     }
   },
   "/how-did-you-hear-about-us-sources": {

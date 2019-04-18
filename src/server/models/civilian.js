@@ -35,17 +35,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM([COMPLAINANT, WITNESS]),
         defaultValue: COMPLAINANT
       },
-      genderIdentity: {
-        field: "gender_identity",
-        type: DataTypes.ENUM([
-          "Male",
-          "Female",
-          "Trans Male",
-          "Trans Female",
-          "Other",
-          "Unknown"
-        ])
-      },
       phoneNumber: {
         field: "phone_number",
         type: DataTypes.STRING(10)
@@ -124,6 +113,14 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: "raceEthnicityId",
         field: "race_ethnicity_id",
+        allowNull: true
+      }
+    });
+    Civilian.belongsTo(models.gender_identity, {
+      as: "genderIdentity",
+      foreignKey: {
+        name: "genderIdentityId",
+        field: "gender_identity_id",
         allowNull: true
       }
     });

@@ -214,7 +214,8 @@ describe("csvCaseExport request", () => {
       officerAllegation,
       bwcClassification,
       caseReference,
-      raceEthnicity;
+      raceEthnicity,
+      genderIdentity;
 
     beforeEach(async done => {
       const officerAttributes = new Officer.Builder()
@@ -260,12 +261,19 @@ describe("csvCaseExport request", () => {
         raceAndEthnicityAttributes,
         { auditUser: "tuser" }
       );
+
+      genderIdentity = await models.gender_identity.create(
+        { name: "Unknown" },
+        { auditUser: "someone" }
+      );
+
       const civilianAttributes = new Civilian.Builder()
         .defaultCivilian()
         .withId(undefined)
         .withPhoneNumber("1234567890")
         .withRoleOnCase(COMPLAINANT)
         .withCaseId(caseToExport.id)
+        .withGenderIdentityId(genderIdentity.id)
         .withRaceEthnicityId(raceEthnicity.id)
         .withAddress(addressAttributes);
       civilian = await models.civilian.create(civilianAttributes, {
@@ -418,7 +426,7 @@ describe("csvCaseExport request", () => {
         }`
       );
       expect(records[0]["Civilian Complainant Gender Identity"]).toEqual(
-        civilian.genderIdentity
+        genderIdentity.name
       );
       expect(records[0]["Civilian Complainant Race/Ethnicity"]).toEqual(
         civilian.dataValues.raceEthnicity
