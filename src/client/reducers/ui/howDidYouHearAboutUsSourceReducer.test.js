@@ -10,7 +10,7 @@ describe("howDidYouHearAboutUsSourceReducer", () => {
   });
 
   test("should set given howDidYouHearAboutUsSources on state", () => {
-    const newHowDidYouHearAboutUsSources = [[0, "Facebook"], [1, "Friend"]];
+    const newHowDidYouHearAboutUsSources = [["Facebook", 0], ["Friend", 1]];
 
     const newState = howDidYouHearAboutUsSourceReducer(
       undefined,

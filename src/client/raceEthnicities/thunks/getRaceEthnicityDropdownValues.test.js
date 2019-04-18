@@ -16,9 +16,8 @@ describe("getRaceEthnicityDropdownValues", () => {
     getAccessToken.mockImplementation(() => "token");
   });
 
-  //Todo flip around repsonse body so it's consistent with implementation
   test("it fetches race ethnicity and dispatches them", async () => {
-    const responseBody = [[1, "Filipino"], [2, "Samoan"], [3, "Unknown"]];
+    const responseBody = [["Filipino", 1], ["Samoan", 2], ["Unknown", 3]];
 
     nock(hostname)
       .get(apiRoute)

@@ -8,7 +8,7 @@ describe("raceEthnicityReducer", () => {
   });
 
   test("should set given raceEthnicities on state", () => {
-    const raceEthnicities = [[0, "Filipino"], [1, "Samoan"]];
+    const raceEthnicities = [["Filipino", 0], ["Samoan", 1]];
 
     const newState = raceEthnicityReducer(
       undefined,

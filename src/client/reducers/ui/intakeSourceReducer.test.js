@@ -8,7 +8,7 @@ describe("intakeSourceReducer", () => {
   });
 
   test("should set given intakeSources on state", () => {
-    const newIntakeSources = [[0, "Email"], [1, "NOIPM Website"]];
+    const newIntakeSources = [["Email", 0], ["NOIPM Website", 1]];
 
     const newState = intakeSourceReducer(
       undefined,

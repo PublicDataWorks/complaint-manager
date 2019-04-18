@@ -13,8 +13,8 @@ describe("getClassificationDropdownValues", () => {
   test("it fetches classification values and dispatches them", async () => {
     getAccessToken.mockImplementation(() => "token");
     const responseBody = [
-      [1, "BWC – Body Worn Camera"],
-      [2, "FDI – Formal Disciplinary Investigation"]
+      ["BWC – Body Worn Camera", 1],
+      ["FDI – Formal Disciplinary Investigation", 2]
     ];
 
     nock("http://localhost")
