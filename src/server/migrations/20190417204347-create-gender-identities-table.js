@@ -1,8 +1,10 @@
 "use strict";
+const loadCsv = require("../seeder_jobs/loadCsv");
+const models = require("../models/index");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return await queryInterface.sequelize.transaction(async transaction => {
+    await queryInterface.sequelize.transaction(async transaction => {
       await queryInterface.createTable(
         "gender_identities",
         {
@@ -32,6 +34,7 @@ module.exports = {
         { transaction }
       );
     });
+    return await loadCsv("genderIdentities.csv", models.gender_identity);
   },
 
   down: async (queryInterface, Sequelize) => {
