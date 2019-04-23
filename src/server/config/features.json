@@ -3,9 +3,7 @@
     "id": "dateRangeExportFeature",
     "name": "dateRangeExportFeature",
     "description": "Toggle to enable date range for exporting audit log and cases",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": true
   },
   {
     "id": "caseDashboardPaginationFeature",
