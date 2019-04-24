@@ -73,8 +73,8 @@ services:
     depends_on:
       - db
     volumes:
-      - "./schemaspy/output:/output"
-      - "./schemaspy/schemaspy.properties:/schemaspy.properties"
+      - "./schemaspy/complaint-manager/output:/output"
+      - "./schemaspy/complaint-manager/schemaspy.properties:/schemaspy.properties"
   security-checks:
     image: hawkeyesec/scanner-cli:latest
     volumes:
