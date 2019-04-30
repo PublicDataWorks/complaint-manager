@@ -38,8 +38,9 @@ class OfficerDetails extends React.Component {
   };
 
   updateRoleOnCase = values => {
+    console.log('values.target.values: ' + values);
     this.setState({
-      officerRoleOnCase: values.target.value
+      officerRoleOnCase: values
     });
   };
 
