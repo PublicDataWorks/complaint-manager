@@ -21,7 +21,6 @@ const styles = theme => ({
   },
   valueContainer: {
     display: 'flex',
-    // flexWrap: 'wrap',
     flex: 1,
     alignItems: 'center',
     overflow: 'hidden',
@@ -158,13 +157,14 @@ class NoBlurTextField extends React.Component {
 
   constructor(props) {
     super(props);
+    console.log('------------------------------------------------------')
   }
 
   onChange(event) {
     if (this.props.input.onChange && event != null) {
       this.props.input.onChange(event.value);
       this.setState({
-        selected: event.label
+        selected: event
       })
     } else {
       this.props.input.onChange(null);
@@ -173,45 +173,44 @@ class NoBlurTextField extends React.Component {
 
   componentWillMount() {
     this.createOptions(this.props.children);
-    this.setLabelToInputValue(this.props.input.value, this.state.options)
+    // this.setLabelToInputValue(this.props.input.value, this.state.options)
   }
 
   createOptions(children) {
-    let options = [];
+    let tempOptions = [];
     for(let child of children) {
-      options.push({
+      tempOptions.push({
         label: child.props.children,
         value: child.props.value
       });
     }
-    console.log(options);
+    console.log(tempOptions);
     this.setState({
-      options: options,
-    })
+        options: tempOptions
+      },
+      this.setLabelToInputValue(tempOptions)
+    )
   };
 
-  setLabelToInputValue(value, options) {
-    console.log('initial check');
+  setLabelToInputValue(options) {
+    let value = this.props.input.value;
+    console.log('value is ' + value);
     if (value === "") {
-      console.log('found empty value');
       this.setState({
         selected: ''
       });
-      console.log('before this return stuff');
       return;
     }
-    console.log('after initial');
+    console.log(options);
     for (let option of options) {
-      console.log('found non empty value');
       if (option.value === value) {
         this.setState({
-          selected: option.label
+          selected: option
       });
         return;
       }
     }
     console.log('found nothing :(');
-    return;
   }
 
   render() {
@@ -236,6 +235,8 @@ class NoBlurTextField extends React.Component {
     console.log(custom);
     console.log(input);
     console.log(this.props);
+    console.log('The current value of selected: ' + this.state.selected);
+    console.log('this.selected: ' + this.selected);
 
     return(
       <FormControl className={classes.root} style={custom.style}>
@@ -248,8 +249,8 @@ class NoBlurTextField extends React.Component {
             InputLabelProps: {
               required: custom.required,
             },
-            helperText: (hasError && custom.meta.error),
             value: this.state.selected,
+            helperText: (hasError && custom.meta.error),
             error: hasError,
           }}
           value={this.state.selected}
