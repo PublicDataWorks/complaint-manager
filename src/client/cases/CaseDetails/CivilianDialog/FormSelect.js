@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import FormControl from '@material-ui/core/FormControl'
+import {nullifyFieldUnlessValid} from "../../../utilities/fieldNormalizers";
 
 const styles = theme => ({
   root: {
@@ -151,7 +152,7 @@ const components = {
 class NoBlurTextField extends React.Component {
 
   state = {
-    selected: '',
+    selected: null,
     options: [],
   };
 
@@ -163,9 +164,16 @@ class NoBlurTextField extends React.Component {
   onChange(event) {
     if (this.props.input.onChange && event != null) {
       this.props.input.onChange(event.value);
-      this.setState({
-        selected: event
-      })
+      if (event.value === "") {
+        console.log("yoooo");
+        this.setState({
+          selected: { label: '', value: '' }
+        })
+      } else {
+        this.setState({
+          selected: event
+        })
+      }
     } else {
       this.props.input.onChange(null);
     }
@@ -197,7 +205,7 @@ class NoBlurTextField extends React.Component {
     console.log('value is ' + value);
     if (value === "") {
       this.setState({
-        selected: ''
+        selected: {label: '', value: ''}
       });
       return;
     }
@@ -249,7 +257,7 @@ class NoBlurTextField extends React.Component {
             InputLabelProps: {
               required: custom.required,
             },
-            value: this.state.selected,
+            value: this.state.selected.value,
             helperText: (hasError && custom.meta.error),
             error: hasError,
           }}
