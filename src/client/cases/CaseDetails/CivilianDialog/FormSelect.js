@@ -235,7 +235,7 @@ class NoBlurTextField extends React.Component {
     console.log(custom);
     console.log(input);
     console.log(this.props);
-    console.log('The current value of selected: ' + this.state.selected);
+    console.log(this.state.selected);
     console.log('this.selected: ' + this.selected);
 
     return(
