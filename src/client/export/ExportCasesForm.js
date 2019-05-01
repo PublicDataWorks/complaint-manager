@@ -64,56 +64,42 @@ const ExportCasesTypeRadioGroup = props => (
 );
 
 const ExportCasesForm = props => {
-  if (!props.dateRangeExportFeature) {
-    return (
-      <LinkButton
-        data-test="openExportAllCasesConfirmationDialog"
+  const { handleSubmit } = props;
+  return (
+    <div style={{ marginBottom: "36px" }}>
+      <Typography variant="title">Export Cases</Typography>
+      <Typography variant="body1" color="inherit">
+        Select a range of <strong>first contacted dates</strong> or{" "}
+        <strong>incident dates</strong> to export cases or export all cases in
+        Complaint Manager.
+      </Typography>
+      <Field name="exportCasesType" component={ExportCasesTypeRadioGroup} />
+      <ExportDateRange formLabel={formLabel} />
+      <PrimaryButton
+        disabled={props.buttonsDisabled}
+        data-test="exportRangedCases"
+        onClick={handleSubmit(values =>
+          openExportCasesConfirmationDialogForDateRange(
+            values,
+            props.openExportCasesConfirmationDialog
+          )
+        )}
+        style={{ marginRight: "20px" }}
+      >
+        Export Selected Cases
+      </PrimaryButton>
+
+      <SecondaryButton
+        data-test="exportAllCases"
         disabled={props.buttonsDisabled}
         onClick={() => {
           props.openExportCasesConfirmationDialog();
         }}
       >
         Export All Cases
-      </LinkButton>
-    );
-  } else {
-    const { handleSubmit } = props;
-    return (
-      <div style={{ marginBottom: "36px" }}>
-        <Typography variant="title">Export Cases</Typography>
-        <Typography variant="body1" color="inherit">
-          Select a range of <strong>first contacted dates</strong> or{" "}
-          <strong>incident dates</strong> to export cases or export all cases in
-          Complaint Manager.
-        </Typography>
-        <Field name="exportCasesType" component={ExportCasesTypeRadioGroup} />
-        <ExportDateRange formLabel={formLabel} />
-        <PrimaryButton
-          disabled={props.buttonsDisabled}
-          data-test="exportRangedCases"
-          onClick={handleSubmit(values =>
-            openExportCasesConfirmationDialogForDateRange(
-              values,
-              props.openExportCasesConfirmationDialog
-            )
-          )}
-          style={{ marginRight: "20px" }}
-        >
-          Export Selected Cases
-        </PrimaryButton>
-
-        <SecondaryButton
-          data-test="exportAllCases"
-          disabled={props.buttonsDisabled}
-          onClick={() => {
-            props.openExportCasesConfirmationDialog();
-          }}
-        >
-          Export All Cases
-        </SecondaryButton>
-      </div>
-    );
-  }
+      </SecondaryButton>
+    </div>
+  );
 };
 
 const connectedForm = reduxForm({
@@ -124,7 +110,6 @@ const connectedForm = reduxForm({
 })(ExportCasesForm);
 
 const mapStateToProps = state => ({
-  dateRangeExportFeature: state.featureToggles.dateRangeExportFeature,
   buttonsDisabled: state.ui.allExports.buttonsDisabled
 });
 

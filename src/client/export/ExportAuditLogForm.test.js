@@ -24,11 +24,6 @@ describe("Export audits", () => {
         permissions: [USER_PERMISSIONS.EXPORT_AUDIT_LOG]
       })
     );
-    store.dispatch(
-      getFeaturesSuccess({
-        dateRangeExportFeature: true
-      })
-    );
 
     exportAuditLogForm = mount(
       <Provider store={store}>
@@ -41,119 +36,78 @@ describe("Export audits", () => {
     dispatchSpy.mockClear();
   });
 
-  describe("dateRangeAuditLog feature off", () => {
-    beforeEach(() => {
-      store.dispatch(getFeaturesSuccess({ dateRangeExportFeature: false }));
+  test("open confirmation dialog without date range when export all audits button clicked", () => {
+    const exportAllAuditsButton = exportAuditLogForm.find(
+      'button[data-test="exportAllAudits"]'
+    );
 
-      exportAuditLogForm.update();
-    });
-
-    test("exports all audits with dataRangeExportFeature toggled off", () => {
-      const exportAllAuditsButton = exportAuditLogForm.find(
-        'button[data-test="exportAllAudits"]'
-      );
-
-      exportAllAuditsButton.simulate("click");
-      const dialog = exportAuditLogForm.find(
-        '[data-test="exportConfirmationText"]'
-      );
-      expect(dialog).toBeDefined();
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        openExportAuditLogConfirmationDialog()
-      );
-    });
-
-    test("cannot export ranged audits with dateRangeExportFeature toggled off", () => {
-      expect(
-        exportAuditLogForm
-          .find('button[data-test="exportRangedAudits"]')
-          .exists()
-      ).toBeFalsy();
-      expect(
-        exportAuditLogForm
-          .find('[data-test="exportAuditLogFromInput"]')
-          .exists()
-      ).toBeFalsy();
-      expect(
-        exportAuditLogForm.find('[data-test="exportAuditLogToInput"]').exists()
-      ).toBeFalsy();
-    });
+    exportAllAuditsButton.simulate("click");
+    const dialog = exportAuditLogForm.find(
+      '[data-test="exportConfirmationText"]'
+    );
+    expect(dialog).toBeDefined();
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openExportAuditLogConfirmationDialog()
+    );
   });
 
-  describe("dateRangeAuditLog feature on", () => {
-    test("open confirmation dialog without date range when export all audits button clicked", () => {
-      const exportAllAuditsButton = exportAuditLogForm.find(
-        'button[data-test="exportAllAudits"]'
-      );
+  test("open confirmation dialog with date range when ranged button clicked", () => {
+    changeInput(
+      exportAuditLogForm,
+      '[data-test="exportAuditLogFromInput"]',
+      "2017-12-21"
+    );
+    changeInput(
+      exportAuditLogForm,
+      '[data-test="exportAuditLogToInput"]',
+      "2018-12-21"
+    );
 
-      exportAllAuditsButton.simulate("click");
-      const dialog = exportAuditLogForm.find(
-        '[data-test="exportConfirmationText"]'
-      );
-      expect(dialog).toBeDefined();
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        openExportAuditLogConfirmationDialog()
-      );
-    });
+    const exportRangedAuditsButton = exportAuditLogForm.find(
+      'button[data-test="exportRangedAudits"]'
+    );
+    exportRangedAuditsButton.simulate("click");
+    const dialog = exportAuditLogForm.find(
+      '[data-test="exportConfirmationText"]'
+    );
 
-    test("open confirmation dialog with date range when ranged button clicked", () => {
-      changeInput(
-        exportAuditLogForm,
-        '[data-test="exportAuditLogFromInput"]',
-        "2017-12-21"
-      );
-      changeInput(
-        exportAuditLogForm,
-        '[data-test="exportAuditLogToInput"]',
-        "2018-12-21"
-      );
+    expect(dialog).toBeDefined();
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openExportAuditLogConfirmationDialog({
+        exportStartDate: "2017-12-21",
+        exportEndDate: "2018-12-21"
+      })
+    );
+  });
 
-      const exportRangedAuditsButton = exportAuditLogForm.find(
-        'button[data-test="exportRangedAudits"]'
-      );
-      exportRangedAuditsButton.simulate("click");
-      const dialog = exportAuditLogForm.find(
-        '[data-test="exportConfirmationText"]'
-      );
+  test("should call validate on values when ranged export is clicked", () => {
+    const formLabel = "exportAuditLog";
 
-      expect(dialog).toBeDefined();
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        openExportAuditLogConfirmationDialog({
-          exportStartDate: "2017-12-21",
-          exportEndDate: "2018-12-21"
-        })
-      );
-    });
+    const values = {
+      [`${formLabel}From`]: "2012-01-01",
+      [`${formLabel}To`]: "2013-01-01"
+    };
 
-    test("should call validate on values when ranged export is clicked", () => {
-      const formLabel = "exportAuditLog";
+    const dateRange = {
+      exportStartDate: "2012-01-01",
+      exportEndDate: "2013-01-01"
+    };
 
-      const values = {
-        [`${formLabel}From`]: "2012-01-01",
-        [`${formLabel}To`]: "2013-01-01"
-      };
+    changeInput(
+      exportAuditLogForm,
+      '[data-test="exportAuditLogFromInput"]',
+      dateRange.exportStartDate
+    );
+    changeInput(
+      exportAuditLogForm,
+      '[data-test="exportAuditLogToInput"]',
+      dateRange.exportEndDate
+    );
+    const exportRangedAuditsButton = exportAuditLogForm.find(
+      'button[data-test="exportRangedAudits"]'
+    );
+    exportRangedAuditsButton.simulate("click");
 
-      const dateRange = {
-        exportStartDate: "2012-01-01",
-        exportEndDate: "2013-01-01"
-      };
-
-      changeInput(
-        exportAuditLogForm,
-        '[data-test="exportAuditLogFromInput"]',
-        dateRange.exportStartDate
-      );
-      changeInput(
-        exportAuditLogForm,
-        '[data-test="exportAuditLogToInput"]',
-        dateRange.exportEndDate
-      );
-      const exportRangedAuditsButton = exportAuditLogForm.find(
-        'button[data-test="exportRangedAudits"]'
-      );
-      exportRangedAuditsButton.simulate("click");
-
-      expect(validateDateRangeFields).toHaveBeenCalledWith(values, formLabel);
-    });
+    expect(validateDateRangeFields).toHaveBeenCalledWith(values, formLabel);
   });
 });
