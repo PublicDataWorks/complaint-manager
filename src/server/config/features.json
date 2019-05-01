@@ -1,11 +1,5 @@
 [
   {
-    "id": "dateRangeExportFeature",
-    "name": "dateRangeExportFeature",
-    "description": "Toggle to enable date range for exporting audit log and cases",
-    "enabled": true
-  },
-  {
     "id": "caseDashboardPaginationFeature",
     "name": "caseDashboardPaginationFeature",
     "description": "Enables pagination of the cases on the dashboard",

@@ -17,12 +17,6 @@ describe("export cases", () => {
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
 
-    store.dispatch(
-      getFeaturesSuccess({
-        dateRangeExportFeature: true
-      })
-    );
-
     exportCasesForm = mount(
       <Provider store={store}>
         <ExportCasesForm />
@@ -34,153 +28,111 @@ describe("export cases", () => {
     dispatchSpy.mockClear();
   });
 
-  describe("dateRangeExport feature off", () => {
-    beforeEach(() => {
-      store.dispatch(getFeaturesSuccess({ dateRangeExportFeature: false }));
+  test("open confirmation dialog without date range when export all cases button clicked", () => {
+    const exportAllCasesButton = exportCasesForm.find(
+      'button[data-test="exportAllCases"]'
+    );
 
-      exportCasesForm.update();
-    });
-
-    test("open confirmation dialog when button clicked", () => {
-      const exportCasesButton = exportCasesForm.find(
-        'button[data-test="openExportAllCasesConfirmationDialog"]'
-      );
-      exportCasesButton.simulate("click");
-      const dialog = exportCasesForm.find(
-        '[data-test="exportConfirmationText"]'
-      );
-      expect(dialog).toBeDefined();
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        openExportCasesConfirmationDialog()
-      );
-    });
-
-    test("cannot export ranged cases with dateRangeExportFeature toggled off", () => {
-      expect(
-        exportCasesForm.find('button[data-test="exportRangedCases"]').exists()
-      ).toBeFalsy();
-      expect(
-        exportCasesForm.find('[data-test="exportCasesFromInput"]').exists()
-      ).toBeFalsy();
-      expect(
-        exportCasesForm.find('[data-test="exportCasesToInput"]').exists()
-      ).toBeFalsy();
-    });
+    exportAllCasesButton.simulate("click");
+    const dialog = exportCasesForm.find('[data-test="exportConfirmationText"]');
+    expect(dialog).toBeDefined();
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openExportCasesConfirmationDialog()
+    );
   });
 
-  describe("dateRangeExport feature on", () => {
-    test("open confirmation dialog without date range when export all cases button clicked", () => {
-      const exportAllCasesButton = exportCasesForm.find(
-        'button[data-test="exportAllCases"]'
-      );
+  test("first contact date selected by default", () => {
+    changeInput(
+      exportCasesForm,
+      '[data-test="exportCasesFromInput"]',
+      "2017-12-21"
+    );
+    changeInput(
+      exportCasesForm,
+      '[data-test="exportCasesToInput"]',
+      "2018-12-21"
+    );
 
-      exportAllCasesButton.simulate("click");
-      const dialog = exportCasesForm.find(
-        '[data-test="exportConfirmationText"]'
-      );
-      expect(dialog).toBeDefined();
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        openExportCasesConfirmationDialog()
-      );
-    });
+    const exportRangedCasesButton = exportCasesForm.find(
+      'button[data-test="exportRangedCases"]'
+    );
+    exportRangedCasesButton.simulate("click");
+    const dialog = exportCasesForm.find('[data-test="exportConfirmationText"]');
 
-    test("first contact date selected by default", () => {
-      changeInput(
-        exportCasesForm,
-        '[data-test="exportCasesFromInput"]',
-        "2017-12-21"
-      );
-      changeInput(
-        exportCasesForm,
-        '[data-test="exportCasesToInput"]',
-        "2018-12-21"
-      );
-
-      const exportRangedCasesButton = exportCasesForm.find(
-        'button[data-test="exportRangedCases"]'
-      );
-      exportRangedCasesButton.simulate("click");
-      const dialog = exportCasesForm.find(
-        '[data-test="exportConfirmationText"]'
-      );
-
-      expect(dialog).toBeDefined();
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        openExportCasesConfirmationDialog({
-          exportStartDate: "2017-12-21",
-          exportEndDate: "2018-12-21",
-          type: CASE_EXPORT_TYPE.FIRST_CONTACT_DATE
-        })
-      );
-    });
-
-    test("open confirmation dialog with date range when ranged button is clicked", () => {
-      const firstContactDate = CASE_EXPORT_TYPE.FIRST_CONTACT_DATE;
-      changeInput(
-        exportCasesForm,
-        '[data-test="exportCasesFromInput"]',
-        "2017-12-21"
-      );
-      changeInput(
-        exportCasesForm,
-        '[data-test="exportCasesToInput"]',
-        "2018-12-21"
-      );
-
-      const dateRangeTypeRadioButton = exportCasesForm
-        .find(`[data-test="dateRangeTypeRadioButton.${firstContactDate}"]`)
-        .last();
-      dateRangeTypeRadioButton.simulate("click");
-
-      const exportRangedCasesButton = exportCasesForm.find(
-        'button[data-test="exportRangedCases"]'
-      );
-      exportRangedCasesButton.simulate("click");
-      const dialog = exportCasesForm.find(
-        '[data-test="exportConfirmationText"]'
-      );
-
-      expect(dialog).toBeDefined();
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        openExportCasesConfirmationDialog({
-          exportStartDate: "2017-12-21",
-          exportEndDate: "2018-12-21",
-          type: CASE_EXPORT_TYPE.FIRST_CONTACT_DATE
-        })
-      );
-    });
-
-    test("should call validate on values when range export is clicked", () => {
-      const formLabel = "exportCases";
-
-      const values = {
-        [`${formLabel}From`]: "2012-01-01",
-        [`${formLabel}To`]: "2013-01-01",
-        [`${formLabel}Type`]: CASE_EXPORT_TYPE.FIRST_CONTACT_DATE
-      };
-
-      const dateRange = {
-        exportStartDate: "2012-01-01",
-        exportEndDate: "2013-01-01",
+    expect(dialog).toBeDefined();
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openExportCasesConfirmationDialog({
+        exportStartDate: "2017-12-21",
+        exportEndDate: "2018-12-21",
         type: CASE_EXPORT_TYPE.FIRST_CONTACT_DATE
-      };
+      })
+    );
+  });
 
-      changeInput(
-        exportCasesForm,
-        '[data-test="exportCasesFromInput"]',
-        dateRange.exportStartDate
-      );
-      changeInput(
-        exportCasesForm,
-        '[data-test="exportCasesToInput"]',
-        dateRange.exportEndDate
-      );
-      const exportRangedCasesButton = exportCasesForm.find(
-        'button[data-test="exportRangedCases"]'
-      );
-      exportRangedCasesButton.simulate("click");
+  test("open confirmation dialog with date range when ranged button is clicked", () => {
+    const firstContactDate = CASE_EXPORT_TYPE.FIRST_CONTACT_DATE;
+    changeInput(
+      exportCasesForm,
+      '[data-test="exportCasesFromInput"]',
+      "2017-12-21"
+    );
+    changeInput(
+      exportCasesForm,
+      '[data-test="exportCasesToInput"]',
+      "2018-12-21"
+    );
 
-      expect(validateDateRangeFields).toHaveBeenCalledWith(values, formLabel);
-    });
+    const dateRangeTypeRadioButton = exportCasesForm
+      .find(`[data-test="dateRangeTypeRadioButton.${firstContactDate}"]`)
+      .last();
+    dateRangeTypeRadioButton.simulate("click");
+
+    const exportRangedCasesButton = exportCasesForm.find(
+      'button[data-test="exportRangedCases"]'
+    );
+    exportRangedCasesButton.simulate("click");
+    const dialog = exportCasesForm.find('[data-test="exportConfirmationText"]');
+
+    expect(dialog).toBeDefined();
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openExportCasesConfirmationDialog({
+        exportStartDate: "2017-12-21",
+        exportEndDate: "2018-12-21",
+        type: CASE_EXPORT_TYPE.FIRST_CONTACT_DATE
+      })
+    );
+  });
+
+  test("should call validate on values when range export is clicked", () => {
+    const formLabel = "exportCases";
+
+    const values = {
+      [`${formLabel}From`]: "2012-01-01",
+      [`${formLabel}To`]: "2013-01-01",
+      [`${formLabel}Type`]: CASE_EXPORT_TYPE.FIRST_CONTACT_DATE
+    };
+
+    const dateRange = {
+      exportStartDate: "2012-01-01",
+      exportEndDate: "2013-01-01",
+      type: CASE_EXPORT_TYPE.FIRST_CONTACT_DATE
+    };
+
+    changeInput(
+      exportCasesForm,
+      '[data-test="exportCasesFromInput"]',
+      dateRange.exportStartDate
+    );
+    changeInput(
+      exportCasesForm,
+      '[data-test="exportCasesToInput"]',
+      dateRange.exportEndDate
+    );
+    const exportRangedCasesButton = exportCasesForm.find(
+      'button[data-test="exportRangedCases"]'
+    );
+    exportRangedCasesButton.simulate("click");
+
+    expect(validateDateRangeFields).toHaveBeenCalledWith(values, formLabel);
   });
 });
