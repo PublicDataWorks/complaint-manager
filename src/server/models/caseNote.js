@@ -67,6 +67,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: { name: "caseId", field: "case_id", allowNull: false }
     });
   };
+  CaseNote.associate = models => {
+    CaseNote.belongsTo(models.case_note_action);
+  };
 
   CaseNote.auditDataChange();
   CaseNote.updateCaseStatusAfterCreate();

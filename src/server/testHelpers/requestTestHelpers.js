@@ -106,7 +106,9 @@ export const cleanupDatabase = async () => {
     "TRUNCATE race_ethnicities CASCADE;" +
     "TRUNCATE officer_history_options CASCADE;" +
     "TRUNCATE cases CASCADE;" +
-    "TRUNCATE gender_identities CASCADE;";
+    "TRUNCATE gender_identities CASCADE;" +
+    "TRUNCATE case_note_actions CASCADE;";
+
   await models.sequelize.query(truncationQuery, {
     type: models.sequelize.QueryTypes.RAW
   });
