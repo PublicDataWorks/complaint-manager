@@ -36,6 +36,7 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
       where: {
         caseId: request.params.caseId
       },
+      include: [{ model: models.case_note_action, as: "caseNoteAction" }],
       transaction
     });
 

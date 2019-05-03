@@ -31,10 +31,22 @@ describe("editCaseNote request", function() {
     const createdCase = await models.cases.create(caseToCreate, {
       auditUser: "someone"
     });
+    const caseNoteAction = await models.case_note_action.create(
+      {
+        name: "Memo to file"
+      },
+      { auditUser: "testuser" }
+    );
+    const newCaseNoteAction = await models.case_note_action.create(
+      {
+        name: "Miscellaneous"
+      },
+      { auditUser: "testuser" }
+    );
     const caseNoteToCreate = new CaseNote.Builder()
       .defaultCaseNote()
       .withUser("tuser")
-      .withAction("Memo to file")
+      .withCaseNoteActionId(caseNoteAction.id)
       .withNotes("default notes")
       .withCaseId(createdCase.id)
       .build();
@@ -43,7 +55,7 @@ describe("editCaseNote request", function() {
       auditUser: "someone"
     });
     const updatedCaseNote = {
-      action: "Miscellaneous",
+      caseNoteActionId: newCaseNoteAction.id,
       notes: "updated notes"
     };
 

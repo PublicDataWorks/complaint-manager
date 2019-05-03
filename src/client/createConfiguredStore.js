@@ -50,6 +50,7 @@ import officerHistoryOptionsReducer from "./reducers/ui/officerHistoryOptionsRed
 import incompleteOfficerHistoryDialogReducer from "./reducers/ui/incompleteOfficerHistoryDialogReducer";
 import howDidYouHearAboutUsSourceReducer from "./reducers/ui/howDidYouHearAboutUsSourceReducer";
 import genderIdentityReducer from "./reducers/ui/genderIdentityReducer";
+import caseNoteActionReducer from "./reducers/ui/caseNoteActionReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -83,6 +84,7 @@ const rootReducer = combineReducers({
     cancelEditLetterConfirmationDialog: cancelEditLetterConfirmationDialogReducer,
     attachments: attachmentsReducer,
     search: searchReducer,
+    caseNoteActions: caseNoteActionReducer,
     allegations: allegationMenuDisplay,
     classifications: classificationReducer,
     intakeSources: intakeSourceReducer,

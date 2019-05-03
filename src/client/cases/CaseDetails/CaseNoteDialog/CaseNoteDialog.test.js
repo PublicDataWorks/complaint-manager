@@ -13,6 +13,7 @@ import addCaseNote from "../../thunks/addCaseNote";
 import { initialize, reset } from "redux-form";
 import editCaseNote from "../../thunks/editCaseNote";
 import moment from "moment";
+import { getCaseNoteActionsSuccess } from "../../../actionCreators/caseNoteActionActionCreators";
 
 jest.mock("../../thunks/addCaseNote", () => values => ({
   type: "MOCK_THUNK",
@@ -23,19 +24,44 @@ jest.mock("../../thunks/editCaseNote", () => values => ({
   type: "MOCK_THUNK_TWO",
   values
 }));
+jest.mock(
+  "../../../caseNoteActions/thunks/getCaseNoteActionDropdownValues",
+  () =>
+    jest.fn(() => {
+      return {
+        type: "MOCK_GET_GENDER_IDENTITIES_THUNK"
+      };
+    })
+);
 
 describe("CaseNoteDialog", () => {
-  test("should close dialog and reset form when cancel button is clicked", () => {
-    const store = createConfiguredStore();
-    const dispatchSpy = jest.spyOn(store, "dispatch");
+  const store = createConfiguredStore();
+  const dispatchSpy = jest.spyOn(store, "dispatch");
+  let wrapper;
+  const caseId = 12;
+  const caseNoteActions = {
+    memoToFile: ["Memo to file", 1],
+    contactedOutsideAgency: ["Contacted outside agency", 2]
+  };
 
-    store.dispatch(openCaseNoteDialog());
-
-    const wrapper = mount(
+  beforeEach(() => {
+    wrapper = mount(
       <Provider store={store}>
         <CaseNoteDialog />
       </Provider>
     );
+    store.dispatch(
+      getCaseNoteActionsSuccess([
+        caseNoteActions.memoToFile,
+        caseNoteActions.contactedOutsideAgency
+      ])
+    );
+  });
+
+  test("should close dialog and reset form when cancel button is clicked", () => {
+    store.dispatch(openCaseNoteDialog());
+
+    wrapper.update();
 
     const closeButton = wrapper.find('[data-test="cancelButton"]').first();
     closeButton.simulate("click");
@@ -45,9 +71,6 @@ describe("CaseNoteDialog", () => {
   });
 
   test("should render and submit edit version of the dialog", () => {
-    const store = createConfiguredStore();
-    const dispatchSpy = jest.spyOn(store, "dispatch");
-    const caseId = 12;
     store.dispatch(openCaseNoteDialog("Edit", {}));
     store.dispatch(
       getCaseDetailsSuccess({
@@ -55,11 +78,7 @@ describe("CaseNoteDialog", () => {
       })
     );
 
-    const wrapper = mount(
-      <Provider store={store}>
-        <CaseNoteDialog />
-      </Provider>
-    );
+    wrapper.update();
 
     const title = wrapper.find('[data-test="caseNoteDialogTitle"]').first();
     const submitButton = wrapper.find('[data-test="submitButton"]').first();
@@ -72,7 +91,7 @@ describe("CaseNoteDialog", () => {
     const submittedValues = {
       caseId: caseId,
       actionTakenAt: "2018-05-16T18:47:00-05:00",
-      action: "Miscellaneous"
+      caseNoteActionId: caseNoteActions.memoToFile[1]
     };
 
     changeInput(wrapper, '[data-test="dateAndTimeInput"]', dateWithOutTimeZone);
@@ -80,7 +99,7 @@ describe("CaseNoteDialog", () => {
     selectDropdownOption(
       wrapper,
       '[data-test="actionsDropdown"]',
-      submittedValues.action
+      caseNoteActions.memoToFile[0]
     );
     submitButton.simulate("click");
 
@@ -88,17 +107,10 @@ describe("CaseNoteDialog", () => {
   });
 
   test("should not submit form when Edit Case Note is clicked and no action is selected", () => {
-    const store = createConfiguredStore();
-    const dispatchSpy = jest.spyOn(store, "dispatch");
-    const caseId = 12;
-
     store.dispatch(openCaseNoteDialog("Edit", {}));
 
-    const wrapper = mount(
-      <Provider store={store}>
-        <CaseNoteDialog caseId={caseId} />
-      </Provider>
-    );
+    wrapper.update();
+
     const dateWithOutTimeZone = "2018-05-16T18:47";
 
     const submittedValues = {
@@ -115,9 +127,6 @@ describe("CaseNoteDialog", () => {
   });
 
   test("should submit form with new actionTakenAt when Add Case Note is clicked", () => {
-    const store = createConfiguredStore();
-    const dispatchSpy = jest.spyOn(store, "dispatch");
-    const caseId = 12;
     store.dispatch(openCaseNoteDialog("Add", {}));
     store.dispatch(
       getCaseDetailsSuccess({
@@ -125,18 +134,14 @@ describe("CaseNoteDialog", () => {
       })
     );
 
-    const wrapper = mount(
-      <Provider store={store}>
-        <CaseNoteDialog />
-      </Provider>
-    );
+    wrapper.update();
 
     const dateWithOutTimeZone = "2018-05-16T18:47";
 
     const submittedValues = {
       caseId: caseId,
       actionTakenAt: "2018-05-16T18:47:00-05:00",
-      action: "Miscellaneous",
+      caseNoteActionId: caseNoteActions.memoToFile[1],
       notes: "these are notes"
     };
 
@@ -144,7 +149,7 @@ describe("CaseNoteDialog", () => {
     selectDropdownOption(
       wrapper,
       '[data-test="actionsDropdown"]',
-      submittedValues.action
+      caseNoteActions.memoToFile[0]
     );
     changeInput(wrapper, '[data-test="notesInput"]', submittedValues.notes);
 
@@ -155,17 +160,9 @@ describe("CaseNoteDialog", () => {
   });
 
   test("should not submit form when Add Case Note is clicked and no action is selected", () => {
-    const store = createConfiguredStore();
-    const dispatchSpy = jest.spyOn(store, "dispatch");
-    const caseId = 12;
-
     store.dispatch(openCaseNoteDialog("Add", {}));
 
-    const wrapper = mount(
-      <Provider store={store}>
-        <CaseNoteDialog caseId={caseId} />
-      </Provider>
-    );
+    wrapper.update();
 
     const dateWithOutTimeZone = "2018-05-16T18:47";
 
@@ -183,13 +180,11 @@ describe("CaseNoteDialog", () => {
   });
 
   test("should not submit actionTakenAt value when it is equal to current value", () => {
-    const store = createConfiguredStore();
-    const dispatchSpy = jest.spyOn(store, "dispatch");
-    const caseId = 12;
+    const caseNotes = "some notes";
     const actionTakenAt = new Date();
     const initialValues = {
       actionTakenAt: moment(actionTakenAt).format("YYYY-MM-DDTHH:mm:ss"),
-      action: "some action"
+      caseNoteActionId: caseNoteActions.memoToFile[1]
     };
 
     store.dispatch(initialize("CaseNotes", initialValues));
@@ -200,21 +195,17 @@ describe("CaseNoteDialog", () => {
       })
     );
 
-    const wrapper = mount(
-      <Provider store={store}>
-        <CaseNoteDialog />
-      </Provider>
-    );
+    wrapper.update();
 
-    changeInput(wrapper, '[data-test="notesInput"]', "some notes");
+    changeInput(wrapper, '[data-test="notesInput"]', caseNotes);
 
     const submitButton = wrapper.find('[data-test="submitButton"]').first();
     submitButton.simulate("click");
 
     const valuesToSubmit = {
       caseId: caseId,
-      notes: "some notes",
-      action: "some action"
+      notes: caseNotes,
+      caseNoteActionId: caseNoteActions.memoToFile[1]
     };
 
     expect(dispatchSpy).toHaveBeenCalledWith(editCaseNote(valuesToSubmit));

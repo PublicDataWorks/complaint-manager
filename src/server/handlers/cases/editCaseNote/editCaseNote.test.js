@@ -12,12 +12,24 @@ import {
 } from "../../../../sharedUtilities/constants";
 
 describe("editCaseNote", function() {
-  let createdCase, createdCaseNote, updatedCaseNote;
+  let createdCase,
+    createdCaseNote,
+    updatedCaseNote,
+    caseNoteAction,
+    newCaseNoteAction;
   afterEach(async () => {
     await cleanupDatabase();
   });
 
   beforeEach(async () => {
+    caseNoteAction = await models.case_note_action.create(
+      { name: "some action" },
+      { auditUser: "some user" }
+    );
+    newCaseNoteAction = await models.case_note_action.create(
+      { name: "updated action" },
+      { auditUser: "a different user" }
+    );
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)
@@ -36,7 +48,7 @@ describe("editCaseNote", function() {
       .defaultCaseNote()
       .withCaseId(createdCase.id)
       .withNotes("default notes")
-      .withAction("Memo to file")
+      .withCaseNoteActionId(caseNoteAction.id)
       .build();
 
     createdCaseNote = await models.case_note.create(caseNoteToCreate, {
@@ -44,7 +56,7 @@ describe("editCaseNote", function() {
     });
 
     updatedCaseNote = {
-      action: "Miscellaneous",
+      caseNoteActionId: newCaseNoteAction.id,
       notes: "updated notes"
     };
   });
@@ -77,7 +89,8 @@ describe("editCaseNote", function() {
     );
 
     const updatedCaseNotes = await models.case_note.findAll({
-      where: { caseId: createdCase.id }
+      where: { caseId: createdCase.id },
+      include: [{ model: models.case_note_action, as: "caseNoteAction" }]
     });
     expect(updatedCaseNotes).toEqual(
       expect.arrayContaining([
@@ -85,7 +98,11 @@ describe("editCaseNote", function() {
           id: createdCaseNote.id,
           caseId: createdCaseNote.caseId,
           notes: updatedCaseNote.notes,
-          action: updatedCaseNote.action
+          caseNoteActionId: updatedCaseNote.caseNoteActionId,
+          caseNoteAction: expect.objectContaining({
+            id: newCaseNoteAction.id,
+            name: newCaseNoteAction.name
+          })
         })
       ])
     );

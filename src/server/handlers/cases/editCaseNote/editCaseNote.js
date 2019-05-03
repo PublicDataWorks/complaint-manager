@@ -7,7 +7,11 @@ import auditDataAccess from "../../auditDataAccess";
 const editCaseNote = asyncMiddleware(async (req, res) => {
   const caseId = req.params.caseId;
   const caseNoteId = req.params.caseNoteId;
-  const valuesToUpdate = _.pick(req.body, ["action", "actionTakenAt", "notes"]);
+  const valuesToUpdate = _.pick(req.body, [
+    "caseNoteActionId",
+    "actionTakenAt",
+    "notes"
+  ]);
 
   const caseNotes = await models.sequelize.transaction(async transaction => {
     await models.case_note.update(valuesToUpdate, {
@@ -27,6 +31,7 @@ const editCaseNote = asyncMiddleware(async (req, res) => {
 
     return await models.case_note.findAll({
       where: { caseId },
+      include: [{ model: models.case_note_action, as: "caseNoteAction" }],
       transaction
     });
   });

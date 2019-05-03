@@ -26,7 +26,8 @@ const ActivityDisplay = ({ caseId, activity, shouldTruncate = true }) => {
               data-test="userAndActionText"
               style={{ marginBottom: "2px" }}
             >
-              <strong>[{activity.user}]</strong> {activity.action}
+              <strong>[{activity.user}]</strong>{" "}
+              {activity.caseNoteAction && activity.caseNoteAction.name}
             </Typography>
             <Typography variant={"caption"} data-test="activityTimeText">
               {`${moment(

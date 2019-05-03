@@ -33,6 +33,15 @@ module.exports = {
         },
         { transaction }
       );
+      await queryInterface.changeColumn(
+        "case_notes",
+        "action",
+        {
+          type: Sequelize.STRING,
+          allowNull: true
+        },
+        { transaction }
+      );
     });
     return await loadCsv("caseNoteActionSeedData.csv", models.case_note_action);
   },
@@ -43,6 +52,15 @@ module.exports = {
         "case_notes",
         "case_note_action_id",
         transaction
+      );
+      await queryInterface.changeColumn(
+        "case_notes",
+        "action",
+        {
+          type: Sequelize.STRING,
+          allowNull: false
+        },
+        { transaction }
       );
       await queryInterface.dropTable("case_note_actions", transaction);
     });
