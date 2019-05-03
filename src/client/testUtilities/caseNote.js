@@ -3,7 +3,7 @@ class CaseNote {
     this.caseId = build.caseId;
     this.id = build.id;
     this.user = build.user;
-    this.action = build.action;
+    this.caseNoteActionId = build.caseNoteActionId;
     this.actionTakenAt = build.actionTakenAt;
     this.notes = build.notes;
   }
@@ -14,7 +14,7 @@ class CaseNote {
         this.id = undefined;
         this.caseId = undefined;
         this.user = "tuser";
-        this.action = "did stuff";
+        this.caseNoteActionId = null;
         this.actionTakenAt = new Date().toISOString();
         this.notes = "i wrote notes";
         return this;
@@ -35,8 +35,8 @@ class CaseNote {
         return this;
       }
 
-      withAction(action) {
-        this.action = action;
+      withCaseNoteActionId(caseNoteActionId) {
+        this.caseNoteActionId = caseNoteActionId;
         return this;
       }
 

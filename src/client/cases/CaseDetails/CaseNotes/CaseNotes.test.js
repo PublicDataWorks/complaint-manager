@@ -9,6 +9,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { getCaseNotesSuccess } from "../../../actionCreators/casesActionCreators";
 
 describe("Case Notes", () => {
+  const caseNoteActions = {
+    memoToFile: ["Memo to file", 1],
+    contactedOutsideAgency: ["Contacted outside agency", 2]
+  };
+
   test("should display placeholder text when no case notes", () => {
     const caseNotes = [];
 
@@ -33,13 +38,15 @@ describe("Case Notes", () => {
         id: 1,
         caseId: 1,
         user: "tuser",
-        action: "Created case",
+        caseNoteAction: {
+          name: caseNoteActions.memoToFile[0],
+          id: caseNoteActions.memoToFile[1]
+        },
         actionTakenAt: moment().subtract(3, "days")
       }
     ];
 
     const store = createConfiguredStore();
-    store.dispatch(getCaseNotesSuccess(someCaseNotes));
 
     const wrapper = mount(
       <Provider store={store}>
@@ -48,6 +55,10 @@ describe("Case Notes", () => {
         </Router>
       </Provider>
     );
+
+    store.dispatch(getCaseNotesSuccess(someCaseNotes));
+
+    wrapper.update();
 
     const activityContainer = wrapper
       .find('[data-test="caseNotesContainer"]')
@@ -65,7 +76,7 @@ describe("Case Notes", () => {
       .find('[data-test="activityTimeText"]')
       .first();
 
-    expect(userAndActionText.text()).toEqual("[tuser] Created case");
+    expect(userAndActionText.text()).toEqual("[tuser] Memo to file");
     expect(activityTimeText.text()).toEqual("3 days ago");
   });
 
@@ -75,14 +86,20 @@ describe("Case Notes", () => {
         id: 1,
         caseId: 1,
         user: "tuser",
-        action: "Created case",
+        caseNoteAction: {
+          name: caseNoteActions.memoToFile[0],
+          id: caseNoteActions.memoToFile[1]
+        },
         actionTakenAt: moment().subtract(3, "days")
       },
       {
         id: 3,
         caseId: 1,
         user: "fooUser",
-        action: "Attachment added",
+        caseNoteAction: {
+          name: caseNoteActions.contactedOutsideAgency[0],
+          id: caseNoteActions.contactedOutsideAgency[1]
+        },
         notes: "some notes",
         actionTakenAt: moment().subtract(1, "hours")
       }
@@ -120,8 +137,10 @@ describe("Case Notes", () => {
       .text();
 
     expect(firstUserAndActivityActionText).toEqual(
-      "[fooUser] Attachment added"
+      `[fooUser] ${caseNoteActions.contactedOutsideAgency[0]}`
     );
-    expect(secondUserAndActivityActionText).toEqual("[tuser] Created case");
+    expect(secondUserAndActivityActionText).toEqual(
+      `[tuser] ${caseNoteActions.memoToFile[0]}`
+    );
   });
 });

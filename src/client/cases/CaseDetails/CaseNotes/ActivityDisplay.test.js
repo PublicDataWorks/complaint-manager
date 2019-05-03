@@ -11,7 +11,7 @@ describe("ActivityDisplay", () => {
       id: 1,
       caseId: 2,
       user: "tuser",
-      action: "Miscellaneous",
+      caseNoteAction: { name: "Miscellaneous", id: 1 },
       notes: "notes",
       actionTakenAt: new Date().toISOString()
     };
@@ -22,7 +22,11 @@ describe("ActivityDisplay", () => {
       </Provider>
     );
 
-    containsText(wrapper, '[data-test="userAndActionText"]', caseNote.action);
+    containsText(
+      wrapper,
+      '[data-test="userAndActionText"]',
+      caseNote.caseNoteAction.name
+    );
     containsText(wrapper, '[data-test="userAndActionText"]', caseNote.user);
     containsText(
       wrapper,

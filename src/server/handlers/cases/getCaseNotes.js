@@ -41,6 +41,7 @@ const findAllCaseNotes = async (
     where: {
       caseId: caseId
     },
+    include: [{ model: models.case_note_action, as: "caseNoteAction" }],
     auditUser: nickname,
     transaction
   };

@@ -36,6 +36,7 @@ describe("", () => {
         })
       );
     });
+
     test("gets options", async () => {
       const topLevelModelName = models.cases.name;
       const queryOptions = {
