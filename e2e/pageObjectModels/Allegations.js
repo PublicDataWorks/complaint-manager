@@ -70,7 +70,7 @@ module.exports = {
       selector: '[role="listbox"]'
     },
     lastRule: {
-      selector: '[role="listbox"] > li:last-child'
+      selector: '[role="listbox"] > div > li:last-child'
     },
     allegationSearchSubmitButton: {
       selector: '[data-test="allegationSearchSubmitButton"]'
@@ -88,7 +88,7 @@ module.exports = {
       selector: '[role="listbox"]'
     },
     lastAllegationSeverityOption: {
-      selector: '[role="listbox"] > li:last-child'
+      selector: '[role="listbox"] > div > li:last-child'
     },
     addAllegationButton: {
       selector: '[data-test="addAllegationButton"]'

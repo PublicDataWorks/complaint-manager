@@ -65,7 +65,7 @@ module.exports = {
       selector: '[data-test="districtDropdown"]'
     },
     districtMenu: {
-      selector: '[id="menu-district"]'
+      selector: '[id="district"]'
     }
   }
 };
