@@ -93,19 +93,19 @@ module.exports = {
       selector: "[data-test='genderDropdown'] > div > div > div"
     },
     genderMenu: {
-      selector: "[id='menu-genderIdentityId']"
+      selector: "[id='genderIdentity']"
     },
     raceEthnicityDropdown: {
       selector: "[data-test='raceDropdown'] > div > div > div"
     },
     raceEthnicityMenu: {
-      selector: '[id="menu-raceEthnicityId"]'
+      selector: '[id="raceEthnicityId"]'
     },
     titleDropdown: {
       selector: "[data-test='titleDropdown'] > div > div > div"
     },
     titleMenu: {
-      selector: "[id='menu-title']"
+      selector: "[id='title']"
     },
     addressSuggestionField: {
       selector: '[data-test="addressSuggestionField"] > input'

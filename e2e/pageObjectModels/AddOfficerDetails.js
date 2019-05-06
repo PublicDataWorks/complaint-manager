@@ -31,7 +31,7 @@ module.exports = {
       selector: '[data-test="roleOnCaseDropdown"] > div > div > div'
     },
     roleMenu: {
-      selector: '[id="menu-roleOnCase"]'
+      selector: '[id="roleOnCase"]'
     },
     submitOfficerButton: {
       selector: '[data-test="officerSubmitButton"]'

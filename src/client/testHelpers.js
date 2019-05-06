@@ -12,7 +12,7 @@ export const findDropdownOption = (
 ) => {
   const dropdown = mountedComponent
     .find(dropdownSelector)
-    .find('[role="button"]')
+    .find('[role="presentation"]')
     .first();
 
   dropdown.simulate("click");
@@ -21,6 +21,10 @@ export const findDropdownOption = (
     .find('[role="option"]')
     .filterWhere(option => option.text() === optionName)
     .last();
+
+  console.log("\n\n\n\n\n\n\n\n\n\n\n");
+  console.error(dropdown);
+  console.log("\n\n\n\n\n\n\n\n\n\n\n");
 
   return option;
 };
