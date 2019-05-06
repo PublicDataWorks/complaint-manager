@@ -12,5 +12,13 @@
     "name": "caseValidationFeature",
     "description": "Toggle to validate case",
     "enabled": false
+  },
+  {
+    "id": "newAuditFeature",
+    "name": "newAuditFeature",
+    "description": "Toggle to enable new auditing - only do so in production at the same time as migrating old data",
+    "criteria": {
+      "isPreProd": true
+    }
   }
 ]

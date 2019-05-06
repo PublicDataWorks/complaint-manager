@@ -1,5 +1,6 @@
 import sequelize from "sequelize";
 import getDateRangeForQuery from "../getDateRangeForQuery";
+import transformAuditsForExport from "./transformAuditsForExport";
 
 const {
   TIMEZONE,
@@ -35,6 +36,54 @@ const getDateRangeCondition = dateRange => {
   }
 };
 
+const getTransformedAudits = async dateRangeCondition => {
+  const audits = await models.audit.findAll({
+    where: dateRangeCondition
+  });
+
+  return transformAuditsForExport(audits);
+};
+
+const getOldTransformedAudits = async dateRangeCondition => {
+  const actionAudits = await models.action_audit.findAll({
+    where: dateRangeCondition,
+    attributes: [
+      "created_at",
+      "case_id",
+      "action",
+      "user",
+      ["audit_type", "auditType"],
+      "subject",
+      ["audit_details", "auditDetails"]
+    ],
+    raw: true
+  });
+
+  const modifiedActionAudits = transformActionAuditForExport(actionAudits);
+
+  const dataChangeAudits = await models.data_change_audit.findAll({
+    where: dateRangeCondition,
+    attributes: [
+      "created_at",
+      "case_id",
+      "action",
+      "user",
+      "changes",
+      "snapshot",
+      "modelDescription",
+      ["model_name", "subject"],
+      ["model_id", "subject_id"]
+    ],
+    raw: true
+  });
+
+  const modifiedDataChangeAudits = transformDataChangeAuditForExport(
+    dataChangeAudits
+  );
+
+  return modifiedActionAudits.concat(modifiedDataChangeAudits);
+};
+
 const exportAuditLog = async (job, done) => {
   winston.info(`About to run Audit Log Export Job with id ${job.id}`);
   try {
@@ -58,66 +107,27 @@ const exportAuditLog = async (job, done) => {
 
     const csvOptions = { header: true, columns, cast: dateFormatter };
 
-    await models.sequelize.transaction(async t => {
-      const actionAudits = await models.action_audit.findAll({
-        where: dateRangeCondition,
-        attributes: [
-          "created_at",
-          "case_id",
-          "action",
-          "user",
-          ["audit_type", "auditType"],
-          "subject",
-          ["audit_details", "auditDetails"]
-        ],
-        raw: true,
-        transaction: t
-      });
+    const transformedAudits =
+      job.data.features && job.data.features.newAuditFeature
+        ? await getTransformedAudits(dateRangeCondition)
+        : await getOldTransformedAudits(dateRangeCondition);
 
-      const modifiedActionAudits = transformActionAuditForExport(actionAudits);
+    const sortedAuditLogs = _.orderBy(transformedAudits, "created_at", "desc");
 
-      const dataChangeAudits = await models.data_change_audit.findAll({
-        where: dateRangeCondition,
-        attributes: [
-          "created_at",
-          "case_id",
-          "action",
-          "user",
-          "changes",
-          "snapshot",
-          "modelDescription",
-          ["model_name", "subject"],
-          ["model_id", "subject_id"]
-        ],
-        raw: true,
-        transaction: t
-      });
+    const csvOutput = await promisifiedStringify(sortedAuditLogs, csvOptions);
+    const filename = generateFilename(
+      JOB_OPERATION.AUDIT_LOG_EXPORT,
+      job.data.dateRange
+    );
 
-      const modifiedDataChangeAudits = transformDataChangeAuditForExport(
-        dataChangeAudits
-      );
-
-      const sortedAuditLogs = _.orderBy(
-        modifiedActionAudits.concat(modifiedDataChangeAudits),
-        "created_at",
-        "desc"
-      );
-
-      const csvOutput = await promisifiedStringify(sortedAuditLogs, csvOptions);
-      const filename = generateFilename(
-        JOB_OPERATION.AUDIT_LOG_EXPORT,
-        job.data.dateRange
-      );
-
-      const s3Result = await uploadFileToS3(
-        job.id,
-        csvOutput,
-        filename,
-        JOB_OPERATION.AUDIT_LOG_EXPORT.key
-      );
-      winston.info(`Done running Audit Log Export Job with id ${job.id}`);
-      done(null, s3Result);
-    });
+    const s3Result = await uploadFileToS3(
+      job.id,
+      csvOutput,
+      filename,
+      JOB_OPERATION.AUDIT_LOG_EXPORT.key
+    );
+    winston.info(`Done running Audit Log Export Job with id ${job.id}`);
+    done(null, s3Result);
   } catch (err) {
     winston.error(
       `Error running Audit Log Export Job with id ${job.id}: `,
