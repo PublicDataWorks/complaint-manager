@@ -36,6 +36,7 @@ const scheduleExport = asyncMiddleware(async (request, response, next) => {
       title: JOB_OPERATION[request.params.operation].title,
       name: JOB_OPERATION[request.params.operation].name,
       user: request.nickname,
+      features: request.fflip.features,
       ...dateRangeData
     });
   job.attempts(config.queue.failedJobAttempts);

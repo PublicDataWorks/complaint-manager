@@ -19,18 +19,9 @@ jest.mock("../fileUpload/uploadFileToS3", () => jest.fn());
 
 describe("exportAuditLog", () => {
   const nickname = "nickName";
-  const job = { data: { user: nickname } };
   const awsResult = "awsResult";
   const jobDone = jest.fn();
-  const jobWithDateRange = {
-    data: {
-      user: nickname,
-      dateRange: {
-        exportStartDate: "2018-01-01",
-        exportEndDate: "2018-12-31"
-      }
-    }
-  };
+  let job, jobWithDateRange;
 
   let records = [];
 
@@ -42,6 +33,19 @@ describe("exportAuditLog", () => {
         return awsResult;
       }
     );
+    job = { data: { user: nickname, features: { newAuditFeature: true } } };
+    jobWithDateRange = {
+      data: {
+        user: nickname,
+        features: {
+          newAuditFeature: true
+        },
+        dateRange: {
+          exportStartDate: "2018-01-01",
+          exportEndDate: "2018-12-31"
+        }
+      }
+    };
   });
 
   afterEach(async () => {
@@ -85,242 +89,275 @@ describe("exportAuditLog", () => {
     expect(jobDone).toHaveBeenCalledWith(null, awsResult);
   });
 
-  test("it includes export audit type", async () => {
-    const timeOfExport = new Date("2018-07-01 19:00:22 CDT");
-    timekeeper.freeze(timeOfExport);
-    await models.action_audit.create({
-      auditType: AUDIT_TYPE.EXPORT,
-      action: AUDIT_ACTION.EXPORTED,
-      subject: AUDIT_SUBJECT.AUDIT_LOG,
-      caseId: null,
-      user: "someuser"
+  describe("newAuditFeature enabled", () => {
+    test("it includes authentication audit type", async () => {
+      const timeOfLogin = new Date("2018-07-01 19:00:22 CDT");
+      timekeeper.freeze(timeOfLogin);
+      await models.audit.create({
+        auditAction: AUDIT_ACTION.LOGGED_IN,
+        user: "someuser"
+      });
+
+      await exportAuditLog(job, jobDone);
+
+      expect(records.length).toEqual(1);
+      const record = records[0];
+      expect(record["Audit Type"]).toEqual(AUDIT_TYPE.AUTHENTICATION);
+      expect(record["User"]).toEqual("someuser");
+      expect(record["Case Database ID"]).toEqual("");
+      expect(record["Action"]).toEqual(AUDIT_ACTION.LOGGED_IN);
+      expect(record["Audit Subject"]).toEqual("");
+      expect(record["Subject Database ID"]).toEqual("");
+      expect(record["Changes"]).toEqual("");
+      expect(record["Audit Details"]).toEqual("");
+      expect(record["Timestamp"]).toEqual(
+        moment(timeOfLogin)
+          .tz(TIMEZONE)
+          .format("MM/DD/YYYY HH:mm:ss z")
+      );
+      timekeeper.reset();
     });
 
-    await exportAuditLog(job, jobDone);
-
-    expect(records.length).toEqual(1);
-    const record = records[0];
-    expect(record["Audit Type"]).toEqual(AUDIT_TYPE.EXPORT);
-    expect(record["User"]).toEqual("someuser");
-    expect(record["Case Database ID"]).toEqual("");
-    expect(record["Action"]).toEqual(AUDIT_ACTION.EXPORTED);
-    expect(record["Audit Subject"]).toEqual(AUDIT_SUBJECT.AUDIT_LOG);
-    expect(record["Subject Database ID"]).toEqual("");
-    expect(record["Changes"]).toEqual("");
-    expect(record["Audit Details"]).toEqual("");
-    expect(record["Timestamp"]).toEqual(
-      moment(timeOfExport)
-        .tz(TIMEZONE)
-        .format("MM/DD/YYYY HH:mm:ss z")
-    );
-    timekeeper.reset();
-  });
-
-  test("includes login action audits", async () => {
-    const actionAuditAttributes = new ActionAudit.Builder()
-      .defaultActionAudit()
-      .withAuditType(AUDIT_TYPE.AUTHENTICATION)
-      .withAction(AUDIT_ACTION.LOGGED_IN)
-      .withCaseId(undefined)
-      .withId(undefined)
-      .withSubject(undefined)
-      .withCreatedAt(new Date("2018-06-01 19:00:22 CDT"));
-    await models.action_audit.create(actionAuditAttributes);
-
-    const timeOfExport = new Date("2018-07-01 19:00:22 CDT");
-    timekeeper.freeze(timeOfExport);
-
-    await exportAuditLog(job, jobDone);
-
-    expect(records.length).toEqual(1);
-
-    const loginRecord = records[0];
-    expect(loginRecord["Audit Type"]).toEqual(AUDIT_TYPE.AUTHENTICATION);
-    expect(loginRecord["User"]).toEqual(actionAuditAttributes.user);
-    expect(loginRecord["Case Database ID"]).toEqual("");
-    expect(loginRecord["Action"]).toEqual(AUDIT_ACTION.LOGGED_IN);
-    expect(loginRecord["Audit Subject"]).toEqual("");
-    expect(loginRecord["Subject Database ID"]).toEqual("");
-    expect(loginRecord["Changes"]).toEqual("");
-    expect(loginRecord["Audit Details"]).toEqual("");
-    expect(loginRecord["Timestamp"]).toEqual(
-      moment(actionAuditAttributes.createdAt)
-        .tz(TIMEZONE)
-        .format("MM/DD/YYYY HH:mm:ss z")
-    );
-  });
-
-  test("includes data change audit export", async () => {
-    const timeOfExport = new Date("2018-07-01 19:00:22 CDT");
-    timekeeper.freeze(timeOfExport);
-
-    const createdCase = await createTestCaseWithoutCivilian("nickname");
-
-    await models.data_change_audit.findOne({
-      where: { caseId: createdCase.id }
-    });
-
-    await exportAuditLog(job, jobDone);
-
-    expect(records.length).toEqual(1);
-
-    const dataChangeRecord = records[0];
-    expect(dataChangeRecord["Audit Type"]).toEqual(AUDIT_TYPE.DATA_CHANGE);
-    expect(dataChangeRecord["User"]).toEqual("nickname");
-    expect(dataChangeRecord["Case Database ID"]).toEqual(`${createdCase.id}`);
-    expect(dataChangeRecord["Action"]).toEqual("Created");
-    expect(dataChangeRecord["Audit Subject"]).toEqual("Case");
-    expect(dataChangeRecord["Subject Database ID"]).toEqual(
-      `${createdCase.id}`
-    );
-    expect(dataChangeRecord["Changes"]).toEqual("");
-    expect(dataChangeRecord["Timestamp"]).toEqual(
-      moment(timeOfExport)
-        .tz(TIMEZONE)
-        .format("MM/DD/YYYY HH:mm:ss z")
-    );
-    timekeeper.reset();
-  });
-
-  test("includes data change audit changes and snapshot transformation", async () => {
-    await models.data_change_audit.create({
-      auditType: AUDIT_TYPE.DATA_CHANGE,
-      user: "smith",
-      action: AUDIT_ACTION.DATA_UPDATED,
-      snapshot: {
-        id: 5,
-        name: "bob"
-      },
-      caseId: 1,
-      modelName: "Case",
-      changes: { name: { previous: "greg II", new: "bob" } },
-      modelId: 20
-    });
-
-    await exportAuditLog(job, jobDone);
-
-    expect(records.length).toEqual(1);
-
-    const dataChangeRecord = records[0];
-    expect(dataChangeRecord["Audit Type"]).toEqual(AUDIT_TYPE.DATA_CHANGE);
-    expect(dataChangeRecord["User"]).toEqual("smith");
-    expect(dataChangeRecord["Action"]).toEqual(AUDIT_ACTION.DATA_UPDATED);
-    expect(dataChangeRecord["Changes"]).toEqual(
-      "Name changed from 'greg II' to 'bob'"
-    );
-    expect(dataChangeRecord["Audit Details"]).toEqual(`Case Id: 5\nName: bob`);
-  });
-
-  test("only gets audits in date range", async () => {
-    await models.data_change_audit.create({
-      auditType: AUDIT_TYPE.DATA_CHANGE,
-      user: "smith",
-      action: AUDIT_ACTION.DATA_UPDATED,
-      snapshot: {
-        id: 5,
-        name: "bob"
-      },
-      caseId: 1,
-      modelName: "Case",
-      changes: { name: { previous: "greg II", new: "bob" } },
-      modelId: 20,
-      createdAt: moment.utc("2017-12-21")
-    });
-
-    await models.data_change_audit.create({
-      auditType: AUDIT_TYPE.DATA_CHANGE,
-      user: "jones",
-      action: AUDIT_ACTION.DATA_UPDATED,
-      snapshot: {
-        id: 4,
-        name: "anne"
-      },
-      caseId: 1,
-      modelName: "Case",
-      changes: { name: { previous: "bob", new: "anne" } },
-      modelId: 20,
-      createdAt: moment.utc("2018-12-21")
-    });
-
-    await models.action_audit.create({
-      auditType: AUDIT_TYPE.EXPORT,
-      action: AUDIT_ACTION.EXPORTED,
-      subject: AUDIT_SUBJECT.AUDIT_LOG,
-      caseId: null,
-      user: "bruce",
-      createdAt: moment.utc("2018-12-02")
-    });
-
-    await models.action_audit.create({
-      auditType: AUDIT_TYPE.EXPORT,
-      action: AUDIT_ACTION.EXPORTED,
-      subject: AUDIT_SUBJECT.AUDIT_LOG,
-      caseId: null,
-      user: "riley",
-      createdAt: moment.utc("2000-03-02")
-    });
-
-    await exportAuditLog(jobWithDateRange, jobDone);
-
-    expect(records.length).toEqual(2);
-
-    expect(records).toEqual([
-      expect.objectContaining({ User: "jones" }),
-      expect.objectContaining({ User: "bruce" })
-    ]);
-  });
-
-  test("handle date ranges in local timezone", async () => {
-    const timezoneJob = {
-      data: {
-        user: nickname,
-        dateRange: {
-          exportStartDate: "2000-01-01",
-          exportEndDate: "2000-02-03"
+    test("handle date ranges in local timezone", async () => {
+      const timezoneJob = {
+        data: {
+          user: nickname,
+          features: {
+            newAuditFeature: true
+          },
+          dateRange: {
+            exportStartDate: "2000-01-01",
+            exportEndDate: "2000-02-03"
+          }
         }
-      }
-    };
+      };
 
-    await models.action_audit.create({
-      auditType: AUDIT_TYPE.EXPORT,
-      action: AUDIT_ACTION.EXPORTED,
-      subject: AUDIT_SUBJECT.AUDIT_LOG,
-      caseId: null,
-      user: "fish",
-      createdAt: moment.tz("1999-12-31 23:59:59", TIMEZONE)
+      await models.audit.create({
+        auditAction: AUDIT_ACTION.EXPORTED,
+        user: "dough",
+        createdAt: moment.tz("1999-12-31 23:59:59", TIMEZONE)
+      });
+      await models.audit.create({
+        auditAction: AUDIT_ACTION.EXPORTED,
+        user: "basil",
+        createdAt: moment.tz("2000-01-01 00:00:00", TIMEZONE)
+      });
+      await models.audit.create({
+        auditAction: AUDIT_ACTION.EXPORTED,
+        user: "mom",
+        createdAt: moment.tz("2000-02-03 23:59:00", TIMEZONE)
+      });
+      await models.audit.create({
+        auditAction: AUDIT_ACTION.EXPORTED,
+        user: "bruce",
+        createdAt: moment.tz("2000-02-04 00:00:00", TIMEZONE)
+      });
+
+      await exportAuditLog(timezoneJob, jobDone);
+
+      expect(records.length).toEqual(2);
+
+      expect(records).toEqual([
+        expect.objectContaining({ User: "mom" }),
+        expect.objectContaining({ User: "basil" })
+      ]);
     });
-    await models.action_audit.create({
-      auditType: AUDIT_TYPE.EXPORT,
-      action: AUDIT_ACTION.EXPORTED,
-      subject: AUDIT_SUBJECT.AUDIT_LOG,
-      caseId: null,
-      user: "basil",
-      createdAt: moment.tz("2000-01-01 00:00:00", TIMEZONE)
-    });
-    await models.action_audit.create({
-      auditType: AUDIT_TYPE.EXPORT,
-      action: AUDIT_ACTION.EXPORTED,
-      subject: AUDIT_SUBJECT.AUDIT_LOG,
-      caseId: null,
-      user: "riley",
-      createdAt: moment.tz("2000-02-03 23:59:00", TIMEZONE)
-    });
-    await models.action_audit.create({
-      auditType: AUDIT_TYPE.EXPORT,
-      action: AUDIT_ACTION.EXPORTED,
-      subject: AUDIT_SUBJECT.AUDIT_LOG,
-      caseId: null,
-      user: "bruce",
-      createdAt: moment.tz("2000-02-04 00:00:00", TIMEZONE)
+  });
+
+  describe("newAuditFeature disabled", () => {
+    beforeEach(() => {
+      job = { data: { user: nickname } };
+      jobWithDateRange = {
+        data: {
+          user: nickname,
+          dateRange: {
+            exportStartDate: "2018-01-01",
+            exportEndDate: "2018-12-31"
+          }
+        }
+      };
     });
 
-    await exportAuditLog(timezoneJob, jobDone);
+    test("it includes export audit type", async () => {
+      const timeOfExport = new Date("2018-07-01 19:00:22 CDT");
+      timekeeper.freeze(timeOfExport);
+      await models.action_audit.create({
+        auditType: AUDIT_TYPE.EXPORT,
+        action: AUDIT_ACTION.EXPORTED,
+        subject: AUDIT_SUBJECT.AUDIT_LOG,
+        caseId: null,
+        user: "someuser"
+      });
 
-    expect(records.length).toEqual(2);
+      await exportAuditLog(job, jobDone);
 
-    expect(records).toEqual([
-      expect.objectContaining({ User: "riley" }),
-      expect.objectContaining({ User: "basil" })
-    ]);
+      expect(records.length).toEqual(1);
+      const record = records[0];
+      expect(record["Audit Type"]).toEqual(AUDIT_TYPE.EXPORT);
+      expect(record["User"]).toEqual("someuser");
+      expect(record["Case Database ID"]).toEqual("");
+      expect(record["Action"]).toEqual(AUDIT_ACTION.EXPORTED);
+      expect(record["Audit Subject"]).toEqual(AUDIT_SUBJECT.AUDIT_LOG);
+      expect(record["Subject Database ID"]).toEqual("");
+      expect(record["Changes"]).toEqual("");
+      expect(record["Audit Details"]).toEqual("");
+      expect(record["Timestamp"]).toEqual(
+        moment(timeOfExport)
+          .tz(TIMEZONE)
+          .format("MM/DD/YYYY HH:mm:ss z")
+      );
+      timekeeper.reset();
+    });
+
+    test("includes login action audits", async () => {
+      const actionAuditAttributes = new ActionAudit.Builder()
+        .defaultActionAudit()
+        .withAuditType(AUDIT_TYPE.AUTHENTICATION)
+        .withAction(AUDIT_ACTION.LOGGED_IN)
+        .withCaseId(undefined)
+        .withId(undefined)
+        .withSubject(undefined)
+        .withCreatedAt(new Date("2018-06-01 19:00:22 CDT"));
+      await models.action_audit.create(actionAuditAttributes);
+
+      const timeOfExport = new Date("2018-07-01 19:00:22 CDT");
+      timekeeper.freeze(timeOfExport);
+
+      await exportAuditLog(job, jobDone);
+
+      expect(records.length).toEqual(1);
+
+      const loginRecord = records[0];
+      expect(loginRecord["Audit Type"]).toEqual(AUDIT_TYPE.AUTHENTICATION);
+      expect(loginRecord["User"]).toEqual(actionAuditAttributes.user);
+      expect(loginRecord["Case Database ID"]).toEqual("");
+      expect(loginRecord["Action"]).toEqual(AUDIT_ACTION.LOGGED_IN);
+      expect(loginRecord["Audit Subject"]).toEqual("");
+      expect(loginRecord["Subject Database ID"]).toEqual("");
+      expect(loginRecord["Changes"]).toEqual("");
+      expect(loginRecord["Audit Details"]).toEqual("");
+      expect(loginRecord["Timestamp"]).toEqual(
+        moment(actionAuditAttributes.createdAt)
+          .tz(TIMEZONE)
+          .format("MM/DD/YYYY HH:mm:ss z")
+      );
+    });
+
+    test("includes data change audit export", async () => {
+      const timeOfExport = new Date("2018-07-01 19:00:22 CDT");
+      timekeeper.freeze(timeOfExport);
+
+      const createdCase = await createTestCaseWithoutCivilian("nickname");
+
+      await models.data_change_audit.findOne({
+        where: { caseId: createdCase.id }
+      });
+
+      await exportAuditLog(job, jobDone);
+
+      expect(records.length).toEqual(1);
+
+      const dataChangeRecord = records[0];
+      expect(dataChangeRecord["Audit Type"]).toEqual(AUDIT_TYPE.DATA_CHANGE);
+      expect(dataChangeRecord["User"]).toEqual("nickname");
+      expect(dataChangeRecord["Case Database ID"]).toEqual(`${createdCase.id}`);
+      expect(dataChangeRecord["Action"]).toEqual("Created");
+      expect(dataChangeRecord["Audit Subject"]).toEqual("Case");
+      expect(dataChangeRecord["Subject Database ID"]).toEqual(
+        `${createdCase.id}`
+      );
+      expect(dataChangeRecord["Changes"]).toEqual("");
+      expect(dataChangeRecord["Timestamp"]).toEqual(
+        moment(timeOfExport)
+          .tz(TIMEZONE)
+          .format("MM/DD/YYYY HH:mm:ss z")
+      );
+      timekeeper.reset();
+    });
+
+    test("includes data change audit changes and snapshot transformation", async () => {
+      await models.data_change_audit.create({
+        auditType: AUDIT_TYPE.DATA_CHANGE,
+        user: "smith",
+        action: AUDIT_ACTION.DATA_UPDATED,
+        snapshot: {
+          id: 5,
+          name: "bob"
+        },
+        caseId: 1,
+        modelName: "Case",
+        changes: { name: { previous: "greg II", new: "bob" } },
+        modelId: 20
+      });
+
+      await exportAuditLog(job, jobDone);
+
+      expect(records.length).toEqual(1);
+
+      const dataChangeRecord = records[0];
+      expect(dataChangeRecord["Audit Type"]).toEqual(AUDIT_TYPE.DATA_CHANGE);
+      expect(dataChangeRecord["User"]).toEqual("smith");
+      expect(dataChangeRecord["Action"]).toEqual(AUDIT_ACTION.DATA_UPDATED);
+      expect(dataChangeRecord["Changes"]).toEqual(
+        "Name changed from 'greg II' to 'bob'"
+      );
+      expect(dataChangeRecord["Audit Details"]).toEqual(
+        `Case Id: 5\nName: bob`
+      );
+    });
+
+    test("handle date ranges in local timezone", async () => {
+      const timezoneJob = {
+        data: {
+          user: nickname,
+          dateRange: {
+            exportStartDate: "2000-01-01",
+            exportEndDate: "2000-02-03"
+          }
+        }
+      };
+
+      await models.action_audit.create({
+        auditType: AUDIT_TYPE.EXPORT,
+        action: AUDIT_ACTION.EXPORTED,
+        subject: AUDIT_SUBJECT.AUDIT_LOG,
+        caseId: null,
+        user: "fish",
+        createdAt: moment.tz("1999-12-31 23:59:59", TIMEZONE)
+      });
+      await models.action_audit.create({
+        auditType: AUDIT_TYPE.EXPORT,
+        action: AUDIT_ACTION.EXPORTED,
+        subject: AUDIT_SUBJECT.AUDIT_LOG,
+        caseId: null,
+        user: "basil",
+        createdAt: moment.tz("2000-01-01 00:00:00", TIMEZONE)
+      });
+      await models.action_audit.create({
+        auditType: AUDIT_TYPE.EXPORT,
+        action: AUDIT_ACTION.EXPORTED,
+        subject: AUDIT_SUBJECT.AUDIT_LOG,
+        caseId: null,
+        user: "riley",
+        createdAt: moment.tz("2000-02-03 23:59:00", TIMEZONE)
+      });
+      await models.action_audit.create({
+        auditType: AUDIT_TYPE.EXPORT,
+        action: AUDIT_ACTION.EXPORTED,
+        subject: AUDIT_SUBJECT.AUDIT_LOG,
+        caseId: null,
+        user: "bruce",
+        createdAt: moment.tz("2000-02-04 00:00:00", TIMEZONE)
+      });
+
+      await exportAuditLog(timezoneJob, jobDone);
+
+      expect(records.length).toEqual(2);
+
+      expect(records).toEqual([
+        expect.objectContaining({ User: "riley" }),
+        expect.objectContaining({ User: "basil" })
+      ]);
+    });
   });
 });
