@@ -20,6 +20,7 @@ import {
   suppressWinstonLogs,
   expectResponse
 } from "./testHelpers/requestTestHelpers";
+import audit from "./handlers/auditLogs/audit";
 
 jest.mock("auth0", () => ({
   AuthenticationClient: jest.fn()
@@ -28,6 +29,12 @@ jest.mock("auth0", () => ({
 jest.mock("aws-sdk", () => ({
   S3: jest.fn()
 }));
+
+jest.mock("./handlers/auditLogs/audit", () =>
+  jest.fn((request, response, next) => {
+    response.send();
+  })
+);
 
 describe("server", () => {
   let token, user, raceEthnicity;
@@ -115,20 +122,13 @@ describe("server", () => {
   describe("POST /audit", () => {
     const mockLog = AUDIT_ACTION.LOGGED_OUT;
     test("should audit log out", async () => {
-      const responsePromise = request(app)
+      await request(app)
         .post("/api/audit")
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send({ log: mockLog });
 
-      await expectResponse(responsePromise, 201);
-
-      const log = await models.action_audit.findAll({
-        where: {
-          action: mockLog
-        }
-      });
-      expect(log.length).toEqual(1);
+      expect(audit).toHaveBeenCalled();
     });
   });
 
