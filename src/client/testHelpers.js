@@ -10,23 +10,19 @@ export const findDropdownOption = (
   dropdownSelector,
   optionName
 ) => {
-  const dropdown = mountedComponent
+  const options = mountedComponent
     .find(dropdownSelector)
-    .find('[role="presentation"]')
-    .first();
+    .find("Select")
+    .prop("options")
+    .filter(option => option.label.toString() === optionName);
 
-  dropdown.simulate("click");
+  const value = options[0].value;
 
-  const option = mountedComponent
-    .find('[role="option"]')
-    .filterWhere(option => option.text() === optionName)
-    .last();
-
-  console.log("\n\n\n\n\n\n\n\n\n\n\n");
-  console.error(dropdown);
-  console.log("\n\n\n\n\n\n\n\n\n\n\n");
-
-  return option;
+  mountedComponent
+    .find(dropdownSelector)
+    .find("Select")
+    .props()
+    .onChange({ value: value });
 };
 
 export const selectDropdownOption = (
@@ -34,12 +30,7 @@ export const selectDropdownOption = (
   dropdownSelector,
   optionName
 ) => {
-  const option = findDropdownOption(
-    mountedComponent,
-    dropdownSelector,
-    optionName
-  );
-  option.simulate("click");
+  findDropdownOption(mountedComponent, dropdownSelector, optionName);
 };
 
 export const expectEventuallyNotToExist = async (

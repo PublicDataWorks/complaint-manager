@@ -70,15 +70,15 @@ function NoOptionsMessage(props) {
 }
 
 function inputComponent({ inputRef, ...props }) {
-  console.log("----inputComponent----");
-  // console.log(inputRef);
-  // console.log(props);
   return <div ref={inputRef} {...props} />;
 }
 
 function Control(props) {
-  console.log("----Control----");
-  console.log(props);
+  let inputPropsExists = "inputProps" in props.selectProps;
+  let dataTestExists =
+    inputPropsExists && "data-test" in props.selectProps.inputProps
+      ? true
+      : null;
   return (
     <TextField
       fullWidth
@@ -89,7 +89,10 @@ function Control(props) {
           inputRef: props.innerRef,
           children: props.children,
           ...props.innerProps,
-          custom: props.custom
+          custom: props.custom,
+          role: "button",
+          "data-test":
+            dataTestExists && props.selectProps.inputProps["data-test"]
         }
       }}
       {...props.selectProps.textFieldProps}
@@ -98,8 +101,6 @@ function Control(props) {
 }
 
 function Option(props) {
-  console.log("----Option----");
-  console.log(props);
   return (
     <MenuItem
       buttonRef={props.innerRef}
@@ -141,7 +142,6 @@ function SingleValue(props) {
 }
 
 function ValueContainer(props) {
-  console.log("----valueContainer----");
   return (
     <div className={props.selectProps.classes.valueContainer}>
       {props.children}
@@ -150,8 +150,6 @@ function ValueContainer(props) {
 }
 
 function Menu(props) {
-  console.log("MENUUUUU:)");
-  console.log(props);
   return (
     <Paper
       role="listbox"
@@ -183,14 +181,12 @@ class NoBlurTextField extends React.Component {
 
   constructor(props) {
     super(props);
-    // console.log('------------------------------------------------------')
   }
 
   onChange(event) {
     if (this.props.input.onChange && event != null) {
       this.props.input.onChange(event.value);
       if (event.value === "") {
-        // console.log("yoooo");
         this.setState({
           selected: { label: "", value: "" }
         });
@@ -205,7 +201,6 @@ class NoBlurTextField extends React.Component {
   }
 
   componentWillMount() {
-    // this.createOptions(this.props.children);
     this.setLabelToInputValue(this.createOptions(this.props.children));
   }
 
@@ -218,24 +213,16 @@ class NoBlurTextField extends React.Component {
       });
     }
     return tempOptions;
-    // console.log(tempOptions);
-    // this.setState({
-    //     options: tempOptions
-    //   },
-    //   this.setLabelToInputValue(tempOptions)
-    // )
   }
 
   setLabelToInputValue(options) {
     let value = this.props.input.value;
-    // console.log('value is ' + value);
     if (value === "") {
       this.setState({
         selected: { label: "", value: "" }
       });
       return;
     }
-    // console.log(options);
     for (let option of options) {
       if (option.value === value) {
         this.setState({
@@ -244,15 +231,10 @@ class NoBlurTextField extends React.Component {
         return;
       }
     }
-    // console.log('found nothing :(');
   }
 
   render() {
     const { classes, theme, input, children, ...custom } = this.props;
-    //
-    // const options = this.createOptions(children);
-    //
-    // this.setLabelToInputValue(input.value, options);
 
     const selectStyles = {
       input: base => ({
@@ -267,19 +249,11 @@ class NoBlurTextField extends React.Component {
     const hasError =
       custom.required && custom.meta.touched && custom.meta.invalid;
 
-    console.log(custom);
-    console.log(custom["data-test"]);
-    // console.log(input);
-    console.log(this.props);
-    // console.log(this.state.selected);
-    // console.log('this.selected: ' + this.selected);
-
     return (
       <FormControl style={custom.style} data-test={custom["data-test"]}>
         <Select
           {...input}
           {...custom}
-          // children={children}
           options={this.createOptions(children)}
           textFieldProps={{
             label: custom.label,
@@ -297,13 +271,10 @@ class NoBlurTextField extends React.Component {
           classes={classes}
           menuPlacement="auto"
           menuPosition="fixed"
-          // menuIsOpen={true}
           styles={selectStyles}
           components={components}
           placeholder=""
-          role="button"
           name={input.name}
-          // data-test={(custom.inputProps && custom.inputProps["data-test"])}
         />
       </FormControl>
     );
