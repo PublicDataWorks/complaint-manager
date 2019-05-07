@@ -39,11 +39,13 @@ describe("exportCases request", function() {
 
     expect(queue.testMode.jobs.length).toEqual(1);
     expect(queue.testMode.jobs[0].type).toEqual(JOB_OPERATION.CASE_EXPORT.key);
-    expect(queue.testMode.jobs[0].data).toEqual({
-      title: JOB_OPERATION.CASE_EXPORT.title,
-      name: JOB_OPERATION.CASE_EXPORT.name,
-      user: request.nickname
-    });
+    expect(queue.testMode.jobs[0].data).toEqual(
+      expect.objectContaining({
+        title: JOB_OPERATION.CASE_EXPORT.title,
+        name: JOB_OPERATION.CASE_EXPORT.name,
+        user: request.nickname
+      })
+    );
 
     expect(response.json).toHaveBeenCalledWith({
       jobId: queue.testMode.jobs[0].id
@@ -88,15 +90,17 @@ describe("exportCases request", function() {
     await scheduleExport(request, response, () => {});
 
     expect(queue.testMode.jobs.length).toEqual(1);
-    expect(queue.testMode.jobs[0].data).toEqual({
-      title: JOB_OPERATION.AUDIT_LOG_EXPORT.title,
-      name: JOB_OPERATION.AUDIT_LOG_EXPORT.name,
-      user: request.nickname,
-      dateRange: {
-        exportStartDate: "2018-12-02",
-        exportEndDate: "2019-01-14"
-      }
-    });
+    expect(queue.testMode.jobs[0].data).toEqual(
+      expect.objectContaining({
+        title: JOB_OPERATION.AUDIT_LOG_EXPORT.title,
+        name: JOB_OPERATION.AUDIT_LOG_EXPORT.name,
+        user: request.nickname,
+        dateRange: {
+          exportStartDate: "2018-12-02",
+          exportEndDate: "2019-01-14"
+        }
+      })
+    );
     done();
   });
 
@@ -116,16 +120,18 @@ describe("exportCases request", function() {
     await scheduleExport(request, response, () => {});
 
     expect(queue.testMode.jobs.length).toEqual(1);
-    expect(queue.testMode.jobs[0].data).toEqual({
-      title: JOB_OPERATION.CASE_EXPORT.title,
-      name: JOB_OPERATION.CASE_EXPORT.name,
-      user: request.nickname,
-      dateRange: {
-        exportStartDate: "2018-12-02",
-        exportEndDate: "2019-01-14",
-        type: CASE_EXPORT_TYPE.FIRST_CONTACT_DATE
-      }
-    });
+    expect(queue.testMode.jobs[0].data).toEqual(
+      expect.objectContaining({
+        title: JOB_OPERATION.CASE_EXPORT.title,
+        name: JOB_OPERATION.CASE_EXPORT.name,
+        user: request.nickname,
+        dateRange: {
+          exportStartDate: "2018-12-02",
+          exportEndDate: "2019-01-14",
+          type: CASE_EXPORT_TYPE.FIRST_CONTACT_DATE
+        }
+      })
+    );
     done();
   });
 
