@@ -35,9 +35,13 @@ describe("AllegationSearchForm", () => {
       </Provider>
     );
 
-    selectDropdownOption(wrapper, '[data-test="ruleField"]', "Rule 1");
+    selectDropdownOption(wrapper, '[data-test="ruleDropdown"]', "Rule 1");
     wrapper.update();
-    selectDropdownOption(wrapper, '[data-test="ruleField"]', "Select a Rule");
+    selectDropdownOption(
+      wrapper,
+      '[data-test="ruleDropdown"]',
+      "Select a Rule"
+    );
     wrapper.update();
 
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -68,7 +72,7 @@ describe("AllegationSearchForm", () => {
       </Provider>
     );
 
-    selectDropdownOption(wrapper, '[data-test="ruleField"]', "Rule 1");
+    selectDropdownOption(wrapper, '[data-test="ruleDropdown"]', "Rule 1");
     wrapper.update();
 
     const searchButton = wrapper

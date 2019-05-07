@@ -53,7 +53,7 @@ const OfficerSearchForm = props => {
             label="District"
             name="district"
             component={NoBlurTextField}
-            inputProps={{ "data-test": "districtField" }}
+            data-test="districtField"
             style={{ flex: "1", marginRight: "24px" }}
           >
             {searchDistrictMenu}

@@ -185,7 +185,10 @@ class IncidentDetailsDialog extends Component {
                 label="Incident Classification"
                 name="classificationId"
                 component={NoBlurTextField}
-                inputProps={{ "data-test": "classificationDropdown" }}
+                inputProps={{
+                  "data-test": "classificationDropdownInput"
+                }}
+                data-test="classificationDropdown"
                 style={{
                   marginRight: "5%",
                   flex: "2"
