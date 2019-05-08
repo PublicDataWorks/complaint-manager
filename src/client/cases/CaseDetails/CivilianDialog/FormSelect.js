@@ -49,8 +49,12 @@ const styles = theme => ({
     position: "relative",
     zIndex: 1,
     marginTop: theme.spacing.unit,
+    // top controls the space between the paper and input box
+    // menuPlacement on react select does not play nice with material UI so css tricks were used to get it to behave
+    top: 20,
     left: 0,
-    right: 0
+    right: 0,
+    overflow: "auto"
   },
   divider: {
     // height: theme.spacing.unit * 2,
@@ -269,7 +273,7 @@ class NoBlurTextField extends React.Component {
           onChange={this.onChange.bind(this)}
           onBlur={() => input.onBlur(input.value)}
           classes={classes}
-          menuPlacement="auto"
+          menuPlacement="top"
           menuPosition="fixed"
           styles={selectStyles}
           components={components}
