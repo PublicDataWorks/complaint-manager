@@ -6,15 +6,11 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import MenuItem from "@material-ui/core/MenuItem";
-import { emphasize } from "@material-ui/core/styles/colorManipulator";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import FormControl from "@material-ui/core/FormControl";
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    flexWrap: "wrap"
-  },
+  root: {},
   input: {
     display: "flex",
     padding: 0
@@ -23,21 +19,8 @@ const styles = theme => ({
     display: "flex",
     flex: 1,
     alignItems: "center",
-    overflow: "hidden"
-  },
-  chip: {
-    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`
-  },
-  chipFocused: {
-    backgroundColor: emphasize(
-      theme.palette.type === "light"
-        ? theme.palette.grey[300]
-        : theme.palette.grey[700],
-      0.08
-    )
-  },
-  noOptionsMessage: {
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`
+    overflow: "hidden",
+    paddingBottom: 5
   },
   singleValue: {
     fontSize: 16,
@@ -55,23 +38,8 @@ const styles = theme => ({
     left: 0,
     right: 0,
     overflow: "auto"
-  },
-  divider: {
-    // height: theme.spacing.unit * 2,
   }
 });
-
-function NoOptionsMessage(props) {
-  return (
-    <Typography
-      color="textSecondary"
-      className={props.selectProps.classes.noOptionsMessage}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Typography>
-  );
-}
 
 function inputComponent({ inputRef, ...props }) {
   return <div ref={inputRef} {...props} />;
@@ -122,18 +90,6 @@ function Option(props) {
   );
 }
 
-function Placeholder(props) {
-  return (
-    <Typography
-      color="textSecondary"
-      className={props.selectProps.classes.placeholder}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Typography>
-  );
-}
-
 function SingleValue(props) {
   return (
     <Typography
@@ -169,9 +125,7 @@ function Menu(props) {
 const components = {
   Control,
   Menu,
-  NoOptionsMessage,
   Option,
-  Placeholder,
   SingleValue,
   ValueContainer,
   DropdownIndicator: ArrowDropDownIcon
@@ -179,13 +133,8 @@ const components = {
 
 class NoBlurTextField extends React.Component {
   state = {
-    selected: { label: "", value: "" },
-    options: []
+    selected: { label: "", value: "" }
   };
-
-  constructor(props) {
-    super(props);
-  }
 
   onChange(event) {
     if (this.props.input.onChange && event != null) {
@@ -258,6 +207,7 @@ class NoBlurTextField extends React.Component {
         <Select
           {...input}
           {...custom}
+          components={components}
           options={this.createOptions(children)}
           textFieldProps={{
             label: custom.label,
@@ -276,7 +226,6 @@ class NoBlurTextField extends React.Component {
           menuPlacement="top"
           menuPosition="fixed"
           styles={selectStyles}
-          components={components}
           placeholder=""
           name={input.name}
         />
