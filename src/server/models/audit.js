@@ -37,6 +37,13 @@ module.exports = (sequelize, DataTypes) => {
     Audit.belongsTo(models.cases, {
       foreignKey: { name: "caseId", field: "case_id" }
     });
+    Audit.hasOne(models.export_audit, {
+      as: "exportAudit",
+      foreignKey: {
+        name: "auditId",
+        field: "audit_id"
+      }
+    });
   };
 
   return Audit;

@@ -149,8 +149,10 @@ describe("transform authorization audits", () => {
       });
 
       const oldAuthenticationAudits = await models.action_audit.findAll();
+      const newAuthenticationAudits = await models.audit.findAll();
 
       expect(oldAuthenticationAudits.length).toEqual(4);
+      expect(newAuthenticationAudits.length).toEqual(0);
       expect(oldAuthenticationAudits).toEqual(
         expect.arrayContaining([
           expect.objectContaining({

@@ -1,4 +1,4 @@
-import { AUDIT_TYPE, AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
+import { AUDIT_TYPE, AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
 
 const _ = require("lodash");
 

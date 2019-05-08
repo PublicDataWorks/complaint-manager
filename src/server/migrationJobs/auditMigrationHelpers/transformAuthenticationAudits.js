@@ -54,5 +54,11 @@ export const transformNewAuthenticationAuditsToOld = async transaction => {
     }
   }
 
-  await models.audit.truncate({ cascade: true, transaction });
+  await models.audit.destroy({
+    where: {
+      auditAction: {
+        [Op.or]: [AUDIT_ACTION.LOGGED_IN, AUDIT_ACTION.LOGGED_OUT]
+      }
+    }
+  });
 };

@@ -1,8 +1,9 @@
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 
 const asyncMiddleware = require("../../asyncMiddleware");
 const kue = require("kue");
-const generateExportDownloadUrl = require("./generateExportDownloadUrl");
+import generateExportDownloadUrl from "./generateExportDownloadUrl";
 const Boom = require("boom");
 const { JOB_OPERATION } = require("../../../../sharedUtilities/constants");
 
@@ -13,12 +14,18 @@ const exportJob = asyncMiddleware(async (request, response, next) => {
     }
     let downLoadUrl;
 
+    const newAuditFeatureToggle = checkFeatureToggleEnabled(
+      request,
+      "newAuditFeature"
+    );
+
     if (job.result && job.state() === "complete") {
       downLoadUrl = await generateExportDownloadUrl(
         job.result.Key,
         request.nickname,
-        JOB_OPERATION[job.data.name].auditSubject,
-        job.data.dateRange
+        job.data.name,
+        job.data.dateRange,
+        newAuditFeatureToggle
       );
     }
 

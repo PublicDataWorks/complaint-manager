@@ -1,6 +1,6 @@
 import sequelize from "sequelize";
 import getDateRangeForQuery from "../getDateRangeForQuery";
-import transformAuditsForExport from "./transformAuditsForExport";
+import getTransformedAudits from "./transformAudits/getTransformedAudits";
 
 const {
   TIMEZONE,
@@ -13,8 +13,8 @@ const util = require("util");
 const promisifiedStringify = util.promisify(stringify);
 const moment = require("moment-timezone");
 const _ = require("lodash");
-const transformDataChangeAuditForExport = require("./transformDataChangeAuditForExport");
-const transformActionAuditForExport = require("./transformActionAuditsForExport");
+const transformDataChangeAuditForExport = require("./transformAudits/transformDataChangeAuditForExport");
+const transformActionAuditForExport = require("./transformAudits/transformActionAuditsForExport");
 const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 const winston = require("winston");
 
@@ -34,14 +34,6 @@ const getDateRangeCondition = dateRange => {
   } else {
     return null;
   }
-};
-
-const getTransformedAudits = async dateRangeCondition => {
-  const audits = await models.audit.findAll({
-    where: dateRangeCondition
-  });
-
-  return transformAuditsForExport(audits);
 };
 
 const getOldTransformedAudits = async dateRangeCondition => {
