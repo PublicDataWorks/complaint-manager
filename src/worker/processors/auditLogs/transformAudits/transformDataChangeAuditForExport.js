@@ -3,7 +3,7 @@ import {
   AUDIT_FIELDS_TO_EXCLUDE,
   AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE,
   AUDIT_TYPE
-} from "../../../sharedUtilities/constants";
+} from "../../../../sharedUtilities/constants";
 import _ from "lodash";
 import striptags from "striptags";
 

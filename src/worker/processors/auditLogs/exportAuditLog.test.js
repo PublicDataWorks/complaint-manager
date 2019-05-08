@@ -133,22 +133,22 @@ describe("exportAuditLog", () => {
       };
 
       await models.audit.create({
-        auditAction: AUDIT_ACTION.EXPORTED,
+        auditAction: AUDIT_ACTION.LOGGED_IN,
         user: "dough",
         createdAt: moment.tz("1999-12-31 23:59:59", TIMEZONE)
       });
       await models.audit.create({
-        auditAction: AUDIT_ACTION.EXPORTED,
+        auditAction: AUDIT_ACTION.LOGGED_IN,
         user: "basil",
         createdAt: moment.tz("2000-01-01 00:00:00", TIMEZONE)
       });
       await models.audit.create({
-        auditAction: AUDIT_ACTION.EXPORTED,
+        auditAction: AUDIT_ACTION.LOGGED_IN,
         user: "mom",
         createdAt: moment.tz("2000-02-03 23:59:00", TIMEZONE)
       });
       await models.audit.create({
-        auditAction: AUDIT_ACTION.EXPORTED,
+        auditAction: AUDIT_ACTION.LOGGED_IN,
         user: "bruce",
         createdAt: moment.tz("2000-02-04 00:00:00", TIMEZONE)
       });

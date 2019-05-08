@@ -1,9 +1,9 @@
-import ActionAudit from "../../../client/testUtilities/ActionAudit";
+import ActionAudit from "../../../../client/testUtilities/ActionAudit";
 import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   JOB_OPERATION
-} from "../../../sharedUtilities/constants";
+} from "../../../../sharedUtilities/constants";
 
 const transformActionAuditsForExport = require("./transformActionAuditsForExport");
 

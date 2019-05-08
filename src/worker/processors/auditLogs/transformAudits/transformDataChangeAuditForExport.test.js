@@ -1,9 +1,9 @@
 import {
   ADDRESSABLE_TYPE,
   AUDIT_ACTION
-} from "../../../sharedUtilities/constants";
+} from "../../../../sharedUtilities/constants";
 
-const AUDIT_TYPE = require("../../../sharedUtilities/constants").AUDIT_TYPE;
+const AUDIT_TYPE = require("../../../../sharedUtilities/constants").AUDIT_TYPE;
 
 const transformDataChangeAuditForExport = require("./transformDataChangeAuditForExport");
 
