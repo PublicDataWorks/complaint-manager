@@ -8,7 +8,7 @@ const {
 } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const Op = require("sequelize").Op;
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 
 const searchOfficers = asyncMiddleware(async (request, response) => {
   const whereClause = {};
@@ -40,7 +40,7 @@ const searchOfficers = asyncMiddleware(async (request, response) => {
 
     addToExistingAuditDetails(auditDetails, queryOptions, models.officer.name);
 
-    await auditDataAccess(
+    await legacyAuditDataAccess(
       request.nickname,
       undefined,
       AUDIT_SUBJECT.OFFICER_DATA,

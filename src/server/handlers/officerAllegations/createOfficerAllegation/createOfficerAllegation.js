@@ -3,7 +3,7 @@ const asyncMiddleware = require("../../asyncMiddleware");
 import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const models = require("../../../models");
 const _ = require("lodash");
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 
 const createOfficerAllegation = asyncMiddleware(async (request, response) => {
   const allegationAttributes = _.pick(request.body, [
@@ -27,7 +27,7 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
         { transaction }
       );
 
-      await auditDataAccess(
+      await legacyAuditDataAccess(
         request.nickname,
         caseOfficer.caseId,
         AUDIT_SUBJECT.CASE_DETAILS,

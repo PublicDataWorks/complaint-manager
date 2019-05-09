@@ -17,7 +17,7 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import Boom from "boom";
 import auditUpload from "../sharedLetterUtilities/auditUpload";
-import auditDataAccess from "../../../auditDataAccess";
+import legacyAuditDataAccess from "../../../legacyAuditDataAccess";
 import Civilian from "../../../../../client/testUtilities/civilian";
 import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
@@ -49,7 +49,7 @@ jest.mock(
 jest.mock("../constructFilename", () => (existingCase, pdfLetterType) => {
   return "referral_letter_filename.pdf";
 });
-jest.mock("../../../auditDataAccess", () => jest.fn());
+jest.mock("../../../legacyAuditDataAccess", () => jest.fn());
 
 describe("approveLetter", () => {
   let existingCase, request, response, next, referralLetter;
@@ -216,7 +216,7 @@ describe("approveLetter", () => {
       test("should audit data access when creating attachment", async () => {
         await elevateCaseStatusToReadyForReview(existingCase);
         await approveLetter(request, response, next);
-        expect(auditDataAccess).toHaveBeenCalledWith(
+        expect(legacyAuditDataAccess).toHaveBeenCalledWith(
           "nickname",
           existingCase.id,
           AUDIT_SUBJECT.CASE_DETAILS,

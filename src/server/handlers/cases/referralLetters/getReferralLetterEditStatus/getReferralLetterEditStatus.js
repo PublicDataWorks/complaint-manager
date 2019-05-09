@@ -1,6 +1,6 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
-import auditDataAccess from "../../../auditDataAccess";
+import legacyAuditDataAccess from "../../../legacyAuditDataAccess";
 
 import {
   AUDIT_ACTION,
@@ -29,7 +29,7 @@ const getReferralLetterEditStatus = asyncMiddleware(
         [models.referral_letter.name]: { attributes: ["editStatus"] }
       };
 
-      await auditDataAccess(
+      await legacyAuditDataAccess(
         request.nickname,
         caseId,
         AUDIT_SUBJECT.REFERRAL_LETTER_DATA,

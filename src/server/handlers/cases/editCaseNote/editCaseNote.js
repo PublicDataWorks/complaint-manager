@@ -2,7 +2,7 @@ const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
 const _ = require("lodash");
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 
 const editCaseNote = asyncMiddleware(async (req, res) => {
   const caseId = req.params.caseId;
@@ -22,7 +22,7 @@ const editCaseNote = asyncMiddleware(async (req, res) => {
       auditUser: req.nickname
     });
 
-    await auditDataAccess(
+    await legacyAuditDataAccess(
       req.nickname,
       caseId,
       AUDIT_SUBJECT.CASE_NOTES,

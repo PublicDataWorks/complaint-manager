@@ -6,7 +6,7 @@ import {
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models/index");
 import { getCaseWithAllAssociations } from "../getCaseHelpers";
-import auditDataAccess from "../auditDataAccess";
+import legacyAuditDataAccess from "../legacyAuditDataAccess";
 
 async function upsertAddress(civilianId, address, transaction, nickname) {
   if (!address.id) {
@@ -49,7 +49,7 @@ const editCivilian = asyncMiddleware(async (req, res) => {
         auditUser: req.nickname
       });
 
-      await auditDataAccess(
+      await legacyAuditDataAccess(
         req.nickname,
         civilian.caseId,
         AUDIT_SUBJECT.CASE_DETAILS,

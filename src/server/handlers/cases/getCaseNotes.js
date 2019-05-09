@@ -4,7 +4,7 @@ import { addToExistingAuditDetails } from "../getQueryAuditAccessDetails";
 const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 const asyncMiddleWare = require("../asyncMiddleware");
 const models = require("../../models/index");
-import auditDataAccess from "../auditDataAccess";
+import legacyAuditDataAccess from "../legacyAuditDataAccess";
 
 const getCaseNotes = asyncMiddleWare(async (request, response) => {
   const caseNotes = await models.sequelize.transaction(async transaction => {
@@ -17,7 +17,7 @@ const getCaseNotes = asyncMiddleWare(async (request, response) => {
       transaction
     );
 
-    await auditDataAccess(
+    await legacyAuditDataAccess(
       request.nickname,
       request.params.caseId,
       AUDIT_SUBJECT.CASE_NOTES,

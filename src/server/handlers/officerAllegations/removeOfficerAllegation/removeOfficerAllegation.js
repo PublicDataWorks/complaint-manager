@@ -5,7 +5,7 @@ const asyncMiddleware = require("../../asyncMiddleware");
 import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const models = require("../../../models");
 const Boom = require("boom");
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 
 const removeOfficerAllegation = asyncMiddleware(
   async (request, response, next) => {
@@ -31,7 +31,7 @@ const removeOfficerAllegation = asyncMiddleware(
           transaction
         });
 
-        await auditDataAccess(
+        await legacyAuditDataAccess(
           request.nickname,
           caseOfficer.caseId,
           AUDIT_SUBJECT.CASE_DETAILS,

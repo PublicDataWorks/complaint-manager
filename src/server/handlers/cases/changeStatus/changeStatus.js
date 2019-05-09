@@ -11,7 +11,7 @@ const models = require("../../../models/index");
 import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const Boom = require("boom");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import _ from "lodash";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
@@ -65,7 +65,7 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
       );
     }
 
-    await auditDataAccess(
+    await legacyAuditDataAccess(
       request.nickname,
       request.params.caseId,
       AUDIT_SUBJECT.CASE_DETAILS,

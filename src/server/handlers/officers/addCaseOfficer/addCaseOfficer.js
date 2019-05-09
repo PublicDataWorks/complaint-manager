@@ -7,7 +7,7 @@ const models = require("../../../models/index");
 const asyncMiddleware = require("../../asyncMiddleware");
 import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 
 const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const { officerId, notes, roleOnCase } = request.body;
@@ -42,7 +42,7 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
       );
     }
 
-    await auditDataAccess(
+    await legacyAuditDataAccess(
       request.nickname,
       retrievedCase.id,
       AUDIT_SUBJECT.CASE_DETAILS,

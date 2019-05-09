@@ -9,7 +9,7 @@ const {
   ACCUSED,
   AUDIT_SUBJECT
 } = require("../../../../sharedUtilities/constants");
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 
 const editCaseOfficer = asyncMiddleware(async (request, response) => {
   const { officerId, notes, roleOnCase } = request.body;
@@ -64,7 +64,7 @@ const editCaseOfficer = asyncMiddleware(async (request, response) => {
       }
     );
 
-    await auditDataAccess(
+    await legacyAuditDataAccess(
       request.nickname,
       request.params.caseId,
       AUDIT_SUBJECT.CASE_DETAILS,

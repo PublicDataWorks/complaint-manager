@@ -6,7 +6,7 @@ import {
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
 import { getCaseWithAllAssociations } from "../getCaseHelpers";
-import auditDataAccess from "../auditDataAccess";
+import legacyAuditDataAccess from "../legacyAuditDataAccess";
 
 const createCivilian = asyncMiddleware(async (req, res) => {
   const caseDetails = await models.sequelize.transaction(async transaction => {
@@ -27,7 +27,7 @@ const createCivilian = asyncMiddleware(async (req, res) => {
 
     const caseId = civilianCreated.caseId;
 
-    await auditDataAccess(
+    await legacyAuditDataAccess(
       req.nickname,
       caseId,
       AUDIT_SUBJECT.CASE_DETAILS,

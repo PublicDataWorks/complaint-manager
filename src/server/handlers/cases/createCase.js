@@ -7,7 +7,7 @@ const {
   AUDIT_SUBJECT,
   RANK_INITIATED
 } = require("../../../sharedUtilities/constants");
-import auditDataAccess from "../auditDataAccess";
+import legacyAuditDataAccess from "../legacyAuditDataAccess";
 
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models/index");
@@ -113,7 +113,7 @@ const attemptCreateCase = async (caseAttributes, includeOptions, nickname) => {
       auditUser: nickname,
       transaction
     });
-    await auditDataAccess(
+    await legacyAuditDataAccess(
       nickname,
       createdCase.id,
       AUDIT_SUBJECT.CASE_DETAILS,
