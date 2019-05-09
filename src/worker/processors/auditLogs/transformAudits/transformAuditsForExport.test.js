@@ -68,7 +68,7 @@ describe("transformAuditsForExport", () => {
           user: user,
           case_id: caseId,
           snapshot:
-            "Another Association Name: Field Last\nAssociation Name: Field 1, Field 2, Field 3",
+            "Another Association Name: Field Last\n\nAssociation Name: Field 1, Field 2, Field 3",
           action: AUDIT_ACTION.DATA_ACCESSED,
           subject: testAuditSubject,
           created_at: "Timestamp"

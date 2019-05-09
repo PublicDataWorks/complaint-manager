@@ -63,7 +63,7 @@ const generateSnapshotForDataAccessAudit = audit => {
 
       return `${_.startCase(dataAccessValue.association)}: ${fieldString}`;
     })
-    .join("\n");
+    .join("\n\n");
 };
 
 const getAttributesForAuditAction = audit => {
