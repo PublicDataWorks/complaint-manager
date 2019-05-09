@@ -1,14 +1,14 @@
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import getArchivedCases from "./getArchivedCases";
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 
-jest.mock("../../auditDataAccess");
+jest.mock("../../legacyAuditDataAccess");
 jest.mock("./getCases");
 jest.mock(
   "../../../checkFeatureToggleEnabled",
@@ -77,7 +77,7 @@ describe("getArchivedCases", () => {
     test("should audit data access", async () => {
       await getArchivedCases(request, response, next);
 
-      expect(auditDataAccess).toHaveBeenCalledWith(
+      expect(legacyAuditDataAccess).toHaveBeenCalledWith(
         auditUser,
         undefined,
         AUDIT_SUBJECT.ALL_ARCHIVED_CASES,

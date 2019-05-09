@@ -10,7 +10,7 @@ const models = require("../../models");
 const asyncMiddleware = require("../asyncMiddleware");
 import { getCaseWithAllAssociations } from "../getCaseHelpers";
 const _ = require("lodash");
-import auditDataAccess from "../auditDataAccess";
+import legacyAuditDataAccess from "../legacyAuditDataAccess";
 const Boom = require("boom");
 
 async function upsertAddress(caseId, incidentLocation, transaction, nickname) {
@@ -71,7 +71,7 @@ const editCase = asyncMiddleware(async (request, response, next) => {
           validate: caseValidationToggle
         });
 
-        await auditDataAccess(
+        await legacyAuditDataAccess(
           request.nickname,
           request.params.caseId,
           AUDIT_SUBJECT.CASE_DETAILS,

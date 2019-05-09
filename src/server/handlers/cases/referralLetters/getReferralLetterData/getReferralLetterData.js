@@ -5,7 +5,7 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../../../sharedUtilities/constants";
-import auditDataAccess from "../../../auditDataAccess";
+import legacyAuditDataAccess from "../../../legacyAuditDataAccess";
 import models from "../../../../models";
 
 const getReferralLetterData = asyncMiddleware(async (request, response) => {
@@ -20,7 +20,7 @@ const getReferralLetterData = asyncMiddleware(async (request, response) => {
       auditDetails
     );
 
-    await auditDataAccess(
+    await legacyAuditDataAccess(
       request.nickname,
       request.params.caseId,
       AUDIT_SUBJECT.REFERRAL_LETTER_DATA,

@@ -2,7 +2,7 @@ const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
 import { getCaseWithAllAssociations } from "../getCaseHelpers";
 const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
-import auditDataAccess from "../auditDataAccess";
+import legacyAuditDataAccess from "../legacyAuditDataAccess";
 
 const removeCivilian = asyncMiddleware(async (request, response) => {
   const caseDetails = await models.sequelize.transaction(async t => {
@@ -29,7 +29,7 @@ const removeCivilian = asyncMiddleware(async (request, response) => {
       auditUser: request.nickname
     });
 
-    await auditDataAccess(
+    await legacyAuditDataAccess(
       request.nickname,
       civilian.caseId,
       AUDIT_SUBJECT.CASE_DETAILS,

@@ -1,6 +1,6 @@
 import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
@@ -16,7 +16,7 @@ const getCase = asyncMiddleware(async (request, response) => {
       auditDetails
     );
 
-    await auditDataAccess(
+    await legacyAuditDataAccess(
       request.nickname,
       request.params.caseId,
       AUDIT_SUBJECT.CASE_DETAILS,

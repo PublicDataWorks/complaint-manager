@@ -2,7 +2,7 @@ import models from "../models";
 import { AUDIT_ACTION, AUDIT_TYPE } from "../../sharedUtilities/constants";
 import _ from "lodash";
 
-const auditDataAccess = async (
+const legacyAuditDataAccess = async (
   user,
   caseId,
   subject,
@@ -145,4 +145,4 @@ const auditDetailsDoesNotContainModelAttribute = (
   );
 };
 
-export default auditDataAccess;
+export default legacyAuditDataAccess;

@@ -1,7 +1,7 @@
 const asyncMiddleware = require("../../asyncMiddleware");
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
 const config = require("../../../config/config");
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 const {
   AUDIT_SUBJECT,
   AUDIT_ACTION,
@@ -32,7 +32,7 @@ const getAttachmentDownloadUrl = asyncMiddleware(
       );
 
       if (complainantLetter) {
-        await auditDataAccess(
+        await legacyAuditDataAccess(
           request.nickname,
           complainantLetter.caseId,
           AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
@@ -42,7 +42,7 @@ const getAttachmentDownloadUrl = asyncMiddleware(
         return getComplainantLetterS3Url(s3, complainantLetter);
       }
       if (referralLetter) {
-        await auditDataAccess(
+        await legacyAuditDataAccess(
           request.nickname,
           referralLetter.caseId,
           AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
@@ -51,7 +51,7 @@ const getAttachmentDownloadUrl = asyncMiddleware(
         );
         return getReferralLetterS3Url(s3, referralLetter);
       }
-      await auditDataAccess(
+      await legacyAuditDataAccess(
         request.nickname,
         request.params.caseId,
         AUDIT_SUBJECT.ATTACHMENT,

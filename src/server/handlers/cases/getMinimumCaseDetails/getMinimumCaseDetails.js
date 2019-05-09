@@ -1,6 +1,6 @@
 import asyncMiddleware from "../../asyncMiddleware";
 import models from "../../../models";
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
@@ -26,7 +26,7 @@ const getMinimumCaseDetails = asyncMiddleware(
           [models.cases.name]: { attributes: ["caseReference", "status"] }
         };
 
-        await auditDataAccess(
+        await legacyAuditDataAccess(
           request.nickname,
           caseId,
           AUDIT_SUBJECT.CASE_DETAILS,

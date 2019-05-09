@@ -5,7 +5,7 @@ import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const asyncMiddleware = require("../../asyncMiddleware");
 const Boom = require("boom");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 
 const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const officerToRemove = await models.case_officer.findByPk(
@@ -22,7 +22,7 @@ const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
       transaction
     });
 
-    await auditDataAccess(
+    await legacyAuditDataAccess(
       request.nickname,
       request.params.caseId,
       AUDIT_SUBJECT.CASE_DETAILS,

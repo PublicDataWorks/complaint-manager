@@ -7,13 +7,13 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 
 const httpMocks = require("node-mocks-http");
 
-jest.mock("../../auditDataAccess");
+jest.mock("../../legacyAuditDataAccess");
 
 jest.mock("./getCases");
 
@@ -70,7 +70,7 @@ describe("getWorkingCases", () => {
     );
   });
 
-  test("Should call auditDataAccess with auditDetails", async () => {
+  test("Should call legacyAuditDataAccess with auditDetails", async () => {
     const request = httpMocks.createRequest({
       method: "GET",
       headers: {
@@ -84,7 +84,7 @@ describe("getWorkingCases", () => {
 
     await getWorkingCases(request, response, next);
 
-    expect(auditDataAccess).toHaveBeenCalledWith(
+    expect(legacyAuditDataAccess).toHaveBeenCalledWith(
       "nickname",
       undefined,
       AUDIT_SUBJECT.ALL_WORKING_CASES,

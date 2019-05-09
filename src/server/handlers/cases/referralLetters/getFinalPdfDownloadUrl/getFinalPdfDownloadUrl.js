@@ -1,5 +1,5 @@
 import asyncMiddleware from "../../../asyncMiddleware";
-import auditDataAccess from "../../../auditDataAccess";
+import legacyAuditDataAccess from "../../../legacyAuditDataAccess";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT,
@@ -35,7 +35,7 @@ const getFinalPdfDownloadUrl = asyncMiddleware(
     validateCaseStatus(existingCase.status);
 
     await models.sequelize.transaction(async transaction => {
-      await auditDataAccess(
+      await legacyAuditDataAccess(
         request.nickname,
         caseId,
         AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,

@@ -8,7 +8,7 @@ import { addToExistingAuditDetails } from "../../getQueryAuditAccessDetails";
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 
 const getCaseHistory = asyncMiddleware(async (request, response) => {
   const caseId = request.params.caseId;
@@ -28,7 +28,7 @@ const getCaseHistory = asyncMiddleware(async (request, response) => {
         auditDetails
       );
 
-      await auditDataAccess(
+      await legacyAuditDataAccess(
         request.nickname,
         caseId,
         AUDIT_SUBJECT.CASE_HISTORY,

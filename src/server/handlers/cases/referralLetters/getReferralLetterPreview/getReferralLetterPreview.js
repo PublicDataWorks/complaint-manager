@@ -7,7 +7,7 @@ import {
   EDIT_STATUS,
   REFERRAL_LETTER_VERSION
 } from "../../../../../sharedUtilities/constants";
-import auditDataAccess from "../../../auditDataAccess";
+import legacyAuditDataAccess from "../../../legacyAuditDataAccess";
 import { getCaseWithAllAssociations } from "../../../getCaseHelpers";
 import generateReferralLetterBody from "../generateReferralLetterBody";
 import constructFilename from "../constructFilename";
@@ -81,7 +81,7 @@ const getReferralLetterPreview = asyncMiddleware(
         models.referral_letter.name
       ].attributes.concat(["editStatus", "lastEdited", "draftFilename"]);
 
-      await auditDataAccess(
+      await legacyAuditDataAccess(
         request.nickname,
         caseId,
         AUDIT_SUBJECT.REFERRAL_LETTER_PREVIEW,

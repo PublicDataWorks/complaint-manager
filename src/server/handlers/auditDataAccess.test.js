@@ -1,10 +1,10 @@
 import models from "../models";
 import { AUDIT_ACTION, AUDIT_SUBJECT } from "../../sharedUtilities/constants";
-import auditDataAccess from "./auditDataAccess";
+import legacyAuditDataAccess from "./legacyAuditDataAccess";
 import { createTestCaseWithoutCivilian } from "../testHelpers/modelMothers";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
-describe("auditDataAccess", () => {
+describe("legacyAuditDataAccess", () => {
   describe("audit details", () => {
     let caseForAudit;
     beforeEach(async () => {
@@ -27,7 +27,7 @@ describe("auditDataAccess", () => {
       };
 
       await models.sequelize.transaction(async transaction => {
-        await auditDataAccess(
+        await legacyAuditDataAccess(
           "user",
           caseForAudit.id,
           AUDIT_SUBJECT.CASE_DETAILS,
@@ -56,7 +56,7 @@ describe("auditDataAccess", () => {
       };
 
       await models.sequelize.transaction(async transaction => {
-        await auditDataAccess(
+        await legacyAuditDataAccess(
           "user",
           caseForAudit.id,
           AUDIT_SUBJECT.CASE_DETAILS,
@@ -86,7 +86,7 @@ describe("auditDataAccess", () => {
       };
 
       await models.sequelize.transaction(async transaction => {
-        await auditDataAccess(
+        await legacyAuditDataAccess(
           "user",
           caseForAudit.id,
           AUDIT_SUBJECT.CASE_DETAILS,
@@ -125,7 +125,7 @@ describe("auditDataAccess", () => {
       };
 
       await models.sequelize.transaction(async transaction => {
-        await auditDataAccess(
+        await legacyAuditDataAccess(
           "user",
           caseForAudit.id,
           AUDIT_SUBJECT.CASE_DETAILS,
@@ -168,7 +168,7 @@ describe("auditDataAccess", () => {
       };
 
       await models.sequelize.transaction(async transaction => {
-        await auditDataAccess(
+        await legacyAuditDataAccess(
           "user",
           caseForAudit.id,
           AUDIT_SUBJECT.CASE_DETAILS,
@@ -195,7 +195,7 @@ describe("auditDataAccess", () => {
       };
 
       await models.sequelize.transaction(async transaction => {
-        await auditDataAccess(
+        await legacyAuditDataAccess(
           "user",
           caseForAudit.id,
           AUDIT_SUBJECT.CASE_DETAILS,
@@ -214,7 +214,7 @@ describe("auditDataAccess", () => {
 
     test("it should populate details correctly for downloaded action with audit details given", async () => {
       await models.sequelize.transaction(async transaction => {
-        await auditDataAccess(
+        await legacyAuditDataAccess(
           "user",
           caseForAudit.id,
           AUDIT_SUBJECT.ATTACHMENT,

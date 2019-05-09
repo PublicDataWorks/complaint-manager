@@ -4,7 +4,7 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 
@@ -28,7 +28,7 @@ const getWorkingCases = asyncMiddleware(async (request, response) => {
       page
     );
 
-    await auditDataAccess(
+    await legacyAuditDataAccess(
       request.nickname,
       undefined,
       AUDIT_SUBJECT.ALL_WORKING_CASES,

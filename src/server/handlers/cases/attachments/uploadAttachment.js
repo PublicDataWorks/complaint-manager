@@ -10,7 +10,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 import Boom from "boom";
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const uploadAttachment = asyncMiddleware((request, response, next) => {
@@ -70,7 +70,7 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
               }
             );
 
-            await auditDataAccess(
+            await legacyAuditDataAccess(
               request.nickname,
               caseId,
               AUDIT_SUBJECT.CASE_DETAILS,
