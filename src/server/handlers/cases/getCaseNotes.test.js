@@ -7,6 +7,7 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 import getCaseNotes from "./getCaseNotes";
 import CaseNote from "../../../client/testUtilities/caseNote";
+import mockFflipObject from "../../testHelpers/mockFflipObject";
 
 const models = require("../../models");
 const httpMocks = require("node-mocks-http");
@@ -44,7 +45,7 @@ describe("getCaseNotes", function() {
   });
 
   test("should return case notes with case note action", async () => {
-    const caseNotes = await getCaseNotes(request, response, next);
+    await getCaseNotes(request, response, next);
 
     expect(response._getData()).toEqual([
       expect.objectContaining({
@@ -55,26 +56,79 @@ describe("getCaseNotes", function() {
       })
     ]);
   });
+  describe("newAuditFeature toggle disabled", () => {
+    test("should audit accessing case notes", async () => {
+      request.fflip = mockFflipObject({
+        newAuditFeature: false
+      });
+      await getCaseNotes(request, response, next);
 
-  test("should audit accessing case notes", async () => {
-    await getCaseNotes(request, response, next);
+      const actionAudit = await models.action_audit.findOne({
+        where: { caseId: existingCase.id }
+      });
 
-    const actionAudit = await models.action_audit.findOne({
-      where: { caseId: existingCase.id }
+      expect(actionAudit).toEqual(
+        expect.objectContaining({
+          user: "tuser",
+          auditType: AUDIT_TYPE.DATA_ACCESS,
+          action: AUDIT_ACTION.DATA_ACCESSED,
+          subject: AUDIT_SUBJECT.CASE_NOTES,
+          caseId: existingCase.id,
+          auditDetails: {
+            "Case Note": ["All Case Note Data"],
+            "Case Note Action": ["All Case Note Action Data"]
+          }
+        })
+      );
     });
+  });
+  describe("newAuditFeature toggle enabled", () => {
+    test("should audit accessing case notes", async () => {
+      request.fflip = mockFflipObject({
+        newAuditFeature: true
+      });
+      await getCaseNotes(request, response, next);
 
-    expect(actionAudit).toEqual(
-      expect.objectContaining({
-        user: "tuser",
-        auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: AUDIT_ACTION.DATA_ACCESSED,
-        subject: AUDIT_SUBJECT.CASE_NOTES,
-        caseId: existingCase.id,
-        auditDetails: {
-          "Case Note": ["All Case Note Data"],
-          "Case Note Action": ["All Case Note Action Data"]
-        }
-      })
-    );
+      const audit = await models.audit.findOne({
+        where: { caseId: existingCase.id },
+        include: [
+          {
+            model: models.data_access_audit,
+            as: "dataAccessAudit",
+            include: [
+              {
+                model: models.data_access_value,
+                as: "dataAccessValues"
+              }
+            ]
+          }
+        ]
+      });
+
+      expect(audit).toEqual(
+        expect.objectContaining({
+          user: "tuser",
+          auditAction: AUDIT_ACTION.DATA_ACCESSED,
+          caseId: existingCase.id,
+          dataAccessAudit: expect.objectContaining({
+            auditSubject: AUDIT_SUBJECT.CASE_NOTES,
+            dataAccessValues: expect.arrayContaining([
+              expect.objectContaining({
+                association: "caseNote",
+                fields: expect.arrayContaining(
+                  Object.keys(models.case_note.rawAttributes)
+                )
+              }),
+              expect.objectContaining({
+                association: "caseNoteAction",
+                fields: expect.arrayContaining(
+                  Object.keys(models.case_note_action.rawAttributes)
+                )
+              })
+            ])
+          })
+        })
+      );
+    });
   });
 });

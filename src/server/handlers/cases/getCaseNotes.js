@@ -5,9 +5,16 @@ const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 const asyncMiddleWare = require("../asyncMiddleware");
 const models = require("../../models/index");
 import legacyAuditDataAccess from "../legacyAuditDataAccess";
+import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
+import auditDataAccess from "../auditDataAccess";
 
 const getCaseNotes = asyncMiddleWare(async (request, response) => {
   const caseNotes = await models.sequelize.transaction(async transaction => {
+    const newAuditFeatureToggle = checkFeatureToggleEnabled(
+      request,
+      "newAuditFeature"
+    );
+
     let auditDetails = {};
 
     const caseNotes = findAllCaseNotes(
@@ -17,14 +24,24 @@ const getCaseNotes = asyncMiddleWare(async (request, response) => {
       transaction
     );
 
-    await legacyAuditDataAccess(
-      request.nickname,
-      request.params.caseId,
-      AUDIT_SUBJECT.CASE_NOTES,
-      transaction,
-      AUDIT_ACTION.DATA_ACCESSED,
-      auditDetails
-    );
+    if (newAuditFeatureToggle) {
+      await auditDataAccess(
+        request.nickname,
+        request.params.caseId,
+        AUDIT_SUBJECT.CASE_NOTES,
+        auditDetails,
+        transaction
+      );
+    } else {
+      await legacyAuditDataAccess(
+        request.nickname,
+        request.params.caseId,
+        AUDIT_SUBJECT.CASE_NOTES,
+        transaction,
+        AUDIT_ACTION.DATA_ACCESSED,
+        auditDetails
+      );
+    }
 
     return caseNotes;
   });
