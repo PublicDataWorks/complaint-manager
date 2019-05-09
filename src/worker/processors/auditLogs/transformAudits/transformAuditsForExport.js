@@ -13,6 +13,8 @@ const getAuditTypeFromAuditAction = auditAction => {
       return AUDIT_TYPE.AUTHENTICATION;
     case AUDIT_ACTION.EXPORTED:
       return AUDIT_TYPE.EXPORT;
+    case AUDIT_ACTION.DATA_ACCESSED:
+      return AUDIT_TYPE.DATA_ACCESS;
     default:
       return "";
   }
@@ -45,12 +47,36 @@ const generateSnapshotForExportAudit = audit => {
   return snapshot;
 };
 
+const generateSnapshotForDataAccessAudit = audit => {
+  const dataAccessValues = audit.dataAccessAudit.dataAccessValues;
+  const sortedDataAccessValues = dataAccessValues.sort((a, b) => {
+    return a.association
+      .toLowerCase()
+      .localeCompare(b.association.toLowerCase());
+  });
+
+  return sortedDataAccessValues
+    .map(dataAccessValue => {
+      const fieldString = dataAccessValue.fields
+        .map(field => _.startCase(field))
+        .join(", ");
+
+      return `${_.startCase(dataAccessValue.association)}: ${fieldString}`;
+    })
+    .join("\n");
+};
+
 const getAttributesForAuditAction = audit => {
   switch (audit.auditAction) {
     case AUDIT_ACTION.EXPORTED:
       return {
         subject: JOB_OPERATION[audit.exportAudit.exportType].auditSubject,
         snapshot: generateSnapshotForExportAudit(audit)
+      };
+    case AUDIT_ACTION.DATA_ACCESSED:
+      return {
+        subject: audit.dataAccessAudit.auditSubject,
+        snapshot: generateSnapshotForDataAccessAudit(audit)
       };
     default:
       return {};
@@ -59,7 +85,7 @@ const getAttributesForAuditAction = audit => {
 
 const transformAuditsForExport = audits => {
   return audits.map(audit => {
-    const auditAttributes = {
+    const generalAuditAttributes = {
       audit_type: getAuditTypeFromAuditAction(audit.auditAction),
       action: audit.auditAction,
       case_id: audit.caseId,
@@ -69,7 +95,7 @@ const transformAuditsForExport = audits => {
     let attributesForAuditAction = getAttributesForAuditAction(audit);
 
     return {
-      ...auditAttributes,
+      ...generalAuditAttributes,
       ...attributesForAuditAction
     };
   });

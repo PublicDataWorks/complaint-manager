@@ -5,9 +5,16 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
+import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
+import auditDataAccess from "../../auditDataAccess";
 
 const getMinimumCaseDetails = asyncMiddleware(
   async (request, response, next) => {
+    const newAuditFeatureToggle = checkFeatureToggleEnabled(
+      request,
+      "newAuditFeature"
+    );
+
     const caseId = request.params.caseId;
     const minimumCaseDetails = await models.sequelize.transaction(
       async transaction => {
@@ -26,14 +33,24 @@ const getMinimumCaseDetails = asyncMiddleware(
           [models.cases.name]: { attributes: ["caseReference", "status"] }
         };
 
-        await legacyAuditDataAccess(
-          request.nickname,
-          caseId,
-          AUDIT_SUBJECT.CASE_DETAILS,
-          transaction,
-          AUDIT_ACTION.DATA_ACCESSED,
-          auditDetails
-        );
+        if (newAuditFeatureToggle) {
+          await auditDataAccess(
+            request.nickname,
+            caseId,
+            AUDIT_SUBJECT.CASE_DETAILS,
+            auditDetails,
+            transaction
+          );
+        } else {
+          await legacyAuditDataAccess(
+            request.nickname,
+            caseId,
+            AUDIT_SUBJECT.CASE_DETAILS,
+            transaction,
+            AUDIT_ACTION.DATA_ACCESSED,
+            auditDetails
+          );
+        }
 
         return responseData;
       }

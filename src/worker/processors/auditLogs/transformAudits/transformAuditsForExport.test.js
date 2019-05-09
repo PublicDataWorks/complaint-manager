@@ -9,10 +9,12 @@ import formatDate from "../../../../client/utilities/formatDate";
 import _ from "lodash";
 
 describe("transformAuditsForExport", () => {
+  const user = "someone";
+
   test("transform log in audit correctly", () => {
     const audit = {
       auditAction: AUDIT_ACTION.LOGGED_IN,
-      user: "someone",
+      user: user,
       createdAt: "Timestamp",
       caseId: null,
       updatedAt: new Date(),
@@ -25,16 +27,61 @@ describe("transformAuditsForExport", () => {
         case_id: null,
         audit_type: AUDIT_TYPE.AUTHENTICATION,
         created_at: "Timestamp",
-        user: "someone"
+        user: user
       }
     ]);
+  });
+
+  describe("access audit", () => {
+    const testAuditSubject = "Test Audit Subject";
+    const caseId = 1;
+
+    test("transform data access correctly", () => {
+      const audit = {
+        auditAction: AUDIT_ACTION.DATA_ACCESSED,
+        user: user,
+        createdAt: "Timestamp",
+        caseId: caseId,
+        updatedAt: new Date(),
+        id: 2,
+        dataAccessAudit: {
+          id: 3,
+          auditSubject: testAuditSubject,
+          dataAccessValues: [
+            {
+              id: 4,
+              association: "associationName",
+              fields: ["field1", "field2", "field3"]
+            },
+            {
+              id: 3,
+              association: "anotherAssociationName",
+              fields: ["fieldLast"]
+            }
+          ]
+        }
+      };
+
+      expect(transformAuditsForExport([audit])).toEqual([
+        {
+          audit_type: AUDIT_TYPE.DATA_ACCESS,
+          user: user,
+          case_id: caseId,
+          snapshot:
+            "Another Association Name: Field Last\nAssociation Name: Field 1, Field 2, Field 3",
+          action: AUDIT_ACTION.DATA_ACCESSED,
+          subject: testAuditSubject,
+          created_at: "Timestamp"
+        }
+      ]);
+    });
   });
 
   describe("export audit", () => {
     test("transform export audit log without date range audit correctly", () => {
       const audit = {
         auditAction: AUDIT_ACTION.EXPORTED,
-        user: "someone",
+        user: user,
         createdAt: "Timestamp",
         caseId: null,
         updatedAt: new Date(),
@@ -51,7 +98,7 @@ describe("transformAuditsForExport", () => {
       expect(transformAuditsForExport([audit])).toEqual([
         {
           audit_type: AUDIT_TYPE.EXPORT,
-          user: "someone",
+          user: user,
           case_id: null,
           snapshot: "Full Audit Log",
           action: AUDIT_ACTION.EXPORTED,
@@ -63,7 +110,7 @@ describe("transformAuditsForExport", () => {
     test("transform export audit log with date range audit correctly", () => {
       const audit = {
         auditAction: AUDIT_ACTION.EXPORTED,
-        user: "someone",
+        user: user,
         createdAt: "Timestamp",
         caseId: null,
         updatedAt: new Date(),
@@ -80,7 +127,7 @@ describe("transformAuditsForExport", () => {
       expect(transformAuditsForExport([audit])).toEqual([
         {
           audit_type: AUDIT_TYPE.EXPORT,
-          user: "someone",
+          user: user,
           case_id: null,
           action: AUDIT_ACTION.EXPORTED,
           subject: JOB_OPERATION.AUDIT_LOG_EXPORT.auditSubject,
@@ -93,7 +140,7 @@ describe("transformAuditsForExport", () => {
     test("transform export cases audit correctly without date range or type", () => {
       const audit = {
         auditAction: AUDIT_ACTION.EXPORTED,
-        user: "someone",
+        user: user,
         createdAt: "Timestamp",
         caseId: null,
         updatedAt: new Date(),
@@ -108,7 +155,7 @@ describe("transformAuditsForExport", () => {
       expect(transformAuditsForExport([audit])).toEqual([
         {
           audit_type: AUDIT_TYPE.EXPORT,
-          user: "someone",
+          user: user,
           case_id: null,
           action: AUDIT_ACTION.EXPORTED,
           subject: JOB_OPERATION.CASE_EXPORT.auditSubject,
@@ -121,7 +168,7 @@ describe("transformAuditsForExport", () => {
     test("transform export cases audit correctly with date range and type", () => {
       const audit = {
         auditAction: AUDIT_ACTION.EXPORTED,
-        user: "someone",
+        user: user,
         createdAt: "Timestamp",
         caseId: null,
         updatedAt: new Date(),
@@ -138,7 +185,7 @@ describe("transformAuditsForExport", () => {
       expect(transformAuditsForExport([audit])).toEqual([
         {
           audit_type: AUDIT_TYPE.EXPORT,
-          user: "someone",
+          user: user,
           case_id: null,
           action: AUDIT_ACTION.EXPORTED,
           subject: JOB_OPERATION.CASE_EXPORT.auditSubject,

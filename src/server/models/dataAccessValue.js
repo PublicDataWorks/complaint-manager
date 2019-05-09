@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
-      tableName: "data_access_value",
+      tableName: "data_access_values",
       timestamps: false
     }
   );
