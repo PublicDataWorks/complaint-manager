@@ -50,7 +50,7 @@ describe("transform export audits", () => {
         action: AUDIT_ACTION.EXPORTED,
         caseId: null,
         user: "George",
-        subject: AUDIT_SUBJECT.ALL_CASE_INFORMATION,
+        subject: AUDIT_SUBJECT.CASE_EXPORT,
         auditDetails: null,
         createdAt: createdAtTime.add(2, "days")
       });
@@ -60,7 +60,7 @@ describe("transform export audits", () => {
         action: AUDIT_ACTION.EXPORTED,
         caseId: null,
         user: "George",
-        subject: AUDIT_SUBJECT.ALL_CASE_INFORMATION,
+        subject: AUDIT_SUBJECT.CASE_EXPORT,
         auditDetails: {
           ["Date Type"]: [_.startCase(CASE_EXPORT_TYPE.INCIDENT_DATE)],
           ["Export Range"]: ["Jan 1, 2014 to Jan 9, 2014"]

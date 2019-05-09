@@ -246,7 +246,7 @@ export const AUDIT_SUBJECT = {
   CASE_DETAILS: "Case Details",
   ALL_WORKING_CASES: "All Working Cases",
   ALL_ARCHIVED_CASES: "All Archived Cases",
-  ALL_CASE_INFORMATION: "All Case Information",
+  CASE_EXPORT: "Case Export",
   OFFICER_DATA: "Officer Data",
   CASE_HISTORY: "Case History",
   CASE_NOTES: "Case Notes",
@@ -481,9 +481,9 @@ export const JOB_OPERATION = {
   CASE_EXPORT: {
     name: "CASE_EXPORT",
     key: "case_export",
-    title: "Export All Case Information",
-    filename: "All_Case_Information",
-    auditSubject: AUDIT_SUBJECT.ALL_CASE_INFORMATION
+    title: "Export Cases",
+    filename: "Case_Export",
+    auditSubject: AUDIT_SUBJECT.CASE_EXPORT
   }
 };
 

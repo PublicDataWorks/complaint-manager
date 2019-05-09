@@ -110,7 +110,7 @@ describe("export dialog reducer", () => {
     const expectedState = {
       open: true,
       path: "/api/export/schedule/CASE_EXPORT",
-      title: "All Case Information",
+      title: "Cases",
       warningText: "all cases in",
       dateRange: null
     };
@@ -138,7 +138,7 @@ describe("export dialog reducer", () => {
     const expectedState = {
       open: true,
       path: "/api/export/schedule/CASE_EXPORT",
-      title: "All Case Information",
+      title: "Cases",
       warningText: "all cases in",
       dateRange: {
         exportStartDate: "2012-02-22",
