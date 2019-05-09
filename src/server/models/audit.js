@@ -44,6 +44,13 @@ module.exports = (sequelize, DataTypes) => {
         field: "audit_id"
       }
     });
+    Audit.hasOne(models.data_access_audit, {
+      as: "dataAccessAudit",
+      foreignKey: {
+        name: "auditId",
+        field: "audit_id"
+      }
+    });
   };
 
   return Audit;
