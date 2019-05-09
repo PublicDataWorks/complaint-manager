@@ -53,7 +53,7 @@ describe("transformAuditsForExport", () => {
           audit_type: AUDIT_TYPE.EXPORT,
           user: "someone",
           case_id: null,
-          snapshot: null,
+          snapshot: "Full Audit Log",
           action: AUDIT_ACTION.EXPORTED,
           subject: JOB_OPERATION.AUDIT_LOG_EXPORT.auditSubject,
           created_at: "Timestamp"
@@ -112,7 +112,7 @@ describe("transformAuditsForExport", () => {
           case_id: null,
           action: AUDIT_ACTION.EXPORTED,
           subject: JOB_OPERATION.CASE_EXPORT.auditSubject,
-          snapshot: null,
+          snapshot: "All Cases",
           created_at: "Timestamp"
         }
       ]);

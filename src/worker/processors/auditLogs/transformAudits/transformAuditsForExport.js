@@ -34,7 +34,12 @@ const generateSnapshotForExportAudit = audit => {
     );
   }
   if (_.isEmpty(snapshot)) {
-    return null;
+    switch (audit.exportAudit.exportType) {
+      case JOB_OPERATION.CASE_EXPORT.name:
+        return "All Cases";
+      case JOB_OPERATION.AUDIT_LOG_EXPORT.name:
+        return "Full Audit Log";
+    }
   }
 
   return snapshot;

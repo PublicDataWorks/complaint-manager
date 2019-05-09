@@ -29,7 +29,7 @@ const exportDialogReducer = (state = initialState, action) => {
         ...state,
         open: true,
         path: `/api/export/schedule/${JOB_OPERATION.CASE_EXPORT.name}`,
-        title: "All Case Information",
+        title: "Cases",
         warningText: "all cases in",
         dateRange: action.dateRange
       };
