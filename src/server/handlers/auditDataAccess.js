@@ -1,5 +1,6 @@
 import models from "../models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
+import _ from "lodash";
 
 const auditDataAccess = async (
   auditUser,
@@ -37,7 +38,7 @@ const auditDataAccess = async (
 
 const transformAuditDetails = auditDetails => {
   return Object.keys(auditDetails).map(association => ({
-    association: association,
+    association: _.camelCase(association),
     fields: auditDetails[association].attributes.sort((a, b) => {
       return a.toLowerCase().localeCompare(b.toLowerCase());
     })
