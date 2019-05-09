@@ -7,10 +7,14 @@ import {
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
+import auditDataAccess from "../../auditDataAccess";
 
 const getWorkingCases = asyncMiddleware(async (request, response) => {
   const cases = await models.sequelize.transaction(async transaction => {
-    let auditDetails = {};
+    const newAuditFeatureToggle = checkFeatureToggleEnabled(
+      request,
+      "newAuditFeature"
+    );
 
     const sortBy = request.query.sortBy;
     const sortDirection = request.query.sortDirection;
@@ -28,14 +32,25 @@ const getWorkingCases = asyncMiddleware(async (request, response) => {
       page
     );
 
-    await legacyAuditDataAccess(
-      request.nickname,
-      undefined,
-      AUDIT_SUBJECT.ALL_WORKING_CASES,
-      transaction,
-      AUDIT_ACTION.DATA_ACCESSED,
-      GET_CASES_AUDIT_DETAILS
-    );
+    if (newAuditFeatureToggle) {
+      await auditDataAccess(
+        request.nickname,
+        null,
+        AUDIT_SUBJECT.ALL_WORKING_CASES,
+        GET_CASES_AUDIT_DETAILS,
+        transaction
+      );
+    } else {
+      await legacyAuditDataAccess(
+        request.nickname,
+        undefined,
+
+        AUDIT_SUBJECT.ALL_WORKING_CASES,
+        transaction,
+        AUDIT_ACTION.DATA_ACCESSED,
+        GET_CASES_AUDIT_DETAILS
+      );
+    }
 
     return cases;
   });
