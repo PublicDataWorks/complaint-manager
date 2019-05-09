@@ -40,4 +40,53 @@ describe("getTransformedAudits", () => {
       })
     ]);
   });
+
+  test("should include data access audit and data access values", async () => {
+    const auditValues = {
+      auditAction: AUDIT_ACTION.EXPORTED,
+      user: "someone",
+      dataAccessAudit: {
+        auditSubject: "test subject",
+        dataAccessValues: [
+          {
+            association: "specialAssociation",
+            fields: ["itsAField", "heyLookAnotherField", "itsNotSupermanField"]
+          }
+        ]
+      }
+    };
+    await models.audit.create(auditValues, {
+      include: [
+        {
+          model: models.data_access_audit,
+          as: "dataAccessAudit",
+          include: [
+            {
+              model: models.data_access_value,
+              as: "dataAccessValues"
+            }
+          ]
+        }
+      ]
+    });
+
+    await getTransformedAudits({});
+
+    expect(transformAuditsForExport).toHaveBeenCalledWith([
+      expect.objectContaining({
+        auditAction: auditValues.auditAction,
+        user: "someone",
+        dataAccessAudit: expect.objectContaining({
+          auditSubject: auditValues.dataAccessAudit.auditSubject,
+          dataAccessValues: [
+            expect.objectContaining({
+              association:
+                auditValues.dataAccessAudit.dataAccessValues[0].association,
+              fields: auditValues.dataAccessAudit.dataAccessValues[0].fields
+            })
+          ]
+        })
+      })
+    ]);
+  });
 });

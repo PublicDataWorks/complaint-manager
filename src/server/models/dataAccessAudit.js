@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       },
       auditSubject: {
-        field: "export_type",
+        field: "audit_subject",
         allowNull: false,
         type: DataTypes.STRING
       }

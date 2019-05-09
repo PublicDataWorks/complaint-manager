@@ -8,6 +8,16 @@ const getTransformedAudits = async dateRangeCondition => {
       {
         model: models.export_audit,
         as: "exportAudit"
+      },
+      {
+        model: models.data_access_audit,
+        as: "dataAccessAudit",
+        include: [
+          {
+            model: models.data_access_value,
+            as: "dataAccessValues"
+          }
+        ]
       }
     ]
   });
