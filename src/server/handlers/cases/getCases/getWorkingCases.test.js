@@ -9,7 +9,6 @@ import {
 } from "../../../../sharedUtilities/constants";
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
-import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../auditDataAccess";
 
@@ -63,10 +62,6 @@ describe("getWorkingCases", () => {
       "direction",
       expect.anything(),
       2
-    );
-    expect(checkFeatureToggleEnabled).toHaveBeenCalledWith(
-      request,
-      "caseDashboardPaginationFeature"
     );
   });
 
