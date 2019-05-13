@@ -1,3 +1,5 @@
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+
 const {
   buildOfficerAttributesForNewOfficer,
   buildOfficerAttributesForUnknownOfficer
@@ -42,14 +44,24 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
       );
     }
 
+    let auditDetails = {};
+
+    let caseDetails = await getCaseWithAllAssociations(
+      retrievedCase.id,
+      transaction,
+      auditDetails
+    );
+
     await legacyAuditDataAccess(
       request.nickname,
       retrievedCase.id,
       AUDIT_SUBJECT.CASE_DETAILS,
-      transaction
+      transaction,
+      AUDIT_ACTION.DATA_ACCESSED,
+      auditDetails
     );
 
-    return await getCaseWithAllAssociations(retrievedCase.id, transaction);
+    return caseDetails;
   });
 
   return response.send(updatedCase);

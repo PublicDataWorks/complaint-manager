@@ -1,8 +1,10 @@
-const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
+import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 import legacyAuditDataAccess from "../legacyAuditDataAccess";
+import { getCaseWithAllAssociations } from "../getCaseHelpers";
+
+const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
-import { getCaseWithAllAssociations } from "../getCaseHelpers";
 
 const createCaseNote = asyncMiddleware(async (request, response) => {
   const currentCase = await models.sequelize.transaction(async transaction => {
@@ -18,6 +20,13 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
       }
     );
 
+    let caseAuditDetails = {};
+    const caseDetails = await getCaseWithAllAssociations(
+      request.params.caseId,
+      transaction,
+      caseAuditDetails
+    );
+
     await legacyAuditDataAccess(
       request.nickname,
       request.params.caseId,
@@ -29,7 +38,9 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
       request.nickname,
       request.params.caseId,
       AUDIT_SUBJECT.CASE_DETAILS,
-      transaction
+      transaction,
+      AUDIT_ACTION.DATA_ACCESSED,
+      caseAuditDetails
     );
 
     const caseNotes = await models.case_note.findAll({
@@ -40,10 +51,6 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
       transaction
     });
 
-    const caseDetails = await getCaseWithAllAssociations(
-      request.params.caseId,
-      transaction
-    );
     return { caseNotes, caseDetails };
   });
 

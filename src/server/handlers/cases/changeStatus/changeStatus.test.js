@@ -15,6 +15,18 @@ import models from "../../../models/index";
 import Officer from "../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import mockLodash from "lodash";
+
+jest.mock("../../getQueryAuditAccessDetails", () => ({
+  addToExistingAuditDetails: jest.fn(
+    (existingDetails, queryOptions, topLevelModelName) => {
+      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
+        attributes: ["mockDetails"]
+      };
+    }
+  ),
+  removeFromExistingAuditDetails: jest.fn()
+}));
 
 describe("changeStatus", async () => {
   let initialCase, response, next;
@@ -170,7 +182,10 @@ describe("changeStatus", async () => {
         action: AUDIT_ACTION.DATA_ACCESSED,
         auditType: AUDIT_TYPE.DATA_ACCESS,
         subject: AUDIT_SUBJECT.CASE_DETAILS,
-        caseId: initialCase.id
+        caseId: initialCase.id,
+        auditDetails: {
+          Case: ["Is Archived", "Mock Details", "Pdf Available"]
+        }
       })
     );
   });

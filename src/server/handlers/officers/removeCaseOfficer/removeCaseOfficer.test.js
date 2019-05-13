@@ -13,6 +13,18 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import removeCaseOfficer from "./removeCaseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
+import mockLodash from "lodash";
+
+jest.mock("../../getQueryAuditAccessDetails", () => ({
+  addToExistingAuditDetails: jest.fn(
+    (existingDetails, queryOptions, topLevelModelName) => {
+      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
+        attributes: ["mockDetails"]
+      };
+    }
+  ),
+  removeFromExistingAuditDetails: jest.fn()
+}));
 
 describe("removeCaseOfficer", () => {
   afterEach(async () => {
@@ -128,7 +140,10 @@ describe("removeCaseOfficer", () => {
           subject: AUDIT_SUBJECT.CASE_DETAILS,
           caseId: existingCase.id,
           action: AUDIT_ACTION.DATA_ACCESSED,
-          auditType: AUDIT_TYPE.DATA_ACCESS
+          auditType: AUDIT_TYPE.DATA_ACCESS,
+          auditDetails: {
+            Case: ["Is Archived", "Mock Details", "Pdf Available"]
+          }
         })
       );
     });

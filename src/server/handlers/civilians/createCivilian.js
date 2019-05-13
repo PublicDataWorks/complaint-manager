@@ -1,5 +1,6 @@
 import {
   ADDRESSABLE_TYPE,
+  AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
 
@@ -27,14 +28,24 @@ const createCivilian = asyncMiddleware(async (req, res) => {
 
     const caseId = civilianCreated.caseId;
 
+    let auditDetails = {};
+
+    const caseDetails = await getCaseWithAllAssociations(
+      caseId,
+      transaction,
+      auditDetails
+    );
+
     await legacyAuditDataAccess(
       req.nickname,
       caseId,
       AUDIT_SUBJECT.CASE_DETAILS,
-      transaction
+      transaction,
+      AUDIT_ACTION.DATA_ACCESSED,
+      auditDetails
     );
 
-    return await getCaseWithAllAssociations(caseId, transaction);
+    return caseDetails;
   });
 
   res.status(201).send(caseDetails);

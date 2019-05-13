@@ -13,6 +13,18 @@ import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegatio
 import httpMocks from "node-mocks-http";
 import models from "../../../models";
 import editOfficerAllegation from "./editOfficerAllegation";
+import mockLodash from "lodash";
+
+jest.mock("../../getQueryAuditAccessDetails", () => ({
+  addToExistingAuditDetails: jest.fn(
+    (existingDetails, queryOptions, topLevelModelName) => {
+      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
+        attributes: ["mockDetails"]
+      };
+    }
+  ),
+  removeFromExistingAuditDetails: jest.fn()
+}));
 
 describe("editOfficerAllegation", () => {
   let officerAllegationToUpdate, caseOfficer, response;
@@ -104,7 +116,8 @@ describe("editOfficerAllegation", () => {
         auditType: AUDIT_TYPE.DATA_ACCESS,
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         caseId: caseOfficer.caseId,
-        action: AUDIT_ACTION.DATA_ACCESSED
+        action: AUDIT_ACTION.DATA_ACCESSED,
+        auditDetails: { Case: ["Is Archived", "Mock Details", "Pdf Available"] }
       })
     );
   });

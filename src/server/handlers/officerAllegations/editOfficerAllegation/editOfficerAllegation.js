@@ -6,6 +6,7 @@ const asyncMiddleware = require("../../asyncMiddleware");
 const Boom = require("boom");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 const _ = require("lodash");
 
 const editOfficerAllegation = asyncMiddleware(
@@ -37,16 +38,23 @@ const editOfficerAllegation = asyncMiddleware(
           transaction
         });
 
+        let auditDetails = {};
+        const caseDetails = await getCaseWithAllAssociations(
+          caseOfficer.caseId,
+          transaction,
+          auditDetails
+        );
+
         await legacyAuditDataAccess(
           request.nickname,
           caseOfficer.caseId,
-          AUDIT_SUBJECT.CASE_DETAILS
+          AUDIT_SUBJECT.CASE_DETAILS,
+          transaction,
+          AUDIT_ACTION.DATA_ACCESSED,
+          auditDetails
         );
 
-        return await getCaseWithAllAssociations(
-          caseOfficer.caseId,
-          transaction
-        );
+        return caseDetails;
       }
     );
 

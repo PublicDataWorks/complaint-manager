@@ -1,11 +1,12 @@
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 
 const models = require("../../../models");
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const asyncMiddleware = require("../../asyncMiddleware");
 const Boom = require("boom");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 
 const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const officerToRemove = await models.case_officer.findByPk(
@@ -16,21 +17,31 @@ const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
     next(Boom.badRequest(BAD_REQUEST_ERRORS.REMOVE_CASE_OFFICER_ERROR));
   }
 
-  await models.sequelize.transaction(async transaction => {
+  const updatedCase = await models.sequelize.transaction(async transaction => {
     await officerToRemove.destroy({
       auditUser: request.nickname,
       transaction
     });
 
+    let auditDetails = {};
+
+    const caseDetails = await getCaseWithAllAssociations(
+      request.params.caseId,
+      transaction,
+      auditDetails
+    );
+
     await legacyAuditDataAccess(
       request.nickname,
       request.params.caseId,
       AUDIT_SUBJECT.CASE_DETAILS,
-      transaction
+      transaction,
+      AUDIT_ACTION.DATA_ACCESSED,
+      auditDetails
     );
-  });
 
-  const updatedCase = await getCaseWithAllAssociations(request.params.caseId);
+    return caseDetails;
+  });
 
   response.status(200).send(updatedCase);
 });

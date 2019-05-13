@@ -4,6 +4,7 @@ const models = require("../../models/index");
 const asyncMiddleware = require("../asyncMiddleware");
 const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 import legacyAuditDataAccess from "../legacyAuditDataAccess";
+import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 
 const updateCaseNarrative = asyncMiddleware(async (request, response, next) => {
   const updatedCase = await models.sequelize.transaction(async transaction => {
@@ -22,14 +23,24 @@ const updateCaseNarrative = asyncMiddleware(async (request, response, next) => {
       transaction
     );
 
+    let auditDetails = {};
+
+    const caseDetails = await getCaseWithAllAssociations(
+      caseId,
+      transaction,
+      auditDetails
+    );
+
     await legacyAuditDataAccess(
       request.nickname,
       caseId,
       AUDIT_SUBJECT.CASE_DETAILS,
-      transaction
+      transaction,
+      AUDIT_ACTION.DATA_ACCESSED,
+      auditDetails
     );
 
-    return await getCaseWithAllAssociations(caseId);
+    return caseDetails;
   });
   response.send(updatedCase);
 });

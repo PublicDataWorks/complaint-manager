@@ -6,6 +6,7 @@ import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const models = require("../../../models");
 const Boom = require("boom");
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 
 const removeOfficerAllegation = asyncMiddleware(
   async (request, response, next) => {
@@ -31,17 +32,23 @@ const removeOfficerAllegation = asyncMiddleware(
           transaction
         });
 
+        let auditDetails = {};
+        const caseDetails = await getCaseWithAllAssociations(
+          caseOfficer.caseId,
+          transaction,
+          auditDetails
+        );
+
         await legacyAuditDataAccess(
           request.nickname,
           caseOfficer.caseId,
           AUDIT_SUBJECT.CASE_DETAILS,
-          transaction
+          transaction,
+          AUDIT_ACTION.DATA_ACCESSED,
+          auditDetails
         );
 
-        return await getCaseWithAllAssociations(
-          caseOfficer.caseId,
-          transaction
-        );
+        return caseDetails;
       }
     );
 

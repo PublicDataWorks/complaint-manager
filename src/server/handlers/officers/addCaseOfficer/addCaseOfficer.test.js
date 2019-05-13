@@ -12,6 +12,18 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import ReferralLetter from "../../../../client/testUtilities/ReferralLetter";
+import mockLodash from "lodash";
+
+jest.mock("../../getQueryAuditAccessDetails", () => ({
+  addToExistingAuditDetails: jest.fn(
+    (existingDetails, queryOptions, topLevelModelName) => {
+      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
+        attributes: ["mockDetails"]
+      };
+    }
+  ),
+  removeFromExistingAuditDetails: jest.fn()
+}));
 
 describe("addCaseOfficer", () => {
   afterEach(async () => {
@@ -223,7 +235,8 @@ describe("addCaseOfficer", () => {
         caseId: existingCase.id,
         auditType: AUDIT_TYPE.DATA_ACCESS,
         action: AUDIT_ACTION.DATA_ACCESSED,
-        subject: AUDIT_SUBJECT.CASE_DETAILS
+        subject: AUDIT_SUBJECT.CASE_DETAILS,
+        auditDetails: { Case: ["Is Archived", "Mock Details", "Pdf Available"] }
       })
     );
   });

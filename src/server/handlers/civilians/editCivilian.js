@@ -1,12 +1,13 @@
 import {
   ADDRESSABLE_TYPE,
+  AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
+import { getCaseWithAllAssociations } from "../getCaseHelpers";
+import legacyAuditDataAccess from "../legacyAuditDataAccess";
 
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models/index");
-import { getCaseWithAllAssociations } from "../getCaseHelpers";
-import legacyAuditDataAccess from "../legacyAuditDataAccess";
 
 async function upsertAddress(civilianId, address, transaction, nickname) {
   if (!address.id) {
@@ -49,14 +50,24 @@ const editCivilian = asyncMiddleware(async (req, res) => {
         auditUser: req.nickname
       });
 
+      let auditDetails = {};
+
+      const caseDetails = await getCaseWithAllAssociations(
+        civilian.caseId,
+        transaction,
+        auditDetails
+      );
+
       await legacyAuditDataAccess(
         req.nickname,
         civilian.caseId,
         AUDIT_SUBJECT.CASE_DETAILS,
-        transaction
+        transaction,
+        AUDIT_ACTION.DATA_ACCESSED,
+        auditDetails
       );
 
-      return await getCaseWithAllAssociations(civilian.caseId, transaction);
+      return caseDetails;
     }
   );
 

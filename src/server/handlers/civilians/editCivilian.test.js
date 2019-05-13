@@ -11,10 +11,22 @@ import {
 } from "../../../sharedUtilities/constants";
 import Boom from "boom";
 import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
+import mockLodash from "lodash";
 
 const editCivilian = require("./editCivilian");
 const models = require("../../models/index");
 const httpMocks = require("node-mocks-http");
+
+jest.mock("../getQueryAuditAccessDetails", () => ({
+  addToExistingAuditDetails: jest.fn(
+    (existingDetails, queryOptions, topLevelModelName) => {
+      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
+        attributes: ["mockDetails"]
+      };
+    }
+  ),
+  removeFromExistingAuditDetails: jest.fn()
+}));
 
 describe("editCivilian handler editing civilian with no address", () => {
   let existingCase;
@@ -60,7 +72,8 @@ describe("editCivilian handler editing civilian with no address", () => {
         action: AUDIT_ACTION.DATA_ACCESSED,
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         user: "TEST_USER_NICKNAME",
-        auditType: AUDIT_TYPE.DATA_ACCESS
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        auditDetails: { Case: ["Is Archived", "Mock Details", "Pdf Available"] }
       })
     );
   });

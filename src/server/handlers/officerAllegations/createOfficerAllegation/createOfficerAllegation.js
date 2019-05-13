@@ -1,9 +1,11 @@
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const models = require("../../../models");
 const _ = require("lodash");
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 
 const createOfficerAllegation = asyncMiddleware(async (request, response) => {
   const allegationAttributes = _.pick(request.body, [
@@ -27,17 +29,24 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
         { transaction }
       );
 
+      let auditDetails = {};
+
+      const caseDetails = await getCaseWithAllAssociations(
+        request.params.caseId,
+        transaction,
+        auditDetails
+      );
+
       await legacyAuditDataAccess(
         request.nickname,
         caseOfficer.caseId,
         AUDIT_SUBJECT.CASE_DETAILS,
-        transaction
+        transaction,
+        AUDIT_ACTION.DATA_ACCESSED,
+        auditDetails
       );
 
-      return await getCaseWithAllAssociations(
-        request.params.caseId,
-        transaction
-      );
+      return caseDetails;
     }
   );
 

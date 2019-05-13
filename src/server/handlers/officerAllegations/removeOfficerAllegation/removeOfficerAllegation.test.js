@@ -14,6 +14,18 @@ import models from "../../../models";
 import removeOfficerAllegation from "./removeOfficerAllegation";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import mockLodash from "lodash";
+
+jest.mock("../../getQueryAuditAccessDetails", () => ({
+  addToExistingAuditDetails: jest.fn(
+    (existingDetails, queryOptions, topLevelModelName) => {
+      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
+        attributes: ["mockDetails"]
+      };
+    }
+  ),
+  removeFromExistingAuditDetails: jest.fn()
+}));
 
 describe("removeOfficerAllegation", () => {
   afterEach(async () => {
@@ -136,7 +148,10 @@ describe("removeOfficerAllegation", () => {
           subject: AUDIT_SUBJECT.CASE_DETAILS,
           user: "TEST_USER_NICKNAME",
           action: AUDIT_ACTION.DATA_ACCESSED,
-          auditType: AUDIT_TYPE.DATA_ACCESS
+          auditType: AUDIT_TYPE.DATA_ACCESS,
+          auditDetails: {
+            Case: ["Is Archived", "Mock Details", "Pdf Available"]
+          }
         })
       );
     });

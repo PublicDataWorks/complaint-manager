@@ -10,6 +10,18 @@ import {
 import createCaseNote from "./createCaseNote";
 import * as httpMocks from "node-mocks-http";
 import moment from "moment";
+import mockLodash from "lodash";
+
+jest.mock("../getQueryAuditAccessDetails", () => ({
+  addToExistingAuditDetails: jest.fn(
+    (existingDetails, queryOptions, topLevelModelName) => {
+      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
+        attributes: ["mockDetails"]
+      };
+    }
+  ),
+  removeFromExistingAuditDetails: jest.fn()
+}));
 
 describe("createCaseNote", function() {
   let createdCase;
@@ -96,7 +108,10 @@ describe("createCaseNote", function() {
           auditType: AUDIT_TYPE.DATA_ACCESS,
           action: AUDIT_ACTION.DATA_ACCESSED,
           subject: AUDIT_SUBJECT.CASE_DETAILS,
-          caseId: createdCase.id
+          caseId: createdCase.id,
+          auditDetails: {
+            Case: ["Is Archived", "Mock Details", "Pdf Available"]
+          }
         })
       ])
     );
