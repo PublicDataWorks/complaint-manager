@@ -1,19 +1,20 @@
 import { RECIPIENT, SENDER } from "../referralLetters/referralLetterDefaults";
 import {
   ACCUSED,
+  AUDIT_ACTION,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
+import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import _ from "lodash";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const { CASE_STATUS } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models/index");
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const Boom = require("boom");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
-import _ from "lodash";
-import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const canUpdateCaseToNewStatus = (newStatus, permissions) => {
   return (
@@ -65,11 +66,21 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
       );
     }
 
+    let auditDetails = {};
+
+    const caseDetails = await getCaseWithAllAssociations(
+      caseToUpdate.id,
+      transaction,
+      auditDetails
+    );
+
     await legacyAuditDataAccess(
       request.nickname,
       request.params.caseId,
       AUDIT_SUBJECT.CASE_DETAILS,
-      transaction
+      transaction,
+      AUDIT_ACTION.DATA_ACCESSED,
+      auditDetails
     );
 
     if (!_.isEmpty(validationErrors)) {
@@ -79,7 +90,7 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
       );
     }
 
-    return await getCaseWithAllAssociations(caseToUpdate.id, transaction);
+    return caseDetails;
   });
   response.send(currentCase);
 });

@@ -1,8 +1,10 @@
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 
 const removeCaseNote = asyncMiddleware(async (req, res) => {
   const caseId = req.params.caseId;
@@ -17,7 +19,12 @@ const removeCaseNote = asyncMiddleware(async (req, res) => {
       auditUser: req.nickname
     });
 
-    const caseDetails = await getCaseWithAllAssociations(caseId, transaction);
+    let caseDetailsAuditDetails = {};
+    const caseDetails = await getCaseWithAllAssociations(
+      caseId,
+      transaction,
+      caseDetailsAuditDetails
+    );
     const caseNotes = await models.case_note.findAll({
       where: { caseId },
       transaction
@@ -27,7 +34,9 @@ const removeCaseNote = asyncMiddleware(async (req, res) => {
       req.nickname,
       caseId,
       AUDIT_SUBJECT.CASE_DETAILS,
-      transaction
+      transaction,
+      AUDIT_ACTION.DATA_ACCESSED,
+      caseDetailsAuditDetails
     );
 
     await legacyAuditDataAccess(

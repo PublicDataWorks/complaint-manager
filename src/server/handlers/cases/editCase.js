@@ -1,5 +1,6 @@
 import {
   ADDRESSABLE_TYPE,
+  AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
@@ -71,17 +72,23 @@ const editCase = asyncMiddleware(async (request, response, next) => {
           validate: caseValidationToggle
         });
 
+        let auditDetails = {};
+        const caseDetails = await getCaseWithAllAssociations(
+          request.params.caseId,
+          transaction,
+          auditDetails
+        );
+
         await legacyAuditDataAccess(
           request.nickname,
           request.params.caseId,
           AUDIT_SUBJECT.CASE_DETAILS,
-          transaction
+          transaction,
+          AUDIT_ACTION.DATA_ACCESSED,
+          auditDetails
         );
 
-        return await getCaseWithAllAssociations(
-          request.params.caseId,
-          transaction
-        );
+        return caseDetails;
       }
     );
     response.status(200).send(updatedCase);

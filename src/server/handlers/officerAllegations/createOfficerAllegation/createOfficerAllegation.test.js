@@ -13,6 +13,18 @@ import {
   AUDIT_SUBJECT,
   ALLEGATION_SEVERITY
 } from "../../../../sharedUtilities/constants";
+import mockLodash from "lodash";
+
+jest.mock("../../getQueryAuditAccessDetails", () => ({
+  addToExistingAuditDetails: jest.fn(
+    (existingDetails, queryOptions, topLevelModelName) => {
+      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
+        attributes: ["mockDetails"]
+      };
+    }
+  ),
+  removeFromExistingAuditDetails: jest.fn()
+}));
 
 describe("createOfficerAllegation", () => {
   let newCase, allegation, response, next;
@@ -162,7 +174,8 @@ describe("createOfficerAllegation", () => {
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         action: AUDIT_ACTION.DATA_ACCESSED,
         auditType: AUDIT_TYPE.DATA_ACCESS,
-        user: "TEST_USER_NICKNAME"
+        user: "TEST_USER_NICKNAME",
+        auditDetails: { Case: ["Is Archived", "Mock Details", "Pdf Available"] }
       })
     );
   });

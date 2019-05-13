@@ -6,9 +6,21 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } from "../../../sharedUtilities/constants";
+import mockLodash from "lodash";
 
 const models = require("../../models/index");
 const httpMocks = require("node-mocks-http");
+
+jest.mock("../getQueryAuditAccessDetails", () => ({
+  addToExistingAuditDetails: jest.fn(
+    (existingDetails, queryOptions, topLevelModelName) => {
+      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
+        attributes: ["mockDetails"]
+      };
+    }
+  ),
+  removeFromExistingAuditDetails: jest.fn()
+}));
 
 describe("removeCivilian", function() {
   let existingCase;
@@ -56,7 +68,8 @@ describe("removeCivilian", function() {
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         auditType: AUDIT_TYPE.DATA_ACCESS,
         caseId: existingCase.id,
-        action: AUDIT_ACTION.DATA_ACCESSED
+        action: AUDIT_ACTION.DATA_ACCESSED,
+        auditDetails: { Case: ["Is Archived", "Mock Details", "Pdf Available"] }
       })
     );
   });

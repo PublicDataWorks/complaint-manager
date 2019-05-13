@@ -1,3 +1,5 @@
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+
 const models = require("../../../models");
 const asyncMiddleware = require("../../asyncMiddleware");
 import { getCaseWithAllAssociations } from "../../getCaseHelpers";
@@ -22,7 +24,7 @@ const editCaseOfficer = asyncMiddleware(async (request, response) => {
     }
   });
 
-  await models.sequelize.transaction(async transaction => {
+  const updatedCase = await models.sequelize.transaction(async transaction => {
     const oldRoleOnCase = caseOfficerToUpdate.roleOnCase;
     if (oldRoleOnCase === ACCUSED && roleOnCase !== ACCUSED) {
       await models.officer_allegation.destroy({
@@ -64,15 +66,26 @@ const editCaseOfficer = asyncMiddleware(async (request, response) => {
       }
     );
 
+    let auditDetails = {};
+
+    const caseDetails = await getCaseWithAllAssociations(
+      request.params.caseId,
+      transaction,
+      auditDetails
+    );
+
     await legacyAuditDataAccess(
       request.nickname,
       request.params.caseId,
       AUDIT_SUBJECT.CASE_DETAILS,
-      transaction
+      transaction,
+      AUDIT_ACTION.DATA_ACCESSED,
+      auditDetails
     );
+
+    return caseDetails;
   });
 
-  const updatedCase = await getCaseWithAllAssociations(request.params.caseId);
   response.status(200).send(updatedCase);
 });
 

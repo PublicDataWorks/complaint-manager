@@ -9,8 +9,20 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } from "../../../sharedUtilities/constants";
+import mockLodash from "lodash";
 
 const httpMocks = require("node-mocks-http");
+
+jest.mock("../getQueryAuditAccessDetails", () => ({
+  addToExistingAuditDetails: jest.fn(
+    (existingDetails, queryOptions, topLevelModelName) => {
+      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
+        attributes: ["mockDetails"]
+      };
+    }
+  ),
+  removeFromExistingAuditDetails: jest.fn()
+}));
 
 describe("createCivilian handler", () => {
   let createdCase, civilianValues, request;
@@ -61,7 +73,8 @@ describe("createCivilian handler", () => {
         user: "TEST_USER_NICKNAME",
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: AUDIT_ACTION.DATA_ACCESSED
+        action: AUDIT_ACTION.DATA_ACCESSED,
+        auditDetails: { Case: ["Is Archived", "Mock Details", "Pdf Available"] }
       })
     );
   });

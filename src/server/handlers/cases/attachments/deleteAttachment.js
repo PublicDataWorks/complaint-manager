@@ -1,3 +1,5 @@
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+
 const asyncMiddleware = require("../../asyncMiddleware");
 const config = require("../../../config/config");
 const models = require("../../../models/index");
@@ -26,14 +28,24 @@ const deleteAttachment = asyncMiddleware(async (request, response) => {
       transaction
     });
 
+    let auditDetails = {};
+
+    const caseDetails = await getCaseWithAllAssociations(
+      request.params.caseId,
+      transaction,
+      auditDetails
+    );
+
     await legacyAuditDataAccess(
       request.nickname,
       request.params.caseId,
       AUDIT_SUBJECT.CASE_DETAILS,
-      transaction
+      transaction,
+      AUDIT_ACTION.DATA_ACCESSED,
+      auditDetails
     );
 
-    return await getCaseWithAllAssociations(request.params.caseId, transaction);
+    return caseDetails;
   });
 
   response.status(200).send(caseDetails);

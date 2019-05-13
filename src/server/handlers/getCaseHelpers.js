@@ -9,8 +9,8 @@ import { ASCENDING } from "../../sharedUtilities/constants";
 
 export const getCaseWithAllAssociations = async (
   caseId,
-  transaction = null,
-  auditDetails = null
+  transaction,
+  auditDetails
 ) => {
   let caseDetails = await getCaseData(caseId, transaction, auditDetails);
   return addFieldsToCaseDetails(caseDetails, auditDetails);

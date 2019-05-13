@@ -10,6 +10,18 @@ import {
   CASE_STATUS,
   AUDIT_ACTION
 } from "../../../../sharedUtilities/constants";
+import mockLodash from "lodash";
+
+jest.mock("../../getQueryAuditAccessDetails", () => ({
+  addToExistingAuditDetails: jest.fn(
+    (existingDetails, queryOptions, topLevelModelName) => {
+      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
+        attributes: ["mockDetails"]
+      };
+    }
+  ),
+  removeFromExistingAuditDetails: jest.fn()
+}));
 
 describe("RemoveCaseNote unit", () => {
   let createdCase, createdCaseNote;
@@ -104,7 +116,10 @@ describe("RemoveCaseNote unit", () => {
           auditType: AUDIT_TYPE.DATA_ACCESS,
           action: AUDIT_ACTION.DATA_ACCESSED,
           subject: AUDIT_SUBJECT.CASE_DETAILS,
-          caseId: createdCase.id
+          caseId: createdCase.id,
+          auditDetails: {
+            Case: ["Is Archived", "Mock Details", "Pdf Available"]
+          }
         })
       ])
     );

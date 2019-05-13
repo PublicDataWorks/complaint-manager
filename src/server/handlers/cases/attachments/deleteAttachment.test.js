@@ -9,9 +9,21 @@ import {
   AUDIT_TYPE,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
+import mockLodash from "lodash";
 const AWS = require("aws-sdk");
 
 jest.mock("aws-sdk");
+
+jest.mock("../../getQueryAuditAccessDetails", () => ({
+  addToExistingAuditDetails: jest.fn(
+    (existingDetails, queryOptions, topLevelModelName) => {
+      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
+        attributes: ["mockDetails"]
+      };
+    }
+  ),
+  removeFromExistingAuditDetails: jest.fn()
+}));
 
 describe("deleteAttachment", function() {
   afterEach(async () => {
@@ -67,7 +79,8 @@ describe("deleteAttachment", function() {
         user: "TEST_USER_NICKNAME",
         action: AUDIT_ACTION.DATA_ACCESSED,
         subject: AUDIT_SUBJECT.CASE_DETAILS,
-        auditType: AUDIT_TYPE.DATA_ACCESS
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        auditDetails: { Case: ["Is Archived", "Mock Details", "Pdf Available"] }
       })
     );
   });
