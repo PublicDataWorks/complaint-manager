@@ -2,7 +2,7 @@ import models from "../../../../models";
 import shortid from "shortid";
 import { ACCUSED, ASCENDING } from "../../../../../sharedUtilities/constants";
 import {
-  addToExistingAuditDetails,
+  generateAndAddAuditDetailsFromQuery,
   removeFromExistingAuditDetails
 } from "../../../getQueryAuditAccessDetails";
 
@@ -158,7 +158,7 @@ const getLetterData = async (caseId, transaction, auditDetails) => {
   };
   const letterData = await models.referral_letter.findOne(queryOptions);
 
-  addToExistingAuditDetails(
+  generateAndAddAuditDetailsFromQuery(
     auditDetails,
     queryOptions,
     models.referral_letter.name

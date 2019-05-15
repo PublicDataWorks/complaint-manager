@@ -2,7 +2,7 @@ import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants"
 import Boom from "boom";
 import models from "../models";
 import {
-  addToExistingAuditDetails,
+  generateAndAddAuditDetailsFromQuery,
   removeFromExistingAuditDetails
 } from "./getQueryAuditAccessDetails";
 import { ASCENDING } from "../../sharedUtilities/constants";
@@ -126,7 +126,11 @@ const getCaseData = async (caseId, transaction, auditDetails) => {
 
   const caseData = await models.cases.findByPk(caseId, queryOptions);
 
-  addToExistingAuditDetails(auditDetails, queryOptions, models.cases.name);
+  generateAndAddAuditDetailsFromQuery(
+    auditDetails,
+    queryOptions,
+    models.cases.name
+  );
   return caseData;
 };
 

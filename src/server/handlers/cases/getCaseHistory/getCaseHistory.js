@@ -3,7 +3,7 @@ import {
   AUDIT_TYPE
 } from "../../../../sharedUtilities/constants";
 import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
-import { addToExistingAuditDetails } from "../../getQueryAuditAccessDetails";
+import { generateAndAddAuditDetailsFromQuery } from "../../getQueryAuditAccessDetails";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -57,7 +57,7 @@ const getUploadAudits = async (caseId, transaction, auditDetails) => {
 
   const uploadAudits = await models.action_audit.findAll(queryOptions);
 
-  addToExistingAuditDetails(
+  generateAndAddAuditDetailsFromQuery(
     auditDetails,
     queryOptions,
     models.action_audit.name
@@ -82,7 +82,7 @@ const getDataChangeAudits = async (caseId, transaction, auditDetails) => {
   };
   const dataChangeAudits = await models.data_change_audit.findAll(queryOptions);
 
-  addToExistingAuditDetails(
+  generateAndAddAuditDetailsFromQuery(
     auditDetails,
     queryOptions,
     models.data_change_audit.name

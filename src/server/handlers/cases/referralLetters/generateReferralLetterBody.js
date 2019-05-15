@@ -1,7 +1,7 @@
 import models from "../../../models";
 import fs from "fs";
 import Handlebars from "handlebars";
-import { addToExistingAuditDetails } from "../../getQueryAuditAccessDetails";
+import { generateAndAddAuditDetailsFromQuery } from "../../getQueryAuditAccessDetails";
 import { ASCENDING } from "../../../../sharedUtilities/constants";
 
 const getReferralLetterCaseData = async (caseId, transaction, auditDetails) => {
@@ -115,7 +115,11 @@ const getReferralLetterCaseData = async (caseId, transaction, auditDetails) => {
   };
   const caseData = await models.cases.findByPk(caseId, queryOptions);
 
-  addToExistingAuditDetails(auditDetails, queryOptions, models.cases.name);
+  generateAndAddAuditDetailsFromQuery(
+    auditDetails,
+    queryOptions,
+    models.cases.name
+  );
 
   return caseData;
 };

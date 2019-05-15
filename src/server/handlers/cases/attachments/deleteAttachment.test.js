@@ -15,7 +15,7 @@ const AWS = require("aws-sdk");
 jest.mock("aws-sdk");
 
 jest.mock("../../getQueryAuditAccessDetails", () => ({
-  addToExistingAuditDetails: jest.fn(
+  generateAndAddAuditDetailsFromQuery: jest.fn(
     (existingDetails, queryOptions, topLevelModelName) => {
       existingDetails[mockLodash.camelCase(topLevelModelName)] = {
         attributes: ["mockDetails"]

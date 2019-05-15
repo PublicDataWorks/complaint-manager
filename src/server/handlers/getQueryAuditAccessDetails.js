@@ -17,7 +17,7 @@ export const removeFromExistingAuditDetails = (
   });
 };
 
-export const addToExistingAuditDetails = (
+export const generateAndAddAuditDetailsFromQuery = (
   existingDetails,
   queryOptions,
   topLevelModelName

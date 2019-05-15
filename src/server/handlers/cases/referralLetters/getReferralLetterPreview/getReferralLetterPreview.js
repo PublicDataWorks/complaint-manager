@@ -12,7 +12,7 @@ import { getCaseWithAllAssociations } from "../../../getCaseHelpers";
 import generateReferralLetterBody from "../generateReferralLetterBody";
 import constructFilename from "../constructFilename";
 import { editStatusFromHtml } from "../getReferralLetterEditStatus/getReferralLetterEditStatus";
-import { addToExistingAuditDetails } from "../../../getQueryAuditAccessDetails";
+import { generateAndAddAuditDetailsFromQuery } from "../../../getQueryAuditAccessDetails";
 
 require("../../../../handlebarHelpers");
 
@@ -30,7 +30,7 @@ const getReferralLetterPreview = asyncMiddleware(
       };
       const referralLetter = await models.referral_letter.findOne(queryOptions);
 
-      addToExistingAuditDetails(
+      generateAndAddAuditDetailsFromQuery(
         auditDetails,
         queryOptions,
         models.referral_letter.name
