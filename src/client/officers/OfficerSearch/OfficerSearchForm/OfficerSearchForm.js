@@ -2,7 +2,7 @@ import React from "react";
 import { TextField } from "redux-form-material-ui";
 import { Field, reduxForm } from "redux-form";
 import NoBlurTextField from "../../../cases/CaseDetails/CivilianDialog/FormSelect";
-import { searchDistrictMenu } from "../../../utilities/generateMenus";
+import { searchDistrictMenu } from "../../../utilities/generateMenuOptions";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import validate from "./validateOfficerSearchForm";
 import getSearchResults from "../../../shared/thunks/getSearchResults";

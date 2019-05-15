@@ -27,9 +27,9 @@ import { formatAddressAsString } from "../../../utilities/formatAddress";
 import { addressMustBeValid } from "../../../formValidations";
 import NoBlurTextField from "../CivilianDialog/FormSelect";
 import {
-  generateMenu,
+  generateMenuOptions,
   inputDistrictMenu
-} from "../../../utilities/generateMenus";
+} from "../../../utilities/generateMenuOptions";
 import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import getClassificationDropDownOptions from "../../../classifications/thunks/getClassificationDropdownValues";
 import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
@@ -194,7 +194,7 @@ class IncidentDetailsDialog extends Component {
                   flex: "2"
                 }}
               >
-                {generateMenu(props.classifications)}
+                {generateMenuOptions(props.classifications)}
               </Field>
               <div style={{ flex: 1 }} />
             </div>
@@ -209,7 +209,7 @@ class IncidentDetailsDialog extends Component {
                 style={{ width: "60%" }}
                 validate={[intakeSourceIsRequired]}
               >
-                {generateMenu(props.intakeSources)}
+                {generateMenuOptions(props.intakeSources)}
               </Field>
             </div>
             <div style={{ marginTop: "16px" }}>
@@ -221,7 +221,7 @@ class IncidentDetailsDialog extends Component {
                 data-test="howDidYouHearAboutUsSourceDropdown"
                 style={{ width: "60%" }}
               >
-                {generateMenu(props.howDidYouHearAboutUsSources)}
+                {generateMenuOptions(props.howDidYouHearAboutUsSources)}
               </Field>
             </div>
             <div style={{ display: "flex", marginTop: "16px" }}>

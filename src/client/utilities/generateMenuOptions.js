@@ -1,5 +1,4 @@
 import React from "react";
-import { MenuItem } from "@material-ui/core";
 import * as _ from "lodash";
 import formatStringToTitleCase from "./formatStringToTitleCase";
 import {
@@ -9,24 +8,24 @@ import {
   WITNESS
 } from "../../sharedUtilities/constants";
 
-export const generateMenu = contents => {
+export const generateMenuOptions = contents => {
+  // let contents = props.selectProps.children;
   return contents.map(content => {
-    let value, text;
+    let value, label;
     if (typeof content === "string") {
-      value = text = content;
+      value = label = content;
     } else {
-      text = content[0];
+      label = content[0];
       value = content[1];
     }
-    return (
-      <MenuItem key={value} value={value}>
-        {text}
-      </MenuItem>
-    );
+    return {
+      label,
+      value
+    };
   });
 };
 
-export const titleMenu = generateMenu([
+export const titleMenu = generateMenuOptions([
   "N/A",
   "Dr.",
   "Miss",
@@ -35,7 +34,7 @@ export const titleMenu = generateMenu([
   "Ms."
 ]);
 
-export const searchDistrictMenu = generateMenu([
+export const searchDistrictMenu = generateMenuOptions([
   ["Any District", ""],
   ["1st District", "First District"],
   ["2nd District", "Second District"],
@@ -47,7 +46,7 @@ export const searchDistrictMenu = generateMenu([
   ["8th District", "Eighth District"]
 ]);
 
-export const inputDistrictMenu = generateMenu([
+export const inputDistrictMenu = generateMenuOptions([
   ["Unknown", ""],
   ["1st District", "First District"],
   ["2nd District", "Second District"],
@@ -59,7 +58,7 @@ export const inputDistrictMenu = generateMenu([
   ["8th District", "Eighth District"]
 ]);
 
-export const caseNotes = generateMenu([
+export const caseNotes = generateMenuOptions([
   "Case briefing from NOPD",
   "Checked status",
   "Contacted complainant",
@@ -80,8 +79,14 @@ export const caseNotes = generateMenu([
   "Miscellaneous"
 ]);
 
-export const roleOnCaseMenu = generateMenu([ACCUSED, COMPLAINANT, WITNESS]);
-export const allegationSeverityMenu = generateMenu(ALLEGATION_SEVERITY.ALL);
+export const roleOnCaseMenu = generateMenuOptions([
+  ACCUSED,
+  COMPLAINANT,
+  WITNESS
+]);
+export const allegationSeverityMenu = generateMenuOptions(
+  ALLEGATION_SEVERITY.ALL
+);
 
 export const searchRuleMenu = allegations => {
   allegations = _.sortBy(allegations, allegation => allegation.rule);
@@ -90,7 +95,7 @@ export const searchRuleMenu = allegations => {
     formatStringToTitleCase(allegation.rule),
     allegation.rule
   ]);
-  return generateMenu(defaultValue.concat(rules));
+  return generateMenuOptions(defaultValue.concat(rules));
 };
 
 export const searchParagraphMenu = (allegations, rule) => {
@@ -104,5 +109,5 @@ export const searchParagraphMenu = (allegations, rule) => {
     formatStringToTitleCase(paragraph),
     paragraph
   ]);
-  return generateMenu(defaultValue.concat(paragraphs));
+  return generateMenuOptions(defaultValue.concat(paragraphs));
 };

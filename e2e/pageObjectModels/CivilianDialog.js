@@ -90,10 +90,10 @@ module.exports = {
       selector: "[data-test='editDialogTitle']"
     },
     genderDropdown: {
-      selector: "[data-test='genderDropdown'] > div > div > div"
+      selector: "[data-test='genderDropdown']"
     },
     genderMenu: {
-      selector: "[id='genderIdentity']"
+      selector: "[id='genderIdentityId']"
     },
     raceEthnicityDropdown: {
       selector: "[data-test='raceDropdown'] > div > div > div"

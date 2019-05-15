@@ -16,7 +16,7 @@ import { closeCaseNoteDialog } from "../../../actionCreators/casesActionCreators
 import { Field, reduxForm, reset } from "redux-form";
 import DateField from "../../sharedFormComponents/DateField";
 import NoBlurTextField from "../CivilianDialog/FormSelect";
-import { generateMenu } from "../../../utilities/generateMenus";
+import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import addCaseNote from "../../thunks/addCaseNote";
 import { actionIsRequired } from "../../../formFieldLevelValidations";
 import timezone from "moment-timezone";
@@ -115,7 +115,7 @@ class CaseNoteDialog extends Component {
               }}
               validate={[actionIsRequired]}
             >
-              {generateMenu(this.props.caseNoteActions)}
+              {generateMenuOptions(this.props.caseNoteActions)}
             </Field>
             <Field
               name="notes"

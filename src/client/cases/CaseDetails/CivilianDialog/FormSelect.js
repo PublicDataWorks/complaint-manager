@@ -1,7 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Select from "react-select";
 import { withStyles } from "@material-ui/core/styles";
-import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
@@ -51,6 +51,7 @@ function Control(props) {
     inputPropsExists && "data-test" in props.selectProps.inputProps
       ? true
       : null;
+
   return (
     <TextField
       fullWidth
@@ -61,12 +62,12 @@ function Control(props) {
           inputRef: props.innerRef,
           children: props.children,
           ...props.innerProps,
-          custom: props.custom,
           role: "button",
           "data-test":
             dataTestExists && props.selectProps.inputProps["data-test"]
         }
       }}
+      value={props.selectProps.textFieldProps.value}
       {...props.selectProps.textFieldProps}
     />
   );
@@ -96,7 +97,7 @@ function SingleValue(props) {
       className={props.selectProps.classes.singleValue}
       {...props.innerProps}
     >
-      {props.children}
+      {props.data.value === "" ? "" : props.children}
     </Typography>
   );
 }
@@ -114,6 +115,7 @@ function Menu(props) {
     <Paper
       role="listbox"
       id={props.selectProps.name}
+      data-test="menu-paper"
       className={props.selectProps.classes.paper}
       {...props.innerProps}
     >
@@ -131,60 +133,48 @@ const components = {
   DropdownIndicator: ArrowDropDownIcon
 };
 
-class NoBlurTextField extends React.Component {
-  state = {
-    selected: { label: "", value: "" }
+export const getSelectedValue = (props, options) => {
+  let indexOfSelectedValue = -1;
+
+  if (options && Array.isArray(options)) {
+    indexOfSelectedValue = options
+      .map(option => {
+        return option.value;
+      })
+      .indexOf(props.input.value);
+  }
+  let selectedValue = {
+    label: "",
+    value: ""
   };
 
-  onChange(event) {
-    if (this.props.input.onChange && event != null) {
-      this.props.input.onChange(event.value);
-      if (event.value === "") {
-        this.setState({
-          selected: { label: "", value: "" }
-        });
-      } else {
-        this.setState({
-          selected: { label: event.label, value: event.value }
-        });
-      }
-    } else {
-      this.props.input.onChange(null);
-    }
+  if (indexOfSelectedValue >= 0) {
+    selectedValue = options[indexOfSelectedValue];
   }
 
-  componentWillMount() {
-    this.setLabelToInputValue(this.createOptions(this.props.children));
-  }
+  return selectedValue;
+};
 
-  createOptions(children) {
-    let tempOptions = [];
-    for (let child of Array.from(children)) {
-      tempOptions.push({
-        label: child.props.children,
-        value: child.props.value
-      });
-    }
-    return tempOptions;
-  }
+const isDisabled = custom => {
+  if ("disabled" in custom) return custom.disabled;
+};
 
-  setLabelToInputValue(options) {
-    let value = this.props.input.value;
-    if (value === "") {
-      this.setState({
-        selected: { label: "", value: "" }
-      });
-      return;
-    }
-    for (let option of options) {
-      if (option.value === value) {
-        this.setState({
-          selected: option
-        });
-        return;
-      }
-    }
+export const getOptionsIfEnabled = (custom, children) => {
+  if (isDisabled(custom)) {
+    return [];
+  } else {
+    return children;
   }
+};
+
+class NoBlurTextField extends React.Component {
+  handleChange = event => {
+    this.props.input.onChange(event && event.value);
+  };
+
+  handleBlur = event => {
+    this.props.input.onBlur(event && event.value);
+  };
 
   render() {
     const { classes, theme, input, children, ...custom } = this.props;
@@ -199,35 +189,43 @@ class NoBlurTextField extends React.Component {
       })
     };
 
+    const selectedValue = getSelectedValue(
+      this.props,
+      getOptionsIfEnabled(custom, children)
+    );
+
     const hasError =
       custom.required && custom.meta.touched && custom.meta.invalid;
 
     return (
       <FormControl style={custom.style} data-test={custom["data-test"]}>
         <Select
-          {...input}
           {...custom}
-          components={components}
-          options={this.createOptions(children)}
+          name={input.name}
+          classes={classes}
+          styles={selectStyles}
+          options={getOptionsIfEnabled(custom, children)}
           textFieldProps={{
             label: custom.label,
             InputLabelProps: {
               required: custom.required
             },
+            value: selectedValue.value,
             inputProps: { ...custom },
-            value: this.state.selected.value,
             helperText: hasError && custom.meta.error,
             error: hasError
           }}
-          value={this.state.selected}
-          onChange={this.onChange.bind(this)}
-          onBlur={() => input.onBlur(input.value)}
-          classes={classes}
+          components={components}
+          value={selectedValue}
+          openMenuOnFocus={true}
+          isClearable
+          placeholder={""}
+          onBlur={() => this.handleBlur.bind(this)}
+          onChange={this.handleChange.bind(this)}
+          onMenuOpen={this.onMenuOpen}
           menuPlacement="top"
           menuPosition="fixed"
-          styles={selectStyles}
-          placeholder=""
-          name={input.name}
+          maxMenuHeight="260"
         />
       </FormControl>
     );

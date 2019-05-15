@@ -11,7 +11,7 @@ import {
   allegationDetailsRequired,
   allegationSeverityRequired
 } from "../../formFieldLevelValidations";
-import { allegationSeverityMenu } from "../../utilities/generateMenus";
+import { allegationSeverityMenu } from "../../utilities/generateMenuOptions";
 import NoBlurTextField from "../../cases/CaseDetails/CivilianDialog/FormSelect";
 import { connect } from "react-redux";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
