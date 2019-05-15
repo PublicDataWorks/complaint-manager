@@ -1,5 +1,5 @@
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
-import { addToExistingAuditDetails } from "../getQueryAuditAccessDetails";
+import { generateAndAddAuditDetailsFromQuery } from "../getQueryAuditAccessDetails";
 
 const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 const asyncMiddleWare = require("../asyncMiddleware");
@@ -63,7 +63,11 @@ const findAllCaseNotes = async (
     transaction
   };
 
-  addToExistingAuditDetails(auditDetails, queryOptions, models.case_note.name);
+  generateAndAddAuditDetailsFromQuery(
+    auditDetails,
+    queryOptions,
+    models.case_note.name
+  );
 
   return await models.case_note.findAll(queryOptions);
 };

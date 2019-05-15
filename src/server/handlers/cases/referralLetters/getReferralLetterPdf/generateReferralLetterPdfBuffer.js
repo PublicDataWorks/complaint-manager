@@ -3,7 +3,7 @@ import generateReferralLetterBody from "../generateReferralLetterBody";
 import generatePdfBuffer from "../sharedLetterUtilities/generatePdfBuffer";
 import fs from "fs";
 import Handlebars from "handlebars";
-import { addToExistingAuditDetails } from "../../../getQueryAuditAccessDetails";
+import { generateAndAddAuditDetailsFromQuery } from "../../../getQueryAuditAccessDetails";
 
 const generateReferralLetterPdfBuffer = async (
   caseId,
@@ -26,7 +26,7 @@ const generateReferralLetterPdfBuffer = async (
       auditDetails
     );
   } else {
-    addToExistingAuditDetails(
+    generateAndAddAuditDetailsFromQuery(
       auditDetails,
       queryOptions,
       models.referral_letter.name
@@ -69,7 +69,11 @@ const getReferralLetterPdfData = async (caseId, transaction, auditDetails) => {
   };
   const caseData = await models.cases.findByPk(caseId, queryOptions);
 
-  addToExistingAuditDetails(auditDetails, queryOptions, models.cases.name);
+  generateAndAddAuditDetailsFromQuery(
+    auditDetails,
+    queryOptions,
+    models.cases.name
+  );
 
   return caseData;
 };

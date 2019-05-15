@@ -2,7 +2,7 @@ import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 import models from "../models";
 import getQueryAuditAccessDetails, {
-  addToExistingAuditDetails,
+  generateAndAddAuditDetailsFromQuery,
   removeFromExistingAuditDetails
 } from "./getQueryAuditAccessDetails";
 import { ALL_AUDIT_DATA } from "../../sharedUtilities/constants";
@@ -220,7 +220,7 @@ describe("", () => {
         ]
       };
 
-      addToExistingAuditDetails(
+      generateAndAddAuditDetailsFromQuery(
         auditDetailsBefore,
         queryOptions,
         models.cases.name
@@ -249,7 +249,7 @@ describe("", () => {
 
       let existingDetails = {};
 
-      addToExistingAuditDetails(
+      generateAndAddAuditDetailsFromQuery(
         existingDetails,
         detailsToAdd,
         models.cases.name
@@ -271,7 +271,7 @@ describe("", () => {
         complainantCivilians: { attributes: ["id", "firstName"] }
       };
 
-      addToExistingAuditDetails(
+      generateAndAddAuditDetailsFromQuery(
         existingDetails,
         detailsToAdd,
         models.cases.name
@@ -289,7 +289,7 @@ describe("", () => {
       };
 
       const detailsToAdd = { attributes: ["incidentDate"] };
-      addToExistingAuditDetails(
+      generateAndAddAuditDetailsFromQuery(
         existingDetails,
         detailsToAdd,
         models.cases.name
@@ -309,7 +309,7 @@ describe("", () => {
         attributes: ["id", "incidentDate"]
       };
 
-      addToExistingAuditDetails(
+      generateAndAddAuditDetailsFromQuery(
         existingDetails,
         detailsToAdd,
         models.cases.name

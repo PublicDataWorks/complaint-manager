@@ -12,7 +12,7 @@ const models = require("../../models/index");
 const updateCaseNarrative = require("./updateCaseNarrative");
 
 jest.mock("../getQueryAuditAccessDetails", () => ({
-  addToExistingAuditDetails: jest.fn(
+  generateAndAddAuditDetailsFromQuery: jest.fn(
     (existingDetails, queryOptions, topLevelModelName) => {
       existingDetails[mockLodash.camelCase(topLevelModelName)] = {
         attributes: ["mockDetails"]

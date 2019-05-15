@@ -1,5 +1,5 @@
 import { ASCENDING, AUDIT_ACTION } from "../../../../sharedUtilities/constants";
-import { addToExistingAuditDetails } from "../../getQueryAuditAccessDetails";
+import { generateAndAddAuditDetailsFromQuery } from "../../getQueryAuditAccessDetails";
 
 const models = require("../../../models/index");
 const {
@@ -38,7 +38,11 @@ const searchOfficers = asyncMiddleware(async (request, response) => {
     };
     const officers = await models.officer.findAndCountAll(queryOptions);
 
-    addToExistingAuditDetails(auditDetails, queryOptions, models.officer.name);
+    generateAndAddAuditDetailsFromQuery(
+      auditDetails,
+      queryOptions,
+      models.officer.name
+    );
 
     await legacyAuditDataAccess(
       request.nickname,
