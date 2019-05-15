@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Select from "react-select";
+import Select, { createFilter } from "react-select";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -124,13 +124,18 @@ function Menu(props) {
   );
 }
 
+function DropdownIndicator() {
+  return <ArrowDropDownIcon />;
+}
+
 const components = {
   Control,
   Menu,
   Option,
   SingleValue,
   ValueContainer,
-  DropdownIndicator: ArrowDropDownIcon
+  DropdownIndicator,
+  ClearIndicator: null
 };
 
 export const getSelectedValue = (props, options) => {
@@ -165,6 +170,13 @@ export const getOptionsIfEnabled = (custom, children) => {
   } else {
     return children;
   }
+};
+
+const filterConfig = {
+  ignoreCase: true,
+  ignoreAccents: true,
+  trim: true,
+  matchFrom: "start"
 };
 
 class NoBlurTextField extends React.Component {
@@ -218,7 +230,7 @@ class NoBlurTextField extends React.Component {
           components={components}
           value={selectedValue}
           openMenuOnFocus={true}
-          isClearable
+          isClearable={true}
           placeholder={""}
           onBlur={() => this.handleBlur.bind(this)}
           onChange={this.handleChange.bind(this)}
@@ -226,6 +238,7 @@ class NoBlurTextField extends React.Component {
           menuPlacement="top"
           menuPosition="fixed"
           maxMenuHeight="260"
+          filterOption={createFilter(filterConfig)}
         />
       </FormControl>
     );
