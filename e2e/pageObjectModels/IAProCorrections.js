@@ -9,12 +9,12 @@ const iaproAllegationsCommands = {
   },
   setNthDetails: function(n, details) {
     return this.waitForElementVisible(
-      `[name="referralLetterIAProCorrections[${n}].details"]`,
+      `[name="referralLetterIaproCorrections[${n}].details"]`,
       e2e.rerenderWait
     )
-      .click(`[name="referralLetterIAProCorrections[${n}].details"]`)
+      .click(`[name="referralLetterIaproCorrections[${n}].details"]`)
       .setValue(
-        `[name="referralLetterIAProCorrections[${n}].details"]`,
+        `[name="referralLetterIaproCorrections[${n}].details"]`,
         details
       );
   },
@@ -26,7 +26,7 @@ const iaproAllegationsCommands = {
   },
   removeNthCorrection: function(n) {
     return this.click(
-      `[data-test="referralLetterIAProCorrections[${n}]-open-remove-dialog-button"]`
+      `[data-test="referralLetterIaproCorrections[${n}]-open-remove-dialog-button"]`
     )
       .waitForElementPresent("@removeCorrectionDialogButton", e2e.rerenderWait)
       .click("@removeCorrectionDialogButton")
@@ -37,7 +37,7 @@ const iaproAllegationsCommands = {
   },
   expectNthCorrectionValue: function(n, expectedValue) {
     this.expect
-      .element(`[name="referralLetterIAProCorrections[${n}].details"]`)
+      .element(`[name="referralLetterIaproCorrections[${n}].details"]`)
       .text.to.equal(expectedValue);
     return this;
   },

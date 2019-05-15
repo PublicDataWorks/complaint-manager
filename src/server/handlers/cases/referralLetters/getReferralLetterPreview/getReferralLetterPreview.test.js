@@ -595,13 +595,13 @@ describe("getReferralLetterPreview", function() {
       });
 
       test("it renders correctly with iapro corrections", async () => {
-        const referralLetterIAProCorrectionAttributes = new ReferralLetterIAProCorrection.Builder()
+        const referralLetterIaproCorrectionAttributes = new ReferralLetterIAProCorrection.Builder()
           .defaultReferralLetterIAProCorrection()
           .withId(undefined)
           .withReferralLetterId(referralLetter.id);
 
         await models.referral_letter_iapro_correction.create(
-          referralLetterIAProCorrectionAttributes,
+          referralLetterIaproCorrectionAttributes,
           {
             auditUser: "test"
           }
@@ -698,13 +698,13 @@ describe("getReferralLetterPreview", function() {
           }
         );
 
-        const referralLetterIAProCorrectionAttributes = new ReferralLetterIAProCorrection.Builder()
+        const referralLetterIaproCorrectionAttributes = new ReferralLetterIAProCorrection.Builder()
           .defaultReferralLetterIAProCorrection()
           .withId(undefined)
           .withReferralLetterId(referralLetter.id);
 
         await models.referral_letter_iapro_correction.create(
-          referralLetterIAProCorrectionAttributes,
+          referralLetterIaproCorrectionAttributes,
           {
             auditUser: "test"
           }
@@ -789,8 +789,8 @@ describe("getReferralLetterPreview", function() {
             "Edit Status",
             "Last Edited"
           ],
-          "Referral Letter IA Pro Corrections": [
-            "All Referral Letter IA Pro Corrections Data"
+          "Referral Letter Iapro Corrections": [
+            "All Referral Letter Iapro Corrections Data"
           ],
           "Referral Letter Officer History Notes": [
             "All Referral Letter Officer History Notes Data"
@@ -1004,7 +1004,7 @@ describe("getReferralLetterPreview", function() {
               "lastEdited"
             ])
           }),
-          referralLetterIaProCorrections: expect.objectContaining({
+          referralLetterIaproCorrections: expect.objectContaining({
             attributes: expect.arrayContaining(
               Object.keys(models.referral_letter_iapro_correction.rawAttributes)
             ),

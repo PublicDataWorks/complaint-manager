@@ -89,7 +89,7 @@ describe("getReferralLetterData", () => {
         "Recommended Action Notes"
       ],
       "Referral Letter": ["Case Id", "Id", "Include Retaliation Concerns"],
-      "Referral Letter IA Pro Corrections": ["Details", "Id"],
+      "Referral Letter Iapro Corrections": ["Details", "Id"],
       "Referral Letter Officer History Notes": [
         "Details",
         "Id",
@@ -133,7 +133,7 @@ describe("getReferralLetterData", () => {
       caseId: existingCase.id,
       includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
       letterOfficers: [],
-      referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
+      referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject]
     };
 
     await getReferralLetterData(request, response, next);
@@ -209,7 +209,7 @@ describe("getReferralLetterData", () => {
             referralLetterOfficerRecommendedActions: []
           }
         ],
-        referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
+        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject]
       };
 
       await getReferralLetterData(request, response, next);
@@ -258,7 +258,7 @@ describe("getReferralLetterData", () => {
             ]
           }
         ],
-        referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
+        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject]
       };
 
       await getReferralLetterData(request, response, next);
@@ -323,7 +323,7 @@ describe("getReferralLetterData", () => {
             ]
           }
         ],
-        referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
+        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject]
       };
       await getReferralLetterData(request, response, next);
       expect(response._getData()).toEqual(expectedResponseBody);
@@ -362,7 +362,7 @@ describe("getReferralLetterData", () => {
             referralLetterOfficerRecommendedActions: []
           }
         ],
-        referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
+        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject]
       };
 
       await getReferralLetterData(request, response, next);
@@ -386,7 +386,7 @@ describe("getReferralLetterData", () => {
       caseId: existingCase.id,
       includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
       letterOfficers: [],
-      referralLetterIAProCorrections: [
+      referralLetterIaproCorrections: [
         { id: iaproCorrection.id, details: iaproCorrection.details }
       ]
     };
@@ -401,7 +401,7 @@ describe("getReferralLetterData", () => {
       caseId: existingCase.id,
       includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
       letterOfficers: [],
-      referralLetterIAProCorrections: [
+      referralLetterIaproCorrections: [
         { tempId: "uniqueTempId" },
         { tempId: "uniqueTempId" },
         { tempId: "uniqueTempId" }
@@ -448,7 +448,7 @@ describe("getReferralLetterData", () => {
           referralLetterOfficerRecommendedActions: []
         }
       ],
-      referralLetterIAProCorrections: [emptyObject, emptyObject, emptyObject]
+      referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject]
     };
 
     await getReferralLetterData(request, response, next);

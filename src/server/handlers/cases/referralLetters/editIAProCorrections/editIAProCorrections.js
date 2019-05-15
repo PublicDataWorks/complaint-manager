@@ -12,9 +12,9 @@ const editIAProCorrections = asyncMiddleware(
     });
 
     await models.sequelize.transaction(async transaction => {
-      if (request.body.referralLetterIAProCorrections) {
+      if (request.body.referralLetterIaproCorrections) {
         await createOrUpdateOrDeleteIAProCorrections(
-          request.body.referralLetterIAProCorrections,
+          request.body.referralLetterIaproCorrections,
           referralLetter.id,
           request.nickname,
           transaction

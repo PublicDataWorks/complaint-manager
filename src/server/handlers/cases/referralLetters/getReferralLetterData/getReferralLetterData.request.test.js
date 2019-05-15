@@ -57,7 +57,7 @@ describe("GET /cases/:id/referral-letter", function() {
         caseId: newCase.id,
         letterOfficers: [],
         includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
-        referralLetterIAProCorrections: [
+        referralLetterIaproCorrections: [
           { tempId: "uniqueTempId" },
           { tempId: "uniqueTempId" },
           { tempId: "uniqueTempId" }

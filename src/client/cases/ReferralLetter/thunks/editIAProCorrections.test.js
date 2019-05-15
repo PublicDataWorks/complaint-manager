@@ -14,7 +14,7 @@ describe("editIAProCorrections", () => {
     dispatch = jest.fn();
     configureInterceptors({ dispatch });
     requestBody = {
-      referralLetterIAProCorrections: [
+      referralLetterIaproCorrections: [
         {
           id: 99,
           details: "Please fix xxx in IAPro."

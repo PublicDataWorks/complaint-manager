@@ -42,7 +42,7 @@ describe("IAProCorrections", function() {
       id: caseId,
       caseId: caseId,
       letterOfficers: [],
-      referralLetterIAProCorrections: [
+      referralLetterIaproCorrections: [
         { id: "1", details: "details1" },
         { id: "2", details: "details2" }
       ]
@@ -91,7 +91,7 @@ describe("IAProCorrections", function() {
   test("it should open the remove iapro correction dialog when click remove iapro correction button", () => {
     const openRemoveIAProCorrectionDialogButton = wrapper
       .find(
-        "[data-test='referralLetterIAProCorrections[0]-open-remove-dialog-button']"
+        "[data-test='referralLetterIaproCorrections[0]-open-remove-dialog-button']"
       )
       .first();
     openRemoveIAProCorrectionDialogButton.simulate("click");
@@ -110,7 +110,7 @@ describe("IAProCorrections", function() {
       .first();
     button.simulate("click");
     const expectedFormValues = {
-      referralLetterIAProCorrections: [
+      referralLetterIaproCorrections: [
         { id: "1", details: "details1" },
         { id: "2", details: "details2" }
       ]
@@ -124,7 +124,7 @@ describe("IAProCorrections", function() {
     const backButton = wrapper.find("[data-test='back-button']").first();
     backButton.simulate("click");
     const expectedFormValues = {
-      referralLetterIAProCorrections: [
+      referralLetterIaproCorrections: [
         { id: "1", details: "details1" },
         { id: "2", details: "details2" }
       ]
@@ -142,7 +142,7 @@ describe("IAProCorrections", function() {
     const nextButton = wrapper.find("[data-test='next-button']").first();
     nextButton.simulate("click");
     const expectedFormValues = {
-      referralLetterIAProCorrections: [
+      referralLetterIaproCorrections: [
         { id: "1", details: "details1" },
         { id: "2", details: "details2" }
       ]
@@ -160,7 +160,7 @@ describe("IAProCorrections", function() {
     let expectedFormValues;
     beforeEach(function() {
       expectedFormValues = {
-        referralLetterIAProCorrections: [
+        referralLetterIaproCorrections: [
           { id: "1", details: "details1" },
           { id: "2", details: "details2" }
         ]

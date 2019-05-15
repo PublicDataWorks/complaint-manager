@@ -46,7 +46,7 @@ const getReferralLetterCaseData = async (caseId, transaction, auditDetails) => {
         include: [
           {
             model: models.referral_letter_iapro_correction,
-            as: "referralLetterIAProCorrections"
+            as: "referralLetterIaproCorrections"
           }
         ]
       },
