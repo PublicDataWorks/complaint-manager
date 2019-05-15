@@ -7,7 +7,7 @@ import { ASCENDING } from "../../../../sharedUtilities/constants";
 const getReferralLetterCaseData = async (caseId, transaction, auditDetails) => {
   const queryOptions = {
     attributes: [
-      ["id", "caseId"],
+      "id",
       "incidentDate",
       "incidentTime",
       "narrativeDetails",
