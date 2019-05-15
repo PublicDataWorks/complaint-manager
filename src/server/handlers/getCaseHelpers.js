@@ -2,6 +2,7 @@ import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants"
 import Boom from "boom";
 import models from "../models";
 import {
+  addToExistingAuditDetails,
   generateAndAddAuditDetailsFromQuery,
   removeFromExistingAuditDetails
 } from "./getQueryAuditAccessDetails";
@@ -14,6 +15,26 @@ export const getCaseWithAllAssociations = async (
 ) => {
   let caseDetails = await getCaseData(caseId, transaction, auditDetails);
   return addFieldsToCaseDetails(caseDetails, auditDetails);
+};
+
+//TODO: use this to prevent losing fields for referralLetter data
+
+const getCaseDataWithCustomFields = async (
+  caseId,
+  transaction,
+  auditDetails
+) => {
+  let caseAuditDetails = {};
+
+  let caseDetails = await getCaseData(caseId, transaction, caseAuditDetails);
+
+  const modifiedCaseDetails = addFieldsToCaseDetails(
+    caseDetails,
+    caseAuditDetails
+  );
+  addToExistingAuditDetails(auditDetails, caseAuditDetails);
+
+  return modifiedCaseDetails;
 };
 
 export const getCaseWithoutAssociations = async (

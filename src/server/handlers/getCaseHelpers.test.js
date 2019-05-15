@@ -40,6 +40,32 @@ describe("getCaseHelpers", () => {
       await cleanupDatabase();
     });
 
+    //TODO don't skip this
+    test.skip("doesn't remove existing referralLetter audit details", async () => {
+      let auditDetails = {
+        referralLetter: {
+          attributes: ["attribute"]
+        }
+      };
+
+      let caseWithAllAssociations;
+      await models.sequelize.transaction(async transaction => {
+        caseWithAllAssociations = await getCaseWithAllAssociations(
+          existingCase.id,
+          transaction,
+          auditDetails
+        );
+      });
+
+      expect(auditDetails).toEqual(
+        expect.objectContaining({
+          referralLetter: {
+            attributes: ["attribute"]
+          }
+        })
+      );
+    });
+
     test("adds pdfAvailable to audit", async () => {
       await models.sequelize.transaction(async transaction => {
         await getCaseWithAllAssociations(

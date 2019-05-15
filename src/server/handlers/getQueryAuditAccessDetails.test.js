@@ -7,7 +7,7 @@ import getQueryAuditAccessDetails, {
 } from "./getQueryAuditAccessDetails";
 import { ALL_AUDIT_DATA } from "../../sharedUtilities/constants";
 
-describe("", () => {
+describe("audit details", () => {
   describe("getQueryAuditDetails", () => {
     let existingCase;
 
@@ -241,9 +241,9 @@ describe("", () => {
     });
   });
 
-  describe("addToAuditDetails", () => {
-    test("should add detailsToAdd to existingDetails if existingDetails are empty", () => {
-      const detailsToAdd = {
+  describe("generateAndAddAuditDetailsFromQuery", () => {
+    test("should generate audit details from queryOptions and add to existingDetails if existingDetails are empty", () => {
+      const queryOptions = {
         attributes: ["id", "status"]
       };
 
@@ -251,7 +251,7 @@ describe("", () => {
 
       generateAndAddAuditDetailsFromQuery(
         existingDetails,
-        detailsToAdd,
+        queryOptions,
         models.cases.name
       );
 
@@ -262,8 +262,8 @@ describe("", () => {
       });
     });
 
-    test("should combine detailsToAdd and existingDetails if existingDetails has data already", () => {
-      const detailsToAdd = {
+    test("should generate audit details from queryOptions and add to existingDetails if existingDetails has data already", () => {
+      const queryOptions = {
         attributes: ["id", "status"]
       };
 
@@ -273,7 +273,7 @@ describe("", () => {
 
       generateAndAddAuditDetailsFromQuery(
         existingDetails,
-        detailsToAdd,
+        queryOptions,
         models.cases.name
       );
 
@@ -283,15 +283,15 @@ describe("", () => {
       });
     });
 
-    test("should combine overlapping subjects", () => {
+    test("should generate audit details from queryOptions and add to existingDetails if there are overlapping subjects", () => {
       const existingDetails = {
         cases: { attributes: ["id", "status"] }
       };
 
-      const detailsToAdd = { attributes: ["incidentDate"] };
+      const queryOptions = { attributes: ["incidentDate"] };
       generateAndAddAuditDetailsFromQuery(
         existingDetails,
-        detailsToAdd,
+        queryOptions,
         models.cases.name
       );
 
@@ -305,13 +305,13 @@ describe("", () => {
         cases: { attributes: ["id", "status"] }
       };
 
-      const detailsToAdd = {
+      const queryOptions = {
         attributes: ["id", "incidentDate"]
       };
 
       generateAndAddAuditDetailsFromQuery(
         existingDetails,
-        detailsToAdd,
+        queryOptions,
         models.cases.name
       );
 

@@ -60,12 +60,6 @@ const getReferralLetterPreview = asyncMiddleware(
         auditDetails
       );
 
-      const responseDetails = {
-        letterHtml: html,
-        address: letterAddresses,
-        caseDetails: caseDetails
-      };
-
       const finalFilename = constructFilename(
         caseDetails,
         REFERRAL_LETTER_VERSION.FINAL
