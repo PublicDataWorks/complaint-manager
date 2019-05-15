@@ -31,7 +31,8 @@ describe("audit details", () => {
       ).toEqual(
         expect.objectContaining({
           address: {
-            attributes: expect.arrayContaining(["intersection"])
+            attributes: expect.arrayContaining(["intersection"]),
+            model: models.address.name
           }
         })
       );
@@ -139,7 +140,8 @@ describe("audit details", () => {
               "year",
               "caseNumber",
               "pibCaseNumber"
-            ])
+            ]),
+            model: models.cases.name
           },
           complainantOfficers: {
             attributes: ["id"],
@@ -151,6 +153,40 @@ describe("audit details", () => {
           }
         })
       );
+    });
+
+    test("combines referral letter as top level model and association", () => {
+      const auditDetails = {};
+
+      const referralLetterTopLevelModel = models.referral_letter.name;
+      const referralLetterQueryOptions = {};
+
+      generateAndAddAuditDetailsFromQuery(
+        auditDetails,
+        referralLetterQueryOptions,
+        referralLetterTopLevelModel
+      );
+
+      const topLevelModel = models.cases.name;
+      const caseQueryOptions = {
+        include: [{ model: models.referral_letter, as: "referralLetter" }]
+      };
+      generateAndAddAuditDetailsFromQuery(
+        auditDetails,
+        caseQueryOptions,
+        topLevelModel
+      );
+
+      expect(auditDetails).toEqual({
+        cases: {
+          attributes: Object.keys(models.cases.rawAttributes),
+          model: models.cases.name
+        },
+        referralLetter: {
+          attributes: Object.keys(models.referral_letter.rawAttributes),
+          model: models.referral_letter.name
+        }
+      });
     });
 
     test("should retain model when combining attributes", () => {
@@ -257,7 +293,8 @@ describe("audit details", () => {
 
       expect(existingDetails).toEqual({
         cases: {
-          attributes: ["id", "status"]
+          attributes: ["id", "status"],
+          model: models.cases.name
         }
       });
     });
@@ -268,7 +305,10 @@ describe("audit details", () => {
       };
 
       let existingDetails = {
-        complainantCivilians: { attributes: ["id", "firstName"] }
+        complainantCivilians: {
+          attributes: ["id", "firstName"],
+          model: models.civilian.name
+        }
       };
 
       generateAndAddAuditDetailsFromQuery(
@@ -278,8 +318,11 @@ describe("audit details", () => {
       );
 
       expect(existingDetails).toEqual({
-        cases: { attributes: ["id", "status"] },
-        complainantCivilians: { attributes: ["id", "firstName"] }
+        cases: { attributes: ["id", "status"], model: models.cases.name },
+        complainantCivilians: {
+          attributes: ["id", "firstName"],
+          model: models.civilian.name
+        }
       });
     });
 

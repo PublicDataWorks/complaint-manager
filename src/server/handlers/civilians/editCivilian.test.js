@@ -25,6 +25,11 @@ jest.mock("../getQueryAuditAccessDetails", () => ({
       };
     }
   ),
+  addToExistingAuditDetails: jest.fn((existingDetails, detailsToAdd) => {
+    existingDetails["mockAttribute"] = {
+      attributes: ["mockDetails"]
+    };
+  }),
   removeFromExistingAuditDetails: jest.fn()
 }));
 
@@ -73,7 +78,7 @@ describe("editCivilian handler editing civilian with no address", () => {
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         user: "TEST_USER_NICKNAME",
         auditType: AUDIT_TYPE.DATA_ACCESS,
-        auditDetails: { Case: ["Is Archived", "Mock Details", "Pdf Available"] }
+        auditDetails: { ["Mock Attribute"]: ["Mock Details"] }
       })
     );
   });

@@ -13,6 +13,7 @@ import generateReferralLetterBody from "../generateReferralLetterBody";
 import constructFilename from "../constructFilename";
 import { editStatusFromHtml } from "../getReferralLetterEditStatus/getReferralLetterEditStatus";
 import { generateAndAddAuditDetailsFromQuery } from "../../../getQueryAuditAccessDetails";
+import _ from "lodash";
 
 require("../../../../handlebarHelpers");
 
@@ -71,8 +72,12 @@ const getReferralLetterPreview = asyncMiddleware(
         editStatus
       );
 
-      auditDetails[models.referral_letter.name].attributes = auditDetails[
+      const formattedReferralLetterModelName = _.camelCase(
         models.referral_letter.name
+      );
+
+      auditDetails[formattedReferralLetterModelName].attributes = auditDetails[
+        formattedReferralLetterModelName
       ].attributes.concat(["editStatus", "lastEdited", "draftFilename"]);
 
       await legacyAuditDataAccess(

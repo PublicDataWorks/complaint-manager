@@ -40,8 +40,7 @@ describe("getCaseHelpers", () => {
       await cleanupDatabase();
     });
 
-    //TODO don't skip this
-    test.skip("doesn't remove existing referralLetter audit details", async () => {
+    test("doesn't remove existing referralLetter audit details", async () => {
       let auditDetails = {
         referralLetter: {
           attributes: ["attribute"]
