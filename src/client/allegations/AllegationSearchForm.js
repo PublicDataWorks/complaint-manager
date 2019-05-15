@@ -7,7 +7,7 @@ import NoBlurTextField from "../cases/CaseDetails/CivilianDialog/FormSelect";
 import {
   searchParagraphMenu,
   searchRuleMenu
-} from "../utilities/generateMenus";
+} from "../utilities/generateMenuOptions";
 import getSearchResults from "../shared/thunks/getSearchResults";
 import { PrimaryButton } from "../shared/components/StyledButtons";
 import { connect } from "react-redux";

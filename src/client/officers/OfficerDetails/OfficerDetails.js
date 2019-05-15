@@ -16,7 +16,7 @@ import { PrimaryButton } from "../../shared/components/StyledButtons";
 import { ChangeOfficer } from "../OfficerSearch/OfficerSearchResults/officerSearchResultsRowButtons";
 import { connect } from "react-redux";
 import NoBlurTextField from "../../cases/CaseDetails/CivilianDialog/FormSelect";
-import { roleOnCaseMenu } from "../../utilities/generateMenus";
+import { roleOnCaseMenu } from "../../utilities/generateMenuOptions";
 import { officerRoleRequired } from "../../formFieldLevelValidations";
 import PrimaryCheckBox from "../../shared/components/PrimaryCheckBox";
 import { COMPLAINANT, WITNESS } from "../../../sharedUtilities/constants";

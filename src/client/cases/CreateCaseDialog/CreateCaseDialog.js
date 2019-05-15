@@ -16,7 +16,7 @@ import {
   CIVILIAN_INITIATED,
   CREATE_CASE_FORM_NAME
 } from "../../../sharedUtilities/constants";
-import { generateMenu } from "../../utilities/generateMenus";
+import { generateMenuOptions } from "../../utilities/generateMenuOptions";
 import NoBlurTextField from "../CaseDetails/CivilianDialog/FormSelect";
 import { intakeSourceIsRequired } from "../../formFieldLevelValidations";
 import CreateCaseActions from "./CreateCaseActions";
@@ -107,7 +107,7 @@ const IntakeSource = props => {
       style={{ width: "50%" }}
       validate={[intakeSourceIsRequired]}
     >
-      {generateMenu(props.intakeSources)}
+      {generateMenuOptions(props.intakeSources)}
     </Field>
   );
 };
