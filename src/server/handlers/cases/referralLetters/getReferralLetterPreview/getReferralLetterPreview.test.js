@@ -32,6 +32,7 @@ import constructFilename from "../constructFilename";
 import RaceEthnicity from "../../../../../client/testUtilities/raceEthnicity";
 import mockFflipObject from "../../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../../auditDataAccess";
+import _ from "lodash";
 
 jest.mock("../../../auditDataAccess");
 
@@ -731,6 +732,7 @@ describe("getReferralLetterPreview", function() {
           newAuditFeature: false
         });
       });
+
       test("audits the data access if letter is generated", async () => {
         await getReferralLetterPreview(request, response, next);
 

@@ -13,11 +13,8 @@ export const getCaseWithAllAssociations = async (
   transaction,
   auditDetails
 ) => {
-  let caseDetails = await getCaseData(caseId, transaction, auditDetails);
-  return addFieldsToCaseDetails(caseDetails, auditDetails);
+  return await getCaseDataWithCustomFields(caseId, transaction, auditDetails);
 };
-
-//TODO: use this to prevent losing fields for referralLetter data
 
 const getCaseDataWithCustomFields = async (
   caseId,

@@ -23,6 +23,11 @@ jest.mock("../../getQueryAuditAccessDetails", () => ({
       };
     }
   ),
+  addToExistingAuditDetails: jest.fn((existingDetails, detailsToAdd) => {
+    existingDetails["mockAttribute"] = {
+      attributes: ["mockDetails"]
+    };
+  }),
   removeFromExistingAuditDetails: jest.fn()
 }));
 
@@ -117,7 +122,7 @@ describe("editOfficerAllegation", () => {
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         caseId: caseOfficer.caseId,
         action: AUDIT_ACTION.DATA_ACCESSED,
-        auditDetails: { Case: ["Is Archived", "Mock Details", "Pdf Available"] }
+        auditDetails: { ["Mock Attribute"]: ["Mock Details"] }
       })
     );
   });

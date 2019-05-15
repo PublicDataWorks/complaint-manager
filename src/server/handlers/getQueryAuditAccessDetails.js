@@ -100,13 +100,12 @@ const getQueryAuditAccessDetailsHelper = (
     attributes = Object.keys(models[modelName].rawAttributes);
   }
 
-  const formattedAssociationName = associationName;
+  const formattedAssociationName = _.camelCase(associationName);
 
-  auditDetails[formattedAssociationName] = { attributes: attributes };
-
-  if (!models[associationName]) {
-    auditDetails[formattedAssociationName].model = modelName;
-  }
+  auditDetails[formattedAssociationName] = {
+    attributes: attributes,
+    model: modelName
+  };
 
   if (queryOptions && queryOptions.include) {
     recursivelyAddIncludedModelsToAuditDetails(queryOptions, auditDetails);
