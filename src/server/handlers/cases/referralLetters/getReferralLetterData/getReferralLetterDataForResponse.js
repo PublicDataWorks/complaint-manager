@@ -24,14 +24,14 @@ const getReferralLetterDataForResponse = async (
     caseId: letterData.caseId,
     includeRetaliationConcerns: letterData.includeRetaliationConcerns,
     letterOfficers: transformedLetterOfficerData,
-    referralLetterIAProCorrections: getIAProCorrections(letterData)
+    referralLetterIaproCorrections: getIAProCorrections(letterData)
   };
 };
 
 const getIAProCorrections = letterData => {
-  return letterData.referralLetterIAProCorrections.length === 0
+  return letterData.referralLetterIaproCorrections.length === 0
     ? buildEmptyIAProCorrections()
-    : letterData.referralLetterIAProCorrections;
+    : letterData.referralLetterIaproCorrections;
 };
 
 const letterOfficerAttributes = caseOfficer => {
@@ -99,7 +99,7 @@ const getLetterData = async (caseId, transaction, auditDetails) => {
       [
         {
           model: models.referral_letter_iapro_correction,
-          as: "referralLetterIAProCorrections"
+          as: "referralLetterIaproCorrections"
         },
         "created_at",
         ASCENDING
@@ -108,7 +108,7 @@ const getLetterData = async (caseId, transaction, auditDetails) => {
     include: [
       {
         model: models.referral_letter_iapro_correction,
-        as: "referralLetterIAProCorrections",
+        as: "referralLetterIaproCorrections",
         attributes: ["id", "details"]
       },
       {

@@ -101,7 +101,7 @@ class IAProCorrections extends Component {
                   style={{ textAlign: "right" }}
                   onClick={() => {
                     this.props.openRemoveIAProCorrectionDialog(
-                      "referralLetterIAProCorrections",
+                      "referralLetterIaproCorrections",
                       index
                     );
                   }}
@@ -175,7 +175,7 @@ class IAProCorrections extends Component {
 
             <div style={{ marginBottom: "32px" }}>
               <FieldArray
-                name="referralLetterIAProCorrections"
+                name="referralLetterIaproCorrections"
                 component={this.renderIAProCorrections}
               />
             </div>
@@ -215,8 +215,8 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   letterDetails: state.referralLetter.letterDetails,
   initialValues: {
-    referralLetterIAProCorrections:
-      state.referralLetter.letterDetails.referralLetterIAProCorrections
+    referralLetterIaproCorrections:
+      state.referralLetter.letterDetails.referralLetterIaproCorrections
   },
   caseReference: state.currentCase.details.caseReference
 });

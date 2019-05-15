@@ -366,9 +366,9 @@
   {{/if}}
 
 
-  {{#if referralLetter.referralLetterIAProCorrections}}
+  {{#if referralLetter.referralLetterIaproCorrections}}
     <p class="ql-align-center"><strong><u>IAPro Corrections</u></strong></p>
-    {{#each referralLetter.referralLetterIAProCorrections}}
+    {{#each referralLetter.referralLetterIaproCorrections}}
       <ul>
         <li>
           <p class="preserve-white-space">{{details}}</p>

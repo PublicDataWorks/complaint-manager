@@ -40,7 +40,7 @@ describe("editIAProCorrections", () => {
 
   test("invalid case status returns 400", async () => {
     const requestBody = {
-      referralLetterIAProCorrections: [{ id: "123", details: "new details" }]
+      referralLetterIaproCorrections: [{ id: "123", details: "new details" }]
     };
 
     const request = httpMocks.createRequest({
@@ -69,7 +69,7 @@ describe("editIAProCorrections", () => {
     });
     test("saves new iapro correction", async () => {
       const requestBody = {
-        referralLetterIAProCorrections: [
+        referralLetterIaproCorrections: [
           { tempId: "abcd1234", details: "some stuff" },
           { tempId: "poiu8765", details: "some more stuff" }
         ]
@@ -106,7 +106,7 @@ describe("editIAProCorrections", () => {
 
     test("doesn't add empty iapro corrections", async () => {
       const requestBody = {
-        referralLetterIAProCorrections: [
+        referralLetterIaproCorrections: [
           { tempId: "abcd1234", details: "" },
           { tempId: "poiu8765" }
         ]
@@ -142,7 +142,7 @@ describe("editIAProCorrections", () => {
       test("updates existing iapro correction", async () => {
         const newDetails = "some new details";
         const requestBody = {
-          referralLetterIAProCorrections: [
+          referralLetterIaproCorrections: [
             { id: iaproCorrection.id, details: newDetails }
           ]
         };
@@ -162,7 +162,7 @@ describe("editIAProCorrections", () => {
       });
 
       test("deletes existing iapro correction", async () => {
-        const requestBody = { referralLetterIAProCorrections: [] };
+        const requestBody = { referralLetterIaproCorrections: [] };
         const request = httpMocks.createRequest({
           method: "PUT",
           headers: {
@@ -179,7 +179,7 @@ describe("editIAProCorrections", () => {
       });
       test("deletes empty updates to existing iapro corrections", async () => {
         const requestBody = {
-          referralLetterIAProCorrections: [
+          referralLetterIaproCorrections: [
             { id: iaproCorrection.id, details: "" }
           ]
         };
@@ -200,7 +200,7 @@ describe("editIAProCorrections", () => {
 
     test("throws error when given non-existing iapro correction id", async () => {
       const requestBody = {
-        referralLetterIAProCorrections: [{ id: "123", details: "new details" }]
+        referralLetterIaproCorrections: [{ id: "123", details: "new details" }]
       };
       const request = httpMocks.createRequest({
         method: "PUT",

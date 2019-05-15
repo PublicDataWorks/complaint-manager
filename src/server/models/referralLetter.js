@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
     ReferralLetter.hasMany(models.referral_letter_iapro_correction, {
-      as: "referralLetterIAProCorrections",
+      as: "referralLetterIaproCorrections",
       foreignKey: {
         name: "referralLetterId",
         field: "referral_letter_id",
