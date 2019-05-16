@@ -11,16 +11,20 @@ import httpMocks from "node-mocks-http";
 import getReferralLetterPdf from "./getReferralLetterPdf";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
+import mockFflipObject from "../../../../testHelpers/mockFflipObject";
+import auditDataAccess from "../../../auditDataAccess";
 
 jest.mock(
   "./generateReferralLetterPdfBuffer",
   () => (caseId, includeSignature, transaction, auditDetails) => {
-    auditDetails.cases = {
-      attributes: ["status"]
+    auditDetails.mockAssociation = {
+      attributes: ["mockDetails"],
+      model: "mockModelName"
     };
     return `pdf for case ${caseId}`;
   }
 );
+jest.mock("../../../auditDataAccess");
 
 describe("Generate referral letter pdf", () => {
   let existingCase, request, response, next;
@@ -62,25 +66,55 @@ describe("Generate referral letter pdf", () => {
         { auditUser: "test" }
       );
     });
-    test("audits the data access", async () => {
-      await getReferralLetterPdf(request, response, next);
-
-      const dataAccessAudit = await models.action_audit.findOne();
-      expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
-      expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
-      expect(dataAccessAudit.user).toEqual("bobjo");
-      expect(dataAccessAudit.caseId).toEqual(existingCase.id);
-      expect(dataAccessAudit.subject).toEqual(
-        AUDIT_SUBJECT.DRAFT_REFERRAL_LETTER_PDF
-      );
-      expect(dataAccessAudit.auditDetails).toEqual({
-        Case: ["Status"]
-      });
-    });
 
     test("returns results full generated pdf response", async () => {
       await getReferralLetterPdf(request, response, next);
       expect(response._getData()).toEqual(`pdf for case ${existingCase.id}`);
+    });
+
+    describe("newAuditFeature Disabled", () => {
+      test("audits the data access", async () => {
+        request.fflip = mockFflipObject({
+          newAuditFeature: false
+        });
+        await getReferralLetterPdf(request, response, next);
+
+        const dataAccessAudit = await models.action_audit.findOne();
+        expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
+        expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
+        expect(dataAccessAudit.user).toEqual("bobjo");
+        expect(dataAccessAudit.caseId).toEqual(existingCase.id);
+        expect(dataAccessAudit.subject).toEqual(
+          AUDIT_SUBJECT.DRAFT_REFERRAL_LETTER_PDF
+        );
+        expect(dataAccessAudit.auditDetails).toEqual({
+          "Mock Association": ["Mock Details"]
+        });
+      });
+    });
+
+    describe("newAuditFeature enabled", () => {
+      test("audits the data access", async () => {
+        request.fflip = mockFflipObject({
+          newAuditFeature: true
+        });
+        await getReferralLetterPdf(request, response, next);
+
+        const expectedAuditDetails = {
+          mockAssociation: {
+            attributes: ["mockDetails"],
+            model: "mockModelName"
+          }
+        };
+
+        expect(auditDataAccess).toHaveBeenCalledWith(
+          request.nickname,
+          existingCase.id,
+          AUDIT_SUBJECT.DRAFT_REFERRAL_LETTER_PDF,
+          expectedAuditDetails,
+          expect.anything()
+        );
+      });
     });
   });
 
