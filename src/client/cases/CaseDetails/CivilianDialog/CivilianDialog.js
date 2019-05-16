@@ -37,7 +37,10 @@ import PhoneNumberField from "../../sharedFormComponents/PhoneNumberField";
 import EmailField from "../../sharedFormComponents/EmailField";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 import moment from "moment";
-import { generateMenu, titleMenu } from "../../../utilities/generateMenus";
+import {
+  generateMenuOptions,
+  titleMenu
+} from "../../../utilities/generateMenuOptions";
 import validate from "./helpers/validateCivilianFields";
 import AddressInput from "./AddressInput";
 import {
@@ -175,7 +178,7 @@ class CivilianDialog extends Component {
                 style={{ width: "30%" }}
                 validate={[genderIdentityIsRequired]}
               >
-                {generateMenu(this.props.genderIdentities)}
+                {generateMenuOptions(this.props.genderIdentities)}
               </Field>
             </div>
             <Field
@@ -188,7 +191,7 @@ class CivilianDialog extends Component {
               style={{ width: "75%" }}
               validate={[raceEthnicityIsRequired]}
             >
-              {generateMenu(this.props.raceEthnicities)}
+              {generateMenuOptions(this.props.raceEthnicities)}
             </Field>
             <FormControlLabel
               key="isAnonymous"

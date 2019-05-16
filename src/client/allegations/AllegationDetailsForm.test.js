@@ -57,7 +57,7 @@ describe("AllegationDetailsForm", () => {
 
     selectDropdownOption(
       allegationDetailsForm,
-      '[data-test="allegationSeverityInput"]',
+      '[data-test="allegationSeverityField"]',
       ALLEGATION_SEVERITY.MEDIUM
     );
 
@@ -89,7 +89,7 @@ describe("AllegationDetailsForm", () => {
 
     selectDropdownOption(
       allegationDetailsForm,
-      '[data-test="allegationSeverityInput"]',
+      '[data-test="allegationSeverityField"]',
       ALLEGATION_SEVERITY.MEDIUM
     );
 
@@ -119,7 +119,7 @@ describe("AllegationDetailsForm", () => {
 
     selectDropdownOption(
       allegationDetailsForm,
-      '[data-test="allegationSeverityInput"]',
+      '[data-test="allegationSeverityField"]',
       ALLEGATION_SEVERITY.MEDIUM
     );
 
@@ -139,9 +139,10 @@ describe("AllegationDetailsForm", () => {
 
     selectDropdownOption(
       allegationDetailsForm,
-      '[data-test="allegationSeverityInput"]',
+      '[data-test="allegationSeverityField"]',
       ALLEGATION_SEVERITY.MEDIUM
     );
+    allegationDetailsForm.update();
 
     const addButton = allegationDetailsForm
       .find('[data-test="addAllegationButton"]')

@@ -204,7 +204,7 @@ describe("incident details", () => {
       'input[data-test="editIncidentTimeInput"]'
     );
     const editIncidentClassification = wrapper.find(
-      'input[data-test="classificationDropdown"]'
+      'div[data-test="classificationDropdownInput"]'
     );
 
     expect(editFirstContactDateInput.prop("value")).toEqual(firstContactDate);
@@ -232,7 +232,7 @@ describe("incident details", () => {
     changeInput(wrapper, 'input[data-test="editIncidentTimeInput"]', "13:00");
     selectDropdownOption(
       wrapper,
-      '[data-test="districtInput"]',
+      '[data-test="districtDropdown"]',
       "1st District"
     );
 
