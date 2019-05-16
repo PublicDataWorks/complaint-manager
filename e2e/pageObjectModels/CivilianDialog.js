@@ -132,7 +132,7 @@ module.exports = {
       selector: 'button[data-test="submitEditCivilian"]'
     },
     menuOption: {
-      selector: "[role='option']"
+      selector: "[role='option']:last-child"
     }
   }
 };

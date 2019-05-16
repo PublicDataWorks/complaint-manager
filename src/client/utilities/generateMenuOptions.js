@@ -9,8 +9,7 @@ import {
 } from "../../sharedUtilities/constants";
 
 export const generateMenuOptions = contents => {
-  // let contents = props.selectProps.children;
-  return contents.map(content => {
+  let menuOptionsArray = contents.map(content => {
     let value, label;
     if (typeof content === "string") {
       value = label = content;
@@ -23,6 +22,9 @@ export const generateMenuOptions = contents => {
       value
     };
   });
+  menuOptionsArray.unshift({ label: "", value: "" });
+
+  return menuOptionsArray;
 };
 
 export const titleMenu = generateMenuOptions([
