@@ -65,7 +65,7 @@ module.exports = {
       selector: "[id='menu-case.intakeSourceId']"
     },
     intakeSourceOption: {
-      selector: "[role='option']"
+      selector: "[role='option']:last-child"
     }
   }
 };

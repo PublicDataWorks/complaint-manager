@@ -21,7 +21,6 @@ import { getRaceEthnicitiesSuccess } from "../../../actionCreators/raceEthnicity
 import getGenderIdentityDropdownValues from "../../../genderIdentities/thunks/getGenderIdentityDropdownValues";
 import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getRaceEthnicityDropdownValues";
 import { getGenderIdentitiesSuccess } from "../../../actionCreators/genderIdentityActionCreators";
-import { getMenuOptions } from "../../../utilities/generateMenus.test";
 
 jest.mock("../../thunks/editCivilian", () =>
   jest.fn(() => ({ type: "MOCK_CIVILIAN_REQUESTED" }))
