@@ -10,6 +10,10 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import models from "../../../../models";
 import httpMocks from "node-mocks-http";
+import mockFflipObject from "../../../../testHelpers/mockFflipObject";
+import auditDataAccess from "../../../auditDataAccess";
+
+jest.mock("../../../auditDataAccess");
 
 describe("getReferralLetterEditStatus", () => {
   let response, next, request, existingCase, referralLetter;
@@ -79,19 +83,44 @@ describe("getReferralLetterEditStatus", () => {
       expect(responseBody.editStatus).toEqual(EDIT_STATUS.EDITED);
     });
 
-    test("audits the data access", async () => {
-      await getReferralLetterEditStatus(request, response, next);
+    describe("newAuditFeature disabled", () => {
+      test("audits the data access", async () => {
+        request.fflip = mockFflipObject({ newAuditFeature: false });
 
-      const dataAccessAudit = await models.action_audit.findOne();
-      expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
-      expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
-      expect(dataAccessAudit.user).toEqual("nickname");
-      expect(dataAccessAudit.caseId).toEqual(existingCase.id);
-      expect(dataAccessAudit.subject).toEqual(
-        AUDIT_SUBJECT.REFERRAL_LETTER_DATA
-      );
-      expect(dataAccessAudit.auditDetails).toEqual({
-        "Referral Letter": ["Edit Status"]
+        await getReferralLetterEditStatus(request, response, next);
+
+        const dataAccessAudit = await models.action_audit.findOne();
+        expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
+        expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
+        expect(dataAccessAudit.user).toEqual("nickname");
+        expect(dataAccessAudit.caseId).toEqual(existingCase.id);
+        expect(dataAccessAudit.subject).toEqual(
+          AUDIT_SUBJECT.REFERRAL_LETTER_DATA
+        );
+        expect(dataAccessAudit.auditDetails).toEqual({
+          "Referral Letter": ["Edit Status"]
+        });
+      });
+    });
+
+    describe("newAuditFeature enabled", () => {
+      test("audits the data access", async () => {
+        request.fflip = mockFflipObject({ newAuditFeature: true });
+
+        await getReferralLetterEditStatus(request, response, next);
+
+        expect(auditDataAccess).toHaveBeenCalledWith(
+          request.nickname,
+          existingCase.id,
+          AUDIT_SUBJECT.REFERRAL_LETTER_DATA,
+          {
+            referralLetter: {
+              attributes: expect.arrayContaining(["editStatus"]),
+              model: models.referral_letter.name
+            }
+          },
+          expect.anything()
+        );
       });
     });
   });

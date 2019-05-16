@@ -7,10 +7,18 @@ import {
   AUDIT_SUBJECT,
   EDIT_STATUS
 } from "../../../../../sharedUtilities/constants";
+import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
+import auditDataAccess from "../../../auditDataAccess";
+import _ from "lodash";
 
 const getReferralLetterEditStatus = asyncMiddleware(
   async (request, response, next) => {
     const caseId = request.params.caseId;
+    const newAuditFeatureToggle = checkFeatureToggleEnabled(
+      request,
+      "newAuditFeature"
+    );
+
     const editStatus = await models.sequelize.transaction(async transaction => {
       const referralLetter = await models.referral_letter.findOne({
         where: { caseId },
@@ -25,18 +33,35 @@ const getReferralLetterEditStatus = asyncMiddleware(
         );
       }
 
-      const auditDetails = {
-        [models.referral_letter.name]: { attributes: ["editStatus"] }
-      };
+      if (newAuditFeatureToggle) {
+        const auditDetails = {
+          [_.camelCase(models.referral_letter.name)]: {
+            attributes: ["editStatus"],
+            model: models.referral_letter.name
+          }
+        };
 
-      await legacyAuditDataAccess(
-        request.nickname,
-        caseId,
-        AUDIT_SUBJECT.REFERRAL_LETTER_DATA,
-        transaction,
-        AUDIT_ACTION.DATA_ACCESSED,
-        auditDetails
-      );
+        await auditDataAccess(
+          request.nickname,
+          caseId,
+          AUDIT_SUBJECT.REFERRAL_LETTER_DATA,
+          auditDetails,
+          transaction
+        );
+      } else {
+        const auditDetails = {
+          [models.referral_letter.name]: { attributes: ["editStatus"] }
+        };
+
+        await legacyAuditDataAccess(
+          request.nickname,
+          caseId,
+          AUDIT_SUBJECT.REFERRAL_LETTER_DATA,
+          transaction,
+          AUDIT_ACTION.DATA_ACCESSED,
+          auditDetails
+        );
+      }
 
       return editStatus;
     });
