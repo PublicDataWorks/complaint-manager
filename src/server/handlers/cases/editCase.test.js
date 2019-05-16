@@ -11,30 +11,14 @@ import {
 } from "../../../sharedUtilities/constants";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
-import mockLodash from "lodash";
 
 const httpMocks = require("node-mocks-http");
 const models = require("../../models");
 const editCase = require("./editCase");
 const Boom = require("boom");
 
-jest.mock("../getQueryAuditAccessDetails", () => ({
-  generateAndAddAuditDetailsFromQuery: jest.fn(
-    (existingDetails, queryOptions, topLevelModelName) => {
-      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
-        attributes: ["mockDetails"],
-        model: "mockModelName"
-      };
-    }
-  ),
-  addToExistingAuditDetails: jest.fn((existingDetails, detailsToAdd) => {
-    existingDetails["mockAttribute"] = {
-      attributes: ["mockDetails"],
-      model: "mockModelName"
-    };
-  }),
-  removeFromExistingAuditDetails: jest.fn()
-}));
+//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
+jest.mock("../getQueryAuditAccessDetails");
 
 describe("Edit Case", () => {
   let request,

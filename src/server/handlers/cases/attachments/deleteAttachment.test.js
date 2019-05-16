@@ -3,34 +3,19 @@ import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers
 import Attachment from "../../../../client/testUtilities/attachment";
 import models from "../../../models/index";
 import deleteAttachment from "./deleteAttachment";
-const httpMocks = require("node-mocks-http");
 import {
   AUDIT_ACTION,
-  AUDIT_TYPE,
-  AUDIT_SUBJECT
+  AUDIT_SUBJECT,
+  AUDIT_TYPE
 } from "../../../../sharedUtilities/constants";
-import mockLodash from "lodash";
+
+const httpMocks = require("node-mocks-http");
 const AWS = require("aws-sdk");
 
 jest.mock("aws-sdk");
 
-jest.mock("../../getQueryAuditAccessDetails", () => ({
-  generateAndAddAuditDetailsFromQuery: jest.fn(
-    (existingDetails, queryOptions, topLevelModelName) => {
-      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
-        attributes: ["mockDetails"],
-        model: "mockModelName"
-      };
-    }
-  ),
-  addToExistingAuditDetails: jest.fn((existingDetails, detailsToAdd) => {
-    existingDetails["mockAttribute"] = {
-      attributes: ["mockDetails"],
-      model: "mockModelName"
-    };
-  }),
-  removeFromExistingAuditDetails: jest.fn()
-}));
+//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
+jest.mock("../../getQueryAuditAccessDetails");
 
 describe("deleteAttachment", function() {
   afterEach(async () => {
