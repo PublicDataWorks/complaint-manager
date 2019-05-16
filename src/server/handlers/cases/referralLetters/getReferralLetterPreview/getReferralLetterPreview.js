@@ -14,26 +14,35 @@ import constructFilename from "../constructFilename";
 import { editStatusFromHtml } from "../getReferralLetterEditStatus/getReferralLetterEditStatus";
 import { generateAndAddAuditDetailsFromQuery } from "../../../getQueryAuditAccessDetails";
 import _ from "lodash";
+import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
+import auditDataAccess from "../../../auditDataAccess";
 
 require("../../../../handlebarHelpers");
 
 const getReferralLetterPreview = asyncMiddleware(
   async (request, response, next) => {
+    const newAuditFeatureToggle = checkFeatureToggleEnabled(
+      request,
+      "newAuditFeature"
+    );
+
     const caseId = request.params.caseId;
     await throwErrorIfLetterFlowUnavailable(caseId);
 
     let auditDetails = {};
 
     await models.sequelize.transaction(async transaction => {
-      const queryOptions = {
+      const referralLetterQueryOptions = {
         where: { caseId },
         transaction
       };
-      const referralLetter = await models.referral_letter.findOne(queryOptions);
+      const referralLetter = await models.referral_letter.findOne(
+        referralLetterQueryOptions
+      );
 
       generateAndAddAuditDetailsFromQuery(
         auditDetails,
-        queryOptions,
+        referralLetterQueryOptions,
         models.referral_letter.name
       );
 
@@ -80,14 +89,24 @@ const getReferralLetterPreview = asyncMiddleware(
         formattedReferralLetterModelName
       ].attributes.concat(["editStatus", "lastEdited", "draftFilename"]);
 
-      await legacyAuditDataAccess(
-        request.nickname,
-        caseId,
-        AUDIT_SUBJECT.REFERRAL_LETTER_PREVIEW,
-        transaction,
-        AUDIT_ACTION.DATA_ACCESSED,
-        auditDetails
-      );
+      if (newAuditFeatureToggle) {
+        await auditDataAccess(
+          request.nickname,
+          caseId,
+          AUDIT_SUBJECT.REFERRAL_LETTER_PREVIEW,
+          auditDetails,
+          transaction
+        );
+      } else {
+        await legacyAuditDataAccess(
+          request.nickname,
+          caseId,
+          AUDIT_SUBJECT.REFERRAL_LETTER_PREVIEW,
+          transaction,
+          AUDIT_ACTION.DATA_ACCESSED,
+          auditDetails
+        );
+      }
 
       response.send({
         letterHtml: html,
