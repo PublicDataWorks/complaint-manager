@@ -17,8 +17,11 @@ import {
 import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 import Case from "../../../../../client/testUtilities/case";
+import auditDataAccess from "../../../auditDataAccess";
+import mockFflipObject from "../../../../testHelpers/mockFflipObject";
 
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
+jest.mock("../../../auditDataAccess");
 
 describe("getReferralLetterData", () => {
   let existingCase, referralLetter, request, response, next, emptyObject;
@@ -65,42 +68,6 @@ describe("getReferralLetterData", () => {
 
     response = httpMocks.createResponse();
     next = jest.fn();
-  });
-
-  test("audits the data access", async () => {
-    await getReferralLetterData(request, response, next);
-
-    const dataAccessAudit = await models.action_audit.findOne();
-    expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
-    expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
-    expect(dataAccessAudit.user).toEqual("bobjo");
-    expect(dataAccessAudit.caseId).toEqual(existingCase.id);
-    expect(dataAccessAudit.subject).toEqual(AUDIT_SUBJECT.REFERRAL_LETTER_DATA);
-    expect(dataAccessAudit.auditDetails).toEqual({
-      "Case Officers": ["First Name", "Id", "Last Name", "Middle Name"],
-      "Letter Officer": [
-        "Case Officer Id",
-        "Historical Behavior Notes",
-        "Id",
-        "Num Historical High Allegations",
-        "Num Historical Low Allegations",
-        "Num Historical Med Allegations",
-        "Officer History Option Id",
-        "Recommended Action Notes"
-      ],
-      "Referral Letter": ["Case Id", "Id", "Include Retaliation Concerns"],
-      "Referral Letter Iapro Corrections": ["Details", "Id"],
-      "Referral Letter Officer History Notes": [
-        "Details",
-        "Id",
-        "Pib Case Number",
-        "Referral Letter Officer Id"
-      ],
-      "Referral Letter Officer Recommended Actions": [
-        "Recommended Action Id",
-        "Referral Letter Officer Id"
-      ]
-    });
   });
 
   test("it returns letter data but does not include letter officers that are not accused officers", async () => {
@@ -453,5 +420,116 @@ describe("getReferralLetterData", () => {
 
     await getReferralLetterData(request, response, next);
     expect(response._getData()).toEqual(expectedResponseBody);
+  });
+
+  describe("newAuditFeature enabled", () => {
+    test("audits the data access", async () => {
+      request.fflip = mockFflipObject({ newAuditFeature: true });
+
+      await getReferralLetterData(request, response, next);
+
+      const expectedAuditDetails = {
+        caseOfficers: {
+          attributes: expect.arrayContaining([
+            "firstName",
+            "id",
+            "lastName",
+            "middleName"
+          ]),
+          model: models.case_officer.name
+        },
+        letterOfficer: {
+          attributes: expect.arrayContaining([
+            "caseOfficerId",
+            "historicalBehaviorNotes",
+            "id",
+            "numHistoricalHighAllegations",
+            "numHistoricalLowAllegations",
+            "numHistoricalMedAllegations",
+            "officerHistoryOptionId",
+            "recommendedActionNotes"
+          ]),
+          model: models.letter_officer.name
+        },
+        referralLetter: {
+          attributes: expect.arrayContaining([
+            "caseId",
+            "id",
+            "includeRetaliationConcerns"
+          ]),
+          model: models.referral_letter.name
+        },
+        referralLetterIaproCorrections: {
+          attributes: expect.arrayContaining(["details", "id"]),
+          model: models.referral_letter_iapro_correction.name
+        },
+        referralLetterOfficerHistoryNotes: {
+          attributes: expect.arrayContaining([
+            "id",
+            "details",
+            "pibCaseNumber",
+            "referralLetterOfficerId"
+          ]),
+          model: models.referral_letter_officer_history_note.name
+        },
+        referralLetterOfficerRecommendedActions: {
+          attributes: expect.arrayContaining([
+            "recommendedActionId",
+            "referralLetterOfficerId"
+          ]),
+          model: models.referral_letter_officer_recommended_action.name
+        }
+      };
+
+      expect(auditDataAccess).toHaveBeenCalledWith(
+        request.nickname,
+        existingCase.id,
+        AUDIT_SUBJECT.REFERRAL_LETTER_DATA,
+        expectedAuditDetails,
+        expect.anything()
+      );
+    });
+  });
+
+  describe("newAuditFeature disabled", () => {
+    test("audits the data access", async () => {
+      request.fflip = mockFflipObject({ newAuditFeature: false });
+
+      await getReferralLetterData(request, response, next);
+
+      const dataAccessAudit = await models.action_audit.findOne();
+      expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
+      expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
+      expect(dataAccessAudit.user).toEqual("bobjo");
+      expect(dataAccessAudit.caseId).toEqual(existingCase.id);
+      expect(dataAccessAudit.subject).toEqual(
+        AUDIT_SUBJECT.REFERRAL_LETTER_DATA
+      );
+      expect(dataAccessAudit.auditDetails).toEqual({
+        "Case Officers": ["First Name", "Id", "Last Name", "Middle Name"],
+        "Letter Officer": [
+          "Case Officer Id",
+          "Historical Behavior Notes",
+          "Id",
+          "Num Historical High Allegations",
+          "Num Historical Low Allegations",
+          "Num Historical Med Allegations",
+          "Officer History Option Id",
+          "Recommended Action Notes"
+        ],
+        "Referral Letter": ["Case Id", "Id", "Include Retaliation Concerns"],
+        "Referral Letter Iapro Corrections": ["Details", "Id"],
+        "Referral Letter Officer History Notes": [
+          "Details",
+          "Id",
+          "Pib Case Number",
+          "Referral Letter Officer Id"
+        ],
+        "Referral Letter Officer Recommended Actions": [
+          "Recommended Action Id",
+          "Referral Letter Officer Id"
+        ]
+      });
+    });
   });
 });
