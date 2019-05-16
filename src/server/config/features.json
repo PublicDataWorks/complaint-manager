@@ -3,9 +3,7 @@
     "id": "caseDashboardPaginationFeature",
     "name": "caseDashboardPaginationFeature",
     "description": "Enables pagination of the cases on the dashboard",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": true
   },
   {
     "id": "caseValidationFeature",
