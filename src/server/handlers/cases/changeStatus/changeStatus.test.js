@@ -174,7 +174,7 @@ describe("changeStatus", async () => {
         auditType: AUDIT_TYPE.DATA_ACCESS,
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         caseId: initialCase.id,
-        auditDetails: { ["Mock Attribute"]: ["Mock Details"] }
+        auditDetails: { ["Mock Association"]: ["Mock Details"] }
       })
     );
   });

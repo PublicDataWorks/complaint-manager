@@ -88,7 +88,7 @@ describe("updateCaseNarrative handler", () => {
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         auditType: AUDIT_TYPE.DATA_ACCESS,
         action: AUDIT_ACTION.DATA_ACCESSED,
-        auditDetails: { ["Mock Attribute"]: ["Mock Details"] }
+        auditDetails: { ["Mock Association"]: ["Mock Details"] }
       })
     );
   });

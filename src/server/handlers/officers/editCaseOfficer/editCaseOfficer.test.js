@@ -432,7 +432,7 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           action: AUDIT_ACTION.DATA_ACCESSED,
           auditType: AUDIT_TYPE.DATA_ACCESS,
-          auditDetails: { ["Mock Attribute"]: ["Mock Details"] }
+          auditDetails: { ["Mock Association"]: ["Mock Details"] }
         })
       );
     });

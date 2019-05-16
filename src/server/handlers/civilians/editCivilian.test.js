@@ -64,7 +64,7 @@ describe("editCivilian handler editing civilian with no address", () => {
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         user: "TEST_USER_NICKNAME",
         auditType: AUDIT_TYPE.DATA_ACCESS,
-        auditDetails: { ["Mock Attribute"]: ["Mock Details"] }
+        auditDetails: { ["Mock Association"]: ["Mock Details"] }
       })
     );
   });
