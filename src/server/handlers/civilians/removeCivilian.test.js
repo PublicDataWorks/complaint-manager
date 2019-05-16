@@ -6,28 +6,12 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } from "../../../sharedUtilities/constants";
-import mockLodash from "lodash";
 
 const models = require("../../models/index");
 const httpMocks = require("node-mocks-http");
 
-jest.mock("../getQueryAuditAccessDetails", () => ({
-  generateAndAddAuditDetailsFromQuery: jest.fn(
-    (existingDetails, queryOptions, topLevelModelName) => {
-      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
-        attributes: ["mockDetails"],
-        model: "mockModelName"
-      };
-    }
-  ),
-  addToExistingAuditDetails: jest.fn((existingDetails, detailsToAdd) => {
-    existingDetails["mockAttribute"] = {
-      attributes: ["mockDetails"],
-      model: "mockModelName"
-    };
-  }),
-  removeFromExistingAuditDetails: jest.fn()
-}));
+//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
+jest.mock("../getQueryAuditAccessDetails");
 
 describe("removeCivilian", function() {
   let existingCase;

@@ -13,25 +13,9 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import removeCaseOfficer from "./removeCaseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
-import mockLodash from "lodash";
 
-jest.mock("../../getQueryAuditAccessDetails", () => ({
-  generateAndAddAuditDetailsFromQuery: jest.fn(
-    (existingDetails, queryOptions, topLevelModelName) => {
-      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
-        attributes: ["mockDetails"],
-        model: "mockModelName"
-      };
-    }
-  ),
-  addToExistingAuditDetails: jest.fn((existingDetails, detailsToAdd) => {
-    existingDetails["mockAttribute"] = {
-      attributes: ["mockDetails"],
-      model: "mockModelName"
-    };
-  }),
-  removeFromExistingAuditDetails: jest.fn()
-}));
+//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
+jest.mock("../../getQueryAuditAccessDetails");
 
 describe("removeCaseOfficer", () => {
   afterEach(async () => {

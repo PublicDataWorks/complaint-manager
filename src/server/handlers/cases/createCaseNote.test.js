@@ -10,25 +10,9 @@ import {
 import createCaseNote from "./createCaseNote";
 import * as httpMocks from "node-mocks-http";
 import moment from "moment";
-import mockLodash from "lodash";
 
-jest.mock("../getQueryAuditAccessDetails", () => ({
-  generateAndAddAuditDetailsFromQuery: jest.fn(
-    (existingDetails, queryOptions, topLevelModelName) => {
-      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
-        attributes: ["mockDetails"],
-        model: "mockModelName"
-      };
-    }
-  ),
-  addToExistingAuditDetails: jest.fn((existingDetails, detailsToAdd) => {
-    existingDetails["mockAttribute"] = {
-      attributes: ["mockDetails"],
-      model: "mockModelName"
-    };
-  }),
-  removeFromExistingAuditDetails: jest.fn()
-}));
+//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
+jest.mock("../getQueryAuditAccessDetails");
 
 describe("createCaseNote", function() {
   let createdCase;

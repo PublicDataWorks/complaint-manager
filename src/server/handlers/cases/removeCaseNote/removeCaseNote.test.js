@@ -5,30 +5,14 @@ import CaseNote from "../../../../client/testUtilities/caseNote";
 import removeCaseNote from "./removeCaseNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
+  AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  CASE_STATUS,
-  AUDIT_ACTION
+  CASE_STATUS
 } from "../../../../sharedUtilities/constants";
-import mockLodash from "lodash";
 
-jest.mock("../../getQueryAuditAccessDetails", () => ({
-  generateAndAddAuditDetailsFromQuery: jest.fn(
-    (existingDetails, queryOptions, topLevelModelName) => {
-      existingDetails[mockLodash.camelCase(topLevelModelName)] = {
-        attributes: ["mockDetails"],
-        model: "mockModelName"
-      };
-    }
-  ),
-  addToExistingAuditDetails: jest.fn((existingDetails, detailsToAdd) => {
-    existingDetails["mockAttribute"] = {
-      attributes: ["mockDetails"],
-      model: "mockModelName"
-    };
-  }),
-  removeFromExistingAuditDetails: jest.fn()
-}));
+//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
+jest.mock("../../getQueryAuditAccessDetails");
 
 describe("RemoveCaseNote unit", () => {
   let createdCase, createdCaseNote;
