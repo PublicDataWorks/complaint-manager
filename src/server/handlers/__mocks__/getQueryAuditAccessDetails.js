@@ -6,7 +6,7 @@ export const removeFromExistingAuditDetails = (
 ) => {};
 
 export const addToExistingAuditDetails = (existingDetails, detailsToAdd) => {
-  existingDetails["mockAttribute"] = {
+  existingDetails["mockAssociation"] = {
     attributes: ["mockDetails"],
     model: "mockModelName"
   };
@@ -19,6 +19,6 @@ export const generateAndAddAuditDetailsFromQuery = (
 ) => {
   existingDetails[_.camelCase(topLevelModelName)] = {
     attributes: ["mockDetails"],
-    model: "mockModelName"
+    model: topLevelModelName
   };
 };

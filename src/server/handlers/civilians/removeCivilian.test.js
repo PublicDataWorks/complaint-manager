@@ -60,7 +60,7 @@ describe("removeCivilian", function() {
         auditType: AUDIT_TYPE.DATA_ACCESS,
         caseId: existingCase.id,
         action: AUDIT_ACTION.DATA_ACCESSED,
-        auditDetails: { ["Mock Attribute"]: ["Mock Details"] }
+        auditDetails: { ["Mock Association"]: ["Mock Details"] }
       })
     );
   });

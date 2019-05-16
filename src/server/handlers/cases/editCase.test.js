@@ -367,7 +367,7 @@ describe("Edit Case", () => {
             subject: AUDIT_SUBJECT.CASE_DETAILS,
             auditType: AUDIT_TYPE.DATA_ACCESS,
             caseId: existingCase.id,
-            auditDetails: { ["Mock Attribute"]: ["Mock Details"] }
+            auditDetails: { ["Mock Association"]: ["Mock Details"] }
           })
         );
       });

@@ -72,7 +72,7 @@ describe("deleteAttachment", function() {
         action: AUDIT_ACTION.DATA_ACCESSED,
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         auditType: AUDIT_TYPE.DATA_ACCESS,
-        auditDetails: { ["Mock Attribute"]: ["Mock Details"] }
+        auditDetails: { ["Mock Association"]: ["Mock Details"] }
       })
     );
   });

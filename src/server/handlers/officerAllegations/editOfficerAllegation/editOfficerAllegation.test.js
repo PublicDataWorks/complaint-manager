@@ -108,7 +108,7 @@ describe("editOfficerAllegation", () => {
         subject: AUDIT_SUBJECT.CASE_DETAILS,
         caseId: caseOfficer.caseId,
         action: AUDIT_ACTION.DATA_ACCESSED,
-        auditDetails: { ["Mock Attribute"]: ["Mock Details"] }
+        auditDetails: { ["Mock Association"]: ["Mock Details"] }
       })
     );
   });
