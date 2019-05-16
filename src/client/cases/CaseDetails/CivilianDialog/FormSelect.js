@@ -45,6 +45,10 @@ function inputComponent({ inputRef, ...props }) {
   return <div ref={inputRef} {...props} />;
 }
 
+function isDropdownDisabled(props) {
+  return "disabled" in props && props.disabled;
+}
+
 function Control(props) {
   let inputPropsExists = "inputProps" in props.selectProps;
   let dataTestExists =
@@ -55,6 +59,7 @@ function Control(props) {
   return (
     <TextField
       fullWidth
+      disabled={isDropdownDisabled(props.selectProps)}
       InputProps={{
         inputComponent,
         inputProps: {
@@ -74,13 +79,15 @@ function Control(props) {
 }
 
 function Option(props) {
+  const shouldHide = props.children === "";
   return (
     <MenuItem
       buttonRef={props.innerRef}
       selected={props.isFocused}
       component="li"
       style={{
-        fontWeight: props.isSelected ? 500 : 400
+        fontWeight: props.isSelected ? 500 : 400,
+        display: shouldHide ? "none" : "flex"
       }}
       role="option"
       data-value={props.data.value}
@@ -160,12 +167,12 @@ export const getSelectedValue = (props, options) => {
   return selectedValue;
 };
 
-const isDisabled = custom => {
+const optionsAreDisabled = custom => {
   if ("disabled" in custom) return custom.disabled;
 };
 
 export const getOptionsIfEnabled = (custom, children) => {
-  if (isDisabled(custom)) {
+  if (optionsAreDisabled(custom)) {
     return [];
   } else {
     return children;
@@ -239,6 +246,7 @@ class NoBlurTextField extends React.Component {
           menuPosition="fixed"
           maxMenuHeight="260"
           filterOption={createFilter(filterConfig)}
+          isDisabled={isDropdownDisabled(this.props)}
         />
       </FormControl>
     );
