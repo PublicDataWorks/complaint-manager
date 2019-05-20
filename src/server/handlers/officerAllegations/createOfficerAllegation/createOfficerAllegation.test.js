@@ -13,9 +13,12 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } from "../../../../sharedUtilities/constants";
+import mockFflipObject from "../../../testHelpers/mockFflipObject";
+import auditDataAccess from "../../auditDataAccess";
 
 //mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
 jest.mock("../../getQueryAuditAccessDetails");
+jest.mock("../../auditDataAccess");
 
 describe("createOfficerAllegation", () => {
   let newCase, allegation, response, next;
@@ -129,45 +132,76 @@ describe("createOfficerAllegation", () => {
     );
   });
 
-  test("should audit case data access when officer allegation created", async () => {
-    const caseOfficer = newCase.accusedOfficers[0];
-    const allegationDetails = "test details";
+  describe("auditing", () => {
+    let request, response, next;
 
-    const request = httpMocks.createRequest({
-      method: "POST",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
-      params: {
-        caseId: newCase.id,
-        caseOfficerId: caseOfficer.id
-      },
-      body: {
-        allegationId: allegation.id,
-        details: allegationDetails,
-        severity: ALLEGATION_SEVERITY.MEDIUM
-      },
-      nickname: "TEST_USER_NICKNAME"
+    beforeEach(() => {
+      const caseOfficer = newCase.accusedOfficers[0];
+      const allegationDetails = "test details";
+
+      request = httpMocks.createRequest({
+        method: "POST",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        params: {
+          caseId: newCase.id,
+          caseOfficerId: caseOfficer.id
+        },
+        body: {
+          allegationId: allegation.id,
+          details: allegationDetails,
+          severity: ALLEGATION_SEVERITY.MEDIUM
+        },
+        nickname: "TEST_USER_NICKNAME"
+      });
+
+      response = httpMocks.createResponse();
+      next = jest.fn();
     });
 
-    const response = httpMocks.createResponse();
-    const next = jest.fn();
+    describe("newAuditFeature disabled", () => {
+      test("should audit case data access when officer allegation created", async () => {
+        request.fflip = mockFflipObject({ newAuditFeature: false });
 
-    await createOfficerAllegation(request, response, next);
+        await createOfficerAllegation(request, response, next);
 
-    const actionAudit = await models.action_audit.findOne({
-      where: { caseId: newCase.id }
+        const actionAudit = await models.action_audit.findOne({
+          where: { caseId: newCase.id }
+        });
+
+        expect(actionAudit).toEqual(
+          expect.objectContaining({
+            caseId: newCase.id,
+            subject: AUDIT_SUBJECT.CASE_DETAILS,
+            action: AUDIT_ACTION.DATA_ACCESSED,
+            auditType: AUDIT_TYPE.DATA_ACCESS,
+            user: "TEST_USER_NICKNAME",
+            auditDetails: { ["Mock Association"]: ["Mock Details"] }
+          })
+        );
+      });
     });
 
-    expect(actionAudit).toEqual(
-      expect.objectContaining({
-        caseId: newCase.id,
-        subject: AUDIT_SUBJECT.CASE_DETAILS,
-        action: AUDIT_ACTION.DATA_ACCESSED,
-        auditType: AUDIT_TYPE.DATA_ACCESS,
-        user: "TEST_USER_NICKNAME",
-        auditDetails: { ["Mock Association"]: ["Mock Details"] }
-      })
-    );
+    describe("newAuditFeature enabled", () => {
+      test("should audit case data access when officer allegation created", async () => {
+        request.fflip = mockFflipObject({ newAuditFeature: true });
+
+        await createOfficerAllegation(request, response, next);
+
+        expect(auditDataAccess).toHaveBeenCalledWith(
+          request.nickname,
+          newCase.id,
+          AUDIT_SUBJECT.CASE_DETAILS,
+          {
+            mockAssociation: {
+              attributes: ["mockDetails"],
+              model: "mockModelName"
+            }
+          },
+          expect.anything()
+        );
+      });
+    });
   });
 });
