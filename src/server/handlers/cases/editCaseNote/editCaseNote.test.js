@@ -10,6 +10,13 @@ import {
   CASE_STATUS,
   AUDIT_ACTION
 } from "../../../../sharedUtilities/constants";
+import mockFflipObject from "../../../testHelpers/mockFflipObject";
+import auditDataAccess from "../../auditDataAccess";
+import { generateAndAddAuditDetailsFromQuery } from "../../getQueryAuditAccessDetails";
+
+//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
+jest.mock("../../getQueryAuditAccessDetails");
+jest.mock("../../auditDataAccess");
 
 describe("editCaseNote", function() {
   let createdCase,
@@ -108,36 +115,99 @@ describe("editCaseNote", function() {
     );
   });
 
-  test("should audit when case note accessed through edit", async () => {
-    const request = httpMocks.createRequest({
-      method: "PUT",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
-      params: {
-        caseId: createdCase.id,
-        caseNoteId: createdCaseNote.id
-      },
-      body: updatedCaseNote,
-      nickname: "TEST_USER_NICKNAME"
+  describe("newAuditFeature enabled", () => {
+    let request, response, next;
+    beforeEach(() => {
+      request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        fflip: mockFflipObject({ newAuditFeature: true }),
+        params: {
+          caseId: createdCase.id,
+          caseNoteId: createdCaseNote.id
+        },
+        body: updatedCaseNote,
+        nickname: "TEST_USER_NICKNAME"
+      });
+      response = httpMocks.createResponse();
+      next = jest.fn();
     });
 
-    const response = httpMocks.createResponse();
-    const next = jest.fn();
-    await editCaseNote(request, response, next);
+    test("should call generateAndAddAuditDetailsFromQuery with correct arguments", async () => {
+      /*
+       jest seems to use passed by reference value when asserting
+       on function inputs. Since we mutate the value of audit details in
+       this function but we want to assert against the original inputs,
+       we decided to make the mock implementation do nothing.
 
-    const actionAudit = await models.action_audit.findOne({
-      where: { caseId: createdCase.id }
+       see: https://github.com/facebook/jest/issues/4715
+       */
+      generateAndAddAuditDetailsFromQuery.mockImplementationOnce(jest.fn());
+
+      await editCaseNote(request, response, next);
+
+      expect(generateAndAddAuditDetailsFromQuery).toHaveBeenCalledWith(
+        {},
+        expect.objectContaining({
+          auditUser: request.nickname
+        }),
+        models.case_note.name
+      );
     });
 
-    expect(actionAudit).toEqual(
-      expect.objectContaining({
-        user: "TEST_USER_NICKNAME",
-        auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: AUDIT_ACTION.DATA_ACCESSED,
-        subject: AUDIT_SUBJECT.CASE_NOTES,
-        caseId: createdCase.id
-      })
-    );
+    test("should audit when case note accessed through edit", async () => {
+      await editCaseNote(request, response, next);
+
+      expect(auditDataAccess).toHaveBeenCalledWith(
+        request.nickname,
+        createdCase.id,
+        AUDIT_SUBJECT.CASE_NOTES,
+        {
+          caseNote: {
+            attributes: ["mockDetails"],
+            model: models.case_note.name
+          }
+        },
+        expect.anything()
+      );
+    });
+  });
+
+  describe("newAuditFeature disabled", () => {
+    test("should audit when case note accessed through edit", async () => {
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        fflip: mockFflipObject({ newAuditFeature: false }),
+        params: {
+          caseId: createdCase.id,
+          caseNoteId: createdCaseNote.id
+        },
+        body: updatedCaseNote,
+        nickname: "TEST_USER_NICKNAME"
+      });
+
+      const response = httpMocks.createResponse();
+      const next = jest.fn();
+      await editCaseNote(request, response, next);
+
+      const actionAudit = await models.action_audit.findOne({
+        where: { caseId: createdCase.id }
+      });
+
+      expect(actionAudit).toEqual(
+        expect.objectContaining({
+          user: "TEST_USER_NICKNAME",
+          auditType: AUDIT_TYPE.DATA_ACCESS,
+          action: AUDIT_ACTION.DATA_ACCESSED,
+          subject: AUDIT_SUBJECT.CASE_NOTES,
+          caseId: createdCase.id
+        })
+      );
+    });
   });
 });
