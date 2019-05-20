@@ -11,6 +11,8 @@ import {
 } from "../../../sharedUtilities/constants";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
+import mockFflipObject from "../../testHelpers/mockFflipObject";
+import auditDataAccess from "../auditDataAccess";
 
 const httpMocks = require("node-mocks-http");
 const models = require("../../models");
@@ -19,6 +21,7 @@ const Boom = require("boom");
 
 //mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
 jest.mock("../getQueryAuditAccessDetails");
+jest.mock("../auditDataAccess");
 
 describe("Edit Case", () => {
   let request,
@@ -352,24 +355,48 @@ describe("Edit Case", () => {
         expect(existingCase.incidentLocation.city).toEqual("Durham");
       });
 
-      test("should audit case details access when case updated", async () => {
-        await editCase(request, response, next);
+      describe("newAuditFeatureToggle disabled", () => {
+        test("should audit case details access when case updated", async () => {
+          request.fflip = mockFflipObject({ newAuditFeature: false });
+          await editCase(request, response, next);
 
-        const actionAudit = await models.action_audit.findOne({
-          where: { caseId: existingCase.id },
-          returning: true
+          const actionAudit = await models.action_audit.findOne({
+            where: { caseId: existingCase.id },
+            returning: true
+          });
+
+          expect(actionAudit).toEqual(
+            expect.objectContaining({
+              user: "TEST_USER_NICKNAME",
+              action: AUDIT_ACTION.DATA_ACCESSED,
+              subject: AUDIT_SUBJECT.CASE_DETAILS,
+              auditType: AUDIT_TYPE.DATA_ACCESS,
+              caseId: existingCase.id,
+              auditDetails: { ["Mock Association"]: ["Mock Details"] }
+            })
+          );
         });
+      });
 
-        expect(actionAudit).toEqual(
-          expect.objectContaining({
-            user: "TEST_USER_NICKNAME",
-            action: AUDIT_ACTION.DATA_ACCESSED,
-            subject: AUDIT_SUBJECT.CASE_DETAILS,
-            auditType: AUDIT_TYPE.DATA_ACCESS,
-            caseId: existingCase.id,
-            auditDetails: { ["Mock Association"]: ["Mock Details"] }
-          })
-        );
+      describe("newAuditFeatureToggle enabled", () => {
+        test("should audit case details access when case updated", async () => {
+          request.fflip = mockFflipObject({ newAuditFeature: true });
+
+          await editCase(request, response, next);
+
+          expect(auditDataAccess).toHaveBeenCalledWith(
+            request.nickname,
+            existingCase.id,
+            AUDIT_SUBJECT.CASE_DETAILS,
+            {
+              mockAssociation: {
+                attributes: ["mockDetails"],
+                model: "mockModelName"
+              }
+            },
+            expect.anything()
+          );
+        });
       });
     });
   });
