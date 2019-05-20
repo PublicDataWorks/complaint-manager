@@ -5,6 +5,8 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } from "../../../sharedUtilities/constants";
+import auditDataAccess from "../auditDataAccess";
+import mockFflipObject from "../../testHelpers/mockFflipObject";
 
 const httpMocks = require("node-mocks-http");
 const models = require("../../models/index");
@@ -12,6 +14,7 @@ const updateCaseNarrative = require("./updateCaseNarrative");
 
 //mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
 jest.mock("../getQueryAuditAccessDetails");
+jest.mock("../auditDataAccess");
 
 describe("updateCaseNarrative handler", () => {
   let request, response, existingCase, userNickname, next;
@@ -74,22 +77,49 @@ describe("updateCaseNarrative handler", () => {
     expect(response._isEndCalled()).toBeTruthy();
   });
 
-  test("should audit case details access when case narrative updated", async () => {
-    await updateCaseNarrative(request, response, next);
-
-    const actionAudit = await models.action_audit.findOne({
-      where: { caseId: existingCase.id }
+  describe("newAuditFeature enabled", () => {
+    beforeEach(() => {
+      request.fflip = mockFflipObject({ newAuditFeature: true });
     });
+    test("should audit case details access when case narrative updated", async () => {
+      await updateCaseNarrative(request, response, next);
 
-    expect(actionAudit).toEqual(
-      expect.objectContaining({
-        user: userNickname,
-        caseId: existingCase.id,
-        subject: AUDIT_SUBJECT.CASE_DETAILS,
-        auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: AUDIT_ACTION.DATA_ACCESSED,
-        auditDetails: { ["Mock Association"]: ["Mock Details"] }
-      })
-    );
+      expect(auditDataAccess).toHaveBeenCalledWith(
+        request.nickname,
+        existingCase.id,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        {
+          mockAssociation: {
+            attributes: ["mockDetails"],
+            model: "mockModelName"
+          }
+        },
+        expect.anything()
+      );
+    });
+  });
+
+  describe("newAuditFeature disabled", () => {
+    beforeEach(() => {
+      request.fflip = mockFflipObject({ newAuditFeature: false });
+    });
+    test("should audit case details access when case narrative updated", async () => {
+      await updateCaseNarrative(request, response, next);
+
+      const actionAudit = await models.action_audit.findOne({
+        where: { caseId: existingCase.id }
+      });
+
+      expect(actionAudit).toEqual(
+        expect.objectContaining({
+          user: userNickname,
+          caseId: existingCase.id,
+          subject: AUDIT_SUBJECT.CASE_DETAILS,
+          auditType: AUDIT_TYPE.DATA_ACCESS,
+          action: AUDIT_ACTION.DATA_ACCESSED,
+          auditDetails: { ["Mock Association"]: ["Mock Details"] }
+        })
+      );
+    });
   });
 });
