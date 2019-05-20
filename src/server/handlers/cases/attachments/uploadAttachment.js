@@ -13,6 +13,8 @@ import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 import Boom from "boom";
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
+import auditDataAccess from "../../auditDataAccess";
 
 const uploadAttachment = asyncMiddleware((request, response, next) => {
   let managedUpload;
@@ -20,6 +22,10 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
   const busboy = new Busboy({
     headers: request.headers
   });
+  const newAuditFeatureToggle = checkFeatureToggleEnabled(
+    request,
+    "newAuditFeature"
+  );
 
   let attachmentDescription;
 
@@ -79,14 +85,24 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
                 auditDetails
               );
 
-              await legacyAuditDataAccess(
-                request.nickname,
-                caseId,
-                AUDIT_SUBJECT.CASE_DETAILS,
-                transaction,
-                AUDIT_ACTION.DATA_ACCESSED,
-                auditDetails
-              );
+              if (newAuditFeatureToggle) {
+                await auditDataAccess(
+                  request.nickname,
+                  caseId,
+                  AUDIT_SUBJECT.CASE_DETAILS,
+                  auditDetails,
+                  transaction
+                );
+              } else {
+                await legacyAuditDataAccess(
+                  request.nickname,
+                  caseId,
+                  AUDIT_SUBJECT.CASE_DETAILS,
+                  transaction,
+                  AUDIT_ACTION.DATA_ACCESSED,
+                  auditDetails
+                );
+              }
 
               return caseDetails;
             }
