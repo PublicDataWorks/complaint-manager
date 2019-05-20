@@ -9,6 +9,7 @@ import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import _ from "lodash";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import auditDataAccess from "../../auditDataAccess";
 
 const { CASE_STATUS } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -36,6 +37,11 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
   const caseValidationToggle = checkFeatureToggleEnabled(
     request,
     "caseValidationFeature"
+  );
+
+  const newAuditFeatureToggle = checkFeatureToggleEnabled(
+    request,
+    "newAuditFeature"
   );
 
   const currentCase = await models.sequelize.transaction(async transaction => {
@@ -74,15 +80,24 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
       auditDetails
     );
 
-    await legacyAuditDataAccess(
-      request.nickname,
-      request.params.caseId,
-      AUDIT_SUBJECT.CASE_DETAILS,
-      transaction,
-      AUDIT_ACTION.DATA_ACCESSED,
-      auditDetails
-    );
-
+    if (newAuditFeatureToggle) {
+      await auditDataAccess(
+        request.nickname,
+        request.params.caseId,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        auditDetails,
+        transaction
+      );
+    } else {
+      await legacyAuditDataAccess(
+        request.nickname,
+        request.params.caseId,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        transaction,
+        AUDIT_ACTION.DATA_ACCESSED,
+        auditDetails
+      );
+    }
     if (!_.isEmpty(validationErrors)) {
       throw Boom.badRequest(
         BAD_REQUEST_ERRORS.VALIDATION_ERROR_HEADER,
