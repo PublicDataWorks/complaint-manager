@@ -10,10 +10,16 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
 import Case from "../../../client/testUtilities/case";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
+import mockFflipObject from "../../testHelpers/mockFflipObject";
+import auditDataAccess from "../auditDataAccess";
+import { generateAndAddAuditDetailsFromQuery } from "../getQueryAuditAccessDetails";
 
 const httpMocks = require("node-mocks-http");
 const createCase = require("./createCase");
 const models = require("../../models");
+
+jest.mock("../auditDataAccess");
+jest.mock("../getQueryAuditAccessDetails");
 
 describe("createCase handler", () => {
   let request, response, next, caseAttributes, civilianAttributes, user;
@@ -176,13 +182,14 @@ describe("createCase handler", () => {
     );
   });
 
-  describe("audit data access", () => {
+  describe("newAuditFeature disabled", () => {
     test("should audit when creating a case with an officer complainant", async () => {
       const policeOfficerRequest = httpMocks.createRequest({
         method: "POST",
         headers: {
           authorization: "Bearer SOME_MOCK_TOKEN"
         },
+        fflip: mockFflipObject({ newAuditFeature: false }),
         body: {
           case: {
             complaintType: RANK_INITIATED,
@@ -213,6 +220,8 @@ describe("createCase handler", () => {
     });
 
     test("should audit when creating a case with a civilian complainant", async () => {
+      request.fflip = mockFflipObject({ newAuditFeature: false });
+
       await createCase(request, response, next);
 
       const cases = await models.cases.findAll({ returning: true });
@@ -229,6 +238,90 @@ describe("createCase handler", () => {
           subject: AUDIT_SUBJECT.CASE_DETAILS,
           caseId: cases[0].id
         })
+      );
+    });
+  });
+
+  describe("newAuditFeature enabled", () => {
+    test("should call generateAndAddAuditDetailsFromQuery with correct arguments", async () => {
+      /*
+       jest seems to use passed by reference value when asserting
+       on function inputs. Since we mutate the value of audit details in
+       this function but we want to assert against the original inputs,
+       we decided to make the mock implementation do nothing.
+
+       see: https://github.com/facebook/jest/issues/4715
+       */
+
+      generateAndAddAuditDetailsFromQuery.mockImplementationOnce(jest.fn());
+
+      await createCase(request, response, next);
+
+      expect(generateAndAddAuditDetailsFromQuery).toHaveBeenCalledWith(
+        {},
+        expect.objectContaining({
+          auditUser: request.nickname,
+          include: expect.arrayContaining([
+            expect.objectContaining({ as: "complainantCivilians" })
+          ])
+        }),
+        models.cases.name
+      );
+    });
+
+    test("should audit when creating a case with an officer complainant", async () => {
+      const policeOfficerRequest = httpMocks.createRequest({
+        method: "POST",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        fflip: mockFflipObject({ newAuditFeature: true }),
+        body: {
+          case: {
+            complaintType: RANK_INITIATED,
+            firstContactDate: "2018-02-08",
+            incidentDate: "2018-03-16T17:42"
+          }
+        },
+        nickname: user
+      });
+
+      await createCase(policeOfficerRequest, response, next);
+
+      const cases = await models.cases.findAll({ returning: true });
+
+      expect(auditDataAccess).toHaveBeenCalledWith(
+        request.nickname,
+        cases[0].id,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        {
+          cases: {
+            attributes: ["mockDetails"],
+            model: models.cases.name
+          }
+        },
+        expect.anything()
+      );
+    });
+
+    test("should audit when creating a case with a civilian complainant", async () => {
+      request.fflip = mockFflipObject({ newAuditFeature: true });
+
+      await createCase(request, response, next);
+
+      const cases = await models.cases.findAll({ returning: true });
+
+      expect(auditDataAccess).toHaveBeenCalledWith(
+        request.nickname,
+        cases[0].id,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        {
+          cases: {
+            attributes: ["mockDetails"],
+            model: models.cases.name
+          }
+        },
+        expect.anything()
       );
     });
   });
