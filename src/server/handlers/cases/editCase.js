@@ -12,6 +12,7 @@ const asyncMiddleware = require("../asyncMiddleware");
 import { getCaseWithAllAssociations } from "../getCaseHelpers";
 const _ = require("lodash");
 import legacyAuditDataAccess from "../legacyAuditDataAccess";
+import auditDataAccess from "../auditDataAccess";
 const Boom = require("boom");
 
 async function upsertAddress(caseId, incidentLocation, transaction, nickname) {
@@ -47,6 +48,10 @@ const editCase = asyncMiddleware(async (request, response, next) => {
       request,
       "caseValidationFeature"
     );
+    const newAuditFeatureToggle = checkFeatureToggleEnabled(
+      request,
+      "newAuditFeature"
+    );
 
     const updatedCase = await models.sequelize.transaction(
       async transaction => {
@@ -79,14 +84,24 @@ const editCase = asyncMiddleware(async (request, response, next) => {
           auditDetails
         );
 
-        await legacyAuditDataAccess(
-          request.nickname,
-          request.params.caseId,
-          AUDIT_SUBJECT.CASE_DETAILS,
-          transaction,
-          AUDIT_ACTION.DATA_ACCESSED,
-          auditDetails
-        );
+        if (newAuditFeatureToggle) {
+          await auditDataAccess(
+            request.nickname,
+            request.params.caseId,
+            AUDIT_SUBJECT.CASE_DETAILS,
+            auditDetails,
+            transaction
+          );
+        } else {
+          await legacyAuditDataAccess(
+            request.nickname,
+            request.params.caseId,
+            AUDIT_SUBJECT.CASE_DETAILS,
+            transaction,
+            AUDIT_ACTION.DATA_ACCESSED,
+            auditDetails
+          );
+        }
 
         return caseDetails;
       }
