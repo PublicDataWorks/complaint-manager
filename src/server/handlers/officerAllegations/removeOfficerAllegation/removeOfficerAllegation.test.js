@@ -14,9 +14,13 @@ import models from "../../../models";
 import removeOfficerAllegation from "./removeOfficerAllegation";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import mockFflipObject from "../../../testHelpers/mockFflipObject";
+import auditDataAccess from "../../auditDataAccess";
 
 //mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
 jest.mock("../../getQueryAuditAccessDetails");
+
+jest.mock("../../auditDataAccess");
 
 describe("removeOfficerAllegation", () => {
   afterEach(async () => {
@@ -111,38 +115,74 @@ describe("removeOfficerAllegation", () => {
 
       expect(createdAccusedOfficer.allegations).toEqual([]);
     });
+    describe("newAuditFeature disabled", () => {
+      test("should audit case details access on remove officer allegation", async () => {
+        const request = httpMocks.createRequest({
+          method: "DELETE",
+          headers: {
+            authorization: "Bearer SOME_MOCK_TOKEN"
+          },
+          params: {
+            officerAllegationId: officerAllegationToRemove.id
+          },
+          nickname: "TEST_USER_NICKNAME",
+          fflip: mockFflipObject({ newAuditFeature: false })
+        });
 
-    test("should audit case details access on remove officer allegation", async () => {
-      const request = httpMocks.createRequest({
-        method: "DELETE",
-        headers: {
-          authorization: "Bearer SOME_MOCK_TOKEN"
-        },
-        params: {
-          officerAllegationId: officerAllegationToRemove.id
-        },
-        nickname: "TEST_USER_NICKNAME"
+        const response = httpMocks.createResponse();
+        const next = jest.fn();
+
+        await removeOfficerAllegation(request, response, next);
+
+        const actionAudit = await models.action_audit.findOne({
+          where: { caseId: createdAccusedOfficer.caseId }
+        });
+
+        expect(actionAudit).toEqual(
+          expect.objectContaining({
+            caseId: createdAccusedOfficer.caseId,
+            subject: AUDIT_SUBJECT.CASE_DETAILS,
+            user: "TEST_USER_NICKNAME",
+            action: AUDIT_ACTION.DATA_ACCESSED,
+            auditType: AUDIT_TYPE.DATA_ACCESS,
+            auditDetails: { ["Mock Association"]: ["Mock Details"] }
+          })
+        );
       });
+    });
 
-      const response = httpMocks.createResponse();
-      const next = jest.fn();
+    describe("newAuditFeature enabled", () => {
+      test("should audit case details access on remove officer allegation", async () => {
+        const request = httpMocks.createRequest({
+          method: "DELETE",
+          headers: {
+            authorization: "Bearer SOME_MOCK_TOKEN"
+          },
+          params: {
+            officerAllegationId: officerAllegationToRemove.id
+          },
+          nickname: "TEST_USER_NICKNAME",
+          fflip: mockFflipObject({ newAuditFeature: true })
+        });
 
-      await removeOfficerAllegation(request, response, next);
+        const response = httpMocks.createResponse();
+        const next = jest.fn();
 
-      const actionAudit = await models.action_audit.findOne({
-        where: { caseId: createdAccusedOfficer.caseId }
+        await removeOfficerAllegation(request, response, next);
+
+        expect(auditDataAccess).toHaveBeenCalledWith(
+          request.nickname,
+          createdAccusedOfficer.caseId,
+          AUDIT_SUBJECT.CASE_DETAILS,
+          {
+            mockAssociation: {
+              attributes: ["mockDetails"],
+              model: "mockModelName"
+            }
+          },
+          expect.anything()
+        );
       });
-
-      expect(actionAudit).toEqual(
-        expect.objectContaining({
-          caseId: createdAccusedOfficer.caseId,
-          subject: AUDIT_SUBJECT.CASE_DETAILS,
-          user: "TEST_USER_NICKNAME",
-          action: AUDIT_ACTION.DATA_ACCESSED,
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          auditDetails: { ["Mock Association"]: ["Mock Details"] }
-        })
-      );
     });
   });
 });
