@@ -23,8 +23,10 @@ import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import constructFilename from "../constructFilename";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
+import auditDataAccess from "../../../auditDataAccess";
 const SAMPLE_FINAL_PDF_FILENAME = "some_filename.pdf";
 const SAMPLE_REFERRAL_PDF_FILENAME = "referral_letter_filename.pdf";
+import _ from "lodash";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 jest.mock(
@@ -50,6 +52,7 @@ jest.mock("../constructFilename", () => (existingCase, pdfLetterType) => {
   return "referral_letter_filename.pdf";
 });
 jest.mock("../../../legacyAuditDataAccess", () => jest.fn());
+jest.mock("../../../auditDataAccess");
 
 describe("approveLetter", () => {
   let existingCase, request, response, next, referralLetter;
@@ -128,6 +131,16 @@ describe("approveLetter", () => {
         nickname: "nickname",
         permissions: [`${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES}`]
       });
+    });
+
+    test("should not audit data access if no data is returned in the response when approving letter", async () => {
+      await elevateCaseStatusToReadyForReview(existingCase);
+      await approveLetter(request, response, next);
+
+      //TODO: when removing newAuditFeature, remove expectation on legacyAuditDataAccess
+      expect(legacyAuditDataAccess).not.toHaveBeenCalled();
+      expect(auditDataAccess).not.toHaveBeenCalled();
+      expect(_.isEmpty(response._getData())).toBeTruthy();
     });
 
     test("changes status to forwarded to agency", async () => {
@@ -211,17 +224,6 @@ describe("approveLetter", () => {
         expect(newAttachment.fileName).toEqual(SAMPLE_FINAL_PDF_FILENAME);
         expect(newAttachment.caseId).toEqual(existingCase.id);
         expect(newAttachment.description).toEqual(COMPLAINANT_LETTER);
-      });
-
-      test("should audit data access when creating attachment", async () => {
-        await elevateCaseStatusToReadyForReview(existingCase);
-        await approveLetter(request, response, next);
-        expect(legacyAuditDataAccess).toHaveBeenCalledWith(
-          "nickname",
-          existingCase.id,
-          AUDIT_SUBJECT.CASE_DETAILS,
-          expect.any(Object)
-        );
       });
     });
   });
