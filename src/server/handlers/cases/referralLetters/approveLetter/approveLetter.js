@@ -44,12 +44,7 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
       transaction,
       nickname
     );
-    await legacyAuditDataAccess(
-      nickname,
-      caseId,
-      AUDIT_SUBJECT.CASE_DETAILS,
-      transaction
-    );
+
     await generateReferralLetterAndUploadToS3(caseId, filename, transaction);
 
     await createLetterAttachment(
