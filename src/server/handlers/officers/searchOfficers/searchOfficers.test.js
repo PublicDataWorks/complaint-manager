@@ -1,6 +1,8 @@
 import Case from "../../../../client/testUtilities/case";
 import Officer from "../../../../client/testUtilities/Officer";
 import models from "../../../models/index";
+import mockFflipObject from "../../../testHelpers/mockFflipObject";
+import auditDataAccess from "../../auditDataAccess";
 
 const { cleanupDatabase } = require("../../../testHelpers/requestTestHelpers");
 const httpMocks = require("node-mocks-http");
@@ -12,8 +14,13 @@ const {
   DEFAULT_PAGINATION_LIMIT
 } = require("../../../../sharedUtilities/constants");
 
+//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
+jest.mock("../../getQueryAuditAccessDetails");
+
+jest.mock("../../auditDataAccess");
+
 describe("searchOfficers", function() {
-  let existingCase;
+  let existingCase, response, next, request;
   beforeEach(async () => {
     const caseToCreate = new Case.Builder()
       .defaultCase()
@@ -23,14 +30,11 @@ describe("searchOfficers", function() {
     existingCase = await models.cases.create(caseToCreate, {
       auditUser: "someone"
     });
-  });
 
-  afterEach(async () => {
-    await cleanupDatabase();
-  });
+    response = httpMocks.createResponse();
+    next = jest.fn();
 
-  test("should audit when retrieving a case", async () => {
-    const request = httpMocks.createRequest({
+    request = httpMocks.createRequest({
       method: "GET",
       headers: {
         authorization: "Bearer token"
@@ -38,26 +42,54 @@ describe("searchOfficers", function() {
       query: {
         firstName: "Sal",
         caseId: existingCase.id,
-        page: 1
+        page: 2
       },
       nickname: "nickname"
     });
+  });
 
-    const response = httpMocks.createResponse();
-    const next = jest.fn();
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
 
-    await searchOfficers(request, response, next);
+  describe("newAuditFeature is disabled", () => {
+    test("should audit when retrieving a case", async () => {
+      request.fflip = mockFflipObject({ newAuditFeature: false });
 
-    const actionAudit = await models.action_audit.findOne({
-      where: { subject: AUDIT_SUBJECT.OFFICER_DATA },
-      returning: true
+      await searchOfficers(request, response, next);
+
+      const actionAudit = await models.action_audit.findOne({
+        where: { subject: AUDIT_SUBJECT.OFFICER_DATA },
+        returning: true
+      });
+
+      expect(actionAudit.user).toEqual("nickname");
+      expect(actionAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
+      expect(actionAudit.subject).toEqual(AUDIT_SUBJECT.OFFICER_DATA);
+      expect(actionAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
+      expect(actionAudit.caseId).toEqual(null);
     });
+  });
 
-    expect(actionAudit.user).toEqual("nickname");
-    expect(actionAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
-    expect(actionAudit.subject).toEqual(AUDIT_SUBJECT.OFFICER_DATA);
-    expect(actionAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
-    expect(actionAudit.caseId).toEqual(null);
+  describe("newAuditFeature is enabled", () => {
+    test("should audit when retrieving a case", async () => {
+      request.fflip = mockFflipObject({ newAuditFeature: true });
+
+      await searchOfficers(request, response, next);
+
+      expect(auditDataAccess).toHaveBeenCalledWith(
+        request.nickname,
+        null,
+        AUDIT_SUBJECT.OFFICER_DATA,
+        {
+          officer: {
+            attributes: ["mockDetails"],
+            model: "officer"
+          }
+        },
+        expect.anything()
+      );
+    });
   });
 
   test("should handle pagination", async () => {
@@ -75,21 +107,8 @@ describe("searchOfficers", function() {
     officers[officers.length - 1].lastName = "LAST";
 
     await models.officer.bulkCreate(officers);
-    const request = httpMocks.createRequest({
-      method: "GET",
-      headers: {
-        authorization: "Bearer TOKEN"
-      },
-      query: {
-        caseId: existingCase.id,
-        firstName: "Sal",
-        page: 2
-      },
-      nickname: "nickname"
-    });
 
-    const response = httpMocks.createResponse();
-    await searchOfficers(request, response, jest.fn());
+    await searchOfficers(request, response, next);
 
     expect(response._getData().rows.length).toEqual(1);
     expect(response._getData().rows).toEqual([
