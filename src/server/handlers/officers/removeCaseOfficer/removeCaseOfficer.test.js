@@ -13,9 +13,12 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import removeCaseOfficer from "./removeCaseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
+import mockFflipObject from "../../../testHelpers/mockFflipObject";
+import auditDataAccess from "../../auditDataAccess";
 
 //mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
 jest.mock("../../getQueryAuditAccessDetails");
+jest.mock("../../auditDataAccess");
 
 describe("removeCaseOfficer", () => {
   afterEach(async () => {
@@ -106,37 +109,6 @@ describe("removeCaseOfficer", () => {
       expect(officerAllegation).toEqual(null);
     });
 
-    test("should audit removing case officer", async () => {
-      const request = httpMocks.createRequest({
-        method: "DELETE",
-        headers: {
-          authorization: "Bearer SOME_MOCK_TOKEN"
-        },
-        params: {
-          caseId: existingCase.id,
-          caseOfficerId: existingCaseOfficer.id
-        },
-        nickname: "someone"
-      });
-
-      await removeCaseOfficer(request, response, next);
-
-      const audit = await models.action_audit.findOne({
-        where: { caseId: existingCase.id }
-      });
-
-      expect(audit).toEqual(
-        expect.objectContaining({
-          user: "someone",
-          subject: AUDIT_SUBJECT.CASE_DETAILS,
-          caseId: existingCase.id,
-          action: AUDIT_ACTION.DATA_ACCESSED,
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          auditDetails: { ["Mock Association"]: ["Mock Details"] }
-        })
-      );
-    });
-
     test("should not delete associated officerAllegations when caseOfficer deletion fails", async () => {
       const request = httpMocks.createRequest({
         method: "DELETE",
@@ -173,5 +145,66 @@ describe("removeCaseOfficer", () => {
         auditUser: "someone"
       });
     }
+  });
+
+  describe("auditing", () => {
+    let request;
+    beforeEach(() => {
+      request = httpMocks.createRequest({
+        method: "DELETE",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "someone"
+      });
+    });
+
+    describe("newAuditFeature disabled", () => {
+      test("should audit case details access when case officer removed", async () => {
+        request.fflip = mockFflipObject({ newAuditFeature: false });
+
+        await removeCaseOfficer(request, response, next);
+
+        const audit = await models.action_audit.findOne({
+          where: { caseId: existingCase.id }
+        });
+
+        expect(audit).toEqual(
+          expect.objectContaining({
+            user: "someone",
+            subject: AUDIT_SUBJECT.CASE_DETAILS,
+            caseId: existingCase.id,
+            action: AUDIT_ACTION.DATA_ACCESSED,
+            auditType: AUDIT_TYPE.DATA_ACCESS,
+            auditDetails: { ["Mock Association"]: ["Mock Details"] }
+          })
+        );
+      });
+    });
+
+    describe("newAuditFeature enabled", () => {
+      test("should audit case details access when case officer removed", async () => {
+        request.fflip = mockFflipObject({ newAuditFeature: true });
+
+        await removeCaseOfficer(request, response, next);
+
+        expect(auditDataAccess).toHaveBeenCalledWith(
+          request.nickname,
+          existingCase.id,
+          AUDIT_SUBJECT.CASE_DETAILS,
+          {
+            mockAssociation: {
+              attributes: ["mockDetails"],
+              model: "mockModelName"
+            }
+          },
+          expect.anything()
+        );
+      });
+    });
   });
 });
