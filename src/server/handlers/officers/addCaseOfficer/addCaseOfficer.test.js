@@ -12,16 +12,19 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import ReferralLetter from "../../../../client/testUtilities/ReferralLetter";
+import mockFflipObject from "../../../testHelpers/mockFflipObject";
+import auditDataAccess from "../../auditDataAccess";
 
 //mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
 jest.mock("../../getQueryAuditAccessDetails");
+jest.mock("../../auditDataAccess");
 
 describe("addCaseOfficer", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
 
-  let existingCase;
+  let existingCase, response, next;
 
   beforeEach(async () => {
     const existingCaseAttributes = new Case.Builder()
@@ -33,6 +36,9 @@ describe("addCaseOfficer", () => {
     existingCase = await models.cases.create(existingCaseAttributes, {
       auditUser: "someone"
     });
+
+    response = httpMocks.createResponse();
+    next = jest.fn();
   });
 
   test("should change the case status to active when any officer is added", async () => {
@@ -52,9 +58,7 @@ describe("addCaseOfficer", () => {
       nickname: "TEST_USER_NICKNAME"
     });
 
-    const response = httpMocks.createResponse();
-
-    await addCaseOfficer(request, response, jest.fn());
+    await addCaseOfficer(request, response, next);
 
     const caseOfInterest = await models.cases.findByPk(existingCase.id);
     expect(caseOfInterest).toEqual(
@@ -89,9 +93,7 @@ describe("addCaseOfficer", () => {
       nickname: "TEST_USER_NICKNAME"
     });
 
-    const response = httpMocks.createResponse();
-
-    await addCaseOfficer(request, response, jest.fn());
+    await addCaseOfficer(request, response, next);
 
     const caseOfficerCreated = await models.case_officer.findOne({
       where: { caseId: existingCase.id }
@@ -125,9 +127,7 @@ describe("addCaseOfficer", () => {
       nickname: "TEST_USER_NICKNAME"
     });
 
-    const response = httpMocks.createResponse();
-
-    await addCaseOfficer(request, response, jest.fn());
+    await addCaseOfficer(request, response, next);
 
     const caseOfficerCreated = await models.case_officer.findOne({
       where: { caseId: existingCase.id }
@@ -171,9 +171,7 @@ describe("addCaseOfficer", () => {
       nickname: "TEST_USER_NICKNAME"
     });
 
-    const response = httpMocks.createResponse();
-
-    await addCaseOfficer(request, response, jest.fn());
+    await addCaseOfficer(request, response, next);
 
     const caseOfficerId = response._getData().accusedOfficers[0].id;
 
@@ -185,51 +183,6 @@ describe("addCaseOfficer", () => {
     const caseOfficer = await models.case_officer.findByPk(caseOfficerId);
 
     expect(caseOfficer.firstName).toEqual("Brandon");
-  });
-
-  test("should audit case details access", async () => {
-    const officerToCreate = new Officer.Builder()
-      .defaultOfficer()
-      .withId(undefined);
-
-    const createdOfficer = await models.officer.create(officerToCreate);
-
-    const officerAttributes = {
-      officerId: createdOfficer.id,
-      roleOnCase: ACCUSED,
-      notes: "these are notes"
-    };
-
-    const request = httpMocks.createRequest({
-      method: "POST",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
-      params: {
-        caseId: existingCase.id
-      },
-      body: officerAttributes,
-      nickname: "TEST_USER_NICKNAME"
-    });
-
-    const response = httpMocks.createResponse();
-
-    await addCaseOfficer(request, response, jest.fn());
-
-    const actionAudit = await models.action_audit.findOne({
-      where: { caseId: existingCase.id }
-    });
-
-    expect(actionAudit).toEqual(
-      expect.objectContaining({
-        user: "TEST_USER_NICKNAME",
-        caseId: existingCase.id,
-        auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: AUDIT_ACTION.DATA_ACCESSED,
-        subject: AUDIT_SUBJECT.CASE_DETAILS,
-        auditDetails: { ["Mock Association"]: ["Mock Details"] }
-      })
-    );
   });
 
   test("should create letter officer if letter exists", async () => {
@@ -278,9 +231,7 @@ describe("addCaseOfficer", () => {
       nickname: "TEST_USER_NICKNAME"
     });
 
-    const response = httpMocks.createResponse();
-
-    await addCaseOfficer(request, response, jest.fn());
+    await addCaseOfficer(request, response, next);
 
     const caseOfficerId = response._getData().accusedOfficers[0].id;
 
@@ -318,9 +269,7 @@ describe("addCaseOfficer", () => {
       nickname: "TEST_USER_NICKNAME"
     });
 
-    const response = httpMocks.createResponse();
-
-    await addCaseOfficer(request, response, jest.fn());
+    await addCaseOfficer(request, response, next);
 
     const caseOfficerId = response._getData().accusedOfficers[0].id;
 
@@ -329,5 +278,77 @@ describe("addCaseOfficer", () => {
     });
 
     expect(letterOfficer).toBeNull();
+  });
+
+  describe("auditing", () => {
+    let request;
+    beforeEach(async () => {
+      const officerToCreate = new Officer.Builder()
+        .defaultOfficer()
+        .withId(undefined);
+
+      const createdOfficer = await models.officer.create(officerToCreate);
+
+      const officerAttributes = {
+        officerId: createdOfficer.id,
+        roleOnCase: ACCUSED,
+        notes: "these are notes"
+      };
+
+      request = httpMocks.createRequest({
+        method: "POST",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        params: {
+          caseId: existingCase.id
+        },
+        body: officerAttributes,
+        nickname: "TEST_USER_NICKNAME"
+      });
+    });
+    describe("newAuditFeature disabled", () => {
+      test("should audit case details access", async () => {
+        request.fflip = mockFflipObject({ newAuditFeature: false });
+
+        await addCaseOfficer(request, response, next);
+
+        const actionAudit = await models.action_audit.findOne({
+          where: { caseId: existingCase.id }
+        });
+
+        expect(actionAudit).toEqual(
+          expect.objectContaining({
+            user: "TEST_USER_NICKNAME",
+            caseId: existingCase.id,
+            auditType: AUDIT_TYPE.DATA_ACCESS,
+            action: AUDIT_ACTION.DATA_ACCESSED,
+            subject: AUDIT_SUBJECT.CASE_DETAILS,
+            auditDetails: { ["Mock Association"]: ["Mock Details"] }
+          })
+        );
+      });
+    });
+
+    describe("newAuditFeature enabled", () => {
+      test("should audit case details access", async () => {
+        request.fflip = mockFflipObject({ newAuditFeature: true });
+
+        await addCaseOfficer(request, response, next);
+
+        expect(auditDataAccess).toHaveBeenCalledWith(
+          request.nickname,
+          existingCase.id,
+          AUDIT_SUBJECT.CASE_DETAILS,
+          {
+            mockAssociation: {
+              attributes: ["mockDetails"],
+              model: "mockModelName"
+            }
+          },
+          expect.anything()
+        );
+      });
+    });
   });
 });
