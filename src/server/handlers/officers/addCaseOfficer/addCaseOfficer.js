@@ -1,4 +1,8 @@
 import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
+import auditDataAccess from "../../auditDataAccess";
 
 const {
   buildOfficerAttributesForNewOfficer,
@@ -7,12 +11,14 @@ const {
 
 const models = require("../../../models/index");
 const asyncMiddleware = require("../../asyncMiddleware");
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 
 const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const { officerId, notes, roleOnCase } = request.body;
+  const newAuditFeatureToggle = checkFeatureToggleEnabled(
+    request,
+    "newAuditFeature"
+  );
 
   const retrievedCase = await models.cases.findByPk(request.params.caseId);
   const referralLetter = await models.referral_letter.findOne({
@@ -52,14 +58,24 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
       auditDetails
     );
 
-    await legacyAuditDataAccess(
-      request.nickname,
-      retrievedCase.id,
-      AUDIT_SUBJECT.CASE_DETAILS,
-      transaction,
-      AUDIT_ACTION.DATA_ACCESSED,
-      auditDetails
-    );
+    if (newAuditFeatureToggle) {
+      await auditDataAccess(
+        request.nickname,
+        retrievedCase.id,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        auditDetails,
+        transaction
+      );
+    } else {
+      await legacyAuditDataAccess(
+        request.nickname,
+        retrievedCase.id,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        transaction,
+        AUDIT_ACTION.DATA_ACCESSED,
+        auditDetails
+      );
+    }
 
     return caseDetails;
   });
