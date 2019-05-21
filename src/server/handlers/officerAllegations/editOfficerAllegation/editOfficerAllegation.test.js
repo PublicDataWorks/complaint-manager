@@ -13,9 +13,13 @@ import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegatio
 import httpMocks from "node-mocks-http";
 import models from "../../../models";
 import editOfficerAllegation from "./editOfficerAllegation";
+import mockFflipObject from "../../../testHelpers/mockFflipObject";
+import auditDataAccess from "../../auditDataAccess";
 
 //mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
 jest.mock("../../getQueryAuditAccessDetails");
+
+jest.mock("../../auditDataAccess");
 
 describe("editOfficerAllegation", () => {
   let officerAllegationToUpdate, caseOfficer, response;
@@ -76,41 +80,44 @@ describe("editOfficerAllegation", () => {
     await cleanupDatabase();
   });
 
-  test("should audit case data access", async () => {
-    const data = {
-      details: "new details"
-    };
+  describe("newAuditFeature is disabled", () => {
+    test("should audit case data access", async () => {
+      const data = {
+        details: "new details"
+      };
 
-    const request = httpMocks.createRequest({
-      method: "PUT",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
-      params: {
-        officerAllegationId: officerAllegationToUpdate.id
-      },
-      body: data,
-      nickname: "TEST_USER_NICKNAME"
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        params: {
+          officerAllegationId: officerAllegationToUpdate.id
+        },
+        body: data,
+        nickname: "TEST_USER_NICKNAME",
+        fflip: mockFflipObject({ newAuditFeature: false })
+      });
+
+      const response = httpMocks.createResponse();
+
+      await editOfficerAllegation(request, response, jest.fn());
+
+      const audit = await models.action_audit.findOne({
+        where: { caseId: caseOfficer.caseId }
+      });
+
+      expect(audit).toEqual(
+        expect.objectContaining({
+          user: "TEST_USER_NICKNAME",
+          auditType: AUDIT_TYPE.DATA_ACCESS,
+          subject: AUDIT_SUBJECT.CASE_DETAILS,
+          caseId: caseOfficer.caseId,
+          action: AUDIT_ACTION.DATA_ACCESSED,
+          auditDetails: { ["Mock Association"]: ["Mock Details"] }
+        })
+      );
     });
-
-    const response = httpMocks.createResponse();
-
-    await editOfficerAllegation(request, response, jest.fn());
-
-    const audit = await models.action_audit.findOne({
-      where: { caseId: caseOfficer.caseId }
-    });
-
-    expect(audit).toEqual(
-      expect.objectContaining({
-        user: "TEST_USER_NICKNAME",
-        auditType: AUDIT_TYPE.DATA_ACCESS,
-        subject: AUDIT_SUBJECT.CASE_DETAILS,
-        caseId: caseOfficer.caseId,
-        action: AUDIT_ACTION.DATA_ACCESSED,
-        auditDetails: { ["Mock Association"]: ["Mock Details"] }
-      })
-    );
   });
 
   test("should edit a case officer allegation", async () => {
@@ -139,5 +146,41 @@ describe("editOfficerAllegation", () => {
     expect(officerAllegationToUpdate.severity).toEqual(
       ALLEGATION_SEVERITY.HIGH
     );
+  });
+  describe("newAuditFeature is enabled", () => {
+    test("should audit case data access", async () => {
+      const data = {
+        details: "new details"
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        params: {
+          officerAllegationId: officerAllegationToUpdate.id
+        },
+        body: data,
+        nickname: "TEST_USER_NICKNAME",
+        fflip: mockFflipObject({ newAuditFeature: true })
+      });
+      const response = httpMocks.createResponse();
+      const next = jest.fn();
+      await editOfficerAllegation(request, response, next);
+
+      expect(auditDataAccess).toHaveBeenCalledWith(
+        request.nickname,
+        caseOfficer.caseId,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        {
+          mockAssociation: {
+            attributes: ["mockDetails"],
+            model: "mockModelName"
+          }
+        },
+        expect.anything()
+      );
+    });
   });
 });
