@@ -17,9 +17,13 @@ import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegatio
 import Allegation from "../../../../client/testUtilities/Allegation";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import LetterOfficer from "../../../../client/testUtilities/LetterOfficer";
+import mockFflipObject from "../../../testHelpers/mockFflipObject";
+import auditDataAccess from "../../auditDataAccess";
 
 //mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
 jest.mock("../../getQueryAuditAccessDetails");
+
+jest.mock("../../auditDataAccess");
 
 describe("editCaseOfficer", () => {
   afterEach(async () => {
@@ -398,43 +402,6 @@ describe("editCaseOfficer", () => {
       await existingCaseOfficer.reload();
 
       expect(existingCaseOfficer.firstName).toEqual("Brandon");
-    });
-
-    test("should audit case details access when case officer edited", async () => {
-      const fieldsToUpdate = {
-        roleOnCase: WITNESS,
-        notes: "some new notes"
-      };
-
-      const request = httpMocks.createRequest({
-        method: "PUT",
-        headers: {
-          authorization: "Bearer SOME_MOCK_TOKEN"
-        },
-        body: fieldsToUpdate,
-        params: {
-          caseId: existingCase.id,
-          caseOfficerId: existingCaseOfficer.id
-        },
-        nickname: "test user"
-      });
-
-      await editCaseOfficer(request, response, next);
-
-      const actionAudit = await models.action_audit.findOne({
-        where: { caseId: existingCase.id }
-      });
-
-      expect(actionAudit).toEqual(
-        expect.objectContaining({
-          user: "test user",
-          subject: AUDIT_SUBJECT.CASE_DETAILS,
-          caseId: existingCase.id,
-          action: AUDIT_ACTION.DATA_ACCESSED,
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          auditDetails: { ["Mock Association"]: ["Mock Details"] }
-        })
-      );
     });
   });
 
@@ -964,6 +931,97 @@ describe("editCaseOfficer", () => {
       });
 
       expect(letterOfficer).toBeNull();
+    });
+  });
+
+  describe("auditing", () => {
+    let existingCaseOfficer;
+
+    beforeEach(async () => {
+      existingCaseOfficer = await models.case_officer.create(
+        {
+          officerId: null,
+          caseId: existingCase.id,
+          roleOnCase: ACCUSED
+        },
+        { auditUser: "someone" }
+      );
+    });
+
+    describe("newAuditFeature is disabled", () => {
+      test("should audit case details access when case officer edited", async () => {
+        const fieldsToUpdate = {
+          roleOnCase: WITNESS,
+          notes: "some new notes"
+        };
+
+        const request = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer SOME_MOCK_TOKEN"
+          },
+          body: fieldsToUpdate,
+          params: {
+            caseId: existingCase.id,
+            caseOfficerId: existingCaseOfficer.id
+          },
+          nickname: "test user",
+          fflip: mockFflipObject({ newAuditFeature: false })
+        });
+
+        await editCaseOfficer(request, response, next);
+
+        const actionAudit = await models.action_audit.findOne({
+          where: { caseId: existingCase.id }
+        });
+
+        expect(actionAudit).toEqual(
+          expect.objectContaining({
+            user: "test user",
+            subject: AUDIT_SUBJECT.CASE_DETAILS,
+            caseId: existingCase.id,
+            action: AUDIT_ACTION.DATA_ACCESSED,
+            auditType: AUDIT_TYPE.DATA_ACCESS,
+            auditDetails: { ["Mock Association"]: ["Mock Details"] }
+          })
+        );
+      });
+    });
+
+    describe("newAuditFeature is enabled", () => {
+      test("should audit case details access when case officer edited", async () => {
+        const fieldsToUpdate = {
+          roleOnCase: WITNESS,
+          notes: "some new notes"
+        };
+        const request = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer SOME_MOCK_TOKEN"
+          },
+          body: fieldsToUpdate,
+          params: {
+            caseId: existingCase.id,
+            caseOfficerId: existingCaseOfficer.id
+          },
+          nickname: "test user",
+          fflip: mockFflipObject({ newAuditFeature: true })
+        });
+        await editCaseOfficer(request, response, next);
+
+        expect(auditDataAccess).toHaveBeenCalledWith(
+          request.nickname,
+          existingCase.id,
+          AUDIT_SUBJECT.CASE_DETAILS,
+          {
+            mockAssociation: {
+              attributes: ["mockDetails"],
+              model: "mockModelName"
+            }
+          },
+          expect.anything()
+        );
+      });
     });
   });
 });

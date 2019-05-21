@@ -12,8 +12,10 @@ const {
   AUDIT_SUBJECT
 } = require("../../../../sharedUtilities/constants");
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
+import auditDataAccess from "../../auditDataAccess";
 
-const editCaseOfficer = asyncMiddleware(async (request, response) => {
+const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const { officerId, notes, roleOnCase } = request.body;
   const isAnonymous = request.body.isAnonymous
     ? request.body.isAnonymous
@@ -23,6 +25,10 @@ const editCaseOfficer = asyncMiddleware(async (request, response) => {
       id: request.params.caseOfficerId
     }
   });
+  const newAuditFeatureToggle = checkFeatureToggleEnabled(
+    request,
+    "newAuditFeature"
+  );
 
   const updatedCase = await models.sequelize.transaction(async transaction => {
     const oldRoleOnCase = caseOfficerToUpdate.roleOnCase;
@@ -74,14 +80,24 @@ const editCaseOfficer = asyncMiddleware(async (request, response) => {
       auditDetails
     );
 
-    await legacyAuditDataAccess(
-      request.nickname,
-      request.params.caseId,
-      AUDIT_SUBJECT.CASE_DETAILS,
-      transaction,
-      AUDIT_ACTION.DATA_ACCESSED,
-      auditDetails
-    );
+    if (newAuditFeatureToggle) {
+      await auditDataAccess(
+        request.nickname,
+        request.params.caseId,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        auditDetails,
+        transaction
+      );
+    } else {
+      await legacyAuditDataAccess(
+        request.nickname,
+        request.params.caseId,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        transaction,
+        AUDIT_ACTION.DATA_ACCESSED,
+        auditDetails
+      );
+    }
 
     return caseDetails;
   });
