@@ -9,15 +9,18 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } from "../../../sharedUtilities/constants";
+import mockFflipObject from "../../testHelpers/mockFflipObject";
+import auditDataAccess from "../auditDataAccess";
 
 const httpMocks = require("node-mocks-http");
 
 //mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
 jest.mock("../getQueryAuditAccessDetails");
 
+jest.mock("../auditDataAccess");
+
 describe("createCivilian handler", () => {
-  let createdCase, civilianValues, request;
-  const response = httpMocks.createResponse();
+  let createdCase, civilianValues, request, next, response;
 
   beforeEach(async () => {
     const caseAttributes = new Case.Builder().defaultCase().build();
@@ -40,38 +43,68 @@ describe("createCivilian handler", () => {
       body: civilianValues,
       nickname: "TEST_USER_NICKNAME"
     });
+
+    next = jest.fn();
+    response = httpMocks.createResponse();
   });
   afterEach(async () => {
     await cleanupDatabase();
   });
 
-  test("should audit case data access", async () => {
-    const createdCase = await createTestCaseWithoutCivilian();
-    civilianValues.caseId = createdCase.id;
-    request.body = civilianValues;
+  describe("newAuditFeature is disabled", () => {
+    test("should audit case data access", async () => {
+      const createdCase = await createTestCaseWithoutCivilian();
+      civilianValues.caseId = createdCase.id;
+      request.body = civilianValues;
+      request.fflip = mockFflipObject({ newAuditFeature: false });
 
-    await createCivilian(request, response, jest.fn());
+      await createCivilian(request, response, next);
 
-    const audit = await models.action_audit.findOne({
-      where: {
-        caseId: createdCase.id
-      }
+      const audit = await models.action_audit.findOne({
+        where: {
+          caseId: createdCase.id
+        }
+      });
+
+      expect(audit).toEqual(
+        expect.objectContaining({
+          caseId: createdCase.id,
+          user: "TEST_USER_NICKNAME",
+          subject: AUDIT_SUBJECT.CASE_DETAILS,
+          auditType: AUDIT_TYPE.DATA_ACCESS,
+          action: AUDIT_ACTION.DATA_ACCESSED,
+          auditDetails: { ["Mock Association"]: ["Mock Details"] }
+        })
+      );
     });
+  });
 
-    expect(audit).toEqual(
-      expect.objectContaining({
-        caseId: createdCase.id,
-        user: "TEST_USER_NICKNAME",
-        subject: AUDIT_SUBJECT.CASE_DETAILS,
-        auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: AUDIT_ACTION.DATA_ACCESSED,
-        auditDetails: { ["Mock Association"]: ["Mock Details"] }
-      })
-    );
+  describe("newAuditFeature is enabled", () => {
+    test("should audit case data access", async () => {
+      const createdCase = await createTestCaseWithoutCivilian();
+      civilianValues.caseId = createdCase.id;
+      request.body = civilianValues;
+      request.fflip = mockFflipObject({ newAuditFeature: true });
+
+      await createCivilian(request, response, next);
+
+      expect(auditDataAccess).toHaveBeenCalledWith(
+        request.nickname,
+        createdCase.id,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        {
+          mockAssociation: {
+            attributes: ["mockDetails"],
+            model: "mockModelName"
+          }
+        },
+        expect.anything()
+      );
+    });
   });
 
   test("should not create an address when no address values given", async () => {
-    await createCivilian(request, response, jest.fn());
+    await createCivilian(request, response, next);
 
     const createdCivilian = await models.civilian.findOne({
       where: { caseId: createdCase.id }
@@ -97,7 +130,7 @@ describe("createCivilian handler", () => {
 
     request.body = civilianValues;
 
-    await createCivilian(request, response, jest.fn());
+    await createCivilian(request, response, next);
 
     const createdCivilian = await models.civilian.findOne({
       where: { caseId: createdCase.id }
