@@ -5,8 +5,14 @@ const models = require("../../models");
 import { getCaseWithAllAssociations } from "../getCaseHelpers";
 const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 import legacyAuditDataAccess from "../legacyAuditDataAccess";
+import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
+import auditDataAccess from "../auditDataAccess";
 
-const removeCivilian = asyncMiddleware(async (request, response) => {
+const removeCivilian = asyncMiddleware(async (request, response, next) => {
+  const newAuditFeatureToggle = checkFeatureToggleEnabled(
+    request,
+    "newAuditFeature"
+  );
   const caseDetails = await models.sequelize.transaction(async transaction => {
     const civilian = await models.civilian.findByPk(request.params.civilianId, {
       include: [
@@ -38,15 +44,24 @@ const removeCivilian = asyncMiddleware(async (request, response) => {
       transaction,
       auditDetails
     );
-
-    await legacyAuditDataAccess(
-      request.nickname,
-      civilian.caseId,
-      AUDIT_SUBJECT.CASE_DETAILS,
-      transaction,
-      AUDIT_ACTION.DATA_ACCESSED,
-      auditDetails
-    );
+    if (newAuditFeatureToggle) {
+      await auditDataAccess(
+        request.nickname,
+        civilian.caseId,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        auditDetails,
+        transaction
+      );
+    } else {
+      await legacyAuditDataAccess(
+        request.nickname,
+        civilian.caseId,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        transaction,
+        AUDIT_ACTION.DATA_ACCESSED,
+        auditDetails
+      );
+    }
 
     return caseDetails;
   });
