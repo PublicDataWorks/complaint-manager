@@ -20,6 +20,7 @@ const winston = require("winston");
 
 const Op = sequelize.Op;
 
+// test to see if circle ci is running
 const getDateRangeCondition = dateRange => {
   if (dateRange) {
     const dateRangeForQuery = getDateRangeForQuery(dateRange);
