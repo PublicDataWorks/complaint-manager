@@ -1,5 +1,5 @@
 import React from "react";
-import { Field, reduxForm, formValueSelector } from "redux-form";
+import { Field, formValueSelector, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import {
   Dialog,
@@ -21,6 +21,7 @@ import NoBlurTextField from "../CaseDetails/CivilianDialog/FormSelect";
 import { intakeSourceIsRequired } from "../../formFieldLevelValidations";
 import CreateCaseActions from "./CreateCaseActions";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
+import { formatAddressAsString } from "../../utilities/formatAddress";
 
 class CreateCaseDialog extends React.Component {
   componentDidMount() {
@@ -54,7 +55,15 @@ class CreateCaseDialog extends React.Component {
               component={ComplaintTypeRadioGroup}
             />
             <br />
-            {civilianComplainant && <CivilianComplainantFields />}
+            {civilianComplainant && (
+              <CivilianComplainantFields
+                formattedAddress={this.props.formattedAddress}
+                formName={CREATE_CASE_FORM_NAME}
+                createCaseAddressInputFeature={
+                  this.props.createCaseAddressInputFeature
+                }
+              />
+            )}
             <IntakeSource intakeSources={this.props.intakeSources} />
           </form>
         </DialogContent>
@@ -112,14 +121,32 @@ const IntakeSource = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  open: state.ui.createCaseDialog.open,
-  complaintType: formValueSelector(CREATE_CASE_FORM_NAME)(
+const mapStateToProps = state => {
+  const selector = formValueSelector(CREATE_CASE_FORM_NAME);
+  const addressValues = selector(
     state,
-    "case.complaintType"
-  ),
-  intakeSources: state.ui.intakeSources
-});
+    "address.streetAddress",
+    "address.intersection",
+    "address.city",
+    "address.state",
+    "address.zipCode",
+    "address.country",
+    "address.lat",
+    "address.lng",
+    "address.placeId"
+  );
+  const complaintTypeValues = selector(state, "case.complaintType");
+
+  return {
+    open: state.ui.createCaseDialog.open,
+    complaintType: complaintTypeValues,
+    intakeSources: state.ui.intakeSources,
+    formattedAddress: formatAddressAsString(addressValues.address),
+    addressValid: state.ui.addressInput.addressValid,
+    createCaseAddressInputFeature:
+      state.featureToggles.createCaseAddressInputFeature
+  };
+};
 
 const ConnectedDialog = connect(mapStateToProps)(CreateCaseDialog);
 

@@ -5,6 +5,7 @@ import { mount } from "enzyme/build/index";
 import {
   changeInput,
   expectEventuallyNotToExist,
+  expectEventuallyToExist,
   selectDropdownOption
 } from "../../testHelpers";
 import CreateCaseButton from "../CreateCaseButton";
@@ -19,6 +20,71 @@ import {
 } from "../../../sharedUtilities/constants";
 import { getIntakeSourcesSuccess } from "../../actionCreators/intakeSourceActionCreators";
 import { updateSort } from "../../actionCreators/casesActionCreators";
+import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
+
+jest.mock("../CaseDetails/CivilianDialog/MapServices/MapService", () => {
+  return jest.fn().mockImplementation(() => ({
+    healthCheck: callback => {
+      callback({ googleAddressServiceIsAvailable: true });
+    },
+
+    getSuggestionValue: suggestion => {
+      return suggestion.description;
+    },
+
+    fetchSuggestions: (input, callback) => {
+      callback([{ description: "200 East Randolph Street, Chicago, IL, US" }]);
+    },
+
+    suggestionSelected: (suggestion, successCallback, failureCallback) => {
+      successCallback({
+        additionalLocationInfo: null,
+        addressableId: 821,
+        addressableType: "civilian",
+        addressable_type: "civilian",
+        city: "Chicago",
+        country: "US",
+        createdAt: "2019-05-20T21:04:01.214Z",
+        deletedAt: null,
+        id: 1049,
+        intersection: "",
+        lat: 41.8855572,
+        lng: -87.6214826,
+        placeId: "ChIJObywJqYsDogR_4XaBVM4ge8",
+        state: "IL",
+        streetAddress: "200 E Randolph St",
+        updatedAt: "2019-05-21T16:26:20.040Z",
+        zipCode: "60601"
+      });
+    },
+
+    fetchAddressDetails: (
+      addressIdentifier,
+      successCallback,
+      failureCallback
+    ) => {
+      successCallback({
+        additionalLocationInfo: null,
+        addressableId: 821,
+        addressableType: "civilian",
+        addressable_type: "civilian",
+        city: "Chicago",
+        country: "US",
+        createdAt: "2019-05-20T21:04:01.214Z",
+        deletedAt: null,
+        id: 1049,
+        intersection: "",
+        lat: 41.8855572,
+        lng: -87.6214826,
+        placeId: "ChIJObywJqYsDogR_4XaBVM4ge8",
+        state: "IL",
+        streetAddress: "200 E Randolph St",
+        updatedAt: "2019-05-21T16:26:20.040Z",
+        zipCode: "60601"
+      });
+    }
+  }));
+});
 
 jest.mock("../thunks/createCase", () => creationDetails => ({
   type: "MOCK_CREATE_CASE_THUNK",
@@ -293,8 +359,8 @@ describe("CreateCaseDialog component", () => {
       });
     });
 
-    describe("when email and phone number are undefined", () => {
-      test("should display phone number error", () => {
+    describe("contact information validation", () => {
+      test("should display phone number error message when phone, address, and email are undefined", () => {
         changeInput(dialog, '[data-test="lastNameInput"]', "test");
         changeInput(dialog, '[data-test="firstNameInput"]', "test");
         selectDropdownOption(
@@ -313,7 +379,102 @@ describe("CreateCaseDialog component", () => {
         submitButton.simulate("click");
 
         expect(phoneNumberField.text()).toContain(
-          "Please enter phone number or email address"
+          "Please enter one form of contact"
+        );
+      });
+    });
+    describe("createCaseAddressInputFeature on", () => {
+      beforeEach(() => {
+        store.dispatch(
+          getFeaturesSuccess({ createCaseAddressInputFeature: true })
+        );
+      });
+
+      afterEach(() => {
+        store.dispatch(
+          getFeaturesSuccess({ createCaseAddressInputFeature: false })
+        );
+      });
+
+      test("should submit new case when only address provided for contact info", async () => {
+        const addressString = "200 E Randolph St, Chicago, IL, 60601, US";
+
+        const addressObject = {
+          city: "Chicago",
+          country: "US",
+          lat: 41.8855572,
+          lng: -87.6214826,
+          placeId: "ChIJObywJqYsDogR_4XaBVM4ge8",
+          state: "IL",
+          streetAddress: "200 E Randolph St",
+          streetAddress2: "Ste 2500",
+          zipCode: "60601"
+        };
+
+        const civilian = {
+          firstName: "Henry",
+          lastName: "Bubbler",
+          address: addressObject
+        };
+
+        const caseDetails = {
+          case: {
+            complaintType: CIVILIAN_INITIATED,
+            firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
+            intakeSourceId: 1,
+            incidentDate: undefined
+          },
+          civilian: civilian
+        };
+
+        changeInput(dialog, '[data-test="lastNameInput"]', civilian.lastName);
+        changeInput(dialog, '[data-test="firstNameInput"]', civilian.firstName);
+        selectDropdownOption(
+          dialog,
+          '[data-test="intakeSourceDropdown"]',
+          "NOIPM Website"
+        );
+        changeInput(
+          dialog,
+          '[data-test="addressSuggestionField"] > input',
+          addressString
+        );
+        dialog
+          .find('[data-test="addressSuggestionField"] > input')
+          .last()
+          .simulate("blur");
+        changeInput(
+          dialog,
+          '[data-test="streetAddress2Input"]',
+          addressObject.streetAddress2
+        );
+        await expectEventuallyToExist(
+          dialog,
+          '[data-test="fillAddressToConfirm"]'
+        );
+        dialog
+          .find('[data-test="fillAddressToConfirm"]')
+          .last()
+          .simulate("click");
+
+        const submitButton = dialog.find(
+          'LinkButton[data-test="createCaseOnly"]'
+        );
+
+        submitButton.simulate("click");
+
+        expect(dispatchSpy).toHaveBeenCalledWith(
+          createCase({
+            caseDetails: caseDetails,
+            redirect: false,
+            sorting: {
+              sortBy: SORT_CASES_BY.CASE_REFERENCE,
+              sortDirection: DESCENDING
+            },
+            pagination: {
+              currentPage: 1
+            }
+          })
         );
       });
     });

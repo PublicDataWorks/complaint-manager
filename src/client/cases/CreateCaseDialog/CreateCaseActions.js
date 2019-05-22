@@ -97,9 +97,10 @@ export class CreateCaseActions extends React.Component {
 }
 
 const validate = civilian =>
-  atLeastOneRequired(civilian, "Please enter phone number or email address", [
+  atLeastOneRequired(civilian, "Please enter one form of contact", [
     "phoneNumber",
-    "email"
+    "email",
+    "address"
   ]);
 
 const CivilianComplainantButtons = ({

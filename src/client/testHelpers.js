@@ -44,6 +44,14 @@ export const expectEventuallyNotToExist = async (
   });
 };
 
+export const expectEventuallyToExist = async (mountedComponent, selector) => {
+  await retry(() => {
+    mountedComponent.update();
+    const shouldExist = mountedComponent.find(selector);
+    expect(shouldExist.exists()).toEqual(true);
+  });
+};
+
 //handles if input contains value
 export const containsValue = (
   mountedComponent,
