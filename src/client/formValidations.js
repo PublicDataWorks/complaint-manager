@@ -3,6 +3,9 @@ import _ from "lodash";
 export function atLeastOneRequired(values, errorMessage, keys) {
   const allAbsent = keys.every(key => {
     const value = _.get(values, key);
+    if (key === "address") {
+      return !value || value.placeId === null;
+    }
     return !value || value.trim() === "";
   });
 
