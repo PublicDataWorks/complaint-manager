@@ -69,9 +69,12 @@ class CivilianDialog extends Component {
     if (errors.autoSuggestValue) {
       throw new SubmissionError(errors);
     }
-    const phoneNumErrors = validate(values);
-    if (!_.isEmpty(phoneNumErrors)) {
-      throw new SubmissionError(phoneNumErrors);
+    const contactErrors = validate(
+      values,
+      this.props.createCaseAddressInputFeature
+    );
+    if (!_.isEmpty(contactErrors)) {
+      throw new SubmissionError(contactErrors);
     }
 
     dispatch(
@@ -312,7 +315,9 @@ const mapStateToProps = state => {
     submitButtonText: state.ui.civilianDialog.submitButtonText,
     addressValid: state.ui.addressInput.addressValid,
     raceEthnicities: state.ui.raceEthnicities,
-    genderIdentities: state.ui.genderIdentities
+    genderIdentities: state.ui.genderIdentities,
+    createCaseAddressInputFeature:
+      state.featureToggles.createCaseAddressInputFeature
   };
 };
 
