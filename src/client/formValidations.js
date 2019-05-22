@@ -5,8 +5,9 @@ export function atLeastOneRequired(values, errorMessage, keys) {
     const value = _.get(values, key);
     if (key === "address") {
       return !value || value.placeId === null;
+    } else {
+      return !value || value.trim() === "";
     }
-    return !value || value.trim() === "";
   });
 
   const errors = {};

@@ -13,7 +13,7 @@ import {
   expectEventuallyNotToExist,
   selectDropdownOption
 } from "../../../testHelpers";
-import { initialize } from "redux-form";
+import { change, initialize, reset } from "redux-form";
 import Address from "../../../testUtilities/Address";
 import Civilian from "../../../testUtilities/civilian";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
@@ -21,6 +21,7 @@ import { getRaceEthnicitiesSuccess } from "../../../actionCreators/raceEthnicity
 import getGenderIdentityDropdownValues from "../../../genderIdentities/thunks/getGenderIdentityDropdownValues";
 import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getRaceEthnicityDropdownValues";
 import { getGenderIdentitiesSuccess } from "../../../actionCreators/genderIdentityActionCreators";
+import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 
 jest.mock("../../thunks/editCivilian", () =>
   jest.fn(() => ({ type: "MOCK_CIVILIAN_REQUESTED" }))
@@ -201,69 +202,158 @@ describe("civilian dialog", () => {
     });
   });
 
-  describe("email and phone number", () => {
-    test("should display phone error when phone and email marked as touched on form submit", () => {
-      let civilianToSubmit = new Civilian.Builder()
-        .defaultCivilian()
-        .withFirstName("test first name")
-        .withLastName("test last name")
-        .withEmail("")
-        .withPhoneNumber("")
-        .withTitle("Miss")
-        .build();
+  describe("email, phone number, and address", () => {
+    describe("createCaseAddressInputFeature off", () => {
+      beforeEach(() => {
+        store.dispatch(
+          getFeaturesSuccess({ createCaseAddressInputFeature: false })
+        );
+      });
 
-      changeInput(
-        civilianDialog,
-        '[data-test="firstNameInput"]',
-        civilianToSubmit.firstName
-      );
-      changeInput(
-        civilianDialog,
-        '[data-test="lastNameInput"]',
-        civilianToSubmit.lastName
-      );
-      changeInput(
-        civilianDialog,
-        '[data-test="birthDateInput"]',
-        civilianToSubmit.birthDate
-      );
-      changeInput(
-        civilianDialog,
-        '[data-test="phoneNumberInput"]',
-        civilianToSubmit.phoneNumber
-      );
-      changeInput(
-        civilianDialog,
-        '[data-test="emailInput"]',
-        civilianToSubmit.email
-      );
-      selectDropdownOption(
-        civilianDialog,
-        '[data-test="genderDropdown"]',
-        "Other"
-      );
-      selectDropdownOption(
-        civilianDialog,
-        '[data-test="raceDropdown"]',
-        "Japanese"
-      );
-      selectDropdownOption(
-        civilianDialog,
-        '[data-test="titleDropdown"]',
-        civilianToSubmit.title
-      );
-      const phoneNumberField = civilianDialog.find(
-        'div[data-test="phoneNumberField"]'
-      );
-      const phoneNumberInput = civilianDialog.find(
-        'input[data-test="phoneNumberInput"]'
-      );
-      phoneNumberInput.simulate("focus");
-      phoneNumberInput.simulate("blur");
-      save.simulate("click");
-      expect(phoneNumberField.text()).toContain(
-        "Please enter phone number or email address"
-      );
+      test("should display phone error when phone and email marked as touched on form submit", () => {
+        let civilianToSubmit = new Civilian.Builder()
+          .defaultCivilian()
+          .withFirstName("test first name")
+          .withLastName("test last name")
+          .withEmail("")
+          .withPhoneNumber("")
+          .withTitle("Miss")
+          .build();
+
+        changeInput(
+          civilianDialog,
+          '[data-test="firstNameInput"]',
+          civilianToSubmit.firstName
+        );
+        changeInput(
+          civilianDialog,
+          '[data-test="lastNameInput"]',
+          civilianToSubmit.lastName
+        );
+        changeInput(
+          civilianDialog,
+          '[data-test="birthDateInput"]',
+          civilianToSubmit.birthDate
+        );
+        changeInput(
+          civilianDialog,
+          '[data-test="phoneNumberInput"]',
+          civilianToSubmit.phoneNumber
+        );
+        changeInput(
+          civilianDialog,
+          '[data-test="emailInput"]',
+          civilianToSubmit.email
+        );
+        selectDropdownOption(
+          civilianDialog,
+          '[data-test="genderDropdown"]',
+          "Other"
+        );
+        selectDropdownOption(
+          civilianDialog,
+          '[data-test="raceDropdown"]',
+          "Japanese"
+        );
+        selectDropdownOption(
+          civilianDialog,
+          '[data-test="titleDropdown"]',
+          civilianToSubmit.title
+        );
+        const phoneNumberField = civilianDialog.find(
+          'div[data-test="phoneNumberField"]'
+        );
+        const phoneNumberInput = civilianDialog.find(
+          'input[data-test="phoneNumberInput"]'
+        );
+        phoneNumberInput.simulate("focus");
+        phoneNumberInput.simulate("blur");
+        save.simulate("click");
+        expect(phoneNumberField.text()).toContain(
+          "Please enter phone number or email address"
+        );
+      });
+    });
+    describe("createCaseAddressInputFeature on", () => {
+      beforeEach(() => {
+        store.dispatch(
+          getFeaturesSuccess({ createCaseAddressInputFeature: true })
+        );
+        caseCivilian.address = undefined;
+        store.dispatch(change(CIVILIAN_FORM_NAME, caseCivilian));
+      });
+
+      afterEach(() => {
+        store.dispatch(reset(CIVILIAN_FORM_NAME));
+        store.dispatch(
+          getFeaturesSuccess({ createCaseAddressInputFeature: false })
+        );
+      });
+
+      test("should display phone error when phone and email marked as touched on form submit", () => {
+        let civilianToSubmit = new Civilian.Builder()
+          .defaultCivilian()
+          .withFirstName("test first name")
+          .withLastName("test last name")
+          .withEmail("")
+          .withPhoneNumber("")
+          .withTitle("Miss")
+          .withNoAddress()
+          .build();
+
+        changeInput(
+          civilianDialog,
+          '[data-test="firstNameInput"]',
+          civilianToSubmit.firstName
+        );
+        changeInput(
+          civilianDialog,
+          '[data-test="lastNameInput"]',
+          civilianToSubmit.lastName
+        );
+        changeInput(
+          civilianDialog,
+          '[data-test="birthDateInput"]',
+          civilianToSubmit.birthDate
+        );
+        changeInput(
+          civilianDialog,
+          '[data-test="phoneNumberInput"]',
+          civilianToSubmit.phoneNumber
+        );
+        changeInput(
+          civilianDialog,
+          '[data-test="emailInput"]',
+          civilianToSubmit.email
+        );
+        selectDropdownOption(
+          civilianDialog,
+          '[data-test="genderDropdown"]',
+          "Other"
+        );
+        selectDropdownOption(
+          civilianDialog,
+          '[data-test="raceDropdown"]',
+          "Japanese"
+        );
+        selectDropdownOption(
+          civilianDialog,
+          '[data-test="titleDropdown"]',
+          civilianToSubmit.title
+        );
+        const phoneNumberField = civilianDialog.find(
+          'div[data-test="phoneNumberField"]'
+        );
+        const phoneNumberInput = civilianDialog.find(
+          'input[data-test="phoneNumberInput"]'
+        );
+        phoneNumberInput.simulate("focus");
+        phoneNumberInput.simulate("blur");
+        save.simulate("click");
+        expect(phoneNumberField.text()).toContain(
+          "Please enter one form of contact"
+        );
+      });
     });
   });
 

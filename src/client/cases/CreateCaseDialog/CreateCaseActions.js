@@ -36,7 +36,7 @@ export class CreateCaseActions extends React.Component {
       caseDetails: {
         case: this.prepareCase(theCase),
         ...(civilian &&
-          this.isValid(civilian) &&
+          this.isValid(civilian, this.props.createCaseAddressInputFeature) &&
           this.prepareCivilian(civilian))
       },
       redirect,
@@ -63,8 +63,8 @@ export class CreateCaseActions extends React.Component {
     }
   });
 
-  isValid = civilian => {
-    const errors = validate(civilian);
+  isValid = (civilian, createCaseAddressInputFeature = false) => {
+    const errors = validate(civilian, createCaseAddressInputFeature);
     if (!isEmpty(errors)) throw new SubmissionError({ civilian: errors });
     return true;
   };
@@ -96,12 +96,16 @@ export class CreateCaseActions extends React.Component {
   }
 }
 
-const validate = civilian =>
-  atLeastOneRequired(civilian, "Please enter one form of contact", [
-    "phoneNumber",
-    "email",
-    "address"
-  ]);
+const validate = (civilian, createCaseAddressInputFeature) => {
+  const errorMessage = createCaseAddressInputFeature
+    ? "Please enter one form of contact"
+    : "Please enter phone number or email address";
+  const fieldsToValidate = createCaseAddressInputFeature
+    ? ["phoneNumber", "email", "address"]
+    : ["phoneNumber", "email"];
+
+  return atLeastOneRequired(civilian, errorMessage, fieldsToValidate);
+};
 
 const CivilianComplainantButtons = ({
   createCaseOnly,
@@ -141,7 +145,9 @@ const mapStateToProps = state => ({
   civilian: selector(state, "civilian"),
   sortBy: state.ui.casesTable.sortBy,
   sortDirection: state.ui.casesTable.sortDirection,
-  currentPage: state.cases.working.currentPage
+  currentPage: state.cases.working.currentPage,
+  createCaseAddressInputFeature:
+    state.featureToggles.createCaseAddressInputFeature
 });
 
 const mapDispatchToProps = {

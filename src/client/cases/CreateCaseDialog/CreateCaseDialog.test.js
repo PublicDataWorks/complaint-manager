@@ -360,27 +360,65 @@ describe("CreateCaseDialog component", () => {
     });
 
     describe("contact information validation", () => {
-      test("should display phone number error message when phone, address, and email are undefined", () => {
-        changeInput(dialog, '[data-test="lastNameInput"]', "test");
-        changeInput(dialog, '[data-test="firstNameInput"]', "test");
-        selectDropdownOption(
-          dialog,
-          '[data-test="intakeSourceDropdown"]',
-          "Email"
-        );
-        const phoneNumberField = dialog.find(
-          'div[data-test="phoneNumberField"]'
-        );
-        const phoneNumberInput = dialog.find(
-          'input[data-test="phoneNumberInput"]'
-        );
-        phoneNumberInput.simulate("focus");
-        phoneNumberInput.simulate("blur");
-        submitButton.simulate("click");
+      describe("createCaseAddressInputFeature on", () => {
+        beforeEach(() => {
+          store.dispatch(
+            getFeaturesSuccess({ createCaseAddressInputFeature: true })
+          );
+        });
 
-        expect(phoneNumberField.text()).toContain(
-          "Please enter one form of contact"
-        );
+        afterEach(() => {
+          store.dispatch(
+            getFeaturesSuccess({ createCaseAddressInputFeature: false })
+          );
+        });
+
+        test("should display phone number error message when phone, address, and email are undefined", () => {
+          changeInput(dialog, '[data-test="lastNameInput"]', "test");
+          changeInput(dialog, '[data-test="firstNameInput"]', "test");
+          selectDropdownOption(
+            dialog,
+            '[data-test="intakeSourceDropdown"]',
+            "Email"
+          );
+          const phoneNumberField = dialog.find(
+            'div[data-test="phoneNumberField"]'
+          );
+          const phoneNumberInput = dialog.find(
+            'input[data-test="phoneNumberInput"]'
+          );
+          phoneNumberInput.simulate("focus");
+          phoneNumberInput.simulate("blur");
+          submitButton.simulate("click");
+
+          expect(phoneNumberField.text()).toContain(
+            "Please enter one form of contact"
+          );
+        });
+      });
+      describe("createCaseAddressInputFeature off", () => {
+        test("should display phone number error message when phone, address, and email are undefined", () => {
+          changeInput(dialog, '[data-test="lastNameInput"]', "test");
+          changeInput(dialog, '[data-test="firstNameInput"]', "test");
+          selectDropdownOption(
+            dialog,
+            '[data-test="intakeSourceDropdown"]',
+            "Email"
+          );
+          const phoneNumberField = dialog.find(
+            'div[data-test="phoneNumberField"]'
+          );
+          const phoneNumberInput = dialog.find(
+            'input[data-test="phoneNumberInput"]'
+          );
+          phoneNumberInput.simulate("focus");
+          phoneNumberInput.simulate("blur");
+          submitButton.simulate("click");
+
+          expect(phoneNumberField.text()).toContain(
+            "Please enter phone number or email address"
+          );
+        });
       });
     });
     describe("createCaseAddressInputFeature on", () => {
