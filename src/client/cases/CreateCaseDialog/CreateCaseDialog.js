@@ -6,7 +6,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Typography
+  Typography,
+  withStyles
 } from "@material-ui/core";
 import ComplaintTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import moment from "moment";
@@ -23,17 +24,34 @@ import CreateCaseActions from "./CreateCaseActions";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import { formatAddressAsString } from "../../utilities/formatAddress";
 
+const styles = {
+  dialogPaper: {
+    minWidth: "40%"
+  }
+};
+
 class CreateCaseDialog extends React.Component {
   componentDidMount() {
     this.props.dispatch(getIntakeSourceDropdownValues());
   }
 
   render() {
-    const { handleSubmit, complaintType, open, submitting } = this.props;
+    const {
+      handleSubmit,
+      complaintType,
+      open,
+      submitting,
+      classes
+    } = this.props;
     const civilianComplainant = complaintType === CIVILIAN_INITIATED;
 
     return (
-      <Dialog data-test="createCaseDialog" open={open} fullWidth>
+      <Dialog
+        data-test="createCaseDialog"
+        classes={{ paper: classes.dialogPaper }}
+        open={open}
+        fullWidth
+      >
         <DialogTitle
           data-test="createCaseDialogTitle"
           style={{ paddingBottom: "1%" }}
@@ -49,6 +67,9 @@ class CreateCaseDialog extends React.Component {
           </DialogContentText>
           <form data-test="createCaseForm">
             <Timeline />
+            {this.props.createCaseAddressInputFeature && (
+              <IntakeSource intakeSources={this.props.intakeSources} />
+            )}
             <br />
             <Field
               name="case.complaintType"
@@ -64,7 +85,9 @@ class CreateCaseDialog extends React.Component {
                 }
               />
             )}
-            <IntakeSource intakeSources={this.props.intakeSources} />
+            {!this.props.createCaseAddressInputFeature && (
+              <IntakeSource intakeSources={this.props.intakeSources} />
+            )}
           </form>
         </DialogContent>
         <CreateCaseActions
@@ -148,7 +171,9 @@ const mapStateToProps = state => {
   };
 };
 
-const ConnectedDialog = connect(mapStateToProps)(CreateCaseDialog);
+const ConnectedDialog = connect(mapStateToProps)(
+  withStyles(styles)(CreateCaseDialog)
+);
 
 export default reduxForm({
   form: CREATE_CASE_FORM_NAME,

@@ -14,7 +14,8 @@ import {
   DialogTitle,
   FormControlLabel,
   Radio,
-  Typography
+  Typography,
+  withStyles
 } from "@material-ui/core";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";
 import LastNameField from "../../sharedFormComponents/LastNameField";
@@ -57,6 +58,12 @@ import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getR
 import getGenderIdentityDropdownValues from "../../../genderIdentities/thunks/getGenderIdentityDropdownValues";
 import PrimaryCheckBox from "../../../shared/components/PrimaryCheckBox";
 
+const styles = {
+  dialogPaper: {
+    minWidth: "40%"
+  }
+};
+
 class CivilianDialog extends Component {
   componentDidMount() {
     this.props.getRaceEthnicityDropdownValues();
@@ -87,8 +94,13 @@ class CivilianDialog extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
-      <Dialog open={this.props.open} fullWidth>
+      <Dialog
+        open={this.props.open}
+        classes={{ paper: classes.dialogPaper }}
+        fullWidth
+      >
         <DialogTitle data-test="editDialogTitle">
           {this.props.title}
         </DialogTitle>
@@ -218,29 +230,45 @@ class CivilianDialog extends Component {
               <Typography
                 variant="button"
                 style={{
-                  marginTop: "22px"
+                  marginLeft: "22px",
+                  marginTop: "22px",
+                  marginRight: "22px"
                 }}
               >
                 OR
               </Typography>
               <EmailField name="email" autoComplete="disabled" />
+              {this.props.createCaseAddressInputFeature && (
+                <Typography
+                  variant="button"
+                  style={{
+                    marginLeft: "22px",
+                    marginTop: "22px",
+                    marginRight: "22px"
+                  }}
+                >
+                  OR
+                </Typography>
+              )}
             </div>
-            <div style={{ marginBottom: "16px", width: "100%" }}>
-              <AddressInput
-                formName={CIVILIAN_FORM_NAME}
+            <div style={{ display: "flex" }}>
+              <div style={{ marginBottom: "16px", width: "100%" }}>
+                <AddressInput
+                  formName={CIVILIAN_FORM_NAME}
+                  fieldName={"address"}
+                  addressLabel={"Address"}
+                  formattedAddress={this.props.formattedAddress}
+                />
+              </div>
+              <AddressSecondLine
+                label={"Address Line 2"}
                 fieldName={"address"}
-                addressLabel={"Address"}
-                formattedAddress={this.props.formattedAddress}
+                style={{
+                  marginBottom: "24px",
+                  width: "50%"
+                }}
               />
             </div>
-            <AddressSecondLine
-              label={"Address Line 2"}
-              fieldName={"address"}
-              style={{
-                marginBottom: "24px",
-                width: "50%"
-              }}
-            />
 
             <Typography variant="body2" style={{ marginBottom: "8px" }}>
               Notes
@@ -286,7 +314,7 @@ class CivilianDialog extends Component {
   }
 }
 
-const DialogWithTheme = withTheme()(CivilianDialog);
+const DialogWithTheme = withTheme()(withStyles(styles)(CivilianDialog));
 
 const connectedForm = reduxForm({
   form: CIVILIAN_FORM_NAME
