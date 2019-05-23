@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import FirstNameField from "../sharedFormComponents/FirstNameField";
 import MiddleInitialField from "../sharedFormComponents/MiddleInitialField";
 import LastNameField from "../sharedFormComponents/LastNameField";
@@ -45,9 +45,21 @@ const CivilianComplainantFields = ({
           OR
         </Typography>
         <EmailField name={"civilian.email"} autoComplete="disabled" />
+        {createCaseAddressInputFeature && (
+          <Typography
+            variant="button"
+            style={{
+              marginLeft: "22px",
+              marginTop: "22px",
+              marginRight: "22px"
+            }}
+          >
+            OR
+          </Typography>
+        )}
       </div>
       {createCaseAddressInputFeature && (
-        <Fragment>
+        <div style={{ display: "flex" }}>
           <div style={{ marginBottom: "16px", width: "100%" }}>
             <AddressInput
               formName={formName}
@@ -65,7 +77,7 @@ const CivilianComplainantFields = ({
               width: "50%"
             }}
           />
-        </Fragment>
+        </div>
       )}
     </div>
   );
