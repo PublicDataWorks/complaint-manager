@@ -1,4 +1,4 @@
-import { getCaseWithAllAssociations } from "../getCaseHelpers";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 
 const models = require("../../models/index");
 const asyncMiddleware = require("../asyncMiddleware");
@@ -29,13 +29,12 @@ const updateCaseNarrative = asyncMiddleware(async (request, response, next) => {
       transaction
     );
 
-    let auditDetails = {};
-
-    const caseDetails = await getCaseWithAllAssociations(
+    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
       caseId,
-      transaction,
-      auditDetails
+      transaction
     );
+    const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+    const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
     if (newAuditFeatureToggle) {
       await auditDataAccess(

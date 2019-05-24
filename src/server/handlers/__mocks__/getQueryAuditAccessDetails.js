@@ -1,23 +1,34 @@
 import _ from "lodash";
 
 export const removeFromExistingAuditDetails = jest.fn(
-  (existingDetails, detailsToRemove) => {}
+  (existingDetails, detailsToRemove) => {
+    return {
+      mockAssociation: {
+        attributes: ["mockDetails"],
+        model: "mockModelName"
+      }
+    };
+  }
 );
 
-export const addToExistingAuditDetails = jest.fn(
-  (existingDetails, detailsToAdd) => {
-    existingDetails["mockAssociation"] = {
+export const combineAuditDetails = jest.fn((existingDetails, detailsToAdd) => {
+  return {
+    mockAssociation: {
       attributes: ["mockDetails"],
       model: "mockModelName"
+    }
+  };
+});
+
+const getQueryAuditAccessDetails = jest.fn(
+  (queryOptions, topLevelModelName) => {
+    return {
+      [_.camelCase(topLevelModelName)]: {
+        attributes: ["mockDetails"],
+        model: topLevelModelName
+      }
     };
   }
 );
 
-export const generateAndAddAuditDetailsFromQuery = jest.fn(
-  (existingDetails, queryOptions, topLevelModelName) => {
-    existingDetails[_.camelCase(topLevelModelName)] = {
-      attributes: ["mockDetails"],
-      model: topLevelModelName
-    };
-  }
-);
+export default getQueryAuditAccessDetails;

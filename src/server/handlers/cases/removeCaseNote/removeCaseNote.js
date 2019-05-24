@@ -1,9 +1,9 @@
 import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../auditDataAccess";
-import { generateAndAddAuditDetailsFromQuery } from "../../getQueryAuditAccessDetails";
+import getQueryAuditAccessDetails from "../../getQueryAuditAccessDetails";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -26,23 +26,19 @@ const removeCaseNote = asyncMiddleware(async (request, response) => {
       auditUser: request.nickname
     });
 
-    let caseDetailsAuditDetails = {};
-    const caseDetails = await getCaseWithAllAssociations(
+    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
       caseId,
-      transaction,
-      caseDetailsAuditDetails
+      transaction
     );
+    const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+    const caseAuditDetails = caseDetailsAndAuditDetails.auditDetails;
 
     const caseNotesQueryOptions = {
       where: { caseId },
       transaction
     };
-
     const caseNotes = await models.case_note.findAll(caseNotesQueryOptions);
-
-    let caseNotesAuditDetails = {};
-    generateAndAddAuditDetailsFromQuery(
-      caseNotesAuditDetails,
+    const caseNotesAuditDetails = getQueryAuditAccessDetails(
       caseNotesQueryOptions,
       models.case_note.name
     );
@@ -52,7 +48,7 @@ const removeCaseNote = asyncMiddleware(async (request, response) => {
         request.nickname,
         caseId,
         AUDIT_SUBJECT.CASE_DETAILS,
-        caseDetailsAuditDetails,
+        caseAuditDetails,
         transaction
       );
 
@@ -70,7 +66,7 @@ const removeCaseNote = asyncMiddleware(async (request, response) => {
         AUDIT_SUBJECT.CASE_DETAILS,
         transaction,
         AUDIT_ACTION.DATA_ACCESSED,
-        caseDetailsAuditDetails
+        caseAuditDetails
       );
 
       await legacyAuditDataAccess(

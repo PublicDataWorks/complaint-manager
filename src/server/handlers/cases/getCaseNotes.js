@@ -1,12 +1,12 @@
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
-import { generateAndAddAuditDetailsFromQuery } from "../getQueryAuditAccessDetails";
+import getQueryAuditAccessDetails from "../getQueryAuditAccessDetails";
+import legacyAuditDataAccess from "../legacyAuditDataAccess";
+import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
+import auditDataAccess from "../auditDataAccess";
 
 const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 const asyncMiddleWare = require("../asyncMiddleware");
 const models = require("../../models/index");
-import legacyAuditDataAccess from "../legacyAuditDataAccess";
-import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
-import auditDataAccess from "../auditDataAccess";
 
 const getCaseNotes = asyncMiddleWare(async (request, response) => {
   const caseNotes = await models.sequelize.transaction(async transaction => {
@@ -15,14 +15,13 @@ const getCaseNotes = asyncMiddleWare(async (request, response) => {
       "newAuditFeature"
     );
 
-    let auditDetails = {};
-
-    const caseNotes = findAllCaseNotes(
-      auditDetails,
+    const caseNotesAndAuditDetails = await getAllCaseNotesAndAuditDetails(
       request.params.caseId,
       request.nickname,
       transaction
     );
+    const caseNotes = caseNotesAndAuditDetails.caseNotes;
+    const auditDetails = caseNotesAndAuditDetails.auditDetails;
 
     if (newAuditFeatureToggle) {
       await auditDataAccess(
@@ -48,8 +47,7 @@ const getCaseNotes = asyncMiddleWare(async (request, response) => {
   response.send(caseNotes);
 });
 
-const findAllCaseNotes = async (
-  auditDetails,
+const getAllCaseNotesAndAuditDetails = async (
   caseId,
   nickname,
   transaction
@@ -63,13 +61,13 @@ const findAllCaseNotes = async (
     transaction
   };
 
-  generateAndAddAuditDetailsFromQuery(
-    auditDetails,
+  const auditDetails = getQueryAuditAccessDetails(
     queryOptions,
     models.case_note.name
   );
 
-  return await models.case_note.findAll(queryOptions);
+  const caseNotes = await models.case_note.findAll(queryOptions);
+  return { caseNotes: caseNotes, auditDetails: auditDetails };
 };
 
 module.exports = getCaseNotes;

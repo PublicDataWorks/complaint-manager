@@ -5,7 +5,7 @@ import {
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import _ from "lodash";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
@@ -72,13 +72,12 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
       );
     }
 
-    let auditDetails = {};
-
-    const caseDetails = await getCaseWithAllAssociations(
+    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
       caseToUpdate.id,
-      transaction,
-      auditDetails
+      transaction
     );
+    const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+    const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
     if (newAuditFeatureToggle) {
       await auditDataAccess(

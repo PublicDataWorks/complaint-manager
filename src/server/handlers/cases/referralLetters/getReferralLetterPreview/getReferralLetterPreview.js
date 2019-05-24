@@ -8,11 +8,13 @@ import {
   REFERRAL_LETTER_VERSION
 } from "../../../../../sharedUtilities/constants";
 import legacyAuditDataAccess from "../../../legacyAuditDataAccess";
-import { getCaseWithAllAssociations } from "../../../getCaseHelpers";
-import generateReferralLetterBody from "../generateReferralLetterBody";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../../../getCaseHelpers";
+import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import constructFilename from "../constructFilename";
 import { editStatusFromHtml } from "../getReferralLetterEditStatus/getReferralLetterEditStatus";
-import { generateAndAddAuditDetailsFromQuery } from "../../../getQueryAuditAccessDetails";
+import getQueryAuditAccessDetails, {
+  combineAuditDetails
+} from "../../../getQueryAuditAccessDetails";
 import _ from "lodash";
 import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../../auditDataAccess";
@@ -29,65 +31,38 @@ const getReferralLetterPreview = asyncMiddleware(
     const caseId = request.params.caseId;
     await throwErrorIfLetterFlowUnavailable(caseId);
 
-    let auditDetails = {};
-
     await models.sequelize.transaction(async transaction => {
-      const referralLetterQueryOptions = {
-        where: { caseId },
-        transaction
-      };
-      const referralLetter = await models.referral_letter.findOne(
-        referralLetterQueryOptions
-      );
-
-      generateAndAddAuditDetailsFromQuery(
-        auditDetails,
-        referralLetterQueryOptions,
-        models.referral_letter.name
-      );
-
-      let letterAddresses = {
-        recipient: referralLetter.recipient,
-        sender: referralLetter.sender,
-        transcribedBy: referralLetter.transcribedBy
-      };
-
-      let html;
-      const editStatus = editStatusFromHtml(referralLetter.editedLetterHtml);
-      if (editStatus === EDIT_STATUS.EDITED) {
-        html = referralLetter.editedLetterHtml;
-      } else {
-        html = await generateReferralLetterBody(
-          caseId,
-          transaction,
-          auditDetails
-        );
-      }
-      let lastEdited = referralLetter.updatedAt;
-      const caseDetails = await getCaseWithAllAssociations(
+      const referralLetterAndAuditDetails = await getReferralLetterAndAuditDetails(
         caseId,
-        transaction,
-        auditDetails
+        transaction
       );
+      const referralLetter = referralLetterAndAuditDetails.referralLetter;
+      const referralLetterAuditDetails =
+        referralLetterAndAuditDetails.auditDetails;
 
-      const finalFilename = constructFilename(
-        caseDetails,
-        REFERRAL_LETTER_VERSION.FINAL
+      const editStatus = editStatusFromHtml(referralLetter.editedLetterHtml);
+
+      const htmlAndAuditDetails = await getHtmlAndAuditDetails(
+        editStatus,
+        caseId,
+        referralLetter,
+        transaction
       );
+      const html = htmlAndAuditDetails.html;
+      const referralLetterBodyAuditDetails = htmlAndAuditDetails.auditDetails;
 
-      const draftFilename = constructFilename(
-        caseDetails,
-        REFERRAL_LETTER_VERSION.DRAFT,
-        editStatus
+      const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
+        caseId,
+        transaction
       );
+      const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+      const caseAuditDetails = caseDetailsAndAuditDetails.auditDetails;
 
-      const formattedReferralLetterModelName = _.camelCase(
-        models.referral_letter.name
+      const auditDetails = combineAuditDetailsAndAddReferralLetterCustomFields(
+        referralLetterBodyAuditDetails,
+        referralLetterAuditDetails,
+        caseAuditDetails
       );
-
-      auditDetails[formattedReferralLetterModelName].attributes = auditDetails[
-        formattedReferralLetterModelName
-      ].attributes.concat(["editStatus", "lastEdited", "draftFilename"]);
 
       if (newAuditFeatureToggle) {
         await auditDataAccess(
@@ -108,6 +83,25 @@ const getReferralLetterPreview = asyncMiddleware(
         );
       }
 
+      let lastEdited = referralLetter.updatedAt;
+
+      const finalFilename = constructFilename(
+        caseDetails,
+        REFERRAL_LETTER_VERSION.FINAL
+      );
+
+      const draftFilename = constructFilename(
+        caseDetails,
+        REFERRAL_LETTER_VERSION.DRAFT,
+        editStatus
+      );
+
+      let letterAddresses = {
+        recipient: referralLetter.recipient,
+        sender: referralLetter.sender,
+        transcribedBy: referralLetter.transcribedBy
+      };
+
       response.send({
         letterHtml: html,
         addresses: letterAddresses,
@@ -120,5 +114,70 @@ const getReferralLetterPreview = asyncMiddleware(
     });
   }
 );
+
+const getHtmlAndAuditDetails = async (
+  editStatus,
+  caseId,
+  referralLetter,
+  transaction
+) => {
+  let html, referralLetterBodyAuditDetails;
+
+  if (editStatus === EDIT_STATUS.EDITED) {
+    html = referralLetter.editedLetterHtml;
+    referralLetterBodyAuditDetails = {};
+  } else {
+    const referralLetterBodyAndAuditDetails = await generateReferralLetterBodyAndAuditDetails(
+      caseId,
+      transaction
+    );
+    html = referralLetterBodyAndAuditDetails.referralLetterBody;
+    referralLetterBodyAuditDetails =
+      referralLetterBodyAndAuditDetails.auditDetails;
+  }
+
+  return { html: html, auditDetails: referralLetterBodyAuditDetails };
+};
+
+const getReferralLetterAndAuditDetails = async (caseId, transaction) => {
+  const referralLetterQueryOptions = {
+    where: { caseId },
+    transaction
+  };
+  const referralLetter = await models.referral_letter.findOne(
+    referralLetterQueryOptions
+  );
+  const referralLetterAuditDetails = getQueryAuditAccessDetails(
+    referralLetterQueryOptions,
+    models.referral_letter.name
+  );
+
+  return {
+    referralLetter: referralLetter,
+    auditDetails: referralLetterAuditDetails
+  };
+};
+
+const combineAuditDetailsAndAddReferralLetterCustomFields = (
+  referralLetterBodyAuditDetails,
+  referralLetterAuditDetails,
+  caseAuditDetails
+) => {
+  const formattedReferralLetterModelName = _.camelCase(
+    models.referral_letter.name
+  );
+
+  let auditDetails = combineAuditDetails(
+    referralLetterAuditDetails,
+    referralLetterBodyAuditDetails
+  );
+  auditDetails = combineAuditDetails(auditDetails, caseAuditDetails);
+
+  auditDetails[formattedReferralLetterModelName].attributes = auditDetails[
+    formattedReferralLetterModelName
+  ].attributes.concat(["editStatus", "lastEdited", "draftFilename"]);
+
+  return auditDetails;
+};
 
 export default getReferralLetterPreview;

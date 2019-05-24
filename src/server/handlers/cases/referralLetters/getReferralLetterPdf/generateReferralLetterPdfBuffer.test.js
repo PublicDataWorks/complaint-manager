@@ -10,7 +10,7 @@ import {
 import generateReferralLetterPdfBuffer, {
   generateLetterPdfHtml
 } from "./generateReferralLetterPdfBuffer";
-import generateReferralLetterBody from "../generateReferralLetterBody";
+import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 
 jest.mock("html-pdf", () => ({
   create: (html, pdfOptions) => ({
@@ -20,14 +20,25 @@ jest.mock("html-pdf", () => ({
   })
 }));
 
-jest.mock("../generateReferralLetterBody");
+jest.mock("../generateReferralLetterBodyAndAuditDetails", () => {
+  return {
+    generateReferralLetterBodyAndAuditDetails: jest.fn(
+      (caseId, transaction) => {
+        return {
+          referralLetterData: {},
+          auditDetails: {}
+        };
+      }
+    )
+  };
+});
 
 describe("generateReferralLetterPdfBuffer", function() {
   let existingCase, referralLetter, timeOfDownload;
 
   afterEach(async () => {
     await cleanupDatabase();
-    generateReferralLetterBody.mockReset();
+    generateReferralLetterBodyAndAuditDetails.mockClear();
     timekeeper.reset();
   });
 
@@ -92,12 +103,12 @@ describe("generateReferralLetterPdfBuffer", function() {
 
     test("pdf create gets called with expected letter html when letter is generated", async () => {
       await models.sequelize.transaction(async transaction => {
-        const pdfResults = await generateReferralLetterPdfBuffer(
+        const pdfResultsAndAuditDetails = await generateReferralLetterPdfBuffer(
           existingCase.id,
           true,
           transaction
         );
-        expect(pdfResults).toMatchSnapshot();
+        expect(pdfResultsAndAuditDetails.pdfBuffer).toMatchSnapshot();
       });
     });
 
@@ -108,12 +119,12 @@ describe("generateReferralLetterPdfBuffer", function() {
       );
 
       await models.sequelize.transaction(async transaction => {
-        const pdfResults = await generateReferralLetterPdfBuffer(
+        const pdfResultsAndAuditDetails = await generateReferralLetterPdfBuffer(
           existingCase.id,
           true,
           transaction
         );
-        expect(pdfResults).toMatchSnapshot();
+        expect(pdfResultsAndAuditDetails.pdfBuffer).toMatchSnapshot();
       });
     });
 
@@ -123,12 +134,12 @@ describe("generateReferralLetterPdfBuffer", function() {
         { auditUser: "someone" }
       );
       await models.sequelize.transaction(async transaction => {
-        const pdfResults = await generateReferralLetterPdfBuffer(
+        const pdfResultsAndAuditDetails = await generateReferralLetterPdfBuffer(
           existingCase.id,
           true,
           transaction
         );
-        expect(pdfResults).toMatchSnapshot();
+        expect(pdfResultsAndAuditDetails.pdfBuffer).toMatchSnapshot();
       });
     });
 
@@ -139,10 +150,9 @@ describe("generateReferralLetterPdfBuffer", function() {
           false,
           transaction
         );
-        expect(generateReferralLetterBody).toHaveBeenCalledWith(
+        expect(generateReferralLetterBodyAndAuditDetails).toHaveBeenCalledWith(
           existingCase.id,
-          transaction,
-          null
+          transaction
         );
       });
     });
@@ -161,7 +171,7 @@ describe("generateReferralLetterPdfBuffer", function() {
           transaction
         );
       });
-      expect(generateReferralLetterBody).not.toHaveBeenCalled();
+      expect(generateReferralLetterBodyAndAuditDetails).not.toHaveBeenCalled();
     });
   });
 
@@ -186,23 +196,23 @@ describe("generateReferralLetterPdfBuffer", function() {
 
     test("signature is included when sender is stella and includeSignature is true", async () => {
       await models.sequelize.transaction(async transaction => {
-        const pdfResults = await generateReferralLetterPdfBuffer(
+        const pdfResultsAndAuditDetails = await generateReferralLetterPdfBuffer(
           existingCase.id,
           true,
           transaction
         );
-        expect(pdfResults).toMatchSnapshot();
+        expect(pdfResultsAndAuditDetails.pdfBuffer).toMatchSnapshot();
       });
     });
 
     test("signature is not included when includeSignature is false", async () => {
       await models.sequelize.transaction(async transaction => {
-        const pdfResults = await generateReferralLetterPdfBuffer(
+        const pdfResultsAndAuditDetails = await generateReferralLetterPdfBuffer(
           existingCase.id,
           false,
           transaction
         );
-        expect(pdfResults).toMatchSnapshot();
+        expect(pdfResultsAndAuditDetails.pdfBuffer).toMatchSnapshot();
       });
     });
   });

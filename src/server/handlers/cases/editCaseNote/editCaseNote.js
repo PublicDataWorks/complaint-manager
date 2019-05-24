@@ -1,14 +1,14 @@
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import auditDataAccess from "../../auditDataAccess";
+import getQueryAuditAccessDetails from "../../getQueryAuditAccessDetails";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
 const _ = require("lodash");
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
-import auditDataAccess from "../../auditDataAccess";
-import { generateAndAddAuditDetailsFromQuery } from "../../getQueryAuditAccessDetails";
 
-const editCaseNote = asyncMiddleware(async (request, response) => {
+const editCaseNote = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
   const caseNoteId = request.params.caseNoteId;
   const valuesToUpdate = _.pick(request.body, [
@@ -33,9 +33,7 @@ const editCaseNote = asyncMiddleware(async (request, response) => {
     await models.case_note.update(valuesToUpdate, queryOptions);
 
     if (newAuditFeatureToggle) {
-      const auditDetails = {};
-      generateAndAddAuditDetailsFromQuery(
-        auditDetails,
+      const caseNoteAuditDetails = getQueryAuditAccessDetails(
         queryOptions,
         models.case_note.name
       );
@@ -44,7 +42,7 @@ const editCaseNote = asyncMiddleware(async (request, response) => {
         request.nickname,
         caseId,
         AUDIT_SUBJECT.CASE_NOTES,
-        auditDetails,
+        caseNoteAuditDetails,
         transaction
       );
     } else {

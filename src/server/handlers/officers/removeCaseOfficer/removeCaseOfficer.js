@@ -1,5 +1,5 @@
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
@@ -30,13 +30,12 @@ const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
       transaction
     });
 
-    let auditDetails = {};
-
-    const caseDetails = await getCaseWithAllAssociations(
+    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
       request.params.caseId,
-      transaction,
-      auditDetails
+      transaction
     );
+    const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+    const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
     if (newAuditFeatureToggle) {
       await auditDataAccess(

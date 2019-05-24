@@ -16,12 +16,16 @@ import auditDataAccess from "../../../auditDataAccess";
 
 jest.mock(
   "./generateReferralLetterPdfBuffer",
-  () => (caseId, includeSignature, transaction, auditDetails) => {
-    auditDetails.mockAssociation = {
-      attributes: ["mockDetails"],
-      model: "mockModelName"
+  () => (caseId, includeSignature, transaction) => {
+    return {
+      pdfBuffer: `pdf for case ${caseId}`,
+      auditDetails: {
+        mockAssociation: {
+          attributes: ["mockDetails"],
+          model: "mockModelName"
+        }
+      }
     };
-    return `pdf for case ${caseId}`;
   }
 );
 jest.mock("../../../auditDataAccess");

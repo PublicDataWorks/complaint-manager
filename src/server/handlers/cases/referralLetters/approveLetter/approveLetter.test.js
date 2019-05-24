@@ -32,7 +32,7 @@ jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 jest.mock(
   "../getReferralLetterPdf/generateReferralLetterPdfBuffer",
   () => caseId => {
-    return `Generated pdf for ${caseId}`;
+    return { pdfBuffer: `Generated pdf for ${caseId}`, auditDetails: {} };
   }
 );
 jest.mock(

@@ -3,7 +3,7 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
-import { getCaseWithAllAssociations } from "../getCaseHelpers";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 import legacyAuditDataAccess from "../legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import auditDataAccess from "../auditDataAccess";
@@ -59,13 +59,12 @@ const editCivilian = asyncMiddleware(async (request, response, next) => {
         auditUser: request.nickname
       });
 
-      let auditDetails = {};
-
-      const caseDetails = await getCaseWithAllAssociations(
+      const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
         civilian.caseId,
-        transaction,
-        auditDetails
+        transaction
       );
+      const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+      const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
       if (newAuditFeatureToggle) {
         await auditDataAccess(

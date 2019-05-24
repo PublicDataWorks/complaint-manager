@@ -3,7 +3,7 @@ import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 const asyncMiddleware = require("../../asyncMiddleware");
 const config = require("../../../config/config");
 const models = require("../../../models/index");
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
@@ -34,13 +34,12 @@ const deleteAttachment = asyncMiddleware(async (request, response) => {
       transaction
     });
 
-    let auditDetails = {};
-
-    const caseDetails = await getCaseWithAllAssociations(
+    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
       request.params.caseId,
-      transaction,
-      auditDetails
+      transaction
     );
+    const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+    const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
     if (newAuditFeatureToggle) {
       await auditDataAccess(

@@ -1,9 +1,9 @@
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 import legacyAuditDataAccess from "../legacyAuditDataAccess";
-import { getCaseWithAllAssociations } from "../getCaseHelpers";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import auditDataAccess from "../auditDataAccess";
-import { generateAndAddAuditDetailsFromQuery } from "../getQueryAuditAccessDetails";
+import getQueryAuditAccessDetails from "../getQueryAuditAccessDetails";
 
 const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 const asyncMiddleware = require("../asyncMiddleware");
@@ -28,20 +28,19 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
       }
     );
 
-    let caseNoteAuditDetails = {};
-
-    const caseNotes = await getCaseNotes(
+    const caseNotesAndAuditDetails = await getCaseNotesAndAuditDetails(
       request.params.caseId,
-      transaction,
-      caseNoteAuditDetails
+      transaction
     );
+    const caseNotes = caseNotesAndAuditDetails.caseNotes;
+    const caseNoteAuditDetails = caseNotesAndAuditDetails.auditDetails;
 
-    let caseAuditDetails = {};
-    const caseDetails = await getCaseWithAllAssociations(
+    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
       request.params.caseId,
-      transaction,
-      caseAuditDetails
+      transaction
     );
+    const caseAuditDetails = caseDetailsAndAuditDetails.auditDetails;
+    const caseDetails = caseDetailsAndAuditDetails.caseDetails;
 
     if (newAuditFeatureToggle) {
       await auditDataAccess(
@@ -82,7 +81,7 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
   response.status(201).send(currentCase);
 });
 
-async function getCaseNotes(caseId, transaction, caseNoteAuditDetails) {
+async function getCaseNotesAndAuditDetails(caseId, transaction) {
   const caseNotesQueryOptions = {
     where: {
       caseId: caseId
@@ -93,12 +92,12 @@ async function getCaseNotes(caseId, transaction, caseNoteAuditDetails) {
 
   const caseNotes = await models.case_note.findAll(caseNotesQueryOptions);
 
-  generateAndAddAuditDetailsFromQuery(
-    caseNoteAuditDetails,
+  const caseNoteAuditDetails = getQueryAuditAccessDetails(
     caseNotesQueryOptions,
     models.case_note.name
   );
-  return caseNotes;
+
+  return { caseNotes: caseNotes, auditDetails: caseNoteAuditDetails };
 }
 
 module.exports = createCaseNote;

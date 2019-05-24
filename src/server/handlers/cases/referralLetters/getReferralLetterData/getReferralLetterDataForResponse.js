@@ -1,30 +1,37 @@
 import models from "../../../../models";
 import shortid from "shortid";
 import { ACCUSED, ASCENDING } from "../../../../../sharedUtilities/constants";
-import {
-  generateAndAddAuditDetailsFromQuery,
+import getQueryAuditAccessDetails, {
   removeFromExistingAuditDetails
 } from "../../../getQueryAuditAccessDetails";
 
-const getReferralLetterDataForResponse = async (
-  caseId,
-  transaction,
-  auditDetails = null
-) => {
-  let letterData = await getLetterData(caseId, transaction, auditDetails);
-  letterData = letterData.toJSON();
-
-  const transformedLetterOfficerData = transformLetterOfficerDataAndAuditDetails(
-    letterData,
-    auditDetails
+const getReferralLetterDataForResponse = async (caseId, transaction) => {
+  let letterDataAndAuditDetails = await getLetterDataAndAuditDetails(
+    caseId,
+    transaction
   );
 
+  let letterData = letterDataAndAuditDetails.letterData;
+  letterData = letterData.toJSON();
+  const letterDataAuditDetails = letterDataAndAuditDetails.auditDetails;
+
+  const transformedLetterOfficerDataAndAuditDetails = transformLetterOfficerDataAndAuditDetails(
+    letterData,
+    letterDataAuditDetails
+  );
+  const auditDetails = transformedLetterOfficerDataAndAuditDetails.auditDetails;
+  const transformedLetterOfficerData =
+    transformedLetterOfficerDataAndAuditDetails.letterOfficerData;
+
   return {
-    id: letterData.id,
-    caseId: letterData.caseId,
-    includeRetaliationConcerns: letterData.includeRetaliationConcerns,
-    letterOfficers: transformedLetterOfficerData,
-    referralLetterIaproCorrections: getIAProCorrections(letterData)
+    referralLetterData: {
+      id: letterData.id,
+      caseId: letterData.caseId,
+      includeRetaliationConcerns: letterData.includeRetaliationConcerns,
+      letterOfficers: transformedLetterOfficerData,
+      referralLetterIaproCorrections: getIAProCorrections(letterData)
+    },
+    auditDetails: auditDetails
   };
 };
 
@@ -56,17 +63,25 @@ const transformLetterOfficerDataAndAuditDetails = (
   letterData,
   auditDetails
 ) => {
+  let modifiedAuditDetails = null;
   if (auditDetails) {
-    removeFromExistingAuditDetails(auditDetails, { caseOfficers: "officerId" });
+    modifiedAuditDetails = removeFromExistingAuditDetails(auditDetails, {
+      caseOfficers: "officerId"
+    });
   }
 
-  return letterData.caseOfficers.map(caseOfficer => {
+  const letterOfficerData = letterData.caseOfficers.map(caseOfficer => {
     return {
       caseOfficerId: caseOfficer.id,
       fullName: caseOfficer.fullName,
       ...letterOfficerAttributes(caseOfficer)
     };
   });
+
+  return {
+    letterOfficerData: letterOfficerData,
+    auditDetails: modifiedAuditDetails
+  };
 };
 
 const buildRecommendedActions = recommendedActions => {
@@ -86,7 +101,7 @@ const buildEmptyIAProCorrections = () => {
   return [emptyObject(), emptyObject(), emptyObject()];
 };
 
-const getLetterData = async (caseId, transaction, auditDetails) => {
+const getLetterDataAndAuditDetails = async (caseId, transaction) => {
   const queryOptions = {
     where: { caseId: caseId },
     attributes: ["id", "caseId", "includeRetaliationConcerns"],
@@ -158,13 +173,12 @@ const getLetterData = async (caseId, transaction, auditDetails) => {
   };
   const letterData = await models.referral_letter.findOne(queryOptions);
 
-  generateAndAddAuditDetailsFromQuery(
-    auditDetails,
+  const referralLetterAuditDetails = getQueryAuditAccessDetails(
     queryOptions,
     models.referral_letter.name
   );
 
-  return letterData;
+  return { letterData: letterData, auditDetails: referralLetterAuditDetails };
 };
 
 export default getReferralLetterDataForResponse;

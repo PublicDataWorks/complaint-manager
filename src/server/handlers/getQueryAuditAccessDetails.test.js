@@ -2,10 +2,9 @@ import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 import models from "../models";
 import getQueryAuditAccessDetails, {
-  generateAndAddAuditDetailsFromQuery,
+  combineAuditDetails,
   removeFromExistingAuditDetails
 } from "./getQueryAuditAccessDetails";
-import { ALL_AUDIT_DATA } from "../../sharedUtilities/constants";
 
 describe("audit details", () => {
   describe("getQueryAuditDetails", () => {
@@ -154,243 +153,226 @@ describe("audit details", () => {
         })
       );
     });
-
-    test("combines referral letter as top level model and association", () => {
-      const auditDetails = {};
-
-      const referralLetterTopLevelModel = models.referral_letter.name;
-      const referralLetterQueryOptions = {};
-
-      generateAndAddAuditDetailsFromQuery(
-        auditDetails,
-        referralLetterQueryOptions,
-        referralLetterTopLevelModel
-      );
-
-      const topLevelModel = models.cases.name;
-      const caseQueryOptions = {
-        include: [{ model: models.referral_letter, as: "referralLetter" }]
-      };
-      generateAndAddAuditDetailsFromQuery(
-        auditDetails,
-        caseQueryOptions,
-        topLevelModel
-      );
-
-      expect(auditDetails).toEqual({
-        cases: {
-          attributes: Object.keys(models.cases.rawAttributes),
-          model: models.cases.name
-        },
-        referralLetter: {
-          attributes: Object.keys(models.referral_letter.rawAttributes),
-          model: models.referral_letter.name
-        }
-      });
-    });
-
-    test("should retain model when combining attributes", () => {
-      const auditDetailsBefore = {
-        incidentLocation: {
-          attributes: [
-            "id",
-            "addressableId",
-            "addressableType",
-            "streetAddress",
-            "intersection",
-            "streetAddress2",
-            "city",
-            "state",
-            "zipCode",
-            "country",
-            "lat",
-            "lng",
-            "placeId",
-            "additionalLocationInfo",
-            "createdAt",
-            "updatedAt",
-            "deletedAt"
-          ],
-          model: "address"
-        },
-        complainantCivilians: {
-          attributes: [
-            "id",
-            "firstName",
-            "middleInitial",
-            "lastName",
-            "suffix",
-            "birthDate",
-            "roleOnCase",
-            "genderIdentity",
-            "phoneNumber",
-            "email",
-            "additionalInfo",
-            "title",
-            "isAnonymous",
-            "createdAt",
-            "updatedAt",
-            "deletedAt",
-            "caseId",
-            "raceEthnicityId"
-          ],
-          model: "civilian"
-        }
-      };
-
-      const queryOptions = {
-        paranoid: false,
-        include: [
-          {
-            model: models.civilian,
-            as: "complainantCivilians",
-            include: [
-              models.address,
-              { model: models.race_ethnicity, as: "raceEthnicity" }
-            ]
-          },
-          {
-            model: models.address,
-            as: "incidentLocation"
-          }
-        ]
-      };
-
-      generateAndAddAuditDetailsFromQuery(
-        auditDetailsBefore,
-        queryOptions,
-        models.cases.name
-      );
-
-      expect(auditDetailsBefore).toEqual(
-        expect.objectContaining({
-          complainantCivilians: {
-            attributes: expect.arrayContaining([expect.anything()]),
-            model: models.civilian.name
-          },
-          incidentLocation: {
-            attributes: expect.arrayContaining([expect.anything()]),
-            model: models.address.name
-          }
-        })
-      );
-    });
   });
 
-  describe("generateAndAddAuditDetailsFromQuery", () => {
-    test("should generate audit details from queryOptions and add to existingDetails if existingDetails are empty", () => {
-      const queryOptions = {
-        attributes: ["id", "status"]
-      };
+  describe("combineAuditDetails", () => {
+    test("combines audit details when first set of audit details is empty", () => {
+      const firstAuditDetails = {};
 
-      let existingDetails = {};
-
-      generateAndAddAuditDetailsFromQuery(
-        existingDetails,
-        queryOptions,
-        models.cases.name
-      );
-
-      expect(existingDetails).toEqual({
+      const secondAuditDetails = {
         cases: {
           attributes: ["id", "status"],
           model: models.cases.name
         }
-      });
-    });
-
-    test("should generate audit details from queryOptions and add to existingDetails if existingDetails has data already", () => {
-      const queryOptions = {
-        attributes: ["id", "status"]
       };
 
-      let existingDetails = {
-        complainantCivilians: {
-          attributes: ["id", "firstName"],
-          model: models.civilian.name
-        }
-      };
-
-      generateAndAddAuditDetailsFromQuery(
-        existingDetails,
-        queryOptions,
-        models.cases.name
+      const combinedAuditDetails = combineAuditDetails(
+        firstAuditDetails,
+        secondAuditDetails
       );
 
-      expect(existingDetails).toEqual({
-        cases: { attributes: ["id", "status"], model: models.cases.name },
-        complainantCivilians: {
-          attributes: ["id", "firstName"],
-          model: models.civilian.name
-        }
-      });
+      expect(combinedAuditDetails).toEqual(secondAuditDetails);
     });
 
-    test("should generate audit details from queryOptions and add to existingDetails if there are overlapping subjects", () => {
-      const existingDetails = {
-        cases: { attributes: ["id", "status"] }
-      };
+    test("combines audit details when second set of audit details is empty", () => {
+      const secondAuditDetails = {};
 
-      const queryOptions = { attributes: ["incidentDate"] };
-      generateAndAddAuditDetailsFromQuery(
-        existingDetails,
-        queryOptions,
-        models.cases.name
-      );
-
-      expect(existingDetails).toEqual({
-        cases: { attributes: ["id", "status", "incidentDate"] }
-      });
-    });
-
-    test("should not have duplicates if combining overlapping subject", () => {
-      const existingDetails = {
-        cases: { attributes: ["id", "status"] }
-      };
-
-      const queryOptions = {
-        attributes: ["id", "incidentDate"]
-      };
-
-      generateAndAddAuditDetailsFromQuery(
-        existingDetails,
-        queryOptions,
-        models.cases.name
-      );
-
-      expect(existingDetails.cases.attributes.length).toEqual(3);
-    });
-  });
-
-  describe("removeFromExistingAuditDetails", () => {
-    test("should remove specified fields from audit details", () => {
-      const existingDetails = {
+      const firstAuditDetails = {
         cases: {
-          attributes: ["id", "incidentDate", "incidentTime"]
-        },
-        civilianComplainants: {
-          attributes: ["firstName", "lastName"],
-          model: "civilian"
-        },
-        accusedOfficers: {
-          attributes: ["officerId"],
+          attributes: ["id", "status"],
+          model: models.cases.name
+        }
+      };
+
+      const combinedAuditDetails = combineAuditDetails(
+        firstAuditDetails,
+        secondAuditDetails
+      );
+
+      expect(combinedAuditDetails).toEqual(firstAuditDetails);
+    });
+
+    test("combines audit details when same association has different attributes", () => {
+      const firstAuditDetails = {
+        cases: {
+          attributes: ["firstContactDate"],
+          model: models.cases.name
+        }
+      };
+
+      const secondAuditDetails = {
+        cases: {
+          attributes: ["id", "status"],
+          model: models.cases.name
+        }
+      };
+
+      const combinedAuditDetails = combineAuditDetails(
+        firstAuditDetails,
+        secondAuditDetails
+      );
+
+      expect(combinedAuditDetails).toEqual({
+        cases: {
+          attributes: ["firstContactDate", "id", "status"],
+          model: models.cases.name
+        }
+      });
+    });
+
+    test("combines audit details when same association has repeated attributes", () => {
+      const firstAuditDetails = {
+        cases: {
+          attributes: ["status"],
+          model: models.cases.name
+        }
+      };
+
+      const secondAuditDetails = {
+        cases: {
+          attributes: ["id", "status"],
+          model: models.cases.name
+        }
+      };
+
+      const combinedAuditDetails = combineAuditDetails(
+        firstAuditDetails,
+        secondAuditDetails
+      );
+
+      expect(combinedAuditDetails).toEqual({
+        cases: {
+          attributes: ["status", "id"],
+          model: models.cases.name
+        }
+      });
+    });
+
+    test("should combine audit details that have two different associations", () => {
+      const firstAuditDetails = {
+        cases: {
+          attributes: ["id", "status"],
+          model: models.cases.name
+        }
+      };
+
+      const secondAuditDetails = {
+        accusedOfficer: {
+          attributes: ["id", "firstName"],
           model: models.case_officer.name
         }
       };
 
+      const combinedAuditDetails = combineAuditDetails(
+        firstAuditDetails,
+        secondAuditDetails
+      );
+
+      expect(combinedAuditDetails).toEqual({
+        cases: {
+          attributes: ["id", "status"],
+          model: models.cases.name
+        },
+        accusedOfficer: {
+          attributes: ["id", "firstName"],
+          model: models.case_officer.name
+        }
+      });
+    });
+  });
+
+  test("combines referral letter as top level model and association", () => {
+    const referralLetterTopLevelModel = models.referral_letter.name;
+    const referralLetterQueryOptions = {};
+
+    const referralLetterAuditDetails = getQueryAuditAccessDetails(
+      referralLetterQueryOptions,
+      referralLetterTopLevelModel
+    );
+
+    const topLevelModel = models.cases.name;
+    const caseQueryOptions = {
+      include: [{ model: models.referral_letter, as: "referralLetter" }]
+    };
+
+    const caseAuditDetails = getQueryAuditAccessDetails(
+      caseQueryOptions,
+      topLevelModel
+    );
+
+    expect(
+      combineAuditDetails(referralLetterAuditDetails, caseAuditDetails)
+    ).toEqual({
+      cases: {
+        attributes: Object.keys(models.cases.rawAttributes),
+        model: models.cases.name
+      },
+      referralLetter: {
+        attributes: Object.keys(models.referral_letter.rawAttributes),
+        model: models.referral_letter.name
+      }
+    });
+  });
+
+  describe("removeFromExistingAuditDetails", () => {
+    const existingDetails = {
+      cases: {
+        attributes: ["id", "incidentDate", "incidentTime"],
+        model: models.cases.name
+      },
+      civilianComplainants: {
+        attributes: ["firstName", "lastName"],
+        model: models.civilian.name
+      },
+      accusedOfficers: {
+        attributes: ["officerId"],
+        model: models.case_officer.name
+      }
+    };
+
+    test("should retain associations that don't get details removed", () => {
+      const detailsToRemove = {
+        civilianComplainants: ["firstName"],
+        accusedOfficers: ["officerId"]
+      };
+
+      const updatedDetails = removeFromExistingAuditDetails(
+        existingDetails,
+        detailsToRemove
+      );
+
+      expect(updatedDetails).toEqual({
+        cases: {
+          attributes: ["id", "incidentDate", "incidentTime"],
+          model: models.cases.name
+        },
+        civilianComplainants: {
+          attributes: ["lastName"],
+          model: models.civilian.name
+        }
+      });
+    });
+
+    test("should remove specified fields from audit details", () => {
       const detailsToRemove = {
         cases: ["id"],
         civilianComplainants: ["firstName"],
         accusedOfficers: ["officerId"]
       };
 
-      removeFromExistingAuditDetails(existingDetails, detailsToRemove);
+      const updatedDetails = removeFromExistingAuditDetails(
+        existingDetails,
+        detailsToRemove
+      );
 
-      expect(existingDetails).toEqual({
-        cases: { attributes: ["incidentDate", "incidentTime"] },
+      expect(updatedDetails).toEqual({
+        cases: {
+          attributes: ["incidentDate", "incidentTime"],
+          model: models.cases.name
+        },
         civilianComplainants: {
           attributes: ["lastName"],
-          model: "civilian"
+          model: models.civilian.name
         }
       });
     });

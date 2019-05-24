@@ -1,4 +1,4 @@
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import auditDataAccess from "../../auditDataAccess";
@@ -15,13 +15,12 @@ const getCase = asyncMiddleware(async (request, response) => {
   );
 
   const singleCase = await models.sequelize.transaction(async transaction => {
-    let auditDetails = {};
-
-    const caseWithAssociations = await getCaseWithAllAssociations(
+    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
       request.params.caseId,
-      transaction,
-      auditDetails
+      transaction
     );
+    const caseWithAssociations = caseDetailsAndAuditDetails.caseDetails;
+    const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
     if (newAuditFeatureToggle) {
       await auditDataAccess(

@@ -1,5 +1,5 @@
 import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../auditDataAccess";
@@ -35,13 +35,12 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
         { transaction }
       );
 
-      let auditDetails = {};
-
-      const caseDetails = await getCaseWithAllAssociations(
+      const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
         request.params.caseId,
-        transaction,
-        auditDetails
+        transaction
       );
+      const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+      const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
       if (newAuditFeatureToggle) {
         await auditDataAccess(

@@ -2,7 +2,7 @@ import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
-import { getCaseWithAllAssociations } from "../getCaseHelpers";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 import legacyAuditDataAccess from "../legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
@@ -37,13 +37,13 @@ const removeCivilian = asyncMiddleware(async (request, response, next) => {
       auditUser: request.nickname
     });
 
-    let auditDetails = {};
-
-    const caseDetails = await getCaseWithAllAssociations(
+    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
       request.params.caseId,
-      transaction,
-      auditDetails
+      transaction
     );
+    const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+    const auditDetails = caseDetailsAndAuditDetails.auditDetails;
+
     if (newAuditFeatureToggle) {
       await auditDataAccess(
         request.nickname,

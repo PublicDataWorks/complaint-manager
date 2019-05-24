@@ -5,59 +5,68 @@ export const removeFromExistingAuditDetails = (
   existingDetails,
   detailsToRemove
 ) => {
-  Object.keys(detailsToRemove).forEach(subject => {
-    existingDetails[subject].attributes = existingDetails[
-      subject
-    ].attributes.filter(
-      attribute => !detailsToRemove[subject].includes(attribute)
+  const updatedAuditDetails = {};
+  Object.keys(existingDetails).forEach(association => {
+    const attributesToKeep = existingDetails[association].attributes.filter(
+      attribute =>
+        attributeShouldNotBeRemoved(association, attribute, detailsToRemove)
     );
-    if (existingDetails[subject].attributes.length === 0) {
-      delete existingDetails[subject];
+
+    if (attributesToKeep.length > 0) {
+      updatedAuditDetails[association] = {
+        attributes: attributesToKeep,
+        model: existingDetails[association].model
+      };
     }
   });
+  return updatedAuditDetails;
 };
 
-export const addToExistingAuditDetails = (existingDetails, detailsToAdd) => {
-  Object.keys(detailsToAdd).forEach(subject => {
-    if (existingDetails[subject]) {
-      existingDetails[subject] = combineAttributes(
-        existingDetails[subject],
-        detailsToAdd[subject],
-        subject
-      );
-    } else {
-      existingDetails[subject] = detailsToAdd[subject];
-    }
-  });
-};
-
-export const generateAndAddAuditDetailsFromQuery = (
-  existingDetails,
-  queryOptions,
-  topLevelModelName
+const attributeShouldNotBeRemoved = (
+  association,
+  attribute,
+  detailsToRemove
 ) => {
-  if (existingDetails === null) {
-    return;
-  }
+  return !(
+    detailsToRemove[association] &&
+    detailsToRemove[association].includes(attribute)
+  );
+};
 
-  const detailsToAdd = getQueryAuditAccessDetails(
-    queryOptions,
-    topLevelModelName
+export const combineAuditDetails = (firstAuditDetails, secondAuditDetails) => {
+  const combinedDetails = {};
+
+  const associations = Object.keys(secondAuditDetails).concat(
+    Object.keys(firstAuditDetails)
   );
 
-  addToExistingAuditDetails(existingDetails, detailsToAdd);
+  associations.forEach(association => {
+    if (firstAuditDetails[association] && secondAuditDetails[association]) {
+      combinedDetails[association] = combineAttributes(
+        firstAuditDetails[association],
+        secondAuditDetails[association],
+        association
+      );
+    } else if (firstAuditDetails[association]) {
+      combinedDetails[association] = firstAuditDetails[association];
+    } else {
+      combinedDetails[association] = secondAuditDetails[association];
+    }
+  });
+
+  return combinedDetails;
 };
 
-const combineAttributes = (existingDetails, detailsToAdd) => {
+const combineAttributes = (firstAuditDetails, secondAuditDetails) => {
   const combinedAttributes = _.uniq([
-    ...existingDetails.attributes,
-    ...detailsToAdd.attributes
+    ...firstAuditDetails.attributes,
+    ...secondAuditDetails.attributes
   ]);
 
-  if (existingDetails.model) {
+  if (firstAuditDetails.model) {
     return {
       attributes: combinedAttributes,
-      model: existingDetails.model
+      model: firstAuditDetails.model
     };
   } else {
     return { attributes: combinedAttributes };
@@ -150,10 +159,6 @@ const recursivelyAddIncludedModelsToAuditDetails = (
       auditDetails
     );
   });
-};
-
-const allAttributesArePresent = (attributes, modelName) => {
-  return _.isEqual(attributes, Object.keys(models[modelName].rawAttributes));
 };
 
 export default getQueryAuditAccessDetails;

@@ -1,15 +1,16 @@
 import models from "../../../../models";
-import generateReferralLetterBody from "../generateReferralLetterBody";
+import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import generatePdfBuffer from "../sharedLetterUtilities/generatePdfBuffer";
 import fs from "fs";
 import Handlebars from "handlebars";
-import { generateAndAddAuditDetailsFromQuery } from "../../../getQueryAuditAccessDetails";
+import getQueryAuditAccessDetails, {
+  combineAuditDetails
+} from "../../../getQueryAuditAccessDetails";
 
 const generateReferralLetterPdfBuffer = async (
   caseId,
   includeSignature,
-  transaction,
-  auditDetails = null
+  transaction
 ) => {
   const queryOptions = {
     where: { caseId: caseId },
@@ -18,26 +19,28 @@ const generateReferralLetterPdfBuffer = async (
   };
   let letterData = await models.referral_letter.findOne(queryOptions);
   let letterBody = letterData.editedLetterHtml;
+  let letterBodyAuditDetails;
 
-  if (!letterBody) {
-    letterBody = await generateReferralLetterBody(
-      caseId,
-      transaction,
-      auditDetails
-    );
-  } else {
-    generateAndAddAuditDetailsFromQuery(
-      auditDetails,
+  if (letterBody) {
+    letterBodyAuditDetails = getQueryAuditAccessDetails(
       queryOptions,
       models.referral_letter.name
     );
+  } else {
+    const letterBodyAndAuditDetails = await generateReferralLetterBodyAndAuditDetails(
+      caseId,
+      transaction
+    );
+    letterBody = letterBodyAndAuditDetails.referralLetterBody;
+    letterBodyAuditDetails = letterBodyAndAuditDetails.auditDetails;
   }
 
-  const pdfData = await getReferralLetterPdfData(
+  const pdfDataAndAuditDetails = await getReferralLetterPdfData(
     caseId,
-    transaction,
-    auditDetails
+    transaction
   );
+  const pdfData = pdfDataAndAuditDetails.pdfData;
+  const pdfDataAuditDetails = pdfDataAndAuditDetails.auditDetails;
 
   const fullLetterHtml = await generateLetterPdfHtml(
     letterBody,
@@ -45,10 +48,18 @@ const generateReferralLetterPdfBuffer = async (
     includeSignature
   );
 
-  return await generatePdfBuffer(fullLetterHtml);
+  const auditDetails = combineAuditDetails(
+    letterBodyAuditDetails,
+    pdfDataAuditDetails
+  );
+
+  return {
+    pdfBuffer: await generatePdfBuffer(fullLetterHtml),
+    auditDetails: auditDetails
+  };
 };
 
-const getReferralLetterPdfData = async (caseId, transaction, auditDetails) => {
+const getReferralLetterPdfData = async (caseId, transaction) => {
   const queryOptions = {
     attributes: [
       "firstContactDate",
@@ -69,13 +80,12 @@ const getReferralLetterPdfData = async (caseId, transaction, auditDetails) => {
   };
   const caseData = await models.cases.findByPk(caseId, queryOptions);
 
-  generateAndAddAuditDetailsFromQuery(
-    auditDetails,
+  const auditDetails = getQueryAuditAccessDetails(
     queryOptions,
     models.cases.name
   );
 
-  return caseData;
+  return { pdfData: caseData, auditDetails: auditDetails };
 };
 
 export const generateLetterPdfHtml = (
