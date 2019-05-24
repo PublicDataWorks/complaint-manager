@@ -12,9 +12,10 @@ import * as httpMocks from "node-mocks-http";
 import moment from "moment";
 import auditDataAccess from "../auditDataAccess";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
-
-//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
-jest.mock("../getQueryAuditAccessDetails");
+import {
+  expectedCaseAuditDetails,
+  expectedFormattedCaseAuditDetails
+} from "../../testHelpers/expectedAuditDetails";
 
 jest.mock("../auditDataAccess");
 
@@ -92,7 +93,7 @@ describe("createCaseNote", function() {
             action: AUDIT_ACTION.DATA_ACCESSED,
             subject: AUDIT_SUBJECT.CASE_DETAILS,
             caseId: createdCase.id,
-            auditDetails: { ["Mock Association"]: ["Mock Details"] }
+            auditDetails: expectedFormattedCaseAuditDetails
           })
         ])
       );
@@ -111,8 +112,12 @@ describe("createCaseNote", function() {
         AUDIT_SUBJECT.CASE_NOTES,
         {
           caseNote: {
-            attributes: ["mockDetails"],
+            attributes: Object.keys(models.case_note.rawAttributes),
             model: models.case_note.name
+          },
+          caseNoteAction: {
+            attributes: Object.keys(models.case_note_action.rawAttributes),
+            model: models.case_note_action.name
           }
         },
         expect.anything()
@@ -127,12 +132,7 @@ describe("createCaseNote", function() {
         request.nickname,
         createdCase.id,
         AUDIT_SUBJECT.CASE_DETAILS,
-        {
-          mockAssociation: {
-            attributes: ["mockDetails"],
-            model: "mockModelName"
-          }
-        },
+        expectedCaseAuditDetails,
         expect.anything()
       );
     });

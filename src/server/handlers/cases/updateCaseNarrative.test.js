@@ -7,13 +7,15 @@ import {
 } from "../../../sharedUtilities/constants";
 import auditDataAccess from "../auditDataAccess";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
+import {
+  expectedCaseAuditDetails,
+  expectedFormattedCaseAuditDetails
+} from "../../testHelpers/expectedAuditDetails";
 
 const httpMocks = require("node-mocks-http");
 const models = require("../../models/index");
 const updateCaseNarrative = require("./updateCaseNarrative");
 
-//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
-jest.mock("../getQueryAuditAccessDetails");
 jest.mock("../auditDataAccess");
 
 describe("updateCaseNarrative handler", () => {
@@ -88,12 +90,7 @@ describe("updateCaseNarrative handler", () => {
         request.nickname,
         existingCase.id,
         AUDIT_SUBJECT.CASE_DETAILS,
-        {
-          mockAssociation: {
-            attributes: ["mockDetails"],
-            model: "mockModelName"
-          }
-        },
+        expectedCaseAuditDetails,
         expect.anything()
       );
     });
@@ -117,7 +114,7 @@ describe("updateCaseNarrative handler", () => {
           subject: AUDIT_SUBJECT.CASE_DETAILS,
           auditType: AUDIT_TYPE.DATA_ACCESS,
           action: AUDIT_ACTION.DATA_ACCESSED,
-          auditDetails: { ["Mock Association"]: ["Mock Details"] }
+          auditDetails: expectedFormattedCaseAuditDetails
         })
       );
     });

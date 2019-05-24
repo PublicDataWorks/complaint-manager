@@ -4,13 +4,64 @@ import getReferralLetterDataForResponse from "./getReferralLetterDataForResponse
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 
-jest.mock("../../../getQueryAuditAccessDetails");
-
 describe("getReferralLetterDataForResponse", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
   test("should return the letter data and audit details", async () => {
+    const expectedReferralLetterDataResponseAuditDetails = {
+      referralLetter: {
+        attributes: expect.toIncludeSameMembers([
+          "id",
+          "caseId",
+          "includeRetaliationConcerns"
+        ]),
+        model: models.referral_letter.name
+      },
+      referralLetterIaproCorrections: {
+        attributes: expect.toIncludeSameMembers(["id", "details"]),
+        model: models.referral_letter_iapro_correction.name
+      },
+      caseOfficers: {
+        attributes: expect.toIncludeSameMembers([
+          "id",
+          "firstName",
+          "middleName",
+          "lastName"
+        ]),
+        model: models.case_officer.name
+      },
+      letterOfficer: {
+        attributes: expect.toIncludeSameMembers([
+          "id",
+          "caseOfficerId",
+          "historicalBehaviorNotes",
+          "numHistoricalHighAllegations",
+          "numHistoricalMedAllegations",
+          "numHistoricalLowAllegations",
+          "recommendedActionNotes",
+          "officerHistoryOptionId"
+        ]),
+        model: models.letter_officer.name
+      },
+      referralLetterOfficerRecommendedActions: {
+        attributes: expect.toIncludeSameMembers([
+          "recommendedActionId",
+          "referralLetterOfficerId"
+        ]),
+        model: models.referral_letter_officer_recommended_action.name
+      },
+      referralLetterOfficerHistoryNotes: {
+        attributes: expect.toIncludeSameMembers([
+          "id",
+          "referralLetterOfficerId",
+          "pibCaseNumber",
+          "details"
+        ]),
+        model: models.referral_letter_officer_history_note.name
+      }
+    };
+
     const existingCase = await createTestCaseWithCivilian();
     const referralLetterAttributes = new ReferralLetter.Builder()
       .defaultReferralLetter()
@@ -26,12 +77,7 @@ describe("getReferralLetterDataForResponse", () => {
         transaction
       );
       expect(referralLetterDataAndAuditDetails).toEqual({
-        auditDetails: {
-          mockAssociation: {
-            attributes: ["mockDetails"],
-            model: "mockModelName"
-          }
-        },
+        auditDetails: expectedReferralLetterDataResponseAuditDetails,
         referralLetterData: expect.anything()
       });
     });

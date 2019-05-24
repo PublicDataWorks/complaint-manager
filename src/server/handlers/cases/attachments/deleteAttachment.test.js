@@ -10,14 +10,16 @@ import {
 } from "../../../../sharedUtilities/constants";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../auditDataAccess";
+import {
+  expectedCaseAuditDetails,
+  expectedFormattedCaseAuditDetails
+} from "../../../testHelpers/expectedAuditDetails";
 
 const httpMocks = require("node-mocks-http");
 const AWS = require("aws-sdk");
 
 jest.mock("aws-sdk");
 
-//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
-jest.mock("../../getQueryAuditAccessDetails");
 jest.mock("../../auditDataAccess");
 
 describe("deleteAttachment", function() {
@@ -70,12 +72,7 @@ describe("deleteAttachment", function() {
         request.nickname,
         existingCase.id,
         AUDIT_SUBJECT.CASE_DETAILS,
-        {
-          mockAssociation: {
-            attributes: ["mockDetails"],
-            model: "mockModelName"
-          }
-        },
+        expectedCaseAuditDetails,
         expect.anything()
       );
     });
@@ -123,7 +120,7 @@ describe("deleteAttachment", function() {
           action: AUDIT_ACTION.DATA_ACCESSED,
           subject: AUDIT_SUBJECT.CASE_DETAILS,
           auditType: AUDIT_TYPE.DATA_ACCESS,
-          auditDetails: { ["Mock Association"]: ["Mock Details"] }
+          auditDetails: expectedFormattedCaseAuditDetails
         })
       );
     });

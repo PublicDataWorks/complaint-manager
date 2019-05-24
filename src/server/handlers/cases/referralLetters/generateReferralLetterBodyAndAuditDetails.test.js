@@ -4,8 +4,6 @@ import { getReferralLetterCaseDataAndAuditDetails } from "./generateReferralLett
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { generateReferralLetterBodyAndAuditDetails } from "./generateReferralLetterBodyAndAuditDetails";
 
-jest.mock("../../getQueryAuditAccessDetails");
-
 jest.mock("handlebars", () => ({
   compile: jest.fn(() => {
     return caseData => {
@@ -40,12 +38,7 @@ describe("generateReferralLetterBodyAndAuditDetails", () => {
         caseData: expect.objectContaining({
           id: existingCase.id
         }),
-        auditDetails: {
-          cases: {
-            attributes: ["mockDetails"],
-            model: models.cases.name
-          }
-        }
+        auditDetails: expectedReferralLetterCaseAuditDetails
       });
     });
   });
@@ -63,13 +56,135 @@ describe("generateReferralLetterBodyAndAuditDetails", () => {
 
       expect(referralLetterBodyAndAuditDetails).toEqual({
         referralLetterBody: expect.anything(),
-        auditDetails: {
-          cases: {
-            attributes: ["mockDetails"],
-            model: models.cases.name
-          }
-        }
+        auditDetails: expectedReferralLetterCaseAuditDetails
       });
     });
   });
 });
+
+const expectedReferralLetterCaseAuditDetails = {
+  cases: {
+    attributes: expect.toIncludeSameMembers([
+      "id",
+      "incidentDate",
+      "incidentTime",
+      "narrativeDetails",
+      "firstContactDate",
+      "complaintType",
+      "year",
+      "caseNumber",
+      "pibCaseNumber"
+    ]),
+    model: models.cases.name
+  },
+  referralLetter: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.referral_letter.rawAttributes)
+    ),
+    model: models.referral_letter.name
+  },
+  referralLetterIaproCorrections: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.referral_letter_iapro_correction.rawAttributes)
+    ),
+    model: models.referral_letter_iapro_correction.name
+  },
+  classification: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.classification.rawAttributes)
+    ),
+    model: models.classification.name
+  },
+  incidentLocation: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.address.rawAttributes)
+    ),
+    model: models.address.name
+  },
+  complainantCivilians: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.civilian.rawAttributes)
+    ),
+    model: models.civilian.name
+  },
+  address: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.address.rawAttributes)
+    ),
+    model: models.address.name
+  },
+  raceEthnicity: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.race_ethnicity.rawAttributes)
+    ),
+    model: models.race_ethnicity.name
+  },
+  genderIdentity: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.gender_identity.rawAttributes)
+    ),
+    model: models.gender_identity.name
+  },
+  witnessCivilians: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.civilian.rawAttributes)
+    ),
+    model: models.civilian.name
+  },
+  complainantOfficers: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.case_officer.rawAttributes)
+    ),
+    model: models.case_officer.name
+  },
+  accusedOfficers: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.case_officer.rawAttributes)
+    ),
+    model: models.case_officer.name
+  },
+  allegations: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.officer_allegation.rawAttributes)
+    ),
+    model: models.officer_allegation.name
+  },
+  allegation: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.allegation.rawAttributes)
+    ),
+    model: models.allegation.name
+  },
+  letterOfficer: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.letter_officer.rawAttributes)
+    ),
+    model: models.letter_officer.name
+  },
+  referralLetterOfficerHistoryNotes: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.referral_letter_officer_history_note.rawAttributes)
+    ),
+    model: models.referral_letter_officer_history_note.name
+  },
+  referralLetterOfficerRecommendedActions: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(
+        models.referral_letter_officer_recommended_action.rawAttributes
+      )
+    ),
+    model: models.referral_letter_officer_recommended_action.name
+  },
+  recommendedAction: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.recommended_action.rawAttributes)
+    ),
+    model: models.recommended_action.name
+  },
+  witnessOfficers: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.case_officer.rawAttributes)
+    ),
+    model: models.case_officer.name
+  }
+};

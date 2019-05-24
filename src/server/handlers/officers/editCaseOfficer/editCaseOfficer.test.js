@@ -19,9 +19,10 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import LetterOfficer from "../../../../client/testUtilities/LetterOfficer";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../auditDataAccess";
-
-//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
-jest.mock("../../getQueryAuditAccessDetails");
+import {
+  expectedCaseAuditDetails,
+  expectedFormattedCaseAuditDetails
+} from "../../../testHelpers/expectedAuditDetails";
 
 jest.mock("../../auditDataAccess");
 
@@ -982,7 +983,7 @@ describe("editCaseOfficer", () => {
             caseId: existingCase.id,
             action: AUDIT_ACTION.DATA_ACCESSED,
             auditType: AUDIT_TYPE.DATA_ACCESS,
-            auditDetails: { ["Mock Association"]: ["Mock Details"] }
+            auditDetails: expectedFormattedCaseAuditDetails
           })
         );
       });
@@ -1013,12 +1014,7 @@ describe("editCaseOfficer", () => {
           request.nickname,
           existingCase.id,
           AUDIT_SUBJECT.CASE_DETAILS,
-          {
-            mockAssociation: {
-              attributes: ["mockDetails"],
-              model: "mockModelName"
-            }
-          },
+          expectedCaseAuditDetails,
           expect.anything()
         );
       });

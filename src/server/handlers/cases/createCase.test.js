@@ -19,7 +19,6 @@ const createCase = require("./createCase");
 const models = require("../../models");
 
 jest.mock("../auditDataAccess");
-jest.mock("../getQueryAuditAccessDetails");
 
 describe("createCase handler", () => {
   let request, response, next, caseAttributes, civilianAttributes, user;
@@ -243,20 +242,6 @@ describe("createCase handler", () => {
   });
 
   describe("newAuditFeature enabled", () => {
-    test("should call getQueryAuditAccessDetails with correct arguments", async () => {
-      await createCase(request, response, next);
-
-      expect(getQueryAuditAccessDetails).toHaveBeenCalledWith(
-        expect.objectContaining({
-          auditUser: request.nickname,
-          include: expect.arrayContaining([
-            expect.objectContaining({ as: "complainantCivilians" })
-          ])
-        }),
-        models.cases.name
-      );
-    });
-
     test("should audit when creating a case with an officer complainant", async () => {
       const policeOfficerRequest = httpMocks.createRequest({
         method: "POST",
@@ -284,7 +269,7 @@ describe("createCase handler", () => {
         AUDIT_SUBJECT.CASE_DETAILS,
         {
           cases: {
-            attributes: ["mockDetails"],
+            attributes: Object.keys(models.cases.rawAttributes),
             model: models.cases.name
           }
         },
@@ -305,8 +290,12 @@ describe("createCase handler", () => {
         AUDIT_SUBJECT.CASE_DETAILS,
         {
           cases: {
-            attributes: ["mockDetails"],
+            attributes: Object.keys(models.cases.rawAttributes),
             model: models.cases.name
+          },
+          complainantCivilians: {
+            attributes: Object.keys(models.civilian.rawAttributes),
+            model: models.civilian.name
           }
         },
         expect.anything()
