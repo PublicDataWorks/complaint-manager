@@ -5,14 +5,13 @@ import Case from "../../../../client/testUtilities/case";
 import editCaseNote from "./editCaseNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
+  AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
-  CASE_STATUS,
-  AUDIT_ACTION
+  CASE_STATUS
 } from "../../../../sharedUtilities/constants";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../auditDataAccess";
-import { generateAndAddAuditDetailsFromQuery } from "../../getQueryAuditAccessDetails";
 
 //mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
 jest.mock("../../getQueryAuditAccessDetails");
@@ -133,28 +132,6 @@ describe("editCaseNote", function() {
       });
       response = httpMocks.createResponse();
       next = jest.fn();
-    });
-
-    test("should call generateAndAddAuditDetailsFromQuery with correct arguments", async () => {
-      /*
-       jest seems to use passed by reference value when asserting
-       on function inputs. Since we mutate the value of audit details in
-       this function but we want to assert against the original inputs,
-       we decided to make the mock implementation do nothing.
-
-       see: https://github.com/facebook/jest/issues/4715
-       */
-      generateAndAddAuditDetailsFromQuery.mockImplementationOnce(jest.fn());
-
-      await editCaseNote(request, response, next);
-
-      expect(generateAndAddAuditDetailsFromQuery).toHaveBeenCalledWith(
-        {},
-        expect.objectContaining({
-          auditUser: request.nickname
-        }),
-        models.case_note.name
-      );
     });
 
     test("should audit when case note accessed through edit", async () => {

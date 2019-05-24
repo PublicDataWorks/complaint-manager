@@ -19,13 +19,14 @@ const getReferralLetterPdf = asyncMiddleware(
       "newAuditFeature"
     );
     await models.sequelize.transaction(async transaction => {
-      let auditDetails = {};
-      const pdfBuffer = await generateReferralLetterPdfBuffer(
+      const pdfBufferAndAuditDetails = await generateReferralLetterPdfBuffer(
         caseId,
         false,
-        transaction,
-        auditDetails
+        transaction
       );
+
+      const pdfBuffer = pdfBufferAndAuditDetails.pdfBuffer;
+      const auditDetails = pdfBufferAndAuditDetails.auditDetails;
 
       if (newAuditFeatureToggle) {
         await auditDataAccess(

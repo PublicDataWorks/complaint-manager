@@ -1,6 +1,6 @@
 import Case from "../../../../client/testUtilities/case";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
 
 const {
@@ -13,13 +13,13 @@ const models = require("../../../models");
 const httpMocks = require("node-mocks-http");
 
 jest.mock("../../getCaseHelpers", () => ({
-  getCaseWithAllAssociations: jest.fn((caseId, transaction, auditDetails) => {
-    if (auditDetails) {
-      auditDetails.cases = {
-        attributes: ["mockDetails"]
-      };
-    }
-    return { caseId: caseId };
+  getCaseWithAllAssociationsAndAuditDetails: jest.fn((caseId, transaction) => {
+    return {
+      caseDetails: { caseId: caseId },
+      auditDetails: {
+        cases: { attributes: ["mockDetails"], model: "cases" }
+      }
+    };
   })
 }));
 
@@ -97,7 +97,7 @@ describe("getCase", () => {
     });
 
     test("should not audit if an error occurs while retrieving case", async () => {
-      getCaseWithAllAssociations.mockImplementationOnce(() =>
+      getCaseWithAllAssociationsAndAuditDetails.mockImplementationOnce(() =>
         Promise.reject({ message: "mock error" })
       );
 
@@ -160,7 +160,7 @@ describe("getCase", () => {
     });
 
     test("should not audit if an error occurs while retrieving case", async () => {
-      getCaseWithAllAssociations.mockImplementationOnce(() =>
+      getCaseWithAllAssociationsAndAuditDetails.mockImplementationOnce(() =>
         Promise.reject({ message: "mock error" })
       );
 

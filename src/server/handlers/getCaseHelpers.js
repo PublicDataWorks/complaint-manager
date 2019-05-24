@@ -1,37 +1,32 @@
 import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
 import models from "../models";
-import {
-  addToExistingAuditDetails,
-  generateAndAddAuditDetailsFromQuery,
+import getQueryAuditAccessDetails, {
   removeFromExistingAuditDetails
 } from "./getQueryAuditAccessDetails";
 import { ASCENDING } from "../../sharedUtilities/constants";
 
-export const getCaseWithAllAssociations = async (
+export const getCaseWithAllAssociationsAndAuditDetails = async (
   caseId,
-  transaction,
-  auditDetails
+  transaction
 ) => {
-  return await getCaseDataWithCustomFields(caseId, transaction, auditDetails);
-};
+  const caseDetailsAndAuditDetails = await getCaseDetailsAndAuditDetails(
+    caseId,
+    transaction
+  );
 
-const getCaseDataWithCustomFields = async (
-  caseId,
-  transaction,
-  auditDetails
-) => {
-  let caseAuditDetails = {};
+  const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+  const caseAuditDetails = caseDetailsAndAuditDetails.auditDetails;
 
-  let caseDetails = await getCaseData(caseId, transaction, caseAuditDetails);
-
-  const modifiedCaseDetails = addFieldsToCaseDetails(
-    caseDetails,
+  const modifiedCaseDetailsAndAuditDetails = addFieldsToCaseDetails(
+    caseDetails.toJSON(),
     caseAuditDetails
   );
-  addToExistingAuditDetails(auditDetails, caseAuditDetails);
 
-  return modifiedCaseDetails;
+  return {
+    caseDetails: modifiedCaseDetailsAndAuditDetails.caseDetails,
+    auditDetails: modifiedCaseDetailsAndAuditDetails.auditDetails
+  };
 };
 
 export const getCaseWithoutAssociations = async (
@@ -45,10 +40,10 @@ export const getCaseWithoutAssociations = async (
   if (!caseData) {
     throw Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST);
   }
-  return addFieldsToCaseDetails(caseData);
+  return addFieldsToCaseDetails(caseData.toJSON()).caseDetails;
 };
 
-const getCaseData = async (caseId, transaction, auditDetails) => {
+const getCaseDetailsAndAuditDetails = async (caseId, transaction) => {
   const queryOptions = {
     paranoid: false,
     include: [
@@ -142,36 +137,41 @@ const getCaseData = async (caseId, transaction, auditDetails) => {
     ]
   };
 
-  const caseData = await models.cases.findByPk(caseId, queryOptions);
+  const caseDetails = await models.cases.findByPk(caseId, queryOptions);
 
-  generateAndAddAuditDetailsFromQuery(
-    auditDetails,
+  const caseAuditDetails = getQueryAuditAccessDetails(
     queryOptions,
     models.cases.name
   );
-  return caseData;
+
+  return { caseDetails: caseDetails, auditDetails: caseAuditDetails };
 };
 
-const addFieldsToCaseDetails = (caseDetails, auditDetails) => {
-  let newCaseDetails = caseDetails.toJSON();
-
-  newCaseDetails = addPdfIsAvailable(newCaseDetails, auditDetails);
-  return addIsArchived(newCaseDetails, auditDetails);
+export const addFieldsToCaseDetails = (caseDetails, auditDetails = null) => {
+  const newCaseDetailsAndAuditDetails = addPdfIsAvailable(
+    caseDetails,
+    auditDetails
+  );
+  const newCaseDetails = newCaseDetailsAndAuditDetails.caseDetails;
+  const newAuditDetails = newCaseDetailsAndAuditDetails.auditDetails;
+  return addIsArchived(newCaseDetails, newAuditDetails);
 };
 
-const addIsArchived = (caseDetails, auditDetails) => {
+const addIsArchived = (caseDetails, auditDetails = null) => {
   caseDetails.isArchived = caseDetails.deletedAt !== null;
   delete caseDetails.deletedAt;
 
+  let modifiedAuditDetails = null;
   if (auditDetails) {
     auditDetails.cases.attributes.push("isArchived");
-    removeFromExistingAuditDetails(auditDetails, { cases: ["deletedAt"] });
+    modifiedAuditDetails = removeFromExistingAuditDetails(auditDetails, {
+      cases: ["deletedAt"]
+    });
   }
-
-  return caseDetails;
+  return { caseDetails: caseDetails, auditDetails: modifiedAuditDetails };
 };
 
-const addPdfIsAvailable = (caseDetails, auditDetails) => {
+const addPdfIsAvailable = (caseDetails, auditDetails = null) => {
   caseDetails.pdfAvailable = pdfIsAvailable(caseDetails.referralLetter);
   delete caseDetails.referralLetter;
 
@@ -180,7 +180,7 @@ const addPdfIsAvailable = (caseDetails, auditDetails) => {
     delete auditDetails.referralLetter;
   }
 
-  return caseDetails;
+  return { caseDetails: caseDetails, auditDetails: auditDetails };
 };
 
 const pdfIsAvailable = referralLetter => {

@@ -9,7 +9,7 @@ import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstan
 const moment = require("moment");
 const models = require("../../models");
 const asyncMiddleware = require("../asyncMiddleware");
-import { getCaseWithAllAssociations } from "../getCaseHelpers";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 const _ = require("lodash");
 import legacyAuditDataAccess from "../legacyAuditDataAccess";
 import auditDataAccess from "../auditDataAccess";
@@ -77,12 +77,12 @@ const editCase = asyncMiddleware(async (request, response, next) => {
           validate: caseValidationToggle
         });
 
-        let auditDetails = {};
-        const caseDetails = await getCaseWithAllAssociations(
+        const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
           request.params.caseId,
-          transaction,
-          auditDetails
+          transaction
         );
+        const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+        const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
         if (newAuditFeatureToggle) {
           await auditDataAccess(

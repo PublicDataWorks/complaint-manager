@@ -5,7 +5,7 @@ import {
 import legacyAuditDataAccess from "../legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import auditDataAccess from "../auditDataAccess";
-import { generateAndAddAuditDetailsFromQuery } from "../getQueryAuditAccessDetails";
+import getQueryAuditAccessDetails from "../getQueryAuditAccessDetails";
 
 const {
   AUDIT_SUBJECT,
@@ -135,10 +135,7 @@ const attemptCreateCase = async (
     };
     const createdCase = await models.cases.create(caseAttributes, queryOptions);
 
-    let auditDetails = {};
-
-    generateAndAddAuditDetailsFromQuery(
-      auditDetails,
+    const auditDetails = getQueryAuditAccessDetails(
       queryOptions,
       models.cases.name
     );

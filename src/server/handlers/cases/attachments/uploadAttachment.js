@@ -9,7 +9,7 @@ import {
   AUDIT_SUBJECT,
   DUPLICATE_FILE_NAME
 } from "../../../../sharedUtilities/constants";
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import Boom from "boom";
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
@@ -78,12 +78,12 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
                 }
               );
 
-              let auditDetails = {};
-              const caseDetails = await getCaseWithAllAssociations(
+              const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
                 caseId,
-                transaction,
-                auditDetails
+                transaction
               );
+              const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+              const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
               if (newAuditFeatureToggle) {
                 await auditDataAccess(

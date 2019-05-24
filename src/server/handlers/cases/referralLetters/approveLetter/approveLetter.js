@@ -100,7 +100,7 @@ const generateReferralLetterAndUploadToS3 = async (
   transaction
 ) => {
   const includeSignature = true;
-  const generatedReferralLetterPdf = await generateReferralLetterPdfBuffer(
+  const { pdfBuffer } = await generateReferralLetterPdfBuffer(
     caseId,
     includeSignature,
     transaction
@@ -110,7 +110,7 @@ const generateReferralLetterAndUploadToS3 = async (
 
   await uploadLetterToS3(
     filenameWithCaseId,
-    generatedReferralLetterPdf,
+    pdfBuffer,
     config[process.env.NODE_ENV].referralLettersBucket
   );
 };

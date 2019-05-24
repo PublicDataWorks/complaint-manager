@@ -12,7 +12,7 @@ import Case from "../../../client/testUtilities/case";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
 import auditDataAccess from "../auditDataAccess";
-import { generateAndAddAuditDetailsFromQuery } from "../getQueryAuditAccessDetails";
+import getQueryAuditAccessDetails from "../getQueryAuditAccessDetails";
 
 const httpMocks = require("node-mocks-http");
 const createCase = require("./createCase");
@@ -243,22 +243,10 @@ describe("createCase handler", () => {
   });
 
   describe("newAuditFeature enabled", () => {
-    test("should call generateAndAddAuditDetailsFromQuery with correct arguments", async () => {
-      /*
-       jest seems to use passed by reference value when asserting
-       on function inputs. Since we mutate the value of audit details in
-       this function but we want to assert against the original inputs,
-       we decided to make the mock implementation do nothing.
-
-       see: https://github.com/facebook/jest/issues/4715
-       */
-
-      generateAndAddAuditDetailsFromQuery.mockImplementationOnce(jest.fn());
-
+    test("should call getQueryAuditAccessDetails with correct arguments", async () => {
       await createCase(request, response, next);
 
-      expect(generateAndAddAuditDetailsFromQuery).toHaveBeenCalledWith(
-        {},
+      expect(getQueryAuditAccessDetails).toHaveBeenCalledWith(
         expect.objectContaining({
           auditUser: request.nickname,
           include: expect.arrayContaining([

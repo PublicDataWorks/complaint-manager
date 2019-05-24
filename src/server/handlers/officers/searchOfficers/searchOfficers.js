@@ -1,5 +1,8 @@
 import { ASCENDING, AUDIT_ACTION } from "../../../../sharedUtilities/constants";
-import { generateAndAddAuditDetailsFromQuery } from "../../getQueryAuditAccessDetails";
+import getQueryAuditAccessDetails from "../../getQueryAuditAccessDetails";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
+import auditDataAccess from "../../auditDataAccess";
 
 const models = require("../../../models/index");
 const {
@@ -8,13 +11,9 @@ const {
 } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const Op = require("sequelize").Op;
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
-import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
-import auditDataAccess from "../../auditDataAccess";
 
 const searchOfficers = asyncMiddleware(async (request, response, next) => {
   const whereClause = {};
-  let auditDetails = {};
 
   if (request.query.firstName) {
     whereClause.first_name = { [Op.iLike]: `${request.query.firstName}%` };
@@ -45,8 +44,7 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
     };
     const officers = await models.officer.findAndCountAll(queryOptions);
 
-    generateAndAddAuditDetailsFromQuery(
-      auditDetails,
+    const auditDetails = getQueryAuditAccessDetails(
       queryOptions,
       models.officer.name
     );

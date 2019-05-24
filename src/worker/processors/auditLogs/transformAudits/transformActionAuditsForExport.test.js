@@ -79,7 +79,7 @@ describe("transformActionAuditsForExport", () => {
   });
 
   describe("custom subject", () => {
-    let auditDetails = {
+    const auditDetails = {
       Case: ["Case Reference", "Status"],
       "Earliest Added Complainant": ["First Name", "Middle Name", "Last Name"],
       "Earliest Added Accused Officer": [

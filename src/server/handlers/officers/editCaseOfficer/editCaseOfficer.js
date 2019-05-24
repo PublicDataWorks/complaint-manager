@@ -2,7 +2,7 @@ import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 
 const models = require("../../../models");
 const asyncMiddleware = require("../../asyncMiddleware");
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 const {
   buildOfficerAttributesForUnknownOfficer,
   buildOfficerAttributesForNewOfficer
@@ -72,13 +72,12 @@ const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
       }
     );
 
-    let auditDetails = {};
-
-    const caseDetails = await getCaseWithAllAssociations(
+    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
       request.params.caseId,
-      transaction,
-      auditDetails
+      transaction
     );
+    const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+    const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
     if (newAuditFeatureToggle) {
       await auditDataAccess(

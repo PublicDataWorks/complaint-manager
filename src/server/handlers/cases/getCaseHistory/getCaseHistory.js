@@ -3,29 +3,37 @@ import {
   AUDIT_TYPE
 } from "../../../../sharedUtilities/constants";
 import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
-import { generateAndAddAuditDetailsFromQuery } from "../../getQueryAuditAccessDetails";
+import getQueryAuditAccessDetails, {
+  combineAuditDetails
+} from "../../getQueryAuditAccessDetails";
+import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../models");
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 
 const getCaseHistory = asyncMiddleware(async (request, response) => {
   const caseId = request.params.caseId;
   const caseHistoryAudits = await models.sequelize.transaction(
     async transaction => {
-      let auditDetails = {};
-
-      const dataChangeAudits = await getDataChangeAudits(
+      const dataChangeAuditsAndAuditDetails = await getDataChangeAuditsAndAuditDetails(
         caseId,
-        transaction,
-        auditDetails
+        transaction
       );
+      const dataChangeAudits = dataChangeAuditsAndAuditDetails.dataChangeAudits;
+      const dataChangeAuditDetails =
+        dataChangeAuditsAndAuditDetails.auditDetails;
 
-      const uploadAudits = await getUploadAudits(
+      const uploadAuditsAndAuditDetails = await getUploadAuditsAndAuditDetails(
         caseId,
-        transaction,
-        auditDetails
+        transaction
+      );
+      const uploadAudits = uploadAuditsAndAuditDetails.uploadAudits;
+      const uploadAuditDetails = uploadAuditsAndAuditDetails.auditDetails;
+
+      const auditDetails = combineAuditDetails(
+        dataChangeAuditDetails,
+        uploadAuditDetails
       );
 
       await legacyAuditDataAccess(
@@ -47,7 +55,7 @@ const getCaseHistory = asyncMiddleware(async (request, response) => {
   response.status(200).send(caseHistory);
 });
 
-const getUploadAudits = async (caseId, transaction, auditDetails) => {
+const getUploadAuditsAndAuditDetails = async (caseId, transaction) => {
   const queryOptions = {
     where: { auditType: AUDIT_TYPE.UPLOAD, caseId: caseId },
     attributes: ["action", "user", "createdAt", "subject"],
@@ -57,16 +65,15 @@ const getUploadAudits = async (caseId, transaction, auditDetails) => {
 
   const uploadAudits = await models.action_audit.findAll(queryOptions);
 
-  generateAndAddAuditDetailsFromQuery(
-    auditDetails,
+  const uploadAuditDetails = getQueryAuditAccessDetails(
     queryOptions,
     models.action_audit.name
   );
 
-  return uploadAudits;
+  return { uploadAudits: uploadAudits, auditDetails: uploadAuditDetails };
 };
 
-const getDataChangeAudits = async (caseId, transaction, auditDetails) => {
+const getDataChangeAuditsAndAuditDetails = async (caseId, transaction) => {
   const queryOptions = {
     where: { caseId: caseId },
     attributes: [
@@ -82,13 +89,15 @@ const getDataChangeAudits = async (caseId, transaction, auditDetails) => {
   };
   const dataChangeAudits = await models.data_change_audit.findAll(queryOptions);
 
-  generateAndAddAuditDetailsFromQuery(
-    auditDetails,
+  const dataChangeAuditDetails = getQueryAuditAccessDetails(
     queryOptions,
     models.data_change_audit.name
   );
 
-  return dataChangeAudits;
+  return {
+    dataChangeAudits: dataChangeAudits,
+    auditDetails: dataChangeAuditDetails
+  };
 };
 
 module.exports = getCaseHistory;

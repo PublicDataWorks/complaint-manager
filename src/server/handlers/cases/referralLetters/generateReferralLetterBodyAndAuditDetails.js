@@ -1,10 +1,13 @@
 import models from "../../../models";
 import fs from "fs";
 import Handlebars from "handlebars";
-import { generateAndAddAuditDetailsFromQuery } from "../../getQueryAuditAccessDetails";
 import { ASCENDING } from "../../../../sharedUtilities/constants";
+import getQueryAuditAccessDetails from "../../getQueryAuditAccessDetails";
 
-const getReferralLetterCaseData = async (caseId, transaction, auditDetails) => {
+export const getReferralLetterCaseDataAndAuditDetails = async (
+  caseId,
+  transaction
+) => {
   const queryOptions = {
     attributes: [
       "id",
@@ -115,38 +118,38 @@ const getReferralLetterCaseData = async (caseId, transaction, auditDetails) => {
   };
   const caseData = await models.cases.findByPk(caseId, queryOptions);
 
-  generateAndAddAuditDetailsFromQuery(
-    auditDetails,
+  const auditDetails = getQueryAuditAccessDetails(
     queryOptions,
     models.cases.name
   );
 
-  return caseData;
+  return { caseData: caseData, auditDetails: auditDetails };
 };
 
 const referralLetterBodyPath =
   "src/server/handlers/cases/referralLetters/getReferralLetterPreview/letterBody.tpl";
 
-async function generateReferralLetterBody(
+export const generateReferralLetterBodyAndAuditDetails = async (
   caseId,
-  transaction,
-  auditDetails = null
-) {
+  transaction
+) => {
   let caseData;
-  const caseDataInstance = await getReferralLetterCaseData(
+
+  const caseDataAndAuditDetails = await getReferralLetterCaseDataAndAuditDetails(
     caseId,
-    transaction,
-    auditDetails
+    transaction
   );
 
-  caseData = caseDataInstance.toJSON();
+  caseData = caseDataAndAuditDetails.caseData.toJSON();
   caseData.accusedOfficers.sort((officerA, officerB) => {
     return officerA.createdAt > officerB.createdAt;
   });
 
   const rawTemplate = fs.readFileSync(referralLetterBodyPath);
   const compiledTemplate = Handlebars.compile(rawTemplate.toString());
-  return compiledTemplate(caseData);
-}
+  return {
+    referralLetterBody: compiledTemplate(caseData),
+    auditDetails: caseDataAndAuditDetails.auditDetails
+  };
+};
 
-export default generateReferralLetterBody;

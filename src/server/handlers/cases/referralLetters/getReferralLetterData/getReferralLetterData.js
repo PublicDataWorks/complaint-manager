@@ -19,13 +19,13 @@ const getReferralLetterData = asyncMiddleware(async (request, response) => {
   );
 
   await models.sequelize.transaction(async transaction => {
-    let auditDetails = {};
-
-    const transformedLetterData = await getReferralLetterDataForResponse(
+    const transformedLetterDataAndAuditDetails = await getReferralLetterDataForResponse(
       caseId,
-      transaction,
-      auditDetails
+      transaction
     );
+    const transformedLetterData =
+      transformedLetterDataAndAuditDetails.referralLetterData;
+    const auditDetails = transformedLetterDataAndAuditDetails.auditDetails;
 
     if (newAuditFeatureToggle) {
       await auditDataAccess(

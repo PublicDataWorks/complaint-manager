@@ -2,7 +2,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageCons
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
-import { getCaseWithAllAssociations } from "../../getCaseHelpers";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 const models = require("../../../models");
 const Boom = require("boom");
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
@@ -38,12 +38,13 @@ const removeOfficerAllegation = asyncMiddleware(
           transaction
         });
 
-        let auditDetails = {};
-        const caseDetails = await getCaseWithAllAssociations(
+        const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
           caseOfficer.caseId,
-          transaction,
-          auditDetails
+          transaction
         );
+        const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+        const auditDetails = caseDetailsAndAuditDetails.auditDetails;
+
         if (newAuditFeatureToggle) {
           await auditDataAccess(
             request.nickname,
