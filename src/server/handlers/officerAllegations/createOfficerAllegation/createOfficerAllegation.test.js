@@ -15,9 +15,11 @@ import {
 } from "../../../../sharedUtilities/constants";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../auditDataAccess";
+import {
+  expectedCaseAuditDetails,
+  expectedFormattedCaseAuditDetails
+} from "../../../testHelpers/expectedAuditDetails";
 
-//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
-jest.mock("../../getQueryAuditAccessDetails");
 jest.mock("../../auditDataAccess");
 
 describe("createOfficerAllegation", () => {
@@ -177,7 +179,7 @@ describe("createOfficerAllegation", () => {
             action: AUDIT_ACTION.DATA_ACCESSED,
             auditType: AUDIT_TYPE.DATA_ACCESS,
             user: "TEST_USER_NICKNAME",
-            auditDetails: { ["Mock Association"]: ["Mock Details"] }
+            auditDetails: expectedFormattedCaseAuditDetails
           })
         );
       });
@@ -193,12 +195,7 @@ describe("createOfficerAllegation", () => {
           request.nickname,
           newCase.id,
           AUDIT_SUBJECT.CASE_DETAILS,
-          {
-            mockAssociation: {
-              attributes: ["mockDetails"],
-              model: "mockModelName"
-            }
-          },
+          expectedCaseAuditDetails,
           expect.anything()
         );
       });

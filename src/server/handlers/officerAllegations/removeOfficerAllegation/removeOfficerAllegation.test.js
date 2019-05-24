@@ -16,9 +16,10 @@ import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../auditDataAccess";
-
-//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
-jest.mock("../../getQueryAuditAccessDetails");
+import {
+  expectedCaseAuditDetails,
+  expectedFormattedCaseAuditDetails
+} from "../../../testHelpers/expectedAuditDetails";
 
 jest.mock("../../auditDataAccess");
 
@@ -145,7 +146,7 @@ describe("removeOfficerAllegation", () => {
             user: "TEST_USER_NICKNAME",
             action: AUDIT_ACTION.DATA_ACCESSED,
             auditType: AUDIT_TYPE.DATA_ACCESS,
-            auditDetails: { ["Mock Association"]: ["Mock Details"] }
+            auditDetails: expectedFormattedCaseAuditDetails
           })
         );
       });
@@ -174,12 +175,7 @@ describe("removeOfficerAllegation", () => {
           request.nickname,
           createdAccusedOfficer.caseId,
           AUDIT_SUBJECT.CASE_DETAILS,
-          {
-            mockAssociation: {
-              attributes: ["mockDetails"],
-              model: "mockModelName"
-            }
-          },
+          expectedCaseAuditDetails,
           expect.anything()
         );
       });

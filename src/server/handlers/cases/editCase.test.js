@@ -13,14 +13,16 @@ import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
 import auditDataAccess from "../auditDataAccess";
+import {
+  expectedCaseAuditDetails,
+  expectedFormattedCaseAuditDetails
+} from "../../testHelpers/expectedAuditDetails";
 
 const httpMocks = require("node-mocks-http");
 const models = require("../../models");
 const editCase = require("./editCase");
 const Boom = require("boom");
 
-//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
-jest.mock("../getQueryAuditAccessDetails");
 jest.mock("../auditDataAccess");
 
 describe("Edit Case", () => {
@@ -372,7 +374,7 @@ describe("Edit Case", () => {
               subject: AUDIT_SUBJECT.CASE_DETAILS,
               auditType: AUDIT_TYPE.DATA_ACCESS,
               caseId: existingCase.id,
-              auditDetails: { ["Mock Association"]: ["Mock Details"] }
+              auditDetails: expectedFormattedCaseAuditDetails
             })
           );
         });
@@ -388,12 +390,7 @@ describe("Edit Case", () => {
             request.nickname,
             existingCase.id,
             AUDIT_SUBJECT.CASE_DETAILS,
-            {
-              mockAssociation: {
-                attributes: ["mockDetails"],
-                model: "mockModelName"
-              }
-            },
+            expectedCaseAuditDetails,
             expect.anything()
           );
         });

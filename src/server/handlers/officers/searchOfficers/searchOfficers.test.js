@@ -14,9 +14,6 @@ const {
   DEFAULT_PAGINATION_LIMIT
 } = require("../../../../sharedUtilities/constants");
 
-//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
-jest.mock("../../getQueryAuditAccessDetails");
-
 jest.mock("../../auditDataAccess");
 
 describe("searchOfficers", function() {
@@ -83,8 +80,8 @@ describe("searchOfficers", function() {
         AUDIT_SUBJECT.OFFICER_DATA,
         {
           officer: {
-            attributes: ["mockDetails"],
-            model: "officer"
+            attributes: Object.keys(models.officer.rawAttributes),
+            model: models.officer.name
           }
         },
         expect.anything()

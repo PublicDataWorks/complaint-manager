@@ -15,9 +15,10 @@ import models from "../../../models";
 import editOfficerAllegation from "./editOfficerAllegation";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../auditDataAccess";
-
-//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
-jest.mock("../../getQueryAuditAccessDetails");
+import {
+  expectedCaseAuditDetails,
+  expectedFormattedCaseAuditDetails
+} from "../../../testHelpers/expectedAuditDetails";
 
 jest.mock("../../auditDataAccess");
 
@@ -114,7 +115,7 @@ describe("editOfficerAllegation", () => {
           subject: AUDIT_SUBJECT.CASE_DETAILS,
           caseId: caseOfficer.caseId,
           action: AUDIT_ACTION.DATA_ACCESSED,
-          auditDetails: { ["Mock Association"]: ["Mock Details"] }
+          auditDetails: expectedFormattedCaseAuditDetails
         })
       );
     });
@@ -173,12 +174,7 @@ describe("editOfficerAllegation", () => {
         request.nickname,
         caseOfficer.caseId,
         AUDIT_SUBJECT.CASE_DETAILS,
-        {
-          mockAssociation: {
-            attributes: ["mockDetails"],
-            model: "mockModelName"
-          }
-        },
+        expectedCaseAuditDetails,
         expect.anything()
       );
     });

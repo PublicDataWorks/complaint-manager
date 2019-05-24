@@ -13,13 +13,14 @@ import Boom from "boom";
 import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 import auditDataAccess from "../auditDataAccess";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
+import {
+  expectedCaseAuditDetails,
+  expectedFormattedCaseAuditDetails
+} from "../../testHelpers/expectedAuditDetails";
 
 const editCivilian = require("./editCivilian");
 const models = require("../../models/index");
 const httpMocks = require("node-mocks-http");
-
-//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
-jest.mock("../getQueryAuditAccessDetails");
 
 jest.mock("../auditDataAccess");
 
@@ -74,7 +75,7 @@ describe("editCivilian", () => {
             subject: AUDIT_SUBJECT.CASE_DETAILS,
             user: "TEST_USER_NICKNAME",
             auditType: AUDIT_TYPE.DATA_ACCESS,
-            auditDetails: { ["Mock Association"]: ["Mock Details"] }
+            auditDetails: expectedFormattedCaseAuditDetails
           })
         );
       });
@@ -110,12 +111,7 @@ describe("editCivilian", () => {
           request.nickname,
           existingCase.id,
           AUDIT_SUBJECT.CASE_DETAILS,
-          {
-            mockAssociation: {
-              attributes: ["mockDetails"],
-              model: "mockModelName"
-            }
-          },
+          expectedCaseAuditDetails,
           expect.anything()
         );
       });

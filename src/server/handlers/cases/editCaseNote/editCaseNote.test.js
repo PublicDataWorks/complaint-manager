@@ -13,8 +13,6 @@ import {
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../auditDataAccess";
 
-//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
-jest.mock("../../getQueryAuditAccessDetails");
 jest.mock("../../auditDataAccess");
 
 describe("editCaseNote", function() {
@@ -143,7 +141,7 @@ describe("editCaseNote", function() {
         AUDIT_SUBJECT.CASE_NOTES,
         {
           caseNote: {
-            attributes: ["mockDetails"],
+            attributes: Object.keys(models.case_note.rawAttributes),
             model: models.case_note.name
           }
         },

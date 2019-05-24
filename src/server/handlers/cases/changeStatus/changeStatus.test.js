@@ -17,9 +17,11 @@ import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../auditDataAccess";
+import {
+  expectedCaseAuditDetails,
+  expectedFormattedCaseAuditDetails
+} from "../../../testHelpers/expectedAuditDetails";
 
-//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
-jest.mock("../../getQueryAuditAccessDetails");
 jest.mock("../../auditDataAccess");
 
 describe("changeStatus", async () => {
@@ -181,7 +183,7 @@ describe("changeStatus", async () => {
           auditType: AUDIT_TYPE.DATA_ACCESS,
           subject: AUDIT_SUBJECT.CASE_DETAILS,
           caseId: initialCase.id,
-          auditDetails: { ["Mock Association"]: ["Mock Details"] }
+          auditDetails: expectedFormattedCaseAuditDetails
         })
       );
     });
@@ -208,12 +210,7 @@ describe("changeStatus", async () => {
         request.nickname,
         initialCase.id,
         AUDIT_SUBJECT.CASE_DETAILS,
-        {
-          mockAssociation: {
-            attributes: ["mockDetails"],
-            model: "mockModelName"
-          }
-        },
+        expectedCaseAuditDetails,
         expect.anything()
       );
     });

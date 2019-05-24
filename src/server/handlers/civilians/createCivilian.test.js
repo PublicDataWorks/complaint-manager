@@ -11,11 +11,12 @@ import {
 } from "../../../sharedUtilities/constants";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
 import auditDataAccess from "../auditDataAccess";
+import {
+  expectedCaseAuditDetails,
+  expectedFormattedCaseAuditDetails
+} from "../../testHelpers/expectedAuditDetails";
 
 const httpMocks = require("node-mocks-http");
-
-//mocked implementation in "/handlers/__mocks__/getQueryAuditAccessDetails"
-jest.mock("../getQueryAuditAccessDetails");
 
 jest.mock("../auditDataAccess");
 
@@ -73,7 +74,7 @@ describe("createCivilian handler", () => {
           subject: AUDIT_SUBJECT.CASE_DETAILS,
           auditType: AUDIT_TYPE.DATA_ACCESS,
           action: AUDIT_ACTION.DATA_ACCESSED,
-          auditDetails: { ["Mock Association"]: ["Mock Details"] }
+          auditDetails: expectedFormattedCaseAuditDetails
         })
       );
     });
@@ -92,12 +93,7 @@ describe("createCivilian handler", () => {
         request.nickname,
         createdCase.id,
         AUDIT_SUBJECT.CASE_DETAILS,
-        {
-          mockAssociation: {
-            attributes: ["mockDetails"],
-            model: "mockModelName"
-          }
-        },
+        expectedCaseAuditDetails,
         expect.anything()
       );
     });

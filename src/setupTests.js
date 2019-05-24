@@ -2,6 +2,7 @@ import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import EventEmitter from "events";
 import winston from "winston/lib/winston";
+import "jest-extended";
 
 const config = require("./server/config/config")[process.env.NODE_ENV];
 

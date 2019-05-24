@@ -36,7 +36,7 @@ describe("getCaseHelpers", () => {
 
     auditDetails = {};
   });
-  describe("getCaseWithAllAssocations", () => {
+  describe("getCaseWithAllAssocationsAndAuditDetails", () => {
     afterEach(async () => {
       await cleanupDatabase();
     });
