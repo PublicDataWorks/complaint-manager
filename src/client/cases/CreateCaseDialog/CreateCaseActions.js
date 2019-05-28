@@ -9,11 +9,12 @@ import {
 } from "../../shared/components/StyledButtons";
 import { withTheme } from "@material-ui/core/styles";
 import createCase from "../thunks/createCase";
-import { atLeastOneRequired } from "../../formValidations";
+import { addressMustBeValid, atLeastOneRequired } from "../../formValidations";
 import { closeCreateCaseDialog } from "../../actionCreators/casesActionCreators";
 import { applyCentralTimeZoneOffset } from "../../utilities/formatDate";
 import { isEmpty } from "lodash";
 import { CREATE_CASE_FORM_NAME } from "../../../sharedUtilities/constants";
+import normalizeAddress from "../../utilities/normalizeAddress";
 
 export class CreateCaseActions extends React.Component {
   closeDialog = () => {
@@ -55,17 +56,35 @@ export class CreateCaseActions extends React.Component {
     incidentDate: applyCentralTimeZoneOffset(theCase.incidentDate)
   });
 
-  prepareCivilian = civilian => ({
-    civilian: {
-      ...civilian,
-      firstName: civilian.firstName.trim(),
-      lastName: civilian.lastName.trim()
+  prepareCivilian = civilian => {
+    let civilianData;
+    if (this.props.createCaseAddressInputFeature) {
+      civilianData = {
+        ...civilian,
+        firstName: civilian.firstName.trim(),
+        lastName: civilian.lastName.trim(),
+        address: normalizeAddress(civilian.address)
+      };
+    } else {
+      civilianData = {
+        ...civilian,
+        firstName: civilian.firstName.trim(),
+        lastName: civilian.lastName.trim()
+      };
     }
-  });
+    return {
+      civilian: civilianData
+    };
+  };
 
   isValid = (civilian, createCaseAddressInputFeature = false) => {
     const errors = validate(civilian, createCaseAddressInputFeature);
+    if (this.props.createCaseAddressInputFeature) {
+      addressMustBeValid(this.props.addressValid, errors);
+    }
+
     if (!isEmpty(errors)) throw new SubmissionError({ civilian: errors });
+
     return true;
   };
   render() {
@@ -146,6 +165,7 @@ const mapStateToProps = state => ({
   sortBy: state.ui.casesTable.sortBy,
   sortDirection: state.ui.casesTable.sortDirection,
   currentPage: state.cases.working.currentPage,
+  addressValid: state.ui.addressInput.addressValid,
   createCaseAddressInputFeature:
     state.featureToggles.createCaseAddressInputFeature
 });
