@@ -44,7 +44,6 @@ const getWorkingCases = asyncMiddleware(async (request, response) => {
       await legacyAuditDataAccess(
         request.nickname,
         undefined,
-
         AUDIT_SUBJECT.ALL_WORKING_CASES,
         transaction,
         AUDIT_ACTION.DATA_ACCESSED,
