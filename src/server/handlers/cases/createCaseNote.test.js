@@ -71,7 +71,11 @@ describe("createCaseNote", function() {
             auditType: AUDIT_TYPE.DATA_ACCESS,
             action: AUDIT_ACTION.DATA_ACCESSED,
             subject: AUDIT_SUBJECT.CASE_NOTES,
-            caseId: createdCase.id
+            caseId: createdCase.id,
+            auditDetails: {
+              "Case Note": ["All Case Note Data"],
+              "Case Note Action": ["All Case Note Action Data"]
+            }
           })
         ])
       );

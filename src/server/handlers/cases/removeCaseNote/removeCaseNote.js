@@ -73,7 +73,9 @@ const removeCaseNote = asyncMiddleware(async (request, response) => {
         request.nickname,
         caseId,
         AUDIT_SUBJECT.CASE_NOTES,
-        transaction
+        transaction,
+        AUDIT_ACTION.DATA_ACCESSED,
+        caseNotesAuditDetails
       );
     }
 

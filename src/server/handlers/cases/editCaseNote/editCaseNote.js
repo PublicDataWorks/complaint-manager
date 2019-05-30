@@ -2,6 +2,7 @@ import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import legacyAuditDataAccess from "../../legacyAuditDataAccess";
 import auditDataAccess from "../../auditDataAccess";
 import getQueryAuditAccessDetails from "../../getQueryAuditAccessDetails";
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -22,22 +23,28 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
   );
 
   const caseNotes = await models.sequelize.transaction(async transaction => {
-    const queryOptions = {
+    await models.case_note.update(valuesToUpdate, {
       where: {
         id: caseNoteId
       },
       transaction,
       auditUser: request.nickname
+    });
+
+    const accessQueryOptions = {
+      where: { caseId },
+      include: [{ model: models.case_note_action, as: "caseNoteAction" }],
+      transaction
     };
 
-    await models.case_note.update(valuesToUpdate, queryOptions);
+    const caseNotes = await models.case_note.findAll(accessQueryOptions);
+
+    const caseNoteAuditDetails = getQueryAuditAccessDetails(
+      accessQueryOptions,
+      models.case_note.name
+    );
 
     if (newAuditFeatureToggle) {
-      const caseNoteAuditDetails = getQueryAuditAccessDetails(
-        queryOptions,
-        models.case_note.name
-      );
-
       await auditDataAccess(
         request.nickname,
         caseId,
@@ -50,15 +57,13 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
         request.nickname,
         caseId,
         AUDIT_SUBJECT.CASE_NOTES,
-        transaction
+        transaction,
+        AUDIT_ACTION.DATA_ACCESSED,
+        caseNoteAuditDetails
       );
     }
 
-    return await models.case_note.findAll({
-      where: { caseId },
-      include: [{ model: models.case_note_action, as: "caseNoteAction" }],
-      transaction
-    });
+    return caseNotes;
   });
 
   response.status(200).send(caseNotes);
