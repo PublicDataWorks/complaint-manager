@@ -62,7 +62,9 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
         request.nickname,
         request.params.caseId,
         AUDIT_SUBJECT.CASE_NOTES,
-        transaction
+        transaction,
+        AUDIT_ACTION.DATA_ACCESSED,
+        caseNoteAuditDetails
       );
 
       await legacyAuditDataAccess(
