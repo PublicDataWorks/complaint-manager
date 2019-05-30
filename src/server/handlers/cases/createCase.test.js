@@ -1,4 +1,5 @@
 import {
+  ADDRESSABLE_TYPE,
   ASCENDING,
   AUDIT_ACTION,
   AUDIT_SUBJECT,
@@ -54,7 +55,55 @@ describe("createCase handler", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
+  describe("createCaseAddressInputFeature on", () => {
+    beforeEach(() => {
+      civilianAttributes.address = {
+        streetAddress: "Some Address",
+        intersection: "",
+        streetAddress2: "Some Address Pt 2",
+        city: "Somewhere",
+        state: "No",
+        zipCode: "00000",
+        country: "Nowhere",
+        lat: 0.0,
+        lng: 0.0,
+        placeId: "WhoaLookAtThisPlaceId",
+        additionalLocationInfo: null
+      };
 
+      request = httpMocks.createRequest({
+        method: "POST",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        fflip: mockFflipObject({ createCaseAddressInputFeature: true }),
+        body: {
+          case: caseAttributes,
+          civilian: civilianAttributes
+        },
+        nickname: user
+      });
+    });
+
+    test("should create case with civilian address information", async () => {
+      await createCase(request, response, next);
+
+      const insertedCase = await models.cases.findOne({
+        where: { complaintType: CIVILIAN_INITIATED },
+        include: [{ model: models.civilian, as: "complainantCivilians" }]
+      });
+      const insertedAddress = await models.address.findOne({
+        where: { addressableId: insertedCase.primaryComplainant.id }
+      });
+
+      expect(insertedAddress).toEqual(
+        expect.objectContaining({
+          ...civilianAttributes.address,
+          addressableType: ADDRESSABLE_TYPE.CIVILIAN
+        })
+      );
+    });
+  });
   test("should create case with civilian if civilian complainant type ", async () => {
     await createCase(request, response, next);
 
