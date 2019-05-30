@@ -5,7 +5,13 @@ import {
 import legacyAuditDataAccess from "../legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import auditDataAccess from "../auditDataAccess";
-import getQueryAuditAccessDetails from "../getQueryAuditAccessDetails";
+import getQueryAuditAccessDetails, {
+  combineAuditDetails
+} from "../getQueryAuditAccessDetails";
+import {
+  ADDRESSABLE_TYPE,
+  CIVILIAN_INITIATED
+} from "../../../sharedUtilities/constants";
 
 const {
   AUDIT_SUBJECT,
@@ -23,12 +29,21 @@ const createCase = asyncMiddleware(async (request, response, next) => {
     request,
     "newAuditFeature"
   );
+  const createCaseAddressInputFeature = checkFeatureToggleEnabled(
+    request,
+    "createCaseAddressInputFeature"
+  );
+
   let newCase = {};
   if (request.body.case.complaintType === RANK_INITIATED) {
     newCase = await createCaseWithoutCivilian(request, newAuditFeatureToggle);
   } else {
     validateCivilianName(request.body.civilian);
-    newCase = await createCaseWithCivilian(request, newAuditFeatureToggle);
+    newCase = await createCaseWithCivilian(
+      request,
+      newAuditFeatureToggle,
+      createCaseAddressInputFeature
+    );
   }
 
   response.status(201).send(newCase);
@@ -57,7 +72,11 @@ const createCaseWithoutCivilian = async (request, newAuditFeatureToggle) => {
   );
 };
 
-const createCaseWithCivilian = async (request, newAuditFeatureToggle) => {
+const createCaseWithCivilian = async (
+  request,
+  newAuditFeatureToggle,
+  createCaseAddressInputFeature
+) => {
   const newCaseAttributes = {
     ...request.body.case,
     complainantCivilians: [request.body.civilian]
@@ -74,7 +93,8 @@ const createCaseWithCivilian = async (request, newAuditFeatureToggle) => {
     includeOptions,
     request.nickname,
     FIRST_TRY,
-    newAuditFeatureToggle
+    newAuditFeatureToggle,
+    createCaseAddressInputFeature
   );
 };
 
@@ -83,7 +103,8 @@ const createCaseWithRetry = async (
   includeOptions,
   nickname,
   retryNumber,
-  newAuditFeatureToggle
+  newAuditFeatureToggle,
+  createCaseAddressInputFeature
 ) => {
   const caseAttributes = addMetadataToCaseAttributes(
     newCaseAttributes,
@@ -94,7 +115,8 @@ const createCaseWithRetry = async (
       caseAttributes,
       includeOptions,
       nickname,
-      newAuditFeatureToggle
+      newAuditFeatureToggle,
+      createCaseAddressInputFeature
     );
   } catch (error) {
     if (failedToCreateUniqueCaseReferenceNumber(error)) {
@@ -125,20 +147,51 @@ const attemptCreateCase = async (
   caseAttributes,
   includeOptions,
   nickname,
-  newAuditFeatureToggle
+  newAuditFeatureToggle,
+  createCaseAddressInputFeature = false
 ) => {
   return await models.sequelize.transaction(async transaction => {
-    const queryOptions = {
+    let addressAuditDetails;
+
+    const casesQueryOptions = {
       include: includeOptions,
       auditUser: nickname,
       transaction
     };
-    const createdCase = await models.cases.create(caseAttributes, queryOptions);
-
-    const auditDetails = getQueryAuditAccessDetails(
-      queryOptions,
+    const createdCase = await models.cases.create(
+      caseAttributes,
+      casesQueryOptions
+    );
+    const casesAuditDetails = getQueryAuditAccessDetails(
+      casesQueryOptions,
       models.cases.name
     );
+
+    const isCivilianInitiatedWithAddress =
+      caseAttributes.complaintType === CIVILIAN_INITIATED &&
+      caseAttributes.complainantCivilians[0].address;
+
+    if (createCaseAddressInputFeature && isCivilianInitiatedWithAddress) {
+      await upsertAddress(
+        caseAttributes.complainantCivilians[0].address,
+        createdCase.complainantCivilians[0].id,
+        transaction,
+        nickname
+      );
+
+      addressAuditDetails = getQueryAuditAccessDetails(
+        {
+          auditUser: nickname,
+          transaction
+        },
+        models.address.name
+      );
+    }
+
+    const auditDetails =
+      addressAuditDetails === undefined
+        ? casesAuditDetails
+        : combineAuditDetails(casesAuditDetails, addressAuditDetails);
 
     if (newAuditFeatureToggle) {
       await auditDataAccess(
@@ -158,6 +211,25 @@ const attemptCreateCase = async (
     }
     return createdCase;
   });
+};
+
+const upsertAddress = async (
+  address,
+  complainantCivilianId,
+  transaction,
+  auditUser
+) => {
+  await models.address.create(
+    {
+      ...address,
+      addressableId: complainantCivilianId,
+      addressableType: ADDRESSABLE_TYPE.CIVILIAN
+    },
+    {
+      transaction,
+      auditUser: auditUser
+    }
+  );
 };
 
 const addMetadataToCaseAttributes = (caseAttributes, nickname) => {
