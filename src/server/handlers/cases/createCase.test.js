@@ -13,7 +13,6 @@ import Case from "../../../client/testUtilities/case";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
 import auditDataAccess from "../auditDataAccess";
-import getQueryAuditAccessDetails from "../getQueryAuditAccessDetails";
 
 const httpMocks = require("node-mocks-http");
 const createCase = require("./createCase");
@@ -262,7 +261,10 @@ describe("createCase handler", () => {
           auditType: AUDIT_TYPE.DATA_ACCESS,
           action: AUDIT_ACTION.DATA_ACCESSED,
           subject: AUDIT_SUBJECT.CASE_DETAILS,
-          caseId: cases[0].id
+          caseId: cases[0].id,
+          auditDetails: {
+            Case: ["All Case Data"]
+          }
         })
       );
     });
@@ -284,7 +286,11 @@ describe("createCase handler", () => {
           auditType: AUDIT_TYPE.DATA_ACCESS,
           action: AUDIT_ACTION.DATA_ACCESSED,
           subject: AUDIT_SUBJECT.CASE_DETAILS,
-          caseId: cases[0].id
+          caseId: cases[0].id,
+          auditDetails: {
+            Case: ["All Case Data"],
+            "Complainant Civilians": ["All Complainant Civilians Data"]
+          }
         })
       );
     });

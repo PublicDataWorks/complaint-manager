@@ -10,6 +10,7 @@ import getQueryAuditAccessDetails, {
 } from "../getQueryAuditAccessDetails";
 import {
   ADDRESSABLE_TYPE,
+  AUDIT_ACTION,
   CIVILIAN_INITIATED
 } from "../../../sharedUtilities/constants";
 
@@ -206,7 +207,9 @@ const attemptCreateCase = async (
         nickname,
         createdCase.id,
         AUDIT_SUBJECT.CASE_DETAILS,
-        transaction
+        transaction,
+        AUDIT_ACTION.DATA_ACCESSED,
+        auditDetails
       );
     }
     return createdCase;
