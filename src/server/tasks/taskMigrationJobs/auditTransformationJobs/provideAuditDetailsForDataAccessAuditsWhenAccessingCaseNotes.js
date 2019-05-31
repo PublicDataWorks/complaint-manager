@@ -31,6 +31,21 @@ export const provideAuditDetailsForDataAccessAuditsWhenAccessingCaseNotes = asyn
           audits,
           transaction
         );
+      } else if (
+        auditIsCaseNotesAccess(audits[auditIndex]) &&
+        _.isEmpty(audits[auditIndex].auditDetails)
+      ) {
+        /*
+         * It is possible that a case note was saved, and editCaseNote was called, but no data actually changed,
+         * so a dataChangeAudit was not created, but the caseNotes were still returned, created a data access audit.
+         * This would only happen if the case note was edited, and not if it was created or deleted, so we assume in this
+         * case that the audit action was DATA_UPDATED
+         */
+        await updateAuditDetailsForCaseNotesAccess(
+          audits[auditIndex],
+          AUDIT_ACTION.DATA_UPDATED,
+          transaction
+        );
       }
     }
   });

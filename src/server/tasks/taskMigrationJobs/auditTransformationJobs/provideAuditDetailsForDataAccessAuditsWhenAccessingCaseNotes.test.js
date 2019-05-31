@@ -95,6 +95,55 @@ describe("test provide_audit_details_for_data_access_audits_when_accessing_case_
       );
     });
 
+    test("should update case note audit details when not following a data change before case note actions", async () => {
+      const caseNoteAccessAudit = await models.action_audit.create({
+        action: AUDIT_ACTION.DATA_ACCESSED,
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        user: testuser,
+        caseId: existingCase.id,
+        subject: AUDIT_SUBJECT.CASE_NOTES,
+        auditDetails: {},
+        createdAt: new Date("2019-04-02 17:03:51.27+00")
+      });
+
+      await provideAuditDetailsForDataAccessAuditsWhenAccessingCaseNotes();
+
+      await caseNoteAccessAudit.reload();
+
+      expect(caseNoteAccessAudit).toEqual(
+        expect.objectContaining({
+          auditDetails: {
+            "Case Note": ["All Case Note Data"]
+          }
+        })
+      );
+    });
+
+    test("should update case note audit details when not following a data change after case note actions", async () => {
+      const caseNoteAccessAudit = await models.action_audit.create({
+        action: AUDIT_ACTION.DATA_ACCESSED,
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        user: testuser,
+        caseId: existingCase.id,
+        subject: AUDIT_SUBJECT.CASE_NOTES,
+        auditDetails: {},
+        createdAt: new Date("2019-05-30 17:03:51.26+00")
+      });
+
+      await provideAuditDetailsForDataAccessAuditsWhenAccessingCaseNotes();
+
+      await caseNoteAccessAudit.reload();
+
+      expect(caseNoteAccessAudit).toEqual(
+        expect.objectContaining({
+          auditDetails: {
+            "Case Note": ["All Case Note Data"],
+            "Case Note Action": ["All Case Note Action Data"]
+          }
+        })
+      );
+    });
+
     test("should update case note audit details when following create case note", async () => {
       await models.data_change_audit.create({
         caseId: existingCase.id,
