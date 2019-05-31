@@ -33,7 +33,7 @@ export const provideAuditDetailsForDataAccessAuditsWhenAccessingCaseNotes = asyn
         );
       } else if (
         auditIsCaseNotesAccess(audits[auditIndex]) &&
-        _.isEmpty(audits[auditIndex].auditDetails)
+        _.isEmpty(audits[auditIndex].audit_details)
       ) {
         /*
          * It is possible that a case note was saved, and editCaseNote was called, but no data actually changed,
@@ -75,7 +75,7 @@ const updateCorrespondingCaseNoteAccessAuditDetailsIfExists = async (
     auditIndex++
   ) {
     if (auditIsCaseNotesAccess(audits[auditIndex])) {
-      if (_.isEmpty(audits[auditIndex].auditDetails)) {
+      if (_.isEmpty(audits[auditIndex].audit_details)) {
         await updateAuditDetailsForCaseNotesAccess(
           audits[auditIndex],
           dataChangeAction,
