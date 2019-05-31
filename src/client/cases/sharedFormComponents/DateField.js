@@ -10,7 +10,10 @@ const DateField = ({ inputProps, style, clearable = false, ...fieldProps }) => {
       {...fieldProps}
       component={TextField}
       inputProps={{
-        ...inputProps
+        ...inputProps,
+        style: {
+          paddingBottom: "2px"
+        }
       }}
       style={style}
       InputLabelProps={{
