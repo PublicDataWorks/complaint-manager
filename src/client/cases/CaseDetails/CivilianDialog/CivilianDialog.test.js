@@ -31,24 +31,6 @@ jest.mock("./MapServices/MapService", () => {
   return jest.fn().mockImplementation(() => ({
     healthCheck: callback => {
       callback({ googleAddressServiceIsAvailable: false });
-    },
-
-    getSuggestionValue: suggestion => {
-      return suggestion.description;
-    },
-
-    onFetchSuggestions: (input, callback) => {
-      callback([{ description: "200 East Randolph Street, Chicago, IL, US" }]);
-    },
-
-    onSuggestionSelected: (suggestion, successCallback, failureCallback) => {
-      successCallback({
-        streetAddress: "200 E Randolph St",
-        city: "Chicago",
-        state: "IL",
-        zipCode: "60601",
-        country: "US"
-      });
     }
   }));
 });
