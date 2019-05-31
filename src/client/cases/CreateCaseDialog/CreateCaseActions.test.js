@@ -25,69 +25,7 @@ import {
 import normalizeAddress from "../../utilities/normalizeAddress";
 import createCase from "../thunks/createCase";
 
-jest.mock("../CaseDetails/CivilianDialog/MapServices/MapService", () => {
-  return jest.fn().mockImplementation(() => ({
-    healthCheck: callback => {
-      callback({ googleAddressServiceIsAvailable: true });
-    },
-
-    getSuggestionValue: suggestion => {
-      return suggestion.description;
-    },
-
-    fetchSuggestions: (input, callback) => {
-      callback([{ description: "200 East Randolph Street, Chicago, IL, US" }]);
-    },
-
-    suggestionSelected: (suggestion, successCallback, failureCallback) => {
-      successCallback({
-        additionalLocationInfo: null,
-        addressableId: 821,
-        addressableType: "civilian",
-        addressable_type: "civilian",
-        city: "Chicago",
-        country: "US",
-        createdAt: "2019-05-20T21:04:01.214Z",
-        deletedAt: null,
-        id: 1049,
-        intersection: "",
-        lat: 41.8855572,
-        lng: -87.6214826,
-        placeId: "ChIJObywJqYsDogR_4XaBVM4ge8",
-        state: "IL",
-        streetAddress: "200 E Randolph St",
-        updatedAt: "2019-05-21T16:26:20.040Z",
-        zipCode: "60601"
-      });
-    },
-
-    fetchAddressDetails: (
-      addressIdentifier,
-      successCallback,
-      failureCallback
-    ) => {
-      successCallback({
-        additionalLocationInfo: null,
-        addressableId: 821,
-        addressableType: "civilian",
-        addressable_type: "civilian",
-        city: "Chicago",
-        country: "US",
-        createdAt: "2019-05-20T21:04:01.214Z",
-        deletedAt: null,
-        id: 1049,
-        intersection: "",
-        lat: 41.8855572,
-        lng: -87.6214826,
-        placeId: "ChIJObywJqYsDogR_4XaBVM4ge8",
-        state: "IL",
-        streetAddress: "200 E Randolph St",
-        updatedAt: "2019-05-21T16:26:20.040Z",
-        zipCode: "60601"
-      });
-    }
-  }));
-});
+jest.mock("../CaseDetails/CivilianDialog/MapServices/MapService");
 
 jest.mock("../../intakeSources/thunks/getIntakeSourceDropdownValues", () =>
   jest.fn(values => ({
