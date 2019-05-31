@@ -66,39 +66,21 @@ export const provideAuditDetailsForDataAccessOfCaseWithAllAssociations = async (
     );
 
     for (let auditIndex = 0; auditIndex < audits.length; auditIndex++) {
-      if (dataChangeAuditCalledGetCaseWithAllAssociations(audits[auditIndex])) {
-        auditIndex = await updateCorrespondingCaseDetailsIfExists(
-          auditIndex,
-          audits,
-          transaction
-        );
-      }
+      await updateCurrentAuditIfCaseDetailsAccessAndAuditDetailsEmpty(
+        audits[auditIndex],
+        transaction
+      );
     }
   });
 };
 
-const updateCorrespondingCaseDetailsIfExists = async (
-  dataChangeAuditIndex,
-  audits,
+const updateCurrentAuditIfCaseDetailsAccessAndAuditDetailsEmpty = async (
+  audit,
   transaction
 ) => {
-  let auditIndex;
-  for (
-    auditIndex = dataChangeAuditIndex + 1;
-    auditIndex < audits.length;
-    auditIndex++
-  ) {
-    if (dataChangeAuditCalledGetCaseWithAllAssociations(audits[auditIndex])) {
-      return auditIndex - 1;
-    }
-    if (auditIsCaseDetailsAccess(audits[auditIndex])) {
-      if (_.isEmpty(audits[auditIndex].audit_details)) {
-        await updateAuditDetailsForCaseDetailsAccess(
-          audits[auditIndex].id,
-          transaction
-        );
-      }
-      return auditIndex;
+  if (auditIsCaseDetailsAccess(audit)) {
+    if (_.isEmpty(audit.audit_details)) {
+      await updateAuditDetailsForCaseDetailsAccess(audit.id, transaction);
     }
   }
 };
