@@ -25,6 +25,36 @@ describe("test provide_audit_details_for_data_access_audits_when_auditing_case_w
     await cleanupDatabase();
   });
   describe("provideAuditDetailsForDataAccessOfCaseWithAllAssociations", () => {
+    test("should update empty audit details that don't follow a change", async () => {
+      const caseDetailsAccessAudit = await models.action_audit.create({
+        action: AUDIT_ACTION.DATA_ACCESSED,
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        user: testuser,
+        caseId: existingCase.id,
+        subject: AUDIT_SUBJECT.CASE_DETAILS,
+        auditDetails: {}
+      });
+
+      const caseDetailsAccessAudit2 = await models.action_audit.create({
+        action: AUDIT_ACTION.DATA_ACCESSED,
+        auditType: AUDIT_TYPE.DATA_ACCESS,
+        user: testuser,
+        caseId: existingCase.id,
+        subject: AUDIT_SUBJECT.CASE_DETAILS,
+        auditDetails: {}
+      });
+
+      await provideAuditDetailsForDataAccessOfCaseWithAllAssociations();
+
+      await caseDetailsAccessAudit2.reload();
+
+      expect(caseDetailsAccessAudit2).toEqual(
+        expect.objectContaining({
+          auditDetails: getCaseWithAllAssociationsLegacyAuditDetails
+        })
+      );
+    });
+
     test("should not update audit details when audit is before created before end of audit legacy timestamp", async () => {
       await models.data_change_audit.create({
         caseId: existingCase.id,
