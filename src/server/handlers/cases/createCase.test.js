@@ -33,7 +33,20 @@ describe("createCase handler", () => {
     civilianAttributes = {
       firstName: "First",
       lastName: "Last",
-      phoneNumber: "1234567890"
+      phoneNumber: "1234567890",
+      address: {
+        streetAddress: "Some Address",
+        intersection: "",
+        streetAddress2: "Some Address Pt 2",
+        city: "Somewhere",
+        state: "No",
+        zipCode: "00000",
+        country: "Nowhere",
+        lat: 0.0,
+        lng: 0.0,
+        placeId: "WhoaLookAtThisPlaceId",
+        additionalLocationInfo: null
+      }
     };
 
     request = httpMocks.createRequest({
@@ -56,32 +69,7 @@ describe("createCase handler", () => {
   });
   describe("createCaseAddressInputFeature on", () => {
     beforeEach(() => {
-      civilianAttributes.address = {
-        streetAddress: "Some Address",
-        intersection: "",
-        streetAddress2: "Some Address Pt 2",
-        city: "Somewhere",
-        state: "No",
-        zipCode: "00000",
-        country: "Nowhere",
-        lat: 0.0,
-        lng: 0.0,
-        placeId: "WhoaLookAtThisPlaceId",
-        additionalLocationInfo: null
-      };
-
-      request = httpMocks.createRequest({
-        method: "POST",
-        headers: {
-          authorization: "Bearer SOME_MOCK_TOKEN"
-        },
-        fflip: mockFflipObject({ createCaseAddressInputFeature: true }),
-        body: {
-          case: caseAttributes,
-          civilian: civilianAttributes
-        },
-        nickname: user
-      });
+      request.fflip = mockFflipObject({ createCaseAddressInputFeature: true });
     });
 
     test("should create case with civilian address information", async () => {
@@ -333,7 +321,10 @@ describe("createCase handler", () => {
     });
 
     test("should audit when creating a case with a civilian complainant", async () => {
-      request.fflip = mockFflipObject({ newAuditFeature: true });
+      request.fflip = mockFflipObject({
+        newAuditFeature: true,
+        createCaseAddressInputFeature: true
+      });
 
       await createCase(request, response, next);
 
@@ -344,6 +335,10 @@ describe("createCase handler", () => {
         cases[0].id,
         AUDIT_SUBJECT.CASE_DETAILS,
         {
+          address: {
+            attributes: Object.keys(models.address.rawAttributes),
+            model: models.address.name
+          },
           cases: {
             attributes: Object.keys(models.cases.rawAttributes),
             model: models.cases.name
