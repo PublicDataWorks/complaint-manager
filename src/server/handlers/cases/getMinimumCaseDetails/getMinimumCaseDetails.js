@@ -1,12 +1,12 @@
 import asyncMiddleware from "../../asyncMiddleware";
 import models from "../../../models";
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
-import auditDataAccess from "../../auditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 
 const getMinimumCaseDetails = asyncMiddleware(
   async (request, response, next) => {

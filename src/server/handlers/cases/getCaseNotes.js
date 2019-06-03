@@ -1,8 +1,8 @@
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
-import getQueryAuditAccessDetails from "../getQueryAuditAccessDetails";
-import legacyAuditDataAccess from "../legacyAuditDataAccess";
+import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
+import legacyAuditDataAccess from "../audits/legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
-import auditDataAccess from "../auditDataAccess";
+import auditDataAccess from "../audits/auditDataAccess";
 
 const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 const asyncMiddleWare = require("../asyncMiddleware");

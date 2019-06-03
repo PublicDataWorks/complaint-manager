@@ -12,7 +12,7 @@ import getReferralLetterPdf from "./getReferralLetterPdf";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 import mockFflipObject from "../../../../testHelpers/mockFflipObject";
-import auditDataAccess from "../../../auditDataAccess";
+import auditDataAccess from "../../../audits/auditDataAccess";
 
 jest.mock(
   "./generateReferralLetterPdfBuffer",
@@ -28,7 +28,7 @@ jest.mock(
     };
   }
 );
-jest.mock("../../../auditDataAccess");
+jest.mock("../../../audits/auditDataAccess");
 
 describe("Generate referral letter pdf", () => {
   let existingCase, request, response, next;

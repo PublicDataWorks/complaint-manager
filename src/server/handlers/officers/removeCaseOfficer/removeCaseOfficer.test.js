@@ -14,13 +14,13 @@ import removeCaseOfficer from "./removeCaseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
-import auditDataAccess from "../../auditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 import {
   expectedCaseAuditDetails,
   expectedFormattedCaseAuditDetails
 } from "../../../testHelpers/expectedAuditDetails";
 
-jest.mock("../../auditDataAccess");
+jest.mock("../../audits/auditDataAccess");
 
 describe("removeCaseOfficer", () => {
   afterEach(async () => {

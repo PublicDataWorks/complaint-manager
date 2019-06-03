@@ -5,10 +5,10 @@ const asyncMiddleware = require("../../asyncMiddleware");
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 const models = require("../../../models");
 const Boom = require("boom");
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
-import auditDataAccess from "../../auditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 
 const removeOfficerAllegation = asyncMiddleware(
   async (request, response, next) => {

@@ -7,7 +7,7 @@ import {
   AUDIT_TYPE
 } from "../../../sharedUtilities/constants";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
-import auditDataAccess from "../auditDataAccess";
+import auditDataAccess from "../audits/auditDataAccess";
 import {
   expectedCaseAuditDetails,
   expectedFormattedCaseAuditDetails
@@ -16,7 +16,7 @@ import {
 const models = require("../../models/index");
 const httpMocks = require("node-mocks-http");
 
-jest.mock("../auditDataAccess");
+jest.mock("../audits/auditDataAccess");
 
 describe("removeCivilian", function() {
   let existingCase, response, next, request, existingCivilian;

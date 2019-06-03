@@ -11,7 +11,7 @@ import {
 } from "../../../sharedUtilities/constants";
 import Boom from "boom";
 import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
-import auditDataAccess from "../auditDataAccess";
+import auditDataAccess from "../audits/auditDataAccess";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
 import {
   expectedCaseAuditDetails,
@@ -22,7 +22,7 @@ const editCivilian = require("./editCivilian");
 const models = require("../../models/index");
 const httpMocks = require("node-mocks-http");
 
-jest.mock("../auditDataAccess");
+jest.mock("../audits/auditDataAccess");
 
 describe("editCivilian", () => {
   let response, next;

@@ -15,7 +15,7 @@ import auditUpload from "../sharedLetterUtilities/auditUpload";
 import constructFilename from "../constructFilename";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 import generateComplainantLetterAndUploadToS3 from "./generateComplainantLetterAndUploadToS3";
-import legacyAuditDataAccess from "../../../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../../../audits/legacyAuditDataAccess";
 import config from "../../../../config/config";
 
 const approveLetter = asyncMiddleware(async (request, response, next) => {

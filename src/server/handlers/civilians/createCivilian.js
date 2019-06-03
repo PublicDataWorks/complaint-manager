@@ -7,9 +7,9 @@ import {
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
 import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
-import legacyAuditDataAccess from "../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../audits/legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
-import auditDataAccess from "../auditDataAccess";
+import auditDataAccess from "../audits/auditDataAccess";
 
 const createCivilian = asyncMiddleware(async (request, response, next) => {
   const newAuditFeatureToggle = checkFeatureToggleEnabled(

@@ -1,7 +1,7 @@
 import mockFflipObject from "../../testHelpers/mockFflipObject";
 
 const httpMocks = require("node-mocks-http");
-const audit = require("./audit");
+const audit = require("./auditAuthentication");
 const models = require("../../models/index");
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { AUDIT_ACTION, AUDIT_TYPE } from "../../../sharedUtilities/constants";

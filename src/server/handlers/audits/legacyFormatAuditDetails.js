@@ -1,34 +1,7 @@
-import models from "../models";
-import { AUDIT_ACTION, AUDIT_TYPE } from "../../sharedUtilities/constants";
 import _ from "lodash";
+import models from "../../models";
 
-const legacyAuditDataAccess = async (
-  user,
-  caseId,
-  subject,
-  transaction,
-  action = AUDIT_ACTION.DATA_ACCESSED,
-  auditDetails
-) => {
-  let formattedAuditDetails = {};
-  if (auditDetails) {
-    formattedAuditDetails = formatAuditDetails(auditDetails);
-  }
-
-  await models.action_audit.create(
-    {
-      user,
-      caseId,
-      action,
-      auditType: AUDIT_TYPE.DATA_ACCESS,
-      subject,
-      auditDetails: formattedAuditDetails
-    },
-    { transaction }
-  );
-};
-
-export const formatAuditDetails = auditDetails => {
+export const legacyFormatAuditDetails = auditDetails => {
   let formattedAuditDetails = {};
 
   Object.keys(auditDetails).forEach(subjectName => {
@@ -87,7 +60,7 @@ const getExtraAttributesIfAllModelAttributesPresent = (
   while (
     modelAttributesIndex < sortedModelAttributes.length &&
     auditAttributesIndex < sortedAuditAttributes.length
-  ) {
+    ) {
     if (
       attributeIsInBothAuditAndModel(
         modelAttributesIndex,
@@ -144,5 +117,3 @@ const auditDetailsDoesNotContainModelAttribute = (
     sortedAttributes[attributesIndex]
   );
 };
-
-export default legacyAuditDataAccess;

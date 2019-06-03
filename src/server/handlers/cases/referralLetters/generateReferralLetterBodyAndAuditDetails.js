@@ -2,7 +2,7 @@ import models from "../../../models";
 import fs from "fs";
 import Handlebars from "handlebars";
 import { ASCENDING } from "../../../../sharedUtilities/constants";
-import getQueryAuditAccessDetails from "../../getQueryAuditAccessDetails";
+import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
 
 export const getReferralLetterCaseDataAndAuditDetails = async (
   caseId,
@@ -152,4 +152,3 @@ export const generateReferralLetterBodyAndAuditDetails = async (
     auditDetails: caseDataAndAuditDetails.auditDetails
   };
 };
-

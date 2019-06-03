@@ -5,8 +5,8 @@ import {
 import transformAuditToCaseHistory from "./transformAuditToCaseHistory";
 import getQueryAuditAccessDetails, {
   combineAuditDetails
-} from "../../getQueryAuditAccessDetails";
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+} from "../../audits/getQueryAuditAccessDetails";
+import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");

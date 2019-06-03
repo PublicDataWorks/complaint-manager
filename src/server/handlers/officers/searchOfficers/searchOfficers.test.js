@@ -2,7 +2,7 @@ import Case from "../../../../client/testUtilities/case";
 import Officer from "../../../../client/testUtilities/Officer";
 import models from "../../../models/index";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
-import auditDataAccess from "../../auditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 
 const { cleanupDatabase } = require("../../../testHelpers/requestTestHelpers");
 const httpMocks = require("node-mocks-http");
@@ -14,7 +14,7 @@ const {
   DEFAULT_PAGINATION_LIMIT
 } = require("../../../../sharedUtilities/constants");
 
-jest.mock("../../auditDataAccess");
+jest.mock("../../audits/auditDataAccess");
 
 describe("searchOfficers", function() {
   let existingCase, response, next, request;

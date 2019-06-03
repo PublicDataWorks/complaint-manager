@@ -10,7 +10,7 @@ import {
   AUDIT_TYPE
 } from "../../../sharedUtilities/constants";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
-import auditDataAccess from "../auditDataAccess";
+import auditDataAccess from "../audits/auditDataAccess";
 import {
   expectedCaseAuditDetails,
   expectedFormattedCaseAuditDetails
@@ -18,7 +18,7 @@ import {
 
 const httpMocks = require("node-mocks-http");
 
-jest.mock("../auditDataAccess");
+jest.mock("../audits/auditDataAccess");
 
 describe("createCivilian handler", () => {
   let createdCase, civilianValues, request, next, response;

@@ -3,10 +3,10 @@ import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 const models = require("../../models/index");
 const asyncMiddleware = require("../asyncMiddleware");
 const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
-import legacyAuditDataAccess from "../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../audits/legacyAuditDataAccess";
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
-import auditDataAccess from "../auditDataAccess";
+import auditDataAccess from "../audits/auditDataAccess";
 
 const updateCaseNarrative = asyncMiddleware(async (request, response, next) => {
   const updatedCase = await models.sequelize.transaction(async transaction => {

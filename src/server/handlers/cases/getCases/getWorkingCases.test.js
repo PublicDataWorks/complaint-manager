@@ -7,15 +7,15 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
-import auditDataAccess from "../../auditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 
 const httpMocks = require("node-mocks-http");
 
-jest.mock("../../legacyAuditDataAccess");
-jest.mock("../../auditDataAccess");
+jest.mock("../../audits/legacyAuditDataAccess");
+jest.mock("../../audits/auditDataAccess");
 
 jest.mock("./getCases");
 

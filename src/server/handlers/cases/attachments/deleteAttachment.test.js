@@ -9,7 +9,7 @@ import {
   AUDIT_TYPE
 } from "../../../../sharedUtilities/constants";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
-import auditDataAccess from "../../auditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 import {
   expectedCaseAuditDetails,
   expectedFormattedCaseAuditDetails
@@ -20,7 +20,7 @@ const AWS = require("aws-sdk");
 
 jest.mock("aws-sdk");
 
-jest.mock("../../auditDataAccess");
+jest.mock("../../audits/auditDataAccess");
 
 describe("deleteAttachment", function() {
   afterEach(async () => {

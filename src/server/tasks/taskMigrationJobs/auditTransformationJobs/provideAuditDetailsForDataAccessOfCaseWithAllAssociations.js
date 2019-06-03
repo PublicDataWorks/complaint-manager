@@ -183,7 +183,10 @@ export const dataChangeAuditCalledGetCaseWithAllAssociations = audit => {
     (audit.action === AUDIT_ACTION.DATA_CREATED &&
       audit.subject === "Case Note") ||
     (audit.action === AUDIT_ACTION.DATA_DELETED &&
-      audit.subject === "Case Note")
+      audit.subject === "Case Note") ||
+    (audit.action === AUDIT_ACTION.DATA_UPDATED &&
+      audit.subject === "Address") ||
+    (audit.action === AUDIT_ACTION.DATA_CREATED && audit.subject === "Address")
   );
 };
 

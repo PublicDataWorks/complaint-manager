@@ -5,10 +5,10 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../../../sharedUtilities/constants";
-import legacyAuditDataAccess from "../../../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../../../audits/legacyAuditDataAccess";
 import models from "../../../../models";
 import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
-import auditDataAccess from "../../../auditDataAccess";
+import auditDataAccess from "../../../audits/auditDataAccess";
 
 const getReferralLetterData = asyncMiddleware(async (request, response) => {
   const caseId = request.params.caseId;

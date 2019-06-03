@@ -12,13 +12,13 @@ import Boom from "boom";
 import Case from "../../../client/testUtilities/case";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
-import auditDataAccess from "../auditDataAccess";
+import auditDataAccess from "../audits/auditDataAccess";
 
 const httpMocks = require("node-mocks-http");
 const createCase = require("./createCase");
 const models = require("../../models");
 
-jest.mock("../auditDataAccess");
+jest.mock("../audits/auditDataAccess");
 
 describe("createCase handler", () => {
   let request, response, next, caseAttributes, civilianAttributes, user;
