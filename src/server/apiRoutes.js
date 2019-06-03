@@ -31,7 +31,7 @@ import createCivilian from "./handlers/civilians/createCivilian";
 import getReferralLetterEditStatus from "./handlers/cases/referralLetters/getReferralLetterEditStatus/getReferralLetterEditStatus";
 import editCivilian from "./handlers/civilians/editCivilian";
 import removeCivilian from "./handlers/civilians/removeCivilian";
-import audit from "./handlers/auditLogs/audit";
+import audit from "./handlers/audits/auditAuthentication";
 import searchOfficers from "./handlers/officers/searchOfficers/searchOfficers";
 import searchAllegations from "./handlers/allegations/searchAllegations";
 import getAllegations from "./handlers/allegations/getAllegations";

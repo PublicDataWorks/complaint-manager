@@ -1,7 +1,7 @@
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
-import auditDataAccess from "../../auditDataAccess";
+import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 
 const asyncMiddleware = require("../../asyncMiddleware");

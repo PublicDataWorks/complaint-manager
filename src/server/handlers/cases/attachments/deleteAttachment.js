@@ -5,9 +5,9 @@ const config = require("../../../config/config");
 const models = require("../../../models/index");
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
-import auditDataAccess from "../../auditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 
 const deleteAttachment = asyncMiddleware(async (request, response) => {

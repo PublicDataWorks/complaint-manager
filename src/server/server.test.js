@@ -20,7 +20,7 @@ import {
   suppressWinstonLogs,
   expectResponse
 } from "./testHelpers/requestTestHelpers";
-import audit from "./handlers/auditLogs/audit";
+import audit from "./handlers/audits/auditAuthentication";
 
 jest.mock("auth0", () => ({
   AuthenticationClient: jest.fn()
@@ -30,7 +30,7 @@ jest.mock("aws-sdk", () => ({
   S3: jest.fn()
 }));
 
-jest.mock("./handlers/auditLogs/audit", () =>
+jest.mock("./handlers/audits/auditAuthentication", () =>
   jest.fn((request, response, next) => {
     response.send();
   })

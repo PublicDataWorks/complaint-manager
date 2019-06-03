@@ -1,5 +1,5 @@
 import asyncMiddleware from "../../../asyncMiddleware";
-import legacyAuditDataAccess from "../../../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../../../audits/legacyAuditDataAccess";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT,

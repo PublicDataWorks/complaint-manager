@@ -1,5 +1,5 @@
-import models from "../models";
-import { AUDIT_ACTION } from "../../sharedUtilities/constants";
+import models from "../../models";
+import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 import _ from "lodash";
 
 const auditDataAccess = async (

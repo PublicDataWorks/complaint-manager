@@ -3,7 +3,7 @@ import Boom from "boom";
 import models from "../models";
 import getQueryAuditAccessDetails, {
   removeFromExistingAuditDetails
-} from "./getQueryAuditAccessDetails";
+} from "./audits/getQueryAuditAccessDetails";
 import { ASCENDING } from "../../sharedUtilities/constants";
 
 export const getCaseWithAllAssociationsAndAuditDetails = async (

@@ -1,7 +1,7 @@
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
-import auditDataAccess from "../../auditDataAccess";
-import getQueryAuditAccessDetails from "../../getQueryAuditAccessDetails";
+import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
+import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
 import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");

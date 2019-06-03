@@ -7,17 +7,17 @@ import {
   EDIT_STATUS,
   REFERRAL_LETTER_VERSION
 } from "../../../../../sharedUtilities/constants";
-import legacyAuditDataAccess from "../../../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../../../audits/legacyAuditDataAccess";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../../getCaseHelpers";
 import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import constructFilename from "../constructFilename";
 import { editStatusFromHtml } from "../getReferralLetterEditStatus/getReferralLetterEditStatus";
 import getQueryAuditAccessDetails, {
   combineAuditDetails
-} from "../../../getQueryAuditAccessDetails";
+} from "../../../audits/getQueryAuditAccessDetails";
 import _ from "lodash";
 import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
-import auditDataAccess from "../../../auditDataAccess";
+import auditDataAccess from "../../../audits/auditDataAccess";
 
 require("../../../../handlebarHelpers");
 

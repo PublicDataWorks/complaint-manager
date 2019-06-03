@@ -1,7 +1,7 @@
 import auditDataAccess from "./auditDataAccess";
-import { createTestCaseWithoutCivilian } from "../testHelpers/modelMothers";
-import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import models from "../models";
+import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import models from "../../models";
 
 describe("auditDataAccess", () => {
   const user = "testuser";

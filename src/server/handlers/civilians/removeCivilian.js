@@ -4,9 +4,9 @@ const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
 import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
-import legacyAuditDataAccess from "../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../audits/legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
-import auditDataAccess from "../auditDataAccess";
+import auditDataAccess from "../audits/auditDataAccess";
 
 const removeCivilian = asyncMiddleware(async (request, response, next) => {
   const newAuditFeatureToggle = checkFeatureToggleEnabled(

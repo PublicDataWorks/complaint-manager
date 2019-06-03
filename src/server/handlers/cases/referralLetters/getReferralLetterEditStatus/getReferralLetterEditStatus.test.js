@@ -11,9 +11,9 @@ import {
 import models from "../../../../models";
 import httpMocks from "node-mocks-http";
 import mockFflipObject from "../../../../testHelpers/mockFflipObject";
-import auditDataAccess from "../../../auditDataAccess";
+import auditDataAccess from "../../../audits/auditDataAccess";
 
-jest.mock("../../../auditDataAccess");
+jest.mock("../../../audits/auditDataAccess");
 
 describe("getReferralLetterEditStatus", () => {
   let response, next, request, existingCase, referralLetter;

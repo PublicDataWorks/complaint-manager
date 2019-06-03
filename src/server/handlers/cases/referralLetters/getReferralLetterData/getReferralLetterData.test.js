@@ -17,11 +17,11 @@ import {
 import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 import Case from "../../../../../client/testUtilities/case";
-import auditDataAccess from "../../../auditDataAccess";
+import auditDataAccess from "../../../audits/auditDataAccess";
 import mockFflipObject from "../../../../testHelpers/mockFflipObject";
 
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
-jest.mock("../../../auditDataAccess");
+jest.mock("../../../audits/auditDataAccess");
 
 describe("getReferralLetterData", () => {
   let existingCase, referralLetter, request, response, next, emptyObject;

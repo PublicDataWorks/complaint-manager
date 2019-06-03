@@ -1,9 +1,9 @@
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
-import legacyAuditDataAccess from "../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../audits/legacyAuditDataAccess";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
-import auditDataAccess from "../auditDataAccess";
-import getQueryAuditAccessDetails from "../getQueryAuditAccessDetails";
+import auditDataAccess from "../audits/auditDataAccess";
+import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 
 const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 const asyncMiddleware = require("../asyncMiddleware");

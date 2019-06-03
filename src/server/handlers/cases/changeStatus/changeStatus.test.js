@@ -16,13 +16,13 @@ import Officer from "../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
-import auditDataAccess from "../../auditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 import {
   expectedCaseAuditDetails,
   expectedFormattedCaseAuditDetails
 } from "../../../testHelpers/expectedAuditDetails";
 
-jest.mock("../../auditDataAccess");
+jest.mock("../../audits/auditDataAccess");
 
 describe("changeStatus", async () => {
   let initialCase, response, next;

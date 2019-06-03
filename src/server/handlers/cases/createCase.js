@@ -2,12 +2,12 @@ import {
   BAD_REQUEST_ERRORS,
   INTERNAL_ERRORS
 } from "../../../sharedUtilities/errorMessageConstants";
-import legacyAuditDataAccess from "../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../audits/legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
-import auditDataAccess from "../auditDataAccess";
+import auditDataAccess from "../audits/auditDataAccess";
 import getQueryAuditAccessDetails, {
   combineAuditDetails
-} from "../getQueryAuditAccessDetails";
+} from "../audits/getQueryAuditAccessDetails";
 import {
   ADDRESSABLE_TYPE,
   AUDIT_ACTION,

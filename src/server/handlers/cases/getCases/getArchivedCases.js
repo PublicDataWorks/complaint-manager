@@ -4,10 +4,10 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
-import auditDataAccess from "../../auditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 
 const getArchivedCases = asyncMiddleware(async (request, response) => {
   const cases = await models.sequelize.transaction(async transaction => {

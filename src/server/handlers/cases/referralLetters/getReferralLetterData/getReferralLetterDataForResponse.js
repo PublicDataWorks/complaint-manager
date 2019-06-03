@@ -3,7 +3,7 @@ import shortid from "shortid";
 import { ACCUSED, ASCENDING } from "../../../../../sharedUtilities/constants";
 import getQueryAuditAccessDetails, {
   removeFromExistingAuditDetails
-} from "../../../getQueryAuditAccessDetails";
+} from "../../../audits/getQueryAuditAccessDetails";
 
 const getReferralLetterDataForResponse = async (caseId, transaction) => {
   let letterDataAndAuditDetails = await getLetterDataAndAuditDetails(

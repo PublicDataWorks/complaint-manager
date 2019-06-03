@@ -12,7 +12,7 @@ import {
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
-import auditDataAccess from "../auditDataAccess";
+import auditDataAccess from "../audits/auditDataAccess";
 import {
   expectedCaseAuditDetails,
   expectedFormattedCaseAuditDetails
@@ -23,7 +23,7 @@ const models = require("../../models");
 const editCase = require("./editCase");
 const Boom = require("boom");
 
-jest.mock("../auditDataAccess");
+jest.mock("../audits/auditDataAccess");
 
 describe("Edit Case", () => {
   let request,

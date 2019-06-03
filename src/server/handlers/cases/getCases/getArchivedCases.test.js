@@ -1,17 +1,17 @@
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import getArchivedCases from "./getArchivedCases";
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
-import auditDataAccess from "../../auditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 
-jest.mock("../../legacyAuditDataAccess");
-jest.mock("../../auditDataAccess");
+jest.mock("../../audits/legacyAuditDataAccess");
+jest.mock("../../audits/auditDataAccess");
 jest.mock("./getCases");
 
 getCases.mockImplementation((caseType, sortBy, sortDirection, transaction) => {

@@ -14,13 +14,13 @@ import httpMocks from "node-mocks-http";
 import models from "../../../models";
 import editOfficerAllegation from "./editOfficerAllegation";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
-import auditDataAccess from "../../auditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 import {
   expectedCaseAuditDetails,
   expectedFormattedCaseAuditDetails
 } from "../../../testHelpers/expectedAuditDetails";
 
-jest.mock("../../auditDataAccess");
+jest.mock("../../audits/auditDataAccess");
 
 describe("editOfficerAllegation", () => {
   let officerAllegationToUpdate, caseOfficer, response;

@@ -10,14 +10,14 @@ import {
 import createCaseNote from "./createCaseNote";
 import * as httpMocks from "node-mocks-http";
 import moment from "moment";
-import auditDataAccess from "../auditDataAccess";
+import auditDataAccess from "../audits/auditDataAccess";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
 import {
   expectedCaseAuditDetails,
   expectedFormattedCaseAuditDetails
 } from "../../testHelpers/expectedAuditDetails";
 
-jest.mock("../auditDataAccess");
+jest.mock("../audits/auditDataAccess");
 
 describe("createCaseNote", function() {
   let createdCase, request, response, next;

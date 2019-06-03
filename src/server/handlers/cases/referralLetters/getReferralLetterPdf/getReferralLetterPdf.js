@@ -2,13 +2,13 @@ import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
 import generateReferralLetterPdfBuffer from "./generateReferralLetterPdfBuffer";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
-import legacyAuditDataAccess from "../../../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../../../audits/legacyAuditDataAccess";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../../../sharedUtilities/constants";
 import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
-import auditDataAccess from "../../../auditDataAccess";
+import auditDataAccess from "../../../audits/auditDataAccess";
 
 const getReferralLetterPdf = asyncMiddleware(
   async (request, response, next) => {

@@ -5,7 +5,7 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } from "../../../sharedUtilities/constants";
-import auditDataAccess from "../auditDataAccess";
+import auditDataAccess from "../audits/auditDataAccess";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
 import {
   expectedCaseAuditDetails,
@@ -16,7 +16,7 @@ const httpMocks = require("node-mocks-http");
 const models = require("../../models/index");
 const updateCaseNarrative = require("./updateCaseNarrative");
 
-jest.mock("../auditDataAccess");
+jest.mock("../audits/auditDataAccess");
 
 describe("updateCaseNarrative handler", () => {
   let request, response, existingCase, userNickname, next;

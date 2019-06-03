@@ -17,13 +17,13 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import Boom from "boom";
 import auditUpload from "../sharedLetterUtilities/auditUpload";
-import legacyAuditDataAccess from "../../../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../../../audits/legacyAuditDataAccess";
 import Civilian from "../../../../../client/testUtilities/civilian";
 import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import constructFilename from "../constructFilename";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
-import auditDataAccess from "../../../auditDataAccess";
+import auditDataAccess from "../../../audits/auditDataAccess";
 const SAMPLE_FINAL_PDF_FILENAME = "some_filename.pdf";
 const SAMPLE_REFERRAL_PDF_FILENAME = "referral_letter_filename.pdf";
 import _ from "lodash";
@@ -51,8 +51,8 @@ jest.mock(
 jest.mock("../constructFilename", () => (existingCase, pdfLetterType) => {
   return "referral_letter_filename.pdf";
 });
-jest.mock("../../../legacyAuditDataAccess", () => jest.fn());
-jest.mock("../../../auditDataAccess");
+jest.mock("../../../audits/legacyAuditDataAccess", () => jest.fn());
+jest.mock("../../../audits/auditDataAccess");
 
 describe("approveLetter", () => {
   let existingCase, request, response, next, referralLetter;

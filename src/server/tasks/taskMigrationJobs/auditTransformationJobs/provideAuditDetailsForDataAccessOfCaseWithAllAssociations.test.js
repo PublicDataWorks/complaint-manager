@@ -429,6 +429,38 @@ describe("test provide_audit_details_for_data_access_audits_when_auditing_case_w
         dataChangeAuditCalledGetCaseWithAllAssociations(audit)
       ).toBeTruthy();
     });
+    test("should return true for create address", async () => {
+      const audit = {
+        id: 1,
+        case_id: existingCase.id,
+        subject: "Address",
+        action: AUDIT_ACTION.DATA_CREATED,
+        audit_details: {},
+        username: testuser,
+        created_at: new Date("2019-05-29 17:03:51.26+00"),
+        audit_type: AUDIT_TYPE.DATA_CHANGE
+      };
+
+      expect(
+        dataChangeAuditCalledGetCaseWithAllAssociations(audit)
+      ).toBeTruthy();
+    });
+    test("should return true for update address", async () => {
+      const audit = {
+        id: 1,
+        case_id: existingCase.id,
+        subject: "Address",
+        action: AUDIT_ACTION.DATA_UPDATED,
+        audit_details: {},
+        username: testuser,
+        created_at: new Date("2019-05-29 17:03:51.26+00"),
+        audit_type: AUDIT_TYPE.DATA_CHANGE
+      };
+
+      expect(
+        dataChangeAuditCalledGetCaseWithAllAssociations(audit)
+      ).toBeTruthy();
+    });
     test("should return false for update case note", async () => {
       const audit = {
         id: 1,

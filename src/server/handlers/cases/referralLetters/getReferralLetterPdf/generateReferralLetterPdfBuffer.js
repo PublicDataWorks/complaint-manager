@@ -5,7 +5,7 @@ import fs from "fs";
 import Handlebars from "handlebars";
 import getQueryAuditAccessDetails, {
   combineAuditDetails
-} from "../../../getQueryAuditAccessDetails";
+} from "../../../audits/getQueryAuditAccessDetails";
 
 const generateReferralLetterPdfBuffer = async (
   caseId,

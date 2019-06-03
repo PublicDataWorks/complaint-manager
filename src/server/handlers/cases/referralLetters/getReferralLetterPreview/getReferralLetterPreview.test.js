@@ -31,10 +31,9 @@ import Classification from "../../../../../client/testUtilities/classification";
 import constructFilename from "../constructFilename";
 import RaceEthnicity from "../../../../../client/testUtilities/raceEthnicity";
 import mockFflipObject from "../../../../testHelpers/mockFflipObject";
-import auditDataAccess from "../../../auditDataAccess";
-import _ from "lodash";
+import auditDataAccess from "../../../audits/auditDataAccess";
 
-jest.mock("../../../auditDataAccess");
+jest.mock("../../../audits/auditDataAccess");
 
 describe("getReferralLetterPreview", function() {
   let existingCase, request, response, next, referralLetter;

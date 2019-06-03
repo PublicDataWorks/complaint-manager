@@ -11,8 +11,8 @@ const models = require("../../models");
 const asyncMiddleware = require("../asyncMiddleware");
 import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 const _ = require("lodash");
-import legacyAuditDataAccess from "../legacyAuditDataAccess";
-import auditDataAccess from "../auditDataAccess";
+import legacyAuditDataAccess from "../audits/legacyAuditDataAccess";
+import auditDataAccess from "../audits/auditDataAccess";
 const Boom = require("boom");
 
 async function upsertAddress(caseId, incidentLocation, transaction, nickname) {

@@ -14,13 +14,13 @@ import {
   AUDIT_TYPE
 } from "../../../../sharedUtilities/constants";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
-import auditDataAccess from "../../auditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 import {
   expectedCaseAuditDetails,
   expectedFormattedCaseAuditDetails
 } from "../../../testHelpers/expectedAuditDetails";
 
-jest.mock("../../auditDataAccess");
+jest.mock("../../audits/auditDataAccess");
 
 describe("createOfficerAllegation", () => {
   let newCase, allegation, response, next;

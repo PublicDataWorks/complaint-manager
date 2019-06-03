@@ -11,10 +11,10 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import Boom from "boom";
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
-import auditDataAccess from "../../auditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 
 const uploadAttachment = asyncMiddleware((request, response, next) => {
   let managedUpload;

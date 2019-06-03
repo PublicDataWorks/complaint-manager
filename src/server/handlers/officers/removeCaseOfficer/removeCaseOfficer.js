@@ -1,9 +1,9 @@
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
-import legacyAuditDataAccess from "../../legacyAuditDataAccess";
+import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
-import auditDataAccess from "../../auditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 
 const models = require("../../../models");
 const asyncMiddleware = require("../../asyncMiddleware");

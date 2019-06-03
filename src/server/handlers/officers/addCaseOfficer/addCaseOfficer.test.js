@@ -13,13 +13,13 @@ import {
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import ReferralLetter from "../../../../client/testUtilities/ReferralLetter";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
-import auditDataAccess from "../../auditDataAccess";
+import auditDataAccess from "../../audits/auditDataAccess";
 import {
   expectedCaseAuditDetails,
   expectedFormattedCaseAuditDetails
 } from "../../../testHelpers/expectedAuditDetails";
 
-jest.mock("../../auditDataAccess");
+jest.mock("../../audits/auditDataAccess");
 
 describe("addCaseOfficer", () => {
   afterEach(async () => {
