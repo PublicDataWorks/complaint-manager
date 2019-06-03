@@ -23,8 +23,6 @@
     "id": "createCaseAddressInputFeature",
     "name": "createCaseAddressInputFeature",
     "description": "Toggle to enable address input upon case creation as a field for contact information",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": true
   }
 ]
