@@ -27,7 +27,11 @@ module.exports = (sequelize, DataTypes) => {
   DataAccessValue.associate = models => {
     DataAccessValue.belongsTo(models.data_access_audit, {
       as: "dataAccessValues",
-      foreignKey: { name: "dataAccessAuditId", field: "data_access_audit_id" }
+      foreignKey: {
+        name: "dataAccessAuditId",
+        field: "data_access_audit_id",
+        allowNull: false
+      }
     });
   };
 
