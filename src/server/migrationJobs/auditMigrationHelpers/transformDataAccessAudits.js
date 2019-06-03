@@ -9,7 +9,6 @@ import { legacyFormatAuditDetails } from "../../handlers/audits/legacyFormatAudi
 export const transformOldDataAccessAuditsToNew = async transaction => {
   const Op = sequelize.Op;
 
-  console.log(process.env.NODE_ENV);
   const audits = await models.action_audit.findAll({
     where: {
       action: AUDIT_ACTION.DATA_ACCESSED,
@@ -18,8 +17,6 @@ export const transformOldDataAccessAuditsToNew = async transaction => {
       }
     }
   });
-
-  console.log("Amount of audits to migrate\n", audits.length);
 
   for (let i = 0; i < audits.length; i++) {
     await transformSingleOldAuditToNew(audits[i], transaction);
