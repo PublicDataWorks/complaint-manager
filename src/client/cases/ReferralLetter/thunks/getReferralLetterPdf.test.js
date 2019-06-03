@@ -9,6 +9,7 @@ import {
 import configureInterceptors from "../../../axiosInterceptors/interceptors";
 import { EDIT_STATUS } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import { convertStringToArrayBuffer } from "../../../testHelpers";
 
 jest.mock("file-saver", () => jest.fn());
 jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
@@ -123,9 +124,12 @@ describe("getReferralLetterPdf thunk", function() {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(200, "hello world");
 
-      let arrayBuffer = new ArrayBuffer("hello world");
+      const arrayBuffer = convertStringToArrayBuffer("hello world");
+
       await getReferralLetterPdf(caseId, finalFilename)(dispatch);
-      expect(dispatch).toHaveBeenCalledWith(getReferralLetterPdfSuccess(arrayBuffer));
+      expect(dispatch).toHaveBeenCalledWith(
+        getReferralLetterPdfSuccess(expect.objectContaining(arrayBuffer))
+      );
       expect(saveAs).not.toHaveBeenCalled();
       expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
     });

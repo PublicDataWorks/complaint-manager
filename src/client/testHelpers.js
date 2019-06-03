@@ -84,3 +84,12 @@ export const retry = async retriableFunction => {
     { retries: 2 }
   );
 };
+
+export const convertStringToArrayBuffer = stringToConvert => {
+  const buffer = new ArrayBuffer(stringToConvert.length * 2);
+  const bufferView = new Uint16Array(buffer);
+  for (let i = 0; i < stringToConvert.length; i++) {
+    bufferView[i] = stringToConvert.charCodeAt(i);
+  }
+  return buffer;
+};
