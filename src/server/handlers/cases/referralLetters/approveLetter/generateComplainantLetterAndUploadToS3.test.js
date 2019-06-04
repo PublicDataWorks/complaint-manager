@@ -1,6 +1,7 @@
 import generateComplainantLetterAndUploadToS3 from "./generateComplainantLetterAndUploadToS3";
 import {
   AUDIT_ACTION,
+  AUDIT_FILE_TYPE,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   CASE_STATUS,
@@ -12,6 +13,7 @@ import models from "../../../../models";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import constructFilename from "../constructFilename";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
+import { auditFileAction } from "../../../audits/auditFileAction";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 jest.mock("../sharedLetterUtilities/generatePdfBuffer", () =>
@@ -19,6 +21,7 @@ jest.mock("../sharedLetterUtilities/generatePdfBuffer", () =>
     return "pdf buffer";
   })
 );
+jest.mock("../../../audits/auditFileAction");
 
 describe("generateComplainantLetterAndUploadToS3", () => {
   let complainant, caseAttributes, existingCase;
@@ -146,26 +149,54 @@ describe("generateComplainantLetterAndUploadToS3", () => {
     );
   });
 
-  test("should audit complainant letter created", async () => {
-    await models.sequelize.transaction(async transaction => {
-      await generateComplainantLetterAndUploadToS3(
-        existingCase,
-        "nickname",
-        transaction
+  describe("newAuditFeature toggle is off", () => {
+    test("should audit complainant letter created", async () => {
+      const newAuditFeatureToggle = false;
+
+      await models.sequelize.transaction(async transaction => {
+        await generateComplainantLetterAndUploadToS3(
+          existingCase,
+          "nickname",
+          transaction,
+          newAuditFeatureToggle
+        );
+      });
+      const actionAudit = await models.action_audit.findOne({
+        where: { caseId: existingCase.id }
+      });
+
+      expect(actionAudit).toEqual(
+        expect.objectContaining({
+          action: AUDIT_ACTION.UPLOADED,
+          auditType: AUDIT_TYPE.UPLOAD,
+          caseId: existingCase.id,
+          subject: AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
+          user: "nickname"
+        })
       );
     });
-    const actionAudit = await models.action_audit.findOne({
-      where: { caseId: existingCase.id }
-    });
+  });
+  describe("newAuditFeature toggle is on", () => {
+    test("should audit complainant letter created", async () => {
+      const newAuditFeatureToggle = true;
 
-    expect(actionAudit).toEqual(
-      expect.objectContaining({
-        action: AUDIT_ACTION.UPLOADED,
-        auditType: AUDIT_TYPE.UPLOAD,
-        caseId: existingCase.id,
-        subject: AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
-        user: "nickname"
-      })
-    );
+      await models.sequelize.transaction(async transaction => {
+        await generateComplainantLetterAndUploadToS3(
+          existingCase,
+          "nickname",
+          transaction,
+          newAuditFeatureToggle
+        );
+      });
+
+      expect(auditFileAction).toHaveBeenCalledWith(
+        "nickname",
+        existingCase.id,
+        AUDIT_ACTION.UPLOADED,
+        constructFilename(existingCase, COMPLAINANT_LETTER),
+        AUDIT_FILE_TYPE.LETTER_TO_COMPLAINANT_PDF,
+        expect.anything()
+      );
+    });
   });
 });

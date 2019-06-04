@@ -18,6 +18,10 @@ const getTransformedAudits = async dateRangeCondition => {
             as: "dataAccessValues"
           }
         ]
+      },
+      {
+        model: models.file_audit,
+        as: "fileAudit"
       }
     ]
   });

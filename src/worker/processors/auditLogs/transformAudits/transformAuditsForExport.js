@@ -14,7 +14,10 @@ const getAuditTypeFromAuditAction = auditAction => {
     case AUDIT_ACTION.EXPORTED:
       return AUDIT_TYPE.EXPORT;
     case AUDIT_ACTION.DATA_ACCESSED:
+    case AUDIT_ACTION.DOWNLOADED:
       return AUDIT_TYPE.DATA_ACCESS;
+    case AUDIT_ACTION.UPLOADED:
+      return AUDIT_TYPE.UPLOAD;
     default:
       return "";
   }
@@ -70,6 +73,10 @@ const generateSnapshotForDataAccessAudit = audit => {
     .join("\n\n");
 };
 
+const generateSnapshotForFileAudit = audit => {
+  return `File Name: ${audit.fileAudit.fileName}`;
+};
+
 const getAttributesForAuditAction = audit => {
   switch (audit.auditAction) {
     case AUDIT_ACTION.EXPORTED:
@@ -81,6 +88,12 @@ const getAttributesForAuditAction = audit => {
       return {
         subject: audit.dataAccessAudit.auditSubject,
         snapshot: generateSnapshotForDataAccessAudit(audit)
+      };
+    case AUDIT_ACTION.DOWNLOADED:
+    case AUDIT_ACTION.UPLOADED:
+      return {
+        subject: audit.fileAudit.fileType,
+        snapshot: generateSnapshotForFileAudit(audit)
       };
     default:
       return {};

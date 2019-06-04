@@ -1,5 +1,6 @@
 import {
   AUDIT_ACTION,
+  AUDIT_FILE_TYPE,
   AUDIT_TYPE,
   CASE_EXPORT_TYPE,
   JOB_OPERATION
@@ -9,7 +10,7 @@ import formatDate from "../../../../client/utilities/formatDate";
 import _ from "lodash";
 
 describe("transformAuditsForExport", () => {
-  const user = "someone";
+  const user = "Tim Rose";
 
   test("transform log in audit correctly", () => {
     const audit = {
@@ -228,6 +229,64 @@ describe("transformAuditsForExport", () => {
           )}\nExport Range: ${formatDate(
             audit.exportAudit.rangeStart
           )} to ${formatDate(audit.exportAudit.rangeEnd)}`,
+          created_at: "Timestamp"
+        }
+      ]);
+    });
+  });
+
+  describe("file audit", () => {
+    test("transforms file download audit correctly", () => {
+      const audit = {
+        auditAction: AUDIT_ACTION.DOWNLOADED,
+        user: user,
+        createdAt: "Timestamp",
+        caseId: 12,
+        updatedAt: new Date(),
+        id: 1,
+        fileAudit: {
+          id: 2,
+          fileType: AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
+          fileName: "IT'S A TRAP.gif"
+        }
+      };
+
+      expect(transformAuditsForExport([audit])).toEqual([
+        {
+          audit_type: AUDIT_TYPE.DATA_ACCESS,
+          user: user,
+          case_id: 12,
+          action: AUDIT_ACTION.DOWNLOADED,
+          subject: audit.fileAudit.fileType,
+          snapshot: `File Name: ${audit.fileAudit.fileName}`,
+          created_at: "Timestamp"
+        }
+      ]);
+    });
+
+    test("transforms file upload audit correctly", () => {
+      const audit = {
+        auditAction: AUDIT_ACTION.UPLOADED,
+        user: user,
+        createdAt: "Timestamp",
+        caseId: 12,
+        updatedAt: new Date(),
+        id: 1,
+        fileAudit: {
+          id: 2,
+          fileType: AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
+          fileName: "IT'S A TRAP.gif"
+        }
+      };
+
+      expect(transformAuditsForExport([audit])).toEqual([
+        {
+          audit_type: AUDIT_TYPE.UPLOAD,
+          user: user,
+          case_id: 12,
+          action: AUDIT_ACTION.UPLOADED,
+          subject: audit.fileAudit.fileType,
+          snapshot: `File Name: ${audit.fileAudit.fileName}`,
           created_at: "Timestamp"
         }
       ]);

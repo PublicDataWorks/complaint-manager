@@ -20,6 +20,60 @@ const winston = require("winston");
 
 const Op = sequelize.Op;
 
+const exportAuditLog = async (job, done) => {
+  winston.info(`About to run Audit Log Export Job with id ${job.id}`);
+  try {
+    const dateFormatter = {
+      date: formatDateForCSV
+    };
+
+    const columns = {
+      audit_type: "Audit Type",
+      user: "User",
+      case_id: "Case Database ID",
+      action: "Action",
+      subject: "Audit Subject",
+      subject_id: "Subject Database ID",
+      changes: "Changes",
+      snapshot: "Audit Details",
+      created_at: "Timestamp"
+    };
+
+    const dateRangeCondition = getDateRangeCondition(job.data.dateRange);
+
+    const csvOptions = { header: true, columns, cast: dateFormatter };
+
+    const transformedAudits =
+      job.data.features && job.data.features.newAuditFeature
+        ? await getTransformedAudits(dateRangeCondition)
+        : await getOldTransformedAudits(dateRangeCondition);
+
+    const sortedAuditLogs = _.orderBy(transformedAudits, "created_at", "desc");
+
+    const csvOutput = await promisifiedStringify(sortedAuditLogs, csvOptions);
+    const filename = generateFilename(
+      JOB_OPERATION.AUDIT_LOG_EXPORT,
+      job.data.dateRange
+    );
+
+    const s3Result = await uploadFileToS3(
+      job.id,
+      csvOutput,
+      filename,
+      JOB_OPERATION.AUDIT_LOG_EXPORT.key
+    );
+    winston.info(`Done running Audit Log Export Job with id ${job.id}`);
+    done(null, s3Result);
+  } catch (err) {
+    winston.error(
+      `Error running Audit Log Export Job with id ${job.id}: `,
+      err
+    );
+    winston.error(util.inspect(err));
+    done(err);
+  }
+};
+
 const getDateRangeCondition = dateRange => {
   if (dateRange) {
     const dateRangeForQuery = getDateRangeForQuery(dateRange);
@@ -74,60 +128,6 @@ const getOldTransformedAudits = async dateRangeCondition => {
   );
 
   return modifiedActionAudits.concat(modifiedDataChangeAudits);
-};
-
-const exportAuditLog = async (job, done) => {
-  winston.info(`About to run Audit Log Export Job with id ${job.id}`);
-  try {
-    const dateFormatter = {
-      date: formatDateForCSV
-    };
-
-    const columns = {
-      audit_type: "Audit Type",
-      user: "User",
-      case_id: "Case Database ID",
-      action: "Action",
-      subject: "Audit Subject",
-      subject_id: "Subject Database ID",
-      changes: "Changes",
-      snapshot: "Audit Details",
-      created_at: "Timestamp"
-    };
-
-    const dateRangeCondition = getDateRangeCondition(job.data.dateRange);
-
-    const csvOptions = { header: true, columns, cast: dateFormatter };
-
-    const transformedAudits =
-      job.data.features && job.data.features.newAuditFeature
-        ? await getTransformedAudits(dateRangeCondition)
-        : await getOldTransformedAudits(dateRangeCondition);
-
-    const sortedAuditLogs = _.orderBy(transformedAudits, "created_at", "desc");
-
-    const csvOutput = await promisifiedStringify(sortedAuditLogs, csvOptions);
-    const filename = generateFilename(
-      JOB_OPERATION.AUDIT_LOG_EXPORT,
-      job.data.dateRange
-    );
-
-    const s3Result = await uploadFileToS3(
-      job.id,
-      csvOutput,
-      filename,
-      JOB_OPERATION.AUDIT_LOG_EXPORT.key
-    );
-    winston.info(`Done running Audit Log Export Job with id ${job.id}`);
-    done(null, s3Result);
-  } catch (err) {
-    winston.error(
-      `Error running Audit Log Export Job with id ${job.id}: `,
-      err
-    );
-    winston.error(util.inspect(err));
-    done(err);
-  }
 };
 
 const generateFilename = (jobOperation, dateRange) => {

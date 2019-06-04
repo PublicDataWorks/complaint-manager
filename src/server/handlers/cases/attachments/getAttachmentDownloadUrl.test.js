@@ -2,6 +2,7 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import getAttachmentDownloadUrl from "./getAttachmentDownloadUrl";
 import {
   AUDIT_ACTION,
+  AUDIT_FILE_TYPE,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   S3_GET_OBJECT,
@@ -12,6 +13,8 @@ import Attachment from "../../../../client/testUtilities/attachment";
 import ComplainantLetter from "../../../../client/testUtilities/complainantLetter";
 import Civilian from "../../../../client/testUtilities/civilian";
 import ReferralLetter from "../../../../client/testUtilities/ReferralLetter";
+import mockFflipObject from "../../../testHelpers/mockFflipObject";
+import { auditFileAction } from "../../audits/auditFileAction";
 
 const httpMocks = require("node-mocks-http");
 const AWS = require("aws-sdk");
@@ -20,7 +23,11 @@ const config = require("../../../config/config");
 
 jest.mock("aws-sdk");
 
+jest.mock("../../audits/auditFileAction");
+
 describe("getAttachmentDownloadUrl", function() {
+  const testUser = "April Ludgate";
+
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -31,6 +38,7 @@ describe("getAttachmentDownloadUrl", function() {
   let getSignedUrl;
 
   beforeEach(async () => {
+    auditFileAction.mockClear();
     existingCase = await createTestCaseWithoutCivilian();
     getSignedUrl = jest.fn().mockImplementation(() => {
       return SIGNED_TEST_URL;
@@ -62,7 +70,7 @@ describe("getAttachmentDownloadUrl", function() {
         caseId: attachment.caseId,
         fileName: attachment.fileName
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: testUser
     });
     return { attachment, request };
   }
@@ -95,7 +103,7 @@ describe("getAttachmentDownloadUrl", function() {
         caseId: complainantLetter.caseId,
         fileName: complainantLetter.finalPdfFilename
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: testUser
     });
     return { complainantLetter, request };
   }
@@ -121,128 +129,208 @@ describe("getAttachmentDownloadUrl", function() {
         caseId: referralLetter.caseId,
         fileName: referralLetter.finalPdfFilename
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: testUser
     });
     return { referralLetter, request };
   }
   describe("audit", function() {
-    test("should audit data access when attachment downloaded", async () => {
-      const { attachment, request } = await requestWithExistingCaseAttachment();
+    describe("newAuditFeature toggled off", () => {
+      test("should audit data access when attachment downloaded", async () => {
+        const {
+          attachment,
+          request
+        } = await requestWithExistingCaseAttachment();
 
-      const response = httpMocks.createResponse();
+        const response = httpMocks.createResponse();
 
-      await getAttachmentDownloadUrl(request, response, jest.fn());
+        request.fflip = mockFflipObject({ newAuditFeature: false });
 
-      const actionAudit = await models.action_audit.findOne({
-        where: { caseId: attachment.caseId }
+        await getAttachmentDownloadUrl(request, response, jest.fn());
+
+        const actionAudit = await models.action_audit.findOne({
+          where: { caseId: attachment.caseId }
+        });
+
+        expect(actionAudit).toEqual(
+          expect.objectContaining({
+            caseId: attachment.caseId,
+            user: testUser,
+            auditType: AUDIT_TYPE.DATA_ACCESS,
+            action: AUDIT_ACTION.DOWNLOADED,
+            subject: AUDIT_SUBJECT.ATTACHMENT,
+            auditDetails: { fileName: [attachment.fileName] }
+          })
+        );
       });
 
-      expect(actionAudit).toEqual(
-        expect.objectContaining({
-          caseId: attachment.caseId,
-          user: "TEST_USER_NICKNAME",
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: AUDIT_ACTION.DOWNLOADED,
-          subject: AUDIT_SUBJECT.ATTACHMENT,
-          auditDetails: { fileName: [attachment.fileName] }
-        })
-      );
+      test("should audit complainant letter data access", async () => {
+        const {
+          complainantLetter,
+          request
+        } = await requestWithComplainantLetter();
+
+        const response = httpMocks.createResponse();
+        response.write = jest.fn();
+
+        request.fflip = mockFflipObject({ newAuditFeature: false });
+
+        const signedUrl = await getAttachmentDownloadUrl(
+          request,
+          response,
+          jest.fn()
+        );
+
+        const actionAudit = await models.action_audit.findOne({
+          where: { caseId: complainantLetter.caseId }
+        });
+
+        expect(actionAudit).toEqual(
+          expect.objectContaining({
+            action: AUDIT_ACTION.DOWNLOADED,
+            subject: AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
+            caseId: existingCase.id,
+            auditType: AUDIT_TYPE.DATA_ACCESS,
+            user: testUser
+          })
+        );
+      });
+
+      test("should audit referral letter data access", async () => {
+        const { referralLetter, request } = await requestWithReferralLetter();
+
+        const response = httpMocks.createResponse();
+        response.write = jest.fn();
+
+        request.fflip = mockFflipObject({ newAuditFeature: false });
+
+        await getAttachmentDownloadUrl(request, response, jest.fn());
+
+        const actionAudit = await models.action_audit.findOne({
+          where: { caseId: referralLetter.caseId }
+        });
+
+        expect(actionAudit).toEqual(
+          expect.objectContaining({
+            action: AUDIT_ACTION.DOWNLOADED,
+            subject: AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+            caseId: existingCase.id,
+            auditType: AUDIT_TYPE.DATA_ACCESS,
+            user: testUser
+          })
+        );
+      });
+
+      test("should not audit data access when generation of download url fails", async () => {
+        AWS.S3.mockImplementation(() => ({
+          getSignedUrl: () => {
+            throw new Error();
+          }
+        }));
+
+        const {
+          attachment,
+          request
+        } = await requestWithExistingCaseAttachment();
+
+        request.fflip = mockFflipObject({ newAuditFeature: false });
+
+        await getAttachmentDownloadUrl(
+          request,
+          httpMocks.createResponse(),
+          jest.fn()
+        );
+
+        const actionAudit = await models.action_audit.findOne({
+          where: { caseId: attachment.caseId }
+        });
+
+        expect(actionAudit).toBeNull();
+      });
     });
-    test("should audit complainant letter data access", async () => {
-      const { attachment, request } = await requestWithExistingCaseAttachment();
-      const response = httpMocks.createResponse();
 
-      await getAttachmentDownloadUrl(request, response, jest.fn());
+    describe("newAuditFeature toggled on", () => {
+      test("should audit data access when attachment downloaded", async () => {
+        const { request } = await requestWithExistingCaseAttachment();
 
-      const actionAudit = await models.action_audit.findOne({
-        where: { caseId: attachment.caseId }
-      });
-      expect(actionAudit).toEqual(
-        expect.objectContaining({
-          caseId: attachment.caseId,
-          user: "TEST_USER_NICKNAME",
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: AUDIT_ACTION.DOWNLOADED,
-          subject: AUDIT_SUBJECT.ATTACHMENT,
-          auditDetails: { fileName: [attachment.fileName] }
-        })
-      );
-    });
+        const response = httpMocks.createResponse();
 
-    test("should audit complainant letter data access", async () => {
-      const {
-        complainantLetter,
-        request
-      } = await requestWithComplainantLetter();
+        request.fflip = mockFflipObject({ newAuditFeature: true });
 
-      const response = httpMocks.createResponse();
-      response.write = jest.fn();
+        await getAttachmentDownloadUrl(request, response, jest.fn());
 
-      const signedUrl = await getAttachmentDownloadUrl(
-        request,
-        response,
-        jest.fn()
-      );
-
-      const actionAudit = await models.action_audit.findOne({
-        where: { caseId: complainantLetter.caseId }
+        expect(auditFileAction).toHaveBeenCalledWith(
+          testUser,
+          existingCase.id,
+          AUDIT_ACTION.DOWNLOADED,
+          request.params.fileName,
+          AUDIT_FILE_TYPE.ATTACHMENT,
+          expect.anything()
+        );
       });
 
-      expect(actionAudit).toEqual(
-        expect.objectContaining({
-          action: AUDIT_ACTION.DOWNLOADED,
-          subject: AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
-          caseId: existingCase.id,
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          user: "TEST_USER_NICKNAME"
-        })
-      );
-    });
+      test("should audit referral letter data access", async () => {
+        const { request } = await requestWithReferralLetter();
 
-    test("should audit referral letter data access", async () => {
-      const { referralLetter, request } = await requestWithReferralLetter();
+        request.fflip = mockFflipObject({ newAuditFeature: true });
 
-      const response = httpMocks.createResponse();
-      response.write = jest.fn();
+        const response = httpMocks.createResponse();
+        response.write = jest.fn();
 
-      await getAttachmentDownloadUrl(request, response, jest.fn());
+        await getAttachmentDownloadUrl(request, response, jest.fn());
 
-      const actionAudit = await models.action_audit.findOne({
-        where: { caseId: referralLetter.caseId }
+        expect(auditFileAction).toHaveBeenCalledWith(
+          testUser,
+          existingCase.id,
+          AUDIT_ACTION.DOWNLOADED,
+          request.params.fileName,
+          AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
+          expect.anything()
+        );
       });
 
-      expect(actionAudit).toEqual(
-        expect.objectContaining({
-          action: AUDIT_ACTION.DOWNLOADED,
-          subject: AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
-          caseId: existingCase.id,
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          user: "TEST_USER_NICKNAME"
-        })
-      );
-    });
-    test("should not audit data access when generation of download url fails", async () => {
-      AWS.S3.mockImplementation(() => ({
-        getSignedUrl: () => {
-          throw new Error();
-        }
-      }));
+      test("should audit complainant letter data access", async () => {
+        const { request } = await requestWithComplainantLetter();
 
-      const { attachment, request } = await requestWithExistingCaseAttachment();
+        const response = httpMocks.createResponse();
 
-      await getAttachmentDownloadUrl(
-        request,
-        httpMocks.createResponse(),
-        jest.fn()
-      );
+        response.write = jest.fn();
 
-      const actionAudit = await models.action_audit.findOne({
-        where: { caseId: attachment.caseId }
+        request.fflip = mockFflipObject({ newAuditFeature: true });
+
+        await getAttachmentDownloadUrl(request, response, jest.fn());
+
+        expect(auditFileAction).toHaveBeenCalledWith(
+          testUser,
+          existingCase.id,
+          AUDIT_ACTION.DOWNLOADED,
+          request.params.fileName,
+          AUDIT_FILE_TYPE.LETTER_TO_COMPLAINANT_PDF,
+          expect.anything()
+        );
       });
 
-      expect(actionAudit).toBeNull();
+      test("should not audit data access when generation of download url fails", async () => {
+        AWS.S3.mockImplementation(() => ({
+          getSignedUrl: () => {
+            throw new Error();
+          }
+        }));
+
+        const { request } = await requestWithExistingCaseAttachment();
+
+        request.fflip = mockFflipObject({ newAuditFeature: true });
+
+        await getAttachmentDownloadUrl(
+          request,
+          httpMocks.createResponse(),
+          jest.fn()
+        );
+
+        expect(auditFileAction).not.toHaveBeenCalled();
+      });
     });
   });
+
   describe("getSignedUrl", function() {
     test("should respond with a signed download url for an attachment and send correct variables to getSignedUrl", async () => {
       const { attachment, request } = await requestWithExistingCaseAttachment();

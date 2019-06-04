@@ -1,5 +1,6 @@
 import {
   AUDIT_ACTION,
+  AUDIT_FILE_TYPE,
   JOB_OPERATION
 } from "../../../../sharedUtilities/constants";
 import models from "../../../../server/models";
@@ -10,17 +11,19 @@ import getTransformedAudits from "./getTransformedAudits";
 jest.mock("./transformAuditsForExport");
 
 describe("getTransformedAudits", () => {
+  const testUser = "Jar Jar Binks";
+
   afterEach(async () => {
     await cleanupDatabase();
   });
   const job = {
-    data: { user: "someone", features: { newAuditFeature: true } }
+    data: { user: testUser, features: { newAuditFeature: true } }
   };
 
   test("should include exportAudits", async () => {
     const auditValues = {
       auditAction: AUDIT_ACTION.EXPORTED,
-      user: "someone",
+      user: testUser,
       exportAudit: {
         exportType: JOB_OPERATION.AUDIT_LOG_EXPORT.name
       }
@@ -44,7 +47,7 @@ describe("getTransformedAudits", () => {
   test("should include data access audit and data access values", async () => {
     const auditValues = {
       auditAction: AUDIT_ACTION.EXPORTED,
-      user: "someone",
+      user: testUser,
       dataAccessAudit: {
         auditSubject: "test subject",
         dataAccessValues: [
@@ -75,7 +78,7 @@ describe("getTransformedAudits", () => {
     expect(transformAuditsForExport).toHaveBeenCalledWith([
       expect.objectContaining({
         auditAction: auditValues.auditAction,
-        user: "someone",
+        user: testUser,
         dataAccessAudit: expect.objectContaining({
           auditSubject: auditValues.dataAccessAudit.auditSubject,
           dataAccessValues: [
@@ -85,6 +88,39 @@ describe("getTransformedAudits", () => {
               fields: auditValues.dataAccessAudit.dataAccessValues[0].fields
             })
           ]
+        })
+      })
+    ]);
+  });
+
+  test("should include file audit", async () => {
+    const fileName = "theStoryOfDarthPlagueisTheWise.rtf";
+    const auditValues = {
+      auditAction: AUDIT_ACTION.DOWNLOADED,
+      user: testUser,
+      fileAudit: {
+        fileName: fileName,
+        fileType: AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF
+      }
+    };
+    await models.audit.create(auditValues, {
+      include: [
+        {
+          as: "fileAudit",
+          model: models.file_audit
+        }
+      ]
+    });
+
+    await getTransformedAudits({});
+
+    expect(transformAuditsForExport).toHaveBeenCalledWith([
+      expect.objectContaining({
+        auditAction: auditValues.auditAction,
+        user: testUser,
+        fileAudit: expect.objectContaining({
+          fileName: fileName,
+          fileType: AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF
         })
       })
     ]);

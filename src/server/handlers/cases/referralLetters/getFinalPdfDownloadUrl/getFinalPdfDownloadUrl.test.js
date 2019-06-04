@@ -20,13 +20,19 @@ import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import Officer from "../../../../../client/testUtilities/Officer";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
+import mockFflipObject from "../../../../testHelpers/mockFflipObject";
+import { auditFileAction } from "../../../audits/auditFileAction";
 
 const httpMocks = require("node-mocks-http");
 
 jest.mock("../../../../createConfiguredS3Instance");
 
+jest.mock("../../../audits/auditFileAction");
+
 describe("getFinalPdfDownloadUrl", () => {
   let request, response, next, existingCase, getSignedUrlMock, referralLetter;
+  const testUser = "Bob the Builder";
+
   beforeEach(async () => {
     getSignedUrlMock = jest.fn(() => "url");
     createConfiguredS3Instance.mockImplementation(() => ({
@@ -109,7 +115,7 @@ describe("getFinalPdfDownloadUrl", () => {
       params: {
         caseId: existingCase.id
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: testUser
     });
     response = httpMocks.createResponse();
     next = jest.fn();
@@ -117,23 +123,6 @@ describe("getFinalPdfDownloadUrl", () => {
 
   afterEach(async () => {
     await cleanupDatabase();
-  });
-
-  test("access to pdf letter is audited", async () => {
-    await existingCase.update(
-      { status: CASE_STATUS.FORWARDED_TO_AGENCY },
-      { auditUser: "someone" }
-    );
-    await getFinalPdfDownloadUrl(request, response, next);
-
-    const createdAudit = await models.action_audit.findOne();
-    expect(createdAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
-    expect(createdAudit.action).toEqual(AUDIT_ACTION.DOWNLOADED);
-    expect(createdAudit.user).toEqual("TEST_USER_NICKNAME");
-    expect(createdAudit.caseId).toEqual(existingCase.id);
-    expect(createdAudit.subject).toEqual(
-      AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF
-    );
   });
 
   test("should retrieve download url for pdf", async () => {
@@ -191,5 +180,47 @@ describe("getFinalPdfDownloadUrl", () => {
     expect(next).toHaveBeenCalledWith(
       Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS)
     );
+  });
+
+  describe("newAuditFeature disabled", () => {
+    test("access to pdf letter is audited", async () => {
+      request.fflip = mockFflipObject({ newAuditFeature: false });
+
+      await existingCase.update(
+        { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+        { auditUser: "someone" }
+      );
+      await getFinalPdfDownloadUrl(request, response, next);
+
+      const createdAudit = await models.action_audit.findOne();
+      expect(createdAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
+      expect(createdAudit.action).toEqual(AUDIT_ACTION.DOWNLOADED);
+      expect(createdAudit.user).toEqual(testUser);
+      expect(createdAudit.caseId).toEqual(existingCase.id);
+      expect(createdAudit.subject).toEqual(
+        AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF
+      );
+    });
+  });
+
+  describe("newAuditFeature enabled", () => {
+    test("access to pdf letter is audited", async () => {
+      request.fflip = mockFflipObject({ newAuditFeature: true });
+
+      await existingCase.update(
+        { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+        { auditUser: "someone" }
+      );
+      await getFinalPdfDownloadUrl(request, response, next);
+
+      expect(auditFileAction).toHaveBeenCalledWith(
+        testUser,
+        existingCase.id,
+        AUDIT_ACTION.DOWNLOADED,
+        referralLetter.finalPdfFilename,
+        AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+        expect.anything()
+      );
+    });
   });
 });
