@@ -25,70 +25,79 @@ const getAttachmentDownloadUrl = asyncMiddleware(
       "newAuditFeature"
     );
 
-    const signedUrl = await models.sequelize.transaction(async transaction => {
-      const complainantLetter = await models.complainant_letter.findOne(
-        {
-          where: { finalPdfFilename: fileName }
-        },
-        { auditUser: request.nickname, transaction }
-      );
-      const referralLetter = await models.referral_letter.findOne(
-        {
-          where: { finalPdfFilename: fileName }
-        },
-        {
-          auditUser: request.nickname,
-          transaction
-        }
-      );
+    const signedUrl = await getSignedUrlForAttachment(
+      fileName,
+      caseId,
+      s3,
+      request.nickname,
+      newAuditFeatureToggle
+    );
 
-      if (complainantLetter) {
-        if (newAuditFeatureToggle) {
-          await auditFileAction(
-            request.nickname,
-            caseId,
-            AUDIT_ACTION.DOWNLOADED,
-            fileName,
-            AUDIT_FILE_TYPE.LETTER_TO_COMPLAINANT_PDF,
-            transaction
-          );
-        } else {
-          await legacyAuditDataAccess(
-            request.nickname,
-            complainantLetter.caseId,
-            AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
-            transaction,
-            AUDIT_ACTION.DOWNLOADED
-          );
-        }
-        return getComplainantLetterS3Url(s3, complainantLetter);
-      }
+    response.setHeader("Content-Type", "text/html");
+    response.write(signedUrl);
+    response.end();
+  }
+);
 
-      if (referralLetter) {
-        if (newAuditFeatureToggle) {
-          await auditFileAction(
-            request.nickname,
-            caseId,
-            AUDIT_ACTION.DOWNLOADED,
-            fileName,
-            AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
-            transaction
-          );
-        } else {
-          await legacyAuditDataAccess(
-            request.nickname,
-            referralLetter.caseId,
-            AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
-            transaction,
-            AUDIT_ACTION.DOWNLOADED
-          );
-        }
-        return getReferralLetterS3Url(s3, referralLetter);
-      }
+const getSignedUrlForAttachment = async (
+  fileName,
+  caseId,
+  s3,
+  user,
+  newAuditFeatureToggle
+) => {
+  return await models.sequelize.transaction(async transaction => {
+    const complainantLetter = await models.complainant_letter.findOne({
+      where: { finalPdfFilename: fileName }
+    });
+    const referralLetter = await models.referral_letter.findOne({
+      where: { finalPdfFilename: fileName }
+    });
 
+    if (complainantLetter) {
       if (newAuditFeatureToggle) {
         await auditFileAction(
-          request.nickname,
+          user,
+          caseId,
+          AUDIT_ACTION.DOWNLOADED,
+          fileName,
+          AUDIT_FILE_TYPE.LETTER_TO_COMPLAINANT_PDF,
+          transaction
+        );
+      } else {
+        await legacyAuditDataAccess(
+          user,
+          complainantLetter.caseId,
+          AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
+          transaction,
+          AUDIT_ACTION.DOWNLOADED
+        );
+      }
+      return getComplainantLetterS3Url(s3, complainantLetter);
+    } else if (referralLetter) {
+      if (newAuditFeatureToggle) {
+        await auditFileAction(
+          user,
+          caseId,
+          AUDIT_ACTION.DOWNLOADED,
+          fileName,
+          AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
+          transaction
+        );
+      } else {
+        await legacyAuditDataAccess(
+          user,
+          referralLetter.caseId,
+          AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+          transaction,
+          AUDIT_ACTION.DOWNLOADED
+        );
+      }
+      return getReferralLetterS3Url(s3, referralLetter);
+    } else {
+      if (newAuditFeatureToggle) {
+        await auditFileAction(
+          user,
           caseId,
           AUDIT_ACTION.DOWNLOADED,
           fileName,
@@ -97,7 +106,7 @@ const getAttachmentDownloadUrl = asyncMiddleware(
         );
       } else {
         await legacyAuditDataAccess(
-          request.nickname,
+          user,
           caseId,
           AUDIT_SUBJECT.ATTACHMENT,
           transaction,
@@ -112,13 +121,9 @@ const getAttachmentDownloadUrl = asyncMiddleware(
         config[process.env.NODE_ENV].s3Bucket,
         filenameWithCaseId
       );
-    });
-
-    response.setHeader("Content-Type", "text/html");
-    response.write(signedUrl);
-    response.end();
-  }
-);
+    }
+  });
+};
 
 const getS3SignedUrl = (s3, bucket, key) => {
   return s3.getSignedUrl(S3_GET_OBJECT, {
