@@ -3,6 +3,8 @@ import models from "../../../../models";
 import Case from "../../../../../client/testUtilities/case";
 import approveLetter from "./approveLetter";
 import {
+  AUDIT_ACTION,
+  AUDIT_FILE_TYPE,
   AUDIT_SUBJECT,
   CASE_STATUS,
   CIVILIAN_INITIATED,
@@ -27,17 +29,16 @@ import auditDataAccess from "../../../audits/auditDataAccess";
 const SAMPLE_FINAL_PDF_FILENAME = "some_filename.pdf";
 const SAMPLE_REFERRAL_PDF_FILENAME = "referral_letter_filename.pdf";
 import _ from "lodash";
+import mockFflipObject from "../../../../testHelpers/mockFflipObject";
+import { auditFileAction } from "../../../audits/auditFileAction";
 
+jest.mock("../../../audits/auditFileAction");
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 jest.mock(
   "../getReferralLetterPdf/generateReferralLetterPdfBuffer",
   () => caseId => {
     return { pdfBuffer: `Generated pdf for ${caseId}`, auditDetails: {} };
   }
-);
-jest.mock(
-  "../../../../checkFeatureToggleEnabled",
-  () => (request, featureName) => true
 );
 jest.mock("../sharedLetterUtilities/auditUpload", () => jest.fn());
 jest.mock(
@@ -56,6 +57,8 @@ jest.mock("../../../audits/auditDataAccess");
 
 describe("approveLetter", () => {
   let existingCase, request, response, next, referralLetter;
+
+  const testUser = "Kyle Katarn";
 
   beforeEach(async () => {
     response = httpMocks.createResponse();
@@ -128,7 +131,7 @@ describe("approveLetter", () => {
           authorization: "Bearer token"
         },
         params: { caseId: existingCase.id },
-        nickname: "nickname",
+        nickname: testUser,
         permissions: [`${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES}`]
       });
     });
@@ -161,6 +164,43 @@ describe("approveLetter", () => {
         Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE)
       );
     });
+    describe("newAuditFeature disabled", () => {
+      test("audits file upload", async () => {
+        request.fflip = mockFflipObject({ newAuditFeature: false });
+
+        uploadLetterToS3.mockClear();
+
+        await elevateCaseStatusToReadyForReview(existingCase);
+        await approveLetter(request, response, next);
+
+        expect(auditUpload).toHaveBeenCalledWith(
+          testUser,
+          existingCase.id,
+          AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+          expect.any(Object)
+        );
+      });
+    });
+
+    describe("newAuditFeature enabled", async () => {
+      test("audits file upload", async () => {
+        request.fflip = mockFflipObject({ newAuditFeature: true });
+
+        uploadLetterToS3.mockClear();
+
+        await elevateCaseStatusToReadyForReview(existingCase);
+        await approveLetter(request, response, next);
+
+        expect(auditFileAction).toHaveBeenCalledWith(
+          testUser,
+          existingCase.id,
+          AUDIT_ACTION.UPLOADED,
+          constructFilename(existingCase, REFERRAL_LETTER_VERSION.FINAL),
+          AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
+          expect.anything()
+        );
+      });
+    });
 
     describe("referral letter", () => {
       test("uploads generated file to S3 if letter should be generated", async () => {
@@ -179,12 +219,6 @@ describe("approveLetter", () => {
           filenameWithCaseId,
           `Generated pdf for ${existingCase.id}`,
           "noipm-referral-letters-test"
-        );
-        expect(auditUpload).toHaveBeenCalledWith(
-          "nickname",
-          existingCase.id,
-          AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
-          expect.any(Object)
         );
       });
 
@@ -236,7 +270,7 @@ describe("approveLetter", () => {
           authorization: "Bearer token"
         },
         params: { caseId: existingCase.id },
-        nickname: "nickname",
+        nickname: testUser,
         permissions: []
       });
     });
@@ -260,15 +294,15 @@ describe("approveLetter", () => {
   const elevateCaseStatusToReadyForReview = async existingCase => {
     await existingCase.update(
       { status: CASE_STATUS.ACTIVE },
-      { auditUser: "nickname" }
+      { auditUser: testUser }
     );
     await existingCase.update(
       { status: CASE_STATUS.LETTER_IN_PROGRESS },
-      { auditUser: "nickname" }
+      { auditUser: testUser }
     );
     await existingCase.update(
       { status: CASE_STATUS.READY_FOR_REVIEW },
-      { auditUser: "nickname" }
+      { auditUser: testUser }
     );
   };
 });

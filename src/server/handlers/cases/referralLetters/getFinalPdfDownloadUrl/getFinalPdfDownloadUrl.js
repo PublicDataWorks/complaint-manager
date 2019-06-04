@@ -2,6 +2,7 @@ import asyncMiddleware from "../../../asyncMiddleware";
 import legacyAuditDataAccess from "../../../audits/legacyAuditDataAccess";
 import {
   AUDIT_ACTION,
+  AUDIT_FILE_TYPE,
   AUDIT_SUBJECT,
   CASE_STATUS,
   S3_GET_OBJECT,
@@ -12,6 +13,8 @@ import config from "../../../../config/config";
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
+import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
+import { auditFileAction } from "../../../audits/auditFileAction";
 
 const getFinalPdfDownloadUrl = asyncMiddleware(
   async (request, response, next) => {
@@ -33,30 +36,47 @@ const getFinalPdfDownloadUrl = asyncMiddleware(
     });
 
     validateCaseStatus(existingCase.status);
+    const newAuditFeatureToggle = checkFeatureToggleEnabled(
+      request,
+      "newAuditFeature"
+    );
+
+    const referralLetter = await models.referral_letter.findOne({
+      where: { caseId: existingCase.id }
+    });
 
     await models.sequelize.transaction(async transaction => {
-      await legacyAuditDataAccess(
-        request.nickname,
-        caseId,
-        AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
-        transaction,
-        AUDIT_ACTION.DOWNLOADED
+      if (newAuditFeatureToggle) {
+        await auditFileAction(
+          request.nickname,
+          caseId,
+          AUDIT_ACTION.DOWNLOADED,
+          referralLetter.finalPdfFilename,
+          AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
+          transaction
+        );
+      } else {
+        await legacyAuditDataAccess(
+          request.nickname,
+          caseId,
+          AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+          transaction,
+          AUDIT_ACTION.DOWNLOADED
+        );
+      }
+      const signedUrl = await getSignedS3Url(
+        existingCase.id,
+        referralLetter.finalPdfFilename
       );
-      const signedUrl = await getSignedS3Url(existingCase);
       response.send(signedUrl);
     });
   }
 );
 
-const getSignedS3Url = async existingCase => {
+const getSignedS3Url = async (existingCaseId, filename) => {
   const s3 = createConfiguredS3Instance();
-  const referralLetter = await models.referral_letter.findOne({
-    where: { caseId: existingCase.id }
-  });
 
-  const filenameWithCaseId = `${existingCase.id}/${
-    referralLetter.finalPdfFilename
-  }`;
+  const filenameWithCaseId = `${existingCaseId}/${filename}`;
 
   return s3.getSignedUrl(S3_GET_OBJECT, {
     Bucket: config[process.env.NODE_ENV].referralLettersBucket,

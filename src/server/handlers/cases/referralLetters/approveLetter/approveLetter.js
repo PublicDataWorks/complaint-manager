@@ -1,6 +1,8 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
 import {
+  AUDIT_ACTION,
+  AUDIT_FILE_TYPE,
   AUDIT_SUBJECT,
   CASE_STATUS,
   COMPLAINANT_LETTER,
@@ -15,8 +17,9 @@ import auditUpload from "../sharedLetterUtilities/auditUpload";
 import constructFilename from "../constructFilename";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 import generateComplainantLetterAndUploadToS3 from "./generateComplainantLetterAndUploadToS3";
-import legacyAuditDataAccess from "../../../audits/legacyAuditDataAccess";
 import config from "../../../../config/config";
+import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
+import { auditFileAction } from "../../../audits/auditFileAction";
 
 const approveLetter = asyncMiddleware(async (request, response, next) => {
   validateUserPermissions(request);
@@ -32,10 +35,16 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
   );
 
   await models.sequelize.transaction(async transaction => {
+    const newAuditFeatureToggle = checkFeatureToggleEnabled(
+      request,
+      "newAuditFeature"
+    );
+
     const complainantLetter = await generateComplainantLetterAndUploadToS3(
       existingCase,
       nickname,
-      transaction
+      transaction,
+      newAuditFeatureToggle
     );
     await createLetterAttachment(
       existingCase.id,
@@ -56,12 +65,24 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
     );
 
     await saveFilename(filename, caseId, nickname, transaction);
-    await auditUpload(
-      nickname,
-      caseId,
-      AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
-      transaction
-    );
+
+    if (newAuditFeatureToggle) {
+      await auditFileAction(
+        nickname,
+        caseId,
+        AUDIT_ACTION.UPLOADED,
+        filename,
+        AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
+        transaction
+      );
+    } else {
+      await auditUpload(
+        nickname,
+        caseId,
+        AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+        transaction
+      );
+    }
     await transitionCaseToForwardedToAgency(existingCase, request, transaction);
   });
   response.status(200).send();

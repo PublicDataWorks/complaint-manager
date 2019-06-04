@@ -241,6 +241,7 @@ export const AUDIT_TYPE = {
   UPLOAD: "Upload"
 };
 
+//TODO: when newAuditFeature toggle is removed, delete audit file type from audit_subject
 export const AUDIT_SUBJECT = {
   AUDIT_LOG: "Audit Log",
   CASE_DETAILS: "Case Details",
@@ -256,6 +257,13 @@ export const AUDIT_SUBJECT = {
   DRAFT_REFERRAL_LETTER_PDF: "Draft Referral Letter PDF",
   FINAL_REFERRAL_LETTER_PDF: "Final Referral Letter PDF",
   LETTER_TO_COMPLAINANT_PDF: "Letter to Complainant PDF"
+};
+
+export const AUDIT_FILE_TYPE = {
+  DRAFT_REFERRAL_LETTER_PDF: "Draft Referral Letter PDF",
+  FINAL_REFERRAL_LETTER_PDF: "Final Referral Letter PDF",
+  LETTER_TO_COMPLAINANT_PDF: "Letter to Complainant PDF",
+  ATTACHMENT: "Attachment"
 };
 
 export const AUDIT_ACTION = {

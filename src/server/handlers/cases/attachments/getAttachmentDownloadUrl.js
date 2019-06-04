@@ -1,7 +1,11 @@
+import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
+import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
+import { auditFileAction } from "../../audits/auditFileAction";
+import { AUDIT_FILE_TYPE } from "../../../../sharedUtilities/constants";
+
 const asyncMiddleware = require("../../asyncMiddleware");
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
 const config = require("../../../config/config");
-import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 const {
   AUDIT_SUBJECT,
   AUDIT_ACTION,
@@ -13,17 +17,24 @@ const models = require("../../../models/index");
 const getAttachmentDownloadUrl = asyncMiddleware(
   async (request, response, next) => {
     const s3 = createConfiguredS3Instance();
+    const fileName = request.params.fileName;
+    const caseId = request.params.caseId;
+
+    const newAuditFeatureToggle = checkFeatureToggleEnabled(
+      request,
+      "newAuditFeature"
+    );
 
     const signedUrl = await models.sequelize.transaction(async transaction => {
       const complainantLetter = await models.complainant_letter.findOne(
         {
-          where: { finalPdfFilename: request.params.fileName }
+          where: { finalPdfFilename: fileName }
         },
         { auditUser: request.nickname, transaction }
       );
       const referralLetter = await models.referral_letter.findOne(
         {
-          where: { finalPdfFilename: request.params.fileName }
+          where: { finalPdfFilename: fileName }
         },
         {
           auditUser: request.nickname,
@@ -32,36 +43,70 @@ const getAttachmentDownloadUrl = asyncMiddleware(
       );
 
       if (complainantLetter) {
-        await legacyAuditDataAccess(
-          request.nickname,
-          complainantLetter.caseId,
-          AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
-          transaction,
-          AUDIT_ACTION.DOWNLOADED
-        );
+        if (newAuditFeatureToggle) {
+          await auditFileAction(
+            request.nickname,
+            caseId,
+            AUDIT_ACTION.DOWNLOADED,
+            fileName,
+            AUDIT_FILE_TYPE.LETTER_TO_COMPLAINANT_PDF,
+            transaction
+          );
+        } else {
+          await legacyAuditDataAccess(
+            request.nickname,
+            complainantLetter.caseId,
+            AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
+            transaction,
+            AUDIT_ACTION.DOWNLOADED
+          );
+        }
         return getComplainantLetterS3Url(s3, complainantLetter);
       }
+
       if (referralLetter) {
-        await legacyAuditDataAccess(
-          request.nickname,
-          referralLetter.caseId,
-          AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
-          transaction,
-          AUDIT_ACTION.DOWNLOADED
-        );
+        if (newAuditFeatureToggle) {
+          await auditFileAction(
+            request.nickname,
+            caseId,
+            AUDIT_ACTION.DOWNLOADED,
+            fileName,
+            AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
+            transaction
+          );
+        } else {
+          await legacyAuditDataAccess(
+            request.nickname,
+            referralLetter.caseId,
+            AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+            transaction,
+            AUDIT_ACTION.DOWNLOADED
+          );
+        }
         return getReferralLetterS3Url(s3, referralLetter);
       }
-      await legacyAuditDataAccess(
-        request.nickname,
-        request.params.caseId,
-        AUDIT_SUBJECT.ATTACHMENT,
-        transaction,
-        AUDIT_ACTION.DOWNLOADED,
-        { fileName: [request.params.fileName] }
-      );
-      const filenameWithCaseId = `${request.params.caseId}/${
-        request.params.fileName
-      }`;
+
+      if (newAuditFeatureToggle) {
+        await auditFileAction(
+          request.nickname,
+          caseId,
+          AUDIT_ACTION.DOWNLOADED,
+          fileName,
+          AUDIT_FILE_TYPE.ATTACHMENT,
+          transaction
+        );
+      } else {
+        await legacyAuditDataAccess(
+          request.nickname,
+          caseId,
+          AUDIT_SUBJECT.ATTACHMENT,
+          transaction,
+          AUDIT_ACTION.DOWNLOADED,
+          { fileName: [fileName] }
+        );
+      }
+
+      const filenameWithCaseId = `${caseId}/${fileName}`;
       return getS3SignedUrl(
         s3,
         config[process.env.NODE_ENV].s3Bucket,

@@ -70,7 +70,8 @@ const generateExportDownloadUrl = async (
             as: "exportAudit",
             model: models.export_audit
           }
-        ]
+        ],
+        transaction
       });
     } else {
       const auditSubject = jobName ? JOB_OPERATION[jobName].auditSubject : null;
