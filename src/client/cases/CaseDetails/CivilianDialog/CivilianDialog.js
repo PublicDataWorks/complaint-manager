@@ -29,7 +29,7 @@ import {
   raceEthnicityIsRequired,
   titleIsRequired
 } from "../../../formFieldLevelValidations";
-import NoBlurTextField from "./FormSelect";
+import DropdownSelect from "./DropdownSelect";
 import { withTheme } from "@material-ui/core/styles";
 import DateField from "../../sharedFormComponents/DateField";
 import MiddleInitialField from "../../sharedFormComponents/MiddleInitialField";
@@ -136,7 +136,7 @@ class CivilianDialog extends Component {
               <Field
                 required
                 name="title"
-                component={NoBlurTextField}
+                component={DropdownSelect}
                 label="Title"
                 hinttext="Title"
                 data-test="titleDropdown"
@@ -186,7 +186,7 @@ class CivilianDialog extends Component {
               <Field
                 required
                 name="genderIdentityId"
-                component={NoBlurTextField}
+                component={DropdownSelect}
                 label="Gender Identity"
                 hinttext="Gender Identity"
                 data-test="genderDropdown"
@@ -199,7 +199,7 @@ class CivilianDialog extends Component {
             <Field
               required
               name="raceEthnicityId"
-              component={NoBlurTextField}
+              component={DropdownSelect}
               label="Race/Ethnicity"
               hinttext="Race/Ethnicity"
               data-test="raceDropdown"

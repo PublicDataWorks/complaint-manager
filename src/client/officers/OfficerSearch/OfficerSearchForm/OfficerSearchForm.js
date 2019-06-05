@@ -1,7 +1,7 @@
 import React from "react";
 import { TextField } from "redux-form-material-ui";
 import { Field, reduxForm } from "redux-form";
-import NoBlurTextField from "../../../cases/CaseDetails/CivilianDialog/FormSelect";
+import DropdownSelect from "../../../cases/CaseDetails/CivilianDialog/DropdownSelect";
 import { searchDistrictMenu } from "../../../utilities/generateMenuOptions";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import validate from "./validateOfficerSearchForm";
@@ -52,7 +52,7 @@ const OfficerSearchForm = props => {
           <Field
             label="District"
             name="district"
-            component={NoBlurTextField}
+            component={DropdownSelect}
             data-test="districtField"
             style={{ flex: "1", marginRight: "24px" }}
           >

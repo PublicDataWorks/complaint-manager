@@ -9,7 +9,7 @@ import {
   allegationDetailsRequired,
   allegationSeverityRequired
 } from "../formFieldLevelValidations";
-import NoBlurTextField from "../cases/CaseDetails/CivilianDialog/FormSelect";
+import DropdownSelect from "../cases/CaseDetails/CivilianDialog/DropdownSelect";
 import { allegationSeverityMenu } from "../utilities/generateMenuOptions";
 import { ALLEGATION_DETAILS_LABEL } from "../../sharedUtilities/constants";
 
@@ -33,7 +33,7 @@ const AllegationDetailsForm = props => {
       <div>
         <Field
           style={{ width: "15%", marginBottom: `${marginBottomOffset}px` }}
-          component={NoBlurTextField}
+          component={DropdownSelect}
           data-test="allegationSeverityField"
           name="severity"
           inputProps={{ "data-test": "allegationSeverityInput" }}

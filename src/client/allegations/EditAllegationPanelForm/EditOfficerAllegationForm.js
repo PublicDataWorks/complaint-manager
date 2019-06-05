@@ -12,7 +12,7 @@ import {
   allegationSeverityRequired
 } from "../../formFieldLevelValidations";
 import { allegationSeverityMenu } from "../../utilities/generateMenuOptions";
-import NoBlurTextField from "../../cases/CaseDetails/CivilianDialog/FormSelect";
+import DropdownSelect from "../../cases/CaseDetails/CivilianDialog/DropdownSelect";
 import { connect } from "react-redux";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 
@@ -35,7 +35,7 @@ const EditOfficerAllegationForm = ({
           <div>
             <Field
               style={{ width: "15%", marginBottom: "32px" }}
-              component={NoBlurTextField}
+              component={DropdownSelect}
               name="severity"
               inputProps={{
                 "data-test": "editAllegationSeverityInput"

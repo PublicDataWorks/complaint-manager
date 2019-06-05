@@ -2,7 +2,7 @@ import React from "react";
 import NoBlurTextField, {
   getOptionsIfEnabled,
   getSelectedValue
-} from "./FormSelect";
+} from "./DropdownSelect";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";

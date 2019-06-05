@@ -186,7 +186,7 @@ const filterConfig = {
   matchFrom: "start"
 };
 
-class NoBlurTextField extends React.Component {
+class DropdownSelect extends React.Component {
   handleChange = event => {
     this.props.input.onChange(event && event.value);
   };
@@ -253,9 +253,9 @@ class NoBlurTextField extends React.Component {
   }
 }
 
-NoBlurTextField.propTypes = {
+DropdownSelect.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(NoBlurTextField);
+export default withStyles(styles, { withTheme: true })(DropdownSelect);
