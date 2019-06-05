@@ -3,7 +3,7 @@ import { TextField } from "redux-form-material-ui";
 import { change, Field, formValueSelector, reduxForm } from "redux-form";
 import validate from "./validateAllegationSearchForm";
 import { ALLEGATION_SEARCH_FORM_NAME } from "../../sharedUtilities/constants";
-import NoBlurTextField from "../cases/CaseDetails/CivilianDialog/FormSelect";
+import DropdownSelect from "../cases/CaseDetails/CivilianDialog/DropdownSelect";
 import {
   searchParagraphMenu,
   searchRuleMenu
@@ -82,7 +82,7 @@ class AllegationSearchForm extends React.Component {
               onChange={clearParagraphValue}
               label="Rule"
               name="rule"
-              component={NoBlurTextField}
+              component={DropdownSelect}
               data-test="ruleDropdown"
               inputProps={{
                 "data-test": "ruleField"
@@ -95,7 +95,7 @@ class AllegationSearchForm extends React.Component {
               disabled={!currentRuleSelected}
               label="Paragraph"
               name="paragraph"
-              component={NoBlurTextField}
+              component={DropdownSelect}
               inputProps={{ "data-test": "paragraphField" }}
               style={{ flex: "1", marginRight: "24px" }}
             >

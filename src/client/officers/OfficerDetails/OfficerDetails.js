@@ -15,7 +15,7 @@ import styles from "../../globalStyling/styles";
 import { PrimaryButton } from "../../shared/components/StyledButtons";
 import { ChangeOfficer } from "../OfficerSearch/OfficerSearchResults/officerSearchResultsRowButtons";
 import { connect } from "react-redux";
-import NoBlurTextField from "../../cases/CaseDetails/CivilianDialog/FormSelect";
+import DropdownSelect from "../../cases/CaseDetails/CivilianDialog/DropdownSelect";
 import { roleOnCaseMenu } from "../../utilities/generateMenuOptions";
 import { officerRoleRequired } from "../../formFieldLevelValidations";
 import PrimaryCheckBox from "../../shared/components/PrimaryCheckBox";
@@ -110,7 +110,7 @@ class OfficerDetails extends React.Component {
                     "data-test": "roleOnCaseDropdownInput"
                   }}
                   data-test="roleOnCaseDropdown"
-                  component={NoBlurTextField}
+                  component={DropdownSelect}
                   name="roleOnCase"
                   required
                   validate={[officerRoleRequired]}

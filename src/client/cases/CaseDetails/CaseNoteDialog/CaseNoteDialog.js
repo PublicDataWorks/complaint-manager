@@ -15,7 +15,7 @@ import {
 import { closeCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
 import { Field, reduxForm, reset } from "redux-form";
 import DateField from "../../sharedFormComponents/DateField";
-import NoBlurTextField from "../CivilianDialog/FormSelect";
+import DropdownSelect from "../CivilianDialog/DropdownSelect";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import addCaseNote from "../../thunks/addCaseNote";
 import { actionIsRequired } from "../../../formFieldLevelValidations";
@@ -106,7 +106,7 @@ class CaseNoteDialog extends Component {
             <Field
               required
               name="caseNoteActionId"
-              component={NoBlurTextField}
+              component={DropdownSelect}
               label={"Action Taken"}
               data-test="actionsDropdown"
               style={{

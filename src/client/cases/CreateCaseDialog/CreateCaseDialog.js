@@ -18,7 +18,7 @@ import {
   CREATE_CASE_FORM_NAME
 } from "../../../sharedUtilities/constants";
 import { generateMenuOptions } from "../../utilities/generateMenuOptions";
-import NoBlurTextField from "../CaseDetails/CivilianDialog/FormSelect";
+import DropdownSelect from "../CaseDetails/CivilianDialog/DropdownSelect";
 import { intakeSourceIsRequired } from "../../formFieldLevelValidations";
 import CreateCaseActions from "./CreateCaseActions";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
@@ -132,7 +132,7 @@ const IntakeSource = props => {
     <Field
       required
       name="case.intakeSourceId"
-      component={NoBlurTextField}
+      component={DropdownSelect}
       label="Intake Source"
       hinttext="Intake Source"
       data-test="intakeSourceDropdown"

@@ -25,7 +25,7 @@ import AddressInput from "../CivilianDialog/AddressInput";
 import { connect } from "react-redux";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 import { addressMustBeValid } from "../../../formValidations";
-import NoBlurTextField from "../CivilianDialog/FormSelect";
+import DropdownSelect from "../CivilianDialog/DropdownSelect";
 import {
   generateMenuOptions,
   inputDistrictMenu
@@ -157,7 +157,7 @@ class IncidentDetailsDialog extends Component {
               <Field
                 label="District"
                 name="district"
-                component={NoBlurTextField}
+                component={DropdownSelect}
                 inputProps={{
                   "data-test": "districtInput"
                 }}
@@ -184,7 +184,7 @@ class IncidentDetailsDialog extends Component {
               <Field
                 label="Incident Classification"
                 name="classificationId"
-                component={NoBlurTextField}
+                component={DropdownSelect}
                 inputProps={{
                   "data-test": "classificationDropdownInput"
                 }}
@@ -202,7 +202,7 @@ class IncidentDetailsDialog extends Component {
               <Field
                 required
                 name="intakeSourceId"
-                component={NoBlurTextField}
+                component={DropdownSelect}
                 label="Intake Source"
                 hinttext="Intake Source"
                 data-test="intakeSourceDropdown"
@@ -215,7 +215,7 @@ class IncidentDetailsDialog extends Component {
             <div style={{ marginTop: "16px" }}>
               <Field
                 name="howDidYouHearAboutUsSourceId"
-                component={NoBlurTextField}
+                component={DropdownSelect}
                 label="How did you hear about us?"
                 hinttext="How did you hear about us?"
                 data-test="howDidYouHearAboutUsSourceDropdown"
