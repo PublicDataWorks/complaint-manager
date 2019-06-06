@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Select, { createFilter } from "react-select";
+import Select, { Creatable, createFilter } from "react-select";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -145,7 +145,7 @@ const components = {
   ClearIndicator: null
 };
 
-export const getSelectedValue = (props, options) => {
+export const getSelectedValue = (props, options, isCreatable) => {
   let indexOfSelectedValue = -1;
 
   if (options && Array.isArray(options)) {
@@ -155,10 +155,13 @@ export const getSelectedValue = (props, options) => {
       })
       .indexOf(props.input.value);
   }
-  let selectedValue = {
-    label: "",
-    value: ""
-  };
+
+  let selectedValue = isCreatable
+    ? { label: props.input.value, value: props.input.value }
+    : {
+        label: "",
+        value: ""
+      };
 
   if (indexOfSelectedValue >= 0) {
     selectedValue = options[indexOfSelectedValue];
@@ -179,11 +182,25 @@ export const getOptionsIfEnabled = (custom, children) => {
   }
 };
 
-const filterConfig = {
-  ignoreCase: true,
-  ignoreAccents: true,
-  trim: true,
-  matchFrom: "start"
+const getFilterConfig = isCreatable => {
+  const filterConfig = {
+    ignoreCase: true,
+    ignoreAccents: true,
+    trim: true
+  };
+  if (!isCreatable) {
+    filterConfig.matchFrom = "start";
+  }
+
+  return filterConfig;
+};
+
+const SelectContainer = props => {
+  if (props.isCreatable) {
+    return <Creatable createOptionPosition={"first"} {...props} />;
+  } else {
+    return <Select {...props} />;
+  }
 };
 
 class DropdownSelect extends React.Component {
@@ -196,7 +213,14 @@ class DropdownSelect extends React.Component {
   };
 
   render() {
-    const { classes, theme, input, children, ...custom } = this.props;
+    const {
+      classes,
+      theme,
+      input,
+      children,
+      isCreatable = false,
+      ...custom
+    } = this.props;
 
     const selectStyles = {
       input: base => ({
@@ -210,7 +234,8 @@ class DropdownSelect extends React.Component {
 
     const selectedValue = getSelectedValue(
       this.props,
-      getOptionsIfEnabled(custom, children)
+      getOptionsIfEnabled(custom, children),
+      isCreatable
     );
 
     const hasError =
@@ -218,7 +243,7 @@ class DropdownSelect extends React.Component {
 
     return (
       <FormControl style={custom.style} data-test={custom["data-test"]}>
-        <Select
+        <SelectContainer
           {...custom}
           name={input.name}
           classes={classes}
@@ -245,8 +270,9 @@ class DropdownSelect extends React.Component {
           menuPlacement="top"
           menuPosition="fixed"
           maxMenuHeight="260"
-          filterOption={createFilter(filterConfig)}
+          filterOption={createFilter(getFilterConfig(isCreatable))}
           isDisabled={isDropdownDisabled(this.props)}
+          isCreatable={isCreatable}
         />
       </FormControl>
     );
