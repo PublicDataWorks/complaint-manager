@@ -15,10 +15,13 @@ import {
   CASE_STATUS_UPDATE_DIALOG_CLOSED,
   CASE_STATUS_UPDATE_DIALOG_OPENED,
   CASE_STATUS_UPDATE_DIALOG_SUBMITTING,
+  CASE_TAG_DIALOG_CLOSED,
+  CASE_TAG_DIALOG_OPENED,
   CIVILIAN_CREATION_SUCCEEDED,
   CIVILIAN_DIALOG_OPENED,
   CREATE_CASE_DIALOG_CLOSED,
   CREATE_CASE_DIALOG_OPENED,
+  CREATE_CASE_TAG_SUCCESS,
   EDIT_CASE_NOTE_SUCCEEDED,
   EDIT_CIVILIAN_DIALOG_CLOSED,
   EDIT_INCIDENT_DETAILS_DIALOG_CLOSED,
@@ -126,6 +129,18 @@ export const openRemoveCaseNoteDialog = (activity = {}) => ({
 
 export const closeRemoveCaseNoteDialog = () => ({
   type: REMOVE_CASE_NOTE_DIALOG_CLOSED
+});
+
+export const openCaseTagDialog = () => ({
+  type: CASE_TAG_DIALOG_OPENED
+});
+
+export const closeCaseTagDialog = () => ({
+  type: CASE_TAG_DIALOG_CLOSED
+});
+
+export const createCaseTagSuccess = () => ({
+  type: CREATE_CASE_TAG_SUCCESS
 });
 
 export const openRemoveAttachmentConfirmationDialog = attachmentFileName => ({

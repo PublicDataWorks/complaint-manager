@@ -1,0 +1,115 @@
+import React from "react";
+import createConfiguredStore from "../../../createConfiguredStore";
+import { Provider } from "react-redux";
+import CaseTagDialog from "./CaseTagDialog";
+import {
+  closeCaseTagDialog,
+  getCaseDetailsSuccess,
+  openCaseTagDialog
+} from "../../../actionCreators/casesActionCreators";
+import { containsText } from "../../../../client/testHelpers";
+import mount from "enzyme/mount";
+import { reset } from "redux-form";
+import createCaseTag from "../../thunks/createCaseTag";
+import { CASE_TAG_FORM_NAME } from "../../../../sharedUtilities/constants";
+import Case from "../../../testUtilities/case";
+
+jest.mock("../../thunks/createCaseTag", () => values => ({
+  type: "MOCK_CREATE_CASE_TAG",
+  values
+}));
+
+describe("CaseTagDialog", () => {
+  const store = createConfiguredStore();
+  const dispatchSpy = jest.spyOn(store, "dispatch");
+  let dialog;
+
+  beforeEach(() => {
+    dialog = mount(
+      <Provider store={store}>
+        <CaseTagDialog />
+      </Provider>
+    );
+
+    store.dispatch(openCaseTagDialog());
+  });
+
+  test("should open dialog when openCaseTagDialog is dispatched", () => {
+    dialog.update();
+
+    containsText(dialog, '[data-test="caseTagDialogTitle"]', "Add New Tag");
+  });
+
+  test("should close dialog and reset form when cancel button is clicked", () => {
+    dialog.update();
+
+    const cancelButton = dialog.find('[data-test="cancelButton"]').first();
+    cancelButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(closeCaseTagDialog());
+    expect(dispatchSpy).toHaveBeenCalledWith(reset(CASE_TAG_FORM_NAME));
+  });
+
+  test("should dispatch createCaseTag when clicking submit button", () => {
+    const testTagName = "testTagName";
+    const caseDetails = new Case.Builder()
+      .defaultCase()
+      .withId(73)
+      .build();
+    store.dispatch(getCaseDetailsSuccess(caseDetails));
+
+    dialog.update();
+
+    const submitButton = dialog.find('[data-test="submitButton"]').first();
+
+    const expectedSubmittedValues = {
+      caseTag: testTagName,
+      caseId: caseDetails.id
+    };
+
+    store.dispatch({
+      type: "@@redux-form/CHANGE",
+      meta: {
+        form: CASE_TAG_FORM_NAME,
+        field: "caseTag",
+        touch: false,
+        persistentSubmitErrors: false
+      },
+      payload: testTagName
+    });
+
+    dialog.update();
+
+    submitButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      createCaseTag(expectedSubmittedValues)
+    );
+    expect(dispatchSpy).toHaveBeenCalledWith(reset(CASE_TAG_FORM_NAME));
+  });
+
+  test("should display error message when no tag value provided", () => {
+    const caseDetails = new Case.Builder()
+      .defaultCase()
+      .withId(73)
+      .build();
+
+    store.dispatch(getCaseDetailsSuccess(caseDetails));
+
+    dialog.update();
+
+    const submitButton = dialog.find('[data-test="submitButton"]').first();
+    submitButton.simulate("click");
+
+    expect(
+      dialog
+        .find('[data-test="caseTagDropdown"]')
+        .last()
+        .text()
+    ).toContain("Please enter a tag name");
+
+    expect(dispatchSpy).not.toHaveBeenCalledWith(
+      createCaseTag({ caseId: caseDetails.id, caseTag: undefined })
+    );
+  });
+});

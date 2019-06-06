@@ -1,5 +1,5 @@
 import React from "react";
-import NoBlurTextField, {
+import DropdownSelect, {
   getOptionsIfEnabled,
   getSelectedValue
 } from "./DropdownSelect";
@@ -14,7 +14,7 @@ const children = [
   { label: "label 2", value: 2 }
 ];
 
-describe("FormSelect test", () => {
+describe("DropdownSelect test", () => {
   test("should not load menu if disabled", () => {
     const custom = { disabled: true };
     const options = getOptionsIfEnabled(custom, children);
@@ -42,7 +42,7 @@ describe("FormSelect test", () => {
           label="TEST LABEL"
           name="testDropdownID"
           data-test="testDropdown"
-          component={NoBlurTextField}
+          component={DropdownSelect}
           menuIsOpen={true}
         >
           {children}

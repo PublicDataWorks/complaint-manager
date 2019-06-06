@@ -51,6 +51,7 @@ import incompleteOfficerHistoryDialogReducer from "./reducers/ui/incompleteOffic
 import howDidYouHearAboutUsSourceReducer from "./reducers/ui/howDidYouHearAboutUsSourceReducer";
 import genderIdentityReducer from "./reducers/ui/genderIdentityReducer";
 import caseNoteActionReducer from "./reducers/ui/caseNoteActionReducer";
+import caseTagDialogReducer from "./reducers/ui/caseTagDialogReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -73,6 +74,7 @@ const rootReducer = combineReducers({
     snackbar: snackbarReducer,
     casesTable: casesTableReducer,
     updateCaseStatusDialog: updateCaseStatusDialogReducer,
+    caseTagDialog: caseTagDialogReducer,
     caseNoteDialog: caseNoteDialogReducer,
     civilianDialog: civilianDialogReducer,
     createCaseDialog: createCaseDialogReducer,

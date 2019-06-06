@@ -1,0 +1,123 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Field, reduxForm, reset } from "redux-form";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography
+} from "@material-ui/core";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../../../shared/components/StyledButtons";
+import { closeCaseTagDialog } from "../../../actionCreators/casesActionCreators";
+import { CASE_TAG_FORM_NAME } from "../../../../sharedUtilities/constants";
+import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
+import createCaseTag from "../../thunks/createCaseTag";
+import DropdownSelect from "../CivilianDialog/DropdownSelect";
+import { caseTagRequired } from "../../../formFieldLevelValidations";
+
+class CaseTagDialog extends Component {
+  submit = values => {
+    const { caseId } = this.props;
+
+    let valuesToSubmit = {
+      ...values,
+      caseId
+    };
+    this.props.createCaseTag(valuesToSubmit);
+    this.props.reset(CASE_TAG_FORM_NAME);
+  };
+
+  render() {
+    const { open, submitting, handleSubmit } = this.props;
+    return (
+      <Dialog open={open}>
+        <DialogTitle
+          style={{
+            paddingBottom: "8px"
+          }}
+          data-test="caseTagDialogTitle"
+        >
+          Add New Tag
+        </DialogTitle>
+        <DialogContent>
+          <Typography
+            type="body1"
+            style={{
+              marginBottom: "24px"
+            }}
+          >
+            Search for and select an existing tag or create a new one.
+          </Typography>
+          <form>
+            <Field
+              inputProps={{
+                "data-test": "caseTagDropdownInput"
+                // "isCreatable": true
+              }}
+              data-test="caseTagDropdown"
+              component={DropdownSelect}
+              name="caseTag"
+              isCreatable={true}
+              required
+              style={{ width: "9rem" }}
+              validate={[caseTagRequired]}
+            >
+              {generateMenuOptions(["oiwjerwer"])}
+            </Field>
+          </form>
+        </DialogContent>
+        <DialogActions
+          style={{
+            padding: "0px 24px 16px 24px",
+            marginLeft: "0",
+            marginRight: "0",
+            justifyContent: "space-between"
+          }}
+        >
+          <SecondaryButton
+            style={{
+              marginLeft: "0px"
+            }}
+            data-test="cancelButton"
+            onClick={() => {
+              this.props.closeCaseTagDialog();
+              this.props.reset(CASE_TAG_FORM_NAME);
+            }}
+          >
+            Cancel
+          </SecondaryButton>
+          <PrimaryButton
+            data-test="submitButton"
+            onClick={handleSubmit(this.submit)}
+            disabled={submitting}
+          >
+            Add Tag
+          </PrimaryButton>
+        </DialogActions>
+      </Dialog>
+    );
+  }
+}
+
+const CaseTagDialogForm = reduxForm({
+  form: CASE_TAG_FORM_NAME
+})(CaseTagDialog);
+const mapStateToProps = state => ({
+  open: state.ui.caseTagDialog.open,
+  caseId: state.currentCase.details.id
+});
+
+const mapDispatchToProps = {
+  closeCaseTagDialog,
+  createCaseTag,
+  reset
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CaseTagDialogForm);
