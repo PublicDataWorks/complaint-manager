@@ -6,6 +6,7 @@ import createConfiguredS3Instance from "../../../createConfiguredS3Instance";
 import config from "../../../config/config";
 import {
   AUDIT_ACTION,
+  AUDIT_FILE_TYPE,
   AUDIT_SUBJECT,
   DUPLICATE_FILE_NAME
 } from "../../../../sharedUtilities/constants";
@@ -15,8 +16,10 @@ import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../audits/auditDataAccess";
+import { auditFileAction } from "../../audits/auditFileAction";
+import auditUpload from "../referralLetters/sharedLetterUtilities/auditUpload";
 
-const uploadAttachment = asyncMiddleware((request, response, next) => {
+const uploadAttachment = asyncMiddleware(async (request, response, next) => {
   let managedUpload;
   const caseId = request.params.caseId;
   const busboy = new Busboy({
@@ -35,7 +38,7 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
     }
   });
 
-  busboy.on("file", async function(
+  await busboy.on("file", async function(
     fieldname,
     file,
     fileName,
@@ -62,11 +65,11 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
       //This means that we can't use await.
       //https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3/ManagedUpload.html
       const promise = managedUpload.promise();
-      promise.then(
+      await promise.then(
         async function(data) {
           const updatedCase = await models.sequelize.transaction(
             async transaction => {
-              await models.attachment.create(
+              const attachment = await models.attachment.create(
                 {
                   fileName: fileName,
                   description: attachmentDescription,
@@ -77,15 +80,22 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
                   auditUser: request.nickname
                 }
               );
-
               const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
                 caseId,
                 transaction
               );
+
               const caseDetails = caseDetailsAndAuditDetails.caseDetails;
               const auditDetails = caseDetailsAndAuditDetails.auditDetails;
-
               if (newAuditFeatureToggle) {
+                await auditFileAction(
+                  request.nickname,
+                  caseId,
+                  AUDIT_ACTION.UPLOADED,
+                  fileName,
+                  AUDIT_FILE_TYPE.ATTACHMENT,
+                  transaction
+                );
                 await auditDataAccess(
                   request.nickname,
                   caseId,
@@ -94,6 +104,12 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
                   transaction
                 );
               } else {
+                await auditUpload(
+                  request.nickname,
+                  caseId,
+                  AUDIT_SUBJECT.ATTACHMENT,
+                  transaction
+                );
                 await legacyAuditDataAccess(
                   request.nickname,
                   caseId,
@@ -110,6 +126,7 @@ const uploadAttachment = asyncMiddleware((request, response, next) => {
           response.send(updatedCase);
         },
         function(error) {
+          console.error(error);
           next(Boom.badImplementation(error));
         }
       );
