@@ -8,7 +8,7 @@ const Op = models.sequelize.Op;
 
 export const sanitizeUploadDownloadAudits = async () => {
   await models.sequelize.transaction(async transaction => {
-    const audits = await models.action_audit.findAll({
+    const actionAudits = await models.action_audit.findAll({
       where: {
         [Op.or]: [
           { action: AUDIT_ACTION.DOWNLOADED },
@@ -17,47 +17,60 @@ export const sanitizeUploadDownloadAudits = async () => {
       }
     });
 
-    for (let auditIndex = 0; auditIndex < audits.length; auditIndex++) {
-      await sanitizeSingleUploadDownloadAudit(audits[auditIndex], transaction);
+    for (
+      let actionAuditIndex = 0;
+      actionAuditIndex < actionAudits.length;
+      actionAuditIndex++
+    ) {
+      await sanitizeSingleUploadDownloadAudit(
+        actionAudits[actionAuditIndex],
+        transaction
+      );
     }
   });
 };
 
-export const sanitizeSingleUploadDownloadAudit = async (audit, transaction) => {
-  await audit.update(
+export const sanitizeSingleUploadDownloadAudit = async (
+  actionAudit,
+  transaction
+) => {
+  const updatedActionAuditDetails = await getUpdatedAuditDetails(actionAudit);
+  const updatedActionAuditSubject = getUpdatedSubject(actionAudit);
+
+  await actionAudit.update(
     {
-      auditDetails: await getUpdatedAuditDetails(audit),
-      subject: getUpdatedSubject(audit)
+      auditDetails: updatedActionAuditDetails,
+      subject: updatedActionAuditSubject
     },
     { transaction }
   );
 };
 
-const getUpdatedAuditDetails = async audit => {
-  switch (audit.subject) {
+const getUpdatedAuditDetails = async actionAudit => {
+  switch (actionAudit.subject) {
     case AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF:
     case AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF:
     case "Referral Letter PDF":
-      return await provideAuditDetailsForSingleUploadDownloadAudit(audit);
+      return await provideAuditDetailsForSingleUploadDownloadAudit(actionAudit);
     case AUDIT_SUBJECT.ATTACHMENT:
-      return audit.auditDetails;
+      return actionAudit.auditDetails;
     case "Attachments":
-      return await formatAttachmentAuditDetails(audit.auditDetails);
+      return await formatAttachmentAuditDetails(actionAudit.auditDetails);
   }
 };
 
-const getUpdatedSubject = audit => {
-  if (audit.subject === "Attachments") {
+const getUpdatedSubject = actionAudit => {
+  if (actionAudit.subject === "Attachments") {
     return AUDIT_SUBJECT.ATTACHMENT;
-  } else if (audit.subject === "Referral Letter PDF") {
+  } else if (actionAudit.subject === "Referral Letter PDF") {
     return AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF;
   } else {
-    return audit.subject;
+    return actionAudit.subject;
   }
 };
 
-export const provideAuditDetailsForSingleUploadDownloadAudit = async uploadDownloadAudit => {
-  const fileName = await getAssociatedFileName(uploadDownloadAudit);
+export const provideAuditDetailsForSingleUploadDownloadAudit = async uploadDownloadActionAudit => {
+  const fileName = await getAssociatedFileName(uploadDownloadActionAudit);
 
   return {
     fileName: [fileName]
@@ -83,15 +96,15 @@ const getAssociatedFileName = async audit => {
   return letterAudit.finalPdfFilename;
 };
 
-const formatAttachmentAuditDetails = auditDetails => {
+const formatAttachmentAuditDetails = actionAuditDetails => {
   return {
-    fileName: [auditDetails.fileName]
+    fileName: [actionAuditDetails.fileName]
   };
 };
 
 export const rollbackSanitizeUploadDownloadAudits = async () => {
   await models.sequelize.transaction(async transaction => {
-    const audits = await models.action_audit.findAll({
+    const actionAudits = await models.action_audit.findAll({
       where: {
         [Op.or]: [
           { action: AUDIT_ACTION.DOWNLOADED },
@@ -100,9 +113,13 @@ export const rollbackSanitizeUploadDownloadAudits = async () => {
       }
     });
 
-    for (let auditIndex = 0; auditIndex < audits.length; auditIndex++) {
+    for (
+      let actionAuditIndex = 0;
+      actionAuditIndex < actionAudits.length;
+      actionAuditIndex++
+    ) {
       await rollbackSanitizeSingleUploadDownloadAudit(
-        audits[auditIndex],
+        actionAudits[actionAuditIndex],
         transaction
       );
     }
@@ -110,39 +127,37 @@ export const rollbackSanitizeUploadDownloadAudits = async () => {
 };
 
 export const rollbackSanitizeSingleUploadDownloadAudit = async (
-  audit,
+  actionAudit,
   transaction
 ) => {
-  let auditDetails, subject;
+  const rolledBackActionAuditDetails = getRollbackAuditDetails(actionAudit);
+  const rolledBackActionAuditSubject = getRollbackSubject(actionAudit);
 
-  auditDetails = getRollbackAuditDetails(audit);
-  subject = getRollbackSubject(audit);
-
-  await audit.update(
+  await actionAudit.update(
     {
-      auditDetails: auditDetails,
-      subject: subject
+      auditDetails: rolledBackActionAuditDetails,
+      subject: rolledBackActionAuditSubject
     },
     { transaction }
   );
 };
 
-const getRollbackAuditDetails = audit => {
-  if (audit.subject === AUDIT_SUBJECT.ATTACHMENT) {
-    return { fileName: audit.auditDetails.fileName[0] };
-  } else if (audit.action === AUDIT_ACTION.UPLOADED) {
+const getRollbackAuditDetails = actionAudit => {
+  if (actionAudit.subject === AUDIT_SUBJECT.ATTACHMENT) {
+    return { fileName: actionAudit.auditDetails.fileName[0] };
+  } else if (actionAudit.action === AUDIT_ACTION.UPLOADED) {
     return null;
   } else {
     return {};
   }
 };
 
-const getRollbackSubject = audit => {
-  if (audit.subject === AUDIT_SUBJECT.ATTACHMENT) {
+const getRollbackSubject = actionAudit => {
+  if (actionAudit.subject === AUDIT_SUBJECT.ATTACHMENT) {
     return "Attachments";
-  } else if (audit.subject === AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF) {
+  } else if (actionAudit.subject === AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF) {
     return "Referral Letter PDF";
   } else {
-    return audit.subject;
+    return actionAudit.subject;
   }
 };
