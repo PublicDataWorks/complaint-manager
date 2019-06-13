@@ -173,10 +173,18 @@ describe("approveLetter", () => {
         await elevateCaseStatusToReadyForReview(existingCase);
         await approveLetter(request, response, next);
 
+        const fileName = constructFilename(
+          existingCase,
+          REFERRAL_LETTER_VERSION.FINAL
+        );
+
         expect(auditUpload).toHaveBeenCalledWith(
           testUser,
           existingCase.id,
           AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+          expect.objectContaining({
+            fileName: [fileName]
+          }),
           expect.any(Object)
         );
       });

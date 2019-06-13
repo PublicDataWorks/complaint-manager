@@ -4,13 +4,20 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import models from "../../../../models";
 
-const auditUpload = async (user, caseId, subject, transaction) => {
+const auditUpload = async (
+  user,
+  caseId,
+  subject,
+  auditDetails,
+  transaction
+) => {
   await models.action_audit.create(
     {
       user,
       caseId,
       subject,
       action: AUDIT_ACTION.UPLOADED,
+      auditDetails: auditDetails,
       auditType: AUDIT_TYPE.UPLOAD
     },
     { transaction }
