@@ -171,6 +171,9 @@ describe("generateComplainantLetterAndUploadToS3", () => {
           auditType: AUDIT_TYPE.UPLOAD,
           caseId: existingCase.id,
           subject: AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
+          auditDetails: expect.objectContaining({
+            fileName: [constructFilename(existingCase, COMPLAINANT_LETTER)]
+          }),
           user: "nickname"
         })
       );

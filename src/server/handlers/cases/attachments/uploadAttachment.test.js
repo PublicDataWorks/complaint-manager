@@ -126,6 +126,9 @@ describe("uploadAttachment", () => {
         testUser,
         existingCase.id,
         AUDIT_SUBJECT.ATTACHMENT,
+        expect.objectContaining({
+          fileName: ["test_filename"]
+        }),
         expect.anything()
       );
     });

@@ -108,6 +108,7 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
                   request.nickname,
                   caseId,
                   AUDIT_SUBJECT.ATTACHMENT,
+                  { fileName: [fileName] },
                   transaction
                 );
                 await legacyAuditDataAccess(

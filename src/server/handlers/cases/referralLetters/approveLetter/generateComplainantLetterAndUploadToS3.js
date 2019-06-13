@@ -67,6 +67,7 @@ const generateComplainantLetterAndUploadToS3 = async (
       nickname,
       caseId,
       AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
+      { fileName: [finalPdfFilename] },
       transaction
     );
   }

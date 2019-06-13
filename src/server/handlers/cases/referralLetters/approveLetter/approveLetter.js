@@ -80,6 +80,7 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
         nickname,
         caseId,
         AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+        { fileName: [filename] },
         transaction
       );
     }

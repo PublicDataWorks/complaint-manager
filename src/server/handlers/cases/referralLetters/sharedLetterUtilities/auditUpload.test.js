@@ -24,7 +24,8 @@ describe("auditUpload", async () => {
       await auditUpload(
         "user",
         caseForAudit.id,
-        AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF
+        AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+        { fileName: ["testFile.txt"] }
       );
     });
 
@@ -37,6 +38,11 @@ describe("auditUpload", async () => {
     expect(createdAudits[0].caseId).toEqual(caseForAudit.id);
     expect(createdAudits[0].subject).toEqual(
       AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF
+    );
+    expect(createdAudits[0].auditDetails).toEqual(
+      expect.objectContaining({
+        fileName: ["testFile.txt"]
+      })
     );
     expect(createdAudits[0].action).toEqual(AUDIT_ACTION.UPLOADED);
     expect(createdAudits[0].auditType).toEqual(AUDIT_TYPE.UPLOAD);
