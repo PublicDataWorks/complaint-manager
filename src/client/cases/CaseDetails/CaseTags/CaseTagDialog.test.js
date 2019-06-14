@@ -7,15 +7,27 @@ import {
   getCaseDetailsSuccess,
   openCaseTagDialog
 } from "../../../actionCreators/casesActionCreators";
-import { containsText } from "../../../../client/testHelpers";
+import {
+  containsText,
+  selectCreatableDropdownOption,
+  selectDropdownOption
+} from "../../../../client/testHelpers";
 import mount from "enzyme/mount";
 import { reset } from "redux-form";
 import createCaseTag from "../../thunks/createCaseTag";
 import { CASE_TAG_FORM_NAME } from "../../../../sharedUtilities/constants";
 import Case from "../../../testUtilities/case";
+import getTagDropdownValues from "../../../tags/thunks/getTagDropdownValues";
+import { getTagsSuccess } from "../../../actionCreators/tagActionCreators";
 
-jest.mock("../../thunks/createCaseTag", () => values => ({
+jest.mock("../../thunks/createCaseTag", () => (values, caseId) => ({
   type: "MOCK_CREATE_CASE_TAG",
+  values,
+  caseId
+}));
+
+jest.mock("../../../tags/thunks/getTagDropdownValues", () => values => ({
+  type: "MOCK_GET_TAGS",
   values
 }));
 
@@ -50,6 +62,24 @@ describe("CaseTagDialog", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(reset(CASE_TAG_FORM_NAME));
   });
 
+  test("should load tags on mount", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith(getTagDropdownValues());
+  });
+
+  test("tags should appear in dropdown menu", () => {
+    const testTag = ["testTagName", 1];
+
+    store.dispatch(getTagsSuccess([testTag]));
+
+    dialog.update();
+
+    selectCreatableDropdownOption(
+      dialog,
+      '[data-test="caseTagDropdown"]',
+      "testTagName"
+    );
+  });
+
   test("should dispatch createCaseTag when clicking submit button", () => {
     const testTagName = "testTagName";
     const caseDetails = new Case.Builder()
@@ -63,15 +93,14 @@ describe("CaseTagDialog", () => {
     const submitButton = dialog.find('[data-test="submitButton"]').first();
 
     const expectedSubmittedValues = {
-      caseTag: testTagName,
-      caseId: caseDetails.id
+      caseTagValue: testTagName
     };
 
     store.dispatch({
       type: "@@redux-form/CHANGE",
       meta: {
         form: CASE_TAG_FORM_NAME,
-        field: "caseTag",
+        field: "caseTagValue",
         touch: false,
         persistentSubmitErrors: false
       },
@@ -83,7 +112,7 @@ describe("CaseTagDialog", () => {
     submitButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
-      createCaseTag(expectedSubmittedValues)
+      createCaseTag(expectedSubmittedValues, caseDetails.id)
     );
     expect(dispatchSpy).toHaveBeenCalledWith(reset(CASE_TAG_FORM_NAME));
   });

@@ -50,6 +50,8 @@ import getOfficerHistoryOptions from "./handlers/cases/referralLetters/getOffice
 import getHowDidYouHearAboutUsSources from "./handlers/howDidYouHearAboutUsSources/getHowDidYouHearAboutUsSources";
 import getGenderIdentities from "./handlers/genderIdentities/getGenderIdentities";
 import getCaseNoteActions from "./handlers/caseNoteActions/getCaseNoteActions";
+import createCaseTag from "./handlers/cases/createCaseTag";
+import getTags from "./handlers/tags/getTags";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -165,6 +167,13 @@ export const API_ROUTES = {
       handler: removeCaseNote,
       errorMessage:
         "Something went wrong and the case note was not removed. Please try again."
+    }
+  },
+  "/cases/:caseId/case-tags": {
+    post: {
+      handler: createCaseTag,
+      errorMessage:
+        "Something went wrong and the case tag was not created. Please try again."
     }
   },
   "/cases/:caseId/cases-officers": {
@@ -362,6 +371,13 @@ export const API_ROUTES = {
       handler: getClassifications,
       errorMessage:
         "Something went wrong and the classification values were not found. Please try again."
+    }
+  },
+  "/tags": {
+    get: {
+      handler: getTags,
+      errorMessage:
+        "Something went wrong and the tag values were not found. Please try again."
     }
   },
   "/intake-sources": {

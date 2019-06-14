@@ -1,7 +1,6 @@
 import app from "./server";
 import request from "supertest";
 import models from "./models";
-import { AuthenticationClient } from "auth0";
 import Civilian from "../client/testUtilities/civilian";
 import Case from "../client/testUtilities/case";
 import Attachment from "../client/testUtilities/attachment";
@@ -17,10 +16,13 @@ import AWS from "aws-sdk";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
-  suppressWinstonLogs,
-  expectResponse
+  expectResponse,
+  suppressWinstonLogs
 } from "./testHelpers/requestTestHelpers";
 import audit from "./handlers/audits/auditAuthentication";
+import createCaseTag from "./handlers/cases/createCaseTag";
+import { createTestCaseWithoutCivilian } from "./testHelpers/modelMothers";
+import getTags from "./handlers/tags/getTags";
 
 jest.mock("auth0", () => ({
   AuthenticationClient: jest.fn()
@@ -31,6 +33,16 @@ jest.mock("aws-sdk", () => ({
 }));
 
 jest.mock("./handlers/audits/auditAuthentication", () =>
+  jest.fn((request, response, next) => {
+    response.send();
+  })
+);
+jest.mock("./handlers/cases/createCaseTag", () =>
+  jest.fn((request, response, next) => {
+    response.send();
+  })
+);
+jest.mock("./handlers/tags/getTags", () =>
   jest.fn((request, response, next) => {
     response.send();
   })
@@ -129,6 +141,31 @@ describe("server", () => {
         .send({ log: mockLog });
 
       expect(audit).toHaveBeenCalled();
+    });
+  });
+
+  describe("POST /cases/:caseId/case-tags", () => {
+    test("should create case tag", async () => {
+      const createdCase = await createTestCaseWithoutCivilian();
+
+      await request(app)
+        .post(`/api/cases/${createdCase.id}/case-tags`)
+        .set("Content-Header", "application/json")
+        .set("Authorization", `Bearer ${token}`)
+        .send({ tagId: 1, tagName: undefined });
+
+      expect(createCaseTag).toHaveBeenCalled();
+    });
+  });
+
+  describe("GET /tags", () => {
+    test("should get existing tags", async () => {
+      await request(app)
+        .get(`/api/tags`)
+        .set("Content-Header", "application/json")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(getTags).toHaveBeenCalled();
     });
   });
 

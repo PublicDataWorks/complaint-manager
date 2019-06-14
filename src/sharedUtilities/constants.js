@@ -84,6 +84,7 @@ export const GET_GENDER_IDENTITIES_SUCCEEDED =
   "GET_GENDER_IDENTITIES_SUCCEEDED";
 export const GET_CASE_NOTE_ACTIONS_SUCCEEDED =
   "GET_CASE_NOTE_ACTIONS_SUCCEEDED";
+export const GET_TAGS_SUCCEEDED = "GET_TAGS_SUCCEEDED";
 
 export const GET_RECOMMENDED_ACTIONS_SUCCESS =
   "GET_RECOMMENDED_ACTIONS_SUCCESS";
@@ -255,6 +256,8 @@ export const AUDIT_SUBJECT = {
   OFFICER_DATA: "Officer Data",
   CASE_HISTORY: "Case History",
   CASE_NOTES: "Case Notes",
+  CASE_TAGS: "Case Tags",
+  ALL_TAGS: "All Tags",
   ATTACHMENT: "Attachment",
   REFERRAL_LETTER_PREVIEW: "Referral Letter Preview",
   REFERRAL_LETTER_DATA: "Referral Letter Data", //this refers to letter data only (not case data)

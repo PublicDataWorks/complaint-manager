@@ -8,11 +8,18 @@ export const changeInput = (mountedComponent, inputSelector, value) => {
 export const findDropdownOption = (
   mountedComponent,
   dropdownSelector,
-  optionName
+  optionName,
+  isCreatable
 ) => {
+  let dropdownComponent;
+  if (isCreatable) {
+    dropdownComponent = "Creatable";
+  } else {
+    dropdownComponent = "Select";
+  }
   const options = mountedComponent
     .find(dropdownSelector)
-    .find("Select")
+    .find(dropdownComponent)
     .prop("options")
     .filter(option => option.label.toString() === optionName);
 
@@ -20,7 +27,7 @@ export const findDropdownOption = (
 
   mountedComponent
     .find(dropdownSelector)
-    .find("Select")
+    .find(dropdownComponent)
     .props()
     .onChange({ value: value });
 };
@@ -30,7 +37,15 @@ export const selectDropdownOption = (
   dropdownSelector,
   optionName
 ) => {
-  findDropdownOption(mountedComponent, dropdownSelector, optionName);
+  findDropdownOption(mountedComponent, dropdownSelector, optionName, false);
+};
+
+export const selectCreatableDropdownOption = (
+  mountedComponent,
+  dropdownSelector,
+  optionName
+) => {
+  findDropdownOption(mountedComponent, dropdownSelector, optionName, true);
 };
 
 export const expectEventuallyNotToExist = async (

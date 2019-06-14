@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       },
       caseId: {
-        allowNull: false,
+        allowNull: true,
         field: "case_id",
         type: DataTypes.INTEGER
       },

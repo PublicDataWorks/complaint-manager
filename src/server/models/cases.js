@@ -291,8 +291,8 @@ export default (sequelize, DataTypes) => {
     });
     Case.belongsTo(models.how_did_you_hear_about_us_source, {
       as: "howDidYouHearAboutUsSource",
+      name: "howDidYouHearAboutUsSourceId",
       foreignKey: {
-        name: "howDidYouHearAboutUsSourceId",
         field: "how_did_you_hear_about_us_source_id",
         allowNull: true
       }
@@ -315,6 +315,10 @@ export default (sequelize, DataTypes) => {
     });
     Case.hasOne(models.referral_letter, {
       as: "referralLetter",
+      foreignKey: { name: "caseId", field: "case_id" }
+    });
+    Case.hasMany(models.case_tag, {
+      as: "caseTags",
       foreignKey: { name: "caseId", field: "case_id" }
     });
   };

@@ -5,6 +5,7 @@ import {
   createCaseTagSuccess
 } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
+import { getTagsSuccess } from "../../actionCreators/tagActionCreators";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -16,17 +17,19 @@ describe("createCaseTag", () => {
     dispatch.mockClear();
   });
 
-  test("should dispatch success when case note added successfully", async () => {
-    const caseTag = "Some super special awesome tag";
+  test("should dispatch create and get tag success when case tag added successfully", async () => {
+    const caseTagValue = "Some super special awesome tag";
     const caseId = 234;
 
     const submitValues = {
-      caseTag: caseTag,
-      caseId: caseId
+      caseTagValue: caseTagValue
     };
 
+    const requestBody = { tagName: caseTagValue };
+
     const responseBody = {
-      caseTags: [caseTag]
+      caseTags: [[caseTagValue, 1]],
+      tags: [[caseTagValue, 1]]
     };
 
     nock("http://localhost", {
@@ -35,14 +38,15 @@ describe("createCaseTag", () => {
         Authorization: `Bearer TEST_TOKEN`
       }
     })
-      .post(`/api/cases/${caseId}/case-tags`, { caseTag: caseTag })
+      .post(`/api/cases/${caseId}/case-tags`, requestBody)
       .reply(201, responseBody);
 
-    await createCaseTag(submitValues)(dispatch);
+    await createCaseTag(submitValues, caseId)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
       createCaseTagSuccess(responseBody.caseTags)
     );
+    expect(dispatch).toHaveBeenCalledWith(getTagsSuccess(responseBody.tags));
     expect(dispatch).toHaveBeenCalledWith(closeCaseTagDialog());
   });
 });
