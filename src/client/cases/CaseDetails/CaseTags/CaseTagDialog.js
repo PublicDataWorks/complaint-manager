@@ -18,16 +18,17 @@ import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import createCaseTag from "../../thunks/createCaseTag";
 import DropdownSelect from "../CivilianDialog/DropdownSelect";
 import { caseTagRequired } from "../../../formFieldLevelValidations";
+import getTagDropdownValues from "../../../tags/thunks/getTagDropdownValues";
 
 class CaseTagDialog extends Component {
+  componentDidMount() {
+    this.props.getTagDropdownValues();
+  }
+
   submit = values => {
     const { caseId } = this.props;
 
-    let valuesToSubmit = {
-      ...values,
-      caseId
-    };
-    this.props.createCaseTag(valuesToSubmit);
+    this.props.createCaseTag(values, caseId);
     this.props.reset(CASE_TAG_FORM_NAME);
   };
 
@@ -56,17 +57,16 @@ class CaseTagDialog extends Component {
             <Field
               inputProps={{
                 "data-test": "caseTagDropdownInput"
-                // "isCreatable": true
               }}
               data-test="caseTagDropdown"
               component={DropdownSelect}
-              name="caseTag"
+              name="caseTagValue"
               isCreatable={true}
               required
               style={{ width: "9rem" }}
               validate={[caseTagRequired]}
             >
-              {generateMenuOptions(["oiwjerwer"])}
+              {generateMenuOptions(this.props.tags)}
             </Field>
           </form>
         </DialogContent>
@@ -108,12 +108,14 @@ const CaseTagDialogForm = reduxForm({
 })(CaseTagDialog);
 const mapStateToProps = state => ({
   open: state.ui.caseTagDialog.open,
-  caseId: state.currentCase.details.id
+  caseId: state.currentCase.details.id,
+  tags: state.ui.tags
 });
 
 const mapDispatchToProps = {
   closeCaseTagDialog,
   createCaseTag,
+  getTagDropdownValues,
   reset
 };
 

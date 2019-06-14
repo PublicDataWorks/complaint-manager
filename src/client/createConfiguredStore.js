@@ -52,6 +52,7 @@ import howDidYouHearAboutUsSourceReducer from "./reducers/ui/howDidYouHearAboutU
 import genderIdentityReducer from "./reducers/ui/genderIdentityReducer";
 import caseNoteActionReducer from "./reducers/ui/caseNoteActionReducer";
 import caseTagDialogReducer from "./reducers/ui/caseTagDialogReducer";
+import tagReducer from "./reducers/ui/tagReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -92,6 +93,7 @@ const rootReducer = combineReducers({
     intakeSources: intakeSourceReducer,
     howDidYouHearAboutUsSources: howDidYouHearAboutUsSourceReducer,
     raceEthnicities: raceEthnicityReducer,
+    tags: tagReducer,
     genderIdentities: genderIdentityReducer,
     officerHistoryOptions: officerHistoryOptionsReducer,
     incompleteOfficerHistoryDialog: incompleteOfficerHistoryDialogReducer,

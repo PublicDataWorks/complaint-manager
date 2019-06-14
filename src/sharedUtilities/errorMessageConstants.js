@@ -35,13 +35,16 @@ export const BAD_DATA_ERRORS = {
   CANNOT_OVERRIDE_CASE_REFERENCE: "Cannot override case reference information",
   UNEXPECTED_SEX_VALUE: "Unexpected value for gender",
   UNEXPECTED_RACE_VALUE: "Unexpected value for race",
+  CANNOT_CREATE_DUPLICATE_TAG: "Cannot create duplicate tag",
+  TAG_ALREADY_EXISTS_ON_CASE: "Tag already exists on case",
   MISSING_REQUIRED_HEADER_FIELDS: "Missing required header fields",
   DATE_RANGE_IN_INCORRECT_ORDER:
     "Start date in date range must before end date",
   MISSING_DATE_RANGE_END_DATE: "Missing date range end date",
   MISSING_DATE_RANGE_START_DATE: "Missing date range start date",
   MISSING_DATE_RANGE_TYPE: "Missing date range type",
-  MISSING_DATE_RANGE_PARAMETERS: "Missing date range parameters"
+  MISSING_DATE_RANGE_PARAMETERS: "Missing date range parameters",
+  MISSING_TAG_PARAMETERS: "Missing tag parameters"
 };
 
 export const NOT_FOUND_ERRORS = {
