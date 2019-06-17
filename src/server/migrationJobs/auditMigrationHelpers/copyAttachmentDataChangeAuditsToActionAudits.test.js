@@ -10,6 +10,7 @@ import {
   copyAttachmentDataChangeAuditsToActionAudits,
   deleteUploadAttachmentAudits
 } from "./copyAttachmentDataChangeAuditsToActionAudits";
+import moment from "moment-timezone";
 
 describe("copy data change attachment audits", () => {
   let existingCase;
@@ -25,7 +26,7 @@ describe("copy data change attachment audits", () => {
 
   describe("copy data change attachment audits to action audits", () => {
     test("should transform a data change created attachment into an action audit uploaded attachment", async () => {
-      await models.data_change_audit.create({
+      const dataAudit = await models.data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Attachment",
         modelDescription: [
@@ -44,6 +45,10 @@ describe("copy data change attachment audits", () => {
         await copyAttachmentDataChangeAuditsToActionAudits(transaction);
       });
 
+      const testCreatedAtTime = new Date(
+        moment(dataAudit.createdAt).add(1, "ms")
+      );
+
       const actionAudit = await models.action_audit.findOne({});
 
       expect(actionAudit).toEqual(
@@ -55,7 +60,8 @@ describe("copy data change attachment audits", () => {
           subject: AUDIT_SUBJECT.ATTACHMENT,
           auditDetails: {
             fileName: [fileName]
-          }
+          },
+          createdAt: testCreatedAtTime
         })
       );
     });
@@ -109,7 +115,7 @@ describe("copy data change attachment audits", () => {
     });
 
     test("should create action audit if download attachment exists but upload attachment does not", async () => {
-      await models.data_change_audit.create({
+      const dataAudit = await models.data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Attachment",
         modelDescription: [
@@ -139,6 +145,10 @@ describe("copy data change attachment audits", () => {
         await copyAttachmentDataChangeAuditsToActionAudits(transaction);
       });
 
+      const testCreatedAtTime = new Date(
+        moment(dataAudit.createdAt).add(1, "ms")
+      );
+
       const actionAudit = await models.action_audit.findOne({
         where: {
           action: AUDIT_ACTION.UPLOADED
@@ -154,7 +164,8 @@ describe("copy data change attachment audits", () => {
           subject: AUDIT_SUBJECT.ATTACHMENT,
           auditDetails: {
             fileName: [fileName]
-          }
+          },
+          createdAt: testCreatedAtTime
         })
       );
     });
