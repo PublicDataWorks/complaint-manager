@@ -56,12 +56,5 @@ export default class Auth {
     const permissions = parsePermissions(decodedToken.scope);
     const nickname = decodedToken[this.authConfig.nicknameKey];
     populateStoreWithUserInfoCallback({ nickname, permissions });
-    console.log(
-      "setUserInfoInStore:\n",
-      "Permissions:",
-      permissions,
-      "\nNickname: ",
-      nickname
-    );
   };
 }
