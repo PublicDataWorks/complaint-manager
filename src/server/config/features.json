@@ -29,6 +29,8 @@
     "id": "caseTaggingFeature",
     "name": "caseTaggingFeature",
     "description": "Toggle to enable new case tagging feature",
-    "enabled": false
+    "criteria": {
+      "isPreProd": true
+    }
   }
 ]
