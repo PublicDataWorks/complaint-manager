@@ -6,6 +6,7 @@ import {
   DESCENDING,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
+import { caseInsensitiveSort } from "../../sequelizeHelpers";
 
 const Op = sequelize.Op;
 
@@ -73,31 +74,23 @@ const getCases = async (
   return await models.sortable_cases_view.findAndCountAll(queryOptions);
 };
 
-const caseInsensitiveSort = attributeName => {
-  return sequelize.fn(
-    "lower",
-    sequelize.col(models.sortable_cases_view.rawAttributes[attributeName].field)
-  );
-};
-
 const getSortingOrderForQuery = (sortBy, sortDirection) => {
+  const model = models.sortable_cases_view;
   switch (sortBy) {
     case SORT_CASES_BY.PRIMARY_COMPLAINANT:
       if (sortDirection === ASCENDING) {
         return [
           ["complainantPersonType", DESCENDING],
           [
-            caseInsensitiveSort("complainantLastName"),
+            caseInsensitiveSort("complainantLastName", model),
             `${ASCENDING} NULLS FIRST`
           ],
           [
-            caseInsensitiveSort(
-              "complainantFirstName",
-              `${ASCENDING} NULLS FIRST`
-            )
+            caseInsensitiveSort("complainantFirstName", model),
+            `${ASCENDING} NULLS FIRST`
           ],
           [
-            caseInsensitiveSort("complainantMiddleName"),
+            caseInsensitiveSort("complainantMiddleName", model),
             `${ASCENDING} NULLS FIRST`
           ]
         ];
@@ -105,15 +98,15 @@ const getSortingOrderForQuery = (sortBy, sortDirection) => {
         return [
           ["complainantPersonType", ASCENDING],
           [
-            caseInsensitiveSort("complainantLastName"),
+            caseInsensitiveSort("complainantLastName", model),
             `${DESCENDING} NULLS LAST`
           ],
           [
-            caseInsensitiveSort("complainantFirstName"),
+            caseInsensitiveSort("complainantFirstName", model),
             `${DESCENDING} NULLS LAST`
           ],
           [
-            caseInsensitiveSort("complainantMiddleName"),
+            caseInsensitiveSort("complainantMiddleName", model),
             `${DESCENDING} NULLS LAST`
           ]
         ];
@@ -122,16 +115,34 @@ const getSortingOrderForQuery = (sortBy, sortDirection) => {
       if (sortDirection === ASCENDING) {
         return [
           ["accusedPersonType", DESCENDING],
-          [caseInsensitiveSort("accusedLastName"), `${ASCENDING} NULLS FIRST`],
-          [caseInsensitiveSort("accusedFirstName"), `${ASCENDING} NULLS FIRST`],
-          [caseInsensitiveSort("accusedMiddleName"), `${ASCENDING} NULLS FIRST`]
+          [
+            caseInsensitiveSort("accusedLastName", model),
+            `${ASCENDING} NULLS FIRST`
+          ],
+          [
+            caseInsensitiveSort("accusedFirstName", model),
+            `${ASCENDING} NULLS FIRST`
+          ],
+          [
+            caseInsensitiveSort("accusedMiddleName", model),
+            `${ASCENDING} NULLS FIRST`
+          ]
         ];
       } else {
         return [
           ["accusedPersonType", ASCENDING],
-          [caseInsensitiveSort("accusedLastName"), `${DESCENDING} NULLS LAST`],
-          [caseInsensitiveSort("accusedFirstName"), `${DESCENDING} NULLS LAST`],
-          [caseInsensitiveSort("accusedMiddleName"), `${DESCENDING} NULLS LAST`]
+          [
+            caseInsensitiveSort("accusedLastName", model),
+            `${DESCENDING} NULLS LAST`
+          ],
+          [
+            caseInsensitiveSort("accusedFirstName", model),
+            `${DESCENDING} NULLS LAST`
+          ],
+          [
+            caseInsensitiveSort("accusedMiddleName", model),
+            `${DESCENDING} NULLS LAST`
+          ]
         ];
       }
 

@@ -1,10 +1,11 @@
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 import models from "../../models";
 import { ASCENDING } from "../../../sharedUtilities/constants";
+import { caseInsensitiveSort } from "../sequelizeHelpers";
 
 const getTagsAndAuditDetails = async transaction => {
   const queryOptions = {
-    order: [["name", ASCENDING]],
+    order: [[caseInsensitiveSort("name", models.tag), ASCENDING]],
     transaction
   };
   const tagObjects = await models.tag.findAll(queryOptions);
