@@ -5,6 +5,7 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } from "../../../sharedUtilities/constants";
+import moment from "moment-timezone";
 
 const Op = sequelize.Op;
 
@@ -34,6 +35,9 @@ const copyAttachmentIntoActionAuditTable = async (
     )
   ) {
     const fileName = [`${attachmentAudit.modelDescription[0]["File Name"]}`];
+    const newCreatedAtTime = new Date(
+      moment(attachmentAudit.createdAt).add(1, "ms")
+    );
     await models.action_audit.create({
       action: AUDIT_ACTION.UPLOADED,
       auditType: AUDIT_TYPE.UPLOAD,
@@ -43,7 +47,7 @@ const copyAttachmentIntoActionAuditTable = async (
       auditDetails: {
         fileName: fileName
       },
-      transaction
+      createdAt: newCreatedAtTime
     });
   }
 };
