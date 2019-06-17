@@ -66,6 +66,8 @@ class StatusButton extends Component {
   };
 
   render() {
+    console.log("Front end persimmons", this.props.userInfo.permissions);
+
     const { status, caseId, nextStatus } = this.props;
 
     if (

@@ -5,6 +5,7 @@ const Boom = require("boom");
 
 const verifyUserNickname = (request, response, next) => {
   const userInfo = request.user;
+  console.log("User Info", userInfo);
 
   if (!userInfo || !userInfo[config.authentication.nicknameKey]) {
     return next(Boom.unauthorized(UNAUTHORIZED_ERRORS.USER_NICKNAME_MISSING));
@@ -15,6 +16,8 @@ const verifyUserNickname = (request, response, next) => {
 
   request.nickname = userInfo[config.authentication.nicknameKey];
   request.permissions = userInfo.scope.split(" ");
+
+  console.log("Persimmons", request.permissions);
 
   next();
 };
