@@ -5,6 +5,7 @@ import {
 import axios from "axios";
 import _ from "lodash";
 import { getTagsSuccess } from "../../actionCreators/tagActionCreators";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 const createCaseTag = (values, caseId) => async dispatch => {
   const tagValue = values.caseTagValue;
@@ -23,6 +24,7 @@ const createCaseTag = (values, caseId) => async dispatch => {
       JSON.stringify(requestBody)
     );
 
+    dispatch(snackbarSuccess("Case tag was successfully added"));
     dispatch(createCaseTagSuccess(response.data.caseTags));
     dispatch(getTagsSuccess(response.data.tags));
     dispatch(closeCaseTagDialog());

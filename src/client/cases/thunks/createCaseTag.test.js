@@ -6,6 +6,7 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 import { getTagsSuccess } from "../../actionCreators/tagActionCreators";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -48,5 +49,8 @@ describe("createCaseTag", () => {
     );
     expect(dispatch).toHaveBeenCalledWith(getTagsSuccess(responseBody.tags));
     expect(dispatch).toHaveBeenCalledWith(closeCaseTagDialog());
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarSuccess("Case tag was successfully added")
+    );
   });
 });
