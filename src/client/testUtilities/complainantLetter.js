@@ -60,6 +60,11 @@ class ComplainantLetter {
         this.complainantCivilianId = complainantCivilianId;
         return this;
       }
+
+      withComplainantOfficerId(complainantOfficerId) {
+        this.complainantOfficerId = complainantOfficerId;
+        return this;
+      }
     }
 
     return Builder;
