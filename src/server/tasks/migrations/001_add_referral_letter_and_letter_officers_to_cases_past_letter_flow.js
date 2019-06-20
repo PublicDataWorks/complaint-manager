@@ -24,7 +24,7 @@ module.exports = {
   },
 
   down: async () => {
-    const audits = await models.data_change_audit.findAll({
+    const audits = await models.legacy_data_change_audit.findAll({
       where: { user: MIGRATION_USER }
     });
 

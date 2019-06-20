@@ -56,7 +56,7 @@ describe("test provide_audit_details_for_data_access_audits_when_auditing_case_w
     });
 
     test("should not update audit details when audit is before created before end of audit legacy timestamp", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Officer Allegation",
         modelDescription: null,
@@ -90,7 +90,7 @@ describe("test provide_audit_details_for_data_access_audits_when_auditing_case_w
     });
 
     test("should update audit details when following remove officer allegation", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Officer Allegation",
         modelDescription: null,
@@ -124,7 +124,7 @@ describe("test provide_audit_details_for_data_access_audits_when_auditing_case_w
 
   describe("setAuditDetailsToEmptyForDataAccessOfCaseWithAllAssociations", () => {
     test("should not update audit details when audit is before created before end of audit legacy timestamp", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Officer Allegation",
         modelDescription: null,
@@ -157,7 +157,7 @@ describe("test provide_audit_details_for_data_access_audits_when_auditing_case_w
     });
 
     test("should set audit details to empty when following remove officer allegation", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Officer Allegation",
         modelDescription: null,

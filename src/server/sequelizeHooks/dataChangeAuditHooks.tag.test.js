@@ -14,7 +14,7 @@ describe("dataChangeAuditHooks for tag", () => {
       auditUser: "A Person"
     });
 
-    const audit = await models.data_change_audit.findOne({
+    const audit = await models.legacy_data_change_audit.findOne({
       where: { modelName: "Tag", action: AUDIT_ACTION.DATA_CREATED }
     });
 

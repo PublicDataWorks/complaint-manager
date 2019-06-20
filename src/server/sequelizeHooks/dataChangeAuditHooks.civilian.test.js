@@ -39,7 +39,7 @@ describe("dataChangeAuditHooks for civilian", () => {
   });
 
   test("creates audit on civilian creation", async () => {
-    const audit = await models.data_change_audit.findOne({
+    const audit = await models.legacy_data_change_audit.findOne({
       where: { modelName: "Civilian", action: AUDIT_ACTION.DATA_CREATED }
     });
 
@@ -80,7 +80,7 @@ describe("dataChangeAuditHooks for civilian", () => {
       { firstName: "Updated Name", raceEthnicityId: raceEthnicity.id },
       { where: { id: civilian.id }, auditUser: "someone" }
     );
-    const audit = await models.data_change_audit.findOne({
+    const audit = await models.legacy_data_change_audit.findOne({
       where: { modelName: "Civilian", action: AUDIT_ACTION.DATA_UPDATED }
     });
 
@@ -102,7 +102,7 @@ describe("dataChangeAuditHooks for civilian", () => {
       { auditUser: "someoneWhoUpdated" }
     );
 
-    const audit = await models.data_change_audit.findOne({
+    const audit = await models.legacy_data_change_audit.findOne({
       where: { modelName: "Civilian", action: AUDIT_ACTION.DATA_UPDATED }
     });
 

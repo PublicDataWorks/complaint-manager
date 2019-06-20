@@ -14,7 +14,7 @@ describe("data access audit", () => {
       user: "user"
     });
 
-    const accessAudit = await models.data_change_audit.findAll();
+    const accessAudit = await models.legacy_data_change_audit.findAll();
     expect(accessAudit.length).toEqual(0);
   });
 
@@ -24,7 +24,7 @@ describe("data access audit", () => {
       user: "user"
     });
 
-    const audit = await models.data_change_audit.findAll();
+    const audit = await models.legacy_data_change_audit.findAll();
     expect(audit.length).toEqual(0);
   });
 });

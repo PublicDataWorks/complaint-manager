@@ -52,7 +52,7 @@ describe("getCaseHistory", () => {
         auditType: AUDIT_TYPE.DATA_ACCESS,
         caseId: createdCase.id,
         auditDetails: expect.objectContaining({
-          "Data Change Audit": [
+          "Legacy Data Change Audit": [
             "Action",
             "Model Name",
             "Model Description",
@@ -199,6 +199,8 @@ describe("getCaseHistory", () => {
       .withChanges({ something: { previous: "old", new: "new" } })
       .withUser("bob")
       .withCreatedAt(createdAt);
-    return await models.data_change_audit.create(dataChangeAuditAttributes);
+    return await models.legacy_data_change_audit.create(
+      dataChangeAuditAttributes
+    );
   };
 });

@@ -77,7 +77,7 @@ const expectCasesHaveBeenRenumbered = async revert => {
 
 const expectAuditsToHaveBeenCreated = async () => {
   for (let caseNumberMapping of NEW_CASE_NUMBER_MAPPINGS) {
-    const auditsForUpdateCase = await models.data_change_audit.findAll({
+    const auditsForUpdateCase = await models.legacy_data_change_audit.findAll({
       where: {
         caseId: caseNumberMapping.createdCaseId,
         modelName: "Case",

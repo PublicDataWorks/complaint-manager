@@ -213,7 +213,7 @@ exports.init = sequelize => {
     const caseId = await getCaseId(modelName, instance, options.transaction);
     const snapshot = await snapshotValues(instance);
     if (_.isEmpty(changes)) return;
-    await sequelize.model("data_change_audit").create(
+    await sequelize.model("legacy_data_change_audit").create(
       {
         user: getUserNickname(options, action, modelName),
         action: action,

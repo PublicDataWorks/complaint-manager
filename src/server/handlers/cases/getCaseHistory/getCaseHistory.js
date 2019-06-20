@@ -87,11 +87,13 @@ const getDataChangeAuditsAndAuditDetails = async (caseId, transaction) => {
     raw: true,
     transaction
   };
-  const dataChangeAudits = await models.data_change_audit.findAll(queryOptions);
+  const dataChangeAudits = await models.legacy_data_change_audit.findAll(
+    queryOptions
+  );
 
   const dataChangeAuditDetails = getQueryAuditAccessDetails(
     queryOptions,
-    models.data_change_audit.name
+    models.legacy_data_change_audit.name
   );
 
   return {

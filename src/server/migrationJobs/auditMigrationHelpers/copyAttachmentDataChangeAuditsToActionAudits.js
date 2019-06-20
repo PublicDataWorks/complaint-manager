@@ -12,7 +12,7 @@ const Op = sequelize.Op;
 // This should be called before transform upload download audit action is called
 
 export const copyAttachmentDataChangeAuditsToActionAudits = async transaction => {
-  const dataChangeAudits = await models.data_change_audit.findAll({
+  const dataChangeAudits = await models.legacy_data_change_audit.findAll({
     where: {
       action: "Created",
       modelName: "Attachment"
