@@ -26,7 +26,7 @@ describe("test provide_audit_details_for_data_access_audits_when_accessing_case_
 
   describe("provideAuditDetailsForDataAccessAuditsWhenAccessingCaseNotes", () => {
     test("should not update case note audit details when time of audit is before end legacy time", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Case Note",
         modelDescription: null,
@@ -88,7 +88,7 @@ describe("test provide_audit_details_for_data_access_audits_when_accessing_case_
     });
 
     test("should update case note audit details when following create case note created before case note actions", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Case Note",
         modelDescription: null,
@@ -173,7 +173,7 @@ describe("test provide_audit_details_for_data_access_audits_when_accessing_case_
     });
 
     test("should update case note audit details when following create case note", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Case Note",
         modelDescription: null,
@@ -210,7 +210,7 @@ describe("test provide_audit_details_for_data_access_audits_when_accessing_case_
     });
 
     test("should update case note audit details with only case note data when created after case note actions added", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Case Note",
         modelDescription: null,
@@ -293,7 +293,7 @@ describe("test provide_audit_details_for_data_access_audits_when_accessing_case_
 
   describe("setAuditDetailsToEmptyForDataAccessAuditsWhenAccessingCaseNotes", () => {
     test("should set case note audit details to empty when following create case note", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Case Note",
         modelDescription: null,
@@ -329,7 +329,7 @@ describe("test provide_audit_details_for_data_access_audits_when_accessing_case_
       );
     });
     test("should not set case note audit details to empty when time of audit is before end legacy time", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Case Note",
         modelDescription: null,

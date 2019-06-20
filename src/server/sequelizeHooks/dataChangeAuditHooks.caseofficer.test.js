@@ -42,7 +42,7 @@ describe("dataChangeAudithooks caseofficer", () => {
   });
 
   test("should audit caseofficer creation", async () => {
-    const audit = await models.data_change_audit.findOne({
+    const audit = await models.legacy_data_change_audit.findOne({
       where: { modelName: "Case Officer", action: AUDIT_ACTION.DATA_CREATED }
     });
 
@@ -60,7 +60,7 @@ describe("dataChangeAudithooks caseofficer", () => {
     const caseOfficer = createdCase.accusedOfficers[0];
     await caseOfficer.destroy({ auditUser: "someone" });
 
-    const audit = await models.data_change_audit.findOne({
+    const audit = await models.legacy_data_change_audit.findOne({
       where: { modelName: "Case Officer", action: AUDIT_ACTION.DATA_DELETED }
     });
 

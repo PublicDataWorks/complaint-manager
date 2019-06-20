@@ -305,7 +305,7 @@ export default (sequelize, DataTypes) => {
         allowNull: true
       }
     });
-    Case.hasMany(models.data_change_audit, {
+    Case.hasMany(models.legacy_data_change_audit, {
       as: "dataChangeAudits",
       foreignKey: { name: "caseId", field: "case_id" }
     });

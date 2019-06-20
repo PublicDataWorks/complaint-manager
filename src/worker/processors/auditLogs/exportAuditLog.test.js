@@ -249,7 +249,7 @@ describe("exportAuditLog", () => {
 
       const createdCase = await createTestCaseWithoutCivilian("nickname");
 
-      await models.data_change_audit.findOne({
+      await models.legacy_data_change_audit.findOne({
         where: { caseId: createdCase.id }
       });
 
@@ -276,7 +276,7 @@ describe("exportAuditLog", () => {
     });
 
     test("includes data change audit changes and snapshot transformation", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         auditType: AUDIT_TYPE.DATA_CHANGE,
         user: "smith",
         action: AUDIT_ACTION.DATA_UPDATED,

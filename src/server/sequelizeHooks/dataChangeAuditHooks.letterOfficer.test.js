@@ -51,7 +51,7 @@ describe("dataChangeAuditHooks for letter officer", () => {
   });
 
   test("creates audit on creation of letter officer", async () => {
-    const audit = await models.data_change_audit.findOne({
+    const audit = await models.legacy_data_change_audit.findOne({
       where: {
         modelName: "Letter Officer",
         action: AUDIT_ACTION.DATA_CREATED

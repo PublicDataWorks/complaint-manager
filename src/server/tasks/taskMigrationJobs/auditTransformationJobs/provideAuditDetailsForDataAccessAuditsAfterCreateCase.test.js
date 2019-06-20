@@ -24,7 +24,7 @@ describe("test provide_audit_details_for_data_access_audits_after_create_case mi
   });
   describe("provideAuditDetailsForDataAccessAuditsAfterCreateCase", () => {
     test("should not update audit details when audit is before created before end of audit legacy timestamp", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Case",
         modelDescription: null,
@@ -62,7 +62,7 @@ describe("test provide_audit_details_for_data_access_audits_after_create_case mi
     });
 
     test("should update audit details when created with civilian", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Case",
         modelDescription: null,
@@ -103,7 +103,7 @@ describe("test provide_audit_details_for_data_access_audits_after_create_case mi
     });
 
     test("should update audit details when created without civilian", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Case",
         modelDescription: null,
@@ -145,7 +145,7 @@ describe("test provide_audit_details_for_data_access_audits_after_create_case mi
 
   describe("setAuditDetailsToEmptyForDataAccessAuditsAfterCreateCase", () => {
     test("should not change audit details for data access before end of legacy audits time", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Case",
         modelDescription: null,
@@ -185,7 +185,7 @@ describe("test provide_audit_details_for_data_access_audits_after_create_case mi
       );
     });
     test("should set audit details to empty for data access after creation", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Case",
         modelDescription: null,

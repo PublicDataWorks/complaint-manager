@@ -292,7 +292,7 @@ describe("dataChangeAuditHooks", () => {
             { firstContactDate: "2018-01-01" },
             { auditUser: "test user" }
           );
-          const audit = await models.data_change_audit.findOne({
+          const audit = await models.legacy_data_change_audit.findOne({
             where: { modelName: "Case", action: AUDIT_ACTION.DATA_UPDATED }
           });
           expect(audit).toEqual(null);
@@ -314,7 +314,7 @@ describe("dataChangeAuditHooks", () => {
             { firstContactDate: "2018-01-01" },
             { auditUser: "test user" }
           );
-          const audit = await models.data_change_audit.findOne({
+          const audit = await models.legacy_data_change_audit.findOne({
             where: { modelName: "Case", action: AUDIT_ACTION.DATA_UPDATED }
           });
           expect(audit).toEqual(null);
@@ -347,7 +347,7 @@ describe("dataChangeAuditHooks", () => {
         } catch (error) {
           expect(error.name).toEqual("SequelizeValidationError");
         }
-        await models.data_change_audit.count().then(numAudits => {
+        await models.legacy_data_change_audit.count().then(numAudits => {
           expect(numAudits).toEqual(0);
         });
       });
@@ -591,7 +591,7 @@ describe("dataChangeAuditHooks", () => {
     test("does not record audit when nothing changes", async () => {
       await existingCase.update({}, { auditUser: "someone" });
 
-      await models.data_change_audit.count().then(num => {
+      await models.legacy_data_change_audit.count().then(num => {
         expect(num).toEqual(1);
       });
     });
@@ -685,7 +685,7 @@ describe("dataChangeAuditHooks", () => {
       });
 
       test("it does not create the audit if the case update fails", async () => {
-        await models.data_change_audit.truncate({ cascade: true });
+        await models.legacy_data_change_audit.truncate({ cascade: true });
         try {
           await existingCase.update(
             { createdBy: null },
@@ -694,7 +694,7 @@ describe("dataChangeAuditHooks", () => {
         } catch (error) {
           expect(error.name).toEqual("SequelizeValidationError");
         }
-        await models.data_change_audit.count().then(numAudits => {
+        await models.legacy_data_change_audit.count().then(numAudits => {
           expect(numAudits).toEqual(0);
         });
       });
@@ -776,7 +776,7 @@ describe("dataChangeAuditHooks", () => {
       await existingCase.destroy({ auditUser: "someone" });
       await existingCase.restore({ auditUser: "someone" });
 
-      const audit = await models.data_change_audit.findOne({
+      const audit = await models.legacy_data_change_audit.findOne({
         where: {
           modelName: "Case",
           action: AUDIT_ACTION.DATA_RESTORED
@@ -812,7 +812,7 @@ describe("dataChangeAuditHooks", () => {
 
     test("should audit destroy including changes including classification association value", async () => {
       await existingCase.destroy({ auditUser: "someone" });
-      const audit = await models.data_change_audit.findOne({
+      const audit = await models.legacy_data_change_audit.findOne({
         where: {
           modelName: "Case",
           action: AUDIT_ACTION.DATA_ARCHIVED

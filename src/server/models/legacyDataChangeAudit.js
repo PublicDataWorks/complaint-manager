@@ -1,8 +1,8 @@
 "use strict";
 
 module.exports = (sequelize, DataTypes) => {
-  const DataChangeAudit = sequelize.define(
-    "data_change_audit",
+  return sequelize.define(
+    "legacy_data_change_audit",
     {
       id: {
         allowNull: false,
@@ -56,5 +56,4 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  return DataChangeAudit;
 };

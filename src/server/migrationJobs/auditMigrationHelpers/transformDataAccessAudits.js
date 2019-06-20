@@ -367,9 +367,9 @@ const mapAuditDetailsKeyToAssociationAndModel = {
     association: "earliestAddedComplainant",
     modelName: null
   },
-  "Data Change Audit": {
-    modelName: models.data_change_audit.name,
-    association: "dataChangeAudit"
+  "Legacy Data Change Audit": {
+    modelName: models.legacy_data_change_audit.name,
+    association: "legacyDataChangeAudit"
   },
   "Action Audit": {
     modelName: models.action_audit.name,

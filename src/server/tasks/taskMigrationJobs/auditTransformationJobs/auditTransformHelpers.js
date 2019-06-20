@@ -25,10 +25,10 @@ export const getDataChangeAuditsAndActionAuditsQuery = earliestAuditTimestamp =>
                       created_at,
                       model_name AS subject,
                       changes AS audit_details,
-                      public.data_change_audits.user AS username,
+                      public.legacy_data_change_audits.user AS username,
                       case_id,
                       'Data Change' AS audit_type
-         FROM public.data_change_audits) AS all_audits
+         FROM public.legacy_data_change_audits) AS all_audits
       WHERE created_at > '${earliestAuditTimestamp.format(
         "YYYY-MM-DD HH:mm:ss.ms"
       )}'

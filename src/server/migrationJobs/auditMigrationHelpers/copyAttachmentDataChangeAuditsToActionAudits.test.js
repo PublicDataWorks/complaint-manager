@@ -26,7 +26,7 @@ describe("copy data change attachment audits", () => {
 
   describe("copy data change attachment audits to action audits", () => {
     test("should transform a data change created attachment into an action audit uploaded attachment", async () => {
-      const dataAudit = await models.data_change_audit.create({
+      const dataAudit = await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Attachment",
         modelDescription: [
@@ -67,7 +67,7 @@ describe("copy data change attachment audits", () => {
     });
 
     test("should not create action audit if attachment already exists for corresponding data change audit", async () => {
-      await models.data_change_audit.create({
+      await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Attachment",
         modelDescription: [
@@ -115,7 +115,7 @@ describe("copy data change attachment audits", () => {
     });
 
     test("should create action audit if download attachment exists but upload attachment does not", async () => {
-      const dataAudit = await models.data_change_audit.create({
+      const dataAudit = await models.legacy_data_change_audit.create({
         caseId: existingCase.id,
         modelName: "Attachment",
         modelDescription: [

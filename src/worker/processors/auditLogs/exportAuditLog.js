@@ -107,7 +107,7 @@ const getOldTransformedAudits = async dateRangeCondition => {
 
   const modifiedActionAudits = transformActionAuditForExport(actionAudits);
 
-  const dataChangeAudits = await models.data_change_audit.findAll({
+  const dataChangeAudits = await models.legacy_data_change_audit.findAll({
     where: dateRangeCondition,
     attributes: [
       "created_at",

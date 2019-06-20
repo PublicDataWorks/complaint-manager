@@ -28,7 +28,7 @@ describe("dataChangeAuditHooks for attachment", () => {
 
   describe("create attachment", () => {
     test("it saves basic attributes", async () => {
-      const audits = await models.data_change_audit.findAll({
+      const audits = await models.legacy_data_change_audit.findAll({
         where: { modelName: "Attachment" }
       });
       expect(audits.length).toEqual(1);
@@ -44,7 +44,7 @@ describe("dataChangeAuditHooks for attachment", () => {
     });
 
     test("it saves snapshot of object values", async () => {
-      const audit = (await models.data_change_audit.findAll({
+      const audit = (await models.legacy_data_change_audit.findAll({
         where: { modelName: "Attachment" }
       }))[0];
 
@@ -59,7 +59,7 @@ describe("dataChangeAuditHooks for attachment", () => {
     });
 
     test("saves changes when creating new object", async () => {
-      const audit = (await models.data_change_audit.findAll({
+      const audit = (await models.legacy_data_change_audit.findAll({
         where: { modelName: "Attachment" }
       }))[0];
 
@@ -83,7 +83,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         },
         { auditUser: "someone else" }
       );
-      audits = await models.data_change_audit.findAll({
+      audits = await models.legacy_data_change_audit.findAll({
         where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_UPDATED }
       });
       audit = audits[0];
@@ -127,7 +127,7 @@ describe("dataChangeAuditHooks for attachment", () => {
   describe("delete attachment", () => {
     test("it creates a data change object with basic attributes", async () => {
       await attachment.destroy({ auditUser: "someone else" });
-      const audits = await models.data_change_audit.findAll({
+      const audits = await models.legacy_data_change_audit.findAll({
         where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_DELETED }
       });
 
@@ -145,7 +145,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         where: { id: attachment.id },
         auditUser: "someone else"
       });
-      const audits = await models.data_change_audit.findAll({
+      const audits = await models.legacy_data_change_audit.findAll({
         where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_DELETED }
       });
 
@@ -162,7 +162,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         where: { id: attachment.id },
         auditUser: "someone else"
       });
-      const audit = await models.data_change_audit.findOne({
+      const audit = await models.legacy_data_change_audit.findOne({
         where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_DELETED }
       });
 
@@ -186,7 +186,7 @@ describe("dataChangeAuditHooks for attachment", () => {
 
     test("it stores the snapshot at time of delete", async () => {
       await attachment.destroy({ auditUser: "someone else" });
-      const audits = await models.data_change_audit.findAll({
+      const audits = await models.legacy_data_change_audit.findAll({
         where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_DELETED }
       });
 
@@ -211,7 +211,7 @@ describe("dataChangeAuditHooks for attachment", () => {
           "User nickname must be given to db query for auditing. (Attachment Deleted)"
         );
       }
-      models.data_change_audit
+      models.legacy_data_change_audit
         .count({ where: { action: AUDIT_ACTION.DATA_DELETED } })
         .then(numAudits => {
           expect(numAudits).toEqual(0);
@@ -231,7 +231,7 @@ describe("dataChangeAuditHooks for attachment", () => {
           "User nickname must be given to db query for auditing. (Attachment Deleted)"
         );
       }
-      models.data_change_audit
+      models.legacy_data_change_audit
         .count({ where: { action: AUDIT_ACTION.DATA_DELETED } })
         .then(numAudits => {
           expect(numAudits).toEqual(0);

@@ -26,7 +26,7 @@ describe("dataChangeAuditHooks for caseNote", () => {
       auditUser: "someone"
     });
 
-    const audit = await models.data_change_audit.findOne({
+    const audit = await models.legacy_data_change_audit.findOne({
       where: { modelName: "Case Note", action: AUDIT_ACTION.DATA_CREATED }
     });
 
