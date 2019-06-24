@@ -10,6 +10,9 @@ import models from "../../../models";
 import httpMocks from "node-mocks-http";
 import getMinimumCaseDetails from "./getMinimumCaseDetails";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
+import auditDataAccess from "../../audits/auditDataAccess";
+
+jest.mock("../../audits/auditDataAccess");
 
 describe("getMinimumCaseDetails", () => {
   let response, next, request, existingCase;
@@ -90,36 +93,17 @@ describe("getMinimumCaseDetails", () => {
 
       await getMinimumCaseDetails(request, response, next);
 
-      const dataAccessAudit = await models.audit.findOne({
-        include: [
-          {
-            model: models.data_access_audit,
-            as: "dataAccessAudit",
-            include: [
-              {
-                model: models.data_access_value,
-                as: "dataAccessValues"
-              }
-            ]
+      expect(auditDataAccess).toHaveBeenCalledWith(
+        request.nickname,
+        existingCase.id,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        {
+          cases: {
+            attributes: ["caseReference", "status"],
+            model: models.cases.name
           }
-        ]
-      });
-
-      expect(dataAccessAudit).toEqual(
-        expect.objectContaining({
-          auditAction: AUDIT_ACTION.DATA_ACCESSED,
-          caseId: 205,
-          user: request.nickname,
-          dataAccessAudit: expect.objectContaining({
-            auditSubject: AUDIT_SUBJECT.CASE_DETAILS,
-            dataAccessValues: [
-              expect.objectContaining({
-                association: models.cases.name,
-                fields: ["caseReference", "status"]
-              })
-            ]
-          })
-        })
+        },
+        expect.anything()
       );
     });
   });

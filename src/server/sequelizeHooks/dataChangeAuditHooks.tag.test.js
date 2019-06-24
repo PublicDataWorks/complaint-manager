@@ -7,7 +7,6 @@ describe("dataChangeAuditHooks for tag", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
-
   test("creates audit on tag creation", async () => {
     const tagAttributes = new Tag.Builder().defaultTag().withName("Tofu");
     const existingTag = await models.tag.create(tagAttributes, {

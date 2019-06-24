@@ -207,26 +207,74 @@ exports.init = sequelize => {
     );
   };
 
+  const getModelName = instance => {
+    const pluralName = instance._modelOptions.name.plural;
+    const singularName = instance._modelOptions.name.singular;
+
+    if (sequelize.models[pluralName]) {
+      return pluralName;
+    } else {
+      return singularName;
+    }
+  };
+
   const createDataChangeAudit = async (instance, options, action) => {
     const changes = await objectChanges(action, instance);
-    const modelName = _.startCase(instance._modelOptions.name.singular);
-    const caseId = await getCaseId(modelName, instance, options.transaction);
+
+    const modelName = getModelName(instance);
+    const formattedModelName = _.startCase(
+      instance._modelOptions.name.singular
+    );
+
+    const caseId = await getCaseId(
+      formattedModelName,
+      instance,
+      options.transaction
+    );
     const snapshot = await snapshotValues(instance);
     if (_.isEmpty(changes)) return;
+    const dataChangeAudit = await sequelize.model("audit").create(
+      {
+        user: getUserNickname(options, action, formattedModelName),
+        auditAction: action,
+        caseId: caseId,
+        dataChangeAudit: {
+          modelName: modelName,
+          modelDescription: await getModelDescription(
+            formattedModelName,
+            instance,
+            options.transaction
+          ),
+          modelId: instance.id,
+          snapshot: snapshot,
+          changes: changes
+        }
+      },
+      {
+        include: [
+          {
+            model: sequelize.model("data_change_audit"),
+            as: "dataChangeAudit"
+          }
+        ],
+        transaction: options.transaction
+      }
+    );
     await sequelize.model("legacy_data_change_audit").create(
       {
-        user: getUserNickname(options, action, modelName),
+        user: getUserNickname(options, action, formattedModelName),
         action: action,
-        modelName,
+        modelName: formattedModelName,
         modelId: instance.id,
         modelDescription: await getModelDescription(
-          modelName,
+          formattedModelName,
           instance,
           options.transaction
         ),
         caseId: caseId,
         snapshot: snapshot,
-        changes: changes
+        changes: changes,
+        createdAt: dataChangeAudit.createdAt
       },
       {
         transaction: options.transaction

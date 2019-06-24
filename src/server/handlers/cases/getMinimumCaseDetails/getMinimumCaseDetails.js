@@ -30,7 +30,10 @@ const getMinimumCaseDetails = asyncMiddleware(
         };
 
         const auditDetails = {
-          [models.cases.name]: { attributes: ["caseReference", "status"] }
+          [models.cases.name]: {
+            attributes: ["caseReference", "status"],
+            model: models.cases.name
+          }
         };
 
         if (newAuditFeatureToggle) {
