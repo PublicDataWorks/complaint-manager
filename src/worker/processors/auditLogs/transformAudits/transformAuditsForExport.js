@@ -1,10 +1,13 @@
 import {
   AUDIT_ACTION,
+  AUDIT_FIELDS_TO_EXCLUDE,
+  AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE,
   AUDIT_TYPE,
   JOB_OPERATION
 } from "../../../../sharedUtilities/constants";
 import formatDate from "../../../../client/utilities/formatDate";
 import _ from "lodash";
+import striptags from "striptags";
 
 const getAuditTypeFromAuditAction = auditAction => {
   switch (auditAction) {
@@ -18,8 +21,87 @@ const getAuditTypeFromAuditAction = auditAction => {
       return AUDIT_TYPE.DATA_ACCESS;
     case AUDIT_ACTION.UPLOADED:
       return AUDIT_TYPE.UPLOAD;
+    case AUDIT_ACTION.DATA_UPDATED:
+    case AUDIT_ACTION.DATA_CREATED:
+    case AUDIT_ACTION.DATA_RESTORED:
+    case AUDIT_ACTION.DATA_ARCHIVED:
+    case AUDIT_ACTION.DATA_DELETED:
+      return AUDIT_TYPE.DATA_CHANGE;
     default:
       return "";
+  }
+};
+
+const fieldNamesToIncludeInSnapshot = snapshot => {
+  return Object.keys(snapshot).filter(fieldName => {
+    const fieldValue = snapshot[fieldName];
+    return (
+      typeof fieldValue !== "object" &&
+      !fieldName.match(AUDIT_SNAPSHOT_FIELDS_TO_EXCLUDE)
+    );
+  });
+};
+
+const transformValue = value => {
+  if (value !== false && !value) return "";
+  return striptags(value.toString());
+};
+
+const generateSnapshotForDataChangeAudit = audit => {
+  const snapshot = audit.dataChangeAudit.snapshot;
+  const modelDescription = audit.dataChangeAudit.modelDescription;
+  const modelName = audit.dataChangeAudit.modelName;
+
+  if (!snapshot) return "";
+
+  let snapshotArray = fieldNamesToIncludeInSnapshot(snapshot).map(fieldName => {
+    const formattedFieldName =
+      fieldName === "id"
+        ? `${generateFormattedModelName(modelName)} Id`
+        : `${_.startCase(fieldName)}`;
+    return `${formattedFieldName}: ${transformValue(snapshot[fieldName])}`;
+  });
+
+  if (modelDescription && modelDescription.length !== 0) {
+    let modelDescriptionArray = modelDescription.map(identifier => {
+      const keys = Object.keys(identifier);
+      return `${_.startCase(keys[0])}: ${identifier[keys[0]] || "N/A"}`;
+    });
+    snapshotArray.unshift(...modelDescriptionArray, "\n");
+  }
+
+  return snapshotArray.join("\n");
+};
+
+const fieldNamesToIncludeInChanges = changes => {
+  return Object.keys(changes).filter(
+    fieldsName => !fieldsName.match(AUDIT_FIELDS_TO_EXCLUDE)
+  );
+};
+
+const generateChangesForUpdatedDataChangeAudit = audit => {
+  const changes = audit.dataChangeAudit.changes;
+  const action = audit.auditAction;
+  if (!changes) return "";
+
+  return fieldNamesToIncludeInChanges(changes)
+    .map(fieldName => {
+      return (
+        `${_.startCase(fieldName)} changed from ` +
+        `'${transformValue(changes[fieldName]["previous"])}' to ` +
+        `'${transformValue(changes[fieldName]["new"])}'`
+      );
+    })
+    .join("\n");
+};
+
+const generateFormattedModelName = modelName => {
+  const subject = modelName;
+
+  if (subject === "cases") {
+    return "Case";
+  } else {
+    return _.startCase(subject);
   }
 };
 
@@ -94,6 +176,20 @@ const getAttributesForAuditAction = audit => {
       return {
         subject: audit.fileAudit.fileType,
         snapshot: generateSnapshotForFileAudit(audit)
+      };
+    case AUDIT_ACTION.DATA_UPDATED:
+      return {
+        subject: generateFormattedModelName(audit.dataChangeAudit.modelName),
+        snapshot: generateSnapshotForDataChangeAudit(audit),
+        changes: generateChangesForUpdatedDataChangeAudit(audit)
+      };
+    case AUDIT_ACTION.DATA_CREATED:
+    case AUDIT_ACTION.DATA_DELETED:
+    case AUDIT_ACTION.DATA_RESTORED:
+    case AUDIT_ACTION.DATA_ARCHIVED:
+      return {
+        subject: generateFormattedModelName(audit.dataChangeAudit.modelName),
+        snapshot: generateSnapshotForDataChangeAudit(audit)
       };
     default:
       return {};
