@@ -18,6 +18,10 @@ import {
   transformNewFileAuditsToOldUploadDownloadActionAudits,
   transformOldUploadDownloadAccessAuditsToNewFileAudits
 } from "./transformUploadDownloadActionAudits";
+import {
+  revertDataChangeAuditsToLegacyDataChangeAudits,
+  transformLegacyDataChangeAuditsToDataChangeAudits
+} from "./transformLegacyDataChangeAuditsToDataChangeAudits";
 
 export const runAllAuditMigrationHelpers = async transaction => {
   await transformOldAuthenticationAuditsToNew(transaction);
@@ -29,9 +33,12 @@ export const runAllAuditMigrationHelpers = async transaction => {
   // Transform old upload download access audits is dependent on copy attachment audits running first
   await copyAttachmentDataChangeAuditsToActionAudits(transaction);
   await transformOldUploadDownloadAccessAuditsToNewFileAudits(transaction);
+
+  await transformLegacyDataChangeAuditsToDataChangeAudits(transaction);
 };
 
 export const undoAllAuditMigrationHelpers = async transaction => {
+  await revertDataChangeAuditsToLegacyDataChangeAudits(transaction);
   // Delete upload attachment is dependent on transform old to new being run before it
   await transformNewFileAuditsToOldUploadDownloadActionAudits(transaction);
   await deleteUploadAttachmentAudits(transaction);
