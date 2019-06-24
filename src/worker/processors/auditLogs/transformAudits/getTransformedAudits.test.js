@@ -125,4 +125,43 @@ describe("getTransformedAudits", () => {
       })
     ]);
   });
+
+  test("should include data change audits", async () => {
+    const auditValues = {
+      auditAction: AUDIT_ACTION.DATA_CREATED,
+      user: testUser,
+      dataChangeAudit: {
+        modelName: "test model name",
+        modelDescription: "test model description",
+        modelId: 90,
+        snapshot: {},
+        changes: {}
+      }
+    };
+
+    await models.audit.create(auditValues, {
+      include: [
+        {
+          as: "dataChangeAudit",
+          model: models.data_change_audit
+        }
+      ]
+    });
+
+    await getTransformedAudits({});
+
+    expect(transformAuditsForExport).toHaveBeenCalledWith([
+      expect.objectContaining({
+        auditAction: auditValues.auditAction,
+        user: testUser,
+        dataChangeAudit: expect.objectContaining({
+          modelName: "test model name",
+          modelDescription: "test model description",
+          modelId: 90,
+          snapshot: {},
+          changes: {}
+        })
+      })
+    ]);
+  });
 });

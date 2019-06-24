@@ -7,7 +7,7 @@ import {
 import _ from "lodash";
 import striptags from "striptags";
 
-const transformDataChangeAuditForExport = audits => {
+const transformLegacyDataChangeAuditForExport = audits => {
   return audits.map(audit => {
     return {
       ...audit,
@@ -74,4 +74,4 @@ const transformSnapshot = ({ snapshot, subject, modelDescription }) => {
   return snapshotArray.join("\n");
 };
 
-module.exports = transformDataChangeAuditForExport;
+module.exports = transformLegacyDataChangeAuditForExport;

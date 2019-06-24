@@ -13,7 +13,7 @@ const util = require("util");
 const promisifiedStringify = util.promisify(stringify);
 const moment = require("moment-timezone");
 const _ = require("lodash");
-const transformDataChangeAuditForExport = require("./transformAudits/transformDataChangeAuditForExport");
+const transformLegacyDataChangeAuditForExport = require("./transformAudits/transformLegacyDataChangeAuditForExport");
 const transformActionAuditForExport = require("./transformAudits/transformActionAuditsForExport");
 const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 const winston = require("winston");
@@ -123,7 +123,7 @@ const getOldTransformedAudits = async dateRangeCondition => {
     raw: true
   });
 
-  const modifiedDataChangeAudits = transformDataChangeAuditForExport(
+  const modifiedDataChangeAudits = transformLegacyDataChangeAuditForExport(
     dataChangeAudits
   );
 

@@ -5,13 +5,13 @@ import {
 
 const AUDIT_TYPE = require("../../../../sharedUtilities/constants").AUDIT_TYPE;
 
-const transformDataChangeAuditForExport = require("./transformDataChangeAuditForExport");
+const transformLegacyDataChangeAuditForExport = require("./transformLegacyDataChangeAuditForExport");
 
-describe("transformDataChangeAuditForExport", () => {
+describe("transformLegacyDataChangeAuditForExport", () => {
   test("should transform audit type for export", () => {
     const audit = [{}];
 
-    const transformedAudit = transformDataChangeAuditForExport(audit);
+    const transformedAudit = transformLegacyDataChangeAuditForExport(audit);
 
     expect(transformedAudit).toEqual(
       expect.arrayContaining([
@@ -28,7 +28,7 @@ describe("transformDataChangeAuditForExport", () => {
         otherDetails: { new: "New new" }
       }
     };
-    const transformedAudit = transformDataChangeAuditForExport([audit]);
+    const transformedAudit = transformLegacyDataChangeAuditForExport([audit]);
 
     expect(transformedAudit).toEqual(
       expect.arrayContaining([
@@ -48,7 +48,7 @@ describe("transformDataChangeAuditForExport", () => {
         name: { new: "John", previous: null }
       }
     };
-    const transformedAudit = transformDataChangeAuditForExport([audit]);
+    const transformedAudit = transformLegacyDataChangeAuditForExport([audit]);
 
     expect(transformedAudit).toEqual(
       expect.arrayContaining([
@@ -72,7 +72,7 @@ describe("transformDataChangeAuditForExport", () => {
         }
       }
     };
-    const transformedAudit = transformDataChangeAuditForExport([audit]);
+    const transformedAudit = transformLegacyDataChangeAuditForExport([audit]);
 
     expect(transformedAudit).toEqual(
       expect.arrayContaining([
@@ -94,7 +94,7 @@ describe("transformDataChangeAuditForExport", () => {
         slngs: { new: "new2", previous: "prev2" }
       }
     };
-    const transformedAudit = transformDataChangeAuditForExport([audit]);
+    const transformedAudit = transformLegacyDataChangeAuditForExport([audit]);
 
     expect(transformedAudit).toEqual(
       expect.arrayContaining([
@@ -114,7 +114,7 @@ describe("transformDataChangeAuditForExport", () => {
         otherDetails: { previous: "old Old" }
       }
     };
-    const transformedAudit = transformDataChangeAuditForExport([audit]);
+    const transformedAudit = transformLegacyDataChangeAuditForExport([audit]);
 
     expect(transformedAudit).toEqual(
       expect.arrayContaining([
@@ -135,7 +135,7 @@ describe("transformDataChangeAuditForExport", () => {
         }
       }
     };
-    const transformedAudit = transformDataChangeAuditForExport([audit]);
+    const transformedAudit = transformLegacyDataChangeAuditForExport([audit]);
     expect(transformedAudit[0].changes).toEqual(
       "Details changed from 'text nested' to 'notes onetwo more'"
     );
@@ -151,7 +151,7 @@ describe("transformDataChangeAuditForExport", () => {
       },
       snapshot: { one: true, two: false }
     };
-    const transformedAudit = transformDataChangeAuditForExport([audit]);
+    const transformedAudit = transformLegacyDataChangeAuditForExport([audit]);
 
     expect(transformedAudit[0].changes).toEqual(
       "Details changed from 'true' to 'false'\nOther Details changed from '' to ''\nMore Details changed from '' to ''"
@@ -170,7 +170,7 @@ describe("transformDataChangeAuditForExport", () => {
       modelDescription: [{ tis: "a" }, { model: "description" }]
     };
 
-    const transformedAudit = transformDataChangeAuditForExport([audit]);
+    const transformedAudit = transformLegacyDataChangeAuditForExport([audit]);
 
     expect(transformedAudit).toEqual(
       expect.arrayContaining([
@@ -190,7 +190,7 @@ describe("transformDataChangeAuditForExport", () => {
       subject: "Case",
       modelDescription: []
     };
-    const transformedAudit = transformDataChangeAuditForExport([audit]);
+    const transformedAudit = transformLegacyDataChangeAuditForExport([audit]);
     expect(transformedAudit[0].snapshot).toEqual(
       "Note: Bob Smith really is interesting"
     );
@@ -207,7 +207,7 @@ describe("transformDataChangeAuditForExport", () => {
       modelDescription: ""
     };
 
-    const transformedAudit = transformDataChangeAuditForExport([audit]);
+    const transformedAudit = transformLegacyDataChangeAuditForExport([audit]);
 
     expect(transformedAudit).toEqual(
       expect.arrayContaining([
@@ -235,7 +235,7 @@ describe("transformDataChangeAuditForExport", () => {
       subject: "Case"
     };
 
-    const transformedAudit = transformDataChangeAuditForExport([audit]);
+    const transformedAudit = transformLegacyDataChangeAuditForExport([audit]);
 
     expect(transformedAudit).toEqual(
       expect.arrayContaining([

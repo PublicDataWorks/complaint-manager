@@ -22,6 +22,10 @@ const getTransformedAudits = async dateRangeCondition => {
       {
         model: models.file_audit,
         as: "fileAudit"
+      },
+      {
+        model: models.data_change_audit,
+        as: "dataChangeAudit"
       }
     ]
   });
