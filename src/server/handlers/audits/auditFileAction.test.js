@@ -33,6 +33,9 @@ describe("auditFileAction", () => {
     });
 
     const fileAudit = await models.audit.findOne({
+      where: {
+        auditAction: AUDIT_ACTION.DOWNLOADED
+      },
       include: [
         {
           as: "fileAudit",

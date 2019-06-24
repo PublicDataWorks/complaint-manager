@@ -2,6 +2,7 @@ import auditDataAccess from "./auditDataAccess";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import models from "../../models";
+import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 
 describe("auditDataAccess", () => {
   const user = "testuser";
@@ -28,6 +29,9 @@ describe("auditDataAccess", () => {
     await auditDataAccess(user, caseId, auditSubject, auditDetails);
 
     const audit = await models.audit.findOne({
+      where: {
+        auditAction: AUDIT_ACTION.DATA_ACCESSED
+      },
       include: [
         {
           model: models.data_access_audit,

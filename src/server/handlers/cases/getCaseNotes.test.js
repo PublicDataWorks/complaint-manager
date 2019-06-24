@@ -90,7 +90,10 @@ describe("getCaseNotes", function() {
       await getCaseNotes(request, response, next);
 
       const audit = await models.audit.findOne({
-        where: { caseId: existingCase.id },
+        where: {
+          caseId: existingCase.id,
+          auditAction: AUDIT_ACTION.DATA_ACCESSED
+        },
         include: [
           {
             model: models.data_access_audit,

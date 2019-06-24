@@ -63,7 +63,10 @@ describe("getCase", () => {
       await getCase(request, response, next);
 
       const audit = await models.audit.findOne({
-        where: { caseId: existingCase.id },
+        where: {
+          caseId: existingCase.id,
+          auditAction: AUDIT_ACTION.DATA_ACCESSED
+        },
         include: [
           {
             model: models.data_access_audit,
@@ -96,7 +99,7 @@ describe("getCase", () => {
       );
     });
 
-    test("should not audit if an error occurs while retrieving case", async () => {
+    test("should not audit data access if an error occurs while retrieving case", async () => {
       getCaseWithAllAssociationsAndAuditDetails.mockImplementationOnce(() =>
         Promise.reject({ message: "mock error" })
       );
@@ -106,11 +109,15 @@ describe("getCase", () => {
 
       await getCase(request, response, next);
 
-      const audits = await models.audit.findAll();
+      const audits = await models.audit.findAll({
+        where: {
+          auditAction: AUDIT_ACTION.DATA_ACCESSED
+        }
+      });
       expect(audits.length).toEqual(0);
     });
 
-    test("should not create audit record when accessing nonexistent case", async () => {
+    test("should not create audit data access record when accessing nonexistent case", async () => {
       const invalidId = existingCase.id + 20;
 
       request.params.caseId = invalidId;
@@ -120,7 +127,11 @@ describe("getCase", () => {
 
       await getCase(request, response, next);
 
-      const audits = await models.audit.findAll();
+      const audits = await models.audit.findAll({
+        where: {
+          auditAction: AUDIT_ACTION.DATA_ACCESSED
+        }
+      });
       expect(audits.length).toEqual(0);
     });
   });
