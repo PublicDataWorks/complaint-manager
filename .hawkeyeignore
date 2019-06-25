@@ -34,3 +34,6 @@ node-yarnaudit-handlebars-755
 
 # This only affects filteredUrl function which we do not use in our codebase.
 node-yarnaudit-sequelize-cli-825
+
+# TODO remove the following ignore after upgrading sequelize
+node-yarnaudit-sequelize-1018
