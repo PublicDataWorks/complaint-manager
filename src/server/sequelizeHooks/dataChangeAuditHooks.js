@@ -260,6 +260,7 @@ exports.init = sequelize => {
         transaction: options.transaction
       }
     );
+    // TODO remove following when removing newAuditFeature flag
     await sequelize.model("legacy_data_change_audit").create(
       {
         user: getUserNickname(options, action, formattedModelName),
