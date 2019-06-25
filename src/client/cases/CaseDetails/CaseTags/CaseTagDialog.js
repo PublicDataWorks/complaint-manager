@@ -34,6 +34,9 @@ class CaseTagDialog extends Component {
 
   render() {
     const { open, submitting, handleSubmit } = this.props;
+
+    const isTagSelected = !!this.props.selectedTag;
+
     return (
       <Dialog open={open}>
         <DialogTitle
@@ -93,7 +96,7 @@ class CaseTagDialog extends Component {
           <PrimaryButton
             data-test="submitButton"
             onClick={handleSubmit(this.submit)}
-            disabled={submitting}
+            disabled={submitting || !isTagSelected}
           >
             Add Tag
           </PrimaryButton>
@@ -106,10 +109,15 @@ class CaseTagDialog extends Component {
 const CaseTagDialogForm = reduxForm({
   form: CASE_TAG_FORM_NAME
 })(CaseTagDialog);
+
 const mapStateToProps = state => ({
   open: state.ui.caseTagDialog.open,
   caseId: state.currentCase.details.id,
-  tags: state.ui.tags
+  tags: state.ui.tags,
+  selectedTag:
+    state.form.CaseTagForm &&
+    state.form.CaseTagForm.values &&
+    state.form.CaseTagForm.values.caseTagValue
 });
 
 const mapDispatchToProps = {

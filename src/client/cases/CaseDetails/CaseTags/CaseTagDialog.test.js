@@ -9,8 +9,7 @@ import {
 } from "../../../actionCreators/casesActionCreators";
 import {
   containsText,
-  selectCreatableDropdownOption,
-  selectDropdownOption
+  selectCreatableDropdownOption
 } from "../../../../client/testHelpers";
 import mount from "enzyme/mount";
 import { reset } from "redux-form";
@@ -117,7 +116,7 @@ describe("CaseTagDialog", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(reset(CASE_TAG_FORM_NAME));
   });
 
-  test("should display error message when no tag value provided", () => {
+  test("add tag button should not be clickable when no tag is entered", () => {
     const caseDetails = new Case.Builder()
       .defaultCase()
       .withId(73)
@@ -135,7 +134,7 @@ describe("CaseTagDialog", () => {
         .find('[data-test="caseTagDropdown"]')
         .last()
         .text()
-    ).toContain("Please enter a tag name");
+    ).not.toContain("Please enter a tag name");
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(
       createCaseTag({ caseId: caseDetails.id, caseTag: undefined })
