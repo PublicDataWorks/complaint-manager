@@ -65,6 +65,13 @@ module.exports = (sequelize, DataTypes) => {
         field: "audit_id"
       }
     });
+    Audit.hasOne(models.legacy_data_access_audit, {
+      as: "legacyDataAccessAudit",
+      foreignKey: {
+        name: "auditId",
+        field: "audit_id"
+      }
+    });
   };
 
   return Audit;

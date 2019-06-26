@@ -155,8 +155,26 @@ const generateSnapshotForDataAccessAudit = audit => {
     .join("\n\n");
 };
 
+const generateSnapshotForLegacyDataAccessAudit = audit => {
+  return audit.legacyDataAccessAudit.auditDetails.join(", ");
+};
+
 const generateSnapshotForFileAudit = audit => {
   return `File Name: ${audit.fileAudit.fileName}`;
+};
+
+const getAttributesForDataAccess = audit => {
+  if (audit.legacyDataAccessAudit) {
+    return {
+      subject: audit.legacyDataAccessAudit.auditSubject,
+      snapshot: generateSnapshotForLegacyDataAccessAudit(audit)
+    };
+  } else {
+    return {
+      subject: audit.dataAccessAudit.auditSubject,
+      snapshot: generateSnapshotForDataAccessAudit(audit)
+    };
+  }
 };
 
 const getAttributesForAuditAction = audit => {
@@ -167,10 +185,7 @@ const getAttributesForAuditAction = audit => {
         snapshot: generateSnapshotForExportAudit(audit)
       };
     case AUDIT_ACTION.DATA_ACCESSED:
-      return {
-        subject: audit.dataAccessAudit.auditSubject,
-        snapshot: generateSnapshotForDataAccessAudit(audit)
-      };
+      return getAttributesForDataAccess(audit);
     case AUDIT_ACTION.DOWNLOADED:
     case AUDIT_ACTION.UPLOADED:
       return {
