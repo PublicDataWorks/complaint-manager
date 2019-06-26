@@ -1,6 +1,7 @@
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,
+  AUDIT_SUBJECT,
   JOB_OPERATION
 } from "../../../../sharedUtilities/constants";
 import models from "../../../../server/models";
@@ -160,6 +161,50 @@ describe("getTransformedAudits", () => {
           modelId: 90,
           snapshot: {},
           changes: {}
+        })
+      })
+    ]);
+  });
+
+  test("should include legacy data access audits", async () => {
+    const auditValues = {
+      auditAction: AUDIT_ACTION.DATA_CREATED,
+      user: testUser,
+      legacyDataAccessAudit: {
+        auditSubject: AUDIT_SUBJECT.CASE_DETAILS,
+        auditDetails: [
+          "Case Information",
+          "Incident Location",
+          "Civilian Complainants",
+          "Officer Complainants",
+          "Civilian Witnesses",
+          "Officer Witnesses",
+          "Civilian Address",
+          "Accused Officers",
+          "Allegations",
+          "Attachments"
+        ]
+      }
+    };
+
+    await models.audit.create(auditValues, {
+      include: [
+        {
+          as: "legacyDataAccessAudit",
+          model: models.legacy_data_access_audit
+        }
+      ]
+    });
+
+    await getTransformedAudits({});
+
+    expect(transformAuditsForExport).toHaveBeenCalledWith([
+      expect.objectContaining({
+        auditAction: auditValues.auditAction,
+        user: testUser,
+        legacyDataAccessAudit: expect.objectContaining({
+          auditSubject: auditValues.legacyDataAccessAudit.auditSubject,
+          auditDetails: auditValues.legacyDataAccessAudit.auditDetails
         })
       })
     ]);

@@ -608,4 +608,40 @@ describe("transformAuditsForExport", () => {
       );
     });
   });
+
+  describe("legacy data access audit", () => {
+    test("transforms legacy data access audit correctly", () => {
+      const audit = {
+        auditAction: AUDIT_ACTION.DATA_ACCESSED,
+        user: user,
+        createdAt: "Timestamp",
+        caseId: 12,
+        updatedAt: new Date(),
+        id: 1,
+        legacyDataAccessAudit: {
+          id: 3,
+          auditSubject: "Test Subject",
+          auditDetails: [
+            "Case Information",
+            "Civilian Complainants",
+            "Officer Complainants",
+            "Accused Officers"
+          ]
+        }
+      };
+
+      expect(transformAuditsForExport([audit])).toEqual([
+        {
+          audit_type: AUDIT_TYPE.DATA_ACCESS,
+          user: user,
+          case_id: 12,
+          snapshot:
+            "Case Information, Civilian Complainants, Officer Complainants, Accused Officers",
+          action: AUDIT_ACTION.DATA_ACCESSED,
+          subject: "Test Subject",
+          created_at: "Timestamp"
+        }
+      ]);
+    });
+  });
 });

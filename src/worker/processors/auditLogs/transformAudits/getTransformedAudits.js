@@ -26,6 +26,10 @@ const getTransformedAudits = async dateRangeCondition => {
       {
         model: models.data_change_audit,
         as: "dataChangeAudit"
+      },
+      {
+        model: models.legacy_data_access_audit,
+        as: "legacyDataAccessAudit"
       }
     ]
   });
