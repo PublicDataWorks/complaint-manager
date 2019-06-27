@@ -163,6 +163,19 @@ const generateSnapshotForFileAudit = audit => {
   return `File Name: ${audit.fileAudit.fileName}`;
 };
 
+const getAttributesForDataChangeAudits = audit => {
+  const attributes = {
+    subject: generateFormattedModelName(audit.dataChangeAudit.modelName),
+    snapshot: generateSnapshotForDataChangeAudit(audit),
+    subject_id: audit.dataChangeAudit.modelId
+  };
+  if (audit.auditAction === AUDIT_ACTION.DATA_UPDATED) {
+    attributes.changes = generateChangesForUpdatedDataChangeAudit(audit);
+  }
+
+  return attributes;
+};
+
 const getAttributesForDataAccess = audit => {
   if (audit.legacyDataAccessAudit) {
     return {
@@ -193,19 +206,11 @@ const getAttributesForAuditAction = audit => {
         snapshot: generateSnapshotForFileAudit(audit)
       };
     case AUDIT_ACTION.DATA_UPDATED:
-      return {
-        subject: generateFormattedModelName(audit.dataChangeAudit.modelName),
-        snapshot: generateSnapshotForDataChangeAudit(audit),
-        changes: generateChangesForUpdatedDataChangeAudit(audit)
-      };
     case AUDIT_ACTION.DATA_CREATED:
     case AUDIT_ACTION.DATA_DELETED:
     case AUDIT_ACTION.DATA_RESTORED:
     case AUDIT_ACTION.DATA_ARCHIVED:
-      return {
-        subject: generateFormattedModelName(audit.dataChangeAudit.modelName),
-        snapshot: generateSnapshotForDataChangeAudit(audit)
-      };
+      return getAttributesForDataChangeAudits(audit);
     default:
       return {};
   }
