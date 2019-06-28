@@ -5,11 +5,6 @@ import {
   RANK_INITIATED
 } from "../../sharedUtilities/constants";
 import { getCaseReference } from "./modelUtilities/getCaseReference";
-import {
-  getOfficerFullName,
-  getPersonFullName
-} from "./modelUtilities/getFullName";
-
 export default (sequelize, DataTypes) => {
   const SortableCasesView = sequelize.define(
     "sortable_cases_view",
@@ -41,6 +36,28 @@ export default (sequelize, DataTypes) => {
                 this.get("complainantLastName"),
                 this.get("complainantSuffix"),
                 this.get("complainantPersonType")
+              )
+            };
+          } else {
+            return null;
+          }
+        }
+      },
+      primaryAccusedOfficer: {
+        type: new DataTypes.VIRTUAL(DataTypes.STRING, [
+          "accusedFirstName",
+          "accusedMiddleName",
+          "accusedLastName",
+          "accusedPersonType"
+        ]),
+        get: function() {
+          if (this.get("accusedPersonType")) {
+            return {
+              fullName: getOfficerFullName(
+                this.get("accusedFirstName"),
+                this.get("accusedMiddleName"),
+                this.get("accusedLastName"),
+                this.get("accusedPersonType") === PERSON_TYPE.UNKNOWN_OFFICER
               )
             };
           } else {
@@ -129,22 +146,6 @@ export default (sequelize, DataTypes) => {
       }
     },
     {
-      getterMethods: {
-        primaryAccusedOfficer() {
-          if (this.accusedPersonType) {
-            return {
-              fullName: getOfficerFullName(
-                this.accusedFirstName,
-                this.accusedMiddleName,
-                this.accusedLastName,
-                this.accusedPersonType === PERSON_TYPE.UNKNOWN_OFFICER
-              )
-            };
-          } else {
-            return null;
-          }
-        }
-      },
       tableName: "sortable_cases_view",
       timestamps: false
     }
@@ -152,3 +153,8 @@ export default (sequelize, DataTypes) => {
 
   return SortableCasesView;
 };
+
+import {
+  getOfficerFullName,
+  getPersonFullName
+} from "./modelUtilities/getFullName";
