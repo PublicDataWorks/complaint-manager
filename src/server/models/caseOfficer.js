@@ -43,6 +43,28 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true
       },
+      fullName: {
+        type: new DataTypes.VIRTUAL(DataTypes.STRING, [
+          "firstName",
+          "middleName",
+          "lastName",
+          "isUnknownOfficer"
+        ]),
+        get: function() {
+          return getOfficerFullName(
+            this.get("firstName"),
+            this.get("middleName"),
+            this.get("lastName"),
+            this.get("isUnknownOfficer")
+          );
+        }
+      },
+      isUnknownOfficer: {
+        type: new DataTypes.VIRTUAL(DataTypes.BOOLEAN, ["officerId"]),
+        get: function() {
+          return !this.get("officerId");
+        }
+      },
       windowsUsername: {
         field: "windows_username",
         type: DataTypes.INTEGER,
@@ -63,6 +85,32 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true
       },
+      supervisorFullName: {
+        type: new DataTypes.VIRTUAL(DataTypes.STRING, [
+          "officerId",
+          "supervisorFirstName",
+          "supervisorMiddleName",
+          "supervisorLastName"
+        ]),
+        get: function() {
+          if (this.get("officerId")) {
+            const firstName = this.get("supervisorFirstName")
+              ? this.get("supervisorFirstName")
+              : "";
+            const middleName = this.get("supervisorMiddleName")
+              ? this.get("supervisorMiddleName")
+              : "";
+            const lastName = this.get("supervisorLastName")
+              ? this.get("supervisorLastName")
+              : "";
+
+            const fullName = `${firstName} ${middleName} ${lastName}`;
+            return fullName.replace("  ", " ").trim();
+          }
+
+          return "";
+        }
+      },
       supervisorWindowsUsername: {
         field: "supervisor_windows_username",
         type: DataTypes.INTEGER,
@@ -73,6 +121,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: true
       },
+
       employeeType: {
         field: "employee_type",
         type: DataTypes.ENUM(["Commissioned", "Non-Commissioned", "Recruit"]),
@@ -93,6 +142,12 @@ module.exports = (sequelize, DataTypes) => {
       dob: {
         type: DataTypes.DATEONLY,
         allowNull: true
+      },
+      age: {
+        type: new DataTypes.VIRTUAL(DataTypes.INTEGER, ["dob"]),
+        get: function() {
+          return moment().diff(this.get("dob"), "years", false);
+        }
       },
       endDate: {
         field: "end_date",
@@ -159,40 +214,6 @@ module.exports = (sequelize, DataTypes) => {
             auditUser: options.auditUser,
             transaction: options.transaction
           });
-        }
-      },
-      getterMethods: {
-        fullName() {
-          return getOfficerFullName(
-            this.firstName,
-            this.middleName,
-            this.lastName,
-            this.isUnknownOfficer
-          );
-        },
-        isUnknownOfficer() {
-          return !this.officerId;
-        },
-        age() {
-          return moment().diff(this.dob, "years", false);
-        },
-        supervisorFullName() {
-          if (this.officerId) {
-            const firstName = this.supervisorFirstName
-              ? this.supervisorFirstName
-              : "";
-            const middleName = this.supervisorMiddleName
-              ? this.supervisorMiddleName
-              : "";
-            const lastName = this.supervisorLastName
-              ? this.supervisorLastName
-              : "";
-
-            const fullName = `${firstName} ${middleName} ${lastName}`;
-            return fullName.replace("  ", " ").trim();
-          }
-
-          return "";
         }
       }
     }

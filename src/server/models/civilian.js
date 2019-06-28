@@ -26,6 +26,22 @@ module.exports = (sequelize, DataTypes) => {
         field: "suffix",
         type: DataTypes.STRING(25)
       },
+      fullName: {
+        type: new DataTypes.VIRTUAL(DataTypes.STRING, [
+          "firstName",
+          "lastName",
+          "middleInitial",
+          "suffix"
+        ]),
+        get: function() {
+          return getCivilianFullName(
+            this.get("firstName"),
+            this.get("middleInitial"),
+            this.get("lastName"),
+            this.get("suffix")
+          );
+        }
+      },
       birthDate: {
         field: "birth_date",
         type: DataTypes.DATEONLY
@@ -71,16 +87,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       paranoid: true,
-      getterMethods: {
-        fullName() {
-          return getCivilianFullName(
-            this.firstName,
-            this.middleInitial,
-            this.lastName,
-            this.suffix
-          );
-        }
-      },
       hooks: {
         beforeSave: (civilian, options) => {
           civilian.firstName = civilian.firstName.trim();
