@@ -43,7 +43,15 @@ const renderDetails = (details, action) => {
   });
 };
 
-const renderStringDetails = details => <div>{details}</div>;
+const renderStringDetails = details => (
+  <div>{formatUploadDetails(details)}</div>
+);
+
+const formatUploadDetails = details => {
+  return details.split("\n").map(i => {
+    return <div>{i}</div>;
+  });
+};
 
 const renderSingleValueDetails = (field, details, index) => {
   const value =
