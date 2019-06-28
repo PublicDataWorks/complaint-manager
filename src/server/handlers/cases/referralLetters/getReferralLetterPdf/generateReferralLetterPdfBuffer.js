@@ -67,6 +67,7 @@ const getReferralLetterPdfData = async (caseId, transaction) => {
       "id",
       "year",
       "caseNumber",
+      "caseReference",
       "pibCaseNumber"
     ],
     include: [

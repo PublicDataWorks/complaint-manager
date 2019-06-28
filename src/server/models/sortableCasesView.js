@@ -39,6 +39,20 @@ export default (sequelize, DataTypes) => {
         field: "case_number",
         type: DataTypes.INTEGER
       },
+      caseReference: {
+        type: new DataTypes.VIRTUAL(DataTypes.STRING, [
+          "complaintType",
+          "caseNumber",
+          "year"
+        ]),
+        get: function() {
+          return getCaseReference(
+            this.get("complaintType"),
+            this.get("caseNumber"),
+            this.get("year")
+          );
+        }
+      },
       firstContactDate: {
         field: "first_contact_date",
         type: DataTypes.DATEONLY
@@ -90,13 +104,6 @@ export default (sequelize, DataTypes) => {
     },
     {
       getterMethods: {
-        caseReference() {
-          return getCaseReference(
-            this.complaintType,
-            this.caseNumber,
-            this.year
-          );
-        },
         primaryComplainant() {
           if (this.complainantPersonType) {
             return {

@@ -73,6 +73,20 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false
       },
+      caseReference: {
+        type: new DataTypes.VIRTUAL(DataTypes.STRING, [
+          "complaintType",
+          "caseNumber",
+          "year"
+        ]),
+        get: function() {
+          return getCaseReference(
+            this.get("complaintType"),
+            this.get("caseNumber"),
+            this.get("year")
+          );
+        }
+      },
       district: {
         type: DataTypes.STRING
       },
@@ -159,13 +173,6 @@ export default (sequelize, DataTypes) => {
         }
       },
       getterMethods: {
-        caseReference() {
-          return getCaseReference(
-            this.complaintType,
-            this.caseNumber,
-            this.year
-          );
-        },
         primaryComplainant() {
           return head(
             sortBy(

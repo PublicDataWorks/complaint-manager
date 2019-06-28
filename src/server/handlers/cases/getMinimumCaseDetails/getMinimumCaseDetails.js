@@ -19,7 +19,13 @@ const getMinimumCaseDetails = asyncMiddleware(
     const minimumCaseDetails = await models.sequelize.transaction(
       async transaction => {
         const singleCase = await models.cases.findByPk(caseId, {
-          attributes: ["year", "caseNumber", "complaintType", "status"],
+          attributes: [
+            "year",
+            "caseNumber",
+            "complaintType",
+            "status",
+            "caseReference"
+          ],
           paranoid: false,
           transaction
         });
