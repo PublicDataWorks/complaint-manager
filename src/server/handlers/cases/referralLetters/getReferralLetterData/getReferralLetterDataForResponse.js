@@ -130,7 +130,14 @@ const getLetterDataAndAuditDetails = async (caseId, transaction) => {
         model: models.case_officer,
         as: "caseOfficers",
         where: { roleOnCase: ACCUSED },
-        attributes: ["id", "officerId", "firstName", "middleName", "lastName"], //must include officerId or will be named unknown officer
+        attributes: [
+          "id", //must include officerId or will be named unknown officer
+          "officerId",
+          "firstName",
+          "middleName",
+          "lastName",
+          "fullName"
+        ],
         required: false,
         include: [
           {

@@ -18,7 +18,8 @@ export const getReferralLetterCaseDataAndAuditDetails = async (
       "complaintType",
       "year",
       "caseNumber",
-      "pibCaseNumber"
+      "pibCaseNumber",
+      "caseReference"
     ],
     order: [
       [
