@@ -20,8 +20,9 @@ if (config.use_env_variable) {
   );
 }
 
-dataChangeAuditHooks.init(sequelize);
-caseStatusHooks.init(sequelize);
+//TODO Refactor to pass in only the class references we need.
+dataChangeAuditHooks.init(sequelize, Sequelize.Model);
+caseStatusHooks.init(sequelize, Sequelize.Model);
 
 fs.readdirSync(__dirname)
   .filter(file => {

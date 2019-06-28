@@ -57,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
   ReferralLetter.associate = function(models) {
     ReferralLetter.hasMany(models.case_officer, {
       as: "caseOfficers",
-      sourceKey: "case_id",
+      sourceKey: "caseId",
       foreignKey: {
         name: "caseId",
         field: "caseId",

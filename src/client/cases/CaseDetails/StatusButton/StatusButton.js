@@ -44,6 +44,7 @@ class StatusButton extends Component {
   openUpdateCaseStatusDialog = () => {
     const { nextStatus, caseId } = this.props;
     let redirectUrl;
+    console.log("Here's the next status: ", nextStatus);
     if (nextStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
       redirectUrl = `/cases/${caseId}/letter/review`;
     }
