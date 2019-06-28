@@ -20,6 +20,7 @@ const getCase = asyncMiddleware(async (request, response) => {
       transaction
     );
     const caseWithAssociations = caseDetailsAndAuditDetails.caseDetails;
+    console.log("caseWithAssociations: ", caseWithAssociations.nextStatus);
     const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
     if (newAuditFeatureToggle) {
@@ -44,6 +45,7 @@ const getCase = asyncMiddleware(async (request, response) => {
     return caseWithAssociations;
   });
 
+  console.log("Here's the single case: ", singleCase.nextStatus);
   response.send(singleCase);
 });
 

@@ -40,14 +40,14 @@ const MODEL_ASSOCIATIONS_TO_LOOKUP = [
   }
 ];
 
-exports.init = sequelize => {
-  const originalCreate = sequelize.Model.create;
-  const originalUpdate = sequelize.Model.update;
-  const originalInstanceUpdate = sequelize.Model.prototype.update;
-  const originalDestroy = sequelize.Model.destroy;
-  const originalInstanceDestroy = sequelize.Model.prototype.destroy;
-  const originalRestore = sequelize.Model.restore;
-  const originalInstanceRestore = sequelize.Model.prototype.restore;
+exports.init = (sequelize, model) => {
+  const originalCreate = model.create;
+  const originalUpdate = model.update;
+  const originalInstanceUpdate = model.prototype.update;
+  const originalDestroy = model.destroy;
+  const originalInstanceDestroy = model.prototype.destroy;
+  const originalRestore = model.restore;
+  const originalInstanceRestore = model.prototype.restore;
 
   const fieldsToIgnore = [
     "createdAt",
@@ -57,7 +57,7 @@ exports.init = sequelize => {
     "deleted_at"
   ];
 
-  sequelize.Model.prototype.update = async function(values, options = {}) {
+  model.prototype.update = async function(values, options = {}) {
     return await addTransactionToFunction(
       originalInstanceUpdate,
       values,
@@ -66,7 +66,7 @@ exports.init = sequelize => {
     );
   };
 
-  sequelize.Model.prototype.destroy = async function(options = {}) {
+  model.prototype.destroy = async function(options = {}) {
     return await addTransactionToFunctionWithoutValues(
       originalInstanceDestroy,
       options,
@@ -74,7 +74,7 @@ exports.init = sequelize => {
     );
   };
 
-  sequelize.Model.prototype.restore = async function(options = {}) {
+  model.prototype.restore = async function(options = {}) {
     return await addTransactionToFunctionWithoutValues(
       originalInstanceRestore,
       options,
@@ -82,7 +82,7 @@ exports.init = sequelize => {
     );
   };
 
-  _.extend(sequelize.Model, {
+  _.extend(model, {
     auditDataChange: function() {
       this.addHook("afterCreate", afterCreateHook);
       this.addHook("afterUpdate", afterUpdateHook);

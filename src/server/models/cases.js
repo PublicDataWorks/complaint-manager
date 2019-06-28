@@ -58,6 +58,12 @@ export default (sequelize, DataTypes) => {
           }
         }
       },
+      nextStatus: {
+        type: new DataTypes.VIRTUAL(DataTypes.STRING, ["status"]),
+        get: function() {
+          return determineNextCaseStatus(this.get("status"));
+        }
+      },
       year: {
         type: DataTypes.INTEGER,
         allowNull: false
@@ -153,9 +159,6 @@ export default (sequelize, DataTypes) => {
         }
       },
       getterMethods: {
-        nextStatus() {
-          return determineNextCaseStatus(this.status);
-        },
         caseReference() {
           return getCaseReference(
             this.complaintType,

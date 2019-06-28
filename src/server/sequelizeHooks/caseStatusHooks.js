@@ -1,8 +1,8 @@
 const _ = require("lodash");
 import Boom from "boom";
 
-exports.init = sequelize => {
-  _.extend(sequelize.Model, {
+exports.init = (sequelize, model) => {
+  _.extend(model, {
     updateCaseStatusAfterCreate: function() {
       this.addHook("afterCreate", updateCaseStatusHook);
     },
