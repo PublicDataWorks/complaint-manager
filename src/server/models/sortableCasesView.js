@@ -22,6 +22,32 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.ENUM([CIVILIAN_INITIATED, RANK_INITIATED]),
         field: "complaint_type"
       },
+      primaryComplainant: {
+        type: DataTypes.VIRTUAL(DataTypes.STRING, [
+          "complainantPersonType",
+          "complainantFirstName",
+          "complainantMiddleName",
+          "complainantLastName",
+          "complainantSuffix",
+          "complainantPersonType"
+        ]),
+        get: function() {
+          if (this.get("complainantPersonType")) {
+            return {
+              personType: this.get("complainantPersonType"),
+              fullName: getPersonFullName(
+                this.get("complainantFirstName"),
+                this.get("complainantMiddleName"),
+                this.get("complainantLastName"),
+                this.get("complainantSuffix"),
+                this.get("complainantPersonType")
+              )
+            };
+          } else {
+            return null;
+          }
+        }
+      },
       status: {
         type: DataTypes.ENUM([
           CASE_STATUS.INITIAL,
@@ -104,22 +130,6 @@ export default (sequelize, DataTypes) => {
     },
     {
       getterMethods: {
-        primaryComplainant() {
-          if (this.complainantPersonType) {
-            return {
-              personType: this.complainantPersonType,
-              fullName: getPersonFullName(
-                this.complainantFirstName,
-                this.complainantMiddleName,
-                this.complainantLastName,
-                this.complainantSuffix,
-                this.complainantPersonType
-              )
-            };
-          } else {
-            return null;
-          }
-        },
         primaryAccusedOfficer() {
           if (this.accusedPersonType) {
             return {
