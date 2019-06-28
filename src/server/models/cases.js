@@ -32,6 +32,20 @@ export default (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true
       },
+      primaryComplainant: {
+        type: new DataTypes.VIRTUAL(DataTypes.STRING),
+        get: function() {
+          return head(
+            sortBy(
+              [
+                ...(this.complainantCivilians || []),
+                ...(this.complainantOfficers || [])
+              ],
+              "createdAt"
+            )
+          );
+        }
+      },
       complaintType: {
         type: DataTypes.ENUM([CIVILIAN_INITIATED, RANK_INITIATED]),
         defaultValue: CIVILIAN_INITIATED,
@@ -170,19 +184,6 @@ export default (sequelize, DataTypes) => {
         },
         beforeValidate: (instance, options) => {
           instance.generateCaseReference(instance, options);
-        }
-      },
-      getterMethods: {
-        primaryComplainant() {
-          return head(
-            sortBy(
-              [
-                ...(this.complainantCivilians || []),
-                ...(this.complainantOfficers || [])
-              ],
-              "createdAt"
-            )
-          );
         }
       }
     }
