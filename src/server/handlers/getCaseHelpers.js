@@ -17,16 +17,9 @@ export const getCaseWithAllAssociationsAndAuditDetails = async (
 
   const caseDetails = caseDetailsAndAuditDetails.caseDetails;
   const caseAuditDetails = caseDetailsAndAuditDetails.auditDetails;
-  console.log("\ncaseDetails: ", caseDetails.nextStatus);
   const modifiedCaseDetailsAndAuditDetails = addFieldsToCaseDetails(
     caseDetails.toJSON(),
     caseAuditDetails
-  );
-  console.log("\ncaseDetailsGet", caseDetails.get({ plain: true }));
-  console.log("\ncaseDetailsTOJson", caseDetails.toJSON().nextStatus);
-  console.log(
-    "\nmodifiedCaseDetailsAndAuditDetails: ",
-    modifiedCaseDetailsAndAuditDetails.caseDetails.nextStatus
   );
 
   return {
@@ -144,8 +137,6 @@ const getCaseDetailsAndAuditDetails = async (caseId, transaction) => {
   };
 
   const caseDetails = await models.cases.findByPk(caseId, queryOptions);
-
-  console.log("Here's your caseDetails: ", caseDetails.nextStatus);
 
   const caseAuditDetails = getQueryAuditAccessDetails(
     queryOptions,
