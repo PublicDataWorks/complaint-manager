@@ -1,8 +1,10 @@
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import models from "../../../models";
-import { getReferralLetterCaseDataAndAuditDetails } from "./generateReferralLetterBodyAndAuditDetails";
+import {
+  generateReferralLetterBodyAndAuditDetails,
+  getReferralLetterCaseDataAndAuditDetails
+} from "./generateReferralLetterBodyAndAuditDetails";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import { generateReferralLetterBodyAndAuditDetails } from "./generateReferralLetterBodyAndAuditDetails";
 
 jest.mock("handlebars", () => ({
   compile: jest.fn(() => {
@@ -73,6 +75,7 @@ const expectedReferralLetterCaseAuditDetails = {
       "complaintType",
       "year",
       "caseNumber",
+      "caseReference",
       "pibCaseNumber"
     ]),
     model: models.cases.name

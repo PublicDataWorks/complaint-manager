@@ -92,7 +92,7 @@ export const revertDataChangeAuditsToLegacyDataChangeAudits = async transaction 
   await models.audit.destroy({
     where: {
       auditAction: {
-        [models.sequelize.Op.or]: [
+        [models.Sequelize.Op.or]: [
           AUDIT_ACTION.DATA_CREATED,
           AUDIT_ACTION.DATA_UPDATED,
           AUDIT_ACTION.DATA_ARCHIVED,

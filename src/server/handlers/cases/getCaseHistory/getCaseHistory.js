@@ -122,7 +122,7 @@ const getDataChangeAuditsAndAuditDetails = async (caseId, transaction) => {
   const queryOptions = {
     where: {
       auditAction: {
-        [models.sequelize.Op.or]: [
+        [models.Sequelize.Op.or]: [
           AUDIT_ACTION.DATA_UPDATED,
           AUDIT_ACTION.DATA_RESTORED,
           AUDIT_ACTION.DATA_ARCHIVED,

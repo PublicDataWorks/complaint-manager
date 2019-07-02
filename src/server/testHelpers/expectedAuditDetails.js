@@ -1,10 +1,11 @@
 import models from "../models";
 
 export const expectedCaseAuditDetails = {
-  cases: {
+  cases: expect.objectContaining({
     attributes: expect.toIncludeSameMembers([
       "assignedTo",
       "caseNumber",
+      "caseReference",
       "classificationId",
       "complaintType",
       "createdAt",
@@ -19,14 +20,16 @@ export const expectedCaseAuditDetails = {
       "isArchived",
       "narrativeDetails",
       "narrativeSummary",
+      "nextStatus",
       "pdfAvailable",
       "pibCaseNumber",
+      "primaryComplainant",
       "status",
       "updatedAt",
       "year"
     ]),
     model: models.cases.name
-  },
+  }),
   classification: {
     attributes: expect.toIncludeSameMembers(
       Object.keys(models.classification.rawAttributes)
@@ -124,6 +127,7 @@ export const expectedFormattedCaseAuditDetails = {
   Case: expect.toIncludeSameMembers([
     "Assigned To",
     "Case Number",
+    "Case Reference",
     "Classification Id",
     "Complaint Type",
     "Created At",
@@ -138,8 +142,10 @@ export const expectedFormattedCaseAuditDetails = {
     "Is Archived",
     "Narrative Details",
     "Narrative Summary",
+    "Next Status",
     "Pdf Available",
     "Pib Case Number",
+    "Primary Complainant",
     "Status",
     "Updated At",
     "Year"

@@ -224,7 +224,10 @@ describe("getCaseHistory", () => {
       await getCaseHistory(request, response, next);
 
       const audit = await models.audit.findOne({
-        where: { caseId, auditAction: AUDIT_ACTION.DATA_ACCESSED },
+        where: {
+          caseId: caseId,
+          auditAction: AUDIT_ACTION.DATA_ACCESSED
+        },
         include: [
           {
             model: models.data_access_audit,

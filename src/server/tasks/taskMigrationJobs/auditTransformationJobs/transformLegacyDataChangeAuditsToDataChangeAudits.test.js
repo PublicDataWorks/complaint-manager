@@ -65,7 +65,7 @@ describe("transform data change audits", () => {
       const audits = await models.audit.findAll({
         where: {
           auditAction: {
-            [models.sequelize.Op.or]: [
+            [models.Sequelize.Op.or]: [
               AUDIT_ACTION.DATA_CREATED,
               AUDIT_ACTION.DATA_UPDATED,
               AUDIT_ACTION.DATA_ARCHIVED,

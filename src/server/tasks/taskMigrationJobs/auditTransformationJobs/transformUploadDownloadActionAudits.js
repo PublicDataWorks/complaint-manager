@@ -4,7 +4,7 @@ import {
   AUDIT_TYPE
 } from "../../../../sharedUtilities/constants";
 
-const Op = models.sequelize.Op;
+const Op = models.Sequelize.Op;
 
 export const transformOldUploadDownloadAccessAuditsToNewFileAudits = async transaction => {
   const oldUploadDownloadActionAudits = await models.action_audit.findAll({

@@ -4,7 +4,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import models from "../../../models";
 
-const Op = models.sequelize.Op;
+const Op = models.Sequelize.Op;
 
 export const sanitizeUploadDownloadAudits = async () => {
   await models.sequelize.transaction(async transaction => {

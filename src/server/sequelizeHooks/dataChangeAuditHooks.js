@@ -284,7 +284,7 @@ exports.init = (sequelize, model) => {
   };
 
   const snapshotValues = async instance => {
-    const snapshotValues = instance.dataValues;
+    const snapshotValues = instance.get();
     for (const association of MODEL_ASSOCIATIONS_TO_LOOKUP) {
       await addAssociationDataToSnapshot(instance, snapshotValues, association);
     }

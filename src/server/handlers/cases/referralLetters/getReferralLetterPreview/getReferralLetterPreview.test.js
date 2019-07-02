@@ -752,6 +752,7 @@ describe("getReferralLetterPreview", function() {
           Case: [
             "Assigned To",
             "Case Number",
+            "Case Reference",
             "Classification Id",
             "Complaint Type",
             "Created At",
@@ -766,8 +767,10 @@ describe("getReferralLetterPreview", function() {
             "Is Archived",
             "Narrative Details",
             "Narrative Summary",
+            "Next Status",
             "Pdf Available",
             "Pib Case Number",
+            "Primary Complainant",
             "Status",
             "Updated At",
             "Year"
@@ -829,6 +832,7 @@ describe("getReferralLetterPreview", function() {
           Case: [
             "Assigned To",
             "Case Number",
+            "Case Reference",
             "Classification Id",
             "Complaint Type",
             "Created At",
@@ -843,8 +847,10 @@ describe("getReferralLetterPreview", function() {
             "Is Archived",
             "Narrative Details",
             "Narrative Summary",
+            "Next Status",
             "Pdf Available",
             "Pib Case Number",
+            "Primary Complainant",
             "Status",
             "Updated At",
             "Year"
