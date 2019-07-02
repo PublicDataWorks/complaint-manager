@@ -68,20 +68,18 @@ describe("RemoveCaseNote unit", () => {
     const response = httpMocks.createResponse();
     await removeCaseNote(request, response, jest.fn());
 
-    const updatedCase = await models.cases.findAll({
+    const updatedCase = await models.cases.findOne({
       where: { id: createdCase.id }
     });
 
     expect(updatedCase).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          status: CASE_STATUS.ACTIVE
-        })
-      ])
+      expect.objectContaining({
+        status: CASE_STATUS.ACTIVE
+      })
     );
 
     const updatedCaseNotes = await models.case_note.findAll({
-      where: { caseId: updatedCase.id }
+      where: { caseId: createdCase.id }
     });
     expect(updatedCaseNotes).toEqual([]);
   });

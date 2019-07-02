@@ -187,7 +187,7 @@ describe("transform upload and download action audits", () => {
         );
       });
 
-      const Op = models.sequelize.Op;
+      const Op = models.Sequelize.Op;
 
       const uploadDownloadAudits = await models.action_audit.findAll({
         where: {

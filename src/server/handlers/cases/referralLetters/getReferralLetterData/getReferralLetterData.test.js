@@ -506,7 +506,13 @@ describe("getReferralLetterData", () => {
         AUDIT_SUBJECT.REFERRAL_LETTER_DATA
       );
       expect(dataAccessAudit.auditDetails).toEqual({
-        "Case Officers": ["First Name", "Id", "Last Name", "Middle Name"],
+        "Case Officers": [
+          "First Name",
+          "Full Name",
+          "Id",
+          "Last Name",
+          "Middle Name"
+        ],
         "Letter Officer": [
           "Case Officer Id",
           "Historical Behavior Notes",

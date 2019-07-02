@@ -27,7 +27,8 @@ describe("getReferralLetterDataForResponse", () => {
           "id",
           "firstName",
           "middleName",
-          "lastName"
+          "lastName",
+          "fullName"
         ]),
         model: models.case_officer.name
       },

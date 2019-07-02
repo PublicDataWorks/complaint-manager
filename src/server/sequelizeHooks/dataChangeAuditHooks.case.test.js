@@ -97,6 +97,7 @@ describe("dataChangeAuditHooks", () => {
         status: { new: CASE_STATUS.INITIAL },
         classificationId: { new: null },
         classification: { new: null },
+        caseReference: { new: createdCase.caseReference },
         caseNumber: { new: 1 },
         year: { new: 2017 }
       };
@@ -124,6 +125,7 @@ describe("dataChangeAuditHooks", () => {
         status: { new: CASE_STATUS.INITIAL },
         classificationId: { new: null },
         classification: { new: null },
+        caseReference: { new: createdCase.caseReference },
         intakeSourceId: { new: emailIntakeSource.id },
         intakeSource: { new: emailIntakeSource.name },
         caseNumber: { new: 1 },
@@ -153,6 +155,7 @@ describe("dataChangeAuditHooks", () => {
         status: { new: CASE_STATUS.INITIAL },
         classificationId: { new: null },
         classification: { new: null },
+        caseReference: { new: createdCase.caseReference },
         howDidYouHearAboutUsSourceId: {
           new: friendHowDidYouHearAboutUsSource.id
         },
@@ -185,6 +188,7 @@ describe("dataChangeAuditHooks", () => {
         status: { new: CASE_STATUS.INITIAL },
         classificationId: { new: utdClassification.id },
         classification: { new: utdClassification.initialism },
+        caseReference: { new: createdCase.caseReference },
         year: { new: 2017 },
         caseNumber: { new: 1 }
       };
@@ -209,6 +213,7 @@ describe("dataChangeAuditHooks", () => {
         complaintType: RANK_INITIATED,
         assignedTo: "originalAssignedToPerson",
         status: CASE_STATUS.INITIAL,
+        nextStatus: createdCase.nextStatus,
         createdAt: createdCase.createdAt.toJSON(),
         createdBy: "createdByPerson",
         updatedAt: createdCase.updatedAt.toJSON(),
@@ -219,6 +224,7 @@ describe("dataChangeAuditHooks", () => {
         intakeSource: null,
         deletedAt: null,
         caseNumber: 1,
+        caseReference: createdCase.caseReference,
         year: 2017,
         pibCaseNumber: null
       };
@@ -244,6 +250,7 @@ describe("dataChangeAuditHooks", () => {
         complaintType: RANK_INITIATED,
         assignedTo: "originalAssignedToPerson",
         status: CASE_STATUS.INITIAL,
+        nextStatus: createdCase.nextStatus,
         createdAt: createdCase.createdAt.toJSON(),
         createdBy: "createdByPerson",
         updatedAt: createdCase.updatedAt.toJSON(),
@@ -255,6 +262,7 @@ describe("dataChangeAuditHooks", () => {
         deletedAt: null,
         year: 2017,
         caseNumber: 1,
+        caseReference: createdCase.caseReference,
         pibCaseNumber: null
       };
       expect(audit.snapshot).toEqual(expectedSnapshot);
@@ -572,6 +580,7 @@ describe("dataChangeAuditHooks", () => {
         complaintType: CIVILIAN_INITIATED,
         assignedTo: "updatedAssignedPerson",
         status: CASE_STATUS.ACTIVE,
+        nextStatus: existingCase.nextStatus,
         createdAt: existingCase.createdAt.toJSON(),
         createdBy: "createdByPerson",
         updatedAt: existingCase.updatedAt.toJSON(),
@@ -582,6 +591,7 @@ describe("dataChangeAuditHooks", () => {
         intakeSource: emailIntakeSource.name,
         deletedAt: null,
         caseNumber: 1,
+        caseReference: existingCase.caseReference,
         year: 2017,
         pibCaseNumber: null
       };
@@ -794,6 +804,7 @@ describe("dataChangeAuditHooks", () => {
         howDidYouHearAboutUsSource: { new: null },
         year: { new: 2017 },
         caseNumber: { new: 1 },
+        caseReference: { new: existingCase.caseReference },
         id: { new: existingCase.id },
         incidentDate: { new: "2017-01-01" },
         incidentTime: { new: "16:00:00" },
@@ -830,6 +841,7 @@ describe("dataChangeAuditHooks", () => {
         howDidYouHearAboutUsSource: { previous: null },
         year: { previous: 2017 },
         caseNumber: { previous: 1 },
+        caseReference: { previous: existingCase.caseReference },
         id: { previous: existingCase.id },
         incidentDate: { previous: "2017-01-01" },
         incidentTime: { previous: "16:00:00" },
