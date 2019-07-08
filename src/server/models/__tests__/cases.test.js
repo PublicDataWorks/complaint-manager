@@ -179,7 +179,7 @@ describe("cases", function() {
         auditUser: "someone"
       });
 
-      expect(
+      await expect(
         newCase.update({ caseNumber: 88, year: 1901 }, { auditUser: "someone" })
       ).rejects.toEqual(
         Boom.badData(BAD_DATA_ERRORS.CANNOT_OVERRIDE_CASE_REFERENCE)
@@ -198,7 +198,7 @@ describe("cases", function() {
         auditUser: "someone"
       });
 
-      expect(
+      await expect(
         newCase.update(
           { caseNumber: 88, year: 1901 },
           { validate: false, auditUser: "someone" }
