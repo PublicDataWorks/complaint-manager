@@ -284,6 +284,11 @@ describe("csvCaseExport request", () => {
             model: models.race_ethnicity,
             as: "raceEthnicity",
             auditUser: "tuser"
+          },
+          {
+            model: models.gender_identity,
+            as: "genderIdentity",
+            auditUser: "tuser"
           }
         ]
       });
@@ -338,7 +343,7 @@ describe("csvCaseExport request", () => {
       expect(records[0]["Created on"]).toEqual(
         timezone
           .tz(caseToExport.createdAt, TIMEZONE)
-          .format("MM/DD/YYYY HH:mm:ss zz")
+          .format("MM/DD/YYYY HH:mm:ss z")
       );
       expect(records[0]["First Contact Date"]).toEqual(
         moment(caseToExport.firstContactDate).format("MM/DD/YYYY")
@@ -429,7 +434,7 @@ describe("csvCaseExport request", () => {
         genderIdentity.name
       );
       expect(records[0]["Civilian Complainant Race/Ethnicity"]).toEqual(
-        civilian.dataValues.raceEthnicity
+        raceEthnicity.name
       );
       const expectedAge = `${moment(caseToExport.incidentDate).diff(
         civilian.birthDate,
@@ -1177,7 +1182,7 @@ describe("csvCaseExport request", () => {
       const record1 = records[0];
       const expectedTimestampString = timezone(caseToExport.createdAt)
         .tz(TIMEZONE)
-        .format("MM/DD/YYYY HH:mm:ss zz");
+        .format("MM/DD/YYYY HH:mm:ss z");
 
       expect(record1["Created on"]).toEqual(expectedTimestampString);
       done();
