@@ -1,5 +1,8 @@
-import models from "../../models";
-import { AUDIT_ACTION, AUDIT_TYPE } from "../../../sharedUtilities/constants";
+import models from "../../../models";
+import {
+  AUDIT_ACTION,
+  AUDIT_TYPE
+} from "../../../../sharedUtilities/constants";
 import sequelize from "sequelize";
 
 const Op = sequelize.Op;

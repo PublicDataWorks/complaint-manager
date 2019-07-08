@@ -1,7 +1,7 @@
-import models from "../../models";
+import models from "../../../models";
 
-import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
-import { endOfLegacyAuditTimestamps } from "../../tasks/taskMigrationJobs/auditTransformationJobs/auditTransformHelpers";
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+import { endOfLegacyAuditTimestamps } from "./auditTransformHelpers";
 
 export const transformOldAccessActionAuditsToLegacyDataAccessAudits = async transaction => {
   const legacyAccessActionAudits = await models.action_audit.findAll({

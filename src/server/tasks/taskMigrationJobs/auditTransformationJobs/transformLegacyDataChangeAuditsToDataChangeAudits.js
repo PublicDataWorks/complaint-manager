@@ -1,6 +1,6 @@
 import _ from "lodash";
-import models from "../../models";
-import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
+import models from "../../../models";
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 
 export const transformLegacyDataChangeAuditsToDataChangeAudits = async transaction => {
   const legacyDataChangeAudits = await models.legacy_data_change_audit.findAll();

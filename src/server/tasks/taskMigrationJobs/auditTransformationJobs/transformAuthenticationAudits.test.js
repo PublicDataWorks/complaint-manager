@@ -1,11 +1,14 @@
-import models from "../../models";
-import { AUDIT_ACTION, AUDIT_TYPE } from "../../../sharedUtilities/constants";
+import models from "../../../models";
+import {
+  AUDIT_ACTION,
+  AUDIT_TYPE
+} from "../../../../sharedUtilities/constants";
 import moment from "moment";
 import {
   transformNewAuthenticationAuditsToOld,
   transformOldAuthenticationAuditsToNew
 } from "./transformAuthenticationAudits";
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 
 describe("transform authorization audits", () => {
   const logInCreatedAtTime = moment("2018-01-01 00:00:00");

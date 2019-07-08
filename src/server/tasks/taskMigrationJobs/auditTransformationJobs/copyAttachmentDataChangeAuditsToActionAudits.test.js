@@ -1,11 +1,11 @@
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import models from "../../models";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import models from "../../../models";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE
-} from "../../../sharedUtilities/constants";
-import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
+} from "../../../../sharedUtilities/constants";
+import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import {
   copyAttachmentDataChangeAuditsToActionAudits,
   deleteUploadAttachmentAudits
