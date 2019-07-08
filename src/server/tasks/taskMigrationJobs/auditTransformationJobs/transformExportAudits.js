@@ -1,12 +1,12 @@
-import models from "../../models";
+import models from "../../../models";
 import {
   AUDIT_ACTION,
   AUDIT_TYPE,
   JOB_OPERATION
-} from "../../../sharedUtilities/constants";
+} from "../../../../sharedUtilities/constants";
 import _ from "lodash";
 import moment from "moment";
-import { getAuditDetailsForExport } from "../../handlers/cases/export/generateExportDownloadUrl";
+import { getAuditDetailsForExport } from "../../../handlers/cases/export/generateExportDownloadUrl";
 
 const getDateType = oldAuditDetails => {
   if (oldAuditDetails && oldAuditDetails["Date Type"]) {

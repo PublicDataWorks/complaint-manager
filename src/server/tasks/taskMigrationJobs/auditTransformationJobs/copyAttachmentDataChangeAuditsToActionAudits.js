@@ -1,10 +1,10 @@
-import models from "../../models";
+import models from "../../../models";
 import sequelize from "sequelize";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE
-} from "../../../sharedUtilities/constants";
+} from "../../../../sharedUtilities/constants";
 import moment from "moment-timezone";
 
 const Op = sequelize.Op;

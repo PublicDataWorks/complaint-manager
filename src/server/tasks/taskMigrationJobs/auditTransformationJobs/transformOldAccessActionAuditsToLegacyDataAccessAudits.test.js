@@ -1,10 +1,10 @@
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import models from "../../models";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import models from "../../../models";
 import {
   AUDIT_ACTION,
   AUDIT_TYPE,
   TIMEZONE
-} from "../../../sharedUtilities/constants";
+} from "../../../../sharedUtilities/constants";
 import moment from "moment-timezone";
 import {
   transformLegacyDataAccessAuditsToOldAccessActionAudits,

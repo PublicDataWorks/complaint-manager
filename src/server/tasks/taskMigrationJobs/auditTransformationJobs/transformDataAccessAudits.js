@@ -1,10 +1,13 @@
-import models from "../../../server/models";
+import models from "../../../models";
 import _ from "lodash";
 import moment from "moment-timezone";
 import sequelize from "sequelize";
-import { endOfLegacyAuditTimestamps } from "../../tasks/taskMigrationJobs/auditTransformationJobs/auditTransformHelpers";
-import { AUDIT_ACTION, AUDIT_TYPE } from "../../../sharedUtilities/constants";
-import { legacyFormatAuditDetails } from "../../handlers/audits/legacyFormatAuditDetails";
+import { endOfLegacyAuditTimestamps } from "./auditTransformHelpers";
+import {
+  AUDIT_ACTION,
+  AUDIT_TYPE
+} from "../../../../sharedUtilities/constants";
+import { legacyFormatAuditDetails } from "../../../handlers/audits/legacyFormatAuditDetails";
 
 export const transformOldDataAccessAuditsToNew = async transaction => {
   const Op = sequelize.Op;

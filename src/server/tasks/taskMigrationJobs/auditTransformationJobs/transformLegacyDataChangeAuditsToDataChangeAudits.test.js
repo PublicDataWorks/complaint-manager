@@ -1,11 +1,11 @@
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
-import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import {
   revertDataChangeAuditsToLegacyDataChangeAudits,
   transformLegacyDataChangeAuditsToDataChangeAudits
 } from "./transformLegacyDataChangeAuditsToDataChangeAudits";
-import models from "../../models";
+import models from "../../../models";
 
 describe("transform data change audits", () => {
   let existingCase;

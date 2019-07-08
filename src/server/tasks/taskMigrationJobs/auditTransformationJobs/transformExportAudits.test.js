@@ -1,19 +1,19 @@
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import models from "../../../server/models";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import models from "../../../models";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   CASE_EXPORT_TYPE,
   JOB_OPERATION
-} from "../../../sharedUtilities/constants";
+} from "../../../../sharedUtilities/constants";
 import _ from "lodash";
 import {
   transformNewExportAuditsToOld,
   transformOldExportAuditsToNew
 } from "./transformExportAudits";
 import moment from "moment";
-import formatDate from "../../../client/utilities/formatDate";
+import formatDate from "../../../../client/utilities/formatDate";
 
 describe("transform export audits", () => {
   const createdAtTime = moment("2016-03-15 05:12:12");

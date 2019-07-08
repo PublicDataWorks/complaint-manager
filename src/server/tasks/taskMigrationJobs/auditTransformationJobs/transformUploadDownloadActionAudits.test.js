@@ -1,11 +1,11 @@
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import models from "../../models";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import models from "../../../models";
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,
   AUDIT_SUBJECT,
   AUDIT_TYPE
-} from "../../../sharedUtilities/constants";
+} from "../../../../sharedUtilities/constants";
 import {
   transformNewFileAuditsToOldUploadDownloadActionAudits,
   transformOldUploadDownloadAccessAuditsToNewFileAudits
