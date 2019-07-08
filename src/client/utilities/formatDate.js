@@ -42,17 +42,19 @@ export const applyCentralTimeZoneOffset = dateString => {
 };
 
 export const computeTimeZone = (date, time) => {
-  console.log("Date Type", typeof date);
-  console.log("Date: ", date, "\nTime: ", time);
   if (!time) return time;
   let timeZone = "CT";
 
   if (date) {
-    timeZone = timezone(date)
+    const offset = timezone(date)
       .tz(TIMEZONE)
-      .format("z");
+      .format("ZZ");
+    if (offset === "-0600") {
+      timeZone = "CST";
+    } else if (offset === "-0500") {
+      timeZone = "CDT";
+    }
   }
-  console.log("Timezone: ", timeZone);
   return timeZone;
 };
 
