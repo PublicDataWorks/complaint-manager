@@ -35,9 +35,13 @@ export const runAllAuditMigrationHelpers = async transaction => {
   await transformOldUploadDownloadAccessAuditsToNewFileAudits(transaction);
 
   await transformLegacyDataChangeAuditsToDataChangeAudits(transaction);
+
+  await transformOldAccessActionAuditsToLegacyDataAccessAudits(transaction);
 };
 
 export const undoAllAuditMigrationHelpers = async transaction => {
+  await transformLegacyDataAccessAuditsToOldAccessActionAudits(transaction);
+
   await revertDataChangeAuditsToLegacyDataChangeAudits(transaction);
   // Delete upload attachment is dependent on transform old to new being run before it
   await transformNewFileAuditsToOldUploadDownloadActionAudits(transaction);
