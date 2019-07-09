@@ -377,6 +377,14 @@ const mapAuditDetailsKeyToAssociationAndModel = {
   "Action Audit": {
     modelName: models.action_audit.name,
     association: "actionAudit"
+  },
+  "Case Tag": {
+    modelName: models.case_tag.name,
+    association: "caseTag"
+  },
+  Tag: {
+    modelName: models.tag.name,
+    association: "tag"
   }
 };
 
