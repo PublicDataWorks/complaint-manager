@@ -48,6 +48,12 @@ const exportAuditLog = async (job, done) => {
         ? await getTransformedAudits(dateRangeCondition)
         : await getOldTransformedAudits(dateRangeCondition);
 
+    winston.info(
+      `Transformed ${
+        transformedAudits.length
+      } audits that will be sorted and exported.`
+    );
+
     const sortedAuditLogs = _.orderBy(transformedAudits, "created_at", "desc");
 
     const csvOutput = await promisifiedStringify(sortedAuditLogs, csvOptions);
@@ -55,6 +61,8 @@ const exportAuditLog = async (job, done) => {
       JOB_OPERATION.AUDIT_LOG_EXPORT,
       job.data.dateRange
     );
+
+    winston.info(`Generated filename: ${filename} and uploading to S3...`);
 
     const s3Result = await uploadFileToS3(
       job.id,
