@@ -44,7 +44,7 @@ services:
     volumes:
       - ./src:/app/src
   db:
-    image: postgres:10.1-alpine
+    image: postgres:10.9-alpine
     environment:
       POSTGRES_PASSWORD: password
     ports:
