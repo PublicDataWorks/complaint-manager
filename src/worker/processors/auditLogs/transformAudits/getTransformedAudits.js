@@ -1,6 +1,8 @@
 import transformAuditsForExport from "./transformAuditsForExport";
 import models from "../../../../server/models";
 
+const winston = require("winston");
+
 const getTransformedAudits = async dateRangeCondition => {
   const audits = await models.audit.findAll({
     where: dateRangeCondition,
@@ -33,6 +35,9 @@ const getTransformedAudits = async dateRangeCondition => {
       }
     ]
   });
+  winston.info(
+    `Database returned ${audits.length} audits that need to be transformed.`
+  );
 
   return transformAuditsForExport(audits);
 };
