@@ -21,7 +21,7 @@ jobs:
       - image: noipm/docker-node-ubuntu:1.1.0
         environment:
           NODE_ENV: test
-      - image: postgres:10.1-alpine
+      - image: postgres:10.9-alpine
         environment:
           POSTGRES_PASSWORD: password
           POSTGRES_DB: complaint-manager-test
@@ -41,7 +41,7 @@ jobs:
       - image: noipm/docker-node-ubuntu:1.1.0
         environment:
           NODE_ENV: test
-      - image: postgres:10.1-alpine
+      - image: postgres:10.9-alpine
         environment:
           POSTGRES_PASSWORD: password
           POSTGRES_DB: complaint-manager-test
