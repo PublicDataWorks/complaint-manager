@@ -51,6 +51,7 @@ import getHowDidYouHearAboutUsSources from "./handlers/howDidYouHearAboutUsSourc
 import getGenderIdentities from "./handlers/genderIdentities/getGenderIdentities";
 import getCaseNoteActions from "./handlers/caseNoteActions/getCaseNoteActions";
 import createCaseTag from "./handlers/cases/createCaseTag";
+import getCaseTags from "./handlers/cases/caseTags/getCaseTags";
 import getTags from "./handlers/tags/getTags";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
@@ -174,6 +175,11 @@ export const API_ROUTES = {
       handler: createCaseTag,
       errorMessage:
         "Something went wrong and the case tag was not created. Please try again."
+    },
+    get: {
+      handler: getCaseTags,
+      errorMessage:
+        "Something went wrong and the case tags were not loaded. Please try again."
     }
   },
   "/cases/:caseId/cases-officers": {
