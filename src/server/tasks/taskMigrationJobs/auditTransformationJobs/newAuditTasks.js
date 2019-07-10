@@ -22,6 +22,10 @@ import {
   revertDataChangeAuditsToLegacyDataChangeAudits,
   transformLegacyDataChangeAuditsToDataChangeAudits
 } from "./transformLegacyDataChangeAuditsToDataChangeAudits";
+import {
+  transformLegacyDataAccessAuditsToOldAccessActionAudits,
+  transformOldAccessActionAuditsToLegacyDataAccessAudits
+} from "./transformOldAccessActionAuditsToLegacyDataAccessAudits";
 
 export const runAllAuditMigrationHelpers = async transaction => {
   await transformOldAuthenticationAuditsToNew(transaction);
