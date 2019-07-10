@@ -53,6 +53,7 @@ import genderIdentityReducer from "./reducers/ui/genderIdentityReducer";
 import caseNoteActionReducer from "./reducers/ui/caseNoteActionReducer";
 import caseTagDialogReducer from "./reducers/ui/caseTagDialogReducer";
 import tagReducer from "./reducers/ui/tagReducer";
+import caseTagReducer from "./reducers/cases/caseTagsReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -64,7 +65,8 @@ const rootReducer = combineReducers({
   currentCase: combineReducers({
     details: caseDetailsReducer,
     caseNotes: caseNotesReducer,
-    caseHistory: caseHistoryReducer
+    caseHistory: caseHistoryReducer,
+    caseTags: caseTagReducer
   }),
   referralLetter: referralLetterReducer,
   recommendedActions: recommendedActionsReducer,

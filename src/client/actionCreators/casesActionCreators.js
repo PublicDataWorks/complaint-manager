@@ -29,6 +29,7 @@ import {
   GET_ARCHIVED_CASES_SUCCESS,
   GET_CASE_DETAILS_SUCCESS,
   GET_CASE_NOTES_SUCCEEDED,
+  GET_CASE_TAG_SUCCESS,
   GET_MINIMUM_CASE_DETAILS_SUCCESS,
   GET_WORKING_CASES_SUCCESS,
   INCIDENT_DETAILS_UPDATE_SUCCEEDED,
@@ -139,8 +140,14 @@ export const closeCaseTagDialog = () => ({
   type: CASE_TAG_DIALOG_CLOSED
 });
 
-export const createCaseTagSuccess = () => ({
-  type: CREATE_CASE_TAG_SUCCESS
+export const createCaseTagSuccess = caseTags => ({
+  type: CREATE_CASE_TAG_SUCCESS,
+  caseTags
+});
+
+export const getCaseTagSuccess = caseTags => ({
+  type: GET_CASE_TAG_SUCCESS,
+  caseTags
 });
 
 export const openRemoveAttachmentConfirmationDialog = attachmentFileName => ({
