@@ -54,7 +54,9 @@ describe("CaseTagDialog", () => {
   test("should close dialog and reset form when cancel button is clicked", () => {
     dialog.update();
 
-    const cancelButton = dialog.find('[data-test="cancelButton"]').first();
+    const cancelButton = dialog
+      .find('[data-test="caseTagCancelButton"]')
+      .first();
     cancelButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(closeCaseTagDialog());
@@ -89,7 +91,9 @@ describe("CaseTagDialog", () => {
 
     dialog.update();
 
-    const submitButton = dialog.find('[data-test="submitButton"]').first();
+    const submitButton = dialog
+      .find('[data-test="caseTagSubmitButton"]')
+      .first();
 
     const expectedSubmittedValues = {
       caseTagValue: testTagName
@@ -126,7 +130,9 @@ describe("CaseTagDialog", () => {
 
     dialog.update();
 
-    const submitButton = dialog.find('[data-test="submitButton"]').first();
+    const submitButton = dialog
+      .find('[data-test="caseTagSubmitButton"]')
+      .first();
     submitButton.simulate("click");
 
     expect(

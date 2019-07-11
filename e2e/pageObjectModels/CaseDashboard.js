@@ -28,7 +28,7 @@ const caseDashboardCommands = {
       .waitForElementVisible("@intakeSourceOption", e2e.roundtripWait)
       .api.pause(e2e.animationPause);
     return this.click(
-      `li[data-value="${intakeSource}"`
+      `li[data-value="${intakeSource}"]`
     ).waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait);
   },
   submitCase: function() {

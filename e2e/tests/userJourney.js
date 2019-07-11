@@ -45,6 +45,23 @@ if (TEST_PASS && TEST_USER && HOST) {
       snackbar.presentWithMessage("successfully created").close();
     },
 
+    "should add and display case tag": browser => {
+      const tagName = "Tofu";
+      const caseDetailsPage = browser.page.CaseDetails();
+      const snackbar = browser.page.SnackbarPOM();
+      const caseTagDialog = browser.page.CaseTagDialog();
+
+      caseDetailsPage.isOnPage().clickAddTagButton();
+
+      caseTagDialog
+        .dialogIsOpen()
+        .setTagValue(tagName)
+        .clickSubmitNewTag();
+
+      snackbar.presentWithMessage("Case tag was successfully added").close();
+      caseDetailsPage.caseTagIsPresent(tagName);
+    },
+
     "should add and remove an attachment": browser => {
       const caseDetailsPage = browser.page.CaseDetails();
       const snackbar = browser.page.SnackbarPOM();
