@@ -85,7 +85,7 @@ class CaseTagDialog extends Component {
             style={{
               marginLeft: "0px"
             }}
-            data-test="cancelButton"
+            data-test="caseTagCancelButton"
             onClick={() => {
               this.props.closeCaseTagDialog();
               this.props.reset(CASE_TAG_FORM_NAME);
@@ -94,7 +94,7 @@ class CaseTagDialog extends Component {
             Cancel
           </SecondaryButton>
           <PrimaryButton
-            data-test="submitButton"
+            data-test="caseTagSubmitButton"
             onClick={handleSubmit(this.submit)}
             disabled={submitting || !isTagSelected}
           >

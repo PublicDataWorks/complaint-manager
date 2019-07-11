@@ -69,6 +69,17 @@ const caseDetailsCommands = {
       "@restoreCaseButtonInDialog",
       e2e.rerenderWait
     ).click("@backToAllCasesButton");
+  },
+  clickAddTagButton: function() {
+    return this.waitForElementVisible("@addTagButton", e2e.rerenderWait).click(
+      "@addTagButton"
+    );
+  },
+  caseTagIsPresent: function(tagName) {
+    return this.waitForElementVisible(
+      "@caseTagChip",
+      e2e.rerenderWait
+    ).assert.containsText("@caseTagChip", tagName);
   }
 };
 
@@ -87,6 +98,12 @@ module.exports = {
       },
       updateStatusButton: {
         selector: "[data-test='update-status-button']"
+      },
+      addTagButton: {
+        selector: "[data-test='addTagButton']"
+      },
+      caseTagChip: {
+        selector: "[data-test='caseTagChip']"
       },
       reviewAndApproveButton: {
         selector: "[data-test='review-and-approve-letter-button']"
