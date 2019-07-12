@@ -30,6 +30,7 @@
     "test:client:ci": "REACT_APP_ENV=test CI=true react-scripts test src/client --logHeapUsage --maxWorkers=1 --env=jsdom",
     "test:server:worker:ci": "NODE_ENV=test yarn test:server:ci && yarn test:worker:ci",
     "test:once": "run-p -c test:server:worker:ci test:client:ci",
+    "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
     "eject": "react-scripts eject",
     "transformOfficerCsvData": "node -e \"require('./scripts/transformOfficerCsvData')\""
   },
