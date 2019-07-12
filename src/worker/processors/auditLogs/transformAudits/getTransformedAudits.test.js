@@ -14,6 +14,10 @@ jest.mock("./transformAuditsForExport");
 describe("getTransformedAudits", () => {
   const testUser = "Jar Jar Binks";
 
+  beforeEach(() => {
+    transformAuditsForExport.mockClear();
+  });
+
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -43,6 +47,37 @@ describe("getTransformedAudits", () => {
         })
       })
     ]);
+  });
+
+  test("should batch audit query based on configuration", async () => {
+    const audits = [
+      {
+        auditAction: AUDIT_ACTION.LOGGED_IN,
+        user: testUser
+      },
+      {
+        auditAction: AUDIT_ACTION.LOGGED_IN,
+        user: testUser
+      },
+      {
+        auditAction: AUDIT_ACTION.LOGGED_IN,
+        user: testUser
+      },
+      {
+        auditAction: AUDIT_ACTION.LOGGED_IN,
+        user: testUser
+      },
+      {
+        auditAction: AUDIT_ACTION.LOGGED_IN,
+        user: testUser
+      }
+    ];
+
+    await models.audit.bulkCreate(audits);
+
+    await getTransformedAudits({}, 1);
+
+    expect(transformAuditsForExport.mock.calls.length).toBe(5);
   });
 
   test("should include data access audit and data access values", async () => {
