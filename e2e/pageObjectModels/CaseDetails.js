@@ -80,6 +80,18 @@ const caseDetailsCommands = {
       "@caseTagChip",
       e2e.rerenderWait
     ).assert.containsText("@caseTagChip", tagName);
+  },
+  clickRemoveTagButton: function(tagName) {
+    return this.waitForElementVisible(
+      "@removeTagButton",
+      e2e.rerenderWait
+    ).click("@removeTagButton");
+  },
+  noCaseTagsArePresent: function() {
+    return this.waitForElementVisible(
+      "@caseTagsContainer",
+      e2e.rerenderWait
+    ).assert.containsText("@caseTagsContainer", "No tags have been added");
   }
 };
 
@@ -99,11 +111,17 @@ module.exports = {
       updateStatusButton: {
         selector: "[data-test='update-status-button']"
       },
+      caseTagsContainer: {
+        selector: "[data-test='caseTagsContainer']"
+      },
       addTagButton: {
         selector: "[data-test='addTagButton']"
       },
       caseTagChip: {
         selector: "[data-test='caseTagChip']"
+      },
+      removeTagButton: {
+        selector: "div[role='button'][data-test='caseTagChip'] > svg"
       },
       reviewAndApproveButton: {
         selector: "[data-test='review-and-approve-letter-button']"
