@@ -62,6 +62,20 @@ if (TEST_PASS && TEST_USER && HOST) {
       caseDetailsPage.caseTagIsPresent(tagName);
     },
 
+    "should remove a case tag": browser => {
+      const tagName = "Tofu";
+      const caseDetailsPage = browser.page.CaseDetails();
+      const snackbar = browser.page.SnackbarPOM();
+      const removeCaseTagDialog = browser.page.RemoveCaseTagDialog();
+
+      caseDetailsPage.isOnPage().clickRemoveTagButton(tagName);
+
+      removeCaseTagDialog.dialogIsOpen().clickRemoveTagButton();
+
+      snackbar.presentWithMessage("Case tag was successfully removed").close();
+      caseDetailsPage.noCaseTagsArePresent();
+    },
+
     "should add and remove an attachment": browser => {
       const caseDetailsPage = browser.page.CaseDetails();
       const snackbar = browser.page.SnackbarPOM();
