@@ -53,6 +53,7 @@ import getCaseNoteActions from "./handlers/caseNoteActions/getCaseNoteActions";
 import createCaseTag from "./handlers/cases/createCaseTag";
 import getCaseTags from "./handlers/cases/caseTags/getCaseTags";
 import getTags from "./handlers/tags/getTags";
+import { removeCaseTag } from "./handlers/cases/removeCaseTag";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -180,6 +181,13 @@ export const API_ROUTES = {
       handler: getCaseTags,
       errorMessage:
         "Something went wrong and the case tags were not loaded. Please try again."
+    }
+  },
+  "/cases/:caseId/case-tags/:caseTagId": {
+    delete: {
+      handler: removeCaseTag,
+      errorMessage:
+        "Something went wrong and the case tag was not removed. Please try again."
     }
   },
   "/cases/:caseId/cases-officers": {
