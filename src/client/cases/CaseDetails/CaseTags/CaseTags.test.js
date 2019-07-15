@@ -7,7 +7,8 @@ import { mount } from "enzyme";
 import { containsText } from "../../../testHelpers";
 import {
   getCaseTagSuccess,
-  openCaseTagDialog
+  openCaseTagDialog,
+  openRemoveCaseTagDialog
 } from "../../../../client/actionCreators/casesActionCreators";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 
@@ -86,5 +87,41 @@ describe("Case Tags", () => {
     addTagButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(openCaseTagDialog());
+  });
+
+  test("should open removeCaseTagDialog when remove is clicked", () => {
+    const caseTags = [
+      {
+        id: 1,
+        caseId: 1,
+        tagId: 1,
+        tag: {
+          id: 1,
+          name: "Penguins"
+        }
+      },
+      {
+        id: 2,
+        caseId: 1,
+        tagId: 2,
+        tag: {
+          id: 2,
+          name: "Osprey"
+        }
+      }
+    ];
+
+    store.dispatch(getCaseTagSuccess(caseTags));
+
+    dialog.update();
+
+    const tagToDelete = dialog.find("Chip").first();
+    tagToDelete.prop("onDelete")();
+
+    const firstCaseTag = caseTags[0];
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openRemoveCaseTagDialog(firstCaseTag)
+    );
   });
 });

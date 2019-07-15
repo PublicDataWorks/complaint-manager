@@ -1,7 +1,8 @@
 import caseTagsReducer from "./caseTagsReducer";
 import {
   createCaseTagSuccess,
-  getCaseTagSuccess
+  getCaseTagSuccess,
+  removeCaseTagSuccess
 } from "../../actionCreators/casesActionCreators";
 
 describe("caseTagsReducer", () => {
@@ -25,6 +26,18 @@ describe("caseTagsReducer", () => {
       [],
       createCaseTagSuccess(expectedCaseTags)
     );
+    expect(newState).toEqual(expectedCaseTags);
+  });
+
+  test("should replace case tags after removing case tag", () => {
+    const oldCaseTags = ["Penguin", "Osprey", "T-Rex"];
+    const expectedCaseTags = ["Penguin", "Osprey"];
+
+    const newState = caseTagsReducer(
+      oldCaseTags,
+      removeCaseTagSuccess(expectedCaseTags)
+    );
+
     expect(newState).toEqual(expectedCaseTags);
   });
 });

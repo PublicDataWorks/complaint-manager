@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import { Chip, Typography } from "@material-ui/core";
 import LinkButton from "../../../shared/components/LinkButton";
-import { openCaseTagDialog } from "../../../actionCreators/casesActionCreators";
+import {
+  openCaseTagDialog,
+  openRemoveCaseTagDialog
+} from "../../../actionCreators/casesActionCreators";
 import { connect } from "react-redux";
 import CaseTagDialog from "./CaseTagDialog";
 import getCaseTags from "../../thunks/getCaseTags";
+import RemoveCaseTagDialog from "../RemoveCaseTagDialog/RemoveCaseTagDialog";
 
 class CaseTags extends Component {
   componentDidMount() {
@@ -37,13 +41,17 @@ class CaseTags extends Component {
                   <Chip
                     style={{ margin: "5px" }}
                     key={caseTag.id}
-                    label={caseTag.tag.name}
+                    label={caseTag && caseTag.tag.name}
                     data-test="caseTagChip"
+                    onDelete={() =>
+                      this.props.dispatch(openRemoveCaseTagDialog(caseTag))
+                    }
                   />
                 );
               })
             )}
           </div>
+          <RemoveCaseTagDialog />
         </div>
         <LinkButton
           onClick={() => this.props.dispatch(openCaseTagDialog())}
