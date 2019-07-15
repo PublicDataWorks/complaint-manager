@@ -54,6 +54,7 @@ import caseNoteActionReducer from "./reducers/ui/caseNoteActionReducer";
 import caseTagDialogReducer from "./reducers/ui/caseTagDialogReducer";
 import tagReducer from "./reducers/ui/tagReducer";
 import caseTagReducer from "./reducers/cases/caseTagsReducer";
+import removeCaseTagDialogReducer from "./reducers/ui/removeCaseTagDialogReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -85,6 +86,7 @@ const rootReducer = combineReducers({
     allExports: allExportsReducer,
     removePersonDialog: removePersonDialogReducer,
     removeCaseNoteDialog: removeCaseNoteDialogReducer,
+    removeCaseTagDialog: removeCaseTagDialogReducer,
     editLetterConfirmationDialog: editReferralLetterReducer,
     cancelEditLetterConfirmationDialog: cancelEditLetterConfirmationDialogReducer,
     attachments: attachmentsReducer,

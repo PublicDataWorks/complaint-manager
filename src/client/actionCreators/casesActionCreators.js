@@ -38,7 +38,10 @@ import {
   REMOVE_ATTACHMENT_CONFIRMATION_DIALOG_OPENED,
   REMOVE_CASE_NOTE_DIALOG_CLOSED,
   REMOVE_CASE_NOTE_DIALOG_OPENED,
+  REMOVE_CASE_TAG_DIALOG_OPENED,
+  REMOVE_CASE_TAG_DIALOG_CLOSED,
   REMOVE_CASE_NOTE_SUCCEEDED,
+  REMOVE_CASE_TAG_SUCCESS,
   REMOVE_PERSON_DIALOG_CLOSED,
   REMOVE_PERSON_DIALOG_OPENED,
   REMOVE_PERSON_SUCCEEDED,
@@ -145,9 +148,23 @@ export const createCaseTagSuccess = caseTags => ({
   caseTags
 });
 
+export const removeCaseTagSuccess = caseTags => ({
+  type: REMOVE_CASE_TAG_SUCCESS,
+  caseTags
+});
+
 export const getCaseTagSuccess = caseTags => ({
   type: GET_CASE_TAG_SUCCESS,
   caseTags
+});
+
+export const openRemoveCaseTagDialog = (caseTag = {}) => ({
+  type: REMOVE_CASE_TAG_DIALOG_OPENED,
+  caseTag
+});
+
+export const closeRemoveCaseTagDialog = () => ({
+  type: REMOVE_CASE_TAG_DIALOG_CLOSED
 });
 
 export const openRemoveAttachmentConfirmationDialog = attachmentFileName => ({
