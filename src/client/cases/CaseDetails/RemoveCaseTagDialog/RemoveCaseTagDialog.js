@@ -27,10 +27,8 @@ class RemoveCaseTagDialog extends Component {
         </DialogTitle>
         <DialogContent>
           <Typography style={{ marginBottom: "24px" }}>
-            {`This action will remove the ${
-              caseTag.tag.name
-            } tag from the case. Are you sure you want
-            to continue?`}
+            This action will remove the <b>{caseTag.tag.name}</b> tag from the
+            case. Are you sure you want to continue?
           </Typography>
           <div />
         </DialogContent>
