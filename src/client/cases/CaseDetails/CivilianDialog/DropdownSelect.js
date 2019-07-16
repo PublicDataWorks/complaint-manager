@@ -87,7 +87,11 @@ function Option(props) {
       component="li"
       style={{
         fontWeight: props.isSelected ? 500 : 400,
-        display: shouldHide ? "none" : "flex"
+        display: shouldHide ? "none" : "flex",
+        whiteSpace: "normal",
+        wordBreak: "break-word",
+        breakWord: "normal",
+        height: "auto"
       }}
       role="option"
       data-value={props.data.value}
