@@ -66,7 +66,7 @@ class CaseTagDialog extends Component {
               name="caseTagValue"
               isCreatable={true}
               required
-              style={{ width: "9rem" }}
+              style={{ width: "12rem" }}
               validate={[caseTagRequired]}
             >
               {generateMenuOptions(this.props.tags)}
