@@ -167,6 +167,9 @@ export const transformSingleNewAuditToOld = async (audit, transaction) => {
   const auditDetails = {};
 
   audit.dataAccessAudit.dataAccessValues.forEach(dataAccessValue => {
+    if (dataAccessValue.association === "fileAudit") {
+      return;
+    }
     auditDetails[dataAccessValue.association] = {
       attributes: dataAccessValue.fields,
       model: associationToModelNameMap[dataAccessValue.association]
@@ -385,6 +388,14 @@ const mapAuditDetailsKeyToAssociationAndModel = {
   Tag: {
     modelName: models.tag.name,
     association: "tag"
+  },
+  Audit: {
+    modelName: models.action_audit.name,
+    association: "actionAudit"
+  },
+  "Data Change Audit": {
+    modelName: models.legacy_data_change_audit.name,
+    association: "legacyDataChangeAudit"
   }
 };
 
