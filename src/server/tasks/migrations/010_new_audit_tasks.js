@@ -4,10 +4,22 @@ import {
 } from "../taskMigrationJobs/auditTransformationJobs/newAuditTasks";
 
 module.exports = {
-  up: async () => {
-    await runAllAuditMigrationHelpers();
+  up: async queryInterface => {
+    await queryInterface.sequelize.transaction(async transaction => {
+      try {
+        await runAllAuditMigrationHelpers(transaction);
+      } catch (error) {
+        throw new Error(error);
+      }
+    });
   },
-  down: async () => {
-    await undoAllAuditMigrationHelpers();
+  down: async queryInterface => {
+    await queryInterface.sequelize.transaction(async transaction => {
+      try {
+        await undoAllAuditMigrationHelpers(transaction);
+      } catch (error) {
+        throw new Error(error);
+      }
+    });
   }
 };

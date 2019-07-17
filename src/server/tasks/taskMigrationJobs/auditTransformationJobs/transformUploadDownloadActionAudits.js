@@ -20,6 +20,7 @@ export const transformOldUploadDownloadAccessAuditsToNewFileAudits = async trans
     await models.audit.create(
       {
         auditAction: oldUploadDownloadActionAudits[i].action,
+        caseId: oldUploadDownloadActionAudits[i].caseId,
         user: oldUploadDownloadActionAudits[i].user,
         createdAt: oldUploadDownloadActionAudits[i].createdAt,
         fileAudit: {
