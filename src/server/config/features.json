@@ -15,9 +15,7 @@
     "id": "newAuditFeature",
     "name": "newAuditFeature",
     "description": "Toggle to enable new auditing - only do so in production at the same time as migrating old data",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": true
   },
   {
     "id": "createCaseAddressInputFeature",
@@ -29,8 +27,6 @@
     "id": "caseTaggingFeature",
     "name": "caseTaggingFeature",
     "description": "Toggle to enable new case tagging feature",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": true
   }
 ]
