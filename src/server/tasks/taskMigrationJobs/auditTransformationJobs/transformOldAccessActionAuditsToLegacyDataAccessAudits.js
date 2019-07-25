@@ -15,10 +15,18 @@ export const transformOldAccessActionAuditsToLegacyDataAccessAudits = async tran
   });
 
   for (let i = 0; i < legacyAccessActionAudits.length; i++) {
-    await transformSingleOldAccessActionAuditsToLegacyDataAccessAudits(
-      legacyAccessActionAudits[i],
-      transaction
-    );
+    try {
+      await transformSingleOldAccessActionAuditsToLegacyDataAccessAudits(
+        legacyAccessActionAudits[i],
+        transaction
+      );
+    } catch (error) {
+      throw new Error(
+        `Error while transforming old access action audit to legacy data access audit for action audit id ${
+          legacyAccessActionAudits[i].id
+        }.\nInternal Error: ${error}`
+      );
+    }
   }
 };
 
@@ -55,7 +63,9 @@ export const transformLegacyDataAccessAuditsToOldAccessActionAudits = async tran
       truncate: true,
       cascade: true
     },
-    { transaction }
+    {
+      transaction
+    }
   );
   await models.audit.destroy(
     {
@@ -67,6 +77,8 @@ export const transformLegacyDataAccessAuditsToOldAccessActionAudits = async tran
         }
       }
     },
-    { transaction }
+    {
+      transaction
+    }
   );
 };

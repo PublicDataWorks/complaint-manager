@@ -15,14 +15,22 @@ export const transformOldAuthenticationAuditsToNew = async transaction => {
   });
 
   for (let i = 0; i < oldAuthenticationAudits.length; i++) {
-    await models.audit.create(
-      {
-        auditAction: oldAuthenticationAudits[i].action,
-        user: oldAuthenticationAudits[i].user,
-        createdAt: oldAuthenticationAudits[i].createdAt
-      },
-      { transaction }
-    );
+    try {
+      await models.audit.create(
+        {
+          auditAction: oldAuthenticationAudits[i].action,
+          user: oldAuthenticationAudits[i].user,
+          createdAt: oldAuthenticationAudits[i].createdAt
+        },
+        { transaction }
+      );
+    } catch (error) {
+      throw new Error(
+        `Error while creating new authentication audit for action audit id ${
+          oldAuthenticationAudits[i].id
+        }.\nInternal Error: ${error}`
+      );
+    }
   }
 };
 
@@ -45,15 +53,23 @@ export const transformNewAuthenticationAuditsToOld = async transaction => {
     });
 
     if (!existingActionAudit) {
-      await models.action_audit.create(
-        {
-          action: newAuthenticationAudits[i].auditAction,
-          createdAt: newAuthenticationAudits[i].createdAt,
-          auditType: AUDIT_TYPE.AUTHENTICATION,
-          user: newAuthenticationAudits[i].user
-        },
-        { transaction }
-      );
+      try {
+        await models.action_audit.create(
+          {
+            action: newAuthenticationAudits[i].auditAction,
+            createdAt: newAuthenticationAudits[i].createdAt,
+            auditType: AUDIT_TYPE.AUTHENTICATION,
+            user: newAuthenticationAudits[i].user
+          },
+          { transaction }
+        );
+      } catch (error) {
+        throw new Error(
+          `Error while creating old authentication audit for audit id ${
+            newAuthenticationAudits[i].id
+          }.\nInternal Error: ${error}`
+        );
+      }
     }
   }
 

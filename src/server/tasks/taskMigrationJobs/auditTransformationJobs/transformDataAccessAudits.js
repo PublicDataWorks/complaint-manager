@@ -22,7 +22,15 @@ export const transformOldDataAccessAuditsToNew = async transaction => {
   });
 
   for (let i = 0; i < audits.length; i++) {
-    await transformSingleOldAuditToNew(audits[i], transaction);
+    try {
+      await transformSingleOldAuditToNew(audits[i], transaction);
+    } catch (error) {
+      throw new Error(
+        `Error while transforming old audit to new for action audit id ${
+          audits[i].id
+        }. \nInternal Error: ${error}`
+      );
+    }
   }
 };
 
@@ -48,7 +56,12 @@ export const transformSingleOldAuditToNew = async (
         {
           model: models.data_access_audit,
           as: "dataAccessAudit",
-          include: [{ model: models.data_access_value, as: "dataAccessValues" }]
+          include: [
+            {
+              model: models.data_access_value,
+              as: "dataAccessValues"
+            }
+          ]
         }
       ],
       transaction
@@ -149,10 +162,21 @@ export const transformNewDataAccessAuditsToOld = async transaction => {
       }
     });
     if (!existingActionAudit) {
-      await transformSingleNewAuditToOld(audits[auditIndex], transaction);
+      try {
+        await transformSingleNewAuditToOld(audits[auditIndex], transaction);
+      } catch (error) {
+        throw new Error(
+          `Error while transforming new audit to old for audit id ${
+            audits[auditIndex].id
+          }. \nInternal Error: ${error}`
+        );
+      }
     }
   }
-  await models.data_access_audit.destroy({ truncate: true, cascade: true });
+  await models.data_access_audit.destroy({
+    truncate: true,
+    cascade: true
+  });
   await models.audit.destroy({
     where: {
       auditAction: AUDIT_ACTION.DATA_ACCESSED
@@ -188,7 +212,9 @@ export const transformSingleNewAuditToOld = async (audit, transaction) => {
       auditDetails: formattedAuditDetails,
       createdAt: audit.createdAt
     },
-    { transaction }
+    {
+      transaction
+    }
   );
 };
 
@@ -402,9 +428,15 @@ const mapAuditDetailsKeyToAssociationAndModel = {
 const getAssociationToModelMapping = mapAuditDetailsKeyToAssociationAndModel => {
   const mapAssociationToModel = {};
   Object.keys(mapAuditDetailsKeyToAssociationAndModel).forEach(mappingKey => {
-    mapAssociationToModel[
-      mapAuditDetailsKeyToAssociationAndModel[mappingKey].association
-    ] = mapAuditDetailsKeyToAssociationAndModel[mappingKey].modelName;
+    try {
+      mapAssociationToModel[
+        mapAuditDetailsKeyToAssociationAndModel[mappingKey].association
+      ] = mapAuditDetailsKeyToAssociationAndModel[mappingKey].modelName;
+    } catch (error) {
+      throw new Error(
+        `Error while getting associations to model maps for ${mappingKey}.`
+      );
+    }
   });
   return mapAssociationToModel;
 };
