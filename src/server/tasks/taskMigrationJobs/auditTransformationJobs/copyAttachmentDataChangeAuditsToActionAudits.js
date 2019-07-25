@@ -20,7 +20,18 @@ export const copyAttachmentDataChangeAuditsToActionAudits = async transaction =>
   });
 
   for (let i = 0; i < dataChangeAudits.length; i++) {
-    await copyAttachmentIntoActionAuditTable(dataChangeAudits[i], transaction);
+    try {
+      await copyAttachmentIntoActionAuditTable(
+        dataChangeAudits[i],
+        transaction
+      );
+    } catch (error) {
+      throw new Error(
+        `Error while copying attachment into action audit table with legacy data change audit id ${
+          dataChangeAudits[i].id
+        }. \nInternal Error: ${error}`
+      );
+    }
   }
 };
 

@@ -41,23 +41,31 @@ export const transformOldExportAuditsToNew = async transaction => {
     const dateRange = getDateRange(oldExportAudits[i].auditDetails);
     const exportType = jobOperationDictionary[oldExportAudits[i].subject];
     const rangeType = getDateType(oldExportAudits[i].auditDetails);
-    const created = await models.audit.create(
-      {
-        auditAction: oldExportAudits[i].action,
-        user: oldExportAudits[i].user,
-        createdAt: oldExportAudits[i].createdAt,
-        exportAudit: {
-          exportType: exportType,
-          rangeType: rangeType,
-          rangeStart: dateRange ? dateRange[0] : null,
-          rangeEnd: dateRange ? dateRange[1] : null
+    try {
+      await models.audit.create(
+        {
+          auditAction: oldExportAudits[i].action,
+          user: oldExportAudits[i].user,
+          createdAt: oldExportAudits[i].createdAt,
+          exportAudit: {
+            exportType: exportType,
+            rangeType: rangeType,
+            rangeStart: dateRange ? dateRange[0] : null,
+            rangeEnd: dateRange ? dateRange[1] : null
+          }
+        },
+        {
+          include: [{ model: models.export_audit, as: "exportAudit" }],
+          transaction
         }
-      },
-      {
-        include: [{ model: models.export_audit, as: "exportAudit" }],
-        transaction
-      }
-    );
+      );
+    } catch (error) {
+      throw new Error(
+        `Error while transforming old export audit to new with action audit id ${
+          oldExportAudits[i].id
+        }.\nInternal Error ${error}`
+      );
+    }
   }
 };
 
@@ -99,19 +107,27 @@ export const transformNewExportAuditsToOld = async transaction => {
 
     if (!existingActionAudit) {
       const dateRange = generateDateRangeFromNewAudit(newExportAudits[i]);
-
-      await models.action_audit.create({
-        action: AUDIT_ACTION.EXPORTED,
-        auditType: AUDIT_TYPE.EXPORT,
-        user: newExportAudits[i].user,
-        caseId: null,
-        subject:
-          JOB_OPERATION[newExportAudits[i].exportAudit.exportType].auditSubject,
-        auditDetails: _.isEmpty(dateRange)
-          ? null
-          : getAuditDetailsForExport(dateRange),
-        createdAt: newExportAudits[i].createdAt
-      });
+      try {
+        await models.action_audit.create({
+          action: AUDIT_ACTION.EXPORTED,
+          auditType: AUDIT_TYPE.EXPORT,
+          user: newExportAudits[i].user,
+          caseId: null,
+          subject:
+            JOB_OPERATION[newExportAudits[i].exportAudit.exportType]
+              .auditSubject,
+          auditDetails: _.isEmpty(dateRange)
+            ? null
+            : getAuditDetailsForExport(dateRange),
+          createdAt: newExportAudits[i].createdAt
+        });
+      } catch (error) {
+        throw new Error(
+          `Error while transforming new export audit to old with audit id ${
+            newExportAudits[i].id
+          }.\nInternal Error ${error}`
+        );
+      }
     }
 
     await models.export_audit.destroy({
