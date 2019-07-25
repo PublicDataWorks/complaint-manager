@@ -6,10 +6,18 @@ export const transformLegacyDataChangeAuditsToDataChangeAudits = async transacti
   const legacyDataChangeAudits = await models.legacy_data_change_audit.findAll();
 
   for (let i = 0; i < legacyDataChangeAudits.length; i++) {
-    await transformSingleLegacyDataChangeAuditToDataChangeAudit(
-      legacyDataChangeAudits[i],
-      transaction
-    );
+    try {
+      await transformSingleLegacyDataChangeAuditToDataChangeAudit(
+        legacyDataChangeAudits[i],
+        transaction
+      );
+    } catch (error) {
+      throw new Error(
+        `Error while transforming legacy data change audit to data change audit for legacy data change audit id ${
+          legacyDataChangeAudits[i].id
+        }. \nInternal Error: ${error}`
+      );
+    }
   }
 };
 
@@ -77,7 +85,10 @@ const transformSingleLegacyDataChangeAuditToDataChangeAudit = async (
 };
 
 export const revertDataChangeAuditsToLegacyDataChangeAudits = async transaction => {
-  await models.data_change_audit.destroy({ truncate: true, cascade: true });
+  await models.data_change_audit.destroy({
+    truncate: true,
+    cascade: true
+  });
   await models.audit.destroy({
     where: {
       auditAction: {

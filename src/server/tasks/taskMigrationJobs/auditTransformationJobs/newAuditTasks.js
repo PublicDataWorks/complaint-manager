@@ -30,40 +30,42 @@ import {
 export const runAllAuditMigrationHelpers = async transaction => {
   console.log("Starting transformOldAuthenticationAuditsToNew");
   await transformOldAuthenticationAuditsToNew(transaction);
-  console.log("Finished transformOldAuthenticationAuditsToNew");
+  console.log("Finished transformOldAuthenticationAuditsToNew\n");
 
   console.log("Starting transformOldDataAccessAuditsToNew");
   await transformOldDataAccessAuditsToNew(transaction);
-  console.log("Finished transformOldDataAccessAuditsToNew");
+  console.log("Finished transformOldDataAccessAuditsToNew\n");
 
   console.log("Starting transformOldExportAuditsToNew");
   await transformOldExportAuditsToNew(transaction);
-  console.log("Finished transformOldExportAuditsToNew");
+  console.log("Finished transformOldExportAuditsToNew\n");
 
   // Transform old upload download access audits is dependent on copy attachment audits running first
   console.log("Starting copyAttachmentDataChangeAuditsToActionAudits");
   await copyAttachmentDataChangeAuditsToActionAudits(transaction);
-  console.log("Finished copyAttachmentDataChangeAuditsToActionAudits");
+  console.log("Finished copyAttachmentDataChangeAuditsToActionAudits\n");
+
   console.log("Starting transformOldUploadDownloadAccessAuditsToNewFileAudits");
   await transformOldUploadDownloadAccessAuditsToNewFileAudits(transaction);
   console.log(
-    "Finishing transformOldUploadDownloadAccessAuditsToNewFileAudits"
+    "Finishing transformOldUploadDownloadAccessAuditsToNewFileAudits\n"
   );
 
   console.log("Starting transformLegacyDataChangeAuditsToDataChangeAudits");
   await transformLegacyDataChangeAuditsToDataChangeAudits(transaction);
-  console.log("Finished transformLegacyDataChangeAuditsToDataChangeAudits");
+  console.log("Finished transformLegacyDataChangeAuditsToDataChangeAudits\n");
 
   console.log(
     "Starting transformOldAccessActionAuditsToLegacyDataAccessAudits"
   );
   await transformOldAccessActionAuditsToLegacyDataAccessAudits(transaction);
   console.log(
-    "Finished transformOldAccessActionAuditsToLegacyDataAccessAudits"
+    "Finished transformOldAccessActionAuditsToLegacyDataAccessAudits\n"
   );
 };
 
 export const undoAllAuditMigrationHelpers = async transaction => {
+  console.log("Beginning down...");
   await transformLegacyDataAccessAuditsToOldAccessActionAudits(transaction);
 
   await revertDataChangeAuditsToLegacyDataChangeAudits(transaction);

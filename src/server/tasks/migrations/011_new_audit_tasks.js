@@ -9,7 +9,7 @@ module.exports = {
       try {
         await runAllAuditMigrationHelpers(transaction);
       } catch (error) {
-        throw new Error(error);
+        console.log(error);
       }
     });
   },
@@ -18,7 +18,7 @@ module.exports = {
       try {
         await undoAllAuditMigrationHelpers(transaction);
       } catch (error) {
-        throw new Error(error);
+        console.log(error);
       }
     });
   }
