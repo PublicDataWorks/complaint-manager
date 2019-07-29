@@ -63,10 +63,6 @@ module.exports = (sequelize, DataTypes) => {
         field: "additional_info",
         type: DataTypes.TEXT
       },
-      title: {
-        field: "title",
-        type: DataTypes.ENUM(["N/A", "Dr.", "Miss", "Mr.", "Mrs.", "Ms."])
-      },
       isAnonymous: {
         field: "is_anonymous",
         type: DataTypes.BOOLEAN,
@@ -127,6 +123,14 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: "genderIdentityId",
         field: "gender_identity_id",
+        allowNull: true
+      }
+    });
+    Civilian.belongsTo(models.civilian_title, {
+      as: "civilianTitle",
+      foreignKey: {
+        name: "civilianTitleId",
+        field: "civilian_title_id",
         allowNull: true
       }
     });
