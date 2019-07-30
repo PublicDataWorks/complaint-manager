@@ -21,6 +21,8 @@ services:
       - "1234:1234"
       - "3000:3000"
       - "4000:4000"
+#      Expose this port if using Node inspect flag for debugging purposes
+#     - "9229:9229"
     entrypoint: ["./wait-for-it.sh", "db:5432", "--"]
     command: ["yarn", "start:dev"]
     volumes:
