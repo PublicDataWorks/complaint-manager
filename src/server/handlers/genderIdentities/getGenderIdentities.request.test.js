@@ -1,6 +1,5 @@
 import {
   buildTokenWithPermissions,
-  cleanupDatabase,
   expectResponse
 } from "../../testHelpers/requestTestHelpers";
 import request from "supertest";
@@ -18,10 +17,6 @@ jest.mock("./getGenderIdentities", () =>
 );
 
 describe("getGenderIdentities", () => {
-  afterEach(async () => {
-    await cleanupDatabase();
-  });
-
   test("hits endpoint that calls getGenderIdentities", async () => {
     const token = buildTokenWithPermissions("", "tuser");
 
