@@ -37,6 +37,12 @@ const MODEL_ASSOCIATIONS_TO_LOOKUP = [
     modelName: "gender_identity",
     identifyingAttribute: "name",
     as: "genderIdentity"
+  },
+  {
+    foreignKey: "civilianTitleId",
+    modelName: "civilian_title",
+    identifyingAttribute: "name",
+    as: "civilianTitle"
   }
 ];
 
