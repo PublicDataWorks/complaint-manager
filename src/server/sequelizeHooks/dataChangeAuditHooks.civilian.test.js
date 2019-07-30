@@ -118,4 +118,36 @@ describe("dataChangeAuditHooks for civilian", () => {
     };
     expect(audit.changes).toEqual(expectedChanges);
   });
+
+  test("it saves the changes when civilian title association has changed", async () => {
+    const civilianTitle = await models.civilian_title.create({
+      name: "Professor"
+    });
+
+    await civilian.update(
+      {
+        civilianTitleId: civilianTitle.id
+      },
+      {
+        auditUser: "anUpdatingPerson"
+      }
+    );
+
+    const audit = await models.legacy_data_change_audit.findOne({
+      where: { modelName: "Civilian", action: AUDIT_ACTION.DATA_UPDATED }
+    });
+
+    const expectedChanges = {
+      civilianTitleId: {
+        previous: null,
+        new: civilianTitle.id
+      },
+      civilianTitle: {
+        previous: null,
+        new: civilianTitle.name
+      }
+    };
+
+    expect(audit.changes).toEqual(expectedChanges);
+  });
 });
