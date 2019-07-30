@@ -33,11 +33,11 @@ const getComplainantLetterPdfData = (existingCase, complainant) => {
   const currentDate = Date.now();
 
   let revisedTitle;
-  if (complainant.title && complainant.title !== "N/A") {
-    revisedTitle = complainant.title;
+  if (complainant.civilianTitle && complainant.civilianTitle.name !== "N/A") {
+    revisedTitle = complainant.civilianTitle.name;
   } else if (
-    !complainant.title ||
-    (complainant.title && complainant.title === "N/A")
+    !complainant.civilianTitle ||
+    (complainant.civilianTitle.name && complainant.civilianTitle.name === "N/A")
   ) {
     revisedTitle = "";
   } else {

@@ -38,10 +38,7 @@ import PhoneNumberField from "../../sharedFormComponents/PhoneNumberField";
 import EmailField from "../../sharedFormComponents/EmailField";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 import moment from "moment";
-import {
-  generateMenuOptions,
-  titleMenu
-} from "../../../utilities/generateMenuOptions";
+import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import validate from "./helpers/validateCivilianFields";
 import AddressInput from "./AddressInput";
 import {
@@ -56,6 +53,7 @@ import _ from "lodash";
 import normalizeAddress from "../../../utilities/normalizeAddress";
 import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getRaceEthnicityDropdownValues";
 import getGenderIdentityDropdownValues from "../../../genderIdentities/thunks/getGenderIdentityDropdownValues";
+import getCivilianTitleDropdownValues from "../../../civilianTitles/thunks/getCivilianTitleDropdownValues";
 import PrimaryCheckBox from "../../../shared/components/PrimaryCheckBox";
 
 const styles = {
@@ -68,6 +66,7 @@ class CivilianDialog extends Component {
   componentDidMount() {
     this.props.getRaceEthnicityDropdownValues();
     this.props.getGenderIdentityDropdownValues();
+    this.props.getCivilianTitleDropdownValues();
   }
 
   handleCivilian = (values, dispatch) => {
@@ -135,7 +134,7 @@ class CivilianDialog extends Component {
             <div>
               <Field
                 required
-                name="title"
+                name="civilianTitleId"
                 component={DropdownSelect}
                 label="Title"
                 hinttext="Title"
@@ -146,7 +145,7 @@ class CivilianDialog extends Component {
                 }}
                 validate={[titleIsRequired]}
               >
-                {titleMenu}
+                {generateMenuOptions(this.props.civilianTitles)}
               </Field>
             </div>
             <div>
@@ -344,6 +343,7 @@ const mapStateToProps = state => {
     addressValid: state.ui.addressInput.addressValid,
     raceEthnicities: state.ui.raceEthnicities,
     genderIdentities: state.ui.genderIdentities,
+    civilianTitles: state.ui.civilianTitles,
     createCaseAddressInputFeature:
       state.featureToggles.createCaseAddressInputFeature
   };
@@ -351,7 +351,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   getRaceEthnicityDropdownValues,
-  getGenderIdentityDropdownValues
+  getGenderIdentityDropdownValues,
+  getCivilianTitleDropdownValues
 };
 
 export default connect(
