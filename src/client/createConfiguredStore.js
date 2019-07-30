@@ -55,6 +55,7 @@ import caseTagDialogReducer from "./reducers/ui/caseTagDialogReducer";
 import tagReducer from "./reducers/ui/tagReducer";
 import caseTagReducer from "./reducers/cases/caseTagsReducer";
 import removeCaseTagDialogReducer from "./reducers/ui/removeCaseTagDialogReducer";
+import civilianTitleReducer from "./reducers/ui/civilianTitleReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -97,6 +98,7 @@ const rootReducer = combineReducers({
     intakeSources: intakeSourceReducer,
     howDidYouHearAboutUsSources: howDidYouHearAboutUsSourceReducer,
     raceEthnicities: raceEthnicityReducer,
+    civilianTitles: civilianTitleReducer,
     tags: tagReducer,
     genderIdentities: genderIdentityReducer,
     officerHistoryOptions: officerHistoryOptionsReducer,

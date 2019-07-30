@@ -2,10 +2,7 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import timekeeper from "timekeeper";
 import Case from "../../../../../client/testUtilities/case";
-import {
-  CASE_STATUS,
-  CIVILIAN_INITIATED
-} from "../../../../../sharedUtilities/constants";
+import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import models from "../../../../models";
 import Civilian from "../../../../../client/testUtilities/civilian";
 import generateComplainantLetterPdfBuffer, {
@@ -33,12 +30,12 @@ afterEach(async () => {
 beforeEach(async () => {
   timeOfDownload = new Date("2018-07-01 19:00:22 CDT");
   timekeeper.freeze(timeOfDownload);
+  await models.civilian_title.create({ name: "Miss", id: 2 });
   const caseAttributes = new Case.Builder()
     .defaultCase()
     .withId(12070)
     .withFirstContactDate("2017-12-25")
-    .withIncidentDate("2016-01-01")
-    .withComplaintType(CIVILIAN_INITIATED);
+    .withIncidentDate("2016-01-01");
   existingCase = await models.cases.create(caseAttributes, {
     auditUser: "test"
   });
@@ -59,6 +56,8 @@ describe("generateComplainantLetterPdfBuffer", function() {
     complainant = new Civilian.Builder()
       .defaultCivilian()
       .withId(undefined)
+      .withCivilianTitleId(2)
+      .withCivilianTitle({ name: "Miss", id: 2 })
       .build();
   });
 

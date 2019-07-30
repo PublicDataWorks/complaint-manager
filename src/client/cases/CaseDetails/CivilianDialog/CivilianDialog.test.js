@@ -20,8 +20,10 @@ import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 import { getRaceEthnicitiesSuccess } from "../../../actionCreators/raceEthnicityActionCreators";
 import getGenderIdentityDropdownValues from "../../../genderIdentities/thunks/getGenderIdentityDropdownValues";
 import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getRaceEthnicityDropdownValues";
+import getCivilianTitleDropdownValues from "../../../civilianTitles/thunks/getCivilianTitleDropdownValues";
 import { getGenderIdentitiesSuccess } from "../../../actionCreators/genderIdentityActionCreators";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
+import { getCivilianTitlesSuccess } from "../../../actionCreators/civilianTitleActionCreators";
 
 jest.mock("../../thunks/editCivilian", () =>
   jest.fn(() => ({ type: "MOCK_CIVILIAN_REQUESTED" }))
@@ -52,11 +54,22 @@ jest.mock(
     }))
 );
 
+jest.mock("../../../civilianTitles/thunks/getCivilianTitleDropdownValues", () =>
+  jest.fn(() => ({
+    type: "MOCK_GET_CIVILIAN_TITLES_THUNK"
+  }))
+);
+
 describe("civilian dialog", () => {
   let civilianDialog, store, dispatchSpy, caseCivilian, save, submitAction;
 
   const unknownGenderIdentity = ["Unknown", 2];
   const otherGenderIdentity = ["Other", 1];
+
+  const doctorMrsCivilianTitle = ["DoctorMrs.", 2];
+  const profCivilianTitle = ["Prof.", 1];
+  const aTitleCivilianTitle = ["A Title", 3];
+
   beforeEach(() => {
     store = createConfiguredStore();
 
@@ -83,7 +96,7 @@ describe("civilian dialog", () => {
       .withPhoneNumber(undefined)
       .withRaceEthnicityId(undefined)
       .withBirthDate(undefined)
-      .withTitle(undefined)
+      .withCivilianTitleId(undefined)
       .build();
 
     store.dispatch(initialize(CIVILIAN_FORM_NAME, caseCivilian));
@@ -92,6 +105,13 @@ describe("civilian dialog", () => {
     );
     store.dispatch(
       getGenderIdentitiesSuccess([unknownGenderIdentity, otherGenderIdentity])
+    );
+    store.dispatch(
+      getCivilianTitlesSuccess([
+        profCivilianTitle,
+        doctorMrsCivilianTitle,
+        aTitleCivilianTitle
+      ])
     );
     dispatchSpy = jest.spyOn(store, "dispatch");
     submitAction = jest.fn(() => ({ type: "MOCK_CIVILIAN_THUNK" }));
@@ -116,6 +136,10 @@ describe("civilian dialog", () => {
 
   test("should call getRaceEthnicityDropdownValues on mount", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(getRaceEthnicityDropdownValues());
+  });
+
+  test("should call getCivilianTitleDropdownValues on mount", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith(getCivilianTitleDropdownValues());
   });
 
   describe("address", () => {
@@ -199,7 +223,7 @@ describe("civilian dialog", () => {
           .withLastName("test last name")
           .withEmail("")
           .withPhoneNumber("")
-          .withTitle("Miss")
+          .withCivilianTitleId(doctorMrsCivilianTitle[1])
           .build();
 
         changeInput(
@@ -240,7 +264,7 @@ describe("civilian dialog", () => {
         selectDropdownOption(
           civilianDialog,
           '[data-test="titleDropdown"]',
-          civilianToSubmit.title
+          doctorMrsCivilianTitle[0]
         );
         const phoneNumberField = civilianDialog.find(
           'div[data-test="phoneNumberField"]'
@@ -279,7 +303,7 @@ describe("civilian dialog", () => {
           .withLastName("test last name")
           .withEmail("")
           .withPhoneNumber("")
-          .withTitle("Miss")
+          .withCivilianTitleId(doctorMrsCivilianTitle[1])
           .withNoAddress()
           .build();
 
@@ -321,7 +345,7 @@ describe("civilian dialog", () => {
         selectDropdownOption(
           civilianDialog,
           '[data-test="titleDropdown"]',
-          civilianToSubmit.title
+          doctorMrsCivilianTitle[0]
         );
         const phoneNumberField = civilianDialog.find(
           'div[data-test="phoneNumberField"]'
@@ -370,7 +394,7 @@ describe("civilian dialog", () => {
         .withPhoneNumber("1234567890")
         .withEmail("example@test.com")
         .withAddress(caseCivilian.address)
-        .withTitle("Mr.")
+        .withCivilianTitleId(doctorMrsCivilianTitle[1])
         .withId(undefined)
         .build();
 
@@ -422,7 +446,7 @@ describe("civilian dialog", () => {
       selectDropdownOption(
         civilianDialog,
         '[data-test="titleDropdown"]',
-        civilianToSubmit.title
+        doctorMrsCivilianTitle[0]
       );
 
       save.simulate("click");

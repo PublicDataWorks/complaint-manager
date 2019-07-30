@@ -27,15 +27,6 @@ export const generateMenuOptions = contents => {
   return menuOptionsArray;
 };
 
-export const titleMenu = generateMenuOptions([
-  "N/A",
-  "Dr.",
-  "Miss",
-  "Mr.",
-  "Mrs.",
-  "Ms."
-]);
-
 export const searchDistrictMenu = generateMenuOptions([
   ["Any District", ""],
   ["1st District", "First District"],

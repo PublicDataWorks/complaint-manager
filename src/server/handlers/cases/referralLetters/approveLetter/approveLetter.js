@@ -178,7 +178,10 @@ const getCase = async caseId => {
       {
         model: models.civilian,
         as: "complainantCivilians",
-        include: [models.address]
+        include: [
+          models.address,
+          { model: models.civilian_title, as: "civilianTitle" }
+        ]
       }
     ]
   });

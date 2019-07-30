@@ -63,6 +63,10 @@ describe("getReferralLetterPreview", function() {
       { status: CASE_STATUS.ACTIVE },
       { auditUser: "test" }
     );
+    await models.civilian_title.create({
+      name: "Miss",
+      id: 2
+    });
 
     request = httpMocks.createRequest({
       method: "GET",
@@ -132,7 +136,12 @@ describe("getReferralLetterPreview", function() {
         .defaultCivilian()
         .withId(undefined)
         .withCaseId(existingCase.id)
-        .withRoleOnCase(COMPLAINANT);
+        .withRoleOnCase(COMPLAINANT)
+        .withCivilianTitleId(2)
+        .withCivilianTitle({
+          name: "Miss",
+          id: 2
+        });
       await models.civilian.create(complainantCivilianAttributes, {
         auditUser: "test"
       });
@@ -173,14 +182,24 @@ describe("getReferralLetterPreview", function() {
         .withId(undefined)
         .withFirstName("Bob")
         .withLastName("Smith")
-        .withCaseId(existingCase.id);
+        .withCaseId(existingCase.id)
+        .withCivilianTitleId(2)
+        .withCivilianTitle({
+          name: "Miss",
+          id: 2
+        });
 
       const civilianComplainantAttributes2 = new Civilian.Builder()
         .defaultCivilian()
         .withId(undefined)
         .withFirstName("Lisa")
         .withLastName("Brown")
-        .withCaseId(existingCase.id);
+        .withCaseId(existingCase.id)
+        .withCivilianTitleId(2)
+        .withCivilianTitle({
+          name: "Miss",
+          id: 2
+        });
 
       const civilianComplainant1 = await models.civilian.create(
         civilianComplainantAttributes1,
@@ -359,7 +378,12 @@ describe("getReferralLetterPreview", function() {
         .withFirstName("Bob")
         .withLastName("Smith")
         .withCaseId(existingCase.id)
-        .withRoleOnCase(WITNESS);
+        .withRoleOnCase(WITNESS)
+        .withCivilianTitleId(2)
+        .withCivilianTitle({
+          name: "Miss",
+          id: 2
+        });
 
       const civilianWitness = await models.civilian.create(
         civilianWitnessAttributes,
@@ -427,7 +451,13 @@ describe("getReferralLetterPreview", function() {
           .withRoleOnCase(COMPLAINANT)
           .withGenderIdentityId(genderIdentity.id)
           .withRaceEthnicityId(raceEthnicity.id)
-          .withId(undefined);
+          .withId(undefined)
+          .withCivilianTitleId(2)
+          .withCivilianTitle({
+            name: "Miss",
+            id: 2
+          });
+
         const civilianComplainant = await models.civilian.create(
           civilianComplainantAttributes,
           {
@@ -540,7 +570,13 @@ describe("getReferralLetterPreview", function() {
           .defaultCivilian()
           .withCaseId(existingCase.id)
           .withRoleOnCase(WITNESS)
-          .withId(undefined);
+          .withId(undefined)
+          .withCivilianTitleId(2)
+          .withCivilianTitle({
+            name: "Miss",
+            id: 2
+          });
+
         await models.civilian.create(civilianWitnessAttributes, {
           auditUser: "test"
         });
@@ -645,7 +681,13 @@ describe("getReferralLetterPreview", function() {
           .withGenderIdentityId(genderIdentity.id)
           .withCaseId(existingCase.id)
           .withRoleOnCase(WITNESS)
-          .withId(undefined);
+          .withId(undefined)
+          .withCivilianTitleId(2)
+          .withCivilianTitle({
+            name: "Miss",
+            id: 2
+          });
+
         await models.civilian.create(civilianWitnessAttributes, {
           auditUser: "test"
         });
