@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Select, { Creatable, createFilter } from "react-select";
+import Select, { createFilter } from "react-select";
+import Creatable from "react-select/creatable";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -32,6 +33,7 @@ const styles = theme => ({
     position: "relative",
     zIndex: 1,
     marginTop: theme.spacing.unit,
+    maxHeight: 260,
     // top controls the space between the paper and input box
     // menuPlacement on react select does not play nice with material UI so css tricks were used to get it to behave
     top: 20,
