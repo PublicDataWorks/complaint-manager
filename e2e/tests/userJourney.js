@@ -106,7 +106,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         .dialogIsOpen()
         .setGenderIdentityId("4")
         .setRaceEthnicityId("2")
-        .setTitle("Miss");
+        .setTitle("2");
     },
 
     "should display address suggestions when text is entered": browser => {
