@@ -495,7 +495,6 @@ describe("editCaseOfficer", () => {
         { auditUser: "someone" }
       );
 
-      const caseOfficerId = 2;
       const allegationAttributes = new Allegation.Builder()
         .defaultAllegation()
         .withId(undefined)
@@ -505,34 +504,40 @@ describe("editCaseOfficer", () => {
         allegationAttributes
       );
 
-      officerAllegationAttributes = new OfficerAllegation.Builder()
-        .defaultOfficerAllegation()
-        .withCaseOfficerId(caseOfficerId)
-        .withAllegationId(existingAllegation.id)
-        .build();
-
       existingCaseOfficerAttributes = new CaseOfficer.Builder()
         .defaultCaseOfficer()
-        .withId(caseOfficerId)
+        .withId(undefined)
         .withRoleOnCase(ACCUSED)
         .withOfficerAttributes(existingOfficer)
-        .withOfficerAllegations(officerAllegationAttributes)
         .withCaseId(existingCase.dataValues.id)
         .build();
 
       existingCaseOfficer = await models.case_officer.create(
         existingCaseOfficerAttributes,
         {
-          auditUser: "someone",
-          include: [
-            {
-              model: models.officer_allegation,
-              as: "allegations",
-              auditUser: "someone"
-            }
-          ]
+          auditUser: "someone"
         }
       );
+
+      officerAllegationAttributes = new OfficerAllegation.Builder()
+        .defaultOfficerAllegation()
+        .withCaseOfficerId(existingCaseOfficer.id)
+        .withAllegationId(existingAllegation.id)
+        .build();
+
+      await models.officer_allegation.create(officerAllegationAttributes, {
+        auditUser: "someone"
+      });
+
+      await existingCaseOfficer.reload({
+        include: [
+          {
+            model: models.officer_allegation,
+            as: "allegations",
+            auditUser: "someone"
+          }
+        ]
+      });
 
       const existingComplainantCaseOfficerAttributes = new CaseOfficer.Builder()
         .defaultCaseOfficer()
@@ -578,7 +583,16 @@ describe("editCaseOfficer", () => {
       });
 
       await editCaseOfficer(request, response, next);
-      await existingCaseOfficer.reload();
+
+      await existingCaseOfficer.reload({
+        include: [
+          {
+            model: models.officer_allegation,
+            as: "allegations",
+            auditUser: "someone"
+          }
+        ]
+      });
 
       expect(existingCaseOfficer.allegations).toEqual([]);
     });
