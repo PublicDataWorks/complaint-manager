@@ -36,11 +36,12 @@ describe("getCaseHelpers", () => {
 
     auditDetails = {};
   });
-  describe("getCaseWithAllAssocationsAndAuditDetails", () => {
-    afterEach(async () => {
-      await cleanupDatabase();
-    });
 
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
+
+  describe("getCaseWithAllAssocationsAndAuditDetails", () => {
     test("adds pdfAvailable to audit", async () => {
       const caseWithAssociationsAndAuditDetails = await models.sequelize.transaction(
         async transaction => {

@@ -6,6 +6,9 @@ import "jest-extended";
 
 const config = require("./server/config/config")[process.env.NODE_ENV];
 
+// TODO: Remove when tests are running stably with new workers.
+console.log("Running on Worker: ", process.env.JEST_WORKER_ID);
+
 EventEmitter.defaultMaxListeners = 67;
 Enzyme.configure({ adapter: new Adapter() });
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
