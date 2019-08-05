@@ -279,17 +279,16 @@ workflows:
             branches:
               only:
                 - master
-      - test-server-handlers:
-          requires:
-            - test-client
+      - test-server-handlers
       - test-server-worker-non-handlers:
           requires:
             - test-server-handlers
-      - security-check:
-          requires:
-            - test-server-worker-non-handlers
+      - security-check
       - build-and-publish-master:
           requires:
+            - test-client
+            - test-server-handlers
+            - test-server-worker-non-handlers
             - security-check
       - deploy-ci:
           requires:
