@@ -60,7 +60,6 @@ describe("csvCaseExport request", () => {
   };
 
   beforeEach(async done => {
-    await cleanupDatabase();
     records = [];
     uploadFileToS3.mockImplementation(
       (jobId, dataToUpload, filename, fileType) => {
@@ -69,6 +68,10 @@ describe("csvCaseExport request", () => {
       }
     );
     done();
+  });
+
+  afterEach(async () => {
+    await cleanupDatabase();
   });
 
   test("sends the resulting aws data to the job result", async () => {
