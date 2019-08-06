@@ -46,3 +46,33 @@ test("should dispatch thunk with correct stuff when unknown officer selected", (
 
   expect(dispatchSpy).toHaveBeenCalledWith(submitAction(expectedValues));
 });
+
+test('when adding officer to case, should disable submit button', () => {
+  const mockOfficerSearchUrl = "/mock-officer-search-url";
+  const caseId = 12;
+  const submitAction = jest.fn(values => ({ type: "MOCK_THUNK", values }));
+
+  const store = createConfiguredStore();
+
+  store.dispatch(initialize("OfficerDetails", { roleOnCase: ACCUSED }));
+  store.dispatch(selectOfficer({}));
+
+  const wrapper = mount(
+    <Provider store={store}>
+      <Router>
+        <OfficerDetails
+          submitButtonText={"Button"}
+          submitAction={submitAction}
+          officerSearchUrl={mockOfficerSearchUrl}
+          caseId={caseId}
+        />
+      </Router>
+    </Provider>
+  );
+
+  const submitButton = wrapper.find('button[data-test="officerSubmitButton"]');
+  
+  submitButton.simulate("click");
+
+  expect(submitButton.is('[disabled=true]')).toBeTruthy()
+})
