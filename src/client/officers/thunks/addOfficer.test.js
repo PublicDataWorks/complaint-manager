@@ -1,6 +1,7 @@
 import addOfficer from "./addOfficer";
 import nock from "nock";
 import { push } from "connected-react-router";
+import { startSubmit, stopSubmit } from "redux-form";
 import Officer from "../../testUtilities/Officer";
 import Case from "../../testUtilities/case";
 import {
@@ -44,10 +45,13 @@ describe("addOfficer", () => {
 
     await addOfficer(defaultCase.id, officer.id, formValues)(dispatch);
 
+    expect(dispatch).toHaveBeenCalledWith(startSubmit("OfficerDetails"))
     expect(dispatch).toHaveBeenCalledWith(
       addOfficerToCaseSuccess(responseBody)
     );
     expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer());
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${defaultCase.id}`));
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit("OfficerDetails"))
+
   });
 });
