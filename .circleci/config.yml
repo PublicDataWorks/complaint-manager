@@ -279,9 +279,21 @@ workflows:
             branches:
               only:
                 - master
-      - test-server-handlers
-      - test-server-worker-non-handlers
-      - security-check
+      - test-server-handlers:
+          filters:
+            branches:
+              only:
+                - master
+      - test-server-worker-non-handlers:
+          filters:
+            branches:
+              only:
+                - master
+      - security-check:
+          filters:
+            branches:
+              only:
+                - master
       - build-and-publish-master:
           requires:
             - test-client
@@ -304,9 +316,21 @@ workflows:
             branches:
               only:
                 - release_v2.23.0
-      - test-server-handlers
-      - test-server-worker-non-handlers
-      - security-check
+      - test-server-handlers:
+          filters:
+            branches:
+              only:
+                - release_v2.23.0
+      - test-server-worker-non-handlers:
+          filters:
+            branches:
+              only:
+                - release_v2.23.0
+      - security-check:
+          filters:
+            branches:
+              only:
+                - release_v2.23.0
       - build-and-publish-release:
           requires:
             - test-client
