@@ -274,32 +274,25 @@ workflows:
   version: 2
   build_and_deploy_master:
     jobs:
-      - test-client:
-          filters:
-            branches:
-              only:
-                - master
-      - test-server-handlers:
-          filters:
-            branches:
-              only:
-                - master
-      - test-server-worker-non-handlers:
-          filters:
-            branches:
-              only:
-                - master
       - security-check:
           filters:
             branches:
               only:
                 - master
+      - test-client:
+          requires:
+            - security-check
+      - test-server-handlers:
+          requires:
+            - security-check
+      - test-server-worker-non-handlers:
+          requires:
+            - security-check
       - build-and-publish-master:
           requires:
             - test-client
             - test-server-handlers
             - test-server-worker-non-handlers
-            - security-check
       - deploy-ci:
           requires:
             - build-and-publish-master
@@ -311,32 +304,25 @@ workflows:
             - ensure-ci-deploy-succeeded
   build_and_deploy_release:
     jobs:
-      - test-client:
-          filters:
-            branches:
-              only:
-                - release_v2.23.0
-      - test-server-handlers:
-          filters:
-            branches:
-              only:
-                - release_v2.23.0
-      - test-server-worker-non-handlers:
-          filters:
-            branches:
-              only:
-                - release_v2.23.0
       - security-check:
           filters:
             branches:
               only:
                 - release_v2.23.0
+      - test-client:
+          requires:
+            - security-check
+      - test-server-handlers:
+          requires:
+            - security-check
+      - test-server-worker-non-handlers:
+          requires:
+            - security-check
       - build-and-publish-release:
           requires:
             - test-client
             - test-server-handlers
             - test-server-worker-non-handlers
-            - security-check
       - deploy-staging:
           requires:
             - build-and-publish-release
