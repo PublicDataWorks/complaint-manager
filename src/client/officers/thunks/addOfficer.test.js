@@ -8,7 +8,10 @@ import {
   addOfficerToCaseSuccess,
   clearSelectedOfficer
 } from "../../actionCreators/officersActionCreators";
-import { ACCUSED } from "../../../sharedUtilities/constants";
+import {
+  ACCUSED,
+  OFFICER_DETAILS_FORM_NAME
+} from "../../../sharedUtilities/constants";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
@@ -45,13 +48,16 @@ describe("addOfficer", () => {
 
     await addOfficer(defaultCase.id, officer.id, formValues)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(startSubmit("OfficerDetails"))
+    expect(dispatch).toHaveBeenCalledWith(
+      startSubmit(OFFICER_DETAILS_FORM_NAME)
+    );
     expect(dispatch).toHaveBeenCalledWith(
       addOfficerToCaseSuccess(responseBody)
     );
     expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer());
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${defaultCase.id}`));
-    expect(dispatch).toHaveBeenCalledWith(stopSubmit("OfficerDetails"))
-
+    expect(dispatch).toHaveBeenCalledWith(
+      stopSubmit(OFFICER_DETAILS_FORM_NAME)
+    );
   });
 });

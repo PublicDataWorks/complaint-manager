@@ -7,6 +7,8 @@ import {
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
 import { initialize } from "redux-form";
+
+import { OFFICER_DETAILS_FORM_NAME } from "../../../../sharedUtilities/constants";
 import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
 
 const OfficerActions = ({ caseOfficer, dispatch }) => (
@@ -22,7 +24,7 @@ const OfficerActions = ({ caseOfficer, dispatch }) => (
           dispatch(selectUnknownOfficer());
         }
         dispatch(
-          initialize("OfficerDetails", {
+          initialize(OFFICER_DETAILS_FORM_NAME, {
             notes: caseOfficer.notes,
             roleOnCase: caseOfficer.roleOnCase,
             officerId: caseOfficer.officerId,

@@ -1,102 +1,52 @@
 import React from "react";
-import OfficerSearchTableHeader from "../OfficerSearch/OfficerSearchTableHeader";
 import {
   Card,
   CardContent,
-  Table,
-  TableBody,
   Typography,
   FormControlLabel
 } from "@material-ui/core";
-import OfficerSearchResultsRow from "../OfficerSearch/OfficerSearchResults/OfficerSearchResultsRow";
 import { TextField } from "redux-form-material-ui";
 import { Field, reduxForm } from "redux-form";
 import styles from "../../globalStyling/styles";
 import { PrimaryButton } from "../../shared/components/StyledButtons";
-import { ChangeOfficer } from "../OfficerSearch/OfficerSearchResults/officerSearchResultsRowButtons";
-import { connect } from "react-redux";
 import DropdownSelect from "../../cases/CaseDetails/CivilianDialog/DropdownSelect";
 import { roleOnCaseMenu } from "../../utilities/generateMenuOptions";
 import { officerRoleRequired } from "../../formFieldLevelValidations";
 import PrimaryCheckBox from "../../shared/components/PrimaryCheckBox";
-import { COMPLAINANT, WITNESS } from "../../../sharedUtilities/constants";
+import {
+  COMPLAINANT,
+  OFFICER_DETAILS_FORM_NAME,
+  WITNESS
+} from "../../../sharedUtilities/constants";
+
+import SelectedOfficerDisplay from "./SelectedOfficerDisplay";
+import UnknownOfficerDisplay from "./UnknownOfficerDisplay";
 
 class OfficerDetails extends React.Component {
-  constructor(props) {
-    super(props);
-    let roleOnCase = this.props.roleOnCaseProp;
-    if (this.props.selectedOfficer && this.props.selectedOfficer.roleOnCase) {
-      roleOnCase = this.props.selectedOfficer.roleOnCase;
-    }
-    this.state = {
-      officerRoleOnCase: roleOnCase
-    };
-  }
-
   onSubmit = (values, dispatch) => {
     dispatch(this.props.submitAction(values));
   };
 
   updateRoleOnCase = values => {
     this.setState({
-      officerRoleOnCase: values
+      roleOnCase: values
     });
   };
 
   shouldShowAnonymousCheckbox = () => {
-    if (
-      this.state.officerRoleOnCase !== null &&
-      (this.state.officerRoleOnCase === COMPLAINANT ||
-        this.state.officerRoleOnCase === WITNESS)
-    ) {
-      return true;
-    }
-    return false;
+    const roleOnCase =
+      (this.state && this.state.roleOnCase) || this.props.initialRoleOnCase;
+    return roleOnCase === COMPLAINANT || roleOnCase === WITNESS;
   };
 
   render() {
     return (
       <div>
         <Typography variant="title">Selected Officer</Typography>
-        {this.props.selectedOfficerData ? (
-          <Table style={{ marginBottom: "32px" }}>
-            <OfficerSearchTableHeader />
-            <TableBody>
-              <OfficerSearchResultsRow officer={this.props.selectedOfficerData}>
-                <ChangeOfficer
-                  caseId={this.props.caseId}
-                  dispatch={this.props.dispatch}
-                  officerSearchUrl={this.props.officerSearchUrl}
-                >
-                  change
-                </ChangeOfficer>
-              </OfficerSearchResultsRow>
-            </TableBody>
-          </Table>
+        {this.props.selectedOfficer ? (
+          <SelectedOfficerDisplay {...this.props} />
         ) : (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "start"
-            }}
-          >
-            <Typography
-              data-test="unknown-officer-message"
-              style={{ marginBottom: "32px" }}
-              variant="body1"
-            >
-              You have selected Unknown Officer. Change this officer to a known
-              officer by selecting Search for Officer.
-            </Typography>
-            <ChangeOfficer
-              caseId={this.props.caseId}
-              dispatch={this.props.dispatch}
-              officerSearchUrl={this.props.officerSearchUrl}
-            >
-              Search For Officer
-            </ChangeOfficer>
-          </div>
+          <UnknownOfficerDisplay {...this.props} />
         )}
         <Typography variant="title" style={{ marginBottom: "16px" }}>
           Additional Info
@@ -123,6 +73,7 @@ class OfficerDetails extends React.Component {
                 <br />
                 {!this.shouldShowAnonymousCheckbox() ? null : (
                   <FormControlLabel
+                    data-test="isOfficerAnonymous"
                     key="isAnonymous"
                     label="Anonymize officer in referral letter"
                     control={
@@ -158,18 +109,6 @@ class OfficerDetails extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  let roleOnCaseProp = null;
-  if (state.form.OfficerDetails && state.form.OfficerDetails.initial) {
-    roleOnCaseProp = state.form.OfficerDetails.initial.roleOnCase;
-  }
-  return {
-    selectedOfficer: state.officers.selectedOfficerData,
-    roleOnCaseProp: roleOnCaseProp
-  };
-};
-const ConnectedComponent = connect(mapStateToProps)(OfficerDetails);
-
 export default reduxForm({
-  form: "OfficerDetails"
-})(ConnectedComponent);
+  form: OFFICER_DETAILS_FORM_NAME
+})(OfficerDetails);
