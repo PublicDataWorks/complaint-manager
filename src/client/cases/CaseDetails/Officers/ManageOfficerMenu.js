@@ -9,6 +9,7 @@ import {
 import { connect } from "react-redux";
 import { initialize } from "redux-form";
 import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
+import { OFFICER_DETAILS_FORM_NAME } from "../../../../sharedUtilities/constants";
 
 class ManageOfficerMenu extends React.Component {
   state = { menuOpen: false, anchorEl: null };
@@ -60,7 +61,7 @@ class ManageOfficerMenu extends React.Component {
                 this.props.dispatch(selectUnknownOfficer());
               }
               this.props.dispatch(
-                initialize("OfficerDetails", {
+                initialize(OFFICER_DETAILS_FORM_NAME, {
                   notes: caseOfficer.notes,
                   roleOnCase: caseOfficer.roleOnCase,
                   officerId: caseOfficer.officerId

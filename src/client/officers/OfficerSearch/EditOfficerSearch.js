@@ -2,8 +2,10 @@ import React from "react";
 import OfficerSearchContainer from "./OfficerSearchContainer";
 import { connect } from "react-redux";
 import { initialize } from "redux-form";
+
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
 import invalidCaseStatusRedirect from "../../cases/thunks/invalidCaseStatusRedirect";
+import { OFFICER_DETAILS_FORM_NAME } from "../../../sharedUtilities/constants";
 
 class EditOfficerSearch extends React.Component {
   caseDetailsNotYetLoaded = () => {
@@ -39,7 +41,7 @@ class EditOfficerSearch extends React.Component {
       caseOfficer => caseOfficer && `${caseOfficer.id}` === caseOfficerId
     );
 
-    const initializeCaseDetails = initialize("OfficerDetails", {
+    const initializeCaseDetails = initialize(OFFICER_DETAILS_FORM_NAME, {
       notes: currentCaseOfficer.notes,
       roleOnCase: currentCaseOfficer.roleOnCase,
       officerId: currentCaseOfficer.officerId

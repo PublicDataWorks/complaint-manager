@@ -187,6 +187,7 @@ export const REMOVE_CASE_NOTE_FORM_NAME = "RemoveCaseNoteForm";
 export const ARCHIVE_CASE_FORM_NAME = "ArchiveCaseForm";
 export const NARRATIVE_FORM = "NarrativeForm";
 export const EDIT_LETTER_HTML_FORM = "EditLetterHtmlForm";
+export const OFFICER_DETAILS_FORM_NAME = "OfficerDetails";
 export const RESTORE_ARCHIVED_CASE_FORM = "RestoreArchivedCaseForm";
 export const EXPORT_AUDIT_LOG_FORM_NAME = "ExportAuditLogForm";
 export const EXPORT_CASES_FORM_NAME = "ExportCasesForm";

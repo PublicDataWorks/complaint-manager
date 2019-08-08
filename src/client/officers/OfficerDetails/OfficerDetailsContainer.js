@@ -53,7 +53,7 @@ export class OfficerDetailsContainer extends Component {
             submitAction={submitAction(selectedOfficerId)}
             submitButtonText={submitButtonText}
             caseId={caseId}
-            selectedOfficerData={selectedOfficerData}
+            selectedOfficer={selectedOfficerData}
           />
         </div>
       </div>
@@ -62,9 +62,29 @@ export class OfficerDetailsContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+  
   caseReference: state.currentCase.details.caseReference,
   selectedOfficerData: state.officers.selectedOfficerData,
   officerCurrentlySelected: state.officers.officerCurrentlySelected
 });
+
+// const mapStateToProps = state => {
+//   let roleOnCaseProp = null;
+//   if (state.form.OfficerDetails && state.form.OfficerDetails.initial) {
+//     roleOnCaseProp = state.form.OfficerDetails.initial.roleOnCase;
+//   }
+//   return {
+//     roleOnCaseProp: roleOnCaseProp
+//   };
+// };
+
+
+// export default reduxForm({
+//   form: OFFICER_DETAILS_FORM_NAME
+// })(ConnectedComponent);
+
+// if (this.props.selectedOfficer && this.props.selectedOfficer.roleOnCase) {
+//   roleOnCase = this.props.selectedOfficer.roleOnCase;
+// }
 
 export default connect(mapStateToProps)(OfficerDetailsContainer);

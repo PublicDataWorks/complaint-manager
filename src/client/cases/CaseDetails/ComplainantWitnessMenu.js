@@ -1,4 +1,7 @@
-import { CIVILIAN_FORM_NAME } from "../../../sharedUtilities/constants";
+import {
+  CIVILIAN_FORM_NAME,
+  OFFICER_DETAILS_FORM_NAME
+} from "../../../sharedUtilities/constants";
 import { push } from "connected-react-router";
 import createCivilian from "../thunks/createCivilian";
 import { initialize } from "redux-form";
@@ -48,7 +51,7 @@ const ComplainantWitnessMenu = props => {
           data-test="addOfficerComplainantWitness"
           onClick={() => {
             props.dispatch(
-              initialize("OfficerDetails", {
+              initialize(OFFICER_DETAILS_FORM_NAME, {
                 roleOnCase: props.civilianType
               })
             );

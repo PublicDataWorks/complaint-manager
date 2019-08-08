@@ -34,7 +34,7 @@ module.exports = {
       selector: "[data-test='pageTitle']"
     },
     unknownOfficerMessage: {
-      selector: "[data-test='unknown-officer-message']"
+      selector: "[data-test='unknownOfficerMessage']"
     },
     changeOfficerButton: {
       selector: '[data-test="changeOfficerLink"]'
