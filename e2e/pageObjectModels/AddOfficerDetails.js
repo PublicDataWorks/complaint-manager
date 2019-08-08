@@ -25,7 +25,7 @@ module.exports = {
   commands: [AddOfficerDetailsCommands],
   elements: {
     unknownOfficerMessage: {
-      selector: "[data-test='unknown-officer-message']"
+      selector: "[data-test='unknownOfficerMessage']"
     },
     roleDropdown: {
       selector: '[data-test="roleOnCaseDropdown"] > div > div > div'

@@ -9,7 +9,10 @@ import calculateAgeBasedOnIncidentDate from "../../../utilities/calculateAgeBase
 import LinkButton from "../../../shared/components/LinkButton";
 import { push } from "connected-react-router";
 import { initialize } from "redux-form";
-import { ACCUSED } from "../../../../sharedUtilities/constants";
+import {
+  ACCUSED,
+  OFFICER_DETAILS_FORM_NAME
+} from "../../../../sharedUtilities/constants";
 
 const AccusedOfficers = ({
   dispatch,
@@ -53,7 +56,7 @@ const AccusedOfficers = ({
             }}
             onClick={() => {
               dispatch(
-                initialize("OfficerDetails", {
+                initialize(OFFICER_DETAILS_FORM_NAME, {
                   roleOnCase: ACCUSED
                 })
               );
