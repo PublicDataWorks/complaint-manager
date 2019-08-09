@@ -58,6 +58,10 @@ const getCaseDetailsAndAuditDetails = async (caseId, transaction) => {
         as: "howDidYouHearAboutUsSource"
       },
       {
+        model: models.district,
+        as: "caseDistrict"
+      },
+      {
         model: models.civilian,
         as: "complainantCivilians",
         include: [

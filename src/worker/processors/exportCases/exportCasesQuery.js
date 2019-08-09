@@ -51,13 +51,13 @@ const exportCasesQuery = (dateRange = null) => {
     `to_char(cases.first_contact_date, \'${DATE_ONLY_FORMAT}\') AS first_contact_date, ` +
     `to_char(cases.incident_date, \'${DATE_ONLY_FORMAT}\') AS incident_date, ` +
     `to_char(cases.incident_time, \'${TIME_ONLY_FORMAT}\') AS incident_time, ` +
-    "cases.district, " +
     "cases.complaint_type, " +
     "cases.narrative_summary, " +
     "cases.narrative_details, " +
     "classifications.initialism AS classification_initialism, " +
     "intake_sources.name AS intake_source, " +
     "how_did_you_hear_about_us_sources.name AS how_did_you_hear_about_us_source, " +
+    "districts.name AS district, " +
     `(SELECT COUNT(*) FROM cases_officers WHERE role_on_case='${WITNESS}' AND case_id=cases.id AND deleted_at IS NULL) +` +
     `(SELECT COUNT(*) FROM civilians WHERE role_on_case='${WITNESS}' AND case_id=cases.id AND deleted_at IS NULL) AS witness_count, ` +
     `incidentLocation.street_address AS "incidentLocation.street_address", ` +
@@ -163,6 +163,8 @@ const exportCasesQuery = (dateRange = null) => {
     " ON cases.intake_source_id = intake_sources.id " +
     "LEFT OUTER JOIN how_did_you_hear_about_us_sources " +
     " ON cases.how_did_you_hear_about_us_source_id = how_did_you_hear_about_us_sources.id " +
+    "LEFT OUTER JOIN districts " +
+    " ON cases.district_id = districts.id " +
     "LEFT OUTER JOIN addresses AS incidentLocation " +
     " ON cases.id = incidentLocation.addressable_id " +
     " AND incidentLocation.deleted_at IS NULL " +
@@ -258,7 +260,7 @@ const exportCasesQuery = (dateRange = null) => {
     "   ) AS officer_supervisor_full_name, " +
     "   supervisor_windows_username AS officer_supervisor_windows_username, " +
     "   employee_type AS officer_employee_type, " +
-    "   district AS officer_district, " +
+    "   district AS district, " +
     "   bureau AS officer_bureau, " +
     "   work_status AS officer_work_status, " +
     "   hire_date AS officer_hire_date, " +

@@ -21,8 +21,8 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
   if (request.query.lastName) {
     whereClause.last_name = { [Op.iLike]: `${request.query.lastName}%` };
   }
-  if (request.query.district) {
-    whereClause.district = { [Op.eq]: `${request.query.district}` };
+  if (request.query.districtId) {
+    whereClause.district_id = { [Op.eq]: `${request.query.districtId}` };
   }
 
   const offset = request.query.page
@@ -40,8 +40,15 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
       order: [["last_name", ASCENDING], ["first_name", ASCENDING]],
       limit: DEFAULT_PAGINATION_LIMIT,
       offset: offset,
+      include: [
+        {
+          model: models.district,
+          as: "officerDistrict"
+        }
+      ],
       transaction
     };
+
     const officers = await models.officer.findAndCountAll(queryOptions);
 
     const auditDetails = getQueryAuditAccessDetails(
