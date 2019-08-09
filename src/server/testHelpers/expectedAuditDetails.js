@@ -11,6 +11,7 @@ export const expectedCaseAuditDetails = {
       "createdAt",
       "createdBy",
       "district",
+      "districtId",
       "firstContactDate",
       "howDidYouHearAboutUsSourceId",
       "id",
@@ -119,6 +120,12 @@ export const expectedCaseAuditDetails = {
       Object.keys(models.case_officer.rawAttributes)
     ),
     model: models.case_officer.name
+  },
+  caseDistrict: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.district.rawAttributes)
+    ),
+    model: models.district.name
   }
 };
 
@@ -133,6 +140,7 @@ export const expectedFormattedCaseAuditDetails = {
     "Created At",
     "Created By",
     "District",
+    "District Id",
     "First Contact Date",
     "How Did You Hear About Us Source Id",
     "Id",
@@ -176,5 +184,6 @@ export const expectedFormattedCaseAuditDetails = {
   "Complainant Officers": expect.toIncludeSameMembers([
     "All Complainant Officers Data"
   ]),
+  "Case District": expect.toIncludeSameMembers(["All Case District Data"]),
   "Witness Officers": expect.toIncludeSameMembers(["All Witness Officers Data"])
 };

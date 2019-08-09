@@ -39,6 +39,7 @@ import getClassifications from "./handlers/classifications/getClassifications";
 import getIntakeSources from "./handlers/intake_sources/getIntakeSources";
 import getRaceEthnicities from "./handlers/race_ethnicities/getRaceEthnicities";
 import getCivilianTitles from "./handlers/civilianTitles/getCivilianTitles";
+import getDistricts from "./handlers/districts/getDistricts";
 import getRecommendedActions from "./handlers/cases/referralLetters/getRecommendedActions/getRecommendedActions";
 import getFinalPdfDownloadUrl from "./handlers/cases/referralLetters/getFinalPdfDownloadUrl/getFinalPdfDownloadUrl";
 import getReferralLetterPdf from "./handlers/cases/referralLetters/getReferralLetterPdf/getReferralLetterPdf";
@@ -428,6 +429,13 @@ export const API_ROUTES = {
       handler: getCivilianTitles,
       errorMessage:
         "Something went wrong and the civilian title values were not found. Please try again."
+    }
+  },
+  "/districts": {
+    get: {
+      handler: getDistricts,
+      errorMessage:
+        "Something went wrong and the district values were not found. Please try again."
     }
   },
   "/recommended-actions": {

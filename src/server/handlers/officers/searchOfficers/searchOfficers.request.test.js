@@ -12,8 +12,16 @@ jest.mock("../../cases/export/jobQueue");
 
 describe("GET /officers/search", () => {
   let token;
-  beforeEach(() => {
+  beforeEach(async () => {
     token = buildTokenWithPermissions("", "tuser");
+    await models.district.create({
+      id: 1,
+      name: "1st District"
+    });
+    await models.district.create({
+      id: 8,
+      name: "8th District"
+    });
   });
 
   afterEach(async () => {
@@ -37,7 +45,8 @@ describe("GET /officers/search", () => {
         .withOfficerNumber(345)
         .withFirstName("Garret")
         .withLastName("Fisher")
-        .withDistrict("First District")
+        .withDistrict("1st District")
+        .withDistrictId(1)
         .build();
 
       grantOfficer = new Officer.Builder()
@@ -46,7 +55,8 @@ describe("GET /officers/search", () => {
         .withOfficerNumber(567)
         .withFirstName("Grant")
         .withLastName("Livingston")
-        .withDistrict("Eighth District")
+        .withDistrict("8th District")
+        .withDistrictId(8)
         .build();
 
       await models.officer.bulkCreate(
@@ -104,7 +114,7 @@ describe("GET /officers/search", () => {
       const responsePromise = request(app)
         .get("/api/officers/search")
         .set("Authorization", `Bearer ${token}`)
-        .query({ district: "Eighth District" });
+        .query({ districtId: 8 });
 
       await expectResponse(
         responsePromise,
@@ -132,6 +142,7 @@ describe("GET /officers/search", () => {
         .withFirstName("Garret")
         .withLastName("Fisher")
         .withDistrict("1st District")
+        .withDistrictId(1)
         .build();
 
       garyOfficer = new Officer.Builder()
@@ -141,6 +152,7 @@ describe("GET /officers/search", () => {
         .withFirstName("Gary")
         .withLastName("Fibbleton")
         .withDistrict("8th District")
+        .withDistrictId(8)
         .build();
 
       gaaOfficer = new Officer.Builder()
@@ -150,6 +162,7 @@ describe("GET /officers/search", () => {
         .withFirstName("Gaaaa")
         .withLastName("Fibbleton")
         .withDistrict("8th District")
+        .withDistrictId(8)
         .build();
 
       await models.officer.bulkCreate(
@@ -164,7 +177,7 @@ describe("GET /officers/search", () => {
       const responsePromise = request(app)
         .get("/api/officers/search")
         .set("Authorization", `Bearer ${token}`)
-        .query({ firstName: "Gar", lastName: "fi", district: "1st District" });
+        .query({ firstName: "Gar", lastName: "fi", districtId: 1 });
 
       await expectResponse(
         responsePromise,

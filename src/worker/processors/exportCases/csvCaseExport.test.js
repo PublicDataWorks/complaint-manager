@@ -60,6 +60,11 @@ describe("csvCaseExport request", () => {
   };
 
   beforeEach(async done => {
+    await cleanupDatabase();
+    await models.district.create({
+      id: 1,
+      name: "1st District"
+    });
     records = [];
     uploadFileToS3.mockImplementation(
       (jobId, dataToUpload, filename, fileType) => {
@@ -68,10 +73,6 @@ describe("csvCaseExport request", () => {
       }
     );
     done();
-  });
-
-  afterEach(async () => {
-    await cleanupDatabase();
   });
 
   test("sends the resulting aws data to the job result", async () => {
@@ -223,9 +224,14 @@ describe("csvCaseExport request", () => {
     beforeEach(async done => {
       const officerAttributes = new Officer.Builder()
         .defaultOfficer()
+        .withDistrictId(1)
         .withId(undefined);
       officer = await models.officer.create(officerAttributes, {
         auditUser: "tuser"
+      });
+
+      await officer.reload({
+        include: [{ model: models.district, as: "officerDistrict" }]
       });
 
       const bwcClassificationAttributes = new Classification.Builder()
@@ -243,12 +249,14 @@ describe("csvCaseExport request", () => {
         .withNarrativeSummary("A summary of the narrative.")
         .withNarrativeDetails("Some details about the narrative.")
         .withFirstContactDate("2018-01-02")
+        .withDistrictId(1)
         .withClassificationId(bwcClassification.id);
 
       caseToExport = await models.cases.create(caseAttributes, {
         auditUser: "tuser",
         include: [
-          { model: models.address, as: "incidentLocation", auditUser: "tuser" }
+          { model: models.address, as: "incidentLocation", auditUser: "tuser" },
+          { model: models.district, as: "caseDistrict", auditUser: "tuser" }
         ]
       });
 
@@ -300,6 +308,7 @@ describe("csvCaseExport request", () => {
         .defaultCaseOfficer()
         .withId(undefined)
         .withOfficerAttributes(officerAttributes)
+        .withDistrict("1st District")
         .withCaseId(caseToExport.id)
         .withOfficerId(officer.id);
       caseOfficer = await models.case_officer.create(caseOfficerAttributes, {
@@ -333,7 +342,8 @@ describe("csvCaseExport request", () => {
             as: "complainantCivilians",
             include: [models.address]
           },
-          { model: models.address, as: "incidentLocation" }
+          { model: models.address, as: "incidentLocation" },
+          { model: models.district, as: "caseDistrict" }
         ]
       });
 
@@ -378,7 +388,9 @@ describe("csvCaseExport request", () => {
       expect(records[0]["Incident Longitude"]).toEqual(
         caseToExport.incidentLocation.lng.toString()
       );
-      expect(records[0]["Incident District"]).toEqual(caseToExport.district);
+      expect(records[0]["Incident District"]).toEqual(
+        caseToExport.caseDistrict.name
+      );
       expect(records[0]["Additional Incident Location Info"]).toEqual(
         caseToExport.incidentLocation.streetAddress2
       );
@@ -542,6 +554,7 @@ describe("csvCaseExport request", () => {
         .defaultCaseOfficer()
         .withOfficerAttributes(officerComplainant)
         .withNotes("hello")
+        .withDistrict("1st District")
         .withCaseId(caseToExport.id)
         .withRoleOnCase(COMPLAINANT);
       const caseOfficerComplainant = await models.case_officer.create(

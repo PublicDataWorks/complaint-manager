@@ -37,6 +37,7 @@ describe("dataChangeAuditHooks", () => {
         .withIncidentLocation(undefined)
         .withComplaintType(RANK_INITIATED)
         .withDistrict(null)
+        .withDistrictId(null)
         .withFirstContactDate("2017-12-24")
         .withIncidentDate(null)
         .withIncidentTime(null)
@@ -92,6 +93,7 @@ describe("dataChangeAuditHooks", () => {
         incidentDate: { new: null },
         firstContactDate: { new: "2017-12-24" },
         district: { new: null },
+        districtId: { new: null },
         complaintType: { new: RANK_INITIATED },
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
@@ -120,6 +122,7 @@ describe("dataChangeAuditHooks", () => {
         incidentDate: { new: null },
         firstContactDate: { new: "2017-12-24" },
         district: { new: null },
+        districtId: { new: null },
         complaintType: { new: RANK_INITIATED },
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
@@ -150,6 +153,7 @@ describe("dataChangeAuditHooks", () => {
         incidentDate: { new: null },
         firstContactDate: { new: "2017-12-24" },
         district: { new: null },
+        districtId: { new: null },
         complaintType: { new: RANK_INITIATED },
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
@@ -183,6 +187,7 @@ describe("dataChangeAuditHooks", () => {
         incidentDate: { new: null },
         firstContactDate: { new: "2017-12-24" },
         district: { new: null },
+        districtId: { new: null },
         complaintType: { new: RANK_INITIATED },
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
@@ -210,6 +215,7 @@ describe("dataChangeAuditHooks", () => {
         howDidYouHearAboutUsSourceId: null,
         howDidYouHearAboutUsSource: null,
         district: null,
+        districtId: null,
         complaintType: RANK_INITIATED,
         assignedTo: "originalAssignedToPerson",
         status: CASE_STATUS.INITIAL,
@@ -247,6 +253,7 @@ describe("dataChangeAuditHooks", () => {
         howDidYouHearAboutUsSourceId: null,
         howDidYouHearAboutUsSource: null,
         district: null,
+        districtId: null,
         complaintType: RANK_INITIATED,
         assignedTo: "originalAssignedToPerson",
         status: CASE_STATUS.INITIAL,
@@ -392,12 +399,17 @@ describe("dataChangeAuditHooks", () => {
       bwcClassification = await models.classification.create(
         bwcClassificationAttributes
       );
+      await models.district.create({
+        id: 1,
+        name: "1st District"
+      });
       initialCaseAttributes = new Case.Builder()
         .defaultCase()
         .withId(undefined)
         .withIncidentLocation(undefined)
         .withComplaintType(RANK_INITIATED)
         .withDistrict("1st District")
+        .withDistrictId(1)
         .withFirstContactDate("2017-12-24")
         .withIncidentDate("2017-12-01")
         .withIncidentTime("01:01:01")
@@ -510,10 +522,15 @@ describe("dataChangeAuditHooks", () => {
     });
 
     test("it saves the changes when many fields changed", async () => {
+      await models.district.create({
+        id: 2,
+        name: "2nd District"
+      });
       await existingCase.update(
         {
           complaintType: CIVILIAN_INITIATED,
           district: "2nd District",
+          districtId: 2,
           firstContactDate: "2018-01-01",
           incidentDate: "2017-12-05",
           incidentTime: "12:59:59",
@@ -531,6 +548,7 @@ describe("dataChangeAuditHooks", () => {
         status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE },
         complaintType: { previous: RANK_INITIATED, new: CIVILIAN_INITIATED },
         district: { previous: "1st District", new: "2nd District" },
+        districtId: { previous: 1, new: 2 },
         firstContactDate: { previous: "2017-12-24", new: "2018-01-01" },
         incidentDate: { previous: "2017-12-01", new: "2017-12-05" },
         incidentTime: { previous: "01:01:01", new: "12:59:59" },
@@ -551,10 +569,15 @@ describe("dataChangeAuditHooks", () => {
     });
 
     test("it saves a snapshot of the objects new values", async () => {
+      await models.district.create({
+        id: 2,
+        name: "2nd District"
+      });
       await existingCase.update(
         {
           complaintType: CIVILIAN_INITIATED,
           district: "2nd District",
+          districtId: 2,
           firstContactDate: "2018-01-01",
           incidentDate: "2017-12-05",
           incidentTime: "12:59:59",
@@ -577,6 +600,7 @@ describe("dataChangeAuditHooks", () => {
         howDidYouHearAboutUsSourceId: null,
         howDidYouHearAboutUsSource: null,
         district: "2nd District",
+        districtId: 2,
         complaintType: CIVILIAN_INITIATED,
         assignedTo: "updatedAssignedPerson",
         status: CASE_STATUS.ACTIVE,
@@ -771,6 +795,10 @@ describe("dataChangeAuditHooks", () => {
       intakeSource = await models.intake_source.create(intakeSourceAttributes, {
         auditUser: "test"
       });
+      await models.district.create({
+        id: 1,
+        name: "1st District"
+      });
       initialCaseAttributes = new Case.Builder()
         .defaultCase()
         .withId(undefined)
@@ -798,7 +826,8 @@ describe("dataChangeAuditHooks", () => {
         classification: { new: utdClassification.initialism },
         classificationId: { new: utdClassification.id },
         complaintType: { new: "Civilian Initiated" },
-        district: { new: "First District" },
+        district: { new: null },
+        districtId: { new: null },
         firstContactDate: { new: "2017-12-24" },
         howDidYouHearAboutUsSourceId: { new: null },
         howDidYouHearAboutUsSource: { new: null },
@@ -835,7 +864,8 @@ describe("dataChangeAuditHooks", () => {
         classification: { previous: utdClassification.initialism },
         classificationId: { previous: utdClassification.id },
         complaintType: { previous: "Civilian Initiated" },
-        district: { previous: "First District" },
+        district: { previous: null },
+        districtId: { previous: null },
         firstContactDate: { previous: "2017-12-24" },
         howDidYouHearAboutUsSourceId: { previous: null },
         howDidYouHearAboutUsSource: { previous: null },

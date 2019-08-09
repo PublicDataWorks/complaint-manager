@@ -800,6 +800,7 @@ describe("getReferralLetterPreview", function() {
             "Created At",
             "Created By",
             "District",
+            "District Id",
             "First Contact Date",
             "How Did You Hear About Us Source Id",
             "Id",
@@ -820,6 +821,7 @@ describe("getReferralLetterPreview", function() {
           Classification: ["All Classification Data"],
           "Complainant Civilians": ["All Complainant Civilians Data"],
           "Complainant Officers": ["All Complainant Officers Data"],
+          "Case District": ["All Case District Data"],
           "Gender Identity": ["All Gender Identity Data"],
           "How Did You Hear About Us Source": [
             "All How Did You Hear About Us Source Data"
@@ -880,6 +882,7 @@ describe("getReferralLetterPreview", function() {
             "Created At",
             "Created By",
             "District",
+            "District Id",
             "First Contact Date",
             "How Did You Hear About Us Source Id",
             "Id",
@@ -900,6 +903,7 @@ describe("getReferralLetterPreview", function() {
           Classification: ["All Classification Data"],
           "Complainant Civilians": ["All Complainant Civilians Data"],
           "Complainant Officers": ["All Complainant Officers Data"],
+          "Case District": ["All Case District Data"],
           "Gender Identity": ["All Gender Identity Data"],
           "How Did You Hear About Us Source": [
             "All How Did You Hear About Us Source Data"
@@ -936,6 +940,7 @@ describe("getReferralLetterPreview", function() {
           "createdAt",
           "createdBy",
           "district",
+          "districtId",
           "firstContactDate",
           "howDidYouHearAboutUsSourceId",
           "id",
@@ -1007,6 +1012,12 @@ describe("getReferralLetterPreview", function() {
             ),
             model: models.case_officer.name
           },
+          caseDistrict: expect.objectContaining({
+            attributes: expect.arrayContaining(
+              Object.keys(models.district.rawAttributes)
+            ),
+            model: models.district.name
+          }),
           genderIdentity: {
             attributes: expect.arrayContaining(
               Object.keys(models.gender_identity.rawAttributes)
@@ -1119,6 +1130,7 @@ describe("getReferralLetterPreview", function() {
           "createdAt",
           "createdBy",
           "district",
+          "districtId",
           "firstContactDate",
           "howDidYouHearAboutUsSourceId",
           "id",
@@ -1189,6 +1201,12 @@ describe("getReferralLetterPreview", function() {
               Object.keys(models.case_officer.rawAttributes)
             ),
             model: models.case_officer.name
+          }),
+          caseDistrict: expect.objectContaining({
+            attributes: expect.arrayContaining(
+              Object.keys(models.district.rawAttributes)
+            ),
+            model: models.district.name
           }),
           genderIdentity: expect.objectContaining({
             attributes: expect.arrayContaining(

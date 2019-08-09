@@ -79,6 +79,10 @@ describe("searchOfficers", function() {
         null,
         AUDIT_SUBJECT.OFFICER_DATA,
         {
+          officerDistrict: {
+            attributes: Object.keys(models.district.rawAttributes),
+            model: models.district.name
+          },
           officer: {
             attributes: Object.keys(models.officer.rawAttributes),
             model: models.officer.name

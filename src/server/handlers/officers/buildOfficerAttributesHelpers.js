@@ -5,7 +5,9 @@ const buildOfficerAttributesForUnknownOfficer = () => {
 };
 
 const buildOfficerAttributesForNewOfficer = async officerId => {
-  const newOfficer = await models.officer.findByPk(officerId);
+  const newOfficer = await models.officer.findByPk(officerId, {
+    include: [{ model: models.district, as: "officerDistrict" }]
+  });
 
   let initialAttributes = buildOfficerAttributesForUnknownOfficer();
   let supervisorAttributes = await buildSupervisorAttributes(newOfficer);
@@ -21,7 +23,7 @@ const buildOfficerAttributesForNewOfficer = async officerId => {
       bureau: newOfficer.bureau,
       rank: newOfficer.rank,
       race: newOfficer.race,
-      district: newOfficer.district,
+      district: newOfficer.officerDistrict && newOfficer.officerDistrict.name,
       sex: newOfficer.sex,
       dob: newOfficer.dob,
       endDate: newOfficer.endDate,
