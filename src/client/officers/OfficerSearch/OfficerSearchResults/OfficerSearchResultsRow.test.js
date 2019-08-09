@@ -8,6 +8,8 @@ test("it can render officer search results with correct styles", () => {
   const officer = new Officer.Builder()
     .defaultOfficer()
     .withWorkStatus("Inactive")
+    .withOfficerDistrict("1st District")
+    .withDistrictId(1)
     .build();
   const wrapper = mount(
     <Table>

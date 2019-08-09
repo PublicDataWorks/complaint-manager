@@ -38,6 +38,7 @@ import normalizeAddress from "../../../utilities/normalizeAddress";
 import { intakeSourceIsRequired } from "../../../formFieldLevelValidations";
 import { INCIDENT_DETAILS_FORM_NAME } from "../../../../sharedUtilities/constants";
 import getHowDidYouHearAboutUsSourceDropdownValues from "../../../howDidYouHearAboutUsSources/thunks/getHowDidYouHearAboutUsSourceDropdownValues";
+import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -55,6 +56,7 @@ const submitIncidentDetails = (values, dispatch, props) => {
     howDidYouHearAboutUsSourceId: nullifyFieldUnlessValid(
       values.howDidYouHearAboutUsSourceId
     ),
+    districtId: nullifyFieldUnlessValid(values.districtId),
     id: props.caseId
   };
 
@@ -74,6 +76,7 @@ class IncidentDetailsDialog extends Component {
     this.props.getClassificationDropDownOptions();
     this.props.getIntakeSourceDropdownValues();
     this.props.getHowDidYouHearAboutUsSourceDropdownValues();
+    this.props.getDistrictDropdownValues();
   }
 
   render() {
@@ -156,7 +159,7 @@ class IncidentDetailsDialog extends Component {
               />
               <Field
                 label="District"
-                name="district"
+                name="districtId"
                 component={DropdownSelect}
                 inputProps={{
                   "data-test": "districtInput"
@@ -166,7 +169,7 @@ class IncidentDetailsDialog extends Component {
                 }}
                 data-test="districtDropdown"
               >
-                {inputDistrictMenu}
+                {generateMenuOptions(this.props.districts, "Unknown")}
               </Field>
             </div>
             <div style={{ display: "flex" }}>
@@ -292,14 +295,16 @@ const mapStateToProps = state => {
     addressValid: state.ui.addressInput.addressValid,
     classifications: state.ui.classifications,
     intakeSources: state.ui.intakeSources,
-    howDidYouHearAboutUsSources: state.ui.howDidYouHearAboutUsSources
+    howDidYouHearAboutUsSources: state.ui.howDidYouHearAboutUsSources,
+    districts: state.ui.districts
   };
 };
 
 const mapDispatchToProps = {
   getClassificationDropDownOptions,
   getIntakeSourceDropdownValues,
-  getHowDidYouHearAboutUsSourceDropdownValues
+  getHowDidYouHearAboutUsSourceDropdownValues,
+  getDistrictDropdownValues
 };
 
 export default withStyles(styles)(

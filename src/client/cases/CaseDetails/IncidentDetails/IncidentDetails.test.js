@@ -18,6 +18,8 @@ import getClassificationDropdownValues from "../../../classifications/thunks/get
 import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import getHowDidYouHearAboutUsSourceDropdownValues from "../../../howDidYouHearAboutUsSources/thunks/getHowDidYouHearAboutUsSourceDropdownValues";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
+import { getDistrictsSuccess } from "../../../actionCreators/districtsActionCreators";
+import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
 
 jest.mock("../../thunks/editIncidentDetails", () =>
   jest.fn(values => ({
@@ -33,6 +35,13 @@ jest.mock(
       type: "GET_CLASSIFICATION_MOCK",
       values
     }))
+);
+
+jest.mock("../../../districts/thunks/getDistrictDropdownValues", () =>
+  jest.fn(values => ({
+    type: "GET_DISTRICT_MOCK",
+    values
+  }))
 );
 
 jest.mock("../../../intakeSources/thunks/getIntakeSourceDropdownValues", () =>
@@ -74,13 +83,16 @@ describe("incident details", () => {
       .withIncidentTime(incidentTime)
       .withIncidentLocation(undefined)
       .withClassificationId(12)
-      .withDistrict("Second District")
+      .withDistrictId(2)
       .withIntakeSourceId(2)
       .build();
 
     dispatchSpy = jest.spyOn(store, "dispatch");
     store.dispatch(getCaseDetailsSuccess(currentCase));
     store.dispatch(getClassificationsSuccess([["UTD", 0], ["OTB", 12]]));
+    store.dispatch(
+      getDistrictsSuccess([["1st District", 1], ["2nd District", 2]])
+    );
     wrapper = mount(
       <Provider store={store}>
         <IncidentDetails classes={{}} />
@@ -131,7 +143,7 @@ describe("incident details", () => {
         .find('[data-test="incidentDistrict"]')
         .first()
         .text()
-    ).toEqual("Second District");
+    ).toEqual("N/A");
   });
 
   test("should display intake source", () => {
@@ -164,6 +176,10 @@ describe("incident details", () => {
     expect(getHowDidYouHearAboutUsSourceDropdownValues).toHaveBeenCalled();
   });
 
+  test("should fetch districts on mount", () => {
+    expect(getDistrictDropdownValues).toHaveBeenCalled();
+  });
+
   test("should open dialog and prepopulate fields", () => {
     const editButton = wrapper.find(
       'button[data-test="editIncidentDetailsButton"]'
@@ -182,11 +198,13 @@ describe("incident details", () => {
     const editIncidentClassification = wrapper.find(
       'div[data-test="classificationDropdownInput"]'
     );
+    const editDistrict = wrapper.find('div[data-test="districtInput"]');
 
     expect(editFirstContactDateInput.prop("value")).toEqual(firstContactDate);
     expect(editIncidentDateInput.prop("value")).toEqual(incidentDate);
     expect(editIncidentTimeInput.prop("value")).toEqual(incidentTime);
     expect(editIncidentClassification.prop("value")).toEqual(12);
+    expect(editDistrict.prop("value")).toEqual(2);
   });
 
   test("should submit form when Save is clicked", () => {
@@ -223,7 +241,7 @@ describe("incident details", () => {
         firstContactDate: "1994-05-03",
         incidentDate: "1994-05-02",
         incidentTime: "13:00",
-        district: "First District",
+        districtId: 1,
         classificationId: 12,
         intakeSourceId: 2
       })

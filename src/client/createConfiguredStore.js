@@ -56,6 +56,7 @@ import tagReducer from "./reducers/ui/tagReducer";
 import caseTagReducer from "./reducers/cases/caseTagsReducer";
 import removeCaseTagDialogReducer from "./reducers/ui/removeCaseTagDialogReducer";
 import civilianTitleReducer from "./reducers/ui/civilianTitleReducer";
+import districtReducer from "./reducers/ui/districtReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -99,6 +100,7 @@ const rootReducer = combineReducers({
     howDidYouHearAboutUsSources: howDidYouHearAboutUsSourceReducer,
     raceEthnicities: raceEthnicityReducer,
     civilianTitles: civilianTitleReducer,
+    districts: districtReducer,
     tags: tagReducer,
     genderIdentities: genderIdentityReducer,
     officerHistoryOptions: officerHistoryOptionsReducer,

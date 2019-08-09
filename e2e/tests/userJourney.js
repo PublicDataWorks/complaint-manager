@@ -189,7 +189,7 @@ if (TEST_PASS && TEST_USER && HOST) {
         .fillAddress()
         .setIncidentDate()
         .setIncidentTime()
-        .setDistrict()
+        .setDistrict("2")
         .saveIncidentDetails();
 
       snackbar

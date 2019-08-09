@@ -14,6 +14,8 @@ class Officer {
     this.dob = build.dob;
     this.bureau = build.bureau;
     this.district = build.district;
+    this.officerDistrict = build.officerDistrict;
+    this.districtId = build.districtId;
     this.workStatus = build.workStatus;
     this.supervisorOfficerNumber = build.supervisorOfficerNumber;
     this.hireDate = build.hireDate;
@@ -36,7 +38,9 @@ class Officer {
         this.sex = "Female";
         this.dob = "1990-04-30";
         this.bureau = "FOB - Field Operations Bureau";
-        this.district = "First District";
+        this.district = null;
+        this.officerDistrict = null;
+        this.districtId = null;
         this.workStatus = CASE_STATUS.ACTIVE;
         this.supervisorOfficerNumber = null;
         this.hireDate = "2008-04-30";
@@ -83,6 +87,16 @@ class Officer {
 
       withDistrict(district) {
         this.district = district;
+        return this;
+      }
+
+      withDistrictId(districtId) {
+        this.districtId = districtId;
+        return this;
+      }
+
+      withOfficerDistrict(officerDistrict) {
+        this.officerDistrict = officerDistrict;
         return this;
       }
 

@@ -7,7 +7,7 @@ describe("validateOfficerSearchForm", () => {
     const expectedErrors = {
       firstName: "Please complete at least one field",
       lastName: "Please complete at least one field",
-      district: "Please complete at least one field"
+      districtId: "Please complete at least one field"
     };
     expect(actualErrors).toEqual(expectedErrors);
   });
@@ -20,7 +20,7 @@ describe("validateOfficerSearchForm", () => {
   });
 
   test("should return no errors if district present", () => {
-    const values = { district: "8th District" };
+    const values = { districtId: 8 };
     const actualErrors = validateOfficerSearchForm(values);
     const expectedErrors = {};
     expect(actualErrors).toEqual(expectedErrors);

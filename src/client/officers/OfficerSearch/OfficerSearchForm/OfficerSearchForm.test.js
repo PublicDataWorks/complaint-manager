@@ -6,6 +6,7 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import getSearchResults from "../../../shared/thunks/getSearchResults";
 import { Provider } from "react-redux";
 import { changeInput, selectDropdownOption } from "../../../testHelpers";
+import { getDistrictsSuccess } from "../../../actionCreators/districtsActionCreators";
 
 jest.mock(
   "../../../shared/thunks/getSearchResults",
@@ -40,6 +41,10 @@ describe("OfficerSearchForm", () => {
       const store = createConfiguredStore();
       const dispatchSpy = jest.spyOn(store, "dispatch");
 
+      store.dispatch(
+        getDistrictsSuccess([["1st District", 1], ["2nd District", 2]])
+      );
+
       const officerSearchForm = mount(
         <Provider store={store}>
           <OfficerSearchForm />
@@ -59,7 +64,7 @@ describe("OfficerSearchForm", () => {
           {
             firstName: "emma",
             lastName: "watson",
-            district: "First District"
+            districtId: 1
           },
           "officers"
         )
@@ -69,6 +74,10 @@ describe("OfficerSearchForm", () => {
     test("normalizes first and last name on submit", () => {
       const store = createConfiguredStore();
       const dispatchSpy = jest.spyOn(store, "dispatch");
+
+      store.dispatch(
+        getDistrictsSuccess([["1st District", 1], ["2nd District", 2]])
+      );
 
       const officerSearchForm = mount(
         <Provider store={store}>
@@ -93,7 +102,7 @@ describe("OfficerSearchForm", () => {
           {
             firstName: "bubba joe",
             lastName: "smith",
-            district: "First District"
+            districtId: 1
           },
           "officers"
         )

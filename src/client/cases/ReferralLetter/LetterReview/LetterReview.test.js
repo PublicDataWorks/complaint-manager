@@ -81,7 +81,11 @@ describe("LetterReview", () => {
         complainantOfficers: [],
         witnessCivilians: [],
         witnessOfficers: [],
-        accusedOfficers: []
+        accusedOfficers: [],
+        caseDistrict: {
+          id: "Bear",
+          name: "Salmon"
+        }
       })
     );
     wrapper.update();
@@ -99,7 +103,11 @@ describe("LetterReview", () => {
         complainantOfficers: [],
         witnessCivilians: [],
         witnessOfficers: [],
-        accusedOfficers: []
+        accusedOfficers: [],
+        caseDistrict: {
+          id: "Bear",
+          name: "Salmon"
+        }
       })
     );
     wrapper.update();
@@ -117,7 +125,11 @@ describe("LetterReview", () => {
         complainantOfficers: [],
         witnessCivilians: [],
         witnessOfficers: [],
-        accusedOfficers: []
+        accusedOfficers: [],
+        caseDistrict: {
+          id: "Bear",
+          name: "Salmon"
+        }
       })
     );
     wrapper.update();
@@ -135,7 +147,11 @@ describe("LetterReview", () => {
         complainantOfficers: [],
         witnessCivilians: [],
         witnessOfficers: [],
-        accusedOfficers: []
+        accusedOfficers: [],
+        caseDistrict: {
+          id: "Bear",
+          name: "Salmon"
+        }
       })
     );
     wrapper.update();
@@ -154,7 +170,11 @@ describe("LetterReview", () => {
           complainantOfficers: [],
           witnessCivilians: [],
           witnessOfficers: [],
-          accusedOfficers: []
+          accusedOfficers: [],
+          caseDistrict: {
+            id: "Bear",
+            name: "Salmon"
+          }
         })
       );
       wrapper.update();

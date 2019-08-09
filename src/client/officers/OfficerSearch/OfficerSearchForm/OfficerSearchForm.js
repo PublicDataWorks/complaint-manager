@@ -1,80 +1,110 @@
-import React from "react";
+import React, { Component } from "react";
 import { TextField } from "redux-form-material-ui";
 import { Field, reduxForm } from "redux-form";
 import DropdownSelect from "../../../cases/CaseDetails/CivilianDialog/DropdownSelect";
-import { searchDistrictMenu } from "../../../utilities/generateMenuOptions";
+import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import validate from "./validateOfficerSearchForm";
 import getSearchResults from "../../../shared/thunks/getSearchResults";
 import { OFFICER_SEARCH_FORM_NAME } from "../../../../sharedUtilities/constants";
+import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
+import { connect } from "react-redux";
+import {
+  nullifyFieldUnlessValid,
+  trimWhiteSpace
+} from "../../../utilities/fieldNormalizers";
 
-const OfficerSearchForm = props => {
-  const { invalid, handleSubmit } = props;
+const normalizeValues = values => {
+  const normalizedValues = {};
+  if (values.firstName) {
+    normalizedValues.firstName = values.firstName.trim();
+  }
+  if (values.lastName) {
+    normalizedValues.lastName = values.lastName.trim();
+  }
+  if (values.districtId) {
+    normalizedValues.districtId = nullifyFieldUnlessValid(values.districtId);
+  }
+  return { ...values, ...normalizedValues };
+};
 
-  const onSubmit = (values, dispatch) => {
+class OfficerSearchForm extends Component {
+  componentDidMount() {
+    this.props.getDistrictDropdownValues();
+  }
+
+  onSubmit = (values, dispatch) => {
     const paginatingSearch = true;
     dispatch(
       getSearchResults(normalizeValues(values), "officers", paginatingSearch, 1)
     );
   };
 
-  const normalizeValues = values => {
-    const normalizedValues = {};
-    if (values.firstName) {
-      normalizedValues.firstName = values.firstName.trim();
-    }
-    if (values.lastName) {
-      normalizedValues.lastName = values.lastName.trim();
-    }
-    return { ...values, ...normalizedValues };
-  };
+  render() {
+    const props = this.props;
 
-  return (
-    <div>
-      <form>
-        <div style={{ display: "flex" }}>
-          <Field
-            label="First Name"
-            name="firstName"
-            component={TextField}
-            inputProps={{ "data-test": "firstNameField" }}
-            style={{ flex: "1", marginRight: "24px" }}
-          />
+    return (
+      <div>
+        <form>
+          <div style={{ display: "flex" }}>
+            <Field
+              label="First Name"
+              name="firstName"
+              component={TextField}
+              inputProps={{ "data-test": "firstNameField" }}
+              style={{ flex: "1", marginRight: "24px" }}
+            />
 
-          <Field
-            label="Last Name"
-            name="lastName"
-            component={TextField}
-            inputProps={{ "data-test": "lastNameField" }}
-            style={{ flex: "1", marginRight: "24px" }}
-          />
+            <Field
+              label="Last Name"
+              name="lastName"
+              component={TextField}
+              inputProps={{ "data-test": "lastNameField" }}
+              style={{ flex: "1", marginRight: "24px" }}
+            />
 
-          <Field
-            label="District"
-            name="district"
-            component={DropdownSelect}
-            data-test="districtField"
-            style={{ flex: "1", marginRight: "24px" }}
-          >
-            {searchDistrictMenu}
-          </Field>
-          <div style={{ alignSelf: "center" }}>
-            <PrimaryButton
-              disabled={invalid}
-              onClick={handleSubmit(onSubmit)}
-              style={{ margin: "18px 0" }}
-              data-test="officerSearchSubmitButton"
+            <Field
+              label="District"
+              name="districtId"
+              component={DropdownSelect}
+              data-test="districtField"
+              style={{ flex: "1", marginRight: "24px" }}
             >
-              search
-            </PrimaryButton>
+              {generateMenuOptions(props.districts, "Any District")}
+            </Field>
+            <div style={{ alignSelf: "center" }}>
+              <PrimaryButton
+                disabled={props.invalid}
+                onClick={props.handleSubmit(this.onSubmit)}
+                style={{ margin: "18px 0" }}
+                data-test="officerSearchSubmitButton"
+              >
+                search
+              </PrimaryButton>
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
-  );
+        </form>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    districts: state.ui.districts
+  };
 };
 
-export default reduxForm({
+const mapDispatchToProps = {
+  getDistrictDropdownValues
+};
+
+const connectedForm = reduxForm({
   form: OFFICER_SEARCH_FORM_NAME,
   validate
 })(OfficerSearchForm);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(connectedForm);
