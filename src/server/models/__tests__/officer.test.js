@@ -1,5 +1,7 @@
 import models from "../index";
 import moment from "moment";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import Officer from "../../../client/testUtilities/Officer";
 
 describe("officers", () => {
   describe("fullName", () => {
@@ -31,13 +33,38 @@ describe("officers", () => {
     });
   });
   describe("district", () => {
-    test("district should display in numeric format", () => {
-      const officer = models.officer.build({ district: "First District" });
-      expect(officer.district).toEqual("1st District");
+    beforeEach(async () => {
+      await models.district.create({
+        id: 1,
+        name: "1st District"
+      });
+    });
+    afterEach(async () => {
+      await cleanupDatabase();
+    });
+    test("district should display in numeric format", async () => {
+      await models.officer.create({
+        id: null,
+        districtId: 1,
+        firstName: "Johann",
+        middleName: "",
+        lastName: "Bach",
+        officerNumber: 1
+      });
+      const officer = await models.officer.findOne({
+        where: {
+          firstName: "Johann"
+        },
+        include: [{ model: models.district, as: "officerDistrict" }]
+      });
+      expect(officer.officerDistrict.name).toEqual("1st District");
     });
     test("district should be blank if blank", () => {
-      const officer = models.officer.build({ district: "" });
-      expect(officer.district).toEqual("");
+      const officer = new Officer.Builder()
+        .defaultOfficer()
+        .withId(undefined)
+        .withDistrictId(null);
+      expect(officer.officerDistrict).toEqual(null);
     });
   });
 });

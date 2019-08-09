@@ -1,5 +1,6 @@
 "use strict";
 import { getOfficerFullName } from "./modelUtilities/getFullName";
+import models from "./index";
 
 const moment = require("moment/moment");
 
@@ -59,33 +60,19 @@ module.exports = (sequelize, DataTypes) => {
         return moment().diff(this.get("dob"), "years", false);
       }
     },
-    bureau: {
+    district: {
       type: DataTypes.STRING
     },
-    district: {
-      type: DataTypes.STRING,
-      get() {
-        switch (this.getDataValue("district")) {
-          case "First District":
-            return "1st District";
-          case "Second District":
-            return "2nd District";
-          case "Third District":
-            return "3rd District";
-          case "Fourth District":
-            return "4th District";
-          case "Fifth District":
-            return "5th District";
-          case "Sixth District":
-            return "6th District";
-          case "Seventh District":
-            return "7th District";
-          case "Eighth District":
-            return "8th District";
-          default:
-            return this.getDataValue("district");
-        }
+    districtId: {
+      type: DataTypes.INTEGER,
+      field: "district_id",
+      references: {
+        model: models.district,
+        key: "id"
       }
+    },
+    bureau: {
+      type: DataTypes.STRING
     },
     workStatus: {
       type: DataTypes.STRING,
@@ -138,6 +125,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true
       },
       targetKey: "officerNumber"
+    });
+    Officer.belongsTo(models.district, {
+      as: "officerDistrict",
+      foreignKey: {
+        name: "districtId",
+        field: "district_id",
+        allowNull: true
+      }
     });
   };
   return Officer;

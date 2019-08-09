@@ -1,10 +1,10 @@
 "use strict";
 
-const updateOfficerDataFromS3 = require("../seeder_jobs/updateOfficerDataFromS3");
+const createSeedOfficerDataFromS3 = require("../seeder_jobs/createSeedOfficerDataFromS3");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await updateOfficerDataFromS3();
+    await createSeedOfficerDataFromS3();
   },
 
   down: (queryInterface, Sequelize) => {}

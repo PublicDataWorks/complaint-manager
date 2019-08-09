@@ -422,6 +422,10 @@ const mapAuditDetailsKeyToAssociationAndModel = {
   "Data Change Audit": {
     modelName: models.legacy_data_change_audit.name,
     association: "legacyDataChangeAudit"
+  },
+  "Officer District": {
+    modelName: models.district.name,
+    association: "officerDistrict"
   }
 };
 

@@ -101,9 +101,6 @@ export default (sequelize, DataTypes) => {
           );
         }
       },
-      district: {
-        type: DataTypes.STRING
-      },
       firstContactDate: {
         field: "first_contact_date",
         type: DataTypes.DATEONLY
@@ -117,6 +114,18 @@ export default (sequelize, DataTypes) => {
         field: "intake_source_id",
         references: {
           model: models.intake_source,
+          key: "id"
+        }
+      },
+      district: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      districtId: {
+        type: DataTypes.INTEGER,
+        field: "district_id",
+        references: {
+          model: models.district,
           key: "id"
         }
       },
@@ -313,6 +322,14 @@ export default (sequelize, DataTypes) => {
       foreignKey: {
         name: "intakeSourceId",
         field: "intake_source_id",
+        allowNull: true
+      }
+    });
+    Case.belongsTo(models.district, {
+      as: "caseDistrict",
+      foreignKey: {
+        name: "districtId",
+        field: "district_id",
         allowNull: true
       }
     });

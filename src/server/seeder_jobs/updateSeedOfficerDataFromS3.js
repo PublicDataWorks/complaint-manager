@@ -1,3 +1,5 @@
+import { getOrdinalDistrict } from "../../sharedUtilities/convertDistrictToOrdinal";
+
 const csvParse = require("csv-parse");
 const models = require("../models");
 const _ = require("lodash");
@@ -9,7 +11,7 @@ const promises = [];
 const officersToUpdate = [];
 const officersToCreate = [];
 
-const updateOfficerDataFromS3 = async (
+const updateSeedOfficerDataFromS3 = async (
   officerFileName = "officerSeedData.csv",
   shouldCloseConnections = false
 ) => {
@@ -71,15 +73,29 @@ const updateOfficerDataFromS3 = async (
 const determineWhetherToCreateOrUpdateOfficer = async seedDataRow => {
   const officerNumber = seedDataRow.officerNumber;
   const existingOfficer = await models.officer.findOne({
-    where: { officerNumber }
+    where: { officerNumber },
+    include: [{ model: models.district, as: "officerDistrict" }]
   });
 
   if (existingOfficer) {
     if (rowDataIsOfficerToBeUpdated(seedDataRow, existingOfficer)) {
+      await transformDistrictToDistrictId(seedDataRow);
       officersToUpdate.push(seedDataRow);
     }
   } else {
+    await transformDistrictToDistrictId(seedDataRow);
     officersToCreate.push(seedDataRow);
+  }
+};
+
+export const transformDistrictToDistrictId = async seedDataRow => {
+  const ordinalDistrict = getOrdinalDistrict(seedDataRow.district);
+  if (ordinalDistrict) {
+    const foundDistrict = await models.district.findOne({
+      where: { name: ordinalDistrict }
+    });
+    seedDataRow.districtId = foundDistrict.id;
+    seedDataRow.district = null;
   }
 };
 
@@ -132,7 +148,9 @@ const rowDataIsOfficerToBeUpdated = (seedDataRow, existingOfficer) => {
   const officerValuesToCompare = _.omit(existingOfficer.dataValues, [
     "id",
     "createdAt",
-    "updatedAt"
+    "updatedAt",
+    "districtId",
+    "officerDistrict"
   ]);
 
   const keysToPick = Object.keys(officerValuesToCompare);
@@ -145,4 +163,4 @@ const rowDataIsOfficerToBeUpdated = (seedDataRow, existingOfficer) => {
   );
 };
 
-module.exports = updateOfficerDataFromS3;
+module.exports = updateSeedOfficerDataFromS3;
