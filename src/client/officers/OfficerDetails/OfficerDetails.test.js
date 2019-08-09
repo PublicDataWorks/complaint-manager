@@ -66,7 +66,6 @@ describe("OfficerDetails when there is a selected officer", () => {
     <Provider store={store}>
       <Router>
         <OfficerDetails
-          // handleSubmit={() => ({})}
           submitButtonText={"ButtonXyz"}
           submitAction={() => ({})}
           officerSearchUrl={"<search url>"}
@@ -112,7 +111,6 @@ describe("OfficerDetails when there is no selectedOfficer", () => {
     <Provider store={store}>
       <Router>
         <OfficerDetails
-          // handleSubmit={() => ({})}
           submitButtonText={"Button"}
           submitAction={() => ({})}
           officerSearchUrl={"<officer url>"}
@@ -148,7 +146,6 @@ describe("OfficerDetails when selectedOfficer is a COMPLAINANT", () => {
     <Provider store={store}>
       <Router>
         <OfficerDetails
-          // handleSubmit={() => ({})}
           submitButtonText={"Button"}
           submitAction={() => ({})}
           officerSearchUrl={"<officer url>"}
@@ -173,7 +170,6 @@ describe("OfficerDetails when selectedOfficer is a WITNESS", () => {
     <Provider store={store}>
       <Router>
         <OfficerDetails
-          // handleSubmit={() => () => ({})}
           submitButtonText={"Button"}
           submitAction={() => ({})}
           officerSearchUrl={"<officer url>"}
