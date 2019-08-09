@@ -5,7 +5,7 @@ import {
 import models from "../models";
 import fs from "fs";
 import path from "path";
-import updateOfficerDataFromS3 from "./updateOfficerDataFromS3";
+import createSeedOfficerDataFromS3 from "./createSeedOfficerDataFromS3";
 import loadCsv from "./loadCsv";
 
 const AWS = require("aws-sdk");
@@ -38,7 +38,7 @@ describe("updating database using csv file in S3", () => {
   test(
     "handling update/insert on new data & not update on unchanged data",
     suppressWinstonLogs(async () => {
-      await updateOfficerDataFromS3();
+      await createSeedOfficerDataFromS3();
 
       const newOfficerMaggie = await models.officer.findOne({
         where: { firstName: "Maggie" }
@@ -52,6 +52,7 @@ describe("updating database using csv file in S3", () => {
 
       expect(updatedOfficerChris.lastName).not.toEqual("Paucek");
       expect(newOfficerMaggie).not.toEqual(null);
+      expect(newOfficerMaggie.district).toEqual("First District");
       expect(unchangedOfficerKristin.updatedAt).toEqual(
         unchangedOfficerKristin.createdAt
       );

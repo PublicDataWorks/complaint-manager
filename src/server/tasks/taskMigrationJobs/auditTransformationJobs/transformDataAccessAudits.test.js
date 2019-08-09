@@ -318,6 +318,7 @@ describe("transform data access audits", () => {
                     "bureau",
                     "createdAt",
                     "district",
+                    "districtId",
                     "dob",
                     "employeeType",
                     "endDate",
