@@ -26,7 +26,10 @@ export class OfficerDetailsContainer extends Component {
       titleAction,
       submitButtonText,
       submitAction,
-      officerSearchUrl
+      officerSearchUrl,
+      initialRoleOnCase,
+      caseReference,
+      dispatch
     } = this.props;
 
     const selectedOfficerId = selectedOfficerData && selectedOfficerData.id;
@@ -35,7 +38,7 @@ export class OfficerDetailsContainer extends Component {
       <div>
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${this.props.caseReference}   : ${titleAction} Officer`}
+            {`Case #${caseReference}   : ${titleAction} Officer`}
           </Typography>
         </NavBar>
         <LinkButton
@@ -43,7 +46,7 @@ export class OfficerDetailsContainer extends Component {
           component={Link}
           to={`/cases/${caseId}`}
           style={{ margin: "2% 0% 2% 4%" }}
-          onClick={() => this.props.dispatch(clearSelectedOfficer())}
+          onClick={() => dispatch(clearSelectedOfficer())}
         >
           Back to Case
         </LinkButton>
@@ -54,6 +57,7 @@ export class OfficerDetailsContainer extends Component {
             submitButtonText={submitButtonText}
             caseId={caseId}
             selectedOfficer={selectedOfficerData}
+            initialRoleOnCase={initialRoleOnCase}
           />
         </div>
       </div>
@@ -61,30 +65,17 @@ export class OfficerDetailsContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  
-  caseReference: state.currentCase.details.caseReference,
-  selectedOfficerData: state.officers.selectedOfficerData,
-  officerCurrentlySelected: state.officers.officerCurrentlySelected
-});
-
-// const mapStateToProps = state => {
-//   let roleOnCaseProp = null;
-//   if (state.form.OfficerDetails && state.form.OfficerDetails.initial) {
-//     roleOnCaseProp = state.form.OfficerDetails.initial.roleOnCase;
-//   }
-//   return {
-//     roleOnCaseProp: roleOnCaseProp
-//   };
-// };
-
-
-// export default reduxForm({
-//   form: OFFICER_DETAILS_FORM_NAME
-// })(ConnectedComponent);
-
-// if (this.props.selectedOfficer && this.props.selectedOfficer.roleOnCase) {
-//   roleOnCase = this.props.selectedOfficer.roleOnCase;
-// }
+const mapStateToProps = state => {
+  let roleOnCaseProp = null;
+  if (state.form.OfficerDetails && state.form.OfficerDetails.initial) {
+    roleOnCaseProp = state.form.OfficerDetails.initial.roleOnCase;
+  }
+  return {
+    initialRoleOnCase: roleOnCaseProp,
+    caseReference: state.currentCase.details.caseReference,
+    selectedOfficerData: state.officers.selectedOfficerData,
+    officerCurrentlySelected: state.officers.officerCurrentlySelected
+  };
+};
 
 export default connect(mapStateToProps)(OfficerDetailsContainer);
