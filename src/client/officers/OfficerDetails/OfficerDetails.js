@@ -99,6 +99,7 @@ class OfficerDetails extends React.Component {
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <PrimaryButton
             data-test="officerSubmitButton"
+            disabled={this.props.submitting}
             onClick={this.props.handleSubmit(this.onSubmit)}
           >
             {this.props.submitButtonText}
