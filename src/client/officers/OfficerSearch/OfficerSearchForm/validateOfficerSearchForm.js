@@ -11,7 +11,7 @@ const validate = values => {
   const errors = atLeastOneRequired(
     values,
     "Please complete at least one field",
-    ["firstName", "lastName", "district"]
+    ["firstName", "lastName", "districtId"]
   );
 
   if (includesInvalidCharacter(values.firstName)) {

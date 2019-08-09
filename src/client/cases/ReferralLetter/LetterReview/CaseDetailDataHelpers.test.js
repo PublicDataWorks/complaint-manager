@@ -22,7 +22,10 @@ describe("caseDetailDataHelpers", function() {
           state: "IL",
           zipCode: "10000"
         },
-        district: "some district",
+        caseDistrict: {
+          id: "some id",
+          name: "some district"
+        },
         classification: { initialism: "some classification" },
         pibCaseNumber: "2018-0002-CC"
       };
@@ -59,7 +62,10 @@ describe("caseDetailDataHelpers", function() {
           state: "",
           zipCode: ""
         },
-        district: "some district",
+        caseDistrict: {
+          id: "some id",
+          name: "some district"
+        },
         classification: { initialism: "some classification" },
         pibCaseNumber: "2013-0004-CC"
       };

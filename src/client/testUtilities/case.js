@@ -31,6 +31,8 @@ class Case {
     this.incidentTime = build.incidentTime;
     this.incidentLocation = build.incidentLocation;
     this.district = build.district;
+    this.districtId = build.districtId;
+    this.caseDistrict = build.caseDistrict;
     this.classificationId = build.classificationId;
     this.accusedOfficers = build.accusedOfficers;
     this.complainantOfficers = build.complainantOfficers;
@@ -125,7 +127,9 @@ class Case {
         this.incidentDate = "2017-01-01";
         this.incidentTime = "16:00:00";
         this.incidentLocation = incidentLocation;
-        this.district = "First District";
+        this.district = null;
+        this.districtId = null;
+        this.caseDistrict = null;
         this.classificationId = null;
         this.complaintType = CIVILIAN_INITIATED;
         this.createdBy = "tuser";
@@ -158,6 +162,16 @@ class Case {
 
       withDistrict(district) {
         this.district = district;
+        return this;
+      }
+
+      withDistrictId(districtId) {
+        this.districtId = districtId;
+        return this;
+      }
+
+      withCaseDistrict(caseDistrict) {
+        this.caseDistrict = caseDistrict;
         return this;
       }
 
@@ -251,7 +265,7 @@ class Case {
       }
 
       withPrimaryComplainant(complainant) {
-        this.primaryComplainant = complainant
+        this.primaryComplainant = complainant;
         return this;
       }
 

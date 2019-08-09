@@ -40,7 +40,9 @@ const OfficerSearchResultsRow = ({ classes, officer, children }) => {
       </TableCell>
       <TableCell className={classes.cell}>{officer.rank}</TableCell>
       <TableCell className={classes.cell}>{officer.bureau}</TableCell>
-      <TableCell className={classes.cell}>{officer.district}</TableCell>
+      <TableCell className={classes.cell}>
+        {officer.officerDistrict && officer.officerDistrict.name}
+      </TableCell>
       <TableCell className={classes.cell}>{officer.sex}</TableCell>
       <TableCell className={classes.cell}>{officer.race}</TableCell>
       <TableCell className={classes.cell}>{officer.age}</TableCell>

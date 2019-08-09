@@ -31,11 +31,11 @@ const incidentDetailsDialogCommands = {
       e2e.rerenderWait
     ).setValue("@incidentTime", "23:111");
   },
-  setDistrict: function() {
+  setDistrict: function(districtId) {
     return this.waitForElementVisible("@districtDropdown", e2e.rerenderWait)
       .click("@districtDropdown")
       .waitForElementVisible("@districtMenu", e2e.rerenderWait)
-      .click(`li[data-value="Second District"]`)
+      .click(`li[data-value="${districtId}"]`)
       .waitForElementNotPresent("@districtMenu", e2e.rerenderWait);
   }
 };
@@ -65,7 +65,7 @@ module.exports = {
       selector: '[data-test="districtDropdown"]'
     },
     districtMenu: {
-      selector: '[id="district"]'
+      selector: '[id="districtId"]'
     }
   }
 };

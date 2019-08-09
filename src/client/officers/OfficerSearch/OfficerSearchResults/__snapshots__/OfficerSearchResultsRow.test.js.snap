@@ -30,7 +30,8 @@ exports[`it can render officer search results with correct styles 1`] = `
               officer={
                 Officer {
                   "bureau": "FOB - Field Operations Bureau",
-                  "district": "First District",
+                  "district": null,
+                  "districtId": 1,
                   "dob": "1990-04-30",
                   "employeeType": "Commissioned",
                   "endDate": "2009-04-30",
@@ -40,6 +41,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                   "id": 57,
                   "lastName": "Smith",
                   "middleName": "Grant",
+                  "officerDistrict": "1st District",
                   "officerNumber": 200,
                   "race": "Cuban",
                   "rank": "Police Commander",
@@ -69,7 +71,8 @@ exports[`it can render officer search results with correct styles 1`] = `
                 officer={
                   Officer {
                     "bureau": "FOB - Field Operations Bureau",
-                    "district": "First District",
+                    "district": null,
+                    "districtId": 1,
                     "dob": "1990-04-30",
                     "employeeType": "Commissioned",
                     "endDate": "2009-04-30",
@@ -79,6 +82,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                     "id": 57,
                     "lastName": "Smith",
                     "middleName": "Grant",
+                    "officerDistrict": "1st District",
                     "officerNumber": 200,
                     "race": "Cuban",
                     "rank": "Police Commander",
@@ -600,9 +604,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                           <td
                             aria-sort={null}
                             className="MuiTableCell-root-19 MuiTableCell-body-21 OfficerSearchResultsRow-cell-6"
-                          >
-                            First District
-                          </td>
+                          />
                         </TableCell>
                       </WithStyles(TableCell)>
                       <WithStyles(TableCell)

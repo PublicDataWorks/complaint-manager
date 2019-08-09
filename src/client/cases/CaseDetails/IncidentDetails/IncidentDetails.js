@@ -29,7 +29,7 @@ class IncidentDetails extends React.Component {
       incidentDate: this.props.incidentDate,
       incidentTime: this.props.incidentTime,
       incidentLocation: this.props.incidentLocation,
-      district: this.props.district,
+      districtId: this.props.districtId,
       classificationId: this.props.classificationId,
       intakeSourceId: this.props.intakeSourceId,
       howDidYouHearAboutUsSourceId: this.props.howDidYouHearAboutUsSourceId,
@@ -66,6 +66,7 @@ class IncidentDetails extends React.Component {
     const howDidYouHearAboutUsSourceName = howDidYouHearAboutUsSource
       ? howDidYouHearAboutUsSource.name
       : "";
+    const districtName = district ? district.name : "";
 
     return (
       <BaseCaseDetailsCard title="Incident Details">
@@ -116,7 +117,7 @@ class IncidentDetails extends React.Component {
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
                     displayLabel="District"
-                    value={district}
+                    value={districtName}
                     testLabel="incidentDistrict"
                   />
                 </StyledInfoDisplay>
@@ -186,7 +187,8 @@ const mapStateToProps = state => ({
   incidentDate: state.currentCase.details.incidentDate,
   incidentTime: state.currentCase.details.incidentTime,
   incidentLocation: state.currentCase.details.incidentLocation,
-  district: state.currentCase.details.district,
+  districtId: state.currentCase.details.districtId,
+  district: state.currentCase.details.caseDistrict,
   caseId: state.currentCase.details.id,
   classificationId: state.currentCase.details.classificationId,
   classification: state.currentCase.details.classification,

@@ -77,6 +77,16 @@ class CaseOfficer {
         return this;
       }
 
+      withDistrict(district) {
+        this.district = district;
+        return this;
+      }
+
+      withDistrict(district) {
+        this.district = district;
+        return this;
+      }
+
       withUnknownOfficer() {
         this.firstName = null;
         this.middleName = null;
@@ -108,7 +118,7 @@ class CaseOfficer {
         this.sex = officer.sex;
         this.dob = officer.dob;
         this.bureau = officer.bureau;
-        this.district = officer.district;
+        this.district = officer.officerDistrict;
         this.workStatus = officer.workStatus;
         this.hireDate = officer.hireDate;
         this.endDate = officer.endDate;

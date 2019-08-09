@@ -6,7 +6,7 @@ export function atLeastOneRequired(values, errorMessage, keys) {
     if (key === "address") {
       return !value || value.placeId === null;
     } else {
-      return !value || value.trim() === "";
+      return !value || (typeof value !== "number" && value.trim() === "");
     }
   });
 
