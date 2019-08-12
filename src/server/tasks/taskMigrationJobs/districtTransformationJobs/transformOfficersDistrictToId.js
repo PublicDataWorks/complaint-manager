@@ -17,11 +17,19 @@ const transformOfficersDistrictToId = async (
 
   for (let i = 0; i < officers.length; i++) {
     if (!officers[i].districtId && !_.isEmpty(officers[i].district)) {
-      await updateDatabaseWithCorrectDistrictId(
-        officers[i],
-        districtsDictionary,
-        transaction
-      );
+      try {
+        await updateDatabaseWithCorrectDistrictId(
+          officers[i],
+          districtsDictionary,
+          transaction
+        );
+      } catch (error) {
+        throw new Error(
+          `Error while transforming district to district id for officer with id ${
+            officers[i].id
+          }. \nInternal Error: ${error}`
+        );
+      }
     }
   }
 };
@@ -57,11 +65,19 @@ export const revertTransformOfficersDistrictToId = async (
 
   for (let i = 0; i < officers.length; i++) {
     if (officers[i].districtId) {
-      await updateDatabaseWithCorrectDistrictName(
-        officers[i],
-        districtIdToNameDictionary,
-        transaction
-      );
+      try {
+        await updateDatabaseWithCorrectDistrictName(
+          officers[i],
+          districtIdToNameDictionary,
+          transaction
+        );
+      } catch (error) {
+        throw new Error(
+          `Error while reverting district id to district for officer with id ${
+            officers[i].id
+          }. \nInternal Error: ${error}`
+        );
+      }
     }
   }
 };

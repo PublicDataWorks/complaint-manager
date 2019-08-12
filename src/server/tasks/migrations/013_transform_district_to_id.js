@@ -15,8 +15,17 @@ module.exports = {
       const officers = await models.officer.findAll({});
       const districts = await models.district.findAll({});
 
-      await transformCasesDistrictToId(districts, cases, transaction);
-      await transformOfficersDistrictToId(districts, officers, transaction);
+      try {
+        await transformCasesDistrictToId(districts, cases, transaction);
+      } catch (error) {
+        console.log(error);
+      }
+
+      try {
+        await transformOfficersDistrictToId(districts, officers, transaction);
+      } catch (error) {
+        console.log(error);
+      }
     });
   },
 

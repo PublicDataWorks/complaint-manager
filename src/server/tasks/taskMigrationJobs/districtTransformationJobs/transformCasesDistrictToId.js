@@ -13,11 +13,19 @@ const transformCasesDistrictToId = async (districts, cases, transaction) => {
 
   for (let i = 0; i < cases.length; i++) {
     if (!cases[i].districtId && !_.isEmpty(cases[i].district)) {
-      await updateDatabaseWithCorrectDistrictId(
-        cases[i],
-        districtNameToIdDictionary,
-        transaction
-      );
+      try {
+        await updateDatabaseWithCorrectDistrictId(
+          cases[i],
+          districtNameToIdDictionary,
+          transaction
+        );
+      } catch (error) {
+        throw new Error(
+          `Error while transforming district to district id for case with id ${
+            cases[i].id
+          }. \nInternal Error: ${error}`
+        );
+      }
     }
   }
 };
@@ -53,11 +61,19 @@ export const revertTransformCasesDistrictToId = async (
 
   for (let i = 0; i < cases.length; i++) {
     if (cases[i].districtId) {
-      await updateDatabaseWithCorrectDistrictName(
-        cases[i],
-        districtIdToNameDictionary,
-        transaction
-      );
+      try {
+        await updateDatabaseWithCorrectDistrictName(
+          cases[i],
+          districtIdToNameDictionary,
+          transaction
+        );
+      } catch (error) {
+        throw new Error(
+          `Error while reverting district id to district for case with id ${
+            cases[i].id
+          }. \nInternal Error: ${error}`
+        );
+      }
     }
   }
 };
