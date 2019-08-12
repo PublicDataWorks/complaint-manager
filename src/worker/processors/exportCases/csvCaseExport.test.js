@@ -60,7 +60,6 @@ describe("csvCaseExport request", () => {
   };
 
   beforeEach(async done => {
-    await cleanupDatabase();
     await models.district.create({
       id: 1,
       name: "1st District"
@@ -73,6 +72,10 @@ describe("csvCaseExport request", () => {
       }
     );
     done();
+  });
+
+  afterEach(async () => {
+    await cleanupDatabase();
   });
 
   test("sends the resulting aws data to the job result", async () => {
