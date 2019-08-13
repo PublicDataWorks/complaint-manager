@@ -8,20 +8,15 @@ module.exports = {
   custom_assertions_path: "",
   page_objects_path: "./pageObjectModels",
   globals_path: "",
-  selenium: {
+  webdriver: {
     start_process: true,
-    server_path: selenium.path,
-    log_path: "",
-    port: 4444,
-    cli_args: {
-      "webdriver.chrome.driver": chromedriver.path
-    }
+    server_path: chromedriver.path,
+    port: 9515,
+    cli_args: ["--log", "debug"]
   },
   test_settings: {
     default: {
       launch_url: "",
-      selenium_port: 4444,
-      selenium_host: "localhost",
       silent: true,
       screenshots: {
         enabled: true,

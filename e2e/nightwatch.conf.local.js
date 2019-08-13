@@ -8,20 +8,16 @@ const config = {
   custom_assertions_path: "",
   page_objects_path: "./e2e/pageObjectModels",
   globals_path: "",
-  selenium: {
+  webdriver: {
     start_process: true,
-    server_path: selenium.path,
+    server_path: chromedriver.path,
+    port: 9515,
     log_path: "",
-    port: 4444,
-    cli_args: {
-      "webdriver.chrome.driver": chromedriver.path
-    }
+    cli_args: ["--log", "debug"]
   },
   test_settings: {
     default: {
       launch_url: "localhost:3000/",
-      selenium_port: 4444,
-      selenium_host: "localhost",
       silent: true,
       screenshots: {
         enabled: true,
@@ -32,7 +28,7 @@ const config = {
       desiredCapabilities: {
         browserName: "chrome",
         chromeOptions: {
-          args: ["headless", "--no-sandbox"]
+          args: ["--headless", "--no-sandbox"]
         }
       }
     }
