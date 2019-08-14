@@ -132,10 +132,11 @@ docker-compose down
 ```
 
 ### Update the end-to-end testing image:
+From your terminal. Don't forget the dot on the second command.
 
 ```bash
 docker login [enter your docker hub credentials]
-docker build -t noipm/e2e e2e
+docker build -f e2e/Dockerfile.e2e -t noipm/e2e .
 docker push noipm/e2e
 ```
 
