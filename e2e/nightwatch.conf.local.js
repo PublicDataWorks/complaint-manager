@@ -27,6 +27,7 @@ const config = {
       },
       desiredCapabilities: {
         browserName: "chrome",
+        // To run without headless, remove the '--headless' flag and add 'start-fullscreen'
         chromeOptions: {
           args: ["--headless", "--no-sandbox"]
         }
