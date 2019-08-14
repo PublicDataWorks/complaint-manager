@@ -1,5 +1,4 @@
-import { shallow } from "enzyme";
-import { mount } from "enzyme/build/index";
+import { mount } from "enzyme";
 import createConfiguredStore from "../../createConfiguredStore";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -7,70 +6,28 @@ import React from "react";
 import OfficerDetails from "./OfficerDetails";
 import OfficerSearchResultsRow from "../OfficerSearch/OfficerSearchResults/OfficerSearchResultsRow";
 import { ChangeOfficer } from "../OfficerSearch/OfficerSearchResults/officerSearchResultsRowButtons";
-import { initialize } from "redux-form";
-import { selectOfficer } from "../../actionCreators/officersActionCreators";
 import {
   ACCUSED,
   COMPLAINANT,
-  OFFICER_DETAILS_FORM_NAME,
   WITNESS
 } from "../../../sharedUtilities/constants";
 
-jest.mock("../thunks/addOfficer", () => (caseId, officerId, values) => ({
-  type: "MOCK_ADD_OFFICER_ACTION",
-  caseId,
-  officerId,
-  values
-}));
-
 const store = createConfiguredStore();
-
-test("should dispatch thunk with correct stuff when unknown officer selected", () => {
-  const mockOfficerSearchUrl = "/mock-officer-search-url";
-  const expectedValues = { roleOnCase: ACCUSED };
-  const caseId = 12;
-  const submitAction = jest.fn(values => ({ type: "MOCK_THUNK", values }));
-
-  const store = createConfiguredStore();
-  const dispatchSpy = jest.spyOn(store, "dispatch");
-
-  store.dispatch(
-    initialize(OFFICER_DETAILS_FORM_NAME, { roleOnCase: ACCUSED })
-  );
-  store.dispatch(selectOfficer({}));
-
-  const wrapper = mount(
-    <Provider store={store}>
-      <Router>
-        <OfficerDetails
-          submitButtonText={"Button"}
-          submitAction={submitAction}
-          officerSearchUrl={mockOfficerSearchUrl}
-          caseId={caseId}
-          dispatch={dispatchSpy}
-          selectedOfficer={expectedValues}
-        />
-      </Router>
-    </Provider>
-  );
-
-  const submitButton = wrapper.find('button[data-test="officerSubmitButton"]');
-
-  submitButton.simulate("click");
-
-  expect(dispatchSpy).toHaveBeenCalledWith(submitAction(expectedValues));
-});
+const testCaseId = 1;
+const stubFunction = () => ({});
+const mockSearchUrl = "<search url>";
+const mockButtonText = "ButtonXyz";
 
 describe("OfficerDetails when there is a selected officer", () => {
   const wrapper = mount(
     <Provider store={store}>
       <Router>
         <OfficerDetails
-          submitButtonText={"ButtonXyz"}
-          submitAction={() => ({})}
-          officerSearchUrl={"<search url>"}
-          caseId={5}
-          dispatch={() => ({})}
+          submitButtonText={mockButtonText}
+          submitAction={stubFunction}
+          officerSearchUrl={mockSearchUrl}
+          caseId={testCaseId}
+          dispatch={stubFunction}
           selectedOfficer={{
             roleOnCase: ACCUSED
           }}
@@ -95,32 +52,33 @@ describe("OfficerDetails when there is a selected officer", () => {
         .find('[data-test="officerSubmitButton"]')
         .first()
         .html()
-    ).toContain("ButtonXyz");
+    ).toContain(mockButtonText);
   });
 
   test("should pass caseId and officerSearchUrl to ChangeOfficer component", () => {
-    expect(wrapper.find(ChangeOfficer).prop("caseId")).toBe(5);
+    expect(wrapper.find(ChangeOfficer).prop("caseId")).toBe(testCaseId);
     expect(wrapper.find(ChangeOfficer).prop("officerSearchUrl")).toBe(
-      "<search url>"
+      mockSearchUrl
     );
   });
 });
 
-describe("OfficerDetails when there is no selectedOfficer", () => {
+describe("OfficerDetails when there is an unknown officer selected", () => {
   const wrapper = mount(
     <Provider store={store}>
       <Router>
         <OfficerDetails
-          submitButtonText={"Button"}
-          submitAction={() => ({})}
-          officerSearchUrl={"<officer url>"}
-          caseId={10}
-          dispatch={() => ({})}
+          submitButtonText={mockButtonText}
+          submitAction={stubFunction}
+          officerSearchUrl={mockSearchUrl}
+          caseId={testCaseId}
+          dispatch={stubFunction}
           initialRoleOnCase={null}
         />
       </Router>
     </Provider>
   );
+
   test("should render Change Officer", () => {
     expect(
       wrapper.find('[data-test="unknownOfficerMessage"]').exists()
@@ -134,9 +92,9 @@ describe("OfficerDetails when there is no selectedOfficer", () => {
   });
 
   test("should pass caseId and officerSearchUrl to ChangeOfficer component", () => {
-    expect(wrapper.find(ChangeOfficer).prop("caseId")).toBe(10);
+    expect(wrapper.find(ChangeOfficer).prop("caseId")).toBe(testCaseId);
     expect(wrapper.find(ChangeOfficer).prop("officerSearchUrl")).toBe(
-      "<officer url>"
+      mockSearchUrl
     );
   });
 });
@@ -146,11 +104,11 @@ describe("OfficerDetails when selectedOfficer is a COMPLAINANT", () => {
     <Provider store={store}>
       <Router>
         <OfficerDetails
-          submitButtonText={"Button"}
-          submitAction={() => ({})}
-          officerSearchUrl={"<officer url>"}
-          caseId={10}
-          dispatch={() => ({})}
+          submitButtonText={mockButtonText}
+          submitAction={stubFunction}
+          officerSearchUrl={mockSearchUrl}
+          caseId={testCaseId}
+          dispatch={stubFunction}
           selectedOfficerData={false}
           selectedOfficer={{
             roleOnCase: COMPLAINANT
@@ -170,11 +128,11 @@ describe("OfficerDetails when selectedOfficer is a WITNESS", () => {
     <Provider store={store}>
       <Router>
         <OfficerDetails
-          submitButtonText={"Button"}
-          submitAction={() => ({})}
-          officerSearchUrl={"<officer url>"}
-          caseId={10}
-          dispatch={() => ({})}
+          submitButtonText={mockButtonText}
+          submitAction={stubFunction}
+          officerSearchUrl={mockSearchUrl}
+          caseId={testCaseId}
+          dispatch={stubFunction}
           selectedOfficerData={false}
           selectedOfficer={{
             roleOnCase: WITNESS

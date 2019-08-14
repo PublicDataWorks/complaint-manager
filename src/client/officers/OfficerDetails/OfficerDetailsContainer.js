@@ -66,12 +66,12 @@ export class OfficerDetailsContainer extends Component {
 }
 
 const mapStateToProps = state => {
-  let roleOnCaseProp = null;
+  let initialRoleOnCaseProp = null;
   if (state.form.OfficerDetails && state.form.OfficerDetails.initial) {
-    roleOnCaseProp = state.form.OfficerDetails.initial.roleOnCase;
+    initialRoleOnCaseProp = state.form.OfficerDetails.initial.roleOnCase;
   }
   return {
-    initialRoleOnCase: roleOnCaseProp,
+    initialRoleOnCase: initialRoleOnCaseProp,
     caseReference: state.currentCase.details.caseReference,
     selectedOfficerData: state.officers.selectedOfficerData,
     officerCurrentlySelected: state.officers.officerCurrentlySelected
