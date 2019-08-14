@@ -26,7 +26,7 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
 RUN mkdir /data
 
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 6.10.2
+ENV NODE_VERSION 10.14.0
 
 #==========
 # NodeJS
