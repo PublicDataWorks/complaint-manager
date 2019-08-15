@@ -14,7 +14,7 @@ const asyncMiddleware = require("../../asyncMiddleware");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 
 const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
-  const { officerId, notes, roleOnCase } = request.body;
+  const { officerId, notes, roleOnCase, isAnonymous } = request.body;
   const newAuditFeatureToggle = checkFeatureToggleEnabled(
     request,
     "newAuditFeature"
@@ -36,7 +36,7 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
 
   const updatedCase = await models.sequelize.transaction(async transaction => {
     const createdCaseOfficer = await retrievedCase.createAccusedOfficer(
-      { notes, roleOnCase, ...caseOfficerAttributes },
+      { notes, roleOnCase, isAnonymous, ...caseOfficerAttributes },
       {
         transaction,
         auditUser: request.nickname

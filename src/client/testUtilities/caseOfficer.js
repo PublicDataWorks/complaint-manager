@@ -30,6 +30,7 @@ class CaseOfficer {
     this.isUnknownOfficer = build.isUnknownOfficer;
     this.createdAt = build.createdAt;
     this.allegations = build.allegations;
+    this.isAnonymous = build.isAnonymous;
   }
 
   static get Builder() {
@@ -63,6 +64,7 @@ class CaseOfficer {
         this.isUnknownOfficer = false;
         this.createdAt = new Date();
         this.allegations = [];
+        this.isAnonymous = false;
 
         return this;
       }
@@ -189,6 +191,11 @@ class CaseOfficer {
 
       withCreatedAt(createdAt) {
         this.createdAt = createdAt;
+        return this;
+      }
+
+      withIsAnonymous(isAnonymous) {
+        this.isAnonymous = isAnonymous;
         return this;
       }
 
