@@ -544,7 +544,9 @@ describe("editCaseOfficer", () => {
         .withId(undefined)
         .withOfficerId(existingComplainantOfficer.id)
         .withCaseId(existingCase.id)
-        .withRoleOnCase(COMPLAINANT);
+        .withRoleOnCase(COMPLAINANT)
+        .withIsAnonymous(true)
+        .build();
 
       existingComplainantCaseOfficer = await models.case_officer.create(
         existingComplainantCaseOfficerAttributes,
@@ -946,6 +948,35 @@ describe("editCaseOfficer", () => {
       });
 
       expect(letterOfficer).toBeNull();
+    });
+
+    test("should set isAnonymous to false when changing officer to accused", async () => {
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: { roleOnCase: ACCUSED },
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingComplainantCaseOfficer.id
+        },
+        nickname: "test user"
+      });
+
+      console.log(existingComplainantCaseOfficer);
+      await editCaseOfficer(request, response, next);
+
+      const resultingOfficer = await models.case_officer.findByPk(
+        existingComplainantCaseOfficer.id
+      );
+      console.log(resultingOfficer);
+      expect(resultingOfficer).toEqual(
+        expect.objectContaining({
+          roleOnCase: ACCUSED,
+          isAnonymous: false
+        })
+      );
     });
   });
 

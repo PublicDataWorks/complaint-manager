@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 DB_ENV=$1
 
-echo Runing against $DB_ENV database...
+echo Running against $DB_ENV database...
 
 yarn run sequelize db:create --env=$DB_ENV
 
