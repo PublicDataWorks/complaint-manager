@@ -18,131 +18,133 @@ const stubFunction = () => ({});
 const mockSearchUrl = "<search url>";
 const mockButtonText = "ButtonXyz";
 
-describe("OfficerDetails when there is a selected officer", () => {
-  const wrapper = mount(
-    <Provider store={store}>
-      <Router>
-        <OfficerDetails
-          submitButtonText={mockButtonText}
-          submitAction={stubFunction}
-          officerSearchUrl={mockSearchUrl}
-          caseId={testCaseId}
-          dispatch={stubFunction}
-          selectedOfficer={{
-            roleOnCase: ACCUSED
-          }}
-        />
-      </Router>
-    </Provider>
-  );
-
-  test("should render Officer Search Result Row", () => {
-    expect(wrapper.find(OfficerSearchResultsRow).exists()).toBeTruthy();
-  });
-
-  test("should not render Anonymous checkbox", () => {
-    expect(
-      wrapper.find('[data-test="isOfficerAnonymous"]').exists()
-    ).toBeFalsy();
-  });
-
-  test("should display proper button text", () => {
-    expect(
-      wrapper
-        .find('[data-test="officerSubmitButton"]')
-        .first()
-        .html()
-    ).toContain(mockButtonText);
-  });
-
-  test("should pass caseId and officerSearchUrl to ChangeOfficer component", () => {
-    expect(wrapper.find(ChangeOfficer).prop("caseId")).toBe(testCaseId);
-    expect(wrapper.find(ChangeOfficer).prop("officerSearchUrl")).toBe(
-      mockSearchUrl
+describe("OfficerDetails", () => {
+  describe("OfficerDetails when there is a selected officer", () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <OfficerDetails
+            submitButtonText={mockButtonText}
+            submitAction={stubFunction}
+            officerSearchUrl={mockSearchUrl}
+            caseId={testCaseId}
+            dispatch={stubFunction}
+            selectedOfficer={{
+              roleOnCase: ACCUSED
+            }}
+          />
+        </Router>
+      </Provider>
     );
-  });
-});
 
-describe("OfficerDetails when there is an unknown officer selected", () => {
-  const wrapper = mount(
-    <Provider store={store}>
-      <Router>
-        <OfficerDetails
-          submitButtonText={mockButtonText}
-          submitAction={stubFunction}
-          officerSearchUrl={mockSearchUrl}
-          caseId={testCaseId}
-          dispatch={stubFunction}
-          initialRoleOnCase={null}
-        />
-      </Router>
-    </Provider>
-  );
+    test("should render Officer Search Result Row", () => {
+      expect(wrapper.find(OfficerSearchResultsRow).exists()).toBeTruthy();
+    });
 
-  test("should render Change Officer", () => {
-    expect(
-      wrapper.find('[data-test="unknownOfficerMessage"]').exists()
-    ).toBeTruthy();
-  });
+    test("should not render Anonymous checkbox", () => {
+      expect(
+        wrapper.find('[data-test="isOfficerAnonymous"]').exists()
+      ).toBeFalsy();
+    });
 
-  test("should hide the Anonymous checkbox", () => {
-    expect(
-      wrapper.find('[data-test="isOfficerAnonymous"]').exists()
-    ).toBeFalsy();
+    test("should display proper button text", () => {
+      expect(
+        wrapper
+          .find('[data-test="officerSubmitButton"]')
+          .first()
+          .html()
+      ).toContain(mockButtonText);
+    });
+
+    test("should pass caseId and officerSearchUrl to ChangeOfficer component", () => {
+      expect(wrapper.find(ChangeOfficer).prop("caseId")).toBe(testCaseId);
+      expect(wrapper.find(ChangeOfficer).prop("officerSearchUrl")).toBe(
+        mockSearchUrl
+      );
+    });
   });
 
-  test("should pass caseId and officerSearchUrl to ChangeOfficer component", () => {
-    expect(wrapper.find(ChangeOfficer).prop("caseId")).toBe(testCaseId);
-    expect(wrapper.find(ChangeOfficer).prop("officerSearchUrl")).toBe(
-      mockSearchUrl
+  describe("OfficerDetails when there is an unknown officer selected", () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <OfficerDetails
+            submitButtonText={mockButtonText}
+            submitAction={stubFunction}
+            officerSearchUrl={mockSearchUrl}
+            caseId={testCaseId}
+            dispatch={stubFunction}
+            initialRoleOnCase={null}
+          />
+        </Router>
+      </Provider>
     );
+
+    test("should render Change Officer", () => {
+      expect(
+        wrapper.find('[data-test="unknownOfficerMessage"]').exists()
+      ).toBeTruthy();
+    });
+
+    test("should hide the Anonymous checkbox", () => {
+      expect(
+        wrapper.find('[data-test="isOfficerAnonymous"]').exists()
+      ).toBeFalsy();
+    });
+
+    test("should pass caseId and officerSearchUrl to ChangeOfficer component", () => {
+      expect(wrapper.find(ChangeOfficer).prop("caseId")).toBe(testCaseId);
+      expect(wrapper.find(ChangeOfficer).prop("officerSearchUrl")).toBe(
+        mockSearchUrl
+      );
+    });
   });
-});
 
-describe("OfficerDetails when selectedOfficer is a COMPLAINANT", () => {
-  const wrapper = mount(
-    <Provider store={store}>
-      <Router>
-        <OfficerDetails
-          submitButtonText={mockButtonText}
-          submitAction={stubFunction}
-          officerSearchUrl={mockSearchUrl}
-          caseId={testCaseId}
-          dispatch={stubFunction}
-          selectedOfficerData={false}
-          selectedOfficer={{
-            roleOnCase: COMPLAINANT
-          }}
-        />
-      </Router>
-    </Provider>
-  );
+  describe("OfficerDetails when selectedOfficer is a COMPLAINANT", () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <OfficerDetails
+            submitButtonText={mockButtonText}
+            submitAction={stubFunction}
+            officerSearchUrl={mockSearchUrl}
+            caseId={testCaseId}
+            dispatch={stubFunction}
+            selectedOfficerData={false}
+            selectedOfficer={{
+              roleOnCase: COMPLAINANT
+            }}
+          />
+        </Router>
+      </Provider>
+    );
 
-  test("should show the Anonymous checkbox", () => {
-    expect(wrapper.find('[data-test="isOfficerAnonymous"]')).toBeTruthy();
+    test("should show the Anonymous checkbox", () => {
+      expect(wrapper.find('[data-test="isOfficerAnonymous"]')).toBeTruthy();
+    });
   });
-});
 
-describe("OfficerDetails when selectedOfficer is a WITNESS", () => {
-  const wrapper = mount(
-    <Provider store={store}>
-      <Router>
-        <OfficerDetails
-          submitButtonText={mockButtonText}
-          submitAction={stubFunction}
-          officerSearchUrl={mockSearchUrl}
-          caseId={testCaseId}
-          dispatch={stubFunction}
-          selectedOfficerData={false}
-          selectedOfficer={{
-            roleOnCase: WITNESS
-          }}
-        />
-      </Router>
-    </Provider>
-  );
+  describe("OfficerDetails when selectedOfficer is a WITNESS", () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <OfficerDetails
+            submitButtonText={mockButtonText}
+            submitAction={stubFunction}
+            officerSearchUrl={mockSearchUrl}
+            caseId={testCaseId}
+            dispatch={stubFunction}
+            selectedOfficerData={false}
+            selectedOfficer={{
+              roleOnCase: WITNESS
+            }}
+          />
+        </Router>
+      </Provider>
+    );
 
-  test("should show the Anonymous checkbox", () => {
-    expect(wrapper.find('[data-test="isOfficerAnonymous"]')).toBeTruthy();
+    test("should show the Anonymous checkbox", () => {
+      expect(wrapper.find('[data-test="isOfficerAnonymous"]')).toBeTruthy();
+    });
   });
 });
