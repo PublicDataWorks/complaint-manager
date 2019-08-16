@@ -17,9 +17,7 @@ import auditDataAccess from "../../audits/auditDataAccess";
 
 const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const { officerId, notes, roleOnCase } = request.body;
-  const isAnonymous = request.body.isAnonymous
-    ? request.body.isAnonymous
-    : false;
+  const isAnonymous = !!(roleOnCase !== ACCUSED && request.body.isAnonymous)
   const caseOfficerToUpdate = await models.case_officer.findOne({
     where: {
       id: request.params.caseOfficerId

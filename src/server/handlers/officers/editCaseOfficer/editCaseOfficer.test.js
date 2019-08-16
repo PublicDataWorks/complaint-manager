@@ -101,13 +101,11 @@ describe("editCaseOfficer", () => {
         },
         nickname: "someone"
       });
-
       await editCaseOfficer(request, response, next);
 
       const updatedCaseOfficer = await models.case_officer.findByPk(
         existingCaseOfficer.id
       );
-
       expect(updatedCaseOfficer.officerId).toEqual(createdNewOfficer.id);
       expect(updatedCaseOfficer.firstName).toEqual(createdNewOfficer.firstName);
       expect(updatedCaseOfficer.middleName).toEqual(
@@ -950,13 +948,13 @@ describe("editCaseOfficer", () => {
       expect(letterOfficer).toBeNull();
     });
 
-    test("should set isAnonymous to false when changing officer to accused", async () => {
+    test("should set isAnonymous to false when changing an existing officer to accused", async () => {
       const request = httpMocks.createRequest({
         method: "PUT",
         headers: {
           authorization: "Bearer SOME_MOCK_TOKEN"
         },
-        body: { roleOnCase: ACCUSED },
+        body: { officerId: existingComplainantCaseOfficer.officerId, roleOnCase: ACCUSED, isAnonymous: true },
         params: {
           caseId: existingCase.id,
           caseOfficerId: existingComplainantCaseOfficer.id
@@ -964,14 +962,11 @@ describe("editCaseOfficer", () => {
         nickname: "test user"
       });
 
-      console.log(existingComplainantCaseOfficer);
       await editCaseOfficer(request, response, next);
-
-      const resultingOfficer = await models.case_officer.findByPk(
-        existingComplainantCaseOfficer.id
-      );
-      console.log(resultingOfficer);
-      expect(resultingOfficer).toEqual(
+  
+      await existingComplainantCaseOfficer.reload();
+  
+      expect(existingComplainantCaseOfficer).toEqual(
         expect.objectContaining({
           roleOnCase: ACCUSED,
           isAnonymous: false
