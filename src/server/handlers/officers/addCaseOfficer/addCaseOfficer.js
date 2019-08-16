@@ -11,10 +11,14 @@ const {
 
 const models = require("../../../models/index");
 const asyncMiddleware = require("../../asyncMiddleware");
-const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
+const {
+  ACCUSED,
+  AUDIT_SUBJECT
+} = require("../../../../sharedUtilities/constants");
 
 const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
-  const { officerId, notes, roleOnCase, isAnonymous } = request.body;
+  const { officerId, notes, roleOnCase } = request.body;
+  const isAnonymous = !!(roleOnCase !== ACCUSED && request.body.isAnonymous);
   const newAuditFeatureToggle = checkFeatureToggleEnabled(
     request,
     "newAuditFeature"
