@@ -112,6 +112,48 @@ describe("addCaseOfficer", () => {
     );
   });
 
+  test("should create a case_officer record when adding known ACCUSED officer to a case, but should not be anonymous even if param is sent", async () => {
+    const officerToCreate = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined);
+
+    const createdOfficer = await models.officer.create(officerToCreate);
+
+    const officerAttributes = {
+      officerId: createdOfficer.id,
+      roleOnCase: ACCUSED,
+      notes: "these are notes",
+      isAnonymous: true
+    };
+
+    const request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: existingCase.id
+      },
+      body: officerAttributes,
+      nickname: "TEST_USER_NICKNAME"
+    });
+
+    await addCaseOfficer(request, response, next);
+
+    const caseOfficerCreated = await models.case_officer.findOne({
+      where: { caseId: existingCase.id }
+    });
+
+    expect(caseOfficerCreated).toEqual(
+      expect.objectContaining({
+        officerId: createdOfficer.id,
+        notes: officerAttributes.notes,
+        roleOnCase: officerAttributes.roleOnCase,
+        isAnonymous: false
+      })
+    );
+  });
+
   test("should create a case_officer record when adding known WITNESS officer to a case", async () => {
     const officerToCreate = new Officer.Builder()
       .defaultOfficer()
