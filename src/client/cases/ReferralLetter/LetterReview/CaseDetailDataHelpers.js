@@ -30,7 +30,7 @@ export const getIncidentInfoData = caseDetail => {
       "Incident Date": incidentDate,
       "Incident Time": incidentTime,
       "Incident Location": incidentLocation ? incidentLocation : null,
-      District: caseDetail.caseDistrict.name,
+      District: caseDetail.caseDistrict ? caseDetail.caseDistrict.name : null,
       Classification: caseDetail.classification
         ? caseDetail.classification.initialism
         : null,

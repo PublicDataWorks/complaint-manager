@@ -88,6 +88,43 @@ describe("caseDetailDataHelpers", function() {
         ])
       );
     });
+
+    test("it returns correct incident info when no district", () => {
+      const incidentDate = "2014-12-12";
+      const firstContactDate = "2015-01-01";
+      const caseDetail = {
+        incidentDate: incidentDate,
+        firstContactDate: firstContactDate,
+        incidentTime: "10:00:00",
+        incidentLocation: {
+          streetAddress: "100 Small Lake Road",
+          city: "Skokie",
+          state: "IL",
+          zipCode: "10000"
+        },
+        caseDistrict: null,
+        classification: { initialism: "some classification" },
+        pibCaseNumber: "2013-0004-CC"
+      };
+
+      const incidentInfoData = getIncidentInfoData(caseDetail);
+      const formattedIncidentDate = getFormattedDate(incidentDate);
+      const formattedFirstContactDate = getFormattedDate(firstContactDate);
+
+      expect(incidentInfoData).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            "Incident Date": formattedIncidentDate,
+            "First Contacted OIPM": formattedFirstContactDate,
+            "Incident Time": "10:00 AM CST",
+            "Incident Location": "100 Small Lake Road, Skokie, IL, 10000",
+            District: null,
+            Classification: "some classification",
+            "PIB Case Number": "2013-0004-CC"
+          })
+        ])
+      );
+    });
   });
 
   describe("complainant data", function() {
