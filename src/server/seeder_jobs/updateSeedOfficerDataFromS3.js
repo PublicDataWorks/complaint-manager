@@ -1,11 +1,12 @@
-import { getOrdinalDistrict } from "../../sharedUtilities/convertDistrictToOrdinal";
-
 const csvParse = require("csv-parse");
 const models = require("../models");
 const _ = require("lodash");
 const createConfiguredS3Instance = require("../createConfiguredS3Instance");
 const config = require("../config/config");
 const winston = require("winston");
+const {
+  getOrdinalDistrict
+} = require("../../sharedUtilities/convertDistrictToOrdinal");
 
 const promises = [];
 const officersToUpdate = [];
@@ -88,7 +89,7 @@ const determineWhetherToCreateOrUpdateOfficer = async seedDataRow => {
   }
 };
 
-export const transformDistrictToDistrictId = async seedDataRow => {
+const transformDistrictToDistrictId = async seedDataRow => {
   const ordinalDistrict = getOrdinalDistrict(seedDataRow.district);
   if (ordinalDistrict) {
     const foundDistrict = await models.district.findOne({
