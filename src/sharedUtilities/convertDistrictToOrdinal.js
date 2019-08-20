@@ -1,4 +1,4 @@
-export const getFullDistrictName = ordinalDistrict => {
+const getFullDistrictName = ordinalDistrict => {
   switch (ordinalDistrict) {
     case "1st District":
       return "First District";
@@ -21,7 +21,7 @@ export const getFullDistrictName = ordinalDistrict => {
   }
 };
 
-export const getOrdinalDistrict = districtName => {
+const getOrdinalDistrict = districtName => {
   switch (districtName) {
     case "First District":
       return "1st District";
@@ -42,4 +42,9 @@ export const getOrdinalDistrict = districtName => {
     default:
       return null;
   }
+};
+
+module.exports = {
+  getFullDistrictName: getFullDistrictName,
+  getOrdinalDistrict: getOrdinalDistrict
 };
