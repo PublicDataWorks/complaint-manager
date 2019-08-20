@@ -3,22 +3,22 @@ import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers"
 import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../audits/auditDataAccess";
+import canBeAnonymous from "../helpers/canBeAnonymous";
 
 const {
   buildOfficerAttributesForNewOfficer,
   buildOfficerAttributesForUnknownOfficer
-} = require("../buildOfficerAttributesHelpers");
+} = require("../helpers/buildOfficerAttributesHelpers");
 
 const models = require("../../../models/index");
 const asyncMiddleware = require("../../asyncMiddleware");
 const {
-  ACCUSED,
   AUDIT_SUBJECT
 } = require("../../../../sharedUtilities/constants");
 
 const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const { officerId, notes, roleOnCase } = request.body;
-  const isAnonymous = !!(roleOnCase !== ACCUSED && request.body.isAnonymous);
+  const isAnonymous = canBeAnonymous(request.body.isAnonymous, roleOnCase);
   const newAuditFeatureToggle = checkFeatureToggleEnabled(
     request,
     "newAuditFeature"
