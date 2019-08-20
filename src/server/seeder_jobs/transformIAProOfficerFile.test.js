@@ -161,7 +161,7 @@ describe("transformIAProOfficerFile", () => {
         .replace("Female", "ABC");
       await expect(
         transformIAProOfficerData(inputCsvWithUnexpectedSex)
-      ).rejects.toEqual(Boom.badData(BAD_DATA_ERRORS.UNEXPECTED_SEX_VALUE));
+      ).rejects.toEqual(Boom.badData("Unexpected Sex Value: 'ABC'"));
     });
 
     test("normalizes race values", async () => {
@@ -238,7 +238,7 @@ describe("transformIAProOfficerFile", () => {
         .replace("American Ind", "XYZ");
       await expect(
         transformIAProOfficerData(inputCsvWithUnexpectedRace)
-      ).rejects.toEqual(Boom.badData(BAD_DATA_ERRORS.UNEXPECTED_RACE_VALUE));
+      ).rejects.toEqual(Boom.badData("Unexpected Race Value: 'XYZ'"));
     });
   });
 
@@ -252,9 +252,7 @@ describe("transformIAProOfficerFile", () => {
     test("throws error if required headers are missing", async () => {
       await expect(
         transformIAProOfficerData(iaProOfficerBufferedData)
-      ).rejects.toEqual(
-        expect.objectContaining({ message: "Missing required header fields" })
-      );
+      ).rejects.toEqual(Boom.badData("Missing required header fields."));
     });
   });
 });
