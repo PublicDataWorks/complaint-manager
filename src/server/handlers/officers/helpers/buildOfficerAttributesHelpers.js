@@ -1,4 +1,4 @@
-const models = require("../../models");
+const models = require("../../../models");
 
 const buildOfficerAttributesForUnknownOfficer = () => {
   return models.case_officer.build().emptyCaseOfficerAttributes();

@@ -3,21 +3,19 @@ import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 const models = require("../../../models");
 const asyncMiddleware = require("../../asyncMiddleware");
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
-const {
+import {
   buildOfficerAttributesForUnknownOfficer,
   buildOfficerAttributesForNewOfficer
-} = require("../buildOfficerAttributesHelpers");
-const {
-  ACCUSED,
-  AUDIT_SUBJECT
-} = require("../../../../sharedUtilities/constants");
+} from "../helpers/buildOfficerAttributesHelpers";
+import { ACCUSED, AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
 import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../audits/auditDataAccess";
+import canBeAnonymous from "../helpers/canBeAnonymous";
 
 const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const { officerId, notes, roleOnCase } = request.body;
-  const isAnonymous = !!(roleOnCase !== ACCUSED && request.body.isAnonymous)
+  const isAnonymous = canBeAnonymous(request.body.isAnonymous, roleOnCase);
   const caseOfficerToUpdate = await models.case_officer.findOne({
     where: {
       id: request.params.caseOfficerId
