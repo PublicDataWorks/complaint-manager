@@ -1,5 +1,3 @@
-import { BAD_DATA_ERRORS } from "../../sharedUtilities/errorMessageConstants";
-
 const parse = require("csv-parse");
 const util = require("util");
 const stringify = require("csv-stringify");
@@ -76,7 +74,7 @@ const normalizeSexValue = originalSexValue => {
     case '""':
       return "Unknown Sex";
     default:
-      throw Boom.badData(BAD_DATA_ERRORS.UNEXPECTED_SEX_VALUE);
+      throw Boom.badData(`Unexpected Sex Value: '${originalSexValue}'`);
   }
 };
 
@@ -105,7 +103,7 @@ const normalizeRaceValue = originalRaceValue => {
     case '""':
       return "Unknown Race";
     default:
-      throw Boom.badData(BAD_DATA_ERRORS.UNEXPECTED_RACE_VALUE);
+      throw Boom.badData(`Unexpected Race Value: '${originalRaceValue}'`);
   }
 };
 
@@ -113,7 +111,7 @@ const validateHeaders = firstParsedRow => {
   const receivedHeaderColumns = Object.keys(firstParsedRow);
   const expectedHeaderColumns = Object.keys(columns);
   if (_.difference(expectedHeaderColumns, receivedHeaderColumns).length !== 0) {
-    throw Boom.badData(BAD_DATA_ERRORS.MISSING_REQUIRED_HEADER_FIELDS);
+    throw Boom.badData("Missing required header fields.");
   }
 };
 
