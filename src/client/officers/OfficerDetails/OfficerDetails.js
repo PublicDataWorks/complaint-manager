@@ -36,7 +36,10 @@ class OfficerDetails extends React.Component {
   shouldShowAnonymousCheckbox = () => {
     const roleOnCase =
       (this.state && this.state.roleOnCase) || this.props.initialRoleOnCase;
-    return roleOnCase === COMPLAINANT || roleOnCase === WITNESS;
+    return (
+      (roleOnCase === COMPLAINANT || roleOnCase === WITNESS) &&
+      this.props.selectedOfficer
+    );
   };
 
   render() {
