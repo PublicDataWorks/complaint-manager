@@ -74,7 +74,7 @@ describe("OfficerDetails", () => {
             officerSearchUrl={mockSearchUrl}
             caseId={testCaseId}
             dispatch={stubFunction}
-            initialRoleOnCase={null}
+            initialRoleOnCase={COMPLAINANT}
           />
         </Router>
       </Provider>
