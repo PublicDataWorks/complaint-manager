@@ -954,7 +954,11 @@ describe("editCaseOfficer", () => {
         headers: {
           authorization: "Bearer SOME_MOCK_TOKEN"
         },
-        body: { officerId: existingComplainantCaseOfficer.officerId, roleOnCase: ACCUSED, isAnonymous: true },
+        body: {
+          officerId: existingComplainantCaseOfficer.officerId,
+          roleOnCase: ACCUSED,
+          isAnonymous: true
+        },
         params: {
           caseId: existingCase.id,
           caseOfficerId: existingComplainantCaseOfficer.id
@@ -963,9 +967,9 @@ describe("editCaseOfficer", () => {
       });
 
       await editCaseOfficer(request, response, next);
-  
+
       await existingComplainantCaseOfficer.reload();
-  
+
       expect(existingComplainantCaseOfficer).toEqual(
         expect.objectContaining({
           roleOnCase: ACCUSED,
