@@ -13,11 +13,14 @@ import {
   CIVILIAN_INITIATED,
   CIVILIAN_WITHIN_NOPD_INITIATED,
   RANK_INITIATED,
-  SORT_CASES_BY
+  SORT_CASES_BY,
+  OFFICER_DETAILS_FORM_NAME,
+  COMPLAINANT
 } from "../../../sharedUtilities/constants";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import getWorkingCases from "./getWorkingCases";
+import { initialize } from "redux-form";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -127,6 +130,11 @@ describe("createCase", () => {
     expect(dispatch).toHaveBeenCalledWith(
       push(`/cases/${caseId}/officers/search`)
     );
+    expect(dispatch).toHaveBeenCalledWith(
+      initialize(OFFICER_DETAILS_FORM_NAME, {
+        roleOnCase: COMPLAINANT
+      })
+    );
   });
 
   test("should redirect to add employee if complainant is an employee within NOPD", async () => {
@@ -167,6 +175,11 @@ describe("createCase", () => {
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
     expect(dispatch).toHaveBeenCalledWith(
       push(`/cases/${caseId}/officers/search`)
+    );
+    expect(dispatch).toHaveBeenCalledWith(
+      initialize(OFFICER_DETAILS_FORM_NAME, {
+        roleOnCase: COMPLAINANT
+      })
     );
   });
 
