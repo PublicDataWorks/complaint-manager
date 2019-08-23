@@ -2,7 +2,7 @@
   <p>
     This is to inform you pursuant to New Orleans City Code Section 2-1121 (the Police Monitors Ordinance) that the
     Office of the Independent Police Monitor (OIPM) has received a complaint of misconduct by an NOPD employee(s).
-    The complainant related the following information to our office:
+    The complainant relayed the following information to our office:
   </p>
   <p><br></p>
   <p><br></p>
@@ -388,7 +388,8 @@
 
   <p>I appreciate your prompt attention to this matter.
     Please acknowledge receipt of this complaint and provide the OIPM with a PIB #.
-    Please contact me if you have any questions.</p>
+    Please contact Stella Cziment or Abe Lowe IV if you have any questions regarding this complaint.
+  </p>
   <p><br></p>
 
 </div>
