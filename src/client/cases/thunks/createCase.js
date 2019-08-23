@@ -3,13 +3,15 @@ import {
   createCaseSuccess,
   requestCaseCreation
 } from "../../actionCreators/casesActionCreators";
-import { reset } from "redux-form";
+import { initialize, reset } from "redux-form";
 import { push } from "connected-react-router";
 import axios from "axios";
 import {
   CIVILIAN_INITIATED,
   CIVILIAN_WITHIN_NOPD_INITIATED,
   EMPLOYEE_TYPE,
+  COMPLAINANT,
+  OFFICER_DETAILS_FORM_NAME,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
@@ -29,14 +31,22 @@ const createCase = creationDetails => async dispatch => {
 
     const complaintType = creationDetails.caseDetails.case.complaintType;
     if (creationDetails.redirect) {
-      if (complaintType === RANK_INITIATED) {
-        dispatch(addCaseEmployeeType(EMPLOYEE_TYPE.OFFICER));
-        dispatch(push(`/cases/${response.data.id}/officers/search`));
-      } else if (complaintType === CIVILIAN_WITHIN_NOPD_INITIATED) {
-        dispatch(addCaseEmployeeType(EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD));
-        dispatch(push(`/cases/${response.data.id}/officers/search`));
-      } else if (complaintType === CIVILIAN_INITIATED) {
+      if (complaintType === CIVILIAN_INITIATED) {
         dispatch(push(`/cases/${response.data.id}`));
+      } else {
+        dispatch(
+          addCaseEmployeeType(
+            complaintType === RANK_INITIATED
+              ? EMPLOYEE_TYPE.OFFICER
+              : EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+          )
+        );
+        dispatch(
+          initialize(OFFICER_DETAILS_FORM_NAME, {
+            roleOnCase: COMPLAINANT
+          })
+        );
+        dispatch(push(`/cases/${response.data.id}/officers/search`));
       }
     } else {
       dispatch(

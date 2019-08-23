@@ -8,7 +8,7 @@ import {
   WITNESS
 } from "../../sharedUtilities/constants";
 
-export const generateMenuOptions = (contents, extraMenuOption = null) => {
+export const generateMenuOptions = (contents, extraMenuOption = null, hideDefaultOption = false) => {
   let menuOptionsArray = contents.map(content => {
     let value, label;
     if (typeof content === "string") {
@@ -25,7 +25,10 @@ export const generateMenuOptions = (contents, extraMenuOption = null) => {
   if (extraMenuOption) {
     menuOptionsArray.unshift({ label: extraMenuOption, value: "" });
   }
+  
+  if (!hideDefaultOption) {
   menuOptionsArray.unshift({ label: "", value: "" });
+  }
 
   return menuOptionsArray;
 };
