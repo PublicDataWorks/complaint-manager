@@ -8,7 +8,7 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import models from "../../../../models";
 import auditUpload from "./auditUpload";
 
-describe("auditUpload", () => {
+describe("auditUpload", async () => {
   let caseForAudit;
 
   beforeEach(async () => {

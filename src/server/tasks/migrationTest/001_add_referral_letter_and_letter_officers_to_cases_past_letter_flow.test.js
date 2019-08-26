@@ -8,7 +8,7 @@ import { ACCUSED, CASE_STATUS } from "../../../sharedUtilities/constants";
 import ReferralLetter from "../../../client/testUtilities/ReferralLetter";
 import LetterOfficer from "../../../client/testUtilities/LetterOfficer";
 
-describe("migration to add referral letter and letter officer", () => {
+describe("migration to add referral letter and letter officer", async () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -149,7 +149,7 @@ describe("migration to add referral letter and letter officer", () => {
     });
   });
 
-  describe("referral letter and letter officer does exist in case status past letter generation", () => {
+  describe("referral letter and letter officer does exist in case status past letter generation", async () => {
     const migrationTestSender = "migrationTestSender";
     const numHighAllegations = 3;
 

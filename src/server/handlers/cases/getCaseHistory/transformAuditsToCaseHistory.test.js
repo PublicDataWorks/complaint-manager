@@ -286,7 +286,7 @@ describe("transformAuditsToCaseHistory", () => {
       expect(caseHistories).toHaveLength(1);
       expect(caseHistories[0].details).toEqual(expectedDetails);
     });
-    describe("transformDataChangeAuditToCaseHistory", () => {
+    describe("transformDataChangeAuditToCaseHistory", async () => {
       test("it returns case history for given dataChange audit", async () => {
         const auditId = 123;
         const dataChangeAudit = new DataChangeAudit.Builder()
@@ -323,7 +323,7 @@ describe("transformAuditsToCaseHistory", () => {
       });
     });
 
-    describe("transformUploadAuditToCaseHistory", () => {
+    describe("transformUploadAuditToCaseHistory", async () => {
       test("it returns case history for given upload audit", async () => {
         const auditId = 123;
         const uploadAudit = new ActionAudit.Builder()
@@ -343,7 +343,9 @@ describe("transformAuditsToCaseHistory", () => {
         expect(caseHistoryEntry).toEqual(
           expect.objectContaining({
             user: uploadAudit.user,
-            action: `${AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF} ${AUDIT_ACTION.UPLOADED}`,
+            action: `${AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF} ${
+              AUDIT_ACTION.UPLOADED
+            }`,
             details: AUDIT_UPLOAD_DETAILS.REFERRAL_LETTER_PDF,
             modelDescription: "",
             timestamp: uploadAudit.createdAt,
@@ -792,7 +794,7 @@ describe("transformAuditsToCaseHistory", () => {
       expect(caseHistories).toHaveLength(1);
       expect(caseHistories[0].details).toEqual(expectedDetails);
     });
-    describe("transformDataChangeAuditToCaseHistory", () => {
+    describe("transformDataChangeAuditToCaseHistory", async () => {
       test("it returns case history for given dataChange audit", async () => {
         const auditId = 123;
 
@@ -832,7 +834,7 @@ describe("transformAuditsToCaseHistory", () => {
       });
     });
 
-    describe("transformUploadAuditToCaseHistory", () => {
+    describe("transformUploadAuditToCaseHistory", async () => {
       test("it returns case history for given upload audit", async () => {
         const auditId = 123;
         const testFileName = "SusiesLastCommit.txt";
@@ -858,7 +860,9 @@ describe("transformAuditsToCaseHistory", () => {
         expect(caseHistoryEntry).toEqual(
           expect.objectContaining({
             user: testUser,
-            action: `${AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF} ${AUDIT_ACTION.UPLOADED}`,
+            action: `${AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF} ${
+              AUDIT_ACTION.UPLOADED
+            }`,
             details: `Filename: ${testFileName}\nFinal Referral Letter PDF finalized and uploaded to S3`,
             modelDescription: "",
             timestamp: audit.createdAt,

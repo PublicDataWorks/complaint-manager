@@ -3,7 +3,7 @@ import config from "../../../../config/config";
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 jest.mock("../../../../createConfiguredS3Instance", () => jest.fn());
 
-describe("uploadLetterToS3", () => {
+describe("uploadLetterToS3", async () => {
   test("uploads given letter to s3, strips out non alphanumeric characters from name", () => {
     const uploadMock = jest.fn(() => ({ promise: jest.fn() }));
     createConfiguredS3Instance.mockImplementation(() => ({
