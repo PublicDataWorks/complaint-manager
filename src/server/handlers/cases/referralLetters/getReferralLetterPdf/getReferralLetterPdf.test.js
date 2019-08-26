@@ -63,7 +63,7 @@ describe("Generate referral letter pdf", () => {
     next = jest.fn();
   });
 
-  describe("case in valid status", async () => {
+  describe("case in valid status", () => {
     beforeEach(async () => {
       await existingCase.update(
         { status: CASE_STATUS.LETTER_IN_PROGRESS },
