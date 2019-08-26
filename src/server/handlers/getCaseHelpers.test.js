@@ -254,7 +254,7 @@ describe("getCaseHelpers", () => {
     });
   });
 
-  describe("getCaseWithoutAssociations", async () => {
+  describe("getCaseWithoutAssociations", () => {
     test("returns archived case with isArchived set", async () => {
       await models.cases.destroy({
         where: { id: existingCase.id },
