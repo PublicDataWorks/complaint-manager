@@ -190,7 +190,7 @@ describe("approveLetter", () => {
       });
     });
 
-    describe("newAuditFeature enabled", () => {
+    describe("newAuditFeature enabled", async () => {
       test("audits file upload", async () => {
         request.fflip = mockFflipObject({ newAuditFeature: true });
 
