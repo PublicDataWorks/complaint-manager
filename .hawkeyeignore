@@ -24,8 +24,5 @@ node-yarnaudit-braces-786
 node-yarnaudit-js-yaml-788
 node-yarnaudit-js-yaml-813
 
-# There is a version of handlebars that is used by jest, this version is subject to Prototype pollution because it is out of date. However, the version of handlebars used for the letters has been updated to the latest version that is recommended to remedy this issue, so we shouldn't face any issues in production.
-node-yarnaudit-handlebars-755
-
-# This only affects filteredUrl function which we do not use in our codebase.
-node-yarnaudit-sequelize-cli-825
+#Quill is vulnerable to reverse tabnabbing. There is no fix for it at the moment, but Katie Larson will be notified once a fix is pushed to the package.
+node-yarnaudit-quill-1039
