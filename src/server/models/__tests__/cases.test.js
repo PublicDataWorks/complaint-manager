@@ -315,7 +315,7 @@ describe("cases", function() {
     });
   });
 
-  describe("setStatus", async () => {
+  describe("setStatus", () => {
     beforeEach(async () => {
       createdCase = await createTestCaseWithoutCivilian();
     });
@@ -434,7 +434,7 @@ describe("cases", function() {
     });
   });
 
-  describe("status beforeUpdate hook", async () => {
+  describe("status beforeUpdate hook", () => {
     beforeEach(async () => {
       createdCase = await createTestCaseWithoutCivilian();
     });
