@@ -26,6 +26,8 @@ services:
     entrypoint: ["./wait-for-it.sh", "db:5432", "--"]
     command: ["yarn", "start:dev"]
     volumes:
+#      Mount this volume if you want to run a static front end on localhost:1234
+#      - ./build:/app/build
       - ./src:/app/src
   worker:
     build:
