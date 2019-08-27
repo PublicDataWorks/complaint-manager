@@ -24,7 +24,7 @@ import {
 
 jest.mock("../../audits/auditDataAccess");
 
-describe("changeStatus", async () => {
+describe("changeStatus", () => {
   let initialCase, response, next;
 
   beforeEach(async () => {
@@ -326,7 +326,7 @@ describe("changeStatus", async () => {
     });
   });
 
-  describe("user has permission to update case status", async () => {
+  describe("user has permission to update case status", () => {
     test("should update case status from letter in progress to ready for review to forwarded to agency", async () => {
       await initialCase.update(
         { status: CASE_STATUS.ACTIVE },
@@ -396,7 +396,7 @@ describe("changeStatus", async () => {
     });
   });
 
-  describe("User does not have permissions", async () => {
+  describe("User does not have permissions", () => {
     test("should not update case status and should call error when only update_case_status permission is not present", async () => {
       const request = httpMocks.createRequest({
         method: "PUT",

@@ -64,7 +64,7 @@ describe("generateReferralLetterPdfBuffer", function() {
     );
   });
 
-  describe("sender is 'sender address'", async () => {
+  describe("sender is 'sender address'", () => {
     beforeEach(async () => {
       const referralLetterAttributes = new ReferralLetter.Builder()
         .defaultReferralLetter()
@@ -175,7 +175,7 @@ describe("generateReferralLetterPdfBuffer", function() {
     });
   });
 
-  describe("sender is stella", async () => {
+  describe("sender is stella", () => {
     beforeEach(async () => {
       const referralLetterAttributes = new ReferralLetter.Builder()
         .defaultReferralLetter()

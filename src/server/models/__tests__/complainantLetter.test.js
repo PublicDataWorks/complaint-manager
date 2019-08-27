@@ -3,7 +3,7 @@ import ComplainantLetter from "../../../client/testUtilities/complainantLetter";
 import Case from "../../../client/testUtilities/case";
 import Civilian from "../../../client/testUtilities/civilian";
 
-describe("complainantLetter", async () => {
+describe("complainantLetter", () => {
   test("able to create complainant letter with only minimum requirements", async () => {
     const existingCase = await models.cases.create(
       new Case.Builder().defaultCase().withId(undefined),
