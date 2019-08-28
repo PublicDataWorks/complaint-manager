@@ -11,7 +11,8 @@ import getQueryAuditAccessDetails, {
 import {
   ADDRESSABLE_TYPE,
   AUDIT_ACTION,
-  CIVILIAN_INITIATED
+  CIVILIAN_INITIATED,
+  CIVILIAN_WITHIN_NOPD_INITIATED
 } from "../../../sharedUtilities/constants";
 
 const {
@@ -36,7 +37,11 @@ const createCase = asyncMiddleware(async (request, response, next) => {
   );
 
   let newCase = {};
-  if (request.body.case.complaintType === RANK_INITIATED) {
+  const complaintType = request.body.case.complaintType;
+  if (
+    complaintType === RANK_INITIATED ||
+    complaintType === CIVILIAN_WITHIN_NOPD_INITIATED
+  ) {
     newCase = await createCaseWithoutCivilian(request, newAuditFeatureToggle);
   } else {
     validateCivilianName(request.body.civilian);

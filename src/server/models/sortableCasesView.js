@@ -83,18 +83,8 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       },
       caseReference: {
-        type: new DataTypes.VIRTUAL(DataTypes.STRING, [
-          "complaintType",
-          "caseNumber",
-          "year"
-        ]),
-        get: function() {
-          return getCaseReference(
-            this.get("complaintType"),
-            this.get("caseNumber"),
-            this.get("year")
-          );
-        }
+        type: DataTypes.STRING,
+        field: "case_reference"
       },
       firstContactDate: {
         field: "first_contact_date",

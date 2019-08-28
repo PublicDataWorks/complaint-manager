@@ -213,6 +213,14 @@ export const SEARCH_FAILED = "SEARCH_FAILED";
 export const SEARCH_CLEARED = "SEARCH_CLEARED";
 
 // ----------------------------------------
+//          Employee Types
+// ----------------------------------------
+export const EMPLOYEE_TYPE = {
+  OFFICER: "Officer",
+  CIVILIAN_WITHIN_NOPD: "Civilian Within NOPD"
+};
+
+// ----------------------------------------
 //          Officers
 // ----------------------------------------
 
@@ -221,6 +229,8 @@ export const OFFICER_SELECTED = "OFFICER_SELECTED";
 export const CASE_OFFICER_SELECTED = "CASE_OFFICER_SELECTED";
 export const UNKNOWN_OFFICER_SELECTED = "UNKNOWN_OFFICER_SELECTED";
 export const CLEAR_SELECTED_OFFICER = "CLEAR_SELECTED_OFFICER";
+export const ADD_CASE_EMPLOYEE_TYPE = "ADD_CASE_EMPLOYEE_TYPE";
+export const CLEAR_CASE_EMPLOYEE_TYPE = "CLEAR_CASE_EMPLOYEE_TYPE";
 export const UNKNOWN_OFFICER_NAME = "Unknown Officer";
 
 // ----------------------------------------
@@ -342,6 +352,7 @@ export const PERSON_TYPE = {
 // ----------------------------------------
 export const CIVILIAN_INITIATED = "Civilian Initiated";
 export const RANK_INITIATED = "Rank Initiated";
+export const CIVILIAN_WITHIN_NOPD_INITIATED = "Civilian Within NOPD Initiated";
 
 // ----------------------------------------
 //          Edit Status Options
@@ -522,3 +533,5 @@ export const QUEUE_PREFIX = "noimp_q";
 // ------------------------------------------
 export const ALLEGATION_DETAILS_LABEL =
   "Enter narrative details pertaining to this allegation";
+export const CIVILIAN_WITHIN_NOPD_TITLE = "Civilian (NOPD)";
+export const OFFICER_TITLE = "Officer";

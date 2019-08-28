@@ -44,7 +44,8 @@ export const BAD_DATA_ERRORS = {
   MISSING_DATE_RANGE_START_DATE: "Missing date range start date",
   MISSING_DATE_RANGE_TYPE: "Missing date range type",
   MISSING_DATE_RANGE_PARAMETERS: "Missing date range parameters",
-  MISSING_TAG_PARAMETERS: "Missing tag parameters"
+  MISSING_TAG_PARAMETERS: "Missing tag parameters",
+  INVALID_COMPLAINANT_TYPE: "Invalid Complainant Type"
 };
 
 export const NOT_FOUND_ERRORS = {

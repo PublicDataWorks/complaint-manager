@@ -1,6 +1,7 @@
 "use strict";
 
 import { getOfficerFullName } from "./modelUtilities/getFullName";
+import { EMPLOYEE_TYPE } from "../../sharedUtilities/constants";
 
 const {
   ACCUSED,
@@ -121,11 +122,19 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: true
       },
-
       employeeType: {
         field: "employee_type",
         type: DataTypes.ENUM(["Commissioned", "Non-Commissioned", "Recruit"]),
         allowNull: true
+      },
+      caseEmployeeType: {
+        field: "case_employee_type",
+        type: DataTypes.STRING,
+        validate: {
+          isIn: [[EMPLOYEE_TYPE.OFFICER, EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD]]
+        },
+        defaultValue: EMPLOYEE_TYPE.OFFICER,
+        allowNull: false
       },
       district: {
         type: DataTypes.STRING,
@@ -239,6 +248,7 @@ module.exports = (sequelize, DataTypes) => {
       supervisorLastName: null,
       supervisorWindowsUsername: null,
       supervisorOfficerNumber: null,
+      caseEmployeeType: EMPLOYEE_TYPE.OFFICER,
       employeeType: null,
       district: null,
       bureau: null,

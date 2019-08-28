@@ -4,7 +4,10 @@ const buildOfficerAttributesForUnknownOfficer = () => {
   return models.case_officer.build().emptyCaseOfficerAttributes();
 };
 
-const buildOfficerAttributesForNewOfficer = async officerId => {
+const buildOfficerAttributesForNewOfficer = async (
+  officerId,
+  caseEmployeeType
+) => {
   const newOfficer = await models.officer.findByPk(officerId, {
     include: [{ model: models.district, as: "officerDistrict" }]
   });
@@ -28,6 +31,7 @@ const buildOfficerAttributesForNewOfficer = async officerId => {
       dob: newOfficer.dob,
       endDate: newOfficer.endDate,
       hireDate: newOfficer.hireDate,
+      caseEmployeeType: caseEmployeeType,
       employeeType: newOfficer.employeeType,
       workStatus: newOfficer.workStatus,
       supervisorOfficerNumber: newOfficer.supervisorOfficerNumber

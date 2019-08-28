@@ -5,6 +5,7 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   CIVILIAN_INITIATED,
+  CIVILIAN_WITHIN_NOPD_INITIATED,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
@@ -144,6 +145,41 @@ describe("createCase handler", () => {
         year: 2018,
         caseNumber: 1,
         complaintType: RANK_INITIATED,
+        firstContactDate: "2018-02-08",
+        incidentDate: "2018-03-16",
+        createdBy: user,
+        assignedTo: user,
+        complainantCivilians: []
+      })
+    );
+  });
+
+  test("should create case without civilian model if civilian within NOPD complainant", async () => {
+    const civilianWithinNopd = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      body: {
+        case: {
+          complaintType: CIVILIAN_WITHIN_NOPD_INITIATED,
+          firstContactDate: "2018-02-08",
+          incidentDate: "2018-03-16T17:42"
+        }
+      },
+      nickname: user
+    });
+
+    await createCase(civilianWithinNopd, response, next);
+    const insertedCase = await models.cases.findOne({
+      where: { complaintType: CIVILIAN_WITHIN_NOPD_INITIATED },
+      include: [{ model: models.civilian, as: "complainantCivilians" }]
+    });
+    expect(insertedCase).toEqual(
+      expect.objectContaining({
+        year: 2018,
+        caseNumber: 1,
+        complaintType: CIVILIAN_WITHIN_NOPD_INITIATED,
         firstContactDate: "2018-02-08",
         incidentDate: "2018-03-16",
         createdBy: user,

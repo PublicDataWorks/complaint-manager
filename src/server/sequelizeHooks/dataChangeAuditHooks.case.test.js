@@ -43,6 +43,7 @@ describe("dataChangeAuditHooks", () => {
         .withIncidentTime(null)
         .withNarrativeSummary("original narrative summary")
         .withNarrativeDetails(null)
+        .withCaseReference("PO2017-0001")
         .withAssignedTo("originalAssignedToPerson")
         .withCreatedBy("createdByPerson");
       const utdClassificationAttributes = new Classification.Builder()
