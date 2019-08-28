@@ -18,23 +18,31 @@ module.exports = {
           { transaction }
         );
 
-        const allCases = await models.cases.findAll({ transaction });
+        const allCases = await models.cases.findAll({
+          paranoid: false,
+          transaction
+        });
+
         generalErrorMessage =
-          "adding case reference to cases table for case id: ";
+          "adding case reference to cases table for case with: ";
         for (let i = 0; i < allCases.length; i++) {
           caseId = allCases[i].id;
+
+          const newCaseReference = getCaseReference(
+            allCases[i].complaintType,
+            allCases[i].caseNumber,
+            allCases[i].year
+          );
+
           await models.cases.update(
             {
-              caseReference: getCaseReference(
-                allCases[i].complaintType,
-                allCases[i].caseNumber,
-                allCases[i].year
-              )
+              caseReference: newCaseReference
             },
             {
               where: {
                 id: allCases[i].id
               },
+              paranoid: false,
               transaction,
               auditUser: "PROGRAMMATIC SQL MIGRATION"
             }
@@ -42,6 +50,7 @@ module.exports = {
         }
 
         generalErrorMessage = "adding constraint notNull for case_reference";
+        caseId = null;
         await queryInterface.changeColumn(
           "cases",
           "case_reference",
