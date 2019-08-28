@@ -13,8 +13,7 @@ module.exports = {
           "cases",
           "case_reference",
           {
-            type: Sequelize.STRING,
-            allowNull: false
+            type: Sequelize.STRING
           },
           { transaction }
         );
@@ -41,6 +40,17 @@ module.exports = {
             }
           );
         }
+
+        generalErrorMessage = "adding constraint notNull for case_reference";
+        await queryInterface.changeColumn(
+          "cases",
+          "case_reference",
+          {
+            type: Sequelize.STRING,
+            allowNull: false
+          },
+          { transaction }
+        );
       });
     } catch (error) {
       throw new Error(
