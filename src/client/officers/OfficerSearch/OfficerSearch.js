@@ -6,8 +6,18 @@ import {
   SelectUnknownOfficerButton,
   SelectUnknownOfficerLink
 } from "./OfficerSearchResults/officerSearchResultsRowButtons";
+import { EMPLOYEE_TYPE } from "../../../sharedUtilities/constants";
 
 const OfficerSearch = props => {
+  const { employeeSearchTitle, caseEmployeeType } = props;
+
+  const isCivilianWithinNopd =
+    caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+
+  const searchText = isCivilianWithinNopd
+    ? `Search for a ${employeeSearchTitle}`
+    : `Search for an ${employeeSearchTitle}`;
+
   return (
     <div>
       <div style={{ margin: "0 0 32px 0" }}>
@@ -16,17 +26,19 @@ const OfficerSearch = props => {
           variant="title"
           className="officerSearchHeader"
         >
-          Search for an Officer
+          {searchText}
         </Typography>
-        <Typography variant="body1">
-          Unable to find an officer? You can{" "}
-          <SelectUnknownOfficerLink
-            dispatch={props.dispatch}
-            initialize={props.initialize}
-            path={props.path}
-          />{" "}
-          and identify them later.
-        </Typography>
+        {isCivilianWithinNopd ? null : (
+          <Typography data-test="unknown-officer-link" variant="body1">
+            Unable to find an officer? You can{" "}
+            <SelectUnknownOfficerLink
+              dispatch={props.dispatch}
+              initialize={props.initialize}
+              path={props.path}
+            />{" "}
+            and identify them later.
+          </Typography>
+        )}
       </div>
 
       <Card
@@ -42,12 +54,18 @@ const OfficerSearch = props => {
           <OfficerSearchForm caseId={props.caseId} />
         </CardContent>
       </Card>
-      <OfficerSearchResults path={props.path} initialize={props.initialize} />
-      <SelectUnknownOfficerButton
-        initialize={props.initialize}
-        dispatch={props.dispatch}
+      <OfficerSearchResults
         path={props.path}
+        initialize={props.initialize}
+        caseEmployeeType={caseEmployeeType}
       />
+      {caseEmployeeType === EMPLOYEE_TYPE.OFFICER ? (
+        <SelectUnknownOfficerButton
+          initialize={props.initialize}
+          dispatch={props.dispatch}
+          path={props.path}
+        />
+      ) : null}
     </div>
   );
 };

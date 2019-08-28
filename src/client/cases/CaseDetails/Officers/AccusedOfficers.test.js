@@ -1,12 +1,12 @@
 import { mount } from "enzyme";
-import AccusedOfficers from "./AccusedOfficers";
+import Accused from "./Accused";
 import React from "react";
 import Officer from "../../../testUtilities/Officer";
 import CaseOfficer from "../../../testUtilities/caseOfficer";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
 
-describe("AccusedOfficers", function() {
+describe("Accused", function() {
   test("should display officers", () => {
     const anOfficer = new Officer.Builder()
       .defaultOfficer()
@@ -21,7 +21,7 @@ describe("AccusedOfficers", function() {
 
     const wrapper = mount(
       <Provider store={createConfiguredStore()}>
-        <AccusedOfficers accusedOfficers={accusedOfficers} />
+        <Accused accusedOfficers={accusedOfficers} />
       </Provider>
     );
 
@@ -42,7 +42,7 @@ describe("AccusedOfficers", function() {
 
     const wrapper = mount(
       <Provider store={createConfiguredStore()}>
-        <AccusedOfficers accusedOfficers={accusedOfficers} />
+        <Accused accusedOfficers={accusedOfficers} />
       </Provider>
     );
 

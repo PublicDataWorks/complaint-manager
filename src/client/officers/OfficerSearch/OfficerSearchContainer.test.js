@@ -6,8 +6,8 @@ import ConnectedDashboard, {
 } from "./OfficerSearchContainer";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
 import {
-  clearSelectedOfficer,
-  searchOfficersSuccess
+  addCaseEmployeeType,
+  clearSelectedOfficer
 } from "../../actionCreators/officersActionCreators";
 import createConfiguredStore from "../../createConfiguredStore";
 import { Provider } from "react-redux";
@@ -15,7 +15,7 @@ import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators"
 import Officer from "../../testUtilities/Officer";
 import Case from "../../testUtilities/case";
 import { searchSuccess } from "../../actionCreators/searchActionCreators";
-import { ACCUSED } from "../../../sharedUtilities/constants";
+import { ACCUSED, EMPLOYEE_TYPE } from "../../../sharedUtilities/constants";
 
 jest.mock("../../cases/thunks/getCaseDetails");
 
@@ -46,6 +46,7 @@ describe("OfficerSearchContainer", () => {
 
   test("should navigate to edit when selecting to replace existing officer with unknown", () => {
     const store = createConfiguredStore();
+    store.dispatch(addCaseEmployeeType(EMPLOYEE_TYPE.OFFICER));
 
     const path = "/";
     const officerDashboard = mount(
@@ -62,10 +63,10 @@ describe("OfficerSearchContainer", () => {
       </Provider>
     );
 
-    const selectUnkown = officerDashboard
+    const selectUnknown = officerDashboard
       .find('[data-test="unknownOfficerButton"]')
       .first();
-    expect(selectUnkown.prop("to")).toEqual(path);
+    expect(selectUnknown.prop("to")).toEqual(path);
   });
 
   test("should navigate to edit when selecting to replace current officer with a known officer", () => {
@@ -113,6 +114,7 @@ describe("OfficerSearchContainer", () => {
     const path = "/";
 
     store.dispatch(getCaseDetailsSuccess(caseDetails));
+    store.dispatch(addCaseEmployeeType(EMPLOYEE_TYPE.OFFICER));
 
     const officerDashboard = mount(
       <Provider store={store}>

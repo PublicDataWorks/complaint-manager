@@ -19,6 +19,7 @@ import {
   CASE_TAG_DIALOG_OPENED,
   CIVILIAN_CREATION_SUCCEEDED,
   CIVILIAN_DIALOG_OPENED,
+  CIVILIAN_WITHIN_NOPD_TITLE,
   CREATE_CASE_DIALOG_CLOSED,
   CREATE_CASE_DIALOG_OPENED,
   CREATE_CASE_TAG_SUCCESS,
@@ -26,6 +27,7 @@ import {
   EDIT_CIVILIAN_DIALOG_CLOSED,
   EDIT_INCIDENT_DETAILS_DIALOG_CLOSED,
   EDIT_INCIDENT_DETAILS_DIALOG_OPENED,
+  EMPLOYEE_TYPE,
   GET_ARCHIVED_CASES_SUCCESS,
   GET_CASE_DETAILS_SUCCESS,
   GET_CASE_NOTES_SUCCEEDED,
@@ -33,14 +35,15 @@ import {
   GET_MINIMUM_CASE_DETAILS_SUCCESS,
   GET_WORKING_CASES_SUCCESS,
   INCIDENT_DETAILS_UPDATE_SUCCEEDED,
+  OFFICER_TITLE,
   REMOVE_ATTACHMENT_CONFIRMATION_DIALOG_CLOSED,
   REMOVE_ATTACHMENT_CONFIRMATION_DIALOG_EXITED,
   REMOVE_ATTACHMENT_CONFIRMATION_DIALOG_OPENED,
   REMOVE_CASE_NOTE_DIALOG_CLOSED,
   REMOVE_CASE_NOTE_DIALOG_OPENED,
-  REMOVE_CASE_TAG_DIALOG_OPENED,
-  REMOVE_CASE_TAG_DIALOG_CLOSED,
   REMOVE_CASE_NOTE_SUCCEEDED,
+  REMOVE_CASE_TAG_DIALOG_CLOSED,
+  REMOVE_CASE_TAG_DIALOG_OPENED,
   REMOVE_CASE_TAG_SUCCESS,
   REMOVE_PERSON_DIALOG_CLOSED,
   REMOVE_PERSON_DIALOG_OPENED,
@@ -53,6 +56,7 @@ import {
   UPDATE_CASE_STATUS_SUCCESS,
   UPDATE_CASES_TABLE_SORTING
 } from "../../sharedUtilities/constants";
+import _ from "lodash";
 
 export const createCaseSuccess = caseDetails => ({
   type: CASE_CREATED_SUCCESS,
@@ -281,9 +285,14 @@ export const openRemovePersonDialog = (personDetails, personType) => {
     optionalText = "";
     personTypeTitleDisplay = "Civilian";
   } else {
-    optionalText =
-      " This includes any Notes or Allegations associated to the officer.";
-    personTypeTitleDisplay = "Officer";
+    const isCivilianWithinNopd =
+      personDetails.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+    personTypeTitleDisplay = isCivilianWithinNopd
+      ? CIVILIAN_WITHIN_NOPD_TITLE
+      : OFFICER_TITLE;
+    optionalText = ` This includes any Notes or Allegations associated to the ${_.lowerCase(
+      personTypeTitleDisplay
+    )}.`;
   }
 
   return {

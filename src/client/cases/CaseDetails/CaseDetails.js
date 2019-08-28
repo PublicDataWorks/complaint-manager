@@ -28,7 +28,7 @@ import {
   CASE_STATUS,
   NARRATIVE_FORM
 } from "../../../sharedUtilities/constants";
-import AccusedOfficers from "./Officers/AccusedOfficers";
+import Accused from "./Officers/Accused";
 import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
 import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
@@ -76,7 +76,8 @@ class CaseDetails extends React.Component {
     mobileOpen: false,
     anchorEl: null,
     complainantMenuOpen: false,
-    witnessMenuOpen: false
+    witnessMenuOpen: false,
+    addAccusedMenuOpen: false
   };
 
   handleComplainantMenuOpen = event => {
@@ -93,6 +94,14 @@ class CaseDetails extends React.Component {
 
   handleWitnessMenuClose = () => {
     this.setState({ witnessMenuOpen: false });
+  };
+
+  handleAddAccusedMenuOpen = event => {
+    this.setState({ addAccusedMenuOpen: true, anchorEl: event.currentTarget });
+  };
+
+  handleAddAccusedMenuClose = () => {
+    this.setState({ addAccusedMenuOpen: false });
   };
 
   componentDidMount() {
@@ -164,6 +173,7 @@ class CaseDetails extends React.Component {
               handleMenuClose={this.handleComplainantMenuClose}
               anchorEl={this.state.anchorEl}
               classes={classes}
+              cnComplaintTypeFeature={this.props.cnComplaintTypeFeature}
             />
             <Witnesses
               caseDetails={this.props.caseDetails}
@@ -173,6 +183,7 @@ class CaseDetails extends React.Component {
               handleMenuClose={this.handleWitnessMenuClose}
               anchorEl={this.state.anchorEl}
               classes={classes}
+              cnComplaintTypeFeature={this.props.cnComplaintTypeFeature}
             />
             <Narrative
               initialValues={{
@@ -182,12 +193,17 @@ class CaseDetails extends React.Component {
               caseId={this.props.caseDetails.id}
               isArchived={this.props.caseDetails.isArchived}
             />
-            <AccusedOfficers
+            <Accused
               caseId={this.props.caseDetails.id}
               incidentDate={this.props.caseDetails.incidentDate}
               accusedOfficers={this.props.caseDetails.accusedOfficers}
               dispatch={this.props.dispatch}
               isArchived={this.props.caseDetails.isArchived}
+              handleMenuOpen={this.handleAddAccusedMenuOpen}
+              menuOpen={this.state.addAccusedMenuOpen}
+              handleMenuClose={this.handleAddAccusedMenuClose}
+              anchorEl={this.state.anchorEl}
+              cnComplaintTypeFeature={this.props.cnComplaintTypeFeature}
             />
             <Attachments isArchived={this.props.caseDetails.isArchived} />
           </main>
@@ -207,7 +223,8 @@ CaseDetails.propTypes = {
 
 const mapStateToProps = state => ({
   caseDetails: state.currentCase.details,
-  caseTaggingFeature: state.featureToggles.caseTaggingFeature
+  caseTaggingFeature: state.featureToggles.caseTaggingFeature,
+  cnComplaintTypeFeature: state.featureToggles.cnComplaintTypeFeature
 });
 
 export default withStyles(styles, { withTheme: true })(

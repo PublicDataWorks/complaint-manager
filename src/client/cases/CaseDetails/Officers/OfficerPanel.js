@@ -11,7 +11,12 @@ import formatDate from "../../../utilities/formatDate";
 import OfficerNameDisplay from "./OfficerNameDisplay";
 import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
 import styles from "../../../globalStyling/styles";
-import { ACCUSED } from "../../../../sharedUtilities/constants";
+import {
+  ACCUSED,
+  CIVILIAN_WITHIN_NOPD_TITLE,
+  EMPLOYEE_TYPE,
+  OFFICER_TITLE
+} from "../../../../sharedUtilities/constants";
 import { connect } from "react-redux";
 import {
   accusedOfficerPanelCollapsed,
@@ -21,168 +26,176 @@ import DateOfBirthAgeInfoDisplay from "../../../shared/components/DateOfBirthAge
 import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
 
-const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => (
-  <div>
-    <div
-      data-test="knownOfficerPanel"
-      style={{ display: "flex", width: "100%", paddingRight: 0 }}
-    >
-      <ExpansionPanel
-        elevation={0}
-        onChange={(event, expanded) => {
-          expanded
-            ? dispatch(accusedOfficerPanelExpanded(caseOfficer.id))
-            : dispatch(accusedOfficerPanelCollapsed(caseOfficer.id));
-        }}
-        style={{ backgroundColor: "white", width: "100%" }}
+const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
+  const isCivilianWithinNopd =
+    caseOfficer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+  const caseEmployeeTitle = isCivilianWithinNopd
+    ? CIVILIAN_WITHIN_NOPD_TITLE
+    : OFFICER_TITLE;
+
+  return (
+    <div>
+      <div
+        data-test="knownOfficerPanel"
+        style={{ display: "flex", width: "100%", paddingRight: 0 }}
       >
-        <ExpansionPanelSummary
-          style={{
-            padding: "0px 24px"
+        <ExpansionPanel
+          elevation={0}
+          onChange={(event, expanded) => {
+            expanded
+              ? dispatch(accusedOfficerPanelExpanded(caseOfficer.id))
+              : dispatch(accusedOfficerPanelCollapsed(caseOfficer.id));
           }}
+          style={{ backgroundColor: "white", width: "100%" }}
         >
-          <div
+          <ExpansionPanelSummary
             style={{
-              display: "flex",
-              width: "100%",
-              paddingRight: 0,
-              marginBottom: 4
+              padding: "0px 24px"
             }}
           >
-            <ExpansionPanelIconButton />
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                paddingRight: 0,
+                marginBottom: 4
+              }}
+            >
+              <ExpansionPanelIconButton />
+              <StyledInfoDisplay>
+                <OfficerNameDisplay
+                  displayLabel={caseEmployeeTitle}
+                  fullName={caseOfficer.fullName}
+                  windowsUsername={caseOfficer.windowsUsername}
+                />
+              </StyledInfoDisplay>
+              <StyledInfoDisplay>
+                <OfficerInfoDisplay
+                  displayLabel="Rank/Title"
+                  value={caseOfficer.rank}
+                  testLabel="rank"
+                />
+              </StyledInfoDisplay>
+              <StyledInfoDisplay>
+                <OfficerNameDisplay
+                  displayLabel="Supervisor"
+                  fullName={caseOfficer.supervisorFullName}
+                  windowsUsername={caseOfficer.supervisorWindowsUsername}
+                />
+              </StyledInfoDisplay>
+            </div>
+          </ExpansionPanelSummary>
+          <StyledExpansionPanelDetails>
             <StyledInfoDisplay>
-              <OfficerNameDisplay
-                displayLabel="Officer"
-                fullName={caseOfficer.fullName}
-                windowsUsername={caseOfficer.windowsUsername}
+              <OfficerInfoDisplay
+                displayLabel="Employee Type"
+                value={caseOfficer.employeeType}
+                testLabel="employeeType"
               />
             </StyledInfoDisplay>
             <StyledInfoDisplay>
               <OfficerInfoDisplay
-                displayLabel="Rank/Title"
-                value={caseOfficer.rank}
-                testLabel="rank"
+                displayLabel="District"
+                value={caseOfficer.district}
+                testLabel="district"
               />
             </StyledInfoDisplay>
             <StyledInfoDisplay>
-              <OfficerNameDisplay
-                displayLabel="Supervisor"
-                fullName={caseOfficer.supervisorFullName}
-                windowsUsername={caseOfficer.supervisorWindowsUsername}
+              <OfficerInfoDisplay
+                displayLabel="Bureau"
+                value={caseOfficer.bureau}
+                testLabel="bureau"
               />
             </StyledInfoDisplay>
-          </div>
-        </ExpansionPanelSummary>
-        <StyledExpansionPanelDetails>
-          <StyledInfoDisplay>
-            <OfficerInfoDisplay
-              displayLabel="Employee Type"
-              value={caseOfficer.employeeType}
-              testLabel="employeeType"
-            />
-          </StyledInfoDisplay>
-          <StyledInfoDisplay>
-            <OfficerInfoDisplay
-              displayLabel="District"
-              value={caseOfficer.district}
-              testLabel="district"
-            />
-          </StyledInfoDisplay>
-          <StyledInfoDisplay>
-            <OfficerInfoDisplay
-              displayLabel="Bureau"
-              value={caseOfficer.bureau}
-              testLabel="bureau"
-            />
-          </StyledInfoDisplay>
-        </StyledExpansionPanelDetails>
-        <StyledExpansionPanelDetails>
-          <StyledInfoDisplay>
-            <OfficerInfoDisplay
-              displayLabel="Status"
-              value={caseOfficer.workStatus}
-              testLabel="status"
-            />
-          </StyledInfoDisplay>
-          <StyledInfoDisplay>
-            <OfficerInfoDisplay
-              displayLabel="Hire Date"
-              value={formatDate(caseOfficer.hireDate)}
-              testLabel="hireDate"
-            />
-          </StyledInfoDisplay>
-          <StyledInfoDisplay>
-            <OfficerInfoDisplay
-              displayLabel="End of Employment"
-              value={formatDate(caseOfficer.endDate)}
-              testLabel="endDate"
-            />
-          </StyledInfoDisplay>
-        </StyledExpansionPanelDetails>
-        <StyledExpansionPanelDetails>
-          <StyledInfoDisplay>
-            <OfficerInfoDisplay
-              displayLabel="Race"
-              value={caseOfficer.race}
-              testLabel="race"
-            />
-          </StyledInfoDisplay>
-          <StyledInfoDisplay>
-            <OfficerInfoDisplay
-              displayLabel="Sex"
-              value={caseOfficer.sex}
-              testLabel="sex"
-            />
-          </StyledInfoDisplay>
-          <StyledInfoDisplay>
-            <DateOfBirthAgeInfoDisplay
-              displayLabel="Date of Birth (Age on Incident Date)"
-              testLabel="age"
-              birthDate={formatDate(caseOfficer.dob)}
-              age={officerAge}
-            />
-          </StyledInfoDisplay>
-        </StyledExpansionPanelDetails>
-        <StyledExpansionPanelDetails>
-          <StyledInfoDisplay>
-            <OfficerInfoDisplay
-              displayLabel="Notes"
-              value={caseOfficer.notes}
-              testLabel="notes"
-            />
-          </StyledInfoDisplay>
-        </StyledExpansionPanelDetails>
-        {caseOfficer && caseOfficer.roleOnCase === ACCUSED && (
-          <div
-            style={{
-              marginLeft: "52px"
-            }}
-          >
-            <Typography
+          </StyledExpansionPanelDetails>
+          <StyledExpansionPanelDetails>
+            <StyledInfoDisplay>
+              <OfficerInfoDisplay
+                displayLabel="Status"
+                value={caseOfficer.workStatus}
+                testLabel="status"
+              />
+            </StyledInfoDisplay>
+            <StyledInfoDisplay>
+              <OfficerInfoDisplay
+                displayLabel="Hire Date"
+                value={formatDate(caseOfficer.hireDate)}
+                testLabel="hireDate"
+              />
+            </StyledInfoDisplay>
+            <StyledInfoDisplay>
+              <OfficerInfoDisplay
+                displayLabel="End of Employment"
+                value={formatDate(caseOfficer.endDate)}
+                testLabel="endDate"
+              />
+            </StyledInfoDisplay>
+          </StyledExpansionPanelDetails>
+          <StyledExpansionPanelDetails>
+            <StyledInfoDisplay>
+              <OfficerInfoDisplay
+                displayLabel="Race"
+                value={caseOfficer.race}
+                testLabel="race"
+              />
+            </StyledInfoDisplay>
+            <StyledInfoDisplay>
+              <OfficerInfoDisplay
+                displayLabel="Sex"
+                value={caseOfficer.sex}
+                testLabel="sex"
+              />
+            </StyledInfoDisplay>
+            <StyledInfoDisplay>
+              <DateOfBirthAgeInfoDisplay
+                displayLabel="Date of Birth (Age on Incident Date)"
+                testLabel="age"
+                birthDate={formatDate(caseOfficer.dob)}
+                age={officerAge}
+              />
+            </StyledInfoDisplay>
+          </StyledExpansionPanelDetails>
+          <StyledExpansionPanelDetails>
+            <StyledInfoDisplay>
+              <OfficerInfoDisplay
+                displayLabel="Notes"
+                value={caseOfficer.notes}
+                testLabel="notes"
+              />
+            </StyledInfoDisplay>
+          </StyledExpansionPanelDetails>
+          {caseOfficer && caseOfficer.roleOnCase === ACCUSED && (
+            <div
               style={{
-                ...styles.section,
-                margin: "8px 24px"
+                marginLeft: "52px"
               }}
             >
-              Allegations
-            </Typography>
-            {caseOfficer.allegations.length > 0 ? (
-              <OfficerAllegationsDisplay
-                officerId={caseOfficer.id}
-                officerAllegations={caseOfficer.allegations}
-              />
-            ) : (
-              <Typography style={{ marginLeft: "24px", fontStyle: "italic" }}>
-                No allegations have been added.
+              <Typography
+                style={{
+                  ...styles.section,
+                  margin: "8px 24px"
+                }}
+              >
+                Allegations
               </Typography>
-            )}
-          </div>
-        )}
-      </ExpansionPanel>
-      <div style={{ margin: "12px 24px" }}>{children}</div>
+              {caseOfficer.allegations.length > 0 ? (
+                <OfficerAllegationsDisplay
+                  officerId={caseOfficer.id}
+                  officerAllegations={caseOfficer.allegations}
+                />
+              ) : (
+                <Typography style={{ marginLeft: "24px", fontStyle: "italic" }}>
+                  No allegations have been added.
+                </Typography>
+              )}
+            </div>
+          )}
+        </ExpansionPanel>
+        <div style={{ margin: "12px 24px" }}>{children}</div>
+      </div>
+      <Divider />
     </div>
-    <Divider />
-  </div>
-);
+  );
+};
 
 export default connect()(OfficerPanel);

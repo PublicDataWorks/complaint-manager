@@ -13,7 +13,10 @@ import { addressMustBeValid, atLeastOneRequired } from "../../formValidations";
 import { closeCreateCaseDialog } from "../../actionCreators/casesActionCreators";
 import { applyCentralTimeZoneOffset } from "../../utilities/formatDate";
 import { isEmpty } from "lodash";
-import { CREATE_CASE_FORM_NAME } from "../../../sharedUtilities/constants";
+import {
+  CIVILIAN_INITIATED,
+  CREATE_CASE_FORM_NAME
+} from "../../../sharedUtilities/constants";
 import normalizeAddress from "../../utilities/normalizeAddress";
 
 export class CreateCaseActions extends React.Component {
@@ -29,7 +32,7 @@ export class CreateCaseActions extends React.Component {
   createAndSearch = values => this.createNewCase(values, true);
 
   createNewCase = ({ civilian, case: theCase }, redirect) => {
-    if (!this.props.civilianComplainant) {
+    if (this.props.complaintType !== CIVILIAN_INITIATED) {
       this.props.change("civilian", null);
       civilian = null;
     }
@@ -88,7 +91,7 @@ export class CreateCaseActions extends React.Component {
     return true;
   };
   render() {
-    const { theme, civilianComplainant, handleSubmit, disabled } = this.props;
+    const { theme, handleSubmit, disabled } = this.props;
     return (
       <DialogActions
         style={{
@@ -99,7 +102,7 @@ export class CreateCaseActions extends React.Component {
         <SecondaryButton data-test="cancelCase" onClick={this.closeDialog}>
           Cancel
         </SecondaryButton>
-        {civilianComplainant ? (
+        {this.props.complaintType === CIVILIAN_INITIATED ? (
           <CivilianComplainantButtons
             createCaseOnly={handleSubmit(this.createOnly)}
             createAndView={handleSubmit(this.createAndView)}

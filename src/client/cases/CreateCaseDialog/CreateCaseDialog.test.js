@@ -15,7 +15,9 @@ import moment from "moment";
 import { applyCentralTimeZoneOffset } from "../../utilities/formatDate";
 import {
   CIVILIAN_INITIATED,
+  CIVILIAN_WITHIN_NOPD_INITIATED,
   DESCENDING,
+  RANK_INITIATED,
   SORT_CASES_BY
 } from "../../../sharedUtilities/constants";
 import { getIntakeSourcesSuccess } from "../../actionCreators/intakeSourceActionCreators";
@@ -50,6 +52,12 @@ describe("CreateCaseDialog component", () => {
     store.dispatch(updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING));
 
     dispatchSpy = jest.spyOn(store, "dispatch");
+
+    store.dispatch(
+      getFeaturesSuccess({
+        cnComplaintTypeFeature: true
+      })
+    );
 
     dialog = mount(
       <Provider store={store}>
@@ -563,9 +571,73 @@ describe("CreateCaseDialog component", () => {
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: "MOCK_CREATE_CASE_THUNK",
         creationDetails: expect.objectContaining({
-          redirect: true
+          redirect: true,
+          caseDetails: expect.objectContaining({
+            case: expect.objectContaining({
+              complaintType: RANK_INITIATED
+            })
+          })
         })
       });
+    });
+  });
+
+  describe("civilian within nopd radio button", () => {
+    beforeEach(() => {
+      const civilianWithinNOPDRadioButton = dialog
+        .find('[data-test="civilianWithinNOPDRadioButton"]')
+        .last();
+      civilianWithinNOPDRadioButton.simulate("click");
+    });
+
+    test("should not see civilian details or civilian create buttons when civilian within nopd selected", () => {
+      expect(dialog.find('[data-test="firstNameField"]').exists()).toBeFalsy();
+      expect(dialog.find('[data-test="createAndView"]').exists()).toBeFalsy();
+      expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeFalsy();
+      expect(
+        dialog.find('[data-test="intakeSourceDropdown"]').exists()
+      ).toBeTruthy();
+    });
+
+    test("should see create and search button when civilian within nopd complainant selected", () => {
+      expect(
+        dialog.find('[data-test="createAndSearch"]').exists()
+      ).toBeTruthy();
+    });
+
+    test("should dispatch createCase with redirect to add employee when create & search clicked", () => {
+      selectDropdownOption(
+        dialog,
+        '[data-test="intakeSourceDropdown"]',
+        "Email"
+      );
+      const createAndSearch = dialog
+        .find('[data-test="createAndSearch"]')
+        .last();
+      createAndSearch.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith({
+        type: "MOCK_CREATE_CASE_THUNK",
+        creationDetails: expect.objectContaining({
+          redirect: true,
+          caseDetails: expect.objectContaining({
+            case: expect.objectContaining({
+              complaintType: CIVILIAN_WITHIN_NOPD_INITIATED
+            })
+          })
+        })
+      });
+    });
+
+    test("should see civilian details & buttons when civilian reselected", () => {
+      const civilianRadioButton = dialog
+        .find('[data-test="civilianRadioButton"]')
+        .last();
+      civilianRadioButton.simulate("click");
+
+      expect(dialog.find('[data-test="firstNameField"]').exists()).toBeTruthy();
+      expect(dialog.find('[data-test="createAndView"]').exists()).toBeTruthy();
+      expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeTruthy();
     });
   });
 });

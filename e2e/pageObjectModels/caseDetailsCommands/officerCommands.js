@@ -46,10 +46,13 @@ const officerCommands = {
     ).click("@manageAllegationsButton");
   },
   addAccusedOfficer: function() {
+    this.waitForElementVisible("@addAccusedMenu", e2e.rerenderWait).click(
+      "@addAccusedMenu"
+    );
     return this.waitForElementVisible(
-      "@addAccusedOfficerButton",
+      "@addAccusedOfficer",
       e2e.rerenderWait
-    ).click("@addAccusedOfficerButton");
+    ).click("@addAccusedOfficer");
   },
   clickRemoveOfficer: function() {
     return this.waitForElementVisible(
@@ -85,8 +88,11 @@ const officerElements = {
   knownOfficerPanel: {
     selector: '[data-test="knownOfficerPanel"]'
   },
-  addAccusedOfficerButton: {
-    selector: '[data-test="addAccusedOfficerButton"]'
+  addAccusedMenu: {
+    selector: '[data-test="addAccusedMenu"]'
+  },
+  addAccusedOfficer: {
+    selector: '[data-test="addAccusedOfficer"]'
   },
   removeOfficerButton: {
     selector: '[data-test="removeCaseOfficer"]'

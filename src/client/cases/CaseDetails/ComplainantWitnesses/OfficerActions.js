@@ -3,6 +3,7 @@ import LinkButton from "../../../shared/components/LinkButton";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import {
+  addCaseEmployeeType,
   selectCaseOfficer,
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
@@ -20,6 +21,7 @@ const OfficerActions = ({ caseOfficer, dispatch }) => (
 
         if (caseOfficer.officerId) {
           dispatch(selectCaseOfficer(caseOfficer));
+          dispatch(addCaseEmployeeType(caseOfficer.caseEmployeeType));
         } else {
           dispatch(selectUnknownOfficer());
         }

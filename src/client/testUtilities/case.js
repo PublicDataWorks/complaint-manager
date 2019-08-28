@@ -269,6 +269,11 @@ class Case {
         return this;
       }
 
+      withCaseReference(caseReference) {
+        this.caseReference = caseReference;
+        return this;
+      }
+
       build() {
         return new Case(this);
       }

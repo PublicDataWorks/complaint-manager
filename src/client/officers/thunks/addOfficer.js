@@ -1,15 +1,32 @@
 import { push } from "connected-react-router";
 import {
   addOfficerToCaseSuccess,
+  clearCaseEmployeeType,
   clearSelectedOfficer
 } from "../../actionCreators/officersActionCreators";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import axios from "axios";
 import { startSubmit, stopSubmit } from "redux-form";
-import { OFFICER_DETAILS_FORM_NAME } from "../../../sharedUtilities/constants";
+import {
+  OFFICER_DETAILS_FORM_NAME,
+  EMPLOYEE_TYPE,
+  CIVILIAN_WITHIN_NOPD_TITLE,
+  OFFICER_TITLE
+} from "../../../sharedUtilities/constants";
 
-const addOfficer = (caseId, officerId, values) => async dispatch => {
-  const payload = { officerId, ...values };
+const addOfficer = (
+  caseId,
+  officerId,
+  caseEmployeeType,
+  values
+) => async dispatch => {
+  const payload = { officerId, caseEmployeeType, ...values };
+
+  const isCivilianWithinNopd =
+    caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+  const caseEmployeeTitle = isCivilianWithinNopd
+    ? CIVILIAN_WITHIN_NOPD_TITLE
+    : OFFICER_TITLE;
 
   try {
     dispatch(startSubmit(OFFICER_DETAILS_FORM_NAME));
@@ -19,7 +36,8 @@ const addOfficer = (caseId, officerId, values) => async dispatch => {
     );
     dispatch(addOfficerToCaseSuccess(response.data));
     dispatch(clearSelectedOfficer());
-    dispatch(snackbarSuccess(`Officer was successfully added`));
+    dispatch(clearCaseEmployeeType());
+    dispatch(snackbarSuccess(`${caseEmployeeTitle} was successfully added`));
     dispatch(push(`/cases/${caseId}`));
     dispatch(stopSubmit(OFFICER_DETAILS_FORM_NAME));
   } catch (e) {}
