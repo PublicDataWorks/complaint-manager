@@ -9,7 +9,8 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
   CASE_STATUS,
-  WITNESS
+  WITNESS,
+  EMPLOYEE_TYPE
 } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import ReferralLetter from "../../../../client/testUtilities/ReferralLetter";
@@ -55,6 +56,7 @@ describe("addCaseOfficer", () => {
       },
       body: {
         officerId: null,
+        caseEmployeeType: EMPLOYEE_TYPE.OFFICER,
         roleOnCase: ACCUSED,
         notes: "these are notes"
       },
@@ -314,6 +316,7 @@ describe("addCaseOfficer", () => {
       body: {
         officerId: officer.id,
         roleOnCase: ACCUSED,
+        caseEmployeeType: EMPLOYEE_TYPE.OFFICER,
         notes: "these are notes"
       },
       nickname: "TEST_USER_NICKNAME"
@@ -366,6 +369,42 @@ describe("addCaseOfficer", () => {
     });
 
     expect(letterOfficer).toBeNull();
+  });
+
+  test("Should return an officer with employee type civilian within NOPD", async () => {
+    const officerAttributes = new Officer.Builder()
+      .defaultOfficer()
+      .withFirstName("Brandon")
+      .withId(undefined)
+      .withOfficerNumber(200)
+      .withHireDate("2018-01-12")
+      .build();
+
+    const officer = await models.officer.create(officerAttributes);
+
+    const request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: existingCase.id
+      },
+      body: {
+        officerId: officer.id,
+        roleOnCase: ACCUSED,
+        caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD,
+        notes: "these are notes"
+      },
+      nickname: "TEST_USER_NICKNAME"
+    });
+
+    await addCaseOfficer(request, response, next);
+
+    const caseOfficerEmployeeType = response._getData().accusedOfficers[0]
+      .caseEmployeeType;
+
+    expect(caseOfficerEmployeeType).toEqual(EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD);
   });
 
   describe("auditing", () => {

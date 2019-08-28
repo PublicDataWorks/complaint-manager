@@ -1,4 +1,7 @@
-import { ADDRESSABLE_TYPE } from "../../sharedUtilities/constants";
+import {
+  ADDRESSABLE_TYPE,
+  CIVILIAN_WITHIN_NOPD_INITIATED
+} from "../../sharedUtilities/constants";
 import moment from "moment";
 import { head, isEmpty, sortBy } from "lodash";
 import models from "./index";
@@ -47,7 +50,12 @@ export default (sequelize, DataTypes) => {
         }
       },
       complaintType: {
-        type: DataTypes.ENUM([CIVILIAN_INITIATED, RANK_INITIATED]),
+        type: DataTypes.STRING,
+        validate: {
+          isIn: [
+            [CIVILIAN_INITIATED, RANK_INITIATED, CIVILIAN_WITHIN_NOPD_INITIATED]
+          ]
+        },
         defaultValue: CIVILIAN_INITIATED,
         field: "complaint_type",
         allowNull: false
@@ -88,18 +96,8 @@ export default (sequelize, DataTypes) => {
         allowNull: false
       },
       caseReference: {
-        type: new DataTypes.VIRTUAL(DataTypes.STRING, [
-          "complaintType",
-          "caseNumber",
-          "year"
-        ]),
-        get: function() {
-          return getCaseReference(
-            this.get("complaintType"),
-            this.get("caseNumber"),
-            this.get("year")
-          );
-        }
+        field: "case_reference",
+        type: DataTypes.STRING
       },
       firstContactDate: {
         field: "first_contact_date",
@@ -186,10 +184,23 @@ export default (sequelize, DataTypes) => {
             instance.status = CASE_STATUS.ACTIVE;
           }
         },
-        beforeCreate: (instance, options) => {
+        beforeCreate: async (instance, options) => {
           if (options.validate === false) {
             instance.generateCaseReference(instance, options);
           }
+
+          const nextCaseNumber =
+            (await Case.max("case_number", {
+              where: { year: instance.year }
+            })) + 1;
+          instance.set(
+            "caseReference",
+            getCaseReference(
+              instance.complaintType,
+              nextCaseNumber,
+              instance.year
+            )
+          );
         },
         beforeValidate: (instance, options) => {
           instance.generateCaseReference(instance, options);

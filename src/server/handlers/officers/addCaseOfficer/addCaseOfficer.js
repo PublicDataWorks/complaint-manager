@@ -1,4 +1,7 @@
-import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+import {
+  AUDIT_ACTION,
+  EMPLOYEE_TYPE
+} from "../../../../sharedUtilities/constants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
@@ -12,12 +15,15 @@ const {
 
 const models = require("../../../models/index");
 const asyncMiddleware = require("../../asyncMiddleware");
-const {
-  AUDIT_SUBJECT
-} = require("../../../../sharedUtilities/constants");
+const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 
 const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
-  const { officerId, notes, roleOnCase } = request.body;
+  const {
+    officerId,
+    notes,
+    roleOnCase,
+    caseEmployeeType = EMPLOYEE_TYPE.OFFICER
+  } = request.body;
   const isAnonymous = canBeAnonymous(request.body.isAnonymous, roleOnCase);
   const newAuditFeatureToggle = checkFeatureToggleEnabled(
     request,
@@ -34,7 +40,8 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
     caseOfficerAttributes = buildOfficerAttributesForUnknownOfficer();
   } else {
     caseOfficerAttributes = await buildOfficerAttributesForNewOfficer(
-      officerId
+      officerId,
+      caseEmployeeType
     );
   }
 
