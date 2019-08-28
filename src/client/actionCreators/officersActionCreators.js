@@ -1,6 +1,8 @@
 import {
+  ADD_CASE_EMPLOYEE_TYPE,
   ADD_OFFICER_TO_CASE_SUCCEEDED,
   CASE_OFFICER_SELECTED,
+  CLEAR_CASE_EMPLOYEE_TYPE,
   CLEAR_SELECTED_OFFICER,
   OFFICER_SELECTED,
   UNKNOWN_OFFICER_SELECTED
@@ -9,6 +11,15 @@ import {
 export const addOfficerToCaseSuccess = caseDetails => ({
   type: ADD_OFFICER_TO_CASE_SUCCEEDED,
   caseDetails
+});
+
+export const addCaseEmployeeType = caseEmployeeType => ({
+  type: ADD_CASE_EMPLOYEE_TYPE,
+  caseEmployeeType
+});
+
+export const clearCaseEmployeeType = () => ({
+  type: CLEAR_CASE_EMPLOYEE_TYPE
 });
 
 export const selectOfficer = officer => ({

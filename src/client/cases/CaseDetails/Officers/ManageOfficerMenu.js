@@ -3,13 +3,19 @@ import { push } from "connected-react-router";
 import { Menu, MenuItem } from "@material-ui/core";
 import LinkButton from "../../../shared/components/LinkButton";
 import {
+  addCaseEmployeeType,
   selectCaseOfficer,
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
 import { connect } from "react-redux";
 import { initialize } from "redux-form";
 import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
-import { OFFICER_DETAILS_FORM_NAME } from "../../../../sharedUtilities/constants";
+import {
+  CIVILIAN_WITHIN_NOPD_TITLE,
+  EMPLOYEE_TYPE,
+  OFFICER_DETAILS_FORM_NAME,
+  OFFICER_TITLE
+} from "../../../../sharedUtilities/constants";
 
 class ManageOfficerMenu extends React.Component {
   state = { menuOpen: false, anchorEl: null };
@@ -27,6 +33,13 @@ class ManageOfficerMenu extends React.Component {
   render() {
     const { caseOfficer } = this.props;
 
+    const isCivilianWithinNopd =
+      caseOfficer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+
+    const caseEmployeeTitle = isCivilianWithinNopd
+      ? CIVILIAN_WITHIN_NOPD_TITLE
+      : OFFICER_TITLE;
+
     return (
       <div>
         <LinkButton data-test="manageCaseOfficer" onClick={this.handleMenuOpen}>
@@ -42,9 +55,7 @@ class ManageOfficerMenu extends React.Component {
             onClick={() => {
               this.props.dispatch(
                 push(
-                  `/cases/${caseOfficer.caseId}/cases-officers/${
-                    caseOfficer.id
-                  }/allegations/search`
+                  `/cases/${caseOfficer.caseId}/cases-officers/${caseOfficer.id}/allegations/search`
                 )
               );
             }}
@@ -57,6 +68,9 @@ class ManageOfficerMenu extends React.Component {
               this.handleMenuClose(event);
               if (caseOfficer.officerId) {
                 this.props.dispatch(selectCaseOfficer(caseOfficer));
+                this.props.dispatch(
+                  addCaseEmployeeType(caseOfficer.caseEmployeeType)
+                );
               } else {
                 this.props.dispatch(selectUnknownOfficer());
               }
@@ -72,7 +86,7 @@ class ManageOfficerMenu extends React.Component {
               );
             }}
           >
-            Edit Officer
+            {`Edit ${caseEmployeeTitle}`}
           </MenuItem>
           <MenuItem
             data-test="removeCaseOfficer"
@@ -83,7 +97,7 @@ class ManageOfficerMenu extends React.Component {
               );
             }}
           >
-            Remove Officer
+            {`Remove ${caseEmployeeTitle}`}
           </MenuItem>
         </Menu>
       </div>

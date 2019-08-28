@@ -5,6 +5,10 @@ import editCaseOfficer from "./editCaseOfficer";
 import nock from "nock";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
+import {
+  CIVILIAN_WITHIN_NOPD_TITLE,
+  EMPLOYEE_TYPE
+} from "../../../sharedUtilities/constants";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -27,6 +31,7 @@ describe("editCaseOfficer thunk", () => {
     const caseId = 100;
     const caseOfficerId = 100;
     const officerId = 200;
+    const caseEmployeeType = EMPLOYEE_TYPE.OFFICER;
 
     const values = { payload: "test edit" };
     const payload = { ...values, officerId };
@@ -40,11 +45,50 @@ describe("editCaseOfficer thunk", () => {
       )
       .reply(200, responseBody);
 
-    await editCaseOfficer(caseId, caseOfficerId, officerId, values)(dispatch);
+    await editCaseOfficer(
+      caseId,
+      caseOfficerId,
+      officerId,
+      caseEmployeeType,
+      values
+    )(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer());
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Officer was successfully updated")
+    );
+    expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+  });
+
+  test("should dispatch success, clear selected employee, & redirect to case details when response is 200", async () => {
+    const caseId = 100;
+    const caseOfficerId = 100;
+    const officerId = 200;
+    const caseEmployeeType = EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+
+    const values = { payload: "test edit" };
+    const payload = { ...values, officerId };
+
+    const responseBody = { response: "Successful" };
+
+    nock("http://localhost")
+      .put(
+        `/api/cases/${caseId}/cases-officers/${caseOfficerId}`,
+        JSON.stringify(payload)
+      )
+      .reply(200, responseBody);
+
+    await editCaseOfficer(
+      caseId,
+      caseOfficerId,
+      officerId,
+      caseEmployeeType,
+      values
+    )(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer());
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarSuccess(`${CIVILIAN_WITHIN_NOPD_TITLE} was successfully updated`)
     );
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });

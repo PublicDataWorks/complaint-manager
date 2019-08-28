@@ -6,6 +6,11 @@ import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
 import OfficerSearch from "./OfficerSearch";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
+import {
+  CIVILIAN_WITHIN_NOPD_TITLE,
+  EMPLOYEE_TYPE,
+  OFFICER_TITLE
+} from "../../../sharedUtilities/constants";
 
 export class OfficerSearchContainer extends Component {
   componentDidMount() {
@@ -13,7 +18,17 @@ export class OfficerSearchContainer extends Component {
   }
 
   render() {
-    const { caseId, titleAction, officerDetailsPath } = this.props;
+    const {
+      caseId,
+      titleAction,
+      officerDetailsPath,
+      caseEmployeeType
+    } = this.props;
+
+    const employeeSearchTitle =
+      caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+        ? CIVILIAN_WITHIN_NOPD_TITLE
+        : OFFICER_TITLE;
 
     return (
       <div>
@@ -23,7 +38,7 @@ export class OfficerSearchContainer extends Component {
             variant="title"
             color="inherit"
           >
-            {`Case #${this.props.caseReference}   : ${titleAction} Officer`}
+            {`Case #${this.props.caseReference}   : ${titleAction} ${employeeSearchTitle}`}
           </Typography>
         </NavBar>
         <LinkButton
@@ -39,6 +54,8 @@ export class OfficerSearchContainer extends Component {
             initialize={this.props.initialize}
             dispatch={this.props.dispatch}
             path={officerDetailsPath}
+            employeeSearchTitle={employeeSearchTitle}
+            caseEmployeeType={caseEmployeeType}
           />
         </div>
       </div>
@@ -47,7 +64,8 @@ export class OfficerSearchContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  caseReference: state.currentCase.details.caseReference
+  caseReference: state.currentCase.details.caseReference,
+  caseEmployeeType: state.officers.addOfficer.caseEmployeeType
 });
 
 export default connect(mapStateToProps)(OfficerSearchContainer);

@@ -11,6 +11,7 @@ import {
   ASCENDING,
   CASE_STATUS,
   CIVILIAN_INITIATED,
+  CIVILIAN_WITHIN_NOPD_INITIATED,
   RANK_INITIATED,
   SORT_CASES_BY
 } from "../../../sharedUtilities/constants";
@@ -105,6 +106,47 @@ describe("createCase", () => {
       id: caseId,
       firstName: "Police",
       lastName: "Officer",
+      status: CASE_STATUS.INITIAL
+    };
+
+    nock("http://localhost", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer TEST_TOKEN`
+      }
+    })
+      .post("/api/cases", creationDetails.caseDetails)
+      .reply(201, responseBody);
+
+    await createCase(creationDetails)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarSuccess("Case was successfully created")
+    );
+    expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
+    expect(dispatch).toHaveBeenCalledWith(
+      push(`/cases/${caseId}/officers/search`)
+    );
+  });
+
+  test("should redirect to add employee if complainant is an employee within NOPD", async () => {
+    const caseId = 12;
+
+    const creationDetails = {
+      caseDetails: {
+        case: {
+          firstName: "Civilian",
+          lastName: "Within NOPD",
+          complaintType: CIVILIAN_WITHIN_NOPD_INITIATED
+        }
+      },
+      redirect: true
+    };
+
+    const responseBody = {
+      id: caseId,
+      firstName: "Civilian",
+      lastName: "Within NOPD",
       status: CASE_STATUS.INITIAL
     };
 

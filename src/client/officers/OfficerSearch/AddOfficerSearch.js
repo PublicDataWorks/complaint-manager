@@ -34,13 +34,15 @@ export class AddOfficerSearch extends React.Component {
         caseId={caseId}
         titleAction={"Add"}
         officerDetailsPath={`/cases/${caseId}/officers/details`}
+        caseEmployeeType={this.props.caseEmployeeType}
       />
     );
   }
 }
 
 const mapStateToProps = state => ({
-  caseDetails: state.currentCase.details
+  caseDetails: state.currentCase.details,
+  caseEmployeeType: state.officers.addOfficer.caseEmployeeType
 });
 
 const mapDispatchToProps = {

@@ -6,11 +6,13 @@ import Officer from "../../testUtilities/Officer";
 import Case from "../../testUtilities/case";
 import {
   addOfficerToCaseSuccess,
+  clearCaseEmployeeType,
   clearSelectedOfficer
 } from "../../actionCreators/officersActionCreators";
 import {
   ACCUSED,
-  OFFICER_DETAILS_FORM_NAME
+  OFFICER_DETAILS_FORM_NAME,
+  EMPLOYEE_TYPE
 } from "../../../sharedUtilities/constants";
 import configureInterceptors from "../../axiosInterceptors/interceptors";
 
@@ -31,7 +33,11 @@ describe("addOfficer", () => {
       roleOnCase: ACCUSED,
       notes: "Some very very very important notes"
     };
-    const payload = { officerId: officer.id, ...formValues };
+    const payload = {
+      officerId: officer.id,
+      caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD,
+      ...formValues
+    };
 
     const responseBody = { updatedCaseProp: "updatedCaseValues" };
 
@@ -46,7 +52,12 @@ describe("addOfficer", () => {
       )
       .reply(200, responseBody);
 
-    await addOfficer(defaultCase.id, officer.id, formValues)(dispatch);
+    await addOfficer(
+      defaultCase.id,
+      officer.id,
+      EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD,
+      formValues
+    )(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
       startSubmit(OFFICER_DETAILS_FORM_NAME)
@@ -54,6 +65,7 @@ describe("addOfficer", () => {
     expect(dispatch).toHaveBeenCalledWith(
       addOfficerToCaseSuccess(responseBody)
     );
+    expect(dispatch).toHaveBeenCalledWith(clearCaseEmployeeType());
     expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer());
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${defaultCase.id}`));
     expect(dispatch).toHaveBeenCalledWith(

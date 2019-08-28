@@ -9,6 +9,8 @@ import {
 import { RadioGroup } from "redux-form-material-ui";
 import {
   CIVILIAN_INITIATED,
+  CIVILIAN_WITHIN_NOPD_INITIATED,
+  CIVILIAN_WITHIN_NOPD_TITLE,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
 
@@ -34,6 +36,15 @@ export default props => (
         label="Police Officer"
         onClick={() => props.input.onChange(RANK_INITIATED)}
       />
+      {props.input_props.cnComplaintTypeFeature && (
+        <FormControlLabel
+          data-test="civilianWithinNOPDRadioButton"
+          value={CIVILIAN_WITHIN_NOPD_INITIATED}
+          control={<Radio color="primary" />}
+          label={CIVILIAN_WITHIN_NOPD_TITLE}
+          onClick={() => props.input.onChange(CIVILIAN_WITHIN_NOPD_INITIATED)}
+        />
+      )}
     </RadioGroup>
   </FormControl>
 );

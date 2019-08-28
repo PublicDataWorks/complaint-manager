@@ -57,6 +57,7 @@ import caseTagReducer from "./reducers/cases/caseTagsReducer";
 import removeCaseTagDialogReducer from "./reducers/ui/removeCaseTagDialogReducer";
 import civilianTitleReducer from "./reducers/ui/civilianTitleReducer";
 import districtReducer from "./reducers/ui/districtReducer";
+import addOfficerReducer from "./reducers/officers/addOfficerReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -118,7 +119,10 @@ const rootReducer = combineReducers({
     editIncidentDetailsDialog: editIncidentDetailsDialogReducer,
     removeAttachmentConfirmationDialog: removeAttachmentConfirmationDialogReducer
   }),
-  officers: searchOfficersReducer,
+  officers: combineReducers({
+    searchOfficers: searchOfficersReducer,
+    addOfficer: addOfficerReducer
+  }),
   featureToggles: featureTogglesReducer,
   export: combineReducers({
     downloadUrl: exportJobDownloadUrlReducer,

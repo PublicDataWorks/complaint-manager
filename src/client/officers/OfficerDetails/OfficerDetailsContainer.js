@@ -5,17 +5,26 @@ import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
 import OfficerDetails from "./OfficerDetails";
-import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
+import {
+  clearCaseEmployeeType,
+  clearSelectedOfficer
+} from "../../actionCreators/officersActionCreators";
 import { push } from "connected-react-router";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
+import {
+  CIVILIAN_WITHIN_NOPD_TITLE,
+  EMPLOYEE_TYPE,
+  OFFICER_TITLE
+} from "../../../sharedUtilities/constants";
 
 export class OfficerDetailsContainer extends Component {
   componentDidMount() {
+    const snackbarErrorText = this.props.cnComplaintTypeFeature
+      ? "Please select an employee or unknown officer to continue"
+      : "Please select an officer or unknown officer to continue";
     if (!this.props.officerCurrentlySelected) {
       this.props.dispatch(push(this.props.officerSearchUrl));
-      this.props.dispatch(
-        snackbarError("Please select an officer or unknown officer to continue")
-      );
+      this.props.dispatch(snackbarError(snackbarErrorText));
     }
   }
 
@@ -29,8 +38,19 @@ export class OfficerDetailsContainer extends Component {
       officerSearchUrl,
       initialRoleOnCase,
       caseReference,
-      dispatch
+      dispatch,
+      caseEmployeeType
     } = this.props;
+
+    const clearOfficersAndEmployeeTypeAction = () => {
+      dispatch(clearCaseEmployeeType());
+      dispatch(clearSelectedOfficer());
+    };
+
+    const caseEmployeeTitle =
+      caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+        ? CIVILIAN_WITHIN_NOPD_TITLE
+        : OFFICER_TITLE;
 
     const selectedOfficerId = selectedOfficerData && selectedOfficerData.id;
 
@@ -38,7 +58,7 @@ export class OfficerDetailsContainer extends Component {
       <div>
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${caseReference}   : ${titleAction} Officer`}
+            {`Case #${caseReference}   : ${titleAction} ${caseEmployeeTitle}`}
           </Typography>
         </NavBar>
         <LinkButton
@@ -46,18 +66,20 @@ export class OfficerDetailsContainer extends Component {
           component={Link}
           to={`/cases/${caseId}`}
           style={{ margin: "2% 0% 2% 4%" }}
-          onClick={() => dispatch(clearSelectedOfficer())}
+          onClick={clearOfficersAndEmployeeTypeAction}
         >
           Back to Case
         </LinkButton>
         <div style={{ margin: "0% 5% 3%", maxWidth: "60rem" }}>
           <OfficerDetails
             officerSearchUrl={officerSearchUrl}
-            submitAction={submitAction(selectedOfficerId)}
+            submitAction={submitAction(selectedOfficerId, caseEmployeeType)}
             submitButtonText={submitButtonText}
             caseId={caseId}
             selectedOfficer={selectedOfficerData}
             initialRoleOnCase={initialRoleOnCase}
+            caseEmployeeTitle={caseEmployeeTitle}
+            caseEmployeeType={caseEmployeeType}
           />
         </div>
       </div>
@@ -73,8 +95,10 @@ const mapStateToProps = state => {
   return {
     initialRoleOnCase: initialRoleOnCaseProp,
     caseReference: state.currentCase.details.caseReference,
-    selectedOfficerData: state.officers.selectedOfficerData,
-    officerCurrentlySelected: state.officers.officerCurrentlySelected
+    selectedOfficerData: state.officers.searchOfficers.selectedOfficerData,
+    officerCurrentlySelected:
+      state.officers.searchOfficers.officerCurrentlySelected,
+    cnComplaintTypeFeature: state.featureToggles.cnComplaintTypeFeature
   };
 };
 

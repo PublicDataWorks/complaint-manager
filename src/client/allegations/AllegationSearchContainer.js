@@ -10,6 +10,11 @@ import OfficerSearchTableHeader from "../officers/OfficerSearch/OfficerSearchTab
 import AllegationSearch from "./AllegationSearch";
 import OfficerAllegations from "./OfficerAllegations";
 import invalidCaseStatusRedirect from "../cases/thunks/invalidCaseStatusRedirect";
+import {
+  CIVILIAN_WITHIN_NOPD_TITLE,
+  EMPLOYEE_TYPE,
+  OFFICER_TITLE
+} from "../../sharedUtilities/constants";
 
 export class AllegationSearchContainer extends Component {
   caseDetailsNotYetLoaded = () => {
@@ -50,13 +55,18 @@ export class AllegationSearchContainer extends Component {
       return null;
     }
 
+    const isCivilianWithinNopd =
+      currentCaseOfficerData.caseEmployeeType ===
+      EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+    const titleText = isCivilianWithinNopd
+      ? `Accused ${CIVILIAN_WITHIN_NOPD_TITLE}`
+      : `Accused ${OFFICER_TITLE}`;
+
     return (
       <div>
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${
-              this.props.caseDetails.caseReference
-            }   : Manage Allegations`}
+            {`Case #${this.props.caseDetails.caseReference}   : Manage Allegations`}
           </Typography>
         </NavBar>
         <LinkButton
@@ -68,7 +78,7 @@ export class AllegationSearchContainer extends Component {
           Back to Case
         </LinkButton>
         <div style={{ margin: "0% 5% 3%" }}>
-          <Typography variant="title">Accused Officer</Typography>
+          <Typography variant="title">{titleText}</Typography>
           <Table>
             <OfficerSearchTableHeader />
             <TableBody>

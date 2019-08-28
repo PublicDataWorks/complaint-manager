@@ -5,6 +5,11 @@ import { clearSelectedOfficer } from "../../actionCreators/officersActionCreator
 import { connect } from "react-redux";
 import invalidCaseStatusRedirect from "../../cases/thunks/invalidCaseStatusRedirect";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
+import {
+  CIVILIAN_WITHIN_NOPD_TITLE,
+  EMPLOYEE_TYPE,
+  OFFICER_TITLE
+} from "../../../sharedUtilities/constants";
 
 class AddOfficerDetails extends React.Component {
   caseDetailsNotYetLoaded() {
@@ -28,14 +33,20 @@ class AddOfficerDetails extends React.Component {
   render() {
     if (this.caseDetailsNotYetLoaded()) return null;
     const caseId = this.props.match.params.id;
+    const isCivilianWithinNopd =
+      this.props.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+    const submitButtonText = isCivilianWithinNopd
+      ? `Add ${CIVILIAN_WITHIN_NOPD_TITLE} to Case`
+      : `Add ${OFFICER_TITLE} to Case`;
 
     return (
       <OfficerDetailsContainer
         caseId={caseId}
         titleAction={"Add"}
-        submitButtonText={"Add Officer to Case"}
+        submitButtonText={submitButtonText}
         submitAction={addThunkWrapper(caseId)}
         officerSearchUrl={`/cases/${caseId}/officers/search`}
+        caseEmployeeType={this.props.caseEmployeeType}
       />
     );
   }
@@ -48,7 +59,8 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  caseDetails: state.currentCase.details
+  caseDetails: state.currentCase.details,
+  caseEmployeeType: state.officers.addOfficer.caseEmployeeType
 });
 
 export default connect(

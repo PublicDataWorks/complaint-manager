@@ -130,10 +130,6 @@ class App extends Component {
                   component={AllegationSearchContainer}
                 />
                 <Route path="/cases/:id" component={RedirectToCaseDashboard} />
-                <Route
-                  component={RedirectToCaseDashboard}
-                  something={"hello"}
-                />
               </Switch>
               <SharedSnackbarContainer />
             </ScrollToTop>

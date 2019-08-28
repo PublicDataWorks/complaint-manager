@@ -2,8 +2,8 @@ import React from "react";
 import {
   Card,
   CardContent,
-  Typography,
-  FormControlLabel
+  FormControlLabel,
+  Typography
 } from "@material-ui/core";
 import { TextField } from "redux-form-material-ui";
 import { Field, reduxForm } from "redux-form";
@@ -14,13 +14,16 @@ import { roleOnCaseMenu } from "../../utilities/generateMenuOptions";
 import { officerRoleRequired } from "../../formFieldLevelValidations";
 import PrimaryCheckBox from "../../shared/components/PrimaryCheckBox";
 import {
+  CIVILIAN_WITHIN_NOPD_TITLE,
   COMPLAINANT,
+  EMPLOYEE_TYPE,
   OFFICER_DETAILS_FORM_NAME,
+  OFFICER_TITLE,
   WITNESS
 } from "../../../sharedUtilities/constants";
-
 import SelectedOfficerDisplay from "./SelectedOfficerDisplay";
 import UnknownOfficerDisplay from "./UnknownOfficerDisplay";
+import _ from "lodash";
 
 class OfficerDetails extends React.Component {
   onSubmit = (values, dispatch) => {
@@ -43,9 +46,22 @@ class OfficerDetails extends React.Component {
   };
 
   render() {
+    const isCivilianWithinNopd =
+      this.props.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+    const additionalInformationText = isCivilianWithinNopd
+      ? `Use this section to add notes, a description, or indicate any information about the ${_.lowerFirst(
+          CIVILIAN_WITHIN_NOPD_TITLE
+        )}.`
+      : `Use this section to add notes, a description, or indicate any information about the ${_.toLower(
+          OFFICER_TITLE
+        )}’s history or risk assessment.`;
+    const caseEmployeeTitle = isCivilianWithinNopd
+      ? CIVILIAN_WITHIN_NOPD_TITLE
+      : OFFICER_TITLE;
+
     return (
       <div>
-        <Typography variant="title">Selected Officer</Typography>
+        <Typography variant="title">Selected {caseEmployeeTitle}</Typography>
         {this.props.selectedOfficer ? (
           <SelectedOfficerDisplay {...this.props} />
         ) : (
@@ -78,7 +94,7 @@ class OfficerDetails extends React.Component {
                   <FormControlLabel
                     data-test="isOfficerAnonymous"
                     key="isAnonymous"
-                    label="Anonymize officer in referral letter"
+                    label={`Anonymize ${this.props.caseEmployeeTitle} in referral letter`}
                     control={
                       <Field name="isAnonymous" component={PrimaryCheckBox} />
                     }
@@ -87,8 +103,7 @@ class OfficerDetails extends React.Component {
               </div>
               <Typography style={styles.section}>Notes</Typography>
               <Typography variant="body1">
-                Use this section to add notes, a description, or indicate any
-                information about the officer’s history or risk assessment.
+                {additionalInformationText}
               </Typography>
               <Field
                 component={TextField}

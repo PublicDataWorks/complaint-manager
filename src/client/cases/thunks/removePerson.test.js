@@ -15,7 +15,7 @@ jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("removePerson", () => {
   let dispatch = jest.fn();
-  const personTypeForDisplay = "civilian";
+  const personTypeForDisplay = "Civilian";
   const personType = "civilians";
   const caseId = 123;
   const id = 345;
@@ -57,9 +57,7 @@ describe("removePerson", () => {
     expect(dispatch).toHaveBeenCalledWith(startSubmit(REMOVE_PERSON_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(removePersonSuccess(response));
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess(
-        `${_.startCase(personTypeForDisplay)} was successfully removed`
-      )
+      snackbarSuccess(`${personTypeForDisplay} was successfully removed`)
     );
     expect(dispatch).toHaveBeenCalledWith(closeRemovePersonDialog());
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(REMOVE_PERSON_FORM_NAME));

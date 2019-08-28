@@ -1,6 +1,9 @@
 import {
   CIVILIAN_FORM_NAME,
-  OFFICER_DETAILS_FORM_NAME
+  OFFICER_DETAILS_FORM_NAME,
+  EMPLOYEE_TYPE,
+  CIVILIAN_WITHIN_NOPD_TITLE,
+  OFFICER_TITLE
 } from "../../../sharedUtilities/constants";
 import { push } from "connected-react-router";
 import createCivilian from "../thunks/createCivilian";
@@ -9,6 +12,7 @@ import { openCivilianDialog } from "../../actionCreators/casesActionCreators";
 import { Menu, MenuItem } from "@material-ui/core";
 import React from "react";
 import LinkButton from "../../shared/components/LinkButton";
+import { addCaseEmployeeType } from "../../actionCreators/officersActionCreators";
 
 const ComplainantWitnessMenu = props => {
   return (
@@ -55,13 +59,34 @@ const ComplainantWitnessMenu = props => {
                 roleOnCase: props.civilianType
               })
             );
+            props.dispatch(addCaseEmployeeType(EMPLOYEE_TYPE.OFFICER));
             props.dispatch(
               push(`/cases/${props.caseDetails.id}/officers/search`)
             );
           }}
         >
-          Officer {props.civilianType}
+          {OFFICER_TITLE} {props.civilianType}
         </MenuItem>
+        {props.cnComplaintTypeFeature ? (
+          <MenuItem
+            data-test="addCivilianWithinNopdComplainantWitness"
+            onClick={() => {
+              props.dispatch(
+                initialize("OfficerDetails", {
+                  roleOnCase: props.civilianType
+                })
+              );
+              props.dispatch(
+                addCaseEmployeeType(EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD)
+              );
+              props.dispatch(
+                push(`/cases/${props.caseDetails.id}/officers/search`)
+              );
+            }}
+          >
+            {CIVILIAN_WITHIN_NOPD_TITLE} {props.civilianType}
+          </MenuItem>
+        ) : null}
       </Menu>
     </div>
   );
