@@ -344,7 +344,8 @@ export const COMPLAINANT = "Complainant";
 export const PERSON_TYPE = {
   CIVILIAN: "Civilian",
   KNOWN_OFFICER: "Known Officer",
-  UNKNOWN_OFFICER: "Unknown Officer"
+  UNKNOWN_OFFICER: "Unknown Officer",
+  CIVILIAN_WITHIN_NOPD: "Civilian (NOPD)"
 };
 
 // ----------------------------------------
