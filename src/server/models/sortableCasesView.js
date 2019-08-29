@@ -4,7 +4,11 @@ import {
   PERSON_TYPE,
   RANK_INITIATED
 } from "../../sharedUtilities/constants";
-import { getCaseReference } from "./modelUtilities/getCaseReference";
+import {
+  getOfficerFullName,
+  getPersonFullName
+} from "./modelUtilities/getFullName";
+
 export default (sequelize, DataTypes) => {
   const SortableCasesView = sequelize.define(
     "sortable_cases_view",
@@ -143,8 +147,3 @@ export default (sequelize, DataTypes) => {
 
   return SortableCasesView;
 };
-
-import {
-  getOfficerFullName,
-  getPersonFullName
-} from "./modelUtilities/getFullName";
