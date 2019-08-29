@@ -198,10 +198,48 @@ if (TEST_PASS && TEST_USER && HOST) {
         .close();
     },
 
+    "should click add witness civilian within nopd": browser => {
+      const caseDetailsPage = browser.page.CaseDetails();
+
+      caseDetailsPage
+        .incidentAddressIsSpecified()
+        .addWitnessCivilianWithinNopd();
+    },
+
+    "should see add employee page and add civilian within nopd": browser => {
+      const addCivilianWithinNopdSearchPage = browser.page.AddCivilianWithinNopdSearch();
+
+      addCivilianWithinNopdSearchPage
+        .isOnPage()
+        .setLastName("Jaskolski")
+        .searchForCivilianWithinNopd()
+        .selectNewCivilianWithinNopd();
+    },
+
+    "should return to edit civilian within nopd details and save civilian nopd": browser => {
+      const addCivilianWithinNopdDetailsPage = browser.page.AddCivilianWithinNopdDetails();
+      const snackBar = browser.page.SnackbarPOM();
+
+      addCivilianWithinNopdDetailsPage
+        .isOnPage()
+        .selectRole("Witness")
+        .submitCivilianWithinNopd();
+
+      snackBar
+        .presentWithMessage("Civilian (NOPD) was successfully added")
+        .close();
+    },
+
+    "should display civilian within nopd on case details page": browser => {
+      const caseDetailsPage = browser.page.CaseDetails();
+
+      caseDetailsPage.thereIsAKnownCivilianWithinNopd("Amira");
+    },
+
     "should display the incident location in the Incident Details section of the Case Detail": browser => {
       const caseDetailsPage = browser.page.CaseDetails();
 
-      caseDetailsPage.incidentAddressIsSpecified().addAccusedOfficer();
+      caseDetailsPage.addAccusedOfficer();
     },
 
     "should navigate to add officer form for unknown officer and add unknown officer": browser => {

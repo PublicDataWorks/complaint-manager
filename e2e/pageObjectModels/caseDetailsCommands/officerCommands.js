@@ -45,6 +45,25 @@ const officerCommands = {
       e2e.rerenderWait
     ).click("@manageAllegationsButton");
   },
+  addWitnessCivilianWithinNopd: function() {
+    this.waitForElementVisible("@addWitnessMenu", e2e.rerenderWait).click(
+      "@addWitnessMenu"
+    );
+    return this.waitForElementVisible(
+      "@addWitnessCivilianWithinNopd",
+      e2e.rerenderWait
+    ).click("@addWitnessCivilianWithinNopd");
+  },
+  thereIsAKnownCivilianWithinNopd: function(civilianWithinNopdName) {
+    this.waitForElementVisible(
+      "@knownCivilianWithinNopdPanel",
+      e2e.roundtripWait
+    ).assert.containsText(
+      "@knownCivilianWithinNopdPanel",
+      civilianWithinNopdName
+    );
+    return this;
+  },
   addAccusedOfficer: function() {
     this.waitForElementVisible("@addAccusedMenu", e2e.rerenderWait).click(
       "@addAccusedMenu"
@@ -87,6 +106,15 @@ const officerElements = {
   },
   knownOfficerPanel: {
     selector: '[data-test="knownOfficerPanel"]'
+  },
+  addWitnessMenu: {
+    selector: '[data-test="addComplainantWitness"]'
+  },
+  addWitnessCivilianWithinNopd: {
+    selector: '[data-test="addCivilianWithinNopdComplainantWitness"]'
+  },
+  knownCivilianWithinNopdPanel: {
+    selector: "[data-test='knownCivilian(NOPD)Panel']"
   },
   addAccusedMenu: {
     selector: '[data-test="addAccusedMenu"]'

@@ -33,10 +33,15 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
     ? CIVILIAN_WITHIN_NOPD_TITLE
     : OFFICER_TITLE;
 
+  const knownEmployeePanelDataTest = `known${caseEmployeeTitle.replace(
+    /\s/g,
+    ""
+  )}Panel`;
+
   return (
     <div>
       <div
-        data-test="knownOfficerPanel"
+        data-test={knownEmployeePanelDataTest}
         style={{ display: "flex", width: "100%", paddingRight: 0 }}
       >
         <ExpansionPanel
