@@ -28,17 +28,6 @@ describe("generateMenu", () => {
       ])
     );
   });
-
-  test("generateMenuOptions should not add empty option when flag is set", () => {
-    const values = [["Value1", 1], ["Value2", 2], ["Value3", 3]];
-    const options = generateMenuOptions(values, null, true);
-
-    expect(options).toEqual([
-      { label: "Value1", value: 1 },
-      { label: "Value2", value: 2 },
-      { label: "Value3", value: 3 }
-    ]);
-  });
 });
 
 describe("incident details menus", () => {
