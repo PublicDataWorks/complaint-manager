@@ -57,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
     age: {
       type: new DataTypes.VIRTUAL(DataTypes.INTEGER, ["dob"]),
       get: function() {
-        return moment().diff(this.get("dob"), "years", false);
+        return this.get("dob") ? moment().diff(this.get("dob"), "years", false) : null;
       }
     },
     district: {

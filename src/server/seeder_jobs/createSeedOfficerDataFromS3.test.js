@@ -51,11 +51,14 @@ describe("updating database using csv file in S3", () => {
       });
 
       expect(updatedOfficerChris.lastName).not.toEqual("Paucek");
+      expect(updatedOfficerChris.dob).toEqual("1987-04-12");
       expect(newOfficerMaggie).not.toEqual(null);
       expect(newOfficerMaggie.district).toEqual("First District");
+      expect(newOfficerMaggie.dob).toEqual(null);
       expect(unchangedOfficerKristin.updatedAt).toEqual(
         unchangedOfficerKristin.createdAt
       );
+      expect(unchangedOfficerKristin.dob).toEqual(null);
     })
   );
 });

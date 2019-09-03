@@ -72,6 +72,7 @@ const normalizeSexValue = originalSexValue => {
     case "":
     case "''":
     case '""':
+    case "NULL":
       return "Unknown Sex";
     default:
       throw Boom.badData(`Unexpected Sex Value: '${originalSexValue}'`);
@@ -101,6 +102,7 @@ const normalizeRaceValue = originalRaceValue => {
     case "":
     case "''":
     case '""':
+    case "NULL":
       return "Unknown Race";
     default:
       throw Boom.badData(`Unexpected Race Value: '${originalRaceValue}'`);
@@ -123,7 +125,6 @@ const columns = {
   TITLE: "rank",
   STATUS: "workStatus",
   END_EMPLOY_DT: "endDate",
-  DOB: "dob",
   SEX: "sex",
   RACE: "race",
   HIRE_DT: "hireDate",

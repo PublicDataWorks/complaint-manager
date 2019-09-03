@@ -31,6 +31,10 @@ describe("officers", () => {
       const officer = models.officer.build({ dob: dob });
       expect(officer.age).toEqual(45);
     });
+    test("age should be null if dob is null", () => {
+      const officer = models.officer.build({ dob: null });
+      expect(officer.age).toEqual(null);
+    });
   });
   describe("district", () => {
     beforeEach(async () => {
