@@ -31,7 +31,6 @@ describe("transformIAProOfficerFile", () => {
         "rank",
         "workStatus",
         "endDate",
-        "dob",
         "sex",
         "race",
         "hireDate",
@@ -50,7 +49,6 @@ describe("transformIAProOfficerFile", () => {
         "DEFAULT",
         "Terminated",
         "1/1/80 0:00",
-        "1/11/00 0:00",
         "F",
         "Native American",
         "1/1/20 0:00",
@@ -83,19 +81,19 @@ describe("transformIAProOfficerFile", () => {
       const anotherDivisionRow = rows[2];
       const districtsRow = rows[3];
 
-      expect(anotherDivisionRow.split(",")[12]).toEqual("");
+      expect(anotherDivisionRow.split(",")[11]).toEqual("");
       expect(anotherDivisionRow).not.toContain(
         "Education/Training & Recruitment Division"
       );
 
-      expect(districtsRow.split(",")[12]).toEqual("");
+      expect(districtsRow.split(",")[11]).toEqual("");
       expect(districtsRow).not.toContain("Districts");
     });
 
     test("corrects spelling of 'commissioned' in the employee type field", async () => {
       const nonCommisionedRow = 2;
       const comisionedRow = 3;
-      const employeeTypeColumn = 14;
+      const employeeTypeColumn = 13;
 
       //verify starting data as expected in case someone changes csv file
       const originalRows = iaProOfficerBufferedData.toString().split("\n");
@@ -124,33 +122,34 @@ describe("transformIAProOfficerFile", () => {
       const sexUnkSexRowIndex = 6;
       const nullSexRowIndex = 7;
       const emptyStringSexRowIndex = 8;
+      const sexRowIndex = 7;
 
       //verify starting data as expected in case someone changes csv file
       const originalRows = iaProOfficerBufferedData.toString().split("\n");
-      expect(originalRows[fSexRowIndex].split(",")[8]).toEqual("F");
-      expect(originalRows[mSexRowIndex].split(",")[8]).toEqual("M");
-      expect(originalRows[femaleSexRowIndex].split(",")[8]).toEqual("Female");
-      expect(originalRows[maleSexRowIndex].split(",")[8]).toEqual("Male");
-      expect(originalRows[nSexRowIndex].split(",")[8]).toEqual("N");
-      expect(originalRows[sexUnkSexRowIndex].split(",")[8]).toEqual("Sex-Unk");
-      expect(originalRows[nullSexRowIndex].split(",")[8]).toEqual("");
-      expect(originalRows[emptyStringSexRowIndex].split(",")[8]).toEqual("''");
+      expect(originalRows[fSexRowIndex].split(",")[sexRowIndex]).toEqual("F");
+      expect(originalRows[mSexRowIndex].split(",")[sexRowIndex]).toEqual("M");
+      expect(originalRows[femaleSexRowIndex].split(",")[sexRowIndex]).toEqual("Female");
+      expect(originalRows[maleSexRowIndex].split(",")[sexRowIndex]).toEqual("Male");
+      expect(originalRows[nSexRowIndex].split(",")[sexRowIndex]).toEqual("N");
+      expect(originalRows[sexUnkSexRowIndex].split(",")[sexRowIndex]).toEqual("Sex-Unk");
+      expect(originalRows[nullSexRowIndex].split(",")[sexRowIndex]).toEqual("");
+      expect(originalRows[emptyStringSexRowIndex].split(",")[sexRowIndex]).toEqual("''");
 
       const transformedRows = transformedOfficerDataString.split("\n");
-      expect(transformedRows[fSexRowIndex].split(",")[8]).toEqual("F");
-      expect(transformedRows[mSexRowIndex].split(",")[8]).toEqual("M");
-      expect(transformedRows[femaleSexRowIndex].split(",")[8]).toEqual("F");
-      expect(transformedRows[maleSexRowIndex].split(",")[8]).toEqual("M");
-      expect(transformedRows[nSexRowIndex].split(",")[8]).toEqual(
+      expect(transformedRows[fSexRowIndex].split(",")[sexRowIndex]).toEqual("F");
+      expect(transformedRows[mSexRowIndex].split(",")[sexRowIndex]).toEqual("M");
+      expect(transformedRows[femaleSexRowIndex].split(",")[sexRowIndex]).toEqual("F");
+      expect(transformedRows[maleSexRowIndex].split(",")[sexRowIndex]).toEqual("M");
+      expect(transformedRows[nSexRowIndex].split(",")[sexRowIndex]).toEqual(
         "Unknown Sex"
       );
-      expect(transformedRows[sexUnkSexRowIndex].split(",")[8]).toEqual(
+      expect(transformedRows[sexUnkSexRowIndex].split(",")[sexRowIndex]).toEqual(
         "Unknown Sex"
       );
-      expect(transformedRows[nullSexRowIndex].split(",")[8]).toEqual(
+      expect(transformedRows[nullSexRowIndex].split(",")[sexRowIndex]).toEqual(
         "Unknown Sex"
       );
-      expect(transformedRows[emptyStringSexRowIndex].split(",")[8]).toEqual(
+      expect(transformedRows[emptyStringSexRowIndex].split(",")[sexRowIndex]).toEqual(
         "Unknown Sex"
       );
     });
@@ -175,59 +174,60 @@ describe("transformIAProOfficerFile", () => {
       const notSpecifieRowIndex = 8;
       const raceUnknownRowIndex = 9;
       const blankRaceRowIndex = 10;
+      const raceRowIndex = 8;
 
       //verify starting data as expected in case someone changes csv file
       const originalRows = iaProOfficerBufferedData.toString().split("\n");
-      expect(originalRows[americanIndRowIndex].split(",")[9]).toEqual(
+      expect(originalRows[americanIndRowIndex].split(",")[raceRowIndex]).toEqual(
         "American Ind"
       );
-      expect(originalRows[asiaPacifRowIndex].split(",")[9]).toEqual(
+      expect(originalRows[asiaPacifRowIndex].split(",")[raceRowIndex]).toEqual(
         "Asian/Pacif"
       );
-      expect(originalRows[asianPacifiRowIndex].split(",")[9]).toEqual(
+      expect(originalRows[asianPacifiRowIndex].split(",")[raceRowIndex]).toEqual(
         "Asian/Pacifi"
       );
-      expect(originalRows[blackRowIndex].split(",")[9]).toEqual("Black");
-      expect(originalRows[hispanicRowIndex].split(",")[9]).toEqual("Hispanic");
-      expect(originalRows[whiteRowIndex].split(",")[9]).toEqual("White");
-      expect(originalRows[notApplicabRowIndex].split(",")[9]).toEqual(
+      expect(originalRows[blackRowIndex].split(",")[raceRowIndex]).toEqual("Black");
+      expect(originalRows[hispanicRowIndex].split(",")[raceRowIndex]).toEqual("Hispanic");
+      expect(originalRows[whiteRowIndex].split(",")[raceRowIndex]).toEqual("White");
+      expect(originalRows[notApplicabRowIndex].split(",")[raceRowIndex]).toEqual(
         "Not Applicab"
       );
-      expect(originalRows[notSpecifieRowIndex].split(",")[9]).toEqual(
+      expect(originalRows[notSpecifieRowIndex].split(",")[raceRowIndex]).toEqual(
         "Not Specifie"
       );
-      expect(originalRows[raceUnknownRowIndex].split(",")[9]).toEqual(
+      expect(originalRows[raceUnknownRowIndex].split(",")[raceRowIndex]).toEqual(
         "Race-Unknown"
       );
-      expect(originalRows[blankRaceRowIndex].split(",")[9]).toEqual("");
+      expect(originalRows[blankRaceRowIndex].split(",")[raceRowIndex]).toEqual("");
 
       const transformedRows = transformedOfficerDataString.split("\n");
-      expect(transformedRows[americanIndRowIndex].split(",")[9]).toEqual(
+      expect(transformedRows[americanIndRowIndex].split(",")[raceRowIndex]).toEqual(
         "Native American"
       );
-      expect(transformedRows[asiaPacifRowIndex].split(",")[9]).toEqual(
+      expect(transformedRows[asiaPacifRowIndex].split(",")[raceRowIndex]).toEqual(
         "Asian / Pacific Islander"
       );
-      expect(transformedRows[asianPacifiRowIndex].split(",")[9]).toEqual(
+      expect(transformedRows[asianPacifiRowIndex].split(",")[raceRowIndex]).toEqual(
         "Asian / Pacific Islander"
       );
-      expect(transformedRows[blackRowIndex].split(",")[9]).toEqual(
+      expect(transformedRows[blackRowIndex].split(",")[raceRowIndex]).toEqual(
         "Black / African American"
       );
-      expect(transformedRows[hispanicRowIndex].split(",")[9]).toEqual(
+      expect(transformedRows[hispanicRowIndex].split(",")[raceRowIndex]).toEqual(
         "Hispanic"
       );
-      expect(transformedRows[whiteRowIndex].split(",")[9]).toEqual("White");
-      expect(transformedRows[notApplicabRowIndex].split(",")[9]).toEqual(
+      expect(transformedRows[whiteRowIndex].split(",")[raceRowIndex]).toEqual("White");
+      expect(transformedRows[notApplicabRowIndex].split(",")[raceRowIndex]).toEqual(
         "Unknown Race"
       );
-      expect(transformedRows[notSpecifieRowIndex].split(",")[9]).toEqual(
+      expect(transformedRows[notSpecifieRowIndex].split(",")[raceRowIndex]).toEqual(
         "Unknown Race"
       );
-      expect(transformedRows[raceUnknownRowIndex].split(",")[9]).toEqual(
+      expect(transformedRows[raceUnknownRowIndex].split(",")[raceRowIndex]).toEqual(
         "Unknown Race"
       );
-      expect(transformedRows[blankRaceRowIndex].split(",")[9]).toEqual(
+      expect(transformedRows[blankRaceRowIndex].split(",")[raceRowIndex]).toEqual(
         "Unknown Race"
       );
     });

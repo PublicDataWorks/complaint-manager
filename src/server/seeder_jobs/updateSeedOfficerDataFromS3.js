@@ -151,7 +151,8 @@ const rowDataIsOfficerToBeUpdated = (seedDataRow, existingOfficer) => {
     "createdAt",
     "updatedAt",
     "districtId",
-    "officerDistrict"
+    "officerDistrict",
+    "dob"
   ]);
 
   const keysToPick = Object.keys(officerValuesToCompare);

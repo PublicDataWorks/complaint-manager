@@ -59,13 +59,16 @@ describe("updating database using csv file in S3", () => {
 
       expect(updatedOfficerChris.officerDistrict.name).toEqual("1st District");
       expect(updatedOfficerChris.districtId).toEqual(1);
+      expect(updatedOfficerChris.dob).toEqual("1987-04-12");
       expect(updatedOfficerChris.lastName).not.toEqual("Paucek");
       expect(newOfficerMaggie).not.toEqual(null);
+      expect(newOfficerMaggie.dob).toEqual(null);
+      expect(newOfficerMaggie.officerDistrict.name).toEqual("1st District");
+      expect(newOfficerMaggie.districtId).toEqual(1);
       expect(unchangedOfficerKristin.updatedAt).toEqual(
         unchangedOfficerKristin.createdAt
       );
-      expect(newOfficerMaggie.officerDistrict.name).toEqual("1st District");
-      expect(newOfficerMaggie.districtId).toEqual(1);
+      expect(unchangedOfficerKristin.dob).toEqual(null);
     })
   );
 });
