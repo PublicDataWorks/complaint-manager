@@ -6,6 +6,7 @@ import {
   getIncidentInfoData,
   getWitnessData
 } from "./CaseDetailDataHelpers";
+import { EMPLOYEE_TYPE } from "../../../../sharedUtilities/constants";
 
 describe("caseDetailDataHelpers", function() {
   describe("incident info", function() {
@@ -656,7 +657,8 @@ describe("caseDetailDataHelpers", function() {
           isUnknownOfficer: false,
           fullName: "some name",
           windowsUsername: "some id",
-          district: "some district"
+          district: "some district",
+          caseEmployeeType: EMPLOYEE_TYPE.OFFICER
         };
 
         const accusedOfficerData = getAccusedOfficerData(officer);
@@ -674,7 +676,8 @@ describe("caseDetailDataHelpers", function() {
 
       test("returns correct accused officer data when single unknown officer", () => {
         const officer = {
-          isUnknownOfficer: true
+          isUnknownOfficer: true,
+          caseEmployeeType: EMPLOYEE_TYPE.OFFICER
         };
 
         const accusedOfficerData = getAccusedOfficerData(officer);
@@ -683,6 +686,28 @@ describe("caseDetailDataHelpers", function() {
           expect.arrayContaining([
             expect.objectContaining({
               "Officer Name": "Unknown"
+            })
+          ])
+        );
+      });
+
+      test("returns correct accused data when single civilian within NOPD", () => {
+        const officer = {
+          isUnknownOfficer: false,
+          fullName: "some name",
+          windowsUsername: "some id",
+          district: "some district",
+          caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+        };
+
+        const accusedOfficerData = getAccusedOfficerData(officer);
+
+        expect(accusedOfficerData).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              "Civilian (NOPD) Name": "some name",
+              ID: "#some id",
+              District: "some district"
             })
           ])
         );

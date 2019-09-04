@@ -2,7 +2,10 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
-import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  EMPLOYEE_TYPE
+} from "../../../../sharedUtilities/constants";
 import { push } from "connected-react-router";
 import LetterReview from "./LetterReview";
 import { mount } from "enzyme";
@@ -10,6 +13,8 @@ import React from "react";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getCaseDetails from "../../thunks/getCaseDetails";
+import Case from "../../../testUtilities/case";
+import CaseOfficer from "../../../testUtilities/caseOfficer";
 
 jest.mock("../../thunks/getCaseDetails", () => caseId => ({
   type: "GetCaseDetails",
@@ -47,6 +52,45 @@ describe("LetterReview", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(
       getReferralLetterEditStatus(caseId.toString())
     );
+  });
+
+  describe("renders sections correctly", () => {
+    test("accused card with officer", () => {
+      const testCase = new Case.Builder()
+        .defaultCase()
+        .withId(caseId)
+        .withStatus(CASE_STATUS.LETTER_IN_PROGRESS)
+        .build();
+
+      store.dispatch(getCaseDetailsSuccess(testCase));
+      wrapper.update();
+      const accusedCard = wrapper.find(
+        '[data-test="case-detail-card-accused"]'
+      );
+      expect(accusedCard.props().cardTitle).toEqual("Accused Officer");
+    });
+
+    test("accused card with civilian within NOPD", () => {
+      const testCase = new Case.Builder()
+        .defaultCase()
+        .withId(caseId)
+        .withStatus(CASE_STATUS.LETTER_IN_PROGRESS)
+        .withAccusedOfficers([
+          new CaseOfficer.Builder()
+            .defaultCaseOfficer()
+            .withCaseEmployeeType(EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD)
+            .build()
+        ])
+        .build();
+
+      store.dispatch(getCaseDetailsSuccess(testCase));
+      wrapper.update();
+
+      const accusedCard = wrapper.find(
+        '[data-test="case-detail-card-accused"]'
+      );
+      expect(accusedCard.props().cardTitle).toEqual("Accused Civilian (NOPD)");
+    });
   });
 
   test("redirects to case detail page if case is prior to letter generation status", () => {

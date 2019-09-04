@@ -19,6 +19,7 @@ import TextTruncate from "../../../shared/components/TextTruncate";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import {
   CASE_STATUSES_ALLOWED_TO_EDIT_LETTER,
+  EMPLOYEE_TYPE,
   LETTER_PROGRESS
 } from "../../../../sharedUtilities/constants";
 import { push } from "connected-react-router";
@@ -90,9 +91,7 @@ export class LetterReview extends Component {
       <div>
         <NavBar>
           <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${
-              this.props.caseDetails.caseReference
-            }   : Letter Generation`}
+            {`Case #${this.props.caseDetails.caseReference}   : Letter Generation`}
           </Typography>
         </NavBar>
 
@@ -145,10 +144,15 @@ export class LetterReview extends Component {
           />
 
           {caseDetails.accusedOfficers.map(officer => {
+            const cardTitle =
+              officer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+                ? "Accused Civilian (NOPD)"
+                : "Accused Officer";
             return (
               <CaseDetailCard
-                cardTitle={"Accused Officer"}
+                cardTitle={cardTitle}
                 cardData={getAccusedOfficerData(officer)}
+                data-test="case-detail-card-accused"
                 cardSecondTitle={"Allegations"}
                 allegations={getAllegationData(officer)}
                 key={officer.id}
