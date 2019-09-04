@@ -444,7 +444,7 @@ if (TEST_PASS && TEST_USER && HOST) {
           "10 total complaints including 2 HIGH RISK allegations, 3 MEDIUM RISK allegations, 5 LOW RISK allegations"
         )
         .letterContains(
-          "Retaliation Concerns and Request for Notice to Officer(s)"
+          "Retaliation Concerns and Request for Notice to Accused"
         )
         .letterContains(
           "Be temporarily or permanently reassigned from his/her current assignment"
