@@ -1,4 +1,4 @@
-import { ACCUSED } from "../../sharedUtilities/constants";
+import { ACCUSED, EMPLOYEE_TYPE } from "../../sharedUtilities/constants";
 
 class CaseOfficer {
   constructor(build) {
@@ -27,6 +27,7 @@ class CaseOfficer {
     this.hireDate = build.hireDate;
     this.endDate = build.endDate;
     this.employeeType = build.employeeType;
+    this.caseEmployeeType = build.caseEmployeeType;
     this.isUnknownOfficer = build.isUnknownOfficer;
     this.createdAt = build.createdAt;
     this.allegations = build.allegations;
@@ -58,6 +59,7 @@ class CaseOfficer {
         this.hireDate = "2018-05-30";
         this.endDate = "2018-05-31";
         this.employeeType = "Commissioned";
+        this.caseEmployeeType = EMPLOYEE_TYPE.OFFICER;
         this.officerId = 123456;
         this.roleOnCase = ACCUSED;
         this.notes = "Some notes about this officer's history";
@@ -196,6 +198,11 @@ class CaseOfficer {
 
       withIsAnonymous(isAnonymous) {
         this.isAnonymous = isAnonymous;
+        return this;
+      }
+
+      withCaseEmployeeType(caseEmployeeType) {
+        this.caseEmployeeType = caseEmployeeType;
         return this;
       }
 

@@ -4,6 +4,7 @@ import formatDate, {
 } from "../../../utilities/formatDate";
 import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
+import { EMPLOYEE_TYPE } from "../../../../sharedUtilities/constants";
 
 export const getFormattedDate = date => {
   return date ? formatDate(date) : null;
@@ -105,15 +106,24 @@ export const getWitnessData = caseDetail => {
 };
 
 export const getAccusedOfficerData = officer => {
-  return officer.isUnknownOfficer
-    ? [{ "Officer Name": "Unknown" }]
-    : [
-        {
-          "Officer Name": officer.fullName,
-          ID: `#${officer.windowsUsername}`,
-          District: officer.district
-        }
-      ];
+  let officerData;
+
+  if (officer.isUnknownOfficer) {
+    officerData = [{ "Officer Name": "Unknown" }];
+  } else {
+    const nameTitle =
+      officer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+        ? "Civilian (NOPD) Name"
+        : "Officer Name";
+    officerData = [
+      {
+        [nameTitle]: officer.fullName,
+        ID: `#${officer.windowsUsername}`,
+        District: officer.district
+      }
+    ];
+  }
+  return officerData;
 };
 
 export const getAllegationData = officer => {
