@@ -233,7 +233,7 @@
   {{#each accusedOfficers}}
     Complainant alleges the following occurred
     {{#if (isPresent ../incidentDate)}} on {{{formatShortDate ../incidentDate}}},{{/if}}
-    during the complainant’s interaction with {{rank}} {{fullName}}. If proven, the accused officer may have violated
+    during the complainant’s interaction with {{rank}} {{fullName}}. If proven, the accused may have violated
     NOPD policy, rules, or procedure when:
     <ol>
       {{#each allegations}}
@@ -354,11 +354,11 @@
 
 
   {{#if referralLetter.includeRetaliationConcerns}}
-    <p class="ql-align-center"><strong><u>Retaliation Concerns and Request for Notice to Officer(s)</u></strong></p>
+    <p class="ql-align-center"><strong><u>Retaliation Concerns and Request for Notice to Accused</u></strong></p>
     <p><br></p>
     <p>Based on the information provided by the complainant, the OIPM is concerned about retaliation against the
       complainant.
-      We request that once the accused officer(s) is made aware of this complaint that they be admonished in writing by
+      We request that once the accused is made aware of this complaint that they be admonished in writing by
       their
       commanding officer(s) about retaliating against the Complainant, or from having others do so.</p>
     <p><br></p>
