@@ -33,8 +33,6 @@
     "id": "cnComplaintTypeFeature",
     "name": "cnComplaintTypeFeature",
     "description": "Civilian within NOPD complainant type feature",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": true
   }
 ]
