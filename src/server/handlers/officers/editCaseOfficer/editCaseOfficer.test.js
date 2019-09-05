@@ -72,7 +72,7 @@ describe("editCaseOfficer", () => {
       );
     });
 
-    test("it updates case officer with a different officer", async () => {
+    test("it updates case officer with a different officer and adding officer contact information", async () => {
       const newOfficer = new Officer.Builder()
         .defaultOfficer()
         .withFirstName("Garret")
@@ -86,7 +86,9 @@ describe("editCaseOfficer", () => {
       const createdNewOfficer = await models.officer.create(newOfficer);
       const fieldsToUpdate = {
         officerId: createdNewOfficer.id,
-        roleOnCase: existingCaseOfficerAttributes.roleOnCase
+        roleOnCase: existingCaseOfficerAttributes.roleOnCase,
+        phoneNumber: "8005882300",
+        email: "me@email.com"
       };
 
       const request = httpMocks.createRequest({
@@ -116,6 +118,10 @@ describe("editCaseOfficer", () => {
       expect(updatedCaseOfficer.windowsUsername).toEqual(
         createdNewOfficer.windowsUsername
       );
+      expect(updatedCaseOfficer.phoneNumber).toEqual(
+        fieldsToUpdate.phoneNumber
+      );
+      expect(updatedCaseOfficer.email).toEqual(fieldsToUpdate.email);
     });
 
     test("updates notes and role on case", async () => {
@@ -145,6 +151,38 @@ describe("editCaseOfficer", () => {
       );
       expect(updatedCaseOfficer.notes).toEqual(fieldsToUpdate.notes);
       expect(updatedCaseOfficer.roleOnCase).toEqual(fieldsToUpdate.roleOnCase);
+    });
+
+    test("updates case officer with contact information", async () => {
+      const fieldsToUpdate = {
+        officerId: existingCaseOfficerAttributes.officerId,
+        phoneNumber: "8005882300",
+        email: "notANull@gmail.com",
+        roleOnCase: WITNESS
+      };
+
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        body: fieldsToUpdate,
+        params: {
+          caseId: existingCase.id,
+          caseOfficerId: existingCaseOfficer.id
+        },
+        nickname: "someone"
+      });
+
+      await editCaseOfficer(request, response, next);
+
+      const updatedCaseOfficer = await models.case_officer.findByPk(
+        existingCaseOfficerAttributes.id
+      );
+      expect(updatedCaseOfficer.phoneNumber).toEqual(
+        fieldsToUpdate.phoneNumber
+      );
+      expect(updatedCaseOfficer.email).toEqual(fieldsToUpdate.email);
     });
 
     test("raise error if update fails", async () => {

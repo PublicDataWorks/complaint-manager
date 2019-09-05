@@ -14,7 +14,7 @@ import auditDataAccess from "../../audits/auditDataAccess";
 import canBeAnonymous from "../helpers/canBeAnonymous";
 
 const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
-  const { officerId, notes, roleOnCase } = request.body;
+  const { officerId, notes, roleOnCase, phoneNumber, email } = request.body;
   const isAnonymous = canBeAnonymous(request.body.isAnonymous, roleOnCase);
   const caseOfficerToUpdate = await models.case_officer.findOne({
     where: {
@@ -52,7 +52,15 @@ const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
     if (!officerId) {
       officerAttributes = buildOfficerAttributesForUnknownOfficer();
     } else if (officerId !== caseOfficerToUpdate.officerId) {
-      officerAttributes = await buildOfficerAttributesForNewOfficer(officerId);
+      officerAttributes = await buildOfficerAttributesForNewOfficer(
+        officerId,
+        caseOfficerToUpdate.caseEmployeeType,
+        phoneNumber,
+        email
+      );
+    } else {
+      officerAttributes.phoneNumber = phoneNumber;
+      officerAttributes.email = email;
     }
 
     await caseOfficerToUpdate.update(

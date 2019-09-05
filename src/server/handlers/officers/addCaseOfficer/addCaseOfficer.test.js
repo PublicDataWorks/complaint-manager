@@ -10,7 +10,8 @@ import {
   AUDIT_TYPE,
   CASE_STATUS,
   WITNESS,
-  EMPLOYEE_TYPE
+  EMPLOYEE_TYPE,
+  COMPLAINANT
 } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import ReferralLetter from "../../../../client/testUtilities/ReferralLetter";
@@ -405,6 +406,53 @@ describe("addCaseOfficer", () => {
       .caseEmployeeType;
 
     expect(caseOfficerEmployeeType).toEqual(EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD);
+  });
+
+  test("Should return an officer with phone number and email when given phone number and email", async () => {
+    const officerAttributes = new Officer.Builder()
+      .defaultOfficer()
+      .withFirstName("Brandon")
+      .withId(undefined)
+      .withOfficerNumber(200)
+      .withHireDate("2018-01-12")
+      .build();
+
+    const createdOfficer = await models.officer.create(officerAttributes);
+
+    const request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: existingCase.id
+      },
+      body: {
+        officerId: createdOfficer.id,
+        roleOnCase: COMPLAINANT,
+        caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD,
+        notes: "these are notes",
+        phoneNumber: "8005882300",
+        email: "notAnOfficer@gmail.com"
+      },
+      nickname: "TEST_USER_NICKNAME"
+    });
+
+    await addCaseOfficer(request, response, next);
+
+    const caseOfficerCreated = await models.case_officer.findOne({
+      where: { caseId: existingCase.id }
+    });
+
+    expect(caseOfficerCreated).toEqual(
+      expect.objectContaining({
+        officerId: request.body.officerId,
+        notes: request.body.notes,
+        roleOnCase: request.body.roleOnCase,
+        phoneNumber: request.body.phoneNumber,
+        email: request.body.email
+      })
+    );
   });
 
   describe("auditing", () => {
