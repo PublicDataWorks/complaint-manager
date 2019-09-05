@@ -60,6 +60,14 @@ module.exports = (sequelize, DataTypes) => {
           );
         }
       },
+      phoneNumber: {
+        field: "phone_number",
+        type: DataTypes.STRING(10)
+      },
+      email: {
+        field: "email",
+        type: DataTypes.STRING
+      },
       isUnknownOfficer: {
         type: new DataTypes.VIRTUAL(DataTypes.BOOLEAN, ["officerId"]),
         get: function() {
