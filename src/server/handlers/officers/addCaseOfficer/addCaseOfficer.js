@@ -22,7 +22,9 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
     officerId,
     notes,
     roleOnCase,
-    caseEmployeeType = EMPLOYEE_TYPE.OFFICER
+    caseEmployeeType = EMPLOYEE_TYPE.OFFICER,
+    phoneNumber,
+    email
   } = request.body;
   const isAnonymous = canBeAnonymous(request.body.isAnonymous, roleOnCase);
   const newAuditFeatureToggle = checkFeatureToggleEnabled(
@@ -41,7 +43,9 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
   } else {
     caseOfficerAttributes = await buildOfficerAttributesForNewOfficer(
       officerId,
-      caseEmployeeType
+      caseEmployeeType,
+      phoneNumber,
+      email
     );
   }
 
