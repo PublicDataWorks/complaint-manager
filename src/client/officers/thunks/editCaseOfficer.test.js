@@ -33,7 +33,7 @@ describe("editCaseOfficer thunk", () => {
     const officerId = 200;
     const caseEmployeeType = EMPLOYEE_TYPE.OFFICER;
 
-    const values = { payload: "test edit" };
+    const values = { payload: "test edit", phoneNumber: "8005882300", email: "AVeryGoodBoi@gmail.com" };
     const payload = { ...values, officerId };
 
     const responseBody = { response: "Successful" };

@@ -24,9 +24,12 @@ import {
 import SelectedOfficerDisplay from "./SelectedOfficerDisplay";
 import UnknownOfficerDisplay from "./UnknownOfficerDisplay";
 import _ from "lodash";
+import EmailField from "../../cases/sharedFormComponents/EmailField";
+import PhoneNumberField from "../../cases/sharedFormComponents/PhoneNumberField";
 
 class OfficerDetails extends React.Component {
   onSubmit = (values, dispatch) => {
+    console.log("Values: ", values);
     dispatch(this.props.submitAction(values));
   };
 
@@ -36,13 +39,14 @@ class OfficerDetails extends React.Component {
     });
   };
 
-  shouldShowAnonymousCheckbox = () => {
+  isOfficerComplainantOrWitness = () => {
     const roleOnCase =
       (this.state && this.state.roleOnCase) || this.props.initialRoleOnCase;
-    return (
-      (roleOnCase === COMPLAINANT || roleOnCase === WITNESS) &&
-      this.props.selectedOfficer
-    );
+    return roleOnCase === COMPLAINANT || roleOnCase === WITNESS;
+  };
+
+  shouldShowAnonymousCheckbox = () => {
+    return this.isOfficerComplainantOrWitness() && this.props.selectedOfficer;
   };
 
   render() {
@@ -101,6 +105,19 @@ class OfficerDetails extends React.Component {
                   />
                 )}
               </div>
+              {this.isOfficerComplainantOrWitness() && this.props.contactInformationFeature ? (
+                <div>
+                  <Typography style={styles.section}>
+                    Contact Information
+                  </Typography>
+                  <br />
+                  <div style={{ display: "flex" }}>
+                    <PhoneNumberField name="phoneNumber" />
+                    <span style={{ marginRight: "5%" }} />
+                    <EmailField name="email" autoComplete="disabled" />
+                  </div>
+                </div>
+              ) : null}
               <Typography style={styles.section}>Notes</Typography>
               <Typography variant="body1">
                 {additionalInformationText}
@@ -108,6 +125,7 @@ class OfficerDetails extends React.Component {
               <Field
                 component={TextField}
                 name="notes"
+                data-test="notesField"
                 multiline
                 style={{ width: "60%" }}
               />

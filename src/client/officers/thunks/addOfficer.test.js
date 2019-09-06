@@ -31,7 +31,9 @@ describe("addOfficer", () => {
     const defaultCase = new Case.Builder().defaultCase().withId(14);
     const formValues = {
       roleOnCase: ACCUSED,
-      notes: "Some very very very important notes"
+      notes: "Some very very very important notes",
+      phoneNumber: "8005882300",
+      email: "AVeryGoodBoi@gmail.com"
     };
     const payload = {
       officerId: officer.id,

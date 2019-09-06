@@ -30,7 +30,9 @@ const OfficerActions = ({ caseOfficer, dispatch }) => (
             notes: caseOfficer.notes,
             roleOnCase: caseOfficer.roleOnCase,
             officerId: caseOfficer.officerId,
-            isAnonymous: caseOfficer.isAnonymous
+            isAnonymous: caseOfficer.isAnonymous,
+            phoneNumber: caseOfficer.phoneNumber,
+            email: caseOfficer.email
           })
         );
         dispatch(

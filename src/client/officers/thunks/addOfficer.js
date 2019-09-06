@@ -21,7 +21,6 @@ const addOfficer = (
   values
 ) => async dispatch => {
   const payload = { officerId, caseEmployeeType, ...values };
-
   const isCivilianWithinNopd =
     caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
   const caseEmployeeTitle = isCivilianWithinNopd

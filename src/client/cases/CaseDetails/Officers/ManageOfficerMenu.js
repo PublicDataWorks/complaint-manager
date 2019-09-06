@@ -78,7 +78,9 @@ class ManageOfficerMenu extends React.Component {
                 initialize(OFFICER_DETAILS_FORM_NAME, {
                   notes: caseOfficer.notes,
                   roleOnCase: caseOfficer.roleOnCase,
-                  officerId: caseOfficer.officerId
+                  officerId: caseOfficer.officerId,
+                  phoneNumber: caseOfficer.phoneNumber,
+                  email: caseOfficer.email
                 })
               );
               this.props.dispatch(

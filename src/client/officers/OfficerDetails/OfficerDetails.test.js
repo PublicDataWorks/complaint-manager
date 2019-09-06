@@ -62,6 +62,12 @@ describe("OfficerDetails", () => {
         mockSearchUrl
       );
     });
+    test("should not show contact information fields if officer is an accused", () => {
+      expect(
+        wrapper.find('[data-test="phoneNumberField"]').exists()
+      ).toBeFalse();
+      expect(wrapper.find('[data-test="emailField"]').exists()).toBeFalse();
+    });
   });
 
   describe("OfficerDetails when there is an unknown officer selected", () => {
@@ -98,6 +104,11 @@ describe("OfficerDetails", () => {
         mockSearchUrl
       );
     });
+    test("should show contact information fields if officer is a Unknown and not accused", () => {
+      expect(
+        wrapper.find('[data-test="phoneNumberField"]')).toBeTruthy();
+      expect(wrapper.find('[data-test="emailField"]')).toBeTruthy();
+    });
   });
 
   describe("OfficerDetails when selectedOfficer is a COMPLAINANT", () => {
@@ -120,7 +131,14 @@ describe("OfficerDetails", () => {
     );
 
     test("should show the Anonymous checkbox", () => {
-      expect(wrapper.find('[data-test="isOfficerAnonymous"]')).toBeTruthy();
+      expect(
+        wrapper.find('[data-test="isOfficerAnonymous"]')).toBeTruthy();
+    });
+
+    test("should show contact information fields if officer is a complainant", () => {
+      expect(
+        wrapper.find('[data-test="phoneNumberField"]')).toBeTruthy();
+      expect(wrapper.find('[data-test="emailField"]')).toBeTruthy();
     });
   });
 
@@ -145,6 +163,11 @@ describe("OfficerDetails", () => {
 
     test("should show the Anonymous checkbox", () => {
       expect(wrapper.find('[data-test="isOfficerAnonymous"]')).toBeTruthy();
+    });
+    test("should show contact information fields if officer is a witness", () => {
+      expect(
+        wrapper.find('[data-test="phoneNumberField"]')).toBeTruthy();
+      expect(wrapper.find('[data-test="emailField"]')).toBeTruthy();
     });
   });
 });
