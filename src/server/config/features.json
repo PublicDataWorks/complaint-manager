@@ -41,6 +41,13 @@
     "description": "Contact information feature",
     "criteria": {
       "isPreProd": true
+    }},
+  {
+    "id": "disciplinaryProceedingsFeature",
+    "name": "disciplinaryProceedingsFeature",
+    "description": "Disciplinary Proceedings feature",
+    "criteria": {
+      "isPreProd": true
     }
   }
 ]
