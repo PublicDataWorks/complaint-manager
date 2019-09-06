@@ -39,7 +39,8 @@ export class OfficerDetailsContainer extends Component {
       initialRoleOnCase,
       caseReference,
       dispatch,
-      caseEmployeeType
+      caseEmployeeType,
+      contactInformationFeature
     } = this.props;
 
     const clearOfficersAndEmployeeTypeAction = () => {
@@ -80,6 +81,7 @@ export class OfficerDetailsContainer extends Component {
             initialRoleOnCase={initialRoleOnCase}
             caseEmployeeTitle={caseEmployeeTitle}
             caseEmployeeType={caseEmployeeType}
+            contactInformationFeature={contactInformationFeature}
           />
         </div>
       </div>
@@ -98,7 +100,8 @@ const mapStateToProps = state => {
     selectedOfficerData: state.officers.searchOfficers.selectedOfficerData,
     officerCurrentlySelected:
       state.officers.searchOfficers.officerCurrentlySelected,
-    cnComplaintTypeFeature: state.featureToggles.cnComplaintTypeFeature
+    cnComplaintTypeFeature: state.featureToggles.cnComplaintTypeFeature,
+    contactInformationFeature: state.contactInformationFeature
   };
 };
 

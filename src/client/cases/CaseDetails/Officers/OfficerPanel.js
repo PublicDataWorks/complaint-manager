@@ -25,8 +25,9 @@ import {
 import DateOfBirthAgeInfoDisplay from "../../../shared/components/DateOfBirthAgeInfoDisplay";
 import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
+import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
 
-const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
+const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children, contactInformationFeature }) => {
   const isCivilianWithinNopd =
     caseOfficer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
   const caseEmployeeTitle = isCivilianWithinNopd
@@ -37,6 +38,7 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
     /\s/g,
     ""
   )}Panel`;
+  const phoneNumber = formatPhoneNumber(caseOfficer.phoneNumber);
 
   return (
     <div>
@@ -160,6 +162,25 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
               />
             </StyledInfoDisplay>
           </StyledExpansionPanelDetails>
+          {caseOfficer && caseOfficer.roleOnCase !== ACCUSED && contactInformationFeature && (
+          <StyledExpansionPanelDetails>
+            <StyledInfoDisplay>
+              <OfficerInfoDisplay
+                displayLabel="Phone Number"
+                value={phoneNumber}
+                testLabel="phoneNumber"
+              />
+            </StyledInfoDisplay>
+            <StyledInfoDisplay>
+              <OfficerInfoDisplay
+                displayLabel="Email"
+                value={caseOfficer.email}
+                testLabel="email"
+              />
+            </StyledInfoDisplay>
+            <StyledInfoDisplay />
+          </StyledExpansionPanelDetails>
+          )}
           <StyledExpansionPanelDetails>
             <StyledInfoDisplay>
               <OfficerInfoDisplay

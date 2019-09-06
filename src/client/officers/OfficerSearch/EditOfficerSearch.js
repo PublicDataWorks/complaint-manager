@@ -44,7 +44,9 @@ class EditOfficerSearch extends React.Component {
     const initializeCaseDetails = initialize(OFFICER_DETAILS_FORM_NAME, {
       notes: currentCaseOfficer.notes,
       roleOnCase: currentCaseOfficer.roleOnCase,
-      officerId: currentCaseOfficer.officerId
+      officerId: currentCaseOfficer.officerId,
+      phoneNumber: currentCaseOfficer.phoneNumber,
+      email: currentCaseOfficer.email
     });
 
     return (

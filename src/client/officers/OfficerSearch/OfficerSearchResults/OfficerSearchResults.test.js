@@ -4,7 +4,6 @@ import ConnectedOfficerSearchResults from "./OfficerSearchResults";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { Provider } from "react-redux";
-import { searchOfficersSuccess } from "../../../actionCreators/officersActionCreators";
 import { BrowserRouter as Router } from "react-router-dom";
 import { searchSuccess } from "../../../actionCreators/searchActionCreators";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
@@ -40,7 +39,7 @@ describe("OfficerSearchResults", () => {
         <Router>
           <ConnectedOfficerSearchResults
             caseId={1}
-            caseOfficerId={"34"}
+            caseOfficerIds={"34"}
             spinnerVisible={false}
             classes={{}}
             path={"/some/path"}
