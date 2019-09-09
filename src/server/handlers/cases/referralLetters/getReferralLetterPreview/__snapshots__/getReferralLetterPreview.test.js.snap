@@ -237,6 +237,8 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
         <p>Race: Black</p>
         <p>Sex: M</p>
         <p>Date of Birth: 02/23/1986</p>
+        <p>Phone: (800) 588-2300</p>
+        <p>Email: empire@gmail.com</p>
         <p>Supervisor (Employee ID): Belly G Walsh (#14)</p>
         <p>Employee Type: Commissioned</p>
         <p>District: First District</p>
@@ -381,6 +383,8 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
         <p>Race: Black</p>
         <p>Sex: M</p>
         <p>Date of Birth: 02/23/1986</p>
+        <p>Phone: (800) 588-2300</p>
+        <p>Email: empire@gmail.com</p>
         <p>Supervisor (Employee ID): Belly G Walsh (#14)</p>
         <p>Employee Type: Commissioned</p>
         <p>District: First District</p>
