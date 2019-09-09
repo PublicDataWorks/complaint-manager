@@ -350,6 +350,32 @@ describe("caseDetailDataHelpers", function() {
       );
     });
 
+    test("returns correct complainant data when single civilian within NOPD", () => {
+      const caseDetail = {
+        complainantCivilians: [],
+        complainantOfficers: [
+          {
+            isUnknownOfficer: false,
+            fullName: "complainant joe",
+            windowsUsername: 12345,
+            district: "some district",
+            caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+          }
+        ]
+      };
+
+      const complainantData = getComplainantData(caseDetail);
+
+      expect(complainantData).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            "Civilian (NOPD) Name": "complainant joe",
+            ID: "#12345",
+            District: "some district"
+          })
+        ])
+      );
+    });
     test("returns correct complainant data when multiple civilians, known and unknown officers", () => {
       const birthDate = "1990-09-09";
       const birthDate2 = "1991-09-09";
@@ -548,7 +574,8 @@ describe("caseDetailDataHelpers", function() {
               isUnknownOfficer: false,
               fullName: "witness officer joe",
               windowsUsername: 12345,
-              district: "some district"
+              district: "some district",
+              caseEmployeeType: EMPLOYEE_TYPE.OFFICER
             }
           ]
         };
@@ -559,6 +586,33 @@ describe("caseDetailDataHelpers", function() {
           expect.arrayContaining([
             expect.objectContaining({
               "Officer Name": "witness officer joe",
+              ID: "#12345",
+              District: "some district"
+            })
+          ])
+        );
+      });
+
+      test("returns correct witness data when single civilian within NOPD", () => {
+        const caseDetail = {
+          witnessCivilians: [],
+          witnessOfficers: [
+            {
+              isUnknownOfficer: false,
+              fullName: "witness joe",
+              windowsUsername: 12345,
+              district: "some district",
+              caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+            }
+          ]
+        };
+
+        const witnessData = getWitnessData(caseDetail);
+
+        expect(witnessData).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              "Civilian (NOPD) Name": "witness joe",
               ID: "#12345",
               District: "some district"
             })
