@@ -11,9 +11,9 @@ const navBarCommands = {
     return this.click("@menuButton");
   },
   clickLogout: function() {
-    return this.waitForElementVisible("@logoutButton", e2e.rerenderWait).click(
-      "@logoutButton"
-    );
+    return this.waitForElementVisible("@logoutButton", e2e.rerenderWait)
+      .moveToElement("@logoutButton", undefined, undefined)
+      .click("@logoutButton");
   }
 };
 
