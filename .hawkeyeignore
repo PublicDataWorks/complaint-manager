@@ -23,6 +23,3 @@ files-contents-src/server/tasks/task_config.js-1
 node-yarnaudit-braces-786
 node-yarnaudit-js-yaml-788
 node-yarnaudit-js-yaml-813
-
-#Quill is vulnerable to reverse tabnabbing. There is no fix for it at the moment, but Katie Larson will be notified once a fix is pushed to the package.
-node-yarnaudit-quill-1039
