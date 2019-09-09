@@ -43,7 +43,9 @@ const officerCommands = {
     return this.waitForElementVisible(
       "@manageAllegationsButton",
       e2e.rerenderWait
-    ).click("@manageAllegationsButton");
+    )
+      .moveToElement("@manageAllegationsButton", undefined, undefined)
+      .click("@manageAllegationsButton");
   },
   addWitnessCivilianWithinNopd: function() {
     this.waitForElementVisible("@addWitnessMenu", e2e.rerenderWait).click(
