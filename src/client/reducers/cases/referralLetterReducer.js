@@ -4,6 +4,8 @@ import {
   GET_REFERRAL_LETTER_EDIT_STATUS_SUCCESS,
   GET_REFERRAL_LETTER_SUCCESS
 } from "../../../sharedUtilities/constants";
+import { disassembleAddressRecipient 
+} from "../../../client/utilities/fabricateAddressRecipient";
 
 const initialState = {
   letterPdf: null,
@@ -23,7 +25,7 @@ const referralLetterReducer = (state = initialState, action) => {
       return {
         ...state,
         letterHtml: action.letterHtml,
-        addresses: action.addresses,
+        addresses: {...action.addresses, recipient_field: disassembleAddressRecipient(action.addresses.recipient)},
         editStatus: action.editStatus,
         lastEdited: action.lastEdited,
         finalFilename: action.finalFilename,

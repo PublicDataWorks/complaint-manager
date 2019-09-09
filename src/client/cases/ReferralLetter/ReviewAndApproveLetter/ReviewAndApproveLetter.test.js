@@ -74,7 +74,15 @@ describe("ReviewAndApproveLetter", () => {
   test("should display today's date when letter is generated", () => {
     const displayDate = wrapper.find('[data-test="edit-history"]').first();
     const letterHtml = "<p>html</p>";
-    const addresses = "<p>addresses</p>";
+    const addresses = {
+      recipient: "name\naddress",
+      recipient_field: {
+        address: "address",
+        name: "name",
+      },
+      sender: "some sender",
+      transcribedBy: "transcriber"
+    };
     store.dispatch(
       getReferralLetterPreviewSuccess(
         letterHtml,
@@ -90,7 +98,15 @@ describe("ReviewAndApproveLetter", () => {
 
   test("should show approve button when in ready for review status", async () => {
     const letterHtml = "<p>html</p>";
-    const addresses = "<p>addresses</p>";
+    const addresses = {
+      recipient: "name\naddress",
+      recipient_field: {
+        address: "address",
+        name: "name",
+      },
+      sender: "some sender",
+      transcribedBy: "transcriber"
+    };
     const inputDate = "2018-11-20T21:59:40.707Z";
     store.dispatch(
       getCaseDetailsSuccess({
@@ -117,7 +133,15 @@ describe("ReviewAndApproveLetter", () => {
 
   test("should display last edit history date when in ready for review status", async () => {
     const letterHtml = "<p>html</p>";
-    const addresses = "<p>addresses</p>";
+    const addresses = {
+      recipient: "name\naddress",
+      recipient_field: {
+        address: "address",
+        name: "name",
+      },
+      sender: "some sender",
+      transcribedBy: "transcriber"
+    };
     const inputDate = "2018-11-20T21:59:40.707Z";
     store.dispatch(
       getCaseDetailsSuccess({

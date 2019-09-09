@@ -1,6 +1,7 @@
 import { push } from "connected-react-router";
 import axios from "axios/index";
 import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
+import { assembleAddressRecipient } from "../../../utilities/fabricateAddressRecipient";
 
 const editReferralLetterAddresses = (
   caseId,
@@ -10,6 +11,7 @@ const editReferralLetterAddresses = (
   alternativeFailureCallback
 ) => async dispatch => {
   try {
+    addressData.recipient = assembleAddressRecipient(addressData.recipient_field);
     await axios.put(
       `api/cases/${caseId}/referral-letter/addresses`,
       addressData
