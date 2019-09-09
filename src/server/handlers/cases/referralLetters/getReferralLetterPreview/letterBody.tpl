@@ -75,9 +75,6 @@
       {{#if (isPresent sex)}}
         <p>Sex: {{sex}}</p>
       {{/if}}
-      {{#if (isPresent dob)}}
-        <p>Date of Birth: {{{formatShortDate dob}}}</p>
-      {{/if}}
       {{#if (isPresent phoneNumber)}}
         <p>Phone: {{{formatPhoneNumber phoneNumber}}}</p>
       {{/if}}
@@ -122,9 +119,6 @@
     {{/if}}
     {{#if (isPresent sex)}}
       <p>Sex: {{sex}}</p>
-    {{/if}}
-    {{#if (isPresent dob)}}
-      <p>Date of Birth: {{{formatShortDate dob}}}</p>
     {{/if}}
     {{#if (isPresent supervisorFullName)}}
       <p>Supervisor (Employee ID): {{supervisorFullName}} (#{{supervisorWindowsUsername}})</p>
@@ -195,9 +189,6 @@
       {{/if}}
       {{#if (isPresent sex)}}
         <p>Sex: {{sex}}</p>
-      {{/if}}
-      {{#if (isPresent dob)}}
-        <p>Date of Birth: {{{formatShortDate dob}}}</p>
       {{/if}}
       {{#if (isPresent phoneNumber)}}
         <p>Phone: {{{formatPhoneNumber phoneNumber}}}</p>
