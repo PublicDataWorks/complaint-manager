@@ -30,7 +30,7 @@ if (TEST_PASS && TEST_USER && HOST) {
     },
 
     "should create case": browser => {
-      // browser.resizeWindow(1366, 768);
+      browser.resizeWindow(1366, 768);
       const caseDashboardPage = browser.page.CaseDashboard();
       const snackbar = browser.page.SnackbarPOM();
 

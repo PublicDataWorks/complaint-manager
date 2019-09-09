@@ -5,24 +5,11 @@ import history from "./history";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import customTheme from "./globalStyling/muiTheme";
 import { Paper } from "@material-ui/core";
-import { connect } from "react-redux";
-import { userAuthSuccess } from "./auth/actionCreators";
-import getAccessToken from "./auth/getAccessToken";
-import Auth from "./auth/Auth";
 import ScrollToTop from "./ScrollToTop";
 import SharedSnackbarContainer from "./shared/components/SharedSnackbarContainer";
-import getFeatureToggles from "./featureToggles/thunks/getFeatureToggles";
 import AppRouter from "./AppRouter";
 
-class App extends Component {
-  componentDidMount() {
-    const accessToken = getAccessToken();
-    if (accessToken) {
-      const auth = new Auth();
-      auth.setUserInfoInStore(accessToken, this.props.userAuthSuccess);
-    }
-  }
-
+export default class App extends Component {
   render() {
     return (
       <ConnectedRouter history={history}>
@@ -41,13 +28,3 @@ class App extends Component {
     );
   }
 }
-
-const mapDispatchToProps = {
-  userAuthSuccess,
-  getFeatureToggles
-};
-
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(App);

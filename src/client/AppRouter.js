@@ -6,10 +6,19 @@ import disciplinaryProceedingsRoutes from "./disciplinaryProceedingsRoutes";
 import { connect } from "react-redux";
 import getFeatureToggles from "./featureToggles/thunks/getFeatureToggles";
 import { Route, Switch } from "react-router";
+import getAccessToken from "./auth/getAccessToken";
+import Auth from "./auth/Auth";
+import { userAuthSuccess } from "./auth/actionCreators";
 
 class AppRouter extends Component {
   componentDidMount() {
-    this.props.getFeatureToggles();
+    const accessToken = getAccessToken();
+    if (accessToken) {
+      const auth = new Auth();
+      auth.setUserInfoInStore(accessToken, this.props.userAuthSuccess);
+      console.log("Auth trial");
+      this.props.getFeatureToggles();
+    }
   }
 
   render() {
@@ -60,6 +69,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  userAuthSuccess,
   getFeatureToggles
 };
 
