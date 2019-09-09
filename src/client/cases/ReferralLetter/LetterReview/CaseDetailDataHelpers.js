@@ -66,12 +66,18 @@ export const getComplainantData = caseDetail => {
     complainant => {
       if (complainant.isUnknownOfficer) {
         return { "Officer Name": "Unknown" };
-      } else
-        return {
-          "Officer Name": complainant.fullName,
+      } else {
+        const nameTitle =
+          complainant.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+            ? "Civilian (NOPD) Name"
+            : "Officer Name";
+        const complainantData = {
+          [nameTitle]: complainant.fullName,
           ID: `#${complainant.windowsUsername}`,
           District: complainant.district
         };
+        return complainantData;
+      }
     }
   );
 
@@ -92,11 +98,16 @@ export const getWitnessData = caseDetail => {
     if (witness.isUnknownOfficer) {
       return { "Officer Name": "Unknown" };
     } else {
-      return {
-        "Officer Name": witness.fullName,
+      const nameTitle =
+        witness.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+          ? "Civilian (NOPD) Name"
+          : "Officer Name";
+      const witnessData = {
+        [nameTitle]: witness.fullName,
         ID: `#${witness.windowsUsername}`,
         District: witness.district
       };
+      return witnessData;
     }
   });
 
