@@ -105,7 +105,8 @@ class OfficerDetails extends React.Component {
                   />
                 )}
               </div>
-              {this.isOfficerComplainantOrWitness() && this.props.contactInformationFeature ? (
+              {this.isOfficerComplainantOrWitness() &&
+              this.props.contactInformationFeature ? (
                 <div>
                   <Typography style={styles.section}>
                     Contact Information

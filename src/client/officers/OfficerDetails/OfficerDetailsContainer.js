@@ -101,7 +101,7 @@ const mapStateToProps = state => {
     officerCurrentlySelected:
       state.officers.searchOfficers.officerCurrentlySelected,
     cnComplaintTypeFeature: state.featureToggles.cnComplaintTypeFeature,
-    contactInformationFeature: state.contactInformationFeature
+    contactInformationFeature: state.featureToggles.contactInformationFeature
   };
 };
 

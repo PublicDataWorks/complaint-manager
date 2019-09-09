@@ -53,6 +53,8 @@ class CaseOfficer {
         this.race = "Black";
         this.sex = "M";
         this.dob = "1986-02-23";
+        this.phoneNumber = "8005882300";
+        this.email = "empire@gmail.com";
         this.bureau = "MSB - Management Service Bureau";
         this.district = "First District";
         this.workStatus = "Retired";
@@ -203,6 +205,16 @@ class CaseOfficer {
 
       withCaseEmployeeType(caseEmployeeType) {
         this.caseEmployeeType = caseEmployeeType;
+        return this;
+      }
+
+      withPhoneNumber(phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        return this;
+      }
+
+      withEmail(email) {
+        this.email = email;
         return this;
       }
 
