@@ -24,11 +24,17 @@ describe("NavBar", () => {
     );
   });
 
-  test("should contain a home icon button", () => {
+  test("should contain a home icon button when isHome is true", () => {
     const homeButton = wrapper.find('[data-test="homeButton"]').last();
 
     homeButton.simulate("click");
     expect(homeButton.prop("href")).toEqual("/");
+  });
+
+  test("should not contain a home icon button when isHome is false", () => {
+    wrapper.setProps({ children: <NavBar isHome={false} /> });
+    wrapper.update();
+    expect(wrapper.find('[data-test="homeButton"]').exists()).toBeFalse();
   });
 
   test("should display default nickname", () => {
@@ -79,5 +85,11 @@ describe("NavBar", () => {
         .last();
       expect(exportAuditLogMenuItem.exists()).toBeTruthy();
     });
+
+    // test("should show Complaints in menu when disciplinary proceedings is true", () => {
+    //     wrapper.setProps({ children: <NavBar disciplinaryProceedings={true} /> });
+    //     wrapper.update();
+    //     expect(wrapper.find(NavBar).find('[data-test="complaints"]').exists()).toBeFalse();
+    // });
   });
 });
