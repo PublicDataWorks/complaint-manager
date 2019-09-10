@@ -49,5 +49,13 @@
     "criteria": {
       "isPreProd": true
     }
+  },
+  {
+    "id": "preProdFeature",
+    "name": "preProdFeature",
+    "description": "PreProd feature",
+    "criteria": {
+      "isPreProd": true
+    }
   }
 ]

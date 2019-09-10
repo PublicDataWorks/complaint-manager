@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import Settings from "@material-ui/icons/SettingsSharp";
 import {
@@ -21,7 +21,7 @@ const styles = {
   }
 };
 
-class NavBar extends React.Component {
+class NavBar extends Component {
   state = {
     menuOpen: false,
     anchorEl: null,
@@ -43,7 +43,7 @@ class NavBar extends React.Component {
   };
 
   render() {
-    const { isHome, nickname, children } = this.props;
+    const { isHome, nickname, children, disciplinaryProceedings } = this.props;
     const appBarStyle = isHome ? styles.appBarStyle : this.props.customStyle;
     return (
       <AppBar position="static" style={appBarStyle}>
@@ -93,16 +93,29 @@ class NavBar extends React.Component {
             >
               Export
             </MenuItem>
-            <MenuItem
-              data-test="archivedCases"
-              component={Link}
-              onClick={() => {
-                this.handleMenuClose();
-              }}
-              to={"/archived-cases"}
-            >
-              Archived Cases
-            </MenuItem>
+            {disciplinaryProceedings ? (
+              <MenuItem
+                data-test="complaints"
+                component={Link}
+                onClick={() => {
+                  this.handleMenuClose();
+                }}
+                to={"/"}
+              >
+                Complaints
+              </MenuItem>
+            ) : (
+              <MenuItem
+                data-test="archivedCases"
+                component={Link}
+                onClick={() => {
+                  this.handleMenuClose();
+                }}
+                to={"/archived-cases"}
+              >
+                Archived Cases
+              </MenuItem>
+            )}
             <MenuItem data-test="logOutButton" onClick={handleLogout}>
               Log Out
             </MenuItem>
@@ -115,7 +128,8 @@ class NavBar extends React.Component {
 }
 
 NavBar.defaultProps = {
-  isHome: true
+  isHome: true,
+  disciplinaryProceedings: false
 };
 
 const mapStateToProps = state => ({

@@ -6,7 +6,7 @@ export class MemoList extends Component {
   render() {
     return (
       <div>
-        <NavBar>
+        <NavBar isHome={false} disciplinaryProceedings={true}>
           <Typography data-test="pageTitle" variant="title" color="inherit">
             All Disciplinary Proceedings
           </Typography>
