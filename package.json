@@ -31,7 +31,8 @@
     "test:once": "run-p -c test:server:worker:ci test:client:ci",
     "test:debug": "NODE_ENV=test yarn setup:test:db && CI=true && react-scripts --max_old_space_size=1024 --inspect-brk=0.0.0.0 test src/server --logHeapUsage --runInBand --env=node",
     "eject": "react-scripts eject",
-    "transformOfficerCsvData": "node -e \"require('./scripts/transformOfficerCsvData')\""
+    "transformOfficerCsvData": "node -e \"require('./scripts/transformOfficerCsvData')\"",
+    "normalizeSexAndRaceValues": "node -e \"require('./scripts/normalizeSexAndRaceValuesFromTransformedFile.js')\""
   },
   "jest": {
     "snapshotSerializers": [
