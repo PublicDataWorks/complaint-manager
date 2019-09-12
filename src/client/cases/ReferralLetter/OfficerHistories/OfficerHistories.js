@@ -23,6 +23,7 @@ import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterSta
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 import { push } from "connected-react-router";
+import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
 
 class OfficerHistories extends Component {
   constructor(props) {
@@ -169,10 +170,8 @@ class OfficerHistories extends Component {
 
     return (
       <div>
-        <NavBar>
-          <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${this.props.caseReference}   : Letter Generation`}
-          </Typography>
+        <NavBar menuType={complaintManagerMenuOptions}>
+          {`Case #${this.props.caseReference}   : Letter Generation`}
         </NavBar>
 
         <form>

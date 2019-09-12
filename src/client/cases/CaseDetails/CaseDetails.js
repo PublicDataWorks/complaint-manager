@@ -40,6 +40,7 @@ import LetterStatusMessage, {
 import getReferralLetterEditStatus from "../ReferralLetter/thunks/getReferralLetterEditStatus";
 import { scrollToTop } from "../../ScrollToTop";
 import { reset } from "redux-form";
+import { complaintManagerMenuOptions } from "../../shared/components/NavBar/complaintManagerMenuOptions";
 
 const drawerWidthPercentage = "30%";
 
@@ -134,22 +135,23 @@ class CaseDetails extends React.Component {
     return (
       <div className={classes.root} data-test="case-details-page">
         <div className={classes.appFrame}>
-          <NavBar isHome={false} customStyle={appBar}>
-            <Typography
-              data-test="pageTitle"
-              variant="title"
-              color="inherit"
-              style={{ marginRight: "20px" }}
-            >
+          <NavBar
+            menuType={complaintManagerMenuOptions}
+            showHome={false}
+            customStyle={appBar}
+          >
+            <div className={classes.caseReference}>
               {`Case #${this.props.caseDetails.caseReference}`}
-            </Typography>
+            </div>
             <Typography
               data-test="caseStatusBox"
               variant="caption"
               color="inherit"
-              className={
-                statusIsClosed ? classes.closedStatusBox : classes.statusBox
-              }
+              className={`${classes.statusBox} ${
+                statusIsClosed
+                  ? classes.closedStatusBox
+                  : classes.activeStatusBox
+              }`}
             >
               {status}
             </Typography>

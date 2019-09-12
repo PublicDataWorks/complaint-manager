@@ -20,6 +20,7 @@ import { openCancelEditLetterConfirmationDialog } from "../../../actionCreators/
 import CancelEditLetterConfirmationDialog from "./CancelEditLetterConfirmationDialog";
 import editReferralLetterContent from "../thunks/editReferralLetterContent";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
+import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
 
 const RichTextEditorComponent = props => {
   return (
@@ -111,10 +112,8 @@ export class EditLetter extends Component {
 
     return (
       <div>
-        <NavBar>
-          <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${this.props.caseReference}   : Letter Generation`}
-          </Typography>
+        <NavBar menuType={complaintManagerMenuOptions}>
+          {`Case #${this.props.caseReference}   : Letter Generation`}
         </NavBar>
 
         <LinkButton

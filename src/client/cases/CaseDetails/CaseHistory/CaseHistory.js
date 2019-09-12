@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import NavBar from "../../../shared/components/NavBar/NavBar";
-import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LinkButton from "../../../shared/components/LinkButton";
 import CaseHistoryTable from "./CaseHistoryTable";
@@ -8,6 +7,7 @@ import getCaseHistory from "../../thunks/getCaseHistory";
 import { connect } from "react-redux";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 import _ from "lodash";
+import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
 
 export class CaseHistory extends Component {
   componentDidMount() {
@@ -31,17 +31,8 @@ export class CaseHistory extends Component {
     const caseId = this.props.match.params.id;
     return (
       <div>
-        <NavBar>
-          <Typography
-            data-test="pageTitle"
-            variant="title"
-            color="inherit"
-            style={{ marginRight: "20px" }}
-          >
-            {`Case #${
-              this.props.currentCase.details.caseReference
-            } : Case History`}
-          </Typography>
+        <NavBar menuType={complaintManagerMenuOptions}>
+          {`Case #${this.props.currentCase.details.caseReference} : Case History`}
         </NavBar>
         <LinkButton
           data-test="back-to-case-link"

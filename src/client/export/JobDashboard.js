@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import NavBar from "../shared/components/NavBar/NavBar";
-import { Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { closeSnackbar } from "../actionCreators/snackBarActionCreators";
 import AllExports from "./AllExports";
+import { complaintManagerMenuOptions } from "../shared/components/NavBar/complaintManagerMenuOptions";
 
 class JobDashboard extends Component {
   componentDidMount() {
@@ -13,11 +13,7 @@ class JobDashboard extends Component {
   render() {
     return (
       <div>
-        <NavBar>
-          <Typography data-test="pageTitle" variant="title" color="inherit">
-            Data Export
-          </Typography>
-        </NavBar>
+        <NavBar menuType={complaintManagerMenuOptions}>Data Export</NavBar>
         <AllExports />
       </div>
     );

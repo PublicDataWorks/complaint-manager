@@ -26,6 +26,7 @@ import { push } from "connected-react-router";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterStatusMessage";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
+import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
 
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {
@@ -89,10 +90,8 @@ export class LetterReview extends Component {
 
     return (
       <div>
-        <NavBar>
-          <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${this.props.caseDetails.caseReference}   : Letter Generation`}
-          </Typography>
+        <NavBar menuType={complaintManagerMenuOptions}>
+          {`Case #${this.props.caseDetails.caseReference}   : Letter Generation`}
         </NavBar>
 
         <LinkButton

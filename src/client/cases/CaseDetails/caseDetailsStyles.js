@@ -71,17 +71,23 @@ const styles = theme => ({
       marginTop: 64
     }
   },
-  closedStatusBox: {
-    backgroundColor: theme.palette.secondary.main,
-    padding: "6px 15px 4px 15px",
-    borderRadius: "4px",
-    margin: "0%"
+  caseReference: {
+    display: "inline",
+    verticalAlign: "middle"
   },
   statusBox: {
-    backgroundColor: theme.palette.green,
     padding: "6px 15px 4px 15px",
     borderRadius: "4px",
-    margin: "0%"
+    margin: "0%",
+    marginBottom: "1%",
+    marginLeft: "20px",
+    display: "inline-block"
+  },
+  activeStatusBox: {
+    backgroundColor: theme.palette.green
+  },
+  closedStatusBox: {
+    backgroundColor: theme.palette.secondary.main
   }
 });
 

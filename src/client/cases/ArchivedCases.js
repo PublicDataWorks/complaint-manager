@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import CasesTable from "./CasesTable/CasesTable";
 import NavBar from "../shared/components/NavBar/NavBar";
-import { Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { closeSnackbar } from "../actionCreators/snackBarActionCreators";
 import { resetArchivedCasesLoaded } from "../actionCreators/casesActionCreators";
+import { complaintManagerMenuOptions } from "../shared/components/NavBar/complaintManagerMenuOptions";
 
 class ArchivedCases extends Component {
   componentWillUnmount() {
@@ -14,10 +14,8 @@ class ArchivedCases extends Component {
   render() {
     return (
       <div>
-        <NavBar>
-          <Typography data-test="pageTitle" variant="title" color="inherit">
-            View Archived Cases
-          </Typography>
+        <NavBar menuType={complaintManagerMenuOptions}>
+          View Archived Cases
         </NavBar>
         <CasesTable archived={true} currentPage={this.props.currentPage} />
       </div>

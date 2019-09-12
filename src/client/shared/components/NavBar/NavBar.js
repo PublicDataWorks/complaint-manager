@@ -5,14 +5,13 @@ import {
   AppBar,
   IconButton,
   Menu,
-  MenuItem,
   Toolbar,
   Typography
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ExportConfirmationDialog from "../../../export/ExportConfirmationDialog";
-import handleLogout from "../../../users/thunks/handleLogout";
+import MenuNavigator from "./MenuNavigator";
 
 const styles = {
   appBarStyle: {
@@ -43,12 +42,13 @@ class NavBar extends Component {
   };
 
   render() {
-    const { isHome, nickname, children, disciplinaryProceedings } = this.props;
-    const appBarStyle = isHome ? styles.appBarStyle : this.props.customStyle;
+    const { showHome, nickname, children, menuType, dataTest } = this.props;
+    const appBarStyle = showHome ? styles.appBarStyle : this.props.customStyle;
+    const dataTestTitle = dataTest ? dataTest : "pageTitle";
     return (
       <AppBar position="static" style={appBarStyle}>
         <Toolbar>
-          {isHome ? (
+          {showHome ? (
             <IconButton
               color="inherit"
               component={Link}
@@ -60,8 +60,9 @@ class NavBar extends Component {
           ) : (
             ""
           )}
-
-          {children}
+          <Typography data-test={dataTestTitle} variant="title" color="inherit">
+            {children}
+          </Typography>
 
           <div style={{ flex: 1, flexDirection: "row-reverse" }} />
 
@@ -83,42 +84,10 @@ class NavBar extends Component {
             anchorEl={this.state.anchorEl}
             onClose={this.handleMenuClose}
           >
-            <MenuItem
-              data-test="exports"
-              onClick={() => {
-                this.handleMenuClose();
-              }}
-              component={Link}
-              to="/export/all"
-            >
-              Export
-            </MenuItem>
-            {disciplinaryProceedings ? (
-              <MenuItem
-                data-test="complaints"
-                component={Link}
-                onClick={() => {
-                  this.handleMenuClose();
-                }}
-                to={"/"}
-              >
-                Complaints
-              </MenuItem>
-            ) : (
-              <MenuItem
-                data-test="archivedCases"
-                component={Link}
-                onClick={() => {
-                  this.handleMenuClose();
-                }}
-                to={"/archived-cases"}
-              >
-                Archived Cases
-              </MenuItem>
-            )}
-            <MenuItem data-test="logOutButton" onClick={handleLogout}>
-              Log Out
-            </MenuItem>
+            <MenuNavigator
+              menuType={menuType}
+              handleMenuClose={this.handleMenuClose}
+            />
           </Menu>
         </Toolbar>
         <ExportConfirmationDialog />
@@ -128,7 +97,7 @@ class NavBar extends Component {
 }
 
 NavBar.defaultProps = {
-  isHome: true,
+  showHome: true,
   disciplinaryProceedings: false
 };
 
