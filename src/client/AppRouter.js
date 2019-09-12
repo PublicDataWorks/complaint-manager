@@ -2,23 +2,9 @@ import React, { Component } from "react";
 import complaintManagerRoutes from "./complaintManagerRoutes";
 import sharedRoutes from "./sharedRoutes";
 import disciplinaryProceedingsRoutes from "./disciplinaryProceedingsRoutes";
-import { connect } from "react-redux";
-import getFeatureToggles from "./featureToggles/thunks/getFeatureToggles";
 import { Route, Switch } from "react-router";
-import getAccessToken from "./auth/getAccessToken";
-import Auth from "./auth/Auth";
-import { userAuthSuccess } from "./auth/actionCreators";
 
-class AppRouter extends Component {
-  componentDidMount() {
-    const accessToken = getAccessToken();
-    if (accessToken) {
-      const auth = new Auth();
-      auth.setUserInfoInStore(accessToken, this.props.userAuthSuccess);
-      this.props.getFeatureToggles();
-    }
-  }
-
+export default class AppRouter extends Component {
   render() {
     return (
       <Switch>
@@ -53,17 +39,3 @@ class AppRouter extends Component {
     <Route exact key={path} path={path} component={component} />
   );
 }
-
-const mapStateToProps = state => ({
-  featureToggles: state.featureToggles
-});
-
-const mapDispatchToProps = {
-  userAuthSuccess,
-  getFeatureToggles
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AppRouter);
