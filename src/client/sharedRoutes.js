@@ -15,7 +15,7 @@ const sharedRoutes = [
   {
     path: "/styleguide",
     component: StyleGuide,
-    toggleName: "preProdFeature"
+    toggleName: "styleGuideFeature"
   }
 ];
 

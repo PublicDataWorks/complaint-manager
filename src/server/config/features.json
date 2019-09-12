@@ -51,9 +51,9 @@
     }
   },
   {
-    "id": "preProdFeature",
-    "name": "preProdFeature",
-    "description": "PreProd feature",
+    "id": "styleGuideFeature",
+    "name": "styleGuideFeature",
+    "description": "Style Guide feature",
     "criteria": {
       "isPreProd": true
     }

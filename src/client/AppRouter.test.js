@@ -11,8 +11,10 @@ describe("AppRouter", () => {
     store = createConfiguredStore();
     appWrapper = mount(
       <Provider store={store}>
-        <MemoryRouter initialEntries={["/disciplinary-proceedings"]}>
-          <AppRouter />
+        <MemoryRouter
+          initialEntries={["/disciplinary-proceedings", "/styleguide"]}
+        >
+          <AppRouter featureToggles={store.getState().featureToggles} />
         </MemoryRouter>
       </Provider>
     );
@@ -21,35 +23,67 @@ describe("AppRouter", () => {
   test("displays disciplinary proceedings route when feature flag enabled", () => {
     store.dispatch(
       getFeaturesSuccess({
-        disciplinaryProceedingsFeature: true
+        disciplinaryProceedingsFeature: true,
+        styleGuideFeature: true
       })
     );
-    appWrapper.update();
-    const routeComponent = appWrapper.find(
+    appWrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter
+          initialEntries={["/disciplinary-proceedings", "/styleguide"]}
+        >
+          <AppRouter featureToggles={store.getState().featureToggles} />
+        </MemoryRouter>
+      </Provider>
+    );
+    const disProRoute = appWrapper.find(
       "Route[path='/disciplinary-proceedings']"
     );
-    expect(routeComponent.exists()).toBeTrue();
+    const styleRoute = appWrapper.find(
+      "Route[path='/disciplinary-proceedings']"
+    );
+    expect(disProRoute.exists()).toBeTrue();
+    expect(styleRoute.exists()).toBeTrue();
   });
 
   test("displays disciplinary proceedings route when feature flag doesn't exist", () => {
-    const routeComponent = appWrapper.find(
+    const disProRoute = appWrapper.find(
       "Route[path='/disciplinary-proceedings']"
     );
-    expect(routeComponent.exists()).toBeTrue();
+    const styleRoute = appWrapper.find(
+      "Route[path='/disciplinary-proceedings']"
+    );
+    expect(disProRoute.exists()).toBeTrue();
+    expect(styleRoute.exists()).toBeTrue();
     expect(appWrapper.find("AppRouter").props().featureToggles).toEqual({});
   });
 
   test("does not display disciplinary proceedings route when feature flag disabled", () => {
+    store = createConfiguredStore();
     store.dispatch(
       getFeaturesSuccess({
-        disciplinaryProceedingsFeature: false
+        disciplinaryProceedingsFeature: false,
+        styleGuideFeature: false
       })
     );
-    appWrapper.update();
-    const routeComponent = appWrapper.find(
+    //Not a connected component; doesn't trigger re-render when global state changes
+    appWrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter
+          initialEntries={["/disciplinary-proceedings", "/styleguide"]}
+        >
+          <AppRouter featureToggles={store.getState().featureToggles} />
+        </MemoryRouter>
+      </Provider>
+    );
+    const disProRoute = appWrapper.find(
       "Route[path='/disciplinary-proceedings']"
     );
-    expect(routeComponent.exists()).toBeFalse();
+    const styleRoute = appWrapper.find(
+      "Route[path='/disciplinary-proceedings']"
+    );
+    expect(disProRoute.exists()).toBeFalse();
+    expect(styleRoute.exists()).toBeFalse();
   });
 });
 
