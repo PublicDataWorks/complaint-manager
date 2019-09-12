@@ -1,15 +1,13 @@
 import NavBar from "../../shared/components/NavBar/NavBar";
 import React, { Component } from "react";
-import { Typography } from "@material-ui/core";
+import { disciplinaryProceedingsMenuOptions } from "../../shared/components/NavBar/disciplinaryProceedingsMenuOptions";
 
 export class MemoList extends Component {
   render() {
     return (
       <div>
-        <NavBar isHome={false} disciplinaryProceedings={true}>
-          <Typography data-test="pageTitle" variant="title" color="inherit">
-            All Disciplinary Proceedings
-          </Typography>
+        <NavBar showHome={false} menuType={disciplinaryProceedingsMenuOptions}>
+          All Disciplinary Proceedings
         </NavBar>
       </div>
     );

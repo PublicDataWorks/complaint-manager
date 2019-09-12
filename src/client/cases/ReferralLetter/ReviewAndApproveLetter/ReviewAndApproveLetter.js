@@ -26,6 +26,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import PageLoading from "../../../shared/components/PageLoading";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
+import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
 
 pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.js";
 
@@ -125,10 +126,8 @@ class ReviewAndApproveLetter extends Component {
 
     return (
       <div data-test="review-and-approve-letter">
-        <NavBar>
-          <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${this.props.caseReference}   : Letter Generation`}
-          </Typography>
+        <NavBar menuType={complaintManagerMenuOptions}>
+          {`Case #${this.props.caseReference}   : Letter Generation`}
         </NavBar>
 
         <LinkButton

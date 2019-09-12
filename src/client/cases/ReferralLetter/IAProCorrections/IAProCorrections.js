@@ -21,6 +21,7 @@ import {
 import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterStatusMessage";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
+import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
 
 class IAProCorrections extends Component {
   constructor(props) {
@@ -142,10 +143,8 @@ class IAProCorrections extends Component {
 
     return (
       <div>
-        <NavBar>
-          <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${this.props.caseReference}   : Letter Generation`}
-          </Typography>
+        <NavBar menuType={complaintManagerMenuOptions}>
+          {`Case #${this.props.caseReference}   : Letter Generation`}
         </NavBar>
 
         <form>

@@ -15,6 +15,7 @@ import {
   SecondaryButton
 } from "../shared/components/StyledButtons";
 import LinkButton from "../shared/components/LinkButton";
+import { complaintManagerMenuOptions } from "../shared/components/NavBar/complaintManagerMenuOptions";
 
 const getBoxStyle = color => ({
   width: 150,
@@ -27,7 +28,7 @@ const getBoxStyle = color => ({
 
 const StyleGuide = props => (
   <div data-test="styleGuide">
-    <NavBar>Style Guide</NavBar>
+    <NavBar menuType={complaintManagerMenuOptions}>Style Guide</NavBar>
     <Card elevation={0} style={{ marginTop: 30, backgroundColor: "white" }}>
       <Typography variant="title" style={{ marginLeft: 20 }}>
         TYPOGRAPHY

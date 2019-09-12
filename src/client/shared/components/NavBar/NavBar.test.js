@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import { mockLocalStorage } from "../../../../mockLocalStorage";
 import { containsText } from "../../../testHelpers";
 import { userAuthSuccess } from "../../../auth/actionCreators";
+import { disciplinaryProceedingsMenuOptions } from "./disciplinaryProceedingsMenuOptions";
 
 describe("NavBar", () => {
   let wrapper, store;
@@ -18,21 +19,21 @@ describe("NavBar", () => {
     wrapper = mount(
       <Provider store={store}>
         <Router>
-          <NavBar />
+          <NavBar menuType={disciplinaryProceedingsMenuOptions} />
         </Router>
       </Provider>
     );
   });
 
-  test("should contain a home icon button when isHome is true", () => {
+  test("should contain a home icon button when showHome is true", () => {
     const homeButton = wrapper.find('[data-test="homeButton"]').last();
 
     homeButton.simulate("click");
     expect(homeButton.prop("href")).toEqual("/");
   });
 
-  test("should not contain a home icon button when isHome is false", () => {
-    wrapper.setProps({ children: <NavBar isHome={false} /> });
+  test("should not contain a home icon button when showHome is false", () => {
+    wrapper.setProps({ children: <NavBar showHome={false} /> });
     wrapper.update();
     expect(wrapper.find('[data-test="homeButton"]').exists()).toBeFalse();
   });
@@ -85,11 +86,5 @@ describe("NavBar", () => {
         .last();
       expect(exportAuditLogMenuItem.exists()).toBeTruthy();
     });
-
-    // test("should show Complaints in menu when disciplinary proceedings is true", () => {
-    //     wrapper.setProps({ children: <NavBar disciplinaryProceedings={true} /> });
-    //     wrapper.update();
-    //     expect(wrapper.find(NavBar).find('[data-test="complaints"]').exists()).toBeFalse();
-    // });
   });
 });

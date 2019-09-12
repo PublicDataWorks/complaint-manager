@@ -28,6 +28,7 @@ import {
 import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterStatusMessage";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
+import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
 
 class RecommendedActions extends Component {
   constructor(props) {
@@ -140,9 +141,7 @@ class RecommendedActions extends Component {
                 label={recommendedAction.description}
                 control={
                   <Field
-                    name={`${letterOfficerField}.action-${
-                      recommendedAction.id
-                    }`}
+                    name={`${letterOfficerField}.action-${recommendedAction.id}`}
                     component={PrimaryCheckBox}
                     data-test={`${letterOfficerField}-${recommendedAction.id}`}
                   />
@@ -179,10 +178,8 @@ class RecommendedActions extends Component {
 
     return (
       <div>
-        <NavBar>
-          <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${this.props.caseReference}   : Letter Generation`}
-          </Typography>
+        <NavBar menuType={complaintManagerMenuOptions}>
+          {`Case #${this.props.caseReference}   : Letter Generation`}
         </NavBar>
 
         <form>

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import NavBar from "../../shared/components/NavBar/NavBar";
-import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
 import OfficerSearch from "./OfficerSearch";
@@ -11,6 +10,7 @@ import {
   EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../../sharedUtilities/constants";
+import { complaintManagerMenuOptions } from "../../shared/components/NavBar/complaintManagerMenuOptions";
 
 export class OfficerSearchContainer extends Component {
   componentDidMount() {
@@ -32,14 +32,11 @@ export class OfficerSearchContainer extends Component {
 
     return (
       <div>
-        <NavBar>
-          <Typography
-            data-test="officer-search-title"
-            variant="title"
-            color="inherit"
-          >
-            {`Case #${this.props.caseReference}   : ${titleAction} ${employeeSearchTitle}`}
-          </Typography>
+        <NavBar
+          menuType={complaintManagerMenuOptions}
+          dataTest={"officer-search-title"}
+        >
+          {`Case #${this.props.caseReference}   : ${titleAction} ${employeeSearchTitle}`}
         </NavBar>
         <LinkButton
           data-test="back-to-case-link"

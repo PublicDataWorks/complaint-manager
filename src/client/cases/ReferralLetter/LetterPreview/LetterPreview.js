@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import {
   CASE_STATUS,
-  LETTER_PROGRESS,
   EDIT_STATUS,
-  USER_PERMISSIONS,
-  UNKNOWN_OFFICER_NAME
+  LETTER_PROGRESS,
+  UNKNOWN_OFFICER_NAME,
+  USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import NavBar from "../../../shared/components/NavBar/NavBar";
 import { Card, CardContent, Typography } from "@material-ui/core";
@@ -34,6 +34,7 @@ import CircularProgress from "@material-ui/core/CircularProgress/CircularProgres
 import styles from "../../../globalStyling/styles";
 import getReferralLetterData from "../thunks/getReferralLetterData";
 import IncompleteOfficerHistoryDialog from "../../sharedFormComponents/IncompleteOfficerHistoryDialog";
+import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -338,12 +339,8 @@ class LetterPreview extends Component {
 
     return (
       <div>
-        <NavBar>
-          <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${
-              this.props.caseDetails.caseReference
-            }   : Letter Generation`}
-          </Typography>
+        <NavBar menuType={complaintManagerMenuOptions}>
+          {`Case #${this.props.caseDetails.caseReference}   : Letter Generation`}
         </NavBar>
 
         <form>

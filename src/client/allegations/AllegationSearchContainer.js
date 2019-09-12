@@ -15,6 +15,7 @@ import {
   EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../sharedUtilities/constants";
+import { complaintManagerMenuOptions } from "../shared/components/NavBar/complaintManagerMenuOptions";
 
 export class AllegationSearchContainer extends Component {
   caseDetailsNotYetLoaded = () => {
@@ -64,10 +65,8 @@ export class AllegationSearchContainer extends Component {
 
     return (
       <div>
-        <NavBar>
-          <Typography data-test="pageTitle" variant="title" color="inherit">
-            {`Case #${this.props.caseDetails.caseReference}   : Manage Allegations`}
-          </Typography>
+        <NavBar menuType={complaintManagerMenuOptions}>
+          {`Case #${this.props.caseDetails.caseReference}   : Manage Allegations`}
         </NavBar>
         <LinkButton
           data-test="back-to-case-link"
