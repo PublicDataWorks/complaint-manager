@@ -28,23 +28,6 @@ if (TEST_PASS && TEST_USER && HOST) {
 
       loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
     },
-    "should navigate to disciplinary proceedings": browser => {
-      browser.url(HOST + "disciplinary-proceedings");
-      const disciplinaryProceedingsPage = browser.page.MemoList();
-
-      disciplinaryProceedingsPage.isOnPage();
-    },
-    "should open gear menu and click into complaints": browser => {
-      const navBar = browser.page.NavBar();
-      const complaintsPage = browser.page.CaseDashboard();
-      const loginPage = browser.page.Login();
-
-      navBar.goToComplaints();
-
-      loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
-
-      complaintsPage.isOnPage();
-    },
     "should create case": browser => {
       browser.resizeWindow(1366, 768);
       const caseDashboardPage = browser.page.CaseDashboard();
@@ -557,17 +540,6 @@ if (TEST_PASS && TEST_USER && HOST) {
       caseDetailsPage.goBackToAllCases();
 
       caseDashboardPage.isOnPage();
-    },
-    "should navigate to disciplinary proceedings": browser => {
-      browser.url(HOST + "/disciplinary-proceedings").resizeWindow(1366, 768);
-    },
-    "should open gear menu and click into complaints": browser => {
-      const navBar = browser.page.NavBar();
-      const complaintsPage = browser.page.CaseDashboard();
-
-      navBar.goToComplaints();
-
-      complaintsPage.isOnPage();
     },
     "should log out of the system": browser => {
       const navBar = browser.page.NavBar();
