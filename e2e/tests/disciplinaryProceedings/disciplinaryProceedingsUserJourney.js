@@ -20,7 +20,6 @@ if (!HOST) {
 if (TEST_PASS && TEST_USER && HOST) {
   module.exports = {
     "should navigate to disciplinary proceedings": browser => {
-      browser.deleteCookies();
       browser.url(HOST + "/disciplinary-proceedings");
     },
     "should open gear menu and click into complaints": browser => {

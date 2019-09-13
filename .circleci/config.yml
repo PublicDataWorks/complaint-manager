@@ -154,7 +154,7 @@ jobs:
             source $BASH_ENV
             cd e2e && nightwatch --env $ENVIRONMENT
       - store_artifacts:
-          path: e2e/tests/userJourney
+          path: e2e/tests
 
   deploy-staging:
     docker:
@@ -220,7 +220,7 @@ jobs:
             source $BASH_ENV
             cd e2e && nightwatch --env $ENVIRONMENT
       - store_artifacts:
-          path: e2e/tests/userJourney
+          path: e2e/tests
 
   deploy-production:
     docker:
