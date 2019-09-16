@@ -6,7 +6,7 @@ const config = {
   output_folder: "reports",
   custom_commands_path: "",
   custom_assertions_path: "",
-  page_objects_path: "./e2e/pageObjectModels",
+  page_objects_path: "../../pageObjectModels",
   globals_path: "",
   webdriver: {
     start_process: true,
@@ -21,7 +21,7 @@ const config = {
       silent: true,
       screenshots: {
         enabled: true,
-        path: "./e2e/tests",
+        path: "./",
         on_failure: true,
         on_error: true
       },
