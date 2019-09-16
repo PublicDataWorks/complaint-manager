@@ -549,9 +549,9 @@ if (TEST_PASS && TEST_USER && HOST) {
       navBar.clickGearButton().clickLogout();
 
       loginPage.isOnPage();
+    },
+    "end user journey ;)": browser => {
+      browser.end();
     }
-    // "end user journey ;)": browser => {
-    //   browser.end();
-    // }
   };
 }
