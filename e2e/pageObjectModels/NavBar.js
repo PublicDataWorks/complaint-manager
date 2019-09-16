@@ -14,12 +14,6 @@ const navBarCommands = {
     return this.waitForElementVisible("@logoutButton", e2e.rerenderWait)
       .moveToElement("@logoutButton", undefined, undefined)
       .click("@logoutButton");
-  },
-  goToComplaints: function() {
-    return this.waitForElementPresent("@menuButton", e2e.roundtripWait)
-      .click("@menuButton")
-      .waitForElementVisible("@complaintsLink", e2e.rerenderWait)
-      .click("@complaintsLink");
   }
 };
 
@@ -32,7 +26,6 @@ module.exports = {
     },
     logoutButton: {
       selector: '[data-test="logOutButton"]'
-    },
-    complaintsLink: { selector: "[data-test='complaints']" }
+    }
   }
 };
