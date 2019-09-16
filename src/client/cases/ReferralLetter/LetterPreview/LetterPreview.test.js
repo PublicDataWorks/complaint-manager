@@ -84,7 +84,11 @@ describe("LetterPreview", function() {
         "Letter Preview HTML",
         {
           sender: "bob",
-          recipient: "jane",
+          recipient: "jane\naddress",
+          recipient_field: {
+            name: "jane",
+            address: "address",
+          },
           transcribedBy: "joe"
         },
         EDIT_STATUS.GENERATED,
@@ -118,7 +122,11 @@ describe("LetterPreview", function() {
     button.simulate("click");
     const expectedFormValues = {
       sender: "bob",
-      recipient: "jane",
+      recipient: "jane\naddress",
+      recipient_field: {
+        name: "jane",
+        address: "address",
+      },
       transcribedBy: "joe"
     };
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -135,7 +143,11 @@ describe("LetterPreview", function() {
     button.simulate("click");
     const expectedFormValues = {
       sender: "bob",
-      recipient: "jane",
+      recipient: "jane\naddress",
+      recipient_field: {
+        name: "jane",
+        address: "address",
+      },
       transcribedBy: "joe"
     };
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -149,7 +161,11 @@ describe("LetterPreview", function() {
     backButton.simulate("click");
     const expectedFormValues = {
       sender: "bob",
-      recipient: "jane",
+      recipient: "jane\naddress",
+      recipient_field: {
+        name: "jane",
+        address: "address",
+      },
       transcribedBy: "transcriber"
     };
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -231,7 +247,11 @@ describe("LetterPreview", function() {
     submitForReviewButton.simulate("click");
     const expectedFormValues = {
       sender: "bob",
-      recipient: "jane",
+      recipient: "jane\naddress",
+      recipient_field: {
+        name: "jane",
+        address: "address",
+      },
       transcribedBy: "joe"
     };
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -463,7 +483,11 @@ describe("LetterPreview", function() {
     reviewAndApproveButton.simulate("click");
     const expectedFormValues = {
       sender: "bob",
-      recipient: "jane",
+      recipient: "jane\naddress",
+      recipient_field: {
+        name: "jane",
+        address: "address",
+      },
       transcribedBy: "transcriber"
     };
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -480,7 +504,11 @@ describe("LetterPreview", function() {
     beforeEach(function() {
       expectedFormValues = {
         sender: "bob",
-        recipient: "jane",
+        recipient: "jane\naddress",
+        recipient_field: {
+          name: "jane",
+          address: "address",
+        },
         transcribedBy: "joe"
       };
     });
@@ -561,7 +589,11 @@ describe("LetterPreview", function() {
         "Letter Preview HTML Edited",
         {
           sender: "bob",
-          recipient: "jane",
+          recipient: "jane\naddress",
+          recipient_field: {
+            name: "jane",
+            address: "address",
+          },
           transcribedBy: "joe"
         },
         EDIT_STATUS.EDITED,
@@ -585,7 +617,11 @@ describe("LetterPreview", function() {
         caseId,
         {
           sender: "bob",
-          recipient: "jane",
+          recipient: "jane\naddress",
+          recipient_field: {
+            name: "jane",
+            address: "address",
+          },
           transcribedBy: "joe"
         },
         `/cases/${caseId}/letter/edit-letter`
@@ -599,7 +635,11 @@ describe("LetterPreview", function() {
         "Letter Preview HTML",
         {
           sender: "bob",
-          recipient: "jane",
+          recipient: "jane\naddress",
+          recipient_field: {
+            name: "jane",
+            address: "address",
+          },
           transcribedBy: "joe"
         },
         EDIT_STATUS.EDITED,
@@ -670,7 +710,11 @@ describe("LetterPreview", function() {
         "Letter Preview HTML Edited",
         {
           sender: "bob",
-          recipient: "jane",
+          recipient: "jane\naddress",
+          recipient_field: {
+            name: "jane",
+            address: "address",
+          },
           transcribedBy: "joe"
         },
         EDIT_STATUS.EDITED,

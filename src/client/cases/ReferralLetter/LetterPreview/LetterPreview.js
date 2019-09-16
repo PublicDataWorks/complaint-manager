@@ -221,8 +221,15 @@ class LetterPreview extends Component {
         >
           <CardContent>
             <Field
+              name="recipient_field.name"
+              component={TextField}
+              label="Title and Name"
+              fullWidth
+              style={{ marginBottom: "16px" }}
+            />
+            <Field
               style={{ flex: 4 }}
-              name="recipient"
+              name="recipient_field.address"
               component={TextField}
               label="Address To"
               fullWidth

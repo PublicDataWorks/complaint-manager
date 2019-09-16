@@ -64,7 +64,11 @@ describe("referralLetterReducer", () => {
         letterPdf: null
       };
       let referralLetterAddresses = {
-        recipient: "recipient",
+        recipient: "name\naddress",
+        recipient_field: {
+          address: "address",
+          name: "name",
+        },
         sender: "some sender",
         transcribedBy: "transcriber"
       };
@@ -151,6 +155,97 @@ describe("referralLetterReducer", () => {
       };
 
       expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe("address recipient fields", () => {
+    test("sets the recipient fields from the recipient string", () => {
+      const timeOfEdit = new Date("2018-07-01 19:00:22 CDT");
+      timekeeper.freeze(timeOfEdit);
+      const initialState = {
+        letterDetails: "something",
+        letterHtml: "something",
+        addresses: {},
+        editStatus: null,
+        lastEdited: null,
+        finalFilename: null,
+        draftFilename: null,
+        letterPdf: null
+      };
+      let originalReferralLetterAddresses = {
+        recipient: "name\naddress",
+        sender: "some sender",
+        transcribedBy: "transcriber"
+      };
+      let updatedReferralLetterAddresses = {
+        ...originalReferralLetterAddresses, 
+        recipient_field: {
+          name: "name",
+          address: "address",
+        }
+      }
+      let newState = referralLetterReducer(
+        initialState,
+        getReferralLetterPreviewSuccess(
+          "new letter html",
+          originalReferralLetterAddresses,
+          EDIT_STATUS.EDITED,
+          timeOfEdit,
+          "final_filename.pdf",
+          "draft_filename.pdf"
+        )
+      );
+      expect(newState.addresses).toEqual(updatedReferralLetterAddresses);
+
+      originalReferralLetterAddresses = {
+        recipient: "name",
+        sender: "some sender",
+        transcribedBy: "transcriber"
+      };
+      updatedReferralLetterAddresses = {
+        ...originalReferralLetterAddresses, 
+        recipient_field: {
+          name: "name",
+          address: "",
+        }
+      }
+      newState = referralLetterReducer(
+        initialState,
+        getReferralLetterPreviewSuccess(
+          "new letter html",
+          originalReferralLetterAddresses,
+          EDIT_STATUS.EDITED,
+          timeOfEdit,
+          "final_filename.pdf",
+          "draft_filename.pdf"
+        )
+      );
+      expect(newState.addresses).toEqual(updatedReferralLetterAddresses);
+
+      originalReferralLetterAddresses = {
+        recipient: "",
+        sender: "some sender",
+        transcribedBy: "transcriber"
+      };
+      updatedReferralLetterAddresses = {
+        ...originalReferralLetterAddresses, 
+        recipient_field: {
+          name: "",
+          address: "",
+        }
+      }
+      newState = referralLetterReducer(
+        initialState,
+        getReferralLetterPreviewSuccess(
+          "new letter html",
+          originalReferralLetterAddresses,
+          EDIT_STATUS.EDITED,
+          timeOfEdit,
+          "final_filename.pdf",
+          "draft_filename.pdf"
+        )
+      );
+      expect(newState.addresses).toEqual(updatedReferralLetterAddresses);
     });
   });
 });

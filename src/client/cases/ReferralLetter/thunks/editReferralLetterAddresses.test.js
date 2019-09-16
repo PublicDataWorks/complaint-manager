@@ -13,7 +13,11 @@ describe("editReferralLetterAddresses", () => {
   const dispatch = jest.fn();
   configureInterceptors({ dispatch });
   const addressData = {
-    recipient: "bob",
+    recipient: "bob\naddress",
+    recipient_field: {
+      name: "bob",
+      address: "address",
+    },
     sender: "jane",
     transcribedBy: "smith"
   };
