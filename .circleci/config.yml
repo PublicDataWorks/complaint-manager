@@ -140,7 +140,7 @@ jobs:
       - checkout
       - run: scripts/ensure-deploy-succeeded.sh https://noipm-ci.herokuapp.com/health-check
 
-  e2e-testing-ci:
+  e2e-testing-ci-dp:
     docker:
       - image: noipm/e2e:latest
     steps:
@@ -152,9 +152,24 @@ jobs:
             echo 'export TEST_USER=$CI_TEST_USER' >> $BASH_ENV
             echo 'export TEST_PASS=$CI_TEST_PASS' >> $BASH_ENV
             source $BASH_ENV
-            cd e2e && nightwatch --env $ENVIRONMENT
+            cd e2e/tests/disciplinaryProceedings && nightwatch --env $ENVIRONMENT
       - store_artifacts:
-          path: e2e/tests
+          path: e2e/tests/disciplinaryProceedings
+  e2e-testing-ci-cm:
+    docker:
+      - image: noipm/e2e:latest
+    steps:
+      - checkout
+      - run:
+          name: Run E2E tests
+          command: |
+            echo 'export HOST=$CI_HOST' >> $BASH_ENV
+            echo 'export TEST_USER=$CI_TEST_USER' >> $BASH_ENV
+            echo 'export TEST_PASS=$CI_TEST_PASS' >> $BASH_ENV
+            source $BASH_ENV
+            cd e2e/tests/complaintManager && nightwatch --env $ENVIRONMENT
+      - store_artifacts:
+          path: e2e/tests/complaintManager
 
   deploy-staging:
     docker:
@@ -299,7 +314,10 @@ workflows:
       - ensure-ci-deploy-succeeded:
           requires:
             - deploy-ci
-      - e2e-testing-ci:
+      - e2e-testing-ci-dp:
+          requires:
+            - ensure-ci-deploy-succeeded
+      - e2e-testing-ci-cm:
           requires:
             - ensure-ci-deploy-succeeded
   build_and_deploy_release:
