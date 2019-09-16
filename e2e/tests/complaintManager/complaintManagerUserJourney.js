@@ -24,10 +24,10 @@ if (TEST_PASS && TEST_USER && HOST) {
     },
 
     "should authenticate": browser => {
-          const loginPage = browser.page.Login();
+      const loginPage = browser.page.Login();
 
-          loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
-      },
+      loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
+    },
 
     "should create case": browser => {
       browser.resizeWindow(1366, 768);
@@ -509,7 +509,6 @@ if (TEST_PASS && TEST_USER && HOST) {
 
       snackbar.presentWithMessage("Status was successfully updated").close();
     },
-
     "should archive case": browser => {
       const caseDetails = browser.page.CaseDetails();
       const snackbar = browser.page.SnackbarPOM();
@@ -550,9 +549,9 @@ if (TEST_PASS && TEST_USER && HOST) {
       navBar.clickGearButton().clickLogout();
 
       loginPage.isOnPage();
-    },
-    "end user journey ;)": browser => {
-      browser.end();
     }
+    // "end user journey ;)": browser => {
+    //   browser.end();
+    // }
   };
 }
