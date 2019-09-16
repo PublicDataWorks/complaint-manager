@@ -542,6 +542,17 @@ if (TEST_PASS && TEST_USER && HOST) {
 
       caseDashboardPage.isOnPage();
     },
+    "should navigate to disciplinary proceedings": browser => {
+      browser.url(HOST + "/disciplinary-proceedings");
+    },
+    "should open gear menu and click into complaints": browser => {
+      const navBar = browser.page.NavBar();
+      const complaintsPage = browser.page.CaseDashboard();
+
+      navBar.goToComplaints();
+
+      complaintsPage.isOnPage();
+    },
     "should log out of the system": browser => {
       const navBar = browser.page.NavBar();
       const loginPage = browser.page.Login();
