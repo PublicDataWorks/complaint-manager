@@ -30,6 +30,9 @@ if (TEST_PASS && TEST_USER && HOST) {
     },
     "should navigate to disciplinary proceedings": browser => {
       browser.url(HOST + "/disciplinary-proceedings");
+      browser.url(function(result) {
+        console.log("HERES THE URL:", result);
+      });
       const disciplinaryProceedingsPage = browser.page.MemoList();
 
       disciplinaryProceedingsPage.isOnPage();
