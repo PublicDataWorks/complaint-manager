@@ -29,10 +29,7 @@ if (TEST_PASS && TEST_USER && HOST) {
       loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
     },
     "should navigate to disciplinary proceedings": browser => {
-      browser.url(HOST + "/disciplinary-proceedings");
-      browser.url(function(result) {
-        console.log("HERES THE URL:", result);
-      });
+      browser.url(HOST + "disciplinary-proceedings");
       const disciplinaryProceedingsPage = browser.page.MemoList();
 
       disciplinaryProceedingsPage.isOnPage();
