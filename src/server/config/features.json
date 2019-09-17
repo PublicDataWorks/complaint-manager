@@ -39,9 +39,8 @@
     "id": "contactInformationFeature",
     "name": "contactInformationFeature",
     "description": "Contact information feature",
-    "criteria": {
-      "isPreProd": true
-    }},
+    "enabled": true
+  },
   {
     "id": "disciplinaryProceedingsFeature",
     "name": "disciplinaryProceedingsFeature",
