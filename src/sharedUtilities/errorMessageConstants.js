@@ -60,5 +60,9 @@ export const UNAUTHORIZED_ERRORS = {
 };
 
 export const INTERNAL_ERRORS = {
-  CASE_REFERENCE_GENERATION_FAILURE: `Could not obtain unique case reference number after multiple tries`
+  CASE_REFERENCE_GENERATION_FAILURE: `Could not obtain unique case reference number after multiple tries`,
+  USER_MANAGEMENT_API_TOKEN_FAILURE:
+    "Could not retrieve user management api token",
+  USER_MANAGEMENT_API_GET_USERS_FAILURE:
+    "Could not retrieve user data from authentication server"
 };
