@@ -4,8 +4,7 @@ import { MemoList } from "./disciplinaryProceedings/memoList/MemoList";
 const disciplinaryProceedingsRoutes = [
   {
     path: "/disciplinary-proceedings",
-    component: MemoList,
-    toggleName: "disciplinaryProceedingsFeature"
+    component: MemoList
   }
 ];
 

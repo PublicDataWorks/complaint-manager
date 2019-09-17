@@ -46,7 +46,9 @@
     "id": "disciplinaryProceedingsFeature",
     "name": "disciplinaryProceedingsFeature",
     "description": "Disciplinary Proceedings feature",
-    "enabled": true
+    "criteria": {
+      "isPreProd": true
+    }
   },
   {
     "id": "styleGuideFeature",
