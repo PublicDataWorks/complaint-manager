@@ -1,7 +1,7 @@
 const chromedriver = require("chromedriver");
 const selenium = require("selenium-server");
 
-const config = {
+module.exports = {
   src_folders: ["./"],
   output_folder: "reports",
   custom_commands_path: "",
@@ -12,12 +12,11 @@ const config = {
     start_process: true,
     server_path: chromedriver.path,
     port: 9515,
-    log_path: "",
     cli_args: ["--log", "debug"]
   },
   test_settings: {
     default: {
-      launch_url: "localhost:3000/",
+      launch_url: "",
       silent: true,
       screenshots: {
         enabled: true,
@@ -27,13 +26,16 @@ const config = {
       },
       desiredCapabilities: {
         browserName: "chrome",
-        // To run without headless, remove the '--headless' flag and add 'start-fullscreen'
         chromeOptions: {
           args: ["--headless", "--no-sandbox"]
         }
       }
+    },
+    local: {
+      launch_url: "http://app:3000/"
+    },
+    staging: {
+      launch_url: "https://noipm-staging.herokuapp.com/"
     }
   }
 };
-
-module.exports = config;
