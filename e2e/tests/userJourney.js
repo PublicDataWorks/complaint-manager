@@ -29,7 +29,10 @@ if (TEST_PASS && TEST_USER && HOST) {
       loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
     },
     "should navigate to disciplinary proceedings": browser => {
-      browser.url(HOST + "/disciplinary-proceedings").resizeWindow(1366, 768);
+      browser.url(HOST + "/disciplinary-proceedings");
+      const disciplinaryProceedingsPage = browser.page.MemoList();
+
+      disciplinaryProceedingsPage.isOnPage();
     },
     "should open gear menu and click into complaints": browser => {
       const navBar = browser.page.NavBar();
