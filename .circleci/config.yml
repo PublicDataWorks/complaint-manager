@@ -301,7 +301,7 @@ workflows:
             - deploy-ci
       - e2e-testing-ci:
           requires:
-            - ensure-ci-deploy-succeeded
+            - security-check
   build_and_deploy_release:
     jobs:
       - security-check:
