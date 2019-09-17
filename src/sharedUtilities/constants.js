@@ -150,6 +150,8 @@ export const CLEAR_CURRENT_EXPORT_JOB = "CLEAR_CURRENT_EXPORT_JOB";
 export const EXPORT_JOB_REFRESH_INTERVAL_MS = 1000;
 export const EXPORT_JOB_MAX_REFRESH_TIMES = 180;
 
+export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
+
 // ----------------------------------------
 //          Attachment Errors
 // ----------------------------------------

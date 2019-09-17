@@ -56,6 +56,7 @@ import createCaseTag from "./handlers/cases/createCaseTag";
 import getCaseTags from "./handlers/cases/caseTags/getCaseTags";
 import getTags from "./handlers/tags/getTags";
 import { removeCaseTag } from "./handlers/cases/removeCaseTag";
+import getUsers from "./disciplinaryProceedings/handlers/users/getUsers";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -450,6 +451,13 @@ export const API_ROUTES = {
       handler: getOfficerHistoryOptions,
       errorMessage:
         "Something went wrong and the officer history options could not be found. Please try again."
+    }
+  },
+  "/users": {
+    get: {
+      handler: getUsers,
+      errorMessage:
+        "Something went wrong and the users could not be found. Please try again."
     }
   }
 };
