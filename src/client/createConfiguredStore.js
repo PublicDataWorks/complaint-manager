@@ -10,7 +10,7 @@ import caseDetailsReducer from "./reducers/cases/caseDetailsReducer";
 import caseHistoryReducer from "./reducers/cases/caseHistoryReducer";
 import casesTableReducer from "./reducers/ui/casesTableReducer";
 import civilianDialogReducer from "./reducers/ui/civilianDialogReducer";
-import userInfoReducer from "./auth/reducers/userInfoReducer";
+import loggedInUserReducer from "./auth/reducers/loggedInUserReducer";
 import attachmentsReducer from "./reducers/ui/attachmentsReducer";
 import searchOfficersReducer from "./reducers/officers/searchOfficersReducer";
 import caseNotesReducer from "./reducers/cases/caseNotesReducer";
@@ -58,6 +58,7 @@ import removeCaseTagDialogReducer from "./reducers/ui/removeCaseTagDialogReducer
 import civilianTitleReducer from "./reducers/ui/civilianTitleReducer";
 import districtReducer from "./reducers/ui/districtReducer";
 import addOfficerReducer from "./reducers/officers/addOfficerReducer";
+import usersReducer from "./reducers/users/usersReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -75,7 +76,8 @@ const rootReducer = combineReducers({
   referralLetter: referralLetterReducer,
   recommendedActions: recommendedActionsReducer,
   users: combineReducers({
-    current: userInfoReducer
+    current: loggedInUserReducer,
+    all: usersReducer
   }),
   ui: combineReducers({
     snackbar: snackbarReducer,

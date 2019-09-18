@@ -11,7 +11,7 @@ module.exports = {
     referralLettersBucket: "noipm-referral-letters-local",
     complainantLettersBucket: "noipm-complainant-letters-local",
     authentication: {
-      clientID: "po0KCHqu1sHYuVxNHE2DAioLfQghB9aP",
+      clientID: "iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB",
       domain: "noipm-ci.auth0.com",
       publicKeyURL: "https://noipm-ci.auth0.com/.well-known/jwks.json",
       audience: "https://noipm-ci.herokuapp.com/",
@@ -47,7 +47,7 @@ module.exports = {
     referralLettersBucket: "noipm-referral-letters-test",
     complainantLettersBucket: "noipm-complainant-letters-test",
     authentication: {
-      clientID: "po0KCHqu1sHYuVxNHE2DAioLfQghB9aP",
+      clientID: "iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB",
       domain: "noipm-ci.auth0.com",
       publicKeyPath: path.join(__dirname, "..", "config", "test", "public.pem"),
       audience: "test audience",
@@ -85,7 +85,7 @@ module.exports = {
     referralLettersBucket: "noipm-referral-letters-ci",
     complainantLettersBucket: "noipm-complainant-letters-ci",
     authentication: {
-      clientID: "po0KCHqu1sHYuVxNHE2DAioLfQghB9aP",
+      clientID: "iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB",
       domain: "noipm-ci.auth0.com",
       publicKeyURL: "https://noipm-ci.auth0.com/.well-known/jwks.json",
       audience: "https://noipm-ci.herokuapp.com/",
