@@ -25,14 +25,14 @@ if (TEST_PASS && TEST_USER && HOST) {
         console.log("URL:", result);
       });
     },
-    "should open gear menu and click into complaints": browser => {
-      const navBar = browser.page.NavBar();
-      const loginPage = browser.page.Login();
-
-      navBar.goToComplaints();
-
-      loginPage.isOnPage();
-    },
+    // "should open gear menu and click into complaints": browser => {
+    //   const navBar = browser.page.NavBar();
+    //   const loginPage = browser.page.Login();
+    //
+    //   navBar.goToComplaints();
+    //
+    //   loginPage.isOnPage();
+    // },
     "end user journey ;)": browser => {
       browser.end();
     }
