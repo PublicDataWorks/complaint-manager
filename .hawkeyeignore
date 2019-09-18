@@ -23,3 +23,7 @@ files-contents-src/server/tasks/task_config.js-1
 node-yarnaudit-braces-786
 node-yarnaudit-js-yaml-788
 node-yarnaudit-js-yaml-813
+
+# There is currently no patch for these vulnerabilities:
+node-yarnaudit-html-pdf-1095
+node-yarnaudit-quill-1039
