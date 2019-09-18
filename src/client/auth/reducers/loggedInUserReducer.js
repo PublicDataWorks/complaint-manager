@@ -5,7 +5,7 @@ const initialState = {
   }
 };
 
-const userInfoReducer = (state = initialState, action) => {
+const loggedInUserReducer = (state = initialState, action) => {
   switch (action.type) {
     case "AUTH_SUCCESS":
       return { userInfo: action.userInfo };
@@ -14,4 +14,4 @@ const userInfoReducer = (state = initialState, action) => {
   }
 };
 
-export default userInfoReducer;
+export default loggedInUserReducer;

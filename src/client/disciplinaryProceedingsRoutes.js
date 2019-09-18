@@ -1,5 +1,5 @@
 import React from "react";
-import { MemoList } from "./disciplinaryProceedings/memoList/MemoList";
+import MemoList from "./disciplinaryProceedings/memoList/MemoList";
 
 const disciplinaryProceedingsRoutes = [
   {
