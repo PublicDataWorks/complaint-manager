@@ -32,7 +32,7 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
       authResponse = response.data;
     })
     .catch(error => {
-      return throwTokenFailure(next, error);
+      throwTokenFailure(next, error);
     });
 
   if (authResponse && authResponse.access_token) {
@@ -49,15 +49,11 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
         userData = reponse.data;
       })
       .catch(error => {
-        return next(
-          Boom.badImplementation(
-            INTERNAL_ERRORS.USER_MANAGEMENT_API_GET_USERS_FAILURE,
-            error
-          )
+        throw Boom.badImplementation(
+          INTERNAL_ERRORS.USER_MANAGEMENT_API_GET_USERS_FAILURE,
+          error
         );
       });
-  } else {
-    return throwTokenFailure(next);
   }
 
   const transformedUserData = userData.map(userInfo => {
@@ -76,7 +72,6 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
     })
     .catch(err => {
       // Transaction has been rolled back
-      console.error(err);
       throw err;
     });
 
@@ -84,11 +79,9 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
 });
 
 const throwTokenFailure = (next, error) => {
-  return next(
-    Boom.badImplementation(
-      INTERNAL_ERRORS.USER_MANAGEMENT_API_TOKEN_FAILURE,
-      error
-    )
+  throw Boom.badImplementation(
+    INTERNAL_ERRORS.USER_MANAGEMENT_API_TOKEN_FAILURE,
+    error
   );
 };
 

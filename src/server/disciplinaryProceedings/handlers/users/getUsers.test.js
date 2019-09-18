@@ -116,14 +116,17 @@ describe("getUsers tests", () => {
           client_id: "iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB",
           audience: "https://noipm-ci.auth0.com/api/v2/"
         })
-        .replyWithError(customError);
+        .replyWithError({ message: customError, code: 500 });
 
       await getUsers(mockGetUserRequest, mockGetUserResponse, next);
 
       expect(next).toHaveBeenCalledWith(
-        new Error(
-          `Could not retrieve user management api token: ${customError}`
-        )
+        expect.objectContaining({
+          message: "Could not retrieve user management api token",
+          data: expect.objectContaining({
+            message: `${customError}`
+          })
+        })
       );
     });
 
@@ -154,13 +157,16 @@ describe("getUsers tests", () => {
       })
         .get("/api/v2/users")
         .query({ search_engine: "v3" })
-        .replyWithError(customError);
+        .replyWithError({ message: customError, code: 500 });
       await getUsers(mockGetUserRequest, mockGetUserResponse, next);
 
       expect(next).toHaveBeenCalledWith(
-        new Error(
-          `Could not retrieve user data from authentication server: ${customError}`
-        )
+        expect.objectContaining({
+          message: "Could not retrieve user data from authentication server",
+          data: expect.objectContaining({
+            message: customError
+          })
+        })
       );
     });
   });
