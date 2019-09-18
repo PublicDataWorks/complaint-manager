@@ -3,8 +3,9 @@ import complaintManagerRoutes from "./complaintManagerRoutes";
 import sharedRoutes from "./sharedRoutes";
 import disciplinaryProceedingsRoutes from "./disciplinaryProceedingsRoutes";
 import { Route, Switch } from "react-router";
+import { connect } from "react-redux";
 
-export default class AppRouter extends Component {
+class AppRouter extends Component {
   render() {
     return (
       <Switch>
@@ -39,3 +40,9 @@ export default class AppRouter extends Component {
     <Route exact key={path} path={path} component={component} />
   );
 }
+
+const mapStateToProps = state => ({
+  featureToggles: state.featureToggles
+});
+
+export default connect(mapStateToProps)(AppRouter);
