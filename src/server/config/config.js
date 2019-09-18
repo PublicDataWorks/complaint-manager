@@ -116,7 +116,7 @@ module.exports = {
     referralLettersBucket: "noipm-referral-letters-staging",
     complainantLettersBucket: "noipm-complainant-letters-staging",
     authentication: {
-      clientID: "r4WGrntga7nkl4iDqnJiDVY6DAMqHFJ2",
+      clientID: "ALqHj5NyIIfLzHJks7LI4LqarbDN8jhe",
       domain: "noipm-staging.auth0.com",
       publicKeyURL: "https://noipm-staging.auth0.com/.well-known/jwks.json",
       audience: "https://noipm-staging.herokuapp.com/",
@@ -147,7 +147,7 @@ module.exports = {
     referralLettersBucket: "noipm-referral-letters-production",
     complainantLettersBucket: "noipm-complainant-letters-production",
     authentication: {
-      clientID: "i4ldwXNjx8O2JMhuHWwV4qERfClYN2bD",
+      clientID: "HdZblLPOunmyoPgF7X6GOs0ayTkssSbz",
       domain: "noipm-production.auth0.com",
       publicKeyURL: "https://noipm-production.auth0.com/.well-known/jwks.json",
       audience: "https://noipm-production.herokuapp.com/",
