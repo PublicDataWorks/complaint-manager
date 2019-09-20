@@ -4,6 +4,9 @@ import { getWorkingCasesSuccess } from "../actionCreators/casesActionCreators";
 import getAccessToken from "../auth/getAccessToken";
 import { push } from "connected-react-router";
 import configureInterceptors from "./interceptors";
+import { mockLocalStorage } from "../../mockLocalStorage";
+import ensureTokenOnRequestInterceptor from "./ensureTokenOnRequestInterceptor";
+import axios from "axios/index";
 
 jest.mock("../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -17,6 +20,7 @@ describe("ensureTokenOnRequestInterceptor", () => {
     configureInterceptors({ dispatch });
     dispatch.mockClear();
     getAccessToken.mockClear();
+    mockLocalStorage();
   });
 
   test("adds access token to request headers", async () => {
@@ -49,5 +53,46 @@ describe("ensureTokenOnRequestInterceptor", () => {
       getWorkingCasesSuccess(responseBody.cases)
     );
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
+  });
+
+  test("should store pathname in local storage", async () => {
+    const redirectUri = `/api/cases`;
+    getAccessToken.mockImplementation(() => false);
+
+    delete global.window.location;
+
+    global.window.location = {
+      port: "3000",
+      protocol: "http:",
+      hostname: "localhost",
+      pathname: redirectUri
+    };
+
+    await getWorkingCases(sortBy, sortDirection)(dispatch);
+
+    expect(window.localStorage.__proto__.setItem).toHaveBeenCalledWith(
+      "redirectUri",
+      redirectUri
+    );
+
+    expect(dispatch).toHaveBeenCalledWith(push("/login"));
+  });
+
+  test("should not store pathname in local storage if redirectUri is /login", async () => {
+    const redirectUri = `/login`;
+    getAccessToken.mockImplementation(() => false);
+
+    delete global.window.location;
+
+    global.window.location = {
+      port: "3000",
+      protocol: "http:",
+      hostname: "localhost",
+      pathname: redirectUri
+    };
+
+    await getWorkingCases(sortBy, sortDirection)(dispatch);
+
+    expect(window.localStorage.__proto__.setItem).not.toHaveBeenCalled();
   });
 });
