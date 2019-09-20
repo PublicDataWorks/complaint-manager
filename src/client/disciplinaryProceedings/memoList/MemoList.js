@@ -1,6 +1,5 @@
 import NavBar from "../../shared/components/NavBar/NavBar";
 import React, { Component } from "react";
-import { Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import getUsers from "../memos/thunks/getUsers";
 import DropdownSelect from "../../cases/CaseDetails/CivilianDialog/DropdownSelect";
