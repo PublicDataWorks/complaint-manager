@@ -34,6 +34,11 @@ export default class Auth {
         this.setSession(authResult);
         auditLogin();
         getFeatureTogglesCallback();
+        console.log(
+          "Local Storage RedirectUri: ",
+          localStorage.getItem("redirectUri")
+        );
+        console.log("AuthResult: ", authResult);
         history.replace(localStorage.getItem("redirectUri"));
         localStorage.removeItem("nonce");
         localStorage.removeItem("redirectUri");

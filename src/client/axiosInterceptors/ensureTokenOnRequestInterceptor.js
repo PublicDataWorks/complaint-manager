@@ -3,15 +3,14 @@ import { push } from "connected-react-router";
 
 const ensureTokenOnRequestInterceptor = dispatch => config => {
   const token = getAccessToken();
+  console.log("Window location", window.location.href);
+  if (
+    window.location.pathname !== "/login" &&
+    window.location.pathname !== "/callback"
+  ) {
+    localStorage.setItem("redirectUri", window.location.pathname);
+  }
   if (!token) {
-    if (
-      window.location.pathname !== "/login" &&
-      window.location.pathname !== "/callback"
-    ) {
-      console.log("Window location", window.location.href);
-
-      localStorage.setItem("redirectUri", window.location.pathname);
-    }
     dispatch(push("/login"));
     throw new Error("No access token found");
   }
