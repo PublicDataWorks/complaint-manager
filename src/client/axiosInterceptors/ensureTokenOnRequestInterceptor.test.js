@@ -6,7 +6,6 @@ import { push } from "connected-react-router";
 import configureInterceptors from "./interceptors";
 import { mockLocalStorage } from "../../mockLocalStorage";
 import ensureTokenOnRequestInterceptor from "./ensureTokenOnRequestInterceptor";
-import axios from "axios/index";
 
 jest.mock("../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -79,8 +78,7 @@ describe("ensureTokenOnRequestInterceptor", () => {
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
-  test("should store pathname in local storage if access token has expired", async () => {
-    getAccessToken.mockImplementation(() => true);
+  test("should remove access token from local storage if it has expired", async () => {
     const redirectUri = `/api/cases`;
     window.localStorage.__proto__.getItem.mockReturnValue(expirationTime);
     delete global.window.location;
@@ -92,9 +90,8 @@ describe("ensureTokenOnRequestInterceptor", () => {
     };
 
     await getWorkingCases(sortBy, sortDirection)(dispatch);
-    expect(window.localStorage.__proto__.setItem).toHaveBeenCalledWith(
-      "redirectUri",
-      redirectUri
+    expect(window.localStorage.__proto__.removeItem).toHaveBeenCalledWith(
+      "access_token"
     );
   });
 
