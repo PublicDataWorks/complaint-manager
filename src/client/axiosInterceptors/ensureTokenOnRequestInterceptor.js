@@ -4,7 +4,7 @@ import { push } from "connected-react-router";
 const ensureTokenOnRequestInterceptor = dispatch => config => {
   const token = getAccessToken();
   if (
-    accessTokenHasExpired() &&
+    accessTokenDoesntExistOrHasExpired(token) &&
     window.location.pathname !== "/login" &&
     window.location.pathname !== "/callback"
   ) {
@@ -23,10 +23,11 @@ const ensureTokenOnRequestInterceptor = dispatch => config => {
   };
 };
 
-const accessTokenHasExpired = () => {
+const accessTokenDoesntExistOrHasExpired = token => {
   return (
-    localStorage.getItem("expires_at") &&
-    localStorage.getItem("expires_at") < Date.now()
+    !token ||
+    (localStorage.getItem("expires_at") &&
+      localStorage.getItem("expires_at") < Date.now())
   );
 };
 

@@ -15,6 +15,7 @@ describe("ensureTokenOnRequestInterceptor", () => {
   const responseBody = { cases: { rows: ["some case"], count: 1 } };
   const sortBy = "sortBy";
   const sortDirection = "sortDirection";
+  const expirationTime = "0";
 
   beforeEach(() => {
     configureInterceptors({ dispatch });
@@ -55,7 +56,7 @@ describe("ensureTokenOnRequestInterceptor", () => {
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
   });
 
-  test("should store pathname in local storage", async () => {
+  test("should store pathname in local storage if no previous access token", async () => {
     const redirectUri = `/api/cases`;
     getAccessToken.mockImplementation(() => false);
 
@@ -76,6 +77,25 @@ describe("ensureTokenOnRequestInterceptor", () => {
     );
 
     expect(dispatch).toHaveBeenCalledWith(push("/login"));
+  });
+
+  test("should store pathname in local storage if access token has expired", async () => {
+    getAccessToken.mockImplementation(() => true);
+    const redirectUri = `/api/cases`;
+    window.localStorage.__proto__.getItem.mockReturnValue(expirationTime);
+    delete global.window.location;
+    global.window.location = {
+      port: "3000",
+      protocol: "http:",
+      hostname: "localhost",
+      pathname: redirectUri
+    };
+
+    await getWorkingCases(sortBy, sortDirection)(dispatch);
+    expect(window.localStorage.__proto__.setItem).toHaveBeenCalledWith(
+      "redirectUri",
+      redirectUri
+    );
   });
 
   test("should not store pathname in local storage if redirectUri is /login", async () => {
