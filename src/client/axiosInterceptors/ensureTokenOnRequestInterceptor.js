@@ -2,15 +2,20 @@ import getAccessToken from "../auth/getAccessToken";
 import { push } from "connected-react-router";
 
 const ensureTokenOnRequestInterceptor = dispatch => config => {
-  const token = getAccessToken();
-  if (
-    accessTokenDoesntExistOrHasExpired(token) &&
-    window.location.pathname !== "/login" &&
-    window.location.pathname !== "/callback"
-  ) {
-    localStorage.setItem("redirectUri", window.location.pathname);
+  if (accessTokenHasExpired()) {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("id_token");
+    localStorage.removeItem("expires_at");
   }
+
+  const token = getAccessToken();
   if (!token) {
+    if (
+      window.location.pathname !== "/login" &&
+      window.location.pathname !== "/callback"
+    ) {
+      localStorage.setItem("redirectUri", window.location.pathname);
+    }
     dispatch(push("/login"));
     throw new Error("No access token found");
   }
@@ -23,11 +28,10 @@ const ensureTokenOnRequestInterceptor = dispatch => config => {
   };
 };
 
-const accessTokenDoesntExistOrHasExpired = token => {
+const accessTokenHasExpired = () => {
   return (
-    !token ||
-    (localStorage.getItem("expires_at") &&
-      localStorage.getItem("expires_at") < Date.now())
+    localStorage.getItem("expires_at") &&
+    localStorage.getItem("expires_at") < Date.now()
   );
 };
 
