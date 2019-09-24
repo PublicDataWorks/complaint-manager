@@ -3,8 +3,8 @@ import { push } from "connected-react-router";
 
 const ensureTokenOnRequestInterceptor = dispatch => config => {
   const token = getAccessToken();
-  console.log("Window location", window.location.href);
   if (
+    accessTokenHasExpired() &&
     window.location.pathname !== "/login" &&
     window.location.pathname !== "/callback"
   ) {
@@ -21,6 +21,13 @@ const ensureTokenOnRequestInterceptor = dispatch => config => {
       Authorization: `Bearer ${token}`
     }
   };
+};
+
+const accessTokenHasExpired = () => {
+  return (
+    localStorage.getItem("expires_at") &&
+    localStorage.getItem("expires_at") < Date.now()
+  );
 };
 
 export default ensureTokenOnRequestInterceptor;
