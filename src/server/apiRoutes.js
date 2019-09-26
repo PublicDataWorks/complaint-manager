@@ -36,6 +36,7 @@ import searchOfficers from "./handlers/officers/searchOfficers/searchOfficers";
 import searchAllegations from "./handlers/allegations/searchAllegations";
 import getAllegations from "./handlers/allegations/getAllegations";
 import getClassifications from "./handlers/classifications/getClassifications";
+import getNewClassifications from "./handlers/newClassifications/getClassifications";
 import getIntakeSources from "./handlers/intake_sources/getIntakeSources";
 import getRaceEthnicities from "./handlers/race_ethnicities/getRaceEthnicities";
 import getCivilianTitles from "./handlers/civilianTitles/getCivilianTitles";
@@ -386,6 +387,13 @@ export const API_ROUTES = {
   "/classifications": {
     get: {
       handler: getClassifications,
+      errorMessage:
+        "Something went wrong and the classification values were not found. Please try again."
+    }
+  },
+  "/new-classifications": {
+    get: {
+      handler: getNewClassifications,
       errorMessage:
         "Something went wrong and the classification values were not found. Please try again."
     }
