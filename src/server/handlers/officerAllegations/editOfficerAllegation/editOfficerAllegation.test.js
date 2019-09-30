@@ -5,20 +5,14 @@ import Allegation from "../../../../client/testUtilities/Allegation";
 import {
   ACCUSED,
   ALLEGATION_SEVERITY,
-  AUDIT_ACTION,
-  AUDIT_SUBJECT,
-  AUDIT_TYPE
+  AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
 import httpMocks from "node-mocks-http";
 import models from "../../../models";
 import editOfficerAllegation from "./editOfficerAllegation";
-import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../audits/auditDataAccess";
-import {
-  expectedCaseAuditDetails,
-  expectedFormattedCaseAuditDetails
-} from "../../../testHelpers/expectedAuditDetails";
+import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 
 jest.mock("../../audits/auditDataAccess");
 
@@ -81,46 +75,6 @@ describe("editOfficerAllegation", () => {
     await cleanupDatabase();
   });
 
-  describe("newAuditFeature is disabled", () => {
-    test("should audit case data access", async () => {
-      const data = {
-        details: "new details"
-      };
-
-      const request = httpMocks.createRequest({
-        method: "PUT",
-        headers: {
-          authorization: "Bearer SOME_MOCK_TOKEN"
-        },
-        params: {
-          officerAllegationId: officerAllegationToUpdate.id
-        },
-        body: data,
-        nickname: "TEST_USER_NICKNAME",
-        fflip: mockFflipObject({ newAuditFeature: false })
-      });
-
-      const response = httpMocks.createResponse();
-
-      await editOfficerAllegation(request, response, jest.fn());
-
-      const audit = await models.action_audit.findOne({
-        where: { caseId: caseOfficer.caseId }
-      });
-
-      expect(audit).toEqual(
-        expect.objectContaining({
-          user: "TEST_USER_NICKNAME",
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          subject: AUDIT_SUBJECT.CASE_DETAILS,
-          caseId: caseOfficer.caseId,
-          action: AUDIT_ACTION.DATA_ACCESSED,
-          auditDetails: expectedFormattedCaseAuditDetails
-        })
-      );
-    });
-  });
-
   test("should edit a case officer allegation", async () => {
     const data = {
       details: "new details",
@@ -148,7 +102,7 @@ describe("editOfficerAllegation", () => {
       ALLEGATION_SEVERITY.HIGH
     );
   });
-  describe("newAuditFeature is enabled", () => {
+  describe("auditing", () => {
     test("should audit case data access", async () => {
       const data = {
         details: "new details"
@@ -163,8 +117,7 @@ describe("editOfficerAllegation", () => {
           officerAllegationId: officerAllegationToUpdate.id
         },
         body: data,
-        nickname: "TEST_USER_NICKNAME",
-        fflip: mockFflipObject({ newAuditFeature: true })
+        nickname: "TEST_USER_NICKNAME"
       });
       const response = httpMocks.createResponse();
       const next = jest.fn();
