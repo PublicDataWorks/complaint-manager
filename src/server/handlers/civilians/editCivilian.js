@@ -1,11 +1,8 @@
 import {
   ADDRESSABLE_TYPE,
-  AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
-import legacyAuditDataAccess from "../audits/legacyAuditDataAccess";
-import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import auditDataAccess from "../audits/auditDataAccess";
 
 const asyncMiddleware = require("../asyncMiddleware");
@@ -36,11 +33,6 @@ async function upsertAddress(civilianId, address, transaction, nickname) {
 const editCivilian = asyncMiddleware(async (request, response, next) => {
   const { address, ...civilianValues } = request.body;
 
-  const newAuditFeatureToggle = checkFeatureToggleEnabled(
-    request,
-    "newAuditFeature"
-  );
-
   const updatedCaseDetails = await models.sequelize.transaction(
     async transaction => {
       if (address) {
@@ -66,24 +58,13 @@ const editCivilian = asyncMiddleware(async (request, response, next) => {
       const caseDetails = caseDetailsAndAuditDetails.caseDetails;
       const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
-      if (newAuditFeatureToggle) {
-        await auditDataAccess(
-          request.nickname,
-          civilian.caseId,
-          AUDIT_SUBJECT.CASE_DETAILS,
-          auditDetails,
-          transaction
-        );
-      } else {
-        await legacyAuditDataAccess(
-          request.nickname,
-          civilian.caseId,
-          AUDIT_SUBJECT.CASE_DETAILS,
-          transaction,
-          AUDIT_ACTION.DATA_ACCESSED,
-          auditDetails
-        );
-      }
+      await auditDataAccess(
+        request.nickname,
+        civilian.caseId,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        auditDetails,
+        transaction
+      );
 
       return caseDetails;
     }
