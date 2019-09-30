@@ -1,21 +1,12 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Case from "../../../client/testUtilities/case";
 import models from "../../models";
-import {
-  AUDIT_ACTION,
-  AUDIT_SUBJECT,
-  AUDIT_TYPE,
-  CASE_STATUS
-} from "../../../sharedUtilities/constants";
+import { AUDIT_SUBJECT, CASE_STATUS } from "../../../sharedUtilities/constants";
 import createCaseNote from "./createCaseNote";
 import * as httpMocks from "node-mocks-http";
 import moment from "moment";
 import auditDataAccess from "../audits/auditDataAccess";
-import mockFflipObject from "../../testHelpers/mockFflipObject";
-import {
-  expectedCaseAuditDetails,
-  expectedFormattedCaseAuditDetails
-} from "../../testHelpers/expectedAuditDetails";
+import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
 
 jest.mock("../audits/auditDataAccess");
 
@@ -55,59 +46,8 @@ describe("createCaseNote", function() {
     next = jest.fn();
   });
 
-  describe("newAuditFeature is disabled", () => {
+  describe("auditing", () => {
     test("should audit case note accessed", async () => {
-      request.fflip = mockFflipObject({ newAuditFeature: false });
-      await createCaseNote(request, response, next);
-
-      const actionAudit = await models.action_audit.findAll({
-        where: { caseId: createdCase.id }
-      });
-
-      expect(actionAudit).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            user: "TEST_USER_NICKNAME",
-            auditType: AUDIT_TYPE.DATA_ACCESS,
-            action: AUDIT_ACTION.DATA_ACCESSED,
-            subject: AUDIT_SUBJECT.CASE_NOTES,
-            caseId: createdCase.id,
-            auditDetails: {
-              "Case Note": ["All Case Note Data"],
-              "Case Note Action": ["All Case Note Action Data"]
-            }
-          })
-        ])
-      );
-    });
-
-    test("should audit case details accessed", async () => {
-      request.fflip = mockFflipObject({ newAuditFeature: false });
-      await createCaseNote(request, response, next);
-
-      const actionAudit = await models.action_audit.findAll({
-        where: { caseId: createdCase.id }
-      });
-
-      expect(actionAudit).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            user: "TEST_USER_NICKNAME",
-            auditType: AUDIT_TYPE.DATA_ACCESS,
-            action: AUDIT_ACTION.DATA_ACCESSED,
-            subject: AUDIT_SUBJECT.CASE_DETAILS,
-            caseId: createdCase.id,
-            auditDetails: expectedFormattedCaseAuditDetails
-          })
-        ])
-      );
-    });
-  });
-
-  describe("newAuditFeature is enabled", () => {
-    test("should audit case note accessed", async () => {
-      request.fflip = mockFflipObject({ newAuditFeature: true });
-
       await createCaseNote(request, response, next);
 
       expect(auditDataAccess).toHaveBeenCalledWith(
@@ -128,8 +68,6 @@ describe("createCaseNote", function() {
       );
     });
     test("should audit case details accessed", async () => {
-      request.fflip = mockFflipObject({ newAuditFeature: true });
-
       await createCaseNote(request, response, next);
 
       expect(auditDataAccess).toHaveBeenCalledWith(

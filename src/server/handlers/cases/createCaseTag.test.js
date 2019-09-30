@@ -1,15 +1,9 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import {
-  AUDIT_ACTION,
-  AUDIT_SUBJECT,
-  AUDIT_TYPE,
-  CASE_STATUS
-} from "../../../sharedUtilities/constants";
+import { AUDIT_SUBJECT, CASE_STATUS } from "../../../sharedUtilities/constants";
 import Case from "../../../client/testUtilities/case";
 import models from "../../models";
 import httpMocks from "node-mocks-http";
 import createCaseTag from "./createCaseTag";
-import mockFflipObject from "../../testHelpers/mockFflipObject";
 import Tag from "../../../client/testUtilities/tag";
 import CaseTag from "../../../client/testUtilities/caseTag";
 import auditDataAccess from "../audits/auditDataAccess";
@@ -185,60 +179,7 @@ describe("createCaseTag", () => {
     });
   });
 
-  describe("newAuditFeature is disabled", () => {
-    beforeEach(() => {
-      request.fflip = mockFflipObject({ newAuditFeature: false });
-    });
-
-    test("should audit all tags access", async () => {
-      await createCaseTag(request, response, next);
-
-      const actionAudit = await models.action_audit.findOne({
-        where: { caseId: null }
-      });
-
-      const expectedActionAudit = {
-        user: testUser,
-        auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: AUDIT_ACTION.DATA_ACCESSED,
-        subject: AUDIT_SUBJECT.ALL_TAGS,
-        caseId: null,
-        auditDetails: {
-          Tag: ["All Tag Data"]
-        }
-      };
-
-      expect(actionAudit).toEqual(expect.objectContaining(expectedActionAudit));
-    });
-
-    test("should audit that caseTags were accessed", async () => {
-      request.fflip = mockFflipObject({ newAuditFeature: false });
-      await createCaseTag(request, response, next);
-
-      const actionAudit = await models.action_audit.findOne({
-        where: { caseId: createdCase.id }
-      });
-
-      const expectedActionAudit = {
-        user: testUser,
-        auditType: AUDIT_TYPE.DATA_ACCESS,
-        action: AUDIT_ACTION.DATA_ACCESSED,
-        subject: AUDIT_SUBJECT.CASE_TAGS,
-        caseId: createdCase.id,
-        auditDetails: {
-          "Case Tag": ["All Case Tag Data"],
-          Tag: ["All Tag Data"]
-        }
-      };
-
-      expect(actionAudit).toEqual(expect.objectContaining(expectedActionAudit));
-    });
-  });
-  describe("newAuditFeature is enabled", () => {
-    beforeEach(() => {
-      request.fflip = mockFflipObject({ newAuditFeature: true });
-    });
-
+  describe("auditing", () => {
     test("should audit all tags access", async () => {
       await createCaseTag(request, response, next);
 

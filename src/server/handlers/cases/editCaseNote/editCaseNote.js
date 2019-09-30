@@ -1,8 +1,5 @@
-import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
-import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import auditDataAccess from "../../audits/auditDataAccess";
 import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
-import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -17,10 +14,6 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
     "actionTakenAt",
     "notes"
   ]);
-  const newAuditFeatureToggle = checkFeatureToggleEnabled(
-    request,
-    "newAuditFeature"
-  );
 
   const caseNotes = await models.sequelize.transaction(async transaction => {
     await models.case_note.update(valuesToUpdate, {
@@ -44,24 +37,13 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
       models.case_note.name
     );
 
-    if (newAuditFeatureToggle) {
-      await auditDataAccess(
-        request.nickname,
-        caseId,
-        AUDIT_SUBJECT.CASE_NOTES,
-        caseNoteAuditDetails,
-        transaction
-      );
-    } else {
-      await legacyAuditDataAccess(
-        request.nickname,
-        caseId,
-        AUDIT_SUBJECT.CASE_NOTES,
-        transaction,
-        AUDIT_ACTION.DATA_ACCESSED,
-        caseNoteAuditDetails
-      );
-    }
+    await auditDataAccess(
+      request.nickname,
+      caseId,
+      AUDIT_SUBJECT.CASE_NOTES,
+      caseNoteAuditDetails,
+      transaction
+    );
 
     return caseNotes;
   });

@@ -5,12 +5,9 @@ import Case from "../../../../client/testUtilities/case";
 import editCaseNote from "./editCaseNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
-  AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_TYPE,
   CASE_STATUS
 } from "../../../../sharedUtilities/constants";
-import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../audits/auditDataAccess";
 
 jest.mock("../../audits/auditDataAccess");
@@ -112,7 +109,7 @@ describe("editCaseNote", function() {
     );
   });
 
-  describe("newAuditFeature enabled", () => {
+  describe("auditing", () => {
     let request, response, next;
     beforeEach(() => {
       request = httpMocks.createRequest({
@@ -120,7 +117,6 @@ describe("editCaseNote", function() {
         headers: {
           authorization: "Bearer SOME_MOCK_TOKEN"
         },
-        fflip: mockFflipObject({ newAuditFeature: true }),
         params: {
           caseId: createdCase.id,
           caseNoteId: createdCaseNote.id
@@ -150,46 +146,6 @@ describe("editCaseNote", function() {
           }
         },
         expect.anything()
-      );
-    });
-  });
-
-  describe("newAuditFeature disabled", () => {
-    test("should audit when case note accessed through edit", async () => {
-      const request = httpMocks.createRequest({
-        method: "PUT",
-        headers: {
-          authorization: "Bearer SOME_MOCK_TOKEN"
-        },
-        fflip: mockFflipObject({ newAuditFeature: false }),
-        params: {
-          caseId: createdCase.id,
-          caseNoteId: createdCaseNote.id
-        },
-        body: updatedCaseNote,
-        nickname: "TEST_USER_NICKNAME"
-      });
-
-      const response = httpMocks.createResponse();
-      const next = jest.fn();
-      await editCaseNote(request, response, next);
-
-      const actionAudit = await models.action_audit.findOne({
-        where: { caseId: createdCase.id }
-      });
-
-      expect(actionAudit).toEqual(
-        expect.objectContaining({
-          user: "TEST_USER_NICKNAME",
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: AUDIT_ACTION.DATA_ACCESSED,
-          subject: AUDIT_SUBJECT.CASE_NOTES,
-          caseId: createdCase.id,
-          auditDetails: {
-            "Case Note": ["All Case Note Data"],
-            "Case Note Action": ["All Case Note Action Data"]
-          }
-        })
       );
     });
   });

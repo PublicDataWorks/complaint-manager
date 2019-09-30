@@ -1,24 +1,14 @@
-import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import Boom from "boom";
-
-const asyncMiddleware = require("../asyncMiddleware");
 import models from "../../models";
 import auditDataAccess from "../audits/auditDataAccess";
-import {
-  AUDIT_ACTION,
-  AUDIT_SUBJECT
-} from "../../../sharedUtilities/constants";
+import { AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
-import legacyAuditDataAccess from "../audits/legacyAuditDataAccess";
 import { BAD_DATA_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import getTagsAndAuditDetails from "../tags/getTagsHelper";
 
-const createCaseTag = asyncMiddleware(async (request, response, next) => {
-  const newAuditFeatureToggle = checkFeatureToggleEnabled(
-    request,
-    "newAuditFeature"
-  );
+const asyncMiddleware = require("../asyncMiddleware");
 
+const createCaseTag = asyncMiddleware(async (request, response, next) => {
   await validateTag(request);
 
   const caseId = request.params.caseId;
@@ -60,39 +50,21 @@ const createCaseTag = asyncMiddleware(async (request, response, next) => {
       const tags = tagsAndAuditDetails.tags;
       const tagAuditDetails = tagsAndAuditDetails.auditDetails;
 
-      if (newAuditFeatureToggle) {
-        await auditDataAccess(
-          request.nickname,
-          request.params.caseId,
-          AUDIT_SUBJECT.CASE_TAGS,
-          caseTagAuditDetails,
-          transaction
-        );
-        await auditDataAccess(
-          request.nickname,
-          null,
-          AUDIT_SUBJECT.ALL_TAGS,
-          tagAuditDetails,
-          transaction
-        );
-      } else {
-        await legacyAuditDataAccess(
-          request.nickname,
-          request.params.caseId,
-          AUDIT_SUBJECT.CASE_TAGS,
-          transaction,
-          AUDIT_ACTION.DATA_ACCESSED,
-          caseTagAuditDetails
-        );
-        await legacyAuditDataAccess(
-          request.nickname,
-          null,
-          AUDIT_SUBJECT.ALL_TAGS,
-          transaction,
-          AUDIT_ACTION.DATA_ACCESSED,
-          tagAuditDetails
-        );
-      }
+      await auditDataAccess(
+        request.nickname,
+        request.params.caseId,
+        AUDIT_SUBJECT.CASE_TAGS,
+        caseTagAuditDetails,
+        transaction
+      );
+      await auditDataAccess(
+        request.nickname,
+        null,
+        AUDIT_SUBJECT.ALL_TAGS,
+        tagAuditDetails,
+        transaction
+      );
+
       return { caseTags: caseTags, tags: tags };
     }
   );

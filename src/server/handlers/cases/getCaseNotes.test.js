@@ -1,13 +1,11 @@
 import {
   AUDIT_ACTION,
-  AUDIT_SUBJECT,
-  AUDIT_TYPE
+  AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 import getCaseNotes from "./getCaseNotes";
 import CaseNote from "../../../client/testUtilities/caseNote";
-import mockFflipObject from "../../testHelpers/mockFflipObject";
 
 const models = require("../../models");
 const httpMocks = require("node-mocks-http");
@@ -56,37 +54,8 @@ describe("getCaseNotes", function() {
       })
     ]);
   });
-  describe("newAuditFeature toggle disabled", () => {
+  describe("auditing", () => {
     test("should audit accessing case notes", async () => {
-      request.fflip = mockFflipObject({
-        newAuditFeature: false
-      });
-      await getCaseNotes(request, response, next);
-
-      const actionAudit = await models.action_audit.findOne({
-        where: { caseId: existingCase.id }
-      });
-
-      expect(actionAudit).toEqual(
-        expect.objectContaining({
-          user: "tuser",
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: AUDIT_ACTION.DATA_ACCESSED,
-          subject: AUDIT_SUBJECT.CASE_NOTES,
-          caseId: existingCase.id,
-          auditDetails: {
-            "Case Note": ["All Case Note Data"],
-            "Case Note Action": ["All Case Note Action Data"]
-          }
-        })
-      );
-    });
-  });
-  describe("newAuditFeature toggle enabled", () => {
-    test("should audit accessing case notes", async () => {
-      request.fflip = mockFflipObject({
-        newAuditFeature: true
-      });
       await getCaseNotes(request, response, next);
 
       const audit = await models.audit.findOne({
