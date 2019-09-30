@@ -1,6 +1,5 @@
 import formatDate from "../../../../client/utilities/formatDate";
 import _ from "lodash";
-import { JOB_OPERATION } from "../../../../sharedUtilities/constants";
 
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
 const config = require("../../../config/config")[process.env.NODE_ENV];
@@ -36,56 +35,39 @@ const generateExportDownloadUrl = async (
   fileName,
   userName,
   jobName,
-  dateRange,
-  newAuditFeatureToggle
+  dateRange
 ) => {
   const s3 = createConfiguredS3Instance();
 
   const signedUrl = await models.sequelize.transaction(async transaction => {
     const auditDetails = getAuditDetailsForExport(dateRange);
 
-    if (newAuditFeatureToggle) {
-      const rangeType = dateRange && dateRange.type ? dateRange.type : null;
-      const rangeStart =
-        dateRange && dateRange.exportStartDate
-          ? dateRange.exportStartDate
-          : null;
-      const rangeEnd =
-        dateRange && dateRange.exportEndDate ? dateRange.exportEndDate : null;
+    const rangeType = dateRange && dateRange.type ? dateRange.type : null;
+    const rangeStart =
+      dateRange && dateRange.exportStartDate ? dateRange.exportStartDate : null;
+    const rangeEnd =
+      dateRange && dateRange.exportEndDate ? dateRange.exportEndDate : null;
 
-      const auditValues = {
-        auditAction: AUDIT_ACTION.EXPORTED,
-        user: userName,
-        exportAudit: {
-          exportType: jobName,
-          rangeType: rangeType,
-          rangeStart: rangeStart,
-          rangeEnd: rangeEnd
-        }
-      };
+    const auditValues = {
+      auditAction: AUDIT_ACTION.EXPORTED,
+      user: userName,
+      exportAudit: {
+        exportType: jobName,
+        rangeType: rangeType,
+        rangeStart: rangeStart,
+        rangeEnd: rangeEnd
+      }
+    };
 
-      await models.audit.create(auditValues, {
-        include: [
-          {
-            as: "exportAudit",
-            model: models.export_audit
-          }
-        ],
-        transaction
-      });
-    } else {
-      const auditSubject = jobName ? JOB_OPERATION[jobName].auditSubject : null;
-      await models.action_audit.create(
+    await models.audit.create(auditValues, {
+      include: [
         {
-          auditType: AUDIT_TYPE.EXPORT,
-          action: AUDIT_ACTION.EXPORTED,
-          subject: auditSubject,
-          user: userName,
-          auditDetails: auditDetails
-        },
-        { transaction }
-      );
-    }
+          as: "exportAudit",
+          model: models.export_audit
+        }
+      ],
+      transaction
+    });
 
     return s3.getSignedUrl(S3_GET_OBJECT, {
       Bucket: config.exportsBucket,

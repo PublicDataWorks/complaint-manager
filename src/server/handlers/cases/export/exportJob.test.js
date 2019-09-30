@@ -1,7 +1,7 @@
 import { JOB_OPERATION } from "../../../../sharedUtilities/constants";
+import generateExportDownloadUrl from "./generateExportDownloadUrl";
 
 const kue = require("kue");
-import generateExportDownloadUrl from "./generateExportDownloadUrl";
 
 const AUTHENTICATED_URL = "authenticated url";
 jest.mock("./generateExportDownloadUrl", () =>
@@ -74,7 +74,6 @@ describe("Get an export job", () => {
       "file.name",
       request.nickname,
       JOB_OPERATION.CASE_EXPORT.name,
-      undefined,
       undefined
     );
   });
@@ -100,8 +99,7 @@ describe("Get an export job", () => {
       "file.name",
       request.nickname,
       JOB_OPERATION.AUDIT_LOG_EXPORT.name,
-      job.data.dateRange,
-      undefined
+      job.data.dateRange
     );
   });
 });
