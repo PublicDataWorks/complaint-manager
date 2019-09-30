@@ -4,19 +4,13 @@ import Civilian from "../../../client/testUtilities/civilian";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
   ADDRESSABLE_TYPE,
-  AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_TYPE,
   CASE_STATUS
 } from "../../../sharedUtilities/constants";
 import Boom from "boom";
 import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 import auditDataAccess from "../audits/auditDataAccess";
-import mockFflipObject from "../../testHelpers/mockFflipObject";
-import {
-  expectedCaseAuditDetails,
-  expectedFormattedCaseAuditDetails
-} from "../../testHelpers/expectedAuditDetails";
+import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
 
 const editCivilian = require("./editCivilian");
 const models = require("../../models/index");
@@ -39,7 +33,7 @@ describe("editCivilian", () => {
       existingCase = await createTestCaseWithCivilian();
     });
 
-    describe("newAuditFeature is disabled", () => {
+    describe("auditing", () => {
       test("should audit case details access when civilian edited", async () => {
         const existingCivilians = await existingCase.getComplainantCivilians({
           include: [models.address]
@@ -59,50 +53,7 @@ describe("editCivilian", () => {
               city: "Chicago"
             }
           },
-          nickname: "TEST_USER_NICKNAME",
-          fflip: mockFflipObject({ newAuditFeature: false })
-        });
-        await editCivilian(request, response, next);
-
-        const actionAudit = await models.action_audit.findOne({
-          where: { caseId: existingCase.id }
-        });
-
-        expect(actionAudit).toEqual(
-          expect.objectContaining({
-            caseId: existingCase.id,
-            action: AUDIT_ACTION.DATA_ACCESSED,
-            subject: AUDIT_SUBJECT.CASE_DETAILS,
-            user: "TEST_USER_NICKNAME",
-            auditType: AUDIT_TYPE.DATA_ACCESS,
-            auditDetails: expectedFormattedCaseAuditDetails
-          })
-        );
-      });
-    });
-
-    describe("newAuditFeature is enabled", () => {
-      test("should audit case details access when civilian edited", async () => {
-        const existingCivilians = await existingCase.getComplainantCivilians({
-          include: [models.address]
-        });
-        const existingCivilian = existingCivilians[0];
-        const request = httpMocks.createRequest({
-          method: "PUT",
-          headers: {
-            authorization: "Bearer SOME_MOCK_TOKEN"
-          },
-          params: {
-            civilianId: existingCivilian.id
-          },
-          body: {
-            address: {
-              streetAddress: "123 Fleet Street",
-              city: "Chicago"
-            }
-          },
-          nickname: "TEST_USER_NICKNAME",
-          fflip: mockFflipObject({ newAuditFeature: true })
+          nickname: "TEST_USER_NICKNAME"
         });
 
         await editCivilian(request, response, next);

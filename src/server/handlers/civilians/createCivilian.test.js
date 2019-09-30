@@ -5,16 +5,10 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import {
   ADDRESSABLE_TYPE,
-  AUDIT_ACTION,
-  AUDIT_SUBJECT,
-  AUDIT_TYPE
+  AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
-import mockFflipObject from "../../testHelpers/mockFflipObject";
 import auditDataAccess from "../audits/auditDataAccess";
-import {
-  expectedCaseAuditDetails,
-  expectedFormattedCaseAuditDetails
-} from "../../testHelpers/expectedAuditDetails";
+import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
 
 const httpMocks = require("node-mocks-http");
 
@@ -52,40 +46,11 @@ describe("createCivilian handler", () => {
     await cleanupDatabase();
   });
 
-  describe("newAuditFeature is disabled", () => {
+  describe("auditing", () => {
     test("should audit case data access", async () => {
       const createdCase = await createTestCaseWithoutCivilian();
       civilianValues.caseId = createdCase.id;
       request.body = civilianValues;
-      request.fflip = mockFflipObject({ newAuditFeature: false });
-
-      await createCivilian(request, response, next);
-
-      const audit = await models.action_audit.findOne({
-        where: {
-          caseId: createdCase.id
-        }
-      });
-
-      expect(audit).toEqual(
-        expect.objectContaining({
-          caseId: createdCase.id,
-          user: "TEST_USER_NICKNAME",
-          subject: AUDIT_SUBJECT.CASE_DETAILS,
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: AUDIT_ACTION.DATA_ACCESSED,
-          auditDetails: expectedFormattedCaseAuditDetails
-        })
-      );
-    });
-  });
-
-  describe("newAuditFeature is enabled", () => {
-    test("should audit case data access", async () => {
-      const createdCase = await createTestCaseWithoutCivilian();
-      civilianValues.caseId = createdCase.id;
-      request.body = civilianValues;
-      request.fflip = mockFflipObject({ newAuditFeature: true });
 
       await createCivilian(request, response, next);
 
