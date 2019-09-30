@@ -272,27 +272,6 @@ exports.init = (sequelize, model) => {
         transaction: options.transaction
       }
     );
-    // TODO remove following when removing newAuditFeature flag
-    await sequelize.model("legacy_data_change_audit").create(
-      {
-        user: getUserNickname(options, action, formattedModelName),
-        action: action,
-        modelName: formattedModelName,
-        modelId: instance.id,
-        modelDescription: await getModelDescription(
-          formattedModelName,
-          instance,
-          options.transaction
-        ),
-        caseId: caseId,
-        snapshot: snapshot,
-        changes: changes,
-        createdAt: dataChangeAudit.createdAt
-      },
-      {
-        transaction: options.transaction
-      }
-    );
   };
 
   const snapshotValues = async instance => {

@@ -51,18 +51,24 @@ describe("dataChangeAuditHooks for letter officer", () => {
   });
 
   test("creates audit on creation of letter officer", async () => {
-    const audit = await models.legacy_data_change_audit.findOne({
-      where: {
-        modelName: "Letter Officer",
-        action: AUDIT_ACTION.DATA_CREATED
-      }
+    const audit = await models.audit.findOne({
+      where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+      include: [
+        {
+          as: "dataChangeAudit",
+          model: models.data_change_audit,
+          where: {
+            modelName: "letter_officer"
+          }
+        }
+      ]
     });
 
     expect(audit.caseId).toEqual(existingCase.id);
-    expect(audit.modelDescription).toEqual([
+    expect(audit.dataChangeAudit.modelDescription).toEqual([
       { "Officer Name": "Grant M Young" }
     ]);
-    expect(audit.modelId).toEqual(letterOfficer.id);
+    expect(audit.dataChangeAudit.modelId).toEqual(letterOfficer.id);
     expect(audit.user).toEqual("someone");
   });
 });

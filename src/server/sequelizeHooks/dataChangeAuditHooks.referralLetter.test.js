@@ -37,16 +37,25 @@ describe("dataChangeAuditHooks for referral letter", () => {
   });
 
   test("creates audit on referral letter creation", async () => {
-    const audit = await models.legacy_data_change_audit.findOne({
-      where: { modelName: "Referral Letter", action: AUDIT_ACTION.DATA_CREATED }
+    const audit = await models.audit.findOne({
+      where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+      include: [
+        {
+          as: "dataChangeAudit",
+          model: models.data_change_audit,
+          where: {
+            modelName: "referral_letter"
+          }
+        }
+      ]
     });
 
     expect(audit.caseId).toEqual(existingCase.id);
-    expect(audit.modelDescription).toEqual([]);
-    expect(audit.modelId).toEqual(referralLetter.id);
+    expect(audit.dataChangeAudit.modelDescription).toEqual([]);
+    expect(audit.dataChangeAudit.modelId).toEqual(referralLetter.id);
     expect(audit.user).toEqual("someone");
-    expect("recipient" in audit.changes).toBeTruthy();
-    expect("sender" in audit.changes).toBeTruthy();
+    expect("recipient" in audit.dataChangeAudit.changes).toBeTruthy();
+    expect("sender" in audit.dataChangeAudit.changes).toBeTruthy();
   });
 
   test("creates an audit for letter updates on model class", async () => {
@@ -54,11 +63,20 @@ describe("dataChangeAuditHooks for referral letter", () => {
       { includeRetaliationConcerns: false },
       { where: { id: referralLetter.id }, auditUser: "someone" }
     );
-    const audit = await models.legacy_data_change_audit.findOne({
-      where: { modelName: "Referral Letter", action: AUDIT_ACTION.DATA_UPDATED }
+    const audit = await models.audit.findOne({
+      where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+      include: [
+        {
+          as: "dataChangeAudit",
+          model: models.data_change_audit,
+          where: {
+            modelName: "referral_letter"
+          }
+        }
+      ]
     });
 
-    expect(audit.changes).toEqual({
+    expect(audit.dataChangeAudit.changes).toEqual({
       includeRetaliationConcerns: { previous: true, new: false }
     });
   });
@@ -69,11 +87,20 @@ describe("dataChangeAuditHooks for referral letter", () => {
       { auditUser: "someone" }
     );
 
-    const audit = await models.legacy_data_change_audit.findOne({
-      where: { modelName: "Referral Letter", action: AUDIT_ACTION.DATA_UPDATED }
+    const audit = await models.audit.findOne({
+      where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+      include: [
+        {
+          as: "dataChangeAudit",
+          model: models.data_change_audit,
+          where: {
+            modelName: "referral_letter"
+          }
+        }
+      ]
     });
 
-    expect(audit.changes).toEqual({
+    expect(audit.dataChangeAudit.changes).toEqual({
       includeRetaliationConcerns: { previous: true, new: false }
     });
   });

@@ -9,21 +9,14 @@ const {
   AUDIT_FIELDS_TO_EXCLUDE
 } = require("../../../../sharedUtilities/constants");
 
-const transformAuditsToCaseHistory = (
-  caseHistoryAudits,
-  newAuditFeatureToggle = true
-) => {
+const transformAuditsToCaseHistory = caseHistoryAudits => {
   const caseHistory = [];
   let auditId = 0;
 
   let caseHistoryEntry;
   if (caseHistoryAudits.dataChangeAudits) {
     caseHistoryAudits.dataChangeAudits.forEach(audit => {
-      caseHistoryEntry = transformDataChangeAuditToCaseHistory(
-        audit,
-        auditId,
-        newAuditFeatureToggle
-      );
+      caseHistoryEntry = transformDataChangeAuditToCaseHistory(audit, auditId);
       if (caseHistoryEntry) {
         caseHistory.push(caseHistoryEntry);
         auditId++;
@@ -33,9 +26,7 @@ const transformAuditsToCaseHistory = (
 
   if (caseHistoryAudits.uploadAudits) {
     caseHistoryAudits.uploadAudits.forEach(audit => {
-      caseHistory.push(
-        transformUploadAuditToCaseHistory(audit, auditId, newAuditFeatureToggle)
-      );
+      caseHistory.push(transformUploadAuditToCaseHistory(audit, auditId));
       auditId++;
     });
   }
@@ -43,37 +34,27 @@ const transformAuditsToCaseHistory = (
   return _.orderBy(caseHistory, ["timestamp"], "desc");
 };
 
-export const transformDataChangeAuditToCaseHistory = (
-  audit,
-  auditId,
-  newAuditFeatureToggle = true
-) => {
-  const details = transformDataChangeDetails(audit, newAuditFeatureToggle);
-  const action = newAuditFeatureToggle ? audit.auditAction : audit.action;
+export const transformDataChangeAuditToCaseHistory = (audit, auditId) => {
+  const details = transformDataChangeDetails(audit);
+  const action = audit.auditAction;
   if (action === AUDIT_ACTION.DATA_UPDATED && _.isEmpty(details)) return;
 
   return {
     id: auditId,
     user: audit.user,
-    action: transformDataChangeAction(audit, newAuditFeatureToggle),
-    modelDescription: newAuditFeatureToggle
-      ? audit.dataChangeAudit.modelDescription
-      : audit.modelDescription,
+    action: transformDataChangeAction(audit),
+    modelDescription: audit.dataChangeAudit.modelDescription,
     details: details,
     timestamp: audit.createdAt
   };
 };
 
-export const transformUploadAuditToCaseHistory = (
-  uploadAudit,
-  auditId,
-  newAuditFeatureToggle = true
-) => {
-  const details = transformUploadDetails(uploadAudit, newAuditFeatureToggle);
+export const transformUploadAuditToCaseHistory = (uploadAudit, auditId) => {
+  const details = transformUploadDetails(uploadAudit);
   return {
     id: auditId,
     user: uploadAudit.user,
-    action: transformAuditAction(uploadAudit, newAuditFeatureToggle),
+    action: transformAuditAction(uploadAudit),
     modelDescription: "",
     details: details,
     timestamp: uploadAudit.createdAt
@@ -88,38 +69,24 @@ const formatModelName = modelName => {
   }
 };
 
-const transformDataChangeAction = (audit, newAuditFeatureToggle = true) => {
-  if (newAuditFeatureToggle) {
-    return `${formatModelName(audit.dataChangeAudit.modelName)} ${
-      audit.auditAction
-    }`;
-  } else {
-    return `${audit.modelName} ${audit.action}`;
-  }
+const transformDataChangeAction = audit => {
+  return `${formatModelName(audit.dataChangeAudit.modelName)} ${
+    audit.auditAction
+  }`;
 };
 
-const transformAuditAction = (audit, newAuditFeatureToggle = true) => {
-  if (newAuditFeatureToggle) {
-    return `${audit.fileAudit.fileType} ${audit.auditAction}`;
-  } else {
-    return `${audit.subject} ${audit.action}`;
-  }
+const transformAuditAction = audit => {
+  return `${audit.fileAudit.fileType} ${audit.auditAction}`;
 };
 
-const transformUploadDetails = (audit, newAuditFeatureToggle = true) => {
-  if (newAuditFeatureToggle) {
-    return `Filename: ${audit.fileAudit.fileName}\n${_.startCase(
-      audit.fileAudit.fileType
-    )} finalized and uploaded to S3`;
-  } else {
-    return AUDIT_UPLOAD_DETAILS.REFERRAL_LETTER_PDF;
-  }
+const transformUploadDetails = audit => {
+  return `Filename: ${audit.fileAudit.fileName}\n${_.startCase(
+    audit.fileAudit.fileType
+  )} finalized and uploaded to S3`;
 };
 
-const transformDataChangeDetails = (audit, newAuditFeatureToggle = true) => {
-  const changes = newAuditFeatureToggle
-    ? audit.dataChangeAudit.changes
-    : audit.changes;
+const transformDataChangeDetails = audit => {
+  const changes = audit.dataChangeAudit.changes;
 
   return _.reduce(
     changes,

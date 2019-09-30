@@ -39,14 +39,23 @@ describe("dataChangeAuditHooks for civilian", () => {
   });
 
   test("creates audit on civilian creation", async () => {
-    const audit = await models.legacy_data_change_audit.findOne({
-      where: { modelName: "Civilian", action: AUDIT_ACTION.DATA_CREATED }
+    const audit = await models.audit.findOne({
+      where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+      include: [
+        {
+          as: "dataChangeAudit",
+          model: models.data_change_audit,
+          where: {
+            modelName: "civilian"
+          }
+        }
+      ]
     });
 
     expect(audit.caseId).toEqual(existingCase.id);
-    expect(audit.modelId).toEqual(civilian.id);
+    expect(audit.dataChangeAudit.modelId).toEqual(civilian.id);
     expect(audit.user).toEqual("someone");
-    expect(audit.modelDescription).toEqual([
+    expect(audit.dataChangeAudit.modelDescription).toEqual([
       { "Civilian Name": civilian.fullName }
     ]);
   });
@@ -80,14 +89,25 @@ describe("dataChangeAuditHooks for civilian", () => {
       { firstName: "Updated Name", raceEthnicityId: raceEthnicity.id },
       { where: { id: civilian.id }, auditUser: "someone" }
     );
-    const audit = await models.legacy_data_change_audit.findOne({
-      where: { modelName: "Civilian", action: AUDIT_ACTION.DATA_UPDATED }
+    const audit = await models.audit.findOne({
+      where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+      include: [
+        {
+          as: "dataChangeAudit",
+          model: models.data_change_audit,
+          where: {
+            modelName: "civilian"
+          }
+        }
+      ]
     });
 
     expect(audit.caseId).toEqual(existingCase.id);
-    expect(audit.modelId).toEqual(civilian.id);
+    expect(audit.dataChangeAudit.modelId).toEqual(civilian.id);
     expect(audit.user).toEqual("someone");
-    expect(audit.changes.raceEthnicityId.new).toEqual(raceEthnicity.id);
+    expect(audit.dataChangeAudit.changes.raceEthnicityId.new).toEqual(
+      raceEthnicity.id
+    );
   });
 
   test("it saves the changes when gender identity association has changed", async () => {
@@ -102,8 +122,17 @@ describe("dataChangeAuditHooks for civilian", () => {
       { auditUser: "someoneWhoUpdated" }
     );
 
-    const audit = await models.legacy_data_change_audit.findOne({
-      where: { modelName: "Civilian", action: AUDIT_ACTION.DATA_UPDATED }
+    const audit = await models.audit.findOne({
+      where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+      include: [
+        {
+          as: "dataChangeAudit",
+          model: models.data_change_audit,
+          where: {
+            modelName: "civilian"
+          }
+        }
+      ]
     });
 
     const expectedChanges = {
@@ -116,7 +145,7 @@ describe("dataChangeAuditHooks for civilian", () => {
         new: genderIdentity.name
       }
     };
-    expect(audit.changes).toEqual(expectedChanges);
+    expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
   });
 
   test("it saves the changes when civilian title association has changed", async () => {
@@ -133,8 +162,17 @@ describe("dataChangeAuditHooks for civilian", () => {
       }
     );
 
-    const audit = await models.legacy_data_change_audit.findOne({
-      where: { modelName: "Civilian", action: AUDIT_ACTION.DATA_UPDATED }
+    const audit = await models.audit.findOne({
+      where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+      include: [
+        {
+          as: "dataChangeAudit",
+          model: models.data_change_audit,
+          where: {
+            modelName: "civilian"
+          }
+        }
+      ]
     });
 
     const expectedChanges = {
@@ -148,6 +186,6 @@ describe("dataChangeAuditHooks for civilian", () => {
       }
     };
 
-    expect(audit.changes).toEqual(expectedChanges);
+    expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
   });
 });

@@ -26,8 +26,17 @@ describe("dataChangeAuditHooks for caseNote", () => {
       auditUser: "someone"
     });
 
-    const audit = await models.legacy_data_change_audit.findOne({
-      where: { modelName: "Case Note", action: AUDIT_ACTION.DATA_CREATED }
+    const audit = await models.audit.findOne({
+      where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+      include: [
+        {
+          as: "dataChangeAudit",
+          model: models.data_change_audit,
+          where: {
+            modelName: "case_note"
+          }
+        }
+      ]
     });
 
     const formattedActionTakenAt = timezone
@@ -35,9 +44,9 @@ describe("dataChangeAuditHooks for caseNote", () => {
       .format("MMM DD, YYYY h:mm:ss A z");
 
     expect(audit.caseId).toEqual(existingCase.id);
-    expect(audit.modelId).toEqual(caseNote.id);
+    expect(audit.dataChangeAudit.modelId).toEqual(caseNote.id);
     expect(audit.user).toEqual("someone");
-    expect(audit.modelDescription).toEqual([
+    expect(audit.dataChangeAudit.modelDescription).toEqual([
       {
         Action: caseNote.action
       },

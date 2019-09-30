@@ -49,16 +49,24 @@ describe("dataChangeAuditHooks for referral letter iapro correction", () => {
   });
 
   test("creates audit on referral letter iapro corrections creation", async () => {
-    const audit = await models.legacy_data_change_audit.findOne({
-      where: {
-        modelName: "Referral Letter Iapro Correction",
-        action: AUDIT_ACTION.DATA_CREATED
-      }
+    const audit = await models.audit.findOne({
+      where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+      include: [
+        {
+          as: "dataChangeAudit",
+          model: models.data_change_audit,
+          where: {
+            modelName: "referral_letter_iapro_correction"
+          }
+        }
+      ]
     });
 
     expect(audit.caseId).toEqual(existingCase.id);
-    expect(audit.modelId).toEqual(referralLetterIaproCorrection.id);
-    expect(audit.modelDescription).toEqual([]);
+    expect(audit.dataChangeAudit.modelId).toEqual(
+      referralLetterIaproCorrection.id
+    );
+    expect(audit.dataChangeAudit.modelDescription).toEqual([]);
     expect(audit.user).toEqual("someone");
   });
 });
