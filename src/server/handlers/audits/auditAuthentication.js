@@ -1,5 +1,3 @@
-import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
-
 const {
   AUDIT_TYPE,
   AUDIT_ACTION
@@ -13,23 +11,10 @@ const auditAuthentication = asyncMiddleware(async (request, response) => {
     return response.sendStatus(400);
   }
 
-  const newAuditFeatureToggle = checkFeatureToggleEnabled(
-    request,
-    "newAuditFeature"
-  );
-  if (newAuditFeatureToggle) {
-    await models.audit.create({
-      auditAction: request.body.log,
-      user: request.nickname
-    });
-  } else {
-    await models.action_audit.create({
-      auditType: AUDIT_TYPE.AUTHENTICATION,
-      action: request.body.log,
-      caseId: null,
-      user: request.nickname
-    });
-  }
+  await models.audit.create({
+    auditAction: request.body.log,
+    user: request.nickname
+  });
 
   response.status(201).send();
 });
