@@ -1,5 +1,3 @@
-import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
-import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import { auditFileAction } from "../../audits/auditFileAction";
 import { AUDIT_FILE_TYPE } from "../../../../sharedUtilities/constants";
 
@@ -7,7 +5,6 @@ const asyncMiddleware = require("../../asyncMiddleware");
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
 const config = require("../../../config/config");
 const {
-  AUDIT_SUBJECT,
   AUDIT_ACTION,
   S3_GET_OBJECT,
   S3_URL_EXPIRATION
@@ -20,17 +17,11 @@ const getAttachmentDownloadUrl = asyncMiddleware(
     const fileName = request.params.fileName;
     const caseId = request.params.caseId;
 
-    const newAuditFeatureToggle = checkFeatureToggleEnabled(
-      request,
-      "newAuditFeature"
-    );
-
     const signedUrl = await getSignedUrlForAttachment(
       fileName,
       caseId,
       s3,
-      request.nickname,
-      newAuditFeatureToggle
+      request.nickname
     );
 
     response.setHeader("Content-Type", "text/html");
@@ -39,13 +30,7 @@ const getAttachmentDownloadUrl = asyncMiddleware(
   }
 );
 
-const getSignedUrlForAttachment = async (
-  fileName,
-  caseId,
-  s3,
-  user,
-  newAuditFeatureToggle
-) => {
+const getSignedUrlForAttachment = async (fileName, caseId, s3, user) => {
   return await models.sequelize.transaction(async transaction => {
     const complainantLetter = await models.complainant_letter.findOne({
       where: { finalPdfFilename: fileName }
@@ -55,65 +40,34 @@ const getSignedUrlForAttachment = async (
     });
 
     if (complainantLetter) {
-      if (newAuditFeatureToggle) {
-        await auditFileAction(
-          user,
-          caseId,
-          AUDIT_ACTION.DOWNLOADED,
-          fileName,
-          AUDIT_FILE_TYPE.LETTER_TO_COMPLAINANT_PDF,
-          transaction
-        );
-      } else {
-        await legacyAuditDataAccess(
-          user,
-          complainantLetter.caseId,
-          AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
-          transaction,
-          AUDIT_ACTION.DOWNLOADED
-        );
-      }
+      await auditFileAction(
+        user,
+        caseId,
+        AUDIT_ACTION.DOWNLOADED,
+        fileName,
+        AUDIT_FILE_TYPE.LETTER_TO_COMPLAINANT_PDF,
+        transaction
+      );
       return getComplainantLetterS3Url(s3, complainantLetter);
     } else if (referralLetter) {
-      if (newAuditFeatureToggle) {
-        await auditFileAction(
-          user,
-          caseId,
-          AUDIT_ACTION.DOWNLOADED,
-          fileName,
-          AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
-          transaction
-        );
-      } else {
-        await legacyAuditDataAccess(
-          user,
-          referralLetter.caseId,
-          AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
-          transaction,
-          AUDIT_ACTION.DOWNLOADED
-        );
-      }
+      await auditFileAction(
+        user,
+        caseId,
+        AUDIT_ACTION.DOWNLOADED,
+        fileName,
+        AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
+        transaction
+      );
       return getReferralLetterS3Url(s3, referralLetter);
     } else {
-      if (newAuditFeatureToggle) {
-        await auditFileAction(
-          user,
-          caseId,
-          AUDIT_ACTION.DOWNLOADED,
-          fileName,
-          AUDIT_FILE_TYPE.ATTACHMENT,
-          transaction
-        );
-      } else {
-        await legacyAuditDataAccess(
-          user,
-          caseId,
-          AUDIT_SUBJECT.ATTACHMENT,
-          transaction,
-          AUDIT_ACTION.DOWNLOADED,
-          { fileName: [fileName] }
-        );
-      }
+      await auditFileAction(
+        user,
+        caseId,
+        AUDIT_ACTION.DOWNLOADED,
+        fileName,
+        AUDIT_FILE_TYPE.ATTACHMENT,
+        transaction
+      );
 
       const filenameWithCaseId = `${caseId}/${fileName}`;
       return getS3SignedUrl(
@@ -134,9 +88,7 @@ const getS3SignedUrl = (s3, bucket, key) => {
 };
 
 const getComplainantLetterS3Url = (s3, complainantLetter) => {
-  const filenameWithCaseId = `${complainantLetter.caseId}/${
-    complainantLetter.finalPdfFilename
-  }`;
+  const filenameWithCaseId = `${complainantLetter.caseId}/${complainantLetter.finalPdfFilename}`;
 
   return getS3SignedUrl(
     s3,
@@ -146,9 +98,7 @@ const getComplainantLetterS3Url = (s3, complainantLetter) => {
 };
 
 const getReferralLetterS3Url = (s3, referralLetter) => {
-  const filenameWithCaseId = `${referralLetter.caseId}/${
-    referralLetter.finalPdfFilename
-  }`;
+  const filenameWithCaseId = `${referralLetter.caseId}/${referralLetter.finalPdfFilename}`;
 
   return getS3SignedUrl(
     s3,

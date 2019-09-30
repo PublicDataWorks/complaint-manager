@@ -12,12 +12,9 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import Boom from "boom";
-import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
-import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { auditFileAction } from "../../audits/auditFileAction";
-import auditUpload from "../referralLetters/sharedLetterUtilities/auditUpload";
 
 const uploadAttachment = asyncMiddleware(async (request, response, next) => {
   let managedUpload;
@@ -25,10 +22,6 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
   const busboy = new Busboy({
     headers: request.headers
   });
-  const newAuditFeatureToggle = checkFeatureToggleEnabled(
-    request,
-    "newAuditFeature"
-  );
 
   let attachmentDescription;
 
@@ -87,39 +80,22 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
 
               const caseDetails = caseDetailsAndAuditDetails.caseDetails;
               const auditDetails = caseDetailsAndAuditDetails.auditDetails;
-              if (newAuditFeatureToggle) {
-                await auditFileAction(
-                  request.nickname,
-                  caseId,
-                  AUDIT_ACTION.UPLOADED,
-                  fileName,
-                  AUDIT_FILE_TYPE.ATTACHMENT,
-                  transaction
-                );
-                await auditDataAccess(
-                  request.nickname,
-                  caseId,
-                  AUDIT_SUBJECT.CASE_DETAILS,
-                  auditDetails,
-                  transaction
-                );
-              } else {
-                await auditUpload(
-                  request.nickname,
-                  caseId,
-                  AUDIT_SUBJECT.ATTACHMENT,
-                  { fileName: [fileName] },
-                  transaction
-                );
-                await legacyAuditDataAccess(
-                  request.nickname,
-                  caseId,
-                  AUDIT_SUBJECT.CASE_DETAILS,
-                  transaction,
-                  AUDIT_ACTION.DATA_ACCESSED,
-                  auditDetails
-                );
-              }
+
+              await auditFileAction(
+                request.nickname,
+                caseId,
+                AUDIT_ACTION.UPLOADED,
+                fileName,
+                AUDIT_FILE_TYPE.ATTACHMENT,
+                transaction
+              );
+              await auditDataAccess(
+                request.nickname,
+                caseId,
+                AUDIT_SUBJECT.CASE_DETAILS,
+                auditDetails,
+                transaction
+              );
 
               return caseDetails;
             }
