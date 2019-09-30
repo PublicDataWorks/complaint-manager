@@ -37,7 +37,6 @@ describe("test remove_case_details_access_audit_created_in_approve_letter migrat
       headers: {
         authorization: "Bearer token"
       },
-      fflip: mockFflipObject({ newAuditFeature: false }),
       params: { caseId: existingCase.id },
       nickname: "nickname",
       permissions: [`${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES}`]

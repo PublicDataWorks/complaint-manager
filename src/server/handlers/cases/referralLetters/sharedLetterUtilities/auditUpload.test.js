@@ -1,5 +1,6 @@
 import {
   AUDIT_ACTION,
+  AUDIT_FILE_TYPE,
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } from "../../../../../sharedUtilities/constants";
@@ -24,7 +25,7 @@ describe("auditUpload", () => {
       await auditUpload(
         "user",
         caseForAudit.id,
-        AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+        AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
         { fileName: ["testFile.txt"] }
       );
     });
@@ -37,7 +38,7 @@ describe("auditUpload", () => {
     expect(createdAudits[0].user).toEqual("user");
     expect(createdAudits[0].caseId).toEqual(caseForAudit.id);
     expect(createdAudits[0].subject).toEqual(
-      AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF
+      AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF
     );
     expect(createdAudits[0].auditDetails).toEqual(
       expect.objectContaining({

@@ -2,7 +2,7 @@ import Case from "../../../../../client/testUtilities/case";
 import models from "../../../../models";
 import {
   AUDIT_ACTION,
-  AUDIT_SUBJECT,
+  AUDIT_FILE_TYPE,
   CASE_STATUS,
   CIVILIAN_INITIATED,
   COMPLAINANT,
@@ -189,7 +189,7 @@ describe("getFinalPdfDownloadUrl", () => {
         existingCase.id,
         AUDIT_ACTION.DOWNLOADED,
         referralLetter.finalPdfFilename,
-        AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+        AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
         expect.anything()
       );
     });

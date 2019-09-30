@@ -22,7 +22,7 @@ describe("getTransformedAudits", () => {
     await cleanupDatabase();
   });
   const job = {
-    data: { user: testUser, features: { newAuditFeature: true } }
+    data: { user: testUser }
   };
 
   test("should include exportAudits", async () => {
