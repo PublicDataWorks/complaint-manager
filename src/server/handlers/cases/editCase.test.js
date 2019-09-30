@@ -4,19 +4,13 @@ import Civilian from "../../../client/testUtilities/civilian";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
   ADDRESSABLE_TYPE,
-  AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_TYPE,
   CASE_STATUS
 } from "../../../sharedUtilities/constants";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
-import mockFflipObject from "../../testHelpers/mockFflipObject";
 import auditDataAccess from "../audits/auditDataAccess";
-import {
-  expectedCaseAuditDetails,
-  expectedFormattedCaseAuditDetails
-} from "../../testHelpers/expectedAuditDetails";
+import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
 
 const httpMocks = require("node-mocks-http");
 const models = require("../../models");
@@ -357,33 +351,8 @@ describe("Edit Case", () => {
         expect(existingCase.incidentLocation.city).toEqual("Durham");
       });
 
-      describe("newAuditFeatureToggle disabled", () => {
+      describe("auditing", () => {
         test("should audit case details access when case updated", async () => {
-          request.fflip = mockFflipObject({ newAuditFeature: false });
-          await editCase(request, response, next);
-
-          const actionAudit = await models.action_audit.findOne({
-            where: { caseId: existingCase.id },
-            returning: true
-          });
-
-          expect(actionAudit).toEqual(
-            expect.objectContaining({
-              user: "TEST_USER_NICKNAME",
-              action: AUDIT_ACTION.DATA_ACCESSED,
-              subject: AUDIT_SUBJECT.CASE_DETAILS,
-              auditType: AUDIT_TYPE.DATA_ACCESS,
-              caseId: existingCase.id,
-              auditDetails: expectedFormattedCaseAuditDetails
-            })
-          );
-        });
-      });
-
-      describe("newAuditFeatureToggle enabled", () => {
-        test("should audit case details access when case updated", async () => {
-          request.fflip = mockFflipObject({ newAuditFeature: true });
-
           await editCase(request, response, next);
 
           expect(auditDataAccess).toHaveBeenCalledWith(

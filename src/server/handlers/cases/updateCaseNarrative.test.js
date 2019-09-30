@@ -1,16 +1,8 @@
 import Case from "../../../client/testUtilities/case";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import {
-  AUDIT_ACTION,
-  AUDIT_SUBJECT,
-  AUDIT_TYPE
-} from "../../../sharedUtilities/constants";
+import { AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";
-import mockFflipObject from "../../testHelpers/mockFflipObject";
-import {
-  expectedCaseAuditDetails,
-  expectedFormattedCaseAuditDetails
-} from "../../testHelpers/expectedAuditDetails";
+import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
 
 const httpMocks = require("node-mocks-http");
 const models = require("../../models/index");
@@ -79,10 +71,7 @@ describe("updateCaseNarrative handler", () => {
     expect(response._isEndCalled()).toBeTruthy();
   });
 
-  describe("newAuditFeature enabled", () => {
-    beforeEach(() => {
-      request.fflip = mockFflipObject({ newAuditFeature: true });
-    });
+  describe("auditing", () => {
     test("should audit case details access when case narrative updated", async () => {
       await updateCaseNarrative(request, response, next);
 
@@ -92,30 +81,6 @@ describe("updateCaseNarrative handler", () => {
         AUDIT_SUBJECT.CASE_DETAILS,
         expectedCaseAuditDetails,
         expect.anything()
-      );
-    });
-  });
-
-  describe("newAuditFeature disabled", () => {
-    beforeEach(() => {
-      request.fflip = mockFflipObject({ newAuditFeature: false });
-    });
-    test("should audit case details access when case narrative updated", async () => {
-      await updateCaseNarrative(request, response, next);
-
-      const actionAudit = await models.action_audit.findOne({
-        where: { caseId: existingCase.id }
-      });
-
-      expect(actionAudit).toEqual(
-        expect.objectContaining({
-          user: userNickname,
-          caseId: existingCase.id,
-          subject: AUDIT_SUBJECT.CASE_DETAILS,
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: AUDIT_ACTION.DATA_ACCESSED,
-          auditDetails: expectedFormattedCaseAuditDetails
-        })
       );
     });
   });

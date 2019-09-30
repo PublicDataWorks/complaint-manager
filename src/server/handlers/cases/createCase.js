@@ -2,7 +2,6 @@ import {
   BAD_REQUEST_ERRORS,
   INTERNAL_ERRORS
 } from "../../../sharedUtilities/errorMessageConstants";
-import legacyAuditDataAccess from "../audits/legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import auditDataAccess from "../audits/auditDataAccess";
 import getQueryAuditAccessDetails, {
@@ -10,7 +9,6 @@ import getQueryAuditAccessDetails, {
 } from "../audits/getQueryAuditAccessDetails";
 import {
   ADDRESSABLE_TYPE,
-  AUDIT_ACTION,
   CIVILIAN_INITIATED,
   CIVILIAN_WITHIN_NOPD_INITIATED
 } from "../../../sharedUtilities/constants";
@@ -27,10 +25,6 @@ const MAX_RETRIES = 3;
 const FIRST_TRY = 1;
 
 const createCase = asyncMiddleware(async (request, response, next) => {
-  const newAuditFeatureToggle = checkFeatureToggleEnabled(
-    request,
-    "newAuditFeature"
-  );
   const createCaseAddressInputFeature = checkFeatureToggleEnabled(
     request,
     "createCaseAddressInputFeature"
@@ -42,12 +36,11 @@ const createCase = asyncMiddleware(async (request, response, next) => {
     complaintType === RANK_INITIATED ||
     complaintType === CIVILIAN_WITHIN_NOPD_INITIATED
   ) {
-    newCase = await createCaseWithoutCivilian(request, newAuditFeatureToggle);
+    newCase = await createCaseWithoutCivilian(request);
   } else {
     validateCivilianName(request.body.civilian);
     newCase = await createCaseWithCivilian(
       request,
-      newAuditFeatureToggle,
       createCaseAddressInputFeature
     );
   }
@@ -68,19 +61,17 @@ const invalidName = input => {
   return !input || input.length === 0 || input.length > 25;
 };
 
-const createCaseWithoutCivilian = async (request, newAuditFeatureToggle) => {
+const createCaseWithoutCivilian = async request => {
   return await createCaseWithRetry(
     request.body.case,
     [],
     request.nickname,
-    FIRST_TRY,
-    newAuditFeatureToggle
+    FIRST_TRY
   );
 };
 
 const createCaseWithCivilian = async (
   request,
-  newAuditFeatureToggle,
   createCaseAddressInputFeature
 ) => {
   const newCaseAttributes = {
@@ -99,7 +90,6 @@ const createCaseWithCivilian = async (
     includeOptions,
     request.nickname,
     FIRST_TRY,
-    newAuditFeatureToggle,
     createCaseAddressInputFeature
   );
 };
@@ -109,7 +99,6 @@ const createCaseWithRetry = async (
   includeOptions,
   nickname,
   retryNumber,
-  newAuditFeatureToggle,
   createCaseAddressInputFeature
 ) => {
   const caseAttributes = addMetadataToCaseAttributes(
@@ -121,7 +110,6 @@ const createCaseWithRetry = async (
       caseAttributes,
       includeOptions,
       nickname,
-      newAuditFeatureToggle,
       createCaseAddressInputFeature
     );
   } catch (error) {
@@ -133,8 +121,7 @@ const createCaseWithRetry = async (
         newCaseAttributes,
         includeOptions,
         nickname,
-        retryNumber + 1,
-        newAuditFeatureToggle
+        retryNumber + 1
       );
     } else {
       throw error;
@@ -153,7 +140,6 @@ const attemptCreateCase = async (
   caseAttributes,
   includeOptions,
   nickname,
-  newAuditFeatureToggle,
   createCaseAddressInputFeature = false
 ) => {
   return await models.sequelize.transaction(async transaction => {
@@ -199,24 +185,13 @@ const attemptCreateCase = async (
         ? casesAuditDetails
         : combineAuditDetails(casesAuditDetails, addressAuditDetails);
 
-    if (newAuditFeatureToggle) {
-      await auditDataAccess(
-        nickname,
-        createdCase.id,
-        AUDIT_SUBJECT.CASE_DETAILS,
-        auditDetails,
-        transaction
-      );
-    } else {
-      await legacyAuditDataAccess(
-        nickname,
-        createdCase.id,
-        AUDIT_SUBJECT.CASE_DETAILS,
-        transaction,
-        AUDIT_ACTION.DATA_ACCESSED,
-        auditDetails
-      );
-    }
+    await auditDataAccess(
+      nickname,
+      createdCase.id,
+      AUDIT_SUBJECT.CASE_DETAILS,
+      auditDetails,
+      transaction
+    );
     return createdCase;
   });
 };
