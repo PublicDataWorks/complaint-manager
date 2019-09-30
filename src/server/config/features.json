@@ -12,12 +12,6 @@
     "enabled": false
   },
   {
-    "id": "newAuditFeature",
-    "name": "newAuditFeature",
-    "description": "Toggle to enable new auditing - only do so in production at the same time as migrating old data",
-    "enabled": true
-  },
-  {
     "id": "createCaseAddressInputFeature",
     "name": "createCaseAddressInputFeature",
     "description": "Toggle to enable address input upon case creation as a field for contact information",
