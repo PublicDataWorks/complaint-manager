@@ -5,17 +5,11 @@ import CaseNote from "../../../../client/testUtilities/caseNote";
 import removeCaseNote from "./removeCaseNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
-  AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_TYPE,
   CASE_STATUS
 } from "../../../../sharedUtilities/constants";
-import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../audits/auditDataAccess";
-import {
-  expectedCaseAuditDetails,
-  expectedFormattedCaseAuditDetails
-} from "../../../testHelpers/expectedAuditDetails";
+import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 
 jest.mock("../../audits/auditDataAccess");
 
@@ -55,7 +49,6 @@ describe("RemoveCaseNote unit", () => {
       headers: {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
-      fflip: mockFflipObject({ newAuditFeature: false }),
       params: {
         caseId: createdCase.id,
         caseNoteId: createdCaseNote.id
@@ -84,65 +77,7 @@ describe("RemoveCaseNote unit", () => {
     expect(updatedCaseNotes).toEqual([]);
   });
 
-  describe("newAuditFeature disabled", () => {
-    beforeEach(() => {
-      request.fflip = mockFflipObject({
-        newAuditFeature: false
-      });
-    });
-
-    test("should audit case notes access when case note removed", async () => {
-      const response = httpMocks.createResponse();
-      await removeCaseNote(request, response, jest.fn());
-
-      const actionAudit = await models.action_audit.findAll({
-        where: { caseId: createdCase.id }
-      });
-
-      expect(actionAudit).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            user: "TEST_USER_NICKNAME",
-            auditType: AUDIT_TYPE.DATA_ACCESS,
-            action: AUDIT_ACTION.DATA_ACCESSED,
-            subject: AUDIT_SUBJECT.CASE_NOTES,
-            caseId: createdCase.id,
-            auditDetails: { "Case Note": ["All Case Note Data"] }
-          })
-        ])
-      );
-    });
-
-    test("should audit case details access when case note removed", async () => {
-      const response = httpMocks.createResponse();
-      await removeCaseNote(request, response, jest.fn());
-
-      const actionAudit = await models.action_audit.findAll({
-        where: { caseId: createdCase.id }
-      });
-
-      expect(actionAudit).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            user: "TEST_USER_NICKNAME",
-            auditType: AUDIT_TYPE.DATA_ACCESS,
-            action: AUDIT_ACTION.DATA_ACCESSED,
-            subject: AUDIT_SUBJECT.CASE_DETAILS,
-            caseId: createdCase.id,
-            auditDetails: expectedFormattedCaseAuditDetails
-          })
-        ])
-      );
-    });
-  });
-
-  describe("newAuditFeature enabled", () => {
-    beforeEach(() => {
-      request.fflip = mockFflipObject({
-        newAuditFeature: true
-      });
-    });
-
+  describe("auditing", () => {
     test("should audit case notes access when case note removed", async () => {
       const response = httpMocks.createResponse();
       await removeCaseNote(request, response, jest.fn());

@@ -2,11 +2,9 @@ import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import getCaseTags from "./getCaseTags";
 import models from "../../../models";
-import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import {
   AUDIT_ACTION,
-  AUDIT_SUBJECT,
-  AUDIT_TYPE
+  AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
 
 const httpMocks = require("node-mocks-http");
@@ -67,11 +65,8 @@ describe("getCaseTags", () => {
     ]);
   });
 
-  describe("newAuditFeature toggle enabled", () => {
+  describe("auditing", () => {
     test("should audit accessing case tags", async () => {
-      request.fflip = mockFflipObject({
-        newAuditFeature: true
-      });
       await getCaseTags(request, response, next);
 
       const audit = await models.audit.findOne({
@@ -109,33 +104,6 @@ describe("getCaseTags", () => {
               })
             ])
           })
-        })
-      );
-    });
-  });
-
-  describe("newAuditFeature toggle disabled", () => {
-    test("should audit accessing case notes", async () => {
-      request.fflip = mockFflipObject({
-        newAuditFeature: false
-      });
-      await getCaseTags(request, response, next);
-
-      const actionAudit = await models.action_audit.findOne({
-        where: { caseId: existingCase.id }
-      });
-
-      expect(actionAudit).toEqual(
-        expect.objectContaining({
-          user: "tuser",
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: AUDIT_ACTION.DATA_ACCESSED,
-          subject: AUDIT_SUBJECT.CASE_TAGS,
-          caseId: existingCase.id,
-          auditDetails: {
-            "Case Tag": ["All Case Tag Data"],
-            Tag: ["All Tag Data"]
-          }
         })
       );
     });

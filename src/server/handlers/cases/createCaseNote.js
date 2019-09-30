@@ -1,7 +1,4 @@
-import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
-import legacyAuditDataAccess from "../audits/legacyAuditDataAccess";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
-import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import auditDataAccess from "../audits/auditDataAccess";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 
@@ -10,11 +7,6 @@ const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../models");
 
 const createCaseNote = asyncMiddleware(async (request, response) => {
-  const newAuditFeatureToggle = checkFeatureToggleEnabled(
-    request,
-    "newAuditFeature"
-  );
-
   const currentCase = await models.sequelize.transaction(async transaction => {
     await models.case_note.create(
       {
@@ -42,41 +34,20 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
     const caseAuditDetails = caseDetailsAndAuditDetails.auditDetails;
     const caseDetails = caseDetailsAndAuditDetails.caseDetails;
 
-    if (newAuditFeatureToggle) {
-      await auditDataAccess(
-        request.nickname,
-        request.params.caseId,
-        AUDIT_SUBJECT.CASE_NOTES,
-        caseNoteAuditDetails,
-        transaction
-      );
-      await auditDataAccess(
-        request.nickname,
-        request.params.caseId,
-        AUDIT_SUBJECT.CASE_DETAILS,
-        caseAuditDetails,
-        transaction
-      );
-    } else {
-      await legacyAuditDataAccess(
-        request.nickname,
-        request.params.caseId,
-        AUDIT_SUBJECT.CASE_NOTES,
-        transaction,
-        AUDIT_ACTION.DATA_ACCESSED,
-        caseNoteAuditDetails
-      );
-
-      await legacyAuditDataAccess(
-        request.nickname,
-        request.params.caseId,
-        AUDIT_SUBJECT.CASE_DETAILS,
-        transaction,
-        AUDIT_ACTION.DATA_ACCESSED,
-        caseAuditDetails
-      );
-    }
-
+    await auditDataAccess(
+      request.nickname,
+      request.params.caseId,
+      AUDIT_SUBJECT.CASE_NOTES,
+      caseNoteAuditDetails,
+      transaction
+    );
+    await auditDataAccess(
+      request.nickname,
+      request.params.caseId,
+      AUDIT_SUBJECT.CASE_DETAILS,
+      caseAuditDetails,
+      transaction
+    );
     return { caseNotes, caseDetails };
   });
 
