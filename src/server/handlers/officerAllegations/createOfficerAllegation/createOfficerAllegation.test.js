@@ -9,16 +9,10 @@ import Boom from "boom";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
   ALLEGATION_SEVERITY,
-  AUDIT_ACTION,
-  AUDIT_SUBJECT,
-  AUDIT_TYPE
+  AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
-import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../audits/auditDataAccess";
-import {
-  expectedCaseAuditDetails,
-  expectedFormattedCaseAuditDetails
-} from "../../../testHelpers/expectedAuditDetails";
+import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 
 jest.mock("../../audits/auditDataAccess");
 
@@ -162,33 +156,8 @@ describe("createOfficerAllegation", () => {
       next = jest.fn();
     });
 
-    describe("newAuditFeature disabled", () => {
+    describe("auditing", () => {
       test("should audit case data access when officer allegation created", async () => {
-        request.fflip = mockFflipObject({ newAuditFeature: false });
-
-        await createOfficerAllegation(request, response, next);
-
-        const actionAudit = await models.action_audit.findOne({
-          where: { caseId: newCase.id }
-        });
-
-        expect(actionAudit).toEqual(
-          expect.objectContaining({
-            caseId: newCase.id,
-            subject: AUDIT_SUBJECT.CASE_DETAILS,
-            action: AUDIT_ACTION.DATA_ACCESSED,
-            auditType: AUDIT_TYPE.DATA_ACCESS,
-            user: "TEST_USER_NICKNAME",
-            auditDetails: expectedFormattedCaseAuditDetails
-          })
-        );
-      });
-    });
-
-    describe("newAuditFeature enabled", () => {
-      test("should audit case data access when officer allegation created", async () => {
-        request.fflip = mockFflipObject({ newAuditFeature: true });
-
         await createOfficerAllegation(request, response, next);
 
         expect(auditDataAccess).toHaveBeenCalledWith(

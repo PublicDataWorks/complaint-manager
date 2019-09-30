@@ -1,7 +1,4 @@
-import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
-import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
-import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../audits/auditDataAccess";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
@@ -15,10 +12,6 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
     "details",
     "severity"
   ]);
-  const newAuditFeatureToggle = checkFeatureToggleEnabled(
-    request,
-    "newAuditFeature"
-  );
 
   const caseWithAssociations = await models.sequelize.transaction(
     async transaction => {
@@ -42,24 +35,13 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
       const caseDetails = caseDetailsAndAuditDetails.caseDetails;
       const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
-      if (newAuditFeatureToggle) {
-        await auditDataAccess(
-          request.nickname,
-          caseOfficer.caseId,
-          AUDIT_SUBJECT.CASE_DETAILS,
-          auditDetails,
-          transaction
-        );
-      } else {
-        await legacyAuditDataAccess(
-          request.nickname,
-          caseOfficer.caseId,
-          AUDIT_SUBJECT.CASE_DETAILS,
-          transaction,
-          AUDIT_ACTION.DATA_ACCESSED,
-          auditDetails
-        );
-      }
+      await auditDataAccess(
+        request.nickname,
+        caseOfficer.caseId,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        auditDetails,
+        transaction
+      );
 
       return caseDetails;
     }
