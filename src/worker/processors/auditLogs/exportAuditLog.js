@@ -93,46 +93,6 @@ const getDateRangeCondition = dateRange => {
   }
 };
 
-const getOldTransformedAudits = async dateRangeCondition => {
-  const actionAudits = await models.action_audit.findAll({
-    where: dateRangeCondition,
-    attributes: [
-      "created_at",
-      "case_id",
-      "action",
-      "user",
-      ["audit_type", "auditType"],
-      "subject",
-      ["audit_details", "auditDetails"]
-    ],
-    raw: true
-  });
-
-  const modifiedActionAudits = transformActionAuditForExport(actionAudits);
-
-  const dataChangeAudits = await models.legacy_data_change_audit.findAll({
-    where: dateRangeCondition,
-    attributes: [
-      "created_at",
-      "case_id",
-      "action",
-      "user",
-      "changes",
-      "snapshot",
-      "modelDescription",
-      ["model_name", "subject"],
-      ["model_id", "subject_id"]
-    ],
-    raw: true
-  });
-
-  const modifiedDataChangeAudits = transformLegacyDataChangeAuditForExport(
-    dataChangeAudits
-  );
-
-  return modifiedActionAudits.concat(modifiedDataChangeAudits);
-};
-
 const generateFilename = (jobOperation, dateRange) => {
   return `${jobOperation.filename}${formatDateRangeForFilename(dateRange)}`;
 };

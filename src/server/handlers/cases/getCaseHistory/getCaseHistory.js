@@ -1,7 +1,4 @@
-import {
-  AUDIT_ACTION,
-  AUDIT_TYPE
-} from "../../../../sharedUtilities/constants";
+import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
 import transformAuditsToCaseHistory from "./transformAuditsToCaseHistory";
 import getQueryAuditAccessDetails, {
   combineAuditDetails
@@ -144,55 +141,6 @@ const getUploadAuditsAndAuditDetails = async (caseId, transaction) => {
   );
 
   return { uploadAudits: uploadAudits, auditDetails: uploadAuditDetails };
-};
-
-const getLegacyUploadAuditsAndAuditDetails = async (caseId, transaction) => {
-  const queryOptions = {
-    where: { auditType: AUDIT_TYPE.UPLOAD, caseId: caseId },
-    attributes: ["action", "user", "createdAt", "subject"],
-    raw: true,
-    transaction
-  };
-
-  const uploadAudits = await models.action_audit.findAll(queryOptions);
-  const uploadAuditDetails = getQueryAuditAccessDetails(
-    queryOptions,
-    models.action_audit.name
-  );
-
-  return { uploadAudits: uploadAudits, auditDetails: uploadAuditDetails };
-};
-
-const getLegacyDataChangeAuditsAndAuditDetails = async (
-  caseId,
-  transaction
-) => {
-  const queryOptions = {
-    where: { caseId: caseId },
-    attributes: [
-      "action",
-      "modelName",
-      "modelDescription",
-      "changes",
-      "user",
-      "createdAt"
-    ],
-    raw: true,
-    transaction
-  };
-  const dataChangeAudits = await models.legacy_data_change_audit.findAll(
-    queryOptions
-  );
-
-  const dataChangeAuditDetails = getQueryAuditAccessDetails(
-    queryOptions,
-    models.legacy_data_change_audit.name
-  );
-
-  return {
-    dataChangeAudits: dataChangeAudits,
-    auditDetails: dataChangeAuditDetails
-  };
 };
 
 module.exports = getCaseHistory;
